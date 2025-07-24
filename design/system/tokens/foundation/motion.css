@@ -1,0 +1,15 @@
+:root {
+/* ===== TIMING FOUNDATION ===== */
+  --foundation-duration-instant: 0ms;
+  --foundation-duration-fast: 150ms;
+  --foundation-duration-normal: 250ms;
+  --foundation-duration-slow: 350ms;
+  --foundation-duration-slower: 500ms;
+  
+  /* ===== EASING FOUNDATION ===== */
+  --foundation-ease-linear: linear;
+  --foundation-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --foundation-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --foundation-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --foundation-ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}

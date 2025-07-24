@@ -1,0 +1,20 @@
+/* ==============================================
+   src/design-system/tokens/component/modal.css
+   MODAL COMPONENT TOKENS
+============================================== */
+
+:root {
+  /* ===== MODAL SURFACES ===== */
+  --surface-modal-backdrop: rgba(0, 0, 0, 0.5);
+  --surface-modal-content: var(--primary-white);
+  
+  /* ===== MODAL BORDERS ===== */
+  --border-modal: var(--secondary-100);
+  
+  /* ===== MODAL SHADOWS ===== */
+  --shadow-modal: var(--foundation-shadow-xl);
+  
+  /* ===== MODAL TEXT COLORS ===== */
+  --text-modal-title: var(--primary-1000);
+  --text-modal-body: var(--secondary-700);
+}

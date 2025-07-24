@@ -1,0 +1,12 @@
+/* ==============================================
+   src/design-system/utilities/spacing.css
+   SPACING UTILITIES - ONLY USED CLASSES
+   ============================================== */
+
+/* ===== SEMANTIC MARGIN UTILITIES (USED) ===== */
+.mt-auto { margin-top: auto; }
+
+.mb-xs { margin-bottom: var(--foundation-space-1); }
+.mb-sm { margin-bottom: var(--foundation-space-2); }
+.mb-md { margin-bottom: var(--foundation-space-3); }
+.mb-lg { margin-bottom: var(--foundation-space-4); }

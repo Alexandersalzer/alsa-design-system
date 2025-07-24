@@ -1,0 +1,36 @@
+ /* ===== TYPOGRAPHY FOUNDATION ===== */
+:root {
+  
+  /* Font Families */
+  --foundation-font-primary: var(--font-primary-name), system-ui, -apple-system, sans-serif;
+  
+  /* Font Weights */
+  --foundation-weight-light: 300;
+  --foundation-weight-regular: 400;
+  --foundation-weight-medium: 500;
+  --foundation-weight-semibold: 600;
+  --foundation-weight-bold: 700;
+  --foundation-weight-extrabold: 800;
+  --foundation-weight-black: 900;
+  
+  /* Font Sizes (rem based for accessibility) */
+  --foundation-size-xs: 0.75rem;     /* 12px */
+  --foundation-size-sm: 0.875rem;    /* 14px */
+  --foundation-size-base: 1rem;      /* 16px */
+  --foundation-size-lg: 1.125rem;    /* 18px */
+  --foundation-size-xl: 1.25rem;     /* 20px */
+  --foundation-size-2xl: 1.5rem;     /* 24px */
+  --foundation-size-3xl: 1.875rem;   /* 30px */
+  --foundation-size-4xl: 2.25rem;    /* 36px */
+  --foundation-size-5xl: 3rem;       /* 48px */
+  --foundation-size-6xl: 3.75rem;    /* 60px */
+  --foundation-size-7xl: 4.5rem;     /* 72px */
+  
+  /* Line Heights */
+  --foundation-leading-none: 1;
+  --foundation-leading-tight: 1.25;
+  --foundation-leading-snug: 1.375;
+  --foundation-leading-normal: 1.5;
+  --foundation-leading-relaxed: 1.625;
+  --foundation-leading-loose: 2;
+}

@@ -1,0 +1,23 @@
+/* ==============================================
+   src/design-system/tokens/component/motion.css
+   MOTION COMPONENT TOKENS
+   ============================================== */
+
+:root {
+  /* ===== TRANSITION TOKENS ===== */
+  --transition-button: all var(--foundation-duration-fast) var(--foundation-ease-in-out);
+  --transition-card: all var(--foundation-duration-normal) var(--foundation-ease-smooth);
+  --transition-input: border-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
+  --transition-modal: opacity var(--foundation-duration-normal) var(--foundation-ease-in-out);
+  --transition-nav: background-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
+  --transition-toast: transform var(--foundation-duration-normal) var(--foundation-ease-out);
+  --transition-hover: all var(--foundation-duration-fast) var(--foundation-ease-out);
+  
+  /* ===== ANIMATION TOKENS ===== */
+  --animation-spin: spin 1s var(--foundation-ease-linear) infinite;
+  --animation-pulse: pulse 2s var(--foundation-ease-in-out) infinite;
+  --animation-bounce: bounce 1s var(--foundation-ease-out) infinite;
+  --animation-fade-in: fadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
+  --animation-slide-up: slideUp var(--foundation-duration-normal) var(--foundation-ease-out);
+  --animation-scale-in: scaleIn var(--foundation-duration-fast) var(--foundation-ease-out);
+}

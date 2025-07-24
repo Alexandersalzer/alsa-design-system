@@ -1,0 +1,40 @@
+/* ==============================================
+   CARD CLASSES
+   ============================================== */
+
+.card {
+    background-color: var(--surface-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--foundation-radius-lg);
+    padding: var(--foundation-space-6);
+    box-shadow: var(--foundation-shadow-sm);
+    transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+
+    &:hover {
+        box-shadow: var(--foundation-shadow-md);
+    }
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--foundation-space-4);
+    height: 100%;
+}
+.card-title {
+    font-family: var(--typography-heading-font-family);
+    font-size: var(--typography-heading-h5-size);
+    font-weight: var(--typography-heading-h5-weight);
+    line-height: var(--typography-heading-h5-line-height);
+    color: var(--text-card-heading);
+    margin: 0;
+}
+.card-description {
+    font-family: var(--typography-body-font-family);
+    font-size: var(--typography-body-sm-size);
+    font-weight: var(--typography-body-sm-weight);
+    line-height: var(--typography-body-sm-line-height);
+    color: var(--text-card-body);
+    margin: 0;
+    flex: 1;
+}

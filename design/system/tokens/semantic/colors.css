@@ -1,0 +1,67 @@
+/* Import foundation first */
+@import '../foundation/index.css';
+
+/* Import theme definitions (light & dark) */
+@import './themes/index.css';
+
+/* ==============================================
+   LAYER 2: ALIAS TOKENS (Semantic Mapping)
+   ============================================== */
+
+:root {
+  /* ===== ACCENT COLORS (Brand accent) ===== */
+  --accent-100: var(--foundation-accent-100);
+  --accent-200: var(--foundation-accent-200);
+  --accent-300: var(--foundation-accent-300);
+  --accent-400: var(--foundation-accent-400);
+  --accent-500: var(--foundation-accent-500);
+  --accent-600: var(--foundation-accent-600);
+  --accent-700: var(--foundation-accent-700);
+  --accent-800: var(--foundation-accent-800);
+  --accent-900: var(--foundation-accent-900);
+  
+  /* ===== SEMANTIC COLORS ===== */
+  /* Info (Amethyst) */
+  --info-100: var(--foundation-amethyst-100);
+  --info-200: var(--foundation-amethyst-200);
+  --info-300: var(--foundation-amethyst-300);
+  --info-400: var(--foundation-amethyst-400);
+  --info-500: var(--foundation-amethyst-500);
+  --info-600: var(--foundation-amethyst-600);
+  --info-700: var(--foundation-amethyst-700);
+  --info-800: var(--foundation-amethyst-800);
+  --info-900: var(--foundation-amethyst-900);
+  
+  /* Error (Ruby) - COMPLETE THE MISSING ONES */
+  --error-100: var(--foundation-ruby-100);
+  --error-200: var(--foundation-ruby-200);
+  --error-300: var(--foundation-ruby-300);
+  --error-400: var(--foundation-ruby-400);
+  --error-500: var(--foundation-ruby-500);
+  --error-600: var(--foundation-ruby-600);
+  --error-700: var(--foundation-ruby-700);
+  --error-800: var(--foundation-ruby-800);
+  --error-900: var(--foundation-ruby-900);
+  
+  /* Success (Emerald) - ADD THESE */
+  --success-100: var(--foundation-emerald-100);
+  --success-200: var(--foundation-emerald-200);
+  --success-300: var(--foundation-emerald-300);
+  --success-400: var(--foundation-emerald-400);
+  --success-500: var(--foundation-emerald-500);
+  --success-600: var(--foundation-emerald-600);
+  --success-700: var(--foundation-emerald-700);
+  --success-800: var(--foundation-emerald-800);
+  --success-900: var(--foundation-emerald-900);
+  
+  /* Warning (Honey) - ADD THESE */
+  --warning-100: var(--foundation-honey-100);
+  --warning-200: var(--foundation-honey-200);
+  --warning-300: var(--foundation-honey-300);
+  --warning-400: var(--foundation-honey-400);
+  --warning-500: var(--foundation-honey-500);
+  --warning-600: var(--foundation-honey-600);
+  --warning-700: var(--foundation-honey-700);
+  --warning-800: var(--foundation-honey-800);
+  --warning-900: var(--foundation-honey-900);
+}

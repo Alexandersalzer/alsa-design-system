@@ -1,0 +1,40 @@
+/* ==============================================
+   src/design-system/tokens/component/button.css
+   BUTTON COMPONENT TOKENS
+============================================== */
+
+:root {
+    
+  /* ===== Primary Button ===== */
+  --surface-button-primary: var(--primary-1000);
+  --surface-button-primary-hover: var(--primary-900);
+  --surface-button-primary-active: var(--primary-900);
+  --surface-button-primary-disabled: var(--secondary-200);
+  --text-button-primary: var(--primary-white);
+  --text-button-primary-disabled: var(--secondary-400);
+  --border-button-primary: var(--primary-1000);
+  --border-button-primary-focus: var(--accent-800);
+  
+  /* ===== Secondary Button ===== */
+  --surface-button-secondary: var(--secondary-100);
+  --surface-button-secondary-hover: var(--secondary-200);
+  --surface-button-secondary-active: var(--secondary-200);
+  --surface-button-secondary-disabled: transparent;
+  --text-button-secondary: var(--primary-1000);
+  --text-button-secondary-disabled: var(--secondary-400);
+  --border-button-secondary: var(--secondary-100);
+  --border-button-secondary-hover: var(--secondary-200);
+  --border-button-secondary-focus: var(--accent-500);
+  --border-button-secondary-disabled: var(--secondary-100);
+  
+  /* ===== Accent Button ===== */
+  --surface-button-accent: var(--accent-500);
+  --surface-button-accent-hover: var(--accent-500);
+  --surface-button-accent-active: var(--accent-700);
+  --surface-button-accent-disabled: var(--secondary-200);
+  --text-button-accent: var(--primary-white);
+  --text-button-accent-disabled: var(--secondary-400);
+  --border-button-accent: var(--accent-500);
+  --border-button-accent-focus: var(--accent-500);
+
+}

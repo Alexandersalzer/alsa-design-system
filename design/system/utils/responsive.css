@@ -1,0 +1,91 @@
+/* ==============================================
+   src/design-system/utilities/responsive.css
+   RESPONSIVE UTILITIES - ONLY USED CLASSES
+   ============================================== */
+
+/* ===== RESPONSIVE DESIGN FOR COMPONENT STYLES ===== */
+/* Note: Most responsive classes are unused. The responsive behavior 
+   is handled by individual component CSS files with @media queries. */
+
+/* ===== CONTAINER RESPONSIVE UTILITIES ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-container-padding-xs);
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 0 var(--space-container-padding-sm);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 var(--space-container-padding-md);
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    padding: 0 var(--space-container-padding-lg);
+  }
+}
+
+/* ===== RESPONSIVE NAVIGATION UTILITIES ===== */
+@media (max-width: 767px) {
+  .desktop-only {
+    display: none !important;
+  }
+  
+  .mobile-nav-visible {
+    display: block !important;
+  }
+  
+  .sidebar-hidden {
+    transform: translateX(-100%);
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none !important;
+  }
+  
+  .desktop-nav-visible {
+    display: block !important;
+  }
+  
+  .content-area {
+    margin-left: var(--size-sidebar-width);
+  }
+}
+
+/* ===== RESPONSIVE TYPOGRAPHY UTILITIES ===== */
+@media (max-width: 640px) {
+  .responsive-text-sm {
+    font-size: var(--font-body-sm-size);
+    line-height: var(--font-body-sm-leading);
+  }
+}
+
+@media (min-width: 641px) {
+  .responsive-text-sm {
+    font-size: var(--font-body-md-size);
+    line-height: var(--font-body-md-leading);
+  }
+}
+
+@media (max-width: 768px) {
+  .responsive-heading {
+    font-size: var(--font-h4-size);
+    line-height: var(--font-h4-leading);
+  }
+}
+
+@media (min-width: 769px) {
+  .responsive-heading {
+    font-size: var(--font-h2-size);
+    line-height: var(--font-h2-leading);
+  }
+}

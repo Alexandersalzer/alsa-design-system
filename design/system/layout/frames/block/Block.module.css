@@ -1,0 +1,42 @@
+.block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-4, 1rem);
+}
+
+/* When Block contains buttons or inline elements */
+.block:has(button),
+.block:has(.btn) {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Alternative: Use data attributes for explicit control */
+.block[data-direction="row"] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.block[data-direction="column"] {
+  flex-direction: column;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .block:has(button),
+  .block:has(.btn),
+  .block[data-direction="row"] {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .block:has(button) button,
+  .block:has(.btn) .btn {
+    width: 100%;
+  }
+} 

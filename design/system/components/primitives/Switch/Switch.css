@@ -1,0 +1,348 @@
+/* ==============================================
+   src/design-system/components/primitives/Switch/Switch.css
+   SWITCH COMPONENT STYLES - Modern with Rounded Rectangle Thumb
+   ============================================== */
+
+/* ===== SWITCH WRAPPER ===== */
+.switch-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--foundation-space-3);
+}
+
+.switch-wrapper--label-left {
+  flex-direction: row;
+}
+
+.switch-wrapper--label-right {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
+.switch-wrapper--disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ===== SWITCH CONTAINER ===== */
+.switch-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ===== SWITCH INPUT (HIDDEN) ===== */
+.switch-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===== SWITCH TRACK & THUMB - Using Your Design Tokens ===== */
+.switch {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  transition: all var(--duration-form-transition) var(--easing-form-transition);
+}
+
+.switch:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--border-switch-focus);
+}
+
+.switch--disabled {
+  cursor: not-allowed;
+}
+
+/* ===== SWITCH TRACK ===== */
+.switch-track {
+  position: relative;
+  display: block;
+  background-color: var(--surface-switch-track);
+  border-radius: var(--radius-switch-track); /* 🔧 Use semantic token */
+  transition: background-color var(--duration-form-transition) var(--easing-form-transition);
+  border: 1px solid transparent;
+}
+
+/* Switch Track Sizes - Made wider */
+.switch--sm .switch-track {
+  width: calc(var(--size-switch-sm-width) + 10px); /* 32px + 10px = 42px */
+  height: var(--size-switch-sm-height);
+}
+
+.switch--md .switch-track {
+  width: calc(var(--size-switch-md-width) + 12px); /* 40px + 12px = 52px */
+  height: var(--size-switch-md-height);
+}
+
+.switch--lg .switch-track {
+  width: calc(var(--size-switch-lg-width) + 14px); /* 48px + 14px = 62px */
+  height: var(--size-switch-lg-height);
+}
+
+/* ===== SWITCH TRACK STATES - Using Your Color Tokens ===== */
+.switch:hover:not(.switch--disabled) .switch-track {
+  background-color: var(--surface-switch-track-hover);
+}
+
+.switch--checked .switch-track {
+  background-color: var(--surface-switch-track-checked);
+}
+
+.switch--checked:hover:not(.switch--disabled) .switch-track {
+  background-color: var(--surface-switch-track-checked-hover);
+}
+
+.switch--disabled .switch-track {
+  background-color: var(--surface-switch-track-disabled);
+}
+
+.switch--disabled.switch--checked .switch-track {
+  background-color: var(--surface-switch-track-disabled-checked);
+}
+
+/* ===== SWITCH THUMB - ROUNDED RECTANGLE ===== */
+.switch-thumb {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  transform: translateY(-50%);
+  background-color: var(--surface-switch-thumb);
+  border-radius: var(--radius-switch-thumb); /* 🔧 Use semantic token */
+  box-shadow: var(--foundation-shadow-sm);
+  transition: all var(--duration-form-transition) var(--easing-form-transition);
+}
+
+/* Thumb Sizes - Rounded Rectangle Proportions */
+.switch--sm .switch-thumb {
+  width: calc(var(--size-switch-sm-thumb) + 2px); /* Slightly wider for rectangle */
+  height: calc(var(--size-switch-sm-thumb) - 2px); /* Slightly shorter for rectangle */
+}
+
+.switch--md .switch-thumb {
+  width: calc(var(--size-switch-md-thumb) + 4px); /* Slightly wider for rectangle */
+  height: calc(var(--size-switch-md-thumb) - 2px); /* Slightly shorter for rectangle */
+}
+
+.switch--lg .switch-thumb {
+  width: calc(var(--size-switch-lg-thumb) + 6px); /* Slightly wider for rectangle */
+  height: calc(var(--size-switch-lg-thumb) - 3px); /* Slightly shorter for rectangle */
+}
+
+/* ===== THUMB POSITION WHEN CHECKED - WITH RIGHT SPACING ===== */
+.switch--sm.switch--checked .switch-thumb {
+  transform: translateY(-50%) translateX(calc(var(--size-switch-sm-width) + 10px - var(--size-switch-sm-thumb) - 8px));
+}
+
+.switch--md.switch--checked .switch-thumb {
+  transform: translateY(-50%) translateX(calc(var(--size-switch-md-width) + 12px - var(--size-switch-md-thumb) - 10px));
+}
+
+.switch--lg.switch--checked .switch-thumb {
+  transform: translateY(-50%) translateX(calc(var(--size-switch-lg-width) + 14px - var(--size-switch-lg-thumb) - 12px));
+}
+
+/* ===== DISABLED THUMB ===== */
+.switch--disabled .switch-thumb {
+  background-color: var(--surface-switch-thumb-disabled);
+  box-shadow: none;
+}
+
+/* ===== SWITCH LABEL CONTENT ===== */
+.switch-label-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-1);
+  flex: 1;
+}
+
+.switch-label {
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-md-size);
+  font-weight: var(--typography-body-md-weight);
+  line-height: var(--typography-body-md-line-height);
+  color: var(--text-form-label);
+  cursor: pointer;
+  user-select: none;
+  margin: 0;
+}
+
+.switch-wrapper--sm .switch-label {
+  font-size: var(--typography-body-sm-size);
+  font-weight: var(--typography-body-sm-weight);
+  line-height: var(--typography-body-sm-line-height);
+}
+
+.switch-wrapper--lg .switch-label {
+  font-size: var(--typography-body-lg-size);
+  font-weight: var(--typography-body-lg-weight);
+  line-height: var(--typography-body-lg-line-height);
+}
+
+.switch-wrapper--disabled .switch-label {
+  color: var(--text-form-label-disabled);
+  cursor: not-allowed;
+}
+
+.switch-label__required {
+  color: var(--text-form-label-required);
+  margin-left: var(--foundation-space-1);
+}
+
+/* ===== SWITCH DESCRIPTION ===== */
+.switch-description {
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-sm-size);
+  font-weight: var(--typography-body-sm-weight);
+  line-height: var(--typography-body-sm-line-height);
+  color: var(--text-form-hint);
+  margin-top: var(--foundation-space-1);
+}
+
+.switch-wrapper--disabled .switch-description {
+  color: var(--text-form-label-disabled);
+}
+
+/* ===== VALIDATION STATES ===== */
+.switch-wrapper--error .switch-track {
+  border-color: var(--border-select-error);
+}
+
+.switch-wrapper--success .switch-track {
+  border-color: var(--success-500);
+}
+
+/* ===== SWITCH FOCUS STATE ===== */
+.switch:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--border-switch-focus);
+}
+
+/* ===== ERROR AND SUCCESS MESSAGES ===== */
+.switch-error {
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-sm-size);
+  font-weight: var(--typography-body-sm-weight);
+  line-height: var(--typography-body-sm-line-height);
+  color: var(--text-form-error);
+  margin-top: var(--space-form-error-margin);
+  grid-column: 1 / -1; /* Span full width in grid layout */
+}
+
+.switch-success {
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-sm-size);
+  font-weight: var(--typography-body-sm-weight);
+  line-height: var(--typography-body-sm-line-height);
+  color: var(--text-form-success);
+  margin-top: var(--space-form-error-margin);
+  grid-column: 1 / -1; /* Span full width in grid layout */
+}
+
+/* ===== SWITCH GROUP ===== */
+.switch-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-2);
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.switch-group-legend {
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-md-size);
+  font-weight: var(--typography-body-md-weight);
+  line-height: var(--typography-body-md-line-height);
+  color: var(--text-form-label);
+  margin-bottom: var(--foundation-space-2);
+  padding: 0;
+}
+
+.switch-group--sm .switch-group-legend {
+  font-size: var(--typography-body-sm-size);
+}
+
+.switch-group--lg .switch-group-legend {
+  font-size: var(--typography-body-lg-size);
+}
+
+.switch-group-legend__required {
+  color: var(--text-form-label-required);
+  margin-left: var(--foundation-space-1);
+}
+
+.switch-group-description {
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-sm-size);
+  font-weight: var(--typography-body-sm-weight);
+  line-height: var(--typography-body-sm-line-height);
+  color: var(--text-form-hint);
+  margin-bottom: var(--foundation-space-3);
+}
+
+.switch-group-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-3);
+}
+
+.switch-group--horizontal .switch-group-content {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--foundation-space-4);
+}
+
+.switch-group-error {
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-sm-size);
+  font-weight: var(--typography-body-sm-weight);
+  line-height: var(--typography-body-sm-line-height);
+  color: var(--text-form-error);
+  margin-top: var(--space-form-error-margin);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 640px) {
+  .switch-wrapper {
+    gap: var(--foundation-space-2);
+  }
+  
+  .switch-group--horizontal .switch-group-content {
+    flex-direction: column;
+    gap: var(--foundation-space-3);
+  }
+}
+
+/* ===== ACCESSIBILITY IMPROVEMENTS ===== */
+@media (prefers-reduced-motion: reduce) {
+  .switch,
+  .switch-track,
+  .switch-thumb {
+    transition: none;
+  }
+}
+
+/* ===== HIGH CONTRAST MODE SUPPORT ===== */
+@media (prefers-contrast: high) {
+  .switch-track {
+    border: 2px solid currentColor;
+  }
+  
+  .switch-thumb {
+    border: 1px solid currentColor;
+  }
+}

@@ -1,0 +1,213 @@
+/* ==============================================
+   src/design-system/tokens/component/layout.css
+   LAYOUT COMPONENT TOKENS
+   ============================================== */
+
+:root {
+  /* ===== GLOBAL SURFACE TOKENS ===== */
+  --surface-page: var(--primary-white);
+  --surface-overlay: var(--primary-black);
+  --surface-modal: var(--primary-white);
+  
+  /* ===== GLOBAL TEXT TOKENS ===== */
+  --text-primary: var(--primary-1000);
+  --text-secondary: var(--secondary-600);
+  --text-tertiary: var(--secondary-500);
+  --text-disabled: var(--secondary-300);
+  --text-placeholder: var(--secondary-400);
+  --text-inverse: var(--primary-white);
+  
+  /* ===== GLOBAL ICON TOKENS ===== */
+  --icon-primary: var(--secondary-600);
+  --icon-secondary: var(--secondary-500);
+  --icon-disabled: var(--secondary-300);
+  --icon-inverse: var(--primary-white);
+  
+  /* ===== GLOBAL BORDER TOKENS ===== */
+  --border-primary: var(--secondary-200);
+  --border-secondary: var(--secondary-100);
+  --border-focus: var(--accent-500);
+  --border-disabled: var(--secondary-100);
+  
+  /* ===== CONTAINER TOKENS ===== */
+  --space-container-padding-xs: var(--foundation-space-4);   /* 16px */
+  --space-container-padding-sm: var(--foundation-space-6);   /* 24px */
+  --space-container-padding-md: var(--foundation-space-8);   /* 32px */
+  --space-container-padding-lg: var(--foundation-space-12);  /* 48px */
+  --space-container-padding-xl: var(--foundation-space-16);  /* 64px */
+  
+  /* ===== COMPONENT SPACING TOKENS ===== */
+  /* Button Spacing */
+  --space-button-padding-x-sm: var(--foundation-space-3);
+  --space-button-padding-y-sm: var(--foundation-space-2);
+  --space-button-padding-x-md: var(--foundation-space-4);
+  --space-button-padding-y-md: var(--foundation-space-2);
+  --space-button-padding-x-lg: var(--foundation-space-6);
+  --space-button-padding-y-lg: var(--foundation-space-3);
+  --space-button-gap: var(--foundation-space-2);
+  
+  /* Card Spacing */
+  --space-card-padding-sm: var(--foundation-space-4);
+  --space-card-padding-md: var(--foundation-space-6);
+  --space-card-padding-lg: var(--foundation-space-8);
+  --space-card-gap: var(--foundation-space-4);
+  --space-card-content-gap: var(--foundation-space-3);
+  
+  /* Input Spacing */
+  --space-input-padding-x: var(--foundation-space-3);
+  --space-input-padding-y: var(--foundation-space-2);
+  --space-input-gap: var(--foundation-space-2);
+  
+  /* Navigation Spacing */
+  --space-nav-padding: var(--foundation-space-4);
+  --space-nav-item-padding-x: var(--foundation-space-3);
+  --space-nav-item-padding-y: var(--foundation-space-2);
+  --space-nav-item-gap: var(--foundation-space-3);
+  --space-nav-section-gap: var(--foundation-space-6);
+  
+  /* Modal Spacing */
+  --space-modal-padding: var(--foundation-space-6);
+  --space-modal-gap: var(--foundation-space-4);
+  
+  /* Table Spacing */
+  --space-table-cell-padding-x: var(--foundation-space-3);
+  --space-table-cell-padding-y: var(--foundation-space-2);
+  
+  /* Toast Spacing */
+  --space-toast-padding: var(--foundation-space-4);
+  --space-toast-gap: var(--foundation-space-3);
+  
+  /* ===== LAYOUT DIMENSIONS ===== */
+  --size-sidebar-width: 229px;
+  --size-topbar-height: 56px;
+  --size-nav-item-height: 48px;
+  --size-button-height-sm: 32px;
+  --size-button-height-md: 40px;
+  --size-button-height-lg: 48px;
+  --size-input-height: 40px;
+  --size-card-min-height: 192px;
+  
+  /* ===== BORDER RADIUS COMPONENT TOKENS ===== */
+  --radius-button: var(--foundation-radius-xl);
+  --radius-button-sm: var(--form-radius-lg);
+  --radius-button-lg: var(--form-radius-xl);
+  --radius-card: var(--foundation-radius-lg);
+  --radius-input: var(--foundation-radius-lg);
+  --radius-modal: var(--foundation-radius-xl);
+  --radius-toast: var(--foundation-radius-lg);
+  --radius-badge: var(--foundation-radius-lg);
+  --radius-avatar: var(--foundation-radius-full);
+  --radius-code-inline: var(--foundation-radius-sm);
+  --radius-code-block: var(--foundation-radius-md);
+
+  /* ===== PAGE LAYOUT TOKENS ===== */
+  --space-page-padding-xs: var(--space-container-padding-xs);   /* 16px */
+  --space-page-padding-sm: var(--space-container-padding-sm);   /* 24px */
+  --space-page-padding-md: var(--space-container-padding-md);   /* 32px */
+  --space-page-padding-lg: var(--space-container-padding-lg);   /* 48px */
+  --space-page-padding-xl: var(--space-container-padding-xl);   /* 64px */
+  
+  /* ===== PAGE SECTION SPACING ===== */
+  --space-page-section-gap: var(--foundation-space-8);         /* 32px */
+  --space-page-content-gap: var(--foundation-space-6);         /* 24px */
+  --space-page-header-gap: var(--foundation-space-2);          /* 8px */
+  
+  /* ===== PAGE HEADER TOKENS ===== */
+  --space-page-header-bottom: var(--foundation-space-8);       /* 32px */
+  --space-page-title-gap: var(--foundation-space-2);           /* 8px */
+  
+  /* ===== PAGE CONTAINER DIMENSIONS ===== */
+  --size-page-max-width: 1200px;
+  --size-page-content-max-width: 800px;
+  --size-page-narrow-max-width: 600px;
+  
+  /* ===== PAGE SURFACES ===== */
+  --surface-page-container: transparent;
+  --surface-page-section: transparent;
+  
+  /* ===== LOADING STATES ===== */
+  --space-page-loading-padding: var(--foundation-space-12);    /* 48px */
+  --size-page-loading-min-height: 200px;
+
+
+    /* ===== MISSING SURFACE TOKENS ===== */
+  --surface-header: var(--surface-page);
+  --surface-search-input: var(--surface-page);
+  --surface-setup-guide: var(--surface-card);
+  --surface-setup-guide-hover: var(--surface-card-hover);
+  --surface-user-menu-trigger: var(--surface-card);
+  --surface-user-menu-trigger-hover: var(--surface-card-hover);
+  --surface-user-menu-dropdown: var(--surface-card);
+  --surface-user-menu-item: transparent;
+  --surface-user-menu-item-hover: var(--surface-card-hover);
+  --surface-user-menu-item-danger-hover: var(--error-50);
+  --surface-notification-item: transparent;
+  --surface-notification-item-hover: var(--surface-card-hover);
+  --surface-notification-indicator: var(--accent-500);
+  --surface-empty-state: transparent;
+  --surface-nav-item: transparent;
+  --surface-nav-item-hover: var(--surface-card-hover);
+  --surface-nav-item-selected: var(--secondary-100);
+  --surface-nav-item-disabled: transparent;
+  --surface-focus-ring: rgba(59, 130, 246, 0.15);
+  --surface-dropdown: var(--surface-card);
+  --surface-tag-accent: var(--accent-100);
+  
+  /* ===== MISSING BORDER TOKENS ===== */
+  --border-header: var(--border-secondary);
+  --border-search-input: var(--border-secondary);
+  --border-search-input-focus: var(--border-focus);
+  --border-setup-guide: var(--border-secondary);
+  --border-setup-guide-hover: var(--border-primary);
+  --border-setup-guide-focus: var(--border-focus);
+  --border-user-menu-trigger: var(--border-secondary);
+  --border-user-menu-trigger-hover: var(--border-primary);
+  --border-user-menu-trigger-focus: var(--border-focus);
+  --border-dropdown: var(--border-secondary);
+  --border-dropdown-subtle: var(--border-secondary);
+  --border-notification-item: var(--border-secondary);
+  --border-divider: var(--border-secondary);
+  
+  /* ===== MISSING TEXT TOKENS ===== */
+  --text-search-input: var(--text-primary);
+  --text-search-placeholder: var(--text-placeholder);
+  --text-setup-guide: var(--text-primary);
+  --text-user-menu-trigger: var(--text-primary);
+  --text-user-menu-item: var(--text-primary);
+  --text-heading-color: var(--text-primary);
+  --text-body-color: var(--text-primary);
+  
+  /* ===== MISSING ICON TOKENS ===== */
+  --icon-user-menu-trigger: var(--icon-secondary);
+  --icon-user-menu-chevron: var(--icon-secondary);
+  --icon-user-menu-item: var(--icon-secondary);
+  --icon-user-menu-item-danger: var(--error-600);
+  --icon-nav-item: var(--icon-secondary);
+  --icon-nav-item-hover: var(--icon-primary);
+  --icon-nav-item-selected: var(--accent-500);
+  --icon-nav-item-disabled: var(--icon-disabled);
+  --icon-empty-state: var(--icon-secondary);
+  
+  /* ===== MISSING TRANSITION TOKENS ===== */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-button: var(--transition-fast);
+  --transition-input: var(--transition-fast);
+  --transition-nav: var(--transition-fast);
+  
+  /* ===== MISSING SPACING TOKENS ===== */
+  --space-dropdown-offset: var(--foundation-space-2);
+  --space-dropdown-header-padding: var(--foundation-space-4);
+  --space-dropdown-content-padding: var(--foundation-space-3);
+  --space-dropdown-footer-padding: var(--foundation-space-4);
+  
+  /* ===== MISSING SHADOW TOKENS ===== */
+  --shadow-dropdown: var(--foundation-shadow-lg);
+  --shadow-user-menu-dropdown: var(--foundation-shadow-lg);
+  
+  /* ===== MISSING Z-INDEX TOKENS ===== */
+  --z-dropdown: 1000;
+  --z-index-sidebar: 100;
+  --z-index-header: 50;
+  --z-index-overlay: 999;
+}

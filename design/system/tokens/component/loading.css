@@ -1,0 +1,59 @@
+/* ==============================================
+   src/design-system/tokens/component/loading.css
+   LOADING COMPONENT TOKENS
+   ============================================== */
+
+:root {
+  /* ===== LOADING SURFACES ===== */
+  --surface-loading: var(--secondary-50);
+  --surface-loading-shimmer: var(--secondary-100);
+  --surface-spinner: var(--accent-500);
+
+    /* ===== LOADING SURFACES ===== */
+  --surface-loading-card: var(--primary-white);
+  --surface-loading-skeleton: var(--secondary-100);
+  
+  /* ===== LOADING BORDERS ===== */
+  --border-loading-card: var(--secondary-200);
+  
+  /* ===== LOADING DIMENSIONS ===== */
+  --space-loading-card-padding: var(--foundation-space-6);
+  
+  /* ===== LOADING ANIMATION ===== */
+  --animation-loading-skeleton: loading-pulse 2s ease-in-out infinite;
+}
+
+
+/* ==============================================
+   LOADING CLASSES
+   ============================================== */
+
+.loading-card {
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--foundation-radius-lg);
+  padding: var(--foundation-space-6);
+  animation: pulse 2s infinite;
+}
+
+.loading-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--secondary-200) 25%,
+    var(--secondary-100) 50%,
+    var(--secondary-200) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--foundation-radius-sm);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}

@@ -1,0 +1,11 @@
+/* ==============================================
+   src/design-system/tokens/component/divider.css
+   DIVIDER COMPONENT TOKENS
+   ============================================== */
+
+:root {
+  /* ===== DIVIDER BORDERS ===== */
+  --border-divider: var(--secondary-100);
+  --border-divider-strong: var(--secondary-200);
+  --border-nav-selected: var(--accent-500);
+}

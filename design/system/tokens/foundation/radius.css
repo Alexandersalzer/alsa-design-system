@@ -1,0 +1,95 @@
+/* ==============================================
+   src/design-system/tokens/foundation/radius.css
+   ============================================== */
+
+:root {
+  /* ===== RADIUS SCALE: NONE ===== */
+  --foundation-radius-none-none: 0;
+  --foundation-radius-none-xs: 0;
+  --foundation-radius-none-sm: 0;
+  --foundation-radius-none-md: 0;
+  --foundation-radius-none-lg: 0;
+  --foundation-radius-none-xl: 0;
+  --foundation-radius-none-2xl: 0;
+  --foundation-radius-none-full: 0;
+
+  /* ===== RADIUS SCALE: XS ===== */
+  --foundation-radius-xs-none: 0;
+  --foundation-radius-xs-xs: 0.0625rem;   /* 1px */
+  --foundation-radius-xs-sm: 0.125rem;    /* 2px */
+  --foundation-radius-xs-md: 0.1875rem;   /* 3px */
+  --foundation-radius-xs-lg: 0.25rem;     /* 4px */
+  --foundation-radius-xs-xl: 0.3125rem;   /* 5px */
+  --foundation-radius-xs-2xl: 0.375rem;   /* 6px */
+  --foundation-radius-xs-full: 9999px;
+
+  /* ===== RADIUS SCALE: SM ===== */
+  --foundation-radius-sm-none: 0;
+  --foundation-radius-sm-xs: 0.125rem;    /* 2px */
+  --foundation-radius-sm-sm: 0.25rem;     /* 4px */
+  --foundation-radius-sm-md: 0.375rem;    /* 6px */
+  --foundation-radius-sm-lg: 0.5rem;      /* 8px */
+  --foundation-radius-sm-xl: 0.625rem;    /* 10px */
+  --foundation-radius-sm-2xl: 0.75rem;    /* 12px */
+  --foundation-radius-sm-full: 9999px;
+
+  /* ===== RADIUS SCALE: MD ===== */
+  --foundation-radius-md-none: 0;
+  --foundation-radius-md-xs: 0.1875rem;   /* 3px */
+  --foundation-radius-md-sm: 0.375rem;    /* 6px */
+  --foundation-radius-md-md: 0.5625rem;   /* 9px */
+  --foundation-radius-md-lg: 0.75rem;     /* 12px */
+  --foundation-radius-md-xl: 0.9375rem;   /* 15px */
+  --foundation-radius-md-2xl: 1.125rem;   /* 18px */
+  --foundation-radius-md-full: 9999px;
+
+  /* ===== RADIUS SCALE: LG ===== */
+  --foundation-radius-lg-none: 0;
+  --foundation-radius-lg-xs: 0.25rem;     /* 4px */
+  --foundation-radius-lg-sm: 0.5rem;      /* 8px */
+  --foundation-radius-lg-md: 0.75rem;     /* 12px */
+  --foundation-radius-lg-lg: 1rem;        /* 16px */
+  --foundation-radius-lg-xl: 1.25rem;     /* 20px */
+  --foundation-radius-lg-2xl: 1.5rem;     /* 24px */
+  --foundation-radius-lg-full: 9999px;
+
+  /* ===== RADIUS SCALE: XL ===== */
+  --foundation-radius-xl-none: 0;
+  --foundation-radius-xl-xs: 0.375rem;    /* 6px */
+  --foundation-radius-xl-sm: 0.75rem;     /* 12px */
+  --foundation-radius-xl-md: 1.125rem;    /* 18px */
+  --foundation-radius-xl-lg: 1.5rem;      /* 24px */
+  --foundation-radius-xl-xl: 1.875rem;    /* 30px */
+  --foundation-radius-xl-2xl: 2.25rem;    /* 36px */
+  --foundation-radius-xl-full: 9999px;
+
+  /* ===== RADIUS SCALE: 2XL ===== */
+  --foundation-radius-2xl-none: 0;
+  --foundation-radius-2xl-xs: 0.5rem;     /* 8px */
+  --foundation-radius-2xl-sm: 1rem;       /* 16px */
+  --foundation-radius-2xl-md: 1.5rem;     /* 24px */
+  --foundation-radius-2xl-lg: 2rem;       /* 32px */
+  --foundation-radius-2xl-xl: 2.5rem;     /* 40px */
+  --foundation-radius-2xl-2xl: 3rem;      /* 48px */
+  --foundation-radius-2xl-full: 9999px;
+
+  /* ===== RADIUS SCALE: FULL ===== */
+  --foundation-radius-full-none: 0;
+  --foundation-radius-full-xs: 9999px;
+  --foundation-radius-full-sm: 9999px;
+  --foundation-radius-full-md: 9999px;
+  --foundation-radius-full-lg: 9999px;
+  --foundation-radius-full-xl: 9999px;
+  --foundation-radius-full-2xl: 9999px;
+  --foundation-radius-full-full: 9999px;
+
+  /* ===== BORDER RADIUS TOKENS ===== */
+  --foundation-radius-none: 0;
+  --foundation-radius-xs: 0.125rem;    /* 2px */
+  --foundation-radius-sm: 0.25rem;     /* 4px */
+  --foundation-radius-md: 0.375rem;    /* 6px */
+  --foundation-radius-lg: 0.6rem;      /* 8px */
+  --foundation-radius-xl: 0.75rem;     /* 12px */
+  --foundation-radius-2xl: 1rem;       /* 16px */
+  --foundation-radius-full: 9999px;
+}

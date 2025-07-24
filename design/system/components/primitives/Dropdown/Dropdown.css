@@ -1,0 +1,150 @@
+/* ==============================================
+   src/design-system/components/primitives/Dropdown/Dropdown.css
+   SIMPLE DROPDOWN STYLES - Matches your existing patterns
+   ============================================== */
+
+/* ===== DROPDOWN WRAPPER ===== */
+.dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* ===== DROPDOWN MENU - Matches your existing header dropdown styles ===== */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 160px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--foundation-radius-lg);
+  box-shadow: var(--foundation-shadow-lg);
+  z-index: var(--z-dropdown);
+  overflow: hidden;
+  
+  /* Animation - matches your existing dropdown animations */
+  opacity: 0;
+  transform: translateY(-8px);
+  animation: dropdown-enter 0.15s ease-out forwards;
+}
+
+@keyframes dropdown-enter {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== DROPDOWN POSITIONING VARIANTS ===== */
+.dropdown-menu--top {
+  top: auto;
+  bottom: calc(100% + 4px);
+  transform: translateY(8px);
+}
+
+.dropdown-menu--align-start {
+  right: auto;
+  left: 0;
+}
+
+.dropdown-menu--align-center {
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+}
+
+.dropdown-menu--align-center.dropdown-menu--top {
+  transform: translateX(-50%) translateY(8px);
+}
+
+/* ===== DROPDOWN ITEMS - Matches your existing dropdown-item styles ===== */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-3);
+  width: 100%;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: var(--font-body-sm-size);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--foundation-duration-fast);
+  font-family: inherit;
+  line-height: inherit;
+}
+
+.dropdown-item:hover:not(.dropdown-item--disabled) {
+  background: var(--surface-card-hover);
+}
+
+.dropdown-item:focus:not(.dropdown-item--disabled) {
+  outline: none;
+  background: var(--surface-card-hover);
+}
+
+.dropdown-item--danger {
+  color: var(--error-600);
+}
+
+.dropdown-item--danger:hover:not(.dropdown-item--disabled) {
+  background: var(--surface-error-subtle);
+  color: var(--error-700);
+}
+
+.dropdown-item--disabled {
+  color: var(--text-disabled);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.dropdown-item__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.dropdown-item__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: var(--icon-stroke-medium);
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+  .dropdown-menu {
+    min-width: 200px;
+    max-width: calc(100vw - 32px);
+  }
+  
+  /* For mobile, center dropdowns that might overflow */
+  .dropdown-menu--align-end {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .dropdown-menu {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.dropdown-item:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: -2px;
+}

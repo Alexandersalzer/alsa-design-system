@@ -1,0 +1,21 @@
+/* ==============================================
+   src/design-system/tokens/component/table.css
+   TABLE COMPONENT TOKENS
+============================================== */
+
+:root {
+  /* ===== TABLE SURFACES ===== */
+  --surface-table: var(--primary-white);
+  --surface-table-header: var(--secondary-50);
+  --surface-table-row-hover: var(--secondary-25);
+  --surface-table-row-selected: var(--accent-50);
+  
+  /* ===== TABLE BORDERS ===== */
+  --border-table: var(--secondary-100);
+  --border-table-row: var(--secondary-100);
+  
+  /* ===== TABLE TEXT COLORS ===== */
+  --text-table-header: var(--primary-1000);
+  --text-table-cell: var(--secondary-700);
+  --text-table-cell-secondary: var(--secondary-500);
+}

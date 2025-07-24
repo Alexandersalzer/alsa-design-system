@@ -1,0 +1,229 @@
+/* ==============================================
+   src/design-system/tokens/component/icon.css
+   ENHANCED ICON COMPONENT TOKENS - Smart Button Colors
+   ============================================== */
+
+:root {
+  /* ===== ICON SIZES ===== */
+  --icon-size-xs: 12px;
+  --icon-size-sm: 14px;
+  --icon-size-md: 16px;
+  --icon-size-lg: 20px;
+  --icon-size-xl: 24px;
+  --icon-size-2xl: 32px;
+
+  /* ===== ICON STROKE WEIGHTS ===== */
+  --icon-stroke-thin: 1;
+  --icon-stroke-light: 1.5;
+  --icon-stroke-regular: 1.75;
+  --icon-stroke-medium: 2;
+  --icon-stroke-bold: 3;
+
+  /* ===== ICON COLORS (using semantic tokens) ===== */
+  --icon-primary: var(--text-primary);
+  --icon-secondary: var(--text-secondary);
+  --icon-tertiary: var(--text-tertiary);
+  --icon-disabled: var(--text-disabled);
+  --icon-inverse: var(--text-inverse);
+  --icon-heading: var(--text-heading-color);
+  --icon-body: var(--text-body-color);
+  --icon-accent: var(--accent-500);
+  --icon-success: var(--success-600);
+  --icon-warning: var(--warning-600);
+  --icon-error: var(--error-600);
+  --icon-muted: var(--text-secondary);
+  --icon-subtle: var(--text-tertiary);
+
+  /* ===== SMART BUTTON ICON COLORS ===== */
+  /* 🎯 KEY FIX: These match your button text colors exactly! */
+  --icon-button-primary: var(--text-button-primary);         /* White on black primary buttons */
+  --icon-button-secondary: var(--text-button-secondary);     /* Black on light secondary buttons */
+  --icon-button-accent: var(--text-button-accent);           /* White on accent buttons */
+  --icon-button-ghost: var(--text-secondary);                /* Gray for ghost buttons */
+  --icon-button-danger: var(--primary-white);                /* White on red danger buttons */
+  --icon-button-disabled: var(--text-button-primary-disabled); /* Gray for disabled buttons */
+
+  /* ===== NAVIGATION ICON COLORS ===== */
+  --icon-nav-item: var(--secondary-600);
+  --icon-nav-item-hover: var(--secondary-900);
+  --icon-nav-item-selected: var(--accent-500);
+
+  /* ===== CARD ICON COLORS ===== */
+  --icon-card-primary: var(--text-primary);
+
+  /* ===== SPECIFIC CONTEXT COLORS ===== */
+  --icon-user-menu: var(--primary-1000);
+  --icon-search: var(--secondary-400);
+  --icon-empty-state: var(--secondary-400);
+}
+
+/* ==============================================
+   ICON UTILITY CLASSES
+   ============================================== */
+
+/* ===== BASE ICON STYLES ===== */
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ===== ICON SIZES ===== */
+.icon-xs {
+  width: var(--icon-size-xs);
+  height: var(--icon-size-xs);
+}
+
+.icon-sm {
+  width: var(--icon-size-sm);
+  height: var(--icon-size-sm);
+}
+
+.icon-md {
+  width: var(--icon-size-md);
+  height: var(--icon-size-md);
+}
+
+.icon-lg {
+  width: var(--icon-size-lg);
+  height: var(--icon-size-lg);
+}
+
+.icon-xl {
+  width: var(--icon-size-xl);
+  height: var(--icon-size-xl);
+}
+
+.icon-2xl {
+  width: var(--icon-size-2xl);
+  height: var(--icon-size-2xl);
+}
+
+/* ===== ICON STROKE WEIGHTS ===== */
+.icon-weight-thin { stroke-width: var(--icon-stroke-thin); }
+.icon-weight-light { stroke-width: var(--icon-stroke-light); }
+.icon-weight-regular { stroke-width: var(--icon-stroke-regular); }
+.icon-weight-medium { stroke-width: var(--icon-stroke-medium); }
+.icon-weight-bold { stroke-width: var(--icon-stroke-bold); }
+
+/* ===== ICON COLORS ===== */
+.icon-primary { color: var(--icon-primary); }
+.icon-secondary { color: var(--icon-secondary); }
+.icon-tertiary { color: var(--icon-tertiary); }
+.icon-disabled { color: var(--icon-disabled); }
+.icon-inverse { color: var(--icon-inverse); }
+.icon-heading { color: var(--icon-heading); }
+.icon-body { color: var(--icon-body); }
+.icon-accent { color: var(--icon-accent); }
+.icon-success { color: var(--icon-success); }
+.icon-warning { color: var(--icon-warning); }
+.icon-error { color: var(--icon-error); }
+.icon-muted { color: var(--icon-muted); }
+.icon-subtle { color: var(--icon-subtle); }
+
+/* ===== SMART BUTTON ICON COLORS ===== */
+/* 🎯 These are the magic classes that solve your button icon color problem! */
+.icon-button-primary { 
+  color: var(--icon-button-primary); 
+}
+
+.icon-button-secondary { 
+  color: var(--icon-button-secondary); 
+}
+
+.icon-button-accent { 
+  color: var(--icon-button-accent); 
+}
+
+.icon-button-ghost { 
+  color: var(--icon-button-ghost); 
+}
+
+.icon-button-danger { 
+  color: var(--icon-button-danger); 
+}
+
+.icon-button-disabled { 
+  color: var(--icon-button-disabled); 
+}
+
+/* ===== NAVIGATION SPECIFIC COLORS ===== */
+.icon-nav-item { color: var(--icon-nav-item); }
+.icon-nav-item-hover { color: var(--icon-nav-item-hover); }
+.icon-nav-item-selected { color: var(--icon-nav-item-selected); }
+
+/* ===== CONTEXT SPECIFIC COLORS ===== */
+.icon-user-menu { color: var(--icon-user-menu); }
+.icon-search { color: var(--icon-search); }
+.icon-empty-state { color: var(--icon-empty-state); }
+.icon-card-primary { color: var(--icon-card-primary); }
+
+/* ===== RESPONSIVE ICON SIZES ===== */
+@media (max-width: 768px) {
+  /* Smaller icons on mobile */
+  .icon-lg {
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
+  }
+  
+  .icon-xl {
+    width: var(--icon-size-lg);
+    height: var(--icon-size-lg);
+  }
+}
+
+/* ==============================================
+   BUTTON ICON SPECIFIC STYLES
+   ============================================== */
+
+/* ===== Button Icon Container ===== */
+.btn .icon,
+.btn [class*="icon-"] {
+  /* Ensure button icons inherit the correct color from button context */
+  transition: color var(--foundation-duration-fast, 0.15s) ease;
+}
+
+/* ===== Button Icon States ===== */
+.btn:hover .icon-button-primary,
+.btn:hover .icon-button-secondary,
+.btn:hover .icon-button-accent,
+.btn:hover .icon-button-ghost,
+.btn:hover .icon-button-danger {
+  /* Icons inherit button hover states automatically through CSS variables */
+  color: inherit;
+}
+
+.btn:disabled .icon,
+.btn:disabled [class*="icon-"] {
+  /* All icons in disabled buttons use disabled color */
+  color: var(--icon-button-disabled) !important;
+}
+
+/* ===== Icon Button Loading State ===== */
+.btn .loading-spinner {
+  color: var(--icon-button-disabled);
+}
+
+/* ==============================================
+   DEBUGGING HELPERS (Remove in production)
+   ============================================== */
+
+/* Uncomment this during development to see icon colors */
+/*
+.icon-button-primary { 
+  background: rgba(255, 0, 0, 0.1); 
+  border: 1px solid red; 
+}
+.icon-button-secondary { 
+  background: rgba(0, 255, 0, 0.1); 
+  border: 1px solid green; 
+}
+.icon-button-accent { 
+  background: rgba(0, 0, 255, 0.1); 
+  border: 1px solid blue; 
+}
+*/

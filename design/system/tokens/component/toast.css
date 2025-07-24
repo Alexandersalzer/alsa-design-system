@@ -1,0 +1,35 @@
+/* ==============================================
+   src/design-system/tokens/component/toast.css
+   TOAST COMPONENT TOKENS - UPDATED WITH PROPER COLOR VARIANTS
+   ============================================== */
+
+   
+:root {
+  /* ===== INFO TOAST ===== */
+  --surface-toast-info: var(--info-100);
+  --border-toast-info: var(--info-300);
+  --text-toast-info: var(--info-800);
+  --text-toast-info-title: var(--info-900);  /* ADD THIS */
+  --icon-toast-info: var(--info-600);
+  
+  /* ===== SUCCESS TOAST ===== */
+  --surface-toast-success: var(--success-100);
+  --border-toast-success: var(--success-300);
+  --text-toast-success: var(--success-800);
+  --text-toast-success-title: var(--success-900);  /* ADD THIS */
+  --icon-toast-success: var(--success-600);
+  
+  /* ===== WARNING TOAST ===== */
+  --surface-toast-warning: var(--warning-100);
+  --border-toast-warning: var(--warning-300);
+  --text-toast-warning: var(--warning-800);
+  --text-toast-warning-title: var(--warning-900);  /* ADD THIS */
+  --icon-toast-warning: var(--warning-600);
+  
+  /* ===== ERROR TOAST ===== */
+  --surface-toast-error: var(--error-100);
+  --border-toast-error: var(--error-300);
+  --text-toast-error: var(--error-800);
+  --text-toast-error-title: var(--error-900);  /* ADD THIS */
+  --icon-toast-error: var(--error-600);
+}

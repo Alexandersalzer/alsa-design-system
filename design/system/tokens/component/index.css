@@ -1,0 +1,25 @@
+/* ==============================================
+   src/design-system/tokens/component/index.css
+   COMPONENT TOKENS - IMPORTS ALL COMPONENT TOKEN FILES
+   ============================================== */
+
+/* Import semantic tokens first */
+@import '../semantic/index.css';
+
+/* Import all component token files */
+@import './button.css';
+@import './card.css';
+@import './input.css';
+@import './navigation.css';
+@import './modal.css';
+@import './toast.css';
+@import './table.css';
+@import './tag.css';
+@import './loading.css';
+@import './divider.css';
+@import './layout.css';
+@import './motion.css';
+@import './zindex.css';
+@import './indicator.css';
+@import './icon.css';
+@import './form.css';    /* ← ADD THIS LINE */

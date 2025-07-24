@@ -1,0 +1,98 @@
+/* ===== COLOR FOUNDATION ===== */
+
+:root {
+  /* Neutrals */
+  --foundation-white: #f7f7f7;
+  --foundation-black: #010101;
+  
+  /* Gray Scale (50-1200) */
+  --foundation-gray-50: #F5F5F5;
+  --foundation-gray-100: #F1F1F1;
+  --foundation-gray-200: #E3E3E3;
+  --foundation-gray-300: #D5D5D5;
+  --foundation-gray-400: #C7C7C7;
+  --foundation-gray-500: #8B8B8B;
+  --foundation-gray-600: #7D7D7D;
+  --foundation-gray-700: #6F6F6F;
+  --foundation-gray-800: #616161;
+  --foundation-gray-900: #3D3D3D;
+  --foundation-gray-1000: #252525;
+  --foundation-gray-1100: #212121;
+  --foundation-gray-1200: #171717;
+  
+  /* Brand accent Scale (100-900) - Mathematical Scale */
+  /* Base color - references the accent-color from public/design/accent-colors.css */
+  --foundation-accent-500: var(--accent-color);
+  
+  /* Calculated lighter shades (100-400) - each step is 5% lighter */
+  --foundation-accent-100: color-mix(in oklch, var(--foundation-accent-500) 20%, white 80%);
+  --foundation-accent-200: color-mix(in oklch, var(--foundation-accent-500) 40%, white 60%);
+  --foundation-accent-300: color-mix(in oklch, var(--foundation-accent-500) 60%, white 40%);
+  --foundation-accent-400: color-mix(in oklch, var(--foundation-accent-500) 80%, white 20%);
+  
+  /* Calculated darker shades (600-900) - each step is 5% darker */
+  --foundation-accent-600: color-mix(in oklch, var(--foundation-accent-500) 80%, black 20%);
+  --foundation-accent-700: color-mix(in oklch, var(--foundation-accent-500) 60%, black 40%);
+  --foundation-accent-800: color-mix(in oklch, var(--foundation-accent-500) 40%, black 60%);
+  --foundation-accent-900: color-mix(in oklch, var(--foundation-accent-500) 20%, black 80%);
+  
+  /* Amethyst (Info) Scale */
+  --foundation-amethyst-100: #EDE9FE;
+  --foundation-amethyst-200: #DDD6FE;
+  --foundation-amethyst-300: #C4B5FD;
+  --foundation-amethyst-400: #A78BFA;
+  --foundation-amethyst-500: #8B5CF6;
+  --foundation-amethyst-600: #7C3AED;
+  --foundation-amethyst-700: #6D28D9;
+  --foundation-amethyst-800: #5B21B6;
+  --foundation-amethyst-900: #4C1D95;
+  --foundation-amethyst-950: #3730A3;
+  --foundation-amethyst-1000: #312E81;
+  --foundation-amethyst-1100: #1E1B4B;
+  --foundation-amethyst-1200: #0F0A1B;
+  
+  /* Ruby (Error) Scale */
+  --foundation-ruby-100: #FEF2F2;
+  --foundation-ruby-200: #FEE2E2;
+  --foundation-ruby-300: #FECACA;
+  --foundation-ruby-400: #FCA5A5;
+  --foundation-ruby-500: #F87171;
+  --foundation-ruby-600: #EF4444;
+  --foundation-ruby-700: #DC2626;
+  --foundation-ruby-800: #B91C1C;
+  --foundation-ruby-900: #991B1B;
+  --foundation-ruby-950: #7F1D1D;
+  --foundation-ruby-1000: #450A0A;
+  --foundation-ruby-1100: #3C0E0E;
+  --foundation-ruby-1200: #1A0606;
+  
+  /* Emerald (Success) Scale */
+  --foundation-emerald-100: #ECFDF5;
+  --foundation-emerald-200: #D1FAE5;
+  --foundation-emerald-300: #A7F3D0;
+  --foundation-emerald-400: #6EE7B7;
+  --foundation-emerald-500: #34D399;
+  --foundation-emerald-600: #10B981;
+  --foundation-emerald-700: #059669;
+  --foundation-emerald-800: #047857;
+  --foundation-emerald-900: #065F46;
+  --foundation-emerald-950: #064E3B;
+  --foundation-emerald-1000: #022C22;
+  --foundation-emerald-1100: #021E18;
+  --foundation-emerald-1200: #0A120F;
+  
+  /* Honey (Warning) Scale */
+  --foundation-honey-100: #FEF3C7;
+  --foundation-honey-200: #FDE68A;
+  --foundation-honey-300: #FCD34D;
+  --foundation-honey-400: #FBBF24;
+  --foundation-honey-500: #F59E0B;
+  --foundation-honey-600: #D97706;
+  --foundation-honey-700: #B45309;
+  --foundation-honey-800: #92400E;
+  --foundation-honey-900: #78350F;
+  --foundation-honey-950: #451A03;
+  --foundation-honey-1000: #3A1507;
+  --foundation-honey-1100: #2A1005;
+  --foundation-honey-1200: #1A0A03;
+}

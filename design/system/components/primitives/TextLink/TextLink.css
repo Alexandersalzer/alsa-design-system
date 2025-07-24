@@ -1,0 +1,213 @@
+/* ===============================================
+   src/design-system/components/primitives/TextLink/TextLink.css
+   TextLink primitive component styles
+   ============================================== */
+
+/* ===== BASE TEXTLINK STYLES ===== */
+.textlink {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  
+  /* Typography handled by Typography component */
+  text-decoration: none;
+  
+  /* Interaction */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  
+  /* Focus states */
+  outline: none;
+  border-radius: var(--radius-sm);
+}
+
+.textlink:focus-visible {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 2px;
+}
+
+/* ===== SIZE VARIANTS ===== */
+.textlink-sm {
+  gap: var(--spacing-xs);
+}
+
+.textlink-md {
+  gap: var(--spacing-xs);
+}
+
+.textlink-lg {
+  gap: var(--spacing-sm);
+}
+
+.textlink-xl {
+  gap: var(--spacing-sm);
+}
+
+/* ===== VARIANT STYLES ===== */
+
+/* Primary variant */
+.textlink-primary {
+  color: var(--text-primary);
+}
+
+.textlink-primary:hover {
+  color: var(--accent-600);
+}
+
+.textlink-primary:active {
+  color: var(--accent-700);
+}
+
+/* Secondary variant */
+.textlink-secondary {
+  color: var(--text-secondary);
+}
+
+.textlink-secondary:hover {
+  color: var(--text-primary);
+}
+
+.textlink-secondary:active {
+  color: var(--accent-600);
+}
+
+/* Accent variant */
+.textlink-accent {
+  color: var(--accent-500);
+}
+
+.textlink-accent:hover {
+  color: var(--accent-600);
+}
+
+.textlink-accent:active {
+  color: var(--accent-700);
+}
+
+/* Ghost variant (subtle) */
+.textlink-ghost {
+  color: var(--text-tertiary);
+}
+
+.textlink-ghost:hover {
+  color: var(--text-secondary);
+}
+
+.textlink-ghost:active {
+  color: var(--text-primary);
+}
+
+/* Brand variant (for brand names) */
+.textlink-brand {
+  color: var(--text-heading-color);
+}
+
+.textlink-brand:hover {
+  color: var(--accent-600);
+}
+
+.textlink-brand:active {
+  color: var(--accent-700);
+}
+
+/* ===== UNDERLINE VARIANTS ===== */
+
+/* No underline */
+.textlink-underline-none {
+  text-decoration: none;
+}
+
+.textlink-underline-none:hover,
+.textlink-underline-none:active {
+  text-decoration: none;
+}
+
+/* Underline on hover */
+.textlink-underline-hover {
+  text-decoration: none;
+}
+
+.textlink-underline-hover:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+/* Always underlined */
+.textlink-underline-always {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+.textlink-underline-always:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* ===== DISABLED STATE ===== */
+.textlink-disabled {
+  color: var(--text-disabled) !important;
+  cursor: not-allowed;
+  text-decoration: none !important;
+}
+
+.textlink-disabled:hover,
+.textlink-disabled:active {
+  color: var(--text-disabled) !important;
+  text-decoration: none !important;
+}
+
+/* ===== ICON STYLES ===== */
+.textlink-icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.textlink-icon-left {
+  margin-right: 0; /* Gap handled by parent */
+}
+
+.textlink-icon-right {
+  margin-left: 0; /* Gap handled by parent */
+}
+
+/* Icon sizing based on text link size */
+.textlink-sm .textlink-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.textlink-md .textlink-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.textlink-lg .textlink-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.textlink-xl .textlink-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* ===== TEXT CONTENT ===== */
+.textlink-text {
+  /* Typography handled by Typography component */
+  line-height: inherit;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+  .textlink-xl {
+    gap: var(--spacing-xs);
+  }
+  
+  .textlink-xl .textlink-icon {
+    width: 20px;
+    height: 20px;
+  }
+} 

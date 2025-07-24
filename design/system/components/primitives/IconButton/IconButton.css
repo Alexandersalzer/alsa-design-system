@@ -1,0 +1,185 @@
+/* ==============================================
+   src/design-system/components/primitives/IconButton/IconButton.css
+   ICON BUTTON COMPONENT STYLES
+   ============================================== */
+
+/* ===== BASE ICON BUTTON ===== */
+.icon-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-input, 8px);
+  color: var(--icon-primary, var(--secondary-600));
+  cursor: pointer;
+  transition: all var(--foundation-duration-fast, 0.15s) ease;
+  flex-shrink: 0;
+  outline: none;
+  user-select: none;
+}
+
+/* ===== SIZE VARIANTS ===== */
+.icon-btn--sm {
+  width: 28px;
+  height: 28px;
+}
+
+.icon-btn--sm .icon-btn__icon {
+  width: 14px;
+  height: 14px;
+}
+
+.icon-btn--sm .icon-btn__badge {
+  top: 1px;
+  right: 1px;
+  font-size: 9px;
+  min-width: 12px;
+  height: 12px;
+}
+
+.icon-btn--md,
+.icon-btn {
+  width: 36px;
+  height: 36px;
+}
+
+.icon-btn--md .icon-btn__icon,
+.icon-btn .icon-btn__icon {
+  width: 18px;
+  height: 18px;
+}
+
+.icon-btn--lg {
+  width: 44px;
+  height: 44px;
+}
+
+.icon-btn--lg .icon-btn__icon {
+  width: 22px;
+  height: 22px;
+}
+
+.icon-btn--lg .icon-btn__badge {
+  top: 3px;
+  right: 3px;
+  font-size: 11px;
+  min-width: 16px;
+  height: 16px;
+}
+
+/* ===== INTERACTION STATES ===== */
+.icon-btn:hover:not(:disabled) {
+  background: var(--surface-nav-item-hover, var(--secondary-100));
+}
+
+.icon-btn:focus-visible {
+  background: var(--surface-nav-item-hover, var(--secondary-100));
+  box-shadow: 0 0 0 2px var(--border-focus, var(--accent-500));
+}
+
+/* ===== ACTIVE STATE - CRITICAL FIX ===== */
+.icon-btn--active,
+.icon-btn.icon-button--active {
+  background: var(--surface-nav-item-selected, var(--secondary-100)) !important;  
+}
+
+.icon-btn--active:hover,
+.icon-btn.icon-button--active:hover {
+  background: var(--surface-nav-item-selected, var(--secondary-200)) !important;
+}
+
+/* ===== DISABLED STATE ===== */
+.icon-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  background: transparent !important;
+  color: var(--icon-disabled, var(--secondary-300)) !important;
+}
+
+/* ===== ICON CONTAINER ===== */
+.icon-btn__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.icon-btn__icon svg {
+  stroke-width: 2.5;
+  transition: inherit;
+}
+
+/* ===== BADGE STYLES ===== */
+.icon-btn__badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: var(--error-500);
+  color: var(--primary-white);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 4px;
+  border-radius: 6px;
+  min-width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--surface-page, var(--primary-white));
+  font-family: var(--font-body-family);
+  z-index: 2;
+  line-height: 1;
+}
+
+/* ===== VARIANTS ===== */
+.icon-btn--primary {
+  color: var(--accent-500);
+}
+
+.icon-btn--primary:hover:not(:disabled) {
+  background: var(--accent-100);
+  color: var(--accent-700);
+}
+
+.icon-btn--danger {
+  color: var(--error-600);
+}
+
+.icon-btn--danger:hover:not(:disabled) {
+  background: var(--error-100);
+  color: var(--error-700);
+}
+
+.icon-btn--success {
+  color: var(--success-600);
+}
+
+.icon-btn--success:hover:not(:disabled) {
+  background: var(--success-100);
+  color: var(--success-700);
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .icon-btn {
+    transition: none;
+  }
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+  .icon-btn {
+    border: 1px solid currentColor;
+  }
+  
+  .icon-btn--active {
+    border-color: var(--accent-500);
+    background: var(--accent-500);
+    color: var(--primary-white);
+  }
+}
+

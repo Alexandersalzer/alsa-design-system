@@ -1,0 +1,111 @@
+// File: src/design-system/components/primitives/Tag/Tag.tsx
+import React, { forwardRef } from 'react';
+import './Tag.css';
+
+export type TagVariant = 'success' | 'error' | 'warning' | 'info' | 'accent';
+export type TagSize = 'small' | 'medium' | 'large';
+
+export interface TagProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'onClick'> {
+  children: React.ReactNode;
+  variant?: TagVariant;
+  size?: TagSize;
+  icon?: React.ReactNode;
+  removable?: boolean;
+  interactive?: boolean;
+  onClick?: () => void;
+  onRemove?: () => void;
+  className?: string;
+  disabled?: boolean;
+}
+
+export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
+  children,
+  variant = 'info',
+  size = 'medium',
+  icon,
+  removable = false,
+  interactive = false,
+  onClick,
+  onRemove,
+  className = '',
+  disabled = false,
+  ...props
+}, ref) => {
+  // Build CSS classes following your button pattern
+  const baseClasses = 'tag';
+  const variantClass = `tag--${variant}`;
+  const sizeClass = size !== 'medium' ? `tag--${size}` : '';
+  const iconClass = icon ? 'tag--with-icon' : '';
+  const interactiveClass = (interactive || onClick) && !disabled ? 'tag--interactive' : '';
+  const removableClass = removable ? 'tag--removable' : '';
+  
+  const classes = [
+    baseClasses,
+    variantClass,
+    sizeClass,
+    iconClass,
+    interactiveClass,
+    removableClass,
+    className
+  ].filter(Boolean).join(' ');
+
+  const handleClick = () => {
+    if (onClick && !disabled && !removable) {
+      onClick();
+    }
+  };
+
+  const handleRemove = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onRemove && !disabled) {
+      onRemove();
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if ((e.key === 'Enter' || e.key === ' ') && onClick && !disabled) {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
+  return (
+    <span
+      ref={ref}
+      className={classes}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      role={onClick && !disabled ? 'button' : undefined}
+      tabIndex={onClick && !disabled ? 0 : undefined}
+      aria-disabled={disabled}
+      {...props}
+    >
+      {icon && (
+        <span className="tag__icon">
+          {icon}
+        </span>
+      )}
+      
+      <span>{children}</span>
+      
+      {removable && (
+        <button
+          className="tag__remove"
+          onClick={handleRemove}
+          aria-label="Remove tag"
+          type="button"
+          disabled={disabled}
+          tabIndex={-1}
+        >
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      )}
+    </span>
+  );
+});
+
+Tag.displayName = 'Tag';
+
+export default Tag;
