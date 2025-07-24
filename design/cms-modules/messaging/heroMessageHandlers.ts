@@ -1,10 +1,10 @@
-import { type WebsiteContent, type Template } from '@/design/cms-modules/types/content';
+import { type WebsiteContent, type Template } from '../../cms-modules/types/content';
 import { 
   extractBorderRadius, 
   extractTextAlign, 
   loadGoogleFont,
   type HeroMessageHandlers 
-} from '@/design/cms-modules/messaging/heroMessaging';
+} from '../../cms-modules/messaging/heroMessaging';
 
 interface HeroMessageHandlerParams {
   setBackgroundImage: (image: string | null) => void;

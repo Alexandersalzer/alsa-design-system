@@ -1,8 +1,8 @@
 'use client';
 
-import { Section, Container } from '@/design/system/layout';
-import { RichText } from '@/design/system/components/patterns/RichText';
-import { useContent } from '@/design/cms-modules/context/ContentContext';
+import { Section, Container } from '../../../../../system/layout';
+import { RichText } from '../../../../../system/components/patterns/RichText';
+import { useContent } from '../../../../../cms-modules/context/ContentContext';
 import { usePathname } from 'next/navigation';
 
 interface HeroSectionProps {

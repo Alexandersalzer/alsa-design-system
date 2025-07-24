@@ -4,11 +4,11 @@
 // ===============================================
 
 import React from 'react';
-import { Rhythm, RhythmItem } from '@/design/system/layout/utilities/rhythm/Rhythm';
-import { Cluster } from '@/design/system/layout/utilities/cluster/Cluster';
-import { Button, ButtonProps } from '@/design/system/components/primitives/Button';
-import { Typography, TypographyVariant, TypographyColor, TypographyWeight, TypographyAlign } from '@/design/system/components/primitives/Typography';
-import { Icons } from '@/design/system/components/primitives/Icon';
+import { Rhythm, RhythmItem } from '../../../../system/layout/utilities/rhythm/Rhythm';
+import { Cluster } from '../../../../system/layout/utilities/cluster/Cluster';
+import { Button, ButtonProps } from '../../../../system/components/primitives/Button';
+import { Typography, TypographyVariant, TypographyColor, TypographyWeight, TypographyAlign } from '../../../../system/components/primitives/Typography';
+import { Icons } from '../../../../system/components/primitives/Icon';
 
 // ===== TYPE DEFINITIONS =====
 

@@ -7,7 +7,7 @@ import {
   requestEditingStatus,
   setupToggleMessageListener,
   type ToggleMessageHandlers
-} from '@/design/cms-modules/messaging/toggleMessaging';
+} from '../../cms-modules/messaging/toggleMessaging';
 
 interface ToggleContextType {
   isToggled: boolean;

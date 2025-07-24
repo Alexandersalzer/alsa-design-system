@@ -1,6 +1,6 @@
 'use client';
 
-import { Section, Container, Block } from '@/design/system/layout';
+import { Section, Container, Block } from '../../../../../system/layout';
 
 export const AboutSection = () => {
   return (

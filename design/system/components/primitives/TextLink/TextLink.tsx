@@ -5,7 +5,7 @@
 
 import React, { forwardRef, ReactNode } from 'react';
 import { cn } from '../../../lib/utils';
-import { Label, TypographyColor, TypographyWeight } from '@/design/system/components/primitives/Typography';
+import { Label, TypographyColor, TypographyWeight } from '../../../../system/components/primitives/Typography';
 import './TextLink.css';
 
 export interface TextLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {

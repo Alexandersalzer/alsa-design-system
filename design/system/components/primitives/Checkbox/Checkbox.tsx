@@ -5,7 +5,7 @@
 
 import React, { forwardRef, useId } from 'react';
 import { cn } from '../../../lib/utils';
-import { Icon, IconMap } from '@/design/system/components/primitives/Icon';
+import { Icon, IconMap } from '../../../../system/components/primitives/Icon';
 
 export type CheckboxSize = 'sm' | 'md' | 'lg';
 export type CheckboxState = 'checked' | 'unchecked' | 'indeterminate';

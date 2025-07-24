@@ -5,7 +5,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { Label, createTabTypographyProps, TypographyWeight } from '@/design/system/components/primitives/Typography';
+import { Label, createTabTypographyProps, TypographyWeight } from '../../../../system/components/primitives/Typography';
 
 export type TabVariant = 'navigation' | 'page' | 'segment';
 export type TabSize = 'sm' | 'md' | 'lg';

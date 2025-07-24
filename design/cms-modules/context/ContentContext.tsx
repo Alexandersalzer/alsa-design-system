@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext } from 'react';
-import { type WebsiteContent } from '@/design/cms-modules/types/content';
+import { type WebsiteContent } from '../../cms-modules/types/content';
 
 // Interface for hero content - only text content
 export interface HeroContent {

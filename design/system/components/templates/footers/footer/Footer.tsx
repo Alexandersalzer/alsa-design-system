@@ -1,8 +1,8 @@
 'use client';
 
-import { Section } from '@/design/system/layout/frames/section';
-import { Container } from '@/design/system/layout/frames/container';
-import { KjFooter } from '@/design/system/components/patterns/kj-footer';
+import { Section } from '../../../../../system/layout/frames/section';
+import { Container } from '../../../../../system/layout/frames/container';
+import { KjFooter } from '../../../../../system/components/patterns/kj-footer';
 
 const Footer = () => {
   return (

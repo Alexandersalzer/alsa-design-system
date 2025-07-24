@@ -4,8 +4,8 @@
 // ===============================================
 
 import { useState, useRef, useEffect, forwardRef, useId } from 'react';
-import { Icons } from '@/design/system/components/primitives/Icon';
-import { SearchInput } from '@/design/system/components/primitives/Input';
+import { Icons } from '../../../../system/components/primitives/Icon';
+import { SearchInput } from '../../../../system/components/primitives/Input';
 import { cn } from '../../../lib/utils';
 
 // Import your design system types
