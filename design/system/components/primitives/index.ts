@@ -2,6 +2,7 @@
 export * from './Button';
 export * from './Card';
 export * from './Input';
+export * from './Icon';
 export * from './IconButton';
 export * from './Tag';
 export * from './NavigationTab';
