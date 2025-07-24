@@ -8,8 +8,7 @@ export { ContentContext, useContent } from './cms-modules/context/ContentContext
 export { ContentProvider } from './cms-modules/context/ContentProvider';
 export { ToggleProvider, ToggleProviderWrapper, useToggle } from './cms-modules/context/ToggleContext';
 
-// CMS utilities and messaging
-export { getAllPagesContent, getPageContent, getAvailableLocales } from './cms-modules/utils/contentLoader';
+// CMS utilities and messaging (client-side only)
 export { sendBothDimensions } from './cms-modules/messaging/dimensionMessaging';
 
 // Types
