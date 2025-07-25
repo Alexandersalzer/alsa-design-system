@@ -62,6 +62,7 @@ const KjFooter = () => {
           onChange={handleLanguageChange}
           placeholder="Välj språk"
           variant="footer"
+          size="sm"
         />
       </RhythmItem>
 
