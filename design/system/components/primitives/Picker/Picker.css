@@ -18,7 +18,7 @@
 
 /* ===== PICKER LABEL - Using Foundation Typography Tokens ===== */
 .picker-label {
-  font-family: var(--typography-body-font-family);
+  font-family: var(--font-body-family);
   font-size: var(--typography-body-md-size);
   font-weight: var(--typography-body-md-weight);
   line-height: var(--typography-body-md-line-height);
@@ -53,7 +53,7 @@
 
 /* ===== PICKER DESCRIPTION - Using Foundation Typography ===== */
 .picker-description {
-  font-family: var(--typography-body-font-family);
+  font-family: var(--font-body-family);
   font-size: var(--typography-body-sm-size);
   font-weight: var(--typography-body-sm-weight);
   line-height: var(--typography-body-sm-line-height);
@@ -80,7 +80,7 @@
   border-radius: var(--radius-picker);
   background-color: var(--surface-picker);
   color: var(--text-picker);
-  font-family: var(--typography-body-font-family);
+  font-family: var(--font-body-family);
   font-size: var(--typography-body-md-size);
   font-weight: var(--typography-body-md-weight);
   line-height: var(--typography-body-md-line-height);
@@ -369,7 +369,7 @@
   border-radius: var(--foundation-radius-md);
   background-color: var(--surface-input);
   color: var(--text-input);
-  font-family: var(--typography-body-font-family);
+  font-family: var(--font-body-family);
   font-size: var(--typography-body-sm-size);
   outline: none;
   transition: border-color var(--foundation-duration-fast) var(--foundation-easing-ease-out);
@@ -540,7 +540,7 @@
 }
 
 .picker-option-label {
-  font-family: var(--typography-body-font-family);
+  font-family: var(--font-body-family);
   font-size: var(--typography-body-sm-size);
   font-weight: var(--typography-body-sm-weight);
   line-height: var(--typography-body-sm-line-height);
@@ -548,7 +548,7 @@
 }
 
 .picker-option-description {
-  font-family: var(--typography-body-font-family);
+  font-family: var(--font-body-family);
   font-size: var(--typography-body-xs-size);
   font-weight: var(--typography-body-xs-weight);
   line-height: var(--typography-body-xs-line-height);
@@ -593,7 +593,7 @@
 
 /* ===== ERROR AND SUCCESS MESSAGES - Using Foundation Typography ===== */
 .picker-error {
-  font-family: var(--typography-body-font-family);
+  font-family: var(--font-body-family);
   font-size: var(--typography-body-sm-size);
   font-weight: var(--typography-body-sm-weight);
   line-height: var(--typography-body-sm-line-height);
@@ -602,7 +602,7 @@
 }
 
 .picker-success {
-  font-family: var(--typography-body-font-family);
+  font-family: var(--font-body-family);
   font-size: var(--typography-body-sm-size);
   font-weight: var(--typography-body-sm-weight);
   line-height: var(--typography-body-sm-line-height);
