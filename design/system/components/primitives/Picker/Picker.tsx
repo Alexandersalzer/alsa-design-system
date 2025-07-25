@@ -312,7 +312,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
             {getDisplayContent()}
           </span>
           <div className="picker-icon">
-          <Icons.Action.ChevronDown weight="bold" />
+          <Icons.Action.ChevronDown />
           </div>
         </button>
 
