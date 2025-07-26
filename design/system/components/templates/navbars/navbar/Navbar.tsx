@@ -6,19 +6,18 @@ import { Section } from '../../../../layout/frames/section';
 import { Container } from '../../../../layout/frames/container';
 import { Cluster } from '../../../../layout/utilities/cluster';
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/navbar';
+import { getNavigationContext, type NavigationItem } from '../../../../utils/navigation';
 
-export interface NavItem {
-  href: string;
+export interface NavItem extends NavigationItem {
   label: string;
-  slug?: string;
   variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   rightIcon?: React.ReactNode;
   leftIcon?: React.ReactNode;
-  componentType?: 'button' | 'textlink'; // New property to choose component type
-  textLinkVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'brand'; // TextLink specific variant
-  weight?: 'regular' | 'medium' | 'semibold' | 'bold'; // TextLink weight
-  underline?: 'none' | 'hover' | 'always'; // TextLink underline
+  componentType?: 'button' | 'textlink';
+  textLinkVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'brand';
+  weight?: 'regular' | 'medium' | 'semibold' | 'bold';
+  underline?: 'none' | 'hover' | 'always';
 }
 
 export interface NavbarProps {
@@ -57,32 +56,22 @@ const Navbar = ({
   const { isToggled } = useToggle();
   const pathname = usePathname();
   
-  // Extract current locale from pathname (e.g., "/sv/home" -> "sv")
-  const currentLocale = pathname.split('/')[1] || 'sv';
+  // Use navigation utilities for consistent route handling
+  const nav = getNavigationContext(pathname, isToggled);
 
-  const getBrandHref = () => {
-    if (isToggled) return `/${brandHref.replace('/', '')}.html`;
-    return `/${currentLocale}${brandHref}`;
-  };
-
-  const getNavHref = (item: NavItem) => {
-    if (isToggled) return `/${item.slug || item.href.replace('/', '')}.html`;
-    return `/${currentLocale}${item.href}`;
-  };
-
-  // Transform NavItem[] to NavMenuItem[] with proper hrefs and individual variants
+  // Transform NavItem[] to NavMenuItem[] with proper hrefs and active states
   const menuItems: NavMenuItem[] = navItems.map(item => ({
     ...item,
-    href: getNavHref(item),
-    isActive: pathname === getNavHref(item),
-    variant: item.variant || navVariant, // Use individual variant or fallback to global
-    size: item.size || navSize, // Use individual size or fallback to global
+    href: nav.buildNavHref(item),
+    isActive: nav.isNavItemActive(item, pathname),
+    variant: item.variant || navVariant,
+    size: item.size || navSize,
     rightIcon: item.rightIcon,
     leftIcon: item.leftIcon,
-    componentType: item.componentType, // Pass through component type
-    textLinkVariant: item.textLinkVariant, // Pass through TextLink variant
-    weight: item.weight, // Pass through TextLink weight
-    underline: item.underline // Pass through TextLink underline
+    componentType: item.componentType,
+    textLinkVariant: item.textLinkVariant,
+    weight: item.weight,
+    underline: item.underline
   }));
 
   return (
@@ -97,7 +86,7 @@ const Navbar = ({
       <Container maxWidth="lg">
         <Cluster justify="between" align="center" className="h-16">
           <BrandLink 
-            href={getBrandHref()}
+            href={nav.buildBrandHref(brandHref)}
             variant={brandVariant}
             size={brandSize}
             weight={brandWeight}
