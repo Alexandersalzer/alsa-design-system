@@ -33,6 +33,18 @@
 @import './components/primitives/Modal/Modal.css';
 @import './components/primitives/Dropdown/Dropdown.css';
 
+/* ===== PRIMITIVES (Enhanced components) ===== */
+
+
+
+
+@import './components/primitives/Typography/Typography.css';
+@import './components/primitives/Icon/Icon.css';
+@import './components/primitives/Tag/Tag.css';
+@import './components/primitives/SegmentedControl/SegmentedControl.css';
+@import './components/primitives/Stepper/Stepper.css';
+@import './components/primitives/TextLink/TextLink.css';
+
 /* Pattern components */
 
 

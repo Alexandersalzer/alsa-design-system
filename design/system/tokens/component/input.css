@@ -1,26 +1,20 @@
-/* ==============================================
-   src/design-system/tokens/component/input.css
-   INPUT COMPONENT TOKENS
-============================================== */
+  /* ==============================================
+    src/design-system/tokens/component/input.css
+    INPUT COMPONENT TOKENS
+  ============================================== */
 
 :root {
-  /* ===== INPUT SURFACES ===== */
-  --surface-input: var(--primary-white);
-  --surface-input-disabled: var(--secondary-50);
-  
-  /* ===== INPUT BORDERS ===== */
+  /* Input component mappings */
+  --surface-input: var(--secondary-50);
+  --surface-input-disabled: var(--surface-card-hover);
   --border-input: var(--secondary-200);
   --border-input-hover: var(--secondary-300);
-  --border-input-focus: var(--secondary-400);
-  --border-input-error: var(--error-500);
-  --border-input-disabled: var(--secondary-100);
-  
-  /* ===== INPUT TEXT COLORS ===== */
-  --text-input: var(--primary-1000);
-  --text-input-placeholder: var(--secondary-400);
-  --text-input-disabled: var(--secondary-400);
-  
-  /* ===== INPUT ICON COLORS ===== */
-  --icon-input: var(--secondary-500);
-  --icon-input-disabled: var(--secondary-300);
+  --border-input-focus:  var(--secondary-400);
+  --border-input-error: var(--error-400);
+  --border-input-disabled: var(--border-disabled);
+  --text-input: var(--text-primary);
+  --text-input-placeholder: var(--text-placeholder);
+  --text-input-disabled: var(--text-disabled);
+  --icon-input: var(--icon-secondary);
+  --icon-input-disabled: var(--icon-disabled);
 }

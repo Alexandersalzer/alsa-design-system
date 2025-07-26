@@ -1,0 +1,375 @@
+/* =============================================== */
+/* src/design-system/components/primitives/Icon/Icon.css */
+/* FIXED ICON STYLES - Matches your existing system */
+/* =============================================== */
+
+/* ===== BASE ICON STYLES ===== */
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor; /* 🎯 KEY: Inherits parent color by default */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+  transition: all 0.2s ease;
+}
+
+/* ===== SIZE VARIANTS ===== */
+.icon--xs {
+  width: 12px;
+  height: 12px;
+  stroke-width: 1.5;
+}
+
+.icon--sm {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
+}
+
+.icon--md {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+}
+
+.icon--lg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2;
+}
+
+.icon--xl {
+  width: 32px;
+  height: 32px;
+  stroke-width: 2;
+}
+
+.icon--2xl {
+  width: 40px;
+  height: 40px;
+  stroke-width: 1.5;
+}
+
+/* ===== COLOR VARIANTS ===== */
+/* Only apply when color is explicitly set (not 'current') */
+
+/* Text Colors */
+.icon--primary {
+  color: var(--text-primary);
+}
+
+.icon--secondary {
+  color: var(--text-secondary);
+}
+
+.icon--tertiary {
+  color: var(--text-tertiary);
+}
+
+.icon--disabled {
+  color: var(--text-disabled);
+}
+
+.icon--inverse {
+  color: var(--text-inverse);
+}
+
+.icon--heading {
+  color: var(--text-heading);
+}
+
+.icon--body {
+  color: var(--text-body);
+}
+
+.icon--muted {
+  color: var(--text-disabled);
+}
+
+/* Semantic Colors */
+.icon--accent {
+  color: var(--accent-500);
+}
+
+.icon--success {
+  color: var(--success-600);
+}
+
+.icon--warning {
+  color: var(--warning-600);
+}
+
+.icon--error {
+  color: var(--error-600);
+}
+
+.icon--subtle {
+  color: var(--text-subtle);
+}
+
+/* Navigation Colors */
+.icon--nav-item {
+  color: var(--text-nav-item);
+}
+
+.icon--nav-item-hover {
+  color: var(--text-nav-item-hover);
+}
+
+.icon--nav-item-selected {
+  color: var(--text-nav-item-selected);
+}
+
+/* Context-Specific Colors */
+.icon--user-menu {
+  color: var(--text-user-menu);
+}
+
+.icon--search {
+  color: var(--text-search);
+}
+
+.icon--empty-state {
+  color: var(--text-empty-state);
+}
+
+.icon--card-primary {
+  color: var(--text-card-primary);
+}
+
+/* Button Colors */
+.icon--button-primary {
+  color: var(--text-button-primary);
+}
+
+.icon--button-secondary {
+  color: var(--text-button-secondary);
+}
+
+.icon--button-accent {
+  color: var(--text-button-accent);
+}
+
+.icon--button-ghost {
+  color: var(--text-button-ghost);
+}
+
+.icon--button-destructive {
+  color: var(--text-button-destructive);
+}
+
+.icon--button-disabled {
+  color: var(--text-button-disabled);
+}
+
+/* ===== WEIGHT VARIANTS ===== */
+.icon--weight-thin {
+  stroke-width: 2;
+}
+
+.icon--weight-light {
+  stroke-width: 2;
+}
+
+.icon--weight-regular {
+  stroke-width: 2;
+}
+
+.icon--weight-medium {
+  stroke-width: 2.5;
+}
+
+.icon--weight-bold {
+  stroke-width: 3;
+}
+
+/* ===== INTERACTIVE STATES ===== */
+/* For icons inside interactive elements */
+button:hover .icon:not(.icon--button-disabled),
+.button:hover .icon:not(.icon--button-disabled),
+a:hover .icon {
+  transform: translateY(-1px);
+}
+
+button:active .icon:not(.icon--button-disabled),
+.button:active .icon:not(.icon--button-disabled),
+a:active .icon {
+  transform: translateY(0);
+}
+
+/* Disabled state */
+.icon--button-disabled,
+button:disabled .icon,
+.button:disabled .icon {
+  opacity: 0.5;
+  transform: none !important;
+}
+
+/* Focus states for accessibility */
+button:focus-visible .icon,
+.button:focus-visible .icon,
+a:focus-visible .icon {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: 2px;
+  border-radius: var(--foundation-radius-sm);
+}
+
+/* ===== ANIMATION UTILITIES ===== */
+.icon--spin {
+  animation: icon-spin 1s linear infinite;
+}
+
+.icon--pulse {
+  animation: icon-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.icon--bounce {
+  animation: icon-bounce 1s infinite;
+}
+
+@keyframes icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes icon-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes icon-bounce {
+  0%, 100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+/* ===== CONTEXT-SPECIFIC STYLES ===== */
+
+/* Icons in navigation items */
+.nav-item .icon,
+.tab .icon {
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover .icon,
+.tab:hover .icon {
+  transform: scale(1.05);
+}
+
+.nav-item.active .icon,
+.nav-item--active .icon,
+.tab.active .icon,
+.tab--active .icon {
+  transform: scale(1.1);
+}
+
+/* Icons in cards */
+.card .icon--card-primary {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* Icons in buttons */
+.button .icon {
+  flex-shrink: 0;
+}
+
+/* Button with only icon (no text) */
+.button--icon-only {
+  padding: var(--foundation-space-2);
+  aspect-ratio: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button--icon-only .icon {
+  margin: 0;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+  /* Slightly larger icons on mobile for better touch targets */
+  .icon--sm {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .icon--md {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .icon--lg {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* ===== HIGH CONTRAST MODE SUPPORT ===== */
+@media (prefers-contrast: high) {
+  .icon {
+    stroke-width: 2.5;
+  }
+  
+  .icon--weight-thin {
+    stroke-width: 2;
+  }
+  
+  .icon--weight-light {
+    stroke-width: 2.5;
+  }
+  
+  .icon--weight-bold {
+    stroke-width: 3.5;
+  }
+}
+
+/* ===== REDUCED MOTION SUPPORT ===== */
+@media (prefers-reduced-motion: reduce) {
+  .icon,
+  .icon--spin,
+  .icon--pulse,
+  .icon--bounce,
+  button:hover .icon,
+  .button:hover .icon,
+  a:hover .icon,
+  .nav-item:hover .icon,
+  .tab:hover .icon {
+    animation: none;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ===== DARK MODE ADJUSTMENTS ===== */
+[data-theme="dark"] .icon,
+.dark .icon {
+  /* Slightly thinner strokes in dark mode for better readability */
+  stroke-width: 1.8;
+}
+
+[data-theme="dark"] .icon--weight-medium,
+.dark .icon--weight-medium {
+  stroke-width: 2.2;
+}
+
+[data-theme="dark"] .icon--weight-bold,
+.dark .icon--weight-bold {
+  stroke-width: 2.8;
+}

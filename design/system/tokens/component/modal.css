@@ -18,3 +18,12 @@
   --text-modal-title: var(--primary-1000);
   --text-modal-body: var(--secondary-700);
 }
+
+
+  /* Modal component mappings
+  --surface-modal-backdrop: var(--surface-overlay);
+  --surface-modal-content: var(--surface-card-elevated);
+  --border-modal: var(--border-subtle);
+  --text-modal-title: var(--text-heading-primary);
+  --text-modal-body: var(--text-body-secondary);
+ */

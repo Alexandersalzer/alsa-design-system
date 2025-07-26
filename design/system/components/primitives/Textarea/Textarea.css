@@ -30,7 +30,9 @@
 }
 
 /* ===== TEXTAREA DESCRIPTION ===== */
-
+.textarea-description {
+  /* Styles applied inline for consistency with other components */
+}
 
 /* ===== TEXTAREA CONTAINER ===== */
 .textarea-container {
@@ -149,11 +151,19 @@
 }
 
 /* ===== TEXTAREA ERROR & SUCCESS ===== */
+.textarea-error,
+.textarea-success {
+  /* Styles applied inline for consistency */
+}
 
 /* ===== ENHANCED TEXTAREA ===== */
 .enhanced-textarea {
   display: flex;
   flex-direction: column;
+}
+
+.textarea-templates {
+  /* Template styles handled inline */
 }
 
 /* ===== RESPONSIVE DESIGN ===== */

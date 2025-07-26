@@ -1,10 +1,10 @@
 /* ==============================================
-   src/design-system/tokens/component/layout.css
-   LAYOUT COMPONENT TOKENS
-   ============================================== */
-
-:root {
+ src/design-system/tokens/component/layout.css
+ LAYOUT COMPONENT TOKENS
+ ============================================== */
+ :root {
   /* ===== GLOBAL SURFACE TOKENS ===== */
+  --surface-background: #fff;
   --surface-page: var(--primary-white);
   --surface-overlay: var(--primary-black);
   --surface-modal: var(--primary-white);
@@ -124,49 +124,6 @@
   /* ===== PAGE SURFACES ===== */
   --surface-page-container: transparent;
   --surface-page-section: transparent;
-  
-  /* ===== LOADING STATES ===== */
-  --space-page-loading-padding: var(--foundation-space-12);    /* 48px */
-  --size-page-loading-min-height: 200px;
-
-
-    /* ===== MISSING SURFACE TOKENS ===== */
-  --surface-header: var(--surface-page);
-  --surface-search-input: var(--surface-page);
-  --surface-setup-guide: var(--surface-card);
-  --surface-setup-guide-hover: var(--surface-card-hover);
-  --surface-user-menu-trigger: var(--surface-card);
-  --surface-user-menu-trigger-hover: var(--surface-card-hover);
-  --surface-user-menu-dropdown: var(--surface-card);
-  --surface-user-menu-item: transparent;
-  --surface-user-menu-item-hover: var(--surface-card-hover);
-  --surface-user-menu-item-danger-hover: var(--error-50);
-  --surface-notification-item: transparent;
-  --surface-notification-item-hover: var(--surface-card-hover);
-  --surface-notification-indicator: var(--accent-500);
-  --surface-empty-state: transparent;
-  --surface-nav-item: transparent;
-  --surface-nav-item-hover: var(--surface-card-hover);
-  --surface-nav-item-selected: var(--secondary-100);
-  --surface-nav-item-disabled: transparent;
-  --surface-focus-ring: rgba(59, 130, 246, 0.15);
-  --surface-dropdown: var(--surface-card);
-  --surface-tag-accent: var(--accent-100);
-  
-  /* ===== MISSING BORDER TOKENS ===== */
-  --border-header: var(--border-secondary);
-  --border-search-input: var(--border-secondary);
-  --border-search-input-focus: var(--border-focus);
-  --border-setup-guide: var(--border-secondary);
-  --border-setup-guide-hover: var(--border-primary);
-  --border-setup-guide-focus: var(--border-focus);
-  --border-user-menu-trigger: var(--border-secondary);
-  --border-user-menu-trigger-hover: var(--border-primary);
-  --border-user-menu-trigger-focus: var(--border-focus);
-  --border-dropdown: var(--border-secondary);
-  --border-dropdown-subtle: var(--border-secondary);
-  --border-notification-item: var(--border-secondary);
-  --border-divider: var(--border-secondary);
   
   /* ===== MISSING TEXT TOKENS ===== */
   --text-search-input: var(--text-primary);

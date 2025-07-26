@@ -5,13 +5,12 @@ import { useToggle } from '../../../../../cms-modules/context/ToggleContext';
 import { Section } from '../../../../layout/frames/section';
 import { Container } from '../../../../layout/frames/container';
 import { Cluster } from '../../../../layout/utilities/cluster';
-import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/navbar';
-
+import { BrandLink , NavMenu, NavMenuItem} from '../../../patterns';
 export interface NavItem {
   href: string;
   label: string;
   slug?: string;
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'danger';
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   rightIcon?: React.ReactNode;
   leftIcon?: React.ReactNode;
@@ -26,7 +25,7 @@ export interface NavbarProps {
   brandHref?: string;
   navItems?: NavItem[];
   className?: string;
-  navVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'danger';
+  navVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   navSize?: 'sm' | 'md' | 'lg' | 'xl';
   brandVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'brand';
   brandSize?: 'sm' | 'md' | 'lg' | 'xl';

@@ -4,11 +4,12 @@
 // ===============================================
 
 import React from 'react';
-import { Rhythm, RhythmItem } from '../../../../system/layout/utilities/rhythm/Rhythm';
-import { Cluster } from '../../../../system/layout/utilities/cluster/Cluster';
-import { Button, ButtonProps } from '../../../../system/components/primitives/Button';
-import { Typography, TypographyVariant, TypographyColor, TypographyWeight, TypographyAlign } from '../../../../system/components/primitives/Typography';
-import { Icons } from '../../../../system/components/primitives/Icon';
+import { Rhythm, RhythmItem } from '../../../../../system/layout/utilities/rhythm/Rhythm';
+import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { Button, ButtonProps } from '../../../../../system/components/primitives/Button';
+import { Typography, TypographyVariant, TypographyColor, TypographyWeight, TypographyAlign } from '../../../../../system/components/primitives/Typography';
+import { Icon  } from '../../../../../system/components/primitives/Icon';
+import { ArrowRightIcon } from 'lucide-react';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -142,7 +143,7 @@ export const RichText: React.FC<RichTextProps> = ({
                 <Button 
                   {...primaryButton}
                   variant="primary"
-                  rightIcon={Icons.Button.ArrowRight('primary', false)}
+                  rightIcon={<Icon><ArrowRightIcon/></Icon>}
                 >
                   {primaryButton.children}
                 </Button>

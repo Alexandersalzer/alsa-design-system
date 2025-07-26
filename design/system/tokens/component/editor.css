@@ -1,0 +1,105 @@
+/* ===============================================
+   ADD TO: src/design-system/tokens/component/editor.css
+   IMPROVED EDITOR TOKENS - BETTER DIVIDERS & SPACING
+   ============================================== */
+
+   :root {
+    /* ===== EDITOR SURFACE TOKENS ===== */
+    --surface-editor-shell: var(--surface-secondary);
+    --surface-editor-topbar: var(--surface-nav);
+    --surface-editor-sidebar: var(--surface-page);
+    --surface-editor-panel: var(--surface-page);
+    --surface-editor-panel-header: var(--surface-elevated, var(--surface-page));
+    --surface-editor-section: var(--surface-page);
+    --surface-editor-section-hover: var(--surface-hover, var(--secondary-100));
+    --surface-editor-main: var(--surface-secondary);
+    
+    /* ===== EDITOR TEXT TOKENS ===== */
+    --text-editor-primary: var(--text-primary);
+    --text-editor-secondary: var(--text-secondary);
+    --text-editor-inverse: var(--text-inverse);
+    --text-editor-panel-title: var(--primary-1000);
+    --text-editor-panel-subtitle: var(--secondary-600);
+    --text-editor-section-title: var(--primary-1000);
+    --text-editor-section-description: var(--secondary-600);
+    
+    /* ===== EDITOR BORDER TOKENS - IMPROVED ===== */
+    --border-editor-primary: var(--border-secondary);
+    --border-editor-panel: var(--border-secondary);
+    --border-editor-section: var(--border-secondary);
+    --border-editor-topbar: var(--border-nav, var(--secondary-300));
+    --border-editor-focus: var(--accent-500);
+    
+    /* 🆕 NEW - EDITOR DIVIDER TOKENS FOR BETTER VISIBILITY */
+    --border-editor-divider: var(--secondary-300);
+    --border-editor-divider-strong: var(--secondary-400);
+    --border-editor-tree-line: var(--secondary-250, var(--secondary-300));
+    --border-editor-tree-connection: var(--secondary-200);
+    
+    /* ===== EDITOR SPACING TOKENS - REFINED ===== */
+    --space-editor-topbar-height: 64px;
+    --space-editor-sidebar-width: 320px;
+    --space-editor-topbar-padding: var(--foundation-space-6);
+    --space-editor-panel-padding: var(--foundation-space-5);
+    --space-editor-panel-header-padding: var(--foundation-space-5);
+    --space-editor-section-padding: var(--foundation-space-4);
+    --space-editor-section-gap: var(--foundation-space-6);
+    --space-editor-control-gap: var(--foundation-space-4);
+    --space-editor-control-padding: var(--foundation-space-3);
+    
+    /* 🆕 NEW - TREE VIEW SPACING TOKENS */
+    --space-editor-tree-outer: var(--foundation-space-3);
+    --space-editor-tree-item: var(--foundation-space-2);
+    --space-editor-tree-indent: var(--foundation-space-5);
+    --space-editor-tree-icon: var(--foundation-space-2);
+    
+    /* ===== EDITOR RADIUS TOKENS ===== */
+    --radius-editor-panel: var(--foundation-radius-lg);
+    --radius-editor-section: var(--foundation-radius-md);
+    --radius-editor-control: var(--foundation-radius-sm);
+    --radius-editor-button: var(--foundation-radius-sm);
+    --radius-editor-tree-item: var(--foundation-radius-xs);
+    
+    /* ===== EDITOR SHADOW TOKENS ===== */
+    --shadow-editor-panel: var(--foundation-shadow-sm);
+    --shadow-editor-topbar: var(--foundation-shadow-sm);
+    --shadow-editor-focus: 0 0 0 2px var(--accent-200);
+    
+    /* ===== EDITOR STATE TOKENS ===== */
+    --color-editor-changes: var(--warning-500);
+    --color-editor-changes-bg: var(--warning-100);
+    --color-editor-success: var(--success-500);
+    --color-editor-success-bg: var(--success-100);
+    --color-editor-active: var(--accent-500);
+    --color-editor-active-bg: var(--accent-100);
+    
+    /* ===== EDITOR TAB TOKENS ===== */
+    --surface-editor-tab: transparent;
+    --surface-editor-tab-hover: var(--surface-hover, var(--secondary-100));
+    --surface-editor-tab-active: var(--accent-100);
+    --text-editor-tab: var(--text-secondary);
+    --text-editor-tab-hover: var(--text-primary);
+    --text-editor-tab-active: var(--accent-600);
+    --border-editor-tab-active: var(--accent-500);
+    
+    /* ===== EDITOR TYPOGRAPHY TOKENS ===== */
+    --text-editor-topbar-title: var(--foundation-text-lg);
+    --text-editor-panel-title: var(--foundation-text-xl);
+    --text-editor-panel-subtitle: var(--foundation-text-sm);
+    --text-editor-section-title: var(--foundation-text-base);
+    --text-editor-section-description: var(--foundation-text-sm);
+    --text-editor-tab: var(--foundation-text-sm);
+    --text-editor-button: var(--foundation-text-sm);
+    
+    /* ===== EDITOR BUTTON TOKENS ===== */
+    --surface-editor-button-primary: var(--accent-600);
+    --surface-editor-button-primary-hover: var(--accent-700);
+    --surface-editor-button-secondary: var(--surface-page);
+    --surface-editor-button-secondary-hover: var(--surface-hover);
+    --surface-editor-button-ghost: transparent;
+    --surface-editor-button-ghost-hover: var(--surface-hover);
+    --text-editor-button-primary: var(--primary-white);
+    --text-editor-button-secondary: var(--text-primary);
+    --text-editor-button-ghost: var(--text-secondary);
+    --border-editor-button-secondary: var(--border-primary);
+}

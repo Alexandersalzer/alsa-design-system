@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import { Button } from '../../primitives/Button';
-import { TextLink } from '../../primitives/TextLink';
-import { Cluster } from '../../../layout/utilities/cluster';
+import { Button } from '../../../primitives/Button';
+import { TextLink } from '../../../primitives/TextLink';
+import { Cluster } from '../../../../layout/utilities/cluster';
 
 // ===== NAV LINK COMPONENT =====
 export interface NavLinkProps {
@@ -11,7 +11,7 @@ export interface NavLinkProps {
   className?: string;
   isActive?: boolean;
   onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'danger';
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
@@ -47,7 +47,7 @@ export interface NavMenuItem {
   label: string;
   slug?: string;
   isActive?: boolean;
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'danger';
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   rightIcon?: React.ReactNode;
   leftIcon?: React.ReactNode;
@@ -63,7 +63,7 @@ export interface NavMenuProps {
   wrap?: boolean;
   className?: string;
   onLinkClick?: (item: NavMenuItem) => void;
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'danger';
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 

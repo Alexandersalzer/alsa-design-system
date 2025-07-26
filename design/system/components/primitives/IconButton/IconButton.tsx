@@ -1,20 +1,18 @@
 // ===============================================
 // src/design-system/components/primitives/IconButton/IconButton.tsx
-// FIXED - Proper imports and Icon component usage
+// RESTRUCTURED - Now matches Button component pattern exactly
 // ===============================================
 
 import React, { forwardRef } from 'react';
 import { cn } from '../../../lib/utils';
-// Import your existing Icons from the design system
-import { Icons } from '../Icon';
 
 export interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
-  /** The icon element to render */
+  /** The icon element to render - should be Icon component with heroicon */
   icon: React.ReactNode;
-  /** Button style variant */
-  variant?: 'default' | 'ghost' | 'accent' | 'danger' | 'navigation' | 'subtle';
-  /** Button size */
-  size?: 'sm' | 'md' | 'lg';
+  /** Button style variant - matches Button component exactly */
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
+  /** Button size - matches Button component exactly */
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   /** Badge for notifications */
   badge?: number | string;
   /** Required accessibility label */
@@ -27,8 +25,8 @@ export interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
   icon,
-  variant = 'default',
-  size = 'md',
+  variant = 'secondary', // Default to secondary like ghost buttons
+  size = 'lg',
   badge,
   active = false,
   loading = false,
@@ -39,7 +37,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
 }, ref) => {
   const isDisabled = disabled || loading;
 
-  // Build classes systematically
+  // Build classes using the same pattern as Button component
   const buttonClasses = cn(
     'icon-btn',
     `icon-btn--${variant}`,
@@ -58,10 +56,29 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
       type="button"
       {...props}
     >
-      {/* Loading spinner */}
+      {/* Loading Spinner - matches Button component */}
       {loading && (
         <div className="icon-btn__spinner">
-          <div className="loading-spinner loading-spinner--small" />
+          <svg
+            className="h-4 w-4 animate-spin"
+            fill="none"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
         </div>
       )}
 
@@ -82,181 +99,212 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
 
 IconButton.displayName = 'IconButton';
 
-// ===============================================
-// SMART ICON BUTTON BUILDERS
-// Using your existing Icons system!
-// ===============================================
-
+// ===== SMART ICON BUTTON COMPONENTS =====
 interface SmartIconButtonProps extends Omit<IconButtonProps, 'icon' | 'aria-label'> {
-  /** Optional override for aria-label */
   'aria-label'?: string;
 }
 
-export const IconButtons = {
-  // ===== USING YOUR EXISTING ICONS =====
-  More: ({ 'aria-label': label = 'More options', variant = 'ghost', ...props }: SmartIconButtonProps = {}) => (
-    <IconButton
-      icon={<Icons.Action.MoreVertical />}
-      variant={variant}
-      aria-label={label}
-      {...props}
-    />
-  ),
-
-  Edit: ({ 'aria-label': label = 'Edit', variant = 'ghost', ...props }: SmartIconButtonProps = {}) => (
-    <IconButton
-      icon={<Icons.Action.Edit />}
-      variant={variant}
-      aria-label={label}
-      {...props}
-    />
-  ),
-
-  Delete: ({ 'aria-label': label = 'Delete', variant = 'danger', ...props }: SmartIconButtonProps = {}) => (
-    <IconButton
-      icon={<Icons.Action.Delete />}
-      variant={variant}
-      aria-label={label}
-      {...props}
-    />
-  ),
-
-  Close: ({ 'aria-label': label = 'Close', variant = 'ghost', ...props }: SmartIconButtonProps = {}) => (
-    <IconButton
-      icon={<Icons.Action.Close />}
-      variant={variant}
-      aria-label={label}
-      {...props}
-    />
-  ),
-
-  Help: ({ 'aria-label': label = 'Help', variant = 'ghost', ...props }: SmartIconButtonProps = {}) => (
-    <IconButton
-      icon={<Icons.Action.Help />}
-      variant={variant}
-      aria-label={label}
-      {...props}
-    />
-  ),
-
-  ExternalLink: ({ 'aria-label': label = 'Open in new tab', variant = 'ghost', ...props }: SmartIconButtonProps = {}) => (
-    <IconButton
-      icon={<Icons.Action.ExternalLink />}
-      variant={variant}
-      aria-label={label}
-      {...props}
-    />
-  ),
-
-  // ===== COMMON ACTIONS =====
-  Add: ({ 'aria-label': label = 'Add', variant = 'accent', ...props }: SmartIconButtonProps = {}) => (
-    <IconButton
-      icon={<Icons.Action.Plus />}
-      variant={variant}
-      aria-label={label}
-      {...props}
-    />
-  ),
-
-  Search: ({ 'aria-label': label = 'Search', variant = 'ghost', ...props }: SmartIconButtonProps = {}) => (
-    <IconButton
-      icon={<Icons.Action.Search />}
-      variant={variant}
-      aria-label={label}
-      {...props}
-    />
-  ),
-
-  Bell: ({ 'aria-label': label = 'Notifications', variant = 'ghost', badge, ...props }: SmartIconButtonProps & { badge?: number | string } = {}) => (
-    <IconButton
-      icon={<Icons.Action.Bell />}
-      variant={variant}
-      aria-label={label}
-      badge={badge}
-      {...props}
-    />
-  ),
-
-  // ===== NAVIGATION HELPERS =====
-  Navigation: {
-    Home: (active = false, props: Omit<SmartIconButtonProps, 'aria-label'> = {}) => (
-      <IconButton
-        icon={active ? <Icons.Nav.HomeActive /> : <Icons.Nav.Home />}
-        variant="navigation"
-        active={active}
-        aria-label="Home"
-        {...props}
-      />
-    ),
-    
-    Website: (active = false, props: Omit<SmartIconButtonProps, 'aria-label'> = {}) => (
-      <IconButton
-        icon={active ? <Icons.Nav.WebsiteActive /> : <Icons.Nav.Website />}
-        variant="navigation"
-        active={active}
-        aria-label="Website"
-        {...props}
-      />
-    ),
-    
-    Chat: (active = false, props: Omit<SmartIconButtonProps, 'aria-label'> = {}) => (
-      <IconButton
-        icon={active ? <Icons.Nav.ChatActive /> : <Icons.Nav.Chat />}
-        variant="navigation"
-        active={active}
-        aria-label="Chat"
-        {...props}
-      />
-    ),
-    
-    Features: (active = false, props: Omit<SmartIconButtonProps, 'aria-label'> = {}) => (
-      <IconButton
-        icon={active ? <Icons.Nav.FeaturesActive /> : <Icons.Nav.Features />}
-        variant="navigation"
-        active={active}
-        aria-label="Features"
-        {...props}
-      />
-    ),
-    
-    Domain: (active = false, props: Omit<SmartIconButtonProps, 'aria-label'> = {}) => (
-      <IconButton
-        icon={active ? <Icons.Nav.DomainActive /> : <Icons.Nav.Domain />}
-        variant="navigation"
-        active={active}
-        aria-label="Domain"
-        {...props}
-      />
-    )
-  }
+const createActionIcon = (iconComponent: React.ComponentType, props?: any) => {
+  const { Icon } = require('../Icon/Icon');
+  return React.createElement(Icon, {
+    size: 'md', // Consistent with button sizes
+    color: 'primary',
+    weight: 'medium',
+    ...props
+  }, React.createElement(iconComponent));
 };
 
-// ===============================================
-// USAGE EXAMPLES
-// ===============================================
+export const IconButtons = {
+  More: ({ 'aria-label': label = 'More options', variant = 'ghost', ...props }: SmartIconButtonProps = {}) => {
+    const { EllipsisHorizontalIcon } = require('@heroicons/react/24/outline');
+    
+    return React.createElement(IconButton, {
+      icon: createActionIcon(EllipsisHorizontalIcon),
+      variant,
+      'aria-label': label,
+      ...props
+    });
+  },
 
-/*
+  Edit: ({ 'aria-label': label = 'Edit', variant = 'ghost', ...props }: SmartIconButtonProps = {}) => {
+    const { PencilIcon } = require('@heroicons/react/24/outline');
+    
+    return React.createElement(IconButton, {
+      icon: createActionIcon(PencilIcon),
+      variant,
+      'aria-label': label,
+      ...props
+    });
+  },
 
-// ✅ Clean semantic usage
-<IconButtons.More onClick={toggleMenu} />
-<IconButtons.Edit onClick={handleEdit} />
-<IconButtons.Delete onClick={handleDelete} />
-<IconButtons.Bell badge={3} onClick={showNotifications} />
+  Delete: ({ 'aria-label': label = 'Delete', variant = 'destructive', ...props }: SmartIconButtonProps = {}) => {
+    const { TrashIcon } = require('@heroicons/react/24/outline');
+    
+    return React.createElement(IconButton, {
+      icon: createActionIcon(TrashIcon),
+      variant,
+      'aria-label': label,
+      ...props
+    });
+  },
 
-// ✅ Navigation with active states
-<IconButtons.Navigation.Home active={isHomeActive} />
-<IconButtons.Navigation.Website active={isWebsiteActive} />
+  Close: ({ 'aria-label': label = 'Close', variant = 'ghost', ...props }: SmartIconButtonProps = {}) => {
+    const { XMarkIcon } = require('@heroicons/react/24/outline');
+    
+    return React.createElement(IconButton, {
+      icon: createActionIcon(XMarkIcon),
+      variant,
+      'aria-label': label,
+      ...props
+    });
+  },
 
-// ✅ Custom variants
-<IconButtons.Add variant="accent" size="lg" />
-<IconButtons.More variant="subtle" size="sm" />
+  Add: ({ 'aria-label': label = 'Add', variant = 'accent', ...props }: SmartIconButtonProps = {}) => {
+    const { PlusIcon } = require('@heroicons/react/24/outline');
+    
+    return React.createElement(IconButton, {
+      icon: createActionIcon(PlusIcon),
+      variant,
+      'aria-label': label,
+      ...props
+    });
+  },
 
-// ✅ Still flexible for unique cases
-<IconButton
-  icon={<Icons.Action.CustomIcon />}
-  variant="accent"
-  aria-label="Custom action"
-  onClick={handleCustom}
-/>
+  Search: ({ 'aria-label': label = 'Search', variant = 'ghost', ...props }: SmartIconButtonProps = {}) => {
+    const { MagnifyingGlassIcon } = require('@heroicons/react/24/outline');
+    
+    return React.createElement(IconButton, {
+      icon: createActionIcon(MagnifyingGlassIcon),
+      variant,
+      'aria-label': label,
+      ...props
+    });
+  },
 
-*/
+  Bell: ({ 'aria-label': label = 'Notifications', variant = 'ghost', ...props }: SmartIconButtonProps = {}) => {
+    const { BellIcon } = require('@heroicons/react/24/outline');
+    
+    return React.createElement(IconButton, {
+      icon: createActionIcon(BellIcon),
+      variant,
+      'aria-label': label,
+      ...props
+    });
+  },
+
+  Help: ({ 'aria-label': label = 'Help', variant = 'ghost', ...props }: SmartIconButtonProps = {}) => {
+    const { QuestionMarkCircleIcon } = require('@heroicons/react/24/outline');
+    
+    return React.createElement(IconButton, {
+      icon: createActionIcon(QuestionMarkCircleIcon),
+      variant,
+      'aria-label': label,
+      ...props
+    });
+  },
+
+  // Navigation helpers - special case with navigation variant
+  Navigation: {
+    Home: (active = false, additionalProps: Omit<SmartIconButtonProps, 'aria-label'> = {}) => {
+      const { HomeIcon } = require('@heroicons/react/24/outline');
+      const { Icon } = require('../Icon/Icon');
+      
+      return React.createElement(IconButton, {
+        icon: React.createElement(Icon, {
+          size: 'md',
+          color: active ? 'nav-item-selected' : 'nav-item',
+          weight: 'medium'
+        }, React.createElement(HomeIcon)),
+        variant: 'ghost', // Navigation uses ghost variant
+        active,
+        'aria-label': 'Home',
+        ...additionalProps
+      });
+    },
+    
+    Website: (active = false, additionalProps: Omit<SmartIconButtonProps, 'aria-label'> = {}) => {
+      const { GlobeAltIcon } = require('@heroicons/react/24/outline');
+      const { Icon } = require('../Icon/Icon');
+      
+      return React.createElement(IconButton, {
+        icon: React.createElement(Icon, {
+          size: 'md',
+          color: active ? 'nav-item-selected' : 'nav-item',
+          weight: 'medium'
+        }, React.createElement(GlobeAltIcon)),
+        variant: 'ghost',
+        active,
+        'aria-label': 'Website',
+        ...additionalProps
+      });
+    },
+    
+    Chat: (active = false, additionalProps: Omit<SmartIconButtonProps, 'aria-label'> = {}) => {
+      const { ChatBubbleLeftRightIcon } = require('@heroicons/react/24/outline');
+      const { Icon } = require('../Icon/Icon');
+      
+      return React.createElement(IconButton, {
+        icon: React.createElement(Icon, {
+          size: 'md',
+          color: active ? 'nav-item-selected' : 'nav-item',
+          weight: 'medium'
+        }, React.createElement(ChatBubbleLeftRightIcon)),
+        variant: 'ghost',
+        active,
+        'aria-label': 'Chat',
+        ...additionalProps
+      });
+    },
+    
+    Features: (active = false, additionalProps: Omit<SmartIconButtonProps, 'aria-label'> = {}) => {
+      const { RocketLaunchIcon } = require('@heroicons/react/24/outline');
+      const { Icon } = require('../Icon/Icon');
+      
+      return React.createElement(IconButton, {
+        icon: React.createElement(Icon, {
+          size: 'md',
+          color: active ? 'nav-item-selected' : 'nav-item',
+          weight: 'medium'
+        }, React.createElement(RocketLaunchIcon)),
+        variant: 'ghost',
+        active,
+        'aria-label': 'Features',
+        ...additionalProps
+      });
+    },
+    
+    Domain: (active = false, additionalProps: Omit<SmartIconButtonProps, 'aria-label'> = {}) => {
+      const { GlobeAltIcon } = require('@heroicons/react/24/outline');
+      const { Icon } = require('../Icon/Icon');
+      
+      return React.createElement(IconButton, {
+        icon: React.createElement(Icon, {
+          size: 'md',
+          color: active ? 'nav-item-selected' : 'nav-item',
+          weight: 'medium'
+        }, React.createElement(GlobeAltIcon)),
+        variant: 'ghost',
+        active,
+        'aria-label': 'Domain',
+        ...additionalProps
+      });
+    },
+    
+    History: (active = false, additionalProps: Omit<SmartIconButtonProps, 'aria-label'> = {}) => {
+      const { ClockIcon } = require('@heroicons/react/24/outline');
+      const { Icon } = require('../Icon/Icon');
+      
+      return React.createElement(IconButton, {
+        icon: React.createElement(Icon, {
+          size: 'md',
+          color: active ? 'nav-item-selected' : 'nav-item',
+          weight: 'medium'
+        }, React.createElement(ClockIcon)),
+        variant: 'ghost',
+        active,
+        'aria-label': 'History',
+        ...additionalProps
+      });
+    }
+  }
+};

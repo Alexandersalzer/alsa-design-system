@@ -1,0 +1,277 @@
+/* ==============================================
+   src/design-system/components/patterns/auth/AuthField.css
+   AUTH FIELD PATTERN STYLES
+   ============================================== */
+
+/* ===== MAIN AUTH FIELD CONTAINER ===== */
+.auth-field {
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-2);
+  width: 100%;
+  
+  /* State-specific styling */
+  &.auth-field--error {
+    /* Enhanced error state for the entire field */
+  }
+  
+  &.auth-field--success {
+    /* Success state styling */
+  }
+}
+
+/* ===== FIELD LABEL ===== */
+.auth-field-label {
+  /* Label positioning and cursor */
+  display: block;
+  cursor: pointer;
+  
+  /* Ensure proper label spacing */
+  margin-bottom: var(--foundation-space-1);
+  
+  /* Typography handled by Typography component */
+  
+  /* Focus enhancement */
+  &:focus-within {
+    /* Visual indicator when field has focus */
+  }
+}
+
+.auth-field-required {
+  /* Required indicator styling */
+  color: var(--text-error);
+  margin-left: var(--foundation-space-1);
+  font-weight: var(--typography-label-md-weight);
+}
+
+.auth-field-optional {
+  /* Optional indicator styling */
+  color: var(--text-tertiary);
+  margin-left: var(--foundation-space-1);
+  font-weight: var(--typography-body-sm-weight);
+  font-size: var(--typography-body-sm-size);
+}
+
+/* ===== ENHANCED INPUT STYLING FOR CLEAN DESIGN ===== */
+.auth-field-input {
+  /* Beautiful input styling for cardless auth */
+  min-height: 56px; /* Larger, more premium feel */
+  border-radius: var(--foundation-radius-xl); /* Very rounded */
+  border: 2px solid var(--secondary-200);
+  background: var(--primary-white);
+  padding: var(--foundation-space-4) var(--foundation-space-5);
+  font-size: var(--foundation-size-base);
+  font-weight: var(--foundation-weight-medium);
+  
+  /* FORCE consistent font family for ALL inputs */
+  font-family: var(--foundation-font-primary) !important;
+  
+  /* Beautiful focus states */
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+  
+  &:focus {
+    outline: none;
+    border-color: var(--primary-600);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    transform: translateY(-1px);
+  }
+  
+  &::placeholder {
+    color: var(--secondary-400);
+    font-weight: var(--foundation-weight-regular);
+  }
+  
+  /* Error state for auth fields */
+  &[aria-invalid="true"] {
+    border-color: var(--error-500);
+    
+    &:focus {
+      border-color: var(--error-500);
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+    }
+  }
+  
+  /* Success state */
+  .auth-field--success & {
+    border-color: var(--success-500);
+    
+    &:focus {
+      border-color: var(--success-500);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1);
+    }
+  }
+}
+
+/* ===== ERROR MESSAGE ===== */
+.auth-field-error {
+  /* Error message styling */
+  display: flex;
+  align-items: flex-start;
+  gap: var(--foundation-space-1);
+  
+  /* Animation for error appearance */
+  animation: auth-field-error-fade-in var(--foundation-duration-standard) var(--foundation-easing-enter);
+  
+  /* Typography handled by Typography component */
+  
+  /* Ensure error message is prominent */
+  margin-top: var(--foundation-space-1);
+  
+  /* Icon space (if we add error icons later) */
+  &::before {
+    content: '';
+    /* Reserved space for error icon */
+  }
+}
+
+/* ===== HELP TEXT ===== */
+.auth-field-help {
+  /* Help text styling */
+  margin-top: var(--foundation-space-1);
+  
+  /* Typography handled by Typography component */
+  
+  /* Subtle styling for help text */
+  line-height: var(--typography-body-sm-line-height);
+}
+
+/* ===== FIELD GROUPING (when multiple fields are together) ===== */
+.auth-form-fields .auth-field {
+  /* Enhanced spacing within form context */
+  
+  /* Consistent field spacing */
+  &:not(:last-child) {
+    margin-bottom: var(--foundation-space-1);
+  }
+  
+  /* Focus enhancement within forms */
+  &:focus-within {
+    /* Optional: subtle highlight for focused field */
+  }
+}
+
+/* ===== VALIDATION STATE ENHANCEMENTS ===== */
+.auth-field--error {
+  /* Subtle field-level error indication */
+  
+  .auth-field-label {
+    /* Error state label styling */
+    color: var(--text-error);
+  }
+}
+
+.auth-field--success {
+  /* Success state field styling */
+  
+  .auth-field-label {
+    /* Success state label styling */
+    color: var(--text-success);
+  }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes auth-field-error-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== RESPONSIVE BEHAVIOR ===== */
+@media (max-width: 480px) {
+  .auth-field-input {
+    /* Larger touch targets on mobile */
+    min-height: 52px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  .auth-field {
+    /* Adjust spacing on mobile */
+    gap: var(--foundation-space-1);
+  }
+  
+  .auth-field-error,
+  .auth-field-help {
+    /* Tighter spacing on mobile */
+    margin-top: var(--foundation-space-1);
+  }
+}
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+.auth-field-label {
+  /* Ensure labels are properly associated */
+  /* This is handled by the for/id relationship in the component */
+}
+
+.auth-field-error {
+  /* Ensure error messages are announced by screen readers */
+  /* This is handled by role="alert" in the component */
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .auth-field-required {
+    font-weight: bold;
+  }
+  
+  .auth-field-error {
+    border-left: 3px solid var(--border-error);
+    padding-left: var(--foundation-space-2);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .auth-field-error {
+    animation: none;
+  }
+  
+  .auth-field-input {
+    transition: none;
+  }
+}
+
+/* ===== FOCUS MANAGEMENT ===== */
+.auth-field {
+  /* Enhanced focus indicators for keyboard navigation */
+  
+  &:focus-within .auth-field-label {
+    /* Subtle label enhancement when field is focused */
+    color: var(--text-accent);
+  }
+}
+
+/* ===== PASSWORD FIELD SPECIFIC STYLING ===== */
+.auth-field input[type="password"] {
+  /* FORCE the same font as other fields - NO monospace! */
+  font-family: var(--foundation-font-primary) !important;
+  letter-spacing: normal !important;
+  
+  &::placeholder {
+    font-family: var(--foundation-font-primary) !important;
+    letter-spacing: normal !important;
+  }
+}
+
+/* ===== USERNAME FIELD SPECIFIC STYLING ===== */
+.auth-field input[type="text"] {
+  /* FORCE the same font family */
+  font-family: var(--foundation-font-primary) !important;
+  letter-spacing: normal !important;
+  
+  &::placeholder {
+    font-family: var(--foundation-font-primary) !important;
+    letter-spacing: normal !important;
+  }
+}
+
+/* ===== EMAIL FIELD SPECIFIC STYLING ===== */
+.auth-field input[type="email"] {
+  /* Email field enhancements */
+  /* Could add email validation styling here */
+}

@@ -1,10 +1,10 @@
 'use client';
 
-import { Picker } from '../../../../system/components/primitives/Picker';
-import { Typography } from '../../../../system/components/primitives/Typography';
-import { Stack } from '../../../../system/layout/utilities/stack/Stack';
-import { Cluster } from '../../../../system/layout/utilities/cluster/Cluster';
-import { Rhythm, RhythmItem } from '../../../../system/layout/utilities/rhythm/Rhythm';
+import { Picker } from '../../../../../system/components/primitives/Picker';
+import { Typography } from '../../../../../system/components/primitives/Typography';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { Rhythm, RhythmItem } from '../../../../../system/layout/utilities/rhythm/Rhythm';
 import { useState } from 'react';
 
 const KjFooter = () => {

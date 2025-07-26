@@ -1,0 +1,190 @@
+/* ===============================================
+   src/design-system/components/patterns/page/LayoutUtilities.css
+   STACK, CLUSTER, AND OTHER LAYOUT UTILITIES
+   =============================================== */
+
+/* ===== STACK COMPONENT ===== */
+.stack {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Stack spacing variants */
+.stack--spacing-xs > * + * {
+  margin-top: var(--foundation-space-1); /* 4px */
+}
+
+.stack--spacing-sm > * + * {
+  margin-top: var(--foundation-space-2); /* 8px */
+}
+
+.stack--spacing-md > * + * {
+  margin-top: var(--foundation-space-4); /* 16px */
+}
+
+.stack--spacing-lg > * + * {
+  margin-top: var(--foundation-space-6); /* 24px */
+}
+
+.stack--spacing-xl > * + * {
+  margin-top: var(--foundation-space-8); /* 32px */
+}
+
+.stack--spacing-2xl > * + * {
+  margin-top: var(--foundation-space-12); /* 48px */
+}
+
+/* Stack alignment */
+.stack--align-start {
+  align-items: flex-start;
+}
+
+.stack--align-center {
+  align-items: center;
+}
+
+.stack--align-end {
+  align-items: flex-end;
+}
+
+.stack--align-stretch {
+  align-items: stretch;
+}
+
+/* Stack split (push last item to bottom) */
+.stack--split {
+  min-height: 100%;
+}
+
+.stack--split > *:last-child {
+  margin-top: auto;
+}
+
+/* Stack responsive spacing collapse */
+@media (max-width: 767px) {
+  .stack--collapse-mobile.stack--spacing-lg > * + *,
+  .stack--collapse-mobile.stack--spacing-xl > * + *,
+  .stack--collapse-mobile.stack--spacing-2xl > * + * {
+    margin-top: var(--foundation-space-4);
+  }
+}
+
+@media (max-width: 1023px) {
+  .stack--collapse-tablet.stack--spacing-xl > * + *,
+  .stack--collapse-tablet.stack--spacing-2xl > * + * {
+    margin-top: var(--foundation-space-6);
+  }
+}
+
+/* ===== CLUSTER COMPONENT ===== */
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Cluster spacing variants */
+.cluster--spacing-xs {
+  gap: var(--foundation-space-1); /* 4px */
+}
+
+.cluster--spacing-sm {
+  gap: var(--foundation-space-2); /* 8px */
+}
+
+.cluster--spacing-md {
+  gap: var(--foundation-space-3); /* 12px */
+}
+
+.cluster--spacing-lg {
+  gap: var(--foundation-space-4); /* 16px */
+}
+
+.cluster--spacing-xl {
+  gap: var(--foundation-space-6); /* 24px */
+}
+
+/* Cluster alignment */
+.cluster--align-start {
+  align-items: flex-start;
+}
+
+.cluster--align-center {
+  align-items: center;
+}
+
+.cluster--align-end {
+  align-items: flex-end;
+}
+
+.cluster--align-baseline {
+  align-items: baseline;
+}
+
+/* Cluster justification */
+.cluster--justify-start {
+  justify-content: flex-start;
+}
+
+.cluster--justify-center {
+  justify-content: center;
+}
+
+.cluster--justify-end {
+  justify-content: flex-end;
+}
+
+.cluster--justify-between {
+  justify-content: space-between;
+}
+
+.cluster--justify-around {
+  justify-content: space-around;
+}
+
+.cluster--justify-evenly {
+  justify-content: space-evenly;
+}
+
+/* Cluster wrapping */
+.cluster--no-wrap {
+  flex-wrap: nowrap;
+}
+
+/* Cluster direction */
+.cluster--row-reverse {
+  flex-direction: row-reverse;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  .cluster {
+    /* Smaller gaps on mobile */
+  }
+  
+  .cluster--spacing-lg,
+  .cluster--spacing-xl {
+    gap: var(--foundation-space-3);
+  }
+}
+
+/* ===== UTILITY COMBINATIONS ===== */
+
+/* Common button clusters */
+.cluster.button-group {
+  /* Specific styling for button groups if needed */
+}
+
+/* Common form field clusters */
+.cluster.form-actions {
+  justify-content: flex-end;
+  margin-top: var(--foundation-space-4);
+}
+
+/* Navigation clusters */
+.cluster.nav-cluster {
+  /* Specific styling for navigation groups if needed */
+}

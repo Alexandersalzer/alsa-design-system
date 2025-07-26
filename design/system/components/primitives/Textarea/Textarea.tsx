@@ -119,7 +119,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     if (autoResize) {
       adjustHeight();
     }
-  }, [adjustHeight, value, defaultValue, autoResize]);
+  }, [adjustHeight, value, defaultValue]);
 
   // Build classes
   const wrapperClasses = cn(

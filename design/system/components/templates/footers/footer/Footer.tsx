@@ -2,7 +2,7 @@
 
 import { Section } from '../../../../../system/layout/frames/section';
 import { Container } from '../../../../../system/layout/frames/container';
-import { KjFooter } from '../../../../../system/components/patterns/kj-footer';
+import { KjFooter } from '../../../patterns';
 
 const Footer = () => {
   return (

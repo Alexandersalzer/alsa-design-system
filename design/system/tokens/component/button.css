@@ -1,40 +1,78 @@
-/* ==============================================
-   src/design-system/tokens/component/button.css
-   BUTTON COMPONENT TOKENS
-============================================== */
-
 :root {
-    
-  /* ===== Primary Button ===== */
-  --surface-button-primary: var(--primary-1000);
-  --surface-button-primary-hover: var(--primary-900);
-  --surface-button-primary-active: var(--primary-900);
-  --surface-button-primary-disabled: var(--secondary-200);
-  --text-button-primary: var(--primary-white);
-  --text-button-primary-disabled: var(--secondary-400);
-  --border-button-primary: var(--primary-1000);
-  --border-button-primary-focus: var(--accent-800);
   
-  /* ===== Secondary Button ===== */
-  --surface-button-secondary: var(--secondary-100);
-  --surface-button-secondary-hover: var(--secondary-200);
-  --surface-button-secondary-active: var(--secondary-200);
-  --surface-button-secondary-disabled: transparent;
-  --text-button-secondary: var(--primary-1000);
-  --text-button-secondary-disabled: var(--secondary-400);
+  /* ===== SEMANTIC INTERACTIVE COLORS ===== */
+  /* Primary interactions */
+  --interactive-primary: var(--primary-900);                   /* Primary buttons/actions */
+  --interactive-primary-hover: var(--primary-800);             /* Primary hover */
+  --interactive-primary-active: var(--primary-700);            /* Primary active/pressed */
+  --interactive-primary-disabled: var(--secondary-200);       /* Primary disabled */
+  
+  /* Secondary interactions */
+  --interactive-secondary: var(--secondary-100);              /* Secondary buttons */
+  --interactive-secondary-hover: var(--secondary-200);        /* Secondary hover */
+  --interactive-secondary-active: var(--secondary-300);       /* Secondary active */
+  --interactive-secondary-disabled: var(--secondary-50);      /* Secondary disabled */
+
+  /* Tertiary/Ghost interactions */
+  --interactive-accent: var(--accent-600);                       /* Ghost button background */
+  --interactive-accent-hover: var(--accent-700);          /* Ghost hover */
+  --interactive-accent-active: var(--accent-700);
+  
+  /* Tertiary/Ghost interactions */
+  --interactive-tertiary: transparent;                        /* Ghost button background */
+  --interactive-tertiary-hover: var(--secondary-50);          /* Ghost hover */
+  --interactive-tertiary-active: var(--secondary-100);        /* Ghost active */
+  
+  /* Destructive interactions */
+  --interactive-destructive: var(--error-500);                /* Destructive actions */
+  --interactive-destructive-hover: var(--error-600);          /* Destructive hover */
+  --interactive-destructive-active: var(--error-700);         /* Destructive active */
+  
+  /* Success interactions */
+  --interactive-success: var(--success-500);                  /* Success actions */
+  --interactive-success-hover: var(--success-600);            /* Success hover */
+  --interactive-success-active: var(--success-700);           /* Success active */
+  
+  /* Warning interactions */
+  --interactive-warning: var(--warning-500);                  /* Warning actions */
+  --interactive-warning-hover: var(--warning-600);            /* Warning hover */
+  --interactive-warning-active: var(--warning-700);           /* Warning active */
+
+  /* Primary Button */
+  --surface-button-primary: var(--interactive-primary);
+  --surface-button-primary-hover: var(--interactive-primary-hover);
+  --surface-button-primary-active: var(--interactive-primary-active);
+  --surface-button-primary-disabled: var(--interactive-primary-disabled);
+  --text-button-primary: var(--text-inverse);
+  --text-button-primary-disabled: var(--text-disabled);
+  --border-button-primary: var(--interactive-primary);
+  --border-button-primary-focus: var(--border-focus);
+
+  /* Secondary Button */
+  --surface-button-secondary: var(--interactive-secondary);
+  --surface-button-secondary-hover: var(--interactive-secondary-hover);
+  --surface-button-secondary-active: var(--interactive-secondary-active);
+  --surface-button-secondary-disabled: var(--interactive-secondary-disabled);
+  --text-button-secondary: var(--text-primary);
+  --text-button-secondary-disabled: var(--text-disabled);
   --border-button-secondary: var(--secondary-100);
   --border-button-secondary-hover: var(--secondary-200);
-  --border-button-secondary-focus: var(--accent-500);
-  --border-button-secondary-disabled: var(--secondary-100);
-  
-  /* ===== Accent Button ===== */
-  --surface-button-accent: var(--accent-500);
-  --surface-button-accent-hover: var(--accent-500);
-  --surface-button-accent-active: var(--accent-700);
-  --surface-button-accent-disabled: var(--secondary-200);
-  --text-button-accent: var(--primary-white);
-  --text-button-accent-disabled: var(--secondary-400);
-  --border-button-accent: var(--accent-500);
-  --border-button-accent-focus: var(--accent-500);
+  --border-button-secondary-focus: var(--border-focus);
+  --border-button-secondary-disabled: var(--border-disabled);
 
+  /* Accent Button */
+  --surface-button-accent: var(--interactive-accent);
+  --surface-button-accent-hover: var(--interactive-accent-hover);
+  --surface-button-accent-active: var(--interactive-accent-active);
+  --surface-button-accent-disabled: var(--interactive-primary-disabled);
+  --text-button-accent: var(--text-inverse);
+  --text-button-accent-disabled: var(--text-disabled);
+  --border-button-accent: var(--interactive-accent);
+  --border-button-accent-focus: var(--border-focus);
+
+  /* Ghost Button */
+  --surface-button-ghost: var(--interactive-tertiary);
+  --surface-button-ghost-hover: var(--interactive-tertiary-hover);
+  --surface-button-ghost-active: var(--interactive-tertiary-active);
+  --text-button-ghost: var(--text-secondary);
 }

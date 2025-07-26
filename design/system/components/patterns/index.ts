@@ -1,6 +1,3 @@
-export * from './navigation';
-
-export * from './EmptyState';
-export * from './RichText';
-export * from './kj-footer';
-// Auth patterns (NEW - Phase 1)
+export * from './client';
+export * from './dashboard';
+export * from './shared'

@@ -1,0 +1,119 @@
+/* ===============================================
+   src/design-system/components/patterns/page/Cluster.css
+   CLUSTER COMPONENT STYLES - Horizontal grouping with wrapping
+   =============================================== */
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--foundation-space-4); /* Default md spacing */
+}
+
+/* ===== SPACING VARIANTS ===== */
+.cluster--spacing-xs {
+  gap: var(--foundation-space-1); /* 4px */
+}
+
+.cluster--spacing-sm {
+  gap: var(--foundation-space-2); /* 8px */
+}
+
+.cluster--spacing-md {
+  gap: var(--foundation-space-4); /* 16px */
+}
+
+.cluster--spacing-lg {
+  gap: var(--foundation-space-6); /* 24px */
+}
+
+.cluster--spacing-xl {
+  gap: var(--foundation-space-8); /* 32px */
+}
+
+/* ===== ALIGNMENT VARIANTS ===== */
+.cluster--align-start {
+  align-items: flex-start;
+}
+
+.cluster--align-center {
+  align-items: center;
+}
+
+.cluster--align-end {
+  align-items: flex-end;
+}
+
+.cluster--align-baseline {
+  align-items: baseline;
+}
+
+/* ===== JUSTIFY VARIANTS ===== */
+.cluster--justify-start {
+  justify-content: flex-start;
+}
+
+.cluster--justify-center {
+  justify-content: center;
+}
+
+.cluster--justify-end {
+  justify-content: flex-end;
+}
+
+.cluster--justify-between {
+  justify-content: space-between;
+}
+
+.cluster--justify-around {
+  justify-content: space-around;
+}
+
+.cluster--justify-evenly {
+  justify-content: space-evenly;
+}
+
+/* ===== WRAP VARIANTS ===== */
+.cluster--no-wrap {
+  flex-wrap: nowrap;
+}
+
+/* ===== DIRECTION VARIANTS ===== */
+.cluster--row-reverse {
+  flex-direction: row-reverse;
+}
+
+/* ===== RESPONSIVE BEHAVIOR ===== */
+@media (max-width: 768px) {
+  .cluster {
+    gap: var(--foundation-space-3); /* Slightly smaller gap on mobile */
+  }
+  
+  .cluster--spacing-xs {
+    gap: var(--foundation-space-1);
+  }
+  
+  .cluster--spacing-sm {
+    gap: var(--foundation-space-2);
+  }
+  
+  .cluster--spacing-md {
+    gap: var(--foundation-space-3);
+  }
+  
+  .cluster--spacing-lg {
+    gap: var(--foundation-space-4);
+  }
+  
+  .cluster--spacing-xl {
+    gap: var(--foundation-space-6);
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .cluster {
+    transition: none;
+  }
+} 

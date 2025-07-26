@@ -1,18 +1,16 @@
 // ===============================================
-// src/design-system/components/primitives/Button/Button.tsx
-// ENHANCED - Now uses Typography system with correct button colors!
+// design/system/components/primitives/Button/Button.tsx
+// ENHANCED - Now with radius prop support!
 // ===============================================
 
 import React, { forwardRef, ReactNode } from 'react';
 import { cn } from '../../../lib/utils';
-import { Label, TypographyColor, TypographyWeight } from '../../../../system/components/primitives/Typography';
-import './Button.css';
+import { Label, TypographyColor, TypographyWeight } from '../Typography';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'danger';
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg' | 'xl';
-  radius?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
   loading?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
@@ -22,7 +20,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   className,
   variant = 'primary',
   size = 'md',
-  radius = 'md',
   children,
   loading = false,
   leftIcon,
@@ -70,8 +67,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
           return 'button-accent';     // Uses --text-button-accent (white)
         case 'ghost':
           return 'secondary';         // Uses --text-secondary (gray) for ghost buttons
-        case 'danger':
-          return 'error';             // Uses --error-500 for danger buttons
+        case 'destructive':
+          return 'error';             // Uses --error-500 for destructive buttons
         default:
           return 'button-primary';
       }
@@ -94,7 +91,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     'btn',
     `btn-${variant}`,
     `btn-${size}`,
-    `btn-radius-${radius}`,
     className
   );
 
@@ -183,8 +179,8 @@ export default Button;
 <Button variant="ghost">Learn More</Button>
 // Typography color: 'secondary' → --text-secondary → gray text
 
-// ✅ DANGER BUTTON
-<Button variant="danger">Delete</Button>
+// ✅ destructive BUTTON
+<Button variant="destructive">Delete</Button>
 // Typography color: 'error' → --error-500 → red text
 
 // ✅ DISABLED BUTTON (any variant)

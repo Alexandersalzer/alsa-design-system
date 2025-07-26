@@ -1,8 +1,7 @@
-/**
- * Typography Component
- * 
- * A flexible typography component that supports multiple variants, colors, and weights.
- */
+// ===============================================
+// src/design-system/components/primitives/Typography/Typography.tsx
+// COMPLETE TYPOGRAPHY SYSTEM WITH SIMPLE H1-H6 COMPONENTS
+// ===============================================
 
 import React, { ReactNode, ElementType, forwardRef } from 'react';
 import { cn } from '../../../lib/utils';
@@ -246,23 +245,6 @@ Typography.displayName = 'Typography';
 
 // ===== CONVENIENCE COMPONENTS =====
 
-export interface HeadingProps extends Omit<TypographyOwnProps, 'variant'> {
-  level?: 1 | 2 | 3 | 4 | 5 | 6;
-}
-
-export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
-  ({ level = 1, color = 'heading', ...props }, ref) => (
-    <Typography
-      ref={ref}
-      variant={`h${level}` as TypographyVariant}
-      color={color}
-      {...props}
-    />
-  )
-);
-
-Heading.displayName = 'Heading';
-
 export interface DisplayProps extends Omit<TypographyOwnProps, 'variant'> {
   size?: 'xl' | 'lg' | 'md' | 'sm';
 }
@@ -280,7 +262,7 @@ export const Display = forwardRef<HTMLHeadingElement, DisplayProps>(
 
 Display.displayName = 'Display';
 
-export interface BodyProps extends Omit<TypographyOwnProps, 'variant'> {
+export interface BodyProps extends Omit<TypographyProps, 'variant'> {
   size?: 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 }
 
@@ -297,7 +279,7 @@ export const Body = forwardRef<HTMLParagraphElement, BodyProps>(
 
 Body.displayName = 'Body';
 
-export interface LabelProps extends Omit<TypographyOwnProps, 'variant'>, Omit<React.HTMLAttributes<HTMLElement>, keyof TypographyOwnProps> {
+export interface LabelProps extends Omit<TypographyProps, 'variant'> {
   size?: 'lg' | 'md' | 'sm' | 'xs';
 }
 
@@ -313,17 +295,6 @@ export const Label = forwardRef<HTMLSpanElement, LabelProps>(
 );
 
 Label.displayName = 'Label';
-
-// ===== ENHANCED NAVIGATION UTILITY =====
-export const createNavigationTypographyProps = (
-  isActive: boolean,
-  isDisabled: boolean,
-  size: 'sm' | 'md' | 'lg' = 'md'
-) => ({
-  size,
-  weight: (isActive ? 'semibold' : 'medium') as TypographyWeight,
-  color: (isDisabled ? 'nav-disabled' : isActive ? 'nav-selected' : 'nav-default') as TypographyColor
-});
 
 export interface CodeProps extends Omit<TypographyOwnProps, 'variant'> {
   size?: 'lg' | 'md' | 'sm';
@@ -342,76 +313,132 @@ export const Code = forwardRef<HTMLElement, CodeProps>(
 
 Code.displayName = 'Code';
 
-// ===== COMPOUND COMPONENTS FOR COMPLEX LAYOUTS =====
+// ===== SIMPLE H1-H6 HEADING COMPONENTS =====
 
-export interface TypographyGroupProps {
-  children: ReactNode;
-  spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  className?: string;
+interface BaseHeadingProps extends Omit<TypographyProps, 'variant' | 'as'> {
+  color?: TypographyColor;
+  weight?: TypographyWeight;
 }
 
-export const TypographyGroup: React.FC<TypographyGroupProps> = ({
-  children,
-  spacing = 'md',
-  className
-}) => (
-  <div className={cn(`typography-group typography-spacing-${spacing}`, className)}>
-    {children}
-  </div>
-);
+// ===== H1 COMPONENT =====
+export const H1 = forwardRef<HTMLHeadingElement, BaseHeadingProps>(({
+  color = 'heading',
+  weight = 'bold',
+  ...props
+}, ref) => (
+  <Typography
+    ref={ref}
+    as="h1"
+    variant="h1"
+    color={color}
+    weight={weight}
+    {...props}
+  />
+));
 
-// ===== HIGHER-ORDER COMPONENT FOR TYPOGRAPHY ENHANCEMENT =====
+H1.displayName = 'H1';
 
-export interface WithTypographyProps {
-  typography?: {
-    variant?: TypographyVariant;
-    weight?: TypographyWeight;
-    color?: TypographyColor;
-    className?: string;
-  };
-}
+// ===== H2 COMPONENT =====
+export const H2 = forwardRef<HTMLHeadingElement, BaseHeadingProps>(({
+  color = 'heading',
+  weight = 'semibold',
+  ...props
+}, ref) => (
+  <Typography
+    ref={ref}
+    as="h2"
+    variant="h2"
+    color={color}
+    weight={weight}
+    {...props}
+  />
+));
 
-export function withTypography<P extends Record<string, unknown>>(
-  Component: React.ComponentType<P>
-) {
-  const WrappedComponent = forwardRef<HTMLElement, P & WithTypographyProps>(
-    ({ typography, ...props }, ref) => {
-      if (!typography) {
-        return <Component ref={ref} {...(props as unknown as P)} />;
-      }
+H2.displayName = 'H2';
 
-      // At this point, typography is guaranteed to be defined
-      const typographyConfig = typography as NonNullable<WithTypographyProps['typography']>;
-      const typographyClasses = buildTypographyClasses({
-        variant: typographyConfig.variant,
-        weight: typographyConfig.weight,
-        color: typographyConfig.color,
-        className: typographyConfig.className,
-        children: null
-      });
+// ===== H3 COMPONENT =====
+export const H3 = forwardRef<HTMLHeadingElement, BaseHeadingProps>(({
+  color = 'heading',
+  weight = 'semibold',
+  ...props
+}, ref) => (
+  <Typography
+    ref={ref}
+    as="h3"
+    variant="h3"
+    color={color}
+    weight={weight}
+    {...props}
+  />
+));
 
-      const hasClassName = 'className' in props;
-      const combinedClassName = cn(
-        typographyClasses, 
-        hasClassName ? (props as { className?: string }).className : undefined
-      );
+H3.displayName = 'H3';
 
-      return (
-        <Component
-          ref={ref}
-          {...(props as unknown as P)}
-          className={combinedClassName}
-        />
-      );
-    }
-  );
+// ===== H4 COMPONENT =====
+export const H4 = forwardRef<HTMLHeadingElement, BaseHeadingProps>(({
+  color = 'heading',
+  weight = 'medium',
+  ...props
+}, ref) => (
+  <Typography
+    ref={ref}
+    as="h4"
+    variant="h4"
+    color={color}
+    weight={weight}
+    {...props}
+  />
+));
 
-  WrappedComponent.displayName = `withTypography(${Component.displayName || Component.name || 'Component'})`;
-  
-  return WrappedComponent;
-}
+H4.displayName = 'H4';
+
+// ===== H5 COMPONENT =====
+export const H5 = forwardRef<HTMLHeadingElement, BaseHeadingProps>(({
+  color = 'heading',
+  weight = 'medium',
+  ...props
+}, ref) => (
+  <Typography
+    ref={ref}
+    as="h5"
+    variant="h5"
+    color={color}
+    weight={weight}
+    {...props}
+  />
+));
+
+H5.displayName = 'H5';
+
+// ===== H6 COMPONENT =====
+export const H6 = forwardRef<HTMLHeadingElement, BaseHeadingProps>(({
+  color = 'heading',
+  weight = 'medium',
+  ...props
+}, ref) => (
+  <Typography
+    ref={ref}
+    as="h6"
+    variant="h6"
+    color={color}
+    weight={weight}
+    {...props}
+  />
+));
+
+H6.displayName = 'H6';
 
 // ===== UTILITY FUNCTIONS FOR OTHER COMPONENTS =====
+
+export const createNavigationTypographyProps = (
+  isActive: boolean,
+  isDisabled: boolean,
+  size: 'sm' | 'md' | 'lg' = 'md'
+) => ({
+  size,
+  weight: (isActive ? 'semibold' : 'medium') as TypographyWeight,
+  color: (isDisabled ? 'nav-disabled' : isActive ? 'nav-selected' : 'nav-default') as TypographyColor
+});
 
 export const createTypographyClasses = {
   button: (size: 'sm' | 'md' | 'lg') => 
@@ -491,6 +518,99 @@ export const createTabTypographyProps = (
   };
 };
 
+// ===== COMPOUND COMPONENTS FOR COMPLEX LAYOUTS =====
+
+export interface TypographyGroupProps {
+  children: ReactNode;
+  spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  className?: string;
+}
+
+export const TypographyGroup: React.FC<TypographyGroupProps> = ({
+  children,
+  spacing = 'md',
+  className
+}) => (
+  <div className={cn(`typography-group typography-spacing-${spacing}`, className)}>
+    {children}
+  </div>
+);
+
+// ===== HIGHER-ORDER COMPONENT FOR TYPOGRAPHY ENHANCEMENT =====
+
+export interface WithTypographyProps {
+  typography?: {
+    variant?: TypographyVariant;
+    weight?: TypographyWeight;
+    color?: TypographyColor;
+    className?: string;
+  };
+}
+
+export function withTypography<P extends Record<string, any>>(
+  Component: React.ComponentType<P>
+) {
+  const WrappedComponent = forwardRef<any, P & WithTypographyProps>(
+    ({ typography, ...props }, ref) => {
+      if (!typography) {
+        return <Component ref={ref} {...(props as unknown as P)} />;
+      }
+
+      const typographyClasses = buildTypographyClasses({
+        variant: typography.variant,
+        weight: typography.weight,
+        color: typography.color,
+        className: typography.className,
+        children: null
+      });
+
+      const combinedClassName = cn(
+        typographyClasses, 
+        (props as any).className
+      );
+
+      return (
+        <Component
+          ref={ref}
+          {...(props as unknown as P)}
+          className={combinedClassName}
+        />
+      );
+    }
+  );
+
+  WrappedComponent.displayName = `withTypography(${Component.displayName || Component.name || 'Component'})`;
+  
+  return WrappedComponent;
+}
+
+// ===== BACKWARDS COMPATIBILITY =====
+// Keep old Heading component for migration purposes
+/** @deprecated Use H1, H2, H3, H4, H5, H6 components instead */
+export const Heading = forwardRef<HTMLHeadingElement, {
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+  color?: TypographyColor;
+  weight?: TypographyWeight;
+  children: ReactNode;
+  className?: string;
+}>(({ level = 1, color = 'heading', weight, children, className, ...props }, ref) => {
+  // Map old levels to new components
+  const HeadingComponent = [H1, H2, H3, H4, H5, H6][level - 1] || H1;
+  
+  return (
+    <HeadingComponent
+      ref={ref}
+      color={color}
+      weight={weight}
+      className={className}
+      {...props}
+    >
+      {children}
+    </HeadingComponent>
+  );
+});
+
+Heading.displayName = 'Heading';
 
 // ===== EXPORT ALL =====
 export { getDefaultElement, getColorValue };

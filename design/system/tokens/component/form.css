@@ -41,7 +41,7 @@
   --surface-picker-disabled: var(--secondary-50);
   --surface-picker-option: var(--primary-white);
   --surface-picker-option-hover: var(--secondary-100);
-  --surface-picker-option-selected: var(--secondary-100);
+  --surface-picker-option-selected: var(--secondary-200);
   
   --border-picker: var(--secondary-200);
   --border-picker-hover: var(--secondary-300);

@@ -89,11 +89,11 @@
   background: var(--surface-card-hover);
 }
 
-.dropdown-item--danger {
+.dropdown-item--destructive {
   color: var(--error-600);
 }
 
-.dropdown-item--danger:hover:not(.dropdown-item--disabled) {
+.dropdown-item--destructive:hover:not(.dropdown-item--disabled) {
   background: var(--surface-error-subtle);
   color: var(--error-700);
 }

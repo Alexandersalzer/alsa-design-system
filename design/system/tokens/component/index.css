@@ -22,4 +22,6 @@
 @import './zindex.css';
 @import './indicator.css';
 @import './icon.css';
-@import './form.css';    /* ← ADD THIS LINE */
+@import './form.css';
+@import './editor.css';
+@import './tabs.css';

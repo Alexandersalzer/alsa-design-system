@@ -1,0 +1,152 @@
+/* ===============================================
+   src/design-system/components/patterns/editor/EditorSection/EditorSection.css
+   STYLE EDITOR SECTION STYLES
+   =============================================== */
+
+/* ===== FRAMER EDITOR SECTION ===== */
+.editor-section {
+  background: var(--surface-page);
+  border-bottom: 1px solid var(--border-secondary);
+}
+
+.editor-section:last-child {
+  border-bottom: none;
+}
+
+/* ===== SECTION HEADER ===== */
+.editor-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  transition: background-color 0.15s ease;
+}
+
+.editor-section__header--clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.editor-section__header--clickable:hover {
+  background: var(--surface-hover, var(--secondary-25));
+}
+
+.editor-section__header-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.editor-section__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  background: var(--secondary-100);
+  color: var(--secondary-600);
+  flex-shrink: 0;
+}
+
+.editor-section__icon svg {
+  width: 10px;
+  height: 10px;
+}
+
+.editor-section__title-section {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.editor-section__chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--icon-secondary);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.editor-section__chevron--open {
+  transform: rotate(90deg);
+}
+
+.editor-section__chevron svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ===== SECTION CONTENT ===== */
+.editor-section__content {
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.editor-section__content-inner {
+  padding: 0 20px 20px 20px;
+}
+
+/* ===== CONTENT SPACING ===== */
+.editor-section__content-inner > * + * {
+  margin-top: 16px;
+}
+
+.editor-section__content-inner .stack-sm > * + * {
+  margin-top: 8px;
+}
+
+.editor-section__content-inner .stack-md > * + * {
+  margin-top: 12px;
+}
+
+.editor-section__content-inner .stack-lg > * + * {
+  margin-top: 20px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .editor-section__header {
+    padding: 12px 16px;
+  }
+  
+  .editor-section__content-inner {
+    padding: 0 16px 16px 16px;
+  }
+  
+  .editor-section__header-content {
+    gap: 8px;
+  }
+  
+  .editor-section__icon {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .editor-section__icon svg {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .editor-section__header,
+  .editor-section__chevron,
+  .editor-section__content {
+    transition: none;
+  }
+}
+
+/* ===== FOCUS STATES ===== */
+.editor-section__header--clickable:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: -2px;
+}

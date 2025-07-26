@@ -1,0 +1,286 @@
+/* ==============================================
+   src/design-system/components/patterns/layout/StaticPageLayout.css
+   STATIC PAGE LAYOUT STYLES
+   ============================================== */
+
+/* ===== MAIN LAYOUT CONTAINER ===== */
+.static-page-layout {
+  /* Full viewport layout */
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  
+  /* Flexbox for centering content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  /* Base styling */
+  overflow-x: hidden;
+  
+  /* Default background */
+  &.static-page-layout--default {
+    background-color: var(--secondary-50);
+  }
+  
+  /* Gradient background */
+  &.static-page-layout--gradient {
+    background: linear-gradient(
+      135deg, 
+      var(--primary-50) 0%, 
+      var(--secondary-100) 50%, 
+      var(--accent-50) 100%
+    );
+  }
+  
+  /* Image background */
+  &.static-page-layout--image {
+    background-image: var(--static-page-background-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  /* Custom background */
+  &.static-page-layout--custom {
+    /* Allow complete customization via CSS custom properties */
+  }
+}
+
+/* ===== BACKGROUND LAYER ===== */
+.static-page-layout__background {
+  /* Full coverage background layer */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  
+  /* For gradient overlays or patterns */
+}
+
+.static-page-layout__overlay {
+  /* Optional overlay for better text contrast */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
+  /* Subtle overlay by default */
+  background-color: rgba(255, 255, 255, 0.05);
+  
+  /* Enhanced overlay for image backgrounds */
+  .static-page-layout--image & {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ===== BACK BUTTON ===== */
+.static-page-layout__back-button {
+  /* Positioning */
+  position: absolute;
+  top: var(--foundation-space-6);
+  left: var(--foundation-space-6);
+  z-index: 10;
+  
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    top: var(--foundation-space-4);
+    left: var(--foundation-space-4);
+  }
+}
+
+.static-page-back-link,
+.static-page-back-button {
+  /* Shared button/link styling */
+  display: inline-flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+  
+  /* Typography */
+  font-size: var(--typography-body-md-size);
+  font-weight: var(--typography-body-md-weight);
+  color: var(--text-primary);
+  text-decoration: none;
+  
+  /* Interactive styling */
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  border-radius: var(--foundation-radius-md);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  
+  /* Transitions */
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+  
+  /* Hover state */
+  &:hover {
+    background-color: rgba(255, 255, 255, 1);
+    transform: translateY(-1px);
+    box-shadow: var(--foundation-shadow-md);
+  }
+  
+  /* Focus state */
+  &:focus {
+    outline: 2px solid var(--accent-500);
+    outline-offset: 2px;
+  }
+  
+  /* Button-specific reset */
+  &.static-page-back-button {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+  }
+}
+
+.static-page-back-icon {
+  /* Icon styling */
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+  color: var(--text-secondary);
+  
+  /* Icon transition */
+  transition: transform var(--foundation-duration-fast) var(--foundation-easing-standard);
+  
+  /* Hover animation */
+  .static-page-back-link:hover &,
+  .static-page-back-button:hover & {
+    transform: translateX(-2px);
+  }
+}
+
+.static-page-back-text {
+  /* Text styling */
+  color: var(--text-primary);
+  font-weight: var(--typography-body-md-weight);
+  
+  /* Hide on very small screens */
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
+
+/* ===== MAIN CONTENT AREA ===== */
+.static-page-layout__content {
+  /* Content positioning */
+  position: relative;
+  z-index: 5;
+  
+  /* Flexible sizing */
+  width: 100%;
+  max-width: 100%;
+  
+  /* Padding for safe area */
+  padding: var(--foundation-space-6);
+  
+  /* Flexbox for centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    padding: var(--foundation-space-4);
+  }
+  
+  @media (max-width: 480px) {
+    padding: var(--foundation-space-3);
+  }
+}
+
+/* ===== RESPONSIVE BEHAVIOR ===== */
+@media (max-width: 768px) {
+  .static-page-layout {
+    /* Adjust for mobile viewport */
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height */
+  }
+  
+  .static-page-layout__content {
+    /* Mobile-optimized content area */
+    padding-top: var(--foundation-space-16); /* Space for back button */
+  }
+}
+
+/* ===== VARIANT-SPECIFIC ENHANCEMENTS ===== */
+
+/* Auth layout specific styling */
+.static-page-layout--gradient {
+  /* Enhanced gradient for auth pages */
+  background: linear-gradient(
+    135deg,
+    #f8fafc 0%,
+    #e2e8f0 25%,
+    #cbd5e1 50%,
+    #94a3b8 75%,
+    #64748b 100%
+  );
+  
+  /* Animated gradient (optional) */
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+.static-page-layout {
+  /* Focus management */
+  &:focus-within {
+    /* Visual indicator when layout contains focused elements */
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .static-page-back-link,
+  .static-page-back-button {
+    background-color: var(--primary-white);
+    border-color: var(--text-primary);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .static-page-layout--gradient {
+    animation: none;
+  }
+  
+  .static-page-back-link,
+  .static-page-back-button {
+    transition: none;
+  }
+  
+  .static-page-back-icon {
+    transition: none;
+  }
+}
+
+/* ===== DARK MODE CONSIDERATIONS ===== */
+@media (prefers-color-scheme: dark) {
+  .static-page-layout--gradient {
+    background: linear-gradient(
+      135deg,
+      #1e293b 0%,
+      #334155 25%,
+      #475569 50%,
+      #64748b 75%,
+      #94a3b8 100%
+    );
+  }
+  
+  .static-page-back-link,
+  .static-page-back-button {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: var(--primary-white);
+  }
+}
