@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
 import { useToggle } from '../../../../../cms-modules/context/ToggleContext';
 import { useContent } from '../../../../../cms-modules/context/ContentContext';
 import { Section } from '../../../../layout/frames/section';
@@ -9,8 +8,6 @@ import { Container } from '../../../../layout/frames/container';
 import { Cluster } from '../../../../layout/utilities/cluster';
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/navbar';
 import { getNavigationContext, type NavigationItem } from '../../../../utils/navigation';
-import { IconButton } from '../../../primitives/IconButton';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 export interface NavItem extends NavigationItem {
   label: string;
@@ -60,7 +57,6 @@ const Navbar = ({
   const { isToggled } = useToggle();
   const { getNavbarContent } = useContent();
   const pathname = usePathname();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Use navigation utilities for consistent route handling
   const nav = getNavigationContext(pathname, isToggled);
@@ -94,10 +90,6 @@ const Navbar = ({
     underline: item.underline
   }));
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
   return (
     <Section 
       as="nav" 
@@ -123,27 +115,16 @@ const Navbar = ({
             {brandName}
           </BrandLink>
           
-          {/* Desktop Navigation - Hidden on mobile */}
-          <div className="hidden md:flex flex-1 justify-end">
-            <NavMenu 
-              items={menuItems} 
-              spacing="xl" 
-              wrap={false}
-              variant={navVariant}
-              size={navSize}
-            />
-          </div>
-
-          {/* Mobile Hamburger Menu Button - Only visible on mobile */}
-          <div className="md:hidden">
-            <IconButton
-              icon={isMobileMenuOpen ? <XMarkIcon /> : <Bars3Icon />}
-              variant="ghost"
-              size="md"
-              aria-label={isMobileMenuOpen ? "Stäng meny" : "Öppna meny"}
-              onClick={toggleMobileMenu}
-            />
-          </div>
+          {/* Spacer */}
+          <div className="flex-1" />
+          
+          <NavMenu 
+            items={menuItems} 
+            spacing="xl" 
+            wrap={false}
+            variant={navVariant}
+            size={navSize}
+          />
         </Cluster>
       </Container>
     </Section>
