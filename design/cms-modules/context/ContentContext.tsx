@@ -11,6 +11,14 @@ export interface HeroContent {
   secondaryButtonText: string;
 }
 
+// Interface for navbar content - navigation items with labels
+export interface NavbarContent {
+  navItems: Array<{
+    label: string;
+    slug: string;
+  }>;
+}
+
 export interface ContentContextType {
   content: WebsiteContent | null;
   staticContent: WebsiteContent | null;
@@ -21,6 +29,7 @@ export interface ContentContextType {
   radius: string;
   fontName: string;
   getHeroContent: (pageSlug: string) => HeroContent | undefined;
+  getNavbarContent: () => NavbarContent | undefined;
 }
 
 export const ContentContext = createContext<ContentContextType | undefined>(undefined);

@@ -1,10 +1,11 @@
 // Database-aligned types
 export interface Block {
   id: number;
-  type: 'title' | 'subtitle' | 'primaryButton' | 'secondaryButton' | 'text' | 'image' | string;
+  type: 'title' | 'subtitle' | 'primaryButton' | 'secondaryButton' | 'text' | 'image' | 'navItem' | string;
   position: number;
   content?: string;
   image_url?: string;
+  slug?: string; // For navigation items
 }
 
 export interface Pattern {
@@ -32,6 +33,7 @@ export interface Page {
 
 export interface WebsiteContent {
   pages: Page[] | { [key: string]: Page };
+  navbar?: Template; // Global navbar template
 }
 
 // Enum for mapping block types

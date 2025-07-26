@@ -13,7 +13,7 @@ import {
   createDesignTokenMessageHandlers,
   type DesignTokenMessageHandlers 
 } from '../../cms-modules/messaging/designTokenMessaging';
-import { ContentContext, type ContentContextType, type HeroContent } from './ContentContext';
+import { ContentContext, type ContentContextType, type HeroContent, type NavbarContent } from './ContentContext';
 
 interface ContentProviderProps {
   children: ReactNode;
@@ -123,6 +123,34 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
     return undefined;
   };
 
+  // Get navbar content from global template
+  const getNavbarContent = (): NavbarContent | undefined => {
+    if (!activeContent) return undefined;
+
+    // Look for navbar content in global navbar template
+    const navbarTemplate = activeContent.navbar;
+    
+    if (navbarTemplate && navbarTemplate.patterns) {
+      // Find navbar pattern
+      const navbarPattern = navbarTemplate.patterns.find((pattern: Pattern) => pattern.type === 'navbar');
+      
+      if (navbarPattern && navbarPattern.blocks) {
+        // Extract nav items from blocks
+        const navItems = navbarPattern.blocks
+          .filter((block: Block) => block.type === 'navItem')
+          .sort((a: Block, b: Block) => a.position - b.position)
+          .map((block: Block) => ({
+            label: block.content || '',
+            slug: block.slug || ''
+          }));
+        
+        return { navItems };
+      }
+    }
+
+    return undefined;
+  };
+
   const value: ContentContextType = {
     content: dynamicContent || staticContent,
     staticContent,
@@ -132,7 +160,8 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
     accentColor,
     radius,
     fontName,
-    getHeroContent
+    getHeroContent,
+    getNavbarContent
   };
 
   return (

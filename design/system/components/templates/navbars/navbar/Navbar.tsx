@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { useToggle } from '../../../../../cms-modules/context/ToggleContext';
+import { useContent } from '../../../../../cms-modules/context/ContentContext';
 import { Section } from '../../../../layout/frames/section';
 import { Container } from '../../../../layout/frames/container';
 import { Cluster } from '../../../../layout/utilities/cluster';
@@ -54,13 +55,28 @@ const Navbar = ({
   logoHeight = 40
 }: NavbarProps) => {
   const { isToggled } = useToggle();
+  const { getNavbarContent } = useContent();
   const pathname = usePathname();
   
   // Use navigation utilities for consistent route handling
   const nav = getNavigationContext(pathname, isToggled);
 
+  // Get navbar content from JSON
+  const navbarContent = getNavbarContent();
+
+  // Merge JSON content with existing navItems, prioritizing JSON labels
+  const mergedNavItems = navItems.map(item => {
+    // Find matching content from JSON based on slug
+    const jsonItem = navbarContent?.navItems.find(jsonNav => jsonNav.slug === item.slug);
+    
+    return {
+      ...item,
+      label: jsonItem?.label || item.label // Use JSON label if available, fallback to prop label
+    };
+  });
+
   // Transform NavItem[] to NavMenuItem[] with proper hrefs and active states
-  const menuItems: NavMenuItem[] = navItems.map(item => ({
+  const menuItems: NavMenuItem[] = mergedNavItems.map(item => ({
     ...item,
     href: nav.buildNavHref(item),
     isActive: nav.isNavItemActive(item, pathname),
