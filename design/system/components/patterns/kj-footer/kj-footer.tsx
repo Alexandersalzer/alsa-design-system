@@ -5,29 +5,47 @@ import { Typography } from '../../../../system/components/primitives/Typography'
 import { Stack } from '../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../system/layout/utilities/cluster/Cluster';
 import { Rhythm, RhythmItem } from '../../../../system/layout/utilities/rhythm/Rhythm';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { 
+  getCurrentLocale, 
+  createLanguageChangeHandler, 
+  defaultLocaleOptions,
+  type SupportedLocale,
+  type LocaleOption
+} from '../../../utils/locale';
 
-const KjFooter = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState('sv');
+interface KjFooterProps {
+  // Optional override for language options if needed
+  languageOptions?: Array<{
+    value: string;
+    label: string;
+    icon?: React.ReactNode;
+  }>;
+}
 
-  const languageOptions = [
-    {
-      value: 'sv',
-      label: 'Svenska',
-      icon: <span className="fi fi-se" style={{ fontSize: '16px' }}></span>
-    },
-    {
-      value: 'en',
-      label: 'English',
-      icon: <span className="fi fi-gb" style={{ fontSize: '16px' }}></span>
-    }
-  ];
+const KjFooter = ({ languageOptions }: KjFooterProps) => {
+  const [selectedLanguage, setSelectedLanguage] = useState<SupportedLocale>('sv');
+  
+  // Get current locale on component mount
+  useEffect(() => {
+    const currentLocale = getCurrentLocale();
+    setSelectedLanguage(currentLocale);
+  }, []);
 
-  const handleLanguageChange = (value: string | null) => {
+  // Use provided language options or default ones with flag icons
+  const options = languageOptions || defaultLocaleOptions.map((option: LocaleOption) => ({
+    value: option.value,
+    label: option.label,
+    icon: option.flag ? <span className={option.flag} style={{ fontSize: '16px' }}></span> : undefined
+  }));
+
+  // Handle language change with proper typing for Picker component
+  const handleLanguageChangeWithState = (value: string | null) => {
     if (value) {
-      setSelectedLanguage(value);
-      // Here you can add logic to change the actual language
-      console.log('Language changed to:', value);
+      setSelectedLanguage(value as SupportedLocale);
+      // Create the change handler and call it with the proper format
+      const changeHandler = createLanguageChangeHandler();
+      changeHandler({ value, label: options.find(opt => opt.value === value)?.label || value });
     }
   };
 
@@ -57,9 +75,9 @@ const KjFooter = () => {
       {/* Language Picker */}
       <RhythmItem at={3}>
         <Picker
-          options={languageOptions}
+          options={options}
           value={selectedLanguage}
-          onChange={handleLanguageChange}
+          onChange={handleLanguageChangeWithState}
           placeholder="Välj språk"
           variant="footer"
         />
