@@ -1,24 +1,20 @@
-/* Import all parts of design system */
-/* Foundation tokens (base variables) */
-@import './tokens/foundation/index.css';
+/* ===============================================
+   COMPLETE CSS IMPORTS - FOR BLIMPIFY-UI PACKAGE
+   =============================================== */
 
-/* Semantic tokens (contextual meanings) */
+/* Foundation first - CRITICAL ORDER - ALWAYS KEEP THESE */
+@import './tokens/foundation/index.css';
 @import './tokens/semantic/index.css';
 
-/* Component tokens (component-specific variables) */
+/* Utilities BEFORE components - ALWAYS KEEP THIS */
+@import './utils/index.css';
 @import './tokens/component/index.css';
-
-/* Token collections */
 @import './tokens/index.css';
 @import './tokens/component/icon.css';
 
-/* Themes */
-/* @import './themes/index.css'; */
-
-/* Utility classes */
-@import './utils/index.css';
-
-/* Primitive components */
+/* ===============================================
+   PRIMITIVE COMPONENTS - CORE STYLING (WORKING)
+   =============================================== */
 @import './components/primitives/Button/Button.css';
 @import './components/primitives/Card/Card.css';
 @import './components/primitives/NavigationTab/NavigationTab.css';
@@ -32,21 +28,54 @@
 @import './components/primitives/Toast/Toast.css';
 @import './components/primitives/Modal/Modal.css';
 @import './components/primitives/Dropdown/Dropdown.css';
+@import './components/primitives/FileUploader/FileUploader.css';
 
 /* ===== PRIMITIVES (Enhanced components) ===== */
-
-
-
-
-/*@import './components/primitives/Typography/Typography.css';*/
+@import './components/primitives/Typography/Typography.css';  /* 🔥 CRITICAL: Uncommented! */
 @import './components/primitives/Icon/Icon.css';
 @import './components/primitives/Tag/Tag.css';
 @import './components/primitives/SegmentedControl/SegmentedControl.css';
 @import './components/primitives/Stepper/Stepper.css';
 @import './components/primitives/TextLink/TextLink.css';
 
-/* Pattern components */
+/* ===============================================
+   PATTERN COMPONENTS - EXISTING WORKING ONES
+   =============================================== */
+@import './components/patterns/Header/Header.css';
+@import './components/patterns/page/PageHeader.css';
+@import './components/patterns/layout/StaticPageLayout.css';
+@import './components/patterns/auth/AuthContainer.css';
+@import './components/patterns/auth/AuthForm.css';
+@import './components/patterns/auth/AuthField.css';
+@import './components/patterns/auth/AuthCard.css';
+@import './components/patterns/layout/AppLayout.css';
+@import './components/patterns/page/PageContent.css';
+@import './components/patterns/page/Grid.css';
+@import './components/patterns/page/PageHeader.css';
+@import './components/patterns/page/LayoutUtilities.css';
+@import './components/patterns/page/Cluster.css';
+@import './components/patterns/page/Stack.css';
 
+/* THEMES - CRITICAL FOR STYLING */
+@import './tokens/semantic/themes/index.css';  /* 🔥 CRITICAL: Uncommented! */
 
-/* 🎯 ADD THIS LINE - Stack & Cluster support for existing utility classes */
-/* This makes your existing .stack-sm, .stack-md, .cluster-md classes work with the new components */
+@import './components/patterns/selection/SelectionCard.css';
+
+/* ===============================================
+   EDITOR PATTERN CSS - ACTIVATE ONE BY ONE
+   =============================================== */
+@import './components/patterns/editor/EditorShell/EditorShell.css';
+@import './components/patterns/editor/EditorTabs/EditorTabs.css';
+@import './components/patterns/editor/EditorPanel/EditorPanel.css';
+@import './components/patterns/editor/EditorSection/EditorSection.css';
+
+/* Theme Controls */
+@import './components/patterns/ThemeControls/ThemeControls.css';
+
+/* Layout utilities */
+@import './components/patterns/layout/PropertyGroup.css';
+
+/* Layout utilities */
+@import './layout/utilities/cluster/Cluster.css';
+@import './layout/utilities/rhythm/Rhythm.css';
+@import './layout/utilities/stack/Stack.css';

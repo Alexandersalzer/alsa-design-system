@@ -186,19 +186,7 @@
   stroke-width: 3;
 }
 
-/* ===== INTERACTIVE STATES ===== */
-/* For icons inside interactive elements */
-button:hover .icon:not(.icon--button-disabled),
-.button:hover .icon:not(.icon--button-disabled),
-a:hover .icon {
-  transform: translateY(-1px);
-}
 
-button:active .icon:not(.icon--button-disabled),
-.button:active .icon:not(.icon--button-disabled),
-a:active .icon {
-  transform: translateY(0);
-}
 
 /* Disabled state */
 .icon--button-disabled,
