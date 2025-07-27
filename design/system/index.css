@@ -30,8 +30,8 @@
 @import './components/primitives/Dropdown/Dropdown.css';
 @import './components/primitives/FileUploader/FileUploader.css';
 
-/* ===== PRIMITIVES (Enhanced components) ===== */
-@import './components/primitives/Typography/Typography.css';  /* 🔥 CRITICAL: Uncommented! */
+/* ===== PRIMITIVES (Enhanced components) @import './components/primitives/Typography/Typography.css';  ===== */
+ /* 🔥 CRITICAL: Uncommented! */
 @import './components/primitives/Icon/Icon.css';
 @import './components/primitives/Tag/Tag.css';
 @import './components/primitives/SegmentedControl/SegmentedControl.css';
