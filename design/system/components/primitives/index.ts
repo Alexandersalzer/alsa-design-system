@@ -2,21 +2,23 @@
 export * from './Button';
 export * from './Card';
 export * from './Input';
-export * from './IconButton';
-export * from './Tag';
-export * from './NavigationTab';
-export * from './Typography';
+export * from './Textarea';
 export * from './Checkbox';
 export * from './Radio';
-export * from './Textarea';
 export * from './Switch';
-export * from './Picker';
-export * from './Toast';
+export * from './Tag';
 export * from './Modal';
+export * from './Picker';
 export * from './Dropdown';
 export * from './FileUploader';
+export * from './Toast';
+export * from './TextLink';
+export * from './SegmentedControl';
+export * from './Stepper';
+export * from './IconButton';
+export * from './NavigationTab';
+export * from './Typography';
 
-// File: /src/design-system/components/primitives/index.ts
-
-export { IconButton, IconButtons } from './IconButton';
-export type { IconButtonProps } from './IconButton';
+// Icon needs special handling since it's a default export
+export { default as Icon } from './Icon';
+export * from './Icon';  // For any named exports too
