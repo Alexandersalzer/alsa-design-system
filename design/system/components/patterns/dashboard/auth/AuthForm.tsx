@@ -4,9 +4,9 @@
 // ===============================================
 
 import React, { forwardRef, ReactNode, FormEvent } from 'react';
-import { cn } from '@/design/system/lib/utils';
-import { ErrorToast, SuccessToast } from '@/design/system/components/primitives/Toast';
-import { Button } from '@/design/system/components/primitives/Button';
+import { cn } from '../../../../lib/utils';
+import { ErrorToast, SuccessToast } from '../../../../components/primitives/Toast';
+import { Button } from '../../../../components/primitives/Button';
 
 // ===== TYPE DEFINITIONS =====
 export interface AuthFormProps extends Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
