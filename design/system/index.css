@@ -1,5 +1,6 @@
 /* ===============================================
    COMPLETE CSS IMPORTS - FOR BLIMPIFY-UI PACKAGE
+   CORRECT FOLDER STRUCTURE
    =============================================== */
 
 /* Foundation first - CRITICAL ORDER - ALWAYS KEEP THESE */
@@ -31,7 +32,8 @@
 @import './components/primitives/FileUploader/FileUploader.css';
 
 /* ===== PRIMITIVES (Enhanced components) ===== */
-
+/* 🔥 CRITICAL: Typography MUST be included */
+@import './components/primitives/Typography/Typography.css';
 @import './components/primitives/Icon/Icon.css';
 @import './components/primitives/Tag/Tag.css';
 @import './components/primitives/SegmentedControl/SegmentedControl.css';
@@ -39,43 +41,42 @@
 @import './components/primitives/TextLink/TextLink.css';
 
 /* ===============================================
-   PATTERN COMPONENTS - EXISTING WORKING ONES
+   PATTERN COMPONENTS - CORRECT BLIMPIFY-UI PATHS
    =============================================== */
-@import './components/patterns/Header/Header.css';
-@import './components/patterns/page/PageHeader.css';
-@import './components/patterns/layout/StaticPageLayout.css';
-@import './components/patterns/auth/AuthContainer.css';
-@import './components/patterns/auth/AuthForm.css';
-@import './components/patterns/auth/AuthField.css';
-@import './components/patterns/auth/AuthCard.css';
-@import './components/patterns/layout/AppLayout.css';
-@import './components/patterns/page/PageContent.css';
-@import './components/patterns/page/Grid.css';
-@import './components/patterns/page/PageHeader.css';
-@import './components/patterns/page/LayoutUtilities.css';
-@import './components/patterns/page/Cluster.css';
-@import './components/patterns/page/Stack.css';
+/* Dashboard patterns - CORRECT PATH */
+@import './components/patterns/dashboard/Header/Header.css';
+@import './components/patterns/dashboard/auth/AuthContainer.css';
+@import './components/patterns/dashboard/auth/AuthForm.css';
+@import './components/patterns/dashboard/auth/AuthField.css';
+@import './components/patterns/dashboard/auth/AuthCard.css';
+@import './components/patterns/dashboard/layout/AppLayout.css';
+@import './components/patterns/dashboard/layout/StaticPageLayout.css';
+@import './components/patterns/dashboard/layout/PropertyGroup.css';
+@import './components/patterns/dashboard/page/PageContent.css';
+@import './components/patterns/dashboard/page/Grid.css';
+@import './components/patterns/dashboard/page/PageHeader.css';
+@import './components/patterns/dashboard/page/LayoutUtilities.css';
+@import './components/patterns/dashboard/page/Cluster.css';
+@import './components/patterns/dashboard/page/Stack.css';
+@import './components/patterns/dashboard/selection/SelectionCard.css';
 
-/* THEMES - CRITICAL FOR STYLING */
-@import './tokens/semantic/themes/index.css';  /* 🔥 CRITICAL: Uncommented! */
-
-@import './components/patterns/selection/SelectionCard.css';
-
-/* ===============================================
-   EDITOR PATTERN CSS - ACTIVATE ONE BY ONE
-   =============================================== */
-@import './components/patterns/editor/EditorShell/EditorShell.css';
-@import './components/patterns/editor/EditorTabs/EditorTabs.css';
-@import './components/patterns/editor/EditorPanel/EditorPanel.css';
-@import './components/patterns/editor/EditorSection/EditorSection.css';
+/* Editor patterns */
+@import './components/patterns/dashboard/editor/EditorShell/EditorShell.css';
+@import './components/patterns/dashboard/editor/EditorTabs/EditorTabs.css';
+@import './components/patterns/dashboard/editor/EditorPanel/EditorPanel.css';
+@import './components/patterns/dashboard/editor/EditorSection/EditorSection.css';
 
 /* Theme Controls */
-@import './components/patterns/ThemeControls/ThemeControls.css';
+@import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
 
-/* Layout utilities */
-@import './components/patterns/layout/PropertyGroup.css';
+/* ===============================================
+   THEMES - CRITICAL FOR STYLING
+   =============================================== */
+@import './tokens/semantic/themes/index.css';
 
-/* Layout utilities */
+/* ===============================================
+   LAYOUT UTILITIES - CORRECT PATHS
+   =============================================== */
 @import './layout/utilities/cluster/Cluster.css';
 @import './layout/utilities/rhythm/Rhythm.css';
 @import './layout/utilities/stack/Stack.css';
