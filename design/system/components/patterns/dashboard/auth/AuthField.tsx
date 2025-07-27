@@ -4,9 +4,9 @@
 // ===============================================
 
 import React, { forwardRef, ReactNode, useId } from 'react';
-import { cn } from '@/design/system/lib/utils';
-import { Typography } from '@/design/system/components/primitives/Typography';
-import { Input } from '@/design/system/components/primitives/Input';
+import { cn } from '../../../../lib/utils';
+import { Typography } from '../../../../components/primitives/Typography';
+import { Input } from '../../../../components/primitives/Input';
 
 // ===== TYPE DEFINITIONS =====
 export interface AuthFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'id' | 'size'> {
