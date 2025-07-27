@@ -43,8 +43,10 @@ export interface TreeNodeProps {
   onToggle?: () => void;
   onClick?: () => void;
   children?: React.ReactNode;
+  // ADD THESE MISSING PROPS:
+  badge?: string;           // For showing counts like "3 sections"
+  subtitle?: string;        // For showing additional info
 }
-
 // ===== TREE NODE COMPONENT (SINGLE DEFINITION) =====
 const TreeNode: React.FC<TreeNodeProps> = ({
   icon,
@@ -55,11 +57,12 @@ const TreeNode: React.FC<TreeNodeProps> = ({
   hasChildren = false,
   onToggle,
   onClick,
-  children
+  children,
+  badge,      // ADD THIS
+  subtitle    // ADD THIS
 }) => {
   return (
     <div className="tree-node">
-      {/* Node Header */}
       <div 
         className={`tree-node__header tree-node__header--level-${level} ${
           isSelected ? 'tree-node__header--selected' : ''
@@ -67,7 +70,6 @@ const TreeNode: React.FC<TreeNodeProps> = ({
         onClick={onClick}
         style={{ paddingLeft: `${level * 20 + 12}px` }}
       >
-        {/* Expand/Collapse Button */}
         {hasChildren && (
           <button
             className={`tree-node__expand ${isExpanded ? 'tree-node__expand--open' : ''}`}
@@ -80,23 +82,34 @@ const TreeNode: React.FC<TreeNodeProps> = ({
           </button>
         )}
         
-        {/* Icon */}
         <div className="tree-node__icon">
-        <Icon color="accent">
-          {icon ? React.createElement(icon) : <QuestionMarkCircleIcon />}
-        </Icon>
-
+          <Icon color="accent">
+            {icon ? React.createElement(icon) : <QuestionMarkCircleIcon />}
+          </Icon>
         </div>
         
-        {/* Content */}
         <div className="tree-node__content">
           <Label size="sm" weight="medium" className="tree-node__label">
             {label}
           </Label>
+          {/* ADD SUBTITLE DISPLAY */}
+          {subtitle && (
+            <Body size="xs" color="secondary" className="tree-node__subtitle">
+              {subtitle}
+            </Body>
+          )}
         </div>
+        
+        {/* ADD BADGE DISPLAY */}
+        {badge && (
+          <div className="tree-node__badge">
+            <Body size="xs" color="tertiary">
+              {badge}
+            </Body>
+          </div>
+        )}
       </div>
 
-      {/* Children */}
       {hasChildren && isExpanded && (
         <div className="tree-node__children">
           {children}
@@ -105,6 +118,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({
     </div>
   );
 };
+
 
 // ===== MAIN PAGE TREE COMPONENT =====
 export const PageTree: React.FC<PageTreeProps> = ({

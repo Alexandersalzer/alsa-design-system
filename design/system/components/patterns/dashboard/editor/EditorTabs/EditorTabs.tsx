@@ -5,7 +5,6 @@
 
 import React from 'react';
 import { Label } from '../../../../primitives/Typography';
-import './EditorTabs.css';
 
 export interface EditorTabItem {
   id: string;

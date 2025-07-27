@@ -11,6 +11,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   children: ReactNode;
   variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  radius?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   loading?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
@@ -20,6 +21,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   className,
   variant = 'primary',
   size = 'md',
+  radius = 'md',
   children,
   loading = false,
   leftIcon,
@@ -91,6 +93,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     'btn',
     `btn-${variant}`,
     `btn-${size}`,
+    `btn-radius-${radius}`,
     className
   );
 

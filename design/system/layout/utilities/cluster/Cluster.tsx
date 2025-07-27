@@ -4,7 +4,6 @@
 // ===============================================
 
 import React, { ReactNode } from 'react';
-import './Cluster.css';
 
 // ===== TYPE DEFINITIONS =====
 

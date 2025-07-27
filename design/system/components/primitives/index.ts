@@ -2,7 +2,6 @@
 export * from './Button';
 export * from './Card';
 export * from './Input';
-export * from './Icon';
 export * from './IconButton';
 export * from './Tag';
 export * from './NavigationTab';
@@ -15,7 +14,7 @@ export * from './Picker';
 export * from './Toast';
 export * from './Modal';
 export * from './Dropdown';
-export * from './TextLink';
+export * from './FileUploader';
 
 // File: /src/design-system/components/primitives/index.ts
 
