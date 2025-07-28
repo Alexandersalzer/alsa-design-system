@@ -2,15 +2,7 @@
    BLIMPIFY-UI SYSTEM INDEX.CSS - CORRECT IMPORT ORDER
    =============================================== */
 
-   @import './tokens/semantic/themes/index.css';
-/* STEP 1: Foundation tokens (colors, spacing, etc.) */
-@import './tokens/foundation/index.css';
 
-/* STEP 2: Semantic tokens (text-primary, surface-card, etc.) */
-@import './tokens/semantic/index.css';
-
-/* STEP 3: Component tokens (surface-button-primary, etc.) */
-@import './tokens/component/index.css';
 
 /* STEP 4: Component CSS files */
 @import './components/primitives/Button/Button.css';
@@ -61,6 +53,15 @@
 @import './layout/utilities/stack/Stack.css';
 
 /* STEP 7: Themes LAST */
+@import './tokens/semantic/themes/index.css';
+/* STEP 1: Foundation tokens (colors, spacing, etc.) */
+@import './tokens/foundation/index.css';
+
+/* STEP 2: Semantic tokens (text-primary, surface-card, etc.) */
+@import './tokens/semantic/index.css';
+
+/* STEP 3: Component tokens (surface-button-primary, etc.) */
+@import './tokens/component/index.css';
 
 
 /* STEP 8: Utilities LAST (so they can override if needed) */
