@@ -1,9 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect, Suspense } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { 
-  sendToggleEditingRequest,
   requestEditingStatus,
   setupToggleMessageListener,
   type ToggleMessageHandlers
@@ -11,9 +10,6 @@ import {
 
 interface ToggleContextType {
   isToggled: boolean;
-  setIsToggled: (value: boolean) => void;
-  toggleState: () => void;
-  isLoading: boolean;
 }
 
 interface ToggleProviderProps {
@@ -26,47 +22,15 @@ const ToggleContext = createContext<ToggleContextType | undefined>(undefined);
 
 export function ToggleProvider({ children, versionId, initialEditingStatus = false }: ToggleProviderProps) {
   const [isToggled, setIsToggled] = useState(initialEditingStatus);
-  const [isLoading, setIsLoading] = useState(false);
 
   // Update state when initialEditingStatus changes
   useEffect(() => {
     setIsToggled(initialEditingStatus);
   }, [initialEditingStatus]);
 
-  const handleToggleChange = useCallback(async (newValue: boolean) => {
-    if (!versionId) {
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      
-      // Send toggle request to parent window (editor.tsx)
-      sendToggleEditingRequest(versionId, newValue);
-      
-      // Optimistically update the state
-      setIsToggled(newValue);
-    } catch (error) {
-      console.error('Error updating editing status:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [versionId]);
-
-  const toggleState = useCallback(() => {
-    handleToggleChange(!isToggled);
-  }, [isToggled, handleToggleChange]);
-
-  const setIsToggledWithApi = useCallback((value: boolean) => {
-    handleToggleChange(value);
-  }, [handleToggleChange]);
-
   return (
     <ToggleContext.Provider value={{ 
-      isToggled, 
-      setIsToggled: setIsToggledWithApi, 
-      toggleState,
-      isLoading 
+      isToggled
     }}>
       {children}
     </ToggleContext.Provider>

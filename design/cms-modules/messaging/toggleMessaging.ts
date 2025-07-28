@@ -2,14 +2,6 @@ export interface ToggleMessageHandlers {
   onEditingStatusUpdate: (editing: boolean) => void;
 }
 
-export const sendToggleEditingRequest = (versionId: number, editing: boolean) => {
-  window.parent.postMessage({
-    type: 'toggle-editing',
-    versionId: versionId,
-    editing: editing
-  }, '*');
-};
-
 export const requestEditingStatus = (versionId: number) => {
   window.parent.postMessage({
     type: 'request-editing-status',
