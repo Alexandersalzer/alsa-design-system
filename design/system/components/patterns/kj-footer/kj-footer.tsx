@@ -44,6 +44,12 @@ const KjFooter = ({ languageOptions }: KjFooterProps) => {
   // Handle language change with proper typing for Picker component
   const handleLanguageChangeWithState = (value: string | null) => {
     if (value) {
+      console.log('Footer language change debug:', { 
+        value, 
+        isEditingMode,
+        currentLocale: selectedLanguage 
+      });
+      
       setSelectedLanguage(value as SupportedLocale);
       // Create the change handler with editing mode context and call it with the proper format
       const changeHandler = createLanguageChangeHandler(isEditingMode);

@@ -59,6 +59,13 @@ export function switchLocale(newLocale: SupportedLocale, isEditingMode: boolean 
   const currentPath = window.location.pathname;
   const segments = currentPath.split('/').filter(Boolean);
   
+  console.log('switchLocale debug:', {
+    currentPath,
+    segments,
+    newLocale,
+    isEditingMode
+  });
+  
   // Remove current locale if it exists
   if (segments[0] === 'sv' || segments[0] === 'en') {
     segments.shift();
@@ -69,13 +76,17 @@ export function switchLocale(newLocale: SupportedLocale, isEditingMode: boolean 
   if (isEditingMode) {
     // In editing mode, handle .html files
     if (segments.length > 0) {
-      // Extract the current page without .html extension if it exists
-      let currentPage = segments[segments.length - 1];
-      if (currentPage.endsWith('.html')) {
-        currentPage = currentPage.replace('.html', '');
+      // Get the remaining path after locale
+      const remainingPath = segments.join('/');
+      
+      // If it already has .html extension, use it as is
+      if (remainingPath.endsWith('.html')) {
+        const pageWithoutExtension = remainingPath.replace('.html', '');
+        newPath = `/${newLocale}/${pageWithoutExtension}.html`;
+      } else {
+        // Add .html extension
+        newPath = `/${newLocale}/${remainingPath}.html`;
       }
-      // Build path with new locale and .html extension
-      newPath = `/${newLocale}/${currentPage}.html`;
     } else {
       // Default to home page in editing mode
       newPath = `/${newLocale}/home.html`;
@@ -84,6 +95,8 @@ export function switchLocale(newLocale: SupportedLocale, isEditingMode: boolean 
     // Normal mode: use locale-based routes
     newPath = `/${newLocale}${segments.length > 0 ? '/' + segments.join('/') : ''}`;
   }
+  
+  console.log('switchLocale result:', { newPath });
   
   // Navigate to new locale
   window.location.href = newPath;
