@@ -6,7 +6,6 @@ import { Stack } from '../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../system/layout/utilities/cluster/Cluster';
 import { Rhythm, RhythmItem } from '../../../../system/layout/utilities/rhythm/Rhythm';
 import { useState, useEffect } from 'react';
-import { useEditingMode } from '../../../../cms/modules/initial/EditingWrapper';
 import { 
   getCurrentLocale, 
   createLanguageChangeHandler,
@@ -23,10 +22,11 @@ interface KjFooterProps {
     label: string;
     icon?: React.ReactNode;
   }>;
+  // Editing mode passed from parent component
+  isEditingMode?: boolean;
 }
 
-const KjFooter = ({ languageOptions }: KjFooterProps) => {
-  const { isEditingMode } = useEditingMode();
+const KjFooter = ({ languageOptions, isEditingMode = false }: KjFooterProps) => {
   const [selectedLanguage, setSelectedLanguage] = useState<SupportedLocale>('sv');
   
   // Get current locale on component mount
