@@ -58,6 +58,8 @@ const Navbar = ({
   const { getNavbarContent } = useContent();
   const pathname = usePathname();
   
+  console.log('Navbar useEditingMode debug:', { isEditingMode });
+  
   // Use navigation utilities for consistent route handling
   const nav = getNavigationContext(pathname, isEditingMode);
 
