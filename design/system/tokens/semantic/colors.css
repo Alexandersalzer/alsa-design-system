@@ -190,4 +190,105 @@
   --shadow-subtle: rgba(0, 0, 0, 0.05);
   --shadow-emphasis: rgba(0, 0, 0, 0.15);
   --shadow-strong: rgba(0, 0, 0, 0.25);
+
+
+
+
+
+  /* ==============================================
+   ADD TO BOTTOM OF: blimpify-ui/design/system/tokens/semantic/colors.css
+   MISSING COMPONENT TOKEN MAPPINGS FOR LIGHT MODE
+   ============================================== */
+
+  /* ===== COMPONENT TOKEN MAPPINGS - MISSING IN LIGHT MODE ===== */
+  /* These exist in dark.css but are missing from :root */
+
+  /* Button component tokens */
+  --surface-button-primary: var(--interactive-primary);
+  --surface-button-primary-hover: var(--interactive-primary-hover);
+  --surface-button-primary-active: var(--interactive-primary-active);
+  --surface-button-primary-disabled: var(--interactive-primary-disabled);
+  --text-button-primary: var(--text-inverse);
+  --text-button-primary-disabled: var(--text-disabled);
+  --border-button-primary: var(--interactive-primary);
+  --border-button-primary-focus: var(--border-focus);
+
+  --surface-button-secondary: var(--interactive-secondary);
+  --surface-button-secondary-hover: var(--interactive-secondary-hover);
+  --surface-button-secondary-active: var(--interactive-secondary-active);
+  --surface-button-secondary-disabled: var(--interactive-secondary-disabled);
+  --text-button-secondary: var(--text-primary);
+  --text-button-secondary-disabled: var(--text-disabled);
+  --border-button-secondary: var(--border-default);
+  --border-button-secondary-hover: var(--border-hover);
+  --border-button-secondary-focus: var(--border-focus);
+  --border-button-secondary-disabled: var(--border-disabled);
+
+  --surface-button-accent: var(--interactive-accent);
+  --surface-button-accent-hover: var(--interactive-accent-hover);
+  --surface-button-accent-active: var(--interactive-accent-active);
+  --surface-button-accent-disabled: var(--interactive-primary-disabled);
+  --text-button-accent: var(--text-inverse);
+  --text-button-accent-disabled: var(--text-disabled);
+  --border-button-accent: var(--interactive-accent);
+  --border-button-accent-focus: var(--border-focus);
+
+  --surface-button-ghost: var(--interactive-tertiary);
+  --surface-button-ghost-hover: var(--interactive-tertiary-hover);
+  --surface-button-ghost-active: var(--interactive-tertiary-active);
+  --text-button-ghost: var(--text-secondary);
+
+  /* Card component tokens */
+  --surface-card: var(--surface-card);
+  --surface-card-hover: var(--surface-card-hover);
+  --surface-card-elevated: var(--surface-card-elevated);
+  --border-card: var(--border-default);
+  --border-card-hover: var(--border-hover);
+  --border-card-elevated: var(--border-subtle);
+  --text-card-primary: var(--text-primary);
+  --text-card-secondary: var(--text-secondary);
+  --text-card-tertiary: var(--text-tertiary);
+  --text-card-heading: var(--text-primary);
+  --text-card-body: var(--text-secondary);
+  --icon-card-primary: var(--icon-primary);
+  --icon-card-secondary: var(--icon-secondary);
+
+  /* Input component tokens */
+  --surface-input: var(--surface-card);
+  --surface-input-disabled: var(--secondary-50);
+  --border-input: var(--border-default);
+  --border-input-hover: var(--border-hover);
+  --border-input-focus: var(--border-focus);
+  --border-input-error: var(--error-500);
+  --border-input-disabled: var(--border-disabled);
+  --text-input: var(--text-primary);
+  --text-input-placeholder: var(--text-placeholder);
+  --text-input-disabled: var(--text-disabled);
+  --icon-input: var(--icon-secondary);
+  --icon-input-disabled: var(--icon-disabled);
+
+  /* Navigation component tokens */
+  --surface-nav: var(--surface-page);
+  --surface-nav-item: transparent;
+  --surface-nav-item-hover: var(--surface-card-hover);
+  --surface-nav-item-selected: var(--surface-card-selected);
+  --surface-nav-item-disabled: transparent;
+  --text-nav-item: var(--text-secondary);
+  --text-nav-item-selected: var(--text-link);
+  --text-nav-item-disabled: var(--text-disabled);
+  --text-nav-item-hover: var(--text-primary);
+  --icon-nav-item: var(--icon-secondary);
+  --icon-nav-item-selected: var(--icon-brand);
+  --icon-nav-item-disabled: var(--icon-disabled);
+  --icon-nav-item-hover: var(--icon-primary);
+  --border-nav: var(--border-subtle);
+  --border-nav-item-selected: var(--border-focus);
+
+  /* Modal component tokens */
+  --surface-modal-backdrop: var(--surface-overlay);
+  --surface-modal-content: var(--surface-card-elevated);
+  --border-modal: var(--border-subtle);
+  --text-modal-title: var(--text-primary);
+  --text-modal-body: var(--text-secondary);
+
 }
