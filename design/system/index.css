@@ -13,14 +13,6 @@
 @import './tokens/index.css';
 @import './tokens/component/icon.css';
 
-/* Theme Controls */
-@import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
-
-/* ===============================================
-   THEMES - CRITICAL FOR STYLING
-   =============================================== */
-@import './tokens/semantic/themes/index.css';
-
 /* ===============================================
    PRIMITIVE COMPONENTS - CORE STYLING (WORKING)
    =============================================== */
@@ -41,7 +33,7 @@
 
 /* ===== PRIMITIVES (Enhanced components) ===== */
 /* 🔥 CRITICAL: Typography MUST be included */
-
+@import './components/primitives/Typography/Typography.css';
 @import './components/primitives/Icon/Icon.css';
 @import './components/primitives/Tag/Tag.css';
 @import './components/primitives/SegmentedControl/SegmentedControl.css';
@@ -74,9 +66,19 @@
 @import './components/patterns/dashboard/editor/EditorPanel/EditorPanel.css';
 @import './components/patterns/dashboard/editor/EditorSection/EditorSection.css';
 
+/* Theme Controls */
+@import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
+
+/* ===============================================
+   THEMES - CRITICAL FOR STYLING
+   =============================================== */
+@import './tokens/semantic/themes/index.css';
+
 /* ===============================================
    LAYOUT UTILITIES - CORRECT PATHS
    =============================================== */
 @import './layout/utilities/cluster/Cluster.css';
 @import './layout/utilities/rhythm/Rhythm.css';
 @import './layout/utilities/stack/Stack.css';
+
+@import './utils/typography.css'
