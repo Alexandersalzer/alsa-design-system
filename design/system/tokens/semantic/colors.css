@@ -133,7 +133,7 @@
   --surface-card-hover: var(--primary-50);                     /* #F5F5F5 */
   --surface-card-selected: var(--primary-100);                 /* #F1F1F1 */
   --surface-card-elevated: var(--primary-white);               /* #f7f7f7 */
-  --surface-overlay: rgba(0, 0, 0, 0.5);
+  --surface-overlay: var(--primary-white);
   --surface-backdrop: rgba(0, 0, 0, 0.3);
 
   /* ===== SEMANTIC BORDER TOKENS - ONLY DEFINED HERE ===== */
