@@ -9,7 +9,8 @@ import { useState, useEffect } from 'react';
 import { useEditingMode } from '../../../../cms/modules/initial/EditingWrapper';
 import { 
   getCurrentLocale, 
-  createLanguageChangeHandler, 
+  createLanguageChangeHandler,
+  switchLocale,
   defaultLocaleOptions,
   type SupportedLocale,
   type LocaleOption
@@ -51,9 +52,9 @@ const KjFooter = ({ languageOptions }: KjFooterProps) => {
       });
       
       setSelectedLanguage(value as SupportedLocale);
-      // Create the change handler with editing mode context and call it with the proper format
-      const changeHandler = createLanguageChangeHandler(isEditingMode);
-      changeHandler({ value, label: options.find(opt => opt.value === value)?.label || value });
+      
+      // Call switchLocale directly with the current isEditingMode value
+      switchLocale(value as SupportedLocale, isEditingMode);
     }
   };
 
