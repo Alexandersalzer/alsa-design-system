@@ -109,55 +109,69 @@
   --warning-1100: var(--foundation-honey-1100);
   --warning-1200: var(--foundation-honey-1200);
 
-    /* ===== SEMANTIC SURFACE TOKENS ===== */
+  /* ===== SEMANTIC TEXT TOKENS - ONLY DEFINED HERE ===== */
+  --text-primary: var(--primary-1000);                       
+  --text-secondary: var(--secondary-600);                      /* #7D7D7D */
+  --text-tertiary: var(--secondary-500);                       /* #8B8B8B */
+  --text-disabled: var(--secondary-300);                       /* #D5D5D5 */
+  --text-placeholder: var(--secondary-400);                    /* #C7C7C7 */
+  --text-inverse: var(--primary-white);                        /* #f7f7f7 */
+  --text-heading-primary: var(--primary-1200);                 /* #171717 */
+  --text-body-primary: var(--primary-1200);                    /* #171717 */
+  --text-body-secondary: var(--secondary-600);                 /* #7D7D7D */
+  --text-label: var(--primary-1200);                           /* #171717 */
+  --text-link: var(--accent-600);                              /* Purple */
+  --text-link-hover: var(--accent-700);                        /* Darker purple */
+  --text-code: var(--primary-1100);                            /* #212121 */
+  
+
+  /* ===== SEMANTIC SURFACE TOKENS - ONLY DEFINED HERE ===== */
+  --surface-background: #fff;
+  --surface-modal: var(--primary-white);
   --surface-page: var(--primary-white);                        /* #f7f7f7 */
   --surface-card: var(--primary-white);                        /* #f7f7f7 */
   --surface-card-hover: var(--primary-50);                     /* #F5F5F5 */
   --surface-card-selected: var(--primary-100);                 /* #F1F1F1 */
   --surface-card-elevated: var(--primary-white);               /* #f7f7f7 */
-  --surface-overlay: rgba(0, 0, 0, 0.5);                      /* Modal overlays */
-  --surface-backdrop: rgba(0, 0, 0, 0.3);                     /* Light backdrop */
+  --surface-overlay: rgba(0, 0, 0, 0.5);
+  --surface-backdrop: rgba(0, 0, 0, 0.3);
 
-  /* ===== SEMANTIC TEXT TOKENS ===== */
-  --text-primary: var(--primary-1200);                         /* #171717 - dark text */
-  --text-secondary: var(--secondary-600);                      /* #7D7D7D - medium gray */
-  --text-tertiary: var(--secondary-500);                       /* #8B8B8B - light gray */
-  --text-disabled: var(--secondary-300);                       /* #D5D5D5 - disabled text */
-  --text-placeholder: var(--secondary-400);                    /* #C7C7C7 - placeholder text */
-  --text-inverse: var(--primary-white);                        /* #f7f7f7 - white text */
-  --text-heading-primary: var(--primary-1200);                 /* #171717 - headings */
-  --text-body-secondary: var(--secondary-600);                 /* #7D7D7D - body text */
+  /* ===== SEMANTIC BORDER TOKENS - ONLY DEFINED HERE ===== */
+  --border-default: var(--secondary-200);                      /* #E3E3E3 */
+  --border-subtle: var(--secondary-100);                       /* #F1F1F1 */
+  --border-hover: var(--secondary-300);                        /* #D5D5D5 */
+  --border-focus: var(--accent-500);                           /* #A855F7 */
+  --border-disabled: var(--secondary-100);                     /* #F1F1F1 */
 
-  /* ===== SEMANTIC BORDER TOKENS ===== */
-  --border-default: var(--secondary-200);                      /* #E3E3E3 - default borders */
-  --border-subtle: var(--secondary-100);                       /* #F1F1F1 - subtle borders */
-  --border-hover: var(--secondary-300);                        /* #D5D5D5 - hover borders */
-  --border-focus: var(--accent-500);                           /* #A855F7 - focus rings */
-  --border-disabled: var(--secondary-100);                     /* #F1F1F1 - disabled borders */
+  /* ===== SEMANTIC ICON TOKENS - ONLY DEFINED HERE ===== */
+  --icon-primary: var(--secondary-600);                        /* #7D7D7D */
+  --icon-secondary: var(--secondary-500);                      /* #8B8B8B */
+  --icon-tertiary: var(--secondary-400);                       /* #C7C7C7 */
+  --icon-disabled: var(--secondary-300);                       /* #D5D5D5 */
+  --icon-inverse: var(--primary-white);                        /* #f7f7f7 */
 
-  /* ===== SEMANTIC ICON TOKENS ===== */
-  --icon-primary: var(--secondary-600);                        /* #7D7D7D - primary icons */
-  --icon-secondary: var(--secondary-500);                      /* #8B8B8B - secondary icons */
-  --icon-tertiary: var(--secondary-400);                       /* #C7C7C7 - tertiary icons */
-  --icon-disabled: var(--secondary-300);                       /* #D5D5D5 - disabled icons */
-
-  /* ===== SEMANTIC INTERACTIVE TOKENS (FROM YOUR PASTE-1) ===== */
-  /* These are the ones you already have defined - keep exactly as they are */
-  --interactive-primary: var(--primary-900);                   /* #3D3D3D - Primary buttons */
-  --interactive-primary-hover: var(--primary-800);             /* #616161 - Primary hover */
-  --interactive-primary-active: var(--primary-700);            /* #6F6F6F - Primary active */
-  --interactive-primary-disabled: var(--secondary-200);        /* #E3E3E3 - Primary disabled */
+  /* ===== SEMANTIC INTERACTIVE TOKENS - ONLY DEFINED HERE ===== */
+  --interactive-primary: var(--primary-900);                   /* #3D3D3D */
+  --interactive-primary-hover: var(--primary-800);             /* #616161 */
+  --interactive-primary-active: var(--primary-700);            /* #6F6F6F */
+  --interactive-primary-disabled: var(--secondary-200);        /* #E3E3E3 */
   
-  --interactive-secondary: var(--secondary-100);               /* #F1F1F1 - Secondary buttons */
-  --interactive-secondary-hover: var(--secondary-200);         /* #E3E3E3 - Secondary hover */
-  --interactive-secondary-active: var(--secondary-300);        /* #D5D5D5 - Secondary active */
-  --interactive-secondary-disabled: var(--secondary-50);       /* #F5F5F5 - Secondary disabled */
+  --interactive-secondary: var(--secondary-100);               /* #F1F1F1 */
+  --interactive-secondary-hover: var(--secondary-200);         /* #E3E3E3 */
+  --interactive-secondary-active: var(--secondary-300);        /* #D5D5D5 */
+  --interactive-secondary-disabled: var(--secondary-50);       /* #F5F5F5 */
 
-  --interactive-accent: var(--accent-600);                     /* #9333EA - Accent buttons */
-  --interactive-accent-hover: var(--accent-700);               /* #7C3AED - Accent hover */
-  --interactive-accent-active: var(--accent-700);              /* #7C3AED - Accent active */
+  --interactive-accent: var(--accent-600);                     /* #9333EA */
+  --interactive-accent-hover: var(--accent-700);               /* #7C3AED */
+  --interactive-accent-active: var(--accent-700);              /* #7C3AED */
   
-  --interactive-tertiary: transparent;                         /* Transparent - Ghost buttons */
-  --interactive-tertiary-hover: var(--secondary-50);           /* #F5F5F5 - Ghost hover */
-  --interactive-tertiary-active: var(--secondary-100); 
+  --interactive-tertiary: transparent;
+  --interactive-tertiary-hover: var(--secondary-50);           /* #F5F5F5 */
+  --interactive-tertiary-active: var(--secondary-100);         /* #F1F1F1 */
+
+  /* ===== SEMANTIC SHADOW TOKENS - ONLY DEFINED HERE ===== */
+  --shadow-default: rgba(0, 0, 0, 0.1);
+  --shadow-subtle: rgba(0, 0, 0, 0.05);
+  --shadow-emphasis: rgba(0, 0, 0, 0.15);
+  --shadow-strong: rgba(0, 0, 0, 0.25);
 }

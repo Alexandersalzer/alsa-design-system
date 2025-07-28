@@ -17,4 +17,7 @@
   --text-input-disabled: var(--text-disabled);
   --icon-input: var(--icon-secondary);
   --icon-input-disabled: var(--icon-disabled);
+
+  --text-search-input: var(--text-input-placeholder);
+  --text-search-placeholder: var(--text-input-placeholder);
 }

@@ -31,10 +31,11 @@
   
   
   /* ===== NAVIGATION ICON COLORS ===== */
-  --icon-nav-item: var(--secondary-600);
   --icon-nav-item-selected:  var(--nav-selected);
-  --icon-nav-item-disabled: var(--secondary-300);
+  --icon-nav-item-disabled: var(--icon-tertiary);
   --icon-nav-item-hover: var(--secondary-600);
+  --text-user-menu-trigger: var(--text-primary);
+  --icon-nav-item: var(--icon-secondary);
   
   /* ===== NAVIGATION BORDERS ===== */
   --border-nav: var(--secondary-100);
