@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Button } from '../../primitives/Button';
 import { TextLink } from '../../primitives/TextLink';
 import { Cluster } from '../../../layout/utilities/cluster';
@@ -76,9 +77,20 @@ export const NavMenu = ({
   variant = 'ghost',
   size = 'md'
 }: NavMenuProps) => {
+  const router = useRouter();
+
   const handleItemClick = (item: NavMenuItem) => {
-    // Navigate to href
-    window.location.href = item.href;
+    // Check if this is a .html file (edit mode)
+    const isHtmlFile = item.href.endsWith('.html');
+    
+    if (isHtmlFile) {
+      // Navigate to .html file directly
+      window.location.href = item.href;
+    } else {
+      // Use Next.js router for internal navigation
+      router.push(item.href);
+    }
+    
     // Call optional click handler
     onLinkClick?.(item);
   };
@@ -92,7 +104,7 @@ export const NavMenu = ({
         
         // Check if this should be a TextLink or Button
         if (item.componentType === 'textlink') {
-          // Render as TextLink
+          // Render as TextLink (it handles .html vs regular routes internally)
           const textLinkVariant = item.textLinkVariant || 'primary';
           const activeVariant = item.isActive ? 'accent' : textLinkVariant;
           

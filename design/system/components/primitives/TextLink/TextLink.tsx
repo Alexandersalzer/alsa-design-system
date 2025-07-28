@@ -4,6 +4,7 @@
 // ===============================================
 
 import React, { forwardRef, ReactNode } from 'react';
+import Link from 'next/link';
 import { cn } from '../../../lib/utils';
 import { Label, TypographyColor, TypographyWeight } from '../../../../system/components/primitives/Typography';
 import './TextLink.css';
@@ -29,6 +30,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   rightIcon,
   underline = 'hover',
   disabled = false,
+  href,
   ...props
 }, ref) => {
   
@@ -88,14 +90,12 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
     className
   );
 
-  return (
-    <a
-      ref={ref}
-      className={textLinkClasses}
-      aria-disabled={disabled}
-      tabIndex={disabled ? -1 : undefined}
-      {...props}
-    >
+  // Check if this is a .html file (edit mode) or regular Next.js route
+  const isHtmlFile = href?.endsWith('.html');
+
+  // Content to render inside the link
+  const linkContent = (
+    <>
       {/* Left Icon */}
       {leftIcon && (
         <span className="textlink-icon textlink-icon-left" aria-hidden="true">
@@ -120,7 +120,37 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
           {rightIcon}
         </span>
       )}
-    </a>
+    </>
+  );
+
+  // If it's a .html file (edit mode), use regular anchor tag
+  if (isHtmlFile) {
+    return (
+      <a
+        ref={ref}
+        href={href}
+        className={textLinkClasses}
+        aria-disabled={disabled}
+        tabIndex={disabled ? -1 : undefined}
+        {...props}
+      >
+        {linkContent}
+      </a>
+    );
+  }
+
+  // Otherwise, use Next.js Link for internal routing
+  return (
+    <Link
+      href={href || '#'}
+      className={textLinkClasses}
+      aria-disabled={disabled}
+      tabIndex={disabled ? -1 : undefined}
+      ref={ref}
+      {...props}
+    >
+      {linkContent}
+    </Link>
   );
 });
 

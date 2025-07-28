@@ -36,8 +36,9 @@ export function buildBrandHref(
   isToggled: boolean
 ): string {
   if (isToggled) {
-    // Toggle mode: use .html files
-    return `/${originalHref.replace('/', '')}.html`;
+    // Toggle mode: use .html files WITH locale prefix
+    const slug = originalHref.replace('/', '') || 'home';
+    return `/${currentLocale}/${slug}.html`;
   }
   
   // Normal mode: use locale-based routes
@@ -54,9 +55,9 @@ export function buildNavHref(
   isToggled: boolean
 ): string {
   if (isToggled) {
-    // Toggle mode: use slug or href for .html files
+    // Toggle mode: use slug or href for .html files WITH locale prefix
     const slug = item.slug || item.href.replace('/', '');
-    return `/${slug}.html`;
+    return `/${currentLocale}/${slug}.html`;
   }
   
   // Normal mode: use locale-based routes
