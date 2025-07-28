@@ -72,7 +72,7 @@
 /* ===============================================
    THEMES - CRITICAL FOR STYLING
    =============================================== */
-@import './tokens/semantic/themes/index.css';
+
 
 /* ===============================================
    LAYOUT UTILITIES - CORRECT PATHS
@@ -82,3 +82,4 @@
 @import './layout/utilities/stack/Stack.css';
 
 @import './utils/typography.css'
+
