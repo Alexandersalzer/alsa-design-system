@@ -168,6 +168,22 @@
   --interactive-tertiary: transparent;
   --interactive-tertiary-hover: var(--secondary-50);           /* #F5F5F5 */
   --interactive-tertiary-active: var(--secondary-100);         /* #F1F1F1 */
+  
+  /* Destructive interactions */
+  --interactive-destructive: var(--error-500);                /* Destructive actions */
+  --interactive-destructive-hover: var(--error-600);          /* Destructive hover */
+  --interactive-destructive-active: var(--error-700);         /* Destructive active */
+  
+  /* Success interactions */
+  --interactive-success: var(--success-500);                  /* Success actions */
+  --interactive-success-hover: var(--success-600);            /* Success hover */
+  --interactive-success-active: var(--success-700);           /* Success active */
+  
+  /* Warning interactions */
+  --interactive-warning: var(--warning-500);                  /* Warning actions */
+  --interactive-warning-hover: var(--warning-600);            /* Warning hover */
+  --interactive-warning-active: var(--warning-700);           /* Warning active */
+
 
   /* ===== SEMANTIC SHADOW TOKENS - ONLY DEFINED HERE ===== */
   --shadow-default: rgba(0, 0, 0, 0.1);

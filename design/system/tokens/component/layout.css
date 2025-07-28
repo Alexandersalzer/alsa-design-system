@@ -1,34 +1,9 @@
 /* ==============================================
  src/design-system/tokens/component/layout.css
- LAYOUT COMPONENT TOKENS
+ LAYOUT COMPONENT TOKENS - ONLY spacing, dimensions, transitions
  ============================================== */
+
  :root {
-  /* ===== GLOBAL SURFACE TOKENS ===== */
-  --surface-background: #fff;
-  --surface-page: var(--primary-white);
-  --surface-overlay: var(--primary-black);
-  --surface-modal: var(--primary-white);
-  
-  /* ===== GLOBAL TEXT TOKENS ===== */
-  --text-primary: var(--primary-1000);
-  --text-secondary: var(--secondary-600);
-  --text-tertiary: var(--secondary-500);
-  --text-disabled: var(--secondary-300);
-  --text-placeholder: var(--secondary-400);
-  --text-inverse: var(--primary-white);
-  
-  /* ===== GLOBAL ICON TOKENS ===== */
-  --icon-primary: var(--secondary-600);
-  --icon-secondary: var(--secondary-500);
-  --icon-disabled: var(--secondary-300);
-  --icon-inverse: var(--primary-white);
-  
-  /* ===== GLOBAL BORDER TOKENS ===== */
-  --border-primary: var(--secondary-200);
-  --border-secondary: var(--secondary-100);
-  --border-focus: var(--accent-500);
-  --border-disabled: var(--secondary-100);
-  
   /* ===== CONTAINER TOKENS ===== */
   --space-container-padding-xs: var(--foundation-space-4);   /* 16px */
   --space-container-padding-sm: var(--foundation-space-6);   /* 24px */
@@ -89,8 +64,6 @@
   
   /* ===== BORDER RADIUS COMPONENT TOKENS ===== */
   --radius-button: var(--foundation-radius-xl);
-  --radius-button-sm: var(--form-radius-lg);
-  --radius-button-lg: var(--form-radius-xl);
   --radius-card: var(--foundation-radius-lg);
   --radius-input: var(--foundation-radius-lg);
   --radius-modal: var(--foundation-radius-xl);
@@ -121,48 +94,20 @@
   --size-page-content-max-width: 800px;
   --size-page-narrow-max-width: 600px;
   
-  /* ===== PAGE SURFACES ===== */
-  --surface-page-container: transparent;
-  --surface-page-section: transparent;
-  
-  /* ===== MISSING TEXT TOKENS ===== */
-  --text-search-input: var(--text-primary);
-  --text-search-placeholder: var(--text-placeholder);
-  --text-setup-guide: var(--text-primary);
-  --text-user-menu-trigger: var(--text-primary);
-  --text-user-menu-item: var(--text-primary);
-  --text-heading-color: var(--text-primary);
-  --text-body-color: var(--text-primary);
-  
-  /* ===== MISSING ICON TOKENS ===== */
-  --icon-user-menu-trigger: var(--icon-secondary);
-  --icon-user-menu-chevron: var(--icon-secondary);
-  --icon-user-menu-item: var(--icon-secondary);
-  --icon-user-menu-item-danger: var(--error-600);
-  --icon-nav-item: var(--icon-secondary);
-  --icon-nav-item-hover: var(--icon-primary);
-  --icon-nav-item-selected: var(--accent-500);
-  --icon-nav-item-disabled: var(--icon-disabled);
-  --icon-empty-state: var(--icon-secondary);
-  
-  /* ===== MISSING TRANSITION TOKENS ===== */
+  /* ===== TRANSITION TOKENS ===== */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.2s ease;
   --transition-button: var(--transition-fast);
   --transition-input: var(--transition-fast);
   --transition-nav: var(--transition-fast);
   
-  /* ===== MISSING SPACING TOKENS ===== */
+  /* ===== SPACING TOKENS ===== */
   --space-dropdown-offset: var(--foundation-space-2);
   --space-dropdown-header-padding: var(--foundation-space-4);
   --space-dropdown-content-padding: var(--foundation-space-3);
   --space-dropdown-footer-padding: var(--foundation-space-4);
   
-  /* ===== MISSING SHADOW TOKENS ===== */
-  --shadow-dropdown: var(--foundation-shadow-lg);
-  --shadow-user-menu-dropdown: var(--foundation-shadow-lg);
-  
-  /* ===== MISSING Z-INDEX TOKENS ===== */
+  /* ===== Z-INDEX TOKENS ===== */
   --z-dropdown: 1000;
   --z-index-sidebar: 100;
   --z-index-header: 50;
