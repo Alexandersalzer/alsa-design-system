@@ -1,4 +1,4 @@
-export interface ToggleMessageHandlers {
+export interface EditingMessageHandlers {
   onEditingStatusUpdate: (editing: boolean) => void;
 }
 
@@ -9,7 +9,7 @@ export const requestEditingStatus = (versionId: number) => {
   }, '*');
 };
 
-export const setupToggleMessageListener = (handlers: ToggleMessageHandlers) => {
+export const setupEditingMessageListener = (handlers: EditingMessageHandlers) => {
   const handleMessage = (event: MessageEvent) => {
     if (event.data.type === 'editing-status-update') {
       handlers.onEditingStatusUpdate(event.data.editing);

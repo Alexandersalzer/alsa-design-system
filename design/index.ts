@@ -6,7 +6,7 @@ export * from './system';
 // CMS modules exports (with explicit naming to avoid conflicts)
 export { ContentContext, useContent } from './cms-modules/context/ContentContext';
 export { ContentProvider } from './cms-modules/context/ContentProvider';
-export { ToggleProviderWrapper, useToggle } from './cms-modules/context/ToggleContext';
+export { EditingModeWrapper, useToggle } from './cms-modules/context/ToggleContext';
 
 // CMS utilities and messaging (client-side only)
 export { sendBothDimensions } from './cms-modules/messaging/dimensionMessaging';

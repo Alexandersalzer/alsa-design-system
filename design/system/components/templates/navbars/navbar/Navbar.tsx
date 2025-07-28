@@ -54,12 +54,12 @@ const Navbar = ({
   logoWidth = 40,
   logoHeight = 40
 }: NavbarProps) => {
-  const { isToggled } = useToggle();
+  const { isEditingMode } = useToggle();
   const { getNavbarContent } = useContent();
   const pathname = usePathname();
   
   // Use navigation utilities for consistent route handling
-  const nav = getNavigationContext(pathname, isToggled);
+  const nav = getNavigationContext(pathname, isEditingMode);
 
   // Get navbar content from JSON
   const navbarContent = getNavbarContent();

@@ -4,29 +4,29 @@ import React, { createContext, useContext, useState, ReactNode, useEffect, Suspe
 import { useSearchParams } from 'next/navigation';
 import { 
   requestEditingStatus,
-  setupToggleMessageListener,
-  type ToggleMessageHandlers
+  setupEditingMessageListener,
+  type EditingMessageHandlers
 } from '../../cms-modules/messaging/toggleMessaging';
 
 interface ToggleContextType {
-  isToggled: boolean;
+  isEditingMode: boolean;
 }
 
 const ToggleContext = createContext<ToggleContextType | undefined>(undefined);
 
-// COMBINED: SearchParams + Toggle Provider i en komponent
-function ToggleProvider({ children }: { children: ReactNode }) {
+
+function EditingProvider({ children }: { children: ReactNode }) {
   const searchParams = useSearchParams();
   const versionId = searchParams.get('version') ? parseInt(searchParams.get('version')!, 10) : undefined;
-  const [isToggled, setIsToggled] = useState<boolean>(false);
+  const [isEditingMode, setIsEditing] = useState<boolean>(false);
 
   // Listen for editing status updates from parent window
   useEffect(() => {
-    const messageHandlers: ToggleMessageHandlers = {
-      onEditingStatusUpdate: (editing) => setIsToggled(editing)
+    const messageHandlers: EditingMessageHandlers = {
+      onEditingStatusUpdate: (editing) => setIsEditing(editing)
     };
 
-    const cleanup = setupToggleMessageListener(messageHandlers);
+    const cleanup = setupEditingMessageListener(messageHandlers);
     
     // Request initial editing status from parent
     if (versionId) {
@@ -37,19 +37,19 @@ function ToggleProvider({ children }: { children: ReactNode }) {
   }, [versionId]);
 
   return (
-    <ToggleContext.Provider value={{ isToggled }}>
+    <ToggleContext.Provider value={{ isEditingMode }}>
       {children}
     </ToggleContext.Provider>
   );
 }
 
 // Wrapper som bara hanterar Suspense
-export function ToggleProviderWrapper({ children }: { children: ReactNode }) {
+export function EditingModeWrapper({ children }: { children: ReactNode }) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ToggleProvider>
+      <EditingProvider>
         {children}
-      </ToggleProvider>
+      </EditingProvider>
     </Suspense>
   );
 }
@@ -57,7 +57,7 @@ export function ToggleProviderWrapper({ children }: { children: ReactNode }) {
 export function useToggle() {
   const context = useContext(ToggleContext);
   if (context === undefined) {
-    throw new Error('useToggle must be used within a ToggleProvider');
+    throw new Error('useToggle must be used within a EditingProvider');
   }
   return context;
 } 

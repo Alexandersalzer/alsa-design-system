@@ -33,9 +33,9 @@ export function extractLocaleFromPathname(pathname: string): SupportedLocale {
 export function buildBrandHref(
   originalHref: string, 
   currentLocale: SupportedLocale, 
-  isToggled: boolean
+  isEditingMode: boolean
 ): string {
-  if (isToggled) {
+  if (isEditingMode) {
     // Toggle mode: use .html files WITH locale prefix
     const slug = originalHref.replace('/', '') || 'home';
     return `/${currentLocale}/${slug}.html`;
@@ -52,9 +52,9 @@ export function buildBrandHref(
 export function buildNavHref(
   item: NavigationItem,
   currentLocale: SupportedLocale,
-  isToggled: boolean
+  isEditingMode: boolean
 ): string {
-  if (isToggled) {
+  if (isEditingMode) {
     // Toggle mode: use slug or href for .html files WITH locale prefix
     const slug = item.slug || item.href.replace('/', '');
     return `/${currentLocale}/${slug}.html`;
@@ -72,9 +72,9 @@ export function isNavItemActive(
   item: NavigationItem,
   currentPathname: string,
   currentLocale: SupportedLocale,
-  isToggled: boolean
+  isEditingMode: boolean
 ): boolean {
-  const expectedHref = buildNavHref(item, currentLocale, isToggled);
+  const expectedHref = buildNavHref(item, currentLocale, isEditingMode);
   return currentPathname === expectedHref;
 }
 
@@ -82,14 +82,14 @@ export function isNavItemActive(
  * Navigation utilities hook-like object
  * Provides all navigation functions with consistent locale and toggle state
  */
-export function createNavigationUtils(currentLocale: SupportedLocale, isToggled: boolean) {
+export function createNavigationUtils(currentLocale: SupportedLocale, isEditingMode: boolean) {
   return {
-    buildBrandHref: (originalHref: string) => buildBrandHref(originalHref, currentLocale, isToggled),
-    buildNavHref: (item: NavigationItem) => buildNavHref(item, currentLocale, isToggled),
+    buildBrandHref: (originalHref: string) => buildBrandHref(originalHref, currentLocale, isEditingMode),
+    buildNavHref: (item: NavigationItem) => buildNavHref(item, currentLocale, isEditingMode),
     isNavItemActive: (item: NavigationItem, currentPathname: string) => 
-      isNavItemActive(item, currentPathname, currentLocale, isToggled),
+      isNavItemActive(item, currentPathname, currentLocale, isEditingMode),
     currentLocale,
-    isToggled
+    isEditingMode
   };
 }
 
@@ -97,7 +97,7 @@ export function createNavigationUtils(currentLocale: SupportedLocale, isToggled:
  * Get navigation context from pathname and toggle state
  * Convenience function that combines locale extraction with navigation utils
  */
-export function getNavigationContext(pathname: string, isToggled: boolean) {
+export function getNavigationContext(pathname: string, isEditingMode: boolean) {
   const currentLocale = extractLocaleFromPathname(pathname);
-  return createNavigationUtils(currentLocale, isToggled);
+  return createNavigationUtils(currentLocale, isEditingMode);
 }
