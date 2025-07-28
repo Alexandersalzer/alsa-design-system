@@ -1,30 +1,30 @@
- /* ==============================================
+/* ==============================================
    src/design-system/tokens/component/card.css
-   CARD COMPONENT TOKENS
+   CARD COMPONENT TOKENS - SEMANTIC ONLY
    ============================================== */
 
-:root {
-  /* ===== CARD SURFACES ===== */
-  --surface-card: var(--primary-white);
-  --surface-card-hover: var(--secondary-100);
-  --surface-card-elevated: var(--primary-white);
-  
-  /* ===== CARD BORDERS ===== */
-  --border-card: var(--secondary-100);
-  --border-card-hover: var(--secondary-200);
-  --border-card-elevated: var(--secondary-100);
-  
-  /* ===== CARD TEXT COLORS ===== */
-  --text-card-primary: var(--primary-1000);
-  --text-card-secondary: var(--secondary-600);
-  --text-card-tertiary: var(--secondary-500);
-  
-  /* ===== CARD ICON COLORS ===== */
-  --icon-card-primary: var(--secondary-600);
-  --icon-card-secondary: var(--secondary-500);
-  
-  /* ===== CARD SHADOWS ===== */
-  --shadow-card: var(--foundation-shadow-sm);
-  --shadow-card-hover: var(--foundation-shadow-md);
-  --shadow-card-elevated: var(--foundation-shadow-lg);
-}
+   :root {
+    /* ===== CARD SURFACES ===== */
+    --surface-card: var(--surface-card);                    /* Already defined in semantic */
+    --surface-card-hover: var(--surface-card-hover);        /* Already defined in semantic */
+    --surface-card-elevated: var(--surface-card-elevated);  /* Already defined in semantic */
+    
+    /* ===== CARD BORDERS ===== */
+    --border-card: var(--border-default);                   /* Using semantic border tokens */
+    --border-card-hover: var(--border-hover);               /* Using semantic border tokens */
+    --border-card-elevated: var(--border-subtle);           /* Using semantic border tokens */
+    
+    /* ===== CARD TEXT COLORS ===== */
+    --text-card-primary: var(--text-primary);               /* Using semantic text tokens */
+    --text-card-secondary: var(--text-secondary);           /* Using semantic text tokens */
+    --text-card-tertiary: var(--text-tertiary);             /* Using semantic text tokens */
+    
+    /* ===== CARD ICON COLORS ===== */
+    --icon-card-primary: var(--icon-primary);               /* Using semantic icon tokens */
+    --icon-card-secondary: var(--icon-secondary);           /* Using semantic icon tokens */
+    
+    /* ===== CARD SHADOWS ===== */
+    --shadow-card: var(--shadow-subtle);                    /* Using semantic shadow tokens */
+    --shadow-card-hover: var(--shadow-default);             /* Using semantic shadow tokens */
+    --shadow-card-elevated: var(--shadow-emphasis);         /* Using semantic shadow tokens */
+  }
