@@ -7,6 +7,8 @@
 @import './tokens/foundation/index.css';
 @import './tokens/semantic/index.css';
 
+@import './tokens/semantic/themes/index.css';
+
 /* Utilities BEFORE components - ALWAYS KEEP THIS */
 @import './utils/index.css';
 @import './tokens/component/index.css';
@@ -72,7 +74,7 @@
 /* ===============================================
    THEMES - CRITICAL FOR STYLING
    =============================================== */
-@import './tokens/semantic/themes/index.css';
+
 
 /* ===============================================
    LAYOUT UTILITIES - CORRECT PATHS
