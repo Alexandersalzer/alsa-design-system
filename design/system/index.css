@@ -52,8 +52,7 @@
 @import './layout/utilities/rhythm/Rhythm.css';
 @import './layout/utilities/stack/Stack.css';
 
-/* STEP 7: Themes LAST */
-@import './tokens/semantic/themes/index.css';
+
 /* STEP 1: Foundation tokens (colors, spacing, etc.) */
 @import './tokens/foundation/index.css';
 
@@ -62,6 +61,9 @@
 
 /* STEP 3: Component tokens (surface-button-primary, etc.) */
 @import './tokens/component/index.css';
+
+/* STEP 7: Themes LAST */
+@import './tokens/semantic/themes/index.css';
 
 
 /* STEP 8: Utilities LAST (so they can override if needed) */
