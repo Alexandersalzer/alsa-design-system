@@ -65,3 +65,7 @@
 /* STEP 8: Utilities LAST (so they can override if needed) */
 @import './utils/index.css';
 @import './utils/typography.css';
+
+:root {
+   --test-surface-card: #ffffff;
+ }
