@@ -33,7 +33,7 @@
 
 /* ===== PRIMITIVES (Enhanced components) ===== */
 /* 🔥 CRITICAL: Typography MUST be included */
-@import './components/primitives/Typography/Typography.css';
+
 @import './components/primitives/Icon/Icon.css';
 @import './components/primitives/Tag/Tag.css';
 @import './components/primitives/SegmentedControl/SegmentedControl.css';
