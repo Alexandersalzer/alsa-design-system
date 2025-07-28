@@ -21,9 +21,11 @@ interface KjFooterProps {
     label: string;
     icon?: React.ReactNode;
   }>;
+  // Add editing mode prop to support editing context
+  isEditingMode?: boolean;
 }
 
-const KjFooter = ({ languageOptions }: KjFooterProps) => {
+const KjFooter = ({ languageOptions, isEditingMode = false }: KjFooterProps) => {
   const [selectedLanguage, setSelectedLanguage] = useState<SupportedLocale>('sv');
   
   // Get current locale on component mount
@@ -43,8 +45,8 @@ const KjFooter = ({ languageOptions }: KjFooterProps) => {
   const handleLanguageChangeWithState = (value: string | null) => {
     if (value) {
       setSelectedLanguage(value as SupportedLocale);
-      // Create the change handler and call it with the proper format
-      const changeHandler = createLanguageChangeHandler();
+      // Create the change handler with editing mode support and call it with the proper format
+      const changeHandler = createLanguageChangeHandler(isEditingMode);
       changeHandler({ value, label: options.find(opt => opt.value === value)?.label || value });
     }
   };

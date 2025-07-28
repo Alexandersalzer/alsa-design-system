@@ -49,9 +49,9 @@ export function getCurrentLocale(): SupportedLocale {
 
 /**
  * Navigate to a different locale while preserving the current page
- * Works with Next.js [locale] dynamic routes
+ * Works with Next.js [locale] dynamic routes and editing mode (.html files)
  */
-export function switchLocale(newLocale: SupportedLocale): void {
+export function switchLocale(newLocale: SupportedLocale, isEditingMode: boolean = false): void {
   if (typeof window === 'undefined') {
     return;
   }
@@ -64,21 +64,39 @@ export function switchLocale(newLocale: SupportedLocale): void {
     segments.shift();
   }
   
-  // Build new path with new locale
-  const newPath = `/${newLocale}${segments.length > 0 ? '/' + segments.join('/') : ''}`;
-  
-  // Navigate to new locale
-  window.location.href = newPath;
+  if (isEditingMode) {
+    // In editing mode, handle .html files
+    let slug = 'home'; // Default slug
+    
+    if (segments.length > 0) {
+      const lastSegment = segments[segments.length - 1];
+      // If current path ends with .html, extract the slug
+      if (lastSegment.endsWith('.html')) {
+        slug = lastSegment.replace('.html', '');
+      } else {
+        // If no .html extension, use the path as slug
+        slug = segments.join('/') || 'home';
+      }
+    }
+    
+    // Build new path with new locale and .html extension
+    const newPath = `/${newLocale}/${slug}.html`;
+    window.location.href = newPath;
+  } else {
+    // Normal mode: use locale-based routes
+    const newPath = `/${newLocale}${segments.length > 0 ? '/' + segments.join('/') : ''}`;
+    window.location.href = newPath;
+  }
 }
 
 /**
  * Create a language picker change handler for Picker component
  * Returns a function that can be used as onChange prop
  */
-export function createLanguageChangeHandler() {
+export function createLanguageChangeHandler(isEditingMode: boolean = false) {
   return (selectedOption: { value: string; label: string }) => {
     const locale = selectedOption.value as SupportedLocale;
-    switchLocale(locale);
+    switchLocale(locale, isEditingMode);
   };
 }
 

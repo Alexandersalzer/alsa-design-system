@@ -3,8 +3,11 @@
 import { Section } from '../../../../../system/layout/frames/section';
 import { Container } from '../../../../../system/layout/frames/container';
 import { KjFooter } from '../../../../../system/components/patterns/kj-footer';
+import { useEditingMode } from '../../../../../cms/modules/initial/EditingWrapper';
 
 const Footer = () => {
+  const { isEditingMode } = useEditingMode();
+
   return (
     <Section 
       as="footer" 
@@ -16,7 +19,7 @@ const Footer = () => {
       }}
     >
       <Container align="center">
-        <KjFooter />
+        <KjFooter isEditingMode={isEditingMode} />
       </Container>
     </Section>
   );
