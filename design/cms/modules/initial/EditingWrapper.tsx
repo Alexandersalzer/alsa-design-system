@@ -1,12 +1,12 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode, useEffect, Suspense } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { 
   requestEditingStatus,
   setupEditingMessageListener,
   type EditingMessageHandlers
-} from '../../cms-modules/messaging/toggleMessaging';
+} from './initialMessaging';
 
 interface ToggleContextType {
   isEditingMode: boolean;
@@ -54,10 +54,10 @@ export function EditingModeWrapper({ children }: { children: ReactNode }) {
   );
 }
 
-export function useToggle() {
+export function useEditingMode() {
   const context = useContext(ToggleContext);
   if (context === undefined) {
-    throw new Error('useToggle must be used within a EditingProvider');
+    throw new Error('useEditingMode must be used within a EditingProvider');
   }
   return context;
 } 

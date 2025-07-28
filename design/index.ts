@@ -4,12 +4,12 @@
 export * from './system';
 
 // CMS modules exports (with explicit naming to avoid conflicts)
-export { ContentContext, useContent } from './cms-modules/context/ContentContext';
-export { ContentProvider } from './cms-modules/context/ContentProvider';
-export { EditingModeWrapper, useToggle } from './cms-modules/context/ToggleContext';
+export { ContentContext, useContent } from './cms/context/ContentContext';
+export { ContentProvider } from './cms/context/ContentProvider';
+export { EditingModeWrapper, useEditingMode } from './cms/modules/initial/EditingWrapper';
 
 // CMS utilities and messaging (client-side only)
-export { sendBothDimensions } from './cms-modules/messaging/dimensionMessaging';
+export { sendBothDimensions } from './cms/messaging/dimensionMessaging';
 
 // Types
 export type { 
@@ -19,4 +19,4 @@ export type {
   Pattern, 
   Block as ContentBlock,
   BlockType 
-} from './cms-modules/types/content'; 
+} from './cms/types/content'; 

@@ -1,6 +1,6 @@
-import { type WebsiteContent } from '../../cms-modules/types/content';
-import { handleDimensionRequest } from '../../cms-modules/messaging/dimensionMessaging';
-import { handleDesignTokenMessage, type DesignTokenMessageHandlers } from '../../cms-modules/messaging/designTokenMessaging';
+import { type WebsiteContent } from '../types/content';
+import { handleDimensionRequest } from './dimensionMessaging';
+import { handleDesignTokenMessage, type DesignTokenMessageHandlers } from './designTokenMessaging';
 
 export interface MessageHandlers {
   onContentUpdate: (content: WebsiteContent) => void;

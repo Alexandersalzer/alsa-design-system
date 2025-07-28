@@ -1,18 +1,18 @@
 'use client';
 
 import React, { useState, ReactNode, useEffect } from 'react';
-import { type WebsiteContent, type Page, type Template, type Pattern, type Block } from '../../cms-modules/types/content';
+import { type WebsiteContent, type Page, type Template, type Pattern, type Block } from '../types/content';
 import { 
   parseContentFromUrl, 
   getVersionFromUrl, 
   requestWebsiteContent, 
   setupMessageListener,
   type MessageHandlers 
-} from '../../cms-modules/messaging/pageMessaging';
+} from '../messaging/pageMessaging';
 import { 
   createDesignTokenMessageHandlers,
   type DesignTokenMessageHandlers 
-} from '../../cms-modules/messaging/designTokenMessaging';
+} from '../messaging/designTokenMessaging';
 import { ContentContext, type ContentContextType, type HeroContent, type NavbarContent } from './ContentContext';
 
 interface ContentProviderProps {

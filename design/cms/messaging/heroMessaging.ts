@@ -1,4 +1,4 @@
-import { type WebsiteContent } from '../../cms-modules/types/content';
+import { type WebsiteContent } from '../types/content';
 
 export interface HeroMessageHandlers {
   onContentUpdate: (content: WebsiteContent) => void;

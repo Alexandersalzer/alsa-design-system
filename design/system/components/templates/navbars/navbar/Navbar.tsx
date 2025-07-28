@@ -1,8 +1,8 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useToggle } from '../../../../../cms-modules/context/ToggleContext';
-import { useContent } from '../../../../../cms-modules/context/ContentContext';
+import { useEditingMode } from '../../../../../cms/modules/initial/EditingWrapper';
+import { useContent } from '../../../../../cms/context/ContentContext';
 import { Section } from '../../../../layout/frames/section';
 import { Container } from '../../../../layout/frames/container';
 import { Cluster } from '../../../../layout/utilities/cluster';
@@ -54,7 +54,7 @@ const Navbar = ({
   logoWidth = 40,
   logoHeight = 40
 }: NavbarProps) => {
-  const { isEditingMode } = useToggle();
+  const { isEditingMode } = useEditingMode();
   const { getNavbarContent } = useContent();
   const pathname = usePathname();
   
