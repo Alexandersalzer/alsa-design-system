@@ -7,7 +7,7 @@
 
 /* ===== IMPORTANT: THEME IMPORT ORDER ===== */
 /* 1. Light theme (explicit light mode) */
-@import './light.css';
+
 /* 2. Dark theme (overrides for dark mode) */
 @import './dark.css';
 /* 3. Color themes (accent color overrides) */
@@ -121,9 +121,4 @@
 
 .theme-option--dark-cyan {
   background: radial-gradient(circle at 30% 30%, #06b6d4 30%, #1e293b 70%);
-}
-
-/* ===== SYSTEM THEME DETECTION ===== */
-[data-theme="auto"] {
-  /* Will be handled by JavaScript theme switcher */
 }
