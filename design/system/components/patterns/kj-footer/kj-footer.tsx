@@ -6,6 +6,7 @@ import { Stack } from '../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../system/layout/utilities/cluster/Cluster';
 import { Rhythm, RhythmItem } from '../../../../system/layout/utilities/rhythm/Rhythm';
 import { useState, useEffect } from 'react';
+import { useEditingMode } from '../../../../cms/modules/initial/EditingWrapper';
 import { 
   getCurrentLocale, 
   createLanguageChangeHandler, 
@@ -21,11 +22,10 @@ interface KjFooterProps {
     label: string;
     icon?: React.ReactNode;
   }>;
-  // Add editing mode prop to support editing context
-  isEditingMode?: boolean;
 }
 
-const KjFooter = ({ languageOptions, isEditingMode = false }: KjFooterProps) => {
+const KjFooter = ({ languageOptions }: KjFooterProps) => {
+  const { isEditingMode } = useEditingMode();
   const [selectedLanguage, setSelectedLanguage] = useState<SupportedLocale>('sv');
   
   // Get current locale on component mount
@@ -45,7 +45,7 @@ const KjFooter = ({ languageOptions, isEditingMode = false }: KjFooterProps) => 
   const handleLanguageChangeWithState = (value: string | null) => {
     if (value) {
       setSelectedLanguage(value as SupportedLocale);
-      // Create the change handler with editing mode support and call it with the proper format
+      // Create the change handler with editing mode context and call it with the proper format
       const changeHandler = createLanguageChangeHandler(isEditingMode);
       changeHandler({ value, label: options.find(opt => opt.value === value)?.label || value });
     }

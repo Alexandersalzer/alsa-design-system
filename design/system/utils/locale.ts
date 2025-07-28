@@ -49,7 +49,7 @@ export function getCurrentLocale(): SupportedLocale {
 
 /**
  * Navigate to a different locale while preserving the current page
- * Works with Next.js [locale] dynamic routes and editing mode (.html files)
+ * Works with Next.js [locale] dynamic routes and editing mode with .html files
  */
 export function switchLocale(newLocale: SupportedLocale, isEditingMode: boolean = false): void {
   if (typeof window === 'undefined') {
@@ -64,29 +64,29 @@ export function switchLocale(newLocale: SupportedLocale, isEditingMode: boolean 
     segments.shift();
   }
   
+  let newPath: string;
+  
   if (isEditingMode) {
     // In editing mode, handle .html files
-    let slug = 'home'; // Default slug
-    
     if (segments.length > 0) {
-      const lastSegment = segments[segments.length - 1];
-      // If current path ends with .html, extract the slug
-      if (lastSegment.endsWith('.html')) {
-        slug = lastSegment.replace('.html', '');
-      } else {
-        // If no .html extension, use the path as slug
-        slug = segments.join('/') || 'home';
+      // Extract the current page without .html extension if it exists
+      let currentPage = segments[segments.length - 1];
+      if (currentPage.endsWith('.html')) {
+        currentPage = currentPage.replace('.html', '');
       }
+      // Build path with new locale and .html extension
+      newPath = `/${newLocale}/${currentPage}.html`;
+    } else {
+      // Default to home page in editing mode
+      newPath = `/${newLocale}/home.html`;
     }
-    
-    // Build new path with new locale and .html extension
-    const newPath = `/${newLocale}/${slug}.html`;
-    window.location.href = newPath;
   } else {
     // Normal mode: use locale-based routes
-    const newPath = `/${newLocale}${segments.length > 0 ? '/' + segments.join('/') : ''}`;
-    window.location.href = newPath;
+    newPath = `/${newLocale}${segments.length > 0 ? '/' + segments.join('/') : ''}`;
   }
+  
+  // Navigate to new locale
+  window.location.href = newPath;
 }
 
 /**
