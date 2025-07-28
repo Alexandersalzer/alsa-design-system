@@ -7,13 +7,19 @@
 @import './tokens/foundation/index.css';
 @import './tokens/semantic/index.css';
 
-@import './tokens/semantic/themes/index.css';
-
 /* Utilities BEFORE components - ALWAYS KEEP THIS */
 @import './utils/index.css';
 @import './tokens/component/index.css';
 @import './tokens/index.css';
 @import './tokens/component/icon.css';
+
+/* Theme Controls */
+@import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
+
+/* ===============================================
+   THEMES - CRITICAL FOR STYLING
+   =============================================== */
+@import './tokens/semantic/themes/index.css';
 
 /* ===============================================
    PRIMITIVE COMPONENTS - CORE STYLING (WORKING)
@@ -67,14 +73,6 @@
 @import './components/patterns/dashboard/editor/EditorTabs/EditorTabs.css';
 @import './components/patterns/dashboard/editor/EditorPanel/EditorPanel.css';
 @import './components/patterns/dashboard/editor/EditorSection/EditorSection.css';
-
-/* Theme Controls */
-@import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
-
-/* ===============================================
-   THEMES - CRITICAL FOR STYLING
-   =============================================== */
-
 
 /* ===============================================
    LAYOUT UTILITIES - CORRECT PATHS
