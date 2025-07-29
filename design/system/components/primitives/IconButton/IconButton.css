@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/IconButton/IconButton.css
-   ICON BUTTON COMPONENT STYLES - MATCHES BUTTON PATTERN EXACTLY
+   FIXED - Perfect height alignment with Button component
 ============================================== */
 
 /* ===== BASE ICON BUTTON STYLES ===== */
@@ -20,32 +20,37 @@
   user-select: none;
   position: relative;
   flex-shrink: 0;
+  
+  /* Remove any default button styles */
+  background: none;
+  font: inherit;
+  color: inherit;
 }
 
-/* ===== SIZES - MATCHES BUTTON COMPONENT HEIGHTS ===== */
+/* ===== SIZES - PERFECTLY MATCHES BUTTON COMPONENT ===== */
 .icon-btn--sm {
-  min-height: 32px; /* Matches btn-sm */
-  width: 32px;
-  padding: var(--foundation-space-1);
+  min-height: 32px; /* EXACTLY matches btn-sm */
+  width: 32px;      /* Square aspect ratio */
+  padding: 6px;     /* (32 - 20) / 2 = 6px for icon */
 }
 
 .icon-btn--md,
 .icon-btn {
-  min-height: 40px; /* Matches btn-md */
-  width: 40px;
-  padding: var(--foundation-space-2);
+  min-height: 40px; /* EXACTLY matches btn-md */
+  width: 40px;      /* Square aspect ratio */
+  padding: 10px;    /* (40 - 20) / 2 = 10px for icon */
 }
 
 .icon-btn--lg {
-  min-height: 48px; /* Matches btn-lg */
-  width: 48px;
-  padding: var(--foundation-space-3);
+  min-height: 48px; /* EXACTLY matches btn-lg */
+  width: 48px;      /* Square aspect ratio */
+  padding: 14px;    /* (48 - 20) / 2 = 14px for icon */
 }
 
 .icon-btn--xl {
-  min-height: 56px; /* Matches btn-xl */
-  width: 56px;
-  padding: var(--foundation-space-4);
+  min-height: 56px; /* EXACTLY matches btn-xl */
+  width: 56px;      /* Square aspect ratio */
+  padding: 16px;    /* (56 - 24) / 2 = 16px for icon */
 }
 
 /* ===== VARIANTS - MATCHES BUTTON COMPONENT EXACTLY ===== */
@@ -198,10 +203,15 @@
   position: relative;
   z-index: 1;
   transition: inherit;
+  
+  /* Ensure icon fills container properly */
+  width: 100%;
+  height: 100%;
 }
 
 .icon-btn__icon svg {
   transition: inherit;
+  display: block; /* Remove any extra spacing */
 }
 
 .icon-btn__icon--hidden {
@@ -215,6 +225,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .icon-btn--loading .icon-btn__icon {
@@ -299,18 +312,29 @@
 
 /* ===== PERFECT FORM ALIGNMENT ===== */
 /* When icon buttons and regular buttons are used together */
-.form-row .icon-btn--sm {
+.form-row .icon-btn--sm,
+.clean-auth-form .icon-btn--sm {
   min-height: 32px; /* Exactly matches btn-sm */
 }
 
-.form-row .icon-btn--md {
+.form-row .icon-btn--md,
+.clean-auth-form .icon-btn--md {
   min-height: 40px; /* Exactly matches btn-md */
 }
 
-.form-row .icon-btn--lg {
+.form-row .icon-btn--lg,
+.clean-auth-form .icon-btn--lg {
   min-height: 48px; /* Exactly matches btn-lg */
 }
 
-.form-row .icon-btn--xl {
+.form-row .icon-btn--xl,
+.clean-auth-form .icon-btn--xl {
   min-height: 56px; /* Exactly matches btn-xl */
 }
+
+/* ===== DEBUG: Temporary visual check ===== */
+/* Remove this once you confirm alignment is working */
+/*
+.icon-btn--sm { border: 1px dashed red !important; }
+.btn-sm { border: 1px dashed blue !important; }
+*/

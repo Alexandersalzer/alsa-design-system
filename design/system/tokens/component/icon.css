@@ -22,14 +22,24 @@
 
   /* ===== ICON COLORS - Reference semantic tokens ===== */
   /* ✅ KEEP: These reference semantic tokens but provide component-specific context */
-  --icon-heading: var(--text-primary);            /* ✅ FIXED - was broken --text-heading-color */
-  --icon-body: var(--text-secondary);             /* ✅ FIXED - was broken --text-body-color */
-  --icon-accent: var(--accent-500);
-  --icon-success: var(--success-600);
-  --icon-warning: var(--warning-600);
-  --icon-error: var(--error-600);
-  --icon-muted: var(--text-secondary);
-  --icon-subtle: var(--text-tertiary);
+  /* ===== ICON COLORS - Component-specific only ===== */
+  --icon-heading: var(--icon-primary);        /* Component context */
+  --icon-body: var(--icon-secondary);         /* Component context */
+  --icon-muted: var(--icon-secondary);        /* Alias for consistency */
+  --icon-subtle: var(--icon-tertiary);   
+
+  --icon-button-primary: var(--text-button-primary);
+  --icon-button-secondary: var(--text-button-secondary);
+  --icon-button-accent: var(--text-button-accent);
+  --icon-button-ghost: var(--text-button-ghost);
+  --icon-button-destructive: var(--text-inverse);
+  --icon-button-disabled: var(--text-button-primary-disabled);
+
+  --icon-user-menu: var(--icon-primary);
+  --icon-search: var(--icon-secondary);
+  --icon-empty-state: var(--icon-secondary);
+  --icon-card-primary: var(--icon-primary);
+  --icon-card-secondary: var(--icon-secondary);
 
   /* ===== SMART BUTTON ICON COLORS ===== */
   /* ✅ KEEP: These are component-specific and don't exist in semantic */

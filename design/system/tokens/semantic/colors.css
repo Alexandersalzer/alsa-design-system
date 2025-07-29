@@ -162,6 +162,11 @@
   --icon-disabled: var(--secondary-300);
   --icon-inverse: var(--primary-white);
   --icon-brand: var(--accent-600);
+  --icon-accent: var(--accent-500);      
+  --icon-success: var(--success-600);    
+  --icon-warning: var(--warning-600);    
+  --icon-error: var(--error-600);        
+  --icon-info: var(--info-600);      
 
   /* ===== SEMANTIC INTERACTIVE TOKENS ===== */
   --interactive-primary: var(--primary-900);
@@ -304,6 +309,7 @@
   
   --icon-checkbox: var(--icon-inverse);
   --icon-checkbox-disabled: var(--icon-disabled);
+
   
   --surface-radio: var(--surface-card);
   --surface-radio-checked: var(--surface-card);
