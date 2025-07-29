@@ -1,5 +1,5 @@
 // src/design-system/components/primitives/Input/Input.tsx
-import React, { forwardRef, ReactNode } from 'react';
+import React, { forwardRef, ReactNode, useId } from 'react';
 import { cn } from '../../../lib/utils';
 
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -25,7 +25,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     id,
     ...props
   }, ref) => {
-    const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+    const generatedId = useId();
+    const inputId = id || `input-${generatedId}`;
     
     // Build class names explicitly to avoid type issues
     const inputClasses = [

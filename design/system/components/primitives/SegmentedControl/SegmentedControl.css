@@ -1,0 +1,188 @@
+/* ===============================================
+   src/design-system/components/primitives/SegmentedControl/SegmentedControl.css
+   STYLE SEGMENTED CONTROL STYLES
+   =============================================== */
+
+/* ===== BASE COMPONENT ===== */
+.segmented-control {
+  position: relative;
+  display: inline-flex;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-secondary);
+  border-radius: var(--foundation-radius-lg);
+  padding: var(--foundation-space-1);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ===== SLIDING INDICATOR ===== */
+.segmented-control__indicator {
+  position: absolute;
+  top: var(--foundation-space-1);
+  left: var(--foundation-space-1);
+  bottom: var(--foundation-space-1);
+  background: var(--surface-button-secondary-hover);
+  border-radius: var(--foundation-radius-xl);
+  box-shadow: var(--foundation-shadow-sm);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+/* ===== OPTIONS ===== */
+.segmented-control__option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--foundation-space-1);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  z-index: 2;
+  min-width: 0;
+  flex: 1;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  border-radius: var(--foundation-radius-xl);
+}
+
+.segmented-control__option:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.segmented-control__option--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.segmented-control__icon {
+  display: flex;
+  align-items: center;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.segmented-control__icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ===== SIZE VARIANTS ===== */
+
+/* Small */
+
+.segmented-control--sm .segmented-control__indicator {
+  border-radius: calc(var(--foundation-radius-md));
+}
+
+.segmented-control--sm .segmented-control__option {
+  padding: var(--foundation-space-1) var(--foundation-space-3);
+  border-radius: calc(var(--foundation-radius-md));
+}
+
+.segmented-control--sm .segmented-control__icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Large */
+.segmented-control--lg {
+  padding: var(--foundation-space-2);
+  border-radius: var(--foundation-radius-lg);
+}
+
+.segmented-control--lg .segmented-control__indicator {
+  top: var(--foundation-space-2);
+  left: var(--foundation-space-2);
+  bottom: var(--foundation-space-2);
+  border-radius: calc(var(--foundation-radius-lg) - var(--foundation-space-2));
+}
+
+.segmented-control--lg .segmented-control__option {
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+  border-radius: calc(var(--foundation-radius-lg) - var(--foundation-space-2));
+}
+
+.segmented-control--lg .segmented-control__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ===== STYLE VARIANTS ===== */
+
+/* Pill Variant */
+.segmented-control--pill {
+  border-radius: var(--foundation-radius-full);
+}
+
+.segmented-control--pill .segmented-control__indicator {
+  border-radius: var(--foundation-radius-full);
+}
+
+.segmented-control--pill .segmented-control__option {
+  border-radius: var(--foundation-radius-full);
+}
+
+/* Ghost Variant */
+.segmented-control--ghost {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.segmented-control--ghost .segmented-control__indicator {
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-secondary);
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.segmented-control--ghost .segmented-control__option {
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+}
+
+/* ===== FULL WIDTH ===== */
+.segmented-control--full-width {
+  width: 100%;
+}
+
+/* ===== DISABLED STATE ===== */
+.segmented-control--disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .segmented-control {
+    padding: 2px;
+  }
+  
+  .segmented-control__option {
+    padding: var(--foundation-space-2);
+    gap: var(--foundation-space-1);
+  }
+  
+  .segmented-control__icon svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .segmented-control__indicator {
+    transition: none;
+  }
+  
+  .segmented-control__option {
+    transition: none;
+  }
+}
+
+/* ===== KEYBOARD NAVIGATION ===== */
+.segmented-control:focus-within .segmented-control__option:focus {
+  z-index: 3;
+}

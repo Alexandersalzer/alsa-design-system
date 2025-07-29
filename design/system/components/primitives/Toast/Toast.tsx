@@ -1,12 +1,20 @@
 // ===============================================
 // src/design-system/components/primitives/Toast/Toast.tsx
-// TOAST COMPONENT - Using existing Typography and Icon components
+// TOAST COMPONENT - FIXED with new icon system
 // ===============================================
+
 import React, { forwardRef, ReactNode } from 'react';
 import { cn } from '../../../lib/utils';
 import { Typography } from '../Typography';
-import { Icon } from '../Icon';
-import { Icons } from '../Icon'; // Import your icon collection
+import { 
+  Icon,
+  StatusIcons,
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+  XCircleIcon,
+  InformationCircleIcon,
+  XMarkIcon
+} from '../Icon';
 
 // ===== TYPE DEFINITIONS =====
 export type ToastVariant = 'info' | 'success' | 'warning' | 'error';
@@ -30,18 +38,16 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
 
 // ===== ICON MAPPING =====
 const getVariantIcon = (variant: ToastVariant): ReactNode => {
-  const iconProps = { size: 'md' as const };
-  
   switch (variant) {
     case 'success':
-      return <Icons.Status.Success {...iconProps} />;
+      return <StatusIcons.Success />;
     case 'warning':
-      return <Icons.Status.Warning {...iconProps} />;
+      return <StatusIcons.Warning />;
     case 'error':
-      return <Icons.Status.Error {...iconProps} />;
+      return <StatusIcons.Error />;
     case 'info':
     default:
-      return <Icons.Status.Info {...iconProps} />;
+      return <StatusIcons.Info />;
   }
 };
 
@@ -76,16 +82,13 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
             variant="label-md"
             weight="semibold"
             className="toast__title"
-            // 👈 REMOVED: style={{ color: 'inherit' }}
           >
             {title}
           </Typography>
         )}
-        
         <Typography
           variant="body-sm"
           className="toast__message"
-          // 👈 REMOVED: style={{ color: 'inherit' }}
         >
           {children}
         </Typography>
@@ -98,7 +101,9 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
           className="toast__close"
           aria-label="Close notification"
         >
-          <Icons.Action.Close size="sm" />
+          <Icon size="sm" color="primary">
+            <XMarkIcon />
+          </Icon>
         </button>
       )}
     </div>
@@ -108,25 +113,25 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
 Toast.displayName = 'Toast';
 
 // ===== CONVENIENCE COMPONENTS =====
-export type ErrorToastProps = Omit<ToastProps, 'variant'>;
+export interface ErrorToastProps extends Omit<ToastProps, 'variant'> {}
 export const ErrorToast = forwardRef<HTMLDivElement, ErrorToastProps>((props, ref) => (
   <Toast ref={ref} variant="error" {...props} />
 ));
 ErrorToast.displayName = 'ErrorToast';
 
-export type SuccessToastProps = Omit<ToastProps, 'variant'>;
+export interface SuccessToastProps extends Omit<ToastProps, 'variant'> {}
 export const SuccessToast = forwardRef<HTMLDivElement, SuccessToastProps>((props, ref) => (
   <Toast ref={ref} variant="success" {...props} />
 ));
 SuccessToast.displayName = 'SuccessToast';
 
-export type WarningToastProps = Omit<ToastProps, 'variant'>;
+export interface WarningToastProps extends Omit<ToastProps, 'variant'> {}
 export const WarningToast = forwardRef<HTMLDivElement, WarningToastProps>((props, ref) => (
   <Toast ref={ref} variant="warning" {...props} />
 ));
 WarningToast.displayName = 'WarningToast';
 
-export type InfoToastProps = Omit<ToastProps, 'variant'>;
+export interface InfoToastProps extends Omit<ToastProps, 'variant'> {}
 export const InfoToast = forwardRef<HTMLDivElement, InfoToastProps>((props, ref) => (
   <Toast ref={ref} variant="info" {...props} />
 ));

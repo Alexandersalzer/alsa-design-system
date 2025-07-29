@@ -1,0 +1,84 @@
+/* ===============================================
+// src/design-system/components/primitives/Stepper/Stepper.css
+// CLEAN STEPPER CSS - Minimal styling
+// =============================================== */
+
+.stepper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-4);
+}
+
+/* ===== NAVIGATION RAD ===== */
+.stepper-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--foundation-space-4);
+}
+
+/* ===== STEG NUMMER ===== */
+.stepper-numbers {
+  display: flex;
+  gap: var(--foundation-space-2);
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--surface-card-hover);
+  color: var(--text-secondary);
+  font-weight: var(--foundation-weight-medium);
+  font-size: var(--font-body-sm-size);
+  transition: all var(--foundation-duration-normal) ease;
+}
+
+.step-number--current {
+  background: var(--text-primary);
+  color: var(--surface-card);
+  font-weight: var(--foundation-weight-semibold);
+}
+
+/* ===== STEG INNEHÅLL - UNDER NAVIGATION ===== */
+.step-content {
+  text-align: center;
+  margin-top: var(--foundation-space-2);
+}
+
+.step-title {
+  margin-bottom: var(--foundation-space-1);
+}
+
+.step-description {
+  line-height: 1.5;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* ===== RESPONSIV ===== */
+@media (max-width: 768px) {
+  .stepper-navigation {
+    flex-direction: column;
+    gap: var(--foundation-space-3);
+  }
+  
+  .stepper-navigation button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .step-number {
+    width: 28px;
+    height: 28px;
+    font-size: var(--font-body-xs-size);
+  }
+  
+  .step-description {
+    max-width: 300px;
+  }
+}

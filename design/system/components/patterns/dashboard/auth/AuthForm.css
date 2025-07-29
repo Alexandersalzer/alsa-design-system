@@ -1,0 +1,320 @@
+/* ==============================================
+   src/design-system/components/patterns/auth/AuthForm.css
+   AUTH FORM PATTERN STYLES - FIXED TOAST SPACING
+   ============================================== */
+
+/* ===== AUTH FORM TOAST SPACING - MAIN FIX ===== */
+.auth-form-toast {
+  /* 🎯 FIXED: Proper spacing for toasts within auth forms */
+  margin-bottom: var(--foundation-space-4   ); /* 24px gap below toast */
+  margin-top: 0; /* No extra top margin */
+  
+  /* Ensure proper visual separation from form elements */
+  position: relative;
+  z-index: 1;
+  
+  /* Prevent toast from being too wide in auth forms */
+  max-width: 100%;
+}
+
+/* ===== AUTH FORM MAIN STRUCTURE ===== */
+.auth-form {
+  /* Form container styling */
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-5); /* 20px between major form sections */
+  width: 100%;
+  
+  /* Loading state */
+  &.auth-form--loading {
+    opacity: 0.9;
+  }
+  
+  /* Disabled state */
+  &.auth-form--disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+.auth-form-content {
+  /* Main form content area */
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-5); /* 20px between fields and actions */
+  width: 100%;
+}
+
+/* ===== FORM SECTIONS ===== */
+.auth-form-fields {
+  /* Field grouping with proper spacing */
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-4); /* 16px between form fields */
+  width: 100%;
+  
+  /* Enhanced field styling within auth forms */
+  .input {
+    /* Ensure consistent field heights */
+    min-height: 48px;
+    
+    /* Enhanced focus states for auth context */
+    &:focus {
+      box-shadow: 0 0 0 3px var(--accent-100);
+    }
+  }
+  
+  /* Field error states */
+  .input--error {
+    border-color: var(--border-error);
+    box-shadow: 0 0 0 1px var(--border-error);
+    
+    &:focus {
+      box-shadow: 0 0 0 3px var(--surface-error-subtle);
+    }
+  }
+  
+  /* Field success states */
+  .input--success {
+    border-color: var(--border-success);
+    
+    &:focus {
+      box-shadow: 0 0 0 3px var(--surface-success-subtle);
+    }
+  }
+}
+
+.auth-form-actions {
+  /* Button group styling */
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-3); /* 12px between buttons */
+  width: 100%;
+  
+  /* Submit button styling */
+  .auth-submit-button {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+  }
+  
+  /* Secondary actions */
+  .auth-form-secondary-action {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.auth-form-footer {
+  /* Footer for additional links */
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-2); /* 8px between footer elements */
+  text-align: center;
+  
+  /* Visual separation */
+  padding-top: var(--foundation-space-4); /* 16px top padding */
+  margin-top: var(--foundation-space-2); /* 8px top margin */
+  border-top: 1px solid var(--border-subtle);
+  
+  /* Typography for footer content */
+  font-size: var(--typography-body-sm-size);
+  color: var(--text-tertiary);
+  
+  /* Footer links */
+  a {
+    color: var(--text-accent);
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+    
+    &:focus {
+      outline: 2px solid var(--accent-500);
+      outline-offset: 2px;
+      border-radius: var(--foundation-radius-sm);
+    }
+  }
+}
+
+/* ===== CLEAN AUTH CONTAINER (NO CARD) ===== */
+.auth-container {
+  /* Clean container for cardless auth */
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: var(--foundation-space-8);
+  
+  /* Mobile adjustments */
+  @media (max-width: 480px) {
+    max-width: 100%;
+    padding: var(--foundation-space-6);
+  }
+}
+
+.auth-header {
+  /* Header section styling */
+  text-align: center;
+  margin-bottom: var(--foundation-space-8);
+  
+  /* 🎯 IMPORTANT: More space between header and form to accommodate toasts */
+  margin-bottom: var(--foundation-space-10); /* 40px instead of 32px */
+  
+  /* Mobile adjustments */
+  @media (max-width: 480px) {
+    margin-bottom: var(--foundation-space-6);
+  }
+}
+
+.auth-title {
+  /* Main title styling */
+  margin-bottom: var(--foundation-space-3);
+  color: var(--primary-white);
+}
+
+.auth-subtitle {
+  /* Subtitle styling */
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.auth-form-clean {
+  /* Clean form styling without card */
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: var(--foundation-radius-2xl);
+  padding: var(--foundation-space-8);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  
+  /* Mobile adjustments */
+  @media (max-width: 480px) {
+    padding: var(--foundation-space-6);
+    border-radius: var(--foundation-radius-xl);
+  }
+}
+
+/* ===== ENHANCED SUBMIT BUTTON FOR CLEAN DESIGN ===== */
+.auth-submit-button {
+  /* Premium button styling for cardless auth */
+  min-height: 56px; /* Match input height */
+  border-radius: var(--foundation-radius-xl); /* Match input roundness */
+  font-weight: var(--foundation-weight-semibold);
+  font-size: var(--foundation-size-base);
+  background: var(--primary-600);
+  border: 2px solid var(--primary-600);
+  color: var(--primary-white);
+  
+  /* Beautiful transitions */
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+  
+  /* Hover state */
+  &:hover:not(:disabled) {
+    background: var(--primary-700);
+    border-color: var(--primary-700);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+  }
+  
+  /* Loading state indicator */
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none;
+  }
+  
+  /* Clean focus state */
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  }
+}
+
+/* ===== RESPONSIVE BEHAVIOR ===== */
+@media (max-width: 480px) {
+  .auth-form-toast {
+    /* Smaller bottom margin on mobile */
+    margin-bottom: var(--foundation-space-4); /* 16px on mobile */
+  }
+  
+  .auth-form {
+    /* Tighter spacing on mobile */
+    gap: var(--foundation-space-3); /* 12px on mobile */
+  }
+  
+  .auth-form-content {
+    gap: var(--foundation-space-4); /* 16px on mobile */
+  }
+  
+  .auth-form-fields {
+    gap: var(--foundation-space-3); /* 12px on mobile */
+  }
+  
+  .auth-submit-button {
+    /* Larger touch target on mobile */
+    min-height: 52px;
+  }
+  
+  .auth-header {
+    /* Less space on mobile to fit toasts better */
+    margin-bottom: var(--foundation-space-6); /* 24px on mobile */
+  }
+}
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+.auth-form {
+  /* Ensure proper focus flow */
+  &:focus-within {
+    /* Visual indicator that form has focus */
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .auth-form-toast {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .auth-form-toast {
+    animation: none;
+  }
+  
+  .auth-form {
+    transition: none;
+  }
+  
+  .auth-submit-button {
+    transition: none;
+    
+    &:hover:not(:disabled) {
+      transform: none;
+    }
+  }
+}
+
+/* ===== INTEGRATION WITH AUTH LAYOUT ===== */
+.auth-layout .auth-form-toast {
+  /* Specific adjustments for auth layout context */
+  margin-bottom: var(--foundation-space-6);
+}
+
+/* ===== ANIMATION FOR TOAST APPEARANCE ===== */
+@keyframes auth-toast-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-form-toast {
+  /* Smooth appearance animation */
+  animation: auth-toast-fade-in var(--foundation-duration-standard) var(--foundation-easing-enter);
+}

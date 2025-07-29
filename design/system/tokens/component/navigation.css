@@ -17,7 +17,6 @@
 
   /* ===== NAVIGATION SURFACES ===== */
   --surface-nav: var(--primary-white);
-  --surface-nav-item: transparent;
   --surface-nav-item-hover: var(--secondary-100);
   --surface-nav-item-selected: var(--secondary-100);
   --surface-nav-item-disabled: transparent;
@@ -42,7 +41,7 @@
   --border-nav-item-selected: var(--nav-selected);
 
  /* ===== HEADER SPECIFIC TOKENS ===== */
-  --surface-header: var(--surface-page);
+  --surface-header: var(--primary-white);
   --border-header: var(--border-nav);
   
   /* ===== DROPDOWN TOKENS ===== */
@@ -95,9 +94,9 @@
   --surface-user-menu-item-hover: var(--surface-nav-item-hover);
   --text-user-menu-item: var(--text-nav-item);
   --icon-user-menu-item: var(--icon-nav-item);
-  --text-user-menu-item-danger: var(--error-600);
-  --icon-user-menu-item-danger: var(--error-600);
-  --surface-user-menu-item-danger-hover: var(--error-50);
+  --text-user-menu-item-destructive: var(--error-600);
+  --icon-user-menu-item-destructive: var(--error-600);
+  --surface-user-menu-item-destructive-hover: var(--error-50);
   
   /* ===== NOTIFICATION DROPDOWN TOKENS ===== */
   --surface-notification-dropdown: var(--surface-dropdown-elevated);

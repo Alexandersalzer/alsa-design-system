@@ -2,7 +2,9 @@
 :root {
   
   /* Font Families */
-  --foundation-font-primary: var(--font-primary-name), system-ui, -apple-system, sans-serif;
+  --foundation-font-primary: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --foundation-font-secondary: 'Inter', system-ui, -apple-system, sans-serif;
+  --foundation-font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
   
   /* Font Weights */
   --foundation-weight-light: 300;
@@ -33,4 +35,70 @@
   --foundation-leading-normal: 1.5;
   --foundation-leading-relaxed: 1.625;
   --foundation-leading-loose: 2;
+
+   /* Component-specific text tokens for theming */
+   --text-card-heading: var(--text-heading-color);
+   --text-card-body: var(--text-body-color);
+   --text-card-primary: var(--text-heading-color);
+   --text-card-secondary: var(--text-body-color);
+   --text-card-tertiary: var(--text-body-color);
+   
+   /* Navigation text tokens */
+   --text-nav-item: var(--secondary-600);
+   --text-nav-item-selected: var(--accent-600);
+   --text-nav-item-disabled: var(--secondary-300);
+   --text-nav-item-hover: var(--secondary-900);
+   
+   /* Button text tokens */
+   --text-button-primary: var(--primary-white);
+   --text-button-secondary: var(--primary-1000);
+   --text-button-accent: var(--primary-white);
+   --text-button-ghost: var(--secondary-600);
+   --text-button-destructive: var(--primary-white);
+   --text-button-primary-disabled: var(--secondary-400);
+   --text-button-secondary-disabled: var(--secondary-400);
+   --text-button-accent-disabled: var(--secondary-400);
+   
+   /* Form text tokens */
+   --text-input: var(--primary-1000);
+   --text-input-placeholder: var(--secondary-400);
+   --text-input-disabled: var(--secondary-400);
+   --text-input-label: var(--text-label-color);
+   --text-input-help: var(--secondary-600);
+   --text-input-error: var(--error-600);
+   
+   /* Table text tokens */
+   --text-table-header: var(--text-heading-color);
+   --text-table-cell: var(--text-body-color);
+   --text-table-cell-secondary: var(--secondary-600);
+   
+   /* Tag text tokens */
+   --text-tag-default: var(--secondary-600);
+   --text-tag-accent: var(--primary-white);
+   --text-tag-success: var(--primary-white);
+   --text-tag-warning: var(--primary-white);
+   --text-tag-error: var(--primary-white);
+   
+   /* Dropdown text tokens */
+   --text-dropdown-item: var(--primary-1000);
+   --text-dropdown-item-hover: var(--primary-1000);
+   --text-dropdown-item-selected: var(--accent-600);
+   
+   /* Modal text tokens */
+   --text-modal-title: var(--text-heading-color);
+   --text-modal-body: var(--text-body-color);
+   
+   /* Generic semantic text tokens */
+   --text-primary: var(--primary-1000);
+   --text-secondary: var(--secondary-600);
+   --text-tertiary: var(--secondary-400);
+   --text-disabled: var(--secondary-300);
+   --text-inverse: var(--primary-white);
+   --text-placeholder: var(--secondary-400);
+   
+   /* Status text tokens */
+   --text-success: var(--success-600);
+   --text-warning: var(--warning-600);
+   --text-error: var(--error-600);
+   --text-info: var(--info-600);
 }

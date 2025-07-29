@@ -1,8 +1,13 @@
+/* ==============================================
+   src/design-system/tokens/semantic/typography.css
+   TYPOGRAPHY TOKENS - Updated for theme compatibility
+   ============================================== */
+
 :root {
   /* ===== HEADING TOKENS ===== */
   --font-heading-family: var(--foundation-font-primary);
   --font-heading-weight: var(--foundation-weight-bold);
-  --text-heading-color: var(--primary-1000);
+  --text-heading-color: var(--text-primary);  /* 🎯 FIXED: Use semantic text token */
   
   /* Display Sizes */
   --font-display-xl-size: var(--foundation-size-6xl);
@@ -29,9 +34,9 @@
   --font-h6-leading: var(--foundation-leading-normal);
   
   /* ===== BODY TEXT TOKENS ===== */
-  --font-body-family: var(--foundation-font-primary);
+  --font-body-family: var(--foundation-font-secondary);
   --font-body-weight: var(--foundation-weight-regular);
-  --text-body-color: var(--secondary-700);
+  --text-body-color: var(--text-primary);  /* 🎯 FIXED: Use semantic text token */
   
   /* Body Sizes */
   --font-body-xl-size: var(--foundation-size-xl);
@@ -46,9 +51,9 @@
   --font-body-xs-leading: var(--foundation-leading-normal);
   
   /* ===== LABEL TOKENS ===== */
-  --font-label-family: var(--foundation-font-primary);
+  --font-label-family: var(--foundation-font-secondary);
   --font-label-weight: var(--foundation-weight-bold);
-  --text-label-color: var(--primary-1000);
+  --text-label-color: var(--text-primary);  /* 🎯 FIXED: Use semantic text token */
   
   /* Label Sizes */
   --font-label-lg-size: var(--foundation-size-lg);
@@ -61,12 +66,12 @@
   --font-label-xs-leading: var(--foundation-leading-normal);
   
   /* ===== CODE/MONO TOKENS ===== */
-  --font-code-family: var(--foundation-font-primary);
+  --font-code-family: var(--foundation-font-mono);
   --font-code-weight: var(--foundation-weight-regular);
-  --text-code-color: var(--secondary-800);
-  --surface-code-inline: var(--secondary-100);
-  --surface-code-block: var(--secondary-50);
-  --border-code-block: var(--secondary-200);
+  --text-code-color: var(--text-primary);  /* 🎯 FIXED: Use semantic text token */
+  --surface-code-inline: var(--surface-card-hover);  /* 🎯 FIXED: Use semantic surface token */
+  --surface-code-block: var(--surface-card);  /* 🎯 FIXED: Use semantic surface token */
+  --border-code-block: var(--border-default);  /* 🎯 FIXED: Use semantic border token */
   
   /* Code Sizes */
   --font-code-lg-size: var(--foundation-size-base);
@@ -77,8 +82,17 @@
   --font-code-sm-leading: var(--foundation-leading-normal);
   
   /* ===== LINK TOKENS ===== */
+  /* Note: Keeping accent references as requested */
   --text-link: var(--accent-500);
   --text-link-hover: var(--accent-700);
   --text-link-visited: var(--accent-800);
-  --text-link-disabled: var(--secondary-400);
+  --text-link-disabled: var(--text-disabled);  /* 🎯 FIXED: Use semantic text token */
+  
+  /* ===== ADDITIONAL TEXT VARIANTS ===== */
+  /* These provide more granular control for components */
+  --text-caption: var(--text-tertiary);
+  --text-overline: var(--text-secondary);
+  --text-subtitle: var(--text-secondary);
+  --text-muted: var(--text-tertiary);
+  --text-emphasis: var(--text-primary);
 }

@@ -1,34 +1,42 @@
 // ===============================================
 // src/design-system/components/primitives/Typography/index.ts
-// FIXED - Updated export file to match enhanced Typography component
+// COMPLETE TYPOGRAPHY EXPORTS - EVERYTHING YOU NEED
 // ===============================================
 
+// ===== MAIN TYPOGRAPHY COMPONENTS =====
 export {
   Typography,
-  Heading,
-  Display,  // ✅ Now included
+  Display,
   Body,
   Label,
   Code,
-  TypographyGroup,
-  withTypography,
-  buildTypographyClasses,
-  getDefaultElement,
-  getColorValue,  // ✅ New utility function
-  createTypographyClasses,  // ✅ Updated structure
-  createTabTypographyProps,  // ✅ New utility for tabs
-  createNavigationTypographyProps  // ✅ New utility for navigation
+  TypographyGroup
 } from './Typography';
 
+// ===== SIMPLE HEADING COMPONENTS - H1 through H6 =====
+export {
+  H1,
+  H2, 
+  H3,
+  H4,
+  H5,
+  H6
+} from './Typography';
+
+// ===== LEGACY COMPATIBILITY =====
+export {
+  Heading  // @deprecated - use H1-H6 instead
+} from './Typography';
+
+// ===== TYPES =====
 export type {
+  TypographyProps,
   TypographyVariant,
   TypographyWeight,
-  TypographyColor,  // ✅ Enhanced with all design system colors
+  TypographyColor,
   TypographyAlign,
-  TypographyProps,
   TypographyOwnProps,
-  HeadingProps,
-  DisplayProps,  // ✅ Now included
+  DisplayProps,
   BodyProps,
   LabelProps,
   CodeProps,
@@ -36,38 +44,52 @@ export type {
   WithTypographyProps
 } from './Typography';
 
-// ===============================================
-// MIGRATION GUIDE - Updated usage examples
-// ===============================================
+// ===== UTILITY FUNCTIONS =====
+export {
+  buildTypographyClasses,
+  createNavigationTypographyProps,
+  createTypographyClasses,
+  createTabTypographyProps,
+  getColorValue,
+  getDefaultElement,
+  withTypography
+} from './Typography';
 
+// ===== USAGE EXAMPLES =====
 /*
+// ✅ SUPER EASY IMPORTS:
 
-// ✅ NEW: Enhanced color options for navigation
-import { Label, createNavigationTypographyProps } from '@/design-system/components/primitives/Typography';
+// Import just the headings you need:
+import { H1, H3, H6 } from '@/design-system/components/primitives/Typography';
 
-const NavigationItem = ({ active, disabled, children }) => {
-  const typographyProps = createNavigationTypographyProps(active, disabled);
-  
-  return (
-    <Label
-      size={typographyProps.size}
-      weight={typographyProps.weight}
-      color={typographyProps.color}  // ← Will be nav-selected, nav-default, or nav-disabled
-    >
-      {children}
-    </Label>
-  );
-};
+// Import everything:
+import { 
+  H1, H2, H3, H4, H5, H6, 
+  Body, Label, Display 
+} from '@/design-system/components/primitives/Typography';
 
-// ✅ NEW: Tab component integration
-import { createTabTypographyProps } from '@/design-system/components/primitives/Typography';
+// ✅ THEN USE THEM SIMPLY:
 
-const Tab = ({ variant, size, active, disabled, children }) => {
-  const typographyProps = createTabTypographyProps(variant, size, active, disabled);
-  
-  return (
-    <Label {...typographyProps}>
-      {children}
-    </Label>
-  );
-};*/
+// Editor TopBar
+<H3>Website Editor</H3>
+
+// Dashboard
+<H1>Analytics Dashboard</H1>
+<H2>Revenue Overview</H2>
+<H4>Monthly Sales</H4>
+
+// Cards
+<H4>John Doe</H4>
+<H6 color="secondary">Administrator</H6>
+
+// With other typography
+<Body size="md">Here's some content...</Body>
+<Label size="sm">Form Label</Label>
+
+// Override defaults when needed
+<H3 color="accent" weight="bold">Special Title</H3>
+<H5 color="error">Error Message</H5>
+
+// Legacy compatibility (still works but deprecated)
+<Heading level={3}>Old Way</Heading>  // Use <H3> instead
+*/

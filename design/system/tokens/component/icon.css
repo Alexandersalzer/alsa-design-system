@@ -40,7 +40,7 @@
   --icon-button-secondary: var(--text-button-secondary);     /* Black on light secondary buttons */
   --icon-button-accent: var(--text-button-accent);           /* White on accent buttons */
   --icon-button-ghost: var(--text-secondary);                /* Gray for ghost buttons */
-  --icon-button-danger: var(--primary-white);                /* White on red danger buttons */
+  --icon-button-destructive: var(--primary-white);                /* White on red destructive buttons */
   --icon-button-disabled: var(--text-button-primary-disabled); /* Gray for disabled buttons */
 
   /* ===== NAVIGATION ICON COLORS ===== */
@@ -143,8 +143,8 @@
   color: var(--icon-button-ghost); 
 }
 
-.icon-button-danger { 
-  color: var(--icon-button-danger); 
+.icon-button-destructive { 
+  color: var(--icon-button-destructive); 
 }
 
 .icon-button-disabled { 
@@ -192,7 +192,7 @@
 .btn:hover .icon-button-secondary,
 .btn:hover .icon-button-accent,
 .btn:hover .icon-button-ghost,
-.btn:hover .icon-button-danger {
+.btn:hover .icon-button-destructive {
   /* Icons inherit button hover states automatically through CSS variables */
   color: inherit;
 }

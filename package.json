@@ -3,7 +3,16 @@
   "version": "0.1.28",
   "description": "Blimpify Design System - Reusable React components for client websites",
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/index.css": "./dist/index.css"
+  },
   "files": [
     "dist"
   ],

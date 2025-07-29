@@ -30,7 +30,7 @@
   transition: var(--transition-toast, all var(--foundation-duration-fast) var(--foundation-easing-standard));
   
   /* Typography base */
-  font-family: var(--foundation-font-primary);
+  font-family: var(--foundation-font-secondary);
 }
 
 /* ===== TOAST VARIANTS ===== */

@@ -20,21 +20,20 @@
   --foundation-gray-1100: #212121;
   --foundation-gray-1200: #171717;
   
-  /* Brand accent Scale (100-900) - Mathematical Scale */
-  /* Base color - references the accent-color from public/design/accent-colors.css */
-  --foundation-accent-500: var(--accent-color);
-  
-  /* Calculated lighter shades (100-400) - each step is 5% lighter */
-  --foundation-accent-100: color-mix(in oklch, var(--foundation-accent-500) 20%, white 80%);
-  --foundation-accent-200: color-mix(in oklch, var(--foundation-accent-500) 40%, white 60%);
-  --foundation-accent-300: color-mix(in oklch, var(--foundation-accent-500) 60%, white 40%);
-  --foundation-accent-400: color-mix(in oklch, var(--foundation-accent-500) 80%, white 20%);
-  
-  /* Calculated darker shades (600-900) - each step is 5% darker */
-  --foundation-accent-600: color-mix(in oklch, var(--foundation-accent-500) 80%, black 20%);
-  --foundation-accent-700: color-mix(in oklch, var(--foundation-accent-500) 60%, black 40%);
-  --foundation-accent-800: color-mix(in oklch, var(--foundation-accent-500) 40%, black 60%);
-  --foundation-accent-900: color-mix(in oklch, var(--foundation-accent-500) 20%, black 80%);
+  /* Brand Purple Scale (100-1200) */
+  --foundation-purple-100: #F3E8FF;
+  --foundation-purple-200: #E9D5FF;
+  --foundation-purple-300: #D8B4FE;
+  --foundation-purple-400: #C084FC;
+  --foundation-purple-500: #A855F7;
+  --foundation-purple-600: #9333EA;
+  --foundation-purple-700: #7C3AED;
+  --foundation-purple-800: #6B21A8;
+  --foundation-purple-900: #581C87;
+  --foundation-purple-950: #4C1D95;
+  --foundation-purple-1000: #3B0764;
+  --foundation-purple-1100: #2E1065;
+  --foundation-purple-1200: #1E1B4B;
   
   /* Amethyst (Info) Scale */
   --foundation-amethyst-100: #EDE9FE;

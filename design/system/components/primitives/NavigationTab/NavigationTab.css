@@ -21,7 +21,7 @@
   
   /* Colors */
   color: var(--text-nav-item);
-  background-color: var(--surface-nav-item);
+  background-color: var(--surface-sidebar);
   
   /* Interaction */
   cursor: pointer;

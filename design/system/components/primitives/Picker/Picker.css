@@ -69,6 +69,7 @@
 /* ===== PICKER CONTAINER ===== */
 .picker-container {
   position: relative;
+  z-index: var(--z-dropdown);
 }
 
 /* ===== PICKER BUTTON - Using Semantic Picker Tokens ===== */
@@ -105,43 +106,6 @@
   min-width: 120px;
   width: auto;
   max-width: 200px;
-}
-
-/* ===== FOOTER VARIANT - White border, transparent background ===== */
-.picker--footer {
-  min-height: 36px;
-  padding: var(--foundation-space-2) var(--foundation-space-3);
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  border-radius: var(--foundation-radius-lg);
-  background-color: transparent;
-  color: var(--text-inverse);
-  font-size: var(--typography-body-sm-size);
-  font-weight: var(--typography-body-sm-weight);
-  line-height: var(--typography-body-sm-line-height);
-  min-width: 140px;
-  width: auto;
-  max-width: 220px;
-}
-
-.picker--footer:hover:not(:disabled) {
-  border-color: rgba(255, 255, 255, 1);
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.picker--footer:focus,
-.picker--footer.picker--open {
-  border-color: rgba(255, 255, 255, 1);
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.picker--footer .picker-icon {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.picker--footer:hover .picker-icon,
-.picker--footer:focus .picker-icon,
-.picker--footer.picker--open .picker-icon {
-  color: rgba(255, 255, 255, 1);
 }
 
 .picker--compact.picker--sm {
@@ -218,43 +182,6 @@
   color: inherit;
 }
 
-/* Selected content with icon support */
-.picker-selected-content {
-  display: flex;
-  align-items: center;
-  gap: var(--foundation-space-2);
-  overflow: hidden;
-}
-
-.picker-selected-icon {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  width: 20px;
-  height: 20px;
-}
-
-/* Option content with icon support */
-.picker-option-content {
-  display: flex;
-  align-items: center;
-  gap: var(--foundation-space-2);
-  width: 100%;
-}
-
-.picker-option-icon {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  width: 20px;
-  height: 20px;
-}
-
-.picker-option-text {
-  flex: 1;
-  min-width: 0;
-}
-
 /* Placeholder styling when no value selected */
 .picker-value:empty::before,
 .picker[data-placeholder]:not([data-has-value])::after {
@@ -311,12 +238,6 @@
   border-radius: var(--foundation-radius-xl);
   padding: var(--foundation-space-1);
   box-shadow: var(--foundation-shadow-md);
-}
-
-/* ===== FOOTER COMPACT DROPDOWN - Opens upward to prevent scrollbars ===== */
-.picker--footer .picker-dropdown--compact {
-  top: auto;
-  bottom: calc(100% + var(--foundation-space-1));
 }
 
 .picker-wrapper--sm .picker-dropdown--compact {
@@ -392,10 +313,12 @@
 /* ===== PICKER OPTIONS - Using Foundation Spacing ===== */
 .picker-options {
   /* 🔧 FIX: Better height management to prevent cut-off options */
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-1); /* t.ex. 8px */
   flex: 1;
   overflow-y: auto;
-  margin: 0;
-  padding: var(--foundation-space-1) 0;
+  margin:  var(--foundation-space-1);
   list-style: none;
   scroll-behavior: smooth;
   /* 🔧 FIX: Ensure last option is fully visible */
@@ -490,7 +413,7 @@
 
 /* 🔧 FIX: More visible hover state with darker gray */
 .picker-option:hover {
-  background-color: var(--secondary-100); /* Darker gray instead of accent-50 */
+  background-color: var(--surface-picker-hover); /* Darker gray instead of accent-50 */
 }
 
 .picker-option--focused {
@@ -498,14 +421,13 @@
 }
 
 .picker-option--selected {
-  background-color: var(--surface-select-option-selected);
+  background-color: var(--surface-picker-option-selected);
   color: var(--text-select-option-selected);
   font-weight: var(--typography-body-md-weight);
 }
 
-/* 🔧 FIX: Selected option should also have visible hover */
 .picker-option--selected:hover {
-  background-color: var(--secondary-200); /* Darker when selected and hovered */
+  background-color: var(--secondary-300); /* Darker when selected and hovered */
 }
 
 .picker-option--disabled {

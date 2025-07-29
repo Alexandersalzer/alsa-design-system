@@ -5,12 +5,12 @@
 
 :root {
   /* ===== SUCCESS TAG ===== */
-  --surface-tag-success: var(--success-100);
+  --surface-tag-success: var(--success-200);
   --surface-tag-success-hover: var(--success-200);
   --surface-tag-success-active: var(--success-300);
-  --text-tag-success: var(--success-700);
+  --text-tag-success: var(--success-800);
   --text-tag-success-hover: var(--success-800);
-  --border-tag-success: var(--success-200);
+  --border-tag-success: var(--success-400);
   --border-tag-success-hover: var(--success-300);
   --icon-tag-success: var(--success-600);
   
@@ -30,7 +30,7 @@
   --surface-tag-warning-active: var(--warning-300);
   --text-tag-warning: var(--warning-700);
   --text-tag-warning-hover: var(--warning-800);
-  --border-tag-warning: var(--warning-200);
+  --border-tag-warning: var(--warning-300);
   --border-tag-warning-hover: var(--warning-300);
   --icon-tag-warning: var(--warning-600);
   
@@ -40,7 +40,7 @@
   --surface-tag-info-active: var(--secondary-300);
   --text-tag-info: var(--secondary-700);
   --text-tag-info-hover: var(--secondary-800);
-  --border-tag-info: var(--secondary-200);
+  --border-tag-info: var(--secondary-300);
   --border-tag-info-hover: var(--secondary-300);
   --icon-tag-info: var(--secondary-600);
   
@@ -50,7 +50,7 @@
   --surface-tag-accent-active: var(--accent-300);
   --text-tag-accent: var(--accent-700);
   --text-tag-accent-hover: var(--accent-800);
-  --border-tag-accent: var(--accent-200);
+  --border-tag-accent: var(--accent-300);
   --border-tag-accent-hover: var(--accent-300);
   --icon-tag-accent: var(--accent-500);
   

@@ -1,0 +1,128 @@
+/* ===============================================
+   src/design-system/components/patterns/page/Grid.css
+   GRID COMPONENT - Responsive grid layouts styles
+   =============================================== */
+
+/* ===== BASE GRID ===== */
+.grid {
+  display: grid;
+  width: 100%;
+}
+
+/* ===== GAP VARIANTS ===== */
+.grid--gap-xs {
+  gap: var(--foundation-space-2); /* 8px */
+}
+
+.grid--gap-sm {
+  gap: var(--foundation-space-3); /* 12px */
+}
+
+.grid--gap-md {
+  gap: var(--foundation-space-4); /* 16px */
+}
+
+.grid--gap-lg {
+  gap: var(--foundation-space-6); /* 24px */
+}
+
+.grid--gap-xl {
+  gap: var(--foundation-space-8); /* 32px */
+}
+
+/* ===== ALIGNMENT VARIANTS ===== */
+.grid--align-start {
+  align-items: start;
+}
+
+.grid--align-center {
+  align-items: center;
+}
+
+.grid--align-end {
+  align-items: end;
+}
+
+.grid--align-stretch {
+  align-items: stretch;
+}
+
+.grid--justify-start {
+  justify-items: start;
+}
+
+.grid--justify-center {
+  justify-items: center;
+}
+
+.grid--justify-end {
+  justify-items: end;
+}
+
+.grid--justify-stretch {
+  justify-items: stretch;
+}
+
+/* ===== RESPONSIVE COLLAPSE ===== */
+
+/* Mobile collapse */
+@media (max-width: 767px) {
+  .grid--collapse-mobile {
+    grid-template-columns: 1fr !important;
+    gap: var(--foundation-space-4);
+  }
+}
+
+/* Tablet collapse */
+@media (max-width: 1023px) {
+  .grid--collapse-tablet {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+  }
+}
+
+/* ===== SPECIALIZED GRID TYPES ===== */
+
+/* Card Grid */
+.card-grid {
+  /* Inherits from grid */
+}
+
+.card-grid--compact {
+  /* Optimized for small cards */
+}
+
+.card-grid--standard {
+  /* Standard card spacing */
+}
+
+.card-grid--spacious {
+  /* Extra spacing for premium feel */
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+
+/* Ensure grids work well on all screen sizes */
+@media (max-width: 480px) {
+  .grid {
+    gap: var(--foundation-space-3);
+  }
+  
+  .grid--gap-lg,
+  .grid--gap-xl {
+    gap: var(--foundation-space-4);
+  }
+}
+
+/* Medium screens */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .grid {
+    /* Tablet-specific adjustments if needed */
+  }
+}
+
+/* Large screens */
+@media (min-width: 1024px) {
+  .grid {
+    /* Desktop-specific adjustments if needed */
+  }
+}

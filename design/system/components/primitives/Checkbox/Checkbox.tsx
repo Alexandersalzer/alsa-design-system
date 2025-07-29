@@ -1,12 +1,12 @@
 // ===============================================
 // src/design-system/components/primitives/Checkbox/Checkbox.tsx
-// CHECKBOX COMPONENT - Complete with proper design system integration
+
 // ===============================================
 
 import React, { forwardRef, useId } from 'react';
 import { cn } from '../../../lib/utils';
-import { Icon, IconMap } from '../../../../system/components/primitives/Icon';
-
+import { CheckIcon, MinusIcon } from '@heroicons/react/24/outline';
+import { Icon } from '../Icon/Icon' 
 export type CheckboxSize = 'sm' | 'md' | 'lg';
 export type CheckboxState = 'checked' | 'unchecked' | 'indeterminate';
 
@@ -78,6 +78,23 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
     state !== 'unchecked' && 'checkbox__icon--visible'
   );
 
+  // Typography props for consistent text styling
+  const getLabelTypography = () => {
+    const sizeMap = {
+      sm: 'sm' as const,
+      md: 'md' as const,
+      lg: 'lg' as const,
+    };
+
+    return {
+      size: sizeMap[size],
+      weight: 'medium' as const,
+      color: disabled ? 'disabled' as const : 'primary' as const,
+    };
+  };
+
+  const labelProps = getLabelTypography();
+
   return (
     <div className={wrapperClasses}>
       <div className="checkbox-field">
@@ -97,21 +114,9 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
           
           <div className={iconClasses}>
             {state === 'indeterminate' ? (
-              <Icon 
-                size={size === 'sm' ? 'xs' : size === 'md' ? 'sm' : 'md'} 
-                color="inverse"
-                weight="medium"
-              >
-                <IconMap.minus />
-              </Icon>
+              <Icon color='inverse'><MinusIcon/></Icon>
             ) : state === 'checked' ? (
-              <Icon 
-                size={size === 'sm' ? 'xs' : size === 'md' ? 'sm' : 'md'} 
-                color="inverse"
-                weight="medium"
-              >
-                <IconMap.success />
-              </Icon>
+              <Icon color='inverse' weight='bold' size='sm'><CheckIcon/></Icon>
             ) : null}
           </div>
         </div>
@@ -121,9 +126,10 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
             htmlFor={id}
             className="checkbox-label"
             style={{
-              fontSize: size === 'sm' ? 'var(--foundation-text-sm)' : size === 'lg' ? 'var(--foundation-text-lg)' : 'var(--foundation-text-md)',
+              fontSize: labelProps.size === 'sm' ? 'var(--foundation-text-sm)' : 
+                        labelProps.size === 'lg' ? 'var(--foundation-text-lg)' : 'var(--foundation-text-md)',
               fontWeight: 'var(--foundation-weight-medium)',
-              color: disabled ? 'var(--text-disabled)' : 'var(--text-primary)',
+              color: labelProps.color === 'disabled' ? 'var(--text-disabled)' : 'var(--text-primary)',
               cursor: disabled ? 'not-allowed' : 'pointer',
               userSelect: 'none',
               lineHeight: 1.4
@@ -141,6 +147,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
 
       {description && (
         <div
+          id={descriptionId}
           className="checkbox-description"
           style={{
             fontSize: 'var(--foundation-text-sm)',
@@ -155,6 +162,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
 
       {error && (
         <div
+          id={errorId}
           className="checkbox-error"
           role="alert"
           style={{
@@ -215,9 +223,14 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
   );
 
   return (
-    <div className={groupClasses} role="group" aria-labelledby={label ? `${groupId}-label` : undefined}>
+    <div 
+      className={groupClasses} 
+      role="group" 
+      aria-labelledby={label ? `${groupId}-label` : undefined}
+    >
       {label && (
         <label
+          id={`${groupId}-label`}
           className="checkbox-group__label"
           style={{
             fontSize: size === 'sm' ? 'var(--foundation-text-sm)' : 'var(--foundation-text-md)',
@@ -238,6 +251,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
 
       {description && (
         <div
+          id={descriptionId}
           className="checkbox-group__description"
           style={{
             fontSize: 'var(--foundation-text-sm)',
@@ -266,6 +280,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
 
       {error && (
         <div
+          id={errorId}
           className="checkbox-group__error"
           role="alert"
           style={{

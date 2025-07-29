@@ -1,7 +1,7 @@
 'use client';
 
 import { Section, Container } from '../../../../../system/layout';
-import { RichText } from '../../../../../system/components/patterns/RichText';
+import { RichText } from '../../../../../system/components/patterns/client/RichText/RichText';
 import { useContent } from '../../../../../cms/context/ContentContext';
 import { usePathname } from 'next/navigation';
 

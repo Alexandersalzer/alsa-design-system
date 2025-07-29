@@ -5,8 +5,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { Label, createTabTypographyProps, TypographyWeight } from '../../../../system/components/primitives/Typography';
-
+import { Label, createTabTypographyProps,TypographyWeight } from '../Typography';
 export type TabVariant = 'navigation' | 'page' | 'segment';
 export type TabSize = 'sm' | 'md' | 'lg';
 
@@ -108,10 +107,7 @@ export const Tab: React.FC<TabProps> = ({
             weight={finalTypographyProps.weight}
             color={finalTypographyProps.color}
             as="span"
-            className="nav-item__label"
-            style={useHeadingFont ? { 
-              fontFamily: 'var(--font-heading-family)' 
-            } : undefined}
+            className={`nav-item__label ${useHeadingFont ? 'nav-item__label--heading-font' : ''}`}
           >
             {children}
           </Label>
@@ -129,10 +125,7 @@ export const Tab: React.FC<TabProps> = ({
           weight={finalTypographyProps.weight}
           color={finalTypographyProps.color}
           as="span"
-          className="tab__label"
-          style={useHeadingFont ? { 
-            fontFamily: 'var(--font-heading-family)' 
-          } : undefined}
+          className={`tab__label ${useHeadingFont ? 'tab__label--heading-font' : ''}`}
         >
           {children}
         </Label>

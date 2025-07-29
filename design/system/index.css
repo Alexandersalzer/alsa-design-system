@@ -1,24 +1,21 @@
-/* Import all parts of design system */
-/* Foundation tokens (base variables) */
-@import './tokens/foundation/index.css';
+/* ===============================================
+   COMPLETE CSS IMPORTS - FOR BLIMPIFY-UI PACKAGE
+   CORRECT FOLDER STRUCTURE
+   =============================================== */
 
-/* Semantic tokens (contextual meanings) */
+/* Foundation first - CRITICAL ORDER - ALWAYS KEEP THESE */
+@import './tokens/foundation/index.css';
 @import './tokens/semantic/index.css';
 
-/* Component tokens (component-specific variables) */
+/* Utilities BEFORE components - ALWAYS KEEP THIS */
+@import './utils/index.css';
 @import './tokens/component/index.css';
-
-/* Token collections */
 @import './tokens/index.css';
 @import './tokens/component/icon.css';
 
-/* Themes */
-/* @import './themes/index.css'; */
-
-/* Utility classes */
-@import './utils/index.css';
-
-/* Primitive components */
+/* ===============================================
+   PRIMITIVE COMPONENTS - CORE STYLING (WORKING)
+   =============================================== */
 @import './components/primitives/Button/Button.css';
 @import './components/primitives/Card/Card.css';
 @import './components/primitives/NavigationTab/NavigationTab.css';
@@ -32,9 +29,54 @@
 @import './components/primitives/Toast/Toast.css';
 @import './components/primitives/Modal/Modal.css';
 @import './components/primitives/Dropdown/Dropdown.css';
+@import './components/primitives/FileUploader/FileUploader.css';
 
-/* Pattern components */
+/* ===== PRIMITIVES (Enhanced components) ===== */
+/* 🔥 CRITICAL: Typography MUST be included */
 
+@import './components/primitives/Icon/Icon.css';
+@import './components/primitives/Tag/Tag.css';
+@import './components/primitives/SegmentedControl/SegmentedControl.css';
+@import './components/primitives/Stepper/Stepper.css';
+@import './components/primitives/TextLink/TextLink.css';
 
-/* 🎯 ADD THIS LINE - Stack & Cluster support for existing utility classes */
-/* This makes your existing .stack-sm, .stack-md, .cluster-md classes work with the new components */
+/* ===============================================
+   PATTERN COMPONENTS - CORRECT BLIMPIFY-UI PATHS
+   =============================================== */
+/* Dashboard patterns - CORRECT PATH */
+@import './components/patterns/dashboard/Header/Header.css';
+@import './components/patterns/dashboard/auth/AuthContainer.css';
+@import './components/patterns/dashboard/auth/AuthForm.css';
+@import './components/patterns/dashboard/auth/AuthField.css';
+@import './components/patterns/dashboard/auth/AuthCard.css';
+@import './components/patterns/dashboard/layout/AppLayout.css';
+@import './components/patterns/dashboard/layout/StaticPageLayout.css';
+@import './components/patterns/dashboard/layout/PropertyGroup.css';
+@import './components/patterns/dashboard/page/PageContent.css';
+@import './components/patterns/dashboard/page/Grid.css';
+@import './components/patterns/dashboard/page/PageHeader.css';
+@import './components/patterns/dashboard/page/LayoutUtilities.css';
+@import './components/patterns/dashboard/page/Cluster.css';
+@import './components/patterns/dashboard/page/Stack.css';
+@import './components/patterns/dashboard/selection/SelectionCard.css';
+
+/* Editor patterns */
+@import './components/patterns/dashboard/editor/EditorShell/EditorShell.css';
+@import './components/patterns/dashboard/editor/EditorTabs/EditorTabs.css';
+@import './components/patterns/dashboard/editor/EditorPanel/EditorPanel.css';
+@import './components/patterns/dashboard/editor/EditorSection/EditorSection.css';
+
+/* Theme Controls */
+@import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
+
+/* ===============================================
+   THEMES - CRITICAL FOR STYLING
+   =============================================== */
+@import './tokens/semantic/themes/index.css';
+
+/* ===============================================
+   LAYOUT UTILITIES - CORRECT PATHS
+   =============================================== */
+@import './layout/utilities/cluster/Cluster.css';
+@import './layout/utilities/rhythm/Rhythm.css';
+@import './layout/utilities/stack/Stack.css';

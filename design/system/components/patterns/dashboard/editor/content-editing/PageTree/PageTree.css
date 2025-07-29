@@ -1,0 +1,155 @@
+/* ===============================================
+   src/design-system/components/patterns/editor/content-editing/PageTree/PageTree.css
+   PAGE TREE STYLES - Visual website hierarchy like file explorer
+   ============================================== */
+
+/* ===== PAGE TREE CONTAINER ===== */
+.page-tree {
+  background: var(--surface-page);
+  border-radius: var(--foundation-radius-md);
+  border: 1px solid var(--border-editor-section);
+  overflow: hidden;
+}
+
+.page-tree__empty {
+  padding: var(--foundation-space-6);
+  text-align: center;
+  color: var(--text-editor-secondary);
+}
+
+.page-tree__empty svg {
+  font-size: 32px;
+  margin-bottom: var(--foundation-space-2);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== TREE NODE ===== */
+.tree-node {
+  /* Container for node header and children */
+}
+
+.tree-node__header {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  cursor: pointer;
+  transition: all var(--motion-duration-fast) var(--motion-easing-standard);
+  position: relative;
+  min-height: 40px;
+  border-radius: var(--foundation-radius-lg);
+  margin: var(--foundation-space-1) var(--foundation-space-2);
+}
+
+/* Clean hover state */
+.tree-node__header:hover:not(.tree-node__header--selected) {
+  background: var(--surface-hover);
+}
+
+/* Modern selection states - no colors, just subtle backgrounds */
+.tree-node__header--selected {
+  background: var(--accent-100);
+  border: 1px solid var(--accent-300);
+}
+
+/* ===== EXPAND/COLLAPSE BUTTON ===== */
+.tree-node__expand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--foundation-radius-sm);
+  transition: all var(--motion-duration-fast) var(--motion-easing-standard);
+  flex-shrink: 0;
+  color: var(--icon-secondary);
+}
+
+.tree-node__expand:hover {
+  background: var(--surface-secondary);
+  color: var(--icon-primary);
+}
+
+.tree-node__expand--open {
+  transform: rotate(90deg);
+}
+
+.tree-node__expand svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ===== TREE NODE ICON ===== */
+.tree-node__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--foundation-radius-sm);
+  flex-shrink: 0;
+  color: var(--icon-primary);
+}
+
+.tree-node__icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ===== TREE NODE CONTENT ===== */
+.tree-node__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.tree-node__label {
+  color: var(--text-editor-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== TREE NODE CHILDREN ===== */
+.tree-node__children {
+  /* Children are rendered with their own padding/indentation */
+}
+
+/* ===== RESPONSIVE BEHAVIOR ===== */
+@media (max-width: 768px) {
+  .tree-node__header {
+    padding: var(--foundation-space-2);
+    gap: var(--foundation-space-1);
+  }
+  
+  .tree-node__subtitle {
+    max-width: 150px;
+  }
+  
+  .tree-node__badge {
+    display: none;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .tree-node__header,
+  .tree-node__expand {
+    transition: none;
+  }
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+  .tree-node__header {
+    border: 1px solid var(--text-primary);
+  }
+  
+  .tree-node__icon {
+    border: 1px solid currentColor;
+  }
+}

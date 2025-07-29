@@ -1,0 +1,103 @@
+/*// ===============================================
+// STEP 1: Create the CSS file
+// src/design-system/components/patterns/selection/SelectionCard.css
+// ===============================================*/
+
+.selection-card {
+  position: relative;
+  transition: all 0.2s ease;
+  border: 2px solid var(--border-input);
+  background: var(--surface-card, white);
+  border-radius: var(--foundation-radius-lg);
+}
+
+.selection-card--clickable {
+  cursor: pointer;
+}
+
+.selection-card--clickable:hover {
+  border-color: var(--accent-300);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.selection-card--selected {
+  border-color: var(--accent-500);
+  background-color: var(--secondary-50);
+}
+
+.selection-card--selected.selection-card--clickable:hover {
+  border-color: var(--accent-600);
+  background-color: var(--secondary-100);
+}
+
+.selection-card--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.selection-card__content {
+  position: relative;
+  min-height: 60px;
+}
+
+.selection-card--sm .selection-card__content {
+  padding: 12px;
+}
+
+.selection-card--md .selection-card__content {
+  padding: 16px;
+}
+
+.selection-card--lg .selection-card__content {
+  padding: 20px;
+}
+
+.selection-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.selection-card__icon {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.selection-card--selected .selection-card__icon {
+  color: var(--accent-600);
+}
+
+.selection-card__badge {
+  font-size: 12px;
+  padding: 2px 6px;
+  background: var(--secondary-100);
+  border-radius: 4px;
+  color: var(--text-secondary);
+}
+
+.selection-card__indicator {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  background-color: var(--accent-500);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  border: 2px solid white;
+}
+
+.selection-card__body {
+  flex: 1;
+}
+
+.selection-card--clickable:focus-visible {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 2px;
+}

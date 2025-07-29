@@ -1,0 +1,112 @@
+/* ===============================================
+   src/design-system/components/patterns/editor/EditorTabs/EditorTabs.css
+   EDITOR TABS STYLES - USING DESIGN SYSTEM TOKENS
+   ============================================== */
+
+.editor-tabs {
+  display: flex;
+  background: var(--surface-page);
+  border-bottom: 1px solid var(--border-secondary);
+  padding: 0 var(--foundation-space-4);
+}
+
+.editor-tabs--compact {
+  padding: 0 var(--foundation-space-2);
+}
+
+.editor-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--foundation-duration-fast) ease;
+  border-bottom: 2px solid transparent;
+  min-height: 48px;
+  font-size: var(--foundation-text-sm);
+  font-weight: var(--foundation-weight-medium);
+}
+
+.editor-tabs--compact .editor-tab {
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  min-height: 40px;
+}
+
+.editor-tab:hover:not(:disabled) {
+  color: var(--text-primary);
+  background: var(--surface-hover);
+}
+
+.editor-tab--active {
+  color: var(--accent-600);
+  border-bottom-color: var(--accent-500);
+  background: var(--accent-50);
+}
+
+.editor-tab:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.editor-tab__icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editor-tab__label {
+  color: inherit !important;
+}
+
+.editor-tab__badge {
+  background: var(--accent-500);
+  color: var(--primary-white);
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+  border-radius: var(--foundation-radius-full);
+  min-width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--foundation-text-xs);
+  font-weight: var(--foundation-weight-semibold);
+}
+
+.editor-tab__badge .typography {
+  color: var(--primary-white) !important;
+}
+
+.editor-tab__changes {
+  position: absolute;
+  top: var(--foundation-space-2);
+  right: var(--foundation-space-2);
+  width: 6px;
+  height: 6px;
+  background: var(--warning-500);
+  border-radius: 50%;
+}
+
+/* Focus states for accessibility */
+.editor-tab:focus-visible {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .editor-tab {
+    padding: var(--foundation-space-2) var(--foundation-space-3);
+    gap: var(--foundation-space-1);
+  }
+  
+  .editor-tab__icon {
+    width: 14px;
+    height: 14px;
+  }
+}

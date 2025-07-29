@@ -4,20 +4,20 @@
 // ===============================================
 
 import { useState, useRef, useEffect, forwardRef, useId } from 'react';
-import { Icons } from '../../../../system/components/primitives/Icon';
-import { SearchInput } from '../../../../system/components/primitives/Input';
+import { SearchInput } from '../../../components/primitives/Input';
 import { cn } from '../../../lib/utils';
+import { Icon } from '../Icon/Icon';
+import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 
 // Import your design system types
 export type PickerSize = 'sm' | 'md' | 'lg';
-export type PickerVariant = 'default' | 'compact' | 'footer';
+export type PickerVariant = 'default' | 'compact';
 
 export interface PickerOption {
   value: string;
   label: string;
   disabled?: boolean;
   description?: string;
-  icon?: React.ReactNode; // New: Support for flag icons
 }
 
 export interface PickerProps {
@@ -151,34 +151,6 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
     return selected ? selected.label : placeholder;
   };
 
-  // Get display content with icon support
-  const getDisplayContent = () => {
-    if (multiple) {
-      const selected = selectedOptions as PickerOption[];
-      if (selected.length === 0) return <span>{placeholder}</span>;
-      if (selected.length === 1) {
-        const option = selected[0];
-        return (
-          <div className="picker-selected-content">
-            {option.icon && <span className="picker-selected-icon">{option.icon}</span>}
-            <span>{option.label}</span>
-          </div>
-        );
-      }
-      return <span>{`${selected.length} selected`}</span>;
-    }
-    const selected = selectedOptions as PickerOption | undefined;
-    if (selected) {
-      return (
-        <div className="picker-selected-content">
-          {selected.icon && <span className="picker-selected-icon">{selected.icon}</span>}
-          <span>{selected.label}</span>
-        </div>
-      );
-    }
-    return <span>{placeholder}</span>;
-  };
-
   // Handle keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (disabled) return;
@@ -306,13 +278,18 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
           aria-expanded={isOpen}
           aria-haspopup="listbox"
           aria-describedby={cn(descriptionId, errorId, successId)}
+          aria-invalid={error ? 'true' : 'false'}
           {...props}
         >
           <span className="picker-value">
-            {getDisplayContent()}
+            {getDisplayText()}
           </span>
           <div className="picker-icon">
+<<<<<<< HEAD
           <Icons.Action.ChevronDown />
+=======
+            <Icon color='secondary'><ChevronDownIcon/></Icon>
+>>>>>>> alex
           </div>
         </button>
 
@@ -365,26 +342,19 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
                       renderOption(option, isSelected(option))
                     ) : (
                       <div className="picker-option-content">
-                        {option.icon && (
-                          <div className="picker-option-icon">
-                            {option.icon}
+                        <div className="picker-option-label">
+                          {option.label}
+                        </div>
+                        {option.description && (
+                          <div className="picker-option-description">
+                            {option.description}
                           </div>
                         )}
-                        <div className="picker-option-text">
-                          <div className="picker-option-label">
-                            {option.label}
-                          </div>
-                          {option.description && (
-                            <div className="picker-option-description">
-                              {option.description}
-                            </div>
-                          )}
-                        </div>
                       </div>
                     )}
-                    {isSelected(option) && (
+                    {isSelected(option) && multiple && (
                       <div className="picker-option-check">
-                        <Icons.Status.Success/>
+                        <Icon color='secondary'><CheckIcon></CheckIcon></Icon>
                       </div>
                     )}
                   </li>

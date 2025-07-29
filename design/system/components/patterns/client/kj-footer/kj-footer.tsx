@@ -1,10 +1,10 @@
 'use client';
 
-import { Picker } from '../../../../system/components/primitives/Picker';
-import { Typography } from '../../../../system/components/primitives/Typography';
-import { Stack } from '../../../../system/layout/utilities/stack/Stack';
-import { Cluster } from '../../../../system/layout/utilities/cluster/Cluster';
-import { Rhythm, RhythmItem } from '../../../../system/layout/utilities/rhythm/Rhythm';
+import { Picker } from '../../../../../system/components/primitives/Picker';
+import { Typography } from '../../../../../system/components/primitives/Typography';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { Rhythm, RhythmItem } from '../../../../../system/layout/utilities/rhythm/Rhythm';
 import { useState, useEffect } from 'react';
 import { 
   getCurrentLocale, 
@@ -13,7 +13,7 @@ import {
   defaultLocaleOptions,
   type SupportedLocale,
   type LocaleOption
-} from '../../../utils/locale';
+} from '../../../../utils/locale';
 
 interface KjFooterProps {
   // Optional override for language options if needed
@@ -88,7 +88,6 @@ const KjFooter = ({ languageOptions, isEditingMode = false }: KjFooterProps) => 
           value={selectedLanguage}
           onChange={handleLanguageChangeWithState}
           placeholder="Välj språk"
-          variant="footer"
         />
       </RhythmItem>
 
