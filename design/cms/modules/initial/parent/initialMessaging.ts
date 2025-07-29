@@ -61,6 +61,21 @@ export class InitialMessageHandler {
   };
 }
 
+// Utility functions for editing status messaging
+
+// Send editing status update (utility function)
+export const sendEditingStatusUpdate = (
+  iframeRef: React.RefObject<HTMLIFrameElement | null>,
+  editing: boolean
+) => {
+  if (iframeRef.current?.contentWindow) {
+    iframeRef.current.contentWindow.postMessage({
+      type: 'editing-status-update',
+      editing: editing
+    }, '*');
+  }
+};
+
 // Setup basic editing status message listener
 export const setupEditingStatusMessageListener = (
   handlers: {

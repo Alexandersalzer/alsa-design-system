@@ -1,20 +1,23 @@
 import React from 'react';
 
-// Type definitions for parent content messaging
-export interface ContentParentConfig {
+// Type definitions for the parent content message handler (content and website messaging only)
+export interface ParentMessageHandlerConfig {
   iframeRef: React.RefObject<HTMLIFrameElement | null>;
   websiteContent?: any;
+  version?: any;
+  token?: string | null;
 }
 
-export interface ContentParentHandlers {
+export interface ParentMessageHandlers {
   onWebsiteContentRequest?: (versionId?: number) => void;
+  onCustomMessage?: (event: MessageEvent) => void;
 }
 
-export class ContentParentHandler {
-  private config: ContentParentConfig;
-  private handlers: ContentParentHandlers;
+export class ParentMessageHandler {
+  private config: ParentMessageHandlerConfig;
+  private handlers: ParentMessageHandlers;
 
-  constructor(config: ContentParentConfig, handlers: ContentParentHandlers = {}) {
+  constructor(config: ParentMessageHandlerConfig, handlers: ParentMessageHandlers = {}) {
     this.config = config;
     this.handlers = handlers;
   }
@@ -25,6 +28,26 @@ export class ContentParentHandler {
       this.config.iframeRef.current.contentWindow.postMessage({
         type: 'content-update',
         content: newContent
+      }, '*');
+    }
+  };
+
+  // Send CSS update to iframe for real-time preview
+  sendCssUpdate = (css: string) => {
+    if (this.config.iframeRef.current) {
+      this.config.iframeRef.current.contentWindow?.postMessage({
+        type: 'css-update',
+        css: css
+      }, '*');
+    }
+  };
+
+  // Send text alignment update to iframe for real-time preview
+  sendTextAlignUpdate = (css: string) => {
+    if (this.config.iframeRef.current) {
+      this.config.iframeRef.current.contentWindow?.postMessage({
+        type: 'text-align-update',
+        css: css
       }, '*');
     }
   };
@@ -50,6 +73,11 @@ export class ContentParentHandler {
         }, '*');
       }
     }
+
+    // Handle custom messages through handler
+    if (this.handlers.onCustomMessage) {
+      this.handlers.onCustomMessage(event);
+    }
   };
 
   // Setup message listener
@@ -58,18 +86,27 @@ export class ContentParentHandler {
     return () => window.removeEventListener('message', this.handleMessage);
   };
 
-  // Update config
-  updateConfig = (newConfig: Partial<ContentParentConfig>) => {
+  // Update config (useful when state changes)
+  updateConfig = (newConfig: Partial<ParentMessageHandlerConfig>) => {
     this.config = { ...this.config, ...newConfig };
   };
 
   // Update handlers
-  updateHandlers = (newHandlers: Partial<ContentParentHandlers>) => {
+  updateHandlers = (newHandlers: Partial<ParentMessageHandlers>) => {
     this.handlers = { ...this.handlers, ...newHandlers };
   };
 }
 
-// Utility functions for content messaging
+// Utility functions for easier usage
+
+// Create a basic parent message handler
+export const createParentMessageHandler = (
+  iframeRef: React.RefObject<HTMLIFrameElement | null>,
+  config: Omit<ParentMessageHandlerConfig, 'iframeRef'> = {},
+  handlers: ParentMessageHandlers = {}
+) => {
+  return new ParentMessageHandler({ iframeRef, ...config }, handlers);
+};
 
 // Send website content response (utility function)
 export const sendWebsiteContentResponse = (
@@ -84,28 +121,20 @@ export const sendWebsiteContentResponse = (
   }
 };
 
-// Send content update (utility function)
-export const sendContentUpdate = (
-  iframeRef: React.RefObject<HTMLIFrameElement | null>,
-  content: any
-) => {
-  if (iframeRef.current?.contentWindow) {
-    iframeRef.current.contentWindow.postMessage({
-      type: 'content-update',
-      content: content
-    }, '*');
-  }
-};
-
-// Setup content message listener
-export const setupContentMessageListener = (
+// Setup basic message listener for content requests only
+export const setupBasicParentMessageListener = (
   handlers: {
     onWebsiteContentRequest?: (versionId?: number) => void;
+    onMessage?: (event: MessageEvent) => void;
   }
 ) => {
   const handleMessage = (event: MessageEvent) => {
     if (event.data.type === 'request-website-content' && handlers.onWebsiteContentRequest) {
       handlers.onWebsiteContentRequest(event.data.versionId);
+    }
+
+    if (handlers.onMessage) {
+      handlers.onMessage(event);
     }
   };
 

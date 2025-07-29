@@ -5,16 +5,22 @@ export * from './cms/context/ContentProvider';
 export * from './cms/modules/initial/child/EditingWrapper';
 
 // Export initial messaging functionality (editing status only)
-export * from './cms/modules/initial/parent';
+export {
+  InitialMessageHandler,
+  sendEditingStatusUpdate,
+  setupEditingStatusMessageListener,
+  type InitialMessageHandlerConfig,
+  type InitialMessageHandlers
+} from './cms/modules/initial/parent';
 
 // Export content messaging functionality
 export {
-  ContentParentHandler,
+  ParentMessageHandler,
+  createParentMessageHandler,
   sendWebsiteContentResponse,
-  sendContentUpdate,
-  setupContentMessageListener,
-  type ContentParentConfig,
-  type ContentParentHandlers
+  setupBasicParentMessageListener,
+  type ParentMessageHandlerConfig,
+  type ParentMessageHandlers
 } from './cms/modules/content/parent/contentMessaging';
 
 // Export design token messaging functionality
