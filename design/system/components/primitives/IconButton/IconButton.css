@@ -1,61 +1,107 @@
 /* ==============================================
    src/design-system/components/primitives/IconButton/IconButton.css
-   FIXED - Perfect height alignment with Button component
+   DEFINITIVE FIX - Removes all conflicting styles
 ============================================== */
 
 /* ===== BASE ICON BUTTON STYLES ===== */
 .icon-btn {
-  display: inline-flex;
+  position: relative;
+  display: flex;
   align-items: center;
   justify-content: center;
   
-  /* Layout */
+  /* Reset all inherited styles */
   border: 1px solid transparent;
+  background: transparent;
   border-radius: var(--radius-button);
-  
-  /* Interaction */
+  color: inherit;
   cursor: pointer;
-  transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
+  transition: all var(--foundation-duration-fast, 0.15s) ease;
+  flex-shrink: 0;
   outline: none;
   user-select: none;
-  position: relative;
-  flex-shrink: 0;
-  
-  /* Remove any default button styles */
-  background: none;
   font: inherit;
-  color: inherit;
+  
+  /* Remove any margin/padding that could affect sizing */
+  margin: 0;
+  padding: 0;
+  
+  /* Ensure exact box-sizing */
+  box-sizing: border-box;
 }
 
-/* ===== SIZES - PERFECTLY MATCHES BUTTON COMPONENT ===== */
+/* ===== SIZE VARIANTS - EXACTLY MATCH BUTTON HEIGHTS ===== */
 .icon-btn--sm {
-  min-height: 32px; /* EXACTLY matches btn-sm */
-  width: 32px;      /* Square aspect ratio */
-  padding: 6px;     /* (32 - 20) / 2 = 6px for icon */
+  width: 32px;
+  height: 32px;
+  min-height: 32px;
+  max-height: 32px;
+  /* Small padding for icon centering */
+  padding: 6px;
 }
 
 .icon-btn--md,
 .icon-btn {
-  min-height: 40px; /* EXACTLY matches btn-md */
-  width: 40px;      /* Square aspect ratio */
-  padding: 10px;    /* (40 - 20) / 2 = 10px for icon */
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  /* Medium padding for icon centering */
+  padding: 8px;
 }
 
 .icon-btn--lg {
-  min-height: 48px; /* EXACTLY matches btn-lg */
-  width: 48px;      /* Square aspect ratio */
-  padding: 14px;    /* (48 - 20) / 2 = 14px for icon */
+  width: 48px;
+  height: 48px;
+  min-height: 48px;
+  max-height: 48px;
+  /* Large padding for icon centering */
+  padding: 12px;
 }
 
 .icon-btn--xl {
-  min-height: 56px; /* EXACTLY matches btn-xl */
-  width: 56px;      /* Square aspect ratio */
-  padding: 16px;    /* (56 - 24) / 2 = 16px for icon */
+  width: 56px;
+  height: 56px;
+  min-height: 56px;
+  max-height: 56px;
+  /* Extra large padding for icon centering */
+  padding: 16px;
 }
 
-/* ===== VARIANTS - MATCHES BUTTON COMPONENT EXACTLY ===== */
+/* ===== REMOVE OLD CONFLICTING ICON CONTAINER STYLES ===== */
+/* Remove the old .icon-btn__icon fixed sizing that was overriding Icon component */
+.icon-btn__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  
+  /* CRITICAL: Let the Icon component handle its own sizing */
+  width: auto !important;
+  height: auto !important;
+  
+  /* Remove any padding/margin */
+  margin: 0;
+  padding: 0;
+}
 
-/* Primary IconButton */
+/* ===== ENSURE ICON COMPONENT DOESN'T ADD EXTRA SPACE ===== */
+.icon-btn .icon {
+  /* Override Icon component's vertical-align to prevent height issues */
+  vertical-align: unset !important;
+  
+  /* Ensure no extra margins */
+  margin: 0 !important;
+  
+  /* Ensure proper display */
+  display: block !important;
+  
+  /* Remove any transform that could affect height */
+  transform: none !important;
+}
+
+/* ===== VARIANT STYLES ===== */
 .icon-btn--primary {
   background-color: var(--surface-button-primary);
   color: var(--text-button-primary);
@@ -66,23 +112,6 @@
   background-color: var(--surface-button-primary-hover);
 }
 
-.icon-btn--primary:active:not(:disabled) {
-  background-color: var(--surface-button-primary-active);
-}
-
-.icon-btn--primary:focus-visible {
-  outline: 2px solid var(--border-button-primary-focus);
-  outline-offset: 2px;
-}
-
-.icon-btn--primary:disabled {
-  background-color: var(--surface-button-primary-disabled);
-  color: var(--text-button-primary-disabled);
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-/* Secondary IconButton */
 .icon-btn--secondary {
   background-color: var(--surface-button-secondary);
   color: var(--text-button-secondary);
@@ -94,24 +123,6 @@
   border-color: var(--border-button-secondary-hover);
 }
 
-.icon-btn--secondary:active:not(:disabled) {
-  background-color: var(--surface-button-secondary-active);
-}
-
-.icon-btn--secondary:focus-visible {
-  outline: 2px solid var(--border-button-secondary-focus);
-  outline-offset: 2px;
-}
-
-.icon-btn--secondary:disabled {
-  background-color: var(--surface-button-secondary-disabled);
-  color: var(--text-button-secondary-disabled);
-  border-color: var(--border-button-secondary-disabled);
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-/* Accent IconButton */
 .icon-btn--accent {
   background-color: var(--surface-button-accent);
   color: var(--text-button-accent);
@@ -122,25 +133,8 @@
   background-color: var(--surface-button-accent-hover);
 }
 
-.icon-btn--accent:active:not(:disabled) {
-  background-color: var(--surface-button-accent-active);
-}
-
-.icon-btn--accent:focus-visible {
-  outline: 2px solid var(--border-button-accent-focus);
-  outline-offset: 2px;
-}
-
-.icon-btn--accent:disabled {
-  background-color: var(--surface-button-accent-disabled);
-  color: var(--text-button-accent-disabled);
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-/* Ghost IconButton */
 .icon-btn--ghost {
-  background-color: var(--surface-button-ghost);
+  background-color: transparent;
   color: var(--text-button-ghost);
   border-color: transparent;
 }
@@ -149,16 +143,6 @@
   background-color: var(--surface-button-ghost-hover);
 }
 
-.icon-btn--ghost:active:not(:disabled) {
-  background-color: var(--surface-button-ghost-active);
-}
-
-.icon-btn--ghost:focus-visible {
-  outline: 2px solid var(--border-button-secondary-focus);
-  outline-offset: 2px;
-}
-
-/* Destructive IconButton */
 .icon-btn--destructive {
   background-color: var(--error-600);
   color: var(--primary-white);
@@ -169,23 +153,13 @@
   background-color: var(--error-700);
 }
 
-.icon-btn--destructive:active:not(:disabled) {
-  background-color: var(--error-800);
-}
-
-.icon-btn--destructive:focus-visible {
-  outline: 2px solid var(--error-500);
+/* ===== FOCUS STATES ===== */
+.icon-btn:focus-visible {
+  outline: 2px solid var(--border-button-secondary-focus);
   outline-offset: 2px;
 }
 
-.icon-btn--destructive:disabled {
-  background-color: var(--surface-button-primary-disabled);
-  color: var(--text-button-primary-disabled);
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-/* ===== ACTIVE STATE (for navigation) ===== */
+/* ===== ACTIVE STATE ===== */
 .icon-btn--active {
   background-color: var(--surface-nav-item-selected) !important;
   color: var(--text-nav-item-selected) !important;
@@ -195,27 +169,13 @@
   background-color: var(--surface-nav-item-selected-hover) !important;
 }
 
-/* ===== ICON CONTAINER ===== */
-.icon-btn__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
-  transition: inherit;
-  
-  /* Ensure icon fills container properly */
-  width: 100%;
-  height: 100%;
-}
-
-.icon-btn__icon svg {
-  transition: inherit;
-  display: block; /* Remove any extra spacing */
-}
-
-.icon-btn__icon--hidden {
-  opacity: 0;
+/* ===== DISABLED STATE ===== */
+.icon-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  background: transparent !important;
+  color: var(--text-disabled) !important;
 }
 
 /* ===== LOADING SPINNER ===== */
@@ -232,16 +192,6 @@
 
 .icon-btn--loading .icon-btn__icon {
   opacity: 0;
-}
-
-/* Loading state */
-.icon-btn:disabled .animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
 /* ===== BADGE STYLES ===== */
@@ -284,10 +234,14 @@
   height: 16px;
 }
 
-/* ===== DISABLED STATE ===== */
-.icon-btn:disabled {
-  cursor: not-allowed;
-  pointer-events: none;
+/* ===== ANIMATION KEYFRAMES ===== */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.icon-btn:disabled .animate-spin {
+  animation: spin 1s linear infinite;
 }
 
 /* ===== ACCESSIBILITY ===== */
@@ -297,44 +251,43 @@
   }
 }
 
-/* ===== HIGH CONTRAST MODE ===== */
-@media (prefers-contrast: high) {
-  .icon-btn {
-    border: 1px solid currentColor;
-  }
-  
-  .icon-btn--active {
-    border-color: var(--accent-500);
-    background: var(--accent-500);
-    color: var(--primary-white);
-  }
-}
-
 /* ===== PERFECT FORM ALIGNMENT ===== */
-/* When icon buttons and regular buttons are used together */
 .form-row .icon-btn--sm,
 .clean-auth-form .icon-btn--sm {
-  min-height: 32px; /* Exactly matches btn-sm */
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
 }
 
 .form-row .icon-btn--md,
 .clean-auth-form .icon-btn--md {
-  min-height: 40px; /* Exactly matches btn-md */
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
 }
 
 .form-row .icon-btn--lg,
 .clean-auth-form .icon-btn--lg {
-  min-height: 48px; /* Exactly matches btn-lg */
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
 }
 
-.form-row .icon-btn--xl,
-.clean-auth-form .icon-btn--xl {
-  min-height: 56px; /* Exactly matches btn-xl */
-}
-
-/* ===== DEBUG: Temporary visual check ===== */
-/* Remove this once you confirm alignment is working */
+/* ===== DEBUG CLASSES (uncomment to verify alignment) ===== */
 /*
-.icon-btn--sm { border: 1px dashed red !important; }
-.btn-sm { border: 1px dashed blue !important; }
+.debug-alignment .icon-btn--sm {
+  border: 2px dashed red !important;
+}
+
+.debug-alignment .btn-sm {
+  border: 2px dashed blue !important;
+}
+
+.debug-alignment .icon-btn--md {
+  border: 2px dashed orange !important;
+}
+
+.debug-alignment .btn-md {
+  border: 2px dashed green !important;
+}
 */
