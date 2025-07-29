@@ -5,62 +5,50 @@
 
 :root {
   /* ===== SIDEBAR TOKENS ===== */
-  --surface-sidebar: var(--primary-white);
-  --surface-sidebar-header: var(--primary-white);
-  --surface-sidebar-footer: var(--primary-white);
+  --surface-sidebar: var(--surface-page);
+  --surface-sidebar-header: var(--surface-page);
+  --surface-sidebar-footer: var(--surface-page);
   
   /* ===== SIDEBAR DIMENSIONS ===== */
   --size-sidebar-width: 280px;
-  --size-sidebar-header-height: var(--size-topbar-height);
+  --size-sidebar-header-height: 64px;
   --size-sidebar-logo-width: 40.8px;
   --size-sidebar-logo-height: 16.55px;
 
-  /* ===== NAVIGATION SURFACES ===== */
-  --surface-nav: var(--primary-white);
-  --surface-nav-item-hover: var(--secondary-100);
-  --surface-nav-item-selected: var(--secondary-100);
+  /* ===== NAVIGATION SURFACES - USE SEMANTIC ===== */
+  --surface-nav: var(--surface-page);
+  --surface-nav-item-hover: var(--surface-card-hover);
+  --surface-nav-item-selected: var(--surface-card-selected);
   --surface-nav-item-disabled: transparent;
-  
-  --nav-selected: var(--accent-600);
 
-  /* ===== NAVIGATION TEXT COLORS ===== */
-  --text-nav-item: var(--secondary-600);
-  --text-nav-item-selected: var(--nav-selected);
-  --text-nav-item-disabled: var(--secondary-300);
-  --text-nav-item-hover: var(--secondary-900);
-  
-  
-  /* ===== NAVIGATION ICON COLORS ===== */
-  --icon-nav-item-selected:  var(--nav-selected);
-  --icon-nav-item-disabled: var(--icon-tertiary);
-  --icon-nav-item-hover: var(--secondary-600);
-  --text-user-menu-trigger: var(--text-primary);
-  --icon-nav-item: var(--icon-secondary);
-  
-  /* ===== NAVIGATION BORDERS ===== */
-  --border-nav: var(--secondary-100);
-  --border-nav-item-selected: var(--nav-selected);
+  /* ❌ REMOVE DUPLICATED TOKENS - Use semantic instead */
+  /* ❌ REMOVED: --text-nav-item, --icon-nav-item, etc. - Already in semantic/colors.css */
+  /* ✅ KEEP ONLY NAVIGATION-SPECIFIC TOKENS */
 
- /* ===== HEADER SPECIFIC TOKENS ===== */
-  --surface-header: var(--primary-white);
-  --border-header: var(--border-nav);
+  /* ===== NAVIGATION BORDERS - USE SEMANTIC ===== */
+  --border-nav: var(--border-subtle);
+  --border-nav-item-selected: var(--accent-500);
+
+  /* ===== HEADER SPECIFIC TOKENS ===== */
+  --surface-header: var(--surface-page);
+  --border-header: var(--border-subtle);
   
-  /* ===== DROPDOWN TOKENS ===== */
-  --surface-dropdown: var(--primary-white);
-  --surface-dropdown-elevated: var(--primary-white);
-  --border-dropdown: var(--secondary-200);
-  --border-dropdown-subtle: var(--secondary-100);
-  --shadow-dropdown: 0 10px 25px rgba(0, 0, 0, 0.1);
+  /* ===== DROPDOWN TOKENS - USE SEMANTIC ===== */
+  --surface-dropdown: var(--surface-card-elevated);
+  --surface-dropdown-elevated: var(--surface-card-elevated);
+  --border-dropdown: var(--border-default);
+  --border-dropdown-subtle: var(--border-subtle);
+  --shadow-dropdown: var(--foundation-shadow-lg);
   --radius-dropdown: var(--foundation-radius-xl);
   
   /* ===== DROPDOWN SPACING ===== */
-  --space-dropdown-offset: var(--foundation-space-4); /* 16px - bigger gap as requested */
+  --space-dropdown-offset: var(--foundation-space-4);
   --space-dropdown-padding: var(--foundation-space-5);
   --space-dropdown-header-padding: var(--foundation-space-4) var(--foundation-space-5) var(--foundation-space-3);
   --space-dropdown-content-padding: 0;
   --space-dropdown-footer-padding: var(--foundation-space-3) var(--foundation-space-5) var(--foundation-space-4);
   
-  /* ===== SEARCH INPUT TOKENS ===== */
+  /* ===== SEARCH INPUT TOKENS - USE SEMANTIC ===== */
   --surface-search-input: var(--surface-input);
   --border-search-input: var(--border-input);
   --border-search-input-focus: var(--border-input-focus);
@@ -68,7 +56,7 @@
   --text-search-placeholder: var(--text-input-placeholder);
   --icon-search: var(--icon-secondary);
   
-  /* ===== SETUP GUIDE BUTTON TOKENS ===== */
+  /* ===== SETUP GUIDE BUTTON TOKENS - USE SEMANTIC ===== */
   --surface-setup-guide: var(--surface-button-secondary);
   --surface-setup-guide-hover: var(--surface-button-secondary-hover);
   --border-setup-guide: var(--border-button-secondary);
@@ -76,7 +64,7 @@
   --border-setup-guide-focus: var(--border-focus);
   --text-setup-guide: var(--text-button-secondary);
   
-  /* ===== USER MENU TOKENS ===== */
+  /* ===== USER MENU TOKENS - USE SEMANTIC ===== */
   --surface-user-menu-trigger: transparent;
   --surface-user-menu-trigger-hover: var(--surface-button-secondary-hover);
   --border-user-menu-trigger: var(--border-button-secondary);
@@ -90,7 +78,7 @@
   --surface-user-menu-dropdown: var(--surface-dropdown-elevated);
   --shadow-user-menu-dropdown: var(--shadow-dropdown);
   
-  /* ===== USER MENU ITEM TOKENS ===== */
+  /* ===== USER MENU ITEM TOKENS - USE SEMANTIC ===== */
   --surface-user-menu-item: transparent;
   --surface-user-menu-item-hover: var(--surface-nav-item-hover);
   --text-user-menu-item: var(--text-nav-item);
@@ -104,7 +92,7 @@
   --border-notification-dropdown: var(--border-dropdown-subtle);
   --shadow-notification-dropdown: var(--shadow-dropdown);
   
-  /* ===== NOTIFICATION LIST TOKENS ===== */
+  /* ===== NOTIFICATION LIST TOKENS - USE SEMANTIC ===== */
   --surface-notification-item: transparent;
   --surface-notification-item-hover: var(--surface-nav-item-hover);
   --border-notification-item: var(--border-dropdown-subtle);
@@ -115,7 +103,7 @@
   /* ===== NOTIFICATION INDICATOR TOKENS ===== */
   --surface-notification-indicator: var(--accent-500);
   
-  /* ===== EMPTY STATE TOKENS ===== */
+  /* ===== EMPTY STATE TOKENS - USE SEMANTIC ===== */
   --surface-empty-state: transparent;
   --text-empty-state-title: var(--text-nav-item);
   --text-empty-state-description: var(--text-secondary);

@@ -1,6 +1,7 @@
+
 /* ==============================================
    src/design-system/tokens/component/icon.css
-   ENHANCED ICON COMPONENT TOKENS - Smart Button Colors
+   COMPLETE ICON COMPONENT TOKENS & UTILITIES
    ============================================== */
 
 :root {
@@ -19,14 +20,10 @@
   --icon-stroke-medium: 2;
   --icon-stroke-bold: 3;
 
-  /* ===== ICON COLORS (using semantic tokens) ===== */
-  --icon-primary: var(--text-primary);
-  --icon-secondary: var(--text-secondary);
-  --icon-tertiary: var(--text-tertiary);
-  --icon-disabled: var(--text-disabled);
-  --icon-inverse: var(--text-inverse);
-  --icon-heading: var(--text-heading-color);
-  --icon-body: var(--text-body-color);
+  /* ===== ICON COLORS - Reference semantic tokens ===== */
+  /* ✅ KEEP: These reference semantic tokens but provide component-specific context */
+  --icon-heading: var(--text-primary);            /* ✅ FIXED - was broken --text-heading-color */
+  --icon-body: var(--text-secondary);             /* ✅ FIXED - was broken --text-body-color */
   --icon-accent: var(--accent-500);
   --icon-success: var(--success-600);
   --icon-warning: var(--warning-600);
@@ -35,26 +32,28 @@
   --icon-subtle: var(--text-tertiary);
 
   /* ===== SMART BUTTON ICON COLORS ===== */
-  /* 🎯 KEY FIX: These match your button text colors exactly! */
-  --icon-button-primary: var(--text-button-primary);         /* White on black primary buttons */
-  --icon-button-secondary: var(--text-button-secondary);     /* Black on light secondary buttons */
-  --icon-button-accent: var(--text-button-accent);           /* White on accent buttons */
-  --icon-button-ghost: var(--text-secondary);                /* Gray for ghost buttons */
-  --icon-button-destructive: var(--primary-white);                /* White on red destructive buttons */
+  /* ✅ KEEP: These are component-specific and don't exist in semantic */
+  --icon-button-primary: var(--text-button-primary);         /* White for primary buttons */
+  --icon-button-secondary: var(--text-button-secondary);     /* Dark for secondary buttons */
+  --icon-button-accent: var(--text-button-accent);           /* White for accent buttons */
+  --icon-button-ghost: var(--text-button-ghost);             /* Gray for ghost buttons */
+  --icon-button-destructive: var(--text-inverse);            /* White for destructive buttons */
   --icon-button-disabled: var(--text-button-primary-disabled); /* Gray for disabled buttons */
 
   /* ===== NAVIGATION ICON COLORS ===== */
-  --icon-nav-item: var(--secondary-600);
-  --icon-nav-item-hover: var(--secondary-900);
-  --icon-nav-item-selected: var(--accent-500);
+  /* ✅ KEEP: Navigation-specific icon tokens that extend semantic */
+  --icon-nav-item: var(--icon-nav-item);                     /* Uses semantic token */
+  --icon-nav-item-hover: var(--icon-nav-item-hover);         /* Uses semantic token */
+  --icon-nav-item-selected: var(--icon-nav-item-selected);   /* Uses semantic token */
+  --icon-nav-item-disabled: var(--icon-nav-item-disabled);   /* Uses semantic token */
 
-  /* ===== CARD ICON COLORS ===== */
+  /* ===== CONTEXT-SPECIFIC ICON COLORS ===== */
+  /* ✅ KEEP: Component-specific contexts not covered by semantic */
+  --icon-user-menu: var(--text-primary);
+  --icon-search: var(--icon-secondary);
+  --icon-empty-state: var(--icon-secondary);
   --icon-card-primary: var(--text-primary);
-
-  /* ===== SPECIFIC CONTEXT COLORS ===== */
-  --icon-user-menu: var(--primary-1000);
-  --icon-search: var(--secondary-400);
-  --icon-empty-state: var(--secondary-400);
+  --icon-card-secondary: var(--icon-secondary);
 }
 
 /* ==============================================
@@ -110,12 +109,16 @@
 .icon-weight-medium { stroke-width: var(--icon-stroke-medium); }
 .icon-weight-bold { stroke-width: var(--icon-stroke-bold); }
 
-/* ===== ICON COLORS ===== */
+/* ===== BASIC ICON COLORS ===== */
+/* ✅ KEEP: These provide utility classes for semantic tokens */
 .icon-primary { color: var(--icon-primary); }
 .icon-secondary { color: var(--icon-secondary); }
 .icon-tertiary { color: var(--icon-tertiary); }
 .icon-disabled { color: var(--icon-disabled); }
 .icon-inverse { color: var(--icon-inverse); }
+.icon-brand { color: var(--icon-brand); }
+
+/* ===== COMPONENT-SPECIFIC ICON COLORS ===== */
 .icon-heading { color: var(--icon-heading); }
 .icon-body { color: var(--icon-body); }
 .icon-accent { color: var(--icon-accent); }
@@ -126,7 +129,7 @@
 .icon-subtle { color: var(--icon-subtle); }
 
 /* ===== SMART BUTTON ICON COLORS ===== */
-/* 🎯 These are the magic classes that solve your button icon color problem! */
+/* ✅ KEEP: These are the magic classes for button icons! */
 .icon-button-primary { 
   color: var(--icon-button-primary); 
 }
@@ -155,16 +158,18 @@
 .icon-nav-item { color: var(--icon-nav-item); }
 .icon-nav-item-hover { color: var(--icon-nav-item-hover); }
 .icon-nav-item-selected { color: var(--icon-nav-item-selected); }
+.icon-nav-item-disabled { color: var(--icon-nav-item-disabled); }
 
 /* ===== CONTEXT SPECIFIC COLORS ===== */
 .icon-user-menu { color: var(--icon-user-menu); }
 .icon-search { color: var(--icon-search); }
 .icon-empty-state { color: var(--icon-empty-state); }
 .icon-card-primary { color: var(--icon-card-primary); }
+.icon-card-secondary { color: var(--icon-card-secondary); }
 
 /* ===== RESPONSIVE ICON SIZES ===== */
 @media (max-width: 768px) {
-  /* Smaller icons on mobile */
+  /* Smaller icons on mobile for better touch targets */
   .icon-lg {
     width: var(--icon-size-md);
     height: var(--icon-size-md);
@@ -177,7 +182,7 @@
 }
 
 /* ==============================================
-   BUTTON ICON SPECIFIC STYLES
+   BUTTON + ICON INTEGRATION
    ============================================== */
 
 /* ===== Button Icon Container ===== */
@@ -187,7 +192,7 @@
   transition: color var(--foundation-duration-fast, 0.15s) ease;
 }
 
-/* ===== Button Icon States ===== */
+/* ===== Button Icon Hover States ===== */
 .btn:hover .icon-button-primary,
 .btn:hover .icon-button-secondary,
 .btn:hover .icon-button-accent,
@@ -197,33 +202,63 @@
   color: inherit;
 }
 
+/* ===== Button Icon Disabled State ===== */
 .btn:disabled .icon,
 .btn:disabled [class*="icon-"] {
   /* All icons in disabled buttons use disabled color */
   color: var(--icon-button-disabled) !important;
 }
 
-/* ===== Icon Button Loading State ===== */
+/* ===== Button Icon Loading State ===== */
 .btn .loading-spinner {
   color: var(--icon-button-disabled);
 }
 
+/* ===== Button Icon Alignment ===== */
+.btn .icon:first-child {
+  margin-right: var(--space-button-gap, var(--foundation-space-2));
+}
+
+.btn .icon:last-child {
+  margin-left: var(--space-button-gap, var(--foundation-space-2));
+}
+
+.btn .icon:only-child {
+  margin: 0;
+}
+
 /* ==============================================
-   DEBUGGING HELPERS (Remove in production)
+   ICON + TEXT COMBINATIONS
    ============================================== */
 
-/* Uncomment this during development to see icon colors */
-/*
-.icon-button-primary { 
-  background: rgba(255, 0, 0, 0.1); 
-  border: 1px solid red; 
+/* ===== Icon + Label Spacing ===== */
+.icon-label {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
 }
-.icon-button-secondary { 
-  background: rgba(0, 255, 0, 0.1); 
-  border: 1px solid green; 
+
+.icon-label--sm {
+  gap: var(--foundation-space-1);
 }
-.icon-button-accent { 
-  background: rgba(0, 0, 255, 0.1); 
-  border: 1px solid blue; 
+
+.icon-label--lg {
+  gap: var(--foundation-space-3);
 }
-*/
+
+/* ===== Icon Badge Containers ===== */
+.icon-badge {
+  position: relative;
+  display: inline-block;
+}
+
+.icon-badge__indicator {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background: var(--error-500);
+  border: 2px solid var(--surface-page);
+  border-radius: 50%;
+}

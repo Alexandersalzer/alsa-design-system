@@ -150,6 +150,11 @@
   --border-warning: var(--warning-500);
   --border-info: var(--info-500);
 
+  --border-light: var(--secondary-100);           
+  --border-light-hover: var(--secondary-200);     
+  --border-light-active: var(--secondary-300);    
+
+
   /* ===== SEMANTIC ICON TOKENS ===== */
   --icon-primary: var(--secondary-600);
   --icon-secondary: var(--secondary-500);
@@ -214,8 +219,9 @@
   --surface-button-secondary-disabled: var(--interactive-secondary-disabled);
   --text-button-secondary: var(--text-primary);
   --text-button-secondary-disabled: var(--text-disabled);
-  --border-button-secondary: var(--border-default);
-  --border-button-secondary-hover: var(--border-hover);
+  --border-button-secondary: var(--border-light);              /* secondary-100 */
+  --border-button-secondary-hover: var(--border-light-hover);  /* secondary-200 */
+  --border-button-secondary-active: var(--border-light-active); /* secondary-300 */
   --border-button-secondary-focus: var(--border-focus);
   --border-button-secondary-disabled: var(--border-disabled);
 
