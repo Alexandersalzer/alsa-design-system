@@ -1,6 +1,4 @@
 import { type WebsiteContent } from '../types/content';
-import { handleDimensionRequest } from './dimensionMessaging';
-import { handleDesignTokenMessage, type DesignTokenMessageHandlers } from './designTokenMessaging';
 
 export interface MessageHandlers {
   onContentUpdate: (content: WebsiteContent) => void;
@@ -14,7 +12,7 @@ export const requestWebsiteContent = (versionId: number) => {
   }, '*');
 };
 
-export const setupMessageListener = (handlers: MessageHandlers, designTokenHandlers?: DesignTokenMessageHandlers) => {
+export const setupMessageListener = (handlers: MessageHandlers) => {
   const handleMessage = (event: MessageEvent) => {
     if (event.data.type === 'content-update') {
       handlers.onContentUpdate(event.data.content);
@@ -22,14 +20,6 @@ export const setupMessageListener = (handlers: MessageHandlers, designTokenHandl
     
     if (event.data.type === 'website-content-response') {
       handlers.onWebsiteContentResponse(event.data.content);
-    }
-    
-    // Handle dimension requests from parent using the utility
-    handleDimensionRequest('hero-container', 'hero-section')(event);
-    
-    // Handle design token messages if handlers are provided
-    if (designTokenHandlers) {
-      handleDesignTokenMessage(event, designTokenHandlers);
     }
   };
 

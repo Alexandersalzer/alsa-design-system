@@ -215,4 +215,15 @@ export const sendFontUpdate = (
       fontUrl: fontUrl
     }, '*');
   }
+};
+
+// Setup design token message listener (separate from content messaging)
+export const setupDesignTokenMessageListener = (handlers: DesignTokenMessageHandlers) => {
+  const handleMessage = (event: MessageEvent) => {
+    handleDesignTokenMessage(event, handlers);
+  };
+
+  window.addEventListener('message', handleMessage);
+  
+  return () => window.removeEventListener('message', handleMessage);
 }; 

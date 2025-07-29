@@ -11,8 +11,9 @@ import {
 } from '../messaging/pageMessaging';
 import { 
   createDesignTokenMessageHandlers,
+  setupDesignTokenMessageListener,
   type DesignTokenMessageHandlers 
-} from '../messaging/designTokenMessaging';
+} from '../modules/design/designTokenMessaging';
 import { ContentContext, type ContentContextType, type HeroContent, type NavbarContent } from './ContentContext';
 
 interface ContentProviderProps {
@@ -61,10 +62,14 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
       setFontName
     });
 
-    // Set up message listener and get cleanup function
-    const cleanup = setupMessageListener(messageHandlers, designTokenHandlers);
+    // Set up separate message listeners for content and design tokens
+    const contentCleanup = setupMessageListener(messageHandlers);
+    const designCleanup = setupDesignTokenMessageListener(designTokenHandlers);
     
-    return cleanup;
+    return () => {
+      contentCleanup();
+      designCleanup();
+    };
   }, []);
 
   // Update content when initialContent changes

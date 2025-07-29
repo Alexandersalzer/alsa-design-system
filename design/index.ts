@@ -1,17 +1,10 @@
-// Main exports for Blimpify UI Design System
-
-// System exports
+// Export all design system components, utilities, and types
 export * from './system';
+export * from './cms/context/ContentContext';
+export * from './cms/context/ContentProvider';
+export * from './cms/modules/initial/EditingWrapper';
 
-// CMS modules exports (with explicit naming to avoid conflicts)
-export { ContentContext, useContent } from './cms/context/ContentContext';
-export { ContentProvider } from './cms/context/ContentProvider';
-export { EditingModeWrapper, useEditingMode } from './cms/modules/initial/EditingWrapper';
-
-// CMS utilities and messaging (client-side only)
-export { sendBothDimensions } from './cms/messaging/dimensionMessaging';
-
-// Types
+// Export content types with explicit naming to avoid conflicts
 export type { 
   WebsiteContent, 
   Page, 
@@ -19,4 +12,7 @@ export type {
   Pattern, 
   Block as ContentBlock,
   BlockType 
-} from './cms/types/content'; 
+} from './cms/types/content';
+
+// Remove dimensionMessaging export
+// export { sendBothDimensions } from './cms/messaging/dimensionMessaging'; 
