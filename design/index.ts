@@ -4,8 +4,11 @@ export * from './cms/context/ContentContext';
 export * from './cms/context/ContentProvider';
 export * from './cms/modules/initial/child/EditingWrapper';
 
-// Export parent messaging functionality
+// Export initial messaging functionality (editing status only)
 export * from './cms/modules/initial/parent';
+
+// Export full parent messaging functionality
+export * from './cms/modules/parentMessaging';
 
 // Export content types with explicit naming to avoid conflicts
 export type { 

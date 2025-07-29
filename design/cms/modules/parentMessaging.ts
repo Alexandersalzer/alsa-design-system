@@ -1,6 +1,6 @@
 import React from 'react';
 
-// Type definitions for the parent message handler
+// Type definitions for the full parent message handler
 export interface ParentMessageHandlerConfig {
   iframeRef: React.RefObject<HTMLIFrameElement | null>;
   websiteContent?: any;
@@ -102,6 +102,16 @@ export class ParentMessageHandler {
       this.config.iframeRef.current.contentWindow?.postMessage({
         type: 'text-align-update',
         css: css
+      }, '*');
+    }
+  };
+
+  // Send editing status update to iframe
+  sendEditingStatusUpdate = (editing: boolean) => {
+    if (this.config.iframeRef.current?.contentWindow) {
+      this.config.iframeRef.current.contentWindow.postMessage({
+        type: 'editing-status-update',
+        editing: editing
       }, '*');
     }
   };

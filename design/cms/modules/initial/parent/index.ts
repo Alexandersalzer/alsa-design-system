@@ -1,10 +1,7 @@
-// Export all parent messaging functionality
+// Export initial messaging functionality (editing status only)
 export {
-  ParentMessageHandler,
-  createParentMessageHandler,
-  sendWebsiteContentResponse,
-  sendEditingStatusUpdate,
-  setupBasicParentMessageListener,
-  type ParentMessageHandlerConfig,
-  type ParentMessageHandlers
-} from './parentMessaging'; 
+  InitialMessageHandler,
+  setupEditingStatusMessageListener,
+  type InitialMessageHandlerConfig,
+  type InitialMessageHandlers
+} from './initialMessaging'; 
