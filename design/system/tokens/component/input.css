@@ -1,23 +1,30 @@
-  /* ==============================================
-    src/design-system/tokens/component/input.css
-    INPUT COMPONENT TOKENS
-  ============================================== */
+/* ==============================================
+   src/design-system/tokens/component/input.css
+   INPUT COMPONENT TOKENS - SEMANTIC ONLY
+   ============================================== */
 
 :root {
-  /* Input component mappings */
-  --surface-input: var(--secondary-50);
-  --surface-input-disabled: var(--surface-card-hover);
-  --border-input: var(--secondary-200);
-  --border-input-hover: var(--secondary-300);
-  --border-input-focus:  var(--secondary-400);
-  --border-input-error: var(--error-400);
-  --border-input-disabled: var(--border-disabled);
-  --text-input: var(--text-primary);
-  --text-input-placeholder: var(--text-placeholder);
-  --text-input-disabled: var(--text-disabled);
-  --icon-input: var(--icon-secondary);
-  --icon-input-disabled: var(--icon-disabled);
-
-  --text-search-input: var(--text-input-placeholder);
-  --text-search-placeholder: var(--text-input-placeholder);
+  /* ===== INPUT SURFACES ===== */
+  --surface-input: var(--surface-card-hover);             /* FIXED: was --secondary-50 */
+  --surface-input-disabled: var(--surface-card-hover);    /* Already using semantic */
+  
+  /* ===== INPUT BORDERS ===== */
+  --border-input: var(--border-default);                  /* FIXED: was --secondary-200 */
+  --border-input-hover: var(--border-hover);              /* FIXED: was --secondary-300 */
+  --border-input-focus: var(--border-focus);              /* FIXED: was --secondary-400 */
+  --border-input-error: var(--border-error);              /* FIXED: was --error-400 */
+  --border-input-disabled: var(--border-disabled);        /* Already using semantic */
+  
+  /* ===== INPUT TEXT COLORS ===== */
+  --text-input: var(--text-primary);                      /* Already using semantic */
+  --text-input-placeholder: var(--text-placeholder);      /* Already using semantic */
+  --text-input-disabled: var(--text-disabled);            /* Already using semantic */
+  
+  /* ===== INPUT ICON COLORS ===== */
+  --icon-input: var(--icon-secondary);                    /* Already using semantic */
+  --icon-input-disabled: var(--icon-disabled);            /* Already using semantic */
+  
+  /* ===== SEARCH INPUT TOKENS ===== */
+  --text-search-input: var(--text-input);                 /* FIXED: was --text-input-placeholder */
+  --text-search-placeholder: var(--text-input-placeholder); /* Already using semantic */
 }

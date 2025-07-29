@@ -241,4 +241,47 @@
   --icon-nav-item-hover: var(--icon-primary);
   --border-nav: var(--border-subtle);
   --border-nav-item-selected: var(--accent-500);
+
+    /* ===== MISSING STATUS TEXT TOKENS ===== */
+  --text-error: var(--error-600);                         /* Red text for errors */
+  --text-success: var(--success-600);                     /* Green text for success */
+  --text-warning: var(--warning-600);                     /* Orange text for warnings */
+  --text-info: var(--info-600);                           /* Blue text for info */
+
+  /* ===== MISSING STATUS BORDER TOKENS ===== */
+  --border-error: var(--error-500);                       /* Red borders for errors */
+  --border-success: var(--success-500);                   /* Green borders for success */
+  --border-warning: var(--warning-500);                   /* Orange borders for warnings */
+  --border-info: var(--info-500);                         /* Blue borders for info */
+
+  /* ===== MISSING STATUS COLOR SCALES ===== */
+  /* Add more status color variants if you don't have them */
+  --error-600: var(--foundation-ruby-600);
+  --success-600: var(--foundation-emerald-600);
+  --warning-600: var(--foundation-honey-600);
+  --info-600: var(--foundation-amethyst-600);
+
+  /* ===== SHADOW SEMANTIC TOKENS (if missing) ===== */
+  --shadow-subtle: rgba(0, 0, 0, 0.05);
+  --shadow-default: rgba(0, 0, 0, 0.1);
+  --shadow-emphasis: rgba(0, 0, 0, 0.15);
+  --shadow-strong: rgba(0, 0, 0, 0.25);
+
+  /* ===== MISSING STATUS TEXT TOKENS ===== */
+--text-error: var(--error-600);                         /* Red text for errors */
+--text-success: var(--success-600);                     /* Green text for success */  
+--text-warning: var(--warning-600);                     /* Orange text for warnings */
+--text-info: var(--info-600);                           /* Blue text for info */
+
+/* ===== MISSING STATUS BORDER TOKENS ===== */
+--border-error: var(--error-500);                       /* Red borders for errors */
+--border-success: var(--success-500);                   /* Green borders for success */
+--border-warning: var(--warning-500);                   /* Orange borders for warnings */
+--border-info: var(--info-500);                         /* Blue borders for info */
+
+/* ===== ADD MISSING STATUS COLOR VARIANTS ===== */
+--error-600: var(--foundation-ruby-600);
+--success-600: var(--foundation-emerald-600);
+--warning-600: var(--foundation-honey-600);
+--info-600: var(--foundation-amethyst-600);
 }

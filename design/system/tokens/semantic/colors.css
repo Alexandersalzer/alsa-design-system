@@ -1,11 +1,10 @@
 /* ==============================================
    src/design-system/tokens/semantic/colors.css
-   COMPLETE PRODUCTION SEMANTIC COLOR SYSTEM - FIXED
+   COMPLETE SEMANTIC COLOR SYSTEM - ALL TOKENS
    ============================================== */
 
 :root {
-  /* ===== PRESERVE YOUR EXISTING PRIMARY/SECONDARY TOKENS ===== */
-  /* DON'T TOUCH THESE - They're working fine */
+  /* ===== PRIMARY/SECONDARY COLOR SCALES ===== */
   --primary-white: var(--foundation-white);
   --primary-black: var(--foundation-black);
   --primary-50: var(--foundation-gray-50);
@@ -33,7 +32,7 @@
   --secondary-800: var(--foundation-gray-800);
   --secondary-900: var(--foundation-gray-900);
 
-  /* ===== PRESERVE YOUR EXISTING ACCENT TOKENS ===== */
+  /* ===== ACCENT COLOR SCALE ===== */
   --accent-100: var(--foundation-purple-100);
   --accent-200: var(--foundation-purple-200);
   --accent-300: var(--foundation-purple-300);
@@ -48,7 +47,7 @@
   --accent-1100: var(--foundation-purple-1100);
   --accent-1200: var(--foundation-purple-1200);
 
-  /* ===== PRESERVE ALL YOUR STATUS COLOR SCALES ===== */
+  /* ===== STATUS COLOR SCALES ===== */
   /* Info/Amethyst scale */
   --info-100: var(--foundation-amethyst-100);
   --info-200: var(--foundation-amethyst-200);
@@ -109,90 +108,97 @@
   --warning-1100: var(--foundation-honey-1100);
   --warning-1200: var(--foundation-honey-1200);
 
-  /* ===== SEMANTIC TEXT TOKENS - ONLY DEFINED HERE ===== */
-  --text-primary: var(--primary-1000);                       
-  --text-secondary: var(--secondary-600);                      /* #7D7D7D */
-  --text-tertiary: var(--secondary-500);                       /* #8B8B8B */
-  --text-disabled: var(--secondary-300);                       /* #D5D5D5 */
-  --text-placeholder: var(--secondary-400);                    /* #C7C7C7 */
-  --text-inverse: var(--primary-white);                        /* #f7f7f7 */
-  --text-heading-primary: var(--primary-1200);                 /* #171717 */
-  --text-body-primary: var(--primary-1200);                    /* #171717 */
-  --text-body-secondary: var(--secondary-600);                 /* #7D7D7D */
-  --text-label: var(--primary-1200);                           /* #171717 */
-  --text-link: var(--accent-600);                              /* Purple */
-  --text-link-hover: var(--accent-700);                        /* Darker purple */
-  --text-code: var(--primary-1100);                            /* #212121 */
+  /* ===== SEMANTIC TEXT TOKENS ===== */
+  --text-primary: var(--primary-1000);
+  --text-secondary: var(--secondary-600);
+  --text-tertiary: var(--secondary-500);
+  --text-disabled: var(--secondary-300);
+  --text-placeholder: var(--secondary-400);
+  --text-inverse: var(--primary-white);
+  --text-heading-primary: var(--primary-1200);
+  --text-body-primary: var(--primary-1200);
+  --text-body-secondary: var(--secondary-600);
+  --text-label: var(--primary-1200);
+  --text-link: var(--accent-600);
+  --text-link-hover: var(--accent-700);
+  --text-code: var(--primary-1100);
+  --text-error: var(--error-600);
+  --text-success: var(--success-600);
+  --text-warning: var(--warning-600);
+  --text-info: var(--info-600);
 
-  /* ===== SEMANTIC SURFACE TOKENS - ONLY DEFINED HERE ===== */
+  /* ===== SEMANTIC SURFACE TOKENS ===== */
   --surface-background: #fff;
   --surface-modal: var(--primary-white);
-  --surface-page: var(--primary-white);                        /* #f7f7f7 */
-  --surface-card: var(--primary-white);                        /* #f7f7f7 */
-  --surface-card-hover: var(--primary-50);                     /* #F5F5F5 */
-  --surface-card-selected: var(--primary-100);                 /* #F1F1F1 */
-  --surface-card-elevated: var(--primary-white);               /* #f7f7f7 */
+  --surface-page: var(fff);
+  --surface-card: var(--primary-white);
+  --surface-card-hover: var(--primary-50);
+  --surface-card-selected: var(--primary-100);
+  --surface-card-elevated: var(--primary-white);
   --surface-overlay: rgba(0, 0, 0, 0.5);
   --surface-backdrop: rgba(0, 0, 0, 0.3);
+  --surface-error-subtle: rgba(239, 68, 68, 0.1);
 
-  /* ===== SEMANTIC BORDER TOKENS - ONLY DEFINED HERE ===== */
-  --border-default: var(--secondary-200);                      /* #E3E3E3 */
-  --border-subtle: var(--secondary-100);                       /* #F1F1F1 */
-  --border-hover: var(--secondary-300);                        /* #D5D5D5 */
-  --border-focus: var(--accent-500);                           /* #A855F7 */
-  --border-disabled: var(--secondary-100);                     /* #F1F1F1 */
+  /* ===== SEMANTIC BORDER TOKENS ===== */
+  --border-default: var(--secondary-200);
+  --border-subtle: var(--secondary-100);
+  --border-hover: var(--secondary-300);
+  --border-focus: var(--accent-500);
+  --border-disabled: var(--secondary-100);
+  --border-error: var(--error-500);
+  --border-success: var(--success-500);
+  --border-warning: var(--warning-500);
+  --border-info: var(--info-500);
 
-  /* ===== SEMANTIC ICON TOKENS - ONLY DEFINED HERE ===== */
-  --icon-primary: var(--secondary-600);                        /* #7D7D7D */
-  --icon-secondary: var(--secondary-500);                      /* #8B8B8B */
-  --icon-tertiary: var(--secondary-400);                       /* #C7C7C7 */
-  --icon-disabled: var(--secondary-300);                       /* #D5D5D5 */
-  --icon-inverse: var(--primary-white);                        /* #f7f7f7 */
-  --icon-brand: var(--accent-600);                             /* Purple brand icons */
+  /* ===== SEMANTIC ICON TOKENS ===== */
+  --icon-primary: var(--secondary-600);
+  --icon-secondary: var(--secondary-500);
+  --icon-tertiary: var(--secondary-400);
+  --icon-disabled: var(--secondary-300);
+  --icon-inverse: var(--primary-white);
+  --icon-brand: var(--accent-600);
 
-  /* ===== SEMANTIC INTERACTIVE TOKENS - ONLY DEFINED HERE ===== */
-  --interactive-primary: var(--primary-900);                   /* #3D3D3D */
-  --interactive-primary-hover: var(--primary-800);             /* #616161 */
-  --interactive-primary-active: var(--primary-700);            /* #6F6F6F */
-  --interactive-primary-disabled: var(--secondary-200);        /* #E3E3E3 */
+  /* ===== SEMANTIC INTERACTIVE TOKENS ===== */
+  --interactive-primary: var(--primary-900);
+  --interactive-primary-hover: var(--primary-800);
+  --interactive-primary-active: var(--primary-700);
+  --interactive-primary-disabled: var(--secondary-200);
   
-  --interactive-secondary: var(--secondary-100);               /* #F1F1F1 */
-  --interactive-secondary-hover: var(--secondary-200);         /* #E3E3E3 */
-  --interactive-secondary-active: var(--secondary-300);        /* #D5D5D5 */
-  --interactive-secondary-disabled: var(--secondary-50);       /* #F5F5F5 */
+  --interactive-secondary: var(--secondary-100);
+  --interactive-secondary-hover: var(--secondary-200);
+  --interactive-secondary-active: var(--secondary-300);
+  --interactive-secondary-disabled: var(--secondary-50);
 
-  --interactive-accent: var(--accent-600);                     /* #9333EA */
-  --interactive-accent-hover: var(--accent-700);               /* #7C3AED */
-  --interactive-accent-active: var(--accent-700);              /* #7C3AED */
+  --interactive-accent: var(--accent-600);
+  --interactive-accent-hover: var(--accent-700);
+  --interactive-accent-active: var(--accent-800);
   
   --interactive-tertiary: transparent;
-  --interactive-tertiary-hover: var(--secondary-50);           /* #F5F5F5 */
-  --interactive-tertiary-active: var(--secondary-100);         /* #F1F1F1 */
-  
+  --interactive-tertiary-hover: var(--secondary-50);
+  --interactive-tertiary-active: var(--secondary-100);
+
   /* Destructive interactions */
-  --interactive-destructive: var(--error-500);                /* Destructive actions */
-  --interactive-destructive-hover: var(--error-600);          /* Destructive hover */
-  --interactive-destructive-active: var(--error-700);         /* Destructive active */
+  --interactive-destructive: var(--error-500);
+  --interactive-destructive-hover: var(--error-600);
+  --interactive-destructive-active: var(--error-700);
   
   /* Success interactions */
-  --interactive-success: var(--success-500);                  /* Success actions */
-  --interactive-success-hover: var(--success-600);            /* Success hover */
-  --interactive-success-active: var(--success-700);           /* Success active */
+  --interactive-success: var(--success-500);
+  --interactive-success-hover: var(--success-600);
+  --interactive-success-active: var(--success-700);
   
   /* Warning interactions */
-  --interactive-warning: var(--warning-500);                  /* Warning actions */
-  --interactive-warning-hover: var(--warning-600);            /* Warning hover */
-  --interactive-warning-active: var(--warning-700);           /* Warning active */
+  --interactive-warning: var(--warning-500);
+  --interactive-warning-hover: var(--warning-600);
+  --interactive-warning-active: var(--warning-700);
 
-  /* ===== SEMANTIC SHADOW TOKENS - ONLY DEFINED HERE ===== */
+  /* ===== SEMANTIC SHADOW TOKENS ===== */
   --shadow-default: rgba(0, 0, 0, 0.1);
   --shadow-subtle: rgba(0, 0, 0, 0.05);
   --shadow-emphasis: rgba(0, 0, 0, 0.15);
   --shadow-strong: rgba(0, 0, 0, 0.25);
 
-  /* ===== COMPONENT TOKEN MAPPINGS - FIXED CIRCULAR REFERENCES ===== */
-  
-  /* Button component tokens */
+  /* ===== COMPONENT BUTTON TOKENS ===== */
   --surface-button-primary: var(--interactive-primary);
   --surface-button-primary-hover: var(--interactive-primary-hover);
   --surface-button-primary-active: var(--interactive-primary-active);
@@ -227,7 +233,7 @@
   --surface-button-ghost-active: var(--interactive-tertiary-active);
   --text-button-ghost: var(--text-secondary);
 
-  /* Card component tokens - FIXED */
+  /* ===== COMPONENT CARD TOKENS ===== */
   --border-card: var(--border-default);
   --border-card-hover: var(--border-hover);
   --border-card-elevated: var(--border-subtle);
@@ -239,13 +245,13 @@
   --icon-card-primary: var(--icon-primary);
   --icon-card-secondary: var(--icon-secondary);
 
-  /* Input component tokens */
-  --surface-input: var(--primary-white);
-  --surface-input-disabled: var(--secondary-50);
+  /* ===== COMPONENT INPUT TOKENS ===== */
+  --surface-input: var(--surface-card-hover);
+  --surface-input-disabled: var(--surface-card-hover);
   --border-input: var(--border-default);
   --border-input-hover: var(--border-hover);
   --border-input-focus: var(--border-focus);
-  --border-input-error: var(--error-500);
+  --border-input-error: var(--border-error);
   --border-input-disabled: var(--border-disabled);
   --text-input: var(--text-primary);
   --text-input-placeholder: var(--text-placeholder);
@@ -253,11 +259,11 @@
   --icon-input: var(--icon-secondary);
   --icon-input-disabled: var(--icon-disabled);
 
-  /* Navigation component tokens */
-  --surface-nav: var(--primary-white);
+  /* ===== COMPONENT NAVIGATION TOKENS ===== */
+  --surface-nav: var(--surface-page);
   --surface-nav-item: transparent;
-  --surface-nav-item-hover: var(--secondary-50);
-  --surface-nav-item-selected: var(--secondary-100);
+  --surface-nav-item-hover: var(--surface-card-hover);
+  --surface-nav-item-selected: var(--surface-card-selected);
   --surface-nav-item-disabled: transparent;
   --text-nav-item: var(--text-secondary);
   --text-nav-item-selected: var(--accent-600);
@@ -270,11 +276,94 @@
   --border-nav: var(--border-subtle);
   --border-nav-item-selected: var(--accent-500);
 
-  /* Modal component tokens */
+  /* ===== COMPONENT MODAL TOKENS ===== */
   --surface-modal-backdrop: var(--surface-overlay);
-  --surface-modal-content: var(--primary-white);
+  --surface-modal-content: var(--surface-card-elevated);
   --border-modal: var(--border-subtle);
   --text-modal-title: var(--text-primary);
   --text-modal-body: var(--text-secondary);
 
+  /* ===== COMPONENT FORM TOKENS ===== */
+  --surface-checkbox: var(--surface-card);
+  --surface-checkbox-checked: var(--interactive-accent);
+  --surface-checkbox-hover: var(--interactive-tertiary-hover);
+  --surface-checkbox-disabled: var(--surface-card-hover);
+  --surface-checkbox-disabled-checked: var(--interactive-secondary);
+  
+  --border-checkbox: var(--border-default);
+  --border-checkbox-hover: var(--border-focus);
+  --border-checkbox-focus: var(--border-focus);
+  --border-checkbox-checked: var(--border-focus);
+  --border-checkbox-disabled: var(--border-disabled);
+  
+  --icon-checkbox: var(--icon-inverse);
+  --icon-checkbox-disabled: var(--icon-disabled);
+  
+  --surface-radio: var(--surface-card);
+  --surface-radio-checked: var(--surface-card);
+  --surface-radio-hover: var(--interactive-tertiary-hover);
+  --surface-radio-disabled: var(--surface-card-hover);
+  
+  --border-radio: var(--border-default);
+  --border-radio-hover: var(--border-focus);
+  --border-radio-focus: var(--border-focus);
+  --border-radio-checked: var(--border-focus);
+  --border-radio-disabled: var(--border-disabled);
+  
+  --indicator-radio: var(--interactive-accent);
+  --indicator-radio-disabled: var(--icon-disabled);
+
+  --surface-picker: var(--surface-card-hover);
+  --surface-picker-hover: var(--surface-card-selected);
+  --surface-picker-disabled: var(--surface-card-hover);
+  --surface-picker-option: var(--surface-card);
+  --surface-picker-option-hover: var(--surface-card-hover);
+  --surface-picker-option-selected: var(--surface-card-selected);
+  
+  --border-picker: var(--border-default);
+  --border-picker-hover: var(--border-hover);
+  --border-picker-focus: var(--border-focus);
+  --border-picker-error: var(--border-error);
+  --border-picker-disabled: var(--border-disabled);
+  
+  --text-picker: var(--text-primary);
+  --text-picker-placeholder: var(--text-placeholder);
+  --text-picker-disabled: var(--text-disabled);
+  --text-picker-option: var(--text-primary);
+  --text-picker-option-selected: var(--text-link);
+  
+  --icon-picker: var(--icon-secondary);
+  --icon-picker-disabled: var(--icon-disabled);
+  
+  --surface-textarea: var(--surface-card);
+  --surface-textarea-disabled: var(--surface-card-hover);
+  
+  --border-textarea: var(--border-default);
+  --border-textarea-hover: var(--border-hover);
+  --border-textarea-focus: var(--border-focus);
+  --border-textarea-error: var(--border-error);
+  --border-textarea-disabled: var(--border-disabled);
+  
+  --text-textarea: var(--text-primary);
+  --text-textarea-placeholder: var(--text-placeholder);
+  --text-textarea-disabled: var(--text-disabled);
+  
+  --surface-switch-track: var(--interactive-secondary);
+  --surface-switch-track-checked: var(--interactive-accent);
+  --surface-switch-track-hover: var(--interactive-secondary-hover);
+  --surface-switch-track-checked-hover: var(--interactive-accent);
+  --surface-switch-track-disabled: var(--interactive-secondary-disabled);
+  --surface-switch-track-disabled-checked: var(--interactive-primary-disabled);
+  
+  --surface-switch-thumb: var(--surface-card);
+  --surface-switch-thumb-disabled: var(--surface-card-hover);
+  
+  --border-switch-focus: var(--border-focus);
+  
+  --text-form-label: var(--text-primary);
+  --text-form-label-disabled: var(--text-disabled);
+  --text-form-label-required: var(--text-error);
+  --text-form-hint: var(--text-secondary);
+  --text-form-error: var(--text-error);
+  --text-form-success: var(--text-success);
 }
