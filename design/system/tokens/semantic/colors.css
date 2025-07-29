@@ -130,7 +130,7 @@
   /* ===== SEMANTIC SURFACE TOKENS ===== */
   --surface-background: #fff;
   --surface-modal: var(--primary-white);
-  --surface-page: var(fff);
+  --surface-page: var(--primary-white);
   --surface-card: var(--primary-white);
   --surface-card-hover: var(--primary-50);
   --surface-card-selected: var(--primary-100);
