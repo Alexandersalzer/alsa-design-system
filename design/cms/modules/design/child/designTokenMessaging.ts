@@ -163,60 +163,6 @@ export const handleDesignTokenMessage = (
   }
 };
 
-// Function to send accent color update message to iframe
-export const sendAccentColorUpdate = (
-  iframeRef: React.RefObject<HTMLIFrameElement>,
-  color: string
-) => {
-  if (iframeRef.current?.contentWindow) {
-    iframeRef.current.contentWindow.postMessage({
-      type: 'accent-color-update',
-      color: color
-    }, '*');
-  }
-};
-
-// Function to send radius update message to iframe
-export const sendRadiusUpdate = (
-  iframeRef: React.RefObject<HTMLIFrameElement>,
-  size: string
-) => {
-  if (iframeRef.current?.contentWindow) {
-    iframeRef.current.contentWindow.postMessage({
-      type: 'radius-update',
-      size: size
-    }, '*');
-  }
-};
-
-// Function to send theme update message to iframe
-export const sendThemeUpdate = (
-  iframeRef: React.RefObject<HTMLIFrameElement>,
-  isDark: boolean
-) => {
-  if (iframeRef.current?.contentWindow) {
-    iframeRef.current.contentWindow.postMessage({
-      type: 'theme-update',
-      isDark: isDark
-    }, '*');
-  }
-};
-
-// Function to send font update message to iframe
-export const sendFontUpdate = (
-  iframeRef: React.RefObject<HTMLIFrameElement>,
-  fontFamily: string,
-  fontUrl: string
-) => {
-  if (iframeRef.current?.contentWindow) {
-    iframeRef.current.contentWindow.postMessage({
-      type: 'font-update',
-      fontFamily: fontFamily,
-      fontUrl: fontUrl
-    }, '*');
-  }
-};
-
 // Setup design token message listener (separate from content messaging)
 export const setupDesignTokenMessageListener = (handlers: DesignTokenMessageHandlers) => {
   const handleMessage = (event: MessageEvent) => {
