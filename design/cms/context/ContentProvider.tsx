@@ -8,7 +8,7 @@ import {
   requestWebsiteContent, 
   setupMessageListener,
   type MessageHandlers 
-} from '../modules/content/pageMessaging';
+} from '../modules/content/child/pageMessaging';
 import { 
   createDesignTokenMessageHandlers,
   setupDesignTokenMessageListener,
