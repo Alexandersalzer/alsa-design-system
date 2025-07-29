@@ -32,26 +32,6 @@ export class ParentMessageHandler {
     }
   };
 
-  // Send CSS update to iframe for real-time preview
-  sendCssUpdate = (css: string) => {
-    if (this.config.iframeRef.current) {
-      this.config.iframeRef.current.contentWindow?.postMessage({
-        type: 'css-update',
-        css: css
-      }, '*');
-    }
-  };
-
-  // Send text alignment update to iframe for real-time preview
-  sendTextAlignUpdate = (css: string) => {
-    if (this.config.iframeRef.current) {
-      this.config.iframeRef.current.contentWindow?.postMessage({
-        type: 'text-align-update',
-        css: css
-      }, '*');
-    }
-  };
-
   // Handle incoming messages from iframe
   handleMessage = (event: MessageEvent) => {
     const { websiteContent } = this.config;
