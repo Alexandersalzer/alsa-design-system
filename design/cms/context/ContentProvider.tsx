@@ -13,7 +13,7 @@ import {
   createDesignTokenMessageHandlers,
   setupDesignTokenMessageListener,
   type DesignTokenMessageHandlers 
-} from '../modules/design/designTokenMessaging';
+} from '../modules/design/child/designTokenMessaging';
 import { ContentContext, type ContentContextType, type HeroContent, type NavbarContent } from './ContentContext';
 
 interface ContentProviderProps {

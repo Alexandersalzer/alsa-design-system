@@ -1,14 +1,12 @@
 import React from 'react';
 
-// Type definitions for the full parent message handler
+// Type definitions for the full parent message handler (content and website messaging)
 export interface ParentMessageHandlerConfig {
   iframeRef: React.RefObject<HTMLIFrameElement | null>;
   websiteContent?: any;
-  accentColor?: string;
   version?: any;
   token?: string | null;
   updateEditingStatus?: (versionId: string, editing: boolean) => Promise<void>;
-  availableFonts?: Array<{id: number, name: string, url: string}>;
 }
 
 export interface ParentMessageHandlers {
@@ -43,56 +41,6 @@ export class ParentMessageHandler {
         type: 'css-update',
         css: css
       }, '*');
-    }
-  };
-
-  // Send accent color update to iframe for real-time preview
-  sendAccentColorUpdate = (color: string) => {
-    if (this.config.iframeRef.current) {
-      this.config.iframeRef.current.contentWindow?.postMessage({
-        type: 'accent-color-update',
-        color: color
-      }, '*');
-    }
-  };
-
-  // Send radius update to iframe for real-time preview
-  sendRadiusUpdate = (size: string) => {
-    if (this.config.iframeRef.current) {
-      this.config.iframeRef.current.contentWindow?.postMessage({
-        type: 'radius-update',
-        size: size
-      }, '*');
-    }
-  };
-
-  // Send theme update to iframe for real-time preview
-  sendThemeUpdate = (isDark: boolean) => {
-    if (this.config.iframeRef.current) {
-      this.config.iframeRef.current.contentWindow?.postMessage({
-        type: 'theme-update',
-        isDark: isDark
-      }, '*');
-    }
-  };
-
-  // Send font update to iframe with both family and URL
-  sendFontUpdate = (fontFamily: string) => {
-    // Find the selected font from available fonts to get the URL
-    const selectedFont = this.config.availableFonts?.find(font => 
-      fontFamily.includes(font.name) || font.name.toLowerCase() === fontFamily.toLowerCase()
-    );
-    
-    if (selectedFont) {
-      if (this.config.iframeRef.current) {
-        this.config.iframeRef.current.contentWindow?.postMessage({
-          type: 'font-update',
-          fontFamily: `${selectedFont.name}, sans-serif`,
-          fontUrl: selectedFont.url
-        }, '*');
-      }
-    } else {
-      console.warn('Font not found in available fonts:', fontFamily);
     }
   };
 

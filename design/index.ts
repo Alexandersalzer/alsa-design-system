@@ -10,6 +10,24 @@ export * from './cms/modules/initial/parent';
 // Export full parent messaging functionality
 export * from './cms/modules/parentMessaging';
 
+// Export design token messaging functionality
+export {
+  DesignTokenParentHandler,
+  sendAccentColorUpdate,
+  sendRadiusUpdate,
+  sendThemeUpdate,
+  sendFontUpdate,
+  sendFontUpdateWithLookup,
+  type DesignTokenParentConfig
+} from './cms/modules/design/parent/designTokenMessaging';
+
+export { 
+  createDesignTokenMessageHandlers,
+  handleDesignTokenMessage,
+  setupDesignTokenMessageListener,
+  type DesignTokenMessageHandlers
+} from './cms/modules/design/child/designTokenMessaging';
+
 // Export content types with explicit naming to avoid conflicts
 export type { 
   WebsiteContent, 
