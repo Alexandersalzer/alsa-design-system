@@ -2,7 +2,7 @@
 :root {
   
   /* Font Families */
-  --foundation-font-primary: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --foundation-font-primary: var(--font-primary-name), system-ui, -apple-system, sans-serif;
   --foundation-font-secondary: 'Inter', system-ui, -apple-system, sans-serif;
   --foundation-font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
   

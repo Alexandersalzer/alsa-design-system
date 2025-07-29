@@ -285,11 +285,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
             {getDisplayText()}
           </span>
           <div className="picker-icon">
-<<<<<<< HEAD
-          <Icons.Action.ChevronDown />
-=======
             <Icon color='secondary'><ChevronDownIcon/></Icon>
->>>>>>> alex
           </div>
         </button>
 
