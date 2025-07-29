@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useEditingMode } from '../../../../../cms/modules/initial/EditingWrapper';
+import { useEditingMode } from '../../../../../cms/modules/initial/child/EditingWrapper';
 import { useContent } from '../../../../../cms/context/ContentContext';
 import { Section } from '../../../../layout/frames/section';
 import { Container } from '../../../../layout/frames/container';

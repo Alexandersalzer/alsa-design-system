@@ -25,7 +25,7 @@ function EditingProvider({ children }: { children: ReactNode }) {
     console.log('Setting up editing message listener...');
     
     const messageHandlers: EditingMessageHandlers = {
-      onEditingStatusUpdate: (editing) => {
+      onEditingStatusUpdate: (editing: boolean) => {
         console.log('Received editing status update:', { editing });
         setIsEditing(editing);
       }

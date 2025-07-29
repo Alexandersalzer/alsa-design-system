@@ -2,7 +2,7 @@
 export * from './system';
 export * from './cms/context/ContentContext';
 export * from './cms/context/ContentProvider';
-export * from './cms/modules/initial/EditingWrapper';
+export * from './cms/modules/initial/child/EditingWrapper';
 
 // Export content types with explicit naming to avoid conflicts
 export type { 
