@@ -20,11 +20,19 @@ export class InitialMessageHandler {
 
   // Send editing status update to iframe
   sendEditingStatusUpdate = (editing: boolean) => {
+    console.log('sendEditingStatusUpdate called with:', editing);
+    console.log('iframeRef.current:', this.config.iframeRef.current);
+    console.log('contentWindow:', this.config.iframeRef.current?.contentWindow);
+    
     if (this.config.iframeRef.current?.contentWindow) {
+      console.log('Sending editing-status-update message to iframe:', { type: 'editing-status-update', editing });
       this.config.iframeRef.current.contentWindow.postMessage({
         type: 'editing-status-update',
         editing: editing
       }, '*');
+      console.log('Message sent successfully');
+    } else {
+      console.error('Cannot send message: iframe or contentWindow not available');
     }
   };
 
