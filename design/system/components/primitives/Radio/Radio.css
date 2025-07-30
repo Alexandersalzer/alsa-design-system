@@ -46,22 +46,34 @@
   appearance: none;
   margin: 0;
   position: relative;
-  /* Ensure perfect circle and centering */
+  /* FIXED: Remove flex properties that were causing stretching */
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* Ensure it's always a perfect circle */
+  min-width: var(--size-radio-md);
+  min-height: var(--size-radio-md);
+  max-width: var(--size-radio-md);
+  max-height: var(--size-radio-md);
 }
 
 /* ===== RADIO SIZES ===== */
 .radio--sm {
   width: var(--size-radio-sm);
   height: var(--size-radio-sm);
+  /* FIXED: Ensure size constraints for small radio */
+  min-width: var(--size-radio-sm);
+  min-height: var(--size-radio-sm);
+  max-width: var(--size-radio-sm);
+  max-height: var(--size-radio-sm);
 }
 
 .radio--lg {
   width: var(--size-radio-lg);
   height: var(--size-radio-lg);
+  /* FIXED: Ensure size constraints for large radio */
+  min-width: var(--size-radio-lg);
+  min-height: var(--size-radio-lg);
+  max-width: var(--size-radio-lg);
+  max-height: var(--size-radio-lg);
 }
 
 /* ===== RADIO STATES - USING SEMANTIC TOKENS ===== */
@@ -92,8 +104,9 @@
   cursor: not-allowed;
 }
 
-/* ===== RADIO INDICATOR - IMPROVED SIZING & CENTERING ===== */
+/* ===== RADIO INDICATOR - FIXED STRETCHING ISSUE ===== */
 .radio__indicator {
+  /* CRITICAL FIX: Use absolute positioning to prevent flex stretching */
   position: absolute;
   top: 50%;
   left: 50%;
@@ -103,20 +116,39 @@
   opacity: 0;
   transition: opacity var(--duration-form-transition) var(--easing-form-transition);
   pointer-events: none;
-  /* IMPROVED: Better proportional sizing */
-  width: 50%;                                               /* 50% of radio button size */
-  height: 50%;                                              /* 50% of radio button size */
+  
+  /* FIXED: Use fixed pixel values instead of percentages to prevent oval stretching */
+  width: 10px;                                              /* Fixed size for medium radio */
+  height: 10px;                                             /* Always perfect circle */
+  
+  /* CRITICAL: Prevent any flex influence */
+  flex-shrink: 0;
+  flex-grow: 0;
+  
+  /* Ensure it's always circular */
+  min-width: 10px;
+  min-height: 10px;
+  max-width: 10px;
+  max-height: 10px;
 }
 
-/* Size-specific indicators - proportional to radio size */
+/* Size-specific indicators - FIXED with exact pixel values */
 .radio--sm .radio__indicator {
-  width: 50%;
-  height: 50%;
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  min-height: 8px;
+  max-width: 8px;
+  max-height: 8px;
 }
 
 .radio--lg .radio__indicator {
-  width: 50%;
-  height: 50%;
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+  min-height: 12px;
+  max-width: 12px;
+  max-height: 12px;
 }
 
 .radio__indicator--checked {
