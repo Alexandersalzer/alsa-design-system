@@ -4,17 +4,17 @@
    ============================================== */
 
 :root {
-  /* ===== TAB SURFACES ===== */
+  /* ===== TAB SURFACES - USING SHORTCUTS ===== */
   --surface-tab: transparent;
-  --surface-tab-hover: var(--secondary-50);
-  --surface-tab-active: var(--primary-white);
+  --surface-tab-hover: var(--surface-subtle);              /* FIXED: was --secondary-50 */
+  --surface-tab-active: var(--surface-base);               /* FIXED: was --primary-white */
   
-  /* ===== TAB TEXT COLORS ===== */
-  --text-tab: var(--secondary-600);
-  --text-tab-hover: var(--secondary-700);
-  --text-tab-active: var(--primary-1000);
+  /* ===== TAB TEXT COLORS - USING SHORTCUTS ===== */
+  --text-tab: var(--text-medium);                          /* FIXED: was --secondary-600 */
+  --text-tab-hover: var(--text-strong);                    /* FIXED: was --secondary-700 */
+  --text-tab-active: var(--text-strong);                   /* FIXED: was --primary-1000 */
   
-  /* ===== TAB BORDERS ===== */
-  --border-tab: var(--secondary-200);
-  --border-tab-active: var(--accent-500);
+  /* ===== TAB BORDERS - USING SHORTCUTS ===== */
+  --border-tab: var(--border-light);                       /* FIXED: was --secondary-200 */
+  --border-tab-active: var(--accent-icon);                 /* FIXED: was --accent-500, using shortcut */
 }

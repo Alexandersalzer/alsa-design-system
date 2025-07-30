@@ -4,18 +4,18 @@
 ============================================== */
 
 :root {
-  /* ===== TABLE SURFACES ===== */
-  --surface-table: var(--primary-white);
-  --surface-table-header: var(--secondary-50);
-  --surface-table-row-hover: var(--secondary-25);
-  --surface-table-row-selected: var(--accent-50);
+  /* ===== TABLE SURFACES - USING SHORTCUTS ===== */
+  --surface-table: var(--surface-base);                    /* FIXED: was --primary-white */
+  --surface-table-header: var(--surface-subtle);           /* FIXED: was --secondary-50 */
+  --surface-table-row-hover: var(--surface-subtle);        /* FIXED: was --secondary-25 */
+  --surface-table-row-selected: var(--accent-subtle);      /* FIXED: was --accent-50, using shortcut */
   
-  /* ===== TABLE BORDERS ===== */
-  --border-table: var(--secondary-100);
-  --border-table-row: var(--secondary-100);
+  /* ===== TABLE BORDERS - USING SHORTCUTS ===== */
+  --border-table: var(--border-light);                     /* FIXED: was --secondary-100 */
+  --border-table-row: var(--border-light);                 /* FIXED: was --secondary-100 */
   
-  /* ===== TABLE TEXT COLORS ===== */
-  --text-table-header: var(--primary-1000);
-  --text-table-cell: var(--secondary-700);
-  --text-table-cell-secondary: var(--secondary-500);
+  /* ===== TABLE TEXT COLORS - USING SHORTCUTS ===== */
+  --text-table-header: var(--text-strong);                 /* FIXED: was --primary-1000 */
+  --text-table-cell: var(--text-medium);                   /* FIXED: was --secondary-700 */
+  --text-table-cell-secondary: var(--text-light);          /* FIXED: was --secondary-500 */
 }

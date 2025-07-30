@@ -1,30 +1,38 @@
+
 /* ==============================================
    src/design-system/tokens/component/input.css
-   INPUT COMPONENT TOKENS - SEMANTIC ONLY
+   INPUT COMPONENT TOKENS - UPDATED WITH SMART SHORTCUTS
    ============================================== */
 
 :root {
-  /* ===== INPUT SURFACES ===== */
-  --surface-input: var(--surface-card-hover);             /* FIXED: was --secondary-50 */
-  --surface-input-disabled: var(--surface-card-hover);    /* Already using semantic */
+  /* ===== INPUT SURFACES - USING SHORTCUTS ===== */
+  --surface-input: var(--surface-subtle);                  /* UPDATED: using shortcut instead of --surface-card-hover */
+  --surface-input-disabled: var(--surface-subtle);         /* UPDATED: using shortcut */
   
-  /* ===== INPUT BORDERS ===== */
-  --border-input: var(--border-default);                  /* FIXED: was --secondary-200 */
-  --border-input-hover: var(--border-hover);              /* FIXED: was --secondary-300 */
-  --border-input-focus: var(--border-focus);              /* FIXED: was --secondary-400 */
-  --border-input-error: var(--border-error);              /* FIXED: was --error-400 */
-  --border-input-disabled: var(--border-disabled);        /* Already using semantic */
+  /* ===== INPUT BORDERS - ALREADY GOOD WITH SEMANTIC ===== */
+  --border-input: var(--border-default);                   /* ✅ Good - semantic token */
+  --border-input-hover: var(--border-hover);               /* ✅ Good - semantic token */
+  --border-input-focus: var(--border-focus);               /* ✅ Good - semantic token */
+  --border-input-error: var(--border-error);               /* ✅ Good - semantic token */
+  --border-input-disabled: var(--border-disabled);         /* ✅ Good - semantic token */
   
-  /* ===== INPUT TEXT COLORS ===== */
-  --text-input: var(--text-primary);                      /* Already using semantic */
-  --text-input-placeholder: var(--text-placeholder);      /* Already using semantic */
-  --text-input-disabled: var(--text-disabled);            /* Already using semantic */
+  /* ===== INPUT SUCCESS STATES - USING SHORTCUTS ===== */
+  --border-input-success: var(--success-border);           /* UPDATED: using shortcut instead of --success-500 */
+  --border-textarea-success: var(--success-border);        /* UPDATED: using shortcut */
+  --border-switch-success: var(--success-border);          /* UPDATED: using shortcut */
+  --text-input-error: var(--error-text);                   /* UPDATED: using shortcut instead of --error-600 */
+  --text-textarea-error: var(--error-text);                /* UPDATED: using shortcut */
   
-  /* ===== INPUT ICON COLORS ===== */
-  --icon-input: var(--icon-secondary);                    /* Already using semantic */
-  --icon-input-disabled: var(--icon-disabled);            /* Already using semantic */
+  /* ===== INPUT TEXT COLORS - ALREADY GOOD WITH SEMANTIC ===== */
+  --text-input: var(--text-primary);                       /* ✅ Good - semantic token */
+  --text-input-placeholder: var(--text-placeholder);       /* ✅ Good - semantic token */
+  --text-input-disabled: var(--text-disabled);             /* ✅ Good - semantic token */
   
-  /* ===== SEARCH INPUT TOKENS ===== */
-  --text-search-input: var(--text-input);                 /* FIXED: was --text-input-placeholder */
-  --text-search-placeholder: var(--text-input-placeholder); /* Already using semantic */
+  /* ===== INPUT ICON COLORS - ALREADY GOOD WITH SEMANTIC ===== */
+  --icon-input: var(--icon-secondary);                     /* ✅ Good - semantic token */
+  --icon-input-disabled: var(--icon-disabled);             /* ✅ Good - semantic token */
+  
+  /* ===== SEARCH INPUT TOKENS - ALREADY GOOD ===== */
+  --text-search-input: var(--text-input);                  /* ✅ Good - references input token */
+  --text-search-placeholder: var(--text-input-placeholder); /* ✅ Good - references input token */
 }

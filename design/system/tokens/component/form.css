@@ -1,100 +1,100 @@
 /* ==============================================
    src/design-system/tokens/component/form.css
-   FORM COMPONENT TOKENS - SEMANTIC ONLY
+   FORM COMPONENT TOKENS - IMPROVED WITH SMART SHORTCUTS
    ============================================== */
 
 :root {
-  /* ===== CHECKBOX TOKENS ===== */
-  --surface-checkbox: var(--surface-card);                /* FIXED: was --primary-white */
-  --surface-checkbox-checked: var(--interactive-accent);   /* FIXED: was --accent-500 */
-  --surface-checkbox-hover: var(--interactive-tertiary-hover); /* FIXED: was --accent-50 */
-  --surface-checkbox-disabled: var(--surface-card-hover);  /* FIXED: was --secondary-50 */
-  --surface-checkbox-disabled-checked: var(--interactive-secondary); /* FIXED: was --secondary-200 */
+  /* ===== CHECKBOX TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
+  --surface-checkbox: var(--surface-base);                 /* UPDATED: using shortcut instead of --surface-card */
+  --surface-checkbox-checked: var(--interactive-accent);   /* ✅ Good - semantic token */
+  --surface-checkbox-hover: var(--accent-subtle);          /* UPDATED: using shortcut instead of --interactive-tertiary-hover */
+  --surface-checkbox-disabled: var(--surface-subtle);      /* UPDATED: using shortcut instead of --surface-card-hover */
+  --surface-checkbox-disabled-checked: var(--interactive-secondary); /* ✅ Good - semantic token */
   
-  --border-checkbox: var(--border-default);               /* FIXED: was --secondary-300 */
-  --border-checkbox-hover: var(--border-focus);           /* FIXED: was --accent-500 */
-  --border-checkbox-focus: var(--border-focus);           /* FIXED: was --accent-500 */
-  --border-checkbox-checked: var(--border-focus);         /* FIXED: was --accent-500 */
-  --border-checkbox-disabled: var(--border-disabled);     /* FIXED: was --secondary-200 */
+  --border-checkbox: var(--border-medium);                 /* UPDATED: using shortcut instead of --border-default */
+  --border-checkbox-hover: var(--border-focus);            /* ✅ Good - semantic token */
+  --border-checkbox-focus: var(--border-focus);            /* ✅ Good - semantic token */
+  --border-checkbox-checked: var(--border-focus);          /* ✅ Good - semantic token */
+  --border-checkbox-disabled: var(--border-disabled);      /* ✅ Good - semantic token */
   
-  --icon-checkbox: var(--icon-inverse);                   /* FIXED: was --primary-white */
-  --icon-checkbox-disabled: var(--icon-disabled);         /* FIXED: was --secondary-400 */
+  --icon-checkbox: var(--icon-inverse);                    /* ✅ Good - semantic token */
+  --icon-checkbox-disabled: var(--icon-disabled);          /* ✅ Good - semantic token */
   
-  /* ===== RADIO TOKENS ===== */
-  --surface-radio: var(--surface-card);                   /* FIXED: was --primary-white */
-  --surface-radio-checked: var(--surface-card);           /* FIXED: was --primary-white */
-  --surface-radio-hover: var(--interactive-tertiary-hover); /* FIXED: was --accent-50 */
-  --surface-radio-disabled: var(--surface-card-hover);    /* FIXED: was --secondary-50 */
+  /* ===== RADIO TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
+  --surface-radio: var(--surface-base);                    /* UPDATED: using shortcut instead of --surface-card */
+  --surface-radio-checked: var(--surface-base);            /* UPDATED: using shortcut instead of --surface-card */
+  --surface-radio-hover: var(--accent-subtle);             /* UPDATED: using shortcut instead of --interactive-tertiary-hover */
+  --surface-radio-disabled: var(--surface-subtle);         /* UPDATED: using shortcut instead of --surface-card-hover */
   
-  --border-radio: var(--border-default);                  /* FIXED: was --secondary-300 */
-  --border-radio-hover: var(--border-focus);              /* FIXED: was --accent-500 */
-  --border-radio-focus: var(--border-focus);              /* FIXED: was --accent-500 */
-  --border-radio-checked: var(--border-focus);            /* FIXED: was --accent-500 */
-  --border-radio-disabled: var(--border-disabled);        /* FIXED: was --secondary-200 */
+  --border-radio: var(--border-medium);                    /* UPDATED: using shortcut instead of --border-default */
+  --border-radio-hover: var(--border-focus);               /* ✅ Good - semantic token */
+  --border-radio-focus: var(--border-focus);               /* ✅ Good - semantic token */
+  --border-radio-checked: var(--border-focus);             /* ✅ Good - semantic token */
+  --border-radio-disabled: var(--border-disabled);         /* ✅ Good - semantic token */
   
-  --indicator-radio: var(--interactive-accent);           /* FIXED: was --accent-500 */
-  --indicator-radio-disabled: var(--icon-disabled);       /* FIXED: was --secondary-300 */
+  --indicator-radio: var(--interactive-accent);            /* ✅ Good - semantic token */
+  --indicator-radio-disabled: var(--icon-disabled);        /* ✅ Good - semantic token */
   
-  /* ===== PICKER TOKENS ===== */
-  --surface-picker: var(--surface-card-hover);            /* FIXED: was --secondary-50 */
-  --surface-picker-hover: var(--surface-card-selected);   /* FIXED: was --secondary-100 */
-  --surface-picker-disabled: var(--surface-card-hover);   /* FIXED: was --secondary-50 */
-  --surface-picker-option: var(--surface-card);           /* FIXED: was --primary-white */
-  --surface-picker-option-hover: var(--surface-card-hover); /* FIXED: was --secondary-100 */
-  --surface-picker-option-selected: var(--surface-card-selected); /* FIXED: was --secondary-200 */
+  /* ===== PICKER TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
+  --surface-picker: var(--surface-subtle);                 /* UPDATED: using shortcut instead of --surface-card-hover */
+  --surface-picker-hover: var(--surface-hover);            /* UPDATED: using shortcut instead of --surface-card-selected */
+  --surface-picker-disabled: var(--surface-subtle);        /* UPDATED: using shortcut instead of --surface-card-hover */
+  --surface-picker-option: var(--surface-base);            /* UPDATED: using shortcut instead of --surface-card */
+  --surface-picker-option-hover: var(--surface-subtle);    /* UPDATED: using shortcut instead of --surface-card-hover */
+  --surface-picker-option-selected: var(--surface-hover);  /* UPDATED: using shortcut instead of --surface-card-selected */
   
-  --border-picker: var(--border-default);                 /* FIXED: was --secondary-200 */
-  --border-picker-hover: var(--border-hover);             /* FIXED: was --secondary-300 */
-  --border-picker-focus: var(--border-focus);             /* FIXED: was --secondary-200 */
-  --border-picker-error: var(--border-error);             /* FIXED: was --error-500 */
-  --border-picker-disabled: var(--border-disabled);       /* FIXED: was --secondary-100 */
+  --border-picker: var(--border-medium);                   /* UPDATED: using shortcut instead of --border-default */
+  --border-picker-hover: var(--border-hover);              /* ✅ Good - semantic token */
+  --border-picker-focus: var(--border-focus);              /* ✅ Good - semantic token */
+  --border-picker-error: var(--error-border);              /* UPDATED: using shortcut instead of --border-error */
+  --border-picker-disabled: var(--border-disabled);        /* ✅ Good - semantic token */
   
-  --text-picker: var(--text-primary);                     /* FIXED: was --primary-1000 */
-  --text-picker-placeholder: var(--text-placeholder);     /* FIXED: was --secondary-400 */
-  --text-picker-disabled: var(--text-disabled);           /* FIXED: was --secondary-400 */
-  --text-picker-option: var(--text-primary);              /* FIXED: was --primary-1000 */
-  --text-picker-option-selected: var(--text-link);        /* FIXED: was --accent-700 */
+  --text-picker: var(--text-primary);                      /* ✅ Good - semantic token */
+  --text-picker-placeholder: var(--text-placeholder);      /* ✅ Good - semantic token */
+  --text-picker-disabled: var(--text-disabled);            /* ✅ Good - semantic token */
+  --text-picker-option: var(--text-primary);               /* ✅ Good - semantic token */
+  --text-picker-option-selected: var(--text-link);         /* ✅ Good - semantic token */
   
-  --icon-picker: var(--icon-secondary);                   /* FIXED: was --secondary-500 */
-  --icon-picker-disabled: var(--icon-disabled);           /* FIXED: was --secondary-300 */
+  --icon-picker: var(--icon-secondary);                    /* ✅ Good - semantic token */
+  --icon-picker-disabled: var(--icon-disabled);            /* ✅ Good - semantic token */
   
-  /* ===== TEXTAREA TOKENS ===== */
-  --surface-textarea: var(--surface-card);                /* FIXED: was --primary-white */
-  --surface-textarea-disabled: var(--surface-card-hover); /* FIXED: was --secondary-50 */
+  /* ===== TEXTAREA TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
+  --surface-textarea: var(--surface-base);                 /* UPDATED: using shortcut instead of --surface-card */
+  --surface-textarea-disabled: var(--surface-subtle);      /* UPDATED: using shortcut instead of --surface-card-hover */
   
-  --border-textarea: var(--border-default);               /* FIXED: was --secondary-200 */
-  --border-textarea-hover: var(--border-hover);           /* FIXED: was --secondary-300 */
-  --border-textarea-focus: var(--border-focus);           /* FIXED: was --accent-500 */
-  --border-textarea-error: var(--border-error);           /* FIXED: was --error-500 */
-  --border-textarea-disabled: var(--border-disabled);     /* FIXED: was --secondary-100 */
+  --border-textarea: var(--border-medium);                 /* UPDATED: using shortcut instead of --border-default */
+  --border-textarea-hover: var(--border-hover);            /* ✅ Good - semantic token */
+  --border-textarea-focus: var(--border-focus);            /* ✅ Good - semantic token */
+  --border-textarea-error: var(--error-border);            /* UPDATED: using shortcut instead of --border-error */
+  --border-textarea-disabled: var(--border-disabled);      /* ✅ Good - semantic token */
   
-  --text-textarea: var(--text-primary);                   /* FIXED: was --primary-1000 */
-  --text-textarea-placeholder: var(--text-placeholder);   /* FIXED: was --secondary-400 */
-  --text-textarea-disabled: var(--text-disabled);         /* FIXED: was --secondary-400 */
+  --text-textarea: var(--text-primary);                    /* ✅ Good - semantic token */
+  --text-textarea-placeholder: var(--text-placeholder);    /* ✅ Good - semantic token */
+  --text-textarea-disabled: var(--text-disabled);          /* ✅ Good - semantic token */
   
-  /* ===== SWITCH TOKENS ===== */
-  --surface-switch-track: var(--interactive-secondary);   /* FIXED: was --secondary-200 */
-  --surface-switch-track-checked: var(--interactive-accent); /* FIXED: was --accent-500 */
-  --surface-switch-track-hover: var(--interactive-secondary-hover); /* FIXED: was --secondary-300 */
-  --surface-switch-track-checked-hover: var(--interactive-accent); /* FIXED: was --accent-500 */
-  --surface-switch-track-disabled: var(--interactive-secondary-disabled); /* FIXED: was --secondary-100 */
-  --surface-switch-track-disabled-checked: var(--interactive-primary-disabled); /* FIXED: was --secondary-300 */
+  /* ===== SWITCH TOKENS - ALREADY GOOD WITH SEMANTIC ===== */
+  --surface-switch-track: var(--interactive-secondary);    /* ✅ Good - semantic token */
+  --surface-switch-track-checked: var(--interactive-accent); /* ✅ Good - semantic token */
+  --surface-switch-track-hover: var(--interactive-secondary-hover); /* ✅ Good - semantic token */
+  --surface-switch-track-checked-hover: var(--interactive-accent); /* ✅ Good - semantic token */
+  --surface-switch-track-disabled: var(--interactive-secondary-disabled); /* ✅ Good - semantic token */
+  --surface-switch-track-disabled-checked: var(--interactive-primary-disabled); /* ✅ Good - semantic token */
   
-  --surface-switch-thumb: var(--surface-card);            /* FIXED: was --primary-white */
-  --surface-switch-thumb-disabled: var(--surface-card-hover); /* FIXED: was --secondary-100 */
+  --surface-switch-thumb: var(--surface-base);             /* UPDATED: using shortcut instead of --surface-card */
+  --surface-switch-thumb-disabled: var(--surface-subtle);  /* UPDATED: using shortcut instead of --surface-card-hover */
   
-  --border-switch-focus: var(--border-focus);             /* FIXED: was --accent-500 */
+  --border-switch-focus: var(--border-focus);              /* ✅ Good - semantic token */
   
-  /* ===== FORM FIELD TOKENS ===== */
-  --text-form-label: var(--text-primary);                 /* FIXED: was --primary-1000 */
-  --text-form-label-disabled: var(--text-disabled);       /* FIXED: was --secondary-400 */
-  --text-form-label-required: var(--text-error);          /* FIXED: was --error-500 */
-  --text-form-hint: var(--text-secondary);                /* FIXED: was --secondary-600 */
-  --text-form-error: var(--text-error);                   /* FIXED: was --error-600 */
-  --text-form-success: var(--text-success);               /* FIXED: was --success-600 */
+  /* ===== FORM FIELD TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
+  --text-form-label: var(--text-primary);                  /* ✅ Good - semantic token */
+  --text-form-label-disabled: var(--text-disabled);        /* ✅ Good - semantic token */
+  --text-form-label-required: var(--error-text);           /* UPDATED: using shortcut instead of --text-error */
+  --text-form-hint: var(--text-secondary);                 /* ✅ Good - semantic token */
+  --text-form-error: var(--error-text);                    /* UPDATED: using shortcut instead of --text-error */
+  --text-form-success: var(--success-text);                /* UPDATED: using shortcut instead of --text-success */
 
-  /* ===== FORM RADIUS - OK TO USE FOUNDATION ===== */
-  --form-radius-base: var(--foundation-radius-lg);        /* OK - spacing/sizing can use foundation */
+  /* ===== FORM RADIUS - KEEP AS FOUNDATION (CORRECT) ===== */
+  --form-radius-base: var(--foundation-radius-lg);         /* ✅ Good - spacing/sizing can use foundation */
   --form-radius-small: var(--foundation-radius-md);
   --form-radius-large: var(--foundation-radius-xl);
   --form-radius-round: var(--foundation-radius-full);
@@ -120,14 +120,14 @@
   --radius-dropdown-sm: var(--form-radius-small);
   --radius-dropdown-lg: var(--form-radius-large);
   
-  /* ===== FORM SPACING - OK TO USE FOUNDATION ===== */
-  --space-form-field-gap: var(--foundation-space-2);      /* OK - spacing can use foundation */
+  /* ===== FORM SPACING - KEEP AS FOUNDATION (CORRECT) ===== */
+  --space-form-field-gap: var(--foundation-space-2);       /* ✅ Good - spacing can use foundation */
   --space-form-label-margin: var(--foundation-space-1);
   --space-form-hint-margin: var(--foundation-space-1);
   --space-form-error-margin: var(--foundation-space-1);
   
-  /* ===== FORM SIZES - OK TO USE FIXED VALUES ===== */
-  --size-checkbox-sm: 16px;                               /* OK - fixed sizes are fine */
+  /* ===== FORM SIZES - KEEP AS FIXED VALUES (CORRECT) ===== */
+  --size-checkbox-sm: 16px;                                /* ✅ Good - fixed sizes are fine */
   --size-checkbox-md: 20px;
   --size-checkbox-lg: 24px;
   
@@ -147,14 +147,14 @@
   --size-switch-lg-height: 26px;
   --size-switch-lg-thumb: 22px;
   
-  /* ===== FORM ANIMATIONS - OK TO USE FOUNDATION ===== */
-  --duration-form-transition: var(--foundation-duration-fast); /* OK - timing can use foundation */
+  /* ===== FORM ANIMATIONS - KEEP AS FOUNDATION (CORRECT) ===== */
+  --duration-form-transition: var(--foundation-duration-fast); /* ✅ Good - timing can use foundation */
   --easing-form-transition: var(--foundation-easing-ease-out);
 }
 
-/* ===== FORM FOCUS RING ===== */
+/* ===== FORM FOCUS RING - ALREADY PERFECT ===== */
 .form-focus-ring {
   outline: 2px solid transparent;
   outline-offset: 2px;
-  box-shadow: 0 0 0 2px var(--border-focus);              /* FIXED: was --border-focus (this was actually correct) */
-} 
+  box-shadow: 0 0 0 2px var(--border-focus);               /* ✅ Good - semantic token */
+}
