@@ -1,7 +1,6 @@
 'use client';
 
 import { createContext, useContext, useState, ReactNode, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { 
   requestEditingStatus,
   setupEditingMessageListener,

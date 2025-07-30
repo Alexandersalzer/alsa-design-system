@@ -5,7 +5,6 @@ export interface EditingMessageHandlers {
 export const requestEditingStatus = () => {
   window.parent.postMessage({
     type: 'request-editing-status'
-    // No versionId needed - parent knows its own context
   }, '*');
 };
 
@@ -29,11 +28,4 @@ export const setupEditingMessageListener = (handlers: EditingMessageHandlers) =>
     console.log('Cleaning up editing message listener on child side');
     window.removeEventListener('message', handleMessage);
   };
-};
-
-export const getVersionFromUrl = (): number | null => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const versionParam = searchParams.get('version');
-  
-  return versionParam ? parseInt(versionParam, 10) : null;
 }; 
