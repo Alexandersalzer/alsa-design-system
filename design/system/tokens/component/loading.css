@@ -5,8 +5,8 @@
 
 :root {
   /* ===== LOADING SURFACES ===== */
-  --surface-loading: var(--surface-card-hover);           /* FIXED: was --secondary-50 */
-  --surface-loading-shimmer: var(--surface-card-selected); /* FIXED: was --secondary-100 */
+  --surface-loading: var(--surface-subtle);           /* FIXED: was --secondary-50 */
+  --surface-loading-shimmer: var(--surface-hover); /* FIXED: was --secondary-100 */
   --surface-spinner: var(--interactive-accent);           /* FIXED: was --accent-500 */
   
   /* ===== LOADING CARD SURFACES ===== */
@@ -28,8 +28,8 @@
    ============================================== */
 
 .loading-card {
-  background-color: var(--surface-card);                  /* FIXED: was var(--surface-card) - already correct */
-  border: 1px solid var(--border-card);                   /* FIXED: was var(--border-card) - already correct */
+  background-color: var(--surface-loading-card);                  /* FIXED: was var(--surface-card) - already correct */
+  border: 1px solid var(--border-loading-card);                   /* FIXED: was var(--border-card) - already correct */
   border-radius: var(--foundation-radius-lg);             /* OK to use foundation for radius */
   padding: var(--foundation-space-6);                     /* OK to use foundation for spacing */
   animation: pulse 2s infinite;
