@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Radio/Radio.css
-   BULLETPROOF RADIO - SIMPLE & CONSISTENT
+   BULLETPROOF RADIO - PERFECT CIRCLES FIXED
    ============================================== */
 
 /* ===== RADIO WRAPPER ===== */
@@ -31,13 +31,13 @@
 
 /* ===== BULLETPROOF RADIO BUTTON ===== */
 .radio {
-  /* EXACT DIMENSIONS - NO VARIABLES */
+  /* EXACT DIMENSIONS - PERFECT SQUARES BECOME PERFECT CIRCLES */
   width: 20px;
   height: 20px;
   
-  /* APPEARANCE */
+  /* APPEARANCE - FORCED CIRCULAR */
   border: 2px solid var(--border-radio);
-  border-radius: 50%;
+  border-radius: 50%; /* FORCE CIRCULAR - NO VARIABLES */
   background-color: var(--surface-radio);
   
   /* RESET ALL BROWSER STYLES */
@@ -47,7 +47,7 @@
   margin: 0;
   padding: 0;
   
-  /* PREVENT ANY RESIZING */
+  /* PREVENT ANY RESIZING OR DISTORTION */
   flex-shrink: 0;
   flex-grow: 0;
   box-sizing: border-box;
@@ -62,25 +62,34 @@
   display: block;
 }
 
-/* ===== BULLETPROOF INDICATOR ===== */
-.radio::after {
-  content: '';
-  
-  /* EXACT DIMENSIONS */
-  width: 10px;
-  height: 10px;
-  
-  /* PERFECT CENTERING */
+/* ===== SIZE VARIANTS - PERFECT SQUARES ===== */
+.radio--sm {
+  width: 16px;
+  height: 16px;
+}
+
+.radio--lg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ===== BULLETPROOF INDICATOR - SEPARATE ELEMENT ===== */
+.radio__indicator {
+  /* EXACT POSITIONING - PERFECT CENTER */
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   
-  /* APPEARANCE */
+  /* EXACT DIMENSIONS - PERFECT CIRCLE */
+  width: 10px;
+  height: 10px;
+  
+  /* FORCE CIRCULAR SHAPE */
   border-radius: 50%;
   background-color: var(--indicator-radio);
   
-  /* SIMPLE VISIBILITY - NO SCALE BULLSHIT */
+  /* SIMPLE VISIBILITY CONTROL */
   opacity: 0;
   transition: opacity var(--duration-form-transition) var(--easing-form-transition);
   
@@ -89,23 +98,13 @@
   box-sizing: border-box;
 }
 
-/* ===== SIZE VARIANTS ===== */
-.radio--sm {
-  width: 16px;
-  height: 16px;
-}
-
-.radio--sm::after {
+/* ===== INDICATOR SIZE VARIANTS - PROPORTIONAL ===== */
+.radio__indicator--sm {
   width: 8px;
   height: 8px;
 }
 
-.radio--lg {
-  width: 24px;
-  height: 24px;
-}
-
-.radio--lg::after {
+.radio__indicator--lg {
   width: 12px;
   height: 12px;
 }
@@ -125,7 +124,7 @@
 }
 
 /* CHECKED - SHOW INDICATOR */
-.radio:checked::after {
+.radio__indicator--checked {
   opacity: 1;
 }
 
@@ -145,7 +144,8 @@
   cursor: not-allowed;
 }
 
-.radio:disabled::after {
+.radio:disabled + .radio__indicator,
+.radio--disabled .radio__indicator {
   background-color: var(--indicator-radio-disabled);
 }
 
@@ -271,7 +271,7 @@
 /* ===== ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
   .radio,
-  .radio::after {
+  .radio__indicator {
     transition: none;
   }
 }
@@ -281,7 +281,7 @@
     border-width: 3px;
   }
   
-  .radio:checked::after {
+  .radio__indicator--checked {
     /* Make sure it's visible in high contrast */
     background-color: currentColor;
   }

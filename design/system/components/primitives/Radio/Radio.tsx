@@ -1,12 +1,11 @@
 // ===============================================
 // src/design-system/components/primitives/Radio/Radio.tsx
-// RADIO COMPONENT - Complete with proper design system integration
+// RADIO COMPONENT - Fixed with Perfect Circle Indicators
 // ===============================================
 
 import React, { forwardRef, useId, createContext, useContext, useState } from 'react';
 import { cn } from '../../../lib/utils';
 import { Label, Body } from '../Typography';
-
 
 export type RadioSize = 'sm' | 'md' | 'lg';
 
@@ -82,8 +81,6 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
   const radioClasses = cn(
     'radio',
     `radio--${size}`,
-    checked && 'radio--checked',
-    disabled && 'radio--disabled',
     className
   );
 
@@ -92,23 +89,6 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
     `radio__indicator--${size}`,
     checked && 'radio__indicator--checked'
   );
-
-  // Typography props for consistent text styling
-  const getLabelTypography = () => {
-    const sizeMap = {
-      sm: 'sm' as const,
-      md: 'md' as const,
-      lg: 'lg' as const,
-    };
-
-    return {
-      size: sizeMap[size],
-      weight: 'medium' as const,
-      color: disabled ? 'disabled' as const : 'primary' as const,
-    };
-  };
-
-  const labelProps = getLabelTypography();
 
   return (
     <div className={wrapperClasses}>
@@ -128,6 +108,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
             {...props}
           />
           
+          {/* FIXED: Indicator element that matches CSS perfectly */}
           <div className={indicatorClasses} />
         </div>
 
@@ -135,13 +116,6 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
           <label
             htmlFor={id}
             className="radio-label"
-            style={{
-              fontSize: labelProps.size === 'sm' ? 'var(--foundation-text-sm)' : 'var(--foundation-text-md)',
-              fontWeight: 'var(--foundation-weight-medium)',
-              color: disabled ? 'var(--text-disabled)' : 'var(--text-primary)',
-              cursor: disabled ? 'not-allowed' : 'pointer',
-              userSelect: 'none'
-            }}
           >
             {label}
           </label>
@@ -149,14 +123,12 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
       </div>
 
       {description && (
-        <Body
+        <div
           id={descriptionId}
-          size="sm"
-          color={disabled ? 'disabled' : 'secondary'}
           className="radio-description"
         >
           {description}
-        </Body>
+        </div>
       )}
     </div>
   );
@@ -256,11 +228,8 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
         aria-invalid={error ? 'true' : 'false'}
       >
         {label && (
-          <Label
+          <div
             id={`${groupId}-label`}
-            size={size === 'sm' ? 'sm' : 'md'}
-            weight="semibold"
-            color="primary"
             className="radio-group__label"
           >
             {label}
@@ -269,18 +238,16 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
                 *
               </span>
             )}
-          </Label>
+          </div>
         )}
 
         {description && (
-          <Body
+          <div
             id={descriptionId}
-            size="sm"
-            color="secondary"
             className="radio-group__description"
           >
             {description}
-          </Body>
+          </div>
         )}
 
         <div className="radio-group__items">
@@ -288,15 +255,13 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
         </div>
 
         {error && (
-          <Body
+          <div
             id={errorId}
-            size="sm"
-            color="error"
             className="radio-group__error"
             role="alert"
           >
             {error}
-          </Body>
+          </div>
         )}
       </div>
     </RadioGroupContext.Provider>
