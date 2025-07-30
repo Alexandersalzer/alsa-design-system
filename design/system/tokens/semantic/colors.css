@@ -188,7 +188,7 @@
   --interactive-tertiary-active: var(--secondary-100);
 
   /* Destructive interactions */
-  --interactive-destructive: var(--error-500);
+  --interactive-destructive: var(--error-800);
   --interactive-destructive-hover: var(--error-600);
   --interactive-destructive-active: var(--error-700);
   
@@ -244,6 +244,10 @@
   --surface-button-ghost-active: var(--interactive-tertiary-active);
   --text-button-ghost: var(--text-secondary);
 
+  --surface-button-destructive: var(--interactive-destructive);
+  --surface-button-destructive-hover: var(--interactive-destructive-hover);
+  --border-button-destructive: var(--error-700);
+
   /* ===== COMPONENT CARD TOKENS ===== */
   --border-card: var(--border-default);
   --border-card-hover: var(--border-hover);
@@ -270,11 +274,18 @@
   --icon-input: var(--icon-secondary);
   --icon-input-disabled: var(--icon-disabled);
 
+  --border-input-success: var(--success-500);
+  --border-textarea-success: var(--success-500);
+  --border-switch-success: var(--success-500);
+  --text-input-error: var(--error-600);
+  --text-textarea-error: var(--error-600);
+
   /* ===== COMPONENT NAVIGATION TOKENS ===== */
   --surface-nav: var(--surface-page);
   --surface-nav-item: transparent;
   --surface-nav-item-hover: var(--surface-card-hover);
   --surface-nav-item-selected: var(--surface-card-selected);
+  --surface-nav-item-selected-hover: var(--primary-200); 
   --surface-nav-item-disabled: transparent;
   --text-nav-item: var(--text-secondary);
   --text-nav-item-selected: var(--accent-600);
@@ -306,11 +317,13 @@
   --border-checkbox-focus: var(--border-focus);
   --border-checkbox-checked: var(--border-focus);
   --border-checkbox-disabled: var(--border-disabled);
+  --border-checkbox-focus: var(--accent-200);
+  --border-radio-focus: var(--accent-200);
+  --border-radio-checked: var(--accent-500);
   
   --icon-checkbox: var(--icon-inverse);
   --icon-checkbox-disabled: var(--icon-disabled);
 
-  
   --surface-radio: var(--surface-card);
   --surface-radio-checked: var(--surface-card);
   --surface-radio-hover: var(--interactive-tertiary-hover);
@@ -378,4 +391,10 @@
   --text-form-hint: var(--text-secondary);
   --text-form-error: var(--text-error);
   --text-form-success: var(--text-success);
+
+  /* ===== COMPONENT LINK TOKENS ===== */
+  --text-link: var(--accent-600);
+  --text-link-hover: var(--accent-700);
+  --border-link-focus: var(--accent-500);
+
 }

@@ -138,9 +138,9 @@
 }
 
 .btn-destructive {
-  background-color: var(--error-600);
+  background-color: var(--surface-button-destructive);
   color: var(--primary-white);
-  border-color: var(--error-700, #ef4444);
+  border-color: var(--border-button-destructive);
 }
 
 .btn-destructive:hover:not(:disabled) {

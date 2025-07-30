@@ -21,13 +21,9 @@
   --surface-nav-item-selected: var(--surface-card-selected);
   --surface-nav-item-disabled: transparent;
 
-  /* ❌ REMOVE DUPLICATED TOKENS - Use semantic instead */
-  /* ❌ REMOVED: --text-nav-item, --icon-nav-item, etc. - Already in semantic/colors.css */
-  /* ✅ KEEP ONLY NAVIGATION-SPECIFIC TOKENS */
-
   /* ===== NAVIGATION BORDERS - USE SEMANTIC ===== */
   --border-nav: var(--border-subtle);
-  --border-nav-item-selected: var(--accent-500);
+  --border-nav-item-selected: var(--surface-nav-item-selected-hover);
 
   /* ===== HEADER SPECIFIC TOKENS ===== */
   --surface-header: var(--surface-page);
