@@ -26,7 +26,6 @@ export const createDesignTokenMessageHandlers = (params: DesignTokenMessageHandl
       // Call the state setter if provided
       setAccentColor(color);
       
-      console.log('🎨 Accent color updated to:', color);
     },
 
     onRadiusUpdate: (size: string) => {
@@ -48,7 +47,6 @@ export const createDesignTokenMessageHandlers = (params: DesignTokenMessageHandl
         setRadius(size);
       }
       
-      console.log('🔄 Radius scale updated to:', size, 'all radius scales now use foundation-radius-' + size + '-*');
     },
 
     onThemeUpdate: (isDark: boolean) => {
@@ -61,7 +59,6 @@ export const createDesignTokenMessageHandlers = (params: DesignTokenMessageHandl
         setIsDark(isDark);
       }
       
-      console.log('🌗 Theme updated to:', isDark ? 'dark' : 'light', '(--is-dark:', isDark ? '1' : '0', ')');
     },
 
     onFontUpdate: (fontName: string, fontUrl: string) => {
@@ -73,7 +70,6 @@ export const createDesignTokenMessageHandlers = (params: DesignTokenMessageHandl
         setFontName(fontName);
       }
       
-      console.log('🔤 Font updated to:', fontName, 'with URL:', fontUrl);
     }
   };
 };
@@ -118,9 +114,7 @@ const updateDesignTokensFont = (fontName: string, fontUrl: string) => {
     const root = document.documentElement;
     root.style.setProperty('--font-primary-name', `'${fontName}'`);
     
-    console.log('📄 design-tokens.css updated with new font:', fontName);
   } else {
-    console.warn('design-tokens.css link not found, only updating CSS custom property');
     // Fallback: just update the CSS custom property
     const root = document.documentElement;
     root.style.setProperty('--font-primary-name', `'${fontName}'`);

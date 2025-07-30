@@ -39,7 +39,6 @@ export class ParentMessageHandler {
 
     // Handle requests for website content
     if (event.data.type === 'request-website-content') {
-      console.log('Received request for website content - using parent context version:', this.config.versionId);
       
       // Call custom handler if provided - handler uses parent's versionId context
       if (this.handlers.onWebsiteContentRequest) {

@@ -37,7 +37,6 @@ export const parseContentFromUrl = (): WebsiteContent | null => {
       const decodedContent = decodeURIComponent(contentParam);
       return JSON.parse(decodedContent);
     } catch (error) {
-      console.error('Error parsing content from URL:', error);
       return null;
     }
   }

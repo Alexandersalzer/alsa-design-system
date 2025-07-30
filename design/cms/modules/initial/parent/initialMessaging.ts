@@ -21,17 +21,12 @@ export class InitialMessageHandler {
 
   // Send editing status update to iframe
   sendEditingStatusUpdate = (editing: boolean) => {
-    console.log('sendEditingStatusUpdate called with:', editing);
-    console.log('iframeRef.current:', this.config.iframeRef.current);
-    console.log('contentWindow:', this.config.iframeRef.current?.contentWindow);
     
     if (this.config.iframeRef.current?.contentWindow) {
-      console.log('Sending editing-status-update message to iframe:', { type: 'editing-status-update', editing });
       this.config.iframeRef.current.contentWindow.postMessage({
         type: 'editing-status-update',
         editing: editing
       }, '*');
-      console.log('Message sent successfully');
     } else {
       console.error('Cannot send message: iframe or contentWindow not available');
     }
@@ -41,7 +36,6 @@ export class InitialMessageHandler {
   handleMessage = (event: MessageEvent) => {
     // Handle requests for editing status
     if (event.data.type === 'request-editing-status') {
-      console.log('Editing status requested - using parent context version:', this.config.versionId);
       
       // Call custom handler if provided - handler uses parent's versionId context
       if (this.handlers.onEditingStatusRequest) {

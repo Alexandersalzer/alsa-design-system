@@ -16,27 +16,22 @@ const ToggleContext = createContext<ToggleContextType | undefined>(undefined);
 function EditingProvider({ children }: { children: ReactNode }) {
   const [isEditingMode, setIsEditing] = useState<boolean>(false);
 
-  console.log('EditingProvider debug:', { isEditingMode });
 
   // Listen for editing status updates from parent window
   useEffect(() => {
-    console.log('Setting up editing message listener...');
     
     const messageHandlers: EditingMessageHandlers = {
       onEditingStatusUpdate: (editing: boolean) => {
-        console.log('Received editing status update:', { editing });
         setIsEditing(editing);
       }
     };
 
     const cleanup = setupEditingMessageListener(messageHandlers);
-    
-    // Always request editing status from parent - no versionId needed
-    console.log('Requesting editing status...');
-    requestEditingStatus(); // Simplified - no parameters needed
+
+    requestEditingStatus();
 
     return cleanup;
-  }, []); // No dependencies needed
+  }, []);
 
   return (
     <ToggleContext.Provider value={{ isEditingMode }}>
