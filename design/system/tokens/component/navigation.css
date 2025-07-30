@@ -1,50 +1,50 @@
 /* ==============================================
    src/design-system/tokens/component/navigation.css
-   NAVIGATION COMPONENT TOKENS
-============================================== */
+   NAVIGATION COMPONENT TOKENS - FIXED WITH SHORTCUTS
+   ============================================== */
 
 :root {
   /* ===== SIDEBAR TOKENS ===== */
-  --surface-sidebar: var(--surface-page);
-  --surface-sidebar-header: var(--surface-page);
-  --surface-sidebar-footer: var(--surface-page);
+  --surface-sidebar: var(--surface-base);
+  --surface-sidebar-header: var(--surface-base);
+  --surface-sidebar-footer: var(--surface-base);
   
-  /* ===== SIDEBAR DIMENSIONS ===== */
+  /* ===== SIDEBAR DIMENSIONS (keep as-is) ===== */
   --size-sidebar-width: 280px;
   --size-sidebar-header-height: 64px;
   --size-sidebar-logo-width: 40.8px;
   --size-sidebar-logo-height: 16.55px;
 
-  /* ===== NAVIGATION SURFACES - USE SEMANTIC ===== */
-  --surface-nav: var(--surface-page);
-  --surface-nav-item-hover: var(--surface-card-hover);
-  --surface-nav-item-selected: var(--surface-card-selected);
+  /* ===== NAVIGATION SURFACES - USING SHORTCUTS ===== */
+  --surface-nav: var(--surface-base);
+  --surface-nav-item-hover: var(--surface-subtle);
+  --surface-nav-item-selected: var(--surface-hover);
   --surface-nav-item-disabled: transparent;
 
-  /* ===== NAVIGATION BORDERS - USE SEMANTIC ===== */
-  --border-nav: var(--border-subtle);
-  --border-nav-item-selected: var(--surface-nav-item-selected-hover);
+  /* ===== NAVIGATION BORDERS - USING SHORTCUTS ===== */
+  --border-nav: var(--border-light);
+  --border-nav-item-selected: var(--accent-border);
 
   /* ===== HEADER SPECIFIC TOKENS ===== */
-  --surface-header: var(--surface-page);
-  --border-header: var(--border-subtle);
+  --surface-header: var(--surface-base);
+  --border-header: var(--border-light);
   
-  /* ===== DROPDOWN TOKENS - USE SEMANTIC ===== */
-  --surface-dropdown: var(--surface-card-elevated);
-  --surface-dropdown-elevated: var(--surface-card-elevated);
-  --border-dropdown: var(--border-default);
-  --border-dropdown-subtle: var(--border-subtle);
+  /* ===== DROPDOWN TOKENS - USING SHORTCUTS ===== */
+  --surface-dropdown: var(--surface-elevated);
+  --surface-dropdown-elevated: var(--surface-elevated);
+  --border-dropdown: var(--border-medium);
+  --border-dropdown-subtle: var(--border-light);
   --shadow-dropdown: var(--foundation-shadow-lg);
   --radius-dropdown: var(--foundation-radius-xl);
   
-  /* ===== DROPDOWN SPACING ===== */
+  /* ===== DROPDOWN SPACING (keep as-is) ===== */
   --space-dropdown-offset: var(--foundation-space-4);
   --space-dropdown-padding: var(--foundation-space-5);
   --space-dropdown-header-padding: var(--foundation-space-4) var(--foundation-space-5) var(--foundation-space-3);
   --space-dropdown-content-padding: 0;
   --space-dropdown-footer-padding: var(--foundation-space-3) var(--foundation-space-5) var(--foundation-space-4);
   
-  /* ===== SEARCH INPUT TOKENS - USE SEMANTIC ===== */
+  /* ===== SEARCH INPUT TOKENS - USING SEMANTIC ===== */
   --surface-search-input: var(--surface-input);
   --border-search-input: var(--border-input);
   --border-search-input-focus: var(--border-input-focus);
@@ -52,7 +52,7 @@
   --text-search-placeholder: var(--text-input-placeholder);
   --icon-search: var(--icon-secondary);
   
-  /* ===== SETUP GUIDE BUTTON TOKENS - USE SEMANTIC ===== */
+  /* ===== SETUP GUIDE BUTTON TOKENS - USING SEMANTIC ===== */
   --surface-setup-guide: var(--surface-button-secondary);
   --surface-setup-guide-hover: var(--surface-button-secondary-hover);
   --border-setup-guide: var(--border-button-secondary);
@@ -60,7 +60,7 @@
   --border-setup-guide-focus: var(--border-focus);
   --text-setup-guide: var(--text-button-secondary);
   
-  /* ===== USER MENU TOKENS - USE SEMANTIC ===== */
+  /* ===== USER MENU TOKENS - USING SEMANTIC ===== */
   --surface-user-menu-trigger: transparent;
   --surface-user-menu-trigger-hover: var(--surface-button-secondary-hover);
   --border-user-menu-trigger: var(--border-button-secondary);
@@ -74,21 +74,21 @@
   --surface-user-menu-dropdown: var(--surface-dropdown-elevated);
   --shadow-user-menu-dropdown: var(--shadow-dropdown);
   
-  /* ===== USER MENU ITEM TOKENS - USE SEMANTIC ===== */
+  /* ===== USER MENU ITEM TOKENS - USING SHORTCUTS ===== */
   --surface-user-menu-item: transparent;
   --surface-user-menu-item-hover: var(--surface-nav-item-hover);
   --text-user-menu-item: var(--text-nav-item);
   --icon-user-menu-item: var(--icon-nav-item);
-  --text-user-menu-item-destructive: var(--error-600);
-  --icon-user-menu-item-destructive: var(--error-600);
-  --surface-user-menu-item-destructive-hover: var(--error-50);
+  --text-user-menu-item-destructive: var(--error-text);        /* FIXED: Using shortcut */
+  --icon-user-menu-item-destructive: var(--error-icon);        /* FIXED: Using shortcut */
+  --surface-user-menu-item-destructive-hover: var(--error-subtle); /* FIXED: Using shortcut */
   
   /* ===== NOTIFICATION DROPDOWN TOKENS ===== */
   --surface-notification-dropdown: var(--surface-dropdown-elevated);
   --border-notification-dropdown: var(--border-dropdown-subtle);
   --shadow-notification-dropdown: var(--shadow-dropdown);
   
-  /* ===== NOTIFICATION LIST TOKENS - USE SEMANTIC ===== */
+  /* ===== NOTIFICATION LIST TOKENS - USING SEMANTIC ===== */
   --surface-notification-item: transparent;
   --surface-notification-item-hover: var(--surface-nav-item-hover);
   --border-notification-item: var(--border-dropdown-subtle);
@@ -99,7 +99,7 @@
   /* ===== NOTIFICATION INDICATOR TOKENS ===== */
   --surface-notification-indicator: var(--accent-500);
   
-  /* ===== EMPTY STATE TOKENS - USE SEMANTIC ===== */
+  /* ===== EMPTY STATE TOKENS - USING SEMANTIC ===== */
   --surface-empty-state: transparent;
   --text-empty-state-title: var(--text-nav-item);
   --text-empty-state-description: var(--text-secondary);

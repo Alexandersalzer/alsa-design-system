@@ -134,7 +134,7 @@ const getColorValue = (color: TypographyColor): string => {
     'accent': 'var(--accent-500)',
     'success': 'var(--success-500)',
     'warning': 'var(--warning-500)',
-    'error': 'var(--primary-white))',
+    'error': 'var(--error-500)',
     'info': 'var(--info-500)',
     
     // Tag/Badge colors

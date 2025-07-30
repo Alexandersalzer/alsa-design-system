@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Tag/Tag.css
-   TAG COMPONENT STYLES
+   TAG COMPONENT STYLES - UPDATED WITH SMART SHORTCUTS
    ============================================== */
 
 /* ===== BASE TAG STYLES ===== */
@@ -8,7 +8,7 @@
   display: inline-flex;
   align-items: center;
   font-family: var(--font-body-family);
-  font-weight: 600;
+  font-weight: var(--foundation-weight-semibold);
   line-height: 1;
   text-decoration: none;
   border: 1px solid;
@@ -27,13 +27,13 @@
   font-size: var(--font-tag-size-medium);
   gap: var(--space-tag-icon-gap-medium);
   
-  /* Default to info variant */
+  /* Default to info variant - USING SMART SHORTCUTS */
   background-color: var(--surface-tag-info);
   color: var(--text-tag-info);
   border-color: var(--border-tag-info);
 }
 
-/* ===== TAG VARIANTS ===== */
+/* ===== TAG VARIANTS - USING SMART SHORTCUTS ===== */
 .tag--success {
   background-color: var(--surface-tag-success);
   color: var(--text-tag-success);
@@ -98,7 +98,7 @@
   transform: translateY(0);
 }
 
-/* Interactive variant hover states */
+/* Interactive variant hover states - USING SMART SHORTCUTS */
 .tag--interactive.tag--success:hover {
   background-color: var(--surface-tag-success-hover);
   color: var(--text-tag-success-hover);
@@ -159,7 +159,7 @@
   stroke-width: var(--icon-stroke-medium);
 }
 
-/* Icon colors per variant */
+/* Icon colors per variant - USING SMART SHORTCUTS */
 .tag--success .tag__icon {
   color: var(--icon-tag-success);
 }
@@ -247,7 +247,6 @@
   }
 }
 
-/* ===== HIGH CONTRAST MODE ===== */
 @media (prefers-contrast: high) {
   .tag {
     border-width: 2px;
