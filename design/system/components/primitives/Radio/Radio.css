@@ -25,15 +25,20 @@
 .radio-container {
   position: relative;
   flex-shrink: 0;
+  /* FORCE EXACT DIMENSIONS TO PREVENT OVAL DISTORTION */
+  width: 20px;
+  height: 20px;
   /* Align with first line of text */
   margin-top: 2px;
+  /* Ensure no stretching */
+  overflow: hidden;
 }
 
 /* ===== BULLETPROOF RADIO BUTTON ===== */
 .radio {
   /* EXACT DIMENSIONS - PERFECT SQUARES BECOME PERFECT CIRCLES */
-  width: 20px;
-  height: 20px;
+  width: 100%; /* Fill container exactly */
+  height: 100%; /* Fill container exactly */
   
   /* APPEARANCE - FORCED CIRCULAR */
   border: 2px solid var(--border-radio);
@@ -51,6 +56,8 @@
   flex-shrink: 0;
   flex-grow: 0;
   box-sizing: border-box;
+  min-width: 0; /* Prevent flex basis issues */
+  min-height: 0; /* Prevent flex basis issues */
   
   /* INTERACTION */
   cursor: pointer;
@@ -62,13 +69,13 @@
   display: block;
 }
 
-/* ===== SIZE VARIANTS - PERFECT SQUARES ===== */
-.radio--sm {
+/* ===== CONTAINER SIZE VARIANTS ===== */
+.radio-wrapper--sm .radio-container {
   width: 16px;
   height: 16px;
 }
 
-.radio--lg {
+.radio-wrapper--lg .radio-container {
   width: 24px;
   height: 24px;
 }
