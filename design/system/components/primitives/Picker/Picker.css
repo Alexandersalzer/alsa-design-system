@@ -1,20 +1,224 @@
 /* ==============================================
    src/design-system/components/primitives/Picker/Picker.css
-   PICKER COMPONENT STYLES - FIXED DROPDOWN & HOVER ISSUES
+   PICKER COMPONENT STYLES - COMPLETE WITH SEMANTIC TOKENS
    ============================================== */
 
-/* ... keeping all the existing wrapper, label, description, container code unchanged ... */
+/* ===== PICKER WRAPPER ===== */
+.picker-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-form-field-gap);
+  position: relative;
+}
 
-/* ===== PICKER DROPDOWN - FIXED BORDER & STYLING ===== */
+.picker-wrapper--disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ===== PICKER LABEL - USING SEMANTIC TOKENS ===== */
+.picker-label {
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-md-size);                     /* FIXED: was --typography-body-md-size */
+  font-weight: var(--foundation-weight-semibold);          /* FIXED: was --typography-body-md-weight */
+  line-height: var(--font-body-md-leading);                /* FIXED: was --typography-body-md-line-height */
+  color: var(--text-form-label);
+  margin-bottom: var(--space-form-label-margin);
+  display: block;
+  cursor: pointer;
+  user-select: none;
+}
+
+.picker-wrapper--sm .picker-label {
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
+  font-weight: var(--foundation-weight-semibold);          /* FIXED: was --typography-body-sm-weight */
+  line-height: var(--font-body-sm-leading);                /* FIXED: was --typography-body-sm-line-height */
+}
+
+.picker-wrapper--lg .picker-label {
+  font-size: var(--font-body-lg-size);                     /* FIXED: was --typography-body-lg-size */
+  font-weight: var(--foundation-weight-semibold);          /* FIXED: was --typography-body-lg-weight */
+  line-height: var(--font-body-lg-leading);                /* FIXED: was --typography-body-lg-line-height */
+}
+
+.picker-wrapper--disabled .picker-label {
+  color: var(--text-form-label-disabled);
+  cursor: not-allowed;
+}
+
+.picker-label__required {
+  color: var(--text-form-label-required);
+  margin-left: var(--foundation-space-1);
+}
+
+/* ===== PICKER DESCRIPTION - USING SEMANTIC TOKENS ===== */
+.picker-description {
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-sm-weight */
+  line-height: var(--font-body-sm-leading);                /* FIXED: was --typography-body-sm-line-height */
+  color: var(--text-form-hint);
+  margin-top: calc(-1 * var(--space-form-label-margin));
+  margin-bottom: var(--space-form-hint-margin);
+}
+
+.picker-wrapper--disabled .picker-description {
+  color: var(--text-form-label-disabled);
+}
+
+/* ===== PICKER CONTAINER ===== */
+.picker-container {
+  position: relative;
+  z-index: var(--z-dropdown);
+}
+
+/* ===== PICKER BUTTON - USING SEMANTIC TOKENS ===== */
+.picker {
+  width: 100%;
+  min-height: 44px;
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+  border: 2px solid var(--border-picker);
+  border-radius: var(--radius-picker);
+  background-color: var(--surface-picker);
+  color: var(--text-picker);
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-md-size);                     /* FIXED: was --typography-body-md-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-md-weight */
+  line-height: var(--font-body-md-leading);                /* FIXED: was --typography-body-md-line-height */
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--duration-form-transition) var(--easing-form-transition);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  outline: none;
+}
+
+/* ===== COMPACT VARIANT - Editor/Panel Style ===== */
+.picker--compact {
+  min-height: 32px;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  border: 1px solid var(--border-picker);
+  border-radius: var(--radius-picker);
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-sm-weight */
+  line-height: var(--font-body-sm-leading);                /* FIXED: was --typography-body-sm-line-height */
+  min-width: 120px;
+  width: auto;
+  max-width: 200px;
+}
+
+.picker--compact.picker--sm {
+  min-height: 28px;
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+  font-size: var(--font-body-xs-size);                     /* FIXED: was --typography-body-xs-size */
+  border-radius: var(--radius-picker-sm);
+  min-width: 100px;
+  max-width: 160px;
+}
+
+.picker--compact.picker--lg {
+  min-height: 36px;
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+  font-size: var(--font-body-md-size);                     /* FIXED: was --typography-body-md-size */
+  border-radius: var(--radius-picker-lg);
+  min-width: 140px;
+  max-width: 220px;
+}
+
+/* ===== PICKER SIZES - Using Foundation Spacing ===== */
+.picker--sm {
+  min-height: 36px;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-sm-weight */
+  line-height: var(--font-body-sm-leading);                /* FIXED: was --typography-body-sm-line-height */
+  border-radius: var(--radius-picker-sm);
+}
+
+.picker--lg {
+  min-height: 52px;
+  padding: var(--foundation-space-4) var(--foundation-space-5);
+  font-size: var(--font-body-lg-size);                     /* FIXED: was --typography-body-lg-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-lg-weight */
+  line-height: var(--font-body-lg-leading);                /* FIXED: was --typography-body-lg-line-height */
+  border-radius: var(--radius-picker-lg);
+}
+
+/* ===== PICKER STATES - Using Semantic Picker Tokens ===== */
+.picker:hover:not(:disabled) {
+  border-color: var(--border-picker-hover);
+  background-color: var(--surface-picker-hover);
+}
+
+.picker:focus,
+.picker--open {
+  border-color: var(--border-picker-focus);
+}
+
+.picker:disabled,
+.picker--disabled {
+  border-color: var(--border-picker-disabled);
+  background-color: var(--surface-picker-disabled);
+  color: var(--text-picker-disabled);
+  cursor: not-allowed;
+}
+
+.picker--error {
+  border-color: var(--border-picker-error);
+}
+
+.picker--success {
+  border-color: var(--success-border);                     /* FIXED: was --success-500, using shortcut */
+}
+
+/* ===== PICKER VALUE ===== */
+.picker-value {
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+}
+
+/* Placeholder styling when no value selected */
+.picker-value:empty::before,
+.picker[data-placeholder]:not([data-has-value])::after {
+  content: attr(data-placeholder);
+  color: var(--text-picker-placeholder);
+}
+
+/* ===== PICKER ICON - Using Foundation Spacing ===== */
+.picker-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: var(--foundation-space-2);
+  transition: transform var(--duration-form-transition) var(--easing-form-transition);
+  color: var(--icon-picker);
+  flex-shrink: 0;
+}
+
+.picker--open .picker-icon {
+  transform: rotate(180deg);
+}
+
+.picker:disabled .picker-icon,
+.picker--disabled .picker-icon {
+  color: var(--icon-picker-disabled);
+}
+
+/* ===== PICKER DROPDOWN - FIXED BORDER & BACKGROUND ===== */
 .picker-dropdown {
   position: absolute;
   top: calc(100% + var(--foundation-space-1));
   left: 0;
   right: 0;
   z-index: var(--z-dropdown);
-  border: 1px solid var(--border-default);                 /* FIXED: was 2px solid --border-picker-focus, now subtle border */
+  border: 1px solid var(--border-default);                 /* FIXED: was 2px solid --border-select-focus */
   border-radius: var(--radius-dropdown);
-  background-color: var(--surface-elevated);               /* FIXED: was --surface-picker, now elevated surface */
+  background-color: var(--surface-elevated);               /* FIXED: was --surface-picker */
   box-shadow: var(--foundation-shadow-lg);
   overflow: hidden;
   max-height: 400px;
@@ -24,15 +228,50 @@
   flex-direction: column;
 }
 
-/* ===== COMPACT DROPDOWN - FIXED BORDER ===== */
+/* ===== COMPACT DROPDOWN - Smaller, Left-aligned ===== */
 .picker-dropdown--compact {
   right: auto;
   width: 240px;
   max-height: 280px;
-  border: 1px solid var(--border-default);                 /* FIXED: was --border-picker-focus */
+  border: 1px solid var(--border-default);                 /* FIXED: was --border-select-focus */
   border-radius: var(--foundation-radius-xl);
   padding: var(--foundation-space-1);
   box-shadow: var(--foundation-shadow-md);
+}
+
+.picker-wrapper--sm .picker-dropdown--compact {
+  width: 200px;
+  max-height: 240px;
+  border-radius: var(--foundation-radius-lg);
+}
+
+.picker-wrapper--lg .picker-dropdown--compact {
+  width: 280px;
+  max-height: 320px;
+  border-radius: var(--foundation-radius-2xl);
+}
+
+.picker-wrapper--sm .picker-dropdown {
+  border-radius: var(--radius-dropdown-sm);
+  padding: var(--foundation-space-1);
+  max-height: 320px;
+}
+
+.picker-wrapper--lg .picker-dropdown {
+  border-radius: var(--radius-dropdown-lg);
+  padding: var(--foundation-space-3);
+  max-height: 480px;
+}
+
+@keyframes slideDownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--foundation-space-1)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ===== PICKER SEARCH - USING SEMANTIC TOKENS ===== */
@@ -40,31 +279,105 @@
   flex-shrink: 0;
   margin-bottom: var(--foundation-space-2);
   padding-bottom: var(--foundation-space-2);
-  border-bottom: 1px solid var(--border-light);            /* Using shortcut */
+  border-bottom: 1px solid var(--border-light);            /* FIXED: was --border-secondary, using shortcut */
 }
 
 .picker-search-input {
   width: 100%;
   padding: var(--foundation-space-2);
-  border: 1px solid var(--border-input);                   /* ✅ Good - semantic token */
+  border: 1px solid var(--border-input);
   border-radius: var(--foundation-radius-md);
-  background-color: var(--surface-input);                  /* ✅ Good - semantic token */
-  color: var(--text-input);                                /* ✅ Good - semantic token */
-  font-family: var(--font-body-family);
-  font-size: var(--font-body-sm-size);
+  background-color: var(--surface-input);
+  color: var(--text-input);
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
   outline: none;
   transition: border-color var(--foundation-duration-fast) var(--foundation-easing-ease-out);
 }
 
 .picker-search-input:focus {
-  border-color: var(--border-input-focus);                 /* ✅ Good - semantic token */
+  border-color: var(--border-input-focus);
 }
 
 .picker-search-input::placeholder {
-  color: var(--text-input-placeholder);                    /* ✅ Good - semantic token */
+  color: var(--text-input-placeholder);
 }
 
-/* ===== PICKER OPTION - RESTORED PROPER HOVER STATES ===== */
+/* ===== COMPACT SEARCH ADJUSTMENTS ===== */
+.picker-dropdown--compact .picker-search {
+  margin-bottom: var(--foundation-space-1);
+  padding-bottom: var(--foundation-space-1);
+}
+
+/* ===== PICKER OPTIONS - Using Foundation Spacing ===== */
+.picker-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-1);
+  flex: 1;
+  overflow-y: auto;
+  margin: var(--foundation-space-1);
+  list-style: none;
+  scroll-behavior: smooth;
+  min-height: 0;
+}
+
+/* ===== COMPACT OPTIONS - Smaller padding and spacing ===== */
+.picker-dropdown--compact .picker-options {
+  padding: var(--foundation-space-1-2) 0;
+}
+
+/* Dynamic max-height calculation based on content */
+.picker-dropdown:not(.picker-dropdown--with-search) .picker-options {
+  max-height: calc(400px - var(--foundation-space-4));
+}
+
+.picker-dropdown.picker-dropdown--with-search .picker-options {
+  max-height: calc(400px - 80px);
+}
+
+/* Compact dropdown calculations */
+.picker-dropdown--compact:not(.picker-dropdown--with-search) .picker-options {
+  max-height: calc(280px - var(--foundation-space-2));
+}
+
+.picker-dropdown--compact.picker-dropdown--with-search .picker-options {
+  max-height: calc(280px - 60px);
+}
+
+.picker-wrapper--sm .picker-dropdown:not(.picker-dropdown--with-search) .picker-options {
+  max-height: calc(320px - var(--foundation-space-2));
+}
+
+.picker-wrapper--sm .picker-dropdown.picker-dropdown--with-search .picker-options {
+  max-height: calc(320px - 70px);
+}
+
+.picker-wrapper--sm .picker-dropdown--compact:not(.picker-dropdown--with-search) .picker-options {
+  max-height: calc(240px - var(--foundation-space-2));
+}
+
+.picker-wrapper--sm .picker-dropdown--compact.picker-dropdown--with-search .picker-options {
+  max-height: calc(240px - 55px);
+}
+
+.picker-wrapper--lg .picker-dropdown:not(.picker-dropdown--with-search) .picker-options {
+  max-height: calc(480px - var(--foundation-space-6));
+}
+
+.picker-wrapper--lg .picker-dropdown.picker-dropdown--with-search .picker-options {
+  max-height: calc(480px - 90px);
+}
+
+.picker-wrapper--lg .picker-dropdown--compact:not(.picker-dropdown--with-search) .picker-options {
+  max-height: calc(320px - var(--foundation-space-2));
+}
+
+.picker-wrapper--lg .picker-dropdown--compact.picker-dropdown--with-search .picker-options {
+  max-height: calc(320px - 65px);
+}
+
+/* ===== PICKER OPTION - FIXED HOVER STATES ===== */
 .picker-option {
   padding: var(--foundation-space-3) var(--foundation-space-4);
   cursor: pointer;
@@ -75,7 +388,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--text-picker-option);                        /* Using semantic token */
+  color: var(--text-picker-option);                        /* FIXED: was --text-select-option */
 }
 
 /* ===== COMPACT OPTION STYLING ===== */
@@ -95,56 +408,166 @@
   border-radius: var(--foundation-radius-xl);
 }
 
-/* ===== FIXED HOVER STATES - RESTORED PROPER BEHAVIOR ===== */
+/* ===== FIXED HOVER STATES ===== */
 .picker-option:hover {
-  background-color: var(--surface-subtle);                 /* FIXED: subtle hover, not accent */
+  background-color: var(--surface-subtle);                 /* FIXED: subtle hover background */
 }
 
 .picker-option--focused {
-  background-color: var(--surface-hover);                  /* FIXED: slightly more prominent for keyboard focus */
+  background-color: var(--surface-hover);                  /* FIXED: was --secondary-150, using shortcut */
 }
 
 .picker-option--selected {
-  background-color: var(--surface-picker-option-selected); /* ✅ Good - semantic token */
-  color: var(--text-picker-option-selected);               /* ✅ Good - semantic token */
-  font-weight: var(--foundation-weight-semibold);
+  background-color: var(--surface-picker-option-selected);
+  color: var(--text-picker-option-selected);               /* FIXED: was --text-select-option-selected */
+  font-weight: var(--foundation-weight-semibold);          /* FIXED: was --typography-body-md-weight */
 }
 
 .picker-option--selected:hover {
-  background-color: var(--surface-hover);                  /* FIXED: proper selected hover state */
+  background-color: var(--surface-hover);                  /* FIXED: was --secondary-300, using shortcut */
 }
 
 .picker-option--disabled {
   cursor: not-allowed;
   opacity: 0.5;
-  color: var(--text-disabled);                             /* ✅ Good - semantic token */
+  color: var(--text-disabled);
 }
 
 .picker-option--disabled:hover {
-  background-color: transparent;                           /* RESTORED: disabled items don't hover */
+  background-color: transparent;
 }
 
 .picker-option--empty {
   cursor: default;
   text-align: center;
   padding: var(--foundation-space-6);
-  color: var(--text-secondary);                            /* ✅ Good - semantic token */
+  color: var(--text-secondary);
   font-style: italic;
   justify-content: center;
 }
 
 .picker-option--empty:hover {
-  background-color: transparent;                           /* RESTORED: empty state doesn't hover */
+  background-color: transparent;
 }
 
-/* ===== PICKER OPTION CHECK ===== */
+/* ===== PICKER OPTION CONTENT - USING SEMANTIC TOKENS ===== */
+.picker-option-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-1);
+  flex: 1;
+}
+
+.picker-option-label {
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-sm-weight */
+  line-height: var(--font-body-sm-leading);                /* FIXED: was --typography-body-sm-line-height */
+  color: inherit;
+}
+
+.picker-option-description {
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-xs-size);                     /* FIXED: was --typography-body-xs-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-xs-weight */
+  line-height: var(--font-body-xs-leading);                /* FIXED: was --typography-body-xs-line-height */
+  color: var(--text-secondary);
+}
+
+/* ===== COMPACT OPTION CONTENT ===== */
+.picker-dropdown--compact .picker-option-label {
+  font-size: var(--font-body-xs-size);                     /* FIXED: was --typography-body-xs-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-xs-weight */
+  line-height: var(--font-body-xs-leading);                /* FIXED: was --typography-body-xs-line-height */
+}
+
+.picker-dropdown--compact .picker-option-description {
+  font-size: var(--foundation-text-2xs);                   /* FIXED: was --typography-body-2xs-size */
+  line-height: 1.3;
+}
+
+.picker-wrapper--sm .picker-dropdown--compact .picker-option-label {
+  font-size: var(--foundation-text-2xs);                   /* FIXED: was --typography-body-2xs-size */
+  line-height: 1.3;
+}
+
+.picker-wrapper--lg .picker-dropdown--compact .picker-option-label {
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
+}
+
+.picker-option--disabled .picker-option-label,
+.picker-option--disabled .picker-option-description {
+  color: var(--text-disabled);
+}
+
+/* ===== PICKER OPTION CHECK - USING SHORTCUTS ===== */
 .picker-option-check {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: var(--foundation-space-2);
   flex-shrink: 0;
-  color: var(--accent-icon);                               /* Using shortcut */
+  color: var(--accent-icon);                               /* FIXED: was --accent-500, using shortcut */
+}
+
+/* ===== ERROR AND SUCCESS MESSAGES - USING SEMANTIC TOKENS ===== */
+.picker-error {
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-sm-weight */
+  line-height: var(--font-body-sm-leading);                /* FIXED: was --typography-body-sm-line-height */
+  color: var(--text-form-error);
+  margin-top: var(--space-form-error-margin);
+}
+
+.picker-success {
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-sm-weight */
+  line-height: var(--font-body-sm-leading);                /* FIXED: was --typography-body-sm-line-height */
+  color: var(--text-form-success);
+  margin-top: var(--space-form-error-margin);
+}
+
+/* ===== RESPONSIVE DESIGN - Using Foundation Breakpoints ===== */
+@media (max-width: 640px) {
+  .picker {
+    padding: var(--foundation-space-2);
+    font-size: var(--font-body-sm-size);                   /* FIXED: was --typography-body-sm-size */
+  }
+  
+  .picker--sm {
+    padding: var(--foundation-space-1);
+    font-size: var(--font-body-xs-size);                   /* FIXED: was --typography-body-xs-size */
+  }
+  
+  .picker--lg {
+    padding: var(--foundation-space-3);
+    font-size: var(--font-body-md-size);                   /* FIXED: was --typography-body-md-size */
+  }
+
+  .picker-dropdown {
+    max-height: 200px;
+  }
+
+  .picker-options {
+    max-height: 160px;
+  }
+}
+
+/* ===== ACCESSIBILITY IMPROVEMENTS ===== */
+@media (prefers-reduced-motion: reduce) {
+  .picker,
+  .picker-dropdown,
+  .picker-icon,
+  .picker-option,
+  .picker-search-input {
+    transition: none;
+  }
+  
+  .picker-dropdown {
+    animation: none;
+  }
 }
 
 /* ===== SCROLLBAR STYLING - USING SEMANTIC TOKENS ===== */
@@ -153,20 +576,68 @@
 }
 
 .picker-options::-webkit-scrollbar-track {
-  background: var(--surface-subtle);                       /* Using shortcut */
+  background: var(--surface-subtle);                       /* FIXED: was --secondary-50, using shortcut */
 }
 
 .picker-options::-webkit-scrollbar-thumb {
-  background: var(--border-strong);                        /* Using shortcut */
+  background: var(--border-strong);                        /* FIXED: was --secondary-300, using shortcut */
   border-radius: var(--foundation-radius-sm);
 }
 
 .picker-options::-webkit-scrollbar-thumb:hover {
-  background: var(--border-hover);                         /* Using semantic */
+  background: var(--border-hover);                         /* FIXED: was --secondary-400, using semantic */
 }
 
 /* Firefox scrollbar */
 .picker-options {
   scrollbar-width: thin;
-  scrollbar-color: var(--border-strong) var(--surface-subtle); /* Using shortcuts */
+  scrollbar-color: var(--border-strong) var(--surface-subtle); /* FIXED: using shortcuts */
+}
+
+/* ===== FOCUS RING - Using Foundation Focus System ===== */
+.picker:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--border-focus);
+}
+
+/* ===== HIGH CONTRAST MODE SUPPORT ===== */
+@media (prefers-contrast: high) {
+  .picker {
+    border-width: 3px;
+  }
+  
+  .picker-dropdown {
+    border-width: 3px;
+  }
+  
+  .picker-option--selected {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
+  }
+}
+
+/* ===== SIZE-SPECIFIC ADJUSTMENTS ===== */
+.picker-wrapper--sm .picker-option {
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+}
+
+.picker-wrapper--sm .picker-option-label {
+  font-size: var(--font-body-xs-size);                     /* FIXED: was --typography-body-xs-size */
+}
+
+.picker-wrapper--sm .picker-option-description {
+  font-size: var(--foundation-text-2xs);                   /* FIXED: was --typography-body-2xs-size */
+}
+
+.picker-wrapper--lg .picker-option {
+  padding: var(--foundation-space-4) var(--foundation-space-5);
+}
+
+.picker-wrapper--lg .picker-option-label {
+  font-size: var(--font-body-md-size);                     /* FIXED: was --typography-body-md-size */
+}
+
+.picker-wrapper--lg .picker-option-description {
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
 }
