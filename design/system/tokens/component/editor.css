@@ -1,105 +1,105 @@
 /* ===============================================
-   ADD TO: src/design-system/tokens/component/editor.css
-   IMPROVED EDITOR TOKENS - BETTER DIVIDERS & SPACING
+   src/design-system/tokens/component/editor.css
+   EDITOR TOKENS - SEMANTIC & SMART SHORTCUTS ONLY
    ============================================== */
 
-   :root {
-    /* ===== EDITOR SURFACE TOKENS ===== */
-    --surface-editor-shell: var(--surface-secondary);
-    --surface-editor-topbar: var(--surface-nav);
-    --surface-editor-sidebar: var(--surface-page);
-    --surface-editor-panel: var(--surface-page);
-    --surface-editor-panel-header: var(--surface-elevated, var(--surface-page));
-    --surface-editor-section: var(--surface-page);
-    --surface-editor-section-hover: var(--surface-hover, var(--secondary-100));
-    --surface-editor-main: var(--surface-secondary);
-    
-    /* ===== EDITOR TEXT TOKENS ===== */
-    --text-editor-primary: var(--text-primary);
-    --text-editor-secondary: var(--text-secondary);
-    --text-editor-inverse: var(--text-inverse);
-    --text-editor-panel-title: var(--primary-1000);
-    --text-editor-panel-subtitle: var(--secondary-600);
-    --text-editor-section-title: var(--primary-1000);
-    --text-editor-section-description: var(--secondary-600);
-    
-    /* ===== EDITOR BORDER TOKENS - IMPROVED ===== */
-    --border-editor-primary: var(--border-secondary);
-    --border-editor-panel: var(--border-secondary);
-    --border-editor-section: var(--border-secondary);
-    --border-editor-topbar: var(--border-nav, var(--secondary-300));
-    --border-editor-focus: var(--accent-500);
-    
-    /* 🆕 NEW - EDITOR DIVIDER TOKENS FOR BETTER VISIBILITY */
-    --border-editor-divider: var(--secondary-300);
-    --border-editor-divider-strong: var(--secondary-400);
-    --border-editor-tree-line: var(--secondary-250, var(--secondary-300));
-    --border-editor-tree-connection: var(--secondary-200);
-    
-    /* ===== EDITOR SPACING TOKENS - REFINED ===== */
-    --space-editor-topbar-height: 64px;
-    --space-editor-sidebar-width: 320px;
-    --space-editor-topbar-padding: var(--foundation-space-6);
-    --space-editor-panel-padding: var(--foundation-space-5);
-    --space-editor-panel-header-padding: var(--foundation-space-5);
-    --space-editor-section-padding: var(--foundation-space-4);
-    --space-editor-section-gap: var(--foundation-space-6);
-    --space-editor-control-gap: var(--foundation-space-4);
-    --space-editor-control-padding: var(--foundation-space-3);
-    
-    /* 🆕 NEW - TREE VIEW SPACING TOKENS */
-    --space-editor-tree-outer: var(--foundation-space-3);
-    --space-editor-tree-item: var(--foundation-space-2);
-    --space-editor-tree-indent: var(--foundation-space-5);
-    --space-editor-tree-icon: var(--foundation-space-2);
-    
-    /* ===== EDITOR RADIUS TOKENS ===== */
-    --radius-editor-panel: var(--foundation-radius-lg);
-    --radius-editor-section: var(--foundation-radius-md);
-    --radius-editor-control: var(--foundation-radius-sm);
-    --radius-editor-button: var(--foundation-radius-sm);
-    --radius-editor-tree-item: var(--foundation-radius-xs);
-    
-    /* ===== EDITOR SHADOW TOKENS ===== */
-    --shadow-editor-panel: var(--foundation-shadow-sm);
-    --shadow-editor-topbar: var(--foundation-shadow-sm);
-    --shadow-editor-focus: 0 0 0 2px var(--accent-200);
-    
-    /* ===== EDITOR STATE TOKENS ===== */
-    --color-editor-changes: var(--warning-500);
-    --color-editor-changes-bg: var(--warning-100);
-    --color-editor-success: var(--success-500);
-    --color-editor-success-bg: var(--success-100);
-    --color-editor-active: var(--accent-500);
-    --color-editor-active-bg: var(--accent-100);
-    
-    /* ===== EDITOR TAB TOKENS ===== */
-    --surface-editor-tab: transparent;
-    --surface-editor-tab-hover: var(--surface-hover, var(--secondary-100));
-    --surface-editor-tab-active: var(--accent-100);
-    --text-editor-tab: var(--text-secondary);
-    --text-editor-tab-hover: var(--text-primary);
-    --text-editor-tab-active: var(--accent-600);
-    --border-editor-tab-active: var(--accent-500);
-    
-    /* ===== EDITOR TYPOGRAPHY TOKENS ===== */
-    --text-editor-topbar-title: var(--foundation-text-lg);
-    --text-editor-panel-title: var(--foundation-text-xl);
-    --text-editor-panel-subtitle: var(--foundation-text-sm);
-    --text-editor-section-title: var(--foundation-text-base);
-    --text-editor-section-description: var(--foundation-text-sm);
-    --text-editor-tab: var(--foundation-text-sm);
-    --text-editor-button: var(--foundation-text-sm);
-    
-    /* ===== EDITOR BUTTON TOKENS ===== */
-    --surface-editor-button-primary: var(--accent-600);
-    --surface-editor-button-primary-hover: var(--accent-700);
-    --surface-editor-button-secondary: var(--surface-page);
-    --surface-editor-button-secondary-hover: var(--surface-hover);
-    --surface-editor-button-ghost: transparent;
-    --surface-editor-button-ghost-hover: var(--surface-hover);
-    --text-editor-button-primary: var(--primary-white);
-    --text-editor-button-secondary: var(--text-primary);
-    --text-editor-button-ghost: var(--text-secondary);
-    --border-editor-button-secondary: var(--border-primary);
+:root {
+  /* ===== EDITOR SURFACE TOKENS - USING SEMANTIC ===== */
+  --surface-editor-shell: var(--surface-subtle);           /* FIXED: was --surface-secondary */
+  --surface-editor-topbar: var(--surface-nav);             /* ✅ Good - semantic token */
+  --surface-editor-sidebar: var(--surface-base);           /* FIXED: was --surface-page */
+  --surface-editor-panel: var(--surface-base);             /* FIXED: was --surface-page */
+  --surface-editor-panel-header: var(--surface-elevated);  /* FIXED: was --surface-elevated, --surface-page */
+  --surface-editor-section: var(--surface-base);           /* FIXED: was --surface-page */
+  --surface-editor-section-hover: var(--surface-hover);    /* FIXED: was --surface-hover, --secondary-100 */
+  --surface-editor-main: var(--surface-subtle);            /* FIXED: was --surface-secondary */
+  
+  /* ===== EDITOR TEXT TOKENS - USING SEMANTIC ===== */
+  --text-editor-primary: var(--text-primary);              /* ✅ Good - semantic token */
+  --text-editor-secondary: var(--text-secondary);          /* ✅ Good - semantic token */
+  --text-editor-inverse: var(--text-inverse);              /* ✅ Good - semantic token */
+  --text-editor-panel-title: var(--text-strong);           /* FIXED: was --primary-1000, using shortcut */
+  --text-editor-panel-subtitle: var(--text-medium);        /* FIXED: was --secondary-600, using shortcut */
+  --text-editor-section-title: var(--text-strong);         /* FIXED: was --primary-1000, using shortcut */
+  --text-editor-section-description: var(--text-medium);   /* FIXED: was --secondary-600, using shortcut */
+  
+  /* ===== EDITOR BORDER TOKENS - USING SEMANTIC & SHORTCUTS ===== */
+  --border-editor-primary: var(--border-medium);           /* FIXED: was --border-secondary, using shortcut */
+  --border-editor-panel: var(--border-medium);             /* FIXED: was --border-secondary, using shortcut */
+  --border-editor-section: var(--border-medium);           /* FIXED: was --border-secondary, using shortcut */
+  --border-editor-topbar: var(--border-nav);               /* ✅ Good - semantic token */
+  --border-editor-focus: var(--border-focus);              /* FIXED: was --accent-500, using semantic */
+  
+  /* ===== EDITOR DIVIDER TOKENS - USING SHORTCUTS ===== */
+  --border-editor-divider: var(--border-strong);           /* FIXED: was --secondary-300, using shortcut */
+  --border-editor-divider-strong: var(--border-hover);     /* FIXED: was --secondary-400, using semantic */
+  --border-editor-tree-line: var(--border-strong);         /* FIXED: was --secondary-250/300, using shortcut */
+  --border-editor-tree-connection: var(--border-light);    /* FIXED: was --secondary-200, using shortcut */
+  
+  /* ===== EDITOR SPACING TOKENS - KEEP FOUNDATION (CORRECT) ===== */
+  --space-editor-topbar-height: 64px;                      /* ✅ Good - fixed size */
+  --space-editor-sidebar-width: 320px;                     /* ✅ Good - fixed size */
+  --space-editor-topbar-padding: var(--foundation-space-6); /* ✅ Good - foundation spacing */
+  --space-editor-panel-padding: var(--foundation-space-5); /* ✅ Good - foundation spacing */
+  --space-editor-panel-header-padding: var(--foundation-space-5); /* ✅ Good - foundation spacing */
+  --space-editor-section-padding: var(--foundation-space-4); /* ✅ Good - foundation spacing */
+  --space-editor-section-gap: var(--foundation-space-6);   /* ✅ Good - foundation spacing */
+  --space-editor-control-gap: var(--foundation-space-4);   /* ✅ Good - foundation spacing */
+  --space-editor-control-padding: var(--foundation-space-3); /* ✅ Good - foundation spacing */
+  
+  /* ===== TREE VIEW SPACING TOKENS - KEEP FOUNDATION (CORRECT) ===== */
+  --space-editor-tree-outer: var(--foundation-space-3);    /* ✅ Good - foundation spacing */
+  --space-editor-tree-item: var(--foundation-space-2);     /* ✅ Good - foundation spacing */
+  --space-editor-tree-indent: var(--foundation-space-5);   /* ✅ Good - foundation spacing */
+  --space-editor-tree-icon: var(--foundation-space-2);     /* ✅ Good - foundation spacing */
+  
+  /* ===== EDITOR RADIUS TOKENS - KEEP FOUNDATION (CORRECT) ===== */
+  --radius-editor-panel: var(--foundation-radius-lg);      /* ✅ Good - foundation radius */
+  --radius-editor-section: var(--foundation-radius-md);    /* ✅ Good - foundation radius */
+  --radius-editor-control: var(--foundation-radius-sm);    /* ✅ Good - foundation radius */
+  --radius-editor-button: var(--foundation-radius-sm);     /* ✅ Good - foundation radius */
+  --radius-editor-tree-item: var(--foundation-radius-xs);  /* ✅ Good - foundation radius */
+  
+  /* ===== EDITOR SHADOW TOKENS - KEEP FOUNDATION (CORRECT) ===== */
+  --shadow-editor-panel: var(--foundation-shadow-sm);      /* ✅ Good - foundation shadow */
+  --shadow-editor-topbar: var(--foundation-shadow-sm);     /* ✅ Good - foundation shadow */
+  --shadow-editor-focus: 0 0 0 2px var(--accent-subtle);   /* FIXED: was --accent-200, using shortcut */
+  
+  /* ===== EDITOR STATE TOKENS - USING SHORTCUTS ===== */
+  --color-editor-changes: var(--warning-icon);             /* FIXED: was --warning-500, using shortcut */
+  --color-editor-changes-bg: var(--warning-bg);            /* FIXED: was --warning-100, using shortcut */
+  --color-editor-success: var(--success-icon);             /* FIXED: was --success-500, using shortcut */
+  --color-editor-success-bg: var(--success-bg);            /* FIXED: was --success-100, using shortcut */
+  --color-editor-active: var(--accent-icon);               /* FIXED: was --accent-500, using shortcut */
+  --color-editor-active-bg: var(--accent-bg);              /* FIXED: was --accent-100, using shortcut */
+  
+  /* ===== EDITOR TAB TOKENS - USING SEMANTIC & SHORTCUTS ===== */
+  --surface-editor-tab: transparent;                       /* ✅ Good - transparent */
+  --surface-editor-tab-hover: var(--surface-hover);        /* FIXED: was --surface-hover, --secondary-100, using shortcut */
+  --surface-editor-tab-active: var(--accent-bg);           /* FIXED: was --accent-100, using shortcut */
+  --text-editor-tab: var(--text-secondary);                /* ✅ Good - semantic token */
+  --text-editor-tab-hover: var(--text-primary);            /* ✅ Good - semantic token */
+  --text-editor-tab-active: var(--accent-text);            /* FIXED: was --accent-600, using shortcut */
+  --border-editor-tab-active: var(--accent-icon);          /* FIXED: was --accent-500, using shortcut */
+  
+  /* ===== EDITOR TYPOGRAPHY TOKENS - KEEP FOUNDATION (CORRECT) ===== */
+  --text-editor-topbar-title: var(--foundation-text-lg);   /* ✅ Good - foundation typography */
+  --text-editor-panel-title: var(--foundation-text-xl);    /* ✅ Good - foundation typography */
+  --text-editor-panel-subtitle: var(--foundation-text-sm); /* ✅ Good - foundation typography */
+  --text-editor-section-title: var(--foundation-text-base); /* ✅ Good - foundation typography */
+  --text-editor-section-description: var(--foundation-text-sm); /* ✅ Good - foundation typography */
+  --text-editor-tab: var(--foundation-text-sm);            /* ✅ Good - foundation typography */
+  --text-editor-button: var(--foundation-text-sm);         /* ✅ Good - foundation typography */
+  
+  /* ===== EDITOR BUTTON TOKENS - USING SEMANTIC ===== */
+  --surface-editor-button-primary: var(--surface-button-primary);     /* FIXED: was --accent-600 */
+  --surface-editor-button-primary-hover: var(--surface-button-primary-hover); /* FIXED: was --accent-700 */
+  --surface-editor-button-secondary: var(--surface-button-secondary); /* FIXED: was --surface-page */
+  --surface-editor-button-secondary-hover: var(--surface-button-secondary-hover); /* FIXED: was --surface-hover */
+  --surface-editor-button-ghost: var(--surface-button-ghost);         /* FIXED: was transparent */
+  --surface-editor-button-ghost-hover: var(--surface-button-ghost-hover); /* FIXED: was --surface-hover */
+  --text-editor-button-primary: var(--text-button-primary);           /* FIXED: was --primary-white */
+  --text-editor-button-secondary: var(--text-button-secondary);       /* FIXED: was --text-primary */
+  --text-editor-button-ghost: var(--text-button-ghost);               /* FIXED: was --text-secondary */
+  --border-editor-button-secondary: var(--border-button-secondary);   /* FIXED: was --border-primary */
 }
