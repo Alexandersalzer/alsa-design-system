@@ -14,7 +14,6 @@ export const setupEditingMessageListener = (handlers: EditingMessageHandlers) =>
     if (event.data.type === 'editing-status-update') {
       handlers.onEditingStatusUpdate(event.data.editing);
     } else {
-      console.log('Ignoring message with type:', event.data.type);
     }
   };
 

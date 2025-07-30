@@ -31,29 +31,24 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log('ContentProvider: Setting up content loading...');
 
     // First, try to get content from URL
     const urlContent = parseContentFromUrl();
     if (urlContent) {
-      console.log('ContentProvider: Found content in URL');
       setDynamicContent(urlContent);
       setIsLoading(false);
       return;
     }
 
     // If no content in URL, request it from parent
-    console.log('ContentProvider: No content in URL, requesting from parent...');
     requestWebsiteContent(); // Simplified - no versionId needed
 
     const messageHandlers: MessageHandlers = {
       onContentUpdate: (content: WebsiteContent) => {
-        console.log('ContentProvider: Received content update');
         setDynamicContent(content);
         setIsLoading(false);
       },
       onWebsiteContentResponse: (content: WebsiteContent) => {
-        console.log('ContentProvider: Received website content response');
         setDynamicContent(content);
         setIsLoading(false);
       }

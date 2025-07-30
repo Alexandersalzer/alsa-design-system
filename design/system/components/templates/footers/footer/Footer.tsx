@@ -8,8 +8,6 @@ import { useEditingMode } from '../../../../../cms/modules/initial/child/Editing
 const Footer = () => {
   const { isEditingMode } = useEditingMode();
   
-  console.log('Footer useEditingMode debug:', { isEditingMode });
-  
   return (
     <Section 
       as="footer" 
