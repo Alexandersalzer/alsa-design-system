@@ -3,10 +3,11 @@ import React from 'react';
 // Type definitions for parent initial messaging (editing status only)
 export interface InitialMessageHandlerConfig {
   iframeRef: React.RefObject<HTMLIFrameElement | null>;
+  versionId: string; // Parent provides its own versionId context
 }
 
 export interface InitialMessageHandlers {
-  onEditingStatusRequest?: (versionId?: number) => void;
+  onEditingStatusRequest?: () => void; // No versionId parameter needed
 }
 
 export class InitialMessageHandler {
@@ -40,11 +41,11 @@ export class InitialMessageHandler {
   handleMessage = (event: MessageEvent) => {
     // Handle requests for editing status
     if (event.data.type === 'request-editing-status') {
-      console.log('Editing status requested for version:', event.data.versionId);
+      console.log('Editing status requested - using parent context version:', this.config.versionId);
       
-      // Call custom handler if provided - this should fetch from database and call sendEditingStatusUpdate
+      // Call custom handler if provided - handler uses parent's versionId context
       if (this.handlers.onEditingStatusRequest) {
-        this.handlers.onEditingStatusRequest(event.data.versionId);
+        this.handlers.onEditingStatusRequest();
       } else {
         // Fallback: send false for security if no handler is provided
         console.warn('No editing status handler provided, defaulting to false for security');
@@ -62,6 +63,11 @@ export class InitialMessageHandler {
   // Update handlers
   updateHandlers = (newHandlers: Partial<InitialMessageHandlers>) => {
     this.handlers = { ...this.handlers, ...newHandlers };
+  };
+
+  // Update config (useful when versionId changes)
+  updateConfig = (newConfig: Partial<InitialMessageHandlerConfig>) => {
+    this.config = { ...this.config, ...newConfig };
   };
 }
 
@@ -83,12 +89,12 @@ export const sendEditingStatusUpdate = (
 // Setup basic editing status message listener
 export const setupEditingStatusMessageListener = (
   handlers: {
-    onEditingStatusRequest?: (versionId?: number) => void;
+    onEditingStatusRequest?: () => void; // No versionId parameter needed
   }
 ) => {
   const handleMessage = (event: MessageEvent) => {
     if (event.data.type === 'request-editing-status' && handlers.onEditingStatusRequest) {
-      handlers.onEditingStatusRequest(event.data.versionId);
+      handlers.onEditingStatusRequest();
     }
   };
 

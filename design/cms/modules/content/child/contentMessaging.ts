@@ -5,10 +5,10 @@ export interface MessageHandlers {
   onWebsiteContentResponse: (content: WebsiteContent) => void;
 }
 
-export const requestWebsiteContent = (versionId: number) => {
+export const requestWebsiteContent = () => {
   window.parent.postMessage({
-    type: 'request-website-content',
-    versionId: versionId
+    type: 'request-website-content'
+    // No versionId needed - parent knows its own context
   }, '*');
 };
 
@@ -34,7 +34,8 @@ export const parseContentFromUrl = (): WebsiteContent | null => {
   
   if (contentParam) {
     try {
-      return JSON.parse(decodeURIComponent(contentParam));
+      const decodedContent = decodeURIComponent(contentParam);
+      return JSON.parse(decodedContent);
     } catch (error) {
       console.error('Error parsing content from URL:', error);
       return null;
@@ -42,11 +43,4 @@ export const parseContentFromUrl = (): WebsiteContent | null => {
   }
   
   return null;
-};
-
-export const getVersionFromUrl = (): number | null => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const versionParam = searchParams.get('version');
-  
-  return versionParam ? parseInt(versionParam, 10) : null;
 }; 

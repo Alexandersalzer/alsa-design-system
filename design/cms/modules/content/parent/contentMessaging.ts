@@ -6,10 +6,11 @@ export interface ParentMessageHandlerConfig {
   websiteContent?: any;
   version?: any;
   token?: string | null;
+  versionId?: string; // Parent can optionally provide versionId context
 }
 
 export interface ParentMessageHandlers {
-  onWebsiteContentRequest?: (versionId?: number) => void;
+  onWebsiteContentRequest?: () => void; // No versionId parameter needed
   onCustomMessage?: (event: MessageEvent) => void;
 }
 
@@ -38,11 +39,11 @@ export class ParentMessageHandler {
 
     // Handle requests for website content
     if (event.data.type === 'request-website-content') {
-      console.log('Received request for website content:', event.data.versionId);
+      console.log('Received request for website content - using parent context version:', this.config.versionId);
       
-      // Call custom handler if provided
+      // Call custom handler if provided - handler uses parent's versionId context
       if (this.handlers.onWebsiteContentRequest) {
-        this.handlers.onWebsiteContentRequest(event.data.versionId);
+        this.handlers.onWebsiteContentRequest();
       }
       
       // Send default response if websiteContent is available
@@ -104,13 +105,13 @@ export const sendWebsiteContentResponse = (
 // Setup basic message listener for content requests only
 export const setupBasicParentMessageListener = (
   handlers: {
-    onWebsiteContentRequest?: (versionId?: number) => void;
+    onWebsiteContentRequest?: () => void; // No versionId parameter needed
     onMessage?: (event: MessageEvent) => void;
   }
 ) => {
   const handleMessage = (event: MessageEvent) => {
     if (event.data.type === 'request-website-content' && handlers.onWebsiteContentRequest) {
-      handlers.onWebsiteContentRequest(event.data.versionId);
+      handlers.onWebsiteContentRequest();
     }
 
     if (handlers.onMessage) {

@@ -2,10 +2,10 @@ export interface EditingMessageHandlers {
   onEditingStatusUpdate: (editing: boolean) => void;
 }
 
-export const requestEditingStatus = (versionId?: number) => {
+export const requestEditingStatus = () => {
   window.parent.postMessage({
-    type: 'request-editing-status',
-    versionId: versionId || 12 // Use dummy value since parent ignores it anyway
+    type: 'request-editing-status'
+    // No versionId needed - parent knows its own context
   }, '*');
 };
 

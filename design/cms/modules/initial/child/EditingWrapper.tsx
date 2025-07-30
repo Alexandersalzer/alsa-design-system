@@ -14,7 +14,6 @@ interface ToggleContextType {
 
 const ToggleContext = createContext<ToggleContextType | undefined>(undefined);
 
-
 function EditingProvider({ children }: { children: ReactNode }) {
   const [isEditingMode, setIsEditing] = useState<boolean>(false);
 
@@ -33,12 +32,12 @@ function EditingProvider({ children }: { children: ReactNode }) {
 
     const cleanup = setupEditingMessageListener(messageHandlers);
     
-    // Always request editing status from parent, regardless of version parameter
+    // Always request editing status from parent - no versionId needed
     console.log('Requesting editing status...');
-    requestEditingStatus(1); // Use dummy versionId since parent always returns true anyway
+    requestEditingStatus(); // Simplified - no parameters needed
 
     return cleanup;
-  }, []); // Remove versionId dependency
+  }, []); // No dependencies needed
 
   return (
     <ToggleContext.Provider value={{ isEditingMode }}>
@@ -51,17 +50,16 @@ function EditingProvider({ children }: { children: ReactNode }) {
 export function EditingModeWrapper({ children }: { children: ReactNode }) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <EditingProvider>
-        {children}
-      </EditingProvider>
+      <EditingProvider>{children}</EditingProvider>
     </Suspense>
   );
 }
 
+// Hook för att använda editing mode
 export function useEditingMode() {
   const context = useContext(ToggleContext);
   if (context === undefined) {
-    throw new Error('useEditingMode must be used within a EditingProvider');
+    throw new Error('useEditingMode must be used within an EditingModeWrapper');
   }
   return context;
 } 

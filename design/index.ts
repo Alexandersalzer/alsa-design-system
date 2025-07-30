@@ -1,6 +1,5 @@
 // Export all design system components, utilities, and types
 export * from './system';
-export * from './cms/context/ContentContext';
 export * from './cms/context/ContentProvider';
 export * from './cms/modules/initial/child/EditingWrapper';
 

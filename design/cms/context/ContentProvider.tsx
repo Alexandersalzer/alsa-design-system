@@ -1,20 +1,24 @@
 'use client';
 
-import React, { useState, ReactNode, useEffect } from 'react';
-import { type WebsiteContent, type Page, type Template, type Pattern, type Block } from '../types/content';
-import { 
-  parseContentFromUrl, 
-  getVersionFromUrl, 
-  requestWebsiteContent, 
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { type WebsiteContent } from '../types/content';
+import {
+  requestWebsiteContent,
+  parseContentFromUrl,
   setupMessageListener,
-  type MessageHandlers 
+  type MessageHandlers
 } from '../modules/content/child/contentMessaging';
-import { 
-  createDesignTokenMessageHandlers,
+import {
   setupDesignTokenMessageListener,
-  type DesignTokenMessageHandlers 
+  createDesignTokenMessageHandlers,
+  type DesignTokenMessageHandlers
 } from '../modules/design/child/designTokenMessaging';
-import { ContentContext, type ContentContextType, type HeroContent, type NavbarContent } from './ContentContext';
+
+interface ContentContextType {
+  content: WebsiteContent | null;
+  isLoading: boolean;
+  error: string | null;
+}
 
 interface ContentProviderProps {
   children: ReactNode;
@@ -22,156 +26,85 @@ interface ContentProviderProps {
 }
 
 export function ContentProvider({ children, initialContent = null }: ContentProviderProps) {
-  const [staticContent, setStaticContent] = useState<WebsiteContent | null>(initialContent);
-  const [dynamicContent, setDynamicContent] = useState<WebsiteContent | null>(null);
-  const [isLoading] = useState(false);
+  const [dynamicContent, setDynamicContent] = useState<WebsiteContent | null>(initialContent);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [accentColor, setAccentColor] = useState<string>('#268eba'); // Default accent color
-  const [radius, setRadius] = useState<string>('md'); // Default radius
-  const [fontName, setFontName] = useState<string>('Inter'); // Default font name
 
-  // Handle dynamic content loading (URL parameters and postMessage)
   useEffect(() => {
-    // Try to get content from URL parameters first
-    const urlContent = parseContentFromUrl(); 
+    console.log('ContentProvider: Setting up content loading...');
+
+    // First, try to get content from URL
+    const urlContent = parseContentFromUrl();
     if (urlContent) {
-      setDynamicContent(urlContent); 
+      console.log('ContentProvider: Found content in URL');
+      setDynamicContent(urlContent);
+      setIsLoading(false);
       return;
     }
 
-    // If no content in URL, check for version parameter
-    const versionId = getVersionFromUrl();
-    if (versionId) {
-      requestWebsiteContent(versionId);
-    }
+    // If no content in URL, request it from parent
+    console.log('ContentProvider: No content in URL, requesting from parent...');
+    requestWebsiteContent(); // Simplified - no versionId needed
 
     const messageHandlers: MessageHandlers = {
       onContentUpdate: (content: WebsiteContent) => {
+        console.log('ContentProvider: Received content update');
         setDynamicContent(content);
-        setError(null);
+        setIsLoading(false);
       },
       onWebsiteContentResponse: (content: WebsiteContent) => {
+        console.log('ContentProvider: Received website content response');
         setDynamicContent(content);
-        setError(null);
+        setIsLoading(false);
       }
     };
 
+    // Setup design token message handlers
     const designTokenHandlers: DesignTokenMessageHandlers = createDesignTokenMessageHandlers({
-      setAccentColor,
-      setRadius,
-      setFontName
+      setAccentColor: (color: string) => {
+        console.log('🎨 Design token: Accent color updated to:', color);
+      },
+      setRadius: (size: string) => {
+        console.log('🔄 Design token: Radius updated to:', size);
+      },
+      setIsDark: (isDark: boolean) => {
+        console.log('🌗 Design token: Theme updated to:', isDark ? 'dark' : 'light');
+      },
+      setFontName: (fontName: string) => {
+        console.log('🔤 Design token: Font updated to:', fontName);
+      }
     });
 
-    // Set up separate message listeners for content and design tokens
+    // Setup message listeners
     const contentCleanup = setupMessageListener(messageHandlers);
     const designCleanup = setupDesignTokenMessageListener(designTokenHandlers);
-    
+
+    // Combined cleanup function
     return () => {
       contentCleanup();
       designCleanup();
     };
-  }, []);
+  }, []); // No dependencies needed
 
-  // Update content when initialContent changes
-  useEffect(() => {
-    if (initialContent) {
-      setStaticContent(initialContent);
-      setError(null);
-    }
-  }, [initialContent]);
-
-  // Use dynamic content if available, otherwise fall back to static content
-  const activeContent = dynamicContent || staticContent;
-
-  // Get hero content for a specific page
-  const getHeroContent = (pageSlug: string): HeroContent | undefined => {
-    if (!activeContent) return undefined;
-
-    // Find the page
-    let page: Page | undefined;
-    if (Array.isArray(activeContent.pages)) {
-      page = activeContent.pages.find((p: Page) => p.slug === pageSlug);
-    } else {
-      page = activeContent.pages[pageSlug];
-    }
-
-    if (!page) return undefined;
-
-    // Look for hero content in templates -> patterns -> blocks
-    const heroTemplate = page.templates.find((template: Template) => 
-      template.type === 'hero-template' || 
-      (template.patterns && template.patterns.some((pattern: Pattern) => pattern.type === 'hero'))
-    );
-
-    if (heroTemplate && heroTemplate.patterns) {
-      // Find hero pattern
-      const heroPattern = heroTemplate.patterns.find((pattern: Pattern) => pattern.type === 'hero');
-      
-      if (heroPattern && heroPattern.blocks) {
-        // Extract content from blocks by type
-        const blocks = heroPattern.blocks;
-        
-        const titleBlock = blocks.find((block: Block) => block.type === 'title');
-        const subtitleBlock = blocks.find((block: Block) => block.type === 'subtitle');
-        const primaryButtonBlock = blocks.find((block: Block) => block.type === 'primaryButton');
-        const secondaryButtonBlock = blocks.find((block: Block) => block.type === 'secondaryButton');
-        
-        return {
-          title: titleBlock?.content || '',
-          subtitle: subtitleBlock?.content || '',
-          primaryButtonText: primaryButtonBlock?.content || '',
-          secondaryButtonText: secondaryButtonBlock?.content || ''
-        };
-      }
-    }
-
-    return undefined;
-  };
-
-  // Get navbar content from global template
-  const getNavbarContent = (): NavbarContent | undefined => {
-    if (!activeContent) return undefined;
-
-    // Look for navbar content in global navbar template
-    const navbarTemplate = activeContent.navbar;
-    
-    if (navbarTemplate && navbarTemplate.patterns) {
-      // Find navbar pattern
-      const navbarPattern = navbarTemplate.patterns.find((pattern: Pattern) => pattern.type === 'navbar');
-      
-      if (navbarPattern && navbarPattern.blocks) {
-        // Extract nav items from blocks
-        const navItems = navbarPattern.blocks
-          .filter((block: Block) => block.type === 'navItem')
-          .sort((a: Block, b: Block) => a.position - b.position)
-          .map((block: Block) => ({
-            label: block.content || '',
-            slug: block.slug || ''
-          }));
-        
-        return { navItems };
-      }
-    }
-
-    return undefined;
-  };
-
-  const value: ContentContextType = {
-    content: dynamicContent || staticContent,
-    staticContent,
-    dynamicContent,
+  const contextValue: ContentContextType = {
+    content: dynamicContent,
     isLoading,
-    error,
-    accentColor,
-    radius,
-    fontName,
-    getHeroContent,
-    getNavbarContent
+    error
   };
 
   return (
-    <ContentContext.Provider value={value}>
+    <ContentContext.Provider value={contextValue}>
       {children}
     </ContentContext.Provider>
   );
+}
+
+const ContentContext = createContext<ContentContextType | undefined>(undefined);
+
+export function useContent() {
+  const context = useContext(ContentContext);
+  if (context === undefined) {
+    throw new Error('useContent must be used within a ContentProvider');
+  }
+  return context;
 } 
