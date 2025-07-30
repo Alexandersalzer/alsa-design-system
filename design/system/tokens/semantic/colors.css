@@ -188,9 +188,9 @@
   --interactive-tertiary-active: var(--secondary-100);
 
   /* Destructive interactions */
-  --interactive-destructive: var(--error-800);
-  --interactive-destructive-hover: var(--error-600);
-  --interactive-destructive-active: var(--error-700);
+  --interactive-destructive: var(--error-300);
+  --interactive-destructive-hover: var(--error-400);
+  --interactive-destructive-active: var(--error-500);
   
   /* Success interactions */
   --interactive-success: var(--success-500);
