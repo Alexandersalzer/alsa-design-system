@@ -80,10 +80,9 @@
   border-radius: 50%;
   background-color: var(--indicator-radio);
   
-  /* HIDDEN BY DEFAULT */
+  /* SIMPLE VISIBILITY - NO SCALE BULLSHIT */
   opacity: 0;
-  scale: 0;
-  transition: all var(--duration-form-transition) var(--easing-form-transition);
+  transition: opacity var(--duration-form-transition) var(--easing-form-transition);
   
   /* PREVENT LAYOUT INTERFERENCE */
   pointer-events: none;
@@ -128,7 +127,6 @@
 /* CHECKED - SHOW INDICATOR */
 .radio:checked::after {
   opacity: 1;
-  scale: 1;
 }
 
 .radio:checked {
@@ -283,9 +281,9 @@
     border-width: 3px;
   }
   
-  .radio::after {
-    /* Slightly larger in high contrast */
-    scale: 1.1;
+  .radio:checked::after {
+    /* Make sure it's visible in high contrast */
+    background-color: currentColor;
   }
 }
 
