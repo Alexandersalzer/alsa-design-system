@@ -32,19 +32,15 @@ export class InitialMessageHandler {
   handleMessage = (event: MessageEvent) => {
     // Handle requests for editing status
     if (event.data.type === 'request-editing-status') {
-      console.log('Editing status requested');
+      console.log('Editing status requested for version:', event.data.versionId);
       
-      // Call custom handler if provided
+      // Call custom handler if provided - this should fetch from database and call sendEditingStatusUpdate
       if (this.handlers.onEditingStatusRequest) {
         this.handlers.onEditingStatusRequest(event.data.versionId);
-      }
-      
-      // Send default response (always true in editor context)
-      if (this.config.iframeRef.current?.contentWindow) {
-        this.config.iframeRef.current.contentWindow.postMessage({
-          type: 'editing-status-update',
-          editing: true
-        }, '*');
+      } else {
+        // Fallback: send false for security if no handler is provided
+        console.warn('No editing status handler provided, defaulting to false for security');
+        this.sendEditingStatusUpdate(false);
       }
     }
   };
