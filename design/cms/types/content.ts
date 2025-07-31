@@ -1,4 +1,31 @@
-// Database-aligned types
+// JSON file content types (what we actually have in files)
+export interface JsonBlock {
+  type: 'title' | 'subtitle' | 'primaryButton' | 'secondaryButton' | 'text' | 'image' | 'navItem' | string;
+  content?: string;
+  image_url?: string;
+  slug?: string; // For navigation items
+}
+
+export interface JsonPattern {
+  type: string;
+  blocks: JsonBlock[];
+}
+
+export interface JsonTemplate {
+  type: string;
+  image_url?: string;
+  patterns: JsonPattern[];
+}
+
+export interface JsonPage {
+  id?: number | string;
+  type: string;
+  slug?: string;
+  position?: number;
+  templates: JsonTemplate[];
+}
+
+// Database-aligned types (with required id and position)
 export interface Block {
   id: number;
   type: 'title' | 'subtitle' | 'primaryButton' | 'secondaryButton' | 'text' | 'image' | 'navItem' | string;
@@ -31,9 +58,10 @@ export interface Page {
   templates: Template[];
 }
 
+// Content structure types
 export interface WebsiteContent {
-  pages: { [key: string]: Page };
-  globals?: { [key: string]: Template }; // Global templates like navbar, footer etc.
+  pages: { [key: string]: JsonPage }; // Use JsonPage for file content
+  globals?: { [key: string]: JsonTemplate }; // Use JsonTemplate for file content
 }
 
 // Enum for mapping block types
