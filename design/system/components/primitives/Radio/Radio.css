@@ -31,7 +31,7 @@
   /* Align with first line of text */
   margin-top: 2px;
   /* Ensure no stretching */
-  overflow: hidden;
+  overflow: visible; /* Changed from hidden to allow focus outline */
 }
 
 /* ===== BULLETPROOF RADIO BUTTON ===== */
@@ -41,7 +41,7 @@
   height: 100%; /* Fill container exactly */
   
   /* APPEARANCE - FORCED CIRCULAR */
-  border: 2px solid var(--border-radio);
+  border: 3px solid var(--border-radio);
   border-radius: 50%; /* FORCE CIRCULAR - NO VARIABLES */
   background-color: var(--surface-radio);
   
@@ -80,9 +80,9 @@
   height: 24px;
 }
 
-/* ===== BULLETPROOF INDICATOR - SEPARATE ELEMENT ===== */
+/* ===== BULLETPROOF INDICATOR - POSITIONED RELATIVE TO CONTAINER ===== */
 .radio__indicator {
-  /* EXACT POSITIONING - PERFECT CENTER */
+  /* EXACT POSITIONING - PERFECT CENTER RELATIVE TO CONTAINER */
   position: absolute;
   top: 50%;
   left: 50%;
@@ -98,7 +98,9 @@
   
   /* SIMPLE VISIBILITY CONTROL */
   opacity: 0;
-  transition: opacity var(--duration-form-transition) var(--easing-form-transition);
+  scale: 0; /* Add scale animation for better UX */
+  transition: opacity var(--duration-form-transition) var(--easing-form-transition),
+              scale var(--duration-form-transition) var(--easing-form-transition);
   
   /* PREVENT LAYOUT INTERFERENCE */
   pointer-events: none;
@@ -106,12 +108,12 @@
 }
 
 /* ===== INDICATOR SIZE VARIANTS - PROPORTIONAL ===== */
-.radio__indicator--sm {
+.radio-wrapper--sm .radio__indicator {
   width: 8px;
   height: 8px;
 }
 
-.radio__indicator--lg {
+.radio-wrapper--lg .radio__indicator {
   width: 12px;
   height: 12px;
 }
@@ -133,6 +135,7 @@
 /* CHECKED - SHOW INDICATOR */
 .radio__indicator--checked {
   opacity: 1;
+  scale: 1; /* Animate in the indicator */
 }
 
 .radio:checked {
@@ -151,8 +154,8 @@
   cursor: not-allowed;
 }
 
-.radio:disabled + .radio__indicator,
-.radio--disabled .radio__indicator {
+/* FIXED: Proper disabled indicator styling */
+.radio-wrapper--disabled .radio__indicator {
   background-color: var(--indicator-radio-disabled);
 }
 

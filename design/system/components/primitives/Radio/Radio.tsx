@@ -80,13 +80,11 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
 
   const radioClasses = cn(
     'radio',
-    `radio--${size}`,
     className
   );
 
   const indicatorClasses = cn(
     'radio__indicator',
-    `radio__indicator--${size}`,
     checked && 'radio__indicator--checked'
   );
 
@@ -108,8 +106,8 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
             {...props}
           />
           
-          {/* FIXED: Indicator element that matches CSS perfectly */}
-          <div className={indicatorClasses} />
+          {/* FIXED: Indicator positioned within the container, not relative to input */}
+          <div className={indicatorClasses} aria-hidden="true" />
         </div>
 
         {label && (
@@ -202,8 +200,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
 
   const groupClasses = cn(
     'radio-group',
-    `radio-group--${size}`,
-    `radio-group--${direction}`,
+    direction === 'horizontal' && 'radio-group--horizontal',
     disabled && 'radio-group--disabled',
     error && 'radio-group--error',
     className
