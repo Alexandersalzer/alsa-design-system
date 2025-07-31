@@ -2,7 +2,7 @@
 
 import { Section, Container } from '../../../../../system/layout';
 import { RichText } from '../../../../../system/components/patterns/client/RichText/RichText';
-import { useContent } from '../../../../../cms/context/ContentContext';
+import { useContent } from '../../../../../cms/context/ContentProvider';
 import { usePathname } from 'next/navigation';
 
 interface HeroSectionProps {
@@ -29,14 +29,18 @@ const HERO_DESIGN_SETTINGS = {
 };
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ pageSlug }) => {
-  const { getHeroContent } = useContent();
+  const { content } = useContent();
   const pathname = usePathname();
   
   // Determine which page slug to use
   const currentSlug = pageSlug || pathname.replace('/', '') || 'home';
   
-  // Get hero content for the current page
-  const heroContent = getHeroContent(currentSlug);
+  // Temporary fallback content until we implement proper content extraction
+  const heroContent = {
+    title: "UGC Videos That Drive Brand Growth",
+    subtitle: "With millions of views I have helped several companies build multi-million dollar e-commerce businesses. I'm here for you.",
+    primaryButtonText: "Get Started"
+  };
   
   // Don't render if no content is available
   if (!heroContent) {
