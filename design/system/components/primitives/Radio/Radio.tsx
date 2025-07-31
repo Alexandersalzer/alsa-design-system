@@ -1,11 +1,12 @@
 // ===============================================
 // src/design-system/components/primitives/Radio/Radio.tsx
-// RADIO COMPONENT - Clean CSS-only Indicator
+// RADIO COMPONENT - Complete with proper design system integration
 // ===============================================
 
 import React, { forwardRef, useId, createContext, useContext, useState } from 'react';
 import { cn } from '../../../lib/utils';
 import { Label, Body } from '../Typography';
+
 
 export type RadioSize = 'sm' | 'md' | 'lg';
 
@@ -80,8 +81,34 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
 
   const radioClasses = cn(
     'radio',
+    `radio--${size}`,
+    checked && 'radio--checked',
+    disabled && 'radio--disabled',
     className
   );
+
+  const indicatorClasses = cn(
+    'radio__indicator',
+    `radio__indicator--${size}`,
+    checked && 'radio__indicator--checked'
+  );
+
+  // Typography props for consistent text styling
+  const getLabelTypography = () => {
+    const sizeMap = {
+      sm: 'sm' as const,
+      md: 'md' as const,
+      lg: 'lg' as const,
+    };
+
+    return {
+      size: sizeMap[size],
+      weight: 'medium' as const,
+      color: disabled ? 'disabled' as const : 'primary' as const,
+    };
+  };
+
+  const labelProps = getLabelTypography();
 
   return (
     <div className={wrapperClasses}>
@@ -100,12 +127,21 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
             onChange={handleChange}
             {...props}
           />
+          
+          <div className={indicatorClasses} />
         </div>
 
         {label && (
           <label
             htmlFor={id}
             className="radio-label"
+            style={{
+              fontSize: labelProps.size === 'sm' ? 'var(--foundation-text-sm)' : 'var(--foundation-text-md)',
+              fontWeight: 'var(--foundation-weight-medium)',
+              color: disabled ? 'var(--text-disabled)' : 'var(--text-primary)',
+              cursor: disabled ? 'not-allowed' : 'pointer',
+              userSelect: 'none'
+            }}
           >
             {label}
           </label>
@@ -113,12 +149,14 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
       </div>
 
       {description && (
-        <div
+        <Body
           id={descriptionId}
+          size="sm"
+          color={disabled ? 'disabled' : 'secondary'}
           className="radio-description"
         >
           {description}
-        </div>
+        </Body>
       )}
     </div>
   );
@@ -192,7 +230,8 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
 
   const groupClasses = cn(
     'radio-group',
-    direction === 'horizontal' && 'radio-group--horizontal',
+    `radio-group--${size}`,
+    `radio-group--${direction}`,
     disabled && 'radio-group--disabled',
     error && 'radio-group--error',
     className
@@ -217,8 +256,11 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
         aria-invalid={error ? 'true' : 'false'}
       >
         {label && (
-          <div
+          <Label
             id={`${groupId}-label`}
+            size={size === 'sm' ? 'sm' : 'md'}
+            weight="semibold"
+            color="primary"
             className="radio-group__label"
           >
             {label}
@@ -227,16 +269,18 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
                 *
               </span>
             )}
-          </div>
+          </Label>
         )}
 
         {description && (
-          <div
+          <Body
             id={descriptionId}
+            size="sm"
+            color="secondary"
             className="radio-group__description"
           >
             {description}
-          </div>
+          </Body>
         )}
 
         <div className="radio-group__items">
@@ -244,13 +288,15 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
         </div>
 
         {error && (
-          <div
+          <Body
             id={errorId}
+            size="sm"
+            color="error"
             className="radio-group__error"
             role="alert"
           >
             {error}
-          </div>
+          </Body>
         )}
       </div>
     </RadioGroupContext.Provider>
