@@ -10,9 +10,9 @@
     box-shadow: var(--foundation-shadow-sm);
     transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
 
-    &:hover {
+    /*&:hover {
         box-shadow: var(--foundation-shadow-md);
-    }
+    }*/
 }
 
 .card-content {

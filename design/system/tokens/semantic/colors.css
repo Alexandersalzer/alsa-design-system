@@ -132,8 +132,8 @@
   --surface-modal: var(--primary-white);
   --surface-page: var(--primary-white);
   --surface-card: var(--primary-white);
-  --surface-card-hover: var(--primary-50);
-  --surface-card-selected: var(--primary-100);
+  --surface-card-hover: var(--primary-100);
+  --surface-card-selected: var(--primary-200);
   --surface-card-elevated: var(--primary-white);
   --surface-overlay: rgba(0, 0, 0, 0.5);
   --surface-backdrop: rgba(0, 0, 0, 0.3);
@@ -284,8 +284,6 @@
   --surface-nav: var(--surface-page);
   --surface-nav-item: transparent;
   --surface-nav-item-hover: var(--surface-card-hover);
-  --surface-nav-item-selected: var(--surface-card-selected);
-  --surface-nav-item-selected-hover: var(--primary-200); 
   --surface-nav-item-disabled: transparent;
   --text-nav-item: var(--text-secondary);
   --text-nav-item-selected: var(--accent-600);

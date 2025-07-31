@@ -36,6 +36,10 @@
 
 /* ===== RADIO INPUT - USING SEMANTIC TOKENS ===== */
 .radio {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  flex-grow: 0; /* ✅ prevent flex from stretching */
+  aspect-ratio: 1/1; /* ✅ force square */
   width: var(--size-radio-md);
   height: var(--size-radio-md);
   border: 2px solid var(--border-radio);                   /* ✅ Good - semantic token */
@@ -47,7 +51,6 @@
   margin: 0;
   position: relative;
   /* Ensure perfect circle and centering */
-  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,17 +108,6 @@
   transition: opacity var(--duration-form-transition) var(--easing-form-transition);
   pointer-events: none;
   width: 50%; /* Width determines size; height will follow via aspect-ratio */
-}
-
-/* Size-specific indicators - proportional to radio size */
-.radio--sm .radio__indicator {
-  width: 50%;
-  height: 50%;
-}
-
-.radio--lg .radio__indicator {
-  width: 50%;
-  height: 50%;
 }
 
 .radio__indicator--checked {
