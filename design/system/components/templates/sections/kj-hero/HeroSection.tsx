@@ -29,18 +29,14 @@ const HERO_DESIGN_SETTINGS = {
 };
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ pageSlug }) => {
-  const { content } = useContent();
+  const { getHeroContent } = useContent();
   const pathname = usePathname();
   
   // Determine which page slug to use
   const currentSlug = pageSlug || pathname.replace('/', '') || 'home';
   
-  // Temporary fallback content until we implement proper content extraction
-  const heroContent = {
-    title: "UGC Videos That Drive Brand Growth",
-    subtitle: "With millions of views I have helped several companies build multi-million dollar e-commerce businesses. I'm here for you.",
-    primaryButtonText: "Get Started"
-  };
+  // Get hero content for the current page
+  const heroContent = getHeroContent(currentSlug);
   
   // Don't render if no content is available
   if (!heroContent) {

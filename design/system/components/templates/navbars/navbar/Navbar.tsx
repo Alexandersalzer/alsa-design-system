@@ -1,8 +1,8 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import { useEditingMode } from '../../../../../cms/modules/initial/child/EditingWrapper';
-import { useContent } from '../../../../../cms/context/ContentContext';
+import { useContent } from '../../../../../cms/context/ContentProvider';
+import { usePathname } from 'next/navigation';
 import { Section } from '../../../../layout/frames/section';
 import { Container } from '../../../../layout/frames/container';
 import { Cluster } from '../../../../layout/utilities/cluster';

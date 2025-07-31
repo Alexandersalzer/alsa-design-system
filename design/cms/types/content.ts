@@ -32,8 +32,8 @@ export interface Page {
 }
 
 export interface WebsiteContent {
-  pages: Page[] | { [key: string]: Page };
-  navbar?: Template; // Global navbar template
+  pages: { [key: string]: Page };
+  globals?: { [key: string]: Template }; // Global templates like navbar, footer etc.
 }
 
 // Enum for mapping block types

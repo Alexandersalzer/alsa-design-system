@@ -14,10 +14,28 @@ import {
   type DesignTokenMessageHandlers
 } from '../modules/design/child/designTokenMessaging';
 
+// Interface for hero content - only text content
+export interface HeroContent {
+  title: string;
+  subtitle: string;
+  primaryButtonText: string;
+  secondaryButtonText: string;
+}
+
+// Interface for navbar content - navigation items with labels
+export interface NavbarContent {
+  navItems: Array<{
+    label: string;
+    slug: string;
+  }>;
+}
+
 interface ContentContextType {
   content: WebsiteContent | null;
   isLoading: boolean;
   error: string | null;
+  getHeroContent: (pageSlug: string) => HeroContent | undefined;
+  getNavbarContent: () => NavbarContent | undefined;
 }
 
 interface ContentProviderProps {
@@ -81,10 +99,63 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
     };
   }, []); // No dependencies needed
 
+  // Function to get hero content for a specific page
+  const getHeroContent = (pageSlug: string): HeroContent | undefined => {
+    const content = dynamicContent || initialContent;
+    if (!content?.pages) return undefined;
+
+    // Find the page by slug
+    const page = Object.values(content.pages).find((p: any) => p.slug === pageSlug);
+    if (!page?.templates) return undefined;
+
+    // Find hero template
+    const heroTemplate = page.templates.find((template: any) => template.type === 'hero');
+    if (!heroTemplate?.patterns) return undefined;
+
+    // Find hero pattern
+    const heroPattern = heroTemplate.patterns.find((pattern: any) => pattern.type === 'hero');
+    if (!heroPattern?.blocks) return undefined;
+
+    // Extract content from blocks
+    const title = heroPattern.blocks.find((block: any) => block.type === 'title')?.content || '';
+    const subtitle = heroPattern.blocks.find((block: any) => block.type === 'subtitle')?.content || '';
+    const primaryButtonText = heroPattern.blocks.find((block: any) => block.type === 'primaryButton')?.content || '';
+    const secondaryButtonText = heroPattern.blocks.find((block: any) => block.type === 'secondaryButton')?.content || '';
+
+    return {
+      title,
+      subtitle,
+      primaryButtonText,
+      secondaryButtonText
+    };
+  };
+
+  // Function to get navbar content
+  const getNavbarContent = (): NavbarContent | undefined => {
+    const content = dynamicContent || initialContent;
+    if (!content?.globals?.navbar?.patterns) return undefined;
+
+    // Find navbar pattern
+    const navbarPattern = content.globals.navbar.patterns.find((pattern: any) => pattern.type === 'navbar');
+    if (!navbarPattern?.blocks) return undefined;
+
+    // Extract nav items from blocks
+    const navItems = navbarPattern.blocks
+      .filter((block: any) => block.type === 'navItem')
+      .map((block: any) => ({
+        label: block.content || '',
+        slug: block.slug || ''
+      }));
+
+    return { navItems };
+  };
+
   const contextValue: ContentContextType = {
     content: dynamicContent,
     isLoading,
-    error
+    error,
+    getHeroContent,
+    getNavbarContent
   };
 
   return (
