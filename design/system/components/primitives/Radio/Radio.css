@@ -83,13 +83,14 @@
   
   /* FORCE CIRCULAR SHAPE */
   border-radius: 50%;
-  background-color: var(--indicator-radio);
+  /* FALLBACK: Use border color if indicator variable doesn't exist */
+  background-color: var(--indicator-radio, var(--border-radio-checked, var(--accent-text, #0066cc)));
   
   /* HIDDEN BY DEFAULT */
   opacity: 0;
   scale: 0;
-  transition: opacity var(--duration-form-transition) var(--easing-form-transition),
-              scale var(--duration-form-transition) var(--easing-form-transition);
+  transition: opacity var(--duration-form-transition, 0.2s) var(--easing-form-transition, ease),
+              scale var(--duration-form-transition, 0.2s) var(--easing-form-transition, ease);
   
   /* PREVENT LAYOUT INTERFERENCE */
   pointer-events: none;
@@ -149,13 +150,13 @@
 
 /* DISABLED */
 .radio:disabled {
-  border-color: var(--border-radio-disabled);
-  background-color: var(--surface-radio-disabled);
+  border-color: var(--border-radio-disabled, #e5e7eb);
+  background-color: var(--surface-radio-disabled, #f9fafb);
   cursor: not-allowed;
 }
 
 .radio:disabled::after {
-  background-color: var(--indicator-radio-disabled);
+  background-color: var(--indicator-radio-disabled, #9ca3af);
 }
 
 /* ===== RADIO LABEL ===== */
