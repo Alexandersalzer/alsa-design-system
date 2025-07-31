@@ -39,7 +39,7 @@
   width: var(--size-radio-md);
   height: var(--size-radio-md);
   border: 2px solid var(--border-radio);                   /* ✅ Good - semantic token */
-  border-radius: var(--radius-radio);
+  border-radius: 50%;
   background-color: var(--surface-radio);                  /* ✅ Good - semantic token */
   cursor: pointer;
   transition: all var(--duration-form-transition) var(--easing-form-transition);
@@ -98,14 +98,13 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border-radius: var(--radius-radio);
-  background-color: var(--indicator-radio);                /* ✅ Good - semantic token */
+  border-radius: 50%; /* Force perfect circle */
+  aspect-ratio: 1 / 1; /* Ensure 1:1 shape */
+  background-color: var(--indicator-radio);
   opacity: 0;
   transition: opacity var(--duration-form-transition) var(--easing-form-transition);
   pointer-events: none;
-  /* IMPROVED: Better proportional sizing */
-  width: 50%;                                               /* 50% of radio button size */
-  height: 50%;                                              /* 50% of radio button size */
+  width: 50%; /* Width determines size; height will follow via aspect-ratio */
 }
 
 /* Size-specific indicators - proportional to radio size */
