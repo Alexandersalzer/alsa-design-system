@@ -69,32 +69,27 @@
   display: block;
 }
 
-/* ===== INDICATOR AS PSEUDO-ELEMENT - PERFECT CENTER ===== */
-.radio::after {
+/* ===== INDICATOR AS PSEUDO-ELEMENT - BULLETPROOF VERSION ===== */
+.radio::before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  
-  /* EXACT DIMENSIONS - PERFECT CIRCLE */
-  width: 10px;
-  height: 10px;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
   
   /* FORCE CIRCULAR SHAPE */
   border-radius: 50%;
-  /* FALLBACK: Use border color if indicator variable doesn't exist */
-  background-color: var(--indicator-radio, var(--border-radio-checked, var(--accent-text, #0066cc)));
+  background-color: #0066cc;
   
   /* HIDDEN BY DEFAULT */
   opacity: 0;
-  scale: 0;
-  transition: opacity var(--duration-form-transition, 0.2s) var(--easing-form-transition, ease),
-              scale var(--duration-form-transition, 0.2s) var(--easing-form-transition, ease);
+  transform: scale(0);
+  transition: all 0.2s ease;
   
   /* PREVENT LAYOUT INTERFERENCE */
   pointer-events: none;
-  box-sizing: border-box;
+  z-index: 1;
 }
 
 /* ===== CONTAINER SIZE VARIANTS ===== */
@@ -109,14 +104,18 @@
 }
 
 /* ===== INDICATOR SIZE VARIANTS ===== */
-.radio-wrapper--sm .radio::after {
-  width: 8px;
-  height: 8px;
+.radio-wrapper--sm .radio::before {
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
 }
 
-.radio-wrapper--lg .radio::after {
-  width: 12px;
-  height: 12px;
+.radio-wrapper--lg .radio::before {
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
 }
 
 /* ===== STATES ===== */
@@ -134,9 +133,9 @@
 }
 
 /* CHECKED - SHOW INDICATOR */
-.radio:checked::after {
+.radio:checked::before {
   opacity: 1;
-  scale: 1;
+  transform: scale(1);
 }
 
 .radio:checked {
@@ -155,8 +154,8 @@
   cursor: not-allowed;
 }
 
-.radio:disabled::after {
-  background-color: var(--indicator-radio-disabled, #9ca3af);
+.radio:disabled::before {
+  background-color: #9ca3af;
 }
 
 /* ===== RADIO LABEL ===== */
@@ -281,7 +280,7 @@
 /* ===== ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
   .radio,
-  .radio::after {
+  .radio::before {
     transition: none;
   }
 }
@@ -291,7 +290,7 @@
     border-width: 3px;
   }
   
-  .radio:checked::after {
+  .radio:checked::before {
     /* Make sure it's visible in high contrast */
     background-color: currentColor;
   }
