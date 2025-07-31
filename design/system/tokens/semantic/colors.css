@@ -128,10 +128,10 @@
   /* ===== SEMANTIC SURFACE TOKENS ===== */
   --surface-background: #fff;
   --surface-modal: var(--primary-white);
-  --surface-page: var(--secondary-100);
+  --surface-page: var(--secondary-400);
   --surface-card: var(--primary-white);
   --surface-card-hover: var(--primary-50);
-  --surface-card-selected: var(--primary-400);
+  --surface-card-selected: var(--primary-100);
   --surface-card-elevated: var(--primary-white);
   --surface-overlay: rgba(0, 0, 0, 0.5);
   --surface-backdrop: rgba(0, 0, 0, 0.3);
