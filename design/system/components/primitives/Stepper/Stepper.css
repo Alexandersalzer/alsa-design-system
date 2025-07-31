@@ -31,7 +31,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--surface-card-hover);
+  background: var(--surface-hover);
   color: var(--text-secondary);
   font-weight: var(--foundation-weight-medium);
   font-size: var(--font-body-sm-size);

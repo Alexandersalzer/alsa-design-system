@@ -64,7 +64,7 @@
 
 /* ===== BACKGROUND VARIANTS ===== */
 .page-header--bg-subtle {
-  background: var(--surface-card);
+  background: var(--surface-page);
   border-radius: var(--foundation-radius-lg);
   padding: var(--foundation-space-6) var(--foundation-space-8);
   border: 1px solid var(--border-card);

@@ -38,8 +38,6 @@
   --icon-user-menu: var(--icon-primary);
   --icon-search: var(--icon-secondary);
   --icon-empty-state: var(--icon-secondary);
-  --icon-card-primary: var(--icon-primary);
-  --icon-card-secondary: var(--icon-secondary);
 
   /* ===== SMART BUTTON ICON COLORS ===== */
   /* ✅ KEEP: These are component-specific and don't exist in semantic */

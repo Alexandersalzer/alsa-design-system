@@ -284,4 +284,7 @@
 --success-600: var(--foundation-emerald-600);
 --warning-600: var(--foundation-honey-600);
 --info-600: var(--foundation-amethyst-600);
+
+/* Add this to your calculated-theme.css :root section */
+--surface-error-subtle: color-mix(in srgb, var(--error-500) 10%, var(--surface-card) 90%);
 }

@@ -60,13 +60,13 @@ export {
 // ✅ SUPER EASY IMPORTS:
 
 // Import just the headings you need:
-import { H1, H3, H6 } from '@/design-system/components/primitives/Typography';
+import { H1, H3, H6 } from '@blimpify-im/ui';
 
 // Import everything:
 import { 
   H1, H2, H3, H4, H5, H6, 
   Body, Label, Display 
-} from '@/design-system/components/primitives/Typography';
+} from '@blimpify-im/ui';
 
 // ✅ THEN USE THEM SIMPLY:
 

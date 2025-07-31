@@ -18,15 +18,13 @@
   
   /* ===== INPUT SUCCESS STATES - USING SHORTCUTS ===== */
   --border-input-success: var(--success-border);           /* UPDATED: using shortcut instead of --success-500 */
-  --border-textarea-success: var(--success-border);        /* UPDATED: using shortcut */
   --border-switch-success: var(--success-border);          /* UPDATED: using shortcut */
-  --text-input-error: var(--error-text);                   /* UPDATED: using shortcut instead of --error-600 */
-  --text-textarea-error: var(--error-text);                /* UPDATED: using shortcut */
   
   /* ===== INPUT TEXT COLORS - ALREADY GOOD WITH SEMANTIC ===== */
   --text-input: var(--text-primary);                       /* ✅ Good - semantic token */
   --text-input-placeholder: var(--text-placeholder);       /* ✅ Good - semantic token */
   --text-input-disabled: var(--text-disabled);             /* ✅ Good - semantic token */
+  --text-input-error: var(--error-text);                   /* UPDATED: using shortcut instead of --error-600 */
   
   /* ===== INPUT ICON COLORS - ALREADY GOOD WITH SEMANTIC ===== */
   --icon-input: var(--icon-secondary);                     /* ✅ Good - semantic token */

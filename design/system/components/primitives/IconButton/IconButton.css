@@ -271,22 +271,3 @@
   min-height: 48px !important;
   max-height: 48px !important;
 }
-
-/* ===== DEBUG CLASSES (uncomment to verify alignment) ===== */
-/*
-.debug-alignment .icon-btn--sm {
-  border: 2px dashed red !important;
-}
-
-.debug-alignment .btn-sm {
-  border: 2px dashed blue !important;
-}
-
-.debug-alignment .icon-btn--md {
-  border: 2px dashed orange !important;
-}
-
-.debug-alignment .btn-md {
-  border: 2px dashed green !important;
-}
-*/

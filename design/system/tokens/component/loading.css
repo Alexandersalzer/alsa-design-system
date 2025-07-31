@@ -28,8 +28,8 @@
    ============================================== */
 
 .loading-card {
-  background-color: var(--surface-loading-card);                  /* FIXED: was var(--surface-card) - already correct */
-  border: 1px solid var(--border-loading-card);                   /* FIXED: was var(--border-card) - already correct */
+  background-color: var(--surface-loading-card);
+  border: 1px solid var(--border-loading-card);
   border-radius: var(--foundation-radius-lg);             /* OK to use foundation for radius */
   padding: var(--foundation-space-6);                     /* OK to use foundation for spacing */
   animation: pulse 2s infinite;

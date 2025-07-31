@@ -20,6 +20,7 @@
   --border-button-secondary-hover: var(--border-light-hover);
   --border-button-secondary-focus: var(--border-focus);
   --border-button-secondary-disabled: var(--border-disabled);
+  --border-button-secondary-active: var(--border-light-active);
 
   /* Accent Button */
   --surface-button-accent: var(--interactive-accent);
@@ -36,4 +37,9 @@
   --surface-button-ghost-hover: var(--interactive-tertiary-hover);
   --surface-button-ghost-active: var(--interactive-tertiary-active);
   --text-button-ghost: var(--text-secondary);
+
+  /* Destructive Button */
+  --surface-button-destructive: var(--interactive-destructive);
+  --surface-button-destructive-hover: var(--interactive-destructive-hover);
+  --border-button-destructive: var(--error-700);
 }

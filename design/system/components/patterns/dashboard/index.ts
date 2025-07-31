@@ -9,7 +9,7 @@ export * from './auth';
 // ===== EDITOR PATTERNS (Complete Week 1-3 system) =====
 export * from './editor';
 
-// ===== LAYOUT PATTERNS =====
+// ===== LAYOUT PATTERNS =====  
 export * from './layout';
 
 

@@ -144,7 +144,7 @@
 }
 
 .btn-destructive:hover:not(:disabled) {
-  background-color: var(--error-600, #dc2626);
+  background-color: var(--surface-button-destructive-hover);
 }
 
 /* Loading state */

@@ -3,6 +3,9 @@
    COMPONENT TOKENS - IMPORTS ALL COMPONENT TOKEN FILES
    ============================================== */
 
+/* Import semantic tokens first */
+@import '../semantic/index.css';
+
 /* Import all component token files */
 @import './button.css';
 @import './card.css';

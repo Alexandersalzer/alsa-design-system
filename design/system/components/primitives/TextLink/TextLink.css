@@ -1,6 +1,6 @@
-/* ===============================================
+/* ==============================================
    src/design-system/components/primitives/TextLink/TextLink.css
-   TextLink primitive component styles
+   TEXT LINK COMPONENT STYLES - UPDATED WITH SEMANTIC TOKENS
    ============================================== */
 
 /* ===== BASE TEXTLINK STYLES ===== */
@@ -8,111 +8,109 @@
   /* Layout */
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: var(--foundation-space-1);                          /* FIXED: was --spacing-xs */
   
   /* Typography handled by Typography component */
   text-decoration: none;
   
   /* Interaction */
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard); /* FIXED: was 0.2s ease-in-out */
   
   /* Focus states */
   outline: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--foundation-radius-sm);              /* FIXED: was --radius-sm */
 }
 
 .textlink:focus-visible {
-  outline: 2px solid var(--accent-500);
+  outline: 2px solid var(--border-focus);                  /* FIXED: was --accent-500, using semantic */
   outline-offset: 2px;
 }
 
 /* ===== SIZE VARIANTS ===== */
 .textlink-sm {
-  gap: var(--spacing-xs);
+  gap: var(--foundation-space-1);                          /* FIXED: was --spacing-xs */
 }
 
 .textlink-md {
-  gap: var(--spacing-xs);
+  gap: var(--foundation-space-1);                          /* FIXED: was --spacing-xs */
 }
 
 .textlink-lg {
-  gap: var(--spacing-sm);
+  gap: var(--foundation-space-2);                          /* FIXED: was --spacing-sm */
 }
 
 .textlink-xl {
-  gap: var(--spacing-sm);
+  gap: var(--foundation-space-2);                          /* FIXED: was --spacing-sm */
 }
 
-/* ===== VARIANT STYLES ===== */
-
+/* ===== VARIANT STYLES - USING SEMANTIC TOKENS ===== */
 /* Primary variant */
 .textlink-primary {
-  color: var(--text-primary);
+  color: var(--text-primary);                              /* ✅ Good - semantic token */
 }
 
 .textlink-primary:hover {
-  color: var(--accent-600);
+  color: var(--accent-text);                               /* FIXED: was --accent-600, using shortcut */
 }
 
 .textlink-primary:active {
-  color: var(--accent-700);
+  color: var(--accent-text-strong);                        /* FIXED: was --accent-700, using shortcut */
 }
 
 /* Secondary variant */
 .textlink-secondary {
-  color: var(--text-secondary);
+  color: var(--text-secondary);                            /* ✅ Good - semantic token */
 }
 
 .textlink-secondary:hover {
-  color: var(--text-primary);
+  color: var(--text-primary);                              /* ✅ Good - semantic token */
 }
 
 .textlink-secondary:active {
-  color: var(--accent-600);
+  color: var(--accent-text);                               /* FIXED: was --accent-600, using shortcut */
 }
 
 /* Accent variant */
 .textlink-accent {
-  color: var(--accent-500);
+  color: var(--accent-icon);                               /* FIXED: was --accent-500, using shortcut */
 }
 
 .textlink-accent:hover {
-  color: var(--accent-600);
+  color: var(--accent-text);                               /* FIXED: was --accent-600, using shortcut */
 }
 
 .textlink-accent:active {
-  color: var(--accent-700);
+  color: var(--accent-text-strong);                        /* FIXED: was --accent-700, using shortcut */
 }
 
 /* Ghost variant (subtle) */
 .textlink-ghost {
-  color: var(--text-tertiary);
+  color: var(--text-tertiary);                             /* ✅ Good - semantic token */
 }
 
 .textlink-ghost:hover {
-  color: var(--text-secondary);
+  color: var(--text-secondary);                            /* ✅ Good - semantic token */
 }
 
 .textlink-ghost:active {
-  color: var(--text-primary);
+  color: var(--text-primary);                              /* ✅ Good - semantic token */
 }
 
 /* Brand variant (for brand names) */
 .textlink-brand {
-  color: var(--text-heading-color);
+  color: var(--text-heading-primary);                      /* FIXED: was --text-heading-color, using semantic */
 }
 
 .textlink-brand:hover {
-  color: var(--accent-600);
+  color: var(--accent-text);                               /* FIXED: was --accent-600, using shortcut */
 }
 
 .textlink-brand:active {
-  color: var(--accent-700);
+  color: var(--accent-text-strong);                        /* FIXED: was --accent-700, using shortcut */
 }
 
 /* ===== UNDERLINE VARIANTS ===== */
-
 /* No underline */
 .textlink-underline-none {
   text-decoration: none;
@@ -147,14 +145,14 @@
 
 /* ===== DISABLED STATE ===== */
 .textlink-disabled {
-  color: var(--text-disabled) !important;
+  color: var(--text-disabled) !important;                  /* ✅ Good - semantic token */
   cursor: not-allowed;
   text-decoration: none !important;
 }
 
 .textlink-disabled:hover,
 .textlink-disabled:active {
-  color: var(--text-disabled) !important;
+  color: var(--text-disabled) !important;                  /* ✅ Good - semantic token */
   text-decoration: none !important;
 }
 
@@ -203,11 +201,11 @@
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
 @media (max-width: 768px) {
   .textlink-xl {
-    gap: var(--spacing-xs);
+    gap: var(--foundation-space-1);                        /* FIXED: was --spacing-xs */
   }
   
   .textlink-xl .textlink-icon {
     width: 20px;
     height: 20px;
   }
-} 
+}

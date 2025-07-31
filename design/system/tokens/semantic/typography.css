@@ -81,13 +81,6 @@
   --font-code-sm-size: var(--foundation-size-xs);
   --font-code-sm-leading: var(--foundation-leading-normal);
   
-  /* ===== LINK TOKENS ===== */
-  /* Note: Keeping accent references as requested */
-  --text-link: var(--accent-500);
-  --text-link-hover: var(--accent-700);
-  --text-link-visited: var(--accent-800);
-  --text-link-disabled: var(--text-disabled);  /* 🎯 FIXED: Use semantic text token */
-  
   /* ===== ADDITIONAL TEXT VARIANTS ===== */
   /* These provide more granular control for components */
   --text-caption: var(--text-tertiary);

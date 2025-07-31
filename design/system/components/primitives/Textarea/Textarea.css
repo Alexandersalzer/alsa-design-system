@@ -112,7 +112,7 @@
 }
 
 .textarea--error {
-  border-color: var(--border-textarea-error);
+  border-color: var(--border-input-error);
 }
 
 .textarea--error:focus {
@@ -121,11 +121,11 @@
 }
 
 .textarea--success {
-  border-color: var(--success-500);
+  border-color: var(--border-input-success);
 }
 
 .textarea--success:focus {
-  border-color: var(--success-500);
+  border-color: var(--border-input-success);
   /* REMOVED: Box-shadow for consistency */
 }
 
@@ -146,7 +146,7 @@
 }
 
 .textarea-count--error {
-  color: var(--error-600) !important;
+  color: var(--error-text) !important;
   font-weight: var(--foundation-weight-semibold);
 }
 
@@ -209,7 +209,7 @@
 
 /* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION) ===== */
 .textarea:focus-visible {
-  outline: 2px solid var(--secondary-500);
+  outline: 2px solid var(--border-input-focus);
   outline-offset: 2px;
 }
 
