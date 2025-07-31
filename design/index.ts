@@ -3,16 +3,6 @@ export * from './system';
 export * from './cms/context/ContentProvider';
 export * from './cms/modules/initial/child/EditingWrapper';
 
-// Export content loader utilities
-export {
-  getAllPagesContent,
-  getPageContent,
-  getGlobalNavbarContent,
-  getAvailableLocales,
-  type FileSystemInterface,
-  type PathInterface
-} from './cms/utils/contentLoader';
-
 // Export initial messaging functionality (editing status only)
 export {
   InitialMessageHandler,
