@@ -1,16 +1,28 @@
-import 'server-only'; 
-import { promises as fs } from 'fs';
-import path from 'path';
-
 interface LayoutItem {
   template: string;
   [key: string]: unknown;
 }
 
+// File system interface for dependency injection
+export interface FileSystemInterface {
+  readFile(path: string, encoding: string): Promise<string>;
+  readdir(path: string, options?: { withFileTypes: boolean }): Promise<any[]>;
+}
+
+// Path utilities interface
+export interface PathInterface {
+  join(...paths: string[]): string;
+}
+
 /**
  * Load a global template/component file
  */
-async function loadGlobalTemplate(locale: string, templateName: string) {
+async function loadGlobalTemplate(
+  locale: string, 
+  templateName: string, 
+  fs: FileSystemInterface, 
+  path: PathInterface
+) {
   try {
     const templatePath = path.join(
       process.cwd(), 
@@ -31,7 +43,12 @@ async function loadGlobalTemplate(locale: string, templateName: string) {
 /**
  * Load layout configuration for a specific page
  */
-async function loadPageLayout(locale: string, pageSlug: string) {
+async function loadPageLayout(
+  locale: string, 
+  pageSlug: string, 
+  fs: FileSystemInterface, 
+  path: PathInterface
+) {
   try {
     const layoutPath = path.join(
       process.cwd(), 
@@ -53,7 +70,11 @@ async function loadPageLayout(locale: string, pageSlug: string) {
 /**
  * Load global navbar content for a specific locale
  */
-export async function getGlobalNavbarContent(locale: string = 'sv') {
+export async function getGlobalNavbarContent(
+  locale: string = 'sv',
+  fs: FileSystemInterface,
+  path: PathInterface
+) {
   try {
     const navbarPath = path.join(
       process.cwd(), 
@@ -88,7 +109,7 @@ export async function getGlobalNavbarContent(locale: string = 'sv') {
     console.error(`Failed to load navbar content for locale ${locale}:`, error);
     // Fallback to Swedish if locale file doesn't exist
     if (locale !== 'sv') {
-      return getGlobalNavbarContent('sv');
+      return getGlobalNavbarContent('sv', fs, path);
     }
     return null;
   }
@@ -97,7 +118,12 @@ export async function getGlobalNavbarContent(locale: string = 'sv') {
 /**
  * Load content for a specific page and locale using the separated structure
  */
-export async function getPageContent(locale: string = 'sv', pageSlug: string) {
+export async function getPageContent(
+  locale: string = 'sv', 
+  pageSlug: string,
+  fs: FileSystemInterface,
+  path: PathInterface
+) {
   try {
     // Load page.json (metadata only)
     const pagePath = path.join(
@@ -114,14 +140,14 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string) {
     const pageData = JSON.parse(pageContent);
     
     // Load layout.json separately
-    const layoutData = await loadPageLayout(locale, pageSlug);
+    const layoutData = await loadPageLayout(locale, pageSlug, fs, path);
     
     // Load all templates referenced in the layout
     if (layoutData && Array.isArray(layoutData)) {
       const templates = await Promise.all(
         layoutData.map(async (layoutItem: LayoutItem, index: number) => {
           // Always load from global templates directory
-          const template = await loadGlobalTemplate(locale, layoutItem.template);
+          const template = await loadGlobalTemplate(locale, layoutItem.template, fs, path);
           if (template) {
             // Add missing fields to match Template interface
             return {
@@ -162,7 +188,7 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string) {
     console.error(`Failed to load content for page ${pageSlug} in locale ${locale}:`, error);
     // Fallback to Swedish if locale file doesn't exist
     if (locale !== 'sv') {
-      return getPageContent('sv', pageSlug);
+      return getPageContent('sv', pageSlug, fs, path);
     }
     return null;
   }
@@ -171,7 +197,11 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string) {
 /**
  * Load all pages for a specific locale (used for navigation, etc.)
  */
-export async function getAllPagesContent(locale: string = 'sv') {
+export async function getAllPagesContent(
+  locale: string = 'sv',
+  fs: FileSystemInterface,
+  path: PathInterface
+) {
   try {
     const pages = [];
     
@@ -182,7 +212,7 @@ export async function getAllPagesContent(locale: string = 'sv') {
     for (const entry of pageEntries) {
       if (entry.isDirectory()) {
         const pageSlug = entry.name;
-        const content = await getPageContent(locale, pageSlug);
+        const content = await getPageContent(locale, pageSlug, fs, path);
         if (content) pages.push(content);
       }
     }
@@ -205,7 +235,7 @@ export async function getAllPagesContent(locale: string = 'sv') {
     }
 
     // Load global navbar content from new location
-    const navbarContent = await getGlobalNavbarContent(locale);
+    const navbarContent = await getGlobalNavbarContent(locale, fs, path);
     
     // Convert pages array to object keyed by slug for WebsiteContent format
     const pagesObject: { [key: string]: any } = {};
@@ -226,7 +256,7 @@ export async function getAllPagesContent(locale: string = 'sv') {
     console.error(`Failed to load all pages for locale ${locale}:`, error);
     // Fallback to Swedish if locale doesn't exist
     if (locale !== 'sv') {
-      return getAllPagesContent('sv');
+      return getAllPagesContent('sv', fs, path);
     }
     return null;
   }
@@ -235,7 +265,10 @@ export async function getAllPagesContent(locale: string = 'sv') {
 /**
  * Get available locales by checking which content directories exist
  */
-export async function getAvailableLocales(): Promise<string[]> {
+export async function getAvailableLocales(
+  fs: FileSystemInterface,
+  path: PathInterface
+): Promise<string[]> {
   try {
     const contentDir = path.join(process.cwd(), 'public', 'content');
     const entries = await fs.readdir(contentDir, { withFileTypes: true });

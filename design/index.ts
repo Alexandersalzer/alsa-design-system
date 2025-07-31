@@ -8,7 +8,9 @@ export {
   getAllPagesContent,
   getPageContent,
   getGlobalNavbarContent,
-  getAvailableLocales
+  getAvailableLocales,
+  type FileSystemInterface,
+  type PathInterface
 } from './cms/utils/contentLoader';
 
 // Export initial messaging functionality (editing status only)
