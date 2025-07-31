@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Radio/Radio.css
-   BULLETPROOF RADIO - PERFECT CIRCLES FIXED
+   BULLETPROOF RADIO - PERFECT CIRCLES WITH CSS PSEUDO-ELEMENT INDICATOR
    ============================================== */
 
 /* ===== RADIO WRAPPER ===== */
@@ -31,18 +31,18 @@
   /* Align with first line of text */
   margin-top: 2px;
   /* Ensure no stretching */
-  overflow: visible; /* Changed from hidden to allow focus outline */
+  overflow: visible;
 }
 
-/* ===== BULLETPROOF RADIO BUTTON ===== */
+/* ===== BULLETPROOF RADIO BUTTON WITH BUILT-IN INDICATOR ===== */
 .radio {
   /* EXACT DIMENSIONS - PERFECT SQUARES BECOME PERFECT CIRCLES */
-  width: 100%; /* Fill container exactly */
-  height: 100%; /* Fill container exactly */
+  width: 100%;
+  height: 100%;
   
   /* APPEARANCE - FORCED CIRCULAR */
   border: 3px solid var(--border-radio);
-  border-radius: 50%; /* FORCE CIRCULAR - NO VARIABLES */
+  border-radius: 50%;
   background-color: var(--surface-radio);
   
   /* RESET ALL BROWSER STYLES */
@@ -56,8 +56,8 @@
   flex-shrink: 0;
   flex-grow: 0;
   box-sizing: border-box;
-  min-width: 0; /* Prevent flex basis issues */
-  min-height: 0; /* Prevent flex basis issues */
+  min-width: 0;
+  min-height: 0;
   
   /* INTERACTION */
   cursor: pointer;
@@ -69,20 +69,9 @@
   display: block;
 }
 
-/* ===== CONTAINER SIZE VARIANTS ===== */
-.radio-wrapper--sm .radio-container {
-  width: 16px;
-  height: 16px;
-}
-
-.radio-wrapper--lg .radio-container {
-  width: 24px;
-  height: 24px;
-}
-
-/* ===== BULLETPROOF INDICATOR - POSITIONED RELATIVE TO CONTAINER ===== */
-.radio__indicator {
-  /* EXACT POSITIONING - PERFECT CENTER RELATIVE TO CONTAINER */
+/* ===== INDICATOR AS PSEUDO-ELEMENT - PERFECT CENTER ===== */
+.radio::after {
+  content: '';
   position: absolute;
   top: 50%;
   left: 50%;
@@ -96,9 +85,9 @@
   border-radius: 50%;
   background-color: var(--indicator-radio);
   
-  /* SIMPLE VISIBILITY CONTROL */
+  /* HIDDEN BY DEFAULT */
   opacity: 0;
-  scale: 0; /* Add scale animation for better UX */
+  scale: 0;
   transition: opacity var(--duration-form-transition) var(--easing-form-transition),
               scale var(--duration-form-transition) var(--easing-form-transition);
   
@@ -107,13 +96,24 @@
   box-sizing: border-box;
 }
 
-/* ===== INDICATOR SIZE VARIANTS - PROPORTIONAL ===== */
-.radio-wrapper--sm .radio__indicator {
+/* ===== CONTAINER SIZE VARIANTS ===== */
+.radio-wrapper--sm .radio-container {
+  width: 16px;
+  height: 16px;
+}
+
+.radio-wrapper--lg .radio-container {
+  width: 24px;
+  height: 24px;
+}
+
+/* ===== INDICATOR SIZE VARIANTS ===== */
+.radio-wrapper--sm .radio::after {
   width: 8px;
   height: 8px;
 }
 
-.radio-wrapper--lg .radio__indicator {
+.radio-wrapper--lg .radio::after {
   width: 12px;
   height: 12px;
 }
@@ -133,9 +133,9 @@
 }
 
 /* CHECKED - SHOW INDICATOR */
-.radio__indicator--checked {
+.radio:checked::after {
   opacity: 1;
-  scale: 1; /* Animate in the indicator */
+  scale: 1;
 }
 
 .radio:checked {
@@ -154,8 +154,7 @@
   cursor: not-allowed;
 }
 
-/* FIXED: Proper disabled indicator styling */
-.radio-wrapper--disabled .radio__indicator {
+.radio:disabled::after {
   background-color: var(--indicator-radio-disabled);
 }
 
@@ -281,7 +280,7 @@
 /* ===== ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
   .radio,
-  .radio__indicator {
+  .radio::after {
     transition: none;
   }
 }
@@ -291,7 +290,7 @@
     border-width: 3px;
   }
   
-  .radio__indicator--checked {
+  .radio:checked::after {
     /* Make sure it's visible in high contrast */
     background-color: currentColor;
   }

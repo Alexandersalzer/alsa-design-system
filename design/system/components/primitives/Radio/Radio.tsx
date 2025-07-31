@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Radio/Radio.tsx
-// RADIO COMPONENT - Fixed with Perfect Circle Indicators
+// RADIO COMPONENT - Clean CSS-only Indicator
 // ===============================================
 
 import React, { forwardRef, useId, createContext, useContext, useState } from 'react';
@@ -83,11 +83,6 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
     className
   );
 
-  const indicatorClasses = cn(
-    'radio__indicator',
-    checked && 'radio__indicator--checked'
-  );
-
   return (
     <div className={wrapperClasses}>
       <div className="radio-field">
@@ -105,9 +100,6 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
             onChange={handleChange}
             {...props}
           />
-          
-          {/* FIXED: Indicator positioned within the container, not relative to input */}
-          <div className={indicatorClasses} aria-hidden="true" />
         </div>
 
         {label && (
