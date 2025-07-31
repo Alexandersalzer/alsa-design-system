@@ -33,19 +33,19 @@
   --secondary-900: var(--foundation-gray-900);
 
   /* ===== ACCENT COLOR SCALE ===== */
-  --accent-100: var(--foundation-purple-100);
-  --accent-200: var(--foundation-purple-200);
-  --accent-300: var(--foundation-purple-300);
-  --accent-400: var(--foundation-purple-400);
-  --accent-500: var(--foundation-purple-500);
-  --accent-600: var(--foundation-purple-600);
-  --accent-700: var(--foundation-purple-700);
-  --accent-800: var(--foundation-purple-800);
-  --accent-900: var(--foundation-purple-900);
-  --accent-950: var(--foundation-purple-950);
-  --accent-1000: var(--foundation-purple-1000);
-  --accent-1100: var(--foundation-purple-1100);
-  --accent-1200: var(--foundation-purple-1200);
+  --accent-100: var(--foundation-amethyst-100);
+  --accent-200: var(--foundation-amethyst-200);
+  --accent-300: var(--foundation-amethyst-300);
+  --accent-400: var(--foundation-amethyst-400);
+  --accent-500: var(--foundation-amethyst-500);
+  --accent-600: var(--foundation-amethyst-600);
+  --accent-700: var(--foundation-amethyst-700);
+  --accent-800: var(--foundation-amethyst-800);
+  --accent-900: var(--foundation-amethyst-900);
+  --accent-950: var(--foundation-amethyst-950);
+  --accent-1000: var(--foundation-amethyst-1000);
+  --accent-1100: var(--foundation-amethyst-1100);
+  --accent-1200: var(--foundation-amethyst-1200);
 
   /* ===== STATUS COLOR SCALES ===== */
   /* Info/Amethyst scale */
@@ -128,7 +128,7 @@
   /* ===== SEMANTIC SURFACE TOKENS ===== */
   --surface-background: #fff;
   --surface-modal: var(--primary-white);
-  --surface-page: var(--secondary-400);
+  --surface-page: var(--primary-white);
   --surface-card: var(--primary-white);
   --surface-card-hover: var(--primary-50);
   --surface-card-selected: var(--primary-100);
