@@ -1,0 +1,232 @@
+/* ==============================================
+   src/design-system/tokens/semantic/colors.css
+   COMPLETE SEMANTIC COLOR SYSTEM - ALL TOKENS
+   ============================================== */
+
+:root {
+  /* ===== PRIMARY/SECONDARY COLOR SCALES ===== */
+  --primary-white: var(--foundation-white);
+  --primary-black: var(--foundation-black);
+  --primary-50: var(--foundation-gray-50);
+  --primary-100: var(--foundation-gray-100);
+  --primary-200: var(--foundation-gray-200);
+  --primary-300: var(--foundation-gray-300);
+  --primary-400: var(--foundation-gray-400);
+  --primary-500: var(--foundation-gray-500);
+  --primary-600: var(--foundation-gray-600);
+  --primary-700: var(--foundation-gray-700);
+  --primary-800: var(--foundation-gray-800);
+  --primary-900: var(--foundation-gray-900);
+  --primary-1000: var(--foundation-gray-1000);
+  --primary-1100: var(--foundation-gray-1100);
+  --primary-1200: var(--foundation-gray-1200);
+
+  --secondary-50: var(--foundation-gray-50);
+  --secondary-100: var(--foundation-gray-100);
+  --secondary-200: var(--foundation-gray-200);
+  --secondary-300: var(--foundation-gray-300);
+  --secondary-400: var(--foundation-gray-400);
+  --secondary-500: var(--foundation-gray-500);
+  --secondary-600: var(--foundation-gray-600);
+  --secondary-700: var(--foundation-gray-700);
+  --secondary-800: var(--foundation-gray-800);
+  --secondary-900: var(--foundation-gray-900);
+
+  /* ===== ACCENT COLOR SCALE ===== */
+  --accent-100: var(--foundation-purple-100);
+  --accent-200: var(--foundation-purple-200);
+  --accent-300: var(--foundation-purple-300);
+  --accent-400: var(--foundation-purple-400);
+  --accent-500: var(--foundation-purple-500);
+  --accent-600: var(--foundation-purple-600);
+  --accent-700: var(--foundation-purple-700);
+  --accent-800: var(--foundation-purple-800);
+  --accent-900: var(--foundation-purple-900);
+  --accent-950: var(--foundation-purple-950);
+  --accent-1000: var(--foundation-purple-1000);
+  --accent-1100: var(--foundation-purple-1100);
+  --accent-1200: var(--foundation-purple-1200);
+
+  /* ===== STATUS COLOR SCALES ===== */
+  /* Info/Amethyst scale */
+  --info-100: var(--foundation-amethyst-100);
+  --info-200: var(--foundation-amethyst-200);
+  --info-300: var(--foundation-amethyst-300);
+  --info-400: var(--foundation-amethyst-400);
+  --info-500: var(--foundation-amethyst-500);
+  --info-600: var(--foundation-amethyst-600);
+  --info-700: var(--foundation-amethyst-700);
+  --info-800: var(--foundation-amethyst-800);
+  --info-900: var(--foundation-amethyst-900);
+  --info-950: var(--foundation-amethyst-950);
+  --info-1000: var(--foundation-amethyst-1000);
+  --info-1100: var(--foundation-amethyst-1100);
+  --info-1200: var(--foundation-amethyst-1200);
+
+  /* Error/Ruby scale */
+  --error-100: var(--foundation-ruby-100);
+  --error-200: var(--foundation-ruby-200);
+  --error-300: var(--foundation-ruby-300);
+  --error-400: var(--foundation-ruby-400);
+  --error-500: var(--foundation-ruby-500);
+  --error-600: var(--foundation-ruby-600);
+  --error-700: var(--foundation-ruby-700);
+  --error-800: var(--foundation-ruby-800);
+  --error-900: var(--foundation-ruby-900);
+  --error-950: var(--foundation-ruby-950);
+  --error-1000: var(--foundation-ruby-1000);
+  --error-1100: var(--foundation-ruby-1100);
+  --error-1200: var(--foundation-ruby-1200);
+
+  /* Success/Emerald scale */
+  --success-100: var(--foundation-emerald-100);
+  --success-200: var(--foundation-emerald-200);
+  --success-300: var(--foundation-emerald-300);
+  --success-400: var(--foundation-emerald-400);
+  --success-500: var(--foundation-emerald-500);
+  --success-600: var(--foundation-emerald-600);
+  --success-700: var(--foundation-emerald-700);
+  --success-800: var(--foundation-emerald-800);
+  --success-900: var(--foundation-emerald-900);
+  --success-950: var(--foundation-emerald-950);
+  --success-1000: var(--foundation-emerald-1000);
+  --success-1100: var(--foundation-emerald-1100);
+  --success-1200: var(--foundation-emerald-1200);
+
+  /* Warning/Honey scale */
+  --warning-100: var(--foundation-honey-100);
+  --warning-200: var(--foundation-honey-200);
+  --warning-300: var(--foundation-honey-300);
+  --warning-400: var(--foundation-honey-400);
+  --warning-500: var(--foundation-honey-500);
+  --warning-600: var(--foundation-honey-600);
+  --warning-700: var(--foundation-honey-700);
+  --warning-800: var(--foundation-honey-800);
+  --warning-900: var(--foundation-honey-900);
+  --warning-950: var(--foundation-honey-950);
+  --warning-1000: var(--foundation-honey-1000);
+  --warning-1100: var(--foundation-honey-1100);
+  --warning-1200: var(--foundation-honey-1200);
+
+  /* ===== SEMANTIC TEXT TOKENS ===== */
+  --text-primary: var(--primary-1000);
+  --text-secondary: var(--secondary-600);
+  --text-tertiary: var(--secondary-500);
+  --text-disabled: var(--secondary-300);
+  --text-placeholder: var(--secondary-400);
+  --text-inverse: var(--primary-white);
+  --text-heading-primary: var(--primary-1200);
+  --text-body-primary: var(--primary-1200);
+  --text-body-secondary: var(--secondary-600);
+  --text-label: var(--primary-1200);
+  --text-code: var(--primary-1100);
+  --text-error: var(--error-600);
+  --text-success: var(--success-600);
+  --text-warning: var(--warning-600);
+  --text-info: var(--info-600);
+
+  /* ===== SEMANTIC SURFACE TOKENS ===== */
+  --surface-background: #fff;
+  --surface-modal: var(--primary-white);
+  --surface-page: var(--primary-white);
+  --surface-card: var(--primary-white);
+  --surface-card-hover: var(--primary-50);
+  --surface-card-selected: var(--primary-100);
+  --surface-card-elevated: var(--primary-white);
+  --surface-overlay: rgba(0, 0, 0, 0.5);
+  --surface-backdrop: rgba(0, 0, 0, 0.3);
+  --surface-error-subtle: rgba(239, 68, 68, 0.1);
+
+  /* ===== SEMANTIC BORDER TOKENS ===== */
+  --border-default: var(--secondary-200);
+  --border-subtle: var(--secondary-100);
+  --border-hover: var(--secondary-300);
+  --border-focus: var(--accent-500);
+  --border-disabled: var(--secondary-100);
+  --border-error: var(--error-500);
+  --border-success: var(--success-500);
+  --border-warning: var(--warning-500);
+  --border-info: var(--info-500);
+
+  --border-light: var(--secondary-100);           
+  --border-light-hover: var(--secondary-200);     
+  --border-light-active: var(--secondary-300);    
+
+
+  /* ===== SEMANTIC ICON TOKENS ===== */
+  --icon-primary: var(--secondary-600);
+  --icon-secondary: var(--secondary-500);
+  --icon-tertiary: var(--secondary-400);
+  --icon-disabled: var(--secondary-300);
+  --icon-inverse: var(--primary-white);
+  --icon-brand: var(--accent-600);
+  --icon-accent: var(--accent-500);      
+  --icon-success: var(--success-600);    
+  --icon-warning: var(--warning-600);    
+  --icon-error: var(--error-600);        
+  --icon-info: var(--info-600);      
+
+  /* ===== SEMANTIC INTERACTIVE TOKENS ===== */
+  --interactive-primary: var(--primary-900);
+  --interactive-primary-hover: var(--primary-800);
+  --interactive-primary-active: var(--primary-700);
+  --interactive-primary-disabled: var(--secondary-200);
+  
+  --interactive-secondary: var(--secondary-100);
+  --interactive-secondary-hover: var(--secondary-200);
+  --interactive-secondary-active: var(--secondary-300);
+  --interactive-secondary-disabled: var(--secondary-50);
+
+  --interactive-accent: var(--accent-600);
+  --interactive-accent-hover: var(--accent-700);
+  --interactive-accent-active: var(--accent-800);
+  
+  --interactive-tertiary: transparent;
+  --interactive-tertiary-hover: var(--secondary-50);
+  --interactive-tertiary-active: var(--secondary-100);
+
+  /* Destructive interactions */
+  --interactive-destructive: var(--error-600);
+  --interactive-destructive-hover: var(--error-700);
+  --interactive-destructive-active: var(--error-800);
+  
+  /* Success interactions */
+  --interactive-success: var(--success-500);
+  --interactive-success-hover: var(--success-600);
+  --interactive-success-active: var(--success-700);
+  
+  /* Warning interactions */
+  --interactive-warning: var(--warning-500);
+  --interactive-warning-hover: var(--warning-600);
+  --interactive-warning-active: var(--warning-700);
+
+  /* ===== SEMANTIC SHADOW TOKENS ===== */
+  --shadow-default: rgba(0, 0, 0, 0.1);
+  --shadow-subtle: rgba(0, 0, 0, 0.05);
+  --shadow-emphasis: rgba(0, 0, 0, 0.15);
+  --shadow-strong: rgba(0, 0, 0, 0.25);
+
+  /* ===== COMPONENT BUTTON TOKENS ===== */
+
+  /*PATH    blimpify-ui/design/system/tokens/component   */
+
+  /* ===== COMPONENT CARD TOKENS ===== */
+
+  /*PATH    blimpify-ui/design/system/tokens/component   */
+
+  /* ===== COMPONENT NAVIGATION TOKENS ===== */
+
+  /*PATH    blimpify-ui/design/system/tokens/component   */
+
+  /* ===== COMPONENT MODAL TOKENS ===== */
+
+  /*PATH    blimpify-ui/design/system/tokens/component   */
+
+  /* ===== COMPONENT FORM TOKENS ===== */
+
+  /*PATH    blimpify-ui/design/system/tokens/component   */
+
+  /* ===== COMPONENT LINK TOKENS ===== */
+  
+  /*PATH    blimpify-ui/design/system/tokens/component   */
+}
