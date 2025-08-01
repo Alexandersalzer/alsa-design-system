@@ -17,7 +17,7 @@
 
   /* ===== NAVIGATION SURFACES - USING SHORTCUTS ===== */
   --surface-nav: var(--surface-base);
-  --surface-nav-item-hover: var(--secondary-500);
+  --surface-nav-item-hover: var(--secondary-100);
   --surface-nav-item-selected: var(--surface-hover);
   --surface-nav-item-disabled: transparent;
 
