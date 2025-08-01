@@ -228,7 +228,7 @@
 
   --surface-nav: var(--primary-white);
   --surface-nav-item: transparent;
-  --surface-nav-item-hover: var(--secondary-400);
+  --surface-nav-item-hover: var(--secondary-100);
   --surface-nav-item-selected: var(--secondary-100);
   --surface-nav-item-disabled: transparent;
   --text-nav-item: var(--text-secondary);
