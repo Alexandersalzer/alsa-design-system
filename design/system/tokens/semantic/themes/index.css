@@ -13,7 +13,7 @@
 /* 3. Color themes (accent color overrides) */
 @import './color-themes.css';
 
-@import './calculated-theme.css';
+/*@import './calculated-theme.css';*/
 
 /* ===== THEME UTILITIES ===== */
 /* Smooth theme transitions */
