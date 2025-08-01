@@ -33,19 +33,19 @@
   --secondary-900: var(--foundation-gray-900);
 
   /* ===== ACCENT COLOR SCALE ===== */
-  --accent-100: var(--foundation-amethyst-100);
-  --accent-200: var(--foundation-amethyst-200);
+  --accent-100: var(--foundation-emerald-100);
+  --accent-200: var(--foundation-emerald-200);
   --accent-300: var(--foundation-amethyst-300);
-  --accent-400: var(--foundation-amethyst-400);
-  --accent-500: var(--foundation-amethyst-500);
-  --accent-600: var(--foundation-amethyst-600);
-  --accent-700: var(--foundation-amethyst-700);
-  --accent-800: var(--foundation-amethyst-800);
-  --accent-900: var(--foundation-amethyst-900);
-  --accent-950: var(--foundation-amethyst-950);
-  --accent-1000: var(--foundation-amethyst-1000);
-  --accent-1100: var(--foundation-amethyst-1100);
-  --accent-1200: var(--foundation-amethyst-1200);
+  --accent-400: var(--foundation-emerald-400);
+  --accent-500: var(--foundation-emerald-500);
+  --accent-600: var(--foundation-emerald-600);
+  --accent-700: var(--foundation-emerald-700);
+  --accent-800: var(--foundation-emerald-800);
+  --accent-900: var(--foundation-emerald-900);
+  --accent-950: var(--foundation-emerald-950);
+  --accent-1000: var(--foundation-emerald-1000);
+  --accent-1100: var(--foundation-emerald-1100);
+  --accent-1200: var(--foundation-emerald-1200);
 
   /* ===== STATUS COLOR SCALES ===== */
   /* Info/Amethyst scale */
