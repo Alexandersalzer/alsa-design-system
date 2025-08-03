@@ -143,7 +143,7 @@ export const RichText: React.FC<RichTextProps> = ({
                 <Button 
                   {...primaryButton}
                   variant="primary"
-                  rightIcon={<Icon><ArrowRightIcon/></Icon>}
+                  rightIcon={<Icon color="inverse"><ArrowRightIcon/></Icon>}
                 >
                   {primaryButton.children}
                 </Button>
