@@ -93,8 +93,7 @@ const Navbar = ({
 
   return (
     <Section 
-      as="nav" 
-      className={`shadow-md ${className || ''}`}
+      as="nav"
       style={{ backgroundColor: 'var(--primary-white)' }}
       sticky={true}
       top={0}
