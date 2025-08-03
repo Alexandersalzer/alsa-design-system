@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { Rhythm, RhythmItem } from '../../../../../system/layout/utilities/rhythm/Rhythm';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { Block } from '../../../../../system/layout/frames/block/Block';
 import { Button, ButtonProps } from '../../../../../system/components/primitives/Button';
 import { Typography, TypographyVariant, TypographyColor, TypographyWeight, TypographyAlign } from '../../../../../system/components/primitives/Typography';
 import { Icon  } from '../../../../../system/components/primitives/Icon';
@@ -30,26 +30,19 @@ export interface RichTextProps {
   subtitleWeight?: TypographyWeight;
   subtitleAs?: React.ElementType;
   
-  // Primary button props (single button like KJ Marketing Sweden)
-  primaryButton?: {
+  // Single button props
+  button?: {
     children: React.ReactNode;
     onClick?: () => void;
   } & Omit<ButtonProps, 'children' | 'rightIcon'>;
   
-  // Additional buttons for future flexibility (keeping Cluster structure)
-  additionalButtons?: ({
-    children: React.ReactNode;
-    onClick?: () => void;
-  } & Omit<ButtonProps, 'children'>)[];
-  
   // Rhythm layout configuration
   unit?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   textPosition?: number;
-  buttonsPosition?: number;
+  buttonPosition?: number;
   
   // Spacing configuration
   textSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  buttonSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   
   // Text alignment
   textAlign?: TypographyAlign;
@@ -72,15 +65,13 @@ export const RichText: React.FC<RichTextProps> = ({
   subtitleColor = 'secondary',
   subtitleWeight,
   subtitleAs,
-  primaryButton,
-  additionalButtons = [],
+  button,
   unit = 'lg',
   textPosition = 1,
-  buttonsPosition = 5, // Increased from 3 to 5 for more spacing
+  buttonPosition = 5,
   textSpacing = 'sm',
-  buttonSpacing = 'md',
   textAlign = 'center',
-  maxWidth = '600px', // Reduced from 800px for tighter text wrapping
+  maxWidth = '600px',
 }) => {
   const containerStyle = {
     ...(maxWidth && { maxWidth: typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth }),
@@ -91,9 +82,6 @@ export const RichText: React.FC<RichTextProps> = ({
   };
 
   const textAlignClass = textAlign !== 'left' ? `text-${textAlign}` : '';
-
-  // Check if we have any buttons to render
-  const hasButtons = primaryButton || additionalButtons.length > 0;
 
   return (
     <div style={containerStyle}>
@@ -130,30 +118,18 @@ export const RichText: React.FC<RichTextProps> = ({
           </div>
         </RhythmItem>
         
-        {/* Buttons */}
-        {hasButtons && (
-          <RhythmItem at={buttonsPosition}>
-            <Cluster
-              spacing={buttonSpacing}
-              align="center"
-              justify="center"
-              wrap={false}
-            >
-              {primaryButton && (
-                <Button 
-                  {...primaryButton}
-                  variant="primary"
-                  rightIcon={<Icon color="inverse"><ArrowRightIcon/></Icon>}
-                >
-                  {primaryButton.children}
-                </Button>
-              )}
-              {additionalButtons.map((button, index) => (
-                <Button key={index} {...button}>
-                  {button.children}
-                </Button>
-              ))}
-            </Cluster>
+        {/* Button */}
+        {button && (
+          <RhythmItem at={buttonPosition}>
+            <Block className="flex justify-center">
+              <Button 
+                {...button}
+                variant={button.variant || "primary"}
+                rightIcon={<Icon color="inverse"><ArrowRightIcon/></Icon>}
+              >
+                {button.children}
+              </Button>
+            </Block>
           </RhythmItem>
         )}
       </Rhythm>
