@@ -59,7 +59,6 @@
   --text-strong: var(--text-primary);
   --text-medium: var(--text-secondary);
   --text-light: var(--text-tertiary);
-  --text-disabled: var(--text-disabled);
   
   /* ===== BORDER SHORTCUTS ===== */
   /* Border intensity shortcuts */
