@@ -383,7 +383,7 @@
   cursor: pointer;
   transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
   border-radius: var(--foundation-radius-md);
-  background: transparent;
+  background: var(--surface-picker-option);
   margin: var(--foundation-space-2) 0;
   display: flex;
   align-items: center;

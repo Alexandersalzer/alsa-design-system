@@ -48,20 +48,20 @@
   --accent-1200: var(--foundation-honey-1200);
 
   /* ===== STATUS COLOR SCALES ===== */
-  /* Info/Amethyst scale */
-  --info-100: var(--foundation-amethyst-100);
-  --info-200: var(--foundation-amethyst-200);
-  --info-300: var(--foundation-amethyst-300);
-  --info-400: var(--foundation-amethyst-400);
-  --info-500: var(--foundation-amethyst-500);
-  --info-600: var(--foundation-amethyst-600);
-  --info-700: var(--foundation-amethyst-700);
-  --info-800: var(--foundation-amethyst-800);
-  --info-900: var(--foundation-amethyst-900);
-  --info-950: var(--foundation-amethyst-950);
-  --info-1000: var(--foundation-amethyst-1000);
-  --info-1100: var(--foundation-amethyst-1100);
-  --info-1200: var(--foundation-amethyst-1200);
+  /* Info/Azure scale - NOW BLUE INSTEAD OF PURPLE */
+  --info-100: var(--foundation-azure-100);
+  --info-200: var(--foundation-azure-200);
+  --info-300: var(--foundation-azure-300);
+  --info-400: var(--foundation-azure-400);
+  --info-500: var(--foundation-azure-500);
+  --info-600: var(--foundation-azure-600);
+  --info-700: var(--foundation-azure-700);
+  --info-800: var(--foundation-azure-800);
+  --info-900: var(--foundation-azure-900);
+  --info-950: var(--foundation-azure-950);
+  --info-1000: var(--foundation-azure-1000);
+  --info-1100: var(--foundation-azure-1100);
+  --info-1200: var(--foundation-azure-1200);
 
   /* Error/Ruby scale */
   --error-100: var(--foundation-ruby-100);
