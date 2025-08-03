@@ -7,28 +7,37 @@ import { usePathname } from 'next/navigation';
 
 interface HeroSectionProps {
   pageSlug?: string; // Optional override for page slug
+  
+  // Typography settings
+  titleAs?: React.ElementType;
+  subtitleAs?: React.ElementType;
+  
+  // Button settings
+  buttonVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
+  buttonSize?: 'sm' | 'md' | 'lg' | 'xl';
+  
+  // Layout settings
+  unit?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  textPosition?: number;
+  buttonPosition?: number;
+  textSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  textAlign?: 'left' | 'center' | 'right';
+  maxWidth?: string;
 }
 
-// Predefined design settings for HeroSection
-const HERO_DESIGN_SETTINGS = {
-  titleAs: 'h1' as const,
-  subtitleAs: 'p' as const,
-  primaryButton: {
-    variant: 'primary' as const,
-    size: 'md' as const,
-    radius: 'full' as const,
-  },
-  layout: {
-    unit: 'xl' as const,
-    textPosition: 1,
-    buttonsPosition: 9, // Increased for more spacing like KJ Marketing Sweden
-    textSpacing: 'sm' as const,
-    buttonSpacing: 'md' as const,
-    textAlign: 'center' as const,
-  }
-};
-
-export const HeroSection: React.FC<HeroSectionProps> = ({ pageSlug }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ 
+  pageSlug,
+  titleAs = 'h1',
+  subtitleAs = 'p',
+  buttonVariant = 'primary',
+  buttonSize = 'md',
+  unit = 'xl',
+  textPosition = 1,
+  buttonPosition = 9,
+  textSpacing = 'sm',
+  textAlign = 'center',
+  maxWidth = '550px'
+}) => {
   const { getHeroContent } = useContent();
   const pathname = usePathname();
   
@@ -48,20 +57,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ pageSlug }) => {
       <Container align="center" height="full">
         <RichText
           heading={heroContent.title}
-          headingAs={HERO_DESIGN_SETTINGS.titleAs}
+          headingAs={titleAs}
           subtitle={heroContent.subtitle}
-          subtitleAs={HERO_DESIGN_SETTINGS.subtitleAs}
+          subtitleAs={subtitleAs}
           button={{
-            size: HERO_DESIGN_SETTINGS.primaryButton.size,
-            radius: HERO_DESIGN_SETTINGS.primaryButton.radius,
+            variant: buttonVariant,
+            size: buttonSize,
             children: heroContent.primaryButtonText
           }}
-          unit={HERO_DESIGN_SETTINGS.layout.unit}
-          textPosition={HERO_DESIGN_SETTINGS.layout.textPosition}
-          buttonPosition={HERO_DESIGN_SETTINGS.layout.buttonsPosition}
-          textSpacing={HERO_DESIGN_SETTINGS.layout.textSpacing}
-          textAlign={HERO_DESIGN_SETTINGS.layout.textAlign}
-          maxWidth="550px"
+          unit={unit}
+          textPosition={textPosition}
+          buttonPosition={buttonPosition}
+          textSpacing={textSpacing}
+          textAlign={textAlign}
+          maxWidth={maxWidth}
         />
       </Container>
     </Section>
