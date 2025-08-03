@@ -101,9 +101,9 @@
   
   /* ===== SPECIFIC FORM ELEMENT RADIUS ===== */
   /* Input fields (input, textarea, select) */
-  --radius-input: var(--form-radius-large);
-  --radius-input-sm: var(--form-radius-base);
-  --radius-input-lg: var(--form-radius-large);
+  --radius-input: var(--radius-button-lg);
+  --radius-input-sm: var(--radius-button-sm);
+  --radius-input-lg: var(--radius-button-lg);
   
   /* Checkboxes and squares */
   --radius-checkbox: var(--form-radius-small);
@@ -118,14 +118,14 @@
   --radius-switch-thumb: var(--form-radius-round);
   
   /* Picker dropdowns */
-  --radius-picker: var(--form-radius-base);
-  --radius-picker-sm: var(--form-radius-small);
-  --radius-picker-lg: var(--form-radius-large);
+  --radius-picker: var(--radius-button);
+  --radius-picker-sm: var(--radius-button-sm);
+  --radius-picker-lg: var(--radius-button-lg);
   
   /* Dropdowns and popovers */
-  --radius-dropdown: var(--form-radius-base);
-  --radius-dropdown-sm: var(--form-radius-small);
-  --radius-dropdown-lg: var(--form-radius-large);
+  --radius-dropdown: var(--radius-button);
+  --radius-dropdown-sm: var(--radius-button-sm);
+  --radius-dropdown-lg: var(--radius-button-lg);
   
   /* ===== FORM SPACING TOKENS ===== */
   --space-form-field-gap: var(--foundation-space-2); /* 8px */
