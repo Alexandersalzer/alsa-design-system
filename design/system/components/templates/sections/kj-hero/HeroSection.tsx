@@ -51,16 +51,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ pageSlug }) => {
           headingAs={HERO_DESIGN_SETTINGS.titleAs}
           subtitle={heroContent.subtitle}
           subtitleAs={HERO_DESIGN_SETTINGS.subtitleAs}
-          primaryButton={{
+          button={{
             size: HERO_DESIGN_SETTINGS.primaryButton.size,
             radius: HERO_DESIGN_SETTINGS.primaryButton.radius,
             children: heroContent.primaryButtonText
           }}
           unit={HERO_DESIGN_SETTINGS.layout.unit}
           textPosition={HERO_DESIGN_SETTINGS.layout.textPosition}
-          buttonsPosition={HERO_DESIGN_SETTINGS.layout.buttonsPosition}
+          buttonPosition={HERO_DESIGN_SETTINGS.layout.buttonsPosition}
           textSpacing={HERO_DESIGN_SETTINGS.layout.textSpacing}
-          buttonSpacing={HERO_DESIGN_SETTINGS.layout.buttonSpacing}
           textAlign={HERO_DESIGN_SETTINGS.layout.textAlign}
           maxWidth="550px"
         />
