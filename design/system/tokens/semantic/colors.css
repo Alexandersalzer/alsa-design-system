@@ -206,27 +206,157 @@
   --shadow-emphasis: rgba(0, 0, 0, 0.15);
   --shadow-strong: rgba(0, 0, 0, 0.25);
 
-  /* ===== COMPONENT BUTTON TOKENS ===== */
+  --surface-page: var(--primary-white);
+  --surface-card: var(--primary-white);
+  --surface-card-hover: var(--primary-50);
+  --surface-card-selected: var(--primary-100);
+  --surface-card-elevated: var(--primary-white);
+  --surface-overlay: rgba(0, 0, 0, 0.5);
 
-  /*PATH    blimpify-ui/design/system/tokens/component   */
+  --border-default: var(--secondary-200);
+  --border-subtle: var(--secondary-100);
+  --border-hover: var(--secondary-300);
+  --border-focus: var(--accent-500);
+  --border-disabled: var(--secondary-100);
 
-  /* ===== COMPONENT CARD TOKENS ===== */
+  --icon-primary: var(--secondary-600);
+  --icon-secondary: var(--secondary-500);
+  --icon-tertiary: var(--secondary-400);
+  --icon-disabled: var(--secondary-300);
+  --icon-inverse: var(--primary-white);
 
-  /*PATH    blimpify-ui/design/system/tokens/component   */
-
-  /* ===== COMPONENT NAVIGATION TOKENS ===== */
-
-  /*PATH    blimpify-ui/design/system/tokens/component   */
-
-  /* ===== COMPONENT MODAL TOKENS ===== */
-
-  /*PATH    blimpify-ui/design/system/tokens/component   */
-
-  /* ===== COMPONENT FORM TOKENS ===== */
-
-  /*PATH    blimpify-ui/design/system/tokens/component   */
-
-  /* ===== COMPONENT LINK TOKENS ===== */
+  --interactive-primary: var(--primary-900);
+  --interactive-primary-hover: var(--primary-800);
+  --interactive-primary-active: var(--primary-700);
+  --interactive-primary-disabled: var(--secondary-200);
   
-  /*PATH    blimpify-ui/design/system/tokens/component   */
+  --interactive-secondary: var(--secondary-100);
+  --interactive-secondary-hover: var(--secondary-200);
+  --interactive-secondary-active: var(--secondary-300);
+  --interactive-secondary-disabled: var(--secondary-50);
+
+  --interactive-accent: var(--accent-600);
+  --interactive-accent-hover: var(--accent-700);
+  --interactive-accent-active: var(--accent-800);
+  
+  --interactive-tertiary: transparent;
+  --interactive-tertiary-hover: var(--secondary-50);
+  --interactive-tertiary-active: var(--secondary-100);
+
+  /* Component tokens */
+  --surface-button-primary: var(--interactive-primary);
+  --surface-button-primary-hover: var(--interactive-primary-hover);
+  --surface-button-primary-active: var(--interactive-primary-active);
+  --surface-button-primary-disabled: var(--interactive-primary-disabled);
+  --text-button-primary: var(--text-inverse);
+  --text-button-primary-disabled: var(--text-disabled);
+  --border-button-primary: var(--interactive-primary);
+  --border-button-primary-focus: var(--border-focus);
+
+  --surface-button-secondary: var(--interactive-secondary);
+  --surface-button-secondary-hover: var(--interactive-secondary-hover);
+  --surface-button-secondary-active: var(--interactive-secondary-active);
+  --surface-button-secondary-disabled: var(--interactive-secondary-disabled);
+  --text-button-secondary: var(--text-primary);
+  --text-button-secondary-disabled: var(--text-disabled);
+  --border-button-secondary: var(--border-default);
+  --border-button-secondary-hover: var(--border-hover);
+  --border-button-secondary-focus: var(--border-focus);
+  --border-button-secondary-disabled: var(--border-disabled);
+
+  --surface-button-accent: var(--interactive-accent);
+  --surface-button-accent-hover: var(--interactive-accent-hover);
+  --surface-button-accent-active: var(--interactive-accent-active);
+  --surface-button-accent-disabled: var(--interactive-primary-disabled);
+  --text-button-accent: var(--text-inverse);
+  --text-button-accent-disabled: var(--text-disabled);
+  --border-button-accent: var(--interactive-accent);
+  --border-button-accent-focus: var(--border-focus);
+
+  --surface-button-ghost: var(--interactive-tertiary);
+  --surface-button-ghost-hover: var(--interactive-tertiary-hover);
+  --surface-button-ghost-active: var(--interactive-tertiary-active);
+  --text-button-ghost: var(--text-secondary);
+
+  --border-card: var(--border-default);
+  --border-card-hover: var(--border-hover);
+  --text-card-primary: var(--text-primary);
+  --text-card-secondary: var(--text-secondary);
+  --icon-card-primary: var(--icon-primary);
+  --icon-card-secondary: var(--icon-secondary);
+
+  --surface-input: var(--primary-white);
+  --surface-input-disabled: var(--secondary-50);
+  --border-input: var(--border-default);
+  --border-input-hover: var(--border-hover);
+  --border-input-focus: var(--border-focus);
+  --border-input-error: var(--error-500);
+  --border-input-disabled: var(--border-disabled);
+  --text-input: var(--text-primary);
+  --text-input-placeholder: var(--text-placeholder);
+  --text-input-disabled: var(--text-disabled);
+  --icon-input: var(--icon-secondary);
+  --icon-input-disabled: var(--icon-disabled);
+
+  --surface-nav: var(--primary-white);
+  --surface-nav-item: transparent;
+  --surface-nav-item-hover: var(--secondary-100);
+  --surface-nav-item-selected: var(--secondary-100);
+  --surface-nav-item-disabled: transparent;
+  --text-nav-item: var(--text-secondary);
+  --text-nav-item-selected: var(--accent-600);
+  --text-nav-item-disabled: var(--text-disabled);
+  --text-nav-item-hover: var(--text-primary);
+  --icon-nav-item: var(--icon-secondary);
+  --icon-nav-item-selected: var(--accent-600);
+  --icon-nav-item-disabled: var(--icon-disabled);
+  --icon-nav-item-hover: var(--icon-primary);
+  --border-nav: var(--border-subtle);
+  --border-nav-item-selected: var(--accent-500);
+
+    /* ===== MISSING STATUS TEXT TOKENS ===== */
+  --text-error: var(--error-600);                         /* Red text for errors */
+  --text-success: var(--success-600);                     /* Green text for success */
+  --text-warning: var(--warning-600);                     /* Orange text for warnings */
+  --text-info: var(--info-600);                           /* Blue text for info */
+
+  /* ===== MISSING STATUS BORDER TOKENS ===== */
+  --border-error: var(--error-500);                       /* Red borders for errors */
+  --border-success: var(--success-500);                   /* Green borders for success */
+  --border-warning: var(--warning-500);                   /* Orange borders for warnings */
+  --border-info: var(--info-500);                         /* Blue borders for info */
+
+  /* ===== MISSING STATUS COLOR SCALES ===== */
+  /* Add more status color variants if you don't have them */
+  --error-600: var(--foundation-ruby-600);
+  --success-600: var(--foundation-emerald-600);
+  --warning-600: var(--foundation-honey-600);
+  --info-600: var(--foundation-amethyst-600);
+
+  /* ===== SHADOW SEMANTIC TOKENS (if missing) ===== */
+  --shadow-subtle: rgba(0, 0, 0, 0.05);
+  --shadow-default: rgba(0, 0, 0, 0.1);
+  --shadow-emphasis: rgba(0, 0, 0, 0.15);
+  --shadow-strong: rgba(0, 0, 0, 0.25);
+
+  /* ===== MISSING STATUS TEXT TOKENS ===== */
+--text-error: var(--error-600);                         /* Red text for errors */
+--text-success: var(--success-600);                     /* Green text for success */  
+--text-warning: var(--warning-600);                     /* Orange text for warnings */
+--text-info: var(--info-600);                           /* Blue text for info */
+
+/* ===== MISSING STATUS BORDER TOKENS ===== */
+--border-error: var(--error-500);                       /* Red borders for errors */
+--border-success: var(--success-500);                   /* Green borders for success */
+--border-warning: var(--warning-500);                   /* Orange borders for warnings */
+--border-info: var(--info-500);                         /* Blue borders for info */
+
+/* ===== ADD MISSING STATUS COLOR VARIANTS ===== */
+--error-600: var(--foundation-ruby-600);
+--success-600: var(--foundation-emerald-600);
+--warning-600: var(--foundation-honey-600);
+--info-600: var(--foundation-amethyst-600);
+
+/* Add this to your calculated-theme.css :root section */
+--surface-error-subtle: color-mix(in srgb, var(--error-500) 10%, var(--surface-card) 90%);
 }

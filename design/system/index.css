@@ -11,7 +11,7 @@
 /* STEP 3: Component tokens (surface-button-primary, etc.) */
 @import './tokens/component/index.css';
 
-@import './tokens/semantic/themes/calculated-theme.css';
+/*@import './tokens/semantic/themes/calculated-theme.css';*/
 
 
 /* STEP 4: Component CSS files */
