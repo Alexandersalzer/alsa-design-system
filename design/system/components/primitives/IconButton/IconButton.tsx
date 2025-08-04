@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/IconButton/IconButton.tsx
-// FIXED - Now properly uses Icon component with correct sizing
+// FIXED - Now properly handles icon colors for different button variants
 // ===============================================
 
 import React, { forwardRef } from 'react';
@@ -122,8 +122,12 @@ interface SmartIconButtonProps extends Omit<IconButtonProps, 'icon' | 'aria-labe
   'aria-label'?: string;
 }
 
-// 🎯 FIXED: Helper function that properly creates Icon with correct size
-const createActionIcon = (IconComponent: React.ComponentType<any>, size: IconButtonProps['size'] = 'lg') => {
+// 🎯 FIXED: Helper function that uses appropriate icon color based on button variant
+const createActionIcon = (
+  IconComponent: React.ComponentType<any>, 
+  variant: IconButtonProps['variant'] = 'secondary',
+  size: IconButtonProps['size'] = 'lg'
+) => {
   // Map IconButton size to Icon size
   const iconSizeMap = {
     'sm': 'sm' as const,
@@ -132,10 +136,28 @@ const createActionIcon = (IconComponent: React.ComponentType<any>, size: IconBut
     'xl': 'lg' as const   // xl IconButton uses lg Icon
   };
 
+  // 🎯 KEY FIX: Map button variant to appropriate icon color
+  const getIconColor = (buttonVariant: IconButtonProps['variant']) => {
+    switch (buttonVariant) {
+      case 'primary':
+        return 'button-primary'; // White text on primary background
+      case 'accent':
+        return 'button-accent'; // White text on accent background  
+      case 'destructive':
+        return 'button-destructive'; // White text on destructive background
+      case 'secondary':
+        return 'button-secondary'; // Dark text on light background
+      case 'ghost':
+        return 'button-ghost'; // Secondary text color
+      default:
+        return 'button-secondary';
+    }
+  };
+
   return (
     <Icon 
       size={iconSizeMap[size]} 
-      color="primary" 
+      color={getIconColor(variant)}
       weight="medium"
     >
       <IconComponent />
@@ -146,7 +168,7 @@ const createActionIcon = (IconComponent: React.ComponentType<any>, size: IconBut
 export const IconButtons = {
   More: ({ 'aria-label': label = 'More options', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
-      icon={createActionIcon(EllipsisHorizontalIcon, size)}
+      icon={createActionIcon(EllipsisHorizontalIcon, variant, size)}
       variant={variant}
       size={size}
       aria-label={label}
@@ -156,7 +178,7 @@ export const IconButtons = {
 
   Edit: ({ 'aria-label': label = 'Edit', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
-      icon={createActionIcon(PencilIcon, size)}
+      icon={createActionIcon(PencilIcon, variant, size)}
       variant={variant}
       size={size}
       aria-label={label}
@@ -166,7 +188,7 @@ export const IconButtons = {
 
   Delete: ({ 'aria-label': label = 'Delete', variant = 'destructive', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
-      icon={createActionIcon(TrashIcon, size)}
+      icon={createActionIcon(TrashIcon, variant, size)}
       variant={variant}
       size={size}
       aria-label={label}
@@ -176,7 +198,7 @@ export const IconButtons = {
 
   Close: ({ 'aria-label': label = 'Close', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
-      icon={createActionIcon(XMarkIcon, size)}
+      icon={createActionIcon(XMarkIcon, variant, size)}
       variant={variant}
       size={size}
       aria-label={label}
@@ -186,7 +208,7 @@ export const IconButtons = {
 
   Add: ({ 'aria-label': label = 'Add', variant = 'accent', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
-      icon={createActionIcon(PlusIcon, size)}
+      icon={createActionIcon(PlusIcon, variant, size)}
       variant={variant}
       size={size}
       aria-label={label}
@@ -196,7 +218,7 @@ export const IconButtons = {
 
   Search: ({ 'aria-label': label = 'Search', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
-      icon={createActionIcon(MagnifyingGlassIcon, size)}
+      icon={createActionIcon(MagnifyingGlassIcon, variant, size)}
       variant={variant}
       size={size}
       aria-label={label}
@@ -206,7 +228,7 @@ export const IconButtons = {
 
   Bell: ({ 'aria-label': label = 'Notifications', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
-      icon={createActionIcon(BellIcon, size)}
+      icon={createActionIcon(BellIcon, variant, size)}
       variant={variant}
       size={size}
       aria-label={label}
@@ -216,7 +238,7 @@ export const IconButtons = {
 
   Help: ({ 'aria-label': label = 'Help', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
-      icon={createActionIcon(QuestionMarkCircleIcon, size)}
+      icon={createActionIcon(QuestionMarkCircleIcon, variant, size)}
       variant={variant}
       size={size}
       aria-label={label}
