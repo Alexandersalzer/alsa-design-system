@@ -51,8 +51,8 @@
   /* Common surface patterns using semantic tokens */
   --surface-base: var(--surface-page);
   --surface-elevated: var(--secondary-100);
-  --surface-subtle: var(--surface-card-hover);
-  --surface-hover: var(--surface-card-selected);
+  --surface-subtle: var(--secondary-200);
+  --surface-hover: var(--secondary-300);
   
   /* ===== TEXT SHORTCUTS ===== */
   /* Text intensity shortcuts */
