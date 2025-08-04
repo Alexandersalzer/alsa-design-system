@@ -218,7 +218,7 @@
   z-index: var(--z-dropdown);
   border: 1px solid var(--border-default);                 /* FIXED: was 2px solid --border-select-focus */
   border-radius: var(--radius-dropdown);
-  background-color: var(--surface-elevated);               /* FIXED: was --surface-picker */
+  background-color: var(--surface-dropdown);               /* FIXED: was --surface-picker */
   box-shadow: var(--foundation-shadow-lg);
   overflow: hidden;
   max-height: 400px;

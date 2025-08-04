@@ -118,8 +118,7 @@
   --surface-page-secondary: #212121;                          /* Secondary dark areas */
   --surface-card: #171717;                                    /* Dark card backgrounds */
   --surface-card-hover: #252525;                              /* Dark card hover */
-  --surface-card-selected: #3D3D3D;                           /* Dark card selected */
-  --surface-card-elevated: #252525;                           /* Dark elevated surfaces */
+  --surface-card-selected: #3D3D3D;                           /* Dark card selected */                 /* Dark elevated surfaces */
   --surface-overlay: rgba(0, 0, 0, 0.8);                     /* Darker overlays */
   --surface-backdrop: rgba(0, 0, 0, 0.6);                    /* Dark backdrop */
   --surface-inverse: #f7f7f7;                                /* Light contrasting surfaces */
