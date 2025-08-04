@@ -6,6 +6,9 @@ export * from './cms/modules/initial/child/EditingWrapper';
 // Export i18n functionality
 export { getI18nConfig, getAvailableLocales, type Locale } from './cms/lang/i18n';
 
+// Export content loading functionality
+export { getAllPagesContent, getPageContent, getGlobalComponentContent } from './cms/content/contentLoader';
+
 // Export initial messaging functionality (editing status only)
 export {
   InitialMessageHandler,

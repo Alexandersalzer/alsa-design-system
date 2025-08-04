@@ -16,6 +16,11 @@
       "require": "./dist/cms/lang/i18n.js",
       "types": "./dist/cms/lang/i18n.d.ts"
     },
+    "./content": {
+      "import": "./dist/cms/content/contentLoader.js",
+      "require": "./dist/cms/content/contentLoader.js",
+      "types": "./dist/cms/content/contentLoader.d.ts"
+    },
     "./dist/index.css": "./dist/index.css"
   },
   "files": [
