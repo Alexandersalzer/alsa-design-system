@@ -65,6 +65,7 @@
   --surface-dropdown-option: var(--surface-base);
   --surface-dropdown-option-hover: var(--secondary-200);
   --surface-dropdown-option-selected: var(--secondary-300);
+  --surface-dropdown-option-selected-hover: var(--secondary-400);
   
   --border-dropdown: var(--border-medium);
   --border-dropdown-hover: var(--border-hover);

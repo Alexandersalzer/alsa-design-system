@@ -424,7 +424,7 @@
 }
 
 .picker-option--selected:hover {
-  background-color: var(--surface-hover);                  /* FIXED: was --secondary-300, using shortcut */
+  background-color: var(--surface-dropdown-option-selected-hover);                  /* FIXED: was --secondary-300, using shortcut */
 }
 
 .picker-option--disabled {
