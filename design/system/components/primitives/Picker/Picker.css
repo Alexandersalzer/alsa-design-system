@@ -410,7 +410,7 @@
 
 /* ===== FIXED HOVER STATES ===== */
 .picker-option:hover {
-  background-color: var(--surface-subtle);                 /* FIXED: subtle hover background */
+  background-color: var(--surface-dropdown-option-hover);                 /* FIXED: subtle hover background */
 }
 
 .picker-option--focused {
