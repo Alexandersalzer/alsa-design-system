@@ -389,7 +389,7 @@
   --surface-picker: #252525;
   --surface-picker-hover: var(--secondary-300);
   --surface-picker-disabled: #212121;
-  --surface-picker-option: var(--surface-tag-accent);
+  --surface-picker-option: var(--surface-card);
   --surface-picker-option-hover: var(--secondary-300);
   --surface-picker-option-selected: var(--secondary-300);
   --border-picker: var(--border-default);
