@@ -11,6 +11,11 @@
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./i18n": {
+      "import": "./dist/cms/lang/i18n.js",
+      "require": "./dist/cms/lang/i18n.js",
+      "types": "./dist/cms/lang/i18n.d.ts"
+    },
     "./dist/index.css": "./dist/index.css"
   },
   "files": [
