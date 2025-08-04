@@ -64,16 +64,16 @@
   
   /* ===== BORDER RADIUS COMPONENT TOKENS ===== */
   --radius-button: var(--radius-xl);
-  --radius-button-sm: var(--form-radius-lg);
-  --radius-button-lg: var(--form-radius-xl);
-  --radius-card: var(--foundation-radius-lg);
-  --radius-input: var(--foundation-radius-lg);
-  --radius-modal: var(--foundation-radius-xl);
-  --radius-toast: var(--foundation-radius-lg);
-  --radius-badge: var(--foundation-radius-lg);
-  --radius-avatar: var(--foundation-radius-full);
-  --radius-code-inline: var(--foundation-radius-sm);
-  --radius-code-block: var(--foundation-radius-md);
+  --radius-button-sm: var(--radius-lg);
+  --radius-button-lg: var(--radius-2xl);
+  --radius-card: var(radius-lg);
+  --radius-input: var(--radius-xl);
+  --radius-modal: var(--radius-xl);
+  --radius-toast: var(--radius-lg);
+  --radius-badge: var(--radius-lg);
+  --radius-avatar: var(--radius-full);
+  --radius-code-inline: var(--radius-sm);
+  --radius-code-block: var(--radius-md);
 
   /* ===== PAGE LAYOUT TOKENS ===== */
   --space-page-padding-xs: var(--space-container-padding-xs);   /* 16px */
