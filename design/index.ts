@@ -50,5 +50,17 @@ export type {
   BlockType 
 } from './cms/types/content';
 
+// Export content loader types and utilities
+export {
+  ContentPathBuilder,
+  ContentProcessor,
+  CONTENT_PATHS,
+  DEFAULT_LOCALE,
+  type LayoutItem,
+  type PageContent,
+  type GlobalComponentContent,
+  type WebsiteContentStructure
+} from './types/contentLoader';
+
 // Remove dimensionMessaging export
 // export { sendBothDimensions } from './cms/messaging/dimensionMessaging'; 
