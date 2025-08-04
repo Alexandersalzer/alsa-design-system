@@ -18,3 +18,5 @@ export * from './page';
 
 
 export * from './selection';
+
+export * from './GitHubInfo';
