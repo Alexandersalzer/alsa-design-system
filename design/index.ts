@@ -9,6 +9,9 @@ export { getI18nConfig, getAvailableLocales, type Locale } from './cms/lang/i18n
 // Export content loading functionality
 export { getAllPagesContent, getPageContent, getGlobalComponentContent } from './cms/content/contentLoader';
 
+// Export layout components
+export { ClientLayout, type NavigationItem, type ClientLayoutProps } from './system/layout/ClientLayout';
+
 // Export initial messaging functionality (editing status only)
 export {
   InitialMessageHandler,
