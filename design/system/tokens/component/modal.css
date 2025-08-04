@@ -6,7 +6,7 @@
 :root {
   /* ===== MODAL SURFACES ===== */
   --surface-modal-backdrop: var(--surface-overlay);       /* FIXED: was rgba(0, 0, 0, 0.5) */
-  --surface-modal-content: var(--surface-card-elevated);  /* FIXED: was --primary-white */
+  --surface-modal-content: var(--primary-white);  /* FIXED: was --primary-white */
   
   /* ===== MODAL BORDERS ===== */
   --border-modal: var(--border-subtle);                   /* FIXED: was --secondary-100 */
