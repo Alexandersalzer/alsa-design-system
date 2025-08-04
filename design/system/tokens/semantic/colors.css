@@ -127,7 +127,6 @@
 
   /* ===== SEMANTIC SURFACE TOKENS ===== */
   --surface-background: #fff;
-  /*--surface-modal: var(--primary-white);*/
   --surface-page: var(--primary-white);
   --surface-card: var(--primary-white);
 
