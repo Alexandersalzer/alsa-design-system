@@ -52,18 +52,17 @@
   --secondary-800: #C7C7C7;
   --secondary-900: #D5D5D5;
 
-  /* ===== ACCENT COLORS (Keep brand colors but adjust for dark theme contrast) ===== */
-  /* Make accent colors slightly lighter for better contrast on dark backgrounds */
+  /* ===== ACCENT COLORS (Keep brand colors but adjust for dark theme contrast) ===== 
   --accent-100: var(--foundation-purple-200);
   --accent-200: var(--foundation-purple-300);
   --accent-300: var(--foundation-purple-400);
   --accent-400: var(--foundation-purple-500);
-  --accent-500: var(--foundation-purple-400);  /* Lighter for better contrast */
+  --accent-500: var(--foundation-purple-400);
   --accent-600: var(--foundation-purple-500);
   --accent-700: var(--foundation-purple-600);
   --accent-800: var(--foundation-purple-700);
   --accent-900: var(--foundation-purple-800);
-
+  */
   /* ===== STATUS COLORS (Adjust for dark theme contrast) ===== */
   /* Make status colors slightly lighter/more vibrant for dark backgrounds */
   
