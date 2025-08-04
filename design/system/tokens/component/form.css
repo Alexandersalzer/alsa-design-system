@@ -39,8 +39,8 @@
   --surface-picker: var(--surface-subtle);
   --surface-picker-hover: var(--surface-hover);
   --surface-picker-disabled: var(--surface-subtle);
-  --surface-picker-option: var(--surface-base);
-  --surface-picker-option-hover: var(--surface-subtle);
+  --surface-picker-option: var(--surface-subtle);
+  --surface-picker-option-hover: var(--surface-hover);
   --surface-picker-option-selected: var(--surface-hover);
   
   --border-picker: var(--border-medium);
@@ -80,6 +80,10 @@
   
   --icon-dropdown: var(--icon-secondary);
   --icon-dropdown-disabled: var(--icon-disabled);
+
+    /* ===== DROPDOWN TOKENS - USING SHORTCUTS ===== */
+  --surface-dropdown: var(--surface-elevated);
+  --shadow-dropdown: var(--foundation-shadow-lg);
   
   /* ===== TEXTAREA TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
   --surface-textarea: var(--surface-base);
