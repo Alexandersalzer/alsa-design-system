@@ -9,8 +9,17 @@ export { getI18nConfig, getAvailableLocales, type Locale } from './cms/lang/i18n
 // Export content loading functionality
 export { getAllPagesContent, getPageContent, getGlobalComponentContent } from './cms/content/contentLoader';
 
+// Export navigation helper functionality
+export { 
+  enhanceNavigationWithCMS,
+  type NavigationItem,
+  type NavbarBlock,
+  type NavbarPattern,
+  type JsonNavItem
+} from './cms/content/navigationHelper';
+
 // Export layout components
-export { ClientLayout, type NavigationItem, type ClientLayoutProps } from './system/layout/ClientLayout';
+export { ClientLayout, type ClientLayoutProps } from './system/layout/ClientLayout';
 
 // Export initial messaging functionality (editing status only)
 export {

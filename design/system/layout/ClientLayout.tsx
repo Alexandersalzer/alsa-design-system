@@ -3,18 +3,7 @@
 import { ContentProvider, EditingModeWrapper, Navbar, Footer, ArrowRightIcon } from '../..';
 import { ReactNode } from "react";
 import type { WebsiteContent } from "../../cms/types/content";
-
-interface NavigationItem {
-  href: string;
-  label: string;
-  slug: string;
-  componentType: 'textlink' | 'button';
-  textLinkVariant?: 'primary';
-  weight?: 'medium';
-  underline?: 'hover';
-  variant?: 'primary';
-  rightIcon?: string;
-}
+import type { NavigationItem } from "../../cms/content/navigationHelper";
 
 interface ClientLayoutProps {
   children: ReactNode;
@@ -88,5 +77,5 @@ export function ClientLayout({
   );
 }
 
-// Export the interfaces for use in client projects
-export type { NavigationItem, ClientLayoutProps }; 
+// Export the interface for use in client projects
+export type { ClientLayoutProps }; 
