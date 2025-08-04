@@ -11,6 +11,10 @@
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./cms/lang/i18n": {
+      "node": "./dist/cms/lang/i18n.node.js",
+      "default": "./dist/cms/lang/i18n.browser.js"
+    },
     "./dist/index.css": "./dist/index.css"
   },
   "files": [
