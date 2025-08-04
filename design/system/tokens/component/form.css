@@ -40,8 +40,8 @@
   --surface-picker-hover: var(--surface-hover);
   --surface-picker-disabled: var(--surface-subtle);
   --surface-picker-option: var(--surface-subtle);
-  --surface-picker-option-hover: var(--surface-hover);
-  --surface-picker-option-selected: var(--surface-hover);
+  --surface-picker-option-hover: var(--secondary-200);
+  --surface-picker-option-selected: var(--secondary-200);
   
   --border-picker: var(--border-medium);
   --border-picker-hover: var(--border-hover);
