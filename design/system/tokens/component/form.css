@@ -39,7 +39,7 @@
   --surface-picker: var(--surface-subtle);
   --surface-picker-hover: var(--surface-hover);
   --surface-picker-disabled: var(--surface-subtle);
-  --surface-picker-option: var(--surface-base);
+  --surface-picker-option: var(--surface-page);
   --surface-picker-option-hover: var(--surface-subtle);
   --surface-picker-option-selected: var(--surface-hover);
   
@@ -96,9 +96,9 @@
   --text-textarea-disabled: var(--text-disabled); 
   
   /* ===== SWITCH TOKENS - ALREADY GOOD WITH SEMANTIC ===== */
-  --surface-switch-track: var(--interactive-secondary);
+  --surface-switch-track: var(--secondary-200);
   --surface-switch-track-checked: var(--interactive-accent);
-  --surface-switch-track-hover: var(--interactive-secondary-hover);
+  --surface-switch-track-hover: var(--secondary-300);
   --surface-switch-track-checked-hover: var(--interactive-accent);
   --surface-switch-track-disabled: var(--interactive-secondary-disabled);
   --surface-switch-track-disabled-checked: var(--interactive-primary-disabled);
