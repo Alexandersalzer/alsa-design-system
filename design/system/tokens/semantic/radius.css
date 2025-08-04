@@ -114,3 +114,56 @@
   --radius-navigation: var(--foundation-radius-xl); /* 12px */
   --radius-container: var(--foundation-radius-2xl); /* 16px */
 }
+
+
+/* ==============================================
+   src/design-system/tokens/semantic/radius.css
+   SEMANTIC RADIUS TOKENS - Non-component specific
+   ============================================== */
+
+:root {
+  /* ===== SEMANTIC RADIUS TOKENS ===== */
+   /* These are semantic tokens that reference foundation radius scales */
+  
+  /* None - No radius */
+  --radius-none: var(--selected-radius-scale-none);
+  
+  /* XS - Extra small radius */
+  --radius-xs: var(--selected-radius-scale-xs);
+  
+  /* SM - Small radius */
+  --radius-sm: var(--selected-radius-scale-sm);
+  
+  /* MD - Medium radius (default) */
+  --radius-md: var(--selected-radius-scale-md);
+  
+  /* LG - Large radius */
+  --radius-lg: var(--selected-radius-scale-lg);
+  
+  /* XL - Extra large radius */
+  --radius-xl: var(--selected-radius-scale-xl);
+  /* 2XL - Extra extra large radius */
+  --radius-2xl: var(--selected-radius-scale-2xl);
+
+  /* Full - Pill/circular radius */
+  --radius-full: var(--selected-radius-scale-full);
+  
+  /* ===== SEMANTIC RADIUS ALIASES ===== */
+  /* Common semantic names for different use cases */
+  
+  /* Default radius for most UI elements */
+  --radius-default: var(--radius-md);
+  
+  /* Subtle radius for minimal rounded corners */
+  --radius-subtle: var(--radius-xs);
+  
+  /* Prominent radius for emphasized elements */
+  --radius-prominent: var(--radius-lg);
+  
+  /* Pill radius for buttons, badges, etc. */
+  --radius-pill: var(--radius-full);
+  
+  /* Sharp corners - no radius */
+  --radius-sharp: var(--radius-none);
+  } 
+  
