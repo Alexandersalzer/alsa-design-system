@@ -38,6 +38,9 @@ interface ContentContextType {
   getNavbarContent: () => NavbarContent | undefined;
 }
 
+// Create context BEFORE using it
+const ContentContext = createContext<ContentContextType | undefined>(undefined);
+
 interface ContentProviderProps {
   children: ReactNode;
   initialContent?: WebsiteContent | null;
@@ -164,8 +167,6 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
     </ContentContext.Provider>
   );
 }
-
-const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export function useContent() {
   const context = useContext(ContentContext);
