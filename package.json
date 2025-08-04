@@ -21,6 +21,11 @@
       "require": "./dist/cms/content/contentLoader.js",
       "types": "./dist/cms/content/contentLoader.d.ts"
     },
+    "./navigation": {
+      "import": "./dist/cms/content/navigationHelper.js",
+      "require": "./dist/cms/content/navigationHelper.js",
+      "types": "./dist/cms/content/navigationHelper.d.ts"
+    },
     "./layout": {
       "import": "./dist/system/layout/ClientLayout.js",
       "require": "./dist/system/layout/ClientLayout.js",
