@@ -33,19 +33,19 @@
   --secondary-900: var(--foundation-gray-900);
 
   /* ===== ACCENT COLOR SCALE ===== */
-  --accent-100: var(--foundation-honey-100);
-  --accent-200: var(--foundation-honey-200);
-  --accent-300: var(--foundation-honey-300);
-  --accent-400: var(--foundation-honey-400);
-  --accent-500: var(--foundation-honey-500);
-  --accent-600: var(--foundation-honey-600);
-  --accent-700: var(--foundation-honey-700);
-  --accent-800: var(--foundation-honey-800);
-  --accent-900: var(--foundation-honey-900);
-  --accent-950: var(--foundation-honey-950);
-  --accent-1000: var(--foundation-honey-1000);
-  --accent-1100: var(--foundation-honey-1100);
-  --accent-1200: var(--foundation-honey-1200);
+  --accent-100: var(--foundation-azure-100);
+  --accent-200: var(--foundation-azure-200);
+  --accent-300: var(--foundation-azure-300);
+  --accent-400: var(--foundation-azure-400);
+  --accent-500: var(--foundation-azure-500);
+  --accent-600: var(--foundation-azure-600);
+  --accent-700: var(--foundation-azure-700);
+  --accent-800: var(--foundation-azure-800);
+  --accent-900: var(--foundation-azure-900);
+  --accent-950: var(--foundation-azure-950);
+  --accent-1000: var(--foundation-azure-1000);
+  --accent-1100: var(--foundation-azure-1100);
+  --accent-1200: var(--foundation-azure-1200);
 
   /* ===== STATUS COLOR SCALES ===== */
   /* Info/Azure scale - NOW BLUE INSTEAD OF PURPLE */
