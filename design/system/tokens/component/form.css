@@ -39,7 +39,7 @@
   --surface-picker: var(--surface-subtle);
   --surface-picker-hover: var(--surface-hover);
   --surface-picker-disabled: var(--surface-subtle);
-  --surface-picker-option: var(--surface-subtle);
+  --surface-picker-option: transparent;
   --surface-picker-option-hover: var(--secondary-300);
   --surface-picker-option-selected: var(--secondary-300);
   
