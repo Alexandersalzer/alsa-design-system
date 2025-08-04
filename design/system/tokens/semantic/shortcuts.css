@@ -50,7 +50,7 @@
   /* ===== NEUTRAL/SURFACE SHORTCUTS ===== */
   /* Common surface patterns using semantic tokens */
   --surface-base: var(--surface-page);
-  --surface-elevated: var(--surface-card-elevated);
+  --surface-elevated: var(--secondary-100);
   --surface-subtle: var(--surface-card-hover);
   --surface-hover: var(--surface-card-selected);
   
