@@ -110,6 +110,26 @@
   --warning-800: var(--foundation-honey-700);
   --warning-900: var(--foundation-honey-800);
 
+  --error-bg: rgba(239, 68, 68, 0.15);     /* Semi-transparent red */
+  --error-bg-hover: rgba(239, 68, 68, 0.25);
+  --error-border: rgba(239, 68, 68, 0.4);
+  
+  --success-bg: rgba(52, 211, 153, 0.15);  /* Semi-transparent green */
+  --success-bg-hover: rgba(52, 211, 153, 0.25);
+  --success-border: rgba(52, 211, 153, 0.4);
+  
+  --warning-bg: rgba(245, 158, 11, 0.15);  /* Semi-transparent yellow */
+  --warning-bg-hover: rgba(245, 158, 11, 0.25);
+  --warning-border: rgba(245, 158, 11, 0.4);
+  
+  --info-bg: rgba(139, 92, 246, 0.15);     /* Semi-transparent blue */
+  --info-bg-hover: rgba(139, 92, 246, 0.25);
+  --info-border: rgba(139, 92, 246, 0.4);
+  
+  --accent-bg: rgba(196, 132, 252, 0.15);  /* Semi-transparent purple */
+  --accent-bg-hover: rgba(196, 132, 252, 0.25);
+  --accent-border: rgba(196, 132, 252, 0.4);
+
   /* ===== SEMANTIC SURFACE COLORS ===== */
                           /* Main dark background */
 
