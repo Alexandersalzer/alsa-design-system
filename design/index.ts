@@ -4,7 +4,7 @@ export * from './cms/context/ContentProvider';
 export * from './cms/modules/initial/child/EditingWrapper';
 
 // Export i18n functionality
-export { getI18nConfig, getAvailableLocales, type Locale } from './cms/lang/i18n.node';
+export { getI18nConfig, getAvailableLocales, type Locale } from './cms/lang/i18n';
 
 // Export initial messaging functionality (editing status only)
 export {
