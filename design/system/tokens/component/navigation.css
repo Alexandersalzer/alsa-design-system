@@ -29,14 +29,6 @@
   --surface-header: var(--surface-base);
   --border-header: var(--border-light);
   
-  /* ===== DROPDOWN TOKENS - USING SHORTCUTS ===== */
-  --surface-dropdown: var(--surface-elevated);
-  --surface-dropdown-elevated: var(--surface-elevated);
-  --border-dropdown: var(--border-medium);
-  --border-dropdown-subtle: var(--border-light);
-  --shadow-dropdown: var(--foundation-shadow-lg);
-  --radius-dropdown: var(--foundation-radius-xl);
-  
   /* ===== DROPDOWN SPACING (keep as-is) ===== */
   --space-dropdown-offset: var(--foundation-space-4);
   --space-dropdown-padding: var(--foundation-space-5);
@@ -71,7 +63,7 @@
   --icon-user-menu-chevron: var(--icon-tertiary);
   
   /* ===== USER MENU DROPDOWN TOKENS ===== */
-  --surface-user-menu-dropdown: var(--surface-dropdown-elevated);
+  --surface-user-menu-dropdown: var(--surface-dropdown);
   --shadow-user-menu-dropdown: var(--shadow-dropdown);
   
   /* ===== USER MENU ITEM TOKENS - USING SHORTCUTS ===== */
@@ -95,14 +87,14 @@
 
   
   /* ===== NOTIFICATION DROPDOWN TOKENS ===== */
-  --surface-notification-dropdown: var(--surface-dropdown-elevated);
-  --border-notification-dropdown: var(--border-dropdown-subtle);
+  --surface-notification-dropdown: var(--surface-dropdown);
+  --border-notification-dropdown: var(--border-subtle);
   --shadow-notification-dropdown: var(--shadow-dropdown);
   
   /* ===== NOTIFICATION LIST TOKENS - USING SEMANTIC ===== */
   --surface-notification-item: transparent;
   --surface-notification-item-hover: var(--surface-nav-item-hover);
-  --border-notification-item: var(--border-dropdown-subtle);
+  --border-notification-item: var(--border-subtle);
   --text-notification-title: var(--text-nav-item);
   --text-notification-subtitle: var(--text-secondary);
   --text-notification-caption: var(--text-tertiary);

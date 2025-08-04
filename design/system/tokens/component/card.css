@@ -7,7 +7,6 @@
     /* ===== CARD SURFACES ===== */
     --surface-card: var(--surface-card);                    /* Already defined in semantic */
     --surface-card-hover: var(--primary-100);        /* Already defined in semantic */
-    --surface-card-elevated: var(--primary-white);  /* Already defined in semantic */
     --surface-card-selected: var(--primary-100);
     
     /* ===== CARD BORDERS ===== */
