@@ -13,7 +13,7 @@
   /* Layout */
   padding: var(--foundation-space-2) var(--foundation-space-4);
   border: 1px solid transparent;
-  border-radius: var(--radius-button, var(--radius-md)); /* Default radius */
+  border-radius: var(--radius-button); /* Default radius */
   
   /* Interaction */
   cursor: pointer;
@@ -44,17 +44,6 @@
   padding: var(--foundation-space-4) var(--foundation-space-6);
   min-height: 56px; /* Extra large for special cases */
 }
-
-/* 🆕 RADIUS VARIANTS */
-.btn-radius-none { border-radius: var(--radius-none); }
-.btn-radius-xs { border-radius: var(--radius-xs); }
-.btn-radius-sm { border-radius: var(--radius-sm); }
-.btn-radius-md { border-radius: var(--radius-md); }
-.btn-radius-lg { border-radius: var(--radius-lg); }
-.btn-radius-xl { border-radius: var(--radius-xl); }
-.btn-radius-2xl { border-radius: var(--radius-2xl); }
-.btn-radius-full { border-radius: var(--radius-full); }
-
 
 /* Button Variants */
 .btn-primary {
@@ -149,13 +138,13 @@
 }
 
 .btn-destructive {
-  background-color: var(--error-600);
+  background-color: var(--surface-button-destructive);
   color: var(--primary-white);
-  border-color: var(--error-700, #ef4444);
+  border-color: var(--border-button-destructive);
 }
 
 .btn-destructive:hover:not(:disabled) {
-  background-color: var(--error-600, #dc2626);
+  background-color: var(--surface-button-destructive-hover);
 }
 
 /* Loading state */

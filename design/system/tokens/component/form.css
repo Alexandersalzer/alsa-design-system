@@ -1,103 +1,131 @@
 /* ==============================================
    src/design-system/tokens/component/form.css
-   FORM COMPONENT TOKENS - CHECKBOX, RADIO, SELECT, TEXTAREA, SWITCH, PICKER
+   FORM COMPONENT TOKENS - IMPROVED WITH SMART SHORTCUTS
    ============================================== */
 
 :root {
-  /* ===== CHECKBOX TOKENS ===== */
-  --surface-checkbox: var(--primary-white);
-  --surface-checkbox-checked: var(--accent-500);
-  --surface-checkbox-hover: var(--accent-50);
-  --surface-checkbox-disabled: var(--secondary-50);
-  --surface-checkbox-disabled-checked: var(--secondary-200);
+  /* ===== CHECKBOX TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
+  --surface-checkbox: var(--surface-base);
+  --surface-checkbox-checked: var(--interactive-accent);
+  --surface-checkbox-hover: var(--accent-subtle);
+  --surface-checkbox-disabled: var(--surface-subtle);
+  --surface-checkbox-disabled-checked: var(--interactive-secondary);
   
-  --border-checkbox: var(--secondary-300);
-  --border-checkbox-hover: var(--accent-500);
-  --border-checkbox-focus: var(--accent-500);
-  --border-checkbox-checked: var(--accent-500);
-  --border-checkbox-disabled: var(--secondary-200);
+  --border-checkbox: var(--border-medium);
+  --border-checkbox-hover: var(--border-focus);
+  --border-checkbox-focus: var(--border-focus);
+  --border-checkbox-checked: var(--border-focus);
+  --border-checkbox-disabled: var(--border-disabled);
   
-  --icon-checkbox: var(--primary-white);
-  --icon-checkbox-disabled: var(--secondary-400);
+  --icon-checkbox: var(--icon-inverse);
+  --icon-checkbox-disabled: var(--icon-disabled);
   
-  /* ===== RADIO TOKENS ===== */
-  --surface-radio: var(--primary-white);
-  --surface-radio-checked: var(--primary-white);
-  --surface-radio-hover: var(--accent-50);
-  --surface-radio-disabled: var(--secondary-50);
+  /* ===== RADIO TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
+  --surface-radio: var(--surface-base);
+  --surface-radio-checked: var(--surface-base);
+  --surface-radio-hover: var(--accent-subtle);
+  --surface-radio-disabled: var(--surface-subtle);
   
-  --border-radio: var(--secondary-300);
-  --border-radio-hover: var(--accent-500);
-  --border-radio-focus: var(--accent-500);
-  --border-radio-checked: var(--accent-500);
-  --border-radio-disabled: var(--secondary-200);
+  --border-radio: var(--border-medium);
+  --border-radio-hover: var(--border-focus);
+  --border-radio-focus: var(--border-focus);
+  --border-radio-checked: var(--border-focus);
+  --border-radio-disabled: var(--border-disabled);
   
-  --indicator-radio: var(--accent-500);
-  --indicator-radio-disabled: var(--secondary-300);
+  --indicator-radio: var(--interactive-accent);
+  --indicator-radio-disabled: var(--icon-disabled);
   
-  /* ===== PICKER TOKENS ===== */
-  --surface-picker: var(--secondary-50);
-  --surface-picker-hover: var(--secondary-100);
-  --surface-picker-disabled: var(--secondary-50);
-  --surface-picker-option: var(--primary-white);
-  --surface-picker-option-hover: var(--secondary-100);
-  --surface-picker-option-selected: var(--secondary-200);
+  /* ===== PICKER TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
+  --surface-picker: var(--surface-subtle);
+  --surface-picker-hover: var(--surface-hover);
+  --surface-picker-disabled: var(--surface-subtle);
+  --surface-picker-option: transparent;
+  --surface-picker-option-hover: var(--secondary-300);
+  --surface-picker-option-selected: var(--secondary-300);
   
-  --border-picker: var(--secondary-200);
-  --border-picker-hover: var(--secondary-300);
-  --border-picker-focus: var(--secondary-200);
-  --border-picker-error: var(--error-500);
-  --border-picker-disabled: var(--secondary-100);
+  --border-picker: var(--border-medium);
+  --border-picker-hover: var(--border-hover);
+  --border-picker-focus: var(--border-focus);
+  --border-picker-error: var(--error-border);
+  --border-picker-disabled: var(--border-disabled);
   
-  --text-picker: var(--primary-1000);
-  --text-picker-placeholder: var(--secondary-400);
-  --text-picker-disabled: var(--secondary-400);
-  --text-picker-option: var(--primary-1000);
-  --text-picker-option-selected: var(--accent-700);
+  --text-picker: var(--text-primary);
+  --text-picker-placeholder: var(--text-placeholder);
+  --text-picker-disabled: var(--text-disabled);
+  --text-picker-option: var(--text-primary);
+  --text-picker-option-selected: var(--text-link);
   
-  --icon-picker: var(--secondary-500);
-  --icon-picker-disabled: var(--secondary-300);
-  
-  /* ===== TEXTAREA TOKENS ===== */
-  --surface-textarea: var(--primary-white);
-  --surface-textarea-disabled: var(--secondary-50);
-  
-  --border-textarea: var(--secondary-200);
-  --border-textarea-hover: var(--secondary-300);
-  --border-textarea-focus: var(--accent-500);
-  --border-textarea-error: var(--error-500);
-  --border-textarea-disabled: var(--secondary-100);
-  
-  --text-textarea: var(--primary-1000);
-  --text-textarea-placeholder: var(--secondary-400);
-  --text-textarea-disabled: var(--secondary-400);
-  
-  /* ===== SWITCH TOKENS ===== */
-  --surface-switch-track: var(--secondary-200);
-  --surface-switch-track-checked: var(--accent-500);
-  --surface-switch-track-hover: var(--secondary-300);
-  --surface-switch-track-checked-hover: var(--accent-500);
-  --surface-switch-track-disabled: var(--secondary-100);
-  --surface-switch-track-disabled-checked: var(--secondary-300);
-  
-  --surface-switch-thumb: var(--primary-white);
-  --surface-switch-thumb-disabled: var(--secondary-100);
-  
-  --border-switch-focus: var(--accent-500);
-  
-  /* ===== FORM FIELD TOKENS ===== */
-  --text-form-label: var(--primary-1000);
-  --text-form-label-disabled: var(--secondary-400);
-  --text-form-label-required: var(--error-500);
-  --text-form-hint: var(--secondary-600);
-  --text-form-error: var(--error-600);
-  --text-form-success: var(--success-600);
+  --icon-picker: var(--icon-secondary);
+  --icon-picker-disabled: var(--icon-disabled);
 
-  /* Base form radius - controls overall roundness */
-  --form-radius-base: var(--foundation-radius-lg);    /* Main control - change this! */
-  --form-radius-small: var(--foundation-radius-md);   /* For smaller elements */
-  --form-radius-large: var(--foundation-radius-xl);   /* For larger elements */
-  --form-radius-round: var(--foundation-radius-full); /* For circular elements */
+  /* ===== Dropdown TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
+  --surface-dropdown: var(--surface-subtle);
+  --surface-dropdown-hover: var(--surface-hover);
+  --surface-dropdown-disabled: var(--surface-subtle);
+  --surface-dropdown-option: var(--surface-base);
+  --surface-dropdown-option-hover: var(--secondary-200);
+  --surface-dropdown-option-selected: var(--secondary-300);
+  --surface-dropdown-option-selected-hover: var(--secondary-400);
+  
+  --border-dropdown: var(--border-medium);
+  --border-dropdown-hover: var(--border-hover);
+  --border-dropdown-focus: var(--border-focus);
+  --border-dropdown-error: var(--error-border);
+  --border-dropdown-disabled: var(--border-disabled);
+  
+  --text-dropdown: var(--text-primary);
+  --text-dropdown-placeholder: var(--text-placeholder);
+  --text-dropdown-disabled: var(--text-disabled);
+  --text-dropdown-option: var(--text-primary);
+  --text-dropdown-option-selected: var(--text-link);
+  
+  --icon-dropdown: var(--icon-secondary);
+  --icon-dropdown-disabled: var(--icon-disabled);
+
+    /* ===== DROPDOWN TOKENS - USING SHORTCUTS ===== */
+  --surface-dropdown: var(--surface-elevated);
+  --shadow-dropdown: var(--foundation-shadow-lg);
+  
+  /* ===== TEXTAREA TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
+  --surface-textarea: var(--surface-base);
+  --surface-textarea-disabled: var(--surface-subtle);
+  
+  --border-textarea: var(--border-medium);
+  --border-textarea-hover: var(--border-hover);
+  --border-textarea-focus: var(--border-focus);
+  --border-textarea-error: var(--error-border);
+  --border-textarea-disabled: var(--border-disabled);
+  
+  --text-textarea: var(--text-primary);
+  --text-textarea-placeholder: var(--text-placeholder);
+  --text-textarea-disabled: var(--text-disabled); 
+  
+  /* ===== SWITCH TOKENS - ALREADY GOOD WITH SEMANTIC ===== */
+  --surface-switch-track: var(--secondary-200);
+  --surface-switch-track-checked: var(--interactive-accent);
+  --surface-switch-track-hover: var(--secondary-300);
+  --surface-switch-track-checked-hover: var(--interactive-accent);
+  --surface-switch-track-disabled: var(--interactive-secondary-disabled);
+  --surface-switch-track-disabled-checked: var(--interactive-primary-disabled);
+  
+  --surface-switch-thumb: var(--surface-base);
+  --surface-switch-thumb-disabled: var(--surface-subtle);
+  
+  --border-switch-focus: var(--border-focus);
+  
+  /* ===== FORM FIELD TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
+  --text-form-label: var(--text-primary);
+  --text-form-label-disabled: var(--text-disabled);
+  --text-form-label-required: var(--error-text);
+  --text-form-hint: var(--text-secondary);
+  --text-form-error: var(--error-text);
+  --text-form-success: var(--success-text);
+
+  /* ===== FORM RADIUS - KEEP AS FOUNDATION (CORRECT) ===== */
+  --form-radius-base: var(--foundation-radius-lg);
+  --form-radius-small: var(--foundation-radius-md);
+  --form-radius-large: var(--foundation-radius-xl);
+  --form-radius-round: var(--foundation-radius-full);
   
   /* ===== SPECIFIC FORM ELEMENT RADIUS ===== */
   /* Input fields (input, textarea, select) */
@@ -105,15 +133,12 @@
   --radius-input-sm: var(--radius-button-sm);
   --radius-input-lg: var(--radius-button-lg);
   
-  /* Checkboxes and squares */
   --radius-checkbox: var(--form-radius-small);
   --radius-checkbox-sm: var(--foundation-radius-sm);
   --radius-checkbox-lg: var(--form-radius-base);
   
-  /* Radio buttons (always circular) */
   --radius-radio: var(--form-radius-round);
   
-  /* Switch components */
   --radius-switch-track: var(--form-radius-round);
   --radius-switch-thumb: var(--form-radius-round);
   
@@ -127,13 +152,13 @@
   --radius-dropdown-sm: var(--radius-button-sm);
   --radius-dropdown-lg: var(--radius-button-lg);
   
-  /* ===== FORM SPACING TOKENS ===== */
-  --space-form-field-gap: var(--foundation-space-2); /* 8px */
-  --space-form-label-margin: var(--foundation-space-1); /* 4px */
-  --space-form-hint-margin: var(--foundation-space-1); /* 4px */
-  --space-form-error-margin: var(--foundation-space-1); /* 4px */
+  /* ===== FORM SPACING - KEEP AS FOUNDATION (CORRECT) ===== */
+  --space-form-field-gap: var(--foundation-space-2);
+  --space-form-label-margin: var(--foundation-space-1);
+  --space-form-hint-margin: var(--foundation-space-1);
+  --space-form-error-margin: var(--foundation-space-1);
   
-  /* ===== FORM SIZES ===== */
+  /* ===== FORM SIZES - KEEP AS FIXED VALUES (CORRECT) ===== */
   --size-checkbox-sm: 16px;
   --size-checkbox-md: 20px;
   --size-checkbox-lg: 24px;
@@ -154,12 +179,12 @@
   --size-switch-lg-height: 26px;
   --size-switch-lg-thumb: 22px;
   
-  /* ===== FORM ANIMATIONS ===== */
+  /* ===== FORM ANIMATIONS - KEEP AS FOUNDATION (CORRECT) ===== */
   --duration-form-transition: var(--foundation-duration-fast);
   --easing-form-transition: var(--foundation-easing-ease-out);
 }
 
-/* ===== FORM FOCUS RING ===== */
+/* ===== FORM FOCUS RING - ALREADY PERFECT ===== */
 .form-focus-ring {
   outline: 2px solid transparent;
   outline-offset: 2px;

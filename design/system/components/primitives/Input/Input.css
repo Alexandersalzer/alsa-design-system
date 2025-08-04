@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Input/Input.css
-   INPUT COMPONENT STYLES WITH SIZES
+   INPUT COMPONENT STYLES - UPDATED WITH SEMANTIC TOKENS
    ============================================== */
 
 /* ===== INPUT GROUP LAYOUT ===== */
@@ -10,13 +10,13 @@
   gap: var(--foundation-space-2);
 }
 
-/* ===== INPUT LABEL STYLES ===== */
+/* ===== INPUT LABEL STYLES - USING SEMANTIC TOKENS ===== */
 .input-label {
   font-family: var(--font-body-family);
   font-size: var(--font-label-md-size);
-  font-weight: var(--foundation-weight-semibold); /* Made bolder */
+  font-weight: var(--foundation-weight-semibold);
   line-height: var(--font-label-md-leading);
-  color: var(--text-label-color);
+  color: var(--text-form-label);                            /* FIXED: was --text-label-color */
   margin-bottom: var(--foundation-space-1);
   display: block;
 }
@@ -28,36 +28,36 @@
   align-items: center;
 }
 
-/* ===== BASE INPUT STYLES ===== */
+/* ===== BASE INPUT STYLES - USING SEMANTIC TOKENS ===== */
 .input {
   width: 100%;
-  background-color: var(--surface-input);
-  border: 1px solid var(--border-input);
-  border-radius: var(--radius-input);
+  background-color: var(--surface-input);                  /* ✅ Good - semantic token */
+  border: 1px solid var(--border-input);                   /* ✅ Good - semantic token */
+  border-radius: var(--radius-input);                      /* ✅ Good - component token */
   font-family: var(--font-body-family);
   font-weight: var(--font-body-weight);
-  color: var(--text-input);
-  transition: var(--transition-input);
+  color: var(--text-input);                                /* ✅ Good - semantic token */
+  transition: var(--foundation-duration-fast) var(--foundation-easing-standard); /* FIXED: was --transition-input */
   outline: none;
 }
 
 .input:hover {
-  border-color: var(--border-input-hover);
+  border-color: var(--border-input-hover);                 /* ✅ Good - semantic token */
 }
 
 .input:focus {
-  border-color: var(--border-input-focus);
-  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+  border-color: var(--border-input-focus);                 /* ✅ Good - semantic token */
+  box-shadow: 0 0 0 3px var(--accent-subtle);              /* FIXED: was rgba(168, 85, 247, 0.1), using shortcut */
 }
 
 .input::placeholder {
-  color: var(--text-input-placeholder);
+  color: var(--text-input-placeholder);                    /* ✅ Good - semantic token */
 }
 
 .input:disabled {
-  background-color: var(--surface-input-disabled);
-  border-color: var(--border-input-disabled);
-  color: var(--text-input-disabled);
+  background-color: var(--surface-input-disabled);         /* ✅ Good - semantic token */
+  border-color: var(--border-input-disabled);              /* ✅ Good - semantic token */
+  color: var(--text-input-disabled);                       /* ✅ Good - semantic token */
   cursor: not-allowed;
 }
 
@@ -67,7 +67,7 @@
   font-size: var(--font-body-sm-size);
   line-height: var(--font-body-sm-leading);
   min-height: 32px;
-  border-radius: var(--radius-input-sm); /* Use your design system token */
+  border-radius: var(--radius-input-sm);
 }
 
 .input--md {
@@ -75,7 +75,7 @@
   font-size: var(--font-body-md-size);
   line-height: var(--font-body-md-leading);
   min-height: var(--size-input-height);
-  border-radius: var(--radius-input); /* Use your design system token */
+  border-radius: var(--radius-input);
 }
 
 .input--lg {
@@ -83,7 +83,7 @@
   font-size: var(--font-body-lg-size);
   line-height: var(--font-body-lg-leading);
   min-height: 48px;
-  border-radius: var(--radius-input-lg); /* Use your design system token */
+  border-radius: var(--radius-input-lg);
 }
 
 /* ===== INPUT WITH ICONS ===== */
@@ -111,13 +111,13 @@
   padding-right: 48px;
 }
 
-/* ===== INPUT ICON STYLES ===== */
+/* ===== INPUT ICON STYLES - USING SEMANTIC TOKENS ===== */
 .input-icon {
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--icon-input);
+  color: var(--icon-input);                                 /* ✅ Good - semantic token */
   pointer-events: none;
   z-index: 1;
 }
@@ -161,35 +161,31 @@
   height: 20px;
 }
 
-/* ===== INPUT ERROR STATE ===== */
+/* ===== INPUT ERROR STATE - USING SEMANTIC TOKENS ===== */
 .input-error {
-  border-color: var(--border-input-error) !important;
+  border-color: var(--border-input-error) !important;      /* ✅ Good - semantic token */
 }
 
 .input-error:focus {
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  box-shadow: 0 0 0 3px var(--error-subtle);               /* FIXED: was rgba(239, 68, 68, 0.1), using shortcut */
 }
 
-/* ===== HELPER/ERROR TEXT ===== */
+/* ===== HELPER/ERROR TEXT - USING SEMANTIC TOKENS ===== */
 .input-help {
   font-family: var(--font-body-family);
   font-size: var(--font-body-xs-size);
   font-weight: var(--font-body-weight);
   line-height: var(--font-body-xs-leading);
-  color: var(--text-secondary);
+  color: var(--text-secondary);                            /* ✅ Good - semantic token */
 }
 
 .input-help-error {
-  color: var(--error-600);
+  color: var(--error-text);                                /* FIXED: was --error-600, using shortcut */
 }
 
 /* ===== SEARCH INPUT STYLES ===== */
-/* Remove the old search-input styles since we're using the Input component with icons */
-/* The search variant just ensures proper icon spacing */
-
 .input.search-input {
   /* Search inputs behave exactly like regular inputs with icons */
-  /* All styling is handled by the size variants and icon classes */
 }
 
 /* ===== HEADER SEARCH SPECIFIC STYLES ===== */
@@ -199,7 +195,6 @@
   max-width: 320px;
 }
 
-/* Ensure the SearchInput component works properly in header */
 .header-search .input-group {
   width: 100%;
 }
@@ -208,26 +203,22 @@
   width: 100%;
 }
 
-/* Override any conflicting header-search styles */
 .header-search__input {
   width: 100% !important;
 }
 
-/* Remove the old manual search icon positioning */
 .header-search__icon {
-  display: none; /* Hide old manual icon since SearchInput has built-in icons */
+  display: none;
 }
 
-/* 🎯 FIX: Ensure proper spacing for small search inputs in header */
 .header-search .input--sm.input-with-left-icon {
-  padding-left: 32px !important; /* Force proper left padding for small inputs */
+  padding-left: 32px !important;
 }
 
 .header-search .input--sm.input-with-right-icon {
-  padding-right: 32px !important; /* Force proper right padding for small inputs */
+  padding-right: 32px !important;
 }
 
-/* 🎯 FIX: Ensure icons are positioned correctly for small inputs */
 .header-search .input-icon--sm {
   width: 32px !important;
   height: 32px !important;
@@ -238,39 +229,37 @@
   height: 14px !important;
 }
 
-/* 🎯 FIX: Make sure search input background doesn't override */
 .header-search .search-input {
   background-color: transparent !important;
 }
 
-/* 🎯 FIX: Reset any conflicting search input styles */
 .header-search .input.search-input {
-  background-color: var(--surface-input) !important;
-  border: 1px solid var(--border-input) !important;
-  border-radius: var(--radius-input-sm) !important; /* Use small radius for small input */
+  background-color: var(--surface-input) !important;       /* ✅ Good - semantic token */
+  border: 1px solid var(--border-input) !important;        /* ✅ Good - semantic token */
+  border-radius: var(--radius-input-sm) !important;
 }
 
-/* ===== CLEAR BUTTON ===== */
+/* ===== CLEAR BUTTON - USING SEMANTIC TOKENS ===== */
 .input-clear-button {
   background: none;
   border: none;
   cursor: pointer;
   padding: var(--foundation-space-1);
   border-radius: var(--foundation-radius-sm);
-  color: var(--icon-input);
-  transition: var(--transition-input);
+  color: var(--icon-input);                                /* ✅ Good - semantic token */
+  transition: var(--foundation-duration-fast) var(--foundation-easing-standard);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .input-clear-button:hover {
-  background-color: var(--secondary-100);
-  color: var(--icon-primary);
+  background-color: var(--surface-subtle);                 /* FIXED: was --secondary-100, using shortcut */
+  color: var(--icon-primary);                              /* ✅ Good - semantic token */
 }
 
 .input-clear-button:focus-visible {
-  outline: 2px solid var(--border-focus);
+  outline: 2px solid var(--border-focus);                  /* ✅ Good - semantic token */
   outline-offset: 1px;
 }
 

@@ -1,21 +1,20 @@
 /* ===============================================
-   COMPLETE CSS IMPORTS - FOR BLIMPIFY-UI PACKAGE
-   CORRECT FOLDER STRUCTURE
+   BLIMPIFY-UI SYSTEM INDEX.CSS - CORRECT IMPORT ORDER
    =============================================== */
 
-/* Foundation first - CRITICAL ORDER - ALWAYS KEEP THESE */
+/* STEP 1: Foundation tokens (colors, spacing, etc.) */
 @import './tokens/foundation/index.css';
+
+/* STEP 2: Semantic tokens (text-primary, surface-card, etc.) */
 @import './tokens/semantic/index.css';
 
-/* Utilities BEFORE components - ALWAYS KEEP THIS */
-@import './utils/index.css';
+/* STEP 3: Component tokens (surface-button-primary, etc.) */
 @import './tokens/component/index.css';
-@import './tokens/index.css';
-@import './tokens/component/icon.css';
 
-/* ===============================================
-   PRIMITIVE COMPONENTS - CORE STYLING (WORKING)
-   =============================================== */
+/*@import './tokens/semantic/themes/calculated-theme.css';*/
+
+
+/* STEP 4: Component CSS files */
 @import './components/primitives/Button/Button.css';
 @import './components/primitives/Card/Card.css';
 @import './components/primitives/NavigationTab/NavigationTab.css';
@@ -30,20 +29,13 @@
 @import './components/primitives/Modal/Modal.css';
 @import './components/primitives/Dropdown/Dropdown.css';
 @import './components/primitives/FileUploader/FileUploader.css';
-
-/* ===== PRIMITIVES (Enhanced components) ===== */
-/* 🔥 CRITICAL: Typography MUST be included */
-
 @import './components/primitives/Icon/Icon.css';
 @import './components/primitives/Tag/Tag.css';
 @import './components/primitives/SegmentedControl/SegmentedControl.css';
 @import './components/primitives/Stepper/Stepper.css';
 @import './components/primitives/TextLink/TextLink.css';
 
-/* ===============================================
-   PATTERN COMPONENTS - CORRECT BLIMPIFY-UI PATHS
-   =============================================== */
-/* Dashboard patterns - CORRECT PATH */
+/* STEP 5: Pattern components */
 @import './components/patterns/dashboard/Header/Header.css';
 @import './components/patterns/dashboard/auth/AuthContainer.css';
 @import './components/patterns/dashboard/auth/AuthForm.css';
@@ -59,24 +51,20 @@
 @import './components/patterns/dashboard/page/Cluster.css';
 @import './components/patterns/dashboard/page/Stack.css';
 @import './components/patterns/dashboard/selection/SelectionCard.css';
-
-/* Editor patterns */
 @import './components/patterns/dashboard/editor/EditorShell/EditorShell.css';
 @import './components/patterns/dashboard/editor/EditorTabs/EditorTabs.css';
 @import './components/patterns/dashboard/editor/EditorPanel/EditorPanel.css';
 @import './components/patterns/dashboard/editor/EditorSection/EditorSection.css';
-
-/* Theme Controls */
 @import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
 
-/* ===============================================
-   THEMES - CRITICAL FOR STYLING
-   =============================================== */
-@import './tokens/semantic/themes/index.css';
-
-/* ===============================================
-   LAYOUT UTILITIES - CORRECT PATHS
-   =============================================== */
+/* STEP 6: Layout utilities */
 @import './layout/utilities/cluster/Cluster.css';
 @import './layout/utilities/rhythm/Rhythm.css';
 @import './layout/utilities/stack/Stack.css';
+
+/* STEP 7: Themes LAST */
+@import './tokens/semantic/themes/index.css';
+
+/* STEP 8: Utilities LAST (so they can override if needed) */
+@import './utils/index.css';
+@import './utils/typography.css';

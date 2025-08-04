@@ -1,51 +1,50 @@
 /* ==============================================
    src/design-system/tokens/component/loading.css
-   LOADING COMPONENT TOKENS
+   LOADING COMPONENT TOKENS - SEMANTIC ONLY
    ============================================== */
 
 :root {
   /* ===== LOADING SURFACES ===== */
-  --surface-loading: var(--secondary-50);
-  --surface-loading-shimmer: var(--secondary-100);
-  --surface-spinner: var(--accent-500);
-
-    /* ===== LOADING SURFACES ===== */
-  --surface-loading-card: var(--primary-white);
-  --surface-loading-skeleton: var(--secondary-100);
+  --surface-loading: var(--surface-subtle);           /* FIXED: was --secondary-50 */
+  --surface-loading-shimmer: var(--surface-hover); /* FIXED: was --secondary-100 */
+  --surface-spinner: var(--interactive-accent);           /* FIXED: was --accent-500 */
+  
+  /* ===== LOADING CARD SURFACES ===== */
+  --surface-loading-card: var(--surface-card);            /* FIXED: was --primary-white */
+  --surface-loading-skeleton: var(--surface-card-selected); /* FIXED: was --secondary-100 */
   
   /* ===== LOADING BORDERS ===== */
-  --border-loading-card: var(--secondary-200);
+  --border-loading-card: var(--border-default);           /* FIXED: was --secondary-200 */
   
   /* ===== LOADING DIMENSIONS ===== */
-  --space-loading-card-padding: var(--foundation-space-6);
+  --space-loading-card-padding: var(--foundation-space-6); /* OK to use foundation for spacing */
   
   /* ===== LOADING ANIMATION ===== */
-  --animation-loading-skeleton: loading-pulse 2s ease-in-out infinite;
+  --animation-loading-skeleton: loading-pulse 2s ease-in-out infinite; /* OK - no color involved */
 }
 
-
 /* ==============================================
-   LOADING CLASSES
+   LOADING CLASSES - FIXED TO USE SEMANTIC TOKENS
    ============================================== */
 
 .loading-card {
-  background-color: var(--surface-card);
-  border: 1px solid var(--border-card);
-  border-radius: var(--foundation-radius-lg);
-  padding: var(--foundation-space-6);
+  background-color: var(--surface-loading-card);
+  border: 1px solid var(--border-loading-card);
+  border-radius: var(--foundation-radius-lg);             /* OK to use foundation for radius */
+  padding: var(--foundation-space-6);                     /* OK to use foundation for spacing */
   animation: pulse 2s infinite;
 }
 
 .loading-skeleton {
   background: linear-gradient(
     90deg,
-    var(--secondary-200) 25%,
-    var(--secondary-100) 50%,
-    var(--secondary-200) 75%
+    var(--border-default) 25%,                            /* FIXED: was --secondary-200 */
+    var(--surface-card-hover) 50%,                        /* FIXED: was --secondary-100 */
+    var(--border-default) 75%                             /* FIXED: was --secondary-200 */
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--foundation-radius-sm);             /* OK to use foundation for radius */
 }
 
 @keyframes shimmer {

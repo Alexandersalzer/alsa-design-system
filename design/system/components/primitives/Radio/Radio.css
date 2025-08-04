@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Radio/Radio.css
-   RADIO COMPONENT STYLES
+   RADIO COMPONENT STYLES - FIXED CENTERING & SEMANTIC TOKENS
    ============================================== */
 
 /* ===== RADIO WRAPPER ===== */
@@ -14,34 +14,46 @@
   cursor: not-allowed;
 }
 
-/* ===== RADIO FIELD ===== */
+/* ===== RADIO FIELD - IMPROVED ALIGNMENT ===== */
 .radio-field {
   display: flex;
   align-items: flex-start;
-  gap: var(--foundation-space-3); /* 12px */
+  gap: var(--foundation-space-3);
+  /* Ensure proper alignment from the start */
+  position: relative;
 }
 
-/* ===== RADIO CONTAINER ===== */
+/* ===== RADIO CONTAINER - BETTER CENTERING ===== */
 .radio-container {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  /* Add a small top margin to align with first line of text */
+  margin-top: 2px;
 }
 
-/* ===== RADIO INPUT ===== */
+/* ===== RADIO INPUT - USING SEMANTIC TOKENS ===== */
 .radio {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  flex-grow: 0; /* ✅ prevent flex from stretching */
+  aspect-ratio: 1/1; /* ✅ force square */
   width: var(--size-radio-md);
   height: var(--size-radio-md);
-  border: 2px solid var(--border-radio);
-  border-radius: var(--radius-radio); /* Always circular */
-  background-color: var(--surface-radio);
+  border: 2px solid var(--border-radio);                   /* ✅ Good - semantic token */
+  border-radius: 50%;
+  background-color: var(--surface-radio);                  /* ✅ Good - semantic token */
   cursor: pointer;
   transition: all var(--duration-form-transition) var(--easing-form-transition);
   appearance: none;
   margin: 0;
   position: relative;
+  /* Ensure perfect circle and centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ===== RADIO SIZES ===== */
@@ -55,57 +67,47 @@
   height: var(--size-radio-lg);
 }
 
-/* ===== RADIO STATES ===== */
+/* ===== RADIO STATES - USING SEMANTIC TOKENS ===== */
 .radio:hover:not(:disabled) {
-  border-color: var(--border-radio-hover);
-  background-color: var(--surface-radio-hover);
+  border-color: var(--border-radio-hover);                 /* ✅ Good - semantic token */
+  background-color: var(--surface-radio-hover);            /* ✅ Good - semantic token */
 }
 
 .radio:focus {
   outline: none;
-  border-color: var(--border-radio-focus);
-  box-shadow: 0 0 0 3px var(--accent-200);
+  border-color: var(--border-radio-focus);                 /* ✅ Good - semantic token */
+  box-shadow: 0 0 0 3px var(--accent-subtle);              /* FIXED: was --accent-200, using shortcut */
 }
 
 .radio--checked {
-  border-color: var(--border-radio-checked);
-  background-color: var(--surface-radio-checked);
+  border-color: var(--border-radio-checked);               /* ✅ Good - semantic token */
+  background-color: var(--surface-radio-checked);          /* ✅ Good - semantic token */
 }
 
 .radio--checked:hover:not(:disabled) {
-  border-color: var(--accent-500);
+  border-color: var(--accent-text);                        /* FIXED: was --accent-500, using shortcut */
 }
 
 .radio:disabled,
 .radio--disabled {
-  border-color: var(--border-radio-disabled);
-  background-color: var(--surface-radio-disabled);
+  border-color: var(--border-radio-disabled);              /* ✅ Good - semantic token */
+  background-color: var(--surface-radio-disabled);         /* ✅ Good - semantic token */
   cursor: not-allowed;
 }
 
-/* ===== RADIO INDICATOR ===== */
+/* ===== RADIO INDICATOR - IMPROVED SIZING & CENTERING ===== */
 .radio__indicator {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-radio); /* Always circular */
+  border-radius: 50%; /* Force perfect circle */
+  aspect-ratio: 1 / 1; /* Ensure 1:1 shape */
   background-color: var(--indicator-radio);
   opacity: 0;
   transition: opacity var(--duration-form-transition) var(--easing-form-transition);
   pointer-events: none;
-}
-
-.radio__indicator--sm {
-  width: 6px;
-  height: 6px;
-}
-
-.radio__indicator--lg {
-  width: 10px;
-  height: 10px;
+  width: 50%; /* Width determines size; height will follow via aspect-ratio */
 }
 
 .radio__indicator--checked {
@@ -114,43 +116,76 @@
 
 .radio:disabled + .radio__indicator,
 .radio--disabled .radio__indicator {
-  background-color: var(--indicator-radio-disabled);
+  background-color: var(--indicator-radio-disabled);       /* ✅ Good - semantic token */
 }
 
-/* ===== RADIO LABEL ===== */
+/* ===== RADIO LABEL - USING SEMANTIC TOKENS ===== */
 .radio-label {
   cursor: pointer;
   user-select: none;
   line-height: 1.4;
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--foundation-weight-normal);
+  color: var(--text-form-label);                           /* FIXED: using semantic token */
+  /* Ensure text aligns properly with radio */
+  flex: 1;
+  /* Remove any default margins */
+  margin: 0;
 }
 
 .radio-wrapper--disabled .radio-label {
   cursor: not-allowed;
+  color: var(--text-form-label-disabled);                  /* FIXED: using semantic token */
 }
 
-/* ===== RADIO DESCRIPTION ===== */
+/* ===== SIZE-SPECIFIC LABEL ADJUSTMENTS ===== */
+.radio-wrapper--sm .radio-label {
+  font-size: var(--font-body-sm-size);
+  line-height: var(--font-body-sm-leading);
+}
+
+.radio-wrapper--lg .radio-label {
+  font-size: var(--font-body-lg-size);
+  line-height: var(--font-body-lg-leading);
+}
+
+/* ===== RADIO DESCRIPTION - USING SEMANTIC TOKENS ===== */
 .radio-description {
   margin-top: var(--space-form-hint-margin);
   margin-left: calc(var(--size-radio-md) + var(--foundation-space-3));
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--foundation-weight-normal);
+  line-height: var(--font-body-sm-leading);
+  color: var(--text-form-hint);                            /* FIXED: using semantic token */
 }
 
 .radio-wrapper--sm .radio-description {
   margin-left: calc(var(--size-radio-sm) + var(--foundation-space-3));
+  font-size: var(--font-body-xs-size);
+  line-height: var(--font-body-xs-leading);
 }
 
 .radio-wrapper--lg .radio-description {
   margin-left: calc(var(--size-radio-lg) + var(--foundation-space-3));
+  font-size: var(--font-body-md-size);
+  line-height: var(--font-body-md-leading);
 }
 
-/* ===== RADIO GROUP ===== */
+.radio-wrapper--disabled .radio-description {
+  color: var(--text-form-label-disabled);                  /* FIXED: using semantic token */
+}
+
+/* ===== RADIO GROUP - USING SEMANTIC TOKENS ===== */
 .radio-group {
   display: flex;
   flex-direction: column;
-  gap: var(--foundation-space-4); /* 16px */
+  gap: var(--foundation-space-4);
 }
 
 .radio-group--horizontal {
-  gap: var(--foundation-space-6); /* 24px */
+  gap: var(--foundation-space-6);
 }
 
 .radio-group--horizontal .radio-group__items {
@@ -160,26 +195,41 @@
 
 .radio-group__label {
   margin-bottom: var(--space-form-label-margin);
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--foundation-weight-semibold);
+  line-height: var(--font-body-md-leading);
+  color: var(--text-form-label);                           /* FIXED: using semantic token */
 }
 
 .radio-group__required {
-  color: var(--text-form-label-required);
+  color: var(--text-form-label-required);                  /* FIXED: using semantic token */
   margin-left: 2px;
 }
 
 .radio-group__description {
   margin-top: calc(-1 * var(--space-form-label-margin));
   margin-bottom: var(--space-form-hint-margin);
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--foundation-weight-normal);
+  line-height: var(--font-body-sm-leading);
+  color: var(--text-form-hint);                            /* FIXED: using semantic token */
 }
 
 .radio-group__items {
   display: flex;
   flex-direction: column;
-  gap: var(--foundation-space-3); /* 12px */
+  gap: var(--foundation-space-3);
 }
 
 .radio-group__error {
   margin-top: var(--space-form-error-margin);
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--foundation-weight-normal);
+  line-height: var(--font-body-sm-leading);
+  color: var(--text-form-error);                           /* FIXED: using semantic token */
 }
 
 .radio-group--disabled {
@@ -187,20 +237,72 @@
 }
 
 .radio-group--error .radio {
-  border-color: var(--error-500);
+  border-color: var(--error-border);                       /* FIXED: was --error-500, using shortcut */
+}
+
+/* ===== IMPROVED FOCUS STATES ===== */
+.radio:focus-visible {
+  outline: none;
+  border-color: var(--border-radio-focus);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
+}
+
+/* ===== BETTER HOVER BEHAVIOR ===== */
+.radio-field:hover .radio:not(:disabled) {
+  border-color: var(--border-radio-hover);
+  background-color: var(--surface-radio-hover);
+}
+
+.radio-field:hover .radio-label:not(.radio-wrapper--disabled .radio-label) {
+  color: var(--text-primary);                              /* Slightly stronger on hover */
+}
+
+/* ===== ACCESSIBILITY IMPROVEMENTS ===== */
+@media (prefers-reduced-motion: reduce) {
+  .radio,
+  .radio__indicator {
+    transition: none;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .radio {
+    border-width: 3px;
+  }
+  
+  .radio--checked {
+    border-width: 3px;
+  }
+  
+  .radio__indicator {
+    /* Make indicator more visible in high contrast */
+    width: 60%;
+    height: 60%;
+  }
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
 @media (max-width: 640px) {
   .radio-field {
-    gap: var(--foundation-space-2); /* 8px on mobile */
+    gap: var(--foundation-space-2);
   }
   
   .radio-group__items {
-    gap: var(--foundation-space-2); /* 8px on mobile */
+    gap: var(--foundation-space-2);
   }
   
   .radio-group--horizontal .radio-group__items {
-    gap: var(--foundation-space-4); /* 16px on mobile */
+    gap: var(--foundation-space-4);
+  }
+  
+  /* Better touch targets on mobile */
+  .radio {
+    min-width: 20px;
+    min-height: 20px;
+  }
+  
+  .radio--sm {
+    min-width: 18px;
+    min-height: 18px;
   }
 }

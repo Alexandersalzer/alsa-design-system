@@ -9,7 +9,7 @@ export * from './auth';
 // ===== EDITOR PATTERNS (Complete Week 1-3 system) =====
 export * from './editor';
 
-// ===== LAYOUT PATTERNS =====
+// ===== LAYOUT PATTERNS =====  
 export * from './layout';
 
 
@@ -18,3 +18,5 @@ export * from './page';
 
 
 export * from './selection';
+
+export * from './GitHubInfo';

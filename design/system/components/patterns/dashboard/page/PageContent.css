@@ -182,29 +182,6 @@
 
 /* ===== COMPATIBILITY WITH EXISTING CLASSES ===== */
 
-/* Ensure PageContent works with your existing utilities */
-.page-content .stack-sm,
-.page-content .stack-md,
-.page-content .stack-lg,
-.page-content .stack-xl,
-.page-content .stack-2xl {
-  /* Your existing stack utilities should work fine */
-}
-
-.page-content .cluster-xs,
-.page-content .cluster-sm,
-.page-content .cluster-md,
-.page-content .cluster-lg,
-.page-content .cluster-xl {
-  /* Your existing cluster utilities should work fine */
-}
-
-.page-content .grid-auto-fit-sm,
-.page-content .grid-auto-fit-md,
-.page-content .grid-auto-fit-lg {
-  /* Your existing grid utilities should work fine */
-}
-
 /* ===== SMOOTH TRANSITIONS ===== */
 .page-content {
   transition: padding var(--foundation-duration-fast) var(--foundation-easing-standard);

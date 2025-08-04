@@ -11,7 +11,7 @@ export {
 
 // ===== ANVÄNDNINGSEXEMPEL =====
 /*
-import { Stepper, type Step } from '@/design-system/components/primitives/Stepper';
+
 
 const steps: Step[] = [
   {

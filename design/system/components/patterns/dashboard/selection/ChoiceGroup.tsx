@@ -1,5 +1,6 @@
 // ===============================================
 // FIL 2: src/design-system/components/patterns/selection/ChoiceGroup.tsx
+// FIXED - Proper Radio Context Flow
 // ===============================================
 
 import React from 'react';
@@ -145,34 +146,8 @@ export const ChoiceGroup: React.FC<ChoiceGroupProps> = ({
     }
   };
 
-  // Layout wrapper
-  const getLayoutWrapper = (children: React.ReactNode) => {
-    switch (layout) {
-      case 'grid':
-        return (
-          <Grid columns={3} gap="md" className="choice-group__grid">
-            {children}
-          </Grid>
-        );
-      case 'cards':
-        return (
-          <div className="choice-group__cards">
-            <Grid columns={3} gap="md" className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              {children}
-            </Grid>
-          </div>
-        );
-      default:
-        return (
-          <Stack spacing="sm" className="choice-group__list">
-            {children}
-          </Stack>
-        );
-    }
-  };
-
-  // För radio - använd RadioGroup wrapper när det inte är cards
-  if (isRadio && layout !== 'cards') {
+  // ✅ FIXED: För radio med grid layout - använd RadioGroup's inbyggda direction
+  if (isRadio && layout === 'grid') {
     return (
       <RadioGroup
         label={label}
@@ -184,15 +159,36 @@ export const ChoiceGroup: React.FC<ChoiceGroupProps> = ({
         value={typeof value === 'string' ? value : ''}
         onChange={handleRadioChange}
         disabled={disabled}
-        className={className}
-        direction={layout === 'grid' ? 'horizontal' : 'vertical'}
+        className={cn('choice-group', className)}
+        direction="horizontal" // ✅ Använd RadioGroup's inbyggda horizontal layout
       >
-        {getLayoutWrapper(options.map(renderOption))}
+        {options.map(renderOption)} {/* ✅ Direkt barn till RadioGroup - ingen extra wrapper */}
       </RadioGroup>
     );
   }
 
-  // För checkbox eller card layout - custom wrapper
+  // ✅ FIXED: För radio med list layout - använd RadioGroup's standard vertical layout
+  if (isRadio && layout === 'list') {
+    return (
+      <RadioGroup
+        label={label}
+        description={description}
+        error={error}
+        required={required}
+        size={size}
+        name={`choice-group-${Math.random()}`}
+        value={typeof value === 'string' ? value : ''}
+        onChange={handleRadioChange}
+        disabled={disabled}
+        className={cn('choice-group', className)}
+        direction="vertical" // ✅ Standard vertical layout
+      >
+        {options.map(renderOption)} {/* ✅ Direkt barn till RadioGroup */}
+      </RadioGroup>
+    );
+  }
+
+  // ✅ För checkbox eller card layout - custom wrapper (som förut)
   return (
     <div className={cn('choice-group', className)}>
       {label && (
@@ -208,7 +204,22 @@ export const ChoiceGroup: React.FC<ChoiceGroupProps> = ({
         </Body>
       )}
 
-      {getLayoutWrapper(options.map(renderOption))}
+      {/* ✅ Layout wrapper för non-radio eller card layouts */}
+      {layout === 'grid' && type === 'checkbox' ? (
+        <Grid columns={3} gap="md" className="choice-group__grid">
+          {options.map(renderOption)}
+        </Grid>
+      ) : layout === 'cards' ? (
+        <div className="choice-group__cards">
+          <Grid columns={3} gap="md" className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {options.map(renderOption)}
+          </Grid>
+        </div>
+      ) : (
+        <Stack spacing="sm" className="choice-group__list">
+          {options.map(renderOption)}
+        </Stack>
+      )}
 
       {error && (
         <Body size="sm" color="error" className="choice-group__error mt-2">

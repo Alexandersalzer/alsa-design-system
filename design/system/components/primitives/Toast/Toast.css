@@ -1,12 +1,7 @@
 /* ==============================================
    src/design-system/components/primitives/Toast/Toast.css
-   TOAST COMPONENT STYLES - Using your token system
+   TOAST COMPONENT STYLES - UPDATED WITH SMART SHORTCUTS
    ============================================== */
-
-/* Import your token system in the correct order */
-@import '../../../tokens/foundation/index.css';
-@import '../../../tokens/semantic/index.css'; 
-@import '../../../tokens/component/index.css';
 
 /* ===== BASE TOAST STYLING ===== */
 .toast {
@@ -22,18 +17,18 @@
   
   /* Base styling */
   border: 1px solid;
-  border-radius: var(--foundation-radius-lg);
-  box-shadow: var(--foundation-shadow-lg);
+  border-radius: var(--radius-toast, var(--foundation-radius-lg));
+  box-shadow: var(--shadow-toast, var(--foundation-shadow-lg));
   
   /* Animation */
-  animation: toast-slide-in var(--foundation-duration-standard) var(--foundation-easing-enter);
-  transition: var(--transition-toast, all var(--foundation-duration-fast) var(--foundation-easing-standard));
+  animation: toast-slide-in var(--transition-toast, var(--foundation-duration-standard) var(--foundation-easing-enter));
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
   
   /* Typography base */
   font-family: var(--foundation-font-secondary);
 }
 
-/* ===== TOAST VARIANTS ===== */
+/* ===== TOAST VARIANTS - USING SMART SHORTCUTS ===== */
 .toast--info {
   background-color: var(--surface-toast-info);
   border-color: var(--border-toast-info);
@@ -58,38 +53,21 @@
   color: var(--text-toast-error);
 }
 
-/* ===== TOAST TITLE COLORS (DARKER THAN CONTENT) ===== */
+/* ===== TOAST TITLE COLORS (STRONGER TEXT) ===== */
 .toast--info .toast__title {
-  color: var(--text-toast-info-title, var(--info-900)) !important;
+  color: var(--text-toast-info-title);
 }
 
 .toast--success .toast__title {
-  color: var(--text-toast-success-title, var(--success-900)) !important;
+  color: var(--text-toast-success-title);
 }
 
 .toast--warning .toast__title {
-  color: var(--text-toast-warning-title, var(--warning-900)) !important;
+  color: var(--text-toast-warning-title);
 }
 
 .toast--error .toast__title {
-  color: var(--text-toast-error-title, var(--error-900)) !important;
-}
-
-/* ===== TOAST MESSAGE COLORS ===== */
-.toast--info .toast__message {
-  color: var(--text-toast-info) !important;
-}
-
-.toast--success .toast__message {
-  color: var(--text-toast-success) !important;
-}
-
-.toast--warning .toast__message {
-  color: var(--text-toast-warning) !important;
-}
-
-.toast--error .toast__message {
-  color: var(--text-toast-error) !important;
+  color: var(--text-toast-error-title);
 }
 
 /* ===== TOAST ICON COLORS ===== */
@@ -115,61 +93,51 @@
 
 /* ===== TOAST SECTIONS ===== */
 .toast__icon-left {
-  /* Left icon container */
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-top: var(--foundation-space-1); /* Align with text baseline */
+  margin-top: var(--foundation-space-1);
 }
 
 .toast__content {
-  /* Content area */
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: var(--foundation-space-1);
-  min-width: 0; /* Allow text truncation */
+  min-width: 0;
 }
 
 .toast__title {
-  /* Title styling handled by Typography component */
   margin: 0;
+  font-weight: var(--foundation-weight-semibold);
 }
 
 .toast__message {
-  /* Message styling handled by Typography component */
   margin: 0;
   line-height: var(--foundation-leading-normal);
 }
 
 .toast__close {
-  /* Close button */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--foundation-space-1);
-  margin: calc(-1 * var(--foundation-space-1)); /* Extend touch area */
+  margin: calc(-1 * var(--foundation-space-1));
   
-  /* Reset button styles */
   background: none;
   border: none;
   cursor: pointer;
   border-radius: var(--foundation-radius-sm);
   
-  /* Transitions */
-  transition: var(--transition-hover, all var(--foundation-duration-fast) var(--foundation-easing-standard));
-  
-  /* Align with content */
+  transition: var(--foundation-duration-fast) var(--foundation-easing-standard);
   margin-top: var(--foundation-space-1);
 }
 
-/* Hover state for close button */
 .toast__close:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Focus state for close button */
 .toast__close:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
@@ -198,7 +166,6 @@
   }
 }
 
-/* Apply fade-out animation when toast has data-state="closed" */
 .toast[data-state="closed"] {
   animation: toast-fade-out var(--foundation-duration-standard) var(--foundation-easing-exit) forwards;
 }
@@ -206,26 +173,18 @@
 /* ===== RESPONSIVE BEHAVIOR ===== */
 @media (max-width: 480px) {
   .toast {
-    /* Full width on mobile */
     max-width: none;
     margin: 0 var(--foundation-space-4);
   }
 }
 
 /* ===== ACCESSIBILITY ENHANCEMENTS ===== */
-.toast {
-  /* Ensure toasts are announced by screen readers */
-  /* role="alert" should be added in JavaScript */
-}
-
-/* High contrast mode support */
 @media (prefers-contrast: high) {
   .toast {
     border-width: 2px;
   }
 }
 
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .toast {
     animation: none;
@@ -241,29 +200,24 @@
   }
 }
 
-/* ===== TOAST CONTAINER (if needed) ===== */
+/* ===== TOAST CONTAINER ===== */
 .toast-container {
-  /* Container for positioning toasts */
   position: fixed;
   top: var(--foundation-space-6);
   right: var(--foundation-space-6);
   z-index: var(--z-toast, 1000);
   
-  /* Stack toasts */
   display: flex;
   flex-direction: column;
   gap: var(--space-toast-gap, var(--foundation-space-3));
   
-  /* Pointer events */
   pointer-events: none;
 }
 
-/* Allow pointer events on toasts */
 .toast-container .toast {
   pointer-events: auto;
 }
 
-/* Mobile positioning */
 @media (max-width: 768px) {
   .toast-container {
     top: var(--foundation-space-4);

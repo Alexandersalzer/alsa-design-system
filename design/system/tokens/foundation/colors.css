@@ -35,7 +35,7 @@
   --foundation-purple-1100: #2E1065;
   --foundation-purple-1200: #1E1B4B;
   
-  /* Amethyst (Info) Scale */
+  /* Amethyst (?) Scale */
   --foundation-amethyst-100: #EDE9FE;
   --foundation-amethyst-200: #DDD6FE;
   --foundation-amethyst-300: #C4B5FD;
@@ -49,6 +49,21 @@
   --foundation-amethyst-1000: #312E81;
   --foundation-amethyst-1100: #1E1B4B;
   --foundation-amethyst-1200: #0F0A1B;
+
+  /* Azure (Info) Scale - NEW BLUE PALETTE */
+  --foundation-azure-100: #EFF6FF;
+  --foundation-azure-200: #DBEAFE;
+  --foundation-azure-300: #BFDBFE;
+  --foundation-azure-400: #93C5FD;
+  --foundation-azure-500: #60A5FA;
+  --foundation-azure-600: #3B82F6;
+  --foundation-azure-700: #2563EB;
+  --foundation-azure-800: #1D4ED8;
+  --foundation-azure-900: #1E40AF;
+  --foundation-azure-950: #1E3A8A;
+  --foundation-azure-1000: #172554;
+  --foundation-azure-1100: #0F1629;
+  --foundation-azure-1200: #0A0E1A;
   
   /* Ruby (Error) Scale */
   --foundation-ruby-100: #FEF2F2;

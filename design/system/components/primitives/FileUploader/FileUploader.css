@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/FileUploader/FileUploader.css
-   FILE UPLOADER COMPONENT STYLES - Integrated with Design System
+   FILE UPLOADER COMPONENT STYLES - UPDATED WITH SEMANTIC TOKENS
    ============================================== */
 
 /* ===== FILE UPLOADER WRAPPER ===== */
@@ -21,14 +21,21 @@
   display: block;
   cursor: pointer;
   user-select: none;
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--foundation-weight-semibold);
+  line-height: var(--font-body-md-leading);
+  color: var(--text-form-label);                           /* FIXED: using semantic token */
+  margin-bottom: var(--foundation-space-1);
 }
 
 .file-uploader-wrapper--disabled .file-uploader-label {
   cursor: not-allowed;
+  color: var(--text-form-label-disabled);                  /* FIXED: using semantic token */
 }
 
 .file-uploader-label__required {
-  color: var(--text-destructive, var(--error-500));
+  color: var(--text-form-label-required);                  /* FIXED: was --text-destructive, --error-500 */
   margin-left: var(--foundation-space-1);
 }
 
@@ -47,7 +54,7 @@
   pointer-events: none;
 }
 
-/* ===== BASE FILE UPLOADER STYLES ===== */
+/* ===== BASE FILE UPLOADER STYLES - USING SEMANTIC TOKENS ===== */
 .file-uploader {
   /* Layout */
   display: flex;
@@ -55,23 +62,22 @@
   justify-content: center;
   position: relative;
   
-  /* Base styling */
-  border: 2px solid var(--border-input);
-  border-radius: var(--radius-input);
-  background-color: var(--surface-input);
-  color: var(--text-primary);
+  /* Base styling - using semantic tokens */
+  border: 2px solid var(--border-input);                   /* ✅ Good - semantic token */
+  border-radius: var(--radius-input);                      /* ✅ Good - component token */
+  background-color: var(--surface-input);                  /* ✅ Good - semantic token */
+  color: var(--text-primary);                              /* ✅ Good - semantic token */
   
   /* Interaction */
   cursor: pointer;
   user-select: none;
   transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
   outline: none;
-  
-  /* Accessibility */
-  &:focus-visible {
-    outline: 2px solid var(--border-focus);
-    outline-offset: 2px;
-  }
+}
+
+.file-uploader:focus-visible {
+  outline: 2px solid var(--border-focus);                  /* ✅ Good - semantic token */
+  outline-offset: 2px;
 }
 
 /* ===== FILE UPLOADER VARIANTS ===== */
@@ -96,37 +102,37 @@
   min-height: 250px;
 }
 
-/* BUTTON VARIANT */
+/* BUTTON VARIANT - USING SEMANTIC BUTTON TOKENS */
 .file-uploader--button {
   gap: var(--foundation-space-2);
   padding: var(--foundation-space-2) var(--foundation-space-4);
-  min-height: 40px; /* Matches button--md */
+  min-height: 40px;
   border-style: solid;
-  border-radius: var(--radius-button);
-  background-color: var(--surface-button-secondary);
-  border-color: var(--border-button-secondary);
-  color: var(--text-button-secondary);
+  border-radius: var(--radius-button);                     /* ✅ Good - component token */
+  background-color: var(--surface-button-secondary);       /* ✅ Good - semantic token */
+  border-color: var(--border-button-secondary);            /* ✅ Good - semantic token */
+  color: var(--text-button-secondary);                     /* ✅ Good - semantic token */
 }
 
 .file-uploader--button.file-uploader--sm {
   padding: var(--foundation-space-1) var(--foundation-space-2);
-  min-height: 32px; /* Matches button--sm */
+  min-height: 32px;
 }
 
 .file-uploader--button.file-uploader--lg {
   padding: var(--foundation-space-3) var(--foundation-space-4);
-  min-height: 48px; /* Matches button--lg */
+  min-height: 48px;
 }
 
-/* COMPACT VARIANT */
+/* COMPACT VARIANT - USING SEMANTIC BUTTON TOKENS */
 .file-uploader--compact {
   gap: var(--foundation-space-1);
   padding: var(--foundation-space-1) var(--foundation-space-2);
   min-height: 32px;
-  border-radius: var(--radius-button);
-  background-color: var(--surface-button-secondary);
-  border-color: var(--border-button-secondary);
-  color: var(--text-button-secondary);
+  border-radius: var(--radius-button);                     /* ✅ Good - component token */
+  background-color: var(--surface-button-secondary);       /* ✅ Good - semantic token */
+  border-color: var(--border-button-secondary);            /* ✅ Good - semantic token */
+  color: var(--text-button-secondary);                     /* ✅ Good - semantic token */
 }
 
 .file-uploader--compact.file-uploader--sm {
@@ -139,28 +145,28 @@
   min-height: 36px;
 }
 
-/* ===== FILE UPLOADER STATES ===== */
+/* ===== FILE UPLOADER STATES - USING SEMANTIC TOKENS ===== */
 
 /* HOVER STATES */
 .file-uploader:hover:not(.file-uploader--disabled) {
-  border-color: var(--border-input-hover);
+  border-color: var(--border-input-hover);                 /* ✅ Good - semantic token */
 }
 
 .file-uploader--button:hover:not(.file-uploader--disabled),
 .file-uploader--compact:hover:not(.file-uploader--disabled) {
-  background-color: var(--surface-button-secondary-hover);
-  border-color: var(--border-button-secondary-hover);
+  background-color: var(--surface-button-secondary-hover); /* ✅ Good - semantic token */
+  border-color: var(--border-button-secondary-hover);      /* ✅ Good - semantic token */
 }
 
 .file-uploader--dropzone:hover:not(.file-uploader--disabled) {
-  background-color: var(--surface-input);
-  border-color: var(--border-input-focus);
+  background-color: var(--surface-input);                  /* ✅ Good - semantic token */
+  border-color: var(--border-input-focus);                 /* ✅ Good - semantic token */
 }
 
-/* ACTIVE/DRAG STATES */
+/* ACTIVE/DRAG STATES - USING SHORTCUTS */
 .file-uploader--active:not(.file-uploader--disabled) {
-  border-color: var(--border-focus);
-  background-color: var(--accent-50, rgba(168, 85, 247, 0.05));
+  border-color: var(--border-focus);                       /* ✅ Good - semantic token */
+  background-color: var(--accent-subtle);                  /* FIXED: was --accent-50, rgba(...), using shortcut */
 }
 
 .file-uploader--dropzone.file-uploader--active:not(.file-uploader--disabled) {
@@ -168,23 +174,23 @@
   transform: scale(1.02);
 }
 
-/* DISABLED STATE */
+/* DISABLED STATE - USING SEMANTIC TOKENS */
 .file-uploader--disabled {
-  background-color: var(--surface-input-disabled);
-  border-color: var(--border-input-disabled);
-  color: var(--text-disabled);
+  background-color: var(--surface-input-disabled);         /* ✅ Good - semantic token */
+  border-color: var(--border-input-disabled);              /* ✅ Good - semantic token */
+  color: var(--text-disabled);                             /* ✅ Good - semantic token */
   cursor: not-allowed;
   pointer-events: none;
 }
 
-/* ERROR STATE */
+/* ERROR STATE - USING SEMANTIC TOKENS & SHORTCUTS */
 .file-uploader--error {
-  border-color: var(--border-input-error);
-  background-color: var(--surface-error-subtle, rgba(239, 68, 68, 0.05));
+  border-color: var(--border-input-error);                 /* ✅ Good - semantic token */
+  background-color: var(--error-subtle);                   /* FIXED: was --surface-error-subtle, rgba(...), using shortcut */
 }
 
 .file-uploader--error:hover:not(.file-uploader--disabled) {
-  border-color: var(--error-600);
+  border-color: var(--error-text);                         /* FIXED: was --error-600, using shortcut */
 }
 
 /* ===== FILE UPLOADER CONTENT ===== */
@@ -210,13 +216,13 @@
   text-align: center;
 }
 
-/* ===== ICONS ===== */
+/* ===== ICONS - USING SEMANTIC TOKENS ===== */
 .file-uploader__icon {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: var(--icon-secondary);
+  color: var(--icon-secondary);                            /* ✅ Good - semantic token */
 }
 
 .file-uploader__icon--left {
@@ -230,7 +236,7 @@
 .file-uploader__upload-icon {
   width: 48px;
   height: 48px;
-  color: var(--icon-secondary);
+  color: var(--icon-secondary);                            /* ✅ Good - semantic token */
   transition: color var(--foundation-duration-fast) ease;
 }
 
@@ -245,34 +251,73 @@
 }
 
 .file-uploader--active .file-uploader__upload-icon {
-  color: var(--accent-500);
+  color: var(--accent-icon);                               /* FIXED: was --accent-500, using shortcut */
 }
 
 .file-uploader--disabled .file-uploader__upload-icon {
-  color: var(--icon-disabled);
+  color: var(--icon-disabled);                             /* ✅ Good - semantic token */
 }
 
-/* ===== TEXT ELEMENTS ===== */
+/* ===== TEXT ELEMENTS - USING SEMANTIC TOKENS ===== */
 .file-uploader__text {
   color: inherit;
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--foundation-weight-normal);
+  line-height: var(--font-body-md-leading);
 }
 
 .file-uploader__primary-text {
   color: inherit;
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--foundation-weight-semibold);
+  line-height: var(--font-body-md-leading);
 }
 
 .file-uploader__helper-text {
-  color: var(--text-secondary);
+  color: var(--text-secondary);                            /* ✅ Good - semantic token */
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--foundation-weight-normal);
+  line-height: var(--font-body-sm-leading);
 }
 
 .file-uploader--disabled .file-uploader__helper-text {
-  color: var(--text-disabled);
+  color: var(--text-disabled);                             /* ✅ Good - semantic token */
 }
 
-/* ===== ERROR MESSAGE ===== */
+/* ===== SIZE-SPECIFIC TEXT ADJUSTMENTS ===== */
+.file-uploader--sm .file-uploader__text,
+.file-uploader--sm .file-uploader__primary-text {
+  font-size: var(--font-body-sm-size);
+  line-height: var(--font-body-sm-leading);
+}
+
+.file-uploader--sm .file-uploader__helper-text {
+  font-size: var(--font-body-xs-size);
+  line-height: var(--font-body-xs-leading);
+}
+
+.file-uploader--lg .file-uploader__text,
+.file-uploader--lg .file-uploader__primary-text {
+  font-size: var(--font-body-lg-size);
+  line-height: var(--font-body-lg-leading);
+}
+
+.file-uploader--lg .file-uploader__helper-text {
+  font-size: var(--font-body-md-size);
+  line-height: var(--font-body-md-leading);
+}
+
+/* ===== ERROR MESSAGE - USING SEMANTIC TOKENS ===== */
 .file-uploader-error {
   margin-top: var(--foundation-space-1);
-  color: var(--text-destructive, var(--error-600));
+  color: var(--text-form-error);                           /* FIXED: was --text-destructive, --error-600 */
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--foundation-weight-normal);
+  line-height: var(--font-body-sm-leading);
 }
 
 /* ===== ANIMATIONS ===== */

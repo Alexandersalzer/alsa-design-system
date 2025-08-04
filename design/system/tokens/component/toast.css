@@ -1,35 +1,41 @@
 /* ==============================================
    src/design-system/tokens/component/toast.css
-   TOAST COMPONENT TOKENS - UPDATED WITH PROPER COLOR VARIANTS
+   TOAST COMPONENT TOKENS - USING SMART SHORTCUTS
    ============================================== */
 
-   
 :root {
   /* ===== INFO TOAST ===== */
-  --surface-toast-info: var(--info-300);
-  --border-toast-info: var(--info-300);
-  --text-toast-info: var(--info-800);
-  --text-toast-info-title: var(--info-900);  /* ADD THIS */
-  --icon-toast-info: var(--info-600);
-  
+  --surface-toast-info: var(--info-bg);
+  --border-toast-info: var(--info-border);
+  --text-toast-info: var(--info-text);
+  --text-toast-info-title: var(--info-text-strong);
+  --icon-toast-info: var(--info-icon);
+
   /* ===== SUCCESS TOAST ===== */
-  --surface-toast-success: var(--success-300);
-  --border-toast-success: var(--success-300);
-  --text-toast-success: var(--success-800);
-  --text-toast-success-title: var(--success-900);  /* ADD THIS */
-  --icon-toast-success: var(--success-600);
-  
+  --surface-toast-success: var(--success-bg);
+  --border-toast-success: var(--success-border);
+  --text-toast-success: var(--success-text);
+  --text-toast-success-title: var(--success-text-strong);
+  --icon-toast-success: var(--success-icon);
+
   /* ===== WARNING TOAST ===== */
-  --surface-toast-warning: var(--warning-300);
-  --border-toast-warning: var(--warning-300);
-  --text-toast-warning: var(--warning-800);
-  --text-toast-warning-title: var(--warning-900);  /* ADD THIS */
-  --icon-toast-warning: var(--warning-600);
-  
+  --surface-toast-warning: var(--warning-bg);
+  --border-toast-warning: var(--warning-border);
+  --text-toast-warning: var(--warning-text);
+  --text-toast-warning-title: var(--warning-text-strong);
+  --icon-toast-warning: var(--warning-icon);
+
   /* ===== ERROR TOAST ===== */
-  --surface-toast-error: var(--error-300);
-  --border-toast-error: var(--error-300);
-  --text-toast-error: var(--error-800);
-  --text-toast-error-title: var(--error-900);  /* ADD THIS */
-  --icon-toast-error: var(--error-600);
+  --surface-toast-error: var(--error-bg);
+  --border-toast-error: var(--error-border);
+  --text-toast-error: var(--error-text);
+  --text-toast-error-title: var(--error-text-strong);
+  --icon-toast-error: var(--error-icon);
+
+  /* ===== TOAST LAYOUT TOKENS (add these) ===== */
+  --space-toast-padding: var(--foundation-space-4);
+  --space-toast-gap: var(--foundation-space-3);
+  --radius-toast: var(--foundation-radius-lg);
+  --shadow-toast: var(--foundation-shadow-lg);
+  --transition-toast: var(--foundation-duration-standard) var(--foundation-easing-enter);
 }

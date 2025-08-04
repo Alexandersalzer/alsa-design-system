@@ -1,29 +1,20 @@
 /* ==============================================
    src/design-system/tokens/component/modal.css
-   MODAL COMPONENT TOKENS
-============================================== */
+   MODAL COMPONENT TOKENS - SEMANTIC ONLY
+   ============================================== */
 
 :root {
   /* ===== MODAL SURFACES ===== */
-  --surface-modal-backdrop: rgba(0, 0, 0, 0.5);
-  --surface-modal-content: var(--primary-white);
+  --surface-modal-backdrop: var(--surface-overlay);       /* FIXED: was rgba(0, 0, 0, 0.5) */
+  --surface-modal-content: var(--surface-page);  /* FIXED: was --primary-white */
   
   /* ===== MODAL BORDERS ===== */
-  --border-modal: var(--secondary-100);
+  --border-modal: var(--border-subtle);                   /* FIXED: was --secondary-100 */
   
   /* ===== MODAL SHADOWS ===== */
-  --shadow-modal: var(--foundation-shadow-xl);
+  --shadow-modal: var(--shadow-strong);                   /* FIXED: was --foundation-shadow-xl */
   
   /* ===== MODAL TEXT COLORS ===== */
-  --text-modal-title: var(--primary-1000);
-  --text-modal-body: var(--secondary-700);
+  --text-modal-title: var(--text-primary);                /* FIXED: was --primary-1000 */
+  --text-modal-body: var(--text-secondary);               /* FIXED: was --secondary-700 */
 }
-
-
-  /* Modal component mappings
-  --surface-modal-backdrop: var(--surface-overlay);
-  --surface-modal-content: var(--surface-card-elevated);
-  --border-modal: var(--border-subtle);
-  --text-modal-title: var(--text-heading-primary);
-  --text-modal-body: var(--text-body-secondary);
- */

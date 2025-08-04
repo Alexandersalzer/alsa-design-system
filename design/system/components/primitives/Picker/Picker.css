@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Picker/Picker.css
-   PICKER COMPONENT STYLES - Fully Integrated with Foundation Tokens
+   PICKER COMPONENT STYLES - COMPLETE WITH SEMANTIC TOKENS
    ============================================== */
 
 /* ===== PICKER WRAPPER ===== */
@@ -16,12 +16,12 @@
   opacity: 0.6;
 }
 
-/* ===== PICKER LABEL - Using Foundation Typography Tokens ===== */
+/* ===== PICKER LABEL - USING SEMANTIC TOKENS ===== */
 .picker-label {
-  font-family: var(--font-body-family);
-  font-size: var(--typography-body-md-size);
-  font-weight: var(--typography-body-md-weight);
-  line-height: var(--typography-body-md-line-height);
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-md-size);                     /* FIXED: was --typography-body-md-size */
+  font-weight: var(--foundation-weight-semibold);          /* FIXED: was --typography-body-md-weight */
+  line-height: var(--font-body-md-leading);                /* FIXED: was --typography-body-md-line-height */
   color: var(--text-form-label);
   margin-bottom: var(--space-form-label-margin);
   display: block;
@@ -30,15 +30,15 @@
 }
 
 .picker-wrapper--sm .picker-label {
-  font-size: var(--typography-body-sm-size);
-  font-weight: var(--typography-body-sm-weight);
-  line-height: var(--typography-body-sm-line-height);
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
+  font-weight: var(--foundation-weight-semibold);          /* FIXED: was --typography-body-sm-weight */
+  line-height: var(--font-body-sm-leading);                /* FIXED: was --typography-body-sm-line-height */
 }
 
 .picker-wrapper--lg .picker-label {
-  font-size: var(--typography-body-lg-size);
-  font-weight: var(--typography-body-lg-weight);
-  line-height: var(--typography-body-lg-line-height);
+  font-size: var(--font-body-lg-size);                     /* FIXED: was --typography-body-lg-size */
+  font-weight: var(--foundation-weight-semibold);          /* FIXED: was --typography-body-lg-weight */
+  line-height: var(--font-body-lg-leading);                /* FIXED: was --typography-body-lg-line-height */
 }
 
 .picker-wrapper--disabled .picker-label {
@@ -51,12 +51,12 @@
   margin-left: var(--foundation-space-1);
 }
 
-/* ===== PICKER DESCRIPTION - Using Foundation Typography ===== */
+/* ===== PICKER DESCRIPTION - USING SEMANTIC TOKENS ===== */
 .picker-description {
-  font-family: var(--font-body-family);
-  font-size: var(--typography-body-sm-size);
-  font-weight: var(--typography-body-sm-weight);
-  line-height: var(--typography-body-sm-line-height);
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-sm-weight */
+  line-height: var(--font-body-sm-leading);                /* FIXED: was --typography-body-sm-line-height */
   color: var(--text-form-hint);
   margin-top: calc(-1 * var(--space-form-label-margin));
   margin-bottom: var(--space-form-hint-margin);
@@ -72,7 +72,7 @@
   z-index: var(--z-dropdown);
 }
 
-/* ===== PICKER BUTTON - Using Semantic Picker Tokens ===== */
+/* ===== PICKER BUTTON - USING SEMANTIC TOKENS ===== */
 .picker {
   width: 100%;
   min-height: 44px;
@@ -81,10 +81,10 @@
   border-radius: var(--radius-picker);
   background-color: var(--surface-picker);
   color: var(--text-picker);
-  font-family: var(--font-body-family);
-  font-size: var(--typography-body-md-size);
-  font-weight: var(--typography-body-md-weight);
-  line-height: var(--typography-body-md-line-height);
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-md-size);                     /* FIXED: was --typography-body-md-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-md-weight */
+  line-height: var(--font-body-md-leading);                /* FIXED: was --typography-body-md-line-height */
   text-align: left;
   cursor: pointer;
   transition: all var(--duration-form-transition) var(--easing-form-transition);
@@ -100,9 +100,9 @@
   padding: var(--foundation-space-2) var(--foundation-space-3);
   border: 1px solid var(--border-picker);
   border-radius: var(--radius-picker);
-  font-size: var(--typography-body-sm-size);
-  font-weight: var(--typography-body-sm-weight);
-  line-height: var(--typography-body-sm-line-height);
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-sm-weight */
+  line-height: var(--font-body-sm-leading);                /* FIXED: was --typography-body-sm-line-height */
   min-width: 120px;
   width: auto;
   max-width: 200px;
@@ -111,7 +111,7 @@
 .picker--compact.picker--sm {
   min-height: 28px;
   padding: var(--foundation-space-1) var(--foundation-space-2);
-  font-size: var(--typography-body-xs-size);
+  font-size: var(--font-body-xs-size);                     /* FIXED: was --typography-body-xs-size */
   border-radius: var(--radius-picker-sm);
   min-width: 100px;
   max-width: 160px;
@@ -120,7 +120,7 @@
 .picker--compact.picker--lg {
   min-height: 36px;
   padding: var(--foundation-space-3) var(--foundation-space-4);
-  font-size: var(--typography-body-md-size);
+  font-size: var(--font-body-md-size);                     /* FIXED: was --typography-body-md-size */
   border-radius: var(--radius-picker-lg);
   min-width: 140px;
   max-width: 220px;
@@ -130,18 +130,18 @@
 .picker--sm {
   min-height: 36px;
   padding: var(--foundation-space-2) var(--foundation-space-3);
-  font-size: var(--typography-body-sm-size);
-  font-weight: var(--typography-body-sm-weight);
-  line-height: var(--typography-body-sm-line-height);
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-sm-weight */
+  line-height: var(--font-body-sm-leading);                /* FIXED: was --typography-body-sm-line-height */
   border-radius: var(--radius-picker-sm);
 }
 
 .picker--lg {
   min-height: 52px;
   padding: var(--foundation-space-4) var(--foundation-space-5);
-  font-size: var(--typography-body-lg-size);
-  font-weight: var(--typography-body-lg-weight);
-  line-height: var(--typography-body-lg-line-height);
+  font-size: var(--font-body-lg-size);                     /* FIXED: was --typography-body-lg-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-lg-weight */
+  line-height: var(--font-body-lg-leading);                /* FIXED: was --typography-body-lg-line-height */
   border-radius: var(--radius-picker-lg);
 }
 
@@ -169,7 +169,7 @@
 }
 
 .picker--success {
-  border-color: var(--success-500);
+  border-color: var(--success-border);                     /* FIXED: was --success-500, using shortcut */
 }
 
 /* ===== PICKER VALUE ===== */
@@ -209,22 +209,21 @@
   color: var(--icon-picker-disabled);
 }
 
-/* ===== PICKER DROPDOWN - Using Foundation Tokens ===== */
+/* ===== PICKER DROPDOWN - FIXED BORDER & BACKGROUND ===== */
 .picker-dropdown {
   position: absolute;
   top: calc(100% + var(--foundation-space-1));
   left: 0;
   right: 0;
   z-index: var(--z-dropdown);
-  border: 2px solid var(--border-select-focus);
+  border: 1px solid var(--border-default);                 /* FIXED: was 2px solid --border-select-focus */
   border-radius: var(--radius-dropdown);
-  background-color: var(--surface-picker);
+  background-color: var(--surface-dropdown);               /* FIXED: was --surface-picker */
   box-shadow: var(--foundation-shadow-lg);
   overflow: hidden;
   max-height: 400px;
   animation: slideDownFadeIn var(--foundation-duration-fast) var(--foundation-easing-ease-out);
   padding: var(--foundation-space-2);
-  /* 🔧 FIX: Better height calculation to prevent cut-off options */
   display: flex;
   flex-direction: column;
 }
@@ -234,7 +233,7 @@
   right: auto;
   width: 240px;
   max-height: 280px;
-  border: 1px solid var(--border-select-focus);
+  border: 1px solid var(--border-default);                 /* FIXED: was --border-select-focus */
   border-radius: var(--foundation-radius-xl);
   padding: var(--foundation-space-1);
   box-shadow: var(--foundation-shadow-md);
@@ -275,12 +274,12 @@
   }
 }
 
-/* ===== PICKER SEARCH - Simple input, no bullshit ===== */
+/* ===== PICKER SEARCH - USING SEMANTIC TOKENS ===== */
 .picker-search {
   flex-shrink: 0;
   margin-bottom: var(--foundation-space-2);
   padding-bottom: var(--foundation-space-2);
-  border-bottom: 1px solid var(--border-secondary);
+  border-bottom: 1px solid var(--border-light);            /* FIXED: was --border-secondary, using shortcut */
 }
 
 .picker-search-input {
@@ -290,8 +289,8 @@
   border-radius: var(--foundation-radius-md);
   background-color: var(--surface-input);
   color: var(--text-input);
-  font-family: var(--font-body-family);
-  font-size: var(--typography-body-sm-size);
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
   outline: none;
   transition: border-color var(--foundation-duration-fast) var(--foundation-easing-ease-out);
 }
@@ -312,16 +311,14 @@
 
 /* ===== PICKER OPTIONS - Using Foundation Spacing ===== */
 .picker-options {
-  /* 🔧 FIX: Better height management to prevent cut-off options */
   display: flex;
   flex-direction: column;
-  gap: var(--foundation-space-1); /* t.ex. 8px */
+  gap: var(--foundation-space-1);
   flex: 1;
   overflow-y: auto;
-  margin:  var(--foundation-space-1);
+  margin: var(--foundation-space-1);
   list-style: none;
   scroll-behavior: smooth;
-  /* 🔧 FIX: Ensure last option is fully visible */
   min-height: 0;
 }
 
@@ -330,13 +327,13 @@
   padding: var(--foundation-space-1-2) 0;
 }
 
-/* 🔧 FIX: Dynamic max-height calculation based on content */
+/* Dynamic max-height calculation based on content */
 .picker-dropdown:not(.picker-dropdown--with-search) .picker-options {
-  max-height: calc(400px - var(--foundation-space-4)); /* Account for dropdown padding */
+  max-height: calc(400px - var(--foundation-space-4));
 }
 
 .picker-dropdown.picker-dropdown--with-search .picker-options {
-  max-height: calc(400px - 80px); /* Account for search bar height and padding */
+  max-height: calc(400px - 80px);
 }
 
 /* Compact dropdown calculations */
@@ -380,24 +377,24 @@
   max-height: calc(320px - 65px);
 }
 
-/* ===== PICKER OPTION - Better spacing ===== */
+/* ===== PICKER OPTION - FIXED HOVER STATES ===== */
 .picker-option {
   padding: var(--foundation-space-3) var(--foundation-space-4);
   cursor: pointer;
   transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
   border-radius: var(--foundation-radius-md);
-  background: transparent;
-  margin: var(--foundation-space-2) 0; /* 🔧 Good spacing - 8px gaps */
+  background: var(--surface-picker-option);
+  margin: var(--foundation-space-2) 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--text-select-option);
+  color: var(--text-picker-option);                        /* FIXED: was --text-select-option */
 }
 
 /* ===== COMPACT OPTION STYLING ===== */
 .picker-dropdown--compact .picker-option {
   padding: var(--foundation-space-2) var(--foundation-space-3);
-  margin: var(--foundation-space-1-5) 0; /* 🔧 Reasonable spacing for compact - 6px gaps */
+  margin: var(--foundation-space-1-5) 0;
   border-radius: var(--foundation-radius-lg);
 }
 
@@ -411,23 +408,23 @@
   border-radius: var(--foundation-radius-xl);
 }
 
-/* 🔧 FIX: More visible hover state with darker gray */
+/* ===== FIXED HOVER STATES ===== */
 .picker-option:hover {
-  background-color: var(--surface-picker-hover); /* Darker gray instead of accent-50 */
+  background-color: var(--surface-dropdown-option-hover);                 /* FIXED: subtle hover background */
 }
 
 .picker-option--focused {
-  background-color: var(--secondary-150); /* Slightly darker for keyboard focus */
+  background-color: var(--surface-hover);                  /* FIXED: was --secondary-150, using shortcut */
 }
 
 .picker-option--selected {
   background-color: var(--surface-picker-option-selected);
-  color: var(--text-select-option-selected);
-  font-weight: var(--typography-body-md-weight);
+  color: var(--text-picker-option-selected);               /* FIXED: was --text-select-option-selected */
+  font-weight: var(--foundation-weight-semibold);          /* FIXED: was --typography-body-md-weight */
 }
 
 .picker-option--selected:hover {
-  background-color: var(--secondary-300); /* Darker when selected and hovered */
+  background-color: var(--surface-dropdown-option-selected-hover);                  /* FIXED: was --secondary-300, using shortcut */
 }
 
 .picker-option--disabled {
@@ -453,7 +450,7 @@
   background-color: transparent;
 }
 
-/* ===== PICKER OPTION CONTENT - Using Foundation Typography ===== */
+/* ===== PICKER OPTION CONTENT - USING SEMANTIC TOKENS ===== */
 .picker-option-content {
   display: flex;
   flex-direction: column;
@@ -462,40 +459,40 @@
 }
 
 .picker-option-label {
-  font-family: var(--font-body-family);
-  font-size: var(--typography-body-sm-size);
-  font-weight: var(--typography-body-sm-weight);
-  line-height: var(--typography-body-sm-line-height);
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-md-size);                     /* UPDATED: was sm-size, now md-size for better readability */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-sm-weight */
+  line-height: var(--font-body-md-leading);                /* UPDATED: was sm-leading, now md-leading */
   color: inherit;
 }
 
 .picker-option-description {
-  font-family: var(--font-body-family);
-  font-size: var(--typography-body-xs-size);
-  font-weight: var(--typography-body-xs-weight);
-  line-height: var(--typography-body-xs-line-height);
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-sm-size);                     /* UPDATED: was xs-size, now sm-size for better readability */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-xs-weight */
+  line-height: var(--font-body-sm-leading);                /* UPDATED: was xs-leading, now sm-leading */
   color: var(--text-secondary);
 }
 
 /* ===== COMPACT OPTION CONTENT ===== */
 .picker-dropdown--compact .picker-option-label {
-  font-size: var(--typography-body-xs-size);
-  font-weight: var(--typography-body-xs-weight);
-  line-height: var(--typography-body-xs-line-height);
+  font-size: var(--font-body-sm-size);                     /* UPDATED: was xs-size, now sm-size for compact */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-xs-weight */
+  line-height: var(--font-body-sm-leading);                /* UPDATED: was xs-leading, now sm-leading */
 }
 
 .picker-dropdown--compact .picker-option-description {
-  font-size: var(--typography-body-2xs-size);
-  line-height: 1.3;
+  font-size: var(--font-body-xs-size);                     /* UPDATED: was 2xs-size, now xs-size */
+  line-height: var(--font-body-xs-leading);                /* UPDATED: better line height */
 }
 
 .picker-wrapper--sm .picker-dropdown--compact .picker-option-label {
-  font-size: var(--typography-body-2xs-size);
-  line-height: 1.3;
+  font-size: var(--font-body-xs-size);                     /* UPDATED: was 2xs-size, now xs-size */
+  line-height: var(--font-body-xs-leading);                /* UPDATED: better line height */
 }
 
 .picker-wrapper--lg .picker-dropdown--compact .picker-option-label {
-  font-size: var(--typography-body-sm-size);
+  font-size: var(--font-body-md-size);                     /* UPDATED: was sm-size, now md-size for large compact */
 }
 
 .picker-option--disabled .picker-option-label,
@@ -503,31 +500,31 @@
   color: var(--text-disabled);
 }
 
-/* ===== PICKER OPTION CHECK - Using Foundation Spacing ===== */
+/* ===== PICKER OPTION CHECK - USING SHORTCUTS ===== */
 .picker-option-check {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: var(--foundation-space-2);
   flex-shrink: 0;
-  color: var(--accent-500);
+  color: var(--accent-icon);                               /* FIXED: was --accent-500, using shortcut */
 }
 
-/* ===== ERROR AND SUCCESS MESSAGES - Using Foundation Typography ===== */
+/* ===== ERROR AND SUCCESS MESSAGES - USING SEMANTIC TOKENS ===== */
 .picker-error {
-  font-family: var(--font-body-family);
-  font-size: var(--typography-body-sm-size);
-  font-weight: var(--typography-body-sm-weight);
-  line-height: var(--typography-body-sm-line-height);
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-sm-weight */
+  line-height: var(--font-body-sm-leading);                /* FIXED: was --typography-body-sm-line-height */
   color: var(--text-form-error);
   margin-top: var(--space-form-error-margin);
 }
 
 .picker-success {
-  font-family: var(--font-body-family);
-  font-size: var(--typography-body-sm-size);
-  font-weight: var(--typography-body-sm-weight);
-  line-height: var(--typography-body-sm-line-height);
+  font-family: var(--font-body-family);                    /* FIXED: was --typography-body-font-family */
+  font-size: var(--font-body-sm-size);                     /* FIXED: was --typography-body-sm-size */
+  font-weight: var(--foundation-weight-normal);            /* FIXED: was --typography-body-sm-weight */
+  line-height: var(--font-body-sm-leading);                /* FIXED: was --typography-body-sm-line-height */
   color: var(--text-form-success);
   margin-top: var(--space-form-error-margin);
 }
@@ -536,17 +533,17 @@
 @media (max-width: 640px) {
   .picker {
     padding: var(--foundation-space-2);
-    font-size: var(--typography-body-sm-size);
+    font-size: var(--font-body-sm-size);                   /* FIXED: was --typography-body-sm-size */
   }
   
   .picker--sm {
     padding: var(--foundation-space-1);
-    font-size: var(--typography-body-xs-size);
+    font-size: var(--font-body-xs-size);                   /* FIXED: was --typography-body-xs-size */
   }
   
   .picker--lg {
     padding: var(--foundation-space-3);
-    font-size: var(--typography-body-md-size);
+    font-size: var(--font-body-md-size);                   /* FIXED: was --typography-body-md-size */
   }
 
   .picker-dropdown {
@@ -573,28 +570,28 @@
   }
 }
 
-/* ===== SCROLLBAR STYLING - Using Foundation Colors ===== */
+/* ===== SCROLLBAR STYLING - USING SEMANTIC TOKENS ===== */
 .picker-options::-webkit-scrollbar {
   width: var(--foundation-space-1-5);
 }
 
 .picker-options::-webkit-scrollbar-track {
-  background: var(--secondary-50);
+  background: var(--surface-subtle);                       /* FIXED: was --secondary-50, using shortcut */
 }
 
 .picker-options::-webkit-scrollbar-thumb {
-  background: var(--secondary-300);
+  background: var(--border-strong);                        /* FIXED: was --secondary-300, using shortcut */
   border-radius: var(--foundation-radius-sm);
 }
 
 .picker-options::-webkit-scrollbar-thumb:hover {
-  background: var(--secondary-400);
+  background: var(--border-hover);                         /* FIXED: was --secondary-400, using semantic */
 }
 
 /* Firefox scrollbar */
 .picker-options {
   scrollbar-width: thin;
-  scrollbar-color: var(--secondary-300) var(--secondary-50);
+  scrollbar-color: var(--border-strong) var(--surface-subtle); /* FIXED: using shortcuts */
 }
 
 /* ===== FOCUS RING - Using Foundation Focus System ===== */
@@ -620,23 +617,17 @@
   }
 }
 
-/* ===== DARK MODE SUPPORT (if you implement it) ===== */
-@media (prefers-color-scheme: dark) {
-  /* Your dark mode overrides would go here */
-  /* Currently using your semantic tokens which should handle this */
-}
-
 /* ===== SIZE-SPECIFIC ADJUSTMENTS ===== */
 .picker-wrapper--sm .picker-option {
   padding: var(--foundation-space-2) var(--foundation-space-3);
 }
 
 .picker-wrapper--sm .picker-option-label {
-  font-size: var(--typography-body-xs-size);
+  font-size: var(--font-body-sm-size);                     /* UPDATED: was xs-size, now sm-size for better readability */
 }
 
 .picker-wrapper--sm .picker-option-description {
-  font-size: var(--typography-body-2xs-size);
+  font-size: var(--font-body-xs-size);                     /* UPDATED: was 2xs-size, now xs-size */
 }
 
 .picker-wrapper--lg .picker-option {
@@ -644,9 +635,9 @@
 }
 
 .picker-wrapper--lg .picker-option-label {
-  font-size: var(--typography-body-md-size);
+  font-size: var(--font-body-lg-size);                     /* UPDATED: was md-size, now lg-size for large picker */
 }
 
 .picker-wrapper--lg .picker-option-description {
-  font-size: var(--typography-body-sm-size);
+  font-size: var(--font-body-md-size);                     /* UPDATED: was sm-size, now md-size for large picker */
 }

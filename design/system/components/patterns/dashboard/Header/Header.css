@@ -177,7 +177,7 @@
 /* ===== DROPDOWN SECTIONS ===== */
 .dropdown__header {
   padding: var(--space-dropdown-header-padding);
-  border-bottom: 1px solid var(--border-dropdown-subtle);
+  border-bottom: 1px solid var(--border-subtle);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -193,7 +193,7 @@
 
 .dropdown__footer {
   padding: var(--space-dropdown-footer-padding);
-  border-top: 1px solid var(--border-dropdown-subtle);
+  border-top: 1px solid var(--border-subtle);
   flex-shrink: 0;
 }
 

@@ -1,6 +1,6 @@
 /* =============================================== */
 /* src/design-system/components/primitives/Icon/Icon.css */
-/* FIXED ICON STYLES - Matches your existing system */
+/* FIXED ICON STYLES - Now uses correct token sizes */
 /* =============================================== */
 
 /* ===== BASE ICON STYLES ===== */
@@ -16,41 +16,50 @@
   transition: all 0.2s ease;
 }
 
-/* ===== SIZE VARIANTS ===== */
+/* ===== SIZE VARIANTS - FIXED TO MATCH TOKENS ===== */
 .icon--xs {
-  width: 12px;
-  height: 12px;
+  width: var(--icon-size-xs, 12px);   /* ✅ Uses token */
+  height: var(--icon-size-xs, 12px);  /* ✅ Uses token */
   stroke-width: 1.5;
 }
 
 .icon--sm {
-  width: 16px;
-  height: 16px;
+  width: var(--icon-size-sm, 14px);   /* ✅ FIXED: Now 14px instead of 16px */
+  height: var(--icon-size-sm, 14px);  /* ✅ FIXED: Now 14px instead of 16px */
   stroke-width: 2;
 }
 
 .icon--md {
-  width: 20px;
-  height: 20px;
+  width: var(--icon-size-md, 16px);   /* ✅ FIXED: Now 16px instead of 20px */
+  height: var(--icon-size-md, 16px);  /* ✅ FIXED: Now 16px instead of 20px */
   stroke-width: 2;
 }
 
 .icon--lg {
-  width: 24px;
-  height: 24px;
+  width: var(--icon-size-lg, 20px);   /* ✅ FIXED: Now 20px instead of 24px */
+  height: var(--icon-size-lg, 20px);  /* ✅ FIXED: Now 20px instead of 24px */
   stroke-width: 2;
 }
 
 .icon--xl {
-  width: 32px;
-  height: 32px;
+  width: var(--icon-size-xl, 24px);   /* ✅ FIXED: Now 24px instead of 32px */
+  height: var(--icon-size-xl, 24px);  /* ✅ FIXED: Now 24px instead of 32px */
   stroke-width: 2;
 }
 
 .icon--2xl {
-  width: 40px;
-  height: 40px;
+  width: var(--icon-size-2xl, 32px);  /* ✅ FIXED: Now 32px instead of 40px */
+  height: var(--icon-size-2xl, 32px); /* ✅ FIXED: Now 32px instead of 40px */
   stroke-width: 1.5;
+}
+
+/* ===== CRITICAL FIX FOR ICONBUTTON ALIGNMENT ===== */
+/* Override vertical-align when Icon is inside IconButton */
+.icon-btn .icon {
+  vertical-align: unset !important;  /* ✅ Prevent misalignment */
+  margin: 0 !important;              /* ✅ Remove any margins */
+  display: block !important;         /* ✅ Proper display */
+  transform: none !important;        /* ✅ No transforms */
 }
 
 /* ===== COLOR VARIANTS ===== */
@@ -167,26 +176,24 @@
 
 /* ===== WEIGHT VARIANTS ===== */
 .icon--weight-thin {
-  stroke-width: 2;
+  stroke-width: var(--icon-stroke-thin, 1);
 }
 
 .icon--weight-light {
-  stroke-width: 2;
+  stroke-width: var(--icon-stroke-light, 1.5);
 }
 
 .icon--weight-regular {
-  stroke-width: 2;
+  stroke-width: var(--icon-stroke-regular, 1.75);
 }
 
 .icon--weight-medium {
-  stroke-width: 2.5;
+  stroke-width: var(--icon-stroke-medium, 2);
 }
 
 .icon--weight-bold {
-  stroke-width: 3;
+  stroke-width: var(--icon-stroke-bold, 3);
 }
-
-
 
 /* Disabled state */
 .icon--button-disabled,
@@ -294,18 +301,18 @@ a:focus-visible .icon {
 @media (max-width: 768px) {
   /* Slightly larger icons on mobile for better touch targets */
   .icon--sm {
-    width: 18px;
-    height: 18px;
+    width: calc(var(--icon-size-sm, 14px) + 2px);
+    height: calc(var(--icon-size-sm, 14px) + 2px);
   }
   
   .icon--md {
-    width: 22px;
-    height: 22px;
+    width: calc(var(--icon-size-md, 16px) + 2px);
+    height: calc(var(--icon-size-md, 16px) + 2px);
   }
   
   .icon--lg {
-    width: 26px;
-    height: 26px;
+    width: calc(var(--icon-size-lg, 20px) + 2px);
+    height: calc(var(--icon-size-lg, 20px) + 2px);
   }
 }
 
@@ -342,6 +349,14 @@ a:focus-visible .icon {
     animation: none;
     transform: none;
     transition: none;
+  }
+  
+  /* But keep the IconButton alignment fixes */
+  .icon-btn .icon {
+    vertical-align: unset !important;
+    margin: 0 !important;
+    display: block !important;
+    transform: none !important;
   }
 }
 
