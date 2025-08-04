@@ -116,7 +116,7 @@
 
   --surface-page: #171717; /* You need this override */                        
   --surface-page-secondary: #212121;                          /* Secondary dark areas */
-  --surface-card: #212121;                                    /* Dark card backgrounds */
+  --surface-card: #171717;                                    /* Dark card backgrounds */
   --surface-card-hover: #252525;                              /* Dark card hover */
   --surface-card-selected: #3D3D3D;                           /* Dark card selected */
   --surface-card-elevated: #252525;                           /* Dark elevated surfaces */
