@@ -180,10 +180,10 @@
   --interactive-tertiary-hover: var(--secondary-50);
   --interactive-tertiary-active: var(--secondary-100);
 
-  /* Destructive interactions */
-  --interactive-destructive: var(--error-600);
-  --interactive-destructive-hover: var(--error-700);
-  --interactive-destructive-active: var(--error-800);
+  --surface-button-destructive: var(--error-100); /* Light red background */
+  --surface-button-destructive-hover: var(--error-200); /* Slightly darker on hover */
+  --text-button-destructive: var(--error-700); /* Dark red text */
+  --border-button-destructive: var(--error-300); /*
   
   /* Success interactions */
   --interactive-success: var(--success-500);
@@ -215,6 +215,4 @@
   --icon-nav-item-selected: var(--accent-600);
   --icon-nav-item-disabled: var(--icon-disabled);
   --icon-nav-item-hover: var(--icon-primary);
-  --border-nav: var(--border-subtle);
-  --border-nav-item-selected: var(--accent-500);
 }
