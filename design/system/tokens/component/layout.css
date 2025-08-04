@@ -65,8 +65,8 @@
   /* ===== BORDER RADIUS COMPONENT TOKENS ===== */
   --radius-button: var(--radius-xl);
   --radius-button-sm: var(--radius-lg);
-  --radius-button-lg: var(--radius-2xl);
-  --radius-card: var(radius-lg);
+  --radius-button-lg: var(--radius-xl);
+  --radius-card: var(--radius-lg);
   --radius-input: var(--radius-xl);
   --radius-modal: var(--radius-xl);
   --radius-toast: var(--radius-lg);
