@@ -68,7 +68,7 @@
   --radius-button-lg: var(--radius-xl);
   --radius-card: var(--radius-lg);
   --radius-input: var(--radius-lg);
-  --radius-modal: var(--radius-lg);
+  --radius-modal: var(--radius-xl);
   --radius-toast: var(--radius-lg);
   --radius-badge: var(--radius-lg);
   --radius-avatar: var(--radius-full);

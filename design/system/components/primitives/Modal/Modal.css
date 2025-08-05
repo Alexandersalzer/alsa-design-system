@@ -24,7 +24,7 @@
 .modal {
   background: var(--surface-modal-content);
   border: 1px solid var(--border-modal);
-  border-radius: var(--foundation-radius-lg);
+  border-radius: var(--radius-modal);
   box-shadow: var(--shadow-modal);
   max-height: 90vh;
   overflow-y: auto;

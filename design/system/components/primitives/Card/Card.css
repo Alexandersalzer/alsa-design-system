@@ -5,7 +5,7 @@
 .card {
     background-color: var(--surface-card);
     border: 1px solid var(--border-card);
-    border-radius: var(--foundation-radius-lg);
+    border-radius: var(--radius-card);
     padding: var(--foundation-space-6);
     box-shadow: var(--foundation-shadow-sm);
     transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
