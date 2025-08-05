@@ -49,7 +49,7 @@ export function getCurrentLocale(): SupportedLocale {
 
 /**
  * Navigate to a different locale while preserving the current page
- * Works with Next.js [locale] dynamic routes and editing mode with .html files
+ * Works with Next.js [locale] dynamic routes and editing mode with /index.html files
  */
 export function switchLocale(newLocale: SupportedLocale, isEditingMode: boolean = false): void {
   if (typeof window === 'undefined') {
@@ -74,22 +74,26 @@ export function switchLocale(newLocale: SupportedLocale, isEditingMode: boolean 
   let newPath: string;
   
   if (isEditingMode) {
-    // In editing mode, handle .html files
+    // In editing mode, handle /index.html files for static export structure
     if (segments.length > 0) {
       // Get the remaining path after locale
-      const remainingPath = segments.join('/');
+      let remainingPath = segments.join('/');
       
-      // If it already has .html extension, use it as is
-      if (remainingPath.endsWith('.html')) {
+      // If it already has /index.html extension, extract the page name
+      if (remainingPath.endsWith('/index.html')) {
+        const pageWithoutExtension = remainingPath.replace('/index.html', '');
+        newPath = `/${newLocale}/${pageWithoutExtension}/index.html`;
+      } else if (remainingPath.endsWith('.html')) {
+        // Handle old .html format, convert to /index.html
         const pageWithoutExtension = remainingPath.replace('.html', '');
-        newPath = `/${newLocale}/${pageWithoutExtension}.html`;
+        newPath = `/${newLocale}/${pageWithoutExtension}/index.html`;
       } else {
-        // Add .html extension
-        newPath = `/${newLocale}/${remainingPath}.html`;
+        // Add /index.html extension
+        newPath = `/${newLocale}/${remainingPath}/index.html`;
       }
     } else {
       // Default to home page in editing mode
-      newPath = `/${newLocale}/home.html`;
+      newPath = `/${newLocale}/home/index.html`;
     }
   } else {
     // Normal mode: use locale-based routes
