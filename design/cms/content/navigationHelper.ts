@@ -4,7 +4,10 @@ export interface NavbarBlock {
   type: string;
   content?: string;
   slug?: string;
-  href?: string;
+  config?: {
+    href?: string;
+    [key: string]: any;
+  };
 }
 
 export interface NavbarPattern {
@@ -70,7 +73,7 @@ export function enhanceNavigationWithCMS(
     .map((block: NavbarBlock) => ({
       label: block.content || '',
       slug: block.slug || '',
-      href: block.href || `/${block.slug || ''}`
+      href: block.config?.href || `/${block.slug || ''}`
     }));
 
   // Create navigation items by combining CMS data with component configuration
