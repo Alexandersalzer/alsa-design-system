@@ -49,7 +49,7 @@ export function getCurrentLocale(): SupportedLocale {
 
 /**
  * Navigate to a different locale while preserving the current page
- * Works with Next.js [locale] dynamic routes and editing mode with /index.html files
+ * Works with Next.js [locale] dynamic routes and editing mode with index.html files
  */
 export function switchLocale(newLocale: SupportedLocale, isEditingMode: boolean = false): void {
   if (typeof window === 'undefined') {
@@ -74,23 +74,20 @@ export function switchLocale(newLocale: SupportedLocale, isEditingMode: boolean 
   let newPath: string;
   
   if (isEditingMode) {
-    // In editing mode, handle /index.html files for static export structure
+    // In editing mode, handle index.html files with directory structure
     if (segments.length > 0) {
       // Get the remaining path after locale
       let remainingPath = segments.join('/');
       
-      // If it already has /index.html extension, extract the page name
+      // Remove index.html if it exists to get the clean page name
       if (remainingPath.endsWith('/index.html')) {
-        const pageWithoutExtension = remainingPath.replace('/index.html', '');
-        newPath = `/${newLocale}/${pageWithoutExtension}/index.html`;
+        remainingPath = remainingPath.replace('/index.html', '');
       } else if (remainingPath.endsWith('.html')) {
-        // Handle old .html format, convert to /index.html
-        const pageWithoutExtension = remainingPath.replace('.html', '');
-        newPath = `/${newLocale}/${pageWithoutExtension}/index.html`;
-      } else {
-        // Add /index.html extension
-        newPath = `/${newLocale}/${remainingPath}/index.html`;
+        remainingPath = remainingPath.replace('.html', '');
       }
+      
+      // Build path with directory structure and index.html
+      newPath = `/${newLocale}/${remainingPath}/index.html`;
     } else {
       // Default to home page in editing mode
       newPath = `/${newLocale}/home/index.html`;
