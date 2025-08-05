@@ -28,7 +28,7 @@ export function extractLocaleFromPathname(pathname: string): SupportedLocale {
 
 /**
  * Build href for brand/home link
- * Handles both normal locale routes and toggle mode (index.html files)
+ * Handles both normal locale routes and toggle mode (.html files)
  */
 export function buildBrandHref(
   originalHref: string, 
@@ -36,9 +36,9 @@ export function buildBrandHref(
   isEditingMode: boolean
 ): string {
   if (isEditingMode) {
-    // Editing mode: use index.html files WITH locale prefix and directory structure
+    // Toggle mode: use .html files WITH locale prefix
     const slug = originalHref.replace('/', '') || 'home';
-    return `/${currentLocale}/${slug}/index.html`;
+    return `/${currentLocale}/${slug}.html`;
   }
   
   // Normal mode: use locale-based routes
@@ -47,27 +47,21 @@ export function buildBrandHref(
 
 /**
  * Build href for navigation item
- * Handles both normal locale routes and toggle mode (index.html files)
+ * Handles both normal locale routes and toggle mode (.html files)
  */
 export function buildNavHref(
   item: NavigationItem,
   currentLocale: SupportedLocale,
   isEditingMode: boolean
 ): string {
-  console.log('buildNavHref debug:', { item, currentLocale, isEditingMode });
-  
   if (isEditingMode) {
-    // Editing mode: use slug or href for index.html files WITH locale prefix and directory structure
+    // Toggle mode: use slug or href for .html files WITH locale prefix
     const slug = item.slug || item.href.replace('/', '');
-    const result = `/${currentLocale}/${slug}/index.html`;
-    console.log('buildNavHref editing mode result:', { slug, result });
-    return result;
+    return `/${currentLocale}/${slug}.html`;
   }
   
   // Normal mode: use locale-based routes
-  const result = `/${currentLocale}${item.href}`;
-  console.log('buildNavHref normal mode result:', { result });
-  return result;
+  return `/${currentLocale}${item.href}`;
 }
 
 /**
