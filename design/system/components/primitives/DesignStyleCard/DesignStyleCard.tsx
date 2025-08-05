@@ -5,8 +5,8 @@
 
 import React from 'react';
 import { Card, CardContent } from '../Card';
-import { Typography, Label } from '../Typography';
-import { cn } from '@/lib/utils';
+import { Label } from '../Typography';
+import { cn } from '../../../lib/utils';
 
 export interface DesignStyle {
   id: string;
@@ -52,9 +52,9 @@ export const DesignStyleGrid: React.FC<DesignStyleGridProps> = ({
             )}
             <Label className="font-medium">{style.name}</Label>
             {style.description && (
-              <Typography variant="body" className="text-sm text-gray-600 mt-1">
+              <Label>
                 {style.description}
-              </Typography>
+              </Label>
             )}
           </CardContent>
         </Card>
