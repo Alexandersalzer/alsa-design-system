@@ -3,12 +3,12 @@
 import { ContentProvider, EditingModeWrapper, Navbar, Footer, ArrowRightIcon } from '../..';
 import { ReactNode } from "react";
 import type { WebsiteContent } from "../../cms/types/content";
-import type { NavigationItem } from "../../cms/content/navigationHelper";
+import type { EnhancedNavigationItem } from "../../cms/content/navigationHelper";
 
 interface ClientLayoutProps {
   children: ReactNode;
   initialContent: WebsiteContent | null;
-  navigationItems: NavigationItem[];
+  navigationItems: EnhancedNavigationItem[];
   // Brand configuration
   brandName: string;
   brandHref: string;
