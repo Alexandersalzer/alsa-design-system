@@ -7,9 +7,12 @@ import { Section } from '../../../../layout/frames/section';
 import { Container } from '../../../../layout/frames/container';
 import { Cluster } from '../../../../layout/utilities/cluster';
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
-import { getNavigationContext, type NavigationItem } from '../../../../utils/navigation';
+import { getNavigationContext, type NavigationItem as UtilsNavigationItem } from '../../../../utils/navigation';
+import type { NavigationItem } from '../../../../../cms/content/navigationHelper';
+import { enhanceNavigationWithCMS } from '../../../../../cms/content/navigationHelper';
+import { ArrowRightIcon } from '../../../../..';
 
-export interface NavItem extends NavigationItem {
+export interface NavItem extends UtilsNavigationItem {
   label: string;
   variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -36,6 +39,20 @@ export interface NavbarProps {
   logoAlt?: string;
   logoWidth?: number;
   logoHeight?: number;
+  // Navigation item configuration
+  navigationConfig?: {
+    textlink?: {
+      componentType: 'textlink';
+      textLinkVariant?: 'primary';
+      weight?: 'medium';
+      underline?: 'hover';
+    };
+    button?: {
+      componentType: 'button';
+      variant?: 'primary';
+      rightIcon?: string;
+    };
+  };
 }
 
 const Navbar = ({ 
@@ -52,10 +69,23 @@ const Navbar = ({
   logoSrc,
   logoAlt = 'Logo',
   logoWidth = 40,
-  logoHeight = 40
+  logoHeight = 40,
+  navigationConfig = {
+    textlink: {
+      componentType: 'textlink' as const,
+      textLinkVariant: 'primary' as const,
+      weight: 'medium' as const,
+      underline: 'hover' as const
+    },
+    button: {
+      componentType: 'button' as const,
+      variant: 'primary' as const,
+      rightIcon: 'ArrowRightIcon'
+    }
+  }
 }: NavbarProps) => {
   const { isEditingMode } = useEditingMode();
-  const { getNavbarContent } = useContent();
+  const { getNavbarContent, content } = useContent();
   const pathname = usePathname();
 
   
@@ -65,8 +95,38 @@ const Navbar = ({
   // Get navbar content from JSON
   const navbarContent = getNavbarContent();
 
+  // Create base navigation items from configuration if navItems is empty
+  let finalNavItems = navItems;
+  if (navItems.length === 0) {
+    const baseNavigationItems: NavigationItem[] = [
+      {
+        componentType: 'textlink' as const,
+        textLinkVariant: navigationConfig?.textlink?.textLinkVariant || 'primary',
+        weight: navigationConfig?.textlink?.weight || 'medium',
+        underline: navigationConfig?.textlink?.underline || 'hover',
+        href: '/'
+      },
+      {
+        componentType: 'button' as const,
+        variant: navigationConfig?.button?.variant || 'primary',
+        rightIcon: navigationConfig?.button?.rightIcon || 'ArrowRightIcon',
+        href: '/'
+      }
+    ];
+
+    // Enhance navigation with CMS content
+    const enhancedNavigationItems = enhanceNavigationWithCMS(baseNavigationItems, content);
+
+    // Convert string icon references back to JSX and transform to NavItem[]
+    finalNavItems = enhancedNavigationItems.map(item => ({
+      ...item,
+      rightIcon: item.rightIcon === 'ArrowRightIcon' ? <ArrowRightIcon /> : undefined,
+      label: item.label || '' // Ensure label exists
+    }));
+  }
+
   // Merge JSON content with existing navItems, prioritizing JSON labels
-  const mergedNavItems = navItems.map(item => {
+  const mergedNavItems = finalNavItems.map(item => {
     // Find matching content from JSON based on slug
     const jsonItem = navbarContent?.navItems.find(jsonNav => jsonNav.slug === item.slug);
     
