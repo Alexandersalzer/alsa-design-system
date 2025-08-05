@@ -57,7 +57,7 @@ const Navbar = ({
   logoHeight = 32
 }: NavbarProps) => {
   const { isEditingMode } = useEditingMode();
-  const { getNavbarContent } = useContent();
+  const { getNavbarContent, content } = useContent();
   const pathname = usePathname();
 
   // Default navigation configuration
@@ -90,8 +90,8 @@ const Navbar = ({
     }
   ];
 
-  // Enhance navigation with CMS content
-  const enhancedNavigationItems = enhanceNavigationWithCMS(baseNavigationItems, null);
+  // Enhance navigation with CMS content - pass the actual content instead of null
+  const enhancedNavigationItems = enhanceNavigationWithCMS(baseNavigationItems, content);
 
   // Convert string icon references back to JSX
   const processedNavItems = enhancedNavigationItems.map(item => ({
