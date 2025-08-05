@@ -49,7 +49,7 @@ export function getCurrentLocale(): SupportedLocale {
 
 /**
  * Navigate to a different locale while preserving the current page
- * Works with Next.js [locale] dynamic routes and editing mode with /index.html files
+ * Works with Next.js [locale] dynamic routes and editing mode with .html files
  */
 export function switchLocale(newLocale: SupportedLocale, isEditingMode: boolean = false): void {
   if (typeof window === 'undefined') {
@@ -74,23 +74,26 @@ export function switchLocale(newLocale: SupportedLocale, isEditingMode: boolean 
   let newPath: string;
   
   if (isEditingMode) {
-    // In editing mode, use /index.html files to match static export structure
+    // In editing mode, handle .html files
     if (segments.length > 0) {
       // Get the remaining path after locale
-      let remainingPath = segments.join('/');
+      const remainingPath = segments.join('/');
       
-      // Remove any existing .html or /index.html suffixes
-      remainingPath = remainingPath.replace(/\.html$/, '').replace(/\/index$/, '');
-      
-      // Build path with /index.html suffix
-      newPath = `/${newLocale}/${remainingPath}/index.html`;
+      // If it already has .html extension, use it as is
+      if (remainingPath.endsWith('.html')) {
+        const pageWithoutExtension = remainingPath.replace('.html', '');
+        newPath = `/${newLocale}/${pageWithoutExtension}.html`;
+      } else {
+        // Add .html extension
+        newPath = `/${newLocale}/${remainingPath}.html`;
+      }
     } else {
-      // Default to locale root with /index.html
-      newPath = `/${newLocale}/index.html`;
+      // Default to home page in editing mode
+      newPath = `/${newLocale}/home.html`;
     }
   } else {
-    // Normal mode: use locale-based routes with trailing slashes
-    newPath = `/${newLocale}${segments.length > 0 ? '/' + segments.join('/') + '/' : '/'}`;
+    // Normal mode: use locale-based routes
+    newPath = `/${newLocale}${segments.length > 0 ? '/' + segments.join('/') : ''}`;
   }
   
   console.log('switchLocale result:', { newPath });
