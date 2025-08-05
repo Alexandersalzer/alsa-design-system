@@ -54,14 +54,20 @@ export function buildNavHref(
   currentLocale: SupportedLocale,
   isEditingMode: boolean
 ): string {
+  console.log('buildNavHref debug:', { item, currentLocale, isEditingMode });
+  
   if (isEditingMode) {
     // Editing mode: use slug or href for index.html files WITH locale prefix and directory structure
     const slug = item.slug || item.href.replace('/', '');
-    return `/${currentLocale}/${slug}/index.html`;
+    const result = `/${currentLocale}/${slug}/index.html`;
+    console.log('buildNavHref editing mode result:', { slug, result });
+    return result;
   }
   
   // Normal mode: use locale-based routes
-  return `/${currentLocale}${item.href}`;
+  const result = `/${currentLocale}${item.href}`;
+  console.log('buildNavHref normal mode result:', { result });
+  return result;
 }
 
 /**
