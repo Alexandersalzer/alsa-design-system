@@ -7,6 +7,7 @@ import type { WebsiteContent } from "../../cms/types/content";
 interface ClientLayoutProps {
   children: ReactNode;
   initialContent: WebsiteContent | null;
+  // Layout options
   showNavbar?: boolean;
   showFooter?: boolean;
 }

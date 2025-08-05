@@ -7,12 +7,11 @@ import { Section } from '../../../../layout/frames/section';
 import { Container } from '../../../../layout/frames/container';
 import { Cluster } from '../../../../layout/utilities/cluster';
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
-import { getNavigationContext, type NavigationItem as UtilsNavigationItem } from '../../../../utils/navigation';
-import type { NavigationItem } from '../../../../../cms/content/navigationHelper';
-import { enhanceNavigationWithCMS } from '../../../../../cms/content/navigationHelper';
-import { ArrowRightIcon } from '../../../../..';
+import { getNavigationContext, type NavigationItem } from '../../../../utils/navigation';
+import { enhanceNavigationWithCMS, type NavigationItem as CMSNavigationItem } from '../../../../../cms/content/navigationHelper';
+import { ArrowRightIcon } from 'lucide-react';
 
-export interface NavItem extends UtilsNavigationItem {
+export interface NavItem extends NavigationItem {
   label: string;
   variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -39,25 +38,11 @@ export interface NavbarProps {
   logoAlt?: string;
   logoWidth?: number;
   logoHeight?: number;
-  // Navigation item configuration
-  navigationConfig?: {
-    textlink?: {
-      componentType: 'textlink';
-      textLinkVariant?: 'primary';
-      weight?: 'medium';
-      underline?: 'hover';
-    };
-    button?: {
-      componentType: 'button';
-      variant?: 'primary';
-      rightIcon?: string;
-    };
-  };
 }
 
 const Navbar = ({ 
-  brandName = 'Blimpifyco',
-  brandHref = '/',
+  brandName = 'MARKETING SWEDEN',
+  brandHref = '/home',
   navItems = [],
   className,
   navVariant = 'ghost',
@@ -66,11 +51,17 @@ const Navbar = ({
   brandSize = 'lg',
   brandWeight = 'bold',
   brandUnderline = 'none',
-  logoSrc,
-  logoAlt = 'Logo',
-  logoWidth = 40,
-  logoHeight = 40,
-  navigationConfig = {
+  logoSrc = '/images/sections/kjlogo.jpg',
+  logoAlt = 'KJ Marketing Logo',
+  logoWidth = 32,
+  logoHeight = 32
+}: NavbarProps) => {
+  const { isEditingMode } = useEditingMode();
+  const { getNavbarContent } = useContent();
+  const pathname = usePathname();
+
+  // Default navigation configuration
+  const navigationConfig = {
     textlink: {
       componentType: 'textlink' as const,
       textLinkVariant: 'primary' as const,
@@ -82,48 +73,42 @@ const Navbar = ({
       variant: 'primary' as const,
       rightIcon: 'ArrowRightIcon'
     }
-  }
-}: NavbarProps) => {
-  const { isEditingMode } = useEditingMode();
-  const { getNavbarContent, content } = useContent();
-  const pathname = usePathname();
+  };
 
+  // Create base navigation items from configuration for CMS
+  const baseNavigationItems: CMSNavigationItem[] = [
+    {
+      componentType: 'textlink' as const,
+      textLinkVariant: navigationConfig?.textlink?.textLinkVariant || 'primary',
+      weight: navigationConfig?.textlink?.weight || 'medium',
+      underline: navigationConfig?.textlink?.underline || 'hover'
+    },
+    {
+      componentType: 'button' as const,
+      variant: navigationConfig?.button?.variant || 'primary',
+      rightIcon: navigationConfig?.button?.rightIcon || 'ArrowRightIcon'
+    }
+  ];
+
+  // Enhance navigation with CMS content
+  const enhancedNavigationItems = enhanceNavigationWithCMS(baseNavigationItems, null);
+
+  // Convert string icon references back to JSX
+  const processedNavItems = enhancedNavigationItems.map(item => ({
+    ...item,
+    rightIcon: item.rightIcon === 'ArrowRightIcon' ? <ArrowRightIcon /> : undefined,
+    size: navSize,
+    leftIcon: undefined
+  }));
+
+  // Merge with any passed navItems
+  const finalNavItems = navItems.length > 0 ? navItems : processedNavItems;
   
   // Use navigation utilities for consistent route handling
   const nav = getNavigationContext(pathname, isEditingMode);
 
   // Get navbar content from JSON
   const navbarContent = getNavbarContent();
-
-  // Create base navigation items from configuration if navItems is empty
-  let finalNavItems = navItems;
-  if (navItems.length === 0) {
-    const baseNavigationItems: NavigationItem[] = [
-      {
-        componentType: 'textlink' as const,
-        textLinkVariant: navigationConfig?.textlink?.textLinkVariant || 'primary',
-        weight: navigationConfig?.textlink?.weight || 'medium',
-        underline: navigationConfig?.textlink?.underline || 'hover',
-        href: '/'
-      },
-      {
-        componentType: 'button' as const,
-        variant: navigationConfig?.button?.variant || 'primary',
-        rightIcon: navigationConfig?.button?.rightIcon || 'ArrowRightIcon',
-        href: '/'
-      }
-    ];
-
-    // Enhance navigation with CMS content
-    const enhancedNavigationItems = enhanceNavigationWithCMS(baseNavigationItems, content);
-
-    // Convert string icon references back to JSX and transform to NavItem[]
-    finalNavItems = enhancedNavigationItems.map(item => ({
-      ...item,
-      rightIcon: item.rightIcon === 'ArrowRightIcon' ? <ArrowRightIcon /> : undefined,
-      label: item.label || '' // Ensure label exists
-    }));
-  }
 
   // Merge JSON content with existing navItems, prioritizing JSON labels
   const mergedNavItems = finalNavItems.map(item => {
