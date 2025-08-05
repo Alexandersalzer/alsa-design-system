@@ -3,12 +3,6 @@ export * from './system';
 export * from './cms/context/ContentProvider';
 export * from './cms/modules/initial/child/EditingWrapper';
 
-// Export i18n functionality
-export { getI18nConfig, getAvailableLocales, type Locale } from './cms/lang/i18n';
-
-// Export content loading functionality
-export { getAllPagesContent, getPageContent, getGlobalComponentContent } from './cms/content/contentLoader';
-
 // Export navigation helper functionality
 export { 
   enhanceNavigationWithCMS,
@@ -67,6 +61,9 @@ export type {
   Block as ContentBlock,
   BlockType 
 } from './cms/types/content';
+
+// Export client-safe type exports only (no server-side functions)
+export type { Locale } from './cms/lang/i18n';
 
 // Remove dimensionMessaging export
 // export { sendBothDimensions } from './cms/messaging/dimensionMessaging'; 
