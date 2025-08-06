@@ -34,6 +34,7 @@
 @import './components/primitives/SegmentedControl/SegmentedControl.css';
 @import './components/primitives/Stepper/Stepper.css';
 @import './components/primitives/TextLink/TextLink.css';
+@import './components/primitives/DesignStyleCard/DesignStyleCard.css';
 
 /* STEP 5: Pattern components */
 @import './components/patterns/dashboard/Header/Header.css';

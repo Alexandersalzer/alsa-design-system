@@ -129,7 +129,7 @@
   
   /* ===== SPECIFIC FORM ELEMENT RADIUS ===== */
   /* Input fields (input, textarea, select) */
-  --radius-input: var(--radius-button-lg);
+  --radius-input: var(--radius-button);
   --radius-input-sm: var(--radius-button-sm);
   --radius-input-lg: var(--radius-button-lg);
   

@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Input/Input.css
-   INPUT COMPONENT STYLES - UPDATED WITH SEMANTIC TOKENS
+   INPUT COMPONENT STYLES - WITH RADIUS SIZE VARIANTS
    ============================================== */
 
 /* ===== INPUT GROUP LAYOUT ===== */
@@ -10,13 +10,13 @@
   gap: var(--foundation-space-2);
 }
 
-/* ===== INPUT LABEL STYLES - USING SEMANTIC TOKENS ===== */
+/* ===== INPUT LABEL STYLES ===== */
 .input-label {
   font-family: var(--font-body-family);
   font-size: var(--font-label-md-size);
   font-weight: var(--foundation-weight-semibold);
   line-height: var(--font-label-md-leading);
-  color: var(--text-form-label);                            /* FIXED: was --text-label-color */
+  color: var(--text-form-label);
   margin-bottom: var(--foundation-space-1);
   display: block;
 }
@@ -28,36 +28,46 @@
   align-items: center;
 }
 
-/* ===== BASE INPUT STYLES - USING SEMANTIC TOKENS ===== */
+/* ===== BASE INPUT STYLES ===== */
 .input {
   width: 100%;
-  background-color: var(--surface-input);                  /* ✅ Good - semantic token */
-  border: 1px solid var(--border-input);                   /* ✅ Good - semantic token */
-  border-radius: var(--radius-input);                      /* ✅ Good - component token */
+  background-color: var(--surface-input);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-input);                      /* Default: 8px */
   font-family: var(--font-body-family);
   font-weight: var(--font-body-weight);
-  color: var(--text-input);                                /* ✅ Good - semantic token */
-  transition: var(--foundation-duration-fast) var(--foundation-easing-standard); /* FIXED: was --transition-input */
+  color: var(--text-input);
+  transition: var(--foundation-duration-fast) var(--foundation-easing-standard);
   outline: none;
 }
 
+/* ===== INPUT RADIUS SIZE VARIANTS ===== */
+.input--radius-sm {
+  border-radius: var(--radius-input-sm);                   /* 4px - Subtle rounding */
+}
+
+.input--radius-lg {
+  border-radius: var(--radius-input-lg);                   /* 12px - More rounded */
+}
+
+/* ===== INPUT STATES ===== */
 .input:hover {
-  border-color: var(--border-input-hover);                 /* ✅ Good - semantic token */
+  border-color: var(--border-input-hover);
 }
 
 .input:focus {
-  border-color: var(--border-input-focus);                 /* ✅ Good - semantic token */
-  box-shadow: 0 0 0 3px var(--accent-subtle);              /* FIXED: was rgba(168, 85, 247, 0.1), using shortcut */
+  border-color: var(--border-input-focus);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
 }
 
 .input::placeholder {
-  color: var(--text-input-placeholder);                    /* ✅ Good - semantic token */
+  color: var(--text-input-placeholder);
 }
 
 .input:disabled {
-  background-color: var(--surface-input-disabled);         /* ✅ Good - semantic token */
-  border-color: var(--border-input-disabled);              /* ✅ Good - semantic token */
-  color: var(--text-input-disabled);                       /* ✅ Good - semantic token */
+  background-color: var(--surface-input-disabled);
+  border-color: var(--border-input-disabled);
+  color: var(--text-input-disabled);
   cursor: not-allowed;
 }
 
@@ -67,15 +77,14 @@
   font-size: var(--font-body-sm-size);
   line-height: var(--font-body-sm-leading);
   min-height: 32px;
-  border-radius: var(--radius-input-sm);
 }
 
+/* Default size uses component-specific radius token */
 .input--md {
   padding: var(--space-input-padding-y) var(--space-input-padding-x);
   font-size: var(--font-body-md-size);
   line-height: var(--font-body-md-leading);
   min-height: var(--size-input-height);
-  border-radius: var(--radius-input);
 }
 
 .input--lg {
@@ -83,7 +92,25 @@
   font-size: var(--font-body-lg-size);
   line-height: var(--font-body-lg-leading);
   min-height: 48px;
-  border-radius: var(--radius-input-lg);
+}
+
+/* ===== SIZE + RADIUS COMBINATIONS ===== */
+/* Small inputs with radius variants */
+.input--sm.input--radius-sm {
+  border-radius: var(--radius-xs);                         /* 4px for sm inputs with sm radius */
+}
+
+.input--sm.input--radius-lg {
+  border-radius: var(--radius-sm);                         /* 8px for sm inputs with lg radius */
+}
+
+/* Large inputs with radius variants */
+.input--lg.input--radius-sm {
+  border-radius: var(--radius-sm);                         /* 8px for lg inputs with sm radius */
+}
+
+.input--lg.input--radius-lg {
+  border-radius: var(--radius-lg);                         /* 16px for lg inputs with lg radius */
 }
 
 /* ===== INPUT WITH ICONS ===== */
@@ -111,13 +138,13 @@
   padding-right: 48px;
 }
 
-/* ===== INPUT ICON STYLES - USING SEMANTIC TOKENS ===== */
+/* ===== INPUT ICON STYLES ===== */
 .input-icon {
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--icon-input);                                 /* ✅ Good - semantic token */
+  color: var(--icon-input);
   pointer-events: none;
   z-index: 1;
 }
@@ -161,26 +188,26 @@
   height: 20px;
 }
 
-/* ===== INPUT ERROR STATE - USING SEMANTIC TOKENS ===== */
+/* ===== INPUT ERROR STATE ===== */
 .input-error {
-  border-color: var(--border-input-error) !important;      /* ✅ Good - semantic token */
+  border-color: var(--border-input-error) !important;
 }
 
 .input-error:focus {
-  box-shadow: 0 0 0 3px var(--error-subtle);               /* FIXED: was rgba(239, 68, 68, 0.1), using shortcut */
+  box-shadow: 0 0 0 3px var(--error-subtle);
 }
 
-/* ===== HELPER/ERROR TEXT - USING SEMANTIC TOKENS ===== */
+/* ===== HELPER/ERROR TEXT ===== */
 .input-help {
   font-family: var(--font-body-family);
   font-size: var(--font-body-xs-size);
   font-weight: var(--font-body-weight);
   line-height: var(--font-body-xs-leading);
-  color: var(--text-secondary);                            /* ✅ Good - semantic token */
+  color: var(--text-secondary);
 }
 
 .input-help-error {
-  color: var(--error-text);                                /* FIXED: was --error-600, using shortcut */
+  color: var(--error-text);
 }
 
 /* ===== SEARCH INPUT STYLES ===== */
@@ -234,19 +261,19 @@
 }
 
 .header-search .input.search-input {
-  background-color: var(--surface-input) !important;       /* ✅ Good - semantic token */
-  border: 1px solid var(--border-input) !important;        /* ✅ Good - semantic token */
-  border-radius: var(--radius-input-sm) !important;
+  background-color: var(--surface-input) !important;
+  border: 1px solid var(--border-input) !important;
+  /* Default to small radius for header search */
 }
 
-/* ===== CLEAR BUTTON - USING SEMANTIC TOKENS ===== */
+/* ===== CLEAR BUTTON ===== */
 .input-clear-button {
   background: none;
   border: none;
   cursor: pointer;
   padding: var(--foundation-space-1);
   border-radius: var(--foundation-radius-sm);
-  color: var(--icon-input);                                /* ✅ Good - semantic token */
+  color: var(--icon-input);
   transition: var(--foundation-duration-fast) var(--foundation-easing-standard);
   display: flex;
   align-items: center;
@@ -254,12 +281,12 @@
 }
 
 .input-clear-button:hover {
-  background-color: var(--surface-subtle);                 /* FIXED: was --secondary-100, using shortcut */
-  color: var(--icon-primary);                              /* ✅ Good - semantic token */
+  background-color: var(--surface-subtle);
+  color: var(--icon-primary);
 }
 
 .input-clear-button:focus-visible {
-  outline: 2px solid var(--border-focus);                  /* ✅ Good - semantic token */
+  outline: 2px solid var(--border-focus);
   outline-offset: 1px;
 }
 

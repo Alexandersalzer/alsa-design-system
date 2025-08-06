@@ -6,7 +6,8 @@
   --surface-button-primary-disabled: var(--interactive-primary-disabled);
   --text-button-primary: var(--text-inverse);
   --text-button-primary-disabled: var(--text-disabled);
-  --border-button-primary: var(--interactive-primary);
+  --border-button-primary: var(--interactive-primary-hover);
+  --border-button-secondary-hover: var(--border-light-hover);
   --border-button-primary-focus: var(--border-focus);
 
   /* Secondary Button */
@@ -16,7 +17,7 @@
   --surface-button-secondary-disabled: var(--interactive-secondary-disabled);
   --text-button-secondary: var(--text-primary);
   --text-button-secondary-disabled: var(--text-disabled);
-  --border-button-secondary: var(--border-light);
+  --border-button-secondary: var(--interactive-secondary-hover);
   --border-button-secondary-hover: var(--border-light-hover);
   --border-button-secondary-focus: var(--border-focus);
   --border-button-secondary-disabled: var(--border-disabled);
@@ -29,7 +30,7 @@
   --surface-button-accent-disabled: var(--interactive-primary-disabled);
   --text-button-accent: var(--text-inverse);
   --text-button-accent-disabled: var(--text-disabled);
-  --border-button-accent: var(--interactive-accent);
+  --border-button-accent: var(--interactive-accent-hover);
   --border-button-accent-focus: var(--border-focus);
 
   /* Ghost Button */
@@ -41,5 +42,5 @@
   /* Destructive Button */
   --surface-button-destructive: var(--interactive-destructive);
   --surface-button-destructive-hover: var(--interactive-destructive-hover);
-  --border-button-destructive: var(--error-700);
+  --border-button-destructive: var(--interactive-destructive-hover);
 }

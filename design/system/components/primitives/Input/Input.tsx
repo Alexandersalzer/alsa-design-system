@@ -1,4 +1,8 @@
+// ===============================================
 // src/design-system/components/primitives/Input/Input.tsx
+// FIXED - Using cn() utility with radius prop and your Icon pattern
+// ===============================================
+
 import React, { forwardRef, ReactNode, useId } from 'react';
 import { cn } from '../../../lib/utils';
 
@@ -10,6 +14,7 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   rightIcon?: ReactNode;
   variant?: 'default' | 'search';
   size?: 'sm' | 'md' | 'lg';
+  radius?: 'sm' | 'md' | 'lg';
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -22,23 +27,26 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     rightIcon,
     variant = 'default',
     size = 'md',
+    radius = 'md',
     id,
     ...props
   }, ref) => {
     const generatedId = useId();
     const inputId = id || `input-${generatedId}`;
-    
-    // Build class names explicitly to avoid type issues
+
+    // Build class names explicitly to avoid type issues - BACK TO YOUR ORIGINAL PATTERN
     const inputClasses = [
       'input',
       `input--${size}`,
+      radius === 'sm' ? 'input--radius-sm' : null,
+      radius === 'lg' ? 'input--radius-lg' : null,
       error ? 'input-error' : null,
       leftIcon ? 'input-with-left-icon' : null,
       rightIcon ? 'input-with-right-icon' : null,
       variant === 'search' ? 'search-input' : null,
       className
     ].filter(Boolean);
-    
+
     return (
       <div className="input-group">
         {/* Label */}
@@ -86,13 +94,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = 'Input';
 
-// Search Input Component
+// Search Input Component - Updated with your Icon pattern
 export interface SearchInputProps extends Omit<InputProps, 'variant'> {
   onClear?: () => void;
 }
 
 export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ onClear, value, size = 'md', ...props }, ref) => {
+  ({ onClear, value, size = 'md', radius = 'md', ...props }, ref) => {
     const searchIcon = (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
         <path
@@ -127,6 +135,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         ref={ref}
         variant="search"
         size={size}
+        radius={radius}
         leftIcon={searchIcon}
         rightIcon={clearIcon}
         value={value}

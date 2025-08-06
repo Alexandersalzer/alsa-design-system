@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Picker/Picker.tsx
-// PICKER COMPONENT - Complete with proper design system integration
+// PICKER COMPONENT - With radius customization
 // ===============================================
 
 import { useState, useRef, useEffect, forwardRef, useId } from 'react';
@@ -12,6 +12,7 @@ import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 // Import your design system types
 export type PickerSize = 'sm' | 'md' | 'lg';
 export type PickerVariant = 'default' | 'compact';
+export type PickerRadius = 'sm' | 'md' | 'lg';  // ✅ NEW: Radius type
 
 export interface PickerOption {
   value: string;
@@ -33,6 +34,8 @@ export interface PickerProps {
   size?: PickerSize;
   /** Visual variant */
   variant?: PickerVariant;
+  /** Radius size variant */
+  radius?: PickerRadius;  // ✅ NEW: Radius prop
   /** Required field indicator */
   required?: boolean;
   /** Placeholder text */
@@ -74,6 +77,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
   success,
   size = 'md',
   variant = 'compact',
+  radius = 'md',  // ✅ NEW: Default radius
   required = false,
   disabled = false,
   placeholder = "Select an option...",
@@ -220,6 +224,8 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
     'picker-wrapper',
     `picker-wrapper--${size}`,
     `picker-wrapper--${variant}`,
+    radius === 'sm' && 'picker-wrapper--radius-sm',  // ✅ NEW
+    radius === 'lg' && 'picker-wrapper--radius-lg',  // ✅ NEW
     disabled && 'picker-wrapper--disabled',
     error && 'picker-wrapper--error',
     success && 'picker-wrapper--success',
@@ -230,6 +236,8 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
     'picker',
     `picker--${size}`,
     `picker--${variant}`,
+    radius === 'sm' && 'picker--radius-sm',  // ✅ NEW
+    radius === 'lg' && 'picker--radius-lg',  // ✅ NEW
     isOpen && 'picker--open',
     error && 'picker--error',
     success && 'picker--success',
@@ -294,6 +302,8 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
             className={cn(
               "picker-dropdown",
               `picker-dropdown--${variant}`,
+              radius === 'sm' && 'picker-dropdown--radius-sm',  // ✅ NEW
+              radius === 'lg' && 'picker-dropdown--radius-lg',  // ✅ NEW
               searchable && "picker-dropdown--with-search"
             )}
             style={{ maxHeight: `${maxHeight}px` }}
@@ -308,7 +318,11 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="picker-search-input"
+                  className={cn(
+                    "picker-search-input",
+                    radius === 'sm' && 'picker-search-input--radius-sm',  // ✅ NEW
+                    radius === 'lg' && 'picker-search-input--radius-lg'   // ✅ NEW
+                  )}
                 />
               </div>
             )}
@@ -326,6 +340,8 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
                     key={option.value}
                     className={cn(
                       'picker-option',
+                      radius === 'sm' && 'picker-option--radius-sm',  // ✅ NEW
+                      radius === 'lg' && 'picker-option--radius-lg',  // ✅ NEW
                       option.disabled && 'picker-option--disabled',
                       isSelected(option) && 'picker-option--selected',
                       index === focusedIndex && 'picker-option--focused'
