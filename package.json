@@ -31,6 +31,11 @@
       "require": "./dist/system/layout/ClientLayout.js",
       "types": "./dist/system/layout/ClientLayout.d.ts"
     },
+    "./client": {
+      "import": "./dist/system/layout/client/ClientComponents.js",
+      "require": "./dist/system/layout/client/ClientComponents.js",
+      "types": "./dist/system/layout/client/ClientComponents.d.ts"
+    },
     "./dist/index.css": "./dist/index.css"
   },
   "files": [
