@@ -1,6 +1,16 @@
 // Export all design system components, utilities, and types
 export * from './system';
-export * from './cms/wrappers/content/ContentProvider';
+
+// Export ContentProvider with explicit naming to avoid conflicts
+export {
+  ContentProvider,
+  useContent,
+  type ContentBlock,
+  type ContentPattern,
+  type ContentTemplate,
+  type GlobalComponent,
+  type ContentPage
+} from './cms/wrappers/content/ContentProvider';
 
 export * from './cms/wrappers/editing/EditingWrapper';
 

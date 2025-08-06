@@ -10,8 +10,8 @@ import {
 } from '../../messaging/content/child/contentMessaging';
 import { useEditingMode } from '../editing/EditingWrapper';
 
-// Generic interfaces that match database structure
-export interface Block {
+// Generic interfaces that match database structure - renamed to avoid conflicts
+export interface ContentBlock {
   type: string;
   content?: string;
   image_url?: string;
@@ -20,30 +20,30 @@ export interface Block {
   position?: number;
 }
 
-export interface Pattern {
+export interface ContentPattern {
   type: string;
-  blocks?: Block[];
+  blocks?: ContentBlock[];
   config?: any;
   position?: number;
 }
 
-export interface Template {
+export interface ContentTemplate {
   type: string;
-  patterns: Pattern[];
+  patterns: ContentPattern[];
   position?: number;
   image_url?: string;
 }
 
 export interface GlobalComponent {
   type: string;
-  patterns: Pattern[];
+  patterns: ContentPattern[];
 }
 
-export interface Page {
+export interface ContentPage {
   type: string;
   language: string;
   slug: string;
-  templates: Template[];
+  templates: ContentTemplate[];
 }
 
 // Generic content context interface
@@ -52,13 +52,13 @@ interface ContentContextType {
   isLoading: boolean;
   error: string | null;
   // Generic functions for any template/component type
-  getPageTemplate: (pageSlug: string, templateType: string) => Template | undefined;
+  getPageTemplate: (pageSlug: string, templateType: string) => ContentTemplate | undefined;
   getGlobalComponent: (componentType: string) => GlobalComponent | undefined;
-  getTemplateBlocks: (template: Template | GlobalComponent | undefined, patternType?: string) => Block[];
-  getBlocksByType: (blocks: Block[], blockType: string) => Block[];
-  getBlockContent: (blocks: Block[], blockType: string) => string | undefined;
-  getBlockConfig: (blocks: Block[], blockType: string) => any;
-  getAllBlocks: (template: Template | GlobalComponent | undefined) => Block[];
+  getTemplateBlocks: (template: ContentTemplate | GlobalComponent | undefined, patternType?: string) => ContentBlock[];
+  getBlocksByType: (blocks: ContentBlock[], blockType: string) => ContentBlock[];
+  getBlockContent: (blocks: ContentBlock[], blockType: string) => string | undefined;
+  getBlockConfig: (blocks: ContentBlock[], blockType: string) => any;
+  getAllBlocks: (template: ContentTemplate | GlobalComponent | undefined) => ContentBlock[];
 }
 
 interface ContentProviderProps {
@@ -131,7 +131,7 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
   };
 
   // Generic function to get a specific template from a page
-  const getPageTemplate = (pageSlug: string, templateType: string): Template | undefined => {
+  const getPageTemplate = (pageSlug: string, templateType: string): ContentTemplate | undefined => {
     console.log(`📄 getPageTemplate called for pageSlug: ${pageSlug}, templateType: ${templateType}`);
     
     const activeContent = getActiveContent();
@@ -171,7 +171,7 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
   };
 
   // Generic function to get blocks from a template or global component
-  const getTemplateBlocks = (template: Template | GlobalComponent | undefined, patternType?: string): Block[] => {
+  const getTemplateBlocks = (template: ContentTemplate | GlobalComponent | undefined, patternType?: string): ContentBlock[] => {
     console.log(`🧩 getTemplateBlocks called for patternType: ${patternType || 'any'}`);
     
     if (!template?.patterns) {
@@ -191,7 +191,7 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
   };
 
   // Generic function to get all blocks from all patterns in a template
-  const getAllBlocks = (template: Template | GlobalComponent | undefined): Block[] => {
+  const getAllBlocks = (template: ContentTemplate | GlobalComponent | undefined): ContentBlock[] => {
     console.log(`🧩 getAllBlocks called`);
     
     if (!template?.patterns) {
@@ -200,7 +200,7 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
     }
 
     // Flatten all blocks from all patterns
-    const allBlocks = template.patterns.reduce((acc: Block[], pattern) => {
+    const allBlocks = template.patterns.reduce((acc: ContentBlock[], pattern) => {
       if (pattern.blocks) {
         acc.push(...pattern.blocks);
       }
@@ -212,7 +212,7 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
   };
 
   // Generic function to filter blocks by type
-  const getBlocksByType = (blocks: Block[], blockType: string): Block[] => {
+  const getBlocksByType = (blocks: ContentBlock[], blockType: string): ContentBlock[] => {
     console.log(`🔍 getBlocksByType called for blockType: ${blockType}`);
     
     const filteredBlocks = blocks.filter(block => block.type === blockType);
@@ -222,7 +222,7 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
   };
 
   // Generic function to get content from the first block of a specific type
-  const getBlockContent = (blocks: Block[], blockType: string): string | undefined => {
+  const getBlockContent = (blocks: ContentBlock[], blockType: string): string | undefined => {
     console.log(`📝 getBlockContent called for blockType: ${blockType}`);
     
     const block = blocks.find(block => block.type === blockType);
@@ -233,7 +233,7 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
   };
 
   // Generic function to get config from the first block of a specific type
-  const getBlockConfig = (blocks: Block[], blockType: string): any => {
+  const getBlockConfig = (blocks: ContentBlock[], blockType: string): any => {
     console.log(`⚙️ getBlockConfig called for blockType: ${blockType}`);
     
     const block = blocks.find(block => block.type === blockType);
