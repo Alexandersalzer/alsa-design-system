@@ -1,29 +1,22 @@
 'use client';
 
-import { ContentProvider, EditingModeWrapper, Navbar, Footer } from '../..';
+import { ContentProvider, EditingModeWrapper } from '../..';
 import { ReactNode } from "react";
 import type { WebsiteContent } from "../../cms/types/content";
 
 interface ClientLayoutProps {
   children: ReactNode;
   initialContent: WebsiteContent | null;
-  // Layout options
-  showNavbar?: boolean;
-  showFooter?: boolean;
 }
 
 export function ClientLayout({ 
   children, 
-  initialContent,
-  showNavbar = true,
-  showFooter = true
+  initialContent
 }: ClientLayoutProps) {
   return (
     <ContentProvider initialContent={initialContent}>
       <EditingModeWrapper>
-        {showNavbar && <Navbar />}
         {children}
-        {showFooter && <Footer />}
       </EditingModeWrapper>
     </ContentProvider>
   );
