@@ -1,8 +1,19 @@
 // Export all design system components, utilities, and types
 export * from './system';
 export * from './cms/context/ContentProvider';
-
 export * from './cms/context/EditingWrapper';
+
+// Export navigation helper functionality
+export { 
+  enhanceNavigationWithCMS,
+  type NavigationItem,
+  type NavbarBlock,
+  type NavbarPattern,
+  type JsonNavItem
+} from './cms/content/navigationHelper';
+
+// Export layout components
+export { ContentLayout, type ContentLayoutProps } from './cms/context/ContentLayout';
 
 // Export initial messaging functionality (editing status only)
 export {
@@ -13,29 +24,41 @@ export {
   type InitialMessageHandlers
 } from './cms/modules/initial/parent';
 
-// Export content functionality
+// Export content messaging functionality
 export {
-  requestWebsiteContent,
-  parseContentFromUrl,
-  setupMessageListener,
-  type MessageHandlers
-} from './cms/modules/content/child/contentMessaging';
+  ParentMessageHandler,
+  createParentMessageHandler,
+  sendWebsiteContentResponse,
+  setupBasicParentMessageListener,
+  type ParentMessageHandlerConfig,
+  type ParentMessageHandlers
+} from './cms/modules/content/parent/contentMessaging';
 
-// Export design token functionality
+// Export design token messaging functionality
 export {
-  setupDesignTokenMessageListener,
+  DesignTokenParentHandler,
+  sendAccentColorUpdate,
+  sendRadiusUpdate,
+  sendThemeUpdate,
+  sendFontUpdate,
+  sendFontUpdateWithLookup,
+  type DesignTokenParentConfig
+} from './cms/modules/design/parent/designTokenMessaging';
+
+export { 
   createDesignTokenMessageHandlers,
+  handleDesignTokenMessage,
+  setupDesignTokenMessageListener,
   type DesignTokenMessageHandlers
 } from './cms/modules/design/child/designTokenMessaging';
 
-// Export types
-export type {
-  JsonBlock,
-  JsonPattern,
-  JsonTemplate,
-  JsonPage,
+// Export content types with explicit naming to avoid conflicts
+export type { 
   WebsiteContent
 } from './cms/types/content';
 
 // Export client-safe type exports only (no server-side functions)
-export type { Locale } from './cms/lang/i18n'; 
+export type { Locale } from './cms/lang/i18n';
+
+// Remove dimensionMessaging export
+// export { sendBothDimensions } from './cms/messaging/dimensionMessaging'; 
