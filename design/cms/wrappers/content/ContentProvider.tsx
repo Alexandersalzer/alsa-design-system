@@ -8,11 +8,6 @@ import {
   setupMessageListener,
   type MessageHandlers
 } from '../../messaging/content/child/contentMessaging';
-import {
-  setupDesignTokenMessageListener,
-  createDesignTokenMessageHandlers,
-  type DesignTokenMessageHandlers
-} from '../../messaging/design/child/designTokenMessaging';
 import { useEditingMode } from '../editing/EditingWrapper';
 
 // Interface for hero content - only text content
@@ -74,30 +69,12 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
         }
       };
 
-      // Setup design token message handlers
-      const designTokenHandlers: DesignTokenMessageHandlers = createDesignTokenMessageHandlers({
-        setAccentColor: (color: string) => {
-          console.log('🎨 Design token: Accent color updated to:', color);
-        },
-        setRadius: (size: string) => {
-          console.log('🔄 Design token: Radius updated to:', size);
-        },
-        setIsDark: (isDark: boolean) => {
-          console.log('🌗 Design token: Theme updated to:', isDark ? 'dark' : 'light');
-        },
-        setFontName: (fontName: string) => {
-          console.log('🔤 Design token: Font updated to:', fontName);
-        }
-      });
-
-      // Setup message listeners
+      // Setup message listener
       const contentCleanup = setupMessageListener(messageHandlers);
-      const designCleanup = setupDesignTokenMessageListener(designTokenHandlers);
 
-      // Combined cleanup function
+      // Return cleanup function
       return () => {
         contentCleanup();
-        designCleanup();
       };
     } else {
       // In normal mode: use initialContent and set loading to false
