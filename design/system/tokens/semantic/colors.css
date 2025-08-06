@@ -177,8 +177,8 @@
   --interactive-accent-active: var(--accent-700);
   
   --interactive-tertiary: transparent;
-  --interactive-tertiary-hover: var(--secondary-50);
-  --interactive-tertiary-active: var(--secondary-100);
+  --interactive-tertiary-hover: var(--secondary-100);
+  --interactive-tertiary-active: var(--secondary-200);
 
   --surface-button-destructive: var(--error-100); /* Light red background */
   --surface-button-destructive-hover: var(--error-200); /* Slightly darker on hover */

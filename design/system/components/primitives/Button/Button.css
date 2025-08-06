@@ -127,7 +127,6 @@
   opacity: 0.6;
 }
 
-
 .btn-ghost {
   background-color: transparent;
   color: var(--text-button-secondary);
@@ -135,7 +134,11 @@
 }
 
 .btn-ghost:hover:not(:disabled) {
-  background-color: var(--surface-button-secondary-hover);
+  background-color: var(--surface-button-ghost-hover);
+}
+
+.btn-ghost:focus-visible {
+  background-color: var(--surface-button-ghost-active);
 }
 
 .btn-destructive {
