@@ -78,8 +78,8 @@
   --radius-button: var(--radius-sm);                     /* 8px */
   --radius-button-lg: var(--radius-md);                  /* 12px */
   --radius-input-sm: var(--radius-xs);                   /* 4px */
-  --radius-input: var(--radius-sm);                      /* 8px */
-  --radius-input-lg: var(--radius-md);                   /* 12px */
+  --radius-input: var(--radius-xs);                      /* 8px */
+  --radius-input-lg: var(--radius-sm);                   /* 12px */
   --radius-image: var(--radius-sm);                      /* 8px */
   --radius-video: var(--radius-md);                      /* 12px */
   --radius-code-block: var(--radius-sm);                 /* 8px */
