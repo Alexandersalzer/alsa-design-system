@@ -1,64 +1,46 @@
 // Export all design system components, utilities, and types
 export * from './system';
 export * from './cms/context/ContentProvider';
+
 export * from './cms/context/EditingWrapper';
-
-// Export navigation helper functionality
-export { 
-  enhanceNavigationWithCMS,
-  type NavigationItem,
-  type NavbarBlock,
-  type NavbarPattern,
-  type JsonNavItem
-} from './cms/content/navigationHelper';
-
-// Export layout components
-export { ContentLayout, type ContentLayoutProps } from './cms/context/ContentLayout';
 
 // Export initial messaging functionality (editing status only)
 export {
-  InitialMessageHandler,
-  sendEditingStatusUpdate,
-  setupEditingStatusMessageListener,
-  type InitialMessageHandlerConfig,
-  type InitialMessageHandlers
-} from './cms/modules/initial/parent';
+  requestEditingStatus,
+  setupEditingMessageListener,
+  type EditingMessageHandlers
+} from './cms/modules/initial/child/initialMessaging';
 
-// Export content messaging functionality
+// Export content messaging functionality for child components
 export {
-  ParentMessageHandler,
-  createParentMessageHandler,
-  sendWebsiteContentResponse,
-  setupBasicParentMessageListener,
-  type ParentMessageHandlerConfig,
-  type ParentMessageHandlers
-} from './cms/modules/content/parent/contentMessaging';
+  requestWebsiteContent,
+  parseContentFromUrl,
+  setupMessageListener,
+  type MessageHandlers
+} from './cms/modules/content/child/contentMessaging';
 
-// Export design token messaging functionality
+// Export design token messaging functionality for child components
 export {
-  DesignTokenParentHandler,
-  sendAccentColorUpdate,
-  sendRadiusUpdate,
-  sendThemeUpdate,
-  sendFontUpdate,
-  sendFontUpdateWithLookup,
-  type DesignTokenParentConfig
-} from './cms/modules/design/parent/designTokenMessaging';
-
-export { 
-  createDesignTokenMessageHandlers,
-  handleDesignTokenMessage,
   setupDesignTokenMessageListener,
+  createDesignTokenMessageHandlers,
   type DesignTokenMessageHandlers
 } from './cms/modules/design/child/designTokenMessaging';
 
-// Export content types with explicit naming to avoid conflicts
-export type { 
+// Export content loader functions (server-side only)
+export {
+  getPageContent,
+  getGlobalComponentContent,
+  getAllPagesContent
+} from './cms/content/contentLoader';
+
+// Export content types
+export type {
+  JsonBlock,
+  JsonPattern,
+  JsonTemplate,
+  JsonPage,
   WebsiteContent
 } from './cms/types/content';
 
 // Export client-safe type exports only (no server-side functions)
-export type { Locale } from './cms/lang/i18n';
-
-// Remove dimensionMessaging export
-// export { sendBothDimensions } from './cms/messaging/dimensionMessaging'; 
+export type { Locale } from './cms/lang/i18n'; 
