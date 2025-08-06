@@ -54,6 +54,7 @@
 
 .btn-primary:hover:not(:disabled) {
   background-color: var(--surface-button-primary-hover);
+  border-color: var(--interactive-primary-active);
 }
 
 .btn-primary:active:not(:disabled) {
