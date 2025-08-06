@@ -7,8 +7,8 @@ export * from './types';
 // Export all hooks
 export * from './hooks';
 
-// Export all services
-export * from './services';
+// Export all utilities (client-safe)
+export * from './utils';
 
-// Export all utilities
-export * from './utils'; 
+// Note: Services are not exported here as they contain server-side functions
+// They are available via package.json exports: import { ... } from '@blimpify-im/ui/content' 
