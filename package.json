@@ -32,9 +32,9 @@
       "types": "./dist/system/layout/ClientLayout.d.ts"
     },
     "./client": {
-      "import": "./dist/system/layout/client/ClientComponents.js",
-      "require": "./dist/system/layout/client/ClientComponents.js",
-      "types": "./dist/system/layout/client/ClientComponents.d.ts"
+      "import": "./dist/system/components/templates/index.js",
+      "require": "./dist/system/components/templates/index.js",
+      "types": "./dist/system/components/templates/index.d.ts"
     },
     "./dist/index.css": "./dist/index.css"
   },
