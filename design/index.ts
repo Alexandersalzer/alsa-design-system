@@ -54,12 +54,7 @@ export {
 
 // Export content types with explicit naming to avoid conflicts
 export type { 
-  WebsiteContent, 
-  Page, 
-  Template, 
-  Pattern, 
-  Block as ContentBlock,
-  BlockType 
+  WebsiteContent
 } from './cms/types/content';
 
 // Export client-safe type exports only (no server-side functions)
