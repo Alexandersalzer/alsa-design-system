@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Input/Input.tsx
-// UPDATED WITH RADIUS SIZE VARIANTS
+// FIXED - Using cn() utility with radius prop and your Icon pattern
 // ===============================================
 
 import React, { forwardRef, ReactNode, useId } from 'react';
@@ -14,7 +14,7 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   rightIcon?: ReactNode;
   variant?: 'default' | 'search';
   size?: 'sm' | 'md' | 'lg';
-  radius?: 'sm' | 'md' | 'lg';  // ✅ NEW: Radius size variant
+  radius?: 'sm' | 'md' | 'lg';
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -27,29 +27,25 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     rightIcon,
     variant = 'default',
     size = 'md',
-    radius = 'md',  // ✅ NEW: Default to medium radius
+    radius = 'md',
     id,
     ...props
   }, ref) => {
     const generatedId = useId();
     const inputId = id || `input-${generatedId}`;
 
-    // Build class names with radius variant
-    const inputClasses = cn(
+    // Build class names explicitly to avoid type issues - BACK TO YOUR ORIGINAL PATTERN
+    const inputClasses = [
       'input',
       `input--${size}`,
-      // ✅ NEW: Radius classes
-      radius === 'sm' && 'input--radius-sm',
-      radius === 'lg' && 'input--radius-lg',
-      // Error state
-      error && 'input-error',
-      // Icon classes
-      leftIcon && 'input-with-left-icon',
-      rightIcon && 'input-with-right-icon',
-      // Variant classes
-      variant === 'search' && 'search-input',
+      radius === 'sm' ? 'input--radius-sm' : null,
+      radius === 'lg' ? 'input--radius-lg' : null,
+      error ? 'input-error' : null,
+      leftIcon ? 'input-with-left-icon' : null,
+      rightIcon ? 'input-with-right-icon' : null,
+      variant === 'search' ? 'search-input' : null,
       className
-    );
+    ].filter(Boolean);
 
     return (
       <div className="input-group">
@@ -73,7 +69,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             id={inputId}
-            className={inputClasses}
+            className={inputClasses.join(' ')}
             {...props}
           />
 
@@ -87,7 +83,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
         {/* Helper/Error Text */}
         {(helper || error) && (
-          <div className={cn('input-help', error && 'input-help-error')}>
+          <div className={cn('input-help', error ? 'input-help-error' : null)}>
             {error || helper}
           </div>
         )}
@@ -98,7 +94,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = 'Input';
 
-// Search Input Component - Updated with radius support
+// Search Input Component - Updated with your Icon pattern
 export interface SearchInputProps extends Omit<InputProps, 'variant'> {
   onClear?: () => void;
 }
@@ -139,7 +135,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         ref={ref}
         variant="search"
         size={size}
-        radius={radius}  // ✅ NEW: Pass radius to Input
+        radius={radius}
         leftIcon={searchIcon}
         rightIcon={clearIcon}
         value={value}
@@ -150,45 +146,3 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
 );
 
 SearchInput.displayName = 'SearchInput';
-
-/* ===== USAGE EXAMPLES =====
-
-// ✅ Default input (medium radius - 8px)
-<Input 
-  label="Email" 
-  placeholder="Enter your email"
-/>
-
-// ✅ Small radius input (4px) - Great for dense forms
-<Input 
-  label="Username" 
-  radius="sm"
-  placeholder="username"
-/>
-
-// ✅ Large radius input (12px) - Great for hero sections
-<Input 
-  label="Search" 
-  radius="lg"
-  size="lg"
-  placeholder="Search anything..."
-/>
-
-// ✅ Search input with custom radius
-<SearchInput 
-  placeholder="Search products..." 
-  radius="lg"
-  size="md"
-/>
-
-// ✅ Inside a card - radius will automatically harmonize
-<Card radius="lg">
-  <CardContent>
-    <Input 
-      label="Name"
-      radius="lg"  // Matches card's radius style
-    />
-  </CardContent>
-</Card>
-
-*/
