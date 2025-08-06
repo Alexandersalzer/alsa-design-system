@@ -32,4 +32,10 @@ export interface ContentPage {
   language: string;
   slug: string;
   templates: ContentTemplate[];
+}
+
+// Main content structure type
+export interface WebsiteContent {
+  pages: { [key: string]: ContentPage };
+  globals?: { [key: string]: GlobalComponent };
 } 

@@ -1,4 +1,4 @@
-import { type WebsiteContent } from '../../../utils/content';
+import { type WebsiteContent } from '../../../wrappers/content/types/content';
 
 export interface MessageHandlers {
   onContentUpdate: (content: WebsiteContent) => void;

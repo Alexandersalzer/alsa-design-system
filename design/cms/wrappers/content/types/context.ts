@@ -1,5 +1,4 @@
-import { type WebsiteContent } from '../../../utils/content';
-import { ContentBlock, ContentTemplate, GlobalComponent } from './content';
+import { WebsiteContent, ContentBlock, ContentTemplate, GlobalComponent } from './content';
 
 // Generic content context interface
 export interface ContentContextType {

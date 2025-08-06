@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
-import { type WebsiteContent } from '../../../utils/content';
-import { ContentBlock, ContentTemplate, GlobalComponent } from '../types/content';
+import { WebsiteContent, ContentBlock, ContentTemplate, GlobalComponent } from '../types/content';
 import * as queries from '../utils/contentQueries';
 
 /**

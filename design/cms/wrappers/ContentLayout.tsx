@@ -2,7 +2,7 @@
 
 import { ContentProvider, EditingModeWrapper } from '../..';
 import { ReactNode } from "react";
-import type { WebsiteContent } from "../utils/content";
+import type { WebsiteContent } from "./content/types/content";
 
 interface ContentLayoutProps {
   children: ReactNode;

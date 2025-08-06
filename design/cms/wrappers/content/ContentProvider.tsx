@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useState, useEffect } from 'react';
-import { type WebsiteContent } from '../../utils/content';
+import { type WebsiteContent } from './types/content';
 import {
   requestWebsiteContent,
   parseContentFromUrl,

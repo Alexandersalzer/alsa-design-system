@@ -31,5 +31,5 @@ export * from './cms/i18n/i18n';
 // Export content utilities
 export { getAllPagesContent, getPageContent, getGlobalComponentContent } from './cms/wrappers/content/services/contentLoader';
 
-// Export WebsiteContent type
-export { type WebsiteContent } from './cms/utils/content'; 
+// Export WebsiteContent type from new location
+export { type WebsiteContent } from './cms/wrappers/content/types/content'; 

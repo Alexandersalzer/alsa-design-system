@@ -1,5 +1,4 @@
-import { type WebsiteContent } from '../../../utils/content';
-import { ContentBlock, ContentTemplate, GlobalComponent } from '../types/content';
+import { WebsiteContent, ContentBlock, ContentTemplate, GlobalComponent } from '../types/content';
 
 /**
  * Pure function to get a specific template from a page
