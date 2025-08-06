@@ -1,4 +1,8 @@
+// ===============================================
 // src/design-system/components/primitives/Card/Card.tsx
+// UPDATED WITH RADIUS SIZE VARIANTS
+// ===============================================
+
 import React, { forwardRef, ReactNode } from 'react';
 import { cn } from '../../../lib/utils';
 
@@ -6,21 +10,27 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   variant?: 'default' | 'elevated' | 'outlined';
   padding?: 'sm' | 'md' | 'lg';
+  radius?: 'sm' | 'md' | 'lg';  // ✅ NEW: Radius size variant
 }
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant = 'default', padding = 'md', children, ...props }, ref) => {
-    const cardClasses = [
+  ({ className, variant = 'default', padding = 'md', radius = 'md', children, ...props }, ref) => {
+    const cardClasses = cn(
       'card',
-      variant === 'elevated' && 'card-elevated',
-      variant === 'outlined' && 'card-outlined',
-      padding === 'sm' && 'card-padding-sm',
-      padding === 'lg' && 'card-padding-lg',
+      // Variant classes
+      variant === 'elevated' && 'card--elevated',
+      variant === 'outlined' && 'card--outlined',
+      // Padding classes
+      padding === 'sm' && 'card--padding-sm',
+      padding === 'lg' && 'card--padding-lg',
+      // ✅ NEW: Radius classes
+      radius === 'sm' && 'card--radius-sm',
+      radius === 'lg' && 'card--radius-lg',
       className
-    ];
+    );
 
     return (
-      <div ref={ref} className={cn(...cardClasses)} {...props}>
+      <div ref={ref} className={cardClasses} {...props}>
         {children}
       </div>
     );
@@ -29,7 +39,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 
 Card.displayName = 'Card';
 
-// Card sub-components
+// Card sub-components remain the same
 export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
 }
@@ -71,3 +81,32 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
 );
 
 CardFooter.displayName = 'CardFooter';
+
+/* ===== USAGE EXAMPLES =====
+
+// ✅ Default card (medium radius - 12px)
+<Card>
+  <CardContent>Default card with medium radius</CardContent>
+</Card>
+
+// ✅ Small radius card (8px)
+<Card radius="sm">
+  <CardContent>Subtle rounding</CardContent>
+</Card>
+
+// ✅ Large radius card (16px)
+<Card radius="lg">
+  <CardContent>More rounded</CardContent>
+</Card>
+
+// ✅ Combining variants
+<Card variant="elevated" padding="lg" radius="lg">
+  <CardHeader>Large Elevated Card</CardHeader>
+  <CardContent>
+    This card has large padding, elevated shadow, and large radius.
+    Any buttons or inputs inside will automatically get smaller radius
+    for perfect Apple-style concentricity.
+  </CardContent>
+</Card>
+
+*/
