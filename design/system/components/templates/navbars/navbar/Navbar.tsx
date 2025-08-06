@@ -1,7 +1,7 @@
 'use client';
 
-import { useEditingMode } from '../../../../../cms/context/EditingWrapper';
-import { useContent } from '../../../../../cms/context/ContentProvider';
+import { useEditingMode } from '../../../../../cms/wrappers/editing/EditingWrapper';
+import { useContent } from '../../../../../cms/wrappers/content/ContentProvider';
 import { usePathname } from 'next/navigation';
 import { Section } from '../../../../layout/frames/section';
 import { Container } from '../../../../layout/frames/container';
@@ -9,7 +9,7 @@ import { Cluster } from '../../../../layout/utilities/cluster';
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
 import { getNavigationContext, type NavigationItem } from '../../../../utils/navigation';
 import { ArrowRightIcon } from 'lucide-react';
-import type { WebsiteContent } from '../../../../../cms/types/content';
+import type { WebsiteContent } from '../../../../../cms/utils/content';
 
 // Navbar-specific interfaces (moved from navigationHelper)
 interface NavbarBlock {

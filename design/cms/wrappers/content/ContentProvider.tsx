@@ -1,19 +1,19 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { type WebsiteContent } from '../types/content';
+import { type WebsiteContent } from '../../utils/content';
 import {
   requestWebsiteContent,
   parseContentFromUrl,
   setupMessageListener,
   type MessageHandlers
-} from '../modules/content/child/contentMessaging';
+} from '../../messaging/content/child/contentMessaging';
 import {
   setupDesignTokenMessageListener,
   createDesignTokenMessageHandlers,
   type DesignTokenMessageHandlers
-} from '../modules/design/child/designTokenMessaging';
-import { useEditingMode } from './EditingWrapper';
+} from '../../messaging/design/child/designTokenMessaging';
+import { useEditingMode } from '../editing/EditingWrapper';
 
 // Interface for hero content - only text content
 export interface HeroContent {

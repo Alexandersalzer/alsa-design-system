@@ -5,7 +5,7 @@ import {
   requestEditingStatus,
   setupEditingMessageListener,
   type EditingMessageHandlers
-} from '../modules/initial/child/initialMessaging';
+} from '../../messaging/initial/child/initialMessaging';
 
 interface ToggleContextType {
   isEditingMode: boolean;
