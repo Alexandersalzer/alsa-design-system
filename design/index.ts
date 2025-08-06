@@ -1,19 +1,8 @@
 // Export all design system components, utilities, and types
 export * from './system';
 export * from './cms/context/ContentProvider';
+
 export * from './cms/context/EditingWrapper';
-
-// Export navigation helper functionality
-export { 
-  enhanceNavigationWithCMS,
-  type NavigationItem,
-  type NavbarBlock,
-  type NavbarPattern,
-  type JsonNavItem
-} from './cms/content/navigationHelper';
-
-// Export layout components
-export { ContentLayout, type ContentLayoutProps } from './cms/context/ContentLayout';
 
 // Export initial messaging functionality (editing status only)
 export {
