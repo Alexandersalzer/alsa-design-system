@@ -67,7 +67,7 @@
   --radius-card-sm: var(--radius-sm);                    /* 8px */
   --radius-card: var(--radius-md);                       /* 12px */
   --radius-card-lg: var(--radius-lg);                    /* 16px */
-  --radius-modal: var(--radius-xl);                      /* 24px */
+  --radius-modal: var(--radius-lg);                      /* 24px */
   --radius-sheet: var(--radius-lg);                      /* 16px */
   --radius-popover: var(--radius-md);                    /* 12px */
   --radius-section: var(--radius-md);                    /* 12px */

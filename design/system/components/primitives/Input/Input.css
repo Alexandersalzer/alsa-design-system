@@ -264,7 +264,7 @@
   background-color: var(--surface-input) !important;
   border: 1px solid var(--border-input) !important;
   /* Default to small radius for header search */
-  border-radius: var(--radius-input-sm) !important;
+  border-radius: var(--radius-input);
 }
 
 /* ===== CLEAR BUTTON ===== */

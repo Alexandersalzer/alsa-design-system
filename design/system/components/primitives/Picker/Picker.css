@@ -295,7 +295,7 @@
   width: 100%;
   padding: var(--foundation-space-2);
   border: 1px solid var(--border-input);
-  border-radius: var(--foundation-radius-md);              /* Default radius */
+  border-radius: var(--radius-input);              /* Default radius */
   background-color: var(--surface-input);
   color: var(--text-input);
   font-family: var(--font-body-family);
@@ -306,11 +306,11 @@
 
 /* ===== SEARCH INPUT RADIUS VARIANTS ===== */
 .picker-search-input--radius-sm {
-  border-radius: var(--foundation-radius-sm);              /* 4px */
+  border-radius: var(--radius-input-sm);              /* 4px */
 }
 
 .picker-search-input--radius-lg {
-  border-radius: var(--foundation-radius-lg);              /* 12px */
+  border-radius: var(--radius-input-lg);              /* 12px */
 }
 
 .picker-search-input:focus {
