@@ -14,11 +14,11 @@ export function ClientLayout({
   initialContent
 }: ClientLayoutProps) {
   return (
-    <ContentProvider initialContent={initialContent}>
-      <EditingModeWrapper>
+    <EditingModeWrapper>
+      <ContentProvider initialContent={initialContent}>
         {children}
-      </EditingModeWrapper>
-    </ContentProvider>
+      </ContentProvider>
+    </EditingModeWrapper>
   );
 }
 

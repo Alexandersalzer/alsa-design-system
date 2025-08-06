@@ -13,6 +13,7 @@ import {
   createDesignTokenMessageHandlers,
   type DesignTokenMessageHandlers
 } from '../modules/design/child/designTokenMessaging';
+import { useEditingMode } from '../modules/initial/child/EditingWrapper';
 
 // Interface for hero content - only text content
 export interface HeroContent {
@@ -44,68 +45,75 @@ interface ContentProviderProps {
 }
 
 export function ContentProvider({ children, initialContent = null }: ContentProviderProps) {
+  const { isEditingMode } = useEditingMode();
   const [dynamicContent, setDynamicContent] = useState<WebsiteContent | null>(initialContent);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (isEditingMode) {
+      // In editing mode: try to get content from URL or listen for CMS messages
+      const urlContent = parseContentFromUrl();
+      if (urlContent) {
+        setDynamicContent(urlContent);
+        setIsLoading(false);
+        return;
+      }
 
-    // First, try to get content from URL
-    const urlContent = parseContentFromUrl();
-    if (urlContent) {
-      setDynamicContent(urlContent);
+      // If no content in URL, request it from parent CMS
+      requestWebsiteContent();
+
+      const messageHandlers: MessageHandlers = {
+        onContentUpdate: (content: WebsiteContent) => {
+          setDynamicContent(content);
+          setIsLoading(false);
+        },
+        onWebsiteContentResponse: (content: WebsiteContent) => {
+          setDynamicContent(content);
+          setIsLoading(false);
+        }
+      };
+
+      // Setup design token message handlers
+      const designTokenHandlers: DesignTokenMessageHandlers = createDesignTokenMessageHandlers({
+        setAccentColor: (color: string) => {
+          console.log('🎨 Design token: Accent color updated to:', color);
+        },
+        setRadius: (size: string) => {
+          console.log('🔄 Design token: Radius updated to:', size);
+        },
+        setIsDark: (isDark: boolean) => {
+          console.log('🌗 Design token: Theme updated to:', isDark ? 'dark' : 'light');
+        },
+        setFontName: (fontName: string) => {
+          console.log('🔤 Design token: Font updated to:', fontName);
+        }
+      });
+
+      // Setup message listeners
+      const contentCleanup = setupMessageListener(messageHandlers);
+      const designCleanup = setupDesignTokenMessageListener(designTokenHandlers);
+
+      // Combined cleanup function
+      return () => {
+        contentCleanup();
+        designCleanup();
+      };
+    } else {
+      // In normal mode: use initialContent and set loading to false
+      setDynamicContent(initialContent);
       setIsLoading(false);
-      return;
     }
-
-    // If no content in URL, request it from parent
-    requestWebsiteContent(); // Simplified - no versionId needed
-
-    const messageHandlers: MessageHandlers = {
-      onContentUpdate: (content: WebsiteContent) => {
-        setDynamicContent(content);
-        setIsLoading(false);
-      },
-      onWebsiteContentResponse: (content: WebsiteContent) => {
-        setDynamicContent(content);
-        setIsLoading(false);
-      }
-    };
-
-    // Setup design token message handlers
-    const designTokenHandlers: DesignTokenMessageHandlers = createDesignTokenMessageHandlers({
-      setAccentColor: (color: string) => {
-        console.log('🎨 Design token: Accent color updated to:', color);
-      },
-      setRadius: (size: string) => {
-        console.log('🔄 Design token: Radius updated to:', size);
-      },
-      setIsDark: (isDark: boolean) => {
-        console.log('🌗 Design token: Theme updated to:', isDark ? 'dark' : 'light');
-      },
-      setFontName: (fontName: string) => {
-        console.log('🔤 Design token: Font updated to:', fontName);
-      }
-    });
-
-    // Setup message listeners
-    const contentCleanup = setupMessageListener(messageHandlers);
-    const designCleanup = setupDesignTokenMessageListener(designTokenHandlers);
-
-    // Combined cleanup function
-    return () => {
-      contentCleanup();
-      designCleanup();
-    };
-  }, []); // No dependencies needed
+  }, [isEditingMode, initialContent]);
 
   // Function to get hero content for a specific page
   const getHeroContent = (pageSlug: string): HeroContent | undefined => {
-    const content = dynamicContent || initialContent;
-    if (!content?.pages) return undefined;
+    // In editing mode, prioritize dynamic content; in normal mode, use static content
+    const activeContent = isEditingMode ? dynamicContent : (dynamicContent || initialContent);
+    if (!activeContent?.pages) return undefined;
 
     // Find the page by slug
-    const page = Object.values(content.pages).find((p: any) => p.slug === pageSlug);
+    const page = Object.values(activeContent.pages).find((p: any) => p.slug === pageSlug);
     if (!page?.templates) return undefined;
 
     // Find hero template
@@ -132,11 +140,12 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
 
   // Function to get navbar content
   const getNavbarContent = (): NavbarContent | undefined => {
-    const content = dynamicContent || initialContent;
-    if (!content?.globals?.navbar?.patterns) return undefined;
+    // In editing mode, prioritize dynamic content; in normal mode, use static content
+    const activeContent = isEditingMode ? dynamicContent : (dynamicContent || initialContent);
+    if (!activeContent?.globals?.navbar?.patterns) return undefined;
 
     // Find navbar pattern
-    const navbarPattern = content.globals.navbar.patterns.find((pattern: any) => pattern.type === 'navbar');
+    const navbarPattern = activeContent.globals.navbar.patterns.find((pattern: any) => pattern.type === 'navbar');
     if (!navbarPattern?.blocks) return undefined;
 
     // Extract nav items from blocks
@@ -151,7 +160,7 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
   };
 
   const contextValue: ContentContextType = {
-    content: dynamicContent,
+    content: isEditingMode ? dynamicContent : (dynamicContent || initialContent),
     isLoading,
     error,
     getHeroContent,
