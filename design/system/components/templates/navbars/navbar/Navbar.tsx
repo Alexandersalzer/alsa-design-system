@@ -11,7 +11,7 @@ import { getNavigationContext, type NavigationItem } from '../../../../utils/nav
 import { ArrowRightIcon } from 'lucide-react';
 import type { WebsiteContent } from '../../../../../cms/types/content';
 
-// Local interfaces for navbar-specific CMS content (moved from navigationHelper)
+// Moved from navigationHelper.ts - Navbar-specific interfaces
 interface NavbarBlock {
   type: string;
   content?: string;
@@ -57,10 +57,7 @@ interface EnhancedNavigationItem {
   rightIcon?: string;
 }
 
-/**
- * Enhances navigation items with CMS content
- * Reads href, label, and slug from CMS, keeps component configuration from baseNavigationItems
- */
+// Moved from navigationHelper.ts - Navbar-specific function
 function enhanceNavigationWithCMS(
   navigationItems: CMSNavigationItem[],
   initialContent: WebsiteContent | null
