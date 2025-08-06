@@ -38,17 +38,36 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   textAlign = 'center',
   maxWidth = '550px'
 }) => {
-  const { getHeroContent } = useContent();
+  const { getPageTemplate, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
   
   // Determine which page slug to use
   const currentSlug = pageSlug || pathname.replace('/', '') || 'home';
   
-  // Get hero content for the current page
-  const heroContent = getHeroContent(currentSlug);
+  console.log(`🦸 HeroSection rendering for pageSlug: ${currentSlug}`);
+  
+  // Get hero template using generic function
+  const heroTemplate = getPageTemplate(currentSlug, 'hero');
+  
+  // Get blocks from hero pattern
+  const heroBlocks = getTemplateBlocks(heroTemplate, 'hero');
+  
+  // Extract content using generic functions
+  const title = getBlockContent(heroBlocks, 'title') || '';
+  const subtitle = getBlockContent(heroBlocks, 'subtitle') || '';
+  const primaryButtonText = getBlockContent(heroBlocks, 'primaryButton') || '';
+  const secondaryButtonText = getBlockContent(heroBlocks, 'secondaryButton') || '';
+  
+  console.log(`🦸 HeroSection content extracted:`, {
+    title,
+    subtitle,
+    primaryButtonText,
+    secondaryButtonText
+  });
   
   // Don't render if no content is available
-  if (!heroContent) {
+  if (!title && !subtitle && !primaryButtonText) {
+    console.log(`❌ HeroSection: No content available, not rendering`);
     return null;
   }
 
@@ -56,14 +75,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     <Section id="hero-section" height="full">
       <Container align="center" height="full">
         <RichText
-          heading={heroContent.title}
+          heading={title}
           headingAs={titleAs}
-          subtitle={heroContent.subtitle}
+          subtitle={subtitle}
           subtitleAs={subtitleAs}
           button={{
             variant: buttonVariant,
             size: buttonSize,
-            children: heroContent.primaryButtonText
+            children: primaryButtonText
           }}
           unit={unit}
           textPosition={textPosition}

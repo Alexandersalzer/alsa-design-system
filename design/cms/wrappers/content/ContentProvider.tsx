@@ -10,28 +10,55 @@ import {
 } from '../../messaging/content/child/contentMessaging';
 import { useEditingMode } from '../editing/EditingWrapper';
 
-// Interface for hero content - only text content
-export interface HeroContent {
-  title: string;
-  subtitle: string;
-  primaryButtonText: string;
-  secondaryButtonText: string;
+// Generic interfaces that match database structure
+export interface Block {
+  type: string;
+  content?: string;
+  image_url?: string;
+  config?: any;
+  slug?: string;
+  position?: number;
 }
 
-// Interface for navbar content - navigation items with labels
-export interface NavbarContent {
-  navItems: Array<{
-    label: string;
-    slug: string;
-  }>;
+export interface Pattern {
+  type: string;
+  blocks?: Block[];
+  config?: any;
+  position?: number;
 }
 
+export interface Template {
+  type: string;
+  patterns: Pattern[];
+  position?: number;
+  image_url?: string;
+}
+
+export interface GlobalComponent {
+  type: string;
+  patterns: Pattern[];
+}
+
+export interface Page {
+  type: string;
+  language: string;
+  slug: string;
+  templates: Template[];
+}
+
+// Generic content context interface
 interface ContentContextType {
   content: WebsiteContent | null;
   isLoading: boolean;
   error: string | null;
-  getHeroContent: (pageSlug: string) => HeroContent | undefined;
-  getNavbarContent: () => NavbarContent | undefined;
+  // Generic functions for any template/component type
+  getPageTemplate: (pageSlug: string, templateType: string) => Template | undefined;
+  getGlobalComponent: (componentType: string) => GlobalComponent | undefined;
+  getTemplateBlocks: (template: Template | GlobalComponent | undefined, patternType?: string) => Block[];
+  getBlocksByType: (blocks: Block[], blockType: string) => Block[];
+  getBlockContent: (blocks: Block[], blockType: string) => string | undefined;
+  getBlockConfig: (blocks: Block[], blockType: string) => any;
+  getAllBlocks: (template: Template | GlobalComponent | undefined) => Block[];
 }
 
 interface ContentProviderProps {
@@ -45,14 +72,12 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Log what initialContent we receive
   console.log(`🎯 ContentProvider received initialContent:`, {
     isNull: initialContent === null,
     hasPages: !!initialContent?.pages,
     pagesSlugs: initialContent?.pages ? Object.keys(initialContent.pages) : [],
     hasGlobals: !!initialContent?.globals,
-    globalsTypes: initialContent?.globals ? Object.keys(initialContent.globals) : [],
-    fullContent: initialContent ? JSON.stringify(initialContent, null, 2) : 'null'
+    globalsTypes: initialContent?.globals ? Object.keys(initialContent.globals) : []
   });
 
   useEffect(() => {
@@ -100,19 +125,16 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
     }
   }, [isEditingMode, initialContent]);
 
-  // Function to get hero content for a specific page
-  const getHeroContent = (pageSlug: string): HeroContent | undefined => {
-    console.log(`🦸 getHeroContent called for pageSlug: ${pageSlug}`);
+  // Get active content based on mode
+  const getActiveContent = () => {
+    return isEditingMode ? dynamicContent : (dynamicContent || initialContent);
+  };
+
+  // Generic function to get a specific template from a page
+  const getPageTemplate = (pageSlug: string, templateType: string): Template | undefined => {
+    console.log(`📄 getPageTemplate called for pageSlug: ${pageSlug}, templateType: ${templateType}`);
     
-    // In editing mode, prioritize dynamic content; in normal mode, use static content
-    const activeContent = isEditingMode ? dynamicContent : (dynamicContent || initialContent);
-    console.log(`🦸 Using activeContent:`, {
-      isEditingMode,
-      hasActiveContent: !!activeContent,
-      hasPages: !!activeContent?.pages,
-      pagesSlugs: activeContent?.pages ? Object.keys(activeContent.pages) : []
-    });
-    
+    const activeContent = getActiveContent();
     if (!activeContent?.pages) {
       console.log(`❌ No pages found in activeContent`);
       return undefined;
@@ -120,106 +142,118 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
 
     // Find the page by slug
     const page = Object.values(activeContent.pages).find((p: any) => p.slug === pageSlug);
-    console.log(`🦸 Found page for slug ${pageSlug}:`, {
-      found: !!page,
-      pageData: page ? JSON.stringify(page, null, 2) : 'not found'
-    });
-    
     if (!page?.templates) {
       console.log(`❌ No templates found in page ${pageSlug}`);
       return undefined;
     }
 
-    // Find hero template
-    const heroTemplate = page.templates.find((template: any) => template.type === 'hero');
-    console.log(`🦸 Found hero template:`, {
-      found: !!heroTemplate,
-      templateData: heroTemplate ? JSON.stringify(heroTemplate, null, 2) : 'not found'
-    });
+    // Find template by type
+    const template = page.templates.find((template: any) => template.type === templateType);
+    console.log(`📄 Found template ${templateType}:`, !!template);
     
-    if (!heroTemplate?.patterns) {
-      console.log(`❌ No patterns found in hero template`);
-      return undefined;
-    }
-
-    // Find hero pattern
-    const heroPattern = heroTemplate.patterns.find((pattern: any) => pattern.type === 'hero');
-    console.log(`🦸 Found hero pattern:`, {
-      found: !!heroPattern,
-      patternData: heroPattern ? JSON.stringify(heroPattern, null, 2) : 'not found'
-    });
-    
-    if (!heroPattern?.blocks) {
-      console.log(`❌ No blocks found in hero pattern`);
-      return undefined;
-    }
-
-    // Extract content from blocks
-    const title = heroPattern.blocks.find((block: any) => block.type === 'title')?.content || '';
-    const subtitle = heroPattern.blocks.find((block: any) => block.type === 'subtitle')?.content || '';
-    const primaryButtonText = heroPattern.blocks.find((block: any) => block.type === 'primaryButton')?.content || '';
-    const secondaryButtonText = heroPattern.blocks.find((block: any) => block.type === 'secondaryButton')?.content || '';
-
-    const result = {
-      title,
-      subtitle,
-      primaryButtonText,
-      secondaryButtonText
-    };
-    
-    console.log(`✅ getHeroContent result for ${pageSlug}:`, result);
-    return result;
+    return template;
   };
 
-  // Function to get navbar content
-  const getNavbarContent = (): NavbarContent | undefined => {
-    console.log(`🧭 getNavbarContent called`);
+  // Generic function to get a global component
+  const getGlobalComponent = (componentType: string): GlobalComponent | undefined => {
+    console.log(`🌍 getGlobalComponent called for componentType: ${componentType}`);
     
-    // In editing mode, prioritize dynamic content; in normal mode, use static content
-    const activeContent = isEditingMode ? dynamicContent : (dynamicContent || initialContent);
-    console.log(`🧭 Using activeContent:`, {
-      isEditingMode,
-      hasActiveContent: !!activeContent,
-      hasGlobals: !!activeContent?.globals,
-      globalsTypes: activeContent?.globals ? Object.keys(activeContent.globals) : []
-    });
-    
-    if (!activeContent?.globals?.navbar?.patterns) {
-      console.log(`❌ No navbar patterns found in globals`);
+    const activeContent = getActiveContent();
+    if (!activeContent?.globals) {
+      console.log(`❌ No globals found in activeContent`);
       return undefined;
     }
 
-    // Find navbar pattern
-    const navbarPattern = activeContent.globals.navbar.patterns.find((pattern: any) => pattern.type === 'navbar');
-    console.log(`🧭 Found navbar pattern:`, {
-      found: !!navbarPattern,
-      patternData: navbarPattern ? JSON.stringify(navbarPattern, null, 2) : 'not found'
-    });
+    const component = activeContent.globals[componentType];
+    console.log(`🌍 Found global component ${componentType}:`, !!component);
     
-    if (!navbarPattern?.blocks) {
-      console.log(`❌ No blocks found in navbar pattern`);
-      return undefined;
+    return component;
+  };
+
+  // Generic function to get blocks from a template or global component
+  const getTemplateBlocks = (template: Template | GlobalComponent | undefined, patternType?: string): Block[] => {
+    console.log(`🧩 getTemplateBlocks called for patternType: ${patternType || 'any'}`);
+    
+    if (!template?.patterns) {
+      console.log(`❌ No patterns found in template`);
+      return [];
     }
 
-    // Extract nav items from blocks
-    const navItems = navbarPattern.blocks
-      .filter((block: any) => block.type === 'navItem')
-      .map((block: any) => ({
-        label: block.content || '',
-        slug: block.slug || ''
-      }));
+    // If patternType is specified, find that specific pattern
+    if (patternType) {
+      const pattern = template.patterns.find(p => p.type === patternType);
+      return pattern?.blocks || [];
+    }
 
-    const result = { navItems };
-    console.log(`✅ getNavbarContent result:`, result);
-    return result;
+    // Otherwise, return blocks from the first pattern (default behavior)
+    const firstPattern = template.patterns[0];
+    return firstPattern?.blocks || [];
+  };
+
+  // Generic function to get all blocks from all patterns in a template
+  const getAllBlocks = (template: Template | GlobalComponent | undefined): Block[] => {
+    console.log(`🧩 getAllBlocks called`);
+    
+    if (!template?.patterns) {
+      console.log(`❌ No patterns found in template`);
+      return [];
+    }
+
+    // Flatten all blocks from all patterns
+    const allBlocks = template.patterns.reduce((acc: Block[], pattern) => {
+      if (pattern.blocks) {
+        acc.push(...pattern.blocks);
+      }
+      return acc;
+    }, []);
+
+    console.log(`🧩 Found ${allBlocks.length} total blocks`);
+    return allBlocks;
+  };
+
+  // Generic function to filter blocks by type
+  const getBlocksByType = (blocks: Block[], blockType: string): Block[] => {
+    console.log(`🔍 getBlocksByType called for blockType: ${blockType}`);
+    
+    const filteredBlocks = blocks.filter(block => block.type === blockType);
+    console.log(`🔍 Found ${filteredBlocks.length} blocks of type ${blockType}`);
+    
+    return filteredBlocks;
+  };
+
+  // Generic function to get content from the first block of a specific type
+  const getBlockContent = (blocks: Block[], blockType: string): string | undefined => {
+    console.log(`📝 getBlockContent called for blockType: ${blockType}`);
+    
+    const block = blocks.find(block => block.type === blockType);
+    const content = block?.content;
+    
+    console.log(`📝 Found content for ${blockType}:`, content || 'none');
+    return content;
+  };
+
+  // Generic function to get config from the first block of a specific type
+  const getBlockConfig = (blocks: Block[], blockType: string): any => {
+    console.log(`⚙️ getBlockConfig called for blockType: ${blockType}`);
+    
+    const block = blocks.find(block => block.type === blockType);
+    const config = block?.config;
+    
+    console.log(`⚙️ Found config for ${blockType}:`, config || 'none');
+    return config;
   };
 
   const contextValue: ContentContextType = {
-    content: isEditingMode ? dynamicContent : (dynamicContent || initialContent),
+    content: getActiveContent(),
     isLoading,
     error,
-    getHeroContent,
-    getNavbarContent
+    getPageTemplate,
+    getGlobalComponent,
+    getTemplateBlocks,
+    getBlocksByType,
+    getBlockContent,
+    getBlockConfig,
+    getAllBlocks
   };
 
   console.log(`🎯 ContentProvider context value:`, {

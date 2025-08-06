@@ -9,103 +9,6 @@ import { Cluster } from '../../../../layout/utilities/cluster';
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
 import { getNavigationContext, type NavigationItem } from '../../../../utils/navigation';
 import { ArrowRightIcon } from 'lucide-react';
-import type { WebsiteContent } from '../../../../../cms/utils/content';
-
-// Navbar-specific interfaces (moved from navigationHelper)
-interface NavbarBlock {
-  type: string;
-  content?: string;
-  slug?: string;
-  config?: {
-    href?: string;
-    [key: string]: any;
-  };
-}
-
-interface NavbarPattern {
-  type: string;
-  blocks?: NavbarBlock[];
-}
-
-interface JsonNavItem {
-  label: string;
-  slug: string;
-  href: string;
-}
-
-interface CMSNavigationItem {
-  href?: string;
-  label?: string;
-  slug?: string;
-  componentType: 'textlink' | 'button';
-  textLinkVariant?: 'primary';
-  weight?: 'medium';
-  underline?: 'hover';
-  variant?: 'primary';
-  rightIcon?: string;
-}
-
-interface EnhancedNavigationItem {
-  href: string;
-  label: string;
-  slug: string;
-  componentType: 'textlink' | 'button';
-  textLinkVariant?: 'primary';
-  weight?: 'medium';
-  underline?: 'hover';
-  variant?: 'primary';
-  rightIcon?: string;
-}
-
-/**
- * Enhances navigation items with CMS content
- * Reads href, label, and slug from CMS, keeps component configuration from baseNavigationItems
- */
-function enhanceNavigationWithCMS(
-  navigationItems: CMSNavigationItem[],
-  initialContent: WebsiteContent | null
-): EnhancedNavigationItem[] {
-  // Use the new globals structure
-  if (!initialContent?.globals?.navbar?.patterns) {
-    return [];
-  }
-
-  // Find navbar pattern
-  const navbarPattern = initialContent.globals.navbar.patterns.find(
-    (pattern: NavbarPattern) => pattern.type === 'navbar'
-  );
-  
-  if (!navbarPattern?.blocks) {
-    return [];
-  }
-
-  // Extract nav items from blocks with href, label, and slug
-  const jsonNavItems: JsonNavItem[] = navbarPattern.blocks
-    .filter((block: NavbarBlock) => block.type === 'navItem')
-    .map((block: NavbarBlock) => ({
-      label: block.content || '',
-      slug: block.slug || '',
-      href: block.config?.href || `/${block.slug || ''}`
-    }));
-
-  // Create navigation items by combining CMS data with component configuration
-  return jsonNavItems.map((jsonItem, index) => {
-    // Use component configuration from baseNavigationItems based on index
-    const componentConfig = navigationItems[index] || navigationItems[0] || {};
-    
-    return {
-      href: jsonItem.href,
-      label: jsonItem.label,
-      slug: jsonItem.slug,
-      componentType: componentConfig.componentType || 'textlink',
-      textLinkVariant: componentConfig.textLinkVariant,
-      weight: componentConfig.weight,
-      underline: componentConfig.underline,
-      variant: componentConfig.variant,
-      rightIcon: componentConfig.rightIcon
-    };
-  });
-}
 
 export interface NavItem extends NavigationItem {
   label: string;
@@ -153,72 +56,46 @@ const Navbar = ({
   logoHeight = 32
 }: NavbarProps) => {
   const { isEditingMode } = useEditingMode();
-  const { getNavbarContent, content } = useContent();
+  const { getGlobalComponent, getTemplateBlocks, getBlocksByType } = useContent();
   const pathname = usePathname();
 
-  // Default navigation configuration
-  const navigationConfig = {
-    textlink: {
-      componentType: 'textlink' as const,
-      textLinkVariant: 'primary' as const,
-      weight: 'medium' as const,
-      underline: 'hover' as const
-    },
-    button: {
-      componentType: 'button' as const,
-      variant: 'primary' as const,
-      rightIcon: 'ArrowRightIcon'
-    }
-  };
+  console.log(`🧭 Navbar rendering`);
 
-  // Create base navigation items from configuration for CMS
-  const baseNavigationItems: CMSNavigationItem[] = [
-    {
-      componentType: 'textlink' as const,
-      textLinkVariant: navigationConfig?.textlink?.textLinkVariant || 'primary',
-      weight: navigationConfig?.textlink?.weight || 'medium',
-      underline: navigationConfig?.textlink?.underline || 'hover'
-    },
-    {
-      componentType: 'button' as const,
-      variant: navigationConfig?.button?.variant || 'primary',
-      rightIcon: navigationConfig?.button?.rightIcon || 'ArrowRightIcon'
-    }
-  ];
+  // Get navbar global component using generic function
+  const navbarComponent = getGlobalComponent('navbar');
+  
+  // Get blocks from navbar pattern
+  const navbarBlocks = getTemplateBlocks(navbarComponent, 'navbar');
+  
+  // Get nav items from blocks
+  const navItemBlocks = getBlocksByType(navbarBlocks, 'navItem');
+  
+  console.log(`🧭 Found ${navItemBlocks.length} nav items from CMS`);
 
-  // Enhance navigation with CMS content - pass the actual content instead of null
-  const enhancedNavigationItems = enhanceNavigationWithCMS(baseNavigationItems, content);
-
-  // Convert string icon references back to JSX
-  const processedNavItems = enhancedNavigationItems.map(item => ({
-    ...item,
-    rightIcon: item.rightIcon === 'ArrowRightIcon' ? <ArrowRightIcon /> : undefined,
-    size: navSize,
-    leftIcon: undefined
+  // Convert CMS blocks to nav items
+  const cmsNavItems: NavItem[] = navItemBlocks.map((block, index) => ({
+    href: block.config?.href || `/${block.slug || ''}`,
+    label: block.content || '',
+    slug: block.slug || '',
+    componentType: index === navItemBlocks.length - 1 ? 'button' : 'textlink', // Last item as button
+    textLinkVariant: 'primary',
+    weight: 'medium',
+    underline: 'hover',
+    variant: 'primary',
+    rightIcon: index === navItemBlocks.length - 1 ? <ArrowRightIcon /> : undefined,
+    size: navSize
   }));
 
-  // Merge with any passed navItems
-  const finalNavItems = navItems.length > 0 ? navItems : processedNavItems;
-  
+  console.log(`🧭 CMS nav items:`, cmsNavItems.map(item => ({ label: item.label, href: item.href })));
+
   // Use navigation utilities for consistent route handling
   const nav = getNavigationContext(pathname, isEditingMode);
 
-  // Get navbar content from JSON
-  const navbarContent = getNavbarContent();
-
-  // Merge JSON content with existing navItems, prioritizing JSON labels
-  const mergedNavItems = finalNavItems.map(item => {
-    // Find matching content from JSON based on slug
-    const jsonItem = navbarContent?.navItems.find(jsonNav => jsonNav.slug === item.slug);
-    
-    return {
-      ...item,
-      label: jsonItem?.label || item.label // Use JSON label if available, fallback to prop label
-    };
-  });
+  // Use CMS items if available, otherwise fallback to passed navItems
+  const finalNavItems = cmsNavItems.length > 0 ? cmsNavItems : navItems;
 
   // Transform NavItem[] to NavMenuItem[] with proper hrefs and active states
-  const menuItems: NavMenuItem[] = mergedNavItems.map(item => ({
+  const menuItems: NavMenuItem[] = finalNavItems.map(item => ({
     ...item,
     href: nav.buildNavHref(item),
     isActive: nav.isNavItemActive(item, pathname),
@@ -231,6 +108,12 @@ const Navbar = ({
     weight: item.weight,
     underline: item.underline
   }));
+
+  console.log(`🧭 Final menu items:`, menuItems.map(item => ({ 
+    label: item.label, 
+    href: item.href, 
+    isActive: item.isActive 
+  })));
 
   return (
     <Section 
