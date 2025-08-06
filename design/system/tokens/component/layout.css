@@ -63,10 +63,10 @@
   --size-card-min-height: 192px;
   
   /* ===== BORDER RADIUS COMPONENT TOKENS ===== */
-  --radius-button: var(--radius-lg);
-  --radius-button-sm: var(--radius-md);
-  --radius-button-lg: var(--radius-xl);
-  --radius-card: var(--radius-md);
+  --radius-button: var(--radius-md);
+  --radius-button-sm: var(--radius-sm);
+  --radius-button-lg: var(--radius-lg);
+  --radius-card: var(--radius-lg);
   --radius-input: var(--radius-md);
   --radius-modal: var(--radius-lg);
   --radius-toast: var(--radius-md);
