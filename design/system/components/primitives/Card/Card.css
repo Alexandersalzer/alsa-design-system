@@ -100,19 +100,6 @@
   border-radius: var(--radius-button-lg);                  /* 12px - smaller than card's 16px */
 }
 
-/* Inputs inside cards get smaller radius */
-.card .input {
-  border-radius: var(--radius-input);                      /* 8px */
-}
-
-.card--radius-sm .input {
-  border-radius: var(--radius-input-sm);                   /* 4px */
-}
-
-.card--radius-lg .input {
-  border-radius: var(--radius-input-lg);                   /* 12px */
-}
-
 /* Images inside cards get smaller radius */
 .card img,
 .card .image {
