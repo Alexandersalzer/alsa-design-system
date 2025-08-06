@@ -74,22 +74,25 @@ export function switchLocale(newLocale: SupportedLocale, isEditingMode: boolean 
   let newPath: string;
   
   if (isEditingMode) {
-    // In editing mode, handle .html files
+    // In editing mode, handle /index.html files
     if (segments.length > 0) {
       // Get the remaining path after locale
       const remainingPath = segments.join('/');
       
-      // If it already has .html extension, use it as is
-      if (remainingPath.endsWith('.html')) {
+      // If it already has /index.html extension, use it as is
+      if (remainingPath.endsWith('/index.html')) {
+        newPath = `/${newLocale}/${remainingPath}`;
+      } else if (remainingPath.endsWith('.html')) {
+        // Replace any .html with /index.html
         const pageWithoutExtension = remainingPath.replace('.html', '');
-        newPath = `/${newLocale}/${pageWithoutExtension}.html`;
+        newPath = `/${newLocale}/${pageWithoutExtension}/index.html`;
       } else {
-        // Add .html extension
-        newPath = `/${newLocale}/${remainingPath}.html`;
+        // Add /index.html extension
+        newPath = `/${newLocale}/${remainingPath}/index.html`;
       }
     } else {
       // Default to home page in editing mode
-      newPath = `/${newLocale}/home.html`;
+      newPath = `/${newLocale}/home/index.html`;
     }
   } else {
     // Normal mode: use locale-based routes
