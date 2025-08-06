@@ -291,29 +291,6 @@
   outline-offset: 1px;
 }
 
-/* ===== APPLE-STYLE CONCENTRICITY IN FORMS ===== */
-/* When inputs are inside cards, they automatically get harmonious radius */
-.card .input {
-  /* Inherits appropriate radius from component tokens */
-}
-
-.card--radius-sm .input {
-  border-radius: var(--radius-input-sm);                   /* 4px */
-}
-
-.card--radius-lg .input {
-  border-radius: var(--radius-input-lg);                   /* 12px */
-}
-
-/* Override when specific radius is set */
-.card .input--radius-sm {
-  border-radius: var(--radius-input-sm) !important;        /* Force small radius */
-}
-
-.card .input--radius-lg {
-  border-radius: var(--radius-input-lg) !important;        /* Force large radius */
-}
-
 /* ===== ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
   .input,

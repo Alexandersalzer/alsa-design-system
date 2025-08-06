@@ -441,33 +441,6 @@
   background-color: transparent;
 }
 
-/* ===== APPLE-STYLE CONCENTRICITY ===== */
-/* When Picker is inside Cards, it automatically harmonizes */
-.card .picker {
-  border-radius: var(--radius-input);                      /* 8px - matches card content */
-}
-
-.card--radius-sm .picker {
-  border-radius: var(--radius-input-sm);                   /* 4px */
-}
-
-.card--radius-lg .picker {
-  border-radius: var(--radius-input-lg);                   /* 12px */
-}
-
-/* Dropdown inherits parent's radius style */
-.card .picker-dropdown {
-  border-radius: var(--radius-sm);                         /* Slightly smaller than picker */
-}
-
-.card--radius-sm .picker-dropdown {
-  border-radius: var(--radius-xs);                         /* 4px */
-}
-
-.card--radius-lg .picker-dropdown {
-  border-radius: var(--radius-md);                         /* 12px */
-}
-
 /* ===== OPTION CONTENT ===== */
 .picker-option-content {
   display: flex;
