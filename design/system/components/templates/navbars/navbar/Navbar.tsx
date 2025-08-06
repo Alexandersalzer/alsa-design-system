@@ -59,8 +59,6 @@ const Navbar = ({
   const { getGlobalComponent, getTemplateBlocks, getBlocksByType } = useContent();
   const pathname = usePathname();
 
-  console.log(`🧭 Navbar rendering`);
-
   // Get navbar global component using generic function
   const navbarComponent = getGlobalComponent('navbar');
   
@@ -69,8 +67,6 @@ const Navbar = ({
   
   // Get nav items from blocks
   const navItemBlocks = getBlocksByType(navbarBlocks, 'navItem');
-  
-  console.log(`🧭 Found ${navItemBlocks.length} nav items from CMS`);
 
   // Convert CMS blocks to nav items
   const cmsNavItems: NavItem[] = navItemBlocks.map((block, index) => ({
@@ -85,8 +81,6 @@ const Navbar = ({
     rightIcon: index === navItemBlocks.length - 1 ? <ArrowRightIcon /> : undefined,
     size: navSize
   }));
-
-  console.log(`🧭 CMS nav items:`, cmsNavItems.map(item => ({ label: item.label, href: item.href })));
 
   // Use navigation utilities for consistent route handling
   const nav = getNavigationContext(pathname, isEditingMode);
@@ -108,12 +102,6 @@ const Navbar = ({
     weight: item.weight,
     underline: item.underline
   }));
-
-  console.log(`🧭 Final menu items:`, menuItems.map(item => ({ 
-    label: item.label, 
-    href: item.href, 
-    isActive: item.isActive 
-  })));
 
   return (
     <Section 

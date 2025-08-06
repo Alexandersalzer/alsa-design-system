@@ -44,8 +44,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   // Determine which page slug to use
   const currentSlug = pageSlug || pathname.replace('/', '') || 'home';
   
-  console.log(`🦸 HeroSection rendering for pageSlug: ${currentSlug}`);
-  
   // Get hero template using generic function
   const heroTemplate = getPageTemplate(currentSlug, 'hero');
   
@@ -58,16 +56,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const primaryButtonText = getBlockContent(heroBlocks, 'primaryButton') || '';
   const secondaryButtonText = getBlockContent(heroBlocks, 'secondaryButton') || '';
   
-  console.log(`🦸 HeroSection content extracted:`, {
-    title,
-    subtitle,
-    primaryButtonText,
-    secondaryButtonText
-  });
-  
   // Don't render if no content is available
   if (!title && !subtitle && !primaryButtonText) {
-    console.log(`❌ HeroSection: No content available, not rendering`);
     return null;
   }
 
