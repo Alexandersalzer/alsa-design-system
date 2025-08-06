@@ -1,7 +1,7 @@
 // Export all design system components, utilities, and types
 export * from './system';
 export * from './cms/context/ContentProvider';
-
+export { ContentLayout, type ContentLayoutProps } from './cms/context/ContentLayout';
 export * from './cms/context/EditingWrapper';
 
 // Export initial messaging functionality (editing status only)
