@@ -2,7 +2,7 @@
 
 import { Section, Container } from '../../../../../system/layout';
 import { RichText } from '../../../../../system/components/patterns/client/RichText/RichText';
-import { useContent } from '../../../../../cms/wrappers/content/ContentProvider';
+import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 
 interface HeroSectionProps {

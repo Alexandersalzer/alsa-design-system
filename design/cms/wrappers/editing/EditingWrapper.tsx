@@ -7,11 +7,11 @@ import {
   type EditingMessageHandlers
 } from '../../messaging/initial/child/initialMessaging';
 
-interface ToggleContextType {
+export interface ToggleContextType {
   isEditingMode: boolean;
 }
 
-const ToggleContext = createContext<ToggleContextType | undefined>(undefined);
+export const ToggleContext = createContext<ToggleContextType | undefined>(undefined);
 
 function EditingProvider({ children }: { children: ReactNode }) {
   const [isEditingMode, setIsEditing] = useState<boolean>(false);

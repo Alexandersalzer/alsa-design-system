@@ -1,7 +1,7 @@
 'use client';
 
 import { useEditingMode } from '../../../../../cms/wrappers/editing/EditingWrapper';
-import { useContent } from '../../../../../cms/wrappers/content/ContentProvider';
+import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 import { Section } from '../../../../layout/frames/section';
 import { Container } from '../../../../layout/frames/container';
@@ -9,6 +9,7 @@ import { Cluster } from '../../../../layout/utilities/cluster';
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
 import { getNavigationContext, type NavigationItem } from '../../../../utils/navigation';
 import { ArrowRightIcon } from 'lucide-react';
+import { ContentBlock } from '../../../../../cms/wrappers/content/types/content';
 
 export interface NavItem extends NavigationItem {
   label: string;
@@ -69,7 +70,7 @@ const Navbar = ({
   const navItemBlocks = getBlocksByType(navbarBlocks, 'navItem');
 
   // Convert CMS blocks to nav items
-  const cmsNavItems: NavItem[] = navItemBlocks.map((block, index) => ({
+  const cmsNavItems: NavItem[] = navItemBlocks.map((block: ContentBlock, index: number) => ({
     href: block.config?.href || `/${block.slug || ''}`,
     label: block.content || '',
     slug: block.slug || '',

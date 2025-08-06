@@ -1,4 +1,4 @@
-import { ContentPage, GlobalComponent } from '../wrappers/content/ContentProvider';
+import { ContentPage, GlobalComponent } from '../wrappers/content/types/content';
 
 // Content structure types - now using the generic interfaces from ContentProvider
 export interface WebsiteContent {
