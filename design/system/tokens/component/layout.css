@@ -63,14 +63,14 @@
   --size-card-min-height: 192px;
   
   /* ===== BORDER RADIUS COMPONENT TOKENS ===== */
-  --radius-button: var(--radius-xl);
-  --radius-button-sm: var(--radius-lg);
+  --radius-button: var(--radius-lg);
+  --radius-button-sm: var(--radius-md);
   --radius-button-lg: var(--radius-xl);
-  --radius-card: var(--radius-lg);
-  --radius-input: var(--radius-lg);
-  --radius-modal: var(--radius-xl);
-  --radius-toast: var(--radius-lg);
-  --radius-badge: var(--radius-lg);
+  --radius-card: var(--radius-md);
+  --radius-input: var(--radius-md);
+  --radius-modal: var(--radius-lg);
+  --radius-toast: var(--radius-md);
+  --radius-badge: var(--radius-md);
   --radius-avatar: var(--radius-full);
   --radius-code-inline: var(--radius-sm);
   --radius-code-block: var(--radius-md);
