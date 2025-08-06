@@ -13,7 +13,7 @@ import {
   createDesignTokenMessageHandlers,
   type DesignTokenMessageHandlers
 } from '../modules/design/child/designTokenMessaging';
-import { useEditingMode } from '../modules/initial/child/EditingWrapper';
+import { useEditingMode } from './EditingWrapper';
 
 // Interface for hero content - only text content
 export interface HeroContent {

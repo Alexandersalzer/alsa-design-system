@@ -2,17 +2,17 @@
 
 import { ContentProvider, EditingModeWrapper } from '../..';
 import { ReactNode } from "react";
-import type { WebsiteContent } from "../../cms/types/content";
+import type { WebsiteContent } from "../types/content";
 
-interface ClientLayoutProps {
+interface ContentLayoutProps {
   children: ReactNode;
   initialContent: WebsiteContent | null;
 }
 
-export function ClientLayout({ 
+export function ContentLayout({ 
   children, 
   initialContent
-}: ClientLayoutProps) {
+}: ContentLayoutProps) {
   return (
     <EditingModeWrapper>
       <ContentProvider initialContent={initialContent}>
@@ -23,4 +23,4 @@ export function ClientLayout({
 }
 
 // Export the interface for use in client projects
-export type { ClientLayoutProps }; 
+export type { ContentLayoutProps }; 

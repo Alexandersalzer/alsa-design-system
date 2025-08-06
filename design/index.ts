@@ -1,7 +1,7 @@
 // Export all design system components, utilities, and types
 export * from './system';
 export * from './cms/context/ContentProvider';
-export * from './cms/modules/initial/child/EditingWrapper';
+export * from './cms/context/EditingWrapper';
 
 // Export navigation helper functionality
 export { 
@@ -13,7 +13,7 @@ export {
 } from './cms/content/navigationHelper';
 
 // Export layout components
-export { ClientLayout, type ClientLayoutProps } from './system/layout/ClientLayout';
+export { ContentLayout, type ContentLayoutProps } from './cms/context/ContentLayout';
 
 // Export initial messaging functionality (editing status only)
 export {

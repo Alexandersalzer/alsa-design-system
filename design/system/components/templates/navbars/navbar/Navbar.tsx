@@ -1,6 +1,6 @@
 'use client';
 
-import { useEditingMode } from '../../../../../cms/modules/initial/child/EditingWrapper';
+import { useEditingMode } from '../../../../../cms/context/EditingWrapper';
 import { useContent } from '../../../../../cms/context/ContentProvider';
 import { usePathname } from 'next/navigation';
 import { Section } from '../../../../layout/frames/section';

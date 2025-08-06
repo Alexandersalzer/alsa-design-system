@@ -27,9 +27,9 @@
       "types": "./dist/cms/content/navigationHelper.d.ts"
     },
     "./layout": {
-      "import": "./dist/system/layout/ClientLayout.js",
-      "require": "./dist/system/layout/ClientLayout.js",
-      "types": "./dist/system/layout/ClientLayout.d.ts"
+      "import": "./dist/system/layout/ContentLayout.js",
+      "require": "./dist/system/layout/ContentLayout.js",
+      "types": "./dist/system/layout/ContentLayout.d.ts"
     },
     "./client": {
       "import": "./dist/system/components/templates/index.js",
