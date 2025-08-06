@@ -41,7 +41,7 @@
   /* Accent shortcuts */
   --accent-bg: var(--accent-100);
   --accent-bg-hover: var(--accent-200);
-  --accent-border: var(--accent-600);
+  --accent-border: var(--accent-500);
   --accent-text: var(--accent-700);
   --accent-text-strong: var(--accent-800);
   --accent-icon: var(--accent-600);
