@@ -40,7 +40,7 @@
 
 .step-number--current {
   background: var(--text-primary);
-  color: var(--surface-card);
+  color: var(--text-inverse);
   font-weight: var(--foundation-weight-semibold);
 }
 
