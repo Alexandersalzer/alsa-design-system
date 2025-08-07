@@ -1,0 +1,48 @@
+/*// ===============================================
+// File 2: @blimpify-im/ui/src/components/primitives/BrandColorPicker/BrandColorPicker.css
+// ===============================================*/
+
+.brand-color-picker {
+  --brand-color-picker-transition: all 0.2s ease;
+}
+
+.brand-color-picker button {
+  transition: var(--brand-color-picker-transition);
+}
+
+.brand-color-picker button:focus-visible {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 2px;
+}
+
+/* Enhance hover state */
+.brand-color-picker button:hover:not(:disabled) {
+  transform: scale(1.05);
+  filter: brightness(1.05);
+}
+
+/* Selected state enhancements */
+.brand-color-picker button[aria-pressed="true"] {
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+/* Animation for selection indicator */
+.brand-color-picker .selection-indicator {
+  animation: bounceIn 0.3s ease-out;
+}
+
+@keyframes bounceIn {
+  0% { 
+    transform: scale(0); 
+    opacity: 0; 
+  }
+  50% { 
+    transform: scale(1.1); 
+    opacity: 1; 
+  }
+  100% { 
+    transform: scale(1); 
+    opacity: 1; 
+  }
+}

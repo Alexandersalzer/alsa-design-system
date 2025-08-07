@@ -7,7 +7,7 @@
   transition: all 0.2s ease;
   border: 2px solid var(--border-input);
   background: var(--surface-card);
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-card-sm);
   /* FIXED: Prevent resize by maintaining consistent box-sizing */
   box-sizing: border-box;
   width: 100%;

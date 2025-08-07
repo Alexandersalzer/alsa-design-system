@@ -35,6 +35,8 @@
 @import './components/primitives/Stepper/Stepper.css';
 @import './components/primitives/TextLink/TextLink.css';
 
+@import './components/primitives/BrandColorPicker/BrandColorPicker.css';
+
 /* STEP 5: Pattern components */
 @import './components/patterns/dashboard/Header/Header.css';
 @import './components/patterns/dashboard/auth/AuthContainer.css';
