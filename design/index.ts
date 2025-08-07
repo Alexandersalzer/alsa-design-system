@@ -22,6 +22,17 @@ export {
   type ParentMessageHandlers
 } from './cms/messaging/content/parent/contentMessaging';
 
+// Export design token messaging functionality
+export {
+  DesignTokenParentHandler,
+  sendAccentColorUpdate,
+  sendRadiusUpdate,
+  sendThemeUpdate,
+  sendFontUpdate,
+  sendFontUpdateWithLookup,
+  type DesignTokenParentConfig
+} from './cms/messaging/design/parent/designTokenMessaging';
+
 // Export layout components (client-safe)
 export { ContentLayout } from './cms/wrappers/ContentLayout';
 
