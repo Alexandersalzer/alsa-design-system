@@ -15,6 +15,14 @@ import {
   type LocaleOption
 } from '../../../../utils/locale';
 
+interface FooterContent {
+  companyName?: string;
+  email?: string;
+  copyright?: string;
+  credits?: string;
+  creditsLink?: string;
+}
+
 interface KjFooterProps {
   // Optional override for language options if needed
   languageOptions?: Array<{
@@ -24,9 +32,11 @@ interface KjFooterProps {
   }>;
   // Editing mode passed from parent component
   isEditingMode?: boolean;
+  // Content from CMS
+  content?: FooterContent;
 }
 
-const KjFooter = ({ languageOptions, isEditingMode = false }: KjFooterProps) => {
+const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterProps) => {
   const [selectedLanguage, setSelectedLanguage] = useState<SupportedLocale>('sv');
   
   // Get current locale on component mount
@@ -34,6 +44,15 @@ const KjFooter = ({ languageOptions, isEditingMode = false }: KjFooterProps) => 
     const currentLocale = getCurrentLocale();
     setSelectedLanguage(currentLocale);
   }, []);
+
+  // Extract content from props
+  const {
+    companyName,
+    email,
+    copyright,
+    credits,
+    creditsLink
+  } = content || {};
 
   // Use provided language options or default ones with flag icons
   const options = languageOptions || defaultLocaleOptions.map((option: LocaleOption) => ({
@@ -76,7 +95,7 @@ const KjFooter = ({ languageOptions, isEditingMode = false }: KjFooterProps) => 
             align="center"
             weight="semibold"
           >
-            KJ MARKETING SWEDEN
+            {companyName}
           </Typography>
         </Cluster>
       </RhythmItem>
@@ -101,14 +120,14 @@ const KjFooter = ({ languageOptions, isEditingMode = false }: KjFooterProps) => 
             weight="semibold"
           >
             <a 
-              href="mailto:info@kjmarketingsweden.com"
+              href={`mailto:${email}`}
               style={{ 
                 color: 'inherit', 
                 textDecoration: 'underline',
                 textUnderlineOffset: '2px'
               }}
             >
-              info@kjmarketingsweden.com
+              {email}
             </a>
           </Typography>
           <Typography 
@@ -117,7 +136,7 @@ const KjFooter = ({ languageOptions, isEditingMode = false }: KjFooterProps) => 
             align="center"
             weight="semibold"
           >
-            © KJ MARKETING SWEDEN AB 559528-9629 2018–2025. All rights reserved
+            {copyright}
           </Typography>
         </Stack>
       </RhythmItem>
@@ -129,7 +148,7 @@ const KjFooter = ({ languageOptions, isEditingMode = false }: KjFooterProps) => 
           align="center"
           weight="semibold"
         >
-          En hemsida skapad av{' '}
+          {credits}{' '}
           <Typography 
             variant="body-sm" 
             color="placeholder" 
@@ -147,7 +166,7 @@ const KjFooter = ({ languageOptions, isEditingMode = false }: KjFooterProps) => 
                 textDecorationColor: 'var(--text-tertiary)'
               }}
             >
-              Blimpify-IM
+              {creditsLink}
             </a>
           </Typography>
         </Typography>
