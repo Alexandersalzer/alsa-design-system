@@ -8,8 +8,7 @@ import { SelectionCard } from './SelectionCard';
 import { Grid } from '../page/Grid';
 import { Stack } from '../page/Stack';
 import { H4, Body } from '../../../primitives/Typography';
-import { IconButton } from '../../../primitives/IconButton';
-import { Icon } from '../../../primitives';
+import { Icon } from '../../../primitives/Icon';
 import { cn } from '../../../../lib/utils';
 
 export interface OptionItem {
@@ -17,7 +16,7 @@ export interface OptionItem {
   name: string;
   value: string;
   description?: string;
-  icon?: React.ReactNode;
+  icon?: React.ReactElement; // Must be ReactElement for Icon component
   preview?: React.ReactNode;
   disabled?: boolean;
 }
@@ -25,7 +24,7 @@ export interface OptionItem {
 export interface OptionSectionProps {
   title: string;
   description?: string;
-  icon?: React.ReactNode;
+  icon?: React.ReactElement; // Must be ReactElement for Icon component
   action?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
@@ -131,7 +130,11 @@ export const OptionGrid: React.FC<OptionGridProps> = ({
           onClick={() => onChange(option.value)}
           disabled={option.disabled}
           size={size}
-          icon={option.icon}
+          icon={option.icon && (
+            <Icon size="md" color="accent">
+              {option.icon}
+            </Icon>
+          )}
         >
           <div>
             {option.preview && (
