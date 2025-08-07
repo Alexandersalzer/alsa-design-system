@@ -27,35 +27,6 @@ export function extractLocaleFromPathname(pathname: string): SupportedLocale {
 }
 
 /**
- * Extract current page slug from pathname
- * Works with both normal locale routes and editing mode (/index.html files)
- */
-export function extractPageSlugFromPathname(pathname: string, isEditingMode: boolean): string {
-  const segments = pathname.split('/').filter(Boolean);
-  
-  // Remove locale if present
-  if (segments[0] === 'sv' || segments[0] === 'en') {
-    segments.shift();
-  }
-  
-  if (isEditingMode) {
-    // In editing mode: /sv/home/index.html -> "home"
-    if (segments.length > 0) {
-      const pageSegment = segments[0];
-      // Remove .html or /index.html
-      return pageSegment.replace(/\.html$/, '').replace(/\/index$/, '');
-    }
-    return 'home'; // Default fallback for editing mode
-  } else {
-    // In normal mode: /sv/about -> "about", /sv -> "home"
-    if (segments.length > 0) {
-      return segments[0];
-    }
-    return 'home'; // Default fallback for root path
-  }
-}
-
-/**
  * Build href for brand/home link
  * Handles both normal locale routes and toggle mode (/index.html files)
  */
