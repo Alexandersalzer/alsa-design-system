@@ -1,33 +1,45 @@
-/*// ===============================================
-// STEP 1: Create the CSS file
-// src/design-system/components/patterns/selection/SelectionCard.css
-// ===============================================*/
+/* ===============================================
+// FIXED SelectionCard.css - Prevents resizing and uses proper accent colors
+// =============================================== */
 
 .selection-card {
   position: relative;
   transition: all 0.2s ease;
   border: 2px solid var(--border-input);
-  background: var(--surface-card, white);
-  border-radius: var(--foundation-radius-lg);
+  background: var(--surface-card);
+  border-radius: var(--radius-card);
+  /* FIXED: Prevent resize by maintaining consistent box-sizing */
+  box-sizing: border-box;
+  width: 100%;
+  /* FIXED: Prevent layout shift */
+  transform: none;
 }
 
 .selection-card--clickable {
   cursor: pointer;
 }
 
-.selection-card--clickable:hover {
-  border-color: var(--accent-300);
+.selection-card--clickable:hover:not(.selection-card--selected) {
+  /* FIXED: Use proper accent colors and prevent border resize */
+  border-color: var(--accent-500);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* FIXED: Remove any transform that could cause resize */
+  transform: none;
 }
 
 .selection-card--selected {
+  /* FIXED: Use accent color instead of blue, maintain border width */
   border-color: var(--accent-500);
-  background-color: var(--secondary-50);
+  background-color: var(--accent-50);
+  /* FIXED: Prevent any layout shifts */
+  transform: none;
 }
 
 .selection-card--selected.selection-card--clickable:hover {
   border-color: var(--accent-600);
-  background-color: var(--secondary-100);
+  background-color: var(--accent-100);
+  /* FIXED: Ensure no transform or scale */
+  transform: none;
 }
 
 .selection-card--disabled {
@@ -39,6 +51,8 @@
 .selection-card__content {
   position: relative;
   min-height: 60px;
+  /* FIXED: Ensure consistent sizing */
+  box-sizing: border-box;
 }
 
 .selection-card--sm .selection-card__content {
@@ -72,9 +86,15 @@
 .selection-card__badge {
   font-size: 12px;
   padding: 2px 6px;
-  background: var(--secondary-100);
-  border-radius: 4px;
+  background: var(--surface-neutral-subtle);
+  border-radius: var(--foundation-radius-sm);
   color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.selection-card--selected .selection-card__badge {
+  background: var(--accent-200);
+  color: var(--accent-800);
 }
 
 .selection-card__indicator {
@@ -90,14 +110,30 @@
   justify-content: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 10;
-  border: 2px solid white;
+  border: 2px solid var(--surface-card);
+  /* FIXED: Ensure indicator doesn't cause parent resize */
+  pointer-events: none;
 }
 
 .selection-card__body {
   flex: 1;
+  /* FIXED: Prevent content from causing resize */
+  min-width: 0;
 }
 
 .selection-card--clickable:focus-visible {
   outline: 2px solid var(--accent-500);
   outline-offset: 2px;
+}
+
+/* FIXED: Add transition for smooth color changes */
+.selection-card,
+.selection-card__icon,
+.selection-card__badge {
+  transition: all 0.2s ease;
+}
+
+/* FIXED: Ensure grid layouts don't cause resize issues */
+.selection-card {
+  contain: layout style;
 }
