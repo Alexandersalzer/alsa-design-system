@@ -1,7 +1,5 @@
-
-
 // ===============================================
-// FIXED ColorPicker.tsx - Med debugging
+// UPDATED ColorPicker.tsx - Handles both tokens and hex values
 // ===============================================
 
 import React from 'react';
@@ -14,6 +12,7 @@ export interface ColorOption {
   name: string;
   value: string;
   description?: string;
+  hexValue?: string; // Add this for display
 }
 
 export interface ColorPickerProps {
@@ -25,6 +24,16 @@ export interface ColorPickerProps {
   className?: string;
 }
 
+// Fallback color mapping for tokens without hexValue
+const COLOR_TOKEN_MAP: Record<string, string> = {
+  ruby: '#E11D48',
+  purple: '#8B5CF6', 
+  azure: '#3B82F6',
+  emerald: '#10B981',
+  honey: '#F59E0B',
+  gray: '#6B7280',
+};
+
 export const ColorPicker: React.FC<ColorPickerProps> = ({
   colors,
   selected,
@@ -33,13 +42,42 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
   variant = 'cards',
   className
 }) => {
-  // DEBUG: Log props
-  console.log('🎨 ColorPicker props:', { colors, selected, onChange });
-
   const handleColorChange = (colorValue: string) => {
     console.log('🎨 ColorPicker: Color clicked:', colorValue);
     console.log('🎨 ColorPicker: Current selected:', selected);
     onChange(colorValue);
+  };
+
+  // Helper function to get actual hex color for display
+  const getDisplayColor = (color: ColorOption): string => {
+    // First try hexValue if provided
+    if (color.hexValue) {
+      return color.hexValue;
+    }
+    
+    // If value is already a hex color, use it
+    if (color.value.startsWith('#')) {
+      return color.value;
+    }
+    
+    // Otherwise, map token to hex
+    const mappedColor = COLOR_TOKEN_MAP[color.value];
+    if (mappedColor) {
+      return mappedColor;
+    }
+    
+    // Fallback - try to use CSS custom property
+    if (typeof window !== 'undefined') {
+      const root = getComputedStyle(document.documentElement);
+      const cssVar = root.getPropertyValue(`--foundation-${color.value}-500`).trim();
+      if (cssVar) {
+        return cssVar;
+      }
+    }
+    
+    // Final fallback
+    console.warn(`🎨 ColorPicker: No display color found for ${color.value}`);
+    return '#cccccc';
   };
 
   if (variant === 'swatches') {
@@ -47,7 +85,9 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       <div className={cn('flex flex-wrap gap-3', className)}>
         {colors.map((color) => {
           const isSelected = selected === color.value;
-          console.log(`🎨 Swatch ${color.name}: selected=${isSelected} (${selected} === ${color.value})`);
+          const displayColor = getDisplayColor(color);
+          
+          console.log(`🎨 Swatch ${color.name}: selected=${isSelected}, displayColor=${displayColor}`);
           
           return (
             <button
@@ -59,8 +99,8 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
                   : 'border-gray-300 hover:scale-105'
               )}
               onClick={() => handleColorChange(color.value)}
-              style={{ backgroundColor: color.value }}
-              title={color.name}
+              style={{ backgroundColor: displayColor }}
+              title={`${color.name} (${displayColor})`}
             />
           );
         })}
@@ -72,7 +112,9 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
     <Grid columns={3} gap="md" className={cn('grid-cols-2 md:grid-cols-3', className)}>
       {colors.map((color) => {
         const isSelected = selected === color.value;
-        console.log(`🎨 Card ${color.name}: selected=${isSelected} (${selected} === ${color.value})`);
+        const displayColor = getDisplayColor(color);
+        
+        console.log(`🎨 Card ${color.name}: selected=${isSelected}, displayColor=${displayColor}`);
         
         return (
           <SelectionCard
@@ -84,11 +126,20 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
             <div className="text-center">
               <div 
                 className="w-full h-12 rounded-md mb-3 border border-gray-200"
-                style={{ backgroundColor: color.value }}
+                style={{ backgroundColor: displayColor }}
+                title={`Color: ${displayColor}`}
               />
               <Label size="sm" weight="medium">{color.name}</Label>
               {color.description && (
-                <Body size="xs" color="secondary" className="mt-1">{color.description}</Body>
+                <Body size="xs" color="secondary" className="mt-1">
+                  {color.description}
+                </Body>
+              )}
+              {/* Debug info in development */}
+              {process.env.NODE_ENV === 'development' && (
+                <Body size="xs" color="tertiary" className="mt-1 font-mono">
+                  {color.value} → {displayColor}
+                </Body>
               )}
             </div>
           </SelectionCard>
