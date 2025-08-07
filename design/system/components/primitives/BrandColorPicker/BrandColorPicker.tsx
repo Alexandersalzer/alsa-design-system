@@ -156,3 +156,4 @@ export const BrandColorPicker: React.FC<BrandColorPickerProps> = ({
     </div>
   );
 };
+
