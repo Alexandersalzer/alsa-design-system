@@ -22,6 +22,21 @@ export {
   type ParentMessageHandlers
 } from './cms/messaging/content/parent/contentMessaging';
 
+// Export design token messaging functionality
+export {
+  DesignTokenParentHandler,
+  type DesignTokenParentConfig
+} from './cms/messaging/design/parent/designTokenMessaging';
+
+// Export page switch messaging functionality
+export {
+  PageSwitchParentHandler,
+  sendPageSwitchUpdate,
+  setupPageSwitchMessageListener,
+  type PageSwitchParentConfig,
+  type PageSwitchParentHandlers
+} from './cms/messaging/page-switch/parent/pageSwitchMessaging';
+
 // Export layout components (client-safe)
 export { ContentLayout } from './cms/wrappers/ContentLayout';
 
