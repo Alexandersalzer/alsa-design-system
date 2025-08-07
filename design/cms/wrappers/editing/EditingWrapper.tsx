@@ -6,6 +6,10 @@ import {
   setupEditingMessageListener,
   type EditingMessageHandlers
 } from '../../messaging/initial/child/initialMessaging';
+import { 
+  setupI18nMessageListener,
+  type I18nMessageHandlers
+} from '../../messaging/i18n/child/i18nMessaging';
 
 export interface ToggleContextType {
   isEditingMode: boolean;
@@ -16,21 +20,34 @@ export const ToggleContext = createContext<ToggleContextType | undefined>(undefi
 function EditingProvider({ children }: { children: ReactNode }) {
   const [isEditingMode, setIsEditing] = useState<boolean>(false);
 
-
-  // Listen for editing status updates from parent window
+  // Listen for editing status updates and language changes from parent window
   useEffect(() => {
     
     const messageHandlers: EditingMessageHandlers = {
       onEditingStatusUpdate: (editing: boolean) => {
+        console.log('Editing status update received:', editing);
         setIsEditing(editing);
       }
     };
 
-    const cleanup = setupEditingMessageListener(messageHandlers);
+    const i18nHandlers: I18nMessageHandlers = {
+      onLanguageChange: (languageCode: string) => {
+        console.log('Language change received in EditingProvider:', languageCode);
+        // The switchLocale function in i18nMessaging will handle the actual navigation
+        // We don't need to do anything else here since it will trigger a page reload
+      }
+    };
 
+    const editingCleanup = setupEditingMessageListener(messageHandlers);
+    const i18nCleanup = setupI18nMessageListener(i18nHandlers);
+
+    // Request editing status from parent
     requestEditingStatus();
 
-    return cleanup;
+    return () => {
+      editingCleanup();
+      i18nCleanup();
+    };
   }, []);
 
   return (
