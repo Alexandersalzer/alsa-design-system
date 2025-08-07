@@ -18,7 +18,6 @@ export * from './Stepper';
 export * from './IconButton';
 export * from './NavigationTab';
 export * from './Typography';
-export * from './BrandColorPicker';
 
 
 // Icon needs special handling since it's a default export
