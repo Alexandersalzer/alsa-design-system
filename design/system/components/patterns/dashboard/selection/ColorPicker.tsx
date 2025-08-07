@@ -127,20 +127,9 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
               <div 
                 className="w-full h-12 rounded-md mb-3 border border-gray-200"
                 style={{ backgroundColor: displayColor }}
-                title={`Color: ${displayColor}`}
+                title={`${color.name} - ${displayColor}`}
               />
               <Label size="sm" weight="medium">{color.name}</Label>
-              {color.description && (
-                <Body size="xs" color="secondary" className="mt-1">
-                  {color.description}
-                </Body>
-              )}
-              {/* Debug info in development */}
-              {process.env.NODE_ENV === 'development' && (
-                <Body size="xs" color="tertiary" className="mt-1 font-mono">
-                  {color.value} → {displayColor}
-                </Body>
-              )}
             </div>
           </SelectionCard>
         );
