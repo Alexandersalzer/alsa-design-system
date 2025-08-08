@@ -37,8 +37,7 @@ export {
 export {
   I18nParentHandler,
   sendLanguageUpdate,
-  type I18nParentConfig,
-  type I18nParentHandlers
+  type I18nParentConfig
 } from './cms/messaging/i18n/parent';
 
 // Export i18n messaging functionality (child)
@@ -46,15 +45,11 @@ export {
   createI18nMessageHandlers,
   useI18nMessageListener,
   setupI18nMessageListener,
-  requestCurrentLanguage,
   type I18nMessageHandlers
 } from './cms/messaging/i18n/child';
 
 // Export layout components (client-safe)
 export { ContentLayout } from './cms/wrappers/ContentLayout';
-
-// Export client components
-export * as client from './client';
 
 // Export WebsiteContent type from new location
 export { type WebsiteContent } from './cms/wrappers/content/types/content'; 

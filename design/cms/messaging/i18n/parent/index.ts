@@ -2,6 +2,5 @@
 export { 
   I18nParentHandler,
   sendLanguageUpdate,
-  type I18nParentConfig,
-  type I18nParentHandlers
+  type I18nParentConfig 
 } from './i18nMessaging'; 

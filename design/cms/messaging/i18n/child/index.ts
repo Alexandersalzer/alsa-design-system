@@ -3,6 +3,5 @@ export {
   createI18nMessageHandlers,
   useI18nMessageListener,
   setupI18nMessageListener,
-  requestCurrentLanguage,
   type I18nMessageHandlers 
 } from './i18nMessaging'; 

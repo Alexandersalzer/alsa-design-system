@@ -6,24 +6,15 @@ import KjFooter from '../../../../../system/components/patterns/client/kj-footer
 import { useEditingMode } from '../../../../../cms/wrappers/editing/EditingWrapper';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 
-console.log('🌐 [FOOTER] FILE LOADED - Footer.tsx is being executed');
-
 const Footer = () => {
-  console.log('🌐 [FOOTER] COMPONENT CONSTRUCTOR - Footer component is being created');
-  
   const { isEditingMode } = useEditingMode();
-  console.log('🌐 [FOOTER] isEditingMode from useEditingMode:', isEditingMode);
-  
   const { getGlobalComponent, getTemplateBlocks, getBlockContent } = useContent();
-  console.log('🌐 [FOOTER] useContent hooks loaded');
   
   // Get footer global component using generic function
   const footerComponent = getGlobalComponent('footer');
-  console.log('🌐 [FOOTER] footerComponent:', footerComponent);
   
   // Get blocks from footer pattern
   const footerBlocks = getTemplateBlocks(footerComponent, 'footer');
-  console.log('🌐 [FOOTER] footerBlocks:', footerBlocks);
   
   // Get content from CMS blocks
   const footerContent = {
@@ -33,12 +24,6 @@ const Footer = () => {
     credits: getBlockContent(footerBlocks, 'credits'),
     creditsLink: getBlockContent(footerBlocks, 'creditsLink')
   };
-  console.log('🌐 [FOOTER] footerContent:', footerContent);
-  
-  console.log('🌐 [FOOTER] About to render KjFooter with props:', {
-    isEditingMode,
-    content: footerContent
-  });
   
   return (
     <Section 
