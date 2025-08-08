@@ -125,7 +125,7 @@ export const OptionGrid: React.FC<OptionGridProps> = ({
             <div 
               className="text-sm font-medium"
               style={{
-                color: selected === option.value ? 'var(--accent-700)' : 'var(--text-primary)'
+                color: 'var(--text-primary)'
               }}
             >
               {option.name}
