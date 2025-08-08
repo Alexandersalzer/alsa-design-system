@@ -10,6 +10,7 @@ import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/n
 import { getNavigationContext, type NavigationItem } from '../../../../utils/navigation';
 import { ArrowRightIcon } from 'lucide-react';
 import { ContentBlock } from '../../../../../cms/wrappers/content/types/content';
+import { sendNavigationUpdateToParent } from '../../../../../cms/messaging/navigation/child';
 
 export interface NavItem extends NavigationItem {
   label: string;
@@ -89,6 +90,29 @@ const Navbar = ({
   // Use CMS items if available, otherwise fallback to passed navItems
   const finalNavItems = cmsNavItems.length > 0 ? cmsNavItems : navItems;
 
+  // Handle navigation clicks - send postMessage to parent in editing mode
+  const handleNavClick = (item: NavMenuItem) => {
+    console.log('🧭 Navbar navigation clicked:', { href: item.href, slug: item.slug, isEditingMode });
+    
+    // If in editing mode, notify parent about navigation
+    if (isEditingMode) {
+      sendNavigationUpdateToParent(item.href, item.slug);
+    }
+  };
+
+  // Handle brand link click
+  const handleBrandClick = () => {
+    const brandSlug = brandHref.replace('/', '') || 'home';
+    const fullBrandHref = nav.buildBrandHref(brandHref);
+    
+    console.log('🧭 Brand link clicked:', { href: fullBrandHref, slug: brandSlug, isEditingMode });
+    
+    // If in editing mode, notify parent about navigation
+    if (isEditingMode) {
+      sendNavigationUpdateToParent(fullBrandHref, brandSlug);
+    }
+  };
+
   // Transform NavItem[] to NavMenuItem[] with proper hrefs and active states
   const menuItems: NavMenuItem[] = finalNavItems.map(item => ({
     ...item,
@@ -124,6 +148,7 @@ const Navbar = ({
             logoAlt={logoAlt}
             logoWidth={logoWidth}
             logoHeight={logoHeight}
+            onClick={handleBrandClick}
           >
             {brandName}
           </BrandLink>
@@ -137,6 +162,7 @@ const Navbar = ({
             wrap={false}
             variant={navVariant}
             size={navSize}
+            onLinkClick={handleNavClick}
           />
         </Cluster>
       </Container>

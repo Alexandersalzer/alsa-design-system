@@ -158,6 +158,7 @@ export interface BrandLinkProps {
   logoWidth?: number;
   logoHeight?: number;
   underline?: 'none' | 'hover' | 'always';
+  onClick?: () => void;
 }
 
 export const BrandLink = ({ 
@@ -171,7 +172,8 @@ export const BrandLink = ({
   logoAlt = 'Logo',
   logoWidth = 40,
   logoHeight = 40,
-  underline = 'none'
+  underline = 'none',
+  onClick
 }: BrandLinkProps) => {
   return (
     <TextLink
@@ -181,6 +183,7 @@ export const BrandLink = ({
       weight={weight}
       underline={underline}
       className={className}
+      onClick={onClick}
     >
       <Cluster spacing="sm" align="center" className="brand-cluster">
         {logoSrc && (
