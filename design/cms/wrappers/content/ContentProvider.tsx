@@ -4,9 +4,7 @@ import { createContext, useState, useEffect } from 'react';
 import { type WebsiteContent } from './types/content';
 import {
   requestWebsiteContent,
-  parseContentFromUrl,
-  setupMessageListener,
-  type MessageHandlers
+  parseContentFromUrl
 } from '../../messaging/content/child/contentMessaging';
 import { useEditingMode } from '../editing/EditingWrapper';
 import { ContentContextType, ContentProviderProps } from './types/context';
@@ -17,14 +15,32 @@ import { useContentBlocks } from './hooks/useContentBlocks';
 export const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export function ContentProvider({ children, initialContent = null }: ContentProviderProps) {
-  const { isEditingMode } = useEditingMode();
+  const { isEditingMode, registerMessageHandlers } = useEditingMode();
   const [dynamicContent, setDynamicContent] = useState<WebsiteContent | null>(initialContent);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (isEditingMode) {
-      // In editing mode: try to get content from URL or listen for CMS messages
+      console.log('🌐 ContentProvider registering message handlers with central dispatcher');
+      
+      // Register content message handlers with the central dispatcher
+      if (registerMessageHandlers) {
+        registerMessageHandlers({
+          onContentUpdate: (content: WebsiteContent) => {
+            console.log('🌐 ContentProvider received content update:', content);
+            setDynamicContent(content);
+            setIsLoading(false);
+          },
+          onWebsiteContentResponse: (content: WebsiteContent) => {
+            console.log('🌐 ContentProvider received website content response:', content);
+            setDynamicContent(content);
+            setIsLoading(false);
+          }
+        });
+      }
+
+      // Try to get content from URL first
       const urlContent = parseContentFromUrl();
       if (urlContent) {
         setDynamicContent(urlContent);
@@ -34,31 +50,12 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
 
       // If no content in URL, request it from parent CMS
       requestWebsiteContent();
-
-      const messageHandlers: MessageHandlers = {
-        onContentUpdate: (content: WebsiteContent) => {
-          setDynamicContent(content);
-          setIsLoading(false);
-        },
-        onWebsiteContentResponse: (content: WebsiteContent) => {
-          setDynamicContent(content);
-          setIsLoading(false);
-        }
-      };
-
-      // Setup message listener
-      const contentCleanup = setupMessageListener(messageHandlers);
-
-      // Return cleanup function
-      return () => {
-        contentCleanup();
-      };
     } else {
       // In normal mode: use initialContent and set loading to false
       setDynamicContent(initialContent);
       setIsLoading(false);
     }
-  }, [isEditingMode, initialContent]);
+  }, [isEditingMode, initialContent, registerMessageHandlers]);
 
   // Get active content based on mode
   const getActiveContent = () => {

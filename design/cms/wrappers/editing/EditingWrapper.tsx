@@ -1,21 +1,15 @@
 'use client';
 
 import { createContext, useContext, useState, ReactNode, useEffect, Suspense } from 'react';
-import { 
-  requestEditingStatus,
-  setupEditingMessageListener,
-  type EditingMessageHandlers
-} from '../../messaging/initial/child/initialMessaging';
-import { 
-  setupI18nMessageListener,
-  type I18nMessageHandlers
-} from '../../messaging/i18n/child/i18nMessaging';
+import { requestEditingStatus } from '../../messaging/initial/child/initialMessaging';
 import { getCurrentLocale, switchLocale, type SupportedLocale } from '../../../system/utils/locale';
+import { setupCentralMessageDispatcher, type CentralMessageHandlers } from '../../messaging/central/centralMessaging';
 
 export interface ToggleContextType {
   isEditingMode: boolean;
   currentLocale: string;
   setCurrentLocale: (locale: string) => void;
+  registerMessageHandlers?: (handlers: Partial<CentralMessageHandlers>) => void;
 }
 
 export const ToggleContext = createContext<ToggleContextType | undefined>(undefined);
@@ -23,46 +17,49 @@ export const ToggleContext = createContext<ToggleContextType | undefined>(undefi
 function EditingProvider({ children }: { children: ReactNode }) {
   const [isEditingMode, setIsEditing] = useState<boolean>(false);
   const [currentLocale, setCurrentLocaleState] = useState<string>(() => getCurrentLocale());
+  const [messageDispatcher, setMessageDispatcher] = useState<any>(null);
 
-  // Combined message listener for both editing status and i18n
+  // Centralized message listener for all postMessage communication
   useEffect(() => {
-    console.log('🌐 EditingWrapper setting up combined message listeners');
+    console.log('🌐 EditingWrapper setting up centralized message dispatcher');
     
-    // Setup editing message handlers
-    const editingHandlers: EditingMessageHandlers = {
+    // Define all message handlers in one place
+    const messageHandlers: CentralMessageHandlers = {
+      // Editing status handler
       onEditingStatusUpdate: (editing: boolean) => {
         console.log('📝 EditingWrapper received editing status:', editing);
         setIsEditing(editing);
-      }
-    };
-
-    // Setup i18n message handlers
-    const i18nHandlers: I18nMessageHandlers = {
+      },
+      
+      // I18n handlers
       onLocaleChange: (locale: string) => {
         console.log('🌐 EditingWrapper received locale change:', locale);
         setCurrentLocaleState(locale);
         // Trigger the actual locale switch
         switchLocale(locale as SupportedLocale, true);
       },
+      
       onLocaleSync: (locale: string) => {
         console.log('🌐 EditingWrapper received locale sync:', locale);
         setCurrentLocaleState(locale);
         // For sync, just update state without triggering navigation
+      },
+      
+      // Log unhandled messages for debugging
+      onUnhandledMessage: (event: MessageEvent) => {
+        console.log('🌐 EditingWrapper unhandled message:', event.data);
       }
     };
 
-    // Setup both message listeners
-    const editingCleanup = setupEditingMessageListener(editingHandlers);
-    const i18nCleanup = setupI18nMessageListener(i18nHandlers);
+    // Setup the centralized dispatcher
+    const { dispatcher, cleanup, updateHandlers } = setupCentralMessageDispatcher(messageHandlers);
+    setMessageDispatcher({ updateHandlers });
 
     // Request initial editing status
     requestEditingStatus();
 
-    // Return combined cleanup function
-    return () => {
-      editingCleanup();
-      i18nCleanup();
-    };
+    // Return cleanup function
+    return cleanup;
   }, []);
 
   // Function to update locale (for use by child components)
@@ -70,11 +67,19 @@ function EditingProvider({ children }: { children: ReactNode }) {
     setCurrentLocaleState(locale);
   };
 
+  // Function to register additional message handlers (for ContentProvider, etc.)
+  const registerMessageHandlers = (handlers: Partial<CentralMessageHandlers>) => {
+    if (messageDispatcher) {
+      messageDispatcher.updateHandlers(handlers);
+    }
+  };
+
   return (
     <ToggleContext.Provider value={{ 
       isEditingMode, 
       currentLocale, 
-      setCurrentLocale 
+      setCurrentLocale,
+      registerMessageHandlers
     }}>
       {children}
     </ToggleContext.Provider>
