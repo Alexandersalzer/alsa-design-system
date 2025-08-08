@@ -10,6 +10,14 @@ interface I18nMessageHandlerParams {
   isEditingMode?: boolean;
 }
 
+// Function to request current language from parent (handshake)
+export const requestCurrentLanguage = () => {
+  console.log('🌐 [CHILD] Requesting current language from parent...');
+  window.parent.postMessage({
+    type: 'request-current-language'
+  }, '*');
+};
+
 export const createI18nMessageHandlers = (params: I18nMessageHandlerParams): I18nMessageHandlers => {
   const { setSelectedLanguage, isEditingMode = false } = params;
   console.log('🌐 [CHILD] createI18nMessageHandlers called with params:', params);
@@ -63,6 +71,15 @@ export const useI18nMessageListener = (handlers: I18nMessageHandlers) => {
             console.warn('🌐 [CHILD] language-update message missing languageCode');
           }
           break;
+        case 'current-language-response':
+          console.log('🌐 [CHILD] Received current-language-response with languageCode:', languageCode);
+          if (languageCode) {
+            handlers.onLanguageUpdate(languageCode);
+          }
+          break;
+        case 'test-message':
+          console.log('🌐 [CHILD] Received test message:', event.data);
+          break;
         default:
           console.log('🌐 [CHILD] Ignoring message type:', type);
           break;
@@ -71,6 +88,9 @@ export const useI18nMessageListener = (handlers: I18nMessageHandlers) => {
 
     console.log('🌐 [CHILD] Adding message event listener');
     window.addEventListener('message', handleMessage);
+    
+    // Remove the automatic handshake request for now to simplify debugging
+    console.log('🌐 [CHILD] Message listener setup complete (no handshake request)');
     
     return () => {
       console.log('🌐 [CHILD] Removing message event listener');
@@ -99,6 +119,12 @@ export const setupI18nMessageListener = (handlers: I18nMessageHandlers): (() => 
           console.warn('🌐 [CHILD] [SETUP] language-update message missing languageCode');
         }
         break;
+      case 'current-language-response':
+        console.log('🌐 [CHILD] [SETUP] Received current-language-response with languageCode:', languageCode);
+        if (languageCode) {
+          handlers.onLanguageUpdate(languageCode);
+        }
+        break;
       default:
         console.log('🌐 [CHILD] [SETUP] Ignoring message type:', type);
         break;
@@ -107,6 +133,12 @@ export const setupI18nMessageListener = (handlers: I18nMessageHandlers): (() => 
 
   console.log('🌐 [CHILD] [SETUP] Adding message event listener');
   window.addEventListener('message', handleMessage);
+  
+  // Request current language from parent when listener is set up
+  setTimeout(() => {
+    console.log('🌐 [CHILD] [SETUP] Requesting current language after setup...');
+    requestCurrentLanguage();
+  }, 100);
   
   // Return cleanup function
   return () => {
