@@ -14,6 +14,10 @@ import {
   type SupportedLocale,
   type LocaleOption
 } from '../../../../utils/locale';
+import { 
+  createI18nMessageHandlers,
+  useI18nMessageListener 
+} from '../../../../../index';
 
 interface FooterContent {
   companyName?: string;
@@ -45,6 +49,18 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
     setSelectedLanguage(currentLocale);
   }, []);
 
+  // Create i18n message handlers for postMessage communication
+  const i18nHandlers = createI18nMessageHandlers({
+    setSelectedLanguage: (languageCode: string) => {
+      console.log('🌐 Footer received language update from parent:', languageCode);
+      setSelectedLanguage(languageCode as SupportedLocale);
+    },
+    isEditingMode
+  });
+
+  // Setup i18n message listener to receive language updates from parent editor
+  useI18nMessageListener(i18nHandlers);
+
   // Extract content from props
   const {
     companyName,
@@ -72,8 +88,13 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
       
       setSelectedLanguage(value as SupportedLocale);
       
-      // Call switchLocale directly with the current isEditingMode value
-      switchLocale(value as SupportedLocale, isEditingMode);
+      // Only switch locale if NOT in editing mode
+      // In editing mode, the parent editor handles the language switching
+      if (!isEditingMode) {
+        switchLocale(value as SupportedLocale, isEditingMode);
+      } else {
+        console.log('🌐 In editing mode - parent will handle locale switching');
+      }
     }
   };
 
