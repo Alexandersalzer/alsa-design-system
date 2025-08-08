@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Picker/Picker.tsx
-// PICKER COMPONENT - With radius customization
+// FIXED - Simple animation support with Icon components
 // ===============================================
 
 import { useState, useRef, useEffect, forwardRef, useId } from 'react';
@@ -8,11 +8,12 @@ import { SearchInput } from '../../../components/primitives/Input';
 import { cn } from '../../../lib/utils';
 import { Icon } from '../Icon/Icon';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
+import './Picker.css';
 
 // Import your design system types
 export type PickerSize = 'sm' | 'md' | 'lg';
 export type PickerVariant = 'default' | 'compact';
-export type PickerRadius = 'sm' | 'md' | 'lg';  // ✅ NEW: Radius type
+export type PickerRadius = 'sm' | 'md' | 'lg';
 
 export interface PickerOption {
   value: string;
@@ -35,7 +36,7 @@ export interface PickerProps {
   /** Visual variant */
   variant?: PickerVariant;
   /** Radius size variant */
-  radius?: PickerRadius;  // ✅ NEW: Radius prop
+  radius?: PickerRadius;
   /** Required field indicator */
   required?: boolean;
   /** Placeholder text */
@@ -77,7 +78,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
   success,
   size = 'md',
   variant = 'compact',
-  radius = 'md',  // ✅ NEW: Default radius
+  radius = 'md',
   required = false,
   disabled = false,
   placeholder = "Select an option...",
@@ -97,6 +98,8 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
   ...props
 }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -107,6 +110,24 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
   const descriptionId = description ? `${id}-description` : undefined;
   const errorId = error ? `${id}-error` : undefined;
   const successId = success ? `${id}-success` : undefined;
+
+  // Handle opening/closing with animations
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true);
+      setIsClosing(false);
+    } else if (shouldRender) {
+      // Start closing animation
+      setIsClosing(true);
+      // Remove from DOM after animation completes
+      const timer = setTimeout(() => {
+        setShouldRender(false);
+        setIsClosing(false);
+      }, 150); // Match --foundation-duration-fast
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, shouldRender]);
 
   // Filter options based on search term
   const filteredOptions = options.filter(option =>
@@ -203,9 +224,11 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    if (shouldRender) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [shouldRender]);
 
   // Focus search input when dropdown opens
   useEffect(() => {
@@ -224,8 +247,8 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
     'picker-wrapper',
     `picker-wrapper--${size}`,
     `picker-wrapper--${variant}`,
-    radius === 'sm' && 'picker-wrapper--radius-sm',  // ✅ NEW
-    radius === 'lg' && 'picker-wrapper--radius-lg',  // ✅ NEW
+    radius === 'sm' && 'picker-wrapper--radius-sm',
+    radius === 'lg' && 'picker-wrapper--radius-lg',
     disabled && 'picker-wrapper--disabled',
     error && 'picker-wrapper--error',
     success && 'picker-wrapper--success',
@@ -236,8 +259,8 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
     'picker',
     `picker--${size}`,
     `picker--${variant}`,
-    radius === 'sm' && 'picker--radius-sm',  // ✅ NEW
-    radius === 'lg' && 'picker--radius-lg',  // ✅ NEW
+    radius === 'sm' && 'picker--radius-sm',
+    radius === 'lg' && 'picker--radius-lg',
     isOpen && 'picker--open',
     error && 'picker--error',
     success && 'picker--success',
@@ -293,18 +316,21 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
             {getDisplayText()}
           </span>
           <div className="picker-icon">
-            <Icon color='secondary'><ChevronDownIcon/></Icon>
+            <Icon color='secondary' size='sm'>
+              <ChevronDownIcon />
+            </Icon>
           </div>
         </button>
 
-        {isOpen && !disabled && (
+        {shouldRender && !disabled && (
           <div 
             className={cn(
               "picker-dropdown",
               `picker-dropdown--${variant}`,
-              radius === 'sm' && 'picker-dropdown--radius-sm',  // ✅ NEW
-              radius === 'lg' && 'picker-dropdown--radius-lg',  // ✅ NEW
-              searchable && "picker-dropdown--with-search"
+              radius === 'sm' && 'picker-dropdown--radius-sm',
+              radius === 'lg' && 'picker-dropdown--radius-lg',
+              searchable && "picker-dropdown--with-search",
+              isClosing && "picker-dropdown--closing"
             )}
             style={{ maxHeight: `${maxHeight}px` }}
             data-multiple={multiple ? "true" : "false"}
@@ -320,8 +346,8 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
                   onKeyDown={handleKeyDown}
                   className={cn(
                     "picker-search-input",
-                    radius === 'sm' && 'picker-search-input--radius-sm',  // ✅ NEW
-                    radius === 'lg' && 'picker-search-input--radius-lg'   // ✅ NEW
+                    radius === 'sm' && 'picker-search-input--radius-sm',
+                    radius === 'lg' && 'picker-search-input--radius-lg'
                   )}
                 />
               </div>
@@ -340,8 +366,8 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
                     key={option.value}
                     className={cn(
                       'picker-option',
-                      radius === 'sm' && 'picker-option--radius-sm',  // ✅ NEW
-                      radius === 'lg' && 'picker-option--radius-lg',  // ✅ NEW
+                      radius === 'sm' && 'picker-option--radius-sm',
+                      radius === 'lg' && 'picker-option--radius-lg',
                       option.disabled && 'picker-option--disabled',
                       isSelected(option) && 'picker-option--selected',
                       index === focusedIndex && 'picker-option--focused'
@@ -366,7 +392,9 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
                     )}
                     {isSelected(option) && multiple && (
                       <div className="picker-option-check">
-                        <Icon color='secondary'><CheckIcon></CheckIcon></Icon>
+                        <Icon color='secondary' size='sm'>
+                          <CheckIcon />
+                        </Icon>
                       </div>
                     )}
                   </li>
