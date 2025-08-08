@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Switch/Switch.css
-   SWITCH COMPONENT STYLES - Modern with Rounded Rectangle Thumb
+   SWITCH COMPONENT - Final Version with Semantic Motion Tokens
    ============================================== */
 
 /* ===== SWITCH WRAPPER ===== */
@@ -47,19 +47,20 @@
   pointer-events: none;
 }
 
-/* ===== SWITCH TRACK & THUMB - Using Your Design Tokens ===== */
+/* ===== SWITCH MAIN ELEMENT ===== */
 .switch {
   position: relative;
   display: inline-block;
   cursor: pointer;
   outline: none;
-  transition: all var(--duration-form-transition) var(--easing-form-transition);
+  transition: var(--motion-switch-focus);
 }
 
 .switch:focus-visible {
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: 0 0 0 2px var(--border-switch-focus);
+  transition: var(--motion-switch-focus);
 }
 
 .switch--disabled {
@@ -71,34 +72,36 @@
   position: relative;
   display: block;
   background-color: var(--surface-switch-track);
-  border-radius: var(--radius-switch-track); /* 🔧 Use semantic token */
-  transition: background-color var(--duration-form-transition) var(--easing-form-transition);
+  border-radius: var(--radius-switch-track);
   border: 1px solid transparent;
+  transition: var(--motion-switch-track-background), var(--motion-switch-track-border);
 }
 
-/* Switch Track Sizes - Made wider */
+/* Track Sizes */
 .switch--sm .switch-track {
-  width: calc(var(--size-switch-sm-width) + 10px); /* 32px + 10px = 42px */
+  width: calc(var(--size-switch-sm-width) + 10px);
   height: var(--size-switch-sm-height);
 }
 
 .switch--md .switch-track {
-  width: calc(var(--size-switch-md-width) + 12px); /* 40px + 12px = 52px */
+  width: calc(var(--size-switch-md-width) + 12px);
   height: var(--size-switch-md-height);
 }
 
 .switch--lg .switch-track {
-  width: calc(var(--size-switch-lg-width) + 14px); /* 48px + 14px = 62px */
+  width: calc(var(--size-switch-lg-width) + 14px);
   height: var(--size-switch-lg-height);
 }
 
-/* ===== SWITCH TRACK STATES - Using Your Color Tokens ===== */
+/* ===== TRACK STATES ===== */
 .switch:hover:not(.switch--disabled) .switch-track {
   background-color: var(--surface-switch-track-hover);
+  transition: var(--motion-switch-track-hover);
 }
 
 .switch--checked .switch-track {
   background-color: var(--surface-switch-track-checked);
+  animation: var(--motion-switch-glow);
 }
 
 .switch--checked:hover:not(.switch--disabled) .switch-track {
@@ -113,35 +116,36 @@
   background-color: var(--surface-switch-track-disabled-checked);
 }
 
-/* ===== SWITCH THUMB - ROUNDED RECTANGLE ===== */
+/* ===== SWITCH THUMB ===== */
 .switch-thumb {
   position: absolute;
   top: 50%;
   left: 2px;
   transform: translateY(-50%);
   background-color: var(--surface-switch-thumb);
-  border-radius: var(--radius-switch-thumb); /* 🔧 Use semantic token */
+  border-radius: var(--radius-switch-thumb);
   box-shadow: var(--foundation-shadow-sm);
-  transition: all var(--duration-form-transition) var(--easing-form-transition);
+  transition: var(--motion-switch-thumb-position);
+  will-change: transform;
 }
 
-/* Thumb Sizes - Rounded Rectangle Proportions */
+/* Thumb Sizes */
 .switch--sm .switch-thumb {
-  width: calc(var(--size-switch-sm-thumb) + 2px); /* Slightly wider for rectangle */
-  height: calc(var(--size-switch-sm-thumb) - 2px); /* Slightly shorter for rectangle */
+  width: calc(var(--size-switch-sm-thumb) + 2px);
+  height: calc(var(--size-switch-sm-thumb) - 2px);
 }
 
 .switch--md .switch-thumb {
-  width: calc(var(--size-switch-md-thumb) + 4px); /* Slightly wider for rectangle */
-  height: calc(var(--size-switch-md-thumb) - 2px); /* Slightly shorter for rectangle */
+  width: calc(var(--size-switch-md-thumb) + 4px);
+  height: calc(var(--size-switch-md-thumb) - 2px);
 }
 
 .switch--lg .switch-thumb {
-  width: calc(var(--size-switch-lg-thumb) + 6px); /* Slightly wider for rectangle */
-  height: calc(var(--size-switch-lg-thumb) - 3px); /* Slightly shorter for rectangle */
+  width: calc(var(--size-switch-lg-thumb) + 6px);
+  height: calc(var(--size-switch-lg-thumb) - 3px);
 }
 
-/* ===== THUMB POSITION WHEN CHECKED - WITH RIGHT SPACING ===== */
+/* ===== THUMB CHECKED POSITIONS ===== */
 .switch--sm.switch--checked .switch-thumb {
   transform: translateY(-50%) translateX(calc(var(--size-switch-sm-width) + 10px - var(--size-switch-sm-thumb) - 8px));
 }
@@ -154,13 +158,34 @@
   transform: translateY(-50%) translateX(calc(var(--size-switch-lg-width) + 14px - var(--size-switch-lg-thumb) - 12px));
 }
 
+/* ===== THUMB INTERACTION STATES ===== */
+.switch:active:not(.switch--disabled) .switch-thumb {
+  transform: translateY(-50%) scale(0.95);
+  transition: var(--motion-switch-thumb-scale);
+}
+
+.switch--checked:active:not(.switch--disabled) .switch-thumb {
+  transform: translateY(-50%) translateX(var(--switch-thumb-end-position, 0)) scale(0.95);
+  transition: var(--motion-switch-thumb-scale);
+}
+
+.switch:hover:not(.switch--disabled) .switch-thumb {
+  box-shadow: var(--foundation-shadow-md);
+  transition: var(--motion-switch-thumb-shadow);
+}
+
+.switch:focus-visible .switch-thumb {
+  box-shadow: var(--foundation-shadow-sm), 0 0 0 2px var(--border-switch-focus);
+  transition: var(--motion-switch-thumb-shadow);
+}
+
 /* ===== DISABLED THUMB ===== */
 .switch--disabled .switch-thumb {
   background-color: var(--surface-switch-thumb-disabled);
   box-shadow: none;
 }
 
-/* ===== SWITCH LABEL CONTENT ===== */
+/* ===== LABELS AND TEXT ===== */
 .switch-label-content {
   display: flex;
   flex-direction: column;
@@ -177,6 +202,7 @@
   cursor: pointer;
   user-select: none;
   margin: 0;
+  transition: var(--motion-switch-label);
 }
 
 .switch-wrapper--sm .switch-label {
@@ -209,6 +235,7 @@
   line-height: var(--typography-body-sm-line-height);
   color: var(--text-form-hint);
   margin-top: var(--foundation-space-1);
+  transition: var(--motion-switch-label);
 }
 
 .switch-wrapper--disabled .switch-description {
@@ -218,17 +245,12 @@
 /* ===== VALIDATION STATES ===== */
 .switch-wrapper--error .switch-track {
   border-color: var(--border-select-error);
+  transition: var(--motion-switch-error);
 }
 
 .switch-wrapper--success .switch-track {
   border-color: var(--success-500);
-}
-
-/* ===== SWITCH FOCUS STATE ===== */
-.switch:focus-visible {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 2px var(--border-switch-focus);
+  transition: var(--motion-switch-success);
 }
 
 /* ===== ERROR AND SUCCESS MESSAGES ===== */
@@ -239,7 +261,8 @@
   line-height: var(--typography-body-sm-line-height);
   color: var(--text-form-error);
   margin-top: var(--space-form-error-margin);
-  grid-column: 1 / -1; /* Span full width in grid layout */
+  grid-column: 1 / -1;
+  animation: var(--animation-fade-in);
 }
 
 .switch-success {
@@ -249,7 +272,8 @@
   line-height: var(--typography-body-sm-line-height);
   color: var(--text-form-success);
   margin-top: var(--space-form-error-margin);
-  grid-column: 1 / -1; /* Span full width in grid layout */
+  grid-column: 1 / -1;
+  animation: var(--animation-fade-in);
 }
 
 /* ===== SWITCH GROUP ===== */
@@ -313,6 +337,23 @@
   line-height: var(--typography-body-sm-line-height);
   color: var(--text-form-error);
   margin-top: var(--space-form-error-margin);
+  animation: var(--animation-fade-in);
+}
+
+/* ===== SPECIAL VARIANTS ===== */
+/* Premium bounce effect variant */
+.switch--enhanced .switch-thumb {
+  transition: var(--motion-switch-thumb-position), var(--motion-switch-thumb-scale);
+}
+
+.switch--enhanced.switch--checked .switch-thumb {
+  animation: var(--motion-switch-bounce);
+  animation-delay: var(--duration-switch-toggle);
+}
+
+/* Loading state variant */
+.switch--loading .switch-thumb {
+  animation: var(--animation-pulse);
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -331,8 +372,16 @@
 @media (prefers-reduced-motion: reduce) {
   .switch,
   .switch-track,
+  .switch-thumb,
+  .switch-label,
+  .switch-description {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* Still allow instant state changes for accessibility */
   .switch-thumb {
-    transition: none;
+    transition: transform 0s;
   }
 }
 
@@ -345,4 +394,32 @@
   .switch-thumb {
     border: 1px solid currentColor;
   }
+}
+
+/* ===== ADVANCED INTERACTION EFFECTS ===== */
+/* Subtle press effect */
+.switch:active:not(.switch--disabled) .switch-track {
+  transform: scale(0.98);
+  transition: transform var(--duration-switch-press) var(--easing-switch-press);
+}
+
+/* Smooth focus ring animation */
+.switch:focus-visible {
+  animation: var(--animation-scale-in);
+}
+
+/* Thumb position indicators for custom styling */
+.switch--sm {
+  --switch-thumb-start: 2px;
+  --switch-thumb-end: calc(var(--size-switch-sm-width) + 10px - var(--size-switch-sm-thumb) - 8px);
+}
+
+.switch--md {
+  --switch-thumb-start: 2px;
+  --switch-thumb-end: calc(var(--size-switch-md-width) + 12px - var(--size-switch-md-thumb) - 10px);
+}
+
+.switch--lg {
+  --switch-thumb-start: 2px;
+  --switch-thumb-end: calc(var(--size-switch-lg-width) + 14px - var(--size-switch-lg-thumb) - 12px);
 }

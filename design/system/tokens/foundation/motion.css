@@ -32,138 +32,46 @@
 }
 
 /* ==============================================
-   src/design-system/tokens/component/motion.css
-   ENHANCED MOTION COMPONENT TOKENS
+   src/design-system/tokens/semantic/motion.css
+   SEMANTIC MOTION TOKENS - Switch Section Addition
    ============================================== */
 
 :root {
-  /* ===== TRANSITION TOKENS ===== */
-  --transition-button: all var(--foundation-duration-fast) var(--foundation-ease-in-out);
-  --transition-card: all var(--foundation-duration-normal) var(--foundation-ease-smooth);
-  --transition-input: border-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
-  --transition-modal: opacity var(--foundation-duration-normal) var(--foundation-ease-in-out);
-  --transition-nav: background-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
-  --transition-toast: transform var(--foundation-duration-normal) var(--foundation-ease-out);
-  --transition-hover: all var(--foundation-duration-fast) var(--foundation-ease-out);
-  
-  /* 🎯 NEW: Tab-specific motion tokens */
-  --transition-tab: all var(--foundation-duration-normal) var(--foundation-ease-smooth);
-  --transition-tab-indicator: all var(--foundation-duration-gentle) var(--foundation-ease-anticipate);
-  --transition-tab-content: opacity var(--foundation-duration-fast) var(--foundation-ease-out);
-  --transition-tab-background: background-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
+  /* ===== EXISTING SEMANTIC MOTION TOKENS ===== */
+  /* Add these to your existing semantic motion tokens file */
 
-  /* ===== ANIMATION TOKENS ===== */
-  --animation-spin: spin 1s var(--foundation-ease-linear) infinite;
-  --animation-pulse: pulse 2s var(--foundation-ease-in-out) infinite;
-  --animation-bounce: bounce 1s var(--foundation-ease-out) infinite;
-  --animation-fade-in: fadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
-  --animation-slide-up: slideUp var(--foundation-duration-normal) var(--foundation-ease-out);
-  --animation-scale-in: scaleIn var(--foundation-duration-fast) var(--foundation-ease-out);
-  
-  /* 🎯 NEW: Tab animation tokens */
-  --animation-tab-slide: tabSlide var(--foundation-duration-gentle) var(--foundation-ease-anticipate);
-  --animation-tab-fade: tabFade var(--foundation-duration-normal) var(--foundation-ease-smooth);
-  --animation-tab-scale: tabScale var(--foundation-duration-fast) var(--foundation-ease-back);
-  --animation-tab-indicator: tabIndicator var(--foundation-duration-gentle) var(--foundation-ease-anticipate);
-}
+  /* ===== SWITCH SEMANTIC MOTION TOKENS ===== */
+  /* Track transitions */
+  --motion-switch-track-background: var(--transition-switch-track);
+  --motion-switch-track-border: var(--transition-switch-border);
+  --motion-switch-track-hover: var(--transition-switch-hover);
 
-/* ===== KEYFRAME ANIMATIONS ===== */
+  /* Thumb transitions */
+  --motion-switch-thumb-position: var(--transition-switch-thumb);
+  --motion-switch-thumb-scale: transform var(--foundation-duration-fast) var(--foundation-ease-back);
+  --motion-switch-thumb-shadow: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 
-/* Existing animations */
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+  /* Focus and interaction states */
+  --motion-switch-focus: var(--transition-switch-focus);
+  --motion-switch-label: var(--transition-hover);
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
+  /* Validation state transitions */
+  --motion-switch-error: var(--transition-switch-border);
+  --motion-switch-success: var(--transition-switch-border);
 
-@keyframes bounce {
-  0%, 20%, 53%, 80%, 100% {
-    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-    transform: translate3d(0, 0, 0);
-  }
-  40%, 43% {
-    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-    transform: translate3d(0, -30px, 0);
-  }
-  70% {
-    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-    transform: translate3d(0, -15px, 0);
-  }
-  90% {
-    transform: translate3d(0, -4px, 0);
-  }
-}
+  /* Special effects (optional) */
+  --motion-switch-glow: var(--animation-switch-track-glow);
+  --motion-switch-bounce: var(--animation-switch-thumb-bounce);
+  --motion-switch-slide: var(--animation-switch-thumb-slide);
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+  /* Timing presets for different switch interactions */
+  --duration-switch-toggle: var(--foundation-duration-gentle);
+  --duration-switch-hover: var(--foundation-duration-fast);
+  --duration-switch-focus: var(--foundation-duration-fast);
+  --duration-switch-press: var(--foundation-duration-micro);
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* 🎯 NEW: Tab-specific keyframes */
-@keyframes tabSlide {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes tabFade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes tabScale {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes tabIndicator {
-  from {
-    opacity: 0;
-    transform: scaleX(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scaleX(1);
-  }
+  /* Easing presets for switch-specific interactions */
+  --easing-switch-toggle: var(--foundation-ease-anticipate);
+  --easing-switch-hover: var(--foundation-ease-out);
+  --easing-switch-press: var(--foundation-ease-back);
 }
