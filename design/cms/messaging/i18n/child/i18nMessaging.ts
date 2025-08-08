@@ -35,6 +35,17 @@ export const createI18nMessageHandlers = (params: I18nMessageHandlerParams): I18
   };
 };
 
+// Function to send language change from child to parent (for bidirectional sync)
+export const sendLanguageUpdateToParent = (languageCode: string) => {
+  if (typeof window !== 'undefined' && window.parent) {
+    console.log('🌐 Sending language update from child to parent:', languageCode);
+    window.parent.postMessage({
+      type: 'child-language-update',
+      languageCode: languageCode
+    }, '*');
+  }
+};
+
 // Hook for setting up i18n message listener
 export const useI18nMessageListener = (handlers: I18nMessageHandlers) => {
   React.useEffect(() => {

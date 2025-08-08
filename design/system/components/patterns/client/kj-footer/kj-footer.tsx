@@ -16,7 +16,8 @@ import {
 } from '../../../../utils/locale';
 import { 
   createI18nMessageHandlers,
-  useI18nMessageListener 
+  useI18nMessageListener,
+  sendLanguageUpdateToParent 
 } from '../../../../../index';
 
 interface FooterContent {
@@ -87,6 +88,11 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
       });
       
       setSelectedLanguage(value as SupportedLocale);
+      
+      // If in editing mode, notify parent about the language change
+      if (isEditingMode) {
+        sendLanguageUpdateToParent(value);
+      }
       
       // Always switch locale when user manually selects a language
       // The isEditingMode parameter ensures proper URL handling (with .html extension)

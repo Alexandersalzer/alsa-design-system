@@ -45,6 +45,7 @@ export {
   createI18nMessageHandlers,
   useI18nMessageListener,
   setupI18nMessageListener,
+  sendLanguageUpdateToParent,
   type I18nMessageHandlers
 } from './cms/messaging/i18n/child';
 
