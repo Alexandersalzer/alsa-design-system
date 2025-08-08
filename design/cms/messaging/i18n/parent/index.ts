@@ -1,8 +1,8 @@
-// Export i18n messaging functionality (language switching only)
+// Export I18n messaging functionality (parent side)
 export {
   I18nParentHandler,
-  sendLanguageUpdate,
   createI18nParentHandler,
+  sendLanguageChange,
   type I18nParentConfig,
   type I18nParentHandlers
-} from './i18nMessaging'; 
+} from './I18nParentHandler'; 

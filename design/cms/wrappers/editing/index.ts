@@ -1,5 +1,8 @@
 // Export main wrapper and context
-export { EditingModeWrapper, ToggleContext } from './EditingWrapper';
-
-// Export hooks
-export { useEditingMode } from './hooks/useEditingMode'; 
+export { 
+  EditingModeWrapper, 
+  useEditingMode,
+  useI18nContext,
+  type ToggleContextType,
+  type I18nContextType
+} from './EditingWrapper'; 

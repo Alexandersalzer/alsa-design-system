@@ -1,7 +1,9 @@
-// Export i18n child messaging functionality (language switching only)
+// Export I18n messaging functionality (child side)
 export {
-  setupI18nMessageListener,
-  requestLanguageChange,
-  handleLanguageChange,
-  type I18nMessageHandlers
-} from './i18nMessaging'; 
+  I18nChildHandler,
+  useI18nChildMessaging,
+  setupI18nChildMessaging,
+  handleLanguageChangeMessage,
+  type AvailableLanguage,
+  type I18nChildHandlers
+} from './I18nChildHandler'; 

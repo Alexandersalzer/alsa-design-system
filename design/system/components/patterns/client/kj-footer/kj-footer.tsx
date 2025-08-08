@@ -15,6 +15,9 @@ import {
   type LocaleOption
 } from '../../../../utils/locale';
 
+// Import i18n context from EditingWrapper
+import { useI18nContext } from '../../../../../cms/wrappers/editing';
+
 interface FooterContent {
   companyName?: string;
   email?: string;
@@ -39,11 +42,28 @@ interface KjFooterProps {
 const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterProps) => {
   const [selectedLanguage, setSelectedLanguage] = useState<SupportedLocale>('sv');
   
-  // Get current locale on component mount
+  // Try to use i18n context from EditingWrapper if available (in iframe)
+  let contextLanguage: string | null = null;
+  try {
+    const i18nContext = useI18nContext();
+    contextLanguage = i18nContext.currentLanguage;
+  } catch (error) {
+    // useI18nContext not available - we're not in iframe context
+    console.log('🌍 Footer: Not in iframe context, using direct locale switching');
+  }
+
+  // Get current locale on component mount and sync with context
   useEffect(() => {
-    const currentLocale = getCurrentLocale();
-    setSelectedLanguage(currentLocale);
-  }, []);
+    if (contextLanguage) {
+      // In iframe context - use language from I18n context
+      console.log('🌍 Footer: Using language from i18n context:', contextLanguage);
+      setSelectedLanguage(contextLanguage as SupportedLocale);
+    } else {
+      // Not in iframe context - use direct locale detection
+      const currentLocale = getCurrentLocale();
+      setSelectedLanguage(currentLocale);
+    }
+  }, [contextLanguage]);
 
   // Extract content from props
   const {
@@ -67,13 +87,21 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
       console.log('Footer language change debug:', { 
         value, 
         isEditingMode,
+        contextLanguage,
         currentLocale: selectedLanguage 
       });
       
       setSelectedLanguage(value as SupportedLocale);
       
-      // Call switchLocale directly with the current isEditingMode value
-      switchLocale(value as SupportedLocale, isEditingMode);
+      // Only switch locale if we're not in iframe context (to avoid conflicts)
+      if (!contextLanguage) {
+        console.log('🌍 Footer: Direct locale switching (not in iframe)');
+        switchLocale(value as SupportedLocale, isEditingMode);
+      } else {
+        console.log('🌍 Footer: In iframe context - language change handled by parent');
+        // In iframe context, language switching is handled by postMessage from parent
+        // We just update our local state to reflect the change
+      }
     }
   };
 
@@ -100,15 +128,17 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
         </Cluster>
       </RhythmItem>
 
-      {/* Language Picker */}
-      <RhythmItem at={3}>
-        <Picker
-          options={options}
-          value={selectedLanguage}
-          onChange={handleLanguageChangeWithState}
-          placeholder="Välj språk"
-        />
-      </RhythmItem>
+      {/* Language Picker - Only show if not in iframe context to avoid conflicts */}
+      {!contextLanguage && (
+        <RhythmItem at={3}>
+          <Picker
+            options={options}
+            value={selectedLanguage}
+            onChange={handleLanguageChangeWithState}
+            placeholder="Välj språk"
+          />
+        </RhythmItem>
+      )}
 
       {/* Contact Info and Copyright */}
       <RhythmItem at={5}>

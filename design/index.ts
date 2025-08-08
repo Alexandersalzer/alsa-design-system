@@ -33,21 +33,23 @@ export {
   type DesignTokenParentConfig
 } from './cms/messaging/design/parent/designTokenMessaging';
 
-// Export i18n messaging functionality
+// Export i18n messaging functionality (parent side)
 export {
   I18nParentHandler,
-  sendLanguageUpdate,
   createI18nParentHandler,
+  sendLanguageChange,
   type I18nParentConfig,
   type I18nParentHandlers
 } from './cms/messaging/i18n/parent';
 
-// Export i18n child messaging functionality
+// Export i18n messaging functionality (child side)
 export {
-  setupI18nMessageListener,
-  requestLanguageChange,
-  handleLanguageChange,
-  type I18nMessageHandlers
+  I18nChildHandler,
+  useI18nChildMessaging,
+  setupI18nChildMessaging,
+  handleLanguageChangeMessage,
+  type AvailableLanguage,
+  type I18nChildHandlers
 } from './cms/messaging/i18n/child';
 
 // Export layout components (client-safe)
