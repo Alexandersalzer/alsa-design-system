@@ -24,41 +24,69 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
 
   useEffect(() => {
     if (isEditingMode) {
+      console.log('📝 ContentProvider: Editing mode detected, setting up API content loading');
+      
       // In editing mode: try to get content from URL or listen for CMS messages
       const urlContent = parseContentFromUrl();
       if (urlContent) {
+        console.log('🔗 ContentProvider: Found content in URL, using it directly');
         setDynamicContent(urlContent);
         setIsLoading(false);
         return;
       }
 
+      console.log('📡 ContentProvider: No URL content, requesting from parent CMS API');
+      
       // If no content in URL, request it from parent CMS
       requestWebsiteContent();
 
       const messageHandlers: MessageHandlers = {
         onContentUpdate: (content: WebsiteContent) => {
+          console.log('🔄 ContentProvider: Received content update from parent:', {
+            pages: Object.keys(content.pages || {}).length,
+            globals: Object.keys(content.globals || {}).length
+          });
           setDynamicContent(content);
           setIsLoading(false);
+          setError(null);
         },
         onWebsiteContentResponse: (content: WebsiteContent) => {
+          console.log('✅ ContentProvider: Received website content response from parent API:', {
+            pages: Object.keys(content.pages || {}).length,
+            globals: Object.keys(content.globals || {}).length
+          });
           setDynamicContent(content);
           setIsLoading(false);
+          setError(null);
         }
       };
 
       // Setup message listener
       const contentCleanup = setupMessageListener(messageHandlers);
 
+      // Set a timeout to handle cases where parent doesn't respond
+      const timeoutId = setTimeout(() => {
+        if (isLoading) {
+          console.warn('⚠️ ContentProvider: Timeout waiting for parent content, using initialContent fallback');
+          setDynamicContent(initialContent);
+          setIsLoading(false);
+          setError('Failed to load content from CMS API, using fallback content');
+        }
+      }, 5000); // 5 second timeout
+
       // Return cleanup function
       return () => {
         contentCleanup();
+        clearTimeout(timeoutId);
       };
     } else {
+      console.log('🏠 ContentProvider: Normal mode, using static initialContent');
       // In normal mode: use initialContent and set loading to false
       setDynamicContent(initialContent);
       setIsLoading(false);
+      setError(null);
     }
-  }, [isEditingMode, initialContent]);
+  }, [isEditingMode, initialContent, isLoading]);
 
   // Get active content based on mode
   const getActiveContent = () => {
