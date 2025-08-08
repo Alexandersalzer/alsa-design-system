@@ -230,9 +230,8 @@
 /* Page tabs container with proper border */
 .tab-group--page {
   border-bottom: 1px solid var(--border-nav);
-  padding-bottom: 0; /* Remove extra padding that might conflict */
+  padding-bottom: var(--space-nav-item-gap); /* Keep the proper padding */
   position: relative;
-  margin-bottom: var(--foundation-space-4); /* Add proper spacing after */
 }
 
 /* Segment tabs container */
