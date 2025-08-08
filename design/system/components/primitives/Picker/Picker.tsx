@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Picker/Picker.tsx
-// FIXED - Simple animation support with Icon components
+// ENHANCED - Professional animations with proper timing
 // ===============================================
 
 import { useState, useRef, useEffect, forwardRef, useId } from 'react';
@@ -53,6 +53,8 @@ export interface PickerProps {
   maxHeight?: number;
   /** Disabled state */
   disabled?: boolean;
+  /** Loading state */
+  loading?: boolean;
   /** Additional CSS classes for the wrapper */
   wrapperClassName?: string;
   /** Additional CSS classes for the picker */
@@ -81,6 +83,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
   radius = 'md',
   required = false,
   disabled = false,
+  loading = false,
   placeholder = "Select an option...",
   options = [],
   multiple = false,
@@ -111,23 +114,32 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
   const errorId = error ? `${id}-error` : undefined;
   const successId = success ? `${id}-success` : undefined;
 
-  // Handle opening/closing with animations
+  // 🎯 ENHANCED ANIMATION TIMING
+  const ANIMATION_DURATION = {
+    OPEN: 250,   // --foundation-duration-normal
+    CLOSE: 150,  // --foundation-duration-fast
+    STAGGER: 20  // Per option delay
+  };
+
+  // Handle opening/closing with proper animation timing
   useEffect(() => {
     if (isOpen) {
       setShouldRender(true);
       setIsClosing(false);
-    } else if (shouldRender) {
+    } else if (shouldRender && !isClosing) {
       // Start closing animation
       setIsClosing(true);
       // Remove from DOM after animation completes
       const timer = setTimeout(() => {
         setShouldRender(false);
         setIsClosing(false);
-      }, 150); // Match --foundation-duration-fast
+        setSearchTerm(''); // Clear search on close
+        setFocusedIndex(-1); // Reset focus
+      }, ANIMATION_DURATION.CLOSE);
       
       return () => clearTimeout(timer);
     }
-  }, [isOpen, shouldRender]);
+  }, [isOpen, shouldRender, isClosing]);
 
   // Filter options based on search term
   const filteredOptions = options.filter(option =>
@@ -141,7 +153,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
 
   // Handle selection
   const handleSelect = (option: PickerOption) => {
-    if (option.disabled) return;
+    if (option.disabled || loading) return;
 
     if (multiple) {
       const currentValues = multiValue || [];
@@ -152,7 +164,8 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
       onMultiChange?.(newValues);
     } else {
       onChange?.(option.value);
-      setIsOpen(false);
+      // Add small delay for visual feedback before closing
+      setTimeout(() => setIsOpen(false), 100);
     }
   };
 
@@ -166,6 +179,8 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
 
   // Get display text
   const getDisplayText = () => {
+    if (loading) return "Loading...";
+    
     if (multiple) {
       const selected = selectedOptions as PickerOption[];
       if (selected.length === 0) return placeholder;
@@ -178,7 +193,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
 
   // Handle keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (disabled) return;
+    if (disabled || loading) return;
 
     switch (e.key) {
       case 'Enter':
@@ -219,8 +234,6 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
     const handleClickOutside = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
-        setSearchTerm('');
-        setFocusedIndex(-1);
       }
     };
 
@@ -232,10 +245,13 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
 
   // Focus search input when dropdown opens
   useEffect(() => {
-    if (isOpen && searchable && searchRef.current) {
-      searchRef.current.focus();
+    if (isOpen && searchable && searchRef.current && !loading) {
+      // Small delay to ensure dropdown is rendered
+      setTimeout(() => {
+        searchRef.current?.focus();
+      }, 50);
     }
-  }, [isOpen, searchable]);
+  }, [isOpen, searchable, loading]);
 
   // Reset focused index when search changes
   useEffect(() => {
@@ -262,6 +278,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
     radius === 'sm' && 'picker--radius-sm',
     radius === 'lg' && 'picker--radius-lg',
     isOpen && 'picker--open',
+    loading && 'picker--loading',
     error && 'picker--error',
     success && 'picker--success',
     disabled && 'picker--disabled',
@@ -302,14 +319,15 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
           ref={ref}
           type="button"
           id={id}
-          disabled={disabled}
+          disabled={disabled || loading}
           className={pickerClasses}
-          onClick={() => !disabled && setIsOpen(!isOpen)}
+          onClick={() => !disabled && !loading && setIsOpen(!isOpen)}
           onKeyDown={handleKeyDown}
           aria-expanded={isOpen}
           aria-haspopup="listbox"
           aria-describedby={cn(descriptionId, errorId, successId)}
           aria-invalid={error ? 'true' : 'false'}
+          aria-busy={loading}
           {...props}
         >
           <span className="picker-value">
@@ -322,7 +340,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
           </div>
         </button>
 
-        {shouldRender && !disabled && (
+        {shouldRender && !disabled && !loading && (
           <div 
             className={cn(
               "picker-dropdown",
@@ -357,7 +375,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
               {filteredOptions.length === 0 ? (
                 <li className="picker-option picker-option--empty">
                   <div className="picker-option-content">
-                    No options found
+                    {searchTerm ? 'No matching options found' : 'No options available'}
                   </div>
                 </li>
               ) : (
@@ -375,6 +393,10 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
                     onClick={() => handleSelect(option)}
                     role="option"
                     aria-selected={isSelected(option)}
+                    style={{
+                      // 🎯 CSS custom property for staggered animation
+                      '--option-index': index
+                    } as React.CSSProperties}
                   >
                     {renderOption ? (
                       renderOption(option, isSelected(option))

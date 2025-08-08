@@ -632,3 +632,353 @@
 .picker-wrapper--lg .picker-option-description {
   font-size: var(--font-body-md-size);
 }
+
+/* ===============================================
+   ENHANCED PICKER ANIMATIONS - Professional Dropdown Motion
+   Add this to your existing Picker.css file
+   =============================================== */
+
+/* ===== ENHANCED DROPDOWN ANIMATIONS ===== */
+.picker-dropdown {
+  position: absolute;
+  top: calc(100% + var(--foundation-space-1));
+  left: 0;
+  right: 0;
+  z-index: var(--z-dropdown);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-dropdown);
+  background-color: var(--surface-dropdown);
+  box-shadow: var(--foundation-shadow-lg);
+  overflow: hidden;
+  max-height: 400px;
+  padding: var(--foundation-space-2);
+  display: flex;
+  flex-direction: column;
+  
+  /* 🎯 SMOOTH DROPDOWN ANIMATION */
+  animation: dropdownSlideIn var(--foundation-duration-normal) var(--foundation-ease-anticipate);
+  transform-origin: top center;
+  
+  /* 🎯 PERFORMANCE OPTIMIZATIONS */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* 🎯 CLOSING ANIMATION */
+.picker-dropdown--closing {
+  animation: dropdownSlideOut var(--foundation-duration-fast) var(--foundation-ease-in);
+  pointer-events: none; /* Prevent interaction during close */
+}
+
+/* 🎯 ENHANCED KEYFRAMES - Polaris/Material inspired */
+@keyframes dropdownSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+  20% {
+    opacity: 0.4;
+    transform: translateY(-4px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow: var(--foundation-shadow-lg);
+  }
+}
+
+@keyframes dropdownSlideOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}
+
+/* ===== ENHANCED PICKER BUTTON ANIMATIONS ===== */
+.picker {
+  /* Existing styles... */
+  transition: 
+    border-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    background-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    box-shadow var(--foundation-duration-fast) var(--foundation-ease-out),
+    transform var(--foundation-duration-micro) var(--foundation-ease-out);
+}
+
+/* 🎯 SMOOTH HOVER STATES */
+.picker:hover:not(:disabled):not(.picker--open) {
+  border-color: var(--border-picker-hover);
+  background-color: var(--surface-picker-hover);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* 🎯 ACTIVE/PRESSED STATE */
+.picker:active:not(:disabled) {
+  transform: translateY(0);
+  transition: transform var(--foundation-duration-micro) var(--foundation-ease-in);
+}
+
+/* 🎯 OPEN STATE - KEEP ELEVATED */
+.picker--open {
+  border-color: var(--border-picker-focus);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* ===== ENHANCED ICON ROTATION ===== */
+.picker-icon {
+  transition: transform var(--foundation-duration-normal) var(--foundation-ease-anticipate);
+  color: var(--icon-picker);
+  flex-shrink: 0;
+}
+
+.picker--open .picker-icon {
+  transform: rotate(180deg);
+  color: var(--icon-picker-focus);
+}
+
+/* ===== STAGGERED OPTION ANIMATIONS ===== */
+.picker-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-1);
+  flex: 1;
+  overflow-y: auto;
+  margin: var(--foundation-space-1);
+  list-style: none;
+  scroll-behavior: smooth;
+  min-height: 0;
+}
+
+/* 🎯 STAGGERED FADE-IN FOR OPTIONS */
+.picker-option {
+  opacity: 0;
+  animation: optionFadeIn var(--foundation-duration-normal) var(--foundation-ease-out) forwards;
+  animation-delay: calc(var(--option-index, 0) * 20ms); /* Stagger by 20ms each */
+}
+
+/* Individual option delays via CSS custom properties */
+.picker-option:nth-child(1) { --option-index: 0; }
+.picker-option:nth-child(2) { --option-index: 1; }
+.picker-option:nth-child(3) { --option-index: 2; }
+.picker-option:nth-child(4) { --option-index: 3; }
+.picker-option:nth-child(5) { --option-index: 4; }
+.picker-option:nth-child(6) { --option-index: 5; }
+.picker-option:nth-child(7) { --option-index: 6; }
+.picker-option:nth-child(8) { --option-index: 7; }
+.picker-option:nth-child(9) { --option-index: 8; }
+.picker-option:nth-child(10) { --option-index: 9; }
+
+@keyframes optionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ===== ENHANCED OPTION HOVER EFFECTS ===== */
+.picker-option {
+  transition: 
+    background-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    transform var(--foundation-duration-micro) var(--foundation-ease-out),
+    color var(--foundation-duration-fast) var(--foundation-ease-out);
+}
+
+.picker-option:hover:not(.picker-option--disabled) {
+  background-color: var(--surface-dropdown-option-hover);
+  transform: translateX(2px);
+}
+
+.picker-option--focused {
+  background-color: var(--surface-hover);
+  transform: translateX(2px);
+}
+
+.picker-option--selected {
+  background-color: var(--surface-picker-option-selected);
+  color: var(--text-picker-option-selected);
+  font-weight: var(--foundation-weight-semibold);
+  transform: translateX(1px);
+}
+
+/* ===== SEARCH INPUT ANIMATIONS ===== */
+.picker-search-input {
+  transition: 
+    border-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    box-shadow var(--foundation-duration-fast) var(--foundation-ease-out),
+    transform var(--foundation-duration-micro) var(--foundation-ease-out);
+}
+
+.picker-search-input:focus {
+  border-color: var(--border-input-focus);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 0 0 3px rgba(var(--accent-500-rgb), 0.1);
+}
+
+/* ===== SMOOTH SCROLLBAR ANIMATIONS ===== */
+.picker-options {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color var(--foundation-duration-normal) var(--foundation-ease-out);
+}
+
+.picker-options:hover {
+  scrollbar-color: var(--border-strong) var(--surface-subtle);
+}
+
+.picker-options::-webkit-scrollbar-thumb {
+  background: transparent;
+  transition: background var(--foundation-duration-normal) var(--foundation-ease-out);
+}
+
+.picker-options:hover::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+}
+
+/* ===== COMPACT VARIANT ANIMATIONS ===== */
+.picker-dropdown--compact {
+  animation: dropdownSlideInCompact var(--foundation-duration-normal) var(--foundation-ease-anticipate);
+}
+
+.picker-dropdown--compact.picker-dropdown--closing {
+  animation: dropdownSlideOutCompact var(--foundation-duration-fast) var(--foundation-ease-in);
+}
+
+@keyframes dropdownSlideInCompact {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.94);
+  }
+  20% {
+    opacity: 0.6;
+    transform: translateY(-3px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes dropdownSlideOutCompact {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-3px) scale(0.97);
+  }
+}
+
+/* ===== LOADING STATE ANIMATION ===== */
+.picker--loading .picker-icon {
+  animation: pickerSpin 1s var(--foundation-ease-linear) infinite;
+}
+
+@keyframes pickerSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ===== ENHANCED FOCUS STATES ===== */
+.picker:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 
+    0 0 0 3px rgba(var(--accent-500-rgb), 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.04);
+  transform: translateY(-1px);
+}
+
+/* ===== ENHANCED ERROR/SUCCESS STATES ===== */
+.picker--error {
+  border-color: var(--border-picker-error);
+  animation: errorShake var(--foundation-duration-normal) var(--foundation-ease-out);
+}
+
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+.picker--success {
+  border-color: var(--success-border);
+  animation: successPulse var(--foundation-duration-slower) var(--foundation-ease-out);
+}
+
+@keyframes successPulse {
+  0% { 
+    box-shadow: 0 0 0 0 rgba(var(--success-500-rgb), 0.4);
+  }
+  70% { 
+    box-shadow: 0 0 0 6px rgba(var(--success-500-rgb), 0);
+  }
+  100% { 
+    box-shadow: 0 0 0 0 rgba(var(--success-500-rgb), 0);
+  }
+}
+
+/* ===== REDUCED MOTION SUPPORT ===== */
+@media (prefers-reduced-motion: reduce) {
+  .picker,
+  .picker-dropdown,
+  .picker-icon,
+  .picker-option,
+  .picker-search-input {
+    transition: 
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  
+  .picker-dropdown {
+    animation: simpleFadeIn 0.15s ease !important;
+  }
+  
+  .picker-dropdown--closing {
+    animation: simpleFadeOut 0.1s ease !important;
+  }
+  
+  @keyframes simpleFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes simpleFadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+}
+
+/* ===== DARK MODE ENHANCEMENTS ===== */
+@media (prefers-color-scheme: dark) {
+  .picker-dropdown {
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .picker--open {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+}
