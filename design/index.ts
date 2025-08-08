@@ -53,5 +53,8 @@ export {
 // Export layout components (client-safe)
 export { ContentLayout } from './cms/wrappers/ContentLayout';
 
+// Export client components
+export * as client from './client';
+
 // Export WebsiteContent type from new location
 export { type WebsiteContent } from './cms/wrappers/content/types/content'; 
