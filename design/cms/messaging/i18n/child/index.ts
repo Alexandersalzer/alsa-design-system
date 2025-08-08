@@ -1,8 +1,7 @@
+// Export i18n child messaging functionality
 export {
-  type I18nMessageHandlers,
-  sendLanguageChangeResponse,
-  requestLanguageChange,
+  requestCurrentLocale,
   setupI18nMessageListener,
-  getCurrentLanguageFromPath,
-  updateUrlForLanguageChange
+  setupBasicLocaleSynchronization,
+  type I18nMessageHandlers
 } from './i18nMessaging'; 

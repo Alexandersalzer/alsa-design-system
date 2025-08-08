@@ -1,15 +1,13 @@
 import React from 'react';
 
-// Configuration for parent i18n message handler
 export interface I18nParentConfig {
   iframeRef: React.RefObject<HTMLIFrameElement | null>;
-  selectedLanguage?: string;
+  currentLocale?: string;
 }
 
-// Optional handlers for i18n events
 export interface I18nParentHandlers {
-  onLanguageChangeRequest?: (language: string) => void;
-  onLanguageChangeResponse?: (success: boolean, language: string) => void;
+  onLocaleChangeRequest?: (locale: string) => void;
+  onCustomMessage?: (event: MessageEvent) => void;
 }
 
 export class I18nParentHandler {
@@ -21,38 +19,54 @@ export class I18nParentHandler {
     this.handlers = handlers;
   }
 
-  // Send language change to iframe
-  sendLanguageChange = (language: string) => {
-    console.log('📡 Sending language change to iframe:', language);
+  // Send locale change command to iframe
+  sendLocaleChange = (locale: string) => {
+    console.log('🌐 Parent sending locale change:', locale);
     
     if (this.config.iframeRef.current?.contentWindow) {
       this.config.iframeRef.current.contentWindow.postMessage({
-        type: 'language-change',
-        language: language
+        type: 'locale-change',
+        locale: locale
       }, '*');
     } else {
-      console.error('Cannot send language change: iframe or contentWindow not available');
+      console.error('Cannot send locale change: iframe or contentWindow not available');
+    }
+  };
+
+  // Send current locale to iframe (for synchronization)
+  sendCurrentLocale = (locale: string) => {
+    console.log('🌐 Parent sending current locale:', locale);
+    
+    if (this.config.iframeRef.current?.contentWindow) {
+      this.config.iframeRef.current.contentWindow.postMessage({
+        type: 'locale-sync',
+        locale: locale
+      }, '*');
+    } else {
+      console.error('Cannot send locale sync: iframe or contentWindow not available');
     }
   };
 
   // Handle incoming messages from iframe
   handleMessage = (event: MessageEvent) => {
-    // Handle language change requests from child (if needed)
-    if (event.data.type === 'request-language-change') {
-      console.log('📨 Language change request from child:', event.data.language);
+    // Handle requests for current locale
+    if (event.data.type === 'request-current-locale') {
+      console.log('🌐 Parent received locale request');
       
-      if (this.handlers.onLanguageChangeRequest) {
-        this.handlers.onLanguageChangeRequest(event.data.language);
+      // Call custom handler if provided
+      if (this.handlers.onLocaleChangeRequest) {
+        this.handlers.onLocaleChangeRequest(event.data.locale);
+      }
+      
+      // Send current locale if available
+      if (this.config.currentLocale) {
+        this.sendCurrentLocale(this.config.currentLocale);
       }
     }
 
-    // Handle language change response from child
-    if (event.data.type === 'language-change-response') {
-      console.log('✅ Language change response from child:', event.data);
-      
-      if (this.handlers.onLanguageChangeResponse) {
-        this.handlers.onLanguageChangeResponse(event.data.success, event.data.language);
-      }
+    // Handle custom messages through handler
+    if (this.handlers.onCustomMessage) {
+      this.handlers.onCustomMessage(event);
     }
   };
 
@@ -62,7 +76,7 @@ export class I18nParentHandler {
     return () => window.removeEventListener('message', this.handleMessage);
   };
 
-  // Update config (useful when state changes)
+  // Update config (useful when locale changes)
   updateConfig = (newConfig: Partial<I18nParentConfig>) => {
     this.config = { ...this.config, ...newConfig };
   };
@@ -75,28 +89,50 @@ export class I18nParentHandler {
 
 // Utility functions for easier usage
 
-// Send language change (utility function)
-export const sendLanguageChange = (
+// Send locale change to iframe (utility function)
+export const sendLocaleChange = (
   iframeRef: React.RefObject<HTMLIFrameElement | null>,
-  language: string
+  locale: string
 ) => {
   if (iframeRef.current?.contentWindow) {
     iframeRef.current.contentWindow.postMessage({
-      type: 'language-change',
-      language: language
+      type: 'locale-change',
+      locale: locale
     }, '*');
   }
 };
 
-// Create a basic i18n parent message handler
-export const createI18nParentHandler = (
+// Send current locale sync to iframe (utility function)
+export const sendCurrentLocale = (
   iframeRef: React.RefObject<HTMLIFrameElement | null>,
-  selectedLanguage?: string
+  locale: string
 ) => {
-  const config: I18nParentConfig = {
-    iframeRef,
-    selectedLanguage
+  if (iframeRef.current?.contentWindow) {
+    iframeRef.current.contentWindow.postMessage({
+      type: 'locale-sync',
+      locale: locale
+    }, '*');
+  }
+};
+
+// Setup basic message listener for locale requests only
+export const setupBasicI18nParentMessageListener = (
+  handlers: {
+    onLocaleChangeRequest?: (locale: string) => void;
+    onMessage?: (event: MessageEvent) => void;
+  }
+) => {
+  const handleMessage = (event: MessageEvent) => {
+    if (event.data.type === 'request-current-locale' && handlers.onLocaleChangeRequest) {
+      handlers.onLocaleChangeRequest(event.data.locale);
+    }
+
+    if (handlers.onMessage) {
+      handlers.onMessage(event);
+    }
   };
 
-  return new I18nParentHandler(config);
+  window.addEventListener('message', handleMessage);
+  
+  return () => window.removeEventListener('message', handleMessage);
 }; 
