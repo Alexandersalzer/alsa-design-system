@@ -54,6 +54,20 @@ function EditingProvider({ children }: { children: ReactNode }) {
 
     console.log('🌍 EditingProvider: Setting up message listeners in iframe');
 
+    // Simple test message listener
+    const testMessageHandler = (event: MessageEvent) => {
+      if (event.data.type === 'language-change-request') {
+        console.log('🌍 TEST HANDLER: Received language change request:', event.data.languageCode);
+      }
+    };
+    window.addEventListener('message', testMessageHandler);
+
+    // Global message listener for debugging
+    const globalMessageHandler = (event: MessageEvent) => {
+      console.log('🌍 GLOBAL: Received message:', event.data);
+    };
+    window.addEventListener('message', globalMessageHandler);
+
     // Setup editing message handlers
     const editingHandlers: EditingMessageHandlers = {
       onEditingStatusUpdate: (editing: boolean) => {
@@ -67,14 +81,15 @@ function EditingProvider({ children }: { children: ReactNode }) {
       onLanguageChangeRequest: (languageCode: string) => {
         console.log('🌍 EditingProvider: Language change requested:', languageCode);
         
-        // Extract the current route without the locale prefix
-        const pathSegments = pathname.split('/');
+        // Get current pathname dynamically to avoid stale closure
+        const currentPathname = window.location.pathname;
+        const pathSegments = currentPathname.split('/');
         const routeWithoutLocale = pathSegments.slice(2).join('/') || '';
         
         // Construct new URL with new language
         const newPath = `/${languageCode}${routeWithoutLocale ? `/${routeWithoutLocale}` : ''}`;
         
-        console.log('🌍 EditingProvider: Navigating from', pathname, 'to', newPath);
+        console.log('🌍 EditingProvider: Navigating from', currentPathname, 'to', newPath);
         
         // Update local state first
         setCurrentLanguage(languageCode);
@@ -103,10 +118,12 @@ function EditingProvider({ children }: { children: ReactNode }) {
     console.log('🌍 EditingProvider: Requested initial data from parent');
 
     return () => {
+      window.removeEventListener('message', testMessageHandler);
+      window.removeEventListener('message', globalMessageHandler);
       editingCleanup();
       i18nCleanup();
     };
-  }, [router, pathname, currentLanguage]);
+  }, [router]); // Remove pathname and currentLanguage from dependencies
 
   const toggleContextValue: ToggleContextType = {
     isEditingMode

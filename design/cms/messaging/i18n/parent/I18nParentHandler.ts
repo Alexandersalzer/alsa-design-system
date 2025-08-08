@@ -32,16 +32,34 @@ export class I18nParentHandler {
   sendLanguageChange = (languageCode: string) => {
     console.log('🌍 Sending language change:', languageCode);
     
-    if (this.config.iframeRef.current?.contentWindow) {
-      console.log('🌍 Iframe found, sending postMessage to contentWindow');
-      this.config.iframeRef.current.contentWindow.postMessage({
-        type: 'language-change-request',
-        languageCode
-      }, '*');
-      console.log('🌍 PostMessage sent successfully');
-    } else {
-      console.error('🌍 No iframe contentWindow found');
-      console.log('🌍 iframeRef.current:', this.config.iframeRef.current);
+    const sendMessage = () => {
+      if (this.config.iframeRef.current?.contentWindow) {
+        console.log('🌍 Iframe found, sending postMessage to contentWindow');
+        this.config.iframeRef.current.contentWindow.postMessage({
+          type: 'language-change-request',
+          languageCode
+        }, '*');
+        console.log('🌍 PostMessage sent successfully');
+        return true;
+      } else {
+        console.error('🌍 No iframe contentWindow found');
+        console.log('🌍 iframeRef.current:', this.config.iframeRef.current);
+        return false;
+      }
+    };
+
+    // Try to send immediately
+    if (!sendMessage()) {
+      // If failed, retry after a short delay to ensure iframe is loaded
+      console.log('🌍 Retrying postMessage in 100ms...');
+      setTimeout(() => {
+        if (!sendMessage()) {
+          console.log('🌍 Retrying postMessage in 500ms...');
+          setTimeout(() => {
+            sendMessage();
+          }, 500);
+        }
+      }, 100);
     }
 
     // Call custom handler if provided
