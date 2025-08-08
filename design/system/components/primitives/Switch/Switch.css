@@ -1,14 +1,15 @@
 /* ==============================================
-   Switch Component - Clean Implementation
+   Switch Component - Ultra Smooth Implementation
    ============================================== */
 
 /* Switch motion tokens */
 :root {
-  --transition-switch-track: background-color var(--foundation-duration-normal) var(--foundation-ease-smooth);
-  --transition-switch-thumb: all var(--foundation-duration-slower) var(--foundation-ease-smooth);
-  --transition-switch-focus: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
-  --transition-switch-hover: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
-  --transition-switch-border: border-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
+  /* Updated with ultra-smooth transitions */
+  --transition-switch-track: var(--motion-switch-track-background);
+  --transition-switch-thumb: var(--motion-switch-thumb-position);
+  --transition-switch-focus: var(--motion-switch-focus);
+  --transition-switch-hover: var(--motion-switch-track-hover);
+  --transition-switch-border: var(--motion-switch-track-border);
 }
 
 /* Switch wrapper */
@@ -74,7 +75,7 @@
   cursor: not-allowed;
 }
 
-/* Track */
+/* Track - Enhanced for ultra smoothness */
 .switch-track {
   position: relative;
   display: block;
@@ -82,6 +83,8 @@
   border-radius: var(--radius-switch-track);
   border: 1px solid transparent;
   transition: var(--transition-switch-track), var(--transition-switch-border);
+  /* Add will-change for better performance */
+  will-change: background-color;
 }
 
 .switch--sm .switch-track {
@@ -99,7 +102,7 @@
   height: var(--size-switch-lg-height);
 }
 
-/* Track states */
+/* Track states - Enhanced smooth transitions */
 .switch:hover:not(.switch--disabled) .switch-track {
   background-color: var(--surface-switch-track-hover);
   transition: var(--transition-switch-hover);
@@ -121,7 +124,7 @@
   background-color: var(--surface-switch-track-disabled-checked);
 }
 
-/* Thumb */
+/* Thumb - The star of the smooth animation! */
 .switch-thumb {
   position: absolute;
   top: 50%;
@@ -130,8 +133,14 @@
   background-color: var(--surface-switch-thumb);
   border-radius: var(--radius-switch-thumb);
   box-shadow: var(--foundation-shadow-sm);
-  transition: var(--transition-switch-thumb);
+  
+  /* Ultra smooth transition with enhanced easing */
+  transition: var(--transition-switch-thumb), var(--motion-switch-thumb-shadow);
+  
+  /* Performance optimizations */
   will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
 
 .switch--sm .switch-thumb {
@@ -149,7 +158,7 @@
   height: calc(var(--size-switch-lg-thumb) - 3px);
 }
 
-/* Thumb checked positions */
+/* Thumb checked positions - Ultra smooth with enhanced easing */
 .switch--sm.switch--checked .switch-thumb {
   transform: translateY(-50%) translateX(calc(var(--size-switch-sm-width) + 10px - var(--size-switch-sm-thumb) - 8px));
 }
@@ -162,25 +171,25 @@
   transform: translateY(-50%) translateX(calc(var(--size-switch-lg-width) + 14px - var(--size-switch-lg-thumb) - 12px));
 }
 
-/* Thumb interactions */
+/* Thumb interactions - Subtle and smooth */
 .switch:active:not(.switch--disabled) .switch-thumb {
-  transform: translateY(-50%) scale(0.95);
-  transition: transform var(--foundation-duration-fast) var(--foundation-ease-out);
+  transform: translateY(-50%) scale(0.98);
+  transition: var(--motion-switch-thumb-scale);
 }
 
 .switch--checked:active:not(.switch--disabled) .switch-thumb {
-  transform: translateY(-50%) translateX(var(--switch-thumb-end-position, 0)) scale(0.95);
-  transition: transform var(--foundation-duration-fast) var(--foundation-ease-out);
+  transform: translateY(-50%) translateX(var(--switch-thumb-end-position, 0)) scale(0.98);
+  transition: var(--motion-switch-thumb-scale);
 }
 
 .switch:hover:not(.switch--disabled) .switch-thumb {
   box-shadow: var(--foundation-shadow-md);
-  transition: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
+  transition: var(--motion-switch-thumb-shadow);
 }
 
 .switch:focus-visible .switch-thumb {
   box-shadow: var(--foundation-shadow-sm), 0 0 0 2px var(--border-switch-focus);
-  transition: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
+  transition: var(--motion-switch-thumb-shadow);
 }
 
 .switch--disabled .switch-thumb {
@@ -205,7 +214,7 @@
   cursor: pointer;
   user-select: none;
   margin: 0;
-  transition: var(--transition-hover);
+  transition: var(--motion-switch-label);
 }
 
 .switch-wrapper--sm .switch-label {
@@ -237,7 +246,7 @@
   line-height: var(--typography-body-sm-line-height);
   color: var(--text-form-hint);
   margin-top: var(--foundation-space-1);
-  transition: var(--transition-hover);
+  transition: var(--motion-switch-label);
 }
 
 .switch-wrapper--disabled .switch-description {
@@ -359,7 +368,7 @@
   }
 }
 
-/* Accessibility */
+/* Accessibility - Respect user preferences */
 @media (prefers-reduced-motion: reduce) {
   .switch,
   .switch-track,
@@ -370,6 +379,7 @@
     animation: none !important;
   }
 
+  /* Still allow position changes but make them instant */
   .switch-thumb {
     transition: transform 0s;
   }
@@ -383,5 +393,24 @@
   
   .switch-thumb {
     border: 1px solid currentColor;
+  }
+}
+
+/* Performance optimizations for smoother animations */
+.switch-thumb,
+.switch-track {
+  /* Enable hardware acceleration */
+  transform: translateZ(0);
+  /* Prevent text selection during animations */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Optional: Add a subtle spring effect for extra smoothness */
+@supports (transform: translateZ(0)) {
+  .switch-thumb {
+    /* Enhanced easing for supported browsers */
+    transition: transform var(--foundation-duration-gentle) cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
   }
 }
