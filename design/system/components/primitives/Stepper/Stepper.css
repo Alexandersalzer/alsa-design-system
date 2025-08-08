@@ -50,12 +50,6 @@
   font-weight: var(--foundation-weight-semibold);
 }
 
-.step-number--completed {
-  background: var(--surface-success);
-  color: var(--text-success);
-  font-weight: var(--foundation-weight-semibold);
-}
-
 /* ===== BUTTONS - RESPONSIVE SIZING ===== */
 .stepper-navigation .stepper-button {
   flex-shrink: 0;
@@ -99,9 +93,9 @@
     font-size: var(--font-body-xs-size);
   }
   
-  /* Tighter spacing between numbers */
+  /* Tighter spacing between numbers with better gaps on small screens */
   .stepper-numbers {
-    gap: var(--foundation-space-half);
+    gap: var(--foundation-space-1);
   }
   
   /* Smaller content */

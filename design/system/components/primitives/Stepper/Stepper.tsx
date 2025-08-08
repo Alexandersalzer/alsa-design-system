@@ -69,31 +69,17 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
 
         {/* Center: Step indicators */}
         <div className="stepper-numbers">
-          {steps.map((_, index) => {
-            const isActive = index === currentStep;
-            const isPast = index < currentStep;
-            
-            return (
-              <div
-                key={index}
-                className={cn(
-                  'step-number',
-                  isActive && 'step-number--current',
-                  isPast && 'step-number--completed'
-                )}
-                aria-label={`Step ${index + 1} of ${steps.length}`}
-              >
-                {isPast ? (
-                  // Show checkmark for completed steps
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-                  </svg>
-                ) : (
-                  index + 1
-                )}
-              </div>
-            );
-          })}
+          {steps.map((_, index) => (
+            <div
+              key={index}
+              className={cn(
+                'step-number',
+                index === currentStep && 'step-number--current'
+              )}
+            >
+              {index + 1}
+            </div>
+          ))}
         </div>
 
         {/* Right: Next button */}
