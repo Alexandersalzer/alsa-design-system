@@ -1,6 +1,6 @@
 // ===============================================
-// src/design-system/components/patterns/selection/OptionGrid.tsx
-// Clean, reusable option grid component using design system tokens
+// src/design-system/components/patterns/selection/OptionGrid.tsx  
+// Styled to match the original LiveDesignPanel design
 // ===============================================
 
 import React from 'react';
@@ -16,15 +16,18 @@ export interface OptionItem {
   name: string;
   value: string;
   description?: string;
-  icon?: React.ReactElement; // Must be ReactElement for Icon component
+  icon?: React.ReactElement;
   preview?: React.ReactNode;
   disabled?: boolean;
+  hex?: string; // For color options
+  px?: string;  // For radius options
+  family?: string; // For font options
 }
 
 export interface OptionSectionProps {
   title: string;
   description?: string;
-  icon?: React.ReactElement; // Must be ReactElement for Icon component
+  icon?: React.ReactElement;
   action?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
@@ -40,21 +43,18 @@ export const OptionSection: React.FC<OptionSectionProps> = ({
 }) => {
   return (
     <div className={cn('option-section', className)}>
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          {icon && (
-            <Icon size="md" color="accent">
-              {icon}
-            </Icon>
+      <div className="flex items-center gap-3 mb-4">
+        {icon && (
+          <Icon size="md" color="accent">
+            {icon}
+          </Icon>
+        )}
+        <div>
+          <H4>{title}</H4>
+          {description && (
+            <Body size="sm" color="secondary">{description}</Body>
           )}
-          <div>
-            <H4>{title}</H4>
-            {description && (
-              <Body size="sm" color="secondary">{description}</Body>
-            )}
-          </div>
         </div>
-        {action}
       </div>
       {children}
     </div>
@@ -65,9 +65,9 @@ export interface OptionGridProps {
   options: OptionItem[];
   selected: string;
   onChange: (value: string) => void;
-  columns?: 2 | 3 | 4;
+  columns?: 1 | 2 | 3 | 4;
   size?: 'sm' | 'md' | 'lg';
-  variant?: 'compact' | 'detailed';
+  variant?: 'colors' | 'radius' | 'fonts';
   className?: string;
 }
 
@@ -76,85 +76,156 @@ export const OptionGrid: React.FC<OptionGridProps> = ({
   selected,
   onChange,
   columns = 3,
-  size = 'md',
-  variant = 'detailed',
+  variant = 'colors',
   className
 }) => {
   const gridClassName = {
-    2: 'grid-cols-2',
-    3: 'grid-cols-3', 
+    1: 'grid-cols-1',
+    2: 'grid-cols-2', 
+    3: 'grid-cols-3',
     4: 'grid-cols-4'
   }[columns];
 
-  if (variant === 'compact') {
+  // Color variant - matches original design
+  if (variant === 'colors') {
     return (
-      <Grid 
-        columns={columns} 
-        gap="sm" 
-        className={cn(gridClassName, className)}
-      >
+      <div className={cn('grid gap-3', gridClassName, className)}>
         {options.map((option) => (
-          <SelectionCard
+          <button
             key={option.id}
-            selected={selected === option.value}
             onClick={() => onChange(option.value)}
-            disabled={option.disabled}
-            size={size}
+            className="group relative p-3 rounded-lg border-2 transition-all"
+            style={{
+              borderColor: selected === option.value ? 'var(--accent-500)' : 'var(--border-default)',
+              backgroundColor: selected === option.value ? 'var(--accent-50)' : 'var(--surface-card)'
+            }}
           >
-            <div className="text-center">
-              {option.preview && (
-                <div className="mb-2">
-                  {option.preview}
-                </div>
-              )}
-              <Body size="sm" weight="medium">
-                {option.name}
-              </Body>
+            {selected === option.value && (
+              <div 
+                className="absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center"
+                style={{ backgroundColor: 'var(--accent-500)' }}
+              >
+                <svg width="12" height="12" fill="white" viewBox="0 0 12 12">
+                  <path d="M10 3L4.5 8.5L2 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            )}
+            <div
+              className="w-full h-8 rounded mb-2"
+              style={{ backgroundColor: option.hex }}
+            />
+            <div 
+              className="text-sm font-medium"
+              style={{
+                color: selected === option.value ? 'var(--accent-700)' : 'var(--text-primary)'
+              }}
+            >
+              {option.name}
             </div>
-          </SelectionCard>
+          </button>
         ))}
-      </Grid>
+      </div>
     );
   }
 
-  return (
-    <Grid 
-      columns={columns} 
-      gap="md" 
-      className={cn(gridClassName, className)}
-    >
-      {options.map((option) => (
-        <SelectionCard
-          key={option.id}
-          selected={selected === option.value}
-          onClick={() => onChange(option.value)}
-          disabled={option.disabled}
-          size={size}
-          icon={option.icon && (
-            <Icon size="md" color="accent">
-              {option.icon}
-            </Icon>
-          )}
-        >
-          <div>
-            {option.preview && (
-              <div className="mb-3">
-                {option.preview}
+  // Radius variant - matches original design  
+  if (variant === 'radius') {
+    return (
+      <div className={cn('grid gap-2', gridClassName, className)}>
+        {options.map((option) => (
+          <button
+            key={option.id}
+            onClick={() => onChange(option.value)}
+            className="group relative p-3 rounded-lg border-2 transition-all"
+            style={{
+              borderColor: selected === option.value ? 'var(--accent-500)' : 'var(--border-default)',
+              backgroundColor: selected === option.value ? 'var(--accent-50)' : 'var(--surface-card)'
+            }}
+          >
+            {selected === option.value && (
+              <div 
+                className="absolute -top-2 -right-2 w-4 h-4 rounded-full flex items-center justify-center"
+                style={{ backgroundColor: 'var(--accent-500)' }}
+              >
+                <svg width="8" height="8" fill="white" viewBox="0 0 8 8">
+                  <path d="M7 2L3 6L1 4" stroke="white" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </div>
             )}
-            <Body size={size} weight="medium" color="primary">
+            <div className="flex flex-col items-center gap-1 mb-2">
+              <div
+                className="w-6 h-4 bg-gray-300"
+                style={{ borderRadius: option.px }}
+              />
+              <div
+                className="w-4 h-2 bg-gray-400"
+                style={{ borderRadius: option.px }}
+              />
+            </div>
+            <div 
+              className="text-xs font-medium"
+              style={{
+                color: selected === option.value ? 'var(--accent-700)' : 'var(--text-primary)'
+              }}
+            >
               {option.name}
-            </Body>
-            {option.description && (
-              <Body size="sm" color="secondary" className="mt-1">
-                {option.description}
-              </Body>
+            </div>
+          </button>
+        ))}
+      </div>
+    );
+  }
+
+  // Fonts variant - matches original design
+  if (variant === 'fonts') {
+    return (
+      <Stack spacing="sm" className={className}>
+        {options.map((option) => (
+          <button
+            key={option.id}
+            onClick={() => onChange(option.value)}
+            className="w-full p-4 rounded-lg border-2 transition-all text-left relative"
+            style={{
+              borderColor: selected === option.value ? 'var(--accent-500)' : 'var(--border-default)',
+              backgroundColor: selected === option.value ? 'var(--accent-50)' : 'var(--surface-card)'
+            }}
+          >
+            {selected === option.value && (
+              <div 
+                className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center"
+                style={{ backgroundColor: 'var(--accent-500)' }}
+              >
+                <svg width="12" height="12" fill="white" viewBox="0 0 12 12">
+                  <path d="M10 3L4.5 8.5L2 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
             )}
-          </div>
-        </SelectionCard>
-      ))}
-    </Grid>
-  );
+            <div className="flex items-center gap-3">
+              <div
+                className="text-2xl font-medium"
+                style={{ 
+                  fontFamily: option.family,
+                  color: 'var(--text-primary)'
+                }}
+              >
+                Aa
+              </div>
+              <div 
+                className="font-medium"
+                style={{
+                  color: selected === option.value ? 'var(--accent-700)' : 'var(--text-primary)'
+                }}
+              >
+                {option.name}
+              </div>
+            </div>
+          </button>
+        ))}
+      </Stack>
+    );
+  }
+
+  return null;
 };
 
 // Combined component for easy usage
@@ -162,9 +233,9 @@ export interface OptionGridSectionProps extends OptionSectionProps {
   options: OptionItem[];
   selected: string;
   onChange: (value: string) => void;
-  columns?: 2 | 3 | 4;
+  columns?: 1 | 2 | 3 | 4;
   size?: 'sm' | 'md' | 'lg';
-  variant?: 'compact' | 'detailed';
+  variant?: 'colors' | 'radius' | 'fonts';
   gridClassName?: string;
 }
 
@@ -178,9 +249,10 @@ export const OptionGridSection: React.FC<OptionGridSectionProps> = ({
   onChange,
   columns = 3,
   size = 'md',
-  variant = 'detailed',
+  variant = 'colors',
   className,
   gridClassName,
+  children,
   ...props
 }) => {
   return (
@@ -197,7 +269,6 @@ export const OptionGridSection: React.FC<OptionGridSectionProps> = ({
         selected={selected}
         onChange={onChange}
         columns={columns}
-        size={size}
         variant={variant}
         className={gridClassName}
       />
