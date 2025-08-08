@@ -1,0 +1,237 @@
+/* ===============================================
+   ENHANCED TAB SYSTEM WITH BEAUTIFUL ANIMATIONS
+   Add this to your existing Tab.css file
+   =============================================== */
+
+/* ===== BASE ANIMATION SETUP ===== */
+.tab-group--animated {
+  position: relative;
+  overflow: hidden;
+}
+
+.tab--animated {
+  transition: var(--transition-tab);
+  will-change: transform, opacity, background-color;
+}
+
+/* ===== ANIMATED INDICATORS ===== */
+
+/* Page tabs - animated underline */
+.tab-group__indicator--page {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg, 
+    var(--border-nav-item-selected) 0%, 
+    var(--accent-500) 50%, 
+    var(--border-nav-item-selected) 100%
+  );
+  border-radius: var(--foundation-radius-full);
+  transition: var(--transition-tab-indicator);
+  transform-origin: left center;
+  box-shadow: 
+    0 0 8px rgba(var(--accent-500-rgb), 0.3),
+    0 2px 4px rgba(var(--accent-500-rgb), 0.2);
+}
+
+/* Segment tabs - animated background pill */
+.tab-group__indicator--segment {
+  position: absolute;
+  background: var(--surface-nav-item-selected);
+  border-radius: var(--foundation-radius-full);
+  transition: var(--transition-tab-indicator);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-nav-item-selected);
+  z-index: 1;
+}
+
+/* ===== ANIMATION VARIANTS ===== */
+
+/* Slide Animation */
+.tab-group--animation-slide .tab--animated:hover:not(.tab--active) {
+  transform: translateY(-1px);
+}
+
+.tab-group--animation-slide .tab--animated.tab--active {
+  animation: var(--animation-tab-slide);
+}
+
+/* Fade Animation */
+.tab-group--animation-fade .tab--animated {
+  transition: 
+    var(--transition-tab-background),
+    var(--transition-tab-content);
+}
+
+.tab-group--animation-fade .tab--animated.tab--active {
+  animation: var(--animation-tab-fade);
+}
+
+/* Scale Animation */
+.tab-group--animation-scale .tab--animated:hover:not(.tab--active) {
+  transform: scale(1.02);
+}
+
+.tab-group--animation-scale .tab--animated.tab--active {
+  animation: var(--animation-tab-scale);
+}
+
+/* ===== NAVIGATION SIDEBAR ANIMATIONS ===== */
+.sidebar__nav--animated .nav-item {
+  transition: var(--transition-nav);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle hover animation for navigation */
+.sidebar__nav--animated .nav-item:hover:not(.nav-item--selected) {
+  transform: translateX(2px);
+  background-color: var(--surface-nav-item-hover);
+}
+
+/* Active state with gentle scale */
+.sidebar__nav--animated .nav-item--selected {
+  transform: scale(1.01);
+  background-color: var(--surface-nav-item-selected);
+}
+
+/* Animated selection indicator for sidebar */
+.sidebar__nav--animated .nav-item--selected::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--accent-500) 20%,
+    var(--accent-500) 80%,
+    transparent 100%
+  );
+  border-radius: 0 var(--foundation-radius-sm) var(--foundation-radius-sm) 0;
+  animation: var(--animation-tab-indicator);
+}
+
+/* ===== ENHANCED INTERACTION STATES ===== */
+
+/* Smooth focus states */
+.tab--animated:focus,
+.nav-item:focus {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  transition: outline-offset var(--foundation-duration-fast) var(--foundation-ease-out);
+}
+
+/* Active state micro-interactions */
+.tab--animated:active:not(.tab--disabled) {
+  transform: scale(0.98);
+  transition: transform var(--foundation-duration-micro) var(--foundation-ease-in-out);
+}
+
+/* Disabled state transitions */
+.tab--animated.tab--disabled,
+.nav-item.nav-item--disabled {
+  transition: 
+    opacity var(--foundation-duration-normal) var(--foundation-ease-out),
+    filter var(--foundation-duration-normal) var(--foundation-ease-out);
+  filter: grayscale(0.3);
+}
+
+/* ===== CONTENT ANIMATIONS ===== */
+
+/* Icon animations within tabs */
+.tab--animated .tab__icon,
+.nav-item .nav-item__icon {
+  transition: transform var(--foundation-duration-fast) var(--foundation-ease-out);
+}
+
+.tab--animated:hover .tab__icon,
+.nav-item:hover .nav-item__icon {
+  transform: scale(1.1);
+}
+
+/* Badge animations */
+.tab--animated .tab__badge,
+.nav-item .nav-item__action-icon {
+  transition: 
+    transform var(--foundation-duration-fast) var(--foundation-ease-back),
+    opacity var(--foundation-duration-fast) var(--foundation-ease-out);
+}
+
+.tab--animated:hover .tab__badge,
+.nav-item:hover .nav-item__action-icon {
+  transform: scale(1.05);
+}
+
+/* ===== STAGGERED ANIMATIONS FOR GROUPS ===== */
+.tab-group--animated .tab--animated:nth-child(1) { animation-delay: 0ms; }
+.tab-group--animated .tab--animated:nth-child(2) { animation-delay: 50ms; }
+.tab-group--animated .tab--animated:nth-child(3) { animation-delay: 100ms; }
+.tab-group--animated .tab--animated:nth-child(4) { animation-delay: 150ms; }
+.tab-group--animated .tab--animated:nth-child(5) { animation-delay: 200ms; }
+
+.sidebar__nav--animated .nav-item:nth-child(1) { animation-delay: 0ms; }
+.sidebar__nav--animated .nav-item:nth-child(2) { animation-delay: 30ms; }
+.sidebar__nav--animated .nav-item:nth-child(3) { animation-delay: 60ms; }
+.sidebar__nav--animated .nav-item:nth-child(4) { animation-delay: 90ms; }
+.sidebar__nav--animated .nav-item:nth-child(5) { animation-delay: 120ms; }
+.sidebar__nav--animated .nav-item:nth-child(6) { animation-delay: 150ms; }
+
+/* ===== REDUCED MOTION SUPPORT ===== */
+@media (prefers-reduced-motion: reduce) {
+  .tab--animated,
+  .nav-item,
+  .tab-group__indicator--page,
+  .tab-group__indicator--segment {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  /* Keep minimal transitions for better UX */
+  .tab--animated,
+  .nav-item {
+    transition: background-color 0.15s ease !important;
+  }
+}
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+.tab-group--animated,
+.sidebar__nav--animated {
+  /* Enable hardware acceleration */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.tab--animated,
+.nav-item {
+  /* Optimize for animations */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ===== DARK MODE ENHANCEMENTS ===== */
+@media (prefers-color-scheme: dark) {
+  .tab-group__indicator--page {
+    box-shadow: 
+      0 0 12px rgba(var(--accent-400-rgb), 0.4),
+      0 2px 6px rgba(var(--accent-400-rgb), 0.3);
+  }
+  
+  .sidebar__nav--animated .nav-item--selected::before {
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      var(--accent-400) 20%,
+      var(--accent-400) 80%,
+      transparent 100%
+    );
+    box-shadow: 0 0 8px rgba(var(--accent-400-rgb), 0.3);
+  }
+}
