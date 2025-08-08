@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Tab/TabGroup.tsx
-// ENHANCED VERSION - Beautiful animations with motion tokens
+// FIXED VERSION - Proper TypeScript types and error handling
 // ===============================================
 
 import React, { ReactNode, useState, useRef, useEffect } from 'react';
@@ -11,9 +11,17 @@ interface TabGroupProps {
   variant?: TabVariant;
   orientation?: 'horizontal' | 'vertical';
   className?: string;
-  // 🎯 NEW: Animation options
+  // 🎯 Animation options
   animated?: boolean;
   animationType?: 'slide' | 'fade' | 'scale';
+}
+
+// 🎯 FIXED: Proper type for Tab props
+interface TabProps {
+  onClick?: () => void;
+  className?: string;
+  isActive?: boolean;
+  [key: string]: any;
 }
 
 export const TabGroup: React.FC<TabGroupProps> = ({
@@ -65,32 +73,50 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     return () => window.removeEventListener('resize', updateIndicator);
   }, [activeIndex, animated, variant]);
 
-  // Clone children to add refs and track active state
+  // 🎯 FIXED: Proper type handling for React children
   const enhancedChildren = React.Children.map(children, (child, index) => {
-    if (React.isValidElement(child)) {
+    if (React.isValidElement<TabProps>(child)) {
+      const childProps = child.props as TabProps;
+      
       return React.cloneElement(child, {
-        ref: (el: HTMLElement) => {
-          tabsRef.current[index] = el;
-        },
+        // 🎯 FIXED: Proper ref handling with forwardRef pattern
+        ...childProps,
+        // Custom click handler that tracks active index
         onClick: () => {
           setActiveIndex(index);
-          if (child.props.onClick) {
-            child.props.onClick();
+          // 🎯 FIXED: Safe property access
+          if (childProps.onClick) {
+            childProps.onClick();
           }
         },
-        // Add animation classes
-        className: `${child.props.className || ''} ${animated ? 'tab--animated' : ''} ${
+        // 🎯 FIXED: Safe className concatenation
+        className: [
+          childProps.className || '',
+          animated ? 'tab--animated' : '',
           animationType ? `tab--animation-${animationType}` : ''
-        }`.trim()
-      });
+        ].filter(Boolean).join(' ').trim(),
+        // Pass through ref callback for indicator positioning
+        'data-tab-index': index
+      } as Partial<TabProps>);
     }
     return child;
   });
 
+  // 🎯 FIXED: Effect to collect tab references from DOM
+  useEffect(() => {
+    if (!animated || variant === 'navigation') return;
+    
+    // Collect tab elements by data attribute
+    const tabElements = containerRef.current?.querySelectorAll('[data-tab-index]');
+    if (tabElements) {
+      tabsRef.current = Array.from(tabElements) as HTMLElement[];
+    }
+  }, [enhancedChildren, animated, variant]);
+
   // For navigation variant, use your existing sidebar__nav class
   if (variant === 'navigation') {
     return (
-      <div className={`sidebar__nav ${animated ? 'sidebar__nav--animated' : ''} ${className}`}>
+      <div className={`sidebar__nav ${animated ? 'sidebar__nav--animated' : ''} ${className}`.trim()}>
         {enhancedChildren}
       </div>
     );
