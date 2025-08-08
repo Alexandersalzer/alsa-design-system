@@ -22,6 +22,10 @@ import {
   type I18nMessageHandlers
 } from '../../../../..';
 
+// Add a top-level log to verify this file is loaded
+console.log('🌐 [KJ-FOOTER] FILE LOADED - kj-footer.tsx is being executed');
+console.log('🌐 [KJ-FOOTER] TIMESTAMP:', new Date().toISOString(), '- This should help identify cache issues');
+
 interface FooterContent {
   companyName?: string;
   email?: string;
@@ -44,6 +48,8 @@ interface KjFooterProps {
 }
 
 const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterProps) => {
+  console.log('🌐 [KJ-FOOTER] COMPONENT CONSTRUCTOR - KjFooter component is being created');
+  
   const [selectedLanguage, setSelectedLanguage] = useState<SupportedLocale>('sv');
   
   console.log('🌐 [KJ-FOOTER] Component rendered with isEditingMode:', isEditingMode);
@@ -52,6 +58,7 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
   
   // Get current locale on component mount
   useEffect(() => {
+    console.log('🌐 [KJ-FOOTER] MOUNT EFFECT - Component is mounting');
     const currentLocale = getCurrentLocale();
     console.log('🌐 [KJ-FOOTER] Setting initial locale to:', currentLocale);
     setSelectedLanguage(currentLocale);
@@ -59,7 +66,7 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
 
   // Test: Add a general message listener to see if ANY postMessages are received
   useEffect(() => {
-    console.log('🌐 [KJ-FOOTER] Setting up general message listener test...');
+    console.log('🌐 [KJ-FOOTER] GENERAL MESSAGE LISTENER EFFECT - Setting up general message listener test...');
     
     const generalMessageHandler = (event: MessageEvent) => {
       console.log('🌐 [KJ-FOOTER] [GENERAL TEST] Received ANY postMessage:', event);
