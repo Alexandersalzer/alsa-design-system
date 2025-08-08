@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Picker/Picker.tsx
-// FIXED - Proper closing logic that actually works
+// ENHANCED - Apple-style scroll lock + Smart positioning
 // ===============================================
 
 import { useState, useRef, useEffect, forwardRef, useId } from 'react';
@@ -71,7 +71,77 @@ export interface PickerProps {
   renderOption?: (option: PickerOption, isSelected: boolean) => React.ReactNode;
   /** ID for the picker */
   id?: string;
+  /** Disable scroll locking (not recommended) */
+  disableScrollLock?: boolean;
 }
+
+// Utility functions for scroll locking (Apple-style)
+const useScrollLock = (isLocked: boolean, disabled: boolean = false) => {
+  const [originalStyle, setOriginalStyle] = useState<string>('');
+  const [originalScrollbarWidth, setOriginalScrollbarWidth] = useState<string>('');
+
+  useEffect(() => {
+    if (disabled) return;
+
+    if (isLocked) {
+      // Store original styles
+      const body = document.body;
+      const html = document.documentElement;
+      
+      setOriginalStyle(body.style.overflow);
+      setOriginalScrollbarWidth(body.style.paddingRight);
+
+      // Calculate scrollbar width
+      const scrollbarWidth = window.innerWidth - html.clientWidth;
+      
+      // Apply scroll lock with scrollbar compensation
+      body.style.overflow = 'hidden';
+      body.style.paddingRight = `${scrollbarWidth}px`;
+      
+      // Prevent rubber band scrolling on iOS
+      const preventDefault = (e: TouchEvent) => {
+        e.preventDefault();
+      };
+      
+      document.addEventListener('touchmove', preventDefault, { passive: false });
+      
+      return () => {
+        document.removeEventListener('touchmove', preventDefault);
+      };
+    } else {
+      // Restore original styles
+      const body = document.body;
+      body.style.overflow = originalStyle;
+      body.style.paddingRight = originalScrollbarWidth;
+    }
+  }, [isLocked, disabled, originalStyle, originalScrollbarWidth]);
+};
+
+// Smart positioning utility
+const calculateDropdownPosition = (
+  triggerElement: HTMLElement,
+  dropdownHeight: number,
+  offset: number = 8
+) => {
+  const triggerRect = triggerElement.getBoundingClientRect();
+  const viewportHeight = window.innerHeight;
+  const scrollY = window.scrollY;
+  
+  const spaceAbove = triggerRect.top;
+  const spaceBelow = viewportHeight - triggerRect.bottom;
+  
+  // Determine if dropdown should open upward or downward
+  const shouldOpenUpward = spaceBelow < dropdownHeight && spaceAbove > spaceBelow;
+  
+  return {
+    shouldOpenUpward,
+    spaceAbove,
+    spaceBelow,
+    maxHeight: shouldOpenUpward 
+      ? Math.min(dropdownHeight, spaceAbove - offset)
+      : Math.min(dropdownHeight, spaceBelow - offset)
+  };
+};
 
 export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
   label,
@@ -98,19 +168,30 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
   onMultiChange,
   renderOption,
   id: providedId,
+  disableScrollLock = false,
   ...props
 }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [focusedIndex, setFocusedIndex] = useState(-1);
+  const [dropdownPosition, setDropdownPosition] = useState<{
+    shouldOpenUpward: boolean;
+    maxHeight: number;
+  }>({ shouldOpenUpward: false, maxHeight: maxHeight });
+  
   const containerRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   
   const generatedId = useId();
   const id = providedId || generatedId;
   const descriptionId = description ? `${id}-description` : undefined;
   const errorId = error ? `${id}-error` : undefined;
   const successId = success ? `${id}-success` : undefined;
+
+  // Apply scroll lock when dropdown is open
+  useScrollLock(isOpen, disableScrollLock);
 
   // Filter options based on search term
   const filteredOptions = options.filter(option =>
@@ -121,6 +202,14 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
   const selectedOptions = multiple 
     ? options.filter(opt => multiValue.includes(opt.value))
     : options.find(opt => opt.value === value);
+
+  // Calculate dropdown position when opening
+  const updateDropdownPosition = () => {
+    if (triggerRef.current) {
+      const position = calculateDropdownPosition(triggerRef.current, maxHeight);
+      setDropdownPosition(position);
+    }
+  };
 
   // Handle selection
   const handleSelect = (option: PickerOption) => {
@@ -162,6 +251,18 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
     return selected ? selected.label : placeholder;
   };
 
+  // Handle opening/closing with position calculation
+  const handleToggle = () => {
+    if (disabled || loading) return;
+    
+    if (!isOpen) {
+      updateDropdownPosition();
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
+  };
+
   // Handle keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (disabled || loading) return;
@@ -170,6 +271,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
       case 'Enter':
         e.preventDefault();
         if (!isOpen) {
+          updateDropdownPosition();
           setIsOpen(true);
         } else if (focusedIndex >= 0 && focusedIndex < filteredOptions.length) {
           handleSelect(filteredOptions[focusedIndex]);
@@ -182,6 +284,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
       case 'ArrowDown':
         e.preventDefault();
         if (!isOpen) {
+          updateDropdownPosition();
           setIsOpen(true);
         } else {
           setFocusedIndex(prev => 
@@ -213,6 +316,23 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
       return () => document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [isOpen]);
+
+  // Update position on scroll/resize when open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handlePositionUpdate = () => {
+      updateDropdownPosition();
+    };
+
+    window.addEventListener('scroll', handlePositionUpdate, true);
+    window.addEventListener('resize', handlePositionUpdate);
+
+    return () => {
+      window.removeEventListener('scroll', handlePositionUpdate, true);
+      window.removeEventListener('resize', handlePositionUpdate);
+    };
+  }, [isOpen, maxHeight]);
 
   // Focus search input when dropdown opens
   useEffect(() => {
@@ -264,6 +384,15 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
     className
   );
 
+  const dropdownClasses = cn(
+    "picker-dropdown",
+    `picker-dropdown--${variant}`,
+    radius === 'sm' && 'picker-dropdown--radius-sm',
+    radius === 'lg' && 'picker-dropdown--radius-lg',
+    searchable && "picker-dropdown--with-search",
+    dropdownPosition.shouldOpenUpward && "picker-dropdown--upward"
+  );
+
   return (
     <div 
       className={wrapperClasses} 
@@ -295,12 +424,19 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
 
       <div className="picker-container">
         <button
-          ref={ref}
+          ref={(node) => {
+            triggerRef.current = node;
+            if (typeof ref === 'function') {
+              ref(node);
+            } else if (ref) {
+              ref.current = node;
+            }
+          }}
           type="button"
           id={id}
           disabled={disabled || loading}
           className={pickerClasses}
-          onClick={() => !disabled && !loading && setIsOpen(!isOpen)}
+          onClick={handleToggle}
           onKeyDown={handleKeyDown}
           aria-expanded={isOpen}
           aria-haspopup="listbox"
@@ -319,18 +455,22 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
           </div>
         </button>
 
-        {/* SIMPLIFIED: Just show/hide based on isOpen - no complex animation state */}
+        {/* Smart positioned dropdown */}
         {isOpen && !disabled && !loading && (
           <div 
-            className={cn(
-              "picker-dropdown",
-              `picker-dropdown--${variant}`,
-              radius === 'sm' && 'picker-dropdown--radius-sm',
-              radius === 'lg' && 'picker-dropdown--radius-lg',
-              searchable && "picker-dropdown--with-search"
-            )}
-            style={{ maxHeight: `${maxHeight}px` }}
+            ref={dropdownRef}
+            className={dropdownClasses}
+            style={{ 
+              maxHeight: `${dropdownPosition.maxHeight}px`,
+              ...(dropdownPosition.shouldOpenUpward && {
+                bottom: '100%',
+                top: 'auto',
+                marginBottom: 'var(--foundation-space-1)',
+                marginTop: '0'
+              })
+            }}
             data-multiple={multiple ? "true" : "false"}
+            data-position={dropdownPosition.shouldOpenUpward ? "upward" : "downward"}
           >
             {searchable && (
               <div className="picker-search">

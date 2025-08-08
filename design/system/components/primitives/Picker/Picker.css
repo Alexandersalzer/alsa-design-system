@@ -289,7 +289,7 @@
   width: 100%;
   padding: var(--foundation-space-2);
   border: 1px solid var(--border-input);
-  border-radius: var(--radius-input);
+  border-radius: var(--radius-input-sm);
   background-color: var(--surface-input);
   color: var(--text-input);
   font-family: var(--font-body-family);
@@ -327,7 +327,7 @@
   cursor: pointer;
   border-radius: var(--radius-picker-sm);
   background: var(--surface-picker-option);
-  margin: var(--foundation-space-2) 0;
+  margin: var(--foundation-space-1) 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
