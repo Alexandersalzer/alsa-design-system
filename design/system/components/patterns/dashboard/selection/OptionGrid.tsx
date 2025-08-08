@@ -94,7 +94,7 @@ export const OptionGrid: React.FC<OptionGridProps> = ({
           <button
             key={option.id}
             onClick={() => onChange(option.value)}
-            className="group relative p-3 rounded-lg border-2 transition-all"
+            className="group relative p-3 border-2 transition-all"
             style={{
               borderColor: selected === option.value ? 'var(--accent-500)' : 'var(--border-default)',
               backgroundColor: selected === option.value ? 'var(--accent-50)' : 'var(--surface-card)'
@@ -136,7 +136,7 @@ export const OptionGrid: React.FC<OptionGridProps> = ({
           <button
             key={option.id}
             onClick={() => onChange(option.value)}
-            className="group relative p-3 rounded-lg border-2 transition-all"
+            className="group relative p-3  border-2 transition-all"
             style={{
               borderColor: selected === option.value ? 'var(--accent-500)' : 'var(--border-default)',
               backgroundColor: selected === option.value ? 'var(--accent-50)' : 'var(--surface-card)'
@@ -184,7 +184,7 @@ export const OptionGrid: React.FC<OptionGridProps> = ({
           <button
             key={option.id}
             onClick={() => onChange(option.value)}
-            className="w-full p-4 rounded-lg border-2 transition-all text-left relative"
+            className="w-full p-4 border-2 transition-all text-left relative"
             style={{
               borderColor: selected === option.value ? 'var(--accent-500)' : 'var(--border-default)',
               backgroundColor: selected === option.value ? 'var(--accent-50)' : 'var(--surface-card)'
