@@ -37,7 +37,7 @@
 
 .selection-card--selected.selection-card--clickable:hover {
   border-color: var(--accent-600);
-  background-color: var(--accent-100);
+  background-color: var(--secondary-100);
   /* FIXED: Ensure no transform or scale */
   transform: none;
 }
