@@ -14,7 +14,6 @@ import {
   type SupportedLocale,
   type LocaleOption
 } from '../../../../utils/locale';
-import { useEditingMode } from '../../../../../cms/wrappers/editing/EditingWrapper';
 
 interface FooterContent {
   companyName?: string;
@@ -38,31 +37,13 @@ interface KjFooterProps {
 }
 
 const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterProps) => {
-  const { isEditingMode: contextIsEditingMode, currentLocale, setCurrentLocale } = useEditingMode();
+  const [selectedLanguage, setSelectedLanguage] = useState<SupportedLocale>('sv');
   
-  // Use context editing mode if available, otherwise fall back to prop
-  const actualIsEditingMode = contextIsEditingMode !== undefined ? contextIsEditingMode : isEditingMode;
-  
-  // Use locale from context in editing mode, otherwise get from URL
-  const [selectedLanguage, setSelectedLanguage] = useState<SupportedLocale>(() => {
-    return actualIsEditingMode ? (currentLocale as SupportedLocale) : getCurrentLocale();
-  });
-
-  // Sync with context locale changes in editing mode
+  // Get current locale on component mount
   useEffect(() => {
-    if (actualIsEditingMode && currentLocale) {
-      console.log('🌐 KjFooter syncing with context locale:', currentLocale);
-      setSelectedLanguage(currentLocale as SupportedLocale);
-    }
-  }, [currentLocale, actualIsEditingMode]);
-
-  // Get current locale on component mount (for non-editing mode)
-  useEffect(() => {
-    if (!actualIsEditingMode) {
-      const currentLocale = getCurrentLocale();
-      setSelectedLanguage(currentLocale);
-    }
-  }, [actualIsEditingMode]);
+    const currentLocale = getCurrentLocale();
+    setSelectedLanguage(currentLocale);
+  }, []);
 
   // Extract content from props
   const {
@@ -85,20 +66,14 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
     if (value) {
       console.log('Footer language change debug:', { 
         value, 
-        isEditingMode: actualIsEditingMode,
+        isEditingMode,
         currentLocale: selectedLanguage 
       });
       
       setSelectedLanguage(value as SupportedLocale);
       
-      // In editing mode, update context but don't trigger switchLocale (parent controls navigation)
-      // In non-editing mode, trigger switchLocale as before
-      if (actualIsEditingMode) {
-        console.log('🌐 In editing mode - updating context locale');
-        setCurrentLocale(value);
-      } else {
-        switchLocale(value as SupportedLocale, actualIsEditingMode);
-      }
+      // Call switchLocale directly with the current isEditingMode value
+      switchLocale(value as SupportedLocale, isEditingMode);
     }
   };
 

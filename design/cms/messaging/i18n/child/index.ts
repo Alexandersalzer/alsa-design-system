@@ -1,7 +1,7 @@
-// Export i18n child messaging functionality
-export {
-  requestCurrentLocale,
+// Export i18n messaging functionality for child (iframe)
+export { 
+  createI18nMessageHandlers,
+  useI18nMessageListener,
   setupI18nMessageListener,
-  setupBasicLocaleSynchronization,
-  type I18nMessageHandlers
+  type I18nMessageHandlers 
 } from './i18nMessaging'; 

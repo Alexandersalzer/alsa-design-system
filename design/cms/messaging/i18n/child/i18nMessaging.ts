@@ -1,47 +1,87 @@
+import React from 'react';
+import { switchLocale, type SupportedLocale, isSupportedLocale } from '../../../../system/utils/locale';
+
 export interface I18nMessageHandlers {
-  onLocaleChange: (locale: string) => void;
-  onLocaleSync: (locale: string) => void;
+  onLanguageUpdate: (languageCode: string) => void;
 }
 
-// Request current locale from parent
-export const requestCurrentLocale = () => {
-  console.log('🌐 Child requesting current locale from parent');
-  window.parent.postMessage({
-    type: 'request-current-locale'
-  }, '*');
+interface I18nMessageHandlerParams {
+  setSelectedLanguage?: (language: string) => void;
+  isEditingMode?: boolean;
+}
+
+export const createI18nMessageHandlers = (params: I18nMessageHandlerParams): I18nMessageHandlers => {
+  const { setSelectedLanguage, isEditingMode = false } = params;
+
+  return {
+    onLanguageUpdate: (languageCode: string) => {
+      console.log('🌐 Received language update in child:', languageCode, 'isEditingMode:', isEditingMode);
+      
+      // Validate that the language code is supported
+      if (!isSupportedLocale(languageCode)) {
+        console.warn('Unsupported language code received:', languageCode);
+        return;
+      }
+      
+      // Update the language picker state if setter is provided
+      if (setSelectedLanguage) {
+        setSelectedLanguage(languageCode);
+      }
+      
+      // Switch to the new locale using the existing locale utility
+      // The isEditingMode parameter ensures proper URL handling
+      switchLocale(languageCode as SupportedLocale, isEditingMode);
+    }
+  };
 };
 
-// Setup message listener for i18n messages
-export const setupI18nMessageListener = (handlers: I18nMessageHandlers) => {
+// Hook for setting up i18n message listener
+export const useI18nMessageListener = (handlers: I18nMessageHandlers) => {
+  React.useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      const { type, languageCode } = event.data;
+      
+      switch (type) {
+        case 'language-update':
+          if (languageCode) {
+            handlers.onLanguageUpdate(languageCode);
+          }
+          break;
+        default:
+          // Ignore other message types
+          break;
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, [handlers]);
+};
+
+// Setup i18n message listener (alternative to hook for class components)
+export const setupI18nMessageListener = (handlers: I18nMessageHandlers): (() => void) => {
   const handleMessage = (event: MessageEvent) => {
-    console.log('🌐 Child received message:', event.data);
+    const { type, languageCode } = event.data;
     
-    // Handle locale change command from parent
-    if (event.data.type === 'locale-change') {
-      console.log('🌐 Child handling locale change:', event.data.locale);
-      handlers.onLocaleChange(event.data.locale);
-    }
-    
-    // Handle locale sync from parent (for initial synchronization)
-    if (event.data.type === 'locale-sync') {
-      console.log('🌐 Child handling locale sync:', event.data.locale);
-      handlers.onLocaleSync(event.data.locale);
+    switch (type) {
+      case 'language-update':
+        if (languageCode) {
+          handlers.onLanguageUpdate(languageCode);
+        }
+        break;
+      default:
+        // Ignore other message types
+        break;
     }
   };
 
   window.addEventListener('message', handleMessage);
   
+  // Return cleanup function
   return () => {
     window.removeEventListener('message', handleMessage);
   };
-};
-
-// Utility function to setup basic locale synchronization
-export const setupBasicLocaleSynchronization = (
-  onLocaleChange: (locale: string) => void
-) => {
-  return setupI18nMessageListener({
-    onLocaleChange,
-    onLocaleSync: onLocaleChange // Use same handler for both change and sync
-  });
 }; 

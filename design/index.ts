@@ -33,23 +33,12 @@ export {
   type DesignTokenParentConfig
 } from './cms/messaging/design/parent/designTokenMessaging';
 
-// Export i18n messaging functionality (parent)
+// Export i18n messaging functionality
 export {
   I18nParentHandler,
-  sendLocaleChange,
-  sendCurrentLocale,
-  setupBasicI18nParentMessageListener,
-  type I18nParentConfig,
-  type I18nParentHandlers
+  sendLanguageUpdate,
+  type I18nParentConfig
 } from './cms/messaging/i18n/parent';
-
-// Export i18n messaging functionality (child)
-export {
-  requestCurrentLocale,
-  setupI18nMessageListener,
-  setupBasicLocaleSynchronization,
-  type I18nMessageHandlers
-} from './cms/messaging/i18n/child';
 
 // Export layout components (client-safe)
 export { ContentLayout } from './cms/wrappers/ContentLayout';

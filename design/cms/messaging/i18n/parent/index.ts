@@ -1,9 +1,6 @@
-// Export i18n parent messaging functionality
-export {
+// Export i18n messaging functionality
+export { 
   I18nParentHandler,
-  sendLocaleChange,
-  sendCurrentLocale,
-  setupBasicI18nParentMessageListener,
-  type I18nParentConfig,
-  type I18nParentHandlers
+  sendLanguageUpdate,
+  type I18nParentConfig 
 } from './i18nMessaging'; 
