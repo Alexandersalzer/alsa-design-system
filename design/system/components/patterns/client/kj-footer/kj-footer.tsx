@@ -88,13 +88,9 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
       
       setSelectedLanguage(value as SupportedLocale);
       
-      // Only switch locale if NOT in editing mode
-      // In editing mode, the parent editor handles the language switching
-      if (!isEditingMode) {
-        switchLocale(value as SupportedLocale, isEditingMode);
-      } else {
-        console.log('🌐 In editing mode - parent will handle locale switching');
-      }
+      // Always switch locale when user manually selects a language
+      // The isEditingMode parameter ensures proper URL handling (with .html extension)
+      switchLocale(value as SupportedLocale, isEditingMode);
     }
   };
 
