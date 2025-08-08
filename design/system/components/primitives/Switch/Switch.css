@@ -1,9 +1,17 @@
 /* ==============================================
-   src/design-system/components/primitives/Switch/Switch.css
-   SWITCH COMPONENT - Final Version with Semantic Motion Tokens
+   Switch Component - Clean Implementation
    ============================================== */
 
-/* ===== SWITCH WRAPPER ===== */
+/* Switch motion tokens */
+:root {
+  --transition-switch-track: background-color var(--foundation-duration-normal) var(--foundation-ease-smooth);
+  --transition-switch-thumb: all var(--foundation-duration-slower) var(--foundation-ease-smooth);
+  --transition-switch-focus: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
+  --transition-switch-hover: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
+  --transition-switch-border: border-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
+}
+
+/* Switch wrapper */
 .switch-wrapper {
   display: flex;
   align-items: flex-start;
@@ -24,7 +32,7 @@
   opacity: 0.6;
 }
 
-/* ===== SWITCH CONTAINER ===== */
+/* Switch container */
 .switch-container {
   position: relative;
   display: flex;
@@ -32,7 +40,7 @@
   flex-shrink: 0;
 }
 
-/* ===== SWITCH INPUT (HIDDEN) ===== */
+/* Hidden input */
 .switch-input {
   position: absolute;
   width: 1px;
@@ -47,37 +55,35 @@
   pointer-events: none;
 }
 
-/* ===== SWITCH MAIN ELEMENT ===== */
+/* Switch element */
 .switch {
   position: relative;
   display: inline-block;
   cursor: pointer;
   outline: none;
-  transition: var(--motion-switch-focus);
+  transition: var(--transition-switch-focus);
 }
 
 .switch:focus-visible {
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: 0 0 0 2px var(--border-switch-focus);
-  transition: var(--motion-switch-focus);
 }
 
 .switch--disabled {
   cursor: not-allowed;
 }
 
-/* ===== SWITCH TRACK ===== */
+/* Track */
 .switch-track {
   position: relative;
   display: block;
   background-color: var(--surface-switch-track);
   border-radius: var(--radius-switch-track);
   border: 1px solid transparent;
-  transition: var(--motion-switch-track-background), var(--motion-switch-track-border);
+  transition: var(--transition-switch-track), var(--transition-switch-border);
 }
 
-/* Track Sizes */
 .switch--sm .switch-track {
   width: calc(var(--size-switch-sm-width) + 10px);
   height: var(--size-switch-sm-height);
@@ -93,15 +99,14 @@
   height: var(--size-switch-lg-height);
 }
 
-/* ===== TRACK STATES ===== */
+/* Track states */
 .switch:hover:not(.switch--disabled) .switch-track {
   background-color: var(--surface-switch-track-hover);
-  transition: var(--motion-switch-track-hover);
+  transition: var(--transition-switch-hover);
 }
 
 .switch--checked .switch-track {
   background-color: var(--surface-switch-track-checked);
-  /* REMOVED: animation: var(--motion-switch-glow); */
 }
 
 .switch--checked:hover:not(.switch--disabled) .switch-track {
@@ -116,7 +121,7 @@
   background-color: var(--surface-switch-track-disabled-checked);
 }
 
-/* ===== SWITCH THUMB ===== */
+/* Thumb */
 .switch-thumb {
   position: absolute;
   top: 50%;
@@ -125,11 +130,10 @@
   background-color: var(--surface-switch-thumb);
   border-radius: var(--radius-switch-thumb);
   box-shadow: var(--foundation-shadow-sm);
-  transition: var(--motion-switch-thumb-position);
+  transition: var(--transition-switch-thumb);
   will-change: transform;
 }
 
-/* Thumb Sizes */
 .switch--sm .switch-thumb {
   width: calc(var(--size-switch-sm-thumb) + 2px);
   height: calc(var(--size-switch-sm-thumb) - 2px);
@@ -145,7 +149,7 @@
   height: calc(var(--size-switch-lg-thumb) - 3px);
 }
 
-/* ===== THUMB CHECKED POSITIONS ===== */
+/* Thumb checked positions */
 .switch--sm.switch--checked .switch-thumb {
   transform: translateY(-50%) translateX(calc(var(--size-switch-sm-width) + 10px - var(--size-switch-sm-thumb) - 8px));
 }
@@ -158,34 +162,33 @@
   transform: translateY(-50%) translateX(calc(var(--size-switch-lg-width) + 14px - var(--size-switch-lg-thumb) - 12px));
 }
 
-/* ===== THUMB INTERACTION STATES ===== */
+/* Thumb interactions */
 .switch:active:not(.switch--disabled) .switch-thumb {
   transform: translateY(-50%) scale(0.95);
-  transition: var(--motion-switch-thumb-scale);
+  transition: transform var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
 .switch--checked:active:not(.switch--disabled) .switch-thumb {
   transform: translateY(-50%) translateX(var(--switch-thumb-end-position, 0)) scale(0.95);
-  transition: var(--motion-switch-thumb-scale);
+  transition: transform var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
 .switch:hover:not(.switch--disabled) .switch-thumb {
   box-shadow: var(--foundation-shadow-md);
-  transition: var(--motion-switch-thumb-shadow);
+  transition: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
 .switch:focus-visible .switch-thumb {
   box-shadow: var(--foundation-shadow-sm), 0 0 0 2px var(--border-switch-focus);
-  transition: var(--motion-switch-thumb-shadow);
+  transition: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
-/* ===== DISABLED THUMB ===== */
 .switch--disabled .switch-thumb {
   background-color: var(--surface-switch-thumb-disabled);
   box-shadow: none;
 }
 
-/* ===== LABELS AND TEXT ===== */
+/* Labels */
 .switch-label-content {
   display: flex;
   flex-direction: column;
@@ -202,7 +205,7 @@
   cursor: pointer;
   user-select: none;
   margin: 0;
-  transition: var(--motion-switch-label);
+  transition: var(--transition-hover);
 }
 
 .switch-wrapper--sm .switch-label {
@@ -227,7 +230,6 @@
   margin-left: var(--foundation-space-1);
 }
 
-/* ===== SWITCH DESCRIPTION ===== */
 .switch-description {
   font-family: var(--typography-body-font-family);
   font-size: var(--typography-body-sm-size);
@@ -235,25 +237,25 @@
   line-height: var(--typography-body-sm-line-height);
   color: var(--text-form-hint);
   margin-top: var(--foundation-space-1);
-  transition: var(--motion-switch-label);
+  transition: var(--transition-hover);
 }
 
 .switch-wrapper--disabled .switch-description {
   color: var(--text-form-label-disabled);
 }
 
-/* ===== VALIDATION STATES ===== */
+/* Validation states */
 .switch-wrapper--error .switch-track {
   border-color: var(--border-select-error);
-  transition: var(--motion-switch-error);
+  transition: var(--transition-switch-border);
 }
 
 .switch-wrapper--success .switch-track {
   border-color: var(--success-500);
-  transition: var(--motion-switch-success);
+  transition: var(--transition-switch-border);
 }
 
-/* ===== ERROR AND SUCCESS MESSAGES ===== */
+/* Error/success messages */
 .switch-error {
   font-family: var(--typography-body-font-family);
   font-size: var(--typography-body-sm-size);
@@ -276,7 +278,7 @@
   animation: var(--animation-fade-in);
 }
 
-/* ===== SWITCH GROUP ===== */
+/* Switch group */
 .switch-group {
   display: flex;
   flex-direction: column;
@@ -340,24 +342,12 @@
   animation: var(--animation-fade-in);
 }
 
-/* ===== SPECIAL VARIANTS ===== */
-/* Premium bounce effect variant - DISABLED */
-.switch--enhanced .switch-thumb {
-  transition: var(--motion-switch-thumb-position);
-  /* REMOVED: bounce animation */
-}
-
-.switch--enhanced.switch--checked .switch-thumb {
-  /* REMOVED: animation: var(--motion-switch-bounce); */
-  /* REMOVED: animation-delay: var(--duration-switch-toggle); */
-}
-
-/* Loading state variant */
+/* Loading state */
 .switch--loading .switch-thumb {
   animation: var(--animation-pulse);
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+/* Responsive */
 @media (max-width: 640px) {
   .switch-wrapper {
     gap: var(--foundation-space-2);
@@ -369,7 +359,7 @@
   }
 }
 
-/* ===== ACCESSIBILITY IMPROVEMENTS ===== */
+/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   .switch,
   .switch-track,
@@ -380,13 +370,12 @@
     animation: none !important;
   }
 
-  /* Still allow instant state changes for accessibility */
   .switch-thumb {
     transition: transform 0s;
   }
 }
 
-/* ===== HIGH CONTRAST MODE SUPPORT ===== */
+/* High contrast */
 @media (prefers-contrast: high) {
   .switch-track {
     border: 2px solid currentColor;
@@ -395,28 +384,4 @@
   .switch-thumb {
     border: 1px solid currentColor;
   }
-}
-
-/* ===== ADVANCED INTERACTION EFFECTS ===== */
-/* REMOVED: Subtle press effect on track (no more bounce) */
-
-/* Smooth focus ring animation */
-.switch:focus-visible {
-  /* REMOVED: animation: var(--animation-scale-in); */
-}
-
-/* Thumb position indicators for custom styling */
-.switch--sm {
-  --switch-thumb-start: 2px;
-  --switch-thumb-end: calc(var(--size-switch-sm-width) + 10px - var(--size-switch-sm-thumb) - 8px);
-}
-
-.switch--md {
-  --switch-thumb-start: 2px;
-  --switch-thumb-end: calc(var(--size-switch-md-width) + 12px - var(--size-switch-md-thumb) - 10px);
-}
-
-.switch--lg {
-  --switch-thumb-start: 2px;
-  --switch-thumb-end: calc(var(--size-switch-lg-width) + 14px - var(--size-switch-lg-thumb) - 12px);
 }

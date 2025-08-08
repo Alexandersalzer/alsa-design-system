@@ -120,3 +120,32 @@
   --easing-switch-hover: var(--foundation-ease-smooth);
   --easing-switch-press: var(--foundation-ease-smooth);
 }
+
+
+/* ==============================================
+   STEP 1: Add to your existing foundation/motion.css
+   ============================================== */
+
+/* Add these to your existing foundation motion tokens */
+:root {
+  /* Your existing foundation tokens... */
+  --foundation-duration-instant: 0ms;
+  --foundation-duration-fast: 150ms;
+  --foundation-duration-normal: 250ms;
+  --foundation-duration-slow: 350ms;
+  --foundation-duration-slower: 500ms;
+  --foundation-duration-micro: 75ms;
+  --foundation-duration-gentle: 400ms;
+  --foundation-duration-dramatic: 600ms;
+
+  --foundation-ease-linear: linear;
+  --foundation-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --foundation-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --foundation-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --foundation-ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --foundation-ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --foundation-ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --foundation-ease-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --foundation-ease-anticipate: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --foundation-ease-overshoot: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
