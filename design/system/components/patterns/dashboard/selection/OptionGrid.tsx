@@ -10,6 +10,7 @@ import { Stack } from '../page/Stack';
 import { H4, Body } from '../../../primitives/Typography';
 import { Icon } from '../../../primitives/Icon';
 import { cn } from '../../../../lib/utils';
+import { CheckIcon } from '@heroicons/react/24/outline';
 
 export interface OptionItem {
   id: string;
@@ -97,22 +98,29 @@ export const OptionGrid: React.FC<OptionGridProps> = ({
             className="group relative p-3 border-2 transition-all"
             style={{
               borderColor: selected === option.value ? 'var(--accent-500)' : 'var(--border-default)',
-              backgroundColor: selected === option.value ? 'var(--accent-50)' : 'var(--surface-card)'
+              backgroundColor: selected === option.value ? 'var(--accent-50)' : 'var(--surface-card)',
+              borderRadius: 'var(--radius-button)'
             }}
           >
             {selected === option.value && (
               <div 
-                className="absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: 'var(--accent-500)' }}
+                className="absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center"
+                style={{ 
+                  backgroundColor: 'var(--accent-500)',
+                  borderRadius: '50%'
+                }}
               >
-                <svg width="12" height="12" fill="white" viewBox="0 0 12 12">
-                  <path d="M10 3L4.5 8.5L2 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <Icon size="xs" color="button-primary">
+                  <CheckIcon />
+                </Icon>
               </div>
             )}
             <div
-              className="w-full h-8 rounded mb-2"
-              style={{ backgroundColor: option.hex }}
+              className="w-full h-8 mb-2"
+              style={{ 
+                backgroundColor: option.hex,
+                borderRadius: 'var(--radius-button)'
+              }}
             />
             <div 
               className="text-sm font-medium"
@@ -128,7 +136,7 @@ export const OptionGrid: React.FC<OptionGridProps> = ({
     );
   }
 
-  // Radius variant - matches original design  
+  // Radius variant - matches original design with grid layout
   if (variant === 'radius') {
     return (
       <div className={cn('grid gap-2', gridClassName, className)}>
@@ -136,20 +144,24 @@ export const OptionGrid: React.FC<OptionGridProps> = ({
           <button
             key={option.id}
             onClick={() => onChange(option.value)}
-            className="group relative p-3  border-2 transition-all"
+            className="group relative p-3 border-2 transition-all"
             style={{
               borderColor: selected === option.value ? 'var(--accent-500)' : 'var(--border-default)',
-              backgroundColor: selected === option.value ? 'var(--accent-50)' : 'var(--surface-card)'
+              backgroundColor: selected === option.value ? 'var(--accent-50)' : 'var(--surface-card)',
+              borderRadius: 'var(--radius-button)'
             }}
           >
             {selected === option.value && (
               <div 
-                className="absolute -top-2 -right-2 w-4 h-4 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: 'var(--accent-500)' }}
+                className="absolute -top-2 -right-2 w-4 h-4 flex items-center justify-center"
+                style={{ 
+                  backgroundColor: 'var(--accent-500)',
+                  borderRadius: '50%'
+                }}
               >
-                <svg width="8" height="8" fill="white" viewBox="0 0 8 8">
-                  <path d="M7 2L3 6L1 4" stroke="white" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <Icon size="xs" color="button-primary">
+                  <CheckIcon />
+                </Icon>
               </div>
             )}
             <div className="flex flex-col items-center gap-1 mb-2">
@@ -187,17 +199,21 @@ export const OptionGrid: React.FC<OptionGridProps> = ({
             className="w-full p-4 border-2 transition-all text-left relative"
             style={{
               borderColor: selected === option.value ? 'var(--accent-500)' : 'var(--border-default)',
-              backgroundColor: selected === option.value ? 'var(--accent-50)' : 'var(--surface-card)'
+              backgroundColor: selected === option.value ? 'var(--accent-50)' : 'var(--surface-card)',
+              borderRadius: 'var(--radius-button)'
             }}
           >
             {selected === option.value && (
               <div 
-                className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: 'var(--accent-500)' }}
+                className="absolute top-2 right-2 w-5 h-5 flex items-center justify-center"
+                style={{ 
+                  backgroundColor: 'var(--accent-500)',
+                  borderRadius: '50%'
+                }}
               >
-                <svg width="12" height="12" fill="white" viewBox="0 0 12 12">
-                  <path d="M10 3L4.5 8.5L2 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <Icon size="xs" color="button-primary">
+                  <CheckIcon />
+                </Icon>
               </div>
             )}
             <div className="flex items-center gap-3">
