@@ -15,13 +15,6 @@ import {
   type LocaleOption
 } from '../../../../utils/locale';
 
-// Import i18n messaging from the main design system export
-import { 
-  createI18nMessageHandlers,
-  useI18nMessageListener,
-  type I18nMessageHandlers
-} from '../../../../..';
-
 interface FooterContent {
   companyName?: string;
   email?: string;
@@ -46,26 +39,11 @@ interface KjFooterProps {
 const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterProps) => {
   const [selectedLanguage, setSelectedLanguage] = useState<SupportedLocale>('sv');
   
-  console.log('🌐 [KJ-FOOTER] Component rendered with isEditingMode:', isEditingMode);
-  
   // Get current locale on component mount
   useEffect(() => {
     const currentLocale = getCurrentLocale();
-    console.log('🌐 [KJ-FOOTER] Setting initial locale to:', currentLocale);
     setSelectedLanguage(currentLocale);
   }, []);
-
-  // Create i18n message handlers for postMessage communication
-  const i18nHandlers: I18nMessageHandlers = createI18nMessageHandlers({
-    setSelectedLanguage: (language: string) => {
-      console.log('🌐 [KJ-FOOTER] setSelectedLanguage called from postMessage with:', language);
-      setSelectedLanguage(language as SupportedLocale);
-    },
-    isEditingMode
-  });
-
-  // Set up postMessage listener for language updates from parent editor
-  useI18nMessageListener(i18nHandlers);
 
   // Extract content from props
   const {
@@ -86,7 +64,7 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
   // Handle language change with proper typing for Picker component
   const handleLanguageChangeWithState = (value: string | null) => {
     if (value) {
-      console.log('🌐 [KJ-FOOTER] handleLanguageChangeWithState called with:', { 
+      console.log('Footer language change debug:', { 
         value, 
         isEditingMode,
         currentLocale: selectedLanguage 

@@ -10,37 +10,21 @@ export class I18nParentHandler {
 
   constructor(config: I18nParentConfig) {
     this.config = config;
-    console.log('🌐 I18nParentHandler created with config:', config);
   }
 
   // Send language change update to iframe
   sendLanguageUpdate = (languageCode: string) => {
-    console.log('🌐 [PARENT] sendLanguageUpdate called with:', languageCode);
-    console.log('🌐 [PARENT] iframeRef.current:', this.config.iframeRef.current);
-    console.log('🌐 [PARENT] contentWindow:', this.config.iframeRef.current?.contentWindow);
-    
     if (this.config.iframeRef.current) {
-      const message = {
+      console.log('🌐 Sending language update to iframe:', languageCode);
+      this.config.iframeRef.current.contentWindow?.postMessage({
         type: 'language-update',
         languageCode: languageCode
-      };
-      
-      console.log('🌐 [PARENT] Sending postMessage:', message);
-      
-      try {
-        this.config.iframeRef.current.contentWindow?.postMessage(message, '*');
-        console.log('🌐 [PARENT] postMessage sent successfully');
-      } catch (error) {
-        console.error('🌐 [PARENT] Error sending postMessage:', error);
-      }
-    } else {
-      console.warn('🌐 [PARENT] iframeRef.current is null, cannot send message');
+      }, '*');
     }
   };
 
   // Update config
   updateConfig = (newConfig: Partial<I18nParentConfig>) => {
-    console.log('🌐 [PARENT] updateConfig called with:', newConfig);
     this.config = { ...this.config, ...newConfig };
   };
 }
@@ -52,24 +36,11 @@ export const sendLanguageUpdate = (
   iframeRef: React.RefObject<HTMLIFrameElement | null>,
   languageCode: string
 ) => {
-  console.log('🌐 [PARENT UTILITY] sendLanguageUpdate called with:', languageCode);
-  console.log('🌐 [PARENT UTILITY] iframeRef.current:', iframeRef.current);
-  
   if (iframeRef.current?.contentWindow) {
-    const message = {
+    console.log('🌐 Sending language update to iframe (utility):', languageCode);
+    iframeRef.current.contentWindow.postMessage({
       type: 'language-update',
       languageCode: languageCode
-    };
-    
-    console.log('🌐 [PARENT UTILITY] Sending postMessage:', message);
-    
-    try {
-      iframeRef.current.contentWindow.postMessage(message, '*');
-      console.log('🌐 [PARENT UTILITY] postMessage sent successfully');
-    } catch (error) {
-      console.error('🌐 [PARENT UTILITY] Error sending postMessage:', error);
-    }
-  } else {
-    console.warn('🌐 [PARENT UTILITY] iframeRef.current or contentWindow is null');
+    }, '*');
   }
 }; 
