@@ -317,19 +317,9 @@
   background-color: var(--surface-nav-item-selected);
 }
 
-/* Clean selection indicator for sidebar */
+/* NO selection indicator for sidebar - clean background only */
 .sidebar__nav--animated .nav-item--selected::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
-  height: 60%;
-  background: var(--accent-500);
-  border-radius: 0 var(--foundation-radius-sm) var(--foundation-radius-sm) 0;
-  opacity: 0;
-  animation: simpleFadeIn var(--foundation-duration-fast) var(--foundation-ease-out) forwards;
+  display: none; /* Remove the accent border completely */
 }
 
 /* ===== CLEAN FOCUS STATES ===== */
