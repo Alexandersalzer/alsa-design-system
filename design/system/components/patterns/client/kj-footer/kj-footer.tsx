@@ -47,6 +47,8 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
   const [selectedLanguage, setSelectedLanguage] = useState<SupportedLocale>('sv');
   
   console.log('🌐 [KJ-FOOTER] Component rendered with isEditingMode:', isEditingMode);
+  console.log('🌐 [KJ-FOOTER] typeof window:', typeof window);
+  console.log('🌐 [KJ-FOOTER] window.addEventListener exists:', typeof window !== 'undefined' && typeof window.addEventListener === 'function');
   
   // Get current locale on component mount
   useEffect(() => {
@@ -55,7 +57,32 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
     setSelectedLanguage(currentLocale);
   }, []);
 
+  // Test: Add a general message listener to see if ANY postMessages are received
+  useEffect(() => {
+    console.log('🌐 [KJ-FOOTER] Setting up general message listener test...');
+    
+    const generalMessageHandler = (event: MessageEvent) => {
+      console.log('🌐 [KJ-FOOTER] [GENERAL TEST] Received ANY postMessage:', event);
+      console.log('🌐 [KJ-FOOTER] [GENERAL TEST] Event origin:', event.origin);
+      console.log('🌐 [KJ-FOOTER] [GENERAL TEST] Event data:', event.data);
+      console.log('🌐 [KJ-FOOTER] [GENERAL TEST] Event source:', event.source);
+    };
+    
+    if (typeof window !== 'undefined') {
+      window.addEventListener('message', generalMessageHandler);
+      console.log('🌐 [KJ-FOOTER] General message listener added successfully');
+    }
+    
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('message', generalMessageHandler);
+        console.log('🌐 [KJ-FOOTER] General message listener removed');
+      }
+    };
+  }, []);
+
   // Create i18n message handlers for postMessage communication
+  console.log('🌐 [KJ-FOOTER] About to create i18n handlers...');
   const i18nHandlers: I18nMessageHandlers = createI18nMessageHandlers({
     setSelectedLanguage: (language: string) => {
       console.log('🌐 [KJ-FOOTER] setSelectedLanguage called from postMessage with:', language);
@@ -63,9 +90,12 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
     },
     isEditingMode
   });
+  console.log('🌐 [KJ-FOOTER] i18n handlers created:', i18nHandlers);
 
   // Set up postMessage listener for language updates from parent editor
+  console.log('🌐 [KJ-FOOTER] About to setup message listener...');
   useI18nMessageListener(i18nHandlers);
+  console.log('🌐 [KJ-FOOTER] Message listener setup completed');
 
   // Extract content from props
   const {

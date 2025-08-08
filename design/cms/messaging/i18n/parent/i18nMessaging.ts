@@ -18,6 +18,8 @@ export class I18nParentHandler {
     console.log('🌐 [PARENT] sendLanguageUpdate called with:', languageCode);
     console.log('🌐 [PARENT] iframeRef.current:', this.config.iframeRef.current);
     console.log('🌐 [PARENT] contentWindow:', this.config.iframeRef.current?.contentWindow);
+    console.log('🌐 [PARENT] iframe src:', this.config.iframeRef.current?.src);
+    console.log('🌐 [PARENT] iframe readyState:', this.config.iframeRef.current?.contentDocument?.readyState);
     
     if (this.config.iframeRef.current) {
       const message = {
@@ -26,10 +28,22 @@ export class I18nParentHandler {
       };
       
       console.log('🌐 [PARENT] Sending postMessage:', message);
+      console.log('🌐 [PARENT] Target origin: *');
+      console.log('🌐 [PARENT] contentWindow location:', this.config.iframeRef.current.contentWindow?.location?.href);
       
       try {
         this.config.iframeRef.current.contentWindow?.postMessage(message, '*');
         console.log('🌐 [PARENT] postMessage sent successfully');
+        
+        // Test: Send a simple test message too
+        setTimeout(() => {
+          console.log('🌐 [PARENT] Sending test message...');
+          this.config.iframeRef.current?.contentWindow?.postMessage({
+            type: 'test-message',
+            data: 'Hello from parent!'
+          }, '*');
+        }, 100);
+        
       } catch (error) {
         console.error('🌐 [PARENT] Error sending postMessage:', error);
       }
