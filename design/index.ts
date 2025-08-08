@@ -51,13 +51,6 @@ export {
   type I18nMessageHandlers
 } from './cms/messaging/i18n/child';
 
-// Export centralized message dispatcher
-export {
-  CentralMessageDispatcher,
-  setupCentralMessageDispatcher,
-  type CentralMessageHandlers
-} from './cms/messaging/central/centralMessaging';
-
 // Export layout components (client-safe)
 export { ContentLayout } from './cms/wrappers/ContentLayout';
 
