@@ -70,29 +70,4 @@ export const useI18nMessageListener = (handlers: I18nMessageHandlers) => {
       window.removeEventListener('message', handleMessage);
     };
   }, [handlers]);
-};
-
-// Setup i18n message listener (alternative to hook for class components)
-export const setupI18nMessageListener = (handlers: I18nMessageHandlers): (() => void) => {
-  const handleMessage = (event: MessageEvent) => {
-    const { type, languageCode } = event.data;
-    
-    switch (type) {
-      case 'language-update':
-        if (languageCode) {
-          handlers.onLanguageUpdate(languageCode);
-        }
-        break;
-      default:
-        // Ignore other message types
-        break;
-    }
-  };
-
-  window.addEventListener('message', handleMessage);
-  
-  // Return cleanup function
-  return () => {
-    window.removeEventListener('message', handleMessage);
-  };
 }; 

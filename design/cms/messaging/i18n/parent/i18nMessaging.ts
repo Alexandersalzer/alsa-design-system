@@ -27,20 +27,4 @@ export class I18nParentHandler {
   updateConfig = (newConfig: Partial<I18nParentConfig>) => {
     this.config = { ...this.config, ...newConfig };
   };
-}
-
-// Utility functions for i18n messaging
-
-// Send language update (utility function)
-export const sendLanguageUpdate = (
-  iframeRef: React.RefObject<HTMLIFrameElement | null>,
-  languageCode: string
-) => {
-  if (iframeRef.current?.contentWindow) {
-    console.log('🌐 Sending language update to iframe (utility):', languageCode);
-    iframeRef.current.contentWindow.postMessage({
-      type: 'language-update',
-      languageCode: languageCode
-    }, '*');
-  }
-}; 
+} 

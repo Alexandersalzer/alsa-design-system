@@ -36,7 +36,6 @@ export {
 // Export i18n messaging functionality (parent)
 export {
   I18nParentHandler,
-  sendLanguageUpdate,
   type I18nParentConfig
 } from './cms/messaging/i18n/parent';
 
@@ -44,7 +43,6 @@ export {
 export {
   createI18nMessageHandlers,
   useI18nMessageListener,
-  setupI18nMessageListener,
   sendLanguageUpdateToParent,
   type I18nMessageHandlers
 } from './cms/messaging/i18n/child';
