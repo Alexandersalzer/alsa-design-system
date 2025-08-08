@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Tab/TabGroup.tsx
-// FIXED VERSION - Proper TypeScript types and error handling
+// SIMPLIFIED VERSION - Clean and performant
 // ===============================================
 
 import React, { ReactNode, useState, useRef, useEffect } from 'react';
@@ -11,12 +11,10 @@ interface TabGroupProps {
   variant?: TabVariant;
   orientation?: 'horizontal' | 'vertical';
   className?: string;
-  // 🎯 Animation options
+  // Simplified animation options
   animated?: boolean;
-  animationType?: 'slide' | 'fade' | 'scale';
 }
 
-// 🎯 FIXED: Proper type for Tab props
 interface TabProps {
   onClick?: () => void;
   className?: string;
@@ -29,91 +27,70 @@ export const TabGroup: React.FC<TabGroupProps> = ({
   variant = 'navigation',
   orientation = 'horizontal',
   className = '',
-  animated = true,
-  animationType = 'slide'
+  animated = true
 }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [indicatorStyle, setIndicatorStyle] = useState({});
+  const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
-  const tabsRef = useRef<(HTMLElement | null)[]>([]);
 
-  // Track active tab for indicator animation
+  // Simple indicator update for horizontal tabs only
   useEffect(() => {
-    if (!animated || variant === 'navigation') return;
+    if (!animated || variant === 'navigation' || orientation === 'vertical') return;
 
     const updateIndicator = () => {
-      const activeTab = tabsRef.current[activeIndex];
-      if (activeTab && containerRef.current) {
-        const containerRect = containerRef.current.getBoundingClientRect();
+      const container = containerRef.current;
+      if (!container) return;
+
+      // Find active tab by looking for active classes or aria-selected
+      const activeTab = container.querySelector(
+        '.tab--active, .active, [aria-selected="true"]'
+      ) as HTMLElement;
+
+      if (activeTab) {
+        const containerRect = container.getBoundingClientRect();
         const tabRect = activeTab.getBoundingClientRect();
         
-        if (variant === 'page') {
-          // Underline indicator for page tabs
-          setIndicatorStyle({
-            width: tabRect.width,
-            left: tabRect.left - containerRect.left,
-            opacity: 1
-          });
-        } else if (variant === 'segment') {
-          // Background indicator for segment tabs
-          setIndicatorStyle({
-            width: tabRect.width,
-            height: tabRect.height,
-            left: tabRect.left - containerRect.left,
-            top: tabRect.top - containerRect.top,
-            opacity: 1
-          });
-        }
+        setIndicatorStyle({
+          width: tabRect.width,
+          left: tabRect.left - containerRect.left
+        });
       }
     };
 
-    // Update on mount and resize
+    // Update indicator position
     updateIndicator();
-    window.addEventListener('resize', updateIndicator);
-    return () => window.removeEventListener('resize', updateIndicator);
-  }, [activeIndex, animated, variant]);
+    
+    // Listen for tab changes (use MutationObserver for class changes)
+    const observer = new MutationObserver(updateIndicator);
+    if (containerRef.current) {
+      observer.observe(containerRef.current, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class', 'aria-selected']
+      });
+    }
 
-  // 🎯 FIXED: Proper type handling for React children
+    // Cleanup
+    return () => observer.disconnect();
+  }, [animated, variant, orientation]);
+
+  // Simple children enhancement - no complex cloning
   const enhancedChildren = React.Children.map(children, (child, index) => {
     if (React.isValidElement<TabProps>(child)) {
       const childProps = child.props as TabProps;
       
       return React.cloneElement(child, {
-        // 🎯 FIXED: Proper ref handling with forwardRef pattern
         ...childProps,
-        // Custom click handler that tracks active index
-        onClick: () => {
-          setActiveIndex(index);
-          // 🎯 FIXED: Safe property access
-          if (childProps.onClick) {
-            childProps.onClick();
-          }
-        },
-        // 🎯 FIXED: Safe className concatenation
         className: [
           childProps.className || '',
-          animated ? 'tab--animated' : '',
-          animationType ? `tab--animation-${animationType}` : ''
-        ].filter(Boolean).join(' ').trim(),
-        // Pass through ref callback for indicator positioning
-        'data-tab-index': index
+          animated ? 'tab--animated' : ''
+        ].filter(Boolean).join(' ').trim()
       } as Partial<TabProps>);
     }
     return child;
   });
 
-  // 🎯 FIXED: Effect to collect tab references from DOM
-  useEffect(() => {
-    if (!animated || variant === 'navigation') return;
-    
-    // Collect tab elements by data attribute
-    const tabElements = containerRef.current?.querySelectorAll('[data-tab-index]');
-    if (tabElements) {
-      tabsRef.current = Array.from(tabElements) as HTMLElement[];
-    }
-  }, [enhancedChildren, animated, variant]);
-
-  // For navigation variant, use your existing sidebar__nav class
+  // Navigation variant (sidebar)
   if (variant === 'navigation') {
     return (
       <div className={`sidebar__nav ${animated ? 'sidebar__nav--animated' : ''} ${className}`.trim()}>
@@ -122,15 +99,18 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     );
   }
 
-  // For other variants, use tab-group classes with animation support
+  // Other variants with optional indicator
   const classes = [
     'tab-group',
     `tab-group--${variant}`,
     `tab-group--${orientation}`,
     animated && 'tab-group--animated',
-    animationType && `tab-group--animation-${animationType}`,
     className
   ].filter(Boolean).join(' ');
+
+  const showIndicator = animated && 
+                       orientation === 'horizontal' && 
+                       (variant === 'page' || variant === 'segment');
 
   return (
     <div 
@@ -138,11 +118,15 @@ export const TabGroup: React.FC<TabGroupProps> = ({
       className={classes} 
       role="tablist"
     >
-      {/* Animated indicator for page and segment variants */}
-      {animated && (variant === 'page' || variant === 'segment') && (
+      {/* Simple sliding indicator for horizontal tabs only */}
+      {showIndicator && (
         <div 
           className={`tab-group__indicator tab-group__indicator--${variant}`}
-          style={indicatorStyle}
+          style={{
+            width: `${indicatorStyle.width}px`,
+            left: `${indicatorStyle.left}px`,
+            opacity: indicatorStyle.width > 0 ? 1 : 0
+          }}
         />
       )}
       
