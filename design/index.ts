@@ -47,6 +47,20 @@ export {
   type I18nMessageHandlers
 } from './cms/messaging/i18n/child';
 
+// Export navigation messaging functionality (parent)
+export {
+  NavigationParentHandler,
+  type NavigationParentConfig
+} from './cms/messaging/navigation/parent';
+
+// Export navigation messaging functionality (child)
+export {
+  createNavigationMessageHandlers,
+  useNavigationMessageListener,
+  sendNavigationUpdateToParent,
+  type NavigationMessageHandlers
+} from './cms/messaging/navigation/child';
+
 // Export layout components (client-safe)
 export { ContentLayout } from './cms/wrappers/ContentLayout';
 
