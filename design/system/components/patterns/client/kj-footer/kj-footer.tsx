@@ -1,24 +1,10 @@
 'use client';
 
-import { Picker } from '../../../../../system/components/primitives/Picker';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 import { Rhythm, RhythmItem } from '../../../../../system/layout/utilities/rhythm/Rhythm';
-import { useState, useEffect } from 'react';
-import { 
-  getCurrentLocale, 
-  createLanguageChangeHandler,
-  switchLocale,
-  defaultLocaleOptions,
-  type SupportedLocale,
-  type LocaleOption
-} from '../../../../utils/locale';
-import { 
-  createI18nMessageHandlers,
-  useI18nMessageListener,
-  sendLanguageUpdateToParent 
-} from '../../../../../index';
+import { LanguagePicker } from '../common/language-picker';
 
 interface FooterContent {
   companyName?: string;
@@ -42,26 +28,6 @@ interface KjFooterProps {
 }
 
 const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterProps) => {
-  const [selectedLanguage, setSelectedLanguage] = useState<SupportedLocale>('sv');
-  
-  // Get current locale on component mount
-  useEffect(() => {
-    const currentLocale = getCurrentLocale();
-    setSelectedLanguage(currentLocale);
-  }, []);
-
-  // Create i18n message handlers for postMessage communication
-  const i18nHandlers = createI18nMessageHandlers({
-    setSelectedLanguage: (languageCode: string) => {
-      console.log('🌐 Footer received language update from parent:', languageCode);
-      setSelectedLanguage(languageCode as SupportedLocale);
-    },
-    isEditingMode
-  });
-
-  // Setup i18n message listener to receive language updates from parent editor
-  useI18nMessageListener(i18nHandlers);
-
   // Extract content from props
   const {
     companyName,
@@ -70,35 +36,6 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
     credits,
     creditsLink
   } = content || {};
-
-  // Use provided language options or default ones with flag icons
-  const options = languageOptions || defaultLocaleOptions.map((option: LocaleOption) => ({
-    value: option.value,
-    label: option.label,
-    icon: option.flag ? <span className={option.flag} style={{ fontSize: '16px' }}></span> : undefined
-  }));
-
-  // Handle language change with proper typing for Picker component
-  const handleLanguageChangeWithState = (value: string | null) => {
-    if (value) {
-      console.log('Footer language change debug:', { 
-        value, 
-        isEditingMode,
-        currentLocale: selectedLanguage 
-      });
-      
-      setSelectedLanguage(value as SupportedLocale);
-      
-      // If in editing mode, notify parent about the language change
-      if (isEditingMode) {
-        sendLanguageUpdateToParent(value);
-      }
-      
-      // Always switch locale when user manually selects a language
-      // The isEditingMode parameter ensures proper URL handling (with .html extension)
-      switchLocale(value as SupportedLocale, isEditingMode);
-    }
-  };
 
   return (
     <Rhythm unit="md" align="center" direction="column">
@@ -125,11 +62,13 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
 
       {/* Language Picker */}
       <RhythmItem at={3}>
-        <Picker
-          options={options}
-          value={selectedLanguage}
-          onChange={handleLanguageChangeWithState}
+        <LanguagePicker
+          isEditingMode={isEditingMode}
+          enablePostMessageSync={true}
+          languageOptions={languageOptions}
           placeholder="Välj språk"
+          size="md"
+          variant="compact"
         />
       </RhythmItem>
 
