@@ -17,9 +17,9 @@ export class I18nParentHandler {
   sendLanguageUpdate = (languageCode: string) => {
     console.log('🌐 [PARENT] sendLanguageUpdate called with:', languageCode);
     console.log('🌐 [PARENT] iframeRef.current:', this.config.iframeRef.current);
-    console.log('🌐 [PARENT] contentWindow:', this.config.iframeRef.current?.contentWindow);
+    console.log('🌐 [PARENT] contentWindow exists:', !!this.config.iframeRef.current?.contentWindow);
     console.log('🌐 [PARENT] iframe src:', this.config.iframeRef.current?.src);
-    console.log('🌐 [PARENT] iframe readyState:', this.config.iframeRef.current?.contentDocument?.readyState);
+    // Note: Cannot access contentDocument.readyState due to CORS restrictions
     
     if (this.config.iframeRef.current) {
       const message = {
@@ -29,7 +29,7 @@ export class I18nParentHandler {
       
       console.log('🌐 [PARENT] Sending postMessage:', message);
       console.log('🌐 [PARENT] Target origin: *');
-      console.log('🌐 [PARENT] contentWindow location:', this.config.iframeRef.current.contentWindow?.location?.href);
+      // Note: Cannot access contentWindow.location.href due to CORS restrictions
       
       try {
         this.config.iframeRef.current.contentWindow?.postMessage(message, '*');
@@ -67,7 +67,8 @@ export const sendLanguageUpdate = (
   languageCode: string
 ) => {
   console.log('🌐 [PARENT UTILITY] sendLanguageUpdate called with:', languageCode);
-  console.log('🌐 [PARENT UTILITY] iframeRef.current:', iframeRef.current);
+  console.log('🌐 [PARENT UTILITY] iframeRef.current exists:', !!iframeRef.current);
+  console.log('🌐 [PARENT UTILITY] contentWindow exists:', !!iframeRef.current?.contentWindow);
   
   if (iframeRef.current?.contentWindow) {
     const message = {
