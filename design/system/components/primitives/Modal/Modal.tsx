@@ -1,10 +1,11 @@
 // ===============================================
 // src/design-system/components/primitives/Modal/Modal.tsx
-// MODAL COMPONENT - Following your design system patterns
+// CLEAN VERSION - Uses IconButton instead of ugly SVG
 // ===============================================
 
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import { cn } from '../../../lib/utils';
+import { IconButtons } from '../IconButton';
 import './Modal.css';
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -33,7 +34,27 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
   className,
   ...props
 }, ref) => {
-  
+  const [isClosing, setIsClosing] = useState(false);
+  const [shouldRender, setShouldRender] = useState(isOpen);
+
+  // Handle opening/closing states
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true);
+      setIsClosing(false);
+    } else if (shouldRender) {
+      // Start closing animation
+      setIsClosing(true);
+      // Remove from DOM after animation completes
+      const timer = setTimeout(() => {
+        setShouldRender(false);
+        setIsClosing(false);
+      }, 150); // Match --foundation-duration-fast
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, shouldRender]);
+
   // Handle escape key
   useEffect(() => {
     if (!isOpen || !closeOnEscape) return;
@@ -61,8 +82,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
     };
   }, [isOpen]);
 
-  // Don't render if not open
-  if (!isOpen) return null;
+  // Don't render if not needed
+  if (!shouldRender) return null;
 
   // Handle backdrop click
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -71,16 +92,22 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
     }
   };
 
-  // Build modal classes following your design system
+  // Build modal classes
   const modalClasses = cn(
     'modal',
     `modal--${size}`,
+    isClosing && 'modal--closing',
     className
   );
 
+  const backdropClasses = cn(
+    'modal-backdrop',
+    isClosing && 'modal-backdrop--closing'
+  );
+
   return (
-    <div 
-      className="modal-backdrop"
+    <div
+      className={backdropClasses}
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -100,26 +127,13 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
               </h2>
             )}
             {showCloseButton && (
-              <button
-                type="button"
-                className="modal__close"
+              <IconButtons.Close
                 onClick={onClose}
+                variant="ghost"
+                size="md"
                 aria-label="Stäng modal"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </button>
+                className="modal__close-btn"
+              />
             )}
           </div>
         )}
@@ -134,5 +148,4 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
 });
 
 Modal.displayName = 'Modal';
-
 export default Modal;
