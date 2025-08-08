@@ -1,4 +1,269 @@
 /* ===============================================
+   ENHANCED TAB SYSTEM WITH HEADING FONT SUPPORT
+   =============================================== */
+
+/* ===== SHARED BASE STYLES FOR ALL TABS ===== */
+.nav-item,
+.tab {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-nav-item-gap);
+  padding: var(--space-nav-item-padding-y) var(--space-nav-item-padding-x);
+  border-radius: var(--radius-button);
+  
+  /* Typography - Default body font */
+  font-family: var(--font-body-family);
+  font-size: var(--font-label-md-size);
+  font-weight: var(--font-label-weight);
+  line-height: var(--font-label-md-leading);
+  text-decoration: none;
+  
+  /* Colors */
+  color: var(--text-nav-item);
+  background-color: var(--surface-sidebar);
+  
+  /* Interaction */
+  cursor: pointer;
+  transition: var(--transition-nav);
+  border: none;
+}
+
+/* 🎯 NEW: Heading font variants for more prominent navigation */
+.nav-item--heading-font,
+.tab--heading-font {
+  font-family: var(--font-heading-family) !important;
+  letter-spacing: -0.01em; /* Slightly tighter letter spacing for headings */
+}
+
+/* 🎯 ENHANCED: Navigation tabs with bolder default weights */
+.nav-item .nav-item__label {
+  font-weight: var(--foundation-weight-semibold); /* Default to semibold */
+}
+
+.nav-item--selected .nav-item__label {
+  font-weight: var(--foundation-weight-bold); /* Active state is bold */
+}
+
+/* 🎯 NEW: Even bolder when using heading font */
+.nav-item--heading-font .nav-item__label {
+  font-weight: var(--foundation-weight-bold); /* Bolder for heading font */
+}
+
+.nav-item--heading-font.nav-item--selected .nav-item__label {
+  font-weight: var(--foundation-weight-extrabold); /* Extra bold when active + heading font */
+}
+
+/* ===== SHARED HOVER STATE ===== */
+.nav-item:hover:not(.nav-item--selected):not(.nav-item--disabled),
+.tab:hover:not(.tab--active):not(.tab--disabled) {
+  background-color: var(--surface-nav-item-hover);
+}
+
+/* ===== SHARED ACTIVE/SELECTED STATE ===== */
+.nav-item--selected,
+.nav-item.selected,
+.tab--active,
+.tab.active {
+  background-color: var(--surface-nav-item-selected);
+  color: var(--text-nav-item-selected);
+}
+
+/* ===== SHARED DISABLED STATE ===== */
+.nav-item--disabled,
+.nav-item.disabled,
+.tab--disabled,
+.tab.disabled {
+  background-color: var(--surface-nav-item-disabled);
+  color: var(--text-nav-item-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ===== SHARED ICON STYLES ===== */
+.nav-item svg,
+.nav-item__icon svg,
+.tab svg,
+.tab__icon svg {
+  width: var(--foundation-size-icon-md) !important;
+  height: var(--foundation-size-icon-md) !important;
+  flex-shrink: 0;
+  color: var(--icon-nav-item);
+}
+
+/* Icon colors for active state */
+.nav-item--selected svg,
+.nav-item.selected svg,
+.nav-item--selected .nav-item__icon svg,
+.tab--active svg,
+.tab.active svg,
+.tab--active .tab__icon svg {
+  color: var(--icon-nav-item-selected) !important;
+}
+
+/* Icon colors for disabled state */
+.nav-item--disabled svg,
+.nav-item.disabled svg,
+.nav-item--disabled .nav-item__icon svg,
+.tab--disabled svg,
+.tab.disabled svg,
+.tab--disabled .tab__icon svg {
+  color: var(--icon-nav-item-disabled) !important;
+}
+
+/* ===== TAB CONTENT STRUCTURE ===== */
+.nav-item__icon,
+.tab__icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-item__label,
+.tab__label {
+  flex: 1;
+}
+
+.nav-item__action-icon,
+.tab__badge {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ===== LAYOUT VARIANTS ===== */
+
+/* Navigation variant (sidebar) */
+.nav-item,
+.tab--navigation {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+/* Page variant (horizontal with underline) */
+.tab--page {
+  position: relative;
+  justify-content: center;
+}
+
+.tab--page.tab--active::after,
+.tab--page.active::after {
+  content: '';
+  position: absolute;
+  bottom: -13px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--border-nav-item-selected);
+  border-radius: var(--foundation-radius-full);
+}
+
+/* Segment variant (compact pills) */
+.tab--segment {
+  justify-content: center;
+  border-radius: var(--foundation-radius-full);
+  border: 1px solid var(--border-nav);
+  padding: var(--foundation-space-1) var(--foundation-space-3);
+  font-size: var(--font-label-sm-size);
+}
+
+.tab--segment:hover:not(.tab--active):not(.tab--disabled) {
+  border-color: var(--border-nav-item-selected);
+}
+
+.tab--segment.tab--active,
+.tab--segment.active {
+  border-color: var(--border-nav-item-selected);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* ===== SIZE VARIANTS ===== */
+.tab--sm {
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+  font-size: var(--font-label-sm-size);
+  gap: var(--foundation-space-1);
+}
+
+.tab--sm svg,
+.tab--sm .tab__icon svg {
+  width: 16px !important;
+  height: 16px !important;
+  stroke-width: 2.5 !important;
+}
+
+.tab--lg {
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+  font-size: var(--font-label-lg-size);
+  gap: var(--foundation-space-3);
+}
+
+.tab--lg svg,
+.tab--lg .tab__icon svg {
+  width: 24px !important;
+  height: 24px !important;
+  stroke-width: 2.5 !important;
+}
+
+/* ===== TAB GROUP CONTAINERS ===== */
+.tab-group,
+.sidebar__nav {
+  display: flex;
+  align-items: center;
+}
+
+/* Vertical layout (sidebar) */
+.tab-group--vertical,
+.sidebar__nav {
+  flex-direction: column;
+  gap: var(--foundation-space-1);
+  align-items: stretch;
+}
+
+/* Horizontal layout */
+.tab-group--horizontal {
+  flex-direction: row;
+  gap: var(--space-nav-section-gap);
+}
+
+/* Page tabs container with proper border */
+.tab-group--page {
+  border-bottom: 1px solid var(--border-nav);
+  padding-bottom: var(--space-nav-item-gap);
+  position: relative;
+}
+
+/* Segment tabs container */
+.tab-group--segment {
+  background-color: var(--secondary-50);
+  border-radius: var(--foundation-radius-full);
+  padding: var(--foundation-space-1);
+  gap: var(--foundation-space-1);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .tab-group--horizontal {
+    flex-wrap: wrap;
+  }
+  
+  .nav-item,
+  .tab--navigation {
+    padding: var(--foundation-space-2) var(--foundation-space-3);
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+.nav-item:focus,
+.tab:focus {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.tab--segment:active:not(.tab--disabled) {
+  transform: scale(0.98);
+}
+
+/* ===============================================
    ENHANCED TAB SYSTEM WITH BEAUTIFUL ANIMATIONS
    Add this to your existing Tab.css file
    =============================================== */
