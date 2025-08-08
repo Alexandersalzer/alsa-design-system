@@ -2,7 +2,7 @@
 
 import { useEditingMode } from '../../../../../cms/wrappers/editing/EditingWrapper';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Section } from '../../../../layout/frames/section';
 import { Container } from '../../../../layout/frames/container';
 import { Cluster } from '../../../../layout/utilities/cluster';
@@ -10,7 +10,11 @@ import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/n
 import { getNavigationContext, type NavigationItem } from '../../../../utils/navigation';
 import { ArrowRightIcon } from 'lucide-react';
 import { ContentBlock } from '../../../../../cms/wrappers/content/types/content';
-import { sendNavigationUpdateToParent } from '../../../../../cms/messaging/navigation/child';
+import { 
+  sendNavigationUpdateToParent,
+  createNavigationMessageHandlers,
+  useNavigationMessageListener 
+} from '../../../../../cms/messaging/navigation/child';
 
 export interface NavItem extends NavigationItem {
   label: string;
@@ -60,6 +64,7 @@ const Navbar = ({
   const { isEditingMode } = useEditingMode();
   const { getGlobalComponent, getTemplateBlocks, getBlocksByType } = useContent();
   const pathname = usePathname();
+  const router = useRouter();
 
   // Get navbar global component using generic function
   const navbarComponent = getGlobalComponent('navbar');
@@ -112,6 +117,24 @@ const Navbar = ({
       sendNavigationUpdateToParent(fullBrandHref, brandSlug);
     }
   };
+
+  // Set up navigation message handlers for parent-to-child communication
+  const navigationHandlers = createNavigationMessageHandlers({
+    onNavigationChange: (href: string) => {
+      console.log('🧭 Navbar received navigation update from parent:', href);
+      
+      // Navigate to the new href if different from current pathname
+      if (href !== pathname) {
+        router.push(href);
+      }
+    },
+    isEditingMode
+  });
+
+  // Listen for navigation messages from parent (only in editing mode)
+  if (isEditingMode) {
+    useNavigationMessageListener(navigationHandlers);
+  }
 
   // Transform NavItem[] to NavMenuItem[] with proper hrefs and active states
   const menuItems: NavMenuItem[] = finalNavItems.map(item => ({
