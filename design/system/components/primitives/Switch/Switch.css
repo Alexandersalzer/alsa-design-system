@@ -101,7 +101,7 @@
 
 .switch--checked .switch-track {
   background-color: var(--surface-switch-track-checked);
-  animation: var(--motion-switch-glow);
+  /* REMOVED: animation: var(--motion-switch-glow); */
 }
 
 .switch--checked:hover:not(.switch--disabled) .switch-track {
@@ -341,14 +341,15 @@
 }
 
 /* ===== SPECIAL VARIANTS ===== */
-/* Premium bounce effect variant */
+/* Premium bounce effect variant - DISABLED */
 .switch--enhanced .switch-thumb {
-  transition: var(--motion-switch-thumb-position), var(--motion-switch-thumb-scale);
+  transition: var(--motion-switch-thumb-position);
+  /* REMOVED: bounce animation */
 }
 
 .switch--enhanced.switch--checked .switch-thumb {
-  animation: var(--motion-switch-bounce);
-  animation-delay: var(--duration-switch-toggle);
+  /* REMOVED: animation: var(--motion-switch-bounce); */
+  /* REMOVED: animation-delay: var(--duration-switch-toggle); */
 }
 
 /* Loading state variant */
@@ -397,15 +398,11 @@
 }
 
 /* ===== ADVANCED INTERACTION EFFECTS ===== */
-/* Subtle press effect */
-.switch:active:not(.switch--disabled) .switch-track {
-  transform: scale(0.98);
-  transition: transform var(--duration-switch-press) var(--easing-switch-press);
-}
+/* REMOVED: Subtle press effect on track (no more bounce) */
 
 /* Smooth focus ring animation */
 .switch:focus-visible {
-  animation: var(--animation-scale-in);
+  /* REMOVED: animation: var(--animation-scale-in); */
 }
 
 /* Thumb position indicators for custom styling */

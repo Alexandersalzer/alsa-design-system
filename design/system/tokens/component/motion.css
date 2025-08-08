@@ -13,9 +13,9 @@
   --transition-toast: transform var(--foundation-duration-normal) var(--foundation-ease-out);
   --transition-hover: all var(--foundation-duration-fast) var(--foundation-ease-out);
 
-  /* 🎯 NEW: Switch-specific motion tokens */
+  /* 🎯 NEW: Switch-specific motion tokens - SMOOTHED */
   --transition-switch-track: background-color var(--foundation-duration-normal) var(--foundation-ease-smooth);
-  --transition-switch-thumb: all var(--foundation-duration-gentle) var(--foundation-ease-anticipate);
+  --transition-switch-thumb: all var(--foundation-duration-slow) var(--foundation-ease-smooth);
   --transition-switch-focus: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
   --transition-switch-hover: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
   --transition-switch-border: border-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
@@ -28,49 +28,38 @@
   --animation-slide-up: slideUp var(--foundation-duration-normal) var(--foundation-ease-out);
   --animation-scale-in: scaleIn var(--foundation-duration-fast) var(--foundation-ease-out);
 
-  /* 🎯 NEW: Switch animation tokens */
-  --animation-switch-thumb-slide: switchThumbSlide var(--foundation-duration-gentle) var(--foundation-ease-anticipate);
+  /* 🎯 NEW: Switch animation tokens - SMOOTHED */
+  --animation-switch-thumb-slide: switchThumbSlide var(--foundation-duration-slow) var(--foundation-ease-smooth);
   --animation-switch-track-glow: switchTrackGlow var(--foundation-duration-normal) var(--foundation-ease-smooth);
-  --animation-switch-thumb-bounce: switchThumbBounce var(--foundation-duration-fast) var(--foundation-ease-bounce);
+  --animation-switch-thumb-bounce: switchThumbBounce var(--foundation-duration-fast) var(--foundation-ease-smooth);
 }
 
 /* ===== SWITCH-SPECIFIC KEYFRAMES ===== */
 
-/* Smooth thumb sliding animation */
+/* Smooth thumb sliding animation - NO BOUNCE */
 @keyframes switchThumbSlide {
   0% {
     transform: translateY(-50%) translateX(var(--switch-thumb-start-position, 2px));
   }
-  60% {
-    transform: translateY(-50%) translateX(var(--switch-thumb-end-position)) scale(1.05);
-  }
   100% {
-    transform: translateY(-50%) translateX(var(--switch-thumb-end-position)) scale(1);
+    transform: translateY(-50%) translateX(var(--switch-thumb-end-position));
   }
 }
 
-/* Track background glow effect when toggling */
+/* Subtle track background transition - NO GLOW */
 @keyframes switchTrackGlow {
   0% {
-    box-shadow: 0 0 0 0 var(--surface-switch-track-checked);
-  }
-  50% {
-    box-shadow: 0 0 0 4px var(--surface-switch-track-checked);
-    opacity: 0.6;
+    background-color: var(--surface-switch-track);
   }
   100% {
-    box-shadow: 0 0 0 0 var(--surface-switch-track-checked);
-    opacity: 1;
+    background-color: var(--surface-switch-track-checked);
   }
 }
 
-/* Subtle bounce effect for thumb */
+/* Very subtle thumb effect - MINIMAL BOUNCE */
 @keyframes switchThumbBounce {
   0% {
     transform: translateY(-50%) scale(1);
-  }
-  50% {
-    transform: translateY(-50%) scale(1.1);
   }
   100% {
     transform: translateY(-50%) scale(1);

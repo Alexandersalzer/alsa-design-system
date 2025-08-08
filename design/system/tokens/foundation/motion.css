@@ -75,3 +75,48 @@
   --easing-switch-hover: var(--foundation-ease-out);
   --easing-switch-press: var(--foundation-ease-back);
 }
+
+/* ==============================================
+   src/design-system/tokens/semantic/motion.css
+   SEMANTIC MOTION TOKENS - Switch Section Addition
+   ============================================== */
+
+:root {
+  /* ===== EXISTING SEMANTIC MOTION TOKENS ===== */
+  /* Add these to your existing semantic motion tokens file */
+
+  /* ===== SWITCH SEMANTIC MOTION TOKENS ===== */
+  /* Track transitions */
+  --motion-switch-track-background: var(--transition-switch-track);
+  --motion-switch-track-border: var(--transition-switch-border);
+  --motion-switch-track-hover: var(--transition-switch-hover);
+
+  /* Thumb transitions - EXTRA SMOOTH */
+  --motion-switch-thumb-position: all var(--foundation-duration-slower) var(--foundation-ease-smooth);
+  --motion-switch-thumb-scale: transform var(--foundation-duration-fast) var(--foundation-ease-out);
+  --motion-switch-thumb-shadow: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
+
+  /* Focus and interaction states */
+  --motion-switch-focus: var(--transition-switch-focus);
+  --motion-switch-label: var(--transition-hover);
+
+  /* Validation state transitions */
+  --motion-switch-error: var(--transition-switch-border);
+  --motion-switch-success: var(--transition-switch-border);
+
+  /* Special effects (optional) - DISABLED/MINIMAL */
+  --motion-switch-glow: none; /* Disabled glow effect */
+  --motion-switch-bounce: none; /* Disabled bounce effect */
+  --motion-switch-slide: var(--animation-switch-thumb-slide);
+
+  /* Timing presets for different switch interactions - LONGER FOR SMOOTHNESS */
+  --duration-switch-toggle: var(--foundation-duration-slower);
+  --duration-switch-hover: var(--foundation-duration-fast);
+  --duration-switch-focus: var(--foundation-duration-fast);
+  --duration-switch-press: var(--foundation-duration-micro);
+
+  /* Easing presets for switch-specific interactions - ALL SMOOTH */
+  --easing-switch-toggle: var(--foundation-ease-smooth);
+  --easing-switch-hover: var(--foundation-ease-smooth);
+  --easing-switch-press: var(--foundation-ease-smooth);
+}
