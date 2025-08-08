@@ -313,7 +313,6 @@
 .picker-options {
   display: flex;
   flex-direction: column;
-  gap: var(--foundation-space-1);
   flex: 1;
   overflow-y: auto;
   margin: var(--foundation-space-1);
@@ -326,7 +325,7 @@
 .picker-option {
   padding: var(--foundation-space-3) var(--foundation-space-4);
   cursor: pointer;
-  border-radius: var(--foundation-radius-md);
+  border-radius: var(--radius-picker-sm);
   background: var(--surface-picker-option);
   margin: var(--foundation-space-2) 0;
   display: flex;
@@ -347,11 +346,11 @@
 
 /* Option radius variants */
 .picker-option--radius-sm {
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-picker-sm);
 }
 
 .picker-option--radius-lg {
-  border-radius: var(--foundation-radius-lg);
+  border-radius: var(--radius-picker);
 }
 
 /* Option states */
