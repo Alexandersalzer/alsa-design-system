@@ -33,10 +33,15 @@ export class I18nParentHandler {
     console.log('🌍 Sending language change:', languageCode);
     
     if (this.config.iframeRef.current?.contentWindow) {
+      console.log('🌍 Iframe found, sending postMessage to contentWindow');
       this.config.iframeRef.current.contentWindow.postMessage({
         type: 'language-change-request',
         languageCode
       }, '*');
+      console.log('🌍 PostMessage sent successfully');
+    } else {
+      console.error('🌍 No iframe contentWindow found');
+      console.log('🌍 iframeRef.current:', this.config.iframeRef.current);
     }
 
     // Call custom handler if provided

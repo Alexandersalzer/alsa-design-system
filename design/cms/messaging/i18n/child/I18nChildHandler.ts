@@ -28,6 +28,8 @@ export class I18nChildHandler {
 
   // Handle incoming messages from parent (CMS dashboard)
   handleMessage = (event: MessageEvent) => {
+    console.log('🌍 I18nChildHandler: Received message:', event.data);
+    
     // Handle language change request from parent
     if (event.data.type === 'language-change-request') {
       console.log('🌍 Child received language change request:', event.data.languageCode);
@@ -37,7 +39,10 @@ export class I18nChildHandler {
       
       // Call custom handler if provided
       if (this.handlers.onLanguageChangeRequest) {
+        console.log('🌍 Child calling onLanguageChangeRequest handler');
         this.handlers.onLanguageChangeRequest(languageCode);
+      } else {
+        console.log('🌍 Child: No onLanguageChangeRequest handler provided');
       }
 
       // Send success response back to parent
@@ -45,7 +50,7 @@ export class I18nChildHandler {
     }
 
     // Handle available languages from parent
-    if (event.data.type === 'available-languages') {
+    else if (event.data.type === 'available-languages') {
       console.log('🌍 Child received available languages:', event.data.languages);
       
       if (this.handlers.onAvailableLanguages) {
@@ -54,7 +59,7 @@ export class I18nChildHandler {
     }
 
     // Handle custom messages through handler
-    if (this.handlers.onCustomMessage) {
+    else if (this.handlers.onCustomMessage) {
       this.handlers.onCustomMessage(event);
     }
   };
@@ -85,8 +90,12 @@ export class I18nChildHandler {
 
   // Setup message listener for child
   setupMessageListener = () => {
+    console.log('🌍 I18nChildHandler: Setting up message listener');
     window.addEventListener('message', this.handleMessage);
-    return () => window.removeEventListener('message', this.handleMessage);
+    return () => {
+      console.log('🌍 I18nChildHandler: Removing message listener');
+      window.removeEventListener('message', this.handleMessage);
+    };
   };
 
   // Update handlers

@@ -8,7 +8,7 @@ import {
   type EditingMessageHandlers
 } from '../../messaging/initial/child/initialMessaging';
 import {
-  useI18nChildMessaging,
+  I18nChildHandler,
   type I18nChildHandlers,
   type AvailableLanguage
 } from '../../messaging/i18n/child';
@@ -43,40 +43,70 @@ function EditingProvider({ children }: { children: ReactNode }) {
     }
   }, [pathname, currentLanguage]);
 
-  // Setup I18n child messaging
-  const i18nMessaging = useI18nChildMessaging(
-    currentLanguage,
-    (languageCode: string) => {
-      console.log('🌍 EditingProvider: Language changed to:', languageCode);
-      setCurrentLanguage(languageCode);
-    }
-  );
-
-  // Listen for editing status updates from parent window
+  // Listen for messages from parent window
   useEffect(() => {
-    const messageHandlers: EditingMessageHandlers = {
+    // Check if we're in iframe
+    const inIframe = window.parent !== window;
+    if (!inIframe) {
+      console.log('🌍 EditingProvider: Not in iframe, skipping postMessage setup');
+      return;
+    }
+
+    console.log('🌍 EditingProvider: Setting up message listeners in iframe');
+
+    // Setup editing message handlers
+    const editingHandlers: EditingMessageHandlers = {
       onEditingStatusUpdate: (editing: boolean) => {
         console.log('📝 EditingProvider: Editing status changed to:', editing);
         setIsEditing(editing);
       }
     };
 
-    const cleanup = setupEditingMessageListener(messageHandlers);
-    
-    // Setup I18n messaging listener
-    const i18nCleanup = i18nMessaging.setupMessageListener();
+    // Setup i18n message handlers
+    const i18nHandlers: I18nChildHandlers = {
+      onLanguageChangeRequest: (languageCode: string) => {
+        console.log('🌍 EditingProvider: Language change requested:', languageCode);
+        
+        // Extract the current route without the locale prefix
+        const pathSegments = pathname.split('/');
+        const routeWithoutLocale = pathSegments.slice(2).join('/') || '';
+        
+        // Construct new URL with new language
+        const newPath = `/${languageCode}${routeWithoutLocale ? `/${routeWithoutLocale}` : ''}`;
+        
+        console.log('🌍 EditingProvider: Navigating from', pathname, 'to', newPath);
+        
+        // Update local state first
+        setCurrentLanguage(languageCode);
+        
+        // Navigate to new language URL
+        router.push(newPath);
+      },
+      onAvailableLanguages: (languages: AvailableLanguage[]) => {
+        console.log('🌍 EditingProvider: Received available languages:', languages);
+        setAvailableLanguages(languages);
+      }
+    };
 
-    // Request editing status from parent
+    // Create i18n handler
+    const i18nHandler = new I18nChildHandler(i18nHandlers, currentLanguage);
+    console.log('🌍 EditingProvider: Created I18nChildHandler with language:', currentLanguage);
+
+    // Setup message listeners
+    const editingCleanup = setupEditingMessageListener(editingHandlers);
+    const i18nCleanup = i18nHandler.setupMessageListener();
+    console.log('🌍 EditingProvider: Set up message listeners');
+
+    // Request initial data from parent
     requestEditingStatus();
-    
-    // Request available languages from parent
-    i18nMessaging.requestAvailableLanguages();
+    i18nHandler.requestAvailableLanguages();
+    console.log('🌍 EditingProvider: Requested initial data from parent');
 
     return () => {
-      cleanup();
+      editingCleanup();
       i18nCleanup();
     };
-  }, [i18nMessaging]);
+  }, [router, pathname, currentLanguage]);
 
   const toggleContextValue: ToggleContextType = {
     isEditingMode
