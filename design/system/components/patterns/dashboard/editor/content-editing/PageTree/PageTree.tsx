@@ -79,8 +79,10 @@ const TreeNode: React.FC<TreeNodeProps> = ({
             }}
           >
             <Icon color='secondary'><ChevronRightIcon/></Icon>
-
-            <div className="tree-node__icon">
+          </button>
+        )}
+        
+        <div className="tree-node__icon">
           <Icon color="accent">
             {icon ? React.createElement(icon) : <QuestionMarkCircleIcon />}
           </Icon>
@@ -104,10 +106,6 @@ const TreeNode: React.FC<TreeNodeProps> = ({
             </Body>
           </div>
         )}
-          </button>
-        )}
-        
-       
       </div>
 
       {hasChildren && isExpanded && (
