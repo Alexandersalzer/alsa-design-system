@@ -1,5 +1,5 @@
 // ===============================================
-// RadiusControl.tsx - Using SelectionCard for better visual controls
+// RadiusControl.tsx - Clean radius controls without bullshit descriptions
 // ===============================================
 import React from 'react';
 import { SelectionCard, Grid } from '@blimpify-im/ui';
@@ -8,13 +8,48 @@ import { Square2StackIcon } from '@heroicons/react/24/outline';
 import { Body, Icon, Label } from '@blimpify-im/ui';
 
 const RADIUS_OPTIONS = [
-  { value: 'none', label: 'Sharp', description: '0px', preview: '0px' },
-  { value: 'xs', label: 'Minimal', description: '2px', preview: '2px' },
-  { value: 'sm', label: 'Small', description: '4px', preview: '4px' },
-  { value: 'md', label: 'Medium', description: '8px', preview: '8px' },
-  { value: 'lg', label: 'Large', description: '12px', preview: '12px' },
-  { value: 'xl', label: 'XL', description: '16px', preview: '16px' },
-  { value: '2xl', label: 'Max', description: '24px', preview: '24px' },
+  { 
+    value: 'none', 
+    label: 'Sharp', 
+    description: '0px', 
+    preview: '0px'
+  },
+  { 
+    value: 'xs', 
+    label: 'Minimal', 
+    description: '2px', 
+    preview: '2px'
+  },
+  { 
+    value: 'sm', 
+    label: 'Small', 
+    description: '4px', 
+    preview: '4px'
+  },
+  { 
+    value: 'md', 
+    label: 'Medium', 
+    description: '8px', 
+    preview: '8px'
+  },
+  { 
+    value: 'lg', 
+    label: 'Large', 
+    description: '12px', 
+    preview: '12px'
+  },
+  { 
+    value: 'xl', 
+    label: 'XL', 
+    description: '16px', 
+    preview: '16px'
+  },
+  { 
+    value: '2xl', 
+    label: 'Max', 
+    description: '24px', 
+    preview: '24px'
+  },
 ];
 
 interface RadiusControlProps {
@@ -34,7 +69,7 @@ export function RadiusControl({ columns = 4, className }: RadiusControlProps) {
         </Icon>
         <div>
           <Body weight="medium" className="mb-1">Corner Style</Body>
-          <Body size="sm" color="secondary">Border radius scale</Body>
+          <Body size="sm" color="secondary">Border radius for buttons and cards</Body>
         </div>
       </div>
 
@@ -48,18 +83,39 @@ export function RadiusControl({ columns = 4, className }: RadiusControlProps) {
             size="sm"
           >
             <div className="text-center">
-              <Label size="sm" weight="medium" className="mb-2 block">
+              <Label size="sm" weight="medium" className="mb-3 block">
                 {option.label}
               </Label>
               
-              {/* Visual preview */}
-              <div className="flex justify-center mb-2">
+              {/* Enhanced visual preview with multiple shapes */}
+              <div className="flex flex-col items-center gap-2 mb-3">
+                {/* Main preview shape */}
                 <div 
-                  className="w-8 h-8 bg-gray-300 border border-gray-400"
+                  className="w-8 h-6 bg-gray-400 border border-gray-500"
                   style={{ borderRadius: option.preview }}
                 />
+                
+                {/* Mini UI elements preview */}
+                <div className="flex gap-1 items-center">
+                  {/* Mini button */}
+                  <div 
+                    className="w-4 h-2 bg-blue-400"
+                    style={{ borderRadius: option.preview }}
+                  />
+                  {/* Mini card */}
+                  <div 
+                    className="w-3 h-3 bg-white border border-gray-300"
+                    style={{ borderRadius: option.preview }}
+                  />
+                  {/* Mini tag */}
+                  <div 
+                    className="w-2 h-2 bg-green-400"
+                    style={{ borderRadius: option.preview }}
+                  />
+                </div>
               </div>
               
+              {/* Just the technical measurement */}
               <Body size="xs" color="secondary">
                 {option.description}
               </Body>
