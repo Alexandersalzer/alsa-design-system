@@ -54,10 +54,16 @@
   color: var(--text-form-label-disabled);
 }
 
-/* ===== PICKER CONTAINER ===== */
+/* ===== PICKER CONTAINER - SMART Z-INDEX ===== */
 .picker-container {
   position: relative;
-  z-index: var(--z-dropdown);
+  z-index: var(--z-picker-container); /* Base: z-index: 1 */
+}
+
+/* 🔥 CRITICAL: When picker is open, boost the entire container */
+.picker-container--open,
+.picker-container:focus-within {
+  z-index: var(--z-picker-open) !important; /* z-index: 1100 */
 }
 
 /* ===== PICKER BUTTON - SMOOTH & STABLE ===== */
@@ -203,13 +209,13 @@
   animation: pickerSpin 1s var(--foundation-ease-linear) infinite;
 }
 
-/* ===== PICKER DROPDOWN - SMOOTH ENTRANCE ===== */
+/* ===== PICKER DROPDOWN - HIGHEST Z-INDEX ===== */
 .picker-dropdown {
   position: absolute;
   top: calc(100% + var(--foundation-space-1));
   left: 0;
   right: 0;
-  z-index: var(--z-dropdown);
+  z-index: var(--z-dropdown-active); /* z-index: 1100 - Always on top */
   border: 1px solid var(--border-default);
   border-radius: var(--radius-dropdown);
   background-color: var(--surface-dropdown);
