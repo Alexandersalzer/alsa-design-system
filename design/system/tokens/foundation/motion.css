@@ -1,146 +1,21 @@
 /* ==============================================
    src/design-system/tokens/foundation/motion.css
-   ENHANCED MOTION FOUNDATION TOKENS
+   FOUNDATION MOTION TOKENS - Clean & Organized
    ============================================== */
 
 :root {
   /* ===== TIMING FOUNDATION ===== */
+  /* These are primitive timing values - building blocks */
   --foundation-duration-instant: 0ms;
-  --foundation-duration-fast: 150ms;
-  --foundation-duration-normal: 250ms;
-  --foundation-duration-slow: 350ms;
-  --foundation-duration-slower: 500ms;
-  
-  /* 🎯 NEW: Specialized durations for different interactions */
-  --foundation-duration-micro: 75ms;    /* For very quick feedback */
-  --foundation-duration-gentle: 400ms;  /* For smooth, gentle animations */
-  --foundation-duration-dramatic: 600ms; /* For dramatic effects */
+  --foundation-duration-micro: 75ms;     /* Very quick feedback */
+  --foundation-duration-fast: 150ms;     /* Quick interactions */
+  --foundation-duration-normal: 250ms;   /* Standard interactions */
+  --foundation-duration-slow: 350ms;     /* Deliberate interactions */
+  --foundation-duration-slower: 500ms;   /* Slow, dramatic */
+  --foundation-duration-gentle: 400ms;   /* Smooth, gentle */
 
   /* ===== EASING FOUNDATION ===== */
-  --foundation-ease-linear: linear;
-  --foundation-ease-in: cubic-bezier(0.4, 0, 1, 1);
-  --foundation-ease-out: cubic-bezier(0, 0, 0.2, 1);
-  --foundation-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  --foundation-ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  
-  /* 🎯 NEW: Specialized easing curves for different effects */
-  --foundation-ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  --foundation-ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  --foundation-ease-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  --foundation-ease-anticipate: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --foundation-ease-overshoot: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* ==============================================
-   src/design-system/tokens/semantic/motion.css
-   SEMANTIC MOTION TOKENS - Switch Section Addition
-   ============================================== */
-
-:root {
-  /* ===== EXISTING SEMANTIC MOTION TOKENS ===== */
-  /* Add these to your existing semantic motion tokens file */
-
-  /* ===== SWITCH SEMANTIC MOTION TOKENS ===== */
-  /* Track transitions */
-  --motion-switch-track-background: var(--transition-switch-track);
-  --motion-switch-track-border: var(--transition-switch-border);
-  --motion-switch-track-hover: var(--transition-switch-hover);
-
-  /* Thumb transitions */
-  --motion-switch-thumb-scale: transform var(--foundation-duration-fast) var(--foundation-ease-back);
-  --motion-switch-thumb-shadow: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
-
-  /* Focus and interaction states */
-  --motion-switch-focus: var(--transition-switch-focus);
-  --motion-switch-label: var(--transition-hover);
-
-  /* Validation state transitions */
-  --motion-switch-error: var(--transition-switch-border);
-  --motion-switch-success: var(--transition-switch-border);
-
-  /* Special effects (optional) */
-  --motion-switch-glow: var(--animation-switch-track-glow);
-  --motion-switch-bounce: var(--animation-switch-thumb-bounce);
-  --motion-switch-slide: var(--animation-switch-thumb-slide);
-
-  /* Timing presets for different switch interactions */
-  --duration-switch-toggle: var(--foundation-duration-gentle);
-  --duration-switch-hover: var(--foundation-duration-fast);
-  --duration-switch-focus: var(--foundation-duration-fast);
-  --duration-switch-press: var(--foundation-duration-micro);
-
-  /* Easing presets for switch-specific interactions */
-  --easing-switch-toggle: var(--foundation-ease-anticipate);
-  --easing-switch-hover: var(--foundation-ease-out);
-  --easing-switch-press: var(--foundation-ease-back);
-}
-
-/* ==============================================
-   src/design-system/tokens/semantic/motion.css
-   SEMANTIC MOTION TOKENS - Switch Section Addition
-   ============================================== */
-
-:root {
-  /* ===== EXISTING SEMANTIC MOTION TOKENS ===== */
-  /* Add these to your existing semantic motion tokens file */
-
-  /* ===== SWITCH SEMANTIC MOTION TOKENS ===== */
-  /* Track transitions */
-  --motion-switch-track-background: var(--transition-switch-track);
-  --motion-switch-track-border: var(--transition-switch-border);
-  --motion-switch-track-hover: var(--transition-switch-hover);
-
-  /* Thumb transitions - EXTRA SMOOTH */
-  --motion-switch-thumb-position: all var(--foundation-duration-slower) var(--foundation-ease-smooth);
-  --motion-switch-thumb-scale: transform var(--foundation-duration-fast) var(--foundation-ease-out);
-  --motion-switch-thumb-shadow: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
-
-  /* Focus and interaction states */
-  --motion-switch-focus: var(--transition-switch-focus);
-  --motion-switch-label: var(--transition-hover);
-
-  /* Validation state transitions */
-  --motion-switch-error: var(--transition-switch-border);
-  --motion-switch-success: var(--transition-switch-border);
-
-  /* Special effects (optional) - DISABLED/MINIMAL */
-  --motion-switch-glow: none; /* Disabled glow effect */
-  --motion-switch-bounce: none; /* Disabled bounce effect */
-  --motion-switch-slide: var(--animation-switch-thumb-slide);
-
-  /* Timing presets for different switch interactions - LONGER FOR SMOOTHNESS */
-  --duration-switch-toggle: var(--foundation-duration-slower);
-  --duration-switch-hover: var(--foundation-duration-fast);
-  --duration-switch-focus: var(--foundation-duration-fast);
-  --duration-switch-press: var(--foundation-duration-micro);
-
-  /* Easing presets for switch-specific interactions - ALL SMOOTH */
-  --easing-switch-toggle: var(--foundation-ease-smooth);
-  --easing-switch-hover: var(--foundation-ease-smooth);
-  --easing-switch-press: var(--foundation-ease-smooth);
-}
-
-
-/* ==============================================
-   STEP 1: Add to your existing foundation/motion.css
-   ============================================== */
-
-/* ==============================================
-   Enhanced Motion Tokens for Ultra Smooth Switch
-   ============================================== */
-
-:root {
-  /* Enhanced Foundation Motion Tokens */
-  --foundation-duration-instant: 0ms;
-  --foundation-duration-fast: 150ms;
-  --foundation-duration-normal: 250ms;
-  --foundation-duration-slow: 350ms;
-  --foundation-duration-slower: 500ms;
-  --foundation-duration-micro: 75ms;
-  --foundation-duration-gentle: 400ms;
-  --foundation-duration-dramatic: 600ms;
-
-  /* Enhanced easing curves */
+  /* These are primitive easing curves - building blocks */
   --foundation-ease-linear: linear;
   --foundation-ease-in: cubic-bezier(0.4, 0, 1, 1);
   --foundation-ease-out: cubic-bezier(0, 0, 0.2, 1);
@@ -150,35 +25,4 @@
   --foundation-ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --foundation-ease-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --foundation-ease-anticipate: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --foundation-ease-overshoot: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  
-  /* NEW: Ultra smooth switch-specific easing */
-  --foundation-ease-switch: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --foundation-ease-switch-gentle: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-
-  /* Component Motion Tokens */
-  --transition-button: all var(--foundation-duration-fast) var(--foundation-ease-in-out);
-  --transition-card: all var(--foundation-duration-normal) var(--foundation-ease-smooth);
-  --transition-input: border-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
-  --transition-modal: opacity var(--foundation-duration-normal) var(--foundation-ease-in-out);
-  --transition-nav: background-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
-  --transition-toast: transform var(--foundation-duration-normal) var(--foundation-ease-out);
-  --transition-hover: all var(--foundation-duration-fast) var(--foundation-ease-out);
-
-  /* Enhanced Switch Motion Tokens */
-  --transition-switch-track: background-color var(--foundation-duration-gentle) var(--foundation-ease-smooth);
-  --transition-switch-thumb: transform var(--foundation-duration-gentle) var(--foundation-ease-switch-gentle);
-  --transition-switch-thumb-shadow: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
-  --transition-switch-thumb-scale: transform var(--foundation-duration-micro) var(--foundation-ease-out);
-  --transition-switch-focus: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
-  --transition-switch-hover: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
-  --transition-switch-border: border-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
-
-  /* Animation tokens */
-  --animation-spin: spin 1s var(--foundation-ease-linear) infinite;
-  --animation-pulse: pulse 2s var(--foundation-ease-in-out) infinite;
-  --animation-bounce: bounce 1s var(--foundation-ease-out) infinite;
-  --animation-fade-in: fadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
-  --animation-slide-up: slideUp var(--foundation-duration-normal) var(--foundation-ease-out);
-  --animation-scale-in: scaleIn var(--foundation-duration-fast) var(--foundation-ease-out);
 }
