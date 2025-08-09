@@ -62,7 +62,7 @@ export function buildNavHref(
 ): string {
   if (isEditingMode) {
     // Toggle mode: use slug or href for /index.html files WITH locale prefix
-    const slug = item.slug || item.href.replace('/', '');
+    const slug = item.slug || item.href.replace('/', '') || 'home';
     return `/${currentLocale}/${slug}/index.html`;
   }
   
@@ -98,7 +98,13 @@ export function handleNavigationClick(
   
   // If in editing mode, notify parent about navigation
   if (isEditingMode) {
-    sendNavigationUpdateToParent(href, slug);
+    // Extract locale from href to send consistent format to parent
+    const locale = extractLocaleFromPathname(href);
+    const cleanSlug = slug || 'home';
+    const simpleHref = `/${locale}/${cleanSlug}`;
+    
+    // Send simple href format for consistency with SectionPanel
+    sendNavigationUpdateToParent(simpleHref, cleanSlug);
   }
 }
 

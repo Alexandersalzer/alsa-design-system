@@ -39,8 +39,20 @@ export const sendNavigationUpdateToParent = (href: string, slug?: string) => {
       pathSegments.shift();
     }
     
-    // Get page slug from segments or use provided slug
-    const pageSlug = slug || pathSegments[0] || 'home';
+    // Get page slug from segments, handling /index.html format
+    let pageSlug = slug;
+    if (!pageSlug && pathSegments.length > 0) {
+      // Take the first segment that's not 'index.html'
+      pageSlug = pathSegments.find(segment => segment !== 'index.html') || pathSegments[0];
+      
+      // If we still got 'index.html', default to 'home'
+      if (pageSlug === 'index.html') {
+        pageSlug = 'home';
+      }
+    }
+    
+    // Final fallback to 'home'
+    pageSlug = pageSlug || 'home';
     
     window.parent.postMessage({
       type: 'child-navigation-update',
