@@ -107,8 +107,35 @@ const Navbar = ({
     // In editing mode, send simple href format (like page picker does)
     // Parent will handle the /index.html conversion when sending back to child
     if (isEditingMode) {
-      const simpleHref = `/${nav.currentLocale}/${item.slug || item.href.replace('/', '') || 'home'}`;
-      handleNavigationClick(simpleHref, item.slug);
+      // Extract page slug properly from href
+      let pageSlug = item.slug;
+      if (!pageSlug) {
+        // Parse href to extract page slug: /sv/about/index.html → about
+        const pathSegments = item.href.split('/').filter(Boolean);
+        // Remove locale if present: ['sv', 'about', 'index.html'] → ['about', 'index.html']
+        if (pathSegments[0] === nav.currentLocale) {
+          pathSegments.shift();
+        }
+        // Get the page slug (first remaining segment): 'about'
+        pageSlug = pathSegments[0] || 'home';
+        // Remove .html extension if present: 'index.html' → 'index'
+        if (pageSlug.endsWith('.html')) {
+          pageSlug = pageSlug.replace('.html', '');
+        }
+        // If it's 'index', convert to 'home'
+        if (pageSlug === 'index') {
+          pageSlug = 'home';
+        }
+      }
+      
+      const simpleHref = `/${nav.currentLocale}/${pageSlug}`;
+      console.log('🧭 Navbar click in editing mode:', { 
+        originalHref: item.href, 
+        extractedSlug: pageSlug, 
+        simpleHref,
+        locale: nav.currentLocale 
+      });
+      handleNavigationClick(simpleHref, pageSlug);
     } else {
       handleNavigationClick(item.href, item.slug);
     }
@@ -116,11 +143,17 @@ const Navbar = ({
 
   // Handle brand link click
   const handleBrandClick = () => {
-    const brandSlug = brandHref.replace('/', '') || 'home';
+    const brandSlug = brandHref.replace(/^\/+/, '') || 'home'; // Remove leading slashes
     
     // In editing mode, send simple href format (like page picker does)
     if (isEditingMode) {
       const simpleHref = `/${nav.currentLocale}/${brandSlug}`;
+      console.log('🧭 Brand click in editing mode:', { 
+        brandHref, 
+        extractedSlug: brandSlug, 
+        simpleHref,
+        locale: nav.currentLocale 
+      });
       handleNavigationClick(simpleHref, brandSlug);
     } else {
       const fullBrandHref = nav.buildBrandHref(brandHref);
