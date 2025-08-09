@@ -4,12 +4,6 @@
  */
 
 import { type SupportedLocale } from './locale';
-import { 
-  sendNavigationUpdateToParent,
-  createNavigationMessageHandlers,
-  useNavigationMessageListener,
-  type NavigationMessageHandlers
-} from '../../cms/messaging/navigation/child';
 
 export interface NavigationItem {
   href: string;
@@ -82,75 +76,6 @@ export function isNavItemActive(
 ): boolean {
   const expectedHref = buildNavHref(item, currentLocale, isEditingMode);
   return currentPathname === expectedHref;
-}
-
-/**
- * Handle navigation click with postMessage support
- * Sends navigation update to parent in editing mode
- */
-export function handleNavigationClick(
-  href: string,
-  slug: string | undefined,
-  isEditingMode: boolean,
-  logPrefix: string = '🧭'
-) {
-  console.log(`${logPrefix} Navigation clicked:`, { href, slug, isEditingMode });
-  
-  // If in editing mode, notify parent about navigation
-  if (isEditingMode) {
-    sendNavigationUpdateToParent(href, slug);
-  }
-}
-
-/**
- * Create navigation message handlers for parent-to-child communication
- * Provides a standardized way to handle navigation updates from parent
- */
-export function createNavigationMessageHandlersWithRouter(
-  router: { push: (href: string) => void },
-  pathname: string,
-  isEditingMode: boolean,
-  logPrefix: string = '🧭'
-): NavigationMessageHandlers {
-  return createNavigationMessageHandlers({
-    onNavigationChange: (href: string) => {
-      console.log(`${logPrefix} Received navigation update from parent:`, href);
-      
-      // Navigate to the new href if different from current pathname
-      if (href !== pathname) {
-        router.push(href);
-      }
-    },
-    isEditingMode
-  });
-}
-
-/**
- * Setup navigation message listener for components
- * Convenience function that only sets up listener in editing mode
- */
-export function useNavigationMessaging(
-  router: { push: (href: string) => void },
-  pathname: string,
-  isEditingMode: boolean,
-  logPrefix: string = '🧭'
-) {
-  const navigationHandlers = createNavigationMessageHandlersWithRouter(
-    router,
-    pathname,
-    isEditingMode,
-    logPrefix
-  );
-
-  // Listen for navigation messages from parent (only in editing mode)
-  if (isEditingMode) {
-    useNavigationMessageListener(navigationHandlers);
-  }
-
-  return {
-    handleNavigationClick: (href: string, slug?: string) =>
-      handleNavigationClick(href, slug, isEditingMode, logPrefix)
-  };
 }
 
 /**
