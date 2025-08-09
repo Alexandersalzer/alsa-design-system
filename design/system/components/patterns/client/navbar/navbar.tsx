@@ -80,19 +80,9 @@ export const NavMenu = ({
   const router = useRouter();
 
   const handleItemClick = (item: NavMenuItem) => {
-    // Call the click handler FIRST (for postMessage in editing mode)
+    // Call the click handler which will handle navigation appropriately
+    // (either postMessage in editing mode or direct navigation in normal mode)
     onLinkClick?.(item);
-    
-    // Check if this is a .html file (edit mode)
-    const isHtmlFile = item.href.endsWith('.html');
-    
-    if (isHtmlFile) {
-      // Navigate to .html file directly
-      window.location.href = item.href;
-    } else {
-      // Use Next.js router for internal navigation
-      router.push(item.href);
-    }
   };
 
   return (
@@ -116,7 +106,7 @@ export const NavMenu = ({
               size={itemSize}
               weight={item.weight || 'medium'}
               underline={item.underline || 'hover'}
-              onClick={() => handleItemClick(item)}
+              onClick={() => onLinkClick?.(item)}
               leftIcon={item.leftIcon}
               rightIcon={item.rightIcon}
             >

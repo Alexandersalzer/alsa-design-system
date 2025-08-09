@@ -85,10 +85,11 @@ export function isNavItemActive(
 }
 
 /**
- * Handle navigation click with postMessage support
- * Sends navigation update to parent in editing mode
+ * Handle navigation click with postMessage support (standalone utility)
+ * Sends navigation update to parent in editing mode, or navigates directly in normal mode
+ * Note: Use useNavigationMessaging hook for better router integration
  */
-export function handleNavigationClick(
+export function handleNavigationClickStandalone(
   href: string,
   slug: string | undefined,
   isEditingMode: boolean,
@@ -96,9 +97,27 @@ export function handleNavigationClick(
 ) {
   console.log(`${logPrefix} Navigation clicked:`, { href, slug, isEditingMode });
   
-  // If in editing mode, notify parent about navigation
   if (isEditingMode) {
+    // In editing mode: notify parent about navigation, but don't navigate
+    // Parent will handle content updates via postMessage
+    console.log(`${logPrefix} Sending navigation update to parent (editing mode):`, href);
     sendNavigationUpdateToParent(href, slug);
+  } else {
+    // In normal mode: handle navigation directly
+    console.log(`${logPrefix} Navigating directly (normal mode):`, href);
+    
+    // Check if this is a .html file
+    const isHtmlFile = href.endsWith('.html');
+    
+    if (isHtmlFile) {
+      // Navigate to .html file directly
+      window.location.href = href;
+    } else {
+      // Use Next.js router for internal navigation
+      // Note: We can't import useRouter here, so we'll use window.location for now
+      // This function should ideally receive a router instance as parameter
+      window.location.href = href;
+    }
   }
 }
 
@@ -147,9 +166,34 @@ export function useNavigationMessaging(
     useNavigationMessageListener(navigationHandlers);
   }
 
+  // Return enhanced navigation handler that can use the router
+  const handleNavigationClick = (href: string, slug?: string) => {
+    console.log(`${logPrefix} Navigation clicked:`, { href, slug, isEditingMode });
+    
+    if (isEditingMode) {
+      // In editing mode: notify parent about navigation, but don't navigate
+      // Parent will handle content updates via postMessage
+      console.log(`${logPrefix} Sending navigation update to parent (editing mode):`, href);
+      sendNavigationUpdateToParent(href, slug);
+    } else {
+      // In normal mode: handle navigation directly using router
+      console.log(`${logPrefix} Navigating directly (normal mode):`, href);
+      
+      // Check if this is a .html file
+      const isHtmlFile = href.endsWith('.html');
+      
+      if (isHtmlFile) {
+        // Navigate to .html file directly
+        window.location.href = href;
+      } else {
+        // Use Next.js router for internal navigation
+        router.push(href);
+      }
+    }
+  };
+
   return {
-    handleNavigationClick: (href: string, slug?: string) =>
-      handleNavigationClick(href, slug, isEditingMode, logPrefix)
+    handleNavigationClick
   };
 }
 
