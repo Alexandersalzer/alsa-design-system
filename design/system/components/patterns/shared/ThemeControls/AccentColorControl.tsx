@@ -1,6 +1,6 @@
 // ===============================================
 // blimpify-ui/design/system/components/patterns/shared/ThemeControls/AccentColorControl.tsx
-// FIXED: Correct relative imports
+// FIXED: Better styling and proper children handling
 // ===============================================
 
 import React from 'react';
@@ -8,7 +8,6 @@ import { OptionGridSection, type OptionItem } from '../../dashboard/selection/Op
 import { useTheme, type ColorScale } from '../../../../hooks/useTheme';
 import { SwatchIcon } from '@heroicons/react/24/outline';
 
-// Use your existing foundation colors - no duplication!
 const COLOR_OPTIONS: OptionItem[] = [
   { id: 'ruby', name: 'Ruby', value: 'ruby', hex: '#EF4444' },
   { id: 'purple', name: 'Purple', value: 'purple', hex: '#A855F7' },
@@ -36,7 +35,10 @@ export function AccentColorControl({ columns = 3, className }: AccentColorContro
       onChange={(value) => setAccentColor(value as ColorScale)}
       columns={columns}
       variant="colors"
-      className={className} children={undefined}
-    />
+      className={className}
+    >
+      {/* Empty children to satisfy required prop */}
+      <></>
+    </OptionGridSection>
   );
 }

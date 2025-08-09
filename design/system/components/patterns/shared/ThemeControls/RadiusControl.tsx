@@ -1,7 +1,6 @@
-
 // ===============================================
 // blimpify-ui/design/system/components/patterns/shared/ThemeControls/RadiusControl.tsx
-// FIXED: Correct relative imports
+// FIXED: Better styling
 // ===============================================
 
 import React from 'react';
@@ -37,7 +36,70 @@ export function RadiusControl({ columns = 2, className }: RadiusControlProps) {
       onChange={(value) => setRadiusScale(value as RadiusScale)}
       columns={columns}
       variant="radius"
-      className={className} children={undefined}
-    />
+      className={className}
+    >
+      <></>
+    </OptionGridSection>
+  );
+}
+
+export function SimpleRadiusControl({ columns = 2, className }: RadiusControlProps) {
+  const { radiusScale, setRadiusScale } = useTheme();
+
+    function getGridCols(columns: number): string {
+    switch (columns) {
+        case 1: return 'grid-cols-1';
+        case 2: return 'grid-cols-2';
+        case 3: return 'grid-cols-3';
+        case 4: return 'grid-cols-4';
+        default: return 'grid-cols-3';
+    }
+    }
+    
+  return (
+    <div className={`radius-control ${className || ''}`}>
+      <div className="mb-4">
+        <div className="flex items-center gap-2 mb-2">
+          <Square2StackIcon className="w-5 h-5 text-gray-600" />
+          <h3 className="text-lg font-semibold text-gray-900">Corner Style</h3>
+        </div>
+        <p className="text-sm text-gray-600">Border radius scale</p>
+      </div>
+      
+      <div className={`grid gap-2 ${getGridCols(columns)}`}>
+        {RADIUS_OPTIONS.map((radius) => (
+          <button
+            key={radius.id}
+            onClick={() => setRadiusScale(radius.value as RadiusScale)}
+            className={`relative p-3 border-2 rounded-lg transition-all duration-200 hover:shadow-md ${
+              radiusScale === radius.value
+                ? 'border-blue-500 bg-blue-50 shadow-lg'
+                : 'border-gray-200 hover:border-gray-300 bg-white'
+            }`}
+          >
+            {/* Selected indicator */}
+            {radiusScale === radius.value && (
+              <div className="absolute -top-2 -right-2 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
+                <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              </div>
+            )}
+            
+            <div className="flex flex-col items-center gap-1 mb-2">
+              <div
+                className="w-6 h-4 bg-gray-300"
+                style={{ borderRadius: radius.px }}
+              />
+              <div
+                className="w-4 h-2 bg-gray-400"
+                style={{ borderRadius: radius.px }}
+              />
+            </div>
+            <div className="text-xs font-medium text-gray-900">{radius.name}</div>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }

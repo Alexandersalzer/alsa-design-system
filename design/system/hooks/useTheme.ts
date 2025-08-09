@@ -1,6 +1,6 @@
 // ===============================================
 // blimpify-ui/design/system/hooks/useTheme.ts
-// FIXED: Export the types from the hook
+// UPDATED: Use the fixed reset method
 // ===============================================
 
 import { useState, useEffect, useCallback } from 'react';
@@ -11,7 +11,7 @@ export function useTheme() {
   const [config, setConfig] = useState<ThemeConfig>(() => themeManager.getCurrentConfig());
 
   useEffect(() => {
-    // Initialize on mount
+    // Initialize on mount - this will load saved settings if they exist
     themeManager.initialize();
     setConfig(themeManager.getCurrentConfig());
   }, [themeManager]);
@@ -31,8 +31,9 @@ export function useTheme() {
     setConfig(themeManager.getCurrentConfig());
   }, [themeManager]);
 
+  // ✅ FIXED: Use the proper reset method
   const reset = useCallback(() => {
-    themeManager.applyTheme({ accentColor: 'purple', radiusScale: 'md' });
+    themeManager.resetToDefaults();
     setConfig(themeManager.getCurrentConfig());
   }, [themeManager]);
 
@@ -49,5 +50,5 @@ export function useTheme() {
   };
 }
 
-// ✅ EXPORT THE TYPES so they can be imported
+// Export types
 export type { ColorScale, RadiusScale, ThemeConfig };

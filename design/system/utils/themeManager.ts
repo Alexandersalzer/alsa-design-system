@@ -1,6 +1,6 @@
 // ===============================================
 // blimpify-ui/design/system/utils/themeManager.ts
-// Core theme management utilities
+// FIXED: Proper initialization that preserves saved settings
 // ===============================================
 
 export type ColorScale = 'purple' | 'azure' | 'ruby' | 'emerald' | 'honey' | 'gray';
@@ -15,6 +15,7 @@ export interface ThemeConfig {
 export class ThemeManager {
   private static instance: ThemeManager;
   private currentConfig: ThemeConfig;
+  private isInitialized = false;
 
   private constructor() {
     this.currentConfig = {
@@ -50,7 +51,6 @@ export class ThemeManager {
 
   /**
    * Apply accent color by updating existing semantic tokens
-   * No duplication - just redirecting existing tokens to new foundation colors
    */
   private applyAccentColor(color: ColorScale): void {
     if (typeof window === 'undefined') return;
@@ -67,7 +67,7 @@ export class ThemeManager {
       );
     });
 
-    // Also update any direct semantic tokens that should follow accent
+    // Also update semantic tokens that should follow accent
     root.style.setProperty('--border-focus', `var(--foundation-${color}-500)`);
     root.style.setProperty('--icon-brand', `var(--foundation-${color}-600)`);
     root.style.setProperty('--text-nav-item-selected', `var(--foundation-${color}-600)`);
@@ -102,30 +102,44 @@ export class ThemeManager {
   }
 
   /**
-   * Initialize theme with stored preferences or defaults
+   * ✅ FIXED: Initialize theme - preserves saved settings
    */
-  initialize(config?: Partial<ThemeConfig>): void {
+  initialize(fallbackConfig?: Partial<ThemeConfig>): void {
     if (typeof window === 'undefined') return;
 
-    // Load from localStorage
+    // Only initialize once per session
+    if (this.isInitialized) {
+      return;
+    }
+
+    // Try to load from localStorage first
     const stored = localStorage.getItem('blimpify-theme-config');
     if (stored) {
       try {
-        const parsedConfig = JSON.parse(stored);
-        this.currentConfig = { ...this.currentConfig, ...parsedConfig };
+        const savedConfig = JSON.parse(stored);
+        this.currentConfig = { 
+          ...this.currentConfig, 
+          ...savedConfig 
+        };
+        console.log('🎨 Loaded saved theme config:', this.currentConfig);
       } catch (e) {
-        console.warn('Failed to parse stored theme config');
+        console.warn('Failed to parse stored theme config, using defaults');
       }
+    } else if (fallbackConfig) {
+      // Only use fallback if no saved config exists
+      this.currentConfig = { 
+        ...this.currentConfig, 
+        ...fallbackConfig 
+      };
+      console.log('🎨 Using fallback theme config:', this.currentConfig);
     }
 
-    // Apply provided config
-    if (config) {
-      this.currentConfig = { ...this.currentConfig, ...config };
-    }
-
-    // Apply current configuration
+    // Apply the configuration
     this.applyAccentColor(this.currentConfig.accentColor);
     this.applyRadiusScale(this.currentConfig.radiusScale);
+    
+    this.isInitialized = true;
+    console.log('🎨 Theme manager initialized with config:', this.currentConfig);
   }
 
   /**
@@ -134,6 +148,7 @@ export class ThemeManager {
   private saveToStorage(): void {
     if (typeof window === 'undefined') return;
     localStorage.setItem('blimpify-theme-config', JSON.stringify(this.currentConfig));
+    console.log('💾 Theme config saved:', this.currentConfig);
   }
 
   /**
@@ -146,5 +161,23 @@ export class ThemeManager {
     if (config.radiusScale) {
       this.setRadiusScale(config.radiusScale);
     }
+  }
+
+  /**
+   * Reset to defaults and clear storage
+   */
+  resetToDefaults(): void {
+    if (typeof window === 'undefined') return;
+    
+    localStorage.removeItem('blimpify-theme-config');
+    this.currentConfig = {
+      accentColor: 'purple',
+      radiusScale: 'md'
+    };
+    
+    this.applyAccentColor(this.currentConfig.accentColor);
+    this.applyRadiusScale(this.currentConfig.radiusScale);
+    
+    console.log('🔄 Theme reset to defaults');
   }
 }
