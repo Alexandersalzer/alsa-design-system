@@ -1,15 +1,14 @@
 /* ==============================================
-   Switch Component - Fixed Animation Implementation
+   Switch Component - Fixed Smooth Animation
    ============================================== */
 
-/* Switch motion tokens - Enhanced */
+/* Switch motion tokens */
 :root {
-  --transition-switch-track: background-color 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --transition-switch-thumb: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  --transition-switch-focus: box-shadow 150ms cubic-bezier(0, 0, 0.2, 1);
-  --transition-switch-hover: background-color 150ms cubic-bezier(0, 0, 0.2, 1);
-  --transition-switch-border: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-switch-scale: transform 75ms cubic-bezier(0, 0, 0.2, 1);
+  --transition-switch-track: background-color var(--foundation-duration-normal) var(--foundation-ease-smooth);
+  --transition-switch-thumb: transform 250ms ease-out;
+  --transition-switch-focus: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
+  --transition-switch-hover: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
+  --transition-switch-border: border-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
 }
 
 /* Switch wrapper */
@@ -75,7 +74,7 @@
   cursor: not-allowed;
 }
 
-/* Track - Fixed sizing */
+/* Track */
 .switch-track {
   position: relative;
   display: block;
@@ -85,23 +84,19 @@
   transition: var(--transition-switch-track), var(--transition-switch-border);
 }
 
-/* Size variants with proper dimensions */
 .switch--sm .switch-track {
-  width: 32px;
-  height: 18px;
-  border-radius: 9px;
+  width: calc(var(--size-switch-sm-width) + 10px);
+  height: var(--size-switch-sm-height);
 }
 
 .switch--md .switch-track {
-  width: 44px;
-  height: 24px;
-  border-radius: 12px;
+  width: calc(var(--size-switch-md-width) + 12px);
+  height: var(--size-switch-md-height);
 }
 
 .switch--lg .switch-track {
-  width: 56px;
-  height: 30px;
-  border-radius: 15px;
+  width: calc(var(--size-switch-lg-width) + 14px);
+  height: var(--size-switch-lg-height);
 }
 
 /* Track states */
@@ -126,77 +121,75 @@
   background-color: var(--surface-switch-track-disabled-checked);
 }
 
-/* Thumb - Fixed positioning and animation */
+/* Thumb - KEY FIX: Apply transition to ALL thumb states */
 .switch-thumb {
   position: absolute;
-  top: 50%;
+  top: 2px;
   left: 2px;
-  transform: translateY(-50%);
   background-color: var(--surface-switch-thumb);
-  border-radius: 50%;
+  border-radius: var(--radius-switch-thumb);
   box-shadow: var(--foundation-shadow-sm);
-  transition: var(--transition-switch-thumb);
-  will-change: transform;
+  /* CRITICAL: Apply transition to base class so it persists across all states */
+  transition: var(--transition-switch-thumb), box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
-/* Thumb sizes */
 .switch--sm .switch-thumb {
-  width: 14px;
-  height: 14px;
+  width: calc(var(--size-switch-sm-thumb) + 2px);
+  height: calc(var(--size-switch-sm-thumb) - 2px);
 }
 
 .switch--md .switch-thumb {
-  width: 20px;
-  height: 20px;
+  width: calc(var(--size-switch-md-thumb) + 2px);
+  height: calc(var(--size-switch-md-thumb) - 2px);
 }
 
 .switch--lg .switch-thumb {
-  width: 26px;
-  height: 26px;
+  width: calc(var(--size-switch-lg-thumb) + 2px);
+  height: calc(var(--size-switch-lg-thumb) - 3px);
 }
 
-/* Thumb checked positions - This is the key fix! */
+/* Thumb checked positions - CORRECT MATH */
 .switch--sm.switch--checked .switch-thumb {
-  transform: translateY(-50%) translateX(14px);
+  transform: translateX(calc(var(--size-switch-sm-width) + 10px - var(--size-switch-sm-thumb) - 6px));
 }
 
 .switch--md.switch--checked .switch-thumb {
-  transform: translateY(-50%) translateX(20px);
+  transform: translateX(calc(var(--size-switch-md-width) + 12px - var(--size-switch-md-thumb) - 6px));
 }
 
 .switch--lg.switch--checked .switch-thumb {
-  transform: translateY(-50%) translateX(26px);
+  transform: translateX(calc(var(--size-switch-lg-width) + 14px - var(--size-switch-lg-thumb) - 8px));
 }
 
-/* Thumb interactions */
+/* Thumb interactions - FIXED: Maintain transitions on all interaction states */
 .switch:active:not(.switch--disabled) .switch-thumb {
-  transform: translateY(-50%) scale(0.95);
-  transition: var(--transition-switch-scale);
+  transform: scale(0.95);
+  /* Override transition for quick press feedback */
+  transition: transform var(--foundation-duration-fast) var(--foundation-ease-out), box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
+/* FIXED: Apply both transform properties and maintain transitions */
 .switch--sm.switch--checked:active:not(.switch--disabled) .switch-thumb {
-  transform: translateY(-50%) translateX(14px) scale(0.95);
-  transition: var(--transition-switch-scale);
+  transform: translateX(calc(var(--size-switch-sm-width) + 10px - var(--size-switch-sm-thumb) - 6px)) scale(0.95);
+  transition: transform var(--foundation-duration-fast) var(--foundation-ease-out), box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
 .switch--md.switch--checked:active:not(.switch--disabled) .switch-thumb {
-  transform: translateY(-50%) translateX(20px) scale(0.95);
-  transition: var(--transition-switch-scale);
+  transform: translateX(calc(var(--size-switch-md-width) + 12px - var(--size-switch-md-thumb) - 6px)) scale(0.95);
+  transition: transform var(--foundation-duration-fast) var(--foundation-ease-out), box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
 .switch--lg.switch--checked:active:not(.switch--disabled) .switch-thumb {
-  transform: translateY(-50%) translateX(26px) scale(0.95);
-  transition: var(--transition-switch-scale);
+  transform: translateX(calc(var(--size-switch-lg-width) + 14px - var(--size-switch-lg-thumb) - 8px)) scale(0.95);
+  transition: transform var(--foundation-duration-fast) var(--foundation-ease-out), box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
 .switch:hover:not(.switch--disabled) .switch-thumb {
   box-shadow: var(--foundation-shadow-md);
-  transition: box-shadow 150ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .switch:focus-visible .switch-thumb {
   box-shadow: var(--foundation-shadow-sm), 0 0 0 2px var(--border-switch-focus);
-  transition: box-shadow 150ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .switch--disabled .switch-thumb {
@@ -221,7 +214,7 @@
   cursor: pointer;
   user-select: none;
   margin: 0;
-  transition: color 150ms cubic-bezier(0, 0, 0.2, 1);
+  transition: var(--transition-hover);
 }
 
 .switch-wrapper--sm .switch-label {
@@ -253,7 +246,7 @@
   line-height: var(--typography-body-sm-line-height);
   color: var(--text-form-hint);
   margin-top: var(--foundation-space-1);
-  transition: color 150ms cubic-bezier(0, 0, 0.2, 1);
+  transition: var(--transition-hover);
 }
 
 .switch-wrapper--disabled .switch-description {
@@ -294,7 +287,7 @@
   animation: var(--animation-fade-in);
 }
 
-/* Switch group styles remain the same... */
+/* Switch group */
 .switch-group {
   display: flex;
   flex-direction: column;
@@ -384,6 +377,10 @@
   .switch-description {
     transition: none !important;
     animation: none !important;
+  }
+
+  .switch-thumb {
+    transition: transform 0s;
   }
 }
 
