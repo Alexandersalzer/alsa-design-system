@@ -141,17 +141,17 @@
   height: calc(var(--size-switch-lg-thumb) - 3px);
 }
 
-/* Thumb checked positions - CORRECT MATH */
+/* Thumb checked positions - WITH PROPER SPACING */
 .switch--sm.switch--checked .switch-thumb {
-  transform: translateX(calc(var(--size-switch-sm-width) + 10px - var(--size-switch-sm-thumb) - 6px));
+  transform: translateX(calc(var(--size-switch-sm-width) + 10px - var(--size-switch-sm-thumb) - 8px));
 }
 
 .switch--md.switch--checked .switch-thumb {
-  transform: translateX(calc(var(--size-switch-md-width) + 12px - var(--size-switch-md-thumb) - 6px));
+  transform: translateX(calc(var(--size-switch-md-width) + 12px - var(--size-switch-md-thumb) - 8px));
 }
 
 .switch--lg.switch--checked .switch-thumb {
-  transform: translateX(calc(var(--size-switch-lg-width) + 14px - var(--size-switch-lg-thumb) - 8px));
+  transform: translateX(calc(var(--size-switch-lg-width) + 14px - var(--size-switch-lg-thumb) - 10px));
 }
 
 /* Thumb interactions - FIXED: Maintain transitions on all interaction states */
@@ -163,17 +163,17 @@
 
 /* FIXED: Apply both transform properties and maintain transitions */
 .switch--sm.switch--checked:active:not(.switch--disabled) .switch-thumb {
-  transform: translateX(calc(var(--size-switch-sm-width) + 10px - var(--size-switch-sm-thumb) - 6px)) scale(0.95);
+  transform: translateX(calc(var(--size-switch-sm-width) + 10px - var(--size-switch-sm-thumb) - 8px)) scale(0.95);
   transition: transform var(--foundation-duration-fast) var(--foundation-ease-out), box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
 .switch--md.switch--checked:active:not(.switch--disabled) .switch-thumb {
-  transform: translateX(calc(var(--size-switch-md-width) + 12px - var(--size-switch-md-thumb) - 6px)) scale(0.95);
+  transform: translateX(calc(var(--size-switch-md-width) + 12px - var(--size-switch-md-thumb) - 8px)) scale(0.95);
   transition: transform var(--foundation-duration-fast) var(--foundation-ease-out), box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
 .switch--lg.switch--checked:active:not(.switch--disabled) .switch-thumb {
-  transform: translateX(calc(var(--size-switch-lg-width) + 14px - var(--size-switch-lg-thumb) - 8px)) scale(0.95);
+  transform: translateX(calc(var(--size-switch-lg-width) + 14px - var(--size-switch-lg-thumb) - 10px)) scale(0.95);
   transition: transform var(--foundation-duration-fast) var(--foundation-ease-out), box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
