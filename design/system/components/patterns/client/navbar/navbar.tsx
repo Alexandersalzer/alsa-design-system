@@ -80,6 +80,9 @@ export const NavMenu = ({
   const router = useRouter();
 
   const handleItemClick = (item: NavMenuItem) => {
+    // Call the click handler FIRST (for postMessage in editing mode)
+    onLinkClick?.(item);
+    
     // Check if this is a .html file (edit mode)
     const isHtmlFile = item.href.endsWith('.html');
     
@@ -90,9 +93,6 @@ export const NavMenu = ({
       // Use Next.js router for internal navigation
       router.push(item.href);
     }
-    
-    // Call optional click handler
-    onLinkClick?.(item);
   };
 
   return (
@@ -116,7 +116,7 @@ export const NavMenu = ({
               size={itemSize}
               weight={item.weight || 'medium'}
               underline={item.underline || 'hover'}
-              onClick={() => onLinkClick?.(item)}
+              onClick={() => handleItemClick(item)}
               leftIcon={item.leftIcon}
               rightIcon={item.rightIcon}
             >
