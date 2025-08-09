@@ -1,5 +1,5 @@
 import React from 'react';
-import { switchLocale, type SupportedLocale, isSupportedLocale, getCurrentLocale } from '../../../../system/utils/locale';
+import { switchLocale, type SupportedLocale, isSupportedLocale } from '../../../../system/utils/locale';
 
 export interface I18nMessageHandlers {
   onLanguageUpdate: (languageCode: string) => void;
@@ -23,26 +23,19 @@ export const createI18nMessageHandlers = (params: I18nMessageHandlerParams): I18
         return;
       }
       
-      // Check if we're already on the correct locale to prevent unnecessary navigation
-      const currentLocale = getCurrentLocale();
-      if (currentLocale === languageCode) {
-        console.log('🌐 Already on correct locale, skipping navigation:', languageCode);
-        
-        // Still update the language picker state if setter is provided
-        if (setSelectedLanguage) {
-          setSelectedLanguage(languageCode);
-        }
-        return;
-      }
-      
       // Update the language picker state if setter is provided
       if (setSelectedLanguage) {
         setSelectedLanguage(languageCode);
       }
       
-      // Switch to the new locale using the existing locale utility
-      // The isEditingMode parameter ensures proper URL handling
-      switchLocale(languageCode as SupportedLocale, isEditingMode);
+      // In editing mode, DON'T switch locale when receiving updates from parent
+      // The parent handles content fetching and URL should remain stable
+      // Only switch locale when user manually changes language in child
+      if (!isEditingMode) {
+        switchLocale(languageCode as SupportedLocale, isEditingMode);
+      } else {
+        console.log('🌐 Skipping URL change in editing mode - parent handles content fetching');
+      }
     }
   };
 };
