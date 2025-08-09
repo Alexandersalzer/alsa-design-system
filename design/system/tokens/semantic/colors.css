@@ -128,7 +128,6 @@
   /* ===== SEMANTIC SURFACE TOKENS ===== */
   --surface-background: #fff;
   --surface-page: var(--primary-white);
-  --surface-card: var(--primary-white);
 
   --surface-overlay: rgba(0, 0, 0, 0.5);
   --surface-backdrop: rgba(0, 0, 0, 0.3);
