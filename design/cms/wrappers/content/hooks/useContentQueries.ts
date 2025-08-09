@@ -7,8 +7,12 @@ import * as queries from '../utils/contentQueries';
  */
 export function useContentQueries(content: WebsiteContent | null) {
   // Bind query functions to current content
-  const getPageTemplate = useCallback((pageSlug: string, templateType: string): ContentTemplate | undefined => {
-    return queries.getPageTemplate(content, pageSlug, templateType);
+  const getPageTemplate = useCallback((pageSlug: string, templateType: string, templateIndex: number = 0): ContentTemplate | undefined => {
+    return queries.getPageTemplate(content, pageSlug, templateType, templateIndex);
+  }, [content]);
+
+  const getPageTemplates = useCallback((pageSlug: string, templateType: string): ContentTemplate[] => {
+    return queries.getPageTemplates(content, pageSlug, templateType);
   }, [content]);
 
   const getGlobalComponent = useCallback((componentType: string): GlobalComponent | undefined => {
@@ -25,6 +29,7 @@ export function useContentQueries(content: WebsiteContent | null) {
 
   return {
     getPageTemplate,
+    getPageTemplates,
     getGlobalComponent,
     getTemplateBlocks,
     getAllBlocks
