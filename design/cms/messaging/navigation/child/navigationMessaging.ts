@@ -27,16 +27,25 @@ export const createNavigationMessageHandlers = (params: NavigationMessageHandler
 
 // Function to send navigation change from child to parent
 export const sendNavigationUpdateToParent = (href: string, slug?: string) => {
-  if (typeof window !== 'undefined' && window.parent && slug) {
+  if (typeof window !== 'undefined' && window.parent) {
     console.log('🧭 Sending navigation update from child to parent:', { href, slug });
     
-    // Extract locale from href
+    // Extract locale and page info from href
     const locale = extractLocaleFromPathname(href);
+    const pathSegments = href.split('/').filter(Boolean);
+    
+    // Remove locale from segments to get page slug
+    if (pathSegments[0] === locale) {
+      pathSegments.shift();
+    }
+    
+    // Get page slug from segments or use provided slug
+    const pageSlug = slug || pathSegments[0] || 'home';
     
     window.parent.postMessage({
       type: 'child-navigation-update',
       href: href,
-      slug: slug,
+      slug: pageSlug,
       locale: locale
     }, '*');
   }

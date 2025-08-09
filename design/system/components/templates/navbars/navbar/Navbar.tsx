@@ -103,15 +103,24 @@ const Navbar = ({
   );
 
   // Handle navigation clicks - unified for both nav items and brand
-  const handleNavClick = (item: NavMenuItem) => {
-    handleNavigationClick(item.href, item.slug);
+  const handleNavClick = (menuItem: NavMenuItem) => {
+    // Find the original navigation item to pass complete data
+    const originalItem = finalNavItems.find(item => item.href === menuItem.href || nav.buildNavHref(item) === menuItem.href);
+    handleNavigationClick(menuItem.href, menuItem.slug, originalItem);
   };
 
   // Handle brand link click
   const handleBrandClick = () => {
     const brandSlug = brandHref.replace('/', '') || 'home';
     const fullBrandHref = nav.buildBrandHref(brandHref);
-    handleNavigationClick(fullBrandHref, brandSlug);
+    
+    // Create brand navigation item
+    const brandItem: NavigationItem = {
+      href: brandHref,
+      slug: brandSlug
+    };
+    
+    handleNavigationClick(fullBrandHref, brandSlug, brandItem);
   };
 
   // Transform NavItem[] to NavMenuItem[] with proper hrefs and active states

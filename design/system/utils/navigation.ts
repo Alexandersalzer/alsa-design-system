@@ -62,12 +62,24 @@ export function buildNavHref(
 ): string {
   if (isEditingMode) {
     // Toggle mode: use slug or href for /index.html files WITH locale prefix
-    const slug = item.slug || item.href.replace('/', '') || 'home';
+    const slug = item.slug || item.href.replace('/', '');
     return `/${currentLocale}/${slug}/index.html`;
   }
   
   // Normal mode: use locale-based routes
   return `/${currentLocale}${item.href}`;
+}
+
+/**
+ * Build postMessage href for editing mode communication
+ * Uses same format as page picker: /${locale}/${slug}
+ */
+export function buildPostMessageHref(
+  item: NavigationItem,
+  currentLocale: SupportedLocale
+): string {
+  const slug = item.slug || item.href.replace('/', '');
+  return `/${currentLocale}/${slug}`;
 }
 
 /**
@@ -86,23 +98,30 @@ export function isNavItemActive(
 
 /**
  * Handle navigation click with postMessage support
- * Sends navigation update to parent in editing mode
+ * Sends navigation update to parent in editing mode using correct format
  */
 export function handleNavigationClick(
   href: string,
   slug: string | undefined,
+  item: NavigationItem | undefined,
+  currentLocale: SupportedLocale,
   isEditingMode: boolean,
   logPrefix: string = '🧭'
 ) {
   console.log(`${logPrefix} Navigation clicked:`, { href, slug, isEditingMode });
   
-  // If in editing mode, notify parent about navigation
-  if (isEditingMode && slug) {
-    // Extract locale from href and send same format as SectionPanel
-    const locale = extractLocaleFromPathname(href);
-    const simpleHref = `/${locale}/${slug}`;
+  // If in editing mode, notify parent about navigation using page picker format
+  if (isEditingMode && item) {
+    const postMessageHref = buildPostMessageHref(item, currentLocale);
+    const postMessageSlug = item.slug || item.href.replace('/', '');
     
-    sendNavigationUpdateToParent(simpleHref, slug);
+    console.log(`${logPrefix} Sending navigation update to parent:`, { 
+      href: postMessageHref, 
+      slug: postMessageSlug,
+      locale: currentLocale
+    });
+    
+    sendNavigationUpdateToParent(postMessageHref, postMessageSlug);
   }
 }
 
@@ -152,8 +171,10 @@ export function useNavigationMessaging(
   }
 
   return {
-    handleNavigationClick: (href: string, slug?: string) =>
-      handleNavigationClick(href, slug, isEditingMode, logPrefix)
+    handleNavigationClick: (href: string, slug?: string, item?: NavigationItem) => {
+      const currentLocale = extractLocaleFromPathname(pathname);
+      handleNavigationClick(href, slug, item, currentLocale, isEditingMode, logPrefix);
+    }
   };
 }
 
@@ -165,6 +186,7 @@ export function createNavigationUtils(currentLocale: SupportedLocale, isEditingM
   return {
     buildBrandHref: (originalHref: string) => buildBrandHref(originalHref, currentLocale, isEditingMode),
     buildNavHref: (item: NavigationItem) => buildNavHref(item, currentLocale, isEditingMode),
+    buildPostMessageHref: (item: NavigationItem) => buildPostMessageHref(item, currentLocale),
     isNavItemActive: (item: NavigationItem, currentPathname: string) => 
       isNavItemActive(item, currentPathname, currentLocale, isEditingMode),
     currentLocale,
