@@ -1,4 +1,3 @@
-
 // ===============================================
 // ThemeControlPanel.tsx - Using REAL components
 // ===============================================
@@ -35,4 +34,3 @@ export function ThemeControlPanel({
     </div>
   );
 }
-
