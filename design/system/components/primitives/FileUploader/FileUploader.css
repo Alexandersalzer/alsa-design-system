@@ -39,20 +39,10 @@
   margin-left: var(--foundation-space-1);
 }
 
-/* ===== HIDDEN INPUT ===== 
+/* ===== HIDDEN INPUT ===== */
 .file-uploader__hidden-input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
   opacity: 0;
-  pointer-events: none;
-}*/
+}
 
 /* ===== BASE FILE UPLOADER STYLES - USING SEMANTIC TOKENS ===== */
 .file-uploader {
