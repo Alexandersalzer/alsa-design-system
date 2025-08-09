@@ -91,10 +91,16 @@ export const LanguagePicker: React.FC<LanguagePickerProps> = ({
       
       // If postMessage sync is enabled and in editing mode, notify parent
       if (enablePostMessageSync && isEditingMode) {
+        console.log('🌐 Notifying parent of language change (editing mode):', value);
         sendLanguageUpdateToParent(value);
+        
+        // In editing mode with postMessage sync, DON'T change URL
+        // Parent will handle content fetching and updates via postMessage
+        console.log('🌐 Skipping URL change in editing mode - parent handles content via postMessage');
+        return;
       }
       
-      // Always switch locale when user manually selects a language
+      // Only switch locale if NOT in editing mode or postMessage sync is disabled
       // The isEditingMode parameter ensures proper URL handling (with .html extension)
       switchLocale(value as SupportedLocale, isEditingMode);
     }
