@@ -92,6 +92,17 @@
   --foundation-radius-xl: 0.75rem;        /* 12px - XL elements */
   --foundation-radius-2xl: 1rem;          /* 16px - Containers */
   --foundation-radius-full: 9999px;       /* Full circles */
+
+
+  --selected-radius-scale-none: var(--foundation-radius-md-none);
+  --selected-radius-scale-xs: var(--foundation-radius-md-xs);
+  --selected-radius-scale-sm: var(--foundation-radius-md-sm);
+  --selected-radius-scale-md: var(--foundation-radius-md-md);
+  --selected-radius-scale-lg: var(--foundation-radius-md-lg);
+  --selected-radius-scale-xl: var(--foundation-radius-md-xl);
+  --selected-radius-scale-2xl: var(--foundation-radius-md-2xl);
+  --selected-radius-scale-full: var(--foundation-radius-md-full);
+
 }
 
 /* 

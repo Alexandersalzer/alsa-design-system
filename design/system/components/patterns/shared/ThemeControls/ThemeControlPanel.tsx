@@ -1,11 +1,9 @@
 
 // ===============================================
-// blimpify-ui/design/system/components/patterns/shared/ThemeControls/ThemeControlPanel.tsx
-// FIXED: Correct relative imports
+// ThemeControlPanel.tsx - Using REAL components
 // ===============================================
-
 import React from 'react';
-import { Stack } from '../../dashboard/page/Stack';
+import { Stack } from '@blimpify-im/ui';
 import { AccentColorControl } from './AccentColorControl';
 import { RadiusControl } from './RadiusControl';
 
@@ -37,3 +35,4 @@ export function ThemeControlPanel({
     </div>
   );
 }
+
