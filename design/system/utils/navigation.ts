@@ -71,18 +71,6 @@ export function buildNavHref(
 }
 
 /**
- * Build postMessage href for editing mode communication
- * Uses same format as page picker: /${locale}/${slug}
- */
-export function buildPostMessageHref(
-  item: NavigationItem,
-  currentLocale: SupportedLocale
-): string {
-  const slug = item.slug || item.href.replace('/', '');
-  return `/${currentLocale}/${slug}`;
-}
-
-/**
  * Check if a navigation item is currently active
  * Compares current pathname with the expected href for the item
  */
@@ -98,30 +86,19 @@ export function isNavItemActive(
 
 /**
  * Handle navigation click with postMessage support
- * Sends navigation update to parent in editing mode using correct format
+ * Sends navigation update to parent in editing mode
  */
 export function handleNavigationClick(
   href: string,
   slug: string | undefined,
-  item: NavigationItem | undefined,
-  currentLocale: SupportedLocale,
   isEditingMode: boolean,
   logPrefix: string = '🧭'
 ) {
   console.log(`${logPrefix} Navigation clicked:`, { href, slug, isEditingMode });
   
-  // If in editing mode, notify parent about navigation using page picker format
-  if (isEditingMode && item) {
-    const postMessageHref = buildPostMessageHref(item, currentLocale);
-    const postMessageSlug = item.slug || item.href.replace('/', '');
-    
-    console.log(`${logPrefix} Sending navigation update to parent:`, { 
-      href: postMessageHref, 
-      slug: postMessageSlug,
-      locale: currentLocale
-    });
-    
-    sendNavigationUpdateToParent(postMessageHref, postMessageSlug);
+  // If in editing mode, notify parent about navigation
+  if (isEditingMode) {
+    sendNavigationUpdateToParent(href, slug);
   }
 }
 
@@ -171,10 +148,8 @@ export function useNavigationMessaging(
   }
 
   return {
-    handleNavigationClick: (href: string, slug?: string, item?: NavigationItem) => {
-      const currentLocale = extractLocaleFromPathname(pathname);
-      handleNavigationClick(href, slug, item, currentLocale, isEditingMode, logPrefix);
-    }
+    handleNavigationClick: (href: string, slug?: string) =>
+      handleNavigationClick(href, slug, isEditingMode, logPrefix)
   };
 }
 
@@ -186,7 +161,6 @@ export function createNavigationUtils(currentLocale: SupportedLocale, isEditingM
   return {
     buildBrandHref: (originalHref: string) => buildBrandHref(originalHref, currentLocale, isEditingMode),
     buildNavHref: (item: NavigationItem) => buildNavHref(item, currentLocale, isEditingMode),
-    buildPostMessageHref: (item: NavigationItem) => buildPostMessageHref(item, currentLocale),
     isNavItemActive: (item: NavigationItem, currentPathname: string) => 
       isNavItemActive(item, currentPathname, currentLocale, isEditingMode),
     currentLocale,

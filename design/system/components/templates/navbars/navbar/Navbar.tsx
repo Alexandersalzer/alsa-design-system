@@ -88,20 +88,6 @@ const Navbar = ({
     size: navSize
   }));
 
-  // Debug log to see CMS data structure
-  console.log('🧭 Navbar CMS data:', {
-    navItemBlocks: navItemBlocks.map(block => ({
-      content: block.content,
-      slug: block.slug,
-      config: block.config
-    })),
-    cmsNavItems: cmsNavItems.map(item => ({
-      href: item.href,
-      slug: item.slug,
-      label: item.label
-    }))
-  });
-
   // Use navigation utilities for consistent route handling
   const nav = getNavigationContext(pathname, isEditingMode);
 
@@ -117,38 +103,21 @@ const Navbar = ({
   );
 
   // Handle navigation clicks - unified for both nav items and brand
-  const handleNavClick = (menuItem: NavMenuItem) => {
-    // Find the original navigation item by slug (more reliable than href matching)
-    const originalItem = finalNavItems.find(item => item.slug === menuItem.slug);
-    
-    console.log('🧭 Navbar handleNavClick:', {
-      menuItem: { href: menuItem.href, slug: menuItem.slug },
-      originalItem: originalItem ? { href: originalItem.href, slug: originalItem.slug } : 'not found',
-      finalNavItems: finalNavItems.map(item => ({ href: item.href, slug: item.slug }))
-    });
-    
-    handleNavigationClick(menuItem.href, menuItem.slug, originalItem);
+  const handleNavClick = (item: NavMenuItem) => {
+    handleNavigationClick(item.href, item.slug);
   };
 
   // Handle brand link click
   const handleBrandClick = () => {
     const brandSlug = brandHref.replace('/', '') || 'home';
     const fullBrandHref = nav.buildBrandHref(brandHref);
-    
-    // Create brand navigation item
-    const brandItem: NavigationItem = {
-      href: brandHref,
-      slug: brandSlug
-    };
-    
-    handleNavigationClick(fullBrandHref, brandSlug, brandItem);
+    handleNavigationClick(fullBrandHref, brandSlug);
   };
 
   // Transform NavItem[] to NavMenuItem[] with proper hrefs and active states
   const menuItems: NavMenuItem[] = finalNavItems.map(item => ({
     ...item,
     href: nav.buildNavHref(item),
-    slug: item.slug, // Ensure slug is passed through to menuItem
     isActive: nav.isNavItemActive(item, pathname),
     variant: item.variant || navVariant,
     size: item.size || navSize,
