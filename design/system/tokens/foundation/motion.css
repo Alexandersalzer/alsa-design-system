@@ -47,7 +47,6 @@
   --motion-switch-track-hover: var(--transition-switch-hover);
 
   /* Thumb transitions */
-  --motion-switch-thumb-position: var(--transition-switch-thumb);
   --motion-switch-thumb-scale: transform var(--foundation-duration-fast) var(--foundation-ease-back);
   --motion-switch-thumb-shadow: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 

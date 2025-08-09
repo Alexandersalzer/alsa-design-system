@@ -81,7 +81,7 @@
   --motion-switch-track-background: background-color var(--foundation-duration-gentle) var(--foundation-ease-switch-gentle);
   --motion-switch-track-border: border-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
   --motion-switch-track-hover: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
-  --transition-switch-thumb: transform 220ms cubic-bezier(0.2, 0, 0, 1);
+  --transition-switch-thumb: transform 250ms cubic-bezier(0.2, 0, 0, 1);
   
   --motion-switch-focus: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
   --motion-switch-label: color var(--foundation-duration-fast) var(--foundation-ease-out);
