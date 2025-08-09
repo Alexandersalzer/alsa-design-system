@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Picker/Picker.css
-   FIXED PICKER COMPONENT STYLES - CLEAN VERSION
+   SMOOTH PICKER COMPONENT STYLES - NO JUMPY ANIMATIONS
    ============================================== */
 
 /* ===== PICKER WRAPPER ===== */
@@ -60,7 +60,7 @@
   z-index: var(--z-dropdown);
 }
 
-/* ===== PICKER BUTTON ===== */
+/* ===== PICKER BUTTON - SMOOTH & STABLE ===== */
 .picker {
   width: 100%;
   min-height: 44px;
@@ -80,12 +80,11 @@
   justify-content: space-between;
   outline: none;
   
-  /* Clean animations */
+  /* FIXED: Only animate colors and shadows - NO transforms */
   transition: 
     border-color var(--foundation-duration-fast) var(--foundation-ease-out),
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
-    box-shadow var(--foundation-duration-fast) var(--foundation-ease-out),
-    transform var(--foundation-duration-micro) var(--foundation-ease-out);
+    box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
 /* ===== PICKER RADIUS VARIANTS ===== */
@@ -121,25 +120,26 @@
   font-size: var(--font-body-lg-size);
 }
 
-/* ===== PICKER STATES ===== */
+/* ===== PICKER STATES - SMOOTH & STABLE ===== */
 .picker:hover:not(:disabled):not(.picker--open) {
   border-color: var(--border-picker-hover);
   background-color: var(--surface-picker-hover);
-  transform: translateY(-1px);
+  /* REMOVED: transform translateY - no more jumpiness */
   box-shadow: 
     0 2px 4px rgba(0, 0, 0, 0.04),
     0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .picker:active:not(:disabled) {
-  transform: translateY(0);
-  transition: transform var(--foundation-duration-micro) var(--foundation-ease-in);
+  /* REMOVED: all transforms - no movement on press */
+  background-color: var(--surface-picker-hover);
+  border-color: var(--border-picker-focus);
 }
 
 .picker:focus,
 .picker--open {
   border-color: var(--border-picker-focus);
-  transform: translateY(-1px);
+  /* REMOVED: transform translateY - no more jumpiness */
   box-shadow: 
     0 2px 8px rgba(0, 0, 0, 0.08),
     0 1px 4px rgba(0, 0, 0, 0.06);
@@ -151,7 +151,6 @@
   background-color: var(--surface-picker-disabled);
   color: var(--text-picker-disabled);
   cursor: not-allowed;
-  transform: none;
 }
 
 .picker--error {
@@ -162,7 +161,7 @@
   border-color: var(--success-border);
 }
 
-/* ===== PICKER VALUE ===== */
+/* ===== PICKER VALUE - STABLE TEXT ===== */
 .picker-value {
   flex: 1;
   text-align: left;
@@ -170,9 +169,13 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   color: inherit;
+  /* Ensure text stays perfectly stable */
+  display: flex;
+  align-items: center;
+  min-height: 1.5em;
 }
 
-/* ===== PICKER ICON ===== */
+/* ===== PICKER ICON - SMOOTH ROTATION ONLY ===== */
 .picker-icon {
   display: flex;
   align-items: center;
@@ -180,7 +183,10 @@
   margin-left: var(--foundation-space-2);
   color: var(--icon-picker);
   flex-shrink: 0;
-  transition: transform var(--foundation-duration-normal) var(--foundation-ease-anticipate);
+  /* FIXED: Only rotate, no other transforms */
+  transition: 
+    transform var(--foundation-duration-normal) var(--foundation-ease-smooth),
+    color var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
 .picker--open .picker-icon {
@@ -197,7 +203,7 @@
   animation: pickerSpin 1s var(--foundation-ease-linear) infinite;
 }
 
-/* ===== PICKER DROPDOWN - SINGLE DEFINITION ===== */
+/* ===== PICKER DROPDOWN - SMOOTH ENTRANCE ===== */
 .picker-dropdown {
   position: absolute;
   top: calc(100% + var(--foundation-space-1));
@@ -214,16 +220,14 @@
   display: flex;
   flex-direction: column;
   
-  /* Smooth open animation */
-  animation: dropdownSlideIn var(--foundation-duration-normal) var(--foundation-ease-anticipate);
-  transform-origin: top center;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+  /* FIXED: Smooth entrance without transform jumps */
+  animation: dropdownFadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
+  opacity: 1;
 }
 
 /* Closing animation */
 .picker-dropdown--closing {
-  animation: dropdownSlideOut var(--foundation-duration-fast) var(--foundation-ease-in);
+  animation: dropdownFadeOut var(--foundation-duration-fast) var(--foundation-ease-in);
   pointer-events: none;
 }
 
@@ -245,30 +249,22 @@
   box-shadow: var(--foundation-shadow-md);
 }
 
-/* ===== ANIMATIONS ===== */
-@keyframes dropdownSlideIn {
+/* ===== SMOOTH ANIMATIONS - NO TRANSFORMS ===== */
+@keyframes dropdownFadeIn {
   0% {
     opacity: 0;
-    transform: translateY(-8px) scale(0.96);
-  }
-  20% {
-    opacity: 0.4;
-    transform: translateY(-4px) scale(0.98);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
   }
 }
 
-@keyframes dropdownSlideOut {
+@keyframes dropdownFadeOut {
   0% {
     opacity: 1;
-    transform: translateY(0) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateY(-4px) scale(0.98);
   }
 }
 
@@ -321,7 +317,7 @@
   min-height: 0;
 }
 
-/* ===== PICKER OPTION ===== */
+/* ===== PICKER OPTION - STABLE & SMOOTH ===== */
 .picker-option {
   padding: var(--foundation-space-3) var(--foundation-space-4);
   cursor: pointer;
@@ -333,14 +329,14 @@
   justify-content: space-between;
   color: var(--text-picker-option);
   
-  /* Smooth option animations */
+  /* FIXED: Smooth entrance without transform movements */
   opacity: 0;
-  animation: optionFadeIn var(--foundation-duration-normal) var(--foundation-ease-out) forwards;
+  animation: optionFadeIn var(--foundation-duration-fast) var(--foundation-ease-out) forwards;
   animation-delay: calc(var(--option-index, 0) * 20ms);
   
+  /* FIXED: Only color transitions - no position changes */
   transition: 
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
-    transform var(--foundation-duration-micro) var(--foundation-ease-out),
     color var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
@@ -353,15 +349,15 @@
   border-radius: var(--radius-picker);
 }
 
-/* Option states */
+/* Option states - NO MOVEMENT */
 .picker-option:hover:not(.picker-option--disabled) {
   background-color: var(--surface-dropdown-option-hover);
-  transform: translateX(2px);
+  /* REMOVED: translateX - no more jumping text */
 }
 
 .picker-option--focused {
   background-color: var(--surface-hover);
-  transform: translateX(2px);
+  /* REMOVED: translateX - no more jumping text */
 }
 
 .picker-option--selected {
@@ -378,7 +374,6 @@
 
 .picker-option--disabled:hover {
   background-color: transparent;
-  transform: none;
 }
 
 .picker-option--empty {
@@ -392,17 +387,15 @@
 
 .picker-option--empty:hover {
   background-color: transparent;
-  transform: none;
 }
 
+/* FIXED: Fade in only - no movement */
 @keyframes optionFadeIn {
   from {
     opacity: 0;
-    transform: translateX(-4px);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
   }
 }
 
@@ -465,7 +458,7 @@
   box-shadow: 
     0 0 0 3px rgba(var(--accent-500-rgb), 0.2),
     0 2px 4px rgba(0, 0, 0, 0.04);
-  transform: translateY(-1px);
+  /* REMOVED: transform - no jumping on focus */
 }
 
 /* ===== SCROLLBAR STYLING ===== */
@@ -515,7 +508,6 @@
       border-color 0.15s ease,
       color 0.15s ease !important;
     animation: none !important;
-    transform: none !important;
   }
   
   .picker-dropdown {
