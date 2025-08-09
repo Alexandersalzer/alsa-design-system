@@ -4,7 +4,6 @@ import { createContext, useState, useEffect } from 'react';
 import { type WebsiteContent } from './types/content';
 import {
   requestWebsiteContent,
-  parseContentFromUrl,
   setupMessageListener,
   type MessageHandlers
 } from '../../messaging/content/child/contentMessaging';
@@ -24,20 +23,9 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
 
   useEffect(() => {
     if (isEditingMode) {
-      console.log('📝 ContentProvider: Editing mode detected, setting up API content loading');
+      console.log('📝 ContentProvider: Editing mode detected, requesting content from parent CMS API');
       
-      // In editing mode: try to get content from URL or listen for CMS messages
-      const urlContent = parseContentFromUrl();
-      if (urlContent) {
-        console.log('🔗 ContentProvider: Found content in URL, using it directly');
-        setDynamicContent(urlContent);
-        setIsLoading(false);
-        return;
-      }
-
-      console.log('📡 ContentProvider: No URL content, requesting from parent CMS API');
-      
-      // If no content in URL, request it from parent CMS
+      // Immediately request content from parent CMS API for optimal performance
       requestWebsiteContent();
 
       const messageHandlers: MessageHandlers = {
