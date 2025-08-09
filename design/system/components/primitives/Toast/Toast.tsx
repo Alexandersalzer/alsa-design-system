@@ -32,6 +32,8 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
   /** Auto-dismiss duration in milliseconds (0 = no auto-dismiss) */
   duration?: number;
+  /** Whether the toast should disappear automatically or not */
+  autoDismiss?: boolean;  // New prop for auto-dismiss
   /** Show progress bar for auto-dismiss */
   showProgress?: boolean;
   /** Called when animation completes */
@@ -65,6 +67,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   title,
   className,
   duration = 5000,
+  autoDismiss = false, // Default to true
   showProgress = true,
   onAnimationComplete,
   forceState,
@@ -92,20 +95,20 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
     return () => clearTimeout(enterTimer);
   }, [forceState, onAnimationComplete]);
 
-  // Handle auto-dismiss
+  // Handle auto-dismiss (if autoDismiss is true)
   useEffect(() => {
-    if (duration <= 0 || currentState !== 'visible' || isPaused) return;
-
-    timeoutRef.current = setTimeout(() => {
-      handleClose();
-    }, duration);
+    if (autoDismiss && duration > 0 && currentState === 'visible' && !isPaused) {
+      timeoutRef.current = setTimeout(() => {
+        handleClose();
+      }, duration);
+    }
 
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [duration, currentState, isPaused]);
+  }, [autoDismiss, duration, currentState, isPaused]);
 
   // Handle close with exit animation
   const handleClose = () => {
@@ -204,7 +207,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
       )}
 
       {/* Progress Bar */}
-      {showProgress && duration > 0 && currentState === 'visible' && (
+      {showProgress && duration > 0 && currentState === 'visible' && autoDismiss && (
         <div 
           ref={progressRef}
           className="toast__progress" 
@@ -216,6 +219,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
 });
 
 Toast.displayName = 'Toast';
+
 
 // ===== CONVENIENCE COMPONENTS =====
 export interface ErrorToastProps extends Omit<ToastProps, 'variant'> {}
