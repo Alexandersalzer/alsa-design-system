@@ -1,5 +1,5 @@
 import React from 'react';
-import { switchLocale, type SupportedLocale, isSupportedLocale } from '../../../../system/utils/locale';
+import { switchLocale, type SupportedLocale, isSupportedLocale, getCurrentLocale } from '../../../../system/utils/locale';
 
 export interface I18nMessageHandlers {
   onLanguageUpdate: (languageCode: string) => void;
@@ -20,6 +20,18 @@ export const createI18nMessageHandlers = (params: I18nMessageHandlerParams): I18
       // Validate that the language code is supported
       if (!isSupportedLocale(languageCode)) {
         console.warn('Unsupported language code received:', languageCode);
+        return;
+      }
+      
+      // Check if we're already on the correct locale to prevent unnecessary navigation
+      const currentLocale = getCurrentLocale();
+      if (currentLocale === languageCode) {
+        console.log('🌐 Already on correct locale, skipping navigation:', languageCode);
+        
+        // Still update the language picker state if setter is provided
+        if (setSelectedLanguage) {
+          setSelectedLanguage(languageCode);
+        }
         return;
       }
       

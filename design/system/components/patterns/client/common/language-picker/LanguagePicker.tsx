@@ -79,6 +79,29 @@ export const LanguagePicker: React.FC<LanguagePickerProps> = ({
         currentLocale: currentValue 
       });
       
+      // Check if we're already on the selected locale
+      const currentLocale = getCurrentLocale();
+      if (currentLocale === value) {
+        console.log('🌐 Already on selected locale, skipping switchLocale:', value);
+        
+        // Still update state and notify parent, but don't navigate
+        if (isControlled) {
+          controlledOnChange?.(value);
+        } else {
+          setSelectedLanguage(value as SupportedLocale);
+        }
+        
+        // Call custom callback if provided
+        onLanguageChange?.(value);
+        
+        // If postMessage sync is enabled and in editing mode, notify parent
+        if (enablePostMessageSync && isEditingMode) {
+          sendLanguageUpdateToParent(value);
+        }
+        
+        return; // Skip switchLocale call
+      }
+      
       // Update state (controlled or uncontrolled)
       if (isControlled) {
         controlledOnChange?.(value);
