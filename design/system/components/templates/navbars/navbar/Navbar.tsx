@@ -104,14 +104,28 @@ const Navbar = ({
 
   // Handle navigation clicks - unified for both nav items and brand
   const handleNavClick = (item: NavMenuItem) => {
-    handleNavigationClick(item.href, item.slug);
+    // In editing mode, send simple href format (like page picker does)
+    // Parent will handle the /index.html conversion when sending back to child
+    if (isEditingMode) {
+      const simpleHref = `/${nav.currentLocale}/${item.slug || item.href.replace('/', '') || 'home'}`;
+      handleNavigationClick(simpleHref, item.slug);
+    } else {
+      handleNavigationClick(item.href, item.slug);
+    }
   };
 
   // Handle brand link click
   const handleBrandClick = () => {
     const brandSlug = brandHref.replace('/', '') || 'home';
-    const fullBrandHref = nav.buildBrandHref(brandHref);
-    handleNavigationClick(fullBrandHref, brandSlug);
+    
+    // In editing mode, send simple href format (like page picker does)
+    if (isEditingMode) {
+      const simpleHref = `/${nav.currentLocale}/${brandSlug}`;
+      handleNavigationClick(simpleHref, brandSlug);
+    } else {
+      const fullBrandHref = nav.buildBrandHref(brandHref);
+      handleNavigationClick(fullBrandHref, brandSlug);
+    }
   };
 
   // Transform NavItem[] to NavMenuItem[] with proper hrefs and active states

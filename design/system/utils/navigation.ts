@@ -85,11 +85,10 @@ export function isNavItemActive(
 }
 
 /**
- * Handle navigation click with postMessage support (standalone utility)
- * Sends navigation update to parent in editing mode, or navigates directly in normal mode
- * Note: Use useNavigationMessaging hook for better router integration
+ * Handle navigation click with postMessage support
+ * Sends navigation update to parent in editing mode
  */
-export function handleNavigationClickStandalone(
+export function handleNavigationClick(
   href: string,
   slug: string | undefined,
   isEditingMode: boolean,
@@ -97,27 +96,9 @@ export function handleNavigationClickStandalone(
 ) {
   console.log(`${logPrefix} Navigation clicked:`, { href, slug, isEditingMode });
   
+  // If in editing mode, notify parent about navigation
   if (isEditingMode) {
-    // In editing mode: notify parent about navigation, but don't navigate
-    // Parent will handle content updates via postMessage
-    console.log(`${logPrefix} Sending navigation update to parent (editing mode):`, href);
     sendNavigationUpdateToParent(href, slug);
-  } else {
-    // In normal mode: handle navigation directly
-    console.log(`${logPrefix} Navigating directly (normal mode):`, href);
-    
-    // Check if this is a .html file
-    const isHtmlFile = href.endsWith('.html');
-    
-    if (isHtmlFile) {
-      // Navigate to .html file directly
-      window.location.href = href;
-    } else {
-      // Use Next.js router for internal navigation
-      // Note: We can't import useRouter here, so we'll use window.location for now
-      // This function should ideally receive a router instance as parameter
-      window.location.href = href;
-    }
   }
 }
 
@@ -135,9 +116,20 @@ export function createNavigationMessageHandlersWithRouter(
     onNavigationChange: (href: string) => {
       console.log(`${logPrefix} Received navigation update from parent:`, href);
       
-      // Navigate to the new href if different from current pathname
-      if (href !== pathname) {
-        router.push(href);
+      // Convert href to proper format for editing mode
+      let targetHref = href;
+      if (isEditingMode && !href.endsWith('/index.html')) {
+        // Convert /sv/home to /sv/home/index.html for editing mode
+        targetHref = `${href}/index.html`;
+        console.log(`${logPrefix} Converted href for editing mode:`, { original: href, converted: targetHref });
+      }
+      
+      // Navigate to the target href if different from current pathname
+      if (targetHref !== pathname) {
+        console.log(`${logPrefix} Navigating to:`, targetHref);
+        router.push(targetHref);
+      } else {
+        console.log(`${logPrefix} Already on target page:`, targetHref);
       }
     },
     isEditingMode
@@ -166,34 +158,9 @@ export function useNavigationMessaging(
     useNavigationMessageListener(navigationHandlers);
   }
 
-  // Return enhanced navigation handler that can use the router
-  const handleNavigationClick = (href: string, slug?: string) => {
-    console.log(`${logPrefix} Navigation clicked:`, { href, slug, isEditingMode });
-    
-    if (isEditingMode) {
-      // In editing mode: notify parent about navigation, but don't navigate
-      // Parent will handle content updates via postMessage
-      console.log(`${logPrefix} Sending navigation update to parent (editing mode):`, href);
-      sendNavigationUpdateToParent(href, slug);
-    } else {
-      // In normal mode: handle navigation directly using router
-      console.log(`${logPrefix} Navigating directly (normal mode):`, href);
-      
-      // Check if this is a .html file
-      const isHtmlFile = href.endsWith('.html');
-      
-      if (isHtmlFile) {
-        // Navigate to .html file directly
-        window.location.href = href;
-      } else {
-        // Use Next.js router for internal navigation
-        router.push(href);
-      }
-    }
-  };
-
   return {
-    handleNavigationClick
+    handleNavigationClick: (href: string, slug?: string) =>
+      handleNavigationClick(href, slug, isEditingMode, logPrefix)
   };
 }
 
