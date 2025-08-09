@@ -147,37 +147,31 @@
     height: calc(var(--size-switch-lg-thumb) - 3px);
   }
 
-  /* Thumb checked positions */
-  .switch--sm.switch--checked .switch-thumb {
-    transform: translateX(calc(100% - 2px)); /* Mirrors the 2px left position */
-  }
+.switch--sm.switch--checked .switch-thumb {
+  transform: translateX(calc(var(--size-switch-sm-width) + 6px));
+}
 
-  .switch--md.switch--checked .switch-thumb {
-    transform: translateX(calc(100% - 2px)); /* Mirrors the 2px left position */
-  }
+.switch--md.switch--checked .switch-thumb {
+  transform: translateX(calc(var(--size-switch-md-width) + 8px));
+}
 
-  .switch--lg.switch--checked .switch-thumb {
-    transform: translateX(calc(100% - 2px)); /* Mirrors the 2px left position */
-  }
+.switch--lg.switch--checked .switch-thumb {
+  transform: translateX(calc(var(--size-switch-lg-width) + 10px));
+}
 
-  /* 4. Replace your thumb interaction states */
-  .switch:active:not(.switch--disabled) .switch-thumb {
-    transform: scale(0.95);
-    transition: transform var(--foundation-duration-fast) var(--foundation-ease-out);
-  }
+/* Update the active states to match */
+.switch--sm.switch--checked:active:not(.switch--disabled) .switch-thumb {
+  transform: translateX(calc(var(--size-switch-sm-width) + 6px)) scale(0.95);
+}
 
-  .switch--checked:active:not(.switch--disabled) .switch-thumb {
-    transform: translateX(calc(100% - 2px)) scale(0.95);
-    transition: transform var(--foundation-duration-fast) var(--foundation-ease-out);
-  }
+.switch--md.switch--checked:active:not(.switch--disabled) .switch-thumb {
+  transform: translateX(calc(var(--size-switch-md-width) + 8px)) scale(0.95);
+}
 
-  .switch--sm.switch--checked:active:not(.switch--disabled) .switch-thumb {
-    transform: translateX(16px) scale(0.95);
-  }
+.switch--lg.switch--checked:active:not(.switch--disabled) .switch-thumb {
+  transform: translateX(calc(var(--size-switch-lg-width) + 10px)) scale(0.95);
+}
 
-  .switch--lg.switch--checked:active:not(.switch--disabled) .switch-thumb {
-    transform: translateX(24px) scale(0.95);
-  }
   .switch:focus-visible .switch-thumb {
     box-shadow: var(--foundation-shadow-sm), 0 0 0 2px var(--border-switch-focus);
     transition: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
