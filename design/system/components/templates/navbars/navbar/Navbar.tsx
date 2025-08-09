@@ -107,31 +107,13 @@ const Navbar = ({
     // In editing mode, send simple href format (like page picker does)
     // Parent will handle the /index.html conversion when sending back to child
     if (isEditingMode) {
-      // Extract page slug properly from href
-      let pageSlug = item.slug;
-      if (!pageSlug) {
-        // Parse href to extract page slug: /sv/about/index.html → about
-        const pathSegments = item.href.split('/').filter(Boolean);
-        // Remove locale if present: ['sv', 'about', 'index.html'] → ['about', 'index.html']
-        if (pathSegments[0] === nav.currentLocale) {
-          pathSegments.shift();
-        }
-        // Get the page slug (first remaining segment): 'about'
-        pageSlug = pathSegments[0] || 'home';
-        // Remove .html extension if present: 'index.html' → 'index'
-        if (pageSlug.endsWith('.html')) {
-          pageSlug = pageSlug.replace('.html', '');
-        }
-        // If it's 'index', convert to 'home'
-        if (pageSlug === 'index') {
-          pageSlug = 'home';
-        }
-      }
-      
+      // Use the actual CMS slug from the nav item (no fallbacks, no hardcoding)
+      const pageSlug = item.slug; // This comes directly from CMS block.slug
       const simpleHref = `/${nav.currentLocale}/${pageSlug}`;
+      
       console.log('🧭 Navbar click in editing mode:', { 
         originalHref: item.href, 
-        extractedSlug: pageSlug, 
+        cmsSlug: pageSlug, 
         simpleHref,
         locale: nav.currentLocale 
       });
@@ -143,7 +125,8 @@ const Navbar = ({
 
   // Handle brand link click
   const handleBrandClick = () => {
-    const brandSlug = brandHref.replace(/^\/+/, '') || 'home'; // Remove leading slashes
+    // Extract slug from brandHref without hardcoded fallbacks
+    const brandSlug = brandHref.replace(/^\/+/, ''); // Remove leading slashes: '/home' → 'home'
     
     // In editing mode, send simple href format (like page picker does)
     if (isEditingMode) {
