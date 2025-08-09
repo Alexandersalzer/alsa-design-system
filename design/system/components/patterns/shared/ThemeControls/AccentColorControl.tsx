@@ -1,6 +1,6 @@
 // ===============================================
 // blimpify-ui/design/system/components/patterns/shared/ThemeControls/AccentColorControl.tsx
-// FIXED: Better styling and proper children handling
+// CLEANED: Remove children={undefined}
 // ===============================================
 
 import React from 'react';
@@ -36,9 +36,6 @@ export function AccentColorControl({ columns = 3, className }: AccentColorContro
       columns={columns}
       variant="colors"
       className={className}
-    >
-      {/* Empty children to satisfy required prop */}
-      <></>
-    </OptionGridSection>
+    />
   );
 }
