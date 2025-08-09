@@ -1,13 +1,12 @@
 // ===============================================
-// blimpify-ui/design/system/components/patterns/ThemeControls/AccentColorControl.tsx
-// NEW FILE: Dedicated accent color control
+// blimpify-ui/design/system/components/patterns/shared/ThemeControls/AccentColorControl.tsx
+// FIXED: Correct relative imports
 // ===============================================
 
 import React from 'react';
-import { OptionGridSection, type OptionItem } from '../../dashboard';
-import { useTheme } from 'design/system/hooks/useTheme';
+import { OptionGridSection, type OptionItem } from '../../dashboard/selection/OptionGrid';
+import { useTheme, type ColorScale } from '../../../../hooks/useTheme';
 import { SwatchIcon } from '@heroicons/react/24/outline';
-import { ColorScale } from '@/design/system/utils/themeManager';
 
 // Use your existing foundation colors - no duplication!
 const COLOR_OPTIONS: OptionItem[] = [

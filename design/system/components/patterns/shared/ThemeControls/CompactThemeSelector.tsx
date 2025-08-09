@@ -1,11 +1,11 @@
+
 // ===============================================
-// blimpify-ui/design/system/components/patterns/ThemeControls/CompactThemeSelector.tsx
-// NEW FILE: Compact theme selector for toolbars
+// blimpify-ui/design/system/components/patterns/shared/ThemeControls/CompactThemeSelector.tsx
+// FIXED: Correct relative imports
 // ===============================================
 
 import React from 'react';
-import { useTheme } from 'design/system/hooks/useTheme';
-import { ColorScale, RadiusScale } from '@/design/system/utils/themeManager';
+import { useTheme, type ColorScale, type RadiusScale } from '../../../../hooks/useTheme';
 
 const QUICK_COLORS: Array<{name: string, value: ColorScale, hex: string}> = [
   { name: 'Ruby', value: 'ruby', hex: '#EF4444' },

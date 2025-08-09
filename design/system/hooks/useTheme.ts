@@ -1,6 +1,6 @@
 // ===============================================
-// blimpify-ui/design/system/hooks/useTheme.ts  
-// NEW FILE: Theme hook for React components
+// blimpify-ui/design/system/hooks/useTheme.ts
+// FIXED: Export the types from the hook
 // ===============================================
 
 import { useState, useEffect, useCallback } from 'react';
@@ -48,5 +48,6 @@ export function useTheme() {
     fontFamily: config.fontFamily
   };
 }
-export { RadiusScale };
 
+// ✅ EXPORT THE TYPES so they can be imported
+export type { ColorScale, RadiusScale, ThemeConfig };

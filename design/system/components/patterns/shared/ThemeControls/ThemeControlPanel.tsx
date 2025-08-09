@@ -1,6 +1,7 @@
+
 // ===============================================
-// blimpify-ui/design/system/components/patterns/ThemeControls/ThemeControlPanel.tsx
-// NEW FILE: Combined theme panel
+// blimpify-ui/design/system/components/patterns/shared/ThemeControls/ThemeControlPanel.tsx
+// FIXED: Correct relative imports
 // ===============================================
 
 import React from 'react';

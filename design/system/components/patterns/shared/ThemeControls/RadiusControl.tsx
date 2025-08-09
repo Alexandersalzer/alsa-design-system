@@ -1,6 +1,7 @@
+
 // ===============================================
-// blimpify-ui/design/system/components/patterns/ThemeControls/RadiusControl.tsx
-// NEW FILE: Dedicated radius control
+// blimpify-ui/design/system/components/patterns/shared/ThemeControls/RadiusControl.tsx
+// FIXED: Correct relative imports
 // ===============================================
 
 import React from 'react';

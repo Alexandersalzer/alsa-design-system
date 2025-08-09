@@ -1,6 +1,5 @@
 // ===============================================
-// blimpify-ui/design/system/components/patterns/ThemeControls/index.ts
-// NEW FOLDER: Theme control components
+// blimpify-ui/design/system/components/patterns/shared/ThemeControls/index.ts
 // ===============================================
 
 export { AccentColorControl } from './AccentColorControl';

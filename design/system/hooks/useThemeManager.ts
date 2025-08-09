@@ -1,6 +1,5 @@
 // ===============================================
 // blimpify-ui/design/system/hooks/useThemeManager.ts
-// NEW FILE: Lower-level hook for direct manager access
 // ===============================================
 
 import { useState } from 'react';
