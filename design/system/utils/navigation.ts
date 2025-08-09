@@ -97,14 +97,12 @@ export function handleNavigationClick(
   console.log(`${logPrefix} Navigation clicked:`, { href, slug, isEditingMode });
   
   // If in editing mode, notify parent about navigation
-  if (isEditingMode) {
-    // Extract locale from href to send consistent format to parent
+  if (isEditingMode && slug) {
+    // Extract locale from href and send same format as SectionPanel
     const locale = extractLocaleFromPathname(href);
-    const cleanSlug = slug || 'home';
-    const simpleHref = `/${locale}/${cleanSlug}`;
+    const simpleHref = `/${locale}/${slug}`;
     
-    // Send simple href format for consistency with SectionPanel
-    sendNavigationUpdateToParent(simpleHref, cleanSlug);
+    sendNavigationUpdateToParent(simpleHref, slug);
   }
 }
 
