@@ -5,7 +5,7 @@
 /* Switch motion tokens */
 :root {
   --transition-switch-track: background-color var(--foundation-duration-normal) var(--foundation-ease-smooth);
-  --transition-switch-thumb: transform 200ms ease-out;
+  --transition-switch-thumb: transform 250ms ease-out;
   --transition-switch-focus: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
   --transition-switch-hover: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
   --transition-switch-border: border-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
