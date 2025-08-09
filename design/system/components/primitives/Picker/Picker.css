@@ -60,10 +60,21 @@
   z-index: var(--z-picker-container); /* Base: z-index: 1 */
 }
 
-/* 🔥 CRITICAL: When picker is open, boost the entire container */
+/* 🔥 CRITICAL: When picker is open, boost the entire container AND create new stacking context */
 .picker-container--open,
-.picker-container:focus-within {
+.picker-container:focus-within,
+.picker-container:has(.picker-dropdown) {
   z-index: var(--z-picker-open) !important; /* z-index: 1100 */
+  /* Force new stacking context to ensure dropdown stays above everything */
+  transform: translateZ(0);
+  position: relative;
+}
+
+/* 🚀 NUCLEAR OPTION: Ensure open picker dominates ALL other pickers */
+.picker-container--open ~ .picker-container,
+.picker-container:focus-within ~ .picker-container,
+.picker-container:has(.picker-dropdown) ~ .picker-container {
+  z-index: var(--z-picker-container) !important; /* Force siblings back down */
 }
 
 /* ===== PICKER BUTTON - SMOOTH & STABLE ===== */
@@ -209,13 +220,13 @@
   animation: pickerSpin 1s var(--foundation-ease-linear) infinite;
 }
 
-/* ===== PICKER DROPDOWN - HIGHEST Z-INDEX ===== */
+/* ===== PICKER DROPDOWN - NUCLEAR Z-INDEX ===== */
 .picker-dropdown {
   position: absolute;
   top: calc(100% + var(--foundation-space-1));
   left: 0;
   right: 0;
-  z-index: var(--z-dropdown-active); /* z-index: 1100 - Always on top */
+  z-index: var(--z-dropdown-active); /* z-index: 2000 - VERY HIGH */
   border: 1px solid var(--border-default);
   border-radius: var(--radius-dropdown);
   background-color: var(--surface-dropdown);
@@ -229,6 +240,16 @@
   /* FIXED: Smooth entrance without transform jumps */
   animation: dropdownFadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
   opacity: 1;
+  
+  /* 🚀 FORCE NEW STACKING CONTEXT */
+  transform: translateZ(0);
+  will-change: transform;
+  isolation: isolate;
+}
+
+/* 🔥 EMERGENCY OVERRIDE: Force dropdown above everything */
+.picker-dropdown[data-open="true"] {
+  z-index: var(--z-maximum) !important;
 }
 
 /* Closing animation */
@@ -500,6 +521,30 @@
   .picker-dropdown {
     max-height: 200px;
   }
+}
+
+/* ===== PARENT CONTAINER FIXES ===== */
+/* Fix for when pickers are inside cards, stacks, or grids */
+.picker-container:focus-within {
+  /* Ensure the focused picker escapes any parent stacking context */
+  z-index: var(--z-picker-open) !important;
+}
+
+/* Target common parent containers that might interfere */
+[class*="stack"]:has(.picker-container:focus-within),
+[class*="grid"]:has(.picker-container:focus-within),
+[class*="card"]:has(.picker-container:focus-within),
+[class*="cluster"]:has(.picker-container:focus-within) {
+  z-index: auto; /* Reset parent z-index */
+  isolation: auto; /* Don't create stacking context */
+}
+
+/* Nuclear option: Force active picker to escape ALL parent contexts */
+.picker-container:focus-within .picker-dropdown {
+  position: fixed !important;
+  top: auto !important;
+  left: auto !important;
+  z-index: var(--z-maximum) !important;
 }
 
 /* ===== REDUCED MOTION SUPPORT ===== */
