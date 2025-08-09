@@ -138,26 +138,26 @@
   }
 
   .switch--md .switch-thumb {
-    width: calc(var(--size-switch-md-thumb) + 4px);
+    width: calc(var(--size-switch-md-thumb) + 2px);
     height: calc(var(--size-switch-md-thumb) - 2px);
   }
 
   .switch--lg .switch-thumb {
-    width: calc(var(--size-switch-lg-thumb) + 6px);
+    width: calc(var(--size-switch-lg-thumb) + 2px);
     height: calc(var(--size-switch-lg-thumb) - 3px);
   }
 
   /* Thumb checked positions */
   .switch--sm.switch--checked .switch-thumb {
-    transform: translateX(calc(100% - 4px)); /* Mirrors the 2px left position */
+    transform: translateX(calc(100% - 2px)); /* Mirrors the 2px left position */
   }
 
   .switch--md.switch--checked .switch-thumb {
-    transform: translateX(calc(100% - 4px)); /* Mirrors the 2px left position */
+    transform: translateX(calc(100% - 2px)); /* Mirrors the 2px left position */
   }
 
   .switch--lg.switch--checked .switch-thumb {
-    transform: translateX(calc(100% - 4px)); /* Mirrors the 2px left position */
+    transform: translateX(calc(100% - 2px)); /* Mirrors the 2px left position */
   }
 
   /* 4. Replace your thumb interaction states */
@@ -167,10 +167,10 @@
   }
 
   .switch--checked:active:not(.switch--disabled) .switch-thumb {
-    transform: translateX(calc(100% - 4px)) scale(0.95);
+    transform: translateX(calc(100% - 2px)) scale(0.95);
     transition: transform var(--foundation-duration-fast) var(--foundation-ease-out);
   }
-  
+
   .switch--sm.switch--checked:active:not(.switch--disabled) .switch-thumb {
     transform: translateX(16px) scale(0.95);
   }
