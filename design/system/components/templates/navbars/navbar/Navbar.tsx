@@ -104,44 +104,14 @@ const Navbar = ({
 
   // Handle navigation clicks - unified for both nav items and brand
   const handleNavClick = (item: NavMenuItem) => {
-    // In editing mode, send simple href format (like page picker does)
-    // Parent will handle the /index.html conversion when sending back to child
-    if (isEditingMode) {
-      // Use the actual CMS slug from the nav item (no fallbacks, no hardcoding)
-      const pageSlug = item.slug; // This comes directly from CMS block.slug
-      const simpleHref = `/${nav.currentLocale}/${pageSlug}`;
-      
-      console.log('🧭 Navbar click in editing mode:', { 
-        originalHref: item.href, 
-        cmsSlug: pageSlug, 
-        simpleHref,
-        locale: nav.currentLocale 
-      });
-      handleNavigationClick(simpleHref, pageSlug);
-    } else {
-      handleNavigationClick(item.href, item.slug);
-    }
+    handleNavigationClick(item.href, item.slug);
   };
 
   // Handle brand link click
   const handleBrandClick = () => {
-    // Extract slug from brandHref without hardcoded fallbacks
-    const brandSlug = brandHref.replace(/^\/+/, ''); // Remove leading slashes: '/home' → 'home'
-    
-    // In editing mode, send simple href format (like page picker does)
-    if (isEditingMode) {
-      const simpleHref = `/${nav.currentLocale}/${brandSlug}`;
-      console.log('🧭 Brand click in editing mode:', { 
-        brandHref, 
-        extractedSlug: brandSlug, 
-        simpleHref,
-        locale: nav.currentLocale 
-      });
-      handleNavigationClick(simpleHref, brandSlug);
-    } else {
-      const fullBrandHref = nav.buildBrandHref(brandHref);
-      handleNavigationClick(fullBrandHref, brandSlug);
-    }
+    const brandSlug = brandHref.replace('/', '') || 'home';
+    const fullBrandHref = nav.buildBrandHref(brandHref);
+    handleNavigationClick(fullBrandHref, brandSlug);
   };
 
   // Transform NavItem[] to NavMenuItem[] with proper hrefs and active states

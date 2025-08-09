@@ -116,20 +116,9 @@ export function createNavigationMessageHandlersWithRouter(
     onNavigationChange: (href: string) => {
       console.log(`${logPrefix} Received navigation update from parent:`, href);
       
-      // Convert href to proper format for editing mode
-      let targetHref = href;
-      if (isEditingMode && !href.endsWith('/index.html')) {
-        // Convert /sv/home to /sv/home/index.html for editing mode
-        targetHref = `${href}/index.html`;
-        console.log(`${logPrefix} Converted href for editing mode:`, { original: href, converted: targetHref });
-      }
-      
-      // Navigate to the target href if different from current pathname
-      if (targetHref !== pathname) {
-        console.log(`${logPrefix} Navigating to:`, targetHref);
-        router.push(targetHref);
-      } else {
-        console.log(`${logPrefix} Already on target page:`, targetHref);
+      // Navigate to the new href if different from current pathname
+      if (href !== pathname) {
+        router.push(href);
       }
     },
     isEditingMode
