@@ -70,7 +70,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
         paddingBottom: 'var(--foundation-space-16, 4rem)'
       }}
     >
-      <Container align="center" maxWidth="md">
+      <Container align="center" maxWidth="lg">
         {title && (
           <div style={{ marginBottom: 'var(--foundation-space-12, 3rem)', textAlign }}>
             <Typography
