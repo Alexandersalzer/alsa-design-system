@@ -65,6 +65,7 @@ export const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
             variant="elevated"
             size="full"
             aspectRatio="16-9"
+            shadow="lg"
             radius="md"
           />
         </Block>

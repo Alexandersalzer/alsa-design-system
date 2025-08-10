@@ -12,6 +12,9 @@
   border: 0;
   outline: none;
   transition: all var(--foundation-duration-normal) var(--foundation-easing-ease-out);
+  /* Ensure video respects border-radius */
+  object-fit: cover;
+  object-position: center;
 }
 
 /* Variants */
@@ -119,6 +122,22 @@
 
 .video-showcase--radius-full {
   border-radius: var(--radius-full);
+}
+
+/* Video container styles */
+.video-container {
+  position: relative;
+  cursor: pointer;
+  /* Fix for border-radius overflow */
+  overflow: hidden;
+  border-radius: inherit;
+  /* Ensure clean edges */
+  line-height: 0;
+  font-size: 0;
+  /* Prevent any unwanted spacing */
+  display: block;
+  /* Match video background color to prevent any visible edges */
+  background-color: var(--surface-primary);
 }
 
 /* Hover and interaction states */
