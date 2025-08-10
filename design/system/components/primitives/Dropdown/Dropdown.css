@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Dropdown/Dropdown.css
-   SIMPLE DROPDOWN STYLES - Matches your existing patterns
+   ENHANCED WITH SMOOTH ANIMATIONS - Replace your existing file
    ============================================== */
 
 /* ===== DROPDOWN WRAPPER ===== */
@@ -14,7 +14,7 @@
   display: inline-block;
 }
 
-/* ===== DROPDOWN MENU - Matches your existing header dropdown styles ===== */
+/* ===== DROPDOWN MENU - ENHANCED WITH SMOOTH ANIMATIONS ===== */
 .dropdown-menu {
   position: absolute;
   top: calc(100% + 4px);
@@ -27,16 +27,36 @@
   z-index: var(--z-dropdown);
   overflow: hidden;
   
-  /* Animation - matches your existing dropdown animations */
-  opacity: 0;
-  transform: translateY(-8px);
-  animation: dropdown-enter 0.15s ease-out forwards;
+  /* 🎯 SMOOTH SLIDE DOWN ANIMATION */
+  animation: dropdownSlideIn var(--foundation-duration-normal) var(--foundation-ease-out);
+  transform-origin: top;
 }
 
-@keyframes dropdown-enter {
+/* 🎯 CLOSING ANIMATION CLASS */
+.dropdown-menu--closing {
+  animation: dropdownSlideOut var(--foundation-duration-fast) var(--foundation-ease-in);
+}
+
+/* ===== CLEAN KEYFRAME ANIMATIONS ===== */
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes dropdownSlideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
   }
 }
 
@@ -44,7 +64,37 @@
 .dropdown-menu--top {
   top: auto;
   bottom: calc(100% + 4px);
-  transform: translateY(8px);
+  transform-origin: bottom;
+}
+
+.dropdown-menu--top {
+  animation: dropdownSlideInTop var(--foundation-duration-normal) var(--foundation-ease-out);
+}
+
+.dropdown-menu--top.dropdown-menu--closing {
+  animation: dropdownSlideOutTop var(--foundation-duration-fast) var(--foundation-ease-in);
+}
+
+@keyframes dropdownSlideInTop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes dropdownSlideOutTop {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
 }
 
 .dropdown-menu--align-start {
@@ -55,14 +105,10 @@
 .dropdown-menu--align-center {
   right: auto;
   left: 50%;
-  transform: translateX(-50%) translateY(-8px);
+  transform: translateX(-50%);
 }
 
-.dropdown-menu--align-center.dropdown-menu--top {
-  transform: translateX(-50%) translateY(8px);
-}
-
-/* ===== DROPDOWN ITEMS - Matches your existing dropdown-item styles ===== */
+/* ===== DROPDOWN ITEMS - SMOOTH TRANSITIONS ===== */
 .dropdown-item {
   display: flex;
   align-items: center;
@@ -77,6 +123,11 @@
   cursor: pointer;
   font-family: inherit;
   line-height: inherit;
+  
+  /* 🎯 SMOOTH HOVER TRANSITIONS */
+  transition: 
+    background-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    color var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
 .dropdown-item:hover:not(.dropdown-item--disabled) {
@@ -101,6 +152,8 @@
   color: var(--text-dropdown-disabled);
   cursor: not-allowed;
   opacity: 0.6;
+  /* No transitions for disabled items */
+  transition: none;
 }
 
 .dropdown-item__icon {
@@ -130,16 +183,19 @@
   .dropdown-menu--align-end {
     right: auto;
     left: 50%;
-    transform: translateX(-50%) translateY(-8px);
+    transform: translateX(-50%);
   }
 }
 
 /* ===== ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
-  .dropdown-menu {
-    animation: none;
-    opacity: 1;
-    transform: none;
+  .dropdown-menu,
+  .dropdown-menu--closing,
+  .dropdown-menu--top,
+  .dropdown-menu--top.dropdown-menu--closing,
+  .dropdown-item {
+    animation: none !important;
+    transition: background-color 0.15s ease !important;
   }
 }
 

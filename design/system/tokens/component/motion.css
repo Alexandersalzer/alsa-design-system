@@ -1,19 +1,47 @@
 /* ==============================================
    src/design-system/tokens/component/motion.css
-   MOTION COMPONENT TOKENS
+   COMPONENT MOTION TOKENS - Clean & Organized
    ============================================== */
 
 :root {
-  /* ===== TRANSITION TOKENS ===== */
-  --transition-button: all var(--foundation-duration-fast) var(--foundation-ease-in-out);
-  --transition-card: all var(--foundation-duration-normal) var(--foundation-ease-smooth);
-  --transition-input: border-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
-  --transition-modal: opacity var(--foundation-duration-normal) var(--foundation-ease-in-out);
-  --transition-nav: background-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
-  --transition-toast: transform var(--foundation-duration-normal) var(--foundation-ease-out);
+  /* ===== GENERIC COMPONENT TRANSITIONS ===== */
+  /* These combine foundation tokens for common UI patterns */
   --transition-hover: all var(--foundation-duration-fast) var(--foundation-ease-out);
+  --transition-focus: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
+  --transition-press: transform var(--foundation-duration-micro) var(--foundation-ease-out);
+
+  /* ===== SPECIFIC COMPONENT TRANSITIONS ===== */
+  /* Button */
+  --transition-button: all var(--foundation-duration-fast) var(--foundation-ease-in-out);
   
-  /* ===== ANIMATION TOKENS ===== */
+  /* Card */
+  --transition-card: all var(--foundation-duration-normal) var(--foundation-ease-smooth);
+  
+  /* Input */
+  --transition-input: border-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
+  
+  /* Modal */
+  --transition-modal: opacity var(--foundation-duration-normal) var(--foundation-ease-in-out);
+  
+  /* Navigation */
+  --transition-nav: background-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
+  
+  /* Toast */
+  --transition-toast: transform var(--foundation-duration-normal) var(--foundation-ease-out);
+
+  /* ===== SWITCH COMPONENT TRANSITIONS ===== */
+  /* Track (background) */
+  --transition-switch-track: background-color var(--foundation-duration-gentle) var(--foundation-ease-smooth);
+  
+  /* Thumb (sliding part) - THE MOST IMPORTANT ONE */
+  --transition-switch-thumb: transform var(--foundation-duration-gentle) var(--foundation-ease-smooth);
+  
+  /* Switch interactions */
+  --transition-switch-focus: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
+  --transition-switch-hover: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
+  --transition-switch-border: border-color var(--foundation-duration-fast) var(--foundation-ease-in-out);
+
+  /* ===== COMMON ANIMATIONS ===== */
   --animation-spin: spin 1s var(--foundation-ease-linear) infinite;
   --animation-pulse: pulse 2s var(--foundation-ease-in-out) infinite;
   --animation-bounce: bounce 1s var(--foundation-ease-out) infinite;

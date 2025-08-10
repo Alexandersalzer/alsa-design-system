@@ -1,7 +1,7 @@
 /* ==============================================
-   src/design-system/components/primitives/Modal/Modal.css
-   MODAL COMPONENT STYLES - Following your design system
-   ============================================== */
+ src/design-system/components/primitives/Modal/Modal.css
+ ENHANCED WITH CLEAN ANIMATIONS - Replace your existing file
+ ============================================== */
 
 /* ===== MODAL BACKDROP ===== */
 .modal-backdrop {
@@ -17,7 +17,9 @@
   justify-content: center;
   padding: var(--foundation-space-4);
   backdrop-filter: blur(2px);
-  animation: var(--animation-fade-in);
+  
+  /* 🎯 CLEAN FADE IN */
+  animation: modalBackdropFadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
 }
 
 /* ===== MODAL CONTAINER ===== */
@@ -28,30 +30,20 @@
   box-shadow: var(--shadow-modal);
   max-height: 90vh;
   overflow-y: auto;
-  animation: var(--animation-scale-in);
   position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
+  
+  /* 🎯 CLEAN SCALE IN */
+  animation: modalScaleIn var(--foundation-duration-normal) var(--foundation-ease-out);
 }
 
 /* ===== MODAL SIZES ===== */
-.modal--sm {
-  max-width: 400px;
-}
-
-.modal--md {
-  max-width: 500px;
-}
-
-.modal--lg {
-  max-width: 700px;
-}
-
-.modal--xl {
-  max-width: 900px;
-}
-
+.modal--sm { max-width: 400px; }
+.modal--md { max-width: 500px; }
+.modal--lg { max-width: 700px; }
+.modal--xl { max-width: 900px; }
 .modal--full {
   max-width: calc(100vw - var(--foundation-space-8));
   max-height: calc(100vh - var(--foundation-space-8));
@@ -76,31 +68,9 @@
   color: var(--text-modal-title);
 }
 
-.modal__close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border: none;
-  background: transparent;
-  border-radius: var(--foundation-radius-md);
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: var(--transition-button);
+.modal__close-btn {
   flex-shrink: 0;
   margin-left: var(--foundation-space-4);
-}
-
-.modal__close:hover {
-  background: var(--surface-button-secondary-hover);
-  color: var(--text-primary);
-}
-
-.modal__close:focus {
-  outline: none;
-  background: var(--surface-button-secondary-hover);
-  box-shadow: 0 0 0 2px var(--border-button-secondary-focus);
 }
 
 /* ===== MODAL CONTENT ===== */
@@ -115,8 +85,8 @@
   padding-top: var(--foundation-space-6);
 }
 
-/* ===== ANIMATIONS ===== */
-@keyframes fadeIn {
+/* ===== CLEAN KEYFRAME ANIMATIONS ===== */
+@keyframes modalBackdropFadeIn {
   from {
     opacity: 0;
   }
@@ -125,14 +95,43 @@
   }
 }
 
-@keyframes scaleIn {
+@keyframes modalScaleIn {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.95) translateY(-10px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* 🎯 CLOSING ANIMATIONS (when modal is closing) */
+.modal-backdrop--closing {
+  animation: modalBackdropFadeOut var(--foundation-duration-fast) var(--foundation-ease-in);
+}
+
+.modal--closing {
+  animation: modalScaleOut var(--foundation-duration-fast) var(--foundation-ease-in);
+}
+
+@keyframes modalBackdropFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modalScaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
   }
 }
 
@@ -166,8 +165,10 @@
 /* ===== ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
   .modal-backdrop,
-  .modal {
-    animation: none;
+  .modal,
+  .modal-backdrop--closing,
+  .modal--closing {
+    animation: none !important;
   }
 }
 
@@ -176,7 +177,6 @@
   outline: none;
 }
 
-/* Ensure modal content is accessible */
 .modal__content:focus {
   outline: none;
 }

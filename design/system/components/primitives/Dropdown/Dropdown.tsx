@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Dropdown/Dropdown.tsx
-// SIMPLE DROPDOWN COMPONENT - Matches your existing patterns
+// FIXED - Simple with smooth animations and Icon components
 // ===============================================
 
 import React, { 
@@ -12,6 +12,8 @@ import React, {
   useCallback
 } from 'react';
 import { cn } from '../../../lib/utils';
+import { Icon } from '../Icon';
+import './Dropdown.css';
 
 // ===== TYPE DEFINITIONS =====
 export interface DropdownProps {
@@ -39,10 +41,31 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     ...props
   }, ref) => {
     const [internalOpen, setInternalOpen] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
+    const [shouldRender, setShouldRender] = useState(false);
+    
     const isControlled = controlledOpen !== undefined;
     const open = isControlled ? controlledOpen : internalOpen;
     
     const containerRef = useRef<HTMLDivElement>(null);
+
+    // Handle opening/closing with animations
+    useEffect(() => {
+      if (open) {
+        setShouldRender(true);
+        setIsClosing(false);
+      } else if (shouldRender) {
+        // Start closing animation
+        setIsClosing(true);
+        // Remove from DOM after animation completes
+        const timer = setTimeout(() => {
+          setShouldRender(false);
+          setIsClosing(false);
+        }, 150); // Match --foundation-duration-fast
+        
+        return () => clearTimeout(timer);
+      }
+    }, [open, shouldRender]);
 
     // Handle open state changes
     const handleOpenChange = useCallback((newOpen: boolean) => {
@@ -58,7 +81,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
 
     // Close dropdown when clicking outside
     useEffect(() => {
-      if (!open) return;
+      if (!shouldRender) return;
 
       const handleClickOutside = (event: MouseEvent) => {
         const target = event.target as Node;
@@ -83,7 +106,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         document.removeEventListener('mousedown', handleClickOutside);
         document.removeEventListener('keydown', handleEscape);
       };
-    }, [open, handleOpenChange]);
+    }, [shouldRender, handleOpenChange]);
 
     // Clone trigger to add click handler
     const triggerElement = React.isValidElement(trigger) ? React.cloneElement(
@@ -123,6 +146,11 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       }
       // Default is 'end' which matches your existing right-aligned dropdowns
       
+      // Add closing class for animation
+      if (isClosing) {
+        classes.push('dropdown-menu--closing');
+      }
+      
       return classes.join(' ');
     };
 
@@ -136,8 +164,8 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           {/* Trigger */}
           {triggerElement}
 
-          {/* Dropdown Menu - matches your existing pattern */}
-          {open && (
+          {/* Dropdown Menu with smooth animations */}
+          {shouldRender && (
             <div className={getPositionClasses()}>
               {children}
             </div>

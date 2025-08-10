@@ -1,6 +1,6 @@
 /* ===============================================
 // src/design-system/components/primitives/Stepper/Stepper.css
-// CLEAN STEPPER CSS - Minimal styling
+// RESPONSIVE STEPPER CSS - Always horizontal layout
 // =============================================== */
 
 .stepper {
@@ -10,18 +10,23 @@
   gap: var(--foundation-space-4);
 }
 
-/* ===== NAVIGATION RAD ===== */
+/* ===== NAVIGATION RAD - ALWAYS HORIZONTAL ===== */
 .stepper-navigation {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--foundation-space-4);
+  gap: var(--foundation-space-2);
+  width: 100%;
+  min-height: 44px; /* Touch target */
 }
 
 /* ===== STEG NUMMER ===== */
 .stepper-numbers {
   display: flex;
-  gap: var(--foundation-space-2);
+  gap: var(--foundation-space-1);
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 }
 
 .step-number {
@@ -36,12 +41,19 @@
   font-weight: var(--foundation-weight-medium);
   font-size: var(--font-body-sm-size);
   transition: all var(--foundation-duration-normal) ease;
+  flex-shrink: 0;
 }
 
 .step-number--current {
   background: var(--text-primary);
-  color: var(--surface-card);
+  color: var(--text-inverse);
   font-weight: var(--foundation-weight-semibold);
+}
+
+/* ===== BUTTONS - RESPONSIVE SIZING ===== */
+.stepper-navigation .stepper-button {
+  flex-shrink: 0;
+  min-width: 80px; /* Minimum touch target */
 }
 
 /* ===== STEG INNEHÅLL - UNDER NAVIGATION ===== */
@@ -60,25 +72,70 @@
   margin: 0 auto;
 }
 
-/* ===== RESPONSIV ===== */
+/* ===== RESPONSIV - SMALLER ELEMENTS ON MOBILE ===== */
 @media (max-width: 768px) {
   .stepper-navigation {
-    flex-direction: column;
-    gap: var(--foundation-space-3);
+    gap: var(--foundation-space-1);
+    padding: 0 var(--foundation-space-2);
   }
   
-  .stepper-navigation button {
-    width: 100%;
-    justify-content: center;
+  /* Smaller buttons on mobile */
+  .stepper-navigation .stepper-button {
+    min-width: 60px;
+    padding: var(--foundation-space-2) var(--foundation-space-3);
+    font-size: var(--font-body-sm-size);
   }
   
+  /* Smaller step numbers */
   .step-number {
     width: 28px;
     height: 28px;
     font-size: var(--font-body-xs-size);
   }
   
+  /* Tighter spacing between numbers with better gaps on small screens */
+  .stepper-numbers {
+    gap: var(--foundation-space-1);
+  }
+  
+  /* Smaller content */
   .step-description {
-    max-width: 300px;
+    max-width: 280px;
+    font-size: var(--font-body-sm-size);
+  }
+  
+  .step-title {
+    font-size: var(--font-heading-md-size);
+  }
+}
+
+/* ===== EXTRA SMALL SCREENS ===== */
+@media (max-width: 480px) {
+  .stepper-navigation {
+    gap: var(--foundation-space-half);
+    padding: 0 var(--foundation-space-1);
+  }
+  
+  /* Even smaller buttons */
+  .stepper-navigation .stepper-button {
+    min-width: 50px;
+    padding: var(--foundation-space-1) var(--foundation-space-2);
+    font-size: var(--font-body-xs-size);
+  }
+  
+  /* Compact step numbers */
+  .step-number {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+  }
+  
+  /* Hide button text on very small screens - show only icons */
+  .stepper-button .button-text {
+    display: none;
+  }
+  
+  .stepper-button .button-icon {
+    margin: 0;
   }
 }

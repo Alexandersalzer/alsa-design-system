@@ -1,15 +1,28 @@
 /* ==============================================
    src/design-system/tokens/component/zindex.css
-   Z-INDEX TOKENS
+   FIXED Z-INDEX TOKENS - Proper Spacing & Active States
    ============================================== */
 
 :root {
+  /* ===== BASE LAYERS ===== */
+  --z-base: 0;
+  --z-raised: 1;
+  --z-sticky: 100;
+  --z-fixed: 200;
+  
+  /* ===== DROPDOWN SYSTEM - WIDER GAPS ===== */
   --z-dropdown: 1000;
-  --z-sticky: 1020;
-  --z-fixed: 1030;
-  --z-modal-backdrop: 1040;
-  --z-modal: 1050;
-  --z-popover: 1060;
-  --z-tooltip: 1070;
-  --z-toast: 1080;
+  --z-dropdown-active: 2000;    /* 🔥 MUCH HIGHER: For open dropdowns */
+  --z-picker-container: 1;      /* Base picker container */
+  --z-picker-open: 2000;        /* When picker is open - VERY HIGH */
+  
+  /* ===== OVERLAY LAYERS ===== */
+  --z-modal-backdrop: 3000;
+  --z-modal: 3100;
+  --z-popover: 3200;
+  --z-tooltip: 3300;
+  --z-toast: 3400;
+  
+  /* ===== MAXIMUM ===== */
+  --z-maximum: 9999;
 }

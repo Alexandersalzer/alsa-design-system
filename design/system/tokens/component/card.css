@@ -5,7 +5,7 @@
 
    :root {
     /* ===== CARD SURFACES ===== */
-    --surface-card: var(--surface-card);                    /* Already defined in semantic */
+    --surface-card: var(--primary-white);                  /* Already defined in semantic */
     --surface-card-hover: var(--primary-100);        /* Already defined in semantic */
     --surface-card-selected: var(--primary-100);
     

@@ -1,7 +1,8 @@
 // ===============================================
 // src/design-system/components/primitives/Stepper/Stepper.tsx
-// ENKEL STEPPER - Använder designsystemet korrekt
+// RESPONSIVE STEPPER - Always horizontal, scales nicely
 // ===============================================
+
 import React, { forwardRef } from 'react';
 import { cn } from '../../../lib/utils';
 import { H3, Body } from '../Typography';
@@ -9,13 +10,13 @@ import { Button } from '../Button';
 import { Icon } from '../Icon';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
-// ===== ENKEL STEP INTERFACE =====
+// ===== STEP INTERFACE =====
 export interface Step {
   label: string;
   description: string;
 }
 
-// ===== ENKEL STEPPER COMPONENT =====
+// ===== STEPPER COMPONENT =====
 export interface StepperProps extends React.HTMLAttributes<HTMLDivElement> {
   steps: Step[];
   currentStep: number;
@@ -23,6 +24,7 @@ export interface StepperProps extends React.HTMLAttributes<HTMLDivElement> {
   onNext?: () => void;
   previousLabel?: string;
   nextLabel?: string;
+  showLabelsOnMobile?: boolean; // New prop to control mobile button text
 }
 
 export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
@@ -32,6 +34,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
   onNext,
   previousLabel = "Tillbaka",
   nextLabel = "Nästa",
+  showLabelsOnMobile = false,
   className,
   ...props
 }, ref) => {
@@ -45,23 +48,26 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
       className={cn('stepper', className)}
       {...props}
     >
-      {/* Navigation rad - ren och enkel */}
+      {/* Navigation row - always horizontal */}
       <div className="stepper-navigation">
-        {/* Vänster: Previous knapp */}
+        {/* Left: Previous button */}
         <Button
           variant="secondary"
           onClick={onPrevious}
           disabled={isFirstStep}
+          className="stepper-button"
           leftIcon={
-            <Icon size="sm" color="button-secondary">
+            <Icon size="sm" color="button-secondary" className="button-icon">
               <ChevronLeftIcon />
             </Icon>
           }
         >
-          {previousLabel}
+          <span className={cn('button-text', !showLabelsOnMobile && 'md:inline hidden')}>
+            {previousLabel}
+          </span>
         </Button>
 
-        {/* Mitten: Steg nummer */}
+        {/* Center: Step indicators */}
         <div className="stepper-numbers">
           {steps.map((_, index) => (
             <div
@@ -76,22 +82,25 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
           ))}
         </div>
 
-        {/* Höger: Next knapp */}
+        {/* Right: Next button */}
         <Button
           variant="primary"
           onClick={onNext}
           disabled={isLastStep}
+          className="stepper-button"
           rightIcon={
-            <Icon size="sm" color="button-primary">
+            <Icon size="sm" color="button-primary" className="button-icon">
               <ChevronRightIcon />
             </Icon>
           }
         >
-          {nextLabel}
+          <span className={cn('button-text', !showLabelsOnMobile && 'md:inline hidden')}>
+            {nextLabel}
+          </span>
         </Button>
       </div>
 
-      {/* Innehåll under - separat */}
+      {/* Content below navigation */}
       {currentStepData && (
         <div className="step-content">
           <H3 className="step-title">{currentStepData.label}</H3>
