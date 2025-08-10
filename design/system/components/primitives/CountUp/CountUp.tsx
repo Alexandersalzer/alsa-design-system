@@ -3,7 +3,7 @@
 // COUNT UP ANIMATION PRIMITIVE COMPONENT
 // ===============================================
 
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Typography, TypographyProps } from '../Typography';
 
 export interface CountUpProps extends Omit<TypographyProps, 'children'> {
@@ -70,7 +70,7 @@ export const CountUp: React.FC<CountUpProps> = ({
     return `${prefix}${formatted}${suffix}`;
   };
 
-  const startAnimation = useCallback(() => {
+  const startAnimation = () => {
     if (hasStarted) return;
     
     console.log('🚀 Starting CountUp animation from', start, 'to', end);
@@ -104,29 +104,34 @@ export const CountUp: React.FC<CountUpProps> = ({
     };
 
     animationRef.current = requestAnimationFrame(animate);
-  }, [hasStarted, start, end, delay, duration, useEasing, onComplete]);
+  };
 
   // Intersection Observer for scroll trigger
   useEffect(() => {
+    // If scroll trigger is disabled, start immediately
     if (!enableScrollTrigger) {
-      // Start immediately if scroll trigger is disabled
+      console.log('⚡ Scroll trigger disabled, starting animation immediately');
       startAnimation();
       return;
     }
 
-    if (!countRef.current) {
-      console.log('❌ CountUp ref not available yet');
+    // Wait for element to be mounted
+    const element = countRef.current;
+    if (!element) {
+      console.log('❌ CountUp element not mounted yet');
       return;
     }
 
     console.log('🔍 Setting up Intersection Observer for CountUp');
 
     const observer = new IntersectionObserver(
-      ([entry]) => {
+      (entries) => {
+        const entry = entries[0];
         console.log('👁️ CountUp intersection:', {
           isIntersecting: entry.isIntersecting,
           intersectionRatio: entry.intersectionRatio,
-          hasStarted: hasStarted
+          hasStarted: hasStarted,
+          boundingRect: entry.boundingClientRect.top
         });
         
         if (entry.isIntersecting && !hasStarted) {
@@ -135,37 +140,57 @@ export const CountUp: React.FC<CountUpProps> = ({
         }
       },
       {
-        root: null, // Use viewport as root
+        root: null,
         rootMargin: `0px 0px -${triggerOffset}px 0px`,
-        threshold: 0.1 // Trigger when 10% of element is visible
+        threshold: 0
       }
     );
 
-    const element = countRef.current;
-    if (element) {
-      observer.observe(element);
-      console.log('👀 Started observing CountUp element');
-    }
+    observer.observe(element);
+    console.log('👀 Started observing CountUp element');
 
     return () => {
-      if (element) {
-        observer.unobserve(element);
-      }
+      observer.unobserve(element);
       observer.disconnect();
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
       console.log('🧹 Cleaned up CountUp observer');
     };
-  }, [enableScrollTrigger, hasStarted, triggerOffset, startAnimation]);
+  }, []); // Remove dependencies to avoid re-creating observer
 
-  // Reset animation if end value changes
+  // Test if element is already visible on mount (fallback)
   useEffect(() => {
-    if (hasStarted && count !== end) {
-      setHasStarted(false);
-      setCount(start);
-    }
-  }, [end, start, hasStarted, count]);
+    if (!enableScrollTrigger || hasStarted) return;
+    
+    const element = countRef.current;
+    if (!element) return;
+
+    const checkVisibility = () => {
+      const rect = element.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const isVisible = rect.top < windowHeight - triggerOffset;
+      
+      console.log('🔍 Manual visibility check:', {
+        elementTop: rect.top,
+        windowHeight: windowHeight,
+        triggerOffset: triggerOffset,
+        isVisible: isVisible,
+        hasStarted: hasStarted
+      });
+      
+      if (isVisible && !hasStarted) {
+        console.log('👁️ Element is visible on mount, starting animation');
+        startAnimation();
+      }
+    };
+
+    // Check immediately and after a short delay
+    checkVisibility();
+    const timeoutId = setTimeout(checkVisibility, 100);
+    
+    return () => clearTimeout(timeoutId);
+  }, [enableScrollTrigger, hasStarted, triggerOffset]);
 
   return (
     <Typography

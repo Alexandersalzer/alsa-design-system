@@ -51,13 +51,13 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
   countEnd = 45000000,
   countStart = 0,
   countDuration = 3000, // Slightly longer for better effect
-  countDelay = 200, // Small delay for better UX
+  countDelay = 500, // Small delay for better UX
   countSeparator = ' ', // Space as thousands separator like on KJ Marketing site
   countSuffix = '+',
   countPrefix = '',
   countDecimals = 0,
   useEasing = true,
-  enableScrollTrigger = true,
+  enableScrollTrigger = false, // TEMPORARILY DISABLE for testing
   triggerOffset = 50, // Smaller offset to trigger earlier
   
   // Typography defaults
@@ -115,6 +115,10 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
     <Section 
       id="count-up-stats-section" 
       height="auto"
+      style={{
+        backgroundColor: '#f8f9fa', // Light background for visibility
+        minHeight: '400px' // Ensure it's visible
+      }}
     >
       <Container 
         align={containerAlign}
