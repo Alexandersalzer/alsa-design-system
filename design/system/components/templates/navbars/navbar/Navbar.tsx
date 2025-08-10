@@ -61,7 +61,7 @@ const Navbar = ({
   logoHeight = 32
 }: NavbarProps) => {
   const { isEditingMode } = useEditingMode();
-  const { getGlobalComponent, getTemplateBlocks, getBlocksByType } = useContent();
+  const { getGlobalComponent, getTemplateBlocks, getBlocksByType, content } = useContent();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -74,36 +74,70 @@ const Navbar = ({
   // Get nav items from blocks
   const navItemBlocks = getBlocksByType(navbarBlocks, 'navItem');
 
-  // Convert CMS blocks to nav items
-  const cmsNavItems: NavItem[] = navItemBlocks.map((block: ContentBlock, index: number) => ({
-    href: block.config?.href || `/${block.slug || ''}`,
-    label: block.content || '',
-    slug: block.slug || '',
-    componentType: index === navItemBlocks.length - 1 ? 'button' : 'textlink', // Last item as button
-    textLinkVariant: 'primary',
-    weight: 'medium',
-    underline: 'hover',
-    variant: 'primary',
-    rightIcon: index === navItemBlocks.length - 1 ? <ArrowRightIcon /> : undefined,
-    size: navSize
-  }));
+  // Convert CMS blocks to nav items with better slug handling
+  const cmsNavItems: NavItem[] = navItemBlocks.map((block: ContentBlock, index: number) => {
+    // Extract slug with better fallback logic
+    let slug = '';
+    if (block.slug && block.slug.trim()) {
+      slug = block.slug.trim();
+    } else if (block.config?.href) {
+      slug = block.config.href.replace('/', '').trim();
+    }
+    
+    console.log('🧭 Processing CMS nav item:', {
+      blockSlug: block.slug,
+      blockHref: block.config?.href,
+      extractedSlug: slug,
+      content: block.content
+    });
 
-  // Use navigation utilities for consistent route handling
-  const nav = getNavigationContext(pathname, isEditingMode);
+    return {
+      href: block.config?.href || `/${slug || ''}`,
+      label: block.content || '',
+      slug: slug || '',
+      componentType: index === navItemBlocks.length - 1 ? 'button' : 'textlink', // Last item as button
+      textLinkVariant: 'primary',
+      weight: 'medium',
+      underline: 'hover',
+      variant: 'primary',
+      rightIcon: index === navItemBlocks.length - 1 ? <ArrowRightIcon /> : undefined,
+      size: navSize
+    };
+  });
+
+  // Use navigation utilities for consistent route handling with CMS content
+  const nav = getNavigationContext(pathname, isEditingMode, content);
 
   // Use CMS items if available, otherwise fallback to passed navItems
   const finalNavItems = cmsNavItems.length > 0 ? cmsNavItems : navItems;
 
+  console.log('🧭 Navbar navigation context:', {
+    isEditingMode,
+    currentLocale: nav.currentLocale,
+    pathname,
+    cmsNavItemsCount: cmsNavItems.length,
+    finalNavItemsCount: finalNavItems.length,
+    hasContentMeta: !!content?.meta,
+    contentLocale: content?.meta?.locale
+  });
+
   // Setup navigation messaging (handles both parent→child and child→parent)
-  const { handleNavigationClick } = useNavigationMessaging(
+  const { handleNavigationClick, currentLocale } = useNavigationMessaging(
     router,
     pathname,
     isEditingMode,
-    '🧭 Navbar'
+    '🧭 Navbar',
+    content // Pass CMS content for locale detection
   );
 
   // Handle navigation clicks - unified for both nav items and brand
   const handleNavClick = (item: NavMenuItem) => {
+    console.log('🧭 Nav item clicked:', {
+      href: item.href,
+      slug: item.slug,
+      currentLocale,
+      isEditingMode
+    });
     handleNavigationClick(item.href, item.slug);
   };
 
@@ -111,6 +145,15 @@ const Navbar = ({
   const handleBrandClick = () => {
     const brandSlug = brandHref.replace('/', '') || 'home';
     const fullBrandHref = nav.buildBrandHref(brandHref);
+    
+    console.log('🧭 Brand clicked:', {
+      originalHref: brandHref,
+      brandSlug,
+      fullBrandHref,
+      currentLocale,
+      isEditingMode
+    });
+    
     handleNavigationClick(fullBrandHref, brandSlug);
   };
 
