@@ -1,0 +1,143 @@
+/* ==============================================
+   design/system/components/primitives/VideoShowcase/VideoShowcase.css
+   VIDEO SHOWCASE COMPONENT STYLES - USING DESIGN TOKENS
+============================================== */
+
+/* Base video showcase styles */
+.video-showcase {
+  display: block;
+  width: 100%;
+  height: auto;
+  background-color: var(--surface-primary);
+  border: 0;
+  outline: none;
+  transition: all var(--foundation-duration-normal) var(--foundation-easing-ease-out);
+}
+
+/* Variants */
+.video-showcase--default {
+  /* Clean, minimal styling */
+}
+
+.video-showcase--rounded {
+  border-radius: var(--radius-lg);
+}
+
+.video-showcase--elevated {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  background-color: var(--surface-secondary);
+}
+
+/* Sizes */
+.video-showcase--sm {
+  max-width: 400px;
+}
+
+.video-showcase--md {
+  max-width: 600px;
+}
+
+.video-showcase--lg {
+  max-width: 800px;
+}
+
+.video-showcase--xl {
+  max-width: 1000px;
+}
+
+.video-showcase--full {
+  max-width: 100%;
+}
+
+/* Aspect Ratios */
+.video-showcase--aspect-16-9 {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.video-showcase--aspect-4-3 {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.video-showcase--aspect-1-1 {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.video-showcase--aspect-auto {
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+/* Shadows */
+.video-showcase--shadow-none {
+  box-shadow: none;
+}
+
+.video-showcase--shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.video-showcase--shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.video-showcase--shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.video-showcase--shadow-xl {
+  box-shadow: var(--shadow-xl);
+}
+
+/* Radius */
+.video-showcase--radius-none {
+  border-radius: 0;
+}
+
+.video-showcase--radius-sm {
+  border-radius: var(--radius-sm);
+}
+
+.video-showcase--radius-md {
+  border-radius: var(--radius-md);
+}
+
+.video-showcase--radius-lg {
+  border-radius: var(--radius-lg);
+}
+
+.video-showcase--radius-xl {
+  border-radius: var(--radius-xl);
+}
+
+.video-showcase--radius-full {
+  border-radius: var(--radius-full);
+}
+
+/* Hover and interaction states */
+.video-showcase:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
+.video-showcase:focus {
+  outline: 2px solid var(--color-accent-500);
+  outline-offset: 2px;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .video-showcase--sm,
+  .video-showcase--md,
+  .video-showcase--lg,
+  .video-showcase--xl {
+    max-width: 100%;
+  }
+  
+  .video-showcase {
+    border-radius: var(--radius-md);
+  }
+} 

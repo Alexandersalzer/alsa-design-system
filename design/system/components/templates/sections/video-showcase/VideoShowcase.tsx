@@ -1,6 +1,7 @@
 'use client';
 
 import { Section, Container, Block } from '../../../../../system/layout';
+import { VideoShowcase as VideoShowcasePrimitive } from '../../../../../system/components/primitives/VideoShowcase';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 
@@ -51,21 +52,19 @@ export const VideoShowcase: React.FC<VideoShowcaseProps> = ({
         }}
       >
         <Block>
-          <video
+          <VideoShowcasePrimitive
             src={videoSrc}
             poster={videoPoster}
             autoPlay={autoPlay}
             muted={muted}
             loop={loop}
             controls={controls}
-            playsInline
-            style={{
-              width: '100%',
-              height: 'auto',
-              display: 'block'
-            }}
-          >
-          </video>
+            variant="elevated"
+            size="lg"
+            aspectRatio="16-9"
+            shadow="lg"
+            radius="lg"
+          />
         </Block>
       </Container>
     </Section>
