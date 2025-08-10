@@ -78,47 +78,12 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
             variant="label-xs"
             as="h1"
             uppercase
-            weight="semibold"
+            weight="light"
             align="center"
-            style={{ 
-              color: 'var(--neutral-700)',
-              letterSpacing: '0.1em'
-            }}
           >
             EN LITEN DEL AV MIN PORTFÖLJ
           </Typography>
-
-          {/* CMS Title and Subtitle (if available) */}
-          {title && (
-            <div style={{ textAlign }}>
-              <Typography
-                variant="h2"
-                as={titleAs}
-                style={{ 
-                  color: 'var(--neutral-1200)',
-                  fontWeight: 600,
-                  lineHeight: 1.2
-                }}
-              >
-                {title}
-              </Typography>
-              {subtitle && (
-                <Typography
-                  variant="body-lg"
-                  as="p"
-                  style={{ 
-                    color: 'var(--neutral-800)',
-                    maxWidth: '600px',
-                    margin: '0 auto',
-                    marginTop: 'var(--foundation-space-4, 1rem)'
-                  }}
-                >
-                  {subtitle}
-                </Typography>
-              )}
-            </div>
-          )}
-          
+                    
           {/* Spinning Banner */}
           <SpinningBanner
             logos={logos || defaultLogos}
