@@ -28,7 +28,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
   titleAs = 'h2',
   unit = 'lg',
   textAlign = 'center',
-  speed = 15,
+  speed = 20,
   direction = 'left',
   logos
 }) => {
@@ -54,50 +54,49 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
   ];
 
   return (
-    <Section 
-      id="spinning-banner-section" 
-      style={{ 
-        paddingTop: 'var(--foundation-space-16, 4rem)',
-        paddingBottom: 'var(--foundation-space-16, 4rem)'
-      }}
-    >
-      <Container align="center">
-        {title && (
-          <div style={{ marginBottom: 'var(--foundation-space-12, 3rem)', textAlign }}>
-            <Typography
-              variant="h2"
-              as={titleAs}
-              style={{ 
-                color: 'var(--neutral-1200)',
-                fontWeight: 600,
-                lineHeight: 1.2
-              }}
-            >
-              {title}
-            </Typography>
-            {subtitle && (
+    <Section id="spinning-banner-section">
+      {title && (
+        <div style={{ 
+          paddingTop: 'var(--foundation-space-16, 4rem)',
+          paddingBottom: 'var(--foundation-space-8, 2rem)'
+        }}>
+          <Container align="center">
+            <div style={{ textAlign }}>
               <Typography
-                variant="body-lg"
-                as="p"
+                variant="h2"
+                as={titleAs}
                 style={{ 
-                  color: 'var(--neutral-800)',
-                  maxWidth: '600px',
-                  margin: '0 auto',
-                  marginTop: 'var(--foundation-space-4, 1rem)'
+                  color: 'var(--neutral-1200)',
+                  fontWeight: 600,
+                  lineHeight: 1.2,
+                  marginBottom: subtitle ? 'var(--foundation-space-4, 1rem)' : '0'
                 }}
               >
-                {subtitle}
+                {title}
               </Typography>
-            )}
-          </div>
-        )}
-        
-        <SpinningBanner
-          logos={logos || defaultLogos}
-          speed={speed}
-          direction={direction}
-        />
-      </Container>
+              {subtitle && (
+                <Typography
+                  variant="body-lg"
+                  as="p"
+                  style={{ 
+                    color: 'var(--neutral-800)',
+                    maxWidth: '600px',
+                    margin: '0 auto'
+                  }}
+                >
+                  {subtitle}
+                </Typography>
+              )}
+            </div>
+          </Container>
+        </div>
+      )}
+      
+      <SpinningBanner
+        logos={logos || defaultLogos}
+        speed={speed}
+        direction={direction}
+      />
     </Section>
   );
 }; 
