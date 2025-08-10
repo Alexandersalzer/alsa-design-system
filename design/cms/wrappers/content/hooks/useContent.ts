@@ -1,19 +1,5 @@
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 import { ContentContext } from '../ContentProvider';
-import { 
-  LanguageContent,
-  ContentTemplate, 
-  ContentBlock, 
-  GlobalComponent 
-} from '../types/content';
-import { 
-  getPageTemplate as getPageTemplateFromUtils, 
-  getPageTemplates as getPageTemplatesFromUtils, 
-  getGlobalComponent as getGlobalComponentFromUtils,
-  getTemplateBlocks as getTemplateBlocksFromUtils,
-  getAllBlocks as getAllBlocksFromUtils
-} from '../utils/contentQueries';
-import { useContentBlocks } from './useContentBlocks';
 
 // Hook for accessing and filtering website content
 export function useContent(preferredLocale?: string) {
@@ -23,11 +9,20 @@ export function useContent(preferredLocale?: string) {
     throw new Error('useContent must be used within a ContentProvider');
   }
 
-  const { content: rawContent, isLoading, error } = context;
-
-  // Since ContentProvider now provides filtered LanguageContent,
-  // we don't need to do client-side language filtering here anymore
-  const content = rawContent;
+  // Destructure everything from context - this avoids duplicate hook calls
+  const { 
+    content, 
+    isLoading, 
+    error,
+    getPageTemplate: contextGetPageTemplate,
+    getPageTemplates: contextGetPageTemplates,
+    getGlobalComponent: contextGetGlobalComponent,
+    getTemplateBlocks: contextGetTemplateBlocks,
+    getAllBlocks: contextGetAllBlocks,
+    getBlocksByType,
+    getBlockContent,
+    getBlockConfig
+  } = context;
 
   // Available languages would need to come from a different source
   // since we now receive filtered content
@@ -55,30 +50,6 @@ export function useContent(preferredLocale?: string) {
     }
   };
 
-  // Content query functions - now work directly with LanguageContent
-  const getPageTemplate = (pageSlug: string, templateType: string, templateIndex: number = 0): ContentTemplate | undefined => {
-    return getPageTemplateFromUtils(content, pageSlug, templateType, templateIndex);
-  };
-
-  const getPageTemplates = (pageSlug: string, templateType: string): ContentTemplate[] => {
-    return getPageTemplatesFromUtils(content, pageSlug, templateType);
-  };
-
-  const getGlobalComponent = (componentType: string): GlobalComponent | undefined => {
-    return getGlobalComponentFromUtils(content, componentType);
-  };
-
-  const getTemplateBlocks = (template: ContentTemplate | GlobalComponent | undefined, patternType?: string): ContentBlock[] => {
-    return getTemplateBlocksFromUtils(template, patternType);
-  };
-
-  const getAllBlocks = (template: ContentTemplate | GlobalComponent | undefined): ContentBlock[] => {
-    return getAllBlocksFromUtils(template);
-  };
-
-  // Use the contentBlocks hook for additional block utilities
-  const contentBlocks = useContentBlocks();
-
   // Debug logging
   if (process.env.NODE_ENV === 'development') {
     console.log('🔍 useContent debug:', {
@@ -101,38 +72,19 @@ export function useContent(preferredLocale?: string) {
     availableLanguages,
     currentLocale: preferredLocale || 'sv', // Fallback since we don't extract from content anymore
     
-    // Content query functions
-    getPageTemplate,
-    getPageTemplates,
-    getGlobalComponent,
-    getTemplateBlocks,
-    getAllBlocks,
+    // Content query functions (from context to avoid duplicate hooks)
+    getPageTemplate: contextGetPageTemplate,
+    getPageTemplates: contextGetPageTemplates,
+    getGlobalComponent: contextGetGlobalComponent,
+    getTemplateBlocks: contextGetTemplateBlocks,
+    getAllBlocks: contextGetAllBlocks,
     
-    // Block utilities
-    ...contentBlocks,
+    // Block utilities (from context to avoid duplicate hooks)
+    getBlocksByType,
+    getBlockContent,
+    getBlockConfig,
     
     // Language switching (limited functionality)
     switchLanguage
   };
-}
-
-// Utility functions (keeping original names for backward compatibility)
-function getPageTemplateUtil(content: LanguageContent | null, pageSlug: string, templateType: string, templateIndex: number = 0): ContentTemplate | undefined {
-  return getPageTemplateFromUtils(content, pageSlug, templateType, templateIndex);
-}
-
-function getPageTemplatesUtil(content: LanguageContent | null, pageSlug: string, templateType: string): ContentTemplate[] {
-  return getPageTemplatesFromUtils(content, pageSlug, templateType);
-}
-
-function getGlobalComponentUtil(content: LanguageContent | null, componentType: string): GlobalComponent | undefined {
-  return getGlobalComponentFromUtils(content, componentType);
-}
-
-function getTemplateBlocksUtil(template: ContentTemplate | GlobalComponent | undefined, patternType?: string): ContentBlock[] {
-  return getTemplateBlocksFromUtils(template, patternType);
-}
-
-function getAllBlocksUtil(template: ContentTemplate | GlobalComponent | undefined): ContentBlock[] {
-  return getAllBlocksFromUtils(template);
 } 
