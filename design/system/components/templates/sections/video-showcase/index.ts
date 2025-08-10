@@ -1,1 +1,1 @@
-export { VideoShowcase } from './VideoShowcase'; 
+export { VideoShowcaseSection } from './VideoShowcase'; 

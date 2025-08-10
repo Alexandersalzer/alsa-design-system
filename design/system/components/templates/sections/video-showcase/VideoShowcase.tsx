@@ -5,7 +5,7 @@ import { VideoShowcase as VideoShowcasePrimitive } from '../../../../../system/c
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 
-interface VideoShowcaseProps {
+interface VideoShowcaseSectionProps {
   pageSlug?: string;
   templateIndex?: number;
   videoSrc?: string;
@@ -16,7 +16,7 @@ interface VideoShowcaseProps {
   controls?: boolean;
 }
 
-export const VideoShowcase: React.FC<VideoShowcaseProps> = ({
+export const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
   pageSlug,
   templateIndex = 0,
   videoSrc = '/images/kjlogos/Intro Video-2.mov',
