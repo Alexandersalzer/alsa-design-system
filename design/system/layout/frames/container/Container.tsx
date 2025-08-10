@@ -13,6 +13,7 @@ interface ContainerProps {
   align?: Alignment;
   height?: Height;
   maxWidth?: MaxWidth;
+  style?: React.CSSProperties;
 }
 
 const getAlignmentClass = (align: Alignment): string => {
@@ -69,7 +70,8 @@ export const Container = ({
   as: Component = 'div',
   align = 'left',
   height = 'auto',
-  maxWidth = 'none'
+  maxWidth = 'none',
+  style
 }: ContainerProps) => {
   const alignmentClass = getAlignmentClass(align);
   const heightClass = getHeightClass(height);
@@ -80,6 +82,7 @@ export const Container = ({
     <Component 
       id={id}
       className={combinedClassName}
+      style={style}
     >
       {children}
     </Component>

@@ -58,8 +58,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   }
 
   return (
-    <Section id="hero-section" height="auto" style={{ minHeight: '60vh', paddingTop: '4rem', paddingBottom: '4rem' }}>
-      <Container align="center" height="auto">
+    <Section id="hero-section" height="auto">
+      <Container 
+        align="center" 
+        height="auto"
+        style={{ 
+          minHeight: '60vh', 
+          paddingTop: '4rem', 
+          paddingBottom: '4rem',
+          justifyContent: 'center',
+          display: 'flex',
+          flexDirection: 'column'
+        }}
+      >
         <RichText
           heading={title}
           headingAs={titleAs}
