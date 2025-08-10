@@ -66,7 +66,6 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
   return (
     <Section 
       id="spinning-banner-section"
-      marginTop="-8rem"
       paddingTop="sm"
       paddingBottom="xs"
     >
