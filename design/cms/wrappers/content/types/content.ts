@@ -34,20 +34,38 @@ export interface ContentPage {
   templates: ContentTemplate[];
 }
 
-// Metadata interface for website content
-export interface WebsiteContentMeta {
-  locale?: string | null;
-  localeData?: {
-    code: string;
-    name: string;
-    is_default: boolean;
-    is_active: boolean;
-  } | null;
-}
-
-// Main content structure type
-export interface WebsiteContent {
+// Language-specific content structure
+export interface LanguageContent {
   pages: { [key: string]: ContentPage };
   globals?: { [key: string]: GlobalComponent };
   meta?: WebsiteContentMeta;
+}
+
+// Available language metadata
+export interface AvailableLanguage {
+  code: string;
+  name: string;
+  is_default: boolean;
+  is_active: boolean;
+}
+
+// Metadata interface for website content
+export interface WebsiteContentMeta {
+  locale?: string | null;
+  localeData?: AvailableLanguage | null;
+  availableLanguages?: AvailableLanguage[];
+  defaultLanguage?: string;
+  totalRows?: number;
+  version?: string;
+}
+
+// Main content structure type - now organized by language for client-side filtering
+export interface WebsiteContent {
+  // New structure: organized by language
+  languages?: { [languageCode: string]: LanguageContent };
+  meta?: WebsiteContentMeta;
+  
+  // Legacy structure for backward compatibility (deprecated)
+  pages?: { [key: string]: ContentPage };
+  globals?: { [key: string]: GlobalComponent };
 } 
