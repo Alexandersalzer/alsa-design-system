@@ -92,8 +92,8 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
   const countUpBlocks = getTemplateBlocks(countUpTemplate, 'countUpStats');
   
   // Extract content using generic functions with better defaults
-  const subtitle = getBlockContent(countUpBlocks, 'subtitle') || 'VIEWS IN 2024';
-  const buttonText = getBlockContent(countUpBlocks, 'button') || 'Check my full portfolio'; // Default button text from KJ site
+  const subtitle = getBlockContent(countUpBlocks, 'subtitle') || 'VISNINGAR 2024';
+  const buttonText = getBlockContent(countUpBlocks, 'button') || 'Kolla min kompletta Portfölj'; // Default button text from KJ site
   
   const handleButtonClick = () => {
     // Default action - could be customized via CMS
