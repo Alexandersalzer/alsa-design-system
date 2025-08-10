@@ -1,6 +1,7 @@
 'use client';
 
 import { Section, Container } from '../../../../../system/layout';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { SpinningBanner } from '../../../../../system/components/patterns/client/spinning-banner';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
@@ -71,41 +72,60 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
       }}
     >
       <Container align="center" maxWidth="lg">
-        {title && (
-          <div style={{ marginBottom: 'var(--foundation-space-12, 3rem)', textAlign }}>
-            <Typography
-              variant="h2"
-              as={titleAs}
-              style={{ 
-                color: 'var(--neutral-1200)',
-                fontWeight: 600,
-                lineHeight: 1.2
-              }}
-            >
-              {title}
-            </Typography>
-            {subtitle && (
+        <Stack spacing="lg" align="center">
+          {/* Portfolio Title */}
+          <Typography
+            variant="label-lg"
+            as="h3"
+            uppercase
+            weight="semibold"
+            align="center"
+            style={{ 
+              color: 'var(--neutral-700)',
+              letterSpacing: '0.1em'
+            }}
+          >
+            EN LITEN DEL AV MIN PORTFÖLJ
+          </Typography>
+
+          {/* CMS Title and Subtitle (if available) */}
+          {title && (
+            <div style={{ textAlign }}>
               <Typography
-                variant="body-lg"
-                as="p"
+                variant="h2"
+                as={titleAs}
                 style={{ 
-                  color: 'var(--neutral-800)',
-                  maxWidth: '600px',
-                  margin: '0 auto',
-                  marginTop: 'var(--foundation-space-4, 1rem)'
+                  color: 'var(--neutral-1200)',
+                  fontWeight: 600,
+                  lineHeight: 1.2
                 }}
               >
-                {subtitle}
+                {title}
               </Typography>
-            )}
-          </div>
-        )}
-        
-        <SpinningBanner
-          logos={logos || defaultLogos}
-          speed={speed}
-          direction={direction}
-        />
+              {subtitle && (
+                <Typography
+                  variant="body-lg"
+                  as="p"
+                  style={{ 
+                    color: 'var(--neutral-800)',
+                    maxWidth: '600px',
+                    margin: '0 auto',
+                    marginTop: 'var(--foundation-space-4, 1rem)'
+                  }}
+                >
+                  {subtitle}
+                </Typography>
+              )}
+            </div>
+          )}
+          
+          {/* Spinning Banner */}
+          <SpinningBanner
+            logos={logos || defaultLogos}
+            speed={speed}
+            direction={direction}
+          />
+        </Stack>
       </Container>
     </Section>
   );
