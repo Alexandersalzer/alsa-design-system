@@ -66,10 +66,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
   return (
     <Section 
       id="spinning-banner-section" 
-      style={{ 
-        paddingTop: 'var(--foundation-space-16, 4rem)',
-        paddingBottom: 'var(--foundation-space-16, 4rem)'
-      }}
+      height="auto"
     >
       <Container 
       align="center" 
