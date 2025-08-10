@@ -1,8 +1,8 @@
-import { WebsiteContent, ContentBlock, ContentTemplate, GlobalComponent } from './content';
+import { LanguageContent, WebsiteContent, ContentBlock, ContentTemplate, GlobalComponent } from './content';
 
 // Generic content context interface
 export interface ContentContextType {
-  content: WebsiteContent | null;
+  content: LanguageContent | null;
   isLoading: boolean;
   error: string | null;
   
@@ -21,5 +21,6 @@ export interface ContentContextType {
 
 export interface ContentProviderProps {
   children: React.ReactNode;
-  initialContent?: WebsiteContent | null;
+  // Accept both formats for backward compatibility
+  initialContent?: WebsiteContent | LanguageContent | null;
 } 

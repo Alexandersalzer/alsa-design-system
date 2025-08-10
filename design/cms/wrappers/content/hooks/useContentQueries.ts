@@ -1,11 +1,12 @@
 import { useCallback } from 'react';
-import { WebsiteContent, ContentBlock, ContentTemplate, GlobalComponent } from '../types/content';
+import { LanguageContent, ContentBlock, ContentTemplate, GlobalComponent } from '../types/content';
 import * as queries from '../utils/contentQueries';
 
 /**
  * Hook that provides query functions bound to current content
+ * Updated to work with LanguageContent structure for client-side filtering
  */
-export function useContentQueries(content: WebsiteContent | null) {
+export function useContentQueries(content: LanguageContent | null) {
   // Bind query functions to current content
   const getPageTemplate = useCallback((pageSlug: string, templateType: string, templateIndex: number = 0): ContentTemplate | undefined => {
     return queries.getPageTemplate(content, pageSlug, templateType, templateIndex);
