@@ -18,6 +18,10 @@ interface HeroSectionProps {
   textSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   textAlign?: 'left' | 'center' | 'right';
   maxWidth?: string;
+  // New spacing control props
+  height?: 'auto' | 'full' | 'screen';
+  paddingBottom?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string | number;
+  marginBottom?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string | number;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ 
@@ -32,7 +36,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   buttonPosition = 9,
   textSpacing = 'sm',
   textAlign = 'center',
-  maxWidth = '550px'
+  maxWidth = '550px',
+  height = 'full',
+  paddingBottom,
+  marginBottom
 }) => {
   const { getPageTemplate, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -58,8 +65,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   }
 
   return (
-    <Section id="hero-section" height="full">
-      <Container align="center" height="full">
+    <Section 
+      id="hero-section" 
+      height={height}
+      paddingBottom={paddingBottom}
+      marginBottom={marginBottom}
+    >
+      <Container align="center" height={height === 'full' ? 'full' : 'auto'}>
         <RichText
           heading={title}
           headingAs={titleAs}

@@ -21,6 +21,10 @@ interface SpinningBannerWTitleProps {
     width?: number;
     height?: number;
   }>;
+  // New spacing control props
+  paddingTop?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string | number;
+  paddingBottom?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string | number;
+  marginTop?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string | number;
 }
 
 export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
@@ -31,7 +35,10 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
   textAlign = 'center',
   speed = 30,
   direction = 'left',
-  logos
+  logos,
+  paddingTop = 'sm',
+  paddingBottom = 'xs',
+  marginTop
 }) => {
   const { getPageTemplate, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -66,8 +73,9 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
   return (
     <Section 
       id="spinning-banner-section"
-      paddingTop="sm"
-      paddingBottom="xs"
+      paddingTop={paddingTop}
+      paddingBottom={paddingBottom}
+      marginTop={marginTop}
     >
       <Container align="center" maxWidth="lg" paddingBottom="xs">
         <Stack spacing="xs" align="center">
