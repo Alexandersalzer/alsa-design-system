@@ -60,10 +60,10 @@ export const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
             loop={loop}
             controls={controls}
             variant="elevated"
-            size="lg"
+            size="xl"
             aspectRatio="16-9"
             shadow="lg"
-            radius="lg"
+            radius="md"
           />
         </Block>
       </Container>
