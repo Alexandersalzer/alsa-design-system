@@ -8,14 +8,8 @@
   display: block;
   width: 100%;
   height: auto;
-  border: 0;
-  outline: none;
 }
 
-/* Variants */
-.video-showcase--default {
-  /* Clean, minimal styling */
-}
 
 .video-showcase--rounded {
   border-radius: var(--radius-lg);
