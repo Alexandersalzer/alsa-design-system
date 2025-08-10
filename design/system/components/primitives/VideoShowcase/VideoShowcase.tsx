@@ -25,7 +25,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   shadow = 'lg',
   radius = 'lg',
   autoPlay = false,
-  muted = true,
+  muted: initialMuted = true,
   loop = true,
   controls = false,
   playsInline = true,
@@ -34,6 +34,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(initialMuted);
   const videoRef = useRef<HTMLVideoElement>(null);
   const combinedRef = (node: HTMLVideoElement) => {
     if (typeof ref === 'function') ref(node);
@@ -56,6 +57,11 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       if (videoRef.current.paused) {
         videoRef.current.play();
         setIsPlaying(true);
+        // Unmute when starting to play
+        if (isMuted) {
+          videoRef.current.muted = false;
+          setIsMuted(false);
+        }
       } else {
         videoRef.current.pause();
         setIsPlaying(false);
@@ -69,7 +75,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         ref={combinedRef}
         className={videoClasses}
         autoPlay={autoPlay}
-        muted={muted}
+        muted={isMuted}
         loop={loop}
         controls={isPlaying && controls}
         playsInline={playsInline}
