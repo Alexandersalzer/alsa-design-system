@@ -77,12 +77,9 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         {...props}
       />
       {showPlayButton && !isPlaying && (
-        <>
-          <div className="video-overlay" />
-          <button className="play-button" aria-label="Play video">
-            <span className="play-button-icon" />
-          </button>
-        </>
+        <button className="play-button" aria-label="Play video">
+          <span className="play-button-icon" />
+        </button>
       )}
     </div>
   );
