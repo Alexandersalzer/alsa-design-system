@@ -8,6 +8,8 @@ import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { CountUp, CountUpProps } from '../../../../../system/components/primitives/CountUp';
 import { Typography, TypographyProps } from '../../../../../system/components/primitives/Typography';
 import { Button, ButtonProps } from '../../../../../system/components/primitives/Button';
+import { Icon } from '../../../../../system/components/primitives/Icon';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -84,6 +86,7 @@ export const CountUpSection: React.FC<CountUpSectionProps> = ({
       {button && (
         <Button
           variant={button.variant || 'primary'}
+          rightIcon={<Icon color="inverse"><ArrowRightIcon/></Icon>}
           size={button.size || 'md'}
           onClick={button.onClick}
           {...button}
