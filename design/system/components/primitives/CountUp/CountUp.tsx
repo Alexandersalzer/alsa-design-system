@@ -51,11 +51,20 @@ export const CountUp: React.FC<CountUpProps> = ({
 
   const formatNumber = (num: number): string => {
     const rounded = Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
-    let formatted = rounded.toString();
+    let formatted = rounded.toFixed(decimals);
     
-    // Add thousands separator if needed
+    // Remove trailing zeros and decimal point if not needed
+    if (decimals === 0) {
+      formatted = Math.round(rounded).toString();
+    }
+    
+    // Add thousands separator if needed and number is >= 1000
     if (separator && rounded >= 1000) {
-      formatted = rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+      // Split into integer and decimal parts
+      const parts = formatted.split('.');
+      // Add separator to integer part
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+      formatted = parts.join('.');
     }
     
     return `${prefix}${formatted}${suffix}`;

@@ -52,7 +52,7 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
   countStart = 0,
   countDuration = 2500,
   countDelay = 0,
-  countSeparator = '',
+  countSeparator = ' ', // Add space as thousands separator like on KJ Marketing site
   countSuffix = '+',
   countPrefix = '',
   countDecimals = 0,
@@ -91,9 +91,9 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
   // Get blocks from count up stats pattern
   const countUpBlocks = getTemplateBlocks(countUpTemplate, 'countUpStats');
   
-  // Extract content using generic functions
+  // Extract content using generic functions with better defaults
   const subtitle = getBlockContent(countUpBlocks, 'subtitle') || 'VIEWS IN 2024';
-  const buttonText = getBlockContent(countUpBlocks, 'button') || '';
+  const buttonText = getBlockContent(countUpBlocks, 'button') || 'Check my full portfolio'; // Default button text from KJ site
   
   const handleButtonClick = () => {
     // Default action - could be customized via CMS
@@ -138,12 +138,12 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
             color: subtitleColor,
             align: 'center'
           }}
-          button={buttonText ? {
+          button={{
             text: buttonText,
             variant: buttonVariant,
             size: buttonSize,
             onClick: handleButtonClick
-          } : undefined}
+          }}
           spacing={spacing}
           align={align}
         />
