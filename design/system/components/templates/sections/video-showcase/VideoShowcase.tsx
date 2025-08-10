@@ -63,7 +63,7 @@ export const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
             controls={controls}
             showPlayButton={showPlayButton}
             variant="elevated"
-            size="full"
+            size="xl"
             aspectRatio="16-9"
             radius="md"
           />
