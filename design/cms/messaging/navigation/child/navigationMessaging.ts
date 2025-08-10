@@ -34,13 +34,42 @@ export const sendNavigationUpdateToParent = (href: string, slug?: string) => {
     const locale = extractLocaleFromPathname(href);
     const pathSegments = href.split('/').filter(Boolean);
     
+    console.log('🔍 Debug navigation extraction:', {
+      originalHref: href,
+      originalSlug: slug,
+      locale: locale,
+      pathSegments: pathSegments
+    });
+    
     // Remove locale from segments to get page slug
     if (pathSegments[0] === locale) {
       pathSegments.shift();
     }
     
+    console.log('🔍 After locale removal:', {
+      pathSegments: pathSegments,
+      firstSegment: pathSegments[0]
+    });
+    
     // Get page slug from segments or use provided slug
-    const pageSlug = slug || pathSegments[0] || 'home';
+    // If extracting from href, remove /index.html suffix and get the actual page slug
+    let extractedSlug = pathSegments[0] || 'home';
+    if (extractedSlug === 'index.html' && pathSegments.length > 1) {
+      // If first segment is index.html, there might be an issue with parsing
+      // Let's try to get a better slug from the path structure
+      extractedSlug = 'home'; // Default fallback
+    } else if (extractedSlug && extractedSlug.endsWith('.html')) {
+      // Remove .html extension if present
+      extractedSlug = extractedSlug.replace('.html', '');
+    }
+    
+    const pageSlug = slug || extractedSlug;
+    
+    console.log('🔍 Final slug decision:', {
+      providedSlug: slug,
+      extractedSlug: pathSegments[0],
+      finalPageSlug: pageSlug
+    });
     
     window.parent.postMessage({
       type: 'child-navigation-update',
