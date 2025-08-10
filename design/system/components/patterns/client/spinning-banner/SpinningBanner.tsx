@@ -19,7 +19,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
   logos = [
     { src: '/images/sections/kjlogo.jpg', alt: 'KJ Marketing Logo', width: 60, height: 60 }
   ],
-  speed = 20,
+  speed = 15,
   direction = 'left',
   className = ''
 }) => {

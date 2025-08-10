@@ -11,8 +11,11 @@
   width: 100%;
   overflow: hidden;
   position: relative;
-  background-color: transparent;
-  padding: 20px 0;
+  background-color: #f7f7f7;
+  padding: 40px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .spinning-banner-container::before,
@@ -21,27 +24,28 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 100px;
+  width: 150px;
   z-index: 2;
   pointer-events: none;
 }
 
 .spinning-banner-container::before {
   left: 0;
-  background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0));
+  background: linear-gradient(to right, #f7f7f7, rgba(247,247,247,0));
 }
 
 .spinning-banner-container::after {
   right: 0;
-  background: linear-gradient(to left, rgba(255,255,255,1), rgba(255,255,255,0));
+  background: linear-gradient(to left, #f7f7f7, rgba(247,247,247,0));
 }
 
 .spinning-banner-track {
   display: flex;
   align-items: center;
-  gap: 40px;
-  animation: scroll var(--animation-duration, 20s) linear infinite var(--animation-direction, normal);
+  gap: 60px;
+  animation: scroll var(--animation-duration, 15s) linear infinite var(--animation-direction, normal);
   width: fit-content;
+  min-width: 100%;
 }
 
 .logo-item {
@@ -49,13 +53,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 15px;
+  height: 80px;
+  min-width: 120px;
 }
 
 .logo-item img {
   object-fit: contain;
-  filter: grayscale(100%) opacity(0.7);
+  filter: grayscale(100%) opacity(0.6);
   transition: filter 0.3s ease;
+  max-height: 50px;
+  width: auto;
 }
 
 .logo-item:hover img {
