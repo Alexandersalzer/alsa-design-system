@@ -65,8 +65,8 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
   countWeight = 'bold',
   countColor = 'primary',
   
-  subtitleVariant = 'body-lg',
-  subtitleWeight = 'semibold',
+  subtitleVariant = 'body-xl',
+  subtitleWeight = 'bold',
   subtitleColor = 'secondary',
   
   // Button defaults
