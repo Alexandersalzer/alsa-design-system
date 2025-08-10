@@ -14,6 +14,7 @@ interface VideoShowcaseSectionProps {
   muted?: boolean;
   loop?: boolean;
   controls?: boolean;
+  showPlayButton?: boolean;
 }
 
 export const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
@@ -21,10 +22,11 @@ export const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
   templateIndex = 0,
   videoSrc = '/images/kjlogos/Intro Video-2.mov',
   videoPoster,
-  autoPlay = true,
+  autoPlay = false,
   muted = true,
   loop = true,
-  controls = true
+  controls = false,
+  showPlayButton = true
 }) => {
   const { getPageTemplate, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -59,6 +61,7 @@ export const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
             muted={muted}
             loop={loop}
             controls={controls}
+            showPlayButton={showPlayButton}
             variant="elevated"
             size="full"
             aspectRatio="16-9"
