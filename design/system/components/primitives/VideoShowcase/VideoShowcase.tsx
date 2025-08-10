@@ -12,7 +12,6 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   variant?: 'default' | 'rounded' | 'elevated';
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
   aspectRatio?: '16-9' | '4-3' | '1-1' | 'auto';
-  shadow?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   showPlayButton?: boolean;
 }
@@ -22,7 +21,6 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   variant = 'elevated',
   size = 'lg',
   aspectRatio = '16-9',
-  shadow = 'lg',
   radius = 'lg',
   autoPlay = false,
   muted: initialMuted = true,
@@ -47,7 +45,6 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     `video-showcase--${variant}`,
     `video-showcase--${size}`,
     `video-showcase--aspect-${aspectRatio}`,
-    `video-showcase--shadow-${shadow}`,
     `video-showcase--radius-${radius}`,
     className
   );

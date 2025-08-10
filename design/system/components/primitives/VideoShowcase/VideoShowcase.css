@@ -11,10 +11,6 @@
   background-color: var(--surface-primary);
   border: 0;
   outline: none;
-  transition: all var(--foundation-duration-normal) var(--foundation-easing-ease-out);
-  /* Ensure video respects border-radius */
-  object-fit: cover;
-  object-position: center;
 }
 
 /* Variants */
@@ -28,7 +24,6 @@
 
 .video-showcase--elevated {
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
   background-color: var(--surface-secondary);
 }
 
@@ -78,27 +73,6 @@
   object-fit: contain;
 }
 
-/* Shadows */
-.video-showcase--shadow-none {
-  box-shadow: none;
-}
-
-.video-showcase--shadow-sm {
-  box-shadow: var(--shadow-sm);
-}
-
-.video-showcase--shadow-md {
-  box-shadow: var(--shadow-md);
-}
-
-.video-showcase--shadow-lg {
-  box-shadow: var(--shadow-lg);
-}
-
-.video-showcase--shadow-xl {
-  box-shadow: var(--shadow-xl);
-}
-
 /* Radius */
 .video-showcase--radius-none {
   border-radius: 0;
@@ -124,31 +98,14 @@
   border-radius: var(--radius-full);
 }
 
-/* Video container styles */
+/* Video container */
 .video-container {
   position: relative;
   cursor: pointer;
-  /* Fix for border-radius overflow */
-  overflow: hidden;
   border-radius: inherit;
-  /* Ensure clean edges */
-  line-height: 0;
-  font-size: 0;
-  /* Prevent any unwanted spacing */
-  display: block;
-  /* Match video background color to prevent any visible edges */
-  background-color: var(--surface-primary);
-}
-
-/* Hover and interaction states */
-.video-showcase:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-xl);
-}
-
-.video-showcase:focus {
-  outline: 2px solid var(--color-accent-500);
-  outline-offset: 2px;
+  overflow: hidden; /* Important: This ensures no black borders from video overflow */
+  line-height: 0; /* Remove any potential spacing issues */
+  background-color: black; /* Match video background color */
 }
 
 /* Responsive behavior */
