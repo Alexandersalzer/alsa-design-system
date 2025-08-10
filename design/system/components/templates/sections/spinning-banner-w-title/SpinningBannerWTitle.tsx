@@ -67,11 +67,11 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
     <Section 
       id="spinning-banner-section" 
       style={{ 
-        paddingTop: 'var(--foundation-space-16, 4rem)',
+        paddingTop: 'var(--foundation-space-8, 2rem)',
         paddingBottom: 'var(--foundation-space-16, 4rem)'
       }}
     >
-      <Container align="center" maxWidth="lg">
+      <Container align="center" maxWidth="none">
         <Stack spacing="xs" align="center">
           {/* Portfolio Title */}
           <Typography
@@ -83,7 +83,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
           >
             EN LITEN DEL AV MIN PORTFÖLJ
           </Typography>
-                    
+                     
           {/* Spinning Banner */}
           <SpinningBanner
             logos={logos || defaultLogos}

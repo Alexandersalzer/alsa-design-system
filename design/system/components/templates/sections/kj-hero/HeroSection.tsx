@@ -18,7 +18,6 @@ interface HeroSectionProps {
   textSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   textAlign?: 'left' | 'center' | 'right';
   maxWidth?: string;
-  paddingBottom?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ 
@@ -33,8 +32,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   buttonPosition = 9,
   textSpacing = 'sm',
   textAlign = 'center',
-  maxWidth = '550px',
-  paddingBottom
+  maxWidth = '550px'
 }) => {
   const { getPageTemplate, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -61,11 +59,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   return (
     <Section id="hero-section" height="full">
-      <Container 
-        align="center" 
-        height="full"
-        paddingBottom={paddingBottom}
-      >
+      <Container align="center" height="full">
         <RichText
           heading={title}
           headingAs={titleAs}
