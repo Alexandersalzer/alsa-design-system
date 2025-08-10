@@ -1,10 +1,20 @@
-import { LanguageContent, WebsiteContent, ContentBlock, ContentTemplate, GlobalComponent } from './content';
+import { WebsiteContent, ContentBlock, ContentTemplate, GlobalComponent } from './content';
 
 // Generic content context interface
 export interface ContentContextType {
-  content: LanguageContent | null;
+  content: WebsiteContent | null;
   isLoading: boolean;
   error: string | null;
+  
+  // Multi-language support
+  currentLanguage: string;
+  availableLanguages: Array<{
+    code: string;
+    name: string;
+    is_default: boolean;
+    is_active: boolean;
+  }>;
+  switchLanguage: (language: string) => void;
   
   // Query functions
   getPageTemplate: (pageSlug: string, templateType: string, templateIndex?: number) => ContentTemplate | undefined;
@@ -21,6 +31,5 @@ export interface ContentContextType {
 
 export interface ContentProviderProps {
   children: React.ReactNode;
-  // Accept both formats for backward compatibility
-  initialContent?: WebsiteContent | LanguageContent | null;
+  initialContent?: WebsiteContent | null;
 } 

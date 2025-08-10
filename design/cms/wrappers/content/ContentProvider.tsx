@@ -17,73 +17,133 @@ export const ContentContext = createContext<ContentContextType | undefined>(unde
 
 export function ContentProvider({ children, initialContent = null }: ContentProviderProps) {
   const { isEditingMode } = useEditingMode();
-  const [dynamicContent, setDynamicContent] = useState<WebsiteContent | null>(null);
+  
+  // State for multi-language content from CMS
+  const [allLanguagesContent, setAllLanguagesContent] = useState<WebsiteContent | null>(null);
+  
+  // State for current language selection (client-side filtering)
+  const [currentLanguage, setCurrentLanguage] = useState<string>('sv');
+  
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Extract current locale from pathname
-  const currentLocale = useMemo(() => {
-    if (typeof window !== 'undefined') {
-      const pathSegments = window.location.pathname.split('/').filter(Boolean);
-      const potentialLocale = pathSegments[0];
-      if (potentialLocale === 'sv' || potentialLocale === 'en') {
-        return potentialLocale;
-      }
-    }
-    return 'sv'; // Default fallback
-  }, []);
-
-  // Convert initialContent to WebsiteContent format if it's LanguageContent
-  const normalizedInitialContent = useMemo((): WebsiteContent | null => {
-    if (!initialContent) return null;
-    
-    // Type guard: check if it's WebsiteContent (has languages property)
-    const isWebsiteContent = (content: any): content is WebsiteContent => {
-      return content && typeof content === 'object' && 'languages' in content;
-    };
-    
-    // If it's already WebsiteContent, return as is
-    if (isWebsiteContent(initialContent)) {
+  // Determine active content based on mode and language selection
+  const activeContent = useMemo((): WebsiteContent | null => {
+    if (!isEditingMode) {
+      // Normal mode: use static initialContent
       return initialContent;
     }
-    
-    // Otherwise, treat it as LanguageContent and wrap it
-    const languageContent = initialContent as LanguageContent;
-    return {
-      languages: {
-        [currentLocale]: languageContent
-      },
-      meta: languageContent.meta
-    };
-  }, [initialContent, currentLocale]);
+
+    if (!allLanguagesContent) {
+      // Editing mode but no CMS content yet: use initialContent as fallback
+      return initialContent;
+    }
+
+    // Check if we received multi-language content
+    if (allLanguagesContent.languages && allLanguagesContent.meta.fetchMode === 'all-languages') {
+      // NEW MULTI-LANGUAGE MODE: Filter by current language
+      const languageContent = allLanguagesContent.languages[currentLanguage];
+      
+      if (languageContent) {
+        console.log(`🌐 ContentProvider: Using multi-language content for ${currentLanguage}:`, {
+          pages: Object.keys(languageContent.pages).length,
+          globals: Object.keys(languageContent.globals).length
+        });
+        
+        // Return in backward-compatible format
+        return {
+          pages: languageContent.pages,
+          globals: languageContent.globals,
+          meta: {
+            ...allLanguagesContent.meta,
+            locale: currentLanguage,
+            localeData: languageContent.meta.language
+          }
+        };
+      } else {
+        console.warn(`⚠️ ContentProvider: No content found for language ${currentLanguage}, available:`, 
+          Object.keys(allLanguagesContent.languages));
+        
+        // Fallback to default language
+        const defaultLang = allLanguagesContent.meta.defaultLanguage || 'sv';
+        const defaultContent = allLanguagesContent.languages[defaultLang];
+        
+        if (defaultContent) {
+          return {
+            pages: defaultContent.pages,
+            globals: defaultContent.globals,
+            meta: {
+              ...allLanguagesContent.meta,
+              locale: defaultLang,
+              localeData: defaultContent.meta.language
+            }
+          };
+        }
+      }
+    } else {
+      // BACKWARD COMPATIBILITY MODE: Single language content
+      console.log('🔄 ContentProvider: Using backward-compatible single language content');
+      return allLanguagesContent;
+    }
+
+    return initialContent; // Final fallback
+  }, [isEditingMode, allLanguagesContent, currentLanguage, initialContent]);
+
+  // Get available languages from content
+  const availableLanguages = useMemo(() => {
+    if (!allLanguagesContent?.meta?.availableLanguages) return [];
+    return allLanguagesContent.meta.availableLanguages;
+  }, [allLanguagesContent]);
+
+  // Function to switch language (client-side only, no API calls)
+  const switchLanguage = (newLanguage: string) => {
+    if (newLanguage !== currentLanguage) {
+      console.log(`🌐 ContentProvider: Switching language from ${currentLanguage} to ${newLanguage} (client-side)`);
+      setCurrentLanguage(newLanguage);
+    }
+  };
 
   useEffect(() => {
     if (isEditingMode) {
-      console.log('📝 ContentProvider: Editing mode detected, requesting content from parent CMS API');
+      console.log('📝 ContentProvider: Editing mode detected, requesting ALL languages content from parent CMS API');
       
-      // Immediately request content from parent CMS API for optimal performance
+      // Request ALL languages content (no locale parameter = get everything)
       requestWebsiteContent();
 
       const messageHandlers: MessageHandlers = {
         onContentUpdate: (content: WebsiteContent) => {
           console.log('🔄 ContentProvider: Received content update from parent:', {
+            fetchMode: content.meta?.fetchMode,
             hasLanguages: !!content.languages,
             availableLanguages: content.meta?.availableLanguages?.map(l => l.code) || [],
-            legacyPages: Object.keys(content.pages || {}).length,
-            legacyGlobals: Object.keys(content.globals || {}).length
+            backwardCompatible: !!(content.pages && content.globals)
           });
-          setDynamicContent(content);
+          
+          setAllLanguagesContent(content);
+          
+          // Set initial language from content metadata
+          if (content.meta?.defaultLanguage && currentLanguage === 'sv') {
+            setCurrentLanguage(content.meta.defaultLanguage);
+          }
+          
           setIsLoading(false);
           setError(null);
         },
         onWebsiteContentResponse: (content: WebsiteContent) => {
           console.log('✅ ContentProvider: Received website content response from parent API:', {
+            fetchMode: content.meta?.fetchMode,
             hasLanguages: !!content.languages,
             availableLanguages: content.meta?.availableLanguages?.map(l => l.code) || [],
-            legacyPages: Object.keys(content.pages || {}).length,
-            legacyGlobals: Object.keys(content.globals || {}).length
+            backwardCompatible: !!(content.pages && content.globals)
           });
-          setDynamicContent(content);
+          
+          setAllLanguagesContent(content);
+          
+          // Set initial language from content metadata
+          if (content.meta?.defaultLanguage && currentLanguage === 'sv') {
+            setCurrentLanguage(content.meta.defaultLanguage);
+          }
+          
           setIsLoading(false);
           setError(null);
         }
@@ -96,7 +156,7 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
       const timeoutId = setTimeout(() => {
         if (isLoading) {
           console.warn('⚠️ ContentProvider: Timeout waiting for parent content, using initialContent fallback');
-          setDynamicContent(normalizedInitialContent);
+          setAllLanguagesContent(initialContent);
           setIsLoading(false);
           setError('Failed to load content from CMS API, using fallback content');
         }
@@ -110,60 +170,27 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
     } else {
       console.log('🏠 ContentProvider: Normal mode, using static initialContent');
       // In normal mode: use initialContent and set loading to false
-      setDynamicContent(normalizedInitialContent);
+      setAllLanguagesContent(initialContent);
       setIsLoading(false);
       setError(null);
     }
-  }, [isEditingMode, normalizedInitialContent, isLoading]);
+  }, [isEditingMode, initialContent, isLoading]);
 
-  // Get active content and filter for current language
-  const activeContent = useMemo((): LanguageContent | null => {
-    const rawContent = isEditingMode ? dynamicContent : (dynamicContent || normalizedInitialContent);
-    
-    if (!rawContent) return null;
-
-    // New multi-language structure - filter for current locale
-    if (rawContent.languages && rawContent.languages[currentLocale]) {
-      console.log('🌐 ContentProvider: Using filtered content for locale:', currentLocale);
-      return rawContent.languages[currentLocale];
-    }
-
-    // Fallback to legacy structure (backward compatibility)
-    if (rawContent.pages || rawContent.globals) {
-      console.log('🔄 ContentProvider: Using legacy content structure');
-      return {
-        pages: rawContent.pages || {},
-        globals: rawContent.globals || {},
-        meta: rawContent.meta
-      };
-    }
-
-    console.warn('⚠️ ContentProvider: No content found for locale:', currentLocale);
-    return null;
-  }, [dynamicContent, normalizedInitialContent, isEditingMode, currentLocale]);
-
-  // Use the modular hooks with filtered content
+  // Use the modular hooks
   const contentQueries = useContentQueries(activeContent);
   const contentBlocks = useContentBlocks();
-
-  // Debug logging
-  if (process.env.NODE_ENV === 'development') {
-    const debugContent = dynamicContent || normalizedInitialContent;
-    console.log('🔍 ContentProvider debug:', {
-      currentLocale,
-      hasRawContent: !!debugContent,
-      hasFilteredContent: !!activeContent,
-      isEditingMode,
-      contentStructure: debugContent?.languages ? 'multi-language' : 'legacy',
-      pagesCount: Object.keys(activeContent?.pages || {}).length,
-      globalsCount: Object.keys(activeContent?.globals || {}).length
-    });
-  }
 
   const contextValue: ContentContextType = {
     content: activeContent,
     isLoading,
     error,
+    
+    // Multi-language support
+    currentLanguage,
+    availableLanguages,
+    switchLanguage,
+    
+    // Query functions
     ...contentQueries,
     ...contentBlocks
   };

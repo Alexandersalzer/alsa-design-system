@@ -7,15 +7,11 @@ export interface MessageHandlers {
 }
 
 export const requestWebsiteContent = () => {
-  // Extract locale from current pathname to request content for the correct language
-  const currentLocale = typeof window !== 'undefined' ? extractLocaleFromPathname(window.location.pathname) : 'sv';
-  
-  console.log('📡 Requesting website content for locale:', currentLocale);
+  console.log('📡 Requesting ALL LANGUAGES website content (no locale filter)');
   
   window.parent.postMessage({
-    type: 'request-website-content',
-    locale: currentLocale // Include locale in the request
-    // No versionId needed - parent knows its own context
+    type: 'request-website-content'
+    // NO locale parameter - this triggers multi-language fetch in backend
   }, '*');
 };
 

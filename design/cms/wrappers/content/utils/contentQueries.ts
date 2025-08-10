@@ -1,79 +1,94 @@
-import { WebsiteContent, LanguageContent, ContentTemplate, ContentBlock, GlobalComponent } from '../types/content';
+import { WebsiteContent, ContentBlock, ContentTemplate, GlobalComponent } from '../types/content';
 
 /**
- * Get a specific template from a page by type and index
+ * Pure function to get a specific template from a page by type and index
  */
 export function getPageTemplate(
-  content: LanguageContent | null, 
+  content: WebsiteContent | null, 
   pageSlug: string, 
   templateType: string,
   templateIndex: number = 0
 ): ContentTemplate | undefined {
-  if (!content?.pages || !content.pages[pageSlug]) {
-    return undefined;
-  }
+  if (!content?.pages) return undefined;
 
-  const page = content.pages[pageSlug];
-  const templatesOfType = page.templates.filter(template => template.type === templateType);
+  // Find the page by slug
+  const page = Object.values(content.pages).find((p: any) => p.slug === pageSlug);
+  if (!page?.templates) return undefined;
+
+  // Find all templates of this type
+  const templatesOfType = page.templates.filter((template: any) => template.type === templateType);
   
+  // Return the template at the specified index
   return templatesOfType[templateIndex];
 }
 
 /**
- * Get all templates of a specific type from a page
+ * Pure function to get ALL templates of a specific type from a page
  */
 export function getPageTemplates(
-  content: LanguageContent | null, 
+  content: WebsiteContent | null, 
   pageSlug: string, 
   templateType: string
 ): ContentTemplate[] {
-  if (!content?.pages || !content.pages[pageSlug]) {
-    return [];
-  }
+  if (!content?.pages) return [];
 
-  const page = content.pages[pageSlug];
-  return page.templates.filter(template => template.type === templateType);
+  // Find the page by slug
+  const page = Object.values(content.pages).find((p: any) => p.slug === pageSlug);
+  if (!page?.templates) return [];
+
+  // Find all templates of this type
+  const templatesOfType = page.templates.filter((template: any) => template.type === templateType);
+  return templatesOfType;
 }
 
 /**
- * Get a global component by type
+ * Pure function to get a global component
  */
 export function getGlobalComponent(
-  content: LanguageContent | null, 
+  content: WebsiteContent | null, 
   componentType: string
 ): GlobalComponent | undefined {
-  if (!content?.globals) {
-    return undefined;
-  }
+  if (!content?.globals) return undefined;
 
-  return content.globals[componentType];
+  const component = content.globals[componentType];
+  return component;
 }
 
 /**
- * Get all blocks from a template, optionally filtered by pattern type
+ * Pure function to get blocks from a template or global component
  */
 export function getTemplateBlocks(
-  template: ContentTemplate | GlobalComponent | undefined,
+  template: ContentTemplate | GlobalComponent | undefined, 
   patternType?: string
 ): ContentBlock[] {
-  if (!template?.patterns) {
-    return [];
+  if (!template?.patterns) return [];
+
+  // If patternType is specified, find that specific pattern
+  if (patternType) {
+    const pattern = template.patterns.find(p => p.type === patternType);
+    return pattern?.blocks || [];
   }
 
-  const patterns = patternType 
-    ? template.patterns.filter(pattern => pattern.type === patternType)
-    : template.patterns;
-
-  return patterns.flatMap(pattern => pattern.blocks || []);
+  // Otherwise, return blocks from the first pattern (default behavior)
+  const firstPattern = template.patterns[0];
+  return firstPattern?.blocks || [];
 }
 
 /**
- * Get all blocks from a template (all patterns)
+ * Pure function to get all blocks from all patterns in a template
  */
-export function getAllBlocks(
-  template: ContentTemplate | GlobalComponent | undefined
-): ContentBlock[] {
-  return getTemplateBlocks(template);
+export function getAllBlocks(template: ContentTemplate | GlobalComponent | undefined): ContentBlock[] {
+  if (!template?.patterns) return [];
+
+  // Flatten all blocks from all patterns
+  const allBlocks = template.patterns.reduce((acc: ContentBlock[], pattern) => {
+    if (pattern.blocks) {
+      acc.push(...pattern.blocks);
+    }
+    return acc;
+  }, []);
+
+  return allBlocks;
 }
 
 /**
