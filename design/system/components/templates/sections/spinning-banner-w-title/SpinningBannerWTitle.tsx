@@ -65,12 +65,10 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
 
   return (
     <Section 
-      id="spinning-banner-section" 
-      style={{ 
-        marginTop: '-8rem', // Increased negative margin for tighter spacing
-        paddingTop: 'var(--foundation-space-4, 1rem)', // Further reduced padding
-        paddingBottom: 'var(--foundation-space-16, 4rem)'
-      }}
+      id="spinning-banner-section"
+      marginTop="-8rem"
+      paddingTop="sm"
+      paddingBottom="2xl"
     >
       <Container align="center" maxWidth="lg">
         <Stack spacing="xs" align="center">
