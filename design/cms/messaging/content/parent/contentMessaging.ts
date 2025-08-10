@@ -23,13 +23,12 @@ export class ParentMessageHandler {
     this.handlers = handlers;
   }
 
-  // Send content update to iframe with locale metadata
-  updateIframeContent = (newContent: any, locale?: string) => {
+  // Send content update to iframe
+  updateIframeContent = (newContent: any) => {
     if (this.config.iframeRef.current?.contentWindow) {
       this.config.iframeRef.current.contentWindow.postMessage({
         type: 'content-update',
-        content: newContent,
-        locale: locale // Include locale metadata
+        content: newContent
       }, '*');
     }
   };
@@ -52,8 +51,7 @@ export class ParentMessageHandler {
       if (websiteContent && this.config.iframeRef.current?.contentWindow) {
         this.config.iframeRef.current.contentWindow.postMessage({
           type: 'website-content-response',
-          content: websiteContent,
-          locale: requestedLocale // Include locale metadata in response
+          content: websiteContent
         }, '*');
       }
     }
@@ -95,14 +93,12 @@ export const createParentMessageHandler = (
 // Send website content response (utility function)
 export const sendWebsiteContentResponse = (
   iframeRef: React.RefObject<HTMLIFrameElement | null>,
-  content: any,
-  locale?: string
+  content: any
 ) => {
   if (iframeRef.current?.contentWindow) {
     iframeRef.current.contentWindow.postMessage({
       type: 'website-content-response',
-      content: content,
-      locale: locale // Include locale metadata
+      content: content
     }, '*');
   }
 };

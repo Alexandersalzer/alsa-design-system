@@ -2,8 +2,8 @@ import { type WebsiteContent } from '../../../wrappers/content/types/content';
 import { extractLocaleFromPathname } from '../../../../system/utils/navigation';
 
 export interface MessageHandlers {
-  onContentUpdate: (content: WebsiteContent, locale?: string) => void;
-  onWebsiteContentResponse: (content: WebsiteContent, locale?: string) => void;
+  onContentUpdate: (content: WebsiteContent) => void;
+  onWebsiteContentResponse: (content: WebsiteContent) => void;
 }
 
 export const requestWebsiteContent = () => {
@@ -22,11 +22,11 @@ export const requestWebsiteContent = () => {
 export const setupMessageListener = (handlers: MessageHandlers) => {
   const handleMessage = (event: MessageEvent) => {
     if (event.data.type === 'content-update') {
-      handlers.onContentUpdate(event.data.content, event.data.locale);
+      handlers.onContentUpdate(event.data.content);
     }
     
     if (event.data.type === 'website-content-response') {
-      handlers.onWebsiteContentResponse(event.data.content, event.data.locale);
+      handlers.onWebsiteContentResponse(event.data.content);
     }
   };
 

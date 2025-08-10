@@ -1,26 +1,22 @@
-import type { WebsiteContent } from './content';
-import type { SupportedLocale } from '../../../../system/utils/locale';
+import { WebsiteContent, ContentBlock, ContentTemplate, GlobalComponent } from './content';
 
+// Generic content context interface
 export interface ContentContextType {
   content: WebsiteContent | null;
-  currentLocale: SupportedLocale | null; // Current locale in editing mode
   isLoading: boolean;
   error: string | null;
   
   // Query functions
-  getPageContent: (pageSlug: string) => any;
-  getGlobalComponent: (componentType: string) => any;
-  getPageTemplate: (pageSlug: string, templateType: string, templateIndex?: number) => any;
-  getPageTemplates: (pageSlug: string, templateType: string) => any[];
-  getTemplatePattern: (template: any, patternType: string, patternIndex?: number) => any;
-  getTemplatePatterns: (template: any, patternType: string) => any[];
-  getTemplateBlocks: (template: any, patternType: string) => any[];
-  getPatternBlocks: (pattern: any) => any[];
+  getPageTemplate: (pageSlug: string, templateType: string, templateIndex?: number) => ContentTemplate | undefined;
+  getPageTemplates: (pageSlug: string, templateType: string) => ContentTemplate[];
+  getGlobalComponent: (componentType: string) => GlobalComponent | undefined;
+  getTemplateBlocks: (template: ContentTemplate | GlobalComponent | undefined, patternType?: string) => ContentBlock[];
+  getAllBlocks: (template: ContentTemplate | GlobalComponent | undefined) => ContentBlock[];
   
-  // Block functions
-  getBlocksByType: (blocks: any[], blockType: string) => any[];
-  getBlockContent: (blocks: any[], blockType: string) => string | undefined;
-  getBlockConfig: (blocks: any[], blockType: string) => any;
+  // Block query functions (from useContentBlocks)
+  getBlocksByType: (blocks: ContentBlock[], blockType: string) => ContentBlock[];
+  getBlockContent: (blocks: ContentBlock[], blockType: string) => string | undefined;
+  getBlockConfig: (blocks: ContentBlock[], blockType: string) => any;
 }
 
 export interface ContentProviderProps {

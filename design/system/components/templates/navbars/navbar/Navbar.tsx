@@ -1,14 +1,14 @@
 'use client';
 
 import { useEditingMode } from '../../../../../cms/wrappers/editing/EditingWrapper';
-import { useContent, useCurrentLocale } from '../../../../../cms/wrappers/content/hooks/useContent';
+import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname, useRouter } from 'next/navigation';
 import { Section } from '../../../../layout/frames/section';
 import { Container } from '../../../../layout/frames/container';
 import { Cluster } from '../../../../layout/utilities/cluster';
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
 import { 
-  createNavigationUtils,
+  getNavigationContext, 
   useNavigationMessaging,
   type NavigationItem 
 } from '../../../../utils/navigation';
@@ -62,7 +62,6 @@ const Navbar = ({
 }: NavbarProps) => {
   const { isEditingMode } = useEditingMode();
   const { getGlobalComponent, getTemplateBlocks, getBlocksByType } = useContent();
-  const currentLocale = useCurrentLocale(); // Use context-aware locale detection
   const pathname = usePathname();
   const router = useRouter();
 
@@ -89,20 +88,11 @@ const Navbar = ({
     size: navSize
   }));
 
-  console.log('🔍 CMS nav items debug:', {
-    navItemBlocks: navItemBlocks,
-    cmsNavItems: cmsNavItems
-  });
-
-  // Use navigation utilities with reliable locale from context
-  const nav = createNavigationUtils(currentLocale, isEditingMode);
+  // Use navigation utilities for consistent route handling
+  const nav = getNavigationContext(pathname, isEditingMode);
 
   // Use CMS items if available, otherwise fallback to passed navItems
   const finalNavItems = cmsNavItems.length > 0 ? cmsNavItems : navItems;
-
-  console.log('🔍 Final nav items debug:', {
-    finalNavItems: finalNavItems
-  });
 
   // Setup navigation messaging (handles both parent→child and child→parent)
   const { handleNavigationClick } = useNavigationMessaging(
@@ -114,11 +104,6 @@ const Navbar = ({
 
   // Handle navigation clicks - unified for both nav items and brand
   const handleNavClick = (item: NavMenuItem) => {
-    console.log('🔍 Navbar handleNavClick debug:', {
-      itemHref: item.href,
-      itemSlug: item.slug,
-      originalItem: item
-    });
     handleNavigationClick(item.href, item.slug);
   };
 
@@ -143,10 +128,6 @@ const Navbar = ({
     weight: item.weight,
     underline: item.underline
   }));
-
-  console.log('🔍 Menu items after transformation debug:', {
-    menuItems: menuItems
-  });
 
   return (
     <Section 

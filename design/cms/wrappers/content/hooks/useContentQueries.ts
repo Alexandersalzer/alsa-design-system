@@ -1,72 +1,37 @@
+import { useCallback } from 'react';
 import { WebsiteContent, ContentBlock, ContentTemplate, GlobalComponent } from '../types/content';
+import * as queries from '../utils/contentQueries';
 
+/**
+ * Hook that provides query functions bound to current content
+ */
 export function useContentQueries(content: WebsiteContent | null) {
-  // Get page content by slug
-  const getPageContent = (pageSlug: string) => {
-    if (!content?.pages) return null;
-    return content.pages[pageSlug];
-  };
+  // Bind query functions to current content
+  const getPageTemplate = useCallback((pageSlug: string, templateType: string, templateIndex: number = 0): ContentTemplate | undefined => {
+    return queries.getPageTemplate(content, pageSlug, templateType, templateIndex);
+  }, [content]);
 
-  // Get global component by type
-  const getGlobalComponent = (componentType: string) => {
-    if (!content?.globals) return null;
-    return content.globals[componentType];
-  };
+  const getPageTemplates = useCallback((pageSlug: string, templateType: string): ContentTemplate[] => {
+    return queries.getPageTemplates(content, pageSlug, templateType);
+  }, [content]);
 
-  // Get page template by type and optional index
-  const getPageTemplate = (pageSlug: string, templateType: string, templateIndex: number = 0) => {
-    const page = getPageContent(pageSlug);
-    if (!page?.templates) return null;
-    
-    const matchingTemplates = page.templates.filter(t => t.type === templateType);
-    return matchingTemplates[templateIndex];
-  };
+  const getGlobalComponent = useCallback((componentType: string): GlobalComponent | undefined => {
+    return queries.getGlobalComponent(content, componentType);
+  }, [content]);
 
-  // Get all page templates of a specific type
-  const getPageTemplates = (pageSlug: string, templateType: string) => {
-    const page = getPageContent(pageSlug);
-    if (!page?.templates) return [];
-    
-    return page.templates.filter(t => t.type === templateType);
-  };
+  const getTemplateBlocks = useCallback((template: ContentTemplate | GlobalComponent | undefined, patternType?: string): ContentBlock[] => {
+    return queries.getTemplateBlocks(template, patternType);
+  }, []);
 
-  // Get template pattern by type and optional index
-  const getTemplatePattern = (template: any, patternType: string, patternIndex: number = 0) => {
-    if (!template?.patterns) return null;
-    
-    const matchingPatterns = template.patterns.filter((p: any) => p.type === patternType);
-    return matchingPatterns[patternIndex];
-  };
-
-  // Get all template patterns of a specific type
-  const getTemplatePatterns = (template: any, patternType: string) => {
-    if (!template?.patterns) return [];
-    
-    return template.patterns.filter((p: any) => p.type === patternType);
-  };
-
-  // Get all blocks from a template and pattern type
-  const getTemplateBlocks = (template: any, patternType: string) => {
-    const patterns = getTemplatePatterns(template, patternType);
-    return patterns.reduce((blocks: any[], pattern: any) => {
-      return blocks.concat(pattern.blocks || []);
-    }, []);
-  };
-
-  // Get all blocks from a pattern
-  const getPatternBlocks = (pattern: any) => {
-    if (!pattern?.blocks) return [];
-    return pattern.blocks;
-  };
+  const getAllBlocks = useCallback((template: ContentTemplate | GlobalComponent | undefined): ContentBlock[] => {
+    return queries.getAllBlocks(template);
+  }, []);
 
   return {
-    getPageContent,
-    getGlobalComponent,
     getPageTemplate,
     getPageTemplates,
-    getTemplatePattern,
-    getTemplatePatterns,
+    getGlobalComponent,
     getTemplateBlocks,
-    getPatternBlocks
+    getAllBlocks
   };
 } 

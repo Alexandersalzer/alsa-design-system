@@ -1,13 +1,16 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
+import { type WebsiteContent } from './types/content';
+import {
+  requestWebsiteContent,
+  setupMessageListener,
+  type MessageHandlers
+} from '../../messaging/content/child/contentMessaging';
 import { useEditingMode } from '../editing/EditingWrapper';
-import { requestWebsiteContent, setupMessageListener, type MessageHandlers } from '../../messaging/content/child/contentMessaging';
+import { ContentContextType, ContentProviderProps } from './types/context';
 import { useContentQueries } from './hooks/useContentQueries';
 import { useContentBlocks } from './hooks/useContentBlocks';
-import type { ContentContextType, ContentProviderProps } from './types/context';
-import type { WebsiteContent } from './types/content';
-import type { SupportedLocale } from '../../../system/utils/locale';
 
 // Create the context
 export const ContentContext = createContext<ContentContextType | undefined>(undefined);
@@ -15,7 +18,6 @@ export const ContentContext = createContext<ContentContextType | undefined>(unde
 export function ContentProvider({ children, initialContent = null }: ContentProviderProps) {
   const { isEditingMode } = useEditingMode();
   const [dynamicContent, setDynamicContent] = useState<WebsiteContent | null>(initialContent);
-  const [currentLocale, setCurrentLocale] = useState<SupportedLocale | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,31 +29,21 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
       requestWebsiteContent();
 
       const messageHandlers: MessageHandlers = {
-        onContentUpdate: (content: WebsiteContent, locale?: string) => {
+        onContentUpdate: (content: WebsiteContent) => {
           console.log('🔄 ContentProvider: Received content update from parent:', {
             pages: Object.keys(content.pages || {}).length,
-            globals: Object.keys(content.globals || {}).length,
-            locale: locale
+            globals: Object.keys(content.globals || {}).length
           });
           setDynamicContent(content);
-          if (locale) {
-            setCurrentLocale(locale as SupportedLocale);
-            console.log('🌐 ContentProvider: Updated locale from content update:', locale);
-          }
           setIsLoading(false);
           setError(null);
         },
-        onWebsiteContentResponse: (content: WebsiteContent, locale?: string) => {
+        onWebsiteContentResponse: (content: WebsiteContent) => {
           console.log('✅ ContentProvider: Received website content response from parent API:', {
             pages: Object.keys(content.pages || {}).length,
-            globals: Object.keys(content.globals || {}).length,
-            locale: locale
+            globals: Object.keys(content.globals || {}).length
           });
           setDynamicContent(content);
-          if (locale) {
-            setCurrentLocale(locale as SupportedLocale);
-            console.log('🌐 ContentProvider: Updated locale from website content response:', locale);
-          }
           setIsLoading(false);
           setError(null);
         }
@@ -82,7 +74,7 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
       setIsLoading(false);
       setError(null);
     }
-  }, [isEditingMode, initialContent]);
+  }, [isEditingMode, initialContent, isLoading]);
 
   // Get active content based on mode
   const getActiveContent = () => {
@@ -97,7 +89,6 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
 
   const contextValue: ContentContextType = {
     content: activeContent,
-    currentLocale, // Expose current locale from editing mode
     isLoading,
     error,
     ...contentQueries,
