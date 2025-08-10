@@ -60,12 +60,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   }
 
   return (
-    <Section 
-      id="hero-section" 
-      height="full"
-      paddingBottom={paddingBottom}
-    >
-      <Container align="center" height="full">
+    <Section id="hero-section" height="full">
+      <Container 
+        align="center" 
+        height="full"
+        paddingBottom={paddingBottom}
+      >
         <RichText
           heading={title}
           headingAs={titleAs}

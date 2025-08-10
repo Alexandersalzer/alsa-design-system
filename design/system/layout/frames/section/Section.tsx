@@ -3,7 +3,6 @@ import styles from './Section.module.css';
 
 type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
-type PaddingSize = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
 interface SectionProps {
   children: ReactNode;
@@ -16,30 +15,7 @@ interface SectionProps {
   top?: string | number;
   zIndex?: number;
   style?: React.CSSProperties;
-  paddingTop?: PaddingSize;
-  paddingBottom?: PaddingSize;
 }
-
-const getPaddingValue = (size: PaddingSize): string => {
-  switch (size) {
-    case 'none':
-      return '0';
-    case 'xs':
-      return 'var(--foundation-space-2, 0.5rem)';
-    case 'sm':
-      return 'var(--foundation-space-4, 1rem)';
-    case 'md':
-      return 'var(--foundation-space-8, 2rem)';
-    case 'lg':
-      return 'var(--foundation-space-16, 4rem)';
-    case 'xl':
-      return 'var(--foundation-space-20, 5rem)';
-    case '2xl':
-      return 'var(--foundation-space-24, 6rem)';
-    default:
-      return 'var(--foundation-space-16, 4rem)';
-  }
-};
 
 const getHeightClass = (height: Height): string => {
   switch (height) {
@@ -85,9 +61,7 @@ export const Section = ({
   sticky = false,
   top,
   zIndex,
-  style,
-  paddingTop,
-  paddingBottom
+  style
 }: SectionProps) => {
   const heightClass = getHeightClass(height);
   const positionClass = getPositionClass(position, sticky);
@@ -99,12 +73,6 @@ export const Section = ({
   }
   if (zIndex !== undefined) {
     inlineStyles.zIndex = zIndex;
-  }
-  if (paddingTop !== undefined) {
-    inlineStyles.paddingTop = getPaddingValue(paddingTop);
-  }
-  if (paddingBottom !== undefined) {
-    inlineStyles.paddingBottom = getPaddingValue(paddingBottom);
   }
   
   // Merge custom style prop with inline styles
