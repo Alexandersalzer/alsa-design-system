@@ -21,10 +21,6 @@ interface SpinningBannerWTitleProps {
     width?: number;
     height?: number;
   }>;
-  // New spacing control props
-  paddingTop?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string | number;
-  paddingBottom?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string | number;
-  marginTop?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string | number;
 }
 
 export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
@@ -35,10 +31,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
   textAlign = 'center',
   speed = 30,
   direction = 'left',
-  logos,
-  paddingTop = 'sm',
-  paddingBottom = 'xs',
-  marginTop
+  logos
 }) => {
   const { getPageTemplate, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -72,12 +65,13 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
 
   return (
     <Section 
-      id="spinning-banner-section"
-      paddingTop={paddingTop}
-      paddingBottom={paddingBottom}
-      marginTop={marginTop}
+      id="spinning-banner-section" 
+      style={{ 
+        paddingTop: 'var(--foundation-space-16, 4rem)',
+        paddingBottom: 'var(--foundation-space-16, 4rem)'
+      }}
     >
-      <Container align="center" maxWidth="lg" paddingBottom="xs">
+      <Container align="center" maxWidth="lg">
         <Stack spacing="xs" align="center">
           {/* Portfolio Title */}
           <Typography
@@ -89,7 +83,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
           >
             EN LITEN DEL AV MIN PORTFÖLJ
           </Typography>
-                     
+                    
           {/* Spinning Banner */}
           <SpinningBanner
             logos={logos || defaultLogos}
