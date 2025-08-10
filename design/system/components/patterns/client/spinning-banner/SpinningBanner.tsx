@@ -28,7 +28,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
     { src: '/images/kjlogos/mindler.png', alt: 'Mindler Logo' },
     { src: '/images/kjlogos/swiffer.png', alt: 'Swiffer Logo' }
   ],
-  speed = 30,
+  speed = 25,
   direction = 'left',
   className = ''
 }) => {

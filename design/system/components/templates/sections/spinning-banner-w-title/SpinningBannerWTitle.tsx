@@ -28,7 +28,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
   titleAs = 'h2',
   unit = 'lg',
   textAlign = 'center',
-  speed = 30,
+  speed = 25,
   direction = 'left',
   logos
 }) => {
@@ -70,7 +70,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
         paddingBottom: 'var(--foundation-space-16, 4rem)'
       }}
     >
-      <Container align="center">
+      <Container align="center" maxWidth="md">
         {title && (
           <div style={{ marginBottom: 'var(--foundation-space-12, 3rem)', textAlign }}>
             <Typography
