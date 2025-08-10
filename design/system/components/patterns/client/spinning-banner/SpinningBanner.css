@@ -21,7 +21,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 250px;
+  width: 200px;
   z-index: 2;
   pointer-events: none;
 }
@@ -29,7 +29,7 @@
 .spinning-banner-container::before {
   left: 0;
   background: linear-gradient(to right, 
-    rgba(247,247,247,1) 0%, 
+    rgba(247,247,247,1) 10%, 
     rgba(247,247,247,0.9) 20%, 
     rgba(247,247,247,0.7) 40%, 
     rgba(247,247,247,0.3) 70%, 
@@ -40,9 +40,9 @@
 .spinning-banner-container::after {
   right: 0;
   background: linear-gradient(to left, 
-    rgba(247,247,247,1) 0%, 
+    rgba(247,247,247,1) 10%, 
     rgba(247,247,247,0.9) 20%, 
-    rgba(247,247,247,0.7) 40%, 
+    rgba(247,247,247,0.7) 40%,
     rgba(247,247,247,0.3) 70%, 
     rgba(247,247,247,0) 100%
   );
@@ -51,8 +51,8 @@
 .spinning-banner-track {
   display: flex;
   align-items: center;
-  gap: 80px;
-  animation: scroll var(--animation-duration, 25s) linear infinite var(--animation-direction, normal);
+  gap: 70px;
+  animation: scroll var(--animation-duration, 30s) linear infinite var(--animation-direction, normal);
   width: fit-content;
 }
 

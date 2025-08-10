@@ -28,7 +28,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
   titleAs = 'h2',
   unit = 'lg',
   textAlign = 'center',
-  speed = 25,
+  speed = 30,
   direction = 'left',
   logos
 }) => {
