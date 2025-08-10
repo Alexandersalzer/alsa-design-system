@@ -17,7 +17,16 @@ interface SpinningBannerProps {
 
 export const SpinningBanner: React.FC<SpinningBannerProps> = ({
   logos = [
-    { src: '/images/sections/kjlogo.jpg', alt: 'KJ Marketing Logo', width: 60, height: 60 }
+    { src: '/images/kjlogos/huellogo.png', alt: 'Huel Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/fazerlogo.png', alt: 'Fazer Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/wolt.png', alt: 'Wolt Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/tradera.png', alt: 'Tradera Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/philips.png', alt: 'Philips Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/benandjerrylogo.png', alt: 'Ben & Jerry\'s Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/mindler.png', alt: 'Mindler Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/swiffer.png', alt: 'Swiffer Logo', width: 60, height: 60 }
   ],
   speed = 20,
   direction = 'left',

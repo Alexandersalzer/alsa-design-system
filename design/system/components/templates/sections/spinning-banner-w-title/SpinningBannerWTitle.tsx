@@ -48,55 +48,65 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
   const title = getBlockContent(spinningBannerBlocks, 'title') || '';
   const subtitle = getBlockContent(spinningBannerBlocks, 'subtitle') || '';
   
-  // Default logos if none provided
+  // Default logos if none provided - all 10 logos from kjlogos directory
   const defaultLogos = [
-    { src: '/images/sections/kjlogo.jpg', alt: 'KJ Marketing Logo', width: 60, height: 60 }
+    { src: '/images/kjlogos/huellogo.png', alt: 'Huel Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/fazerlogo.png', alt: 'Fazer Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/wolt.png', alt: 'Wolt Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/tradera.png', alt: 'Tradera Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/philips.png', alt: 'Philips Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/benandjerrylogo.png', alt: 'Ben & Jerry\'s Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/mindler.png', alt: 'Mindler Logo', width: 60, height: 60 },
+    { src: '/images/kjlogos/swiffer.png', alt: 'Swiffer Logo', width: 60, height: 60 }
   ];
 
   return (
-    <Section id="spinning-banner-section">
-      {title && (
-        <div style={{ 
-          paddingTop: 'var(--foundation-space-16, 4rem)',
-          paddingBottom: 'var(--foundation-space-8, 2rem)'
-        }}>
-          <Container align="center">
-            <div style={{ textAlign }}>
+    <Section 
+      id="spinning-banner-section" 
+      style={{ 
+        paddingTop: 'var(--foundation-space-16, 4rem)',
+        paddingBottom: 'var(--foundation-space-16, 4rem)'
+      }}
+    >
+      <Container align="center">
+        {title && (
+          <div style={{ marginBottom: 'var(--foundation-space-12, 3rem)', textAlign }}>
+            <Typography
+              variant="h2"
+              as={titleAs}
+              style={{ 
+                color: 'var(--neutral-1200)',
+                fontWeight: 600,
+                lineHeight: 1.2
+              }}
+            >
+              {title}
+            </Typography>
+            {subtitle && (
               <Typography
-                variant="h2"
-                as={titleAs}
+                variant="body-lg"
+                as="p"
                 style={{ 
-                  color: 'var(--neutral-1200)',
-                  fontWeight: 600,
-                  lineHeight: 1.2,
-                  marginBottom: subtitle ? 'var(--foundation-space-4, 1rem)' : '0'
+                  color: 'var(--neutral-800)',
+                  maxWidth: '600px',
+                  margin: '0 auto',
+                  marginTop: 'var(--foundation-space-4, 1rem)'
                 }}
               >
-                {title}
+                {subtitle}
               </Typography>
-              {subtitle && (
-                <Typography
-                  variant="body-lg"
-                  as="p"
-                  style={{ 
-                    color: 'var(--neutral-800)',
-                    maxWidth: '600px',
-                    margin: '0 auto'
-                  }}
-                >
-                  {subtitle}
-                </Typography>
-              )}
-            </div>
-          </Container>
-        </div>
-      )}
-      
-      <SpinningBanner
-        logos={logos || defaultLogos}
-        speed={speed}
-        direction={direction}
-      />
+            )}
+          </div>
+        )}
+        
+        <SpinningBanner
+          logos={logos || defaultLogos}
+          speed={speed}
+          direction={direction}
+        />
+      </Container>
     </Section>
   );
 }; 
