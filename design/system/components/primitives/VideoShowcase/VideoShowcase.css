@@ -50,27 +50,25 @@
 
 .video-showcase--full {
   width: 100%;
+  height: auto;
+  max-height: none;
 }
 
 /* Aspect Ratios */
 .video-showcase--aspect-16-9 {
   aspect-ratio: 16 / 9;
-  object-fit: cover;
 }
 
 .video-showcase--aspect-4-3 {
   aspect-ratio: 4 / 3;
-  object-fit: cover;
 }
 
 .video-showcase--aspect-1-1 {
   aspect-ratio: 1 / 1;
-  object-fit: cover;
 }
 
 .video-showcase--aspect-auto {
   aspect-ratio: auto;
-  object-fit: contain;
 }
 
 /* Radius */
@@ -98,21 +96,9 @@
   border-radius: var(--radius-full);
 }
 
-/* Video container */
+/* Container */
 .video-container {
   position: relative;
-  cursor: pointer;
-  border-radius: inherit;
-  overflow: hidden; /* Important: This ensures no black borders from video overflow */
-  line-height: 0; /* Remove any potential spacing issues */
-  background-color: black; /* Match video background color */
-}
-
-/* Responsive behavior */
-@media (max-width: 768px) {
-  .video-showcase {
-    width: 100%;
-    max-width: none;
-    border-radius: var(--radius-md);
-  }
+  width: 100%;
+  height: auto;
 } 
