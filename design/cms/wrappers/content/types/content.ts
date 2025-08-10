@@ -50,7 +50,7 @@ export interface LanguageContent {
 
 // Enhanced metadata interface for website content
 export interface WebsiteContentMeta {
-  // Backward compatibility fields
+  // Single-language mode (backward compatibility)
   locale?: string | null;
   localeData?: {
     code: string;
@@ -59,7 +59,7 @@ export interface WebsiteContentMeta {
     is_active: boolean;
   } | null;
   
-  // New multi-language fields
+  // Multi-language mode (new structure)
   requestedLocale?: string | null;
   availableLanguages?: Array<{
     code: string;
@@ -71,15 +71,15 @@ export interface WebsiteContentMeta {
   fetchMode?: 'single-language' | 'all-languages';
 }
 
-// Main content structure type - supports both old and new formats
+// Main content structure type - supports both single and multi-language modes
 export interface WebsiteContent {
-  // Backward compatibility: single language structure
+  // Backward compatibility: single-language structure
   pages?: { [key: string]: ContentPage };
   globals?: { [key: string]: GlobalComponent };
   
-  // New multi-language structure
+  // New structure: multi-language support
   languages?: { [languageCode: string]: LanguageContent };
   
   // Enhanced metadata
-  meta: WebsiteContentMeta;
+  meta?: WebsiteContentMeta;
 } 

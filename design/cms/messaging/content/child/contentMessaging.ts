@@ -6,13 +6,35 @@ export interface MessageHandlers {
   onWebsiteContentResponse: (content: WebsiteContent) => void;
 }
 
-export const requestWebsiteContent = () => {
-  console.log('📡 Requesting ALL LANGUAGES website content (no locale filter)');
+/**
+ * Request website content from parent
+ * @param forceLocale - Optional: force specific locale (for backward compatibility)
+ * By default, requests ALL languages for optimal performance
+ */
+export const requestWebsiteContent = (forceLocale?: string) => {
+  // NEW: Default behavior is to request ALL languages (no locale parameter)
+  // This triggers the new multi-language mode in the backend
+  let requestLocale: string | undefined = forceLocale;
   
-  window.parent.postMessage({
+  if (!requestLocale) {
+    // Don't send locale parameter = backend returns all languages
+    console.log('📡 Requesting ALL LANGUAGES website content (multi-language mode)');
+  } else {
+    // Send specific locale = backward compatibility mode
+    console.log('📡 Requesting website content for specific locale:', requestLocale);
+  }
+  
+  const message: any = {
     type: 'request-website-content'
-    // NO locale parameter - this triggers multi-language fetch in backend
-  }, '*');
+    // No versionId needed - parent knows its own context
+  };
+  
+  // Only include locale if specifically requested (for backward compatibility)
+  if (requestLocale) {
+    message.locale = requestLocale;
+  }
+  
+  window.parent.postMessage(message, '*');
 };
 
 export const setupMessageListener = (handlers: MessageHandlers) => {

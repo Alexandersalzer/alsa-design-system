@@ -1,20 +1,16 @@
 import { WebsiteContent, ContentBlock, ContentTemplate, GlobalComponent } from './content';
+import { ContentLanguageResult } from '../hooks/useContentLanguage';
 
 // Generic content context interface
 export interface ContentContextType {
   content: WebsiteContent | null;
-  isLoading: boolean;
-  error: string | null;
   
   // Multi-language support
-  currentLanguage: string;
-  availableLanguages: Array<{
-    code: string;
-    name: string;
-    is_default: boolean;
-    is_active: boolean;
-  }>;
-  switchLanguage: (language: string) => void;
+  allContent?: WebsiteContent | null; // Access to all languages
+  languageResult?: ContentLanguageResult; // Language filtering utilities
+  
+  isLoading: boolean;
+  error: string | null;
   
   // Query functions
   getPageTemplate: (pageSlug: string, templateType: string, templateIndex?: number) => ContentTemplate | undefined;
