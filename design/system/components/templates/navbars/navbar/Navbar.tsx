@@ -180,7 +180,7 @@ const Navbar = ({
       top={0}
       zIndex={1000}
     >
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Cluster justify="between" align="center" className="h-16">
           <BrandLink 
             href={nav.buildBrandHref(brandHref)}
