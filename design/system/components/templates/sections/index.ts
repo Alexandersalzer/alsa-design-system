@@ -1,4 +1,5 @@
-export { HeroSection } from './kj-hero';
+export { HeroSection } from './kj-hero/HeroSection'; 
+export { AboutSection } from './about-us/AboutSection';
 export { SpinningBannerWTitle } from './spinning-banner-w-title';
 export { VideoShowcaseSection } from './video-showcase';
-export { StatsShowcaseSection } from './stats-showcase'; 
+export { CountUpStatsSection } from './count-up-stats'; 
