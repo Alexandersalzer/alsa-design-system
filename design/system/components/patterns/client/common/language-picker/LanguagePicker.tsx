@@ -66,7 +66,7 @@ export const LanguagePicker: React.FC<LanguagePickerProps> = ({
   const options = languageOptions || defaultLocaleOptions.map((option: LocaleOption) => ({
     value: option.value,
     label: option.label,
-    icon: option.flag ? <span className={option.flag} style={{ fontSize: '16px' }}></span> : undefined
+    // Removed icon property completely - no more flag icons
   }));
 
   // Handle language change
