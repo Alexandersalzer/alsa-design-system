@@ -17,25 +17,32 @@ interface SpinningBannerProps {
 
 export const SpinningBanner: React.FC<SpinningBannerProps> = ({
   logos = [
-    { src: '/images/kjlogos/huellogo.png', alt: 'Huel Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/fazerlogo.png', alt: 'Fazer Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/wolt.png', alt: 'Wolt Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/tradera.png', alt: 'Tradera Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/philips.png', alt: 'Philips Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/benandjerrylogo.png', alt: 'Ben & Jerry\'s Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/mindler.png', alt: 'Mindler Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/swiffer.png', alt: 'Swiffer Logo', width: 60, height: 60 }
+    { src: '/images/kjlogos/huellogo.png', alt: 'Huel Logo' },
+    { src: '/images/kjlogos/fazerlogo.png', alt: 'Fazer Logo' },
+    { src: '/images/kjlogos/wolt.png', alt: 'Wolt Logo' },
+    { src: '/images/kjlogos/tradera.png', alt: 'Tradera Logo' },
+    { src: '/images/kjlogos/philips.png', alt: 'Philips Logo' },
+    { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime Logo' },
+    { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet Logo' },
+    { src: '/images/kjlogos/benandjerrylogo.png', alt: 'Ben & Jerry\'s Logo' },
+    { src: '/images/kjlogos/mindler.png', alt: 'Mindler Logo' },
+    { src: '/images/kjlogos/swiffer.png', alt: 'Swiffer Logo' }
   ],
-  speed = 20,
+  speed = 30,
   direction = 'left',
   className = ''
 }) => {
   const bannerRef = useRef<HTMLDivElement>(null);
 
-  // Create multiple copies of logos for seamless scrolling
-  const duplicatedLogos = [...logos, ...logos, ...logos, ...logos, ...logos, ...logos];
+  // Create exactly 6 copies for seamless infinite loop
+  const duplicatedLogos = [
+    ...logos,
+    ...logos,
+    ...logos,
+    ...logos,
+    ...logos,
+    ...logos
+  ];
 
   useEffect(() => {
     const banner = bannerRef.current;
@@ -54,8 +61,6 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
             <img
               src={logo.src}
               alt={logo.alt}
-              width={logo.width || 60}
-              height={logo.height || 60}
             />
           </div>
         ))}

@@ -28,7 +28,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
   titleAs = 'h2',
   unit = 'lg',
   textAlign = 'center',
-  speed = 20,
+  speed = 30,
   direction = 'left',
   logos
 }) => {
@@ -50,16 +50,16 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
   
   // Default logos if none provided - all 10 logos from kjlogos directory
   const defaultLogos = [
-    { src: '/images/kjlogos/huellogo.png', alt: 'Huel Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/fazerlogo.png', alt: 'Fazer Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/wolt.png', alt: 'Wolt Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/tradera.png', alt: 'Tradera Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/philips.png', alt: 'Philips Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/benandjerrylogo.png', alt: 'Ben & Jerry\'s Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/mindler.png', alt: 'Mindler Logo', width: 60, height: 60 },
-    { src: '/images/kjlogos/swiffer.png', alt: 'Swiffer Logo', width: 60, height: 60 }
+    { src: '/images/kjlogos/huellogo.png', alt: 'Huel Logo' },
+    { src: '/images/kjlogos/fazerlogo.png', alt: 'Fazer Logo' },
+    { src: '/images/kjlogos/wolt.png', alt: 'Wolt Logo' },
+    { src: '/images/kjlogos/tradera.png', alt: 'Tradera Logo' },
+    { src: '/images/kjlogos/philips.png', alt: 'Philips Logo' },
+    { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime Logo' },
+    { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet Logo' },
+    { src: '/images/kjlogos/benandjerrylogo.png', alt: 'Ben & Jerry\'s Logo' },
+    { src: '/images/kjlogos/mindler.png', alt: 'Mindler Logo' },
+    { src: '/images/kjlogos/swiffer.png', alt: 'Swiffer Logo' }
   ];
 
   return (

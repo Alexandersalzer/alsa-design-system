@@ -3,7 +3,7 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-16.666%); /* -100/6% for 6 duplicates */
+    transform: translateX(calc(-100% / 6));
   }
 }
 
@@ -12,7 +12,7 @@
   overflow: hidden;
   position: relative;
   background-color: #f7f7f7;
-  padding: 20px 0;
+  padding: 40px 0;
 }
 
 .spinning-banner-container::before,
@@ -21,7 +21,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 100px;
+  width: 150px;
   z-index: 2;
   pointer-events: none;
 }
@@ -39,8 +39,8 @@
 .spinning-banner-track {
   display: flex;
   align-items: center;
-  gap: 40px;
-  animation: scroll var(--animation-duration, 20s) linear infinite var(--animation-direction, normal);
+  gap: 80px;
+  animation: scroll var(--animation-duration, 30s) linear infinite var(--animation-direction, normal);
   width: fit-content;
 }
 
@@ -49,15 +49,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  width: 120px;
+  height: 80px;
+  padding: 15px;
 }
 
 .logo-item img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
-  filter: grayscale(100%) opacity(0.7);
-  transition: filter 0.3s ease;
+  filter: grayscale(100%) opacity(0.6);
+  transition: filter 0.3s ease, transform 0.3s ease;
 }
 
 .logo-item:hover img {
   filter: grayscale(0%) opacity(1);
+  transform: scale(1.05);
 } 
