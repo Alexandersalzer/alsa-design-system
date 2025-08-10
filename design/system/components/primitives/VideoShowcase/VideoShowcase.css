@@ -8,7 +8,6 @@
   display: block;
   width: 100%;
   height: auto;
-  background-color: var(--surface-primary);
   border: 0;
   outline: none;
 }
@@ -24,7 +23,6 @@
 
 .video-showcase--elevated {
   border-radius: var(--radius-lg);
-  background-color: var(--surface-secondary);
 }
 
 /* Sizes - Now using container-relative units */
@@ -101,4 +99,5 @@
   position: relative;
   width: 100%;
   height: auto;
+  background: transparent;
 } 
