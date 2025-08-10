@@ -75,10 +75,9 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
         <Stack spacing="xs" align="center">
           {/* Portfolio Title */}
           <Typography
-            variant="label-xs"
-            as="h1"
+            variant="label-md"
             uppercase
-            weight="light"
+            weight="regular"
             align="center"
             color="secondary"
           >
