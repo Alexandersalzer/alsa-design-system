@@ -45,7 +45,7 @@ export const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
     >
       <Container 
         align="center" 
-        maxWidth="xl"
+        maxWidth="lg"
         style={{ 
           paddingTop: '4rem',
           paddingBottom: '4rem'
@@ -60,7 +60,7 @@ export const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
             loop={loop}
             controls={controls}
             variant="elevated"
-            size="xl"
+            size="full"
             aspectRatio="16-9"
             shadow="lg"
             radius="md"

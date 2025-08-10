@@ -29,25 +29,29 @@
   background-color: var(--surface-secondary);
 }
 
-/* Sizes */
+/* Sizes - Now using container-relative units */
 .video-showcase--sm {
-  max-width: 400px;
+  width: min(100%, 400px);
+  margin: 0 auto;
 }
 
 .video-showcase--md {
-  max-width: 600px;
+  width: min(100%, 600px);
+  margin: 0 auto;
 }
 
 .video-showcase--lg {
-  max-width: 800px;
+  width: min(100%, 800px);
+  margin: 0 auto;
 }
 
 .video-showcase--xl {
-  max-width: 1000px;
+  width: min(100%, 1000px);
+  margin: 0 auto;
 }
 
 .video-showcase--full {
-  max-width: 100%;
+  width: 100%;
 }
 
 /* Aspect Ratios */
@@ -130,14 +134,9 @@
 
 /* Responsive behavior */
 @media (max-width: 768px) {
-  .video-showcase--sm,
-  .video-showcase--md,
-  .video-showcase--lg,
-  .video-showcase--xl {
-    max-width: 100%;
-  }
-  
   .video-showcase {
+    width: 100%;
+    max-width: none;
     border-radius: var(--radius-md);
   }
 } 
