@@ -1,14 +1,14 @@
 'use client';
 
 import { useEditingMode } from '../../../../../cms/wrappers/editing/EditingWrapper';
-import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
+import { useContent, useCurrentLocale } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname, useRouter } from 'next/navigation';
 import { Section } from '../../../../layout/frames/section';
 import { Container } from '../../../../layout/frames/container';
 import { Cluster } from '../../../../layout/utilities/cluster';
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
 import { 
-  getNavigationContext, 
+  createNavigationUtils,
   useNavigationMessaging,
   type NavigationItem 
 } from '../../../../utils/navigation';
@@ -62,6 +62,7 @@ const Navbar = ({
 }: NavbarProps) => {
   const { isEditingMode } = useEditingMode();
   const { getGlobalComponent, getTemplateBlocks, getBlocksByType } = useContent();
+  const currentLocale = useCurrentLocale(); // Use context-aware locale detection
   const pathname = usePathname();
   const router = useRouter();
 
@@ -88,8 +89,8 @@ const Navbar = ({
     size: navSize
   }));
 
-  // Use navigation utilities for consistent route handling
-  const nav = getNavigationContext(pathname, isEditingMode);
+  // Use navigation utilities with reliable locale from context
+  const nav = createNavigationUtils(currentLocale, isEditingMode);
 
   // Use CMS items if available, otherwise fallback to passed navItems
   const finalNavItems = cmsNavItems.length > 0 ? cmsNavItems : navItems;
