@@ -64,8 +64,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         height="auto"
         style={{ 
           minHeight: '60vh', 
-          paddingTop: '4rem', 
-          paddingBottom: '4rem',
+          paddingTop: '20rem', 
+          paddingBottom: '2rem',
           justifyContent: 'center',
           display: 'flex',
           flexDirection: 'column'

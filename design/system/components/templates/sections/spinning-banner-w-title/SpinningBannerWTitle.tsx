@@ -71,7 +71,13 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
         paddingBottom: 'var(--foundation-space-16, 4rem)'
       }}
     >
-      <Container align="center" maxWidth="lg">
+      <Container 
+      align="center" 
+      maxWidth="lg"
+      style={{ 
+        minHeight: '60vh', 
+        paddingTop: '0rem'
+      }}>
         <Stack spacing="xs" align="center">
           {/* Portfolio Title */}
           <Typography
