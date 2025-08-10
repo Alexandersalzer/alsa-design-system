@@ -8,8 +8,6 @@
 import React from 'react';
 import { Section, Container } from '../../../../../system/layout';
 import { StatsShowcase, StatsShowcaseProps } from '../../../../../system/components/patterns/client/stats-showcase';
-import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
-import { usePathname } from 'next/navigation';
 
 export interface StatsShowcaseSectionProps {
   pageSlug?: string;
@@ -26,25 +24,13 @@ export const StatsShowcaseSection: React.FC<StatsShowcaseSectionProps> = ({
   className = '',
   statsShowcaseProps = {}
 }) => {
-  const { getPageTemplate, getTemplateBlocks, getBlockContent } = useContent();
-  const pathname = usePathname();
-  
-  // Determine which page slug to use
-  const currentSlug = pageSlug || pathname.replace('/', '') || 'home';
-  
-  // Get specific stats showcase template by index
-  const statsTemplate = getPageTemplate(currentSlug, 'statsShowcase', templateIndex);
-  
-  // Get blocks from stats showcase pattern
-  const statsBlocks = getTemplateBlocks(statsTemplate, 'statsShowcase');
-  
-  // Extract content using generic functions with fallback defaults
-  const countValue = parseInt(getBlockContent(statsBlocks, 'countValue') || '45000000');
-  const countSuffix = getBlockContent(statsBlocks, 'countSuffix') || '+';
-  const subtitle = getBlockContent(statsBlocks, 'subtitle') || 'VIEWS IN 2024';
-  const buttonText = getBlockContent(statsBlocks, 'buttonText') || 'Check my full portfolio';
-  const buttonVariant = getBlockContent(statsBlocks, 'buttonVariant') || 'primary';
-  const buttonSize = getBlockContent(statsBlocks, 'buttonSize') || 'lg';
+  // Hardcoded content matching kjmarketingsweden.com
+  const countValue = 45000000;
+  const countSuffix = '+';
+  const subtitle = 'VIEWS IN 2024';
+  const buttonText = 'Check my full portfolio';
+  const buttonVariant = 'primary';
+  const buttonSize = 'lg';
 
   // Default stats showcase configuration
   const defaultStatsShowcaseProps: StatsShowcaseProps = {
