@@ -6,3 +6,4 @@ export { AccentColorControl } from './AccentColorControl';
 export { RadiusControl } from './RadiusControl';
 export { ThemeControlPanel } from './ThemeControlPanel';
 export { CompactThemeSelector } from './CompactThemeSelector';
+export { ThemeModeControl } from './ThemeModeControl'

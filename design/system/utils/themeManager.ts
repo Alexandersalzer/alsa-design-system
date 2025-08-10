@@ -5,10 +5,12 @@
 
 export type ColorScale = 'purple' | 'azure' | 'ruby' | 'emerald' | 'honey' | 'gray';
 export type RadiusScale = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
+export type ThemeMode = 'light' | 'dark';
 
 export interface ThemeConfig {
   accentColor: ColorScale;
   radiusScale: RadiusScale;
+  themeMode: ThemeMode;
   fontFamily?: string;
 }
 
@@ -20,7 +22,8 @@ export class ThemeManager {
   private constructor() {
     this.currentConfig = {
       accentColor: 'purple',
-      radiusScale: 'md'
+      radiusScale: 'md',
+      themeMode: 'light'
     };
   }
 
@@ -29,6 +32,33 @@ export class ThemeManager {
       ThemeManager.instance = new ThemeManager();
     }
     return ThemeManager.instance;
+  }
+
+   /**
+   * Set theme mode (light/dark)
+   */
+  setThemeMode(mode: ThemeMode): void {
+    this.currentConfig.themeMode = mode;
+    this.applyThemeMode(mode);
+    this.saveToStorage();
+  }
+
+  /**
+   * Toggle between light and dark mode
+   */
+  toggleThemeMode(): void {
+    const newMode = this.currentConfig.themeMode === 'light' ? 'dark' : 'light';
+    this.setThemeMode(newMode);
+  }
+
+  /**
+   * Apply theme mode to document
+   */
+  private applyThemeMode(mode: ThemeMode): void {
+    if (typeof window === 'undefined') return;
+    
+    // Set data-theme attribute (matches your existing DashboardLayout)
+    document.documentElement.setAttribute('data-theme', mode);
   }
 
   /**
@@ -102,12 +132,11 @@ export class ThemeManager {
   }
 
   /**
-   * ✅ FIXED: Initialize theme - preserves saved settings
+   * Updated initialize method - include theme mode
    */
   initialize(fallbackConfig?: Partial<ThemeConfig>): void {
     if (typeof window === 'undefined') return;
 
-    // Only initialize once per session
     if (this.isInitialized) {
       return;
     }
@@ -126,7 +155,6 @@ export class ThemeManager {
         console.warn('Failed to parse stored theme config, using defaults');
       }
     } else if (fallbackConfig) {
-      // Only use fallback if no saved config exists
       this.currentConfig = { 
         ...this.currentConfig, 
         ...fallbackConfig 
@@ -134,7 +162,8 @@ export class ThemeManager {
       console.log('🎨 Using fallback theme config:', this.currentConfig);
     }
 
-    // Apply the configuration
+    // Apply all configurations (ADD the theme mode line)
+    this.applyThemeMode(this.currentConfig.themeMode); // ✅ ADD this line
     this.applyAccentColor(this.currentConfig.accentColor);
     this.applyRadiusScale(this.currentConfig.radiusScale);
     
@@ -152,9 +181,12 @@ export class ThemeManager {
   }
 
   /**
-   * Apply complete theme
+   * Updated applyTheme method - include theme mode
    */
   applyTheme(config: Partial<ThemeConfig>): void {
+    if (config.themeMode) { // ✅ ADD this block
+      this.setThemeMode(config.themeMode);
+    }
     if (config.accentColor) {
       this.setAccentColor(config.accentColor);
     }
@@ -163,8 +195,9 @@ export class ThemeManager {
     }
   }
 
+  
   /**
-   * Reset to defaults and clear storage
+   * Updated resetToDefaults method - include theme mode
    */
   resetToDefaults(): void {
     if (typeof window === 'undefined') return;
@@ -172,12 +205,28 @@ export class ThemeManager {
     localStorage.removeItem('blimpify-theme-config');
     this.currentConfig = {
       accentColor: 'purple',
-      radiusScale: 'md'
+      radiusScale: 'md',
+      themeMode: 'light' // ✅ ADD this line
     };
     
+    this.applyThemeMode(this.currentConfig.themeMode); // ✅ ADD this line
     this.applyAccentColor(this.currentConfig.accentColor);
     this.applyRadiusScale(this.currentConfig.radiusScale);
     
     console.log('🔄 Theme reset to defaults');
   }
+
+    // ✅ ADD these convenience getters:
+  get isDark(): boolean {
+    return this.currentConfig.themeMode === 'dark';
+  }
+
+  get isLight(): boolean {
+    return this.currentConfig.themeMode === 'light';
+  }
+
+  get currentTheme(): string {
+    return this.currentConfig.themeMode;
+  }
+
 }
