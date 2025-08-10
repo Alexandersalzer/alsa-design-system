@@ -3,7 +3,7 @@
 // COUNT UP ANIMATION PRIMITIVE COMPONENT
 // ===============================================
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Typography, TypographyProps } from '../Typography';
 
 export interface CountUpProps extends Omit<TypographyProps, 'children'> {
@@ -70,10 +70,12 @@ export const CountUp: React.FC<CountUpProps> = ({
     return `${prefix}${formatted}${suffix}`;
   };
 
-  const startAnimation = () => {
+  const startAnimation = useCallback(() => {
     if (hasStarted) return;
     
+    console.log('🚀 Starting CountUp animation from', start, 'to', end);
     setHasStarted(true);
+    
     const startTime = Date.now() + delay;
     const startValue = start;
     const endValue = end;
@@ -96,43 +98,74 @@ export const CountUp: React.FC<CountUpProps> = ({
         animationRef.current = requestAnimationFrame(animate);
       } else {
         setCount(endValue);
+        console.log('✅ CountUp animation completed:', endValue);
         onComplete?.();
       }
     };
 
     animationRef.current = requestAnimationFrame(animate);
-  };
+  }, [hasStarted, start, end, delay, duration, useEasing, onComplete]);
 
   // Intersection Observer for scroll trigger
   useEffect(() => {
     if (!enableScrollTrigger) {
+      // Start immediately if scroll trigger is disabled
       startAnimation();
       return;
     }
 
+    if (!countRef.current) {
+      console.log('❌ CountUp ref not available yet');
+      return;
+    }
+
+    console.log('🔍 Setting up Intersection Observer for CountUp');
+
     const observer = new IntersectionObserver(
       ([entry]) => {
+        console.log('👁️ CountUp intersection:', {
+          isIntersecting: entry.isIntersecting,
+          intersectionRatio: entry.intersectionRatio,
+          hasStarted: hasStarted
+        });
+        
         if (entry.isIntersecting && !hasStarted) {
+          console.log('🎯 CountUp element is visible, starting animation');
           startAnimation();
         }
       },
       {
+        root: null, // Use viewport as root
         rootMargin: `0px 0px -${triggerOffset}px 0px`,
-        threshold: 0
+        threshold: 0.1 // Trigger when 10% of element is visible
       }
     );
 
-    if (countRef.current) {
-      observer.observe(countRef.current);
+    const element = countRef.current;
+    if (element) {
+      observer.observe(element);
+      console.log('👀 Started observing CountUp element');
     }
 
     return () => {
+      if (element) {
+        observer.unobserve(element);
+      }
       observer.disconnect();
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
+      console.log('🧹 Cleaned up CountUp observer');
     };
-  }, [enableScrollTrigger, hasStarted, triggerOffset]);
+  }, [enableScrollTrigger, hasStarted, triggerOffset, startAnimation]);
+
+  // Reset animation if end value changes
+  useEffect(() => {
+    if (hasStarted && count !== end) {
+      setHasStarted(false);
+      setCount(start);
+    }
+  }, [end, start, hasStarted, count]);
 
   return (
     <Typography

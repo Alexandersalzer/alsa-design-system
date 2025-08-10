@@ -50,15 +50,15 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
   // CountUp defaults - matching KJ Marketing website (45M+ views)
   countEnd = 45000000,
   countStart = 0,
-  countDuration = 2500,
-  countDelay = 0,
-  countSeparator = ' ', // Add space as thousands separator like on KJ Marketing site
+  countDuration = 3000, // Slightly longer for better effect
+  countDelay = 200, // Small delay for better UX
+  countSeparator = ' ', // Space as thousands separator like on KJ Marketing site
   countSuffix = '+',
   countPrefix = '',
   countDecimals = 0,
   useEasing = true,
   enableScrollTrigger = true,
-  triggerOffset = 100,
+  triggerOffset = 50, // Smaller offset to trigger earlier
   
   // Typography defaults
   countVariant = 'display-xl',
@@ -98,7 +98,18 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
   const handleButtonClick = () => {
     // Default action - could be customized via CMS
     console.log('Count up stats button clicked');
+    // Could navigate to portfolio page
   };
+
+  console.log('🎬 CountUpStatsSection rendering with:', {
+    countEnd,
+    countStart,
+    countSeparator,
+    countSuffix,
+    enableScrollTrigger,
+    subtitle,
+    buttonText
+  });
 
   return (
     <Section 
@@ -109,8 +120,8 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
         align={containerAlign}
         maxWidth={containerMaxWidth}
         style={{ 
-          paddingTop: '3rem',
-          paddingBottom: '3rem'
+          paddingTop: '4rem',
+          paddingBottom: '4rem'
         }}
       >
         <CountUpSection
