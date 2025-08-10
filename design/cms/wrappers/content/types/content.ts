@@ -34,23 +34,8 @@ export interface ContentPage {
   templates: ContentTemplate[];
 }
 
-// Language-specific content structure
-export interface LanguageContent {
-  pages: { [key: string]: ContentPage };
-  globals: { [key: string]: GlobalComponent };
-  meta: {
-    language: {
-      code: string;
-      name: string;
-      is_default: boolean;
-      is_active: boolean;
-    };
-  };
-}
-
-// Enhanced metadata interface for website content
+// Metadata interface for website content
 export interface WebsiteContentMeta {
-  // Single-language mode (backward compatibility)
   locale?: string | null;
   localeData?: {
     code: string;
@@ -58,28 +43,11 @@ export interface WebsiteContentMeta {
     is_default: boolean;
     is_active: boolean;
   } | null;
-  
-  // Multi-language mode (new structure)
-  requestedLocale?: string | null;
-  availableLanguages?: Array<{
-    code: string;
-    name: string;
-    is_default: boolean;
-    is_active: boolean;
-  }>;
-  defaultLanguage?: string;
-  fetchMode?: 'single-language' | 'all-languages';
 }
 
-// Main content structure type - supports both single and multi-language modes
+// Main content structure type
 export interface WebsiteContent {
-  // Backward compatibility: single-language structure
-  pages?: { [key: string]: ContentPage };
+  pages: { [key: string]: ContentPage };
   globals?: { [key: string]: GlobalComponent };
-  
-  // New structure: multi-language support
-  languages?: { [languageCode: string]: LanguageContent };
-  
-  // Enhanced metadata
   meta?: WebsiteContentMeta;
 } 

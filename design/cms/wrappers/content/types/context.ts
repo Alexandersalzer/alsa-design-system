@@ -1,14 +1,8 @@
 import { WebsiteContent, ContentBlock, ContentTemplate, GlobalComponent } from './content';
-import { ContentLanguageResult } from '../hooks/useContentLanguage';
 
 // Generic content context interface
 export interface ContentContextType {
   content: WebsiteContent | null;
-  
-  // Multi-language support
-  allContent?: WebsiteContent | null; // Access to all languages
-  languageResult?: ContentLanguageResult; // Language filtering utilities
-  
   isLoading: boolean;
   error: string | null;
   
