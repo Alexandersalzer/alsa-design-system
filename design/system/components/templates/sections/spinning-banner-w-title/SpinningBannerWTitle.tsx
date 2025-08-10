@@ -80,7 +80,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
             uppercase
             weight="light"
             align="center"
-            color="inverse"
+            color="secondary"
           >
             EN LITEN DEL AV MIN PORTFÖLJ
           </Typography>
