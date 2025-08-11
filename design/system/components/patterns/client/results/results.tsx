@@ -15,9 +15,7 @@ export interface ResultsProps {
   className?: string;
   
   // Review content
-  name: string;
   subtitle: string;
-  reviewText: string;
   body: string;
   title: string;
   // Profile icon configuration
@@ -30,9 +28,7 @@ export interface ResultsProps {
   
   // Typography variants
   nameVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body-xl' | 'body-lg' | 'body-md' | 'body-sm';
-  subtitleVariant?: 'body-xl' | 'body-lg' | 'body-md' | 'body-sm' | 'body-xs' | 'label-lg' | 'label-md' | 'label-sm';
-  reviewTextVariant?: 'body-xl' | 'body-lg' | 'body-md' | 'body-sm' | 'body-xs';
-  
+
   // Typography weights
   nameWeight?: 'regular' | 'medium' | 'semibold' | 'bold' | 'extrabold';
   subtitleWeight?: 'regular' | 'medium' | 'semibold' | 'bold';
@@ -45,42 +41,25 @@ export interface ResultsProps {
   
   // Layout spacing
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  headerSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
 // ===== MAIN RESULTS COMPONENT =====
 
 export const Results: React.FC<ResultsProps> = ({
   className,
-  name,
   subtitle,
-  reviewText,
   body,
   title,
-  // Icon defaults
-  showIcon = true,
+
   
   // Card styling defaults
   variant = 'default',
   padding = 'lg',
   radius = 'md',
-  
-  // Typography defaults - matching KJ Marketing style
-  nameVariant = 'h4',
-  subtitleVariant = 'body-sm',
-  reviewTextVariant = 'body-sm',
-  
-  nameWeight = 'bold',
-  subtitleWeight = 'regular',
-  reviewTextWeight = 'regular',
-  
-  nameColor = 'primary',
-  subtitleColor = 'secondary',
-  reviewTextColor = 'primary',
+
   
   // Layout defaults
   spacing = 'md',
-  headerSpacing = 'sm'
 }) => {
   return (
     <Stack spacing={spacing}>
