@@ -31,7 +31,7 @@
 /* ===== BASE INPUT STYLES ===== */
 .input {
   width: 100%;
-  background-color: var(--surface-input);
+  background-color: var(--surface-textarea);
   border: 1px solid var(--border-input);
   border-radius: var(--radius-input);                      /* Default: 8px */
   font-family: var(--font-body-family);

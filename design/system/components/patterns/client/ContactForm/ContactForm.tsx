@@ -224,7 +224,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             placeholder={emailPlaceholder}
             error={touched.email ? errors.email : undefined}
             size="md"
-            radius="md"
+            radius="sm"
           />
         </Stack>
         
