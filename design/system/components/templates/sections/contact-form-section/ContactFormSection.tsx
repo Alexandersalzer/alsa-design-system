@@ -95,8 +95,8 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
         align={containerAlign}
         maxWidth="xs"
         style={{ 
-            paddingTop: '5rem',
-            paddingBottom: '5rem'
+            paddingTop: '3rem',
+            paddingBottom: '10rem'
         }}
       >
         <ContactForm

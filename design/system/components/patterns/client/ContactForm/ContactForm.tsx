@@ -10,8 +10,6 @@ import { Input } from '../../../../../system/components/primitives/Input';
 import { Textarea } from '../../../../../system/components/primitives/Textarea';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Typography } from '../../../../../system/components/primitives/Typography';
-import { Icon } from '../../../../../system/components/primitives/Icon';
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -84,7 +82,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   spacing = 'lg',
   fieldSpacing = 'sm',
   buttonVariant = 'primary',
-  buttonSize = 'md'
+  buttonSize = 'sm'
 }) => {
   // Form state
   const [formData, setFormData] = useState<ContactFormData>({
@@ -251,7 +249,6 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           variant={buttonVariant}
           size={buttonSize}
           disabled={isLoading}
-          rightIcon={!isLoading ? <Icon color="inverse"><ArrowRightIcon/></Icon> : undefined}
         >
           {isLoading ? 'Sending...' : submitButtonText}
         </Button>
