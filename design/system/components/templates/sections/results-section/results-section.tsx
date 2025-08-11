@@ -63,20 +63,18 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
       <Container 
         align="center" 
         height="auto"
-        maxWidth="lg" // Increased to accommodate multiple cards better
+        maxWidth="lg"
         style={{ 
-          paddingTop: '3rem', // Increased top padding
-          paddingBottom: '3rem' // Increased bottom padding
+          paddingTop: '2rem', 
+          paddingBottom: '2rem'
         }}
       >
-    {/* Grid layout for multiple result cards */}
+    {/* Grid layout for multiple review cards */}
     <ResponsiveGrid
-          minItemWidth="350px" // Match card max-width
-          gap="xl" // Use proper spacing token instead of "2rem"
+          minItemWidth="280px"
           className="review-grid-center"
           style={{
-            justifyItems: 'center',
-            alignItems: 'start' // Align cards to start for consistent layout
+            justifyItems: 'center'
           }}
         >
           {resultsCards.map((results) => (
