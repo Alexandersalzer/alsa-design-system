@@ -1,6 +1,6 @@
 // ===============================================
-// design/system/components/patterns/client/ReviewCard/ReviewCard.tsx
-// REVIEW CARD PATTERN - Customer review card with name, subtitle and review text
+// design/system/components/patterns/client/results/results.tsx
+// RESULTS PATTERN - Display result statistics with icon and description
 // ===============================================
 
 import React from 'react';
@@ -11,7 +11,7 @@ import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster'
 
 // ===== TYPE DEFINITIONS =====
 
-export interface ReviewCardProps {
+export interface ResultsProps {
   className?: string;
   
   // Review content
@@ -47,9 +47,9 @@ export interface ReviewCardProps {
   headerSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
-// ===== MAIN REVIEW CARD COMPONENT =====
+// ===== MAIN RESULTS COMPONENT =====
 
-export const ReviewCard: React.FC<ReviewCardProps> = ({
+export const Results: React.FC<ResultsProps> = ({
   className,
   name,
   subtitle,
@@ -82,7 +82,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
 }) => {
   return (
     <Card
-      className={`review-card ${className || ''}`}
+      className={`results-card ${className || ''}`}
       variant={variant}
       padding={padding}
       radius={radius}
@@ -133,4 +133,4 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   );
 };
 
-ReviewCard.displayName = 'ReviewCard'; 
+Results.displayName = 'Results'; 

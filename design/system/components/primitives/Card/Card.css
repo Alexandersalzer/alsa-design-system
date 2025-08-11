@@ -156,6 +156,12 @@
   max-width: none; /* Remove max-width constraint */
 }
 
+/* ===== RESULTS CARD SPECIFIC STYLES ===== */
+.results-card {
+  width: 100%;
+  max-width: none; /* Remove max-width constraint */
+}
+
 /* ===== REVIEW GRID CENTERING ===== */
 .review-grid-center {
   justify-items: center;
