@@ -63,7 +63,7 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
       <Container 
         align="center" 
         height="auto"
-        maxWidth="xl" // Increased to accommodate multiple cards better
+        maxWidth="lg" // Increased to accommodate multiple cards better
         style={{ 
           paddingTop: '3rem', // Increased top padding
           paddingBottom: '3rem' // Increased bottom padding

@@ -84,15 +84,15 @@ export const Results: React.FC<ResultsProps> = ({
           </div>
       </Card>
       
-      {/* Description below card with tighter spacing */}
-      <Stack spacing="sm">
-        <Typography variant="body-sm" weight="medium" color="secondary" align="left">
+      {/* Description below card */}
+      <Stack spacing="xs">
+        <Typography variant="body-lg" weight="regular" color="secondary" align="left">
           {subtitle}
         </Typography>
-        <Typography variant="h5" weight="bold" color="primary" align="left">
+        <Typography variant="h4" weight="bold" color="primary" align="left">
           {title}
         </Typography>
-        <Typography variant="body-sm" weight="regular" color="secondary" align="left">
+        <Typography variant="body-md" weight="regular" color="secondary" align="left">
           {body}
         </Typography>
       </Stack>
