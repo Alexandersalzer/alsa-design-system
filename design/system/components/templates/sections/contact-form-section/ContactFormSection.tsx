@@ -69,10 +69,9 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
   const messageLabel = getBlockContent(templateBlocks, 'messageLabel') || 'Message';
   const submitButtonText = getBlockContent(templateBlocks, 'submitButton') || 'Submit';
   
-  const namePlaceholder = getBlockContent(templateBlocks, 'namePlaceholder') || 'Please enter your name';
-  const companyPlaceholder = getBlockContent(templateBlocks, 'companyPlaceholder') || 'Please enter your company name';
-  const emailPlaceholder = getBlockContent(templateBlocks, 'emailPlaceholder') || 'Please enter a valid email address';
-  const messagePlaceholder = getBlockContent(templateBlocks, 'messagePlaceholder') || 'Please enter your message';
+  const namePlaceholder = getBlockContent(templateBlocks, 'namePlaceholder') || 'First name';
+  const companyPlaceholder = getBlockContent(templateBlocks, 'companyPlaceholder') || 'Company name';
+  const emailPlaceholder = getBlockContent(templateBlocks, 'emailPlaceholder') || 'Email address';
   
   // Handle form submission
   const handleFormSubmit = (data: ContactFormData) => {
@@ -115,7 +114,6 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
           namePlaceholder={namePlaceholder}
           companyPlaceholder={companyPlaceholder}
           emailPlaceholder={emailPlaceholder}
-          messagePlaceholder={messagePlaceholder}
           
           // Layout configuration
           spacing={spacing}
