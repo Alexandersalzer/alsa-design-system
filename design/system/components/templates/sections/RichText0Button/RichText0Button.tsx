@@ -75,7 +75,7 @@ export const RichText0Button: React.FC<RichText0ButtonProps> = ({
     >
       <Container 
         align={containerAlign}
-        maxWidth="xs"
+        maxWidth="md"
         style={{ 
           paddingBottom: '10rem',
           paddingTop: '15rem'
