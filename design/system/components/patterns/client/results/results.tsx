@@ -90,54 +90,26 @@ export const Results: React.FC<ResultsProps> = ({
       padding={padding}
       radius={radius}
     >
-      <Stack spacing={spacing}>
-        {/* Header: Icon + Name/Subtitle horizontally */}
-        <Cluster spacing={headerSpacing} align="start">
-          {/* Profile Icon */}
-          {showIcon && (
-            <div className="testimonial-avatar">
-              <div className="person-icon"></div>
-            </div>
-          )}
-          
-          {/* Name and Subtitle vertically */}
-          <Stack spacing="xs" flexChild={true}>
-            <Typography
-              variant={nameVariant}
-              weight={nameWeight}
-              color={nameColor}
-              align="left"
-            >
-              {name}
+        <Stack spacing="xs">
+            <Typography variant="body-md" weight="bold" color="primary">
+                {subtitle}
             </Typography>
-            
-            <Typography
-              variant={subtitleVariant}
-              weight={subtitleWeight}
-              color={subtitleColor}
-              align="left"
-            >
-              {subtitle}
+            <Typography variant="body-md" weight="bold" color="primary">
+                {title}
             </Typography>
-          </Stack>
-        </Cluster>
-        
-        {/* Review Text - Below header */}
-        <Typography
-          variant={reviewTextVariant}
-          weight={reviewTextWeight}
-          color={reviewTextColor}
-          align="left"
-        >
-          {reviewText}
-        </Typography>
-      </Stack>
+        </Stack>
     </Card>
-    <Typography variant="body-md" weight="bold" color="primary">
-      {subtitle}
-      {title}
+    <Stack spacing="xs">
+      <Typography variant="body-md" weight="bold" color="primary">
+        {subtitle}
+      </Typography>
+      <Typography variant="body-md" weight="bold" color="primary">
+        {title}
+      </Typography>
+      <Typography variant="body-md" weight="regular" color="secondary">
       {body}
-    </Typography>
+      </Typography>
+    </Stack>
 </Stack>
   );
 };
