@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import './SpinningBanner.css';
+import React from 'react';
+import { SpinningAnimation, SpinningAnimationItem } from '../../../../../system/components/primitives/SpinningAnimation';
 
 interface SpinningBannerProps {
   logos?: Array<{
@@ -32,39 +32,46 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
   direction = 'left',
   className = ''
 }) => {
-  const bannerRef = useRef<HTMLDivElement>(null);
-
-  // Create exactly 6 copies for seamless infinite loop
-  const duplicatedLogos = [
-    ...logos,
-    ...logos,
-    ...logos,
-    ...logos,
-    ...logos,
-    ...logos
-  ];
-
-  useEffect(() => {
-    const banner = bannerRef.current;
-    if (!banner) return;
-
-    // Set CSS custom properties for animation
-    banner.style.setProperty('--animation-duration', `${speed}s`);
-    banner.style.setProperty('--animation-direction', direction === 'left' ? 'normal' : 'reverse');
-  }, [speed, direction]);
+  // Transform logos into SpinningAnimationItem format
+  const animationItems: SpinningAnimationItem[] = logos.map((logo, index) => ({
+    id: `${logo.src}-${index}`,
+    content: (
+      <img
+        src={logo.src}
+        alt={logo.alt}
+        style={{
+          maxWidth: '100%',
+          maxHeight: '100%',
+          width: 'auto',
+          height: 'auto',
+          objectFit: 'contain',
+          filter: 'grayscale(100%) opacity(0.6)'
+        }}
+      />
+    )
+  }));
 
   return (
-    <div className={`spinning-banner-container ${className}`}>
-      <div ref={bannerRef} className="spinning-banner-track">
-        {duplicatedLogos.map((logo, index) => (
-          <div key={`${logo.src}-${index}`} className="logo-item">
-            <img
-              src={logo.src}
-              alt={logo.alt}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
+    <SpinningAnimation
+      items={animationItems}
+      speed={speed}
+      direction={direction}
+      className={className}
+      
+      // Match original SpinningBanner styling exactly
+      containerHeight="auto"
+      backgroundColor="#f7f7f7"
+      padding="5px"
+      
+      itemWidth="120px"
+      itemHeight="70px"
+      itemPadding="15px"
+      gap="50px"
+      
+      enableFadeEdges={true}
+      fadeWidth="200px"
+      
+      duplicateCount={6}
+    />
   );
 }; 
