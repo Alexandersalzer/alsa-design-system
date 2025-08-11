@@ -23,16 +23,14 @@ interface UgcIntroSectionProps {
 export const UgcIntroSection: React.FC<UgcIntroSectionProps> = ({
   pageSlug,
   templateIndex = 0,
-  titleAs = 'h2', // h2 since h1 is used in hero
-  subtitleAs = 'p',
+  titleAs = 'h3', // h2 since h1 is used in hero
+  subtitleAs = 'span',
   unit = 'xl', // Same as HeroSection
   textPosition = 1,
   textSpacing = 'sm', // Same as HeroSection
   textAlign = 'center', // Same as HeroSection
   maxWidth = '550px', // Same as HeroSection
-  containerAlign = 'center',
-  containerMaxWidth = 'lg',
-  sectionPadding = '5rem 0'
+  containerAlign = 'center'
 }) => {
   const { getPageTemplate, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -57,9 +55,10 @@ export const UgcIntroSection: React.FC<UgcIntroSectionProps> = ({
     >
       <Container 
         align={containerAlign}
-        maxWidth={containerMaxWidth}
+        maxWidth="sm"
         style={{ 
-          padding: sectionPadding
+          paddingBottom: '2rem',
+          paddingTop: '2rem'
         }}
       >
         <RichText
