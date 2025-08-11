@@ -20,7 +20,6 @@ export * from './NavigationTab';
 export * from './Typography';
 export * from './VideoShowcase';
 export * from './CountUp';
-export * from './SpinningAnimation';
 
 
 // Icon needs special handling since it's a default export

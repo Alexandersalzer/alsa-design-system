@@ -1,1 +1,0 @@
-export { SpinningCarousel } from './SpinningCarousel'; 

@@ -34,7 +34,6 @@
 @import './components/primitives/SegmentedControl/SegmentedControl.css';
 @import './components/primitives/Stepper/Stepper.css';
 @import './components/primitives/TextLink/TextLink.css';
-@import './components/primitives/SpinningAnimation/SpinningAnimation.css';
 
 /* STEP 5: Pattern components */
 @import './components/patterns/dashboard/Header/Header.css';
@@ -43,22 +42,25 @@
 @import './components/patterns/dashboard/auth/AuthField.css';
 @import './components/patterns/dashboard/auth/AuthCard.css';
 @import './components/patterns/dashboard/layout/AppLayout.css';
-@import './components/patterns/dashboard/page/Cluster.css';
-@import './components/patterns/dashboard/page/Stack.css';
+@import './components/patterns/dashboard/layout/StaticPageLayout.css';
+@import './components/patterns/dashboard/layout/PropertyGroup.css';
 @import './components/patterns/dashboard/page/PageContent.css';
 @import './components/patterns/dashboard/page/Grid.css';
 @import './components/patterns/dashboard/page/PageHeader.css';
 @import './components/patterns/dashboard/page/LayoutUtilities.css';
-@import './components/patterns/dashboard/editor/content-editing/PageTree/PageTree.css';
+@import './components/patterns/dashboard/page/Cluster.css';
+@import './components/patterns/dashboard/page/Stack.css';
+@import './components/patterns/dashboard/selection/SelectionCard.css';
+@import './components/patterns/dashboard/editor/EditorShell/EditorShell.css';
+@import './components/patterns/dashboard/editor/EditorTabs/EditorTabs.css';
+@import './components/patterns/dashboard/editor/EditorPanel/EditorPanel.css';
+@import './components/patterns/dashboard/editor/EditorSection/EditorSection.css';
+@import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
 
 /* STEP 6: Layout utilities */
 @import './layout/utilities/cluster/Cluster.css';
-@import './layout/utilities/stack/Stack.css';
 @import './layout/utilities/rhythm/Rhythm.css';
-@import './layout/utilities/grid/Grid.css';
-@import './layout/frames/section/Section.css';
-@import './layout/frames/container/Container.css';
-@import './layout/frames/block/Block.css';
+@import './layout/utilities/stack/Stack.css';
 
 /* STEP 7: Themes LAST */
 @import './tokens/semantic/themes/index.css';

@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import { SpinningAnimation, SpinningAnimationItem } from '../../../../../system/components/primitives/SpinningAnimation';
+import { useEffect, useRef } from 'react';
+import './SpinningBanner.css';
 
 interface SpinningBannerProps {
   logos?: Array<{
@@ -32,41 +32,39 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
   direction = 'left',
   className = ''
 }) => {
-  // Convert logos to SpinningAnimationItem format
-  const logoItems: SpinningAnimationItem[] = logos.map((logo, index) => ({
-    id: `${logo.src}-${index}`,
-    content: (
-      <div className="logo-item" style={{ padding: '15px' }}>
-        <img
-          src={logo.src}
-          alt={logo.alt}
-          style={{
-            maxWidth: '100%',
-            maxHeight: '100%',
-            width: 'auto',
-            height: 'auto',
-            objectFit: 'contain',
-            filter: 'grayscale(100%) opacity(0.6)'
-          }}
-        />
-      </div>
-    )
-  }));
+  const bannerRef = useRef<HTMLDivElement>(null);
+
+  // Create exactly 6 copies for seamless infinite loop
+  const duplicatedLogos = [
+    ...logos,
+    ...logos,
+    ...logos,
+    ...logos,
+    ...logos,
+    ...logos
+  ];
+
+  useEffect(() => {
+    const banner = bannerRef.current;
+    if (!banner) return;
+
+    // Set CSS custom properties for animation
+    banner.style.setProperty('--animation-duration', `${speed}s`);
+    banner.style.setProperty('--animation-direction', direction === 'left' ? 'normal' : 'reverse');
+  }, [speed, direction]);
 
   return (
-    <SpinningAnimation
-      items={logoItems}
-      speed={speed}
-      direction={direction}
-      className={className}
-      itemWidth="120px"
-      itemHeight="70px"
-      gap="50px"
-      backgroundColor="#f7f7f7"
-      padding="5px"
-      fadeEdges={true}
-      fadeWidth="200px"
-      duplicates={6}
-    />
+    <div className={`spinning-banner-container ${className}`}>
+      <div ref={bannerRef} className="spinning-banner-track">
+        {duplicatedLogos.map((logo, index) => (
+          <div key={`${logo.src}-${index}`} className="logo-item">
+            <img
+              src={logo.src}
+              alt={logo.alt}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }; 
