@@ -110,13 +110,16 @@
   justify-content: center;
 }
 
-/* Special styling for carousel images */
+/* Special styling for carousel images - removed problematic styles */
 .spinning-carousel .spinning-animation-item {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   border-radius: inherit;
-  transition: box-shadow 0.2s ease;
 }
 
-.spinning-carousel .spinning-animation-item:hover {
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+/* Ensure no background colors interfere with carousel */
+.spinning-carousel .spinning-animation-container {
+  background: transparent !important;
+}
+
+.spinning-carousel .spinning-animation-track {
+  background: transparent !important;
 } 

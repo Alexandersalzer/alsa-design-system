@@ -5,7 +5,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { SpinningAnimation, SpinningAnimationItem } from '../../../../../system/components/primitives/SpinningAnimation';
 
 export interface CarouselImage {
@@ -57,30 +57,33 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
     { src: '/images/thumbnails/perfume.png', alt: 'Perfume UGC', title: 'Beauty Content' },
     { src: '/images/thumbnails/realestate.png', alt: 'Real estate content', title: 'Real Estate' }
   ],
-  speed = 40, // Slower than logos for better viewing
+  speed = 40,
   direction = 'left',
   className = '',
   
   // Image defaults - matching KJ Marketing carousel dimensions (portrait format)
-  imageWidth = '280px', // Portrait width
-  imageHeight = '450px', // Portrait height matching KJ Marketing
+  imageWidth = '280px',
+  imageHeight = '450px',
   imageBorderRadius = '12px',
   
-  // Container defaults
+  // Container defaults - no background color
   containerHeight = 'auto',
-  backgroundColor = 'transparent',
+  backgroundColor = 'transparent', // Ensure transparent background
   padding = '20px 0',
-  gap = '20px', // Adequate gap for larger portrait images
+  gap = '20px',
   
-  // Fade edges defaults
-  enableFadeEdges = true,
-  fadeWidth = '150px', // Larger fade width for portrait images
+  // Fade edges defaults - disabled to avoid background issues
+  enableFadeEdges = false, // Disable fade edges to avoid background color issues
+  fadeWidth = '150px',
   
   // Animation defaults
-  duplicateCount = 4, // Fewer duplicates needed for larger portrait items
+  duplicateCount = 4,
   
   onImageClick
 }) => {
+  // State for global hover effect
+  const [isHovering, setIsHovering] = useState(false);
+
   // Transform images into SpinningAnimationItem format
   const carouselItems: SpinningAnimationItem[] = images.map((image, index) => ({
     id: `${image.src}-${index}`,
@@ -90,25 +93,14 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
         onClick={() => onImageClick?.(image)}
         style={{
           cursor: onImageClick ? 'pointer' : 'default',
-          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
           borderRadius: imageBorderRadius,
           overflow: 'hidden',
           position: 'relative',
           width: '100%',
           height: '100%',
         }}
-        onMouseEnter={(e) => {
-          if (onImageClick) {
-            e.currentTarget.style.transform = 'scale(1.05)';
-            e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (onImageClick) {
-            e.currentTarget.style.transform = 'scale(1)';
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-          }
-        }}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
       >
         <img
           src={image.src}
@@ -119,10 +111,10 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
             height: '100%',
             objectFit: 'cover',
             display: 'block',
+            transition: 'opacity 0.3s ease',
+            opacity: isHovering ? 0.3 : 1, // Global opacity effect like KJ Marketing
           }}
         />
-        
-        {/* Removed text overlay completely */}
       </div>
     )
   }));

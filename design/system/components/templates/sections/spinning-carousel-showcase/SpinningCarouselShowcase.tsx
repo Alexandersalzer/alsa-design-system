@@ -62,27 +62,27 @@ export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> =
   ],
   
   // Carousel defaults - matching KJ Marketing portrait style exactly
-  speed = 45, // Appropriate speed for portrait images
+  speed = 45,
   direction = 'left',
   
-  imageWidth = '280px', // Portrait width matching KJ Marketing
-  imageHeight = '450px', // Portrait height matching KJ Marketing
+  imageWidth = '280px',
+  imageHeight = '450px',
   imageBorderRadius = '12px',
   
   carouselHeight = 'auto',
   backgroundColor = 'transparent',
   carouselPadding = '0',
-  gap = '20px', // Adequate gap for portrait images
+  gap = '20px',
   
-  enableFadeEdges = true,
-  fadeWidth = '150px', // Larger fade width for portrait images
+  enableFadeEdges = false, // Disabled to avoid background color issues
+  fadeWidth = '150px',
   
-  duplicateCount = 4, // Fewer duplicates needed for larger portrait items
+  duplicateCount = 4,
   
   // Layout defaults
   containerAlign = 'center',
   containerMaxWidth = 'full',
-  sectionPadding = '4rem 0', // More padding for taller images
+  sectionPadding = '4rem 0',
   
   onImageClick
 }) => {

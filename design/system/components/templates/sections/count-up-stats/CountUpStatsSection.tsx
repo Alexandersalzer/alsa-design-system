@@ -115,7 +115,7 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
         maxWidth={containerMaxWidth}
         style={{ 
           paddingTop: '4rem',
-          paddingBottom: '4rem'
+          paddingBottom: '2rem'
         }}
       >
         <CountUpSection
