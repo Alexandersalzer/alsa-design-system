@@ -52,6 +52,7 @@
 @import './components/patterns/dashboard/page/Cluster.css';
 @import './components/patterns/dashboard/page/Stack.css';
 @import './components/patterns/dashboard/selection/SelectionCard.css';
+@import './components/patterns/dashboard/selection/CheckboxCard.css';
 @import './components/patterns/dashboard/editor/EditorShell/EditorShell.css';
 @import './components/patterns/dashboard/editor/EditorTabs/EditorTabs.css';
 @import './components/patterns/dashboard/editor/EditorPanel/EditorPanel.css';
