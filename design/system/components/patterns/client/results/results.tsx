@@ -7,19 +7,18 @@ import React from 'react';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import Image from 'next/image';
 
 // ===== TYPE DEFINITIONS =====
 
 export interface ResultsProps {
   className?: string;
   
-  // Review content
+  // Content
   subtitle: string;
   body: string;
   title: string;
-  // Profile icon configuration
-  showIcon?: boolean;
+  image: string;
   
   // Styling options
   variant?: 'default' | 'elevated' | 'outlined';
@@ -50,46 +49,66 @@ export const Results: React.FC<ResultsProps> = ({
   subtitle,
   body,
   title,
-
+  image,
   
   // Card styling defaults
   variant = 'default',
   padding = 'lg',
   radius = 'md',
-
   
   // Layout defaults
   spacing = 'md',
 }) => {
   return (
     <Stack spacing={spacing}>
-    <Card
-      className={`results-card ${className || ''}`}
-      variant={variant}
-      padding={padding}
-      radius={radius}
-    >
-        <Stack spacing="xs">
+      <Card
+        className={`results-card ${className || ''}`}
+        variant={variant}
+        padding={padding}
+        radius={radius}
+      >
+        <Stack spacing="md">
+          {/* Image */}
+          <div className="results-image-container">
+            <Image
+              src={`/images/results/${image}`}
+              alt={title}
+              width={400}
+              height={300}
+              style={{
+                width: '100%',
+                height: 'auto',
+                objectFit: 'cover',
+                borderRadius: 'var(--radius-md)'
+              }}
+            />
+          </div>
+          
+          {/* Title and Subtitle */}
+          <Stack spacing="xs">
             <Typography variant="body-md" weight="bold" color="primary">
-                {subtitle}
+              {subtitle}
             </Typography>
             <Typography variant="body-md" weight="bold" color="primary">
-                {title}
+              {title}
             </Typography>
+          </Stack>
         </Stack>
-    </Card>
-    <Stack spacing="xs">
-      <Typography variant="body-xl" weight="regular" color="secondary" align="left">
-        {subtitle}
-      </Typography>
-      <Typography variant="body-xl" weight="bold" color="primary" align="left">
-        {title}
-      </Typography>
-      <Typography variant="body-lg" weight="regular" color="secondary" align="left">
-      {body}
-      </Typography>
+      </Card>
+      
+      {/* Description below card */}
+      <Stack spacing="xs">
+        <Typography variant="body-xl" weight="regular" color="secondary" align="left">
+          {subtitle}
+        </Typography>
+        <Typography variant="body-xl" weight="bold" color="primary" align="left">
+          {title}
+        </Typography>
+        <Typography variant="body-lg" weight="regular" color="secondary" align="left">
+          {body}
+        </Typography>
+      </Stack>
     </Stack>
-</Stack>
   );
 };
 

@@ -45,14 +45,16 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
     
     // Extract content from this pattern's blocks
     const title = getBlockContent(patternBlocks, 'title') || `Title ${index + 1}`;
-    const subtitle = getBlockContent(patternBlocks, 'subtitle') || 'Stubtitle';
+    const subtitle = getBlockContent(patternBlocks, 'subtitle') || 'Subtitle';
     const body = getBlockContent(patternBlocks, 'body') || 'Body!';
+    const image = getBlockContent(patternBlocks, 'image') || 'tiktokstats.jpeg';
     
     return {
       id: `review-${index}`,
       title,
       subtitle,
-      body
+      body,
+      image
     };
   });
 
@@ -63,8 +65,8 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
         height="auto"
         maxWidth="lg"
         style={{ 
-          paddingTop: '0rem', 
-          paddingBottom: '5rem'
+          paddingTop: '2rem', 
+          paddingBottom: '2rem'
         }}
       >
     {/* Grid layout for multiple review cards */}
@@ -81,6 +83,7 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
               title={results.title}
               subtitle={results.subtitle}
               body={results.body}
+              image={results.image}
             />
         ))}
         </ResponsiveGrid>
