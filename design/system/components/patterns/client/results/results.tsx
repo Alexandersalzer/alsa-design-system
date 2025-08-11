@@ -72,27 +72,27 @@ export const Results: React.FC<ResultsProps> = ({
             <Image
               src={`/images/results/${image}`}
               alt={title}
-              width={400}
-              height={300}
+              width={600}
+              height={450}
               style={{
                 width: '100%',
-                height: 'auto',
-                objectFit: 'cover',
-                borderRadius: 'var(--radius-md)'
+                height: '100%',
+                objectFit: 'cover'
               }}
+              priority
             />
           </div>
       </Card>
       
       {/* Description below card */}
       <Stack spacing="xs">
-        <Typography variant="body-xl" weight="regular" color="secondary" align="left">
+        <Typography variant="body-lg" weight="regular" color="secondary" align="left">
           {subtitle}
         </Typography>
-        <Typography variant="body-xl" weight="bold" color="primary" align="left">
+        <Typography variant="h4" weight="bold" color="primary" align="left">
           {title}
         </Typography>
-        <Typography variant="body-lg" weight="regular" color="secondary" align="left">
+        <Typography variant="body-md" weight="regular" color="secondary" align="left">
           {body}
         </Typography>
       </Stack>
