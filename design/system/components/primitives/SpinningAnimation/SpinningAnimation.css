@@ -73,6 +73,27 @@
       rgba(247,247,247,0) 100%
     );
   }
+  
+  /* Special handling for transparent backgrounds */
+  .spinning-animation-container.with-fade-edges[style*="transparent"]::before {
+    background: linear-gradient(to right, 
+      rgba(255,255,255,1) 0%, 
+      rgba(255,255,255,0.9) 20%, 
+      rgba(255,255,255,0.7) 40%, 
+      rgba(255,255,255,0.3) 70%,
+      rgba(255,255,255,0) 100%
+    );
+  }
+
+  .spinning-animation-container.with-fade-edges[style*="transparent"]::after {
+    background: linear-gradient(to left, 
+      rgba(255,255,255,1) 0%, 
+      rgba(255,255,255,0.9) 20%, 
+      rgba(255,255,255,0.7) 40%,
+      rgba(255,255,255,0.3) 70%, 
+      rgba(255,255,255,0) 100%
+    );
+  }
 }
 
 .spinning-animation-track {
@@ -87,4 +108,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Special styling for carousel images */
+.spinning-carousel .spinning-animation-item {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: inherit;
+  transition: box-shadow 0.2s ease;
+}
+
+.spinning-carousel .spinning-animation-item:hover {
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 } 
