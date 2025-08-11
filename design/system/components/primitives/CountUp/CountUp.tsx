@@ -73,7 +73,10 @@ export const CountUp: React.FC<CountUpProps> = ({
 
   const startAnimation = () => {
     // Don't start if already completed or currently running
-    if (hasStarted || hasCompleted) return;
+    if (hasStarted || hasCompleted) {
+      console.log('🚫 Animation already started or completed:', { hasStarted, hasCompleted });
+      return;
+    }
     
     console.log('🚀 Starting CountUp animation from', start, 'to', end);
     setHasStarted(true);
@@ -94,6 +97,7 @@ export const CountUp: React.FC<CountUpProps> = ({
       }
       
       const currentValue = startValue + (change * easedProgress);
+      console.log('🔄 Animation step:', { progress, currentValue, elapsed, duration });
       setCount(currentValue);
       
       if (progress < 1) {
@@ -106,7 +110,14 @@ export const CountUp: React.FC<CountUpProps> = ({
       }
     };
 
-    animationRef.current = requestAnimationFrame(animate);
+    // Start animation immediately or after delay
+    if (delay > 0) {
+      setTimeout(() => {
+        animationRef.current = requestAnimationFrame(animate);
+      }, delay);
+    } else {
+      animationRef.current = requestAnimationFrame(animate);
+    }
   };
 
   // Intersection Observer for scroll trigger
