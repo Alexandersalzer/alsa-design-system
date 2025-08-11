@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import './SpinningBanner.css';
+import React from 'react';
+import { SpinningAnimation } from '../../../../../system/components/primitives/SpinningAnimation';
 
 interface SpinningBannerProps {
   logos?: Array<{
@@ -13,6 +13,8 @@ interface SpinningBannerProps {
   speed?: number; // Animation speed in seconds
   direction?: 'left' | 'right';
   className?: string;
+  gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  pauseOnHover?: boolean;
 }
 
 export const SpinningBanner: React.FC<SpinningBannerProps> = ({
@@ -30,41 +32,43 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
   ],
   speed = 30,
   direction = 'left',
-  className = ''
+  className = '',
+  gap = 'lg',
+  pauseOnHover = false
 }) => {
-  const bannerRef = useRef<HTMLDivElement>(null);
-
-  // Create exactly 6 copies for seamless infinite loop
-  const duplicatedLogos = [
-    ...logos,
-    ...logos,
-    ...logos,
-    ...logos,
-    ...logos,
-    ...logos
-  ];
-
-  useEffect(() => {
-    const banner = bannerRef.current;
-    if (!banner) return;
-
-    // Set CSS custom properties for animation
-    banner.style.setProperty('--animation-duration', `${speed}s`);
-    banner.style.setProperty('--animation-direction', direction === 'left' ? 'normal' : 'reverse');
-  }, [speed, direction]);
-
   return (
-    <div className={`spinning-banner-container ${className}`}>
-      <div ref={bannerRef} className="spinning-banner-track">
-        {duplicatedLogos.map((logo, index) => (
-          <div key={`${logo.src}-${index}`} className="logo-item">
-            <img
-              src={logo.src}
-              alt={logo.alt}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
+    <SpinningAnimation
+      type="horizontal"
+      direction={direction}
+      speed={speed}
+      gap={gap}
+      pauseOnHover={pauseOnHover}
+      className={className}
+      itemHeight="60px" // Standard logo height
+    >
+      {logos.map((logo, index) => (
+        <img
+          key={`${logo.src}-${index}`}
+          src={logo.src}
+          alt={logo.alt}
+          style={{
+            height: logo.height || 60,
+            width: logo.width || 'auto',
+            objectFit: 'contain',
+            filter: 'grayscale(100%)',
+            opacity: 0.7,
+            transition: 'all 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.filter = 'grayscale(0%)';
+            e.currentTarget.style.opacity = '1';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.filter = 'grayscale(100%)';
+            e.currentTarget.style.opacity = '0.7';
+          }}
+        />
+      ))}
+    </SpinningAnimation>
   );
 }; 

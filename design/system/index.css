@@ -34,6 +34,7 @@
 @import './components/primitives/SegmentedControl/SegmentedControl.css';
 @import './components/primitives/Stepper/Stepper.css';
 @import './components/primitives/TextLink/TextLink.css';
+@import './components/primitives/SpinningAnimation/SpinningAnimation.css';
 
 /* STEP 5: Pattern components */
 @import './components/patterns/dashboard/Header/Header.css';
@@ -62,9 +63,14 @@
 @import './layout/utilities/rhythm/Rhythm.css';
 @import './layout/utilities/stack/Stack.css';
 
-/* STEP 7: Themes LAST */
+/* STEP 7: Layout frames */
+@import './layout/frames/container/Container.css';
+@import './layout/frames/section/Section.css';
+@import './layout/frames/block/Block.css';
+
+/* STEP 8: Themes LAST */
 @import './tokens/semantic/themes/index.css';
 
-/* STEP 8: Utilities LAST (so they can override if needed) */
+/* STEP 9: Utilities LAST (so they can override if needed) */
 @import './utils/index.css';
 @import './utils/typography.css';
