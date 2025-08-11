@@ -152,8 +152,8 @@
 
 /* ===== REVIEW CARD SPECIFIC STYLES (KJ Marketing Width) ===== */
 .review-card {
-  max-width: 400px; /* Approximate width from KJ Marketing testimonials */
   width: 100%;
+  max-width: none; /* Remove max-width constraint */
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */

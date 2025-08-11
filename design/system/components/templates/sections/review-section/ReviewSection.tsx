@@ -98,7 +98,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
       >
         {/* Grid layout for multiple review cards */}
         <ResponsiveGrid
-          minItemWidth={minItemWidth}
+          minItemWidth="280px"
         >
           {reviewCards.map((review) => (
             <ReviewCard
