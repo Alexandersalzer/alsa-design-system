@@ -154,6 +154,8 @@
 .review-card {
   max-width: 400px; /* Approximate width from KJ Marketing testimonials */
   width: 100%;
+  margin: 0 auto; /* Center the card within its grid cell */
+  box-sizing: border-box; /* Ensure padding doesn't affect width calculation */
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
