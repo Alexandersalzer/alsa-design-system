@@ -51,9 +51,14 @@ export const UgcIntroSection: React.FC<UgcIntroSectionProps> = ({
   // Get blocks from UGC intro pattern
   const ugcBlocks = getTemplateBlocks(ugcTemplate, 'ugcIntro');
   
-  // Extract content using generic functions with defaults
-  const title = getBlockContent(ugcBlocks, 'title') || 'UGC Videos Som Konverterar Tittare Till Kunder';
-  const subtitle = getBlockContent(ugcBlocks, 'subtitle') || 'Sedan 2018 har jag hållit på med detta, mitt ansikte och min röst har med åren blivit en trygghet hos miljontals. Det innebär att ditt varumärke eller företag automatiskt får en kvalitetsstämpel och trovärdighet när jag gjort videorna.';
+  // Extract content using generic functions from CMS
+  const title = getBlockContent(ugcBlocks, 'title');
+  const subtitle = getBlockContent(ugcBlocks, 'subtitle');
+
+  // Don't render if no content is available
+  if (!title && !subtitle) {
+    return null;
+  }
 
   return (
     <Section 
