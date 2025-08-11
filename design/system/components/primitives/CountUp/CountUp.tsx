@@ -41,6 +41,7 @@ export const CountUp: React.FC<CountUpProps> = ({
 }) => {
   const [count, setCount] = useState(start);
   const [hasStarted, setHasStarted] = useState(false);
+  const [hasCompleted, setHasCompleted] = useState(false); // Track if animation completed
   const countRef = useRef<HTMLElement>(null);
   const animationRef = useRef<number | undefined>(undefined);
 
@@ -71,7 +72,8 @@ export const CountUp: React.FC<CountUpProps> = ({
   };
 
   const startAnimation = () => {
-    if (hasStarted) return;
+    // Don't start if already completed or currently running
+    if (hasStarted || hasCompleted) return;
     
     console.log('🚀 Starting CountUp animation from', start, 'to', end);
     setHasStarted(true);
@@ -98,6 +100,7 @@ export const CountUp: React.FC<CountUpProps> = ({
         animationRef.current = requestAnimationFrame(animate);
       } else {
         setCount(endValue);
+        setHasCompleted(true); // Mark as completed
         console.log('✅ CountUp animation completed:', endValue);
         onComplete?.();
       }
@@ -112,6 +115,12 @@ export const CountUp: React.FC<CountUpProps> = ({
     if (!enableScrollTrigger) {
       console.log('⚡ Scroll trigger disabled, starting animation immediately');
       startAnimation();
+      return;
+    }
+
+    // If already completed, don't set up observer
+    if (hasCompleted) {
+      console.log('✅ Animation already completed, skipping observer setup');
       return;
     }
 
@@ -131,10 +140,12 @@ export const CountUp: React.FC<CountUpProps> = ({
           isIntersecting: entry.isIntersecting,
           intersectionRatio: entry.intersectionRatio,
           hasStarted: hasStarted,
+          hasCompleted: hasCompleted,
           boundingRect: entry.boundingClientRect.top
         });
         
-        if (entry.isIntersecting && !hasStarted) {
+        // Only trigger if intersecting, hasn't started, and hasn't completed
+        if (entry.isIntersecting && !hasStarted && !hasCompleted) {
           console.log('🎯 CountUp element is visible, starting animation');
           startAnimation();
         }
@@ -157,11 +168,11 @@ export const CountUp: React.FC<CountUpProps> = ({
       }
       console.log('🧹 Cleaned up CountUp observer');
     };
-  }, []); // Remove dependencies to avoid re-creating observer
+  }, [enableScrollTrigger, hasStarted, hasCompleted, triggerOffset]); // Added hasCompleted to dependencies
 
   // Test if element is already visible on mount (fallback)
   useEffect(() => {
-    if (!enableScrollTrigger || hasStarted) return;
+    if (!enableScrollTrigger || hasStarted || hasCompleted) return;
     
     const element = countRef.current;
     if (!element) return;
@@ -176,10 +187,11 @@ export const CountUp: React.FC<CountUpProps> = ({
         windowHeight: windowHeight,
         triggerOffset: triggerOffset,
         isVisible: isVisible,
-        hasStarted: hasStarted
+        hasStarted: hasStarted,
+        hasCompleted: hasCompleted
       });
       
-      if (isVisible && !hasStarted) {
+      if (isVisible && !hasStarted && !hasCompleted) {
         console.log('👁️ Element is visible on mount, starting animation');
         startAnimation();
       }
@@ -190,7 +202,7 @@ export const CountUp: React.FC<CountUpProps> = ({
     const timeoutId = setTimeout(checkVisibility, 100);
     
     return () => clearTimeout(timeoutId);
-  }, [enableScrollTrigger, hasStarted, triggerOffset]);
+  }, [enableScrollTrigger, hasStarted, hasCompleted, triggerOffset]); // Added hasCompleted
 
   return (
     <Typography
