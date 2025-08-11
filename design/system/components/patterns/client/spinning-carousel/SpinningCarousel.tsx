@@ -61,23 +61,23 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
   direction = 'left',
   className = '',
   
-  // Image defaults - matching KJ Marketing carousel dimensions
-  imageWidth = '200px', // Smaller width to match KJ Marketing
-  imageHeight = '120px', // Smaller height to match KJ Marketing
-  imageBorderRadius = '8px',
+  // Image defaults - matching KJ Marketing carousel dimensions (portrait format)
+  imageWidth = '280px', // Portrait width
+  imageHeight = '450px', // Portrait height matching KJ Marketing
+  imageBorderRadius = '12px',
   
   // Container defaults
   containerHeight = 'auto',
   backgroundColor = 'transparent',
   padding = '20px 0',
-  gap = '16px', // Smaller gap to match KJ Marketing
+  gap = '20px', // Adequate gap for larger portrait images
   
   // Fade edges defaults
   enableFadeEdges = true,
-  fadeWidth = '100px', // Smaller fade width
+  fadeWidth = '150px', // Larger fade width for portrait images
   
   // Animation defaults
-  duplicateCount = 5, // More duplicates for smaller items
+  duplicateCount = 4, // Fewer duplicates needed for larger portrait items
   
   onImageClick
 }) => {
