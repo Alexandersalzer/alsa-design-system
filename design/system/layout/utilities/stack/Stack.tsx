@@ -22,6 +22,9 @@ export interface StackProps {
   
   // Responsive behavior
   collapseSpacing?: 'mobile' | 'tablet' | 'never';
+  
+  // Flex child behavior (for use in Cluster, etc.)
+  flexChild?: boolean;
 }
 
 // ===== SIMPLE CLASS CONCATENATION =====
@@ -38,6 +41,7 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(({
   align = 'stretch',
   split = false,
   collapseSpacing = 'mobile',
+  flexChild,
   ...props
 }, ref) => {
   
@@ -48,6 +52,7 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(({
     align !== 'stretch' && `stack--align-${align}`,
     split && 'stack--split',
     collapseSpacing !== 'never' && `stack--collapse-${collapseSpacing}`,
+    flexChild && 'stack--flex-child',
     className
   );
 

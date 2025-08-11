@@ -11,6 +11,14 @@
   width: 100%;
 }
 
+/* ===== FLEX CHILD VARIANT ===== */
+/* When Stack is used as a flex child (e.g., in Cluster), it should grow to fill available space */
+.stack--flex-child {
+  width: auto;
+  flex: 1;
+  min-width: 0; /* Allow shrinking below content width */
+}
+
 /* ===== SPACING VARIANTS ===== */
 .stack--spacing-xs {
   gap: var(--foundation-space-1); /* 4px */

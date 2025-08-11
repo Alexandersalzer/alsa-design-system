@@ -180,7 +180,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         {/* Name and Company in a Cluster (horizontal layout) */}
         <Cluster spacing={fieldSpacing} wrap={true}>
           {/* Name Field */}
-          <Stack spacing="xs">
+          <Stack spacing="xs" flexChild={true}>
             <Typography variant="label-sm" weight="bold" color="primary" align="left">
               {nameLabel}
             </Typography>
@@ -196,7 +196,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           </Stack>
           
           {/* Company Field */}
-          <Stack spacing="xs">
+          <Stack spacing="xs" flexChild={true}>
             <Typography variant="label-sm" weight="bold" color="primary" align="left">
               {companyLabel}
             </Typography>
