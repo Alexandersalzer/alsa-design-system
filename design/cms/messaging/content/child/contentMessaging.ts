@@ -1,4 +1,5 @@
 import { type WebsiteContent } from '../../../wrappers/content/types/content';
+import { extractLocaleFromPathname } from '../../../../system/utils/navigation';
 
 export interface MessageHandlers {
   onContentUpdate: (content: WebsiteContent) => void;
@@ -6,8 +7,14 @@ export interface MessageHandlers {
 }
 
 export const requestWebsiteContent = () => {
+  // Extract locale from current pathname to request content for the correct language
+  const currentLocale = typeof window !== 'undefined' ? extractLocaleFromPathname(window.location.pathname) : 'sv';
+  
+  console.log('📡 Requesting website content for locale:', currentLocale);
+  
   window.parent.postMessage({
-    type: 'request-website-content'
+    type: 'request-website-content',
+    locale: currentLocale // Include locale in the request
     // No versionId needed - parent knows its own context
   }, '*');
 };

@@ -4,11 +4,43 @@
  */
 
 import { type SupportedLocale } from './locale';
+import { 
+  sendNavigationUpdateToParent,
+  createNavigationMessageHandlers,
+  useNavigationMessageListener,
+  type NavigationMessageHandlers
+} from '../../cms/messaging/navigation/child';
 
 export interface NavigationItem {
   href: string;
   slug?: string;
   [key: string]: any; // Allow additional properties
+}
+
+/**
+ * Extract locale from CMS content metadata (for editing mode)
+ * Fallback to pathname extraction if no CMS data available
+ */
+export function extractLocaleFromCMS(
+  cmsContent: any, 
+  fallbackPathname?: string
+): SupportedLocale {
+  // First try to get locale from CMS content meta data
+  if (cmsContent?.meta?.locale) {
+    const cmsLocale = cmsContent.meta.locale;
+    if (cmsLocale === 'sv' || cmsLocale === 'en') {
+      console.log('🌐 Using locale from CMS content:', cmsLocale);
+      return cmsLocale;
+    }
+  }
+  
+  // Fallback to pathname extraction
+  if (fallbackPathname) {
+    return extractLocaleFromPathname(fallbackPathname);
+  }
+  
+  console.log('🌐 Using default locale fallback: sv');
+  return 'sv';
 }
 
 /**
@@ -48,6 +80,7 @@ export function buildBrandHref(
 /**
  * Build href for navigation item
  * Handles both normal locale routes and toggle mode (/index.html files)
+ * Enhanced to better handle slug from CMS data
  */
 export function buildNavHref(
   item: NavigationItem,
@@ -56,7 +89,25 @@ export function buildNavHref(
 ): string {
   if (isEditingMode) {
     // Toggle mode: use slug or href for /index.html files WITH locale prefix
-    const slug = item.slug || item.href.replace('/', '');
+    let slug = '';
+    
+    // Priority: 1) item.slug, 2) extract from item.href, 3) fallback
+    if (item.slug && item.slug.trim()) {
+      slug = item.slug.trim();
+    } else if (item.href) {
+      slug = item.href.replace('/', '').trim() || 'home';
+    } else {
+      slug = 'home';
+    }
+    
+    console.log('🧭 Building nav href for editing mode:', {
+      itemSlug: item.slug,
+      itemHref: item.href,
+      extractedSlug: slug,
+      currentLocale,
+      finalHref: `/${currentLocale}/${slug}/index.html`
+    });
+    
     return `/${currentLocale}/${slug}/index.html`;
   }
   
@@ -79,16 +130,122 @@ export function isNavItemActive(
 }
 
 /**
+ * Handle navigation click with postMessage support
+ * Sends navigation update to parent in editing mode with proper locale and slug
+ */
+export function handleNavigationClick(
+  href: string,
+  slug: string | undefined,
+  isEditingMode: boolean,
+  currentLocale?: SupportedLocale,
+  logPrefix: string = '🧭'
+) {
+  console.log(`${logPrefix} Navigation clicked:`, { 
+    href, 
+    slug, 
+    isEditingMode, 
+    currentLocale 
+  });
+  
+  // If in editing mode, notify parent about navigation
+  if (isEditingMode) {
+    // Extract locale from href if not provided
+    const localeToSend = currentLocale || extractLocaleFromPathname(href);
+    
+    // Clean up slug - remove any path indicators
+    const cleanSlug = slug?.replace('/', '').replace('.html', '') || 'home';
+    
+    console.log(`${logPrefix} Sending navigation update to parent:`, {
+      href,
+      locale: localeToSend,
+      slug: cleanSlug
+    });
+    
+    // sendNavigationUpdateToParent already extracts locale from href internally
+    sendNavigationUpdateToParent(href, cleanSlug);
+  }
+}
+
+/**
+ * Create navigation message handlers for parent-to-child communication
+ * Provides a standardized way to handle navigation updates from parent
+ */
+export function createNavigationMessageHandlersWithRouter(
+  router: { push: (href: string) => void },
+  pathname: string,
+  isEditingMode: boolean,
+  logPrefix: string = '🧭'
+): NavigationMessageHandlers {
+  return createNavigationMessageHandlers({
+    onNavigationChange: (href: string) => {
+      console.log(`${logPrefix} Received navigation update from parent:`, href);
+      
+      // Navigate to the new href if different from current pathname
+      if (href !== pathname) {
+        router.push(href);
+      }
+    },
+    isEditingMode
+  });
+}
+
+/**
+ * Setup navigation message listener for components
+ * Convenience function that only sets up listener in editing mode
+ * Enhanced to handle CMS content for locale detection
+ */
+export function useNavigationMessaging(
+  router: { push: (href: string) => void },
+  pathname: string,
+  isEditingMode: boolean,
+  logPrefix: string = '🧭',
+  cmsContent?: any
+) {
+  const navigationHandlers = createNavigationMessageHandlersWithRouter(
+    router,
+    pathname,
+    isEditingMode,
+    logPrefix
+  );
+
+  // Listen for navigation messages from parent (only in editing mode)
+  if (isEditingMode) {
+    useNavigationMessageListener(navigationHandlers);
+  }
+
+  // Get current locale from CMS content or pathname
+  const currentLocale = isEditingMode 
+    ? extractLocaleFromCMS(cmsContent, pathname)
+    : extractLocaleFromPathname(pathname);
+
+  return {
+    handleNavigationClick: (href: string, slug?: string) =>
+      handleNavigationClick(href, slug, isEditingMode, currentLocale, logPrefix),
+    currentLocale
+  };
+}
+
+/**
  * Navigation utilities hook-like object
  * Provides all navigation functions with consistent locale and toggle state
+ * Enhanced to work with CMS content for locale detection
  */
-export function createNavigationUtils(currentLocale: SupportedLocale, isEditingMode: boolean) {
+export function createNavigationUtils(
+  currentLocale: SupportedLocale, 
+  isEditingMode: boolean,
+  cmsContent?: any
+) {
+  // Use CMS locale if available and in editing mode
+  const effectiveLocale = isEditingMode && cmsContent?.meta?.locale 
+    ? (cmsContent.meta.locale as SupportedLocale)
+    : currentLocale;
+
   return {
-    buildBrandHref: (originalHref: string) => buildBrandHref(originalHref, currentLocale, isEditingMode),
-    buildNavHref: (item: NavigationItem) => buildNavHref(item, currentLocale, isEditingMode),
+    buildBrandHref: (originalHref: string) => buildBrandHref(originalHref, effectiveLocale, isEditingMode),
+    buildNavHref: (item: NavigationItem) => buildNavHref(item, effectiveLocale, isEditingMode),
     isNavItemActive: (item: NavigationItem, currentPathname: string) => 
-      isNavItemActive(item, currentPathname, currentLocale, isEditingMode),
-    currentLocale,
+      isNavItemActive(item, currentPathname, effectiveLocale, isEditingMode),
+    currentLocale: effectiveLocale,
     isEditingMode
   };
 }
@@ -96,8 +253,16 @@ export function createNavigationUtils(currentLocale: SupportedLocale, isEditingM
 /**
  * Get navigation context from pathname and toggle state
  * Convenience function that combines locale extraction with navigation utils
+ * Enhanced to work with CMS content
  */
-export function getNavigationContext(pathname: string, isEditingMode: boolean) {
-  const currentLocale = extractLocaleFromPathname(pathname);
-  return createNavigationUtils(currentLocale, isEditingMode);
+export function getNavigationContext(
+  pathname: string, 
+  isEditingMode: boolean,
+  cmsContent?: any
+) {
+  const currentLocale = isEditingMode 
+    ? extractLocaleFromCMS(cmsContent, pathname)
+    : extractLocaleFromPathname(pathname);
+    
+  return createNavigationUtils(currentLocale, isEditingMode, cmsContent);
 }

@@ -34,8 +34,20 @@ export interface ContentPage {
   templates: ContentTemplate[];
 }
 
+// Metadata interface for website content
+export interface WebsiteContentMeta {
+  locale?: string | null;
+  localeData?: {
+    code: string;
+    name: string;
+    is_default: boolean;
+    is_active: boolean;
+  } | null;
+}
+
 // Main content structure type
 export interface WebsiteContent {
   pages: { [key: string]: ContentPage };
   globals?: { [key: string]: GlobalComponent };
+  meta?: WebsiteContentMeta;
 } 

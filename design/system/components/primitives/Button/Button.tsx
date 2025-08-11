@@ -85,8 +85,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 
   const typographyProps = getTypographyProps(variant, size, isDisabled);
 
-  // DEBUG: Add this line
-  console.log('Button typography props:', { variant, size, isDisabled, typographyProps });
 
   // Build button classes (NO typography classes - handled by Label component)
   const buttonClasses = cn(

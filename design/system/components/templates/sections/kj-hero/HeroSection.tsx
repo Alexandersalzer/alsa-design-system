@@ -6,17 +6,12 @@ import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent
 import { usePathname } from 'next/navigation';
 
 interface HeroSectionProps {
-  pageSlug?: string; // Optional override for page slug
-  
-  // Typography settings
-  titleAs?: React.ElementType;
-  subtitleAs?: React.ElementType;
-  
-  // Button settings
+  pageSlug?: string;
+  templateIndex?: number; // New prop to specify which hero template instance (0, 1, 2...)
+  titleAs?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  subtitleAs?: 'p' | 'span' | 'div';
   buttonVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   buttonSize?: 'sm' | 'md' | 'lg' | 'xl';
-  
-  // Layout settings
   unit?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   textPosition?: number;
   buttonPosition?: number;
@@ -27,6 +22,7 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ 
   pageSlug,
+  templateIndex = 0, // Default to first hero template
   titleAs = 'h1',
   subtitleAs = 'p',
   buttonVariant = 'primary',
@@ -44,8 +40,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   // Determine which page slug to use
   const currentSlug = pageSlug || pathname.replace('/', '') || 'home';
   
-  // Get hero template using generic function
-  const heroTemplate = getPageTemplate(currentSlug, 'hero');
+  // Get specific hero template by index
+  const heroTemplate = getPageTemplate(currentSlug, 'hero', templateIndex);
   
   // Get blocks from hero pattern
   const heroBlocks = getTemplateBlocks(heroTemplate, 'hero');

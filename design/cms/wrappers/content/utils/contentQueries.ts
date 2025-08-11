@@ -1,12 +1,13 @@
 import { WebsiteContent, ContentBlock, ContentTemplate, GlobalComponent } from '../types/content';
 
 /**
- * Pure function to get a specific template from a page
+ * Pure function to get a specific template from a page by type and index
  */
 export function getPageTemplate(
   content: WebsiteContent | null, 
   pageSlug: string, 
-  templateType: string
+  templateType: string,
+  templateIndex: number = 0
 ): ContentTemplate | undefined {
   if (!content?.pages) return undefined;
 
@@ -14,9 +15,30 @@ export function getPageTemplate(
   const page = Object.values(content.pages).find((p: any) => p.slug === pageSlug);
   if (!page?.templates) return undefined;
 
-  // Find template by type
-  const template = page.templates.find((template: any) => template.type === templateType);
-  return template;
+  // Find all templates of this type
+  const templatesOfType = page.templates.filter((template: any) => template.type === templateType);
+  
+  // Return the template at the specified index
+  return templatesOfType[templateIndex];
+}
+
+/**
+ * Pure function to get ALL templates of a specific type from a page
+ */
+export function getPageTemplates(
+  content: WebsiteContent | null, 
+  pageSlug: string, 
+  templateType: string
+): ContentTemplate[] {
+  if (!content?.pages) return [];
+
+  // Find the page by slug
+  const page = Object.values(content.pages).find((p: any) => p.slug === pageSlug);
+  if (!page?.templates) return [];
+
+  // Find all templates of this type
+  const templatesOfType = page.templates.filter((template: any) => template.type === templateType);
+  return templatesOfType;
 }
 
 /**

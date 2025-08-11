@@ -10,7 +10,7 @@ export interface ParentMessageHandlerConfig {
 }
 
 export interface ParentMessageHandlers {
-  onWebsiteContentRequest?: () => void; // No versionId parameter needed
+  onWebsiteContentRequest?: (locale?: string) => void; // Add locale parameter
   onCustomMessage?: (event: MessageEvent) => void;
 }
 
@@ -39,10 +39,12 @@ export class ParentMessageHandler {
 
     // Handle requests for website content
     if (event.data.type === 'request-website-content') {
+      const requestedLocale = event.data.locale || 'sv'; // Extract locale from request
+      console.log('🌐 Parent received website content request for locale:', requestedLocale);
       
-      // Call custom handler if provided - handler uses parent's versionId context
+      // Call custom handler if provided - handler uses parent's versionId context and locale
       if (this.handlers.onWebsiteContentRequest) {
-        this.handlers.onWebsiteContentRequest();
+        this.handlers.onWebsiteContentRequest(requestedLocale);
       }
       
       // Send default response if websiteContent is available
@@ -104,13 +106,14 @@ export const sendWebsiteContentResponse = (
 // Setup basic message listener for content requests only
 export const setupBasicParentMessageListener = (
   handlers: {
-    onWebsiteContentRequest?: () => void; // No versionId parameter needed
+    onWebsiteContentRequest?: (locale?: string) => void; // Add locale parameter
     onMessage?: (event: MessageEvent) => void;
   }
 ) => {
   const handleMessage = (event: MessageEvent) => {
     if (event.data.type === 'request-website-content' && handlers.onWebsiteContentRequest) {
-      handlers.onWebsiteContentRequest();
+      const requestedLocale = event.data.locale || 'sv';
+      handlers.onWebsiteContentRequest(requestedLocale);
     }
 
     if (handlers.onMessage) {

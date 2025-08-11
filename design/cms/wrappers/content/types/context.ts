@@ -5,14 +5,18 @@ export interface ContentContextType {
   content: WebsiteContent | null;
   isLoading: boolean;
   error: string | null;
-  // Generic functions for any template/component type
-  getPageTemplate: (pageSlug: string, templateType: string) => ContentTemplate | undefined;
+  
+  // Query functions
+  getPageTemplate: (pageSlug: string, templateType: string, templateIndex?: number) => ContentTemplate | undefined;
+  getPageTemplates: (pageSlug: string, templateType: string) => ContentTemplate[];
   getGlobalComponent: (componentType: string) => GlobalComponent | undefined;
   getTemplateBlocks: (template: ContentTemplate | GlobalComponent | undefined, patternType?: string) => ContentBlock[];
+  getAllBlocks: (template: ContentTemplate | GlobalComponent | undefined) => ContentBlock[];
+  
+  // Block query functions (from useContentBlocks)
   getBlocksByType: (blocks: ContentBlock[], blockType: string) => ContentBlock[];
   getBlockContent: (blocks: ContentBlock[], blockType: string) => string | undefined;
   getBlockConfig: (blocks: ContentBlock[], blockType: string) => any;
-  getAllBlocks: (template: ContentTemplate | GlobalComponent | undefined) => ContentBlock[];
 }
 
 export interface ContentProviderProps {
