@@ -67,7 +67,6 @@ export const Results: React.FC<ResultsProps> = ({
         padding={padding}
         radius={radius}
       >
-        <Stack spacing="md">
           {/* Image */}
           <div className="results-image-container">
             <Image
@@ -83,17 +82,6 @@ export const Results: React.FC<ResultsProps> = ({
               }}
             />
           </div>
-          
-          {/* Title and Subtitle */}
-          <Stack spacing="xs">
-            <Typography variant="body-md" weight="bold" color="primary">
-              {subtitle}
-            </Typography>
-            <Typography variant="body-md" weight="bold" color="primary">
-              {title}
-            </Typography>
-          </Stack>
-        </Stack>
       </Card>
       
       {/* Description below card */}
