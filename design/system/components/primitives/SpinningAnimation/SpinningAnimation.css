@@ -1,194 +1,125 @@
 /* ===============================================
    design/system/components/primitives/SpinningAnimation/SpinningAnimation.css
-   SPINNING ANIMATION COMPONENT STYLES
+   SPINNING ANIMATION PRIMITIVE STYLES - Flexible infinite scroll
    =============================================== */
 
-/* ===== BASE SPINNING ANIMATION ===== */
-.spinning-animation {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: auto;
-}
-
-.spinning-animation__track {
-  display: flex;
-  animation-duration: var(--animation-duration, 30s);
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: var(--animation-direction, normal);
-}
-
-.spinning-animation__item {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ===== PAUSE ON HOVER ===== */
-.spinning-animation--pause-on-hover:hover .spinning-animation__track {
-  animation-play-state: paused;
-}
-
-/* ===== HORIZONTAL ANIMATION ===== */
-.spinning-animation--horizontal {
-  width: 100%;
-  height: auto;
-}
-
-.spinning-animation__track--horizontal {
-  flex-direction: row;
-  animation-name: spinningHorizontal;
-  width: max-content;
-}
-
-.spinning-animation__item--horizontal {
-  width: var(--item-width, auto);
-  height: var(--item-height, auto);
-}
-
-@keyframes spinningHorizontal {
+@keyframes spin-scroll {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-16.666%); /* Move by 1/6 of total width for 6 duplicates */
+    transform: translateX(calc(-100% / var(--duplicates, 6)));
   }
 }
 
-/* ===== VERTICAL ANIMATION ===== */
-.spinning-animation--vertical {
-  width: auto;
-  height: 100%;
-}
-
-.spinning-animation__track--vertical {
-  flex-direction: column;
-  animation-name: spinningVertical;
-  height: max-content;
-}
-
-.spinning-animation__item--vertical {
-  width: var(--item-width, auto);
-  height: var(--item-height, auto);
-}
-
-@keyframes spinningVertical {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-16.666%); /* Move by 1/6 of total height for 6 duplicates */
-  }
-}
-
-/* ===== CIRCULAR ANIMATION ===== */
-.spinning-animation--circular {
-  width: calc(var(--radius, 200px) * 2.4);
-  height: calc(var(--radius, 200px) * 2.4);
-  margin: 0 auto;
-}
-
-.spinning-animation__track--circular {
+.spinning-animation-container {
+  width: 100%;
+  overflow: hidden;
   position: relative;
+  background-color: var(--background-color, #f7f7f7);
+  padding: var(--container-padding, 5px);
+}
+
+/* Fade edges for smooth infinite effect */
+.spinning-animation-container.with-fade::before,
+.spinning-animation-container.with-fade::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--fade-width, 200px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.spinning-animation-container.with-fade::before {
+  left: 0;
+  background: linear-gradient(to right, 
+    var(--fade-color) 0%, 
+    color-mix(in srgb, var(--fade-color) 90%, transparent 10%) 20%, 
+    color-mix(in srgb, var(--fade-color) 70%, transparent 30%) 40%, 
+    color-mix(in srgb, var(--fade-color) 30%, transparent 70%) 70%,
+    transparent 100%
+  );
+}
+
+.spinning-animation-container.with-fade::after {
+  right: 0;
+  background: linear-gradient(to left, 
+    var(--fade-color) 0%, 
+    color-mix(in srgb, var(--fade-color) 90%, transparent 10%) 20%, 
+    color-mix(in srgb, var(--fade-color) 70%, transparent 30%) 40%,
+    color-mix(in srgb, var(--fade-color) 30%, transparent 70%) 70%, 
+    transparent 100%
+  );
+}
+
+/* Fallback for browsers that don't support color-mix */
+@supports not (color: color-mix(in srgb, red, blue)) {
+  .spinning-animation-container.with-fade::before {
+    background: linear-gradient(to right, 
+      rgba(247,247,247,1) 0%, 
+      rgba(247,247,247,0.9) 20%, 
+      rgba(247,247,247,0.7) 40%, 
+      rgba(247,247,247,0.3) 70%,
+      rgba(247,247,247,0) 100%
+    );
+  }
+
+  .spinning-animation-container.with-fade::after {
+    background: linear-gradient(to left, 
+      rgba(247,247,247,1) 0%, 
+      rgba(247,247,247,0.9) 20%, 
+      rgba(247,247,247,0.7) 40%,
+      rgba(247,247,247,0.3) 70%, 
+      rgba(247,247,247,0) 100%
+    );
+  }
+}
+
+.spinning-animation-track {
+  display: flex;
+  align-items: center;
+  gap: var(--item-gap, 50px);
+  animation: spin-scroll var(--animation-duration, 30s) linear infinite var(--animation-direction, normal);
+  width: fit-content;
+}
+
+.spinning-animation-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--item-width, 120px);
+  height: var(--item-height, 70px);
+}
+
+/* Default styling for images inside items */
+.spinning-animation-item img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Logo-specific styling (can be overridden) */
+.spinning-animation-item.logo-item {
+  padding: 15px;
+}
+
+.spinning-animation-item.logo-item img {
+  filter: grayscale(100%) opacity(0.6);
+}
+
+/* Image carousel styling */
+.spinning-animation-item.image-item {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.spinning-animation-item.image-item img {
   width: 100%;
   height: 100%;
-  animation-name: spinningCircular;
-  justify-content: center;
-  align-items: center;
-}
-
-.spinning-animation__item--circular {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: 
-    translate(-50%, -50%) 
-    rotate(var(--rotation, 0deg)) 
-    translateY(calc(var(--radius, 200px) * -1));
-  width: var(--item-width, auto);
-  height: var(--item-height, auto);
-}
-
-@keyframes spinningCircular {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* ===== GAP VARIANTS ===== */
-.spinning-animation--gap-xs .spinning-animation__item {
-  margin-right: var(--foundation-space-1, 4px);
-}
-
-.spinning-animation--gap-xs .spinning-animation__item--vertical {
-  margin-right: 0;
-  margin-bottom: var(--foundation-space-1, 4px);
-}
-
-.spinning-animation--gap-sm .spinning-animation__item {
-  margin-right: var(--foundation-space-2, 8px);
-}
-
-.spinning-animation--gap-sm .spinning-animation__item--vertical {
-  margin-right: 0;
-  margin-bottom: var(--foundation-space-2, 8px);
-}
-
-.spinning-animation--gap-md .spinning-animation__item {
-  margin-right: var(--foundation-space-4, 16px);
-}
-
-.spinning-animation--gap-md .spinning-animation__item--vertical {
-  margin-right: 0;
-  margin-bottom: var(--foundation-space-4, 16px);
-}
-
-.spinning-animation--gap-lg .spinning-animation__item {
-  margin-right: var(--foundation-space-6, 24px);
-}
-
-.spinning-animation--gap-lg .spinning-animation__item--vertical {
-  margin-right: 0;
-  margin-bottom: var(--foundation-space-6, 24px);
-}
-
-.spinning-animation--gap-xl .spinning-animation__item {
-  margin-right: var(--foundation-space-8, 32px);
-}
-
-.spinning-animation--gap-xl .spinning-animation__item--vertical {
-  margin-right: 0;
-  margin-bottom: var(--foundation-space-8, 32px);
-}
-
-/* Remove margin from last item in circular mode */
-.spinning-animation--circular .spinning-animation__item {
-  margin: 0 !important;
-}
-
-/* ===== RESPONSIVE BEHAVIOR ===== */
-@media (max-width: 768px) {
-  .spinning-animation--circular {
-    width: calc(var(--radius, 150px) * 2.2);
-    height: calc(var(--radius, 150px) * 2.2);
-  }
-  
-  .spinning-animation__item--circular {
-    transform: 
-      translate(-50%, -50%) 
-      rotate(var(--rotation, 0deg)) 
-      translateY(calc(var(--radius, 150px) * -1));
-  }
-}
-
-/* ===== ACCESSIBILITY ===== */
-@media (prefers-reduced-motion: reduce) {
-  .spinning-animation__track {
-    animation-duration: 120s; /* Much slower animation */
-  }
+  object-fit: cover;
 } 

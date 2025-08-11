@@ -1,6 +1,2 @@
 export { SpinningAnimation } from './SpinningAnimation';
-export type { 
-  SpinningAnimationProps, 
-  SpinningAnimationType, 
-  SpinningDirection 
-} from './SpinningAnimation'; 
+export type { SpinningAnimationProps, SpinningAnimationItem } from './SpinningAnimation'; 

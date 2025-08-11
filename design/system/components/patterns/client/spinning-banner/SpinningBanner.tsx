@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { SpinningAnimation } from '../../../../../system/components/primitives/SpinningAnimation';
+import { SpinningAnimation, SpinningAnimationItem } from '../../../../../system/components/primitives/SpinningAnimation';
 
 interface SpinningBannerProps {
   logos?: Array<{
@@ -13,8 +13,6 @@ interface SpinningBannerProps {
   speed?: number; // Animation speed in seconds
   direction?: 'left' | 'right';
   className?: string;
-  gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  pauseOnHover?: boolean;
 }
 
 export const SpinningBanner: React.FC<SpinningBannerProps> = ({
@@ -32,43 +30,43 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
   ],
   speed = 30,
   direction = 'left',
-  className = '',
-  gap = 'lg',
-  pauseOnHover = false
+  className = ''
 }) => {
-  return (
-    <SpinningAnimation
-      type="horizontal"
-      direction={direction}
-      speed={speed}
-      gap={gap}
-      pauseOnHover={pauseOnHover}
-      className={className}
-      itemHeight="60px" // Standard logo height
-    >
-      {logos.map((logo, index) => (
+  // Convert logos to SpinningAnimationItem format
+  const logoItems: SpinningAnimationItem[] = logos.map((logo, index) => ({
+    id: `${logo.src}-${index}`,
+    content: (
+      <div className="logo-item" style={{ padding: '15px' }}>
         <img
-          key={`${logo.src}-${index}`}
           src={logo.src}
           alt={logo.alt}
           style={{
-            height: logo.height || 60,
-            width: logo.width || 'auto',
+            maxWidth: '100%',
+            maxHeight: '100%',
+            width: 'auto',
+            height: 'auto',
             objectFit: 'contain',
-            filter: 'grayscale(100%)',
-            opacity: 0.7,
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.filter = 'grayscale(0%)';
-            e.currentTarget.style.opacity = '1';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.filter = 'grayscale(100%)';
-            e.currentTarget.style.opacity = '0.7';
+            filter: 'grayscale(100%) opacity(0.6)'
           }}
         />
-      ))}
-    </SpinningAnimation>
+      </div>
+    )
+  }));
+
+  return (
+    <SpinningAnimation
+      items={logoItems}
+      speed={speed}
+      direction={direction}
+      className={className}
+      itemWidth="120px"
+      itemHeight="70px"
+      gap="50px"
+      backgroundColor="#f7f7f7"
+      padding="5px"
+      fadeEdges={true}
+      fadeWidth="200px"
+      duplicates={6}
+    />
   );
 }; 
