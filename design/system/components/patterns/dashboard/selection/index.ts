@@ -24,3 +24,5 @@ export type {
   OptionGridSectionProps, 
   OptionItem 
 } from './OptionGrid';
+
+export { CheckboxCard } from './CheckboxCard'
