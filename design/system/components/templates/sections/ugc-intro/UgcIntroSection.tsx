@@ -64,7 +64,7 @@ export const UgcIntroSection: React.FC<UgcIntroSectionProps> = ({
         align={containerAlign}
         maxWidth="xs"
         style={{ 
-          paddingBottom: '15rem',
+          paddingBottom: '10rem',
           paddingTop: '15rem'
         }}
       >
