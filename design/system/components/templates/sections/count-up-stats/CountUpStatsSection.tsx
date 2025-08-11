@@ -57,8 +57,8 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
   countPrefix = '',
   countDecimals = 0,
   useEasing = true,
-  enableScrollTrigger = true,
-  triggerOffset = 200, // Increased trigger offset for better visibility detection
+  enableScrollTrigger = false, // Temporarily disable to test animation
+  triggerOffset = 50, // Trigger when element is 50px from bottom of viewport
   
   // Typography defaults
   countVariant = 'display-xl',

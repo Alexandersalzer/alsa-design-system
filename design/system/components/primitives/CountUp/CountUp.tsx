@@ -141,10 +141,7 @@ export const CountUp: React.FC<CountUpProps> = ({
           intersectionRatio: entry.intersectionRatio,
           hasStarted: hasStarted,
           hasCompleted: hasCompleted,
-          boundingRect: entry.boundingClientRect,
-          rootBounds: entry.rootBounds,
-          start: start,
-          end: end
+          boundingRect: entry.boundingClientRect.top
         });
         
         // Only trigger if intersecting, hasn't started, and hasn't completed
@@ -155,17 +152,13 @@ export const CountUp: React.FC<CountUpProps> = ({
       },
       {
         root: null,
-        rootMargin: `${triggerOffset}px 0px ${triggerOffset}px 0px`, // Trigger margin on both top and bottom
-        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5] // Multiple thresholds for better sensitivity
+        rootMargin: `0px 0px -${triggerOffset}px 0px`,
+        threshold: 0
       }
     );
 
     observer.observe(element);
-    console.log('👀 Started observing CountUp element with config:', {
-      triggerOffset,
-      enableScrollTrigger,
-      element: element.getBoundingClientRect()
-    });
+    console.log('👀 Started observing CountUp element');
 
     return () => {
       observer.unobserve(element);
@@ -175,7 +168,7 @@ export const CountUp: React.FC<CountUpProps> = ({
       }
       console.log('🧹 Cleaned up CountUp observer');
     };
-  }, [enableScrollTrigger, hasStarted, hasCompleted, triggerOffset, start, end]); // Added hasCompleted to dependencies
+  }, [enableScrollTrigger, hasStarted, hasCompleted, start, end, duration, delay]); // Fixed dependencies
 
   // Test if element is already visible on mount (fallback)
   useEffect(() => {
@@ -187,17 +180,10 @@ export const CountUp: React.FC<CountUpProps> = ({
     const checkVisibility = () => {
       const rect = element.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      const isVisible = (
-        rect.top >= -rect.height &&  // Element is not too far above viewport
-        rect.top <= windowHeight &&  // Element's top is in viewport
-        rect.bottom >= 0 &&          // Element's bottom is not above viewport
-        rect.bottom <= windowHeight + rect.height // Element is not too far below viewport
-      );
+      const isVisible = rect.top < windowHeight - triggerOffset;
       
       console.log('🔍 Manual visibility check:', {
         elementTop: rect.top,
-        elementBottom: rect.bottom,
-        elementHeight: rect.height,
         windowHeight: windowHeight,
         triggerOffset: triggerOffset,
         isVisible: isVisible,
@@ -211,26 +197,12 @@ export const CountUp: React.FC<CountUpProps> = ({
       }
     };
 
-    // Check immediately
+    // Check immediately and after a short delay
     checkVisibility();
-    
-    // Check after a short delay to handle any layout shifts
     const timeoutId = setTimeout(checkVisibility, 100);
     
-    // Also check on scroll for better reliability
-    const handleScroll = () => {
-      if (!hasStarted && !hasCompleted) {
-        checkVisibility();
-      }
-    };
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [enableScrollTrigger, hasStarted, hasCompleted, triggerOffset]);
+    return () => clearTimeout(timeoutId);
+  }, [enableScrollTrigger, hasStarted, hasCompleted, triggerOffset, start, end, duration, delay]); // Fixed dependencies
 
   return (
     <Typography
