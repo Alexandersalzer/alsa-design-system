@@ -56,12 +56,12 @@ export interface RichTextProps {
 export const RichText: React.FC<RichTextProps> = ({
   className,
   heading,
-  headingVariant = 'display-xl',
+  headingVariant, // Removed default value
   headingColor = 'heading',
   headingWeight,
   headingAs,
   subtitle,
-  subtitleVariant = 'body-xl',
+  subtitleVariant, // Removed default value
   subtitleColor = 'secondary',
   subtitleWeight,
   subtitleAs,

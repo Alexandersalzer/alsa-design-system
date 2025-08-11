@@ -74,8 +74,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <RichText
           heading={title}
           headingAs={titleAs}
+          headingVariant="display-xl" // Explicit variant for hero
           subtitle={subtitle}
           subtitleAs={subtitleAs}
+          subtitleVariant="body-xl" // Explicit variant for hero
           button={{
             variant: buttonVariant,
             size: buttonSize,

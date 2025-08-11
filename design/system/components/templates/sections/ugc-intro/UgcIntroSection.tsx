@@ -2,6 +2,7 @@
 
 import { Section, Container } from '../../../../../system/layout';
 import { RichText } from '../../../../../system/components/patterns/client/RichText/RichText';
+import { TypographyVariant } from '../../../../../system/components/primitives/Typography';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 
@@ -10,6 +11,9 @@ interface UgcIntroSectionProps {
   templateIndex?: number;
   titleAs?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   subtitleAs?: 'p' | 'span' | 'div';
+  // Typography variants
+  headingVariant?: TypographyVariant;
+  subtitleVariant?: TypographyVariant;
   unit?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   textPosition?: number;
   textSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
@@ -25,6 +29,9 @@ export const UgcIntroSection: React.FC<UgcIntroSectionProps> = ({
   templateIndex = 0,
   titleAs = 'h6', // h2 since h1 is used in hero
   subtitleAs = 'div',
+  // Typography variants - can be overridden at template level
+  headingVariant = 'display-lg', // Valid TypographyVariant
+  subtitleVariant = 'body-lg', // Valid TypographyVariant
   unit = 'xl', // Same as HeroSection
   textPosition = 1,
   textSpacing = 'sm', // Same as HeroSection
@@ -72,6 +79,8 @@ export const UgcIntroSection: React.FC<UgcIntroSectionProps> = ({
           textSpacing={textSpacing}
           textAlign={textAlign}
           maxWidth={maxWidth}
+          headingVariant={headingVariant}
+          subtitleVariant={subtitleVariant}
         />
       </Container>
     </Section>
