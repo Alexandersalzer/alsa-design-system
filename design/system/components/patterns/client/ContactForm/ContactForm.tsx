@@ -181,7 +181,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         <Cluster spacing={fieldSpacing} wrap={true}>
           {/* Name Field */}
           <Stack spacing="xs">
-            <Typography variant="label-md" weight="bold" color="primary" align="left">
+            <Typography variant="label-sm" weight="bold" color="primary" align="left">
               {nameLabel}
             </Typography>
             <Input
@@ -197,7 +197,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           
           {/* Company Field */}
           <Stack spacing="xs">
-            <Typography variant="label-md" weight="medium" color="primary" align="left">
+            <Typography variant="label-sm" weight="bold" color="primary" align="left">
               {companyLabel}
             </Typography>
             <Input
@@ -214,7 +214,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         
         {/* Email Field */}
         <Stack spacing="xs">
-          <Typography variant="label-md" weight="medium" color="primary" align="left">
+          <Typography variant="label-sm" weight="bold" color="primary" align="left">
             {emailLabel}
           </Typography>
           <Input
@@ -231,7 +231,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         
         {/* Message Field */}
         <Stack spacing="xs">
-          <Typography variant="label-md" weight="medium" color="primary" align="left">
+          <Typography variant="label-sm" weight="bold" color="primary" align="left">
             {messageLabel}
           </Typography>
           <Textarea
