@@ -6,7 +6,7 @@ import { TypographyVariant } from '../../../primitives/Typography';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 
-interface UgcIntroSectionProps {
+interface RichText0ButtonProps {
   pageSlug?: string;
   templateIndex?: number;
   titleAs?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -24,7 +24,7 @@ interface UgcIntroSectionProps {
   sectionPadding?: string;
 }
 
-export const UgcIntroSection: React.FC<UgcIntroSectionProps> = ({
+export const RichText0Button: React.FC<RichText0ButtonProps> = ({
   pageSlug,
   templateIndex = 0,
   titleAs = 'h6', // h2 since h1 is used in hero
