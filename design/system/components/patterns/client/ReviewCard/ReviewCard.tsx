@@ -125,6 +125,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
           weight={reviewTextWeight}
           color={reviewTextColor}
           align="left"
+          className="review-text"
         >
           {reviewText}
         </Typography>
