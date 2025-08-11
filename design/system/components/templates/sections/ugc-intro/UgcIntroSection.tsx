@@ -30,8 +30,8 @@ export const UgcIntroSection: React.FC<UgcIntroSectionProps> = ({
   titleAs = 'h6', // h2 since h1 is used in hero
   subtitleAs = 'div',
   // Typography variants - can be overridden at template level
-  headingVariant = 'display-lg', // Valid TypographyVariant
-  subtitleVariant = 'body-lg', // Valid TypographyVariant
+  headingVariant = 'display-md', // Valid TypographyVariant
+  subtitleVariant = 'body-md', // Valid TypographyVariant
   unit = 'xl', // Same as HeroSection
   textPosition = 1,
   textSpacing = 'sm', // Same as HeroSection
@@ -62,7 +62,7 @@ export const UgcIntroSection: React.FC<UgcIntroSectionProps> = ({
     >
       <Container 
         align={containerAlign}
-        maxWidth="sm"
+        maxWidth="xs"
         style={{ 
           paddingBottom: '15rem',
           paddingTop: '15rem'
