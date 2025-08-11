@@ -4,3 +4,4 @@ export * from './kj-footer';
 export * from './spinning-banner';
 export * from './CountUpSection';
 export * from './spinning-carousel';
+export * from './ContactForm';
