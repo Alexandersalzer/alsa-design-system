@@ -387,6 +387,8 @@
   /* REMOVED: translateX - no more jumping text */
 }
 
+
+
 .picker-option--selected {
   background-color: var(--surface-picker-option-selected);
   color: var(--text-picker-option-selected);

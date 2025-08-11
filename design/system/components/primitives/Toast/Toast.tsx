@@ -1,25 +1,23 @@
-// ===============================================
+// ==============================================
 // src/design-system/components/primitives/Toast/Toast.tsx
-// TOAST COMPONENT - FIXED with new icon system
-// ===============================================
+// ENHANCED TOAST COMPONENT - SMOOTH ANIMATIONS
+// ==============================================
 
-import React, { forwardRef, ReactNode } from 'react';
+import React, { forwardRef, ReactNode, useEffect, useState, useRef } from 'react';
 import { cn } from '../../../lib/utils';
 import { Typography } from '../Typography';
 import { 
   Icon,
   StatusIcons,
-  CheckCircleIcon,
-  ExclamationTriangleIcon,
-  XCircleIcon,
-  InformationCircleIcon,
   XMarkIcon
 } from '../Icon';
 
 // ===== TYPE DEFINITIONS =====
 export type ToastVariant = 'info' | 'success' | 'warning' | 'error';
+export type ToastState = 'entering' | 'visible' | 'exiting' | 'exited';
 
 export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
+  onClose?: () => void;
   /** Toast message text */
   children: ReactNode;
   /** Toast variant/type */
@@ -28,12 +26,20 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
   leftIcon?: ReactNode;
   /** Show close button */
   showClose?: boolean;
-  /** Close button handler */
-  onClose?: () => void;
   /** Additional CSS classes */
   className?: string;
   /** Toast title (optional) */
   title?: string;
+  /** Auto-dismiss duration in milliseconds (0 = no auto-dismiss) */
+  duration?: number;
+  /** Whether the toast should disappear automatically or not */
+  autoDismiss?: boolean;  // New prop for auto-dismiss
+  /** Show progress bar for auto-dismiss */
+  showProgress?: boolean;
+  /** Called when animation completes */
+  onAnimationComplete?: (state: ToastState) => void;
+  /** Force animation state (for external control) */
+  forceState?: ToastState;
 }
 
 // ===== ICON MAPPING =====
@@ -60,16 +66,108 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   onClose,
   title,
   className,
+  duration = 5000,
+  autoDismiss = false, // Default to true
+  showProgress = true,
+  onAnimationComplete,
+  forceState,
+  style,
   ...props
 }, ref) => {
+  const [animationState, setAnimationState] = useState<ToastState>('entering');
+  const [isPaused, setIsPaused] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+
+  // Use forced state if provided, otherwise use internal state
+  const currentState = forceState || animationState;
+
+  // Handle animation lifecycle
+  useEffect(() => {
+    if (forceState) return; // Don't manage state if externally controlled
+
+    // Start entrance animation
+    const enterTimer = setTimeout(() => {
+      setAnimationState('visible');
+      onAnimationComplete?.('visible');
+    }, 100);
+
+    return () => clearTimeout(enterTimer);
+  }, [forceState, onAnimationComplete]);
+
+  // Handle auto-dismiss (if autoDismiss is true)
+  useEffect(() => {
+    if (autoDismiss && duration > 0 && currentState === 'visible' && !isPaused) {
+      timeoutRef.current = setTimeout(() => {
+        handleClose();
+      }, duration);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [autoDismiss, duration, currentState, isPaused]);
+
+  // Handle close with exit animation
+  const handleClose = () => {
+    if (currentState === 'exiting' || currentState === 'exited') return;
+
+    setAnimationState('exiting');
+    onAnimationComplete?.('exiting');
+
+    // Wait for exit animation to complete
+    setTimeout(() => {
+      setAnimationState('exited');
+      onAnimationComplete?.('exited');
+      onClose?.();
+    }, 250); // Match animation duration
+  };
+
+  // Pause/resume auto-dismiss on hover
+  const handleMouseEnter = () => {
+    setIsPaused(true);
+    if (progressRef.current) {
+      progressRef.current.style.animationPlayState = 'paused';
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsPaused(false);
+    if (progressRef.current) {
+      progressRef.current.style.animationPlayState = 'running';
+    }
+  };
+
+  // Don't render if exited
+  if (currentState === 'exited') {
+    return null;
+  }
+
   const toastClasses = cn(
     'toast',
     `toast--${variant}`,
     className
   );
 
+  const toastStyle: React.CSSProperties = {
+    ...style,
+    '--toast-duration': duration > 0 ? `${duration}ms` : undefined,
+  } as React.CSSProperties;
+
   return (
-    <div ref={ref} className={toastClasses} {...props}>
+    <div 
+      ref={ref} 
+      className={toastClasses}
+      data-state={currentState}
+      style={toastStyle}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      role="alert"
+      aria-live="polite"
+      {...props}
+    >
       {/* Left Icon */}
       <div className="toast__icon-left">
         {leftIcon || getVariantIcon(variant)}
@@ -95,22 +193,33 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
       </div>
 
       {/* Close Button */}
-      {showClose && onClose && (
+      {showClose && (
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="toast__close"
           aria-label="Close notification"
+          type="button"
         >
           <Icon size="sm" color="primary">
             <XMarkIcon />
           </Icon>
         </button>
       )}
+
+      {/* Progress Bar */}
+      {showProgress && duration > 0 && currentState === 'visible' && autoDismiss && (
+        <div 
+          ref={progressRef}
+          className="toast__progress" 
+          aria-hidden="true"
+        />
+      )}
     </div>
   );
 });
 
 Toast.displayName = 'Toast';
+
 
 // ===== CONVENIENCE COMPONENTS =====
 export interface ErrorToastProps extends Omit<ToastProps, 'variant'> {}

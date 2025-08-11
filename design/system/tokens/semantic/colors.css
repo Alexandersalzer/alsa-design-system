@@ -128,7 +128,6 @@
   /* ===== SEMANTIC SURFACE TOKENS ===== */
   --surface-background: #fff;
   --surface-page: var(--primary-white);
-  --surface-card: var(--primary-white);
 
   --surface-overlay: rgba(0, 0, 0, 0.5);
   --surface-backdrop: rgba(0, 0, 0, 0.3);
@@ -179,6 +178,11 @@
   --interactive-tertiary: transparent;
   --interactive-tertiary-hover: var(--secondary-100);
   --interactive-tertiary-active: var(--secondary-200);
+
+  --interactive-destructive: var(--error-500);              /* Solid red background */
+  --interactive-destructive-hover: var(--error-600);        /* Darker red on hover */
+  --interactive-destructive-active: var(--error-700);       /* Even darker on active */
+  --interactive-destructive-disabled: var(--error-200);     /* Light red when disabled */
 
   --surface-button-destructive: var(--error-100); /* Light red background */
   --surface-button-destructive-hover: var(--error-200); /* Slightly darker on hover */

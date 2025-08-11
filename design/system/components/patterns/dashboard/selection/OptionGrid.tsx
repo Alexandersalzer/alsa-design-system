@@ -30,7 +30,7 @@ export interface OptionSectionProps {
   description?: string;
   icon?: React.ReactElement;
   action?: React.ReactNode;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 }
 
