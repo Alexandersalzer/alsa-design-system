@@ -159,15 +159,30 @@
 /* ===== RESULTS CARD SPECIFIC STYLES ===== */
 .results-card {
   width: 100%;
-  max-width: none;
-  padding: 0 !important; /* Remove padding for full-width image */
-  overflow: hidden; /* Ensure image doesn't break card borders */
+  max-width: 350px; /* Set a specific max width similar to KJ Marketing */
+  background-color: var(--surface-subtle, #f8f9fa); /* Light gray background */
+  padding: var(--foundation-space-4) !important; /* 16px padding around the image */
+  overflow: hidden;
+  height: auto; /* Let height be determined by content */
+  min-height: 280px; /* Minimum height for consistency */
+  border: 1px solid var(--border-subtle, #e5e7eb); /* Subtle border */
+  box-shadow: var(--foundation-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1)); /* Subtle shadow */
+  transition: all 0.2s ease; /* Smooth transitions */
+}
+
+.results-card:hover {
+  box-shadow: var(--foundation-shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1)); /* Enhanced shadow on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
 }
 
 .results-image-container {
   width: 100%;
+  height: 200px; /* Fixed height for image container */
   position: relative;
   overflow: hidden;
+  border-radius: var(--radius-md, 8px); /* Rounded corners for image */
+  background-color: var(--surface-card, #ffffff); /* White background behind image */
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05); /* Inner border for definition */
 }
 
 .results-image-container img {
@@ -175,10 +190,11 @@
   height: 100% !important;
   object-fit: cover;
   transition: transform 0.3s ease;
+  border-radius: var(--radius-md, 8px); /* Match container radius */
 }
 
 .results-card:hover .results-image-container img {
-  transform: scale(1.05);
+  transform: scale(1.02); /* Subtle zoom on hover */
 }
 
 /* ===== REVIEW GRID CENTERING ===== */

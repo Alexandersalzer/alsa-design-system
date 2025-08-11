@@ -53,11 +53,11 @@ export const Results: React.FC<ResultsProps> = ({
   
   // Card styling defaults
   variant = 'default',
-  padding = 'lg',
+  padding = 'md', // Changed from 'lg' to 'md' since we handle padding in CSS
   radius = 'md',
   
   // Layout defaults
-  spacing = 'md',
+  spacing = 'lg', // Increased spacing between card and text
 }) => {
   return (
     <Stack spacing={spacing}>
@@ -67,13 +67,13 @@ export const Results: React.FC<ResultsProps> = ({
         padding={padding}
         radius={radius}
       >
-          {/* Image */}
+          {/* Image with proper spacing inside card */}
           <div className="results-image-container">
             <Image
               src={`/images/results/${image}`}
               alt={title}
               width={500}
-              height={350}
+              height={300} // Adjusted height ratio
               style={{
                 width: '100%',
                 height: '100%',
@@ -84,15 +84,15 @@ export const Results: React.FC<ResultsProps> = ({
           </div>
       </Card>
       
-      {/* Description below card */}
-      <Stack spacing="xs">
-        <Typography variant="body-lg" weight="regular" color="secondary" align="left">
+      {/* Description below card with tighter spacing */}
+      <Stack spacing="sm">
+        <Typography variant="body-sm" weight="medium" color="secondary" align="left">
           {subtitle}
         </Typography>
-        <Typography variant="h4" weight="bold" color="primary" align="left">
+        <Typography variant="h5" weight="bold" color="primary" align="left">
           {title}
         </Typography>
-        <Typography variant="body-md" weight="regular" color="secondary" align="left">
+        <Typography variant="body-sm" weight="regular" color="secondary" align="left">
           {body}
         </Typography>
       </Stack>
