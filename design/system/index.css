@@ -45,16 +45,6 @@
 @import './components/patterns/dashboard/layout/AppLayout.css';
 @import './components/patterns/dashboard/page/Cluster.css';
 @import './components/patterns/dashboard/page/Stack.css';
-@import './components/patterns/dashboard/page/Rhythm.css';
-@import './components/patterns/dashboard/editor/content-editing/PageTree/PageTree.css';
-@import './components/patterns/dashboard/editor/content-editing/ContentEditor/ContentEditor.css';
-@import './components/patterns/dashboard/editor/content-editing/ContentEditor/ContentEditorSection.css';
-@import './components/patterns/dashboard/editor/content-editing/ContentEditor/ContentEditorHeader.css';
-@import './components/patterns/dashboard/editor/content-editing/ContentEditor/ContentEditorMain.css';
-@import './components/patterns/dashboard/editor/content-editing/ContentEditor/ContentEditorSidebar.css';
-@import './components/patterns/dashboard/editor/content-editing/ContentEditor/ContentEditorToolbar.css';
-@import './components/patterns/dashboard/editor/content-editing/ContentEditor/ContentEditorFooter.css';
-@import './components/patterns/dashboard/editor/design-panel/DesignPanel.css';
 
 /* STEP 6: Layout utilities */
 @import './layout/utilities/cluster/Cluster.css';
