@@ -70,10 +70,9 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   submitButtonText = "Submit",
   
   // Placeholders with defaults matching KJ Marketing form
-  namePlaceholder = "Please enter your name",
-  companyPlaceholder = "Please enter your company name",
-  emailPlaceholder = "Please enter a valid email address",
-  messagePlaceholder = "Please enter your message",
+  namePlaceholder = "First name",
+  companyPlaceholder = "Company name",
+  emailPlaceholder = "Email address",
   
   // Error messages
   nameErrorMessage = "Name is required",
@@ -238,7 +237,6 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             value={formData.message}
             onChange={(e) => handleChange('message', e.target.value)}
             onBlur={() => handleBlur('message')}
-            placeholder={messagePlaceholder}
             error={touched.message ? errors.message : undefined}
             size="md"
             minRows={4}
