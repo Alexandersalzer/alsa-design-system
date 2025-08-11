@@ -61,23 +61,23 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
   direction = 'left',
   className = '',
   
-  // Image defaults - similar to KJ Marketing carousel
-  imageWidth = '300px',
-  imageHeight = '200px',
-  imageBorderRadius = '12px',
+  // Image defaults - matching KJ Marketing carousel dimensions
+  imageWidth = '200px', // Smaller width to match KJ Marketing
+  imageHeight = '120px', // Smaller height to match KJ Marketing
+  imageBorderRadius = '8px',
   
   // Container defaults
   containerHeight = 'auto',
   backgroundColor = 'transparent',
   padding = '20px 0',
-  gap = '20px',
+  gap = '16px', // Smaller gap to match KJ Marketing
   
   // Fade edges defaults
   enableFadeEdges = true,
-  fadeWidth = '150px',
+  fadeWidth = '100px', // Smaller fade width
   
   // Animation defaults
-  duplicateCount = 4, // Fewer duplicates needed for larger items
+  duplicateCount = 5, // More duplicates for smaller items
   
   onImageClick
 }) => {
@@ -122,25 +122,7 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
           }}
         />
         
-        {/* Optional overlay for better text readability */}
-        {image.title && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              background: 'linear-gradient(transparent, rgba(0,0,0,0.7))',
-              color: 'white',
-              padding: '20px 15px 15px',
-              fontSize: '14px',
-              fontWeight: '600',
-              textAlign: 'center',
-            }}
-          >
-            {image.title}
-          </div>
-        )}
+        {/* Removed text overlay completely */}
       </div>
     )
   }));

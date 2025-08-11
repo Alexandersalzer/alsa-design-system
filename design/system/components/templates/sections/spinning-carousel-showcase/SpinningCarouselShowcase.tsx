@@ -61,28 +61,28 @@ export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> =
     { src: '/images/thumbnails/realestate.png', alt: 'Real estate content', title: 'Real Estate' }
   ],
   
-  // Carousel defaults - matching KJ Marketing style
-  speed = 45,
+  // Carousel defaults - matching KJ Marketing style exactly
+  speed = 50, // Slightly faster for smaller images
   direction = 'left',
   
-  imageWidth = '280px',
-  imageHeight = '180px',
+  imageWidth = '200px', // Match KJ Marketing carousel
+  imageHeight = '120px', // Match KJ Marketing carousel  
   imageBorderRadius = '8px',
   
   carouselHeight = 'auto',
   backgroundColor = 'transparent',
   carouselPadding = '0',
-  gap = '24px',
+  gap = '16px', // Smaller gap like KJ Marketing
   
   enableFadeEdges = true,
-  fadeWidth = '120px',
+  fadeWidth = '100px', // Smaller fade width
   
-  duplicateCount = 4,
+  duplicateCount = 5, // More duplicates for smaller items
   
   // Layout defaults
   containerAlign = 'center',
   containerMaxWidth = 'full',
-  sectionPadding = '4rem 0',
+  sectionPadding = '3rem 0', // Slightly less padding
   
   onImageClick
 }) => {
