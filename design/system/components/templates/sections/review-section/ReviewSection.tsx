@@ -1,6 +1,7 @@
 'use client';
 
 import { Section, Container } from '../../../../../system/layout';
+import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
 import { ReviewCard } from '../../../../../system/components/patterns/client/ReviewCard';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
@@ -20,9 +21,11 @@ interface ReviewSectionProps {
   cardRadius?: 'sm' | 'md' | 'lg';
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   
-  // Grid layout
-  columns?: number;
-  gap?: string;
+  // Grid layout (using our Grid system types)
+  columns?: number | 'auto-fit' | 'auto-fill';
+  minItemWidth?: string;
+  gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  justifyItems?: 'start' | 'center' | 'end' | 'stretch';
 }
 
 export const ReviewSection: React.FC<ReviewSectionProps> = ({
@@ -41,8 +44,10 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
   spacing = 'sm',
   
   // Grid defaults
-  columns = 3,
-  gap = '2rem'
+  columns = 'auto-fit',
+  minItemWidth = '350px',
+  gap = 'lg',
+  justifyItems = 'center'
 }) => {
   const { getPageTemplateByLayoutIndex, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -93,18 +98,16 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
         align={containerAlign}
         maxWidth="lg"
         style={{ 
-            paddingBottom: '10rem',
-            paddingTop: '10rem'
+            paddingBottom: '8rem',
+            paddingTop: '2rem'
         }}
       >
         {/* Grid layout for multiple review cards */}
-        <div 
-          style={{
-            display: 'grid',
-            gridTemplateColumns: `repeat(auto-fit, minmax(300px, 1fr))`,
-            gap: gap,
-            justifyItems: 'center'
-          }}
+        <Grid 
+          columns={columns}
+          minItemWidth={minItemWidth}
+          gap={gap}
+          justifyItems={justifyItems}
         >
           {reviewCards.map((review) => (
             <ReviewCard
@@ -120,7 +123,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
               headerSpacing="sm"
             />
           ))}
-        </div>
+        </Grid>
       </Container>
     </Section>
   );
