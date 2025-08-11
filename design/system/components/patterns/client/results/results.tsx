@@ -18,7 +18,8 @@ export interface ResultsProps {
   name: string;
   subtitle: string;
   reviewText: string;
-  
+  body: string;
+  title: string;
   // Profile icon configuration
   showIcon?: boolean;
   
@@ -54,7 +55,8 @@ export const Results: React.FC<ResultsProps> = ({
   name,
   subtitle,
   reviewText,
-  
+  body,
+  title,
   // Icon defaults
   showIcon = true,
   
@@ -81,6 +83,7 @@ export const Results: React.FC<ResultsProps> = ({
   headerSpacing = 'sm'
 }) => {
   return (
+    <Stack spacing={spacing}>
     <Card
       className={`results-card ${className || ''}`}
       variant={variant}
@@ -130,6 +133,12 @@ export const Results: React.FC<ResultsProps> = ({
         </Typography>
       </Stack>
     </Card>
+    <Typography variant="body-md" weight="bold" color="primary">
+      {subtitle}
+      {title}
+      {body}
+    </Typography>
+</Stack>
   );
 };
 

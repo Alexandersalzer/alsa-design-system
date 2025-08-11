@@ -20,7 +20,7 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
           paddingBottom: '2rem'
         }}
       >
-        <Results name="Results" subtitle="Results" reviewText="Results" />
+        <Results name="Results" subtitle="UGC reklam" reviewText="Results" body="Denna videon förändrade detta företagets framtid, en UGC video skapad av någon som har känsla för det. Det räcker." title="10.4 miljoner visningar" />
       </Container>
     </Section>
   );
