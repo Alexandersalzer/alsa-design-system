@@ -100,13 +100,13 @@ export const Results: React.FC<ResultsProps> = ({
         </Stack>
     </Card>
     <Stack spacing="xs">
-      <Typography variant="body-lg" weight="regular" color="primary" align="left">
+      <Typography variant="body-xl" weight="regular" color="secondary" align="left">
         {subtitle}
       </Typography>
-      <Typography variant="body-lg" weight="bold" color="primary" align="left">
+      <Typography variant="body-xl" weight="bold" color="primary" align="left">
         {title}
       </Typography>
-      <Typography variant="body-md" weight="regular" color="secondary" align="left">
+      <Typography variant="body-lg" weight="regular" color="secondary" align="left">
       {body}
       </Typography>
     </Stack>
