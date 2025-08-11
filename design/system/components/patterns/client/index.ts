@@ -6,3 +6,4 @@ export * from './CountUpSection';
 export * from './spinning-carousel';
 export * from './ContactForm';
 export * from './ReviewCard';
+export * from './results';
