@@ -5,3 +5,4 @@ export * from './spinning-banner';
 export * from './CountUpSection';
 export * from './spinning-carousel';
 export * from './ContactForm';
+export * from './ReviewCard';
