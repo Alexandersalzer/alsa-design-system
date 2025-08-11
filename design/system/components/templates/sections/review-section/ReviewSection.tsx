@@ -1,6 +1,7 @@
 'use client';
 
 import { Section, Container } from '../../../../../system/layout';
+import { ResponsiveGrid } from '../../../../../system/layout/utilities/grid/Grid';
 import { ReviewCard } from '../../../../../system/components/patterns/client/ReviewCard';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
@@ -21,8 +22,7 @@ interface ReviewSectionProps {
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   
   // Grid layout
-  columns?: number;
-  gap?: string;
+  minItemWidth?: string;
 }
 
 export const ReviewSection: React.FC<ReviewSectionProps> = ({
@@ -41,8 +41,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
   spacing = 'sm',
   
   // Grid defaults
-  columns = 3,
-  gap = '2rem'
+  minItemWidth = '300px',
 }) => {
   const { getPageTemplateByLayoutIndex, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -98,13 +97,8 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
         }}
       >
         {/* Grid layout for multiple review cards */}
-        <div 
-          style={{
-            display: 'grid',
-            gridTemplateColumns: `repeat(auto-fit, minmax(300px, 1fr))`,
-            gap: gap,
-            justifyItems: 'center'
-          }}
+        <ResponsiveGrid
+          minItemWidth={minItemWidth}
         >
           {reviewCards.map((review) => (
             <ReviewCard
@@ -120,7 +114,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
               headerSpacing="sm"
             />
           ))}
-        </div>
+        </ResponsiveGrid>
       </Container>
     </Section>
   );
