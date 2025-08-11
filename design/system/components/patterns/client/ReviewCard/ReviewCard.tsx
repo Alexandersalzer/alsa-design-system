@@ -69,7 +69,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   radius = 'md',
   
   // Typography defaults - matching KJ Marketing style
-  nameVariant = 'h6',
+  nameVariant = 'h4',
   subtitleVariant = 'body-md',
   reviewTextVariant = 'body-md',
   
