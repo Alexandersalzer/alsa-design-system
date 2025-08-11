@@ -64,7 +64,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   iconColor = 'muted',
   
   // Card styling defaults
-  variant = 'elevated',
+  variant = 'outlined',
   padding = 'lg',
   radius = 'md',
   
