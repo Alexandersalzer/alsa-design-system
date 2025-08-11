@@ -188,7 +188,7 @@
 .results-image-container img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover;
+  object-fit: contain; /* Changed from cover to contain - shows entire image */
   transition: transform 0.3s ease;
   border-radius: var(--radius-md, 8px); /* Match container radius */
 }
