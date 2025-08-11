@@ -45,11 +45,17 @@
 @import './components/patterns/dashboard/layout/AppLayout.css';
 @import './components/patterns/dashboard/page/Cluster.css';
 @import './components/patterns/dashboard/page/Stack.css';
+@import './components/patterns/dashboard/page/PageContent.css';
+@import './components/patterns/dashboard/page/Grid.css';
+@import './components/patterns/dashboard/page/PageHeader.css';
+@import './components/patterns/dashboard/page/LayoutUtilities.css';
+@import './components/patterns/dashboard/editor/content-editing/PageTree/PageTree.css';
 
 /* STEP 6: Layout utilities */
 @import './layout/utilities/cluster/Cluster.css';
 @import './layout/utilities/stack/Stack.css';
 @import './layout/utilities/rhythm/Rhythm.css';
+@import './layout/utilities/grid/Grid.css';
 @import './layout/frames/section/Section.css';
 @import './layout/frames/container/Container.css';
 @import './layout/frames/block/Block.css';
