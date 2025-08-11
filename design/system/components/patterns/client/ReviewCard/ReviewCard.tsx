@@ -6,7 +6,6 @@
 import React from 'react';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
-import { Icon, UserCircleIcon } from '../../../../../system/components/primitives/Icon';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 
@@ -22,8 +21,6 @@ export interface ReviewCardProps {
   
   // Profile icon configuration
   showIcon?: boolean;
-  iconSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  iconColor?: 'primary' | 'secondary' | 'tertiary' | 'disabled' | 'muted';
   
   // Styling options
   variant?: 'default' | 'elevated' | 'outlined';
@@ -60,8 +57,6 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   
   // Icon defaults
   showIcon = true,
-  iconSize = 'xl',
-  iconColor = 'muted',
   
   // Card styling defaults
   variant = 'outlined',
@@ -87,7 +82,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
 }) => {
   return (
     <Card
-      className={className}
+      className={`review-card ${className || ''}`}
       variant={variant}
       padding={padding}
       radius={radius}
@@ -97,9 +92,9 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
         <Cluster spacing={headerSpacing} align="start">
           {/* Profile Icon */}
           {showIcon && (
-            <Icon size={iconSize} color={iconColor}>
-              <UserCircleIcon />
-            </Icon>
+            <div className="testimonial-avatar">
+              <div className="person-icon"></div>
+            </div>
           )}
           
           {/* Name and Subtitle vertically */}
