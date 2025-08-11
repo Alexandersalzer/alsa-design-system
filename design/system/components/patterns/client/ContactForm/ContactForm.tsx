@@ -181,7 +181,6 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         {/* Name and Company in a Cluster (horizontal layout) */}
         <Cluster spacing={fieldSpacing} wrap={true}>
           {/* Name Field */}
-          <div style={{ flex: '1', minWidth: '250px' }}>
             <Stack spacing="xs">
               <Typography variant="label-md" weight="medium" color="primary">
                 {nameLabel}
@@ -192,14 +191,13 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                 onBlur={() => handleBlur('name')}
                 placeholder={namePlaceholder}
                 error={touched.name ? errors.name : undefined}
-                size="lg"
+                size="md"
                 radius="md"
               />
             </Stack>
-          </div>
           
           {/* Company Field */}
-          <div style={{ flex: '1', minWidth: '250px' }}>
+          <Stack spacing="xs">
             <Stack spacing="xs">
               <Typography variant="label-md" weight="medium" color="primary">
                 {companyLabel}
@@ -210,11 +208,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                 onBlur={() => handleBlur('company')}
                 placeholder={companyPlaceholder}
                 error={touched.company ? errors.company : undefined}
-                size="lg"
+                size="sm"
                 radius="md"
               />
             </Stack>
-          </div>
+          </Stack>
         </Cluster>
         
         {/* Email Field */}
