@@ -92,8 +92,8 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
         align={containerAlign}
         maxWidth="lg"
         style={{ 
-            paddingBottom: '10rem',
-            paddingTop: '10rem'
+            paddingBottom: '8rem',
+            paddingTop: '2rem'
         }}
       >
         {/* Grid layout for multiple review cards */}
