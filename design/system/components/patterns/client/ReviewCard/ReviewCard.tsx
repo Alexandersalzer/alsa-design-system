@@ -6,7 +6,9 @@
 import React from 'react';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
+import { Icon, UserCircleIcon } from '../../../../../system/components/primitives/Icon';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -17,6 +19,11 @@ export interface ReviewCardProps {
   name: string;
   subtitle: string;
   reviewText: string;
+  
+  // Profile icon configuration
+  showIcon?: boolean;
+  iconSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  iconColor?: 'primary' | 'secondary' | 'tertiary' | 'disabled' | 'muted';
   
   // Styling options
   variant?: 'default' | 'elevated' | 'outlined';
@@ -40,6 +47,7 @@ export interface ReviewCardProps {
   
   // Layout spacing
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  headerSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
 // ===== MAIN REVIEW CARD COMPONENT =====
@@ -49,6 +57,11 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   name,
   subtitle,
   reviewText,
+  
+  // Icon defaults
+  showIcon = true,
+  iconSize = 'xl',
+  iconColor = 'muted',
   
   // Card styling defaults
   variant = 'elevated',
@@ -69,7 +82,8 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   reviewTextColor = 'primary',
   
   // Layout defaults
-  spacing = 'sm'
+  spacing = 'md',
+  headerSpacing = 'sm'
 }) => {
   return (
     <Card
@@ -79,7 +93,38 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
       radius={radius}
     >
       <Stack spacing={spacing}>
-        {/* Review Text - Put first to match KJ Marketing layout */}
+        {/* Header: Icon + Name/Subtitle horizontally */}
+        <Cluster spacing={headerSpacing} align="start">
+          {/* Profile Icon */}
+          {showIcon && (
+            <Icon size={iconSize} color={iconColor}>
+              <UserCircleIcon />
+            </Icon>
+          )}
+          
+          {/* Name and Subtitle vertically */}
+          <Stack spacing="xs" flexChild={true}>
+            <Typography
+              variant={nameVariant}
+              weight={nameWeight}
+              color={nameColor}
+              align="left"
+            >
+              {name}
+            </Typography>
+            
+            <Typography
+              variant={subtitleVariant}
+              weight={subtitleWeight}
+              color={subtitleColor}
+              align="left"
+            >
+              {subtitle}
+            </Typography>
+          </Stack>
+        </Cluster>
+        
+        {/* Review Text - Below header */}
         <Typography
           variant={reviewTextVariant}
           weight={reviewTextWeight}
@@ -87,26 +132,6 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
           align="left"
         >
           {reviewText}
-        </Typography>
-        
-        {/* Name */}
-        <Typography
-          variant={nameVariant}
-          weight={nameWeight}
-          color={nameColor}
-          align="left"
-        >
-          {name}
-        </Typography>
-        
-        {/* Subtitle */}
-        <Typography
-          variant={subtitleVariant}
-          weight={subtitleWeight}
-          color={subtitleColor}
-          align="left"
-        >
-          {subtitle}
         </Typography>
       </Stack>
     </Card>

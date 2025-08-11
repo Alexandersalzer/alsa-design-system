@@ -77,10 +77,14 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
           name={name}
           subtitle={subtitle}
           reviewText={reviewText}
+          showIcon={true}
+          iconSize="xl"
+          iconColor="muted"
           variant={cardVariant}
           padding={cardPadding}
           radius={cardRadius}
           spacing={spacing}
+          headerSpacing="sm"
         />
       </Container>
     </Section>
