@@ -34,7 +34,6 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
   // Layout defaults
   containerAlign = 'center',
   containerMaxWidth = 'md',
-  sectionPadding = '5rem 0',
   
   // Form styling defaults
   spacing = 'lg',
@@ -96,7 +95,8 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
         align={containerAlign}
         maxWidth="xs"
         style={{ 
-          padding: sectionPadding
+            paddingTop: '5rem',
+            paddingBottom: '5rem'
         }}
       >
         <ContactForm
