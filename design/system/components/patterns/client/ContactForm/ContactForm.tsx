@@ -176,7 +176,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   
   return (
     <form onSubmit={handleSubmit} className={className}>
-      <Stack spacing={spacing}>
+      <Stack spacing="sm">
         {/* Name and Company in a Cluster (horizontal layout) */}
         <Cluster spacing={fieldSpacing} wrap={true}>
           {/* Name Field */}
@@ -191,7 +191,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               placeholder={namePlaceholder}
               error={touched.name ? errors.name : undefined}
               size="md"
-              radius="md"
+              radius="sm"
             />
           </Stack>
           
@@ -207,7 +207,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               placeholder={companyPlaceholder}
               error={touched.company ? errors.company : undefined}
               size="md"
-              radius="md"
+              radius="sm"
             />
           </Stack>
         </Cluster>
