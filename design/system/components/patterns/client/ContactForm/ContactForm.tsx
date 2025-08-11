@@ -181,7 +181,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         <Cluster spacing={fieldSpacing} wrap={true}>
           {/* Name Field */}
           <Stack spacing="xs">
-            <Typography variant="label-md" weight="medium" color="primary" align="left">
+            <Typography variant="label-md" weight="bold" color="primary" align="left">
               {nameLabel}
             </Typography>
             <Input
