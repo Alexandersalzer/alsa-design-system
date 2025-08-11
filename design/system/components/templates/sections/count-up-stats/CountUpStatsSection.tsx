@@ -48,17 +48,17 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
   templateIndex = 0,
   
   // CountUp defaults - matching KJ Marketing website (45M+ views)
-  countEnd = 45000, // Reduced for testing
+  countEnd = 45000000, // Restored to original 45 million
   countStart = 0,
-  countDuration = 2000, // Shorter duration for testing
+  countDuration = 3000, // Restored to longer duration for better effect
   countDelay = 0, // Remove delay for testing
   countSeparator = ' ', // Space as thousands separator like on KJ Marketing site
   countSuffix = '+',
   countPrefix = '',
   countDecimals = 0,
   useEasing = true,
-  enableScrollTrigger = false, // Temporarily disabled to test animation
-  triggerOffset = 100, // Trigger when element is 50px from bottom of viewport
+  enableScrollTrigger = true, // Re-enabled for scroll-based animation
+  triggerOffset = 50, // Trigger when element is 50px from bottom of viewport
   
   // Typography defaults
   countVariant = 'display-xl',
