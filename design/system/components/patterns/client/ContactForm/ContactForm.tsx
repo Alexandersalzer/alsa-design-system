@@ -38,7 +38,6 @@ export interface ContactFormProps {
   namePlaceholder?: string;
   companyPlaceholder?: string;
   emailPlaceholder?: string;
-  messagePlaceholder?: string;
   
   // Validation messages
   nameErrorMessage?: string;
