@@ -50,15 +50,15 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
   // CountUp defaults - matching KJ Marketing website (45M+ views)
   countEnd = 45000000,
   countStart = 0,
-  countDuration = 2500, // Slightly longer for better effect
-  countDelay = 0, // Small delay for better UX
+  countDuration = 3000, // Slightly longer for better effect
+  countDelay = 300, // Small delay for better UX
   countSeparator = ' ', // Space as thousands separator like on KJ Marketing site
   countSuffix = '+',
   countPrefix = '',
   countDecimals = 0,
   useEasing = true,
-  enableScrollTrigger = true, // Re-enable scroll trigger
-  triggerOffset = 0, // Trigger when element is 50px from bottom of viewport
+  enableScrollTrigger = true,
+  triggerOffset = 200, // Increased trigger offset for better visibility detection
   
   // Typography defaults
   countVariant = 'display-xl',
