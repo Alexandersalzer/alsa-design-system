@@ -156,6 +156,24 @@
   max-width: none; /* Remove max-width constraint */
 }
 
+/* ===== REVIEW GRID CENTERING ===== */
+.review-grid-center {
+  justify-items: center;
+  align-items: start;
+}
+
+/* Ensure cards are centered on mobile when single column */
+@media (max-width: 767px) {
+  .review-grid-center {
+    justify-items: center;
+  }
+  
+  .review-card {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
 @media (max-width: 768px) {
   .card {

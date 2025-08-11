@@ -99,6 +99,10 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
         {/* Grid layout for multiple review cards */}
         <ResponsiveGrid
           minItemWidth="280px"
+          className="review-grid-center"
+          style={{
+            justifyItems: 'center'
+          }}
         >
           {reviewCards.map((review) => (
             <ReviewCard
