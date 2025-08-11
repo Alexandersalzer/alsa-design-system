@@ -96,12 +96,13 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
             paddingTop: '0rem'
         }}
       >
-        {/* Grid layout for multiple review cards */}
+        {/* Grid layout for multiple review cards with equal heights */}
         <ResponsiveGrid
           minItemWidth="280px"
           className="review-grid-center"
           style={{
-            justifyItems: 'center'
+            alignItems: 'stretch', // Ensure all grid items stretch to same height
+            justifyItems: 'stretch' // Ensure cards fill their grid cells
           }}
         >
           {reviewCards.map((review) => (

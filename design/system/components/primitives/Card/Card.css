@@ -150,10 +150,22 @@
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='5'%3E%3C/circle%3E%3Cpath d='M20 21c0-4.418-3.582-8-8-8s-8 3.582-8 8'%3E%3C/path%3E%3C/svg%3E") no-repeat center / contain;
 }
 
-/* ===== REVIEW CARD SPECIFIC STYLES (KJ Marketing Width) ===== */
+/* ===== REVIEW CARD SPECIFIC STYLES ===== */
 .review-card {
   width: 100%;
   max-width: none; /* Remove max-width constraint */
+  height: 100%; /* Fill available height in grid row */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure card content fills available space */
+.review-card .card-content,
+.review-card > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* ===== RESULTS CARD SPECIFIC STYLES ===== */
@@ -186,16 +198,16 @@
   border-radius: var(--radius-md, 8px); /* Match container radius */
 }
 
-/* ===== REVIEW GRID CENTERING ===== */
+/* ===== REVIEW GRID CENTERING WITH EQUAL HEIGHTS ===== */
 .review-grid-center {
-  justify-items: center;
-  align-items: start;
+  justify-items: stretch; /* Stretch items to fill grid cells */
+  align-items: stretch; /* Align items to stretch vertically */
 }
 
 /* Ensure cards are centered on mobile when single column */
 @media (max-width: 767px) {
   .review-grid-center {
-    justify-items: center;
+    justify-items: stretch; /* Keep stretching on mobile too */
   }
   
   .review-card {
