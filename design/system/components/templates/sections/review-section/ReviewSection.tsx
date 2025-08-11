@@ -31,7 +31,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
   sectionPadding = '5rem 0',
   
   // Card styling defaults
-  cardVariant = 'elevated',
+  cardVariant = 'outlined',
   cardPadding = 'lg',
   cardRadius = 'md',
   spacing = 'sm'
@@ -80,7 +80,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
           showIcon={true}
           iconSize="xl"
           iconColor="muted"
-          variant="outlined"
+          variant={cardVariant}
           padding={cardPadding}
           radius={cardRadius}
           spacing={spacing}

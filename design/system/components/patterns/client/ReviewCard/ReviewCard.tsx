@@ -70,11 +70,11 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   
   // Typography defaults - matching KJ Marketing style
   nameVariant = 'h6',
-  subtitleVariant = 'body-sm',
+  subtitleVariant = 'body-md',
   reviewTextVariant = 'body-md',
   
   nameWeight = 'bold',
-  subtitleWeight = 'medium',
+  subtitleWeight = 'regular',
   reviewTextWeight = 'regular',
   
   nameColor = 'primary',
