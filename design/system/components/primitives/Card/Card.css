@@ -167,12 +167,6 @@
   min-height: 280px; /* Minimum height for consistency */
   border: 1px solid var(--border-subtle, #e5e7eb); /* Subtle border */
   box-shadow: var(--foundation-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1)); /* Subtle shadow */
-  transition: all 0.2s ease; /* Smooth transitions */
-}
-
-.results-card:hover {
-  box-shadow: var(--foundation-shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1)); /* Enhanced shadow on hover */
-  transform: translateY(-2px); /* Slight lift on hover */
 }
 
 .results-image-container {
@@ -189,12 +183,7 @@
   width: 100% !important;
   height: 100% !important;
   object-fit: contain; /* Changed from cover to contain - shows entire image */
-  transition: transform 0.3s ease;
   border-radius: var(--radius-md, 8px); /* Match container radius */
-}
-
-.results-card:hover .results-image-container img {
-  transform: scale(1.02); /* Subtle zoom on hover */
 }
 
 /* ===== REVIEW GRID CENTERING ===== */
