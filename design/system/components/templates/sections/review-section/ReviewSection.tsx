@@ -19,6 +19,10 @@ interface ReviewSectionProps {
   cardPadding?: 'sm' | 'md' | 'lg';
   cardRadius?: 'sm' | 'md' | 'lg';
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  
+  // Grid layout
+  columns?: number;
+  gap?: string;
 }
 
 export const ReviewSection: React.FC<ReviewSectionProps> = ({
@@ -27,14 +31,18 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
   
   // Layout defaults
   containerAlign = 'center',
-  containerMaxWidth = 'md',
+  containerMaxWidth = 'xl', // Larger for multiple cards
   sectionPadding = '5rem 0',
   
   // Card styling defaults
-  cardVariant = 'outlined',
+  cardVariant = 'default',
   cardPadding = 'lg',
   cardRadius = 'md',
-  spacing = 'sm'
+  spacing = 'sm',
+  
+  // Grid defaults
+  columns = 3,
+  gap = '2rem'
 }) => {
   const { getPageTemplateByLayoutIndex, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -50,16 +58,31 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
     return null;
   }
   
-  // Get the template type dynamically
-  const templateType = template.type;
+  // Get all patterns from the template (each pattern = one review card)
+  const patterns = template.patterns || [];
   
-  // Get blocks from template using its actual type
-  const templateBlocks = getTemplateBlocks(template, templateType);
+  if (patterns.length === 0) {
+    console.log('No patterns found in reviewCard template');
+    return null;
+  }
   
-  // Extract content using generic functions from CMS with fallbacks
-  const name = getBlockContent(templateBlocks, 'name') || 'Furkantasel';
-  const subtitle = getBlockContent(templateBlocks, 'subtitle') || 'Head Of Marketing Ivy AI';
-  const reviewText = getBlockContent(templateBlocks, 'reviewText') || 'Utmärkt arbete! Högst rekommenderad! Kvaliteten på arbetet var förstklassig och levererades i tid. Jag är otroligt nöjd med resultatet och skulle starkt rekommendera Kevin till alla som letar efter en pålitlig och talangfull frilansare.';
+  // Create review cards from each pattern
+  const reviewCards = patterns.map((pattern, index) => {
+    // Get blocks for this specific pattern
+    const patternBlocks = pattern.blocks || [];
+    
+    // Extract content from this pattern's blocks
+    const name = getBlockContent(patternBlocks, 'name') || `Review ${index + 1}`;
+    const subtitle = getBlockContent(patternBlocks, 'subtitle') || 'Customer';
+    const reviewText = getBlockContent(patternBlocks, 'reviewText') || 'Great work!';
+    
+    return {
+      id: `review-${index}`,
+      name,
+      subtitle,
+      reviewText
+    };
+  });
 
   return (
     <Section 
@@ -73,17 +96,30 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
           padding: sectionPadding
         }}
       >
-        <ReviewCard
-          name={name}
-          subtitle={subtitle}
-          reviewText={reviewText}
-          showIcon={true}
-          variant={cardVariant}
-          padding={cardPadding}
-          radius={cardRadius}
-          spacing={spacing}
-          headerSpacing="xs"
-        />
+        {/* Grid layout for multiple review cards */}
+        <div 
+          style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(auto-fit, minmax(300px, 1fr))`,
+            gap: gap,
+            justifyItems: 'center'
+          }}
+        >
+          {reviewCards.map((review) => (
+            <ReviewCard
+              key={review.id}
+              name={review.name}
+              subtitle={review.subtitle}
+              reviewText={review.reviewText}
+              showIcon={true}
+              variant={cardVariant}
+              padding={cardPadding}
+              radius={cardRadius}
+              spacing={spacing}
+              headerSpacing="sm"
+            />
+          ))}
+        </div>
       </Container>
     </Section>
   );

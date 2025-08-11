@@ -59,7 +59,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   showIcon = true,
   
   // Card styling defaults
-  variant = 'outlined',
+  variant = 'default',
   padding = 'lg',
   radius = 'md',
   
