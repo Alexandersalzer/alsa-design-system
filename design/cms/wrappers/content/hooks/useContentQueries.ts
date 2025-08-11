@@ -11,6 +11,10 @@ export function useContentQueries(content: WebsiteContent | null) {
     return queries.getPageTemplate(content, pageSlug, templateType, templateIndex);
   }, [content]);
 
+  const getPageTemplateByLayoutIndex = useCallback((pageSlug: string, layoutIndex: number): ContentTemplate | undefined => {
+    return queries.getPageTemplateByLayoutIndex(content, pageSlug, layoutIndex);
+  }, [content]);
+
   const getPageTemplates = useCallback((pageSlug: string, templateType: string): ContentTemplate[] => {
     return queries.getPageTemplates(content, pageSlug, templateType);
   }, [content]);
@@ -29,6 +33,7 @@ export function useContentQueries(content: WebsiteContent | null) {
 
   return {
     getPageTemplate,
+    getPageTemplateByLayoutIndex,
     getPageTemplates,
     getGlobalComponent,
     getTemplateBlocks,

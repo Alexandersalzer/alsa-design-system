@@ -39,21 +39,29 @@ export const RichText0Button: React.FC<RichText0ButtonProps> = ({
   maxWidth = '550px', // Same as HeroSection
   containerAlign = 'center'
 }) => {
-  const { getPageTemplate, getTemplateBlocks, getBlockContent } = useContent();
+  const { getPageTemplateByLayoutIndex, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
   
   // Determine which page slug to use
   const currentSlug = pageSlug || pathname.replace('/', '') || 'home';
   
-  // Get specific UGC intro template by index
-  const ugcTemplate = getPageTemplate(currentSlug, 'ugcIntro', templateIndex);
+  // Get template by layout index (this makes it generic!)
+  const template = getPageTemplateByLayoutIndex(currentSlug, templateIndex);
   
-  // Get blocks from UGC intro pattern
-  const ugcBlocks = getTemplateBlocks(ugcTemplate, 'ugcIntro');
+  if (!template) {
+    console.log(`No template found at layout index ${templateIndex} for page ${currentSlug}`);
+    return null;
+  }
+  
+  // Get the template type dynamically
+  const templateType = template.type;
+  
+  // Get blocks from template using its actual type
+  const templateBlocks = getTemplateBlocks(template, templateType);
   
   // Extract content using generic functions from CMS
-  const title = getBlockContent(ugcBlocks, 'title');
-  const subtitle = getBlockContent(ugcBlocks, 'subtitle');
+  const title = getBlockContent(templateBlocks, 'title');
+  const subtitle = getBlockContent(templateBlocks, 'subtitle');
 
   // Don't render if no content is available
   if (!title && !subtitle) {
@@ -62,7 +70,7 @@ export const RichText0Button: React.FC<RichText0ButtonProps> = ({
 
   return (
     <Section 
-      id="ugc-intro-section" 
+      id={`rich-text-section-${templateIndex}`}
       height="auto"
     >
       <Container 

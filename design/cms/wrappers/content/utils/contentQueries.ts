@@ -23,6 +23,24 @@ export function getPageTemplate(
 }
 
 /**
+ * Pure function to get a template by its position in the layout (regardless of type)
+ */
+export function getPageTemplateByLayoutIndex(
+  content: WebsiteContent | null, 
+  pageSlug: string, 
+  layoutIndex: number
+): ContentTemplate | undefined {
+  if (!content?.pages) return undefined;
+
+  // Find the page by slug
+  const page = Object.values(content.pages).find((p: any) => p.slug === pageSlug);
+  if (!page?.templates) return undefined;
+
+  // Return the template at the specified layout position
+  return page.templates[layoutIndex];
+}
+
+/**
  * Pure function to get ALL templates of a specific type from a page
  */
 export function getPageTemplates(

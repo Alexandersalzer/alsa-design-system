@@ -8,6 +8,7 @@ export interface ContentContextType {
   
   // Query functions
   getPageTemplate: (pageSlug: string, templateType: string, templateIndex?: number) => ContentTemplate | undefined;
+  getPageTemplateByLayoutIndex: (pageSlug: string, layoutIndex: number) => ContentTemplate | undefined;
   getPageTemplates: (pageSlug: string, templateType: string) => ContentTemplate[];
   getGlobalComponent: (componentType: string) => GlobalComponent | undefined;
   getTemplateBlocks: (template: ContentTemplate | GlobalComponent | undefined, patternType?: string) => ContentBlock[];
