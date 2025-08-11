@@ -191,7 +191,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                 onBlur={() => handleBlur('name')}
                 placeholder={namePlaceholder}
                 error={touched.name ? errors.name : undefined}
-                size="md"
+                size="lg"
                 radius="md"
               />
             </Stack>
@@ -208,7 +208,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                 onBlur={() => handleBlur('company')}
                 placeholder={companyPlaceholder}
                 error={touched.company ? errors.company : undefined}
-                size="sm"
+                size="lg"
                 radius="md"
               />
             </Stack>
