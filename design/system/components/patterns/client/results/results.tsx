@@ -64,16 +64,17 @@ export const Results: React.FC<ResultsProps> = ({
       <Card
         className={`results-card ${className || ''}`}
         variant={variant}
-        padding={padding}
+        padding="lg"
         radius={radius}
       >
+        <Stack spacing="md">
           {/* Image */}
           <div className="results-image-container">
             <Image
               src={`/images/results/${image}`}
               alt={title}
               width={600}
-              height={450}
+              height={375}
               style={{
                 width: '100%',
                 height: '100%',
@@ -82,20 +83,21 @@ export const Results: React.FC<ResultsProps> = ({
               priority
             />
           </div>
+          
+          {/* Text content inside card */}
+          <Stack spacing="xs">
+            <Typography variant="body-sm" weight="medium" color="secondary" align="left">
+              {subtitle}
+            </Typography>
+            <Typography variant="h5" weight="bold" color="primary" align="left">
+              {title}
+            </Typography>
+            <Typography variant="body-sm" weight="regular" color="secondary" align="left">
+              {body}
+            </Typography>
+          </Stack>
+        </Stack>
       </Card>
-      
-      {/* Description below card */}
-      <Stack spacing="xs">
-        <Typography variant="body-lg" weight="regular" color="secondary" align="left">
-          {subtitle}
-        </Typography>
-        <Typography variant="h4" weight="bold" color="primary" align="left">
-          {title}
-        </Typography>
-        <Typography variant="body-md" weight="regular" color="secondary" align="left">
-          {body}
-        </Typography>
-      </Stack>
     </Stack>
   );
 };

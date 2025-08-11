@@ -160,14 +160,19 @@
 .results-card {
   width: 100%;
   max-width: none;
-  padding: 0 !important; /* Remove padding for full-width image */
-  overflow: hidden; /* Ensure image doesn't break card borders */
+  padding: 1rem !important; /* Add padding back for image margins */
+  overflow: visible; /* Allow image to have proper margins */
+  background-color: var(--surface-card);
+  min-height: 300px; /* Ensure card has proper height */
 }
 
 .results-image-container {
   width: 100%;
   position: relative;
   overflow: hidden;
+  border-radius: var(--radius-md);
+  aspect-ratio: 16/10; /* Wider aspect ratio like KJ Marketing */
+  margin-bottom: 1rem; /* Space between image and text if needed */
 }
 
 .results-image-container img {
@@ -175,10 +180,11 @@
   height: 100% !important;
   object-fit: cover;
   transition: transform 0.3s ease;
+  border-radius: var(--radius-md);
 }
 
 .results-card:hover .results-image-container img {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 /* ===== REVIEW GRID CENTERING ===== */
