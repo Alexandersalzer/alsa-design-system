@@ -18,7 +18,7 @@ interface SpinningBannerProps {
 export const SpinningBanner: React.FC<SpinningBannerProps> = ({
   logos = [
     { src: '/images/kjlogos/huellogo.png', alt: 'Huel Logo' },
-    { src: '/images/kjlogos/fazerlogo.png.webp', alt: 'Fazer Logo' },
+    { src: '/images/kjlogos/fazerlogo.png', alt: 'Fazer Logo' },
     { src: '/images/kjlogos/wolt.png', alt: 'Wolt Logo' },
     { src: '/images/kjlogos/tradera.png', alt: 'Tradera Logo' },
     { src: '/images/kjlogos/philips.png', alt: 'Philips Logo' },

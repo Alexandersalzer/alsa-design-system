@@ -52,7 +52,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
   // Default logos if none provided - all 10 logos from kjlogos directory
   const defaultLogos = [
     { src: '/images/kjlogos/huellogo.png', alt: 'Huel Logo' },
-    { src: '/images/kjlogos/fazerlogo.png.webp', alt: 'Fazer Logo' },
+    { src: '/images/kjlogos/fazerlogo.png', alt: 'Fazer Logo' },
     { src: '/images/kjlogos/wolt.png', alt: 'Wolt Logo' },
     { src: '/images/kjlogos/tradera.png', alt: 'Tradera Logo' },
     { src: '/images/kjlogos/philips.png', alt: 'Philips Logo' },
