@@ -190,7 +190,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               onBlur={() => handleBlur('name')}
               placeholder={namePlaceholder}
               error={touched.name ? errors.name : undefined}
-              size="lg"
+              size="md"
               radius="md"
             />
           </Stack>
@@ -206,7 +206,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               onBlur={() => handleBlur('company')}
               placeholder={companyPlaceholder}
               error={touched.company ? errors.company : undefined}
-              size="lg"
+              size="md"
               radius="md"
             />
           </Stack>
@@ -224,7 +224,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             onBlur={() => handleBlur('email')}
             placeholder={emailPlaceholder}
             error={touched.email ? errors.email : undefined}
-            size="lg"
+            size="md"
             radius="md"
           />
         </Stack>
@@ -240,7 +240,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             onBlur={() => handleBlur('message')}
             placeholder={messagePlaceholder}
             error={touched.message ? errors.message : undefined}
-            size="lg"
+            size="md"
             minRows={4}
             maxRows={8}
             autoResize={true}
