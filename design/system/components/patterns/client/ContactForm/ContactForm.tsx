@@ -121,20 +121,19 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     
     switch (field) {
       case 'name':
-        if (!value.trim()) error = nameErrorMessage;
+        // Removed required validation - no error for empty name
         break;
       case 'company':
-        if (!value.trim()) error = companyErrorMessage;
+        // Removed required validation - no error for empty company
         break;
       case 'email':
-        if (!value.trim()) {
-          error = emailErrorMessage;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        // Only validate email format if there's a value
+        if (value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
           error = emailErrorMessage;
         }
         break;
       case 'message':
-        if (!value.trim()) error = messageErrorMessage;
+        // Removed required validation - no error for empty message
         break;
     }
     
@@ -181,43 +180,41 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         {/* Name and Company in a Cluster (horizontal layout) */}
         <Cluster spacing={fieldSpacing} wrap={true}>
           {/* Name Field */}
-            <Stack spacing="xs">
-              <Typography variant="label-md" weight="medium" color="primary">
-                {nameLabel}
-              </Typography>
-              <Input
-                value={formData.name}
-                onChange={(e) => handleChange('name', e.target.value)}
-                onBlur={() => handleBlur('name')}
-                placeholder={namePlaceholder}
-                error={touched.name ? errors.name : undefined}
-                size="lg"
-                radius="md"
-              />
-            </Stack>
+          <Stack spacing="xs">
+            <Typography variant="label-md" weight="medium" color="primary" align="left">
+              {nameLabel}
+            </Typography>
+            <Input
+              value={formData.name}
+              onChange={(e) => handleChange('name', e.target.value)}
+              onBlur={() => handleBlur('name')}
+              placeholder={namePlaceholder}
+              error={touched.name ? errors.name : undefined}
+              size="lg"
+              radius="md"
+            />
+          </Stack>
           
           {/* Company Field */}
           <Stack spacing="xs">
-            <Stack spacing="xs">
-              <Typography variant="label-md" weight="medium" color="primary">
-                {companyLabel}
-              </Typography>
-              <Input
-                value={formData.company}
-                onChange={(e) => handleChange('company', e.target.value)}
-                onBlur={() => handleBlur('company')}
-                placeholder={companyPlaceholder}
-                error={touched.company ? errors.company : undefined}
-                size="lg"
-                radius="md"
-              />
-            </Stack>
+            <Typography variant="label-md" weight="medium" color="primary" align="left">
+              {companyLabel}
+            </Typography>
+            <Input
+              value={formData.company}
+              onChange={(e) => handleChange('company', e.target.value)}
+              onBlur={() => handleBlur('company')}
+              placeholder={companyPlaceholder}
+              error={touched.company ? errors.company : undefined}
+              size="lg"
+              radius="md"
+            />
           </Stack>
         </Cluster>
         
         {/* Email Field */}
         <Stack spacing="xs">
-          <Typography variant="label-md" weight="medium" color="primary">
+          <Typography variant="label-md" weight="medium" color="primary" align="left">
             {emailLabel}
           </Typography>
           <Input
@@ -234,7 +231,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         
         {/* Message Field */}
         <Stack spacing="xs">
-          <Typography variant="label-md" weight="medium" color="primary">
+          <Typography variant="label-md" weight="medium" color="primary" align="left">
             {messageLabel}
           </Typography>
           <Textarea
