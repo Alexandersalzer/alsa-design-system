@@ -82,7 +82,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
           padding={cardPadding}
           radius={cardRadius}
           spacing={spacing}
-          headerSpacing="sm"
+          headerSpacing="xs"
         />
       </Container>
     </Section>
