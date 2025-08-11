@@ -23,8 +23,8 @@ interface UgcIntroSectionProps {
 export const UgcIntroSection: React.FC<UgcIntroSectionProps> = ({
   pageSlug,
   templateIndex = 0,
-  titleAs = 'h3', // h2 since h1 is used in hero
-  subtitleAs = 'span',
+  titleAs = 'h6', // h2 since h1 is used in hero
+  subtitleAs = 'div',
   unit = 'xl', // Same as HeroSection
   textPosition = 1,
   textSpacing = 'sm', // Same as HeroSection
@@ -57,8 +57,8 @@ export const UgcIntroSection: React.FC<UgcIntroSectionProps> = ({
         align={containerAlign}
         maxWidth="sm"
         style={{ 
-          paddingBottom: '2rem',
-          paddingTop: '2rem'
+          paddingBottom: '15rem',
+          paddingTop: '15rem'
         }}
       >
         <RichText
