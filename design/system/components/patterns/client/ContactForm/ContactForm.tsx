@@ -10,7 +10,7 @@ import { Input } from '../../../../../system/components/primitives/Input';
 import { Textarea } from '../../../../../system/components/primitives/Textarea';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Typography } from '../../../../../system/components/primitives/Typography';
-
+import { Icon, ArrowRightIcon } from '../../../../../system/components/primitives/Icon';
 // ===== TYPE DEFINITIONS =====
 
 export interface ContactFormData {
@@ -248,6 +248,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           variant={buttonVariant}
           size={buttonSize}
           disabled={isLoading}
+          rightIcon={<Icon color="inverse"><ArrowRightIcon/></Icon>}
         >
           {isLoading ? 'Sending...' : submitButtonText}
         </Button>
