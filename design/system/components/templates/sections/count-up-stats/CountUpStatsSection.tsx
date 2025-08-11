@@ -105,10 +105,6 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
     <Section 
       id="count-up-stats-section" 
       height="auto"
-      style={{
-        backgroundColor: '#f8f9fa', // Light background for visibility
-        minHeight: '400px' // Ensure it's visible
-      }}
     >
       <Container 
         align={containerAlign}
