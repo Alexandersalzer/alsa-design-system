@@ -2,6 +2,9 @@
 
 import { Section, Container } from '../../../../../system/layout';
 import { FilterTabs } from '../../../patterns/client/FilterTabs';
+import { PortfolioCard } from '../../../patterns/client/PortfolioCard';
+import { ResponsiveGrid } from '../../../../../system/layout/utilities/grid/Grid';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 
@@ -39,7 +42,7 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
   
   // Layout defaults
   containerAlign = 'center',
-  containerMaxWidth = 'lg',
+  containerMaxWidth = 'xl', // Increased for portfolio grid
   
   // Tab styling defaults - matching KJ Marketing
   tabSize = 'md',
@@ -110,21 +113,42 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
         maxWidth={containerMaxWidth}
         style={{ 
           paddingTop: '2rem',
-          paddingBottom: '2rem'
+          paddingBottom: '4rem'
         }}
       >
-        <FilterTabs
-          filters={filters}
-          activeFilter={activeFilter}
-          onFilterChange={handleFilterChange}
-          tabSize={tabSize}
-          fontWeight={fontWeight}
-          useHeadingFont={useHeadingFont}
-          spacing={spacing}
-          align={align}
-          justify={justify}
-          wrap={wrap}
-        />
+        <Stack spacing="xl">
+          {/* Filter Tabs */}
+          <FilterTabs
+            filters={filters}
+            activeFilter={activeFilter}
+            onFilterChange={handleFilterChange}
+            tabSize={tabSize}
+            fontWeight={fontWeight}
+            useHeadingFont={useHeadingFont}
+            spacing={spacing}
+            align={align}
+            justify={justify}
+            wrap={wrap}
+          />
+          
+          {/* Portfolio Grid - For now just showing one card */}
+          <ResponsiveGrid
+            minItemWidth="350px"
+            gap="lg"
+            style={{
+              justifyItems: 'center',
+              alignItems: 'start'
+            }}
+          >
+            <PortfolioCard
+              category="INTERVJUINNEHÅLL"
+              title="Svenska Ikoner-utmaning med Swae Lee"
+              description="Rapper Swae Lee takes on the ultimate Swedish culture test! Can this global superstar name the three biggest Swedish icons: ABBA, Zlatan, and Avicii? This viral interview moment showcases the perfect blend of entertainment and cultural connection."
+              views="3.2M views"
+              videoSrc="Intro Video-2.mov"
+            />
+          </ResponsiveGrid>
+        </Stack>
       </Container>
     </Section>
   );

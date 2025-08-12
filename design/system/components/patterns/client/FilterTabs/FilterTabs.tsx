@@ -93,7 +93,7 @@ export const FilterTabs: React.FC<FilterTabsProps> = ({
           {filters.map((filter) => (
             <Tab
               key={filter.id}
-              variant="segment" // Use segment variant for filter-style tabs
+              variant="page" // Use segment variant for filter-style tabs
               size={tabSize}
               isActive={currentActiveFilter === filter.id}
               onClick={() => handleFilterClick(filter.id, filter.value)}
