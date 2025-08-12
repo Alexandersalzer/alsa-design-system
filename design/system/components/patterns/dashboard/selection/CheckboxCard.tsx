@@ -93,17 +93,17 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (disabled || !interactive) return;
     
-    // Don't trigger if clicking on checkbox, tags, or interactive elements
+    // Don't trigger if clicking on tags or interactive elements (but allow label clicks)
     const target = e.target as HTMLElement;
     if (
-      target.closest('.checkbox-card__checkbox') ||
       target.closest('.checkbox-card__tag') ||
-      target.closest('button') ||
+      target.closest('button:not(.checkbox-card)') ||
       target.closest('a')
     ) {
       return;
     }
     
+    // Always allow clicking anywhere in the card (including labels) to toggle
     onChange?.(!checked);
     onClick?.(e);
   };
@@ -202,8 +202,12 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
             {label && (
               <label
                 id={`${id}-label`}
-                htmlFor={checkboxPosition !== 'hidden' ? checkboxId : undefined}
                 className="checkbox-card__label"
+                onClick={(e) => {
+                  // Don't prevent the card click, just ensure it bubbles up
+                  e.stopPropagation();
+                  onChange?.(!checked);
+                }}
               >
                 {label}
                 {required && (

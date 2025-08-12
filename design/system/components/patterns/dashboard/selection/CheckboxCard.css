@@ -42,7 +42,7 @@
 
 .checkbox-card--error {
   border-color: var(--error-500);
-  background-color: var(--error-100);
+  background-color: var(--error-25);
 }
 
 .checkbox-card:focus-visible {
@@ -192,9 +192,10 @@
   font-size: var(--foundation-text-md);
   font-weight: var(--foundation-weight-medium);
   color: var(--text-primary);
-  cursor: inherit;
+  cursor: pointer; /* Make it clear it's clickable */
   line-height: 1.4;
   transition: color 0.2s ease;
+  user-select: none; /* Prevent text selection on click */
 }
 
 .checkbox-card--sm .checkbox-card__label {
@@ -404,6 +405,15 @@
 /* Accessibility improvements */
 .checkbox-card:focus-visible .checkbox-card__label {
   text-decoration: underline;
+}
+
+.checkbox-card__label:hover {
+  color: var(--accent-600);
+}
+
+.checkbox-card--disabled .checkbox-card__label {
+  color: var(--text-disabled);
+  cursor: not-allowed;
 }
 
 .checkbox-card__checkbox input[type="checkbox"]:focus-visible {
