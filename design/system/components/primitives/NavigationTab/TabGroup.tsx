@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Tab/TabGroup.tsx
-// SIMPLIFIED VERSION - Clean and performant + KEYBOARD NAVIGATION
+// FIXED VERSION - Uses Tab key for navigation like everyone expects
 // ===============================================
 
 import React, { ReactNode, useState, useRef, useEffect, useCallback } from 'react';
@@ -46,31 +46,17 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     const currentIndex = navItems.findIndex(item => item === document.activeElement);
     let newIndex = currentIndex;
 
-    const isHorizontal = orientation === 'horizontal';
-
     switch (e.key) {
-      case 'ArrowRight':
-        if (isHorizontal) {
-          e.preventDefault();
-          newIndex = (currentIndex + 1) % navItems.length;
-        }
-        break;
-      case 'ArrowLeft':
-        if (isHorizontal) {
+      case 'Tab':
+        // Let Tab work normally - it will move to next/previous item
+        if (e.shiftKey) {
+          // Shift+Tab = previous item
           e.preventDefault();
           newIndex = (currentIndex - 1 + navItems.length) % navItems.length;
-        }
-        break;
-      case 'ArrowDown':
-        if (!isHorizontal) {
+        } else {
+          // Tab = next item
           e.preventDefault();
           newIndex = (currentIndex + 1) % navItems.length;
-        }
-        break;
-      case 'ArrowUp':
-        if (!isHorizontal) {
-          e.preventDefault();
-          newIndex = (currentIndex - 1 + navItems.length) % navItems.length;
         }
         break;
       case 'Home':
@@ -81,13 +67,22 @@ export const TabGroup: React.FC<TabGroupProps> = ({
         e.preventDefault();
         newIndex = navItems.length - 1;
         break;
+      case 'Enter':
+      case ' ':
+        // Space or Enter activates the focused item
+        e.preventDefault();
+        const focusedItem = navItems[currentIndex];
+        if (focusedItem) {
+          focusedItem.click();
+        }
+        break;
     }
 
     if (newIndex !== currentIndex && navItems[newIndex]) {
       setFocusedIndex(newIndex);
       navItems[newIndex].focus();
     }
-  }, [variant, orientation]);
+  }, [variant]);
 
   useEffect(() => {
     if (!animated || variant === 'navigation' || orientation === 'vertical') return;

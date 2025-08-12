@@ -30,6 +30,9 @@
   border: none;
   position: relative;
   
+  /* 🎯 KEYBOARD NAVIGATION - Make all tabs focusable */
+  tabindex: 0;
+  
   /* 🎯 CLEAN FOCUS - Only visible with keyboard navigation */
   outline: none;
 }
@@ -91,7 +94,22 @@
   color: var(--text-nav-item-selected, #1f2937);
 }
 
-/* ===== DISABLED STATE ===== */
+/* ===== KEYBOARD NAVIGATION SUPPORT ===== */
+.tab-group--vertical .nav-item,
+.tab-group--vertical .tab,
+.sidebar__nav .nav-item,
+.sidebar__nav .tab {
+  /* Ensure all navigation items are keyboard accessible */
+  tabindex: 0;
+}
+
+/* Disabled items should not be focusable */
+.nav-item--disabled,
+.nav-item.disabled,
+.tab--disabled,
+.tab.disabled {
+  tabindex: -1;
+}
 .nav-item--disabled,
 .nav-item.disabled,
 .tab--disabled,
@@ -262,7 +280,6 @@
   border-bottom: 1px solid var(--border-nav, #e5e7eb);
   padding-bottom: var(--space-nav-item-gap, 8px);
   position: relative;
-  overflow: hidden;
 }
 
 /* Segment tabs container */
