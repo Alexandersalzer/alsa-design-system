@@ -40,6 +40,8 @@
   outline: 2px solid var(--border-focus, #3b82f6);
   outline-offset: 2px;
   border-radius: var(--radius-button, 6px);
+  z-index: 100; /* Ensure focus outline is always visible */
+  position: relative;
 }
 
 /* 🎯 REMOVE focus outline on mouse click */
@@ -236,6 +238,7 @@
 .sidebar__nav {
   display: flex;
   align-items: center;
+  overflow: visible; /* Prevent focus outline clipping */
 }
 
 /* Vertical layout (sidebar) */
@@ -244,6 +247,7 @@
   flex-direction: column;
   gap: var(--foundation-space-1, 4px);
   align-items: stretch;
+  overflow: visible; /* Allow focus outlines to show */
 }
 
 /* Horizontal layout */
