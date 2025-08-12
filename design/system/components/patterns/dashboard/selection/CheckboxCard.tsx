@@ -11,7 +11,7 @@ import { Icon, type IconColor } from '../../../primitives/Icon';
 import { cn } from '../../../../lib/utils';
 
 export interface CheckboxCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
-  children: React.ReactNode;
+  children?: React.ReactNode; // Make children optional
   checked?: boolean;
   onChange?: (checked: boolean) => void;
   disabled?: boolean;
@@ -220,7 +220,9 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
               </div>
             )}
 
-            <div className="checkbox-card__children">{children}</div>
+            {children && (
+              <div className="checkbox-card__children">{children}</div>
+            )}
           </div>
 
           {/* Right: tags, badges, and right-positioned checkbox */}
