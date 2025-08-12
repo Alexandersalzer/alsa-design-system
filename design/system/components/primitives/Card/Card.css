@@ -264,7 +264,7 @@
 /* Image container styles */
 .portfolio-image-container {
   width: 100%;
-  height: 240px; /* Fixed height to match video height */
+  height: auto; /* Fixed height for consistent card sizes */
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0; /* Rounded top corners only */
@@ -273,7 +273,7 @@
 .portfolio-image-container img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover; /* Changed from contain to cover to fill the space better */
+  object-fit: contain;
   border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0; /* Match container radius */
 }
 
