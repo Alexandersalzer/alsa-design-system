@@ -136,7 +136,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
         
         {/* Content - with padding */}
         <div className="portfolio-content">
-          <Stack spacing="xs">
+          <Stack spacing="sm">
             {/* Category */}
             <Typography
               variant={categoryVariant}

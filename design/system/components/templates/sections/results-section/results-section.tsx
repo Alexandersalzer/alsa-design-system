@@ -63,7 +63,7 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
       <Container 
         align="center" 
         height="auto"
-        maxWidth="lg"
+        maxWidth="xl"
         style={{ 
           paddingTop: '2rem', 
           paddingBottom: '2rem'

@@ -90,7 +90,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
     >
       <Container 
         align={containerAlign}
-        maxWidth="lg"
+        maxWidth="xl"
         style={{ 
             paddingBottom: '5rem',
             paddingTop: '0rem'

@@ -3,7 +3,7 @@ import styles from './Container.module.css';
 
 type Alignment = 'left' | 'center' | 'right';
 type Height = 'auto' | 'full' | 'fit';
-type MaxWidth = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
+type MaxWidth = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
 
 interface ContainerProps {
   children: ReactNode;
@@ -55,6 +55,8 @@ const getMaxWidthClass = (maxWidth: MaxWidth): string => {
       return styles.maxWidthXl;
     case '2xl':
       return styles.maxWidth2xl;
+    case '3xl':
+      return styles.maxWidth3xl;
     case 'full':
       return styles.maxWidthFull;
     case 'none':
