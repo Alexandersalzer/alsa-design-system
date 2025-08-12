@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/patterns/selection/SelectionCard.tsx
-// ENHANCED VERSION - CheckboxCard + Radio support = Ultimate SelectionCard
+// CLEAN VERSION - Only checkbox and radio, no confusing button variant
 // ===============================================
 
 import React, { forwardRef, useId } from 'react';
@@ -15,14 +15,12 @@ import { Cluster } from '../page/Cluster';
 export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   children?: React.ReactNode;
   
-  // Selection behavior
-  type?: 'button' | 'checkbox' | 'radio';
-  checked?: boolean; // For checkbox/radio
-  selected?: boolean; // For button (backward compatibility)
-  onChange?: (checked: boolean) => void; // For checkbox/radio
-  onClick?: () => void; // For button (backward compatibility)
+  // Selection type - only checkbox or radio
+  type: 'checkbox' | 'radio';
+  checked?: boolean;
+  onChange?: (checked: boolean) => void;
   
-  // Form integration (for radio groups)
+  // Form integration (required for radio groups)
   name?: string;
   value?: string;
   
@@ -36,7 +34,6 @@ export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivEle
   // Content
   label?: string;
   description?: string;
-  badge?: React.ReactNode;
   
   // Tags
   tag?: {
@@ -61,14 +58,11 @@ export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivEle
   iconColor?: IconColor;
   
   // Control positioning
-  controlPosition?: 'left' | 'right' | 'hidden';
+  controlPosition?: 'left' | 'right';
   
   // States
   required?: boolean;
   error?: string;
-  highlight?: boolean;
-  interactive?: boolean;
-  showSelectedIndicator?: boolean;
   
   // Classes
   controlClassName?: string;
@@ -76,11 +70,9 @@ export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivEle
 
 export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   children,
-  type = 'button',
+  type,
   checked = false,
-  selected = false, // Backward compatibility
   onChange,
-  onClick,
   name,
   value,
   disabled = false,
@@ -90,7 +82,6 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   size = 'md',
   label,
   description,
-  badge,
   tag,
   tags,
   icon,
@@ -100,9 +91,6 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   error,
   className,
   controlClassName,
-  highlight = false,
-  interactive = true,
-  showSelectedIndicator = true,
   id: providedId,
   ...props
 }, ref) => {
@@ -110,18 +98,10 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   const id = providedId || generatedId;
   const controlId = `${id}-control`;
 
-  // Determine if selected (supports both new 'checked' and legacy 'selected')
-  const isSelected = type === 'button' ? selected : checked;
-  
-  // Determine if clickable
-  const isClickable = !disabled && interactive && (
-    type === 'button' ? !!onClick : !!onChange
-  );
-
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (disabled || !interactive) return;
+    if (disabled) return;
     
-    // Don't trigger if clicking on tags or interactive elements
+    // Don't trigger if clicking on tags or other interactive elements
     const target = e.target as HTMLElement;
     if (
       target.closest('.selection-card__tag') ||
@@ -131,31 +111,25 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
       return;
     }
     
-    // Handle different selection types
-    if (type === 'button') {
-      onClick?.();
-    } else if (type === 'checkbox') {
+    // Toggle the control
+    if (type === 'checkbox') {
       onChange?.(!checked);
     } else if (type === 'radio') {
-      if (!checked) { // Only allow selecting, not deselecting radio
+      if (!checked) { // Only allow selecting radio, not deselecting
         onChange?.(true);
       }
     }
   };
 
   const handleControlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (type === 'checkbox' || type === 'radio') {
-      onChange?.(e.target.checked);
-    }
+    onChange?.(e.target.checked);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if ((e.key === 'Enter' || e.key === ' ') && !disabled && interactive) {
+    if ((e.key === 'Enter' || e.key === ' ') && !disabled) {
       e.preventDefault();
       
-      if (type === 'button') {
-        onClick?.();
-      } else if (type === 'checkbox') {
+      if (type === 'checkbox') {
         onChange?.(!checked);
       } else if (type === 'radio') {
         if (!checked) {
@@ -178,7 +152,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   const renderIcon = () => {
     if (!icon) return null;
 
-    const defaultColor: IconColor = isSelected ? 'accent' : 'secondary';
+    const defaultColor: IconColor = checked ? 'accent' : 'secondary';
     const finalColor = iconColor || defaultColor;
 
     return (
@@ -193,10 +167,8 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
     );
   };
 
-  // Helper to render form control (checkbox/radio)
+  // Helper to render form control
   const renderControl = () => {
-    if (type === 'button' || controlPosition === 'hidden') return null;
-
     const controlProps = {
       id: controlId,
       checked: checked,
@@ -213,18 +185,11 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
       <div className="selection-card__control">
         {type === 'checkbox' ? (
           <Checkbox {...controlProps} />
-        ) : type === 'radio' ? (
+        ) : (
           <Radio {...controlProps} />
-        ) : null}
+        )}
       </div>
     );
-  };
-
-  // Determine ARIA role based on type
-  const getAriaRole = () => {
-    if (type === 'checkbox') return 'checkbox';
-    if (type === 'radio') return 'radio';
-    return isClickable ? 'button' : undefined;
   };
 
   return (
@@ -237,19 +202,17 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
         'selection-card',
         `selection-card--${type}`,
         `selection-card--${size}`,
-        isSelected && 'selection-card--selected',
+        checked && 'selection-card--selected',
         disabled && 'selection-card--disabled',
         error && 'selection-card--error',
-        interactive && !disabled && 'selection-card--interactive',
-        highlight && 'selection-card--highlight',
+        'selection-card--interactive',
         className
       )}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
-      tabIndex={disabled || !interactive ? undefined : 0}
-      role={getAriaRole()}
-      aria-checked={type !== 'button' ? isSelected : undefined}
-      aria-pressed={type === 'button' ? isSelected : undefined}
+      tabIndex={disabled ? undefined : 0}
+      role={type === 'checkbox' ? 'checkbox' : 'radio'}
+      aria-checked={checked}
       aria-labelledby={label ? `${id}-label` : undefined}
       aria-describedby={description ? `${id}-description` : undefined}
       aria-disabled={disabled}
@@ -259,10 +222,12 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
     >
       <CardContent className="selection-card__content">
         <div className="selection-card__main">
-          {/* Left cluster: control + spacing */}
-          <div className="selection-card__left">
-            {controlPosition === 'left' && renderControl()}
-          </div>
+          {/* Left: control */}
+          {controlPosition === 'left' && (
+            <div className="selection-card__left">
+              {renderControl()}
+            </div>
+          )}
 
           {/* Middle: text content */}
           <div className="selection-card__text">
@@ -273,10 +238,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
                 <label
                   id={`${id}-label`}
                   className="selection-card__label"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleCardClick(e as any);
-                  }}
+                  htmlFor={controlId}
                 >
                   {label}
                   {required && (
@@ -299,7 +261,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
             )}
           </div>
 
-          {/* Right: tags, badges, and right-positioned control */}
+          {/* Right: tags and right-positioned control */}
           <div className="selection-card__aside">
             {/* Tags */}
             {allTags.length > 0 && (
@@ -321,33 +283,10 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
               </div>
             )}
 
-            {/* Legacy badge support */}
-            {badge && (
-              <div className="selection-card__badge">{badge}</div>
-            )}
-
             {/* Right-positioned control */}
             {controlPosition === 'right' && renderControl()}
-
-            {/* Selected indicator for button mode or hidden controls */}
-            {showSelectedIndicator && isSelected && (type === 'button' || controlPosition === 'hidden') && (
-              <div className="selection-card__selected-indicator">
-                <Icon color="accent" size="sm">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </Icon>
-              </div>
-            )}
           </div>
         </div>
-
-        {/* Hidden control for accessibility when position is hidden */}
-        {controlPosition === 'hidden' && type !== 'button' && (
-          <div className="sr-only">
-            {renderControl()}
-          </div>
-        )}
 
         {error && (
           <div className="selection-card__error" role="alert">
@@ -362,7 +301,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
 SelectionCard.displayName = 'SelectionCard';
 
 // ===============================================
-// Enhanced SelectionCardGroup
+// SelectionCardGroup for managing groups of cards
 // ===============================================
 export interface SelectionCardGroupProps {
   label?: string;
@@ -374,11 +313,11 @@ export interface SelectionCardGroupProps {
   className?: string;
   columns?: 1 | 2 | 3 | 4 | 'auto';
   gap?: 'sm' | 'md' | 'lg';
-  layout?: 'grid' | 'masonry' | 'list';
+  layout?: 'grid' | 'list';
   
-  // For radio groups
+  // For radio groups - name is required for proper radio behavior
   name?: string;
-  type?: 'button' | 'checkbox' | 'radio';
+  type: 'checkbox' | 'radio';
 }
 
 export const SelectionCardGroup: React.FC<SelectionCardGroupProps> = ({
@@ -399,8 +338,13 @@ export const SelectionCardGroup: React.FC<SelectionCardGroupProps> = ({
   const descriptionId = description ? `${groupId}-description` : undefined;
   const errorId = error ? `${groupId}-error` : undefined;
 
+  // Ensure radio groups have a name
+  if (type === 'radio' && !name) {
+    console.warn('SelectionCardGroup: Radio groups should have a name prop for proper form behavior');
+  }
+
   const getGridClasses = () => {
-    if (layout === 'list') return '';
+    if (layout === 'list') return 'flex flex-col';
     
     if (columns === 'auto') {
       return 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4';
@@ -422,22 +366,15 @@ export const SelectionCardGroup: React.FC<SelectionCardGroupProps> = ({
     lg: 'gap-6'
   }[gap];
 
-  // Determine group role based on type
-  const getGroupRole = () => {
-    if (type === 'radio') return 'radiogroup';
-    if (type === 'checkbox') return 'group';
-    return 'group';
-  };
-
   return (
     <div
       className={cn(
         'selection-card-group',
         `selection-card-group--${layout}`,
-        type && `selection-card-group--${type}`,
+        `selection-card-group--${type}`,
         className
       )}
-      role={getGroupRole()}
+      role={type === 'radio' ? 'radiogroup' : 'group'}
       aria-labelledby={label ? `${groupId}-label` : undefined}
       aria-describedby={cn(descriptionId, errorId)}
     >
