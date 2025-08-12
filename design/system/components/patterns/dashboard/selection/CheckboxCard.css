@@ -17,7 +17,6 @@
 .checkbox-card--interactive:hover:not(.checkbox-card--disabled) {
   border-color: var(--accent-300);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
 }
 
 .checkbox-card--checked {
@@ -27,7 +26,7 @@
 
 .checkbox-card--checked.checkbox-card--interactive:hover:not(.checkbox-card--disabled) {
   border-color: var(--accent-600);
-  background-color: var(--accent-100);
+  background-color: var(--secondary-100);
 }
 
 .checkbox-card--highlight {
@@ -43,7 +42,7 @@
 
 .checkbox-card--error {
   border-color: var(--error-500);
-  background-color: var(--error-25);
+  background-color: var(--error-100);
 }
 
 .checkbox-card:focus-visible {
@@ -379,7 +378,6 @@
 
 /* Interactions */
 .checkbox-card--interactive:active:not(.checkbox-card--disabled) {
-  transform: translateY(0);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
