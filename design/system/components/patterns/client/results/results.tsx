@@ -57,7 +57,7 @@ export const Results: React.FC<ResultsProps> = ({
   radius = 'md',
   
   // Layout defaults
-  spacing = 'lg', // Increased spacing between card and text
+  spacing = 'md', // Increased spacing between card and text
 }) => {
   return (
     <Stack spacing={spacing}>
@@ -73,7 +73,7 @@ export const Results: React.FC<ResultsProps> = ({
               src={`/images/results/${image}`}
               alt={title}
               width={500}
-              height={300} // Adjusted height ratio
+              height={500} // Adjusted height ratio
               style={{
                 width: '100%',
                 height: '100%',
