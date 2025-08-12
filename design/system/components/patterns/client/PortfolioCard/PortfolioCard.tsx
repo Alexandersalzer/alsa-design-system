@@ -155,8 +155,9 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               align="left"
             >
               {title}
-            </Typography>
-            
+            </Typography> 
+            </Stack>
+            <Stack spacing="sm">
             {/* Description */}
             <Typography
               variant={descriptionVariant}
@@ -166,8 +167,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
             >
               {description}
             </Typography>
-            </Stack>
-            <Stack spacing="sm">
+            
             {/* Views with Eye Icon - only show if views exist */}
             {views && (
               <Cluster spacing="xs" align="center">
