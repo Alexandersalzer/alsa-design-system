@@ -9,6 +9,7 @@ import { Checkbox } from '../../../primitives/Checkbox';
 import { Tag, type TagVariant, type TagSize } from '../../../primitives/Tag';
 import { Icon, type IconColor } from '../../../primitives/Icon';
 import { cn } from '../../../../lib/utils';
+import { Cluster } from '../page/Cluster';
 
 export interface CheckboxCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   children?: React.ReactNode; // Make children optional
@@ -194,30 +195,32 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
               </div>
             )}
             
-            {renderIcon()}
+
           </div>
 
           {/* Middle: text content */}
           <div className="checkbox-card__text">
-            {label && (
-              <label
-                id={`${id}-label`}
-                className="checkbox-card__label"
-                onClick={(e) => {
-                  // Don't prevent the card click, just ensure it bubbles up
-                  e.stopPropagation();
-                  onChange?.(!checked);
-                }}
-              >
-                {label}
-                {required && (
-                  <span className="checkbox-card__required" aria-label="required">
-                    *
-                  </span>
+            <Cluster align='start'>
+                {renderIcon()}
+                {label && (
+                <label
+                    id={`${id}-label`}
+                    className="checkbox-card__label"
+                    onClick={(e) => {
+                    // Don't prevent the card click, just ensure it bubbles up
+                    e.stopPropagation();
+                    onChange?.(!checked);
+                    }}
+                >
+                    {label}
+                    {required && (
+                    <span className="checkbox-card__required" aria-label="required">
+                        *
+                    </span>
+                    )}
+                </label>
                 )}
-              </label>
-            )}
-
+            </Cluster>
             {description && (
               <div id={`${id}-description`} className="checkbox-card__description">
                 {description}
