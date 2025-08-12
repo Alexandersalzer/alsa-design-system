@@ -46,7 +46,7 @@ export function ThemeModeControl({ className }: ThemeModeControlProps) {
       {/* Theme mode grid */}
       <Grid columns={2} gap="md" className="grid-cols-2 max-w-md">
         <SelectionCard
-          type="checkbox"
+          type="radio"
           checked={!isDark}
           onChange={handleLightModeChange}
           disabled={!isHydrated}

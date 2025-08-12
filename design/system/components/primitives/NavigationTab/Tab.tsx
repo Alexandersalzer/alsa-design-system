@@ -2,6 +2,7 @@
 // src/design-system/components/primitives/Tab/Tab.tsx
 // ENHANCED VERSION - Customizable Typography with Bolder Navigation
 // ===============================================
+
 import React from 'react';
 import Link from 'next/link';
 import { ReactNode } from 'react';
