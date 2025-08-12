@@ -24,7 +24,7 @@
   background: linear-gradient(
     90deg, 
     var(--border-nav-item-selected) 0%, 
-    var(--accent-500) 50%, 
+    var(--accent-color) 50%, 
     var(--border-nav-item-selected) 100%
   );
   border-radius: var(--foundation-radius-full);
