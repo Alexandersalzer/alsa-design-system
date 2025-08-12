@@ -13,37 +13,37 @@
 }
 
 .maxWidthXs {
-  max-width: 360px; /* Was 480px */
+  max-width: 420px; /* Was 360px */
   margin: 0 auto;
 }
 
 .maxWidthSm {
-  max-width: 480px; /* Was 640px */
+  max-width: 560px; /* Was 480px */
   margin: 0 auto;
 }
 
 .maxWidthMd {
-  max-width: 640px; /* Was 768px */
+  max-width: 720px; /* Was 640px */
   margin: 0 auto;
 }
 
 .maxWidthLg {
-  max-width: 860px; /* Was 1024px */
+  max-width: 960px; /* Was 860px */
   margin: 0 auto;
 }
 
 .maxWidthXl {
-  max-width: 1120px; /* New value between old lg (1024px) and xl (1280px) */
+  max-width: 1200px; /* New value between 1120px and 1280px */
   margin: 0 auto;
 }
 
 .maxWidth2xl {
-  max-width: 1280px; /* Was 1536px */
+  max-width: 1400px; /* Was 1280px */
   margin: 0 auto;
 }
 
 .maxWidth3xl {
-  max-width: 1536px; /* Was 1920px */
+  max-width: 1600px; /* Was 1536px */
   margin: 0 auto;
 }
 
