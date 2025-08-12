@@ -22,12 +22,12 @@
 
 .checkbox-card--checked {
   border-color: var(--accent-500);
-  background-color: var(--accent-50);
+  background-color: var(--secondary-50);
 }
 
 .checkbox-card--checked.checkbox-card--interactive:hover:not(.checkbox-card--disabled) {
   border-color: var(--accent-600);
-  background-color: var(--accent-100);
+  background-color: var(--secondary-100);
 }
 
 .checkbox-card--highlight {
