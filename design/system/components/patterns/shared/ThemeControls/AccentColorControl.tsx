@@ -1,5 +1,5 @@
 // ===============================================
-// AccentColorControl.tsx - Clean color previews without fluff descriptions
+// AccentColorControl.tsx - FIXED to use radio pattern
 // ===============================================
 import React from 'react';
 import { SelectionCard, Grid } from '@blimpify-im/ui';
@@ -9,34 +9,34 @@ import { Body, Icon, Label } from '@blimpify-im/ui';
 
 // Clean color options - just names and hex values
 const COLOR_OPTIONS = [
-  { 
-    value: 'ruby', 
-    label: 'Ruby', 
+  {
+    value: 'ruby',
+    label: 'Ruby',
     hex: '#EF4444'
   },
-  { 
-    value: 'purple', 
-    label: 'Purple', 
+  {
+    value: 'purple',
+    label: 'Purple',
     hex: '#A855F7'
   },
-  { 
-    value: 'azure', 
-    label: 'Azure', 
+  {
+    value: 'azure',
+    label: 'Azure',
     hex: '#3B82F6'
   },
-  { 
-    value: 'emerald', 
-    label: 'Emerald', 
+  {
+    value: 'emerald',
+    label: 'Emerald',
     hex: '#10B981'
   },
-  { 
-    value: 'honey', 
-    label: 'Honey', 
+  {
+    value: 'honey',
+    label: 'Honey',
     hex: '#F59E0B'
   },
-  { 
-    value: 'gray', 
-    label: 'Slate', 
+  {
+    value: 'gray',
+    label: 'Slate',
     hex: '#6B7280'
   },
 ];
@@ -48,6 +48,12 @@ interface AccentColorControlProps {
 
 export function AccentColorControl({ columns = 3, className }: AccentColorControlProps) {
   const { accentColor, setAccentColor } = useTheme();
+
+  const handleColorChange = (checked: boolean, colorValue: string) => {
+    if (checked) {
+      setAccentColor(colorValue as ColorScale);
+    }
+  };
 
   return (
     <div className={className}>
@@ -67,9 +73,13 @@ export function AccentColorControl({ columns = 3, className }: AccentColorContro
         {COLOR_OPTIONS.map((option) => (
           <SelectionCard
             key={option.value}
-            selected={accentColor === option.value}
-            onClick={() => setAccentColor(option.value as ColorScale)}
+            type="radio"
+            name="accent-color"
+            value={option.value}
+            checked={accentColor === option.value}
+            onChange={(checked) => handleColorChange(checked, option.value)}
             size="md"
+            controlPosition="right"
           >
             <div className="text-center">
               <Label size="sm" weight="medium" className="mb-3 block">
@@ -78,7 +88,7 @@ export function AccentColorControl({ columns = 3, className }: AccentColorContro
               
               {/* Large color preview rectangle */}
               <div className="flex justify-center mb-3">
-                <div 
+                <div
                   className="w-16 h-10 rounded-md border border-gray-300 shadow-sm"
                   style={{ backgroundColor: option.hex }}
                 />
@@ -87,17 +97,17 @@ export function AccentColorControl({ columns = 3, className }: AccentColorContro
               {/* Mini UI elements preview using the color */}
               <div className="flex justify-center gap-1 mb-3">
                 {/* Mini button */}
-                <div 
+                <div
                   className="w-6 h-3 rounded-sm"
                   style={{ backgroundColor: option.hex }}
                 />
                 {/* Mini badge */}
-                <div 
+                <div
                   className="w-4 h-3 rounded-full"
                   style={{ backgroundColor: option.hex }}
                 />
                 {/* Mini indicator */}
-                <div 
+                <div
                   className="w-2 h-3 rounded-full"
                   style={{ backgroundColor: option.hex }}
                 />

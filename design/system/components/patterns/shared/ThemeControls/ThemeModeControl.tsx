@@ -1,11 +1,9 @@
 // ===============================================
-// STEP 3: Create a NEW ThemeModeControl.tsx component
-// Keep your existing AccentColorControl and RadiusControl
+// ThemeModeControl.tsx - CORRECT FIX based on your actual implementation
+// Using checkbox pattern for toggle behavior (not radio)
 // ===============================================
-
-// blimpify-ui/design/system/components/patterns/shared/ThemeControls/ThemeModeControl.tsx
 import React from 'react';
-import { SelectionCard  } from '../../../patterns';
+import { SelectionCard } from '../../../patterns';
 import { Grid } from '../../dashboard/page/Grid';
 import { Body, Icon, Label } from '../../../primitives';
 import { useTheme } from '../../../../hooks/useTheme';
@@ -17,6 +15,20 @@ interface ThemeModeControlProps {
 
 export function ThemeModeControl({ className }: ThemeModeControlProps) {
   const { isDark, toggleDarkMode, isHydrated } = useTheme();
+
+  const handleLightModeChange = (checked: boolean) => {
+    // If light mode is checked and we're currently dark, toggle to light
+    if (checked && isDark) {
+      toggleDarkMode();
+    }
+  };
+
+  const handleDarkModeChange = (checked: boolean) => {
+    // If dark mode is checked and we're currently light, toggle to dark
+    if (checked && !isDark) {
+      toggleDarkMode();
+    }
+  };
 
   return (
     <div className={className}>
@@ -34,10 +46,12 @@ export function ThemeModeControl({ className }: ThemeModeControlProps) {
       {/* Theme mode grid */}
       <Grid columns={2} gap="md" className="grid-cols-2 max-w-md">
         <SelectionCard
-          selected={!isDark}
-          onClick={() => !isDark ? null : toggleDarkMode()}
+          type="checkbox"
+          checked={!isDark}
+          onChange={handleLightModeChange}
           disabled={!isHydrated}
           size="md"
+          controlPosition="right"
         >
           <div className="text-center">
             <Label size="sm" weight="medium" className="mb-3 block">
@@ -57,10 +71,12 @@ export function ThemeModeControl({ className }: ThemeModeControlProps) {
         </SelectionCard>
 
         <SelectionCard
-          selected={isDark}
-          onClick={() => isDark ? null : toggleDarkMode()}
+          type="checkbox"
+          checked={isDark}
+          onChange={handleDarkModeChange}
           disabled={!isHydrated}
           size="md"
+          controlPosition="right"
         >
           <div className="text-center">
             <Label size="sm" weight="medium" className="mb-3 block">
