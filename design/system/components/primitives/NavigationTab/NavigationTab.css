@@ -78,7 +78,6 @@
 .nav-item:hover:not(.nav-item--selected):not(.nav-item--disabled),
 .tab:hover:not(.tab--active):not(.tab--disabled) {
   background-color: var(--surface-nav-item-hover, rgba(0, 0, 0, 0.05));
-  transform: translateY(-1px);
 }
 
 /* ===== ACTIVE/SELECTED STATE ===== */
@@ -257,6 +256,7 @@
 /* Page tabs container with proper border */
 .tab-group--page {
   border-bottom: 1px solid var(--border-nav, #e5e7eb);
+  padding-bottom: var(--space-nav-item-gap, 8px);
   position: relative;
   overflow: hidden;
 }
@@ -278,8 +278,7 @@
 .tab--animated {
   transition: 
     background-color 0.15s ease,
-    color 0.15s ease,
-    transform 0.15s ease;
+    color 0.15s ease;
 }
 
 /* ===== SINGLE ANIMATED INDICATOR ===== */
@@ -321,19 +320,16 @@
 /* ===== CLEAN HOVER EFFECTS ===== */
 .tab--animated:hover:not(.tab--active):not(.tab--disabled) {
   background-color: var(--surface-nav-item-hover, rgba(0, 0, 0, 0.05));
-  transform: translateY(-1px);
 }
 
 /* ===== CLEAN NAVIGATION SIDEBAR ===== */
 .sidebar__nav--animated .nav-item {
   transition: 
-    background-color 0.15s ease,
-    transform 0.15s ease;
+    background-color 0.15s ease;
 }
 
 .sidebar__nav--animated .nav-item:hover:not(.nav-item--selected) {
   background-color: var(--surface-nav-item-hover, rgba(0, 0, 0, 0.05));
-  transform: translateX(2px);
 }
 
 .sidebar__nav--animated .nav-item--selected {
@@ -349,8 +345,7 @@
 /* ===== ACTIVE STATE VISUAL FEEDBACK ===== */
 .tab--animated:active:not(.tab--disabled),
 .nav-item:active:not(.nav-item--disabled) {
-  transform: scale(0.98);
-  transition: transform 0.1s ease;
+  background-color: var(--surface-nav-item-hover, rgba(0, 0, 0, 0.1));
 }
 
 /* ===== BADGE/NOTIFICATION STYLES ===== */
@@ -428,12 +423,6 @@
     transition: 
       background-color 0.15s ease,
       color 0.15s ease !important;
-    transform: none !important;
-  }
-  
-  .tab--animated:hover,
-  .nav-item:hover {
-    transform: none !important;
   }
 }
 
