@@ -1,6 +1,6 @@
 // ===============================================
 // FIL 2: src/design-system/components/patterns/selection/ChoiceGroup.tsx
-// FIXED - Proper Radio Context Flow
+// FIXED - Proper Radio Context Flow + Icon Type Safety
 // ===============================================
 
 import React from 'react';
@@ -16,7 +16,7 @@ export interface ChoiceOption {
   value: string;
   label: string;
   description?: string;
-  icon?: React.ReactNode;
+  icon?: React.ReactElement; // ✅ FIXED: Change from ReactNode to ReactElement
   disabled?: boolean;
   content?: React.ReactNode; // För custom card content
 }
@@ -87,33 +87,28 @@ export const ChoiceGroup: React.FC<ChoiceGroupProps> = ({
       return (
         <SelectionCard
           key={option.value}
-          selected={isSelected}
-          disabled={isDisabled}
-          onClick={() => {
+          type={isRadio ? 'radio' : 'checkbox'} // ✅ IMPROVED: Pass correct type
+          name={isRadio ? `choice-group-${Math.random()}` : undefined} // ✅ For radio groups
+          value={option.value}
+          checked={isSelected}
+          onChange={(checked) => {
             if (isRadio) {
-              handleRadioChange(option.value);
+              if (checked) handleRadioChange(option.value);
             } else {
-              handleCheckboxChange(option.value, !isSelected);
+              handleCheckboxChange(option.value, checked);
             }
           }}
-          icon={option.icon}
+          disabled={isDisabled}
+          label={option.label}
+          description={option.description}
+          icon={option.icon} // ✅ Now type-safe
           size={size}
         >
-          <div>
-            <Label size={size} weight="medium" color={isDisabled ? 'disabled' : 'primary'}>
-              {option.label}
-            </Label>
-            {option.description && (
-              <Body size="sm" color={isDisabled ? 'disabled' : 'secondary'} className="mt-1">
-                {option.description}
-              </Body>
-            )}
-            {option.content && (
-              <div className="mt-2">
-                {option.content}
-              </div>
-            )}
-          </div>
+          {option.content && (
+            <div className="mt-2">
+              {option.content}
+            </div>
+          )}
         </SelectionCard>
       );
     }
