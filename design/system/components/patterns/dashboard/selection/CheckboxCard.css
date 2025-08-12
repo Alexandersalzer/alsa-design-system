@@ -17,6 +17,7 @@
 .checkbox-card--interactive:hover:not(.checkbox-card--disabled) {
   border-color: var(--accent-300);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
 }
 
 .checkbox-card--checked {
@@ -26,7 +27,7 @@
 
 .checkbox-card--checked.checkbox-card--interactive:hover:not(.checkbox-card--disabled) {
   border-color: var(--accent-600);
-  background-color: var(--secondary-100);
+  background-color: var(--accent-100);
 }
 
 .checkbox-card--highlight {
@@ -69,23 +70,23 @@
   width: 100%;
 }
 
-/* Row-first layout - RESPONSIVE FROM START */
+/* Row-first layout - IMPROVED STRUCTURE */
 .checkbox-card__main {
   display: flex;
   align-items: flex-start;
-  gap: var(--foundation-space-2); /* Reduced gap */
+  gap: var(--foundation-space-2);
   width: 100%;
 }
 
-/* Left cluster: checkbox + icon */
+/* Left: just the checkbox, vertically centered */
 .checkbox-card__left {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--foundation-space-1); /* Reduced gap */
+  display: flex;
+  align-items: center; /* Center the checkbox vertically */
   flex-shrink: 0;
+  min-height: 1.5rem; /* Ensure minimum height for centering */
 }
 
-/* Middle: text stack */
+/* Middle: content stack with icon+label row, then description */
 .checkbox-card__text {
   display: flex;
   flex-direction: column;
@@ -94,11 +95,18 @@
   flex: 1;
 }
 
-/* Right: tags, badges, checkbox - BETTER MOBILE LAYOUT */
+/* NEW: Header row for icon + label */
+.checkbox-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+}
+
+/* Right: tags, badges, right-positioned checkbox */
 .checkbox-card__aside {
   display: flex;
   align-items: flex-start;
-  gap: var(--foundation-space-1); /* Reduced gap */
+  gap: var(--foundation-space-1);
   flex-shrink: 0;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -379,6 +387,7 @@
 
 /* Interactions */
 .checkbox-card--interactive:active:not(.checkbox-card--disabled) {
+  transform: translateY(0);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
