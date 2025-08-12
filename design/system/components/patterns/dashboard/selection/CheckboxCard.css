@@ -3,10 +3,10 @@
 // IMPROVED VERSION - Enhanced styling with better Tag integration
 // =============================================== */
 
-/* Base checkbox card styles */
+/* Base checkbox card styles - NO TRANSFORM ANIMATIONS */
 .checkbox-card {
   position: relative;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
   cursor: default;
 }
 
@@ -17,7 +17,7 @@
 .checkbox-card--interactive:hover:not(.checkbox-card--disabled) {
   border-color: var(--accent-300);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
+  /* NO transform: translateY */
 }
 
 .checkbox-card--checked {
@@ -385,10 +385,10 @@
   }
 }
 
-/* Interactions */
+/* Interactions - NO DAMN TRANSFORM ANIMATIONS */
 .checkbox-card--interactive:active:not(.checkbox-card--disabled) {
-  transform: translateY(0);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  /* NO transform: translateY */
 }
 
 .checkbox-card--interactive:focus-within:not(.checkbox-card--disabled) {
