@@ -47,17 +47,17 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     let newIndex = currentIndex;
 
     switch (e.key) {
-      case 'Tab':
-        // Let Tab work normally - it will move to next/previous item
-        if (e.shiftKey) {
-          // Shift+Tab = previous item
-          e.preventDefault();
-          newIndex = (currentIndex - 1 + navItems.length) % navItems.length;
-        } else {
-          // Tab = next item
-          e.preventDefault();
-          newIndex = (currentIndex + 1) % navItems.length;
-        }
+      case 'ArrowDown':
+      case 'ArrowRight':
+        // Both down and right go to next item (works for both orientations)
+        e.preventDefault();
+        newIndex = (currentIndex + 1) % navItems.length;
+        break;
+      case 'ArrowUp':
+      case 'ArrowLeft':
+        // Both up and left go to previous item (works for both orientations)
+        e.preventDefault();
+        newIndex = (currentIndex - 1 + navItems.length) % navItems.length;
         break;
       case 'Home':
         e.preventDefault();
