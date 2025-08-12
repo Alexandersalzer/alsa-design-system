@@ -19,10 +19,14 @@ interface BaseTabProps {
   icon?: ReactNode;
   badge?: ReactNode;
   className?: string;
-  // 🎯 NEW: Typography customization options
   fontWeight?: TypographyWeight;
-  useHeadingFont?: boolean; // Use heading font family instead of body
+  useHeadingFont?: boolean;
+  tabIndex?: number;
+  onFocus?: (e: React.FocusEvent) => void;
+  role?: string;
+  'aria-selected'?: boolean;
 }
+
 
 interface LinkTabProps extends BaseTabProps {
   href: string;
@@ -47,9 +51,12 @@ export const Tab: React.FC<TabProps> = ({
   className = '',
   href,
   onClick,
-  // 🎯 NEW: Typography customization with smart defaults
   fontWeight,
-  useHeadingFont = variant === 'navigation', // Navigation tabs use heading font by default
+  useHeadingFont = variant === 'navigation',
+  tabIndex,
+  onFocus,
+  role,
+  'aria-selected': ariaSelected,
   ...rest
 }) => {
   // 🎯 ENHANCED: Get base typography props and allow customization
@@ -135,13 +142,22 @@ export const Tab: React.FC<TabProps> = ({
     );
   };
 
+  const getAccessibilityProps = () => ({
+    tabIndex: tabIndex ?? (isDisabled ? -1 : 0),
+    onFocus,
+    role: role ?? (variant !== 'navigation' ? 'tab' : undefined),
+    'aria-selected': ariaSelected ?? (variant !== 'navigation' ? isActive : undefined),
+    'aria-disabled': isDisabled
+  });
+
+  const accessibilityProps = getAccessibilityProps();
   const classes = getClasses();
   const content = getContent();
 
   // Render as Link or Button
   if (href && !isDisabled) {
     return (
-      <Link href={href} className={classes} {...rest}>
+      <Link href={href} className={classes} {...accessibilityProps} {...rest}>
         {content}
       </Link>
     );
@@ -153,6 +169,7 @@ export const Tab: React.FC<TabProps> = ({
       onClick={!isDisabled ? onClick : undefined}
       disabled={isDisabled}
       type="button"
+       {...accessibilityProps}
       {...rest}
     >
       {content}
