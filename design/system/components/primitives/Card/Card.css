@@ -235,7 +235,7 @@
 /* ===== PORTFOLIO CARD SPECIFIC STYLES ===== */
 .portfolio-card {
   width: 100%;
-  max-width: 400px; /* Similar to KJ Marketing portfolio cards */
+  max-width: 320px; /* Reduced from 400px to fit 3 cards per row with gap */
   background-color: var(--surface-card, #ffffff);
   border: 1px solid var(--border-subtle, #e5e7eb);
   box-shadow: var(--foundation-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1));

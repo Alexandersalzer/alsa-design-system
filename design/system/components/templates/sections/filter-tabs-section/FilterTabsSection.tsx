@@ -161,8 +161,8 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
           
           {/* Portfolio Grid - Dynamic from CMS */}
           <ResponsiveGrid
-            minItemWidth="350px"
-            gap="lg"
+            minItemWidth="320px"
+            gap="md"
             style={{
               justifyItems: 'center',
               alignItems: 'start'
