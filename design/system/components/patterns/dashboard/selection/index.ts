@@ -1,11 +1,11 @@
 // ===============================================
 // src/design-system/components/patterns/selection/index.ts
-// Complete Selection Patterns Index - Fixed
+// Complete Selection Patterns Index - Fixed with SelectionCardGroup
 // ===============================================
 
 // SelectionCard exports
-export { SelectionCard } from './SelectionCard';
-export type { SelectionCardProps } from './SelectionCard';
+export { SelectionCard, SelectionCardGroup } from './SelectionCard';
+export type { SelectionCardProps, SelectionCardGroupProps } from './SelectionCard';
 
 // ColorPicker exports
 export { ColorPicker } from './ColorPicker';
