@@ -1,11 +1,13 @@
 // ===============================================
 // src/design-system/components/patterns/selection/CheckboxCard.tsx
-// Checkbox Card Component for Builder Selection (Row-first redesign)
+// CORRECTED VERSION - Proper Icon component integration
 // ===============================================
 
 import React, { forwardRef, useId } from 'react';
 import { Card, CardContent } from '../../../primitives/Card';
 import { Checkbox } from '../../../primitives/Checkbox';
+import { Tag, type TagVariant, type TagSize } from '../../../primitives/Tag';
+import { Icon, type IconColor } from '../../../primitives/Icon';
 import { cn } from '../../../../lib/utils';
 
 export interface CheckboxCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
@@ -20,17 +22,40 @@ export interface CheckboxCardProps extends Omit<React.HTMLAttributes<HTMLDivElem
   label?: string;
   description?: string;
   badge?: React.ReactNode;
+  
+  // IMPROVED: Better tag integration using your Tag component
   tag?: {
     text: string;
-    variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info';
-    size?: 'sm' | 'md';
+    variant?: TagVariant;
+    size?: TagSize;
+    icon?: React.ReactNode;
+    removable?: boolean;
+    onRemove?: () => void;
   };
-  icon?: React.ReactNode;
-  /** inline checkbox position */
-  checkboxPosition?: 'left' | 'right' | 'hidden' | 'top-left' | 'top-right'; // top-* kept for back-compat
+  
+  // CORRECTED: Proper icon handling for your Icon component
+  icon?: React.ReactElement; // Must be a ReactElement for Icon component
+  iconColor?: IconColor; // Use proper IconColor type
+  
+  // IMPROVED: Multiple tags support
+  tags?: Array<{
+    text: string;
+    variant?: TagVariant;
+    size?: TagSize;
+    icon?: React.ReactNode;
+    removable?: boolean;
+    onRemove?: () => void;
+  }>;
+  
+  checkboxPosition?: 'left' | 'right' | 'hidden';
   required?: boolean;
   error?: string;
   checkboxClassName?: string;
+  
+  // IMPROVED: Visual enhancements
+  highlight?: boolean;
+  interactive?: boolean;
+  showSelectedIndicator?: boolean;
 }
 
 export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
@@ -46,12 +71,17 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
   description,
   badge,
   tag,
+  tags,
   icon,
-  checkboxPosition = 'right',
+  iconColor,
+  checkboxPosition = 'left',
   required = false,
   error,
   className,
   checkboxClassName,
+  highlight = false,
+  interactive = true,
+  showSelectedIndicator = true,
   id: providedId,
   onClick,
   ...props
@@ -60,14 +90,20 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
   const id = providedId || generatedId;
   const checkboxId = `${id}-checkbox`;
 
-  // Map deprecated values
-  const resolvedCheckboxPos: 'left' | 'right' | 'hidden' =
-    checkboxPosition === 'top-left' ? 'left' :
-    checkboxPosition === 'top-right' ? 'right' :
-    (checkboxPosition as 'left' | 'right' | 'hidden');
-
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (disabled || (e.target as HTMLElement).closest('.checkbox-card__checkbox')) return;
+    if (disabled || !interactive) return;
+    
+    // Don't trigger if clicking on checkbox, tags, or interactive elements
+    const target = e.target as HTMLElement;
+    if (
+      target.closest('.checkbox-card__checkbox') ||
+      target.closest('.checkbox-card__tag') ||
+      target.closest('button') ||
+      target.closest('a')
+    ) {
+      return;
+    }
+    
     onChange?.(!checked);
     onClick?.(e);
   };
@@ -77,10 +113,39 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if ((e.key === 'Enter' || e.key === ' ') && !disabled) {
+    if ((e.key === 'Enter' || e.key === ' ') && !disabled && interactive) {
       e.preventDefault();
       onChange?.(!checked);
     }
+  };
+
+  // Combine single tag with tags array
+  const allTags = React.useMemo(() => {
+    const tagArray = tags || [];
+    if (tag) {
+      tagArray.unshift(tag);
+    }
+    return tagArray;
+  }, [tag, tags]);
+
+  // Helper to render icon properly
+  const renderIcon = () => {
+    if (!icon) return null;
+
+    // Determine icon color based on state
+    const defaultColor: IconColor = checked ? 'accent' : 'secondary';
+    const finalColor = iconColor || defaultColor;
+
+    return (
+      <div className="checkbox-card__icon">
+        <Icon 
+          color={finalColor}
+          size={size === 'lg' ? 'lg' : size === 'sm' ? 'sm' : 'md'}
+        >
+          {icon}
+        </Icon>
+      </div>
+    );
   };
 
   return (
@@ -95,12 +160,13 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
         checked && 'checkbox-card--checked',
         disabled && 'checkbox-card--disabled',
         error && 'checkbox-card--error',
-        !disabled && 'checkbox-card--interactive',
+        interactive && !disabled && 'checkbox-card--interactive',
+        highlight && 'checkbox-card--highlight',
         className
       )}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
-      tabIndex={disabled ? undefined : 0}
+      tabIndex={disabled || !interactive ? undefined : 0}
       role="checkbox"
       aria-checked={checked}
       aria-labelledby={label ? `${id}-label` : undefined}
@@ -112,9 +178,9 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
     >
       <CardContent className="checkbox-card__content">
         <div className="checkbox-card__main">
-          {/* Left cluster */}
+          {/* Left cluster: checkbox + optional icon */}
           <div className="checkbox-card__left">
-            {resolvedCheckboxPos === 'left' && (
+            {checkboxPosition === 'left' && (
               <div className="checkbox-card__checkbox">
                 <Checkbox
                   id={checkboxId}
@@ -127,19 +193,24 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
                 />
               </div>
             )}
-            {icon && <div className="checkbox-card__icon">{icon}</div>}
+            
+            {renderIcon()}
           </div>
 
-          {/* Text stack */}
+          {/* Middle: text content */}
           <div className="checkbox-card__text">
             {label && (
               <label
                 id={`${id}-label`}
-                htmlFor={resolvedCheckboxPos !== 'hidden' ? checkboxId : undefined}
+                htmlFor={checkboxPosition !== 'hidden' ? checkboxId : undefined}
                 className="checkbox-card__label"
               >
                 {label}
-                {required && <span className="checkbox-card__required" aria-label="required">*</span>}
+                {required && (
+                  <span className="checkbox-card__required" aria-label="required">
+                    *
+                  </span>
+                )}
               </label>
             )}
 
@@ -152,24 +223,34 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
             <div className="checkbox-card__children">{children}</div>
           </div>
 
-          {/* Right-side badges / checkbox */}
+          {/* Right: tags, badges, and right-positioned checkbox */}
           <div className="checkbox-card__aside">
-            {(tag || badge) && (
-              <div className="checkbox-card__badges">
-                {tag && (
-                  <div className={cn(
-                    'checkbox-card__tag',
-                    `checkbox-card__tag--${tag.variant || 'primary'}`,
-                    `checkbox-card__tag--${tag.size || 'sm'}`
-                  )}>
-                    {tag.text}
-                  </div>
-                )}
-                {badge && <div className="checkbox-card__badge">{badge}</div>}
+            {/* Tags using your Tag component */}
+            {allTags.length > 0 && (
+              <div className="checkbox-card__tags">
+                {allTags.map((tagProps, index) => (
+                  <Tag
+                    key={index}
+                    variant={tagProps.variant || 'info'}
+                    size={tagProps.size || (size === 'lg' ? 'large' : size === 'sm' ? 'small' : 'medium')}
+                    icon={tagProps.icon}
+                    removable={tagProps.removable}
+                    onRemove={tagProps.onRemove}
+                    disabled={disabled}
+                    className="checkbox-card__tag"
+                  >
+                    {tagProps.text}
+                  </Tag>
+                ))}
               </div>
             )}
 
-            {resolvedCheckboxPos === 'right' && (
+            {/* Legacy badge support */}
+            {badge && (
+              <div className="checkbox-card__badge">{badge}</div>
+            )}
+
+            {checkboxPosition === 'right' && (
               <div className="checkbox-card__checkbox">
                 <Checkbox
                   id={checkboxId}
@@ -182,11 +263,22 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
                 />
               </div>
             )}
+
+            {/* Selected indicator */}
+            {showSelectedIndicator && checked && checkboxPosition === 'hidden' && (
+              <div className="checkbox-card__selected-indicator">
+                <Icon color="accent" size="sm">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </Icon>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Hidden checkbox for a11y when position is hidden */}
-        {resolvedCheckboxPos === 'hidden' && (
+        {/* Hidden checkbox for accessibility when position is hidden */}
+        {checkboxPosition === 'hidden' && (
           <Checkbox
             id={checkboxId}
             checked={checked}
@@ -199,7 +291,9 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
         )}
 
         {error && (
-          <div className="checkbox-card__error" role="alert">{error}</div>
+          <div className="checkbox-card__error" role="alert">
+            {error}
+          </div>
         )}
       </CardContent>
     </Card>
@@ -209,7 +303,7 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
 CheckboxCard.displayName = 'CheckboxCard';
 
 // ===============================================
-// CheckboxCardGroup unchanged (kept for context) – only classNames remain the same
+// Enhanced CheckboxCardGroup with better grid handling
 // ===============================================
 export interface CheckboxCardGroupProps {
   label?: string;
@@ -219,8 +313,9 @@ export interface CheckboxCardGroupProps {
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
   className?: string;
-  columns?: 1 | 2 | 3 | 4;
+  columns?: 1 | 2 | 3 | 4 | 'auto';
   gap?: 'sm' | 'md' | 'lg';
+  layout?: 'grid' | 'masonry' | 'list';
 }
 
 export const CheckboxCardGroup: React.FC<CheckboxCardGroupProps> = ({
@@ -231,25 +326,44 @@ export const CheckboxCardGroup: React.FC<CheckboxCardGroupProps> = ({
   size = 'md',
   children,
   className,
-  columns = 3,
-  gap = 'md'
+  columns = 'auto',
+  gap = 'md',
+  layout = 'grid'
 }) => {
   const groupId = useId();
   const descriptionId = description ? `${groupId}-description` : undefined;
   const errorId = error ? `${groupId}-error` : undefined;
 
-  const gridColumns = {
-    1: 'grid-cols-1',
-    2: 'grid-cols-1 md:grid-cols-2',
-    3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-    4: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
-  }[columns];
+  const getGridClasses = () => {
+    if (layout === 'list') return '';
+    
+    if (columns === 'auto') {
+      return 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4';
+    }
+    
+    const gridColumns = {
+      1: 'grid grid-cols-1',
+      2: 'grid grid-cols-1 md:grid-cols-2',
+      3: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+      4: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+    }[columns];
 
-  const gridGap = { sm: 'gap-2', md: 'gap-4', lg: 'gap-6' }[gap];
+    return gridColumns;
+  };
+
+  const gapClasses = {
+    sm: 'gap-2',
+    md: 'gap-4',
+    lg: 'gap-6'
+  }[gap];
 
   return (
     <div
-      className={cn('checkbox-card-group', className)}
+      className={cn(
+        'checkbox-card-group',
+        `checkbox-card-group--${layout}`,
+        className
+      )}
       role="group"
       aria-labelledby={label ? `${groupId}-label` : undefined}
       aria-describedby={cn(descriptionId, errorId)}
@@ -257,15 +371,21 @@ export const CheckboxCardGroup: React.FC<CheckboxCardGroupProps> = ({
       {label && (
         <label id={`${groupId}-label`} className="checkbox-card-group__label">
           {label}
-          {required && <span className="checkbox-card-group__required" aria-label="required">*</span>}
+          {required && (
+            <span className="checkbox-card-group__required" aria-label="required">
+              *
+            </span>
+          )}
         </label>
       )}
 
       {description && (
-        <div id={descriptionId} className="checkbox-card-group__description">{description}</div>
+        <div id={descriptionId} className="checkbox-card-group__description">
+          {description}
+        </div>
       )}
 
-      <div className={cn('grid', gridColumns, gridGap, 'checkbox-card-group__grid')}>
+      <div className={cn(getGridClasses(), gapClasses, 'checkbox-card-group__container')}>
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child) && (child.type as any) === CheckboxCard) {
             return React.cloneElement(child as React.ReactElement<CheckboxCardProps>, {
@@ -277,7 +397,9 @@ export const CheckboxCardGroup: React.FC<CheckboxCardGroupProps> = ({
       </div>
 
       {error && (
-        <div id={errorId} className="checkbox-card-group__error" role="alert">{error}</div>
+        <div id={errorId} className="checkbox-card-group__error" role="alert">
+          {error}
+        </div>
       )}
     </div>
   );
