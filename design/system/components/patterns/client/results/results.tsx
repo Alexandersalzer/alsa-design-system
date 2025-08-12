@@ -77,7 +77,7 @@ export const Results: React.FC<ResultsProps> = ({
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover'
+                objectFit: 'contain' // Changed to contain to show full image compressed
               }}
               priority
             />

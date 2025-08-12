@@ -73,10 +73,7 @@ export const CountUp: React.FC<CountUpProps> = ({
 
   const startAnimation = () => {
     // Don't start if already completed or currently running
-    if (hasStarted || hasCompleted) {
-      console.log('🚫 Animation already started or completed:', { hasStarted, hasCompleted });
-      return;
-    }
+    if (hasStarted || hasCompleted) return;
     
     console.log('🚀 Starting CountUp animation from', start, 'to', end);
     setHasStarted(true);
@@ -97,7 +94,6 @@ export const CountUp: React.FC<CountUpProps> = ({
       }
       
       const currentValue = startValue + (change * easedProgress);
-      // console.log('🔄 Animation step:', { progress, currentValue, elapsed, duration }); // Commented out to reduce spam
       setCount(currentValue);
       
       if (progress < 1) {
@@ -110,14 +106,7 @@ export const CountUp: React.FC<CountUpProps> = ({
       }
     };
 
-    // Start animation immediately or after delay
-    if (delay > 0) {
-      setTimeout(() => {
-        animationRef.current = requestAnimationFrame(animate);
-      }, delay);
-    } else {
-      animationRef.current = requestAnimationFrame(animate);
-    }
+    animationRef.current = requestAnimationFrame(animate);
   };
 
   // Intersection Observer for scroll trigger
@@ -152,8 +141,7 @@ export const CountUp: React.FC<CountUpProps> = ({
           intersectionRatio: entry.intersectionRatio,
           hasStarted: hasStarted,
           hasCompleted: hasCompleted,
-          boundingRect: entry.boundingClientRect.top,
-          rootBounds: entry.rootBounds?.height
+          boundingRect: entry.boundingClientRect.top
         });
         
         // Only trigger if intersecting, hasn't started, and hasn't completed
@@ -164,8 +152,8 @@ export const CountUp: React.FC<CountUpProps> = ({
       },
       {
         root: null,
-        rootMargin: `0px 0px -${triggerOffset}px 0px`, // Trigger when element is triggerOffset px from bottom
-        threshold: 0.1 // Trigger when 10% of element is visible
+        rootMargin: `0px 0px -${triggerOffset}px 0px`,
+        threshold: 0
       }
     );
 
