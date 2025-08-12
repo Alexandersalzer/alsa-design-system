@@ -78,20 +78,46 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
   }
   
   // Create filters from each pattern
-  const filters = patterns.map((pattern, index) => {
-    // Get blocks for this specific pattern
-    const patternBlocks = pattern.blocks || [];
-    
-    // Extract content from this pattern's blocks
-    const label = getBlockContent(patternBlocks, 'label') || `Filter ${index + 1}`;
-    const value = getBlockContent(patternBlocks, 'value') || `filter-${index + 1}`;
-    
-    return {
-      id: `filter-${index}`,
-      label,
-      value
-    };
-  });
+  const filters = patterns
+    .filter(pattern => pattern.type === 'filtertab') // Only get filter tab patterns
+    .map((pattern, index) => {
+      // Get blocks for this specific pattern
+      const patternBlocks = pattern.blocks || [];
+      
+      // Extract content from this pattern's blocks
+      const label = getBlockContent(patternBlocks, 'label') || `Filter ${index + 1}`;
+      const value = getBlockContent(patternBlocks, 'value') || `filter-${index + 1}`;
+      
+      return {
+        id: `filter-${index}`,
+        label,
+        value
+      };
+    });
+
+  // Get portfolio cards from patterns
+  const portfolioCards = patterns
+    .filter(pattern => pattern.type === 'portfoliocard') // Only get portfolio card patterns
+    .map((pattern, index) => {
+      // Get blocks for this specific pattern
+      const patternBlocks = pattern.blocks || [];
+      
+      // Extract content from this pattern's blocks
+      const category = getBlockContent(patternBlocks, 'category') || 'Category';
+      const title = getBlockContent(patternBlocks, 'title') || 'Title';
+      const description = getBlockContent(patternBlocks, 'description') || 'Description';
+      const views = getBlockContent(patternBlocks, 'views') || '0 views';
+      const videoSrc = getBlockContent(patternBlocks, 'videoSrc') || 'default-video.mp4';
+      
+      return {
+        id: `portfolio-${index}`,
+        category,
+        title,
+        description,
+        views,
+        videoSrc
+      };
+    });
 
   // Default filter handling if no external state management
   const handleFilterChange = (filterId: string, filterValue: string) => {
@@ -131,7 +157,7 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
             wrap={wrap}
           />
           
-          {/* Portfolio Grid - For now just showing one card */}
+          {/* Portfolio Grid - Dynamic from CMS */}
           <ResponsiveGrid
             minItemWidth="350px"
             gap="lg"
@@ -140,13 +166,16 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
               alignItems: 'start'
             }}
           >
-            <PortfolioCard
-              category="INTERVJUINNEHÅLL"
-              title="Svenska Ikoner-utmaning med Swae Lee"
-              description="Rapper Swae Lee takes on the ultimate Swedish culture test! Can this global superstar name the three biggest Swedish icons: ABBA, Zlatan, and Avicii? This viral interview moment showcases the perfect blend of entertainment and cultural connection."
-              views="3.2M views"
-              videoSrc="Intro Video-2.mov"
-            />
+            {portfolioCards.map((card) => (
+              <PortfolioCard
+                key={card.id}
+                category={card.category}
+                title={card.title}
+                description={card.description}
+                views={card.views}
+                videoSrc={card.videoSrc}
+              />
+            ))}
           </ResponsiveGrid>
         </Stack>
       </Container>
