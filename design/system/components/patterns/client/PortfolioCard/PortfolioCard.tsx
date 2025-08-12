@@ -94,11 +94,11 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
     <Card
       className={`portfolio-card ${className || ''}`}
       variant={variant}
-      padding="sm" // Override to sm since video extends to edges
+      padding="sm" // Override to sm since media extends to edges
       radius={radius}
     >
       <Stack spacing={spacing}>
-        {/* Video Container - extends to card edges */}
+        {/* Media Container - extends to card edges */}
         <div className="portfolio-media-container">
           {hasVideo && (
             <VideoShowcase
@@ -126,7 +126,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                 style={{
                   width: '100%',
                   height: '100%',
-                  objectFit: 'contain'
+                  objectFit: 'cover'
                 }}
                 priority
               />
@@ -136,7 +136,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
         
         {/* Content - with padding */}
         <div className="portfolio-content">
-          <Stack spacing="xs" className="content-stack">
+          <Stack spacing="xs">
             {/* Category */}
             <Typography
               variant={categoryVariant}
@@ -163,12 +163,11 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               weight={descriptionWeight}
               color={descriptionColor}
               align="left"
-              className="flex-grow"
             >
               {description}
             </Typography>
             
-            {/* Views with Eye Icon */}
+            {/* Views with Eye Icon - only show if views exist */}
             {views && (
               <Cluster spacing="xs" align="center">
                 <div className="eye-icon">

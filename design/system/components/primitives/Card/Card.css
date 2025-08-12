@@ -243,17 +243,10 @@
   overflow: hidden; /* Ensure media doesn't break card borders */
   display: flex;
   flex-direction: column;
-  height: 100%; /* Fill the grid cell height */
+  height: 100%; /* Fill grid cell height */
 }
 
-/* Ensure content fills available space */
-.portfolio-card > div {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Media container takes up fixed space */
+/* Shared media container styles */
 .portfolio-media-container {
   width: calc(100% + 2 * var(--foundation-space-4)); /* Extend beyond card padding */
   margin: calc(-1 * var(--foundation-space-4)) calc(-1 * var(--foundation-space-4)) 0; /* Negative margins to extend to edges */
@@ -261,34 +254,6 @@
   overflow: hidden;
   border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0; /* Rounded top corners only */
   background-color: var(--surface-subtle, #f8f9fa);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Content area grows to fill remaining space */
-.portfolio-content {
-  padding: var(--foundation-space-4);
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Stack inside content area should fill available space */
-.portfolio-content .stack {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* Ensure grid cells stretch to match tallest card */
-.responsive-grid {
-  align-items: stretch;
-}
-
-.responsive-grid > * {
-  height: 100%;
 }
 
 /* Video-specific styles */
@@ -308,17 +273,27 @@
 .portfolio-image-container img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0; /* Match container radius */
-  transition: transform 0.3s ease;
-}
-
-.portfolio-card:hover .portfolio-image-container img {
-  transform: scale(1.02); /* Subtle zoom on hover like video */
 }
 
 .portfolio-content {
   padding: 0 var(--foundation-space-4) var(--foundation-space-4); /* Add horizontal and bottom padding */
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Allow content to fill remaining space */
+}
+
+/* Make the Stack inside portfolio-content fill available space */
+.portfolio-content > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Push views to bottom */
+.portfolio-content > div > :last-child {
+  margin-top: auto;
 }
 
 /* Eye icon styling */
