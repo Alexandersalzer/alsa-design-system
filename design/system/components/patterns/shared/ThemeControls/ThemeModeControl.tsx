@@ -71,7 +71,7 @@ export function ThemeModeControl({ className }: ThemeModeControlProps) {
         </SelectionCard>
 
         <SelectionCard
-          type="checkbox"
+          type="radio"
           checked={isDark}
           onChange={handleDarkModeChange}
           disabled={!isHydrated}

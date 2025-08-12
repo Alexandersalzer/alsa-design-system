@@ -446,22 +446,3 @@
       color 0.15s ease !important;
   }
 }
-
-/* ===== DARK MODE SUPPORT ===== */
-@media (prefers-color-scheme: dark) {
-  .nav-item,
-  .tab {
-    color: var(--text-nav-item-dark, #d1d5db);
-  }
-  
-  .nav-item:hover:not(.nav-item--selected):not(.nav-item--disabled),
-  .tab:hover:not(.tab--active):not(.tab--disabled) {
-    background-color: var(--surface-nav-item-hover-dark, rgba(255, 255, 255, 0.1));
-  }
-  
-  .nav-item--selected,
-  .tab--active {
-    background-color: var(--surface-nav-item-selected-dark, rgba(59, 130, 246, 0.2));
-    color: var(--text-nav-item-selected-dark, #f3f4f6);
-  }
-}
