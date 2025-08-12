@@ -32,7 +32,7 @@ export const StatsGridSection: React.FC<StatsGridSectionProps> = ({
   
   // Layout defaults
   containerAlign = 'center',
-  containerMaxWidth = 'xl',
+  containerMaxWidth = 'lg',
   sectionPadding = '4rem 0',
   
   // Grid defaults

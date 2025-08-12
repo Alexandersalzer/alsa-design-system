@@ -114,7 +114,7 @@ export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> =
     >
       <Container 
         align={containerAlign}
-        maxWidth="xl"
+        maxWidth="lg"
         style={{ 
           padding: sectionPadding
         }}
