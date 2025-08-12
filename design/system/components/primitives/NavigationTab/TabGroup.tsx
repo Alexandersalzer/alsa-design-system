@@ -2,6 +2,7 @@
 // src/design-system/components/primitives/Tab/TabGroup.tsx
 // SIMPLIFIED VERSION - Clean and performant + KEYBOARD NAVIGATION
 // ===============================================
+
 import React, { ReactNode, useState, useRef, useEffect, useCallback } from 'react';
 import { TabVariant } from './Tab';
 
@@ -10,7 +11,6 @@ interface TabGroupProps {
   variant?: TabVariant;
   orientation?: 'horizontal' | 'vertical';
   className?: string;
-  // Simplified animation options
   animated?: boolean;
 }
 
@@ -34,7 +34,6 @@ export const TabGroup: React.FC<TabGroupProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [focusedIndex, setFocusedIndex] = useState(0);
 
-  // ✅ NEW: Keyboard navigation handler
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (variant !== 'navigation') return;
 
@@ -90,7 +89,6 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     }
   }, [variant, orientation]);
 
-  // Simple indicator update for horizontal tabs only (UNCHANGED)
   useEffect(() => {
     if (!animated || variant === 'navigation' || orientation === 'vertical') return;
     
@@ -98,7 +96,6 @@ export const TabGroup: React.FC<TabGroupProps> = ({
       const container = containerRef.current;
       if (!container) return;
       
-      // Find active tab by looking for active classes or aria-selected
       const activeTab = container.querySelector(
         '.tab--active, .active, [aria-selected="true"]'
       ) as HTMLElement;
@@ -113,10 +110,8 @@ export const TabGroup: React.FC<TabGroupProps> = ({
       }
     };
     
-    // Update indicator position
     updateIndicator();
     
-    // Listen for tab changes (use MutationObserver for class changes)
     const observer = new MutationObserver(updateIndicator);
     if (containerRef.current) {
       observer.observe(containerRef.current, {
@@ -127,16 +122,13 @@ export const TabGroup: React.FC<TabGroupProps> = ({
       });
     }
     
-    // Cleanup
     return () => observer.disconnect();
   }, [animated, variant, orientation]);
 
-  // ✅ ENHANCED: Children with focus management for navigation
   const enhancedChildren = React.Children.map(children, (child, index) => {
     if (React.isValidElement<TabProps>(child)) {
       const childProps = child.props as TabProps;
       
-      // Enhanced props for navigation variant
       const enhancedProps = {
         ...childProps,
         className: [
@@ -145,7 +137,6 @@ export const TabGroup: React.FC<TabGroupProps> = ({
         ].filter(Boolean).join(' ').trim()
       };
 
-      // Add focus management for navigation variant
       if (variant === 'navigation') {
         enhancedProps.tabIndex = index === focusedIndex ? 0 : -1;
         enhancedProps.onFocus = () => setFocusedIndex(index);
@@ -156,7 +147,6 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     return child;
   });
 
-  // Navigation variant (sidebar) - ✅ ADDED: keyboard handling
   if (variant === 'navigation') {
     return (
       <nav 
@@ -171,7 +161,6 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     );
   }
 
-  // Other variants with optional indicator (UNCHANGED except keyboard handling)
   const classes = [
     'tab-group',
     `tab-group--${variant}`,
@@ -192,7 +181,6 @@ export const TabGroup: React.FC<TabGroupProps> = ({
       onKeyDown={handleKeyDown}
       aria-orientation={orientation}
     >
-      {/* Simple sliding indicator for horizontal tabs only */}
       {showIndicator && (
         <div
           className={`tab-group__indicator tab-group__indicator--${variant}`}
