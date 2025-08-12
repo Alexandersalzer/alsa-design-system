@@ -1,6 +1,6 @@
 // ===============================================
 // design/system/components/patterns/client/PortfolioCard/PortfolioCard.tsx
-// PORTFOLIO CARD PATTERN - Video portfolio card like KJ Marketing
+// PORTFOLIO CARD PATTERN - Video/Image portfolio card like KJ Marketing
 // ===============================================
 
 import React from 'react';
@@ -9,6 +9,7 @@ import { VideoShowcase } from '../../../../../system/components/primitives/Video
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import Image from 'next/image';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -19,8 +20,9 @@ export interface PortfolioCardProps {
   category: string;
   title: string;
   description: string;
-  views: string;
-  videoSrc: string;
+  views?: string; // Optional since some content might not have views
+  videoSrc?: string; // Optional - either video or image
+  imageSrc?: string; // Optional - either video or image
   
   // Styling options
   variant?: 'default' | 'elevated' | 'outlined';
@@ -58,6 +60,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   description,
   views,
   videoSrc,
+  imageSrc,
   
   // Card styling defaults
   variant = 'default',
@@ -83,29 +86,52 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   // Layout defaults
   spacing = 'sm'
 }) => {
+  // Determine if we have video or image content
+  const hasVideo = Boolean(videoSrc);
+  const hasImage = Boolean(imageSrc);
+  
   return (
     <Card
       className={`portfolio-card ${className || ''}`}
       variant={variant}
-      padding="sm" // Override to sm since video extends to edges
+      padding="sm" // Override to sm since media extends to edges
       radius={radius}
     >
       <Stack spacing={spacing}>
-        {/* Video Container - extends to card edges */}
-        <div className="portfolio-video-container">
-          <VideoShowcase
-            src={`/videos/portfolio/${videoSrc}`}
-            variant="elevated"
-            size="full"
-            aspectRatio="16-9"
-            radius="none" // No radius since we handle it in CSS
-            showPlayButton={true}
-            controls={false}
-            autoPlay={false}
-            muted={true}
-            loop={true}
-            playsInline={true}
-          />
+        {/* Media Container - extends to card edges */}
+        <div className="portfolio-media-container">
+          {hasVideo && (
+            <VideoShowcase
+              src={`/videos/portfolio/${videoSrc}`}
+              variant="elevated"
+              size="full"
+              aspectRatio="auto"
+              radius="none" // No radius since we handle it in CSS
+              showPlayButton={true}
+              controls={false}
+              autoPlay={false}
+              muted={true}
+              loop={true}
+              playsInline={true}
+            />
+          )}
+          
+          {hasImage && !hasVideo && (
+            <div className="portfolio-image-container">
+              <Image
+                src={`/images/portfolio/${imageSrc}`}
+                alt={title}
+                width={400}
+                height={240}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+                priority
+              />
+            </div>
+          )}
         </div>
         
         {/* Content - with padding */}
@@ -141,32 +167,34 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               {description}
             </Typography>
             
-            {/* Views with Eye Icon */}
-            <Cluster spacing="xs" align="center">
-              <div className="eye-icon">
-                <svg 
-                  width="16" 
-                  height="16" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
+            {/* Views with Eye Icon - only show if views exist */}
+            {views && (
+              <Cluster spacing="xs" align="center">
+                <div className="eye-icon">
+                  <svg 
+                    width="16" 
+                    height="16" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </div>
+                <Typography
+                  variant={viewsVariant}
+                  weight={viewsWeight}
+                  color={viewsColor}
+                  align="left"
                 >
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                  <circle cx="12" cy="12" r="3"></circle>
-                </svg>
-              </div>
-              <Typography
-                variant={viewsVariant}
-                weight={viewsWeight}
-                color={viewsColor}
-                align="left"
-              >
-                {views}
-              </Typography>
-            </Cluster>
+                  {views}
+                </Typography>
+              </Cluster>
+            )}
           </Stack>
         </div>
       </Stack>

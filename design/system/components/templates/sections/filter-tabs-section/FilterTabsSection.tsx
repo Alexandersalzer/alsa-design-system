@@ -106,8 +106,9 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
       const category = getBlockContent(patternBlocks, 'category') || 'Category';
       const title = getBlockContent(patternBlocks, 'title') || 'Title';
       const description = getBlockContent(patternBlocks, 'description') || 'Description';
-      const views = getBlockContent(patternBlocks, 'views') || '0 views';
-      const videoSrc = getBlockContent(patternBlocks, 'videoSrc') || 'default-video.mp4';
+      const views = getBlockContent(patternBlocks, 'views') || undefined; // Optional
+      const videoSrc = getBlockContent(patternBlocks, 'videoSrc') || undefined; // Optional
+      const imageSrc = getBlockContent(patternBlocks, 'imageSrc') || undefined; // Optional
       
       return {
         id: `portfolio-${index}`,
@@ -115,7 +116,8 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
         title,
         description,
         views,
-        videoSrc
+        videoSrc,
+        imageSrc
       };
     });
 
@@ -174,6 +176,7 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
                 description={card.description}
                 views={card.views}
                 videoSrc={card.videoSrc}
+                imageSrc={card.imageSrc}
               />
             ))}
           </ResponsiveGrid>
