@@ -7,3 +7,5 @@ export * from './spinning-carousel';
 export * from './ContactForm';
 export * from './ReviewCard';
 export * from './results';
+export * from './StatsGrid';
+export * from './FilterTabs';
