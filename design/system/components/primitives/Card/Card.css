@@ -250,7 +250,6 @@
 
 .portfolio-video-container {
   width: calc(100% + 2 * var(--foundation-space-4)); /* Extend beyond card padding */
-  height: 240px; /* Fixed height for consistent card sizes */
   margin: calc(-1 * var(--foundation-space-4)) calc(-1 * var(--foundation-space-4)) 0; /* Negative margins to extend to edges */
   position: relative;
   overflow: hidden;

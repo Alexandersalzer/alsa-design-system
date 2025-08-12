@@ -66,7 +66,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   
   // Typography defaults - matching KJ Marketing style
   categoryVariant = 'label-sm',
-  titleVariant = 'h5',
+  titleVariant = 'h4',
   descriptionVariant = 'body-sm',
   viewsVariant = 'label-sm',
   
@@ -75,9 +75,9 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   descriptionWeight = 'regular',
   viewsWeight = 'medium',
   
-  categoryColor = 'accent',
+  categoryColor = 'secondary',
   titleColor = 'primary',
-  descriptionColor = 'secondary',
+  descriptionColor = 'primary',
   viewsColor = 'secondary',
   
   // Layout defaults
@@ -148,7 +148,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                   width="16" 
                   height="16" 
                   viewBox="0 0 24 24" 
-                  fill="none" 
+                  fill="currentColor" 
                   stroke="currentColor" 
                   strokeWidth="2" 
                   strokeLinecap="round" 
