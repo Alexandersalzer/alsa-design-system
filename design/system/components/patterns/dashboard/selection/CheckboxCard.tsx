@@ -200,7 +200,7 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
 
           {/* Middle: text content */}
           <div className="checkbox-card__text">
-            <Cluster align='center'>
+            <Cluster spacing='sm' align='center'>
                 {renderIcon()}
                 {label && (
                 <label
