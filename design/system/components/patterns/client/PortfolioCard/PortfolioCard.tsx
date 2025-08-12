@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { Card } from '../../../../../system/components/primitives/Card';
+import { VideoShowcase } from '../../../../../system/components/primitives/VideoShowcase';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
@@ -86,69 +87,88 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
     <Card
       className={`portfolio-card ${className || ''}`}
       variant={variant}
-      padding={padding}
+      padding="sm" // Override to sm since video extends to edges
       radius={radius}
     >
       <Stack spacing={spacing}>
-        {/* Video Container */}
+        {/* Video Container - extends to card edges */}
         <div className="portfolio-video-container">
-          <video
+          <VideoShowcase
             src={`/videos/portfolio/${videoSrc}`}
-            controls
-            preload="metadata"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: 'var(--radius-md, 8px)'
-            }}
-          >
-            Your browser does not support the video tag.
-          </video>
+            variant="elevated"
+            size="full"
+            aspectRatio="16-9"
+            radius="none" // No radius since we handle it in CSS
+            showPlayButton={true}
+            controls={false}
+            autoPlay={false}
+            muted={true}
+            loop={true}
+            playsInline={true}
+          />
         </div>
         
-        {/* Content */}
-        <Stack spacing="xs">
-          {/* Category */}
-          <Typography
-            variant={categoryVariant}
-            weight={categoryWeight}
-            color={categoryColor}
-            align="left"
-          >
-            {category}
-          </Typography>
-          
-          {/* Title */}
-          <Typography
-            variant={titleVariant}
-            weight={titleWeight}
-            color={titleColor}
-            align="left"
-          >
-            {title}
-          </Typography>
-          
-          {/* Description */}
-          <Typography
-            variant={descriptionVariant}
-            weight={descriptionWeight}
-            color={descriptionColor}
-            align="left"
-          >
-            {description}
-          </Typography>
-          
-          {/* Views */}
-          <Typography
-            variant={viewsVariant}
-            weight={viewsWeight}
-            color={viewsColor}
-            align="left"
-          >
-            {views}
-          </Typography>
-        </Stack>
+        {/* Content - with padding */}
+        <div className="portfolio-content">
+          <Stack spacing="xs">
+            {/* Category */}
+            <Typography
+              variant={categoryVariant}
+              weight={categoryWeight}
+              color={categoryColor}
+              align="left"
+            >
+              {category}
+            </Typography>
+            
+            {/* Title */}
+            <Typography
+              variant={titleVariant}
+              weight={titleWeight}
+              color={titleColor}
+              align="left"
+            >
+              {title}
+            </Typography>
+            
+            {/* Description */}
+            <Typography
+              variant={descriptionVariant}
+              weight={descriptionWeight}
+              color={descriptionColor}
+              align="left"
+            >
+              {description}
+            </Typography>
+            
+            {/* Views with Eye Icon */}
+            <Cluster spacing="xs" align="center">
+              <div className="eye-icon">
+                <svg 
+                  width="16" 
+                  height="16" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </div>
+              <Typography
+                variant={viewsVariant}
+                weight={viewsWeight}
+                color={viewsColor}
+                align="left"
+              >
+                {views}
+              </Typography>
+            </Cluster>
+          </Stack>
+        </div>
       </Stack>
     </Card>
   );

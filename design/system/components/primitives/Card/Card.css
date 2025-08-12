@@ -240,6 +240,7 @@
   border: 1px solid var(--border-subtle, #e5e7eb);
   box-shadow: var(--foundation-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1));
   transition: all 0.2s ease;
+  overflow: hidden; /* Ensure video doesn't break card borders */
 }
 
 .portfolio-card:hover {
@@ -248,20 +249,35 @@
 }
 
 .portfolio-video-container {
-  width: 100%;
+  width: calc(100% + 2 * var(--foundation-space-4)); /* Extend beyond card padding */
   height: 240px; /* Fixed height for consistent card sizes */
+  margin: calc(-1 * var(--foundation-space-4)) calc(-1 * var(--foundation-space-4)) 0; /* Negative margins to extend to edges */
   position: relative;
   overflow: hidden;
-  border-radius: var(--radius-md, 8px);
+  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0; /* Rounded top corners only */
   background-color: var(--surface-subtle, #f8f9fa);
 }
 
-.portfolio-video-container video {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover;
-  border-radius: var(--radius-md, 8px);
-  cursor: pointer;
+.portfolio-video-container .video-showcase {
+  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0 !important; /* Override VideoShowcase radius */
+}
+
+.portfolio-content {
+  padding: 0 var(--foundation-space-4) var(--foundation-space-4); /* Add horizontal and bottom padding */
+}
+
+/* Eye icon styling */
+.eye-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary, #6b7280);
+  flex-shrink: 0;
+}
+
+.eye-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
 /* Responsive adjustments */
