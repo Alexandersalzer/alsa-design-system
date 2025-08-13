@@ -102,7 +102,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
         <div className="portfolio-media-container">
           {hasVideo && (
             <VideoShowcase
-              src={`/.videos/portfolio/${videoSrc}`}
+              src={videoSrc} // Remove automatic /videos/portfolio/ prefix
               variant="elevated"
               size="full"
               aspectRatio="auto"
@@ -116,10 +116,10 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
             />
           )}
           
-          {hasImage && !hasVideo && (
+          {hasImage && !hasVideo && imageSrc && (
             <div className="portfolio-image-container">
               <Image
-                src={`/images/portfolio/${imageSrc}`}
+                src={imageSrc} // Remove automatic /images/portfolio/ prefix
                 alt={title}
                 width={400}
                 height={240}
