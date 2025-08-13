@@ -2,7 +2,7 @@
 // AccentColorControl.tsx - UPDATED to use DesignRadioCard
 // ===============================================
 import React from 'react';
-import { DesignRadioCard } from '@blimpify-im/ui';
+import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
 import { useTheme, type ColorScale } from '../../../../hooks/useTheme';
 import { SwatchIcon } from '@heroicons/react/24/outline';
 import { Body, Icon } from '@blimpify-im/ui';
@@ -54,12 +54,13 @@ export function AccentColorControl({ columns = 3, className }: AccentColorContro
         size="sm"
       >
         {COLOR_OPTIONS.map((option) => (
-          <DesignRadioCard.Color
-            key={option.value}
-            value={option.value}
-            label={option.label}
-            colorValue={option.hex}
-          />
+        <DesignRadioCardItem
+        key={option.value}
+        value={option.value}
+        label={option.label}
+        variant="color"
+        colorValue={option.hex}
+        />
         ))}
       </DesignRadioCard.Root>
     </div>
