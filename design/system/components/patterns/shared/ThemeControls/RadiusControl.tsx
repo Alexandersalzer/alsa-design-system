@@ -3,7 +3,7 @@
 // RadiusControl.tsx - UPDATED to use DesignRadioCard
 // ===============================================
 import React from 'react';
-import { DesignRadioCard } from '@blimpify-im/ui';
+import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
 import { useTheme, type RadiusScale } from '../../../../hooks/useTheme';
 import { Square2StackIcon } from '@heroicons/react/24/outline';
 import { Body, Icon } from '@blimpify-im/ui';
@@ -55,12 +55,13 @@ export function RadiusControl({ columns = 4, className }: RadiusControlProps) {
         size="xs"
       >
         {RADIUS_OPTIONS.map((option) => (
-          <DesignRadioCard.Radius
+            <DesignRadioCardItem
             key={option.value}
             value={option.value}
             label={option.label}
+            variant="radius"
             radiusPreview={option.description}
-          />
+            />
         ))}
       </DesignRadioCard.Root>
     </div>
