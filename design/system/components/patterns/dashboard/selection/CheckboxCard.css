@@ -76,10 +76,10 @@
   /* Content area in vertical layout */
 }
 
-/* Icon in vertical layout - centered */
+/* Icon in vertical layout - left aligned to match text */
 .checkbox-card__icon--vertical {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 12px;
 }
 
