@@ -73,13 +73,19 @@
 
 /* VERTICAL ORIENTATION */
 .checkbox-card--vertical .checkbox-card__content {
-  text-align: center;
+  /* Content area in vertical layout */
 }
 
-.checkbox-card--vertical .checkbox-card__icon {
+/* Icon in vertical layout - centered */
+.checkbox-card__icon--vertical {
   display: flex;
   justify-content: center;
   margin-bottom: 12px;
+}
+
+/* Text in vertical layout - left aligned for better readability */
+.checkbox-card__text--vertical {
+  text-align: left;
 }
 
 /* HORIZONTAL ORIENTATION */

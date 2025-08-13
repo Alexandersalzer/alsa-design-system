@@ -124,11 +124,11 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
           <div className="checkbox-card__content">
             
             {orientation === 'vertical' ? (
-              // VERTICAL LAYOUT
+              // VERTICAL LAYOUT - Icon above, text left-aligned
               <>
-                {/* Icon centered above */}
+                {/* Icon above (can be centered) */}
                 {icon && (
-                  <div className="checkbox-card__icon">
+                  <div className="checkbox-card__icon checkbox-card__icon--vertical">
                     <Icon 
                       color={checked ? 'accent' : 'secondary'}
                       size={size === 'lg' ? 'lg' : size === 'sm' ? 'sm' : 'md'}
@@ -138,8 +138,8 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
                   </div>
                 )}
                 
-                {/* Text content below icon */}
-                <div className="checkbox-card__text">
+                {/* Text content below icon - left aligned */}
+                <div className="checkbox-card__text checkbox-card__text--vertical">
                   {label && (
                     <div 
                       id={`${id}-label`}
