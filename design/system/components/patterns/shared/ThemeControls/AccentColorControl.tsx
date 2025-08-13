@@ -1,11 +1,11 @@
 // ===============================================
-// AccentColorControl.tsx - REVERTED to working SelectionCard version
+// AccentColorControl.tsx - UPDATED to use DesignRadioCard
 // ===============================================
 import React from 'react';
-import { SelectionCard, Grid } from '@blimpify-im/ui';
+import { DesignRadioCard } from '@blimpify-im/ui';
 import { useTheme, type ColorScale } from '../../../../hooks/useTheme';
 import { SwatchIcon } from '@heroicons/react/24/outline';
-import { Body, Icon, Label } from '@blimpify-im/ui';
+import { Body, Icon } from '@blimpify-im/ui';
 
 // Clean color options - just names and hex values
 const COLOR_OPTIONS = [
@@ -18,17 +18,17 @@ const COLOR_OPTIONS = [
 ];
 
 interface AccentColorControlProps {
-  columns?: 1 | 2 | 3 | 4;
+  columns?: 1 | 2 | 3 | 4 | 5 | 6;
   className?: string;
 }
 
 export function AccentColorControl({ columns = 3, className }: AccentColorControlProps) {
   const { accentColor, setAccentColor } = useTheme();
 
-  const handleColorChange = (checked: boolean, colorValue: string) => {
-    if (checked) {
-      setAccentColor(colorValue as ColorScale);
-    }
+  // ✅ Convert from DesignRadioCard's string onChange to theme system
+  const handleColorChange = (colorValue: string) => {
+    console.log('🎨 AccentColorControl: Changing color to:', colorValue);
+    setAccentColor(colorValue as ColorScale);
   };
 
   return (
@@ -44,59 +44,24 @@ export function AccentColorControl({ columns = 3, className }: AccentColorContro
         </div>
       </div>
 
-      {/* Color grid with visual previews */}
-      <Grid columns={columns} gap="md" className="grid-cols-2 md:grid-cols-3">
+      {/* ✅ Using DesignRadioCard with Root + Color items */}
+      <DesignRadioCard.Root
+        name="accent-color"
+        value={accentColor || 'purple'}
+        onChange={handleColorChange}
+        columns={columns}
+        gap="sm"
+        size="sm"
+      >
         {COLOR_OPTIONS.map((option) => (
-          <SelectionCard
+          <DesignRadioCard.Color
             key={option.value}
-            type="radio"
-            name="accent-color"
             value={option.value}
-            checked={accentColor === option.value}
-            onChange={(checked) => handleColorChange(checked, option.value)}
-            size="md"
-            controlPosition="right"
-          >
-            <div className="text-center">
-              <Label size="sm" weight="medium" className="mb-3 block">
-                {option.label}
-              </Label>
-              
-              {/* Large color preview rectangle */}
-              <div className="flex justify-center mb-3">
-                <div
-                  className="w-16 h-10 rounded-md border border-gray-300 shadow-sm"
-                  style={{ backgroundColor: option.hex }}
-                />
-              </div>
-              
-              {/* Mini UI elements preview using the color */}
-              <div className="flex justify-center gap-1 mb-3">
-                {/* Mini button */}
-                <div
-                  className="w-6 h-3 rounded-sm"
-                  style={{ backgroundColor: option.hex }}
-                />
-                {/* Mini badge */}
-                <div
-                  className="w-4 h-3 rounded-full"
-                  style={{ backgroundColor: option.hex }}
-                />
-                {/* Mini indicator */}
-                <div
-                  className="w-2 h-3 rounded-full"
-                  style={{ backgroundColor: option.hex }}
-                />
-              </div>
-              
-              {/* Just the hex value */}
-              <Body size="xs" color="secondary" className="font-mono">
-                {option.hex}
-              </Body>
-            </div>
-          </SelectionCard>
+            label={option.label}
+            colorValue={option.hex}
+          />
         ))}
-      </Grid>
+      </DesignRadioCard.Root>
     </div>
   );
 }
