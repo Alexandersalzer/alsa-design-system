@@ -73,18 +73,11 @@ export const RichText: React.FC<RichTextProps> = ({
   textAlign = 'center',
   maxWidth = '600px',
 }) => {
-  const containerStyle = {
-    ...(maxWidth && { maxWidth: typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth }),
-    width: '100%',
-    margin: '0 auto', // Center the container
-    display: 'flex',
-    justifyContent: 'center', // Center content horizontally
-  };
+
 
   const textAlignClass = textAlign !== 'left' ? `text-${textAlign}` : '';
 
   return (
-    <div style={containerStyle}>
       <Rhythm
         className={`${className || ''} ${textAlignClass}`.trim()}
         unit={unit}
@@ -133,7 +126,6 @@ export const RichText: React.FC<RichTextProps> = ({
           </RhythmItem>
         )}
       </Rhythm>
-    </div>
   );
 };
 
