@@ -109,6 +109,7 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
       const views = getBlockContent(patternBlocks, 'views') || undefined; // Optional
       const videoSrc = getBlockContent(patternBlocks, 'videoSrc') || undefined; // Optional
       const imageSrc = getBlockContent(patternBlocks, 'imageSrc') || undefined; // Optional
+      const flag = getBlockContent(patternBlocks, 'flag') || undefined; // Optional flag
       
       return {
         id: `portfolio-${index}`,
@@ -117,7 +118,8 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
         description,
         views,
         videoSrc,
-        imageSrc
+        imageSrc,
+        flag: flag as 'uk' | 'sv' | undefined
       };
     });
 
@@ -177,6 +179,7 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
                 views={card.views}
                 videoSrc={card.videoSrc}
                 imageSrc={card.imageSrc}
+                flag={card.flag}
               />
             ))}
           </ResponsiveGrid>

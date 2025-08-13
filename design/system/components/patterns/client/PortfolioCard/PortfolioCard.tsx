@@ -23,6 +23,7 @@ export interface PortfolioCardProps {
   views?: string; // Optional since some content might not have views
   videoSrc?: string; // Optional - either video or image
   imageSrc?: string; // Optional - either video or image
+  flag?: 'uk' | 'sv'; // Optional flag for country/language indicator
   
   // Styling options
   variant?: 'default' | 'elevated' | 'outlined';
@@ -61,6 +62,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   views,
   videoSrc,
   imageSrc,
+  flag,
   
   // Card styling defaults
   variant = 'default',
@@ -100,6 +102,28 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
       <Stack spacing={spacing}>
         {/* Media Container - extends to card edges */}
         <div className="portfolio-media-container">
+          {/* Flag indicator - positioned absolutely in top-right corner */}
+          {flag && (
+            <div className="portfolio-flag">
+              {flag === 'uk' && (
+                <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                  <rect width="24" height="16" fill="#012169"/>
+                  <path d="M0 0L24 16M24 0L0 16" stroke="white" strokeWidth="2"/>
+                  <path d="M0 0L24 16M24 0L0 16" stroke="#C8102E" strokeWidth="1"/>
+                  <path d="M10 0V16M0 6H24M0 10H24" stroke="white" strokeWidth="3"/>
+                  <path d="M12 0V16M0 8H24" stroke="#C8102E" strokeWidth="2"/>
+                </svg>
+              )}
+              {flag === 'sv' && (
+                <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                  <rect width="24" height="16" fill="#006AA7"/>
+                  <path d="M0 6H24M0 10H24" stroke="#FECC00" strokeWidth="4"/>
+                  <path d="M8 0V16" stroke="#FECC00" strokeWidth="4"/>
+                </svg>
+              )}
+            </div>
+          )}
+          
           {hasVideo && (
             <VideoShowcase
               src={videoSrc} // Remove automatic /videos/portfolio/ prefix
