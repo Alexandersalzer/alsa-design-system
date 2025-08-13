@@ -1,16 +1,17 @@
 /* ===============================================
-// src/design/system/components/patterns/selection/CheckboxCard.css
-// CLEAN CHAKRA-INSPIRED STYLING
+// src/design-system/components/patterns/selection/CheckboxCard.css
+// FRESH CHAKRA-INSPIRED STYLING - Matches new component structure
 // =============================================== */
 
 .checkbox-card {
   cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
 }
 
 .checkbox-card:hover:not(.checkbox-card--disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
 .checkbox-card--checked {
@@ -26,96 +27,132 @@
 
 .checkbox-card--error {
   border-color: var(--error-500);
+  background-color: var(--error-25);
 }
 
-/* Content layout */
+/* Inner content area */
 .checkbox-card__inner {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  position: relative;
+  padding: 16px;
+}
+
+/* Size variants */
+.checkbox-card--sm .checkbox-card__inner {
+  padding: 12px;
+}
+
+.checkbox-card--lg .checkbox-card__inner {
+  padding: 20px;
+}
+
+/* Content area (has right padding for checkbox) */
+.checkbox-card__content {
+  width: 100%;
 }
 
 /* Vertical orientation */
-.checkbox-card--vertical .checkbox-card__inner {
-  flex-direction: column;
-  align-items: center;
+.checkbox-card--vertical .checkbox-card__content {
   text-align: center;
 }
 
-.checkbox-card--vertical .checkbox-card__content {
+.checkbox-card--vertical .checkbox-card__icon {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  justify-content: center;
+  margin-bottom: 12px;
 }
 
 /* Horizontal orientation */
-.checkbox-card--horizontal .checkbox-card__inner {
-  justify-content: space-between;
-}
-
 .checkbox-card--horizontal .checkbox-card__content {
-  flex: 1;
-}
-
-.checkbox-card--horizontal .checkbox-card__content .flex {
-  align-items: center;
-}
-
-/* Icon styling */
-.checkbox-card__icon {
-  flex-shrink: 0;
-}
-
-.checkbox-card--vertical .checkbox-card__icon {
-  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .checkbox-card--horizontal .checkbox-card__icon {
-  margin-right: 12px;
+  flex-shrink: 0;
+  margin-top: 2px; /* Align with first line of text */
 }
 
-/* Label and description */
+.checkbox-card--horizontal .checkbox-card__text {
+  flex: 1;
+}
+
+/* Text elements */
 .checkbox-card__label {
   font-weight: 500;
   color: var(--text-primary);
   cursor: pointer;
   user-select: none;
+  line-height: 1.4;
+  display: block;
+}
+
+.checkbox-card--sm .checkbox-card__label {
+  font-size: 14px;
+}
+
+.checkbox-card--md .checkbox-card__label {
+  font-size: 16px;
+}
+
+.checkbox-card--lg .checkbox-card__label {
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .checkbox-card__description {
-  font-size: 14px;
   color: var(--text-secondary);
-  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.checkbox-card--sm .checkbox-card__description {
+  font-size: 12px;
+}
+
+.checkbox-card--md .checkbox-card__description {
+  font-size: 14px;
+}
+
+.checkbox-card--lg .checkbox-card__description {
+  font-size: 16px;
 }
 
 .checkbox-card__required {
   color: var(--error-500);
-  margin-left: 4px;
+}
+
+/* Children content */
+.checkbox-card__children {
+  margin-top: 8px;
+}
+
+/* Addon area (like pricing) */
+.checkbox-card__addon {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 12px;
+  margin-top: 12px;
 }
 
 /* Error message */
 .checkbox-card__error {
-  margin-top: 8px;
-  font-size: 14px;
   color: var(--error-600);
+  font-size: 14px;
+  margin-top: 8px;
 }
 
-/* Addon area */
-.checkbox-card__addon {
-  border-top: 1px solid var(--border-subtle);
-  padding-top: 12px;
+/* Focus states */
+.checkbox-card:focus-visible {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 2px;
 }
 
 /* Group styling */
 .checkbox-card-group {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  width: 100%;
 }
 
 .checkbox-card-group__label {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 8px;
@@ -125,6 +162,7 @@
   font-size: 14px;
   color: var(--text-secondary);
   margin-bottom: 16px;
+  line-height: 1.5;
 }
 
 .checkbox-card-group__error {
@@ -133,7 +171,40 @@
   margin-top: 8px;
 }
 
-.checkbox-card-group__required {
-  color: var(--error-500);
-  margin-left: 4px;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .checkbox-card__inner {
+    padding: 12px;
+  }
+  
+  .checkbox-card--lg .checkbox-card__inner {
+    padding: 16px;
+  }
+  
+  /* Force horizontal cards to be more compact on mobile */
+  .checkbox-card--horizontal .checkbox-card__content {
+    gap: 8px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .checkbox-card {
+    border-width: 2px;
+  }
+  
+  .checkbox-card--checked {
+    border-width: 3px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .checkbox-card {
+    transition: none;
+  }
+  
+  .checkbox-card:hover:not(.checkbox-card--disabled) {
+    transform: none;
+  }
 }
