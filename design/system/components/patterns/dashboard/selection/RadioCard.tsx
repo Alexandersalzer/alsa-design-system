@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/patterns/selection/RadioCard.tsx
-// CLEAN IMPLEMENTATION - Inspired by Chakra UI structure
+// PROPER FLEXBOX LAYOUT - No absolute positioning
 // ===============================================
 
 import React, { forwardRef, useId } from 'react';
@@ -21,17 +21,12 @@ export interface RadioCardItemProps extends Omit<React.HTMLAttributes<HTMLDivEle
   icon?: React.ReactElement;
   children?: React.ReactNode;
   
-  // Layout
+  // Layout - keep it simple like Chakra
   orientation?: 'horizontal' | 'vertical';
-  align?: 'start' | 'center' | 'end';
-  
-  // Radio position (following Chakra pattern)
-  indicatorPlacement?: 'start' | 'end' | 'inside' | 'none';
   
   // Visual
   variant?: 'default' | 'elevated' | 'outlined' | 'solid';
   size?: 'sm' | 'md' | 'lg';
-  colorPalette?: 'gray' | 'blue' | 'green' | 'red' | 'purple';
   
   // States
   required?: boolean;
@@ -54,11 +49,8 @@ export const RadioCardItem = forwardRef<HTMLDivElement, RadioCardItemProps>(({
   icon,
   children,
   orientation = 'horizontal',
-  align = 'start',
-  indicatorPlacement = 'end', // Default to right like Chakra
   variant = 'outlined',
   size = 'md',
-  colorPalette = 'gray',
   required = false,
   error,
   addon,
@@ -75,135 +67,14 @@ export const RadioCardItem = forwardRef<HTMLDivElement, RadioCardItemProps>(({
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (disabled) return;
     
+    // Don't trigger if clicking directly on the radio
     const target = e.target as HTMLElement;
-    if (
-      target.closest('button:not(.radio-card)') ||
-      target.closest('a') ||
-      target.closest('input')
-    ) {
-      return;
-    }
+    if (target.closest('input[type="radio"]')) return;
     
     if (!checked) {
       onChange?.(value);
     }
     onClick?.(e);
-  };
-
-  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      onChange?.(value);
-    }
-  };
-
-  // Render radio indicator
-  const renderIndicator = () => {
-    if (indicatorPlacement === 'none') return null;
-    
-    return (
-      <Radio
-        id={radioId}
-        name={name}
-        value={value}
-        checked={checked}
-        onChange={handleRadioChange}
-        disabled={disabled}
-        required={required}
-        size={size}
-      />
-    );
-  };
-
-  // Render icon (above content for vertical, inline for horizontal)
-  const renderIcon = () => {
-    if (!icon) return null;
-
-    return (
-      <div className={cn(
-        'radio-card__icon',
-        orientation === 'vertical' ? 'mb-2' : 'mr-3'
-      )}>
-        <Icon 
-          color={checked ? 'accent' : 'secondary'}
-          size={size === 'lg' ? 'lg' : size === 'sm' ? 'sm' : 'md'}
-        >
-          {icon}
-        </Icon>
-      </div>
-    );
-  };
-
-  // Render content
-  const renderContent = () => {
-    const hasContent = label || description || children;
-    if (!hasContent && !icon) return null;
-
-    if (orientation === 'vertical') {
-      return (
-        <div className="radio-card__content">
-          {/* Icon at top */}
-          {renderIcon()}
-          
-          <div className="radio-card__text">
-            {label && (
-              <label htmlFor={radioId} className="radio-card__label">
-                {label}
-                {required && <span className="radio-card__required">*</span>}
-              </label>
-            )}
-            
-            {description && (
-              <div className="radio-card__description">{description}</div>
-            )}
-            
-            {/* Inside indicator for vertical */}
-            {indicatorPlacement === 'inside' && (
-              <div className="radio-card__indicator-inside mt-2">
-                {renderIndicator()}
-              </div>
-            )}
-            
-            {children && (
-              <div className="radio-card__children">{children}</div>
-            )}
-          </div>
-        </div>
-      );
-    }
-
-    // Horizontal layout
-    return (
-      <div className="radio-card__content">
-        <div className="flex items-start gap-3">
-          {/* Icon inline with text */}
-          {renderIcon()}
-          
-          <div className="radio-card__text flex-1">
-            {label && (
-              <label htmlFor={radioId} className="radio-card__label">
-                {label}
-                {required && <span className="radio-card__required">*</span>}
-              </label>
-            )}
-            
-            {description && (
-              <div className="radio-card__description">{description}</div>
-            )}
-            
-            {children && (
-              <div className="radio-card__children">{children}</div>
-            )}
-          </div>
-        </div>
-        
-        {/* Inside indicator for horizontal */}
-        {indicatorPlacement === 'inside' && (
-          <div className="radio-card__indicator-inside mt-3">
-            {renderIndicator()}
-          </div>
-        )}
-      </div>
-    );
   };
 
   return (
@@ -213,10 +84,7 @@ export const RadioCardItem = forwardRef<HTMLDivElement, RadioCardItemProps>(({
       className={cn(
         'radio-card',
         `radio-card--${size}`,
-        `radio-card--${variant}`,
         `radio-card--${orientation}`,
-        `radio-card--align-${align}`,
-        `radio-card--color-${colorPalette}`,
         checked && 'radio-card--checked',
         disabled && 'radio-card--disabled',
         error && 'radio-card--error',
@@ -232,40 +100,127 @@ export const RadioCardItem = forwardRef<HTMLDivElement, RadioCardItemProps>(({
       id={id}
       {...props}
     >
-      <CardContent className={cn(
-        'radio-card__inner',
-        orientation === 'horizontal' ? 'flex items-center justify-between' : 'text-center'
-      )}>
-        {/* Start indicator */}
-        {indicatorPlacement === 'start' && (
-          <div className="radio-card__indicator-start">
-            {renderIndicator()}
+      <CardContent className="radio-card__inner">
+        
+        {/* MAIN FLEX CONTAINER */}
+        <div className="radio-card__main">
+          
+          {/* LEFT: Content area */}
+          <div className="radio-card__content">
+            
+            {/* ICON + TEXT ROW (for horizontal) or ICON ABOVE (for vertical) */}
+            {orientation === 'vertical' ? (
+              // VERTICAL LAYOUT
+              <>
+                {/* Icon centered above */}
+                {icon && (
+                  <div className="radio-card__icon">
+                    <Icon 
+                      color={checked ? 'accent' : 'secondary'}
+                      size={size === 'lg' ? 'lg' : size === 'sm' ? 'sm' : 'md'}
+                    >
+                      {icon}
+                    </Icon>
+                  </div>
+                )}
+                
+                {/* Text content below icon */}
+                <div className="radio-card__text">
+                  {label && (
+                    <label 
+                      htmlFor={radioId} 
+                      className="radio-card__label"
+                    >
+                      {label}
+                      {required && <span className="radio-card__required">*</span>}
+                    </label>
+                  )}
+                  
+                  {description && (
+                    <div className="radio-card__description">
+                      {description}
+                    </div>
+                  )}
+                  
+                  {children && (
+                    <div className="radio-card__children">
+                      {children}
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              // HORIZONTAL LAYOUT
+              <div className="radio-card__horizontal-content">
+                {/* Icon inline with text */}
+                {icon && (
+                  <div className="radio-card__icon">
+                    <Icon 
+                      color={checked ? 'accent' : 'secondary'}
+                      size={size === 'lg' ? 'lg' : size === 'sm' ? 'sm' : 'md'}
+                    >
+                      {icon}
+                    </Icon>
+                  </div>
+                )}
+                
+                {/* Text content */}
+                <div className="radio-card__text">
+                  {label && (
+                    <label 
+                      htmlFor={radioId} 
+                      className="radio-card__label"
+                    >
+                      {label}
+                      {required && <span className="radio-card__required">*</span>}
+                    </label>
+                  )}
+                  
+                  {description && (
+                    <div className="radio-card__description">
+                      {description}
+                    </div>
+                  )}
+                  
+                  {children && (
+                    <div className="radio-card__children">
+                      {children}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
-        )}
-        
-        {/* Content */}
-        {renderContent()}
-        
-        {/* End indicator (default - right side like Chakra) */}
-        {indicatorPlacement === 'end' && (
-          <div className="radio-card__indicator-end">
-            {renderIndicator()}
+          
+          {/* RIGHT: Radio */}
+          <div className="radio-card__radio">
+            <Radio
+              id={radioId}
+              name={name}
+              value={value}
+              checked={checked}
+              onChange={(e) => e.target.checked && onChange?.(value)}
+              disabled={disabled}
+              required={required}
+              size={size}
+            />
           </div>
-        )}
-        
-        {/* Addon area */}
+        </div>
+
+        {/* ADDON AREA (like pricing in Chakra examples) */}
         {addon && (
-          <div className="radio-card__addon mt-4">
+          <div className="radio-card__addon">
             {addon}
           </div>
         )}
         
-        {/* Error message */}
+        {/* ERROR MESSAGE */}
         {error && (
-          <div className="radio-card__error text-red-600 text-sm mt-2" role="alert">
+          <div className="radio-card__error" role="alert">
             {error}
           </div>
         )}
+        
       </CardContent>
     </Card>
   );
@@ -280,11 +235,10 @@ export interface RadioCardRootProps {
   error?: string;
   required?: boolean;
   size?: 'sm' | 'md' | 'lg';
-  orientation?: 'horizontal' | 'vertical';
   children: React.ReactNode;
   className?: string;
   
-  // Layout options
+  // Grid options
   columns?: 1 | 2 | 3 | 4 | 'auto';
   gap?: 'sm' | 'md' | 'lg';
   
@@ -300,7 +254,6 @@ export const RadioCardRoot: React.FC<RadioCardRootProps> = ({
   error,
   required = false,
   size = 'md',
-  orientation = 'vertical',
   children,
   className,
   columns = 'auto',
@@ -311,11 +264,7 @@ export const RadioCardRoot: React.FC<RadioCardRootProps> = ({
 }) => {
   const groupId = useId();
 
-  const getLayoutClasses = () => {
-    if (orientation === 'horizontal') {
-      return 'flex flex-wrap';
-    }
-    
+  const getGridClasses = () => {
     if (columns === 'auto') {
       return 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
     }
@@ -344,19 +293,19 @@ export const RadioCardRoot: React.FC<RadioCardRootProps> = ({
       aria-describedby={description ? `${groupId}-description` : undefined}
     >
       {label && (
-        <div id={`${groupId}-label`} className="radio-card-group__label font-medium mb-2">
+        <div className="radio-card-group__label font-semibold text-lg mb-2">
           {label}
-          {required && <span className="radio-card-group__required text-red-500 ml-1">*</span>}
+          {required && <span className="text-red-500 ml-1">*</span>}
         </div>
       )}
       
       {description && (
-        <div id={`${groupId}-description`} className="radio-card-group__description text-gray-600 text-sm mb-4">
+        <div className="radio-card-group__description text-gray-600 mb-4">
           {description}
         </div>
       )}
       
-      <div className={cn(getLayoutClasses(), gapClasses, 'radio-card-group__container')}>
+      <div className={cn(getGridClasses(), gapClasses, 'items-start')}>
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child) && (child.type as any) === RadioCardItem) {
             return React.cloneElement(child as React.ReactElement<RadioCardItemProps>, {
