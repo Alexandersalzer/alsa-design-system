@@ -1,9 +1,10 @@
+
 // ===============================================
-// ThemeModeControl.tsx - FIXED with proper radio button behavior
+// ThemeModeControl.tsx - UPDATED to use DesignRadioCard
 // ===============================================
 import React from 'react';
-import { SelectionCard, SelectionCardGroup } from '../../../patterns';
-import { Body, Icon, Label } from '../../../primitives';
+import { DesignRadioCard } from '@blimpify-im/ui';
+import { Body, Icon } from '@blimpify-im/ui';
 import { useTheme } from '../../../../hooks/useTheme';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 
@@ -14,58 +15,61 @@ interface ThemeModeControlProps {
 export function ThemeModeControl({ className }: ThemeModeControlProps) {
   const { isDark, toggleDarkMode, isHydrated } = useTheme();
 
-  // ✅ FIXED: Single handler for radio group
-  const handleThemeChange = (checked: boolean, themeValue: 'light' | 'dark') => {
-    if (!checked) return; // Only act on selection, not deselection
-    
+  const handleThemeChange = (themeValue: 'light' | 'dark') => {
     const shouldToggle = (themeValue === 'light' && isDark) || (themeValue === 'dark' && !isDark);
     if (shouldToggle) {
       toggleDarkMode();
     }
   };
 
+  const currentTheme = isDark ? 'dark' : 'light';
+
   return (
     <div className={className}>
       {/* Section header */}
-      <div className="flex items-center space-x-3 mb-6">
-        <Icon size="md" color="accent">
+      <div className="flex items-center gap-3 mb-4">
+        <Icon size="md" color="primary">
           {isDark ? <MoonIcon /> : <SunIcon />}
         </Icon>
         <div>
-          <Label size="md" weight="semibold">Theme Mode</Label>
+          <Body weight="medium" className="mb-1">Theme Mode</Body>
           <Body size="sm" color="secondary">Light or dark appearance</Body>
         </div>
       </div>
 
-      {/* ✅ FIXED: Use SelectionCardGroup with radio type */}
-      <SelectionCardGroup
-        type="radio"
-        name="theme-mode" // ✅ IMPORTANT: Same name for radio group
+      {/* Theme radio group */}
+      <DesignRadioCard.Root
+        name="theme-mode"
+        value={currentTheme}
+        onChange={handleThemeChange}
         columns={2}
-        gap="md"
+        gap="sm"
+        size="md"
       >
-        <SelectionCard
-          type="radio"
-          name="theme-mode" // ✅ IMPORTANT: Same name
+        <DesignRadioCard.Item
           value="light"
-          checked={!isDark} // ✅ FIXED: Check based on current state
-          onChange={(checked) => handleThemeChange(checked, 'light')}
           label="Light"
-          description="Clean & bright"
-          icon={<SunIcon />}
-        />
+          variant="default"
+        >
+          <div className="flex items-center gap-2 mb-2">
+            <SunIcon className="w-4 h-4" />
+            <span className="font-medium">Light</span>
+          </div>
+          <Body size="xs" color="secondary">Clean & bright</Body>
+        </DesignRadioCard.Item>
 
-        <SelectionCard
-          type="radio"
-          name="theme-mode" // ✅ IMPORTANT: Same name
+        <DesignRadioCard.Item
           value="dark"
-          checked={isDark} // ✅ FIXED: Check based on current state
-          onChange={(checked) => handleThemeChange(checked, 'dark')}
           label="Dark"
-          description="Easy on eyes"
-          icon={<MoonIcon />}
-        />
-      </SelectionCardGroup>
+          variant="default"
+        >
+          <div className="flex items-center gap-2 mb-2">
+            <MoonIcon className="w-4 h-4" />
+            <span className="font-medium">Dark</span>
+          </div>
+          <Body size="xs" color="secondary">Easy on eyes</Body>
+        </DesignRadioCard.Item>
+      </DesignRadioCard.Root>
     </div>
   );
 }
