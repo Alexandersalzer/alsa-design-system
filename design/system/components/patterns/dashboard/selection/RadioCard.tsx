@@ -36,7 +36,7 @@ export interface RadioCardItemProps extends Omit<React.HTMLAttributes<HTMLDivEle
   addon?: React.ReactNode;
   
   // Form integration (required for radio)
-  name: string;
+  name?: string;
 }
 
 export const RadioCardItem = forwardRef<HTMLDivElement, RadioCardItemProps>(({
