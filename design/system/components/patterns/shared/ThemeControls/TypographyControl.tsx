@@ -1,9 +1,8 @@
-
 // ===============================================
-// TypographyControl.tsx - UPDATED to use DesignRadioCard
+// TypographyControl.tsx - FIXED to use direct DesignRadioCardItem
 // ===============================================
 import React, { useEffect } from 'react';
-import { DesignRadioCard } from '@blimpify-im/ui';
+import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
 import { PencilIcon } from '@heroicons/react/24/outline';
 import { Body, Icon } from '@blimpify-im/ui';
 
@@ -110,7 +109,7 @@ export function TypographyControl({
         </div>
       </div>
 
-      {/* ✅ Using DesignRadioCard with Root + Typography items */}
+      {/* ✅ FIXED: Using direct DesignRadioCardItem instead of convenience component */}
       <DesignRadioCard.Root
         name="font-family"
         value={value}
@@ -120,10 +119,11 @@ export function TypographyControl({
         size="md"
       >
         {FONT_OPTIONS.map((option) => (
-          <DesignRadioCard.Typography
+          <DesignRadioCardItem
             key={option.value}
             value={option.value}
             label={option.label}
+            variant="typography"
             fontFamily={option.family}
             fontPreview={option.preview}
           />
