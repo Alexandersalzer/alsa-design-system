@@ -1,43 +1,61 @@
-
 // ===============================================
-// STEP 4: Update your existing ThemeControlPanel.tsx
-// Just ADD the theme mode control and prop
+// ThemeControlPanel.tsx - UPDATED to include all design controls
 // ===============================================
-
 import React from 'react';
 import { Stack } from '@blimpify-im/ui';
 import { AccentColorControl } from './AccentColorControl';
 import { RadiusControl } from './RadiusControl';
-import { ThemeModeControl } from './ThemeModeControl'; // ✅ ADD this import
+import { ThemeModeControl } from './ThemeModeControl';
+import { TypographyControl } from './TypographyControl';
 
 interface ThemeControlPanelProps {
-  showThemeToggle?: boolean; // ✅ ADD this prop
+  showThemeToggle?: boolean;
   showColorControl?: boolean;
   showRadiusControl?: boolean;
-  colorColumns?: 1 | 2 | 3 | 4;
-  radiusColumns?: 1 | 2 | 3 | 4;
+  showTypographyControl?: boolean;
+  colorColumns?: 1 | 2 | 3 | 4 | 5 | 6;
+  radiusColumns?: 1 | 2 | 3 | 4 | 5 | 6;
+  typographyColumns?: 1 | 2 | 3 | 4 | 5 | 6;
   className?: string;
+  
+  // Typography control props
+  fontValue?: string;
+  onFontChange?: (fontValue: string) => void;
 }
 
 export function ThemeControlPanel({
-  showThemeToggle = true, // ✅ ADD this line
+  showThemeToggle = true,
   showColorControl = true,
   showRadiusControl = true,
+  showTypographyControl = true,
   colorColumns = 3,
-  radiusColumns = 2,
-  className
+  radiusColumns = 4,
+  typographyColumns = 1,
+  className,
+  fontValue,
+  onFontChange
 }: ThemeControlPanelProps) {
   return (
     <div className={className}>
       <Stack spacing="xl">
-        {showThemeToggle && ( // ✅ ADD this block
+        {showThemeToggle && (
           <ThemeModeControl />
         )}
+        
         {showColorControl && (
           <AccentColorControl columns={colorColumns} />
         )}
+        
         {showRadiusControl && (
           <RadiusControl columns={radiusColumns} />
+        )}
+        
+        {showTypographyControl && (
+          <TypographyControl
+            value={fontValue}
+            onChange={onFontChange}
+            columns={typographyColumns}
+          />
         )}
       </Stack>
     </div>
