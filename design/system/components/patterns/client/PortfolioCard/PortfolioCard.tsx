@@ -21,8 +21,8 @@ export interface PortfolioCardProps {
   title: string;
   description: string;
   views?: string; // Optional since some content might not have views
-  videoSrc?: string; // Optional - either video or image
-  imageSrc?: string; // Optional - either video or image
+  videoSrc?: string; // Optional - either video or image, full path
+  imageSrc?: string; // Optional - either video or image, full path
   
   // Styling options
   variant?: 'default' | 'elevated' | 'outlined';
@@ -102,7 +102,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
         <div className="portfolio-media-container">
           {hasVideo && (
             <VideoShowcase
-              src={`/videos/portfolio/${videoSrc}`}
+              src={videoSrc} // Use full path from JSON
               variant="elevated"
               size="full"
               aspectRatio="auto"
@@ -116,10 +116,10 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
             />
           )}
           
-          {hasImage && !hasVideo && (
+          {hasImage && !hasVideo && imageSrc && (
             <div className="portfolio-image-container">
               <Image
-                src={`/images/portfolio/${imageSrc}`}
+                src={imageSrc}
                 alt={title}
                 width={400}
                 height={240}
@@ -155,7 +155,8 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               align="left"
             >
               {title}
-            </Typography> 
+            </Typography>
+            
             {/* Description */}
             <Typography
               variant={descriptionVariant}
@@ -164,7 +165,8 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               align="left"
             >
               {description}
-            </Typography>       
+            </Typography>
+            
             {/* Views with Eye Icon - only show if views exist */}
             {views && (
               <Cluster spacing="xs" align="center">
