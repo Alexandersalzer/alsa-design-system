@@ -1,16 +1,15 @@
 // ===============================================
 // src/design-system/components/primitives/Card/Card.tsx
-// UPDATED WITH RADIUS SIZE VARIANTS
+// UPDATED WITH RADIUS SIZE VARIANTS + SOLID VARIANT
 // ===============================================
-
 import React, { forwardRef, ReactNode } from 'react';
 import { cn } from '../../../lib/utils';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
-  variant?: 'default' | 'elevated' | 'outlined';
+  variant?: 'default' | 'elevated' | 'outlined' | 'solid'; // ✅ ADDED: solid variant
   padding?: 'sm' | 'md' | 'lg';
-  radius?: 'sm' | 'md' | 'lg';  // ✅ NEW: Radius size variant
+  radius?: 'sm' | 'md' | 'lg';
 }
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
@@ -20,10 +19,11 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       // Variant classes
       variant === 'elevated' && 'card--elevated',
       variant === 'outlined' && 'card--outlined',
+      variant === 'solid' && 'card--solid', // ✅ NEW: Solid variant class
       // Padding classes
       padding === 'sm' && 'card--padding-sm',
       padding === 'lg' && 'card--padding-lg',
-      // ✅ NEW: Radius classes
+      // Radius classes
       radius === 'sm' && 'card--radius-sm',
       radius === 'lg' && 'card--radius-lg',
       className
@@ -83,30 +83,23 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
 CardFooter.displayName = 'CardFooter';
 
 /* ===== USAGE EXAMPLES =====
-
-// ✅ Default card (medium radius - 12px)
+// ✅ Default card (white background)
 <Card>
-  <CardContent>Default card with medium radius</CardContent>
+  <CardContent>Default card</CardContent>
 </Card>
 
-// ✅ Small radius card (8px)
-<Card radius="sm">
-  <CardContent>Subtle rounding</CardContent>
+// ✅ Elevated card (shadow)
+<Card variant="elevated">
+  <CardContent>Card with shadow</CardContent>
 </Card>
 
-// ✅ Large radius card (16px)
-<Card radius="lg">
-  <CardContent>More rounded</CardContent>
+// ✅ Outlined card (border)
+<Card variant="outlined">
+  <CardContent>Card with border</CardContent>
 </Card>
 
-// ✅ Combining variants
-<Card variant="elevated" padding="lg" radius="lg">
-  <CardHeader>Large Elevated Card</CardHeader>
-  <CardContent>
-    This card has large padding, elevated shadow, and large radius.
-    Any buttons or inputs inside will automatically get smaller radius
-    for perfect Apple-style concentricity.
-  </CardContent>
+// ✅ NEW: Solid card (colored background)
+<Card variant="solid">
+  <CardContent>Card with solid background color</CardContent>
 </Card>
-
 */
