@@ -1,10 +1,10 @@
 // ===============================================
-// TypographyControl.tsx - FIXED to actually work with font changes
+// TypographyControl.tsx - REVERTED to working SelectionCard version
 // ===============================================
 import React, { useEffect } from 'react';
-import { DesignRadioCard } from '@blimpify-im/ui';
+import { SelectionCard, Grid } from '@blimpify-im/ui';
 import { PencilIcon } from '@heroicons/react/24/outline';
-import { Body, Icon } from '@blimpify-im/ui';
+import { Body, Icon, Label } from '@blimpify-im/ui';
 
 // Font options with proper family declarations
 const FONT_OPTIONS = [
@@ -13,7 +13,7 @@ const FONT_OPTIONS = [
     label: 'Plus Jakarta Sans',
     family: '"Plus Jakarta Sans", system-ui, sans-serif',
     description: 'Modern & friendly',
-    preview: 'Ag',
+    preview: 'Aa Bb Cc',
     googleUrl: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap'
   },
   {
@@ -21,7 +21,7 @@ const FONT_OPTIONS = [
     label: 'Inter',
     family: '"Inter", system-ui, sans-serif',
     description: 'Clean & professional',
-    preview: 'Ag',
+    preview: 'Aa Bb Cc',
     googleUrl: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap'
   },
   {
@@ -29,13 +29,13 @@ const FONT_OPTIONS = [
     label: 'System UI',
     family: 'system-ui, -apple-system, sans-serif',
     description: 'Fast & native',
-    preview: 'Ag',
+    preview: 'Aa Bb Cc',
     googleUrl: null // No Google Font needed
   },
 ];
 
 interface TypographyControlProps {
-  columns?: 1 | 2 | 3 | 4 | 5 | 6;
+  columns?: 1 | 2 | 3 | 4;
   className?: string;
   value?: string;
   onChange?: (fontValue: string) => void;
@@ -48,21 +48,17 @@ export function TypographyControl({
   onChange 
 }: TypographyControlProps) {
   
-  const handleFontChange = (fontValue: string) => {
-    console.log('🔤 TypographyControl: Changing font to:', fontValue);
-    if (onChange) {
+  const handleFontChange = (checked: boolean, fontValue: string) => {
+    if (checked && onChange) {
       onChange(fontValue);
-    }
-    
-    // Apply font changes immediately
-    const fontOption = FONT_OPTIONS.find(f => f.value === fontValue);
-    if (fontOption) {
-      applyFontToSystem(fontOption);
     }
   };
 
-  // Function to apply font to CSS system
-  const applyFontToSystem = (fontOption: typeof FONT_OPTIONS[0]) => {
+  // Apply font changes to CSS when value changes
+  useEffect(() => {
+    const fontOption = FONT_OPTIONS.find(f => f.value === value);
+    if (!fontOption) return;
+
     const root = document.documentElement;
     
     // Apply font family to CSS custom properties
@@ -83,17 +79,7 @@ export function TypographyControl({
     }
 
     console.log('🔤 Applied font:', fontOption.label, fontOption.family);
-  };
-
-  // Apply font changes to CSS when value changes
-  useEffect(() => {
-    const fontOption = FONT_OPTIONS.find(f => f.value === value);
-    if (fontOption) {
-      applyFontToSystem(fontOption);
-    }
   }, [value]);
-
-  console.log('🔤 TypographyControl: Current value:', value);
 
   return (
     <div className={className}>
@@ -108,25 +94,48 @@ export function TypographyControl({
         </div>
       </div>
 
-      {/* Font radio group */}
-      <DesignRadioCard.Root
-        name="font-family"
-        value={value}
-        onChange={handleFontChange}
-        columns={columns}
-        gap="md"
-        size="md"
-      >
+      {/* Font grid */}
+      <Grid columns={columns} gap="md" className="grid-cols-1">
         {FONT_OPTIONS.map((option) => (
-          <DesignRadioCard.Typography
+          <SelectionCard
             key={option.value}
+            type="radio"
+            name="font-family"
             value={option.value}
-            label={option.label}
-            fontFamily={option.family}
-            fontPreview={option.preview}
-          />
+            checked={value === option.value}
+            onChange={(checked) => handleFontChange(checked, option.value)}
+            size="md"
+            controlPosition="right"
+          >
+            <div className="text-left">
+              <Label size="sm" weight="medium" className="mb-2 block">
+                {option.label}
+              </Label>
+              
+              {/* Font preview */}
+              <div className="mb-3">
+                <div
+                  className="text-2xl font-medium leading-tight"
+                  style={{ fontFamily: option.family }}
+                >
+                  {option.preview}
+                </div>
+                <div
+                  className="text-sm mt-1 text-gray-600"
+                  style={{ fontFamily: option.family }}
+                >
+                  The quick brown fox
+                </div>
+              </div>
+              
+              {/* Description */}
+              <Body size="xs" color="secondary">
+                {option.description}
+              </Body>
+            </div>
+          </SelectionCard>
         ))}
-      </DesignRadioCard.Root>
+      </Grid>
     </div>
   );
 }

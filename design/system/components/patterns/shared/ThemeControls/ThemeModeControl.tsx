@@ -1,8 +1,8 @@
 // ===============================================
-// ThemeModeControl.tsx - ALREADY WORKING, but here's the correct version
+// ThemeModeControl.tsx - REVERTED to working SelectionCard version
 // ===============================================
 import React from 'react';
-import { DesignRadioCard } from '@blimpify-im/ui';
+import { SelectionCard, SelectionCardGroup } from '@blimpify-im/ui';
 import { Body, Icon } from '@blimpify-im/ui';
 import { useTheme } from '../../../../hooks/useTheme';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
@@ -14,26 +14,15 @@ interface ThemeModeControlProps {
 export function ThemeModeControl({ className }: ThemeModeControlProps) {
   const { isDark, toggleDarkMode, isHydrated } = useTheme();
 
-  const handleThemeChange = (value: string) => {
-    console.log('🌗 ThemeModeControl: Changing theme to:', value);
+  // Single handler for radio group
+  const handleThemeChange = (checked: boolean, themeValue: 'light' | 'dark') => {
+    if (!checked) return; // Only act on selection, not deselection
     
-    // Type guard to ensure we only accept valid theme values
-    if (value !== 'light' && value !== 'dark') {
-      console.warn('Invalid theme value:', value);
-      return;
-    }
-    
-    const themeValue = value as 'light' | 'dark';
     const shouldToggle = (themeValue === 'light' && isDark) || (themeValue === 'dark' && !isDark);
-    
     if (shouldToggle) {
       toggleDarkMode();
     }
   };
-
-  const currentTheme = isDark ? 'dark' : 'light';
-
-  console.log('🌗 ThemeModeControl: Current theme:', currentTheme, 'isDark:', isDark);
 
   return (
     <div className={className}>
@@ -48,39 +37,34 @@ export function ThemeModeControl({ className }: ThemeModeControlProps) {
         </div>
       </div>
 
-      {/* Theme radio group */}
-      <DesignRadioCard.Root
+      {/* Use SelectionCardGroup with radio type */}
+      <SelectionCardGroup
+        type="radio"
         name="theme-mode"
-        value={currentTheme}
-        onChange={handleThemeChange}
         columns={2}
-        gap="sm"
-        size="md"
+        gap="md"
       >
-        <DesignRadioCard.Item
+        <SelectionCard
+          type="radio"
+          name="theme-mode"
           value="light"
+          checked={!isDark}
+          onChange={(checked) => handleThemeChange(checked, 'light')}
           label="Light"
-          variant="default"
-        >
-          <div className="flex items-center gap-2 mb-2">
-            <SunIcon className="w-4 h-4" />
-            <span className="font-medium">Light</span>
-          </div>
-          <Body size="xs" color="secondary">Clean & bright</Body>
-        </DesignRadioCard.Item>
-
-        <DesignRadioCard.Item
+          description="Clean & bright"
+          icon={<SunIcon />}
+        />
+        <SelectionCard
+          type="radio"
+          name="theme-mode"
           value="dark"
+          checked={isDark}
+          onChange={(checked) => handleThemeChange(checked, 'dark')}
           label="Dark"
-          variant="default"
-        >
-          <div className="flex items-center gap-2 mb-2">
-            <MoonIcon className="w-4 h-4" />
-            <span className="font-medium">Dark</span>
-          </div>
-          <Body size="xs" color="secondary">Easy on eyes</Body>
-        </DesignRadioCard.Item>
-      </DesignRadioCard.Root>
+          description="Easy on eyes"
+          icon={<MoonIcon />}
+        />
+      </SelectionCardGroup>
     </div>
   );
 }
