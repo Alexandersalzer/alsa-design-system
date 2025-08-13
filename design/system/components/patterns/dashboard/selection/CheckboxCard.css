@@ -26,49 +26,34 @@
   transform: translateY(-1px); /* Subtle lift effect */
 }
 
+/* Preselected/disabled state - should be clearly visible but distinct */
 .checkbox-card--disabled {
-  /* Don't make it super faded - keep it visible but clearly preselected */
-  opacity: 0.85; /* Much less faded than before */
+  /* Keep it clearly visible, not faded out */
+  opacity: 0.9; /* Just slightly dimmed */
   cursor: default;
   pointer-events: none;
-  /* Add a subtle pattern or different background to show it's preselected */
-  background-color: var(--success-25 ); /* Light green to show it's included */
-  border-color: var(--success-300); /* Green border */
+  /* Use a distinct styling to show it's preselected/included */
+  background: linear-gradient(135deg, var(--success-50) 0%, var(--success-25) 100%);
+  border: 2px solid var(--success-300);
+  position: relative;
 }
 
-/* Disabled checkbox should still be clearly visible */
+/* Preselected checkbox should be vibrant and green */
 .checkbox-card--disabled .checkbox-card__checkbox input[type="checkbox"] {
-  accent-color: var(--success-500); /* Green accent for preselected */
-  opacity: 1; /* Keep checkbox fully visible */
+  accent-color: var(--success-500); /* Bright green for preselected */
+  opacity: 1; /* Fully visible */
   cursor: default;
+  transform: scale(1.1); /* Slightly larger to show it's special */
 }
 
-/* Disabled text should be readable, not invisible */
+/* Text should be clearly readable in green theme */
 .checkbox-card--disabled .checkbox-card__label {
-  color: var(--success-700); /* Readable green text */
+  color: var(--success-800); /* Dark green, very readable */
+  font-weight: 600; /* Slightly bolder to show importance */
 }
 
 .checkbox-card--disabled .checkbox-card__description {
-  color: var(--success-600); /* Readable green description */
-}
-
-/* Add a small indicator that it's preselected */
-.checkbox-card--disabled::before {
-  content: '✓';
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 20px;
-  height: 20px;
-  background-color: var(--success-500);
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: bold;
-  z-index: 10;
+  color: var(--success-700); /* Readable green */
 }
 
 .checkbox-card--error {
