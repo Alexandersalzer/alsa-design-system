@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/patterns/selection/CheckboxCard.tsx
-// FRESH START - Proper Chakra UI inspired structure
+// PROPER FLEXBOX LAYOUT - No absolute positioning
 // ===============================================
 
 import React, { forwardRef, useId } from 'react';
@@ -86,7 +86,7 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
         checked && 'checkbox-card--checked',
         disabled && 'checkbox-card--disabled',
         error && 'checkbox-card--error',
-        'cursor-pointer relative',
+        'cursor-pointer',
         className
       )}
       onClick={handleCardClick}
@@ -100,82 +100,121 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
     >
       <CardContent className="checkbox-card__inner">
         
-        {/* CHECKBOX - Always top-right like Chakra */}
-        <div className="absolute top-4 right-4">
-          <Checkbox
-            id={checkboxId}
-            checked={checked}
-            onChange={(e) => onChange?.(e.target.checked)}
-            disabled={disabled}
-            required={required}
-            size={size}
-            name={name}
-            value={value}
-          />
-        </div>
-
-        {/* CONTENT AREA */}
-        <div className={cn(
-          'checkbox-card__content',
-          // Add right padding to avoid checkbox
-          'pr-12',
-          orientation === 'vertical' ? 'text-center' : ''
-        )}>
+        {/* MAIN FLEX CONTAINER */}
+        <div className="checkbox-card__main">
           
-          {/* ICON */}
-          {icon && (
-            <div className={cn(
-              'checkbox-card__icon',
-              orientation === 'vertical' ? 'mb-3 flex justify-center' : 'inline-block mr-3 align-top'
-            )}>
-              <Icon 
-                color={checked ? 'accent' : 'secondary'}
-                size={size === 'lg' ? 'lg' : size === 'sm' ? 'sm' : 'md'}
-              >
-                {icon}
-              </Icon>
-            </div>
-          )}
-
-          {/* TEXT CONTENT */}
-          <div className={cn(
-            'checkbox-card__text',
-            orientation === 'horizontal' && icon ? 'inline-block' : ''
-          )}>
-            {label && (
-              <label 
-                htmlFor={checkboxId} 
-                className="checkbox-card__label block font-medium cursor-pointer mb-1"
-              >
-                {label}
-                {required && <span className="checkbox-card__required text-red-500 ml-1">*</span>}
-              </label>
-            )}
+          {/* LEFT: Content area */}
+          <div className="checkbox-card__content">
             
-            {description && (
-              <div className="checkbox-card__description text-sm text-gray-600 mb-2">
-                {description}
+            {/* ICON + TEXT ROW (for horizontal) or ICON ABOVE (for vertical) */}
+            {orientation === 'vertical' ? (
+              // VERTICAL LAYOUT
+              <>
+                {/* Icon centered above */}
+                {icon && (
+                  <div className="checkbox-card__icon">
+                    <Icon 
+                      color={checked ? 'accent' : 'secondary'}
+                      size={size === 'lg' ? 'lg' : size === 'sm' ? 'sm' : 'md'}
+                    >
+                      {icon}
+                    </Icon>
+                  </div>
+                )}
+                
+                {/* Text content below icon */}
+                <div className="checkbox-card__text">
+                  {label && (
+                    <label 
+                      htmlFor={checkboxId} 
+                      className="checkbox-card__label"
+                    >
+                      {label}
+                      {required && <span className="checkbox-card__required">*</span>}
+                    </label>
+                  )}
+                  
+                  {description && (
+                    <div className="checkbox-card__description">
+                      {description}
+                    </div>
+                  )}
+                  
+                  {children && (
+                    <div className="checkbox-card__children">
+                      {children}
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              // HORIZONTAL LAYOUT
+              <div className="checkbox-card__horizontal-content">
+                {/* Icon inline with text */}
+                {icon && (
+                  <div className="checkbox-card__icon">
+                    <Icon 
+                      color={checked ? 'accent' : 'secondary'}
+                      size={size === 'lg' ? 'lg' : size === 'sm' ? 'sm' : 'md'}
+                    >
+                      {icon}
+                    </Icon>
+                  </div>
+                )}
+                
+                {/* Text content */}
+                <div className="checkbox-card__text">
+                  {label && (
+                    <label 
+                      htmlFor={checkboxId} 
+                      className="checkbox-card__label"
+                    >
+                      {label}
+                      {required && <span className="checkbox-card__required">*</span>}
+                    </label>
+                  )}
+                  
+                  {description && (
+                    <div className="checkbox-card__description">
+                      {description}
+                    </div>
+                  )}
+                  
+                  {children && (
+                    <div className="checkbox-card__children">
+                      {children}
+                    </div>
+                  )}
+                </div>
               </div>
             )}
-            
-            {children && (
-              <div className="checkbox-card__children">
-                {children}
-              </div>
-            )}
+          </div>
+          
+          {/* RIGHT: Checkbox */}
+          <div className="checkbox-card__checkbox">
+            <Checkbox
+              id={checkboxId}
+              checked={checked}
+              onChange={(e) => onChange?.(e.target.checked)}
+              disabled={disabled}
+              required={required}
+              size={size}
+              name={name}
+              value={value}
+            />
           </div>
         </div>
 
         {/* ADDON AREA (like pricing in Chakra examples) */}
         {addon && (
-          <div className="checkbox-card__addon border-t border-gray-200 pt-3 mt-3 pr-12">
+          <div className="checkbox-card__addon">
             {addon}
           </div>
         )}
         
         {/* ERROR MESSAGE */}
         {error && (
-          <div className="checkbox-card__error text-red-600 text-sm mt-2 pr-12" role="alert">
+          <div className="checkbox-card__error" role="alert">
             {error}
           </div>
         )}
@@ -187,9 +226,7 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
 
 CheckboxCard.displayName = 'CheckboxCard';
 
-// ===============================================
-// Simple CheckboxCardGroup 
-// ===============================================
+// CheckboxCardGroup stays the same...
 export interface CheckboxCardGroupProps {
   label?: string;
   description?: string;

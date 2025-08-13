@@ -1,12 +1,11 @@
 /* ===============================================
 // src/design-system/components/patterns/selection/CheckboxCard.css
-// FRESH CHAKRA-INSPIRED STYLING - Matches new component structure
+// PROPER FLEXBOX LAYOUT - No absolute positioning
 // =============================================== */
 
 .checkbox-card {
   cursor: pointer;
   transition: all 0.2s ease;
-  position: relative;
 }
 
 .checkbox-card:hover:not(.checkbox-card--disabled) {
@@ -32,11 +31,9 @@
 
 /* Inner content area */
 .checkbox-card__inner {
-  position: relative;
   padding: 16px;
 }
 
-/* Size variants */
 .checkbox-card--sm .checkbox-card__inner {
   padding: 12px;
 }
@@ -45,12 +42,27 @@
   padding: 20px;
 }
 
-/* Content area (has right padding for checkbox) */
-.checkbox-card__content {
-  width: 100%;
+/* MAIN LAYOUT: Content on left, checkbox on right */
+.checkbox-card__main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-/* Vertical orientation */
+/* Content area (left side) */
+.checkbox-card__content {
+  flex: 1;
+  min-width: 0; /* Prevents overflow */
+}
+
+/* Checkbox area (right side) */
+.checkbox-card__checkbox {
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+/* VERTICAL ORIENTATION */
 .checkbox-card--vertical .checkbox-card__content {
   text-align: center;
 }
@@ -61,20 +73,25 @@
   margin-bottom: 12px;
 }
 
-/* Horizontal orientation */
-.checkbox-card--horizontal .checkbox-card__content {
+.checkbox-card--vertical .checkbox-card__text {
+  /* Text content in vertical layout */
+}
+
+/* HORIZONTAL ORIENTATION */
+.checkbox-card__horizontal-content {
   display: flex;
   align-items: flex-start;
   gap: 12px;
 }
 
-.checkbox-card--horizontal .checkbox-card__icon {
+.checkbox-card__horizontal-content .checkbox-card__icon {
   flex-shrink: 0;
   margin-top: 2px; /* Align with first line of text */
 }
 
-.checkbox-card--horizontal .checkbox-card__text {
+.checkbox-card__horizontal-content .checkbox-card__text {
   flex: 1;
+  min-width: 0;
 }
 
 /* Text elements */
@@ -85,6 +102,7 @@
   user-select: none;
   line-height: 1.4;
   display: block;
+  margin-bottom: 4px;
 }
 
 .checkbox-card--sm .checkbox-card__label {
@@ -103,6 +121,7 @@
 .checkbox-card__description {
   color: var(--text-secondary);
   line-height: 1.4;
+  margin-bottom: 8px;
 }
 
 .checkbox-card--sm .checkbox-card__description {
@@ -181,8 +200,11 @@
     padding: 16px;
   }
   
-  /* Force horizontal cards to be more compact on mobile */
-  .checkbox-card--horizontal .checkbox-card__content {
+  .checkbox-card__main {
+    gap: 12px;
+  }
+  
+  .checkbox-card__horizontal-content {
     gap: 8px;
   }
 }
