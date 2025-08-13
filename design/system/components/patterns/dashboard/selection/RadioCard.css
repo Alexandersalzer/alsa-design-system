@@ -1,11 +1,11 @@
 /* ===============================================
-// RadioCard.css - FIXED VERSION with proper centering
+// src/design-system/components/patterns/selection/RadioCard.css
+// PROPER FLEXBOX LAYOUT - No absolute positioning
 // =============================================== */
 
 .radio-card {
   cursor: pointer;
   transition: all 0.2s ease;
-  position: relative; /* Important for absolute positioning */
 }
 
 .radio-card:hover:not(.radio-card--disabled) {
@@ -32,7 +32,6 @@
 /* Inner content area */
 .radio-card__inner {
   padding: 16px;
-  position: relative; /* For absolute positioned indicator */
 }
 
 .radio-card--sm .radio-card__inner {
@@ -43,44 +42,6 @@
   padding: 20px;
 }
 
-/* ===========================================
-   CENTERED LAYOUT (NEW!)
-   =========================================== */
-
-.radio-card__centered-layout {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  width: 100%;
-}
-
-.radio-card__centered-icon {
-  margin-bottom: 12px;
-}
-
-.radio-card__centered-text {
-  width: 100%;
-}
-
-/* Indicator overlay for centered layout */
-.radio-card__indicator-overlay {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  z-index: 10;
-}
-
-/* Hide the default radio in centered layout */
-.radio-card--center .radio-card__radio {
-  display: none;
-}
-
-/* ===========================================
-   STANDARD LAYOUTS (LEFT/RIGHT ALIGNED)
-   =========================================== */
-
 /* MAIN LAYOUT: Content on left, radio on right */
 .radio-card__main {
   display: flex;
@@ -89,28 +50,10 @@
   gap: 16px;
 }
 
-/* Hide indicator overlay in standard layouts */
-.radio-card--left .radio-card__indicator-overlay,
-.radio-card--right .radio-card__indicator-overlay {
-  display: none;
-}
-
 /* Content area (left side) */
 .radio-card__content {
   flex: 1;
   min-width: 0; /* Prevents overflow */
-}
-
-.radio-card__content--left {
-  text-align: left;
-}
-
-.radio-card__content--center {
-  text-align: center;
-}
-
-.radio-card__content--right {
-  text-align: right;
 }
 
 /* Radio area (right side) */
@@ -130,6 +73,10 @@
   margin-bottom: 12px;
 }
 
+.radio-card--vertical .radio-card__text {
+  /* Text content in vertical layout */
+}
+
 /* HORIZONTAL ORIENTATION */
 .radio-card__horizontal-content {
   display: flex;
@@ -147,19 +94,7 @@
   min-width: 0;
 }
 
-/* RIGHT ALIGNED: Reverse the flex direction */
-.radio-card--right .radio-card__horizontal-content {
-  flex-direction: row-reverse;
-}
-
-.radio-card--right .radio-card__main {
-  flex-direction: row-reverse;
-}
-
-/* ===========================================
-   TEXT ELEMENTS
-   =========================================== */
-
+/* Text elements */
 .radio-card__label {
   font-weight: 500;
   color: var(--text-primary);
@@ -210,10 +145,6 @@
   margin-top: 8px;
 }
 
-/* ===========================================
-   ADDON AND ERROR
-   =========================================== */
-
 /* Addon area (like pricing) */
 .radio-card__addon {
   border-top: 1px solid var(--border-subtle);
@@ -228,20 +159,43 @@
   margin-top: 8px;
 }
 
-/* ===========================================
-   STATES AND INTERACTIONS
-   =========================================== */
-
 /* Focus states */
 .radio-card:focus-visible {
   outline: 2px solid var(--accent-500);
   outline-offset: 2px;
 }
 
-/* ===========================================
-   RESPONSIVE
-   =========================================== */
+/* Group styling */
+.radio-card-group {
+  width: 100%;
+}
 
+.radio-card-group__label {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.radio-card-group__description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.radio-card-group__error {
+  font-size: 14px;
+  color: var(--error-600);
+  margin-top: 8px;
+}
+
+/* Fix height matching in grid layouts */
+.radio-card-group .radio-card {
+  align-self: start; /* Prevents stretching to match tallest card */
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .radio-card__inner {
     padding: 12px;
@@ -258,17 +212,7 @@
   .radio-card__horizontal-content {
     gap: 8px;
   }
-
-  /* On mobile, move indicator to a more accessible position for centered layout */
-  .radio-card__indicator-overlay {
-    position: static;
-    margin-top: 12px;
-  }
 }
-
-/* ===========================================
-   ACCESSIBILITY
-   =========================================== */
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {

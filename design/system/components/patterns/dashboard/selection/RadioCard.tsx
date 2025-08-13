@@ -1,8 +1,9 @@
 // ===============================================
-// RadioCard.tsx - FIXED VERSION with proper centering
+// src/design-system/components/patterns/selection/RadioCard.tsx
+// PROPER FLEXBOX LAYOUT - No absolute positioning
 // ===============================================
 
-import React, { forwardRef, useId, useState } from 'react';
+import React, { forwardRef, useId } from 'react';
 import { Card, CardContent } from '../../../primitives/Card';
 import { Radio } from '../../../primitives/Radio';
 import { Icon } from '../../../primitives/Icon';
@@ -20,8 +21,7 @@ export interface RadioCardItemProps extends Omit<React.HTMLAttributes<HTMLDivEle
   icon?: React.ReactElement;
   children?: React.ReactNode;
   
-  // Layout - FIXED alignment options
-  textAlign?: 'left' | 'center' | 'right';
+  // Layout - keep it simple like Chakra
   orientation?: 'horizontal' | 'vertical';
   
   // Visual
@@ -48,7 +48,6 @@ export const RadioCardItem = forwardRef<HTMLDivElement, RadioCardItemProps>(({
   description,
   icon,
   children,
-  textAlign = 'left',
   orientation = 'horizontal',
   variant = 'outlined',
   size = 'md',
@@ -78,75 +77,42 @@ export const RadioCardItem = forwardRef<HTMLDivElement, RadioCardItemProps>(({
     onClick?.(e);
   };
 
-  // SOLUTION: Different layouts based on text alignment
-  const renderContent = () => {
-    if (textAlign === 'center') {
-      // CENTERED LAYOUT: Stack everything vertically and center
-      return (
-        <div className="radio-card__centered-layout">
-          {/* Icon at top center */}
-          {icon && (
-            <div className="radio-card__centered-icon">
-              <Icon 
-                color={checked ? 'accent' : 'secondary'}
-                size={size === 'lg' ? 'lg' : size === 'sm' ? 'sm' : 'md'}
-              >
-                {icon}
-              </Icon>
-            </div>
-          )}
-          
-          {/* Text content centered */}
-          <div className="radio-card__centered-text">
-            {label && (
-              <label 
-                htmlFor={radioId} 
-                className="radio-card__label"
-              >
-                {label}
-                {required && <span className="radio-card__required">*</span>}
-              </label>
-            )}
-            
-            {description && (
-              <div className="radio-card__description">
-                {description}
-              </div>
-            )}
-            
-            {children && (
-              <div className="radio-card__children">
-                {children}
-              </div>
-            )}
-          </div>
-          
-          {/* Radio indicator - positioned absolutely in corner */}
-          <div className="radio-card__indicator-overlay">
-            <Radio
-              id={radioId}
-              name={name}
-              value={value}
-              checked={checked}
-              onChange={(e) => e.target.checked && onChange?.(value)}
-              disabled={disabled}
-              required={required}
-              size={size}
-            />
-          </div>
-        </div>
-      );
-    }
-
-    // LEFT/RIGHT ALIGNED LAYOUT: Original flex layout
-    return (
-      <>
+  return (
+    <Card
+      ref={ref}
+      variant={variant}
+      className={cn(
+        'radio-card',
+        `radio-card--${size}`,
+        `radio-card--${orientation}`,
+        checked && 'radio-card--checked',
+        disabled && 'radio-card--disabled',
+        error && 'radio-card--error',
+        'cursor-pointer',
+        className
+      )}
+      onClick={handleCardClick}
+      tabIndex={disabled ? undefined : 0}
+      role="radio"
+      aria-checked={checked}
+      aria-disabled={disabled}
+      aria-required={required}
+      id={id}
+      {...props}
+    >
+      <CardContent className="radio-card__inner">
+        
+        {/* MAIN FLEX CONTAINER */}
         <div className="radio-card__main">
+          
           {/* LEFT: Content area */}
-          <div className={`radio-card__content radio-card__content--${textAlign}`}>
+          <div className="radio-card__content">
+            
+            {/* ICON + TEXT ROW (for horizontal) or ICON ABOVE (for vertical) */}
             {orientation === 'vertical' ? (
               // VERTICAL LAYOUT
               <>
+                {/* Icon centered above */}
                 {icon && (
                   <div className="radio-card__icon">
                     <Icon 
@@ -158,6 +124,7 @@ export const RadioCardItem = forwardRef<HTMLDivElement, RadioCardItemProps>(({
                   </div>
                 )}
                 
+                {/* Text content below icon */}
                 <div className="radio-card__text">
                   {label && (
                     <label 
@@ -185,6 +152,7 @@ export const RadioCardItem = forwardRef<HTMLDivElement, RadioCardItemProps>(({
             ) : (
               // HORIZONTAL LAYOUT
               <div className="radio-card__horizontal-content">
+                {/* Icon inline with text */}
                 {icon && (
                   <div className="radio-card__icon">
                     <Icon 
@@ -196,6 +164,7 @@ export const RadioCardItem = forwardRef<HTMLDivElement, RadioCardItemProps>(({
                   </div>
                 )}
                 
+                {/* Text content */}
                 <div className="radio-card__text">
                   {label && (
                     <label 
@@ -223,7 +192,7 @@ export const RadioCardItem = forwardRef<HTMLDivElement, RadioCardItemProps>(({
             )}
           </div>
           
-          {/* RIGHT: Radio (only for non-centered layouts) */}
+          {/* RIGHT: Radio */}
           <div className="radio-card__radio">
             <Radio
               id={radioId}
@@ -237,38 +206,8 @@ export const RadioCardItem = forwardRef<HTMLDivElement, RadioCardItemProps>(({
             />
           </div>
         </div>
-      </>
-    );
-  };
 
-  return (
-    <Card
-      ref={ref}
-      variant={variant}
-      className={cn(
-        'radio-card',
-        `radio-card--${size}`,
-        `radio-card--${orientation}`,
-        `radio-card--${textAlign}`,
-        checked && 'radio-card--checked',
-        disabled && 'radio-card--disabled',
-        error && 'radio-card--error',
-        'cursor-pointer',
-        className
-      )}
-      onClick={handleCardClick}
-      tabIndex={disabled ? undefined : 0}
-      role="radio"
-      aria-checked={checked}
-      aria-disabled={disabled}
-      aria-required={required}
-      id={id}
-      {...props}
-    >
-      <CardContent className="radio-card__inner">
-        {renderContent()}
-
-        {/* ADDON AREA */}
+        {/* ADDON AREA (like pricing in Chakra examples) */}
         {addon && (
           <div className="radio-card__addon">
             {addon}
@@ -281,6 +220,7 @@ export const RadioCardItem = forwardRef<HTMLDivElement, RadioCardItemProps>(({
             {error}
           </div>
         )}
+        
       </CardContent>
     </Card>
   );
@@ -288,47 +228,108 @@ export const RadioCardItem = forwardRef<HTMLDivElement, RadioCardItemProps>(({
 
 RadioCardItem.displayName = 'RadioCardItem';
 
-// Usage example:
-export const ExampleUsage = () => {
-  const [selected, setSelected] = useState('');
+// RadioCard Root component for grouping
+export interface RadioCardRootProps {
+  label?: string;
+  description?: string;
+  error?: string;
+  required?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  children: React.ReactNode;
+  className?: string;
+  
+  // Grid options
+  columns?: 1 | 2 | 3 | 4 | 'auto';
+  gap?: 'sm' | 'md' | 'lg';
+  
+  // Radio group props
+  value?: string;
+  onChange?: (value: string) => void;
+  name: string;
+}
+
+export const RadioCardRoot: React.FC<RadioCardRootProps> = ({
+  label,
+  description,
+  error,
+  required = false,
+  size = 'md',
+  children,
+  className,
+  columns = 'auto',
+  gap = 'md',
+  value,
+  onChange,
+  name
+}) => {
+  const groupId = useId();
+
+  const getGridClasses = () => {
+    if (columns === 'auto') {
+      return 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+    }
+    
+    const gridColumns = {
+      1: 'grid grid-cols-1',
+      2: 'grid grid-cols-1 md:grid-cols-2',
+      3: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+      4: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+    }[columns];
+
+    return gridColumns;
+  };
+
+  const gapClasses = {
+    sm: 'gap-2',
+    md: 'gap-4',
+    lg: 'gap-6'
+  }[gap];
 
   return (
-    <div className="space-y-4">
-      {/* Left aligned (default) */}
-      <RadioCardItem
-        value="left"
-        checked={selected === 'left'}
-        onChange={setSelected}
-        textAlign="left"
-        icon={<span>🎯</span>}
-        label="Left Aligned"
-        description="Icon and text are left aligned"
-        name="alignment"
-      />
-
-      {/* Center aligned (fixed!) */}
-      <RadioCardItem
-        value="center"
-        checked={selected === 'center'}
-        onChange={setSelected}
-        textAlign="center"
-        icon={<span>🎯</span>}
-        label="Center Aligned"
-        description="Everything is truly centered, indicator in corner"
-        name="alignment"
-      />
-
-      {/* Right aligned */}
-      <RadioCardItem
-        value="right"
-        checked={selected === 'right'}
-        onChange={setSelected}
-        textAlign="right"
-        icon={<span>🎯</span>}
-        label="Right Aligned" 
-        description="Icon and text are right aligned"
-        name="alignment"
-      />
+    <div
+      className={cn('radio-card-group', className)}
+      role="radiogroup"
+      aria-labelledby={label ? `${groupId}-label` : undefined}
+      aria-describedby={description ? `${groupId}-description` : undefined}
+    >
+      {label && (
+        <div className="radio-card-group__label font-semibold text-lg mb-2">
+          {label}
+          {required && <span className="text-red-500 ml-1">*</span>}
+        </div>
+      )}
+      
+      {description && (
+        <div className="radio-card-group__description text-gray-600 mb-4">
+          {description}
+        </div>
+      )}
+      
+      <div className={cn(getGridClasses(), gapClasses, 'items-start')}>
+        {React.Children.map(children, (child) => {
+          if (React.isValidElement(child) && (child.type as any) === RadioCardItem) {
+            return React.cloneElement(child as React.ReactElement<RadioCardItemProps>, {
+              size: (child.props as RadioCardItemProps).size || size,
+              name: (child.props as RadioCardItemProps).name || name,
+              checked: (child.props as RadioCardItemProps).value === value,
+              onChange: onChange || (child.props as RadioCardItemProps).onChange,
+            });
+          }
+          return child;
+        })}
+      </div>
+      
+      {error && (
+        <div className="radio-card-group__error text-red-600 text-sm mt-2" role="alert">
+          {error}
+        </div>
+      )}
     </div>
   );
+};
+
+// Export convenience components
+export const RadioCard = {
+  Root: RadioCardRoot,
+  Item: RadioCardItem
 };
