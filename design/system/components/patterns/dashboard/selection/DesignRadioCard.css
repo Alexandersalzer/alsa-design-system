@@ -6,6 +6,7 @@
 .design-radio-card {
   cursor: pointer;
   transition: all 0.15s ease;
+  border-radius: var(--radius-card-sm);
   border: 1px solid var(--border-subtle);
   background: var(--surface-card);
   position: relative;
