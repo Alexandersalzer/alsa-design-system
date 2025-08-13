@@ -251,7 +251,7 @@
   margin: calc(-1 * var(--foundation-space-4)) calc(-1 * var(--foundation-space-4)) 0; /* Negative margins to extend to edges */
   position: relative;
   overflow: hidden;
-  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0; /* Rounded top corners only */
+  border-radius: var(--radius-sm) var(--radius-sm); /* Rounded top corners only */
   background-color: var(--surface-subtle, #f8f9fa);
 }
 
@@ -328,7 +328,6 @@
 .portfolio-flag svg {
   width: 24px;
   height: 16px;
-  border-radius: var(--radius-xs, 2px);
 }
 
 /* Responsive adjustments */
