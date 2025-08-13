@@ -155,7 +155,6 @@
   width: 100%;
   max-width: none; /* Remove max-width constraint */
   height: 100%; /* Fill available height in grid row */
-  display: flex;
   flex-direction: column;
 }
 
