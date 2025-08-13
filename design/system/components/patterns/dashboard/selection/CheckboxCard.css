@@ -10,7 +10,6 @@
 }
 
 .checkbox-card:hover:not(.checkbox-card--disabled) {
-  transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
@@ -22,17 +21,14 @@
 .checkbox-card--checked {
   border-color: var(--accent-500);
   background-color: var(--secondary-50);
-  box-shadow: 0 0 0 1px var(--accent-200), 0 4px 12px rgba(59, 130, 246, 0.15); /* Enhanced glow */
-  transform: translateY(-1px); /* Subtle lift effect */
+  box-shadow: 0 0 0 1px var(--accent-200);
 }
 
-/* Preselected/disabled state - should be clearly visible but distinct */
+/* Preselected/disabled state - clearly visible but distinct */
 .checkbox-card--disabled {
-  /* Keep it clearly visible, not faded out */
-  opacity: 0.9; /* Just slightly dimmed */
+  opacity: 0.9;
   cursor: default;
   pointer-events: none;
-  /* Use a distinct styling to show it's preselected/included */
   background: linear-gradient(135deg, var(--success-50) 0%, var(--success-25) 100%);
   border: 2px solid var(--success-300);
   position: relative;
@@ -40,20 +36,20 @@
 
 /* Preselected checkbox should be vibrant and green */
 .checkbox-card--disabled .checkbox-card__checkbox input[type="checkbox"] {
-  accent-color: var(--success-500); /* Bright green for preselected */
-  opacity: 1; /* Fully visible */
+  accent-color: var(--success-500);
+  opacity: 1;
   cursor: default;
-  transform: scale(1.1); /* Slightly larger to show it's special */
+  transform: scale(1.1);
 }
 
 /* Text should be clearly readable in green theme */
 .checkbox-card--disabled .checkbox-card__label {
-  color: var(--success-800); /* Dark green, very readable */
-  font-weight: 600; /* Slightly bolder to show importance */
+  color: var(--success-800);
+  font-weight: 600;
 }
 
 .checkbox-card--disabled .checkbox-card__description {
-  color: var(--success-700); /* Readable green */
+  color: var(--success-700);
 }
 
 .checkbox-card--error {
@@ -93,29 +89,21 @@
 .checkbox-card__checkbox {
   flex-shrink: 0;
   align-self: flex-start;
-  /* Remove the opacity that was making it look disabled */
 }
 
 /* Make the actual checkbox input more visible */
 .checkbox-card__checkbox input[type="checkbox"] {
   width: 20px;
   height: 20px;
-  accent-color: var(--accent-500); /* Bright blue accent */
+  accent-color: var(--accent-500);
   cursor: pointer;
-  opacity: 1; /* Full opacity */
-}
-
-/* Selected state - make the whole card more vibrant when checked */
-.checkbox-card--checked {
-  border-color: var(--accent-500);
-  background-color: var(--secondary-50);
-  box-shadow: 0 0 0 1px var(--accent-200); /* Subtle glow */
+  opacity: 1;
 }
 
 /* Make the checkbox even more visible when checked */
 .checkbox-card--checked .checkbox-card__checkbox input[type="checkbox"] {
-  accent-color: var(--accent-600); /* Darker blue when selected */
-  transform: scale(1.05); /* Slightly larger when checked */
+  accent-color: var(--accent-600);
+  transform: scale(1.05);
 }
 
 /* VERTICAL ORIENTATION */
@@ -152,7 +140,7 @@
   min-width: 0;
 }
 
-/* Text elements - all clickable */
+/* Text elements - all clickable - USE PRIMARY/SECONDARY COLORS */
 .checkbox-card__label {
   font-weight: 500;
   color: var(--text-primary);
@@ -164,11 +152,12 @@
 }
 
 .checkbox-card__label:hover {
-  color: var(--accent-600); /* Visual feedback on hover */
+  color: var(--text-primary); /* Keep primary on hover */
 }
 
 .checkbox-card--checked .checkbox-card__label {
-  color: var(--accent-700); /* Darker when selected */
+  color: var(--text-primary); /* Keep primary when selected */
+  font-weight: 600; /* Just make it bolder instead of color change */
 }
 
 .checkbox-card--sm .checkbox-card__label {
@@ -188,15 +177,15 @@
   color: var(--text-secondary);
   line-height: 1.4;
   margin-bottom: 8px;
-  cursor: pointer; /* Make description clickable too */
+  cursor: pointer;
 }
 
 .checkbox-card__description:hover {
-  color: var(--text-primary); /* Darken on hover */
+  color: var(--text-primary);
 }
 
 .checkbox-card--checked .checkbox-card__description {
-  color: var(--accent-600);
+  color: var(--text-secondary); /* Keep secondary when selected */
 }
 
 .checkbox-card--sm .checkbox-card__description {
@@ -273,7 +262,6 @@
 
 /* Active/pressed state for better feedback */
 .checkbox-card:active:not(.checkbox-card--disabled) {
-  transform: translateY(0px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
