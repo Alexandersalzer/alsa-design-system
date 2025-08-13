@@ -33,5 +33,5 @@ export { CheckboxCard, CheckboxCardGroup } from './CheckboxCard';
 export type { CheckboxCardProps, CheckboxCardGroupProps } from './CheckboxCard';
 
 // RadioCard exports - Updated to include both components
-export { RadioCard, RadioCardRoot, RadioCardItem } from './Radiocard';
-export type { RadioCardItemProps, RadioCardRootProps } from './Radiocard';
+export { RadioCard, RadioCardRoot, RadioCardItem } from './RadioCard';
+export type { RadioCardItemProps, RadioCardRootProps } from './RadioCard';
