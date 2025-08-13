@@ -43,7 +43,7 @@ export const StatsGridSection: React.FC<StatsGridSectionProps> = ({
   numberVariant = 'display-lg',
   numberWeight = 'bold',
   
-  labelVariant = 'body-md',
+  labelVariant = 'body-sm',
   labelWeight = 'regular',
 }) => {
   const { getPageTemplateByLayoutIndex, getTemplateBlocks, getBlockContent } = useContent();
