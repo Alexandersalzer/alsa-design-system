@@ -37,7 +37,8 @@ export const RichText0Button: React.FC<RichText0ButtonProps> = ({
   textSpacing = 'sm', // Same as HeroSection
   textAlign = 'center', // Same as HeroSection
   maxWidth = '550px', // Same as HeroSection
-  containerAlign = 'center'
+  containerAlign = 'center',
+  containerMaxWidth = 'md'
 }) => {
   const { getPageTemplateByLayoutIndex, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -75,7 +76,7 @@ export const RichText0Button: React.FC<RichText0ButtonProps> = ({
     >
       <Container 
         align={containerAlign}
-        maxWidth="md"
+        maxWidth={containerMaxWidth || "md"}
         style={{ 
           paddingBottom: '10rem',
           paddingTop: '15rem'
