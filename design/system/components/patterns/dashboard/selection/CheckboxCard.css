@@ -84,7 +84,7 @@
 /* Selected state - make the whole card more vibrant when checked */
 .checkbox-card--checked {
   border-color: var(--accent-500, #3B82F6);
-  background-color: var(--accent-50, #EFF6FF);
+  background-color: var(--accent-100);
   box-shadow: 0 0 0 1px var(--accent-200, #BFDBFE); /* Subtle glow */
 }
 
