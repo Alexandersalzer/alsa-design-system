@@ -1,5 +1,5 @@
 // ===============================================
-// ThemeModeControl.tsx - FIXED TypeScript error
+// ThemeModeControl.tsx - ALREADY WORKING, but here's the correct version
 // ===============================================
 import React from 'react';
 import { DesignRadioCard } from '@blimpify-im/ui';
@@ -14,8 +14,9 @@ interface ThemeModeControlProps {
 export function ThemeModeControl({ className }: ThemeModeControlProps) {
   const { isDark, toggleDarkMode, isHydrated } = useTheme();
 
-  // ✅ FIXED: Change handler that accepts string and validates it
   const handleThemeChange = (value: string) => {
+    console.log('🌗 ThemeModeControl: Changing theme to:', value);
+    
     // Type guard to ensure we only accept valid theme values
     if (value !== 'light' && value !== 'dark') {
       console.warn('Invalid theme value:', value);
@@ -31,6 +32,8 @@ export function ThemeModeControl({ className }: ThemeModeControlProps) {
   };
 
   const currentTheme = isDark ? 'dark' : 'light';
+
+  console.log('🌗 ThemeModeControl: Current theme:', currentTheme, 'isDark:', isDark);
 
   return (
     <div className={className}>
@@ -49,7 +52,7 @@ export function ThemeModeControl({ className }: ThemeModeControlProps) {
       <DesignRadioCard.Root
         name="theme-mode"
         value={currentTheme}
-        onChange={handleThemeChange} // ✅ Now correctly typed as (value: string) => void
+        onChange={handleThemeChange}
         columns={2}
         gap="sm"
         size="md"

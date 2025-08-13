@@ -1,6 +1,5 @@
-
 // ===============================================
-// TypographyControl.tsx - UPDATED to use DesignRadioCard
+// TypographyControl.tsx - FIXED to actually work with font changes
 // ===============================================
 import React, { useEffect } from 'react';
 import { DesignRadioCard } from '@blimpify-im/ui';
@@ -50,16 +49,20 @@ export function TypographyControl({
 }: TypographyControlProps) {
   
   const handleFontChange = (fontValue: string) => {
+    console.log('🔤 TypographyControl: Changing font to:', fontValue);
     if (onChange) {
       onChange(fontValue);
     }
+    
+    // Apply font changes immediately
+    const fontOption = FONT_OPTIONS.find(f => f.value === fontValue);
+    if (fontOption) {
+      applyFontToSystem(fontOption);
+    }
   };
 
-  // Apply font changes to CSS when value changes
-  useEffect(() => {
-    const fontOption = FONT_OPTIONS.find(f => f.value === value);
-    if (!fontOption) return;
-
+  // Function to apply font to CSS system
+  const applyFontToSystem = (fontOption: typeof FONT_OPTIONS[0]) => {
     const root = document.documentElement;
     
     // Apply font family to CSS custom properties
@@ -80,7 +83,17 @@ export function TypographyControl({
     }
 
     console.log('🔤 Applied font:', fontOption.label, fontOption.family);
+  };
+
+  // Apply font changes to CSS when value changes
+  useEffect(() => {
+    const fontOption = FONT_OPTIONS.find(f => f.value === value);
+    if (fontOption) {
+      applyFontToSystem(fontOption);
+    }
   }, [value]);
+
+  console.log('🔤 TypographyControl: Current value:', value);
 
   return (
     <div className={className}>

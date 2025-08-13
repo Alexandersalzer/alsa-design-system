@@ -1,5 +1,5 @@
 // ===============================================
-// AccentColorControl.tsx - UPDATED to use DesignRadioCard
+// AccentColorControl.tsx - FIXED to actually work with theme system
 // ===============================================
 import React from 'react';
 import { DesignRadioCard } from '@blimpify-im/ui';
@@ -26,8 +26,11 @@ export function AccentColorControl({ columns = 3, className }: AccentColorContro
   const { accentColor, setAccentColor } = useTheme();
 
   const handleColorChange = (colorValue: string) => {
+    console.log('🎨 AccentColorControl: Changing color to:', colorValue);
     setAccentColor(colorValue as ColorScale);
   };
+
+  console.log('🎨 AccentColorControl: Current accentColor:', accentColor);
 
   return (
     <div className={className}>
@@ -45,7 +48,7 @@ export function AccentColorControl({ columns = 3, className }: AccentColorContro
       {/* Color radio group */}
       <DesignRadioCard.Root
         name="accent-color"
-        value={accentColor}
+        value={accentColor || 'purple'} // Default fallback
         onChange={handleColorChange}
         columns={columns}
         gap="sm"

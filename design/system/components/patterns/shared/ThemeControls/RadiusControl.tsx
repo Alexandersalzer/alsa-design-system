@@ -1,6 +1,5 @@
-
 // ===============================================
-// RadiusControl.tsx - UPDATED to use DesignRadioCard
+// RadiusControl.tsx - FIXED to actually work with theme system
 // ===============================================
 import React from 'react';
 import { DesignRadioCard } from '@blimpify-im/ui';
@@ -27,8 +26,11 @@ export function RadiusControl({ columns = 4, className }: RadiusControlProps) {
   const { radiusScale, setRadiusScale } = useTheme();
 
   const handleRadiusChange = (radiusValue: string) => {
+    console.log('🔄 RadiusControl: Changing radius to:', radiusValue);
     setRadiusScale(radiusValue as RadiusScale);
   };
+
+  console.log('🔄 RadiusControl: Current radiusScale:', radiusScale);
 
   return (
     <div className={className}>
@@ -46,7 +48,7 @@ export function RadiusControl({ columns = 4, className }: RadiusControlProps) {
       {/* Radius radio group */}
       <DesignRadioCard.Root
         name="radius-scale"
-        value={radiusScale}
+        value={radiusScale || 'md'} // Default fallback
         onChange={handleRadiusChange}
         columns={columns}
         gap="xs"
