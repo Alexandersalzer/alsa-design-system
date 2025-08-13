@@ -212,7 +212,7 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
             )}
           </div>
           
-          {/* RIGHT: Checkbox - Hidden visually but present for form submission */}
+          {/* RIGHT: Checkbox - Visible and vibrant for clear feedback */}
           <div className="checkbox-card__checkbox">
             <Checkbox
               id={checkboxId}
@@ -223,13 +223,12 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
               size={size}
               name={name}
               value={value}
-              aria-hidden="true" // Hide from screen readers since card handles accessibility
               tabIndex={-1} // Remove from tab order since card is focusable
             />
           </div>
         </div>
 
-        {/* ADDON AREA */}
+        {/* ADDON AREA - Only show if addon exists */}
         {addon && (
           <div className="checkbox-card__addon">
             {addon}
