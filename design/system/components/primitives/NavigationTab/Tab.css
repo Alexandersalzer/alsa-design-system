@@ -110,8 +110,8 @@
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    var(--accent-color) 20%,
-    var(--accent-color) 80%,
+    var(--accent-500) 20%,
+    var(--accent-500) 80%,
     transparent 100%
   );
   border-radius: 0 var(--foundation-radius-sm) var(--foundation-radius-sm) 0;

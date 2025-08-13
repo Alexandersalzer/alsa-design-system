@@ -281,7 +281,7 @@ p, .text-body {
 .text-heading { color: var(--text-heading-color); }
 .text-body { color: var(--text-body-color); }
 .text-label { color: var(--text-label-color); }
-.text-accent { color: var(--accent-500); }
+.text-accent { color: var(--accent-color); }
 .text-success { color: var(--success-600); }
 .text-warning { color: var(--warning-600); }
 .text-error { color: var(--error-600); }
