@@ -264,7 +264,7 @@
 /* Image container styles */
 .portfolio-image-container {
   width: 100%;
-  height: auto; /* Fixed height for consistent card sizes */
+  height: 500px;
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0; /* Rounded top corners only */
