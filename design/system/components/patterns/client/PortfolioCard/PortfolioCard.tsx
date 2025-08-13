@@ -10,6 +10,7 @@ import { Typography, TypographyColor } from '../../../../../system/components/pr
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 import Image from 'next/image';
+import { GB, SE } from 'country-flag-icons/react/3x2';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -67,7 +68,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   // Card styling defaults
   variant = 'default',
   padding = 'md',
-  radius = 'md',
+  radius = 'sm',
   
   // Typography defaults - matching KJ Marketing style
   categoryVariant = 'label-sm',
@@ -106,20 +107,10 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
           {flag && (
             <div className="portfolio-flag">
               {flag === 'uk' && (
-                <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                  <rect width="24" height="16" fill="#012169"/>
-                  <path d="M0 0L24 16M24 0L0 16" stroke="white" strokeWidth="2"/>
-                  <path d="M0 0L24 16M24 0L0 16" stroke="#C8102E" strokeWidth="1"/>
-                  <path d="M10 0V16M0 6H24M0 10H24" stroke="white" strokeWidth="3"/>
-                  <path d="M12 0V16M0 8H24" stroke="#C8102E" strokeWidth="2"/>
-                </svg>
+                <GB />
               )}
               {flag === 'sv' && (
-                <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                  <rect width="24" height="16" fill="#006AA7"/>
-                  <path d="M0 6H24M0 10H24" stroke="#FECC00" strokeWidth="4"/>
-                  <path d="M8 0V16" stroke="#FECC00" strokeWidth="4"/>
-                </svg>
+                <SE />
               )}
             </div>
           )}
