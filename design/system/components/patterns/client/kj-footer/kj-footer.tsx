@@ -1,10 +1,11 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 import { Rhythm, RhythmItem } from '../../../../../system/layout/utilities/rhythm/Rhythm';
-import { LanguagePicker } from '../common/language-picker';
+import { Picker } from '../../../../../system/components/primitives/Picker';
 
 interface FooterContent {
   companyName?: string;
@@ -37,6 +38,49 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
     creditsLink
   } = content || {};
 
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('sv');
+
+  // Default language options
+  const defaultLanguageOptions = [
+    { value: 'sv', label: 'Svenska' },
+    { value: 'en', label: 'English' }
+  ];
+
+  const options = languageOptions || defaultLanguageOptions;
+
+  // Handle language change
+  const handleLanguageChange = (value: string | null) => {
+    if (value) {
+      setSelectedLanguage(value);
+      
+      // Get current path and switch language
+      const currentPath = window.location.pathname;
+      const pathSegments = currentPath.split('/').filter(Boolean);
+      
+      // Remove current locale if present
+      if (pathSegments[0] === 'sv' || pathSegments[0] === 'en') {
+        pathSegments.shift();
+      }
+      
+      // Build new path with selected language
+      const newPath = `/${value}${pathSegments.length > 0 ? '/' + pathSegments.join('/') : ''}`;
+      
+      // Navigate to new path
+      window.location.href = newPath;
+    }
+  };
+
+  // Get current locale from URL
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+    const pathSegments = currentPath.split('/').filter(Boolean);
+    const currentLocale = pathSegments[0];
+    
+    if (currentLocale === 'sv' || currentLocale === 'en') {
+      setSelectedLanguage(currentLocale);
+    }
+  }, []);
+
   return (
     <Rhythm unit="md" align="center" direction="column">
       {/* Title with Logo */}
@@ -62,10 +106,10 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
 
       {/* Language Picker */}
       <RhythmItem at={3}>
-        <LanguagePicker
-          isEditingMode={isEditingMode}
-          enablePostMessageSync={true}
-          languageOptions={languageOptions}
+        <Picker
+          options={options}
+          value={selectedLanguage}
+          onChange={handleLanguageChange}
           placeholder="Välj språk"
           size="md"
           variant="compact"
