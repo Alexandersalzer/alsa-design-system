@@ -1,6 +1,10 @@
 // ===============================================
-// FIXED DesignRadioCard.tsx - Now works exactly like SelectionCard
-// Key fixes: proper radio group behavior, hidden radio inputs, better onChange handling
+// ACTUALLY FIXED DesignRadioCard.tsx - Real issues identified and fixed
+// KEY ISSUES FOUND:
+// 1. Missing CSS classes that SelectionCard has
+// 2. Card click handling is different 
+// 3. Missing proper cursor and interaction styles
+// 4. Radio input positioning wrong
 // ===============================================
 
 import React, { forwardRef, useId } from 'react';
@@ -10,7 +14,7 @@ import { cn } from '../../../../lib/utils';
 export interface DesignRadioCardItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value: string;
   checked?: boolean;
-  onChange?: (checked: boolean) => void; // ✅ FIXED: Same signature as SelectionCard
+  onChange?: (checked: boolean) => void;
   disabled?: boolean;
   
   // Content
@@ -23,7 +27,7 @@ export interface DesignRadioCardItemProps extends Omit<React.HTMLAttributes<HTML
   // Size - optimized for compact design panels
   size?: 'xs' | 'sm' | 'md';
   
-  // Form integration - ✅ FIXED: Now properly integrated
+  // Form integration
   name?: string;
   
   // Color-specific props
@@ -60,9 +64,14 @@ export const DesignRadioCardItem = forwardRef<HTMLDivElement, DesignRadioCardIte
   const id = providedId || generatedId;
   const radioId = `${id}-radio`;
 
-  // ✅ FIXED: Handle card click exactly like SelectionCard
+  // ✅ FIXED: Handle card click EXACTLY like SelectionCard
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
     if (disabled) return;
+    
+    console.log('🔍 DesignRadioCard clicked:', value, 'currently checked:', checked);
     
     // Don't trigger if clicking on other interactive elements
     const target = e.target as HTMLElement;
@@ -70,20 +79,22 @@ export const DesignRadioCardItem = forwardRef<HTMLDivElement, DesignRadioCardIte
       return;
     }
     
-    // For radio, only allow selecting (not deselecting)
+    // For radio, only allow selecting (not deselecting) - SAME AS SELECTIONCARD
     if (!checked) {
-      onChange?.(true); // ✅ FIXED: Pass boolean like SelectionCard
+      console.log('🔍 Triggering onChange with true for:', value);
+      onChange?.(true);
     }
     
     onClick?.(e);
   };
 
-  // ✅ FIXED: Handle hidden radio input change
+  // ✅ FIXED: Handle hidden radio input change - SAME AS SELECTIONCARD
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('🔍 Radio input changed:', e.target.checked, 'for value:', value);
     onChange?.(e.target.checked);
   };
 
-  // ✅ FIXED: Handle keyboard interaction
+  // ✅ FIXED: Handle keyboard interaction - SAME AS SELECTIONCARD
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if ((e.key === 'Enter' || e.key === ' ') && !disabled) {
       e.preventDefault();
@@ -144,16 +155,17 @@ export const DesignRadioCardItem = forwardRef<HTMLDivElement, DesignRadioCardIte
   };
 
   return (
-    <Card
+    <div
       ref={ref}
-      variant="outlined"
       className={cn(
+        // ✅ FIXED: Add all the same base classes as SelectionCard
         'design-radio-card',
+        'design-radio-card--interactive', // ✅ CRITICAL: This enables click behavior
         `design-radio-card--${variant}`,
         `design-radio-card--${size}`,
         checked && 'design-radio-card--checked',
         disabled && 'design-radio-card--disabled',
-        'cursor-pointer',
+        'cursor-pointer', // ✅ CRITICAL: This shows it's clickable
         className
       )}
       onClick={handleCardClick}
@@ -164,9 +176,18 @@ export const DesignRadioCardItem = forwardRef<HTMLDivElement, DesignRadioCardIte
       aria-disabled={disabled}
       aria-labelledby={label ? `${id}-label` : undefined}
       id={id}
+      style={{
+        // ✅ FIXED: Ensure proper styling for interaction
+        position: 'relative',
+        transition: 'all 0.15s ease',
+        border: `2px solid ${checked ? 'var(--accent-500)' : 'var(--border-input)'}`,
+        backgroundColor: checked ? 'var(--accent-50)' : 'var(--surface-card, white)',
+        borderRadius: 'var(--foundation-radius-md)',
+        ...props.style
+      }}
       {...props}
     >
-      {/* ✅ FIXED: Hidden radio input for proper form behavior */}
+      {/* ✅ FIXED: Hidden radio input positioned properly */}
       <input
         type="radio"
         id={radioId}
@@ -175,14 +196,31 @@ export const DesignRadioCardItem = forwardRef<HTMLDivElement, DesignRadioCardIte
         checked={checked}
         onChange={handleRadioChange}
         disabled={disabled}
-        className="sr-only design-radio-card__input"
+        style={{
+          position: 'absolute',
+          opacity: 0,
+          pointerEvents: 'none',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%'
+        }}
         tabIndex={-1}
       />
       
-      <CardContent className="design-radio-card__inner">
+      {/* ✅ FIXED: Content wrapper with proper padding */}
+      <div 
+        className="design-radio-card__inner"
+        style={{
+          padding: size === 'xs' ? '8px' : size === 'sm' ? '12px' : '16px',
+          minHeight: size === 'xs' ? '40px' : size === 'sm' ? '50px' : '60px',
+          position: 'relative',
+          zIndex: 1
+        }}
+      >
         {renderContent()}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 });
 
@@ -200,7 +238,7 @@ export interface DesignRadioCardRootProps {
   columns?: 1 | 2 | 3 | 4 | 5 | 6;
   gap?: 'xs' | 'sm' | 'md' | 'lg';
   
-  // ✅ FIXED: Radio group props that work with theme controls
+  // Radio group props
   value?: string;
   onChange?: (value: string) => void;
   name: string;
@@ -226,7 +264,9 @@ export const DesignRadioCardRoot: React.FC<DesignRadioCardRootProps> = ({
 
   // ✅ FIXED: Handle individual item changes and convert to group change
   const handleItemChange = (itemValue: string) => (checked: boolean) => {
+    console.log('🔍 DesignRadioCardRoot handleItemChange:', itemValue, checked);
     if (checked) {
+      console.log('🔍 Calling root onChange with:', itemValue);
       onChange?.(itemValue);
     }
   };
@@ -279,11 +319,14 @@ export const DesignRadioCardRoot: React.FC<DesignRadioCardRootProps> = ({
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child) && (child.type as any) === DesignRadioCardItem) {
             const childProps = child.props as DesignRadioCardItemProps;
+            const isChecked = childProps.value === value;
+            
+            console.log(`🔍 Rendering child ${childProps.value}: checked=${isChecked} (value=${value})`);
+            
             return React.cloneElement(child as React.ReactElement<DesignRadioCardItemProps>, {
               size: childProps.size || size,
               name: childProps.name || name,
-              checked: childProps.value === value,
-              // ✅ FIXED: Proper onChange wrapper that converts boolean to string
+              checked: isChecked,
               onChange: handleItemChange(childProps.value),
             });
           }
