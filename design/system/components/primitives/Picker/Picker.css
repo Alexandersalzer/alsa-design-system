@@ -233,7 +233,7 @@
   box-shadow: var(--foundation-shadow-lg);
   overflow: hidden;
   max-height: 400px;
-  padding: var(--foundation-space-2);
+  padding: var(--foundation-space-1);
   display: flex;
   flex-direction: column;
   
@@ -272,7 +272,7 @@
   right: auto;
   width: 240px;
   max-height: 280px;
-  padding: var(--foundation-space-1);
+  padding: var(--foundation-space-1-5);
   box-shadow: var(--foundation-shadow-md);
 }
 
@@ -338,7 +338,8 @@
   flex-direction: column;
   flex: 1;
   overflow-y: auto;
-  margin: var(--foundation-space-1);
+  margin: 0;
+  padding: 0;
   list-style: none;
   scroll-behavior: smooth;
   min-height: 0;
@@ -350,7 +351,7 @@
   cursor: pointer;
   border-radius: var(--radius-picker-sm);
   background: var(--surface-picker-option);
-  margin: var(--foundation-space-1) 0;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
