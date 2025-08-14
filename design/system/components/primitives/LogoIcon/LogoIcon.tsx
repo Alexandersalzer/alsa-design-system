@@ -28,24 +28,24 @@ export const LogoIcon: React.FC<LogoIconProps> = ({
   style,
   color = 'current'
 }) => {
-  // Better proportions: text much bigger, icon scaled up more
+  // Icon stays the same, text scaled down
   const getSizeStyles = () => {
     if (variant === 'text') {
-      // Text variant sizes (762x178 aspect ratio ≈ 4.3:1) - Much bigger for prominence
+      // Text variant sizes (762x178 aspect ratio ≈ 4.3:1) - Scaled down from previous
       switch (size) {
-        case 'sm': return { width: '120px', height: '28px' };   // Was 80x18
-        case 'md': return { width: '160px', height: '37px' };   // Was 120x28
-        case 'lg': return { width: '200px', height: '46px' };   // Was 160x37
-        case 'xl': return { width: '280px', height: '65px' };   // Was 200x46
-        default: return { width: '200px', height: '46px' };
+        case 'sm': return { width: '80px', height: '18px' };    // Was 120x28
+        case 'md': return { width: '100px', height: '23px' };   // Was 160x37
+        case 'lg': return { width: '120px', height: '28px' };   // Was 200x46
+        case 'xl': return { width: '160px', height: '37px' };   // Was 280x65
+        default: return { width: '120px', height: '28px' };
       }
     } else {
-      // Icon variant sizes (453x187 aspect ratio ≈ 2.4:1) - Scaled up more
+      // Icon variant sizes (453x187 aspect ratio ≈ 2.4:1) - KEPT THE SAME
       switch (size) {
-        case 'sm': return { width: '48px', height: '20px' };    // Was 36x15
-        case 'md': return { width: '60px', height: '25px' };    // Was 48x20
-        case 'lg': return { width: '72px', height: '30px' };    // Was 60x25
-        case 'xl': return { width: '96px', height: '40px' };    // Was 72x30
+        case 'sm': return { width: '48px', height: '20px' };
+        case 'md': return { width: '60px', height: '25px' };
+        case 'lg': return { width: '72px', height: '30px' };
+        case 'xl': return { width: '96px', height: '40px' };
         default: return { width: '72px', height: '30px' };
       }
     }
@@ -75,7 +75,7 @@ export const LogoIcon: React.FC<LogoIconProps> = ({
     );
   }
 
-  // Icon variant
+  // Icon variant (unchanged - good sizes)
   return (
     <svg 
       width="453" 
