@@ -28,25 +28,25 @@ export const LogoIcon: React.FC<LogoIconProps> = ({
   style,
   color = 'current'
 }) => {
-  // Scaled up sizes for better visibility
+  // Better proportions: text much bigger, icon scaled up more
   const getSizeStyles = () => {
     if (variant === 'text') {
-      // Text variant sizes (762x178 aspect ratio ≈ 4.3:1) - Scaled up significantly
+      // Text variant sizes (762x178 aspect ratio ≈ 4.3:1) - Much bigger for prominence
       switch (size) {
-        case 'sm': return { width: '80px', height: '18px' };   // Was 48x11
-        case 'md': return { width: '120px', height: '28px' };  // Was 64x15
-        case 'lg': return { width: '160px', height: '37px' };  // Was 80x18
-        case 'xl': return { width: '200px', height: '46px' };  // Was 96x22
-        default: return { width: '160px', height: '37px' };
+        case 'sm': return { width: '120px', height: '28px' };   // Was 80x18
+        case 'md': return { width: '160px', height: '37px' };   // Was 120x28
+        case 'lg': return { width: '200px', height: '46px' };   // Was 160x37
+        case 'xl': return { width: '280px', height: '65px' };   // Was 200x46
+        default: return { width: '200px', height: '46px' };
       }
     } else {
-      // Icon variant sizes (453x187 aspect ratio ≈ 2.4:1) - Scaled up
+      // Icon variant sizes (453x187 aspect ratio ≈ 2.4:1) - Scaled up more
       switch (size) {
-        case 'sm': return { width: '36px', height: '15px' };   // Was 24x10
-        case 'md': return { width: '48px', height: '20px' };   // Was 32x13
-        case 'lg': return { width: '60px', height: '25px' };   // Was 40x17
-        case 'xl': return { width: '72px', height: '30px' };   // Was 48x20
-        default: return { width: '60px', height: '25px' };
+        case 'sm': return { width: '48px', height: '20px' };    // Was 36x15
+        case 'md': return { width: '60px', height: '25px' };    // Was 48x20
+        case 'lg': return { width: '72px', height: '30px' };    // Was 60x25
+        case 'xl': return { width: '96px', height: '40px' };    // Was 72x30
+        default: return { width: '72px', height: '30px' };
       }
     }
   };
