@@ -21,7 +21,6 @@
 .checkbox-card--checked {
   border-color: var(--accent-500);
   background-color: var(--secondary-50);
-  box-shadow: 0 0 0 1px var(--accent-200);
 }
 
 /* Preselected/disabled state - clearly visible but distinct */
@@ -29,8 +28,7 @@
   opacity: 0.9;
   cursor: default;
   pointer-events: none;
-  background: linear-gradient(135deg, var(--success-50) 0%, var(--success-25) 100%);
-  border: 2px solid var(--success-300);
+  border: 2px solid var(--accent-300);
   position: relative;
 }
 
