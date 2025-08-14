@@ -14,22 +14,6 @@ export interface LogoIconProps {
   color?: 'primary' | 'secondary' | 'accent' | 'current';
 }
 
-// Sensible sizes for icon variant (453x187 aspect ratio ≈ 2.4:1)
-const iconSizeClasses = {
-  sm: 'w-6 h-3',      // ~24x10px - tiny
-  md: 'w-8 h-3',      // ~32x13px - small  
-  lg: 'w-10 h-4',     // ~40x17px - normal
-  xl: 'w-12 h-5'      // ~48x20px - big
-};
-
-// Sensible sizes for text variant (762x178 aspect ratio ≈ 4.3:1)
-const textSizeClasses = {
-  sm: 'w-12 h-3',     // ~48x11px - tiny
-  md: 'w-16 h-4',     // ~64x15px - small
-  lg: 'w-20 h-5',     // ~80x18px - normal  
-  xl: 'w-24 h-6'      // ~96x22px - big
-};
-
 const colorClasses = {
   primary: 'text-text-primary',
   secondary: 'text-text-secondary', 
@@ -44,7 +28,31 @@ export const LogoIcon: React.FC<LogoIconProps> = ({
   style,
   color = 'current'
 }) => {
-  const sizeClasses = variant === 'text' ? textSizeClasses : iconSizeClasses;
+  // Use inline styles instead of potentially missing utility classes
+  const getSizeStyles = () => {
+    if (variant === 'text') {
+      // Text variant sizes (762x178 aspect ratio ≈ 4.3:1)
+      switch (size) {
+        case 'sm': return { width: '48px', height: '11px' };
+        case 'md': return { width: '64px', height: '15px' };
+        case 'lg': return { width: '80px', height: '18px' };
+        case 'xl': return { width: '96px', height: '22px' };
+        default: return { width: '80px', height: '18px' };
+      }
+    } else {
+      // Icon variant sizes (453x187 aspect ratio ≈ 2.4:1)
+      switch (size) {
+        case 'sm': return { width: '24px', height: '10px' };
+        case 'md': return { width: '32px', height: '13px' };
+        case 'lg': return { width: '40px', height: '17px' };
+        case 'xl': return { width: '48px', height: '20px' };
+        default: return { width: '40px', height: '17px' };
+      }
+    }
+  };
+
+  const sizeStyles = getSizeStyles();
+  const combinedStyles = { ...sizeStyles, ...style };
   
   if (variant === 'text') {
     return (
@@ -53,12 +61,8 @@ export const LogoIcon: React.FC<LogoIconProps> = ({
         height="178" 
         viewBox="0 0 762 178" 
         fill="none"
-        className={cn(
-          sizeClasses[size],
-          colorClasses[color],
-          className
-        )}
-        style={style}
+        className={cn(colorClasses[color], className)}
+        style={combinedStyles}
         xmlns="http://www.w3.org/2000/svg"
         role="img"
         aria-label="Blimpify Text Logo"
@@ -78,12 +82,8 @@ export const LogoIcon: React.FC<LogoIconProps> = ({
       height="187" 
       viewBox="0 0 453 187" 
       fill="none" 
-      className={cn(
-        sizeClasses[size],
-        colorClasses[color],
-        className
-      )}
-      style={style}
+      className={cn(colorClasses[color], className)}
+      style={combinedStyles}
       xmlns="http://www.w3.org/2000/svg"
       role="img"
       aria-label="Blimpify Icon Logo"
