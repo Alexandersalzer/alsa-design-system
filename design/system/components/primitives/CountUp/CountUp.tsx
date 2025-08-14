@@ -19,6 +19,7 @@ export interface CountUpProps extends Omit<TypographyProps, 'children'> {
   onComplete?: () => void;
   enableScrollTrigger?: boolean;
   triggerOffset?: number;
+  resetOnPropsChange?: boolean; // New prop to allow reset when props change
 }
 
 export const CountUp: React.FC<CountUpProps> = ({
@@ -34,6 +35,7 @@ export const CountUp: React.FC<CountUpProps> = ({
   onComplete,
   enableScrollTrigger = true,
   triggerOffset = 100,
+  resetOnPropsChange = false,
   variant = 'display-lg',
   weight = 'bold',
   color = 'primary',
@@ -44,6 +46,23 @@ export const CountUp: React.FC<CountUpProps> = ({
   const [hasCompleted, setHasCompleted] = useState(false); // Track if animation completed
   const countRef = useRef<HTMLElement>(null);
   const animationRef = useRef<number | undefined>(undefined);
+  
+  // Use refs to track state without causing useEffect re-runs
+  const hasStartedRef = useRef(false);
+  const hasCompletedRef = useRef(false);
+
+  // Reset animation when key props change
+  const resetAnimation = () => {
+    console.log('🔄 Resetting CountUp animation');
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
+    setCount(start);
+    setHasStarted(false);
+    setHasCompleted(false);
+    hasStartedRef.current = false;
+    hasCompletedRef.current = false;
+  };
 
   // Easing function for smooth animation
   const easeOutExpo = (t: number): number => {
@@ -72,11 +91,18 @@ export const CountUp: React.FC<CountUpProps> = ({
   };
 
   const startAnimation = () => {
-    // Don't start if already completed or currently running
-    if (hasStarted || hasCompleted) return;
+    // Don't start if already completed or currently running (check refs for most current state)
+    if (hasStartedRef.current || hasCompletedRef.current) {
+      console.log('❌ Animation already started/completed, skipping', { 
+        hasStarted: hasStartedRef.current, 
+        hasCompleted: hasCompletedRef.current 
+      });
+      return;
+    }
     
     console.log('🚀 Starting CountUp animation from', start, 'to', end);
     setHasStarted(true);
+    hasStartedRef.current = true;
     
     const startTime = Date.now() + delay;
     const startValue = start;
@@ -101,6 +127,7 @@ export const CountUp: React.FC<CountUpProps> = ({
       } else {
         setCount(endValue);
         setHasCompleted(true); // Mark as completed
+        hasCompletedRef.current = true;
         console.log('✅ CountUp animation completed:', endValue);
         onComplete?.();
       }
@@ -118,9 +145,12 @@ export const CountUp: React.FC<CountUpProps> = ({
       return;
     }
 
-    // If already completed, don't set up observer
-    if (hasCompleted) {
-      console.log('✅ Animation already completed, skipping observer setup');
+    // If already started or completed, don't set up observer
+    if (hasStartedRef.current || hasCompletedRef.current) {
+      console.log('✅ Animation already started/completed, skipping observer setup', { 
+        hasStarted: hasStartedRef.current, 
+        hasCompleted: hasCompletedRef.current 
+      });
       return;
     }
 
@@ -139,13 +169,13 @@ export const CountUp: React.FC<CountUpProps> = ({
         console.log('👁️ CountUp intersection:', {
           isIntersecting: entry.isIntersecting,
           intersectionRatio: entry.intersectionRatio,
-          hasStarted: hasStarted,
-          hasCompleted: hasCompleted,
+          hasStarted: hasStartedRef.current,
+          hasCompleted: hasCompletedRef.current,
           boundingRect: entry.boundingClientRect.top
         });
         
-        // Only trigger if intersecting, hasn't started, and hasn't completed
-        if (entry.isIntersecting && !hasStarted && !hasCompleted) {
+        // Only trigger if intersecting, hasn't started, and hasn't completed (use refs for current state)
+        if (entry.isIntersecting && !hasStartedRef.current && !hasCompletedRef.current) {
           console.log('🎯 CountUp element is visible, starting animation');
           startAnimation();
         }
@@ -168,41 +198,15 @@ export const CountUp: React.FC<CountUpProps> = ({
       }
       console.log('🧹 Cleaned up CountUp observer');
     };
-  }, [enableScrollTrigger, hasStarted, hasCompleted, start, end, duration, delay]); // Fixed dependencies
+  }, [enableScrollTrigger, triggerOffset]); // Simplified dependencies to avoid re-renders
 
-  // Test if element is already visible on mount (fallback)
+  // Reset animation when key props change (if enabled)
   useEffect(() => {
-    if (!enableScrollTrigger || hasStarted || hasCompleted) return;
-    
-    const element = countRef.current;
-    if (!element) return;
-
-    const checkVisibility = () => {
-      const rect = element.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const isVisible = rect.top < windowHeight - triggerOffset;
-      
-      console.log('🔍 Manual visibility check:', {
-        elementTop: rect.top,
-        windowHeight: windowHeight,
-        triggerOffset: triggerOffset,
-        isVisible: isVisible,
-        hasStarted: hasStarted,
-        hasCompleted: hasCompleted
-      });
-      
-      if (isVisible && !hasStarted && !hasCompleted) {
-        console.log('👁️ Element is visible on mount, starting animation');
-        startAnimation();
-      }
-    };
-
-    // Check immediately and after a short delay
-    checkVisibility();
-    const timeoutId = setTimeout(checkVisibility, 100);
-    
-    return () => clearTimeout(timeoutId);
-  }, [enableScrollTrigger, hasStarted, hasCompleted, triggerOffset, start, end, duration, delay]); // Fixed dependencies
+    if (resetOnPropsChange && (hasStartedRef.current || hasCompletedRef.current)) {
+      console.log('🔄 Props changed, resetting animation');
+      resetAnimation();
+    }
+  }, [start, end, duration, delay, resetOnPropsChange]);
 
   return (
     <Typography
