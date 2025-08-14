@@ -28,25 +28,25 @@ export const LogoIcon: React.FC<LogoIconProps> = ({
   style,
   color = 'current'
 }) => {
-  // Use inline styles instead of potentially missing utility classes
+  // Scaled up sizes for better visibility
   const getSizeStyles = () => {
     if (variant === 'text') {
-      // Text variant sizes (762x178 aspect ratio ≈ 4.3:1)
+      // Text variant sizes (762x178 aspect ratio ≈ 4.3:1) - Scaled up significantly
       switch (size) {
-        case 'sm': return { width: '48px', height: '11px' };
-        case 'md': return { width: '64px', height: '15px' };
-        case 'lg': return { width: '80px', height: '18px' };
-        case 'xl': return { width: '96px', height: '22px' };
-        default: return { width: '80px', height: '18px' };
+        case 'sm': return { width: '80px', height: '18px' };   // Was 48x11
+        case 'md': return { width: '120px', height: '28px' };  // Was 64x15
+        case 'lg': return { width: '160px', height: '37px' };  // Was 80x18
+        case 'xl': return { width: '200px', height: '46px' };  // Was 96x22
+        default: return { width: '160px', height: '37px' };
       }
     } else {
-      // Icon variant sizes (453x187 aspect ratio ≈ 2.4:1)
+      // Icon variant sizes (453x187 aspect ratio ≈ 2.4:1) - Scaled up
       switch (size) {
-        case 'sm': return { width: '24px', height: '10px' };
-        case 'md': return { width: '32px', height: '13px' };
-        case 'lg': return { width: '40px', height: '17px' };
-        case 'xl': return { width: '48px', height: '20px' };
-        default: return { width: '40px', height: '17px' };
+        case 'sm': return { width: '36px', height: '15px' };   // Was 24x10
+        case 'md': return { width: '48px', height: '20px' };   // Was 32x13
+        case 'lg': return { width: '60px', height: '25px' };   // Was 40x17
+        case 'xl': return { width: '72px', height: '30px' };   // Was 48x20
+        default: return { width: '60px', height: '25px' };
       }
     }
   };
