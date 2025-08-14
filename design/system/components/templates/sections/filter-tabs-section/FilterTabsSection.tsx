@@ -115,7 +115,18 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
       const videoSrc = getBlockContent(patternBlocks, 'videoSrc') || undefined; // Optional
       const imageSrc = getBlockContent(patternBlocks, 'imageSrc') || undefined; // Optional
       const flag = getBlockContent(patternBlocks, 'flag') || undefined; // Optional flag
-      const filterCategory = getBlockContent(patternBlocks, 'filterCategory') || 'all'; // Filter category for filtering
+      // Support multiple filter categories - collect all filterCategory blocks
+      const filterCategoryBlocks = patternBlocks.filter(block => block.type === 'filterCategory');
+      let filterCategories: string[] = [];
+      
+      if (filterCategoryBlocks.length > 0) {
+        // Collect all filterCategory values
+        filterCategories = filterCategoryBlocks
+          .map(block => block.content)
+          .filter((content): content is string => Boolean(content));
+      } else {
+        filterCategories = ['all'];
+      }
       
       return {
         id: `portfolio-${index}`,
@@ -126,7 +137,7 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
         videoSrc,
         imageSrc,
         flag: flag as 'uk' | 'sv' | undefined,
-        filterCategory
+        filterCategories // Changed from filterCategory to filterCategories (array)
       };
     });
 
@@ -137,8 +148,8 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
       return true;
     }
     
-    // Show cards that match the current filter category
-    return card.filterCategory === currentActiveFilter;
+    // Show cards that have the current filter in their categories array
+    return card.filterCategories.includes(currentActiveFilter);
   });
 
   // Default filter handling if no external state management
