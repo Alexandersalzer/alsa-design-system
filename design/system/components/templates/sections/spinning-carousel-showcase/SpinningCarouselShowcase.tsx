@@ -4,7 +4,7 @@ import { Section, Container } from '../../../../../system/layout';
 import { SpinningCarousel, CarouselImage } from '../../../../../system/components/patterns/client/spinning-carousel';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname, useRouter } from 'next/navigation';
-import { useNavigationMessaging } from '../../../../../system/utils/navigation';
+import { buildNavHref, extractLocaleFromPathname } from '../../../../../system/utils/navigation';
 
 interface SpinningCarouselShowcaseProps {
   pageSlug?: string;
@@ -95,13 +95,8 @@ export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> =
   const pathname = usePathname();
   const router = useRouter();
   
-  // Setup navigation messaging
-  const { handleNavigationClick } = useNavigationMessaging(
-    router,
-    pathname,
-    isEditingMode,
-    '🎠' // Carousel emoji for logs
-  );
+  // Get current locale for navigation
+  const currentLocale = extractLocaleFromPathname(pathname);
   
   // Determine which page slug to use
   const currentSlug = pageSlug || pathname.replace('/', '') || 'home';
@@ -117,8 +112,17 @@ export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> =
       onImageClick(image);
     } else {
       // Default action - navigate to about page
-      console.log('🎠 Carousel image clicked:', image.title || image.alt, '- navigating to about page');
-      handleNavigationClick('/about', 'about');
+      console.log('🎠 Carousel image clicked - navigating to about page');
+      
+      // Build the correct href for about page with current locale
+      const aboutHref = buildNavHref(
+        { href: '/about', slug: 'about' },
+        currentLocale,
+        isEditingMode
+      );
+      
+      console.log('🎠 Navigating to:', aboutHref);
+      router.push(aboutHref);
     }
   };
 
