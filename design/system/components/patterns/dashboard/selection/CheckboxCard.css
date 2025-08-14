@@ -28,7 +28,7 @@
   opacity: 0.9;
   cursor: default;
   pointer-events: none;
-  border: 2px solid var(--accent-400);
+  border: 2px solid var(--secondary-400);
   position: relative;
 }
 
