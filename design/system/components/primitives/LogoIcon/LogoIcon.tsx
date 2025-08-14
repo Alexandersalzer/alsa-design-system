@@ -12,11 +12,12 @@ export interface LogoIconProps {
   color?: 'primary' | 'secondary' | 'accent' | 'current';
 }
 
+// Updated size classes based on new 453x187 aspect ratio (roughly 2.4:1)
 const sizeClasses = {
   sm: 'w-12 h-5',     // ~48x20px
-  md: 'w-16 h-7',     // ~64x28px  
-  lg: 'w-20 h-8',     // ~80x32px
-  xl: 'w-24 h-10'     // ~96x40px
+  md: 'w-16 h-7',     // ~64x27px  
+  lg: 'w-20 h-8',     // ~80x33px
+  xl: 'w-28 h-12'     // ~112x47px
 };
 
 const colorClasses = {
@@ -34,9 +35,9 @@ export const LogoIcon: React.FC<LogoIconProps> = ({
 }) => {
   return (
     <svg 
-      width="260" 
-      height="107" 
-      viewBox="0 0 260 107" 
+      width="453" 
+      height="187" 
+      viewBox="0 0 453 187" 
       fill="none" 
       className={cn(
         sizeClasses[size],
@@ -49,9 +50,9 @@ export const LogoIcon: React.FC<LogoIconProps> = ({
       aria-label="Blimpify Logo"
     >
       <path 
-        d="M250.619 77.2176C250.619 77.2176 250.619 28.1639 250.619 23.1156M250.619 77.2176C250.619 77.2176 212.623 21.7105 115.52 11.171C30.7571 1.97081 0.267481 48.8958 12.6483 84.9666M250.619 77.2176V23.1156M250.619 23.1156H233.548L228.042 36.4655" 
+        d="M19.9422 152C-1.92215 92.9116 33.1103 0.567185 182.801 15.6382C354.284 32.9031 421.384 123.831 421.384 123.831L439 146.009V123.831V35.205L396 35.205L380 63" 
         stroke="currentColor" 
-        strokeWidth="18.1371" 
+        strokeWidth="28" 
         strokeLinecap="square"
       />
     </svg>
