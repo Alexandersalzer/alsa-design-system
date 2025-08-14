@@ -68,7 +68,7 @@ export function ThemeModeControl({ className, showLabel = true }: ThemeModeContr
           }}
         >
           <div className="flex items-center justify-center">
-            <Icon size="sm" color={currentTheme === 'light' ? 'accent' : 'secondary'}>
+            <Icon size="md" color={currentTheme === 'light' ? 'accent' : 'primary'}>
               <SunIcon />
             </Icon>
           </div>
@@ -85,7 +85,7 @@ export function ThemeModeControl({ className, showLabel = true }: ThemeModeContr
           }}
         >
           <div className="flex items-center justify-center">
-            <Icon size="sm" color={currentTheme === 'dark' ? 'accent' : 'secondary'}>
+            <Icon size="md" color={currentTheme === 'dark' ? 'accent' : 'primary'}>
               <MoonIcon />
             </Icon>
           </div>
