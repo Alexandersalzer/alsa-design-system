@@ -82,10 +82,6 @@
 
 /* ===== SPECIALIZED GRID TYPES ===== */
 
-/* Prevent stretching in auto-fill grids */
-.grid {
-  justify-content: start;
-}
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
 

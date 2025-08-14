@@ -99,10 +99,9 @@ export const ResponsiveGrid = React.forwardRef<HTMLDivElement, ResponsiveGridPro
   return (
     <Grid
       ref={ref}
-      columns="auto-fill"
+      columns="auto-fit"
       minItemWidth={minItemWidth}
       gap={gap}
-      justifyItems="start"
       className={className}
       {...props}
     >
