@@ -203,10 +203,6 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
           <ResponsiveGrid
             minItemWidth="320px"
             gap="md"
-            style={{
-              justifyItems: 'center',
-              alignItems: 'start'
-            }}
           >
             {filteredPortfolioCards.map((card) => (
               <PortfolioCard
