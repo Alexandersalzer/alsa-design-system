@@ -67,7 +67,7 @@ export const FilterTabs: React.FC<FilterTabsProps> = ({
 }) => {
   // Internal state if no external state management
   const [internalActiveFilter, setInternalActiveFilter] = useState<string>(
-    activeFilter || filters[0]?.id || ''
+    activeFilter || filters[0]?.value || 'all'
   );
   
   const currentActiveFilter = activeFilter || internalActiveFilter;
@@ -76,7 +76,7 @@ export const FilterTabs: React.FC<FilterTabsProps> = ({
     if (onFilterChange) {
       onFilterChange(filterId, filterValue);
     } else {
-      setInternalActiveFilter(filterId);
+      setInternalActiveFilter(filterValue);
     }
   };
   
@@ -95,7 +95,7 @@ export const FilterTabs: React.FC<FilterTabsProps> = ({
               key={filter.id}
               variant="page" // Use segment variant for filter-style tabs
               size={tabSize}
-              isActive={currentActiveFilter === filter.id}
+              isActive={currentActiveFilter === filter.value}
               onClick={() => handleFilterClick(filter.id, filter.value)}
               fontWeight={fontWeight}
               useHeadingFont={useHeadingFont}
