@@ -14,22 +14,20 @@ export interface LogoIconProps {
   color?: 'primary' | 'secondary' | 'accent' | 'current';
 }
 
-// Size classes for icon variant (453x187 aspect ratio ≈ 2.4:1)
-// Fixed sizing: sm < md < lg < xl
+// Sensible sizes for icon variant (453x187 aspect ratio ≈ 2.4:1)
 const iconSizeClasses = {
-  sm: 'w-8 h-3',      // ~32x13px - smallest
-  md: 'w-12 h-5',     // ~48x20px - small  
-  lg: 'w-16 h-7',     // ~64x27px - medium
-  xl: 'w-20 h-8'      // ~80x33px - largest
+  sm: 'w-6 h-3',      // ~24x10px - tiny
+  md: 'w-8 h-3',      // ~32x13px - small  
+  lg: 'w-10 h-4',     // ~40x17px - normal
+  xl: 'w-12 h-5'      // ~48x20px - big
 };
 
-// Size classes for text variant (762x178 aspect ratio ≈ 4.3:1)
-// Fixed sizing: sm < md < lg < xl
+// Sensible sizes for text variant (762x178 aspect ratio ≈ 4.3:1)
 const textSizeClasses = {
-  sm: 'w-16 h-4',     // ~64x15px - smallest
-  md: 'w-24 h-6',     // ~96x22px - small
-  lg: 'w-32 h-7',     // ~128x30px - medium  
-  xl: 'w-48 h-11'     // ~192x45px - largest
+  sm: 'w-12 h-3',     // ~48x11px - tiny
+  md: 'w-16 h-4',     // ~64x15px - small
+  lg: 'w-20 h-5',     // ~80x18px - normal  
+  xl: 'w-24 h-6'      // ~96x22px - big
 };
 
 const colorClasses = {
@@ -73,7 +71,7 @@ export const LogoIcon: React.FC<LogoIconProps> = ({
     );
   }
 
-  // Icon variant (original)
+  // Icon variant
   return (
     <svg 
       width="453" 
