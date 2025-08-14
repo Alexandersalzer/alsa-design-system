@@ -1,6 +1,7 @@
 // ===============================================
 // src/design-system/components/primitives/Stepper/Stepper.tsx
-// RESPONSIVE STEPPER - Always horizontal, scales nicely
+// ENHANCED RESPONSIVE STEPPER - Regular + Sticky modes
+// (Option A: boolean class segments, no object syntax for `cn`)
 // ===============================================
 
 import React, { forwardRef } from 'react';
@@ -24,7 +25,18 @@ export interface StepperProps extends React.HTMLAttributes<HTMLDivElement> {
   onNext?: () => void;
   previousLabel?: string;
   nextLabel?: string;
-  showLabelsOnMobile?: boolean; // New prop to control mobile button text
+  showLabelsOnMobile?: boolean;
+
+  // ✨ NEW STICKY MODE PROPS
+  sticky?: boolean;                    // Enable sticky navigation
+  stickyOffset?: string;               // CSS top value (default: '0')
+  hideContent?: boolean;               // Hide step content (title/description)
+  navigationOnly?: boolean;            // Show only navigation bar
+  onStepClick?: (stepIndex: number) => void; // Click handler for step numbers
+
+  // ✨ LAYOUT CONTROL
+  variant?: 'default' | 'compact';     // Compact for sticky mode
+  backdrop?: boolean;                  // Add backdrop blur (sticky mode)
 }
 
 export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
@@ -32,20 +44,63 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
   currentStep,
   onPrevious,
   onNext,
-  previousLabel = "Tillbaka",
-  nextLabel = "Nästa",
+  previousLabel = 'Tillbaka',
+  nextLabel = 'Nästa',
   showLabelsOnMobile = false,
+
+  // Sticky mode props
+  sticky = false,
+  stickyOffset = '0',
+  hideContent = false,
+  navigationOnly = false,
+  onStepClick,
+
+  // Layout props
+  variant = 'default',
+  backdrop = false,
+
   className,
+  style,
   ...props
 }, ref) => {
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === steps.length - 1;
   const currentStepData = steps[currentStep];
 
+  // Determine if we should show content
+  const showContent = !hideContent && !navigationOnly && !!currentStepData;
+
+  // Build dynamic classes (boolean segments only for `cn`)
+  const stepperClasses = cn(
+    'stepper',
+    sticky && 'stepper--sticky',
+    variant === 'compact' && 'stepper--compact',
+    navigationOnly && 'stepper--navigation-only',
+    backdrop && 'stepper--backdrop',
+    className
+  );
+
+  // Build dynamic styles
+  const stepperStyles: React.CSSProperties = {
+    ...style,
+    ...(sticky && {
+      position: 'sticky',
+      top: stickyOffset,
+      zIndex: 20
+    })
+  };
+
+  const handleStepClick = (stepIndex: number) => {
+    if (onStepClick) {
+      onStepClick(stepIndex);
+    }
+  };
+
   return (
     <div
       ref={ref}
-      className={cn('stepper', className)}
+      className={stepperClasses}
+      style={stepperStyles}
       {...props}
     >
       {/* Navigation row - always horizontal */}
@@ -74,8 +129,24 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
               key={index}
               className={cn(
                 'step-number',
-                index === currentStep && 'step-number--current'
+                index === currentStep && 'step-number--current',
+                index < currentStep && 'step-number--completed',
+                !!onStepClick && 'step-number--clickable'
               )}
+              onClick={() => handleStepClick(index)}
+              role={onStepClick ? 'button' : undefined}
+              tabIndex={onStepClick ? 0 : undefined}
+              onKeyDown={
+                onStepClick
+                  ? (e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleStepClick(index);
+                      }
+                    }
+                  : undefined
+              }
+              aria-label={onStepClick ? `Gå till ${steps[index]?.label}` : undefined}
             >
               {index + 1}
             </div>
@@ -100,8 +171,8 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
         </Button>
       </div>
 
-      {/* Content below navigation */}
-      {currentStepData && (
+      {/* Content below navigation - conditionally rendered */}
+      {showContent && (
         <div className="step-content">
           <H3 className="step-title">{currentStepData.label}</H3>
           <Body size="md" color="secondary" className="step-description">
