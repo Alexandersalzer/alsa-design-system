@@ -6,12 +6,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
 import { SpinningAnimation, SpinningAnimationItem } from '../../../../../system/components/primitives/SpinningAnimation';
-import { Button } from '../../../../../system/components/primitives/Button';
-import { Icon } from '../../../../../system/components/primitives/Icon';
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import { useNavigationMessaging } from '../../../../../system/utils/navigation';
 
 export interface CarouselImage {
   src: string;
@@ -42,10 +37,6 @@ export interface SpinningCarouselProps {
   
   // Animation behavior
   duplicateCount?: number;
-  
-  // Navigation
-  isEditingMode?: boolean;
-  navigationTarget?: string; // Target page to navigate to (e.g., '/about')
   
   // Interactive
   onImageClick?: (image: CarouselImage) => void;
@@ -88,34 +79,10 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
   // Animation defaults
   duplicateCount = 4,
   
-  // Navigation defaults
-  isEditingMode = false,
-  navigationTarget = '/about',
-  
   onImageClick
 }) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  
-  // Setup navigation messaging
-  const { handleNavigationClick } = useNavigationMessaging(
-    router,
-    pathname,
-    isEditingMode,
-    '🎠' // Carousel emoji for logging
-  );
-  // State for individual hover effects
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
-  // Handle navigation click
-  const handleNavigation = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent any parent click handlers
-    console.log('🎠 Carousel navigation clicked, navigating to:', navigationTarget);
-    
-    // Extract slug from navigationTarget (e.g., '/about' -> 'about')
-    const slug = navigationTarget.replace('/', '') || 'about';
-    handleNavigationClick(navigationTarget, slug);
-  };
+  // State for global hover effect
+  const [isHovering, setIsHovering] = useState(false);
 
   // Transform images into SpinningAnimationItem format
   const carouselItems: SpinningAnimationItem[] = images.map((image, index) => ({
@@ -125,15 +92,15 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
         className="carousel-image-container"
         onClick={() => onImageClick?.(image)}
         style={{
-          cursor: 'pointer',
+          cursor: onImageClick ? 'pointer' : 'default',
           borderRadius: imageBorderRadius,
           overflow: 'hidden',
           position: 'relative',
           width: '100%',
           height: '100%',
         }}
-        onMouseEnter={() => setHoveredIndex(index)}
-        onMouseLeave={() => setHoveredIndex(null)}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
       >
         <img
           src={image.src}
@@ -144,43 +111,10 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
             height: '100%',
             objectFit: 'cover',
             display: 'block',
-            transition: 'opacity 0.3s ease, transform 0.3s ease',
-            opacity: hoveredIndex === index ? 0.4 : 1,
-            transform: hoveredIndex === index ? 'scale(1.05)' : 'scale(1)',
+            transition: 'opacity 0.3s ease',
+            opacity: isHovering ? 0.3 : 1, // Global opacity effect like KJ Marketing
           }}
         />
-        
-        {/* Navigation Overlay Button */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            opacity: hoveredIndex === index ? 1 : 0,
-            transition: 'opacity 0.3s ease, transform 0.3s ease',
-            pointerEvents: hoveredIndex === index ? 'auto' : 'none',
-            zIndex: 10,
-          }}
-        >
-          <Button
-            variant="primary"
-            size="lg"
-            rightIcon={<Icon color="inverse"><ArrowRightIcon /></Icon>}
-            onClick={handleNavigation}
-            style={{
-              borderRadius: '50px',
-              padding: '12px 24px',
-              fontSize: '16px',
-              fontWeight: '600',
-              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)',
-              transform: hoveredIndex === index ? 'scale(1)' : 'scale(0.9)',
-              transition: 'transform 0.3s ease',
-            }}
-          >
-            Se Portfolio
-          </Button>
-        </div>
       </div>
     )
   }));

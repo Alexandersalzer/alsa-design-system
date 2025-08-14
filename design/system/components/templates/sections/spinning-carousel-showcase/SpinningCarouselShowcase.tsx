@@ -3,7 +3,8 @@
 import { Section, Container } from '../../../../../system/layout';
 import { SpinningCarousel, CarouselImage } from '../../../../../system/components/patterns/client/spinning-carousel';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useNavigationMessaging } from '../../../../../system/utils/navigation';
 
 interface SpinningCarouselShowcaseProps {
   pageSlug?: string;
@@ -32,10 +33,6 @@ interface SpinningCarouselShowcaseProps {
   // Animation behavior
   duplicateCount?: number;
   
-  // Navigation
-  isEditingMode?: boolean;
-  navigationTarget?: string;
-  
   // Layout configuration
   containerAlign?: 'left' | 'center' | 'right';
   containerMaxWidth?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
@@ -43,6 +40,9 @@ interface SpinningCarouselShowcaseProps {
   
   // Interactive
   onImageClick?: (image: CarouselImage) => void;
+  
+  // Navigation
+  isEditingMode?: boolean;
 }
 
 export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> = ({
@@ -83,19 +83,25 @@ export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> =
   
   duplicateCount = 4,
   
-  // Navigation defaults
-  isEditingMode = false,
-  navigationTarget = '/about',
-  
   // Layout defaults
   containerAlign = 'center',
   containerMaxWidth = 'full',
   sectionPadding = '4rem 0',
   
-  onImageClick
+  onImageClick,
+  isEditingMode = false
 }) => {
   const { getPageTemplate, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
+  const router = useRouter();
+  
+  // Setup navigation messaging
+  const { handleNavigationClick } = useNavigationMessaging(
+    router,
+    pathname,
+    isEditingMode,
+    '🎠' // Carousel emoji for logs
+  );
   
   // Determine which page slug to use
   const currentSlug = pageSlug || pathname.replace('/', '') || 'home';
@@ -110,8 +116,9 @@ export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> =
     if (onImageClick) {
       onImageClick(image);
     } else {
-      // Default action - could open modal, navigate, etc.
-      console.log('Carousel image clicked:', image.title || image.alt);
+      // Default action - navigate to about page
+      console.log('🎠 Carousel image clicked:', image.title || image.alt, '- navigating to about page');
+      handleNavigationClick('/about', 'about');
     }
   };
 
@@ -145,9 +152,6 @@ export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> =
           fadeWidth={fadeWidth}
           
           duplicateCount={duplicateCount}
-          
-          isEditingMode={isEditingMode}
-          navigationTarget={navigationTarget}
           
           onImageClick={handleImageClick}
         />
