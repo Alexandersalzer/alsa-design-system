@@ -72,25 +72,19 @@
   position: relative;
 }
 
+.step-number--completed {
+  background: var(--surface-hover);
+  color: var(--text-secondary);
+}
+
 .step-number--current {
   background: var(--text-primary);
   color: var(--text-inverse);
   font-weight: var(--foundation-weight-semibold);
-  transform: scale(1.1);
-}
-
-.step-number--completed {
-  background: var(--text-primary);
-  color: var(--text-inverse);
 }
 
 .step-number--clickable {
   cursor: pointer;
-}
-
-.step-number--clickable:hover:not(.step-number--current) {
-  background: var(--surface-active);
-  transform: scale(1.05);
 }
 
 .step-number--clickable:focus {
