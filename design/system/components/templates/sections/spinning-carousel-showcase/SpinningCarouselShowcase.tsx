@@ -32,6 +32,10 @@ interface SpinningCarouselShowcaseProps {
   // Animation behavior
   duplicateCount?: number;
   
+  // Navigation
+  isEditingMode?: boolean;
+  navigationTarget?: string;
+  
   // Layout configuration
   containerAlign?: 'left' | 'center' | 'right';
   containerMaxWidth?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
@@ -78,6 +82,10 @@ export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> =
   fadeWidth = '150px',
   
   duplicateCount = 4,
+  
+  // Navigation defaults
+  isEditingMode = false,
+  navigationTarget = '/about',
   
   // Layout defaults
   containerAlign = 'center',
@@ -137,6 +145,9 @@ export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> =
           fadeWidth={fadeWidth}
           
           duplicateCount={duplicateCount}
+          
+          isEditingMode={isEditingMode}
+          navigationTarget={navigationTarget}
           
           onImageClick={handleImageClick}
         />

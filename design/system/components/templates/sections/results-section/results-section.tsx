@@ -49,17 +49,12 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
     const body = getBlockContent(patternBlocks, 'body') || 'Body!';
     const image = getBlockContent(patternBlocks, 'image') || 'tiktokstats.jpeg';
     
-    // Determine aspect ratio based on image content or index
-    // First card (UGC video) should be portrait, others landscape
-    const imageAspectRatio: 'portrait' | 'landscape' | 'square' = index === 0 ? 'portrait' : 'landscape';
-    
     return {
       id: `review-${index}`,
       title,
       subtitle,
       body,
-      image,
-      imageAspectRatio
+      image
     };
   });
 
@@ -89,7 +84,6 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
               subtitle={results.subtitle}
               body={results.body}
               image={results.image}
-              imageAspectRatio={results.imageAspectRatio}
             />
         ))}
         </ResponsiveGrid>
