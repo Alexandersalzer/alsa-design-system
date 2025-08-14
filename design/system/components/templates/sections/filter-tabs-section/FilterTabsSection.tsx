@@ -115,6 +115,7 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
       const videoSrc = getBlockContent(patternBlocks, 'videoSrc') || undefined; // Optional
       const imageSrc = getBlockContent(patternBlocks, 'imageSrc') || undefined; // Optional
       const flag = getBlockContent(patternBlocks, 'flag') || undefined; // Optional flag
+      
       // Support multiple filter categories - collect all filterCategory blocks
       const filterCategoryBlocks = patternBlocks.filter(block => block.type === 'filterCategory');
       let filterCategories: string[] = [];
@@ -155,6 +156,12 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
   // Default filter handling if no external state management
   const handleFilterChange = (filterId: string, filterValue: string) => {
     console.log(`🔍 Filter changed to: ${filterValue} (${filterId})`);
+    console.log(`📊 Total portfolio cards: ${portfolioCards.length}`);
+    console.log(`🎯 Filtered cards for '${filterValue}':`, 
+      portfolioCards.filter(card => 
+        filterValue === 'all' || card.filterCategories.includes(filterValue)
+      ).map(card => ({ title: card.title, categories: card.filterCategories }))
+    );
     
     if (onFilterChange) {
       onFilterChange(filterId, filterValue);
