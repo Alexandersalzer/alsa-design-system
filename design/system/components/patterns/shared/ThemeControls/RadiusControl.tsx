@@ -10,11 +10,11 @@ import { Body, Icon } from '@blimpify-im/ui';
 
 const RADIUS_OPTIONS = [
   { value: 'none', label: 'Sharp', description: '0px' },
-  { value: 'xs', label: 'Minimal', description: '2px' },
-  { value: 'sm', label: 'Small', description: '4px' },
-  { value: 'md', label: 'Medium', description: '8px' },
-  { value: 'lg', label: 'Large', description: '12px' },
-  { value: 'xl', label: 'XL', description: '16px' },
+  { value: 'xs', label: 'Minimal', description: '1px' },
+  { value: 'sm', label: 'Small', description: '2px' },
+  { value: 'md', label: 'Medium', description: '3px' },
+  { value: 'lg', label: 'Large', description: '4px' },
+  { value: 'xl', label: 'XL', description: '5px' },
   { value: '2xl', label: 'Max', description: '24px' },
 ];
 
