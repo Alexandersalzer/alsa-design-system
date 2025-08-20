@@ -2,7 +2,7 @@
 export interface ContentBlock {
   type: string;
   content?: string;
-  image_url?: string;
+  media_src?: string;
   config?: any;
   slug?: string;
   position?: number;
@@ -19,7 +19,7 @@ export interface ContentTemplate {
   type: string;
   patterns: ContentPattern[];
   position?: number;
-  image_url?: string;
+  media_src?: string;
 }
 
 export interface GlobalComponent {
