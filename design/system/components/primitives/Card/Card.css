@@ -329,3 +329,140 @@
 .card--radius-lg .image {
   border-radius: var(--radius-md);
 }
+
+/* ===== FEATURE CARD SPECIFIC STYLES ===== */
+.feature-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  height: 100%; /* Ensure consistent card heights in grid */
+}
+
+/* Active feature card styling */
+.feature-card--active {
+  background: linear-gradient(135deg, var(--success-50, #f0fdf4), var(--success-100, #dcfce7));
+  border-color: var(--success-300, #86efac);
+  box-shadow: 0 0 0 1px var(--success-200, #bbf7d0);
+}
+
+/* Interactive hover effects */
+.feature-card.card--clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-color: var(--accent-400);
+}
+
+.feature-card.card--clickable:hover .feature-card__icon {
+  transform: scale(1.05);
+}
+
+.feature-card.card--clickable:hover .feature-card__price {
+  color: var(--accent-700);
+}
+
+/* Active card hover (should be more subtle) */
+.feature-card--active.card--clickable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+/* Card sections styling */
+.feature-card__icon {
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-card__price {
+  transition: color 0.2s ease;
+  padding: var(--foundation-space-3);
+  background: var(--surface-subtle);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.feature-card__action {
+  margin-top: auto; /* Push to bottom of card */
+}
+
+/* Pricing highlight for premium features */
+.feature-card__price--premium {
+  background: linear-gradient(135deg, var(--accent-50), var(--accent-100));
+  border: 1px solid var(--accent-200);
+}
+
+/* Free feature special styling */
+.feature-card__price--free {
+  background: linear-gradient(135deg, var(--success-50), var(--success-100));
+  border: 1px solid var(--success-200);
+}
+
+/* Focus states for accessibility */
+.feature-card.card--clickable:focus-visible {
+  outline: 3px solid var(--accent-500);
+  outline-offset: 2px;
+  transform: translateY(-2px);
+}
+
+/* Loading state for feature cards */
+.feature-card--loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.feature-card--loading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  animation: feature-shimmer 2s infinite;
+}
+
+@keyframes feature-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .feature-card.card--clickable:hover {
+    transform: none; /* Disable hover effects on mobile */
+  }
+  
+  .feature-card__price {
+    padding: var(--foundation-space-2);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .feature-card {
+    border-width: 2px;
+  }
+  
+  .feature-card--active {
+    border-width: 3px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .feature-card,
+  .feature-card__icon,
+  .feature-card__price {
+    transition: none;
+  }
+  
+  .feature-card.card--clickable:hover {
+    transform: none;
+  }
+}
