@@ -4,6 +4,8 @@ import { Section, Container } from '../../../../../system/layout';
 import { ContactForm, ContactFormData } from '../../../../../system/components/patterns/client/ContactForm';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
+import { sendEmailForm } from '../../../../../../api/contact';
+import { useState } from 'react';
 
 interface ContactFormSectionProps {
   pageSlug?: string;
@@ -29,7 +31,7 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
   pageSlug,
   templateIndex = 0,
   onSubmit,
-  isLoading = false,
+  isLoading: externalLoading = false,
   
   // Layout defaults
   containerAlign = 'center',
@@ -41,6 +43,8 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
   buttonVariant = 'primary',
   buttonSize = 'md'
 }) => {
+  const [submitting, setSubmitting] = useState(false);
+  const isLoading = externalLoading || submitting;
   const { getPageTemplateByLayoutIndex, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
   
@@ -73,16 +77,28 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
   const emailPlaceholder = getBlockContent(templateBlocks, 'emailPlaceholder') || 'Email address';
   
   // Handle form submission
-  const handleFormSubmit = (data: ContactFormData) => {
+  const handleFormSubmit = async (data: ContactFormData) => {
     if (onSubmit) {
       onSubmit(data);
-    } else {
-      // Default form submission behavior
-      console.log('Contact form submitted:', data);
+      return;
+    }
+    
+    try {
+      setSubmitting(true);
+      console.log('🔥 Skickar email till admin@blimpify-im.com:', data);
       
-      // Here you could integrate with your email service, API, etc.
-      // For now, we'll just log the data
-      alert(`Thank you ${data.name}! Your message has been received.`);
+      const result = await sendEmailForm('admin@blimpify-im.com', data);
+      
+      if (result.ok && result.json?.success) {
+        alert(result.json?.message || 'Tack! Ditt meddelande har skickats.');
+      } else {
+        alert(result.error || result.json?.message || 'Kunde inte skicka meddelandet. Försök igen.');
+      }
+    } catch (error: any) {
+      console.error('Error sending contact form:', error);
+      alert('Kunde inte skicka meddelandet. Försök igen.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
