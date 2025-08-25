@@ -1,6 +1,6 @@
 {
   "name": "@blimpify-im/ui",
-  "version": "0.1.421",
+  "version": "0.1.422",
   "description": "Blimpify Design System - Reusable React components for client websites",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -12,24 +12,24 @@
       "types": "./dist/index.d.ts"
     },
     "./i18n": {
-      "import": "./dist/cms/i18n/i18n.js",
-      "require": "./dist/cms/i18n/i18n.js",
-      "types": "./dist/cms/i18n/i18n.d.ts"
+      "import": "./dist/design/cms/i18n/i18n.js",
+      "require": "./dist/design/cms/i18n/i18n.js",
+      "types": "./dist/design/cms/i18n/i18n.d.ts"
     },
     "./content": {
-      "import": "./dist/cms/wrappers/content/services/contentLoader.js",
-      "require": "./dist/cms/wrappers/content/services/contentLoader.js",
-      "types": "./dist/cms/wrappers/content/services/contentLoader.d.ts"
+      "import": "./dist/design/cms/wrappers/content/services/contentLoader.js",
+      "require": "./dist/design/cms/wrappers/content/services/contentLoader.js",
+      "types": "./dist/design/cms/wrappers/content/services/contentLoader.d.ts"
     },
     "./layout": {
-      "import": "./dist/cms/wrappers/ContentLayout.js",
-      "require": "./dist/cms/wrappers/ContentLayout.js",
-      "types": "./dist/cms/wrappers/ContentLayout.d.ts"
+      "import": "./dist/design/cms/wrappers/ContentLayout.js",
+      "require": "./dist/design/cms/wrappers/ContentLayout.js",
+      "types": "./dist/design/cms/wrappers/ContentLayout.d.ts"
     },
     "./client": {
-      "import": "./dist/system/components/templates/index.js",
-      "require": "./dist/system/components/templates/index.js",
-      "types": "./dist/system/components/templates/index.d.ts"
+      "import": "./dist/design/system/components/templates/index.js",
+      "require": "./dist/design/system/components/templates/index.js",
+      "types": "./dist/design/system/components/templates/index.d.ts"
     },
     "./dist/index.css": "./dist/index.css"
   },

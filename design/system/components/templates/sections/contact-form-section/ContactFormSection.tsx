@@ -4,7 +4,7 @@ import { Section, Container } from '../../../../../system/layout';
 import { ContactForm, ContactFormData } from '../../../../../system/components/patterns/client/ContactForm';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
-import { sendEmailForm } from '../../../../../../api/contact';
+import { sendEmailForm } from '@blimpify-im/ui';
 import { useState } from 'react';
 
 interface ContactFormSectionProps {
