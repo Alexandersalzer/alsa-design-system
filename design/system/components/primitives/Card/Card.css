@@ -266,7 +266,6 @@
 
 /* ===== HELP STEP STYLES ===== */
 .help-step {
-  border-left: 4px solid var(--accent-500);
   background-color: var(--surface-subtle);
 }
 
@@ -340,9 +339,8 @@
 
 /* Active feature card styling */
 .feature-card--active {
-  background: linear-gradient(135deg, var(--success-50, #f0fdf4), var(--success-100, #dcfce7));
-  border-color: var(--success-300, #86efac);
-  box-shadow: 0 0 0 1px var(--success-200, #bbf7d0);
+  border-color: var(--success-300);
+  box-shadow: 0 0 0 1px var(--success-200);
 }
 
 /* Interactive hover effects */
