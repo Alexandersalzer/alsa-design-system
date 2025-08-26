@@ -4,7 +4,7 @@ import { Section, Container } from '../../../../../system/layout';
 import { ContactForm, ContactFormData } from '../../../../../system/components/patterns/client/ContactForm';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
-import { sendEmailForm } from '../../../../../../api/contact';
+import { sendEmailFormUniversal, sendEmailForm } from '../../../../../../api/contact';
 import { useState } from 'react';
 
 interface ContactFormSectionProps {
@@ -83,21 +83,42 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
       return;
     }
     
-    try {
-      setSubmitting(true);
-      console.log('🔥 Skickar email till admin@blimpify-im.com:', data);
-      
-      const result = await sendEmailForm('admin@blimpify-im.com', data);
-      
-      if (result.ok && result.json?.success) {
-        alert(result.json?.message || 'Tack! Ditt meddelande har skickats.');
-      } else {
-        alert(result.error || result.json?.message || 'Kunde inte skicka meddelandet. Försök igen.');
-      }
-    } catch (error: any) {
-      console.error('Error sending contact form:', error);
-      alert('Kunde inte skicka meddelandet. Försök igen.');
-    } finally {
+          try {
+        setSubmitting(true);
+        console.log('🌍 Skickar universellt kontaktformulär för current domain:', typeof window !== 'undefined' ? window.location.host : 'unknown');
+        
+        // Försök först med universal endpoint
+        let result = await sendEmailFormUniversal(data);
+        
+        // Om universal inte fungerar, fallback till admin@blimpify-im.com
+        if (!result.ok) {
+          console.log('⚠️ Universal endpoint misslyckades, använder fallback till admin@blimpify-im.com');
+          result = await sendEmailForm('admin@blimpify-im.com', data);
+        }
+        
+        if (result.ok && result.json?.success) {
+          const company = result.json?.data?.company || 'företaget';
+          alert(result.json?.message || `Tack! Ditt meddelande har skickats till ${company}.`);
+        } else {
+          alert(result.error || result.json?.message || 'Kunde inte skicka meddelandet. Försök igen.');
+        }
+      } catch (error: any) {
+        console.error('Error sending contact form:', error);
+        
+        // Final fallback - försök skicka till admin direkt
+        try {
+          console.log('🔧 Använder sista fallback - skickar direkt till admin@blimpify-im.com');
+          const fallbackResult = await sendEmailForm('admin@blimpify-im.com', data);
+          if (fallbackResult.ok) {
+            alert('Ditt meddelande har skickats till vårt support-team.');
+          } else {
+            alert('Kunde inte skicka meddelandet. Försök igen senare.');
+          }
+        } catch (fallbackError) {
+          console.error('Final fallback failed:', fallbackError);
+          alert('Kunde inte skicka meddelandet. Försök igen senare.');
+        }
+      } finally {
       setSubmitting(false);
     }
   };
