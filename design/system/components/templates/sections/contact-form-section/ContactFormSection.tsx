@@ -6,6 +6,7 @@ import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent
 import { usePathname } from 'next/navigation';
 import { sendEmailFormUniversal, sendEmailForm } from '../../../../../../api/contact';
 import { useState } from 'react';
+import { SuccessToast, ErrorToast } from '../../../primitives/Toast';
 
 interface ContactFormSectionProps {
   pageSlug?: string;
@@ -44,6 +45,7 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
   buttonSize = 'md'
 }) => {
   const [submitting, setSubmitting] = useState(false);
+  const [toastMessage, setToastMessage] = useState<{ type: 'success' | 'error'; message: string; title?: string } | null>(null);
   const isLoading = externalLoading || submitting;
   const { getPageTemplateByLayoutIndex, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -98,9 +100,17 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
         
         if (result.ok && result.json?.success) {
           const company = result.json?.data?.company || 'oss';
-          alert(`Tack för ditt meddelande! Vi har mottagit din förfrågan och återkommer inom 24 timmar.`);
+          setToastMessage({
+            type: 'success',
+            title: 'Meddelande skickat!',
+            message: 'Tack för ditt meddelande! Vi har mottagit din förfrågan och återkommer inom 24 timmar.'
+          });
         } else {
-          alert('Något gick fel när meddelandet skulle skickas. Vänligen försök igen eller kontakta oss direkt.');
+          setToastMessage({
+            type: 'error',
+            title: 'Kunde inte skicka meddelandet',
+            message: 'Något gick fel när meddelandet skulle skickas. Vänligen försök igen eller kontakta oss direkt.'
+          });
         }
       } catch (error: any) {
         console.error('Error sending contact form:', error);
@@ -110,13 +120,25 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
           console.log('🔧 Använder sista fallback - skickar direkt till admin@blimpify-im.com');
           const fallbackResult = await sendEmailForm('admin@blimpify-im.com', data);
           if (fallbackResult.ok) {
-            alert('Tack för ditt meddelande! Vi har mottagit din förfrågan och återkommer inom 24 timmar.');
+            setToastMessage({
+              type: 'success',
+              title: 'Meddelande skickat!',
+              message: 'Tack för ditt meddelande! Vi har mottagit din förfrågan och återkommer inom 24 timmar.'
+            });
           } else {
-            alert('Vi har tekniska problem just nu. Vänligen försök igen om en stund eller kontakta oss direkt.');
+            setToastMessage({
+              type: 'error',
+              title: 'Tekniska problem',
+              message: 'Vi har tekniska problem just nu. Vänligen försök igen om en stund eller kontakta oss direkt.'
+            });
           }
         } catch (fallbackError) {
           console.error('Final fallback failed:', fallbackError);
-          alert('Vi har tekniska problem just nu. Vänligen försök igen om en stund eller kontakta oss direkt.');
+          setToastMessage({
+            type: 'error',
+            title: 'Tekniska problem',
+            message: 'Vi har tekniska problem just nu. Vänligen försök igen om en stund eller kontakta oss direkt.'
+          });
         }
       } finally {
       setSubmitting(false);
@@ -159,6 +181,31 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
           buttonSize={buttonSize}
         />
       </Container>
+      
+      {/* Toast meddelanden */}
+      {toastMessage && (
+        <>
+          {toastMessage.type === 'success' ? (
+            <SuccessToast
+              title={toastMessage.title}
+              onClose={() => setToastMessage(null)}
+              autoDismiss={true}
+              duration={5000}
+            >
+              {toastMessage.message}
+            </SuccessToast>
+          ) : (
+            <ErrorToast
+              title={toastMessage.title}
+              onClose={() => setToastMessage(null)}
+              autoDismiss={true}
+              duration={7000}
+            >
+              {toastMessage.message}
+            </ErrorToast>
+          )}
+        </>
+      )}
     </Section>
   );
 }; 
