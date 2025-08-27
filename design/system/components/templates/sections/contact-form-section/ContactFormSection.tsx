@@ -97,10 +97,10 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
         }
         
         if (result.ok && result.json?.success) {
-          const company = result.json?.data?.company || 'företaget';
-          alert(result.json?.message || `Tack! Ditt meddelande har skickats till ${company}.`);
+          const company = result.json?.data?.company || 'oss';
+          alert(`Tack för ditt meddelande! Vi har mottagit din förfrågan och återkommer inom 24 timmar.`);
         } else {
-          alert(result.error || result.json?.message || 'Kunde inte skicka meddelandet. Försök igen.');
+          alert('Något gick fel när meddelandet skulle skickas. Vänligen försök igen eller kontakta oss direkt.');
         }
       } catch (error: any) {
         console.error('Error sending contact form:', error);
@@ -110,13 +110,13 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
           console.log('🔧 Använder sista fallback - skickar direkt till admin@blimpify-im.com');
           const fallbackResult = await sendEmailForm('admin@blimpify-im.com', data);
           if (fallbackResult.ok) {
-            alert('Ditt meddelande har skickats till vårt support-team.');
+            alert('Tack för ditt meddelande! Vi har mottagit din förfrågan och återkommer inom 24 timmar.');
           } else {
-            alert('Kunde inte skicka meddelandet. Försök igen senare.');
+            alert('Vi har tekniska problem just nu. Vänligen försök igen om en stund eller kontakta oss direkt.');
           }
         } catch (fallbackError) {
           console.error('Final fallback failed:', fallbackError);
-          alert('Kunde inte skicka meddelandet. Försök igen senare.');
+          alert('Vi har tekniska problem just nu. Vänligen försök igen om en stund eller kontakta oss direkt.');
         }
       } finally {
       setSubmitting(false);
