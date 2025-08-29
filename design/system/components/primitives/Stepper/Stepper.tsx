@@ -1,7 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Stepper/Stepper.tsx
-// ENHANCED RESPONSIVE STEPPER - Regular + Sticky modes
-// (Option A: boolean class segments, no object syntax for `cn`)
+// ENHANCED RESPONSIVE STEPPER with disabled button support
 // ===============================================
 
 import React, { forwardRef } from 'react';
@@ -15,6 +14,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 export interface Step {
   label: string;
   description: string;
+  disabled?: boolean; // Individual step can be disabled
 }
 
 // ===== STEPPER COMPONENT =====
@@ -26,6 +26,10 @@ export interface StepperProps extends React.HTMLAttributes<HTMLDivElement> {
   previousLabel?: string;
   nextLabel?: string;
   showLabelsOnMobile?: boolean;
+
+  // ✨ BUTTON DISABLED STATES
+  nextDisabled?: boolean;
+  previousDisabled?: boolean;
 
   // ✨ NEW STICKY MODE PROPS
   sticky?: boolean;                    // Enable sticky navigation
@@ -47,6 +51,10 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
   previousLabel = 'Tillbaka',
   nextLabel = 'Nästa',
   showLabelsOnMobile = false,
+
+  // Button disabled props
+  nextDisabled = false,
+  previousDisabled = false,
 
   // Sticky mode props
   sticky = false,
@@ -70,6 +78,10 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
   // Determine if we should show content
   const showContent = !hideContent && !navigationOnly && !!currentStepData;
 
+  // Calculate actual disabled states
+  const isPreviousDisabled = previousDisabled || isFirstStep;
+  const isNextDisabled = nextDisabled || isLastStep;
+
   // Build dynamic classes (boolean segments only for `cn`)
   const stepperClasses = cn(
     'stepper',
@@ -91,7 +103,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
   };
 
   const handleStepClick = (stepIndex: number) => {
-    if (onStepClick) {
+    if (onStepClick && !steps[stepIndex]?.disabled) {
       onStepClick(stepIndex);
     }
   };
@@ -109,7 +121,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
         <Button
           variant="secondary"
           onClick={onPrevious}
-          disabled={isFirstStep}
+          disabled={isPreviousDisabled}
           className="stepper-button"
           leftIcon={
             <Icon size="sm" color="button-secondary" className="button-icon">
@@ -124,20 +136,21 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
 
         {/* Center: Step indicators */}
         <div className="stepper-numbers">
-          {steps.map((_, index) => (
+          {steps.map((step, index) => (
             <div
               key={index}
               className={cn(
                 'step-number',
                 index === currentStep && 'step-number--current',
                 index < currentStep && 'step-number--completed',
-                !!onStepClick && 'step-number--clickable'
+                step.disabled && 'step-number--disabled',
+                !!onStepClick && !step.disabled && 'step-number--clickable'
               )}
-              onClick={() => handleStepClick(index)}
-              role={onStepClick ? 'button' : undefined}
-              tabIndex={onStepClick ? 0 : undefined}
+              onClick={() => !step.disabled && handleStepClick(index)}
+              role={onStepClick && !step.disabled ? 'button' : undefined}
+              tabIndex={onStepClick && !step.disabled ? 0 : undefined}
               onKeyDown={
-                onStepClick
+                onStepClick && !step.disabled
                   ? (e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
@@ -146,7 +159,8 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
                     }
                   : undefined
               }
-              aria-label={onStepClick ? `Gå till ${steps[index]?.label}` : undefined}
+              aria-label={onStepClick && !step.disabled ? `Gå till ${step.label}` : undefined}
+              aria-disabled={step.disabled}
             >
               {index + 1}
             </div>
@@ -157,7 +171,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
         <Button
           variant="primary"
           onClick={onNext}
-          disabled={isLastStep}
+          disabled={isNextDisabled}
           className="stepper-button"
           rightIcon={
             <Icon size="sm" color="button-primary" className="button-icon">
