@@ -121,6 +121,8 @@
   border-color: var(--accent-500);
 }
 
+
+
 /* ===== DOMAIN CARD SPECIFIC STYLES ===== */
 .domain-card {
   position: relative;
@@ -241,11 +243,6 @@
   }
   100% {
     transform: translateX(100%);
-  }
-}
-
-/* ===== LOADING SPINNER STYLES ===== */
-.loading-spinner {
   width: 25px;
   height: 25px;
   background-color: var(--secondary-600);
@@ -413,8 +410,8 @@
 
 /* Active feature card styling */
 .feature-card--active {
-  border-color: var(--accent-500);
-  box-shadow: 0 0 0 1px var(--accent-200);
+  border-color: var(--success-300);
+  box-shadow: 0 0 0 1px var(--success-200);
 }
 
 /* Interactive hover effects */
@@ -435,7 +432,7 @@
 /* Active card hover (should be more subtle) */
 .feature-card--active.card--clickable:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(var(--accent-500-rgb), 0.2);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
 }
 
 /* Card sections styling */

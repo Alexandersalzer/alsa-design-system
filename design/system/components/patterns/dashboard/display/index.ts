@@ -4,3 +4,4 @@
 // ===============================================
 
 export * from './InfoGuide';
+export * from './Notification';
