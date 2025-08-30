@@ -243,10 +243,7 @@
   }
   100% {
     transform: translateX(100%);
-  width: 25px;
-  height: 25px;
-  background-color: var(--secondary-600);
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='5'%3E%3C/circle%3E%3Cpath d='M20 21c0-4.418-3.582-8-8-8s-8 3.582-8 8'%3E%3C/path%3E%3C/svg%3E") no-repeat center / contain;
+  }
 }
 
 /* ===== REVIEW CARD SPECIFIC STYLES ===== */
