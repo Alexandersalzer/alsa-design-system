@@ -27,7 +27,7 @@ export function AccentColorControl({ columns = 3, className }: AccentColorContro
 
   // ✅ Convert from DesignRadioCard's string onChange to theme system
   const handleColorChange = (colorValue: string) => {
-    console.log('🎨 AccentColorControl: Changing color to:', colorValue);
+
     setAccentColor(colorValue as ColorScale);
   };
 

@@ -71,7 +71,7 @@ export const DesignRadioCardItem = forwardRef<HTMLDivElement, DesignRadioCardIte
     
     if (disabled) return;
     
-    console.log('🔍 DesignRadioCard clicked:', value, 'currently checked:', checked);
+
     
     // Don't trigger if clicking on other interactive elements
     const target = e.target as HTMLElement;
@@ -81,7 +81,7 @@ export const DesignRadioCardItem = forwardRef<HTMLDivElement, DesignRadioCardIte
     
     // For radio, only allow selecting (not deselecting) - SAME AS SELECTIONCARD
     if (!checked) {
-      console.log('🔍 Triggering onChange with true for:', value);
+
       onChange?.(true);
     }
     
@@ -90,7 +90,7 @@ export const DesignRadioCardItem = forwardRef<HTMLDivElement, DesignRadioCardIte
 
   // ✅ FIXED: Handle hidden radio input change - SAME AS SELECTIONCARD
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('🔍 Radio input changed:', e.target.checked, 'for value:', value);
+
     onChange?.(e.target.checked);
   };
 
@@ -263,9 +263,7 @@ export const DesignRadioCardRoot: React.FC<DesignRadioCardRootProps> = ({
 
   // ✅ FIXED: Handle individual item changes and convert to group change
   const handleItemChange = (itemValue: string) => (checked: boolean) => {
-    console.log('🔍 DesignRadioCardRoot handleItemChange:', itemValue, checked);
     if (checked) {
-      console.log('🔍 Calling root onChange with:', itemValue);
       onChange?.(itemValue);
     }
   };
@@ -320,7 +318,7 @@ export const DesignRadioCardRoot: React.FC<DesignRadioCardRootProps> = ({
             const childProps = child.props as DesignRadioCardItemProps;
             const isChecked = childProps.value === value;
             
-            console.log(`🔍 Rendering child ${childProps.value}: checked=${isChecked} (value=${value})`);
+        
             
             return React.cloneElement(child as React.ReactElement<DesignRadioCardItemProps>, {
               size: childProps.size || size,

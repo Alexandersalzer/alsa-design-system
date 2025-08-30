@@ -161,7 +161,7 @@ export const CountUp: React.FC<CountUpProps> = ({
       return;
     }
 
-    console.log('🔍 Setting up Intersection Observer for CountUp');
+
 
     const observer = new IntersectionObserver(
       (entries) => {

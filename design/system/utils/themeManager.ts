@@ -150,7 +150,7 @@ export class ThemeManager {
           ...this.currentConfig, 
           ...savedConfig 
         };
-        console.log('🎨 Loaded saved theme config:', this.currentConfig);
+
       } catch (e) {
         console.warn('Failed to parse stored theme config, using defaults');
       }
@@ -159,7 +159,7 @@ export class ThemeManager {
         ...this.currentConfig, 
         ...fallbackConfig 
       };
-      console.log('🎨 Using fallback theme config:', this.currentConfig);
+
     }
 
     // Apply all configurations (ADD the theme mode line)
@@ -168,7 +168,7 @@ export class ThemeManager {
     this.applyRadiusScale(this.currentConfig.radiusScale);
     
     this.isInitialized = true;
-    console.log('🎨 Theme manager initialized with config:', this.currentConfig);
+
   }
 
   /**
@@ -177,7 +177,7 @@ export class ThemeManager {
   private saveToStorage(): void {
     if (typeof window === 'undefined') return;
     localStorage.setItem('blimpify-theme-config', JSON.stringify(this.currentConfig));
-    console.log('💾 Theme config saved:', this.currentConfig);
+
   }
 
   /**
@@ -213,7 +213,7 @@ export class ThemeManager {
     this.applyAccentColor(this.currentConfig.accentColor);
     this.applyRadiusScale(this.currentConfig.radiusScale);
     
-    console.log('🔄 Theme reset to defaults');
+
   }
 
     // ✅ ADD these convenience getters:
