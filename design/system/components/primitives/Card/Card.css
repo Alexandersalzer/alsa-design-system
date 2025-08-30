@@ -241,6 +241,11 @@
   }
   100% {
     transform: translateX(100%);
+  }
+}
+
+/* ===== LOADING SPINNER STYLES ===== */
+.loading-spinner {
   width: 25px;
   height: 25px;
   background-color: var(--secondary-600);
