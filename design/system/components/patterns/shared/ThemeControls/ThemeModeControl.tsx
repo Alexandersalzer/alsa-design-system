@@ -1,84 +1,96 @@
 // ===============================================
-// STEP 3: Create a NEW ThemeModeControl.tsx component
-// Keep your existing AccentColorControl and RadiusControl
+// ThemeModeControl.tsx - COMPACT ICON-ONLY VERSION
+// Uses DesignRadioCard but styled like icon buttons
 // ===============================================
 
-// blimpify-ui/design/system/components/patterns/shared/ThemeControls/ThemeModeControl.tsx
 import React from 'react';
-import { SelectionCard  } from '../../../patterns';
-import { Grid } from '../../dashboard/page/Grid';
-import { Body, Icon, Label } from '../../../primitives';
+import { DesignRadioCard } from '@blimpify-im/ui';
+import { Body, Icon } from '@blimpify-im/ui';
 import { useTheme } from '../../../../hooks/useTheme';
-import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import { SunIcon, MoonIcon, SparklesIcon } from '@heroicons/react/24/outline';
 
 interface ThemeModeControlProps {
   className?: string;
+  showLabel?: boolean; // Option to show/hide the section label
 }
 
-export function ThemeModeControl({ className }: ThemeModeControlProps) {
+export function ThemeModeControl({ className, showLabel = true }: ThemeModeControlProps) {
   const { isDark, toggleDarkMode, isHydrated } = useTheme();
+
+  // ✅ Handle theme change - convert string to theme action
+  const handleThemeChange = (value: string) => {
+    console.log('🌗 ThemeModeControl: Changing theme to:', value);
+    
+    if (value !== 'light' && value !== 'dark') {
+      console.warn('Invalid theme value:', value);
+      return;
+    }
+
+    const themeValue = value as 'light' | 'dark';
+    const shouldToggle = (themeValue === 'light' && isDark) || (themeValue === 'dark' && !isDark);
+    
+    if (shouldToggle) {
+      toggleDarkMode();
+    }
+  };
+
+  const currentTheme = isDark ? 'dark' : 'light';
 
   return (
     <div className={className}>
-      {/* Section header */}
-      <div className="flex items-center gap-3 mb-4">
-        <Icon size="md" color="primary">
-          {isDark ? <MoonIcon /> : <SunIcon />}
-        </Icon>
-        <div>
-          <Body weight="medium" className="mb-1">Theme Mode</Body>
-          <Body size="sm" color="secondary">Light or dark appearance</Body>
+      {/* Minimal section header - optional */}
+      {showLabel && (
+        <div className="flex items-center gap-2 mb-3">
+          <Icon size="sm" color="primary">
+            <SparklesIcon />
+          </Icon>
+          <Body weight="medium" size="sm">Theme</Body>
         </div>
-      </div>
+      )}
 
-      {/* Theme mode grid */}
-      <Grid columns={2} gap="md" className="grid-cols-2 max-w-md">
-        <SelectionCard
-          selected={!isDark}
-          onClick={() => !isDark ? null : toggleDarkMode()}
+      {/* ✅ COMPACT: Icon-only DesignRadioCard */}
+      <DesignRadioCard.Root
+        name="theme-mode"
+        value={currentTheme}
+        onChange={handleThemeChange}
+        columns={2}
+        gap="xs"
+        size="xs"
+      >
+        {/* Light theme - just icon */}
+        <DesignRadioCard.Item
+          value="light"
+          variant="default"
           disabled={!isHydrated}
-          size="md"
+          style={{
+            minHeight: '32px', // Icon button size
+            padding: '6px'      // Tight padding
+          }}
         >
-          <div className="text-center">
-            <Label size="sm" weight="medium" className="mb-3 block">
-              Light
-            </Label>
-            <div className="flex flex-col items-center gap-2 mb-3">
-              <div className="w-12 h-8 bg-white border border-gray-300 rounded-md flex items-center justify-center">
-                <div className="w-8 h-2 bg-gray-800 rounded-sm"></div>
-              </div>
-              <div className="flex gap-1">
-                <div className="w-3 h-2 bg-blue-500 rounded-sm"></div>
-                <div className="w-2 h-2 bg-white border border-gray-300 rounded"></div>
-              </div>
-            </div>
-            <Body size="xs" color="secondary">Clean & bright</Body>
+          <div className="flex items-center justify-center">
+            <Icon size="md" color={currentTheme === 'light' ? 'accent' : 'primary'}>
+              <SunIcon />
+            </Icon>
           </div>
-        </SelectionCard>
+        </DesignRadioCard.Item>
 
-        <SelectionCard
-          selected={isDark}
-          onClick={() => isDark ? null : toggleDarkMode()}
+        {/* Dark theme - just icon */}
+        <DesignRadioCard.Item
+          value="dark"
+          variant="default"
           disabled={!isHydrated}
-          size="md"
+          style={{
+            minHeight: '32px', // Icon button size
+            padding: '6px'      // Tight padding
+          }}
         >
-          <div className="text-center">
-            <Label size="sm" weight="medium" className="mb-3 block">
-              Dark
-            </Label>
-            <div className="flex flex-col items-center gap-2 mb-3">
-              <div className="w-12 h-8 bg-gray-900 border border-gray-700 rounded-md flex items-center justify-center">
-                <div className="w-8 h-2 bg-white rounded-sm"></div>
-              </div>
-              <div className="flex gap-1">
-                <div className="w-3 h-2 bg-blue-400 rounded-sm"></div>
-                <div className="w-2 h-2 bg-gray-800 border border-gray-600 rounded"></div>
-              </div>
-            </div>
-            <Body size="xs" color="secondary">Easy on eyes</Body>
+          <div className="flex items-center justify-center">
+            <Icon size="md" color={currentTheme === 'dark' ? 'accent' : 'primary'}>
+              <MoonIcon />
+            </Icon>
           </div>
-        </SelectionCard>
-      </Grid>
+        </DesignRadioCard.Item>
+      </DesignRadioCard.Root>
     </div>
   );
 }

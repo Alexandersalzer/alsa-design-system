@@ -1,9 +1,9 @@
 // ===============================================
 // src/design-system/components/primitives/Tab/TabGroup.tsx
-// SIMPLIFIED VERSION - Clean and performant
+// FIXED VERSION - Uses Tab key for navigation like everyone expects
 // ===============================================
 
-import React, { ReactNode, useState, useRef, useEffect } from 'react';
+import React, { ReactNode, useState, useRef, useEffect, useCallback } from 'react';
 import { TabVariant } from './Tab';
 
 interface TabGroupProps {
@@ -11,7 +11,6 @@ interface TabGroupProps {
   variant?: TabVariant;
   orientation?: 'horizontal' | 'vertical';
   className?: string;
-  // Simplified animation options
   animated?: boolean;
 }
 
@@ -19,6 +18,8 @@ interface TabProps {
   onClick?: () => void;
   className?: string;
   isActive?: boolean;
+  tabIndex?: number;
+  onFocus?: (e: React.FocusEvent) => void;
   [key: string]: any;
 }
 
@@ -31,35 +32,81 @@ export const TabGroup: React.FC<TabGroupProps> = ({
 }) => {
   const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const [focusedIndex, setFocusedIndex] = useState(0);
 
-  // Simple indicator update for horizontal tabs only
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (variant !== 'navigation') return;
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    const navItems = Array.from(container.querySelectorAll('.nav-item:not(.nav-item--disabled)')) as HTMLElement[];
+    if (navItems.length === 0) return;
+
+    const currentIndex = navItems.findIndex(item => item === document.activeElement);
+    let newIndex = currentIndex;
+
+    switch (e.key) {
+      case 'ArrowDown':
+      case 'ArrowRight':
+        // Both down and right go to next item (works for both orientations)
+        e.preventDefault();
+        newIndex = (currentIndex + 1) % navItems.length;
+        break;
+      case 'ArrowUp':
+      case 'ArrowLeft':
+        // Both up and left go to previous item (works for both orientations)
+        e.preventDefault();
+        newIndex = (currentIndex - 1 + navItems.length) % navItems.length;
+        break;
+      case 'Home':
+        e.preventDefault();
+        newIndex = 0;
+        break;
+      case 'End':
+        e.preventDefault();
+        newIndex = navItems.length - 1;
+        break;
+      case 'Enter':
+      case ' ':
+        // Space or Enter activates the focused item
+        e.preventDefault();
+        const focusedItem = navItems[currentIndex];
+        if (focusedItem) {
+          focusedItem.click();
+        }
+        break;
+    }
+
+    if (newIndex !== currentIndex && navItems[newIndex]) {
+      setFocusedIndex(newIndex);
+      navItems[newIndex].focus();
+    }
+  }, [variant]);
+
   useEffect(() => {
     if (!animated || variant === 'navigation' || orientation === 'vertical') return;
-
+    
     const updateIndicator = () => {
       const container = containerRef.current;
       if (!container) return;
-
-      // Find active tab by looking for active classes or aria-selected
+      
       const activeTab = container.querySelector(
         '.tab--active, .active, [aria-selected="true"]'
       ) as HTMLElement;
-
+      
       if (activeTab) {
         const containerRect = container.getBoundingClientRect();
         const tabRect = activeTab.getBoundingClientRect();
-        
         setIndicatorStyle({
           width: tabRect.width,
           left: tabRect.left - containerRect.left
         });
       }
     };
-
-    // Update indicator position
+    
     updateIndicator();
     
-    // Listen for tab changes (use MutationObserver for class changes)
     const observer = new MutationObserver(updateIndicator);
     if (containerRef.current) {
       observer.observe(containerRef.current, {
@@ -69,37 +116,46 @@ export const TabGroup: React.FC<TabGroupProps> = ({
         attributeFilter: ['class', 'aria-selected']
       });
     }
-
-    // Cleanup
+    
     return () => observer.disconnect();
   }, [animated, variant, orientation]);
 
-  // Simple children enhancement - no complex cloning
   const enhancedChildren = React.Children.map(children, (child, index) => {
     if (React.isValidElement<TabProps>(child)) {
       const childProps = child.props as TabProps;
       
-      return React.cloneElement(child, {
+      const enhancedProps = {
         ...childProps,
         className: [
           childProps.className || '',
           animated ? 'tab--animated' : ''
         ].filter(Boolean).join(' ').trim()
-      } as Partial<TabProps>);
+      };
+
+      if (variant === 'navigation') {
+        enhancedProps.tabIndex = index === focusedIndex ? 0 : -1;
+        enhancedProps.onFocus = () => setFocusedIndex(index);
+      }
+
+      return React.cloneElement(child, enhancedProps as Partial<TabProps>);
     }
     return child;
   });
 
-  // Navigation variant (sidebar)
   if (variant === 'navigation') {
     return (
-      <div className={`sidebar__nav ${animated ? 'sidebar__nav--animated' : ''} ${className}`.trim()}>
+      <nav 
+        ref={containerRef}
+        className={`sidebar__nav ${animated ? 'sidebar__nav--animated' : ''} ${className}`.trim()}
+        onKeyDown={handleKeyDown}
+        role="navigation"
+        aria-label="Main navigation"
+      >
         {enhancedChildren}
-      </div>
+      </nav>
     );
   }
 
-  // Other variants with optional indicator
   const classes = [
     'tab-group',
     `tab-group--${variant}`,
@@ -108,28 +164,29 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     className
   ].filter(Boolean).join(' ');
 
-  const showIndicator = animated && 
-                       orientation === 'horizontal' && 
-                       (variant === 'page' || variant === 'segment');
+  const showIndicator = animated &&
+    orientation === 'horizontal' &&
+    (variant === 'page' || variant === 'segment');
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className={classes} 
+      className={classes}
       role="tablist"
+      onKeyDown={handleKeyDown}
+      aria-orientation={orientation}
     >
-      {/* Simple sliding indicator for horizontal tabs only */}
       {showIndicator && (
-        <div 
+        <div
           className={`tab-group__indicator tab-group__indicator--${variant}`}
           style={{
             width: `${indicatorStyle.width}px`,
             left: `${indicatorStyle.left}px`,
             opacity: indicatorStyle.width > 0 ? 1 : 0
           }}
+          aria-hidden="true"
         />
       )}
-      
       {enhancedChildren}
     </div>
   );

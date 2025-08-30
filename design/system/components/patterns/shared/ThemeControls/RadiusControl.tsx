@@ -1,64 +1,36 @@
+
 // ===============================================
-// RadiusControl.tsx - Clean radius controls without bullshit descriptions
+// RadiusControl.tsx - UPDATED to use DesignRadioCard
 // ===============================================
 import React from 'react';
-import { SelectionCard, Grid } from '@blimpify-im/ui';
+import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
 import { useTheme, type RadiusScale } from '../../../../hooks/useTheme';
 import { Square2StackIcon } from '@heroicons/react/24/outline';
-import { Body, Icon, Label } from '@blimpify-im/ui';
+import { Body, Icon } from '@blimpify-im/ui';
 
 const RADIUS_OPTIONS = [
-  { 
-    value: 'none', 
-    label: 'Sharp', 
-    description: '0px', 
-    preview: '0px'
-  },
-  { 
-    value: 'xs', 
-    label: 'Minimal', 
-    description: '2px', 
-    preview: '2px'
-  },
-  { 
-    value: 'sm', 
-    label: 'Small', 
-    description: '4px', 
-    preview: '4px'
-  },
-  { 
-    value: 'md', 
-    label: 'Medium', 
-    description: '8px', 
-    preview: '8px'
-  },
-  { 
-    value: 'lg', 
-    label: 'Large', 
-    description: '12px', 
-    preview: '12px'
-  },
-  { 
-    value: 'xl', 
-    label: 'XL', 
-    description: '16px', 
-    preview: '16px'
-  },
-  { 
-    value: '2xl', 
-    label: 'Max', 
-    description: '24px', 
-    preview: '24px'
-  },
+  { value: 'none', label: 'Sharp', description: '0px' },
+  { value: 'xs', label: 'Minimal', description: '1px' },
+  { value: 'sm', label: 'Small', description: '2px' },
+  { value: 'md', label: 'Medium', description: '3px' },
+  { value: 'lg', label: 'Large', description: '4px' },
+  { value: 'xl', label: 'XL', description: '5px' },
+  { value: '2xl', label: 'Max', description: '24px' },
 ];
 
 interface RadiusControlProps {
-  columns?: 1 | 2 | 3 | 4;
+  columns?: 1 | 2 | 3 | 4 | 5 | 6;
   className?: string;
 }
 
 export function RadiusControl({ columns = 4, className }: RadiusControlProps) {
   const { radiusScale, setRadiusScale } = useTheme();
+
+  // ✅ Convert from DesignRadioCard's string onChange to theme system
+  const handleRadiusChange = (radiusValue: string) => {
+    console.log('🔄 RadiusControl: Changing radius to:', radiusValue);
+    setRadiusScale(radiusValue as RadiusScale);
+  };
 
   return (
     <div className={className}>
@@ -73,56 +45,25 @@ export function RadiusControl({ columns = 4, className }: RadiusControlProps) {
         </div>
       </div>
 
-      {/* Radius grid */}
-      <Grid columns={columns} gap="md" className="grid-cols-2 md:grid-cols-4">
+      {/* ✅ Using DesignRadioCard with Root + Radius items */}
+      <DesignRadioCard.Root
+        name="radius-scale"
+        value={radiusScale || 'md'}
+        onChange={handleRadiusChange}
+        columns={columns}
+        gap="xs"
+        size="xs"
+      >
         {RADIUS_OPTIONS.map((option) => (
-          <SelectionCard
+            <DesignRadioCardItem
             key={option.value}
-            selected={radiusScale === option.value}
-            onClick={() => setRadiusScale(option.value as RadiusScale)}
-            size="sm"
-          >
-            <div className="text-center">
-              <Label size="sm" weight="medium" className="mb-3 block">
-                {option.label}
-              </Label>
-              
-              {/* Enhanced visual preview with multiple shapes */}
-              <div className="flex flex-col items-center gap-2 mb-3">
-                {/* Main preview shape */}
-                <div 
-                  className="w-8 h-6 bg-gray-400 border border-gray-500"
-                  style={{ borderRadius: option.preview }}
-                />
-                
-                {/* Mini UI elements preview */}
-                <div className="flex gap-1 items-center">
-                  {/* Mini button */}
-                  <div 
-                    className="w-4 h-2 bg-blue-400"
-                    style={{ borderRadius: option.preview }}
-                  />
-                  {/* Mini card */}
-                  <div 
-                    className="w-3 h-3 bg-white border border-gray-300"
-                    style={{ borderRadius: option.preview }}
-                  />
-                  {/* Mini tag */}
-                  <div 
-                    className="w-2 h-2 bg-green-400"
-                    style={{ borderRadius: option.preview }}
-                  />
-                </div>
-              </div>
-              
-              {/* Just the technical measurement */}
-              <Body size="xs" color="secondary">
-                {option.description}
-              </Body>
-            </div>
-          </SelectionCard>
+            value={option.value}
+            label={option.label}
+            variant="radius"
+            radiusPreview={option.description}
+            />
         ))}
-      </Grid>
+      </DesignRadioCard.Root>
     </div>
   );
 }

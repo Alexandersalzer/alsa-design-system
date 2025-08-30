@@ -1,6 +1,6 @@
 /* ===============================================
 // src/design-system/components/primitives/Stepper/Stepper.css
-// RESPONSIVE STEPPER CSS - Always horizontal layout
+// ENHANCED RESPONSIVE STEPPER CSS - Regular + Sticky modes
 // =============================================== */
 
 .stepper {
@@ -8,6 +8,27 @@
   display: flex;
   flex-direction: column;
   gap: var(--foundation-space-4);
+}
+
+/* ===== STICKY MODE STYLES ===== */
+.stepper--sticky {
+  background: var(--surface-page);
+  border-bottom: 1px solid var(--border-default);
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+  gap: 0; /* No gap in sticky mode */
+}
+
+.stepper--backdrop {
+  backdrop-filter: blur(8px);
+  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+}
+
+.stepper--compact {
+  gap: var(--foundation-space-2);
+}
+
+.stepper--navigation-only {
+  gap: 0;
 }
 
 /* ===== NAVIGATION RAD - ALWAYS HORIZONTAL ===== */
@@ -18,6 +39,12 @@
   gap: var(--foundation-space-2);
   width: 100%;
   min-height: 44px; /* Touch target */
+}
+
+/* Sticky mode navigation adjustments */
+.stepper--sticky .stepper-navigation {
+  max-width: 1024px; /* Match content width */
+  margin: 0 auto;
 }
 
 /* ===== STEG NUMMER ===== */
@@ -42,12 +69,27 @@
   font-size: var(--font-body-sm-size);
   transition: all var(--foundation-duration-normal) ease;
   flex-shrink: 0;
+  position: relative;
+}
+
+.step-number--completed {
+  background: var(--surface-hover);
+  color: var(--text-secondary);
 }
 
 .step-number--current {
   background: var(--text-primary);
   color: var(--text-inverse);
   font-weight: var(--foundation-weight-semibold);
+}
+
+.step-number--clickable {
+  cursor: pointer;
+}
+
+.step-number--clickable:focus {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
 }
 
 /* ===== BUTTONS - RESPONSIVE SIZING ===== */
@@ -72,38 +114,66 @@
   margin: 0 auto;
 }
 
+/* Hide content in navigation-only mode */
+.stepper--navigation-only .step-content {
+  display: none;
+}
+
+/* Compact mode content adjustments */
+.stepper--compact .step-content {
+  margin-top: var(--foundation-space-1);
+}
+
+.stepper--compact .step-description {
+  max-width: 400px;
+  font-size: var(--font-body-sm-size);
+}
+
 /* ===== RESPONSIV - SMALLER ELEMENTS ON MOBILE ===== */
 @media (max-width: 768px) {
   .stepper-navigation {
     gap: var(--foundation-space-1);
     padding: 0 var(--foundation-space-2);
   }
-  
+
+  /* Sticky mode mobile adjustments */
+  .stepper--sticky {
+    padding: var(--foundation-space-2) var(--foundation-space-3);
+  }
+
+  .stepper--sticky .stepper-navigation {
+    padding: 0;
+  }
+
   /* Smaller buttons on mobile */
   .stepper-navigation .stepper-button {
     min-width: 60px;
     padding: var(--foundation-space-2) var(--foundation-space-3);
     font-size: var(--font-body-sm-size);
   }
-  
+
   /* Smaller step numbers */
   .step-number {
     width: 28px;
     height: 28px;
     font-size: var(--font-body-xs-size);
   }
-  
+
+  .step-number--current {
+    transform: scale(1.05); /* Less scaling on mobile */
+  }
+
   /* Tighter spacing between numbers with better gaps on small screens */
   .stepper-numbers {
     gap: var(--foundation-space-1);
   }
-  
+
   /* Smaller content */
   .step-description {
     max-width: 280px;
     font-size: var(--font-body-sm-size);
   }
-  
+
   .step-title {
     font-size: var(--font-heading-md-size);
   }
@@ -115,26 +185,30 @@
     gap: var(--foundation-space-half);
     padding: 0 var(--foundation-space-1);
   }
-  
+
+  .stepper--sticky {
+    padding: var(--foundation-space-2);
+  }
+
   /* Even smaller buttons */
   .stepper-navigation .stepper-button {
     min-width: 50px;
     padding: var(--foundation-space-1) var(--foundation-space-2);
     font-size: var(--font-body-xs-size);
   }
-  
+
   /* Compact step numbers */
   .step-number {
     width: 24px;
     height: 24px;
     font-size: 11px;
   }
-  
+
   /* Hide button text on very small screens - show only icons */
   .stepper-button .button-text {
     display: none;
   }
-  
+
   .stepper-button .button-icon {
     margin: 0;
   }

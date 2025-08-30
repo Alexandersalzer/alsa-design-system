@@ -1,34 +1,35 @@
 /* ==============================================
    src/design-system/components/primitives/Card/Card.css
-   CARD COMPONENT STYLES - WITH RADIUS SIZE VARIANTS
+   CARD COMPONENT STYLES - WITH INTERACTIVE STATES
    ============================================== */
 
 /* ===== BASE CARD STYLES ===== */
 .card {
   background-color: var(--surface-card);
   border: 1px solid var(--border-card);
-  border-radius: var(--radius-card);                       /* Default: 12px */
-  padding: var(--foundation-space-6);                      /* Default padding: 24px */
+  border-radius: var(--radius-card);
+  padding: var(--foundation-space-6);
   box-shadow: var(--foundation-shadow-sm);
   transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+  position: relative;
 }
 
 /* ===== CARD RADIUS SIZE VARIANTS ===== */
 .card--radius-sm {
-  border-radius: var(--radius-card-sm);                    /* 8px - Subtle rounding */
+  border-radius: var(--radius-card-sm);
 }
 
 .card--radius-lg {
-  border-radius: var(--radius-card-lg);                    /* 16px - More rounded */
+  border-radius: var(--radius-card-lg);
 }
 
 /* ===== CARD PADDING SIZE VARIANTS ===== */
 .card--padding-sm {
-  padding: var(--foundation-space-4);                      /* 16px padding */
+  padding: var(--foundation-space-4);
 }
 
 .card--padding-lg {
-  padding: var(--foundation-space-8);                      /* 32px padding */
+  padding: var(--foundation-space-8);
 }
 
 /* ===== CARD VARIANT STYLES ===== */
@@ -40,6 +41,136 @@
 .card--outlined {
   border: 2px solid var(--border-card);
   box-shadow: none;
+}
+
+.card--solid {
+  background-color: var(--surface-solid);
+  border: 1px solid var(--border-solid);
+  color: var(--text-solid);
+}
+
+/* ===== INTERACTIVE CARD STATES ===== */
+
+/* Base interactive styling */
+.card--interactive {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Clickable cards */
+.card--clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Hover effects for clickable cards */
+.card--clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--foundation-shadow-lg);
+  border-color: var(--border-card-hover, var(--accent-300));
+}
+
+/* Elevated cards hover effect */
+.card--elevated.card--clickable:hover {
+  box-shadow: var(--foundation-shadow-xl);
+  transform: translateY(-3px);
+}
+
+/* Outlined cards hover effect */
+.card--outlined.card--clickable:hover {
+  border-color: var(--accent-500);
+  box-shadow: var(--foundation-shadow-md);
+}
+
+/* Solid cards hover effect */
+.card--solid.card--clickable:hover {
+  background-color: var(--surface-solid-hover);
+  transform: translateY(-2px);
+}
+
+/* Active state (when pressed) */
+.card--clickable:active {
+  transform: translateY(0px);
+  box-shadow: var(--foundation-shadow-sm);
+  transition-duration: 0.1s;
+}
+
+/* Selected state */
+.card--selected {
+  border-color: var(--accent-500);
+  background-color: var(--surface-selected, var(--accent-50));
+  box-shadow: 0 0 0 2px var(--accent-500);
+}
+
+/* Selected hover state */
+.card--selected.card--clickable:hover {
+  background-color: var(--surface-selected-hover, var(--accent-100));
+  box-shadow: 0 0 0 2px var(--accent-600);
+}
+
+/* Disabled state */
+.card--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Focus styles for accessibility */
+.card--clickable:focus-visible {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 2px;
+  border-color: var(--accent-500);
+}
+
+/* ===== DOMAIN CARD SPECIFIC STYLES ===== */
+.domain-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.domain-card--clickable {
+  transition: all 0.2s ease;
+}
+
+.domain-card--clickable:hover {
+  border-color: var(--accent-400);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.domain-card--clickable:hover .domain-info {
+  color: var(--accent-700);
+}
+
+/* Status indicator */
+.status-indicator-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.status-indicator--success {
+  background-color: var(--status-success, #10b981);
+}
+
+.status-indicator--warning {
+  background-color: var(--status-warning, #f59e0b);
+}
+
+.status-indicator--error {
+  background-color: var(--status-error, #ef4444);
+}
+
+/* Hover effect on status indicator */
+.domain-card--clickable:hover .status-indicator {
+  transform: scale(1.2);
+  box-shadow: 0 0 8px currentColor;
 }
 
 /* ===== CARD SUB-COMPONENTS ===== */
@@ -74,6 +205,7 @@
   line-height: var(--typography-heading-h5-line-height);
   color: var(--text-card-heading);
   margin: 0;
+  transition: color 0.2s ease;
 }
 
 .card-description {
@@ -86,64 +218,29 @@
   flex: 1;
 }
 
-/* ===== NESTED COMPONENT RADIUS ADJUSTMENT (Apple-style concentricity) ===== */
-/* Buttons inside cards get smaller radius for visual harmony */
-.card .button {
-  border-radius: var(--radius-button);                     /* 8px - smaller than card's 12px */
+/* ===== LOADING STATE ===== */
+.card--loading {
+  pointer-events: none;
+  opacity: 0.7;
 }
 
-.card--radius-sm .button {
-  border-radius: var(--radius-button-sm);                  /* 4px - smaller than card's 8px */
-}
-
-.card--radius-lg .button {
-  border-radius: var(--radius-button-lg);                  /* 12px - smaller than card's 16px */
-}
-
-/* Images inside cards get smaller radius */
-.card img,
-.card .image {
-  border-radius: var(--radius-image);                      /* 8px */
-}
-
-.card--radius-sm img,
-.card--radius-sm .image {
-  border-radius: var(--radius-xs);                         /* 4px */
-}
-
-.card--radius-lg img,
-.card--radius-lg .image {
-  border-radius: var(--radius-md);                         /* 12px */
-}
-
-/* ===== CARD HOVER EFFECTS (Optional - currently commented out) ===== */
-/*
-.card:hover {
-  box-shadow: var(--foundation-shadow-md);
-  transform: translateY(-1px);
-}
-
-.card--elevated:hover {
-  box-shadow: var(--foundation-shadow-lg);
-}
-*/
-
-/* ===== TESTIMONIAL AVATAR STYLES (KJ Marketing Style) ===== */
-.testimonial-avatar {
-  width: 45px;
-  height: 45px;
-  background-color: var(--secondary-300);
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-  flex-shrink: 0; /* Prevent avatar from shrinking in flex layouts */
-}
-
-.person-icon {
+.card--loading::after {
+  content: '';
   position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: loading-shimmer 2s infinite;
+}
+
+@keyframes loading-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
   width: 25px;
   height: 25px;
   background-color: var(--secondary-600);
@@ -228,6 +325,322 @@
   
   .card--padding-lg {
     padding: var(--foundation-space-6);
+  }
+
+  /* Reduce hover effects on mobile */
+  .card--clickable:hover {
+    transform: none;
+  }
+}
+
+/* ===== HELP STEP STYLES ===== */
+.help-step {
+  background-color: var(--surface-subtle);
+}
+
+.help-tip {
+  background-color: var(--surface-info);
+  border: 1px solid var(--border-info);
+}
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  background-color: var(--accent-500);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* ===== ERROR AND SUCCESS CARD VARIANTS ===== */
+.error-card {
+  background-color: var(--surface-error, #fef2f2);
+  border-color: var(--border-error, #fecaca);
+  color: var(--text-error, #dc2626);
+}
+
+.success-card {
+  background-color: var(--surface-success, #f0fdf4);
+  border-color: var(--border-success, #bbf7d0);
+  color: var(--text-success, #16a34a);
+}
+
+/* ===== NESTED COMPONENT RADIUS ADJUSTMENT ===== */
+.card .button {
+  border-radius: var(--radius-button);
+}
+
+.card--radius-sm .button {
+  border-radius: var(--radius-button-sm);
+}
+
+.card--radius-lg .button {
+  border-radius: var(--radius-button-lg);
+}
+
+.card img,
+.card .image {
+  border-radius: var(--radius-image);
+}
+
+.card--radius-sm img,
+.card--radius-sm .image {
+  border-radius: var(--radius-xs);
+}
+
+.card--radius-lg img,
+.card--radius-lg .image {
+  border-radius: var(--radius-md);
+}
+
+/* ===== FEATURE CARD SPECIFIC STYLES ===== */
+.feature-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  height: 100%; /* Ensure consistent card heights in grid */
+}
+
+/* Active feature card styling */
+.feature-card--active {
+  border-color: var(--success-300);
+  box-shadow: 0 0 0 1px var(--success-200);
+}
+
+/* Interactive hover effects */
+.feature-card.card--clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-color: var(--accent-400);
+}
+
+.feature-card.card--clickable:hover .feature-card__icon {
+  transform: scale(1.05);
+}
+
+.feature-card.card--clickable:hover .feature-card__price {
+  color: var(--accent-700);
+}
+
+/* Active card hover (should be more subtle) */
+.feature-card--active.card--clickable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+/* Card sections styling */
+.feature-card__icon {
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-card__price {
+  transition: color 0.2s ease;
+  padding: var(--foundation-space-3);
+  background: var(--surface-subtle);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.feature-card__action {
+  margin-top: auto; /* Push to bottom of card */
+}
+
+/* Pricing highlight for premium features */
+.feature-card__price--premium {
+  background: linear-gradient(135deg, var(--accent-50), var(--accent-100));
+  border: 1px solid var(--accent-200);
+}
+
+/* Free feature special styling */
+.feature-card__price--free {
+  background: linear-gradient(135deg, var(--success-50), var(--success-100));
+  border: 1px solid var(--success-200);
+}
+
+/* Focus states for accessibility */
+.feature-card.card--clickable:focus-visible {
+  outline: 3px solid var(--accent-500);
+  outline-offset: 2px;
+  transform: translateY(-2px);
+}
+
+/* Loading state for feature cards */
+.feature-card--loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.feature-card--loading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  animation: feature-shimmer 2s infinite;
+}
+
+@keyframes feature-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .feature-card.card--clickable:hover {
+    transform: none; /* Disable hover effects on mobile */
+  }
+  
+  .feature-card__price {
+    padding: var(--foundation-space-2);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .feature-card {
+    border-width: 2px;
+  }
+  
+  .feature-card--active {
+    border-width: 3px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .feature-card,
+  .feature-card__icon,
+  .feature-card__price {
+    transition: none;
+  }
+  
+  .feature-card.card--clickable:hover {
+    transform: none;
+  }
+}
+
+/* ===== PORTFOLIO CARD SPECIFIC STYLES ===== */
+.portfolio-card {
+  width: 100%;
+  max-width: 320px; /* Reduced from 400px to fit 3 cards per row with gap */
+  background-color: var(--surface-card, #ffffff);
+  border: 1px solid var(--border-subtle, #e5e7eb);
+  box-shadow: var(--foundation-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1));
+  transition: all 0.2s ease;
+  overflow: hidden; /* Ensure media doesn't break card borders */
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Fill grid cell height */
+}
+
+/* Shared media container styles */
+.portfolio-media-container {
+  width: calc(100% + 2 * var(--foundation-space-4)); /* Extend beyond card padding */
+  margin: calc(-1 * var(--foundation-space-4)) calc(-1 * var(--foundation-space-4)) 0; /* Negative margins to extend to edges */
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm) var(--radius-sm); /* Rounded top corners only */
+  background-color: var(--surface-subtle, #f8f9fa);
+}
+
+/* Video-specific styles */
+.portfolio-media-container .video-showcase {
+  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0 !important; /* Override VideoShowcase radius */
+}
+
+/* Image container styles */
+.portfolio-image-container {
+  width: 100%;
+  height: 500px;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0; /* Rounded top corners only */
+}
+
+.portfolio-image-container img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0; /* Match container radius */
+}
+
+.portfolio-content {
+  padding: 0 var(--foundation-space-4) var(--foundation-space-4); /* Add horizontal and bottom padding */
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Allow content to fill remaining space */
+}
+
+/* Make the Stack inside portfolio-content fill available space */
+.portfolio-content > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Push views to bottom */
+.portfolio-content > div > :last-child {
+  margin-top: auto;
+}
+
+/* Eye icon styling */
+.eye-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary, #6b7280);
+  flex-shrink: 0;
+}
+
+.eye-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Portfolio flag styling */
+.portfolio-flag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  border-radius: var(--radius-xs, 4px);
+  padding: 2px;
+  box-shadow: var(--foundation-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 20px;
+}
+
+.portfolio-flag svg {
+  width: 24px;
+  height: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .portfolio-card {
+    max-width: 100%;
+  }
+  
+  .portfolio-image-container {
+    height: 200px; /* Slightly smaller on mobile */
   }
 }
 

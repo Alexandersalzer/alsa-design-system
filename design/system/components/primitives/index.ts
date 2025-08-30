@@ -21,6 +21,7 @@ export * from './Typography';
 export * from './VideoShowcase';
 export * from './CountUp';
 export * from './SpinningAnimation';
+export * from './LogoIcon';
 
 
 // Icon needs special handling since it's a default export

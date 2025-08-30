@@ -1,5 +1,6 @@
 /* ===============================================
-   COMPLETE TAB SYSTEM WITH CLEAN ANIMATIONS
+   FIXED NAVIGATION TABS WITH CLEAN FOCUS STATES
+   Like Spotify Dashboard - Only keyboard focus visible
    =============================================== */
 
 /* ===== SHARED BASE STYLES FOR ALL TABS ===== */
@@ -8,87 +9,128 @@
   /* Layout */
   display: inline-flex;
   align-items: center;
-  gap: var(--space-nav-item-gap);
-  padding: var(--space-nav-item-padding-y) var(--space-nav-item-padding-x);
-  border-radius: var(--radius-button);
+  gap: var(--space-nav-item-gap, 8px);
+  padding: var(--space-nav-item-padding-y, 8px) var(--space-nav-item-padding-x, 12px);
+  border-radius: var(--radius-button, 6px);
   
   /* Typography - Default body font */
-  font-family: var(--font-body-family);
-  font-size: var(--font-label-md-size);
-  font-weight: var(--font-label-weight);
-  line-height: var(--font-label-md-leading);
+  font-family: var(--font-body-family, system-ui);
+  font-size: var(--font-label-md-size, 14px);
+  font-weight: var(--font-label-weight, 500);
+  line-height: var(--font-label-md-leading, 1.4);
   text-decoration: none;
   
   /* Colors */
-  color: var(--text-nav-item);
-  background-color: var(--surface-sidebar);
+  color: var(--text-nav-item, #6b7280);
+  background-color: var(--surface-sidebar, transparent);
   
   /* Interaction */
   cursor: pointer;
-  transition: var(--transition-nav);
+  transition: var(--transition-nav, all 0.15s ease);
   border: none;
+  position: relative;
+  
+  /* 🎯 KEYBOARD NAVIGATION - Make all tabs focusable */
+  tabindex: 0;
+  
+  /* 🎯 CLEAN FOCUS - Only visible with keyboard navigation */
+  outline: none;
+}
+
+/* 🎯 SPOTIFY-STYLE FOCUS - Only show on keyboard navigation */
+.nav-item:focus-visible,
+.tab:focus-visible {
+  outline: 2px solid var(--border-focus, #3b82f6);
+  outline-offset: 2px;
+  border-radius: var(--radius-button, 6px);
+  z-index: 100; /* Ensure focus outline is always visible */
+  position: relative;
+}
+
+/* 🎯 REMOVE focus outline on mouse click */
+.nav-item:focus:not(:focus-visible),
+.tab:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* 🎯 NEW: Heading font variants for more prominent navigation */
 .nav-item--heading-font,
 .tab--heading-font {
-  font-family: var(--font-heading-family) !important;
-  letter-spacing: -0.01em; /* Slightly tighter letter spacing for headings */
+  font-family: var(--font-heading-family, system-ui) !important;
+  letter-spacing: -0.01em;
 }
 
-/* 🎯 ENHANCED: Navigation tabs with bolder default weights */
+/* 🎯 ENHANCED: Navigation tabs with better weight hierarchy */
 .nav-item .nav-item__label {
-  font-weight: var(--foundation-weight-semibold); /* Default to semibold */
+  font-weight: var(--foundation-weight-medium, 500);
+  transition: font-weight 0.15s ease;
 }
 
 .nav-item--selected .nav-item__label {
-  font-weight: var(--foundation-weight-bold); /* Active state is bold */
+  font-weight: var(--foundation-weight-semibold, 600);
 }
 
 /* 🎯 NEW: Even bolder when using heading font */
 .nav-item--heading-font .nav-item__label {
-  font-weight: var(--foundation-weight-bold); /* Bolder for heading font */
+  font-weight: var(--foundation-weight-semibold, 600);
 }
 
 .nav-item--heading-font.nav-item--selected .nav-item__label {
-  font-weight: var(--foundation-weight-extrabold); /* Extra bold when active + heading font */
+  font-weight: var(--foundation-weight-bold, 700);
 }
 
-/* ===== SHARED HOVER STATE ===== */
+/* ===== CLEAN HOVER STATES ===== */
 .nav-item:hover:not(.nav-item--selected):not(.nav-item--disabled),
 .tab:hover:not(.tab--active):not(.tab--disabled) {
-  background-color: var(--surface-nav-item-hover);
+  background-color: var(--surface-nav-item-hover, rgba(0, 0, 0, 0.05));
 }
 
-/* ===== SHARED ACTIVE/SELECTED STATE ===== */
+/* ===== ACTIVE/SELECTED STATE ===== */
 .nav-item--selected,
 .nav-item.selected,
 .tab--active,
 .tab.active {
-  background-color: var(--surface-nav-item-selected);
-  color: var(--text-nav-item-selected);
+  background-color: var(--surface-nav-item-selected, rgba(59, 130, 246, 0.1));
+  color: var(--text-nav-item-selected, #1f2937);
 }
 
-/* ===== SHARED DISABLED STATE ===== */
+/* ===== KEYBOARD NAVIGATION SUPPORT ===== */
+.tab-group--vertical .nav-item,
+.tab-group--vertical .tab,
+.sidebar__nav .nav-item,
+.sidebar__nav .tab {
+  /* Ensure all navigation items are keyboard accessible */
+  tabindex: 0;
+}
+
+/* Disabled items should not be focusable */
 .nav-item--disabled,
 .nav-item.disabled,
 .tab--disabled,
 .tab.disabled {
-  background-color: var(--surface-nav-item-disabled);
-  color: var(--text-nav-item-disabled);
+  tabindex: -1;
+}
+.nav-item--disabled,
+.nav-item.disabled,
+.tab--disabled,
+.tab.disabled {
+  background-color: var(--surface-nav-item-disabled, transparent);
+  color: var(--text-nav-item-disabled, #9ca3af);
   cursor: not-allowed;
   pointer-events: none;
+  opacity: 0.6;
 }
 
-/* ===== SHARED ICON STYLES ===== */
+/* ===== CLEAN ICON STYLES ===== */
 .nav-item svg,
 .nav-item__icon svg,
 .tab svg,
 .tab__icon svg {
-  width: var(--foundation-size-icon-md) !important;
-  height: var(--foundation-size-icon-md) !important;
+  width: var(--foundation-size-icon-md, 20px) !important;
+  height: var(--foundation-size-icon-md, 20px) !important;
   flex-shrink: 0;
-  color: var(--icon-nav-item);
+  color: var(--icon-nav-item, currentColor);
+  transition: color 0.15s ease;
 }
 
 /* Icon colors for active state */
@@ -98,7 +140,7 @@
 .tab--active svg,
 .tab.active svg,
 .tab--active .tab__icon svg {
-  color: var(--icon-nav-item-selected) !important;
+  color: var(--icon-nav-item-selected, #3b82f6) !important;
 }
 
 /* Icon colors for disabled state */
@@ -108,7 +150,7 @@
 .tab--disabled svg,
 .tab.disabled svg,
 .tab--disabled .tab__icon svg {
-  color: var(--icon-nav-item-disabled) !important;
+  color: var(--icon-nav-item-disabled, #d1d5db) !important;
 }
 
 /* ===== TAB CONTENT STRUCTURE ===== */
@@ -122,6 +164,9 @@
 .nav-item__label,
 .tab__label {
   flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .nav-item__action-icon,
@@ -138,23 +183,19 @@
 .tab--navigation {
   width: 100%;
   justify-content: flex-start;
+  min-height: 40px;
 }
 
 /* Page variant (horizontal with animated underline) */
 .tab--page {
   position: relative;
   justify-content: center;
-  border-bottom: none; /* Remove any conflicting borders */
+  border-bottom: none;
   margin-bottom: 0;
+  padding-bottom: 12px;
 }
 
-/* 🎯 REMOVE THE OLD STATIC BORDER - We'll use animated indicator instead */
-.tab--page.tab--active::after,
-.tab--page.active::after {
-  display: none; /* This removes the duplicate border! */
-}
-
-/* Remove any other conflicting pseudo-elements */
+/* 🎯 CLEAN - Remove any conflicting pseudo-elements */
 .tab--page::before,
 .tab--page::after {
   display: none;
@@ -163,47 +204,51 @@
 /* Segment variant (compact pills) */
 .tab--segment {
   justify-content: center;
-  border-radius: var(--foundation-radius-full);
-  border: 1px solid var(--border-nav);
-  padding: var(--foundation-space-1) var(--foundation-space-3);
-  font-size: var(--font-label-sm-size);
+  border-radius: var(--foundation-radius-full, 9999px);
+  border: 1px solid var(--border-nav, #e5e7eb);
+  padding: var(--foundation-space-1, 4px) var(--foundation-space-3, 12px);
+  font-size: var(--font-label-sm-size, 13px);
+  background-color: var(--surface-card, white);
 }
 
 .tab--segment:hover:not(.tab--active):not(.tab--disabled) {
-  border-color: var(--border-nav-item-selected);
+  border-color: var(--border-nav-item-selected, #3b82f6);
+  background-color: var(--surface-nav-item-hover, rgba(59, 130, 246, 0.05));
 }
 
 .tab--segment.tab--active,
 .tab--segment.active {
-  border-color: var(--border-nav-item-selected);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border-color: var(--border-nav-item-selected, #3b82f6);
+  background-color: var(--surface-nav-item-selected, #3b82f6);
+  color: white;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
 }
 
 /* ===== SIZE VARIANTS ===== */
 .tab--sm {
-  padding: var(--foundation-space-1) var(--foundation-space-2);
-  font-size: var(--font-label-sm-size);
-  gap: var(--foundation-space-1);
+  padding: var(--foundation-space-1, 4px) var(--foundation-space-2, 8px);
+  font-size: var(--font-label-sm-size, 13px);
+  gap: var(--foundation-space-1, 4px);
+  min-height: 32px;
 }
 
 .tab--sm svg,
 .tab--sm .tab__icon svg {
   width: 16px !important;
   height: 16px !important;
-  stroke-width: 2.5 !important;
 }
 
 .tab--lg {
-  padding: var(--foundation-space-3) var(--foundation-space-4);
-  font-size: var(--font-label-lg-size);
-  gap: var(--foundation-space-3);
+  padding: var(--foundation-space-3, 12px) var(--foundation-space-4, 16px);
+  font-size: var(--font-label-lg-size, 16px);
+  gap: var(--foundation-space-3, 12px);
+  min-height: 48px;
 }
 
 .tab--lg svg,
 .tab--lg .tab__icon svg {
   width: 24px !important;
   height: 24px !important;
-  stroke-width: 2.5 !important;
 }
 
 /* ===== TAB GROUP CONTAINERS ===== */
@@ -211,35 +256,39 @@
 .sidebar__nav {
   display: flex;
   align-items: center;
+  overflow: visible; /* Prevent focus outline clipping */
 }
 
 /* Vertical layout (sidebar) */
 .tab-group--vertical,
 .sidebar__nav {
   flex-direction: column;
-  gap: var(--foundation-space-1);
+  gap: var(--foundation-space-1, 4px);
   align-items: stretch;
+  overflow: visible; /* Allow focus outlines to show */
 }
 
 /* Horizontal layout */
 .tab-group--horizontal {
   flex-direction: row;
-  gap: var(--space-nav-section-gap);
+  gap: var(--space-nav-section-gap, 8px);
+  align-items: center;
 }
 
 /* Page tabs container with proper border */
 .tab-group--page {
-  border-bottom: 1px solid var(--border-nav);
-  padding-bottom: var(--space-nav-item-gap); /* Keep the proper padding */
+  border-bottom: 1px solid var(--border-nav, #e5e7eb);
+  padding-bottom: var(--space-nav-item-gap, 8px);
   position: relative;
 }
 
 /* Segment tabs container */
 .tab-group--segment {
-  background-color: var(--secondary-50);
-  border-radius: var(--foundation-radius-full);
-  padding: var(--foundation-space-1);
-  gap: var(--foundation-space-1);
+  background-color: var(--secondary-50, #f8fafc);
+  border-radius: var(--foundation-radius-full, 9999px);
+  padding: var(--foundation-space-1, 4px);
+  gap: var(--foundation-space-1, 4px);
+  border: 1px solid var(--border-nav, #e5e7eb);
 }
 
 /* ===== CLEAN ANIMATION SETUP ===== */
@@ -248,131 +297,152 @@
 }
 
 .tab--animated {
-  /* Simple, fast transitions only for essential properties */
   transition: 
-    background-color var(--foundation-duration-fast) var(--foundation-ease-out),
-    color var(--foundation-duration-fast) var(--foundation-ease-out);
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
-/* ===== SINGLE ANIMATED INDICATOR (ONLY ONE BORDER!) ===== */
+/* ===== SINGLE ANIMATED INDICATOR ===== */
 .tab-group__indicator--page {
   position: absolute;
   bottom: 0;
   height: 2px;
-  background: var(--border-nav-item-selected);
-  border-radius: var(--foundation-radius-full);
+  background: var(--border-nav-item-selected, #3b82f6);
+  border-radius: var(--foundation-radius-full, 9999px);
   
-  /* Smooth, natural slide transition */
   transition: 
-    left var(--foundation-duration-normal) var(--foundation-ease-smooth),
-    width var(--foundation-duration-normal) var(--foundation-ease-smooth),
-    opacity var(--foundation-duration-fast) var(--foundation-ease-out);
+    left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.15s ease;
   
-  /* Simple shadow */
-  box-shadow: 0 0 4px rgba(var(--accent-500-rgb), 0.2);
-  z-index: 10; /* Make sure it's on top */
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  z-index: 10;
 }
 
 .tab-group__indicator--segment {
   position: absolute;
-  background: var(--surface-nav-item-selected);
-  border-radius: var(--foundation-radius-full);
+  background: var(--surface-nav-item-selected, #3b82f6);
+  border-radius: var(--foundation-radius-full, 9999px);
   
-  /* Smooth slide for segment tabs */
   transition: 
-    left var(--foundation-duration-normal) var(--foundation-ease-smooth),
-    width var(--foundation-duration-normal) var(--foundation-ease-smooth),
-    opacity var(--foundation-duration-fast) var(--foundation-ease-out);
+    left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    top 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.15s ease;
   
-  /* Subtle shadow */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--border-nav-item-selected);
+  box-shadow: 
+    0 2px 4px rgba(59, 130, 246, 0.2),
+    0 1px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-nav-item-selected, #3b82f6);
   z-index: 1;
 }
 
 /* ===== CLEAN HOVER EFFECTS ===== */
 .tab--animated:hover:not(.tab--active):not(.tab--disabled) {
-  background-color: var(--surface-nav-item-hover);
-}
-
-/* ===== NO ICON ANIMATIONS (KEEP IT SIMPLE) ===== */
-.tab--animated .tab__icon,
-.nav-item .nav-item__icon,
-.tab--animated .tab__badge,
-.nav-item .nav-item__action-icon {
-  transition: none;
-  transform: none;
+  background-color: var(--surface-nav-item-hover, rgba(0, 0, 0, 0.05));
 }
 
 /* ===== CLEAN NAVIGATION SIDEBAR ===== */
 .sidebar__nav--animated .nav-item {
-  transition: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
+  transition: 
+    background-color 0.15s ease;
 }
 
 .sidebar__nav--animated .nav-item:hover:not(.nav-item--selected) {
-  background-color: var(--surface-nav-item-hover);
+  background-color: var(--surface-nav-item-hover, rgba(0, 0, 0, 0.05));
 }
 
 .sidebar__nav--animated .nav-item--selected {
-  background-color: var(--surface-nav-item-selected);
+  background-color: var(--surface-nav-item-selected, rgba(59, 130, 246, 0.1));
 }
 
-/* NO selection indicator for sidebar - clean background only */
-.sidebar__nav--animated .nav-item--selected::before {
-  display: none; /* Remove the accent border completely */
+/* 🎯 CLEAN - No border indicators on sidebar */
+.sidebar__nav--animated .nav-item--selected::before,
+.sidebar__nav--animated .nav-item--selected::after {
+  display: none;
 }
 
-/* ===== CLEAN FOCUS STATES ===== */
-.tab--animated:focus,
-.nav-item:focus {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
+/* ===== ACTIVE STATE VISUAL FEEDBACK ===== */
+.tab--animated:active:not(.tab--disabled),
+.nav-item:active:not(.nav-item--disabled) {
+  background-color: var(--surface-nav-item-hover, rgba(0, 0, 0, 0.1));
 }
 
-/* ===== SIMPLE KEYFRAMES ===== */
-@keyframes simpleFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+/* ===== BADGE/NOTIFICATION STYLES ===== */
+.nav-item__badge,
+.tab__badge {
+  background: var(--surface-tag-accent, #ef4444);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: var(--foundation-radius-full, 9999px);
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
-/* ===== CLEAN DISABLED STATES ===== */
-.tab--animated.tab--disabled,
-.nav-item.nav-item--disabled {
-  transition: opacity var(--foundation-duration-fast) var(--foundation-ease-out);
-  opacity: 0.6;
-}
-
-/* ===== RESPONSIVE ===== */
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .tab-group--horizontal {
     flex-wrap: wrap;
+    gap: 4px;
   }
   
   .nav-item,
   .tab--navigation {
-    padding: var(--foundation-space-2) var(--foundation-space-3);
+    padding: 8px 12px;
+    min-height: 44px; /* Better touch targets */
+  }
+  
+  .tab--page {
+    padding: 8px 16px 12px;
   }
 }
 
-/* ===== ACCESSIBILITY ===== */
-.nav-item:focus,
-.tab:focus {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
+@media (max-width: 480px) {
+  .nav-item__label,
+  .tab__label {
+    font-size: 13px;
+  }
+  
+  .tab-group--segment {
+    padding: 2px;
+    gap: 2px;
+  }
+  
+  .tab--segment {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
 }
 
-.tab--segment:active:not(.tab--disabled) {
-  transform: scale(0.98);
+/* ===== ACCESSIBILITY IMPROVEMENTS ===== */
+.nav-item[aria-disabled="true"],
+.tab[aria-disabled="true"] {
+  pointer-events: none;
+  opacity: 0.6;
 }
 
-/* ===== REDUCED MOTION RESPECT ===== */
+.nav-item[aria-current="page"],
+.tab[aria-current="page"] {
+  background-color: var(--surface-nav-item-selected, rgba(59, 130, 246, 0.1));
+  color: var(--text-nav-item-selected, #1f2937);
+}
+
+/* ===== REDUCED MOTION SUPPORT ===== */
 @media (prefers-reduced-motion: reduce) {
   .tab--animated,
   .nav-item,
   .tab-group__indicator--page,
   .tab-group__indicator--segment,
-  .sidebar__nav--animated .nav-item--selected::before {
-    animation: none !important;
-    transition: background-color 0.15s ease !important;
+  .sidebar__nav--animated .nav-item {
+    transition: 
+      background-color 0.15s ease,
+      color 0.15s ease !important;
   }
 }

@@ -1,0 +1,280 @@
+/* ===============================================
+// src/design-system/components/patterns/selection/DesignRadioCard.css
+// COMPACT design panel styles - no radio indicator, visual-first
+// =============================================== */
+
+.design-radio-card {
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border-radius: var(--radius-card-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-card);
+  position: relative;
+}
+
+.design-radio-card:hover:not(.design-radio-card--disabled) {
+  border-color: var(--border-hover);
+  background-color: var(--surface-card-hover);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.design-radio-card--checked {
+  border-color: var(--accent-500);
+  background-color: var(--accent-50);
+  box-shadow: 0 0 0 1px var(--accent-500);
+}
+
+.design-radio-card--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Size variants */
+.design-radio-card--xs .design-radio-card__inner {
+  padding: 6px;
+}
+
+.design-radio-card--sm .design-radio-card__inner {
+  padding: 8px;
+}
+
+.design-radio-card--md .design-radio-card__inner {
+  padding: 12px;
+}
+
+/* Inner content area */
+.design-radio-card__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+}
+
+.design-radio-card--xs .design-radio-card__inner {
+  min-height: 32px;
+}
+
+.design-radio-card--md .design-radio-card__inner {
+  min-height: 48px;
+}
+
+/* ===== COLOR VARIANT ===== */
+.design-radio-card__color-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.design-radio-card__color-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.design-radio-card--xs .design-radio-card__color-swatch {
+  width: 12px;
+  height: 12px;
+}
+
+.design-radio-card--md .design-radio-card__color-swatch {
+  width: 20px;
+  height: 20px;
+}
+
+.design-radio-card__color-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: left;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.design-radio-card--xs .design-radio-card__color-label {
+  font-size: 11px;
+}
+
+.design-radio-card--md .design-radio-card__color-label {
+  font-size: 14px;
+}
+
+/* ===== TYPOGRAPHY VARIANT ===== */
+.design-radio-card__typography-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  text-align: center;
+}
+
+.design-radio-card__typography-preview {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.design-radio-card--xs .design-radio-card__typography-preview {
+  font-size: 14px;
+}
+
+.design-radio-card--md .design-radio-card__typography-preview {
+  font-size: 22px;
+}
+
+.design-radio-card__typography-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.design-radio-card--xs .design-radio-card__typography-label {
+  font-size: 10px;
+}
+
+.design-radio-card--md .design-radio-card__typography-label {
+  font-size: 12px;
+}
+
+/* ===== RADIUS VARIANT ===== */
+.design-radio-card__radius-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.design-radio-card__radius-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.design-radio-card__radius-shape {
+  width: 20px;
+  height: 20px;
+  background-color: var(--accent-300);
+  border: 1px solid var(--accent-400);
+}
+
+.design-radio-card--xs .design-radio-card__radius-shape {
+  width: 16px;
+  height: 16px;
+}
+
+.design-radio-card--md .design-radio-card__radius-shape {
+  width: 24px;
+  height: 24px;
+}
+
+.design-radio-card__radius-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.design-radio-card--xs .design-radio-card__radius-label {
+  font-size: 10px;
+}
+
+.design-radio-card--md .design-radio-card__radius-label {
+  font-size: 12px;
+}
+
+/* ===== DEFAULT VARIANT ===== */
+.design-radio-card__default-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.design-radio-card__default-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+/* ===== GROUP STYLING ===== */
+.design-radio-card-group {
+  width: 100%;
+}
+
+.design-radio-card-group__label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.design-radio-card-group__description {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.design-radio-card-group__error {
+  font-size: 12px;
+  color: var(--error-600);
+  margin-top: 6px;
+}
+
+/* Focus states */
+.design-radio-card:focus-visible {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 1px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .design-radio-card__color-content {
+    gap: 6px;
+  }
+  
+  .design-radio-card__typography-content,
+  .design-radio-card__radius-content {
+    gap: 4px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .design-radio-card {
+    border-width: 2px;
+  }
+  
+  .design-radio-card--checked {
+    border-width: 2px;
+    box-shadow: 0 0 0 2px var(--accent-500);
+  }
+  
+  .design-radio-card__color-swatch {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .design-radio-card {
+    transition: none;
+  }
+}
