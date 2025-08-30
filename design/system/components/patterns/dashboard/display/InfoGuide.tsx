@@ -6,6 +6,9 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import { cn } from '../../../../lib/utils';
 
+// Import CSS
+import './InfoGuide.css';
+
 // Import primitives from design system
 import { Icon } from '../../../primitives/Icon';
 import { Button } from '../../../primitives/Button';
