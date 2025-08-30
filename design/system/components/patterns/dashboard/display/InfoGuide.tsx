@@ -6,9 +6,6 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import { cn } from '../../../../lib/utils';
 
-// Import CSS
-import './InfoGuide.css';
-
 // Import primitives from design system
 import { Icon } from '../../../primitives/Icon';
 import { Button } from '../../../primitives/Button';
@@ -74,6 +71,7 @@ export const InfoGuide = React.forwardRef<HTMLDivElement, InfoGuideProps>(({
 }, ref) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // Check if already shown (for showOnce)
   useEffect(() => {
@@ -88,6 +86,7 @@ export const InfoGuide = React.forwardRef<HTMLDivElement, InfoGuideProps>(({
     // Auto show
     if (autoShow) {
       const timer = setTimeout(() => {
+        setIsAnimating(true);
         setIsVisible(true);
       }, autoShowDelay);
 
@@ -121,22 +120,55 @@ export const InfoGuide = React.forwardRef<HTMLDivElement, InfoGuideProps>(({
         'info-guide',
         className
       )}
+      style={{
+        position: 'fixed',
+        top: 'var(--foundation-space-6)',
+        right: 'var(--foundation-space-6)',
+        zIndex: 1000,
+        width: '400px',
+        maxWidth: '90vw',
+        background: 'var(--surface-card)',
+        border: '1px solid var(--border-card)',
+        borderRadius: 'var(--radius-card)',
+        boxShadow: 'var(--foundation-shadow-xl)',
+        overflow: 'hidden',
+        transform: isAnimating ? 'translateX(0)' : 'translateX(100%)',
+        opacity: isAnimating ? 1 : 0,
+        transition: 'transform 0.3s ease-out, opacity 0.3s ease-out'
+      }}
       {...props}
     >
-      <div className="info-guide__container">
-        {/* Header */}
-        <div className="info-guide__header">
-          <div className="info-guide__icon-container">
-            <Icon 
-              size="md" 
+      <div style={{ padding: 'var(--foundation-space-3)' }}>
+                {/* Header */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--foundation-space-3)',
+          marginBottom: 'var(--foundation-space-3)',
+          background: 'var(--surface-tag-info-subtle)',
+          borderBottom: '1px solid var(--border-subtle)',
+          padding: 'var(--foundation-space-3)',
+          margin: 'calc(-1 * var(--foundation-space-3)) calc(-1 * var(--foundation-space-3)) var(--foundation-space-3) calc(-1 * var(--foundation-space-3))'
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '32px',
+            height: '32px',
+            background: 'var(--surface-tag-info)',
+            borderRadius: 'var(--radius-sm)',
+            flexShrink: 0
+          }}>
+            <Icon
+              size="md"
               color="primary"
-              className="info-guide__icon"
             >
               <InformationCircleIcon />
             </Icon>
           </div>
-          
-          <div className="info-guide__content">
+
+          <div style={{ flex: 1, minWidth: 0 }}>
             <Label size="sm" weight="semibold" color="heading">
               {title}
             </Label>
@@ -151,7 +183,7 @@ export const InfoGuide = React.forwardRef<HTMLDivElement, InfoGuideProps>(({
             variant="ghost"
             size="sm"
             onClick={handleDismiss}
-            className="info-guide__close"
+            style={{ flexShrink: 0, marginTop: '-4px', marginRight: '-4px' }}
             aria-label="Stäng hjälp"
           >
             <Icon size="sm" color="secondary">
@@ -162,14 +194,27 @@ export const InfoGuide = React.forwardRef<HTMLDivElement, InfoGuideProps>(({
 
         {/* Tips */}
         {tips.length > 0 && (
-          <div className="info-guide__tips">
+          <div style={{ marginBottom: 'var(--foundation-space-3)' }}>
             <Label size="sm" weight="semibold" color="heading">
               💡 Tips för denna sida
             </Label>
-            <div className="info-guide__tips-list">
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--foundation-space-2)',
+              marginTop: 'var(--foundation-space-2)'
+            }}>
               {tips.slice(0, isExpanded ? undefined : 2).map((tip, index) => (
-                <div key={index} className="info-guide__tip">
-                  <Icon size="xs" color="primary" className="info-guide__tip-icon">
+                <div key={index} style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: 'var(--foundation-space-2)',
+                  padding: 'var(--foundation-space-2)',
+                  background: 'var(--surface-card-hover)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 'var(--radius-sm)'
+                }}>
+                  <Icon size="xs" color="primary" style={{ marginTop: '2px', flexShrink: 0 }}>
                     <LightBulbIcon />
                   </Icon>
                   <Body size="xs" color="secondary">
@@ -184,7 +229,11 @@ export const InfoGuide = React.forwardRef<HTMLDivElement, InfoGuideProps>(({
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="info-guide__expand"
+                style={{
+                  marginTop: 'var(--foundation-space-2)',
+                  fontSize: '11px',
+                  padding: '4px 8px'
+                }}
               >
                 {isExpanded ? 'Visa mindre' : `Visa ${tips.length - 2} fler tips`}
               </Button>
@@ -192,9 +241,13 @@ export const InfoGuide = React.forwardRef<HTMLDivElement, InfoGuideProps>(({
           </div>
         )}
 
-        {/* Action */}
+                {/* Action */}
         {action && (
-          <div className="info-guide__actions">
+          <div style={{
+            display: 'flex',
+            gap: 'var(--foundation-space-2)',
+            alignItems: 'center'
+          }}>
             <Button
               variant="accent"
               size="sm"
@@ -204,16 +257,19 @@ export const InfoGuide = React.forwardRef<HTMLDivElement, InfoGuideProps>(({
                   <ArrowRightIcon />
                 </Icon>
               }
-              className="info-guide__action"
+              style={{ flex: 1 }}
             >
               {action.text}
             </Button>
-            
+
             <Button
               variant="ghost"
               size="sm"
               onClick={handleDismiss}
-              className="info-guide__dismiss"
+              style={{
+                fontSize: '11px',
+                padding: '4px 8px'
+              }}
             >
               Inte nu
             </Button>
@@ -222,7 +278,11 @@ export const InfoGuide = React.forwardRef<HTMLDivElement, InfoGuideProps>(({
       </div>
 
       {/* Progress indicator */}
-      <div className="info-guide__progress" />
+      <div style={{
+        height: '3px',
+        background: 'var(--surface-tag-info)',
+        width: '100%'
+      }} />
     </div>
   );
 });
