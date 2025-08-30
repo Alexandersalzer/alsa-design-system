@@ -1,3 +1,4 @@
+
 /* ===============================================
    FIXED NAVIGATION TABS WITH CLEAN FOCUS STATES
    Like Spotify Dashboard - Only keyboard focus visible
@@ -213,15 +214,15 @@
 }
 
 .tab--segment:hover:not(.tab--active):not(.tab--disabled) {
-  border-color: var(--accent-500);
+  border-color: var(--text-nav-item-selected);
   background-color: var(--surface-nav-item-hover);
 }
 
 .tab--segment.tab--active,
 .tab--segment.active {
   border-color: var(--accent-500);
-  background-color: var(--accent-500);
-  color: white;
+  background-color: var(--surface-nav-item-selected);
+  color: var(--text-nav-item-selected);
   box-shadow: 0 2px 4px rgba(var(--accent-500), 0.2);
 }
 
@@ -308,7 +309,7 @@
   position: absolute;
   bottom: 0;
   height: 2px;
-  background: var(--accent-500);
+  background: var(--text-nav-item-selected);
   border-radius: var(--foundation-radius-full, 9999px);
   
   transition: 
@@ -316,13 +317,13 @@
     width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
     opacity 0.15s ease;
   
-  box-shadow: 0 0 8px rgba(var(--accent-500), 0.3);
+  box-shadow: 0 0 8px rgba(var(--text-nav-item-selected), 0.3);
   z-index: 10;
 }
 
 .tab-group__indicator--segment {
   position: absolute;
-  background: var(--accent-500);
+  background: var(--text-nav-item-selected);
   border-radius: var(--foundation-radius-full, 9999px);
   
   transition: 
@@ -333,9 +334,9 @@
     opacity 0.15s ease;
   
   box-shadow: 
-    0 2px 4px rgba(var(--accent-500), 0.2),
+    0 2px 4px rgba(var(--text-nav-item-selected), 0.2),
     0 1px 2px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--accent-500);
+  border: 1px solid var(--text-nav-item-selected);
   z-index: 1;
 }
 
