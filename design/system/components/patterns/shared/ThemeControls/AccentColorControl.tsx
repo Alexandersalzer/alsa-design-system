@@ -147,7 +147,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
       {currentView === 'main' && (
         <DesignRadioCard.Root
           name="accent-color-main"
-          value={accentColor || 'purple'}
+          value={currentView === 'main' ? (accentColor || '') : ''} // Only show selection in main view
           onChange={() => {}} // Handle clicks manually
           columns={columns}
           gap="sm"
@@ -164,12 +164,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
                 className="cursor-pointer hover:scale-105 transition-transform"
               />
               
-              {/* Hover indicator for "click for more" */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 rounded-lg transition-colors pointer-events-none flex items-center justify-center">
-                <Body size="xs" className="text-white opacity-0 group-hover:opacity-100 transition-opacity font-medium">
-                  +{COLOR_VARIANTS[color.category as keyof typeof COLOR_VARIANTS]?.length || 0}
-                </Body>
-              </div>
+
             </div>
           ))}
         </DesignRadioCard.Root>
@@ -180,7 +175,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
         <div className="space-y-4">
           <DesignRadioCard.Root
             name="accent-color-variants"
-            value={accentColor || 'purple'}
+            value={accentColor || ''} // Show current selection in variants
             onChange={handleColorChange}
             columns={columns}
             gap="sm"
@@ -203,7 +198,6 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
               variant="secondary" 
               size="sm"
               onClick={handleBackToMain}
-              className="text-gray-600"
             >
               ← Back to Main Colors
             </Button>
