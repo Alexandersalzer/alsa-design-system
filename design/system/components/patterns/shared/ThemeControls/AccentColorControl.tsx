@@ -129,6 +129,27 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
     return mainColor ? mainColor.label : currentView;
   };
 
+  // Check if current selected color belongs to a main category
+  const getSelectedMainColor = () => {
+    if (!accentColor) return '';
+    
+    // First check if it's directly a main color
+    const directMatch = MAIN_COLORS.find(color => color.value === accentColor);
+    if (directMatch) return accentColor;
+    
+    // Then check if it's a variant of a main color
+    for (const [category, variants] of Object.entries(COLOR_VARIANTS)) {
+      const variantMatch = variants.find(variant => variant.value === accentColor);
+      if (variantMatch) {
+        // Return the main color for this category
+        const mainColor = MAIN_COLORS.find(color => color.category === category);
+        return mainColor?.value || '';
+      }
+    }
+    
+    return '';
+  };
+
   return (
     <div className={className}>
       {/* Dynamic Section Header */}
@@ -169,20 +190,24 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
           gap="sm"
           size="md"
         >
-          {MAIN_COLORS.map((color) => (
-            <div key={color.value} className="relative group">
-              <DesignRadioCardItem
-                value={color.value}
-                label={color.label}
-                variant="color"
-                colorValue={color.hex}
-                onClick={() => handleMainColorClick(color.category, color.value)}
-                className="cursor-pointer hover:scale-105 transition-transform"
-              />
-              
-
-            </div>
-          ))}
+          {MAIN_COLORS.map((color) => {
+            const isSelected = getSelectedMainColor() === color.value;
+            
+            return (
+              <div key={color.value} className="relative group">
+                <DesignRadioCardItem
+                  value={color.value}
+                  label={color.label}
+                  variant="color"
+                  colorValue={color.hex}
+                  onClick={() => handleMainColorClick(color.category, color.value)}
+                  className={`cursor-pointer hover:scale-105 transition-transform ${
+                    isSelected ? 'ring-2 ring-offset-2 ring-blue-500' : ''
+                  }`}
+                />
+              </div>
+            );
+          })}
         </DesignRadioCard.Root>
       )}
 
