@@ -9,16 +9,15 @@ import { Body, Icon } from '@blimpify-im/ui';
 
 // Clean color options - just names and hex values
 const COLOR_OPTIONS = [
-  { value: 'ruby', label: 'Ruby', hex: '#EF4444' },        // Röd ✓
-  { value: 'rose', label: 'Rose', hex: '#F43F5E' },        // Rosa - NY
-  { value: 'purple', label: 'Purple', hex: '#A855F7' },    // Lila ✓
-  { value: 'azure', label: 'Azure', hex: '#3B82F6' },      // Blå ✓
-  { value: 'cyan', label: 'Cyan', hex: '#06B6D4' },        // Cyan - NY
-  { value: 'emerald', label: 'Emerald', hex: '#10B981' },  // Grön ✓
-  { value: 'honey', label: 'Honey', hex: '#F59E0B' },      // Gul ✓
-  { value: 'orange', label: 'Orange', hex: '#F97316' },    // Orange - NY
-  { value: 'gray', label: 'Slate', hex: '#6B7280' },       // Grå ✓
-  { value: 'indigo', label: 'Indigo', hex: '#6366F1' },    // Indigo - NY (optional)
+  { value: 'ruby', label: 'Ruby', hex: '#EF4444' },        // Röd
+  { value: 'rose', label: 'Rose', hex: '#F43F5E' },        // Rosa  
+  { value: 'orange', label: 'Orange', hex: '#F97316' },    // Orange
+  { value: 'honey', label: 'Honey', hex: '#F59E0B' },      // Gul
+  { value: 'emerald', label: 'Emerald', hex: '#10B981' },  // Grön
+  { value: 'cyan', label: 'Cyan', hex: '#06B6D4' },        // Cyan/Turkos
+  { value: 'azure', label: 'Azure', hex: '#3B82F6' },      // Blå
+  { value: 'purple', label: 'Purple', hex: '#A855F7' },    // Lila
+  { value: 'gray', label: 'Slate', hex: '#6B7280' },       // Grå
 ];
 interface AccentColorControlProps {
   columns?: 1 | 2 | 3 | 4 | 5 | 6;
