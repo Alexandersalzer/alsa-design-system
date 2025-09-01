@@ -1,11 +1,11 @@
 // ===============================================
-// AccentColorControl.tsx - UPDATED with expandable color variants
+// AccentColorControl.tsx - Panel Navigation Approach
 // ===============================================
 import React, { useState } from 'react';
 import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
 import { useTheme, type ColorScale } from '../../../../hooks/useTheme';
-import { SwatchIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
-import { Body, Icon } from '@blimpify-im/ui';
+import { SwatchIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { Body, Icon, Button } from '@blimpify-im/ui';
 
 // Main color categories
 const MAIN_COLORS = [
@@ -86,7 +86,7 @@ interface AccentColorControlProps {
 
 export function AccentColorControl({ columns = 4, className }: AccentColorControlProps) {
   const { accentColor, setAccentColor } = useTheme();
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [currentView, setCurrentView] = useState<'main' | string>('main');
 
   // Convert from DesignRadioCard's string onChange to theme system
   const handleColorChange = (colorValue: string) => {
@@ -94,109 +94,120 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
     setAccentColor(colorValue as ColorScale);
   };
 
-  // Handle main color click - toggle expansion
+  // Handle main color click - navigate to variants
   const handleMainColorClick = (category: string, colorValue: string) => {
-    if (expandedCategory === category) {
-      // If already expanded, collapse
-      setExpandedCategory(null);
-    } else {
-      // Expand this category
-      setExpandedCategory(category);
-    }
-    // Also set the main color
+    // Set the main color first
     handleColorChange(colorValue);
+    // Then navigate to variants
+    setCurrentView(category);
   };
 
-  // Get all colors to display (main + expanded variants)
-  const getDisplayColors = () => {
-    const colors = [...MAIN_COLORS];
-    
-    if (expandedCategory && COLOR_VARIANTS[expandedCategory as keyof typeof COLOR_VARIANTS]) {
-      const variants = COLOR_VARIANTS[expandedCategory as keyof typeof COLOR_VARIANTS];
-      const mainColorIndex = colors.findIndex(color => color.category === expandedCategory);
-      
-      // Insert variants after the main color
-      colors.splice(mainColorIndex + 1, 0, ...variants.map(variant => ({
-        ...variant,
-        category: expandedCategory,
-        isVariant: true
-      })));
-    }
-    
-    return colors;
+  // Handle back to main colors
+  const handleBackToMain = () => {
+    setCurrentView('main');
   };
 
-  const displayColors = getDisplayColors();
+  // Get current category label for header
+  const getCurrentCategoryLabel = () => {
+    const mainColor = MAIN_COLORS.find(color => color.category === currentView);
+    return mainColor ? mainColor.label : currentView;
+  };
 
   return (
     <div className={className}>
-      {/* Section header */}
+      {/* Dynamic Section Header */}
       <div className="flex items-center gap-3 mb-4">
+        {currentView !== 'main' && (
+          <button
+            onClick={handleBackToMain}
+            className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <ArrowLeftIcon className="w-5 h-5 text-gray-600" />
+          </button>
+        )}
+        
         <Icon size="md" color="primary">
           <SwatchIcon />
         </Icon>
+        
         <div>
-          <Body weight="medium" className="mb-1">Brand Color</Body>
+          <Body weight="medium" className="mb-1">
+            {currentView === 'main' ? 'Brand Color' : `${getCurrentCategoryLabel()} Variants`}
+          </Body>
           <Body size="sm" color="secondary">
-            Choose a main color or click to see variants
+            {currentView === 'main' 
+              ? 'Choose your primary accent color' 
+              : 'Select a specific variant or go back'
+            }
           </Body>
         </div>
       </div>
 
-      {/* Color Grid */}
-      <DesignRadioCard.Root
-        name="accent-color"
-        value={accentColor || 'purple'}
-        onChange={handleColorChange}
-        columns={columns}
-        gap="sm"
-        size="sm"
-      >
-        {displayColors.map((option) => {
-          const isMainColor = MAIN_COLORS.some(main => main.value === option.value);
-          const isExpanded = expandedCategory === option.category;
-          
-          return (
-            <div key={option.value} className="relative">
+      {/* Main Colors View */}
+      {currentView === 'main' && (
+        <DesignRadioCard.Root
+          name="accent-color-main"
+          value={accentColor || 'purple'}
+          onChange={() => {}} // Handle clicks manually
+          columns={columns}
+          gap="sm"
+          size="md"
+        >
+          {MAIN_COLORS.map((color) => (
+            <div key={color.value} className="relative group">
               <DesignRadioCardItem
-                value={option.value}
-                label={option.label}
+                value={color.value}
+                label={color.label}
                 variant="color"
-                colorValue={option.hex}
-                onClick={() => {
-                  if (isMainColor) {
-                    handleMainColorClick(option.category, option.value);
-                  } else {
-                    handleColorChange(option.value);
-                  }
-                }}
-                className={`
-                  ${(option as any).isVariant ? 'ml-4 opacity-90' : ''}
-                  ${isMainColor && isExpanded ? 'ring-2 ring-blue-500' : ''}
-                `}
+                colorValue={color.hex}
+                onClick={() => handleMainColorClick(color.category, color.value)}
+                className="cursor-pointer hover:scale-105 transition-transform"
               />
               
-              {/* Expand/Collapse indicator for main colors */}
-              {isMainColor && (
-                <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1 shadow-sm border">
-                  {isExpanded ? (
-                    <ChevronUpIcon className="w-3 h-3 text-gray-600" />
-                  ) : (
-                    <ChevronDownIcon className="w-3 h-3 text-gray-600" />
-                  )}
-                </div>
-              )}
+              {/* Hover indicator for "click for more" */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 rounded-lg transition-colors pointer-events-none flex items-center justify-center">
+                <Body size="xs" className="text-white opacity-0 group-hover:opacity-100 transition-opacity font-medium">
+                  +{COLOR_VARIANTS[color.category as keyof typeof COLOR_VARIANTS]?.length || 0}
+                </Body>
+              </div>
             </div>
-          );
-        })}
-      </DesignRadioCard.Root>
+          ))}
+        </DesignRadioCard.Root>
+      )}
 
-      {/* Helper text */}
-      {expandedCategory && (
-        <div className="mt-3 text-center">
-          <Body size="sm" color="secondary">
-            Showing {expandedCategory} variants • Click main color again to collapse
-          </Body>
+      {/* Variants View */}
+      {currentView !== 'main' && COLOR_VARIANTS[currentView as keyof typeof COLOR_VARIANTS] && (
+        <div className="space-y-4">
+          <DesignRadioCard.Root
+            name="accent-color-variants"
+            value={accentColor || 'purple'}
+            onChange={handleColorChange}
+            columns={columns}
+            gap="sm"
+            size="md"
+          >
+            {COLOR_VARIANTS[currentView as keyof typeof COLOR_VARIANTS].map((variant) => (
+              <DesignRadioCardItem
+                key={variant.value}
+                value={variant.value}
+                label={variant.label}
+                variant="color"
+                colorValue={variant.hex}
+              />
+            ))}
+          </DesignRadioCard.Root>
+
+          {/* Back button as secondary action */}
+          <div className="flex justify-center pt-2">
+            <Button 
+              variant="secondary" 
+              size="sm"
+              onClick={handleBackToMain}
+              className="text-gray-600"
+            >
+              ← Back to Main Colors
+            </Button>
+          </div>
         </div>
       )}
     </div>
