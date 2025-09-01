@@ -148,6 +148,23 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
     return '';
   };
 
+  // Check which category the current accent color belongs to
+  const getSelectedCategory = () => {
+    if (!accentColor) return null;
+    
+    // Check if it's directly a main color
+    const directMatch = MAIN_COLORS.find(color => color.value === accentColor);
+    if (directMatch) return directMatch.category;
+    
+    // Check if it's a variant
+    for (const [category, variants] of Object.entries(COLOR_VARIANTS)) {
+      const variantMatch = variants.find(variant => variant.value === accentColor);
+      if (variantMatch) return category;
+    }
+    
+    return null;
+  };
+
   // Check if the current accent color belongs to the current category
   const isCurrentCategorySelected = () => {
     if (!accentColor || currentView === 'main') return false;
@@ -199,7 +216,8 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
           size="md"
         >
           {MAIN_COLORS.map((color) => {
-            const isSelected = getSelectedMainColor() === color.value;
+            const selectedCategory = getSelectedCategory();
+            const isSelected = selectedCategory === color.category; // Check category, not exact color match
             
             return (
               <div key={color.value} className="relative group">
