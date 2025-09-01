@@ -9,7 +9,7 @@ import { Body, Icon, Button } from '@blimpify-im/ui';
 
 // Main color categories - Inspired by Chakra UI's 10-color palette
 const MAIN_COLORS = [
-  { value: 'gray', label: 'Gray', hex: '#6B7280', category: 'gray' },
+  { value: 'pink', label: 'Pink', hex: '#F43F5E', category: 'pink' },
   { value: 'red', label: 'Red', hex: '#EF4444', category: 'red' },
   { value: 'orange', label: 'Orange', hex: '#F97316', category: 'orange' },
   { value: 'yellow', label: 'Yellow', hex: '#F59E0B', category: 'yellow' },
@@ -18,7 +18,7 @@ const MAIN_COLORS = [
   { value: 'blue', label: 'Blue', hex: '#3B82F6', category: 'blue' },
   { value: 'indigo', label: 'Indigo', hex: '#6366F1', category: 'indigo' },
   { value: 'purple', label: 'Purple', hex: '#A855F7', category: 'purple' },
-  { value: 'pink', label: 'Pink', hex: '#F43F5E', category: 'pink' },
+  { value: 'gray', label: 'Gray', hex: '#6B7280', category: 'gray' },
 ];
 
 // Color variants for each category
