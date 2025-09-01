@@ -7,20 +7,29 @@ import { useTheme, type ColorScale } from '../../../../hooks/useTheme';
 import { SwatchIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { Body, Icon, Button } from '@blimpify-im/ui';
 
-// Main color categories
+// Main color categories - Inspired by Chakra UI's 10-color palette
 const MAIN_COLORS = [
+  { value: 'gray', label: 'Gray', hex: '#6B7280', category: 'gray' },
   { value: 'red', label: 'Red', hex: '#EF4444', category: 'red' },
   { value: 'orange', label: 'Orange', hex: '#F97316', category: 'orange' },
   { value: 'yellow', label: 'Yellow', hex: '#F59E0B', category: 'yellow' },
   { value: 'green', label: 'Green', hex: '#10B981', category: 'green' },
+  { value: 'teal', label: 'Teal', hex: '#14B8A6', category: 'teal' },
   { value: 'blue', label: 'Blue', hex: '#3B82F6', category: 'blue' },
+  { value: 'indigo', label: 'Indigo', hex: '#6366F1', category: 'indigo' },
   { value: 'purple', label: 'Purple', hex: '#A855F7', category: 'purple' },
   { value: 'pink', label: 'Pink', hex: '#F43F5E', category: 'pink' },
-  { value: 'gray', label: 'Gray', hex: '#6B7280', category: 'gray' },
 ];
 
 // Color variants for each category
 const COLOR_VARIANTS = {
+  gray: [
+    { value: 'gray-light', label: 'Light Gray', hex: '#9CA3AF' },
+    { value: 'gray', label: 'Gray', hex: '#6B7280' },
+    { value: 'gray-dark', label: 'Dark Gray', hex: '#374151' },
+    { value: 'slate', label: 'Slate', hex: '#64748B' },
+    { value: 'charcoal', label: 'Charcoal', hex: '#1F2937' },
+  ],
   red: [
     { value: 'red-light', label: 'Light Red', hex: '#FCA5A5' },
     { value: 'red', label: 'Red', hex: '#EF4444' },
@@ -49,6 +58,13 @@ const COLOR_VARIANTS = {
     { value: 'emerald', label: 'Emerald', hex: '#10B981' },
     { value: 'forest', label: 'Forest Green', hex: '#047857' },
   ],
+  teal: [
+    { value: 'teal-light', label: 'Light Teal', hex: '#5EEAD4' },
+    { value: 'teal', label: 'Teal', hex: '#14B8A6' },
+    { value: 'teal-dark', label: 'Dark Teal', hex: '#0F766E' },
+    { value: 'cyan', label: 'Cyan', hex: '#06B6D4' },
+    { value: 'turquoise', label: 'Turquoise', hex: '#40E0D0' },
+  ],
   blue: [
     { value: 'blue-light', label: 'Light Blue', hex: '#60A5FA' },
     { value: 'blue', label: 'Blue', hex: '#3B82F6' },
@@ -56,12 +72,19 @@ const COLOR_VARIANTS = {
     { value: 'azure', label: 'Azure', hex: '#0EA5E9' },
     { value: 'navy', label: 'Navy', hex: '#1E40AF' },
   ],
+  indigo: [
+    { value: 'indigo-light', label: 'Light Indigo', hex: '#A5B4FC' },
+    { value: 'indigo', label: 'Indigo', hex: '#6366F1' },
+    { value: 'indigo-dark', label: 'Dark Indigo', hex: '#4338CA' },
+    { value: 'periwinkle', label: 'Periwinkle', hex: '#818CF8' },
+    { value: 'midnight', label: 'Midnight Blue', hex: '#312E81' },
+  ],
   purple: [
     { value: 'purple-light', label: 'Light Purple', hex: '#C084FC' },
     { value: 'purple', label: 'Purple', hex: '#A855F7' },
     { value: 'purple-dark', label: 'Dark Purple', hex: '#7C3AED' },
-    { value: 'indigo', label: 'Indigo', hex: '#6366F1' },
     { value: 'violet', label: 'Violet', hex: '#8B5CF6' },
+    { value: 'plum', label: 'Plum', hex: '#9333EA' },
   ],
   pink: [
     { value: 'pink-light', label: 'Light Pink', hex: '#F9A8D4' },
@@ -69,13 +92,6 @@ const COLOR_VARIANTS = {
     { value: 'pink-dark', label: 'Dark Pink', hex: '#E11D48' },
     { value: 'rose', label: 'Rose', hex: '#FB7185' },
     { value: 'magenta', label: 'Magenta', hex: '#EC4899' },
-  ],
-  gray: [
-    { value: 'gray-light', label: 'Light Gray', hex: '#9CA3AF' },
-    { value: 'gray', label: 'Gray', hex: '#6B7280' },
-    { value: 'gray-dark', label: 'Dark Gray', hex: '#374151' },
-    { value: 'slate', label: 'Slate', hex: '#64748B' },
-    { value: 'charcoal', label: 'Charcoal', hex: '#1F2937' },
   ],
 };
 
@@ -149,7 +165,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
           name="accent-color-main"
           value={currentView === 'main' ? (accentColor || '') : ''} // Only show selection in main view
           onChange={() => {}} // Handle clicks manually
-          columns={columns}
+          columns={5} // Changed to 5 columns for better 10-color layout
           gap="sm"
           size="md"
         >
@@ -198,6 +214,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
               variant="secondary" 
               size="sm"
               onClick={handleBackToMain}
+              className="text-gray-600"
             >
               ← Back to Main Colors
             </Button>
