@@ -110,11 +110,9 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
     setAccentColor(colorValue as ColorScale);
   };
 
-  // Handle main color click - navigate to variants
-  const handleMainColorClick = (category: string, colorValue: string) => {
-    // Set the main color first
-    handleColorChange(colorValue);
-    // Then navigate to variants
+  // Handle main color click - navigate to variants WITHOUT auto-selecting
+  const handleMainColorClick = (category: string) => {
+    // DON'T set the main color - just navigate to variants
     setCurrentView(category);
   };
 
@@ -137,7 +135,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
     const directMatch = MAIN_COLORS.find(color => color.value === accentColor);
     if (directMatch) return accentColor;
     
-    // Then check if it's a variant of a main color
+    // Then check if it's a variant of a main color category
     for (const [category, variants] of Object.entries(COLOR_VARIANTS)) {
       const variantMatch = variants.find(variant => variant.value === accentColor);
       if (variantMatch) {
@@ -148,6 +146,16 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
     }
     
     return '';
+  };
+
+  // Check if the current accent color belongs to the current category
+  const isCurrentCategorySelected = () => {
+    if (!accentColor || currentView === 'main') return false;
+    
+    const variants = COLOR_VARIANTS[currentView as keyof typeof COLOR_VARIANTS];
+    if (!variants) return false;
+    
+    return variants.some(variant => variant.value === accentColor);
   };
 
   return (
@@ -200,7 +208,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
                   label={color.label}
                   variant="color"
                   colorValue={color.hex}
-                  onClick={() => handleMainColorClick(color.category, color.value)}
+                  onClick={() => handleMainColorClick(color.category)} // Only pass category, no color value
                   className={`cursor-pointer hover:scale-105 transition-transform ${
                     isSelected ? 'ring-2 ring-offset-2 ring-blue-500' : ''
                   }`}
