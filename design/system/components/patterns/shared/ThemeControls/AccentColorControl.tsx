@@ -165,7 +165,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
           name="accent-color-main"
           value={currentView === 'main' ? (accentColor || '') : ''} // Only show selection in main view
           onChange={() => {}} // Handle clicks manually
-          columns={5} // Changed to 5 columns for better 10-color layout
+          columns={4} // Changed to 5 columns for better 10-color layout
           gap="sm"
           size="md"
         >
