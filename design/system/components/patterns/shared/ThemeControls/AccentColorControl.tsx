@@ -220,54 +220,56 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
         {/* Main Colors View */}
         <div
           ref={mainColorsRef}
-          className={`absolute inset-0 transition-transform duration-300 ease-in-out ${
-            currentView === 'main' 
-              ? 'translate-x-0' 
-              : '-translate-x-full'
-          }`}
+          className={`absolute inset-0 transition-transform duration-300 ease-in-out`}
+          style={{
+            backgroundColor: 'var(--surface-card, white)',
+            transform: currentView === 'main' ? 'translateX(0%)' : 'translateX(-100%)'
+          }}
         >
-          <DesignRadioCard.Root
-            name="accent-color-main"
-            value={accentColor || ''}
-            onChange={() => {}} // Handle clicks manually
-            columns={3}
-            gap="sm"
-            size="md"
-          >
-            {MAIN_COLORS.map((color) => {
-              const selectedCategory = getSelectedCategory();
-              const isSelected = selectedCategory === color.category;
-              
-              return (
-                <div key={color.value} className="relative group">
-                  <DesignRadioCardItem
-                    value={color.value}
-                    label={color.label}
-                    variant="color"
-                    colorValue={color.hex}
-                    onClick={() => handleMainColorClick(color.category)}
-                    className={`cursor-pointer hover:scale-105 transition-transform ${
-                      isSelected ? 'ring-2 ring-offset-2 ring-blue-500' : ''
-                    }`}
-                    disabled={isAnimating}
-                  />
-                </div>
-              );
-            })}
-          </DesignRadioCard.Root>
+          <div className="h-full p-1">
+            <DesignRadioCard.Root
+              name="accent-color-main"
+              value={accentColor || ''}
+              onChange={() => {}} // Handle clicks manually
+              columns={3}
+              gap="sm"
+              size="md"
+            >
+              {MAIN_COLORS.map((color) => {
+                const selectedCategory = getSelectedCategory();
+                const isSelected = selectedCategory === color.category;
+                
+                return (
+                  <div key={color.value} className="relative group">
+                    <DesignRadioCardItem
+                      value={color.value}
+                      label={color.label}
+                      variant="color"
+                      colorValue={color.hex}
+                      onClick={() => handleMainColorClick(color.category)}
+                      className={`cursor-pointer hover:scale-105 transition-transform ${
+                        isSelected ? 'ring-2 ring-offset-2 ring-blue-500' : ''
+                      }`}
+                      disabled={isAnimating}
+                    />
+                  </div>
+                );
+              })}
+            </DesignRadioCard.Root>
+          </div>
         </div>
 
         {/* Variants View */}
         <div
           ref={variantsRef}
-          className={`absolute inset-0 transition-transform duration-300 ease-in-out ${
-            currentView !== 'main' 
-              ? 'translate-x-0' 
-              : 'translate-x-full'
-          }`}
+          className={`absolute inset-0 transition-transform duration-300 ease-in-out`}
+          style={{
+            backgroundColor: 'var(--surface-card, white)',
+            transform: currentView !== 'main' ? 'translateX(0%)' : 'translateX(100%)'
+          }}
         >
           {currentView !== 'main' && COLOR_VARIANTS[currentView as keyof typeof COLOR_VARIANTS] && (
-            <div className="space-y-4 h-full flex flex-col">
+            <div className="space-y-4 h-full flex flex-col p-1">
               <div className="flex-1">
                 <DesignRadioCard.Root
                   name="accent-color-variants"
