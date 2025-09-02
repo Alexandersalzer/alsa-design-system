@@ -1,7 +1,7 @@
 // ===============================================
-// AccentColorControl.tsx - Panel Navigation Approach with Animation
+// AccentColorControl.tsx - Enhanced with Animation & Consistent Heights
 // ===============================================
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
 import { useTheme, type ColorScale } from '../../../../hooks/useTheme';
 import { SwatchIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
@@ -104,6 +104,30 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
   const { accentColor, setAccentColor } = useTheme();
   const [currentView, setCurrentView] = useState<'main' | string>('main');
   const [isAnimating, setIsAnimating] = useState(false);
+  const [containerHeight, setContainerHeight] = useState<number>(0);
+  const mainColorsRef = useRef<HTMLDivElement>(null);
+  const variantsRef = useRef<HTMLDivElement>(null);
+
+  // Calculate and set consistent container height
+  useEffect(() => {
+    const calculateHeight = () => {
+      const mainHeight = mainColorsRef.current?.scrollHeight || 0;
+      const variantsHeight = variantsRef.current?.scrollHeight || 0;
+      const maxHeight = Math.max(mainHeight, variantsHeight, 300); // Minimum 300px
+      setContainerHeight(maxHeight);
+    };
+
+    // Calculate height after render
+    const timer = setTimeout(calculateHeight, 100);
+    
+    // Recalculate on window resize
+    window.addEventListener('resize', calculateHeight);
+    
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', calculateHeight);
+    };
+  }, [currentView]);
 
   // Convert from DesignRadioCard's string onChange to theme system
   const handleColorChange = (colorValue: string) => {
@@ -111,10 +135,10 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
     setAccentColor(colorValue as ColorScale);
   };
 
-  // Handle main color click - navigate to variants WITHOUT auto-selecting
+  // Handle main color click - navigate to variants with animation
   const handleMainColorClick = (category: string) => {
     setIsAnimating(true);
-    // Small delay to allow animation to start
+    // Small delay to ensure animation starts
     setTimeout(() => {
       setCurrentView(category);
       // Reset animation state after transition completes
@@ -122,7 +146,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
     }, 50);
   };
 
-  // Handle back to main colors
+  // Handle back to main colors with reverse animation
   const handleBackToMain = () => {
     setIsAnimating(true);
     setTimeout(() => {
@@ -135,27 +159,6 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
   const getCurrentCategoryLabel = () => {
     const mainColor = MAIN_COLORS.find(color => color.category === currentView);
     return mainColor ? mainColor.label : currentView;
-  };
-
-  // Check if current selected color belongs to a main category
-  const getSelectedMainColor = () => {
-    if (!accentColor) return '';
-    
-    // First check if it's directly a main color
-    const directMatch = MAIN_COLORS.find(color => color.value === accentColor);
-    if (directMatch) return accentColor;
-    
-    // Then check if it's a variant of a main color category
-    for (const [category, variants] of Object.entries(COLOR_VARIANTS)) {
-      const variantMatch = variants.find(variant => variant.value === accentColor);
-      if (variantMatch) {
-        // Return the main color for this category
-        const mainColor = MAIN_COLORS.find(color => color.category === category);
-        return mainColor?.value || '';
-      }
-    }
-    
-    return '';
   };
 
   // Check which category the current accent color belongs to
@@ -175,16 +178,6 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
     return null;
   };
 
-  // Check if the current accent color belongs to the current category
-  const isCurrentCategorySelected = () => {
-    if (!accentColor || currentView === 'main') return false;
-    
-    const variants = COLOR_VARIANTS[currentView as keyof typeof COLOR_VARIANTS];
-    if (!variants) return false;
-    
-    return variants.some(variant => variant.value === accentColor);
-  };
-
   return (
     <div className={className}>
       {/* Dynamic Section Header */}
@@ -193,6 +186,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
           <button
             onClick={handleBackToMain}
             className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
+            disabled={isAnimating}
           >
             <ArrowLeftIcon className="w-5 h-5 text-gray-600" />
           </button>
@@ -215,62 +209,69 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
         </div>
       </div>
 
-      {/* Color Selection Container with consistent height and animation */}
-      <div className="relative h-[280px] overflow-hidden">
+      {/* Container with consistent height and animation */}
+      <div 
+        className="relative overflow-hidden transition-all duration-300 ease-in-out"
+        style={{ 
+          height: containerHeight || 'auto',
+          minHeight: '300px'
+        }}
+      >
         {/* Main Colors View */}
-        <div 
-          className={`absolute inset-0 transition-all duration-300 ease-in-out ${
+        <div
+          ref={mainColorsRef}
+          className={`absolute inset-0 transition-transform duration-300 ease-in-out ${
             currentView === 'main' 
-              ? 'translate-x-0 opacity-100' 
-              : '-translate-x-full opacity-0'
+              ? 'translate-x-0' 
+              : '-translate-x-full'
           }`}
         >
-          <div className="h-full flex flex-col">
-            <DesignRadioCard.Root
-              name="accent-color-main"
-              value={accentColor || ''} // Always show selection, regardless of view
-              onChange={() => {}} // Handle clicks manually
-              columns={3} // Changed to 3 columns for better 10-color layout
-              gap="sm"
-              size="md"
-            >
-              {MAIN_COLORS.map((color) => {
-                const selectedCategory = getSelectedCategory();
-                const isSelected = selectedCategory === color.category; // Check category, not exact color match
-                
-                return (
-                  <div key={color.value} className="relative group">
-                    <DesignRadioCardItem
-                      value={color.value}
-                      label={color.label}
-                      variant="color"
-                      colorValue={color.hex}
-                      onClick={() => handleMainColorClick(color.category)} // Only pass category, no color value
-                      className={`cursor-pointer hover:scale-105 transition-transform ${
-                        isSelected ? 'ring-2 ring-offset-2 ring-blue-500' : ''
-                      }`}
-                    />
-                  </div>
-                );
-              })}
-            </DesignRadioCard.Root>
-          </div>
+          <DesignRadioCard.Root
+            name="accent-color-main"
+            value={accentColor || ''}
+            onChange={() => {}} // Handle clicks manually
+            columns={3}
+            gap="sm"
+            size="md"
+          >
+            {MAIN_COLORS.map((color) => {
+              const selectedCategory = getSelectedCategory();
+              const isSelected = selectedCategory === color.category;
+              
+              return (
+                <div key={color.value} className="relative group">
+                  <DesignRadioCardItem
+                    value={color.value}
+                    label={color.label}
+                    variant="color"
+                    colorValue={color.hex}
+                    onClick={() => handleMainColorClick(color.category)}
+                    className={`cursor-pointer hover:scale-105 transition-transform ${
+                      isSelected ? 'ring-2 ring-offset-2 ring-blue-500' : ''
+                    }`}
+                    disabled={isAnimating}
+                  />
+                </div>
+              );
+            })}
+          </DesignRadioCard.Root>
         </div>
 
         {/* Variants View */}
-        <div 
-          className={`absolute inset-0 transition-all duration-300 ease-in-out ${
+        <div
+          ref={variantsRef}
+          className={`absolute inset-0 transition-transform duration-300 ease-in-out ${
             currentView !== 'main' 
-              ? 'translate-x-0 opacity-100' 
-              : 'translate-x-full opacity-0'
+              ? 'translate-x-0' 
+              : 'translate-x-full'
           }`}
         >
           {currentView !== 'main' && COLOR_VARIANTS[currentView as keyof typeof COLOR_VARIANTS] && (
-            <div className="h-full flex flex-col">
+            <div className="space-y-4 h-full flex flex-col">
               <div className="flex-1">
                 <DesignRadioCard.Root
                   name="accent-color-variants"
-                  value={accentColor || ''} // Show current selection in variants
+                  value={accentColor || ''}
                   onChange={handleColorChange}
                   columns={columns}
                   gap="sm"
@@ -283,18 +284,20 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
                       label={variant.label}
                       variant="color"
                       colorValue={variant.hex}
+                      disabled={isAnimating}
                     />
                   ))}
                 </DesignRadioCard.Root>
               </div>
 
               {/* Back button as secondary action */}
-              <div className="flex justify-center pt-4 mt-auto">
+              <div className="flex justify-center pt-2">
                 <Button 
                   variant="secondary" 
                   size="sm"
                   onClick={handleBackToMain}
                   className="text-gray-600"
+                  disabled={isAnimating}
                 >
                   ← Back to Main Colors
                 </Button>
@@ -303,6 +306,13 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
           )}
         </div>
       </div>
+
+      {/* Loading state overlay during animation */}
+      {isAnimating && (
+        <div className="absolute inset-0 bg-white/50 flex items-center justify-center pointer-events-none">
+          <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      )}
     </div>
   );
 }
