@@ -135,24 +135,19 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
     setAccentColor(colorValue as ColorScale);
   };
 
-  // Handle main color click - navigate to variants with animation
+  // Handle main color click - navigate to variants with smooth animation
   const handleMainColorClick = (category: string) => {
     setIsAnimating(true);
-    // Small delay to ensure animation starts
-    setTimeout(() => {
-      setCurrentView(category);
-      // Reset animation state after transition completes
-      setTimeout(() => setIsAnimating(false), 300);
-    }, 50);
+    setCurrentView(category);
+    // Reset animation state after transition completes
+    setTimeout(() => setIsAnimating(false), 400);
   };
 
-  // Handle back to main colors with reverse animation
+  // Handle back to main colors with smooth reverse animation
   const handleBackToMain = () => {
     setIsAnimating(true);
-    setTimeout(() => {
-      setCurrentView('main');
-      setTimeout(() => setIsAnimating(false), 300);
-    }, 50);
+    setCurrentView('main');
+    setTimeout(() => setIsAnimating(false), 400);
   };
 
   // Get current category label for header
@@ -209,21 +204,25 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
         </div>
       </div>
 
-      {/* Container with consistent height and animation */}
+      {/* Container with consistent height and smooth swipe animation */}
       <div 
-        className="relative overflow-hidden transition-all duration-300 ease-in-out"
+        className="relative overflow-hidden rounded-lg"
         style={{ 
           height: containerHeight || 'auto',
-          minHeight: '300px'
+          minHeight: '300px',
+          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
         }}
       >
         {/* Main Colors View */}
         <div
           ref={mainColorsRef}
-          className={`absolute inset-0 transition-transform duration-300 ease-in-out`}
+          className="absolute inset-0"
           style={{
             backgroundColor: 'var(--surface-card, white)',
-            transform: currentView === 'main' ? 'translateX(0%)' : 'translateX(-100%)'
+            transform: currentView === 'main' ? 'translateX(0%)' : 'translateX(-100%)',
+            transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            willChange: 'transform',
+            backfaceVisibility: 'hidden'
           }}
         >
           <div className="h-full p-1">
@@ -262,10 +261,14 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
         {/* Variants View */}
         <div
           ref={variantsRef}
-          className={`absolute inset-0 transition-transform duration-300 ease-in-out`}
+          className="absolute inset-0"
           style={{
             backgroundColor: 'var(--surface-card, white)',
-            transform: currentView !== 'main' ? 'translateX(0%)' : 'translateX(100%)'
+            transform: currentView !== 'main' ? 'translateX(0%)' : 'translateX(100%)',
+            transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            willChange: 'transform',
+            backfaceVisibility: 'hidden',
+            boxShadow: currentView !== 'main' ? '0 2px 8px rgba(0, 0, 0, 0.1)' : 'none'
           }}
         >
           {currentView !== 'main' && COLOR_VARIANTS[currentView as keyof typeof COLOR_VARIANTS] && (
