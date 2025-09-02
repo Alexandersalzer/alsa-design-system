@@ -1,5 +1,5 @@
 // ===============================================
-// AccentColorControl.tsx - Panel Navigation Approach
+// AccentColorControl.tsx - Panel Navigation Approach with Animation
 // ===============================================
 import React, { useState } from 'react';
 import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
@@ -9,7 +9,7 @@ import { Body, Icon, Button } from '@blimpify-im/ui';
 
 // Main color categories - Inspired by Chakra UI's 10-color palette
 const MAIN_COLORS = [
-  { value: 'gray', label: 'Gray', hex: '#6B7280', category: 'gray' },
+  { value: 'pink', label: 'Pink', hex: '#F43F5E', category: 'pink' },
   { value: 'red', label: 'Red', hex: '#EF4444', category: 'red' },
   { value: 'orange', label: 'Orange', hex: '#F97316', category: 'orange' },
   { value: 'yellow', label: 'Yellow', hex: '#F59E0B', category: 'yellow' },
@@ -18,7 +18,7 @@ const MAIN_COLORS = [
   { value: 'blue', label: 'Blue', hex: '#3B82F6', category: 'blue' },
   { value: 'indigo', label: 'Indigo', hex: '#6366F1', category: 'indigo' },
   { value: 'purple', label: 'Purple', hex: '#A855F7', category: 'purple' },
-  { value: 'pink', label: 'Pink', hex: '#F43F5E', category: 'pink' },
+  { value: 'gray', label: 'Gray', hex: '#6B7280', category: 'gray' },
 ];
 
 // Color variants for each category
@@ -103,6 +103,7 @@ interface AccentColorControlProps {
 export function AccentColorControl({ columns = 4, className }: AccentColorControlProps) {
   const { accentColor, setAccentColor } = useTheme();
   const [currentView, setCurrentView] = useState<'main' | string>('main');
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // Convert from DesignRadioCard's string onChange to theme system
   const handleColorChange = (colorValue: string) => {
@@ -112,13 +113,22 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
 
   // Handle main color click - navigate to variants WITHOUT auto-selecting
   const handleMainColorClick = (category: string) => {
-    // DON'T set the main color - just navigate to variants
-    setCurrentView(category);
+    setIsAnimating(true);
+    // Small delay to allow animation to start
+    setTimeout(() => {
+      setCurrentView(category);
+      // Reset animation state after transition completes
+      setTimeout(() => setIsAnimating(false), 300);
+    }, 50);
   };
 
   // Handle back to main colors
   const handleBackToMain = () => {
-    setCurrentView('main');
+    setIsAnimating(true);
+    setTimeout(() => {
+      setCurrentView('main');
+      setTimeout(() => setIsAnimating(false), 300);
+    }, 50);
   };
 
   // Get current category label for header
@@ -205,73 +215,94 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
         </div>
       </div>
 
-      {/* Main Colors View */}
-      {currentView === 'main' && (
-        <DesignRadioCard.Root
-          name="accent-color-main"
-          value={accentColor || ''} // Always show selection, regardless of view
-          onChange={() => {}} // Handle clicks manually
-          columns={5} // Changed to 5 columns for better 10-color layout
-          gap="sm"
-          size="md"
+      {/* Color Selection Container with consistent height and animation */}
+      <div className="relative h-[280px] overflow-hidden">
+        {/* Main Colors View */}
+        <div 
+          className={`absolute inset-0 transition-all duration-300 ease-in-out ${
+            currentView === 'main' 
+              ? 'translate-x-0 opacity-100' 
+              : '-translate-x-full opacity-0'
+          }`}
         >
-          {MAIN_COLORS.map((color) => {
-            const selectedCategory = getSelectedCategory();
-            const isSelected = selectedCategory === color.category; // Check category, not exact color match
-            
-            return (
-              <div key={color.value} className="relative group">
-                <DesignRadioCardItem
-                  value={color.value}
-                  label={color.label}
-                  variant="color"
-                  colorValue={color.hex}
-                  onClick={() => handleMainColorClick(color.category)} // Only pass category, no color value
-                  className={`cursor-pointer hover:scale-105 transition-transform ${
-                    isSelected ? 'ring-2 ring-offset-2 ring-blue-500' : ''
-                  }`}
-                />
-              </div>
-            );
-          })}
-        </DesignRadioCard.Root>
-      )}
-
-      {/* Variants View */}
-      {currentView !== 'main' && COLOR_VARIANTS[currentView as keyof typeof COLOR_VARIANTS] && (
-        <div className="space-y-4">
-          <DesignRadioCard.Root
-            name="accent-color-variants"
-            value={accentColor || ''} // Show current selection in variants
-            onChange={handleColorChange}
-            columns={columns}
-            gap="sm"
-            size="md"
-          >
-            {COLOR_VARIANTS[currentView as keyof typeof COLOR_VARIANTS].map((variant) => (
-              <DesignRadioCardItem
-                key={variant.value}
-                value={variant.value}
-                label={variant.label}
-                variant="color"
-                colorValue={variant.hex}
-              />
-            ))}
-          </DesignRadioCard.Root>
-
-          {/* Back button as secondary action */}
-          <div className="flex justify-center pt-2">
-            <Button 
-              variant="secondary" 
-              size="sm"
-              onClick={handleBackToMain}
-              className="text-gray-600"
+          <div className="h-full flex flex-col">
+            <DesignRadioCard.Root
+              name="accent-color-main"
+              value={accentColor || ''} // Always show selection, regardless of view
+              onChange={() => {}} // Handle clicks manually
+              columns={3} // Changed to 3 columns for better 10-color layout
+              gap="sm"
+              size="md"
             >
-              ← Back to Main Colors
-            </Button>
+              {MAIN_COLORS.map((color) => {
+                const selectedCategory = getSelectedCategory();
+                const isSelected = selectedCategory === color.category; // Check category, not exact color match
+                
+                return (
+                  <div key={color.value} className="relative group">
+                    <DesignRadioCardItem
+                      value={color.value}
+                      label={color.label}
+                      variant="color"
+                      colorValue={color.hex}
+                      onClick={() => handleMainColorClick(color.category)} // Only pass category, no color value
+                      className={`cursor-pointer hover:scale-105 transition-transform ${
+                        isSelected ? 'ring-2 ring-offset-2 ring-blue-500' : ''
+                      }`}
+                    />
+                  </div>
+                );
+              })}
+            </DesignRadioCard.Root>
           </div>
         </div>
-      )}
+
+        {/* Variants View */}
+        <div 
+          className={`absolute inset-0 transition-all duration-300 ease-in-out ${
+            currentView !== 'main' 
+              ? 'translate-x-0 opacity-100' 
+              : 'translate-x-full opacity-0'
+          }`}
+        >
+          {currentView !== 'main' && COLOR_VARIANTS[currentView as keyof typeof COLOR_VARIANTS] && (
+            <div className="h-full flex flex-col">
+              <div className="flex-1">
+                <DesignRadioCard.Root
+                  name="accent-color-variants"
+                  value={accentColor || ''} // Show current selection in variants
+                  onChange={handleColorChange}
+                  columns={columns}
+                  gap="sm"
+                  size="md"
+                >
+                  {COLOR_VARIANTS[currentView as keyof typeof COLOR_VARIANTS].map((variant) => (
+                    <DesignRadioCardItem
+                      key={variant.value}
+                      value={variant.value}
+                      label={variant.label}
+                      variant="color"
+                      colorValue={variant.hex}
+                    />
+                  ))}
+                </DesignRadioCard.Root>
+              </div>
+
+              {/* Back button as secondary action */}
+              <div className="flex justify-center pt-4 mt-auto">
+                <Button 
+                  variant="secondary" 
+                  size="sm"
+                  onClick={handleBackToMain}
+                  className="text-gray-600"
+                >
+                  ← Back to Main Colors
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
