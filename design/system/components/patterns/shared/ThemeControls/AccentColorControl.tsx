@@ -250,25 +250,6 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
                       }`}
                       disabled={isAnimating}
                     />
-                    {/* Selection indicator for selected category */}
-                    {isSelected && (
-                      <div 
-                        className="absolute -top-1 -right-1 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center shadow-lg z-10"
-                        style={{
-                          border: '2px solid white'
-                        }}
-                      >
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                          <path 
-                            d="M10 3L4.5 8.5L2 6" 
-                            stroke="white" 
-                            strokeWidth="1.5" 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                    )}
                   </div>
                 );
               })}
