@@ -309,12 +309,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
         </div>
       </div>
 
-      {/* Loading state overlay during animation */}
-      {isAnimating && (
-        <div className="absolute inset-0 bg-white/50 flex items-center justify-center pointer-events-none">
-          <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-        </div>
-      )}
+
     </div>
   );
 }
