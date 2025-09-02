@@ -140,14 +140,14 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
     setIsAnimating(true);
     setCurrentView(category);
     // Reset animation state after transition completes
-    setTimeout(() => setIsAnimating(false), 400);
+    setTimeout(() => setIsAnimating(false), 350);
   };
 
   // Handle back to main colors with smooth reverse animation
   const handleBackToMain = () => {
     setIsAnimating(true);
     setCurrentView('main');
-    setTimeout(() => setIsAnimating(false), 400);
+    setTimeout(() => setIsAnimating(false), 350);
   };
 
   // Get current category label for header
@@ -206,11 +206,10 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
 
       {/* Container with consistent height and smooth swipe animation */}
       <div 
-        className="relative overflow-hidden rounded-lg"
+        className="relative overflow-hidden"
         style={{ 
           height: containerHeight || 'auto',
-          minHeight: '300px',
-          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+          minHeight: '300px'
         }}
       >
         {/* Main Colors View */}
@@ -220,7 +219,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
           style={{
             backgroundColor: 'var(--surface-card, white)',
             transform: currentView === 'main' ? 'translateX(0%)' : 'translateX(-100%)',
-            transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
             willChange: 'transform',
             backfaceVisibility: 'hidden'
           }}
@@ -265,10 +264,9 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
           style={{
             backgroundColor: 'var(--surface-card, white)',
             transform: currentView !== 'main' ? 'translateX(0%)' : 'translateX(100%)',
-            transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
             willChange: 'transform',
-            backfaceVisibility: 'hidden',
-            boxShadow: currentView !== 'main' ? '0 2px 8px rgba(0, 0, 0, 0.1)' : 'none'
+            backfaceVisibility: 'hidden'
           }}
         >
           {currentView !== 'main' && COLOR_VARIANTS[currentView as keyof typeof COLOR_VARIANTS] && (
