@@ -140,7 +140,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
     setIsAnimating(true);
     setCurrentView(category);
     // Reset animation state after transition completes
-    setTimeout(() => setIsAnimating(false), 350);
+    setTimeout(() => setIsAnimating(false), 250);
   };
 
   // Handle back to main colors with smooth reverse animation
