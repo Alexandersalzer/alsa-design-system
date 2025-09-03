@@ -147,7 +147,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
   const handleBackToMain = () => {
     setIsAnimating(true);
     setCurrentView('main');
-    setTimeout(() => setIsAnimating(false), 350);
+    setTimeout(() => setIsAnimating(false), 400);
   };
 
   // Get current category label for header
@@ -204,9 +204,9 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
         </div>
       </div>
 
-      {/* Container with consistent height and smooth swipe animation */}
+      {/* Container with consistent height and animation */}
       <div 
-        className="relative overflow-hidden"
+        className="relative overflow-hidden transition-all duration-300 ease-in-out"
         style={{ 
           height: containerHeight || 'auto',
           minHeight: '300px'
@@ -215,13 +215,10 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
         {/* Main Colors View */}
         <div
           ref={mainColorsRef}
-          className="absolute inset-0"
+          className={`absolute inset-0 transition-transform duration-300 ease-in-out`}
           style={{
             backgroundColor: 'var(--surface-card, white)',
-            transform: currentView === 'main' ? 'translateX(0%)' : 'translateX(-100%)',
-            transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-            willChange: 'transform',
-            backfaceVisibility: 'hidden'
+            transform: currentView === 'main' ? 'translateX(0%)' : 'translateX(-100%)'
           }}
         >
           <div className="h-full p-1">
@@ -245,9 +242,8 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
                       variant="color"
                       colorValue={color.hex}
                       onClick={() => handleMainColorClick(color.category)}
-                      className={`cursor-pointer hover:scale-105 transition-transform ${
-                        isSelected ? 'ring-2 ring-offset-2 ring-blue-500' : ''
-                      }`}
+                      checked={isSelected} // This will make the card show as selected
+                      className="cursor-pointer hover:scale-105 transition-transform"
                       disabled={isAnimating}
                     />
                   </div>
@@ -260,13 +256,10 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
         {/* Variants View */}
         <div
           ref={variantsRef}
-          className="absolute inset-0"
+          className={`absolute inset-0 transition-transform duration-300 ease-in-out`}
           style={{
             backgroundColor: 'var(--surface-card, white)',
-            transform: currentView !== 'main' ? 'translateX(0%)' : 'translateX(100%)',
-            transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-            willChange: 'transform',
-            backfaceVisibility: 'hidden'
+            transform: currentView !== 'main' ? 'translateX(0%)' : 'translateX(100%)'
           }}
         >
           {currentView !== 'main' && COLOR_VARIANTS[currentView as keyof typeof COLOR_VARIANTS] && (
