@@ -21,6 +21,8 @@ export interface NotificationItemProps {
   source_type?: string;
   onClick?: () => void;
   onMarkAsRead?: (id: string) => void;
+  /** Controls whether the leading emoji icon is shown */
+  showIcon?: boolean;
 }
 
 export const NotificationItem: React.FC<NotificationItemProps> = ({
@@ -31,7 +33,8 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
   timestamp,
   read,
   onClick,
-  onMarkAsRead
+  onMarkAsRead,
+  showIcon = true
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -97,9 +100,11 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
       onClick={onClick}
     >
       <div className="notification-item__leading">
-        <div className="notification-item__icon">
-          <span className="notification-item__icon-emoji">{getTypeIcon()}</span>
-        </div>
+        {showIcon && (
+          <div className="notification-item__icon">
+            <span className="notification-item__icon-emoji">{getTypeIcon()}</span>
+          </div>
+        )}
         {!read && <div className="notification-item__indicator" />}
       </div>
       
@@ -145,6 +150,8 @@ export interface NotificationDropdownProps {
   onMarkAsRead?: (id: string) => void;
   onMarkAllAsRead?: () => void;
   onViewAll?: () => void;
+  /** Controls whether icons are shown for notification items */
+  showIcons?: boolean;
 }
 
 export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
@@ -154,7 +161,8 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
   onNotificationClick,
   onMarkAsRead,
   onMarkAllAsRead,
-  onViewAll
+  onViewAll,
+  showIcons = true
 }) => {
   if (!isOpen) return null;
 
@@ -184,6 +192,7 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
               <NotificationItem
                 key={notification.id}
                 {...notification}
+                showIcon={showIcons}
                 onClick={() => onNotificationClick?.(notification)}
                 onMarkAsRead={onMarkAsRead}
               />
@@ -275,6 +284,8 @@ export interface NotificationProps {
   onMarkAllAsRead?: () => void;
   onViewAll?: () => void;
   className?: string;
+  /** Controls whether icons are shown for notification items */
+  showIcons?: boolean;
 }
 
 export const Notification: React.FC<NotificationProps> = ({
@@ -286,7 +297,8 @@ export const Notification: React.FC<NotificationProps> = ({
   onMarkAsRead,
   onMarkAllAsRead,
   onViewAll,
-  className
+  className,
+  showIcons = true
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -319,6 +331,7 @@ export const Notification: React.FC<NotificationProps> = ({
         onMarkAsRead={onMarkAsRead}
         onMarkAllAsRead={onMarkAllAsRead}
         onViewAll={onViewAll}
+        showIcons={showIcons}
       />
     </div>
   );
