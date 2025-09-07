@@ -1,5 +1,5 @@
 // ===============================================
-// AccentColorControl.tsx - Enhanced with Animation & Consistent Heights
+// AccentColorControl.tsx - Förbättrad med Animation & Konsistenta Höjder (Svenska)
 // ===============================================
 import React, { useState, useRef, useEffect } from 'react';
 import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
@@ -7,90 +7,90 @@ import { useTheme, type ColorScale } from '../../../../hooks/useTheme';
 import { SwatchIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { Body, Icon, Button } from '@blimpify-im/ui';
 
-// Main color categories - Inspired by Chakra UI's 10-color palette
+// Huvudfärgkategorier - Inspirerad av Chakra UI:s 10-färgpalett
 const MAIN_COLORS = [
-  { value: 'pink', label: 'Pink', hex: '#F43F5E', category: 'pink' },
-  { value: 'red', label: 'Red', hex: '#EF4444', category: 'red' },
+  { value: 'pink', label: 'Rosa', hex: '#F43F5E', category: 'pink' },
+  { value: 'red', label: 'Röd', hex: '#EF4444', category: 'red' },
   { value: 'orange', label: 'Orange', hex: '#F97316', category: 'orange' },
-  { value: 'yellow', label: 'Yellow', hex: '#F59E0B', category: 'yellow' },
-  { value: 'green', label: 'Green', hex: '#10B981', category: 'green' },
+  { value: 'yellow', label: 'Gul', hex: '#F59E0B', category: 'yellow' },
+  { value: 'green', label: 'Grön', hex: '#10B981', category: 'green' },
   { value: 'teal', label: 'Teal', hex: '#14B8A6', category: 'teal' },
-  { value: 'blue', label: 'Blue', hex: '#3B82F6', category: 'blue' },
+  { value: 'blue', label: 'Blå', hex: '#3B82F6', category: 'blue' },
   { value: 'indigo', label: 'Indigo', hex: '#6366F1', category: 'indigo' },
-  { value: 'purple', label: 'Purple', hex: '#A855F7', category: 'purple' },
-  { value: 'gray', label: 'Gray', hex: '#6B7280', category: 'gray' },
+  { value: 'purple', label: 'Lila', hex: '#A855F7', category: 'purple' },
+  { value: 'gray', label: 'Grå', hex: '#6B7280', category: 'gray' },
 ];
 
-// Color variants for each category
+// Färgvarianter för varje kategori
 const COLOR_VARIANTS = {
   gray: [
-    { value: 'gray-light', label: 'Light Gray', hex: '#9CA3AF' },
-    { value: 'gray', label: 'Gray', hex: '#6B7280' },
-    { value: 'gray-dark', label: 'Dark Gray', hex: '#374151' },
-    { value: 'slate', label: 'Slate', hex: '#64748B' },
-    { value: 'charcoal', label: 'Charcoal', hex: '#1F2937' },
+    { value: 'gray-light', label: 'Ljusgrå', hex: '#9CA3AF' },
+    { value: 'gray', label: 'Grå', hex: '#6B7280' },
+    { value: 'gray-dark', label: 'Mörkgrå', hex: '#374151' },
+    { value: 'slate', label: 'Skiffergrå', hex: '#64748B' },
+    { value: 'charcoal', label: 'Kolgrå', hex: '#1F2937' },
   ],
   red: [
-    { value: 'red-light', label: 'Light Red', hex: '#FCA5A5' },
-    { value: 'red', label: 'Red', hex: '#EF4444' },
-    { value: 'red-dark', label: 'Dark Red', hex: '#DC2626' },
-    { value: 'crimson', label: 'Crimson', hex: '#DC143C' },
-    { value: 'ruby', label: 'Ruby', hex: '#E11D48' },
+    { value: 'red-light', label: 'Ljusröd', hex: '#FCA5A5' },
+    { value: 'red', label: 'Röd', hex: '#EF4444' },
+    { value: 'red-dark', label: 'Mörkröd', hex: '#DC2626' },
+    { value: 'crimson', label: 'Karmosinröd', hex: '#DC143C' },
+    { value: 'ruby', label: 'Rubinröd', hex: '#E11D48' },
   ],
   orange: [
-    { value: 'orange-light', label: 'Light Orange', hex: '#FB923C' },
+    { value: 'orange-light', label: 'Ljusorange', hex: '#FB923C' },
     { value: 'orange', label: 'Orange', hex: '#F97316' },
-    { value: 'orange-dark', label: 'Dark Orange', hex: '#EA580C' },
-    { value: 'amber', label: 'Amber', hex: '#F59E0B' },
-    { value: 'tangerine', label: 'Tangerine', hex: '#FF8C00' },
+    { value: 'orange-dark', label: 'Mörkorange', hex: '#EA580C' },
+    { value: 'amber', label: 'Bärnsten', hex: '#F59E0B' },
+    { value: 'tangerine', label: 'Mandarin', hex: '#FF8C00' },
   ],
   yellow: [
-    { value: 'yellow-light', label: 'Light Yellow', hex: '#FDE047' },
-    { value: 'yellow', label: 'Yellow', hex: '#F59E0B' },
-    { value: 'yellow-dark', label: 'Dark Yellow', hex: '#D97706' },
-    { value: 'honey', label: 'Honey', hex: '#FBBF24' },
-    { value: 'gold', label: 'Gold', hex: '#FFD700' },
+    { value: 'yellow-light', label: 'Ljusgul', hex: '#FDE047' },
+    { value: 'yellow', label: 'Gul', hex: '#F59E0B' },
+    { value: 'yellow-dark', label: 'Mörkgul', hex: '#D97706' },
+    { value: 'honey', label: 'Honungsgul', hex: '#FBBF24' },
+    { value: 'gold', label: 'Guldig', hex: '#FFD700' },
   ],
   green: [
-    { value: 'green-light', label: 'Light Green', hex: '#4ADE80' },
-    { value: 'green', label: 'Green', hex: '#10B981' },
-    { value: 'green-dark', label: 'Dark Green', hex: '#059669' },
-    { value: 'emerald', label: 'Emerald', hex: '#10B981' },
-    { value: 'forest', label: 'Forest Green', hex: '#047857' },
+    { value: 'green-light', label: 'Ljusgrön', hex: '#4ADE80' },
+    { value: 'green', label: 'Grön', hex: '#10B981' },
+    { value: 'green-dark', label: 'Mörkgrön', hex: '#059669' },
+    { value: 'emerald', label: 'Smaragdgrön', hex: '#10B981' },
+    { value: 'forest', label: 'Skogsgrön', hex: '#047857' },
   ],
   teal: [
-    { value: 'teal-light', label: 'Light Teal', hex: '#5EEAD4' },
+    { value: 'teal-light', label: 'Ljus Teal', hex: '#5EEAD4' },
     { value: 'teal', label: 'Teal', hex: '#14B8A6' },
-    { value: 'teal-dark', label: 'Dark Teal', hex: '#0F766E' },
+    { value: 'teal-dark', label: 'Mörk Teal', hex: '#0F766E' },
     { value: 'cyan', label: 'Cyan', hex: '#06B6D4' },
-    { value: 'turquoise', label: 'Turquoise', hex: '#40E0D0' },
+    { value: 'turquoise', label: 'Turkos', hex: '#40E0D0' },
   ],
   blue: [
-    { value: 'blue-light', label: 'Light Blue', hex: '#60A5FA' },
-    { value: 'blue', label: 'Blue', hex: '#3B82F6' },
-    { value: 'blue-dark', label: 'Dark Blue', hex: '#1D4ED8' },
-    { value: 'azure', label: 'Azure', hex: '#0EA5E9' },
-    { value: 'navy', label: 'Navy', hex: '#1E40AF' },
+    { value: 'blue-light', label: 'Ljusblå', hex: '#60A5FA' },
+    { value: 'blue', label: 'Blå', hex: '#3B82F6' },
+    { value: 'blue-dark', label: 'Mörkblå', hex: '#1D4ED8' },
+    { value: 'azure', label: 'Azurblå', hex: '#0EA5E9' },
+    { value: 'navy', label: 'Marinblå', hex: '#1E40AF' },
   ],
   indigo: [
-    { value: 'indigo-light', label: 'Light Indigo', hex: '#A5B4FC' },
+    { value: 'indigo-light', label: 'Ljus Indigo', hex: '#A5B4FC' },
     { value: 'indigo', label: 'Indigo', hex: '#6366F1' },
-    { value: 'indigo-dark', label: 'Dark Indigo', hex: '#4338CA' },
-    { value: 'periwinkle', label: 'Periwinkle', hex: '#818CF8' },
-    { value: 'midnight', label: 'Midnight Blue', hex: '#312E81' },
+    { value: 'indigo-dark', label: 'Mörk Indigo', hex: '#4338CA' },
+    { value: 'periwinkle', label: 'Blåsippa', hex: '#818CF8' },
+    { value: 'midnight', label: 'Midnattsblå', hex: '#312E81' },
   ],
   purple: [
-    { value: 'purple-light', label: 'Light Purple', hex: '#C084FC' },
-    { value: 'purple', label: 'Purple', hex: '#A855F7' },
-    { value: 'purple-dark', label: 'Dark Purple', hex: '#7C3AED' },
-    { value: 'violet', label: 'Violet', hex: '#8B5CF6' },
-    { value: 'plum', label: 'Plum', hex: '#9333EA' },
+    { value: 'purple-light', label: 'Ljuslila', hex: '#C084FC' },
+    { value: 'purple', label: 'Lila', hex: '#A855F7' },
+    { value: 'purple-dark', label: 'Mörklila', hex: '#7C3AED' },
+    { value: 'violet', label: 'Violett', hex: '#8B5CF6' },
+    { value: 'plum', label: 'Plommon', hex: '#9333EA' },
   ],
   pink: [
-    { value: 'pink-light', label: 'Light Pink', hex: '#F9A8D4' },
-    { value: 'pink', label: 'Pink', hex: '#F43F5E' },
-    { value: 'pink-dark', label: 'Dark Pink', hex: '#E11D48' },
-    { value: 'rose', label: 'Rose', hex: '#FB7185' },
+    { value: 'pink-light', label: 'Ljusrosa', hex: '#F9A8D4' },
+    { value: 'pink', label: 'Rosa', hex: '#F43F5E' },
+    { value: 'pink-dark', label: 'Mörkrosa', hex: '#E11D48' },
+    { value: 'rose', label: 'Ros', hex: '#FB7185' },
     { value: 'magenta', label: 'Magenta', hex: '#EC4899' },
   ],
 };
@@ -108,7 +108,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
   const mainColorsRef = useRef<HTMLDivElement>(null);
   const variantsRef = useRef<HTMLDivElement>(null);
 
-  // Calculate and set consistent container height
+  // Beräkna och sätt konsistent behållarhöjd
   useEffect(() => {
     const calculateHeight = () => {
       const mainHeight = mainColorsRef.current?.scrollHeight || 0;
@@ -117,10 +117,10 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
       setContainerHeight(maxHeight);
     };
 
-    // Calculate height after render
+    // Beräkna höjd efter rendering
     const timer = setTimeout(calculateHeight, 100);
     
-    // Recalculate on window resize
+    // Omberäkna vid fönsterstorlek ändring
     window.addEventListener('resize', calculateHeight);
     
     return () => {
@@ -129,42 +129,42 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
     };
   }, [currentView]);
 
-  // Convert from DesignRadioCard's string onChange to theme system
+  // Konvertera från DesignRadioCards string onChange till tema-systemet
   const handleColorChange = (colorValue: string) => {
-    console.log('🎨 AccentColorControl: Changing color to:', colorValue);
+    console.log('🎨 AccentColorControl: Ändrar färg till:', colorValue);
     setAccentColor(colorValue as ColorScale);
   };
 
-  // Handle main color click - navigate to variants with smooth animation
+  // Hantera huvudfärgklick - navigera till varianter med mjuk animation
   const handleMainColorClick = (category: string) => {
     setIsAnimating(true);
     setCurrentView(category);
-    // Reset animation state after transition completes
+    // Återställ animationstillstånd efter att övergången är klar
     setTimeout(() => setIsAnimating(false), 250);
   };
 
-  // Handle back to main colors with smooth reverse animation
+  // Hantera tillbaka till huvudfärger med mjuk omvänd animation
   const handleBackToMain = () => {
     setIsAnimating(true);
     setCurrentView('main');
     setTimeout(() => setIsAnimating(false), 400);
   };
 
-  // Get current category label for header
+  // Hämta aktuell kategorietikett för rubrik
   const getCurrentCategoryLabel = () => {
     const mainColor = MAIN_COLORS.find(color => color.category === currentView);
     return mainColor ? mainColor.label : currentView;
   };
 
-  // Check which category the current accent color belongs to
+  // Kontrollera vilken kategori den aktuella accentfärgen tillhör
   const getSelectedCategory = () => {
     if (!accentColor) return null;
     
-    // Check if it's directly a main color
+    // Kontrollera om det är direkt en huvudfärg
     const directMatch = MAIN_COLORS.find(color => color.value === accentColor);
     if (directMatch) return directMatch.category;
     
-    // Check if it's a variant
+    // Kontrollera om det är en variant
     for (const [category, variants] of Object.entries(COLOR_VARIANTS)) {
       const variantMatch = variants.find(variant => variant.value === accentColor);
       if (variantMatch) return category;
@@ -175,7 +175,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
 
   return (
     <div className={className}>
-      {/* Dynamic Section Header */}
+      {/* Dynamisk sektionsrubrik */}
       <div className="flex items-center gap-3 mb-4">
         {currentView !== 'main' && (
           <button
@@ -193,18 +193,18 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
         
         <div>
           <Body weight="medium" className="mb-1">
-            {currentView === 'main' ? 'Brand Color' : `${getCurrentCategoryLabel()} Variants`}
+            {currentView === 'main' ? 'Varumärkesfärg' : `${getCurrentCategoryLabel()}-varianter`}
           </Body>
           <Body size="sm" color="secondary">
             {currentView === 'main' 
-              ? 'Choose your primary accent color' 
-              : 'Select a specific variant or go back'
+              ? 'Välj din primära accentfärg' 
+              : 'Välj en specifik variant eller gå tillbaka'
             }
           </Body>
         </div>
       </div>
 
-      {/* Container with consistent height and animation */}
+      {/* Behållare med konsistent höjd och animation */}
       <div 
         className="relative overflow-hidden transition-all duration-300 ease-in-out"
         style={{ 
@@ -212,7 +212,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
           minHeight: '300px'
         }}
       >
-        {/* Main Colors View */}
+        {/* Huvudfärgsvy */}
         <div
           ref={mainColorsRef}
           className={`absolute inset-0 transition-transform duration-300 ease-in-out`}
@@ -225,7 +225,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
             <DesignRadioCard.Root
               name="accent-color-main"
               value={accentColor || ''}
-              onChange={() => {}} // Handle clicks manually
+              onChange={() => {}} // Hantera klick manuellt
               columns={3}
               gap="sm"
               size="md"
@@ -242,7 +242,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
                       variant="color"
                       colorValue={color.hex}
                       onClick={() => handleMainColorClick(color.category)}
-                      checked={isSelected} // This will make the card show as selected
+                      checked={isSelected} // Detta kommer att göra kortet visat som valt
                       className="cursor-pointer hover:scale-105 transition-transform"
                       disabled={isAnimating}
                     />
@@ -253,7 +253,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
           </div>
         </div>
 
-        {/* Variants View */}
+        {/* Variantvy */}
         <div
           ref={variantsRef}
           className={`absolute inset-0 transition-transform duration-300 ease-in-out`}
@@ -286,7 +286,7 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
                 </DesignRadioCard.Root>
               </div>
 
-              {/* Back button as secondary action */}
+              {/* Tillbaka-knapp som sekundär åtgärd */}
               <div className="flex justify-center pt-2">
                 <Button 
                   variant="secondary" 
@@ -295,15 +295,13 @@ export function AccentColorControl({ columns = 4, className }: AccentColorContro
                   className="text-gray-600"
                   disabled={isAnimating}
                 >
-                  ← Back to Main Colors
+                  ← Tillbaka till huvudfärger
                 </Button>
               </div>
             </div>
           )}
         </div>
       </div>
-
-
     </div>
   );
 }
