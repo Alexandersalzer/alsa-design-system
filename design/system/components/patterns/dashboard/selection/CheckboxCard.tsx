@@ -1,6 +1,6 @@
 // ===============================================
-// src/design-system/components/patterns/selection/CheckboxCard.tsx
-// FIXED VERSION - Proper label association and click handling
+// IMPROVED CHECKBOX CARD COMPONENT
+// Fixes state confusion and improves UX
 // ===============================================
 
 import React, { forwardRef, useId } from 'react';
@@ -14,17 +14,20 @@ export interface CheckboxCardProps extends Omit<React.HTMLAttributes<HTMLDivElem
   onChange?: (checked: boolean) => void;
   disabled?: boolean;
   
+  // NEW: Clear state differentiation
+  isPreselected?: boolean; // Distinguishes pre-selected from user-selected
+  
   // Content
   label?: string;
   description?: string;
   icon?: React.ReactElement;
   children?: React.ReactNode;
   
-  // Layout
-  orientation?: 'horizontal' | 'vertical';
+  // Layout - Simplified
+  layout?: 'standard' | 'compact';
   
   // Visual
-  variant?: 'default' | 'elevated' | 'outlined' | 'solid';
+  variant?: 'default' | 'elevated' | 'outlined';
   size?: 'sm' | 'md' | 'lg';
   
   // States
@@ -33,6 +36,9 @@ export interface CheckboxCardProps extends Omit<React.HTMLAttributes<HTMLDivElem
   
   // Additional content
   addon?: React.ReactNode;
+  
+  // Custom labels for different states
+  preselectedLabel?: string; // "Recommended", "Popular", etc.
   
   // Form integration
   name?: string;
@@ -43,16 +49,18 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
   checked = false,
   onChange,
   disabled = false,
+  isPreselected = false,
   label,
   description,
   icon,
   children,
-  orientation = 'horizontal',
+  layout = 'standard',
   variant = 'outlined',
   size = 'md',
   required = false,
   error,
   addon,
+  preselectedLabel = 'Recommended',
   name,
   value,
   className,
@@ -89,6 +97,15 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
     }
   };
 
+  // Determine the current state for CSS classes
+  const getStateClass = () => {
+    if (disabled) return 'checkbox-card--disabled';
+    if (checked && isPreselected) return 'checkbox-card--checked checkbox-card--was-preselected';
+    if (checked) return 'checkbox-card--checked';
+    if (isPreselected) return 'checkbox-card--preselected';
+    return '';
+  };
+
   return (
     <Card
       ref={ref}
@@ -96,11 +113,9 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
       className={cn(
         'checkbox-card',
         `checkbox-card--${size}`,
-        `checkbox-card--${orientation}`,
-        checked && 'checkbox-card--checked',
-        disabled && 'checkbox-card--disabled',
+        `checkbox-card--${layout}`,
+        getStateClass(),
         error && 'checkbox-card--error',
-        'cursor-pointer',
         className
       )}
       onClick={handleCardClick}
@@ -117,102 +132,17 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
     >
       <CardContent className="checkbox-card__inner">
         
-        {/* MAIN FLEX CONTAINER */}
+        {/* PRESELECTED BADGE */}
+        {isPreselected && !checked && (
+          <div className="checkbox-card__badge" aria-label={`${preselectedLabel} option`}>
+            {preselectedLabel}
+          </div>
+        )}
+        
+        {/* MAIN FLEX CONTAINER - Checkbox on LEFT */}
         <div className="checkbox-card__main">
           
-          {/* LEFT: Content area */}
-          <div className="checkbox-card__content">
-            
-            {orientation === 'vertical' ? (
-              // VERTICAL LAYOUT - Icon above, text left-aligned
-              <>
-                {/* Icon above (can be centered) */}
-                {icon && (
-                  <div className="checkbox-card__icon checkbox-card__icon--vertical">
-                    <Icon 
-                      color={checked ? 'accent' : 'secondary'}
-                      size={size === 'lg' ? 'lg' : size === 'sm' ? 'sm' : 'md'}
-                    >
-                      {icon}
-                    </Icon>
-                  </div>
-                )}
-                
-                {/* Text content below icon - left aligned */}
-                <div className="checkbox-card__text checkbox-card__text--vertical">
-                  {label && (
-                    <div 
-                      id={`${id}-label`}
-                      className="checkbox-card__label"
-                    >
-                      {label}
-                      {required && <span className="checkbox-card__required">*</span>}
-                    </div>
-                  )}
-                  
-                  {description && (
-                    <div 
-                      id={`${id}-description`}
-                      className="checkbox-card__description"
-                    >
-                      {description}
-                    </div>
-                  )}
-                  
-                  {children && (
-                    <div className="checkbox-card__children">
-                      {children}
-                    </div>
-                  )}
-                </div>
-              </>
-            ) : (
-              // HORIZONTAL LAYOUT
-              <div className="checkbox-card__horizontal-content">
-                {/* Icon inline with text */}
-                {icon && (
-                  <div className="checkbox-card__icon">
-                    <Icon 
-                      color={checked ? 'accent' : 'secondary'}
-                      size={size === 'lg' ? 'lg' : size === 'sm' ? 'sm' : 'md'}
-                    >
-                      {icon}
-                    </Icon>
-                  </div>
-                )}
-                
-                {/* Text content */}
-                <div className="checkbox-card__text">
-                  {label && (
-                    <div 
-                      id={`${id}-label`}
-                      className="checkbox-card__label"
-                    >
-                      {label}
-                      {required && <span className="checkbox-card__required">*</span>}
-                    </div>
-                  )}
-                  
-                  {description && (
-                    <div 
-                      id={`${id}-description`}
-                      className="checkbox-card__description"
-                    >
-                      {description}
-                    </div>
-                  )}
-                  
-                  {children && (
-                    <div className="checkbox-card__children">
-                      {children}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-          
-          {/* RIGHT: Checkbox - Visible and vibrant for clear feedback */}
+          {/* LEFT: Checkbox - Better scan pattern */}
           <div className="checkbox-card__checkbox">
             <Checkbox
               id={checkboxId}
@@ -224,11 +154,58 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
               name={name}
               value={value}
               tabIndex={-1} // Remove from tab order since card is focusable
+              aria-hidden="true" // Screen readers use the card's aria-checked
             />
+          </div>
+          
+          {/* RIGHT: Content area */}
+          <div className="checkbox-card__content">
+            <div className="checkbox-card__content-inner">
+              {/* Icon and text in a row */}
+              <div className="checkbox-card__text-row">
+                {icon && (
+                  <div className="checkbox-card__icon">
+                    <Icon 
+                      color={checked ? 'accent' : 'secondary'}
+                      size={size === 'lg' ? 'lg' : size === 'sm' ? 'sm' : 'md'}
+                    >
+                      {icon}
+                    </Icon>
+                  </div>
+                )}
+                
+                <div className="checkbox-card__text">
+                  {label && (
+                    <div 
+                      id={`${id}-label`}
+                      className="checkbox-card__label"
+                    >
+                      {label}
+                      {required && <span className="checkbox-card__required" aria-label="required">*</span>}
+                    </div>
+                  )}
+                  
+                  {description && (
+                    <div 
+                      id={`${id}-description`}
+                      className="checkbox-card__description"
+                    >
+                      {description}
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {children && (
+                <div className="checkbox-card__children">
+                  {children}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* ADDON AREA - Only show if addon exists */}
+        {/* ADDON AREA */}
         {addon && (
           <div className="checkbox-card__addon">
             {addon}
@@ -249,7 +226,43 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
 
 CheckboxCard.displayName = 'CheckboxCard';
 
-// CheckboxCardGroup remains the same
+// USAGE EXAMPLE WITH CLEAR STATE MANAGEMENT
+export const CheckboxCardExample: React.FC = () => {
+  const [selectedFeatures, setSelectedFeatures] = React.useState<string[]>(['feature-2']); // Pre-select feature-2
+  
+  const features = [
+    { id: 'feature-1', label: 'Basic Feature', description: 'Essential functionality' },
+    { id: 'feature-2', label: 'Premium Feature', description: 'Advanced capabilities', isPreselected: true },
+    { id: 'feature-3', label: 'Enterprise Feature', description: 'Full-scale solution' },
+  ];
+
+  const handleFeatureChange = (featureId: string, checked: boolean) => {
+    if (checked) {
+      setSelectedFeatures(prev => [...prev, featureId]);
+    } else {
+      setSelectedFeatures(prev => prev.filter(id => id !== featureId));
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <h3>Select Features</h3>
+      {features.map(feature => (
+        <CheckboxCard
+          key={feature.id}
+          label={feature.label}
+          description={feature.description}
+          checked={selectedFeatures.includes(feature.id)}
+          isPreselected={feature.isPreselected}
+          preselectedLabel="Popular"
+          onChange={(checked) => handleFeatureChange(feature.id, checked)}
+        />
+      ))}
+    </div>
+  );
+};
+
+// IMPROVED GROUP COMPONENT
 export interface CheckboxCardGroupProps {
   label?: string;
   description?: string;
@@ -259,8 +272,8 @@ export interface CheckboxCardGroupProps {
   children: React.ReactNode;
   className?: string;
   
-  // Grid options
-  columns?: 1 | 2 | 3 | 4 | 'auto';
+  // Layout options
+  layout?: 'stack' | 'grid-2' | 'grid-3' | 'grid-auto';
   gap?: 'sm' | 'md' | 'lg';
 }
 
@@ -272,38 +285,34 @@ export const CheckboxCardGroup: React.FC<CheckboxCardGroupProps> = ({
   size = 'md',
   children,
   className,
-  columns = 'auto',
+  layout = 'stack',
   gap = 'md'
 }) => {
   const groupId = useId();
 
-  const getGridClasses = () => {
-    if (columns === 'auto') {
-      return 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
-    }
+  const getLayoutClasses = () => {
+    const layouts = {
+      'stack': 'flex flex-col',
+      'grid-2': 'grid grid-cols-1 md:grid-cols-2',
+      'grid-3': 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+      'grid-auto': 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+    };
     
-    const gridColumns = {
-      1: 'grid grid-cols-1',
-      2: 'grid grid-cols-1 md:grid-cols-2',
-      3: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-      4: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
-    }[columns];
+    const gaps = {
+      sm: 'gap-2',
+      md: 'gap-4', 
+      lg: 'gap-6'
+    };
 
-    return gridColumns;
+    return `${layouts[layout]} ${gaps[gap]}`;
   };
-
-  const gapClasses = {
-    sm: 'gap-2',
-    md: 'gap-4',
-    lg: 'gap-6'
-  }[gap];
 
   return (
     <div className={cn('checkbox-card-group', className)} role="group" aria-labelledby={label ? `${groupId}-label` : undefined}>
       {label && (
-        <div id={`${groupId}-label`} className="checkbox-card-group__label font-semibold text-lg mb-2">
+        <div id={`${groupId}-label`} className="checkbox-card-group__label text-lg font-semibold mb-2">
           {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-red-500 ml-1" aria-label="required">*</span>}
         </div>
       )}
       
@@ -313,7 +322,7 @@ export const CheckboxCardGroup: React.FC<CheckboxCardGroupProps> = ({
         </div>
       )}
       
-      <div className={cn(getGridClasses(), gapClasses)}>
+      <div className={getLayoutClasses()}>
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child) && (child.type as any) === CheckboxCard) {
             return React.cloneElement(child as React.ReactElement<CheckboxCardProps>, {
