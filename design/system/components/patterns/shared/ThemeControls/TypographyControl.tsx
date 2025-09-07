@@ -1,18 +1,18 @@
 // ===============================================
-// TypographyControl.tsx - FIXED to use direct DesignRadioCardItem
+// TypographyControl.tsx - FIXAD för att använda direkt DesignRadioCardItem (Svenska)
 // ===============================================
 import React, { useEffect } from 'react';
 import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
 import { PencilIcon } from '@heroicons/react/24/outline';
 import { Body, Icon } from '@blimpify-im/ui';
 
-// Font options with proper family declarations
+// Teckensnittssalternativ med korrekta familjedeklarationer
 const FONT_OPTIONS = [
   {
     value: 'plus-jakarta',
     label: 'Plus Jakarta Sans',
     family: '"Plus Jakarta Sans", system-ui, sans-serif',
-    description: 'Modern & friendly',
+    description: 'Modern & vänlig',
     preview: 'Ag',
     googleUrl: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap'
   },
@@ -20,7 +20,7 @@ const FONT_OPTIONS = [
     value: 'inter',
     label: 'Inter',
     family: '"Inter", system-ui, sans-serif',
-    description: 'Clean & professional',
+    description: 'Ren & professionell',
     preview: 'Ag',
     googleUrl: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap'
   },
@@ -28,9 +28,9 @@ const FONT_OPTIONS = [
     value: 'system',
     label: 'System UI',
     family: 'system-ui, -apple-system, sans-serif',
-    description: 'Fast & native',
+    description: 'Snabb & inbyggd',
     preview: 'Ag',
-    googleUrl: null // No Google Font needed
+    googleUrl: null // Inget Google Font behövs
   },
 ];
 
@@ -48,36 +48,36 @@ export function TypographyControl({
   onChange 
 }: TypographyControlProps) {
   
-  // ✅ Handle font change and apply to CSS
+  // ✅ Hantera teckensnittsbyte och applicera på CSS
   const handleFontChange = (fontValue: string) => {
-    console.log('🔤 TypographyControl: Changing font to:', fontValue);
+    console.log('🔤 TypographyControl: Ändrar teckensnitt till:', fontValue);
     
-    // Call external onChange if provided
+    // Anropa extern onChange om tillgänglig
     if (onChange) {
       onChange(fontValue);
     }
     
-    // Apply font changes immediately
+    // Applicera teckensnittsändringar omedelbart
     const fontOption = FONT_OPTIONS.find(f => f.value === fontValue);
     if (fontOption) {
       applyFontToSystem(fontOption);
     }
   };
 
-  // Function to apply font to CSS system
+  // Funktion för att applicera teckensnitt på CSS-systemet
   const applyFontToSystem = (fontOption: typeof FONT_OPTIONS[0]) => {
     const root = document.documentElement;
     
-    // Apply font family to CSS custom properties
+    // Applicera teckensnittsfamilj på CSS anpassade egenskaper
     root.style.setProperty('--font-body-family', fontOption.family);
     root.style.setProperty('--font-heading-family', fontOption.family);
     root.style.setProperty('--foundation-font-primary', fontOption.family);
     root.style.setProperty('--foundation-font-secondary', fontOption.family);
     
-    // Apply directly to body
+    // Applicera direkt på body
     document.body.style.fontFamily = fontOption.family;
 
-    // Load Google Font if needed
+    // Ladda Google Font om nödvändigt
     if (fontOption.googleUrl && !document.querySelector(`link[href="${fontOption.googleUrl}"]`)) {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
@@ -85,10 +85,10 @@ export function TypographyControl({
       document.head.appendChild(link);
     }
 
-    console.log('🔤 Applied font:', fontOption.label, fontOption.family);
+    console.log('🔤 Tillämpade teckensnitt:', fontOption.label, fontOption.family);
   };
 
-  // Apply font changes when value changes
+  // Applicera teckensnittsändringar när värdet ändras
   useEffect(() => {
     const fontOption = FONT_OPTIONS.find(f => f.value === value);
     if (fontOption) {
@@ -98,18 +98,18 @@ export function TypographyControl({
 
   return (
     <div className={className}>
-      {/* Section header */}
+      {/* Sektionsrubrik */}
       <div className="flex items-center gap-3 mb-4">
         <Icon size="md" color="primary">
           <PencilIcon />
         </Icon>
         <div>
-          <Body weight="medium" className="mb-1">Typography</Body>
-          <Body size="sm" color="secondary">Font family for all text</Body>
+          <Body weight="medium" className="mb-1">Typografi</Body>
+          <Body size="sm" color="secondary">Teckensnittsfamilj för all text</Body>
         </div>
       </div>
 
-      {/* ✅ FIXED: Using direct DesignRadioCardItem instead of convenience component */}
+      {/* ✅ FIXAD: Använder direkt DesignRadioCardItem istället för bekvämlighetskomponent */}
       <DesignRadioCard.Root
         name="font-family"
         value={value}
