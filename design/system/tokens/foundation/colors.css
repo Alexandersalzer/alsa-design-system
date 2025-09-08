@@ -632,58 +632,70 @@
 --foundation-turquoise-1100: #022D2C;
 --foundation-turquoise-1200: #0A1817;
 
-/* ===== BLUE GROUP - 5 COLOR SCALES ===== */
+/* ===== FIXED BLUE GROUP - DRAMATICALLY DIFFERENT BLUES ===== */
 
-/* Blue-Light Scale (for 'blue-light' #60A5FA) */
---foundation-blue-light-100: #EFF6FF;
---foundation-blue-light-200: #DBEAFE;
---foundation-blue-light-300: #BFDBFE;
---foundation-blue-light-400: #93C5FD;
---foundation-blue-light-500: #60A5FA; /* Your target: #60A5FA */
---foundation-blue-light-600: #3B82F6;
---foundation-blue-light-700: #2563EB;
---foundation-blue-light-800: #1D4ED8;
---foundation-blue-light-900: #1E40AF;
---foundation-blue-light-950: #1E3A8A;
---foundation-blue-light-1000: #172554;
---foundation-blue-light-1100: #0F1629;
---foundation-blue-light-1200: #0A0E1A;
+/* Blue-Light Scale (Sky Blue) */
+--foundation-blue-light-100: #F0F9FF;
+--foundation-blue-light-200: #E0F2FE;
+--foundation-blue-light-300: #BAE6FD;
+--foundation-blue-light-400: #7DD3FC;
+--foundation-blue-light-500: #38BDF8;
+--foundation-blue-light-600: #60A5FA; /* Target: #60A5FA - LIGHT SKY BLUE */
+--foundation-blue-light-700: #0EA5E9;
+--foundation-blue-light-800: #0284C7;
+--foundation-blue-light-900: #0369A1;
+--foundation-blue-light-950: #0C4A6E;
+--foundation-blue-light-1000: #082F49;
+--foundation-blue-light-1100: #0F172A;
+--foundation-blue-light-1200: #020617;
 
-/* Blue Scale (for 'blue' #3B82F6) - ALREADY EXISTS */
-/* You already have --foundation-blue-100 through --foundation-blue-1200 */
+/* Blue Scale (Standard Blue) - KEEP EXISTING */
+/* Your existing blue scale with #3B82F6 at 600 is fine */
 
-/* Blue-Dark Scale (for 'blue-dark' #1D4ED8) */
+/* Blue-Dark Scale (Royal Blue) */
 --foundation-blue-dark-100: #EFF6FF;
 --foundation-blue-dark-200: #DBEAFE;
 --foundation-blue-dark-300: #BFDBFE;
 --foundation-blue-dark-400: #93C5FD;
 --foundation-blue-dark-500: #60A5FA;
---foundation-blue-dark-600: #3B82F6;
---foundation-blue-dark-700: #2563EB;
---foundation-blue-dark-800: #1D4ED8; /* Your target: #1D4ED8 */
---foundation-blue-dark-900: #1E40AF;
---foundation-blue-dark-950: #1E3A8A;
---foundation-blue-dark-1000: #172554;
---foundation-blue-dark-1100: #0F1629;
---foundation-blue-dark-1200: #0A0E1A;
+--foundation-blue-dark-600: #1D4ED8; /* Target: #1D4ED8 - ROYAL BLUE */
+--foundation-blue-dark-700: #1E40AF;
+--foundation-blue-dark-800: #1E3A8A;
+--foundation-blue-dark-900: #1E293B;
+--foundation-blue-dark-950: #172554;
+--foundation-blue-dark-1000: #0F1629;
+--foundation-blue-dark-1100: #0A0E1A;
+--foundation-blue-dark-1200: #020617;
 
-/* Azure Scale (for 'azure' #0EA5E9) - ALREADY EXISTS */
-/* You already have --foundation-azure-100 through --foundation-azure-1200 */
+/* Azure Scale (Cyan-Blue) - KEEP EXISTING BUT UPDATE TARGET */
+--foundation-azure-100: #ECFEFF;
+--foundation-azure-200: #CFFAFE;
+--foundation-azure-300: #A5F3FC;
+--foundation-azure-400: #67E8F9;
+--foundation-azure-500: #22D3EE;
+--foundation-azure-600: #0EA5E9; /* Target: #0EA5E9 - BRIGHT CYAN-BLUE */
+--foundation-azure-700: #0891B2;
+--foundation-azure-800: #0E7490;
+--foundation-azure-900: #155E75;
+--foundation-azure-950: #164E63;
+--foundation-azure-1000: #083344;
+--foundation-azure-1100: #0C2A36;
+--foundation-azure-1200: #051F26;
 
-/* Navy Scale (for 'navy' #1E40AF) */
---foundation-navy-100: #EFF6FF;
---foundation-navy-200: #DBEAFE;
---foundation-navy-300: #BFDBFE;
---foundation-navy-400: #93C5FD;
---foundation-navy-500: #60A5FA;
---foundation-navy-600: #3B82F6;
---foundation-navy-700: #2563EB;
---foundation-navy-800: #1D4ED8;
---foundation-navy-900: #1E40AF; /* Your target: #1E40AF */
---foundation-navy-950: #1E3A8A;
---foundation-navy-1000: #172554;
---foundation-navy-1100: #0F1629;
---foundation-navy-1200: #0A0E1A;
+/* Navy Scale (Dark Navy) */
+--foundation-navy-100: #F8FAFC;
+--foundation-navy-200: #F1F5F9;
+--foundation-navy-300: #E2E8F0;
+--foundation-navy-400: #CBD5E1;
+--foundation-navy-500: #94A3B8;
+--foundation-navy-600: #1E40AF; /* Target: #1E40AF - DARK NAVY */
+--foundation-navy-700: #1E3A8A;
+--foundation-navy-800: #1E293B;
+--foundation-navy-900: #0F172A;
+--foundation-navy-950: #020617;
+--foundation-navy-1000: #010409;
+--foundation-navy-1100: #000204;
+--foundation-navy-1200: #000102;
 
 /* ===== INDIGO GROUP - 5 COLOR SCALES ===== */
 
