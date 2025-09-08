@@ -246,7 +246,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
 
         {/* Right: Next button with dynamic pricing */}
         <Button
-          variant="primary"
+          variant="accent"
           onClick={onNext}
           disabled={isNextDisabled}
           className={cn(

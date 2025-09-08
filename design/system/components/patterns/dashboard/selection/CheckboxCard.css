@@ -294,7 +294,7 @@
   }
   
   .checkbox-card__checkbox input[type="checkbox"] {
-    border: 2px solid var(--accent-600);
+    border: 3px solid var(--accent-700);
   }
 }
 

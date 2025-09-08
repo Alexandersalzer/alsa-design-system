@@ -7,14 +7,14 @@
   cursor: pointer;
   transition: all 0.15s ease;
   border-radius: var(--radius-card-sm);
-  border: 1px solid var(--border-subtle);
+  border: 1.5px solid var(--border-subtle);
   background: var(--surface-card);
   position: relative;
 }
 
 .design-radio-card:hover:not(.design-radio-card--disabled) {
   border-color: var(--border-hover);
-  background-color: var(--surface-card-hover);
+  background-color: var(--surface-card-hover    );
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
