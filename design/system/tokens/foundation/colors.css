@@ -316,70 +316,82 @@
 --foundation-charcoal-variant-1200: #010102;
 
 /* ===== DISTINCT RED GROUP - FOCUSED ON 600-LEVEL DIFFERENCES ===== */
+/* ===== 5 TRULY DISTINCT RED SCALES ===== */
 
-/* Red-Light Scale (Soft Red - for 'red-light' #FCA5A5) */
---foundation-red-light-100: #FEF2F2;
---foundation-red-light-200: #FEE2E2;
---foundation-red-light-300: #FECACA;
---foundation-red-light-400: #FCA5A5;
---foundation-red-light-500: #F87171;
---foundation-red-light-600: #FCA5A5; /* Your target: #FCA5A5 - LIGHT CORAL RED AT 600 */
---foundation-red-light-700: #F87171;
---foundation-red-light-800: #EF4444;
---foundation-red-light-900: #DC2626;
---foundation-red-light-950: #B91C1C;
---foundation-red-light-1000: #991B1B;
---foundation-red-light-1100: #7F1D1D;
---foundation-red-light-1200: #450A0A;
+/* Red-Light Scale (Light Orange-Red) */
+--foundation-red-light-100: #FFF5F5;
+--foundation-red-light-200: #FED7D7;
+--foundation-red-light-300: #FEB2B2;
+--foundation-red-light-400: #FC8181;
+--foundation-red-light-500: #F56565;
+--foundation-red-light-600: #FCA5A5; /* Target: Light coral-red */
+--foundation-red-light-700: #E53E3E;
+--foundation-red-light-800: #C53030;
+--foundation-red-light-900: #9B2C2C;
+--foundation-red-light-950: #742A2A;
+--foundation-red-light-1000: #450A0A;
+--foundation-red-light-1100: #3C0E0E;
+--foundation-red-light-1200: #1A0606;
 
-/* Red Scale (Standard Red - for 'red' #EF4444) - EXISTING BUT NOTING 600 LEVEL */
-/* Your existing red scale has #EF4444 at 600 - STANDARD RED AT 600 */
+/* Red Scale (Standard Bright Red) */
+--foundation-red-100: #FEF2F2;
+--foundation-red-200: #FEE2E2;
+--foundation-red-300: #FECACA;
+--foundation-red-400: #FCA5A5;
+--foundation-red-500: #F87171;
+--foundation-red-600: #EF4444; /* Target: Standard red */
+--foundation-red-700: #DC2626;
+--foundation-red-800: #B91C1C;
+--foundation-red-900: #991B1B;
+--foundation-red-950: #7F1D1D;
+--foundation-red-1000: #450A0A;
+--foundation-red-1100: #3C0E0E;
+--foundation-red-1200: #1A0606;
 
-/* Red-Dark Scale (Deep Red - for 'red-dark' #DC2626) */
---foundation-red-dark-100: #FEF2F2;
---foundation-red-dark-200: #FEE2E2;
---foundation-red-dark-300: #FECACA;
---foundation-red-dark-400: #FCA5A5;
---foundation-red-dark-500: #F87171;
---foundation-red-dark-600: #DC2626; /* Your target: #DC2626 - DEEP RED AT 600 */
---foundation-red-dark-700: #B91C1C;
---foundation-red-dark-800: #991B1B;
---foundation-red-dark-900: #7F1D1D;
---foundation-red-dark-950: #6B1D1D;
---foundation-red-dark-1000: #450A0A;
---foundation-red-dark-1100: #3C0E0E;
---foundation-red-dark-1200: #1A0606;
+/* Red-Dark Scale (Dark Blood Red) */
+--foundation-red-dark-100: #FDF2F2;
+--foundation-red-dark-200: #FCE1E1;
+--foundation-red-dark-300: #F7C6C6;
+--foundation-red-dark-400: #F19999;
+--foundation-red-dark-500: #E85555;
+--foundation-red-dark-600: #DC2626; /* Target: Dark red */
+--foundation-red-700: #B91C1C;
+--foundation-red-800: #991B1B;
+--foundation-red-900: #7F1D1D;
+--foundation-red-950: #5F1515;
+--foundation-red-1000: #3D0F0F;
+--foundation-red-1100: #2B0A0A;
+--foundation-red-1200: #1A0606;
 
-/* Crimson Scale (Rich Crimson - for 'crimson' #DC143C) */
---foundation-crimson-100: #FFF0F5;
---foundation-crimson-200: #FCE4EC;
---foundation-crimson-300: #F8BBD9;
---foundation-crimson-400: #F48FB1;
---foundation-crimson-500: #F06292;
---foundation-crimson-600: #DC143C; /* Your target: #DC143C - RICH CRIMSON AT 600 */
---foundation-crimson-700: #C2185B;
---foundation-crimson-800: #AD1457;
---foundation-crimson-900: #880E4F;
---foundation-crimson-950: #6A0B37;
---foundation-crimson-1000: #4A0725;
---foundation-crimson-1100: #2E041A;
---foundation-crimson-1200: #1A020F;
+/* Crimson Scale (Deep Wine Red) */
+--foundation-crimson-100: #FDF2F4;
+--foundation-crimson-200: #FCE1E6;
+--foundation-crimson-300: #F7C6CE;
+--foundation-crimson-400: #F199A5;
+--foundation-crimson-500: #E8556B;
+--foundation-crimson-600: #DC143C; /* Target: Deep crimson RED (not pink) */
+--foundation-crimson-700: #B8112E;
+--foundation-crimson-800: #950E25;
+--foundation-crimson-900: #7A0B1E;
+--foundation-crimson-950: #5C0817;
+--foundation-crimson-1000: #3D0510;
+--foundation-crimson-1100: #2B030B;
+--foundation-crimson-1200: #1A0207;
 
-/* Ruby Scale (Bright Ruby - for 'ruby' #E11D48) - EXISTING BUT NOTING 600 LEVEL */
-/* Your existing ruby scale has #EF4444 at 600 - Let's update it to be more distinct */
---foundation-ruby-new-100: #FDF2F8;
---foundation-ruby-new-200: #FCE7F3;
---foundation-ruby-new-300: #FBCFE8;
---foundation-ruby-new-400: #F9A8D4;
---foundation-ruby-new-500: #F472B6;
---foundation-ruby-new-600: #E11D48; /* Your target: #E11D48 - BRIGHT RUBY-PINK AT 600 */
---foundation-ruby-new-700: #BE185D;
---foundation-ruby-new-800: #9D174D;
---foundation-ruby-new-900: #831843;
---foundation-ruby-new-950: #701A75;
---foundation-ruby-new-1000: #4A044E;
---foundation-ruby-new-1100: #3B0764;
---foundation-ruby-new-1200: #1F0A24;
+/* Ruby Scale (Rich Burgundy Red) */
+--foundation-ruby-100: #FDF2F3;
+--foundation-ruby-200: #FCE1E4;
+--foundation-ruby-300: #F7C6CC;
+--foundation-ruby-400: #F199A8;
+--foundation-ruby-500: #E8556F;
+--foundation-ruby-600: #E11D48; /* Target: Rich ruby red */
+--foundation-ruby-700: #BE1139;
+--foundation-ruby-800: #9B0E2E;
+--foundation-ruby-900: #7A0B24;
+--foundation-ruby-950: #5C081B;
+--foundation-ruby-1000: #3D0512;
+--foundation-ruby-1100: #2B030C;
+--foundation-ruby-1200: #1A0208;
 
 /* Ruby Scale (for 'ruby' #E11D48) - ALREADY EXISTS */
 /* You already have --foundation-ruby-100 through --foundation-ruby-1200 */
