@@ -260,4 +260,597 @@
   --foundation-charcoal-1000: #0D0D0D;
   --foundation-charcoal-1100: #080808;
   --foundation-charcoal-1200: #040404;  
+
+
+/* GRAY VARIANTS*/ 
+
+/* ===== GRAY GROUP - 5 COLOR SCALES ===== */
+
+/* Gray-Light Scale (for 'gray-light' #9CA3AF) */
+--foundation-gray-light-100: #F9FAFB;
+--foundation-gray-light-200: #F3F4F6;
+--foundation-gray-light-300: #E5E7EB;
+--foundation-gray-light-400: #D1D5DB;
+--foundation-gray-light-500: #9CA3AF; /* Your target: #9CA3AF */
+--foundation-gray-light-600: #6B7280;
+--foundation-gray-light-700: #4B5563;
+--foundation-gray-light-800: #374151;
+--foundation-gray-light-900: #1F2937;
+--foundation-gray-light-950: #111827;
+--foundation-gray-light-1000: #0F172A;
+--foundation-gray-light-1100: #0C1220;
+--foundation-gray-light-1200: #040711;
+
+/* Gray Scale (for 'gray' #6B7280) - ALREADY EXISTS */
+/* You already have --foundation-gray-100 through --foundation-gray-1200 */
+
+/* Gray-Dark Scale (for 'gray-dark' #374151) */
+--foundation-gray-dark-100: #F9FAFB;
+--foundation-gray-dark-200: #F3F4F6;
+--foundation-gray-dark-300: #E5E7EB;
+--foundation-gray-dark-400: #D1D5DB;
+--foundation-gray-dark-500: #9CA3AF;
+--foundation-gray-dark-600: #6B7280;
+--foundation-gray-dark-700: #4B5563;
+--foundation-gray-dark-800: #374151; /* Your target: #374151 */
+--foundation-gray-dark-900: #1F2937;
+--foundation-gray-dark-950: #111827;
+--foundation-gray-dark-1000: #0F172A;
+--foundation-gray-dark-1100: #0C1220;
+--foundation-gray-dark-1200: #040711;
+
+/* Slate Scale (for 'slate' #64748B) - ALREADY EXISTS */
+/* You already have --foundation-slate-100 through --foundation-slate-1200 */
+
+/* Charcoal Scale (for 'charcoal' #1F2937) */
+--foundation-charcoal-new-100: #F7F7F7;
+--foundation-charcoal-new-200: #EDEDED;
+--foundation-charcoal-new-300: #DFDFDF;
+--foundation-charcoal-new-400: #C2C2C2;
+--foundation-charcoal-new-500: #9B9B9B;
+--foundation-charcoal-new-600: #717171;
+--foundation-charcoal-new-700: #525252;
+--foundation-charcoal-new-800: #404040;
+--foundation-charcoal-new-900: #1F2937; /* Your target: #1F2937 */
+--foundation-charcoal-new-950: #1A1A1A;
+--foundation-charcoal-new-1000: #0D0D0D;
+--foundation-charcoal-new-1100: #080808;
+--foundation-charcoal-new-1200: #040404;
+
+/* ===== RED GROUP - 5 COLOR SCALES ===== */
+
+/* Red-Light Scale (for 'red-light' #FCA5A5) */
+--foundation-red-light-100: #FEF2F2;
+--foundation-red-light-200: #FEE2E2;
+--foundation-red-light-300: #FECACA;
+--foundation-red-light-400: #FCA5A5; /* Your target: #FCA5A5 */
+--foundation-red-light-500: #F87171;
+--foundation-red-light-600: #EF4444;
+--foundation-red-light-700: #DC2626;
+--foundation-red-light-800: #B91C1C;
+--foundation-red-light-900: #991B1B;
+--foundation-red-light-950: #7F1D1D;
+--foundation-red-light-1000: #450A0A;
+--foundation-red-light-1100: #3C0E0E;
+--foundation-red-light-1200: #1A0606;
+
+/* Red Scale (for 'red' #EF4444) - ALREADY EXISTS */
+/* You already have --foundation-red-100 through --foundation-red-1200 */
+
+/* Red-Dark Scale (for 'red-dark' #DC2626) */
+--foundation-red-dark-100: #FEF2F2;
+--foundation-red-dark-200: #FEE2E2;
+--foundation-red-dark-300: #FECACA;
+--foundation-red-dark-400: #FCA5A5;
+--foundation-red-dark-500: #F87171;
+--foundation-red-dark-600: #EF4444;
+--foundation-red-dark-700: #DC2626; /* Your target: #DC2626 */
+--foundation-red-dark-800: #B91C1C;
+--foundation-red-dark-900: #991B1B;
+--foundation-red-dark-950: #7F1D1D;
+--foundation-red-dark-1000: #450A0A;
+--foundation-red-dark-1100: #3C0E0E;
+--foundation-red-dark-1200: #1A0606;
+
+/* Crimson Scale (for 'crimson' #DC143C) */
+--foundation-crimson-100: #FEF2F2;
+--foundation-crimson-200: #FEE2E2;
+--foundation-crimson-300: #FECACA;
+--foundation-crimson-400: #FCA5A5;
+--foundation-crimson-500: #F87171;
+--foundation-crimson-600: #DC143C; /* Your target: #DC143C */
+--foundation-crimson-700: #B91C1C;
+--foundation-crimson-800: #991B1B;
+--foundation-crimson-900: #7F1D1D;
+--foundation-crimson-950: #6B1D1D;
+--foundation-crimson-1000: #450A0A;
+--foundation-crimson-1100: #3C0E0E;
+--foundation-crimson-1200: #1A0606;
+
+/* Ruby Scale (for 'ruby' #E11D48) - ALREADY EXISTS */
+/* You already have --foundation-ruby-100 through --foundation-ruby-1200 */
+
+/* ===== ORANGE GROUP - 5 COLOR SCALES ===== */
+
+/* Orange-Light Scale (for 'orange-light' #FB923C) */
+--foundation-orange-light-100: #FFF7ED;
+--foundation-orange-light-200: #FFEDD5;
+--foundation-orange-light-300: #FED7AA;
+--foundation-orange-light-400: #FDBA74;
+--foundation-orange-light-500: #FB923C; /* Your target: #FB923C */
+--foundation-orange-light-600: #F97316;
+--foundation-orange-light-700: #EA580C;
+--foundation-orange-light-800: #C2410C;
+--foundation-orange-light-900: #9A3412;
+--foundation-orange-light-950: #7C2D12;
+--foundation-orange-light-1000: #431407;
+--foundation-orange-light-1100: #3A1207;
+--foundation-orange-light-1200: #1C0B05;
+
+/* Orange Scale (for 'orange' #F97316) - ALREADY EXISTS */
+/* You already have --foundation-orange-100 through --foundation-orange-1200 */
+
+/* Orange-Dark Scale (for 'orange-dark' #EA580C) */
+--foundation-orange-dark-100: #FFF7ED;
+--foundation-orange-dark-200: #FFEDD5;
+--foundation-orange-dark-300: #FED7AA;
+--foundation-orange-dark-400: #FDBA74;
+--foundation-orange-dark-500: #FB923C;
+--foundation-orange-dark-600: #F97316;
+--foundation-orange-dark-700: #EA580C; /* Your target: #EA580C */
+--foundation-orange-dark-800: #C2410C;
+--foundation-orange-dark-900: #9A3412;
+--foundation-orange-dark-950: #7C2D12;
+--foundation-orange-dark-1000: #431407;
+--foundation-orange-dark-1100: #3A1207;
+--foundation-orange-dark-1200: #1C0B05;
+
+/* Amber Scale (for 'amber' #F59E0B) */
+--foundation-amber-100: #FEF3C7;
+--foundation-amber-200: #FDE68A;
+--foundation-amber-300: #FCD34D;
+--foundation-amber-400: #FBBF24;
+--foundation-amber-500: #F59E0B; /* Your target: #F59E0B */
+--foundation-amber-600: #D97706;
+--foundation-amber-700: #B45309;
+--foundation-amber-800: #92400E;
+--foundation-amber-900: #78350F;
+--foundation-amber-950: #451A03;
+--foundation-amber-1000: #3A1507;
+--foundation-amber-1100: #2A1005;
+--foundation-amber-1200: #1A0A03;
+
+/* Tangerine Scale (for 'tangerine' #FF8C00) */
+--foundation-tangerine-100: #FFF7ED;
+--foundation-tangerine-200: #FFEDD5;
+--foundation-tangerine-300: #FED7AA;
+--foundation-tangerine-400: #FDBA74;
+--foundation-tangerine-500: #FF8C00; /* Your target: #FF8C00 */
+--foundation-tangerine-600: #FB923C;
+--foundation-tangerine-700: #F97316;
+--foundation-tangerine-800: #EA580C;
+--foundation-tangerine-900: #C2410C;
+--foundation-tangerine-950: #9A3412;
+--foundation-tangerine-1000: #7C2D12;
+--foundation-tangerine-1100: #431407;
+--foundation-tangerine-1200: #1C0B05;
+
+/* ===== YELLOW GROUP - 5 COLOR SCALES ===== */
+
+/* Yellow-Light Scale (for 'yellow-light' #FDE047) */
+--foundation-yellow-light-100: #FEFCE8;
+--foundation-yellow-light-200: #FEF3C7;
+--foundation-yellow-light-300: #FDE68A;
+--foundation-yellow-light-400: #FDE047; /* Your target: #FDE047 */
+--foundation-yellow-light-500: #FCD34D;
+--foundation-yellow-light-600: #FBBF24;
+--foundation-yellow-light-700: #F59E0B;
+--foundation-yellow-light-800: #D97706;
+--foundation-yellow-light-900: #B45309;
+--foundation-yellow-light-950: #92400E;
+--foundation-yellow-light-1000: #78350F;
+--foundation-yellow-light-1100: #451A03;
+--foundation-yellow-light-1200: #1A0A03;
+
+/* Yellow Scale (for 'yellow' #F59E0B) - ALREADY EXISTS */
+/* You already have --foundation-yellow-100 through --foundation-yellow-1200 */
+
+/* Yellow-Dark Scale (for 'yellow-dark' #D97706) */
+--foundation-yellow-dark-100: #FEFCE8;
+--foundation-yellow-dark-200: #FEF3C7;
+--foundation-yellow-dark-300: #FDE68A;
+--foundation-yellow-dark-400: #FDE047;
+--foundation-yellow-dark-500: #FCD34D;
+--foundation-yellow-dark-600: #FBBF24;
+--foundation-yellow-dark-700: #F59E0B;
+--foundation-yellow-dark-800: #D97706; /* Your target: #D97706 */
+--foundation-yellow-dark-900: #B45309;
+--foundation-yellow-dark-950: #92400E;
+--foundation-yellow-dark-1000: #78350F;
+--foundation-yellow-dark-1100: #451A03;
+--foundation-yellow-dark-1200: #1A0A03;
+
+/* Honey Scale (for 'honey' #FBBF24) - ALREADY EXISTS */
+/* You already have --foundation-honey-100 through --foundation-honey-1200 */
+
+/* Gold Scale (for 'gold' #FFD700) */
+--foundation-gold-100: #FFFBEB;
+--foundation-gold-200: #FEF3C7;
+--foundation-gold-300: #FDE68A;
+--foundation-gold-400: #FCD34D;
+--foundation-gold-500: #FFD700; /* Your target: #FFD700 */
+--foundation-gold-600: #FBBF24;
+--foundation-gold-700: #F59E0B;
+--foundation-gold-800: #D97706;
+--foundation-gold-900: #B45309;
+--foundation-gold-950: #92400E;
+--foundation-gold-1000: #78350F;
+--foundation-gold-1100: #451A03;
+--foundation-gold-1200: #1A0A03;
+
+/* ===== GREEN GROUP - 5 COLOR SCALES ===== */
+
+/* Green-Light Scale (for 'green-light' #4ADE80) */
+--foundation-green-light-100: #F0FDF4;
+--foundation-green-light-200: #DCFCE7;
+--foundation-green-light-300: #BBF7D0;
+--foundation-green-light-400: #86EFAC;
+--foundation-green-light-500: #4ADE80; /* Your target: #4ADE80 */
+--foundation-green-light-600: #22C55E;
+--foundation-green-light-700: #16A34A;
+--foundation-green-light-800: #15803D;
+--foundation-green-light-900: #166534;
+--foundation-green-light-950: #14532D;
+--foundation-green-light-1000: #052E16;
+--foundation-green-light-1100: #0F2419;
+--foundation-green-light-1200: #0A1F0C;
+
+/* Green Scale (for 'green' #10B981) - ALREADY EXISTS */
+/* You already have --foundation-green-100 through --foundation-green-1200 */
+
+/* Green-Dark Scale (for 'green-dark' #059669) */
+--foundation-green-dark-100: #F0FDF4;
+--foundation-green-dark-200: #DCFCE7;
+--foundation-green-dark-300: #BBF7D0;
+--foundation-green-dark-400: #86EFAC;
+--foundation-green-dark-500: #4ADE80;
+--foundation-green-dark-600: #22C55E;
+--foundation-green-dark-700: #16A34A;
+--foundation-green-dark-800: #15803D;
+--foundation-green-dark-900: #059669; /* Your target: #059669 */
+--foundation-green-dark-950: #14532D;
+--foundation-green-dark-1000: #052E16;
+--foundation-green-dark-1100: #0F2419;
+--foundation-green-dark-1200: #0A1F0C;
+
+/* Emerald Scale (for 'emerald' #10B981) - ALREADY EXISTS */
+/* You already have --foundation-emerald-100 through --foundation-emerald-1200 */
+
+/* Forest Scale (for 'forest' #047857) */
+--foundation-forest-100: #F0FDF4;
+--foundation-forest-200: #DCFCE7;
+--foundation-forest-300: #BBF7D0;
+--foundation-forest-400: #86EFAC;
+--foundation-forest-500: #4ADE80;
+--foundation-forest-600: #22C55E;
+--foundation-forest-700: #16A34A;
+--foundation-forest-800: #047857; /* Your target: #047857 */
+--foundation-forest-900: #065F46;
+--foundation-forest-950: #064E3B;
+--foundation-forest-1000: #052E16;
+--foundation-forest-1100: #0F2419;
+--foundation-forest-1200: #0A1F0C;
+
+/* ===== TEAL GROUP - 5 COLOR SCALES ===== */
+
+/* Teal-Light Scale (for 'teal-light' #5EEAD4) */
+--foundation-teal-light-100: #F0FDFA;
+--foundation-teal-light-200: #CCFBF1;
+--foundation-teal-light-300: #99F6E4;
+--foundation-teal-light-400: #5EEAD4; /* Your target: #5EEAD4 */
+--foundation-teal-light-500: #2DD4BF;
+--foundation-teal-light-600: #14B8A6;
+--foundation-teal-light-700: #0F766E;
+--foundation-teal-light-800: #115E59;
+--foundation-teal-light-900: #134E4A;
+--foundation-teal-light-950: #042F2E;
+--foundation-teal-light-1000: #022D2C;
+--foundation-teal-light-1100: #0F1E1D;
+--foundation-teal-light-1200: #0A1817;
+
+/* Teal Scale (for 'teal' #14B8A6) - ALREADY EXISTS */
+/* You already have --foundation-teal-100 through --foundation-teal-1200 */
+
+/* Teal-Dark Scale (for 'teal-dark' #0F766E) */
+--foundation-teal-dark-100: #F0FDFA;
+--foundation-teal-dark-200: #CCFBF1;
+--foundation-teal-dark-300: #99F6E4;
+--foundation-teal-dark-400: #5EEAD4;
+--foundation-teal-dark-500: #2DD4BF;
+--foundation-teal-dark-600: #14B8A6;
+--foundation-teal-dark-700: #0F766E; /* Your target: #0F766E */
+--foundation-teal-dark-800: #115E59;
+--foundation-teal-dark-900: #134E4A;
+--foundation-teal-dark-950: #042F2E;
+--foundation-teal-dark-1000: #022D2C;
+--foundation-teal-dark-1100: #0F1E1D;
+--foundation-teal-dark-1200: #0A1817;
+
+/* Cyan Scale (for 'cyan' #06B6D4) */
+--foundation-cyan-100: #ECFEFF;
+--foundation-cyan-200: #CFFAFE;
+--foundation-cyan-300: #A5F3FC;
+--foundation-cyan-400: #67E8F9;
+--foundation-cyan-500: #22D3EE;
+--foundation-cyan-600: #06B6D4; /* Your target: #06B6D4 */
+--foundation-cyan-700: #0891B2;
+--foundation-cyan-800: #0E7490;
+--foundation-cyan-900: #155E75;
+--foundation-cyan-950: #164E63;
+--foundation-cyan-1000: #083344;
+--foundation-cyan-1100: #0C2A36;
+--foundation-cyan-1200: #051F26;
+
+/* Turquoise Scale (for 'turquoise' #40E0D0) */
+--foundation-turquoise-100: #F0FDFA;
+--foundation-turquoise-200: #CCFBF1;
+--foundation-turquoise-300: #99F6E4;
+--foundation-turquoise-400: #5EEAD4;
+--foundation-turquoise-500: #40E0D0; /* Your target: #40E0D0 */
+--foundation-turquoise-600: #2DD4BF;
+--foundation-turquoise-700: #14B8A6;
+--foundation-turquoise-800: #0F766E;
+--foundation-turquoise-900: #115E59;
+--foundation-turquoise-950: #134E4A;
+--foundation-turquoise-1000: #042F2E;
+--foundation-turquoise-1100: #022D2C;
+--foundation-turquoise-1200: #0A1817;
+
+/* ===== BLUE GROUP - 5 COLOR SCALES ===== */
+
+/* Blue-Light Scale (for 'blue-light' #60A5FA) */
+--foundation-blue-light-100: #EFF6FF;
+--foundation-blue-light-200: #DBEAFE;
+--foundation-blue-light-300: #BFDBFE;
+--foundation-blue-light-400: #93C5FD;
+--foundation-blue-light-500: #60A5FA; /* Your target: #60A5FA */
+--foundation-blue-light-600: #3B82F6;
+--foundation-blue-light-700: #2563EB;
+--foundation-blue-light-800: #1D4ED8;
+--foundation-blue-light-900: #1E40AF;
+--foundation-blue-light-950: #1E3A8A;
+--foundation-blue-light-1000: #172554;
+--foundation-blue-light-1100: #0F1629;
+--foundation-blue-light-1200: #0A0E1A;
+
+/* Blue Scale (for 'blue' #3B82F6) - ALREADY EXISTS */
+/* You already have --foundation-blue-100 through --foundation-blue-1200 */
+
+/* Blue-Dark Scale (for 'blue-dark' #1D4ED8) */
+--foundation-blue-dark-100: #EFF6FF;
+--foundation-blue-dark-200: #DBEAFE;
+--foundation-blue-dark-300: #BFDBFE;
+--foundation-blue-dark-400: #93C5FD;
+--foundation-blue-dark-500: #60A5FA;
+--foundation-blue-dark-600: #3B82F6;
+--foundation-blue-dark-700: #2563EB;
+--foundation-blue-dark-800: #1D4ED8; /* Your target: #1D4ED8 */
+--foundation-blue-dark-900: #1E40AF;
+--foundation-blue-dark-950: #1E3A8A;
+--foundation-blue-dark-1000: #172554;
+--foundation-blue-dark-1100: #0F1629;
+--foundation-blue-dark-1200: #0A0E1A;
+
+/* Azure Scale (for 'azure' #0EA5E9) - ALREADY EXISTS */
+/* You already have --foundation-azure-100 through --foundation-azure-1200 */
+
+/* Navy Scale (for 'navy' #1E40AF) */
+--foundation-navy-100: #EFF6FF;
+--foundation-navy-200: #DBEAFE;
+--foundation-navy-300: #BFDBFE;
+--foundation-navy-400: #93C5FD;
+--foundation-navy-500: #60A5FA;
+--foundation-navy-600: #3B82F6;
+--foundation-navy-700: #2563EB;
+--foundation-navy-800: #1D4ED8;
+--foundation-navy-900: #1E40AF; /* Your target: #1E40AF */
+--foundation-navy-950: #1E3A8A;
+--foundation-navy-1000: #172554;
+--foundation-navy-1100: #0F1629;
+--foundation-navy-1200: #0A0E1A;
+
+/* ===== INDIGO GROUP - 5 COLOR SCALES ===== */
+
+/* Indigo-Light Scale (for 'indigo-light' #A5B4FC) */
+--foundation-indigo-light-100: #EDE9FE;
+--foundation-indigo-light-200: #DDD6FE;
+--foundation-indigo-light-300: #C4B5FD;
+--foundation-indigo-light-400: #A5B4FC; /* Your target: #A5B4FC */
+--foundation-indigo-light-500: #A78BFA;
+--foundation-indigo-light-600: #8B5CF6;
+--foundation-indigo-light-700: #7C3AED;
+--foundation-indigo-light-800: #6D28D9;
+--foundation-indigo-light-900: #5B21B6;
+--foundation-indigo-light-950: #4C1D95;
+--foundation-indigo-light-1000: #3730A3;
+--foundation-indigo-light-1100: #312E81;
+--foundation-indigo-light-1200: #1E1B4B;
+
+/* Indigo Scale (for 'indigo' #6366F1) - ALREADY EXISTS */
+/* You already have --foundation-indigo-100 through --foundation-indigo-1200 */
+
+/* Indigo-Dark Scale (for 'indigo-dark' #4338CA) */
+--foundation-indigo-dark-100: #EDE9FE;
+--foundation-indigo-dark-200: #DDD6FE;
+--foundation-indigo-dark-300: #C4B5FD;
+--foundation-indigo-dark-400: #A78BFA;
+--foundation-indigo-dark-500: #8B5CF6;
+--foundation-indigo-dark-600: #7C3AED;
+--foundation-indigo-dark-700: #6D28D9;
+--foundation-indigo-dark-800: #4338CA; /* Your target: #4338CA */
+--foundation-indigo-dark-900: #5B21B6;
+--foundation-indigo-dark-950: #4C1D95;
+--foundation-indigo-dark-1000: #3730A3;
+--foundation-indigo-dark-1100: #312E81;
+--foundation-indigo-dark-1200: #1E1B4B;
+
+/* Periwinkle Scale (for 'periwinkle' #818CF8) */
+--foundation-periwinkle-100: #F5F3FF;
+--foundation-periwinkle-200: #EDE9FE;
+--foundation-periwinkle-300: #DDD6FE;
+--foundation-periwinkle-400: #C4B5FD;
+--foundation-periwinkle-500: #818CF8; /* Your target: #818CF8 */
+--foundation-periwinkle-600: #A78BFA;
+--foundation-periwinkle-700: #8B5CF6;
+--foundation-periwinkle-800: #7C3AED;
+--foundation-periwinkle-900: #6D28D9;
+--foundation-periwinkle-950: #5B21B6;
+--foundation-periwinkle-1000: #4C1D95;
+--foundation-periwinkle-1100: #3730A3;
+--foundation-periwinkle-1200: #1E1B4B;
+
+/* Midnight Scale (for 'midnight' #312E81) */
+--foundation-midnight-100: #F8FAFC;
+--foundation-midnight-200: #F1F5F9;
+--foundation-midnight-300: #E2E8F0;
+--foundation-midnight-400: #CBD5E1;
+--foundation-midnight-500: #94A3B8;
+--foundation-midnight-600: #64748B;
+--foundation-midnight-700: #475569;
+--foundation-midnight-800: #334155;
+--foundation-midnight-900: #1E293B;
+--foundation-midnight-950: #312E81; /* Your target: #312E81 */
+--foundation-midnight-1000: #0F172A;
+--foundation-midnight-1100: #0C1220;
+--foundation-midnight-1200: #040711;
+
+/* ===== PURPLE GROUP - 5 COLOR SCALES ===== */
+
+/* Purple-Light Scale (for 'purple-light' #C084FC) */
+--foundation-purple-light-100: #FAF5FF;
+--foundation-purple-light-200: #F3E8FF;
+--foundation-purple-light-300: #E9D5FF;
+--foundation-purple-light-400: #D8B4FE;
+--foundation-purple-light-500: #C084FC; /* Your target: #C084FC */
+--foundation-purple-light-600: #A855F7;
+--foundation-purple-light-700: #9333EA;
+--foundation-purple-light-800: #7C3AED;
+--foundation-purple-light-900: #6B21A8;
+--foundation-purple-light-950: #581C87;
+--foundation-purple-light-1000: #4C1D95;
+--foundation-purple-light-1100: #3B0764;
+--foundation-purple-light-1200: #2E1065;
+
+/* Purple Scale (for 'purple' #A855F7) - ALREADY EXISTS */
+/* You already have --foundation-purple-100 through --foundation-purple-1200 */
+
+/* Purple-Dark Scale (for 'purple-dark' #7C3AED) */
+--foundation-purple-dark-100: #FAF5FF;
+--foundation-purple-dark-200: #F3E8FF;
+--foundation-purple-dark-300: #E9D5FF;
+--foundation-purple-dark-400: #D8B4FE;
+--foundation-purple-dark-500: #C084FC;
+--foundation-purple-dark-600: #A855F7;
+--foundation-purple-dark-700: #9333EA;
+--foundation-purple-dark-800: #7C3AED; /* Your target: #7C3AED */
+--foundation-purple-dark-900: #6B21A8;
+--foundation-purple-dark-950: #581C87;
+--foundation-purple-dark-1000: #4C1D95;
+--foundation-purple-dark-1100: #3B0764;
+--foundation-purple-dark-1200: #2E1065;
+
+/* Violet Scale (for 'violet' #8B5CF6) */
+--foundation-violet-100: #F5F3FF;
+--foundation-violet-200: #EDE9FE;
+--foundation-violet-300: #DDD6FE;
+--foundation-violet-400: #C4B5FD;
+--foundation-violet-500: #A78BFA;
+--foundation-violet-600: #8B5CF6; /* Your target: #8B5CF6 */
+--foundation-violet-700: #7C3AED;
+--foundation-violet-800: #6D28D9;
+--foundation-violet-900: #5B21B6;
+--foundation-violet-950: #4C1D95;
+--foundation-violet-1000: #3730A3;
+--foundation-violet-1100: #312E81;
+--foundation-violet-1200: #1E1B4B;
+
+/* Plum Scale (for 'plum' #9333EA) */
+--foundation-plum-100: #FAF5FF;
+--foundation-plum-200: #F3E8FF;
+--foundation-plum-300: #E9D5FF;
+--foundation-plum-400: #D8B4FE;
+--foundation-plum-500: #C084FC;
+--foundation-plum-600: #A855F7;
+--foundation-plum-700: #9333EA; /* Your target: #9333EA */
+--foundation-plum-800: #7C3AED;
+--foundation-plum-900: #6B21A8;
+--foundation-plum-950: #581C87;
+--foundation-plum-1000: #4C1D95;
+--foundation-plum-1100: #3B0764;
+--foundation-plum-1200: #2E1065;
+
+/* ===== PINK GROUP - 5 COLOR SCALES ===== */
+
+/* Pink-Light Scale (for 'pink-light' #F9A8D4) */
+--foundation-pink-light-100: #FDF2F8;
+--foundation-pink-light-200: #FCE7F3;
+--foundation-pink-light-300: #FBCFE8;
+--foundation-pink-light-400: #F9A8D4; /* Your target: #F9A8D4 */
+--foundation-pink-light-500: #F472B6;
+--foundation-pink-light-600: #EC4899;
+--foundation-pink-light-700: #DB2777;
+--foundation-pink-light-800: #BE185D;
+--foundation-pink-light-900: #9D174D;
+--foundation-pink-light-950: #831843;
+--foundation-pink-light-1000: #701A75;
+--foundation-pink-light-1100: #4A044E;
+--foundation-pink-light-1200: #3B0764;
+
+/* Pink Scale (for 'pink' #F43F5E) - ALREADY EXISTS */
+/* You already have --foundation-pink-100 through --foundation-pink-1200 */
+
+/* Pink-Dark Scale (for 'pink-dark' #E11D48) */
+--foundation-pink-dark-100: #FDF2F8;
+--foundation-pink-dark-200: #FCE7F3;
+--foundation-pink-dark-300: #FBCFE8;
+--foundation-pink-dark-400: #F9A8D4;
+--foundation-pink-dark-500: #F472B6;
+--foundation-pink-dark-600: #EC4899;
+--foundation-pink-dark-700: #DB2777;
+--foundation-pink-dark-800: #E11D48; /* Your target: #E11D48 */
+--foundation-pink-dark-900: #BE185D;
+--foundation-pink-dark-950: #9D174D;
+--foundation-pink-dark-1000: #831843;
+--foundation-pink-dark-1100: #701A75;
+--foundation-pink-dark-1200: #4A044E;
+
+/* Rose Scale (for 'rose' #FB7185) */
+--foundation-rose-100: #FFF1F2;
+--foundation-rose-200: #FFE4E6;
+--foundation-rose-300: #FECDD3;
+--foundation-rose-400: #FDA4AF;
+--foundation-rose-500: #FB7185; /* Your target: #FB7185 */
+--foundation-rose-600: #F43F5E;
+--foundation-rose-700: #E11D48;
+--foundation-rose-800: #BE123C;
+--foundation-rose-900: #9F1239;
+--foundation-rose-950: #881337;
+--foundation-rose-1000: #4C0519;
+--foundation-rose-1100: #3C0E18;
+--foundation-rose-1200: #1F070C;
+
+/* Magenta Scale (for 'magenta' #EC4899) */
+--foundation-magenta-100: #FDF2F8;
+--foundation-magenta-200: #FCE7F3;
+--foundation-magenta-300: #FBCFE8;
+--foundation-magenta-400: #F9A8D4;
+--foundation-magenta-500: #F472B6;
+--foundation-magenta-600: #EC4899; /* Your target: #EC4899 */
+--foundation-magenta-700: #DB2777;
+--foundation-magenta-800: #BE185D;
+--foundation-magenta-900: #9D174D;
+--foundation-magenta-950: #831843;
+--foundation-magenta-1000: #701A75;
+--foundation-magenta-1100: #4A044E;
+--foundation-magenta-1200: #3B0764;
 }
