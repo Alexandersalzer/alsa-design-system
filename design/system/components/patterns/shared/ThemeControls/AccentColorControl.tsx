@@ -124,21 +124,6 @@ export function AccentColorControl({ className }: AccentColorControlProps) {
           </div>
         ))}
       </div>
-
-      {/* Hidden radio inputs for accessibility */}
-      <div className="sr-only">
-        {ALL_COLORS.map((color) => (
-          <input
-            key={color.value}
-            type="radio"
-            name="accent-color"
-            value={color.value}
-            checked={accentColor === color.value}
-            onChange={() => handleColorChange(color.value)}
-            aria-label={`Select ${color.value} color`}
-          />
-        ))}
-      </div>
     </div>
   );
 }
