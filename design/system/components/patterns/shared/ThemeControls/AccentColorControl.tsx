@@ -13,14 +13,14 @@ const COLOR_GRID = [
   // Gray row
   [
     { value: 'gray-light', label: 'Ljus', hex: '#9CA3AF' },
-    { value: 'gray', label: 'Medium', hex: '#6B7280' },
+    { value: 'gray', label: 'grå', hex: '#6B7280' },
     { value: 'gray-dark', label: 'Mörk', hex: '#374151' }
   ],
   // Pink row
   [
     { value: 'pink-light', label: 'Ljus', hex: '#F9A8D4' },
     { value: 'pink', label: 'Rosa', hex: '#F43F5E' },
-    { value: 'pink-dark', label: 'Mörk', hex: '#E11D48' }
+    { value: 'pink-dark', label: 'Ros', hex: '#E11D48' }
   ],
   // Red row
   [
@@ -60,7 +60,7 @@ const COLOR_GRID = [
   ],
   // Indigo row
   [
-    { value: 'indigo-light', label: 'Lavendel', hex: '#A5B4FC' },
+    { value: 'indigo-light', label: 'Moln', hex: '#A5B4FC' },
     { value: 'indigo', label: 'Indigo', hex: '#6366F1' },
     { value: 'indigo-dark', label: 'Natt', hex: '#4338CA' }
   ],
@@ -124,28 +124,6 @@ export function AccentColorControl({ className }: AccentColorControlProps) {
           </div>
         ))}
       </div>
-
-      {/* Selected color display */}
-      {accentColor && (
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <div className="flex items-center gap-3">
-            <div 
-              className="w-8 h-8 rounded-lg border border-gray-300 shadow-sm"
-              style={{ 
-                backgroundColor: ALL_COLORS.find(c => c.value === accentColor)?.hex 
-              }}
-            />
-            <div>
-              <Body size="sm" weight="medium" className="text-gray-900">
-                Vald färg: {ALL_COLORS.find(c => c.value === accentColor)?.label}
-              </Body>
-              <Body size="xs" color="secondary" className="font-mono">
-                {ALL_COLORS.find(c => c.value === accentColor)?.hex}
-              </Body>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Hidden radio inputs for accessibility */}
       <div className="sr-only">
