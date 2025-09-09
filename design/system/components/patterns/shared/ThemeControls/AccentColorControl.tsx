@@ -106,9 +106,9 @@ export function AccentColorControl({ className }: AccentColorControlProps) {
       </div>
 
       {/* Single 3x10 Grid */}
-      <div className="space-y-2">
+      <div className="flex flex-col" style={{ gap: '6px' }}>
         {COLOR_GRID.map((colorRow, rowIndex) => (
-          <div key={rowIndex} className="grid grid-cols-3 gap-2">
+          <div key={rowIndex} className="grid grid-cols-3" style={{ gap: '6px' }}>
             {colorRow.map((color) => (
               <DesignRadioCardItem
                 key={color.value}
