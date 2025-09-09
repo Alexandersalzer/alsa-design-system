@@ -331,6 +331,21 @@ export function TypographyControl({
     }
   }, [value]);
 
+  // ✅ FÖRLADDA ALLA GOOGLE FONTS när komponenten mountar
+  useEffect(() => {
+    console.log('🔤 Förladdar alla Google Fonts...');
+    
+    ALL_FONTS.forEach((fontOption) => {
+      if (fontOption.googleUrl && !document.querySelector(`link[href="${fontOption.googleUrl}"]`)) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = fontOption.googleUrl;
+        link.onload = () => console.log(`✅ Font förladdat: ${fontOption.label}`);
+        document.head.appendChild(link);
+      }
+    });
+  }, []); // Kör bara en gång när komponenten mountar
+
   // Helper för att rendera font items
   const renderFontItems = () => {
     return ALL_FONTS.map((option) => (
