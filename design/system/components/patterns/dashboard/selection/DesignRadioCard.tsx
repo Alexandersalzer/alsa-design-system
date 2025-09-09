@@ -127,7 +127,12 @@ export const DesignRadioCardItem = forwardRef<HTMLDivElement, DesignRadioCardIte
             >
               {fontPreview}
             </div>
-            <span className="design-radio-card__typography-label">{label}</span>
+            <span 
+              className="design-radio-card__typography-label"
+              style={{ fontFamily: fontFamily }} // Använd samma font för label
+            >
+              {label}
+            </span>
           </div>
         );
         
