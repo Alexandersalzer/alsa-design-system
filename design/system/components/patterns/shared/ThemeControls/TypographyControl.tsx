@@ -7,51 +7,45 @@ import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
 import { PencilIcon } from '@heroicons/react/24/outline';
 import { Body, Icon } from '@blimpify-im/ui';
 
-// ===== ALLA FONTS I EN SAMLING =====
+// ===== ALLA FONTS SORTERADE EFTER TYP: SANS-SERIF FÖRST, SERIF SIST =====
 const ALL_FONTS = [
-  // Luxury & Premium
+  // ===== SANS-SERIF FONTS =====
+  
+  // System & Performance
   {
-    value: 'playfair-display',
-    label: 'Playfair Display',
-    family: '"Playfair Display", Georgia, serif',
-    description: 'Luxury fashion, elegant',
+    value: 'system-ui',
+    label: 'System UI',
+    family: 'system-ui, -apple-system, sans-serif',
+    description: 'Snabbast möjliga',
     preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap'
+    googleUrl: null
   },
   {
-    value: 'bodoni-moda',
-    label: 'Bodoni Moda',
-    family: '"Bodoni Moda", Georgia, serif',
-    description: 'Haute couture elegans',
+    value: 'roboto',
+    label: 'Roboto',
+    family: '"Roboto", system-ui, sans-serif',
+    description: 'Google\'s standard',
     preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap'
-  },
-  {
-    value: 'cinzel',
-    label: 'Cinzel',
-    family: '"Cinzel", Georgia, serif',
-    description: 'Romersk elegans',
-    preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&display=swap'
-  },
-  {
-    value: 'cormorant-garamond',
-    label: 'Cormorant Garamond',
-    family: '"Cormorant Garamond", Georgia, serif',
-    description: 'Klassisk bokelegans',
-    preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap'
-  },
-  {
-    value: 'literata',
-    label: 'Literata',
-    family: '"Literata", Georgia, serif',
-    description: 'Google\'s book font',
-    preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Literata:wght@200;300;400;500;600;700;800&display=swap'
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap'
   },
   
-  // Modern & Geometric
+  // Modern & Popular Sans-Serif
+  {
+    value: 'inter',
+    label: 'Inter',
+    family: '"Inter", system-ui, sans-serif',
+    description: 'UI-designad',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap'
+  },
+  {
+    value: 'poppins',
+    label: 'Poppins',
+    family: '"Poppins", system-ui, sans-serif',
+    description: 'Geometric trendig',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap'
+  },
   {
     value: 'montserrat',
     label: 'Montserrat',
@@ -60,6 +54,64 @@ const ALL_FONTS = [
     preview: 'Aa',
     googleUrl: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap'
   },
+  {
+    value: 'open-sans',
+    label: 'Open Sans',
+    family: '"Open Sans", system-ui, sans-serif',
+    description: '20M+ webbplatser',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap'
+  },
+  {
+    value: 'lato',
+    label: 'Lato',
+    family: '"Lato", system-ui, sans-serif',
+    description: 'Slack använder den',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap'
+  },
+  {
+    value: 'work-sans',
+    label: 'Work Sans',
+    family: '"Work Sans", system-ui, sans-serif',
+    description: 'Professional modern',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap'
+  },
+  {
+    value: 'dm-sans',
+    label: 'DM Sans',
+    family: '"DM Sans", system-ui, sans-serif',
+    description: 'Skärmoptimerad',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap'
+  },
+  {
+    value: 'source-sans-3',
+    label: 'Source Sans 3',
+    family: '"Source Sans 3", system-ui, sans-serif',
+    description: 'Adobe\'s open source',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;500;600;700;800;900&display=swap'
+  },
+  {
+    value: 'nunito-sans',
+    label: 'Nunito Sans',
+    family: '"Nunito Sans", system-ui, sans-serif',
+    description: 'Rund och vänlig',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;500;600;700;800;900&display=swap'
+  },
+  {
+    value: 'plus-jakarta-sans',
+    label: 'Plus Jakarta Sans',
+    family: '"Plus Jakarta Sans", system-ui, sans-serif',
+    description: 'Tech startup favorit',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap'
+  },
+  
+  // Geometric & Unique Sans-Serif
   {
     value: 'outfit',
     label: 'Outfit',
@@ -92,50 +144,34 @@ const ALL_FONTS = [
     preview: 'Aa',
     googleUrl: 'https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap'
   },
-  
-  // Friendly & Accessible
   {
-    value: 'open-sans',
-    label: 'Open Sans',
-    family: '"Open Sans", system-ui, sans-serif',
-    description: '20M+ webbplatser',
+    value: 'rubik',
+    label: 'Rubik',
+    family: '"Rubik", system-ui, sans-serif',
+    description: 'Playful & friendly',
     preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap'
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap'
   },
   {
-    value: 'lato',
-    label: 'Lato',
-    family: '"Lato", system-ui, sans-serif',
-    description: 'Slack använder den',
+    value: 'fira-sans',
+    label: 'Fira Sans',
+    family: '"Fira Sans", system-ui, sans-serif',
+    description: 'Mozilla\'s humanist',
     preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap'
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap'
   },
   {
-    value: 'source-sans-3',
-    label: 'Source Sans 3',
-    family: '"Source Sans 3", system-ui, sans-serif',
-    description: 'Adobe\'s open source',
+    value: 'red-hat-display',
+    label: 'Red Hat Display',
+    family: '"Red Hat Display", system-ui, sans-serif',
+    description: 'Corporate friendly',
     preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;500;600;700;800;900&display=swap'
-  },
-  {
-    value: 'nunito-sans',
-    label: 'Nunito Sans',
-    family: '"Nunito Sans", system-ui, sans-serif',
-    description: 'Rund och vänlig',
-    preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;500;600;700;800;900&display=swap'
-  },
-  {
-    value: 'dm-sans',
-    label: 'DM Sans',
-    family: '"DM Sans", system-ui, sans-serif',
-    description: 'Skärmoptimerad',
-    preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap'
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap'
   },
   
-  // Editorial & Magazine
+  // ===== SERIF FONTS =====
+  
+  // Editorial & Reading Serifs
   {
     value: 'lora',
     label: 'Lora',
@@ -143,14 +179,6 @@ const ALL_FONTS = [
     description: 'Optimerad för skärm',
     preview: 'Aa',
     googleUrl: 'https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap'
-  },
-  {
-    value: 'alegreya',
-    label: 'Alegreya',
-    family: '"Alegreya", Georgia, serif',
-    description: 'Font of the Decade',
-    preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;600;700;800;900&display=swap'
   },
   {
     value: 'merriweather',
@@ -168,65 +196,47 @@ const ALL_FONTS = [
     preview: 'Aa',
     googleUrl: 'https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap'
   },
-  
-  // Trendy & Popular
   {
-    value: 'poppins',
-    label: 'Poppins',
-    family: '"Poppins", system-ui, sans-serif',
-    description: 'Geometric trendig',
+    value: 'source-serif-4',
+    label: 'Source Serif 4',
+    family: '"Source Serif 4", Georgia, serif',
+    description: 'Adobe\'s reading serif',
     preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap'
-  },
-  {
-    value: 'inter',
-    label: 'Inter',
-    family: '"Inter", system-ui, sans-serif',
-    description: 'UI-designad',
-    preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap'
-  },
-  {
-    value: 'work-sans',
-    label: 'Work Sans',
-    family: '"Work Sans", system-ui, sans-serif',
-    description: 'Professional modern',
-    preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap'
-  },
-  {
-    value: 'rubik',
-    label: 'Rubik',
-    family: '"Rubik", system-ui, sans-serif',
-    description: 'Google Cube font',
-    preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap'
-  },
-  {
-    value: 'plus-jakarta-sans',
-    label: 'Plus Jakarta Sans',
-    family: '"Plus Jakarta Sans", system-ui, sans-serif',
-    description: 'Tech startup favorit',
-    preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap'
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@200;300;400;500;600;700;800;900&display=swap'
   },
   
-  // System & Performance
+  // Elegant & Luxury Serifs
   {
-    value: 'system-ui',
-    label: 'System UI',
-    family: 'system-ui, -apple-system, sans-serif',
-    description: 'Snabbast möjliga',
+    value: 'cormorant-garamond',
+    label: 'Cormorant Garamond',
+    family: '"Cormorant Garamond", Georgia, serif',
+    description: 'Klassisk bokelegans',
     preview: 'Aa',
-    googleUrl: null
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap'
   },
   {
-    value: 'roboto',
-    label: 'Roboto',
-    family: '"Roboto", system-ui, sans-serif',
-    description: 'Google\'s standard',
+    value: 'literata',
+    label: 'Literata',
+    family: '"Literata", Georgia, serif',
+    description: 'Google\'s book font',
     preview: 'Aa',
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap'
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Literata:wght@200;300;400;500;600;700;800&display=swap'
+  },
+  {
+    value: 'alegreya',
+    label: 'Alegreya',
+    family: '"Alegreya", Georgia, serif',
+    description: 'Font of the Decade',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;600;700;800;900&display=swap'
+  },
+  {
+    value: 'ebgaramond',
+    label: 'EB Garamond',
+    family: '"EB Garamond", Georgia, serif',
+    description: 'Classical elegance',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&display=swap'
   },
 ];
 
