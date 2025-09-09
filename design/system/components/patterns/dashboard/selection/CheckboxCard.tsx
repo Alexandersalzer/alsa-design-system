@@ -1,5 +1,6 @@
 // ===============================================
-// Modified CheckboxCard.tsx - Add hideCheckbox prop
+// src/design-system/components/patterns/selection/CheckboxCard.tsx
+// COMPLETE FILE - Both CheckboxCard and CheckboxCardGroup
 // ===============================================
 
 import React, { forwardRef, useId } from 'react';
@@ -278,3 +279,90 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
 });
 
 CheckboxCard.displayName = 'CheckboxCard';
+
+// ===============================================
+// CheckboxCardGroup Component
+// ===============================================
+
+export interface CheckboxCardGroupProps {
+  label?: string;
+  description?: string;
+  error?: string;
+  required?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  children: React.ReactNode;
+  className?: string;
+  
+  // Grid options
+  columns?: 1 | 2 | 3 | 4 | 'auto';
+  gap?: 'sm' | 'md' | 'lg';
+}
+
+export const CheckboxCardGroup: React.FC<CheckboxCardGroupProps> = ({
+  label,
+  description,
+  error,
+  required = false,
+  size = 'md',
+  children,
+  className,
+  columns = 'auto',
+  gap = 'md'
+}) => {
+  const groupId = useId();
+
+  const getGridClasses = () => {
+    if (columns === 'auto') {
+      return 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+    }
+    
+    const gridColumns = {
+      1: 'grid grid-cols-1',
+      2: 'grid grid-cols-1 md:grid-cols-2',
+      3: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+      4: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+    }[columns];
+
+    return gridColumns;
+  };
+
+  const gapClasses = {
+    sm: 'gap-2',
+    md: 'gap-4',
+    lg: 'gap-6'
+  }[gap];
+
+  return (
+    <div className={cn('checkbox-card-group', className)} role="group" aria-labelledby={label ? `${groupId}-label` : undefined}>
+      {label && (
+        <div id={`${groupId}-label`} className="checkbox-card-group__label font-semibold text-lg mb-2">
+          {label}
+          {required && <span className="text-red-500 ml-1">*</span>}
+        </div>
+      )}
+      
+      {description && (
+        <div className="checkbox-card-group__description text-gray-600 mb-4">
+          {description}
+        </div>
+      )}
+      
+      <div className={cn(getGridClasses(), gapClasses)}>
+        {React.Children.map(children, (child) => {
+          if (React.isValidElement(child) && (child.type as any) === CheckboxCard) {
+            return React.cloneElement(child as React.ReactElement<CheckboxCardProps>, {
+              size: (child.props as CheckboxCardProps).size || size,
+            });
+          }
+          return child;
+        })}
+      </div>
+      
+      {error && (
+        <div className="checkbox-card-group__error text-red-600 text-sm mt-2" role="alert">
+          {error}
+        </div>
+      )}
+    </div>
+  );
+};
