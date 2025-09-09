@@ -1,15 +1,14 @@
 /* ===============================================
-// src/design-system/components/patterns/selection/CheckboxCard.css
-// FIXED VERSION - Proper label clicking and accessibility
+// Updated CheckboxCard.css - Support for hidden checkbox
 // =============================================== */
 
 .checkbox-card {
   cursor: pointer;
   transition: all 0.2s ease;
-  user-select: none; /* Prevent text selection on clicks */
+  user-select: none;
 }
 
-.checkbox-card:hover:not(.checkbox-card--disabled) {
+.checkbox-card:hover:not(.checkbox-card--disabled):not(.checkbox-card--no-checkbox) {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
@@ -23,21 +22,25 @@
   background-color: var(--secondary-50);
 }
 
+/* When checkbox is hidden, remove pointer cursor and interactions */
+.checkbox-card--no-checkbox {
+  cursor: default;
+}
+
+.checkbox-card--no-checkbox:hover {
+  box-shadow: none;
+}
+
+.checkbox-card--no-checkbox:focus {
+  outline: none;
+}
+
 /* Preselected/disabled state - clearly visible but distinct */
 .checkbox-card--disabled {
   opacity: 0.9;
   cursor: default;
   pointer-events: none;
-  border: 2px solid var(--accent-300);
   position: relative;
-}
-
-/* Preselected checkbox should be vibrant and green */
-.checkbox-card--disabled .checkbox-card__checkbox input[type="checkbox"] {
-  accent-color: var(--success-500);
-  opacity: 1;
-  cursor: default;
-  transform: scale(1.1);
 }
 
 /* Text should be clearly readable in green theme */
@@ -76,20 +79,28 @@
   gap: 16px;
 }
 
-/* Content area (left side) - make it clickable */
-.checkbox-card__content {
-  flex: 1;
-  min-width: 0; /* Prevents overflow */
-  cursor: pointer; /* Ensure content area shows pointer cursor */
+/* When no checkbox, center or left-align content */
+.checkbox-card__main--no-checkbox {
+  justify-content: flex-start;
 }
 
-/* Checkbox area (right side) - make it more visible and vibrant */
+/* Content area (left side) */
+.checkbox-card__content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Content area when no checkbox - make clickable only if interactive */
+.checkbox-card:not(.checkbox-card--no-checkbox) .checkbox-card__content {
+  cursor: pointer;
+}
+
+/* Checkbox area (right side) */
 .checkbox-card__checkbox {
   flex-shrink: 0;
   align-self: flex-start;
 }
 
-/* Make the actual checkbox input more visible */
 .checkbox-card__checkbox input[type="checkbox"] {
   width: 20px;
   height: 20px;
@@ -98,10 +109,24 @@
   opacity: 1;
 }
 
-/* Make the checkbox even more visible when checked */
 .checkbox-card--checked .checkbox-card__checkbox input[type="checkbox"] {
   accent-color: var(--accent-600);
   transform: scale(1.05);
+}
+
+/* Visual indicator when checkbox is hidden but item is checked */
+.checkbox-card__indicator {
+  flex-shrink: 0;
+  align-self: flex-start;
+  width: 24px;
+  height: 24px;
+  background-color: var(--success-500);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* VERTICAL ORIENTATION */
@@ -130,7 +155,7 @@
 
 .checkbox-card__horizontal-content .checkbox-card__icon {
   flex-shrink: 0;
-  margin-top: 2px; /* Align with first line of text */
+  margin-top: 2px;
 }
 
 .checkbox-card__horizontal-content .checkbox-card__text {
@@ -138,24 +163,28 @@
   min-width: 0;
 }
 
-/* Text elements - all clickable - USE PRIMARY/SECONDARY COLORS */
+/* Text elements */
 .checkbox-card__label {
   font-weight: 500;
   color: var(--text-primary);
-  cursor: pointer;
   user-select: none;
   line-height: 1.4;
   display: block;
   margin-bottom: 4px;
 }
 
-.checkbox-card__label:hover {
-  color: var(--text-primary); /* Keep primary on hover */
+/* Only make label clickable if checkbox is not hidden */
+.checkbox-card:not(.checkbox-card--no-checkbox) .checkbox-card__label {
+  cursor: pointer;
+}
+
+.checkbox-card:not(.checkbox-card--no-checkbox) .checkbox-card__label:hover {
+  color: var(--text-primary);
 }
 
 .checkbox-card--checked .checkbox-card__label {
-  color: var(--text-primary); /* Keep primary when selected */
-  font-weight: 600; /* Just make it bolder instead of color change */
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .checkbox-card--sm .checkbox-card__label {
@@ -175,15 +204,19 @@
   color: var(--text-secondary);
   line-height: 1.4;
   margin-bottom: 8px;
+}
+
+/* Only make description clickable if checkbox is not hidden */
+.checkbox-card:not(.checkbox-card--no-checkbox) .checkbox-card__description {
   cursor: pointer;
 }
 
-.checkbox-card__description:hover {
+.checkbox-card:not(.checkbox-card--no-checkbox) .checkbox-card__description:hover {
   color: var(--text-primary);
 }
 
 .checkbox-card--checked .checkbox-card__description {
-  color: var(--text-secondary); /* Keep secondary when selected */
+  color: var(--text-secondary);
 }
 
 .checkbox-card--sm .checkbox-card__description {
@@ -202,26 +235,28 @@
   color: var(--error-500);
 }
 
-/* Children content - also clickable */
+/* Children content */
 .checkbox-card__children {
   margin-top: 8px;
+}
+
+/* Only make children clickable if checkbox is not hidden */
+.checkbox-card:not(.checkbox-card--no-checkbox) .checkbox-card__children {
   cursor: pointer;
 }
 
-/* Addon area (like pricing) - only shows when content exists */
+/* Addon area */
 .checkbox-card__addon {
   border-top: 1px solid var(--border-subtle);
   padding-top: 8px;
   margin-top: 8px;
-  min-height: 0; /* Prevents unnecessary height when empty */
+  min-height: 0;
 }
 
-/* Ensure tags in addon area stay compact */
 .checkbox-card__addon .tag {
-  flex-shrink: 0; /* Prevent tags from shrinking */
+  flex-shrink: 0;
 }
 
-/* Better spacing for flex containers in addon */
 .checkbox-card__addon > div {
   line-height: 1.2;
 }
@@ -258,8 +293,8 @@
   margin-top: 8px;
 }
 
-/* Active/pressed state for better feedback */
-.checkbox-card:active:not(.checkbox-card--disabled) {
+/* Active/pressed state for interactive cards only */
+.checkbox-card:not(.checkbox-card--no-checkbox):active:not(.checkbox-card--disabled) {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -295,6 +330,10 @@
   
   .checkbox-card__checkbox input[type="checkbox"] {
     border: 3px solid var(--accent-700);
+  }
+  
+  .checkbox-card__indicator {
+    border: 2px solid var(--success-700);
   }
 }
 
