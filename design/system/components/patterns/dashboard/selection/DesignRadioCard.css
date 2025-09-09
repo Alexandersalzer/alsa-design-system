@@ -168,8 +168,8 @@
 .design-radio-card__radius-shape {
   width: 20px;
   height: 20px;
-  background-color: var(--accent-300);
-  border: 1px solid var(--accent-400);
+  background-color: var(--secondary-300);
+  border: 1px solid var(--secondary-400);
 }
 
 .design-radio-card--xs .design-radio-card__radius-shape {
