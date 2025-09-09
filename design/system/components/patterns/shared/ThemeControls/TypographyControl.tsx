@@ -561,16 +561,16 @@ export function TypographyControl({
           <Body size="sm" className="text-blue-800">
             <strong>📊 Font Stats:</strong><br />
             • {ALL_FONTS.length} professionella fonts<br />
-            • 100% gratis för kommersiell användning<br />
-            • Baserat på verkliga hemsidor
+            • Alla fungerar för rubriker & brödtext<br />
+            • 100% gratis kommersiell användning
           </Body>
         </div>
         <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
           <Body size="sm" className="text-green-800">
             <strong>💡 Tips:</strong><br />
-            • Luxury för premium brands<br />
-            • Modern för tech/contemporary<br />
-            • Friendly för bred målgrupp
+            • Versatile = Dina originalval<br />
+            • Universal = Beprövade favoriter<br />
+            • Alla passar både titel & text
           </Body>
         </div>
       </div>
