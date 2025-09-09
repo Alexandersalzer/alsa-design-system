@@ -10,11 +10,12 @@ import { Body, Icon } from '@blimpify-im/ui';
 
 // Simplified color structure: 10 colors, 3 variants each
 const COLOR_GRID = [
-  // Gray row
+
+  // Pink row
   [
-    { value: 'gray-light', label: 'Ljusgrå', hex: '#9CA3AF' },
-    { value: 'gray', label: 'Grå', hex: '#6B7280' },
-    { value: 'gray-dark', label: 'Mörkgrå', hex: '#374151' }
+    { value: 'pink-light', label: 'Ljusrosa', hex: '#F9A8D4' },
+    { value: 'pink', label: 'Rosa', hex: '#F43F5E' },
+    { value: 'pink-dark', label: 'Mörkrosa', hex: '#E11D48' }
   ],
   // Red row
   [
@@ -64,12 +65,12 @@ const COLOR_GRID = [
     { value: 'purple', label: 'Lila', hex: '#A855F7' },
     { value: 'purple-dark', label: 'Mörklila', hex: '#7C3AED' }
   ],
-  // Pink row
+    // Gray row
   [
-    { value: 'pink-light', label: 'Ljusrosa', hex: '#F9A8D4' },
-    { value: 'pink', label: 'Rosa', hex: '#F43F5E' },
-    { value: 'pink-dark', label: 'Mörkrosa', hex: '#E11D48' }
-  ]
+    { value: 'gray-light', label: 'Ljusgrå', hex: '#9CA3AF' },
+    { value: 'gray', label: 'Grå', hex: '#6B7280' },
+    { value: 'gray-dark', label: 'Mörkgrå', hex: '#374151' }
+  ],
 ];
 
 // Flatten the grid for the radio group
@@ -124,28 +125,6 @@ export function AccentColorControl({ className }: AccentColorControlProps) {
           </div>
         ))}
       </div>
-
-      {/* Selected color display */}
-      {accentColor && (
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <div className="flex items-center gap-3">
-            <div 
-              className="w-8 h-8 rounded-lg border border-gray-300 shadow-sm"
-              style={{ 
-                backgroundColor: ALL_COLORS.find(c => c.value === accentColor)?.hex 
-              }}
-            />
-            <div>
-              <Body size="sm" weight="medium" className="text-gray-900">
-                Vald färg: {ALL_COLORS.find(c => c.value === accentColor)?.label}
-              </Body>
-              <Body size="xs" color="secondary" className="font-mono">
-                {ALL_COLORS.find(c => c.value === accentColor)?.hex}
-              </Body>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Wrap in radio group for proper form behavior */}
       <div className="sr-only">
