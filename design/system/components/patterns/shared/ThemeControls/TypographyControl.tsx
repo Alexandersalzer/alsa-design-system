@@ -396,7 +396,7 @@ export function TypographyControl({
         </Icon>
         <div>
           <Body weight="medium" className="mb-1">Typografi</Body>
-          {/*<Body size="sm" color="secondary">Välj från {ALL_FONTS.length} professionella fonts för din hemsida</Body>*/}
+          <Body size="sm" color="secondary">Välj från {ALL_FONTS.length} professionella fonts för din hemsida</Body>
         </div>
       </div>
 
