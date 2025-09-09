@@ -169,6 +169,76 @@ const ALL_FONTS = [
     googleUrl: 'https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap'
   },
   
+  // ===== MODERN STARTUP/TECH FONTS =====
+  
+  // AI & Tech Startup Favorites
+  {
+    value: 'ibm-plex-sans',
+    label: 'IBM Plex Sans',
+    family: '"IBM Plex Sans", system-ui, sans-serif',
+    description: 'IBM\'s modern corporate',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap'
+  },
+  {
+    value: 'satoshi',
+    label: 'Satoshi',
+    family: '"Satoshi", system-ui, sans-serif',
+    description: 'Swiss modernist design',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Satoshi:wght@300;400;500;600;700;800;900&display=swap'
+  },
+  {
+    value: 'cal-sans',
+    label: 'Cal Sans',
+    family: '"Cal Sans", system-ui, sans-serif',
+    description: 'Y Combinator favorite',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Cal+Sans:wght@300;400;500;600;700;800&display=swap'
+  },
+  {
+    value: 'untitled-sans',
+    label: 'Untitled Sans',
+    family: '"Untitled Sans", system-ui, sans-serif',
+    description: 'Klarna\'s choice',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Untitled+Sans:wght@200;300;400;500;600;700;800&display=swap'
+  },
+  
+  // E-commerce & Business
+  {
+    value: 'graphik',
+    label: 'Graphik',
+    family: '"Graphik", system-ui, sans-serif',
+    description: 'Webflow\'s standard',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Graphik:wght@300;400;500;600;700&display=swap'
+  },
+  {
+    value: 'roobert',
+    label: 'Roobert',
+    family: '"Roobert", system-ui, sans-serif',
+    description: 'Sharp & distinctive',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Roobert:wght@300;400;500;600;700&display=swap'
+  },
+  {
+    value: 'circular-std',
+    label: 'Circular Std',
+    family: '"Circular Std", system-ui, sans-serif',
+    description: 'Spotify\'s choice',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Circular+Std:wght@300;400;500;600;700&display=swap'
+  },
+  {
+    value: 'basier-circle',
+    label: 'Basier Circle',
+    family: '"Basier Circle", system-ui, sans-serif',
+    description: 'Bold character',
+    preview: 'Aa',
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Basier+Circle:wght@300;400;500;600;700&display=swap'
+  },
+  
   // ===== SERIF FONTS =====
   
   // Editorial & Reading Serifs
@@ -326,7 +396,7 @@ export function TypographyControl({
         </Icon>
         <div>
           <Body weight="medium" className="mb-1">Typografi</Body>
-          <Body size="sm" color="secondary">Välj från {ALL_FONTS.length} professionella fonts för din hemsida</Body>
+          {/*<Body size="sm" color="secondary">Välj från {ALL_FONTS.length} professionella fonts för din hemsida</Body>*/}
         </div>
       </div>
 
