@@ -1,78 +1,65 @@
 // ===============================================
-// AccentColorControl.tsx - Simplified Single Grid (Svenska)
-// 3x10 grid with 3 variants per color
+// AccentColorControl.tsx - Compact 6x5 Grid Version
+// Color dots only, no labels, much shorter height
 // ===============================================
 import React from 'react';
-import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
 import { useTheme, type ColorScale } from '../../../../hooks/useTheme';
 import { SwatchIcon } from '@heroicons/react/24/outline';
 import { Body, Icon } from '@blimpify-im/ui';
 
-// Simplified color structure: 10 colors, 3 variants each
+// Compact color structure: 30 colors in 6x5 grid
 const COLOR_GRID = [
-  // Gray row
+  // Row 1 - Grays
   [
-    { value: 'gray-light', label: 'Ljusgrå', hex: '#9CA3AF' },
-    { value: 'gray', label: 'Grå', hex: '#6B7280' },
-    { value: 'gray-dark', label: 'Mörkgrå', hex: '#374151' }
+    { value: 'gray-light', hex: '#9CA3AF' },
+    { value: 'gray', hex: '#6B7280' },
+    { value: 'gray-dark', hex: '#374151' },
+    { value: 'slate', hex: '#64748B' },
+    { value: 'charcoal', hex: '#1F2937' }
   ],
-  // Red row
+  // Row 2 - Reds
   [
-    { value: 'red-light', label: 'Ljusröd', hex: '#FCA5A5' },
-    { value: 'red', label: 'Röd', hex: '#EF4444' },
-    { value: 'red-dark', label: 'Mörkröd', hex: '#DC2626' }
+    { value: 'red-light', hex: '#FCA5A5' },
+    { value: 'red', hex: '#EF4444' },
+    { value: 'red-dark', hex: '#DC2626' },
+    { value: 'crimson', hex: '#DC143C' },
+    { value: 'ruby', hex: '#E11D48' }
   ],
-  // Orange row
+  // Row 3 - Oranges
   [
-    { value: 'orange-light', label: 'Ljusorange', hex: '#FB923C' },
-    { value: 'orange', label: 'Orange', hex: '#F97316' },
-    { value: 'orange-dark', label: 'Mörkorange', hex: '#EA580C' }
+    { value: 'orange-light', hex: '#FB923C' },
+    { value: 'orange', hex: '#F97316' },
+    { value: 'orange-dark', hex: '#EA580C' },
+    { value: 'amber', hex: '#F59E0B' },
+    { value: 'tangerine', hex: '#FF8C00' }
   ],
-  // Yellow row
+  // Row 4 - Yellows
   [
-    { value: 'yellow-light', label: 'Ljusgul', hex: '#FDE047' },
-    { value: 'yellow', label: 'Gul', hex: '#F59E0B' },
-    { value: 'yellow-dark', label: 'Mörkgul', hex: '#D97706' }
+    { value: 'yellow-light', hex: '#FDE047' },
+    { value: 'yellow', hex: '#F59E0B' },
+    { value: 'yellow-dark', hex: '#D97706' },
+    { value: 'honey', hex: '#FBBF24' },
+    { value: 'gold', hex: '#FFD700' }
   ],
-  // Green row
+  // Row 5 - Greens
   [
-    { value: 'green-light', label: 'Ljusgrön', hex: '#4ADE80' },
-    { value: 'green', label: 'Grön', hex: '#10B981' },
-    { value: 'green-dark', label: 'Mörkgrön', hex: '#059669' }
+    { value: 'green-light', hex: '#4ADE80' },
+    { value: 'green', hex: '#10B981' },
+    { value: 'green-dark', hex: '#059669' },
+    { value: 'emerald', hex: '#10B981' },
+    { value: 'forest', hex: '#047857' }
   ],
-  // Teal row
+  // Row 6 - Blues & Purples
   [
-    { value: 'teal-light', label: 'Ljus Teal', hex: '#5EEAD4' },
-    { value: 'teal', label: 'Teal', hex: '#14B8A6' },
-    { value: 'teal-dark', label: 'Mörk Teal', hex: '#0F766E' }
-  ],
-  // Blue row
-  [
-    { value: 'blue-light', label: 'Ljusblå', hex: '#60A5FA' },
-    { value: 'blue', label: 'Blå', hex: '#3B82F6' },
-    { value: 'blue-dark', label: 'Mörkblå', hex: '#1D4ED8' }
-  ],
-  // Indigo row
-  [
-    { value: 'indigo-light', label: 'Ljus Indigo', hex: '#A5B4FC' },
-    { value: 'indigo', label: 'Indigo', hex: '#6366F1' },
-    { value: 'indigo-dark', label: 'Mörk Indigo', hex: '#4338CA' }
-  ],
-  // Purple row
-  [
-    { value: 'purple-light', label: 'Ljuslila', hex: '#C084FC' },
-    { value: 'purple', label: 'Lila', hex: '#A855F7' },
-    { value: 'purple-dark', label: 'Mörklila', hex: '#7C3AED' }
-  ],
-  // Pink row
-  [
-    { value: 'pink-light', label: 'Ljusrosa', hex: '#F9A8D4' },
-    { value: 'pink', label: 'Rosa', hex: '#F43F5E' },
-    { value: 'pink-dark', label: 'Mörkrosa', hex: '#E11D48' }
+    { value: 'blue-light', hex: '#60A5FA' },
+    { value: 'blue', hex: '#3B82F6' },
+    { value: 'indigo', hex: '#6366F1' },
+    { value: 'purple', hex: '#A855F7' },
+    { value: 'pink', hex: '#F43F5E' }
   ]
 ];
 
-// Flatten the grid for the radio group
+// Flatten the grid for easier searching
 const ALL_COLORS = COLOR_GRID.flat();
 
 interface AccentColorControlProps {
@@ -91,7 +78,7 @@ export function AccentColorControl({ className }: AccentColorControlProps) {
   return (
     <div className={className}>
       {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center gap-3 mb-4">
         <Icon size="md" color="primary">
           <SwatchIcon />
         </Icon>
@@ -100,26 +87,46 @@ export function AccentColorControl({ className }: AccentColorControlProps) {
             Varumärkesfärg
           </Body>
           <Body size="sm" color="secondary">
-            Välj din primära accentfärg från paletten nedan
+            Välj din primära accentfärg
           </Body>
         </div>
       </div>
 
-      {/* Single 3x10 Grid */}
-      <div className="flex flex-col" style={{ gap: '6px' }}>
+      {/* Compact 6x5 Color Grid */}
+      <div className="flex flex-col" style={{ gap: '4px' }}>
         {COLOR_GRID.map((colorRow, rowIndex) => (
-          <div key={rowIndex} className="grid grid-cols-3" style={{ gap: '6px' }}>
+          <div key={rowIndex} className="grid grid-cols-5" style={{ gap: '4px' }}>
             {colorRow.map((color) => (
-              <DesignRadioCardItem
+              <button
                 key={color.value}
-                value={color.value}
-                label={color.label}
-                variant="color"
-                colorValue={color.hex}
-                checked={accentColor === color.value}
+                className={`
+                  relative w-8 h-8 rounded-md border-2 transition-all duration-200 hover:scale-110
+                  ${accentColor === color.value 
+                    ? 'border-gray-900 shadow-lg scale-110' 
+                    : 'border-gray-200 hover:border-gray-400'
+                  }
+                `}
+                style={{ backgroundColor: color.hex }}
                 onClick={() => handleColorChange(color.value)}
-                className="aspect-square hover:scale-105 transition-transform"
-              />
+                title={color.value}
+                aria-label={`Select ${color.value} color`}
+              >
+                {accentColor === color.value && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <svg 
+                      className="w-4 h-4 text-white drop-shadow-sm" 
+                      fill="currentColor" 
+                      viewBox="0 0 20 20"
+                    >
+                      <path 
+                        fillRule="evenodd" 
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" 
+                        clipRule="evenodd" 
+                      />
+                    </svg>
+                  </div>
+                )}
+              </button>
             ))}
           </div>
         ))}
@@ -127,17 +134,17 @@ export function AccentColorControl({ className }: AccentColorControlProps) {
 
       {/* Selected color display */}
       {accentColor && (
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+        <div className="mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
           <div className="flex items-center gap-3">
             <div 
-              className="w-8 h-8 rounded-lg border border-gray-300 shadow-sm"
+              className="w-6 h-6 rounded border border-gray-300 shadow-sm"
               style={{ 
                 backgroundColor: ALL_COLORS.find(c => c.value === accentColor)?.hex 
               }}
             />
             <div>
               <Body size="sm" weight="medium" className="text-gray-900">
-                Vald färg: {ALL_COLORS.find(c => c.value === accentColor)?.label}
+                Vald färg: {accentColor}
               </Body>
               <Body size="xs" color="secondary" className="font-mono">
                 {ALL_COLORS.find(c => c.value === accentColor)?.hex}
