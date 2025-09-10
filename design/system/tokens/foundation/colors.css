@@ -226,22 +226,22 @@
 
   /* ===== GREEN FAMILY ===== */
   
-  /* Green-Light Scale - Used in AccentColorControl */
-  --foundation-green-light-100: #F0FDF4;
-  --foundation-green-light-200: #DCFCE7;
-  --foundation-green-light-300: #BBF7D0;
-  --foundation-green-light-400: #86EFAC;
-  --foundation-green-light-500: #4ADE80;
-  --foundation-green-light-600: #22C55E;
-  --foundation-green-light-700: #16A34A;
-  --foundation-green-light-800: #15803D;
-  --foundation-green-light-900: #166534;
-  --foundation-green-light-950: #14532D;
-  --foundation-green-light-1000: #052E16;
-  --foundation-green-light-1100: #0F2419;
-  --foundation-green-light-1200: #0A1F0C;
+  /* Green-Light Scale (Lime Green - ljusare, mer gul-grön) - Used in AccentColorControl */
+  --foundation-green-light-100: #F7FEF0;
+  --foundation-green-light-200: #ECFDF5;
+  --foundation-green-light-300: #D1FAE5;
+  --foundation-green-light-400: #A7F3D0;
+  --foundation-green-light-500: #6EE7B7;
+  --foundation-green-light-600: #34D399;
+  --foundation-green-light-700: #10B981;
+  --foundation-green-light-800: #059669;
+  --foundation-green-light-900: #047857;
+  --foundation-green-light-950: #065F46;
+  --foundation-green-light-1000: #064E3B;
+  --foundation-green-light-1100: #022C22;
+  --foundation-green-light-1200: #021E18;
 
-  /* Green Scale (Standard) - Used in AccentColorControl */
+  /* Green Scale (Standard Green - klassisk grön) - Used in AccentColorControl */
   --foundation-green-100: #F0FDF4;
   --foundation-green-200: #DCFCE7;
   --foundation-green-300: #BBF7D0;
@@ -256,20 +256,20 @@
   --foundation-green-1100: #0F2419;
   --foundation-green-1200: #0A1F0C;
 
-  /* Green-Dark Scale - Used in AccentColorControl */
-  --foundation-green-dark-100: #F0FDF4;
-  --foundation-green-dark-200: #DCFCE7;
-  --foundation-green-dark-300: #BBF7D0;
-  --foundation-green-dark-400: #86EFAC;
-  --foundation-green-dark-500: #4ADE80;
-  --foundation-green-dark-600: #22C55E;
-  --foundation-green-dark-700: #16A34A;
-  --foundation-green-dark-800: #15803D;
-  --foundation-green-dark-900: #059669;
-  --foundation-green-dark-950: #14532D;
-  --foundation-green-dark-1000: #052E16;
-  --foundation-green-dark-1100: #0F2419;
-  --foundation-green-dark-1200: #0A1F0C;
+  /* Green-Dark Scale (Forest Green - mörkare, mer blå-grön) - Used in AccentColorControl */
+  --foundation-green-dark-100: #F0F9F4;
+  --foundation-green-dark-200: #E6F4EA;
+  --foundation-green-dark-300: #CEE5D4;
+  --foundation-green-dark-400: #A8CDB8;
+  --foundation-green-dark-500: #7DB590;
+  --foundation-green-dark-600: #2F7D32;
+  --foundation-green-dark-700: #1B5E20;
+  --foundation-green-dark-800: #0F4C14;
+  --foundation-green-dark-900: #0A3B0E;
+  --foundation-green-dark-950: #072A0A;
+  --foundation-green-dark-1000: #051907;
+  --foundation-green-dark-1100: #030D04;
+  --foundation-green-dark-1200: #020702;
 
   /* Emerald Scale - Used in semantic colors (success) */
   --foundation-emerald-100: #ECFDF5;
@@ -350,22 +350,22 @@
 
   /* ===== BLUE FAMILY ===== */
   
-  /* Blue-Light Scale - Used in AccentColorControl */
+  /* Blue-Light Scale (Sky Blue - ljusare, mer cyan-tonen) - Used in AccentColorControl */
   --foundation-blue-light-100: #F0F9FF;
   --foundation-blue-light-200: #E0F2FE;
   --foundation-blue-light-300: #BAE6FD;
   --foundation-blue-light-400: #7DD3FC;
   --foundation-blue-light-500: #38BDF8;
-  --foundation-blue-light-600: #60A5FA;
-  --foundation-blue-light-700: #0EA5E9;
-  --foundation-blue-light-800: #0284C7;
-  --foundation-blue-light-900: #0369A1;
+  --foundation-blue-light-600: #0EA5E9;
+  --foundation-blue-light-700: #0284C7;
+  --foundation-blue-light-800: #0369A1;
+  --foundation-blue-light-900: #075985;
   --foundation-blue-light-950: #0C4A6E;
   --foundation-blue-light-1000: #082F49;
   --foundation-blue-light-1100: #0F172A;
   --foundation-blue-light-1200: #020617;
 
-  /* Blue Scale (Standard) - Used in AccentColorControl */
+  /* Blue Scale (Standard Blue - klassisk blå) - Used in AccentColorControl */
   --foundation-blue-100: #EFF6FF;
   --foundation-blue-200: #DBEAFE;
   --foundation-blue-300: #BFDBFE;
@@ -380,20 +380,20 @@
   --foundation-blue-1100: #0F1629;
   --foundation-blue-1200: #0A0E1A;
 
-  /* Blue-Dark Scale - Used in AccentColorControl */
-  --foundation-blue-dark-100: #EFF6FF;
-  --foundation-blue-dark-200: #DBEAFE;
-  --foundation-blue-dark-300: #BFDBFE;
-  --foundation-blue-dark-400: #93C5FD;
-  --foundation-blue-dark-500: #60A5FA;
-  --foundation-blue-dark-600: #1D4ED8;
-  --foundation-blue-dark-700: #1E40AF;
-  --foundation-blue-dark-800: #1E3A8A;
-  --foundation-blue-dark-900: #1E293B;
-  --foundation-blue-dark-950: #172554;
-  --foundation-blue-dark-1000: #0F1629;
-  --foundation-blue-dark-1100: #0A0E1A;
-  --foundation-blue-dark-1200: #020617;
+  /* Blue-Dark Scale (Royal Blue - djupare, mer mättad) - Used in AccentColorControl */
+  --foundation-blue-dark-100: #F8FAFC;
+  --foundation-blue-dark-200: #F1F5F9;
+  --foundation-blue-dark-300: #E2E8F0;
+  --foundation-blue-dark-400: #CBD5E1;
+  --foundation-blue-dark-500: #94A3B8;
+  --foundation-blue-dark-600: #1E40AF;
+  --foundation-blue-dark-700: #1E3A8A;
+  --foundation-blue-dark-800: #1E293B;
+  --foundation-blue-dark-900: #0F172A;
+  --foundation-blue-dark-950: #020617;
+  --foundation-blue-dark-1000: #010409;
+  --foundation-blue-dark-1100: #000204;
+  --foundation-blue-dark-1200: #000102;
 
   /* ===== INDIGO FAMILY ===== */
   
