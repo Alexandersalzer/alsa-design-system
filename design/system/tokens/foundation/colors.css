@@ -6,9 +6,9 @@
   --foundation-white: #f7f7f7;
   --foundation-black: #010101;
 
-  /* ===== GRAY FAMILY ===== */
+  /* ===== GRAY FAMILY (Light to Dark) ===== */
   
-  /* Gray-Light Scale (#9CA3AF at 600) */
+  /* Gray-Light Scale (#9CA3AF at 600) - LIGHTEST */
   --foundation-gray-light-100: #FAFAFA;
   --foundation-gray-light-200: #F5F5F5;
   --foundation-gray-light-300: #E5E5E5;
@@ -37,21 +37,6 @@
   --foundation-gray-1000: #252525;
   --foundation-gray-1100: #212121;
   --foundation-gray-1200: #171717;
-
-  /* Gray-Dark Scale (#374151 at 600) */
-  --foundation-gray-dark-100: #F8F9FA;
-  --foundation-gray-dark-200: #F1F3F4;
-  --foundation-gray-dark-300: #E3E5E8;
-  --foundation-gray-dark-400: #CED1D6;
-  --foundation-gray-dark-500: #9AA0A6;
-  --foundation-gray-dark-600: #374151;
-  --foundation-gray-dark-700: #2D3748;
-  --foundation-gray-dark-800: #1A202C;
-  --foundation-gray-dark-900: #171923;
-  --foundation-gray-dark-950: #0F1114;
-  --foundation-gray-dark-1000: #090A0C;
-  --foundation-gray-dark-1100: #050506;
-  --foundation-gray-dark-1200: #020203;
 
   /* Slate Scale (Blue-Gray - #64748B at 600) */
   --foundation-slate-100: #F8FAFC;
@@ -83,7 +68,22 @@
   --foundation-charcoal-1100: #080808;
   --foundation-charcoal-1200: #040404;
 
-  /* Charcoal-Variant Scale (Brown-Gray - #1F2937 at 600) */
+  /* Gray-Dark Scale (#374151 at 600) */
+  --foundation-gray-dark-100: #F8F9FA;
+  --foundation-gray-dark-200: #F1F3F4;
+  --foundation-gray-dark-300: #E3E5E8;
+  --foundation-gray-dark-400: #CED1D6;
+  --foundation-gray-dark-500: #9AA0A6;
+  --foundation-gray-dark-600: #374151;
+  --foundation-gray-dark-700: #2D3748;
+  --foundation-gray-dark-800: #1A202C;
+  --foundation-gray-dark-900: #171923;
+  --foundation-gray-dark-950: #0F1114;
+  --foundation-gray-dark-1000: #090A0C;
+  --foundation-gray-dark-1100: #050506;
+  --foundation-gray-dark-1200: #020203;
+
+  /* Charcoal-Variant Scale (Brown-Gray - #1F2937 at 600) - DARKEST */
   --foundation-charcoal-variant-100: #FEFDFB;
   --foundation-charcoal-variant-200: #F7F5F1;
   --foundation-charcoal-variant-300: #EBE7E0;
@@ -98,9 +98,9 @@
   --foundation-charcoal-variant-1100: #030405;
   --foundation-charcoal-variant-1200: #010102;
 
-  /* ===== RED FAMILY ===== */
+  /* ===== RED FAMILY (Light to Dark) ===== */
   
-  /* Red-Light Scale (Light Coral-Red) */
+  /* Red-Light Scale (Light Coral-Red) - LIGHTEST */
   --foundation-red-light-100: #FFF5F5;
   --foundation-red-light-200: #FED7D7;
   --foundation-red-light-300: #FEB2B2;
@@ -160,7 +160,7 @@
   --foundation-crimson-1100: #2B030B;
   --foundation-crimson-1200: #1A0207;
 
-  /* Ruby Scale (Rich Burgundy Red) */
+  /* Ruby Scale (Rich Burgundy Red) - DARKEST */
   --foundation-ruby-100: #FDF2F3;
   --foundation-ruby-200: #FCE1E4;
   --foundation-ruby-300: #F7C6CC;
@@ -175,9 +175,9 @@
   --foundation-ruby-1100: #2B030C;
   --foundation-ruby-1200: #1A0208;
 
-  /* ===== ORANGE FAMILY ===== */
+  /* ===== ORANGE FAMILY (Light to Dark) ===== */
   
-  /* Orange-Light Scale */
+  /* Orange-Light Scale - LIGHTEST */
   --foundation-orange-light-100: #FFF7ED;
   --foundation-orange-light-200: #FFEDD5;
   --foundation-orange-light-300: #FED7AA;
@@ -191,6 +191,21 @@
   --foundation-orange-light-1000: #431407;
   --foundation-orange-light-1100: #3A1207;
   --foundation-orange-light-1200: #1C0B05;
+
+  /* Tangerine Scale */
+  --foundation-tangerine-100: #FFF7ED;
+  --foundation-tangerine-200: #FFEDD5;
+  --foundation-tangerine-300: #FED7AA;
+  --foundation-tangerine-400: #FDBA74;
+  --foundation-tangerine-500: #FF8C00;
+  --foundation-tangerine-600: #FB923C;
+  --foundation-tangerine-700: #F97316;
+  --foundation-tangerine-800: #EA580C;
+  --foundation-tangerine-900: #C2410C;
+  --foundation-tangerine-950: #9A3412;
+  --foundation-tangerine-1000: #7C2D12;
+  --foundation-tangerine-1100: #431407;
+  --foundation-tangerine-1200: #1C0B05;
 
   /* Orange Scale (Standard) */
   --foundation-orange-100: #FFF7ED;
@@ -222,22 +237,7 @@
   --foundation-orange-dark-1100: #3A1207;
   --foundation-orange-dark-1200: #1C0B05;
 
-  /* Tangerine Scale */
-  --foundation-tangerine-100: #FFF7ED;
-  --foundation-tangerine-200: #FFEDD5;
-  --foundation-tangerine-300: #FED7AA;
-  --foundation-tangerine-400: #FDBA74;
-  --foundation-tangerine-500: #FF8C00;
-  --foundation-tangerine-600: #FB923C;
-  --foundation-tangerine-700: #F97316;
-  --foundation-tangerine-800: #EA580C;
-  --foundation-tangerine-900: #C2410C;
-  --foundation-tangerine-950: #9A3412;
-  --foundation-tangerine-1000: #7C2D12;
-  --foundation-tangerine-1100: #431407;
-  --foundation-tangerine-1200: #1C0B05;
-
-  /* Amber Scale */
+  /* Amber Scale - DARKEST */
   --foundation-amber-100: #FEF3C7;
   --foundation-amber-200: #FDE68A;
   --foundation-amber-300: #FCD34D;
@@ -252,9 +252,9 @@
   --foundation-amber-1100: #2A1005;
   --foundation-amber-1200: #1A0A03;
 
-  /* ===== YELLOW FAMILY ===== */
+  /* ===== YELLOW FAMILY (Light to Dark) ===== */
   
-  /* Yellow-Light Scale */
+  /* Yellow-Light Scale - LIGHTEST */
   --foundation-yellow-light-100: #FEFCE8;
   --foundation-yellow-light-200: #FEF3C7;
   --foundation-yellow-light-300: #FDE68A;
@@ -268,51 +268,6 @@
   --foundation-yellow-light-1000: #78350F;
   --foundation-yellow-light-1100: #451A03;
   --foundation-yellow-light-1200: #1A0A03;
-
-  /* Yellow Scale (Standard) */
-  --foundation-yellow-100: #FEFCE8;
-  --foundation-yellow-200: #FEF3C7;
-  --foundation-yellow-300: #FDE68A;
-  --foundation-yellow-400: #FCD34D;
-  --foundation-yellow-500: #FBBF24;
-  --foundation-yellow-600: #F59E0B;
-  --foundation-yellow-700: #D97706;
-  --foundation-yellow-800: #B45309;
-  --foundation-yellow-900: #92400E;
-  --foundation-yellow-950: #78350F;
-  --foundation-yellow-1000: #451A03;
-  --foundation-yellow-1100: #3A1507;
-  --foundation-yellow-1200: #1A0A03;
-
-  /* Yellow-Dark Scale */
-  --foundation-yellow-dark-100: #FEFCE8;
-  --foundation-yellow-dark-200: #FEF3C7;
-  --foundation-yellow-dark-300: #FDE68A;
-  --foundation-yellow-dark-400: #FDE047;
-  --foundation-yellow-dark-500: #FCD34D;
-  --foundation-yellow-dark-600: #FBBF24;
-  --foundation-yellow-dark-700: #F59E0B;
-  --foundation-yellow-dark-800: #D97706;
-  --foundation-yellow-dark-900: #B45309;
-  --foundation-yellow-dark-950: #92400E;
-  --foundation-yellow-dark-1000: #78350F;
-  --foundation-yellow-dark-1100: #451A03;
-  --foundation-yellow-dark-1200: #1A0A03;
-
-  /* Honey Scale */
-  --foundation-honey-100: #FEF3C7;
-  --foundation-honey-200: #FDE68A;
-  --foundation-honey-300: #FCD34D;
-  --foundation-honey-400: #FBBF24;
-  --foundation-honey-500: #F59E0B;
-  --foundation-honey-600: #D97706;
-  --foundation-honey-700: #B45309;
-  --foundation-honey-800: #92400E;
-  --foundation-honey-900: #78350F;
-  --foundation-honey-950: #451A03;
-  --foundation-honey-1000: #3A1507;
-  --foundation-honey-1100: #2A1005;
-  --foundation-honey-1200: #1A0A03;
 
   /* Gold Scale */
   --foundation-gold-100: #FFFBEB;
@@ -329,9 +284,54 @@
   --foundation-gold-1100: #451A03;
   --foundation-gold-1200: #1A0A03;
 
-  /* ===== GREEN FAMILY ===== */
+  /* Yellow Scale (Standard) */
+  --foundation-yellow-100: #FEFCE8;
+  --foundation-yellow-200: #FEF3C7;
+  --foundation-yellow-300: #FDE68A;
+  --foundation-yellow-400: #FCD34D;
+  --foundation-yellow-500: #FBBF24;
+  --foundation-yellow-600: #F59E0B;
+  --foundation-yellow-700: #D97706;
+  --foundation-yellow-800: #B45309;
+  --foundation-yellow-900: #92400E;
+  --foundation-yellow-950: #78350F;
+  --foundation-yellow-1000: #451A03;
+  --foundation-yellow-1100: #3A1507;
+  --foundation-yellow-1200: #1A0A03;
+
+  /* Honey Scale */
+  --foundation-honey-100: #FEF3C7;
+  --foundation-honey-200: #FDE68A;
+  --foundation-honey-300: #FCD34D;
+  --foundation-honey-400: #FBBF24;
+  --foundation-honey-500: #F59E0B;
+  --foundation-honey-600: #D97706;
+  --foundation-honey-700: #B45309;
+  --foundation-honey-800: #92400E;
+  --foundation-honey-900: #78350F;
+  --foundation-honey-950: #451A03;
+  --foundation-honey-1000: #3A1507;
+  --foundation-honey-1100: #2A1005;
+  --foundation-honey-1200: #1A0A03;
+
+  /* Yellow-Dark Scale - DARKEST */
+  --foundation-yellow-dark-100: #FEFCE8;
+  --foundation-yellow-dark-200: #FEF3C7;
+  --foundation-yellow-dark-300: #FDE68A;
+  --foundation-yellow-dark-400: #FDE047;
+  --foundation-yellow-dark-500: #FCD34D;
+  --foundation-yellow-dark-600: #FBBF24;
+  --foundation-yellow-dark-700: #F59E0B;
+  --foundation-yellow-dark-800: #D97706;
+  --foundation-yellow-dark-900: #B45309;
+  --foundation-yellow-dark-950: #92400E;
+  --foundation-yellow-dark-1000: #78350F;
+  --foundation-yellow-dark-1100: #451A03;
+  --foundation-yellow-dark-1200: #1A0A03;
+
+  /* ===== GREEN FAMILY (Light to Dark) ===== */
   
-  /* Green-Light Scale */
+  /* Green-Light Scale - LIGHTEST */
   --foundation-green-light-100: #F0FDF4;
   --foundation-green-light-200: #DCFCE7;
   --foundation-green-light-300: #BBF7D0;
@@ -361,21 +361,6 @@
   --foundation-green-1100: #0F2419;
   --foundation-green-1200: #0A1F0C;
 
-  /* Green-Dark Scale */
-  --foundation-green-dark-100: #F0FDF4;
-  --foundation-green-dark-200: #DCFCE7;
-  --foundation-green-dark-300: #BBF7D0;
-  --foundation-green-dark-400: #86EFAC;
-  --foundation-green-dark-500: #4ADE80;
-  --foundation-green-dark-600: #22C55E;
-  --foundation-green-dark-700: #16A34A;
-  --foundation-green-dark-800: #15803D;
-  --foundation-green-dark-900: #059669;
-  --foundation-green-dark-950: #14532D;
-  --foundation-green-dark-1000: #052E16;
-  --foundation-green-dark-1100: #0F2419;
-  --foundation-green-dark-1200: #0A1F0C;
-
   /* Emerald Scale */
   --foundation-emerald-100: #ECFDF5;
   --foundation-emerald-200: #D1FAE5;
@@ -391,7 +376,22 @@
   --foundation-emerald-1100: #021E18;
   --foundation-emerald-1200: #0A120F;
 
-  /* Forest Scale */
+  /* Green-Dark Scale */
+  --foundation-green-dark-100: #F0FDF4;
+  --foundation-green-dark-200: #DCFCE7;
+  --foundation-green-dark-300: #BBF7D0;
+  --foundation-green-dark-400: #86EFAC;
+  --foundation-green-dark-500: #4ADE80;
+  --foundation-green-dark-600: #22C55E;
+  --foundation-green-dark-700: #16A34A;
+  --foundation-green-dark-800: #15803D;
+  --foundation-green-dark-900: #059669;
+  --foundation-green-dark-950: #14532D;
+  --foundation-green-dark-1000: #052E16;
+  --foundation-green-dark-1100: #0F2419;
+  --foundation-green-dark-1200: #0A1F0C;
+
+  /* Forest Scale - DARKEST */
   --foundation-forest-100: #F0FDF4;
   --foundation-forest-200: #DCFCE7;
   --foundation-forest-300: #BBF7D0;
@@ -406,9 +406,9 @@
   --foundation-forest-1100: #0F2419;
   --foundation-forest-1200: #0A1F0C;
 
-  /* ===== TEAL FAMILY ===== */
+  /* ===== TEAL FAMILY (Light to Dark) ===== */
   
-  /* Teal-Light Scale */
+  /* Teal-Light Scale - LIGHTEST */
   --foundation-teal-light-100: #F0FDFA;
   --foundation-teal-light-200: #CCFBF1;
   --foundation-teal-light-300: #99F6E4;
@@ -422,51 +422,6 @@
   --foundation-teal-light-1000: #022D2C;
   --foundation-teal-light-1100: #0F1E1D;
   --foundation-teal-light-1200: #0A1817;
-
-  /* Teal Scale (Standard) */
-  --foundation-teal-100: #F0FDFA;
-  --foundation-teal-200: #CCFBF1;
-  --foundation-teal-300: #99F6E4;
-  --foundation-teal-400: #5EEAD4;
-  --foundation-teal-500: #2DD4BF;
-  --foundation-teal-600: #14B8A6;
-  --foundation-teal-700: #0F766E;
-  --foundation-teal-800: #115E59;
-  --foundation-teal-900: #134E4A;
-  --foundation-teal-950: #042F2E;
-  --foundation-teal-1000: #022D2C;
-  --foundation-teal-1100: #0F1E1D;
-  --foundation-teal-1200: #0A1817;
-
-  /* Teal-Dark Scale */
-  --foundation-teal-dark-100: #F0FDFA;
-  --foundation-teal-dark-200: #CCFBF1;
-  --foundation-teal-dark-300: #99F6E4;
-  --foundation-teal-dark-400: #5EEAD4;
-  --foundation-teal-dark-500: #2DD4BF;
-  --foundation-teal-dark-600: #14B8A6;
-  --foundation-teal-dark-700: #0F766E;
-  --foundation-teal-dark-800: #115E59;
-  --foundation-teal-dark-900: #134E4A;
-  --foundation-teal-dark-950: #042F2E;
-  --foundation-teal-dark-1000: #022D2C;
-  --foundation-teal-dark-1100: #0F1E1D;
-  --foundation-teal-dark-1200: #0A1817;
-
-  /* Cyan Scale */
-  --foundation-cyan-100: #ECFEFF;
-  --foundation-cyan-200: #CFFAFE;
-  --foundation-cyan-300: #A5F3FC;
-  --foundation-cyan-400: #67E8F9;
-  --foundation-cyan-500: #22D3EE;
-  --foundation-cyan-600: #06B6D4;
-  --foundation-cyan-700: #0891B2;
-  --foundation-cyan-800: #0E7490;
-  --foundation-cyan-900: #155E75;
-  --foundation-cyan-950: #164E63;
-  --foundation-cyan-1000: #083344;
-  --foundation-cyan-1100: #0C2A36;
-  --foundation-cyan-1200: #051F26;
 
   /* Turquoise Scale */
   --foundation-turquoise-100: #F0FDFA;
@@ -483,9 +438,54 @@
   --foundation-turquoise-1100: #022D2C;
   --foundation-turquoise-1200: #0A1817;
 
-  /* ===== BLUE FAMILY ===== */
+  /* Teal Scale (Standard) */
+  --foundation-teal-100: #F0FDFA;
+  --foundation-teal-200: #CCFBF1;
+  --foundation-teal-300: #99F6E4;
+  --foundation-teal-400: #5EEAD4;
+  --foundation-teal-500: #2DD4BF;
+  --foundation-teal-600: #14B8A6;
+  --foundation-teal-700: #0F766E;
+  --foundation-teal-800: #115E59;
+  --foundation-teal-900: #134E4A;
+  --foundation-teal-950: #042F2E;
+  --foundation-teal-1000: #022D2C;
+  --foundation-teal-1100: #0F1E1D;
+  --foundation-teal-1200: #0A1817;
+
+  /* Cyan Scale */
+  --foundation-cyan-100: #ECFEFF;
+  --foundation-cyan-200: #CFFAFE;
+  --foundation-cyan-300: #A5F3FC;
+  --foundation-cyan-400: #67E8F9;
+  --foundation-cyan-500: #22D3EE;
+  --foundation-cyan-600: #06B6D4;
+  --foundation-cyan-700: #0891B2;
+  --foundation-cyan-800: #0E7490;
+  --foundation-cyan-900: #155E75;
+  --foundation-cyan-950: #164E63;
+  --foundation-cyan-1000: #083344;
+  --foundation-cyan-1100: #0C2A36;
+  --foundation-cyan-1200: #051F26;
+
+  /* Teal-Dark Scale - DARKEST */
+  --foundation-teal-dark-100: #F0FDFA;
+  --foundation-teal-dark-200: #CCFBF1;
+  --foundation-teal-dark-300: #99F6E4;
+  --foundation-teal-dark-400: #5EEAD4;
+  --foundation-teal-dark-500: #2DD4BF;
+  --foundation-teal-dark-600: #14B8A6;
+  --foundation-teal-dark-700: #0F766E;
+  --foundation-teal-dark-800: #115E59;
+  --foundation-teal-dark-900: #134E4A;
+  --foundation-teal-dark-950: #042F2E;
+  --foundation-teal-dark-1000: #022D2C;
+  --foundation-teal-dark-1100: #0F1E1D;
+  --foundation-teal-dark-1200: #0A1817;
+
+  /* ===== BLUE FAMILY (Light to Dark) ===== */
   
-  /* Blue-Light Scale (Sky Blue) */
+  /* Blue-Light Scale (Sky Blue) - LIGHTEST */
   --foundation-blue-light-100: #F0F9FF;
   --foundation-blue-light-200: #E0F2FE;
   --foundation-blue-light-300: #BAE6FD;
@@ -499,6 +499,21 @@
   --foundation-blue-light-1000: #082F49;
   --foundation-blue-light-1100: #0F172A;
   --foundation-blue-light-1200: #020617;
+
+  /* Azure Scale (Cyan-Blue) */
+  --foundation-azure-100: #ECFEFF;
+  --foundation-azure-200: #CFFAFE;
+  --foundation-azure-300: #A5F3FC;
+  --foundation-azure-400: #67E8F9;
+  --foundation-azure-500: #22D3EE;
+  --foundation-azure-600: #0EA5E9;
+  --foundation-azure-700: #0891B2;
+  --foundation-azure-800: #0E7490;
+  --foundation-azure-900: #155E75;
+  --foundation-azure-950: #164E63;
+  --foundation-azure-1000: #083344;
+  --foundation-azure-1100: #0C2A36;
+  --foundation-azure-1200: #051F26;
 
   /* Blue Scale (Standard) */
   --foundation-blue-100: #EFF6FF;
@@ -530,22 +545,7 @@
   --foundation-blue-dark-1100: #0A0E1A;
   --foundation-blue-dark-1200: #020617;
 
-  /* Azure Scale (Cyan-Blue) */
-  --foundation-azure-100: #ECFEFF;
-  --foundation-azure-200: #CFFAFE;
-  --foundation-azure-300: #A5F3FC;
-  --foundation-azure-400: #67E8F9;
-  --foundation-azure-500: #22D3EE;
-  --foundation-azure-600: #0EA5E9;
-  --foundation-azure-700: #0891B2;
-  --foundation-azure-800: #0E7490;
-  --foundation-azure-900: #155E75;
-  --foundation-azure-950: #164E63;
-  --foundation-azure-1000: #083344;
-  --foundation-azure-1100: #0C2A36;
-  --foundation-azure-1200: #051F26;
-
-  /* Navy Scale (Dark Navy) */
+  /* Navy Scale (Dark Navy) - DARKEST */
   --foundation-navy-100: #F8FAFC;
   --foundation-navy-200: #F1F5F9;
   --foundation-navy-300: #E2E8F0;
@@ -560,9 +560,9 @@
   --foundation-navy-1100: #000204;
   --foundation-navy-1200: #000102;
 
-  /* ===== INDIGO FAMILY ===== */
+  /* ===== INDIGO FAMILY (Light to Dark) ===== */
   
-  /* Indigo-Light Scale */
+  /* Indigo-Light Scale - LIGHTEST */
   --foundation-indigo-light-100: #EDE9FE;
   --foundation-indigo-light-200: #DDD6FE;
   --foundation-indigo-light-300: #C4B5FD;
@@ -576,6 +576,21 @@
   --foundation-indigo-light-1000: #3730A3;
   --foundation-indigo-light-1100: #312E81;
   --foundation-indigo-light-1200: #1E1B4B;
+
+  /* Periwinkle Scale */
+  --foundation-periwinkle-100: #F5F3FF;
+  --foundation-periwinkle-200: #EDE9FE;
+  --foundation-periwinkle-300: #DDD6FE;
+  --foundation-periwinkle-400: #C4B5FD;
+  --foundation-periwinkle-500: #818CF8;
+  --foundation-periwinkle-600: #A78BFA;
+  --foundation-periwinkle-700: #8B5CF6;
+  --foundation-periwinkle-800: #7C3AED;
+  --foundation-periwinkle-900: #6D28D9;
+  --foundation-periwinkle-950: #5B21B6;
+  --foundation-periwinkle-1000: #4C1D95;
+  --foundation-periwinkle-1100: #3730A3;
+  --foundation-periwinkle-1200: #1E1B4B;
 
   /* Indigo Scale (Standard) */
   --foundation-indigo-100: #EDE9FE;
@@ -607,22 +622,7 @@
   --foundation-indigo-dark-1100: #312E81;
   --foundation-indigo-dark-1200: #1E1B4B;
 
-  /* Periwinkle Scale */
-  --foundation-periwinkle-100: #F5F3FF;
-  --foundation-periwinkle-200: #EDE9FE;
-  --foundation-periwinkle-300: #DDD6FE;
-  --foundation-periwinkle-400: #C4B5FD;
-  --foundation-periwinkle-500: #818CF8;
-  --foundation-periwinkle-600: #A78BFA;
-  --foundation-periwinkle-700: #8B5CF6;
-  --foundation-periwinkle-800: #7C3AED;
-  --foundation-periwinkle-900: #6D28D9;
-  --foundation-periwinkle-950: #5B21B6;
-  --foundation-periwinkle-1000: #4C1D95;
-  --foundation-periwinkle-1100: #3730A3;
-  --foundation-periwinkle-1200: #1E1B4B;
-
-  /* Midnight Scale */
+  /* Midnight Scale - DARKEST */
   --foundation-midnight-100: #F8FAFC;
   --foundation-midnight-200: #F1F5F9;
   --foundation-midnight-300: #E2E8F0;
@@ -637,9 +637,9 @@
   --foundation-midnight-1100: #0C1220;
   --foundation-midnight-1200: #040711;
 
-  /* ===== PURPLE FAMILY ===== */
+  /* ===== PURPLE FAMILY (Light to Dark) ===== */
   
-  /* Purple-Light Scale */
+  /* Purple-Light Scale - LIGHTEST */
   --foundation-purple-light-100: #FAF5FF;
   --foundation-purple-light-200: #F3E8FF;
   --foundation-purple-light-300: #E9D5FF;
@@ -653,36 +653,6 @@
   --foundation-purple-light-1000: #4C1D95;
   --foundation-purple-light-1100: #3B0764;
   --foundation-purple-light-1200: #2E1065;
-
-  /* Purple Scale (Standard) */
-  --foundation-purple-100: #F3E8FF;
-  --foundation-purple-200: #E9D5FF;
-  --foundation-purple-300: #D8B4FE;
-  --foundation-purple-400: #C084FC;
-  --foundation-purple-500: #A855F7;
-  --foundation-purple-600: #9333EA;
-  --foundation-purple-700: #7C3AED;
-  --foundation-purple-800: #6B21A8;
-  --foundation-purple-900: #581C87;
-  --foundation-purple-950: #4C1D95;
-  --foundation-purple-1000: #3B0764;
-  --foundation-purple-1100: #2E1065;
-  --foundation-purple-1200: #1E1B4B;
-
-  /* Purple-Dark Scale */
-  --foundation-purple-dark-100: #FAF5FF;
-  --foundation-purple-dark-200: #F3E8FF;
-  --foundation-purple-dark-300: #E9D5FF;
-  --foundation-purple-dark-400: #D8B4FE;
-  --foundation-purple-dark-500: #C084FC;
-  --foundation-purple-dark-600: #A855F7;
-  --foundation-purple-dark-700: #9333EA;
-  --foundation-purple-dark-800: #7C3AED;
-  --foundation-purple-dark-900: #6B21A8;
-  --foundation-purple-dark-950: #581C87;
-  --foundation-purple-dark-1000: #4C1D95;
-  --foundation-purple-dark-1100: #3B0764;
-  --foundation-purple-dark-1200: #2E1065;
 
   /* Violet Scale */
   --foundation-violet-100: #F5F3FF;
@@ -699,6 +669,21 @@
   --foundation-violet-1100: #312E81;
   --foundation-violet-1200: #1E1B4B;
 
+  /* Purple Scale (Standard) */
+  --foundation-purple-100: #F3E8FF;
+  --foundation-purple-200: #E9D5FF;
+  --foundation-purple-300: #D8B4FE;
+  --foundation-purple-400: #C084FC;
+  --foundation-purple-500: #A855F7;
+  --foundation-purple-600: #9333EA;
+  --foundation-purple-700: #7C3AED;
+  --foundation-purple-800: #6B21A8;
+  --foundation-purple-900: #581C87;
+  --foundation-purple-950: #4C1D95;
+  --foundation-purple-1000: #3B0764;
+  --foundation-purple-1100: #2E1065;
+  --foundation-purple-1200: #1E1B4B;
+
   /* Plum Scale */
   --foundation-plum-100: #FAF5FF;
   --foundation-plum-200: #F3E8FF;
@@ -714,7 +699,22 @@
   --foundation-plum-1100: #3B0764;
   --foundation-plum-1200: #2E1065;
 
-  /* Amethyst Scale */
+  /* Purple-Dark Scale */
+  --foundation-purple-dark-100: #FAF5FF;
+  --foundation-purple-dark-200: #F3E8FF;
+  --foundation-purple-dark-300: #E9D5FF;
+  --foundation-purple-dark-400: #D8B4FE;
+  --foundation-purple-dark-500: #C084FC;
+  --foundation-purple-dark-600: #A855F7;
+  --foundation-purple-dark-700: #9333EA;
+  --foundation-purple-dark-800: #7C3AED;
+  --foundation-purple-dark-900: #6B21A8;
+  --foundation-purple-dark-950: #581C87;
+  --foundation-purple-dark-1000: #4C1D95;
+  --foundation-purple-dark-1100: #3B0764;
+  --foundation-purple-dark-1200: #2E1065;
+
+  /* Amethyst Scale - DARKEST */
   --foundation-amethyst-100: #EDE9FE;
   --foundation-amethyst-200: #DDD6FE;
   --foundation-amethyst-300: #C4B5FD;
@@ -729,9 +729,9 @@
   --foundation-amethyst-1100: #1E1B4B;
   --foundation-amethyst-1200: #0F0A1B;
 
-  /* ===== PINK FAMILY ===== */
+  /* ===== PINK FAMILY (Light to Dark) ===== */
   
-  /* Pink-Light Scale */
+  /* Pink-Light Scale - LIGHTEST */
   --foundation-pink-light-100: #FDF2F8;
   --foundation-pink-light-200: #FCE7F3;
   --foundation-pink-light-300: #FBCFE8;
@@ -745,36 +745,6 @@
   --foundation-pink-light-1000: #701A75;
   --foundation-pink-light-1100: #4A044E;
   --foundation-pink-light-1200: #3B0764;
-
-  /* Pink Scale (Standard) */
-  --foundation-pink-100: #FCE7F3;
-  --foundation-pink-200: #FBCFE8;
-  --foundation-pink-300: #F9A8D4;
-  --foundation-pink-400: #F472B6;
-  --foundation-pink-500: #EC4899;
-  --foundation-pink-600: #DB2777;
-  --foundation-pink-700: #BE185D;
-  --foundation-pink-800: #9D174D;
-  --foundation-pink-900: #831843;
-  --foundation-pink-950: #701A75;
-  --foundation-pink-1000: #4A044E;
-  --foundation-pink-1100: #3B0764;
-  --foundation-pink-1200: #1F0A24;
-
-  /* Pink-Dark Scale */
-  --foundation-pink-dark-100: #FDF2F8;
-  --foundation-pink-dark-200: #FCE7F3;
-  --foundation-pink-dark-300: #FBCFE8;
-  --foundation-pink-dark-400: #F9A8D4;
-  --foundation-pink-dark-500: #F472B6;
-  --foundation-pink-dark-600: #EC4899;
-  --foundation-pink-dark-700: #DB2777;
-  --foundation-pink-dark-800: #E11D48;
-  --foundation-pink-dark-900: #BE185D;
-  --foundation-pink-dark-950: #9D174D;
-  --foundation-pink-dark-1000: #831843;
-  --foundation-pink-dark-1100: #701A75;
-  --foundation-pink-dark-1200: #4A044E;
 
   /* Rose Scale */
   --foundation-rose-100: #FFF1F2;
@@ -805,5 +775,35 @@
   --foundation-magenta-1000: #701A75;
   --foundation-magenta-1100: #4A044E;
   --foundation-magenta-1200: #3B0764;
+
+  /* Pink Scale (Standard) */
+  --foundation-pink-100: #FCE7F3;
+  --foundation-pink-200: #FBCFE8;
+  --foundation-pink-300: #F9A8D4;
+  --foundation-pink-400: #F472B6;
+  --foundation-pink-500: #EC4899;
+  --foundation-pink-600: #DB2777;
+  --foundation-pink-700: #BE185D;
+  --foundation-pink-800: #9D174D;
+  --foundation-pink-900: #831843;
+  --foundation-pink-950: #701A75;
+  --foundation-pink-1000: #4A044E;
+  --foundation-pink-1100: #3B0764;
+  --foundation-pink-1200: #1F0A24;
+
+  /* Pink-Dark Scale - DARKEST */
+  --foundation-pink-dark-100: #FDF2F8;
+  --foundation-pink-dark-200: #FCE7F3;
+  --foundation-pink-dark-300: #FBCFE8;
+  --foundation-pink-dark-400: #F9A8D4;
+  --foundation-pink-dark-500: #F472B6;
+  --foundation-pink-dark-600: #EC4899;
+  --foundation-pink-dark-700: #DB2777;
+  --foundation-pink-dark-800: #E11D48;
+  --foundation-pink-dark-900: #BE185D;
+  --foundation-pink-dark-950: #9D174D;
+  --foundation-pink-dark-1000: #831843;
+  --foundation-pink-dark-1100: #701A75;
+  --foundation-pink-dark-1200: #4A044E;
 
 }
