@@ -1,4 +1,4 @@
-/* ===== COLOR FOUNDATION ===== */
+/* ===== COLOR FOUNDATION - USED SCALES ONLY ===== */
 
 :root {
   
@@ -6,9 +6,9 @@
   --foundation-white: #f7f7f7;
   --foundation-black: #010101;
 
-  /* ===== GRAY FAMILY (Light to Dark) ===== */
+  /* ===== GRAY FAMILY ===== */
   
-  /* Gray-Light Scale (#9CA3AF at 600) - LIGHTEST */
+  /* Gray-Light Scale (#9CA3AF at 600) - Used in AccentColorControl */
   --foundation-gray-light-100: #FAFAFA;
   --foundation-gray-light-200: #F5F5F5;
   --foundation-gray-light-300: #E5E5E5;
@@ -23,7 +23,7 @@
   --foundation-gray-light-1100: #0A0A0A;
   --foundation-gray-light-1200: #050505;
 
-  /* Gray Scale (Standard - #7D7D7D at 600) */
+  /* Gray Scale (Standard) - Used in semantic colors */
   --foundation-gray-50: #F5F5F5;
   --foundation-gray-100: #F1F1F1;
   --foundation-gray-200: #E3E3E3;
@@ -38,7 +38,7 @@
   --foundation-gray-1100: #212121;
   --foundation-gray-1200: #171717;
 
-  /* Slate Scale (Blue-Gray - #64748B at 600) */
+  /* Slate Scale (Blue-Gray) - Used in AccentColorControl */
   --foundation-slate-100: #F8FAFC;
   --foundation-slate-200: #F1F5F9;
   --foundation-slate-300: #E2E8F0;
@@ -53,54 +53,9 @@
   --foundation-slate-1100: #080E1A;
   --foundation-slate-1200: #040711;
 
-  /* Charcoal Scale (Standard) */
-  --foundation-charcoal-100: #F7F7F7;
-  --foundation-charcoal-200: #EDEDED;
-  --foundation-charcoal-300: #DFDFDF;
-  --foundation-charcoal-400: #C2C2C2;
-  --foundation-charcoal-500: #9B9B9B;
-  --foundation-charcoal-600: #717171;
-  --foundation-charcoal-700: #525252;
-  --foundation-charcoal-800: #404040;
-  --foundation-charcoal-900: #2D2D2D;
-  --foundation-charcoal-950: #1A1A1A;
-  --foundation-charcoal-1000: #0D0D0D;
-  --foundation-charcoal-1100: #080808;
-  --foundation-charcoal-1200: #040404;
-
-  /* Gray-Dark Scale (#374151 at 600) */
-  --foundation-gray-dark-100: #F8F9FA;
-  --foundation-gray-dark-200: #F1F3F4;
-  --foundation-gray-dark-300: #E3E5E8;
-  --foundation-gray-dark-400: #CED1D6;
-  --foundation-gray-dark-500: #9AA0A6;
-  --foundation-gray-dark-600: #374151;
-  --foundation-gray-dark-700: #2D3748;
-  --foundation-gray-dark-800: #1A202C;
-  --foundation-gray-dark-900: #171923;
-  --foundation-gray-dark-950: #0F1114;
-  --foundation-gray-dark-1000: #090A0C;
-  --foundation-gray-dark-1100: #050506;
-  --foundation-gray-dark-1200: #020203;
-
-  /* Charcoal-Variant Scale (Brown-Gray - #1F2937 at 600) - DARKEST */
-  --foundation-charcoal-variant-100: #FEFDFB;
-  --foundation-charcoal-variant-200: #F7F5F1;
-  --foundation-charcoal-variant-300: #EBE7E0;
-  --foundation-charcoal-variant-400: #D6CFC4;
-  --foundation-charcoal-variant-500: #B8AFA4;
-  --foundation-charcoal-variant-600: #1F2937;
-  --foundation-charcoal-variant-700: #1A1F2B;
-  --foundation-charcoal-variant-800: #141821;
-  --foundation-charcoal-variant-900: #0F1218;
-  --foundation-charcoal-variant-950: #0A0C10;
-  --foundation-charcoal-variant-1000: #060709;
-  --foundation-charcoal-variant-1100: #030405;
-  --foundation-charcoal-variant-1200: #010102;
-
-  /* ===== RED FAMILY (Light to Dark) ===== */
+  /* ===== RED FAMILY ===== */
   
-  /* Red-Light Scale (Light Coral-Red) - LIGHTEST */
+  /* Red-Light Scale - Used in AccentColorControl */
   --foundation-red-light-100: #FFF5F5;
   --foundation-red-light-200: #FED7D7;
   --foundation-red-light-300: #FEB2B2;
@@ -115,7 +70,7 @@
   --foundation-red-light-1100: #3C0E0E;
   --foundation-red-light-1200: #1A0606;
 
-  /* Red Scale (Standard Bright Red) */
+  /* Red Scale (Standard) - Used in AccentColorControl */
   --foundation-red-100: #FEF2F2;
   --foundation-red-200: #FEE2E2;
   --foundation-red-300: #FECACA;
@@ -130,7 +85,7 @@
   --foundation-red-1100: #3C0E0E;
   --foundation-red-1200: #1A0606;
 
-  /* Red-Dark Scale (Dark Blood Red) */
+  /* Red-Dark Scale - Used in AccentColorControl */
   --foundation-red-dark-100: #FDF2F2;
   --foundation-red-dark-200: #FCE1E1;
   --foundation-red-dark-300: #F7C6C6;
@@ -145,22 +100,7 @@
   --foundation-red-dark-1100: #2B0A0A;
   --foundation-red-dark-1200: #1A0606;
 
-  /* Crimson Scale (Deep Wine Red) */
-  --foundation-crimson-100: #FDF2F4;
-  --foundation-crimson-200: #FCE1E6;
-  --foundation-crimson-300: #F7C6CE;
-  --foundation-crimson-400: #F199A5;
-  --foundation-crimson-500: #E8556B;
-  --foundation-crimson-600: #DC143C;
-  --foundation-crimson-700: #B8112E;
-  --foundation-crimson-800: #950E25;
-  --foundation-crimson-900: #7A0B1E;
-  --foundation-crimson-950: #5C0817;
-  --foundation-crimson-1000: #3D0510;
-  --foundation-crimson-1100: #2B030B;
-  --foundation-crimson-1200: #1A0207;
-
-  /* Ruby Scale (Rich Burgundy Red) - DARKEST */
+  /* Ruby Scale - Used in semantic colors (error) */
   --foundation-ruby-100: #FDF2F3;
   --foundation-ruby-200: #FCE1E4;
   --foundation-ruby-300: #F7C6CC;
@@ -175,9 +115,9 @@
   --foundation-ruby-1100: #2B030C;
   --foundation-ruby-1200: #1A0208;
 
-  /* ===== ORANGE FAMILY (Light to Dark) ===== */
+  /* ===== ORANGE FAMILY ===== */
   
-  /* Orange-Light Scale - LIGHTEST */
+  /* Orange-Light Scale - Used in AccentColorControl */
   --foundation-orange-light-100: #FFF7ED;
   --foundation-orange-light-200: #FFEDD5;
   --foundation-orange-light-300: #FED7AA;
@@ -192,22 +132,7 @@
   --foundation-orange-light-1100: #3A1207;
   --foundation-orange-light-1200: #1C0B05;
 
-  /* Tangerine Scale */
-  --foundation-tangerine-100: #FFF7ED;
-  --foundation-tangerine-200: #FFEDD5;
-  --foundation-tangerine-300: #FED7AA;
-  --foundation-tangerine-400: #FDBA74;
-  --foundation-tangerine-500: #FF8C00;
-  --foundation-tangerine-600: #FB923C;
-  --foundation-tangerine-700: #F97316;
-  --foundation-tangerine-800: #EA580C;
-  --foundation-tangerine-900: #C2410C;
-  --foundation-tangerine-950: #9A3412;
-  --foundation-tangerine-1000: #7C2D12;
-  --foundation-tangerine-1100: #431407;
-  --foundation-tangerine-1200: #1C0B05;
-
-  /* Orange Scale (Standard) */
+  /* Orange Scale (Standard) - Used in AccentColorControl */
   --foundation-orange-100: #FFF7ED;
   --foundation-orange-200: #FFEDD5;
   --foundation-orange-300: #FED7AA;
@@ -222,39 +147,24 @@
   --foundation-orange-1100: #3A1207;
   --foundation-orange-1200: #1C0B05;
 
-  /* Orange-Dark Scale */
-  --foundation-orange-dark-100: #FFF7ED;
-  --foundation-orange-dark-200: #FFEDD5;
-  --foundation-orange-dark-300: #FED7AA;
-  --foundation-orange-dark-400: #FDBA74;
-  --foundation-orange-dark-500: #FB923C;
-  --foundation-orange-dark-600: #F97316;
-  --foundation-orange-dark-700: #EA580C;
-  --foundation-orange-dark-800: #C2410C;
-  --foundation-orange-dark-900: #9A3412;
-  --foundation-orange-dark-950: #7C2D12;
-  --foundation-orange-dark-1000: #431407;
-  --foundation-orange-dark-1100: #3A1207;
-  --foundation-orange-dark-1200: #1C0B05;
+  /* Tangerine Scale - Used in AccentColorControl */
+  --foundation-tangerine-100: #FFF7ED;
+  --foundation-tangerine-200: #FFEDD5;
+  --foundation-tangerine-300: #FED7AA;
+  --foundation-tangerine-400: #FDBA74;
+  --foundation-tangerine-500: #FF8C00;
+  --foundation-tangerine-600: #FB923C;
+  --foundation-tangerine-700: #F97316;
+  --foundation-tangerine-800: #EA580C;
+  --foundation-tangerine-900: #C2410C;
+  --foundation-tangerine-950: #9A3412;
+  --foundation-tangerine-1000: #7C2D12;
+  --foundation-tangerine-1100: #431407;
+  --foundation-tangerine-1200: #1C0B05;
 
-  /* Amber Scale - DARKEST */
-  --foundation-amber-100: #FEF3C7;
-  --foundation-amber-200: #FDE68A;
-  --foundation-amber-300: #FCD34D;
-  --foundation-amber-400: #FBBF24;
-  --foundation-amber-500: #F59E0B;
-  --foundation-amber-600: #D97706;
-  --foundation-amber-700: #B45309;
-  --foundation-amber-800: #92400E;
-  --foundation-amber-900: #78350F;
-  --foundation-amber-950: #451A03;
-  --foundation-amber-1000: #3A1507;
-  --foundation-amber-1100: #2A1005;
-  --foundation-amber-1200: #1A0A03;
-
-  /* ===== YELLOW FAMILY (Light to Dark) ===== */
+  /* ===== YELLOW FAMILY ===== */
   
-  /* Yellow-Light Scale - LIGHTEST */
+  /* Yellow-Light Scale - Used in AccentColorControl */
   --foundation-yellow-light-100: #FEFCE8;
   --foundation-yellow-light-200: #FEF3C7;
   --foundation-yellow-light-300: #FDE68A;
@@ -269,22 +179,7 @@
   --foundation-yellow-light-1100: #451A03;
   --foundation-yellow-light-1200: #1A0A03;
 
-  /* Gold Scale */
-  --foundation-gold-100: #FFFBEB;
-  --foundation-gold-200: #FEF3C7;
-  --foundation-gold-300: #FDE68A;
-  --foundation-gold-400: #FCD34D;
-  --foundation-gold-500: #FFD700;
-  --foundation-gold-600: #FBBF24;
-  --foundation-gold-700: #F59E0B;
-  --foundation-gold-800: #D97706;
-  --foundation-gold-900: #B45309;
-  --foundation-gold-950: #92400E;
-  --foundation-gold-1000: #78350F;
-  --foundation-gold-1100: #451A03;
-  --foundation-gold-1200: #1A0A03;
-
-  /* Yellow Scale (Standard) */
+  /* Yellow Scale (Standard) - Used in AccentColorControl */
   --foundation-yellow-100: #FEFCE8;
   --foundation-yellow-200: #FEF3C7;
   --foundation-yellow-300: #FDE68A;
@@ -299,22 +194,7 @@
   --foundation-yellow-1100: #3A1507;
   --foundation-yellow-1200: #1A0A03;
 
-  /* Honey Scale */
-  --foundation-honey-100: #FEF3C7;
-  --foundation-honey-200: #FDE68A;
-  --foundation-honey-300: #FCD34D;
-  --foundation-honey-400: #FBBF24;
-  --foundation-honey-500: #F59E0B;
-  --foundation-honey-600: #D97706;
-  --foundation-honey-700: #B45309;
-  --foundation-honey-800: #92400E;
-  --foundation-honey-900: #78350F;
-  --foundation-honey-950: #451A03;
-  --foundation-honey-1000: #3A1507;
-  --foundation-honey-1100: #2A1005;
-  --foundation-honey-1200: #1A0A03;
-
-  /* Yellow-Dark Scale - DARKEST */
+  /* Yellow-Dark Scale - Used in AccentColorControl */
   --foundation-yellow-dark-100: #FEFCE8;
   --foundation-yellow-dark-200: #FEF3C7;
   --foundation-yellow-dark-300: #FDE68A;
@@ -329,9 +209,24 @@
   --foundation-yellow-dark-1100: #451A03;
   --foundation-yellow-dark-1200: #1A0A03;
 
-  /* ===== GREEN FAMILY (Light to Dark) ===== */
+  /* Honey Scale - Used in semantic colors (warning) */
+  --foundation-honey-100: #FEF3C7;
+  --foundation-honey-200: #FDE68A;
+  --foundation-honey-300: #FCD34D;
+  --foundation-honey-400: #FBBF24;
+  --foundation-honey-500: #F59E0B;
+  --foundation-honey-600: #D97706;
+  --foundation-honey-700: #B45309;
+  --foundation-honey-800: #92400E;
+  --foundation-honey-900: #78350F;
+  --foundation-honey-950: #451A03;
+  --foundation-honey-1000: #3A1507;
+  --foundation-honey-1100: #2A1005;
+  --foundation-honey-1200: #1A0A03;
+
+  /* ===== GREEN FAMILY ===== */
   
-  /* Green-Light Scale - LIGHTEST */
+  /* Green-Light Scale - Used in AccentColorControl */
   --foundation-green-light-100: #F0FDF4;
   --foundation-green-light-200: #DCFCE7;
   --foundation-green-light-300: #BBF7D0;
@@ -346,7 +241,7 @@
   --foundation-green-light-1100: #0F2419;
   --foundation-green-light-1200: #0A1F0C;
 
-  /* Green Scale (Standard) */
+  /* Green Scale (Standard) - Used in AccentColorControl */
   --foundation-green-100: #F0FDF4;
   --foundation-green-200: #DCFCE7;
   --foundation-green-300: #BBF7D0;
@@ -361,22 +256,7 @@
   --foundation-green-1100: #0F2419;
   --foundation-green-1200: #0A1F0C;
 
-  /* Emerald Scale */
-  --foundation-emerald-100: #ECFDF5;
-  --foundation-emerald-200: #D1FAE5;
-  --foundation-emerald-300: #A7F3D0;
-  --foundation-emerald-400: #6EE7B7;
-  --foundation-emerald-500: #34D399;
-  --foundation-emerald-600: #10B981;
-  --foundation-emerald-700: #059669;
-  --foundation-emerald-800: #047857;
-  --foundation-emerald-900: #065F46;
-  --foundation-emerald-950: #064E3B;
-  --foundation-emerald-1000: #022C22;
-  --foundation-emerald-1100: #021E18;
-  --foundation-emerald-1200: #0A120F;
-
-  /* Green-Dark Scale */
+  /* Green-Dark Scale - Used in AccentColorControl */
   --foundation-green-dark-100: #F0FDF4;
   --foundation-green-dark-200: #DCFCE7;
   --foundation-green-dark-300: #BBF7D0;
@@ -391,24 +271,24 @@
   --foundation-green-dark-1100: #0F2419;
   --foundation-green-dark-1200: #0A1F0C;
 
-  /* Forest Scale - DARKEST */
-  --foundation-forest-100: #F0FDF4;
-  --foundation-forest-200: #DCFCE7;
-  --foundation-forest-300: #BBF7D0;
-  --foundation-forest-400: #86EFAC;
-  --foundation-forest-500: #4ADE80;
-  --foundation-forest-600: #22C55E;
-  --foundation-forest-700: #16A34A;
-  --foundation-forest-800: #047857;
-  --foundation-forest-900: #065F46;
-  --foundation-forest-950: #064E3B;
-  --foundation-forest-1000: #052E16;
-  --foundation-forest-1100: #0F2419;
-  --foundation-forest-1200: #0A1F0C;
+  /* Emerald Scale - Used in semantic colors (success) */
+  --foundation-emerald-100: #ECFDF5;
+  --foundation-emerald-200: #D1FAE5;
+  --foundation-emerald-300: #A7F3D0;
+  --foundation-emerald-400: #6EE7B7;
+  --foundation-emerald-500: #34D399;
+  --foundation-emerald-600: #10B981;
+  --foundation-emerald-700: #059669;
+  --foundation-emerald-800: #047857;
+  --foundation-emerald-900: #065F46;
+  --foundation-emerald-950: #064E3B;
+  --foundation-emerald-1000: #022C22;
+  --foundation-emerald-1100: #021E18;
+  --foundation-emerald-1200: #0A120F;
 
-  /* ===== TEAL FAMILY (Light to Dark) ===== */
+  /* ===== TEAL FAMILY ===== */
   
-  /* Teal-Light Scale - LIGHTEST */
+  /* Teal-Light Scale - Used in AccentColorControl */
   --foundation-teal-light-100: #F0FDFA;
   --foundation-teal-light-200: #CCFBF1;
   --foundation-teal-light-300: #99F6E4;
@@ -423,22 +303,7 @@
   --foundation-teal-light-1100: #0F1E1D;
   --foundation-teal-light-1200: #0A1817;
 
-  /* Turquoise Scale */
-  --foundation-turquoise-100: #F0FDFA;
-  --foundation-turquoise-200: #CCFBF1;
-  --foundation-turquoise-300: #99F6E4;
-  --foundation-turquoise-400: #5EEAD4;
-  --foundation-turquoise-500: #40E0D0;
-  --foundation-turquoise-600: #2DD4BF;
-  --foundation-turquoise-700: #14B8A6;
-  --foundation-turquoise-800: #0F766E;
-  --foundation-turquoise-900: #115E59;
-  --foundation-turquoise-950: #134E4A;
-  --foundation-turquoise-1000: #042F2E;
-  --foundation-turquoise-1100: #022D2C;
-  --foundation-turquoise-1200: #0A1817;
-
-  /* Teal Scale (Standard) */
+  /* Teal Scale (Standard) - Used in AccentColorControl */
   --foundation-teal-100: #F0FDFA;
   --foundation-teal-200: #CCFBF1;
   --foundation-teal-300: #99F6E4;
@@ -453,22 +318,7 @@
   --foundation-teal-1100: #0F1E1D;
   --foundation-teal-1200: #0A1817;
 
-  /* Cyan Scale */
-  --foundation-cyan-100: #ECFEFF;
-  --foundation-cyan-200: #CFFAFE;
-  --foundation-cyan-300: #A5F3FC;
-  --foundation-cyan-400: #67E8F9;
-  --foundation-cyan-500: #22D3EE;
-  --foundation-cyan-600: #06B6D4;
-  --foundation-cyan-700: #0891B2;
-  --foundation-cyan-800: #0E7490;
-  --foundation-cyan-900: #155E75;
-  --foundation-cyan-950: #164E63;
-  --foundation-cyan-1000: #083344;
-  --foundation-cyan-1100: #0C2A36;
-  --foundation-cyan-1200: #051F26;
-
-  /* Teal-Dark Scale - DARKEST */
+  /* Teal-Dark Scale - Used in AccentColorControl */
   --foundation-teal-dark-100: #F0FDFA;
   --foundation-teal-dark-200: #CCFBF1;
   --foundation-teal-dark-300: #99F6E4;
@@ -483,24 +333,7 @@
   --foundation-teal-dark-1100: #0F1E1D;
   --foundation-teal-dark-1200: #0A1817;
 
-  /* ===== BLUE FAMILY (Light to Dark) ===== */
-  
-  /* Blue-Light Scale (Sky Blue) - LIGHTEST */
-  --foundation-blue-light-100: #F0F9FF;
-  --foundation-blue-light-200: #E0F2FE;
-  --foundation-blue-light-300: #BAE6FD;
-  --foundation-blue-light-400: #7DD3FC;
-  --foundation-blue-light-500: #38BDF8;
-  --foundation-blue-light-600: #60A5FA;
-  --foundation-blue-light-700: #0EA5E9;
-  --foundation-blue-light-800: #0284C7;
-  --foundation-blue-light-900: #0369A1;
-  --foundation-blue-light-950: #0C4A6E;
-  --foundation-blue-light-1000: #082F49;
-  --foundation-blue-light-1100: #0F172A;
-  --foundation-blue-light-1200: #020617;
-
-  /* Azure Scale (Cyan-Blue) */
+  /* Azure Scale - Used in semantic colors (info) */
   --foundation-azure-100: #ECFEFF;
   --foundation-azure-200: #CFFAFE;
   --foundation-azure-300: #A5F3FC;
@@ -515,7 +348,24 @@
   --foundation-azure-1100: #0C2A36;
   --foundation-azure-1200: #051F26;
 
-  /* Blue Scale (Standard) */
+  /* ===== BLUE FAMILY ===== */
+  
+  /* Blue-Light Scale - Used in AccentColorControl */
+  --foundation-blue-light-100: #F0F9FF;
+  --foundation-blue-light-200: #E0F2FE;
+  --foundation-blue-light-300: #BAE6FD;
+  --foundation-blue-light-400: #7DD3FC;
+  --foundation-blue-light-500: #38BDF8;
+  --foundation-blue-light-600: #60A5FA;
+  --foundation-blue-light-700: #0EA5E9;
+  --foundation-blue-light-800: #0284C7;
+  --foundation-blue-light-900: #0369A1;
+  --foundation-blue-light-950: #0C4A6E;
+  --foundation-blue-light-1000: #082F49;
+  --foundation-blue-light-1100: #0F172A;
+  --foundation-blue-light-1200: #020617;
+
+  /* Blue Scale (Standard) - Used in AccentColorControl */
   --foundation-blue-100: #EFF6FF;
   --foundation-blue-200: #DBEAFE;
   --foundation-blue-300: #BFDBFE;
@@ -530,7 +380,7 @@
   --foundation-blue-1100: #0F1629;
   --foundation-blue-1200: #0A0E1A;
 
-  /* Blue-Dark Scale (Royal Blue) */
+  /* Blue-Dark Scale - Used in AccentColorControl */
   --foundation-blue-dark-100: #EFF6FF;
   --foundation-blue-dark-200: #DBEAFE;
   --foundation-blue-dark-300: #BFDBFE;
@@ -545,24 +395,9 @@
   --foundation-blue-dark-1100: #0A0E1A;
   --foundation-blue-dark-1200: #020617;
 
-  /* Navy Scale (Dark Navy) - DARKEST */
-  --foundation-navy-100: #F8FAFC;
-  --foundation-navy-200: #F1F5F9;
-  --foundation-navy-300: #E2E8F0;
-  --foundation-navy-400: #CBD5E1;
-  --foundation-navy-500: #94A3B8;
-  --foundation-navy-600: #1E40AF;
-  --foundation-navy-700: #1E3A8A;
-  --foundation-navy-800: #1E293B;
-  --foundation-navy-900: #0F172A;
-  --foundation-navy-950: #020617;
-  --foundation-navy-1000: #010409;
-  --foundation-navy-1100: #000204;
-  --foundation-navy-1200: #000102;
-
-  /* ===== INDIGO FAMILY (Light to Dark) ===== */
+  /* ===== INDIGO FAMILY ===== */
   
-  /* Indigo-Light Scale - LIGHTEST */
+  /* Indigo-Light Scale - Used in AccentColorControl */
   --foundation-indigo-light-100: #EDE9FE;
   --foundation-indigo-light-200: #DDD6FE;
   --foundation-indigo-light-300: #C4B5FD;
@@ -577,22 +412,7 @@
   --foundation-indigo-light-1100: #312E81;
   --foundation-indigo-light-1200: #1E1B4B;
 
-  /* Periwinkle Scale */
-  --foundation-periwinkle-100: #F5F3FF;
-  --foundation-periwinkle-200: #EDE9FE;
-  --foundation-periwinkle-300: #DDD6FE;
-  --foundation-periwinkle-400: #C4B5FD;
-  --foundation-periwinkle-500: #818CF8;
-  --foundation-periwinkle-600: #A78BFA;
-  --foundation-periwinkle-700: #8B5CF6;
-  --foundation-periwinkle-800: #7C3AED;
-  --foundation-periwinkle-900: #6D28D9;
-  --foundation-periwinkle-950: #5B21B6;
-  --foundation-periwinkle-1000: #4C1D95;
-  --foundation-periwinkle-1100: #3730A3;
-  --foundation-periwinkle-1200: #1E1B4B;
-
-  /* Indigo Scale (Standard) */
+  /* Indigo Scale (Standard) - Used in AccentColorControl */
   --foundation-indigo-100: #EDE9FE;
   --foundation-indigo-200: #DDD6FE;
   --foundation-indigo-300: #C4B5FD;
@@ -607,7 +427,7 @@
   --foundation-indigo-1100: #1E1B4B;
   --foundation-indigo-1200: #0F0A1B;
 
-  /* Indigo-Dark Scale */
+  /* Indigo-Dark Scale - Used in AccentColorControl */
   --foundation-indigo-dark-100: #EDE9FE;
   --foundation-indigo-dark-200: #DDD6FE;
   --foundation-indigo-dark-300: #C4B5FD;
@@ -622,24 +442,9 @@
   --foundation-indigo-dark-1100: #312E81;
   --foundation-indigo-dark-1200: #1E1B4B;
 
-  /* Midnight Scale - DARKEST */
-  --foundation-midnight-100: #F8FAFC;
-  --foundation-midnight-200: #F1F5F9;
-  --foundation-midnight-300: #E2E8F0;
-  --foundation-midnight-400: #CBD5E1;
-  --foundation-midnight-500: #94A3B8;
-  --foundation-midnight-600: #64748B;
-  --foundation-midnight-700: #475569;
-  --foundation-midnight-800: #334155;
-  --foundation-midnight-900: #1E293B;
-  --foundation-midnight-950: #312E81;
-  --foundation-midnight-1000: #0F172A;
-  --foundation-midnight-1100: #0C1220;
-  --foundation-midnight-1200: #040711;
-
-  /* ===== PURPLE FAMILY (Light to Dark) ===== */
+  /* ===== PURPLE FAMILY ===== */
   
-  /* Purple-Light Scale - LIGHTEST */
+  /* Purple-Light Scale - Used in AccentColorControl */
   --foundation-purple-light-100: #FAF5FF;
   --foundation-purple-light-200: #F3E8FF;
   --foundation-purple-light-300: #E9D5FF;
@@ -654,22 +459,7 @@
   --foundation-purple-light-1100: #3B0764;
   --foundation-purple-light-1200: #2E1065;
 
-  /* Violet Scale */
-  --foundation-violet-100: #F5F3FF;
-  --foundation-violet-200: #EDE9FE;
-  --foundation-violet-300: #DDD6FE;
-  --foundation-violet-400: #C4B5FD;
-  --foundation-violet-500: #A78BFA;
-  --foundation-violet-600: #8B5CF6;
-  --foundation-violet-700: #7C3AED;
-  --foundation-violet-800: #6D28D9;
-  --foundation-violet-900: #5B21B6;
-  --foundation-violet-950: #4C1D95;
-  --foundation-violet-1000: #3730A3;
-  --foundation-violet-1100: #312E81;
-  --foundation-violet-1200: #1E1B4B;
-
-  /* Purple Scale (Standard) */
+  /* Purple Scale (Standard) - Used in semantic colors (accent) and AccentColorControl */
   --foundation-purple-100: #F3E8FF;
   --foundation-purple-200: #E9D5FF;
   --foundation-purple-300: #D8B4FE;
@@ -684,22 +474,7 @@
   --foundation-purple-1100: #2E1065;
   --foundation-purple-1200: #1E1B4B;
 
-  /* Plum Scale */
-  --foundation-plum-100: #FAF5FF;
-  --foundation-plum-200: #F3E8FF;
-  --foundation-plum-300: #E9D5FF;
-  --foundation-plum-400: #D8B4FE;
-  --foundation-plum-500: #C084FC;
-  --foundation-plum-600: #A855F7;
-  --foundation-plum-700: #9333EA;
-  --foundation-plum-800: #7C3AED;
-  --foundation-plum-900: #6B21A8;
-  --foundation-plum-950: #581C87;
-  --foundation-plum-1000: #4C1D95;
-  --foundation-plum-1100: #3B0764;
-  --foundation-plum-1200: #2E1065;
-
-  /* Purple-Dark Scale */
+  /* Purple-Dark Scale - Used in AccentColorControl */
   --foundation-purple-dark-100: #FAF5FF;
   --foundation-purple-dark-200: #F3E8FF;
   --foundation-purple-dark-300: #E9D5FF;
@@ -714,24 +489,9 @@
   --foundation-purple-dark-1100: #3B0764;
   --foundation-purple-dark-1200: #2E1065;
 
-  /* Amethyst Scale - DARKEST */
-  --foundation-amethyst-100: #EDE9FE;
-  --foundation-amethyst-200: #DDD6FE;
-  --foundation-amethyst-300: #C4B5FD;
-  --foundation-amethyst-400: #A78BFA;
-  --foundation-amethyst-500: #8B5CF6;
-  --foundation-amethyst-600: #7C3AED;
-  --foundation-amethyst-700: #6D28D9;
-  --foundation-amethyst-800: #5B21B6;
-  --foundation-amethyst-900: #4C1D95;
-  --foundation-amethyst-950: #3730A3;
-  --foundation-amethyst-1000: #312E81;
-  --foundation-amethyst-1100: #1E1B4B;
-  --foundation-amethyst-1200: #0F0A1B;
-
-  /* ===== PINK FAMILY (Light to Dark) ===== */
+  /* ===== PINK FAMILY ===== */
   
-  /* Pink-Light Scale - LIGHTEST */
+  /* Pink-Light Scale - Used in AccentColorControl */
   --foundation-pink-light-100: #FDF2F8;
   --foundation-pink-light-200: #FCE7F3;
   --foundation-pink-light-300: #FBCFE8;
@@ -746,7 +506,7 @@
   --foundation-pink-light-1100: #4A044E;
   --foundation-pink-light-1200: #3B0764;
 
-  /* Rose Scale */
+  /* Rose Scale - Used in AccentColorControl */
   --foundation-rose-100: #FFF1F2;
   --foundation-rose-200: #FFE4E6;
   --foundation-rose-300: #FECDD3;
@@ -761,22 +521,7 @@
   --foundation-rose-1100: #3C0E18;
   --foundation-rose-1200: #1F070C;
 
-  /* Magenta Scale */
-  --foundation-magenta-100: #FDF2F8;
-  --foundation-magenta-200: #FCE7F3;
-  --foundation-magenta-300: #FBCFE8;
-  --foundation-magenta-400: #F9A8D4;
-  --foundation-magenta-500: #F472B6;
-  --foundation-magenta-600: #EC4899;
-  --foundation-magenta-700: #DB2777;
-  --foundation-magenta-800: #BE185D;
-  --foundation-magenta-900: #9D174D;
-  --foundation-magenta-950: #831843;
-  --foundation-magenta-1000: #701A75;
-  --foundation-magenta-1100: #4A044E;
-  --foundation-magenta-1200: #3B0764;
-
-  /* Pink Scale (Standard) */
+  /* Pink Scale (Standard) - Used in AccentColorControl */
   --foundation-pink-100: #FCE7F3;
   --foundation-pink-200: #FBCFE8;
   --foundation-pink-300: #F9A8D4;
@@ -791,7 +536,7 @@
   --foundation-pink-1100: #3B0764;
   --foundation-pink-1200: #1F0A24;
 
-  /* Pink-Dark Scale - DARKEST */
+  /* Pink-Dark Scale - Used in AccentColorControl */
   --foundation-pink-dark-100: #FDF2F8;
   --foundation-pink-dark-200: #FCE7F3;
   --foundation-pink-dark-300: #FBCFE8;
