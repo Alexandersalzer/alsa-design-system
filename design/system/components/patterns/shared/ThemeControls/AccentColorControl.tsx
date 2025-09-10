@@ -56,7 +56,7 @@ const COLOR_GRID = [
   [
     { value: 'blue-light', label: 'Himmel', hex: '#60A5FA' },
     { value: 'blue', label: 'Blå', hex: '#3B82F6' },
-    { value: 'navy', label: 'Marin', hex: '#1D4ED8' }
+    { value: 'blue-dark', label: 'Marin', hex: '#1D4ED8' }
   ],
   // Indigo row
   [
