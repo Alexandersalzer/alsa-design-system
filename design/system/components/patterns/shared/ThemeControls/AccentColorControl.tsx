@@ -32,7 +32,7 @@ const COLOR_GRID = [
   [
     { value: 'orange-light', label: 'Persika', hex: '#FB923C' },
     { value: 'orange', label: 'Orange', hex: '#F97316' },
-    { value: 'orange-dark', label: 'Rost', hex: '#EA580C' }
+    { value: 'tangerine', label: 'Mandarin', hex: '#EA580C' }
   ],
   // Yellow row
   [
