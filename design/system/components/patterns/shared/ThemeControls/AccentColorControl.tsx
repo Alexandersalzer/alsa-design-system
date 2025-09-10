@@ -58,12 +58,6 @@ const COLOR_GRID = [
     { value: 'blue', label: 'Blå', hex: '#3B82F6' },
     { value: 'blue-dark', label: 'Marin', hex: '#1D4ED8' }
   ],
-  // Indigo row
-  [
-    { value: 'indigo-light', label: 'Moln', hex: '#A5B4FC' },
-    { value: 'indigo', label: 'Indigo', hex: '#6366F1' },
-    { value: 'indigo-dark', label: 'Natt', hex: '#4338CA' }
-  ],
   // Purple row
   [
     { value: 'purple-light', label: 'Orchid', hex: '#C084FC' },
@@ -71,6 +65,14 @@ const COLOR_GRID = [
     { value: 'purple-dark', label: 'Violett', hex: '#7C3AED' }
   ],
 ];
+
+  // Indigo row
+/*
+  [
+    { value: 'indigo-light', label: 'Moln', hex: '#A5B4FC' },
+    { value: 'indigo', label: 'Indigo', hex: '#6366F1' },
+    { value: 'indigo-dark', label: 'Natt', hex: '#4338CA' }
+  ], */
 
 // Flatten the grid for the radio group
 const ALL_COLORS = COLOR_GRID.flat();
