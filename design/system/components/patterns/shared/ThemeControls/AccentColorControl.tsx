@@ -14,7 +14,7 @@ const COLOR_GRID = [
   [
     { value: 'gray-light', label: 'Ljus', hex: '#9CA3AF' },
     { value: 'gray', label: 'grå', hex: '#6B7280' },
-    { value: 'gray-dark', label: 'Mörk', hex: '#374151' }
+    { value: 'slate', label: 'Mörk', hex: '#374151' }
   ],
   // Pink row
   [
