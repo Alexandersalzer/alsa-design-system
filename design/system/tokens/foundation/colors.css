@@ -115,30 +115,30 @@
   --foundation-ruby-1100: #2B030C;
   --foundation-ruby-1200: #1A0208;
 
-  /* ===== ORANGE FAMILY ===== */
-  
-  /* Orange-Light Scale - Used in AccentColorControl */
-  --foundation-orange-light-100: #FFF7ED;
-  --foundation-orange-light-200: #FFEDD5;
-  --foundation-orange-light-300: #FED7AA;
-  --foundation-orange-light-400: #FDBA74;
-  --foundation-orange-light-500: #FB923C;
-  --foundation-orange-light-600: #F97316;
-  --foundation-orange-light-700: #EA580C;
-  --foundation-orange-light-800: #C2410C;
-  --foundation-orange-light-900: #9A3412;
-  --foundation-orange-light-950: #7C2D12;
-  --foundation-orange-light-1000: #431407;
-  --foundation-orange-light-1100: #3A1207;
-  --foundation-orange-light-1200: #1C0B05;
+  /* ===== ORANGE FAMILY - FIXED WITH DISTINCT SCALES ===== */
 
-  /* Orange Scale (Standard) - Used in AccentColorControl */
+  /* Orange-Light Scale - Soft peach orange (light, peachy) */
+  --foundation-orange-light-100: #FFFAF7;
+  --foundation-orange-light-200: #FFF3EB;
+  --foundation-orange-light-300: #FFE8D6;
+  --foundation-orange-light-400: #FFD4B3;
+  --foundation-orange-light-500: #FFBD85;
+  --foundation-orange-light-600: #FFA366; /* Soft peach orange */
+  --foundation-orange-light-700: #E8854A;
+  --foundation-orange-light-800: #CC6B32;
+  --foundation-orange-light-900: #B5541F;
+  --foundation-orange-light-950: #9E4118;
+  --foundation-orange-light-1000: #7A3314;
+  --foundation-orange-light-1100: #572410;
+  --foundation-orange-light-1200: #2D130A;
+
+  /* Orange Scale - Standard bright orange (classic orange) */
   --foundation-orange-100: #FFF7ED;
   --foundation-orange-200: #FFEDD5;
   --foundation-orange-300: #FED7AA;
   --foundation-orange-400: #FDBA74;
   --foundation-orange-500: #FB923C;
-  --foundation-orange-600: #F97316;
+  --foundation-orange-600: #F97316; /* Classic bright orange */
   --foundation-orange-700: #EA580C;
   --foundation-orange-800: #C2410C;
   --foundation-orange-900: #9A3412;
@@ -147,20 +147,20 @@
   --foundation-orange-1100: #3A1207;
   --foundation-orange-1200: #1C0B05;
 
-  /* Tangerine Scale - Used in AccentColorControl */
-  --foundation-tangerine-100: #FFF7ED;
-  --foundation-tangerine-200: #FFEDD5;
-  --foundation-tangerine-300: #FED7AA;
-  --foundation-tangerine-400: #FDBA74;
-  --foundation-tangerine-500: #FF8C00;
-  --foundation-tangerine-600: #FB923C;
-  --foundation-tangerine-700: #F97316;
-  --foundation-tangerine-800: #EA580C;
-  --foundation-tangerine-900: #C2410C;
-  --foundation-tangerine-950: #9A3412;
-  --foundation-tangerine-1000: #7C2D12;
-  --foundation-tangerine-1100: #431407;
-  --foundation-tangerine-1200: #1C0B05;
+  /* Tangerine Scale - Deep burnt orange (darkest, most intense) */
+  --foundation-tangerine-100: #FEF5F0;
+  --foundation-tangerine-200: #FDEBE0;
+  --foundation-tangerine-300: #FBD4C1;
+  --foundation-tangerine-400: #F8B899;
+  --foundation-tangerine-500: #F4956B;
+  --foundation-tangerine-600: #E8703A; /* Deep burnt orange */
+  --foundation-tangerine-700: #D4591F;
+  --foundation-tangerine-800: #B84814;
+  --foundation-tangerine-900: #9A3A0F;
+  --foundation-tangerine-950: #7D2F0C;
+  --foundation-tangerine-1000: #5F240A;
+  --foundation-tangerine-1100: #401807;
+  --foundation-tangerine-1200: #210C04;
 
   /* ===== YELLOW FAMILY ===== */
   
