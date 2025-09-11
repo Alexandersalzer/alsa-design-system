@@ -98,18 +98,7 @@ export class ThemeManager {
     });
 
     // Also update semantic tokens that should follow accent
-// Also update semantic tokens that should follow accent
-  root.style.setProperty('--border-focus', `var(--foundation-${color}-500)`);
-  root.style.setProperty('--icon-brand', `var(--foundation-${color}-600)`);
-  root.style.setProperty('--icon-accent', `var(--foundation-${color}-500)`);
-  root.style.setProperty('--text-nav-item-selected', `var(--foundation-${color}-600)`);
-  root.style.setProperty('--icon-nav-item-selected', `var(--foundation-${color}-600)`);
-  
-  // Interactive tokens
-  root.style.setProperty('--interactive-accent', `var(--foundation-${color}-600)`);
-  root.style.setProperty('--interactive-accent-hover', `var(--foundation-${color}-700)`);
-  root.style.setProperty('--interactive-accent-active', `var(--foundation-${color}-800)`);
-  
+
   }
 
   /**
