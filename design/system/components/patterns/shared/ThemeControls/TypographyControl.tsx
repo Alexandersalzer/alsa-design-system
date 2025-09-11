@@ -1,6 +1,6 @@
 // ===============================================
-// TypographyControl.tsx - UNIFIED GRID VERSION
-// Alla fonts i samma grid utan kategorisering
+// TypographyControl.tsx - FIXED DEFAULT VALUE
+// Ensures a font is always selected by default
 // ===============================================
 import React, { useEffect } from 'react';
 import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
@@ -268,6 +268,9 @@ const ALL_FONTS = [
   },
 ];
 
+// ✅ DEFINE DEFAULT FONT VALUE
+const DEFAULT_FONT_VALUE = 'plus-jakarta-sans'; // This exists in ALL_FONTS array
+
 interface TypographyControlProps {
   columns?: 1 | 2 | 3 | 4 | 5 | 6;
   className?: string;
@@ -278,10 +281,23 @@ interface TypographyControlProps {
 export function TypographyControl({ 
   columns = 3, 
   className, 
-  value = 'inter',
+  value, // Remove default here - we'll handle it in the component
   onChange
 }: TypographyControlProps) {
   
+  // ✅ ENSURE VALUE IS ALWAYS VALID
+  const getValidValue = (inputValue?: string): string => {
+    // If value is provided and exists in font list, use it
+    if (inputValue && ALL_FONTS.some(font => font.value === inputValue)) {
+      return inputValue;
+    }
+    
+    // Otherwise, return default
+    return DEFAULT_FONT_VALUE;
+  };
+
+  const currentValue = getValidValue(value);
+
   // ✅ Hantera teckensnittsbyte och applicera på CSS
   const handleFontChange = (fontValue: string) => {
     console.log('🔤 TypographyControl: Ändrar teckensnitt till:', fontValue);
@@ -323,13 +339,18 @@ export function TypographyControl({
     console.log('🔤 Tillämpade teckensnitt:', fontOption.label, fontOption.family);
   };
 
-  // Applicera teckensnittsändringar när värdet ändras
+  // ✅ APPLY DEFAULT FONT ON MOUNT AND WHEN VALUE CHANGES
   useEffect(() => {
-    const fontOption = ALL_FONTS.find(f => f.value === value);
+    const fontOption = ALL_FONTS.find(f => f.value === currentValue);
     if (fontOption) {
       applyFontToSystem(fontOption);
+      
+      // If this is the default value and we have an onChange, notify parent
+      if (currentValue === DEFAULT_FONT_VALUE && value !== currentValue && onChange) {
+        onChange(currentValue);
+      }
     }
-  }, [value]);
+  }, [currentValue, value, onChange]);
 
   // ✅ FÖRLADDA ALLA GOOGLE FONTS när komponenten mountar
   useEffect(() => {
@@ -376,7 +397,7 @@ export function TypographyControl({
       {/* Unified Font Grid */}
       <DesignRadioCard.Root
         name="font-family"
-        value={value}
+        value={currentValue} // ✅ Use validated current value
         onChange={handleFontChange}
         columns={columns}
         gap="md"
