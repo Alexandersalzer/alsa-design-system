@@ -537,18 +537,17 @@
   --foundation-pink-1200: #1F0A24;
 
   /* Pink-Dark Scale - Used in AccentColorControl */
-  --foundation-pink-dark-100: #FDF2F8;
-  --foundation-pink-dark-200: #FCE7F3;
-  --foundation-pink-dark-300: #FBCFE8;
-  --foundation-pink-dark-400: #F9A8D4;
-  --foundation-pink-dark-500: #F472B6;
-  --foundation-pink-dark-600: #EC4899;
-  --foundation-pink-dark-700: #DB2777;
-  --foundation-pink-dark-800: #E11D48;
-  --foundation-pink-dark-900: #BE185D;
-  --foundation-pink-dark-950: #9D174D;
-  --foundation-pink-dark-1000: #831843;
-  --foundation-pink-dark-1100: #701A75;
-  --foundation-pink-dark-1200: #4A044E;
-
+  --foundation-pink-dark-100: #FDF4FF;
+  --foundation-pink-dark-200: #FAE8FF;
+  --foundation-pink-dark-300: #F5D0FE;
+  --foundation-pink-dark-400: #F0ABFC;
+  --foundation-pink-dark-500: #E879F9;
+  --foundation-pink-dark-600: #D946EF; /* Key change - bright magenta instead of #EC4899 */
+  --foundation-pink-dark-700: #C026D3;
+  --foundation-pink-dark-800: #A21CAF;
+  --foundation-pink-dark-900: #86198F;
+  --foundation-pink-dark-950: #701A75;
+  --foundation-pink-dark-1000: #581C87;
+  --foundation-pink-dark-1100: #3B0764;
+  --foundation-pink-dark-1200: #2D1B69;
 }
