@@ -385,15 +385,15 @@
 --foundation-blue-dark-200: #DDE5FF;
 --foundation-blue-dark-300: #BBCBFF;
 --foundation-blue-dark-400: #99B1FF;
---foundation-blue-dark-500: #5577D4;
---foundation-blue-dark-600: #1E3A8A; /* Deep navy blue */
---foundation-blue-dark-700: #1A2E73;
---foundation-blue-dark-800: #16235C;
---foundation-blue-dark-900: #121945;
---foundation-blue-dark-950: #0E0E2E;
---foundation-blue-dark-1000: #0A0B1F;
---foundation-blue-dark-1100: #060710;
---foundation-blue-dark-1200: #030408;
+--foundation-blue-dark-500: #7799DD;
+--foundation-blue-dark-600: #2563EB; /* Medium navy blue */
+--foundation-blue-dark-700: #1D4ED8;
+--foundation-blue-dark-800: #1E3A8A;
+--foundation-blue-dark-900: #1A2E73;
+--foundation-blue-dark-950: #16235C;
+--foundation-blue-dark-1000: #121945;
+--foundation-blue-dark-1100: #0E0E2E;
+--foundation-blue-dark-1200: #0A0B1F;
   /* ===== INDIGO FAMILY ===== */
   
   /* Indigo-Light Scale - Used in AccentColorControl */
@@ -441,30 +441,30 @@
   --foundation-indigo-dark-1100: #312E81;
   --foundation-indigo-dark-1200: #1E1B4B;
 
-  /* ===== PURPLE FAMILY ===== */
-  
-  /* Purple-Light Scale - Used in AccentColorControl */
-  --foundation-purple-light-100: #FAF5FF;
-  --foundation-purple-light-200: #F3E8FF;
-  --foundation-purple-light-300: #E9D5FF;
-  --foundation-purple-light-400: #D8B4FE;
-  --foundation-purple-light-500: #C084FC;
-  --foundation-purple-light-600: #A855F7;
-  --foundation-purple-light-700: #9333EA;
-  --foundation-purple-light-800: #7C3AED;
-  --foundation-purple-light-900: #6B21A8;
-  --foundation-purple-light-950: #581C87;
-  --foundation-purple-light-1000: #4C1D95;
-  --foundation-purple-light-1100: #3B0764;
-  --foundation-purple-light-1200: #2E1065;
+  /* ===== PURPLE FAMILY - FIXED WITH DISTINCT SCALES ===== */
 
-  /* Purple Scale (Standard) - Used in semantic colors (accent) and AccentColorControl */
+  /* Purple-Light Scale - Soft lavender (lighter, more blue-purple) */
+  --foundation-purple-light-100: #FAFAFE;
+  --foundation-purple-light-200: #F5F3FF;
+  --foundation-purple-light-300: #EDEBFF;
+  --foundation-purple-light-400: #DDD6FE;
+  --foundation-purple-light-500: #C4B5FD;
+  --foundation-purple-light-600: #A78BFA; /* Soft lavender */
+  --foundation-purple-light-700: #8B5CF6;
+  --foundation-purple-light-800: #7C3AED;
+  --foundation-purple-light-900: #6D28D9;
+  --foundation-purple-light-950: #5B21B6;
+  --foundation-purple-light-1000: #4C1D95;
+  --foundation-purple-light-1100: #3730A3;
+  --foundation-purple-light-1200: #312E81;
+
+  /* Purple Scale - Standard bright purple (classic purple) */
   --foundation-purple-100: #F3E8FF;
   --foundation-purple-200: #E9D5FF;
   --foundation-purple-300: #D8B4FE;
   --foundation-purple-400: #C084FC;
   --foundation-purple-500: #A855F7;
-  --foundation-purple-600: #9333EA;
+  --foundation-purple-600: #9333EA; /* Classic bright purple */
   --foundation-purple-700: #7C3AED;
   --foundation-purple-800: #6B21A8;
   --foundation-purple-900: #581C87;
@@ -473,20 +473,20 @@
   --foundation-purple-1100: #2E1065;
   --foundation-purple-1200: #1E1B4B;
 
-  /* Purple-Dark Scale - Used in AccentColorControl */
-  --foundation-purple-dark-100: #FAF5FF;
-  --foundation-purple-dark-200: #F3E8FF;
-  --foundation-purple-dark-300: #E9D5FF;
-  --foundation-purple-dark-400: #D8B4FE;
-  --foundation-purple-dark-500: #C084FC;
-  --foundation-purple-dark-600: #A855F7;
-  --foundation-purple-dark-700: #9333EA;
-  --foundation-purple-dark-800: #7C3AED;
-  --foundation-purple-dark-900: #6B21A8;
-  --foundation-purple-dark-950: #581C87;
-  --foundation-purple-dark-1000: #4C1D95;
-  --foundation-purple-dark-1100: #3B0764;
-  --foundation-purple-dark-1200: #2E1065;
+  /* Purple-Dark Scale - Deep violet (darker, more red-purple) */
+  --foundation-purple-dark-100: #F8F5FF;
+  --foundation-purple-dark-200: #F1EBFF;
+  --foundation-purple-dark-300: #E2D1FF;
+  --foundation-purple-dark-400: #D3B7FF;
+  --foundation-purple-dark-500: #B483F7;
+  --foundation-purple-dark-600: #7C3AED; /* Deep violet */
+  --foundation-purple-dark-700: #6B21A8;
+  --foundation-purple-dark-800: #581C87;
+  --foundation-purple-dark-900: #4C1D95;
+  --foundation-purple-dark-950: #3B0764;
+  --foundation-purple-dark-1000: #2E1065;
+  --foundation-purple-dark-1100: #1E1B4B;
+  --foundation-purple-dark-1200: #130F2B;
 
 /* ===== PINK FAMILY - DISTINCT FROM RED FAMILY ===== */
 
