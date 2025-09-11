@@ -185,11 +185,11 @@
   --foundation-yellow-300: #FDE68A;
   --foundation-yellow-400: #FCD34D;
   --foundation-yellow-500: #FBBF24;
-  --foundation-yellow-600: #F59E0B; /* Classic bright yellow */
-  --foundation-yellow-700: #D97706;
-  --foundation-yellow-800: #B45309;
-  --foundation-yellow-900: #92400E;
-  --foundation-yellow-950: #78350F;
+  --foundation-yellow-600: #EAB308; /* More pure yellow, less orange */
+  --foundation-yellow-700: #CA8A04;
+  --foundation-yellow-800: #A16207;
+  --foundation-yellow-900: #854D0E;
+  --foundation-yellow-950: #713F12;
   --foundation-yellow-1000: #451A03;
   --foundation-yellow-1100: #3A1507;
   --foundation-yellow-1200: #1A0A03;
