@@ -286,52 +286,52 @@
   --foundation-emerald-1100: #021E18;
   --foundation-emerald-1200: #0A120F;
 
-  /* ===== TEAL FAMILY ===== */
-  
-  /* Teal-Light Scale - Used in AccentColorControl */
-  --foundation-teal-light-100: #F0FDFA;
-  --foundation-teal-light-200: #CCFBF1;
-  --foundation-teal-light-300: #99F6E4;
-  --foundation-teal-light-400: #5EEAD4;
-  --foundation-teal-light-500: #2DD4BF;
-  --foundation-teal-light-600: #14B8A6;
-  --foundation-teal-light-700: #0F766E;
-  --foundation-teal-light-800: #115E59;
-  --foundation-teal-light-900: #134E4A;
-  --foundation-teal-light-950: #042F2E;
-  --foundation-teal-light-1000: #022D2C;
-  --foundation-teal-light-1100: #0F1E1D;
-  --foundation-teal-light-1200: #0A1817;
+/* ===== TEAL FAMILY - FIXED WITH TRUE TEAL SCALES ===== */
 
-  /* Teal Scale (Standard) - Used in AccentColorControl */
-  --foundation-teal-100: #F0FDFA;
-  --foundation-teal-200: #CCFBF1;
-  --foundation-teal-300: #99F6E4;
-  --foundation-teal-400: #5EEAD4;
-  --foundation-teal-500: #2DD4BF;
-  --foundation-teal-600: #14B8A6;
-  --foundation-teal-700: #0F766E;
-  --foundation-teal-800: #115E59;
-  --foundation-teal-900: #134E4A;
-  --foundation-teal-950: #042F2E;
-  --foundation-teal-1000: #022D2C;
-  --foundation-teal-1100: #0F1E1D;
-  --foundation-teal-1200: #0A1817;
+/* Teal-Light Scale - Light turquoise (lighter, more vibrant teal) */
+--foundation-teal-light-100: #F0FDFA;
+--foundation-teal-light-200: #CCFBF1;
+--foundation-teal-light-300: #99F6E4;
+--foundation-teal-light-400: #5EEAD4;
+--foundation-teal-light-500: #2DD4BF;
+--foundation-teal-light-600: #06D6A0; /* Light turquoise teal */
+--foundation-teal-light-700: #05B187;
+--foundation-teal-light-800: #048A6E;
+--foundation-teal-light-900: #036B56;
+--foundation-teal-light-950: #025A47;
+--foundation-teal-light-1000: #014A39;
+--foundation-teal-light-1100: #01342A;
+--foundation-teal-light-1200: #001F1C;
 
-  /* Teal-Dark Scale - Used in AccentColorControl */
-  --foundation-teal-dark-100: #F0FDFA;
-  --foundation-teal-dark-200: #CCFBF1;
-  --foundation-teal-dark-300: #99F6E4;
-  --foundation-teal-dark-400: #5EEAD4;
-  --foundation-teal-dark-500: #2DD4BF;
-  --foundation-teal-dark-600: #14B8A6;
-  --foundation-teal-dark-700: #0F766E;
-  --foundation-teal-dark-800: #115E59;
-  --foundation-teal-dark-900: #134E4A;
-  --foundation-teal-dark-950: #042F2E;
-  --foundation-teal-dark-1000: #022D2C;
-  --foundation-teal-dark-1100: #0F1E1D;
-  --foundation-teal-dark-1200: #0A1817;
+/* Teal Scale - Standard teal (balanced blue-green) */
+--foundation-teal-100: #F0FDFA;
+--foundation-teal-200: #CCFBF1;
+--foundation-teal-300: #99F6E4;
+--foundation-teal-400: #5EEAD4;
+--foundation-teal-500: #2DD4BF;
+--foundation-teal-600: #14B8A6; /* Classic teal */
+--foundation-teal-700: #0F766E;
+--foundation-teal-800: #115E59;
+--foundation-teal-900: #134E4A;
+--foundation-teal-950: #042F2E;
+--foundation-teal-1000: #022D2C;
+--foundation-teal-1100: #0F1E1D;
+--foundation-teal-1200: #0A1817;
+
+/* Teal-Dark Scale - Deep teal (darker, muted teal) */
+--foundation-teal-dark-100: #EDFAF8;
+--foundation-teal-dark-200: #DBF5F1;
+--foundation-teal-dark-300: #B7EBE3;
+--foundation-teal-dark-400: #93E1D5;
+--foundation-teal-dark-500: #4FC3B0;
+--foundation-teal-dark-600: #118A7E; /* Deep muted teal */
+--foundation-teal-dark-700: #0E6B61;
+--foundation-teal-dark-800: #0B5249;
+--foundation-teal-dark-900: #083D36;
+--foundation-teal-dark-950: #062E29;
+--foundation-teal-dark-1000: #041F1C;
+--foundation-teal-dark-1100: #021412;
+--foundation-teal-dark-1200: #010A09;
 
   /* Azure Scale - Used in semantic colors (info) */
   --foundation-azure-100: #ECFEFF;
