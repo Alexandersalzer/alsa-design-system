@@ -489,50 +489,50 @@
   --foundation-purple-dark-1100: #3B0764;
   --foundation-purple-dark-1200: #2E1065;
 
-  /* ===== PINK FAMILY ===== */
-  
-  /* Pink-Light Scale - Soft, light pink (coral-pink tones) */
-  --foundation-pink-light-100: #FEF7F3;
-  --foundation-pink-light-200: #FEEEE8;
-  --foundation-pink-light-300: #FDD8CC;
-  --foundation-pink-light-400: #FCB5A1;
-  --foundation-pink-light-500: #FA8A6F;
-  --foundation-pink-light-600: #F87171; /* Light coral-pink */
-  --foundation-pink-light-700: #EF4444;
-  --foundation-pink-light-800: #DC2626;
-  --foundation-pink-light-900: #B91C1C;
-  --foundation-pink-light-950: #991B1B;
-  --foundation-pink-light-1000: #7F1D1D;
-  --foundation-pink-light-1100: #450A0A;
-  --foundation-pink-light-1200: #1A0606;
+/* ===== PINK FAMILY - DISTINCT FROM RED FAMILY ===== */
 
-  /* Pink Scale - True hot pink (standard pink) */
-  --foundation-pink-100: #FDF2F8;
-  --foundation-pink-200: #FCE7F3;
-  --foundation-pink-300: #FBCFE8;
-  --foundation-pink-400: #F9A8D4;
-  --foundation-pink-500: #F472B6;
-  --foundation-pink-600: #EC4899; /* Hot pink */
-  --foundation-pink-700: #DB2777;
-  --foundation-pink-800: #BE185D;
-  --foundation-pink-900: #9D174D;
-  --foundation-pink-950: #831843;
-  --foundation-pink-1000: #701A75;
-  --foundation-pink-1100: #4A044E;
-  --foundation-pink-1200: #1F0A24;
+/* Pink-Light Scale - Peachy pink (warm, coral undertones) */
+--foundation-pink-light-100: #FFF8F5;
+--foundation-pink-light-200: #FFF0E8;
+--foundation-pink-light-300: #FFE4D1;
+--foundation-pink-light-400: #FFD0B5;
+--foundation-pink-light-500: #FFB8A3;
+--foundation-pink-light-600: #FF9B85; /* Peachy coral */
+--foundation-pink-light-700: #E8764A;
+--foundation-pink-light-800: #CC5A2B;
+--foundation-pink-light-900: #A8451F;
+--foundation-pink-light-950: #8A3519;
+--foundation-pink-light-1000: #6B2815;
+--foundation-pink-light-1100: #4D1C0F;
+--foundation-pink-light-1200: #2B1008;
 
-  /* Pink-Dark Scale - Deep rose (wine-pink tones) */
-  --foundation-pink-dark-100: #FFF1F2;
-  --foundation-pink-dark-200: #FFE4E6;
-  --foundation-pink-dark-300: #FECDD3;
-  --foundation-pink-dark-400: #FDA4AF;
-  --foundation-pink-dark-500: #FB7185;
-  --foundation-pink-dark-600: #F43F5E; /* Deep rose-pink */
-  --foundation-pink-dark-700: #E11D48;
-  --foundation-pink-dark-800: #BE123C;
-  --foundation-pink-dark-900: #9F1239;
-  --foundation-pink-dark-950: #881337;
-  --foundation-pink-dark-1000: #4C0519;
-  --foundation-pink-dark-1100: #3C0E18;
-  --foundation-pink-dark-1200: #1F070C;
+/* Pink Scale - Classic hot pink (vibrant, balanced) */
+--foundation-pink-100: #FDF2F8;
+--foundation-pink-200: #FCE7F3;
+--foundation-pink-300: #FBCFE8;
+--foundation-pink-400: #F9A8D4;
+--foundation-pink-500: #F472B6;
+--foundation-pink-600: #EC4899; /* Classic hot pink */
+--foundation-pink-700: #DB2777;
+--foundation-pink-800: #BE185D;
+--foundation-pink-900: #9D174D;
+--foundation-pink-950: #831843;
+--foundation-pink-1000: #701A75;
+--foundation-pink-1100: #4A044E;
+--foundation-pink-1200: #1F0A24;
+
+/* Pink-Dark Scale - Deep fuchsia (intense, magenta-leaning) */
+--foundation-pink-dark-100: #FEF7FF;
+--foundation-pink-dark-200: #FCEEFF;
+--foundation-pink-dark-300: #F8D7FE;
+--foundation-pink-dark-400: #F3B4FD;
+--foundation-pink-dark-500: #ED85FB;
+--foundation-pink-dark-600: #D946EF; /* Deep fuchsia */
+--foundation-pink-dark-700: #C026D3;
+--foundation-pink-dark-800: #A21CAF;
+--foundation-pink-dark-900: #86198F;
+--foundation-pink-dark-950: #6B1570;
+--foundation-pink-dark-1000: #581C87;
+--foundation-pink-dark-1100: #3B0764;
+--foundation-pink-dark-1200: #2D1B69;
 }
