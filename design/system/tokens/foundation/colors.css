@@ -348,53 +348,52 @@
   --foundation-azure-1100: #0C2A36;
   --foundation-azure-1200: #051F26;
 
-  /* ===== BLUE FAMILY ===== */
-  
-  /* Blue-Light Scale (Sky Blue - ljusare, mer cyan-tonen) - Used in AccentColorControl */
-  --foundation-blue-light-100: #F0F9FF;
-  --foundation-blue-light-200: #E0F2FE;
-  --foundation-blue-light-300: #BAE6FD;
-  --foundation-blue-light-400: #7DD3FC;
-  --foundation-blue-light-500: #38BDF8;
-  --foundation-blue-light-600: #0EA5E9;
-  --foundation-blue-light-700: #0284C7;
-  --foundation-blue-light-800: #0369A1;
-  --foundation-blue-light-900: #075985;
-  --foundation-blue-light-950: #0C4A6E;
-  --foundation-blue-light-1000: #082F49;
-  --foundation-blue-light-1100: #0F172A;
-  --foundation-blue-light-1200: #020617;
+  /* ===== BLUE FAMILY - FIXED WITH DISTINCT SCALES ===== */
 
-  /* Blue Scale (Standard Blue - klassisk blå) - Used in AccentColorControl */
-  --foundation-blue-100: #EFF6FF;
-  --foundation-blue-200: #DBEAFE;
-  --foundation-blue-300: #BFDBFE;
-  --foundation-blue-400: #93C5FD;
-  --foundation-blue-500: #60A5FA;
-  --foundation-blue-600: #3B82F6;
-  --foundation-blue-700: #2563EB;
-  --foundation-blue-800: #1D4ED8;
-  --foundation-blue-900: #1E40AF;
-  --foundation-blue-950: #1E3A8A;
-  --foundation-blue-1000: #172554;
-  --foundation-blue-1100: #0F1629;
-  --foundation-blue-1200: #0A0E1A;
+/* Blue-Light Scale - Soft sky blue (lighter, softer blue) */
+--foundation-blue-light-100: #F0F8FF;
+--foundation-blue-light-200: #E1F0FF;
+--foundation-blue-light-300: #C2E1FF;
+--foundation-blue-light-400: #94CCFF;
+--foundation-blue-light-500: #66B7FF;
+--foundation-blue-light-600: #4AA3FF; /* Soft sky blue */
+--foundation-blue-light-700: #2B8FE6;
+--foundation-blue-light-800: #1A7BC7;
+--foundation-blue-light-900: #1467A8;
+--foundation-blue-light-950: #105389;
+--foundation-blue-light-1000: #0D3F6A;
+--foundation-blue-light-1100: #092B4B;
+--foundation-blue-light-1200: #05172C;
 
-  /* Blue-Dark Scale (Navy Blue - djupare, mer mättad blå) - Used in AccentColorControl */
-  --foundation-blue-dark-100: #F1F5FD;
-  --foundation-blue-dark-200: #E2EAFB;
-  --foundation-blue-dark-300: #C5D5F7;
-  --foundation-blue-dark-400: #A8C0F3;
-  --foundation-blue-dark-500: #7A9AED;
-  --foundation-blue-dark-600: #1A365D;
-  --foundation-blue-dark-700: #153E75;
-  --foundation-blue-dark-800: #1E3A8A;
-  --foundation-blue-dark-900: #1E2A69;
-  --foundation-blue-dark-950: #1A2456;
-  --foundation-blue-dark-1000: #0F1629;
-  --foundation-blue-dark-1100: #0A0E1A;
-  --foundation-blue-dark-1200: #050711;
+/* Blue Scale - Standard bright blue (classic blue) */
+--foundation-blue-100: #EFF6FF;
+--foundation-blue-200: #DBEAFE;
+--foundation-blue-300: #BFDBFE;
+--foundation-blue-400: #93C5FD;
+--foundation-blue-500: #60A5FA;
+--foundation-blue-600: #3B82F6; /* Classic bright blue */
+--foundation-blue-700: #2563EB;
+--foundation-blue-800: #1D4ED8;
+--foundation-blue-900: #1E40AF;
+--foundation-blue-950: #1E3A8A;
+--foundation-blue-1000: #172554;
+--foundation-blue-1100: #0F1629;
+--foundation-blue-1200: #0A0E1A;
 
+/* Blue-Dark Scale - Deep navy blue (darker, richer blue) */
+--foundation-blue-dark-100: #EEF2FF;
+--foundation-blue-dark-200: #DDE5FF;
+--foundation-blue-dark-300: #BBCBFF;
+--foundation-blue-dark-400: #99B1FF;
+--foundation-blue-dark-500: #5577D4;
+--foundation-blue-dark-600: #1E3A8A; /* Deep navy blue */
+--foundation-blue-dark-700: #1A2E73;
+--foundation-blue-dark-800: #16235C;
+--foundation-blue-dark-900: #121945;
+--foundation-blue-dark-950: #0E0E2E;
+--foundation-blue-dark-1000: #0A0B1F;
+--foundation-blue-dark-1100: #060710;
+--foundation-blue-dark-1200: #030408;
   /* ===== INDIGO FAMILY ===== */
   
   /* Indigo-Light Scale - Used in AccentColorControl */
