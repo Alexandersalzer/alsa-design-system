@@ -159,9 +159,9 @@ export class ThemeManager {
     });
 
     // Update semantic tokens that use accent colors
-    root.style.setProperty('--interactive-accent', colorScale[500]);
-    root.style.setProperty('--interactive-accent-hover', colorScale[600]);
-    root.style.setProperty('--interactive-accent-active', colorScale[700]);
+    root.style.setProperty('--interactive-accent', colorScale[600]);
+    root.style.setProperty('--interactive-accent-hover', colorScale[700]);
+    root.style.setProperty('--interactive-accent-active', colorScale[800]);
     root.style.setProperty('--border-focus', colorScale[500]);
     root.style.setProperty('--icon-brand', colorScale[600]);
     root.style.setProperty('--text-nav-item-selected', colorScale[600]);
