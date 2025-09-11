@@ -161,31 +161,31 @@
   --foundation-tangerine-1000: #5F240A;
   --foundation-tangerine-1100: #401807;
   --foundation-tangerine-1200: #210C04;
-
-  /* ===== YELLOW FAMILY ===== */
   
-  /* Yellow-Light Scale - Used in AccentColorControl */
-  --foundation-yellow-light-100: #FEFCE8;
-  --foundation-yellow-light-200: #FEF3C7;
-  --foundation-yellow-light-300: #FDE68A;
-  --foundation-yellow-light-400: #FDE047;
-  --foundation-yellow-light-500: #FCD34D;
-  --foundation-yellow-light-600: #FBBF24;
-  --foundation-yellow-light-700: #F59E0B;
-  --foundation-yellow-light-800: #D97706;
-  --foundation-yellow-light-900: #B45309;
-  --foundation-yellow-light-950: #92400E;
-  --foundation-yellow-light-1000: #78350F;
-  --foundation-yellow-light-1100: #451A03;
-  --foundation-yellow-light-1200: #1A0A03;
+  /* ===== YELLOW FAMILY - FIXED WITH DISTINCT SCALES ===== */
 
-  /* Yellow Scale (Standard) - Used in AccentColorControl */
+  /* Yellow-Light Scale - Soft lemon yellow (light, citrusy) */
+  --foundation-yellow-light-100: #FEFFFE;
+  --foundation-yellow-light-200: #FEFBF3;
+  --foundation-yellow-light-300: #FEF7E0;
+  --foundation-yellow-light-400: #FDF0C2;
+  --foundation-yellow-light-500: #FCE896;
+  --foundation-yellow-light-600: #FDE047; /* Soft lemon yellow */
+  --foundation-yellow-light-700: #EAC54F;
+  --foundation-yellow-light-800: #D4A73C;
+  --foundation-yellow-light-900: #B8882A;
+  --foundation-yellow-light-950: #9C6D1D;
+  --foundation-yellow-light-1000: #7A5318;
+  --foundation-yellow-light-1100: #573C12;
+  --foundation-yellow-light-1200: #2E200A;
+
+  /* Yellow Scale - Standard bright yellow (classic sunny yellow) */
   --foundation-yellow-100: #FEFCE8;
   --foundation-yellow-200: #FEF3C7;
   --foundation-yellow-300: #FDE68A;
   --foundation-yellow-400: #FCD34D;
   --foundation-yellow-500: #FBBF24;
-  --foundation-yellow-600: #F59E0B;
+  --foundation-yellow-600: #F59E0B; /* Classic bright yellow */
   --foundation-yellow-700: #D97706;
   --foundation-yellow-800: #B45309;
   --foundation-yellow-900: #92400E;
@@ -194,20 +194,20 @@
   --foundation-yellow-1100: #3A1507;
   --foundation-yellow-1200: #1A0A03;
 
-  /* Yellow-Dark Scale - Used in AccentColorControl */
-  --foundation-yellow-dark-100: #FEFCE8;
-  --foundation-yellow-dark-200: #FEF3C7;
-  --foundation-yellow-dark-300: #FDE68A;
-  --foundation-yellow-dark-400: #FDE047;
-  --foundation-yellow-dark-500: #FCD34D;
-  --foundation-yellow-dark-600: #FBBF24;
-  --foundation-yellow-dark-700: #F59E0B;
-  --foundation-yellow-dark-800: #D97706;
-  --foundation-yellow-dark-900: #B45309;
-  --foundation-yellow-dark-950: #92400E;
-  --foundation-yellow-dark-1000: #78350F;
-  --foundation-yellow-dark-1100: #451A03;
-  --foundation-yellow-dark-1200: #1A0A03;
+  /* Yellow-Dark Scale - Deep amber/gold (darkest, golden) */
+  --foundation-yellow-dark-100: #FDF8E8;
+  --foundation-yellow-dark-200: #FBF0D1;
+  --foundation-yellow-dark-300: #F7E1A3;
+  --foundation-yellow-dark-400: #F2CE6B;
+  --foundation-yellow-dark-500: #EDB73D;
+  --foundation-yellow-dark-600: #D4930B; /* Deep amber gold */
+  --foundation-yellow-dark-700: #B87A08;
+  --foundation-yellow-dark-800: #9C6406;
+  --foundation-yellow-dark-900: #7A4D05;
+  --foundation-yellow-dark-950: #5F3C04;
+  --foundation-yellow-dark-1000: #442B03;
+  --foundation-yellow-dark-1100: #291A02;
+  --foundation-yellow-dark-1200: #140D01;
 
   /* Honey Scale - Used in semantic colors (warning) */
   --foundation-honey-100: #FEF3C7;
