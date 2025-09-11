@@ -24,7 +24,7 @@
   --border-button-secondary-active: var(--border-light-active);
 
   /* Accent Button */
-  --surface-button-accent: var(--accent-600);
+  --surface-button-accent: var(--interactive-accent);
   --surface-button-accent-hover: var(--interactive-accent-hover);
   --surface-button-accent-active: var(--interactive-accent-active);
   --surface-button-accent-disabled: var(--interactive-primary-disabled);
