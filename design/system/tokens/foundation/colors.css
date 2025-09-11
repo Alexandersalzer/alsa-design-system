@@ -380,20 +380,20 @@
   --foundation-blue-1100: #0F1629;
   --foundation-blue-1200: #0A0E1A;
 
-  /* Blue-Dark Scale (Royal Blue - djupare, mer mättad) - Used in AccentColorControl */
-  --foundation-blue-dark-100: #F8FAFC;
-  --foundation-blue-dark-200: #F1F5F9;
-  --foundation-blue-dark-300: #E2E8F0;
-  --foundation-blue-dark-400: #CBD5E1;
-  --foundation-blue-dark-500: #94A3B8;
-  --foundation-blue-dark-600: #1E40AF;
-  --foundation-blue-dark-700: #1E3A8A;
-  --foundation-blue-dark-800: #1E293B;
-  --foundation-blue-dark-900: #0F172A;
-  --foundation-blue-dark-950: #020617;
-  --foundation-blue-dark-1000: #010409;
-  --foundation-blue-dark-1100: #000204;
-  --foundation-blue-dark-1200: #000102;
+  /* Blue-Dark Scale (Navy Blue - djupare, mer mättad blå) - Used in AccentColorControl */
+  --foundation-blue-dark-100: #F1F5FD;
+  --foundation-blue-dark-200: #E2EAFB;
+  --foundation-blue-dark-300: #C5D5F7;
+  --foundation-blue-dark-400: #A8C0F3;
+  --foundation-blue-dark-500: #7A9AED;
+  --foundation-blue-dark-600: #1A365D;
+  --foundation-blue-dark-700: #153E75;
+  --foundation-blue-dark-800: #1E3A8A;
+  --foundation-blue-dark-900: #1E2A69;
+  --foundation-blue-dark-950: #1A2456;
+  --foundation-blue-dark-1000: #0F1629;
+  --foundation-blue-dark-1100: #0A0E1A;
+  --foundation-blue-dark-1200: #050711;
 
   /* ===== INDIGO FAMILY ===== */
   
