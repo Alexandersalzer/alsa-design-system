@@ -491,20 +491,19 @@
 
 /* ===== PINK FAMILY - DISTINCT FROM RED FAMILY ===== */
 
-/* Pink-Light Scale - Peachy pink (warm, coral undertones) */
---foundation-pink-light-100: #FFF8F5;
---foundation-pink-light-200: #FFF0E8;
---foundation-pink-light-300: #FFE4D1;
---foundation-pink-light-400: #FFD0B5;
---foundation-pink-light-500: #FFB8A3;
---foundation-pink-light-600: #FF9B85; /* Peachy coral */
---foundation-pink-light-700: #E8764A;
---foundation-pink-light-800: #CC5A2B;
---foundation-pink-light-900: #A8451F;
---foundation-pink-light-950: #8A3519;
---foundation-pink-light-1000: #6B2815;
---foundation-pink-light-1100: #4D1C0F;
---foundation-pink-light-1200: #2B1008;
+--foundation-pink-light-100: #FEF7F9;
+--foundation-pink-light-200: #FEEEF3;
+--foundation-pink-light-300: #FDD8E5;
+--foundation-pink-light-400: #FCB8D0;
+--foundation-pink-light-500: #F98BB8;
+--foundation-pink-light-600: #F472B6; /* Soft baby pink */
+--foundation-pink-light-700: #E85AA0;
+--foundation-pink-light-800: #D4478A;
+--foundation-pink-light-900: #B83974;
+--foundation-pink-light-950: #9D2F5F;
+--foundation-pink-light-1000: #7C254A;
+--foundation-pink-light-1100: #5B1B36;
+--foundation-pink-light-1200: #3A1122;
 
 /* Pink Scale - Classic hot pink (vibrant, balanced) */
 --foundation-pink-100: #FDF2F8;
@@ -536,3 +535,20 @@
 --foundation-pink-dark-1100: #3B0764;
 --foundation-pink-dark-1200: #2D1B69;
 }
+
+
+/* wild cards  Peachy pink (warm, coral undertones) 
+--foundation-peach-100: #FFF8F5;
+--foundation-peach-200: #FFF0E8;
+--foundation-peach-300: #FFE4D1;
+--foundation-peach-400: #FFD0B5;
+--foundation-peach-500: #FFB8A3;
+--foundation-peach-600: #FF9B85; 
+--foundation-peach-700: #E8764A;
+--foundation-peach-800: #CC5A2B;
+--foundation-peach-900: #A8451F;
+--foundation-peach-950: #8A3519;
+--foundation-peach-1000: #6B2815;
+--foundation-peach-1100: #4D1C0F;
+--foundation-peach-1200: #2B1008;
+*/
