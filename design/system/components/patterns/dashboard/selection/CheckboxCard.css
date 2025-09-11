@@ -18,7 +18,7 @@
 }
 
 .checkbox-card--checked {
-  border-color: var(--accent-500);
+  border-color: var(--interactive-accent);
   background-color: var(--secondary-50);
 }
 

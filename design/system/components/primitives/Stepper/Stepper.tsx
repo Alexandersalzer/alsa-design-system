@@ -1,6 +1,6 @@
 // ===============================================
-// src/design-system/components/primitives/Stepper/Stepper.tsx
-// ENHANCED RESPONSIVE STEPPER with dynamic pricing from database
+// FIXED: src/design-system/components/primitives/Stepper/Stepper.tsx
+// Removed automatic disabling of next button on last step
 // ===============================================
 
 import React, { forwardRef, useEffect, useState } from 'react';
@@ -140,9 +140,9 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
   // Determine if we should show content
   const showContent = !hideContent && !navigationOnly && !!currentStepData;
 
-  // Calculate actual disabled states
+  // ✅ FIXED: Calculate actual disabled states - DON'T auto-disable on last step
   const isPreviousDisabled = previousDisabled || isFirstStep;
-  const isNextDisabled = nextDisabled || isLastStep;
+  const isNextDisabled = nextDisabled; // ✅ Only use the prop, not automatic last step disable
 
   // Generate dynamic next button label with price
   const getNextButtonLabel = () => {
@@ -248,7 +248,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
         <Button
           variant="accent"
           onClick={onNext}
-          disabled={isNextDisabled}
+          disabled={isNextDisabled} // ✅ FIXED: Now properly respects the prop
           className={cn(
             'stepper-button',
             showPriceInButton && totalPrice && (extraCost || 0) > 0 ? 'stepper-button--with-price' : false
