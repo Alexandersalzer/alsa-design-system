@@ -6,7 +6,7 @@
 /* ===== INFO GUIDE COMPONENT ===== */
 .info-guide {
   position: fixed;
-  top: var(--foundation-space-6);
+  bottom: var(--foundation-space-6);
   right: var(--foundation-space-6);
   z-index: var(--z-index-toast);
   width: 400px;
@@ -117,11 +117,11 @@
 /* ===== ANIMATIONS ===== */
 @keyframes infoGuideSlideIn {
   from {
-    transform: translateX(100%);
+    transform: translateY(100%);
     opacity: 0;
   }
   to {
-    transform: translateX(0);
+    transform: translateY(0);
     opacity: 1;
   }
 }
@@ -131,7 +131,7 @@
   .info-guide {
     width: calc(100vw - 2rem);
     max-width: none;
-    top: var(--foundation-space-4);
+    bottom: var(--foundation-space-4);
     right: var(--foundation-space-4);
   }
 }

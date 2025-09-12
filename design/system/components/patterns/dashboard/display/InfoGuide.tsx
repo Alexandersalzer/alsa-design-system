@@ -122,7 +122,7 @@ export const InfoGuide = React.forwardRef<HTMLDivElement, InfoGuideProps>(({
       )}
       style={{
         position: 'fixed',
-        top: 'var(--foundation-space-6)',
+        bottom: 'var(--foundation-space-6)',
         right: 'var(--foundation-space-6)',
         zIndex: 1000,
         width: '400px',
@@ -132,7 +132,7 @@ export const InfoGuide = React.forwardRef<HTMLDivElement, InfoGuideProps>(({
         borderRadius: 'var(--radius-card)',
         boxShadow: 'var(--foundation-shadow-xl)',
         overflow: 'hidden',
-        transform: isAnimating ? 'translateX(0)' : 'translateX(100%)',
+        transform: isAnimating ? 'translateY(0)' : 'translateY(100%)',
         opacity: isAnimating ? 1 : 0,
         transition: 'transform 0.3s ease-out, opacity 0.3s ease-out'
       }}
