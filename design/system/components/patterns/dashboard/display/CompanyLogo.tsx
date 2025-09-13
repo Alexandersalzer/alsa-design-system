@@ -3,7 +3,7 @@
 // COMPANY LOGO COMPONENT - Shows customer logo or fallback
 // ===============================================
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { cn } from '../../../../lib/utils';
 import { extractColorsFromImage, applyColorsWithThemeManager, ExtractedColors } from '../../../../utils/colorExtraction';
 import { LogoIcon } from '../../../primitives/LogoIcon';
@@ -73,85 +73,86 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     };
   }, []);
 
-  // Analyze logo brightness when it loads
-  useEffect(() => {
+  // Analyze logo brightness - separate function that can be called multiple times
+  const analyzeLogoBrightness = useCallback(async () => {
     if (!logoUrl) return;
-
-    const analyzeLogoBrightness = async () => {
+    
+    try {
+      const img = new Image();
+      // Try to set CORS, but don't fail if it doesn't work
       try {
-        const img = new Image();
-        // Try to set CORS, but don't fail if it doesn't work
-        try {
-          img.crossOrigin = 'anonymous';
-        } catch (e) {
-          // CORS not available, continue anyway
+        img.crossOrigin = 'anonymous';
+      } catch (e) {
+        // CORS not available, continue anyway
+      }
+      
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        if (!ctx) return;
+        
+        // Use small canvas for quick analysis
+        canvas.width = 50;
+        canvas.height = 50;
+        
+        ctx.drawImage(img, 0, 0, 50, 50);
+        const imageData = ctx.getImageData(0, 0, 50, 50);
+        const data = imageData.data;
+        
+        let totalBrightness = 0;
+        let pixelCount = 0;
+        
+        // Sample every 4th pixel for performance
+        for (let i = 0; i < data.length; i += 16) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          const a = data[i + 3];
+          
+          // Skip transparent pixels
+          if (a < 128) continue;
+          
+          // Calculate brightness (0-255)
+          const brightness = (r * 0.299 + g * 0.587 + b * 0.114);
+          totalBrightness += brightness;
+          pixelCount++;
         }
         
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
+        if (pixelCount > 0) {
+          const averageBrightness = totalBrightness / pixelCount;
+          setLogoBrightness(averageBrightness);
           
-          if (!ctx) return;
+          const willInvert = (currentTheme === 'light' && averageBrightness > 200) || 
+                            (currentTheme === 'dark' && averageBrightness < 50);
           
-          // Use small canvas for quick analysis
-          canvas.width = 50;
-          canvas.height = 50;
-          
-          ctx.drawImage(img, 0, 0, 50, 50);
-          const imageData = ctx.getImageData(0, 0, 50, 50);
-          const data = imageData.data;
-          
-          let totalBrightness = 0;
-          let pixelCount = 0;
-          
-          // Sample every 4th pixel for performance
-          for (let i = 0; i < data.length; i += 16) {
-            const r = data[i];
-            const g = data[i + 1];
-            const b = data[i + 2];
-            const a = data[i + 3];
-            
-            // Skip transparent pixels
-            if (a < 128) continue;
-            
-            // Calculate brightness (0-255)
-            const brightness = (r * 0.299 + g * 0.587 + b * 0.114);
-            totalBrightness += brightness;
-            pixelCount++;
-          }
-          
-          if (pixelCount > 0) {
-            const averageBrightness = totalBrightness / pixelCount;
-            setLogoBrightness(averageBrightness);
-            
-            const willInvert = (currentTheme === 'light' && averageBrightness > 200) || 
-                              (currentTheme === 'dark' && averageBrightness < 50);
-            
-            console.log('🎨 Logo brightness analysis:', {
-              brightness: averageBrightness,
-              theme: currentTheme,
-              willInvert,
-              reason: willInvert ? 
-                (currentTheme === 'light' ? 'Too light for light mode' : 'Too dark for dark mode') : 
-                'Good contrast - no inversion needed',
-              appliedFilter: willInvert ? 'invert(1)' : 'none'
-            });
-          }
-        };
-        
-        img.onerror = () => {
-          console.warn('🎨 Could not analyze logo brightness (CORS or loading error), using default behavior');
-          // Don't set brightness, so no inversion will be applied
-        };
-        
-        img.src = logoUrl;
-      } catch (error) {
-        console.warn('Failed to analyze logo brightness:', error);
-      }
-    };
-
-    analyzeLogoBrightness();
+          console.log('🎨 Logo brightness analysis:', {
+            brightness: averageBrightness,
+            theme: currentTheme,
+            willInvert,
+            reason: willInvert ? 
+              (currentTheme === 'light' ? 'Too light for light mode' : 'Too dark for dark mode') : 
+              'Good contrast - no inversion needed',
+            appliedFilter: willInvert ? 'invert(1)' : 'none'
+          });
+        }
+      };
+      
+      img.onerror = () => {
+        console.warn('🎨 Could not analyze logo brightness (CORS or loading error), using default behavior');
+        // Don't set brightness, so no inversion will be applied
+      };
+      
+      img.src = logoUrl;
+    } catch (error) {
+      console.warn('Failed to analyze logo brightness:', error);
+    }
   }, [logoUrl, currentTheme]);
+
+  // Analyze logo brightness when it loads
+  useEffect(() => {
+    analyzeLogoBrightness();
+  }, [analyzeLogoBrightness]);
 
   // Extract colors when logo loads (only if autoExtractColors is true and we have a customer logo)
   React.useEffect(() => {
