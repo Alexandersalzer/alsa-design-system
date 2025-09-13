@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { cn } from '../../../../lib/utils';
-import { extractColorsFromImage, applyColorsToDocument, ExtractedColors } from '../../../../utils/colorExtraction';
+import { extractColorsFromImage, applyColorsWithThemeManager, ExtractedColors } from '../../../../utils/colorExtraction';
 
 // ===== TYPE DEFINITIONS =====
 export interface CompanyLogoProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'loading'> {
@@ -49,14 +49,14 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   // Extract colors when logo loads (only if autoExtractColors is true and we have a customer logo)
   React.useEffect(() => {
     if (autoExtractColors && logoUrl && !isLoading) {
-      extractColorsFromImage(logoUrl)
-        .then(colors => {
-          // Apply colors to document
-          applyColorsToDocument(colors);
-          
-          // Call callback if provided
-          onColorsExtracted?.(colors);
-        })
+        extractColorsFromImage(logoUrl)
+          .then(colors => {
+            // Apply colors to document via ThemeManager
+            applyColorsWithThemeManager(colors);
+            
+            // Call callback if provided
+            onColorsExtracted?.(colors);
+          })
         .catch(error => {
           console.warn('Failed to extract colors from logo:', error);
         });

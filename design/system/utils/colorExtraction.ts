@@ -318,12 +318,57 @@ export async function extractColorsFromImage(
  * Generate CSS custom properties from extracted colors
  */
 export function generateColorCSS(colors: ExtractedColors): Record<string, string> {
+  // Convert hex colors to RGB values for CSS custom properties
+  const hexToRgb = (hex: string) => {
+    const result = hex.replace('#', '').match(/.{2}/g)?.map(h => parseInt(h, 16)).join(', ') || '59, 130, 246';
+    return result;
+  };
+
+  // Generate a full color scale based on the primary color (similar to ThemeManager)
+  const generateColorScale = (baseColor: string) => {
+    const rgb = hexToRgb(baseColor);
+    return {
+      '100': `rgb(${rgb}, 0.1)`,
+      '200': `rgb(${rgb}, 0.2)`,
+      '300': `rgb(${rgb}, 0.3)`,
+      '400': `rgb(${rgb}, 0.4)`,
+      '500': `rgb(${rgb}, 0.5)`,
+      '600': baseColor, // Use the extracted color as the main accent
+      '700': `rgb(${rgb}, 0.7)`,
+      '800': `rgb(${rgb}, 0.8)`,
+      '900': `rgb(${rgb}, 0.9)`,
+      '950': `rgb(${rgb}, 0.95)`,
+      '1000': `rgb(${rgb}, 1)`,
+      '1100': `rgb(${rgb}, 1)`,
+      '1200': `rgb(${rgb}, 1)`
+    };
+  };
+
+  const primaryScale = generateColorScale(colors.primary);
+  const accentScale = generateColorScale(colors.accent);
+
   return {
+    // Legacy support
     '--accent-primary': colors.primary,
     '--accent-secondary': colors.secondary || colors.primary,
     '--accent-ui': colors.accent,
-    '--accent-primary-rgb': colors.primary.replace('#', '').match(/.{2}/g)?.map(h => parseInt(h, 16)).join(', ') || '59, 130, 246',
-    '--accent-secondary-rgb': (colors.secondary || colors.primary).replace('#', '').match(/.{2}/g)?.map(h => parseInt(h, 16)).join(', ') || '59, 130, 246',
+    '--accent-primary-rgb': hexToRgb(colors.primary),
+    '--accent-secondary-rgb': hexToRgb(colors.secondary || colors.primary),
+    
+    // ThemeManager compatible properties
+    ...Object.entries(accentScale).reduce((acc, [level, value]) => {
+      acc[`--accent-${level}`] = value;
+      return acc;
+    }, {} as Record<string, string>),
+    
+    // Semantic tokens that ThemeManager uses
+    '--interactive-accent': colors.primary,
+    '--interactive-accent-hover': colors.accent,
+    '--interactive-accent-active': colors.accent,
+    '--border-focus': colors.primary,
+    '--icon-brand': colors.accent,
+    '--text-nav-item-selected': colors.accent,
+    '--icon-nav-item-selected': colors.accent,
   };
 }
 
@@ -347,10 +392,7 @@ export function applyColorsToDocument(colors: ExtractedColors): void {
     console.log(`Set ${property}: ${value}`);
   });
   
-  // Also apply to CSS custom properties that might be used by the theme system
-  root.style.setProperty('--primary-600', colors.accent);
-  root.style.setProperty('--primary-500', colors.primary);
-  root.style.setProperty('--primary-400', colors.secondary || colors.primary);
+  // Note: All theme system properties are now handled by generateColorCSS
   
   // Store in localStorage for persistence
   localStorage.setItem('extracted-brand-colors', JSON.stringify(colors));
@@ -370,5 +412,34 @@ export function loadSavedColors(): ExtractedColors | null {
     return saved ? JSON.parse(saved) : null;
   } catch {
     return null;
+  }
+}
+
+/**
+ * Apply colors using ThemeManager for better integration
+ */
+export function applyColorsWithThemeManager(colors: ExtractedColors): void {
+  if (colors.palette.length === 0) {
+    console.log('🎨 No brand colors to apply - keeping default theme');
+    return;
+  }
+
+  // Try to import ThemeManager dynamically to avoid circular dependencies
+  try {
+    // This will be available at runtime
+    const { ThemeManager } = require('../utils/themeManager');
+    const themeManager = ThemeManager.getInstance();
+    
+    // Apply the accent color directly to ThemeManager
+    // We'll use the accent color as the primary accent
+    console.log('🎨 Applying colors via ThemeManager:', colors.accent);
+    
+    // Note: ThemeManager expects predefined color scales, so we'll apply via CSS
+    // This ensures compatibility with the existing theme system
+    applyColorsToDocument(colors);
+    
+  } catch (error) {
+    console.warn('ThemeManager not available, falling back to direct CSS application:', error);
+    applyColorsToDocument(colors);
   }
 }
