@@ -3,7 +3,7 @@
 // COMPANY LOGO COMPONENT - Shows customer logo or fallback
 // ===============================================
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from '../../../../lib/utils';
 import { extractColorsFromImage, applyColorsWithThemeManager, ExtractedColors } from '../../../../utils/colorExtraction';
 import { LogoIcon } from '../../../primitives/LogoIcon';
@@ -43,6 +43,115 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   onColorsExtracted,
   ...props
 }, ref) => {
+  // State for logo brightness detection and theme
+  const [logoBrightness, setLogoBrightness] = useState<number | null>(null);
+  const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('light');
+
+  // Detect current theme
+  useEffect(() => {
+    const detectTheme = () => {
+      const isDark = document.documentElement.classList.contains('dark') || 
+                    window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setCurrentTheme(isDark ? 'dark' : 'light');
+    };
+
+    detectTheme();
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(detectTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', detectTheme);
+
+    return () => {
+      observer.disconnect();
+      mediaQuery.removeEventListener('change', detectTheme);
+    };
+  }, []);
+
+  // Analyze logo brightness when it loads
+  useEffect(() => {
+    if (!logoUrl) return;
+
+    const analyzeLogoBrightness = async () => {
+      try {
+        const img = new Image();
+        // Try to set CORS, but don't fail if it doesn't work
+        try {
+          img.crossOrigin = 'anonymous';
+        } catch (e) {
+          // CORS not available, continue anyway
+        }
+        
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          if (!ctx) return;
+          
+          // Use small canvas for quick analysis
+          canvas.width = 50;
+          canvas.height = 50;
+          
+          ctx.drawImage(img, 0, 0, 50, 50);
+          const imageData = ctx.getImageData(0, 0, 50, 50);
+          const data = imageData.data;
+          
+          let totalBrightness = 0;
+          let pixelCount = 0;
+          
+          // Sample every 4th pixel for performance
+          for (let i = 0; i < data.length; i += 16) {
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+            const a = data[i + 3];
+            
+            // Skip transparent pixels
+            if (a < 128) continue;
+            
+            // Calculate brightness (0-255)
+            const brightness = (r * 0.299 + g * 0.587 + b * 0.114);
+            totalBrightness += brightness;
+            pixelCount++;
+          }
+          
+          if (pixelCount > 0) {
+            const averageBrightness = totalBrightness / pixelCount;
+            setLogoBrightness(averageBrightness);
+            
+            const willInvert = (currentTheme === 'light' && averageBrightness > 200) || 
+                              (currentTheme === 'dark' && averageBrightness < 50);
+            
+            console.log('🎨 Logo brightness analysis:', {
+              brightness: averageBrightness,
+              theme: currentTheme,
+              willInvert,
+              reason: willInvert ? 
+                (currentTheme === 'light' ? 'Too light for light mode' : 'Too dark for dark mode') : 
+                'Good contrast - no inversion needed'
+            });
+          }
+        };
+        
+        img.onerror = () => {
+          console.warn('🎨 Could not analyze logo brightness (CORS or loading error), using default behavior');
+          // Don't set brightness, so no inversion will be applied
+        };
+        
+        img.src = logoUrl;
+      } catch (error) {
+        console.warn('Failed to analyze logo brightness:', error);
+      }
+    };
+
+    analyzeLogoBrightness();
+  }, [logoUrl, currentTheme]);
+
   // If no customer logo, show Blimpify text logo
   if (!logoUrl) {
     return (
@@ -58,6 +167,12 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   // Determine which logo to use for customer logos
   const logoSrc = logoUrl;
   const logoAlt = alt;
+
+  // Determine if we need to invert the logo
+  const needsInversion = logoBrightness !== null && (
+    (currentTheme === 'light' && logoBrightness > 200) || // Very light logo in light mode
+    (currentTheme === 'dark' && logoBrightness < 50)      // Very dark logo in dark mode
+  );
 
   // Extract colors when logo loads (only if autoExtractColors is true and we have a customer logo)
   React.useEffect(() => {
@@ -108,16 +223,17 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     return sizeMap[variant][size];
   };
 
-  // Base classes
+  // Base classes with conditional inversion
   const baseClasses = cn(
     'company-logo',
     `company-logo--${variant}`,
     `company-logo--${size}`,
     getSizeClasses(),
     'object-contain',
-    'transition-opacity',
+    'transition-all',
     'duration-200',
     isLoading && 'opacity-50',
+    needsInversion && 'invert', // CSS filter to invert colors
     className
   );
 
