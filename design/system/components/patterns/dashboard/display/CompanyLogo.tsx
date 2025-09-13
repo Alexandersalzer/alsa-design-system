@@ -50,8 +50,12 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   // Detect current theme
   useEffect(() => {
     const detectTheme = () => {
-      const isDark = document.documentElement.classList.contains('dark') || 
-                    window.matchMedia('(prefers-color-scheme: dark)').matches;
+      // Check both data-theme attribute (ThemeModeControl) and dark class (other systems)
+      const dataTheme = document.documentElement.getAttribute('data-theme');
+      const hasDarkClass = document.documentElement.classList.contains('dark');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      const isDark = dataTheme === 'dark' || hasDarkClass || prefersDark;
       const newTheme = isDark ? 'dark' : 'light';
       
       // Only log when theme actually changes
@@ -60,8 +64,10 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
           from: currentTheme, 
           to: newTheme, 
           isDark,
-          classList: document.documentElement.classList.toString(),
-          mediaQuery: window.matchMedia('(prefers-color-scheme: dark)').matches
+          dataTheme,
+          hasDarkClass,
+          prefersDark,
+          classList: document.documentElement.classList.toString()
         });
       }
       
@@ -74,7 +80,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     const observer = new MutationObserver(detectTheme);
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class']
+      attributeFilter: ['class', 'data-theme'] // Watch both class and data-theme changes
     });
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
