@@ -214,8 +214,13 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   const logoAlt = alt;
 
   // Determine if we need to invert the logo
-  // More aggressive thresholds for better contrast
-  const needsInversion = logoBrightness !== null && (
+  // Only invert if logo is essentially black/white (monochrome), not colored
+  const isMonochrome = logoBrightness !== null && (
+    logoBrightness < 50 ||     // Very dark (black)
+    logoBrightness > 200       // Very light (white)
+  );
+  
+  const needsInversion = isMonochrome && (
     (currentTheme === 'light' && logoBrightness > 150) || // Light logo in light mode -> invert to dark
     (currentTheme === 'dark' && logoBrightness < 100)     // Dark logo in dark mode -> invert to light
   );
@@ -279,14 +284,19 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     console.log('🎨 Logo inversion applied:', {
       brightness: logoBrightness,
       theme: currentTheme,
+      isMonochrome,
       needsInversion,
       appliedFilter: needsInversion ? 'invert(1)' : 'none',
       result: needsInversion ? 
         (logoBrightness > 150 ? 'Light logo → Dark (better contrast)' : 'Dark logo → Light (better contrast)') :
-        (logoBrightness > 150 ? 'Light logo stays Light (good contrast)' : 'Dark logo stays Dark (good contrast)'),
-      logic: currentTheme === 'light' ? 
-        (logoBrightness > 150 ? 'Light logo in light mode -> invert for contrast' : 'Dark logo in light mode -> keep dark') :
-        (logoBrightness < 100 ? 'Dark logo in dark mode -> invert for contrast' : 'Light logo in dark mode -> keep light')
+        isMonochrome ? 
+          (logoBrightness > 150 ? 'Light logo stays Light (good contrast)' : 'Dark logo stays Dark (good contrast)') :
+          'Colored logo - no inversion (preserve colors)',
+      logic: isMonochrome ? 
+        (currentTheme === 'light' ? 
+          (logoBrightness > 150 ? 'Light logo in light mode -> invert for contrast' : 'Dark logo in light mode -> keep dark') :
+          (logoBrightness < 100 ? 'Dark logo in dark mode -> invert for contrast' : 'Light logo in dark mode -> keep light')) :
+        'Colored logo detected - skipping inversion to preserve colors'
     });
   }
 
