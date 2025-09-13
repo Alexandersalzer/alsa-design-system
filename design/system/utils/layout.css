@@ -391,7 +391,7 @@
 .sidebar__logo {
   display: flex;
   align-items: center;
-  padding: var(--foundation-space-2) 0;
+  padding: var(--foundation-space-1) 0;
   text-decoration: none;
 }
 
@@ -399,8 +399,8 @@
 
 .sidebar__logo-image {
   width: auto;
-  height: 16px;  /* Reduced from 20px to 16px */
-  max-width: 60px;  /* Reduced from 80px to 60px */
+  height: 12px;  /* Much smaller to match text */
+  max-width: 48px;  /* Much smaller to match text */
   object-fit: contain;
   
   /* Makes white logos black for light sidebar */
