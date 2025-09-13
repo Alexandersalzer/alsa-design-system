@@ -152,6 +152,20 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     analyzeLogoBrightness();
   }, [logoUrl, currentTheme]);
 
+  // Extract colors when logo loads (only if autoExtractColors is true and we have a customer logo)
+  React.useEffect(() => {
+    if (autoExtractColors && logoUrl && !isLoading) {
+        extractColorsFromImage(logoUrl)
+          .then(colors => {
+            applyColorsWithThemeManager(colors);
+            onColorsExtracted?.(colors);
+          })
+          .catch(error => {
+            console.warn('Failed to extract colors from logo:', error);
+          });
+    }
+  }, [autoExtractColors, logoUrl, isLoading, onColorsExtracted]);
+
   // If no customer logo, show Blimpify text logo
   if (!logoUrl) {
     return (
