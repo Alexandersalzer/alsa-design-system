@@ -386,13 +386,13 @@
   padding: 0 var(--space-nav-padding);
   display: flex;
   align-items: flex-start;
-  padding-top: var(--foundation-space-3);
+  padding-top: var(--foundation-space-6);
 }
 
 .sidebar__logo {
   display: flex;
   align-items: center;
-  padding: var(--foundation-space-1) 0;
+  padding: 0;
   text-decoration: none;
 }
 
