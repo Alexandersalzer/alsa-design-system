@@ -230,10 +230,10 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   const getSizeClasses = () => {
     const sizeMap = {
       sidebar: {
-        sm: 'w-20 h-6',
-        md: 'w-24 h-8', 
-        lg: 'w-32 h-10',
-        xl: 'w-40 h-12'
+        sm: 'w-16 h-4',
+        md: 'w-20 h-5', 
+        lg: 'w-24 h-6',
+        xl: 'w-32 h-8'
       },
       header: {
         sm: 'w-16 h-8',
