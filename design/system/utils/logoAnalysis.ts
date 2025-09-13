@@ -177,10 +177,10 @@ function generateRecommendations(
     case 'wordmark':
       return {
         recommendedSize: { 
-          width: Math.min(120, imageInfo.width * 0.6), 
-          height: Math.min(28, imageInfo.height * 0.6),
-          maxWidth: 120,
-          maxHeight: 28
+          width: Math.min(140, imageInfo.width * 0.8), 
+          height: Math.min(36, imageInfo.height * 0.8),
+          maxWidth: 140,
+          maxHeight: 36
         },
         recommendedPosition: { 
           alignment: 'left', 
@@ -193,10 +193,10 @@ function generateRecommendations(
     case 'emblem':
       return {
         recommendedSize: { 
-          width: 40, 
-          height: 40,
-          maxWidth: 48,
-          maxHeight: 48
+          width: 48, 
+          height: 48,
+          maxWidth: 56,
+          maxHeight: 56
         },
         recommendedPosition: { 
           alignment: 'center', 
@@ -209,10 +209,10 @@ function generateRecommendations(
     case 'combination':
       return {
         recommendedSize: { 
-          width: Math.min(100, imageInfo.width * 0.5), 
-          height: Math.min(36, imageInfo.height * 0.5),
-          maxWidth: 100,
-          maxHeight: 36
+          width: Math.min(120, imageInfo.width * 0.7), 
+          height: Math.min(44, imageInfo.height * 0.7),
+          maxWidth: 120,
+          maxHeight: 44
         },
         recommendedPosition: { 
           alignment: 'left', 
@@ -226,10 +226,10 @@ function generateRecommendations(
     case 'lettermark':
       return {
         recommendedSize: { 
-          width: 36, 
-          height: 36,
-          maxWidth: 40,
-          maxHeight: 40
+          width: 44, 
+          height: 44,
+          maxWidth: 48,
+          maxHeight: 48
         },
         recommendedPosition: { 
           alignment: 'center', 
