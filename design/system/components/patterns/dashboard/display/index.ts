@@ -5,3 +5,4 @@
 
 export * from './InfoGuide';
 export * from './Notification';
+export * from './CompanyLogo';
