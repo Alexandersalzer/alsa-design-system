@@ -53,7 +53,18 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
       const isDark = document.documentElement.classList.contains('dark') || 
                     window.matchMedia('(prefers-color-scheme: dark)').matches;
       const newTheme = isDark ? 'dark' : 'light';
-      console.log('🎨 Theme detection:', { isDark, newTheme, currentTheme });
+      
+      // Only log when theme actually changes
+      if (newTheme !== currentTheme) {
+        console.log('🎨 Theme changed:', { 
+          from: currentTheme, 
+          to: newTheme, 
+          isDark,
+          classList: document.documentElement.classList.toString(),
+          mediaQuery: window.matchMedia('(prefers-color-scheme: dark)').matches
+        });
+      }
+      
       setCurrentTheme(newTheme);
     };
 
@@ -77,14 +88,10 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     };
     window.addEventListener('storage', handleStorageChange);
 
-    // Periodic check as fallback
-    const interval = setInterval(detectTheme, 1000);
-
     return () => {
       observer.disconnect();
       mediaQuery.removeEventListener('change', detectTheme);
       window.removeEventListener('storage', handleStorageChange);
-      clearInterval(interval);
     };
   }, [currentTheme]);
 
