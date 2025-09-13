@@ -399,10 +399,10 @@
 
 
 .sidebar__logo-image {
-  width: auto;
-  height: 8px;  /* Even smaller */
-  max-width: 32px;  /* Even smaller */
+  width: 24px;  /* Fixed square size like Stripe */
+  height: 24px;  /* Fixed square size like Stripe */
   object-fit: contain;
+  border-radius: 4px;  /* Slightly rounded corners */
   
   /* Makes white logos black for light sidebar */
   filter: brightness(0) saturate(100%);
