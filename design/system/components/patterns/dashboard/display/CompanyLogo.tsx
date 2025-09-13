@@ -145,8 +145,9 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
           const averageBrightness = totalBrightness / pixelCount;
           setLogoBrightness(averageBrightness);
           
-          const willInvert = (currentTheme === 'light' && averageBrightness < 50) || 
-                            (currentTheme === 'dark' && averageBrightness > 200);
+          // More aggressive thresholds for better contrast
+          const willInvert = (currentTheme === 'light' && averageBrightness < 100) || 
+                            (currentTheme === 'dark' && averageBrightness > 150);
           
           console.log('🎨 Logo brightness analysis:', {
             brightness: averageBrightness,
@@ -207,9 +208,10 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   const logoAlt = alt;
 
   // Determine if we need to invert the logo
+  // More aggressive thresholds for better contrast
   const needsInversion = logoBrightness !== null && (
-    (currentTheme === 'light' && logoBrightness < 50) || // Very dark logo in light mode
-    (currentTheme === 'dark' && logoBrightness > 200)    // Very light logo in dark mode
+    (currentTheme === 'light' && logoBrightness < 100) || // Dark logo in light mode
+    (currentTheme === 'dark' && logoBrightness > 150)     // Light logo in dark mode
   );
 
 
