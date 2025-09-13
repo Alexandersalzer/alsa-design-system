@@ -126,7 +126,7 @@
 /* ===== DOMAIN CARD SPECIFIC STYLES ===== */
 .domain-card {
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* Allow dropdowns to show outside the card */
 }
 
 .domain-card--clickable {
