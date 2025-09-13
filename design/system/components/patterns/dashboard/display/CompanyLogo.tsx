@@ -5,9 +5,10 @@
 
 import React from 'react';
 import { cn } from '../../../../lib/utils';
+import { extractColorsFromImage, applyColorsToDocument, ExtractedColors } from '../../../../utils/colorExtraction';
 
 // ===== TYPE DEFINITIONS =====
-export interface CompanyLogoProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+export interface CompanyLogoProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'loading'> {
   /** Customer logo URL */
   logoUrl?: string;
   /** Fallback logo URL */
@@ -21,7 +22,11 @@ export interface CompanyLogoProps extends React.ImgHTMLAttributes<HTMLImageEleme
   /** Additional CSS classes */
   className?: string;
   /** Loading state */
-  loading?: boolean;
+  isLoading?: boolean;
+  /** Auto-extract colors from logo and apply as theme */
+  autoExtractColors?: boolean;
+  /** Callback when colors are extracted */
+  onColorsExtracted?: (colors: ExtractedColors) => void;
 }
 
 // ===== MAIN COMPONENT =====
@@ -32,12 +37,31 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   size = 'md',
   alt = 'Logo',
   className,
-  loading = false,
+  isLoading = false,
+  autoExtractColors = false,
+  onColorsExtracted,
   ...props
 }, ref) => {
   // Determine which logo to use
   const logoSrc = logoUrl || fallbackUrl;
   const logoAlt = logoUrl ? alt : 'Blimpify Logo';
+
+  // Extract colors when logo loads (only if autoExtractColors is true and we have a customer logo)
+  React.useEffect(() => {
+    if (autoExtractColors && logoUrl && !isLoading) {
+      extractColorsFromImage(logoUrl)
+        .then(colors => {
+          // Apply colors to document
+          applyColorsToDocument(colors);
+          
+          // Call callback if provided
+          onColorsExtracted?.(colors);
+        })
+        .catch(error => {
+          console.warn('Failed to extract colors from logo:', error);
+        });
+    }
+  }, [autoExtractColors, logoUrl, isLoading, onColorsExtracted]);
 
   // Size classes based on variant and size
   const getSizeClasses = () => {
@@ -72,7 +96,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   };
 
   // Base classes
-  const baseClasses = [
+  const baseClasses = cn(
     'company-logo',
     `company-logo--${variant}`,
     `company-logo--${size}`,
@@ -80,11 +104,11 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     'object-contain',
     'transition-opacity',
     'duration-200',
-    loading && 'opacity-50',
+    isLoading && 'opacity-50',
     className
-  ].filter(Boolean);
+  );
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div 
         className={cn(baseClasses, 'bg-gray-200 animate-pulse rounded')}
@@ -98,7 +122,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
       ref={ref}
       src={logoSrc}
       alt={logoAlt}
-      className={cn(baseClasses)}
+      className={baseClasses}
       {...props}
     />
   );

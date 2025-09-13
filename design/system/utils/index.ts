@@ -14,3 +14,6 @@ export {
   type ColorScale, 
   type RadiusScale 
 } from './themeManager';
+
+// Add color extraction
+export * from './colorExtraction';
