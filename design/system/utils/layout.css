@@ -414,24 +414,24 @@
 .logo-type-text .sidebar__logo-image,
 .logo-type-wordmark .sidebar__logo-image {
   width: auto;
-  height: 20px;
+  height: 28px;
   max-width: 120px;
-  max-height: 20px;
+  max-height: 28px;
 }
 
 .logo-type-emblem .sidebar__logo-image,
 .logo-type-symbol .sidebar__logo-image,
 .logo-type-lettermark .sidebar__logo-image {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 4px;
 }
 
 .logo-type-combination .sidebar__logo-image {
   width: auto;
-  height: 28px;
-  max-width: 80px;
-  max-height: 28px;
+  height: 36px;
+  max-width: 100px;
+  max-height: 36px;
 }
 
 /* Logo positioning */
