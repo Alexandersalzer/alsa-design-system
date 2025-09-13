@@ -284,7 +284,10 @@ export async function extractColorsFromImage(
           secondary,
           accent,
           paletteCount: palette.length,
-          totalColors: colors.length
+          totalColors: colors.length,
+          brandColorsCount: brandColors.length,
+          effectivePaletteCount: effectivePalette.length,
+          isMonochrome: effectivePalette.length === 0
         });
         
         resolve({
@@ -384,12 +387,17 @@ export function applyColorsToDocument(colors: ExtractedColors): void {
   
   const cssVars = generateColorCSS(colors);
   
-  console.log('🎨 Applying colors to document:', cssVars);
+  console.log('🎨 Applying colors to document:', {
+    colors,
+    cssVarsCount: Object.keys(cssVars).length,
+    primaryColor: colors.primary,
+    accentColor: colors.accent
+  });
   
   const root = document.documentElement;
   Object.entries(cssVars).forEach(([property, value]) => {
     root.style.setProperty(property, value);
-    console.log(`Set ${property}: ${value}`);
+    console.log(`🎨 Set CSS property: ${property} = ${value}`);
   });
   
   // Note: All theme system properties are now handled by generateColorCSS
@@ -424,6 +432,8 @@ export function applyColorsWithThemeManager(colors: ExtractedColors): void {
     return;
   }
 
+  console.log('🎨 Applying colors with ThemeManager compatibility:', colors);
+  
   // Try to import ThemeManager dynamically to avoid circular dependencies
   try {
     // This will be available at runtime
@@ -432,14 +442,14 @@ export function applyColorsWithThemeManager(colors: ExtractedColors): void {
     
     // Apply the accent color directly to ThemeManager
     // We'll use the accent color as the primary accent
-    console.log('🎨 Applying colors via ThemeManager:', colors.accent);
+    console.log('🎨 ThemeManager found, applying colors via CSS:', colors.accent);
     
     // Note: ThemeManager expects predefined color scales, so we'll apply via CSS
     // This ensures compatibility with the existing theme system
     applyColorsToDocument(colors);
     
   } catch (error) {
-    console.warn('ThemeManager not available, falling back to direct CSS application:', error);
+    console.warn('🎨 ThemeManager not available, falling back to direct CSS application:', error);
     applyColorsToDocument(colors);
   }
 }
