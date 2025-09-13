@@ -385,7 +385,8 @@
   height: var(--size-topbar-height);
   padding: 0 var(--space-nav-padding);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: var(--foundation-space-3);
 }
 
 .sidebar__logo {
