@@ -17,3 +17,6 @@ export {
 
 // Add color extraction
 export * from './colorExtraction';
+
+// Add logo analysis
+export * from './logoAnalysis';

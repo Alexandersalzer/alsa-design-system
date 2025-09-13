@@ -5,7 +5,8 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { cn } from '../../../../lib/utils';
-import { extractColorsFromImage, applyColorsWithThemeManager, ExtractedColors, analyzeLogoShape, LogoAnalysis } from '../../../../utils/colorExtraction';
+import { extractColorsFromImage, applyColorsWithThemeManager, ExtractedColors } from '../../../../utils/colorExtraction';
+import { analyzeLogo, LogoAnalysis, getLogoClasses, getLogoStyles, getLogoContainerClasses } from '../../../../utils/logoAnalysis';
 import { LogoIcon } from '../../../primitives/LogoIcon';
 
 // ===== TYPE DEFINITIONS =====
@@ -46,7 +47,31 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   // State for logo brightness detection and theme
   const [logoBrightness, setLogoBrightness] = useState<number | null>(null);
   const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('light');
+  
+  // State for logo analysis
   const [logoAnalysis, setLogoAnalysis] = useState<LogoAnalysis | null>(null);
+  const [analyzing, setAnalyzing] = useState(false);
+
+  // Analyze logo when URL changes
+  useEffect(() => {
+    if (logoUrl && variant === 'sidebar') {
+      setAnalyzing(true);
+      analyzeLogo(logoUrl)
+        .then(analysis => {
+          setLogoAnalysis(analysis);
+          console.log('🔍 Logo analysis completed:', analysis);
+        })
+        .catch(error => {
+          console.warn('Logo analysis failed:', error);
+          setLogoAnalysis(null);
+        })
+        .finally(() => {
+          setAnalyzing(false);
+        });
+    } else {
+      setLogoAnalysis(null);
+    }
+  }, [logoUrl, variant]);
 
   // Detect current theme
   useEffect(() => {
@@ -198,34 +223,6 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     }
   }, [autoExtractColors, logoUrl, isLoading, onColorsExtracted]);
 
-  // Analyze logo shape when logoUrl changes
-  React.useEffect(() => {
-    if (logoUrl && !isLoading) {
-      analyzeLogoShape(logoUrl)
-        .then(analysis => {
-          setLogoAnalysis(analysis);
-          console.log('📐 Logo shape analysis complete:', analysis);
-        })
-        .catch(error => {
-          console.warn('Failed to analyze logo shape:', error);
-          // Set default analysis
-          setLogoAnalysis({
-            aspectRatio: 1,
-            shape: 'square',
-            cssClasses: {
-              width: 'w-4 h-4',
-              height: 'h-4',
-              objectFit: 'contain'
-            },
-            positioning: {
-              alignSelf: 'center',
-              justifySelf: 'center'
-            }
-          });
-        });
-    }
-  }, [logoUrl, isLoading]);
-
   // If no customer logo, show Blimpify text logo
   if (!logoUrl) {
     return (
@@ -255,17 +252,32 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   );
 
 
-  // Size classes based on variant and size, with smart logo analysis
+  // Size classes based on variant, size, and logo analysis
   const getSizeClasses = () => {
-    // If we have logo analysis and it's for sidebar, use smart sizing
+    // If we have logo analysis, use intelligent sizing
     if (logoAnalysis && variant === 'sidebar') {
-      return logoAnalysis.cssClasses.width;
+      const { recommendedSize } = logoAnalysis;
+      
+      // Convert pixel sizes to Tailwind classes
+      const getTailwindSize = (pixels: number) => {
+        if (pixels <= 16) return 'w-4 h-4';
+        if (pixels <= 20) return 'w-5 h-5';
+        if (pixels <= 24) return 'w-6 h-6';
+        if (pixels <= 28) return 'w-7 h-7';
+        if (pixels <= 32) return 'w-8 h-8';
+        if (pixels <= 40) return 'w-10 h-10';
+        if (pixels <= 48) return 'w-12 h-12';
+        return 'w-16 h-16';
+      };
+      
+      // Use recommended size for sidebar
+      return getTailwindSize(Math.max(recommendedSize.width, recommendedSize.height));
     }
     
-    // Fallback to default sizing
+    // Fallback to original sizing for other variants or when no analysis
     const sizeMap = {
       sidebar: {
-        sm: 'w-4 h-4',  /* Much smaller clean corner size */
+        sm: 'w-4 h-4',
         md: 'w-4 h-4', 
         lg: 'w-4 h-4',
         xl: 'w-4 h-4'
@@ -299,21 +311,25 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     `company-logo--${variant}`,
     `company-logo--${size}`,
     getSizeClasses(),
-    logoAnalysis?.cssClasses.objectFit === 'contain' ? 'object-contain' : 
-    logoAnalysis?.cssClasses.objectFit === 'cover' ? 'object-cover' : 
-    logoAnalysis?.cssClasses.objectFit === 'fill' ? 'object-fill' : 'object-contain',
+    'object-contain',
     'transition-all',
     'duration-200',
     isLoading && 'opacity-50',
+    // Add logo analysis classes
+    logoAnalysis && getLogoClasses(logoAnalysis),
     className
   );
 
-  // Inline styles for inversion
-  const logoStyle = needsInversion ? { 
-    filter: 'invert(1)',
-    transition: 'filter 0.2s ease-in-out'
-  } : {
-    transition: 'filter 0.2s ease-in-out'
+  // Inline styles for inversion and logo analysis
+  const logoStyle = {
+    ...(needsInversion ? { 
+      filter: 'invert(1)',
+      transition: 'filter 0.2s ease-in-out'
+    } : {
+      transition: 'filter 0.2s ease-in-out'
+    }),
+    // Add logo analysis styles
+    ...(logoAnalysis && variant === 'sidebar' ? getLogoStyles(logoAnalysis) : {})
   };
 
   // Debug logging for inversion

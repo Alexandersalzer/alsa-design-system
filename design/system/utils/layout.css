@@ -399,8 +399,8 @@
 
 
 .sidebar__logo-image {
-  width: 16px;  /* Much smaller - clean corner size */
-  height: 16px;  /* Much smaller - clean corner size */
+  width: 16px;  /* Default size */
+  height: 16px;  /* Default size */
   object-fit: contain;
   border-radius: 2px;  /* Smaller rounded corners */
   
@@ -408,6 +408,54 @@
   filter: brightness(0) saturate(100%);
   
   transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+/* Logo type-specific styles */
+.logo-type-text .sidebar__logo-image,
+.logo-type-wordmark .sidebar__logo-image {
+  width: auto;
+  height: 20px;
+  max-width: 120px;
+  max-height: 20px;
+}
+
+.logo-type-emblem .sidebar__logo-image,
+.logo-type-symbol .sidebar__logo-image,
+.logo-type-lettermark .sidebar__logo-image {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+}
+
+.logo-type-combination .sidebar__logo-image {
+  width: auto;
+  height: 28px;
+  max-width: 80px;
+  max-height: 28px;
+}
+
+/* Logo positioning */
+.logo-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-horizontal .sidebar__logo-image {
+  width: auto;
+  height: 16px;
+  max-width: 100px;
+}
+
+.logo-vertical .sidebar__logo-image {
+  width: 24px;
+  height: auto;
+  max-height: 40px;
+}
+
+.logo-square .sidebar__logo-image {
+  width: 24px;
+  height: 24px;
 }
 
 .sidebar__logo:hover .sidebar__logo-image {
