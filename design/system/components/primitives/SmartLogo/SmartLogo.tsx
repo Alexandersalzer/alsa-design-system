@@ -29,6 +29,8 @@ export interface SmartLogoProps {
   padding?: string;
   /** Logo style variant */
   logoStyle?: 'default' | 'minimal' | 'framed' | 'transparent';
+  /** Color inversion mode */
+  colorInversion?: 'auto' | 'light' | 'dark' | 'none';
 }
 
 export const SmartLogo: React.FC<SmartLogoProps> = ({
@@ -41,7 +43,8 @@ export const SmartLogo: React.FC<SmartLogoProps> = ({
   showCompanyLogo = true,
   backgroundColor,
   padding,
-  logoStyle = 'default'
+  logoStyle = 'default',
+  colorInversion = 'auto'
 }) => {
   const { currentTheme } = useTheme();
 
@@ -105,11 +108,12 @@ export const SmartLogo: React.FC<SmartLogoProps> = ({
     const currentSize = sizeMap[size];
     
     return (
-      <div className={`smart-logo smart-logo--${size} smart-logo--${logoStyle} ${className}`}>
+      <div className={`smart-logo smart-logo--${size} smart-logo--${logoStyle} smart-logo--${colorInversion}-invert ${className}`}>
         <div
           className="smart-logo__container"
           data-theme={currentTheme}
           data-style={logoStyle}
+          data-inversion={colorInversion}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -134,7 +138,10 @@ export const SmartLogo: React.FC<SmartLogoProps> = ({
               maxWidth: `calc(${currentSize.maxWidth} - ${currentSize.padding})`,
               height: 'auto',
               width: 'auto',
+              minWidth: 'auto',
+              minHeight: 'auto',
               objectFit: 'contain',
+              objectPosition: 'center',
               display: 'block'
             }}
             onError={(e) => {
