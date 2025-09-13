@@ -400,8 +400,8 @@
 
 .sidebar__logo-image {
   width: auto;
-  height: 12px;  /* Much smaller to match text */
-  max-width: 48px;  /* Much smaller to match text */
+  height: 8px;  /* Even smaller */
+  max-width: 32px;  /* Even smaller */
   object-fit: contain;
   
   /* Makes white logos black for light sidebar */
