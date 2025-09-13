@@ -137,19 +137,26 @@ function findBestAccentColor(
     return "#3B82F6"; // Blue
   }
   
-  // Find color closest to target brightness
-  let bestColor = candidateColors[0];
-  let smallestDifference = Math.abs(getBrightness(bestColor.rgb[0], bestColor.rgb[1], bestColor.rgb[2]) - targetBrightness);
-  
-  for (const color of candidateColors.slice(1)) {
-    const brightness = getBrightness(color.rgb[0], color.rgb[1], color.rgb[2]);
-    const difference = Math.abs(brightness - targetBrightness);
+  // Prioritize brighter colors for better visual impact
+  // Sort by brightness (descending) and frequency (descending)
+  const sortedColors = candidateColors.sort((a, b) => {
+    const brightnessA = getBrightness(a.rgb[0], a.rgb[1], a.rgb[2]);
+    const brightnessB = getBrightness(b.rgb[0], b.rgb[1], b.rgb[2]);
     
-    if (difference < smallestDifference) {
-      bestColor = color;
-      smallestDifference = difference;
+    // First sort by brightness (brighter colors first)
+    if (Math.abs(brightnessA - brightnessB) > 10) {
+      return brightnessB - brightnessA;
     }
-  }
+    
+    // If brightness is similar, sort by frequency (more frequent colors first)
+    return b.frequency - a.frequency;
+  });
+  
+  // Use the brightest color that's not too dark
+  const bestColor = sortedColors.find(color => {
+    const brightness = getBrightness(color.rgb[0], color.rgb[1], color.rgb[2]);
+    return brightness > 40; // Prefer colors that are not too dark
+  }) || sortedColors[0]; // Fallback to first color if none meet criteria
   
   return bestColor.color;
 }
@@ -272,14 +279,14 @@ export async function extractColorsFromImage(
           return;
         }
         
-        // Find primary and secondary colors from effective palette
-        const primary = effectivePalette[0]?.color || "#3B82F6";
-        const secondary = effectivePalette[1]?.color;
-        
-        // Find best accent color from effective palette
+        // Find best accent color from effective palette (brighter/stronger color)
         const accent = findBestAccentColor(effectivePalette, targetBrightness);
         
-        console.log('🎨 Extracted colors:', {
+        // Use the accent color as primary for better visual impact
+        const primary = accent;
+        const secondary = effectivePalette[0]?.color;
+        
+        console.log('🎨 Extracted colors (prioritizing brighter colors):', {
           primary,
           secondary,
           accent,
@@ -287,7 +294,8 @@ export async function extractColorsFromImage(
           totalColors: colors.length,
           brandColorsCount: brandColors.length,
           effectivePaletteCount: effectivePalette.length,
-          isMonochrome: effectivePalette.length === 0
+          isMonochrome: effectivePalette.length === 0,
+          note: 'Primary color is now the brighter/more vibrant color for better visual impact'
         });
         
         resolve({
