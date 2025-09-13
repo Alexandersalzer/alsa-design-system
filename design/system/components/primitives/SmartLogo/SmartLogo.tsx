@@ -5,6 +5,8 @@
 
 import React from 'react';
 import { LogoIcon } from '../LogoIcon';
+import { useTheme } from '../../../hooks/useTheme';
+import './SmartLogo.css';
 
 export interface SmartLogoProps {
   /** Logo variant */
@@ -21,6 +23,12 @@ export interface SmartLogoProps {
   companyLogoFilename?: string;
   /** Show company logo if available */
   showCompanyLogo?: boolean;
+  /** Force logo background color (for logos that need it) */
+  backgroundColor?: string;
+  /** Force logo padding */
+  padding?: string;
+  /** Logo style variant */
+  logoStyle?: 'default' | 'minimal' | 'framed' | 'transparent';
 }
 
 export const SmartLogo: React.FC<SmartLogoProps> = ({
@@ -30,28 +38,112 @@ export const SmartLogo: React.FC<SmartLogoProps> = ({
   className = '',
   companyLogoUrl,
   companyLogoFilename,
-  showCompanyLogo = true
+  showCompanyLogo = true,
+  backgroundColor,
+  padding,
+  logoStyle = 'default'
 }) => {
+  const { currentTheme } = useTheme();
+
+  // Size mappings for consistent sizing
+  const sizeMap = {
+    sm: {
+      height: '24px',
+      maxHeight: '24px',
+      maxWidth: '120px',
+      padding: padding || '4px'
+    },
+    md: {
+      height: '32px',
+      maxHeight: '32px',
+      maxWidth: '180px',
+      padding: padding || '6px'
+    },
+    lg: {
+      height: '40px',
+      maxHeight: '40px',
+      maxWidth: '240px',
+      padding: padding || '8px'
+    }
+  };
+
+  // Background color logic based on theme and style
+  const getBackgroundColor = () => {
+    if (backgroundColor) return backgroundColor;
+    
+    // Style-based backgrounds
+    switch (logoStyle) {
+      case 'transparent':
+        return 'transparent';
+      case 'minimal':
+        return currentTheme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)';
+      case 'framed':
+        return currentTheme === 'dark' ? '#ffffff' : '#f8f9fa';
+      case 'default':
+      default:
+        return currentTheme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.03)';
+    }
+  };
+
+  // Border logic based on style
+  const getBorderStyle = () => {
+    switch (logoStyle) {
+      case 'transparent':
+        return 'none';
+      case 'minimal':
+        return `1px solid ${currentTheme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)'}`;
+      case 'framed':
+        return `2px solid ${currentTheme === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)'}`;
+      case 'default':
+      default:
+        return `1px solid ${currentTheme === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.08)'}`;
+    }
+  };
+
   // Om företagslogotyp finns och ska visas
   if (showCompanyLogo && companyLogoUrl) {
+    const currentSize = sizeMap[size];
+    
     return (
-      <div className={`smart-logo ${className}`}>
-        <img
-          src={companyLogoUrl}
-          alt={companyLogoFilename || 'Företagslogotyp'}
-          className="smart-logo__image"
+      <div className={`smart-logo smart-logo--${size} smart-logo--${logoStyle} ${className}`}>
+        <div
+          className="smart-logo__container"
+          data-theme={currentTheme}
+          data-style={logoStyle}
           style={{
-            maxHeight: size === 'sm' ? '24px' : size === 'md' ? '32px' : '40px',
-            maxWidth: '200px',
-            height: 'auto',
-            objectFit: 'contain'
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: currentSize.height,
+            maxHeight: currentSize.maxHeight,
+            maxWidth: currentSize.maxWidth,
+            padding: currentSize.padding,
+            backgroundColor: getBackgroundColor(),
+            borderRadius: logoStyle === 'framed' ? 'var(--foundation-radius-lg)' : 'var(--foundation-radius-md)',
+            border: getBorderStyle(),
+            transition: 'all 0.2s ease',
+            boxSizing: 'border-box'
           }}
-          onError={(e) => {
-            console.warn('Failed to load company logo:', companyLogoUrl);
-            // Fallback till Blimpify-logotypen om bilden inte laddar
-            e.currentTarget.style.display = 'none';
-          }}
-        />
+        >
+          <img
+            src={companyLogoUrl}
+            alt={companyLogoFilename || 'Företagslogotyp'}
+            className="smart-logo__image"
+            style={{
+              maxHeight: `calc(${currentSize.height} - ${currentSize.padding})`,
+              maxWidth: `calc(${currentSize.maxWidth} - ${currentSize.padding})`,
+              height: 'auto',
+              width: 'auto',
+              objectFit: 'contain',
+              display: 'block'
+            }}
+            onError={(e) => {
+              console.warn('Failed to load company logo:', companyLogoUrl);
+              // Fallback till Blimpify-logotypen om bilden inte laddar
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+        </div>
       </div>
     );
   }
