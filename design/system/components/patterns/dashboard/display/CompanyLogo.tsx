@@ -188,22 +188,6 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     (currentTheme === 'dark' && logoBrightness < 50)      // Very dark logo in dark mode
   );
 
-  // Extract colors when logo loads (only if autoExtractColors is true and we have a customer logo)
-  React.useEffect(() => {
-    if (autoExtractColors && logoUrl && !isLoading) {
-        extractColorsFromImage(logoUrl)
-          .then(colors => {
-            // Apply colors to document via ThemeManager
-            applyColorsWithThemeManager(colors);
-            
-            // Call callback if provided
-            onColorsExtracted?.(colors);
-          })
-        .catch(error => {
-          console.warn('Failed to extract colors from logo:', error);
-        });
-    }
-  }, [autoExtractColors, logoUrl, isLoading, onColorsExtracted]);
 
   // Size classes based on variant and size
   const getSizeClasses = () => {
