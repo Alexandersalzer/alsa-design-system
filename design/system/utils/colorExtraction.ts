@@ -17,6 +17,10 @@ export interface ExtractedColors {
     frequency: number;
     rgb: [number, number, number];
   }>;
+  /** Whether the logo is monochrome (black/white only) */
+  isMonochrome?: boolean;
+  /** Whether any brand colors were found */
+  hasBrandColors?: boolean;
 }
 
 export interface ColorExtractionOptions {
@@ -153,7 +157,7 @@ function findBestAccentColor(
 // ===== MAIN EXTRACTION FUNCTION =====
 
 /**
- * Extract dominant colors from an image
+ * Extract dominant colors from an image using improved algorithm
  */
 export async function extractColorsFromImage(
   imageUrl: string,
@@ -161,7 +165,7 @@ export async function extractColorsFromImage(
 ): Promise<ExtractedColors> {
   const {
     maxColors = 8,
-    minFrequency = 0.01,
+    minFrequency = 0.005, // Lower threshold for better results
     skipWhites = true,
     skipBlacks = true,
     targetBrightness = 60
@@ -173,7 +177,7 @@ export async function extractColorsFromImage(
     
     img.onload = () => {
       try {
-        // Create canvas
+        // Create canvas with higher resolution for better color detection
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
         
@@ -182,20 +186,22 @@ export async function extractColorsFromImage(
           return;
         }
         
-        // Set canvas size (resize for performance)
-        const maxSize = 200;
+        // Use higher resolution for better color analysis
+        const maxSize = 300;
         const ratio = Math.min(maxSize / img.width, maxSize / img.height);
         canvas.width = img.width * ratio;
         canvas.height = img.height * ratio;
         
-        // Draw image
+        // Draw image with better quality
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         
         // Get image data
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
         
-        // Count color frequencies
+        // Count color frequencies with quantization for better grouping
         const colorMap = new Map<string, number>();
         
         for (let i = 0; i < data.length; i += 4) {
@@ -213,12 +219,17 @@ export async function extractColorsFromImage(
           // Skip blacks if option is enabled
           if (skipBlacks && isNearBlack(r, g, b)) continue;
           
-          const colorKey = `${r},${g},${b}`;
+          // Quantize colors to reduce noise (group similar colors)
+          const quantizedR = Math.round(r / 10) * 10;
+          const quantizedG = Math.round(g / 10) * 10;
+          const quantizedB = Math.round(b / 10) * 10;
+          
+          const colorKey = `${quantizedR},${quantizedG},${quantizedB}`;
           colorMap.set(colorKey, (colorMap.get(colorKey) || 0) + 1);
         }
         
         // Convert to array and sort by frequency
-        const totalPixels = colorMap.size;
+        const totalPixels = Array.from(colorMap.values()).reduce((sum, count) => sum + count, 0);
         const colors = Array.from(colorMap.entries())
           .map(([colorKey, frequency]) => {
             const [r, g, b] = colorKey.split(',').map(Number);
@@ -231,35 +242,71 @@ export async function extractColorsFromImage(
           .filter(color => color.frequency >= minFrequency)
           .sort((a, b) => b.frequency - a.frequency);
         
-        // Group similar colors
-        const groupedColors = groupSimilarColors(colors);
+        // Group similar colors with tighter threshold
+        const groupedColors = groupSimilarColors(colors, 30);
         
         // Limit to maxColors
         const palette = groupedColors.slice(0, maxColors);
         
-        // Find primary and secondary colors
-        const primary = palette[0]?.color || "#3B82F6";
-        const secondary = palette[1]?.color;
+        // Filter out white and black colors from palette for better brand color detection
+        const brandColors = palette.filter(color => {
+          const brightness = getBrightness(color.rgb[0], color.rgb[1], color.rgb[2]);
+          // Keep colors that are not near white or black (between 20 and 235 brightness)
+          return brightness > 20 && brightness < 235;
+        });
         
-        // Find best accent color
-        const accent = findBestAccentColor(palette, targetBrightness);
+        // If we have brand colors, use them; otherwise fall back to original palette
+        const effectivePalette = brandColors.length > 0 ? brandColors : palette;
+        
+        // If the entire palette is white/black, don't change anything
+        if (effectivePalette.length === 0) {
+          console.log('🎨 Logo is entirely white/black - no color changes applied');
+          resolve({
+            primary: "#3B82F6", // Keep default
+            secondary: "#3B82F6",
+            accent: "#3B82F6",
+            palette: [],
+            isMonochrome: true,
+            hasBrandColors: false
+          });
+          return;
+        }
+        
+        // Find primary and secondary colors from effective palette
+        const primary = effectivePalette[0]?.color || "#3B82F6";
+        const secondary = effectivePalette[1]?.color;
+        
+        // Find best accent color from effective palette
+        const accent = findBestAccentColor(effectivePalette, targetBrightness);
+        
+        console.log('🎨 Extracted colors:', {
+          primary,
+          secondary,
+          accent,
+          paletteCount: palette.length,
+          totalColors: colors.length
+        });
         
         resolve({
           primary,
           secondary,
           accent,
-          palette: palette.map(({ frequency, ...rest }) => ({
+          palette: effectivePalette.map(({ frequency, ...rest }) => ({
             ...rest,
             frequency: Math.round(frequency * 100) / 100 // Round to 2 decimals
-          }))
+          })),
+          isMonochrome: false,
+          hasBrandColors: true
         });
         
       } catch (error) {
+        console.error('Color extraction error:', error);
         reject(error);
       }
     };
     
-    img.onerror = () => {
+    img.onerror = (error) => {
+      console.error('Image load error:', error);
       reject(new Error("Failed to load image"));
     };
     
@@ -284,15 +331,34 @@ export function generateColorCSS(colors: ExtractedColors): Record<string, string
  * Apply extracted colors to the document
  */
 export function applyColorsToDocument(colors: ExtractedColors): void {
+  // If palette is empty (logo was all white/black), don't apply any changes
+  if (colors.palette.length === 0) {
+    console.log('🎨 No brand colors to apply - keeping default theme');
+    return;
+  }
+  
   const cssVars = generateColorCSS(colors);
+  
+  console.log('🎨 Applying colors to document:', cssVars);
   
   const root = document.documentElement;
   Object.entries(cssVars).forEach(([property, value]) => {
     root.style.setProperty(property, value);
+    console.log(`Set ${property}: ${value}`);
   });
+  
+  // Also apply to CSS custom properties that might be used by the theme system
+  root.style.setProperty('--primary-600', colors.accent);
+  root.style.setProperty('--primary-500', colors.primary);
+  root.style.setProperty('--primary-400', colors.secondary || colors.primary);
   
   // Store in localStorage for persistence
   localStorage.setItem('extracted-brand-colors', JSON.stringify(colors));
+  
+  // Trigger a custom event so components can react to color changes
+  window.dispatchEvent(new CustomEvent('brandColorsUpdated', { 
+    detail: { colors, cssVars } 
+  }));
 }
 
 /**
