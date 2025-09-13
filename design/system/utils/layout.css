@@ -399,10 +399,11 @@
 
 
 .sidebar__logo-image {
-  width: 16px;  /* Default size */
-  height: 16px;  /* Default size */
+  width: auto;  /* Let it scale naturally */
+  height: 32px;  /* Much larger default size */
+  max-width: 140px;  /* Allow wider logos */
   object-fit: contain;
-  border-radius: 2px;  /* Smaller rounded corners */
+  border-radius: 4px;  /* Slightly larger rounded corners */
   
   /* Makes white logos black for light sidebar */
   filter: brightness(0) saturate(100%);
