@@ -6,6 +6,7 @@
 import React from 'react';
 import { cn } from '../../../../lib/utils';
 import { extractColorsFromImage, applyColorsWithThemeManager, ExtractedColors } from '../../../../utils/colorExtraction';
+import { LogoIcon } from '../../../primitives/LogoIcon';
 
 // ===== TYPE DEFINITIONS =====
 export interface CompanyLogoProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'loading'> {
@@ -42,9 +43,21 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   onColorsExtracted,
   ...props
 }, ref) => {
-  // Determine which logo to use
-  const logoSrc = logoUrl || fallbackUrl;
-  const logoAlt = logoUrl ? alt : 'Blimpify Logo';
+  // If no customer logo, show Blimpify text logo
+  if (!logoUrl) {
+    return (
+      <LogoIcon 
+        variant="text" 
+        size={size}
+        className={cn(className)}
+        color="current"
+      />
+    );
+  }
+
+  // Determine which logo to use for customer logos
+  const logoSrc = logoUrl;
+  const logoAlt = alt;
 
   // Extract colors when logo loads (only if autoExtractColors is true and we have a customer logo)
   React.useEffect(() => {
