@@ -133,7 +133,8 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
               willInvert,
               reason: willInvert ? 
                 (currentTheme === 'light' ? 'Too light for light mode' : 'Too dark for dark mode') : 
-                'Good contrast - no inversion needed'
+                'Good contrast - no inversion needed',
+              appliedFilter: willInvert ? 'invert(1)' : 'none'
             });
           }
         };
@@ -221,7 +222,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     return sizeMap[variant][size];
   };
 
-  // Base classes with conditional inversion
+  // Base classes
   const baseClasses = cn(
     'company-logo',
     `company-logo--${variant}`,
@@ -231,9 +232,11 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     'transition-all',
     'duration-200',
     isLoading && 'opacity-50',
-    needsInversion && 'invert', // CSS filter to invert colors
     className
   );
+
+  // Inline styles for inversion
+  const logoStyle = needsInversion ? { filter: 'invert(1)' } : {};
 
   if (isLoading) {
     return (
@@ -250,6 +253,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
       src={logoSrc}
       alt={logoAlt}
       className={baseClasses}
+      style={logoStyle}
       {...props}
     />
   );
