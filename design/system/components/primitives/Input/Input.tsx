@@ -53,7 +53,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       radius === 'lg' ? 'input--radius-lg' : null,
       error ? 'input-error' : null,
       leftIcon ? 'input-with-left-icon' : null,
-      (rightIcon || shouldShowToggle) ? 'input-with-right-icon' : null,
+      rightIcon ? 'input-with-right-icon' : null,
       variant === 'search' ? 'search-input' : null,
       className
     ].filter(Boolean);
@@ -68,7 +68,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
 
         {/* Input wrapper */}
-        <div className={cn('input-wrapper', `input-wrapper--${size}`)}>
+        <div className={cn('input-wrapper', `input-wrapper--${size}`)} style={{ position: 'relative' }}>
           {/* Left Icon */}
           {leftIcon && (
             <div className={cn('input-icon input-icon-left', `input-icon--${size}`)}>
@@ -97,8 +97,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className={cn('input-icon input-icon-right input-password-toggle', `input-icon--${size}`)}
+              className={cn('input-password-toggle', `input-password-toggle--${size}`)}
               style={{
+                position: 'absolute',
+                right: '8px',
+                top: '50%',
+                transform: 'translateY(-50%)',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
@@ -106,7 +110,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 transition: 'color 0.2s ease',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                padding: '4px',
+                zIndex: 10
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = 'var(--text-primary)';
