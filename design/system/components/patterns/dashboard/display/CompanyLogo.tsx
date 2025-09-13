@@ -52,12 +52,14 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     const detectTheme = () => {
       const isDark = document.documentElement.classList.contains('dark') || 
                     window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setCurrentTheme(isDark ? 'dark' : 'light');
+      const newTheme = isDark ? 'dark' : 'light';
+      console.log('🎨 Theme detection:', { isDark, newTheme, currentTheme });
+      setCurrentTheme(newTheme);
     };
 
     detectTheme();
     
-    // Listen for theme changes
+    // Listen for theme changes - multiple methods for better coverage
     const observer = new MutationObserver(detectTheme);
     observer.observe(document.documentElement, {
       attributes: true,
@@ -67,11 +69,24 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     mediaQuery.addEventListener('change', detectTheme);
 
+    // Also listen for storage changes (in case theme is stored in localStorage)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'theme' || e.key === 'darkMode') {
+        detectTheme();
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+
+    // Periodic check as fallback
+    const interval = setInterval(detectTheme, 1000);
+
     return () => {
       observer.disconnect();
       mediaQuery.removeEventListener('change', detectTheme);
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
     };
-  }, []);
+  }, [currentTheme]);
 
   // Analyze logo brightness - separate function that can be called multiple times
   const analyzeLogoBrightness = useCallback(async () => {
