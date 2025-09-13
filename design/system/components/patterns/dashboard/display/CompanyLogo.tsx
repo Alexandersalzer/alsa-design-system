@@ -267,7 +267,25 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   );
 
   // Inline styles for inversion
-  const logoStyle = needsInversion ? { filter: 'invert(1)' } : {};
+  const logoStyle = needsInversion ? { 
+    filter: 'invert(1)',
+    transition: 'filter 0.2s ease-in-out'
+  } : {
+    transition: 'filter 0.2s ease-in-out'
+  };
+
+  // Debug logging for inversion
+  if (logoBrightness !== null) {
+    console.log('🎨 Logo inversion applied:', {
+      brightness: logoBrightness,
+      theme: currentTheme,
+      needsInversion,
+      appliedFilter: needsInversion ? 'invert(1)' : 'none',
+      result: needsInversion ? 
+        (logoBrightness > 150 ? 'Light logo → Dark' : 'Dark logo → Light') :
+        (logoBrightness > 150 ? 'Light logo stays Light' : 'Dark logo stays Dark')
+    });
+  }
 
   if (isLoading) {
     return (
