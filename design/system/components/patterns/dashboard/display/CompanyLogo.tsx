@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { cn } from '../../../../lib/utils';
-import { extractColorsFromImage, applyColorsWithThemeManager, ExtractedColors } from '../../../../utils/colorExtraction';
+import { extractColorsFromImage, applyColorsWithThemeManager, ExtractedColors, analyzeLogoShape, LogoAnalysis } from '../../../../utils/colorExtraction';
 import { LogoIcon } from '../../../primitives/LogoIcon';
 
 // ===== TYPE DEFINITIONS =====
@@ -46,6 +46,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   // State for logo brightness detection and theme
   const [logoBrightness, setLogoBrightness] = useState<number | null>(null);
   const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('light');
+  const [logoAnalysis, setLogoAnalysis] = useState<LogoAnalysis | null>(null);
 
   // Detect current theme
   useEffect(() => {
@@ -197,6 +198,34 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     }
   }, [autoExtractColors, logoUrl, isLoading, onColorsExtracted]);
 
+  // Analyze logo shape when logoUrl changes
+  React.useEffect(() => {
+    if (logoUrl && !isLoading) {
+      analyzeLogoShape(logoUrl)
+        .then(analysis => {
+          setLogoAnalysis(analysis);
+          console.log('📐 Logo shape analysis complete:', analysis);
+        })
+        .catch(error => {
+          console.warn('Failed to analyze logo shape:', error);
+          // Set default analysis
+          setLogoAnalysis({
+            aspectRatio: 1,
+            shape: 'square',
+            cssClasses: {
+              width: 'w-4 h-4',
+              height: 'h-4',
+              objectFit: 'contain'
+            },
+            positioning: {
+              alignSelf: 'center',
+              justifySelf: 'center'
+            }
+          });
+        });
+    }
+  }, [logoUrl, isLoading]);
+
   // If no customer logo, show Blimpify text logo
   if (!logoUrl) {
     return (
@@ -226,8 +255,14 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   );
 
 
-  // Size classes based on variant and size
+  // Size classes based on variant and size, with smart logo analysis
   const getSizeClasses = () => {
+    // If we have logo analysis and it's for sidebar, use smart sizing
+    if (logoAnalysis && variant === 'sidebar') {
+      return logoAnalysis.cssClasses.width;
+    }
+    
+    // Fallback to default sizing
     const sizeMap = {
       sidebar: {
         sm: 'w-4 h-4',  /* Much smaller clean corner size */
@@ -264,7 +299,9 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     `company-logo--${variant}`,
     `company-logo--${size}`,
     getSizeClasses(),
-    'object-contain',
+    logoAnalysis?.cssClasses.objectFit === 'contain' ? 'object-contain' : 
+    logoAnalysis?.cssClasses.objectFit === 'cover' ? 'object-cover' : 
+    logoAnalysis?.cssClasses.objectFit === 'fill' ? 'object-fill' : 'object-contain',
     'transition-all',
     'duration-200',
     isLoading && 'opacity-50',
