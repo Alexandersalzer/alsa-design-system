@@ -386,7 +386,7 @@
   padding: 0 var(--space-nav-padding);
   display: flex;
   align-items: flex-start;
-  padding-top: var(--foundation-space-6);
+  padding-top: var(--foundation-space-3);
 }
 
 .sidebar__logo {
@@ -399,10 +399,10 @@
 
 
 .sidebar__logo-image {
-  width: 24px;  /* Fixed square size like Stripe */
-  height: 24px;  /* Fixed square size like Stripe */
+  width: 16px;  /* Much smaller - clean corner size */
+  height: 16px;  /* Much smaller - clean corner size */
   object-fit: contain;
-  border-radius: 4px;  /* Slightly rounded corners */
+  border-radius: 2px;  /* Smaller rounded corners */
   
   /* Makes white logos black for light sidebar */
   filter: brightness(0) saturate(100%);
