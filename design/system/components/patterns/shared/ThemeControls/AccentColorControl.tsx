@@ -35,6 +35,8 @@ interface AccentColorControlProps {
 export function AccentColorControl({ columns = 3, className, logoUrl }: AccentColorControlProps) {
   const { accentColor, setAccentColor } = useTheme();
   const [extractingColors, setExtractingColors] = useState(false);
+  const [extractedColors, setExtractedColors] = useState<{ primary: string; secondary: string } | null>(null);
+  const [isCustomBrandActive, setIsCustomBrandActive] = useState(false);
 
   // ✅ Convert from DesignRadioCard's string onChange to theme system
   const handleColorChange = (colorValue: string) => {
@@ -45,6 +47,7 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
       }
     } else {
       setAccentColor(colorValue as ColorScale);
+      setIsCustomBrandActive(false); // Reset custom brand when selecting other colors
     }
   };
 
@@ -55,6 +58,14 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
     try {
       const colors = await extractColorsFromImage(logoUrl);
       applyColorsWithThemeManager(colors);
+      
+      // Store extracted colors and mark custom brand as active
+      setExtractedColors({
+        primary: colors.primary,
+        secondary: colors.secondary
+      });
+      setIsCustomBrandActive(true);
+      
       console.log('🎨 Brand colors extracted from logo:', colors);
     } catch (error) {
       console.error('Failed to extract colors from logo:', error);
@@ -79,7 +90,7 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
       {/* ✅ Using DesignRadioCard with Root + Color items */}
       <DesignRadioCard.Root
         name="accent-color"
-        value={accentColor || 'purple'}
+        value={isCustomBrandActive ? 'custom-brand' : (accentColor || 'purple')}
         onChange={handleColorChange}
         columns={columns}
         gap="sm"
@@ -102,7 +113,7 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
             value={CUSTOM_BRAND_OPTION.value}
             label={extractingColors ? 'Extracting...' : 'Custom Brand'}
             variant="color"
-            colorValue={CUSTOM_BRAND_OPTION.hex}
+            colorValue={extractedColors?.primary || CUSTOM_BRAND_OPTION.hex}
             disabled={extractingColors}
           />
         )}
