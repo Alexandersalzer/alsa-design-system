@@ -404,17 +404,16 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     className
   ), [variant, size, isLoading, logoAnalysis, croppedLogo?.wasCropped, className]);
 
-  // Inline styles for inversion and logo analysis (memoized for performance)
+  // Inline styles for inversion only - NO logo analysis styles to avoid override
   const logoStyle = useMemo(() => ({
     ...(needsInversion ? { 
       filter: 'invert(1)',
       transition: 'filter 0.2s ease-in-out'
     } : {
       transition: 'filter 0.2s ease-in-out'
-    }),
-    // Add logo analysis styles
-    ...(logoAnalysis && variant === 'sidebar' ? getLogoStyles(logoAnalysis) : {})
-  }), [needsInversion, logoAnalysis, variant]);
+    })
+    // NO getLogoStyles - let CSS handle all sizing with !important
+  }), [needsInversion]);
 
   // Debug logging for inversion
   if (logoBrightness !== null) {
