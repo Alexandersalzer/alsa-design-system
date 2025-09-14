@@ -18,6 +18,14 @@ const COLOR_OPTIONS = [
   { value: 'gray', label: 'Slate', hex: '#6B7280' },
 ];
 
+// Custom brand colors option
+const CUSTOM_BRAND_OPTION = {
+  value: 'custom-brand',
+  label: 'Custom Brand',
+  hex: '#8B5CF6', // Default purple color for the button
+  isCustom: true
+};
+
 interface AccentColorControlProps {
   columns?: 1 | 2 | 3 | 4 | 5 | 6;
   className?: string;
@@ -30,7 +38,14 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
 
   // ✅ Convert from DesignRadioCard's string onChange to theme system
   const handleColorChange = (colorValue: string) => {
-    setAccentColor(colorValue as ColorScale);
+    if (colorValue === 'custom-brand') {
+      // Don't change accent color, just extract colors from logo
+      if (logoUrl) {
+        handleExtractBrandColors();
+      }
+    } else {
+      setAccentColor(colorValue as ColorScale);
+    }
   };
 
   const handleExtractBrandColors = async () => {
@@ -79,35 +94,19 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
         colorValue={option.hex}
         />
         ))}
-      </DesignRadioCard.Root>
-
-      {/* Brand Colors from Logo */}
-      {logoUrl && (
-        <div className="mt-6 pt-6 border-t border-gray-200">
-          <div className="flex items-center gap-3 mb-3">
-            <Icon size="md" color="secondary">
-              <PaintBrushIcon />
-            </Icon>
-            <div>
-              <Body weight="medium" className="mb-1">Brand Colors from Logo</Body>
-              <Body size="sm" color="secondary">Extract colors from your uploaded logo</Body>
-            </div>
-          </div>
-          
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={handleExtractBrandColors}
+        
+        {/* Custom Brand Colors option - only show if logo exists */}
+        {logoUrl && (
+          <DesignRadioCardItem
+            key={CUSTOM_BRAND_OPTION.value}
+            value={CUSTOM_BRAND_OPTION.value}
+            label={extractingColors ? 'Extracting...' : 'Custom Brand'}
+            variant="color"
+            colorValue={CUSTOM_BRAND_OPTION.hex}
             disabled={extractingColors}
-            className="w-full"
-          >
-            <Icon size="sm">
-              <PaintBrushIcon />
-            </Icon>
-            {extractingColors ? 'Extracting...' : 'Extract from Logo'}
-          </Button>
-        </div>
-      )}
+          />
+        )}
+      </DesignRadioCard.Root>
     </div>
   );
 }
