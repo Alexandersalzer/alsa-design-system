@@ -62,7 +62,7 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
       // Store extracted colors and mark custom brand as active
       setExtractedColors({
         primary: colors.primary,
-        secondary: colors.secondary
+        secondary: colors.secondary || colors.accent
       });
       setIsCustomBrandActive(true);
       
