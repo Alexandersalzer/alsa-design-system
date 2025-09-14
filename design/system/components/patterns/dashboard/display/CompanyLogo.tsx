@@ -26,7 +26,7 @@ export interface CompanyLogoProps extends Omit<React.ImgHTMLAttributes<HTMLImage
   className?: string;
   /** Loading state */
   isLoading?: boolean;
-  /** Auto-extract colors from logo and apply as theme */
+  /** Auto-extract colors from logo and apply as theme - DISABLED */
   autoExtractColors?: boolean;
   /** Callback when colors are extracted */
   onColorsExtracted?: (colors: ExtractedColors) => void;
@@ -43,7 +43,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   alt = 'Logo',
   className,
   isLoading = false,
-  autoExtractColors = false,
+  autoExtractColors = false, // Always disabled - colors extracted manually in appearance panel
   onColorsExtracted,
   enableSmartCropping = true,
   ...props
@@ -269,47 +269,11 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     analyzeLogoBrightness();
   }, [analyzeLogoBrightness]);
 
-  // Extract colors when logo loads (only if autoExtractColors is true and we have a customer logo) - with caching
-  // ALWAYS runs to maintain hook order
+  // Color extraction is now handled manually in the appearance panel
+  // This effect is kept for hook order consistency but does nothing
   React.useEffect(() => {
-    if (autoExtractColors && logoUrl && !isLoading) {
-      // Check cache first
-      const cacheKey = `logo-colors-${logoUrl}`;
-      const cachedColors = localStorage.getItem(cacheKey);
-      
-      if (cachedColors) {
-        try {
-          const parsed = JSON.parse(cachedColors);
-          // Check if cache is not too old (1 hour)
-          if (Date.now() - parsed.timestamp < 3600000) {
-            applyColorsWithThemeManager(parsed.data);
-            onColorsExtracted?.(parsed.data);
-            console.log('🎨 Using cached logo colors:', parsed.data);
-            return;
-          }
-        } catch (e) {
-          // Invalid cache, continue with fresh extraction
-        }
-      }
-      
-      extractColorsFromImage(logoUrl)
-        .then(colors => {
-          applyColorsWithThemeManager(colors);
-          onColorsExtracted?.(colors);
-          
-          // Cache the result
-          localStorage.setItem(cacheKey, JSON.stringify({
-            data: colors,
-            timestamp: Date.now()
-          }));
-          console.log('🎨 Logo colors extracted and cached:', colors);
-        })
-        .catch(error => {
-          console.warn('Failed to extract colors from logo:', error);
-        });
-    }
-    // Always run this effect to maintain hook order, even when conditions aren't met
-  }, [autoExtractColors, logoUrl, isLoading, onColorsExtracted]);
+    // Color extraction disabled - handled manually in appearance panel
+  }, []);
 
   // Smart cropping effect - ALWAYS runs to maintain hook order
   useEffect(() => {

@@ -5,11 +5,12 @@
 
    'use client';
 
-   import React from 'react';
+   import React, { useState } from 'react';
    import { Button } from '../../../primitives/Button';
    import { H4 } from '../../../primitives/Typography';
    import Icon from '../../../primitives/Icon';
-   import { MoonIcon, SunIcon } from 'lucide-react';
+   import { MoonIcon, SunIcon, PaletteIcon } from 'lucide-react';
+   import { extractColorsFromImage, applyColorsWithThemeManager, ExtractedColors } from '../../../utils/colorExtraction';
    
    // Define the interface that the consuming app's theme context must implement
    export interface ThemeControlsContextType {
@@ -29,10 +30,12 @@
    
    interface ThemeControlsProps {
      themeContext: ThemeControlsContextType;  // Accept theme context as prop
+     logoUrl?: string;  // Optional logo URL for brand color extraction
    }
    
-   export function ThemeControls({ themeContext }: ThemeControlsProps) {
+   export function ThemeControls({ themeContext, logoUrl }: ThemeControlsProps) {
      const { currentTheme, isDark, setTheme, toggleDarkMode, setBrandColor } = themeContext;
+     const [extractingColors, setExtractingColors] = useState(false);
    
      const brandColors: BrandColor[] = [
        { name: 'Purple', value: 'purple', color: '#A855F7' },
@@ -50,6 +53,21 @@
          }
        }
        return 'purple'; // default
+     };
+
+     const handleExtractBrandColors = async () => {
+       if (!logoUrl) return;
+       
+       setExtractingColors(true);
+       try {
+         const colors = await extractColorsFromImage(logoUrl);
+         applyColorsWithThemeManager(colors);
+         console.log('🎨 Brand colors extracted from logo:', colors);
+       } catch (error) {
+         console.error('Failed to extract colors from logo:', error);
+       } finally {
+         setExtractingColors(false);
+       }
      };
    
      return (
@@ -88,6 +106,28 @@
              ))}
            </div>
          </div>
+
+         {/* Brand Colors from Logo */}
+         {logoUrl && (
+           <div className="theme-section">
+             <H4>Brand Colors from Logo</H4>
+             <Button
+               variant="secondary"
+               size="sm"
+               onClick={handleExtractBrandColors}
+               disabled={extractingColors}
+               className="extract-colors-btn"
+             >
+               <Icon>
+                 <PaletteIcon />
+               </Icon>
+               {extractingColors ? 'Extracting...' : 'Extract from Logo'}
+             </Button>
+             <p className="extract-colors-description">
+               Extract brand colors from your uploaded logo and apply them to your theme.
+             </p>
+           </div>
+         )}
    
          {/* Quick Theme Presets */}
          <div className="theme-section">
@@ -130,9 +170,10 @@
    // Alternative version that uses a hook - for when the consuming app provides a hook
    interface ThemeControlsWithHookProps {
      useThemeHook: () => ThemeControlsContextType;
+     logoUrl?: string;  // Optional logo URL for brand color extraction
    }
    
-   export function ThemeControlsWithHook({ useThemeHook }: ThemeControlsWithHookProps) {
+   export function ThemeControlsWithHook({ useThemeHook, logoUrl }: ThemeControlsWithHookProps) {
      const themeContext = useThemeHook();
-     return <ThemeControls themeContext={themeContext} />;
+     return <ThemeControls themeContext={themeContext} logoUrl={logoUrl} />;
    }
