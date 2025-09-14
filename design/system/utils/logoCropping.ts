@@ -359,7 +359,7 @@ export async function smartCropLogo(
  */
 export function getCroppingOptionsForUseCase(
   useCase: 'sidebar' | 'header' | 'compact' | 'full',
-  logoType?: 'text' | 'wordmark' | 'emblem' | 'symbol' | 'lettermark' | 'combination'
+  logoType?: 'text' | 'wordmark' | 'emblem' | 'symbol' | 'lettermark' | 'combination' | 'unknown'
 ): LogoCroppingOptions {
   switch (useCase) {
     case 'sidebar':
@@ -391,8 +391,17 @@ export function getCroppingOptionsForUseCase(
           padding: 5,  // Balanced padding
           strategy: 'smart'
         };
+      } else if (logoType === 'unknown') {
+        // Unknown logos - conservative approach
+        return {
+          targetAspectRatio: 2, // 2:1 - conservative ratio
+          maxSize: { width: 120, height: 60 },  // Conservative size
+          minSize: { width: 60, height: 30 },   // Conservative minimum
+          padding: 4,  // Conservative padding
+          strategy: 'center' // Center cropping for unknown
+        };
       } else {
-        // Default for unknown types
+        // Default for undefined or other types
         return {
           targetAspectRatio: 3, // 3:1 - default wider rectangle
           maxSize: { width: 180, height: 60 },  // DRAMATISKT större
