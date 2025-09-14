@@ -40,13 +40,13 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
 
   // Debug: Log logoUrl to see if it's being passed
   console.log('🎨 AccentColorControl logoUrl:', logoUrl);
-  console.log('🚫 No logoUrl provided - Custom Brand button not shown:', !logoUrl);
+  console.log('🚫 No logoUrl provided - Custom Brand button not shown:', !logoUrl || logoUrl === '');
 
   // ✅ Convert from DesignRadioCard's string onChange to theme system
   const handleColorChange = (colorValue: string) => {
     if (colorValue === 'custom-brand') {
       // Don't change accent color, just extract colors from logo
-      if (logoUrl) {
+      if (logoUrl && logoUrl !== '') {
         handleExtractBrandColors();
       }
     } else {
@@ -56,7 +56,7 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
   };
 
   const handleExtractBrandColors = async () => {
-    if (!logoUrl) return;
+    if (!logoUrl || logoUrl === '') return;
     
     setExtractingColors(true);
     try {
@@ -111,7 +111,7 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
         ))}
         
         {/* Custom Brand Colors option - only show if logo exists */}
-        {logoUrl && (
+        {logoUrl && logoUrl !== '' && (
           <DesignRadioCardItem
             key={CUSTOM_BRAND_OPTION.value}
             value={CUSTOM_BRAND_OPTION.value}
