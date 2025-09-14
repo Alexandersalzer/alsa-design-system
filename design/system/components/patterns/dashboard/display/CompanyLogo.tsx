@@ -334,8 +334,8 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
       
       setCropping(true);
       
-      // Get cropping options for this variant
-      const croppingOptions = getCroppingOptionsForUseCase(variant);
+      // Get cropping options for this variant and logo type
+      const croppingOptions = getCroppingOptionsForUseCase(variant, logoAnalysis?.type);
       
       smartCropLogo(logoUrl, croppingOptions)
         .then(result => {

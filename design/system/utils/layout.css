@@ -446,9 +446,12 @@
 .logo-type-emblem .sidebar__logo-image,
 .logo-type-symbol .sidebar__logo-image,
 .logo-type-lettermark .sidebar__logo-image {
-  width: 56px !important;  /* Större kvadratiska logotyper */
-  height: 56px !important;
+  width: 40px !important;  /* Mindre kvadratiska logotyper för bättre sidebar-passning */
+  height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
   border-radius: 6px;
+  object-fit: cover; /* Cover för kvadratiska logotyper */
 }
 
 .logo-type-combination .sidebar__logo-image {

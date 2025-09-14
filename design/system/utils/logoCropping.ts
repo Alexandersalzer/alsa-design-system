@@ -210,10 +210,14 @@ export async function smartCropLogo(
         const originalWidth = img.width;
         const originalHeight = img.height;
         
-        // Check if cropping is needed
-        const needsCropping = Math.abs((originalWidth / originalHeight) - targetAspectRatio) > 0.2;
+  // Check if cropping is needed
+  const needsCropping = Math.abs((originalWidth / originalHeight) - targetAspectRatio) > 0.2;
+  
+  // For very square logos (emblem/symbol), always apply some cropping to make them fit better
+  const isVerySquare = Math.abs((originalWidth / originalHeight) - 1) < 0.3;
+  const forceCropping = isVerySquare && targetAspectRatio > 1.2;
         
-        if (!needsCropping) {
+        if (!needsCropping && !forceCropping) {
           // No cropping needed, return original
           resolve({
             croppedImageUrl: imageUrl,
@@ -351,18 +355,52 @@ export async function smartCropLogo(
 }
 
 /**
- * Get recommended cropping options for different use cases
+ * Get recommended cropping options for different use cases and logo types
  */
-export function getCroppingOptionsForUseCase(useCase: 'sidebar' | 'header' | 'compact' | 'full'): LogoCroppingOptions {
+export function getCroppingOptionsForUseCase(
+  useCase: 'sidebar' | 'header' | 'compact' | 'full',
+  logoType?: 'text' | 'wordmark' | 'emblem' | 'symbol' | 'lettermark' | 'combination'
+): LogoCroppingOptions {
   switch (useCase) {
     case 'sidebar':
-      return {
-        targetAspectRatio: 3, // 3:1 - wider rectangle
-        maxSize: { width: 180, height: 60 },  // DRAMATISKT större
-        minSize: { width: 90, height: 30 },   // DRAMATISKT större minimum
-        padding: 6,  // Mer padding
-        strategy: 'smart'
-      };
+      // Different cropping strategies based on logo type
+      if (logoType === 'emblem' || logoType === 'symbol' || logoType === 'lettermark') {
+        // Square logos - make them smaller and more square
+        return {
+          targetAspectRatio: 1.5, // 1.5:1 - less wide for square logos
+          maxSize: { width: 60, height: 40 },   // Smaller for square logos
+          minSize: { width: 40, height: 26 },   // Smaller minimum
+          padding: 4,  // Less padding for square logos
+          strategy: 'center' // Center cropping for square logos
+        };
+      } else if (logoType === 'text' || logoType === 'wordmark') {
+        // Text logos - make them wider
+        return {
+          targetAspectRatio: 4, // 4:1 - very wide for text logos
+          maxSize: { width: 200, height: 50 },  // Very wide for text
+          minSize: { width: 100, height: 25 },  // Wide minimum
+          padding: 6,  // More padding for text logos
+          strategy: 'smart' // Smart cropping for text logos
+        };
+      } else if (logoType === 'combination') {
+        // Combination logos - balanced approach
+        return {
+          targetAspectRatio: 2.5, // 2.5:1 - moderately wide
+          maxSize: { width: 150, height: 60 },  // Balanced size
+          minSize: { width: 75, height: 30 },   // Balanced minimum
+          padding: 5,  // Balanced padding
+          strategy: 'smart'
+        };
+      } else {
+        // Default for unknown types
+        return {
+          targetAspectRatio: 3, // 3:1 - default wider rectangle
+          maxSize: { width: 180, height: 60 },  // DRAMATISKT större
+          minSize: { width: 90, height: 30 },   // DRAMATISKT större minimum
+          padding: 6,  // Mer padding
+          strategy: 'smart'
+        };
+      }
       
     case 'header':
       return {
