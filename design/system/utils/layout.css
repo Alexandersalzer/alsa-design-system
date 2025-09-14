@@ -399,11 +399,11 @@
 
 
 .sidebar__logo-image {
-  width: auto;  /* Let it scale naturally */
-  height: 32px;  /* Much larger default size */
-  max-width: 140px;  /* Allow wider logos */
+  width: auto !important;  /* Force override any Tailwind classes */
+  height: 48px !important;  /* DRAMATISKT större - dubbelt så stor */
+  max-width: 180px !important;  /* Mycket bredare logotyper tillåtna */
   object-fit: contain;
-  border-radius: 4px;  /* Slightly larger rounded corners */
+  border-radius: 6px;  /* Större avrundade hörn */
   
   /* Makes white logos black for light sidebar */
   filter: brightness(0) saturate(100%);
@@ -413,33 +413,49 @@
   /* Smart cropping specific styles */
   &.cropped-logo {
     object-fit: cover; /* For cropped logos, use cover to fill the space */
-    border-radius: 6px; /* Slightly more rounded for cropped logos */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border-radius: 8px; /* Ännu mer avrundade för beskurna logotyper */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Starkare skugga för djup */
+  }
+}
+
+/* Loading placeholder for logos */
+.loading-placeholder {
+  background-color: #e5e7eb; /* Light gray */
+  border-radius: 6px;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
   }
 }
 
 /* Logo type-specific styles */
 .logo-type-text .sidebar__logo-image,
 .logo-type-wordmark .sidebar__logo-image {
-  width: auto;
-  height: 36px;
-  max-width: 140px;
-  max-height: 36px;
+  width: auto !important;
+  height: 52px !important;  /* Mycket större för textlogotyper */
+  max-width: 200px !important;  /* Mycket bredare */
+  max-height: 52px !important;
 }
 
 .logo-type-emblem .sidebar__logo-image,
 .logo-type-symbol .sidebar__logo-image,
 .logo-type-lettermark .sidebar__logo-image {
-  width: 48px;
-  height: 48px;
-  border-radius: 4px;
+  width: 56px !important;  /* Större kvadratiska logotyper */
+  height: 56px !important;
+  border-radius: 6px;
 }
 
 .logo-type-combination .sidebar__logo-image {
-  width: auto;
-  height: 44px;
-  max-width: 120px;
-  max-height: 44px;
+  width: auto !important;
+  height: 50px !important;  /* Större kombinationslogotyper */
+  max-width: 160px !important;  /* Bredare */
+  max-height: 50px !important;
 }
 
 /* Logo positioning */

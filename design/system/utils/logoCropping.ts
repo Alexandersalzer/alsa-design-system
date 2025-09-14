@@ -358,9 +358,9 @@ export function getCroppingOptionsForUseCase(useCase: 'sidebar' | 'header' | 'co
     case 'sidebar':
       return {
         targetAspectRatio: 3, // 3:1 - wider rectangle
-        maxSize: { width: 120, height: 40 },
-        minSize: { width: 60, height: 20 },
-        padding: 4,
+        maxSize: { width: 180, height: 60 },  // DRAMATISKT större
+        minSize: { width: 90, height: 30 },   // DRAMATISKT större minimum
+        padding: 6,  // Mer padding
         strategy: 'smart'
       };
       

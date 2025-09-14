@@ -389,74 +389,20 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
 
 
   // Size classes based on variant, size, and logo analysis (memoized for performance)
-  const sizeClasses = useMemo(() => {
-    // If we have logo analysis, use intelligent sizing
-    if (logoAnalysis && variant === 'sidebar') {
-      const { recommendedSize } = logoAnalysis;
-      
-      // Convert pixel sizes to Tailwind classes
-      const getTailwindSize = (pixels: number) => {
-        if (pixels <= 16) return 'w-4 h-4';
-        if (pixels <= 20) return 'w-5 h-5';
-        if (pixels <= 24) return 'w-6 h-6';
-        if (pixels <= 28) return 'w-7 h-7';
-        if (pixels <= 32) return 'w-8 h-8';
-        if (pixels <= 40) return 'w-10 h-10';
-        if (pixels <= 48) return 'w-12 h-12';
-        return 'w-16 h-16';
-      };
-      
-      // Use recommended size for sidebar
-      return getTailwindSize(Math.max(recommendedSize.width, recommendedSize.height));
-    }
-    
-    // Fallback to original sizing for other variants or when no analysis
-    const sizeMap = {
-      sidebar: {
-        sm: 'w-4 h-4',
-        md: 'w-4 h-4', 
-        lg: 'w-4 h-4',
-        xl: 'w-4 h-4'
-      },
-      header: {
-        sm: 'w-16 h-8',
-        md: 'w-20 h-10',
-        lg: 'w-24 h-12',
-        xl: 'w-32 h-16'
-      },
-      compact: {
-        sm: 'w-12 h-6',
-        md: 'w-16 h-8',
-        lg: 'w-20 h-10',
-        xl: 'w-24 h-12'
-      },
-      full: {
-        sm: 'w-24 h-12',
-        md: 'w-32 h-16',
-        lg: 'w-40 h-20',
-        xl: 'w-48 h-24'
-      }
-    };
-    
-    return sizeMap[variant][size];
-  }, [logoAnalysis, variant, size]);
+  // No Tailwind classes - let CSS handle all sizing
+  const sizeClasses = '';
 
-  // Base classes (memoized for performance)
+  // Base classes (memoized for performance) - NO TAILWIND CLASSES
   const baseClasses = useMemo(() => cn(
     'company-logo',
     `company-logo--${variant}`,
     `company-logo--${size}`,
-    sizeClasses,
-    'object-contain',
-    'transition-all',
-    'duration-200',
-    isLoading && 'opacity-50',
     // Add logo analysis classes
     logoAnalysis && getLogoClasses(logoAnalysis),
     // Add cropped logo class
     croppedLogo?.wasCropped && 'cropped-logo',
     className
-  ), [variant, size, sizeClasses, isLoading, logoAnalysis, croppedLogo?.wasCropped, className]);
+  ), [variant, size, isLoading, logoAnalysis, croppedLogo?.wasCropped, className]);
 
   // Inline styles for inversion and logo analysis (memoized for performance)
   const logoStyle = useMemo(() => ({
@@ -495,7 +441,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   if (isLoading || cropping) {
     return (
       <div 
-        className={cn(baseClasses, 'bg-gray-200 animate-pulse rounded')}
+        className={cn(baseClasses, 'loading-placeholder')}
         ref={ref as React.RefObject<HTMLDivElement>}
       />
     );
