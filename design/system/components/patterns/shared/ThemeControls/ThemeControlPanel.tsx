@@ -17,6 +17,7 @@ interface ThemeControlPanelProps {
   colorColumns?: 1 | 2 | 3 | 4;
   radiusColumns?: 1 | 2 | 3 | 4;
   className?: string;
+  logoUrl?: string; // Optional logo URL for brand color extraction
 }
 
 export function ThemeControlPanel({
@@ -25,7 +26,8 @@ export function ThemeControlPanel({
   showRadiusControl = true,
   colorColumns = 3,
   radiusColumns = 2,
-  className
+  className,
+  logoUrl
 }: ThemeControlPanelProps) {
   return (
     <div className={className}>
@@ -34,7 +36,7 @@ export function ThemeControlPanel({
           <ThemeModeControl />
         )}
         {showColorControl && (
-          <AccentColorControl columns={colorColumns} />
+          <AccentColorControl columns={colorColumns} logoUrl={logoUrl} />
         )}
         {showRadiusControl && (
           <RadiusControl columns={radiusColumns} />
