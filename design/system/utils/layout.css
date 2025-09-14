@@ -409,6 +409,13 @@
   filter: brightness(0) saturate(100%);
   
   transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+  
+  /* Smart cropping specific styles */
+  &.cropped-logo {
+    object-fit: cover; /* For cropped logos, use cover to fill the space */
+    border-radius: 6px; /* Slightly more rounded for cropped logos */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
 }
 
 /* Logo type-specific styles */

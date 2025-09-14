@@ -20,3 +20,4 @@ export * from './colorExtraction';
 
 // Add logo analysis
 export * from './logoAnalysis';
+export * from './logoCropping';

@@ -7,6 +7,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { cn } from '../../../../lib/utils';
 import { extractColorsFromImage, applyColorsWithThemeManager, ExtractedColors } from '../../../../utils/colorExtraction';
 import { analyzeLogo, LogoAnalysis, getLogoClasses, getLogoStyles, getLogoContainerClasses } from '../../../../utils/logoAnalysis';
+import { smartCropLogo, CroppedLogoResult, getCroppingOptionsForUseCase } from '../../../../utils/logoCropping';
 import { LogoIcon } from '../../../primitives/LogoIcon';
 
 // ===== TYPE DEFINITIONS =====
@@ -29,6 +30,8 @@ export interface CompanyLogoProps extends Omit<React.ImgHTMLAttributes<HTMLImage
   autoExtractColors?: boolean;
   /** Callback when colors are extracted */
   onColorsExtracted?: (colors: ExtractedColors) => void;
+  /** Enable smart cropping for optimal display */
+  enableSmartCropping?: boolean;
 }
 
 // ===== MAIN COMPONENT =====
@@ -42,6 +45,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   isLoading = false,
   autoExtractColors = false,
   onColorsExtracted,
+  enableSmartCropping = true,
   ...props
 }, ref) => {
   // State for logo brightness detection and theme
@@ -51,6 +55,10 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   // State for logo analysis
   const [logoAnalysis, setLogoAnalysis] = useState<LogoAnalysis | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
+  
+  // State for smart cropping
+  const [croppedLogo, setCroppedLogo] = useState<CroppedLogoResult | null>(null);
+  const [cropping, setCropping] = useState(false);
 
   // Analyze logo when URL changes (with caching) - ALWAYS runs to maintain hook order
   useEffect(() => {
@@ -303,11 +311,68 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     // Always run this effect to maintain hook order, even when conditions aren't met
   }, [autoExtractColors, logoUrl, isLoading, onColorsExtracted]);
 
+  // Smart cropping effect - ALWAYS runs to maintain hook order
+  useEffect(() => {
+    if (enableSmartCropping && logoUrl && !isLoading) {
+      // Check cache first
+      const cacheKey = `logo-cropped-${logoUrl}-${variant}`;
+      const cachedCropped = localStorage.getItem(cacheKey);
+      
+      if (cachedCropped) {
+        try {
+          const parsed = JSON.parse(cachedCropped);
+          // Check if cache is not too old (1 hour)
+          if (Date.now() - parsed.timestamp < 3600000) {
+            setCroppedLogo(parsed.data);
+            console.log('🎨 Using cached cropped logo:', parsed.data);
+            return;
+          }
+        } catch (e) {
+          // Invalid cache, continue with fresh cropping
+        }
+      }
+      
+      setCropping(true);
+      
+      // Get cropping options for this variant
+      const croppingOptions = getCroppingOptionsForUseCase(variant);
+      
+      smartCropLogo(logoUrl, croppingOptions)
+        .then(result => {
+          setCroppedLogo(result);
+          
+          // Cache the result
+          localStorage.setItem(cacheKey, JSON.stringify({
+            data: result,
+            timestamp: Date.now()
+          }));
+          
+          console.log('🎨 Logo cropped and cached:', {
+            wasCropped: result.wasCropped,
+            original: result.originalDimensions,
+            cropped: result.croppedDimensions,
+            variant
+          });
+        })
+        .catch(error => {
+          console.warn('Logo cropping failed:', error);
+          setCroppedLogo(null);
+        })
+        .finally(() => {
+          setCropping(false);
+        });
+    } else {
+      // Always reset state when conditions aren't met
+      setCroppedLogo(null);
+      setCropping(false);
+    }
+  }, [enableSmartCropping, logoUrl, isLoading, variant]);
+
   // Early return for no logo - but AFTER all hooks to maintain hook order
   // All hooks must run before any conditional returns
 
   // Determine which logo to use for customer logos
-  const logoSrc = logoUrl;
+  const logoSrc = croppedLogo?.croppedImageUrl || logoUrl;
   const logoAlt = alt;
 
   // Determine if we need to invert the logo
@@ -388,8 +453,10 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     isLoading && 'opacity-50',
     // Add logo analysis classes
     logoAnalysis && getLogoClasses(logoAnalysis),
+    // Add cropped logo class
+    croppedLogo?.wasCropped && 'cropped-logo',
     className
-  ), [variant, size, sizeClasses, isLoading, logoAnalysis, className]);
+  ), [variant, size, sizeClasses, isLoading, logoAnalysis, croppedLogo?.wasCropped, className]);
 
   // Inline styles for inversion and logo analysis (memoized for performance)
   const logoStyle = useMemo(() => ({
@@ -425,7 +492,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   }
 
   // All conditional returns AFTER all hooks to maintain hook order
-  if (isLoading) {
+  if (isLoading || cropping) {
     return (
       <div 
         className={cn(baseClasses, 'bg-gray-200 animate-pulse rounded')}
