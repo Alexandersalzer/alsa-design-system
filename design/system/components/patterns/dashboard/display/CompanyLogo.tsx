@@ -3,7 +3,7 @@
 // COMPANY LOGO COMPONENT - Shows customer logo or fallback
 // ===============================================
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { cn } from '../../../../lib/utils';
 import { extractColorsFromImage, applyColorsWithThemeManager, ExtractedColors } from '../../../../utils/colorExtraction';
 import { analyzeLogo, LogoAnalysis, getLogoClasses, getLogoStyles, getLogoContainerClasses } from '../../../../utils/logoAnalysis';
@@ -52,14 +52,37 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   const [logoAnalysis, setLogoAnalysis] = useState<LogoAnalysis | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
 
-  // Analyze logo when URL changes
+  // Analyze logo when URL changes (with caching)
   useEffect(() => {
     if (logoUrl && variant === 'sidebar') {
+      // Check cache first
+      const cacheKey = `logo-analysis-${logoUrl}`;
+      const cachedAnalysis = localStorage.getItem(cacheKey);
+      
+      if (cachedAnalysis) {
+        try {
+          const parsed = JSON.parse(cachedAnalysis);
+          // Check if cache is not too old (1 hour)
+          if (Date.now() - parsed.timestamp < 3600000) {
+            setLogoAnalysis(parsed.data);
+            console.log('🔍 Using cached logo analysis:', parsed.data);
+            return;
+          }
+        } catch (e) {
+          // Invalid cache, continue with fresh analysis
+        }
+      }
+      
       setAnalyzing(true);
       analyzeLogo(logoUrl)
         .then(analysis => {
           setLogoAnalysis(analysis);
-          console.log('🔍 Logo analysis completed:', analysis);
+          // Cache the result
+          localStorage.setItem(cacheKey, JSON.stringify({
+            data: analysis,
+            timestamp: Date.now()
+          }));
+          console.log('🔍 Logo analysis completed and cached:', analysis);
         })
         .catch(error => {
           console.warn('Logo analysis failed:', error);
@@ -127,9 +150,27 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     };
   }, [currentTheme]);
 
-  // Analyze logo brightness - separate function that can be called multiple times
+  // Analyze logo brightness - separate function that can be called multiple times (with caching)
   const analyzeLogoBrightness = useCallback(async () => {
     if (!logoUrl) return;
+    
+    // Check cache first
+    const cacheKey = `logo-brightness-${logoUrl}`;
+    const cachedBrightness = localStorage.getItem(cacheKey);
+    
+    if (cachedBrightness) {
+      try {
+        const parsed = JSON.parse(cachedBrightness);
+        // Check if cache is not too old (1 hour)
+        if (Date.now() - parsed.timestamp < 3600000) {
+          setLogoBrightness(parsed.data);
+          console.log('🎨 Using cached logo brightness:', parsed.data);
+          return;
+        }
+      } catch (e) {
+        // Invalid cache, continue with fresh analysis
+      }
+    }
     
     try {
       const img = new Image();
@@ -177,11 +218,17 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
           const averageBrightness = totalBrightness / pixelCount;
           setLogoBrightness(averageBrightness);
           
+          // Cache the result
+          localStorage.setItem(cacheKey, JSON.stringify({
+            data: averageBrightness,
+            timestamp: Date.now()
+          }));
+          
           // More aggressive thresholds for better contrast
           const willInvert = (currentTheme === 'light' && averageBrightness < 100) || 
                             (currentTheme === 'dark' && averageBrightness > 150);
           
-          console.log('🎨 Logo brightness analysis:', {
+          console.log('🎨 Logo brightness analysis completed and cached:', {
             brightness: averageBrightness,
             theme: currentTheme,
             willInvert,
@@ -209,17 +256,43 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     analyzeLogoBrightness();
   }, [analyzeLogoBrightness]);
 
-  // Extract colors when logo loads (only if autoExtractColors is true and we have a customer logo)
+  // Extract colors when logo loads (only if autoExtractColors is true and we have a customer logo) - with caching
   React.useEffect(() => {
     if (autoExtractColors && logoUrl && !isLoading) {
-        extractColorsFromImage(logoUrl)
-          .then(colors => {
-            applyColorsWithThemeManager(colors);
-            onColorsExtracted?.(colors);
-          })
-          .catch(error => {
-            console.warn('Failed to extract colors from logo:', error);
-          });
+      // Check cache first
+      const cacheKey = `logo-colors-${logoUrl}`;
+      const cachedColors = localStorage.getItem(cacheKey);
+      
+      if (cachedColors) {
+        try {
+          const parsed = JSON.parse(cachedColors);
+          // Check if cache is not too old (1 hour)
+          if (Date.now() - parsed.timestamp < 3600000) {
+            applyColorsWithThemeManager(parsed.data);
+            onColorsExtracted?.(parsed.data);
+            console.log('🎨 Using cached logo colors:', parsed.data);
+            return;
+          }
+        } catch (e) {
+          // Invalid cache, continue with fresh extraction
+        }
+      }
+      
+      extractColorsFromImage(logoUrl)
+        .then(colors => {
+          applyColorsWithThemeManager(colors);
+          onColorsExtracted?.(colors);
+          
+          // Cache the result
+          localStorage.setItem(cacheKey, JSON.stringify({
+            data: colors,
+            timestamp: Date.now()
+          }));
+          console.log('🎨 Logo colors extracted and cached:', colors);
+        })
+        .catch(error => {
+          console.warn('Failed to extract colors from logo:', error);
+        });
     }
   }, [autoExtractColors, logoUrl, isLoading, onColorsExtracted]);
 
@@ -252,8 +325,8 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   );
 
 
-  // Size classes based on variant, size, and logo analysis
-  const getSizeClasses = () => {
+  // Size classes based on variant, size, and logo analysis (memoized for performance)
+  const sizeClasses = useMemo(() => {
     // If we have logo analysis, use intelligent sizing
     if (logoAnalysis && variant === 'sidebar') {
       const { recommendedSize } = logoAnalysis;
@@ -303,14 +376,14 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     };
     
     return sizeMap[variant][size];
-  };
+  }, [logoAnalysis, variant, size]);
 
-  // Base classes
-  const baseClasses = cn(
+  // Base classes (memoized for performance)
+  const baseClasses = useMemo(() => cn(
     'company-logo',
     `company-logo--${variant}`,
     `company-logo--${size}`,
-    getSizeClasses(),
+    sizeClasses,
     'object-contain',
     'transition-all',
     'duration-200',
@@ -318,10 +391,10 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     // Add logo analysis classes
     logoAnalysis && getLogoClasses(logoAnalysis),
     className
-  );
+  ), [variant, size, sizeClasses, isLoading, logoAnalysis, className]);
 
-  // Inline styles for inversion and logo analysis
-  const logoStyle = {
+  // Inline styles for inversion and logo analysis (memoized for performance)
+  const logoStyle = useMemo(() => ({
     ...(needsInversion ? { 
       filter: 'invert(1)',
       transition: 'filter 0.2s ease-in-out'
@@ -330,7 +403,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     }),
     // Add logo analysis styles
     ...(logoAnalysis && variant === 'sidebar' ? getLogoStyles(logoAnalysis) : {})
-  };
+  }), [needsInversion, logoAnalysis, variant]);
 
   // Debug logging for inversion
   if (logoBrightness !== null) {
