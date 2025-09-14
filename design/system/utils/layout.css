@@ -400,10 +400,10 @@
 
 .sidebar__logo-image {
   width: auto !important;  /* Force override any Tailwind classes */
-  height: 48px !important;  /* DRAMATISKT större - dubbelt så stor */
-  max-width: 180px !important;  /* Mycket bredare logotyper tillåtna */
+  height: 32px !important;  /* Mindre storlek */
+  max-width: 120px !important;  /* Mindre max-bredd */
   object-fit: contain;
-  border-radius: 6px;  /* Större avrundade hörn */
+  border-radius: 4px;  /* Mindre avrundade hörn */
   
   /* Makes white logos black for light sidebar */
   filter: brightness(0) saturate(100%);
@@ -413,8 +413,8 @@
   /* Smart cropping specific styles */
   &.cropped-logo {
     object-fit: cover; /* For cropped logos, use cover to fill the space */
-    border-radius: 8px; /* Ännu mer avrundade för beskurna logotyper */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Starkare skugga för djup */
+    border-radius: 6px; /* Mindre avrundade för beskurna logotyper */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Lättare skugga */
   }
 }
 
@@ -438,27 +438,27 @@
 .logo-type-text .sidebar__logo-image,
 .logo-type-wordmark .sidebar__logo-image {
   width: auto !important;
-  height: 52px !important;  /* Mycket större för textlogotyper */
-  max-width: 200px !important;  /* Mycket bredare */
-  max-height: 52px !important;
+  height: 36px !important;  /* Mindre för textlogotyper */
+  max-width: 140px !important;  /* Mindre bredd */
+  max-height: 36px !important;
 }
 
 .logo-type-emblem .sidebar__logo-image,
 .logo-type-symbol .sidebar__logo-image,
 .logo-type-lettermark .sidebar__logo-image {
-  width: 40px !important;  /* Mindre kvadratiska logotyper för bättre sidebar-passning */
-  height: 40px !important;
-  max-width: 40px !important;
-  max-height: 40px !important;
-  border-radius: 6px;
+  width: 28px !important;  /* Mindre kvadratiska logotyper */
+  height: 28px !important;
+  max-width: 28px !important;
+  max-height: 28px !important;
+  border-radius: 4px;
   object-fit: cover; /* Cover för kvadratiska logotyper */
 }
 
 .logo-type-combination .sidebar__logo-image {
   width: auto !important;
-  height: 50px !important;  /* Större kombinationslogotyper */
-  max-width: 160px !important;  /* Bredare */
-  max-height: 50px !important;
+  height: 32px !important;  /* Mindre kombinationslogotyper */
+  max-width: 120px !important;  /* Mindre bredd */
+  max-height: 32px !important;
 }
 
 /* Logo positioning */
