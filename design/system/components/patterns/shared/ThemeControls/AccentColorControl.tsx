@@ -40,6 +40,7 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
 
   // Debug: Log logoUrl to see if it's being passed
   console.log('🎨 AccentColorControl logoUrl:', logoUrl);
+  console.log('🚫 No logoUrl provided - Custom Brand button not shown:', !logoUrl);
 
   // ✅ Convert from DesignRadioCard's string onChange to theme system
   const handleColorChange = (colorValue: string) => {
@@ -120,8 +121,6 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
             disabled={extractingColors}
           />
         )}
-        {/* Debug: Show if logoUrl exists */}
-        {!logoUrl && console.log('🚫 No logoUrl provided - Custom Brand button not shown')}
       </DesignRadioCard.Root>
     </div>
   );
