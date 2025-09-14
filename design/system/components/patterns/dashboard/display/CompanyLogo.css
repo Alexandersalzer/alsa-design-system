@@ -39,28 +39,21 @@
 }
 
 /* ===== SIZE VARIANTS ===== */
+/* Size variants are now handled by layout.css - no restrictions here */
 .company-logo--sm {
-  /* Small size */
-  min-width: 48px;
-  min-height: 24px;
+  /* Small size - let layout.css handle sizing */
 }
 
 .company-logo--md {
-  /* Medium size */
-  min-width: 64px;
-  min-height: 32px;
+  /* Medium size - let layout.css handle sizing */
 }
 
 .company-logo--lg {
-  /* Large size */
-  min-width: 80px;
-  min-height: 40px;
+  /* Large size - let layout.css handle sizing */
 }
 
 .company-logo--xl {
-  /* Extra large size */
-  min-width: 96px;
-  min-height: 48px;
+  /* Extra large size - let layout.css handle sizing */
 }
 
 /* ===== HOVER STATES ===== */
