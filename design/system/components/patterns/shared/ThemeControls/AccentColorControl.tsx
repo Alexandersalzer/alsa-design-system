@@ -43,6 +43,11 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
   console.log('🚫 No logoUrl provided - Custom Brand button not shown:', !logoUrl || logoUrl === '');
   console.log('✅ Should show Custom Brand button:', logoUrl && logoUrl !== '' && logoUrl.startsWith('http'));
 
+  // Force re-render when logoUrl changes
+  useEffect(() => {
+    console.log('🔄 AccentColorControl logoUrl changed:', logoUrl);
+  }, [logoUrl]);
+
   // ✅ Convert from DesignRadioCard's string onChange to theme system
   const handleColorChange = (colorValue: string) => {
     if (colorValue === 'custom-brand') {
