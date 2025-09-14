@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import { DesignRadioCard, DesignRadioCardItem, Button } from '@blimpify-im/ui';
 import { useTheme, type ColorScale } from '../../../../hooks/useTheme';
-import { SwatchIcon, PaletteIcon } from '@heroicons/react/24/outline';
+import { SwatchIcon, PaintBrushIcon } from '@heroicons/react/24/outline';
 import { Body, Icon } from '@blimpify-im/ui';
 import { extractColorsFromImage, applyColorsWithThemeManager } from '../../../../utils/colorExtraction';
 
@@ -86,7 +86,7 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
         <div className="mt-6 pt-6 border-t border-gray-200">
           <div className="flex items-center gap-3 mb-3">
             <Icon size="md" color="secondary">
-              <PaletteIcon />
+              <PaintBrushIcon />
             </Icon>
             <div>
               <Body weight="medium" className="mb-1">Brand Colors from Logo</Body>
@@ -102,7 +102,7 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
             className="w-full"
           >
             <Icon size="sm">
-              <PaletteIcon />
+              <PaintBrushIcon />
             </Icon>
             {extractingColors ? 'Extracting...' : 'Extract from Logo'}
           </Button>
