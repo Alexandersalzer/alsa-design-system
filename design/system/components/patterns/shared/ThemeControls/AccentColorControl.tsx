@@ -1,7 +1,7 @@
 // ===============================================
 // AccentColorControl.tsx - UPDATED to use DesignRadioCard
 // ===============================================
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DesignRadioCard, DesignRadioCardItem, Button } from '@blimpify-im/ui';
 import { useTheme, type ColorScale } from '../../../../hooks/useTheme';
 import { SwatchIcon, PaintBrushIcon } from '@heroicons/react/24/outline';
