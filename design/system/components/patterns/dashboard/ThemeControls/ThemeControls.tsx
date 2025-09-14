@@ -10,7 +10,7 @@
    import { H4 } from '../../../primitives/Typography';
    import Icon from '../../../primitives/Icon';
    import { MoonIcon, SunIcon, PaletteIcon } from 'lucide-react';
-   import { extractColorsFromImage, applyColorsWithThemeManager, ExtractedColors } from '../../../utils/colorExtraction';
+   import { extractColorsFromImage, applyColorsWithThemeManager, ExtractedColors } from '../../../../utils/colorExtraction';
    
    // Define the interface that the consuming app's theme context must implement
    export interface ThemeControlsContextType {
