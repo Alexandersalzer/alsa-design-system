@@ -52,7 +52,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   const [logoAnalysis, setLogoAnalysis] = useState<LogoAnalysis | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
 
-  // Analyze logo when URL changes (with caching)
+  // Analyze logo when URL changes (with caching) - ALWAYS runs to maintain hook order
   useEffect(() => {
     if (logoUrl && variant === 'sidebar') {
       // Check cache first
@@ -92,7 +92,9 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
           setAnalyzing(false);
         });
     } else {
+      // Always reset state when no logo URL or wrong variant
       setLogoAnalysis(null);
+      setAnalyzing(false);
     }
   }, [logoUrl, variant]);
 
@@ -152,7 +154,10 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
 
   // Analyze logo brightness - separate function that can be called multiple times (with caching)
   const analyzeLogoBrightness = useCallback(async () => {
-    if (!logoUrl) return;
+    if (!logoUrl) {
+      setLogoBrightness(null);
+      return;
+    }
     
     // Check cache first
     const cacheKey = `logo-brightness-${logoUrl}`;
@@ -257,6 +262,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   }, [analyzeLogoBrightness]);
 
   // Extract colors when logo loads (only if autoExtractColors is true and we have a customer logo) - with caching
+  // ALWAYS runs to maintain hook order
   React.useEffect(() => {
     if (autoExtractColors && logoUrl && !isLoading) {
       // Check cache first
@@ -294,19 +300,11 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
           console.warn('Failed to extract colors from logo:', error);
         });
     }
+    // Always run this effect to maintain hook order, even when conditions aren't met
   }, [autoExtractColors, logoUrl, isLoading, onColorsExtracted]);
 
-  // If no customer logo, show Blimpify text logo
-  if (!logoUrl) {
-    return (
-      <LogoIcon 
-        variant="text" 
-        size={size}
-        className={cn(className)}
-        color="current"
-      />
-    );
-  }
+  // Early return for no logo - but AFTER all hooks to maintain hook order
+  // All hooks must run before any conditional returns
 
   // Determine which logo to use for customer logos
   const logoSrc = logoUrl;
@@ -426,11 +424,24 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     });
   }
 
+  // All conditional returns AFTER all hooks to maintain hook order
   if (isLoading) {
     return (
       <div 
         className={cn(baseClasses, 'bg-gray-200 animate-pulse rounded')}
         ref={ref as React.RefObject<HTMLDivElement>}
+      />
+    );
+  }
+
+  // If no customer logo, show Blimpify text logo
+  if (!logoUrl) {
+    return (
+      <LogoIcon 
+        variant="text" 
+        size={size}
+        className={cn(className)}
+        color="current"
       />
     );
   }
