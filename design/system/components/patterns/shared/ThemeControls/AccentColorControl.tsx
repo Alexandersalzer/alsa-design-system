@@ -70,7 +70,6 @@ export function AccentColorControl({ columns = 3, className, logoUrl, setCustomB
             handleExtractBrandColors();
           }
         } catch (e) {
-          console.warn('Failed to parse cached brand colors');
           // If cache is corrupted, extract colors again
           handleExtractBrandColors();
         }
@@ -109,7 +108,6 @@ export function AccentColorControl({ columns = 3, className, logoUrl, setCustomB
           // Check if cache is not too old (24 hours)
           if (Date.now() - parsed.timestamp < 86400000) {
             colors = parsed.data;
-            console.log('🎨 Using cached brand colors:', colors);
           } else {
             throw new Error('Cache expired');
           }
