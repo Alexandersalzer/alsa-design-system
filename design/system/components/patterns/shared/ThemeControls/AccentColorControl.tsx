@@ -46,6 +46,7 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
   // Force re-render when logoUrl changes
   useEffect(() => {
     console.log('🔄 AccentColorControl logoUrl changed:', logoUrl);
+    console.log('🔄 AccentColorControl should show Custom Brand:', logoUrl && logoUrl !== '' && logoUrl.startsWith('http'));
   }, [logoUrl]);
 
   // ✅ Convert from DesignRadioCard's string onChange to theme system
