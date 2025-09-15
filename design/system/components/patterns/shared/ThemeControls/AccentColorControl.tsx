@@ -41,9 +41,9 @@ export function AccentColorControl({ columns = 3, className, logoUrl, setCustomB
 
 
 
-  // Load cached colors when accentColor is 'custom-brand' and we have a logoUrl
+  // Load cached colors when we have a logoUrl (for display purposes)
   useEffect(() => {
-    if (accentColor === 'custom-brand' && logoUrl && logoUrl !== '' && logoUrl.startsWith('http')) {
+    if (logoUrl && logoUrl !== '' && logoUrl.startsWith('http')) {
       const cacheKey = `logo-colors-${logoUrl}`;
       const cachedColors = localStorage.getItem(cacheKey);
       
@@ -52,26 +52,34 @@ export function AccentColorControl({ columns = 3, className, logoUrl, setCustomB
           const parsed = JSON.parse(cachedColors);
           // Check if cache is not too old (24 hours)
           if (Date.now() - parsed.timestamp < 86400000) {
-            // Apply the cached colors to the theme
-            applyColorsWithThemeManager(parsed.data);
-            
+            // Set extracted colors for display
             setExtractedColors({
               primary: parsed.data.primary,
               secondary: parsed.data.secondary || parsed.data.accent
             });
             
-            // Also update preferences to custom-brand if not already set
-            if (setCustomBrand) {
-              setCustomBrand();
+            // If accentColor is already 'custom-brand', apply the colors
+            if (accentColor === 'custom-brand') {
+              applyColorsWithThemeManager(parsed.data);
+              if (setCustomBrand) {
+                setCustomBrand();
+              }
             }
-            
+          } else {
+            // Cache is expired, extract colors again
+            handleExtractBrandColors();
           }
         } catch (e) {
           console.warn('Failed to parse cached brand colors');
+          // If cache is corrupted, extract colors again
+          handleExtractBrandColors();
         }
+      } else {
+        // No cache found, extract colors for display
+        handleExtractBrandColors();
       }
     }
-  }, [accentColor, logoUrl]);
+  }, [logoUrl, accentColor, setCustomBrand]);
 
   // ✅ Convert from DesignRadioCard's string onChange to theme system
   const handleColorChange = (colorValue: string) => {
