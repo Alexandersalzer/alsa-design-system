@@ -36,7 +36,6 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
   const { accentColor, setAccentColor } = useTheme();
   const [extractingColors, setExtractingColors] = useState(false);
   const [extractedColors, setExtractedColors] = useState<{ primary: string; secondary: string } | null>(null);
-  const [isCustomBrandActive, setIsCustomBrandActive] = useState(false);
 
   // Debug: Log logoUrl to see if it's being passed
   console.log('🎨 AccentColorControl logoUrl:', logoUrl);
@@ -49,6 +48,30 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
     console.log('🔄 AccentColorControl should show Custom Brand:', logoUrl && logoUrl !== '' && logoUrl.startsWith('http'));
   }, [logoUrl]);
 
+  // Load cached colors when accentColor is 'custom-brand' and we have a logoUrl
+  useEffect(() => {
+    if (accentColor === 'custom-brand' && logoUrl && logoUrl !== '' && logoUrl.startsWith('http')) {
+      const cacheKey = `logo-colors-${logoUrl}`;
+      const cachedColors = localStorage.getItem(cacheKey);
+      
+      if (cachedColors) {
+        try {
+          const parsed = JSON.parse(cachedColors);
+          // Check if cache is not too old (24 hours)
+          if (Date.now() - parsed.timestamp < 86400000) {
+            setExtractedColors({
+              primary: parsed.data.primary,
+              secondary: parsed.data.secondary || parsed.data.accent
+            });
+            console.log('🎨 Loaded cached brand colors on mount:', parsed.data);
+          }
+        } catch (e) {
+          console.warn('Failed to parse cached brand colors');
+        }
+      }
+    }
+  }, [accentColor, logoUrl]);
+
   // ✅ Convert from DesignRadioCard's string onChange to theme system
   const handleColorChange = (colorValue: string) => {
     if (colorValue === 'custom-brand') {
@@ -58,7 +81,6 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
       }
     } else {
       setAccentColor(colorValue as ColorScale);
-      setIsCustomBrandActive(false); // Reset custom brand when selecting other colors
     }
   };
 
@@ -97,7 +119,7 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
         primary: colors.primary,
         secondary: colors.secondary || colors.accent
       });
-      setIsCustomBrandActive(true);
+      setAccentColor('custom-brand');
       
       // Cache the result
       localStorage.setItem(cacheKey, JSON.stringify({
@@ -129,7 +151,7 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
       {/* ✅ Using DesignRadioCard with Root + Color items */}
       <DesignRadioCard.Root
         name="accent-color"
-        value={isCustomBrandActive ? 'custom-brand' : (accentColor || 'purple')}
+        value={accentColor || 'purple'}
         onChange={handleColorChange}
         columns={columns}
         gap="sm"

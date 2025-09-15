@@ -3,7 +3,7 @@
 // FIXED: Proper initialization that preserves saved settings
 // ===============================================
 
-export type ColorScale = 'purple' | 'azure' | 'ruby' | 'emerald' | 'honey' | 'gray';
+export type ColorScale = 'purple' | 'azure' | 'ruby' | 'emerald' | 'honey' | 'gray' | 'custom-brand';
 export type RadiusScale = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
 export type ThemeMode = 'light' | 'dark';
 
@@ -86,6 +86,13 @@ export class ThemeManager {
     if (typeof window === 'undefined') return;
 
     const root = document.documentElement;
+    
+    // Handle custom-brand differently - don't override if it's already set
+    if (color === 'custom-brand') {
+      // For custom-brand, we don't override the CSS variables
+      // They should already be set by the color extraction process
+      return;
+    }
     
     // Update your existing accent tokens to point to the selected foundation color
     const levels = [100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000, 1100, 1200];
