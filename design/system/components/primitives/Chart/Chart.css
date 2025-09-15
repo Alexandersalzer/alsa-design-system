@@ -1,0 +1,51 @@
+/* ===============================================
+   Chart Component Styles
+   =============================================== */
+
+
+.chart table {
+  /* Table styles */
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.chart th,
+.chart td {
+  /* Cell styles */
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.chart th {
+  /* Header styles */
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.chart td {
+  /* Data cell styles */
+  color: var(--text-primary);
+}
+
+.chart tbody tr:hover {
+  /* Row hover styles */
+  background-color: var(--background-hover);
+}
+
+.chart .tabular-nums {
+  /* Monospace numbers for better alignment */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .chart table {
+    font-size: 0.875rem;
+  }
+  
+  .chart th,
+  .chart td {
+    padding: 0.375rem;
+  }
+}

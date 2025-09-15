@@ -22,6 +22,7 @@ export * from './VideoShowcase';
 export * from './CountUp';
 export * from './SpinningAnimation';
 export * from './LogoIcon';
+export * from './Chart';
 
 
 // Icon needs special handling since it's a default export
