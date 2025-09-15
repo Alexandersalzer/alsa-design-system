@@ -36,23 +36,10 @@ interface AccentColorControlProps {
 export function AccentColorControl({ columns = 3, className, logoUrl, setCustomBrand }: AccentColorControlProps) {
   const { accentColor, setAccentColor } = useTheme();
   
-  // Debug logging for accentColor
-  useEffect(() => {
-    console.log('🎨 AccentColorControl accentColor changed:', accentColor);
-  }, [accentColor]);
   const [extractingColors, setExtractingColors] = useState(false);
   const [extractedColors, setExtractedColors] = useState<{ primary: string; secondary: string } | null>(null);
 
-  // Debug: Log logoUrl to see if it's being passed
-  console.log('🎨 AccentColorControl logoUrl:', logoUrl);
-  console.log('🚫 No logoUrl provided - Custom Brand button not shown:', !logoUrl || logoUrl === '');
-  console.log('✅ Should show Custom Brand button:', logoUrl && logoUrl !== '' && logoUrl.startsWith('http'));
 
-  // Force re-render when logoUrl changes
-  useEffect(() => {
-    console.log('🔄 AccentColorControl logoUrl changed:', logoUrl);
-    console.log('🔄 AccentColorControl should show Custom Brand:', logoUrl && logoUrl !== '' && logoUrl.startsWith('http'));
-  }, [logoUrl]);
 
   // Load cached colors when accentColor is 'custom-brand' and we have a logoUrl
   useEffect(() => {
@@ -78,7 +65,6 @@ export function AccentColorControl({ columns = 3, className, logoUrl, setCustomB
               setCustomBrand();
             }
             
-            console.log('🎨 Loaded cached brand colors on mount:', parsed.data);
           }
         } catch (e) {
           console.warn('Failed to parse cached brand colors');
@@ -147,7 +133,6 @@ export function AccentColorControl({ columns = 3, className, logoUrl, setCustomB
         timestamp: Date.now()
       }));
       
-      console.log('🎨 Brand colors extracted and cached:', colors);
     } catch (error) {
       console.error('Failed to extract colors from logo:', error);
     } finally {

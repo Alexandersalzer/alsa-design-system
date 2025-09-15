@@ -65,11 +65,9 @@ export class ThemeManager {
    * Update accent color and apply to existing semantic tokens
    */
   setAccentColor(color: ColorScale): void {
-    console.log('🎨 ThemeManager setAccentColor called with:', color);
     this.currentConfig.accentColor = color;
     this.applyAccentColor(color);
     this.saveToStorage();
-    console.log('🎨 ThemeManager currentConfig after setAccentColor:', this.currentConfig);
   }
 
   /**
@@ -152,16 +150,13 @@ export class ThemeManager {
 
     // Try to load from localStorage first
     const stored = localStorage.getItem('blimpify-theme-config');
-    console.log('🎨 ThemeManager initialize - stored config:', stored);
     if (stored) {
       try {
         const savedConfig = JSON.parse(stored);
-        console.log('🎨 ThemeManager initialize - parsed savedConfig:', savedConfig);
         this.currentConfig = { 
           ...this.currentConfig, 
           ...savedConfig 
         };
-        console.log('🎨 ThemeManager initialize - final currentConfig:', this.currentConfig);
 
       } catch (e) {
         console.warn('Failed to parse stored theme config, using defaults');
