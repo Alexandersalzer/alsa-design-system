@@ -18,6 +18,7 @@ interface ThemeControlPanelProps {
   radiusColumns?: 1 | 2 | 3 | 4;
   className?: string;
   logoUrl?: string; // Optional logo URL for brand color extraction
+  setCustomBrand?: () => void; // Function to set custom brand in preferences
 }
 
 export function ThemeControlPanel({
@@ -27,7 +28,8 @@ export function ThemeControlPanel({
   colorColumns = 3,
   radiusColumns = 2,
   className,
-  logoUrl
+  logoUrl,
+  setCustomBrand
 }: ThemeControlPanelProps) {
   return (
     <div className={className}>
@@ -36,7 +38,7 @@ export function ThemeControlPanel({
           <ThemeModeControl />
         )}
         {showColorControl && (
-          <AccentColorControl columns={colorColumns} logoUrl={logoUrl} />
+          <AccentColorControl columns={colorColumns} logoUrl={logoUrl} setCustomBrand={setCustomBrand} />
         )}
         {showRadiusControl && (
           <RadiusControl columns={radiusColumns} />

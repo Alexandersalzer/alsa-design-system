@@ -30,9 +30,10 @@ interface AccentColorControlProps {
   columns?: 1 | 2 | 3 | 4 | 5 | 6;
   className?: string;
   logoUrl?: string; // Optional logo URL for brand color extraction
+  setCustomBrand?: () => void; // Function to set custom brand in preferences
 }
 
-export function AccentColorControl({ columns = 3, className, logoUrl }: AccentColorControlProps) {
+export function AccentColorControl({ columns = 3, className, logoUrl, setCustomBrand }: AccentColorControlProps) {
   const { accentColor, setAccentColor } = useTheme();
   
   // Debug logging for accentColor
@@ -71,6 +72,12 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
               primary: parsed.data.primary,
               secondary: parsed.data.secondary || parsed.data.accent
             });
+            
+            // Also update preferences to custom-brand if not already set
+            if (setCustomBrand) {
+              setCustomBrand();
+            }
+            
             console.log('🎨 Loaded cached brand colors on mount:', parsed.data);
           }
         } catch (e) {
@@ -128,6 +135,11 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
         secondary: colors.secondary || colors.accent
       });
       setAccentColor('custom-brand');
+      
+      // Also update preferences to custom-brand
+      if (setCustomBrand) {
+        setCustomBrand();
+      }
       
       // Cache the result
       localStorage.setItem(cacheKey, JSON.stringify({
