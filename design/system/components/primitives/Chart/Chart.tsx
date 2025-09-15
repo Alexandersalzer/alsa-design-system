@@ -18,7 +18,7 @@ export interface ChartColumn {
   align?: 'left' | 'center' | 'right';
   width?: string;
   format?: 'text' | 'number' | 'currency' | 'percentage' | 'date';
-  hide?: boolean;
+  hidden?: boolean;
 }
 
 export interface ChartData {
@@ -76,7 +76,7 @@ export const Chart: React.FC<ChartProps> = ({
   hoverable = true
 }) => {
   // Filter visible columns
-  const visibleColumns = columns.filter(col => !col.hide);
+  const visibleColumns = columns.filter(col => !col.hidden);
   
   // Sort data if sortBy is specified
   const sortedData = React.useMemo(() => {
