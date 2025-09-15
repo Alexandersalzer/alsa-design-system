@@ -1,2 +1,2 @@
 export { Chart } from './Chart';
-export type { ChartProps, ChartColumn, ChartData } from './Chart';
+export type { ChartProps, ChartData, ChartDataPoint } from './Chart';

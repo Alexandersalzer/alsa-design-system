@@ -2,50 +2,95 @@
    Chart Component Styles
    =============================================== */
 
-
-.chart table {
-  /* Table styles */
-  border-collapse: collapse;
-  width: 100%;
+.chart {
+  /* Chart container styles */
 }
 
-.chart th,
-.chart td {
-  /* Cell styles */
-  padding: 0.5rem;
-  text-align: left;
+.chart svg {
+  /* SVG container styles */
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
-.chart th {
-  /* Header styles */
-  font-weight: 600;
-  color: var(--text-secondary);
-  border-bottom: 1px solid var(--border-default);
+.chart-line {
+  /* Line chart path styles */
+  transition: stroke-width 0.2s ease;
 }
 
-.chart td {
-  /* Data cell styles */
-  color: var(--text-primary);
+.chart-line:hover {
+  /* Line hover effect */
+  stroke-width: 3;
 }
 
-.chart tbody tr:hover {
-  /* Row hover styles */
-  background-color: var(--background-hover);
+.chart-area {
+  /* Area chart fill styles */
+  transition: opacity 0.2s ease;
 }
 
-.chart .tabular-nums {
-  /* Monospace numbers for better alignment */
-  font-variant-numeric: tabular-nums;
+.chart-area:hover {
+  /* Area hover effect */
+  opacity: 0.8;
+}
+
+.chart-point {
+  /* Data point styles */
+  transition: r 0.2s ease, stroke-width 0.2s ease;
+  cursor: pointer;
+}
+
+.chart-point:hover {
+  /* Data point hover effect */
+  r: 6;
+  stroke-width: 3;
+}
+
+.grid-lines {
+  /* Grid lines styles */
+  pointer-events: none;
+}
+
+.x-axis text,
+.y-axis text {
+  /* Axis label styles */
+  font-size: 0.75rem;
+  line-height: 1;
+  user-select: none;
 }
 
 /* Responsive styles */
 @media (max-width: 768px) {
-  .chart table {
-    font-size: 0.875rem;
+  .chart svg {
+    font-size: 0.625rem;
   }
   
-  .chart th,
-  .chart td {
-    padding: 0.375rem;
+  .x-axis text,
+  .y-axis text {
+    font-size: 0.625rem;
   }
+  
+  .chart-point {
+    r: 3;
+  }
+  
+  .chart-point:hover {
+    r: 4;
+  }
+}
+
+/* Animation for loading state */
+@keyframes chart-loading {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+.chart .animate-pulse {
+  animation: chart-loading 2s ease-in-out infinite;
 }
