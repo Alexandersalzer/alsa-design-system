@@ -34,6 +34,11 @@ interface AccentColorControlProps {
 
 export function AccentColorControl({ columns = 3, className, logoUrl }: AccentColorControlProps) {
   const { accentColor, setAccentColor } = useTheme();
+  
+  // Debug logging for accentColor
+  useEffect(() => {
+    console.log('🎨 AccentColorControl accentColor changed:', accentColor);
+  }, [accentColor]);
   const [extractingColors, setExtractingColors] = useState(false);
   const [extractedColors, setExtractedColors] = useState<{ primary: string; secondary: string } | null>(null);
 
@@ -59,6 +64,9 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
           const parsed = JSON.parse(cachedColors);
           // Check if cache is not too old (24 hours)
           if (Date.now() - parsed.timestamp < 86400000) {
+            // Apply the cached colors to the theme
+            applyColorsWithThemeManager(parsed.data);
+            
             setExtractedColors({
               primary: parsed.data.primary,
               secondary: parsed.data.secondary || parsed.data.accent
