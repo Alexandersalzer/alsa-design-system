@@ -70,8 +70,8 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
       if (cachedAnalysis) {
         try {
           const parsed = JSON.parse(cachedAnalysis);
-          // Check if cache is not too old (1 hour)
-          if (Date.now() - parsed.timestamp < 3600000) {
+              // Check if cache is not too old (24 hours)
+              if (Date.now() - parsed.timestamp < 86400000) {
             setLogoAnalysis(parsed.data);
             console.log('🔍 Using cached logo analysis:', parsed.data);
             return;
@@ -174,8 +174,8 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     if (cachedBrightness) {
       try {
         const parsed = JSON.parse(cachedBrightness);
-        // Check if cache is not too old (1 hour)
-        if (Date.now() - parsed.timestamp < 3600000) {
+              // Check if cache is not too old (24 hours)
+              if (Date.now() - parsed.timestamp < 86400000) {
           setLogoBrightness(parsed.data);
           console.log('🎨 Using cached logo brightness:', parsed.data);
           return;
@@ -285,8 +285,8 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
       if (cachedCropped) {
         try {
           const parsed = JSON.parse(cachedCropped);
-          // Check if cache is not too old (1 hour)
-          if (Date.now() - parsed.timestamp < 3600000) {
+              // Check if cache is not too old (24 hours)
+              if (Date.now() - parsed.timestamp < 86400000) {
             setCroppedLogo(parsed.data);
             console.log('🎨 Using cached cropped logo:', parsed.data);
             return;
@@ -335,8 +335,11 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   // Early return for no logo - but AFTER all hooks to maintain hook order
   // All hooks must run before any conditional returns
 
-  // Determine which logo to use for customer logos
-  const logoSrc = croppedLogo?.croppedImageUrl || logoUrl;
+  // Determine which logo to use for customer logos - memoized for performance
+  const logoSrc = useMemo(() => {
+    return croppedLogo?.croppedImageUrl || logoUrl;
+  }, [croppedLogo?.croppedImageUrl, logoUrl]);
+  
   const logoAlt = alt;
 
   // Determine if we need to invert the logo

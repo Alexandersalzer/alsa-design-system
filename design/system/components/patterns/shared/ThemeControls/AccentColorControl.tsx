@@ -67,7 +67,29 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
     
     setExtractingColors(true);
     try {
-      const colors = await extractColorsFromImage(logoUrl);
+      // Check cache first
+      const cacheKey = `logo-colors-${logoUrl}`;
+      const cachedColors = localStorage.getItem(cacheKey);
+      
+      let colors;
+      if (cachedColors) {
+        try {
+          const parsed = JSON.parse(cachedColors);
+          // Check if cache is not too old (24 hours)
+          if (Date.now() - parsed.timestamp < 86400000) {
+            colors = parsed.data;
+            console.log('🎨 Using cached brand colors:', colors);
+          } else {
+            throw new Error('Cache expired');
+          }
+        } catch (e) {
+          // Invalid cache, continue with fresh extraction
+          colors = await extractColorsFromImage(logoUrl);
+        }
+      } else {
+        colors = await extractColorsFromImage(logoUrl);
+      }
+      
       applyColorsWithThemeManager(colors);
       
       // Store extracted colors and mark custom brand as active
@@ -77,7 +99,13 @@ export function AccentColorControl({ columns = 3, className, logoUrl }: AccentCo
       });
       setIsCustomBrandActive(true);
       
-      console.log('🎨 Brand colors extracted from logo:', colors);
+      // Cache the result
+      localStorage.setItem(cacheKey, JSON.stringify({
+        data: colors,
+        timestamp: Date.now()
+      }));
+      
+      console.log('🎨 Brand colors extracted and cached:', colors);
     } catch (error) {
       console.error('Failed to extract colors from logo:', error);
     } finally {
