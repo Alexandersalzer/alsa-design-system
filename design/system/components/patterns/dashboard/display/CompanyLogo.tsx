@@ -73,7 +73,6 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
               // Check if cache is not too old (24 hours)
               if (Date.now() - parsed.timestamp < 86400000) {
             setLogoAnalysis(parsed.data);
-            console.log('🔍 Using cached logo analysis:', parsed.data);
             return;
           }
         } catch (e) {
@@ -90,7 +89,6 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
             data: analysis,
             timestamp: Date.now()
           }));
-          console.log('🔍 Logo analysis completed and cached:', analysis);
         })
         .catch(error => {
           console.warn('Logo analysis failed:', error);
@@ -119,15 +117,6 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
       
       // Only log when theme actually changes
       if (newTheme !== currentTheme) {
-        console.log('🎨 Theme changed:', { 
-          from: currentTheme, 
-          to: newTheme, 
-          isDark,
-          dataTheme,
-          hasDarkClass,
-          prefersDark,
-          classList: document.documentElement.classList.toString()
-        });
       }
       
       setCurrentTheme(newTheme);
@@ -177,7 +166,6 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
               // Check if cache is not too old (24 hours)
               if (Date.now() - parsed.timestamp < 86400000) {
           setLogoBrightness(parsed.data);
-          console.log('🎨 Using cached logo brightness:', parsed.data);
           return;
         }
       } catch (e) {
@@ -241,15 +229,6 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
           const willInvert = (currentTheme === 'light' && averageBrightness < 100) || 
                             (currentTheme === 'dark' && averageBrightness > 150);
           
-          console.log('🎨 Logo brightness analysis completed and cached:', {
-            brightness: averageBrightness,
-            theme: currentTheme,
-            willInvert,
-            reason: willInvert ? 
-              (currentTheme === 'light' ? 'Too dark for light mode - needs inversion' : 'Too light for dark mode - needs inversion') : 
-              'Good contrast - no inversion needed',
-            appliedFilter: willInvert ? 'invert(1)' : 'none'
-          });
         }
       };
       
@@ -288,7 +267,6 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
               // Check if cache is not too old (24 hours)
               if (Date.now() - parsed.timestamp < 86400000) {
             setCroppedLogo(parsed.data);
-            console.log('🎨 Using cached cropped logo:', parsed.data);
             return;
           }
         } catch (e) {
@@ -311,12 +289,6 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
             timestamp: Date.now()
           }));
           
-          console.log('🎨 Logo cropped and cached:', {
-            wasCropped: result.wasCropped,
-            original: result.originalDimensions,
-            cropped: result.croppedDimensions,
-            variant
-          });
         })
         .catch(error => {
           console.warn('Logo cropping failed:', error);
@@ -384,23 +356,6 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
 
   // Debug logging for inversion
   if (logoBrightness !== null) {
-    console.log('🎨 Logo inversion applied:', {
-      brightness: logoBrightness,
-      theme: currentTheme,
-      isMonochrome,
-      needsInversion,
-      appliedFilter: needsInversion ? 'invert(1)' : 'none',
-      result: needsInversion ? 
-        (logoBrightness > 150 ? 'Light logo → Dark (better contrast)' : 'Dark logo → Light (better contrast)') :
-        isMonochrome ? 
-          (logoBrightness > 150 ? 'Light logo stays Light (good contrast)' : 'Dark logo stays Dark (good contrast)') :
-          'Colored logo - no inversion (preserve colors)',
-      logic: isMonochrome ? 
-        (currentTheme === 'light' ? 
-          (logoBrightness > 150 ? 'Light logo in light mode -> invert for contrast' : 'Dark logo in light mode -> keep dark') :
-          (logoBrightness < 100 ? 'Dark logo in dark mode -> invert for contrast' : 'Light logo in dark mode -> keep light')) :
-        'Colored logo detected - skipping inversion to preserve colors'
-    });
   }
 
   // All conditional returns AFTER all hooks to maintain hook order

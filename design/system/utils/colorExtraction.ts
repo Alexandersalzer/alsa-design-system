@@ -267,7 +267,6 @@ export async function extractColorsFromImage(
         
         // If the entire palette is white/black, don't change anything
         if (effectivePalette.length === 0) {
-          console.log('🎨 Logo is entirely white/black - no color changes applied');
           resolve({
             primary: "#3B82F6", // Keep default
             secondary: "#3B82F6",
@@ -286,17 +285,6 @@ export async function extractColorsFromImage(
         const primary = accent;
         const secondary = effectivePalette[0]?.color;
         
-        console.log('🎨 Extracted colors (prioritizing brighter colors):', {
-          primary,
-          secondary,
-          accent,
-          paletteCount: palette.length,
-          totalColors: colors.length,
-          brandColorsCount: brandColors.length,
-          effectivePaletteCount: effectivePalette.length,
-          isMonochrome: effectivePalette.length === 0,
-          note: 'Primary color is now the brighter/more vibrant color for better visual impact'
-        });
         
         resolve({
           primary,
@@ -389,23 +377,15 @@ export function generateColorCSS(colors: ExtractedColors): Record<string, string
 export function applyColorsToDocument(colors: ExtractedColors): void {
   // If palette is empty (logo was all white/black), don't apply any changes
   if (colors.palette.length === 0) {
-    console.log('🎨 No brand colors to apply - keeping default theme');
     return;
   }
   
   const cssVars = generateColorCSS(colors);
   
-  console.log('🎨 Applying colors to document:', {
-    colors,
-    cssVarsCount: Object.keys(cssVars).length,
-    primaryColor: colors.primary,
-    accentColor: colors.accent
-  });
   
   const root = document.documentElement;
   Object.entries(cssVars).forEach(([property, value]) => {
     root.style.setProperty(property, value);
-    console.log(`🎨 Set CSS property: ${property} = ${value}`);
   });
   
   // Note: All theme system properties are now handled by generateColorCSS
@@ -436,11 +416,9 @@ export function loadSavedColors(): ExtractedColors | null {
  */
 export function applyColorsWithThemeManager(colors: ExtractedColors): void {
   if (colors.palette.length === 0) {
-    console.log('🎨 No brand colors to apply - keeping default theme');
     return;
   }
 
-  console.log('🎨 Applying colors with ThemeManager compatibility:', colors);
   
   // Try to import ThemeManager dynamically to avoid circular dependencies
   try {
@@ -450,7 +428,6 @@ export function applyColorsWithThemeManager(colors: ExtractedColors): void {
     
     // Apply the accent color directly to ThemeManager
     // We'll use the accent color as the primary accent
-    console.log('🎨 ThemeManager found, applying colors via CSS:', colors.accent);
     
     // Note: ThemeManager expects predefined color scales, so we'll apply via CSS
     // This ensures compatibility with the existing theme system

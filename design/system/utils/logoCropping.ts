@@ -319,17 +319,6 @@ export async function smartCropLogo(
         // Convert to data URL
         const croppedImageUrl = croppedCanvas.toDataURL('image/png', 0.9);
         
-        console.log('🎨 Logo cropped successfully:', {
-          original: { width: originalWidth, height: originalHeight },
-          cropped: { width: croppedCanvas.width, height: croppedCanvas.height },
-          cropRegion: paddedRegion,
-          aspectRatio: {
-            original: originalWidth / originalHeight,
-            target: targetAspectRatio,
-            cropped: croppedCanvas.width / croppedCanvas.height
-          },
-          strategy
-        });
         
         resolve({
           croppedImageUrl,
