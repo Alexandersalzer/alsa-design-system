@@ -4,4 +4,4 @@
 // ===============================================
 
 export * from './LineChart';
-export type { LineChartProps, LineChartDataPoint, LineChartDataset } from './LineChart';
+export type { LineChartProps, LineChartDataPoint } from './LineChart';
