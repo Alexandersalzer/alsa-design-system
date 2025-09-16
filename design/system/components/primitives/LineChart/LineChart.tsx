@@ -333,7 +333,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                   setTooltip({
                     visible: true,
                     x: xScale(point.x as number),
-                    y: yScale(point.y) - 10,
+                    y: yScale(point.y),
                     data: point
                   });
                 }}
@@ -400,39 +400,26 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 
         {/* Tooltip */}
         {tooltip.visible && tooltip.data && (
-          <g className="line-chart__tooltip">
-            <rect
-              x={tooltip.x - 40}
-              y={tooltip.y - 35}
-              width={80}
-              height={30}
-              rx={6}
-              fill="var(--surface-elevated, #ffffff)"
-              stroke="var(--color-primary, #3b82f6)"
-              strokeWidth={2}
-              filter="drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))"
-            />
-            <text
-              x={tooltip.x}
-              y={tooltip.y - 20}
-              textAnchor="middle"
-              fontSize="12"
-              fill="var(--text-secondary, #6b7280)"
-              fontWeight="500"
-            >
-              {formatXLabel(tooltip.data.originalX || tooltip.data.x)}
-            </text>
-            <text
-              x={tooltip.x}
-              y={tooltip.y - 5}
-              textAnchor="middle"
-              fontSize="14"
-              fill="var(--text-primary, #111827)"
-              fontWeight="600"
-            >
-              {formatNumber(tooltip.data.y)}
-            </text>
-          </g>
+          <div
+            className="line-chart__tooltip"
+            style={{
+              position: 'absolute',
+              left: tooltip.x + padding.left,
+              top: tooltip.y + padding.top - 40,
+              transform: 'translateX(-50%)',
+              pointerEvents: 'none',
+              zIndex: 1000
+            }}
+          >
+            <div className="line-chart__tooltip-content">
+              <div className="line-chart__tooltip-label">
+                {formatXLabel(tooltip.data.originalX || tooltip.data.x)}
+              </div>
+              <div className="line-chart__tooltip-value">
+                {formatNumber(tooltip.data.y)}
+              </div>
+            </div>
+          </div>
         )}
       </div>
     );
