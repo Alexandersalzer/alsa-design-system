@@ -62,31 +62,49 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     return (
       <div 
         ref={ref} 
-        className={cn('line-chart w-full bg-background border border-border rounded-md', className)} 
+        className={cn('line-chart w-full bg-white border border-gray-200 rounded-md', className)} 
+        style={{ minHeight: '400px' }}
         {...props}
       >
         {title && (
-          <div className="px-4 py-2 border-b border-border">
-            <h3 className="text-sm font-medium">{title}</h3>
+          <div className="px-4 py-2 border-b border-gray-200">
+            <h3 className="text-sm font-medium text-gray-900">{title}</h3>
           </div>
         )}
 
-        <div className="p-4 h-64">
+        <div className="p-4" style={{ height: '400px' }}>
           <ResponsiveContainer width="100%" height="100%">
-            <ReLineChart data={data}>
-              <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" />
-              <XAxis dataKey="label" stroke="hsl(var(--text-secondary))" />
-              <YAxis stroke="hsl(var(--text-secondary))" />
+            <ReLineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+              <XAxis 
+                dataKey="label" 
+                stroke="#666" 
+                fontSize={12}
+                tick={{ fill: '#666' }}
+              />
+              <YAxis 
+                stroke="#666" 
+                fontSize={12}
+                tick={{ fill: '#666' }}
+              />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "hsl(var(--background))",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: "4px"
+                  backgroundColor: "#fff",
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
                 }}
-                labelStyle={{ color: "hsl(var(--text-primary))" }}
+                labelStyle={{ color: "#333" }}
               />
               <Legend />
-              <Line type="monotone" dataKey="value" stroke={color} strokeWidth={2} dot={{ r: 4 }} />
+              <Line 
+                type="monotone" 
+                dataKey="value" 
+                stroke={color} 
+                strokeWidth={2} 
+                dot={{ r: 4, fill: color }} 
+                activeDot={{ r: 6, fill: color }}
+              />
             </ReLineChart>
           </ResponsiveContainer>
         </div>
