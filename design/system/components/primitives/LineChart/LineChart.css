@@ -97,6 +97,20 @@
   color: hsl(var(--text-secondary));
 }
 
+/* Better axis positioning */
+.recharts-cartesian-axis-tick-value {
+  font-size: 11px !important;
+  fill: hsl(var(--text-secondary)) !important;
+}
+
+.recharts-cartesian-axis-line {
+  stroke: hsl(var(--border)) !important;
+}
+
+.recharts-cartesian-axis-tick-line {
+  stroke: hsl(var(--border)) !important;
+}
+
 .line-chart__tooltip {
   font-size: var(--text-sm);
 }
@@ -115,6 +129,16 @@
   stroke-width: 2 !important;
   stroke-linecap: round;
   stroke-linejoin: round;
+  opacity: 1 !important;
+}
+
+/* Force line visibility */
+.recharts-line path {
+  stroke-width: 2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  opacity: 1 !important;
+  fill: none !important;
 }
 
 /* Accent color support */

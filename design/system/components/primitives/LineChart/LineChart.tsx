@@ -127,12 +127,18 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                 dataKey="label" 
                 stroke="hsl(var(--text-secondary))" 
                 className="line-chart__axis line-chart__axis--x"
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 11 }}
+                axisLine={{ stroke: "hsl(var(--border))" }}
+                tickLine={{ stroke: "hsl(var(--border))" }}
+                tickMargin={8}
               />
               <YAxis 
                 stroke="hsl(var(--text-secondary))" 
                 className="line-chart__axis line-chart__axis--y"
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 11 }}
+                axisLine={{ stroke: "hsl(var(--border))" }}
+                tickLine={{ stroke: "hsl(var(--border))" }}
+                tickMargin={8}
               />
               {showTooltip && (
                 <Tooltip
@@ -182,6 +188,11 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                 }}
                 className="line-chart__line"
                 connectNulls={false}
+                isAnimationActive={false}
+                style={{
+                  stroke: color,
+                  strokeWidth: 2
+                }}
               />
             </ReLineChart>
           </ResponsiveContainer>
