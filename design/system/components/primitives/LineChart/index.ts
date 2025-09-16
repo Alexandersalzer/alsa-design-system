@@ -1,5 +1,7 @@
 // ===============================================
-// LineChart Component Export
+// src/design-system/components/primitives/LineChart/index.ts
+// LINECHART COMPONENT EXPORTS
 // ===============================================
 
-export { LineChart, type LineChartProps } from './LineChart';
+export { LineChart } from './LineChart';
+export type { LineChartProps, LineChartDataPoint } from './LineChart';

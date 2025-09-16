@@ -1,203 +1,348 @@
 // ===============================================
 // src/design-system/components/primitives/LineChart/LineChart.tsx
-// REUSABLE LINE CHART COMPONENT FOR BLIMPIFY UI
+// CLEAN LINECHART COMPONENT WITH PROPER AXES
 // ===============================================
 
-import React, { forwardRef } from 'react';
-import {
-  LineChart as ReLineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-  Legend,
-  type TooltipProps
-} from "recharts";
+import React, { forwardRef, useMemo } from 'react';
 import { cn } from '../../../lib/utils';
 
+export interface LineChartDataPoint {
+  x: number | string;
+  y: number;
+  label?: string;
+}
+
 export interface LineChartProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Chart title displayed at the top */
-  title?: string;
-  /** Data array for the chart */
-  data: { label: string; value: number }[];
-  /** Color for the line (defaults to accent color) */
-  color?: string;
-  /** Loading state */
-  loading?: boolean;
-  /** Height of the chart container */
-  height?: number | string;
-  /** Show/hide grid lines */
+  data: LineChartDataPoint[];
+  width?: number;
+  height?: number;
   showGrid?: boolean;
-  /** Show/hide legend */
-  showLegend?: boolean;
-  /** Show/hide tooltip */
-  showTooltip?: boolean;
-  /** Custom tooltip content */
-  customTooltip?: TooltipProps<any, any>['content'];
-  /** Chart variant for different styling */
-  variant?: 'default' | 'minimal' | 'detailed';
+  showAxes?: boolean;
+  showLabels?: boolean;
+  lineColor?: string;
+  lineWidth?: number;
+  dotSize?: number;
+  showDots?: boolean;
+  xAxisLabel?: string;
+  yAxisLabel?: string;
+  title?: string;
+  subtitle?: string;
+  // Responsive behavior
+  responsive?: boolean;
+  // Animation
+  animate?: boolean;
+  animationDuration?: number;
 }
 
 export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
-  ({ 
+  ({
     className,
-    title, 
-    data, 
-    color = "hsl(var(--accent))", 
-    loading = false,
-    height = 256,
+    data = [],
+    width = 400,
+    height = 300,
     showGrid = true,
-    showLegend = true,
-    showTooltip = true,
-    customTooltip,
-    variant = 'default',
-    ...props 
+    showAxes = true,
+    showLabels = true,
+    lineColor = 'var(--color-primary)',
+    lineWidth = 2,
+    dotSize = 4,
+    showDots = true,
+    xAxisLabel,
+    yAxisLabel,
+    title,
+    subtitle,
+    responsive = true,
+    animate = true,
+    animationDuration = 1000,
+    ...props
   }, ref) => {
     
-    // Loading state
-    if (loading) {
-      return (
-        <div 
-          ref={ref}
-          className={cn('line-chart line-chart--loading', className)} 
-          style={{ height: typeof height === 'number' ? `${height}px` : height }}
-          {...props}
-        >
-          <div className="line-chart__skeleton" />
-        </div>
-      );
-    }
+    // Calculate chart dimensions with padding
+    const padding = { top: 20, right: 40, bottom: 40, left: 60 };
+    const chartWidth = width - padding.left - padding.right;
+    const chartHeight = height - padding.top - padding.bottom;
 
-    // Empty state
-    if (!data?.length) {
-      return (
-        <div 
-          ref={ref}
-          className={cn('line-chart line-chart--empty', className)}
-          style={{ height: typeof height === 'number' ? `${height}px` : height }}
-          {...props}
-        >
-          <div className="line-chart__empty-state">
-            <span className="line-chart__empty-text">No data available</span>
-          </div>
-        </div>
-      );
-    }
+    // Process data and calculate scales
+    const { processedData, xScale, yScale, xTicks, yTicks } = useMemo(() => {
+      if (!data || data.length === 0) {
+        return {
+          processedData: [],
+          xScale: (x: number) => x,
+          yScale: (y: number) => y,
+          xTicks: [],
+          yTicks: []
+        };
+      }
+
+      // Convert x values to numbers if they're strings
+      const numericData = data.map((point, index) => ({
+        ...point,
+        x: typeof point.x === 'string' ? index : point.x,
+        originalX: point.x
+      }));
+
+      // Find min/max values
+      const xValues = numericData.map(d => d.x as number);
+      const yValues = numericData.map(d => d.y);
+      
+      const xMin = Math.min(...xValues);
+      const xMax = Math.max(...xValues);
+      const yMin = Math.min(...yValues);
+      const yMax = Math.max(...yValues);
+
+      // Add some padding to y-axis
+      const yRange = yMax - yMin;
+      const yPadding = yRange * 0.1;
+      const yMinPadded = Math.max(0, yMin - yPadding);
+      const yMaxPadded = yMax + yPadding;
+
+      // Create scales
+      const xScale = (x: number) => 
+        padding.left + ((x - xMin) / (xMax - xMin)) * chartWidth;
+      
+      const yScale = (y: number) => 
+        padding.top + chartHeight - ((y - yMinPadded) / (yMaxPadded - yMinPadded)) * chartHeight;
+
+      // Generate ticks
+      const xTicks = Array.from({ length: Math.min(6, data.length) }, (_, i) => {
+        const value = xMin + (i / (Math.min(6, data.length) - 1)) * (xMax - xMin);
+        return {
+          value,
+          label: numericData.find(d => Math.abs(d.x - value) < 0.001)?.originalX?.toString() || value.toString(),
+          x: xScale(value),
+          y: padding.top + chartHeight
+        };
+      });
+
+      const yTicks = Array.from({ length: 6 }, (_, i) => {
+        const value = yMinPadded + (i / 5) * (yMaxPadded - yMinPadded);
+        return {
+          value: Math.round(value),
+          x: padding.left,
+          y: yScale(value)
+        };
+      });
+
+      return {
+        processedData: numericData,
+        xScale,
+        yScale,
+        xTicks,
+        yTicks
+      };
+    }, [data, chartWidth, chartHeight, padding]);
+
+    // Generate SVG path for the line
+    const linePath = useMemo(() => {
+      if (processedData.length === 0) return '';
+      
+      const pathData = processedData
+        .map((point, index) => {
+          const x = xScale(point.x as number);
+          const y = yScale(point.y);
+          return `${index === 0 ? 'M' : 'L'} ${x} ${y}`;
+        })
+        .join(' ');
+      
+      return pathData;
+    }, [processedData, xScale, yScale]);
+
+    // Generate area path for fill
+    const areaPath = useMemo(() => {
+      if (processedData.length === 0) return '';
+      
+      const firstPoint = processedData[0];
+      const lastPoint = processedData[processedData.length - 1];
+      const bottomY = padding.top + chartHeight;
+      
+      const pathData = processedData
+        .map((point, index) => {
+          const x = xScale(point.x as number);
+          const y = yScale(point.y);
+          return `${index === 0 ? 'M' : 'L'} ${x} ${y}`;
+        })
+        .join(' ');
+      
+      return `${pathData} L ${xScale(lastPoint.x as number)} ${bottomY} L ${xScale(firstPoint.x as number)} ${bottomY} Z`;
+    }, [processedData, xScale, yScale, padding, chartHeight]);
 
     const chartClasses = cn(
       'line-chart',
-      `line-chart--${variant}`,
+      responsive && 'line-chart--responsive',
       className
     );
 
-    // Check if using accent color
-    const isAccentColor = color === "hsl(var(--accent))" || color.includes("--accent");
-
     return (
-      <div 
-        ref={ref} 
-        className={chartClasses} 
-        data-accent={isAccentColor}
+      <div
+        ref={ref}
+        className={chartClasses}
+        style={{
+          width: responsive ? '100%' : width,
+          height: responsive ? 'auto' : height,
+          maxWidth: width,
+          ...props.style
+        }}
         {...props}
       >
-        {/* Chart Header */}
-        {title && (
+        {/* Title and Subtitle */}
+        {(title || subtitle) && (
           <div className="line-chart__header">
-            <h3 className="line-chart__title">{title}</h3>
+            {title && <h3 className="line-chart__title">{title}</h3>}
+            {subtitle && <p className="line-chart__subtitle">{subtitle}</p>}
           </div>
         )}
 
-        {/* Chart Content */}
-        <div 
-          className="line-chart__content"
-          style={{ height: typeof height === 'number' ? `${height}px` : height }}
-        >
-          <ResponsiveContainer width="100%" height="100%">
-            <ReLineChart data={data}>
-              {showGrid && (
-                <CartesianGrid 
-                  stroke="hsl(var(--border))" 
-                  strokeDasharray="3 3" 
-                  className="line-chart__grid"
+        {/* Chart Container */}
+        <div className="line-chart__container">
+          <svg
+            width={width}
+            height={height}
+            viewBox={`0 0 ${width} ${height}`}
+            className="line-chart__svg"
+          >
+            {/* Grid Lines */}
+            {showGrid && (
+              <g className="line-chart__grid">
+                {/* Vertical grid lines */}
+                {xTicks.map((tick, index) => (
+                  <line
+                    key={`v-grid-${index}`}
+                    x1={tick.x}
+                    y1={padding.top}
+                    x2={tick.x}
+                    y2={padding.top + chartHeight}
+                    className="line-chart__grid-line line-chart__grid-line--vertical"
+                  />
+                ))}
+                {/* Horizontal grid lines */}
+                {yTicks.map((tick, index) => (
+                  <line
+                    key={`h-grid-${index}`}
+                    x1={padding.left}
+                    y1={tick.y}
+                    x2={padding.left + chartWidth}
+                    y2={tick.y}
+                    className="line-chart__grid-line line-chart__grid-line--horizontal"
+                  />
+                ))}
+              </g>
+            )}
+
+            {/* Axes */}
+            {showAxes && (
+              <g className="line-chart__axes">
+                {/* X-axis */}
+                <line
+                  x1={padding.left}
+                  y1={padding.top + chartHeight}
+                  x2={padding.left + chartWidth}
+                  y2={padding.top + chartHeight}
+                  className="line-chart__axis line-chart__axis--x"
                 />
-              )}
-              <XAxis 
-                dataKey="label" 
-                stroke="hsl(var(--text-secondary))" 
-                className="line-chart__axis line-chart__axis--x"
-                tick={{ fontSize: 11 }}
-                axisLine={{ stroke: "hsl(var(--border))" }}
-                tickLine={{ stroke: "hsl(var(--border))" }}
-                tickMargin={4}
-                padding={{ left: 10, right: 10 }}
-              />
-              <YAxis 
-                stroke="hsl(var(--text-secondary))" 
-                className="line-chart__axis line-chart__axis--y"
-                tick={{ fontSize: 11 }}
-                axisLine={{ stroke: "hsl(var(--border))" }}
-                tickLine={{ stroke: "hsl(var(--border))" }}
-                tickMargin={4}
-                padding={{ top: 10, bottom: 10 }}
-              />
-              {showTooltip && (
-                <Tooltip
-                  content={customTooltip || undefined}
-                  contentStyle={{
-                    backgroundColor: "hsl(var(--background))",
-                    border: "1px solid hsl(var(--border))",
-                    borderRadius: "var(--radius-md)",
-                    boxShadow: "var(--shadow-md)"
-                  }}
-                  labelStyle={{ 
-                    color: "hsl(var(--text-primary))",
-                    fontWeight: 500
-                  }}
-                  itemStyle={{
-                    color: "hsl(var(--text-primary))"
-                  }}
-                  wrapperStyle={{
-                    outline: 'none'
-                  }}
+                {/* Y-axis */}
+                <line
+                  x1={padding.left}
+                  y1={padding.top}
+                  x2={padding.left}
+                  y2={padding.top + chartHeight}
+                  className="line-chart__axis line-chart__axis--y"
                 />
-              )}
-              {showLegend && (
-                <Legend 
-                  className="line-chart__legend"
-                  wrapperStyle={{
-                    color: "hsl(var(--text-primary))"
-                  }}
-                />
-              )}
-              <Line 
-                type="monotone" 
-                dataKey="value" 
-                stroke={color} 
-                strokeWidth={2} 
-                dot={{ 
-                  r: 2, 
-                  fill: color,
-                  stroke: "hsl(var(--background))",
-                  strokeWidth: 1
-                }} 
-                activeDot={{ 
-                  r: 4, 
-                  fill: color,
-                  stroke: "hsl(var(--background))",
-                  strokeWidth: 2
-                }}
-                className="line-chart__line"
-                connectNulls={false}
-                isAnimationActive={false}
+              </g>
+            )}
+
+            {/* Area fill */}
+            <path
+              d={areaPath}
+              className="line-chart__area"
+              fill={lineColor}
+              fillOpacity="0.1"
+            />
+
+            {/* Line */}
+            <path
+              d={linePath}
+              className="line-chart__line"
+              fill="none"
+              stroke={lineColor}
+              strokeWidth={lineWidth}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{
+                strokeDasharray: animate ? '1000' : 'none',
+                strokeDashoffset: animate ? '1000' : '0',
+                animation: animate ? `line-chart-draw ${animationDuration}ms ease-out forwards` : 'none'
+              }}
+            />
+
+            {/* Data points */}
+            {showDots && processedData.map((point, index) => (
+              <circle
+                key={`dot-${index}`}
+                cx={xScale(point.x as number)}
+                cy={yScale(point.y)}
+                r={dotSize}
+                className="line-chart__dot"
+                fill={lineColor}
                 style={{
-                  stroke: color,
-                  strokeWidth: 2
+                  opacity: animate ? 0 : 1,
+                  animation: animate ? `line-chart-dot-appear ${animationDuration}ms ease-out ${index * 100}ms forwards` : 'none'
                 }}
               />
-            </ReLineChart>
-          </ResponsiveContainer>
+            ))}
+
+            {/* Labels */}
+            {showLabels && (
+              <g className="line-chart__labels">
+                {/* X-axis labels */}
+                {xTicks.map((tick, index) => (
+                  <text
+                    key={`x-label-${index}`}
+                    x={tick.x}
+                    y={height - 10}
+                    className="line-chart__label line-chart__label--x"
+                    textAnchor="middle"
+                  >
+                    {tick.label}
+                  </text>
+                ))}
+                {/* Y-axis labels */}
+                {yTicks.map((tick, index) => (
+                  <text
+                    key={`y-label-${index}`}
+                    x={padding.left - 10}
+                    y={tick.y + 4}
+                    className="line-chart__label line-chart__label--y"
+                    textAnchor="end"
+                  >
+                    {tick.value}
+                  </text>
+                ))}
+              </g>
+            )}
+
+            {/* Axis labels */}
+            {xAxisLabel && (
+              <text
+                x={width / 2}
+                y={height - 5}
+                className="line-chart__axis-label line-chart__axis-label--x"
+                textAnchor="middle"
+              >
+                {xAxisLabel}
+              </text>
+            )}
+            {yAxisLabel && (
+              <text
+                x={15}
+                y={height / 2}
+                className="line-chart__axis-label line-chart__axis-label--y"
+                textAnchor="middle"
+                transform={`rotate(-90, 15, ${height / 2})`}
+              >
+                {yAxisLabel}
+              </text>
+            )}
+          </svg>
         </div>
       </div>
     );
@@ -205,50 +350,3 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 );
 
 LineChart.displayName = 'LineChart';
-
-// ===============================================
-// USAGE EXAMPLES
-// ===============================================
-
-/*
-
-// Basic usage
-<LineChart 
-  title="Monthly Trends"
-  data={[
-    { label: 'Jan', value: 100 },
-    { label: 'Feb', value: 150 },
-    { label: 'Mar', value: 200 }
-  ]}
-/>
-
-// With custom color
-<LineChart 
-  title="Sales Data"
-  data={salesData}
-  color="#3b82f6"
-  height={300}
-/>
-
-// Minimal variant
-<LineChart 
-  data={data}
-  variant="minimal"
-  showLegend={false}
-  showGrid={false}
-/>
-
-// With loading state
-<LineChart 
-  title="Loading Chart"
-  data={[]}
-  loading={true}
-/>
-
-// Custom height
-<LineChart 
-  data={data}
-  height="400px"
-/>
-
-*/

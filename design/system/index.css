@@ -35,6 +35,7 @@
 @import './components/primitives/Stepper/Stepper.css';
 @import './components/primitives/TextLink/TextLink.css';
 @import './components/primitives/SpinningAnimation/SpinningAnimation.css';
+@import './components/primitives/LineChart/LineChart.css';
 
 /* STEP 5: Pattern components */
 @import './components/patterns/dashboard/Header/Header.css';
