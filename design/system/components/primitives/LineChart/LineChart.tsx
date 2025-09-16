@@ -130,7 +130,8 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                 tick={{ fontSize: 11 }}
                 axisLine={{ stroke: "hsl(var(--border))" }}
                 tickLine={{ stroke: "hsl(var(--border))" }}
-                tickMargin={8}
+                tickMargin={4}
+                padding={{ left: 10, right: 10 }}
               />
               <YAxis 
                 stroke="hsl(var(--text-secondary))" 
@@ -138,7 +139,8 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                 tick={{ fontSize: 11 }}
                 axisLine={{ stroke: "hsl(var(--border))" }}
                 tickLine={{ stroke: "hsl(var(--border))" }}
-                tickMargin={8}
+                tickMargin={4}
+                padding={{ top: 10, bottom: 10 }}
               />
               {showTooltip && (
                 <Tooltip

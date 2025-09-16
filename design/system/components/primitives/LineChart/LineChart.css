@@ -111,6 +111,20 @@
   stroke: hsl(var(--border)) !important;
 }
 
+/* More space around axes */
+.recharts-cartesian-axis {
+  margin: 8px !important;
+}
+
+.recharts-cartesian-axis-tick {
+  margin: 4px !important;
+}
+
+/* Better chart margins */
+.recharts-wrapper {
+  padding: 8px !important;
+}
+
 .line-chart__tooltip {
   font-size: var(--text-sm);
 }
