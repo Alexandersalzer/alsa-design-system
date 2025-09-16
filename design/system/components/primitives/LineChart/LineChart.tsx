@@ -92,8 +92,16 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       className
     );
 
+    // Check if using accent color
+    const isAccentColor = color === "hsl(var(--accent))" || color.includes("--accent");
+
     return (
-      <div ref={ref} className={chartClasses} {...props}>
+      <div 
+        ref={ref} 
+        className={chartClasses} 
+        data-accent={isAccentColor}
+        {...props}
+      >
         {/* Chart Header */}
         {title && (
           <div className="line-chart__header">
@@ -159,20 +167,21 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                 type="monotone" 
                 dataKey="value" 
                 stroke={color} 
-                strokeWidth={2} 
+                strokeWidth={3} 
                 dot={{ 
-                  r: 4, 
+                  r: 5, 
                   fill: color,
                   stroke: "hsl(var(--background))",
                   strokeWidth: 2
                 }} 
                 activeDot={{ 
-                  r: 6, 
+                  r: 7, 
                   fill: color,
                   stroke: "hsl(var(--background))",
                   strokeWidth: 2
                 }}
                 className="line-chart__line"
+                connectNulls={false}
               />
             </ReLineChart>
           </ResponsiveContainer>
