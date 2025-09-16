@@ -1,10 +1,9 @@
 // ===============================================
 // src/design-system/components/primitives/LineChart/LineChart.tsx
-// BEAUTIFUL LINE CHART COMPONENT USING RECHARTS
+// REUSABLE LINE CHART COMPONENT FOR BLIMPIFY UI
 // ===============================================
 
 import React, { forwardRef } from 'react';
-import { cn } from '../../../lib/utils';
 import {
   LineChart as ReLineChart,
   Line,
@@ -13,97 +12,167 @@ import {
   Tooltip,
   ResponsiveContainer,
   CartesianGrid,
-  Legend
+  Legend,
+  type TooltipProps
 } from "recharts";
-import './LineChart.css';
-
-export interface LineChartDataPoint {
-  label: string;
-  value: number;
-  [key: string]: any;
-}
+import { cn } from '../../../lib/utils';
 
 export interface LineChartProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Chart title displayed at the top */
   title?: string;
-  data: LineChartDataPoint[];
+  /** Data array for the chart */
+  data: { label: string; value: number }[];
+  /** Color for the line (defaults to accent color) */
   color?: string;
+  /** Loading state */
   loading?: boolean;
-  className?: string;
+  /** Height of the chart container */
+  height?: number | string;
+  /** Show/hide grid lines */
+  showGrid?: boolean;
+  /** Show/hide legend */
+  showLegend?: boolean;
+  /** Show/hide tooltip */
+  showTooltip?: boolean;
+  /** Custom tooltip content */
+  customTooltip?: TooltipProps<any, any>['content'];
+  /** Chart variant for different styling */
+  variant?: 'default' | 'minimal' | 'detailed';
 }
 
 export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
-  ({ title, data, color = "hsl(var(--accent))", loading, className, ...props }, ref) => {
+  ({ 
+    className,
+    title, 
+    data, 
+    color = "hsl(var(--accent))", 
+    loading = false,
+    height = 256,
+    showGrid = true,
+    showLegend = true,
+    showTooltip = true,
+    customTooltip,
+    variant = 'default',
+    ...props 
+  }, ref) => {
+    
+    // Loading state
     if (loading) {
       return (
         <div 
-          ref={ref} 
+          ref={ref}
           className={cn('line-chart line-chart--loading', className)} 
+          style={{ height: typeof height === 'number' ? `${height}px` : height }}
           {...props}
         >
-          <div className="h-64 animate-pulse bg-muted rounded-md" />
+          <div className="line-chart__skeleton" />
         </div>
       );
     }
 
+    // Empty state
     if (!data?.length) {
       return (
         <div 
-          ref={ref} 
-          className={cn('line-chart', className)} 
+          ref={ref}
+          className={cn('line-chart line-chart--empty', className)}
+          style={{ height: typeof height === 'number' ? `${height}px` : height }}
           {...props}
         >
-          <div className="h-64 flex items-center justify-center text-sm text-muted-foreground">
-            No data available
+          <div className="line-chart__empty-state">
+            <span className="line-chart__empty-text">No data available</span>
           </div>
         </div>
       );
     }
 
+    const chartClasses = cn(
+      'line-chart',
+      `line-chart--${variant}`,
+      className
+    );
+
     return (
-      <div 
-        ref={ref} 
-        className={cn('line-chart w-full bg-white border border-gray-200 rounded-md', className)} 
-        style={{ minHeight: '400px' }}
-        {...props}
-      >
+      <div ref={ref} className={chartClasses} {...props}>
+        {/* Chart Header */}
         {title && (
-          <div className="px-4 py-2 border-b border-gray-200">
-            <h3 className="text-sm font-medium text-gray-900">{title}</h3>
+          <div className="line-chart__header">
+            <h3 className="line-chart__title">{title}</h3>
           </div>
         )}
 
-        <div className="p-4" style={{ height: '400px' }}>
+        {/* Chart Content */}
+        <div 
+          className="line-chart__content"
+          style={{ height: typeof height === 'number' ? `${height}px` : height }}
+        >
           <ResponsiveContainer width="100%" height="100%">
-            <ReLineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+            <ReLineChart data={data}>
+              {showGrid && (
+                <CartesianGrid 
+                  stroke="hsl(var(--border))" 
+                  strokeDasharray="3 3" 
+                  className="line-chart__grid"
+                />
+              )}
               <XAxis 
                 dataKey="label" 
-                stroke="#666" 
-                fontSize={12}
-                tick={{ fill: '#666' }}
+                stroke="hsl(var(--text-secondary))" 
+                className="line-chart__axis line-chart__axis--x"
+                tick={{ fontSize: 12 }}
               />
               <YAxis 
-                stroke="#666" 
-                fontSize={12}
-                tick={{ fill: '#666' }}
+                stroke="hsl(var(--text-secondary))" 
+                className="line-chart__axis line-chart__axis--y"
+                tick={{ fontSize: 12 }}
               />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "#fff",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
-                }}
-                labelStyle={{ color: "#333" }}
-              />
-              <Legend />
+              {showTooltip && (
+                <Tooltip
+                  content={customTooltip || undefined}
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--background))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "var(--radius-md)",
+                    boxShadow: "var(--shadow-md)"
+                  }}
+                  labelStyle={{ 
+                    color: "hsl(var(--text-primary))",
+                    fontWeight: 500
+                  }}
+                  itemStyle={{
+                    color: "hsl(var(--text-primary))"
+                  }}
+                  wrapperStyle={{
+                    outline: 'none'
+                  }}
+                />
+              )}
+              {showLegend && (
+                <Legend 
+                  className="line-chart__legend"
+                  wrapperStyle={{
+                    color: "hsl(var(--text-primary))"
+                  }}
+                />
+              )}
               <Line 
                 type="monotone" 
                 dataKey="value" 
                 stroke={color} 
                 strokeWidth={2} 
-                dot={{ r: 4, fill: color }} 
-                activeDot={{ r: 6, fill: color }}
+                dot={{ 
+                  r: 4, 
+                  fill: color,
+                  stroke: "hsl(var(--background))",
+                  strokeWidth: 2
+                }} 
+                activeDot={{ 
+                  r: 6, 
+                  fill: color,
+                  stroke: "hsl(var(--background))",
+                  strokeWidth: 2
+                }}
+                className="line-chart__line"
               />
             </ReLineChart>
           </ResponsiveContainer>
@@ -114,3 +183,50 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 );
 
 LineChart.displayName = 'LineChart';
+
+// ===============================================
+// USAGE EXAMPLES
+// ===============================================
+
+/*
+
+// Basic usage
+<LineChart 
+  title="Monthly Trends"
+  data={[
+    { label: 'Jan', value: 100 },
+    { label: 'Feb', value: 150 },
+    { label: 'Mar', value: 200 }
+  ]}
+/>
+
+// With custom color
+<LineChart 
+  title="Sales Data"
+  data={salesData}
+  color="#3b82f6"
+  height={300}
+/>
+
+// Minimal variant
+<LineChart 
+  data={data}
+  variant="minimal"
+  showLegend={false}
+  showGrid={false}
+/>
+
+// With loading state
+<LineChart 
+  title="Loading Chart"
+  data={[]}
+  loading={true}
+/>
+
+// Custom height
+<LineChart 
+  data={data}
+  height="400px"
+/>
+
+*/

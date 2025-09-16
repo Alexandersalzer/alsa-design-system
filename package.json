@@ -1,6 +1,6 @@
 {
   "name": "@blimpify-im/ui",
-  "version": "4.0.84",
+  "version": "4.0.81",
   "description": "Blimpify Design System - Reusable React components for client websites",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -74,7 +74,6 @@
     "@heroicons/react": "^2.2.0",
     "country-flag-icons": "^1.5.19",
     "lucide-react": "^0.525.0",
-    "rechart": "^0.0.1",
     "recharts": "^2.12.7",
     "server-only": "^0.0.1"
   },
