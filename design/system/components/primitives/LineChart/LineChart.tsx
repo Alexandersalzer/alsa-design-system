@@ -333,7 +333,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                   setTooltip({
                     visible: true,
                     x: xScale(point.x as number),
-                    y: yScale(point.y) - 10,
+                    y: yScale(point.y) - 20,
                     data: point
                   });
                 }}
@@ -404,8 +404,8 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
             className="line-chart__tooltip"
             style={{
               position: 'absolute',
-              left: tooltip.x + padding.left,
-              top: tooltip.y + padding.top,
+              left: tooltip.x,
+              top: tooltip.y,
               transform: 'translateX(-50%)',
               pointerEvents: 'none',
               zIndex: 1000
