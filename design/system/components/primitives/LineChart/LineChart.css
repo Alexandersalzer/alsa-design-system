@@ -1,0 +1,219 @@
+/* ===============================================
+   LineChart Component Styles
+   Beautiful and responsive line chart styling
+   =============================================== */
+
+.line-chart {
+  --line-chart-bg: hsl(var(--background));
+  --line-chart-border: hsl(var(--border));
+  --line-chart-text: hsl(var(--text-primary));
+  --line-chart-text-secondary: hsl(var(--text-secondary));
+  --line-chart-primary: hsl(var(--primary));
+  --line-chart-secondary: hsl(var(--secondary));
+  --line-chart-accent: hsl(var(--accent));
+  --line-chart-muted: hsl(var(--muted));
+  
+  display: flex;
+  flex-direction: column;
+  background: var(--line-chart-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line-chart-border);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Title */
+.line-chart__title {
+  padding: var(--spacing-md) var(--spacing-lg) var(--spacing-sm);
+  border-bottom: 1px solid var(--line-chart-border);
+  background: var(--line-chart-bg);
+}
+
+/* Container */
+.line-chart__container {
+  flex: 1;
+  padding: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+/* SVG */
+.line-chart__svg {
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* Grid */
+.line-chart__grid line {
+  transition: opacity 0.2s ease;
+}
+
+.line-chart:hover .line-chart__grid line {
+  opacity: 0.5;
+}
+
+/* Data points */
+.line-chart__point {
+  transition: all 0.2s ease;
+}
+
+.line-chart__point:hover {
+  r: 6;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Axes */
+.line-chart__x-axis text,
+.line-chart__y-axis text {
+  transition: fill 0.2s ease;
+}
+
+/* Tooltip */
+.line-chart__tooltip {
+  pointer-events: none;
+}
+
+.line-chart__tooltip rect {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+/* Legend */
+.line-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-top: 1px solid var(--line-chart-border);
+  background: var(--line-chart-bg);
+}
+
+.line-chart__legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.line-chart__legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.line-chart__legend-label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--line-chart-text-secondary);
+}
+
+/* Loading state */
+.line-chart--loading {
+  background: var(--line-chart-bg);
+}
+
+.line-chart__skeleton {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--spacing-md);
+}
+
+.line-chart__skeleton-header {
+  height: 24px;
+  background: linear-gradient(90deg, var(--line-chart-muted) 25%, transparent 50%, var(--line-chart-muted) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--radius-sm);
+  margin: var(--spacing-md) var(--spacing-lg) var(--spacing-sm);
+}
+
+.line-chart__skeleton-chart {
+  flex: 1;
+  background: linear-gradient(90deg, var(--line-chart-muted) 25%, transparent 50%, var(--line-chart-muted) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--radius-sm);
+  margin: 0 var(--spacing-md) var(--spacing-md);
+  min-height: 200px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .line-chart__container {
+    padding: var(--spacing-sm);
+  }
+  
+  .line-chart__legend {
+    padding: var(--spacing-sm) var(--spacing-md);
+    gap: var(--spacing-sm);
+  }
+  
+  .line-chart__legend-item {
+    font-size: var(--text-xs);
+  }
+  
+  .line-chart__legend-color {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .line-chart {
+    --line-chart-bg: hsl(var(--background));
+    --line-chart-border: hsl(var(--border));
+    --line-chart-text: hsl(var(--text-primary));
+    --line-chart-text-secondary: hsl(var(--text-secondary));
+  }
+}
+
+/* Animation for line drawing */
+@keyframes drawLine {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Hover effects */
+.line-chart:hover .line-chart__point {
+  opacity: 0.8;
+}
+
+.line-chart__point:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Focus states for accessibility */
+.line-chart__point:focus {
+  outline: 2px solid var(--line-chart-primary);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .line-chart {
+    border: 1px solid #000;
+    background: white;
+  }
+  
+  .line-chart__legend {
+    border-top: 1px solid #000;
+  }
+}
