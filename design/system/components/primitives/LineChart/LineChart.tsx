@@ -3,13 +3,14 @@
 // CLEAN LINECHART COMPONENT WITH PROPER AXES
 // ===============================================
 
-import React, { forwardRef, useMemo } from 'react';
+import React, { forwardRef, useMemo, useState } from 'react';
 import { cn } from '../../../lib/utils';
 
 export interface LineChartDataPoint {
   x: number | string;
   y: number;
   label?: string;
+  originalX?: number | string;
 }
 
 export interface LineChartProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -80,6 +81,19 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       }
       return value.toString();
     };
+
+    // Tooltip state
+    const [tooltip, setTooltip] = useState<{
+      visible: boolean;
+      x: number;
+      y: number;
+      data: LineChartDataPoint | null;
+    }>({
+      visible: false,
+      x: 0,
+      y: 0,
+      data: null
+    });
     
     // Calculate chart dimensions with padding
     const padding = { top: 30, right: 60, bottom: 60, left: 80 };
@@ -130,8 +144,8 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       // Generate ticks - use original data points for cleaner labels
       const xTicks = numericData
         .filter((_, index) => {
-          // Show every nth point to avoid overcrowding
-          const step = Math.max(1, Math.floor(numericData.length / 6));
+                  // Show every nth point to avoid overcrowding - max 5 labels
+          const step = Math.max(1, Math.floor(numericData.length / 5));
           return index % step === 0 || index === numericData.length - 1;
         })
         .map((point) => ({
@@ -315,6 +329,18 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                   opacity: animate ? 0 : 1,
                   animation: animate ? `line-chart-dot-appear ${animationDuration}ms ease-out ${index * 100}ms forwards` : 'none'
                 }}
+                onMouseEnter={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  setTooltip({
+                    visible: true,
+                    x: rect.left + rect.width / 2,
+                    y: rect.top - 10,
+                    data: point
+                  });
+                }}
+                onMouseLeave={() => {
+                  setTooltip(prev => ({ ...prev, visible: false }));
+                }}
               />
             ))}
 
@@ -372,6 +398,30 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
             )}
           </svg>
         </div>
+
+        {/* Tooltip */}
+        {tooltip.visible && tooltip.data && (
+          <div
+            className="line-chart__tooltip"
+            style={{
+              position: 'absolute',
+              left: tooltip.x,
+              top: tooltip.y,
+              transform: 'translateX(-50%)',
+              pointerEvents: 'none',
+              zIndex: 1000
+            }}
+          >
+            <div className="line-chart__tooltip-content">
+              <div className="line-chart__tooltip-label">
+                {formatXLabel(tooltip.data.originalX || tooltip.data.x)}
+              </div>
+              <div className="line-chart__tooltip-value">
+                {formatNumber(tooltip.data.y)}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

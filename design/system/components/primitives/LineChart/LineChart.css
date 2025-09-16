@@ -232,6 +232,69 @@
   }
 }
 
+/* ===== TOOLTIP STYLES ===== */
+.line-chart__tooltip {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.line-chart__tooltip-content {
+  background-color: var(--surface-elevated, #ffffff);
+  border: 1px solid var(--border-strong, #e5e7eb);
+  border-radius: var(--radius-sm, 6px);
+  padding: var(--foundation-space-2, 8px) var(--foundation-space-3, 12px);
+  box-shadow: var(--foundation-shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05));
+  font-family: var(--foundation-font-family-sans);
+  font-size: var(--foundation-font-size-sm, 14px);
+  line-height: var(--foundation-line-height-tight, 1.25);
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+.line-chart__tooltip-label {
+  color: var(--text-secondary, #6b7280);
+  font-weight: var(--foundation-font-weight-medium, 500);
+  margin-bottom: var(--foundation-space-1, 4px);
+}
+
+.line-chart__tooltip-value {
+  color: var(--text-primary, #111827);
+  font-weight: var(--foundation-font-weight-semibold, 600);
+  font-size: var(--foundation-font-size-base, 16px);
+}
+
+/* Tooltip arrow */
+.line-chart__tooltip-content::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--surface-elevated, #ffffff);
+}
+
+/* Dark theme tooltip */
+@media (prefers-color-scheme: dark) {
+  .line-chart__tooltip-content {
+    background-color: var(--surface-elevated-dark, #374151);
+    border-color: var(--border-strong-dark, #4b5563);
+  }
+  
+  .line-chart__tooltip-label {
+    color: var(--text-secondary-dark, #9ca3af);
+  }
+  
+  .line-chart__tooltip-value {
+    color: var(--text-primary-dark, #f9fafb);
+  }
+  
+  .line-chart__tooltip-content::after {
+    border-top-color: var(--surface-elevated-dark, #374151);
+  }
+}
+
 /* ===== PRINT STYLES ===== */
 @media print {
   .line-chart {
@@ -251,5 +314,9 @@
   .line-chart__dot {
     fill: #000;
     stroke: #fff;
+  }
+  
+  .line-chart__tooltip {
+    display: none;
   }
 }
