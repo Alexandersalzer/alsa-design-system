@@ -1,0 +1,58 @@
+/* ConfirmationDialog Component */
+.confirmation-dialog {
+  /* Base styles are inherited from Modal */
+}
+
+.confirmation-dialog--warning {
+  /* Warning variant styles */
+}
+
+.confirmation-dialog--danger {
+  /* Danger variant styles */
+}
+
+/* Override button styles for variants */
+.confirmation-dialog--danger .confirmation-dialog__confirm-button {
+  background-color: var(--color-danger);
+  border-color: var(--color-danger);
+  color: var(--color-white);
+}
+
+.confirmation-dialog--danger .confirmation-dialog__confirm-button:hover {
+  background-color: var(--color-danger-dark);
+  border-color: var(--color-danger-dark);
+}
+
+.confirmation-dialog--warning .confirmation-dialog__confirm-button {
+  background-color: var(--color-warning);
+  border-color: var(--color-warning);
+  color: var(--color-white);
+}
+
+.confirmation-dialog--warning .confirmation-dialog__confirm-button:hover {
+  background-color: var(--color-warning-dark);
+  border-color: var(--color-warning-dark);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .confirmation-dialog--danger .confirmation-dialog__confirm-button {
+    background-color: var(--color-danger-dark);
+    border-color: var(--color-danger-dark);
+  }
+
+  .confirmation-dialog--danger .confirmation-dialog__confirm-button:hover {
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
+  }
+
+  .confirmation-dialog--warning .confirmation-dialog__confirm-button {
+    background-color: var(--color-warning-dark);
+    border-color: var(--color-warning-dark);
+  }
+
+  .confirmation-dialog--warning .confirmation-dialog__confirm-button:hover {
+    background-color: var(--color-warning);
+    border-color: var(--color-warning);
+  }
+}

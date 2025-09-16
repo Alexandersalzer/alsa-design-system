@@ -27,6 +27,7 @@
 @import './components/primitives/Picker/Picker.css';
 @import './components/primitives/Toast/Toast.css';
 @import './components/primitives/Modal/Modal.css';
+@import './components/primitives/ConfirmationDialog/ConfirmationDialog.css';
 @import './components/primitives/Dropdown/Dropdown.css';
 @import './components/primitives/FileUploader/FileUploader.css';
 @import './components/primitives/Icon/Icon.css';
