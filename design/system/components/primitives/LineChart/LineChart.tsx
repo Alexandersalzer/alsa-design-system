@@ -336,7 +336,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                     setTooltip({
                       visible: true,
                       x: rect.left - chartRect.left + rect.width / 2,
-                      y: rect.top - chartRect.top - 10,
+                      y: rect.top - chartRect.top - 50,
                       data: point
                     });
                   }
