@@ -23,6 +23,7 @@ export * from './CountUp';
 export * from './SpinningAnimation';
 export * from './LogoIcon';
 export * from './LineChart';
+export * from './Table';
 
 
 // Icon needs special handling since it's a default export
