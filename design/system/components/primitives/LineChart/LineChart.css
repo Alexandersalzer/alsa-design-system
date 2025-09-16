@@ -125,7 +125,8 @@
 .line-chart__dot:hover {
   fill: var(--color-primary-dark);
   stroke-width: 3;
-  transform: scale(1.2);
+  transform: scale(1.5);
+  r: 6;
 }
 
 /* ===== LABELS ===== */
@@ -241,15 +242,16 @@
 
 .line-chart__tooltip-content {
   background-color: var(--surface-elevated, #ffffff);
-  border: 1px solid var(--border-strong, #e5e7eb);
-  border-radius: var(--radius-sm, 6px);
-  padding: var(--foundation-space-2, 8px) var(--foundation-space-3, 12px);
-  box-shadow: var(--foundation-shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05));
+  border: 2px solid var(--color-primary, #3b82f6);
+  border-radius: var(--radius-md, 8px);
+  padding: var(--foundation-space-3, 12px) var(--foundation-space-4, 16px);
+  box-shadow: var(--foundation-shadow-xl, 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04));
   font-family: var(--foundation-font-family-sans);
   font-size: var(--foundation-font-size-sm, 14px);
   line-height: var(--foundation-line-height-tight, 1.25);
   white-space: nowrap;
   max-width: 200px;
+  backdrop-filter: blur(8px);
 }
 
 .line-chart__tooltip-label {
