@@ -167,15 +167,15 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                 type="monotone" 
                 dataKey="value" 
                 stroke={color} 
-                strokeWidth={3} 
+                strokeWidth={2} 
                 dot={{ 
-                  r: 5, 
+                  r: 2, 
                   fill: color,
                   stroke: "hsl(var(--background))",
-                  strokeWidth: 2
+                  strokeWidth: 1
                 }} 
                 activeDot={{ 
-                  r: 7, 
+                  r: 4, 
                   fill: color,
                   stroke: "hsl(var(--background))",
                   strokeWidth: 2
