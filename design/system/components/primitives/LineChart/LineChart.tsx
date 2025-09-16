@@ -63,6 +63,14 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     textColor = 'hsl(var(--text-primary))',
     ...props
   }, ref) => {
+    // Sanitize label for use as CSS ID
+    const sanitizeId = (label: string) => {
+      return label
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+    };
     const svgRef = useRef<SVGSVGElement>(null);
     const [dimensions, setDimensions] = useState({ width: width || 600, height });
     const [hoveredPoint, setHoveredPoint] = useState<{ dataset: number; point: number } | null>(null);
@@ -118,11 +126,12 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       
       if (animated && animate) {
         // Create animated path
-        const pathElement = svgRef.current?.querySelector(`#path-${dataset.label}`) as SVGPathElement;
+        const sanitizedId = sanitizeId(dataset.label);
+        const pathElement = svgRef.current?.querySelector(`#path-${sanitizedId}`) as SVGPathElement;
         const pathLength = pathElement?.getTotalLength() || 0;
         return (
           <path
-            id={`path-${dataset.label}`}
+            id={`path-${sanitizedId}`}
             d={path}
             fill="none"
             stroke={dataset.color || 'hsl(var(--primary))'}
