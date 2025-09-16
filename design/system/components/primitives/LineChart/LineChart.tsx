@@ -329,13 +329,17 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                   opacity: animate ? 0 : 1,
                   animation: animate ? `line-chart-dot-appear ${animationDuration}ms ease-out ${index * 100}ms forwards` : 'none'
                 }}
-                onMouseEnter={() => {
-                  setTooltip({
-                    visible: true,
-                    x: xScale(point.x as number),
-                    y: yScale(point.y),
-                    data: point
-                  });
+                onMouseEnter={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const chartRect = e.currentTarget.closest('.line-chart')?.getBoundingClientRect();
+                  if (chartRect) {
+                    setTooltip({
+                      visible: true,
+                      x: rect.left - chartRect.left + rect.width / 2,
+                      y: rect.top - chartRect.top - 10,
+                      data: point
+                    });
+                  }
                 }}
                 onMouseLeave={() => {
                   setTooltip(prev => ({ ...prev, visible: false }));
@@ -404,8 +408,8 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
             className="line-chart__tooltip"
             style={{
               position: 'absolute',
-              left: tooltip.x + padding.left,
-              top: tooltip.y + padding.top - 40,
+              left: tooltip.x,
+              top: tooltip.y,
               transform: 'translateX(-50%)',
               pointerEvents: 'none',
               zIndex: 1000
