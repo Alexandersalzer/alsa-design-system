@@ -134,6 +134,7 @@
   font-size: var(--foundation-font-size-xs);
   fill: var(--text-secondary);
   font-weight: var(--foundation-font-weight-medium);
+  white-space: nowrap;
 }
 
 .line-chart__label--x {

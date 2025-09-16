@@ -57,8 +57,20 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     ...props
   }, ref) => {
     
+    // Helper function to format large numbers
+    const formatNumber = (num: number): string => {
+      if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+      } else if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'K';
+      } else if (num % 1 !== 0) {
+        return num.toFixed(1);
+      }
+      return num.toString();
+    };
+    
     // Calculate chart dimensions with padding
-    const padding = { top: 20, right: 40, bottom: 40, left: 60 };
+    const padding = { top: 30, right: 60, bottom: 60, left: 80 };
     const chartWidth = width - padding.left - padding.right;
     const chartHeight = height - padding.top - padding.bottom;
 
@@ -118,6 +130,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
         const value = yMinPadded + (i / 5) * (yMaxPadded - yMinPadded);
         return {
           value: Math.round(value),
+          formattedValue: formatNumber(Math.round(value)),
           x: padding.left,
           y: yScale(value)
         };
@@ -298,7 +311,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                   <text
                     key={`x-label-${index}`}
                     x={tick.x}
-                    y={height - 10}
+                    y={height - 20}
                     className="line-chart__label line-chart__label--x"
                     textAnchor="middle"
                   >
@@ -309,12 +322,12 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                 {yTicks.map((tick, index) => (
                   <text
                     key={`y-label-${index}`}
-                    x={padding.left - 10}
+                    x={padding.left - 15}
                     y={tick.y + 4}
                     className="line-chart__label line-chart__label--y"
                     textAnchor="end"
                   >
-                    {tick.value}
+                    {tick.formattedValue}
                   </text>
                 ))}
               </g>
@@ -333,11 +346,11 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
             )}
             {yAxisLabel && (
               <text
-                x={15}
+                x={25}
                 y={height / 2}
                 className="line-chart__axis-label line-chart__axis-label--y"
                 textAnchor="middle"
-                transform={`rotate(-90, 15, ${height / 2})`}
+                transform={`rotate(-90, 25, ${height / 2})`}
               >
                 {yAxisLabel}
               </text>
