@@ -68,6 +68,18 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       }
       return num.toString();
     };
+
+    // Helper function to format X-axis labels
+    const formatXLabel = (value: string | number): string => {
+      if (typeof value === 'string') {
+        return value;
+      }
+      // For numeric values, clean up decimals
+      if (value % 1 !== 0) {
+        return value.toFixed(1);
+      }
+      return value.toString();
+    };
     
     // Calculate chart dimensions with padding
     const padding = { top: 30, right: 60, bottom: 60, left: 80 };
@@ -115,16 +127,19 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       const yScale = (y: number) => 
         padding.top + chartHeight - ((y - yMinPadded) / (yMaxPadded - yMinPadded)) * chartHeight;
 
-      // Generate ticks
-      const xTicks = Array.from({ length: Math.min(6, data.length) }, (_, i) => {
-        const value = xMin + (i / (Math.min(6, data.length) - 1)) * (xMax - xMin);
-        return {
-          value,
-          label: numericData.find(d => Math.abs(d.x - value) < 0.001)?.originalX?.toString() || value.toString(),
-          x: xScale(value),
+      // Generate ticks - use original data points for cleaner labels
+      const xTicks = numericData
+        .filter((_, index) => {
+          // Show every nth point to avoid overcrowding
+          const step = Math.max(1, Math.floor(numericData.length / 6));
+          return index % step === 0 || index === numericData.length - 1;
+        })
+        .map((point) => ({
+          value: point.x as number,
+          label: formatXLabel(point.originalX || point.x),
+          x: xScale(point.x as number),
           y: padding.top + chartHeight
-        };
-      });
+        }));
 
       const yTicks = Array.from({ length: 6 }, (_, i) => {
         const value = yMinPadded + (i / 5) * (yMaxPadded - yMinPadded);
