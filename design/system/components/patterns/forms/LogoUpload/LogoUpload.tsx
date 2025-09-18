@@ -125,7 +125,7 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
       <div className="space-y-2">
         <FileUploader
           ref={fileInputRef}
-          onFileSelect={handleFileSelect}
+          onFilesSelected={handleFileSelect}
           accept={allowedFormats.join(',')}
           disabled={disabled || isUploading}
           className="w-full"
