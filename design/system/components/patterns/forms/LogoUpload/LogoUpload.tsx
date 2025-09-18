@@ -33,12 +33,13 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
   const validateFile = (file: File): string | null => {
     // Kontrollera filstorlek
     if (file.size > maxSize * 1024 * 1024) {
-      return `Filen är för stor. Max ${maxSize}MB tillåtet.`;
+      return `Filen är för stor (${(file.size / (1024 * 1024)).toFixed(1)}MB). Max ${maxSize}MB tillåtet för snabbare uppladdning.`;
     }
 
     // Kontrollera filformat
     if (!allowedFormats.includes(file.type)) {
-      return `Endast ${allowedFormats.map(f => f.split('/')[1].toUpperCase()).join(', ')} format tillåts.`;
+      const supportedFormats = allowedFormats.map(f => f.split('/')[1].toUpperCase()).join(', ');
+      return `Formatet ${file.type.split('/')[1].toUpperCase()} stöds inte. Använd ${supportedFormats} istället.`;
     }
 
     return null;
@@ -142,6 +143,9 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
               <p className="text-xs text-gray-500">
                 {allowedFormats.map(f => f.split('/')[1].toUpperCase()).join(', ')} • Max {maxSize}MB
               </p>
+              <p className="text-xs text-gray-400 mt-1">
+                Dra och släpp en fil här eller klicka för att välja
+              </p>
             </div>
           </div>
         </FileUploader>
@@ -159,14 +163,28 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
         )}
 
         {/* Guidelines */}
-        <div className="text-xs text-gray-500 space-y-1">
-          <p><strong>Rekommenderade specifikationer:</strong></p>
-          <ul className="list-disc list-inside space-y-0.5 ml-2">
-            <li>Minst 100x100 pixlar</li>
-            <li>Max 2000x2000 pixlar</li>
-            <li>Proportioner mellan 1:4 och 4:1</li>
-            <li>Transparent bakgrund (PNG/SVG) för bästa resultat</li>
-          </ul>
+        <div className="text-xs text-gray-500 space-y-2">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <p className="font-medium text-blue-900 mb-2">Varför kan vissa filer inte laddas upp?</p>
+            <ul className="list-disc list-inside space-y-1 text-blue-800">
+              <li><strong>För stora filer:</strong> Över 5MB tar för lång tid att ladda upp och kan orsaka problem</li>
+              <li><strong>Fel format:</strong> Endast JPG, PNG, SVG och WebP stöds för bästa kompatibilitet</li>
+              <li><strong>För små bilder:</strong> Under 100x100 pixlar blir suddiga när de skalas upp</li>
+              <li><strong>För stora bilder:</strong> Över 2000x2000 pixlar är onödigt stora och långsamma</li>
+              <li><strong>Extrema proportioner:</strong> Bilder som är för långa eller höga (mer än 4:1) ser konstiga ut</li>
+            </ul>
+          </div>
+          
+          <div>
+            <p className="font-medium text-gray-700 mb-1">Rekommenderade specifikationer:</p>
+            <ul className="list-disc list-inside space-y-0.5 ml-2">
+              <li>Minst 100x100 pixlar</li>
+              <li>Max 2000x2000 pixlar</li>
+              <li>Proportioner mellan 1:4 och 4:1</li>
+              <li>Transparent bakgrund (PNG/SVG) för bästa resultat</li>
+              <li>Kvadratisk eller rektangulär form fungerar bäst</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
