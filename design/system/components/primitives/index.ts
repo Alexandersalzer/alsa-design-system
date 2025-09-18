@@ -22,6 +22,7 @@ export * from './VideoShowcase';
 export * from './CountUp';
 export * from './SpinningAnimation';
 export * from './LogoIcon';
+export * from './Logo';
 export * from './LineChart';
 export * from './Table';
 export * from './ConfirmationDialog';

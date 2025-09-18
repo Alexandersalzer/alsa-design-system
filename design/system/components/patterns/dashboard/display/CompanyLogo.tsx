@@ -341,7 +341,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
     // Add cropped logo class
     croppedLogo?.wasCropped && 'cropped-logo',
     className
-  ), [variant, size, isLoading, logoAnalysis, croppedLogo?.wasCropped, className]);
+  ), [variant, size, logoAnalysis, croppedLogo?.wasCropped, className]);
 
   // Inline styles for inversion only - NO logo analysis styles to avoid override
   const logoStyle = useMemo(() => ({
@@ -369,7 +369,7 @@ export const CompanyLogo = React.forwardRef<HTMLImageElement, CompanyLogoProps>(
   }
 
   // If no customer logo, show Blimpify text logo
-  if (!logoUrl) {
+  if (!logoUrl || logoUrl === '') {
     return (
       <LogoIcon 
         variant="text" 

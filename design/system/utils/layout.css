@@ -413,21 +413,25 @@
 
 .sidebar__logo-image {
   width: auto !important;  /* Force override any Tailwind classes */
-  height: 32px !important;  /* Mindre storlek */
-  max-width: 120px !important;  /* Mindre max-bredd */
+  height: 40px !important;  /* Återställ till original storlek */
+  max-width: 160px !important;  /* Återställ till original bredd */
+  min-width: 40px !important;  /* Prevent layout shift */
   object-fit: contain;
-  border-radius: 4px;  /* Mindre avrundade hörn */
+  border-radius: 6px;  /* Återställ till original avrundning */
   
   /* Makes white logos black for light sidebar */
   filter: brightness(0) saturate(100%);
   
   transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
   
+  /* Prevent layout shift during loading */
+  contain: layout style;
+  
   /* Smart cropping specific styles */
   &.cropped-logo {
     object-fit: cover; /* For cropped logos, use cover to fill the space */
-    border-radius: 6px; /* Mindre avrundade för beskurna logotyper */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Lättare skugga */
+    border-radius: 8px; /* Återställ till original avrundning */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Återställ till original skugga */
   }
 }
 
@@ -436,6 +440,11 @@
   background-color: #e5e7eb; /* Light gray */
   border-radius: 6px;
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  width: 160px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  contain: layout style;
 }
 
 @keyframes pulse {

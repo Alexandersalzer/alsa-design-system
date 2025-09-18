@@ -15,6 +15,7 @@
   
   /* Prevent layout shift */
   aspect-ratio: auto;
+  contain: layout style;
 }
 
 /* ===== VARIANT STYLES ===== */
@@ -63,7 +64,8 @@
 }
 
 /* ===== LOADING STATE ===== */
-.company-logo--loading {
+.company-logo--loading,
+.loading-placeholder {
   background: linear-gradient(90deg, 
     var(--surface-subtle) 25%, 
     var(--surface-hover) 50%, 
@@ -71,6 +73,11 @@
   );
   background-size: 200% 100%;
   animation: company-logo-shimmer 1.5s infinite;
+  
+  /* Ensure loading placeholder has same dimensions as final logo */
+  min-width: 40px;
+  min-height: 40px;
+  contain: layout style;
 }
 
 @keyframes company-logo-shimmer {

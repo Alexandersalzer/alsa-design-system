@@ -48,8 +48,6 @@
 @import './components/patterns/dashboard/page/PageContent.css';
 @import './components/patterns/dashboard/page/Grid.css';
 @import './components/patterns/dashboard/page/PageHeader.css';
-@import './components/patterns/dashboard/navigation/OptimizedNavigation.css';
-@import './components/patterns/dashboard/navigation/PageTransition.css';
 @import './components/patterns/dashboard/page/LayoutUtilities.css';
 @import './components/patterns/dashboard/page/Cluster.css';
 @import './components/patterns/dashboard/page/Stack.css';
