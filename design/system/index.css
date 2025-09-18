@@ -27,7 +27,6 @@
 @import './components/primitives/Picker/Picker.css';
 @import './components/primitives/Toast/Toast.css';
 @import './components/primitives/Modal/Modal.css';
-@import './components/primitives/ConfirmationDialog/ConfirmationDialog.css';
 @import './components/primitives/Dropdown/Dropdown.css';
 @import './components/primitives/FileUploader/FileUploader.css';
 @import './components/primitives/Icon/Icon.css';
@@ -36,8 +35,6 @@
 @import './components/primitives/Stepper/Stepper.css';
 @import './components/primitives/TextLink/TextLink.css';
 @import './components/primitives/SpinningAnimation/SpinningAnimation.css';
-@import './components/primitives/LineChart/LineChart.css';
-@import './components/primitives/Table/Table.css';
 
 /* STEP 5: Pattern components */
 @import './components/patterns/dashboard/Header/Header.css';
@@ -51,6 +48,8 @@
 @import './components/patterns/dashboard/page/PageContent.css';
 @import './components/patterns/dashboard/page/Grid.css';
 @import './components/patterns/dashboard/page/PageHeader.css';
+@import './components/patterns/dashboard/navigation/OptimizedNavigation.css';
+@import './components/patterns/dashboard/navigation/PageTransition.css';
 @import './components/patterns/dashboard/page/LayoutUtilities.css';
 @import './components/patterns/dashboard/page/Cluster.css';
 @import './components/patterns/dashboard/page/Stack.css';

@@ -23,3 +23,6 @@ export * from './GitHubInfo';
 
 // ===== DISPLAY PATTERNS =====
 export * from './display';
+
+// ===== NAVIGATION PATTERNS =====
+export * from './navigation';
