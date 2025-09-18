@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { FileUploader } from '../../../primitives/FileUploader';
 import { Logo } from '../../../primitives/Logo';
+import { ImageCropper } from '../../../primitives/ImageCropper';
 
 export interface LogoUploadProps {
   currentLogoUrl?: string;
@@ -28,6 +29,9 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
   const [uploadError, setUploadError] = useState<string>('');
   const [isUploading, setIsUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string>('');
+  const [showCropper, setShowCropper] = useState(false);
+  const [imageToCrop, setImageToCrop] = useState<string>('');
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const validateFile = (file: File): string | null => {
@@ -58,19 +62,39 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
       return;
     }
 
-    // Skapa preview
-    if (showPreview) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setPreviewUrl(e.target?.result as string);
+    // Skapa preview och visa cropper för bilder som behöver beskärning
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const imageUrl = e.target?.result as string;
+      setPreviewUrl(imageUrl);
+      
+      // Kontrollera om bilden behöver beskärning (för stora dimensioner eller fel proportioner)
+      const img = new Image();
+      img.onload = () => {
+        const needsCropping = img.width > 2000 || img.height > 2000 || 
+                             (img.width / img.height) > 4 || (img.height / img.width) > 4;
+        
+        if (needsCropping) {
+          setImageToCrop(imageUrl);
+          setPendingFile(file);
+          setShowCropper(true);
+        } else {
+          // Ladda upp direkt om ingen beskärning behövs
+          uploadFile(file);
+        }
       };
-      reader.readAsDataURL(file);
-    }
+      img.src = imageUrl;
+    };
+    reader.readAsDataURL(file);
+  };
 
-    // Ladda upp fil
+  const uploadFile = async (file: File) => {
     setIsUploading(true);
     try {
-      await onUpload(files);
+      // Skapa en FileList från filen
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      await onUpload(dataTransfer.files);
       setUploadError('');
     } catch (error) {
       setUploadError(error instanceof Error ? error.message : 'Uppladdning misslyckades');
@@ -85,6 +109,37 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
     if (onRemove) {
       onRemove();
     }
+  };
+
+  const handleCropComplete = async (croppedImageUrl: string) => {
+    setShowCropper(false);
+    
+    // Konvertera cropped URL till File
+    try {
+      const response = await fetch(croppedImageUrl);
+      const blob = await response.blob();
+      const croppedFile = new File([blob], pendingFile?.name || 'cropped-logo.png', {
+        type: blob.type || 'image/png'
+      });
+      
+      // Uppdatera preview
+      setPreviewUrl(croppedImageUrl);
+      
+      // Ladda upp den beskurna bilden
+      await uploadFile(croppedFile);
+      
+      // Rensa upp
+      URL.revokeObjectURL(croppedImageUrl);
+    } catch (error) {
+      setUploadError('Kunde inte bearbeta den beskurna bilden');
+    }
+  };
+
+  const handleCropCancel = () => {
+    setShowCropper(false);
+    setImageToCrop('');
+    setPendingFile(null);
+    setPreviewUrl('');
   };
 
   const displayLogoUrl = previewUrl || currentLogoUrl;
@@ -109,16 +164,31 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
               {previewUrl ? 'Ny uppladdad bild' : 'Befintlig logotyp'}
             </p>
           </div>
-          {onRemove && (
-            <button
-              type="button"
-              onClick={handleRemove}
-              disabled={disabled || isUploading}
-              className="px-3 py-1 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded transition-colors disabled:opacity-50"
-            >
-              Ta bort
-            </button>
-          )}
+          <div className="flex gap-2">
+            {displayLogoUrl && !showCropper && (
+              <button
+                type="button"
+                onClick={() => {
+                  setImageToCrop(displayLogoUrl);
+                  setShowCropper(true);
+                }}
+                disabled={disabled || isUploading}
+                className="px-3 py-1 text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded transition-colors disabled:opacity-50"
+              >
+                Beskär
+              </button>
+            )}
+            {onRemove && (
+              <button
+                type="button"
+                onClick={handleRemove}
+                disabled={disabled || isUploading}
+                className="px-3 py-1 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded transition-colors disabled:opacity-50"
+              >
+                Ta bort
+              </button>
+            )}
+          </div>
         </div>
       )}
 
@@ -172,6 +242,7 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
               <li><strong>För små bilder:</strong> Under 100x100 pixlar blir suddiga när de skalas upp</li>
               <li><strong>För stora bilder:</strong> Över 2000x2000 pixlar är onödigt stora och långsamma</li>
               <li><strong>Extrema proportioner:</strong> Bilder som är för långa eller höga (mer än 4:1) ser konstiga ut</li>
+              <li><strong>Lösning:</strong> Använd beskärningsverktyget för att justera bilden direkt här!</li>
             </ul>
           </div>
           
@@ -187,6 +258,20 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
           </div>
         </div>
       </div>
+      
+      {/* Image Cropper Modal */}
+      {showCropper && imageToCrop && (
+        <ImageCropper
+          src={imageToCrop}
+          onCrop={handleCropComplete}
+          onCancel={handleCropCancel}
+          aspectRatio={undefined} // Fri proportion för logotyper
+          minWidth={100}
+          minHeight={100}
+          maxWidth={2000}
+          maxHeight={2000}
+        />
+      )}
     </div>
   );
 };
