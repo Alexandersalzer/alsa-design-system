@@ -71,14 +71,24 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
       // Kontrollera om bilden behöver beskärning (för stora dimensioner eller fel proportioner)
       const img = new Image();
       img.onload = () => {
-        const needsCropping = img.width > 2000 || img.height > 2000 || 
-                             (img.width / img.height) > 4 || (img.height / img.width) > 4;
+        // Mer aggressiv crop-detektering för testning
+        const needsCropping = img.width > 1000 || img.height > 1000 || 
+                             (img.width / img.height) > 3 || (img.height / img.width) > 3;
+        
+        console.log('Bildanalys:', {
+          width: img.width,
+          height: img.height,
+          aspectRatio: img.width / img.height,
+          needsCropping
+        });
         
         if (needsCropping) {
+          console.log('Visar crop-komponent');
           setImageToCrop(imageUrl);
           setPendingFile(file);
           setShowCropper(true);
         } else {
+          console.log('Laddar upp direkt utan beskärning');
           // Ladda upp direkt om ingen beskärning behövs
           uploadFile(file);
         }
@@ -169,13 +179,14 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
               <button
                 type="button"
                 onClick={() => {
+                  console.log('Manuell crop aktiverad');
                   setImageToCrop(displayLogoUrl);
                   setShowCropper(true);
                 }}
                 disabled={disabled || isUploading}
                 className="px-3 py-1 text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded transition-colors disabled:opacity-50"
               >
-                Beskär
+                Beskär bild
               </button>
             )}
             {onRemove && (
