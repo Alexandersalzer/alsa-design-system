@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { FileUploader } from '../../primitives/FileUploader';
-import { Logo } from '../../primitives/Logo';
+import { FileUploader } from '../../../primitives/FileUploader';
+import { Logo } from '../../../primitives/Logo';
 
 export interface LogoUploadProps {
   currentLogoUrl?: string;
