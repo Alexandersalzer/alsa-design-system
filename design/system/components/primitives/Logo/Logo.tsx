@@ -72,9 +72,7 @@ export const Logo: React.FC<LogoProps> = ({
 
   const imageStyle: React.CSSProperties = {
     maxWidth: maxWidth || '100%',
-    maxHeight: maxHeight || '100%',
-    width: '100%',
-    height: '100%'
+    maxHeight: maxHeight || '100%'
   };
 
   if (imageError && fallbackText) {
@@ -109,3 +107,4 @@ export const Logo: React.FC<LogoProps> = ({
     </div>
   );
 };
+

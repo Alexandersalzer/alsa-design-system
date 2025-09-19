@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { FileUploader } from '../../../primitives/FileUploader';
 import { Logo } from '../../../primitives/Logo';
-import { ImageCropper } from '../../../primitives/ImageCropper';
 
 export interface LogoUploadProps {
   currentLogoUrl?: string;
@@ -29,21 +28,17 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
   const [uploadError, setUploadError] = useState<string>('');
   const [isUploading, setIsUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string>('');
-  const [showCropper, setShowCropper] = useState(false);
-  const [imageToCrop, setImageToCrop] = useState<string>('');
-  const [pendingFile, setPendingFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const validateFile = (file: File): string | null => {
     // Kontrollera filstorlek
     if (file.size > maxSize * 1024 * 1024) {
-      return `Filen är för stor (${(file.size / (1024 * 1024)).toFixed(1)}MB). Max ${maxSize}MB tillåtet för snabbare uppladdning.`;
+      return `Filen är för stor. Max ${maxSize}MB tillåtet.`;
     }
 
     // Kontrollera filformat
     if (!allowedFormats.includes(file.type)) {
-      const supportedFormats = allowedFormats.map(f => f.split('/')[1].toUpperCase()).join(', ');
-      return `Formatet ${file.type.split('/')[1].toUpperCase()} stöds inte. Använd ${supportedFormats} istället.`;
+      return `Endast ${allowedFormats.map(f => f.split('/')[1].toUpperCase()).join(', ')} format tillåts.`;
     }
 
     return null;
@@ -62,40 +57,19 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
       return;
     }
 
-    // Skapa preview och visa cropper för bilder som behöver beskärning
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const imageUrl = e.target?.result as string;
-      setPreviewUrl(imageUrl);
-      
-      // Kontrollera om bilden behöver beskärning (för stora dimensioner eller fel proportioner)
-      const img = new Image();
-      img.onload = () => {
-        // Mycket aggressiv crop-detektering för testning
-        const needsCropping = img.width > 500 || img.height > 500 || 
-                             (img.width / img.height) > 2 || (img.height / img.width) > 2;
-        
-        if (needsCropping) {
-          setImageToCrop(imageUrl);
-          setPendingFile(file);
-          setShowCropper(true);
-        } else {
-          // Ladda upp direkt om ingen beskärning behövs
-          uploadFile(file);
-        }
+    // Skapa preview
+    if (showPreview) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setPreviewUrl(e.target?.result as string);
       };
-      img.src = imageUrl;
-    };
-    reader.readAsDataURL(file);
-  };
+      reader.readAsDataURL(file);
+    }
 
-  const uploadFile = async (file: File) => {
+    // Ladda upp fil
     setIsUploading(true);
     try {
-      // Skapa en FileList från filen
-      const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(file);
-      await onUpload(dataTransfer.files);
+      await onUpload(files);
       setUploadError('');
     } catch (error) {
       setUploadError(error instanceof Error ? error.message : 'Uppladdning misslyckades');
@@ -110,37 +84,6 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
     if (onRemove) {
       onRemove();
     }
-  };
-
-  const handleCropComplete = async (croppedImageUrl: string) => {
-    setShowCropper(false);
-    
-    // Konvertera cropped URL till File
-    try {
-      const response = await fetch(croppedImageUrl);
-      const blob = await response.blob();
-      const croppedFile = new File([blob], pendingFile?.name || 'cropped-logo.png', {
-        type: blob.type || 'image/png'
-      });
-      
-      // Uppdatera preview
-      setPreviewUrl(croppedImageUrl);
-      
-      // Ladda upp den beskurna bilden
-      await uploadFile(croppedFile);
-      
-      // Rensa upp
-      URL.revokeObjectURL(croppedImageUrl);
-    } catch (error) {
-      setUploadError('Kunde inte bearbeta den beskurna bilden');
-    }
-  };
-
-  const handleCropCancel = () => {
-    setShowCropper(false);
-    setImageToCrop('');
-    setPendingFile(null);
-    setPreviewUrl('');
   };
 
   const displayLogoUrl = previewUrl || currentLogoUrl;
@@ -165,31 +108,16 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
               {previewUrl ? 'Ny uppladdad bild' : 'Befintlig logotyp'}
             </p>
           </div>
-          <div className="flex gap-2">
-            {displayLogoUrl && !showCropper && (
-              <button
-                type="button"
-                onClick={() => {
-                  setImageToCrop(displayLogoUrl);
-                  setShowCropper(true);
-                }}
-                disabled={disabled || isUploading}
-                className="px-3 py-1 text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded transition-colors disabled:opacity-50"
-              >
-                Beskär bild
-              </button>
-            )}
-            {onRemove && (
-              <button
-                type="button"
-                onClick={handleRemove}
-                disabled={disabled || isUploading}
-                className="px-3 py-1 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded transition-colors disabled:opacity-50"
-              >
-                Ta bort
-              </button>
-            )}
-          </div>
+          {onRemove && (
+            <button
+              type="button"
+              onClick={handleRemove}
+              disabled={disabled || isUploading}
+              className="px-3 py-1 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded transition-colors disabled:opacity-50"
+            >
+              Ta bort
+            </button>
+          )}
         </div>
       )}
 
@@ -214,9 +142,6 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
               <p className="text-xs text-gray-500">
                 {allowedFormats.map(f => f.split('/')[1].toUpperCase()).join(', ')} • Max {maxSize}MB
               </p>
-              <p className="text-xs text-gray-400 mt-1">
-                Dra och släpp en fil här eller klicka för att välja
-              </p>
             </div>
           </div>
         </FileUploader>
@@ -234,45 +159,16 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
         )}
 
         {/* Guidelines */}
-        <div className="text-xs text-gray-500 space-y-2">
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-            <p className="font-medium text-blue-900 mb-2">Varför kan vissa filer inte laddas upp?</p>
-            <ul className="list-disc list-inside space-y-1 text-blue-800">
-              <li><strong>För stora filer:</strong> Över 5MB tar för lång tid att ladda upp och kan orsaka problem</li>
-              <li><strong>Fel format:</strong> Endast JPG, PNG, SVG och WebP stöds för bästa kompatibilitet</li>
-              <li><strong>För små bilder:</strong> Under 100x100 pixlar blir suddiga när de skalas upp</li>
-              <li><strong>För stora bilder:</strong> Över 2000x2000 pixlar är onödigt stora och långsamma</li>
-              <li><strong>Extrema proportioner:</strong> Bilder som är för långa eller höga (mer än 4:1) ser konstiga ut</li>
-              <li><strong>Lösning:</strong> Använd beskärningsverktyget för att justera bilden direkt här!</li>
-            </ul>
-          </div>
-          
-          <div>
-            <p className="font-medium text-gray-700 mb-1">Rekommenderade specifikationer:</p>
-            <ul className="list-disc list-inside space-y-0.5 ml-2">
-              <li>Minst 100x100 pixlar</li>
-              <li>Max 2000x2000 pixlar</li>
-              <li>Proportioner mellan 1:4 och 4:1</li>
-              <li>Transparent bakgrund (PNG/SVG) för bästa resultat</li>
-              <li>Kvadratisk eller rektangulär form fungerar bäst</li>
-            </ul>
-          </div>
+        <div className="text-xs text-gray-500 space-y-1">
+          <p><strong>Rekommenderade specifikationer:</strong></p>
+          <ul className="list-disc list-inside space-y-0.5 ml-2">
+            <li>Minst 100x100 pixlar</li>
+            <li>Max 2000x2000 pixlar</li>
+            <li>Proportioner mellan 1:4 och 4:1</li>
+            <li>Transparent bakgrund (PNG/SVG) för bästa resultat</li>
+          </ul>
         </div>
       </div>
-      
-      {/* Image Cropper Modal */}
-      {showCropper && imageToCrop && (
-        <ImageCropper
-          src={imageToCrop}
-          onCrop={handleCropComplete}
-          onCancel={handleCropCancel}
-          aspectRatio={undefined} // Fri proportion för logotyper
-          minWidth={100}
-          minHeight={100}
-          maxWidth={2000}
-          maxHeight={2000}
-        />
-      )}
     </div>
   );
 };

@@ -198,21 +198,22 @@
   position: absolute;
   top: -2px;
   right: -2px;
-  background: var(--error-bg);
-  color: var(--primary-white);
+  background-color: var(--accent-500);
+  color: var(--text-on-accent);
   font-size: 10px;
   font-weight: 600;
   padding: 1px 4px;
-  border-radius: 6px;
+  border-radius: var(--radius-full);
   min-width: 14px;
   height: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--border-subtle);
+  border: 2px solid var(--surface-page);
   font-family: var(--font-body-family);
   z-index: 3;
   line-height: 1;
+  animation: badge-pulse 2s infinite;
 }
 
 /* Badge size adjustments */
@@ -237,6 +238,18 @@
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@keyframes badge-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent-500) 70%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent-500) 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent-500) 0%, transparent);
+  }
 }
 
 .icon-btn:disabled .animate-spin {
