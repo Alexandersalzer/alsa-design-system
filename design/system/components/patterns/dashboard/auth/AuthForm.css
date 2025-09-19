@@ -25,15 +25,10 @@
   gap: var(--foundation-space-5); /* 20px between major form sections */
   width: 100%;
   
-  /* Loading state - Clean without overlay */
+  /* Loading state - No overlay, just disable form interaction */
   &.auth-form--loading {
-    /* Subtle loading indication without blocking overlay */
-    opacity: 0.8;
-    
-    /* Disable form interactions during loading */
-    pointer-events: none;
-    
-    /* No overlay or spinner - loading is handled by the button itself */
+    /* Remove the modal overlay and spinner - loading is handled by the button */
+    pointer-events: none; /* Keep form disabled during loading */
   }
   
   /* Disabled state */
@@ -320,6 +315,7 @@
   }
 }
 
+/* Removed auth-form-spin animation - no longer needed */
 
 .auth-form-toast {
   /* Smooth appearance animation */
