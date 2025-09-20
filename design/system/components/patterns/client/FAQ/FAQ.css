@@ -62,11 +62,6 @@
     transition: all var(--foundation-motion-duration-normal, 0.3s) ease;
   }
   
-  .faq-item:hover {
-    background: var(--surface-card-hover, rgba(255, 255, 255, 0.06));
-    border-color: var(--border-default, rgba(255, 255, 255, 0.12));
-    transform: translateY(-2px);
-  }
   
   .faq-question {
     font-size: var(--foundation-typography-size-lg, 1.25rem);
