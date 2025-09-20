@@ -3,6 +3,7 @@ export * from './RichText';
 export * from './kj-footer';
 export * from './NotionFooter';
 export * from './FAQ';
+export * from './Hero';
 export * from './spinning-banner';
 export * from './CountUpSection';
 export * from './spinning-carousel';

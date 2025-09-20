@@ -62,6 +62,7 @@
 @import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
 @import './components/patterns/client/NotionFooter/NotionFooter.css';
 @import './components/patterns/client/FAQ/FAQ.css';
+@import './components/patterns/client/Hero/Hero.css';
 
 /* STEP 6: Layout utilities */
 @import './layout/utilities/cluster/Cluster.css';
