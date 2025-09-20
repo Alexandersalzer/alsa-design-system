@@ -1,52 +1,41 @@
-/* ==========================================
-   CleanNavbar — pixel-centrerad & responsiv
-   ========================================== */
+/* ================================
+   CleanNavbar — Responsiv
+   ================================ */
 
    .clean-navbar {
     position: fixed;
-    inset: 0 0 auto 0;      /* top:0; left/right:0 */
-    z-index: 1000;
-    background: var(--surface-card, rgba(20,20,20,0.9));
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.08));
-  }
-  
-  /* Inre container, sätter maxbredd och padding */
-  .clean-navbar__inner {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
     max-width: 1400px;
-    margin: 0 auto;
-    padding: 0.75rem 1.5rem;
-  
-    /* Grid som garanterar att mitten (länkar) är visuellt centrerad */
-    display: grid !important;
-    grid-template-columns: 1fr auto 1fr;  /* vänster luft | länkar | höger luft */
-    align-items: center;
-    gap: 1rem;
-    box-sizing: border-box;
+    z-index: 1000;
+    background: var(--surface-card, rgba(20, 20, 20, 0.85));
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+    border-radius: 0 0 12px 12px;
   }
   
-  /* Vänster/höger wrappers styr placering */
-  .clean-navbar__left  { justify-self: start; }
-  .clean-navbar__right { justify-self: end;  }
-  
-  /* Mittenkolumn med länkar – centrerad i sin auto-kolumn */
-  .clean-navbar__center {
-    justify-self: center;
+  .clean-navbar__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 0 1.5rem;
   }
   
   /* Logo */
   .clean-navbar__logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+    flex-shrink: 0;
   }
-  .clean-navbar__logo img { display: block; }
   
-  /* Länkar (desktop) */
+  /* Links (centered) */
   .clean-navbar__links {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 2rem;
+    flex: 1;
   }
   
   .clean-navbar__link {
@@ -54,14 +43,25 @@
     font-size: 0.95rem;
     font-weight: 500;
     text-decoration: none;
-    padding: 0.35rem 0.6rem;
+    padding: 0.4rem 0.8rem;
     border-radius: 8px;
-    transition: color 0.2s ease, background 0.2s ease;
+    transition: all 0.2s ease;
   }
-  .clean-navbar__link:hover  { color: var(--text-primary); background: rgba(255,255,255,0.08); }
-  .clean-navbar__link.active { color: var(--text-primary); }
+  
+  .clean-navbar__link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+  }
+  
+  .clean-navbar__link--active {
+    color: var(--text-primary);
+  }
   
   /* CTA (desktop) */
+  .clean-navbar__cta {
+    margin-left: auto;
+  }
+  
   .clean-navbar__cta-button {
     padding: 0.6rem 1.2rem;
     border-radius: 8px;
@@ -69,81 +69,87 @@
     font-weight: 600;
     border: none;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.2s ease;
   }
-  .clean-navbar__cta-button--primary   { background: var(--primary-500); color: var(--text-on-primary, #fff); }
-  .clean-navbar__cta-button--accent    { background: var(--accent-500);  color: #fff; }
-  .clean-navbar__cta-button--secondary { background: var(--surface-card-hover); border: 1px solid var(--border-default); color: var(--text-primary); }
-  .clean-navbar__cta-button:hover      { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
   
-  /* Hamburger (syns bara på mobil) */
+  .clean-navbar__cta-button--primary {
+    background: var(--primary-500);
+    color: var(--text-on-primary, #fff);
+  }
+  
+  .clean-navbar__cta-button--accent {
+    background: var(--accent-500);
+    color: #fff;
+  }
+  
+  .clean-navbar__cta-button--secondary {
+    background: var(--surface-card-hover);
+    border: 1px solid var(--border-default);
+    color: var(--text-primary);
+  }
+  
+  .clean-navbar__cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* ============= Mobil ============= */
   .clean-navbar__toggle {
     display: none;
     background: none;
     border: none;
-    color: var(--text-primary);
-    font-size: 1.5rem;
-    line-height: 1;
     cursor: pointer;
-    padding: 0.25rem 0.5rem;
+    font-size: 1.5rem;
+    color: var(--text-primary);
   }
   
-  /* Mobilmeny under navbaren */
-  .clean-navbar__mobile {
-    display: none;
+  @media (max-width: 768px) {
+    .clean-navbar__links {
+      display: none;
+    }
+    .clean-navbar__cta {
+      display: none;
+    }
+    .clean-navbar__toggle {
+      display: block;
+      margin-left: auto;
+    }
+  }
+  
+  /* Mobile menu */
+  .clean-navbar__mobile-menu {
     position: absolute;
-    top: 100%; left: 0; right: 0;
+    top: 100%;
+    left: 0;
+    right: 0;
     background: var(--surface-card, #111);
-    border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.08));
+    border-bottom: 1px solid var(--border-subtle);
     padding: 1rem 1.5rem;
-    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
-  }
-  .clean-navbar__mobile.open {
-    display: grid;
-    grid-template-columns: 1fr;
-    animation: slideDown 0.25s ease forwards;
+    animation: slideDown 0.3s ease;
   }
   
-  /* Mobil-länkar */
   .clean-navbar__mobile-link {
     color: var(--text-secondary);
     font-size: 1rem;
     text-decoration: none;
     padding: 0.5rem 0;
   }
-  .clean-navbar__mobile-link:hover { color: var(--text-primary); }
   
-  /* Responsivitet */
-  @media (max-width: 900px) {
-    /* Dölj desktop-länkar + CTA, visa hamburger */
-    .clean-navbar__links,
-    .clean-navbar__cta-button { display: none; }
-  
-    .clean-navbar__toggle { display: inline-block; }
-  
-    /* Justera grid så vänster (logo) & höger (toggle) hamnar rätt */
-    .clean-navbar__inner {
-      grid-template-columns: 1fr auto 1fr; /* samma, men mitten är tom i mobil */
-    }
-    .clean-navbar__center { display: none; } /* inga desktop-länkar i mitten */
-    .clean-navbar__right  { display: inline-flex; align-items: center; gap: 0.5rem; }
-  }
-  
-  /* Liten skugga vid scroll – valfritt, men skönt visuellt */
-  @supports (position: sticky) {
-    .clean-navbar {
-      box-shadow: 0 0 0 rgba(0,0,0,0);
-      transition: box-shadow 0.25s ease;
-    }
-    body:has(main):not(:has(.at-top)) .clean-navbar {
-      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-    }
+  .clean-navbar__mobile-link:hover {
+    color: var(--text-primary);
   }
   
   /* Animation */
   @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  
