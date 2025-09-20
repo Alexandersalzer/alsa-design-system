@@ -2,45 +2,107 @@
    NotionFooter.css - Footer Pattern Component
    ============================================== */
 
-/* Override Tailwind CSS conflicts for footer grid */
-.notion-footer-grid {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
-  gap: 3rem !important;
-  width: 100% !important;
-  align-items: start !important;
-}
-
-/* Ensure footer grid works on all screen sizes */
-@media (max-width: 768px) {
-  .notion-footer-grid {
-    grid-template-columns: 1fr !important;
-    gap: 2rem !important;
+   .notion-footer {
+    background: var(--surface-default);
+    border-top: 1px solid var(--border-subtle);
+    padding: 4rem 0 2rem;
   }
-}
-
-@media (max-width: 480px) {
-  .notion-footer-grid {
-    gap: 1.5rem !important;
+  
+  .notion-footer-container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
   }
-}
-
-/* Additional footer-specific styles */
-.notion-footer {
-  background: var(--surface-page);
-  border-top: 1px solid var(--border-subtle);
-}
-
-.notion-footer a {
-  transition: color 0.2s ease;
-}
-
-.notion-footer a:hover {
-  color: var(--text-primary);
-}
-
-/* Debug styles - remove after testing */
-.notion-footer-grid > * {
-  border: 1px solid rgba(255, 0, 0, 0.2) !important;
-  background: rgba(0, 255, 0, 0.1) !important;
-}
+  
+  .notion-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 3rem;
+    width: 100%;
+    align-items: start;
+  }
+  
+  .footer-company-name {
+    font-size: 1.5rem;
+  }
+  
+  .footer-company-desc {
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+  
+  .footer-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .footer-heading {
+    font-size: 0.9rem;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+  }
+  
+  .footer-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    transition: color 0.2s ease;
+  }
+  
+  .footer-link:hover {
+    color: var(--text-primary);
+  }
+  
+  .footer-bottom {
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .footer-copy {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .footer-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--text-tertiary);
+  }
+  
+  .footer-cta {
+    font-size: 0.875rem;
+    color: white !important;
+  }
+  
+  /* Responsiveness */
+  @media (max-width: 768px) {
+    .notion-footer-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .footer-cta {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .notion-footer-grid {
+      gap: 1.5rem;
+    }
+  }
+  
