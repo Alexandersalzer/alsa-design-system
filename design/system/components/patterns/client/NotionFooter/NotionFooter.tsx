@@ -257,4 +257,4 @@ const NotionFooter = ({ isEditingMode = false, content }: NotionFooterProps) => 
   );
 };
 
-export default NotionFooter;
+export { NotionFooter };

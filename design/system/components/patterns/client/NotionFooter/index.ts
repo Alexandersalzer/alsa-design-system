@@ -1,1 +1,1 @@
-export { default as NotionFooter } from './NotionFooter';
+export { NotionFooter } from './NotionFooter';
