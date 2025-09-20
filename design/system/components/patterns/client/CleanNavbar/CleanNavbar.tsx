@@ -1,122 +1,127 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Container } from '../../../../layout/frames/container';
-import { Typography } from '../../../primitives/Typography';
 import './CleanNavbar.css';
 
-interface CleanNavbarProps {
-  items?: Array<{ href: string; label: string; isActive?: boolean }>;
-  logo?: { src?: string; alt?: string; width?: number; height?: number; text?: string };
-  ctaButton?: { text: string; href: string; variant?: 'primary' | 'secondary' | 'accent' };
+export interface NavItem {
+  href: string;
+  label: string;
+  isActive?: boolean;
+}
+
+export interface BrandConfig {
+  /** Antingen textnamn ... */
+  name?: string;
+  /** ... eller logobild */
+  logoSrc?: string;
+  logoAlt?: string;
+  href?: string;
+  width?: number;
+  height?: number;
+}
+
+export interface CtaConfig {
+  text: string;
+  href: string;
+  variant?: 'primary' | 'secondary' | 'accent';
+}
+
+export interface CleanNavbarProps {
+  items?: NavItem[];
+  brand?: BrandConfig;
+  ctaButton?: CtaConfig;
   className?: string;
-  background?: string;
-  blur?: boolean;
-  borderRadius?: string;
-  padding?: string;
-  width?: string;
+  /** max bredd på innerspår (default 1400px) */
   maxWidth?: string;
-  onItemClick?: (item: { href: string; label: string }) => void;
-  onCtaClick?: (href: string) => void;
 }
 
 const CleanNavbar: React.FC<CleanNavbarProps> = ({
   items = [],
-  logo,
+  brand = { name: 'Företag', href: '/' },
   ctaButton,
   className = '',
-  background = 'var(--surface-card)',
-  blur = true,
-  borderRadius = '0 0 12px 12px',
-  padding = '0.8rem 0',
-  width = '100%',
   maxWidth = '1400px',
-  onItemClick,
-  onCtaClick
 }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isClient, setIsClient] = useState(false);
+  const [elevated, setElevated] = useState(false);
 
-  useEffect(() => setIsClient(true), []);
+  useEffect(() => {
+    const onScroll = () => setElevated(window.scrollY > 4);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-  const handleItemClick = (item: { href: string; label: string }) => {
-    if (item.href.startsWith('#')) {
-      const el = document.querySelector(item.href);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.location.href = item.href;
-    }
-    onItemClick?.(item);
-    setMobileOpen(false);
-  };
-
-  const handleCtaClick = (href: string) => {
+  const go = (href: string) => {
     if (href.startsWith('#')) {
       const el = document.querySelector(href);
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     } else {
       window.location.href = href;
     }
-    onCtaClick?.(href);
-    setMobileOpen(false);
   };
 
   return (
     <nav
-      className={`clean-navbar ${className}`}
-      style={{
-        width,
-        maxWidth,
-        background,
-        backdropFilter: blur ? 'blur(12px)' : 'none',
-        borderRadius,
-        padding
-      }}
+      className={[
+        'clean-navbar',
+        elevated ? 'clean-navbar--elevated' : '',
+        className,
+      ].join(' ')}
+      data-clean-navbar
     >
-      <Container maxWidth="xl" className="clean-navbar__container">
-        {/* Logo / text */}
-        <div className="clean-navbar__logo">
-          {logo?.src ? (
+      <div className="clean-navbar__inner" style={{ maxWidth }}>
+        {/* Brand */}
+        <a
+          className="clean-navbar__brand"
+          href={brand.href || '/'}
+          onClick={(e) => {
+            if (brand.href?.startsWith('#')) {
+              e.preventDefault();
+              go(brand.href);
+            }
+          }}
+          aria-label={brand.name || brand.logoAlt || 'Hem'}
+        >
+          {brand.logoSrc ? (
             <img
-              src={logo.src}
-              alt={logo.alt || 'Logo'}
-              width={logo.width || 40}
-              height={logo.height || 40}
+              src={brand.logoSrc}
+              alt={brand.logoAlt || brand.name || 'Logo'}
+              width={brand.width || 28}
+              height={brand.height || 28}
+              loading="eager"
+              decoding="sync"
             />
           ) : (
-            <Typography variant="body-lg" weight="bold" color="inverse">
-              {logo?.text || logo?.alt || 'Företag'}
-            </Typography>
+            <span className="brand-text">{brand.name || 'Företag'}</span>
           )}
-        </div>
+        </a>
 
-        {/* Links */}
-        <div className="clean-navbar__links">
-          {items.map((item, idx) => (
+        {/* Links (desktop) */}
+        <div className="clean-navbar__links" role="navigation" aria-label="Huvudmeny">
+          {items.map((it) => (
             <a
-              key={idx}
-              href={item.href}
+              key={it.href + it.label}
+              href={it.href}
+              className={`clean-navbar__link ${it.isActive ? 'is-active' : ''}`}
               onClick={(e) => {
                 e.preventDefault();
-                handleItemClick(item);
+                go(it.href);
               }}
-              className={`clean-navbar__link ${
-                item.isActive ? 'clean-navbar__link--active' : ''
-              }`}
             >
-              {item.label}
+              {it.label}
             </a>
           ))}
         </div>
 
-        {/* CTA (desktop only) */}
+        {/* CTA (desktop) */}
         {ctaButton && (
           <div className="clean-navbar__cta">
             <button
-              onClick={() => handleCtaClick(ctaButton.href)}
               className={`clean-navbar__cta-button clean-navbar__cta-button--${
-                ctaButton.variant || 'primary'
+                ctaButton.variant || 'accent'
               }`}
+              onClick={() => go(ctaButton.href)}
             >
               {ctaButton.text}
             </button>
@@ -126,44 +131,57 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         {/* Hamburger */}
         <button
           className="clean-navbar__toggle"
-          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Öppna meny"
+          aria-expanded={mobileOpen}
+          onClick={() => setMobileOpen((v) => !v)}
         >
-          ☰
+          <span />
+          <span />
+          <span />
         </button>
-      </Container>
+      </div>
 
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="clean-navbar__mobile-menu">
-          {items.map((item, idx) => (
-            <a
-              key={idx}
-              href={item.href}
-              onClick={(e) => {
-                e.preventDefault();
-                handleItemClick(item);
-              }}
-              className="clean-navbar__mobile-link"
-            >
-              {item.label}
-            </a>
-          ))}
+      {/* Mobile panel */}
+      <div
+        className={`clean-navbar__mobile ${mobileOpen ? 'open' : ''}`}
+        role="dialog"
+        aria-modal="false"
+      >
+        <div className="clean-navbar__mobile-inner" style={{ maxWidth }}>
+          <div className="clean-navbar__mobile-links">
+            {items.map((it) => (
+              <a
+                key={'m-' + it.href + it.label}
+                href={it.href}
+                className="clean-navbar__mobile-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMobileOpen(false);
+                  go(it.href);
+                }}
+              >
+                {it.label}
+              </a>
+            ))}
+          </div>
+
           {ctaButton && (
             <button
-              onClick={() => handleCtaClick(ctaButton.href)}
               className={`clean-navbar__cta-button clean-navbar__cta-button--${
-                ctaButton.variant || 'primary'
-              }`}
-              style={{ width: '100%', marginTop: '1rem' }}
+                ctaButton.variant || 'accent'
+              } clean-navbar__cta-button--mobile`}
+              onClick={() => {
+                setMobileOpen(false);
+                go(ctaButton.href);
+              }}
             >
               {ctaButton.text}
             </button>
           )}
         </div>
-      )}
+      </div>
     </nav>
   );
 };
 
 export default CleanNavbar;
-export type { CleanNavbarProps };
