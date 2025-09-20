@@ -6,14 +6,22 @@
 .notion-footer-grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
-  gap: var(--foundation-space-6, 1.5rem) !important;
+  gap: 3rem !important;
+  width: 100% !important;
+  align-items: start !important;
 }
 
 /* Ensure footer grid works on all screen sizes */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .notion-footer-grid {
     grid-template-columns: 1fr !important;
-    gap: var(--foundation-space-4, 1rem) !important;
+    gap: 2rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .notion-footer-grid {
+    gap: 1.5rem !important;
   }
 }
 
@@ -29,4 +37,10 @@
 
 .notion-footer a:hover {
   color: var(--text-primary);
+}
+
+/* Debug styles - remove after testing */
+.notion-footer-grid > * {
+  border: 1px solid rgba(255, 0, 0, 0.2) !important;
+  background: rgba(0, 255, 0, 0.1) !important;
 }

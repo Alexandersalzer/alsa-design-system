@@ -6,7 +6,6 @@ import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 import { Rhythm, RhythmItem } from '../../../../../system/layout/utilities/rhythm/Rhythm';
-import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
 import { 
   PhoneIcon, 
   EnvelopeIcon, 
@@ -76,12 +75,7 @@ const NotionFooter = ({ isEditingMode = false, content }: NotionFooterProps) => 
           
            {/* Main Footer Content */}
            <RhythmItem at={1}>
-             <Grid 
-               columns="auto-fit"
-               minItemWidth="280px"
-               gap="lg"
-               className="footer-grid notion-footer-grid"
-             >
+             <div className="notion-footer-grid">
               
               {/* Company Info */}
               <div style={{ maxWidth: '320px' }}>
@@ -206,7 +200,7 @@ const NotionFooter = ({ isEditingMode = false, content }: NotionFooterProps) => 
                   </Stack>
                 </Stack>
                </div>
-             </Grid>
+             </div>
            </RhythmItem>
           
           {/* Bottom Section */}
