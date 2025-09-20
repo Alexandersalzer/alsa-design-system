@@ -1,1 +1,2 @@
-export { CleanNavbar, type CleanNavbarProps } from './CleanNavbar';
+export { default as CleanNavbar } from './CleanNavbar';
+export type { CleanNavbarProps } from './CleanNavbar';
