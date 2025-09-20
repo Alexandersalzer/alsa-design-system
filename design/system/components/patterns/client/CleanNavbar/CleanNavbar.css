@@ -1,7 +1,6 @@
-/* ================================
-   CleanNavbar — responsiv & centrerad
-   ================================ */
-
+/* =========================
+   Clean, responsiv navbar
+   ========================= */
    .clean-navbar {
     position: fixed;
     top: 0;
@@ -10,19 +9,17 @@
     width: 95%;
     max-width: 1400px;
     z-index: 1000;
-    background: var(--surface-card, rgba(20, 20, 20, 0.85));
+    background: var(--surface-card, rgba(20,20,20,0.85));
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
     border-radius: 0 0 12px 12px;
-    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.08));
+    padding: 0.75rem 1.25rem;
   }
   
-  /* Layout: logo | links | CTA */
   .clean-navbar__container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
   }
   
   /* Logo */
@@ -30,17 +27,13 @@
     flex: 0 0 auto;
     display: flex;
     align-items: center;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text-primary);
   }
   
-  /* Links */
+  /* Links desktop */
   .clean-navbar__links {
-    flex: 1;
     display: flex;
+    flex: 1;
     justify-content: center;
-    align-items: center;
     gap: 2rem;
   }
   
@@ -49,13 +42,10 @@
     font-size: 0.95rem;
     font-weight: 500;
     text-decoration: none;
-    padding: 0.4rem 0.8rem;
-    border-radius: 8px;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
   }
   
   .clean-navbar__link:hover {
-    background: rgba(255, 255, 255, 0.08);
     color: var(--text-primary);
   }
   
@@ -63,19 +53,19 @@
     color: var(--text-primary);
   }
   
-  /* CTA */
+  /* CTA Desktop */
   .clean-navbar__cta {
     flex: 0 0 auto;
   }
   
   .clean-navbar__cta-button {
-    padding: 0.6rem 1.2rem;
+    padding: 0.55rem 1.2rem;
     border-radius: 8px;
     font-size: 0.9rem;
     font-weight: 600;
-    border: none;
     cursor: pointer;
     transition: all 0.2s ease;
+    border: none;
   }
   
   .clean-navbar__cta-button--primary {
@@ -96,59 +86,58 @@
   
   .clean-navbar__cta-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   }
   
-  /* Mobile */
+  /* Hamburger toggle */
   .clean-navbar__toggle {
     display: none;
     background: none;
     border: none;
+    font-size: 1.6rem;
     cursor: pointer;
     color: var(--text-primary);
-    font-size: 1.5rem;
-  }
-  
-  /* Hide links & CTA on mobile */
-  @media (max-width: 768px) {
-    .clean-navbar__links,
-    .clean-navbar__cta {
-      display: none;
-    }
-  
-    .clean-navbar__toggle {
-      display: block;
-    }
   }
   
   /* Mobile menu */
   .clean-navbar__mobile-menu {
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-    display: flex;
+    display: none;
     flex-direction: column;
+    background: var(--surface-card, #111);
+    padding: 1.25rem;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
     gap: 1rem;
-    padding: 0 1rem;
+    animation: slideDown 0.25s ease forwards;
   }
   
-  .clean-navbar__mobile-menu--open {
-    max-height: 400px;
-    opacity: 1;
-    transform: translateY(0);
-    padding: 1rem;
+  .clean-navbar__mobile-menu.open {
+    display: flex;
   }
   
   .clean-navbar__mobile-link {
     color: var(--text-secondary);
     font-size: 1rem;
     text-decoration: none;
-    padding: 0.5rem 0;
   }
   
   .clean-navbar__mobile-link:hover {
     color: var(--text-primary);
   }
   
+  /* Responsive */
+  @media (max-width: 768px) {
+    .clean-navbar__links,
+    .clean-navbar__cta {
+      display: none;
+    }
+    .clean-navbar__toggle {
+      display: block;
+    }
+  }
+  
+  /* Animation */
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }

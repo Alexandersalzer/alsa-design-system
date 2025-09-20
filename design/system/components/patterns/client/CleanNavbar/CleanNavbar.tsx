@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Container } from '../../../../layout/frames/container';
 import { Typography } from '../../../primitives/Typography';
 import './CleanNavbar.css';
 
 export interface CleanNavbarProps {
   items?: Array<{ href: string; label: string; isActive?: boolean }>;
-  logo?: { src?: string; alt?: string; text?: string; width?: number; height?: number };
+  logo?: { src?: string; alt?: string; width?: number; height?: number; text?: string };
   ctaButton?: { text: string; href: string; variant?: 'primary' | 'secondary' | 'accent' };
   className?: string;
   onItemClick?: (item: { href: string; label: string }) => void;
@@ -25,8 +26,8 @@ const CleanNavbar = ({
 
   const handleItemClick = (item: { href: string; label: string }) => {
     if (item.href.startsWith('#')) {
-      const element = document.querySelector(item.href);
-      if (element) element.scrollIntoView({ behavior: 'smooth' });
+      const el = document.querySelector(item.href);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     } else {
       window.location.href = item.href;
     }
@@ -36,8 +37,8 @@ const CleanNavbar = ({
 
   const handleCtaClick = (href: string) => {
     if (href.startsWith('#')) {
-      const element = document.querySelector(href);
-      if (element) element.scrollIntoView({ behavior: 'smooth' });
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     } else {
       window.location.href = href;
     }
@@ -47,7 +48,7 @@ const CleanNavbar = ({
 
   return (
     <nav className={`clean-navbar ${className}`}>
-      <div className="clean-navbar__container">
+      <Container maxWidth="lg" className="clean-navbar__container">
         {/* Logo */}
         <div className="clean-navbar__logo">
           {logo?.src ? (
@@ -58,8 +59,8 @@ const CleanNavbar = ({
               height={logo.height || 40}
             />
           ) : (
-            <Typography variant="body-lg" weight="bold" color="inverse">
-              {logo?.text || 'Företag'}
+            <Typography variant="body-lg" weight="bold" color="primary">
+              {logo?.text || logo?.alt || 'Företag'}
             </Typography>
           )}
         </div>
@@ -70,56 +71,43 @@ const CleanNavbar = ({
             <a
               key={idx}
               href={item.href}
-              onClick={(e) => {
-                e.preventDefault();
-                handleItemClick(item);
-              }}
-              className={`clean-navbar__link ${
-                item.isActive ? 'clean-navbar__link--active' : ''
-              }`}
+              onClick={(e) => { e.preventDefault(); handleItemClick(item); }}
+              className={`clean-navbar__link ${item.isActive ? 'clean-navbar__link--active' : ''}`}
             >
               {item.label}
             </a>
           ))}
         </div>
 
-        {/* CTA */}
+        {/* CTA Desktop */}
         {ctaButton && (
           <div className="clean-navbar__cta">
             <button
               onClick={() => handleCtaClick(ctaButton.href)}
-              className={`clean-navbar__cta-button clean-navbar__cta-button--${
-                ctaButton.variant || 'primary'
-              }`}
+              className={`clean-navbar__cta-button clean-navbar__cta-button--${ctaButton.variant || 'primary'}`}
             >
               {ctaButton.text}
             </button>
           </div>
         )}
 
-        {/* Mobile toggle */}
+        {/* Hamburger */}
         <button
           className="clean-navbar__toggle"
           onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle menu"
         >
           ☰
         </button>
-      </div>
+      </Container>
 
       {/* Mobile menu */}
-      <div
-        className={`clean-navbar__mobile-menu ${
-          mobileOpen ? 'clean-navbar__mobile-menu--open' : ''
-        }`}
-      >
+      <div className={`clean-navbar__mobile-menu ${mobileOpen ? 'open' : ''}`}>
         {items.map((item, idx) => (
           <a
             key={idx}
             href={item.href}
-            onClick={(e) => {
-              e.preventDefault();
-              handleItemClick(item);
-            }}
+            onClick={(e) => { e.preventDefault(); handleItemClick(item); }}
             className="clean-navbar__mobile-link"
           >
             {item.label}
@@ -128,10 +116,7 @@ const CleanNavbar = ({
         {ctaButton && (
           <button
             onClick={() => handleCtaClick(ctaButton.href)}
-            className={`clean-navbar__cta-button clean-navbar__cta-button--${
-              ctaButton.variant || 'primary'
-            }`}
-            style={{ width: '100%' }}
+            className={`clean-navbar__cta-button clean-navbar__cta-button--${ctaButton.variant || 'primary'}`}
           >
             {ctaButton.text}
           </button>
