@@ -42,10 +42,10 @@
   
   /* Link-kolumner */
   .footer-heading {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    margin: 0 0 12px 0;
+    margin:  0.75rem;
     opacity: 0.9;
   }
   
