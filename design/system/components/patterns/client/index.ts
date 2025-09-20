@@ -1,4 +1,5 @@
 export * from './navbar';
+export * from './CleanNavbar';
 export * from './RichText';
 export * from './kj-footer';
 export * from './NotionFooter';
