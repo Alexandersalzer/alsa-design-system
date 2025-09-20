@@ -11,6 +11,19 @@ export interface CleanNavbarProps {
     label: string;
     isActive?: boolean;
   }>;
+  /** Logo configuration */
+  logo?: {
+    src?: string;
+    alt?: string;
+    width?: number;
+    height?: number;
+  };
+  /** CTA button configuration */
+  ctaButton?: {
+    text: string;
+    href: string;
+    variant?: 'primary' | 'secondary' | 'accent';
+  };
   /** Custom className for the navbar */
   className?: string;
   /** Background color - defaults to surface-card */
@@ -27,10 +40,14 @@ export interface CleanNavbarProps {
   maxWidth?: string;
   /** Click handler for navigation items */
   onItemClick?: (item: { href: string; label: string }) => void;
+  /** Click handler for CTA button */
+  onCtaClick?: (href: string) => void;
 }
 
 export const CleanNavbar = ({
   items = [],
+  logo,
+  ctaButton,
   className = '',
   background = 'var(--surface-card)',
   blur = true,
@@ -38,7 +55,8 @@ export const CleanNavbar = ({
   padding = '1.75rem 0',
   width = '95%',
   maxWidth = '1400px',
-  onItemClick
+  onItemClick,
+  onCtaClick
 }: CleanNavbarProps) => {
   const handleItemClick = (item: { href: string; label: string }) => {
     if (item.href.startsWith('#')) {
@@ -52,6 +70,20 @@ export const CleanNavbar = ({
       window.location.href = item.href;
     }
     onItemClick?.(item);
+  };
+
+  const handleCtaClick = (href: string) => {
+    if (href.startsWith('#')) {
+      // Smooth scroll to section
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Regular navigation
+      window.location.href = href;
+    }
+    onCtaClick?.(href);
   };
 
   return (
@@ -75,7 +107,7 @@ export const CleanNavbar = ({
     >
       <Container maxWidth="lg" style={{ 
         display: 'flex', 
-        justifyContent: 'center', 
+        justifyContent: 'space-between', 
         alignItems: 'center',
         padding: '0 2rem',
         width: '100%',
@@ -83,7 +115,40 @@ export const CleanNavbar = ({
         margin: '0 auto',
         position: 'relative'
       }}>
-        {/* Navigation Links - Centered */}
+        {/* Logo - Left Side */}
+        <div style={{ flex: '0 0 auto' }}>
+          {logo?.src ? (
+            <img 
+              src={logo.src}
+              alt={logo.alt || 'Logo'}
+              width={logo.width || 40}
+              height={logo.height || 40}
+              style={{
+                objectFit: 'contain',
+                cursor: 'pointer'
+              }}
+            />
+          ) : (
+            <div 
+              style={{
+                width: logo?.width || 40,
+                height: logo?.height || 40,
+                background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer'
+              }}
+            >
+              <Typography variant="body-md" weight="bold" color="inverse">
+                {logo?.alt || 'LOGO'}
+              </Typography>
+            </div>
+          )}
+        </div>
+
+        {/* Navigation Links - Center */}
         <div 
           className="navbar-links"
           style={{ 
@@ -91,7 +156,7 @@ export const CleanNavbar = ({
             alignItems: 'center', 
             justifyContent: 'center',
             gap: '2rem',
-            width: '100%'
+            flex: '1'
           }}
         >
           {items.map((item, index) => (
@@ -127,6 +192,39 @@ export const CleanNavbar = ({
               {item.label}
             </a>
           ))}
+        </div>
+
+        {/* CTA Button - Right Side */}
+        <div style={{ flex: '0 0 auto' }}>
+          {ctaButton && (
+            <button
+              onClick={() => handleCtaClick(ctaButton.href)}
+              style={{
+                background: ctaButton.variant === 'accent' ? 'var(--accent-500)' : 
+                           ctaButton.variant === 'secondary' ? 'var(--surface-card-hover)' :
+                           'var(--primary-500)',
+                color: ctaButton.variant === 'accent' ? 'white' : 'var(--text-primary)',
+                border: ctaButton.variant === 'secondary' ? '1px solid var(--border-default)' : 'none',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '8px',
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                outline: 'none'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              {ctaButton.text}
+            </button>
+          )}
         </div>
       </Container>
     </nav>
