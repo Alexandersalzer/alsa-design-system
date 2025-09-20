@@ -81,6 +81,11 @@ const NotionFooter = ({ isEditingMode = false, content }: NotionFooterProps) => 
                minItemWidth="280px"
                gap="lg"
                className="footer-grid"
+               style={{
+                 display: 'grid !important',
+                 gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr)) !important',
+                 gap: 'var(--foundation-space-6, 1.5rem) !important'
+               }}
              >
               
               {/* Company Info */}
