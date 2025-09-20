@@ -128,5 +128,4 @@ const CleanNavbar = ({
 };
 
 export { CleanNavbar };
-export type { CleanNavbarProps };
 export default CleanNavbar;
