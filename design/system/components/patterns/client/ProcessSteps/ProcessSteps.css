@@ -4,9 +4,9 @@
 
 /* Wrapper styr höjd för alla steg */
 .process-steps-wrapper {
-    position: relative;
-  }
-  
+  position: relative;
+}
+
 /* Sticky sektion */
 .process-steps-section {
   position: sticky;
@@ -17,126 +17,131 @@
   background: transparent;
   padding: var(--foundation-space-12, 3rem) 0;
 }
-  
-  /* Container */
-  .process-steps-container {
-    width: 95%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 var(--foundation-space-8, 2rem);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-  
+
+/* Container */
+.process-steps-container {
+  width: 95%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--foundation-space-8, 2rem);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Header */
 .process-steps-header {
   text-align: center;
-  margin: 0 auto var(--foundation-space-20, 5rem) auto;
   max-width: 900px;
-  padding-top: var(--foundation-space-8, 2rem);
+  margin: 0 auto var(--foundation-space-16, 4rem) auto;
+  padding: var(--foundation-space-8, 2rem) 0;
 }
-  
-  .process-steps-title {
-    font-size: clamp(2.25rem, 4vw, 3rem);
-    margin-bottom: var(--foundation-space-6, 1.5rem);
-    line-height: 1.15;
-  }
-  
-  .process-steps-title-accent {
-    background: linear-gradient(
-      135deg,
-      var(--accent-500, #3b82f6),
-      var(--accent-400, #60a5fa)
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .process-steps-subtitle {
-    max-width: 650px;
-    margin: 0 auto;
-    line-height: var(--foundation-typography-line-height-relaxed, 1.6);
-    color: var(--text-secondary);
-  }
-  
+
+.process-steps-title {
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  line-height: 1.15;
+  margin-bottom: var(--foundation-space-6, 1.5rem);
+}
+
+.process-steps-title span {
+  display: inline-block;
+  margin-right: 0.25em;
+}
+
+.process-steps-title-accent {
+  background: linear-gradient(
+    135deg,
+    var(--accent-500, #3b82f6),
+    var(--accent-400, #60a5fa)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.process-steps-subtitle {
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: var(--foundation-typography-line-height-relaxed, 1.6);
+  color: var(--text-secondary);
+}
+
 /* Steps Container */
 .process-steps-container-animation {
   flex: 1;
   position: relative;
   margin-top: var(--foundation-space-8, 2rem);
 }
-  
-  /* Individual Step */
-  .process-step {
-    position: absolute;
-    inset: 0;
-    border-radius: var(--foundation-radius-xl, 24px);
-    background: var(--surface-card, rgba(255, 255, 255, 0.04));
-    background-size: cover;
-    background-position: center;
-    padding: var(--foundation-space-12, 3rem);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  
-    opacity: 0;
-    transform: translateY(40px) scale(0.96);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-    pointer-events: none;
-  }
-  
-  .process-step--active {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    pointer-events: auto;
-    z-index: 2;
-  }
-  
-  /* Step Content */
-  .process-step-content {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  /* Icon */
-  .process-step-icon {
-    width: 96px;
-    height: 96px;
-    border-radius: 50%;
-    margin: 0 auto var(--foundation-space-6, 1.5rem) auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--surface-overlay, rgba(255,255,255,0.2));
-    border: 1px solid var(--border-subtle, rgba(255,255,255,0.3));
-    backdrop-filter: blur(8px);
-  }
-  
-  .process-step-icon--accent {
-    background: linear-gradient(
-      135deg,
-      var(--accent-500, #3b82f6),
-      var(--accent-400, #60a5fa)
-    );
-    border: none;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Step Typography */
-  .process-step-title {
-    font-size: clamp(1.75rem, 5vw, 2.25rem);
-    margin-bottom: var(--foundation-space-4, 1rem);
-  }
-  
-  .process-step-description {
-    font-size: var(--foundation-typography-size-md, 1rem);
-    line-height: var(--foundation-typography-line-height-relaxed, 1.6);
-    opacity: 0.9;
-  }
-  
+
+/* Individual Step */
+.process-step {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--foundation-radius-xl, 24px);
+  background: var(--surface-card, rgba(255, 255, 255, 0.04));
+  background-size: cover;
+  background-position: center;
+  padding: var(--foundation-space-12, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
+}
+
+.process-step--active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* Step Content */
+.process-step-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Icon */
+.process-step-icon {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  margin: 0 auto var(--foundation-space-6, 1.5rem) auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-overlay, rgba(255,255,255,0.2));
+  border: 1px solid var(--border-subtle, rgba(255,255,255,0.3));
+  backdrop-filter: blur(8px);
+}
+
+.process-step-icon--accent {
+  background: linear-gradient(
+    135deg,
+    var(--accent-500, #3b82f6),
+    var(--accent-400, #60a5fa)
+  );
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Step Typography */
+.process-step-title {
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  margin-bottom: var(--foundation-space-4, 1rem);
+}
+
+.process-step-description {
+  font-size: var(--foundation-typography-size-md, 1rem);
+  line-height: var(--foundation-typography-line-height-relaxed, 1.6);
+  opacity: 0.9;
+}
+
 /* Responsivitet */
 @media (max-width: 1024px) {
   .process-steps-section {
@@ -146,8 +151,8 @@
     padding: 0 var(--foundation-space-6, 1.5rem);
   }
   .process-steps-header {
-    margin-bottom: var(--foundation-space-16, 4rem);
-    padding-top: var(--foundation-space-6, 1.5rem);
+    margin-bottom: var(--foundation-space-12, 3rem);
+    padding: var(--foundation-space-6, 1.5rem) 0;
   }
   .process-step {
     padding: var(--foundation-space-10, 2.5rem);
@@ -157,14 +162,13 @@
     height: 84px;
   }
 }
-  
+
 @media (max-width: 768px) {
   .process-steps-section {
     padding: var(--foundation-space-8, 2rem) 0;
   }
   .process-steps-header {
-    margin-bottom: var(--foundation-space-12, 3rem);
-    padding-top: var(--foundation-space-4, 1rem);
+    margin-bottom: var(--foundation-space-10, 2.5rem);
   }
   .process-step {
     padding: var(--foundation-space-8, 2rem);
@@ -177,14 +181,13 @@
     font-size: clamp(1.5rem, 6vw, 2rem);
   }
 }
-  
+
 @media (max-width: 480px) {
   .process-steps-section {
     padding: var(--foundation-space-6, 1.5rem) 0;
   }
   .process-steps-header {
-    margin-bottom: var(--foundation-space-10, 2.5rem);
-    padding-top: var(--foundation-space-2, 0.5rem);
+    margin-bottom: var(--foundation-space-8, 2rem);
   }
   .process-step {
     padding: var(--foundation-space-6, 1.5rem);
@@ -200,4 +203,3 @@
     font-size: var(--foundation-typography-size-sm, 0.95rem);
   }
 }
-  

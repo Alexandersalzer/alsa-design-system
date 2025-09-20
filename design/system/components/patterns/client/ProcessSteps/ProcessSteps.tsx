@@ -71,16 +71,18 @@ const ProcessSteps = ({ content }: ProcessStepsProps) => {
                 color="heading"
                 className="process-steps-title"
               >
-                {title.split(' ').map((word, index) => {
-                  if (titleAccent && word === titleAccent) {
-                    return (
-                      <span key={index} className="process-steps-title-accent">
-                        {word}
-                      </span>
-                    );
-                  }
-                  return word + (index < title.split(' ').length - 1 ? ' ' : '');
-                })}
+                {title.split(' ').map((word, index) => (
+                  <span
+                    key={index}
+                    className={
+                      titleAccent && word === titleAccent
+                        ? 'process-steps-title-accent'
+                        : undefined
+                    }
+                  >
+                    {word}
+                  </span>
+                ))}
               </Typography>
 
               <Typography
