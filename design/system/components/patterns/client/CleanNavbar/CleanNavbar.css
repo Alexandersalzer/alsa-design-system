@@ -14,22 +14,21 @@
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.08));
     border-radius: 0 0 12px 12px;
-    padding: 1rem 0;
+    padding: 0.75rem 1rem;
   }
   
-  /* Layout med flex: logo | links | CTA */
+  /* Layout: logo | links | CTA */
   .clean-navbar__container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
-    padding: 0 1.5rem;
+    gap: 1.5rem;
   }
   
   /* Logo */
   .clean-navbar__logo img,
   .clean-navbar__logo-placeholder {
-    height: 40px;
+    height: 36px;
     width: auto;
     cursor: pointer;
   }
@@ -39,7 +38,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 1.5rem;
     flex: 1;
   }
   
@@ -48,8 +47,8 @@
     font-size: 0.9rem;
     font-weight: 500;
     text-decoration: none;
-    padding: 0.4rem 0.8rem;
-    border-radius: 8px;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
     transition: all 0.2s ease;
   }
   
@@ -63,10 +62,14 @@
   }
   
   /* CTA */
+  .clean-navbar__cta {
+    flex: 0 0 auto;
+  }
+  
   .clean-navbar__cta-button {
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    font-size: 0.9rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
     font-weight: 600;
     border: none;
     cursor: pointer;
@@ -89,10 +92,9 @@
     color: var(--text-primary);
   }
   
-  /* Hover-effekt CTA */
   .clean-navbar__cta-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
   }
   
   /* ============= Mobil ============= */
@@ -102,15 +104,15 @@
     border: none;
     cursor: pointer;
     color: var(--text-primary);
+    font-size: 1.4rem;
   }
   
   @media (max-width: 768px) {
-    .clean-navbar__links {
-      display: none;
-    }
+    .clean-navbar__links,
     .clean-navbar__cta {
       display: none;
     }
+  
     .clean-navbar__toggle {
       display: block;
     }
@@ -140,4 +142,3 @@
   .clean-navbar__mobile-link:hover {
     color: var(--text-primary);
   }
-  

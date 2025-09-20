@@ -28,7 +28,7 @@ const CleanNavbar = ({
   background = 'var(--surface-card)',
   blur = true,
   borderRadius = '0 0 12px 12px',
-  padding = '1rem 0',
+  padding = '0.75rem 1rem',
   width = '95%',
   maxWidth = '1400px',
   onItemClick,
@@ -77,10 +77,20 @@ const CleanNavbar = ({
         {/* Logo */}
         <div className="clean-navbar__logo">
           {logo?.src ? (
-            <img src={logo.src} alt={logo.alt || 'Logo'} width={logo.width || 40} height={logo.height || 40} />
+            <img
+              src={logo.src}
+              alt={logo.alt || 'Logo'}
+              width={logo.width || 40}
+              height={logo.height || 40}
+            />
           ) : (
-            <div className="clean-navbar__logo-placeholder" style={{ width: logo?.width || 40, height: logo?.height || 40 }}>
-              <Typography variant="body-md" weight="bold" color="inverse">{logo?.alt || 'LOGO'}</Typography>
+            <div
+              className="clean-navbar__logo-placeholder"
+              style={{ width: logo?.width || 40, height: logo?.height || 40 }}
+            >
+              <Typography variant="body-md" weight="bold" color="inverse">
+                {logo?.alt || 'LOGO'}
+              </Typography>
             </div>
           )}
         </div>
@@ -112,8 +122,12 @@ const CleanNavbar = ({
         )}
 
         {/* Mobile toggle */}
-        <button className="clean-navbar__toggle" onClick={() => setMobileOpen(!mobileOpen)}>
-          ☰
+        <button
+          className="clean-navbar__toggle"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? "✕" : "☰"}
         </button>
       </Container>
 
