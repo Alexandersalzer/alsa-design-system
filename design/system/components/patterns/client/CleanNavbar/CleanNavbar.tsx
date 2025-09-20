@@ -3,6 +3,7 @@
 import React from 'react';
 import { Container } from '../../../../layout/frames/container';
 import { Typography } from '../../../primitives/Typography';
+import './CleanNavbar.css';
 
 export interface CleanNavbarProps {
   /** Navigation items */
@@ -88,57 +89,32 @@ export const CleanNavbar = ({
 
   return (
     <nav 
+      className={`clean-navbar ${className}`}
       style={{
-        position: 'fixed',
-        top: '0',
-        left: '50%',
-        transform: 'translateX(-50%)',
         width,
         maxWidth,
-        zIndex: 1000,
         background,
         backdropFilter: blur ? 'blur(10px)' : 'none',
-        borderBottom: '1px solid var(--border-subtle)',
         borderRadius,
-        padding,
-        overflow: 'hidden'
+        padding
       }}
-      className={className}
     >
-      <Container maxWidth="lg" style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        padding: '0 2rem',
-        width: '100%',
-        maxWidth: '1400px',
-        margin: '0 auto',
-        position: 'relative'
-      }}>
+      <Container maxWidth="lg" className="clean-navbar__container">
         {/* Logo - Left Side */}
-        <div style={{ flex: '0 0 auto' }}>
+        <div className="clean-navbar__logo">
           {logo?.src ? (
             <img 
               src={logo.src}
               alt={logo.alt || 'Logo'}
               width={logo.width || 40}
               height={logo.height || 40}
-              style={{
-                objectFit: 'contain',
-                cursor: 'pointer'
-              }}
             />
           ) : (
             <div 
+              className="clean-navbar__logo-placeholder"
               style={{
                 width: logo?.width || 40,
-                height: logo?.height || 40,
-                background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer'
+                height: logo?.height || 40
               }}
             >
               <Typography variant="body-md" weight="bold" color="inverse">
@@ -149,16 +125,7 @@ export const CleanNavbar = ({
         </div>
 
         {/* Navigation Links - Center */}
-        <div 
-          className="navbar-links"
-          style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            gap: '2rem',
-            flex: '1'
-          }}
-        >
+        <div className="clean-navbar__links">
           {items.map((item, index) => (
             <a 
               key={index}
@@ -167,27 +134,7 @@ export const CleanNavbar = ({
                 e.preventDefault();
                 handleItemClick(item);
               }}
-              style={{ 
-                color: 'var(--text-primary)', 
-                textDecoration: 'none',
-                fontSize: '0.875rem',
-                fontWeight: '500',
-                padding: '0.5rem 1rem',
-                borderRadius: '8px',
-                transition: 'all 0.2s ease',
-                position: 'relative',
-                opacity: item.isActive ? 1 : 0.8
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#ffffff';
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'var(--text-primary)';
-                e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
+              className={`clean-navbar__link ${item.isActive ? 'clean-navbar__link--active' : ''}`}
             >
               {item.label}
             </a>
@@ -195,32 +142,11 @@ export const CleanNavbar = ({
         </div>
 
         {/* CTA Button - Right Side */}
-        <div style={{ flex: '0 0 auto' }}>
+        <div className="clean-navbar__cta">
           {ctaButton && (
             <button
               onClick={() => handleCtaClick(ctaButton.href)}
-              style={{
-                background: ctaButton.variant === 'accent' ? 'var(--accent-500)' : 
-                           ctaButton.variant === 'secondary' ? 'var(--surface-card-hover)' :
-                           'var(--primary-500)',
-                color: ctaButton.variant === 'accent' ? 'white' : 'var(--text-primary)',
-                border: ctaButton.variant === 'secondary' ? '1px solid var(--border-default)' : 'none',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '8px',
-                fontSize: '0.875rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                outline: 'none'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
+              className={`clean-navbar__cta-button clean-navbar__cta-button--${ctaButton.variant || 'primary'}`}
             >
               {ctaButton.text}
             </button>
