@@ -59,7 +59,7 @@ const NotionFooter = ({ isEditingMode = false, content }: NotionFooterProps) => 
   } = content;
 
   return (
-    <footer style={{ 
+    <footer className="notion-footer" style={{ 
       background: 'var(--surface-default)',
       borderTop: '1px solid var(--border-subtle)',
       padding: 'var(--foundation-space-16, 4rem) 0 var(--foundation-space-8, 2rem) 0'
@@ -75,7 +75,7 @@ const NotionFooter = ({ isEditingMode = false, content }: NotionFooterProps) => 
           
           {/* Main Footer Content */}
           <RhythmItem at={1}>
-            <div style={{
+            <div className="footer-grid" style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
               gap: 'var(--foundation-space-12, 3rem)'
@@ -209,7 +209,7 @@ const NotionFooter = ({ isEditingMode = false, content }: NotionFooterProps) => 
           
           {/* Bottom Section */}
           <RhythmItem at={3}>
-            <div style={{
+            <div className="footer-bottom" style={{
               borderTop: '1px solid var(--border-subtle)',
               paddingTop: 'var(--foundation-space-8, 2rem)',
               display: 'flex',
