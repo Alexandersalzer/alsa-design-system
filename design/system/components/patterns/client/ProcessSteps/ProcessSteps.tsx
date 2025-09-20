@@ -27,14 +27,11 @@ interface ProcessStepsProps {
 
 const ProcessSteps = ({ content }: ProcessStepsProps) => {
   const { title, titleAccent, subtitle, steps } = content;
-  
-  // Scroll animation state
+
   const [activeStep, setActiveStep] = useState(0);
   const ticking = useRef(false);
-  const lastScrollY = useRef(0);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Scroll animation logic
   useEffect(() => {
     const handleScroll = () => {
       if (!ticking.current && wrapperRef.current) {
@@ -43,10 +40,10 @@ const ProcessSteps = ({ content }: ProcessStepsProps) => {
           const totalHeight = rect.height - window.innerHeight;
           const scrolled = Math.min(Math.max(-rect.top, 0), totalHeight);
 
-          // Calculate step based on scroll progress
-          const step = Math.floor((scrolled / totalHeight) * steps.length);
-          setActiveStep(Math.min(step, steps.length - 1));
+          const progress = scrolled / totalHeight;
+          const stepIndex = Math.floor(progress * steps.length);
 
+          setActiveStep(Math.min(stepIndex, steps.length - 1));
           ticking.current = false;
         });
         ticking.current = true;
@@ -58,19 +55,19 @@ const ProcessSteps = ({ content }: ProcessStepsProps) => {
   }, [steps.length]);
 
   return (
-    <div 
-      id="process-steps-wrapper"
+    <div
       ref={wrapperRef}
       className="process-steps-wrapper"
+      style={{ height: `${steps.length * 100}vh` }}
     >
       <section id="process-steps" className="process-steps-section">
         <div className="process-steps-container">
           {/* Header */}
           <div className="process-steps-header">
             <Stack spacing="lg" align="center">
-              <Typography 
-                variant="h2" 
-                weight="bold" 
+              <Typography
+                variant="h2"
+                weight="bold"
                 color="heading"
                 className="process-steps-title"
               >
@@ -85,9 +82,9 @@ const ProcessSteps = ({ content }: ProcessStepsProps) => {
                   return word + ' ';
                 })}
               </Typography>
-              
-              <Typography 
-                variant="body-xl" 
+
+              <Typography
+                variant="body-xl"
                 color="secondary"
                 className="process-steps-subtitle"
               >
@@ -95,38 +92,51 @@ const ProcessSteps = ({ content }: ProcessStepsProps) => {
               </Typography>
             </Stack>
           </div>
-            
-          {/* Steps Container with Scroll Animation */}
+
+          {/* Steps */}
           <div className="process-steps-container-animation">
             {steps.map((step, index) => (
-              <div 
+              <div
                 key={index}
-                id={`step-${index + 1}`}
-                className={`process-step ${activeStep === index ? 'process-step--active' : ''}`}
+                className={`process-step ${
+                  activeStep === index ? 'process-step--active' : ''
+                }`}
                 style={{
-                  backgroundImage: step.backgroundImage ? `url(${step.backgroundImage})` : undefined,
-                  zIndex: 10 + index
+                  backgroundImage: step.backgroundImage
+                    ? `url(${step.backgroundImage})`
+                    : undefined,
+                  zIndex: steps.length - index,
                 }}
               >
                 <div className="process-step-content">
-                  <div className={`process-step-icon ${step.iconBackground === 'accent' ? 'process-step-icon--accent' : ''}`}>
+                  <div
+                    className={`process-step-icon ${
+                      step.iconBackground === 'accent'
+                        ? 'process-step-icon--accent'
+                        : ''
+                    }`}
+                  >
                     <Typography variant="h2" weight="bold" color="inverse">
                       {step.number}
                     </Typography>
                   </div>
-                  
-                  <Typography 
-                    variant="h3" 
-                    weight="bold" 
-                    color={step.iconBackground === 'accent' ? 'heading' : 'inverse'}
+
+                  <Typography
+                    variant="h3"
+                    weight="bold"
+                    color={
+                      step.iconBackground === 'accent' ? 'heading' : 'inverse'
+                    }
                     className="process-step-title"
                   >
                     {step.title}
                   </Typography>
-                  
-                  <Typography 
-                    variant="body-lg" 
-                    color={step.iconBackground === 'accent' ? 'secondary' : 'inverse'}
+
+                  <Typography
+                    variant="body-lg"
+                    color={
+                      step.iconBackground === 'accent' ? 'secondary' : 'inverse'
+                    }
                     className="process-step-description"
                   >
                     {step.description}
