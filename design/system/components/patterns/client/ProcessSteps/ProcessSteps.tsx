@@ -79,7 +79,7 @@ const ProcessSteps = ({ content }: ProcessStepsProps) => {
                       </span>
                     );
                   }
-                  return word + ' ';
+                  return word + (index < title.split(' ').length - 1 ? ' ' : '');
                 })}
               </Typography>
 
