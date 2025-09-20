@@ -1,108 +1,119 @@
 /* ==============================================
-   NotionFooter.css - Footer Pattern Component
+   NotionFooter.css — Notion-lik, ren & responsiv
    ============================================== */
 
-   .notion-footer {
-    background: var(--surface-default);
-    border-top: 1px solid var(--border-subtle);
-    padding: 4rem 0 2rem;
+/* Bas */
+.notion-footer {
+    background: var(--surface-default, #0b0b0c);
+    border-top: 1px solid var(--border-subtle, rgba(255,255,255,0.08));
+    padding: 64px 0 32px;
   }
   
-  .notion-footer-container {
-    width: 95%;
+  .notion-footer__container {
+    width: 92%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 16px;
   }
   
-  .notion-footer-grid {
+  /* Grid: större vänsterkolumn + två link-kolumner */
+  .notion-footer__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 3rem;
-    width: 100%;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 48px;
     align-items: start;
   }
   
-  .footer-company-name {
-    font-size: 1.5rem;
-  }
+  /* Kolumner */
+  .footer-col { min-width: 0; }
+  .footer-col--company { max-width: 520px; }
   
-  .footer-company-desc {
-    line-height: 1.6;
-    font-size: 0.95rem;
-  }
+  /* Typografi / spacing */
+  .footer-company__name { font-size: 1.5rem; }
+  .footer-company__desc { font-size: 0.95rem; line-height: 1.6; }
   
-  .footer-icon {
-    width: 16px;
-    height: 16px;
-  }
+  .footer-icon { width: 16px; height: 16px; }
   
   .footer-heading {
-    font-size: 0.9rem;
-    letter-spacing: 0.025em;
+    font-size: 0.75rem;
     text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+    opacity: 0.9;
   }
+  
+  /* Länkar som lista (Notion-likt) */
+  .footer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .footer-list li + li { margin-top: 8px; }
   
   .footer-link {
-    color: var(--text-secondary);
+    color: var(--text-secondary, rgba(255,255,255,0.75));
     text-decoration: none;
-    font-size: 0.9rem;
-    line-height: 1.4;
-    transition: color 0.2s ease;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    transition: color .2s ease, opacity .2s ease;
   }
+  .footer-link:hover { color: var(--text-primary, #fff); }
   
-  .footer-link:hover {
-    color: var(--text-primary);
-  }
+  /* Bottenrad */
+  .notion-footer__bottom {
+    border-top: 1px solid var(--border-subtle, rgba(255,255,255,0.08));
+    margin-top: 40px;
+    padding-top: 20px;
   
-  .footer-bottom {
-    border-top: 1px solid var(--border-subtle);
-    padding-top: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
     flex-wrap: wrap;
-    gap: 1rem;
   }
   
-  .footer-copy {
-    flex: 1;
-    min-width: 200px;
+  .footer-bottom__copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 220px;
   }
   
   .footer-dot {
     width: 4px;
     height: 4px;
-    border-radius: 50%;
-    background: var(--text-tertiary);
+    border-radius: 999px;
+    background: var(--text-tertiary, rgba(255,255,255,0.45));
   }
   
-  .footer-cta {
-    font-size: 0.875rem;
-    color: white !important;
+  .footer-bottom__cta { display: inline-flex; }
+  
+  /* Responsivitet */
+  @media (max-width: 1024px) {
+    .notion-footer__grid {
+      grid-template-columns: 1.5fr 1fr;
+    }
+    /* Låt företagskolumn spänna över två kolumner om vi bara har två */
+    .footer-col--company { grid-column: 1 / -1; }
   }
   
-  /* Responsiveness */
   @media (max-width: 768px) {
-    .notion-footer-grid {
+    .notion-footer__grid {
       grid-template-columns: 1fr;
-      gap: 2rem;
+      gap: 32px;
     }
-  
-    .footer-bottom {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .footer-cta {
-      width: 100%;
-      text-align: center;
-    }
+    .footer-bottom__cta { width: 100%; }
+    .footer-bottom__cta .btn,
+    .footer-bottom__cta button { width: 100%; }
   }
   
   @media (max-width: 480px) {
-    .notion-footer-grid {
-      gap: 1.5rem;
-    }
+    .notion-footer { padding: 56px 0 28px; }
+    .notion-footer__grid { gap: 24px; }
   }
   
+  /* Viktigt: ta bort tidigare debug-styles om de finns */
+  .notion-footer-grid > * { /* legacy selector från tidigare kod */
+    border: none !important;
+    background: transparent !important;
+  }
