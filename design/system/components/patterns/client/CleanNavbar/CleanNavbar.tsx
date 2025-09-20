@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Container } from '../../../../layout/frames/container';
 import { Typography } from '../../../primitives/Typography';
 import './CleanNavbar.css';
@@ -34,10 +34,7 @@ const CleanNavbar = ({
   onItemClick,
   onCtaClick
 }: CleanNavbarProps) => {
-  const [isClient, setIsClient] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  useEffect(() => { setIsClient(true); }, []);
 
   const handleItemClick = (item: { href: string; label: string }) => {
     if (item.href.startsWith('#')) {
@@ -95,7 +92,7 @@ const CleanNavbar = ({
           )}
         </div>
 
-        {/* Links */}
+        {/* Links (desktop) */}
         <div className="clean-navbar__links">
           {items.map((item, idx) => (
             <a
@@ -109,7 +106,7 @@ const CleanNavbar = ({
           ))}
         </div>
 
-        {/* CTA */}
+        {/* CTA (desktop) */}
         {ctaButton && (
           <div className="clean-navbar__cta">
             <button
@@ -121,7 +118,7 @@ const CleanNavbar = ({
           </div>
         )}
 
-        {/* Mobile toggle */}
+        {/* Toggle (mobil) */}
         <button
           className="clean-navbar__toggle"
           onClick={() => setMobileOpen(!mobileOpen)}
