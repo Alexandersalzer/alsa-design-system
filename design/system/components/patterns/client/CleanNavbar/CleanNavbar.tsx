@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from '../../../../layout/frames/container';
 import { Typography } from '../../../primitives/Typography';
 import './CleanNavbar.css';
@@ -71,7 +71,7 @@ const CleanNavbar = ({
       }}
     >
       <Container maxWidth="lg" className="clean-navbar__container">
-        {/* Logo */}
+        {/* Logo (vänster) */}
         <div className="clean-navbar__logo">
           {logo?.src ? (
             <img
@@ -92,40 +92,46 @@ const CleanNavbar = ({
           )}
         </div>
 
-        {/* Links (desktop) */}
+        {/* Links (center) */}
         <div className="clean-navbar__links">
           {items.map((item, idx) => (
             <a
               key={idx}
               href={item.href}
-              onClick={(e) => { e.preventDefault(); handleItemClick(item); }}
-              className={`clean-navbar__link ${item.isActive ? 'clean-navbar__link--active' : ''}`}
+              onClick={(e) => {
+                e.preventDefault();
+                handleItemClick(item);
+              }}
+              className={`clean-navbar__link ${
+                item.isActive ? 'clean-navbar__link--active' : ''
+              }`}
             >
               {item.label}
             </a>
           ))}
         </div>
 
-        {/* CTA (desktop) */}
-        {ctaButton && (
-          <div className="clean-navbar__cta">
+        {/* CTA eller toggle (höger) */}
+        <div className="clean-navbar__right">
+          {ctaButton && (
             <button
               onClick={() => handleCtaClick(ctaButton.href)}
-              className={`clean-navbar__cta-button clean-navbar__cta-button--${ctaButton.variant || 'primary'}`}
+              className={`clean-navbar__cta-button clean-navbar__cta-button--${
+                ctaButton.variant || 'primary'
+              }`}
             >
               {ctaButton.text}
             </button>
-          </div>
-        )}
+          )}
 
-        {/* Toggle (mobil) */}
-        <button
-          className="clean-navbar__toggle"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? "✕" : "☰"}
-        </button>
+          {/* Mobil toggle */}
+          <button
+            className="clean-navbar__toggle"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            ☰
+          </button>
+        </div>
       </Container>
 
       {/* Mobile menu */}
@@ -135,7 +141,10 @@ const CleanNavbar = ({
             <a
               key={idx}
               href={item.href}
-              onClick={(e) => { e.preventDefault(); handleItemClick(item); }}
+              onClick={(e) => {
+                e.preventDefault();
+                handleItemClick(item);
+              }}
               className="clean-navbar__mobile-link"
             >
               {item.label}
@@ -144,7 +153,9 @@ const CleanNavbar = ({
           {ctaButton && (
             <button
               onClick={() => handleCtaClick(ctaButton.href)}
-              className={`clean-navbar__cta-button clean-navbar__cta-button--${ctaButton.variant || 'primary'}`}
+              className={`clean-navbar__cta-button clean-navbar__cta-button--${
+                ctaButton.variant || 'primary'
+              }`}
               style={{ width: '100%', marginTop: '1rem' }}
             >
               {ctaButton.text}

@@ -1,5 +1,5 @@
 /* ================================
-   CleanNavbar — ren & responsiv
+   CleanNavbar — grid layout
    ================================ */
 
    .clean-navbar {
@@ -17,11 +17,11 @@
     padding: 0.75rem 1rem;
   }
   
-  /* Flexlayout */
+  /* === Grid container: logo | links | right === */
   .clean-navbar__container {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    justify-content: space-between;
     gap: 1.5rem;
   }
   
@@ -31,15 +31,14 @@
     height: 36px;
     width: auto;
     cursor: pointer;
+    display: block;
   }
   
   /* Links (desktop) */
   .clean-navbar__links {
     display: flex;
-    align-items: center;
     justify-content: center;
     gap: 2rem;
-    flex: 1;
   }
   
   .clean-navbar__link {
@@ -61,11 +60,14 @@
     color: var(--text-primary);
   }
   
-  /* CTA button */
-  .clean-navbar__cta {
-    flex: 0 0 auto;
+  /* Right zone (CTA + toggle) */
+  .clean-navbar__right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
   
+  /* CTA */
   .clean-navbar__cta-button {
     padding: 0.5rem 1.1rem;
     border-radius: 6px;
@@ -97,7 +99,7 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.12);
   }
   
-  /* ============= Mobil ============= */
+  /* Toggle (mobil) */
   .clean-navbar__toggle {
     display: none;
     background: none;
@@ -107,7 +109,7 @@
     font-size: 1.6rem;
   }
   
-  /* Dölj länkar och CTA på mobil */
+  /* Mobil */
   @media (max-width: 768px) {
     .clean-navbar__links,
     .clean-navbar__cta {
@@ -142,10 +144,4 @@
   
   .clean-navbar__mobile-link:hover {
     color: var(--text-primary);
-  }
-  
-  /* Fade animation */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
   }
