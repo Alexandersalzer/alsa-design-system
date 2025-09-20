@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from '../../../../layout/frames/container';
 import { Typography } from '../../../primitives/Typography';
 import './CleanNavbar.css';
@@ -59,6 +59,11 @@ export const CleanNavbar = ({
   onItemClick,
   onCtaClick
 }: CleanNavbarProps) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   const handleItemClick = (item: { href: string; label: string }) => {
     if (item.href.startsWith('#')) {
       // Smooth scroll to section
@@ -87,34 +92,76 @@ export const CleanNavbar = ({
     onCtaClick?.(href);
   };
 
+  // Fallback styles for SSR
+  const fallbackStyles = {
+    position: 'fixed' as const,
+    top: '0',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    width,
+    maxWidth,
+    zIndex: 1000,
+    background,
+    backdropFilter: blur ? 'blur(10px)' : 'none',
+    borderBottom: '1px solid var(--border-subtle)',
+    borderRadius,
+    padding,
+    overflow: 'hidden'
+  };
+
   return (
     <nav 
-      className={`clean-navbar ${className}`}
-      style={{
+      className={isClient ? `clean-navbar ${className}` : className}
+      style={isClient ? {
         width,
         maxWidth,
         background,
         backdropFilter: blur ? 'blur(10px)' : 'none',
         borderRadius,
         padding
-      }}
+      } : fallbackStyles}
     >
-      <Container maxWidth="lg" className="clean-navbar__container">
+      <Container 
+        maxWidth="lg" 
+        className={isClient ? "clean-navbar__container" : ""}
+        style={!isClient ? {
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '0 2rem',
+          width: '100%',
+          maxWidth: '1400px',
+          margin: '0 auto',
+          position: 'relative'
+        } : undefined}
+      >
         {/* Logo - Left Side */}
-        <div className="clean-navbar__logo">
+        <div 
+          className={isClient ? "clean-navbar__logo" : ""}
+          style={!isClient ? { flex: '0 0 auto' } : undefined}
+        >
           {logo?.src ? (
             <img 
               src={logo.src}
               alt={logo.alt || 'Logo'}
               width={logo.width || 40}
               height={logo.height || 40}
+              style={!isClient ? { objectFit: 'contain', cursor: 'pointer' } : undefined}
             />
           ) : (
             <div 
-              className="clean-navbar__logo-placeholder"
+              className={isClient ? "clean-navbar__logo-placeholder" : ""}
               style={{
                 width: logo?.width || 40,
-                height: logo?.height || 40
+                height: logo?.height || 40,
+                ...(!isClient && {
+                  background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer'
+                })
               }}
             >
               <Typography variant="body-md" weight="bold" color="inverse">
@@ -125,7 +172,16 @@ export const CleanNavbar = ({
         </div>
 
         {/* Navigation Links - Center */}
-        <div className="clean-navbar__links">
+        <div 
+          className={isClient ? "clean-navbar__links" : ""}
+          style={!isClient ? {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '2rem',
+            flex: '1'
+          } : undefined}
+        >
           {items.map((item, index) => (
             <a 
               key={index}
@@ -134,7 +190,18 @@ export const CleanNavbar = ({
                 e.preventDefault();
                 handleItemClick(item);
               }}
-              className={`clean-navbar__link ${item.isActive ? 'clean-navbar__link--active' : ''}`}
+              className={isClient ? `clean-navbar__link ${item.isActive ? 'clean-navbar__link--active' : ''}` : ""}
+              style={!isClient ? {
+                color: 'var(--text-primary)',
+                textDecoration: 'none',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                padding: '0.5rem 1rem',
+                borderRadius: '8px',
+                transition: 'all 0.2s ease',
+                position: 'relative',
+                opacity: item.isActive ? 1 : 0.8
+              } : undefined}
             >
               {item.label}
             </a>
@@ -142,11 +209,28 @@ export const CleanNavbar = ({
         </div>
 
         {/* CTA Button - Right Side */}
-        <div className="clean-navbar__cta">
+        <div 
+          className={isClient ? "clean-navbar__cta" : ""}
+          style={!isClient ? { flex: '0 0 auto' } : undefined}
+        >
           {ctaButton && (
             <button
               onClick={() => handleCtaClick(ctaButton.href)}
-              className={`clean-navbar__cta-button clean-navbar__cta-button--${ctaButton.variant || 'primary'}`}
+              className={isClient ? `clean-navbar__cta-button clean-navbar__cta-button--${ctaButton.variant || 'primary'}` : ""}
+              style={!isClient ? {
+                background: ctaButton.variant === 'accent' ? 'var(--accent-500)' : 
+                           ctaButton.variant === 'secondary' ? 'var(--surface-card-hover)' :
+                           'var(--primary-500)',
+                color: ctaButton.variant === 'accent' ? 'white' : 'var(--text-primary)',
+                border: ctaButton.variant === 'secondary' ? '1px solid var(--border-default)' : 'none',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '8px',
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                outline: 'none'
+              } : undefined}
             >
               {ctaButton.text}
             </button>
