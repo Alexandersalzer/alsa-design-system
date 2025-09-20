@@ -1,0 +1,212 @@
+/* ================================
+   ProcessSteps — scroll-animerad process med design tokens
+   ================================ */
+
+.process-steps-wrapper {
+  height: 300vh;
+  position: relative;
+}
+
+.process-steps-section {
+  background: transparent;
+  padding: var(--foundation-space-24, 6rem) 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.process-steps-container {
+  width: 95%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--foundation-space-8, 2rem);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.process-steps-header {
+  text-align: center;
+  margin-bottom: var(--foundation-space-16, 4rem);
+  max-width: 1200px;
+  margin: 0 auto var(--foundation-space-16, 4rem) auto;
+  padding-top: var(--foundation-space-8, 2rem);
+}
+
+.process-steps-title {
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  margin-bottom: var(--foundation-space-6, 1.5rem);
+}
+
+.process-steps-title-accent {
+  background: linear-gradient(
+    135deg, 
+    var(--accent-500, #3b82f6) 0%, 
+    var(--accent-400, #60a5fa) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.process-steps-subtitle {
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: var(--foundation-typography-line-height-relaxed, 1.6);
+}
+
+/* Steps Container with Scroll Animation */
+.process-steps-container-animation {
+  flex: 1;
+  position: relative;
+  perspective: 1000px;
+}
+
+/* Individual Steps */
+.process-step {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--foundation-radius-xl, 24px);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: var(--foundation-space-12, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--foundation-motion-duration-slow, 0.6s) ease;
+  will-change: transform, opacity;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  transform: translateY(50px) scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.process-step--active {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.process-step-content {
+  text-align: center;
+  max-width: 600px;
+}
+
+/* Step Icon */
+.process-step-icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--foundation-space-8, 2rem) auto;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.process-step-icon--accent {
+  background: linear-gradient(
+    135deg, 
+    var(--accent-500, #3b82f6), 
+    var(--accent-400, #60a5fa)
+  );
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: none;
+}
+
+/* Step Typography */
+.process-step-title {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  margin-bottom: var(--foundation-space-6, 1.5rem);
+}
+
+.process-step-description {
+  line-height: var(--foundation-typography-line-height-relaxed, 1.6);
+  opacity: 0.9;
+}
+
+/* Responsivitet */
+@media (max-width: 1024px) {
+  .process-steps-wrapper {
+    height: 250vh;
+  }
+  
+  .process-steps-container {
+    padding: 0 var(--foundation-space-6, 1.5rem);
+  }
+  
+  .process-step {
+    padding: var(--foundation-space-10, 2.5rem);
+  }
+  
+  .process-step-icon {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .process-steps-wrapper {
+    height: 200vh;
+  }
+  
+  .process-steps-section {
+    padding: var(--foundation-space-20, 5rem) 0;
+  }
+  
+  .process-steps-title {
+    font-size: clamp(2rem, 6vw, 2.5rem);
+  }
+  
+  .process-step {
+    padding: var(--foundation-space-8, 2rem);
+  }
+  
+  .process-step-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: var(--foundation-space-6, 1.5rem);
+  }
+  
+  .process-step-title {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .process-steps-wrapper {
+    height: 180vh;
+  }
+  
+  .process-steps-section {
+    padding: var(--foundation-space-16, 4rem) 0;
+  }
+  
+  .process-steps-container {
+    padding: 0 var(--foundation-space-4, 1rem);
+  }
+  
+  .process-step {
+    padding: var(--foundation-space-6, 1.5rem);
+  }
+  
+  .process-step-icon {
+    width: 70px;
+    height: 70px;
+    margin-bottom: var(--foundation-space-4, 1rem);
+  }
+  
+  .process-step-title {
+    font-size: clamp(1.25rem, 6vw, 1.75rem);
+    margin-bottom: var(--foundation-space-4, 1rem);
+  }
+  
+  .process-step-description {
+    font-size: var(--foundation-typography-size-md, 1rem);
+  }
+}
