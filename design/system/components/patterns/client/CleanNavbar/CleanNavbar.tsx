@@ -123,7 +123,7 @@ export const CleanNavbar = ({
     >
       <Container 
         maxWidth="lg" 
-        className={isClient ? "clean-navbar__container" : ""}
+        className={isClient ? "clean-navbar__container" : undefined}
         style={!isClient ? {
           display: 'flex',
           justifyContent: 'space-between',
@@ -137,7 +137,7 @@ export const CleanNavbar = ({
       >
         {/* Logo - Left Side */}
         <div 
-          className={isClient ? "clean-navbar__logo" : ""}
+          className={isClient ? "clean-navbar__logo" : undefined}
           style={!isClient ? { flex: '0 0 auto' } : undefined}
         >
           {logo?.src ? (
@@ -150,7 +150,7 @@ export const CleanNavbar = ({
             />
           ) : (
             <div 
-              className={isClient ? "clean-navbar__logo-placeholder" : ""}
+              className={isClient ? "clean-navbar__logo-placeholder" : undefined}
               style={{
                 width: logo?.width || 40,
                 height: logo?.height || 40,
@@ -173,7 +173,7 @@ export const CleanNavbar = ({
 
         {/* Navigation Links - Center */}
         <div 
-          className={isClient ? "clean-navbar__links" : ""}
+          className={isClient ? "clean-navbar__links" : undefined}
           style={!isClient ? {
             display: 'flex',
             alignItems: 'center',
@@ -190,7 +190,7 @@ export const CleanNavbar = ({
                 e.preventDefault();
                 handleItemClick(item);
               }}
-              className={isClient ? `clean-navbar__link ${item.isActive ? 'clean-navbar__link--active' : ''}` : ""}
+              className={isClient ? `clean-navbar__link ${item.isActive ? 'clean-navbar__link--active' : ''}` : undefined}
               style={!isClient ? {
                 color: 'var(--text-primary)',
                 textDecoration: 'none',
@@ -210,13 +210,13 @@ export const CleanNavbar = ({
 
         {/* CTA Button - Right Side */}
         <div 
-          className={isClient ? "clean-navbar__cta" : ""}
+          className={isClient ? "clean-navbar__cta" : undefined}
           style={!isClient ? { flex: '0 0 auto' } : undefined}
         >
           {ctaButton && (
             <button
               onClick={() => handleCtaClick(ctaButton.href)}
-              className={isClient ? `clean-navbar__cta-button clean-navbar__cta-button--${ctaButton.variant || 'primary'}` : ""}
+              className={isClient ? `clean-navbar__cta-button clean-navbar__cta-button--${ctaButton.variant || 'primary'}` : undefined}
               style={!isClient ? {
                 background: ctaButton.variant === 'accent' ? 'var(--accent-500)' : 
                            ctaButton.variant === 'secondary' ? 'var(--surface-card-hover)' :
