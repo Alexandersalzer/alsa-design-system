@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Container } from '../../../../layout/frames/container';
 import { Typography } from '../../../primitives/Typography';
 import './CleanNavbar.css';
@@ -8,6 +8,7 @@ import './CleanNavbar.css';
 export interface CleanNavbarProps {
   items?: Array<{ href: string; label: string; isActive?: boolean }>;
   logo?: { src?: string; alt?: string; width?: number; height?: number };
+  companyName?: string;
   ctaButton?: { text: string; href: string; variant?: 'primary' | 'secondary' | 'accent' };
   className?: string;
   background?: string;
@@ -23,12 +24,13 @@ export interface CleanNavbarProps {
 const CleanNavbar = ({
   items = [],
   logo,
+  companyName,
   ctaButton,
   className = '',
   background = 'var(--surface-card)',
   blur = true,
   borderRadius = '0 0 12px 12px',
-  padding = '0.75rem 1rem',
+  padding = '1rem 0',
   width = '95%',
   maxWidth = '1400px',
   onItemClick,
@@ -71,7 +73,7 @@ const CleanNavbar = ({
       }}
     >
       <Container maxWidth="lg" className="clean-navbar__container">
-        {/* Logo (vänster) */}
+        {/* Logo / Företagsnamn */}
         <div className="clean-navbar__logo">
           {logo?.src ? (
             <img
@@ -81,88 +83,70 @@ const CleanNavbar = ({
               height={logo.height || 40}
             />
           ) : (
-            <div
-              className="clean-navbar__logo-placeholder"
-              style={{ width: logo?.width || 40, height: logo?.height || 40 }}
-            >
-              <Typography variant="body-md" weight="bold" color="inverse">
-                {logo?.alt || 'LOGO'}
-              </Typography>
-            </div>
+            <Typography variant="body-lg" weight="bold" color="primary">
+              {companyName || 'Företag'}
+            </Typography>
           )}
         </div>
 
-        {/* Links (center) */}
+        {/* Links */}
         <div className="clean-navbar__links">
           {items.map((item, idx) => (
             <a
               key={idx}
               href={item.href}
-              onClick={(e) => {
-                e.preventDefault();
-                handleItemClick(item);
-              }}
-              className={`clean-navbar__link ${
-                item.isActive ? 'clean-navbar__link--active' : ''
-              }`}
+              onClick={(e) => { e.preventDefault(); handleItemClick(item); }}
+              className={`clean-navbar__link ${item.isActive ? 'clean-navbar__link--active' : ''}`}
             >
               {item.label}
             </a>
           ))}
         </div>
 
-        {/* CTA eller toggle (höger) */}
-        <div className="clean-navbar__right">
-          {ctaButton && (
+        {/* CTA (desktop only) */}
+        {ctaButton && (
+          <div className="clean-navbar__cta">
             <button
               onClick={() => handleCtaClick(ctaButton.href)}
-              className={`clean-navbar__cta-button clean-navbar__cta-button--${
-                ctaButton.variant || 'primary'
-              }`}
+              className={`clean-navbar__cta-button clean-navbar__cta-button--${ctaButton.variant || 'primary'}`}
             >
               {ctaButton.text}
             </button>
-          )}
+          </div>
+        )}
 
-          {/* Mobil toggle */}
-          <button
-            className="clean-navbar__toggle"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            ☰
-          </button>
-        </div>
+        {/* Mobile toggle */}
+        <button
+          className={`clean-navbar__toggle ${mobileOpen ? 'open' : ''}`}
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle menu"
+        >
+          ☰
+        </button>
       </Container>
 
       {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="clean-navbar__mobile-menu">
-          {items.map((item, idx) => (
-            <a
-              key={idx}
-              href={item.href}
-              onClick={(e) => {
-                e.preventDefault();
-                handleItemClick(item);
-              }}
-              className="clean-navbar__mobile-link"
-            >
-              {item.label}
-            </a>
-          ))}
-          {ctaButton && (
-            <button
-              onClick={() => handleCtaClick(ctaButton.href)}
-              className={`clean-navbar__cta-button clean-navbar__cta-button--${
-                ctaButton.variant || 'primary'
-              }`}
-              style={{ width: '100%', marginTop: '1rem' }}
-            >
-              {ctaButton.text}
-            </button>
-          )}
-        </div>
-      )}
+      <div className={`clean-navbar__mobile-menu ${mobileOpen ? 'open' : ''}`}>
+        {items.map((item, idx) => (
+          <a
+            key={idx}
+            href={item.href}
+            onClick={(e) => { e.preventDefault(); handleItemClick(item); }}
+            className="clean-navbar__mobile-link"
+          >
+            {item.label}
+          </a>
+        ))}
+        {ctaButton && (
+          <button
+            onClick={() => handleCtaClick(ctaButton.href)}
+            className={`clean-navbar__cta-button clean-navbar__cta-button--${ctaButton.variant || 'primary'}`}
+            style={{ width: '100%', marginTop: '1rem' }}
+          >
+            {ctaButton.text}
+          </button>
+        )}
+      </div>
     </nav>
   );
 };

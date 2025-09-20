@@ -1,5 +1,5 @@
 /* ================================
-   CleanNavbar — grid layout
+   CleanNavbar — responsiv & centrerad
    ================================ */
 
    .clean-navbar {
@@ -12,33 +12,33 @@
     z-index: 1000;
     background: var(--surface-card, rgba(20,20,20,0.85));
     backdrop-filter: blur(12px);
-    border-radius: 0 0 12px 12px;
     border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.08));
-    padding: 0.75rem 1rem;
+    border-radius: 0 0 12px 12px;
+    padding: 1rem 0;
   }
   
-  /* === Grid container: logo | links | right === */
   .clean-navbar__container {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
+    display: flex;
     align-items: center;
-    gap: 1.5rem;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 0 1.5rem;
   }
   
   /* Logo */
-  .clean-navbar__logo img,
-  .clean-navbar__logo-placeholder {
-    height: 36px;
+  .clean-navbar__logo img {
+    height: 40px;
     width: auto;
     cursor: pointer;
-    display: block;
   }
   
-  /* Links (desktop) */
+  /* Links */
   .clean-navbar__links {
     display: flex;
+    align-items: center;
     justify-content: center;
     gap: 2rem;
+    flex: 1;
   }
   
   .clean-navbar__link {
@@ -46,8 +46,8 @@
     font-size: 0.9rem;
     font-weight: 500;
     text-decoration: none;
-    padding: 0.3rem 0.6rem;
-    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
     transition: all 0.2s ease;
   }
   
@@ -60,18 +60,15 @@
     color: var(--text-primary);
   }
   
-  /* Right zone (CTA + toggle) */
-  .clean-navbar__right {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  /* CTA */
+  .clean-navbar__cta {
+    display: block;
   }
   
-  /* CTA */
   .clean-navbar__cta-button {
-    padding: 0.5rem 1.1rem;
-    border-radius: 6px;
-    font-size: 0.85rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
     font-weight: 600;
     border: none;
     cursor: pointer;
@@ -96,31 +93,35 @@
   
   .clean-navbar__cta-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
   
-  /* Toggle (mobil) */
+  /* Mobil */
   .clean-navbar__toggle {
     display: none;
     background: none;
     border: none;
     cursor: pointer;
     color: var(--text-primary);
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
   
-  /* Mobil */
   @media (max-width: 768px) {
-    .clean-navbar__links,
-    .clean-navbar__cta {
+    .clean-navbar__links {
       display: none;
     }
+  
+    .clean-navbar__cta {
+      display: none; /* <-- gömmer CTA på mobil */
+    }
+  
     .clean-navbar__toggle {
       display: block;
+      margin-left: auto;
     }
   }
   
-  /* Mobilmeny */
+  /* Mobilmeny (med animation) */
   .clean-navbar__mobile-menu {
     position: absolute;
     top: 100%;
@@ -132,7 +133,16 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    animation: fadeIn 0.2s ease;
+  
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .clean-navbar__mobile-menu.open {
+    max-height: 400px; /* tillräckligt stort för alla länkar */
+    opacity: 1;
   }
   
   .clean-navbar__mobile-link {
@@ -140,6 +150,7 @@
     font-size: 1rem;
     text-decoration: none;
     padding: 0.5rem 0;
+    transition: color 0.2s ease;
   }
   
   .clean-navbar__mobile-link:hover {
