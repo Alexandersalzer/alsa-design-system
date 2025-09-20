@@ -1,38 +1,41 @@
-/* =========================
-   Clean, responsiv navbar
-   ========================= */
+/* ================================
+   CleanNavbar — responsiv & clean
+   ================================ */
+
    .clean-navbar {
     position: fixed;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 95%;
-    max-width: 1400px;
+    left: 0;
+    width: 100%;
     z-index: 1000;
-    background: var(--surface-card, rgba(20,20,20,0.85));
+    background: var(--surface-card, rgba(20,20,20,0.9));
     backdrop-filter: blur(12px);
-    border-radius: 0 0 12px 12px;
     border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.08));
-    padding: 0.75rem 1.25rem;
+    padding: 0.75rem 0;
   }
   
   .clean-navbar__container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
   }
   
   /* Logo */
   .clean-navbar__logo {
     flex: 0 0 auto;
-    display: flex;
-    align-items: center;
+    font-weight: 700;
+    font-size: 1.1rem;
   }
   
-  /* Links desktop */
+  /* Links */
   .clean-navbar__links {
-    display: flex;
     flex: 1;
+    display: flex;
+    align-items: center;
     justify-content: center;
     gap: 2rem;
   }
@@ -42,10 +45,13 @@
     font-size: 0.95rem;
     font-weight: 500;
     text-decoration: none;
-    transition: color 0.2s ease;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
   }
   
   .clean-navbar__link:hover {
+    background: rgba(255,255,255,0.08);
     color: var(--text-primary);
   }
   
@@ -53,24 +59,24 @@
     color: var(--text-primary);
   }
   
-  /* CTA Desktop */
+  /* CTA (desktop only) */
   .clean-navbar__cta {
     flex: 0 0 auto;
   }
   
   .clean-navbar__cta-button {
-    padding: 0.55rem 1.2rem;
+    padding: 0.6rem 1.2rem;
     border-radius: 8px;
     font-size: 0.9rem;
     font-weight: 600;
+    border: none;
     cursor: pointer;
     transition: all 0.2s ease;
-    border: none;
   }
   
   .clean-navbar__cta-button--primary {
     background: var(--primary-500);
-    color: #fff;
+    color: var(--text-on-primary, #fff);
   }
   
   .clean-navbar__cta-button--accent {
@@ -84,60 +90,60 @@
     color: var(--text-primary);
   }
   
-  .clean-navbar__cta-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  }
-  
-  /* Hamburger toggle */
+  /* Hamburger */
   .clean-navbar__toggle {
     display: none;
     background: none;
     border: none;
-    font-size: 1.6rem;
     cursor: pointer;
     color: var(--text-primary);
+    font-size: 1.5rem;
   }
   
-  /* Mobile menu */
-  .clean-navbar__mobile-menu {
-    display: none;
-    flex-direction: column;
-    background: var(--surface-card, #111);
-    padding: 1.25rem;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-    gap: 1rem;
-    animation: slideDown 0.25s ease forwards;
-  }
-  
-  .clean-navbar__mobile-menu.open {
-    display: flex;
-  }
-  
-  .clean-navbar__mobile-link {
-    color: var(--text-secondary);
-    font-size: 1rem;
-    text-decoration: none;
-  }
-  
-  .clean-navbar__mobile-link:hover {
-    color: var(--text-primary);
-  }
-  
-  /* Responsive */
+  /* Mobile */
   @media (max-width: 768px) {
     .clean-navbar__links,
     .clean-navbar__cta {
       display: none;
     }
+  
     .clean-navbar__toggle {
       display: block;
     }
+  
+    .clean-navbar__mobile-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--surface-card, #111);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 1rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      animation: slideDown 0.3s ease forwards;
+    }
+  
+    .clean-navbar__mobile-link {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      text-decoration: none;
+      padding: 0.5rem 0;
+    }
+  
+    .clean-navbar__mobile-link:hover {
+      color: var(--text-primary);
+    }
   }
   
-  /* Animation */
   @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
