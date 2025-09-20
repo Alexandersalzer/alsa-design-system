@@ -42,22 +42,33 @@
   
   /* Link-kolumner */
   .footer-heading {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin:  0.75rem;
-    opacity: 0.9;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary, rgba(255,255,255,0.6));
+    line-height: 1;
+    display: block;
+    margin: 0 0 1rem 0;   /* tydlig luft under rubriken */
+  }
+  
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .footer-col:not(.footer-col--company) {
+    padding-top: 6px; /* liten optisk nudge så rubrikerna linjerar snyggt */
   }
   
   .footer-list { margin: 0; padding: 0; list-style: none; }
-  .footer-list li + li { margin-top: 8px; }
+  .footer-list li + li { margin-top: 10px; }
   
   .footer-link {
     color: var(--text-secondary, rgba(255,255,255,0.75));
     text-decoration: none;
     font-size: 0.95rem;
     line-height: 1.5;
-    transition: color .2s ease;
+    transition: color .2s ease, opacity .2s ease;
   }
   .footer-link:hover { color: var(--text-primary, #fff); }
   
