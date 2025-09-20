@@ -1,6 +1,7 @@
 export * from './navbar';
 export * from './RichText';
 export * from './kj-footer';
+export * from './NotionFooter';
 export * from './spinning-banner';
 export * from './CountUpSection';
 export * from './spinning-carousel';
