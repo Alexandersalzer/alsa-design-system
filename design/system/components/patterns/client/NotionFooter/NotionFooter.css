@@ -1,0 +1,57 @@
+/* ==============================================
+   NotionFooter.css - Footer Pattern Component
+   ============================================== */
+
+/* Define missing CSS variables that NotionFooter uses */
+:root {
+  /* Surface tokens for footer */
+  --surface-default: var(--surface-page);
+  --surface-card-hover: var(--primary-100);
+  --surface-card-selected: var(--primary-100);
+  
+  /* Text tokens that might be missing */
+  --text-tertiary: var(--secondary-500);
+  
+  /* Additional footer-specific tokens */
+  --footer-background: var(--surface-page);
+  --footer-border: var(--border-subtle);
+  --footer-text-primary: var(--text-primary);
+  --footer-text-secondary: var(--text-secondary);
+  --footer-text-tertiary: var(--text-tertiary);
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --surface-default: var(--surface-page);
+  --surface-card-hover: var(--primary-100);
+  --surface-card-selected: var(--primary-100);
+  --text-tertiary: var(--secondary-500);
+}
+
+/* Footer component styles */
+.notion-footer {
+  background: var(--surface-default);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.notion-footer a {
+  transition: color 0.2s ease;
+}
+
+.notion-footer a:hover {
+  color: var(--text-primary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .notion-footer .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .notion-footer .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
