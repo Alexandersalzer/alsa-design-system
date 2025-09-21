@@ -1,6 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { Button } from '../../../../../system/components/primitives/Button';
+import { Typography } from '../../../../../system/components/primitives/Typography';
+import { Container } from '../../../../../system/layout/frames/container';
+import { Section } from '../../../../../system/layout/frames/section';
 import './CleanNavbar.css';
 
 export interface NavItem {
@@ -62,15 +66,22 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
   };
 
   return (
-    <nav
+    <Section
+      as="nav"
+      position="fixed"
       className={[
         'clean-navbar',
         elevated ? 'clean-navbar--elevated' : '',
         className,
       ].join(' ')}
+      style={{ top: 0, left: 0, right: 0, zIndex: 1000 }}
       data-clean-navbar
     >
-      <div className="clean-navbar__inner" style={{ maxWidth }}>
+      <Container
+        maxWidth="xl"
+        align="center"
+        className="clean-navbar__inner"
+      >
         {/* Brand */}
         <a
           className="clean-navbar__brand"
@@ -93,7 +104,14 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
               decoding="sync"
             />
           ) : (
-            <span className="brand-text">{brand.name || 'Företag'}</span>
+            <Typography
+              variant="label-md"
+              color="primary"
+              weight="bold"
+              className="brand-text"
+            >
+              {brand.name || 'Företag'}
+            </Typography>
           )}
         </a>
 
@@ -109,7 +127,13 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                 go(it.href);
               }}
             >
-              {it.label}
+              <Typography
+                variant="label-sm"
+                color={it.isActive ? "primary" : "secondary"}
+                weight="medium"
+              >
+                {it.label}
+              </Typography>
             </a>
           ))}
         </div>
@@ -117,19 +141,20 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         {/* CTA (desktop) */}
         {ctaButton && (
           <div className="clean-navbar__cta">
-            <button
-              className={`clean-navbar__cta-button clean-navbar__cta-button--${
-                ctaButton.variant || 'accent'
-              }`}
+            <Button
+              variant={ctaButton.variant || 'accent'}
+              size="md"
               onClick={() => go(ctaButton.href)}
             >
               {ctaButton.text}
-            </button>
+            </Button>
           </div>
         )}
 
         {/* Hamburger */}
-        <button
+        <Button
+          variant="ghost"
+          size="sm"
           className="clean-navbar__toggle"
           aria-label="Öppna meny"
           aria-expanded={mobileOpen}
@@ -138,8 +163,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           <span />
           <span />
           <span />
-        </button>
-      </div>
+        </Button>
+      </Container>
 
       {/* Mobile panel */}
       <div
@@ -147,7 +172,11 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         role="dialog"
         aria-modal="false"
       >
-        <div className="clean-navbar__mobile-inner" style={{ maxWidth }}>
+        <Container
+          maxWidth="xl"
+          align="center"
+          className="clean-navbar__mobile-inner"
+        >
           <div className="clean-navbar__mobile-links">
             {items.map((it) => (
               <a
@@ -160,27 +189,33 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   go(it.href);
                 }}
               >
-                {it.label}
+                <Typography
+                  variant="body-md"
+                  color={it.isActive ? "primary" : "secondary"}
+                  weight="medium"
+                >
+                  {it.label}
+                </Typography>
               </a>
             ))}
           </div>
 
           {ctaButton && (
-            <button
-              className={`clean-navbar__cta-button clean-navbar__cta-button--${
-                ctaButton.variant || 'accent'
-              } clean-navbar__cta-button--mobile`}
+            <Button
+              variant={ctaButton.variant || 'accent'}
+              size="md"
+              className="clean-navbar__cta-button--mobile"
               onClick={() => {
                 setMobileOpen(false);
                 go(ctaButton.href);
               }}
             >
               {ctaButton.text}
-            </button>
+            </Button>
           )}
-        </div>
+        </Container>
       </div>
-    </nav>
+    </Section>
   );
 };
 

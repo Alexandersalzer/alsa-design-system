@@ -1,107 +1,62 @@
 /* ================================
-   CleanNavbar — självförsörjande
+   CleanNavbar — Using Design System Tokens
    ================================ */
 
    .clean-navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-  
     /* bakgrund + glas */
-    background: var(--surface-card, rgba(16,16,16,0.85));
+    background: var(--surface-card);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.08));
+    border-bottom: 1px solid var(--border-subtle);
   
     animation: nav-enter 300ms ease both;
   }
   
   .clean-navbar--elevated {
-    box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+    box-shadow: var(--shadow-lg);
   }
   
   /* Innerspår: grid för perfekt centrering */
   .clean-navbar__inner {
-    width: 100%;
-    margin: 0 auto;
-    padding: 0.6rem 1rem;
-  
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    column-gap: 2rem;
+    column-gap: var(--foundation-space-8);
+    padding: var(--foundation-space-3) var(--foundation-space-4);
   }
   
   /* Brand */
   .clean-navbar__brand {
     display: inline-flex;
     align-items: center;
-    gap: .625rem;
+    gap: var(--foundation-space-3);
     text-decoration: none;
   }
   .clean-navbar__brand img {
     display: block;
     width: auto;
     height: 28px;
-    border-radius: 6px;
-  }
-  .clean-navbar__brand .brand-text {
-    color: var(--text-primary, #fff);
-    font-weight: 700;
-    font-size: .98rem;
-    letter-spacing: .01em;
+    border-radius: var(--foundation-radius-md);
   }
   
   /* Links (center) */
   .clean-navbar__links {
     justify-self: center;
     display: flex;
-    gap: 1.75rem;               /* mellan länkarna */
+    gap: var(--foundation-space-7);
   }
   .clean-navbar__link {
-    color: var(--text-secondary, rgba(255,255,255,.8));
     text-decoration: none;
-    font-size: .9rem;
-    font-weight: 500;
-    padding: .45rem .8rem;
-    border-radius: 8px;
-    transition: background .2s ease, color .2s ease, transform .2s ease;
+    padding: var(--foundation-space-2) var(--foundation-space-4);
+    border-radius: var(--foundation-radius-md);
+    transition: var(--foundation-transition-fast);
   }
   .clean-navbar__link:hover {
-    background: rgba(255,255,255,.08);
-    color: var(--text-primary, #fff);
+    background: var(--surface-card-hover);
     transform: translateY(-1px);
-  }
-  .clean-navbar__link.is-active {
-    color: var(--text-primary, #fff);
   }
   
   /* CTA (höger) */
   .clean-navbar__cta { justify-self: end; }
-  .clean-navbar__cta-button {
-    padding: .6rem 1.1rem;
-    border-radius: 10px;
-    font-size: .9rem;
-    font-weight: 600;
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
-  }
-  .clean-navbar__cta-button:hover { transform: translateY(-1px); }
-  .clean-navbar__cta-button--accent {
-    background: var(--accent-500, #3b82f6);
-    color: #fff;
-  }
-  .clean-navbar__cta-button--primary {
-    background: var(--primary-500, #6b7280);
-    color: var(--text-on-primary, #fff);
-  }
-  .clean-navbar__cta-button--secondary {
-    background: var(--surface-card-hover, rgba(255,255,255,.06));
-    border-color: var(--border-default, rgba(255,255,255,.12));
-    color: var(--text-primary, #fff);
-  }
   
   /* Hamburger (syns bara på mobil) */
   .clean-navbar__toggle {
@@ -109,20 +64,16 @@
     justify-self: end;
     width: 40px;
     height: 32px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
     position: relative;
   }
   .clean-navbar__toggle span {
     position: absolute;
-    left: 8px;
-    right: 8px;
+    left: var(--foundation-space-2);
+    right: var(--foundation-space-2);
     height: 2px;
-    background: var(--text-primary, #fff);
-    border-radius: 2px;
-    transition: transform .2s ease, opacity .2s ease;
+    background: var(--text-primary);
+    border-radius: var(--foundation-radius-xs);
+    transition: var(--foundation-transition-fast);
   }
   .clean-navbar__toggle span:nth-child(1) { top: 9px; }
   .clean-navbar__toggle span:nth-child(2) { top: 15px; }
@@ -134,13 +85,13 @@
     position: absolute;
     inset: auto 0 0 0;
     top: 100%;
-    background: var(--surface-card, rgba(16,16,16,0.96));
-    border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.08));
+    background: var(--surface-card);
+    border-bottom: 1px solid var(--border-subtle);
     transform-origin: top;
     transform: scaleY(0.98);
     opacity: 0;
     pointer-events: none;
-    transition: transform .18s ease, opacity .18s ease;
+    transition: var(--foundation-transition-fast);
   }
   .clean-navbar__mobile.open {
     opacity: 1;
@@ -148,34 +99,30 @@
     pointer-events: auto;
   }
   .clean-navbar__mobile-inner {
-    margin: 0 auto;
-    padding: 1rem;
+    padding: var(--foundation-space-4);
   }
   .clean-navbar__mobile-links {
     display: grid;
-    gap: .75rem;
-    padding: .25rem 0 .75rem 0;
+    gap: var(--foundation-space-3);
+    padding: var(--foundation-space-1) 0 var(--foundation-space-3) 0;
   }
   .clean-navbar__mobile-link {
-    color: var(--text-secondary, rgba(255,255,255,.85));
     text-decoration: none;
-    font-size: 1rem;
-    padding: .5rem .25rem;
-    border-radius: 8px;
+    padding: var(--foundation-space-2) var(--foundation-space-1);
+    border-radius: var(--foundation-radius-md);
   }
   .clean-navbar__mobile-link:hover {
-    background: rgba(255,255,255,.06);
-    color: var(--text-primary, #fff);
+    background: var(--surface-card-hover);
   }
   .clean-navbar__cta-button--mobile {
     width: 100%;
-    margin-top: .5rem;
+    margin-top: var(--foundation-space-2);
   }
   
   /* ================= Responsivitet ================ */
   @media (max-width: 1024px) {
-    .clean-navbar__inner { column-gap: 1.5rem; }
-    .clean-navbar__links { gap: 1.25rem; }
+    .clean-navbar__inner { column-gap: var(--foundation-space-6); }
+    .clean-navbar__links { gap: var(--foundation-space-5); }
   }
   
   @media (max-width: 768px) {
