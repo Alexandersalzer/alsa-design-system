@@ -15,3 +15,4 @@ export * from './results';
 export * from './StatsGrid';
 export * from './FilterTabs';
 export * from './PortfolioCard';
+export * from './Testimonials';
