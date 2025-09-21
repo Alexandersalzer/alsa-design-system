@@ -115,7 +115,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                     justifyContent: 'space-between'
                   }}
                 >
-                  <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <Stack spacing="md">
                     {/* Rating Stars */}
                     <Cluster spacing="xs" align="center">
@@ -135,16 +135,17 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                     </Cluster>
                     
                     {/* Testimonial Text */}
-                    <Typography 
-                      variant="body-md" 
-                      color="secondary"
-                      style={{
-                        lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                        flex: 1
-                      }}
-                    >
-                      "{testimonial.text}"
-                    </Typography>
+                    <div style={{ flex: 1 }}>
+                      <Typography 
+                        variant="body-md" 
+                        color="secondary"
+                        style={{
+                          lineHeight: 'var(--foundation-typography-line-height-relaxed)'
+                        }}
+                      >
+                        "{testimonial.text}"
+                      </Typography>
+                    </div>
                     
                     {/* Author Info */}
                     <Cluster spacing="md" align="center">
