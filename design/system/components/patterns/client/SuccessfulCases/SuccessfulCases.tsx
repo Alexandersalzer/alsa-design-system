@@ -70,11 +70,14 @@ const SuccessfulCases = ({
       }}
     >
       <Container maxWidth="xl" align="center">
-        <Grid 
-          columns={{ base: 1, lg: 2 }} 
-          gap="xl" 
-          align="start"
-          style={{ marginBottom: 'var(--foundation-space-16)' }}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+            gap: 'var(--foundation-space-16)',
+            alignItems: 'start',
+            marginBottom: 'var(--foundation-space-16)'
+          }}
         >
           {/* Left side - Title and Description */}
           <Stack spacing="lg">
@@ -121,7 +124,7 @@ const SuccessfulCases = ({
             {/* Case Card */}
             <Card 
               variant="elevated"
-              padding="xl"
+              padding="lg"
               style={{
                 background: 'var(--surface-card)',
                 border: '1px solid var(--border-subtle)',
@@ -225,7 +228,7 @@ const SuccessfulCases = ({
               ))}
             </div>
           </Stack>
-        </Grid>
+        </div>
       </Container>
     </Section>
   );
