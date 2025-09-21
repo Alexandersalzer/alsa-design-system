@@ -1,0 +1,328 @@
+/* ================================
+   DoubleContactForm — Kontaktformulär med info
+   ================================ */
+
+.double-contact-form-section {
+  background: var(--surface-card);
+  backdrop-filter: blur(15px);
+  padding: 5rem 0;
+}
+
+.double-contact-form-container {
+  width: 95%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Visual */
+.double-contact-form-visual {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.visual-image {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Header */
+.double-contact-form-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem auto;
+}
+
+.double-contact-form-title {
+  margin-bottom: 1rem;
+}
+
+.double-contact-form-subtitle {
+  line-height: 1.6;
+}
+
+/* Form & Info Grid */
+.double-contact-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Contact Form */
+.double-contact-form-form-container {
+  padding: 2.5rem;
+  height: fit-content;
+}
+
+.double-contact-form-form-header {
+  margin-bottom: 2rem;
+}
+
+.double-contact-form-form-title {
+  margin-bottom: 0.5rem;
+}
+
+.double-contact-form-form-subtitle {
+  /* Inherits from Typography component */
+}
+
+.double-contact-form-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Form Fields */
+.double-contact-form-field {
+  /* Base field styling */
+}
+
+.double-contact-form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.double-contact-form-input,
+.double-contact-form-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  background-color: var(--surface-card);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.double-contact-form-input:focus,
+.double-contact-form-textarea:focus {
+  border-color: var(--accent-500);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.double-contact-form-textarea {
+  resize: vertical;
+}
+
+.double-contact-form-submit-button {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+/* Contact Information */
+.double-contact-form-info-card {
+  padding: 2.5rem;
+  background-color: var(--surface-card-hover);
+  border: 1px solid var(--border-default);
+  border-radius: var(--foundation-radius-md);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.double-contact-form-info-header {
+  margin-bottom: 2rem;
+}
+
+.double-contact-form-info-title {
+  margin-bottom: 0.5rem;
+}
+
+.double-contact-form-info-subtitle {
+  /* Inherits from Typography component */
+}
+
+.double-contact-form-info-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex: 1;
+}
+
+.double-contact-form-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.double-contact-form-info-icon {
+  background: linear-gradient(135deg, var(--accent-500), var(--accent-400));
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.info-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.double-contact-form-info-content {
+  /* Content container */
+}
+
+.info-title {
+  margin-bottom: 0.25rem;
+}
+
+.info-value {
+  margin-bottom: 0.5rem;
+}
+
+.info-subtitle {
+  /* Inherits from Typography component */
+}
+
+/* Action Buttons */
+.double-contact-form-actions {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.double-contact-form-action-button {
+  width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .double-contact-form-section {
+    padding: 4rem 0;
+  }
+  
+  .double-contact-form-container {
+    padding: 0 1rem;
+  }
+  
+  .double-contact-form-visual {
+    margin-bottom: 1.5rem;
+  }
+  
+  .visual-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .double-contact-form-header {
+    margin-bottom: 2rem;
+  }
+  
+  .double-contact-form-title {
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    margin-bottom: 0.75rem;
+  }
+  
+  .double-contact-form-subtitle {
+    font-size: 1rem;
+  }
+  
+  .double-contact-form-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .double-contact-form-form-container {
+    padding: 2rem;
+  }
+  
+  .double-contact-form-info-card {
+    padding: 2rem;
+  }
+  
+  .double-contact-form-form-header,
+  .double-contact-form-info-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .double-contact-form-form {
+    gap: 1.25rem;
+  }
+  
+  .double-contact-form-info-items {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .double-contact-form-section {
+    padding: 3rem 0;
+  }
+  
+  .visual-image {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .double-contact-form-title {
+    font-size: clamp(1.5rem, 5vw, 1.8rem);
+    margin-bottom: 0.5rem;
+  }
+  
+  .double-contact-form-subtitle {
+    font-size: 0.95rem;
+  }
+  
+  .double-contact-form-grid {
+    gap: 1.5rem;
+  }
+  
+  .double-contact-form-form-container,
+  .double-contact-form-info-card {
+    padding: 1.5rem;
+  }
+  
+  .double-contact-form-form-header,
+  .double-contact-form-info-header {
+    margin-bottom: 1.25rem;
+  }
+  
+  .double-contact-form-form-title,
+  .double-contact-form-info-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+  }
+  
+  .double-contact-form-form {
+    gap: 1rem;
+  }
+  
+  .double-contact-form-info-items {
+    gap: 1.25rem;
+  }
+  
+  .double-contact-form-info-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .info-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .double-contact-form-actions {
+    margin-top: 1.5rem;
+    gap: 0.75rem;
+  }
+}
