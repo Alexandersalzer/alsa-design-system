@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useEffect, ReactElement } from 'react';
-import './SuccessfulCases.css';
 
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Section } from '../../../../../system/layout/frames/section/Section';
+import { Container } from '../../../../../system/layout/frames/container/Container';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 
 export interface SuccessCase {
@@ -58,17 +60,44 @@ const SuccessfulCases = ({
   }, [autoPlay, autoPlayInterval, cases.length]);
 
   return (
-    <Section id={id} className={`successful-cases-section ${className || ''}`}>
-      <div className="successful-cases-container">
-        {/* Header and Content Grid */}
-        <div className="successful-cases-grid">
+    <Section 
+      id={id} 
+      className={className}
+      style={{
+        backgroundColor: 'transparent',
+        paddingTop: 'var(--foundation-space-24)',
+        paddingBottom: 'var(--foundation-space-24)'
+      }}
+    >
+      <Container maxWidth="xl" align="center">
+        <Grid 
+          columns={{ base: 1, lg: 2 }} 
+          gap="xl" 
+          align="start"
+          style={{ marginBottom: 'var(--foundation-space-16)' }}
+        >
           {/* Left side - Title and Description */}
-          <div className="successful-cases-header">
-            <Typography variant="h2" weight="bold" color="heading" className="successful-cases-title">
+          <Stack spacing="lg">
+            <Typography 
+              variant="h2" 
+              weight="bold" 
+              color="heading"
+              style={{
+                fontSize: 'clamp(2.5rem, 4vw, 3.5rem)'
+              }}
+            >
               {title.split(' ').map((word, index) => {
                 if (titleAccent && word === titleAccent) {
                   return (
-                    <span key={index} className="successful-cases-title-accent">
+                    <span 
+                      key={index} 
+                      style={{
+                        background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text'
+                      }}
+                    >
                       {word}
                     </span>
                   );
@@ -76,66 +105,128 @@ const SuccessfulCases = ({
                 return word + ' ';
               })}
             </Typography>
-            <Typography variant="body-xl" color="secondary" className="successful-cases-subtitle">
+            <Typography 
+              variant="body-xl" 
+              color="secondary"
+              style={{
+                lineHeight: 'var(--foundation-typography-line-height-relaxed)'
+              }}
+            >
               {subtitle}
             </Typography>
-          </div>
+          </Stack>
 
           {/* Right side - Carousel */}
-          <div className="successful-cases-carousel">
+          <Stack spacing="lg">
             {/* Case Card */}
-            <Card className="successful-cases-card">
-              {/* Case Icon */}
-              <div className="successful-cases-icon-container">
-                <Icon color="inverse" className="successful-cases-icon">
-                  {cases[currentCase]?.icon}
-                </Icon>
-              </div>
-              
-              {/* Case Title */}
-              <Typography variant="h4" weight="semibold" color="heading" className="successful-cases-case-title">
-                {cases[currentCase]?.title}
-              </Typography>
-              
-              {/* Case Description */}
-              <Typography variant="body-lg" color="secondary" className="successful-cases-case-description">
-                {cases[currentCase]?.description}
-              </Typography>
-              
-              {/* Case Stats */}
-              <div className="successful-cases-stats">
-                <div className="successful-cases-stat">
-                  <Typography variant="body-sm" color="secondary" className="successful-cases-stat-label">
-                    Ersättning
-                  </Typography>
-                  <Typography variant="h5" weight="bold" color="accent" className="successful-cases-stat-value">
-                    {cases[currentCase]?.compensation}
-                  </Typography>
+            <Card 
+              variant="elevated"
+              padding="xl"
+              style={{
+                background: 'var(--surface-card)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: 'var(--foundation-radius-xl)',
+                textAlign: 'center',
+                minHeight: '400px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              <Stack spacing="lg" align="center">
+                {/* Case Icon */}
+                <div
+                  style={{
+                    background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                    width: '80px',
+                    height: '80px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)'
+                  }}
+                >
+                  <Icon color="inverse" style={{ width: '40px', height: '40px' }}>
+                    {cases[currentCase]?.icon}
+                  </Icon>
                 </div>
-                <div className="successful-cases-stat">
-                  <Typography variant="body-sm" color="secondary" className="successful-cases-stat-label">
-                    Handläggningstid
-                  </Typography>
-                  <Typography variant="h6" weight="semibold" color="primary" className="successful-cases-stat-value">
-                    {cases[currentCase]?.duration}
-                  </Typography>
+                
+                {/* Case Title */}
+                <Typography variant="h4" weight="semibold" color="heading">
+                  {cases[currentCase]?.title}
+                </Typography>
+                
+                {/* Case Description */}
+                <Typography 
+                  variant="body-lg" 
+                  color="secondary"
+                  style={{
+                    lineHeight: 'var(--foundation-typography-line-height-relaxed)',
+                    maxWidth: '600px'
+                  }}
+                >
+                  {cases[currentCase]?.description}
+                </Typography>
+                
+                {/* Case Stats */}
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, 1fr)',
+                    gap: 'var(--foundation-space-8)',
+                    maxWidth: '400px',
+                    width: '100%'
+                  }}
+                >
+                  <div style={{ textAlign: 'center' }}>
+                    <Typography variant="body-sm" color="secondary" style={{ marginBottom: 'var(--foundation-space-2)' }}>
+                      Ersättning
+                    </Typography>
+                    <Typography variant="h5" weight="bold" color="accent">
+                      {cases[currentCase]?.compensation}
+                    </Typography>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <Typography variant="body-sm" color="secondary" style={{ marginBottom: 'var(--foundation-space-2)' }}>
+                      Handläggningstid
+                    </Typography>
+                    <Typography variant="h6" weight="semibold" color="primary">
+                      {cases[currentCase]?.duration}
+                    </Typography>
+                  </div>
                 </div>
-              </div>
+              </Stack>
             </Card>
 
             {/* Navigation Dots */}
-            <div className="successful-cases-dots">
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: 'var(--foundation-space-4)'
+              }}
+            >
               {cases.map((_, index) => (
                 <div
                   key={index}
                   onClick={() => handleDotClick(index)}
-                  className={`successful-cases-dot ${index === currentCase ? 'active' : ''}`}
+                  style={{
+                    width: '12px',
+                    height: '12px',
+                    borderRadius: '50%',
+                    background: index === currentCase ? 'var(--accent-500)' : 'rgba(255, 255, 255, 0.3)',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    transform: index === currentCase ? 'scale(1.2)' : 'scale(1)'
+                  }}
                 />
               ))}
             </div>
-          </div>
-        </div>
-      </div>
+          </Stack>
+        </Grid>
+      </Container>
     </Section>
   );
 };

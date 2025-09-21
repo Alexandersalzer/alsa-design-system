@@ -140,7 +140,8 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                         variant="body-md" 
                         color="secondary"
                         style={{
-                          lineHeight: 'var(--foundation-typography-line-height-relaxed)'
+                          lineHeight: 'var(--foundation-typography-line-height-relaxed)',
+                          textAlign: 'left'
                         }}
                       >
                         "{testimonial.text}"
