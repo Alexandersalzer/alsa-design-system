@@ -3,7 +3,7 @@
 // ENHANCED - Apple-style scroll lock + Smart positioning
 // ===============================================
 
-import { useState, useRef, useEffect, forwardRef, useId, MutableRefObject } from 'react';
+import { useState, useRef, useEffect, forwardRef, useId } from 'react';
 import { SearchInput } from '../../../components/primitives/Input';
 import { cn } from '../../../lib/utils';
 import { Icon } from '../Icon/Icon';
@@ -182,7 +182,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
   const containerRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null) as MutableRefObject<HTMLButtonElement | null>;
+  const triggerRef = useRef<HTMLButtonElement>(null);
   
   const generatedId = useId();
   const id = providedId || generatedId;
@@ -425,11 +425,12 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
       <div className="picker-container">
         <button
           ref={(node) => {
-            triggerRef.current = node;
+            // Use a type assertion to allow assignment
+            (triggerRef as React.MutableRefObject<HTMLButtonElement | null>).current = node;
             if (typeof ref === 'function') {
               ref(node);
-            } else if (ref && 'current' in ref) {
-              (ref as MutableRefObject<HTMLButtonElement | null>).current = node;
+            } else if (ref) {
+              ref.current = node;
             }
           }}
           type="button"
