@@ -84,7 +84,9 @@
     pointer-events: auto;
   }
   .clean-navbar__mobile-inner {
+    margin: 0 auto;
     padding: var(--foundation-space-4);
+    max-width: 1280px;
   }
   .clean-navbar__mobile-links {
     display: grid;

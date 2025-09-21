@@ -162,7 +162,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen((v) => !v)}
         >
-          <Icon size="md" color="primary">
+          <Icon size="sm" color="primary">
             <Bars3Icon />
           </Icon>
         </Button>
@@ -174,11 +174,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         role="dialog"
         aria-modal="false"
       >
-        <Container
-          maxWidth="xl"
-          align="center"
-          className="clean-navbar__mobile-inner"
-        >
+        <div className="clean-navbar__mobile-inner">
           <div className="clean-navbar__mobile-links">
             {items.map((it) => (
               <a
@@ -215,7 +211,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
               {ctaButton.text}
             </Button>
           )}
-        </Container>
+        </div>
       </div>
     </Section>
   );
