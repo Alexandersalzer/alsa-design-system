@@ -3,8 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Typography } from '../../../../../system/components/primitives/Typography';
+import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Container } from '../../../../../system/layout/frames/container';
 import { Section } from '../../../../../system/layout/frames/section';
+import { Bars3Icon } from '@heroicons/react/24/outline';
 import './CleanNavbar.css';
 
 export interface NavItem {
@@ -160,9 +162,9 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen((v) => !v)}
         >
-          <span />
-          <span />
-          <span />
+          <Icon size="md" color="primary">
+            <Bars3Icon />
+          </Icon>
         </Button>
       </Container>
 
