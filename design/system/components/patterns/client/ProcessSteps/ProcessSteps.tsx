@@ -63,13 +63,16 @@ const ProcessSteps = ({ content }: ProcessStepsProps) => {
         position: 'relative'
       }}
     >
-      <Section 
-        id="process-steps" 
-        height="screen"
-        sticky
+      {/* Sticky content that stays fixed while scrolling through wrapper */}
+      <div
         style={{
-          paddingTop: 'var(--foundation-space-12)',
-          paddingBottom: 'var(--foundation-space-12)'
+          position: 'sticky',
+          top: 0,
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 'var(--foundation-space-12) 0',
         }}
       >
         <Container 
@@ -91,44 +94,44 @@ const ProcessSteps = ({ content }: ProcessStepsProps) => {
             padding: 'var(--foundation-space-8) 0'
           }}>
             <Stack spacing="lg" align="center">
-            <Typography
-              variant="h2"
-              weight="bold"
-              color="heading"
-              style={{
-                fontSize: 'clamp(2.25rem, 4vw, 3rem)',
-                lineHeight: '1.15'
-              }}
-            >
-              {title.split(' ').map((word, index) => (
-                <span
-                  key={index}
-                  style={{
-                    display: 'inline-block',
-                    marginRight: '0.25em',
-                    background: titleAccent && word === titleAccent
-                      ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
-                      : undefined,
-                    WebkitBackgroundClip: titleAccent && word === titleAccent ? 'text' : undefined,
-                    WebkitTextFillColor: titleAccent && word === titleAccent ? 'transparent' : undefined,
-                    backgroundClip: titleAccent && word === titleAccent ? 'text' : undefined
-                  }}
-                >
-                  {word}
-                </span>
-              ))}
-            </Typography>
+              <Typography
+                variant="h2"
+                weight="bold"
+                color="heading"
+                style={{
+                  fontSize: 'clamp(2.25rem, 4vw, 3rem)',
+                  lineHeight: '1.15'
+                }}
+              >
+                {title.split(' ').map((word, index) => (
+                  <span
+                    key={index}
+                    style={{
+                      display: 'inline-block',
+                      marginRight: '0.25em',
+                      background: titleAccent && word === titleAccent
+                        ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
+                        : undefined,
+                      WebkitBackgroundClip: titleAccent && word === titleAccent ? 'text' : undefined,
+                      WebkitTextFillColor: titleAccent && word === titleAccent ? 'transparent' : undefined,
+                      backgroundClip: titleAccent && word === titleAccent ? 'text' : undefined
+                    }}
+                  >
+                    {word}
+                  </span>
+                ))}
+              </Typography>
 
-            <Typography
-              variant="body-xl"
-              color="secondary"
-              style={{
-                maxWidth: '650px',
-                lineHeight: 'var(--foundation-typography-line-height-relaxed)'
-              }}
-            >
-              {subtitle}
-            </Typography>
+              <Typography
+                variant="body-xl"
+                color="secondary"
+                style={{
+                  maxWidth: '650px',
+                  lineHeight: 'var(--foundation-typography-line-height-relaxed)'
+                }}
+              >
+                {subtitle}
+              </Typography>
             </Stack>
           </div>
 
@@ -173,60 +176,60 @@ const ProcessSteps = ({ content }: ProcessStepsProps) => {
               >
                 <div style={{ maxWidth: '600px', width: '100%' }}>
                   <Stack spacing="lg" align="center">
-                  {/* Icon */}
-                  <div
-                    style={{
-                      width: 'clamp(64px, 8vw, 96px)',
-                      height: 'clamp(64px, 8vw, 96px)',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      background: step.iconBackground === 'accent'
-                        ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
-                        : 'rgba(255,255,255,0.2)',
-                      border: step.iconBackground === 'accent'
-                        ? 'none'
-                        : '1px solid rgba(255,255,255,0.3)',
-                      backdropFilter: step.iconBackground === 'accent' ? 'none' : 'blur(8px)',
-                      boxShadow: step.iconBackground === 'accent'
-                        ? 'var(--foundation-shadow-lg)'
-                        : undefined
-                    }}
-                  >
-                    <Typography variant="h2" weight="bold" color="inverse">
-                      {step.number}
+                    {/* Icon */}
+                    <div
+                      style={{
+                        width: 'clamp(64px, 8vw, 96px)',
+                        height: 'clamp(64px, 8vw, 96px)',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: step.iconBackground === 'accent'
+                          ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
+                          : 'rgba(255,255,255,0.2)',
+                        border: step.iconBackground === 'accent'
+                          ? 'none'
+                          : '1px solid rgba(255,255,255,0.3)',
+                        backdropFilter: step.iconBackground === 'accent' ? 'none' : 'blur(8px)',
+                        boxShadow: step.iconBackground === 'accent'
+                          ? 'var(--foundation-shadow-lg)'
+                          : undefined
+                      }}
+                    >
+                      <Typography variant="h2" weight="bold" color="inverse">
+                        {step.number}
+                      </Typography>
+                    </div>
+
+                    <Typography
+                      variant="h3"
+                      weight="bold"
+                      color={step.iconBackground === 'accent' ? 'heading' : 'inverse'}
+                      style={{
+                        fontSize: 'clamp(1.75rem, 5vw, 2.25rem)'
+                      }}
+                    >
+                      {step.title}
                     </Typography>
-                  </div>
 
-                  <Typography
-                    variant="h3"
-                    weight="bold"
-                    color={step.iconBackground === 'accent' ? 'heading' : 'inverse'}
-                    style={{
-                      fontSize: 'clamp(1.75rem, 5vw, 2.25rem)'
-                    }}
-                  >
-                    {step.title}
-                  </Typography>
-
-                  <Typography
-                    variant="body-lg"
-                    color={step.iconBackground === 'accent' ? 'secondary' : 'inverse'}
-                    style={{
-                      lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                      opacity: 0.9
-                    }}
-                  >
-                    {step.description}
-                  </Typography>
+                    <Typography
+                      variant="body-lg"
+                      color={step.iconBackground === 'accent' ? 'secondary' : 'inverse'}
+                      style={{
+                        lineHeight: 'var(--foundation-typography-line-height-relaxed)',
+                        opacity: 0.9
+                      }}
+                    >
+                      {step.description}
+                    </Typography>
                   </Stack>
                 </div>
               </Card>
             ))}
           </div>
         </Container>
-      </Section>
+      </div>
     </div>
   );
 };
