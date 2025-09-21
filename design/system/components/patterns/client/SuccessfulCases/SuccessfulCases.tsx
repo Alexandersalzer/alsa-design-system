@@ -66,7 +66,7 @@ const SuccessfulCases = ({
       style={{
         backgroundColor: 'transparent',
         paddingTop: 'var(--foundation-space-24)',
-        paddingBottom: 'var(--foundation-space-24)'
+        paddingBottom: 'var(--foundation-space-32)'
       }}
     >
       <Container maxWidth="xl" align="center">
@@ -86,7 +86,8 @@ const SuccessfulCases = ({
               weight="bold" 
               color="heading"
               style={{
-                fontSize: 'clamp(2.5rem, 4vw, 3.5rem)'
+                fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
+                textAlign: 'left'
               }}
             >
               {title.split(' ').map((word, index) => {
@@ -112,7 +113,8 @@ const SuccessfulCases = ({
               variant="body-xl" 
               color="secondary"
               style={{
-                lineHeight: 'var(--foundation-typography-line-height-relaxed)'
+                lineHeight: 'var(--foundation-typography-line-height-relaxed)',
+                textAlign: 'left'
               }}
             >
               {subtitle}
