@@ -263,12 +263,12 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                 <div style={{ flex: 1 }}>
                   <Stack spacing="lg">
                     {contactInfo.map((info, index) => (
-                      <Cluster spacing="md" align="start" key={index}>
+                      <Stack spacing="md" align="center" key={index}>
                         <div
                           style={{
                             background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
-                            width: 'clamp(40px, 6vw, 48px)',
-                            height: 'clamp(40px, 6vw, 48px)',
+                            width: 'clamp(48px, 8vw, 64px)',
+                            height: 'clamp(48px, 8vw, 64px)',
                             borderRadius: 'var(--foundation-radius-md)',
                             display: 'flex',
                             alignItems: 'center',
@@ -279,25 +279,25 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                           <Icon 
                             color="inverse"
                             style={{
-                              width: 'clamp(20px, 3vw, 24px)',
-                              height: 'clamp(20px, 3vw, 24px)'
+                              width: 'clamp(24px, 4vw, 32px)',
+                              height: 'clamp(24px, 4vw, 32px)'
                             }}
                           >
                             {info.icon}
                           </Icon>
                         </div>
-                        <Stack spacing="xs">
-                          <Typography variant="body-md" weight="semibold" color="primary">
+                        <Stack spacing="xs" align="center">
+                          <Typography variant="body-md" weight="semibold" color="primary" style={{ textAlign: 'center' }}>
                             {info.title}
                           </Typography>
-                          <Typography variant="body-lg" color="secondary">
+                          <Typography variant="body-lg" color="secondary" style={{ textAlign: 'center' }}>
                             {info.value}
                           </Typography>
-                          <Typography variant="body-sm" color="secondary">
+                          <Typography variant="body-sm" color="secondary" style={{ textAlign: 'center' }}>
                             {info.subtitle}
                           </Typography>
                         </Stack>
-                      </Cluster>
+                      </Stack>
                     ))}
                   </Stack>
                 </div>
