@@ -1,12 +1,13 @@
 'use client';
 
 import { ReactElement } from 'react';
-import './CTA.css';
-
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Section } from '../../../../../system/layout/frames/section/Section';
+import { Container } from '../../../../../system/layout/frames/container/Container';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 
 export interface CTAButton {
   text: string;
@@ -38,22 +39,57 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
   const { title, subtitle, buttons, info = [] } = content;
 
   return (
-    <Section id={id} className={`cta-section ${className || ''}`}>
-      <div className="cta-container">
-        <div className="cta-content">
-          <Typography variant="h3" weight="semibold" color="heading" className="cta-title">
-            {title}
-          </Typography>
-          
-          <div className="cta-subtitle-container">
-            <Typography variant="body-lg" color="secondary" className="cta-subtitle">
-              {subtitle}
+    <Section 
+      id={id} 
+      className={className}
+      style={{
+        backgroundColor: 'var(--surface-card)',
+        paddingTop: 'var(--foundation-space-20)',
+        paddingBottom: 'var(--foundation-space-20)',
+        borderTop: '1px solid var(--border-default)',
+        borderBottom: '1px solid var(--border-default)'
+      }}
+    >
+      <Container maxWidth="xl" align="center">
+        <div style={{ maxWidth: '800px', width: '100%' }}>
+          <Stack spacing="lg" align="center">
+            {/* Title */}
+            <Typography 
+              variant="h3" 
+              weight="semibold" 
+              color="heading"
+              style={{
+                fontSize: 'clamp(1.8rem, 3vw, 2.2rem)',
+                textAlign: 'center'
+              }}
+            >
+              {title}
             </Typography>
-          </div>
+            
+            {/* Subtitle */}
+            <div style={{ maxWidth: '600px', width: '100%' }}>
+              <Typography 
+                variant="body-lg" 
+                color="secondary"
+                style={{
+                  lineHeight: 'var(--foundation-typography-line-height-relaxed)',
+                  textAlign: 'center'
+                }}
+              >
+                {subtitle}
+              </Typography>
+            </div>
 
-          <div className="cta-buttons">
-            {buttons.map((button, index) => {
-              const buttonElement = (
+            {/* Buttons */}
+            <Cluster 
+              spacing="md" 
+              justify="center"
+              style={{
+                flexWrap: 'wrap',
+                gap: 'var(--foundation-space-4)'
+              }}
+            >
+              {buttons.map((button, index) => (
                 <Button
                   key={index}
                   variant={button.variant}
@@ -64,23 +100,24 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
                 >
                   {button.text}
                 </Button>
-              );
-
-              return buttonElement;
-            })}
-          </div>
-          
-          {info.length > 0 && (
-            <div className="cta-info">
-              {info.map((item, index) => (
-                <Typography key={index} variant="body-sm" color="secondary" className="cta-info-item">
-                  <strong>{item.label}:</strong> {item.value}
-                </Typography>
               ))}
-            </div>
-          )}
+            </Cluster>
+            
+            {/* Info Section */}
+            {info.length > 0 && (
+              <div style={{ maxWidth: '600px', width: '100%' }}>
+                <Stack spacing="sm" align="center">
+                  {info.map((item, index) => (
+                    <Typography key={index} variant="body-sm" color="secondary" style={{ textAlign: 'center' }}>
+                      <strong>{item.label}:</strong> {item.value}
+                    </Typography>
+                  ))}
+                </Stack>
+              </div>
+            )}
+          </Stack>
         </div>
-      </div>
+      </Container>
     </Section>
   );
 };
