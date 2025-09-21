@@ -81,14 +81,12 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
             </div>
 
             {/* Buttons */}
-            <Cluster 
-              spacing="md" 
-              justify="center"
-              style={{
-                flexWrap: 'wrap',
-                gap: 'var(--foundation-space-4)'
-              }}
-            >
+            <div style={{ 
+              display: 'flex', 
+              gap: 'var(--foundation-space-4)', 
+              justifyContent: 'center', 
+              flexWrap: 'wrap' 
+            }}>
               {buttons.map((button, index) => (
                 <Button
                   key={index}
@@ -101,7 +99,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
                   {button.text}
                 </Button>
               ))}
-            </Cluster>
+            </div>
             
             {/* Info Section */}
             {info.length > 0 && (
