@@ -1,0 +1,259 @@
+/* ================================
+   SuccessfulCases — Framgångsrika ärenden sektion
+   ================================ */
+
+.successful-cases-section {
+  background: transparent;
+  padding: 6rem 0;
+}
+
+.successful-cases-container {
+  width: 95%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Header and Content Grid */
+.successful-cases-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: flex-start;
+  margin-bottom: 4rem;
+}
+
+/* Header Section */
+.successful-cases-header {
+  /* Left side styling */
+}
+
+.successful-cases-title {
+  margin-bottom: 1.5rem;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+}
+
+.successful-cases-title-accent {
+  background: linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.successful-cases-subtitle {
+  line-height: 1.6;
+}
+
+/* Carousel Section */
+.successful-cases-carousel {
+  position: relative;
+  max-width: 100%;
+}
+
+.successful-cases-card {
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  text-align: center;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.successful-cases-icon-container {
+  background: linear-gradient(135deg, var(--accent-500), var(--accent-400));
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.successful-cases-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.successful-cases-case-title {
+  margin-bottom: 1rem;
+}
+
+.successful-cases-case-description {
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+}
+
+/* Case Stats */
+.successful-cases-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.successful-cases-stat {
+  text-align: center;
+}
+
+.successful-cases-stat-label {
+  margin-bottom: 0.5rem;
+}
+
+.successful-cases-stat-value {
+  /* Inherits from Typography component */
+}
+
+/* Navigation Dots */
+.successful-cases-dots {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.successful-cases-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform: scale(1);
+}
+
+.successful-cases-dot.active {
+  background: var(--accent-500);
+  transform: scale(1.2);
+}
+
+.successful-cases-dot:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.successful-cases-dot.active:hover {
+  background: var(--accent-400);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .successful-cases-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+  
+  .successful-cases-section {
+    padding: 4rem 0;
+  }
+  
+  .successful-cases-card {
+    min-height: 350px;
+    padding: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .successful-cases-container {
+    padding: 0 1rem;
+  }
+  
+  .successful-cases-grid {
+    gap: 2.5rem;
+  }
+  
+  .successful-cases-title {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    margin-bottom: 1rem;
+  }
+  
+  .successful-cases-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .successful-cases-card {
+    min-height: 320px;
+    padding: 2rem;
+  }
+  
+  .successful-cases-icon-container {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .successful-cases-icon {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .successful-cases-case-description {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .successful-cases-stats {
+    gap: 1.5rem;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .successful-cases-section {
+    padding: 3rem 0;
+  }
+  
+  .successful-cases-grid {
+    gap: 2rem;
+  }
+  
+  .successful-cases-card {
+    min-height: 300px;
+    padding: 1.5rem;
+  }
+  
+  .successful-cases-icon-container {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+  
+  .successful-cases-icon {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .successful-cases-case-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .successful-cases-case-description {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .successful-cases-stats {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: 280px;
+  }
+  
+  .successful-cases-dots {
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  
+  .successful-cases-dot {
+    width: 10px;
+    height: 10px;
+  }
+}
