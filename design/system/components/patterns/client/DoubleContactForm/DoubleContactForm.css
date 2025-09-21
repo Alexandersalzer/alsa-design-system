@@ -9,10 +9,11 @@
 }
 
 .double-contact-form-container {
-  width: 95%;
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 2.5%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -93,8 +94,11 @@
   margin-top: 0.5rem;
 }
 
-/* Fix button text color - explicit override */
-.double-contact-form-submit-button,
+/* Fix button text color - explicit override like navbar */
+.double-contact-form-submit-button {
+  color: #fff !important;
+}
+
 .double-contact-form-action-button {
   color: #fff !important;
 }
@@ -241,6 +245,10 @@
 @media (max-width: 480px) {
   .double-contact-form-section {
     padding: 3rem 0;
+  }
+  
+  .double-contact-form-container {
+    padding: 0 0.75rem;
   }
   
   .visual-image {

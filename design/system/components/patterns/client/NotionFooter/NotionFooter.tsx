@@ -1,10 +1,12 @@
 'use client';
 
-import './NotionFooter.css';
-
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
+import { Container } from '../../../../../system/layout/frames/container/Container';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { Rhythm, RhythmItem } from '../../../../../system/layout/utilities/rhythm/Rhythm';
 import {
   PhoneIcon,
   EnvelopeIcon,
@@ -34,9 +36,11 @@ interface NotionFooterContent {
 }
 interface NotionFooterProps {
   content: NotionFooterContent;
+  // Editing mode passed from parent component
+  isEditingMode?: boolean;
 }
 
-const NotionFooter = ({ content }: NotionFooterProps) => {
+const NotionFooter = ({ content, isEditingMode = false }: NotionFooterProps) => {
   const {
     companyName,
     companyDescription,
@@ -51,81 +55,120 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
   } = content;
 
   return (
-    <footer className="notion-footer" role="contentinfo" aria-label="Sidfot">
-      <div className="notion-footer__container">
-        {/* Top grid */}
-        <div className="notion-footer__grid">
-          {/* Company */}
-          <section className="footer-col footer-col--company" aria-label="Företagsinformation">
-            <Typography variant="h4" weight="bold" color="heading" className="footer-company__name">
-              {companyName}
-            </Typography>
+    <footer 
+      role="contentinfo" 
+      aria-label="Sidfot"
+      style={{
+        background: 'var(--surface-default, #0b0b0c)',
+        borderTop: '1px solid var(--border-subtle, rgba(255,255,255,0.08))',
+        padding: 'var(--foundation-space-16, 4rem) 0 var(--foundation-space-8, 2rem)'
+      }}
+    >
+      <Container maxWidth="lg">
+        <Rhythm unit="lg" direction="column">
+          {/* Top content */}
+          <RhythmItem at={1}>
+            <Stack spacing="lg" align="start">
+              {/* Company */}
+              <Stack spacing="md" align="start">
+                <Typography variant="h4" weight="bold" color="heading">
+                  {companyName}
+                </Typography>
 
-            <Typography variant="body-md" color="secondary" className="footer-company__desc">
-              {companyDescription}
-            </Typography>
+                <Typography variant="body-md" color="secondary">
+                  {companyDescription}
+                </Typography>
 
-            <ul className="footer-contact">
-              <li>
-                <Icon color="secondary" className="footer-icon"><PhoneIcon /></Icon>
-                <Typography variant="body-sm" color="secondary">{phone}</Typography>
-              </li>
-              <li>
-                <Icon color="secondary" className="footer-icon"><EnvelopeIcon /></Icon>
-                <Typography variant="body-sm" color="secondary">{email}</Typography>
-              </li>
-              <li>
-                <Icon color="secondary" className="footer-icon"><MapPinIcon /></Icon>
-                <Typography variant="body-sm" color="secondary">{address}</Typography>
-              </li>
-            </ul>
-          </section>
+                <Stack spacing="sm" align="start">
+                  <Cluster spacing="sm" align="center">
+                    <Icon color="secondary"><PhoneIcon /></Icon>
+                    <Typography variant="body-sm" color="secondary">{phone}</Typography>
+                  </Cluster>
+                  <Cluster spacing="sm" align="center">
+                    <Icon color="secondary"><EnvelopeIcon /></Icon>
+                    <Typography variant="body-sm" color="secondary">{email}</Typography>
+                  </Cluster>
+                  <Cluster spacing="sm" align="center">
+                    <Icon color="secondary"><MapPinIcon /></Icon>
+                    <Typography variant="body-sm" color="secondary">{address}</Typography>
+                  </Cluster>
+                </Stack>
+              </Stack>
 
-          {/* Services */}
-          <nav className="footer-col" aria-label={services.title}>
-            <Typography variant="body-md" weight="semibold" color="heading" className="footer-heading">
-              {services.title}
-            </Typography>
-            <ul className="footer-list">
-              {services.links.map((l, i) => (
-                <li key={i}><a className="footer-link" href={l.href}>{l.label}</a></li>
-              ))}
-            </ul>
-          </nav>
+              {/* Services and Legal in a row */}
+              <div style={{ display: 'flex', flexDirection: 'row', gap: 'var(--foundation-space-12, 3rem)' }}>
+                {/* Services */}
+                <nav aria-label={services.title}>
+                  <Stack spacing="md" align="start">
+                    <Typography variant="body-md" weight="semibold" color="heading">
+                      {services.title}
+                    </Typography>
+                    <Stack spacing="sm" align="start">
+                      {services.links.map((link, i) => (
+                        <a 
+                          key={i}
+                          href={link.href}
+                          style={{ 
+                            textDecoration: 'none',
+                            color: 'var(--text-secondary)',
+                            fontSize: 'var(--font-body-sm-size)'
+                          }}
+                        >
+                          {link.label}
+                        </a>
+                      ))}
+                    </Stack>
+                  </Stack>
+                </nav>
 
-          {/* Legal */}
-          <nav className="footer-col" aria-label={legal.title}>
-            <Typography variant="body-md" weight="semibold" color="heading" className="footer-heading">
-              {legal.title}
-            </Typography>
-            <ul className="footer-list">
-              {legal.links.map((l, i) => (
-                <li key={i}><a className="footer-link" href={l.href}>{l.label}</a></li>
-              ))}
-            </ul>
-          </nav>
-        </div>
+                {/* Legal */}
+                <nav aria-label={legal.title}>
+                  <Stack spacing="md" align="start">
+                    <Typography variant="body-md" weight="semibold" color="heading">
+                      {legal.title}
+                    </Typography>
+                    <Stack spacing="sm" align="start">
+                      {legal.links.map((link, i) => (
+                        <a 
+                          key={i}
+                          href={link.href}
+                          style={{ 
+                            textDecoration: 'none',
+                            color: 'var(--text-secondary)',
+                            fontSize: 'var(--font-body-sm-size)'
+                          }}
+                        >
+                          {link.label}
+                        </a>
+                      ))}
+                    </Stack>
+                  </Stack>
+                </nav>
+              </div>
+            </Stack>
+          </RhythmItem>
 
-        {/* Bottom row */}
-        <div className="notion-footer__bottom">
-          <div className="footer-bottom__copy">
-            <Typography variant="body-sm" color="tertiary">{copyright}</Typography>
-            <span className="footer-dot" aria-hidden="true" />
-            <Typography variant="body-sm" color="tertiary">Alla rättigheter förbehållna</Typography>
-          </div>
+          {/* Bottom row */}
+          <RhythmItem at={3}>
+            <Cluster spacing="md" align="center" justify="between">
+              <Cluster spacing="sm" align="center">
+                <Typography variant="body-sm" color="tertiary">{copyright}</Typography>
+                <span style={{ color: 'var(--text-tertiary)', fontSize: '0.5rem' }} aria-hidden="true">•</span>
+                <Typography variant="body-sm" color="tertiary">Alla rättigheter förbehållna</Typography>
+              </Cluster>
 
-          <div className="footer-bottom__cta">
-            <Button
-              variant="accent"
-              size="sm"
-              rightIcon={<Icon color="inverse"><ArrowRightIcon /></Icon>}
-              onClick={() => (window.location.href = ctaHref)}
-            >
-              {ctaText}
-            </Button>
-          </div>
-        </div>
-      </div>
+              <Button
+                variant="accent"
+                size="sm"
+                rightIcon={<Icon color="inverse"><ArrowRightIcon /></Icon>}
+                onClick={() => (window.location.href = ctaHref)}
+              >
+                {ctaText}
+              </Button>
+            </Cluster>
+          </RhythmItem>
+        </Rhythm>
+      </Container>
     </footer>
   );
 };

@@ -20,10 +20,11 @@
 
 /* Container */
 .process-steps-container {
-  width: 95%;
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 var(--foundation-space-8, 2rem);
+  padding: 0 2.5%;
+  box-sizing: border-box;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -167,6 +168,10 @@
   .process-steps-section {
     padding: var(--foundation-space-8, 2rem) 0;
   }
+  
+  .process-steps-container {
+    padding: 0 1rem;
+  }
   .process-steps-header {
     margin-bottom: var(--foundation-space-10, 2.5rem);
   }
@@ -185,6 +190,10 @@
 @media (max-width: 480px) {
   .process-steps-section {
     padding: var(--foundation-space-6, 1.5rem) 0;
+  }
+  
+  .process-steps-container {
+    padding: 0 0.75rem;
   }
   .process-steps-header {
     margin-bottom: var(--foundation-space-8, 2rem);

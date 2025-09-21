@@ -24,7 +24,8 @@
   }
   
   .hero-container {
-    width: 95%;
+    width: 100%;
+    box-sizing: border-box;
     max-width: 1400px;
     margin: 0 auto;
     padding: var(--foundation-space-24, 6rem) var(--foundation-space-8, 2rem) var(--foundation-space-8, 2rem);

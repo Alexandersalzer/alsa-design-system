@@ -177,7 +177,6 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                 size="lg" 
                 className="double-contact-form-submit-button"
                 rightIcon={submitButton.icon ? <Icon color="inverse">{submitButton.icon}</Icon> : undefined}
-                style={{ color: 'white' }}
               >
                 {submitButton.text}
               </Button>
@@ -228,7 +227,6 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                   className="double-contact-form-action-button"
                   rightIcon={action.icon ? <Icon color={action.variant === 'accent' ? 'inverse' : 'primary'}>{action.icon}</Icon> : undefined}
                   onClick={action.href ? () => window.location.href = action.href! : action.onClick}
-                  style={action.variant === 'accent' ? { color: 'white' } : undefined}
                 >
                   {action.text}
                 </Button>
