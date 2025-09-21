@@ -2,157 +2,150 @@
    Hero — ren & responsiv med design tokens
    ================================ */
 
-.hero-section {
-  display: flex;
-  align-items: center;
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 1;
-}
-
-.hero-container {
-  width: 95%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: var(--foundation-space-24, 6rem) var(--foundation-space-8, 2rem) var(--foundation-space-8, 2rem);
-  position: relative;
-  z-index: 3;
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--foundation-space-8, 2rem);
-  align-items: center;
-  min-height: 80vh;
-}
-
-/* Hero Content */
-.hero-content {
-  max-width: 500px;
-  padding-right: var(--foundation-space-4, 1rem);
-}
-
-.hero-title {
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  margin-bottom: var(--foundation-space-8, 2rem);
-}
-
-.hero-title-accent {
-  background: linear-gradient(
-    135deg, 
-    var(--accent-500, #3b82f6) 0%, 
-    var(--accent-400, #60a5fa) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-subtitle {
-  font-size: var(--foundation-typography-size-xl, 1.3rem);
-  line-height: var(--foundation-typography-line-height-relaxed, 1.6);
-  margin-bottom: var(--foundation-space-12, 3rem);
-}
-
-.hero-cta {
-  margin-bottom: var(--foundation-space-16, 4rem);
-}
-
-/* Hero Visual */
-.hero-visual {
-  position: relative;
-  height: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: var(--foundation-space-8, 2rem);
-}
-
-.hero-visual-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: left center;
-}
-
-/* Responsivitet */
-@media (max-width: 1024px) {
+   .hero-section {
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+  
+  .hero-container {
+    width: 95%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--foundation-space-24, 6rem) var(--foundation-space-8, 2rem) var(--foundation-space-8, 2rem);
+    position: relative;
+    z-index: 3;
+  }
+  
   .hero-grid {
-    grid-template-columns: 1fr;
-    gap: var(--foundation-space-12, 3rem);
-    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--foundation-space-8, 2rem);
+    align-items: center;
+    min-height: 80vh;
   }
   
+  /* Hero Content */
   .hero-content {
-    max-width: 100%;
-    padding-right: 0;
-  }
-  
-  .hero-visual {
-    height: 400px;
-    padding-left: 0;
-    justify-content: center;
-  }
-  
-  .hero-visual-image {
-    object-position: center;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-container {
-    padding: var(--foundation-space-20, 5rem) var(--foundation-space-6, 1.5rem) var(--foundation-space-6, 1.5rem);
+    max-width: 500px;
+    padding-right: var(--foundation-space-4, 1rem);
   }
   
   .hero-title {
-    font-size: clamp(2rem, 6vw, 3rem);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  
+  .hero-title-accent {
+    background: linear-gradient(
+      135deg, 
+      var(--accent-500, #3b82f6) 0%, 
+      var(--accent-400, #60a5fa) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
   .hero-subtitle {
-    font-size: var(--foundation-typography-size-lg, 1.125rem);
-  }
-  
-  .hero-visual {
-    height: 300px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-container {
-    padding: var(--foundation-space-16, 4rem) var(--foundation-space-4, 1rem) var(--foundation-space-4, 1rem);
-  }
-  
-  .hero-title {
-    font-size: clamp(1.75rem, 8vw, 2.5rem);
-    margin-bottom: var(--foundation-space-6, 1.5rem);
-  }
-  
-  .hero-subtitle {
-    font-size: var(--foundation-typography-size-md, 1rem);
-    margin-bottom: var(--foundation-space-8, 2rem);
+    font-size: var(--foundation-typography-size-xl, 1.3rem);
+    line-height: var(--foundation-typography-line-height-relaxed, 1.6);
   }
   
   .hero-cta {
-    margin-bottom: var(--foundation-space-12, 3rem);
+    /* spacing hanteras nu av Stack */
   }
   
+  /* Hero Visual */
   .hero-visual {
-    height: 250px;
+    position: relative;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: var(--foundation-space-8, 2rem);
   }
-}
+  
+  .hero-visual-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: left center;
+  }
+  
+  /* Responsivitet */
+  @media (max-width: 1024px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: var(--foundation-space-12, 3rem);
+      text-align: center;
+    }
+    
+    .hero-content {
+      max-width: 100%;
+      padding-right: 0;
+    }
+    
+    .hero-visual {
+      height: 400px;
+      padding-left: 0;
+      justify-content: center;
+    }
+    
+    .hero-visual-image {
+      object-position: center;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero-container {
+      padding: var(--foundation-space-20, 5rem) var(--foundation-space-6, 1.5rem) var(--foundation-space-6, 1.5rem);
+    }
+    
+    .hero-title {
+      font-size: clamp(2rem, 6vw, 3rem);
+    }
+    
+    .hero-subtitle {
+      font-size: var(--foundation-typography-size-lg, 1.125rem);
+    }
+    
+    .hero-visual {
+      height: 300px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .hero-container {
+      padding: var(--foundation-space-16, 4rem) var(--foundation-space-4, 1rem) var(--foundation-space-4, 1rem);
+    }
+    
+    .hero-title {
+      font-size: clamp(1.75rem, 8vw, 2.5rem);
+    }
+    
+    .hero-subtitle {
+      font-size: var(--foundation-typography-size-md, 1rem);
+    }
+    
+    .hero-visual {
+      height: 250px;
+    }
+  }
+  
