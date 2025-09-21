@@ -1,12 +1,14 @@
 'use client';
 
 import { ReactElement } from 'react';
-import './DoubleContactForm.css';
-
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Section } from '../../../../../system/layout/frames/section/Section';
+import { Container } from '../../../../../system/layout/frames/container/Container';
+import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Picker } from '../../../../../system/components/primitives/Picker';
 import { Input } from '../../../../../system/components/primitives/Input';
@@ -98,143 +100,220 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
   };
 
   return (
-    <Section id={id} className={`double-contact-form-section ${className || ''}`}>
-      <div className="double-contact-form-container">
-        {/* Visual */}
-        {visualImage && (
-          <div className="double-contact-form-visual">
-            <img
-              src={visualImage.src}
-              alt={visualImage.alt}
-              width={visualImage.width || 150}
-              height={visualImage.height || 150}
-              className="visual-image"
-            />
-          </div>
-        )}
-        
-        {/* Header */}
-        <div className="double-contact-form-header">
-          <Typography variant="h2" weight="bold" color="heading" className="double-contact-form-title">
-            {title}
-          </Typography>
-          <Typography variant="body-lg" color="secondary" className="double-contact-form-subtitle">
-            {subtitle}
-          </Typography>
-        </div>
-        
-        {/* Form & Info Grid */}
-        <div className="double-contact-form-grid">
-          {/* Contact Form */}
-          <div className="double-contact-form-form-container">
-            <div className="double-contact-form-form-header">
-              <Typography variant="h3" weight="semibold" color="heading" className="double-contact-form-form-title">
-                {formTitle}
-              </Typography>
-              <Typography variant="body-md" color="secondary" className="double-contact-form-form-subtitle">
-                {formSubtitle}
-              </Typography>
+    <Section 
+      id={id} 
+      className={className}
+      style={{
+        backgroundColor: 'var(--surface-card)',
+        backdropFilter: 'blur(15px)',
+        paddingTop: 'var(--foundation-space-20)',
+        paddingBottom: 'var(--foundation-space-20)'
+      }}
+    >
+      <Container maxWidth="2xl" align="center">
+        <Stack spacing="xl" align="center">
+          {/* Visual */}
+          {visualImage && (
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <img
+                src={visualImage.src}
+                alt={visualImage.alt}
+                width={visualImage.width || 150}
+                height={visualImage.height || 150}
+                style={{
+                  width: 'clamp(100px, 12vw, 150px)',
+                  height: 'clamp(100px, 12vw, 150px)',
+                  objectFit: 'contain',
+                  objectPosition: 'center'
+                }}
+              />
             </div>
-            
-            <form onSubmit={handleSubmit} className="double-contact-form-form">
-              {fields.map((field, index) => (
-                <div key={field.name} className="double-contact-form-field">
-                  {field.type === 'select' ? (
-                    <Picker
-                      label={field.label}
-                      placeholder={field.placeholder}
-                      options={field.options || []}
-                      size="md"
-                      variant="compact"
-                      radius="md"
-                    />
-                  ) : field.type === 'textarea' ? (
-                    <Textarea
-                      label={field.label}
-                      name={field.name}
-                      required={field.required}
-                      rows={field.rows || 4}
-                      placeholder={field.placeholder}
-                      size="md"
-                    />
-                  ) : (
-                    <Input
-                      label={field.label}
-                      type={field.type}
-                      name={field.name}
-                      required={field.required}
-                      placeholder={field.placeholder}
-                      size="md"
-                    />
-                  )}
-                </div>
-              ))}
-              
-              {/* Submit Button */}
-              <Button 
-                type="submit"
-                variant="accent" 
-                size="lg" 
-                className="double-contact-form-submit-button"
-                rightIcon={submitButton.icon ? <Icon color="inverse">{submitButton.icon}</Icon> : undefined}
-              >
-                {submitButton.text}
-              </Button>
-            </form>
+          )}
+          
+          {/* Header */}
+          <div style={{ textAlign: 'center', maxWidth: '1200px', width: '100%' }}>
+            <Stack spacing="md" align="center">
+            <Typography 
+              variant="h2" 
+              weight="bold" 
+              color="heading"
+              style={{
+                fontSize: 'clamp(1.5rem, 5vw, 2.2rem)'
+              }}
+            >
+              {title}
+            </Typography>
+            <Typography 
+              variant="body-lg" 
+              color="secondary"
+              style={{
+                lineHeight: 'var(--foundation-typography-line-height-relaxed)',
+                fontSize: 'clamp(1rem, 2vw, 1.125rem)'
+              }}
+            >
+              {subtitle}
+            </Typography>
+            </Stack>
           </div>
           
-          {/* Contact Information */}
-          <Card className="double-contact-form-info-card">
-            <div className="double-contact-form-info-header">
-              <Typography variant="h3" weight="semibold" color="heading" className="double-contact-form-info-title">
-                {contactInfoTitle}
-              </Typography>
-              <Typography variant="body-md" color="secondary" className="double-contact-form-info-subtitle">
-                {contactInfoSubtitle}
-              </Typography>
-            </div>
+          {/* Form & Info Grid */}
+          <Grid 
+            columns={2} 
+            gap="xl"
+            minItemWidth="300px"
+            collapseOn="mobile"
+            style={{ maxWidth: '1000px', width: '100%' }}
+          >
+            {/* Contact Form */}
+            <Card 
+              variant="elevated" 
+              padding="lg"
+              style={{ height: 'fit-content' }}
+            >
+              <Stack spacing="lg">
+                <Stack spacing="sm">
+                  <Typography variant="h3" weight="semibold" color="heading">
+                    {formTitle}
+                  </Typography>
+                  <Typography variant="body-md" color="secondary">
+                    {formSubtitle}
+                  </Typography>
+                </Stack>
+                
+                <form onSubmit={handleSubmit}>
+                  <Stack spacing="lg">
+                    {fields.map((field, index) => (
+                      <div key={field.name}>
+                        {field.type === 'select' ? (
+                          <Picker
+                            label={field.label}
+                            placeholder={field.placeholder}
+                            options={field.options || []}
+                            size="md"
+                            variant="compact"
+                            radius="md"
+                          />
+                        ) : field.type === 'textarea' ? (
+                          <Textarea
+                            label={field.label}
+                            name={field.name}
+                            required={field.required}
+                            rows={field.rows || 4}
+                            placeholder={field.placeholder}
+                            size="md"
+                          />
+                        ) : (
+                          <Input
+                            label={field.label}
+                            type={field.type}
+                            name={field.name}
+                            required={field.required}
+                            placeholder={field.placeholder}
+                            size="md"
+                          />
+                        )}
+                      </div>
+                    ))}
+                    
+                    {/* Submit Button */}
+                    <Button 
+                      type="submit"
+                      variant="accent" 
+                      size="lg" 
+                      style={{ width: '100%' }}
+                      rightIcon={submitButton.icon ? <Icon color="inverse">{submitButton.icon}</Icon> : undefined}
+                    >
+                      {submitButton.text}
+                    </Button>
+                  </Stack>
+                </form>
+              </Stack>
+            </Card>
             
-            <div className="double-contact-form-info-items">
-              {contactInfo.map((info, index) => (
-                <div key={index} className="double-contact-form-info-item">
-                  <div className="double-contact-form-info-icon">
-                    <Icon color="inverse" className="info-icon">
-                      {info.icon}
-                    </Icon>
-                  </div>
-                  <div className="double-contact-form-info-content">
-                    <Typography variant="body-md" weight="semibold" color="primary" className="info-title">
-                      {info.title}
+            {/* Contact Information */}
+            <Card 
+              variant="elevated" 
+              padding="lg"
+              style={{ 
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column'
+              }}
+            >
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <Stack spacing="lg">
+                  <Stack spacing="sm">
+                    <Typography variant="h3" weight="semibold" color="heading">
+                      {contactInfoTitle}
                     </Typography>
-                    <Typography variant="body-lg" color="secondary" className="info-value">
-                      {info.value}
+                    <Typography variant="body-md" color="secondary">
+                      {contactInfoSubtitle}
                     </Typography>
-                    <Typography variant="body-sm" color="secondary" className="info-subtitle">
-                      {info.subtitle}
-                    </Typography>
-                  </div>
+                  </Stack>
+                
+                <div style={{ flex: 1 }}>
+                  <Stack spacing="lg">
+                  {contactInfo.map((info, index) => (
+                    <Cluster spacing="md" align="start" key={index}>
+                      <div
+                        style={{
+                          background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                          width: 'clamp(40px, 6vw, 48px)',
+                          height: 'clamp(40px, 6vw, 48px)',
+                          borderRadius: 'var(--foundation-radius-md)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0
+                        }}
+                      >
+                        <Icon 
+                          color="inverse"
+                          style={{
+                            width: 'clamp(20px, 3vw, 24px)',
+                            height: 'clamp(20px, 3vw, 24px)'
+                          }}
+                        >
+                          {info.icon}
+                        </Icon>
+                      </div>
+                      <Stack spacing="xs">
+                        <Typography variant="body-md" weight="semibold" color="primary">
+                          {info.title}
+                        </Typography>
+                        <Typography variant="body-lg" color="secondary">
+                          {info.value}
+                        </Typography>
+                        <Typography variant="body-sm" color="secondary">
+                          {info.subtitle}
+                        </Typography>
+                      </Stack>
+                    </Cluster>
+                  ))}
+                </Stack>
                 </div>
-              ))}
-            </div>
-            
-            {/* Action Buttons */}
-            <div className="double-contact-form-actions">
-              {actions.map((action, index) => (
-                <Button
-                  key={index}
-                  variant={action.variant}
-                  size="lg"
-                  className="double-contact-form-action-button"
-                  rightIcon={action.icon ? <Icon color={action.variant === 'accent' ? 'inverse' : 'primary'}>{action.icon}</Icon> : undefined}
-                  onClick={action.href ? () => window.location.href = action.href! : action.onClick}
-                >
-                  {action.text}
-                </Button>
-              ))}
-            </div>
-          </Card>
-        </div>
-      </div>
+                
+                {/* Action Buttons */}
+                <Stack spacing="md">
+                  {actions.map((action, index) => (
+                    <Button
+                      key={index}
+                      variant={action.variant}
+                      size="lg"
+                      style={{ width: '100%' }}
+                      rightIcon={action.icon ? <Icon color={action.variant === 'accent' ? 'inverse' : 'primary'}>{action.icon}</Icon> : undefined}
+                      onClick={action.href ? () => window.location.href = action.href! : action.onClick}
+                    >
+                      {action.text}
+                    </Button>
+                  ))}
+                </Stack>
+                </Stack>
+              </div>
+            </Card>
+          </Grid>
+        </Stack>
+      </Container>
     </Section>
   );
 };
