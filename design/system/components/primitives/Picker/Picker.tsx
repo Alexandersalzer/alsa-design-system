@@ -425,8 +425,10 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
       <div className="picker-container">
         <button
           ref={(node) => {
-            // Use a type assertion to allow assignment
-            (triggerRef as React.MutableRefObject<HTMLButtonElement | null>).current = node;
+            // Use callback ref pattern to avoid TypeScript readonly error
+            if (triggerRef) {
+              (triggerRef as any).current = node;
+            }
             if (typeof ref === 'function') {
               ref(node);
             } else if (ref) {
