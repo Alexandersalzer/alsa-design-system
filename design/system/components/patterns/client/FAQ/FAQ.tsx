@@ -132,6 +132,7 @@ const FAQ = ({ content }: FAQProps) => {
               ))}
             </div>
           </div>
+          
         </Stack>
       </Container>
     </div>

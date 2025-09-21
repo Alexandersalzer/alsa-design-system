@@ -1,10 +1,11 @@
 'use client';
 
-import './Testimonials.css';
-
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Section } from '../../../../../system/layout/frames/section/Section';
+import { Container } from '../../../../../system/layout/frames/container/Container';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 import { StarIcon } from '@heroicons/react/24/solid';
 
 export interface Testimonial {
@@ -33,79 +34,153 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
   const { title, titleAccent, subtitle, testimonials } = content;
 
   return (
-    <Section id={id} className={`testimonials-section ${className || ''}`}>
-      <div className="testimonials-container">
-        {/* Header */}
-        <div className="testimonials-header">
-          <Typography 
-            variant="h2" 
-            weight="bold"
-            color="heading"
-            className="testimonials-title"
-          >
-            {title.split(' ').map((word, index) => {
-              if (titleAccent && word === titleAccent) {
-                return (
-                  <span key={index} className="testimonials-title-accent">
-                    {word}
-                  </span>
-                );
-              }
-              return word + ' ';
-            })}
-          </Typography>
-          
-          <Typography 
-            variant="body-xl" 
-            color="secondary"
-            className="testimonials-subtitle"
-          >
-            {subtitle}
-          </Typography>
-        </div>
-
-        {/* Testimonials Grid */}
-        <div className="testimonials-grid">
-          {testimonials.map((testimonial) => (
-            <Card key={testimonial.id} className="testimonial-card">
-              {/* Rating Stars */}
-              <div className="testimonial-rating">
-                {[...Array(testimonial.rating || 5)].map((_, i) => (
-                  <div key={i} className="star-icon">
-                    <StarIcon />
-                  </div>
-                ))}
-              </div>
-              
-              {/* Testimonial Text */}
+    <Section 
+      id={id} 
+      className={className}
+      style={{
+        backgroundColor: 'transparent',
+        paddingTop: 'var(--foundation-space-24)',
+        paddingBottom: 'var(--foundation-space-24)'
+      }}
+    >
+      <Container maxWidth="xl" align="center">
+        <Stack spacing="xl" align="center">
+          {/* Header */}
+          <div style={{ maxWidth: '1200px', width: '100%' }}>
+            <Stack spacing="lg" align="center">
               <Typography 
-                variant="body-md" 
-                color="secondary" 
-                className="testimonial-text"
+                variant="h2" 
+                weight="bold"
+                color="heading"
+                style={{
+                  fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
+                  textAlign: 'center'
+                }}
               >
-                "{testimonial.text}"
+                {title.split(' ').map((word, index) => {
+                  if (titleAccent && word === titleAccent) {
+                    return (
+                      <span 
+                        key={index} 
+                        style={{
+                          background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: 'text'
+                        }}
+                      >
+                        {word}
+                      </span>
+                    );
+                  }
+                  return word + ' ';
+                })}
               </Typography>
               
-              {/* Author Info */}
-              <div className="testimonial-author">
-                <div className="author-avatar">
-                  <Typography variant="body-md" weight="bold" color="inverse">
-                    {testimonial.authorInitial}
-                  </Typography>
-                </div>
-                <div className="author-details">
-                  <Typography variant="body-md" weight="semibold" color="primary" className="author-name">
-                    {testimonial.author}
-                  </Typography>
-                  <Typography variant="body-sm" color="secondary" className="author-case">
-                    {testimonial.caseType}
-                  </Typography>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </div>
+              <Typography 
+                variant="body-xl" 
+                color="secondary"
+                style={{
+                  maxWidth: '700px',
+                  textAlign: 'center',
+                  lineHeight: 'var(--foundation-typography-line-height-relaxed)'
+                }}
+              >
+                {subtitle}
+              </Typography>
+            </Stack>
+          </div>
+
+          {/* Testimonials Grid */}
+          <div style={{ width: '100%', maxWidth: '1200px' }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+                gap: 'var(--foundation-space-8)'
+              }}
+            >
+              {testimonials.map((testimonial) => (
+                <Card 
+                  key={testimonial.id} 
+                  variant="elevated"
+                  padding="lg"
+                  style={{
+                    background: 'var(--surface-card)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: 'var(--foundation-radius-lg)',
+                    height: '280px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                    <Stack spacing="md">
+                    {/* Rating Stars */}
+                    <Cluster spacing="xs" align="center">
+                      {[...Array(testimonial.rating || 5)].map((_, i) => (
+                        <div 
+                          key={i} 
+                          style={{
+                            width: '20px',
+                            height: '20px',
+                            color: 'var(--accent-500)',
+                            fill: 'currentColor'
+                          }}
+                        >
+                          <StarIcon />
+                        </div>
+                      ))}
+                    </Cluster>
+                    
+                    {/* Testimonial Text */}
+                    <Typography 
+                      variant="body-md" 
+                      color="secondary"
+                      style={{
+                        lineHeight: 'var(--foundation-typography-line-height-relaxed)',
+                        flex: 1
+                      }}
+                    >
+                      "{testimonial.text}"
+                    </Typography>
+                    
+                    {/* Author Info */}
+                    <Cluster spacing="md" align="center">
+                      <div
+                        style={{
+                          width: '50px',
+                          height: '50px',
+                          borderRadius: '50%',
+                          background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0
+                        }}
+                      >
+                        <Typography variant="body-md" weight="bold" color="inverse">
+                          {testimonial.authorInitial}
+                        </Typography>
+                      </div>
+                      <Stack spacing="xs">
+                        <Typography variant="body-md" weight="semibold" color="primary">
+                          {testimonial.author}
+                        </Typography>
+                        <Typography variant="body-sm" color="secondary">
+                          {testimonial.caseType}
+                        </Typography>
+                      </Stack>
+                    </Cluster>
+                    </Stack>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </Stack>
+      </Container>
     </Section>
   );
 };
