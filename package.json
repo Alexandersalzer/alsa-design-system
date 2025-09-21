@@ -31,7 +31,7 @@
       "require": "./dist/design/system/components/templates/index.js",
       "types": "./dist/design/system/components/templates/index.d.ts"
     },
-    "./dist/index.css": "./dist/index.css"
+    "./dist/index.css": "./dist/design/index.css"
   },
   "files": [
     "dist"
