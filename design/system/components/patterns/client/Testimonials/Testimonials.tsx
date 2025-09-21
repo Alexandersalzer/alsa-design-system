@@ -148,7 +148,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                     </div>
                     
                     {/* Author Info */}
-                    <Cluster spacing="md" align="center">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-4)' }}>
                       <div
                         style={{
                           width: '50px',
@@ -173,7 +173,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                           {testimonial.caseType}
                         </Typography>
                       </div>
-                    </Cluster>
+                    </div>
                     </Stack>
                   </div>
                 </Card>
