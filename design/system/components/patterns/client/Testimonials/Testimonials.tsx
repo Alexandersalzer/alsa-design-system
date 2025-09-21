@@ -48,15 +48,15 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
           {/* Header */}
           <div style={{ maxWidth: '1200px', width: '100%' }}>
             <Stack spacing="lg" align="center">
-              <Typography 
-                variant="h2" 
-                weight="bold"
-                color="heading"
-                style={{
-                  fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
-                  textAlign: 'center'
-                }}
-              >
+            <Typography 
+              variant="h2" 
+              weight="bold" 
+              color="heading"
+              style={{
+                fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
+                textAlign: 'left'
+              }}
+            >
                 {title.split(' ').map((word, index) => {
                   if (titleAccent && word === titleAccent) {
                     return (
@@ -82,7 +82,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                 color="secondary"
                 style={{
                   maxWidth: '700px',
-                  textAlign: 'center',
+                  textAlign: 'left',
                   lineHeight: 'var(--foundation-typography-line-height-relaxed)'
                 }}
               >
