@@ -18,3 +18,4 @@ export * from './PortfolioCard';
 export * from './Testimonials';
 export * from './AboutWithStats';
 export * from './SuccessfulCases';
+export * from './CTA';

@@ -1,0 +1,131 @@
+/* ================================
+   CTA — Call to Action sektion
+   ================================ */
+
+.cta-section {
+  background: var(--surface-card);
+  padding: 5rem 0;
+  border-top: 1px solid var(--border-default);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.cta-container {
+  width: 95%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.cta-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Title */
+.cta-title {
+  margin-bottom: 1rem;
+  font-size: clamp(1.8rem, 3vw, 2.2rem);
+}
+
+/* Subtitle */
+.cta-subtitle-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cta-subtitle {
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* Buttons */
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+/* Info Section */
+.cta-info {
+  margin-top: 2rem;
+  max-width: 600px;
+  margin: 2rem auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cta-info-item {
+  /* Inherits from Typography component */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cta-section {
+    padding: 4rem 0;
+  }
+  
+  .cta-container {
+    padding: 0 1rem;
+  }
+  
+  .cta-title {
+    font-size: clamp(1.5rem, 4vw, 1.8rem);
+    margin-bottom: 0.75rem;
+  }
+  
+  .cta-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .cta-buttons {
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  
+  .cta-info {
+    margin-top: 1.5rem;
+    gap: 0.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cta-section {
+    padding: 3rem 0;
+  }
+  
+  .cta-title {
+    font-size: clamp(1.3rem, 5vw, 1.5rem);
+    margin-bottom: 0.5rem;
+  }
+  
+  .cta-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+  
+  .cta-buttons button {
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  .cta-info {
+    margin-top: 1.25rem;
+    gap: 0.3rem;
+  }
+  
+  .cta-info-item {
+    font-size: 0.85rem;
+  }
+}
