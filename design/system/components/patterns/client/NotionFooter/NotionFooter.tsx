@@ -78,11 +78,20 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
             {/* Company */}
             <section aria-label="Företagsinformation">
               <Stack spacing="md" align="start">
-                <Typography variant="h4" weight="bold" color="heading">
+                <Typography 
+                  variant="h4" 
+                  weight="bold" 
+                  color="heading"
+                  style={{ textAlign: 'left' }}
+                >
                   {companyName}
                 </Typography>
 
-                <Typography variant="body-md" color="secondary">
+                <Typography 
+                  variant="body-md" 
+                  color="secondary"
+                  style={{ textAlign: 'left' }}
+                >
                   {companyDescription}
                 </Typography>
 
