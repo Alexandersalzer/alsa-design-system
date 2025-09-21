@@ -157,7 +157,7 @@
   --text-quaternary: #7D7D7D;                                 /* Very subtle text */
   --text-disabled: #616161;                                   /* Disabled text */
   --text-placeholder: #6F6F6F;                                /* Input placeholders */
-  --text-inverse: #ffffff;         
+  --text-inverse: #171717;         
   --text-on-interactive: #171717;                               /* Dark text on light backgrounds */
   --text-brand: var(--accent-500);                            /* Brand text (adjusted) */
   --text-brand-on-brand: #ffffff;                             /* Text on brand backgrounds */

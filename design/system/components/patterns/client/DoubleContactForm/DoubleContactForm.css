@@ -93,6 +93,12 @@
   margin-top: 0.5rem;
 }
 
+/* Fix button text color - explicit override */
+.double-contact-form-submit-button,
+.double-contact-form-action-button {
+  color: #fff !important;
+}
+
 /* Contact Information */
 .double-contact-form-info-card {
   padding: 2.5rem;
