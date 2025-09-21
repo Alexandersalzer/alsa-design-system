@@ -1,0 +1,143 @@
+/* ================================
+   AboutWithStats — Kombinerad Om oss + Statistik sektion
+   ================================ */
+
+/* About Section */
+.about-section {
+  background: transparent;
+  padding: 4rem 0;
+}
+
+.about-container {
+  width: 95%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.about-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about-title {
+  margin-bottom: 1.5rem;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  line-height: 1.2;
+}
+
+.about-title-accent {
+  background: linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-subtitle {
+  line-height: 1.6;
+  font-size: 1.2rem;
+}
+
+/* Statistics Section */
+.stats-section {
+  background: transparent;
+  padding: 4rem 0 10rem 0;
+}
+
+.stats-container {
+  width: 95%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  text-align: center;
+}
+
+/* Stat Item */
+.stat-item {
+  text-align: center;
+  padding: 1rem;
+}
+
+.stat-value {
+  margin-bottom: 0.5rem;
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  line-height: 1;
+}
+
+.stat-title {
+  margin-bottom: 0.5rem;
+}
+
+.stat-description {
+  line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .about-section {
+    padding: 3rem 0;
+  }
+  
+  .stats-section {
+    padding: 3rem 0 6rem 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-container,
+  .stats-container {
+    padding: 0 1rem;
+  }
+  
+  .about-title {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    margin-bottom: 1rem;
+  }
+  
+  .about-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .about-section {
+    padding: 2.5rem 0;
+  }
+  
+  .stats-section {
+    padding: 2.5rem 0 4rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-section {
+    padding: 2rem 0;
+  }
+  
+  .stats-section {
+    padding: 2rem 0 3rem 0;
+  }
+  
+  .stat-item {
+    padding: 0.75rem;
+  }
+  
+  .stat-value {
+    font-size: clamp(1.75rem, 4vw, 2rem);
+  }
+}
