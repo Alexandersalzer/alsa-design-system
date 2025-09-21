@@ -6,6 +6,8 @@ import { Typography } from '../../../../../system/components/primitives/Typograp
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Container } from '../../../../../system/layout/frames/container';
 import { Section } from '../../../../../system/layout/frames/section';
+import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import './CleanNavbar.css';
 
@@ -82,90 +84,103 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
       <Container
         maxWidth="xl"
         align="center"
-        className="clean-navbar__inner"
       >
-        {/* Brand */}
-        <a
-          className="clean-navbar__brand"
-          href={brand.href || '/'}
-          onClick={(e) => {
-            if (brand.href?.startsWith('#')) {
-              e.preventDefault();
-              go(brand.href);
-            }
-          }}
-          aria-label={brand.name || brand.logoAlt || 'Hem'}
+        <Cluster
+          justify="between"
+          align="center"
+          spacing="lg"
+          wrap={false}
         >
-          {brand.logoSrc ? (
-            <img
-              src={brand.logoSrc}
-              alt={brand.logoAlt || brand.name || 'Logo'}
-              width={brand.width || 28}
-              height={brand.height || 28}
-              loading="eager"
-              decoding="sync"
-            />
-          ) : (
-            <Typography
-              variant="label-md"
-              color="primary"
-              weight="bold"
-              className="brand-text"
-            >
-              {brand.name || 'Företag'}
-            </Typography>
-          )}
-        </a>
-
-        {/* Links (desktop) */}
-        <div className="clean-navbar__links" role="navigation" aria-label="Huvudmeny">
-          {items.map((it) => (
-            <a
-              key={it.href + it.label}
-              href={it.href}
-              className={`clean-navbar__link ${it.isActive ? 'is-active' : ''}`}
-              onClick={(e) => {
+          {/* Brand */}
+          <a
+            className="clean-navbar__brand"
+            href={brand.href || '/'}
+            onClick={(e) => {
+              if (brand.href?.startsWith('#')) {
                 e.preventDefault();
-                go(it.href);
-              }}
-            >
+                go(brand.href);
+              }
+            }}
+            aria-label={brand.name || brand.logoAlt || 'Hem'}
+          >
+            {brand.logoSrc ? (
+              <img
+                src={brand.logoSrc}
+                alt={brand.logoAlt || brand.name || 'Logo'}
+                width={brand.width || 28}
+                height={brand.height || 28}
+                loading="eager"
+                decoding="sync"
+              />
+            ) : (
               <Typography
-                variant="label-sm"
-                color={it.isActive ? "primary" : "secondary"}
-                weight="medium"
+                variant="label-md"
+                color="primary"
+                weight="bold"
+                className="brand-text"
               >
-                {it.label}
+                {brand.name || 'Företag'}
               </Typography>
-            </a>
-          ))}
-        </div>
+            )}
+          </a>
 
-        {/* CTA (desktop) */}
-        {ctaButton && (
-          <div className="clean-navbar__cta">
+          {/* Links (desktop) */}
+          <nav
+            className="clean-navbar__links"
+            role="navigation"
+            aria-label="Huvudmeny"
+          >
+            <Cluster spacing="md">
+            {items.map((it) => (
+              <a
+                key={it.href + it.label}
+                href={it.href}
+                className={`clean-navbar__link ${it.isActive ? 'is-active' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  go(it.href);
+                }}
+              >
+                <Typography
+                  variant="label-sm"
+                  color={it.isActive ? "primary" : "secondary"}
+                  weight="medium"
+                >
+                  {it.label}
+                </Typography>
+              </a>
+            ))}
+            </Cluster>
+          </nav>
+
+          {/* CTA + Hamburger */}
+          <Cluster spacing="sm" align="center">
+            {/* CTA (desktop) */}
+            {ctaButton && (
+              <Button
+                variant={ctaButton.variant || 'accent'}
+                size="md"
+                onClick={() => go(ctaButton.href)}
+              >
+                {ctaButton.text}
+              </Button>
+            )}
+
+            {/* Hamburger */}
             <Button
-              variant={ctaButton.variant || 'accent'}
-              size="md"
-              onClick={() => go(ctaButton.href)}
+              variant="ghost"
+              size="sm"
+              className="clean-navbar__toggle"
+              aria-label="Öppna meny"
+              aria-expanded={mobileOpen}
+              onClick={() => setMobileOpen((v) => !v)}
             >
-              {ctaButton.text}
+              <Icon size="sm" color="primary">
+                <Bars3Icon />
+              </Icon>
             </Button>
-          </div>
-        )}
-
-        {/* Hamburger */}
-        <Button
-          variant="ghost"
-          size="sm"
-          className="clean-navbar__toggle"
-          aria-label="Öppna meny"
-          aria-expanded={mobileOpen}
-          onClick={() => setMobileOpen((v) => !v)}
-        >
-          <Icon size="sm" color="primary">
-            <Bars3Icon />
-          </Icon>
-        </Button>
+          </Cluster>
+        </Cluster>
       </Container>
 
       {/* Mobile panel */}
@@ -175,42 +190,44 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         aria-modal="false"
       >
         <div className="clean-navbar__mobile-inner">
-          <div className="clean-navbar__mobile-links">
-            {items.map((it) => (
-              <a
-                key={'m-' + it.href + it.label}
-                href={it.href}
-                className="clean-navbar__mobile-link"
-                onClick={(e) => {
-                  e.preventDefault();
+          <Stack spacing="md">
+            <Stack spacing="sm" className="clean-navbar__mobile-links">
+              {items.map((it) => (
+                <a
+                  key={'m-' + it.href + it.label}
+                  href={it.href}
+                  className="clean-navbar__mobile-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMobileOpen(false);
+                    go(it.href);
+                  }}
+                >
+                  <Typography
+                    variant="body-md"
+                    color={it.isActive ? "primary" : "secondary"}
+                    weight="medium"
+                  >
+                    {it.label}
+                  </Typography>
+                </a>
+              ))}
+            </Stack>
+
+            {ctaButton && (
+              <Button
+                variant={ctaButton.variant || 'accent'}
+                size="md"
+                className="clean-navbar__cta-button--mobile"
+                onClick={() => {
                   setMobileOpen(false);
-                  go(it.href);
+                  go(ctaButton.href);
                 }}
               >
-                <Typography
-                  variant="body-md"
-                  color={it.isActive ? "primary" : "secondary"}
-                  weight="medium"
-                >
-                  {it.label}
-                </Typography>
-              </a>
-            ))}
-          </div>
-
-          {ctaButton && (
-            <Button
-              variant={ctaButton.variant || 'accent'}
-              size="md"
-              className="clean-navbar__cta-button--mobile"
-              onClick={() => {
-                setMobileOpen(false);
-                go(ctaButton.href);
-              }}
-            >
-              {ctaButton.text}
-            </Button>
-          )}
+                {ctaButton.text}
+              </Button>
+            )}
+          </Stack>
         </div>
       </div>
     </Section>

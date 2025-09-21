@@ -15,14 +15,7 @@
     box-shadow: var(--shadow-lg);
   }
   
-  /* Innerspår: grid för perfekt centrering */
-  .clean-navbar__inner {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    column-gap: var(--foundation-space-8);
-    padding: var(--foundation-space-3) var(--foundation-space-4);
-  }
+  /* Layout hanteras nu av Cluster-komponenten */
   
   /* Brand */
   .clean-navbar__brand {
@@ -38,11 +31,9 @@
     border-radius: var(--foundation-radius-md);
   }
   
-  /* Links (center) */
+  /* Links - spacing hanteras av Cluster-komponenten */
   .clean-navbar__links {
-    justify-self: center;
-    display: flex;
-    gap: var(--foundation-space-7);
+    /* Cluster hanterar layout */
   }
   .clean-navbar__link {
     text-decoration: none;
@@ -55,13 +46,11 @@
     transform: translateY(-1px);
   }
   
-  /* CTA (höger) */
-  .clean-navbar__cta { justify-self: end; }
+  /* CTA - layout hanteras av Cluster-komponenten */
   
   /* Hamburger (syns bara på mobil) */
   .clean-navbar__toggle {
     display: none;
-    justify-self: end;
   }
   
   /* Mobile panel (dropdown) */
@@ -89,9 +78,7 @@
     max-width: 1280px;
   }
   .clean-navbar__mobile-links {
-    display: grid;
-    gap: var(--foundation-space-3);
-    padding: var(--foundation-space-1) 0 var(--foundation-space-3) 0;
+    /* Stack hanterar spacing */
   }
   .clean-navbar__mobile-link {
     text-decoration: none;
@@ -107,14 +94,8 @@
   }
   
   /* ================= Responsivitet ================ */
-  @media (max-width: 1024px) {
-    .clean-navbar__inner { column-gap: var(--foundation-space-6); }
-    .clean-navbar__links { gap: var(--foundation-space-5); }
-  }
-  
   @media (max-width: 768px) {
-    .clean-navbar__links,
-    .clean-navbar__cta { display: none; }
+    .clean-navbar__links { display: none; }
   
     .clean-navbar__toggle { display: inline-flex; }
   
