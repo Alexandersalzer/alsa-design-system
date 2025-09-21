@@ -28,7 +28,7 @@
   --surface-button-accent-hover: var(--interactive-accent-hover);
   --surface-button-accent-active: var(--interactive-accent-active);
   --surface-button-accent-disabled: var(--interactive-primary-disabled);
-  --text-button-accent: var(--primary-white);
+  --text-button-accent: var(--text-inverse);
   --text-button-accent-disabled: var(--text-disabled);
   --border-button-accent: var(--interactive-accent-hover);
   --border-button-accent-focus: var(--border-focus);
