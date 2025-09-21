@@ -165,14 +165,14 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                           {testimonial.authorInitial}
                         </Typography>
                       </div>
-                      <Stack spacing="xs">
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-1)' }}>
                         <Typography variant="body-md" weight="semibold" color="primary">
                           {testimonial.author}
                         </Typography>
                         <Typography variant="body-sm" color="secondary">
                           {testimonial.caseType}
                         </Typography>
-                      </Stack>
+                      </div>
                     </Cluster>
                     </Stack>
                   </div>
