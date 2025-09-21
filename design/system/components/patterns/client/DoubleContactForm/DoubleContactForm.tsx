@@ -9,6 +9,8 @@ import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Picker } from '../../../../../system/components/primitives/Picker';
+import { Input } from '../../../../../system/components/primitives/Input';
+import { Textarea } from '../../../../../system/components/primitives/Textarea';
 
 export interface ContactInfo {
   type: 'phone' | 'email' | 'address';
@@ -136,14 +138,10 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
             
             <form onSubmit={handleSubmit} className="double-contact-form-form">
               {fields.map((field, index) => (
-                <div key={field.name} className={`double-contact-form-field ${field.type === 'textarea' ? 'field-textarea' : ''}`}>
-                  <label className="double-contact-form-label">
-                    {field.label} {field.required && '*'}
-                  </label>
-                  
+                <div key={field.name} className="double-contact-form-field">
                   {field.type === 'select' ? (
                     <Picker
-                      label=""
+                      label={field.label}
                       placeholder={field.placeholder}
                       options={field.options || []}
                       size="md"
@@ -151,20 +149,22 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                       radius="md"
                     />
                   ) : field.type === 'textarea' ? (
-                    <textarea
+                    <Textarea
+                      label={field.label}
                       name={field.name}
                       required={field.required}
                       rows={field.rows || 4}
                       placeholder={field.placeholder}
-                      className="double-contact-form-textarea"
+                      size="md"
                     />
                   ) : (
-                    <input
+                    <Input
+                      label={field.label}
                       type={field.type}
                       name={field.name}
                       required={field.required}
                       placeholder={field.placeholder}
-                      className="double-contact-form-input"
+                      size="md"
                     />
                   )}
                 </div>
