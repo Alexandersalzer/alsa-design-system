@@ -183,10 +183,19 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                 <form onSubmit={handleSubmit}>
                   <Stack spacing="lg">
                     {fields.map((field, index) => (
-                      <div key={field.name}>
+                      <div key={field.name} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-2)' }}>
+                        <label 
+                          style={{ 
+                            fontWeight: 'var(--foundation-typography-weight-semibold)',
+                            color: 'var(--text-primary)',
+                            fontSize: 'var(--foundation-typography-size-sm)'
+                          }}
+                        >
+                          {field.label}
+                          {field.required && <span style={{ color: 'var(--accent-500)' }}> *</span>}
+                        </label>
                         {field.type === 'select' ? (
                           <Picker
-                            label={field.label}
                             placeholder={field.placeholder}
                             options={field.options || []}
                             size="md"
@@ -195,7 +204,6 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                           />
                         ) : field.type === 'textarea' ? (
                           <Textarea
-                            label={field.label}
                             name={field.name}
                             required={field.required}
                             rows={field.rows || 4}
@@ -204,7 +212,6 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                           />
                         ) : (
                           <Input
-                            label={field.label}
                             type={field.type}
                             name={field.name}
                             required={field.required}
@@ -240,57 +247,57 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                 flexDirection: 'column'
               }}
             >
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <Stack spacing="lg">
-                  <Stack spacing="sm">
-                    <Typography variant="h3" weight="semibold" color="heading">
-                      {contactInfoTitle}
-                    </Typography>
-                    <Typography variant="body-md" color="secondary">
-                      {contactInfoSubtitle}
-                    </Typography>
-                  </Stack>
-                
+                <Stack spacing="sm">
+                  <Typography variant="h3" weight="semibold" color="heading">
+                    {contactInfoTitle}
+                  </Typography>
+                  <Typography variant="body-md" color="secondary">
+                    {contactInfoSubtitle}
+                  </Typography>
+                </Stack>
+              
                 <div style={{ flex: 1 }}>
                   <Stack spacing="lg">
-                  {contactInfo.map((info, index) => (
-                    <Cluster spacing="md" align="start" key={index}>
-                      <div
-                        style={{
-                          background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
-                          width: 'clamp(40px, 6vw, 48px)',
-                          height: 'clamp(40px, 6vw, 48px)',
-                          borderRadius: 'var(--foundation-radius-md)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0
-                        }}
-                      >
-                        <Icon 
-                          color="inverse"
+                    {contactInfo.map((info, index) => (
+                      <Cluster spacing="md" align="start" key={index}>
+                        <div
                           style={{
-                            width: 'clamp(20px, 3vw, 24px)',
-                            height: 'clamp(20px, 3vw, 24px)'
+                            background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                            width: 'clamp(40px, 6vw, 48px)',
+                            height: 'clamp(40px, 6vw, 48px)',
+                            borderRadius: 'var(--foundation-radius-md)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0
                           }}
                         >
-                          {info.icon}
-                        </Icon>
-                      </div>
-                      <Stack spacing="xs">
-                        <Typography variant="body-md" weight="semibold" color="primary">
-                          {info.title}
-                        </Typography>
-                        <Typography variant="body-lg" color="secondary">
-                          {info.value}
-                        </Typography>
-                        <Typography variant="body-sm" color="secondary">
-                          {info.subtitle}
-                        </Typography>
-                      </Stack>
-                    </Cluster>
-                  ))}
-                </Stack>
+                          <Icon 
+                            color="inverse"
+                            style={{
+                              width: 'clamp(20px, 3vw, 24px)',
+                              height: 'clamp(20px, 3vw, 24px)'
+                            }}
+                          >
+                            {info.icon}
+                          </Icon>
+                        </div>
+                        <Stack spacing="xs">
+                          <Typography variant="body-md" weight="semibold" color="primary">
+                            {info.title}
+                          </Typography>
+                          <Typography variant="body-lg" color="secondary">
+                            {info.value}
+                          </Typography>
+                          <Typography variant="body-sm" color="secondary">
+                            {info.subtitle}
+                          </Typography>
+                        </Stack>
+                      </Cluster>
+                    ))}
+                  </Stack>
                 </div>
                 
                 {/* Action Buttons */}
