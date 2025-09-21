@@ -188,7 +188,9 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                           style={{ 
                             fontWeight: 'var(--foundation-typography-weight-semibold)',
                             color: 'var(--text-primary)',
-                            fontSize: 'var(--foundation-typography-size-sm)'
+                            fontSize: 'var(--foundation-typography-size-sm)',
+                            textAlign: 'left',
+                            display: 'block'
                           }}
                         >
                           {field.label}
