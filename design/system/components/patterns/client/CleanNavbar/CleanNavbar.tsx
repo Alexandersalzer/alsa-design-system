@@ -5,6 +5,7 @@ import { Typography } from '../../../../../system/components/primitives/Typograp
 import { Button } from '../../../../../system/components/primitives/Button';
 import { TextLink } from '../../../../../system/components/primitives/TextLink';
 import { Section } from '../../../../../system/layout/frames/section/Section';
+import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -85,15 +86,15 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         paddingBottom: 'var(--foundation-space-3)',
       }}
     >
-      <div style={{ 
-        maxWidth: '1280px', // Samma som Container 2xl
-        margin: '0 auto', 
-        padding: '0 var(--foundation-space-4)',
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        gap: 'var(--foundation-space-8)'
-      }}>
+      <Container
+        maxWidth="2xl"
+        style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          gap: 'var(--foundation-space-8)'
+        }}
+      >
           {/* Left - Brand */}
           <div style={{ flexShrink: 0 }}>
             <TextLink
@@ -136,7 +137,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           <Cluster
             spacing="lg"
             justify="center"
-            className="desktop-nav-links"
+            className="desktop-only"
           >
             {items.map((it) => (
               <TextLink
@@ -163,7 +164,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
 
           {/* Right - CTA (desktop) */}
           {ctaButton && (
-            <div className="desktop-cta" style={{ flexShrink: 0 }}>
+            <div className="desktop-only" style={{ flexShrink: 0 }}>
               <Button
                 variant={ctaButton.variant || 'accent'}
                 size="md"
@@ -180,14 +181,13 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             size="sm"
             onClick={() => setMobileOpen((v) => !v)}
             style={{
-              display: 'none',
               flexShrink: 0
             }}
-            className="mobile-toggle"
+            className="mobile-only"
           >
             <Icon>{mobileOpen ? <XMarkIcon /> : <Bars3Icon />}</Icon>
           </Button>
-      </div>
+      </Container>
 
       {/* Mobile panel */}
       {mobileOpen && (
@@ -205,15 +205,15 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           }}
           className="mobile-nav-panel"
         >
-          <div style={{ 
-            maxWidth: '1280px', // Samma som Container 2xl
-            margin: '0 auto', 
-            padding: '0 var(--foundation-space-4)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 'var(--foundation-space-4)',
-            alignItems: 'stretch'
-          }}>
+          <Container
+            maxWidth="2xl"
+            style={{ 
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--foundation-space-4)',
+              alignItems: 'stretch'
+            }}
+          >
               {items.map((it) => (
                 <TextLink
                   key={'m-' + it.href + it.label}
@@ -253,28 +253,10 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   {ctaButton.text}
                 </Button>
               )}
-          </div>
+          </Container>
         </Section>
       )}
 
-      <style>{`
-        @media (max-width: 1024px) {
-          .desktop-nav-links {
-            gap: var(--foundation-space-6) !important;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .desktop-nav-links,
-          .desktop-cta {
-            display: none !important;
-          }
-
-          .mobile-toggle {
-            display: inline-flex !important;
-          }
-        }
-      `}</style>
     </Section>
   );
 };
