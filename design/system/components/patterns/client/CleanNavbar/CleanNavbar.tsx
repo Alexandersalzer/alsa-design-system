@@ -88,7 +88,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
     >
       <Container maxWidth="xl" style={{ maxWidth: maxWidth }}>
         <Cluster
-          spacing="xl"
+          spacing="2xl"
           justify="between"
           align="center"
         >
