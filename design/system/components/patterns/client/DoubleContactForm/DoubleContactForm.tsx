@@ -110,7 +110,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
         paddingBottom: 'var(--foundation-space-20)'
       }}
     >
-      <Container maxWidth="2xl" align="center">
+      <Container maxWidth="xl" align="center">
         <Stack spacing="xl" align="center">
           {/* Visual */}
           {visualImage && (

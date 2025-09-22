@@ -87,7 +87,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
       }}
     >
       <Container
-        maxWidth="2xl"
+        maxWidth="xl"
         style={{ 
           display: 'grid', 
           gridTemplateColumns: 'auto 1fr auto',
@@ -233,7 +233,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           className="mobile-nav-panel"
         >
           <Container
-            maxWidth="2xl"
+            maxWidth="xl"
             style={{ 
               display: 'flex',
               flexDirection: 'column',

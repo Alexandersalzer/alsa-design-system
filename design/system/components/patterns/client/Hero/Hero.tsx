@@ -73,7 +73,7 @@ const Hero = ({ content, onCtaClick }: HeroProps) => {
       />
       
       <Container
-        maxWidth="2xl"
+        maxWidth="xl"
         align="center"
         style={{
           position: 'relative',
