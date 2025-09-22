@@ -1,111 +1,123 @@
+// ===============================================
+// src/design/system/components/patterns/client/SuccessfulCases/SuccessfulCases.tsx
+// SUCCESSFUL CASES SECTION
+// ===============================================
+
 'use client';
 
 import React from 'react';
 import { Container } from '../../../../../system/layout/frames/container/Container';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Button } from '../../../../../system/components/primitives/Button';
 
-interface SuccessfulCasesProps {
+export interface SuccessCase {
+  id: string;
   title: string;
-  subtitle: string;
-  cases: {
-    icon: React.ReactNode;
-    description: string;
-  }[];
-  stats?: {
-    label: string;
-    value: string;
-  }[];
+  description: string;
+  icon?: React.ReactElement;
+}
+
+export interface SuccessfulCasesProps {
+  heading: string;
+  subheading?: string;
+  cases: SuccessCase[];
 }
 
 export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
-  title,
-  subtitle,
+  heading,
+  subheading,
   cases,
-  stats
 }) => {
   return (
-    <section className="successful-cases-section">
+    <section>
       <Container maxWidth="xl" align="center">
-        <Stack spacing="2xl" align="center">
-          {/* Titel + Intro */}
-          <Stack spacing="md" align="center" style={{ maxWidth: '640px' }}>
+        <Stack spacing="lg" align="center">
+          {/* Text */}
+          <Stack spacing="md" align="center">
             <Typography
-              as="h2"
               variant="display-lg"
               weight="bold"
-              className="successful-cases-title"
+              color="heading"
+              align="center"
             >
-              {title}{' '}
-              <span className="successful-cases-title-accent">fall</span>
+              {heading}
             </Typography>
-            <Typography
-              as="p"
-              variant="body-lg"
-              color="secondary"
-              className="successful-cases-subtitle"
-            >
-              {subtitle}
-            </Typography>
+
+            {subheading && (
+              <Typography
+                variant="body-lg"
+                weight="medium"
+                color="secondary"
+                align="center"
+                style={{ maxWidth: '640px' }}
+              >
+                {subheading}
+              </Typography>
+            )}
           </Stack>
 
-          {/* Cases + Stats */}
-          <Cluster spacing="xl" wrap justify="center" align="start">
-            {/* Cases list */}
-            <Stack spacing="lg" flexChild>
-              {cases.map((c, i) => (
-                <Card
-                  key={i}
-                  variant="surface"
-                  radius="xl"
-                  className="successful-cases-card"
-                >
-                  <Stack spacing="md" align="center">
-                    <div className="successful-cases-icon">
-                      <Icon size="xl">{c.icon}</Icon>
-                    </div>
-                    <Typography
-                      as="p"
-                      variant="body-md"
-                      color="secondary"
-                      className="successful-cases-description"
-                    >
-                      {c.description}
-                    </Typography>
-                  </Stack>
-                </Card>
-              ))}
-            </Stack>
+          {/* Cases */}
+          <Cluster spacing="lg" justify="center" wrap>
+            {cases.map((c) => (
+              <Card
+                key={c.id}
+                variant="solid"
+                radius="lg"
+                style={{
+                  width: '300px',
+                  minHeight: '300px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: 'var(--foundation-space-6)',
+                  textAlign: 'center',
+                }}
+              >
+                {c.icon && (
+                  <div
+                    style={{
+                      marginBottom: 'var(--foundation-space-4)',
+                    }}
+                  >
+                    <Icon size="lg">{c.icon}</Icon>
+                  </div>
+                )}
 
-            {/* Stats (optional) */}
-            {stats && (
-              <Stack spacing="lg" align="center" style={{ maxWidth: '400px' }}>
-                {stats.map((s, i) => (
-                  <Stack key={i} spacing="xs" align="center">
-                    <Typography as="div" variant="display-md" weight="bold">
-                      {s.value}
-                    </Typography>
-                    <Typography as="p" variant="body-sm" color="secondary">
-                      {s.label}
-                    </Typography>
-                  </Stack>
-                ))}
-              </Stack>
-            )}
+                <Typography
+                  variant="display-lg"
+                  weight="semibold"
+                  color="heading"
+                >
+                  {c.title}
+                </Typography>
+
+                <Typography
+                  variant="body-md"
+                  weight="regular"
+                  color="secondary"
+                  style={{ marginTop: 'var(--foundation-space-2)' }}
+                >
+                  {c.description}
+                </Typography>
+              </Card>
+            ))}
           </Cluster>
 
-          {/* CTA (optional) */}
-          <Button variant="accent" size="lg">
-            Kontakta oss
-          </Button>
+          {/* CTA */}
+          <Stack spacing="lg" align="center">
+            <Button variant="accent" size="lg">
+              Starta bedömning
+            </Button>
+          </Stack>
         </Stack>
       </Container>
     </section>
   );
 };
 
-export default SuccessfulCases;
+SuccessfulCases.displayName = 'SuccessfulCases';
