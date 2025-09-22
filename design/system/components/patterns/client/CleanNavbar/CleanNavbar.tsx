@@ -89,10 +89,10 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
       <Container
         maxWidth="2xl"
         style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
+          display: 'grid', 
+          gridTemplateColumns: 'auto 1fr auto',
           alignItems: 'center',
-          gap: 'var(--foundation-space-8)'
+          columnGap: 'var(--foundation-space-8)'
         }}
       >
           {/* Left - Brand */}
@@ -134,37 +134,38 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           </div>
 
           {/* Center - Links (desktop) */}
-          <Cluster
-            spacing="lg"
-            justify="center"
-            className="desktop-only"
-          >
-            {items.map((it) => (
-              <TextLink
-                key={it.href + it.label}
-                href={it.href}
-                variant={it.isActive ? 'accent' : 'secondary'}
-                size="md"
-                weight="medium"
-                underline="hover"
-                onClick={(e) => {
-                  e.preventDefault();
-                  go(it.href);
-                }}
-                style={{
-                  padding: 'var(--foundation-space-3) var(--foundation-space-4)',
-                  borderRadius: '8px',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                {it.label}
-              </TextLink>
-            ))}
-          </Cluster>
+          <div className="desktop-only" style={{ justifySelf: 'center' }}>
+            <Cluster
+              spacing="lg"
+              justify="center"
+            >
+              {items.map((it) => (
+                <TextLink
+                  key={it.href + it.label}
+                  href={it.href}
+                  variant={it.isActive ? 'accent' : 'secondary'}
+                  size="md"
+                  weight="medium"
+                  underline="hover"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    go(it.href);
+                  }}
+                  style={{
+                    padding: 'var(--foundation-space-3) var(--foundation-space-4)',
+                    borderRadius: '8px',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  {it.label}
+                </TextLink>
+              ))}
+            </Cluster>
+          </div>
 
           {/* Right - CTA (desktop) */}
           {ctaButton && (
-            <div className="desktop-only" style={{ flexShrink: 0 }}>
+            <div className="desktop-only" style={{ justifySelf: 'end', flexShrink: 0 }}>
               <Button
                 variant={ctaButton.variant || 'accent'}
                 size="md"
@@ -181,6 +182,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             size="sm"
             onClick={() => setMobileOpen((v) => !v)}
             style={{
+              justifySelf: 'end',
               flexShrink: 0
             }}
             className="mobile-only"
