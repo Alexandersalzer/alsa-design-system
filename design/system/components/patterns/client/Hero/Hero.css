@@ -24,7 +24,7 @@
   }
   
   .hero-cta-cluster {
-    justify-content: center;
+    justify-content: center !important;
   }
   
   /* Bilden ska ligga ovanför texten på mindre skärmar */
