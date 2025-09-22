@@ -91,22 +91,24 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         padding: '0 var(--foundation-space-4)',
         display: 'flex', 
         justifyContent: 'space-between', 
-        alignItems: 'center' 
+        alignItems: 'center',
+        gap: 'var(--foundation-space-8)'
       }}>
           {/* Left - Brand */}
-          <TextLink
-            href={brand.href || '/'}
-            variant="brand"
-            size="lg"
-            weight="bold"
-            underline="none"
-            onClick={(e) => {
-              if (brand.href?.startsWith('#')) {
-                e.preventDefault();
-                go(brand.href);
-              }
-            }}
-          >
+          <div style={{ flexShrink: 0 }}>
+            <TextLink
+              href={brand.href || '/'}
+              variant="brand"
+              size="lg"
+              weight="bold"
+              underline="none"
+              onClick={(e) => {
+                if (brand.href?.startsWith('#')) {
+                  e.preventDefault();
+                  go(brand.href);
+                }
+              }}
+            >
             {brand.logoSrc ? (
               <img
                 src={brand.logoSrc}
@@ -126,8 +128,9 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
               <Typography variant="body-lg" weight="bold" color="heading">
                 {brand.name || 'Företag'}
               </Typography>
-            )}
-          </TextLink>
+              )}
+            </TextLink>
+          </div>
 
           {/* Center - Links (desktop) */}
           <Cluster
@@ -160,7 +163,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
 
           {/* Right - CTA (desktop) */}
           {ctaButton && (
-            <div className="desktop-cta">
+            <div className="desktop-cta" style={{ flexShrink: 0 }}>
               <Button
                 variant={ctaButton.variant || 'accent'}
                 size="md"
@@ -178,11 +181,12 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             onClick={() => setMobileOpen((v) => !v)}
             style={{
               display: 'none',
+              flexShrink: 0
             }}
             className="mobile-toggle"
           >
-          <Icon>{mobileOpen ? <XMarkIcon /> : <Bars3Icon />}</Icon>
-        </Button>
+            <Icon>{mobileOpen ? <XMarkIcon /> : <Bars3Icon />}</Icon>
+          </Button>
       </div>
 
       {/* Mobile panel */}
