@@ -87,11 +87,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
       }}
     >
       <Container maxWidth="xl" style={{ maxWidth: maxWidth }}>
-        <Cluster
-          spacing="2xl"
-          justify="between"
-          align="center"
-        >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--foundation-space-16)' }}>
           {/* Left - Brand */}
           <TextLink
             href={brand.href || '/'}
@@ -180,9 +176,9 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             }}
             className="mobile-toggle"
           >
-            <Icon>{mobileOpen ? <XMarkIcon /> : <Bars3Icon />}</Icon>
-          </Button>
-        </Cluster>
+          <Icon>{mobileOpen ? <XMarkIcon /> : <Bars3Icon />}</Icon>
+        </Button>
+        </div>
       </Container>
 
       {/* Mobile panel */}
