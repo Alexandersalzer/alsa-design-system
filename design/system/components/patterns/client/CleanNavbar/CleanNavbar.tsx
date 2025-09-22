@@ -183,11 +183,20 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             onClick={() => setMobileOpen((v) => !v)}
             style={{
               justifySelf: 'end',
-              flexShrink: 0
+              flexShrink: 0,
+              minWidth: '44px',
+              height: '44px',
+              padding: 'var(--foundation-space-2)',
+              borderRadius: 'var(--foundation-radius-md)',
+              border: '1px solid var(--border-subtle)',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              transition: 'all 0.2s ease'
             }}
             className="mobile-only"
           >
-            <Icon>{mobileOpen ? <XMarkIcon /> : <Bars3Icon />}</Icon>
+            <Icon size="lg">
+              {mobileOpen ? <XMarkIcon /> : <Bars3Icon />}
+            </Icon>
           </Button>
       </Container>
 
@@ -200,10 +209,13 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             left: 0,
             right: 0,
             backgroundColor: 'var(--surface-card)',
+            backdropFilter: 'blur(10px)',
             borderBottom: '1px solid var(--border-subtle)',
-            paddingTop: 'var(--foundation-space-3)',
-            paddingBottom: 'var(--foundation-space-3)',
+            paddingTop: 'var(--foundation-space-4)',
+            paddingBottom: 'var(--foundation-space-4)',
             boxShadow: '0 8px 24px rgba(0,0,0,0.22)',
+            zIndex: 999,
+            animation: 'slideDown 0.3s ease-out'
           }}
           className="mobile-nav-panel"
         >
@@ -230,9 +242,14 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                     go(it.href);
                   }}
                   style={{
-                    padding: 'var(--foundation-space-3) var(--foundation-space-2)',
-                    borderRadius: '8px',
+                    padding: 'var(--foundation-space-4) var(--foundation-space-3)',
+                    borderRadius: 'var(--foundation-radius-md)',
                     textAlign: 'left',
+                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid var(--border-subtle)',
+                    transition: 'all 0.2s ease',
+                    fontSize: '1.1rem',
+                    fontWeight: '500'
                   }}
                 >
                   {it.label}
@@ -249,7 +266,10 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   }}
                   style={{
                     width: '100%',
-                    marginTop: 'var(--foundation-space-2)',
+                    marginTop: 'var(--foundation-space-3)',
+                    padding: 'var(--foundation-space-4) var(--foundation-space-3)',
+                    fontSize: '1.1rem',
+                    fontWeight: '600'
                   }}
                 >
                   {ctaButton.text}
@@ -259,6 +279,22 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         </Section>
       )}
 
+      <style>{`
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .mobile-nav-panel {
+          animation: slideDown 0.3s ease-out;
+        }
+      `}</style>
     </Section>
   );
 };
