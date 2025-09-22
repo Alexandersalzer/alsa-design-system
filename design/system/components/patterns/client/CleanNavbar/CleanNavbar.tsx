@@ -83,8 +83,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         borderBottom: '1px solid var(--border-subtle)',
         boxShadow: elevated ? '0 8px 24px rgba(0,0,0,0.22)' : 'none',
         transition: 'all 0.3s ease',
-        paddingTop: 'var(--foundation-space-6)',
-        paddingBottom: 'var(--foundation-space-6)'
+        paddingTop: 'var(--foundation-space-4)',
+        paddingBottom: 'var(--foundation-space-4)'
       }}
     >
       <Container
@@ -207,8 +207,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             right: 0,
             backgroundColor: 'var(--surface-card)',
             borderBottom: '1px solid var(--border-subtle)',
-            paddingTop: 'var(--foundation-space-6)',
-            paddingBottom: 'var(--foundation-space-6)',
+            paddingTop: 'var(--foundation-space-4)',
+            paddingBottom: 'var(--foundation-space-4)',
             boxShadow: '0 8px 24px rgba(0,0,0,0.22)'
           }}
           className="mobile-nav-panel"
