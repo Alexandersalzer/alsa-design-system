@@ -6,7 +6,6 @@ import { Button } from '../../../../../system/components/primitives/Button';
 import { TextLink } from '../../../../../system/components/primitives/TextLink';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
@@ -17,9 +16,7 @@ export interface NavItem {
 }
 
 export interface BrandConfig {
-  /** Antingen textnamn ... */
   name?: string;
-  /** ... eller logobild */
   logoSrc?: string;
   logoAlt?: string;
   href?: string;
@@ -38,7 +35,6 @@ export interface CleanNavbarProps {
   brand?: BrandConfig;
   ctaButton?: CtaConfig;
   className?: string;
-  /** max bredd på innerspår (default 1000px) */
   maxWidth?: string;
 }
 
@@ -84,18 +80,17 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         boxShadow: elevated ? '0 8px 24px rgba(0,0,0,0.22)' : 'none',
         transition: 'all 0.3s ease',
         paddingTop: 'var(--foundation-space-3)',
-        paddingBottom: 'var(--foundation-space-3)'
+        paddingBottom: 'var(--foundation-space-3)',
       }}
     >
       <Container
         maxWidth="xl"
         style={{
           maxWidth: maxWidth,
-          display: 'grid',
-          gridTemplateColumns: 'auto 1fr auto',
+          display: 'flex',
           alignItems: 'center',
-          columnGap: 'var(--foundation-space-12)',
-          justifyContent: 'space-between'
+          justifyContent: 'space-between',
+          gap: 'var(--foundation-space-12)',
         }}
       >
         {/* Brand */}
@@ -123,9 +118,9 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
               decoding="sync"
               style={{
                 display: 'block',
-                width: 'auto',
                 height: '32px',
-                borderRadius: '6px'
+                width: 'auto',
+                borderRadius: '6px',
               }}
             />
           ) : (
@@ -141,7 +136,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           style={{
             display: 'flex',
             gap: 'var(--foundation-space-7)',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            flex: 1,
           }}
         >
           {items.map((it) => (
@@ -159,7 +155,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
               style={{
                 padding: 'var(--foundation-space-3) var(--foundation-space-4)',
                 borderRadius: '8px',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
               }}
             >
               {it.label}
@@ -187,14 +183,10 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           onClick={() => setMobileOpen((v) => !v)}
           style={{
             display: 'none',
-            gridColumn: '3',
-            justifySelf: 'end'
           }}
           className="mobile-toggle"
         >
-          <Icon>
-            {mobileOpen ? <XMarkIcon /> : <Bars3Icon />}
-          </Icon>
+          <Icon>{mobileOpen ? <XMarkIcon /> : <Bars3Icon />}</Icon>
         </Button>
       </Container>
 
@@ -210,22 +202,17 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             borderBottom: '1px solid var(--border-subtle)',
             paddingTop: 'var(--foundation-space-3)',
             paddingBottom: 'var(--foundation-space-3)',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.22)'
+            boxShadow: '0 8px 24px rgba(0,0,0,0.22)',
           }}
           className="mobile-nav-panel"
         >
-          <Container
-            maxWidth="xl"
-            style={{
-              maxWidth: maxWidth
-            }}
-          >
+          <Container maxWidth="xl" style={{ maxWidth: maxWidth }}>
             <div
               style={{
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 'var(--foundation-space-4)',
-                alignItems: 'stretch'
+                alignItems: 'stretch',
               }}
             >
               {items.map((it) => (
@@ -244,7 +231,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   style={{
                     padding: 'var(--foundation-space-3) var(--foundation-space-2)',
                     borderRadius: '8px',
-                    textAlign: 'left'
+                    textAlign: 'left',
                   }}
                 >
                   {it.label}
@@ -261,7 +248,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   }}
                   style={{
                     width: '100%',
-                    marginTop: 'var(--foundation-space-2)'
+                    marginTop: 'var(--foundation-space-2)',
                   }}
                 >
                   {ctaButton.text}
