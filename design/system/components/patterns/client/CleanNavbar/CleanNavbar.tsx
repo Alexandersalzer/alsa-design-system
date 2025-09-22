@@ -86,7 +86,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
       }}
     >
       <div style={{ 
-        maxWidth: maxWidth, 
+        maxWidth: '1280px', // Samma som Container 2xl
         margin: '0 auto', 
         padding: '0 var(--foundation-space-4)',
         display: 'flex', 
@@ -206,7 +206,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           className="mobile-nav-panel"
         >
           <div style={{ 
-            maxWidth: maxWidth, 
+            maxWidth: '1280px', // Samma som Container 2xl
             margin: '0 auto', 
             padding: '0 var(--foundation-space-4)',
             display: 'flex',
