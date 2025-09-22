@@ -75,7 +75,18 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           collapseOn="tablet"
           className="hero-grid"
         >
-          {/* Text content - Vänster på desktop, center på mobile */}
+          {/* Bilden visas alltid först i DOM → flyttas automatiskt överst på små skärmar */}
+          {visualImage && (
+            <div className="hero-visual">
+              <img
+                src={visualImage}
+                alt={visualAlt}
+                className="hero-visual-image"
+              />
+            </div>
+          )}
+
+          {/* Textcontent */}
           <Stack spacing="lg" align="start" className="hero-text-content">
             <Typography 
               variant="display-lg" 
@@ -93,7 +104,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               {subtitle}
             </Typography>
 
-            <Cluster justify="start" className="hero-cta-cluster">
+            <Cluster className="hero-cta-cluster">
               <Button 
                 variant="accent" 
                 size="lg"
@@ -105,17 +116,6 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               </Button>
             </Cluster>
           </Stack>
-          
-          {/* Visual - Höger på desktop, ovanför text på mobile */}
-          {visualImage && (
-            <div className="hero-visual">
-              <img
-                src={visualImage}
-                alt={visualAlt}
-                className="hero-visual-image"
-              />
-            </div>
-          )}
         </Grid>
       </Container>
     </Section>
