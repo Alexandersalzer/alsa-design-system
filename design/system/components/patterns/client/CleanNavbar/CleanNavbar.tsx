@@ -94,7 +94,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           display: 'grid',
           gridTemplateColumns: 'auto 1fr auto',
           alignItems: 'center',
-          columnGap: 'var(--foundation-space-8)'
+          columnGap: 'var(--foundation-space-12)',
+          justifyContent: 'space-between'
         }}
       >
         {/* Brand */}
