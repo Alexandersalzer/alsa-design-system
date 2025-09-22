@@ -184,9 +184,9 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             style={{
               justifySelf: 'end',
               flexShrink: 0,
-              minWidth: '44px',
-              height: '44px',
-              padding: 'var(--foundation-space-2)',
+              minWidth: '36px',
+              height: '36px',
+              padding: 'var(--foundation-space-1)',
               borderRadius: 'var(--foundation-radius-md)',
               border: '1px solid var(--border-subtle)',
               backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -194,7 +194,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             }}
             className="mobile-only"
           >
-            <Icon size="lg">
+            <Icon size="md">
               {mobileOpen ? <XMarkIcon /> : <Bars3Icon />}
             </Icon>
           </Button>
@@ -202,7 +202,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
 
       {/* Mobile panel */}
       {mobileOpen && (
-        <Section
+        <div
           style={{
             position: 'absolute',
             top: '100%',
@@ -214,7 +214,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             paddingTop: 'var(--foundation-space-4)',
             paddingBottom: 'var(--foundation-space-4)',
             boxShadow: '0 8px 24px rgba(0,0,0,0.22)',
-            zIndex: 999,
+            zIndex: 1001,
             animation: 'slideDown 0.3s ease-out'
           }}
           className="mobile-nav-panel"
@@ -276,7 +276,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                 </Button>
               )}
           </Container>
-        </Section>
+        </div>
       )}
 
       <style>{`
@@ -284,15 +284,18 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           from {
             opacity: 0;
             transform: translateY(-10px);
+            visibility: hidden;
           }
           to {
             opacity: 1;
             transform: translateY(0);
+            visibility: visible;
           }
         }
         
         .mobile-nav-panel {
-          animation: slideDown 0.3s ease-out;
+          animation: slideDown 0.3s ease-out forwards;
+          visibility: visible;
         }
       `}</style>
     </Section>
