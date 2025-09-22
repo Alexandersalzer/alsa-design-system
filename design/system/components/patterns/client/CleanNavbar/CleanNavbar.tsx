@@ -177,27 +177,30 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           )}
 
           {/* Mobile menu toggle */}
-          <Button
-            variant="ghost"
-            size="sm"
+          <button
             onClick={() => setMobileOpen((v) => !v)}
             style={{
-              justifySelf: 'end',
               flexShrink: 0,
-              minWidth: '36px',
-              height: '36px',
-              padding: 'var(--foundation-space-1)',
+              background: 'none',
+              border: 'none',
+              padding: 'var(--foundation-space-2)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               borderRadius: 'var(--foundation-radius-md)',
-              border: '1px solid var(--border-subtle)',
-              backgroundColor: 'rgba(255, 255, 255, 0.05)',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
+              color: 'var(--text-primary)',
+              minWidth: '40px',
+              height: '40px'
             }}
             className="mobile-only"
+            aria-label={mobileOpen ? 'Stäng meny' : 'Öppna meny'}
           >
             <Icon size="md">
               {mobileOpen ? <XMarkIcon /> : <Bars3Icon />}
             </Icon>
-          </Button>
+          </button>
       </Container>
 
       {/* Mobile panel */}
