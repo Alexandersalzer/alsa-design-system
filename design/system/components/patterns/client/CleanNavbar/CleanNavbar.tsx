@@ -5,7 +5,6 @@ import { Typography } from '../../../../../system/components/primitives/Typograp
 import { Button } from '../../../../../system/components/primitives/Button';
 import { TextLink } from '../../../../../system/components/primitives/TextLink';
 import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -86,8 +85,14 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         paddingBottom: 'var(--foundation-space-3)',
       }}
     >
-      <Container maxWidth="xl" style={{ maxWidth: maxWidth }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--foundation-space-16)' }}>
+      <div style={{ 
+        maxWidth: maxWidth, 
+        margin: '0 auto', 
+        padding: '0 var(--foundation-space-4)',
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center' 
+      }}>
           {/* Left - Brand */}
           <TextLink
             href={brand.href || '/'}
@@ -178,8 +183,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           >
           <Icon>{mobileOpen ? <XMarkIcon /> : <Bars3Icon />}</Icon>
         </Button>
-        </div>
-      </Container>
+      </div>
 
       {/* Mobile panel */}
       {mobileOpen && (
@@ -197,15 +201,15 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           }}
           className="mobile-nav-panel"
         >
-          <Container maxWidth="xl" style={{ maxWidth: maxWidth }}>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 'var(--foundation-space-4)',
-                alignItems: 'stretch',
-              }}
-            >
+          <div style={{ 
+            maxWidth: maxWidth, 
+            margin: '0 auto', 
+            padding: '0 var(--foundation-space-4)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'var(--foundation-space-4)',
+            alignItems: 'stretch'
+          }}>
               {items.map((it) => (
                 <TextLink
                   key={'m-' + it.href + it.label}
@@ -245,8 +249,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   {ctaButton.text}
                 </Button>
               )}
-            </div>
-          </Container>
+          </div>
         </Section>
       )}
 
