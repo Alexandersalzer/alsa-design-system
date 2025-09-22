@@ -75,15 +75,15 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         left: 0,
         right: 0,
         zIndex: 1000,
-        backgroundColor: elevated
-          ? 'var(--surface-card)'
+        backgroundColor: elevated 
+          ? 'var(--surface-card)' 
           : 'rgba(16, 16, 16, 0.85)',
         backdropFilter: 'blur(10px)',
         borderBottom: '1px solid var(--border-subtle)',
         boxShadow: elevated ? '0 8px 24px rgba(0,0,0,0.22)' : 'none',
         transition: 'all 0.3s ease',
         paddingTop: 'var(--foundation-space-3)',
-        paddingBottom: 'var(--foundation-space-3)',
+        paddingBottom: 'var(--foundation-space-3)'
       }}
     >
       <Container
@@ -92,7 +92,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           display: 'grid', 
           gridTemplateColumns: 'auto 1fr auto',
           alignItems: 'center',
-          columnGap: 'var(--foundation-space-8)'
+          columnGap: 'var(--foundation-space-8)',
+          position: 'relative'
         }}
       >
           {/* Left - Brand */}
@@ -184,31 +185,35 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             </div>
           )}
 
-          {/* Mobile menu toggle */}
-          <div className="mobile-only" style={{ justifySelf: 'end', flexShrink: 0 }}>
-            <button
-              onClick={() => setMobileOpen((v) => !v)}
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: 'var(--foundation-space-2)',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 'var(--foundation-radius-md)',
-                transition: 'all 0.2s ease',
-                color: 'var(--text-primary)',
-                minWidth: '40px',
-                height: '40px'
-              }}
-              aria-label={mobileOpen ? 'Stäng meny' : 'Öppna meny'}
-            >
-              <Icon size="md">
-                {mobileOpen ? <XMarkIcon /> : <Bars3Icon />}
-              </Icon>
-            </button>
-          </div>
+          {/* Mobile menu toggle - positioned in far right corner */}
+          <button
+            onClick={() => setMobileOpen((v) => !v)}
+            className="mobile-only"
+            style={{
+              position: 'absolute',
+              right: 'var(--foundation-space-4)',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'none',
+              border: 'none',
+              padding: 'var(--foundation-space-2)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 'var(--foundation-radius-md)',
+              transition: 'all 0.2s ease',
+              color: 'var(--text-primary)',
+              minWidth: '40px',
+              height: '40px',
+              zIndex: 1002
+            }}
+            aria-label={mobileOpen ? 'Stäng meny' : 'Öppna meny'}
+          >
+            <Icon size="md">
+              {mobileOpen ? <XMarkIcon /> : <Bars3Icon />}
+            </Icon>
+          </button>
       </Container>
 
       {/* Mobile panel */}
@@ -226,7 +231,9 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             paddingBottom: 'var(--foundation-space-4)',
             boxShadow: '0 8px 24px rgba(0,0,0,0.22)',
             zIndex: 1001,
-            animation: 'slideDown 0.3s ease-out'
+            minHeight: '200px',
+            animation: 'slideDown 0.3s ease-out forwards',
+            visibility: 'visible'
           }}
           className="mobile-nav-panel"
         >
