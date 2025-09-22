@@ -29,266 +29,270 @@ export interface ProcessStepsProps {
 export function ProcessSteps({ content }: ProcessStepsProps) {
   const { title, titleAccent, subtitle, steps } = content;
 
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [activeStepIndex, setActiveStepIndex] = useState(0);
-  const [isIntersecting, setIsIntersecting] = useState(false);
   const ticking = useRef(false);
 
-  // Card styling with smooth transitions
+  // Card styling
   const cardStyle = {
     height: '65vh',
     maxHeight: '650px',
     borderRadius: 'var(--foundation-radius-xl)',
-    transition: 'transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1)',
-    willChange: 'transform, opacity'
+    transition:
+      'transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1)',
+    willChange: 'transform, opacity',
   };
 
   useEffect(() => {
-    // Intersection observer to detect when section is in view
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        setIsIntersecting(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-    
-    // Optimized scroll handler
     const handleScroll = () => {
+      if (!wrapperRef.current) return;
+
       if (!ticking.current) {
         window.requestAnimationFrame(() => {
-          if (!sectionRef.current) return;
-          
-          const sectionRect = sectionRef.current.getBoundingClientRect();
-          const viewportHeight = window.innerHeight;
-          const totalScrollDistance = viewportHeight * 2.5;
-          
-          // Calculate scroll progress - börja mycket tidigare
-          let progress = 0;
-          if (sectionRect.top <= 400) { // Börja 400px tidigare
-            progress = Math.min(1, Math.max(0, Math.abs(sectionRect.top - 400) / totalScrollDistance));
-          }
-          
-          // Determine active step based on progress - mycket tidigare thresholds
-          const stepProgress = progress * steps.length;
-          let newActiveIndex = 0;
-          
-          if (stepProgress >= (steps.length - 1) * 0.8) {
-            newActiveIndex = steps.length - 1;
-          } else if (stepProgress >= (steps.length - 1) * 0.4) {
-            newActiveIndex = Math.floor(stepProgress);
-          } else if (stepProgress >= 0.2) {
-            newActiveIndex = Math.max(0, Math.floor(stepProgress));
-          } else {
-            newActiveIndex = 0;
-          }
-          
-          setActiveStepIndex(Math.min(newActiveIndex, steps.length - 1));
-          
+          const rect = wrapperRef.current!.getBoundingClientRect();
+          const totalHeight = rect.height - window.innerHeight;
+          const scrolled = Math.min(Math.max(-rect.top, 0), totalHeight);
+
+          const progress = scrolled / totalHeight;
+          const stepIndex = Math.floor(progress * steps.length);
+
+          setActiveStepIndex(Math.min(stepIndex, steps.length - 1));
           ticking.current = false;
         });
-        
         ticking.current = true;
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
     };
   }, [steps.length]);
 
-  // Step visibility states
   const getStepVisibility = (index: number) => {
     return activeStepIndex >= index;
   };
 
   return (
-    <div 
-      ref={sectionRef} 
-      style={{ height: `${steps.length * 100}vh` }}
+    <div
+      ref={wrapperRef}
+      style={{
+        height: `${steps.length * 100}vh`,
+        position: 'relative',
+      }}
     >
-      <Section
-        id="process-steps"
+      {/* Sticky container */}
+      <div
         style={{
           position: 'sticky',
           top: 0,
           height: '100vh',
-          backgroundColor: 'transparent',
-          paddingTop: 'var(--foundation-space-12)',
-          paddingBottom: 'var(--foundation-space-12)',
         }}
       >
-        <Container maxWidth="2xl" align="center" style={{ height: '100%' }}>
-          <div style={{ height: '100%', position: 'relative' }}>
-            {/* Header */}
-            <div
-              style={{
-                position: 'absolute',
-                top: 'var(--foundation-space-8)',
-                left: 0,
-                right: 0,
-                zIndex: 100,
-                textAlign: 'center',
-                maxWidth: '900px',
-                margin: '0 auto',
-                padding: 'var(--foundation-space-8) 0',
-              }}
-            >
-              <Stack spacing="lg" align="center">
-                <Typography
-                  variant="h2"
-                  weight="bold"
-                  color="heading"
-                  style={{
-                    fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
-                    lineHeight: 'var(--foundation-typography-line-height-tight)',
-                    textAlign: 'left'
-                  }}
-                >
-                  {title.split(' ').map((word, index) => {
-                    if (titleAccent && word === titleAccent) {
-                      return (
-                        <span
-                          key={index}
-                          style={{
-                            background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                          }}
-                        >
-                          {word}
-                        </span>
-                      );
-                    }
-                    return word + ' ';
-                  })}
-                </Typography>
-                <Typography
-                  variant="body-xl"
-                  color="secondary"
-                  style={{
-                    lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                    textAlign: 'left'
-                  }}
-                >
-                  {subtitle}
-                </Typography>
-              </Stack>
-            </div>
-
-            {/* Steps Cards Container */}
-            <div style={{ position: 'relative', height: '100%', marginTop: 'var(--foundation-space-20)' }}>
-              {steps.map((step, index) => {
-                const isVisible = getStepVisibility(index);
-                const isActive = activeStepIndex === index;
-                
-                return (
-                  <Card
-                    key={step.number}
-                    variant="elevated"
-                    padding="lg"
+        <Section
+          id="process-steps"
+          style={{
+            height: '100%',
+            backgroundColor: 'transparent',
+            paddingTop: 'var(--foundation-space-12)',
+            paddingBottom: 'var(--foundation-space-12)',
+          }}
+        >
+          <Container maxWidth="2xl" align="center" style={{ height: '100%' }}>
+            <div style={{ height: '100%', position: 'relative' }}>
+              {/* Header */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 'var(--foundation-space-8)',
+                  left: 0,
+                  right: 0,
+                  zIndex: 100,
+                  textAlign: 'center',
+                  maxWidth: '900px',
+                  margin: '0 auto',
+                  padding: 'var(--foundation-space-8) 0',
+                }}
+              >
+                <Stack spacing="lg" align="center">
+                  <Typography
+                    variant="h2"
+                    weight="bold"
+                    color="heading"
                     style={{
-                      ...cardStyle,
-                      position: 'absolute',
-                      inset: 0,
-                      background: step.backgroundImage
-                        ? `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${step.backgroundImage})`
-                        : 'var(--surface-card)',
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      border: '1px solid var(--border-subtle)',
-                      zIndex: 10 + index,
-                      transform: isVisible 
-                        ? `translateY(${isActive ? '0px' : activeStepIndex > index ? '20px' : '60px'}) scale(${isActive ? 1 : activeStepIndex > index ? 0.98 : 0.95})`
-                        : 'translateY(200px) scale(0.9)',
-                      opacity: isVisible ? (isActive ? 1 : 0.9) : 0,
-                      pointerEvents: isVisible ? 'auto' : 'none',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      textAlign: 'center',
+                      fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
+                      lineHeight:
+                        'var(--foundation-typography-line-height-tight)',
+                      textAlign: 'left',
                     }}
                   >
-                    {/* Step Number */}
-                    <div
+                    {title.split(' ').map((word, index) => {
+                      if (titleAccent && word === titleAccent) {
+                        return (
+                          <span
+                            key={index}
+                            style={{
+                              background:
+                                'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
+                              WebkitBackgroundClip: 'text',
+                              WebkitTextFillColor: 'transparent',
+                              backgroundClip: 'text',
+                            }}
+                          >
+                            {word}
+                          </span>
+                        );
+                      }
+                      return word + ' ';
+                    })}
+                  </Typography>
+                  <Typography
+                    variant="body-xl"
+                    color="secondary"
+                    style={{
+                      lineHeight:
+                        'var(--foundation-typography-line-height-relaxed)',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {subtitle}
+                  </Typography>
+                </Stack>
+              </div>
+
+              {/* Steps Cards Container */}
+              <div
+                style={{
+                  position: 'relative',
+                  height: '100%',
+                  marginTop: 'var(--foundation-space-20)',
+                }}
+              >
+                {steps.map((step, index) => {
+                  const isVisible = getStepVisibility(index);
+                  const isActive = activeStepIndex === index;
+
+                  return (
+                    <Card
+                      key={step.number}
+                      variant="elevated"
+                      padding="lg"
                       style={{
-                        width: 'clamp(80px, 10vw, 120px)',
-                        height: 'clamp(80px, 10vw, 120px)',
-                        borderRadius: '50%',
-                        background: step.iconBackground === 'accent' 
-                          ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
-                          : 'rgba(255, 255, 255, 0.2)',
+                        ...cardStyle,
+                        position: 'absolute',
+                        inset: 0,
+                        background: step.backgroundImage
+                          ? `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${step.backgroundImage})`
+                          : 'var(--surface-card)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        border: '1px solid var(--border-subtle)',
+                        zIndex: 10 + index,
+                        transform: isVisible
+                          ? `translateY(${
+                              isActive
+                                ? '0px'
+                                : activeStepIndex > index
+                                ? '20px'
+                                : '60px'
+                            }) scale(${
+                              isActive
+                                ? 1
+                                : activeStepIndex > index
+                                ? 0.98
+                                : 0.95
+                            })`
+                          : 'translateY(200px) scale(0.9)',
+                        opacity: isVisible ? (isActive ? 1 : 0.9) : 0,
+                        pointerEvents: isVisible ? 'auto' : 'none',
                         display: 'flex',
-                        alignItems: 'center',
+                        flexDirection: 'column',
                         justifyContent: 'center',
-                        marginBottom: 'var(--foundation-space-8)',
-                        border: step.iconBackground === 'accent' 
-                          ? 'none' 
-                          : '1px solid rgba(255, 255, 255, 0.3)',
-                        backdropFilter: step.iconBackground === 'accent' 
-                          ? 'none' 
-                          : 'blur(8px)',
-                        boxShadow: step.iconBackground === 'accent' 
-                          ? 'var(--foundation-shadow-lg)' 
-                          : 'none',
+                        alignItems: 'center',
+                        textAlign: 'center',
                       }}
                     >
-                      <Typography
-                        variant="h1"
-                        weight="bold"
-                        color={step.iconBackground === 'accent' ? 'inverse' : 'inverse'}
+                      {/* Step Number */}
+                      <div
                         style={{
-                          fontSize: 'clamp(2rem, 5vw, 3rem)',
+                          width: 'clamp(80px, 10vw, 120px)',
+                          height: 'clamp(80px, 10vw, 120px)',
+                          borderRadius: '50%',
+                          background:
+                            step.iconBackground === 'accent'
+                              ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
+                              : 'rgba(255, 255, 255, 0.2)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginBottom: 'var(--foundation-space-8)',
+                          border:
+                            step.iconBackground === 'accent'
+                              ? 'none'
+                              : '1px solid rgba(255, 255, 255, 0.3)',
+                          backdropFilter:
+                            step.iconBackground === 'accent'
+                              ? 'none'
+                              : 'blur(8px)',
+                          boxShadow:
+                            step.iconBackground === 'accent'
+                              ? 'var(--foundation-shadow-lg)'
+                              : 'none',
                         }}
                       >
-                        {step.number}
-                      </Typography>
-                    </div>
+                        <Typography
+                          variant="h1"
+                          weight="bold"
+                          color="inverse"
+                          style={{
+                            fontSize: 'clamp(2rem, 5vw, 3rem)',
+                          }}
+                        >
+                          {step.number}
+                        </Typography>
+                      </div>
 
-                    {/* Step Content */}
-                    <div style={{ maxWidth: '600px', width: '100%' }}>
-                      <Typography
-                        variant="h3"
-                        weight="bold"
-                        color={step.backgroundImage ? 'inverse' : 'heading'}
-                        style={{
-                          marginBottom: 'var(--foundation-space-4)',
-                          fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
-                          lineHeight: 'var(--foundation-typography-line-height-tight)',
-                        }}
-                      >
-                        {step.title}
-                      </Typography>
-                      <Typography
-                        variant="body-lg"
-                        color={step.backgroundImage ? 'inverse' : 'secondary'}
-                        style={{
-                          lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                          opacity: step.backgroundImage ? 0.9 : 1,
-                        }}
-                      >
-                        {step.description}
-                      </Typography>
-                    </div>
-                  </Card>
-                );
-              })}
+                      {/* Step Content */}
+                      <div style={{ maxWidth: '600px', width: '100%' }}>
+                        <Typography
+                          variant="h3"
+                          weight="bold"
+                          color={
+                            step.backgroundImage ? 'inverse' : 'heading'
+                          }
+                          style={{
+                            marginBottom: 'var(--foundation-space-4)',
+                            fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
+                            lineHeight:
+                              'var(--foundation-typography-line-height-tight)',
+                          }}
+                        >
+                          {step.title}
+                        </Typography>
+                        <Typography
+                          variant="body-lg"
+                          color={
+                            step.backgroundImage ? 'inverse' : 'secondary'
+                          }
+                          style={{
+                            lineHeight:
+                              'var(--foundation-typography-line-height-relaxed)',
+                            opacity: step.backgroundImage ? 0.9 : 1,
+                          }}
+                        >
+                          {step.description}
+                        </Typography>
+                      </div>
+                    </Card>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        </Container>
-      </Section>
+          </Container>
+        </Section>
+      </div>
     </div>
   );
 }
