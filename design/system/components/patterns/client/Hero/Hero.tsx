@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
@@ -11,7 +12,7 @@ import { Container } from '../../../../../system/layout/frames/container/Contain
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import './Hero.css';
 
-interface HeroContent {
+export interface HeroContent {
   title: string;
   titleAccent?: string;
   subtitle: string;
@@ -22,13 +23,13 @@ interface HeroContent {
   visualAlt?: string;
 }
 
-interface HeroProps {
+export interface HeroProps {
   content: HeroContent;
   onCtaClick?: () => void;
   id?: string;
 }
 
-const Hero = ({ content, onCtaClick, id = "hero" }: HeroProps) => {
+export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) => {
   const { 
     title, 
     titleAccent, 
@@ -53,46 +54,26 @@ const Hero = ({ content, onCtaClick, id = "hero" }: HeroProps) => {
       id={id}
       as="section"
       height="full"
-      style={{
-        minHeight: '100vh',
-        backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        position: 'relative',
-        backgroundColor: 'var(--surface-background)'
-      }}
+      className={`hero-section ${backgroundImage ? 'hero-section--with-bg' : ''}`}
+      style={backgroundImage ? { backgroundImage: `url(${backgroundImage})` } : undefined}
     >
-      {/* Overlay för bättre textläsbarhet */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: backgroundImage ? 'rgba(0, 0, 0, 0.4)' : 'transparent',
-          zIndex: 1
-        }}
-      />
+      {/* Background overlay */}
+      {backgroundImage && (
+        <div className="hero-background-overlay" />
+      )}
       
       <Container
         maxWidth="xl"
         align="center"
         height="full"
-        style={{
-          position: 'relative',
-          zIndex: 2,
-          paddingTop: 'var(--foundation-space-24)',
-          paddingBottom: 'var(--foundation-space-24)'
-        }}
+        className="hero-container"
       >
         <Grid 
           columns={2} 
           gap="xl" 
           alignItems="center"
           collapseOn="tablet"
-          style={{ minHeight: '80vh' }}
+          className="hero-grid"
         >
           {/* Text content - Vänster på desktop, center på mobile */}
           <Stack spacing="lg" align="start" className="hero-text-content">
@@ -101,39 +82,13 @@ const Hero = ({ content, onCtaClick, id = "hero" }: HeroProps) => {
               as="h1" 
               weight="bold"
               color="heading"
-              style={{
-                fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
-                lineHeight: 'var(--foundation-typography-line-height-tight)',
-                letterSpacing: '-0.02em'
-              }}
             >
-              {title.split(' ').map((word, index) => {
-                if (titleAccent && word === titleAccent) {
-                  return (
-                    <span 
-                      key={index}
-                      style={{
-                        background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text'
-                      }}
-                    >
-                      {word}
-                    </span>
-                  );
-                }
-                return word + ' ';
-              })}
+              {title} {titleAccent && <span className="hero-title-accent">{titleAccent}</span>}
             </Typography>
             
             <Typography 
               variant="body-xl" 
               color="body"
-              style={{
-                fontSize: 'clamp(1.125rem, 2.5vw, 1.25rem)',
-                lineHeight: 'var(--foundation-typography-line-height-relaxed)'
-              }}
             >
               {subtitle}
             </Typography>
@@ -157,12 +112,7 @@ const Hero = ({ content, onCtaClick, id = "hero" }: HeroProps) => {
               <img
                 src={visualImage}
                 alt={visualAlt}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                  objectPosition: 'center'
-                }}
+                className="hero-visual-image"
               />
             </div>
           )}
@@ -172,5 +122,4 @@ const Hero = ({ content, onCtaClick, id = "hero" }: HeroProps) => {
   );
 };
 
-export { Hero };
-export type { HeroContent, HeroProps };
+Hero.displayName = 'Hero';
