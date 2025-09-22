@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import { Container } from '@/design-system/components/patterns/page/Container';
-import { Stack } from '@/design-system/components/patterns/page/Stack';
-import { Cluster } from '@/design-system/components/patterns/page/Cluster';
-import { Typography } from '@/design-system/components/primitives/Typography';
-import { Card } from '@/design-system/components/primitives/Card';
-import { Icon } from '@/design-system/components/primitives/Icon';
-import { Button } from '@/design-system/components/primitives/Button';
+import { Container } from '../../../../../system/layout/frames/container/Container';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { Typography } from '../../../../../system/components/primitives/Typography';
+import { Card } from '../../../../../system/components/primitives/Card';
+import { Icon } from '../../../../../system/components/primitives/Icon';
+import { Button } from '../../../../../system/components/primitives/Button';
 
 interface SuccessfulCasesProps {
   title: string;
