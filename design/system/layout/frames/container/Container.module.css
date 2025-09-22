@@ -1,45 +1,57 @@
 .container {
   width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--foundation-space-6, 1.5rem);
+  padding-right: var(--foundation-space-6, 1.5rem);
   display: flex;
   flex-direction: column;
   gap: var(--foundation-space-6, 1.5rem);
-  padding: var(--foundation-space-4, 1rem);
   min-height: fit-content;
 }
 
-/* Max Width variants */
+/* Container width variables */
+:root {
+  --container-xs: 480px;
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+  --container-3xl: 1728px;
+}
+
+/* Max Width variants - using CSS custom properties */
 .maxWidthNone {
   max-width: none;
 }
 
 .maxWidthXs {
-  max-width: 480px;
-  margin: 0 auto;
+  max-width: var(--container-xs);
 }
 
 .maxWidthSm {
-  max-width: 640px;
-  margin: 0 auto;
+  max-width: var(--container-sm);
 }
 
 .maxWidthMd {
-  max-width: 768px;
-  margin: 0 auto;
+  max-width: var(--container-md);
 }
 
 .maxWidthLg {
-  max-width: 1024px;
-  margin: 0 auto;
+  max-width: var(--container-lg);
 }
 
 .maxWidthXl {
-  max-width: 1280px;
-  margin: 0 auto;
+  max-width: var(--container-xl);
 }
 
 .maxWidth2xl {
-  max-width: 1536px;
-  margin: 0 auto;
+  max-width: var(--container-2xl);
+}
+
+.maxWidth3xl {
+  max-width: var(--container-3xl);
 }
 
 .maxWidthFull {
@@ -79,21 +91,32 @@
 /* Responsive behavior */
 @media (max-width: 768px) {
   .container {
-    padding: var(--foundation-space-3, 0.75rem);
+    padding-left: var(--foundation-space-4, 1rem);
+    padding-right: var(--foundation-space-4, 1rem);
     gap: var(--foundation-space-4, 1rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-left: var(--foundation-space-3, 0.75rem);
+    padding-right: var(--foundation-space-3, 0.75rem);
+    gap: var(--foundation-space-3, 0.75rem);
   }
 }
 
 /* When container has hero content - more generous spacing */
 .container:has(h1) {
   gap: var(--foundation-space-8, 2rem);
-  padding: var(--foundation-space-6, 1.5rem);
+  padding-left: var(--foundation-space-8, 2rem);
+  padding-right: var(--foundation-space-8, 2rem);
 }
 
 /* Ensure proper spacing for hero sections */
 @media (min-width: 769px) {
   .container:has(h1) {
-    padding: var(--foundation-space-8, 2rem);
+    padding-left: var(--foundation-space-10, 2.5rem);
+    padding-right: var(--foundation-space-10, 2.5rem);
     gap: var(--foundation-space-10, 2.5rem);
   }
 }

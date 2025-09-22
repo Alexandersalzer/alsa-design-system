@@ -83,13 +83,13 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
       }}
     >
       <Container
-        maxWidth="xl"
+        maxWidth={maxWidth === '1000px' ? 'xl' : maxWidth as any}
         style={{
-          maxWidth,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0.75rem 1rem',
+          gap: 'var(--foundation-space-8)',
+          flexWrap: 'wrap',
         }}
       >
         {/* Brand */}
