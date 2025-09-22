@@ -1,11 +1,16 @@
 'use client';
 
+import React, { useState } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Card } from '../../../../../system/components/primitives/Card';
+import { Button } from '../../../../../system/components/primitives/Button';
+import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
-import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import './FAQ.css';
 
 interface FAQItem {
   question: string;
@@ -20,21 +25,31 @@ interface FAQContent {
 
 interface FAQProps {
   content: FAQContent;
+  id?: string;
 }
 
-const FAQ = ({ content }: FAQProps) => {
+const FAQ = ({ content, id = "faq" }: FAQProps) => {
   const { title, subtitle, items } = content;
+  const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
+
+  const toggleExpanded = (index: number) => {
+    const newExpanded = new Set(expandedItems);
+    if (newExpanded.has(index)) {
+      newExpanded.delete(index);
+    } else {
+      newExpanded.add(index);
+    }
+    setExpandedItems(newExpanded);
+  };
 
   return (
-    <div 
-      id="faq" 
-      role="region" 
-      aria-label="Vanliga frågor"
+    <Section 
+      id={id}
+      as="section"
+      height="auto"
       style={{
-        backgroundColor: 'transparent',
         paddingTop: 'var(--foundation-space-24)',
-        paddingBottom: 'var(--foundation-space-24)',
-        width: '100%'
+        paddingBottom: 'var(--foundation-space-24)'
       }}
     >
       <Container maxWidth="xl" align="center">
@@ -85,57 +100,95 @@ const FAQ = ({ content }: FAQProps) => {
             </Stack>
           </div>
 
-          {/* FAQ Grid */}
-          <div style={{ width: '100%' }}>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
-                gap: 'var(--foundation-space-8)'
-              }}
-            >
-              {items.map((item, index) => (
-                <Card 
-                  key={index} 
-                  variant="elevated"
-                  padding="lg"
-                  style={{
-                    background: 'var(--surface-card)',
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: 'var(--foundation-radius-lg)',
-                    transition: 'all var(--foundation-motion-duration-normal) ease'
-                  }}
-                >
-                  <Stack spacing="md">
-                    <Typography 
-                      variant="h4" 
-                      weight="semibold" 
-                      color="heading"
-                      style={{
-                        fontSize: 'var(--foundation-typography-size-lg)',
-                        lineHeight: 'var(--foundation-typography-line-height-tight)'
-                      }}
-                    >
-                      {item.question}
-                    </Typography>
-                    <Typography 
-                      variant="body-md" 
-                      color="secondary"
-                      style={{
-                        lineHeight: 'var(--foundation-typography-line-height-relaxed)'
-                      }}
-                    >
-                      {item.answer}
-                    </Typography>
+          {/* FAQ Items */}
+          <div style={{ width: '100%', maxWidth: '800px' }}>
+            <Stack spacing="md">
+              {items.map((item, index) => {
+                const isExpanded = expandedItems.has(index);
+                
+                return (
+                  <Card 
+                    key={index} 
+                    variant="elevated"
+                    padding="lg"
+                    className="faq-item"
+                    style={{
+                      background: 'var(--surface-card)',
+                      border: '1px solid var(--border-subtle)',
+                      borderRadius: 'var(--foundation-radius-lg)',
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => toggleExpanded(index)}
+                    role="button"
+                    tabIndex={0}
+                    aria-expanded={isExpanded}
+                    aria-label={`${item.question}. Klicka för att ${isExpanded ? 'dölja' : 'visa'} svaret.`}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleExpanded(index);
+                      }
+                    }}
+                  >
+                    <Stack spacing="md">
+                      <Cluster justify="between" align="center">
+                      <Typography 
+                        variant="h4" 
+                        weight="semibold" 
+                        color="heading"
+                        style={{
+                          fontSize: 'var(--foundation-typography-size-lg)',
+                          lineHeight: 'var(--foundation-typography-line-height-tight)',
+                          flex: 1,
+                          marginRight: 'var(--foundation-space-3)'
+                        }}
+                      >
+                        {item.question}
+                      </Typography>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        style={{
+                          padding: 'var(--foundation-space-1)',
+                          minWidth: 'auto',
+                          flexShrink: 0
+                        }}
+                        aria-label={isExpanded ? 'Dölj svar' : 'Visa svar'}
+                      >
+                        <Icon 
+                          size="sm" 
+                          color="secondary"
+                          className={`faq-chevron ${isExpanded ? 'expanded' : ''}`}
+                        >
+                          <ChevronDownIcon />
+                        </Icon>
+                      </Button>
+                    </Cluster>
+                    
+                    {isExpanded && (
+                      <div className="faq-answer">
+                        <Typography 
+                          variant="body-md" 
+                          color="secondary"
+                          style={{
+                            lineHeight: 'var(--foundation-typography-line-height-relaxed)',
+                            paddingTop: 'var(--foundation-space-2)',
+                            borderTop: '1px solid var(--border-subtle)'
+                          }}
+                        >
+                          {item.answer}
+                        </Typography>
+                      </div>
+                    )}
                   </Stack>
-                </Card>
-              ))}
-            </div>
+                  </Card>
+                );
+              })}
+            </Stack>
           </div>
-          
         </Stack>
       </Container>
-    </div>
+    </Section>
   );
 };
 
