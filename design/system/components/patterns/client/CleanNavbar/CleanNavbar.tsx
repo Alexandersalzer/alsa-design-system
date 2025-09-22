@@ -92,7 +92,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           display: 'grid', 
           gridTemplateColumns: 'auto 1fr auto',
           alignItems: 'center',
-          columnGap: 'var(--foundation-space-8)'
+          columnGap: 'var(--foundation-space-8)',
+          position: 'relative'
         }}
       >
           {/* Left - Brand */}
@@ -135,32 +136,40 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
 
           {/* Center - Links (desktop) */}
           <div className="desktop-only" style={{ justifySelf: 'center' }}>
-            <Cluster
-              spacing="lg"
-              justify="center"
-            >
-              {items.map((it) => (
-                <TextLink
-                  key={it.href + it.label}
-                  href={it.href}
-                  variant={it.isActive ? 'accent' : 'secondary'}
-                  size="md"
-                  weight="medium"
-                  underline="hover"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    go(it.href);
-                  }}
-                  style={{
-                    padding: 'var(--foundation-space-3) var(--foundation-space-4)',
-                    borderRadius: '8px',
-                    transition: 'all 0.2s ease',
-                  }}
-                >
-                  {it.label}
-                </TextLink>
-              ))}
-            </Cluster>
+            <nav role="navigation" aria-label="Huvudnavigation">
+              <ul style={{
+                listStyle: 'none',
+                margin: 0,
+                padding: 0,
+                display: 'flex',
+                gap: 'var(--foundation-space-4)',
+                alignItems: 'center'
+              }}>
+                {items.map((it) => (
+                  <li key={it.href + it.label}>
+                    <TextLink
+                      href={it.href}
+                      variant={it.isActive ? 'accent' : 'secondary'}
+                      size="md"
+                      weight="medium"
+                      underline="hover"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        go(it.href);
+                      }}
+                      style={{
+                        padding: 'var(--foundation-space-3) var(--foundation-space-4)',
+                        borderRadius: '8px',
+                        transition: 'all 0.2s ease',
+                        display: 'block'
+                      }}
+                    >
+                      {it.label}
+                    </TextLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
 
           {/* Right - CTA (desktop) */}
@@ -176,11 +185,14 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             </div>
           )}
 
-          {/* Mobile menu toggle */}
+          {/* Mobile menu toggle - positioned in far right corner */}
           <button
             onClick={() => setMobileOpen((v) => !v)}
             style={{
-              flexShrink: 0,
+              position: 'absolute',
+              right: 'var(--foundation-space-4)',
+              top: '50%',
+              transform: 'translateY(-50%)',
               background: 'none',
               border: 'none',
               padding: 'var(--foundation-space-2)',
@@ -192,7 +204,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
               transition: 'all 0.2s ease',
               color: 'var(--text-primary)',
               minWidth: '40px',
-              height: '40px'
+              height: '40px',
+              zIndex: 1002
             }}
             className="mobile-only"
             aria-label={mobileOpen ? 'Stäng meny' : 'Öppna meny'}
@@ -227,37 +240,51 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             style={{ 
               display: 'flex',
               flexDirection: 'column',
-              gap: 'var(--foundation-space-4)',
+              gap: 'var(--foundation-space-2)',
               alignItems: 'stretch'
             }}
           >
-              {items.map((it) => (
-                <TextLink
-                  key={'m-' + it.href + it.label}
-                  href={it.href}
-                  variant={it.isActive ? 'accent' : 'secondary'}
-                  size="lg"
-                  weight="medium"
-                  underline="none"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setMobileOpen(false);
-                    go(it.href);
-                  }}
-                  style={{
-                    padding: 'var(--foundation-space-4) var(--foundation-space-3)',
-                    borderRadius: 'var(--foundation-radius-md)',
-                    textAlign: 'left',
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid var(--border-subtle)',
-                    transition: 'all 0.2s ease',
-                    fontSize: '1.1rem',
-                    fontWeight: '500'
-                  }}
-                >
-                  {it.label}
-                </TextLink>
-              ))}
+            <nav role="navigation" aria-label="Huvudnavigation">
+              <ul style={{
+                listStyle: 'none',
+                margin: 0,
+                padding: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 'var(--foundation-space-1)'
+              }}>
+                {items.map((it) => (
+                  <li key={'m-' + it.href + it.label}>
+                    <TextLink
+                      href={it.href}
+                      variant={it.isActive ? 'accent' : 'secondary'}
+                      size="lg"
+                      weight="medium"
+                      underline="none"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setMobileOpen(false);
+                        go(it.href);
+                      }}
+                      style={{
+                        display: 'block',
+                        padding: 'var(--foundation-space-4) var(--foundation-space-3)',
+                        borderRadius: 'var(--foundation-radius-md)',
+                        textAlign: 'left',
+                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid var(--border-subtle)',
+                        transition: 'all 0.2s ease',
+                        fontSize: '1.1rem',
+                        fontWeight: '500',
+                        width: '100%'
+                      }}
+                    >
+                      {it.label}
+                    </TextLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
               {ctaButton && (
                 <Button
