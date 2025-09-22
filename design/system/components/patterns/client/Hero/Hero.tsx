@@ -1,11 +1,11 @@
 'use client';
 
-import './Hero.css';
-
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Section } from '../../../../../system/layout/frames/section/Section';
+import { Container } from '../../../../../system/layout/frames/container/Container';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 interface HeroContent {
@@ -45,32 +45,79 @@ const Hero = ({ content, onCtaClick }: HeroProps) => {
   };
 
   return (
-    <section 
-      id="hero" 
-      className="hero-section" 
+    <Section
+      id="hero"
       style={{
-        backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined
+        minHeight: '100vh',
+        position: 'relative',
+        overflow: 'hidden',
+        backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        display: 'flex',
+        alignItems: 'center'
       }}
     >
       {/* Overlay för bättre textläsbarhet */}
-      <div className="hero-overlay" />
+      <div 
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.4)',
+          zIndex: 1
+        }}
+      />
       
-      <div className="hero-container">
-        <div className="hero-grid">
+      <Container
+        maxWidth="2xl"
+        align="center"
+        style={{
+          position: 'relative',
+          zIndex: 3,
+          paddingTop: 'var(--foundation-space-24)',
+          paddingBottom: 'var(--foundation-space-24)'
+        }}
+      >
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+            gap: 'var(--foundation-space-8)',
+            alignItems: 'center',
+            minHeight: '80vh'
+          }}
+        >
           {/* Vänster sida - Text content */}
-          <div className="hero-content">
-            <Stack spacing="xl">
+          <div style={{ maxWidth: '500px' }}>
+            <Stack spacing="md">
               <Typography 
                 variant="display-lg" 
                 as="h1" 
                 weight="bold"
                 color="heading"
-                className="hero-title"
+                style={{
+                  fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
+                  lineHeight: 'var(--foundation-typography-line-height-tight)',
+                  letterSpacing: '-0.02em',
+                  textAlign: 'left'
+                }}
               >
                 {title.split(' ').map((word, index) => {
                   if (titleAccent && word === titleAccent) {
                     return (
-                      <span key={index} className="hero-title-accent">
+                      <span 
+                        key={index}
+                        style={{
+                          background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: 'text'
+                        }}
+                      >
                         {word}
                       </span>
                     );
@@ -82,38 +129,54 @@ const Hero = ({ content, onCtaClick }: HeroProps) => {
               <Typography 
                 variant="body-xl" 
                 color="body"
-                className="hero-subtitle"
+                style={{
+                  fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+                  lineHeight: 'var(--foundation-typography-line-height-relaxed)',
+                  textAlign: 'left'
+                }}
               >
                 {subtitle}
               </Typography>
 
-              <div className="hero-cta">
-                <Button 
-                  variant="accent" 
-                  size="lg"
-                  rightIcon={<Icon color="inverse"><ArrowRightIcon /></Icon>}
-                  onClick={handleCtaClick}
-                  style={{ color: 'white' }}
-                >
-                  {ctaText}
-                </Button>
-              </div>
+              <Button 
+                variant="accent" 
+                size="lg"
+                rightIcon={<Icon color="inverse"><ArrowRightIcon /></Icon>}
+                onClick={handleCtaClick}
+                style={{ color: 'white' }}
+              >
+                {ctaText}
+              </Button>
             </Stack>
           </div>
           
           {/* Höger sida - Visual */}
           {visualImage && (
-            <div className="hero-visual">
+            <div
+              style={{
+                position: 'relative',
+                height: 'clamp(300px, 50vh, 500px)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingLeft: 'var(--foundation-space-8)'
+              }}
+            >
               <img
                 src={visualImage}
                 alt={visualAlt}
-                className="hero-visual-image"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  objectPosition: 'center'
+                }}
               />
             </div>
           )}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 };
 
