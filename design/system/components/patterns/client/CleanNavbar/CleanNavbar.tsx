@@ -38,7 +38,7 @@ export interface CleanNavbarProps {
   brand?: BrandConfig;
   ctaButton?: CtaConfig;
   className?: string;
-  /** max bredd på innerspår (default 1200px) */
+  /** max bredd på innerspår (default 1000px) */
   maxWidth?: string;
 }
 
@@ -47,7 +47,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
   brand = { name: 'Företag', href: '/' },
   ctaButton,
   className = '',
-  maxWidth = '1200px',
+  maxWidth = '1000px',
 }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [elevated, setElevated] = useState(false);
