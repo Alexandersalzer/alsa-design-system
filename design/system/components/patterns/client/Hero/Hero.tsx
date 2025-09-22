@@ -49,25 +49,25 @@ const Hero = ({ content, onCtaClick }: HeroProps) => {
       id="hero"
       style={{
         minHeight: '100vh',
-        position: 'relative',
-        overflow: 'hidden',
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
+        position: 'relative',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'var(--surface-background)'
       }}
     >
       {/* Overlay för bättre textläsbarhet */}
-      <div 
+      <div
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'rgba(0, 0, 0, 0.4)',
+          background: backgroundImage ? 'rgba(0, 0, 0, 0.4)' : 'transparent',
           zIndex: 1
         }}
       />
@@ -77,7 +77,7 @@ const Hero = ({ content, onCtaClick }: HeroProps) => {
         align="center"
         style={{
           position: 'relative',
-          zIndex: 3,
+          zIndex: 2,
           paddingTop: 'var(--foundation-space-24)',
           paddingBottom: 'var(--foundation-space-24)'
         }}
@@ -86,13 +86,18 @@ const Hero = ({ content, onCtaClick }: HeroProps) => {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-            gap: 'var(--foundation-space-8)',
+            gap: 'var(--foundation-space-12)',
             alignItems: 'center',
             minHeight: '80vh'
           }}
         >
           {/* Vänster sida - Text content */}
-          <div style={{ maxWidth: '500px' }}>
+          <div
+            style={{
+              maxWidth: '600px',
+              paddingRight: 'var(--foundation-space-6)'
+            }}
+          >
             <Stack spacing="md">
               <Typography 
                 variant="display-lg" 
@@ -102,8 +107,7 @@ const Hero = ({ content, onCtaClick }: HeroProps) => {
                 style={{
                   fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
                   lineHeight: 'var(--foundation-typography-line-height-tight)',
-                  letterSpacing: '-0.02em',
-                  textAlign: 'left'
+                  letterSpacing: '-0.02em'
                 }}
               >
                 {title.split(' ').map((word, index) => {
@@ -112,7 +116,7 @@ const Hero = ({ content, onCtaClick }: HeroProps) => {
                       <span 
                         key={index}
                         style={{
-                          background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                          background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
                           WebkitBackgroundClip: 'text',
                           WebkitTextFillColor: 'transparent',
                           backgroundClip: 'text'
@@ -130,9 +134,8 @@ const Hero = ({ content, onCtaClick }: HeroProps) => {
                 variant="body-xl" 
                 color="body"
                 style={{
-                  fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
-                  lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                  textAlign: 'left'
+                  fontSize: 'clamp(1.125rem, 2.5vw, 1.25rem)',
+                  lineHeight: 'var(--foundation-typography-line-height-relaxed)'
                 }}
               >
                 {subtitle}
@@ -143,7 +146,10 @@ const Hero = ({ content, onCtaClick }: HeroProps) => {
                 size="lg"
                 rightIcon={<Icon color="inverse"><ArrowRightIcon /></Icon>}
                 onClick={handleCtaClick}
-                style={{ color: 'white' }}
+                style={{ 
+                  color: 'white',
+                  alignSelf: 'flex-start'
+                }}
               >
                 {ctaText}
               </Button>
@@ -158,7 +164,7 @@ const Hero = ({ content, onCtaClick }: HeroProps) => {
                 height: 'clamp(300px, 50vh, 500px)',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justifyContent: 'flex-start',
                 paddingLeft: 'var(--foundation-space-8)'
               }}
             >
@@ -169,7 +175,7 @@ const Hero = ({ content, onCtaClick }: HeroProps) => {
                   width: '100%',
                   height: '100%',
                   objectFit: 'contain',
-                  objectPosition: 'center'
+                  objectPosition: 'left center'
                 }}
               />
             </div>
