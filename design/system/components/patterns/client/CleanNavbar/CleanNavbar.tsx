@@ -6,7 +6,6 @@ import { Button } from '../../../../../system/components/primitives/Button';
 import { TextLink } from '../../../../../system/components/primitives/TextLink';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
@@ -44,14 +43,13 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
   brand = { name: 'Företag', href: '/' },
   ctaButton,
   className = '',
-  maxWidth = '1000px',
+  maxWidth = '1200px',
 }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [elevated, setElevated] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setElevated(window.scrollY > 4);
-    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -75,254 +73,187 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         left: 0,
         right: 0,
         zIndex: 1000,
-        backgroundColor: elevated 
-          ? 'var(--surface-card)' 
+        backgroundColor: elevated
+          ? 'var(--surface-card)'
           : 'rgba(16, 16, 16, 0.85)',
         backdropFilter: 'blur(10px)',
         borderBottom: '1px solid var(--border-subtle)',
-        boxShadow: elevated ? '0 8px 24px rgba(0,0,0,0.22)' : 'none',
+        boxShadow: elevated ? '0 4px 12px rgba(0,0,0,0.15)' : 'none',
         transition: 'all 0.3s ease',
-        paddingTop: 'var(--foundation-space-3)',
-        paddingBottom: 'var(--foundation-space-3)'
       }}
     >
       <Container
         maxWidth="xl"
-        style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'auto 1fr auto',
+        style={{
+          maxWidth,
+          display: 'flex',
           alignItems: 'center',
-          columnGap: 'var(--foundation-space-8)'
+          justifyContent: 'space-between',
+          padding: '0.75rem 1rem',
         }}
       >
-          {/* Left - Brand */}
-          <div style={{ flexShrink: 0 }}>
-            <TextLink
-              href={brand.href || '/'}
-              variant="brand"
-              size="lg"
-              weight="bold"
-              underline="none"
-              onClick={(e) => {
-                if (brand.href?.startsWith('#')) {
-                  e.preventDefault();
-                  go(brand.href);
-                }
-              }}
-            >
-            {brand.logoSrc ? (
-              <img
-                src={brand.logoSrc}
-                alt={brand.logoAlt || brand.name || 'Logo'}
-                width={brand.width || 32}
-                height={brand.height || 32}
-                loading="eager"
-                decoding="sync"
-                style={{
-                  display: 'block',
-                  width: 'auto',
-                  height: '32px',
-                  borderRadius: '6px',
-                }}
-              />
-            ) : (
-              <Typography variant="body-lg" weight="bold" color="heading">
-                {brand.name || 'Företag'}
-              </Typography>
-              )}
-            </TextLink>
-          </div>
-
-          {/* Center - Links (desktop) */}
-          <div className="desktop-only" style={{ justifySelf: 'center' }}>
-            <nav role="navigation" aria-label="Huvudnavigation">
-              <ul style={{
-                listStyle: 'none',
-                margin: 0,
-                padding: 0,
-                display: 'flex',
-                gap: 'var(--foundation-space-4)',
-                alignItems: 'center'
-              }}>
-                {items.map((it) => (
-                  <li key={it.href + it.label}>
-                    <TextLink
-                      href={it.href}
-                      variant={it.isActive ? 'accent' : 'secondary'}
-                      size="md"
-                      weight="medium"
-                      underline="hover"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        go(it.href);
-                      }}
-                      style={{
-                        padding: 'var(--foundation-space-3) var(--foundation-space-4)',
-                        borderRadius: '8px',
-                        transition: 'all 0.2s ease',
-                        display: 'block'
-                      }}
-                    >
-                      {it.label}
-                    </TextLink>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
-
-          {/* Right - CTA (desktop) */}
-          {ctaButton && (
-            <div className="desktop-only" style={{ justifySelf: 'end', flexShrink: 0 }}>
-              <Button
-                variant={ctaButton.variant || 'accent'}
-                size="md"
-                onClick={() => go(ctaButton.href)}
-              >
-                {ctaButton.text}
-              </Button>
-            </div>
+        {/* Brand */}
+        <TextLink
+          href={brand.href || '/'}
+          underline="none"
+          onClick={(e) => {
+            if (brand.href?.startsWith('#')) {
+              e.preventDefault();
+              go(brand.href);
+            }
+          }}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+        >
+          {brand.logoSrc ? (
+            <img
+              src={brand.logoSrc}
+              alt={brand.logoAlt || brand.name || 'Logo'}
+              width={brand.width || 32}
+              height={brand.height || 32}
+              style={{ height: '32px', width: 'auto', borderRadius: '6px' }}
+            />
+          ) : (
+            <Typography variant="body-lg" weight="bold" color="heading">
+              {brand.name || 'Företag'}
+            </Typography>
           )}
+        </TextLink>
 
-          {/* Mobile menu toggle */}
-          <div className="mobile-only" style={{ justifySelf: 'end', flexShrink: 0 }}>
-            <button
-              onClick={() => setMobileOpen((v) => !v)}
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: 'var(--foundation-space-2)',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 'var(--foundation-radius-md)',
-                transition: 'all 0.2s ease',
-                color: 'var(--text-primary)',
-                minWidth: '40px',
-                height: '40px'
-              }}
-              aria-label={mobileOpen ? 'Stäng meny' : 'Öppna meny'}
+        {/* Links – desktop */}
+        <ul className="desktop-nav">
+          {items.map((it) => (
+            <li key={it.href + it.label}>
+              <TextLink
+                href={it.href}
+                variant={it.isActive ? 'accent' : 'secondary'}
+                size="md"
+                weight="medium"
+                underline="hover"
+                onClick={(e) => {
+                  e.preventDefault();
+                  go(it.href);
+                }}
+              >
+                {it.label}
+              </TextLink>
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA – desktop */}
+        {ctaButton && (
+          <div className="desktop-nav">
+            <Button
+              variant={ctaButton.variant || 'accent'}
+              size="md"
+              onClick={() => go(ctaButton.href)}
             >
-              <Icon size="md">
-                {mobileOpen ? <XMarkIcon /> : <Bars3Icon />}
-              </Icon>
-            </button>
+              {ctaButton.text}
+            </Button>
           </div>
+        )}
+
+        {/* Mobile toggle */}
+        <button
+          className="mobile-toggle"
+          onClick={() => setMobileOpen((v) => !v)}
+          aria-label={mobileOpen ? 'Stäng meny' : 'Öppna meny'}
+        >
+          <Icon>{mobileOpen ? <XMarkIcon /> : <Bars3Icon />}</Icon>
+        </button>
       </Container>
 
       {/* Mobile panel */}
       {mobileOpen && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            right: 0,
-            backgroundColor: 'var(--surface-card)',
-            backdropFilter: 'blur(10px)',
-            borderBottom: '1px solid var(--border-subtle)',
-            paddingTop: 'var(--foundation-space-4)',
-            paddingBottom: 'var(--foundation-space-4)',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.22)',
-            zIndex: 1001,
-            minHeight: '200px',
-            animation: 'slideDown 0.3s ease-out forwards',
-            visibility: 'visible'
-          }}
-          className="mobile-nav-panel"
-        >
-          <Container
-            maxWidth="xl"
-            style={{ 
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--foundation-space-2)',
-              alignItems: 'stretch'
-            }}
-          >
-            <nav role="navigation" aria-label="Huvudnavigation">
-              <ul style={{
-                listStyle: 'none',
-                margin: 0,
-                padding: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 'var(--foundation-space-1)'
-              }}>
-                {items.map((it) => (
-                  <li key={'m-' + it.href + it.label}>
-                    <TextLink
-                      href={it.href}
-                      variant={it.isActive ? 'accent' : 'secondary'}
-                      size="lg"
-                      weight="medium"
-                      underline="none"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setMobileOpen(false);
-                        go(it.href);
-                      }}
-                      style={{
-                        display: 'block',
-                        padding: 'var(--foundation-space-4) var(--foundation-space-3)',
-                        borderRadius: 'var(--foundation-radius-md)',
-                        textAlign: 'left',
-                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                        border: '1px solid var(--border-subtle)',
-                        transition: 'all 0.2s ease',
-                        fontSize: '1.1rem',
-                        fontWeight: '500',
-                        width: '100%'
-                      }}
-                    >
-                      {it.label}
-                    </TextLink>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-
-              {ctaButton && (
-                <Button
-                  variant={ctaButton.variant || 'accent'}
+        <div className="mobile-nav">
+          <ul>
+            {items.map((it) => (
+              <li key={'m-' + it.href + it.label}>
+                <TextLink
+                  href={it.href}
                   size="lg"
-                  onClick={() => {
+                  weight="medium"
+                  underline="none"
+                  onClick={(e) => {
+                    e.preventDefault();
                     setMobileOpen(false);
-                    go(ctaButton.href);
-                  }}
-                  style={{
-                    width: '100%',
-                    marginTop: 'var(--foundation-space-3)',
-                    padding: 'var(--foundation-space-4) var(--foundation-space-3)',
-                    fontSize: '1.1rem',
-                    fontWeight: '600'
+                    go(it.href);
                   }}
                 >
-                  {ctaButton.text}
-                </Button>
-              )}
-          </Container>
+                  {it.label}
+                </TextLink>
+              </li>
+            ))}
+          </ul>
+
+          {ctaButton && (
+            <Button
+              variant={ctaButton.variant || 'accent'}
+              size="lg"
+              onClick={() => {
+                setMobileOpen(false);
+                go(ctaButton.href);
+              }}
+              style={{ width: '100%', marginTop: '1rem' }}
+            >
+              {ctaButton.text}
+            </Button>
+          )}
         </div>
       )}
 
       <style>{`
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-            visibility: hidden;
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-            visibility: visible;
-          }
+        .desktop-nav {
+          display: flex;
+          gap: 1.25rem;
+          align-items: center;
         }
-        
-        .mobile-nav-panel {
-          animation: slideDown 0.3s ease-out forwards;
-          visibility: visible;
+        .desktop-nav ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          gap: 1.25rem;
+        }
+        .desktop-nav li {
+          margin: 0;
+        }
+        .mobile-toggle {
+          display: none;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 0.5rem;
+          border-radius: 6px;
+          color: var(--text-primary);
+        }
+        .mobile-nav {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: var(--surface-card);
+          padding: 1rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+          border-bottom: 1px solid var(--border-subtle);
+        }
+        .mobile-nav ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+        @media (max-width: 768px) {
+          .desktop-nav {
+            display: none;
+          }
+          .mobile-toggle {
+            display: inline-flex;
+          }
         }
       `}</style>
     </Section>
