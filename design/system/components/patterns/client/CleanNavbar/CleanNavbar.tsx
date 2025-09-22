@@ -74,7 +74,9 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         left: 0,
         right: 0,
         zIndex: 1000,
-        backgroundColor: elevated ? 'var(--surface-card)' : 'rgba(16, 16, 16, 0.85)',
+        backgroundColor: elevated
+          ? 'var(--surface-card)'
+          : 'rgba(16, 16, 16, 0.85)',
         backdropFilter: 'blur(10px)',
         borderBottom: '1px solid var(--border-subtle)',
         boxShadow: elevated ? '0 8px 24px rgba(0,0,0,0.22)' : 'none',
@@ -93,51 +95,57 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           gap: 'var(--foundation-space-12)',
         }}
       >
-        {/* Brand */}
-        <TextLink
-          href={brand.href || '/'}
-          variant="brand"
-          size="lg"
-          weight="bold"
-          underline="none"
-          onClick={(e) => {
-            if (brand.href?.startsWith('#')) {
-              e.preventDefault();
-              go(brand.href);
-            }
-          }}
-          style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-3)' }}
-        >
-          {brand.logoSrc ? (
-            <img
-              src={brand.logoSrc}
-              alt={brand.logoAlt || brand.name || 'Logo'}
-              width={brand.width || 32}
-              height={brand.height || 32}
-              loading="eager"
-              decoding="sync"
-              style={{
-                display: 'block',
-                height: '32px',
-                width: 'auto',
-                borderRadius: '6px',
-              }}
-            />
-          ) : (
-            <Typography variant="body-lg" weight="bold" color="heading">
-              {brand.name || 'Företag'}
-            </Typography>
-          )}
-        </TextLink>
+        {/* Left - Brand */}
+        <div style={{ flex: '0 0 auto' }}>
+          <TextLink
+            href={brand.href || '/'}
+            variant="brand"
+            size="lg"
+            weight="bold"
+            underline="none"
+            onClick={(e) => {
+              if (brand.href?.startsWith('#')) {
+                e.preventDefault();
+                go(brand.href);
+              }
+            }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--foundation-space-3)',
+            }}
+          >
+            {brand.logoSrc ? (
+              <img
+                src={brand.logoSrc}
+                alt={brand.logoAlt || brand.name || 'Logo'}
+                width={brand.width || 32}
+                height={brand.height || 32}
+                loading="eager"
+                decoding="sync"
+                style={{
+                  display: 'block',
+                  width: 'auto',
+                  height: '32px',
+                  borderRadius: '6px',
+                }}
+              />
+            ) : (
+              <Typography variant="body-lg" weight="bold" color="heading">
+                {brand.name || 'Företag'}
+              </Typography>
+            )}
+          </TextLink>
+        </div>
 
-        {/* Links (desktop) */}
+        {/* Center - Links (desktop) */}
         <div
           className="desktop-nav-links"
           style={{
             display: 'flex',
             gap: 'var(--foundation-space-7)',
             justifyContent: 'center',
-            flex: 1,
+            flex: '1 1 auto',
           }}
         >
           {items.map((it) => (
@@ -163,9 +171,9 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           ))}
         </div>
 
-        {/* CTA (desktop) */}
+        {/* Right - CTA (desktop) */}
         {ctaButton && (
-          <div className="desktop-cta">
+          <div className="desktop-cta" style={{ flex: '0 0 auto' }}>
             <Button
               variant={ctaButton.variant || 'accent'}
               size="md"
@@ -183,6 +191,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           onClick={() => setMobileOpen((v) => !v)}
           style={{
             display: 'none',
+            justifySelf: 'end',
           }}
           className="mobile-toggle"
         >
