@@ -1,0 +1,43 @@
+/* Hero Component Responsive Styles */
+
+/* Desktop: Text vänster-alignerat */
+.hero-text-content {
+  text-align: left;
+}
+
+.hero-cta-cluster {
+  justify-content: flex-start;
+}
+
+.hero-visual {
+  position: relative;
+  height: clamp(300px, 50vh, 500px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tablet och mindre: Text center-alignerat */
+@media (max-width: 768px) {
+  .hero-text-content {
+    text-align: center;
+  }
+  
+  .hero-cta-cluster {
+    justify-content: center;
+  }
+  
+  /* Bilden ska ligga ovanför texten på mindre skärmar */
+  .hero-visual {
+    order: -1;
+    margin-bottom: var(--foundation-space-8);
+  }
+}
+
+/* Mobile: Ytterligare justeringar */
+@media (max-width: 480px) {
+  .hero-visual {
+    height: clamp(250px, 40vh, 350px);
+    margin-bottom: var(--foundation-space-6);
+  }
+}

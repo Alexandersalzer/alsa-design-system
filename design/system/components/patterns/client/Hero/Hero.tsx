@@ -9,6 +9,7 @@ import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import './Hero.css';
 
 interface HeroContent {
   title: string;
@@ -90,10 +91,11 @@ const Hero = ({ content, onCtaClick, id = "hero" }: HeroProps) => {
           columns={2} 
           gap="xl" 
           alignItems="center"
+          collapseOn="tablet"
           style={{ minHeight: '80vh' }}
         >
-          {/* Vänster sida - Text content */}
-          <Stack spacing="lg" align="start">
+          {/* Text content - Vänster på desktop, center på mobile */}
+          <Stack spacing="lg" align="start" className="hero-text-content">
             <Typography 
               variant="display-lg" 
               as="h1" 
@@ -136,7 +138,7 @@ const Hero = ({ content, onCtaClick, id = "hero" }: HeroProps) => {
               {subtitle}
             </Typography>
 
-            <Cluster justify="start">
+            <Cluster justify="start" className="hero-cta-cluster">
               <Button 
                 variant="accent" 
                 size="lg"
@@ -149,17 +151,9 @@ const Hero = ({ content, onCtaClick, id = "hero" }: HeroProps) => {
             </Cluster>
           </Stack>
           
-          {/* Höger sida - Visual */}
+          {/* Visual - Höger på desktop, ovanför text på mobile */}
           {visualImage && (
-            <div
-              style={{
-                position: 'relative',
-                height: 'clamp(300px, 50vh, 500px)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
+            <div className="hero-visual">
               <img
                 src={visualImage}
                 alt={visualAlt}
