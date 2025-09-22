@@ -4,6 +4,18 @@
     position: relative;
   }
   
+  .hero-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .hero-text-content {
+    grid-column: 1;
+  }
+  
+  .hero-visual {
+    grid-column: 2;
+  }
+
   .hero-section--with-bg {
     background-size: cover;
     background-position: center;
