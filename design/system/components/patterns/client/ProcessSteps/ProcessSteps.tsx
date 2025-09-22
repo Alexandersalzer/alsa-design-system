@@ -39,7 +39,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
     height: '65vh',
     maxHeight: '650px',
     borderRadius: 'var(--foundation-radius-xl)',
-    transition: 'transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1)',
+    transition: 'transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1)',
     willChange: 'transform, opacity'
   };
 
@@ -73,10 +73,21 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
             progress = Math.min(1, Math.max(0, Math.abs(sectionRect.top - 400) / totalScrollDistance));
           }
           
-          // Determine active step based on progress
+          // Determine active step based on progress - mycket tidigare thresholds
           const stepProgress = progress * steps.length;
-          const newActiveIndex = Math.min(Math.floor(stepProgress), steps.length - 1);
-          setActiveStepIndex(newActiveIndex);
+          let newActiveIndex = 0;
+          
+          if (stepProgress >= (steps.length - 1) * 0.8) {
+            newActiveIndex = steps.length - 1;
+          } else if (stepProgress >= (steps.length - 1) * 0.4) {
+            newActiveIndex = Math.floor(stepProgress);
+          } else if (stepProgress >= 0.2) {
+            newActiveIndex = Math.max(0, Math.floor(stepProgress));
+          } else {
+            newActiveIndex = 0;
+          }
+          
+          setActiveStepIndex(Math.min(newActiveIndex, steps.length - 1));
           
           ticking.current = false;
         });
@@ -199,7 +210,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                       border: '1px solid var(--border-subtle)',
                       zIndex: 10 + index,
                       transform: isVisible 
-                        ? `translateY(${isActive ? '15px' : activeStepIndex > index ? '45px' : '90px'}) scale(${isActive ? 1 : activeStepIndex > index ? 0.95 : 0.9})`
+                        ? `translateY(${isActive ? '0px' : activeStepIndex > index ? '20px' : '60px'}) scale(${isActive ? 1 : activeStepIndex > index ? 0.98 : 0.95})`
                         : 'translateY(200px) scale(0.9)',
                       opacity: isVisible ? (isActive ? 1 : 0.9) : 0,
                       pointerEvents: isVisible ? 'auto' : 'none',
