@@ -10,9 +10,7 @@ export interface NavItem {
 }
 
 export interface BrandConfig {
-  /** Antingen textnamn ... */
   name?: string;
-  /** ... eller logobild */
   logoSrc?: string;
   logoAlt?: string;
   href?: string;
@@ -31,7 +29,6 @@ export interface CleanNavbarProps {
   brand?: BrandConfig;
   ctaButton?: CtaConfig;
   className?: string;
-  /** max bredd på innerspår (default 1400px) */
   maxWidth?: string;
 }
 

@@ -1,31 +1,22 @@
-/* Hero Component Styles - Following Design System Rules */
-
-/* Section styling */
 .hero-section {
     min-height: 100vh;
     background-color: var(--surface-background);
     position: relative;
   }
   
-  /* Background modifier class */
   .hero-section--with-bg {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
   }
   
-  /* Background overlay */
   .hero-background-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: rgba(0, 0, 0, 0.4);
     z-index: 1;
   }
   
-  /* Container */
   .hero-container {
     position: relative;
     z-index: 2;
@@ -33,17 +24,14 @@
     padding-bottom: var(--foundation-space-24);
   }
   
-  /* Grid */
   .hero-grid {
     min-height: 80vh;
   }
   
-  /* Text content */
   .hero-text-content {
     text-align: left;
   }
   
-  /* Title accent styling */
   .hero-title-accent {
     background: linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%);
     -webkit-background-clip: text;
@@ -51,12 +39,10 @@
     background-clip: text;
   }
   
-  /* CTA cluster */
   .hero-cta-cluster {
     justify-content: flex-start;
   }
   
-  /* Visual */
   .hero-visual {
     position: relative;
     height: clamp(300px, 50vh, 500px);
@@ -69,27 +55,30 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    object-position: center;
   }
   
-  /* Responsive Design - Tablet och mindre */
+  /* Tablet och mobil */
   @media (max-width: 768px) {
+    .hero-grid {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .hero-visual {
+      order: -1;
+      margin-bottom: var(--foundation-space-8);
+    }
+  
     .hero-text-content {
       text-align: center;
-      align-items: center; /* centrera även flex children i Stack */
+      align-items: center;
     }
-    
+  
     .hero-cta-cluster {
       justify-content: center;
     }
-    
-    /* Bild ligger automatiskt överst i DOM på små skärmar */
-    .hero-visual {
-      margin-bottom: var(--foundation-space-8);
-    }
   }
   
-  /* Mobile: Ytterligare justeringar */
   @media (max-width: 480px) {
     .hero-visual {
       height: clamp(250px, 40vh, 350px);

@@ -57,50 +57,17 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
       className={`hero-section ${backgroundImage ? 'hero-section--with-bg' : ''}`}
       style={backgroundImage ? { backgroundImage: `url(${backgroundImage})` } : undefined}
     >
-      {/* Background overlay */}
-      {backgroundImage && (
-        <div className="hero-background-overlay" />
-      )}
+      {backgroundImage && <div className="hero-background-overlay" />}
       
-      <Container
-        maxWidth="xl"
-        align="center"
-        height="full"
-        className="hero-container"
-      >
-        <Grid 
-          columns={2} 
-          gap="xl" 
-          alignItems="center"
-          collapseOn="tablet"
-          className="hero-grid"
-        >
-          {/* Bilden visas alltid först i DOM → flyttas automatiskt överst på små skärmar */}
-          {visualImage && (
-            <div className="hero-visual">
-              <img
-                src={visualImage}
-                alt={visualAlt}
-                className="hero-visual-image"
-              />
-            </div>
-          )}
-
-          {/* Textcontent */}
+      <Container maxWidth="xl" align="center" height="full" className="hero-container">
+        <Grid columns={2} gap="xl" alignItems="center" collapseOn="tablet" className="hero-grid">
+          {/* Text först i DOM på desktop */}
           <Stack spacing="lg" align="start" className="hero-text-content">
-            <Typography 
-              variant="display-lg" 
-              as="h1" 
-              weight="bold"
-              color="heading"
-            >
+            <Typography variant="display-lg" as="h1" weight="bold" color="heading">
               {title} {titleAccent && <span className="hero-title-accent">{titleAccent}</span>}
             </Typography>
             
-            <Typography 
-              variant="body-xl" 
-              color="body"
-            >
+            <Typography variant="body-xl" color="body">
               {subtitle}
             </Typography>
 
@@ -110,12 +77,18 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
                 size="lg"
                 rightIcon={<Icon color="inverse"><ArrowRightIcon /></Icon>}
                 onClick={handleCtaClick}
-                aria-label={`${ctaText} - Starta din ansökan`}
               >
                 {ctaText}
               </Button>
             </Cluster>
           </Stack>
+          
+          {/* Bilden höger på desktop, ovanpå på mobil */}
+          {visualImage && (
+            <div className="hero-visual">
+              <img src={visualImage} alt={visualAlt} className="hero-visual-image" />
+            </div>
+          )}
         </Grid>
       </Container>
     </Section>
