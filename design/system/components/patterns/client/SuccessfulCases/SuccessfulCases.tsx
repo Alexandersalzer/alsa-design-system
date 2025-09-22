@@ -30,7 +30,7 @@ export interface SuccessfulCasesProps {
 export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
   heading,
   subheading,
-  cases,
+  cases = [],
 }) => {
   return (
     <section>
