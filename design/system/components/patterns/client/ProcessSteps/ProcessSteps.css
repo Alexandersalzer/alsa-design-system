@@ -1,0 +1,145 @@
+/* ProcessSteps CSS för sticky positioning */
+
+.process-steps-wrapper {
+  height: calc(var(--steps-count, 3) * 100vh);
+  position: relative;
+  /* Säkerställ att wrapper inte har overflow som blockerar sticky */
+  overflow: visible;
+}
+
+.process-steps-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: transparent;
+  padding-top: var(--foundation-space-12);
+  padding-bottom: var(--foundation-space-12);
+  /* Säkerställ att sticky-elementet inte påverkas av föräldrar */
+  z-index: 1;
+}
+
+.process-steps-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
+  padding-left: var(--foundation-space-6);
+  padding-right: var(--foundation-space-6);
+}
+
+.process-steps-content {
+  height: 100%;
+  position: relative;
+}
+
+.process-steps-header {
+  position: absolute;
+  top: var(--foundation-space-8);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--foundation-space-8) 0;
+}
+
+.process-steps-cards-container {
+  position: relative;
+  height: 100%;
+  margin-top: var(--foundation-space-20);
+}
+
+.process-steps-card {
+  height: 65vh;
+  max-height: 650px;
+  border-radius: var(--foundation-radius-xl);
+  transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: transform, opacity;
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.process-steps-card--hidden {
+  transform: translateY(200px) scale(0.9);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.process-steps-card--active {
+  transform: translateY(0px) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.process-steps-card--passed {
+  transform: translateY(20px) scale(0.98);
+  opacity: 0.9;
+  pointer-events: auto;
+}
+
+.process-steps-card--upcoming {
+  transform: translateY(60px) scale(0.95);
+  opacity: 0.9;
+  pointer-events: auto;
+}
+
+.process-steps-number {
+  width: clamp(80px, 10vw, 120px);
+  height: clamp(80px, 10vw, 120px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--foundation-space-8);
+  backdrop-filter: blur(8px);
+}
+
+.process-steps-number--accent {
+  background: linear-gradient(135deg, var(--accent-500), var(--accent-400));
+  border: none;
+  box-shadow: var(--foundation-shadow-lg);
+}
+
+.process-steps-number--default {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: none;
+}
+
+.process-steps-content-wrapper {
+  max-width: 600px;
+  width: 100%;
+}
+
+/* Säkerställ att inga föräldrar blockerar sticky */
+.process-steps-wrapper * {
+  /* Reset eventuella transform/overflow som kan blockera sticky */
+  transform: none;
+  overflow: visible;
+}
+
+/* För specifika sticky-beteenden */
+@supports (position: sticky) {
+  .process-steps-sticky {
+    position: sticky;
+  }
+}
+
+/* Fallback för browsers som inte stöder sticky */
+@supports not (position: sticky) {
+  .process-steps-sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+}
