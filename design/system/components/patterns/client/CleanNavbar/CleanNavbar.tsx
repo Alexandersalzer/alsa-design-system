@@ -6,6 +6,7 @@ import { Button } from '../../../../../system/components/primitives/Button';
 import { TextLink } from '../../../../../system/components/primitives/TextLink';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
+import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
@@ -85,18 +86,13 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         paddingBottom: 'var(--foundation-space-3)',
       }}
     >
-      <Container
-        maxWidth="xl"
-        style={{
-          maxWidth: maxWidth,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 'var(--foundation-space-12)',
-        }}
-      >
-        {/* Left - Brand */}
-        <div style={{ flex: '0 0 auto' }}>
+      <Container maxWidth="xl" style={{ maxWidth: maxWidth }}>
+        <Cluster
+          spacing="xl"
+          justify="between"
+          align="center"
+        >
+          {/* Left - Brand */}
           <TextLink
             href={brand.href || '/'}
             variant="brand"
@@ -108,11 +104,6 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                 e.preventDefault();
                 go(brand.href);
               }
-            }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--foundation-space-3)',
             }}
           >
             {brand.logoSrc ? (
@@ -136,67 +127,62 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
               </Typography>
             )}
           </TextLink>
-        </div>
 
-        {/* Center - Links (desktop) */}
-        <div
-          className="desktop-nav-links"
-          style={{
-            display: 'flex',
-            gap: 'var(--foundation-space-7)',
-            justifyContent: 'center',
-            flex: '1 1 auto',
-          }}
-        >
-          {items.map((it) => (
-            <TextLink
-              key={it.href + it.label}
-              href={it.href}
-              variant={it.isActive ? 'accent' : 'secondary'}
-              size="md"
-              weight="medium"
-              underline="hover"
-              onClick={(e) => {
-                e.preventDefault();
-                go(it.href);
-              }}
-              style={{
-                padding: 'var(--foundation-space-3) var(--foundation-space-4)',
-                borderRadius: '8px',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              {it.label}
-            </TextLink>
-          ))}
-        </div>
+          {/* Center - Links (desktop) */}
+          <Cluster
+            spacing="lg"
+            justify="center"
+            className="desktop-nav-links"
+          >
+            {items.map((it) => (
+              <TextLink
+                key={it.href + it.label}
+                href={it.href}
+                variant={it.isActive ? 'accent' : 'secondary'}
+                size="md"
+                weight="medium"
+                underline="hover"
+                onClick={(e) => {
+                  e.preventDefault();
+                  go(it.href);
+                }}
+                style={{
+                  padding: 'var(--foundation-space-3) var(--foundation-space-4)',
+                  borderRadius: '8px',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                {it.label}
+              </TextLink>
+            ))}
+          </Cluster>
 
-        {/* Right - CTA (desktop) */}
-        {ctaButton && (
-          <div className="desktop-cta" style={{ flex: '0 0 auto' }}>
-            <Button
-              variant={ctaButton.variant || 'accent'}
-              size="md"
-              onClick={() => go(ctaButton.href)}
-            >
-              {ctaButton.text}
-            </Button>
-          </div>
-        )}
+          {/* Right - CTA (desktop) */}
+          {ctaButton && (
+            <div className="desktop-cta">
+              <Button
+                variant={ctaButton.variant || 'accent'}
+                size="md"
+                onClick={() => go(ctaButton.href)}
+              >
+                {ctaButton.text}
+              </Button>
+            </div>
+          )}
 
-        {/* Mobile menu toggle */}
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setMobileOpen((v) => !v)}
-          style={{
-            display: 'none',
-            justifySelf: 'end',
-          }}
-          className="mobile-toggle"
-        >
-          <Icon>{mobileOpen ? <XMarkIcon /> : <Bars3Icon />}</Icon>
-        </Button>
+          {/* Mobile menu toggle */}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setMobileOpen((v) => !v)}
+            style={{
+              display: 'none',
+            }}
+            className="mobile-toggle"
+          >
+            <Icon>{mobileOpen ? <XMarkIcon /> : <Bars3Icon />}</Icon>
+          </Button>
+        </Cluster>
       </Container>
 
       {/* Mobile panel */}
