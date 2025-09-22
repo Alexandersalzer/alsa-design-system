@@ -92,8 +92,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           display: 'grid', 
           gridTemplateColumns: 'auto 1fr auto',
           alignItems: 'center',
-          columnGap: 'var(--foundation-space-8)',
-          position: 'relative'
+          columnGap: 'var(--foundation-space-8)'
         }}
       >
           {/* Left - Brand */}
@@ -185,35 +184,31 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             </div>
           )}
 
-          {/* Mobile menu toggle - positioned in far right corner */}
-          <button
-            onClick={() => setMobileOpen((v) => !v)}
-            className="mobile-only"
-            style={{
-              position: 'absolute',
-              right: 'var(--foundation-space-4)',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              background: 'none',
-              border: 'none',
-              padding: 'var(--foundation-space-2)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 'var(--foundation-radius-md)',
-              transition: 'all 0.2s ease',
-              color: 'var(--text-primary)',
-              minWidth: '40px',
-              height: '40px',
-              zIndex: 1002
-            }}
-            aria-label={mobileOpen ? 'Stäng meny' : 'Öppna meny'}
-          >
-            <Icon size="md">
-              {mobileOpen ? <XMarkIcon /> : <Bars3Icon />}
-            </Icon>
-          </button>
+          {/* Mobile menu toggle */}
+          <div className="mobile-only" style={{ justifySelf: 'end', flexShrink: 0 }}>
+            <button
+              onClick={() => setMobileOpen((v) => !v)}
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: 'var(--foundation-space-2)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 'var(--foundation-radius-md)',
+                transition: 'all 0.2s ease',
+                color: 'var(--text-primary)',
+                minWidth: '40px',
+                height: '40px'
+              }}
+              aria-label={mobileOpen ? 'Stäng meny' : 'Öppna meny'}
+            >
+              <Icon size="md">
+                {mobileOpen ? <XMarkIcon /> : <Bars3Icon />}
+              </Icon>
+            </button>
+          </div>
       </Container>
 
       {/* Mobile panel */}
