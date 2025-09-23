@@ -1,6 +1,5 @@
 import React from 'react';
 import { cn } from '../../../lib/utils';
-import './Table.css';
 
 export interface TableColumn<T = any> {
   key: string;
