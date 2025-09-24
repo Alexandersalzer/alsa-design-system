@@ -52,14 +52,16 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
     <Section
       id={id}
       as="section"
-      height="full"
+      height="auto"
       style={{
         background: backgroundImage ? `url(${backgroundImage})` : 'var(--surface-page)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         position: 'relative',
-        minHeight: '100vh'
+        minHeight: '100vh',
+        paddingTop: 'var(--foundation-space-24)',
+        paddingBottom: 'var(--foundation-space-24)'
       }}
     >
       {backgroundImage && (
@@ -82,16 +84,16 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           collapseOn="tablet"
           minItemWidth="300px"
         >
-          {/* Text content - vänster sida på desktop, först på mobil */}
-          <div style={{ order: 2 }}>
-            <Stack spacing="lg" align="start">
+          {/* Text content */}
+          <Stack spacing="lg" align="start">
             <Typography 
               variant="h1" 
               weight="bold" 
               color="heading"
               style={{
                 fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-                lineHeight: 'var(--foundation-typography-line-height-tight)'
+                lineHeight: 'var(--foundation-typography-line-height-tight)',
+                textAlign: 'left'
               }}
             >
               {title.split(' ').map((word, index) => {
@@ -117,6 +119,9 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
             <Typography 
               variant="body-xl" 
               color="secondary"
+              style={{
+                textAlign: 'left'
+              }}
             >
               {subtitle}
             </Typography>
@@ -131,25 +136,22 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
                 {ctaText}
               </Button>
             </Cluster>
-            </Stack>
-          </div>
+          </Stack>
           
-          {/* Visual image - höger sida på desktop, efter text på mobil */}
+          {/* Visual image */}
           {visualImage && (
-            <div style={{ order: 1 }}>
-              <Stack align="center">
-                <img 
-                  src={visualImage} 
-                  alt={visualAlt}
-                  style={{
-                    width: '100%',
-                    maxWidth: 'clamp(300px, 40vw, 500px)',
-                    height: 'auto',
-                    objectFit: 'contain'
-                  }}
-                />
-              </Stack>
-            </div>
+            <Stack align="center">
+              <img 
+                src={visualImage} 
+                alt={visualAlt}
+                style={{
+                  width: '100%',
+                  maxWidth: 'clamp(300px, 40vw, 500px)',
+                  height: 'auto',
+                  objectFit: 'contain'
+                }}
+              />
+            </Stack>
           )}
         </Grid>
       </Container>
