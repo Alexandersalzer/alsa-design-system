@@ -131,7 +131,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         aria-label="Huvudnavigation"
       >
         <Container maxWidth="xl" align="center">
-          <Cluster justify="between" align="center" style={{ minHeight: '64px' }}>
+          <div style={{ minHeight: '64px' }}>
+            <Cluster justify="between" align="center">
             {/* Brand */}
             <a
               href={brand.href || '/'}
@@ -161,7 +162,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             </a>
 
             {/* Links (desktop) */}
-            <Cluster spacing="lg" align="center" style={{ display: 'none' }} className="desktop-links">
+            <div style={{ display: 'none' }} className="desktop-links">
+              <Cluster spacing="lg" align="center">
               {items.map((it) => (
                 <a
                   key={it.href + it.label}
@@ -181,7 +183,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   </Typography>
                 </a>
               ))}
-            </Cluster>
+              </Cluster>
+            </div>
 
             {/* CTA (desktop) */}
             {ctaButton && (
@@ -207,7 +210,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
               <span />
               <span />
             </button>
-          </Cluster>
+            </Cluster>
+          </div>
         </Container>
       </nav>
 
@@ -218,7 +222,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         aria-modal="true"
       >
         <Container maxWidth="xl" align="center">
-          <Stack spacing="lg" style={{ paddingTop: '80px', paddingBottom: 'var(--foundation-space-8)' }}>
+          <div style={{ paddingTop: '80px', paddingBottom: 'var(--foundation-space-8)' }}>
+            <Stack spacing="lg">
             {/* Mobile Links */}
             <Stack spacing="md">
               {items.map((it) => (
@@ -257,7 +262,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                 {ctaButton.text}
               </Button>
             )}
-          </Stack>
+            </Stack>
+          </div>
         </Container>
       </div>
     </>
