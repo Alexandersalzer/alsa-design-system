@@ -52,16 +52,14 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
     <Section
       id={id}
       as="section"
-      height="auto"
+      height="full"
       style={{
         background: backgroundImage ? `url(${backgroundImage})` : 'var(--surface-page)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         position: 'relative',
-        minHeight: '100vh',
-        paddingTop: 'var(--foundation-space-24)',
-        paddingBottom: 'var(--foundation-space-24)'
+        minHeight: '100vh'
       }}
     >
       {backgroundImage && (
@@ -76,7 +74,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
         }} />
       )}
       
-      <Container maxWidth="xl" align="center" style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Container maxWidth="xl" align="center" style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'center' }}>
         <Grid 
           columns={2} 
           gap="xl" 
@@ -85,7 +83,8 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           minItemWidth="300px"
         >
           {/* Text content */}
-          <Stack spacing="lg" align="start">
+          <div style={{ order: 2 }}>
+            <Stack spacing="lg" align="start">
             <Typography 
               variant="h1" 
               weight="bold" 
@@ -136,11 +135,13 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
                 {ctaText}
               </Button>
             </Cluster>
-          </Stack>
+            </Stack>
+          </div>
           
           {/* Visual image */}
           {visualImage && (
-            <Stack align="center">
+            <div style={{ order: 1 }}>
+              <Stack align="center">
               <img 
                 src={visualImage} 
                 alt={visualAlt}
@@ -151,7 +152,8 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
                   objectFit: 'contain'
                 }}
               />
-            </Stack>
+              </Stack>
+            </div>
           )}
         </Grid>
       </Container>
