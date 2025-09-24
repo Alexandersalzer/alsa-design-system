@@ -215,7 +215,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   }}
                   className={`nav-link ${it.isActive ? 'active' : ''}`}
                 >
-                  <Typography variant="body-md" color="inverse" weight={it.isActive ? 'semibold' : 'normal'}>
+                  <Typography variant="body-md" color="inverse" weight={it.isActive ? 'semibold' : 'regular'}>
                     {it.label}
                   </Typography>
                 </a>
@@ -316,7 +316,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   }}
                   className={`nav-link ${it.isActive ? 'active' : ''}`}
                 >
-                  <Typography variant="body-lg" color="inverse" weight={it.isActive ? 'semibold' : 'normal'}>
+                  <Typography variant="body-lg" color="inverse" weight={it.isActive ? 'semibold' : 'regular'}>
                     {it.label}
                   </Typography>
                 </a>
