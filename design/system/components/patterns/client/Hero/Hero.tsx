@@ -10,7 +10,6 @@ import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import './Hero.css';
 
 export interface HeroContent {
   title: string;
@@ -53,25 +52,76 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
     <Section
       id={id}
       as="section"
-      height="full"
-      className={`hero-section ${backgroundImage ? 'hero-section--with-bg' : ''}`}
-      style={backgroundImage ? { backgroundImage: `url(${backgroundImage})` } : undefined}
+      height="auto"
+      style={{
+        background: backgroundImage ? `url(${backgroundImage})` : 'var(--surface-page)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        position: 'relative',
+        paddingTop: 'var(--foundation-space-24)',
+        paddingBottom: 'var(--foundation-space-24)'
+      }}
     >
-      {backgroundImage && <div className="hero-background-overlay" />}
+      {backgroundImage && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.4)',
+          zIndex: 1
+        }} />
+      )}
       
-      <Container maxWidth="xl" align="center" height="full" className="hero-container">
-        <Grid columns={2} gap="xl" alignItems="center" collapseOn="tablet" className="hero-grid">
-          {/* Text först i DOM på desktop */}
-          <Stack spacing="lg" align="start" className="hero-text-content">
-            <Typography variant="display-lg" as="h1" weight="bold" color="heading">
-              {title} {titleAccent && <span className="hero-title-accent">{titleAccent}</span>}
+      <Container maxWidth="xl" align="center" style={{ position: 'relative', zIndex: 2 }}>
+        <Grid 
+          columns={2} 
+          gap="xl" 
+          alignItems="center" 
+          collapseOn="tablet"
+          minItemWidth="300px"
+        >
+          {/* Text content */}
+          <Stack spacing="lg" align="start">
+            <Typography 
+              variant="h1" 
+              weight="bold" 
+              color="heading"
+              style={{
+                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                lineHeight: 'var(--foundation-typography-line-height-tight)'
+              }}
+            >
+              {title.split(' ').map((word, index) => {
+                if (titleAccent && word === titleAccent) {
+                  return (
+                    <span 
+                      key={index} 
+                      style={{
+                        background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text'
+                      }}
+                    >
+                      {word}{' '}
+                    </span>
+                  );
+                }
+                return word + ' ';
+              })}
             </Typography>
             
-            <Typography variant="body-xl" color="body">
+            <Typography 
+              variant="body-xl" 
+              color="secondary"
+            >
               {subtitle}
             </Typography>
 
-            <Cluster className="hero-cta-cluster">
+            <Cluster justify="start">
               <Button 
                 variant="accent" 
                 size="lg"
@@ -83,11 +133,20 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
             </Cluster>
           </Stack>
           
-          {/* Bilden höger på desktop, ovanpå på mobil */}
+          {/* Visual image */}
           {visualImage && (
-            <div className="hero-visual">
-              <img src={visualImage} alt={visualAlt} className="hero-visual-image" />
-            </div>
+            <Stack align="center" justify="center">
+              <img 
+                src={visualImage} 
+                alt={visualAlt}
+                style={{
+                  width: '100%',
+                  maxWidth: 'clamp(300px, 40vw, 500px)',
+                  height: 'auto',
+                  objectFit: 'contain'
+                }}
+              />
+            </Stack>
           )}
         </Grid>
       </Container>
