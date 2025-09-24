@@ -54,16 +54,38 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
         __html: `
           .hero-text-content {
             order: 2;
+            text-align: center;
           }
           .hero-image-content {
             order: 1;
           }
+          .hero-text-content h1,
+          .hero-text-content p {
+            text-align: center !important;
+          }
+          .hero-cta-cluster {
+            justify-content: center !important;
+          }
+          .hero-grid {
+            gap: var(--foundation-space-12) !important;
+          }
           @media (min-width: 769px) {
             .hero-text-content {
               order: 1;
+              text-align: left;
             }
             .hero-image-content {
               order: 2;
+            }
+            .hero-text-content h1,
+            .hero-text-content p {
+              text-align: left !important;
+            }
+            .hero-cta-cluster {
+              justify-content: flex-start !important;
+            }
+            .hero-grid {
+              gap: var(--foundation-space-8) !important;
             }
           }
         `
@@ -100,6 +122,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           alignItems="center" 
           collapseOn="tablet"
           minItemWidth="300px"
+          className="hero-grid"
         >
           {/* Text content */}
           <div className="hero-text-content">
@@ -144,7 +167,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               {subtitle}
             </Typography>
 
-            <Cluster justify="start">
+            <Cluster justify="start" className="hero-cta-cluster">
               <Button 
                 variant="accent" 
                 size="lg"
