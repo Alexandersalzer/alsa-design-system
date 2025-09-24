@@ -519,21 +519,20 @@
 --foundation-pink-1100: #4A044E;
 --foundation-pink-1200: #1F0A24;
 
-/* Pink-Dark Scale - Deep berry pink (rich, darker rose without purple) */
---foundation-pink-dark-100: #FFF5F8;
---foundation-pink-dark-200: #FFE6EC;
---foundation-pink-dark-300: #FFC9D6;
---foundation-pink-dark-400: #FF9EB8;
---foundation-pink-dark-500: #F97393;
---foundation-pink-dark-600: #E85078; /* Deep berry pink */
---foundation-pink-dark-700: #D23663;
---foundation-pink-dark-800: #B82653;
---foundation-pink-dark-900: #991D45;
---foundation-pink-dark-950: #7A1738;
---foundation-pink-dark-1000: #5C102A;
---foundation-pink-dark-1100: #3E0B1D;
---foundation-pink-dark-1200: #20060F;
-
+/* Pink-Dark Scale - Deep fuchsia (intense, magenta-leaning) */
+--foundation-pink-dark-100: #FEF7FF;
+--foundation-pink-dark-200: #FCEEFF;
+--foundation-pink-dark-300: #F8D7FE;
+--foundation-pink-dark-400: #F3B4FD;
+--foundation-pink-dark-500: #ED85FB;
+--foundation-pink-dark-600: #D946EF; /* Deep fuchsia */
+--foundation-pink-dark-700: #C026D3;
+--foundation-pink-dark-800: #A21CAF;
+--foundation-pink-dark-900: #86198F;
+--foundation-pink-dark-950: #6B1570;
+--foundation-pink-dark-1000: #581C87;
+--foundation-pink-dark-1100: #3B0764;
+--foundation-pink-dark-1200: #2D1B69;
 }
 
 
