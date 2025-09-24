@@ -118,6 +118,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             }
             .desktop-links {
               display: flex !important;
+              flex-direction: row;
             }
             .desktop-cta {
               display: block !important;
@@ -131,8 +132,13 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         aria-label="Huvudnavigation"
       >
         <Container maxWidth="xl" align="center">
-          <div style={{ minHeight: '64px' }}>
-            <Cluster justify="between" align="center">
+          <div style={{ 
+            minHeight: '64px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%'
+          }}>
             {/* Brand */}
             <a
               href={brand.href || '/'}
@@ -162,8 +168,11 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             </a>
 
             {/* Links (desktop) */}
-            <div style={{ display: 'none' }} className="desktop-links">
-              <Cluster spacing="lg" align="center">
+            <div style={{ 
+              display: 'none',
+              gap: 'var(--foundation-space-6)',
+              alignItems: 'center'
+            }} className="desktop-links">
               {items.map((it) => (
                 <a
                   key={it.href + it.label}
@@ -183,7 +192,6 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   </Typography>
                 </a>
               ))}
-              </Cluster>
             </div>
 
             {/* CTA (desktop) */}
@@ -210,7 +218,6 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
               <span />
               <span />
             </button>
-            </Cluster>
           </div>
         </Container>
       </nav>
