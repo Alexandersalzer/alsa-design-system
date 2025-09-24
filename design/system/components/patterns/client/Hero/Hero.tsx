@@ -64,8 +64,11 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
             text-align: center !important;
           }
           .hero-cta-cluster {
-            display: flex;
-            justify-content: center;
+            display: flex !important;
+            justify-content: center !important;
+          }
+          .hero-text-stack {
+            align-items: center !important;
           }
           .hero-grid {
             gap: var(--foundation-space-12) !important;
@@ -83,7 +86,10 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               text-align: left !important;
             }
             .hero-cta-cluster {
-              justify-content: flex-start;
+              justify-content: flex-start !important;
+            }
+            .hero-text-stack {
+              align-items: flex-start !important;
             }
             .hero-grid {
               gap: var(--foundation-space-8) !important;
@@ -127,7 +133,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
         >
           {/* Text content */}
           <div className="hero-text-content">
-            <Stack spacing="lg" align="start">
+            <Stack spacing="lg" align="center" className="hero-text-stack">
             <Typography 
               variant="h1" 
               weight="bold" 
