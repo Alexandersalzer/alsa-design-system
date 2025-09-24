@@ -81,24 +81,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                   textAlign: 'center'
                 }}
               >
-                {title.split(' ').map((word, index) => {
-                  if (word === 'frågor') {
-                    return (
-                      <span 
-                        key={index} 
-                        style={{
-                          background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
-                          WebkitBackgroundClip: 'text',
-                          WebkitTextFillColor: 'transparent',
-                          backgroundClip: 'text'
-                        }}
-                      >
-                        {word}
-                      </span>
-                    );
-                  }
-                  return word + ' ';
-                })}
+                {title}
               </Typography>
               <Typography 
                 variant="body-xl" 
