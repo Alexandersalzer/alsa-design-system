@@ -143,7 +143,8 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
           }}
         >
           <Container maxWidth="xl" align="center" style={{ height: '100%' }}>
-            <Stack spacing="xl" align="center" style={{ height: '100%' }}>
+            <div style={{ height: '100%' }}>
+              <Stack spacing="xl" align="center">
               {/* Header */}
               <div style={{ maxWidth: '800px', width: '100%' }}>
                 <Stack spacing="lg" align="center">
@@ -245,7 +246,8 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                         )}
                         
                         <div style={{ position: 'relative', zIndex: 2, height: '100%' }}>
-                          <Stack spacing="lg" align="center" style={{ height: '100%' }}>
+                          <div style={{ height: '100%' }}>
+                            <Stack spacing="lg" align="center">
                             {/* Step Number */}
                             <div style={{
                               width: '80px',
@@ -264,7 +266,8 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                             </div>
 
                             {/* Step Content */}
-                            <Stack spacing="md" align="center" style={{ flex: 1, justifyContent: 'center' }}>
+                            <div style={{ flex: 1, justifyContent: 'center' }}>
+                              <Stack spacing="md" align="center">
                               <Typography
                                 variant="h4"
                                 weight="semibold"
@@ -288,15 +291,18 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                               >
                                 {step.description}
                               </Typography>
-                            </Stack>
+                              </Stack>
+                            </div>
                           </Stack>
+                          </div>
                         </div>
                       </Card>
                     </div>
                   );
                 })}
               </div>
-            </Stack>
+              </Stack>
+            </div>
           </Container>
         </Section>
       </div>
