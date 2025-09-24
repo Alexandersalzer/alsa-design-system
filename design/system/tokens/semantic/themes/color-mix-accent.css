@@ -5,7 +5,7 @@
 
 :root {
   /* Base color - will be set dynamically from database */
-  --accent-base-color: #3B82F6; /* Default fallback */
+  --accent-base-color: #6B7280; /* Default fallback */
   
   /* Generated color scale using color-mix */
   --accent-100: color-mix(in srgb, white 95%, var(--accent-base-color));
@@ -26,20 +26,20 @@
 /* Fallback for browsers that don't support color-mix */
 @supports not (color: color-mix(in srgb, white, black)) {
   :root {
-    /* Fallback to blue scale if color-mix not supported */
-    --accent-100: #DBEAFE;
-    --accent-200: #BFDBFE;
-    --accent-300: #93C5FD;
-    --accent-400: #60A5FA;
-    --accent-500: #3B82F6;
-    --accent-600: #2563EB;
-    --accent-700: #1D4ED8;
-    --accent-800: #1E40AF;
-    --accent-900: #1E3A8A;
-    --accent-950: #172554;
+    /* Neutral gray fallback - works with any brand */
+    --accent-100: #F9FAFB;
+    --accent-200: #F3F4F6;
+    --accent-300: #E5E7EB;
+    --accent-400: #D1D5DB;
+    --accent-500: #9CA3AF;
+    --accent-600: #6B7280; /* Neutral base */
+    --accent-700: #4B5563;
+    --accent-800: #374151;
+    --accent-900: #1F2937;
+    --accent-950: #111827;
     --accent-1000: #0F172A;
     --accent-1100: #0C1229;
-    --accent-1200: #0A0F1F;
+    --accent-1200: #030712;
   }
 }
 
