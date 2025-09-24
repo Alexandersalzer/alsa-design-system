@@ -83,7 +83,6 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           alignItems="center" 
           collapseOn="tablet"
           minItemWidth="300px"
-          style={{ width: '100%' }}
         >
           {/* Text content */}
           <Stack spacing="lg" align="start">
