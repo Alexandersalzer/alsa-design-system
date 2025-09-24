@@ -6,11 +6,14 @@ import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
+import { Icon } from '../../../../../system/components/primitives/Icon';
+import React from 'react';
 
 export interface ProcessStep {
   number: number;
   title: string;
   description: string;
+  icon?: React.ReactElement;
 }
 
 export interface ProcessStepsContent {
@@ -33,7 +36,10 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
       as="section"
       height="auto"
       style={{
-        paddingTop: 'var(--foundation-space-24)'
+        paddingTop: 'var(--foundation-space-24)',
+        paddingBottom: 'var(--foundation-space-24)',
+        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+        position: 'relative'
       }}
     >
       <Container maxWidth="xl" align="center">
@@ -44,7 +50,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
               <Typography
                 variant="h2"
                 weight="bold"
-                color="heading"
+                color="inverse"
                 style={{
                   fontSize: 'clamp(2.25rem, 4vw, 3rem)',
                   lineHeight: 'var(--foundation-typography-line-height-tight)',
@@ -71,11 +77,12 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 })}
               </Typography>
 
-              <Typography
-                variant="body-xl"
-                color="secondary"
+              <Typography 
+                variant="body-xl" 
+                color="inverse"
                 style={{
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  opacity: 0.9
                 }}
               >
                 {subtitle}
@@ -97,24 +104,35 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 padding="lg"
                 style={{
                   height: '100%',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: 'var(--foundation-radius-lg)'
                 }}
               >
                 <Stack spacing="lg" align="center">
-                  {/* Step Number */}
+                  {/* Step Icon/Number */}
                   <div style={{
                     background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
-                    width: '60px',
-                    height: '60px',
+                    width: '80px',
+                    height: '80px',
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    flexShrink: 0
+                    flexShrink: 0,
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
                   }}>
-                    <Typography variant="h3" weight="bold" color="inverse">
-                      {step.number}
-                    </Typography>
+                    {step.icon ? (
+                      <Icon size="xl" color="inverse">
+                        {step.icon}
+                      </Icon>
+                    ) : (
+                      <Typography variant="h3" weight="bold" color="inverse">
+                        {step.number}
+                      </Typography>
+                    )}
                   </div>
 
                   {/* Step Content */}
@@ -122,7 +140,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                     <Typography
                       variant="h4"
                       weight="semibold"
-                      color="heading"
+                      color="inverse"
                       style={{
                         textAlign: 'center'
                       }}
@@ -132,10 +150,11 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
 
                     <Typography
                       variant="body-lg"
-                      color="secondary"
+                      color="inverse"
                       style={{
                         textAlign: 'center',
-                        lineHeight: 'var(--foundation-typography-line-height-relaxed)'
+                        lineHeight: 'var(--foundation-typography-line-height-relaxed)',
+                        opacity: 0.9
                       }}
                     >
                       {step.description}
