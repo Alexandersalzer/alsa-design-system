@@ -8,8 +8,8 @@
   /* ===== SEMANTIC RADIUS TOKENS - 9 STEG ===== */
    /* These are semantic tokens that reference foundation radius scales */
   
-  /* 3XS - Ultra small radius */
-  --radius-3xs: var(--selected-radius-scale-3xs);
+  /* SKARP - Inga rundade hörn */
+  --radius-skarp: var(--selected-radius-scale-skarp);
   
   /* 2XS - Extra extra small radius */
   --radius-2xs: var(--selected-radius-scale-2xs);
@@ -32,11 +32,8 @@
   /* 2XL - Extra extra large radius */
   --radius-2xl: var(--selected-radius-scale-2xl);
   
-  /* 3XL - Triple extra large radius */
-  --radius-3xl: var(--selected-radius-scale-3xl);
-
-  /* Full - Pill/circular radius */
-  --radius-full: var(--selected-radius-scale-full);
+  /* PILL - Pill/circular radius */
+  --radius-pill: var(--selected-radius-scale-pill);
   
   /* ===== SEMANTIC RADIUS ALIASES ===== */
   /* Common semantic names for different use cases */
@@ -51,9 +48,9 @@
   --radius-prominent: var(--radius-lg);
   
   /* Pill radius for buttons, badges, etc. */
-  --radius-pill: var(--radius-full);
+  --radius-pill-alias: var(--radius-pill);
   
   /* Sharp corners - no radius */
-  --radius-sharp: var(--radius-none);
+  --radius-sharp: var(--radius-skarp);
   } 
   

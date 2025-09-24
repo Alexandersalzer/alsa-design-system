@@ -8,7 +8,7 @@ import { Square2StackIcon } from '@heroicons/react/24/outline';
 import { Body, Icon } from '@blimpify-im/ui';
 
 const RADIUS_OPTIONS = [
-  { value: '3xs', label: 'Ultra fin', description: '0.5px' },
+  { value: 'skarp', label: 'Skarp', description: '0px' },
   { value: '2xs', label: 'Extra fin', description: '1px' },
   { value: 'xs', label: 'Fin', description: '2px' },
   { value: 'sm', label: 'Liten', description: '4px' },
@@ -16,7 +16,7 @@ const RADIUS_OPTIONS = [
   { value: 'lg', label: 'Stor', description: '8px' },
   { value: 'xl', label: 'Extra stor', description: '12px' },
   { value: '2xl', label: 'Dubbel stor', description: '16px' },
-  { value: '3xl', label: 'Tripel stor', description: '24px' },
+  { value: 'pill', label: 'Pill', description: 'Full' },
 ];
 
 interface RadiusControlProps {

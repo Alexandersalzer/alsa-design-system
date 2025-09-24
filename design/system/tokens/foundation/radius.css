@@ -3,140 +3,108 @@
    PRACTICAL RADIUS SYSTEM - Optimized for Real-World Usage
    ============================================== */
 :root {
-  /* ===== RADIUS SCALE: NONE (Sharp edges everywhere) ===== */
-  --foundation-radius-none-3xs: 0;
-  --foundation-radius-none-2xs: 0;
-  --foundation-radius-none-xs: 0;
-  --foundation-radius-none-sm: 0;
-  --foundation-radius-none-md: 0;
-  --foundation-radius-none-lg: 0;
-  --foundation-radius-none-xl: 0;
-  --foundation-radius-none-2xl: 0;
-  --foundation-radius-none-3xl: 0;
-  --foundation-radius-none-full: 9999px;
-
-  /* ===== RADIUS SCALE: 3XS (Ultra Fine - 0.5px increments) ===== */
-  --foundation-radius-3xs-3xs: 0.03125rem;  /* 0.5px */
-  --foundation-radius-3xs-2xs: 0.0625rem;   /* 1px */
-  --foundation-radius-3xs-xs: 0.125rem;     /* 2px */
-  --foundation-radius-3xs-sm: 0.25rem;      /* 4px */
-  --foundation-radius-3xs-md: 0.375rem;     /* 6px */
-  --foundation-radius-3xs-lg: 0.5rem;       /* 8px */
-  --foundation-radius-3xs-xl: 0.75rem;      /* 12px */
-  --foundation-radius-3xs-2xl: 1rem;        /* 16px */
-  --foundation-radius-3xs-3xl: 1.5rem;      /* 24px */
-  --foundation-radius-3xs-full: 9999px;
+  /* ===== RADIUS SCALE: SKARP (Inga rundade hörn) ===== */
+  --foundation-radius-skarp-skarp: 0;
+  --foundation-radius-skarp-2xs: 0;
+  --foundation-radius-skarp-xs: 0;
+  --foundation-radius-skarp-sm: 0;
+  --foundation-radius-skarp-md: 0;
+  --foundation-radius-skarp-lg: 0;
+  --foundation-radius-skarp-xl: 0;
+  --foundation-radius-skarp-2xl: 0;
+  --foundation-radius-skarp-pill: 0;
 
   /* ===== RADIUS SCALE: 2XS (Extra Fine - 1px increments) ===== */
-  --foundation-radius-2xs-3xs: 0.0625rem;   /* 1px */
-  --foundation-radius-2xs-2xs: 0.125rem;    /* 2px */
-  --foundation-radius-2xs-xs: 0.25rem;      /* 4px */
-  --foundation-radius-2xs-sm: 0.5rem;       /* 8px */
-  --foundation-radius-2xs-md: 0.75rem;      /* 12px */
-  --foundation-radius-2xs-lg: 1rem;         /* 16px */
-  --foundation-radius-2xs-xl: 1.5rem;       /* 24px */
-  --foundation-radius-2xs-2xl: 2rem;        /* 32px */
-  --foundation-radius-2xs-3xl: 3rem;        /* 48px */
-  --foundation-radius-2xs-full: 9999px;
+  --foundation-radius-2xs-skarp: 0.0625rem;   /* 1px */
+  --foundation-radius-2xs-2xs: 0.125rem;      /* 2px */
+  --foundation-radius-2xs-xs: 0.25rem;        /* 4px */
+  --foundation-radius-2xs-sm: 0.5rem;         /* 8px */
+  --foundation-radius-2xs-md: 0.75rem;        /* 12px */
+  --foundation-radius-2xs-lg: 1rem;           /* 16px */
+  --foundation-radius-2xs-xl: 1.5rem;         /* 24px */
+  --foundation-radius-2xs-2xl: 2rem;          /* 32px */
+  --foundation-radius-2xs-pill: 9999px;
 
   /* ===== RADIUS SCALE: XS (Fine - 2px increments) ===== */
-  --foundation-radius-xs-3xs: 0.125rem;     /* 2px */
-  --foundation-radius-xs-2xs: 0.25rem;      /* 4px */
-  --foundation-radius-xs-xs: 0.5rem;        /* 8px */
-  --foundation-radius-xs-sm: 1rem;          /* 16px */
-  --foundation-radius-xs-md: 1.5rem;        /* 24px */
-  --foundation-radius-xs-lg: 2rem;          /* 32px */
-  --foundation-radius-xs-xl: 3rem;          /* 48px */
-  --foundation-radius-xs-2xl: 4rem;         /* 64px */
-  --foundation-radius-xs-3xl: 6rem;         /* 96px */
-  --foundation-radius-xs-full: 9999px;
+  --foundation-radius-xs-skarp: 0.125rem;     /* 2px */
+  --foundation-radius-xs-2xs: 0.25rem;        /* 4px */
+  --foundation-radius-xs-xs: 0.5rem;          /* 8px */
+  --foundation-radius-xs-sm: 1rem;            /* 16px */
+  --foundation-radius-xs-md: 1.5rem;          /* 24px */
+  --foundation-radius-xs-lg: 2rem;            /* 32px */
+  --foundation-radius-xs-xl: 3rem;            /* 48px */
+  --foundation-radius-xs-2xl: 4rem;           /* 64px */
+  --foundation-radius-xs-pill: 9999px;
 
   /* ===== RADIUS SCALE: SM (Small - 4px increments) ===== */
-  --foundation-radius-sm-3xs: 0.25rem;      /* 4px */
-  --foundation-radius-sm-2xs: 0.5rem;       /* 8px */
-  --foundation-radius-sm-xs: 1rem;          /* 16px */
-  --foundation-radius-sm-sm: 2rem;          /* 32px */
-  --foundation-radius-sm-md: 3rem;          /* 48px */
-  --foundation-radius-sm-lg: 4rem;          /* 64px */
-  --foundation-radius-sm-xl: 6rem;          /* 96px */
-  --foundation-radius-sm-2xl: 8rem;         /* 128px */
-  --foundation-radius-sm-3xl: 12rem;        /* 192px */
-  --foundation-radius-sm-full: 9999px;
+  --foundation-radius-sm-skarp: 0.25rem;      /* 4px */
+  --foundation-radius-sm-2xs: 0.5rem;         /* 8px */
+  --foundation-radius-sm-xs: 1rem;            /* 16px */
+  --foundation-radius-sm-sm: 2rem;            /* 32px */
+  --foundation-radius-sm-md: 3rem;            /* 48px */
+  --foundation-radius-sm-lg: 4rem;            /* 64px */
+  --foundation-radius-sm-xl: 6rem;            /* 96px */
+  --foundation-radius-sm-2xl: 8rem;           /* 128px */
+  --foundation-radius-sm-pill: 9999px;
 
   /* ===== RADIUS SCALE: MD (Medium - 6px base, jämna steg) ===== */
-  --foundation-radius-md-3xs: 0.03125rem;   /* 0.5px */
-  --foundation-radius-md-2xs: 0.0625rem;    /* 1px */
-  --foundation-radius-md-xs: 0.125rem;      /* 2px */
-  --foundation-radius-md-sm: 0.25rem;       /* 4px */
-  --foundation-radius-md-md: 0.375rem;      /* 6px */
-  --foundation-radius-md-lg: 0.5rem;        /* 8px */
-  --foundation-radius-md-xl: 0.75rem;       /* 12px */
-  --foundation-radius-md-2xl: 1rem;         /* 16px */
-  --foundation-radius-md-3xl: 1.5rem;       /* 24px */
-  --foundation-radius-md-full: 9999px;
+  --foundation-radius-md-skarp: 0;            /* 0px */
+  --foundation-radius-md-2xs: 0.0625rem;      /* 1px */
+  --foundation-radius-md-xs: 0.125rem;        /* 2px */
+  --foundation-radius-md-sm: 0.25rem;         /* 4px */
+  --foundation-radius-md-md: 0.375rem;        /* 6px */
+  --foundation-radius-md-lg: 0.5rem;          /* 8px */
+  --foundation-radius-md-xl: 0.75rem;         /* 12px */
+  --foundation-radius-md-2xl: 1rem;           /* 16px */
+  --foundation-radius-md-pill: 9999px;
 
   /* ===== RADIUS SCALE: LG (Large - 8px increments) ===== */
-  --foundation-radius-lg-3xs: 0.0625rem;    /* 1px */
-  --foundation-radius-lg-2xs: 0.125rem;     /* 2px */
-  --foundation-radius-lg-xs: 0.25rem;       /* 4px */
-  --foundation-radius-lg-sm: 0.5rem;        /* 8px */
-  --foundation-radius-lg-md: 0.75rem;       /* 12px */
-  --foundation-radius-lg-lg: 1rem;          /* 16px */
-  --foundation-radius-lg-xl: 1.5rem;        /* 24px */
-  --foundation-radius-lg-2xl: 2rem;         /* 32px */
-  --foundation-radius-lg-3xl: 3rem;         /* 48px */
-  --foundation-radius-lg-full: 9999px;
+  --foundation-radius-lg-skarp: 0.0625rem;    /* 1px */
+  --foundation-radius-lg-2xs: 0.125rem;       /* 2px */
+  --foundation-radius-lg-xs: 0.25rem;         /* 4px */
+  --foundation-radius-lg-sm: 0.5rem;          /* 8px */
+  --foundation-radius-lg-md: 0.75rem;         /* 12px */
+  --foundation-radius-lg-lg: 1rem;            /* 16px */
+  --foundation-radius-lg-xl: 1.5rem;          /* 24px */
+  --foundation-radius-lg-2xl: 2rem;           /* 32px */
+  --foundation-radius-lg-pill: 9999px;
 
   /* ===== RADIUS SCALE: XL (Extra Large - 12px increments) ===== */
-  --foundation-radius-xl-3xs: 0.125rem;     /* 2px */
-  --foundation-radius-xl-2xs: 0.25rem;      /* 4px */
-  --foundation-radius-xl-xs: 0.5rem;        /* 8px */
-  --foundation-radius-xl-sm: 1rem;          /* 16px */
-  --foundation-radius-xl-md: 1.5rem;        /* 24px */
-  --foundation-radius-xl-lg: 2rem;          /* 32px */
-  --foundation-radius-xl-xl: 3rem;          /* 48px */
-  --foundation-radius-xl-2xl: 4rem;         /* 64px */
-  --foundation-radius-xl-3xl: 6rem;         /* 96px */
-  --foundation-radius-xl-full: 9999px;
+  --foundation-radius-xl-skarp: 0.125rem;     /* 2px */
+  --foundation-radius-xl-2xs: 0.25rem;        /* 4px */
+  --foundation-radius-xl-xs: 0.5rem;          /* 8px */
+  --foundation-radius-xl-sm: 1rem;            /* 16px */
+  --foundation-radius-xl-md: 1.5rem;          /* 24px */
+  --foundation-radius-xl-lg: 2rem;            /* 32px */
+  --foundation-radius-xl-xl: 3rem;            /* 48px */
+  --foundation-radius-xl-2xl: 4rem;           /* 64px */
+  --foundation-radius-xl-pill: 9999px;
 
   /* ===== RADIUS SCALE: 2XL (Double Extra Large - 16px increments) ===== */
-  --foundation-radius-2xl-3xs: 0.25rem;     /* 4px */
-  --foundation-radius-2xl-2xs: 0.5rem;      /* 8px */
-  --foundation-radius-2xl-xs: 1rem;         /* 16px */
-  --foundation-radius-2xl-sm: 2rem;         /* 32px */
-  --foundation-radius-2xl-md: 3rem;         /* 48px */
-  --foundation-radius-2xl-lg: 4rem;         /* 64px */
-  --foundation-radius-2xl-xl: 6rem;         /* 96px */
-  --foundation-radius-2xl-2xl: 8rem;        /* 128px */
-  --foundation-radius-2xl-3xl: 12rem;       /* 192px */
-  --foundation-radius-2xl-full: 9999px;
+  --foundation-radius-2xl-skarp: 0.25rem;     /* 4px */
+  --foundation-radius-2xl-2xs: 0.5rem;        /* 8px */
+  --foundation-radius-2xl-xs: 1rem;           /* 16px */
+  --foundation-radius-2xl-sm: 2rem;           /* 32px */
+  --foundation-radius-2xl-md: 3rem;           /* 48px */
+  --foundation-radius-2xl-lg: 4rem;           /* 64px */
+  --foundation-radius-2xl-xl: 6rem;           /* 96px */
+  --foundation-radius-2xl-2xl: 8rem;          /* 128px */
+  --foundation-radius-2xl-pill: 9999px;
 
-  /* ===== RADIUS SCALE: 3XL (Triple Extra Large - 24px increments) ===== */
-  --foundation-radius-3xl-3xs: 0.375rem;    /* 6px */
-  --foundation-radius-3xl-2xs: 0.75rem;     /* 12px */
-  --foundation-radius-3xl-xs: 1.5rem;       /* 24px */
-  --foundation-radius-3xl-sm: 3rem;         /* 48px */
-  --foundation-radius-3xl-md: 4.5rem;       /* 72px */
-  --foundation-radius-3xl-lg: 6rem;         /* 96px */
-  --foundation-radius-3xl-xl: 9rem;         /* 144px */
-  --foundation-radius-3xl-2xl: 12rem;       /* 192px */
-  --foundation-radius-3xl-3xl: 18rem;       /* 288px */
-  --foundation-radius-3xl-full: 9999px;
+  /* ===== RADIUS SCALE: PILL (Alla rundade som pills) ===== */
+  --foundation-radius-pill-skarp: 9999px;
+  --foundation-radius-pill-2xs: 9999px;
+  --foundation-radius-pill-xs: 9999px;
+  --foundation-radius-pill-sm: 9999px;
+  --foundation-radius-pill-md: 9999px;
+  --foundation-radius-pill-lg: 9999px;
+  --foundation-radius-pill-xl: 9999px;
+  --foundation-radius-pill-2xl: 9999px;
+  --foundation-radius-pill-pill: 9999px;
 
-  /* ===== RADIUS SCALE: FULL (Maximum - circular) ===== */
-  --foundation-radius-full-3xs: 0.5rem;     /* 8px */
-  --foundation-radius-full-2xs: 1rem;       /* 16px */
-  --foundation-radius-full-xs: 2rem;        /* 32px */
-  --foundation-radius-full-sm: 4rem;        /* 64px */
-  --foundation-radius-full-md: 6rem;        /* 96px */
-  --foundation-radius-full-lg: 8rem;        /* 128px */
-  --foundation-radius-full-xl: 12rem;       /* 192px */
-  --foundation-radius-full-2xl: 16rem;      /* 256px */
-  --foundation-radius-full-3xl: 24rem;      /* 384px */
-  --foundation-radius-full-full: 9999px;
 
   /* ===== BASE BORDER RADIUS TOKENS (9-Step Clean Defaults) ===== */
-  --foundation-radius-3xs: 0.03125rem;    /* 0.5px - Ultra fine */
+  --foundation-radius-skarp: 0;           /* 0px - Skarpa hörn */
   --foundation-radius-2xs: 0.0625rem;     /* 1px - Extra fine */
   --foundation-radius-xs: 0.125rem;       /* 2px - Fine details */
   --foundation-radius-sm: 0.25rem;        /* 4px - Small elements */
@@ -144,11 +112,10 @@
   --foundation-radius-lg: 0.5rem;         /* 8px - Large elements */
   --foundation-radius-xl: 0.75rem;        /* 12px - XL elements */
   --foundation-radius-2xl: 1rem;          /* 16px - Containers */
-  --foundation-radius-3xl: 1.5rem;        /* 24px - Large containers */
-  --foundation-radius-full: 9999px;       /* Full circles */
+  --foundation-radius-pill: 9999px;       /* Pill-form */
 
 
-  --selected-radius-scale-3xs: var(--foundation-radius-md-3xs);
+  --selected-radius-scale-skarp: var(--foundation-radius-md-skarp);
   --selected-radius-scale-2xs: var(--foundation-radius-md-2xs);
   --selected-radius-scale-xs: var(--foundation-radius-md-xs);
   --selected-radius-scale-sm: var(--foundation-radius-md-sm);
@@ -156,23 +123,22 @@
   --selected-radius-scale-lg: var(--foundation-radius-md-lg);
   --selected-radius-scale-xl: var(--foundation-radius-md-xl);
   --selected-radius-scale-2xl: var(--foundation-radius-md-2xl);
-  --selected-radius-scale-3xl: var(--foundation-radius-md-3xl);
-  --selected-radius-scale-full: var(--foundation-radius-md-full);
+  --selected-radius-scale-pill: var(--foundation-radius-md-pill);
 
 }
 
 /* 
 MATHEMATICAL PROGRESSION SUMMARY - 9 JÄMNA STEG:
 ================================================
-3XS Scale:   0.5px → 1px → 2px → 4px → 6px → 8px → 12px → 16px → 24px    (Ultra fine)
-2XS Scale:   1px → 2px → 4px → 8px → 12px → 16px → 24px → 32px → 48px     (Extra fine)
-XS Scale:    2px → 4px → 8px → 16px → 24px → 32px → 48px → 64px → 96px    (Fine)
-SM Scale:    4px → 8px → 16px → 32px → 48px → 64px → 96px → 128px → 192px (Small)
-MD Scale:    0.5px → 1px → 2px → 4px → 6px → 8px → 12px → 16px → 24px     (Medium - DEFAULT)
-LG Scale:    1px → 2px → 4px → 8px → 12px → 16px → 24px → 32px → 48px     (Large)
-XL Scale:    2px → 4px → 8px → 16px → 24px → 32px → 48px → 64px → 96px    (Extra large)
-2XL Scale:   4px → 8px → 16px → 32px → 48px → 64px → 96px → 128px → 192px (Double XL)
-3XL Scale:   6px → 12px → 24px → 48px → 72px → 96px → 144px → 192px → 288px (Triple XL)
+SKARP Scale: 0px → 0px → 0px → 0px → 0px → 0px → 0px → 0px → 0px           (Inga rundade hörn)
+2XS Scale:   1px → 2px → 4px → 8px → 12px → 16px → 24px → 32px → pill     (Extra fine)
+XS Scale:    2px → 4px → 8px → 16px → 24px → 32px → 48px → 64px → pill    (Fine)
+SM Scale:    4px → 8px → 16px → 32px → 48px → 64px → 96px → 128px → pill  (Small)
+MD Scale:    0px → 1px → 2px → 4px → 6px → 8px → 12px → 16px → pill       (Medium - DEFAULT)
+LG Scale:    1px → 2px → 4px → 8px → 12px → 16px → 24px → 32px → pill     (Large)
+XL Scale:    2px → 4px → 8px → 16px → 24px → 32px → 48px → 64px → pill    (Extra large)
+2XL Scale:   4px → 8px → 16px → 32px → 48px → 64px → 96px → 128px → pill  (Double XL)
+PILL Scale:  pill → pill → pill → pill → pill → pill → pill → pill → pill (Alla pills)
 
-Base Tokens: 0.5px → 1px → 2px → 4px → 6px → 8px → 12px → 16px → 24px    (9-Step Defaults)
+Base Tokens: 0px → 1px → 2px → 4px → 6px → 8px → 12px → 16px → pill    (9-Step Defaults)
 */
