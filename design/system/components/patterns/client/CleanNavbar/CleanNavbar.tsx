@@ -89,6 +89,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             z-index: 1001;
             transform: translateX(-100%);
             transition: transform var(--foundation-duration-normal) var(--foundation-easing-ease-out);
+            overflow-y: auto;
           }
           .navbar-mobile.open {
             transform: translateX(0);
@@ -227,12 +228,42 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         className={`navbar-mobile ${mobileOpen ? 'open' : ''}`}
         role="dialog"
         aria-modal="true"
+        onClick={(e) => {
+          // Stäng menyn om man klickar på backdrop
+          if (e.target === e.currentTarget) {
+            setMobileOpen(false);
+          }
+        }}
       >
-        <div style={{ 
-          maxWidth: '1400px',
-          margin: '0 auto',
-          padding: '80px var(--foundation-space-6) var(--foundation-space-8)'
-        }}>
+        <div 
+          style={{ 
+            maxWidth: '1400px',
+            margin: '0 auto',
+            padding: '80px var(--foundation-space-6) var(--foundation-space-8)'
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Close button */}
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'flex-end', 
+            marginBottom: 'var(--foundation-space-6)' 
+          }}>
+            <button
+              onClick={() => setMobileOpen(false)}
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+                padding: '8px',
+                color: 'var(--text-primary)'
+              }}
+              aria-label="Stäng meny"
+            >
+              ×
+            </button>
+          </div>
           <Stack spacing="lg">
             {/* Mobile Links */}
             <Stack spacing="md">
