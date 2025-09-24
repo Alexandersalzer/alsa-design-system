@@ -269,7 +269,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                             background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
                             width: 'clamp(48px, 8vw, 64px)',
                             height: 'clamp(48px, 8vw, 64px)',
-                            borderRadius: 'var(--foundation-radius-md)',
+                            borderRadius: 'var(--foundation-radius-lg)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
