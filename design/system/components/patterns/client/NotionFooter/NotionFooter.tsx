@@ -189,7 +189,7 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
 
             <Button
               variant="accent"
-              color="inverse"
+              color="secondary"
               size="sm"
               rightIcon={<Icon color="inverse" size="sm"><ArrowRightIcon /></Icon>}
               onClick={() => (window.location.href = ctaHref)}
