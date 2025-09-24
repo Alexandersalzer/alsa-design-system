@@ -119,18 +119,6 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                     overflow: 'hidden'
                   }}
                 >
-                  {/* Background Pattern */}
-                  <div style={{
-                    position: 'absolute',
-                    top: '-50px',
-                    right: '-50px',
-                    width: '120px',
-                    height: '120px',
-                    background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1))',
-                    borderRadius: '50%',
-                    filter: 'blur(40px)',
-                    zIndex: 0
-                  }} />
                   
                   <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
                     <Stack spacing="sm">
@@ -185,7 +173,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                     
                     {/* Author Info */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-3)', paddingLeft: 'var(--foundation-space-3)' }}>
-                      {/* Silhouette Avatar */}
+                      {/* Simple Avatar */}
                       <div
                         style={{
                           width: '50px',
@@ -197,36 +185,21 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                           justifyContent: 'center',
                           flexShrink: 0,
                           position: 'relative',
-                          boxShadow: '0 6px 20px rgba(99, 102, 241, 0.3)'
+                          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
                         }}
                       >
-                        {/* Silhouette Icon */}
+                        {/* Simple Person Icon */}
                         <div style={{
-                          width: '28px',
-                          height: '28px',
-                          background: 'var(--primary-white)',
-                          borderRadius: '50%',
+                          width: '24px',
+                          height: '24px',
+                          color: 'var(--primary-white)',
                           display: 'flex',
                           alignItems: 'center',
-                          justifyContent: 'center',
-                          position: 'relative'
+                          justifyContent: 'center'
                         }}>
-                          <div style={{
-                            width: '18px',
-                            height: '18px',
-                            background: 'var(--accent-500)',
-                            borderRadius: '50%',
-                            position: 'absolute',
-                            top: '5px'
-                          }} />
-                          <div style={{
-                            width: '14px',
-                            height: '14px',
-                            background: 'var(--accent-500)',
-                            borderRadius: '50%',
-                            position: 'absolute',
-                            bottom: '3px'
-                          }} />
+                          <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: '100%', height: '100%' }}>
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                          </svg>
                         </div>
                       </div>
                       
