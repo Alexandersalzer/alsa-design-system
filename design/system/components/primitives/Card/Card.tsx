@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Card/Card.tsx
-// UPDATED WITH RADIUS SIZE VARIANTS
+// ENHANCED WITH INTERACTIVE STATES AND HOVER EFFECTS
 // ===============================================
 
 import React, { forwardRef, ReactNode } from 'react';
@@ -8,29 +8,86 @@ import { cn } from '../../../lib/utils';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
-  variant?: 'default' | 'elevated' | 'outlined';
+  variant?: 'default' | 'elevated' | 'outlined' | 'solid';
   padding?: 'sm' | 'md' | 'lg';
-  radius?: 'sm' | 'md' | 'lg';  // ✅ NEW: Radius size variant
+  radius?: 'sm' | 'md' | 'lg';
+  // ✅ NEW: Interactive properties
+  interactive?: boolean;
+  disabled?: boolean;
+  selected?: boolean;
+  // ✅ NEW: Click handler for interactive cards
+  onCardClick?: () => void;
 }
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant = 'default', padding = 'md', radius = 'md', children, ...props }, ref) => {
+  ({ 
+    className, 
+    variant = 'default', 
+    padding = 'md', 
+    radius = 'md', 
+    interactive = false,
+    disabled = false,
+    selected = false,
+    onCardClick,
+    children, 
+    onClick,
+    ...props 
+  }, ref) => {
+    
+    // Determine if card should be clickable
+    const isClickable = interactive && (onCardClick || onClick) && !disabled;
+    
     const cardClasses = cn(
       'card',
       // Variant classes
       variant === 'elevated' && 'card--elevated',
       variant === 'outlined' && 'card--outlined',
+      variant === 'solid' && 'card--solid',
+      
       // Padding classes
       padding === 'sm' && 'card--padding-sm',
       padding === 'lg' && 'card--padding-lg',
-      // ✅ NEW: Radius classes
+      
+      // Radius classes
       radius === 'sm' && 'card--radius-sm',
       radius === 'lg' && 'card--radius-lg',
+      
+      // ✅ NEW: Interactive state classes
+      interactive && 'card--interactive',
+      isClickable && 'card--clickable',
+      disabled && 'card--disabled',
+      selected && 'card--selected',
+      
       className
     );
 
+    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+      if (disabled) return;
+      
+      // Call onCardClick if provided, otherwise fall back to onClick
+      if (onCardClick) {
+        onCardClick();
+      } else if (onClick) {
+        onClick(event);
+      }
+    };
+
     return (
-      <div ref={ref} className={cardClasses} {...props}>
+      <div 
+        ref={ref} 
+        className={cardClasses} 
+        onClick={isClickable ? handleClick : onClick}
+        role={isClickable ? 'button' : undefined}
+        tabIndex={isClickable ? 0 : undefined}
+        aria-disabled={disabled}
+        onKeyDown={isClickable ? (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleClick(e as any);
+          }
+        } : undefined}
+        {...props}
+      >
         {children}
       </div>
     );
@@ -38,6 +95,24 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 );
 
 Card.displayName = 'Card';
+
+// ✅ NEW: Interactive Card wrapper for easier usage
+export interface InteractiveCardProps extends Omit<CardProps, 'interactive'> {
+  onCardClick: () => void;
+}
+
+export const InteractiveCard = forwardRef<HTMLDivElement, InteractiveCardProps>(
+  ({ onCardClick, ...props }, ref) => (
+    <Card 
+      ref={ref} 
+      interactive={true} 
+      onCardClick={onCardClick}
+      {...props} 
+    />
+  )
+);
+
+InteractiveCard.displayName = 'InteractiveCard';
 
 // Card sub-components remain the same
 export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -84,29 +159,37 @@ CardFooter.displayName = 'CardFooter';
 
 /* ===== USAGE EXAMPLES =====
 
-// ✅ Default card (medium radius - 12px)
+// ✅ Default card (no interaction)
 <Card>
-  <CardContent>Default card with medium radius</CardContent>
+  <CardContent>Static card</CardContent>
 </Card>
 
-// ✅ Small radius card (8px)
-<Card radius="sm">
-  <CardContent>Subtle rounding</CardContent>
+// ✅ Interactive card with hover and click
+<Card interactive onCardClick={() => console.log('clicked')}>
+  <CardContent>Clickable card</CardContent>
 </Card>
 
-// ✅ Large radius card (16px)
-<Card radius="lg">
-  <CardContent>More rounded</CardContent>
+// ✅ Interactive card wrapper (cleaner syntax)
+<InteractiveCard onCardClick={() => navigate('/details')}>
+  <CardContent>Navigate to details</CardContent>
+</InteractiveCard>
+
+// ✅ Selected interactive card
+<Card 
+  interactive 
+  selected={isSelected} 
+  onCardClick={() => setSelected(!isSelected)}
+>
+  <CardContent>Selectable card</CardContent>
 </Card>
 
-// ✅ Combining variants
-<Card variant="elevated" padding="lg" radius="lg">
-  <CardHeader>Large Elevated Card</CardHeader>
-  <CardContent>
-    This card has large padding, elevated shadow, and large radius.
-    Any buttons or inputs inside will automatically get smaller radius
-    for perfect Apple-style concentricity.
-  </CardContent>
+// ✅ Disabled interactive card
+<Card 
+  interactive 
+  disabled={true} 
+  onCardClick={() => console.log('won\'t fire')}
+>
+  <CardContent>Disabled card</CardContent>
 </Card>
 
 */

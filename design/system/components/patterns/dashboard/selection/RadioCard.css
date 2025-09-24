@@ -1,0 +1,237 @@
+/* ===============================================
+// src/design-system/components/patterns/selection/RadioCard.css
+// PROPER FLEXBOX LAYOUT - No absolute positioning
+// =============================================== */
+
+.radio-card {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.radio-card:hover:not(.radio-card--disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.radio-card--checked {
+  border-color: var(--accent-500);
+  background-color: var(--accent-50);
+}
+
+.radio-card--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.radio-card--error {
+  border-color: var(--error-500);
+  background-color: var(--error-25);
+}
+
+/* Inner content area */
+.radio-card__inner {
+  padding: 16px;
+}
+
+.radio-card--sm .radio-card__inner {
+  padding: 12px;
+}
+
+.radio-card--lg .radio-card__inner {
+  padding: 20px;
+}
+
+/* MAIN LAYOUT: Content on left, radio on right */
+.radio-card__main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Content area (left side) */
+.radio-card__content {
+  flex: 1;
+  min-width: 0; /* Prevents overflow */
+}
+
+/* Radio area (right side) */
+.radio-card__radio {
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+/* VERTICAL ORIENTATION */
+.radio-card--vertical .radio-card__content {
+  text-align: center;
+}
+
+.radio-card--vertical .radio-card__icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.radio-card--vertical .radio-card__text {
+  /* Text content in vertical layout */
+}
+
+/* HORIZONTAL ORIENTATION */
+.radio-card__horizontal-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.radio-card__horizontal-content .radio-card__icon {
+  flex-shrink: 0;
+  margin-top: 2px; /* Align with first line of text */
+}
+
+.radio-card__horizontal-content .radio-card__text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Text elements */
+.radio-card__label {
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  user-select: none;
+  line-height: 1.4;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.radio-card--sm .radio-card__label {
+  font-size: 14px;
+}
+
+.radio-card--md .radio-card__label {
+  font-size: 16px;
+}
+
+.radio-card--lg .radio-card__label {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.radio-card__description {
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.radio-card--sm .radio-card__description {
+  font-size: 12px;
+}
+
+.radio-card--md .radio-card__description {
+  font-size: 14px;
+}
+
+.radio-card--lg .radio-card__description {
+  font-size: 16px;
+}
+
+.radio-card__required {
+  color: var(--error-500);
+}
+
+/* Children content */
+.radio-card__children {
+  margin-top: 8px;
+}
+
+/* Addon area (like pricing) */
+.radio-card__addon {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+/* Error message */
+.radio-card__error {
+  color: var(--error-600);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* Focus states */
+.radio-card:focus-visible {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 2px;
+}
+
+/* Group styling */
+.radio-card-group {
+  width: 100%;
+}
+
+.radio-card-group__label {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.radio-card-group__description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.radio-card-group__error {
+  font-size: 14px;
+  color: var(--error-600);
+  margin-top: 8px;
+}
+
+/* Fix height matching in grid layouts */
+.radio-card-group .radio-card {
+  align-self: start; /* Prevents stretching to match tallest card */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .radio-card__inner {
+    padding: 12px;
+  }
+  
+  .radio-card--lg .radio-card__inner {
+    padding: 16px;
+  }
+  
+  .radio-card__main {
+    gap: 12px;
+  }
+  
+  .radio-card__horizontal-content {
+    gap: 8px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .radio-card {
+    border-width: 2px;
+  }
+  
+  .radio-card--checked {
+    border-width: 3px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .radio-card {
+    transition: none;
+  }
+  
+  .radio-card:hover:not(.radio-card--disabled) {
+    transform: none;
+  }
+}

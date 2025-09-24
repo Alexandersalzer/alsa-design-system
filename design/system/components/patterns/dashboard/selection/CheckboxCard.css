@@ -1,0 +1,360 @@
+/* ===============================================
+// Updated CheckboxCard.css - Support for hidden checkbox
+// =============================================== */
+
+.checkbox-card {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.checkbox-card:hover:not(.checkbox-card--disabled):not(.checkbox-card--no-checkbox) {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.checkbox-card:focus-visible {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 2px;
+}
+
+.checkbox-card--checked {
+  border-color: var(--interactive-accent);
+  background-color: var(--secondary-50);
+}
+
+/* When checkbox is hidden, remove pointer cursor and interactions */
+.checkbox-card--no-checkbox {
+  cursor: default;
+}
+
+.checkbox-card--no-checkbox:hover {
+  box-shadow: none;
+}
+
+.checkbox-card--no-checkbox:focus {
+  outline: none;
+}
+
+/* Preselected/disabled state - clearly visible but distinct */
+.checkbox-card--disabled {
+  opacity: 0.9;
+  cursor: default;
+  pointer-events: none;
+  position: relative;
+}
+
+/* Text should be clearly readable in green theme */
+.checkbox-card--disabled .checkbox-card__label {
+  color: var(--success-800);
+  font-weight: 600;
+}
+
+.checkbox-card--disabled .checkbox-card__description {
+  color: var(--success-700);
+}
+
+.checkbox-card--error {
+  border-color: var(--error-500);
+  background-color: var(--error-25);
+}
+
+/* Inner content area */
+.checkbox-card__inner {
+  padding: 16px;
+}
+
+.checkbox-card--sm .checkbox-card__inner {
+  padding: 12px;
+}
+
+.checkbox-card--lg .checkbox-card__inner {
+  padding: 20px;
+}
+
+/* MAIN LAYOUT: Content on left, checkbox on right */
+.checkbox-card__main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* When no checkbox, center or left-align content */
+.checkbox-card__main--no-checkbox {
+  justify-content: flex-start;
+}
+
+/* Content area (left side) */
+.checkbox-card__content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Content area when no checkbox - make clickable only if interactive */
+.checkbox-card:not(.checkbox-card--no-checkbox) .checkbox-card__content {
+  cursor: pointer;
+}
+
+/* Checkbox area (right side) */
+.checkbox-card__checkbox {
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.checkbox-card__checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent-500);
+  cursor: pointer;
+  opacity: 1;
+}
+
+.checkbox-card--checked .checkbox-card__checkbox input[type="checkbox"] {
+  accent-color: var(--accent-600);
+  transform: scale(1.05);
+}
+
+/* Visual indicator when checkbox is hidden but item is checked */
+.checkbox-card__indicator {
+  flex-shrink: 0;
+  align-self: flex-start;
+  width: 24px;
+  height: 24px;
+  background-color: var(--success-500);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* VERTICAL ORIENTATION */
+.checkbox-card--vertical .checkbox-card__content {
+  /* Content area in vertical layout */
+}
+
+/* Icon in vertical layout - left aligned to match text */
+.checkbox-card__icon--vertical {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 12px;
+}
+
+/* Text in vertical layout - left aligned for better readability */
+.checkbox-card__text--vertical {
+  text-align: left;
+}
+
+/* HORIZONTAL ORIENTATION */
+.checkbox-card__horizontal-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.checkbox-card__horizontal-content .checkbox-card__icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.checkbox-card__horizontal-content .checkbox-card__text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Text elements */
+.checkbox-card__label {
+  font-weight: 500;
+  color: var(--text-primary);
+  user-select: none;
+  line-height: 1.4;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Only make label clickable if checkbox is not hidden */
+.checkbox-card:not(.checkbox-card--no-checkbox) .checkbox-card__label {
+  cursor: pointer;
+}
+
+.checkbox-card:not(.checkbox-card--no-checkbox) .checkbox-card__label:hover {
+  color: var(--text-primary);
+}
+
+.checkbox-card--checked .checkbox-card__label {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.checkbox-card--sm .checkbox-card__label {
+  font-size: 14px;
+}
+
+.checkbox-card--md .checkbox-card__label {
+  font-size: 16px;
+}
+
+.checkbox-card--lg .checkbox-card__label {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.checkbox-card__description {
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+/* Only make description clickable if checkbox is not hidden */
+.checkbox-card:not(.checkbox-card--no-checkbox) .checkbox-card__description {
+  cursor: pointer;
+}
+
+.checkbox-card:not(.checkbox-card--no-checkbox) .checkbox-card__description:hover {
+  color: var(--text-primary);
+}
+
+.checkbox-card--checked .checkbox-card__description {
+  color: var(--text-secondary);
+}
+
+.checkbox-card--sm .checkbox-card__description {
+  font-size: 12px;
+}
+
+.checkbox-card--md .checkbox-card__description {
+  font-size: 14px;
+}
+
+.checkbox-card--lg .checkbox-card__description {
+  font-size: 16px;
+}
+
+.checkbox-card__required {
+  color: var(--error-500);
+}
+
+/* Children content */
+.checkbox-card__children {
+  margin-top: 8px;
+}
+
+/* Only make children clickable if checkbox is not hidden */
+.checkbox-card:not(.checkbox-card--no-checkbox) .checkbox-card__children {
+  cursor: pointer;
+}
+
+/* Addon area */
+.checkbox-card__addon {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 8px;
+  margin-top: 8px;
+  min-height: 0;
+}
+
+.checkbox-card__addon .tag {
+  flex-shrink: 0;
+}
+
+.checkbox-card__addon > div {
+  line-height: 1.2;
+}
+
+/* Error message */
+.checkbox-card__error {
+  color: var(--error-600);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* Group styling */
+.checkbox-card-group {
+  width: 100%;
+}
+
+.checkbox-card-group__label {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.checkbox-card-group__description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.checkbox-card-group__error {
+  font-size: 14px;
+  color: var(--error-600);
+  margin-top: 8px;
+}
+
+/* Active/pressed state for interactive cards only */
+.checkbox-card:not(.checkbox-card--no-checkbox):active:not(.checkbox-card--disabled) {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .checkbox-card__inner {
+    padding: 12px;
+  }
+  
+  .checkbox-card--lg .checkbox-card__inner {
+    padding: 16px;
+  }
+  
+  .checkbox-card__main {
+    gap: 12px;
+  }
+  
+  .checkbox-card__horizontal-content {
+    gap: 8px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .checkbox-card {
+    border-width: 2px;
+  }
+  
+  .checkbox-card--checked {
+    border-width: 3px;
+    box-shadow: 0 0 0 2px var(--accent-300);
+  }
+  
+  .checkbox-card__checkbox input[type="checkbox"] {
+    border: 3px solid var(--accent-700);
+  }
+  
+  .checkbox-card__indicator {
+    border: 2px solid var(--success-700);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .checkbox-card {
+    transition: none;
+  }
+  
+  .checkbox-card:hover:not(.checkbox-card--disabled) {
+    transform: none;
+  }
+}
+
+/* Touch devices - larger touch targets */
+@media (pointer: coarse) {
+  .checkbox-card__inner {
+    padding: 18px;
+  }
+  
+  .checkbox-card--sm .checkbox-card__inner {
+    padding: 14px;
+  }
+}

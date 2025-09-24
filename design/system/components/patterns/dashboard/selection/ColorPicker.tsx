@@ -1,5 +1,5 @@
 // ===============================================
-// UPDATED ColorPicker.tsx - Handles both tokens and hex values
+// FIXED ColorPicker.tsx - Uses radio pattern instead of button
 // ===============================================
 
 import React from 'react';
@@ -22,6 +22,7 @@ export interface ColorPickerProps {
   size?: 'sm' | 'md' | 'lg';
   variant?: 'swatches' | 'cards';
   className?: string;
+  name?: string; // For radio group
 }
 
 // Fallback color mapping for tokens without hexValue
@@ -40,12 +41,14 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
   onChange,
   size = 'md',
   variant = 'cards',
-  className
+  className,
+  name = 'color-picker'
 }) => {
-  const handleColorChange = (colorValue: string) => {
-    console.log('🎨 ColorPicker: Color clicked:', colorValue);
-    console.log('🎨 ColorPicker: Current selected:', selected);
-    onChange(colorValue);
+  const handleColorChange = (checked: boolean, colorValue: string) => {
+    if (checked) {
+      console.log('🎨 ColorPicker: Color selected:', colorValue);
+      onChange(colorValue);
+    }
   };
 
   // Helper function to get actual hex color for display
@@ -87,8 +90,6 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
           const isSelected = selected === color.value;
           const displayColor = getDisplayColor(color);
           
-          console.log(`🎨 Swatch ${color.name}: selected=${isSelected}, displayColor=${displayColor}`);
-          
           return (
             <button
               key={color.value}
@@ -98,7 +99,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
                   ? 'border-gray-900 scale-110 shadow-lg' 
                   : 'border-gray-300 hover:scale-105'
               )}
-              onClick={() => handleColorChange(color.value)}
+              onClick={() => onChange(color.value)}
               style={{ backgroundColor: displayColor }}
               title={`${color.name} (${displayColor})`}
             />
@@ -114,14 +115,16 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
         const isSelected = selected === color.value;
         const displayColor = getDisplayColor(color);
         
-        console.log(`🎨 Card ${color.name}: selected=${isSelected}, displayColor=${displayColor}`);
-        
         return (
           <SelectionCard
             key={color.value}
-            selected={isSelected}
-            onClick={() => handleColorChange(color.value)}
+            type="radio"
+            name={name}
+            value={color.value}
+            checked={isSelected}
+            onChange={(checked) => handleColorChange(checked, color.value)}
             size={size}
+            controlPosition="right"
           >
             <div className="text-center">
               <div 

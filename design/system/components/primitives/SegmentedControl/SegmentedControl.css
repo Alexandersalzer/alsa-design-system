@@ -1,18 +1,21 @@
 /* ===============================================
    src/design-system/components/primitives/SegmentedControl/SegmentedControl.css
-   STYLE SEGMENTED CONTROL STYLES
+   FIXED VERSION - Hover states, visible track, no overflow issues
    =============================================== */
 
 /* ===== BASE COMPONENT ===== */
 .segmented-control {
   position: relative;
   display: inline-flex;
-  background: var(--surface-secondary);
+  background: var(--surface-secondary); /* This is the visible track */
   border: 1px solid var(--border-secondary);
   border-radius: var(--foundation-radius-lg);
   padding: var(--foundation-space-1);
-  overflow: hidden;
+  /* FIXED: Remove overflow hidden to prevent clipping */
+  /* overflow: hidden; */
   isolation: isolate;
+  /* FIXED: Add min-width to prevent cramped appearance */
+  min-width: 120px;
 }
 
 /* ===== SLIDING INDICATOR ===== */
@@ -21,8 +24,10 @@
   top: var(--foundation-space-1);
   left: var(--foundation-space-1);
   bottom: var(--foundation-space-1);
-  background: var(--surface-button-secondary-hover);
-  border-radius: var(--foundation-radius-xl);
+  /* FIXED: Better indicator styling for visibility */
+  background: var(--surface-card);
+  border: 1px solid var(--border-default);
+  border-radius: calc(var(--foundation-radius-lg) - var(--foundation-space-1));
   box-shadow: var(--foundation-shadow-sm);
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1;
@@ -43,7 +48,15 @@
   min-width: 0;
   flex: 1;
   padding: var(--foundation-space-2) var(--foundation-space-3);
-  border-radius: var(--foundation-radius-xl);
+  border-radius: calc(var(--foundation-radius-lg) - var(--foundation-space-1));
+  /* FIXED: Add min-width for better proportions */
+  min-width: 60px;
+}
+
+/* FIXED: Add hover states */
+.segmented-control__option:not(.segmented-control__option--selected):not(.segmented-control__option--disabled):hover {
+  background-color: var(--surface-button-secondary-hover);
+  color: var(--text-primary);
 }
 
 .segmented-control__option:focus-visible {
@@ -54,6 +67,12 @@
 .segmented-control__option--disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+/* FIXED: Better selected state styling */
+.segmented-control__option--selected {
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .segmented-control__icon {
@@ -71,14 +90,18 @@
 /* ===== SIZE VARIANTS ===== */
 
 /* Small */
+.segmented-control--sm {
+  min-width: 100px;
+}
 
 .segmented-control--sm .segmented-control__indicator {
-  border-radius: calc(var(--foundation-radius-md));
+  border-radius: calc(var(--foundation-radius-md) - 1px);
 }
 
 .segmented-control--sm .segmented-control__option {
   padding: var(--foundation-space-1) var(--foundation-space-3);
-  border-radius: calc(var(--foundation-radius-md));
+  border-radius: calc(var(--foundation-radius-md) - 1px);
+  min-width: 50px;
 }
 
 .segmented-control--sm .segmented-control__icon svg {
@@ -90,6 +113,7 @@
 .segmented-control--lg {
   padding: var(--foundation-space-2);
   border-radius: var(--foundation-radius-lg);
+  min-width: 140px;
 }
 
 .segmented-control--lg .segmented-control__indicator {
@@ -102,6 +126,7 @@
 .segmented-control--lg .segmented-control__option {
   padding: var(--foundation-space-3) var(--foundation-space-4);
   border-radius: calc(var(--foundation-radius-lg) - var(--foundation-space-2));
+  min-width: 70px;
 }
 
 .segmented-control--lg .segmented-control__icon svg {
@@ -143,9 +168,15 @@
   padding: var(--foundation-space-2) var(--foundation-space-3);
 }
 
+/* FIXED: Ghost variant hover */
+.segmented-control--ghost .segmented-control__option:not(.segmented-control__option--selected):not(.segmented-control__option--disabled):hover {
+  background-color: var(--surface-button-ghost-hover);
+}
+
 /* ===== FULL WIDTH ===== */
 .segmented-control--full-width {
   width: 100%;
+  min-width: 100%;
 }
 
 /* ===== DISABLED STATE ===== */
@@ -154,15 +185,21 @@
   pointer-events: none;
 }
 
+.segmented-control--disabled .segmented-control__option:hover {
+  background: none;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 640px) {
   .segmented-control {
     padding: 2px;
+    min-width: 100px;
   }
   
   .segmented-control__option {
     padding: var(--foundation-space-2);
     gap: var(--foundation-space-1);
+    min-width: 50px;
   }
   
   .segmented-control__icon svg {
@@ -184,5 +221,12 @@
 
 /* ===== KEYBOARD NAVIGATION ===== */
 .segmented-control:focus-within .segmented-control__option:focus {
+  z-index: 3;
+}
+
+/* FIXED: Better focus states */
+.segmented-control__option:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: -2px;
   z-index: 3;
 }

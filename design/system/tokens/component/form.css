@@ -7,18 +7,32 @@
   /* ===== CHECKBOX TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
   --surface-checkbox: var(--surface-base);
   --surface-checkbox-checked: var(--interactive-accent);
-  --surface-checkbox-hover: var(--accent-subtle);
-  --surface-checkbox-disabled: var(--surface-subtle);
-  --surface-checkbox-disabled-checked: var(--interactive-secondary);
+  --surface-checkbox-hover: var(--secondary-100);
+  --surface-checkbox-disabled: var(--secondary-200);
+ --surface-checkbox-disabled-checked: var(--secondary-400);
   
   --border-checkbox: var(--border-medium);
   --border-checkbox-hover: var(--border-focus);
   --border-checkbox-focus: var(--border-focus);
   --border-checkbox-checked: var(--border-focus);
-  --border-checkbox-disabled: var(--border-disabled);
+  --border-checkbox-disabled: var(--secondary-300);
   
   --icon-checkbox: var(--icon-inverse);
-  --icon-checkbox-disabled: var(--icon-disabled);
+  --icon-checkbox-disabled: var(--secondary-600);
+
+  /* ===== ADDITIONAL CHECKBOX TOKENS FOR BETTER UX ===== */
+  
+  /* Hover states for better interaction feedback */
+  --surface-checkbox-checked-hover: var(--accent-600);        /* Darker accent on hover when checked */
+  --border-checkbox-checked-hover: var(--accent-600);         /* Matching border */
+  
+  /* Focus states for accessibility */
+  --shadow-checkbox-focus: 0 0 0 3px var(--accent-200);       /* Focus ring for accessibility */
+  
+  /* Error states */
+  --surface-checkbox-error: var(--surface-checkbox);
+  --border-checkbox-error: var(--error-500);
+  --shadow-checkbox-error: 0 0 0 3px var(--error-200);
   
   /* ===== RADIO TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
   --surface-radio: var(--surface-base);

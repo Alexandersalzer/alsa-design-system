@@ -2,10 +2,12 @@
 // src/design-system/components/primitives/Tab/Tab.tsx
 // ENHANCED VERSION - Customizable Typography with Bolder Navigation
 // ===============================================
+
 import React from 'react';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { Label, createTabTypographyProps,TypographyWeight } from '../Typography';
+import { Label, createTabTypographyProps, TypographyWeight } from '../Typography';
+
 export type TabVariant = 'navigation' | 'page' | 'segment';
 export type TabSize = 'sm' | 'md' | 'lg';
 
@@ -18,9 +20,13 @@ interface BaseTabProps {
   icon?: ReactNode;
   badge?: ReactNode;
   className?: string;
-  // 🎯 NEW: Typography customization options
   fontWeight?: TypographyWeight;
-  useHeadingFont?: boolean; // Use heading font family instead of body
+  useHeadingFont?: boolean;
+  tabIndex?: number;
+  onFocus?: (e: React.FocusEvent) => void;
+  role?: string;
+  'aria-selected'?: boolean;
+  style?: React.CSSProperties;
 }
 
 interface LinkTabProps extends BaseTabProps {
@@ -46,21 +52,22 @@ export const Tab: React.FC<TabProps> = ({
   className = '',
   href,
   onClick,
-  // 🎯 NEW: Typography customization with smart defaults
   fontWeight,
-  useHeadingFont = variant === 'navigation', // Navigation tabs use heading font by default
+  useHeadingFont = variant === 'navigation',
+  tabIndex,
+  onFocus,
+  role,
+  'aria-selected': ariaSelected,
+  style,
   ...rest
 }) => {
-  // 🎯 ENHANCED: Get base typography props and allow customization
   const baseTypographyProps = createTabTypographyProps(variant, size, isActive, isDisabled);
   
-  // 🎯 ENHANCED: Smart weight selection with custom override
   const getWeight = (): TypographyWeight => {
-    if (fontWeight) return fontWeight; // Custom override
+    if (fontWeight) return fontWeight;
     
     if (variant === 'navigation') {
-      // 🎯 BOLDER navigation tabs
-      return isActive ? 'bold' : 'semibold'; // Changed from semibold/medium to bold/semibold
+      return isActive ? 'bold' : 'semibold';
     }
     
     return baseTypographyProps.weight;
@@ -71,37 +78,33 @@ export const Tab: React.FC<TabProps> = ({
     weight: getWeight()
   };
 
-  // Use your existing nav-item classes for navigation variant
   const getClasses = () => {
     if (variant === 'navigation') {
       return [
         'nav-item',
-        useHeadingFont && 'nav-item--heading-font', // 🎯 NEW: Add class for heading font
+        useHeadingFont && 'nav-item--heading-font',
         isActive && 'nav-item--selected',
         isDisabled && 'nav-item--disabled',
         className
       ].filter(Boolean).join(' ');
     }
 
-    // For other variants, use tab classes
     return [
       'tab',
       `tab--${variant}`,
       size !== 'md' && `tab--${size}`,
-      useHeadingFont && 'tab--heading-font', // 🎯 NEW: Add class for heading font
+      useHeadingFont && 'tab--heading-font',
       isActive && 'tab--active',
       isDisabled && 'tab--disabled',
       className
     ].filter(Boolean).join(' ');
   };
 
-  // 🎯 ENHANCED: Content structure with customizable typography
   const getContent = () => {
     if (variant === 'navigation') {
       return (
         <>
           {icon && <div className="nav-item__icon">{icon}</div>}
-          {/* 🎯 ENHANCED: Custom typography with bolder weight for navigation */}
           <Label
             size={finalTypographyProps.size}
             weight={finalTypographyProps.weight}
@@ -116,7 +119,6 @@ export const Tab: React.FC<TabProps> = ({
       );
     }
 
-    // 🎯 ENHANCED: For other variants, also use enhanced typography
     return (
       <>
         {icon && <span className="tab__icon">{icon}</span>}
@@ -134,13 +136,33 @@ export const Tab: React.FC<TabProps> = ({
     );
   };
 
+  const getAccessibilityProps = () => {
+    const props: any = {
+      tabIndex: tabIndex ?? (isDisabled ? -1 : 0),
+      onFocus,
+      role: role ?? (variant !== 'navigation' ? 'tab' : undefined),
+      'aria-selected': ariaSelected ?? (variant !== 'navigation' ? isActive : undefined),
+      'aria-disabled': isDisabled,
+      style
+    };
+
+    // Remove undefined values
+    Object.keys(props).forEach(key => {
+      if (props[key] === undefined) {
+        delete props[key];
+      }
+    });
+
+    return props;
+  };
+
   const classes = getClasses();
   const content = getContent();
+  const accessibilityProps = getAccessibilityProps();
 
-  // Render as Link or Button
   if (href && !isDisabled) {
     return (
-      <Link href={href} className={classes} {...rest}>
+      <Link href={href} className={classes} {...accessibilityProps} {...rest}>
         {content}
       </Link>
     );
@@ -152,6 +174,7 @@ export const Tab: React.FC<TabProps> = ({
       onClick={!isDisabled ? onClick : undefined}
       disabled={isDisabled}
       type="button"
+      {...accessibilityProps}
       {...rest}
     >
       {content}

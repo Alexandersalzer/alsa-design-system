@@ -1,84 +1,94 @@
 // ===============================================
-// STEP 3: Create a NEW ThemeModeControl.tsx component
-// Keep your existing AccentColorControl and RadiusControl
+// ThemeModeControl.tsx - SEGMENTED CONTROL VERSION
+// Ersätter din nuvarande DesignRadioCard version
 // ===============================================
-
-// blimpify-ui/design/system/components/patterns/shared/ThemeControls/ThemeModeControl.tsx
 import React from 'react';
-import { SelectionCard  } from '../../../patterns';
-import { Grid } from '../../dashboard/page/Grid';
-import { Body, Icon, Label } from '../../../primitives';
+import { SegmentedControl, type SegmentedControlOption } from '@blimpify-im/ui';
+import { Body, Icon } from '@blimpify-im/ui';
 import { useTheme } from '../../../../hooks/useTheme';
-import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import { SunIcon, MoonIcon, SparklesIcon } from '@heroicons/react/24/outline';
 
 interface ThemeModeControlProps {
   className?: string;
+  showLabel?: boolean; // Option to show/hide the section label
+  size?: 'sm' | 'md' | 'lg'; // SegmentedControl size
 }
 
-export function ThemeModeControl({ className }: ThemeModeControlProps) {
+export function ThemeModeControl({ 
+  className, 
+  showLabel = true,
+  size = 'md'
+}: ThemeModeControlProps) {
   const { isDark, toggleDarkMode, isHydrated } = useTheme();
+
+  // ✅ Theme options för SegmentedControl
+  const themeOptions: SegmentedControlOption[] = [
+    {
+      value: 'light',
+      label: 'Ljust',
+      icon: <SunIcon className="w-4 h-4" />
+    },
+    {
+      value: 'dark', 
+      label: 'Mörkt',
+      icon: <MoonIcon className="w-4 h-4" />
+    }
+  ];
+
+  // ✅ Handle theme change - endast växla om nödvändigt
+  const handleThemeChange = (value: string) => {
+    console.log('🌗 ThemeModeControl: Changing theme to:', value);
+    
+    const shouldBeDark = value === 'dark';
+    
+    // Bara växla om det faktiska läget inte matchar det valda
+    if (isDark !== shouldBeDark) {
+      toggleDarkMode();
+    }
+  };
+
+  // ✅ Aktuellt värde baserat på isDark state
+  const currentValue = isDark ? 'dark' : 'light';
+
+  // Loading state om inte hydratiserad
+  if (!isHydrated) {
+    return (
+      <div className={className}>
+        {showLabel && (
+          <div className="flex items-center gap-2 mb-3">
+            <Icon size="sm" color="primary">
+              <SparklesIcon />
+            </Icon>
+            <Body weight="medium" size="sm">Tema</Body>
+          </div>
+        )}
+        <div className="animate-pulse bg-gray-200 h-10 rounded-lg" />
+      </div>
+    );
+  }
 
   return (
     <div className={className}>
-      {/* Section header */}
-      <div className="flex items-center gap-3 mb-4">
-        <Icon size="md" color="primary">
-          {isDark ? <MoonIcon /> : <SunIcon />}
-        </Icon>
-        <div>
-          <Body weight="medium" className="mb-1">Theme Mode</Body>
-          <Body size="sm" color="secondary">Light or dark appearance</Body>
+      {/* Section header - optional */}
+      {showLabel && (
+        <div className="flex items-center gap-2 mb-3">
+          <Icon size="sm" color="primary">
+            <SparklesIcon />
+          </Icon>
+          <Body weight="medium" size="sm">Tema</Body>
         </div>
-      </div>
+      )}
 
-      {/* Theme mode grid */}
-      <Grid columns={2} gap="md" className="grid-cols-2 max-w-md">
-        <SelectionCard
-          selected={!isDark}
-          onClick={() => !isDark ? null : toggleDarkMode()}
-          disabled={!isHydrated}
-          size="md"
-        >
-          <div className="text-center">
-            <Label size="sm" weight="medium" className="mb-3 block">
-              Light
-            </Label>
-            <div className="flex flex-col items-center gap-2 mb-3">
-              <div className="w-12 h-8 bg-white border border-gray-300 rounded-md flex items-center justify-center">
-                <div className="w-8 h-2 bg-gray-800 rounded-sm"></div>
-              </div>
-              <div className="flex gap-1">
-                <div className="w-3 h-2 bg-blue-500 rounded-sm"></div>
-                <div className="w-2 h-2 bg-white border border-gray-300 rounded"></div>
-              </div>
-            </div>
-            <Body size="xs" color="secondary">Clean & bright</Body>
-          </div>
-        </SelectionCard>
-
-        <SelectionCard
-          selected={isDark}
-          onClick={() => isDark ? null : toggleDarkMode()}
-          disabled={!isHydrated}
-          size="md"
-        >
-          <div className="text-center">
-            <Label size="sm" weight="medium" className="mb-3 block">
-              Dark
-            </Label>
-            <div className="flex flex-col items-center gap-2 mb-3">
-              <div className="w-12 h-8 bg-gray-900 border border-gray-700 rounded-md flex items-center justify-center">
-                <div className="w-8 h-2 bg-white rounded-sm"></div>
-              </div>
-              <div className="flex gap-1">
-                <div className="w-3 h-2 bg-blue-400 rounded-sm"></div>
-                <div className="w-2 h-2 bg-gray-800 border border-gray-600 rounded"></div>
-              </div>
-            </div>
-            <Body size="xs" color="secondary">Easy on eyes</Body>
-          </div>
-        </SelectionCard>
-      </Grid>
+      {/* ✅ SegmentedControl - tydlig och enkel */}
+      <SegmentedControl
+        options={themeOptions}
+        value={currentValue}
+        onChange={handleThemeChange}
+        size={size}
+        variant="default"
+        fullWidth={true}
+        disabled={!isHydrated}
+      />
     </div>
   );
 }
