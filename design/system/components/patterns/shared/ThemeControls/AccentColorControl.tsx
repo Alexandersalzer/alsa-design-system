@@ -10,17 +10,11 @@ import { Body, Icon } from '@blimpify-im/ui';
 
 // Förkortade namn - behåller samma values för backend-kompatibilitet
 const COLOR_GRID = [
-  // Gray row
-  [
-    { value: 'gray-light', label: 'Ljus', hex: '#9CA3AF' },
-    { value: 'gray', label: 'grå', hex: '#6B7280' },
-    { value: 'slate', label: 'Mörk', hex: '#374151' }
-  ],
   // Pink row
   [
-    { value: 'pink-light', label: 'Ljus', hex: '#F9A8D4' },
-    { value: 'pink', label: 'Rosa', hex: '#F43F5E' },
-    { value: 'pink-dark', label: 'Ros', hex: '#E11D48' }
+    { value: 'pink-light', label: 'Flamingo', hex: '#F472B6' },
+    { value: 'pink', label: 'Rosa', hex: '#EC4899' },
+    { value: 'pink-dark', label: 'Ros', hex: '#D946EF' }
   ],
   // Red row
   [
