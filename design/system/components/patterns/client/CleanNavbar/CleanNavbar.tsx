@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
-import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 
@@ -131,14 +130,16 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         role="navigation"
         aria-label="Huvudnavigation"
       >
-        <Container maxWidth="xl" align="center">
-          <div style={{ 
-            minHeight: '64px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%'
-          }}>
+        <div style={{ 
+          maxWidth: '1400px',
+          margin: '0 auto',
+          padding: '0 var(--foundation-space-6)',
+          minHeight: '64px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          width: '100%'
+        }}>
             {/* Brand */}
             <a
               href={brand.href || '/'}
@@ -218,8 +219,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
               <span />
               <span />
             </button>
-          </div>
-        </Container>
+        </div>
       </nav>
 
       {/* Mobile panel */}
@@ -228,9 +228,12 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         role="dialog"
         aria-modal="true"
       >
-        <Container maxWidth="xl" align="center">
-          <div style={{ paddingTop: '80px', paddingBottom: 'var(--foundation-space-8)' }}>
-            <Stack spacing="lg">
+        <div style={{ 
+          maxWidth: '1400px',
+          margin: '0 auto',
+          padding: '80px var(--foundation-space-6) var(--foundation-space-8)'
+        }}>
+          <Stack spacing="lg">
             {/* Mobile Links */}
             <Stack spacing="md">
               {items.map((it) => (
@@ -269,9 +272,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                 {ctaButton.text}
               </Button>
             )}
-            </Stack>
-          </div>
-        </Container>
+          </Stack>
+        </div>
       </div>
     </>
   );
