@@ -52,15 +52,14 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
     <Section
       id={id}
       as="section"
-      height="auto"
+      height="full"
       style={{
         background: backgroundImage ? `url(${backgroundImage})` : 'var(--surface-page)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         position: 'relative',
-        paddingTop: 'var(--foundation-space-24)',
-        paddingBottom: 'var(--foundation-space-24)'
+        minHeight: '100vh'
       }}
     >
       {backgroundImage && (
@@ -75,7 +74,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
         }} />
       )}
       
-      <Container maxWidth="xl" align="center" style={{ position: 'relative', zIndex: 2 }}>
+      <Container maxWidth="xl" align="center" style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'center' }}>
         <Grid 
           columns={2} 
           gap="xl" 
@@ -83,8 +82,24 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           collapseOn="tablet"
           minItemWidth="300px"
         >
-          {/* Text content */}
-          <Stack spacing="lg" align="start">
+          {/* Visual image - kommer först på mobil */}
+          {visualImage && (
+            <Stack align="center" style={{ order: 1 }}>
+              <img 
+                src={visualImage} 
+                alt={visualAlt}
+                style={{
+                  width: '100%',
+                  maxWidth: 'clamp(300px, 40vw, 500px)',
+                  height: 'auto',
+                  objectFit: 'contain'
+                }}
+              />
+            </Stack>
+          )}
+          
+          {/* Text content - kommer efter på mobil */}
+          <Stack spacing="lg" align="start" style={{ order: 2 }}>
             <Typography 
               variant="h1" 
               weight="bold" 
@@ -132,22 +147,6 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               </Button>
             </Cluster>
           </Stack>
-          
-          {/* Visual image */}
-          {visualImage && (
-            <Stack align="center">
-              <img 
-                src={visualImage} 
-                alt={visualAlt}
-                style={{
-                  width: '100%',
-                  maxWidth: 'clamp(300px, 40vw, 500px)',
-                  height: 'auto',
-                  objectFit: 'contain'
-                }}
-              />
-            </Stack>
-          )}
         </Grid>
       </Container>
     </Section>
