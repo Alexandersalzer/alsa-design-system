@@ -82,25 +82,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           collapseOn="tablet"
           minItemWidth="300px"
         >
-          {/* Visual image - kommer först på mobil */}
-          {visualImage && (
-            <div style={{ order: 1 }}>
-              <Stack align="center">
-                <img 
-                  src={visualImage} 
-                  alt={visualAlt}
-                  style={{
-                    width: '100%',
-                    maxWidth: 'clamp(300px, 40vw, 500px)',
-                    height: 'auto',
-                    objectFit: 'contain'
-                  }}
-                />
-              </Stack>
-            </div>
-          )}
-          
-          {/* Text content - kommer efter på mobil */}
+          {/* Text content - vänster sida på desktop, först på mobil */}
           <div style={{ order: 2 }}>
             <Stack spacing="lg" align="start">
             <Typography 
@@ -151,6 +133,24 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
             </Cluster>
             </Stack>
           </div>
+          
+          {/* Visual image - höger sida på desktop, efter text på mobil */}
+          {visualImage && (
+            <div style={{ order: 1 }}>
+              <Stack align="center">
+                <img 
+                  src={visualImage} 
+                  alt={visualAlt}
+                  style={{
+                    width: '100%',
+                    maxWidth: 'clamp(300px, 40vw, 500px)',
+                    height: 'auto',
+                    objectFit: 'contain'
+                  }}
+                />
+              </Stack>
+            </div>
+          )}
         </Grid>
       </Container>
     </Section>
