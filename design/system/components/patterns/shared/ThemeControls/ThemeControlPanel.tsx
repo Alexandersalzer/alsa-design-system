@@ -3,7 +3,7 @@
 // ===============================================
 import React from 'react';
 import { Stack } from '@blimpify-im/ui';
-import { AccentColorControl } from './AccentColorControl';
+import { AccentColorControl, type ColorGrid } from './AccentColorControl';
 import { RadiusControl } from './RadiusControl';
 import { ThemeModeControl } from './ThemeModeControl';
 
@@ -14,6 +14,7 @@ interface ThemeControlPanelProps {
   // Removed colorColumns since AccentColorControl is now fixed 3x10 grid
   radiusColumns?: 1 | 2 | 3 | 4;
   className?: string;
+  colors?: ColorGrid;
 }
 
 export function ThemeControlPanel({
@@ -21,7 +22,8 @@ export function ThemeControlPanel({
   showColorControl = true,
   showRadiusControl = true,
   radiusColumns = 2,
-  className
+  className,
+  colors = []
 }: ThemeControlPanelProps) {
   return (
     <div className={className}>
@@ -31,7 +33,7 @@ export function ThemeControlPanel({
         )}
         
         {showColorControl && (
-          <AccentColorControl />
+          <AccentColorControl colors={colors} />
         )}
         
         {showRadiusControl && (
