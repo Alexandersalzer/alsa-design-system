@@ -10,7 +10,6 @@ import { Container } from '../../../../../system/layout/frames/container/Contain
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
-import './FAQ.css';
 
 interface FAQItem {
   question: string;
@@ -43,7 +42,22 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
   };
 
   return (
-    <Section 
+    <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @keyframes fadeInDown {
+            from {
+              opacity: 0;
+              transform: translateY(-10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `
+      }} />
+      <Section 
       id={id}
       as="section"
       height="auto"
@@ -111,12 +125,12 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                     key={index} 
                     variant="elevated"
                     padding="lg"
-                    className="faq-item"
                     style={{
                       background: 'var(--surface-card)',
                       border: '1px solid var(--border-subtle)',
                       borderRadius: 'var(--foundation-radius-lg)',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      transition: 'all var(--foundation-duration-fast) var(--foundation-easing-ease-out)'
                     }}
                     onClick={() => toggleExpanded(index)}
                     role="button"
@@ -158,7 +172,10 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                         <Icon 
                           size="sm" 
                           color="secondary"
-                          className={`faq-chevron ${isExpanded ? 'expanded' : ''}`}
+                          style={{
+                            transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                            transition: 'transform var(--foundation-duration-fast) var(--foundation-easing-ease-out)'
+                          }}
                         >
                           <ChevronDownIcon />
                         </Icon>
@@ -166,7 +183,9 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                     </Cluster>
                     
                     {isExpanded && (
-                      <div className="faq-answer">
+                      <div style={{
+                        animation: 'fadeInDown var(--foundation-duration-normal) var(--foundation-easing-ease-out)'
+                      }}>
                         <Typography 
                           variant="body-md" 
                           color="secondary"
@@ -189,6 +208,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
         </Stack>
       </Container>
     </Section>
+    </>
   );
 };
 
