@@ -84,22 +84,25 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
         >
           {/* Visual image - kommer först på mobil */}
           {visualImage && (
-            <Stack align="center" style={{ order: 1 }}>
-              <img 
-                src={visualImage} 
-                alt={visualAlt}
-                style={{
-                  width: '100%',
-                  maxWidth: 'clamp(300px, 40vw, 500px)',
-                  height: 'auto',
-                  objectFit: 'contain'
-                }}
-              />
-            </Stack>
+            <div style={{ order: 1 }}>
+              <Stack align="center">
+                <img 
+                  src={visualImage} 
+                  alt={visualAlt}
+                  style={{
+                    width: '100%',
+                    maxWidth: 'clamp(300px, 40vw, 500px)',
+                    height: 'auto',
+                    objectFit: 'contain'
+                  }}
+                />
+              </Stack>
+            </div>
           )}
           
           {/* Text content - kommer efter på mobil */}
-          <Stack spacing="lg" align="start" style={{ order: 2 }}>
+          <div style={{ order: 2 }}>
+            <Stack spacing="lg" align="start">
             <Typography 
               variant="h1" 
               weight="bold" 
@@ -146,7 +149,8 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
                 {ctaText}
               </Button>
             </Cluster>
-          </Stack>
+            </Stack>
+          </div>
         </Grid>
       </Container>
     </Section>
