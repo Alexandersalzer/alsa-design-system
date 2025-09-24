@@ -106,66 +106,129 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                   variant="elevated"
                   padding="lg"
                   style={{
-                    background: 'var(--surface-card)',
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: 'var(--foundation-radius-lg)',
-                    height: '280px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: 'var(--foundation-radius-xl)',
+                    height: '320px',
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'space-between'
+                    justifyContent: 'space-between',
+                    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.05)',
+                    position: 'relative',
+                    overflow: 'hidden'
                   }}
                 >
-                  <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  {/* Background Pattern */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '-50px',
+                    right: '-50px',
+                    width: '120px',
+                    height: '120px',
+                    background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1))',
+                    borderRadius: '50%',
+                    filter: 'blur(40px)',
+                    zIndex: 0
+                  }} />
+                  
+                  <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
                     <Stack spacing="md">
-                    {/* Rating Stars */}
-                    <Cluster spacing="xs" align="center">
-                      {[...Array(testimonial.rating || 5)].map((_, i) => (
-                        <div 
-                          key={i} 
-                          style={{
-                            width: '20px',
-                            height: '20px',
-                            color: 'var(--accent-500)',
-                            fill: 'currentColor'
-                          }}
-                        >
-                          <StarIcon />
-                        </div>
-                      ))}
-                    </Cluster>
+                    {/* Quotation Marks */}
+                    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                      <div style={{
+                        fontSize: '3rem',
+                        color: 'var(--accent-500)',
+                        opacity: 0.3,
+                        lineHeight: 1,
+                        fontFamily: 'serif',
+                        fontWeight: 'bold'
+                      }}>
+                        "
+                      </div>
+                    </div>
                     
                     {/* Testimonial Text */}
-                    <div style={{ flex: 1 }}>
+                    <div style={{ flex: 1, paddingLeft: 'var(--foundation-space-4)' }}>
                       <Typography 
-                        variant="body-md" 
-                        color="secondary"
+                        variant="body-lg" 
+                        color="primary"
                         style={{
                           lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                          textAlign: 'left'
+                          textAlign: 'left',
+                          fontStyle: 'italic'
                         }}
                       >
-                        "{testimonial.text}"
+                        {testimonial.text}
                       </Typography>
                     </div>
                     
+                    {/* Rating Stars */}
+                    <div style={{ paddingLeft: 'var(--foundation-space-4)' }}>
+                      <Cluster spacing="xs" align="center">
+                        {[...Array(testimonial.rating || 5)].map((_, i) => (
+                          <div 
+                            key={i} 
+                            style={{
+                              width: '18px',
+                              height: '18px',
+                              color: 'var(--accent-500)',
+                              fill: 'currentColor'
+                            }}
+                          >
+                            <StarIcon />
+                          </div>
+                        ))}
+                      </Cluster>
+                    </div>
+                    
                     {/* Author Info */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-4)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-4)', paddingLeft: 'var(--foundation-space-4)' }}>
+                      {/* Silhouette Avatar */}
                       <div
                         style={{
-                          width: '50px',
-                          height: '50px',
+                          width: '60px',
+                          height: '60px',
                           borderRadius: '50%',
                           background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          flexShrink: 0
+                          flexShrink: 0,
+                          position: 'relative',
+                          boxShadow: '0 8px 24px rgba(99, 102, 241, 0.3)'
                         }}
                       >
-                        <Typography variant="body-md" weight="bold" color="inverse">
-                          {testimonial.authorInitial}
-                        </Typography>
+                        {/* Silhouette Icon */}
+                        <div style={{
+                          width: '32px',
+                          height: '32px',
+                          background: 'var(--primary-white)',
+                          borderRadius: '50%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          position: 'relative'
+                        }}>
+                          <div style={{
+                            width: '20px',
+                            height: '20px',
+                            background: 'var(--accent-500)',
+                            borderRadius: '50%',
+                            position: 'absolute',
+                            top: '6px'
+                          }} />
+                          <div style={{
+                            width: '16px',
+                            height: '16px',
+                            background: 'var(--accent-500)',
+                            borderRadius: '50%',
+                            position: 'absolute',
+                            bottom: '4px'
+                          }} />
+                        </div>
                       </div>
+                      
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-1)' }}>
                         <Typography variant="body-md" weight="semibold" color="primary">
                           {testimonial.author}
