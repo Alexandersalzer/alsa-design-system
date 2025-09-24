@@ -1,7 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import './CleanNavbar.css';
+import { Typography } from '../../../../../system/components/primitives/Typography';
+import { Button } from '../../../../../system/components/primitives/Button';
+import { Container } from '../../../../../system/layout/frames/container/Container';
+import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 
 export interface NavItem {
   href: string;
@@ -59,125 +63,204 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
   };
 
   return (
-    <nav
-      className={[
-        'clean-navbar',
-        elevated ? 'clean-navbar--elevated' : '',
-        className,
-      ].join(' ')}
-      data-clean-navbar
-    >
-      <div className="clean-navbar__inner" style={{ maxWidth }}>
-        {/* Brand */}
-        <a
-          className="clean-navbar__brand"
-          href={brand.href || '/'}
-          onClick={(e) => {
-            if (brand.href?.startsWith('#')) {
-              e.preventDefault();
-              go(brand.href);
+    <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--surface-page);
+            border-bottom: 1px solid var(--border-subtle);
+            transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
+          }
+          .navbar--elevated {
+            background: var(--surface-page);
+            box-shadow: var(--foundation-shadow-lg);
+          }
+          .navbar-mobile {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--surface-page);
+            z-index: 1001;
+            transform: translateX(-100%);
+            transition: transform var(--foundation-duration-normal) var(--foundation-easing-ease-out);
+          }
+          .navbar-mobile.open {
+            transform: translateX(0);
+          }
+          .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+          }
+          .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
+          }
+          @media (min-width: 769px) {
+            .navbar-mobile {
+              display: none;
             }
-          }}
-          aria-label={brand.name || brand.logoAlt || 'Hem'}
-        >
-          {brand.logoSrc ? (
-            <img
-              src={brand.logoSrc}
-              alt={brand.logoAlt || brand.name || 'Logo'}
-              width={brand.width || 28}
-              height={brand.height || 28}
-              loading="eager"
-              decoding="sync"
-            />
-          ) : (
-            <span className="brand-text">{brand.name || 'Företag'}</span>
-          )}
-        </a>
-
-        {/* Links (desktop) */}
-        <div className="clean-navbar__links" role="navigation" aria-label="Huvudmeny">
-          {items.map((it) => (
+            .hamburger {
+              display: none;
+            }
+            .desktop-links {
+              display: flex !important;
+            }
+            .desktop-cta {
+              display: block !important;
+            }
+          }
+        `
+      }} />
+      <nav
+        className={`navbar ${elevated ? 'navbar--elevated' : ''} ${className}`}
+        role="navigation"
+        aria-label="Huvudnavigation"
+      >
+        <Container maxWidth="xl" align="center">
+          <Cluster justify="between" align="center" style={{ minHeight: '64px' }}>
+            {/* Brand */}
             <a
-              key={it.href + it.label}
-              href={it.href}
-              className={`clean-navbar__link ${it.isActive ? 'is-active' : ''}`}
+              href={brand.href || '/'}
               onClick={(e) => {
-                e.preventDefault();
-                go(it.href);
+                if (brand.href?.startsWith('#')) {
+                  e.preventDefault();
+                  go(brand.href);
+                }
               }}
+              aria-label={brand.name || brand.logoAlt || 'Hem'}
+              style={{ textDecoration: 'none' }}
             >
-              {it.label}
+              {brand.logoSrc ? (
+                <img
+                  src={brand.logoSrc}
+                  alt={brand.logoAlt || brand.name || 'Logo'}
+                  width={brand.width || 28}
+                  height={brand.height || 28}
+                  loading="eager"
+                  decoding="sync"
+                />
+              ) : (
+                <Typography variant="h4" weight="bold" color="heading">
+                  {brand.name || 'Företag'}
+                </Typography>
+              )}
             </a>
-          ))}
-        </div>
 
-        {/* CTA (desktop) */}
-        {ctaButton && (
-          <div className="clean-navbar__cta">
+            {/* Links (desktop) */}
+            <Cluster spacing="lg" align="center" style={{ display: 'none' }} className="desktop-links">
+              {items.map((it) => (
+                <a
+                  key={it.href + it.label}
+                  href={it.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    go(it.href);
+                  }}
+                  style={{
+                    textDecoration: 'none',
+                    color: it.isActive ? 'var(--accent-500)' : 'var(--text-primary)',
+                    fontWeight: it.isActive ? '600' : '400'
+                  }}
+                >
+                  <Typography variant="body-md" color={it.isActive ? 'accent' : 'primary'}>
+                    {it.label}
+                  </Typography>
+                </a>
+              ))}
+            </Cluster>
+
+            {/* CTA (desktop) */}
+            {ctaButton && (
+              <div style={{ display: 'none' }} className="desktop-cta">
+                <Button
+                  variant={ctaButton.variant || 'accent'}
+                  size="sm"
+                  onClick={() => go(ctaButton.href)}
+                >
+                  {ctaButton.text}
+                </Button>
+              </div>
+            )}
+
+            {/* Hamburger */}
             <button
-              className={`clean-navbar__cta-button clean-navbar__cta-button--${
-                ctaButton.variant || 'accent'
-              }`}
-              onClick={() => go(ctaButton.href)}
+              className="hamburger"
+              aria-label="Öppna meny"
+              aria-expanded={mobileOpen}
+              onClick={() => setMobileOpen((v) => !v)}
             >
-              {ctaButton.text}
+              <span />
+              <span />
+              <span />
             </button>
-          </div>
-        )}
-
-        {/* Hamburger */}
-        <button
-          className="clean-navbar__toggle"
-          aria-label="Öppna meny"
-          aria-expanded={mobileOpen}
-          onClick={() => setMobileOpen((v) => !v)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-      </div>
+          </Cluster>
+        </Container>
+      </nav>
 
       {/* Mobile panel */}
       <div
-        className={`clean-navbar__mobile ${mobileOpen ? 'open' : ''}`}
+        className={`navbar-mobile ${mobileOpen ? 'open' : ''}`}
         role="dialog"
-        aria-modal="false"
+        aria-modal="true"
       >
-        <div className="clean-navbar__mobile-inner" style={{ maxWidth }}>
-          <div className="clean-navbar__mobile-links">
-            {items.map((it) => (
-              <a
-                key={'m-' + it.href + it.label}
-                href={it.href}
-                className="clean-navbar__mobile-link"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setMobileOpen(false);
-                  go(it.href);
-                }}
-              >
-                {it.label}
-              </a>
-            ))}
-          </div>
+        <Container maxWidth="xl" align="center">
+          <Stack spacing="lg" style={{ paddingTop: '80px', paddingBottom: 'var(--foundation-space-8)' }}>
+            {/* Mobile Links */}
+            <Stack spacing="md">
+              {items.map((it) => (
+                <a
+                  key={'m-' + it.href + it.label}
+                  href={it.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMobileOpen(false);
+                    go(it.href);
+                  }}
+                  style={{
+                    textDecoration: 'none',
+                    color: it.isActive ? 'var(--accent-500)' : 'var(--text-primary)',
+                    fontWeight: it.isActive ? '600' : '400'
+                  }}
+                >
+                  <Typography variant="body-lg" color={it.isActive ? 'accent' : 'primary'}>
+                    {it.label}
+                  </Typography>
+                </a>
+              ))}
+            </Stack>
 
-          {ctaButton && (
-            <button
-              className={`clean-navbar__cta-button clean-navbar__cta-button--${
-                ctaButton.variant || 'accent'
-              } clean-navbar__cta-button--mobile`}
-              onClick={() => {
-                setMobileOpen(false);
-                go(ctaButton.href);
-              }}
-            >
-              {ctaButton.text}
-            </button>
-          )}
-        </div>
+            {/* Mobile CTA */}
+            {ctaButton && (
+              <Button
+                variant={ctaButton.variant || 'accent'}
+                size="lg"
+                onClick={() => {
+                  setMobileOpen(false);
+                  go(ctaButton.href);
+                }}
+                style={{ width: '100%' }}
+              >
+                {ctaButton.text}
+              </Button>
+            )}
+          </Stack>
+        </Container>
       </div>
-    </nav>
+    </>
   );
 };
 
