@@ -80,14 +80,14 @@ export class ThemeManager {
   }
 
   /**
-   * Apply accent color by updating existing semantic tokens
+   * Apply accent color using color-mix with base hex color
    */
   private applyAccentColor(color: ColorScale): void {
     if (typeof window === 'undefined') return;
 
     const root = document.documentElement;
     
-    // Update your existing accent tokens to point to the selected foundation color
+    // Update your existing accent tokens to point to the selected foundation color (fallback)
     const levels = [100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000, 1100, 1200];
     
     levels.forEach(level => {
@@ -96,9 +96,55 @@ export class ThemeManager {
         `var(--foundation-${color}-${level})`
       );
     });
+  }
 
-    // Also update semantic tokens that should follow accent
+  /**
+   * Apply accent color from hex value using color-mix
+   */
+  setAccentColorFromHex(hexColor: string): void {
+    if (typeof window === 'undefined') return;
 
+    const root = document.documentElement;
+    
+    // Set the base color
+    root.style.setProperty('--accent-base-color', hexColor);
+    
+    // Generate full color scale using color-mix
+    const colorScale = [
+      { level: 100, lightMix: '95%' },
+      { level: 200, lightMix: '85%' },
+      { level: 300, lightMix: '70%' },
+      { level: 400, lightMix: '50%' },
+      { level: 500, lightMix: '25%' },
+      { level: 600, lightMix: '0%' }, // Base color
+      { level: 700, darkMix: '15%' },
+      { level: 800, darkMix: '30%' },
+      { level: 900, darkMix: '45%' },
+      { level: 950, darkMix: '60%' },
+      { level: 1000, darkMix: '75%' },
+      { level: 1100, darkMix: '85%' },
+      { level: 1200, darkMix: '90%' }
+    ];
+
+    colorScale.forEach(({ level, lightMix, darkMix }) => {
+      let colorValue;
+      
+      if (lightMix) {
+        // Mix with white for lighter shades
+        colorValue = `color-mix(in srgb, white ${lightMix}, var(--accent-base-color))`;
+      } else if (darkMix) {
+        // Mix with black for darker shades
+        colorValue = `color-mix(in srgb, var(--accent-base-color), black ${darkMix})`;
+      } else {
+        // Base color
+        colorValue = 'var(--accent-base-color)';
+      }
+      
+      root.style.setProperty(`--accent-${level}`, colorValue);
+    });
+
+    console.log('🎨 Applied color-mix accent color:', hexColor);
+    this.saveToStorage();
   }
 
   /**

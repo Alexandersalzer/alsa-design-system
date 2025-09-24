@@ -12,6 +12,7 @@
 @import './tokens/component/index.css';
 
 @import './tokens/semantic/themes/calculated-theme.css';
+@import './tokens/semantic/themes/color-mix-accent.css';
 
 
 /* STEP 4: Component CSS files */

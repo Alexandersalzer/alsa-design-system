@@ -6,6 +6,7 @@ import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
 import { useTheme, type ColorScale } from '../../../../hooks/useTheme';
 import { SwatchIcon } from '@heroicons/react/24/outline';
 import { Body, Icon } from '@blimpify-im/ui';
+import { ThemeManager } from '../../../../utils/themeManager';
 
 export interface ColorOption {
   value: string;
@@ -24,8 +25,14 @@ export function AccentColorControl({ className, colors }: AccentColorControlProp
   const { accentColor, setAccentColor } = useTheme();
 
   // Handle color change
-  const handleColorChange = (colorValue: string) => {
-    console.log('🎨 AccentColorControl: Ändrar färg till:', colorValue);
+  const handleColorChange = (colorValue: string, hexColor: string) => {
+    console.log('🎨 AccentColorControl: Ändrar färg till:', colorValue, 'hex:', hexColor);
+    
+    // Use the new hex-based method for color-mix generation
+    const themeManager = ThemeManager.getInstance();
+    themeManager.setAccentColorFromHex(hexColor);
+    
+    // Still update the theme hook for consistency
     setAccentColor(colorValue as ColorScale);
   };
 
@@ -58,7 +65,7 @@ export function AccentColorControl({ className, colors }: AccentColorControlProp
                 variant="color"
                 colorValue={color.hex}
                 checked={accentColor === color.value}
-                onClick={() => handleColorChange(color.value)}
+                onClick={() => handleColorChange(color.value, color.hex)}
                 className="aspect-square hover:scale-105 transition-transform"
               />
             ))}
