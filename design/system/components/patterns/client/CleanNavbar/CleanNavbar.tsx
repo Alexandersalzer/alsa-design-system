@@ -81,18 +81,20 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           }
           .navbar-mobile {
             position: fixed;
-            top: 0;
+            top: 64px;
             left: 0;
             right: 0;
-            bottom: 0;
             background: var(--surface-page);
+            border-bottom: 1px solid var(--border-subtle);
+            box-shadow: var(--foundation-shadow-lg);
             z-index: 1001;
-            transform: translateX(-100%);
+            transform: translateY(-100%);
             transition: transform var(--foundation-duration-normal) var(--foundation-easing-ease-out);
             overflow-y: auto;
+            max-height: calc(100vh - 64px);
           }
           .navbar-mobile.open {
-            transform: translateX(0);
+            transform: translateY(0);
           }
           .hamburger {
             display: flex;
@@ -228,12 +230,6 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         className={`navbar-mobile ${mobileOpen ? 'open' : ''}`}
         role="dialog"
         aria-modal="true"
-        onClick={(e) => {
-          // Stäng menyn om man klickar på backdrop
-          if (e.target === e.currentTarget) {
-            setMobileOpen(false);
-          }
-        }}
       >
         {/* Close button - fixed position like hamburger */}
         <button
@@ -259,9 +255,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           style={{ 
             maxWidth: '1400px',
             margin: '0 auto',
-            padding: '80px var(--foundation-space-6) var(--foundation-space-8)'
+            padding: 'var(--foundation-space-6)'
           }}
-          onClick={(e) => e.stopPropagation()}
         >
           <Stack spacing="lg">
             {/* Mobile Links */}
