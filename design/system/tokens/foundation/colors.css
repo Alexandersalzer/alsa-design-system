@@ -55,21 +55,6 @@
 
   /* ===== RED FAMILY ===== */
   
-  /* Red-Light Scale - Used in AccentColorControl */
-  --foundation-red-light-100: #FFF5F5;
-  --foundation-red-light-200: #FED7D7;
-  --foundation-red-light-300: #FEB2B2;
-  --foundation-red-light-400: #FC8181;
-  --foundation-red-light-500: #F56565;
-  --foundation-red-light-600: #FCA5A5;
-  --foundation-red-light-700: #E53E3E;
-  --foundation-red-light-800: #C53030;
-  --foundation-red-light-900: #9B2C2C;
-  --foundation-red-light-950: #742A2A;
-  --foundation-red-light-1000: #450A0A;
-  --foundation-red-light-1100: #3C0E0E;
-  --foundation-red-light-1200: #1A0606;
-
 /* Red-Light Scale - Smooth & Consistent */
 --foundation-red-light-100: #FFF7F7;
 --foundation-red-light-200: #FFEAEA;
@@ -84,6 +69,21 @@
 --foundation-red-light-1000: #8A1212;
 --foundation-red-light-1100: #5C0C0C;
 --foundation-red-light-1200: #2E0606;
+
+  /* Red Scale (Standard) - Used in AccentColorControl */
+  --foundation-red-100: #FEF2F2;
+  --foundation-red-200: #FEE2E2;
+  --foundation-red-300: #FECACA;
+  --foundation-red-400: #FCA5A5;
+  --foundation-red-500: #F87171;
+  --foundation-red-600: #EF4444;
+  --foundation-red-700: #DC2626;
+  --foundation-red-800: #B91C1C;
+  --foundation-red-900: #991B1B;
+  --foundation-red-950: #7F1D1D;
+  --foundation-red-1000: #450A0A;
+  --foundation-red-1100: #3C0E0E;
+  --foundation-red-1200: #1A0606;
 
   /* Red-Dark Scale - Used in AccentColorControl */
   --foundation-red-dark-100: #FDF2F2;
