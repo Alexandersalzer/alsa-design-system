@@ -490,20 +490,19 @@
 
 /* ===== PINK FAMILY - DISTINCT FROM RED FAMILY ===== */
 
-/* Pink-Light Scale - Light & Airy */
---foundation-pink-light-100: #FFF8F9;
---foundation-pink-light-200: #FFEFF2;
---foundation-pink-light-300: #FFDDE4;
---foundation-pink-light-400: #FFC2CC;
---foundation-pink-light-500: #FFA8B5;
---foundation-pink-light-600: #FCA5A5; /* main accent */
---foundation-pink-light-700: #F7798C;
---foundation-pink-light-800: #EB4F6A;
---foundation-pink-light-900: #D93255;
---foundation-pink-light-950: #B91D3F;
---foundation-pink-light-1000: #8A152E;
---foundation-pink-light-1100: #5C0D1F;
---foundation-pink-light-1200: #2E0610;
+--foundation-pink-light-100: #FEF7F9;
+--foundation-pink-light-200: #FEEEF3;
+--foundation-pink-light-300: #FDD8E5;
+--foundation-pink-light-400: #FCB8D0;
+--foundation-pink-light-500: #F98BB8;
+--foundation-pink-light-600: #F472B6; /* Soft baby pink */
+--foundation-pink-light-700: #E85AA0;
+--foundation-pink-light-800: #D4478A;
+--foundation-pink-light-900: #B83974;
+--foundation-pink-light-950: #9D2F5F;
+--foundation-pink-light-1000: #7C254A;
+--foundation-pink-light-1100: #5B1B36;
+--foundation-pink-light-1200: #3A1122;
 
 /* Pink Scale - Classic hot pink (vibrant, balanced) */
 --foundation-pink-100: #FDF2F8;
