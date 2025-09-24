@@ -40,7 +40,11 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 variant="h2"
                 weight="bold"
                 color="heading"
-                className="process-steps-title"
+                style={{
+                  fontSize: 'clamp(2.25rem, 4vw, 3rem)',
+                  lineHeight: 'var(--foundation-typography-line-height-tight)',
+                  textAlign: 'center'
+                }}
               >
                 {title.split(' ').map((word, index) => (
                   <span

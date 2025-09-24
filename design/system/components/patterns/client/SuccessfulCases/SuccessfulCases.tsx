@@ -39,10 +39,14 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
           {/* Text */}
           <Stack spacing="md" align="center">
             <Typography
-              variant="display-lg"
+              variant="h2"
               weight="bold"
               color="heading"
-              align="center"
+              style={{
+                fontSize: 'clamp(2.25rem, 4vw, 3rem)',
+                lineHeight: 'var(--foundation-typography-line-height-tight)',
+                textAlign: 'center'
+              }}
             >
               {heading}
             </Typography>

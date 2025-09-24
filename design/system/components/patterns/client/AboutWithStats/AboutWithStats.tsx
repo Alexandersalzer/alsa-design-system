@@ -48,8 +48,9 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
                 weight="bold" 
                 color="heading"
                 style={{
-                  fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
-                  lineHeight: 'var(--foundation-typography-line-height-tight)'
+                  fontSize: 'clamp(2.25rem, 4vw, 3rem)',
+                  lineHeight: 'var(--foundation-typography-line-height-tight)',
+                  textAlign: 'center'
                 }}
               >
                 {title.split(' ').map((word, index) => {

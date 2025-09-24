@@ -55,11 +55,12 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
           <Stack spacing="lg" align="center">
             {/* Title */}
             <Typography 
-              variant="h3" 
-              weight="semibold" 
+              variant="h2" 
+              weight="bold" 
               color="heading"
               style={{
-                fontSize: 'clamp(1.8rem, 3vw, 2.2rem)',
+                fontSize: 'clamp(2.25rem, 4vw, 3rem)',
+                lineHeight: 'var(--foundation-typography-line-height-tight)',
                 textAlign: 'center'
               }}
             >
