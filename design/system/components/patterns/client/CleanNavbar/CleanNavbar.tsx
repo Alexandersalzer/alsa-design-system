@@ -235,6 +235,26 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           }
         }}
       >
+        {/* Close button - fixed position like hamburger */}
+        <button
+          onClick={() => setMobileOpen(false)}
+          style={{
+            position: 'fixed',
+            top: '16px',
+            right: 'var(--foundation-space-6)',
+            background: 'none',
+            border: 'none',
+            fontSize: '24px',
+            cursor: 'pointer',
+            padding: '8px',
+            color: 'var(--text-primary)',
+            zIndex: 1002
+          }}
+          aria-label="Stäng meny"
+        >
+          ×
+        </button>
+        
         <div 
           style={{ 
             maxWidth: '1400px',
@@ -243,27 +263,6 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Close button */}
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'flex-end', 
-            marginBottom: 'var(--foundation-space-6)' 
-          }}>
-            <button
-              onClick={() => setMobileOpen(false)}
-              style={{
-                background: 'none',
-                border: 'none',
-                fontSize: '24px',
-                cursor: 'pointer',
-                padding: '8px',
-                color: 'var(--text-primary)'
-              }}
-              aria-label="Stäng meny"
-            >
-              ×
-            </button>
-          </div>
           <Stack spacing="lg">
             {/* Mobile Links */}
             <Stack spacing="md">
