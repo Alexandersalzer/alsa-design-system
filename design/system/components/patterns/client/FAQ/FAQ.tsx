@@ -62,7 +62,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
       as="section"
       height="auto"
       style={{
-        paddingTop: 'var(--foundation-space-16)',
+        paddingTop: 'var(--foundation-space-24)',
         paddingBottom: 'var(--foundation-space-16)'
       }}
     >
