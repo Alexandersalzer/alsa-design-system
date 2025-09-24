@@ -118,6 +118,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             }
             .desktop-links {
               display: flex !important;
+              flex-direction: row;
             }
             .desktop-cta {
               display: block !important;
