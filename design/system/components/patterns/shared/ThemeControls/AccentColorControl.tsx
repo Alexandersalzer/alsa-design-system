@@ -24,7 +24,7 @@ const COLOR_GRID = [
   ],
   // Orange row
   [
-    { value: 'orange-light', label: 'Persika', hex: '#FB923C' },
+    { value: 'orange-light', label: 'Persika', hex: '#FFA366' },
     { value: 'orange', label: 'Orange', hex: '#F97316' },
     { value: 'tangerine', label: 'Mandarin', hex: '#EA580C' }
   ],
