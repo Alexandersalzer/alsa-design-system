@@ -38,15 +38,13 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
       id={id} 
       className={className}
       style={{
-        backgroundColor: 'transparent',
-        paddingTop: 'var(--foundation-space-24)',
-        paddingBottom: 'var(--foundation-space-24)'
+        backgroundColor: 'transparent'
       }}
     >
       <Container maxWidth="xl" align="center">
         <Stack spacing="xl" align="center">
           {/* Header */}
-          <div style={{ maxWidth: '1200px', width: '100%' }}>
+          <div style={{ maxWidth: 'var(--size-page-max-width)', width: '100%' }}>
             <Stack spacing="lg" align="center">
             <Typography 
               variant="h2" 
@@ -93,7 +91,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
           </div>
 
           {/* Testimonials Grid */}
-          <div style={{ width: '100%', maxWidth: '1200px' }}>
+          <div style={{ width: '100%', maxWidth: 'var(--size-page-max-width)' }}>
             <div
               style={{
                 display: 'grid',

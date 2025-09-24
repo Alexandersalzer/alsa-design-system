@@ -57,7 +57,7 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
                 weight="medium"
                 color="secondary"
                 align="center"
-                style={{ maxWidth: '640px' }}
+                style={{ maxWidth: 'var(--size-page-narrow-max-width)' }}
               >
                 {subheading}
               </Typography>

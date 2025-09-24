@@ -44,14 +44,14 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
       className={className}
       style={{
         backgroundColor: 'var(--surface-card)',
-        paddingTop: 'var(--foundation-space-20)',
-        paddingBottom: 'var(--foundation-space-20)',
+        paddingTop: 'var(--foundation-space-16)',
+        paddingBottom: 'var(--foundation-space-16)',
         borderTop: '1px solid var(--border-default)',
         borderBottom: '1px solid var(--border-default)'
       }}
     >
       <Container maxWidth="xl" align="center">
-        <div style={{ maxWidth: '800px', width: '100%' }}>
+        <div style={{ maxWidth: 'var(--size-page-content-max-width)', width: '100%' }}>
           <Stack spacing="lg" align="center">
             {/* Title */}
             <Typography 

@@ -41,7 +41,7 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
         }}
       >
         <Container maxWidth="xl" align="center">
-          <div style={{ maxWidth: '800px', width: '100%' }}>
+          <div style={{ maxWidth: 'var(--size-page-content-max-width)', width: '100%' }}>
             <Stack spacing="lg" align="center">
               <Typography 
                 variant="h2" 

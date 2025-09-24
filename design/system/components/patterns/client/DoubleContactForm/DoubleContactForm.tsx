@@ -106,8 +106,8 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
       style={{
         backgroundColor: 'var(--surface-card)',
         backdropFilter: 'blur(15px)',
-        paddingTop: 'var(--foundation-space-20)',
-        paddingBottom: 'var(--foundation-space-20)'
+        paddingTop: 'var(--foundation-space-16)',
+        paddingBottom: 'var(--foundation-space-16)'
       }}
     >
       <Container maxWidth="2xl" align="center">
@@ -131,7 +131,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
           )}
           
           {/* Header */}
-          <div style={{ textAlign: 'center', maxWidth: '1200px', width: '100%' }}>
+          <div style={{ textAlign: 'center', maxWidth: 'var(--size-page-max-width)', width: '100%' }}>
             <Stack spacing="md" align="center">
             <Typography 
               variant="h2" 
@@ -164,7 +164,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
             gap="xl"
             minItemWidth="300px"
             collapseOn="mobile"
-            style={{ maxWidth: '1000px', width: '100%' }}
+            style={{ maxWidth: 'var(--size-page-content-max-width)', width: '100%' }}
           >
             {/* Contact Form */}
             <Card 

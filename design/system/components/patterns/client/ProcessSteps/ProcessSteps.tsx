@@ -32,15 +32,11 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
       id="process-steps"
       as="section"
       height="auto"
-      style={{
-        paddingTop: 'var(--foundation-space-24)',
-        paddingBottom: 'var(--foundation-space-24)'
-      }}
     >
       <Container maxWidth="xl" align="center">
         <Stack spacing="xl" align="center">
           {/* Header */}
-          <div style={{ maxWidth: '800px', width: '100%' }}>
+          <div style={{ maxWidth: 'var(--size-page-content-max-width)', width: '100%' }}>
             <Stack spacing="lg" align="center">
               <Typography
                 variant="h2"

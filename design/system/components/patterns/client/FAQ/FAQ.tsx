@@ -62,14 +62,14 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
       as="section"
       height="auto"
       style={{
-        paddingTop: 'var(--foundation-space-24)',
-        paddingBottom: 'var(--foundation-space-24)'
+        paddingTop: 'var(--foundation-space-16)',
+        paddingBottom: 'var(--foundation-space-16)'
       }}
     >
       <Container maxWidth="xl" align="center">
         <Stack spacing="xl" align="center">
           {/* Header */}
-          <div style={{ maxWidth: '800px', width: '100%' }}>
+          <div style={{ maxWidth: 'var(--size-page-content-max-width)', width: '100%' }}>
             <Stack spacing="lg" align="center">
               <Typography 
                 variant="h2" 
@@ -98,7 +98,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
           </div>
 
           {/* FAQ Items */}
-          <div style={{ width: '100%', maxWidth: '800px' }}>
+          <div style={{ width: '100%', maxWidth: 'var(--size-page-content-max-width)' }}>
             <Stack spacing="md">
               {items.map((item, index) => {
                 const isExpanded = expandedItems.has(index);
