@@ -37,7 +37,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
       style={{
         paddingTop: 'var(--foundation-space-24)',
         paddingBottom: 'var(--foundation-space-24)',
-        backgroundColor: 'transparent'
+        backgroundColor: '#f9fafb'
       }}
     >
       <Container maxWidth="xl" align="center">
@@ -48,11 +48,12 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
               <Typography
                 variant="h2"
                 weight="bold"
-                color="heading"
+                color="primary"
                 style={{
                   fontSize: 'clamp(2.25rem, 4vw, 3rem)',
                   lineHeight: 'var(--foundation-typography-line-height-tight)',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  color: '#000000'
                 }}
               >
                 {title.split(' ').map((word, index) => {
@@ -61,7 +62,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                       <span 
                         key={index} 
                         style={{
-                          background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
+                          background: 'linear-gradient(135deg, #1f2937 0%, #64748b 100%)',
                           WebkitBackgroundClip: 'text',
                           WebkitTextFillColor: 'transparent',
                           backgroundClip: 'text'
@@ -79,7 +80,8 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 variant="body-xl" 
                 color="secondary"
                 style={{
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  color: '#374151'
                 }}
               >
                 {subtitle}
@@ -101,27 +103,31 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 padding="lg"
                 style={{
                   height: '100%',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: 'var(--foundation-radius-lg)',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
                 }}
               >
                 <Stack spacing="lg" align="center">
-                  {/* Step Icon/Number */}
+                  {/* Step Icon */}
                   <div style={{
-                    background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
-                    width: '80px',
-                    height: '80px',
+                    background: 'linear-gradient(135deg, #1f2937, #64748b)',
+                    width: '64px',
+                    height: '64px',
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0,
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+                    boxShadow: '0 4px 16px rgba(31, 41, 55, 0.2)'
                   }}>
                     {step.icon ? (
                       <div style={{ 
                         width: '32px', 
                         height: '32px',
-                        color: 'var(--primary-white)',
+                        color: '#ffffff',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
@@ -140,9 +146,10 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                     <Typography
                       variant="h4"
                       weight="semibold"
-                      color="heading"
+                      color="primary"
                       style={{
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        color: '#000000'
                       }}
                     >
                       {step.title}
@@ -153,7 +160,8 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                       color="secondary"
                       style={{
                         textAlign: 'center',
-                        lineHeight: 'var(--foundation-typography-line-height-relaxed)'
+                        lineHeight: 'var(--foundation-typography-line-height-relaxed)',
+                        color: '#6b7280'
                       }}
                     >
                       {step.description}

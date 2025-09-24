@@ -129,6 +129,9 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
           }
+          .nav-link * {
+            color: var(--primary-white) !important;
+          }
           .nav-link:hover {
             color: #64748b !important;
             text-decoration: underline;
@@ -136,7 +139,13 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             text-underline-offset: 4px;
             text-decoration-thickness: 1px;
           }
+          .nav-link:hover * {
+            color: #64748b !important;
+          }
           .nav-link.active {
+            color: var(--accent-500) !important;
+          }
+          .nav-link.active * {
             color: var(--accent-500) !important;
           }
           @media (min-width: 769px) {
