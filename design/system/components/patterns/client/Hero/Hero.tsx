@@ -76,13 +76,14 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
         }} />
       )}
       
-      <Container maxWidth="xl" align="center" style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'center' }}>
+      <Container maxWidth="xl" align="center" style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Grid 
           columns={2} 
           gap="xl" 
           alignItems="center" 
           collapseOn="tablet"
           minItemWidth="300px"
+          style={{ width: '100%' }}
         >
           {/* Text content */}
           <Stack spacing="lg" align="start">
