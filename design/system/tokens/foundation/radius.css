@@ -47,15 +47,15 @@
   --foundation-radius-sm-2xl: 8rem;           /* 128px */
   --foundation-radius-sm-pill: 9999px;
 
-  /* ===== RADIUS SCALE: MD (Medium - 6px base, jämna steg) ===== */
+  /* ===== RADIUS SCALE: MD (Medium - Jämna steg) ===== */
   --foundation-radius-md-skarp: 0;            /* 0px */
   --foundation-radius-md-2xs: 0.0625rem;      /* 1px */
   --foundation-radius-md-xs: 0.125rem;        /* 2px */
-  --foundation-radius-md-sm: 0.25rem;         /* 4px */
-  --foundation-radius-md-md: 0.375rem;        /* 6px */
-  --foundation-radius-md-lg: 0.5rem;          /* 8px */
-  --foundation-radius-md-xl: 0.75rem;         /* 12px */
-  --foundation-radius-md-2xl: 1rem;           /* 16px */
+  --foundation-radius-md-sm: 0.1875rem;       /* 3px */
+  --foundation-radius-md-md: 0.25rem;         /* 4px */
+  --foundation-radius-md-lg: 0.375rem;        /* 6px */
+  --foundation-radius-md-xl: 0.5rem;          /* 8px */
+  --foundation-radius-md-2xl: 0.75rem;        /* 12px */
   --foundation-radius-md-pill: 9999px;
 
   /* ===== RADIUS SCALE: LG (Large - 8px increments) ===== */
@@ -103,15 +103,15 @@
   --foundation-radius-pill-pill: 9999px;
 
 
-  /* ===== BASE BORDER RADIUS TOKENS (9-Step Clean Defaults) ===== */
+  /* ===== BASE BORDER RADIUS TOKENS (9-Step Jämna Steg) ===== */
   --foundation-radius-skarp: 0;           /* 0px - Skarpa hörn */
   --foundation-radius-2xs: 0.0625rem;     /* 1px - Extra fine */
   --foundation-radius-xs: 0.125rem;       /* 2px - Fine details */
-  --foundation-radius-sm: 0.25rem;        /* 4px - Small elements */
-  --foundation-radius-md: 0.375rem;       /* 6px - Medium elements (default) */
-  --foundation-radius-lg: 0.5rem;         /* 8px - Large elements */
-  --foundation-radius-xl: 0.75rem;        /* 12px - XL elements */
-  --foundation-radius-2xl: 1rem;          /* 16px - Containers */
+  --foundation-radius-sm: 0.1875rem;      /* 3px - Small elements */
+  --foundation-radius-md: 0.25rem;        /* 4px - Medium elements (default) */
+  --foundation-radius-lg: 0.375rem;       /* 6px - Large elements */
+  --foundation-radius-xl: 0.5rem;         /* 8px - XL elements */
+  --foundation-radius-2xl: 0.75rem;       /* 12px - Containers */
   --foundation-radius-pill: 9999px;       /* Pill-form */
 
 
@@ -128,17 +128,21 @@
 }
 
 /* 
-MATHEMATICAL PROGRESSION SUMMARY - 9 JÄMNA STEG:
-================================================
+MATHEMATICAL PROGRESSION SUMMARY - 9 JÄMNA STEG (KORRIGERAD):
+============================================================
 SKARP Scale: 0px → 0px → 0px → 0px → 0px → 0px → 0px → 0px → 0px           (Inga rundade hörn)
 2XS Scale:   1px → 2px → 4px → 8px → 12px → 16px → 24px → 32px → pill     (Extra fine)
 XS Scale:    2px → 4px → 8px → 16px → 24px → 32px → 48px → 64px → pill    (Fine)
 SM Scale:    4px → 8px → 16px → 32px → 48px → 64px → 96px → 128px → pill  (Small)
-MD Scale:    0px → 1px → 2px → 4px → 6px → 8px → 12px → 16px → pill       (Medium - DEFAULT)
+MD Scale:    0px → 1px → 2px → 3px → 4px → 6px → 8px → 12px → pill        (Medium - DEFAULT, JÄMNA STEG)
 LG Scale:    1px → 2px → 4px → 8px → 12px → 16px → 24px → 32px → pill     (Large)
 XL Scale:    2px → 4px → 8px → 16px → 24px → 32px → 48px → 64px → pill    (Extra large)
 2XL Scale:   4px → 8px → 16px → 32px → 48px → 64px → 96px → 128px → pill  (Double XL)
 PILL Scale:  pill → pill → pill → pill → pill → pill → pill → pill → pill (Alla pills)
 
-Base Tokens: 0px → 1px → 2px → 4px → 6px → 8px → 12px → 16px → pill    (9-Step Defaults)
+Base Tokens: 0px → 1px → 2px → 3px → 4px → 6px → 8px → 12px → pill       (9-Step Jämna Steg)
+
+PROGRESSION ANALYS (MD-skala):
+0px → 1px (+1px) → 2px (+1px) → 3px (+1px) → 4px (+1px) → 6px (+2px) → 8px (+2px) → 12px (+4px) → pill
+Mycket mer jämna steg än tidigare!
 */

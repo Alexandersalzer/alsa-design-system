@@ -11,11 +11,11 @@ const RADIUS_OPTIONS = [
   { value: 'skarp', label: 'Skarp', description: '0px' },
   { value: '2xs', label: 'Extra fin', description: '1px' },
   { value: 'xs', label: 'Fin', description: '2px' },
-  { value: 'sm', label: 'Liten', description: '4px' },
-  { value: 'md', label: 'Medium', description: '6px' },
-  { value: 'lg', label: 'Stor', description: '8px' },
-  { value: 'xl', label: 'Extra stor', description: '12px' },
-  { value: '2xl', label: 'Dubbel stor', description: '16px' },
+  { value: 'sm', label: 'Liten', description: '3px' },
+  { value: 'md', label: 'Medium', description: '4px' },
+  { value: 'lg', label: 'Stor', description: '6px' },
+  { value: 'xl', label: 'Extra stor', description: '8px' },
+  { value: '2xl', label: 'Dubbel stor', description: '12px' },
   { value: 'pill', label: 'Pill', description: 'Full' },
 ];
 
