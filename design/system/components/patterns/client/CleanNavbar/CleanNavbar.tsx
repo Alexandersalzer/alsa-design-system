@@ -71,13 +71,14 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             left: 0;
             right: 0;
             z-index: 1000;
-            background: var(--surface-page);
-            border-bottom: 1px solid var(--border-subtle);
-            transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           }
           .navbar--elevated {
-            background: var(--surface-page);
-            box-shadow: var(--foundation-shadow-lg);
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
           }
           .navbar-mobile {
             position: fixed;
@@ -85,7 +86,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             left: 0;
             right: 0;
             bottom: 0;
-            background: var(--surface-page);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
             z-index: 1001;
             transform: translateX(-100%);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -117,9 +119,25 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           .hamburger span {
             width: 24px;
             height: 2px;
-            background: var(--text-primary);
+            background: var(--primary-white);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             transform-origin: center;
+          }
+          .nav-link {
+            color: var(--primary-white) !important;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+          }
+          .nav-link:hover {
+            color: #64748b !important;
+            text-decoration: underline;
+            text-decoration-color: #64748b;
+            text-underline-offset: 4px;
+            text-decoration-thickness: 1px;
+          }
+          .nav-link.active {
+            color: var(--accent-500) !important;
           }
           @media (min-width: 769px) {
             .navbar-mobile {
@@ -175,7 +193,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   decoding="sync"
                 />
               ) : (
-                <Typography variant="h4" weight="bold" color="heading">
+                <Typography variant="h4" weight="bold" color="inverse">
                   {brand.name || 'Företag'}
                 </Typography>
               )}
@@ -195,13 +213,9 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                     e.preventDefault();
                     go(it.href);
                   }}
-                  style={{
-                    textDecoration: 'none',
-                    color: it.isActive ? 'var(--accent-500)' : 'var(--text-primary)',
-                    fontWeight: it.isActive ? '600' : '400'
-                  }}
+                  className={`nav-link ${it.isActive ? 'active' : ''}`}
                 >
-                  <Typography variant="body-md" color={it.isActive ? 'accent' : 'primary'}>
+                  <Typography variant="body-md" color="inverse" weight={it.isActive ? 'semibold' : 'normal'}>
                     {it.label}
                   </Typography>
                 </a>
@@ -212,9 +226,16 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             {ctaButton && (
               <div style={{ display: 'none' }} className="desktop-cta">
                 <Button
-                  variant={ctaButton.variant || 'accent'}
-                  size="sm"
+                  variant="secondary"
+                  size="md"
                   onClick={() => go(ctaButton.href)}
+                  style={{
+                    background: 'linear-gradient(135deg, #64748b, #475569)',
+                    color: 'var(--primary-white)',
+                    fontWeight: '600',
+                    fontSize: '1rem',
+                    border: 'none'
+                  }}
                 >
                   {ctaButton.text}
                 </Button>
@@ -259,7 +280,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             fontSize: '24px',
             cursor: 'pointer',
             padding: '8px',
-            color: 'var(--text-primary)',
+            color: 'var(--primary-white)',
             zIndex: 1002,
             transform: mobileOpen ? 'scale(1)' : 'scale(0.8)',
             opacity: mobileOpen ? 1 : 0,
@@ -293,13 +314,9 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                     setMobileOpen(false);
                     go(it.href);
                   }}
-                  style={{
-                    textDecoration: 'none',
-                    color: it.isActive ? 'var(--accent-500)' : 'var(--text-primary)',
-                    fontWeight: it.isActive ? '600' : '400'
-                  }}
+                  className={`nav-link ${it.isActive ? 'active' : ''}`}
                 >
-                  <Typography variant="body-lg" color={it.isActive ? 'accent' : 'primary'}>
+                  <Typography variant="body-lg" color="inverse" weight={it.isActive ? 'semibold' : 'normal'}>
                     {it.label}
                   </Typography>
                 </a>
@@ -309,13 +326,20 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             {/* Mobile CTA */}
             {ctaButton && (
               <Button
-                variant={ctaButton.variant || 'accent'}
+                variant="secondary"
                 size="lg"
                 onClick={() => {
                   setMobileOpen(false);
                   go(ctaButton.href);
                 }}
-                style={{ width: '100%' }}
+                style={{ 
+                  width: '100%',
+                  background: 'linear-gradient(135deg, #64748b, #475569)',
+                  color: 'var(--primary-white)',
+                  fontWeight: '600',
+                  fontSize: '1.1rem',
+                  border: 'none'
+                }}
               >
                 {ctaButton.text}
               </Button>
