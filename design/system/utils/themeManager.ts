@@ -4,7 +4,7 @@
 // ===============================================
 
 export type ColorScale = 'purple' | 'azure' | 'ruby' | 'emerald' | 'honey' | 'gray';
-export type RadiusScale = 'skarp' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'pill';
+export type RadiusScale = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
 export type ThemeMode = 'light' | 'dark';
 
 export interface ThemeConfig {
@@ -108,7 +108,7 @@ export class ThemeManager {
     if (typeof window === 'undefined') return;
 
     const root = document.documentElement;
-    const tokens = ['skarp', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', 'pill'];
+    const tokens = ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', 'full'];
 
     tokens.forEach(token => {
       root.style.setProperty(

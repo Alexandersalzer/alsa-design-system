@@ -8,15 +8,13 @@ import { Square2StackIcon } from '@heroicons/react/24/outline';
 import { Body, Icon } from '@blimpify-im/ui';
 
 const RADIUS_OPTIONS = [
-  { value: 'skarp', label: 'Skarp', description: '0px' },
-  { value: '2xs', label: 'Extra fin', description: '1px' },
-  { value: 'xs', label: 'Fin', description: '2px' },
-  { value: 'sm', label: 'Liten', description: '3px' },
-  { value: 'md', label: 'Medium', description: '4px' },
-  { value: 'lg', label: 'Stor', description: '6px' },
-  { value: 'xl', label: 'Extra stor', description: '8px' },
-  { value: '2xl', label: 'Dubbel stor', description: '12px' },
-  { value: 'pill', label: 'Pill', description: 'Full' },
+  { value: 'none', label: 'Skarp', description: '0px' },
+  { value: 'xs', label: 'Minimal', description: '1px' },
+  { value: 'sm', label: 'Liten', description: '2px' },
+  { value: 'md', label: 'Medium', description: '3px' },
+  { value: 'lg', label: 'Stor', description: '4px' },
+  { value: 'xl', label: 'Extra stor', description: '5px' },
+  { value: '2xl', label: 'Maximum', description: '24px' },
 ];
 
 interface RadiusControlProps {
@@ -24,7 +22,7 @@ interface RadiusControlProps {
   className?: string;
 }
 
-export function RadiusControl({ columns = 3, className }: RadiusControlProps) {
+export function RadiusControl({ columns = 4, className }: RadiusControlProps) {
   const { radiusScale, setRadiusScale } = useTheme();
 
   // ✅ Konvertera från DesignRadioCards string onChange till tema-systemet
