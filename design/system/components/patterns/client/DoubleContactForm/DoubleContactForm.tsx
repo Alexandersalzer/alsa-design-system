@@ -59,7 +59,7 @@ export interface DoubleContactFormContent {
   contactInfoTitle: string;
   contactInfoSubtitle: string;
   contactInfo: ContactInfo[];
-  actions: ContactAction[];
+  actions?: ContactAction[];
 }
 
 export interface DoubleContactFormProps {
@@ -81,7 +81,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
     contactInfoTitle,
     contactInfoSubtitle,
     contactInfo,
-    actions
+    actions = []
   } = content;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -302,9 +302,10 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                   </Stack>
                 </div>
                 
-                {/* Action Buttons */}
-                <Stack spacing="md">
-                  {actions.map((action, index) => (
+                 {/* Action Buttons */}
+                 {actions.length > 0 && (
+                   <Stack spacing="md">
+                     {actions.map((action, index) => (
                     <Button
                       key={index}
                       variant={action.variant}
@@ -315,8 +316,9 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                     >
                       {action.text}
                     </Button>
-                  ))}
-                </Stack>
+                     ))}
+                   </Stack>
+                 )}
                 </Stack>
               </div>
             </Card>
