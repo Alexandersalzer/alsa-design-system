@@ -38,7 +38,8 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
       id={id} 
       className={className}
       style={{
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        paddingTop: 'var(--foundation-space-16)'
       }}
     >
       <Container maxWidth="xl" align="center">

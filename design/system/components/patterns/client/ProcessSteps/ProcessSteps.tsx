@@ -32,6 +32,9 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
       id="process-steps"
       as="section"
       height="auto"
+      style={{
+        paddingTop: 'var(--foundation-space-16)'
+      }}
     >
       <Container maxWidth="xl" align="center">
         <Stack spacing="xl" align="center">
