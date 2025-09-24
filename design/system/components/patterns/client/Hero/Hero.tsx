@@ -135,7 +135,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           
           {/* Visual image */}
           {visualImage && (
-            <Stack align="center" justify="center">
+            <Stack align="center">
               <img 
                 src={visualImage} 
                 alt={visualAlt}
