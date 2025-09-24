@@ -232,7 +232,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                       variant="accent" 
                       size="lg" 
                       style={{ width: '100%' }}
-                      rightIcon={submitButton.icon ? <Icon color="inverse">{submitButton.icon}</Icon> : undefined}
+                      rightIcon={submitButton.icon ? <div style={{ width: '20px', height: '20px', color: 'white' }}>{submitButton.icon}</div> : undefined}
                     >
                       {submitButton.text}
                     </Button>
@@ -313,7 +313,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                       variant={action.variant}
                       size="lg"
                       style={{ width: '100%' }}
-                      rightIcon={action.icon ? <Icon color={action.variant === 'accent' ? 'inverse' : 'primary'}>{action.icon}</Icon> : undefined}
+                      rightIcon={action.icon ? <div style={{ width: '20px', height: '20px', color: action.variant === 'accent' ? 'white' : 'var(--text-primary)' }}>{action.icon}</div> : undefined}
                       onClick={action.href ? () => window.location.href = action.href! : action.onClick}
                     >
                       {action.text}

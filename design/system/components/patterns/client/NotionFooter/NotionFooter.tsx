@@ -190,7 +190,7 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
             <Button
               variant="accent"
               size="sm"
-              rightIcon={<Icon color="inverse" size="sm"><ArrowRightIcon /></Icon>}
+              rightIcon={<ArrowRightIcon style={{ width: '16px', height: '16px', color: 'white' }} />}
               onClick={() => (window.location.href = ctaHref)}
             >
               {ctaText}

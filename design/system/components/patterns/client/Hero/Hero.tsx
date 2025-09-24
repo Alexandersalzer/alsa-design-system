@@ -178,7 +178,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               <Button 
                 variant="accent" 
                 size="lg"
-                rightIcon={<Icon color="inverse"><ArrowRightIcon /></Icon>}
+                rightIcon={<ArrowRightIcon style={{ width: '20px', height: '20px', color: 'white' }} />}
                 onClick={handleCtaClick}
               >
                 {ctaText}

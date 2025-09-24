@@ -94,7 +94,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
                   variant={button.variant}
                   size="lg"
                   onClick={button.href ? () => window.location.href = button.href! : button.onClick}
-                  rightIcon={button.icon ? <Icon color={button.variant === 'accent' ? 'inverse' : 'primary'}>{button.icon}</Icon> : undefined}
+                  rightIcon={button.icon ? <div style={{ width: '20px', height: '20px', color: button.variant === 'accent' ? 'white' : 'var(--text-primary)' }}>{button.icon}</div> : undefined}
                   style={button.variant === 'accent' ? { color: 'white' } : undefined}
                 >
                   {button.text}
