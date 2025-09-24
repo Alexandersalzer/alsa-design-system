@@ -15,6 +15,7 @@ interface ThemeControlPanelProps {
   radiusColumns?: 1 | 2 | 3 | 4;
   className?: string;
   colors?: ColorGrid;
+  onAccentColorChange?: (colorValue: string, hexColor: string) => void;
 }
 
 export function ThemeControlPanel({
@@ -23,7 +24,8 @@ export function ThemeControlPanel({
   showRadiusControl = true,
   radiusColumns = 2,
   className,
-  colors = []
+  colors = [],
+  onAccentColorChange
 }: ThemeControlPanelProps) {
   return (
     <div className={className}>
@@ -33,7 +35,7 @@ export function ThemeControlPanel({
         )}
         
         {showColorControl && (
-          <AccentColorControl colors={colors} />
+          <AccentColorControl colors={colors} onChange={onAccentColorChange} />
         )}
         
         {showRadiusControl && (

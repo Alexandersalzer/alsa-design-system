@@ -19,9 +19,10 @@ export type ColorGrid = ColorOption[][];
 interface AccentColorControlProps {
   className?: string;
   colors: ColorGrid;
+  onChange?: (colorValue: string, hexColor: string) => void;
 }
 
-export function AccentColorControl({ className, colors }: AccentColorControlProps) {
+export function AccentColorControl({ className, colors, onChange }: AccentColorControlProps) {
   const { accentColor, setAccentColor } = useTheme();
 
   // Handle color change
@@ -34,6 +35,9 @@ export function AccentColorControl({ className, colors }: AccentColorControlProp
     
     // Still update the theme hook for consistency
     setAccentColor(colorValue as ColorScale);
+    
+    // Call the onChange callback if provided
+    onChange?.(colorValue, hexColor);
   };
 
   return (

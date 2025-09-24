@@ -5,7 +5,7 @@
 
 :root {
   /* Base color - will be set dynamically from database */
-  --accent-base-color: #A855F7; /* Default purple from database */
+  --accent-base-color: #3B82F6; /* Default fallback */
   
   /* Generated color scale using color-mix */
   --accent-100: color-mix(in srgb, white 95%, var(--accent-base-color));
@@ -26,20 +26,20 @@
 /* Fallback for browsers that don't support color-mix */
 @supports not (color: color-mix(in srgb, white, black)) {
   :root {
-    /* Purple fallback - matches default theme */
-    --accent-100: #FAF5FF;
-    --accent-200: #F3E8FF;
-    --accent-300: #E9D5FF;
-    --accent-400: #D8B4FE;
-    --accent-500: #C084FC;
-    --accent-600: #A855F7; /* Default purple from database */
-    --accent-700: #9333EA;
-    --accent-800: #7C3AED;
-    --accent-900: #6B21A8;
-    --accent-950: #581C87;
-    --accent-1000: #4C1D95;
-    --accent-1100: #3B0764;
-    --accent-1200: #2D1B69;
+    /* Fallback to blue scale if color-mix not supported */
+    --accent-100: #DBEAFE;
+    --accent-200: #BFDBFE;
+    --accent-300: #93C5FD;
+    --accent-400: #60A5FA;
+    --accent-500: #3B82F6;
+    --accent-600: #2563EB;
+    --accent-700: #1D4ED8;
+    --accent-800: #1E40AF;
+    --accent-900: #1E3A8A;
+    --accent-950: #172554;
+    --accent-1000: #0F172A;
+    --accent-1100: #0C1229;
+    --accent-1200: #0A0F1F;
   }
 }
 
