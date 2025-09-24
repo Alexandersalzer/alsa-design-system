@@ -49,7 +49,26 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
   };
 
   return (
-    <Section
+    <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          .hero-text-content {
+            order: 2;
+          }
+          .hero-image-content {
+            order: 1;
+          }
+          @media (min-width: 769px) {
+            .hero-text-content {
+              order: 1;
+            }
+            .hero-image-content {
+              order: 2;
+            }
+          }
+        `
+      }} />
+      <Section
       id={id}
       as="section"
       height="full"
@@ -83,7 +102,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           minItemWidth="300px"
         >
           {/* Text content */}
-          <div style={{ order: 2 }}>
+          <div className="hero-text-content">
             <Stack spacing="lg" align="start">
             <Typography 
               variant="h1" 
@@ -140,7 +159,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           
           {/* Visual image */}
           {visualImage && (
-            <div style={{ order: 1 }}>
+            <div className="hero-image-content">
               <Stack align="center">
               <img 
                 src={visualImage} 
@@ -158,6 +177,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
         </Grid>
       </Container>
     </Section>
+    </>
   );
 };
 
