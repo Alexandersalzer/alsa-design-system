@@ -64,7 +64,8 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
             text-align: center !important;
           }
           .hero-cta-cluster {
-            justify-content: center !important;
+            display: flex;
+            justify-content: center;
           }
           .hero-grid {
             gap: var(--foundation-space-12) !important;
@@ -82,7 +83,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               text-align: left !important;
             }
             .hero-cta-cluster {
-              justify-content: flex-start !important;
+              justify-content: flex-start;
             }
             .hero-grid {
               gap: var(--foundation-space-8) !important;
@@ -167,7 +168,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               {subtitle}
             </Typography>
 
-            <Cluster justify="start" className="hero-cta-cluster">
+            <div className="hero-cta-cluster">
               <Button 
                 variant="accent" 
                 size="lg"
@@ -176,7 +177,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               >
                 {ctaText}
               </Button>
-            </Cluster>
+            </div>
             </Stack>
           </div>
           
