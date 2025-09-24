@@ -5,11 +5,14 @@
    ============================================== */
 
 :root {
-  /* ===== SEMANTIC RADIUS TOKENS ===== */
+  /* ===== SEMANTIC RADIUS TOKENS - 9 STEG ===== */
    /* These are semantic tokens that reference foundation radius scales */
   
-  /* None - No radius */
-  --radius-none: var(--selected-radius-scale-none);
+  /* 3XS - Ultra small radius */
+  --radius-3xs: var(--selected-radius-scale-3xs);
+  
+  /* 2XS - Extra extra small radius */
+  --radius-2xs: var(--selected-radius-scale-2xs);
   
   /* XS - Extra small radius */
   --radius-xs: var(--selected-radius-scale-xs);
@@ -25,8 +28,12 @@
   
   /* XL - Extra large radius */
   --radius-xl: var(--selected-radius-scale-xl);
+  
   /* 2XL - Extra extra large radius */
   --radius-2xl: var(--selected-radius-scale-2xl);
+  
+  /* 3XL - Triple extra large radius */
+  --radius-3xl: var(--selected-radius-scale-3xl);
 
   /* Full - Pill/circular radius */
   --radius-full: var(--selected-radius-scale-full);
