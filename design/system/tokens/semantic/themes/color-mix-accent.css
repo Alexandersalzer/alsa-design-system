@@ -3,10 +3,9 @@
  * Generates full color scale from base hex color
  * =============================================== */
 
-/* Only apply color-mix when colors are loaded */
-:root:not(.colors-loading) {
+:root {
   /* Base color - will be set dynamically from database */
-  --accent-base-color: #6B7280; /* Default fallback */
+  --accent-base-color: #A855F7; /* Default purple from database */
   
   /* Generated color scale using color-mix */
   --accent-100: color-mix(in srgb, white 95%, var(--accent-base-color));
@@ -24,41 +23,23 @@
   --accent-1200: color-mix(in srgb, var(--accent-base-color), black 90%);
 }
 
-/* Loading state - use existing foundation colors instead */
-:root.colors-loading {
-  /* Use your existing purple foundation colors during loading */
-  --accent-100: var(--foundation-purple-100);
-  --accent-200: var(--foundation-purple-200);
-  --accent-300: var(--foundation-purple-300);
-  --accent-400: var(--foundation-purple-400);
-  --accent-500: var(--foundation-purple-500);
-  --accent-600: var(--foundation-purple-600);
-  --accent-700: var(--foundation-purple-700);
-  --accent-800: var(--foundation-purple-800);
-  --accent-900: var(--foundation-purple-900);
-  --accent-950: var(--foundation-purple-950);
-  --accent-1000: var(--foundation-purple-1000);
-  --accent-1100: var(--foundation-purple-1100);
-  --accent-1200: var(--foundation-purple-1200);
-}
-
 /* Fallback for browsers that don't support color-mix */
 @supports not (color: color-mix(in srgb, white, black)) {
   :root {
-    /* Neutral gray fallback - works with any brand */
-    --accent-100: #F9FAFB;
-    --accent-200: #F3F4F6;
-    --accent-300: #E5E7EB;
-    --accent-400: #D1D5DB;
-    --accent-500: #9CA3AF;
-    --accent-600: #6B7280; /* Neutral base */
-    --accent-700: #4B5563;
-    --accent-800: #374151;
-    --accent-900: #1F2937;
-    --accent-950: #111827;
-    --accent-1000: #0F172A;
-    --accent-1100: #0C1229;
-    --accent-1200: #030712;
+    /* Purple fallback - matches default theme */
+    --accent-100: #FAF5FF;
+    --accent-200: #F3E8FF;
+    --accent-300: #E9D5FF;
+    --accent-400: #D8B4FE;
+    --accent-500: #C084FC;
+    --accent-600: #A855F7; /* Default purple from database */
+    --accent-700: #9333EA;
+    --accent-800: #7C3AED;
+    --accent-900: #6B21A8;
+    --accent-950: #581C87;
+    --accent-1000: #4C1D95;
+    --accent-1100: #3B0764;
+    --accent-1200: #2D1B69;
   }
 }
 
