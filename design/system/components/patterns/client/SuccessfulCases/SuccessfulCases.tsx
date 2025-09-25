@@ -18,6 +18,8 @@ export interface SuccessCase {
   id: string;
   title: string;
   description: string;
+  compensation?: string;
+  duration?: string;
   icon?: React.ReactElement;
 }
 
@@ -108,6 +110,41 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
                 >
                   {c.description}
                 </Typography>
+
+                {(c.compensation || c.duration) && (
+                  <div style={{ 
+                    marginTop: 'var(--foundation-space-4)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 'var(--foundation-space-2)',
+                    width: '100%'
+                  }}>
+                    {c.compensation && (
+                      <div style={{
+                        padding: 'var(--foundation-space-2) var(--foundation-space-3)',
+                        background: 'var(--accent-50)',
+                        borderRadius: 'var(--foundation-radius-md)',
+                        border: '1px solid var(--accent-200)'
+                      }}>
+                        <Typography variant="body-sm" weight="semibold" color="accent">
+                          Ersättning: {c.compensation}
+                        </Typography>
+                      </div>
+                    )}
+                    {c.duration && (
+                      <div style={{
+                        padding: 'var(--foundation-space-2) var(--foundation-space-3)',
+                        background: 'var(--surface-subtle)',
+                        borderRadius: 'var(--foundation-radius-md)',
+                        border: '1px solid var(--border-subtle)'
+                      }}>
+                        <Typography variant="body-sm" weight="medium" color="secondary">
+                          Tidsram: {c.duration}
+                        </Typography>
+                      </div>
+                    )}
+                  </div>
+                )}
               </Card>
             ))}
           </Cluster>
