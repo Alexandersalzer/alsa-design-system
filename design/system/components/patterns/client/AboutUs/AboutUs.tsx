@@ -42,7 +42,7 @@ export interface AboutUsProps {
 }
 
 export function AboutUs({ content }: AboutUsProps) {
-  const { title, titleAccent, subtitle, story, values, difference, team } = content;
+  const { title, titleAccent, subtitle, story, values = [], difference, team = [] } = content;
 
   return (
     <div
@@ -242,10 +242,10 @@ export function AboutUs({ content }: AboutUsProps) {
                   weight="bold"
                   style={{ color: 'var(--primary-white)' }}
                 >
-                  {difference.title}
+                  {difference?.title}
                 </Typography>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-3)' }}>
-                  {difference.points.map((point, index) => (
+                  {(difference?.points || []).map((point, index) => (
                     <div key={index} style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--foundation-space-3)' }}>
                       <div style={{
                         background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
