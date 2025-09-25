@@ -96,21 +96,21 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-                gap: 'var(--foundation-space-8)'
+                gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+                gap: 'var(--foundation-space-6)'
               }}
             >
               {testimonials.map((testimonial) => (
                 <Card 
                   key={testimonial.id} 
                   variant="elevated"
-                  padding="lg"
+                  padding="md"
                   style={{
                     background: 'rgba(255, 255, 255, 0.05)',
                     backdropFilter: 'blur(20px)',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: 'var(--foundation-radius-xl)',
-                    height: '320px',
+                    height: '240px',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
@@ -121,16 +121,16 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                 >
                   
                   <div style={{ height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
-                    <Stack spacing="md">
+                    <Stack spacing="sm">
                     {/* Testimonial Text */}
-                    <div style={{ flex: 1, minHeight: '80px' }}>
+                    <div style={{ flex: 1, minHeight: '60px' }}>
                       <Typography 
-                        variant="body-md" 
+                        variant="body-sm" 
                         color="primary"
                         style={{
                           lineHeight: 'var(--foundation-typography-line-height-normal)',
                           textAlign: 'left',
-                          fontSize: '0.95rem'
+                          fontSize: '0.9rem'
                         }}
                       >
                         {testimonial.text}
@@ -138,12 +138,12 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                     </div>
                     
                     {/* Author Info */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-3)', paddingTop: 'var(--foundation-space-2)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-2)', paddingTop: 'var(--foundation-space-1)' }}>
                       {/* Simple Avatar */}
                       <div
                         style={{
-                          width: '50px',
-                          height: '50px',
+                          width: '40px',
+                          height: '40px',
                           borderRadius: '50%',
                           background: 'linear-gradient(135deg, #1f2937, #64748b)',
                           display: 'flex',
@@ -156,8 +156,8 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                       >
                         {/* Simple Person Icon */}
                         <div style={{
-                          width: '24px',
-                          height: '24px',
+                          width: '20px',
+                          height: '20px',
                           color: 'var(--primary-white)',
                           display: 'flex',
                           alignItems: 'center',
