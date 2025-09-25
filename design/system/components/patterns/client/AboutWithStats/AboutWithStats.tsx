@@ -40,7 +40,11 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
           paddingBottom: 'var(--foundation-space-16)'
         }}
       >
-        <Container maxWidth="xl" align="center">
+        <div style={{ 
+          maxWidth: 'var(--size-page-max-width)',
+          margin: '0 auto',
+          padding: '0 var(--foundation-space-6)'
+        }} align="center">
           <div style={{ maxWidth: 'var(--size-page-content-max-width)', width: '100%' }}>
             <Stack spacing="lg" align="center">
               <Typography 
@@ -85,7 +89,7 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
               </Typography>
             </Stack>
           </div>
-        </Container>
+        </div>
       </Section>
 
       {/* Statistics Section */}
@@ -97,7 +101,11 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
           paddingBottom: 'var(--foundation-space-40)'
         }}
       >
-        <Container maxWidth="xl" align="center">
+        <div style={{ 
+          maxWidth: 'var(--size-page-max-width)',
+          margin: '0 auto',
+          padding: '0 var(--foundation-space-6)'
+        }} align="center">
           <div
             style={{
               display: 'grid',
@@ -165,7 +173,7 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
               </div>
             ))}
           </div>
-        </Container>
+        </div>
       </Section>
     </>
   );

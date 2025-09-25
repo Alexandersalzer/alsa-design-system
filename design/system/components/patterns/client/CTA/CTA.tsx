@@ -48,7 +48,11 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
         paddingBottom: 'var(--foundation-space-16)'
       }}
     >
-      <Container maxWidth="xl" align="center">
+      <div style={{ 
+        maxWidth: 'var(--size-page-max-width)',
+        margin: '0 auto',
+        padding: '0 var(--foundation-space-6)'
+      }}>
         <div style={{ maxWidth: 'var(--size-page-content-max-width)', width: '100%' }}>
           <Stack spacing="lg" align="center">
             {/* Title */}
@@ -67,7 +71,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
             </Typography>
             
             {/* Subtitle */}
-            <div style={{ maxWidth: '600px', width: '100%' }}>
+            <div style={{ maxWidth: 'var(--size-page-narrow-max-width)', width: '100%' }}>
               <Typography 
                 variant="body-lg" 
                 color="inverse"
@@ -105,7 +109,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
             
             {/* Info Section */}
             {info.length > 0 && (
-              <div style={{ maxWidth: '600px', width: '100%' }}>
+              <div style={{ maxWidth: 'var(--size-page-narrow-max-width)', width: '100%' }}>
                 <Stack spacing="sm" align="center">
                   {info.map((item, index) => (
                     <Typography key={index} variant="body-sm" color="inverse" style={{ textAlign: 'center', color: 'var(--primary-white)', opacity: 0.8 }}>
@@ -117,7 +121,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
             )}
           </Stack>
         </div>
-      </Container>
+      </div>
     </Section>
   );
 };

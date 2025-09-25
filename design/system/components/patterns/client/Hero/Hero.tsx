@@ -122,7 +122,16 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
         }} />
       )}
       
-      <Container maxWidth="xl" align="center" style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'center' }}>
+      <div style={{ 
+        maxWidth: 'var(--size-page-max-width)',
+        margin: '0 auto',
+        padding: '0 var(--foundation-space-6)',
+        position: 'relative', 
+        zIndex: 2, 
+        height: '100%', 
+        display: 'flex', 
+        alignItems: 'center' 
+      }}>
         <Grid 
           columns={2} 
           gap="xl" 
@@ -196,7 +205,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
                 alt={visualAlt}
                 style={{
                   width: '100%',
-                  maxWidth: 'clamp(300px, 40vw, 500px)',
+                  maxWidth: 'var(--size-page-narrow-max-width)',
                   height: 'auto',
                   objectFit: 'contain'
                 }}
@@ -205,7 +214,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
             </div>
           )}
         </Grid>
-      </Container>
+      </div>
     </Section>
     </>
   );

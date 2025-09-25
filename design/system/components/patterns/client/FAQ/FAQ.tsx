@@ -64,7 +64,11 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
         paddingBottom: 'var(--foundation-space-16)'
       }}
     >
-      <Container maxWidth="xl" align="center">
+      <div style={{ 
+        maxWidth: 'var(--size-page-max-width)',
+        margin: '0 auto',
+        padding: '0 var(--foundation-space-6)'
+      }}>
         <Stack spacing="xl" align="center">
           {/* Header */}
           <div style={{ maxWidth: 'var(--size-page-content-max-width)', width: '100%' }}>
@@ -85,7 +89,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                 variant="body-xl" 
                 color="secondary"
                 style={{
-                  maxWidth: '650px',
+                  maxWidth: 'var(--size-page-narrow-max-width)',
                   textAlign: 'center',
                   lineHeight: 'var(--foundation-typography-line-height-relaxed)'
                 }}
@@ -190,7 +194,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
             </Stack>
           </div>
         </Stack>
-      </Container>
+      </div>
     </Section>
     </>
   );

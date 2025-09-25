@@ -36,7 +36,11 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
 }) => {
   return (
     <section>
-      <Container maxWidth="xl" align="center">
+      <div style={{ 
+        maxWidth: 'var(--size-page-max-width)',
+        margin: '0 auto',
+        padding: '0 var(--foundation-space-6)'
+      }}>
         <Stack spacing="lg" align="center">
           {/* Text */}
           <Stack spacing="md" align="center">
@@ -156,7 +160,7 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
             </Button>
           </Stack>
         </Stack>
-      </Container>
+      </div>
     </section>
   );
 };

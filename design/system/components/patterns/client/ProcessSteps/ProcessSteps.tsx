@@ -38,7 +38,11 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
         backgroundColor: 'transparent'
       }}
     >
-      <Container maxWidth="xl" align="center">
+      <div style={{ 
+        maxWidth: 'var(--size-page-max-width)',
+        margin: '0 auto',
+        padding: '0 var(--foundation-space-6)'
+      }}>
         <div style={{ 
           display: 'flex',
           flexDirection: 'column',
@@ -92,7 +96,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
           </div>
 
           {/* Single Step Card */}
-          <div style={{ position: 'relative', width: '100%', maxWidth: '600px' }}>
+          <div style={{ position: 'relative', width: '100%', maxWidth: 'var(--size-page-narrow-max-width)' }}>
             <Card
               variant="elevated"
               padding="lg"
@@ -160,7 +164,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                       style={{ 
                         color: 'var(--primary-white)', 
                         opacity: 0.9,
-                        maxWidth: '400px',
+                        maxWidth: 'var(--size-page-content-max-width)',
                         lineHeight: 'var(--foundation-typography-line-height-relaxed)'
                       }}
                     >
@@ -280,7 +284,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
             </div>
           </div>
         </div>
-      </Container>
+      </div>
     </div>
   );
 }

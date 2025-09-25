@@ -71,7 +71,7 @@ export const RichText: React.FC<RichTextProps> = ({
   buttonPosition = 5,
   textSpacing = 'sm',
   textAlign = 'center',
-  maxWidth = '600px',
+  maxWidth = 'var(--size-page-narrow-max-width)',
 }) => {
 
 

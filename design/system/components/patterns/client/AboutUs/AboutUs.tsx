@@ -52,7 +52,11 @@ export function AboutUs({ content }: AboutUsProps) {
         backgroundColor: 'transparent'
       }}
     >
-      <Container maxWidth="xl" align="center">
+      <div style={{ 
+        maxWidth: 'var(--size-page-max-width)',
+        margin: '0 auto',
+        padding: '0 var(--foundation-space-6)'
+      }}>
         <div style={{ 
           display: 'flex',
           flexDirection: 'column',
@@ -99,7 +103,7 @@ export function AboutUs({ content }: AboutUsProps) {
               style={{
                 color: 'var(--primary-white)',
                 opacity: 0.9,
-                maxWidth: '600px',
+                maxWidth: 'var(--size-page-narrow-max-width)',
                 margin: '0 auto'
               }}
             >
@@ -110,7 +114,7 @@ export function AboutUs({ content }: AboutUsProps) {
           {/* Story Section */}
           <div style={{ 
             width: '100%', 
-            maxWidth: '800px', 
+            maxWidth: 'var(--size-page-content-max-width)', 
             marginBottom: 'var(--foundation-space-16)' 
           }}>
             <Card
@@ -155,7 +159,7 @@ export function AboutUs({ content }: AboutUsProps) {
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
               gap: 'var(--foundation-space-6)',
-              maxWidth: '1000px',
+              maxWidth: 'var(--size-page-max-width)',
               margin: '0 auto'
             }}>
               {values.map((value) => (
@@ -222,7 +226,7 @@ export function AboutUs({ content }: AboutUsProps) {
           {/* What Makes Us Different */}
           <div style={{ 
             width: '100%', 
-            maxWidth: '800px', 
+            maxWidth: 'var(--size-page-content-max-width)', 
             marginBottom: 'var(--foundation-space-16)' 
           }}>
             <Card
@@ -285,7 +289,7 @@ export function AboutUs({ content }: AboutUsProps) {
           {/* Team Section */}
           <div style={{ 
             width: '100%', 
-            maxWidth: '1000px' 
+            maxWidth: 'var(--size-page-max-width)' 
           }}>
             <div style={{
               display: 'grid',
@@ -378,7 +382,7 @@ export function AboutUs({ content }: AboutUsProps) {
             </div>
           </div>
         </div>
-      </Container>
+      </div>
     </div>
   );
 }

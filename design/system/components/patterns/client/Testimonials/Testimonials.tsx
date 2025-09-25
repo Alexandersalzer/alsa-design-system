@@ -42,7 +42,11 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
         paddingTop: 'var(--foundation-space-24)'
       }}
     >
-      <Container maxWidth="xl" align="center">
+      <div style={{ 
+        maxWidth: 'var(--size-page-max-width)',
+        margin: '0 auto',
+        padding: '0 var(--foundation-space-6)'
+      }}>
         <Stack spacing="xl" align="center">
           {/* Header */}
           <div style={{ maxWidth: 'var(--size-page-max-width)', width: '100%' }}>
@@ -81,7 +85,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                 variant="body-xl" 
                 color="secondary"
                 style={{
-                  maxWidth: '700px',
+                  maxWidth: 'var(--size-page-content-max-width)',
                   textAlign: 'left',
                   lineHeight: 'var(--foundation-typography-line-height-relaxed)'
                 }}
@@ -203,7 +207,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
             </div>
           </div>
         </Stack>
-      </Container>
+      </div>
     </Section>
   );
 };

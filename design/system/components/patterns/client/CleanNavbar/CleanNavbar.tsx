@@ -308,7 +308,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         
         <div 
           style={{ 
-            maxWidth: '1400px',
+            maxWidth: 'var(--size-page-max-width)',
             margin: '0 auto',
             padding: '80px var(--foundation-space-6) var(--foundation-space-8)',
             transform: mobileOpen ? 'translateY(0)' : 'translateY(20px)',
