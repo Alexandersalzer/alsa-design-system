@@ -173,8 +173,8 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         <div style={{ 
           maxWidth: '1400px',
           margin: '0 auto',
-          padding: '0 var(--foundation-space-6)',
-          minHeight: '64px',
+          padding: 'var(--foundation-space-4) var(--foundation-space-6)',
+          minHeight: '80px',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -203,10 +203,10 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                 />
               ) : (
                 <Typography 
-                  variant="h4" 
+                  variant="h3" 
                   weight="bold" 
                   color="inverse"
-                  style={{ color: 'var(--primary-white)' }}
+                  style={{ color: 'var(--primary-white)', fontSize: '1.5rem' }}
                 >
                   {brand.name || 'Företag'}
                 </Typography>
@@ -229,7 +229,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   }}
                   className={`nav-link ${it.isActive ? 'active' : ''}`}
                 >
-                  <Typography variant="body-md" color="inverse" weight={it.isActive ? 'semibold' : 'regular'}>
+                  <Typography variant="body-lg" color="inverse" weight={it.isActive ? 'semibold' : 'regular'} style={{ fontSize: '1.1rem' }}>
                     {it.label}
                   </Typography>
                 </a>
@@ -241,14 +241,15 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
               <div style={{ display: 'none' }} className="desktop-cta">
                 <Button
                   variant="secondary"
-                  size="md"
+                  size="lg"
                   onClick={() => go(ctaButton.href)}
                   style={{
                     background: 'linear-gradient(135deg, #64748b, #475569)',
                     color: 'var(--primary-white)',
                     fontWeight: '600',
-                    fontSize: '1rem',
-                    border: 'none'
+                    fontSize: '1.1rem',
+                    border: 'none',
+                    padding: 'var(--foundation-space-3) var(--foundation-space-6)'
                   }}
                 >
                   {ctaButton.text}
@@ -341,7 +342,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             {ctaButton && (
               <Button
                 variant="secondary"
-                size="lg"
+                size="xl"
                 onClick={() => {
                   setMobileOpen(false);
                   go(ctaButton.href);
@@ -351,8 +352,9 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   background: 'linear-gradient(135deg, #64748b, #475569)',
                   color: 'var(--primary-white)',
                   fontWeight: '600',
-                  fontSize: '1.1rem',
-                  border: 'none'
+                  fontSize: '1.2rem',
+                  border: 'none',
+                  padding: 'var(--foundation-space-4) var(--foundation-space-8)'
                 }}
               >
                 {ctaButton.text}
