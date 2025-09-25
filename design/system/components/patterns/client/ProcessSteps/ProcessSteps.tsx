@@ -37,7 +37,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
       style={{
         paddingTop: 'var(--foundation-space-24)',
         paddingBottom: 'var(--foundation-space-24)',
-        backgroundColor: '#f9fafb'
+        backgroundColor: 'transparent'
       }}
     >
       <Container maxWidth="xl" align="center">
@@ -48,12 +48,12 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
               <Typography
                 variant="h2"
                 weight="bold"
-                color="primary"
+                color="inverse"
                 style={{
                   fontSize: 'clamp(2.25rem, 4vw, 3rem)',
                   lineHeight: 'var(--foundation-typography-line-height-tight)',
                   textAlign: 'center',
-                  color: '#000000'
+                  color: 'var(--primary-white)'
                 }}
               >
                 {title.split(' ').map((word, index) => {
@@ -62,7 +62,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                       <span 
                         key={index} 
                         style={{
-                          background: 'linear-gradient(135deg, #1f2937 0%, #64748b 100%)',
+                          background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
                           WebkitBackgroundClip: 'text',
                           WebkitTextFillColor: 'transparent',
                           backgroundClip: 'text'
@@ -78,10 +78,11 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
 
               <Typography 
                 variant="body-xl" 
-                color="secondary"
+                color="inverse"
                 style={{
                   textAlign: 'center',
-                  color: '#374151'
+                  color: 'var(--primary-white)',
+                  opacity: 0.9
                 }}
               >
                 {subtitle}
@@ -146,10 +147,10 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                     <Typography
                       variant="h4"
                       weight="semibold"
-                      color="primary"
+                      color="inverse"
                       style={{
                         textAlign: 'center',
-                        color: '#000000'
+                        color: 'var(--primary-white)'
                       }}
                     >
                       {step.title}
@@ -157,11 +158,12 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
 
                     <Typography
                       variant="body-lg"
-                      color="secondary"
+                      color="inverse"
                       style={{
                         textAlign: 'center',
                         lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                        color: '#6b7280'
+                        color: 'var(--primary-white)',
+                        opacity: 0.9
                       }}
                     >
                       {step.description}
