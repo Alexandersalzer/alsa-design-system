@@ -110,7 +110,6 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                     backdropFilter: 'blur(20px)',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: 'var(--foundation-radius-xl)',
-                    height: '240px',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
