@@ -9,6 +9,7 @@ import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 
 interface FAQItem {
@@ -98,8 +99,13 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
           </div>
 
           {/* FAQ Items */}
-          <div style={{ width: '100%', maxWidth: 'var(--size-page-content-max-width)' }}>
-            <Stack spacing="md">
+          <div style={{ width: '100%', maxWidth: 'var(--size-page-max-width)' }}>
+            <Grid 
+              columns={2} 
+              gap="md" 
+              minItemWidth="400px"
+              collapseOn="tablet"
+            >
               {items.map((item, index) => {
                 const isExpanded = expandedItems.has(index);
                 
@@ -186,7 +192,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                   </Card>
                 );
               })}
-            </Stack>
+            </Grid>
           </div>
         </Stack>
       </Container>
