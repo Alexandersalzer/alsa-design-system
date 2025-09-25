@@ -121,30 +121,15 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                 >
                   
                   <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
-                    <Stack spacing="sm">
-                    {/* Quotation Marks */}
-                    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                      <div style={{
-                        fontSize: '2.5rem',
-                        color: 'var(--accent-500)',
-                        opacity: 0.3,
-                        lineHeight: 1,
-                        fontFamily: 'serif',
-                        fontWeight: 'bold'
-                      }}>
-                        "
-                      </div>
-                    </div>
-                    
+                    <Stack spacing="xs">
                     {/* Testimonial Text */}
-                    <div style={{ flex: 1, paddingLeft: 'var(--foundation-space-3)' }}>
+                    <div style={{ flex: 1 }}>
                       <Typography 
                         variant="body-md" 
                         color="primary"
                         style={{
                           lineHeight: 'var(--foundation-typography-line-height-normal)',
                           textAlign: 'left',
-                          fontStyle: 'italic',
                           fontSize: '0.95rem'
                         }}
                       >
@@ -153,7 +138,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                     </div>
                     
                     {/* Rating Stars */}
-                    <div style={{ paddingLeft: 'var(--foundation-space-3)' }}>
+                    <div>
                       <Cluster spacing="xs" align="center">
                         {[...Array(testimonial.rating || 5)].map((_, i) => (
                           <div 
@@ -172,7 +157,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                     </div>
                     
                     {/* Author Info */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-3)', paddingLeft: 'var(--foundation-space-3)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-3)' }}>
                       {/* Simple Avatar */}
                       <div
                         style={{
