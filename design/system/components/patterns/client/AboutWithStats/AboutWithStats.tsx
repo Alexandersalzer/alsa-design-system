@@ -44,7 +44,7 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
           maxWidth: 'var(--size-page-max-width)',
           margin: '0 auto',
           padding: '0 var(--foundation-space-6)'
-        }} align="center">
+        }}>
           <div style={{ maxWidth: 'var(--size-page-content-max-width)', width: '100%' }}>
             <Stack spacing="lg" align="center">
               <Typography 
@@ -105,7 +105,7 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
           maxWidth: 'var(--size-page-max-width)',
           margin: '0 auto',
           padding: '0 var(--foundation-space-6)'
-        }} align="center">
+        }}>
           <div
             style={{
               display: 'grid',
