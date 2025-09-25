@@ -121,7 +121,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                 >
                   
                   <div style={{ height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
-                    <Stack spacing="md" style={{ height: '100%' }}>
+                    <Stack spacing="md">
                     {/* Testimonial Text */}
                     <div style={{ flex: 1, minHeight: '80px' }}>
                       <Typography 
