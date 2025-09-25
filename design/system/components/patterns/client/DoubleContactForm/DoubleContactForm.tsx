@@ -205,7 +205,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                             {field.required && <span style={{ color: 'var(--accent-500)' }}> *</span>}
                           </label>
                           <Input
-                            type={field.type}
+                            type={field.type === 'textarea' || field.type === 'select' ? 'text' : field.type as 'text' | 'email' | 'tel'}
                             name={field.name}
                             required={field.required}
                             placeholder={field.placeholder}
@@ -245,7 +245,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                             />
                           ) : (
                             <Input
-                              type={field.type}
+                              type={field.type as 'text' | 'email' | 'tel'}
                               name={field.name}
                               required={field.required}
                               placeholder={field.placeholder}
