@@ -56,9 +56,9 @@ export interface DoubleContactFormContent {
     text: string;
     icon?: ReactElement;
   };
-  contactInfoTitle: string;
-  contactInfoSubtitle: string;
-  contactInfo: ContactInfo[];
+  contactInfoTitle?: string;
+  contactInfoSubtitle?: string;
+  contactInfo?: ContactInfo[];
   actions?: ContactAction[];
 }
 
@@ -160,7 +160,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
           
           {/* Form & Info Grid */}
           <Grid 
-            columns={2} 
+            columns={contactInfo && contactInfo.length > 0 ? 2 : 1} 
             gap="xl"
             minItemWidth="300px"
             collapseOn="mobile"
@@ -241,91 +241,93 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
               </Stack>
             </Card>
             
-            {/* Contact Information */}
-            <Card 
-              variant="elevated" 
-              padding="lg"
-              style={{ 
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-            >
-              <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <Stack spacing="lg">
-                <Stack spacing="sm">
-                  <Typography variant="h3" weight="semibold" color="heading">
-                    {contactInfoTitle}
-                  </Typography>
-                  <Typography variant="body-md" color="secondary">
-                    {contactInfoSubtitle}
-                  </Typography>
-                </Stack>
-              
-                <div style={{ flex: 1 }}>
+            {/* Contact Information - Only show if contactInfo is provided */}
+            {contactInfo && contactInfo.length > 0 && (
+              <Card 
+                variant="elevated" 
+                padding="lg"
+                style={{ 
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                   <Stack spacing="lg">
-                    {contactInfo.map((info, index) => (
-                      <Stack spacing="md" align="center" key={index}>
-                        <div
-                          style={{
-                            background: 'linear-gradient(135deg, #1f2937, #64748b)',
-                            width: 'clamp(48px, 8vw, 64px)',
-                            height: 'clamp(48px, 8vw, 64px)',
-                            borderRadius: 'var(--foundation-radius-full)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexShrink: 0,
-                            boxShadow: '0 4px 16px rgba(31, 41, 55, 0.2)'
-                          }}
-                        >
-                          <div style={{
-                            width: 'clamp(24px, 4vw, 32px)',
-                            height: 'clamp(24px, 4vw, 32px)',
-                            color: '#ffffff',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                          }}>
-                            {info.icon}
+                  <Stack spacing="sm">
+                    <Typography variant="h3" weight="semibold" color="heading">
+                      {contactInfoTitle}
+                    </Typography>
+                    <Typography variant="body-md" color="secondary">
+                      {contactInfoSubtitle}
+                    </Typography>
+                  </Stack>
+                
+                  <div style={{ flex: 1 }}>
+                    <Stack spacing="lg">
+                      {contactInfo.map((info, index) => (
+                        <Stack spacing="md" align="center" key={index}>
+                          <div
+                            style={{
+                              background: 'linear-gradient(135deg, #1f2937, #64748b)',
+                              width: 'clamp(48px, 8vw, 64px)',
+                              height: 'clamp(48px, 8vw, 64px)',
+                              borderRadius: 'var(--foundation-radius-full)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              flexShrink: 0,
+                              boxShadow: '0 4px 16px rgba(31, 41, 55, 0.2)'
+                            }}
+                          >
+                            <div style={{
+                              width: 'clamp(24px, 4vw, 32px)',
+                              height: 'clamp(24px, 4vw, 32px)',
+                              color: '#ffffff',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}>
+                              {info.icon}
+                            </div>
                           </div>
-                        </div>
-                        <Stack spacing="xs" align="center">
-                          <Typography variant="body-md" weight="semibold" color="primary" style={{ textAlign: 'center' }}>
-                            {info.title}
-                          </Typography>
-                          <Typography variant="body-lg" color="secondary" style={{ textAlign: 'center' }}>
-                            {info.value}
-                          </Typography>
-                          <Typography variant="body-sm" color="secondary" style={{ textAlign: 'center' }}>
-                            {info.subtitle}
-                          </Typography>
+                          <Stack spacing="xs" align="center">
+                            <Typography variant="body-md" weight="semibold" color="primary" style={{ textAlign: 'center' }}>
+                              {info.title}
+                            </Typography>
+                            <Typography variant="body-lg" color="secondary" style={{ textAlign: 'center' }}>
+                              {info.value}
+                            </Typography>
+                            <Typography variant="body-sm" color="secondary" style={{ textAlign: 'center' }}>
+                              {info.subtitle}
+                            </Typography>
+                          </Stack>
                         </Stack>
-                      </Stack>
-                    ))}
+                      ))}
+                    </Stack>
+                  </div>
+                  
+                   {/* Action Buttons */}
+                   {actions.length > 0 && (
+                     <Stack spacing="md">
+                       {actions.map((action, index) => (
+                      <Button
+                        key={index}
+                        variant={action.variant}
+                        size="lg"
+                        style={{ width: '100%' }}
+                        rightIcon={action.icon ? <div style={{ width: '20px', height: '20px', color: action.variant === 'accent' ? 'white' : 'var(--text-primary)' }}>{action.icon}</div> : undefined}
+                        onClick={action.href ? () => window.location.href = action.href! : action.onClick}
+                      >
+                        {action.text}
+                      </Button>
+                       ))}
+                     </Stack>
+                   )}
                   </Stack>
                 </div>
-                
-                 {/* Action Buttons */}
-                 {actions.length > 0 && (
-                   <Stack spacing="md">
-                     {actions.map((action, index) => (
-                    <Button
-                      key={index}
-                      variant={action.variant}
-                      size="lg"
-                      style={{ width: '100%' }}
-                      rightIcon={action.icon ? <div style={{ width: '20px', height: '20px', color: action.variant === 'accent' ? 'white' : 'var(--text-primary)' }}>{action.icon}</div> : undefined}
-                      onClick={action.href ? () => window.location.href = action.href! : action.onClick}
-                    >
-                      {action.text}
-                    </Button>
-                     ))}
-                   </Stack>
-                 )}
-                </Stack>
-              </div>
-            </Card>
+              </Card>
+            )}
           </Grid>
         </Stack>
       </Container>
