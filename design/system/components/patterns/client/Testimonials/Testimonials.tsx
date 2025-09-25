@@ -137,25 +137,6 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                       </Typography>
                     </div>
                     
-                    {/* Rating Stars */}
-                    <div style={{ display: 'flex', justifyContent: 'center', padding: 'var(--foundation-space-2) 0' }}>
-                      <Cluster spacing="xs" align="center">
-                        {[...Array(testimonial.rating || 5)].map((_, i) => (
-                          <div 
-                            key={i} 
-                            style={{
-                              width: '16px',
-                              height: '16px',
-                              color: 'var(--accent-500)',
-                              fill: 'currentColor'
-                            }}
-                          >
-                            <StarIcon />
-                          </div>
-                        ))}
-                      </Cluster>
-                    </div>
-                    
                     {/* Author Info */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-3)', paddingTop: 'var(--foundation-space-2)' }}>
                       {/* Simple Avatar */}
@@ -188,11 +169,29 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                         </div>
                       </div>
                       
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                        <Typography variant="body-sm" weight="semibold" color="primary">
-                          {testimonial.author}
-                        </Typography>
-                        <Typography variant="body-xs" color="secondary">
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-1)', flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-2)' }}>
+                          <Typography variant="body-sm" weight="semibold" color="primary" style={{ textAlign: 'left' }}>
+                            {testimonial.author}
+                          </Typography>
+                          {/* Rating Stars */}
+                          <Cluster spacing="xs" align="center">
+                            {[...Array(testimonial.rating || 5)].map((_, i) => (
+                              <div 
+                                key={i} 
+                                style={{
+                                  width: '14px',
+                                  height: '14px',
+                                  color: 'var(--accent-500)',
+                                  fill: 'currentColor'
+                                }}
+                              >
+                                <StarIcon />
+                              </div>
+                            ))}
+                          </Cluster>
+                        </div>
+                        <Typography variant="body-xs" color="secondary" style={{ textAlign: 'left' }}>
                           {testimonial.caseType}
                         </Typography>
                       </div>
