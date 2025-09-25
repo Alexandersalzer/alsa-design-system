@@ -69,236 +69,109 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
       }}
     >
       <Container maxWidth="xl" align="center">
-        <style dangerouslySetInnerHTML={{
-          __html: `
-            @media (max-width: 768px) {
-              .process-steps-grid {
-                grid-template-columns: 1fr !important;
-                gap: var(--foundation-space-8) !important;
-              }
-              .process-steps-left {
-                order: 2;
-              }
-              .process-steps-right {
-                order: 1;
-              }
-            }
-          `
-        }} />
-        <div 
-          className="process-steps-grid"
-          style={{ 
-            display: 'grid', 
-            gridTemplateColumns: '1fr 1fr', 
-            gap: 'var(--foundation-space-16)',
-            alignItems: 'center',
-            width: '100%',
-            maxWidth: 'var(--size-page-max-width)'
-          }}
-        >
-          {/* Left Side - Step Titles */}
-          <div className="process-steps-left">
-            <Stack spacing="lg">
-              {/* Header */}
-              <div>
-                <Typography
-                  variant="h2"
-                  weight="bold"
-                  color="inverse"
-                  style={{
-                    fontSize: 'clamp(2.25rem, 4vw, 3rem)',
-                    lineHeight: 'var(--foundation-typography-line-height-tight)',
-                    color: 'var(--primary-white)',
-                    marginBottom: 'var(--foundation-space-4)'
-                  }}
-                >
-                  {title.split(' ').map((word, index) => {
-                    if (titleAccent && word === titleAccent) {
-                      return (
-                        <span 
-                          key={index} 
-                          style={{
-                            background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text'
-                          }}
-                        >
-                          {word}{' '}
-                        </span>
-                      );
-                    }
-                    return word + ' ';
-                  })}
-                </Typography>
+        <div style={{ 
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '100%',
+          maxWidth: 'var(--size-page-max-width)'
+        }}>
+          {/* Header */}
+          <div style={{ textAlign: 'center', marginBottom: 'var(--foundation-space-8)' }}>
+            <Typography
+              variant="h2"
+              weight="bold"
+              color="inverse"
+              style={{
+                fontSize: 'clamp(2.25rem, 4vw, 3rem)',
+                lineHeight: 'var(--foundation-typography-line-height-tight)',
+                color: 'var(--primary-white)',
+                marginBottom: 'var(--foundation-space-4)'
+              }}
+            >
+              {title.split(' ').map((word, index) => {
+                if (titleAccent && word === titleAccent) {
+                  return (
+                    <span 
+                      key={index} 
+                      style={{
+                        background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text'
+                      }}
+                    >
+                      {word}{' '}
+                    </span>
+                  );
+                }
+                return word + ' ';
+              })}
+            </Typography>
 
-                <Typography 
-                  variant="body-xl" 
-                  color="inverse"
-                  style={{
-                    color: 'var(--primary-white)',
-                    opacity: 0.9
-                  }}
-                >
-                  {subtitle}
-                </Typography>
-              </div>
-
-              {/* Progress Bar */}
-              <div style={{
-                marginBottom: 'var(--foundation-space-6)',
-                padding: 'var(--foundation-space-4)',
-                background: 'rgba(255, 255, 255, 0.05)',
-                borderRadius: 'var(--foundation-radius-lg)',
-                border: '1px solid rgba(255, 255, 255, 0.1)'
-              }}>
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginBottom: 'var(--foundation-space-3)'
-                }}>
-                  <Typography 
-                    variant="body-sm" 
-                    weight="semibold"
-                    style={{ color: 'var(--primary-white)' }}
-                  >
-                    Steg {activeStep + 1} av {steps.length}
-                  </Typography>
-                  <Typography 
-                    variant="body-sm"
-                    style={{ color: 'rgba(255, 255, 255, 0.7)' }}
-                  >
-                    {Math.round(((activeStep + 1) / steps.length) * 100)}% klart
-                  </Typography>
-                </div>
-                
-                {/* Progress Bar */}
-                <div style={{
-                  width: '100%',
-                  height: '6px',
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  borderRadius: '3px',
-                  overflow: 'hidden'
-                }}>
-                  <div style={{
-                    width: `${((activeStep + 1) / steps.length) * 100}%`,
-                    height: '100%',
-                    background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
-                    borderRadius: '3px',
-                    transition: 'width 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
-                  }} />
-                </div>
-              </div>
-
-              {/* Step Titles */}
-              <Stack spacing="md">
-                {steps.map((step, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      padding: 'var(--foundation-space-6)',
-                      borderRadius: 'var(--foundation-radius-lg)',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      background: activeStep === index 
-                        ? 'rgba(255, 255, 255, 0.1)' 
-                        : 'transparent',
-                      border: activeStep === index 
-                        ? '1px solid rgba(255, 255, 255, 0.2)' 
-                        : '1px solid transparent',
-                      transform: activeStep === index ? 'translateX(8px)' : 'translateX(0)',
-                      position: 'relative'
-                    }}
-                    onClick={() => setActiveStep(index)}
-                  >
-                    {/* Step Number Badge */}
-                    <div style={{
-                      position: 'absolute',
-                      top: 'var(--foundation-space-3)',
-                      right: 'var(--foundation-space-3)',
-                      background: activeStep === index 
-                        ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
-                        : 'rgba(255, 255, 255, 0.1)',
-                      width: '24px',
-                      height: '24px',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      transition: 'all 0.3s ease'
-                    }}>
-                      <Typography 
-                        variant="body-xs" 
-                        weight="bold"
-                        style={{ 
-                          color: activeStep === index ? 'white' : 'rgba(255, 255, 255, 0.6)',
-                          fontSize: '12px'
-                        }}
-                      >
-                        {step.number}
-                      </Typography>
-                    </div>
-
-                    <Stack spacing="sm">
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-3)' }}>
-                        <div style={{
-                          background: activeStep === index 
-                            ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
-                            : 'rgba(255, 255, 255, 0.1)',
-                          width: '40px',
-                          height: '40px',
-                          borderRadius: '50%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                        }}>
-                          {step.icon ? (
-                            <div style={{
-                              width: '20px',
-                              height: '20px',
-                              color: activeStep === index ? 'white' : 'rgba(255, 255, 255, 0.6)',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              transition: 'color 0.3s ease'
-                            }}>
-                              {step.icon}
-                            </div>
-                          ) : (
-                            <Typography 
-                              variant="body-sm" 
-                              weight="bold"
-                              style={{ 
-                                color: activeStep === index ? 'white' : 'rgba(255, 255, 255, 0.6)',
-                                transition: 'color 0.3s ease'
-                              }}
-                            >
-                              {step.number}
-                            </Typography>
-                          )}
-                        </div>
-                        <Typography 
-                          variant="h4" 
-                          weight="bold"
-                          style={{
-                            color: activeStep === index ? 'var(--primary-white)' : 'rgba(255, 255, 255, 0.7)',
-                            transition: 'color 0.3s ease'
-                          }}
-                        >
-                          {step.title}
-                        </Typography>
-                      </div>
-                    </Stack>
-                  </div>
-                ))}
-              </Stack>
-            </Stack>
+            <Typography 
+              variant="body-xl" 
+              color="inverse"
+              style={{
+                color: 'var(--primary-white)',
+                opacity: 0.9
+              }}
+            >
+              {subtitle}
+            </Typography>
           </div>
 
-          {/* Right Side - Active Step Card */}
-          <div className="process-steps-right" style={{ position: 'relative' }}>
+          {/* Progress Bar */}
+          <div style={{
+            marginBottom: 'var(--foundation-space-8)',
+            padding: 'var(--foundation-space-4)',
+            background: 'rgba(255, 255, 255, 0.05)',
+            borderRadius: 'var(--foundation-radius-lg)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            width: '100%',
+            maxWidth: '600px'
+          }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: 'var(--foundation-space-3)'
+            }}>
+              <Typography 
+                variant="body-sm" 
+                weight="semibold"
+                style={{ color: 'var(--primary-white)' }}
+              >
+                Steg {activeStep + 1} av {steps.length}
+              </Typography>
+              <Typography 
+                variant="body-sm"
+                style={{ color: 'rgba(255, 255, 255, 0.7)' }}
+              >
+                {Math.round(((activeStep + 1) / steps.length) * 100)}% klart
+              </Typography>
+            </div>
+            
+            {/* Progress Bar */}
+            <div style={{
+              width: '100%',
+              height: '6px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '3px',
+              overflow: 'hidden'
+            }}>
+              <div style={{
+                width: `${((activeStep + 1) / steps.length) * 100}%`,
+                height: '100%',
+                background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                borderRadius: '3px',
+                transition: 'width 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+              }} />
+            </div>
+          </div>
+
+          {/* Active Step Card */}
+          <div style={{ position: 'relative', width: '100%', maxWidth: '600px' }}>
             <Card
               variant="elevated"
               padding="lg"
@@ -468,10 +341,11 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
             {/* Navigation Buttons */}
             <div style={{
               display: 'flex',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
               alignItems: 'center',
               marginTop: 'var(--foundation-space-6)',
-              gap: 'var(--foundation-space-4)'
+              gap: 'var(--foundation-space-8)',
+              width: '100%'
             }}>
               {/* Previous Button */}
               <button
