@@ -105,10 +105,11 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 style={{
                   height: '100%',
                   textAlign: 'center',
-                  backgroundColor: '#ffffff',
-                  border: '1px solid #e5e7eb',
+                  backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
                   borderRadius: 'var(--foundation-radius-lg)',
-                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
                 }}
               >
                 <Stack spacing="lg" align="center">
