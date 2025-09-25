@@ -29,7 +29,7 @@ interface FAQProps {
 
 const FAQ = ({ content, id = "faq" }: FAQProps) => {
   const { title, subtitle, items } = content;
-  const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
+  const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set([0]));
 
   const toggleExpanded = (index: number) => {
     const newExpanded = new Set(expandedItems);
