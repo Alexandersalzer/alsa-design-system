@@ -110,7 +110,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
         paddingBottom: 'var(--foundation-space-16)'
       }}
     >
-      <Container maxWidth="2xl" align="center">
+      <Container maxWidth="lg" align="center">
         <Stack spacing="xl" align="center">
           {/* Visual */}
           {visualImage && (
@@ -161,18 +161,18 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
           {/* Form & Info Grid */}
           <Grid 
             columns={contactInfo && contactInfo.length > 0 ? 2 : 1} 
-            gap="xl"
-            minItemWidth="300px"
+            gap="lg"
+            minItemWidth="280px"
             collapseOn="mobile"
-            style={{ maxWidth: 'var(--size-page-content-max-width)', width: '100%' }}
+            style={{ maxWidth: 'var(--size-page-narrow-max-width)', width: '100%' }}
           >
             {/* Contact Form */}
             <Card 
               variant="elevated" 
-              padding="lg"
+              padding="md"
               style={{ height: 'fit-content' }}
             >
-              <Stack spacing="lg">
+              <Stack spacing="md">
                 <Stack spacing="sm">
                   <Typography variant="h3" weight="semibold" color="heading">
                     {formTitle}
@@ -183,7 +183,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                 </Stack>
                 
                 <form onSubmit={handleSubmit}>
-                  <Stack spacing="lg">
+                  <Stack spacing="md">
                     {fields.map((field, index) => (
                       <div key={field.name} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-2)' }}>
                         <label 
@@ -245,7 +245,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
             {contactInfo && contactInfo.length > 0 && (
               <Card 
                 variant="elevated" 
-                padding="lg"
+                padding="md"
                 style={{ 
                   height: '100%',
                   display: 'flex',
@@ -253,7 +253,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                 }}
               >
                 <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                  <Stack spacing="lg">
+                  <Stack spacing="md">
                   <Stack spacing="sm">
                     <Typography variant="h3" weight="semibold" color="heading">
                       {contactInfoTitle}
