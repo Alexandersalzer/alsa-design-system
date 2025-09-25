@@ -243,65 +243,6 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                     {steps[activeStep]?.description}
                   </Typography>
 
-                  {/* Next Step Indicator */}
-                  {activeStep < steps.length - 1 && (
-                    <div style={{
-                      marginTop: 'var(--foundation-space-4)',
-                      padding: 'var(--foundation-space-3)',
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      borderRadius: 'var(--foundation-radius-md)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)'
-                    }}>
-                      <Typography 
-                        variant="body-sm"
-                        weight="semibold"
-                        style={{ 
-                          color: 'var(--accent-400)',
-                          marginBottom: 'var(--foundation-space-1)'
-                        }}
-                      >
-                        Nästa steg:
-                      </Typography>
-                      <Typography 
-                        variant="body-sm"
-                        style={{ 
-                          color: 'rgba(255, 255, 255, 0.8)'
-                        }}
-                      >
-                        {steps[activeStep + 1]?.title}
-                      </Typography>
-                    </div>
-                  )}
-
-                  {/* Completion Message */}
-                  {activeStep === steps.length - 1 && (
-                    <div style={{
-                      marginTop: 'var(--foundation-space-4)',
-                      padding: 'var(--foundation-space-3)',
-                      background: 'rgba(34, 197, 94, 0.1)',
-                      borderRadius: 'var(--foundation-radius-md)',
-                      border: '1px solid rgba(34, 197, 94, 0.2)'
-                    }}>
-                      <Typography 
-                        variant="body-sm"
-                        weight="semibold"
-                        style={{ 
-                          color: '#22c55e',
-                          marginBottom: 'var(--foundation-space-1)'
-                        }}
-                      >
-                        🎉 Processen är klar!
-                      </Typography>
-                      <Typography 
-                        variant="body-sm"
-                        style={{ 
-                          color: 'rgba(255, 255, 255, 0.8)'
-                        }}
-                      >
-                        Du har gått igenom alla steg i vår process.
-                      </Typography>
-                    </div>
-                  )}
                 </Stack>
                 </Stack>
               </div>
