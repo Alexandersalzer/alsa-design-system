@@ -95,20 +95,6 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               gap: var(--foundation-space-8) !important;
             }
           }
-          /* Single column layout - always center */
-          .hero-grid[style*="grid-template-columns: 1fr"] .hero-text-content {
-            text-align: center !important;
-          }
-          .hero-grid[style*="grid-template-columns: 1fr"] .hero-text-content h1,
-          .hero-grid[style*="grid-template-columns: 1fr"] .hero-text-content p {
-            text-align: center !important;
-          }
-          .hero-grid[style*="grid-template-columns: 1fr"] .hero-cta-cluster {
-            justify-content: center !important;
-          }
-          .hero-grid[style*="grid-template-columns: 1fr"] .hero-text-stack {
-            align-items: center !important;
-          }
         `
       }} />
       <Section
@@ -121,8 +107,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         position: 'relative',
-        minHeight: '100vh',
-        filter: backgroundImage ? 'blur(2px)' : 'none'
+        minHeight: '100vh'
       }}
     >
       {backgroundImage && (
@@ -139,7 +124,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
       
       <Container maxWidth="xl" align="center" style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'center' }}>
         <Grid 
-          columns={visualImage ? 2 : 1} 
+          columns={2} 
           gap="xl" 
           alignItems="center" 
           collapseOn="tablet"
