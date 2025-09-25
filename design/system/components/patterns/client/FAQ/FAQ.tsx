@@ -153,7 +153,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                         transition: 'transform var(--foundation-duration-fast) var(--foundation-easing-ease-out)',
                         flexShrink: 0
                       }}>
-                        <Icon size="xs" color="white">
+                        <Icon size="xs" color="primary">
                           {isExpanded ? <MinusIcon /> : <PlusIcon />}
                         </Icon>
                       </div>
