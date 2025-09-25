@@ -9,7 +9,6 @@ import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
-import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 
 interface FAQItem {
@@ -99,13 +98,8 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
           </div>
 
           {/* FAQ Items */}
-          <div style={{ width: '100%', maxWidth: 'var(--size-page-max-width)' }}>
-            <Grid 
-              columns={2} 
-              gap="md" 
-              minItemWidth="400px"
-              collapseOn="tablet"
-            >
+          <div style={{ width: '100%', maxWidth: 'var(--size-page-content-max-width)' }}>
+            <Stack spacing="lg">
               {items.map((item, index) => {
                 const isExpanded = expandedItems.has(index);
                 
@@ -113,11 +107,13 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                   <Card 
                     key={index} 
                     variant="elevated"
-                    padding="lg"
+                    padding="xl"
                     style={{
-                      background: 'var(--surface-card)',
-                      border: '1px solid var(--border-subtle)',
-                      borderRadius: 'var(--foundation-radius-lg)',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      backdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: 'var(--foundation-radius-xl)',
+                      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.05)',
                       cursor: 'pointer',
                       transition: 'all var(--foundation-duration-fast) var(--foundation-easing-ease-out)'
                     }}
@@ -133,17 +129,18 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                       }
                     }}
                   >
-                    <Stack spacing="md">
+                    <Stack spacing="lg">
                       <Cluster justify="between" align="center">
                       <Typography 
-                        variant="h4" 
+                        variant="h3" 
                         weight="semibold" 
-                        color="heading"
+                        color="inverse"
                         style={{
-                          fontSize: 'var(--foundation-typography-size-lg)',
+                          fontSize: 'clamp(1.25rem, 2.5vw, 1.5rem)',
                           lineHeight: 'var(--foundation-typography-line-height-tight)',
                           flex: 1,
-                          marginRight: 'var(--foundation-space-3)'
+                          marginRight: 'var(--foundation-space-4)',
+                          color: 'var(--primary-white)'
                         }}
                       >
                         {item.question}
@@ -158,16 +155,15 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                         }}
                         aria-label={isExpanded ? 'Dölj svar' : 'Visa svar'}
                       >
-                        <Icon 
-                          size="sm" 
-                          color="secondary"
+                        <ChevronDownIcon 
                           style={{
+                            width: '20px',
+                            height: '20px',
+                            color: 'var(--primary-white)',
                             transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
                             transition: 'transform var(--foundation-duration-fast) var(--foundation-easing-ease-out)'
                           }}
-                        >
-                          <ChevronDownIcon />
-                        </Icon>
+                        />
                       </Button>
                     </Cluster>
                     
@@ -176,12 +172,14 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                         animation: 'fadeInDown var(--foundation-duration-normal) var(--foundation-easing-ease-out)'
                       }}>
                         <Typography 
-                          variant="body-md" 
-                          color="secondary"
+                          variant="body-lg" 
+                          color="inverse"
                           style={{
                             lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                            paddingTop: 'var(--foundation-space-2)',
-                            borderTop: '1px solid var(--border-subtle)'
+                            paddingTop: 'var(--foundation-space-4)',
+                            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                            color: 'var(--primary-white)',
+                            opacity: 0.9
                           }}
                         >
                           {item.answer}
@@ -192,7 +190,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                   </Card>
                 );
               })}
-            </Grid>
+            </Stack>
           </div>
         </Stack>
       </Container>
