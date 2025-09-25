@@ -28,38 +28,68 @@ export interface ProcessStepsProps {
 export function ProcessSteps({ content }: ProcessStepsProps) {
   const { title, titleAccent, subtitle, steps } = content;
   const [activeStep, setActiveStep] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
+
+
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let isScrolling = false;
+    
+    const handleScroll = (e: Event) => {
+      if (!sectionRef.current || isScrolling) return;
+      
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Check if section is in viewport
+      if (rect.top <= 0 && rect.bottom >= windowHeight) {
+        e.preventDefault();
+        
+        const scrollDelta = (e as WheelEvent).deltaY;
+        const direction = scrollDelta > 0 ? 1 : -1;
+        
+        setActiveStep(prevStep => {
+          const newStep = prevStep + direction;
+          return Math.max(0, Math.min(newStep, steps.length - 1));
+        });
+        
+        // Prevent default scroll behavior
+        isScrolling = true;
+        setTimeout(() => {
+          isScrolling = false;
+        }, 100);
+      }
+    };
+
+    const handleWheel = (e: WheelEvent) => {
       if (!sectionRef.current) return;
       
       const rect = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      const sectionHeight = rect.height;
       
-      // Calculate progress through the section (0 to 1)
-      const progress = Math.max(0, Math.min(1, 
-        (windowHeight - rect.top) / (windowHeight + sectionHeight)
-      ));
-      
-      // Determine active step based on progress
-      const stepIndex = Math.floor(progress * steps.length);
-      setActiveStep(Math.min(stepIndex, steps.length - 1));
+      // Check if section is in viewport
+      if (rect.top <= 0 && rect.bottom >= windowHeight) {
+        e.preventDefault();
+        
+        const direction = e.deltaY > 0 ? 1 : -1;
+        
+        setActiveStep(prevStep => {
+          const newStep = prevStep + direction;
+          return Math.max(0, Math.min(newStep, steps.length - 1));
+        });
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial call
+    window.addEventListener('wheel', handleWheel, { passive: false });
     
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
   }, [steps.length]);
 
   return (
-    <Section
+    <div
       ref={sectionRef}
-      id="process-steps"
-      as="section"
-      height="auto"
       style={{
         paddingTop: 'var(--foundation-space-24)',
         paddingBottom: 'var(--foundation-space-24)',
@@ -145,6 +175,51 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 </Typography>
               </div>
 
+              {/* Progress Indicator */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--foundation-space-2)',
+                marginBottom: 'var(--foundation-space-4)'
+              }}>
+                {steps.map((_, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      width: '8px',
+                      height: '8px',
+                      borderRadius: '50%',
+                      background: index <= activeStep 
+                        ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
+                        : 'rgba(255, 255, 255, 0.2)',
+                      transition: 'all 0.3s ease'
+                    }}
+                  />
+                ))}
+                <Typography 
+                  variant="body-sm" 
+                  style={{ 
+                    color: 'rgba(255, 255, 255, 0.7)',
+                    marginLeft: 'var(--foundation-space-3)'
+                  }}
+                >
+                  {activeStep + 1} av {steps.length}
+                </Typography>
+              </div>
+              
+              {/* Scroll Instruction */}
+              <Typography 
+                variant="body-sm" 
+                style={{ 
+                  color: 'rgba(255, 255, 255, 0.5)',
+                  fontStyle: 'italic',
+                  textAlign: 'center',
+                  marginBottom: 'var(--foundation-space-4)'
+                }}
+              >
+                Scrolla för att gå igenom stegen
+              </Typography>
+
               {/* Step Titles */}
               <Stack spacing="md">
                 {steps.map((step, index) => (
@@ -226,7 +301,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
           <div className="process-steps-right" style={{ position: 'relative' }}>
             <Card
               variant="elevated"
-              padding="xl"
+              padding="lg"
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
                 backdropFilter: 'blur(20px)',
@@ -242,8 +317,9 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 opacity: activeStep === 0 ? 1 : 0.8
               }}
             >
-              <Stack spacing="lg" align="center" style={{ textAlign: 'center' }}>
-                {/* Large Icon */}
+              <div style={{ textAlign: 'center' }}>
+                <Stack spacing="lg" align="center">
+                  {/* Large Icon */}
                 <div style={{
                   background: 'linear-gradient(135deg, #1f2937, #64748b)',
                   width: '120px',
@@ -299,12 +375,13 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                     {steps[activeStep]?.description}
                   </Typography>
                 </Stack>
-              </Stack>
+                </Stack>
+              </div>
             </Card>
           </div>
         </div>
       </Container>
-    </Section>
+    </div>
   );
 }
 
