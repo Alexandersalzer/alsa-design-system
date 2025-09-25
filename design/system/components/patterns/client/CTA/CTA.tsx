@@ -43,11 +43,9 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
       id={id} 
       className={className}
       style={{
-        backgroundColor: 'var(--surface-card)',
+        backgroundColor: 'transparent',
         paddingTop: 'var(--foundation-space-16)',
-        paddingBottom: 'var(--foundation-space-16)',
-        borderTop: '1px solid var(--border-default)',
-        borderBottom: '1px solid var(--border-default)'
+        paddingBottom: 'var(--foundation-space-16)'
       }}
     >
       <Container maxWidth="xl" align="center">
@@ -57,11 +55,12 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
             <Typography 
               variant="h2" 
               weight="bold" 
-              color="heading"
+              color="inverse"
               style={{
                 fontSize: 'clamp(2.25rem, 4vw, 3rem)',
                 lineHeight: 'var(--foundation-typography-line-height-tight)',
-                textAlign: 'center'
+                textAlign: 'center',
+                color: 'var(--primary-white)'
               }}
             >
               {title}
@@ -71,10 +70,12 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
             <div style={{ maxWidth: '600px', width: '100%' }}>
               <Typography 
                 variant="body-lg" 
-                color="secondary"
+                color="inverse"
                 style={{
                   lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  color: 'var(--primary-white)',
+                  opacity: 0.9
                 }}
               >
                 {subtitle}
@@ -107,7 +108,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
               <div style={{ maxWidth: '600px', width: '100%' }}>
                 <Stack spacing="sm" align="center">
                   {info.map((item, index) => (
-                    <Typography key={index} variant="body-sm" color="secondary" style={{ textAlign: 'center' }}>
+                    <Typography key={index} variant="body-sm" color="inverse" style={{ textAlign: 'center', color: 'var(--primary-white)', opacity: 0.8 }}>
                       <strong>{item.label}:</strong> {item.value}
                     </Typography>
                   ))}
