@@ -5,7 +5,7 @@ import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Card } from '../../../../../system/components/primitives/Card';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 
 export interface ProcessStep {
   number: number;
@@ -27,45 +27,14 @@ export interface ProcessStepsProps {
 
 export function ProcessSteps({ content }: ProcessStepsProps) {
   const { title, titleAccent, subtitle, steps } = content;
-  const [activeStep, setActiveStep] = useState(0);
-
-
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      
-      const rect = sectionRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const sectionHeight = rect.height;
-      
-      // Calculate progress through the section (0 to 1)
-      const progress = Math.max(0, Math.min(1, 
-        (windowHeight - rect.top) / (windowHeight + sectionHeight)
-      ));
-      
-      // Determine active step based on progress
-      const stepIndex = Math.floor(progress * steps.length);
-      setActiveStep(Math.min(stepIndex, steps.length - 1));
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial call
-    
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [steps.length]);
+  const [activeStep, setActiveStep] = useState(0); // Start on step 1 (index 0)
 
   return (
     <div
-      ref={sectionRef}
       style={{
         paddingTop: 'var(--foundation-space-24)',
         paddingBottom: 'var(--foundation-space-24)',
-        backgroundColor: 'transparent',
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center'
+        backgroundColor: 'transparent'
       }}
     >
       <Container maxWidth="xl" align="center">
