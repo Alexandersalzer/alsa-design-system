@@ -6,6 +6,7 @@ import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Card } from '../../../../../system/components/primitives/Card';
 import React, { useState } from 'react';
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
 export interface ProcessStep {
   number: number;
@@ -27,7 +28,7 @@ export interface ProcessStepsProps {
 
 export function ProcessSteps({ content }: ProcessStepsProps) {
   const { title, titleAccent, subtitle, steps } = content;
-  const [activeStep, setActiveStep] = useState(0); // Start on step 1 (index 0)
+  const [activeStep, setActiveStep] = useState(0);
 
   return (
     <div
@@ -90,56 +91,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
             </Typography>
           </div>
 
-          {/* Progress Bar */}
-          <div style={{
-            marginBottom: 'var(--foundation-space-8)',
-            padding: 'var(--foundation-space-4)',
-            background: 'rgba(255, 255, 255, 0.05)',
-            borderRadius: 'var(--foundation-radius-lg)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            width: '100%',
-            maxWidth: '600px'
-          }}>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: 'var(--foundation-space-3)'
-            }}>
-              <Typography 
-                variant="body-sm" 
-                weight="semibold"
-                style={{ color: 'var(--primary-white)' }}
-              >
-                Steg {activeStep + 1} av {steps.length}
-              </Typography>
-              <Typography 
-                variant="body-sm"
-                style={{ color: 'rgba(255, 255, 255, 0.7)' }}
-              >
-                {Math.round(((activeStep + 1) / steps.length) * 100)}% klart
-              </Typography>
-            </div>
-            
-            {/* Progress Bar */}
-            <div style={{
-              width: '100%',
-              height: '6px',
-              background: 'rgba(255, 255, 255, 0.1)',
-              borderRadius: '3px',
-              overflow: 'hidden'
-            }}>
-              <div style={{
-                width: `${((activeStep + 1) / steps.length) * 100}%`,
-                height: '100%',
-                background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
-                borderRadius: '3px',
-                transition: 'width 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
-              }} />
-            </div>
-          </div>
-
-          {/* Active Step Card */}
+          {/* Single Step Card */}
           <div style={{ position: 'relative', width: '100%', maxWidth: '600px' }}>
             <Card
               variant="elevated"
@@ -154,127 +106,99 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                transform: `scale(${activeStep === 0 ? 1 : 0.95})`,
-                opacity: activeStep === 0 ? 1 : 0.8
+                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
               }}
             >
               <div style={{ textAlign: 'center' }}>
                 <Stack spacing="lg" align="center">
-                  {/* Progress Indicator */}
+                  {/* Large Icon */}
                   <div style={{
+                    background: 'linear-gradient(135deg, #1f2937, #64748b)',
+                    width: '120px',
+                    height: '120px',
+                    borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 'var(--foundation-space-2)',
-                    marginBottom: 'var(--foundation-space-4)'
+                    justifyContent: 'center',
+                    boxShadow: '0 8px 32px rgba(31, 41, 55, 0.3)',
+                    transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                    transform: `rotate(${activeStep * 10}deg)`
                   }}>
-                    {steps.map((_, index) => (
-                      <div
-                        key={index}
-                        style={{
-                          width: '12px',
-                          height: '12px',
-                          borderRadius: '50%',
-                          background: index <= activeStep 
-                            ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
-                            : 'rgba(255, 255, 255, 0.2)',
-                          transition: 'all 0.3s ease',
-                          boxShadow: index === activeStep 
-                            ? '0 0 0 4px rgba(99, 102, 241, 0.2)' 
-                            : 'none'
-                        }}
-                      />
-                    ))}
+                    {steps[activeStep]?.icon ? (
+                      <div style={{
+                        width: '60px',
+                        height: '60px',
+                        color: '#ffffff',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        {steps[activeStep].icon}
+                      </div>
+                    ) : (
+                      <Typography 
+                        variant="h1" 
+                        weight="bold"
+                        style={{ color: '#ffffff', fontSize: '3rem' }}
+                      >
+                        {steps[activeStep]?.number}
+                      </Typography>
+                    )}
                   </div>
 
-                  {/* Large Icon */}
-                <div style={{
-                  background: 'linear-gradient(135deg, #1f2937, #64748b)',
-                  width: '120px',
-                  height: '120px',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 8px 32px rgba(31, 41, 55, 0.3)',
-                  transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                  transform: `rotate(${activeStep * 10}deg)`
-                }}>
-                  {steps[activeStep]?.icon ? (
-                    <div style={{
-                      width: '60px',
-                      height: '60px',
-                      color: '#ffffff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      {steps[activeStep].icon}
-                    </div>
-                  ) : (
+                  {/* Content */}
+                  <Stack spacing="md" align="center">
                     <Typography 
-                      variant="h1" 
+                      variant="h3" 
                       weight="bold"
-                      style={{ color: '#ffffff', fontSize: '3rem' }}
+                      style={{ color: 'var(--primary-white)' }}
                     >
-                      {steps[activeStep]?.number}
+                      {steps[activeStep]?.title}
                     </Typography>
-                  )}
-                </div>
-
-                {/* Content */}
-                <Stack spacing="md" align="center">
-                  <Typography 
-                    variant="h3" 
-                    weight="bold"
-                    style={{ color: 'var(--primary-white)' }}
-                  >
-                    {steps[activeStep]?.title}
-                  </Typography>
-                  <Typography 
-                    variant="body-lg"
-                    style={{ 
-                      color: 'var(--primary-white)', 
-                      opacity: 0.9,
-                      maxWidth: '400px',
-                      lineHeight: 'var(--foundation-typography-line-height-relaxed)'
-                    }}
-                  >
-                    {steps[activeStep]?.description}
-                  </Typography>
-
-                </Stack>
+                    <Typography 
+                      variant="body-lg"
+                      style={{ 
+                        color: 'var(--primary-white)', 
+                        opacity: 0.9,
+                        maxWidth: '400px',
+                        lineHeight: 'var(--foundation-typography-line-height-relaxed)'
+                      }}
+                    >
+                      {steps[activeStep]?.description}
+                    </Typography>
+                  </Stack>
                 </Stack>
               </div>
             </Card>
 
-            {/* Navigation Buttons */}
+            {/* Arrow Navigation */}
             <div style={{
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: 'space-between',
               alignItems: 'center',
               marginTop: 'var(--foundation-space-6)',
-              gap: 'var(--foundation-space-8)',
               width: '100%'
             }}>
-              {/* Previous Button */}
+              {/* Previous Arrow */}
               <button
                 onClick={() => setActiveStep(Math.max(0, activeStep - 1))}
                 disabled={activeStep === 0}
                 style={{
-                  padding: 'var(--foundation-space-3) var(--foundation-space-6)',
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '50%',
                   background: activeStep === 0 
                     ? 'rgba(255, 255, 255, 0.1)' 
                     : 'rgba(255, 255, 255, 0.05)',
                   border: '1px solid rgba(255, 255, 255, 0.1)',
-                  borderRadius: 'var(--foundation-radius-md)',
                   color: activeStep === 0 
                     ? 'rgba(255, 255, 255, 0.3)' 
                     : 'var(--primary-white)',
                   cursor: activeStep === 0 ? 'not-allowed' : 'pointer',
                   transition: 'all 0.3s ease',
-                  fontSize: '0.9rem',
-                  fontWeight: '500',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   opacity: activeStep === 0 ? 0.5 : 1
                 }}
                 onMouseEnter={(e) => {
@@ -290,7 +214,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                   }
                 }}
               >
-                ← Föregående
+                <ChevronLeftIcon size={24} />
               </button>
 
               {/* Step Counter */}
@@ -306,7 +230,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                       width: '8px',
                       height: '8px',
                       borderRadius: '50%',
-                      background: index <= activeStep 
+                      background: index === activeStep 
                         ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
                         : 'rgba(255, 255, 255, 0.2)',
                       transition: 'all 0.3s ease'
@@ -315,22 +239,24 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 ))}
               </div>
 
-              {/* Next Button */}
+              {/* Next Arrow */}
               <button
                 onClick={() => setActiveStep(Math.min(steps.length - 1, activeStep + 1))}
                 disabled={activeStep === steps.length - 1}
                 style={{
-                  padding: 'var(--foundation-space-3) var(--foundation-space-6)',
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '50%',
                   background: activeStep === steps.length - 1 
                     ? 'rgba(255, 255, 255, 0.1)' 
                     : 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
                   border: 'none',
-                  borderRadius: 'var(--foundation-radius-md)',
                   color: 'white',
                   cursor: activeStep === steps.length - 1 ? 'not-allowed' : 'pointer',
                   transition: 'all 0.3s ease',
-                  fontSize: '0.9rem',
-                  fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   opacity: activeStep === steps.length - 1 ? 0.5 : 1,
                   boxShadow: activeStep < steps.length - 1 
                     ? '0 4px 12px rgba(99, 102, 241, 0.3)' 
@@ -349,7 +275,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                   }
                 }}
               >
-                {activeStep === steps.length - 1 ? 'Klar!' : 'Vidare →'}
+                <ChevronRightIcon size={24} />
               </button>
             </div>
           </div>
