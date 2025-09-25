@@ -268,25 +268,27 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                       <Stack spacing="md" align="center" key={index}>
                         <div
                           style={{
-                            background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                            background: 'linear-gradient(135deg, #1f2937, #64748b)',
                             width: 'clamp(48px, 8vw, 64px)',
                             height: 'clamp(48px, 8vw, 64px)',
                             borderRadius: 'var(--foundation-radius-full)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            flexShrink: 0
+                            flexShrink: 0,
+                            boxShadow: '0 4px 16px rgba(31, 41, 55, 0.2)'
                           }}
                         >
-                          <Icon 
-                            color="inverse"
-                            style={{
-                              width: 'clamp(24px, 4vw, 32px)',
-                              height: 'clamp(24px, 4vw, 32px)'
-                            }}
-                          >
+                          <div style={{
+                            width: 'clamp(24px, 4vw, 32px)',
+                            height: 'clamp(24px, 4vw, 32px)',
+                            color: '#ffffff',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}>
                             {info.icon}
-                          </Icon>
+                          </div>
                         </div>
                         <Stack spacing="xs" align="center">
                           <Typography variant="body-md" weight="semibold" color="primary" style={{ textAlign: 'center' }}>

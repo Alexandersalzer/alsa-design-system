@@ -179,13 +179,13 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                           width: '50px',
                           height: '50px',
                           borderRadius: '50%',
-                          background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                          background: 'linear-gradient(135deg, #1f2937, #64748b)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           flexShrink: 0,
                           position: 'relative',
-                          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+                          boxShadow: '0 4px 16px rgba(31, 41, 55, 0.2)'
                         }}
                       >
                         {/* Simple Person Icon */}
