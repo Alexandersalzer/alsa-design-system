@@ -190,6 +190,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                 }
               }}
               aria-label={brand.name || brand.logoAlt || 'Hem'}
+              className="nav-link"
               style={{ textDecoration: 'none' }}
             >
               {brand.logoSrc ? (
@@ -202,7 +203,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   decoding="sync"
                 />
               ) : (
-                <Typography variant="h4" weight="bold" color="inverse">
+                <Typography variant="h4" weight="bold" color="inverse" style={{ color: 'var(--primary-white)' }}>
                   {brand.name || 'Företag'}
                 </Typography>
               )}
