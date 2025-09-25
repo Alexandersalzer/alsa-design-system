@@ -33,58 +33,27 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let isScrolling = false;
-    
-    const handleScroll = (e: Event) => {
-      if (!sectionRef.current || isScrolling) return;
-      
-      const rect = sectionRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      
-      // Check if section is in viewport
-      if (rect.top <= 0 && rect.bottom >= windowHeight) {
-        e.preventDefault();
-        
-        const scrollDelta = (e as WheelEvent).deltaY;
-        const direction = scrollDelta > 0 ? 1 : -1;
-        
-        setActiveStep(prevStep => {
-          const newStep = prevStep + direction;
-          return Math.max(0, Math.min(newStep, steps.length - 1));
-        });
-        
-        // Prevent default scroll behavior
-        isScrolling = true;
-        setTimeout(() => {
-          isScrolling = false;
-        }, 100);
-      }
-    };
-
-    const handleWheel = (e: WheelEvent) => {
+    const handleScroll = () => {
       if (!sectionRef.current) return;
       
       const rect = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
+      const sectionHeight = rect.height;
       
-      // Check if section is in viewport
-      if (rect.top <= 0 && rect.bottom >= windowHeight) {
-        e.preventDefault();
-        
-        const direction = e.deltaY > 0 ? 1 : -1;
-        
-        setActiveStep(prevStep => {
-          const newStep = prevStep + direction;
-          return Math.max(0, Math.min(newStep, steps.length - 1));
-        });
-      }
+      // Calculate progress through the section (0 to 1)
+      const progress = Math.max(0, Math.min(1, 
+        (windowHeight - rect.top) / (windowHeight + sectionHeight)
+      ));
+      
+      // Determine active step based on progress
+      const stepIndex = Math.floor(progress * steps.length);
+      setActiveStep(Math.min(stepIndex, steps.length - 1));
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call
     
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [steps.length]);
 
   return (
@@ -175,50 +144,52 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 </Typography>
               </div>
 
-              {/* Progress Indicator */}
+              {/* Progress Bar */}
               <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 'var(--foundation-space-2)',
-                marginBottom: 'var(--foundation-space-4)'
+                marginBottom: 'var(--foundation-space-6)',
+                padding: 'var(--foundation-space-4)',
+                background: 'rgba(255, 255, 255, 0.05)',
+                borderRadius: 'var(--foundation-radius-lg)',
+                border: '1px solid rgba(255, 255, 255, 0.1)'
               }}>
-                {steps.map((_, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      width: '8px',
-                      height: '8px',
-                      borderRadius: '50%',
-                      background: index <= activeStep 
-                        ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
-                        : 'rgba(255, 255, 255, 0.2)',
-                      transition: 'all 0.3s ease'
-                    }}
-                  />
-                ))}
-                <Typography 
-                  variant="body-sm" 
-                  style={{ 
-                    color: 'rgba(255, 255, 255, 0.7)',
-                    marginLeft: 'var(--foundation-space-3)'
-                  }}
-                >
-                  {activeStep + 1} av {steps.length}
-                </Typography>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: 'var(--foundation-space-3)'
+                }}>
+                  <Typography 
+                    variant="body-sm" 
+                    weight="semibold"
+                    style={{ color: 'var(--primary-white)' }}
+                  >
+                    Steg {activeStep + 1} av {steps.length}
+                  </Typography>
+                  <Typography 
+                    variant="body-sm"
+                    style={{ color: 'rgba(255, 255, 255, 0.7)' }}
+                  >
+                    {Math.round(((activeStep + 1) / steps.length) * 100)}% klart
+                  </Typography>
+                </div>
+                
+                {/* Progress Bar */}
+                <div style={{
+                  width: '100%',
+                  height: '6px',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  borderRadius: '3px',
+                  overflow: 'hidden'
+                }}>
+                  <div style={{
+                    width: `${((activeStep + 1) / steps.length) * 100}%`,
+                    height: '100%',
+                    background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                    borderRadius: '3px',
+                    transition: 'width 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+                  }} />
+                </div>
               </div>
-              
-              {/* Scroll Instruction */}
-              <Typography 
-                variant="body-sm" 
-                style={{ 
-                  color: 'rgba(255, 255, 255, 0.5)',
-                  fontStyle: 'italic',
-                  textAlign: 'center',
-                  marginBottom: 'var(--foundation-space-4)'
-                }}
-              >
-                Scrolla för att gå igenom stegen
-              </Typography>
 
               {/* Step Titles */}
               <Stack spacing="md">
@@ -236,10 +207,39 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                       border: activeStep === index 
                         ? '1px solid rgba(255, 255, 255, 0.2)' 
                         : '1px solid transparent',
-                      transform: activeStep === index ? 'translateX(8px)' : 'translateX(0)'
+                      transform: activeStep === index ? 'translateX(8px)' : 'translateX(0)',
+                      position: 'relative'
                     }}
                     onClick={() => setActiveStep(index)}
                   >
+                    {/* Step Number Badge */}
+                    <div style={{
+                      position: 'absolute',
+                      top: 'var(--foundation-space-3)',
+                      right: 'var(--foundation-space-3)',
+                      background: activeStep === index 
+                        ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
+                        : 'rgba(255, 255, 255, 0.1)',
+                      width: '24px',
+                      height: '24px',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.3s ease'
+                    }}>
+                      <Typography 
+                        variant="body-xs" 
+                        weight="bold"
+                        style={{ 
+                          color: activeStep === index ? 'white' : 'rgba(255, 255, 255, 0.6)',
+                          fontSize: '12px'
+                        }}
+                      >
+                        {step.number}
+                      </Typography>
+                    </div>
+
                     <Stack spacing="sm">
                       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-3)' }}>
                         <div style={{
@@ -319,6 +319,32 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
             >
               <div style={{ textAlign: 'center' }}>
                 <Stack spacing="lg" align="center">
+                  {/* Progress Indicator */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--foundation-space-2)',
+                    marginBottom: 'var(--foundation-space-4)'
+                  }}>
+                    {steps.map((_, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          width: '12px',
+                          height: '12px',
+                          borderRadius: '50%',
+                          background: index <= activeStep 
+                            ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
+                            : 'rgba(255, 255, 255, 0.2)',
+                          transition: 'all 0.3s ease',
+                          boxShadow: index === activeStep 
+                            ? '0 0 0 4px rgba(99, 102, 241, 0.2)' 
+                            : 'none'
+                        }}
+                      />
+                    ))}
+                  </div>
+
                   {/* Large Icon */}
                 <div style={{
                   background: 'linear-gradient(135deg, #1f2937, #64748b)',
@@ -374,6 +400,66 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                   >
                     {steps[activeStep]?.description}
                   </Typography>
+
+                  {/* Next Step Indicator */}
+                  {activeStep < steps.length - 1 && (
+                    <div style={{
+                      marginTop: 'var(--foundation-space-4)',
+                      padding: 'var(--foundation-space-3)',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      borderRadius: 'var(--foundation-radius-md)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)'
+                    }}>
+                      <Typography 
+                        variant="body-sm"
+                        weight="semibold"
+                        style={{ 
+                          color: 'var(--accent-400)',
+                          marginBottom: 'var(--foundation-space-1)'
+                        }}
+                      >
+                        Nästa steg:
+                      </Typography>
+                      <Typography 
+                        variant="body-sm"
+                        style={{ 
+                          color: 'rgba(255, 255, 255, 0.8)'
+                        }}
+                      >
+                        {steps[activeStep + 1]?.title}
+                      </Typography>
+                    </div>
+                  )}
+
+                  {/* Completion Message */}
+                  {activeStep === steps.length - 1 && (
+                    <div style={{
+                      marginTop: 'var(--foundation-space-4)',
+                      padding: 'var(--foundation-space-3)',
+                      background: 'rgba(34, 197, 94, 0.1)',
+                      borderRadius: 'var(--foundation-radius-md)',
+                      border: '1px solid rgba(34, 197, 94, 0.2)'
+                    }}>
+                      <Typography 
+                        variant="body-sm"
+                        weight="semibold"
+                        style={{ 
+                          color: '#22c55e',
+                          marginBottom: 'var(--foundation-space-1)'
+                        }}
+                      >
+                        🎉 Processen är klar!
+                      </Typography>
+                      <Typography 
+                        variant="body-sm"
+                        style={{ 
+                          color: 'rgba(255, 255, 255, 0.8)'
+                        }}
+                      >
+                        Du har gått igenom alla steg i vår process.
+                      </Typography>
+                    </div>
+                  )}
                 </Stack>
                 </Stack>
               </div>
