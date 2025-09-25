@@ -101,9 +101,11 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-              gap: 'var(--foundation-space-8)',
-              textAlign: 'center'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: 'var(--foundation-space-6)',
+              textAlign: 'center',
+              maxWidth: 'var(--size-page-max-width)',
+              width: '100%'
             }}
           >
             {stats.map((stat) => (
@@ -111,36 +113,51 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
                 key={stat.id} 
                 style={{
                   textAlign: 'center',
-                  padding: 'var(--foundation-space-4)'
+                  padding: 'var(--foundation-space-6)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: 'var(--foundation-radius-xl)',
+                  boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.05)'
                 }}
               >
                 <Typography 
-                  variant="h2" 
+                  variant="h1" 
                   weight="bold" 
-                  color="heading"
+                  color="inverse"
                   style={{
-                    fontSize: 'clamp(2rem, 3vw, 2.5rem)',
+                    fontSize: 'clamp(3rem, 5vw, 4rem)',
                     lineHeight: 'var(--foundation-typography-line-height-tight)',
-                    marginBottom: 'var(--foundation-space-2)'
+                    marginBottom: 'var(--foundation-space-3)',
+                    color: 'var(--primary-white)',
+                    background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
                   }}
                 >
                   {stat.value}
                 </Typography>
                 <Typography 
-                  variant="h5" 
+                  variant="h4" 
                   weight="semibold" 
-                  color="heading"
+                  color="inverse"
                   style={{
-                    marginBottom: 'var(--foundation-space-2)'
+                    marginBottom: 'var(--foundation-space-2)',
+                    color: 'var(--primary-white)',
+                    fontSize: 'clamp(1.1rem, 2vw, 1.25rem)'
                   }}
                 >
                   {stat.title}
                 </Typography>
                 <Typography 
-                  variant="body-md" 
-                  color="secondary"
+                  variant="body-sm" 
+                  color="inverse"
                   style={{
-                    lineHeight: 'var(--foundation-typography-line-height-normal)'
+                    lineHeight: 'var(--foundation-typography-line-height-normal)',
+                    color: 'var(--primary-white)',
+                    opacity: 0.8,
+                    fontSize: '0.9rem'
                   }}
                 >
                   {stat.description}
