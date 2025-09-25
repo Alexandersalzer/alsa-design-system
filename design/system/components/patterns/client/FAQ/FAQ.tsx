@@ -130,13 +130,13 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                       paddingTop: 'var(--foundation-space-4)'
                     }}>
                       <Typography 
-                        variant="h4" 
+                        variant="h3" 
                         weight="semibold"
                         style={{ 
                           color: 'var(--primary-white)',
                           textAlign: 'left',
                           flex: 1,
-                          fontSize: '1.25rem'
+                          fontSize: '1.5rem'
                         }}
                       >
                         {item.question}
@@ -146,16 +146,23 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        width: '24px',
-                        height: '24px',
+                        width: '32px',
+                        height: '32px',
                         borderRadius: '50%',
                         background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
                         transition: 'transform var(--foundation-duration-fast) var(--foundation-easing-ease-out)',
                         flexShrink: 0
                       }}>
-                        <Icon size="xs" color="primary">
-                          {isExpanded ? <MinusIcon /> : <PlusIcon />}
-                        </Icon>
+                        <div style={{
+                          width: '16px',
+                          height: '16px',
+                          color: 'white',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}>
+                          {isExpanded ? <MinusIcon size={16} /> : <PlusIcon size={16} />}
+                        </div>
                       </div>
                     </div>
 
