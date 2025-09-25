@@ -40,7 +40,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
   brand = { name: 'Företag', href: '/' },
   ctaButton,
   className = '',
-  maxWidth = '1400px',
+  maxWidth = 'var(--size-page-max-width)',
 }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [elevated, setElevated] = useState(false);
@@ -171,7 +171,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         aria-label="Huvudnavigation"
       >
         <div style={{ 
-          maxWidth: '1400px',
+          maxWidth: 'var(--size-page-max-width)',
           margin: '0 auto',
           padding: 'var(--foundation-space-4) var(--foundation-space-6)',
           minHeight: '80px',

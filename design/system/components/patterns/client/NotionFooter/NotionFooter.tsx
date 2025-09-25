@@ -67,7 +67,11 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
         padding: 'var(--foundation-space-16, 4rem) 0 var(--foundation-space-8, 2rem)'
       }}
     >
-      <Container maxWidth="xl" align="center">
+      <div style={{ 
+        maxWidth: 'var(--size-page-max-width)',
+        margin: '0 auto',
+        padding: '0 var(--foundation-space-6)'
+      }}>
         <Stack spacing="xl">
           {/* Top grid - using Grid utility with responsive behavior */}
           <Grid 
@@ -198,7 +202,7 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
             </Button>
           </Cluster>
         </Stack>
-      </Container>
+      </div>
     </footer>
   );
 };
