@@ -107,7 +107,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                   <Card 
                     key={index} 
                     variant="elevated"
-                    padding="xl"
+                    padding="lg"
                     style={{
                       background: 'rgba(255, 255, 255, 0.05)',
                       backdropFilter: 'blur(20px)',
@@ -115,7 +115,8 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                       borderRadius: 'var(--foundation-radius-xl)',
                       boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.05)',
                       cursor: 'pointer',
-                      transition: 'all var(--foundation-duration-fast) var(--foundation-easing-ease-out)'
+                      transition: 'all var(--foundation-duration-fast) var(--foundation-easing-ease-out)',
+                      padding: 'var(--foundation-space-8)'
                     }}
                     onClick={() => toggleExpanded(index)}
                     role="button"
