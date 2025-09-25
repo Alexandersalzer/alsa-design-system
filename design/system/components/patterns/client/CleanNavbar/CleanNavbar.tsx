@@ -71,15 +71,14 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             left: 0;
             right: 0;
             z-index: 1000;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           }
           .navbar--elevated {
-            background: rgba(0, 0, 0, 0.9);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.25);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
           }
           .navbar-mobile {
             position: fixed;
@@ -87,11 +86,11 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(24px);
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(20px);
             z-index: 1001;
             transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow-y: auto;
             opacity: 0;
             visibility: hidden;
@@ -100,30 +99,27 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             transform: translateX(0);
             opacity: 1;
             visibility: visible;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                       opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                       visibility 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                       opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                       visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           }
           .hamburger {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
             background: none;
             border: none;
             cursor: pointer;
-            padding: 12px;
-            border-radius: 8px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 8px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           }
           .hamburger:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(1.05);
+            transform: scale(1.1);
           }
           .hamburger span {
-            width: 26px;
-            height: 3px;
+            width: 24px;
+            height: 2px;
             background: var(--primary-white);
-            border-radius: 2px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             transform-origin: center;
           }
@@ -132,24 +128,22 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             text-decoration: none;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 500;
           }
           .nav-link * {
             color: var(--primary-white) !important;
           }
           .nav-link:hover {
-            color: var(--primary-white) !important;
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-1px);
+            color: #64748b !important;
+            text-decoration: underline;
+            text-decoration-color: #64748b;
+            text-underline-offset: 4px;
+            text-decoration-thickness: 1px;
           }
           .nav-link:hover * {
-            color: var(--primary-white) !important;
+            color: #64748b !important;
           }
           .nav-link.active {
             color: var(--accent-500) !important;
-            background: rgba(99, 102, 241, 0.1);
           }
           .nav-link.active * {
             color: var(--accent-500) !important;
@@ -177,10 +171,10 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         aria-label="Huvudnavigation"
       >
         <div style={{ 
-          maxWidth: '1200px',
+          maxWidth: '1400px',
           margin: '0 auto',
-          padding: 'var(--foundation-space-5) var(--foundation-space-8)',
-          minHeight: '88px',
+          padding: 'var(--foundation-space-4) var(--foundation-space-6)',
+          minHeight: '80px',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -212,12 +206,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   variant="h3" 
                   weight="bold" 
                   color="inverse"
-                  style={{ 
-                    color: 'var(--primary-white)', 
-                    fontSize: '1.75rem',
-                    letterSpacing: '-0.02em',
-                    lineHeight: '1.2'
-                  }}
+                  style={{ color: 'var(--primary-white)', fontSize: '1.5rem' }}
                 >
                   {brand.name || 'Företag'}
                 </Typography>
@@ -227,7 +216,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             {/* Links (desktop) */}
             <div style={{ 
               display: 'none',
-              gap: 'var(--foundation-space-2)',
+              gap: 'var(--foundation-space-6)',
               alignItems: 'center'
             }} className="desktop-links">
               {items.map((it) => (
@@ -251,16 +240,16 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             {ctaButton && (
               <div style={{ display: 'none' }} className="desktop-cta">
                 <Button
-                  variant="accent"
+                  variant="secondary"
                   size="lg"
                   onClick={() => go(ctaButton.href)}
                   style={{
+                    background: 'linear-gradient(135deg, #64748b, #475569)',
+                    color: 'var(--primary-white)',
                     fontWeight: '600',
-                    fontSize: '1rem',
-                    padding: 'var(--foundation-space-3) var(--foundation-space-6)',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                    fontSize: '1.1rem',
+                    border: 'none',
+                    padding: 'var(--foundation-space-3) var(--foundation-space-6)'
                   }}
                 >
                   {ctaButton.text}
@@ -319,12 +308,12 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
         
         <div 
           style={{ 
-            maxWidth: '1200px',
+            maxWidth: '1400px',
             margin: '0 auto',
-            padding: '100px var(--foundation-space-8) var(--foundation-space-12)',
+            padding: '80px var(--foundation-space-6) var(--foundation-space-8)',
             transform: mobileOpen ? 'translateY(0)' : 'translateY(20px)',
             opacity: mobileOpen ? 1 : 0,
-            transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s'
+            transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.1s'
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -352,7 +341,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             {/* Mobile CTA */}
             {ctaButton && (
               <Button
-                variant="accent"
+                variant="secondary"
                 size="xl"
                 onClick={() => {
                   setMobileOpen(false);
@@ -360,12 +349,12 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                 }}
                 style={{ 
                   width: '100%',
+                  background: 'linear-gradient(135deg, #64748b, #475569)',
+                  color: 'var(--primary-white)',
                   fontWeight: '600',
-                  fontSize: '1.1rem',
-                  padding: 'var(--foundation-space-4) var(--foundation-space-8)',
-                  borderRadius: '12px',
-                  boxShadow: '0 6px 20px rgba(99, 102, 241, 0.4)',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                  fontSize: '1.2rem',
+                  border: 'none',
+                  padding: 'var(--foundation-space-4) var(--foundation-space-8)'
                 }}
               >
                 {ctaButton.text}
