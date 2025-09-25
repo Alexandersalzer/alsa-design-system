@@ -184,7 +184,80 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                 
                 <form onSubmit={handleSubmit}>
                   <Stack spacing="md">
-                    {fields.map((field, index) => (
+                    {/* First Row: Name and Email */}
+                    <div style={{ 
+                      display: 'grid', 
+                      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+                      gap: 'var(--foundation-space-4)'
+                    }}>
+                      {fields.filter(field => field.name === 'name' || field.name === 'email').map((field) => (
+                        <div key={field.name} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-2)' }}>
+                          <label 
+                            style={{ 
+                              fontWeight: 'var(--foundation-typography-weight-semibold)',
+                              color: 'var(--text-primary)',
+                              fontSize: 'var(--foundation-typography-size-sm)',
+                              textAlign: 'left',
+                              display: 'block'
+                            }}
+                          >
+                            {field.label}
+                            {field.required && <span style={{ color: 'var(--accent-500)' }}> *</span>}
+                          </label>
+                          <Input
+                            type={field.type}
+                            name={field.name}
+                            required={field.required}
+                            placeholder={field.placeholder}
+                            size="md"
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Second Row: Phone and Case Type */}
+                    <div style={{ 
+                      display: 'grid', 
+                      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+                      gap: 'var(--foundation-space-4)'
+                    }}>
+                      {fields.filter(field => field.name === 'phone' || field.name === 'caseType').map((field) => (
+                        <div key={field.name} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-2)' }}>
+                          <label 
+                            style={{ 
+                              fontWeight: 'var(--foundation-typography-weight-semibold)',
+                              color: 'var(--text-primary)',
+                              fontSize: 'var(--foundation-typography-size-sm)',
+                              textAlign: 'left',
+                              display: 'block'
+                            }}
+                          >
+                            {field.label}
+                            {field.required && <span style={{ color: 'var(--accent-500)' }}> *</span>}
+                          </label>
+                          {field.type === 'select' ? (
+                            <Picker
+                              placeholder={field.placeholder}
+                              options={field.options || []}
+                              size="md"
+                              variant="compact"
+                              radius="md"
+                            />
+                          ) : (
+                            <Input
+                              type={field.type}
+                              name={field.name}
+                              required={field.required}
+                              placeholder={field.placeholder}
+                              size="md"
+                            />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Message field (full width) */}
+                    {fields.filter(field => field.type === 'textarea').map((field) => (
                       <div key={field.name} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-2)' }}>
                         <label 
                           style={{ 
@@ -198,31 +271,13 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                           {field.label}
                           {field.required && <span style={{ color: 'var(--accent-500)' }}> *</span>}
                         </label>
-                        {field.type === 'select' ? (
-                          <Picker
-                            placeholder={field.placeholder}
-                            options={field.options || []}
-                            size="md"
-                            variant="compact"
-                            radius="md"
-                          />
-                        ) : field.type === 'textarea' ? (
-                          <Textarea
-                            name={field.name}
-                            required={field.required}
-                            rows={field.rows || 4}
-                            placeholder={field.placeholder}
-                            size="md"
-                          />
-                        ) : (
-                          <Input
-                            type={field.type}
-                            name={field.name}
-                            required={field.required}
-                            placeholder={field.placeholder}
-                            size="md"
-                          />
-                        )}
+                        <Textarea
+                          name={field.name}
+                          required={field.required}
+                          rows={field.rows || 4}
+                          placeholder={field.placeholder}
+                          size="md"
+                        />
                       </div>
                     ))}
                     
