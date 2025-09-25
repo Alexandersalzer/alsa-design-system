@@ -2,14 +2,12 @@
 
 import React, { useState } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
-import { Card } from '../../../../../system/components/primitives/Card';
-import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
-import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import { PlusIcon, MinusIcon } from 'lucide-react';
 
 interface FAQItem {
   question: string;
@@ -99,24 +97,18 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
 
           {/* FAQ Items */}
           <div style={{ width: '100%', maxWidth: 'var(--size-page-content-max-width)' }}>
-            <Stack spacing="lg">
+            <Stack spacing="md">
               {items.map((item, index) => {
                 const isExpanded = expandedItems.has(index);
                 
                 return (
-                  <Card 
-                    key={index} 
-                    variant="elevated"
-                    padding="lg"
+                  <div 
+                    key={index}
                     style={{
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      backdropFilter: 'blur(20px)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      borderRadius: 'var(--foundation-radius-xl)',
-                      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.05)',
+                      borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                      paddingBottom: 'var(--foundation-space-6)',
                       cursor: 'pointer',
-                      transition: 'all var(--foundation-duration-fast) var(--foundation-easing-ease-out)',
-                      padding: 'var(--foundation-space-8)'
+                      transition: 'all var(--foundation-duration-fast) var(--foundation-easing-ease-out)'
                     }}
                     onClick={() => toggleExpanded(index)}
                     role="button"
@@ -130,65 +122,62 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                       }
                     }}
                   >
-                    <Stack spacing="lg">
-                      <Cluster justify="between" align="center">
+                    <div style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'space-between',
+                      gap: 'var(--foundation-space-4)',
+                      paddingTop: 'var(--foundation-space-4)'
+                    }}>
                       <Typography 
-                        variant="h3" 
-                        weight="semibold" 
-                        color="inverse"
-                        style={{
-                          fontSize: 'clamp(1.25rem, 2.5vw, 1.5rem)',
-                          lineHeight: 'var(--foundation-typography-line-height-tight)',
+                        variant="h4" 
+                        weight="semibold"
+                        style={{ 
+                          color: 'var(--primary-white)',
+                          textAlign: 'left',
                           flex: 1,
-                          marginRight: 'var(--foundation-space-4)',
-                          color: 'var(--primary-white)'
+                          fontSize: '1.25rem'
                         }}
                       >
                         {item.question}
                       </Typography>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        style={{
-                          padding: 'var(--foundation-space-1)',
-                          minWidth: 'auto',
-                          flexShrink: 0
-                        }}
-                        aria-label={isExpanded ? 'Dölj svar' : 'Visa svar'}
-                      >
-                        <ChevronDownIcon 
-                          style={{
-                            width: '20px',
-                            height: '20px',
-                            color: 'var(--primary-white)',
-                            transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                            transition: 'transform var(--foundation-duration-fast) var(--foundation-easing-ease-out)'
-                          }}
-                        />
-                      </Button>
-                    </Cluster>
-                    
+                      
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '24px',
+                        height: '24px',
+                        borderRadius: '50%',
+                        background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                        transition: 'transform var(--foundation-duration-fast) var(--foundation-easing-ease-out)',
+                        flexShrink: 0
+                      }}>
+                        <Icon size="xs" color="white">
+                          {isExpanded ? <MinusIcon /> : <PlusIcon />}
+                        </Icon>
+                      </div>
+                    </div>
+
                     {isExpanded && (
                       <div style={{
-                        animation: 'fadeInDown var(--foundation-duration-normal) var(--foundation-easing-ease-out)'
+                        marginTop: 'var(--foundation-space-4)',
+                        animation: 'fadeInDown 0.3s ease-out'
                       }}>
                         <Typography 
-                          variant="body-lg" 
-                          color="inverse"
-                          style={{
-                            lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                            paddingTop: 'var(--foundation-space-4)',
-                            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                          variant="body-md"
+                          style={{ 
                             color: 'var(--primary-white)',
-                            opacity: 0.9
+                            opacity: 0.9,
+                            lineHeight: 'var(--foundation-typography-line-height-relaxed)',
+                            textAlign: 'left'
                           }}
                         >
                           {item.answer}
                         </Typography>
                       </div>
                     )}
-                  </Stack>
-                  </Card>
+                  </div>
                 );
               })}
             </Stack>
