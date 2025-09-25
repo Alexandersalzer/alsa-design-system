@@ -180,7 +180,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                     </div>
                     
                     {/* Rating Stars - moved to bottom */}
-                    <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 'var(--foundation-space-2)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-start', paddingTop: 'var(--foundation-space-1)' }}>
                       <Cluster spacing="xs" align="center">
                         {[...Array(testimonial.rating || 5)].map((_, i) => (
                           <div 
