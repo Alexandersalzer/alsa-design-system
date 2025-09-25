@@ -120,10 +120,10 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                   }}
                 >
                   
-                  <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
-                    <Stack spacing="xs">
+                  <div style={{ height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
+                    <Stack spacing="md" style={{ height: '100%' }}>
                     {/* Testimonial Text */}
-                    <div style={{ flex: 1 }}>
+                    <div style={{ flex: 1, minHeight: '80px' }}>
                       <Typography 
                         variant="body-md" 
                         color="primary"
@@ -138,7 +138,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                     </div>
                     
                     {/* Rating Stars */}
-                    <div>
+                    <div style={{ display: 'flex', justifyContent: 'center', padding: 'var(--foundation-space-2) 0' }}>
                       <Cluster spacing="xs" align="center">
                         {[...Array(testimonial.rating || 5)].map((_, i) => (
                           <div 
@@ -157,7 +157,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                     </div>
                     
                     {/* Author Info */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-3)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-3)', paddingTop: 'var(--foundation-space-2)' }}>
                       {/* Simple Avatar */}
                       <div
                         style={{
