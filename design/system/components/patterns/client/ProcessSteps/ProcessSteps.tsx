@@ -464,6 +464,110 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 </Stack>
               </div>
             </Card>
+
+            {/* Navigation Buttons */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginTop: 'var(--foundation-space-6)',
+              gap: 'var(--foundation-space-4)'
+            }}>
+              {/* Previous Button */}
+              <button
+                onClick={() => setActiveStep(Math.max(0, activeStep - 1))}
+                disabled={activeStep === 0}
+                style={{
+                  padding: 'var(--foundation-space-3) var(--foundation-space-6)',
+                  background: activeStep === 0 
+                    ? 'rgba(255, 255, 255, 0.1)' 
+                    : 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: 'var(--foundation-radius-md)',
+                  color: activeStep === 0 
+                    ? 'rgba(255, 255, 255, 0.3)' 
+                    : 'var(--primary-white)',
+                  cursor: activeStep === 0 ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.3s ease',
+                  fontSize: '0.9rem',
+                  fontWeight: '500',
+                  opacity: activeStep === 0 ? 0.5 : 1
+                }}
+                onMouseEnter={(e) => {
+                  if (activeStep > 0) {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeStep > 0) {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                  }
+                }}
+              >
+                ← Föregående
+              </button>
+
+              {/* Step Counter */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--foundation-space-2)'
+              }}>
+                {steps.map((_, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      width: '8px',
+                      height: '8px',
+                      borderRadius: '50%',
+                      background: index <= activeStep 
+                        ? 'linear-gradient(135deg, var(--accent-500), var(--accent-400))'
+                        : 'rgba(255, 255, 255, 0.2)',
+                      transition: 'all 0.3s ease'
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Next Button */}
+              <button
+                onClick={() => setActiveStep(Math.min(steps.length - 1, activeStep + 1))}
+                disabled={activeStep === steps.length - 1}
+                style={{
+                  padding: 'var(--foundation-space-3) var(--foundation-space-6)',
+                  background: activeStep === steps.length - 1 
+                    ? 'rgba(255, 255, 255, 0.1)' 
+                    : 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                  border: 'none',
+                  borderRadius: 'var(--foundation-radius-md)',
+                  color: 'white',
+                  cursor: activeStep === steps.length - 1 ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.3s ease',
+                  fontSize: '0.9rem',
+                  fontWeight: '600',
+                  opacity: activeStep === steps.length - 1 ? 0.5 : 1,
+                  boxShadow: activeStep < steps.length - 1 
+                    ? '0 4px 12px rgba(99, 102, 241, 0.3)' 
+                    : 'none'
+                }}
+                onMouseEnter={(e) => {
+                  if (activeStep < steps.length - 1) {
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(99, 102, 241, 0.4)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeStep < steps.length - 1) {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)';
+                  }
+                }}
+              >
+                {activeStep === steps.length - 1 ? 'Klar!' : 'Vidare →'}
+              </button>
+            </div>
           </div>
         </div>
       </Container>
