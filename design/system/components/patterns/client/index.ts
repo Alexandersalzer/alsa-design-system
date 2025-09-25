@@ -17,6 +17,7 @@ export * from './FilterTabs';
 export * from './PortfolioCard';
 export * from './Testimonials';
 export * from './AboutWithStats';
+export * from './AboutUs';
 export * from './SuccessfulCases';
 export * from './CTA';
 export * from './DoubleContactForm';
