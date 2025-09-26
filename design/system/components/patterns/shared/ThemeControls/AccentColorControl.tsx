@@ -73,16 +73,28 @@ const ALL_COLORS = COLOR_GRID.flat();
 
 interface AccentColorControlProps {
   className?: string;
+  value?: string; // External value control
+  onChange?: (value: string) => void; // External change handler
 }
 
-export function AccentColorControl({ className }: AccentColorControlProps) {
+export function AccentColorControl({ className, value, onChange }: AccentColorControlProps) {
   const { accentColor, setAccentColor } = useTheme();
 
-  // Handle color change
+  // Handle color change - support both internal and external control
   const handleColorChange = (colorValue: string) => {
     console.log('🎨 AccentColorControl: Ändrar färg till:', colorValue);
+    
+    // If external onChange is provided, use it (for ProjectContext integration)
+    if (onChange) {
+      onChange(colorValue);
+    }
+    
+    // Also update internal theme system
     setAccentColor(colorValue as ColorScale);
   };
+
+  // Use external value if provided, otherwise use internal theme state
+  const currentValue = value || accentColor;
 
   return (
     <div className={className}>
@@ -112,7 +124,7 @@ export function AccentColorControl({ className }: AccentColorControlProps) {
                 label={color.label} // Nu kortare namn som "Ljus", "Medium", "Mörk" etc
                 variant="color"
                 colorValue={color.hex}
-                checked={accentColor === color.value}
+                checked={currentValue === color.value}
                 onClick={() => handleColorChange(color.value)}
                 className="aspect-square hover:scale-105 transition-transform"
               />
