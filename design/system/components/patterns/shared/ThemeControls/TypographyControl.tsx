@@ -268,7 +268,7 @@ const ALL_FONTS = [
   },
 ];
 
-// ✅ DEFINE DEFAULT FONT VALUE - matches project-builder defaults
+// ✅ DEFINE DEFAULT FONT VALUE
 const DEFAULT_FONT_VALUE = 'plus-jakarta-sans'; // This exists in ALL_FONTS array
 
 interface TypographyControlProps {

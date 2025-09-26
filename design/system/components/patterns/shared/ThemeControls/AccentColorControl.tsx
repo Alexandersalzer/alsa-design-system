@@ -94,7 +94,6 @@ export function AccentColorControl({ className, value, onChange }: AccentColorCo
   };
 
   // Use external value if provided, otherwise use internal theme state
-  // Default 'blue' matches project-builder defaults
   const currentValue = value || accentColor;
 
   return (
