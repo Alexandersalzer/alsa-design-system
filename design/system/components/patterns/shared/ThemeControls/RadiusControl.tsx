@@ -59,7 +59,7 @@ export function RadiusControl({ columns = 4, className, value, onChange }: Radiu
       {/* ✅ Använder DesignRadioCard med Root + Radius-objekt */}
       <DesignRadioCard.Root
         name="radius-scale"
-        value={currentValue || 'md'}
+        value={currentValue || 'md'} // Default matches project-builder defaults
         onChange={handleRadiusChange}
         columns={columns}
         gap="xs"
