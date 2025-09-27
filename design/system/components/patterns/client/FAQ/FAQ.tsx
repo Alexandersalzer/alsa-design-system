@@ -102,8 +102,8 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
 
           {/* FAQ Items */}
           <div style={{ 
-            width: '100%', 
-            maxWidth: 'var(--size-page-content-max-width)',
+            width: 'var(--size-page-content-max-width)', // Fast bredd istället för maxWidth
+            margin: '0 auto', // Centrera containern
             minHeight: '600px' // Lägg till minsta höjd för att behålla storlek
           }}>
             <Stack spacing="md">
@@ -114,6 +114,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                   <div 
                     key={index}
                     style={{
+                      width: '100%', // Fast bredd för varje FAQ-item
                       borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
                       paddingBottom: 'var(--foundation-space-6)',
                       cursor: 'pointer',
@@ -186,7 +187,8 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                             color: 'var(--primary-white)',
                             opacity: 0.9,
                             lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                            textAlign: 'left'
+                            textAlign: 'left',
+                            width: '100%' // Fast bredd för svars-texten
                           }}
                         >
                           {item.answer}
