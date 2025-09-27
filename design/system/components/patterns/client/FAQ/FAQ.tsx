@@ -61,7 +61,8 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
       height="auto"
       style={{
         paddingTop: 'var(--foundation-space-24)',
-        paddingBottom: 'var(--foundation-space-16)'
+        paddingBottom: 'var(--foundation-space-16)',
+        minHeight: '800px' // Lägg till minsta höjd för hela sektionen
       }}
     >
       <div style={{ 
@@ -100,7 +101,11 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
           </div>
 
           {/* FAQ Items */}
-          <div style={{ width: '100%', maxWidth: 'var(--size-page-content-max-width)' }}>
+          <div style={{ 
+            width: '100%', 
+            maxWidth: 'var(--size-page-content-max-width)',
+            minHeight: '600px' // Lägg till minsta höjd för att behålla storlek
+          }}>
             <Stack spacing="md">
               {items.map((item, index) => {
                 const isExpanded = expandedItems.has(index);
