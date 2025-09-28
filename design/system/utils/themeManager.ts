@@ -181,41 +181,6 @@ export class ThemeManager {
 
   }
 
-  /**
-   * Updated applyTheme method - include theme mode
-   */
-  applyTheme(config: Partial<ThemeConfig>): void {
-    if (config.themeMode) { // ✅ ADD this block
-      this.setThemeMode(config.themeMode);
-    }
-    if (config.accentColor) {
-      this.setAccentColor(config.accentColor);
-    }
-    if (config.radiusScale) {
-      this.setRadiusScale(config.radiusScale);
-    }
-  }
-
-  
-  /**
-   * Updated resetToDefaults method - include theme mode
-   */
-  resetToDefaults(): void {
-    if (typeof window === 'undefined') return;
-    
-    localStorage.removeItem('blimpify-theme-config');
-    this.currentConfig = {
-      accentColor: 'purple',
-      radiusScale: 'md',
-      themeMode: 'light' // ✅ ADD this line
-    };
-    
-    this.applyThemeMode(this.currentConfig.themeMode); // ✅ ADD this line
-    this.applyAccentColor(this.currentConfig.accentColor);
-    this.applyRadiusScale(this.currentConfig.radiusScale);
-    
-
-  }
 
     // ✅ ADD these convenience getters:
   get isDark(): boolean {

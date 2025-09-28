@@ -40,15 +40,6 @@ export function useTheme() {
     setConfig(themeManager.getCurrentConfig());
   }, [themeManager, isHydrated]);
 
-  const applyTheme = useCallback((newConfig: Partial<ThemeConfig>) => {
-    themeManager.applyTheme(newConfig);
-    setConfig(themeManager.getCurrentConfig());
-  }, [themeManager]);
-
-  const reset = useCallback(() => {
-    themeManager.resetToDefaults();
-    setConfig(themeManager.getCurrentConfig());
-  }, [themeManager]);
 
   return {
     // ✅ ADD these dark mode properties (compatible with DashboardLayout):
@@ -62,8 +53,6 @@ export function useTheme() {
     config,
     setAccentColor,
     setRadiusScale,
-    applyTheme,
-    reset,
     accentColor: config.accentColor,
     radiusScale: config.radiusScale,
     fontFamily: config.fontFamily
