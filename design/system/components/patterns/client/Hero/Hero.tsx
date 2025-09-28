@@ -14,8 +14,6 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 export interface HeroContent {
   title: string;
   titleAccent?: string;
-  titleLine1?: string;
-  titleLine2?: string;
   subtitle: string;
   ctaText: string;
   ctaHref?: string;
@@ -34,8 +32,6 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
   const { 
     title, 
     titleAccent, 
-    titleLine1,
-    titleLine2,
     subtitle, 
     ctaText, 
     ctaHref,
@@ -157,56 +153,21 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           {/* Text content */}
           <div className="hero-text-content">
             <Stack spacing="lg" align="center" className="hero-text-stack">
-            <div style={{ textAlign: 'left' }}>
-              {titleLine1 && titleLine2 ? (
-                <>
-                  <Typography 
-                    variant="h1" 
-                    weight="semibold" 
-                    color="primary"
-                    style={{
-                      fontSize: 'clamp(2rem, 4vw, 3rem)',
-                      lineHeight: 'var(--foundation-typography-line-height-tight)',
-                      color: 'var(--primary-white)',
-                      textShadow: '0 4px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2)',
-                      filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.1))',
-                      marginBottom: 'var(--foundation-space-2)'
-                    }}
-                  >
-                    {titleLine1}
-                  </Typography>
-                  <Typography 
-                    variant="h1" 
-                    weight="bold" 
-                    color="primary"
-                    style={{
-                      fontSize: 'clamp(2.8rem, 5.5vw, 4.5rem)',
-                      lineHeight: 'var(--foundation-typography-line-height-tight)',
-                      color: 'var(--primary-white)',
-                      textShadow: '0 4px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2)',
-                      filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.1))'
-                    }}
-                  >
-                    {titleLine2}
-                  </Typography>
-                </>
-              ) : (
-                <Typography 
-                  variant="h1" 
-                  weight="bold" 
-                  color="primary"
-                  style={{
-                    fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-                    lineHeight: 'var(--foundation-typography-line-height-tight)',
-                    color: 'var(--primary-white)',
-                    textShadow: '0 4px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2)',
-                    filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.1))'
-                  }}
-                >
-                  {title}
-                </Typography>
-              )}
-            </div>
+            <Typography 
+              variant="h1" 
+              weight="bold" 
+              color="primary"
+              style={{
+                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                lineHeight: 'var(--foundation-typography-line-height-tight)',
+                textAlign: 'left',
+                color: 'var(--primary-white)',
+                textShadow: '0 4px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2)',
+                filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.1))'
+              }}
+            >
+              {title}
+            </Typography>
             
             <Typography 
               variant="body-xl" 
@@ -215,8 +176,8 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
                 textAlign: 'left',
                 color: 'var(--primary-white)',
                 opacity: 0.9,
-                maxWidth: 'var(--size-page-narrow-max-width)',
-                lineHeight: 'var(--foundation-typography-line-height-relaxed)'
+                textShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+                filter: 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.05))'
               }}
             >
               {subtitle}
