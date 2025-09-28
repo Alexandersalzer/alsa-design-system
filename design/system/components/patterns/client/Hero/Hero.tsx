@@ -73,6 +73,10 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           .hero-grid {
             gap: var(--foundation-space-12) !important;
           }
+          .hero-image-content img {
+            transform: translateX(20px);
+            max-width: 90%;
+          }
           @media (min-width: 769px) {
             .hero-text-content {
               order: 1;
@@ -94,6 +98,10 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
             .hero-grid {
               gap: var(--foundation-space-8) !important;
             }
+            .hero-image-content img {
+              transform: translateX(40px);
+              max-width: 85%;
+            }
           }
         `
       }} />
@@ -102,7 +110,9 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
       as="section"
       height="full"
       style={{
-        background: backgroundImage ? `url(${backgroundImage})` : 'var(--surface-page)',
+        background: backgroundImage 
+          ? `linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 50%, rgba(51, 65, 85, 0.4) 100%), url(${backgroundImage})`
+          : 'linear-gradient(135deg, var(--surface-page) 0%, var(--surface-subtle) 100%)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -117,7 +127,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'rgba(0, 0, 0, 0.4)',
+          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.1) 100%)',
           zIndex: 1
         }} />
       )}
@@ -146,38 +156,24 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
             <Typography 
               variant="h1" 
               weight="bold" 
-              color="heading"
+              color="primary"
               style={{
                 fontSize: 'clamp(2.5rem, 5vw, 4rem)',
                 lineHeight: 'var(--foundation-typography-line-height-tight)',
-                textAlign: 'left'
+                textAlign: 'left',
+                color: 'var(--primary-white)'
               }}
             >
-              {title.split(' ').map((word, index) => {
-                if (titleAccent && word === titleAccent) {
-                  return (
-                    <span 
-                      key={index} 
-                      style={{
-                        background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text'
-                      }}
-                    >
-                      {word}{' '}
-                    </span>
-                  );
-                }
-                return word + ' ';
-              })}
+              {title}
             </Typography>
             
             <Typography 
               variant="body-xl" 
-              color="secondary"
+              weight="semibold"
               style={{
-                textAlign: 'left'
+                textAlign: 'left',
+                color: 'var(--primary-white)',
+                opacity: 0.9
               }}
             >
               {subtitle}
