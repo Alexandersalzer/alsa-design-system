@@ -359,10 +359,6 @@
   .mobile-nav-visible {
     display: block !important;
   }
-  
-  .sidebar-hidden {
-    transform: translateX(-100%);
-  }
 }
 
 @media (min-width: 768px) {
