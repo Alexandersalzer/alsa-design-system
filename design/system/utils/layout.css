@@ -90,11 +90,6 @@
   transition: margin-left var(--foundation-duration-normal) var(--foundation-ease-smooth);
 }
 
-@media (min-width: 768px) {
-  .content-area {
-    margin-left: var(--size-sidebar-width);
-  }
-}
 
 /* ===== DASHBOARD LAYOUT ===== */
 .dashboard-main {
@@ -368,9 +363,7 @@
 .sidebar {
   /* FLEXIBLE SIDEBAR APPROACH */
   flex: 0 0 auto; /* Don't grow, don't shrink, auto size based on content */
-  min-width: 240px; /* Minimum comfortable width */
   max-width: 320px; /* Maximum width to prevent getting too wide */
-  width: var(--size-sidebar-width); /* Preferred width from design tokens */
   
   /* Layout properties */
   height: 100vh;
@@ -583,7 +576,6 @@
     z-index: 1000;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
-    width: var(--size-sidebar-width);
     max-width: 80vw;
     min-width: 280px;
   }

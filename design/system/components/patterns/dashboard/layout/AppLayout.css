@@ -32,10 +32,6 @@
   width: 240px;
 }
 
-.app-layout__sidebar--md {
-  width: var(--size-sidebar-width); /* Uses your existing 280px token */
-}
-
 .app-layout__sidebar--lg {
   width: 320px;
 }
@@ -190,7 +186,7 @@
 }
 
 .app-layout-sidebar--sm { width: 240px; }
-.app-layout-sidebar--md { width: var(--size-sidebar-width); }
+
 .app-layout-sidebar--lg { width: 320px; }
 .app-layout-sidebar--collapsed { width: 64px; }
 

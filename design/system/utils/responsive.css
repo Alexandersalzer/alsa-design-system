@@ -370,9 +370,6 @@
     display: block !important;
   }
   
-  .content-area {
-    margin-left: var(--size-sidebar-width);
-  }
 }
 
 /* ===== RESPONSIVE TYPOGRAPHY UTILITIES ===== */
