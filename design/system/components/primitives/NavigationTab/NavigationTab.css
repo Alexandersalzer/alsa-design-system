@@ -17,8 +17,7 @@
   /* Typography - Default body font */
   font-family: var(--font-body-family, system-ui);
   font-size: var(--font-label-md-size, 14px);
-  font-weight: var(--font-label-weight, 500);
-  line-height: var(--font-label-md-leading, 1.4);
+  font-weight: var(--foundation-weight-bold);
   text-decoration: none;
   
   /* Colors */
