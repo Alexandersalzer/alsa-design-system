@@ -1,5 +1,6 @@
 // ===============================================
-// AccentColorControl.tsx - UPDATED to use DesignRadioCard
+// AccentColorControl.tsx - Kortare namn för bättre UX
+// 3x10 grid med kortare, beskrivande namn
 // ===============================================
 import React, { useState, useEffect } from 'react';
 import { DesignRadioCard, DesignRadioCardItem, Button } from '@blimpify-im/ui';
@@ -8,188 +9,130 @@ import { SwatchIcon, PaintBrushIcon } from '@heroicons/react/24/outline';
 import { Body, Icon } from '@blimpify-im/ui';
 import { extractColorsFromImage, applyColorsWithThemeManager } from '../../../../utils/colorExtraction';
 
-// Clean color options - just names and hex values
-const COLOR_OPTIONS = [
-  { value: 'ruby', label: 'Ruby', hex: '#EF4444' },
-  { value: 'purple', label: 'Purple', hex: '#A855F7' },
-  { value: 'azure', label: 'Azure', hex: '#3B82F6' },
-  { value: 'emerald', label: 'Emerald', hex: '#10B981' },
-  { value: 'honey', label: 'Honey', hex: '#F59E0B' },
-  { value: 'gray', label: 'Slate', hex: '#6B7280' },
+// Förkortade namn - behåller samma values för backend-kompatibilitet
+const COLOR_GRID = [
+  // Pink row
+  [
+    { value: 'pink-light', label: 'Flamingo', hex: '#F472B6' },
+    { value: 'pink', label: 'Rosa', hex: '#EC4899' },
+    { value: 'pink-dark', label: 'Ros', hex: '#D946EF' }
+  ],
+  // Red row
+  [
+    { value: 'red-light', label: 'Bär', hex: '#FCA5A5' },
+    { value: 'red', label: 'Röd', hex: '#ef2a2aff' },
+    { value: 'red-dark', label: 'Vinröd', hex: '#DC2626' }
+  ],
+  // Orange row
+  [
+    { value: 'orange-light', label: 'Persika', hex: '#FFA366' },
+    { value: 'orange', label: 'Orange', hex: '#F97316' },
+    { value: 'tangerine', label: 'Mandarin', hex: '#EA580C' }
+  ],
+  // Yellow row
+  [
+    { value: 'yellow-light', label: 'Citron', hex: '#FDE047' },
+    { value: 'yellow', label: 'Gul', hex: '#F59E0B' },
+    { value: 'yellow-dark', label: 'Guld', hex: '#D97706' }
+  ],
+  // Green row
+  [
+    { value: 'green-light', label: 'Mint', hex: '#4ADE80' },
+    { value: 'green', label: 'Grön', hex: '#10B981' },
+    { value: 'green-dark', label: 'Skog', hex: '#059669' }
+  ],
+  // Teal row
+  [
+    { value: 'teal-light', label: 'Aqua', hex: '#5EEAD4' },
+    { value: 'teal', label: 'Teal', hex: '#14B8A6' },
+    { value: 'teal-dark', label: 'Jade', hex: '#0F766E' }
+  ],
+  // Blue row
+  [
+    { value: 'blue-light', label: 'Himmel', hex: '#60A5FA' },
+    { value: 'blue', label: 'Blå', hex: '#3B82F6' },
+    { value: 'blue-dark', label: 'Marin', hex: '#1D4ED8' }
+  ],
+  // Purple row
+  [
+    { value: 'purple-light', label: 'Orchid', hex: '#C084FC' },
+    { value: 'purple', label: 'Lila', hex: '#A855F7' },
+    { value: 'purple-dark', label: 'Violett', hex: '#7C3AED' }
+  ],
 ];
 
-// Custom brand colors option
-const CUSTOM_BRAND_OPTION = {
-  value: 'custom-brand',
-  label: 'Custom Brand',
-  hex: '#8B5CF6', // Default purple color for the button
-  isCustom: true
-};
+  // Indigo row
+/*
+  [
+    { value: 'indigo-light', label: 'Moln', hex: '#A5B4FC' },
+    { value: 'indigo', label: 'Indigo', hex: '#6366F1' },
+    { value: 'indigo-dark', label: 'Natt', hex: '#4338CA' }
+  ], */
+
+// Flatten the grid for the radio group
+const ALL_COLORS = COLOR_GRID.flat();
 
 interface AccentColorControlProps {
-  columns?: 1 | 2 | 3 | 4 | 5 | 6;
   className?: string;
-  logoUrl?: string; // Optional logo URL for brand color extraction
-  setCustomBrand?: () => void; // Function to set custom brand in preferences
+  value?: string; // External value control
+  onChange?: (value: string) => void; // External change handler
 }
 
-export function AccentColorControl({ columns = 3, className, logoUrl, setCustomBrand }: AccentColorControlProps) {
+export function AccentColorControl({ className, value, onChange }: AccentColorControlProps) {
   const { accentColor, setAccentColor } = useTheme();
-  
-  const [extractingColors, setExtractingColors] = useState(false);
-  const [extractedColors, setExtractedColors] = useState<{ primary: string; secondary: string } | null>(null);
 
-
-
-  // Load cached colors when we have a logoUrl (for display purposes)
-  useEffect(() => {
-    if (logoUrl && logoUrl !== '' && logoUrl.startsWith('http')) {
-      const cacheKey = `logo-colors-${logoUrl}`;
-      const cachedColors = localStorage.getItem(cacheKey);
-      
-      if (cachedColors) {
-        try {
-          const parsed = JSON.parse(cachedColors);
-          // Check if cache is not too old (24 hours)
-          if (Date.now() - parsed.timestamp < 86400000) {
-            // Set extracted colors for display
-            setExtractedColors({
-              primary: parsed.data.primary,
-              secondary: parsed.data.secondary || parsed.data.accent
-            });
-            
-            // If accentColor is already 'custom-brand', apply the colors
-            if (accentColor === 'custom-brand') {
-              applyColorsWithThemeManager(parsed.data);
-              if (setCustomBrand) {
-                setCustomBrand();
-              }
-            }
-          } else {
-            // Cache is expired, extract colors again
-            handleExtractBrandColors();
-          }
-        } catch (e) {
-          // If cache is corrupted, extract colors again
-          handleExtractBrandColors();
-        }
-      } else {
-        // No cache found, extract colors for display
-        handleExtractBrandColors();
-      }
-    }
-  }, [logoUrl, accentColor, setCustomBrand]);
-
-  // ✅ Convert from DesignRadioCard's string onChange to theme system
+  // Handle color change - support both internal and external control
   const handleColorChange = (colorValue: string) => {
-    if (colorValue === 'custom-brand') {
-      // Don't change accent color, just extract colors from logo
-      if (logoUrl && logoUrl !== '' && logoUrl.startsWith('http')) {
-        handleExtractBrandColors();
-      }
-    } else {
-      setAccentColor(colorValue as ColorScale);
+    console.log('🎨 AccentColorControl: Ändrar färg till:', colorValue);
+    
+    // If external onChange is provided, use it (for ProjectContext integration)
+    if (onChange) {
+      onChange(colorValue);
     }
+    
+    // Also update internal theme system
+    setAccentColor(colorValue as ColorScale);
   };
 
-  const handleExtractBrandColors = async () => {
-    if (!logoUrl || logoUrl === '' || !logoUrl.startsWith('http')) return;
-    
-    setExtractingColors(true);
-    try {
-      // Check cache first
-      const cacheKey = `logo-colors-${logoUrl}`;
-      const cachedColors = localStorage.getItem(cacheKey);
-      
-      let colors;
-      if (cachedColors) {
-        try {
-          const parsed = JSON.parse(cachedColors);
-          // Check if cache is not too old (24 hours)
-          if (Date.now() - parsed.timestamp < 86400000) {
-            colors = parsed.data;
-          } else {
-            throw new Error('Cache expired');
-          }
-        } catch (e) {
-          // Invalid cache, continue with fresh extraction
-          colors = await extractColorsFromImage(logoUrl);
-        }
-      } else {
-        colors = await extractColorsFromImage(logoUrl);
-      }
-      
-      applyColorsWithThemeManager(colors);
-      
-      // Store extracted colors and mark custom brand as active
-      setExtractedColors({
-        primary: colors.primary,
-        secondary: colors.secondary || colors.accent
-      });
-      setAccentColor('custom-brand');
-      
-      // Also update preferences to custom-brand
-      if (setCustomBrand) {
-        setCustomBrand();
-      }
-      
-      // Cache the result
-      localStorage.setItem(cacheKey, JSON.stringify({
-        data: colors,
-        timestamp: Date.now()
-      }));
-      
-    } catch (error) {
-      console.error('Failed to extract colors from logo:', error);
-    } finally {
-      setExtractingColors(false);
-    }
-  };
+  // Use external value if provided, otherwise use internal theme state
+  const currentValue = value || accentColor;
 
   return (
     <div className={className}>
-      {/* Section header */}
-      <div className="flex items-center gap-3 mb-4">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-6">
         <Icon size="md" color="primary">
           <SwatchIcon />
         </Icon>
         <div>
-          <Body weight="medium" className="mb-1">Brand Color</Body>
-          <Body size="sm" color="secondary">Your primary accent color</Body>
+          <Body weight="medium" className="mb-1">
+            Varumärkesfärg
+          </Body>
+          <Body size="sm" color="secondary">
+            Välj din primära accentfärg
+          </Body>
         </div>
       </div>
 
-      {/* ✅ Using DesignRadioCard with Root + Color items */}
-      <DesignRadioCard.Root
-        name="accent-color"
-        value={accentColor || 'purple'}
-        onChange={handleColorChange}
-        columns={columns}
-        gap="sm"
-        size="sm"
-      >
-        {COLOR_OPTIONS.map((option) => (
-        <DesignRadioCardItem
-        key={option.value}
-        value={option.value}
-        label={option.label}
-        variant="color"
-        colorValue={option.hex}
-        />
+      {/* Single 3x10 Grid med kortare namn */}
+      <div className="flex flex-col" style={{ gap: '6px' }}>
+        {COLOR_GRID.map((colorRow, rowIndex) => (
+          <div key={rowIndex} className="grid grid-cols-3" style={{ gap: '6px' }}>
+            {colorRow.map((color) => (
+              <DesignRadioCardItem
+                key={color.value}
+                value={color.value}
+                label={color.label} // Nu kortare namn som "Ljus", "Medium", "Mörk" etc
+                variant="color"
+                colorValue={color.hex}
+                checked={currentValue === color.value}
+                onClick={() => handleColorChange(color.value)}
+                className="aspect-square hover:scale-105 transition-transform"
+              />
+            ))}
+          </div>
         ))}
-        
-        {/* Custom Brand Colors option - only show if logo exists */}
-        {logoUrl && logoUrl !== '' && logoUrl.startsWith('http') && (
-          <DesignRadioCardItem
-            key={CUSTOM_BRAND_OPTION.value}
-            value={CUSTOM_BRAND_OPTION.value}
-            label={extractingColors ? 'Extracting...' : 'Custom Brand'}
-            variant="color"
-            colorValue={extractedColors?.primary || CUSTOM_BRAND_OPTION.hex}
-            disabled={extractingColors}
-          />
-        )}
-      </DesignRadioCard.Root>
+      </div>
     </div>
   );
 }

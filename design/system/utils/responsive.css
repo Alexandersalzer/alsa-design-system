@@ -359,6 +359,10 @@
   .mobile-nav-visible {
     display: block !important;
   }
+  
+  .sidebar-hidden {
+    transform: translateX(-100%);
+  }
 }
 
 @media (min-width: 768px) {
@@ -370,6 +374,9 @@
     display: block !important;
   }
   
+  .content-area {
+    margin-left: var(--size-sidebar-width);
+  }
 }
 
 /* ===== RESPONSIVE TYPOGRAPHY UTILITIES ===== */

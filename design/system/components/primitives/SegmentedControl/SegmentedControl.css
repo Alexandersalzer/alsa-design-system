@@ -7,11 +7,12 @@
 .segmented-control {
   position: relative;
   display: inline-flex;
-  background: var(--surface-secondary);
+  background: var(--surface-secondary); /* This is the visible track */
   border: 1px solid var(--border-secondary);
   border-radius: var(--foundation-radius-lg);
   padding: var(--foundation-space-1);
-  overflow: hidden;
+  /* FIXED: Remove overflow hidden to prevent clipping */
+  /* overflow: hidden; */
   isolation: isolate;
   /* Ensure consistent spacing */
   gap: 0;
@@ -23,8 +24,10 @@
   top: var(--foundation-space-1);
   left: var(--foundation-space-1);
   bottom: var(--foundation-space-1);
-  background: var(--surface-button-secondary-hover);
-  border-radius: var(--foundation-radius-xl);
+  /* FIXED: Better indicator styling for visibility */
+  background: var(--surface-card);
+  border: 1px solid var(--border-default);
+  border-radius: calc(var(--foundation-radius-lg) - var(--foundation-space-1));
   box-shadow: var(--foundation-shadow-sm);
   transition: 
     transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -72,6 +75,12 @@
   opacity: 0.5;
 }
 
+/* FIXED: Better selected state styling */
+.segmented-control__option--selected {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
 .segmented-control__icon {
   display: flex;
   align-items: center;
@@ -112,6 +121,7 @@
 .segmented-control--lg {
   padding: var(--foundation-space-2);
   border-radius: var(--foundation-radius-lg);
+  min-width: 140px;
 }
 
 .segmented-control--lg .segmented-control__indicator {
@@ -124,6 +134,7 @@
 .segmented-control--lg .segmented-control__option {
   padding: var(--foundation-space-3) var(--foundation-space-4);
   border-radius: calc(var(--foundation-radius-lg) - var(--foundation-space-2));
+  min-width: 70px;
 }
 
 .segmented-control--lg .segmented-control__icon svg {
@@ -166,15 +177,25 @@
   padding: var(--foundation-space-2) var(--foundation-space-3);
 }
 
+/* FIXED: Ghost variant hover */
+.segmented-control--ghost .segmented-control__option:not(.segmented-control__option--selected):not(.segmented-control__option--disabled):hover {
+  background-color: var(--surface-button-ghost-hover);
+}
+
 /* ===== FULL WIDTH ===== */
 .segmented-control--full-width {
   width: 100%;
+  min-width: 100%;
 }
 
 /* ===== DISABLED STATE ===== */
 .segmented-control--disabled {
   opacity: 0.6;
   pointer-events: none;
+}
+
+.segmented-control--disabled .segmented-control__option:hover {
+  background: none;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -193,6 +214,7 @@
     padding: var(--foundation-space-2);
     gap: var(--foundation-space-1);
     min-width: 44px; /* Minimum touch target */
+    min-width: 50px;
   }
   
   .segmented-control__icon svg {

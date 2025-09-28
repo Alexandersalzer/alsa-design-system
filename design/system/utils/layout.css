@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/utilities/layout.css
-   LAYOUT UTILITIES WITH FLEXIBLE SIDEBAR FIX
+   LAYOUT UTILITIES EXTRACTED FROM YOUR GLOBALS.CSS
    ============================================== */
 
 /* ===== DISPLAY UTILITIES ===== */
@@ -90,6 +90,11 @@
   transition: margin-left var(--foundation-duration-normal) var(--foundation-ease-smooth);
 }
 
+@media (min-width: 768px) {
+  .content-area {
+    margin-left: var(--size-sidebar-width);
+  }
+}
 
 /* ===== DASHBOARD LAYOUT ===== */
 .dashboard-main {
@@ -146,6 +151,11 @@
 @media (min-width: 1024px) {
   .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+
+/* ==============================================
+   src/design-system/utilities/spacing.css
+   SPACING UTILITIES EXTRACTED FROM YOUR GLOBALS.CSS
+   ============================================== */
 
 /* ===== GAP UTILITIES ===== */
 .gap-xs { gap: var(--foundation-space-1); }
@@ -251,6 +261,11 @@
   border-width: 0;
 }
 
+/* ==============================================
+   ADD THESE TO: src/design-system/utilities/layout.css
+   MISSING LAYOUT UTILITIES
+   ============================================== */
+
 /* ===== PAGE LAYOUT UTILITIES ===== */
 .page-centered {
   min-height: 100vh;
@@ -344,41 +359,41 @@
   margin-top: var(--foundation-space-12);
 }
 
-/* ===============================================
-   DASHBOARD LAYOUT - FLEXIBLE SIDEBAR VERSION
-   =============================================== */
 
-/* Dashboard Layout Container */
+/* Dashboard Layout */
 .dashboard-container {
   width: 100%;
   height: 100vh;
   background: var(--surface-page);
   display: flex;
   overflow: hidden;
+  /* Prevent layout shift during loading */
   contain: layout style;
+  /* Ensure consistent positioning */
   position: relative;
 }
 
-/* Flexible Sidebar */
+/* Sidebar */
 .sidebar {
-  /* FLEXIBLE SIDEBAR APPROACH */
-  flex: 0 0 auto; /* Don't grow, don't shrink, auto size based on content */
-  max-width: 320px; /* Maximum width to prevent getting too wide */
-  
-  /* Layout properties */
+  width: var(--size-sidebar-width);
+  min-width: var(--size-sidebar-width);
+  max-width: var(--size-sidebar-width);
   height: 100vh;
   background: var(--surface-nav);
   border-right: 1px solid var(--border-nav);
   display: flex;
   flex-direction: column;
   gap: var(--space-nav-section-gap);
+  flex-shrink: 0;
   position: relative;
+  /* Prevent layout shift during loading */
   contain: layout style;
 }
 
 .sidebar__header {
-  /* Make header flexible to fit sidebar width */
-  width: 100%;
+  width: var(--size-sidebar-width);
+  min-width: var(--size-sidebar-width);
+  max-width: var(--size-sidebar-width);
   height: var(--size-topbar-height);
   padding: 0 var(--space-nav-padding);
   display: flex;
@@ -394,27 +409,35 @@
   text-decoration: none;
 }
 
+
+
 .sidebar__logo-image {
-  width: auto !important;
-  height: 40px !important;
-  max-width: 160px !important;
-  min-width: 40px !important;
+  width: auto !important;  /* Force override any Tailwind classes */
+  height: 40px !important;  /* Återställ till original storlek */
+  max-width: 160px !important;  /* Återställ till original bredd */
+  min-width: 40px !important;  /* Prevent layout shift */
   object-fit: contain;
-  border-radius: 6px;
+  border-radius: 6px;  /* Återställ till original avrundning */
+  
+  /* Makes white logos black for light sidebar */
   filter: brightness(0) saturate(100%);
+  
   transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+  
+  /* Prevent layout shift during loading */
   contain: layout style;
   
+  /* Smart cropping specific styles */
   &.cropped-logo {
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    object-fit: cover; /* For cropped logos, use cover to fill the space */
+    border-radius: 8px; /* Återställ till original avrundning */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Återställ till original skugga */
   }
 }
 
 /* Loading placeholder for logos */
 .loading-placeholder {
-  background-color: #e5e7eb;
+  background-color: #e5e7eb; /* Light gray */
   border-radius: 6px;
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   width: 160px;
@@ -437,26 +460,26 @@
 .logo-type-text .sidebar__logo-image,
 .logo-type-wordmark .sidebar__logo-image {
   width: auto !important;
-  height: 36px !important;
-  max-width: 140px !important;
+  height: 36px !important;  /* Mindre för textlogotyper */
+  max-width: 140px !important;  /* Mindre bredd */
   max-height: 36px !important;
 }
 
 .logo-type-emblem .sidebar__logo-image,
 .logo-type-symbol .sidebar__logo-image,
 .logo-type-lettermark .sidebar__logo-image {
-  width: 28px !important;
+  width: 28px !important;  /* Mindre kvadratiska logotyper */
   height: 28px !important;
   max-width: 28px !important;
   max-height: 28px !important;
   border-radius: 4px;
-  object-fit: cover;
+  object-fit: cover; /* Cover för kvadratiska logotyper */
 }
 
 .logo-type-combination .sidebar__logo-image {
   width: auto !important;
-  height: 32px !important;
-  max-width: 120px !important;
+  height: 32px !important;  /* Mindre kombinationslogotyper */
+  max-width: 120px !important;  /* Mindre bredd */
   max-height: 32px !important;
 }
 
@@ -489,8 +512,7 @@
 }
 
 .sidebar__content {
-  /* Make content flexible to fit sidebar width */
-  width: 100%;
+  width: var(--size-sidebar-width);
   padding: 0 var(--space-nav-item-padding-x);
   display: flex;
   flex-direction: column;
@@ -521,13 +543,14 @@
   padding-bottom: var(--space-nav-padding);
 }
 
-/* Main Area - CRITICAL FIX FOR PROPER FLEX BEHAVIOR */
+/* Main Area */
 .main-area {
-  flex: 1 1 0%; /* Grow to fill remaining space, can shrink, base size 0 */
-  min-width: 0; /* CRITICAL: Allow shrinking below content size */
+  flex: 1;
   display: flex;
   flex-direction: column;
+  /* Prevent layout shift during loading */
   contain: layout style;
+  /* Ensure consistent positioning */
   position: relative;
 }
 
@@ -540,53 +563,16 @@
   justify-content: space-between;
   align-items: center;
 }
-
 .page-content {
   flex: 1;
   padding: var(--space-container-padding-md);
   overflow-y: auto;
 }
 
-/* Sidebar Variants */
-.sidebar--collapsed {
-  min-width: 64px;
-  max-width: 64px;
-  width: 64px;
-}
-
-.sidebar--auto {
-  flex: 0 0 auto;
-  width: auto;
-  min-width: 200px;
-  max-width: 400px;
-}
-
-.sidebar--proportional {
-  flex: 0 0 20%;
-  min-width: 240px;
-  max-width: 320px;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
   .sidebar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 1000;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    max-width: 80vw;
-    min-width: 280px;
-  }
-  
-  .sidebar--open {
-    transform: translateX(0);
-  }
-  
-  .main-area {
-    flex: 1;
-    margin-left: 0;
+    display: none;
   }
   
   .top-header {
@@ -598,7 +584,7 @@
   }
 }
 
-/* ===== PAGE CONTAINERS ===== */
+    /* ===== PAGE CONTAINERS ===== */
 .page-container {
   width: 100%;
   max-width: var(--size-page-max-width);

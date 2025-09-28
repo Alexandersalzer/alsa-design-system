@@ -1,10 +1,9 @@
 // ===============================================
-// ThemeModeControl.tsx - COMPACT ICON-ONLY VERSION
-// Uses DesignRadioCard but styled like icon buttons
+// ThemeModeControl.tsx - SEGMENTED CONTROL VERSION
+// Ersätter din nuvarande DesignRadioCard version
 // ===============================================
-
 import React from 'react';
-import { DesignRadioCard } from '@blimpify-im/ui';
+import { SegmentedControl, type SegmentedControlOption } from '@blimpify-im/ui';
 import { Body, Icon } from '@blimpify-im/ui';
 import { useTheme } from '../../../../hooks/useTheme';
 import { SunIcon, MoonIcon, SparklesIcon } from '@heroicons/react/24/outline';
@@ -12,85 +11,92 @@ import { SunIcon, MoonIcon, SparklesIcon } from '@heroicons/react/24/outline';
 interface ThemeModeControlProps {
   className?: string;
   showLabel?: boolean; // Option to show/hide the section label
+  size?: 'sm' | 'md' | 'lg'; // SegmentedControl size
+  value?: string; // External value control
+  onChange?: (value: string) => void; // External change handler
 }
 
-export function ThemeModeControl({ className, showLabel = true }: ThemeModeControlProps) {
+export function ThemeModeControl({ 
+  className, 
+  showLabel = true,
+  size = 'md',
+  value,
+  onChange
+}: ThemeModeControlProps) {
   const { isDark, toggleDarkMode, isHydrated } = useTheme();
 
-  // ✅ Handle theme change - convert string to theme action
-  const handleThemeChange = (value: string) => {
-    console.log('🌗 ThemeModeControl: Changing theme to:', value);
-    
-    if (value !== 'light' && value !== 'dark') {
-      console.warn('Invalid theme value:', value);
-      return;
+  // ✅ Theme options för SegmentedControl
+  const themeOptions: SegmentedControlOption[] = [
+    {
+      value: 'light',
+      label: 'Ljust',
+      icon: <SunIcon className="w-4 h-4" />
+    },
+    {
+      value: 'dark', 
+      label: 'Mörkt',
+      icon: <MoonIcon className="w-4 h-4" />
     }
+  ];
 
-    const themeValue = value as 'light' | 'dark';
-    const shouldToggle = (themeValue === 'light' && isDark) || (themeValue === 'dark' && !isDark);
+  // ✅ Handle theme change - support both internal and external control
+  const handleThemeChange = (newValue: string) => {
+    console.log('🌗 ThemeModeControl: Changing theme to:', newValue);
     
-    if (shouldToggle) {
+    // If external onChange is provided, use it (for ProjectContext integration)
+    if (onChange) {
+      onChange(newValue);
+    }
+    
+    // Also update internal theme system if needed
+    const shouldBeDark = newValue === 'dark';
+    if (isDark !== shouldBeDark) {
       toggleDarkMode();
     }
   };
 
-  const currentTheme = isDark ? 'dark' : 'light';
+  // ✅ Use external value if provided, otherwise use internal theme state
+  const currentValue = value || (isDark ? 'dark' : 'light');
+
+  // Loading state om inte hydratiserad
+  if (!isHydrated) {
+    return (
+      <div className={className}>
+        {showLabel && (
+          <div className="flex items-center gap-2 mb-3">
+            <Icon size="sm" color="primary">
+              <SparklesIcon />
+            </Icon>
+            <Body weight="medium" size="sm">Tema</Body>
+          </div>
+        )}
+        <div className="animate-pulse bg-gray-200 h-10 rounded-lg" />
+      </div>
+    );
+  }
 
   return (
     <div className={className}>
-      {/* Minimal section header - optional */}
+      {/* Section header - optional */}
       {showLabel && (
         <div className="flex items-center gap-2 mb-3">
           <Icon size="sm" color="primary">
             <SparklesIcon />
           </Icon>
-          <Body weight="medium" size="sm">Theme</Body>
+          <Body weight="medium" size="sm">Tema</Body>
         </div>
       )}
 
-      {/* ✅ COMPACT: Icon-only DesignRadioCard */}
-      <DesignRadioCard.Root
-        name="theme-mode"
-        value={currentTheme}
+      {/* ✅ SegmentedControl - tydlig och enkel */}
+      <SegmentedControl
+        options={themeOptions}
+        value={currentValue}
         onChange={handleThemeChange}
-        columns={2}
-        gap="xs"
-        size="xs"
-      >
-        {/* Light theme - just icon */}
-        <DesignRadioCard.Item
-          value="light"
-          variant="default"
-          disabled={!isHydrated}
-          style={{
-            minHeight: '32px', // Icon button size
-            padding: '6px'      // Tight padding
-          }}
-        >
-          <div className="flex items-center justify-center">
-            <Icon size="md" color={currentTheme === 'light' ? 'accent' : 'primary'}>
-              <SunIcon />
-            </Icon>
-          </div>
-        </DesignRadioCard.Item>
-
-        {/* Dark theme - just icon */}
-        <DesignRadioCard.Item
-          value="dark"
-          variant="default"
-          disabled={!isHydrated}
-          style={{
-            minHeight: '32px', // Icon button size
-            padding: '6px'      // Tight padding
-          }}
-        >
-          <div className="flex items-center justify-center">
-            <Icon size="md" color={currentTheme === 'dark' ? 'accent' : 'primary'}>
-              <MoonIcon />
-            </Icon>
-          </div>
-        </DesignRadioCard.Item>
-      </DesignRadioCard.Root>
+        size={size}
+        variant="default"
+        fullWidth={true}
+        disabled={!isHydrated}
+      />
     </div>
   );
 }

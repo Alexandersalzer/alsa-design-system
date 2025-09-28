@@ -137,7 +137,7 @@
   --border-default: var(--secondary-200);
   --border-subtle: var(--secondary-100);
   --border-hover: var(--secondary-300);
-  --border-focus: var(--accent-500);
+  --border-focus: var(--accent-color);
   --border-disabled: var(--secondary-100);
   --border-error: var(--error-500);
   --border-success: var(--success-500);
@@ -171,9 +171,9 @@
   --interactive-secondary-active: var(--secondary-300);
   --interactive-secondary-disabled: var(--secondary-50);
 
-  --interactive-accent: var(--accent-500);
-  --interactive-accent-hover: var(--accent-600);
-  --interactive-accent-active: var(--accent-700);
+  --interactive-accent: var(--accent-600);
+  --interactive-accent-hover: var(--accent-700);
+  --interactive-accent-active: var(--accent-800);
   
   --interactive-tertiary: transparent;
   --interactive-tertiary-hover: var(--secondary-100);
@@ -214,6 +214,7 @@
   --text-nav-item: var(--text-secondary);
   --text-nav-item-selected: var(--accent-600);
   --text-nav-item-disabled: var(--text-disabled);
+  --text-nav-item-hover: var(--text-primary);
   --icon-nav-item: var(--icon-secondary);
   --icon-nav-item-selected: var(--accent-600);
   --icon-nav-item-disabled: var(--icon-disabled);

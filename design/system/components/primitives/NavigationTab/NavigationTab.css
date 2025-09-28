@@ -1,7 +1,7 @@
+
 /* ===============================================
    FIXED NAVIGATION TABS WITH CLEAN FOCUS STATES
    Like Spotify Dashboard - Only keyboard focus visible
-   NO TEXT/ICON CHANGES ON HOVER
    =============================================== */
 
 /* ===== SHARED BASE STYLES FOR ALL TABS ===== */
@@ -17,7 +17,8 @@
   /* Typography - Default body font */
   font-family: var(--font-body-family, system-ui);
   font-size: var(--font-label-md-size, 14px);
-  font-weight: var(--foundation-weight-bold);
+  font-weight: var(--font-label-weight, 500);
+  line-height: var(--font-label-md-leading, 1.4);
   text-decoration: none;
   
   /* Colors */
@@ -79,11 +80,11 @@
   font-weight: var(--foundation-weight-bold, 700);
 }
 
-/* ===== CLEAN HOVER STATES - BACKGROUND ONLY ===== */
+/* ===== CLEAN HOVER STATES ===== */
 .nav-item:hover:not(.nav-item--selected):not(.nav-item--disabled),
 .tab:hover:not(.tab--active):not(.tab--disabled) {
   background-color: var(--surface-nav-item-hover);
-  /* 🎯 FIXED: No color change on hover */
+  color: var(--text-nav-item-hover);
 }
 
 /* ===== ACTIVE/SELECTED STATE ===== */
@@ -122,7 +123,7 @@
   opacity: 0.6;
 }
 
-/* ===== CLEAN ICON STYLES - NO SCALING ===== */
+/* ===== CLEAN ICON STYLES ===== */
 .nav-item svg,
 .nav-item__icon svg,
 .tab svg,
@@ -131,15 +132,7 @@
   height: var(--foundation-size-icon-md, 20px) !important;
   flex-shrink: 0;
   color: var(--icon-nav-item, currentColor);
-  /* 🎯 FIXED: No transition for color changes on hover */
-}
-
-/* 🎯 FIXED: Prevent icon scaling on hover */
-.nav-item .icon,
-.tab .icon,
-.nav-item:hover .icon,
-.tab:hover .icon {
-  transform: none !important; /* Prevent any scaling */
+  transition: color 0.15s ease;
 }
 
 /* Icon colors for active state */
@@ -223,7 +216,6 @@
 .tab--segment:hover:not(.tab--active):not(.tab--disabled) {
   border-color: var(--text-nav-item-selected);
   background-color: var(--surface-nav-item-hover);
-  /* 🎯 FIXED: No color change on hover */
 }
 
 .tab--segment.tab--active,
@@ -308,8 +300,8 @@
 
 .tab--animated {
   transition: 
-    background-color 0.15s ease;
-    /* 🎯 FIXED: Removed color transition */
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 /* ===== SINGLE ANIMATED INDICATOR ===== */
@@ -351,19 +343,16 @@
 /* ===== CLEAN HOVER EFFECTS ===== */
 .tab--animated:hover:not(.tab--active):not(.tab--disabled) {
   background-color: var(--surface-nav-item-hover);
-  /* 🎯 FIXED: No color change on hover */
 }
 
 /* ===== CLEAN NAVIGATION SIDEBAR ===== */
 .sidebar__nav--animated .nav-item {
   transition: 
     background-color 0.15s ease;
-    /* 🎯 FIXED: Removed color transition */
 }
 
 .sidebar__nav--animated .nav-item:hover:not(.nav-item--selected) {
   background-color: var(--surface-nav-item-hover);
-  /* 🎯 FIXED: No color change on hover */
 }
 
 .sidebar__nav--animated .nav-item--selected {
@@ -455,7 +444,7 @@
   .tab-group__indicator--segment,
   .sidebar__nav--animated .nav-item {
     transition: 
-      background-color 0.15s ease !important;
-      /* 🎯 FIXED: Only background-color transitions */
+      background-color 0.15s ease,
+      color 0.15s ease !important;
   }
 }

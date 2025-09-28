@@ -164,7 +164,7 @@ export const OptionGrid: React.FC<OptionGridProps> = ({
                 </Icon>
               </div>
             )}
-            <div className="flex flex-col items-center gap-1 mb-2">
+            <div className="flex flex-col items-center gap-2 mb-2">
               <div
                 className="w-6 h-4 bg-gray-300"
                 style={{ borderRadius: option.px }}
