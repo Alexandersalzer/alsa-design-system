@@ -2,11 +2,12 @@
 // AccentColorControl.tsx - Kortare namn för bättre UX
 // 3x10 grid med kortare, beskrivande namn
 // ===============================================
-import React from 'react';
-import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
+import React, { useState, useEffect } from 'react';
+import { DesignRadioCard, DesignRadioCardItem, Button } from '@blimpify-im/ui';
 import { useTheme, type ColorScale } from '../../../../hooks/useTheme';
-import { SwatchIcon } from '@heroicons/react/24/outline';
+import { SwatchIcon, PaintBrushIcon } from '@heroicons/react/24/outline';
 import { Body, Icon } from '@blimpify-im/ui';
+import { extractColorsFromImage, applyColorsWithThemeManager } from '../../../../utils/colorExtraction';
 
 // Förkortade namn - behåller samma values för backend-kompatibilitet
 const COLOR_GRID = [

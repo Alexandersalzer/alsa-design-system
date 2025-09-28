@@ -1,0 +1,73 @@
+/* Section */
+.process-steps-section {
+    background-color: transparent;
+    padding-top: var(--foundation-space-24);
+    padding-bottom: var(--foundation-space-24);
+  }
+  
+  /* Header */
+  .process-steps-header {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .process-steps-title {
+    font-size: clamp(2.25rem, 4vw, 3rem);
+    line-height: var(--foundation-typography-line-height-tight);
+    text-align: left;
+  }
+  
+  .process-steps-title-accent {
+    background: linear-gradient(135deg, var(--accent-500), var(--accent-400));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .process-steps-subtitle {
+    max-width: 650px;
+    line-height: var(--foundation-typography-line-height-relaxed);
+    text-align: left;
+  }
+  
+  /* Grid */
+  .process-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--foundation-space-8);
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  /* Card */
+  .process-step-card {
+    background-color: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Step number circle */
+  .process-step-number {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--accent-500), var(--accent-400));
+    box-shadow: var(--foundation-shadow-lg);
+  }
+  
+  /* Content */
+  .process-step-title {
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+  }
+  
+  .process-step-description {
+    line-height: var(--foundation-typography-line-height-relaxed);
+  }

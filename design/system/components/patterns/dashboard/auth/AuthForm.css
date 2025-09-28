@@ -25,9 +25,10 @@
   gap: var(--foundation-space-5); /* 20px between major form sections */
   width: 100%;
   
-  /* Loading state */
+  /* Loading state - No overlay, just disable form interaction */
   &.auth-form--loading {
-    opacity: 0.9;
+    /* Remove the modal overlay and spinner - loading is handled by the button */
+    pointer-events: none; /* Keep form disabled during loading */
   }
   
   /* Disabled state */
@@ -180,18 +181,18 @@
 }
 
 .auth-form-clean {
-  /* Clean form styling without card */
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border-radius: var(--foundation-radius-2xl);
-  padding: var(--foundation-space-8);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* Clean form styling without card - no background during loading */
+  background: transparent;
+  backdrop-filter: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  border: none;
   
   /* Mobile adjustments */
   @media (max-width: 480px) {
-    padding: var(--foundation-space-6);
-    border-radius: var(--foundation-radius-xl);
+    padding: 0;
+    border-radius: 0;
   }
 }
 
@@ -302,7 +303,7 @@
   margin-bottom: var(--foundation-space-6);
 }
 
-/* ===== ANIMATION FOR TOAST APPEARANCE ===== */
+/* ===== ANIMATIONS ===== */
 @keyframes auth-toast-fade-in {
   from {
     opacity: 0;
@@ -313,6 +314,8 @@
     transform: translateY(0);
   }
 }
+
+/* Removed auth-form-spin animation - no longer needed */
 
 .auth-form-toast {
   /* Smooth appearance animation */

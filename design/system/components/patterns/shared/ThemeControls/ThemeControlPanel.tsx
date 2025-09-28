@@ -14,6 +14,8 @@ interface ThemeControlPanelProps {
   // Removed colorColumns since AccentColorControl is now fixed 3x10 grid
   radiusColumns?: 1 | 2 | 3 | 4;
   className?: string;
+  logoUrl?: string; // Optional logo URL for brand color extraction
+  setCustomBrand?: () => void; // Function to set custom brand in preferences
 }
 
 export function ThemeControlPanel({
@@ -21,7 +23,9 @@ export function ThemeControlPanel({
   showColorControl = true,
   showRadiusControl = true,
   radiusColumns = 2,
-  className
+  className,
+  logoUrl,
+  setCustomBrand
 }: ThemeControlPanelProps) {
   return (
     <div className={className}>

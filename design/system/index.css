@@ -60,6 +60,9 @@
 @import './components/patterns/dashboard/editor/EditorPanel/EditorPanel.css';
 @import './components/patterns/dashboard/editor/EditorSection/EditorSection.css';
 @import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
+@import './components/patterns/client/FAQ/FAQ.css';
+@import './components/patterns/client/Hero/Hero.css';
+@import './components/patterns/client/ProcessSteps/ProcessSteps.css';
 
 /* STEP 6: Layout utilities */
 @import './layout/utilities/cluster/Cluster.css';

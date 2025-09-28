@@ -121,10 +121,12 @@
   border-color: var(--accent-500);
 }
 
+
+
 /* ===== DOMAIN CARD SPECIFIC STYLES ===== */
 .domain-card {
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* Allow dropdowns to show outside the card */
 }
 
 .domain-card--clickable {
@@ -403,10 +405,6 @@
   transform: translateY(-4px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   border-color: var(--accent-400);
-}
-
-.feature-card.card--clickable:hover .feature-card__icon {
-  transform: scale(1.05);
 }
 
 .feature-card.card--clickable:hover .feature-card__price {

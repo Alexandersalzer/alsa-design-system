@@ -14,12 +14,12 @@
     "jsx": "react-jsx",
     "declaration": true,
     "outDir": "dist",
-    "rootDir": "design",
+    "rootDir": ".",
     "baseUrl": ".",
     "paths": {
       "@/design/*": ["./design/*"]
     }
   },
-  "include": ["design/**/*.ts", "design/**/*.tsx", "design/types/css-modules.d.ts"],
+  "include": ["design/**/*.ts", "design/**/*.tsx", "design/types/css-modules.d.ts", "api/**/*.ts", "index.ts"],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.test.tsx"]
 } 
