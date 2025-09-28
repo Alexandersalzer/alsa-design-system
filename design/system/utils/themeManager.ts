@@ -40,7 +40,6 @@ export class ThemeManager {
   setThemeMode(mode: ThemeMode): void {
     this.currentConfig.themeMode = mode;
     this.applyThemeMode(mode);
-    this.saveToStorage();
   }
 
   /**
@@ -67,7 +66,6 @@ export class ThemeManager {
   setAccentColor(color: ColorScale): void {
     this.currentConfig.accentColor = color;
     this.applyAccentColor(color);
-    this.saveToStorage();
   }
 
   /**
@@ -76,7 +74,6 @@ export class ThemeManager {
   setRadiusScale(scale: RadiusScale): void {
     this.currentConfig.radiusScale = scale;
     this.applyRadiusScale(scale);
-    this.saveToStorage();
   }
 
   /**
@@ -133,53 +130,31 @@ export class ThemeManager {
   }
 
   /**
-   * Updated initialize method - include theme mode
+   * Initialize with external config (no localStorage)
    */
-  initialize(fallbackConfig?: Partial<ThemeConfig>): void {
+  initialize(config?: Partial<ThemeConfig>): void {
     if (typeof window === 'undefined') return;
 
     if (this.isInitialized) {
       return;
     }
 
-    // Try to load from localStorage first
-    const stored = localStorage.getItem('blimpify-theme-config');
-    if (stored) {
-      try {
-        const savedConfig = JSON.parse(stored);
-        this.currentConfig = { 
-          ...this.currentConfig, 
-          ...savedConfig 
-        };
-
-      } catch (e) {
-        console.warn('Failed to parse stored theme config, using defaults');
-      }
-    } else if (fallbackConfig) {
+    // Use provided config or defaults
+    if (config) {
       this.currentConfig = { 
         ...this.currentConfig, 
-        ...fallbackConfig 
+        ...config 
       };
-
     }
 
-    // Apply all configurations (ADD the theme mode line)
-    this.applyThemeMode(this.currentConfig.themeMode); // ✅ ADD this line
+    // Apply all configurations
+    this.applyThemeMode(this.currentConfig.themeMode);
     this.applyAccentColor(this.currentConfig.accentColor);
     this.applyRadiusScale(this.currentConfig.radiusScale);
     
     this.isInitialized = true;
-
   }
 
-  /**
-   * Save to localStorage
-   */
-  private saveToStorage(): void {
-    if (typeof window === 'undefined') return;
-    localStorage.setItem('blimpify-theme-config', JSON.stringify(this.currentConfig));
-
-  }
 
 
     // ✅ ADD these convenience getters:
