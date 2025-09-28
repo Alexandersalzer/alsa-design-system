@@ -131,13 +131,10 @@ export class ThemeManager {
 
   /**
    * Initialize with external config (no localStorage)
+   * Can be called multiple times to update config
    */
   initialize(config?: Partial<ThemeConfig>): void {
     if (typeof window === 'undefined') return;
-
-    if (this.isInitialized) {
-      return;
-    }
 
     // Use provided config or defaults
     if (config) {
