@@ -14,6 +14,8 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 export interface HeroContent {
   title: string;
   titleAccent?: string;
+  titleLine1?: string;
+  titleLine2?: string;
   subtitle: string;
   ctaText: string;
   ctaHref?: string;
@@ -32,6 +34,8 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
   const { 
     title, 
     titleAccent, 
+    titleLine1,
+    titleLine2,
     subtitle, 
     ctaText, 
     ctaHref,
@@ -127,7 +131,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.1) 100%)',
+          background: 'linear-gradient(90deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.4) 40%, rgba(51, 65, 85, 0.1) 70%, transparent 100%)',
           zIndex: 1
         }} />
       )}
@@ -153,19 +157,56 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           {/* Text content */}
           <div className="hero-text-content">
             <Stack spacing="lg" align="center" className="hero-text-stack">
-            <Typography 
-              variant="h1" 
-              weight="bold" 
-              color="primary"
-              style={{
-                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-                lineHeight: 'var(--foundation-typography-line-height-tight)',
-                textAlign: 'left',
-                color: 'var(--primary-white)'
-              }}
-            >
-              {title}
-            </Typography>
+            <div style={{ textAlign: 'left' }}>
+              {titleLine1 && titleLine2 ? (
+                <>
+                  <Typography 
+                    variant="h1" 
+                    weight="semibold" 
+                    color="primary"
+                    style={{
+                      fontSize: 'clamp(2rem, 4vw, 3rem)',
+                      lineHeight: 'var(--foundation-typography-line-height-tight)',
+                      color: 'var(--primary-white)',
+                      textShadow: '0 4px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2)',
+                      filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.1))',
+                      marginBottom: 'var(--foundation-space-2)'
+                    }}
+                  >
+                    {titleLine1}
+                  </Typography>
+                  <Typography 
+                    variant="h1" 
+                    weight="bold" 
+                    color="primary"
+                    style={{
+                      fontSize: 'clamp(2.8rem, 5.5vw, 4.5rem)',
+                      lineHeight: 'var(--foundation-typography-line-height-tight)',
+                      color: 'var(--primary-white)',
+                      textShadow: '0 4px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2)',
+                      filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.1))'
+                    }}
+                  >
+                    {titleLine2}
+                  </Typography>
+                </>
+              ) : (
+                <Typography 
+                  variant="h1" 
+                  weight="bold" 
+                  color="primary"
+                  style={{
+                    fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                    lineHeight: 'var(--foundation-typography-line-height-tight)',
+                    color: 'var(--primary-white)',
+                    textShadow: '0 4px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2)',
+                    filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.1))'
+                  }}
+                >
+                  {title}
+                </Typography>
+              )}
+            </div>
             
             <Typography 
               variant="body-xl" 
@@ -173,7 +214,9 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               style={{
                 textAlign: 'left',
                 color: 'var(--primary-white)',
-                opacity: 0.9
+                opacity: 0.9,
+                maxWidth: 'var(--size-page-narrow-max-width)',
+                lineHeight: 'var(--foundation-typography-line-height-relaxed)'
               }}
             >
               {subtitle}
