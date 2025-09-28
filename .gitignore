@@ -76,4 +76,4 @@ coverage/
 
 # Storybook build outputs
 .out
-.storybook-out 
+.storybook-out *.webarchive

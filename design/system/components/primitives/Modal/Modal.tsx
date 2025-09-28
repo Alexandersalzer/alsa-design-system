@@ -1,9 +1,6 @@
-// ===============================================
 // src/design-system/components/primitives/Modal/Modal.tsx
-// CLEAN VERSION - Uses IconButton instead of ugly SVG
-// ===============================================
-
 import React, { forwardRef, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '../../../lib/utils';
 import { IconButtons } from '../IconButton';
 import './Modal.css';
@@ -43,14 +40,11 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
       setShouldRender(true);
       setIsClosing(false);
     } else if (shouldRender) {
-      // Start closing animation
       setIsClosing(true);
-      // Remove from DOM after animation completes
       const timer = setTimeout(() => {
         setShouldRender(false);
         setIsClosing(false);
-      }, 150); // Match --foundation-duration-fast
-      
+      }, 150);
       return () => clearTimeout(timer);
     }
   }, [isOpen, shouldRender]);
@@ -58,41 +52,31 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
   // Handle escape key
   useEffect(() => {
     if (!isOpen || !closeOnEscape) return;
-    
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
+      if (e.key === 'Escape') onClose();
     };
-    
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, closeOnEscape, onClose]);
 
-  // Prevent body scroll when modal is open
+  // Prevent body scroll
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
-    
     return () => {
       document.body.style.overflow = '';
     };
   }, [isOpen]);
 
-  // Don't render if not needed
   if (!shouldRender) return null;
 
-  // Handle backdrop click
   const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget && closeOnBackdropClick) {
-      onClose();
-    }
+    if (e.target === e.currentTarget && closeOnBackdropClick) onClose();
   };
 
-  // Build modal classes
   const modalClasses = cn(
     'modal',
     `modal--${size}`,
@@ -105,7 +89,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
     isClosing && 'modal-backdrop--closing'
   );
 
-  return (
+  const modalElement = (
     <div
       className={backdropClasses}
       onClick={handleBackdropClick}
@@ -113,19 +97,10 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
       aria-modal="true"
       aria-labelledby={title ? 'modal-title' : undefined}
     >
-      <div
-        ref={ref}
-        className={modalClasses}
-        {...props}
-      >
-        {/* Header */}
+      <div ref={ref} className={modalClasses} {...props}>
         {(title || showCloseButton) && (
           <div className="modal__header">
-            {title && (
-              <h2 id="modal-title" className="modal__title">
-                {title}
-              </h2>
-            )}
+            {title && <h2 id="modal-title" className="modal__title">{title}</h2>}
             {showCloseButton && (
               <IconButtons.Close
                 onClick={onClose}
@@ -137,14 +112,13 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
             )}
           </div>
         )}
-
-        {/* Content */}
-        <div className="modal__content">
-          {children}
-        </div>
+        <div className="modal__content">{children}</div>
       </div>
     </div>
   );
+
+  // 👇 THIS is the important part
+  return createPortal(modalElement, document.body);
 });
 
 Modal.displayName = 'Modal';

@@ -14,3 +14,10 @@ export {
   type ColorScale, 
   type RadiusScale 
 } from './themeManager';
+
+// Add color extraction
+export * from './colorExtraction';
+
+// Add logo analysis
+export * from './logoAnalysis';
+export * from './logoCropping';

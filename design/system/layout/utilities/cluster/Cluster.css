@@ -6,7 +6,6 @@
 .cluster {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: flex-start;
   gap: var(--foundation-space-4); /* Default md spacing */
 }

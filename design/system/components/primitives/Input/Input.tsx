@@ -3,10 +3,11 @@
 // FIXED - Using cn() utility with radius prop and your Icon pattern
 // ===============================================
 
-import React, { forwardRef, ReactNode, useId } from 'react';
+import React, { forwardRef, ReactNode, useId, useState } from 'react';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { cn } from '../../../lib/utils';
 
-export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
   label?: string;
   error?: string;
   helper?: string;
@@ -15,6 +16,8 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   variant?: 'default' | 'search';
   size?: 'sm' | 'md' | 'lg';
   radius?: 'sm' | 'md' | 'lg';
+  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search';
+  showPasswordToggle?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -28,11 +31,19 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     variant = 'default',
     size = 'md',
     radius = 'md',
+    type = 'text',
+    showPasswordToggle = true,
     id,
     ...props
   }, ref) => {
     const generatedId = useId();
     const inputId = id || `input-${generatedId}`;
+    const [showPassword, setShowPassword] = useState(false);
+
+    // Handle password toggle
+    const isPassword = type === 'password';
+    const shouldShowToggle = isPassword && showPasswordToggle;
+    const actualType = isPassword && showPassword ? 'text' : type;
 
     // Build class names explicitly to avoid type issues - BACK TO YOUR ORIGINAL PATTERN
     const inputClasses = [
@@ -57,7 +68,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
 
         {/* Input wrapper */}
-        <div className={cn('input-wrapper', `input-wrapper--${size}`)}>
+        <div className={cn('input-wrapper', `input-wrapper--${size}`)} style={{ position: 'relative' }}>
           {/* Left Icon */}
           {leftIcon && (
             <div className={cn('input-icon input-icon-left', `input-icon--${size}`)}>
@@ -69,6 +80,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             id={inputId}
+            type={actualType}
             className={inputClasses.join(' ')}
             {...props}
           />
@@ -78,6 +90,40 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             <div className={cn('input-icon input-icon-right', `input-icon--${size}`)}>
               {rightIcon}
             </div>
+          )}
+
+          {/* Password Toggle */}
+          {shouldShowToggle && (
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className={cn('input-password-toggle', `input-password-toggle--${size}`)}
+              style={{
+                position: 'absolute',
+                right: '8px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                color: 'var(--text-secondary)',
+                transition: 'color 0.2s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '4px',
+                zIndex: 10
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = 'var(--text-primary)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--text-secondary)';
+              }}
+              aria-label={showPassword ? 'Dölj lösenord' : 'Visa lösenord'}
+            >
+              {showPassword ? <EyeSlashIcon width={16} height={16} /> : <EyeIcon width={16} height={16} />}
+            </button>
           )}
         </div>
 

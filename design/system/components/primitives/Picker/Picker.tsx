@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Picker/Picker.tsx
-// ENHANCED - Apple-style scroll lock + Smart positioning
+// ENHANCED - Apple-style scroll lock + Smart positioning + New Variants
 // ===============================================
 
 import { useState, useRef, useEffect, forwardRef, useId } from 'react';
@@ -12,7 +12,7 @@ import './Picker.css';
 
 // Import your design system types
 export type PickerSize = 'sm' | 'md' | 'lg';
-export type PickerVariant = 'default' | 'compact';
+export type PickerVariant = 'default' | 'compact' | 'full-width' | 'colorful' | 'minimal';
 export type PickerRadius = 'sm' | 'md' | 'lg';
 
 export interface PickerOption {
@@ -149,7 +149,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
   error,
   success,
   size = 'md',
-  variant = 'compact',
+  variant = 'default',
   radius = 'md',
   required = false,
   disabled = false,
@@ -425,7 +425,10 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
       <div className="picker-container">
         <button
           ref={(node) => {
-            triggerRef.current = node;
+            // Use callback ref pattern to avoid TypeScript readonly error
+            if (triggerRef) {
+              (triggerRef as any).current = node;
+            }
             if (typeof ref === 'function') {
               ref(node);
             } else if (ref) {

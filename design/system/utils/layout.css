@@ -367,46 +367,144 @@
   background: var(--surface-page);
   display: flex;
   overflow: hidden;
+  /* Prevent layout shift during loading */
+  contain: layout style;
+  /* Ensure consistent positioning */
+  position: relative;
 }
 
 /* Sidebar */
 .sidebar {
   width: var(--size-sidebar-width);
+  min-width: var(--size-sidebar-width);
+  max-width: var(--size-sidebar-width);
   height: 100vh;
   background: var(--surface-nav);
   border-right: 1px solid var(--border-nav);
   display: flex;
   flex-direction: column;
   gap: var(--space-nav-section-gap);
+  flex-shrink: 0;
+  position: relative;
+  /* Prevent layout shift during loading */
+  contain: layout style;
 }
 
 .sidebar__header {
   width: var(--size-sidebar-width);
+  min-width: var(--size-sidebar-width);
+  max-width: var(--size-sidebar-width);
   height: var(--size-topbar-height);
   padding: 0 var(--space-nav-padding);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: var(--foundation-space-3);
+  flex-shrink: 0;
 }
 
 .sidebar__logo {
   display: flex;
   align-items: center;
-  padding: var(--foundation-space-3) 0;
+  padding: 0;
   text-decoration: none;
 }
 
 
 
 .sidebar__logo-image {
-  width: auto;
-  height: 28px;
-  max-width: 120px;
+  width: auto !important;  /* Force override any Tailwind classes */
+  height: 40px !important;  /* Återställ till original storlek */
+  max-width: 160px !important;  /* Återställ till original bredd */
+  min-width: 40px !important;  /* Prevent layout shift */
   object-fit: contain;
+  border-radius: 6px;  /* Återställ till original avrundning */
   
   /* Makes white logos black for light sidebar */
   filter: brightness(0) saturate(100%);
   
   transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+  
+  /* Prevent layout shift during loading */
+  contain: layout style;
+  
+  /* Smart cropping specific styles */
+  &.cropped-logo {
+    object-fit: cover; /* For cropped logos, use cover to fill the space */
+    border-radius: 8px; /* Återställ till original avrundning */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Återställ till original skugga */
+  }
+}
+
+/* Loading placeholder for logos */
+.loading-placeholder {
+  background-color: #e5e7eb; /* Light gray */
+  border-radius: 6px;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  width: 160px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  contain: layout style;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Logo type-specific styles */
+.logo-type-text .sidebar__logo-image,
+.logo-type-wordmark .sidebar__logo-image {
+  width: auto !important;
+  height: 36px !important;  /* Mindre för textlogotyper */
+  max-width: 140px !important;  /* Mindre bredd */
+  max-height: 36px !important;
+}
+
+.logo-type-emblem .sidebar__logo-image,
+.logo-type-symbol .sidebar__logo-image,
+.logo-type-lettermark .sidebar__logo-image {
+  width: 28px !important;  /* Mindre kvadratiska logotyper */
+  height: 28px !important;
+  max-width: 28px !important;
+  max-height: 28px !important;
+  border-radius: 4px;
+  object-fit: cover; /* Cover för kvadratiska logotyper */
+}
+
+.logo-type-combination .sidebar__logo-image {
+  width: auto !important;
+  height: 32px !important;  /* Mindre kombinationslogotyper */
+  max-width: 120px !important;  /* Mindre bredd */
+  max-height: 32px !important;
+}
+
+/* Logo positioning */
+.logo-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-horizontal .sidebar__logo-image {
+  width: auto;
+  height: 16px;
+  max-width: 100px;
+}
+
+.logo-vertical .sidebar__logo-image {
+  width: 24px;
+  height: auto;
+  max-height: 40px;
+}
+
+.logo-square .sidebar__logo-image {
+  width: 24px;
+  height: 24px;
 }
 
 .sidebar__logo:hover .sidebar__logo-image {
@@ -450,6 +548,10 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  /* Prevent layout shift during loading */
+  contain: layout style;
+  /* Ensure consistent positioning */
+  position: relative;
 }
 
 .top-header {

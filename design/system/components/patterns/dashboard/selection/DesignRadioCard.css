@@ -7,14 +7,14 @@
   cursor: pointer;
   transition: all 0.15s ease;
   border-radius: var(--radius-card-sm);
-  border: 1px solid var(--border-subtle);
+  border: 1.5px solid var(--border-subtle);
   background: var(--surface-card);
   position: relative;
 }
 
 .design-radio-card:hover:not(.design-radio-card--disabled) {
   border-color: var(--border-hover);
-  background-color: var(--surface-card-hover);
+  background-color: var(--surface-card-hover    );
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
@@ -134,6 +134,7 @@
 .design-radio-card__typography-label {
   font-size: 11px;
   font-weight: 500;
+  
   color: var(--text-secondary);
   text-align: center;
   overflow: hidden;
@@ -168,8 +169,8 @@
 .design-radio-card__radius-shape {
   width: 20px;
   height: 20px;
-  background-color: var(--accent-300);
-  border: 1px solid var(--accent-400);
+  background-color: var(--secondary-300);
+  border: 1px solid var(--secondary-400);
 }
 
 .design-radio-card--xs .design-radio-card__radius-shape {
@@ -185,16 +186,15 @@
 .design-radio-card__radius-label {
   font-size: 11px;
   font-weight: 500;
-  color: var(--text-secondary);
   text-align: center;
 }
 
 .design-radio-card--xs .design-radio-card__radius-label {
-  font-size: 10px;
+  font-size: 13px;
 }
 
 .design-radio-card--md .design-radio-card__radius-label {
-  font-size: 12px;
+  font-size: 15px;
 }
 
 /* ===== DEFAULT VARIANT ===== */

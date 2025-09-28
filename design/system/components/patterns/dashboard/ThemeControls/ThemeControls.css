@@ -77,3 +77,19 @@
   justify-self: flex-start;
   width: fit-content;
 }
+
+/* Brand Colors from Logo */
+.extract-colors-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--foundation-space-2);
+}
+
+.extract-colors-description {
+  font-size: var(--typography-body-xs-size);
+  color: var(--text-tertiary);
+  margin: var(--foundation-space-1) 0 0 0;
+  line-height: 1.4;
+}

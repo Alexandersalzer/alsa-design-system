@@ -1,0 +1,1 @@
+export { NotionFooter } from './NotionFooter';
