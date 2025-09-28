@@ -1,6 +1,6 @@
 /* ===============================================
    src/design-system/components/primitives/SegmentedControl/SegmentedControl.css
-   STYLE SEGMENTED CONTROL STYLES
+   ENHANCED SEGMENTED CONTROL STYLES WITH PROPER SLIDING TRACK
    =============================================== */
 
 /* ===== BASE COMPONENT ===== */
@@ -13,6 +13,8 @@
   padding: var(--foundation-space-1);
   overflow: hidden;
   isolation: isolate;
+  /* Ensure consistent spacing */
+  gap: 0;
 }
 
 /* ===== SLIDING INDICATOR ===== */
@@ -24,8 +26,12 @@
   background: var(--surface-button-secondary-hover);
   border-radius: var(--foundation-radius-xl);
   box-shadow: var(--foundation-shadow-sm);
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: 
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    width 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 1;
+  /* Ensure it covers the full height */
+  height: auto;
 }
 
 /* ===== OPTIONS ===== */
@@ -35,7 +41,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--foundation-space-1);
-  background: none;
+  background: transparent;
   border: none;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -44,11 +50,21 @@
   flex: 1;
   padding: var(--foundation-space-2) var(--foundation-space-3);
   border-radius: var(--foundation-radius-xl);
+  /* Ensure consistent sizing */
+  box-sizing: border-box;
+  /* Better text alignment */
+  text-align: center;
+  white-space: nowrap;
 }
 
 .segmented-control__option:focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
+}
+
+.segmented-control__option:hover:not(:disabled):not(.segmented-control__option--disabled) {
+  background: var(--surface-button-secondary-hover);
+  opacity: 0.8;
 }
 
 .segmented-control__option--disabled {
@@ -71,14 +87,20 @@
 /* ===== SIZE VARIANTS ===== */
 
 /* Small */
+.segmented-control--sm {
+  padding: 2px;
+}
 
 .segmented-control--sm .segmented-control__indicator {
-  border-radius: calc(var(--foundation-radius-md));
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
+  border-radius: var(--foundation-radius-md);
 }
 
 .segmented-control--sm .segmented-control__option {
   padding: var(--foundation-space-1) var(--foundation-space-3);
-  border-radius: calc(var(--foundation-radius-md));
+  border-radius: var(--foundation-radius-md);
 }
 
 .segmented-control--sm .segmented-control__icon svg {
@@ -137,6 +159,7 @@
   top: 0;
   left: 0;
   bottom: 0;
+  box-shadow: var(--foundation-shadow-sm);
 }
 
 .segmented-control--ghost .segmented-control__option {
@@ -160,9 +183,16 @@
     padding: 2px;
   }
   
+  .segmented-control__indicator {
+    top: 2px;
+    left: 2px;
+    bottom: 2px;
+  }
+  
   .segmented-control__option {
     padding: var(--foundation-space-2);
     gap: var(--foundation-space-1);
+    min-width: 44px; /* Minimum touch target */
   }
   
   .segmented-control__icon svg {
@@ -185,4 +215,25 @@
 /* ===== KEYBOARD NAVIGATION ===== */
 .segmented-control:focus-within .segmented-control__option:focus {
   z-index: 3;
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (forced-colors: active) {
+  .segmented-control {
+    border: 2px solid ButtonBorder;
+  }
+  
+  .segmented-control__indicator {
+    background: Highlight;
+    border: 1px solid ButtonBorder;
+  }
+  
+  .segmented-control__option:focus-visible {
+    outline: 2px solid Highlight;
+  }
+}
+
+/* ===== RTL SUPPORT ===== */
+[dir="rtl"] .segmented-control__indicator {
+  /* Transform will be handled by JavaScript for RTL */
 }

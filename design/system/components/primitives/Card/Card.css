@@ -418,10 +418,6 @@
   border-color: var(--accent-400);
 }
 
-.feature-card.card--clickable:hover .feature-card__icon {
-  transform: scale(1.05);
-}
-
 .feature-card.card--clickable:hover .feature-card__price {
   color: var(--accent-700);
 }
