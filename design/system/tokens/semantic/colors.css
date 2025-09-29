@@ -214,7 +214,6 @@
   --text-nav-item: var(--text-secondary);
   --text-nav-item-selected: var(--accent-600);
   --text-nav-item-disabled: var(--text-disabled);
-  --text-nav-item-hover: var(--text-primary);
   --icon-nav-item: var(--icon-secondary);
   --icon-nav-item-selected: var(--accent-600);
   --icon-nav-item-disabled: var(--icon-disabled);

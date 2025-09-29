@@ -84,7 +84,6 @@
 .nav-item:hover:not(.nav-item--selected):not(.nav-item--disabled),
 .tab:hover:not(.tab--active):not(.tab--disabled) {
   background-color: var(--surface-nav-item-hover);
-  color: var(--text-nav-item-hover);
 }
 
 /* ===== ACTIVE/SELECTED STATE ===== */
