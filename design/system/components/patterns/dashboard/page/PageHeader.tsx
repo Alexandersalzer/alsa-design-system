@@ -1,13 +1,17 @@
 // ===============================================
 // src/design-system/components/patterns/page/PageHeader.tsx
-// FIXED PAGE HEADER - Using Typography Components Properly
+// FIXED PAGE HEADER - Using Stack and Cluster Properly
 // ===============================================
 
 import React, { ReactNode } from 'react';
 import { cn } from '../../../../lib/utils';
 
-// Import your Typography components
+// Import Typography components
 import { H1, Body, Display, H2, H3, H4, H5, H6 } from '../../../primitives/Typography';
+
+// Import layout components
+import { Stack } from './Stack';
+import { Cluster } from './Cluster';
 
 // ===== TYPE DEFINITIONS =====
 export interface PageHeaderProps {
@@ -118,25 +122,21 @@ export const PageHeader = React.forwardRef<HTMLElement, PageHeaderProps>(({
 
   return (
     <header ref={ref} className={classes} {...props}>
-      <div className="page-header__content">
-        <div className="page-header__text">
+      <Cluster spacing="lg" justify="between" align="start" wrap={false}>
+        <Stack spacing="xs" className="page-header__text">
           {getTitleComponent()}
           {getSubtitleComponent()}
           {getDescriptionComponent()}
           
-          {children && (
-            <div className="page-header__extra">
-              {children}
-            </div>
-          )}
-        </div>
+          {children}
+        </Stack>
         
         {actions && (
           <div className="page-header__actions">
             {actions}
           </div>
         )}
-      </div>
+      </Cluster>
     </header>
   );
 });

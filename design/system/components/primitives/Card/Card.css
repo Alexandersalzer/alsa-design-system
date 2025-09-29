@@ -402,9 +402,8 @@
 
 /* Interactive hover effects */
 .feature-card.card--clickable:hover {
-  transform: translateY(-4px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  border-color: var(--accent-400);
+  background-color: var(--secondary-200);
 }
 
 .feature-card.card--clickable:hover .feature-card__price {

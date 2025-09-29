@@ -191,7 +191,6 @@
   justify-content: center;
   border-bottom: none;
   margin-bottom: 0;
-  padding-bottom: 12px;
 }
 
 /* 🎯 CLEAN - Remove any conflicting pseudo-elements */
@@ -337,11 +336,6 @@
   z-index: 1;
 }
 
-/* ===== CLEAN HOVER EFFECTS ===== */
-.tab--animated:hover:not(.tab--active):not(.tab--disabled) {
-  background-color: var(--surface-nav-item-hover);
-}
-
 /* ===== CLEAN NAVIGATION SIDEBAR ===== */
 .sidebar__nav--animated .nav-item {
   transition: 
@@ -360,12 +354,6 @@
 .sidebar__nav--animated .nav-item--selected::before,
 .sidebar__nav--animated .nav-item--selected::after {
   display: none;
-}
-
-/* ===== ACTIVE STATE VISUAL FEEDBACK ===== */
-.tab--animated:active:not(.tab--disabled),
-.nav-item:active:not(.nav-item--disabled) {
-  background-color: var(--surface-nav-item-hover);
 }
 
 /* ===== BADGE/NOTIFICATION STYLES ===== */
