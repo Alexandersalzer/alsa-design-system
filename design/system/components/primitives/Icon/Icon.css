@@ -262,11 +262,6 @@ a:focus-visible .icon {
   transition: all 0.2s ease;
 }
 
-.nav-item:hover .icon,
-.tab:hover .icon {
-  transform: scale(1.05);
-}
-
 .nav-item.active .icon,
 .nav-item--active .icon,
 .tab.active .icon,

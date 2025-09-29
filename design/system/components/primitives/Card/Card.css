@@ -125,6 +125,7 @@
 
 .domain-card--clickable:hover {
   border-color: var(--secondary-400);
+  background-color: var(--secondary-200);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
