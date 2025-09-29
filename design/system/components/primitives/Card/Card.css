@@ -80,7 +80,6 @@
 
 /* Active state (when pressed) */
 .card--clickable:active {
-  transform: translateY(0px);
   box-shadow: var(--foundation-shadow-sm);
   transition-duration: 0.1s;
 }
@@ -125,9 +124,8 @@
 }
 
 .domain-card--clickable:hover {
-  border-color: var(--accent-400);
+  border-color: var(--secondary-400);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transform: translateY(-1px);
 }
 
 .domain-card--clickable:hover .domain-info {
@@ -440,9 +438,8 @@
 
 /* Focus states for accessibility */
 .feature-card.card--clickable:focus-visible {
-  outline: 3px solid var(--accent-500);
+  outline: 3px solid var(--secondary-500);
   outline-offset: 2px;
-  transform: translateY(-2px);
 }
 
 /* Loading state for feature cards */
