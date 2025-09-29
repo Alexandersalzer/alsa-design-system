@@ -40,6 +40,7 @@ export class ThemeManager {
   setThemeMode(mode: ThemeMode): void {
     this.currentConfig.themeMode = mode;
     this.applyThemeMode(mode);
+    this.saveToStorage();
   }
 
   /**
@@ -66,6 +67,7 @@ export class ThemeManager {
   setAccentColor(color: ColorScale): void {
     this.currentConfig.accentColor = color;
     this.applyAccentColor(color);
+    this.saveToStorage();
   }
 
   /**
@@ -74,6 +76,7 @@ export class ThemeManager {
   setRadiusScale(scale: RadiusScale): void {
     this.currentConfig.radiusScale = scale;
     this.applyRadiusScale(scale);
+    this.saveToStorage();
   }
 
   /**
@@ -130,28 +133,53 @@ export class ThemeManager {
   }
 
   /**
-   * Initialize with external config (no localStorage)
-   * Can be called multiple times to update config
+   * Updated initialize method - include theme mode
    */
-  initialize(config?: Partial<ThemeConfig>): void {
+  initialize(fallbackConfig?: Partial<ThemeConfig>): void {
     if (typeof window === 'undefined') return;
 
-    // Use provided config or defaults
-    if (config) {
-      this.currentConfig = { 
-        ...this.currentConfig, 
-        ...config 
-      };
+    if (this.isInitialized) {
+      return;
     }
 
-    // Apply all configurations
-    this.applyThemeMode(this.currentConfig.themeMode);
+    // Try to load from localStorage first
+    const stored = localStorage.getItem('blimpify-theme-config');
+    if (stored) {
+      try {
+        const savedConfig = JSON.parse(stored);
+        this.currentConfig = { 
+          ...this.currentConfig, 
+          ...savedConfig 
+        };
+
+      } catch (e) {
+        console.warn('Failed to parse stored theme config, using defaults');
+      }
+    } else if (fallbackConfig) {
+      this.currentConfig = { 
+        ...this.currentConfig, 
+        ...fallbackConfig 
+      };
+
+    }
+
+    // Apply all configurations (ADD the theme mode line)
+    this.applyThemeMode(this.currentConfig.themeMode); // ✅ ADD this line
     this.applyAccentColor(this.currentConfig.accentColor);
     this.applyRadiusScale(this.currentConfig.radiusScale);
     
     this.isInitialized = true;
+
   }
 
+  /**
+   * Save to localStorage
+   */
+  private saveToStorage(): void {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem('blimpify-theme-config', JSON.stringify(this.currentConfig));
+
+  }
 
 
     // ✅ ADD these convenience getters:
