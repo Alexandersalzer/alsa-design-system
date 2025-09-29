@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/SegmentedControl/SegmentedControl.tsx
-// ENHANCED SEGMENTED CONTROL WITH SLIDING TRACK
+// ENHANCED SEGMENTED CONTROL WITH SLIDING TRACK AND DIVIDERS
 // ===============================================
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -157,6 +157,8 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
       {options.map((option, index) => {
         const isSelected = option.value === value;
         const isDisabled = disabled || option.disabled;
+        const isBeforeSelected = index === selectedIndex - 1;
+        const isAfterSelected = index === selectedIndex + 1;
 
         return (
           <button
@@ -171,6 +173,9 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
             aria-checked={isSelected}
             tabIndex={isSelected ? 0 : -1}
             data-value={option.value}
+            data-selected={isSelected}
+            data-before-selected={isBeforeSelected}
+            data-after-selected={isAfterSelected}
             type="button"
           >
             {option.icon && (

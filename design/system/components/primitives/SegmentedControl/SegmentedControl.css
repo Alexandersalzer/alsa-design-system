@@ -64,6 +64,33 @@
   white-space: nowrap;
 }
 
+/* ===== OPTION DIVIDERS ===== */
+.segmented-control__option::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 60%;
+  width: 1px;
+  background: var(--border-subtle);
+  opacity: 0.5;
+  transition: opacity 0.15s ease;
+  z-index: 2;
+}
+
+/* Hide divider on last option */
+.segmented-control__option:last-child::after {
+  display: none;
+}
+
+/* Hide divider when option is selected or before selected */
+.segmented-control__option[data-selected="true"]::after,
+.segmented-control__option[data-before-selected="true"]::after {
+  opacity: 0;
+}
+
+/* ===== OPTION STATES ===== */
 .segmented-control__option:focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
@@ -111,6 +138,10 @@
   border-radius: var(--radius-xs);
 }
 
+.segmented-control--sm .segmented-control__option::after {
+  height: 50%;
+}
+
 .segmented-control--sm .segmented-control__icon svg {
   width: 14px;
   height: 14px;
@@ -132,6 +163,10 @@
 .segmented-control--lg .segmented-control__option {
   padding: var(--foundation-space-3) var(--foundation-space-4);
   border-radius: var(--radius-button);
+}
+
+.segmented-control--lg .segmented-control__option::after {
+  height: 70%;
 }
 
 .segmented-control--lg .segmented-control__icon svg {
@@ -233,6 +268,10 @@
   }
   
   .segmented-control__option {
+    transition: none;
+  }
+  
+  .segmented-control__option::after {
     transition: none;
   }
 }
