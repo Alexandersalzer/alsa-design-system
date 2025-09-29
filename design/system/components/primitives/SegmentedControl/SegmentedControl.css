@@ -258,7 +258,7 @@
   /* Transform will be handled by JavaScript for RTL */
 }
 
-/* ===== DARK MODE ENHANCEMENTS ===== */
+/* ===== DARK MODE ENHANCEMENTS =====
 [data-theme="dark"] .segmented-control {
   background: var(--secondary-800);
   border-color: var(--secondary-700);
@@ -280,4 +280,4 @@
 [data-theme="dark"] .segmented-control--ghost .segmented-control__indicator {
   background: var(--secondary-800);
   border-color: var(--secondary-700);
-}
+} */
