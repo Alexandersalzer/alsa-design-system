@@ -62,29 +62,20 @@
   user-select: none;
 }
 
-/* Hover effects for clickable cards */
-.card--clickable:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--foundation-shadow-lg);
-  border-color: var(--border-card-hover, var(--accent-300));
-}
-
 /* Elevated cards hover effect */
 .card--elevated.card--clickable:hover {
   box-shadow: var(--foundation-shadow-xl);
-  transform: translateY(-3px);
 }
 
 /* Outlined cards hover effect */
 .card--outlined.card--clickable:hover {
-  border-color: var(--accent-500);
+  border-color: var(--secondary-500);
   box-shadow: var(--foundation-shadow-md);
 }
 
 /* Solid cards hover effect */
 .card--solid.card--clickable:hover {
   background-color: var(--surface-solid-hover);
-  transform: translateY(-2px);
 }
 
 /* Active state (when pressed) */
@@ -412,7 +403,6 @@
 
 /* Active card hover (should be more subtle) */
 .feature-card--active.card--clickable:hover {
-  transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
 }
 
