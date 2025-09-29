@@ -347,7 +347,7 @@
 
 /* ===== PICKER OPTION - STABLE & SMOOTH ===== */
 .picker-option {
-  padding: var(--foundation-space-3) var(--foundation-space-4);
+  padding: var(--foundation-space-1) var(--foundation-space-2);
   cursor: pointer;
   border-radius: var(--radius-picker-sm);
   background: var(--surface-picker-option);
