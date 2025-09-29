@@ -1,6 +1,6 @@
 /* ===============================================
    src/design-system/components/primitives/SegmentedControl/SegmentedControl.css
-   ENHANCED SEGMENTED CONTROL WITH VISIBLE TRACK BACKGROUND
+   ENHANCED SEGMENTED CONTROL - INTEGRATED WITH DESIGN SYSTEM
    =============================================== */
 
 /* ===== BASE COMPONENT ===== */
@@ -10,7 +10,8 @@
   /* ENHANCED: More visible track background */
   background: var(--secondary-100);
   border: 1px solid var(--border-default);
-  border-radius: var(--foundation-radius-lg);
+  /* Uses same radius as buttons for consistency with your design system */
+  border-radius: var(--radius-button);
   padding: var(--foundation-space-1);
   overflow: hidden;
   isolation: isolate;
@@ -27,7 +28,8 @@
   bottom: var(--foundation-space-1);
   /* ENHANCED: Bright white background that stands out */
   background: var(--primary-white);
-  border-radius: var(--foundation-radius-md);
+  /* Slightly smaller radius than container for visual separation */
+  border-radius: var(--radius-button-sm);
   /* ENHANCED: More prominent shadow for the floating effect */
   box-shadow: 
     0 1px 3px rgba(0, 0, 0, 0.12),
@@ -55,7 +57,8 @@
   min-width: 0;
   flex: 1;
   padding: var(--foundation-space-2) var(--foundation-space-3);
-  border-radius: var(--foundation-radius-md);
+  /* Match indicator radius */
+  border-radius: var(--radius-button-sm);
   box-sizing: border-box;
   text-align: center;
   white-space: nowrap;
@@ -93,18 +96,19 @@
 /* Small */
 .segmented-control--sm {
   padding: 2px;
+  border-radius: var(--radius-button-sm);
 }
 
 .segmented-control--sm .segmented-control__indicator {
   top: 2px;
   left: 2px;
   bottom: 2px;
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-xs);
 }
 
 .segmented-control--sm .segmented-control__option {
   padding: var(--foundation-space-1) var(--foundation-space-3);
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-xs);
 }
 
 .segmented-control--sm .segmented-control__icon svg {
@@ -115,19 +119,19 @@
 /* Large */
 .segmented-control--lg {
   padding: var(--foundation-space-2);
-  border-radius: var(--foundation-radius-xl);
+  border-radius: var(--radius-button-lg);
 }
 
 .segmented-control--lg .segmented-control__indicator {
   top: var(--foundation-space-2);
   left: var(--foundation-space-2);
   bottom: var(--foundation-space-2);
-  border-radius: var(--foundation-radius-lg);
+  border-radius: var(--radius-button);
 }
 
 .segmented-control--lg .segmented-control__option {
   padding: var(--foundation-space-3) var(--foundation-space-4);
-  border-radius: var(--foundation-radius-lg);
+  border-radius: var(--radius-button);
 }
 
 .segmented-control--lg .segmented-control__icon svg {
@@ -139,22 +143,23 @@
 
 /* 
   PILL VARIANT
-  - Fully rounded ends (circular caps)
+  - Uses pill radius from your design system
+  - Respects your radius scale settings
   - Best for 2-3 options with short labels
   - Modern, friendly appearance
 */
 .segmented-control--pill {
-  border-radius: var(--foundation-radius-full);
+  border-radius: var(--radius-pill);
   /* Enhanced track contrast for pill variant */
   background: var(--secondary-100);
 }
 
 .segmented-control--pill .segmented-control__indicator {
-  border-radius: var(--foundation-radius-full);
+  border-radius: var(--radius-pill);
 }
 
 .segmented-control--pill .segmented-control__option {
-  border-radius: var(--foundation-radius-full);
+  border-radius: var(--radius-pill);
 }
 
 /* 
@@ -257,27 +262,3 @@
 [dir="rtl"] .segmented-control__indicator {
   /* Transform will be handled by JavaScript for RTL */
 }
-
-/* ===== DARK MODE ENHANCEMENTS =====
-[data-theme="dark"] .segmented-control {
-  background: var(--secondary-800);
-  border-color: var(--secondary-700);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-[data-theme="dark"] .segmented-control__indicator {
-  background: var(--secondary-700);
-  box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.3),
-    0 1px 2px rgba(0, 0, 0, 0.2),
-    0 0 0 1px var(--secondary-600);
-}
-
-[data-theme="dark"] .segmented-control__option:hover:not(:disabled):not(.segmented-control__option--disabled) {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-[data-theme="dark"] .segmented-control--ghost .segmented-control__indicator {
-  background: var(--secondary-800);
-  border-color: var(--secondary-700);
-} */
