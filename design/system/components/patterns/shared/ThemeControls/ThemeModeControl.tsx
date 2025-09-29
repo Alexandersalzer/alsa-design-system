@@ -93,7 +93,7 @@ export function ThemeModeControl({
         value={currentValue}
         onChange={handleThemeChange}
         size={size}
-        variant="default"
+        variant="pill"
         fullWidth={true}
         disabled={!isHydrated}
       />

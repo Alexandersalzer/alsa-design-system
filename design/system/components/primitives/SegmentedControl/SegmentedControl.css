@@ -1,20 +1,22 @@
 /* ===============================================
    src/design-system/components/primitives/SegmentedControl/SegmentedControl.css
-   ENHANCED SEGMENTED CONTROL STYLES WITH PROPER SLIDING TRACK
+   ENHANCED SEGMENTED CONTROL WITH VISIBLE TRACK BACKGROUND
    =============================================== */
 
 /* ===== BASE COMPONENT ===== */
 .segmented-control {
   position: relative;
   display: inline-flex;
-  background: var(--surface-secondary);
-  border: 1px solid var(--border-secondary);
+  /* ENHANCED: More visible track background */
+  background: var(--secondary-100);
+  border: 1px solid var(--border-default);
   border-radius: var(--foundation-radius-lg);
   padding: var(--foundation-space-1);
   overflow: hidden;
   isolation: isolate;
-  /* Ensure consistent spacing */
   gap: 0;
+  /* Add subtle inner shadow for depth */
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 /* ===== SLIDING INDICATOR ===== */
@@ -23,14 +25,18 @@
   top: var(--foundation-space-1);
   left: var(--foundation-space-1);
   bottom: var(--foundation-space-1);
-  background: var(--surface-button-secondary-hover);
-  border-radius: var(--foundation-radius-xl);
-  box-shadow: var(--foundation-shadow-sm);
+  /* ENHANCED: Bright white background that stands out */
+  background: var(--primary-white);
+  border-radius: var(--foundation-radius-md);
+  /* ENHANCED: More prominent shadow for the floating effect */
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 0 0 1px var(--border-subtle);
   transition: 
     transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
     width 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 1;
-  /* Ensure it covers the full height */
   height: auto;
 }
 
@@ -49,10 +55,8 @@
   min-width: 0;
   flex: 1;
   padding: var(--foundation-space-2) var(--foundation-space-3);
-  border-radius: var(--foundation-radius-xl);
-  /* Ensure consistent sizing */
+  border-radius: var(--foundation-radius-md);
   box-sizing: border-box;
-  /* Better text alignment */
   text-align: center;
   white-space: nowrap;
 }
@@ -63,8 +67,8 @@
 }
 
 .segmented-control__option:hover:not(:disabled):not(.segmented-control__option--disabled) {
-  background: var(--surface-button-secondary-hover);
-  opacity: 0.8;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0.9;
 }
 
 .segmented-control__option--disabled {
@@ -95,12 +99,12 @@
   top: 2px;
   left: 2px;
   bottom: 2px;
-  border-radius: var(--foundation-radius-md);
+  border-radius: var(--foundation-radius-sm);
 }
 
 .segmented-control--sm .segmented-control__option {
   padding: var(--foundation-space-1) var(--foundation-space-3);
-  border-radius: var(--foundation-radius-md);
+  border-radius: var(--foundation-radius-sm);
 }
 
 .segmented-control--sm .segmented-control__icon svg {
@@ -111,19 +115,19 @@
 /* Large */
 .segmented-control--lg {
   padding: var(--foundation-space-2);
-  border-radius: var(--foundation-radius-lg);
+  border-radius: var(--foundation-radius-xl);
 }
 
 .segmented-control--lg .segmented-control__indicator {
   top: var(--foundation-space-2);
   left: var(--foundation-space-2);
   bottom: var(--foundation-space-2);
-  border-radius: calc(var(--foundation-radius-lg) - var(--foundation-space-2));
+  border-radius: var(--foundation-radius-lg);
 }
 
 .segmented-control--lg .segmented-control__option {
   padding: var(--foundation-space-3) var(--foundation-space-4);
-  border-radius: calc(var(--foundation-radius-lg) - var(--foundation-space-2));
+  border-radius: var(--foundation-radius-lg);
 }
 
 .segmented-control--lg .segmented-control__icon svg {
@@ -133,9 +137,16 @@
 
 /* ===== STYLE VARIANTS ===== */
 
-/* Pill Variant */
+/* 
+  PILL VARIANT
+  - Fully rounded ends (circular caps)
+  - Best for 2-3 options with short labels
+  - Modern, friendly appearance
+*/
 .segmented-control--pill {
   border-radius: var(--foundation-radius-full);
+  /* Enhanced track contrast for pill variant */
+  background: var(--secondary-100);
 }
 
 .segmented-control--pill .segmented-control__indicator {
@@ -146,20 +157,29 @@
   border-radius: var(--foundation-radius-full);
 }
 
-/* Ghost Variant */
+/* 
+  GHOST VARIANT
+  - Transparent background (no visible track)
+  - Only the selected item has a background
+  - Minimal, clean appearance
+  - Best for integrating into already-styled containers
+*/
 .segmented-control--ghost {
   background: transparent;
   border: none;
   padding: 0;
+  box-shadow: none;
 }
 
 .segmented-control--ghost .segmented-control__indicator {
-  background: var(--surface-secondary);
-  border: 1px solid var(--border-secondary);
+  background: var(--secondary-100);
+  border: 1px solid var(--border-default);
   top: 0;
   left: 0;
   bottom: 0;
-  box-shadow: var(--foundation-shadow-sm);
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 0 0 1px var(--border-subtle);
 }
 
 .segmented-control--ghost .segmented-control__option {
@@ -236,4 +256,28 @@
 /* ===== RTL SUPPORT ===== */
 [dir="rtl"] .segmented-control__indicator {
   /* Transform will be handled by JavaScript for RTL */
+}
+
+/* ===== DARK MODE ENHANCEMENTS ===== */
+[data-theme="dark"] .segmented-control {
+  background: var(--secondary-800);
+  border-color: var(--secondary-700);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .segmented-control__indicator {
+  background: var(--secondary-700);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 0 0 1px var(--secondary-600);
+}
+
+[data-theme="dark"] .segmented-control__option:hover:not(:disabled):not(.segmented-control__option--disabled) {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .segmented-control--ghost .segmented-control__indicator {
+  background: var(--secondary-800);
+  border-color: var(--secondary-700);
 }
