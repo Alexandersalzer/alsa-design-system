@@ -8,7 +8,7 @@
   position: relative;
   display: inline-flex;
   /* ENHANCED: More visible track background */
-  background: var(--secondary-100);
+  background: var(--secondary-50);
   border: 1px solid var(--border-default);
   /* Uses same radius as buttons for consistency with your design system */
   border-radius: var(--radius-button);
