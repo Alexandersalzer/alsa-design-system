@@ -27,7 +27,7 @@
   left: var(--foundation-space-1);
   bottom: var(--foundation-space-1);
   /* ENHANCED: Bright white background that stands out */
-  background: var(--primary-white);
+  background: var(--secondary-200);
   /* Slightly smaller radius than container for visual separation */
   border-radius: var(--radius-button-sm);
   /* ENHANCED: More prominent shadow for the floating effect */
@@ -70,7 +70,7 @@
 }
 
 .segmented-control__option:hover:not(:disabled):not(.segmented-control__option--disabled) {
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--secondary-200, 0.8);
   opacity: 0.9;
 }
 
