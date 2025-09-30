@@ -1,3 +1,9 @@
+// ===============================================
+// src/design-system/components/primitives/Table/index.ts
+// Table COMPONENT
+// ===============================================
+
+
 import React from 'react';
 import { cn } from '../../../lib/utils';
 
