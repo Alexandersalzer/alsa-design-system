@@ -65,30 +65,34 @@
 /* Elevated cards hover effect */
 .card--elevated.card--clickable:hover {
   box-shadow: var(--foundation-shadow-xl);
+  background-color: var(--secondary-100);
 }
 
 /* Outlined cards hover effect */
 .card--outlined.card--clickable:hover {
   border-color: var(--secondary-500);
   box-shadow: var(--foundation-shadow-md);
+  background-color: var(--secondary-100);
 }
 
 /* Solid cards hover effect */
 .card--solid.card--clickable:hover {
   background-color: var(--surface-solid-hover);
+  /*background-color: var(--surface-solid-hover);*/
 }
 
 /* Active state (when pressed) */
 .card--clickable:active {
   box-shadow: var(--foundation-shadow-sm);
   transition-duration: 0.1s;
+  background-color: var(--secondary-300);
 }
 
 /* Selected state */
 .card--selected {
   border-color: var(--accent-500);
   background-color: var(--surface-selected, var(--accent-50));
-  box-shadow: 0 0 0 2px var(--accent-500);
+  box-shadow: 0 0 0 2px var(--secondary-500);
 }
 
 /* Selected hover state */
@@ -161,7 +165,6 @@
 
 /* Hover effect on status indicator */
 .domain-card--clickable:hover .status-indicator {
-  transform: scale(1.2);
   box-shadow: 0 0 8px currentColor;
 }
 
@@ -303,11 +306,6 @@
   
   .card--padding-lg {
     padding: var(--foundation-space-6);
-  }
-
-  /* Reduce hover effects on mobile */
-  .card--clickable:hover {
-    transform: none;
   }
 }
 
@@ -472,9 +470,6 @@
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-  .feature-card.card--clickable:hover {
-    transform: none; /* Disable hover effects on mobile */
-  }
   
   .feature-card__price {
     padding: var(--foundation-space-2);
@@ -499,10 +494,6 @@
   .feature-card__price {
     transition: none;
   }
-  
-  .feature-card.card--clickable:hover {
-    transform: none;
-  }
 }
 
 /* ===== PORTFOLIO CARD SPECIFIC STYLES ===== */
@@ -712,15 +703,4 @@
 .portfolio-flag svg {
   width: 24px;
   height: 16px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .portfolio-card {
-    max-width: 100%;
-  }
-  
-  .portfolio-image-container {
-    height: 200px; /* Slightly smaller on mobile */
-  }
 }
