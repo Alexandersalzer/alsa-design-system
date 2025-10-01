@@ -37,6 +37,7 @@ export interface StepperProps extends React.HTMLAttributes<HTMLDivElement> {
   extraCost?: number;                  // Extra costs only (to determine if we should show price)
   formatPrice?: (price: number) => string; // Custom price formatter
   basePackageName?: string;            // Name to search for in products (e.g. "Standard hemsida")
+  basePackagePrice?: number;           // Hardcoded base package price (fallback: 6999)
 
   // ✨ NEW STICKY MODE PROPS
   sticky?: boolean;                    // Enable sticky navigation
@@ -69,6 +70,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
   extraCost = 0,
   formatPrice = (price: number) => `${price.toLocaleString('sv-SE')} kr`,
   basePackageName = 'Standard hemsida',
+  basePackagePrice,
 
   // Sticky mode props
   sticky = false,
@@ -88,50 +90,16 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
   const [basePrice, setBasePrice] = useState<number>(6999); // Fallback price
   const [priceLoading, setPriceLoading] = useState<boolean>(true);
 
-  // Fetch base package price from database
+  // Use provided basePackagePrice or fallback to hardcoded value
   useEffect(() => {
-    const fetchBasePrice = async () => {
-      try {
-        setPriceLoading(true);
-        const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-        const res = await fetch(`${apiBaseUrl}/api/payments/db-products`);
-        
-        if (res.ok) {
-          const data = await res.json();
-          if (data.success && Array.isArray(data.products)) {
-            // Find the standard package (one-time payment, not subscription)
-            const standardPackage = data.products.find((p: any) => {
-              const name = (p.name || '').toLowerCase();
-              const searchName = basePackageName.toLowerCase();
-              return p.billing_interval !== 'month' && 
-                     name.includes('standard') && 
-                     (name.includes('hemsida') || name.includes('paket')) &&
-                     Number(p.price) > 0;
-            });
-            
-            if (standardPackage) {
-              setBasePrice(Number(standardPackage.price));
-              console.log('🔍 Found base package:', standardPackage.name, 'Price:', standardPackage.price);
-            } else {
-              console.warn('⚠️ Standard package not found, using fallback price');
-            }
-          }
-        } else {
-          console.warn('⚠️ Failed to fetch products, using fallback price');
-        }
-      } catch (error) {
-        console.error('❌ Error fetching base price:', error);
-      } finally {
-        setPriceLoading(false);
-      }
-    };
-
     if (showPriceInButton) {
-      fetchBasePrice();
-    } else {
-      setPriceLoading(false);
+      // Use provided price prop or fallback to hardcoded value
+      const priceToUse = basePackagePrice || 6999; // Standard website package price
+      setBasePrice(priceToUse);
+      console.log('🔍 Using base package price:', priceToUse, basePackagePrice ? '(from prop)' : '(hardcoded fallback)');
     }
-  }, [showPriceInButton, basePackageName]);
+    setPriceLoading(false);
+  }, [showPriceInButton, basePackagePrice]);
 
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === steps.length - 1;
