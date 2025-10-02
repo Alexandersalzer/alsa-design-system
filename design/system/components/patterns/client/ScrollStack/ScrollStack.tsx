@@ -65,16 +65,12 @@ interface ScrollStackComponent extends React.FC<ScrollStackProps> {
   Item: React.FC<ScrollStackItemProps>;
 }
 
-function getQuerySelector(useWindowScroll: boolean, scroller: HTMLDivElement | null, selector: string): NodeListOf<Element> {
+function getQuerySelector<T extends HTMLElement>(useWindowScroll: boolean, scroller: HTMLDivElement | null, selector: string): T[] {
   if (useWindowScroll) {
-    return document.querySelectorAll(selector);
+    return Array.from(document.querySelectorAll<T>(selector));
   }
-  if (!scroller) return document.createDocumentFragment().querySelectorAll('*');
-  return scroller.querySelectorAll(selector);
-}
-
-function isHTMLElement(element: Element | null | undefined): element is HTMLElement {
-  return element instanceof HTMLElement;
+  if (!scroller) return [];
+  return Array.from(scroller.querySelectorAll<T>(selector));
 }
 
 const ScrollStackBase: React.FC<ScrollStackProps> = ({ 
@@ -151,8 +147,7 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
     const scaleEndPositionPx = parsePercentage(scaleEndPosition, containerHeight);
 
-    const endElements = getQuerySelector(useWindowScroll, scrollerRef.current, '[data-scroll-stack-end]');
-    const endElement = Array.from(endElements).find(isHTMLElement);
+    const [endElement] = getQuerySelector<HTMLDivElement>(useWindowScroll, scrollerRef.current, '[data-scroll-stack-end]');
     if (!endElement) return;
 
     const endElementTop = getElementOffset(endElement);
@@ -311,8 +306,7 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
-    const elements = getQuerySelector(useWindowScroll, scroller, '[data-scroll-stack-card]');
-    cardsRef.current = Array.from(elements).filter(isHTMLElement);
+    cardsRef.current = getQuerySelector<HTMLDivElement>(useWindowScroll, scroller, '[data-scroll-stack-card]');
     const transformsCache = lastTransformsRef.current;
 
     cardsRef.current.forEach((card, i) => {
