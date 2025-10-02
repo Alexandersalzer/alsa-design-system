@@ -81,6 +81,7 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
   onStackComplete
 }) => {
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
   const endElementRef = useRef<HTMLDivElement>(null);
   const stackCompletedRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
@@ -266,12 +267,13 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
       return lenis;
     } else {
       const scroller = scrollerRef.current;
-      if (!scroller) return;
+      const inner = innerRef.current;
+      if (!scroller || !inner) return;
 
       const lenis = new Lenis({
         ...lenisConfig,
         wrapper: scroller,
-        content: scroller.querySelector('[data-scroll-stack-inner]'),
+        content: inner,
         gestureOrientationHandler: true,
         normalizeWheel: true,
         touchInertiaMultiplier: 35,
@@ -295,13 +297,13 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
-    cardsRef.current = React.Children.map(children, (_, i) => {
-      const cardElement = document.createElement('div');
-      cardElement.style.marginBottom = i < React.Children.count(children) - 1 
-        ? `var(--foundation-space-${itemDistance})`
-        : '0';
-      return cardElement;
-    }) || [];
+    cardsRef.current = React.Children.map(children, () => document.createElement('div')) || [];
+
+    cardsRef.current.forEach((card, i) => {
+      if (i < cardsRef.current.length - 1) {
+        card.style.marginBottom = `var(--foundation-space-${itemDistance})`;
+      }
+    });
 
     setupLenis();
     updateCardTransforms();
@@ -335,6 +337,12 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
     children
   ]);
 
+  const setCardRef = useCallback((el: HTMLDivElement | null, index: number) => {
+    if (el) {
+      cardsRef.current[index] = el;
+    }
+  }, []);
+
   return (
     <Section 
       className={className}
@@ -358,7 +366,7 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
           }}
         >
           <div 
-            data-scroll-stack-inner
+            ref={innerRef}
             style={{
               position: 'relative',
               width: '100%',
@@ -366,7 +374,7 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
             }}
           >
             {React.Children.map(children, (child, i) => (
-              <div ref={el => el && (cardsRef.current[i] = el)}>
+              <div ref={el => setCardRef(el, i)}>
                 {child}
               </div>
             ))}
