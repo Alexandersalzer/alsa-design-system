@@ -139,13 +139,13 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
     const scaleEndPositionPx = parsePercentage(scaleEndPosition, containerHeight);
 
-    const endElement = useWindowScroll
+    const endElement = (useWindowScroll
       ? document.querySelector('[data-scroll-stack-end]')
-      : scrollerRef.current?.querySelector('[data-scroll-stack-end]');
+      : scrollerRef.current?.querySelector('[data-scroll-stack-end]')) as HTMLElement | undefined;
 
     if (!endElement) return;
 
-    const endElementTop = getElementOffset(endElement as HTMLElement);
+    const endElementTop = getElementOffset(endElement);
 
     cardsRef.current.forEach((card, i) => {
       if (!card) return;
