@@ -65,6 +65,10 @@ interface ScrollStackComponent extends React.FC<ScrollStackProps> {
   Item: React.FC<ScrollStackItemProps>;
 }
 
+function isHTMLElement(element: Element | null): element is HTMLElement {
+  return element instanceof HTMLElement;
+}
+
 const ScrollStackBase: React.FC<ScrollStackProps> = ({ 
   children,
   className = '',
@@ -139,13 +143,13 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
     const scaleEndPositionPx = parsePercentage(scaleEndPosition, containerHeight);
 
-    const endElement = (useWindowScroll
+    const endElementQuery = useWindowScroll
       ? document.querySelector('[data-scroll-stack-end]')
-      : scrollerRef.current?.querySelector('[data-scroll-stack-end]')) as HTMLElement | undefined;
+      : scrollerRef.current?.querySelector('[data-scroll-stack-end]');
 
-    if (!endElement) return;
+    if (!isHTMLElement(endElementQuery)) return;
 
-    const endElementTop = getElementOffset(endElement);
+    const endElementTop = getElementOffset(endElementQuery);
 
     cardsRef.current.forEach((card, i) => {
       if (!card) return;
