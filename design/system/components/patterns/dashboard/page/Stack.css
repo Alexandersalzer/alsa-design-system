@@ -1,57 +1,51 @@
 /* ===============================================
    src/design-system/components/patterns/page/Stack.css
-   STACK COMPONENT STYLES - Vertical spacing layout
+   STACK (VStack) - Vertical layout component
    =============================================== */
 
 .stack {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: var(--foundation-space-4); /* Default md spacing */
-  /* REMOVED: width: 100%; - Only applied via fullWidth prop */
-  flex: 0 1 auto; /* Default: don't grow, can shrink, size based on content */
+  gap: var(--foundation-space-4);
 }
 
 /* ===== WIDTH VARIANTS ===== */
 .stack--full-width {
   width: 100%;
-  flex: 1 1 auto; /* Can grow to fill space */
 }
 
-/* ===== FLEX CHILD VARIANT ===== */
-/* When Stack is used as a flex child and SHOULD grow to fill available space */
 .stack--flex-child {
-  width: auto;
-  flex: 1 1 auto; /* Grow to fill available space */
-  min-width: 0; /* Allow shrinking below content width */
+  flex: 1;
+  min-width: 0;
 }
 
-/* ===== SPACING VARIANTS ===== */
+/* ===== SPACING ===== */
 .stack--spacing-xs {
-  gap: var(--foundation-space-1); /* 4px */
+  gap: var(--foundation-space-1);
 }
 
 .stack--spacing-sm {
-  gap: var(--foundation-space-2); /* 8px */
+  gap: var(--foundation-space-2);
 }
 
 .stack--spacing-md {
-  gap: var(--foundation-space-4); /* 16px */
+  gap: var(--foundation-space-4);
 }
 
 .stack--spacing-lg {
-  gap: var(--foundation-space-6); /* 24px */
+  gap: var(--foundation-space-6);
 }
 
 .stack--spacing-xl {
-  gap: var(--foundation-space-8); /* 32px */
+  gap: var(--foundation-space-8);
 }
 
 .stack--spacing-2xl {
-  gap: var(--foundation-space-12); /* 48px */
+  gap: var(--foundation-space-12);
 }
 
-/* ===== ALIGNMENT VARIANTS ===== */
+/* ===== ALIGNMENT ===== */
 .stack--align-start {
   align-items: flex-start;
 }
@@ -68,7 +62,7 @@
   align-items: stretch;
 }
 
-/* ===== SPLIT BEHAVIOR ===== */
+/* ===== SPLIT ===== */
 .stack--split {
   min-height: 100%;
 }
@@ -77,10 +71,10 @@
   margin-top: auto;
 }
 
-/* ===== RESPONSIVE COLLAPSE ===== */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 767px) {
   .stack--collapse-mobile {
-    gap: var(--foundation-space-3); /* Smaller gap on mobile */
+    gap: var(--foundation-space-3);
   }
 
   .stack--collapse-mobile.stack--spacing-xs {
@@ -110,7 +104,7 @@
 
 @media (max-width: 1023px) {
   .stack--collapse-tablet {
-    gap: var(--foundation-space-3); /* Smaller gap on tablet */
+    gap: var(--foundation-space-3);
   }
 
   .stack--collapse-tablet.stack--spacing-xs {
