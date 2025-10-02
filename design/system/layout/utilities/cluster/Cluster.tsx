@@ -2,25 +2,19 @@
 // src/design-system/components/patterns/page/Cluster.tsx
 // CLUSTER COMPONENT - Horizontal grouping with wrapping
 // ===============================================
-
 import React, { ReactNode } from 'react';
 
 // ===== TYPE DEFINITIONS =====
-
 export interface ClusterProps {
   children: ReactNode;
   className?: string;
-  
   // Spacing between items
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  
   // Alignment
   align?: 'start' | 'center' | 'end' | 'baseline';
   justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
-  
   // Wrapping behavior
   wrap?: boolean;
-  
   // Direction
   direction?: 'row' | 'row-reverse';
 }
@@ -31,25 +25,23 @@ function buildClasses(...classNames: (string | undefined | false)[]): string {
 }
 
 // ===== MAIN CLUSTER COMPONENT =====
-
 export const Cluster = React.forwardRef<HTMLDivElement, ClusterProps>(({
   children,
   className,
   spacing = 'md',
   align = 'center',
   justify = 'start',
-  wrap = true,
+  wrap = false, // CHANGED: Default to false
   direction = 'row',
   ...props
 }, ref) => {
-  
   // Build CSS classes
   const classes = buildClasses(
     'cluster',
     `cluster--spacing-${spacing}`,
     align !== 'center' && `cluster--align-${align}`,
     justify !== 'start' && `cluster--justify-${justify}`,
-    !wrap && 'cluster--no-wrap',
+    wrap && 'cluster--wrap', // CHANGED: Apply wrap class when true
     direction !== 'row' && `cluster--${direction}`,
     className
   );

@@ -5,7 +5,8 @@
 
 .cluster {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* CHANGED: Default no wrap */
+  align-items: center;
   justify-content: flex-start;
   gap: var(--foundation-space-4); /* Default md spacing */
 }
@@ -74,8 +75,8 @@
 }
 
 /* ===== WRAP VARIANTS ===== */
-.cluster--no-wrap {
-  flex-wrap: nowrap;
+.cluster--wrap {
+  flex-wrap: wrap; /* CHANGED: Apply wrap when explicitly requested */
 }
 
 /* ===== DIRECTION VARIANTS ===== */
@@ -83,38 +84,30 @@
   flex-direction: row-reverse;
 }
 
-/* ===== UTILITY COMBINATIONS ===== */
-
-/* Common form field clusters */
-.cluster.form-actions {
-  justify-content: flex-end;
-  margin-top: var(--foundation-space-4);
-}
-
 /* ===== RESPONSIVE BEHAVIOR ===== */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .cluster {
     gap: var(--foundation-space-3); /* Slightly smaller gap on mobile */
   }
-  
+
   .cluster--spacing-xs {
     gap: var(--foundation-space-1);
   }
-  
+
   .cluster--spacing-sm {
     gap: var(--foundation-space-2);
   }
-  
+
   .cluster--spacing-md {
     gap: var(--foundation-space-3);
   }
-  
+
   .cluster--spacing-lg {
-    gap: var(--foundation-space-3);
+    gap: var(--foundation-space-4);
   }
-  
+
   .cluster--spacing-xl {
-    gap: var(--foundation-space-3);
+    gap: var(--foundation-space-6);
   }
 }
 
@@ -123,4 +116,4 @@
   .cluster {
     transition: none;
   }
-} 
+}
