@@ -4,8 +4,8 @@ import { Typography } from '../../../../../system/components/primitives/Typograp
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { Stack } from '../../../utilities/stack/Stack';
+import { Cluster } from '../../../utilities/cluster/Cluster';
 import { StarIcon } from '@heroicons/react/24/solid';
 
 export interface Testimonial {

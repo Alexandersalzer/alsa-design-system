@@ -3,7 +3,7 @@
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Stack } from '../../../utilities/stack/Stack';
 
 export interface AboutStatItem {
   id: string;

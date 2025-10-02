@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
-import { Rhythm, RhythmItem } from '../../../../../system/layout/utilities/rhythm/Rhythm';
+import { Stack } from '../../../utilities/stack/Stack';
+import { Cluster } from '../../../utilities/cluster/Cluster';
+import { Rhythm, RhythmItem } from '../../../utilities/rhythm/Rhythm';
 import { Picker } from '../../../../../system/components/primitives/Picker';
 
 interface FooterContent {

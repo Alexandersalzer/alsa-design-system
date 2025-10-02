@@ -7,8 +7,8 @@
 
 import React from 'react';
 import { Container } from '../../../../../system/layout/frames/container/Container';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Cluster } from '../../../utilities/cluster/Cluster';
+import { Stack } from '../../../utilities/stack/Stack';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Icon } from '../../../../../system/components/primitives/Icon';

@@ -1,7 +1,7 @@
 'use client';
 
 import { Section, Container } from '../../../../../system/layout';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Stack } from '../../../utilities/stack/Stack';
 import { SpinningBanner } from '../../../../../system/components/patterns/client/spinning-banner';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';

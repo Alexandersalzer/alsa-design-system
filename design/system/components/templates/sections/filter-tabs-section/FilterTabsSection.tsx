@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { Section, Container } from '../../../../../system/layout';
 import { FilterTabs } from '../../../patterns/client/FilterTabs';
 import { PortfolioCard } from '../../../patterns/client/PortfolioCard';
-import { ResponsiveGrid } from '../../../../../system/layout/utilities/grid/Grid';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { ResponsiveGrid } from '../../../utilities/grid/Grid';
+import { Stack } from '../../../utilities/stack/Stack';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 

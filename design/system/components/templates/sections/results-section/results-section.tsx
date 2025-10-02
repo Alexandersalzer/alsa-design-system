@@ -2,7 +2,7 @@
 
 import { Section, Container } from '../../../../../system/layout';
 import { Results } from '../../../../../system/components/patterns/client/results';
-import { ResponsiveGrid } from '../../../../../system/layout/utilities/grid/Grid';
+import { ResponsiveGrid } from '../../../utilities/grid/Grid';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 

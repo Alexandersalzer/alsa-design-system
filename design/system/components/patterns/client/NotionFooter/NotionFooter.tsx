@@ -5,9 +5,9 @@ import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { TextLink } from '../../../../../system/components/primitives/TextLink';
 import { Container } from '../../../../../system/layout/frames/container/Container';
-import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { Grid } from '../../../utilities/grid/Grid';
+import { Stack } from '../../../utilities/stack/Stack';
+import { Cluster } from '../../../utilities/cluster/Cluster';
 import {
   PhoneIcon,
   EnvelopeIcon,

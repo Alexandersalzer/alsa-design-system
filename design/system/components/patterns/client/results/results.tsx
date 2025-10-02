@@ -6,7 +6,7 @@
 import React from 'react';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Stack } from '../../../utilities/stack/Stack';
 import Image from 'next/image';
 
 // ===== TYPE DEFINITIONS =====

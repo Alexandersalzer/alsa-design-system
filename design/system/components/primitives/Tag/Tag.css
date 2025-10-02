@@ -64,6 +64,12 @@
   border-color: var(--border-tag-accent);
 }
 
+.tag--default {
+  background-color: var(--surface-tag-default);
+  color: var(--text-tag-default);
+  border-color: var(--border-tag-default);
+}
+
 /* ===== TAG SIZES ===== */
 .tag--small {
   height: var(--size-tag-height-small);
@@ -129,6 +135,12 @@
   border-color: var(--border-tag-accent-hover);
 }
 
+.tag--interactive.tag--default:hover {
+  background-color: var(--surface-tag-default-hover);
+  color: var(--text-tag-default-hover);
+  border-color: var(--border-tag-default-hover);
+}
+
 /* ===== TAG ICON ===== */
 .tag__icon {
   display: flex;
@@ -178,6 +190,10 @@
 
 .tag--accent .tag__icon {
   color: var(--icon-tag-accent);
+}
+
+.tag--default .tag__icon {
+  color: var(--icon-tag-default);
 }
 
 /* ===== REMOVABLE TAGS ===== */

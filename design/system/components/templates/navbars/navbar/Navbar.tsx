@@ -5,7 +5,7 @@ import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent
 import { usePathname, useRouter } from 'next/navigation';
 import { Section } from '../../../../layout/frames/section';
 import { Container } from '../../../../layout/frames/container';
-import { Cluster } from '../../../../layout/utilities/cluster';
+import { Cluster } from '../../../utilities/cluster';
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
 import { 
   getNavigationContext, 
