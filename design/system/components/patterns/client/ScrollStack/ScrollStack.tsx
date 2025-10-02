@@ -65,10 +65,6 @@ interface ScrollStackComponent extends React.FC<ScrollStackProps> {
   Item: React.FC<ScrollStackItemProps>;
 }
 
-function isHTMLElement(element: Element | null | undefined): element is HTMLElement {
-  return element instanceof HTMLElement;
-}
-
 const ScrollStackBase: React.FC<ScrollStackProps> = ({ 
   children,
   className = '',
@@ -85,6 +81,7 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
   onStackComplete
 }) => {
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const endElementRef = useRef<HTMLDivElement>(null);
   const stackCompletedRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
   const lenisRef = useRef<any>(null);
@@ -135,21 +132,14 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
   );
 
   const updateCardTransforms = useCallback(() => {
-    if (!cardsRef.current.length || isUpdatingRef.current) return;
+    if (!cardsRef.current.length || isUpdatingRef.current || !endElementRef.current) return;
 
     isUpdatingRef.current = true;
 
     const { scrollTop, containerHeight } = getScrollData();
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
     const scaleEndPositionPx = parsePercentage(scaleEndPosition, containerHeight);
-
-    const endElementQuery = useWindowScroll
-      ? document.querySelector('[data-scroll-stack-end]')
-      : scrollerRef.current?.querySelector('[data-scroll-stack-end]');
-
-    if (!isHTMLElement(endElementQuery)) return;
-
-    const endElementTop = getElementOffset(endElementQuery);
+    const endElementTop = getElementOffset(endElementRef.current);
 
     cardsRef.current.forEach((card, i) => {
       if (!card) return;
@@ -309,7 +299,7 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
       useWindowScroll
         ? document.querySelectorAll('[data-scroll-stack-card]')
         : scroller.querySelectorAll('[data-scroll-stack-card]')
-    ).filter(isHTMLElement);
+    ) as HTMLElement[];
 
     cardsRef.current = cards;
     const transformsCache = lastTransformsRef.current;
@@ -387,7 +377,7 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
               </div>
             ))}
             <div 
-              data-scroll-stack-end 
+              ref={endElementRef}
               style={{ 
                 height: '100vh', 
                 pointerEvents: 'none' 
