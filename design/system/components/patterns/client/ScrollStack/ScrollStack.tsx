@@ -147,7 +147,8 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
     const scaleEndPositionPx = parsePercentage(scaleEndPosition, containerHeight);
 
-    const [endElement] = getQuerySelector<HTMLDivElement>(useWindowScroll, scrollerRef.current, '[data-scroll-stack-end]');
+    const endElements = getQuerySelector<HTMLDivElement>(useWindowScroll, scrollerRef.current, '[data-scroll-stack-end]');
+    const endElement = endElements[0];
     if (!endElement) return;
 
     const endElementTop = getElementOffset(endElement);
