@@ -274,7 +274,7 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
         ...lenisConfig,
         wrapper: scroller,
         content: inner,
-        gestureOrientationHandler: true,
+        gestureOrientation: 'vertical',
         normalizeWheel: true,
         touchInertiaMultiplier: 35,
         touchInertia: 0.6
