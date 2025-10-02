@@ -65,12 +65,16 @@ interface ScrollStackComponent extends React.FC<ScrollStackProps> {
   Item: React.FC<ScrollStackItemProps>;
 }
 
-function getQuerySelector(useWindowScroll: boolean, scroller: HTMLDivElement | null, selector: string): HTMLElement[] {
+function getQuerySelector(useWindowScroll: boolean, scroller: HTMLDivElement | null, selector: string): NodeListOf<Element> {
   if (useWindowScroll) {
-    return Array.from(document.querySelectorAll(selector)) as HTMLElement[];
+    return document.querySelectorAll(selector);
   }
-  if (!scroller) return [];
-  return Array.from(scroller.querySelectorAll(selector)) as HTMLElement[];
+  if (!scroller) return document.createDocumentFragment().querySelectorAll('*');
+  return scroller.querySelectorAll(selector);
+}
+
+function isHTMLElement(element: Element | null | undefined): element is HTMLElement {
+  return element instanceof HTMLElement;
 }
 
 const ScrollStackBase: React.FC<ScrollStackProps> = ({ 
@@ -147,7 +151,8 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
     const scaleEndPositionPx = parsePercentage(scaleEndPosition, containerHeight);
 
-    const [endElement] = getQuerySelector(useWindowScroll, scrollerRef.current, '[data-scroll-stack-end]');
+    const endElements = getQuerySelector(useWindowScroll, scrollerRef.current, '[data-scroll-stack-end]');
+    const endElement = Array.from(endElements).find(isHTMLElement);
     if (!endElement) return;
 
     const endElementTop = getElementOffset(endElement);
@@ -306,7 +311,8 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
-    cardsRef.current = getQuerySelector(useWindowScroll, scroller, '[data-scroll-stack-card]');
+    const elements = getQuerySelector(useWindowScroll, scroller, '[data-scroll-stack-card]');
+    cardsRef.current = Array.from(elements).filter(isHTMLElement);
     const transformsCache = lastTransformsRef.current;
 
     cardsRef.current.forEach((card, i) => {
