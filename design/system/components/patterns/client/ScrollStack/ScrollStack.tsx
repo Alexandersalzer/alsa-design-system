@@ -65,14 +65,6 @@ interface ScrollStackComponent extends React.FC<ScrollStackProps> {
   Item: React.FC<ScrollStackItemProps>;
 }
 
-function getQuerySelector<T extends HTMLElement>(useWindowScroll: boolean, scroller: HTMLDivElement | null, selector: string): T[] {
-  if (useWindowScroll) {
-    return Array.from(document.querySelectorAll<T>(selector));
-  }
-  if (!scroller) return [];
-  return Array.from(scroller.querySelectorAll<T>(selector));
-}
-
 const ScrollStackBase: React.FC<ScrollStackProps> = ({ 
   children,
   className = '',
@@ -89,10 +81,11 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
   onStackComplete
 }) => {
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const endElementRef = useRef<HTMLDivElement>(null);
   const stackCompletedRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
   const lenisRef = useRef<any>(null);
-  const cardsRef = useRef<HTMLElement[]>([]);
+  const cardsRef = useRef<HTMLDivElement[]>([]);
   const lastTransformsRef = useRef(new Map());
   const isUpdatingRef = useRef(false);
 
@@ -139,19 +132,14 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
   );
 
   const updateCardTransforms = useCallback(() => {
-    if (!cardsRef.current.length || isUpdatingRef.current) return;
+    if (!cardsRef.current.length || isUpdatingRef.current || !endElementRef.current) return;
 
     isUpdatingRef.current = true;
 
     const { scrollTop, containerHeight } = getScrollData();
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
     const scaleEndPositionPx = parsePercentage(scaleEndPosition, containerHeight);
-
-    const endElements = getQuerySelector<HTMLDivElement>(useWindowScroll, scrollerRef.current, '[data-scroll-stack-end]');
-    const endElement = endElements[0];
-    if (!endElement) return;
-
-    const endElementTop = getElementOffset(endElement);
+    const endElementTop = getElementOffset(endElementRef.current);
 
     cardsRef.current.forEach((card, i) => {
       if (!card) return;
@@ -307,14 +295,13 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
-    cardsRef.current = getQuerySelector<HTMLDivElement>(useWindowScroll, scroller, '[data-scroll-stack-card]');
-    const transformsCache = lastTransformsRef.current;
-
-    cardsRef.current.forEach((card, i) => {
-      if (i < cardsRef.current.length - 1) {
-        card.style.marginBottom = `var(--foundation-space-${itemDistance})`;
-      }
-    });
+    cardsRef.current = React.Children.map(children, (_, i) => {
+      const cardElement = document.createElement('div');
+      cardElement.style.marginBottom = i < React.Children.count(children) - 1 
+        ? `var(--foundation-space-${itemDistance})`
+        : '0';
+      return cardElement;
+    }) || [];
 
     setupLenis();
     updateCardTransforms();
@@ -328,7 +315,7 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
       }
       stackCompletedRef.current = false;
       cardsRef.current = [];
-      transformsCache.clear();
+      lastTransformsRef.current.clear();
       isUpdatingRef.current = false;
     };
   }, [
@@ -344,7 +331,8 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
     useWindowScroll,
     onStackComplete,
     setupLenis,
-    updateCardTransforms
+    updateCardTransforms,
+    children
   ]);
 
   return (
@@ -377,13 +365,13 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
               padding: 'var(--foundation-space-2xl) 0'
             }}
           >
-            {React.Children.map(children, (child) => (
-              <div data-scroll-stack-card>
+            {React.Children.map(children, (child, i) => (
+              <div ref={el => el && (cardsRef.current[i] = el)}>
                 {child}
               </div>
             ))}
             <div 
-              data-scroll-stack-end 
+              ref={endElementRef}
               style={{ 
                 height: '100vh', 
                 pointerEvents: 'none' 
