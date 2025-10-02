@@ -1,20 +1,17 @@
-
 // ===============================================
-// STEP 4: Update your existing ThemeControlPanel.tsx
-// Just ADD the theme mode control and prop
+// ThemeControlPanel.tsx - Updated for simplified AccentColorControl
 // ===============================================
-
 import React from 'react';
 import { Stack } from '@blimpify-im/ui';
 import { AccentColorControl } from './AccentColorControl';
 import { RadiusControl } from './RadiusControl';
-import { ThemeModeControl } from './ThemeModeControl'; // ✅ ADD this import
+import { ThemeModeControl } from './ThemeModeControl';
 
 interface ThemeControlPanelProps {
-  showThemeToggle?: boolean; // ✅ ADD this prop
+  showThemeToggle?: boolean;
   showColorControl?: boolean;
   showRadiusControl?: boolean;
-  colorColumns?: 1 | 2 | 3 | 4;
+  // Removed colorColumns since AccentColorControl is now fixed 3x10 grid
   radiusColumns?: 1 | 2 | 3 | 4;
   className?: string;
   logoUrl?: string; // Optional logo URL for brand color extraction
@@ -22,10 +19,9 @@ interface ThemeControlPanelProps {
 }
 
 export function ThemeControlPanel({
-  showThemeToggle = true, // ✅ ADD this line
+  showThemeToggle = true,
   showColorControl = true,
   showRadiusControl = true,
-  colorColumns = 3,
   radiusColumns = 2,
   className,
   logoUrl,
@@ -34,12 +30,14 @@ export function ThemeControlPanel({
   return (
     <div className={className}>
       <Stack spacing="xl">
-        {showThemeToggle && ( // ✅ ADD this block
+        {showThemeToggle && (
           <ThemeModeControl />
         )}
+        
         {showColorControl && (
-          <AccentColorControl columns={colorColumns} logoUrl={logoUrl} setCustomBrand={setCustomBrand} />
+          <AccentColorControl />
         )}
+        
         {showRadiusControl && (
           <RadiusControl columns={radiusColumns} />
         )}

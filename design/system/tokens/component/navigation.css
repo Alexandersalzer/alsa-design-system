@@ -109,7 +109,7 @@
   --icon-empty-state: var(--icon-secondary);
 
   /* ===== LINK TOKENS ===== */
-  --text-link: var(--accent-600);
+  --text-link: var(--accent-color);
   --text-link-hover: var(--accent-text);
   --text-link-visited: var(--accent-text-strong);
   --text-link-disabled: var(--text-disabled);  

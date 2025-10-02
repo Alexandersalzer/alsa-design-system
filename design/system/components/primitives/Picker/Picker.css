@@ -351,7 +351,7 @@
   cursor: pointer;
   border-radius: var(--radius-picker-sm);
   background: var(--surface-picker-option);
-  margin: 0;
+  margin: 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;

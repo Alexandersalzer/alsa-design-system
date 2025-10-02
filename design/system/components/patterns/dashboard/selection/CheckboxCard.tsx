@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/patterns/selection/CheckboxCard.tsx
-// FIXED VERSION - Proper label association and click handling
+// COMPLETE FILE - Both CheckboxCard and CheckboxCardGroup
 // ===============================================
 
 import React, { forwardRef, useId } from 'react';
@@ -37,6 +37,9 @@ export interface CheckboxCardProps extends Omit<React.HTMLAttributes<HTMLDivElem
   // Form integration
   name?: string;
   value?: string;
+  
+  // NEW: Hide checkbox options
+  hideCheckbox?: boolean | 'when-disabled' | 'when-checked';
 }
 
 export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
@@ -55,6 +58,7 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
   addon,
   name,
   value,
+  hideCheckbox = false,
   className,
   id: providedId,
   onClick,
@@ -64,13 +68,23 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
   const id = providedId || generatedId;
   const checkboxId = `${id}-checkbox`;
 
+  // Determine if checkbox should be hidden
+  const shouldHideCheckbox = () => {
+    if (hideCheckbox === true) return true;
+    if (hideCheckbox === 'when-disabled' && disabled) return true;
+    if (hideCheckbox === 'when-checked' && checked) return true;
+    return false;
+  };
+
+  const isCheckboxHidden = shouldHideCheckbox();
+
   const handleChange = (newChecked: boolean) => {
     if (disabled) return;
     onChange?.(newChecked);
   };
 
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (disabled) return;
+    if (disabled || isCheckboxHidden) return;
     
     // Prevent double-firing when clicking directly on checkbox
     const target = e.target as HTMLElement;
@@ -81,7 +95,7 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (disabled) return;
+    if (disabled || isCheckboxHidden) return;
     
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
@@ -100,14 +114,15 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
         checked && 'checkbox-card--checked',
         disabled && 'checkbox-card--disabled',
         error && 'checkbox-card--error',
-        'cursor-pointer',
+        isCheckboxHidden && 'checkbox-card--no-checkbox',
+        !isCheckboxHidden && 'cursor-pointer',
         className
       )}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
-      tabIndex={disabled ? -1 : 0}
-      role="checkbox"
-      aria-checked={checked}
+      tabIndex={disabled || isCheckboxHidden ? -1 : 0}
+      role={isCheckboxHidden ? undefined : "checkbox"}
+      aria-checked={isCheckboxHidden ? undefined : checked}
       aria-disabled={disabled}
       aria-required={required}
       aria-labelledby={label ? `${id}-label` : undefined}
@@ -118,7 +133,10 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
       <CardContent className="checkbox-card__inner">
         
         {/* MAIN FLEX CONTAINER */}
-        <div className="checkbox-card__main">
+        <div className={cn(
+          "checkbox-card__main",
+          isCheckboxHidden && "checkbox-card__main--no-checkbox"
+        )}>
           
           {/* LEFT: Content area */}
           <div className="checkbox-card__content">
@@ -212,20 +230,24 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
             )}
           </div>
           
-          {/* RIGHT: Checkbox - Visible and vibrant for clear feedback */}
-          <div className="checkbox-card__checkbox">
-            <Checkbox
-              id={checkboxId}
-              checked={checked}
-              onChange={(e) => handleChange(e.target.checked)}
-              disabled={disabled}
-              required={required}
-              size={size}
-              name={name}
-              value={value}
-              tabIndex={-1} // Remove from tab order since card is focusable
-            />
-          </div>
+          {/* RIGHT: Checkbox - Only show if not hidden */}
+          {!isCheckboxHidden && (
+            <div className="checkbox-card__checkbox">
+              <Checkbox
+                id={checkboxId}
+                checked={checked}
+                onChange={(e) => handleChange(e.target.checked)}
+                disabled={disabled}
+                required={required}
+                size={size}
+                name={name}
+                value={value}
+                tabIndex={-1} // Remove from tab order since card is focusable
+              />
+            </div>
+          )}
+          
+
         </div>
 
         {/* ADDON AREA - Only show if addon exists */}
@@ -249,7 +271,10 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(({
 
 CheckboxCard.displayName = 'CheckboxCard';
 
-// CheckboxCardGroup remains the same
+// ===============================================
+// CheckboxCardGroup Component
+// ===============================================
+
 export interface CheckboxCardGroupProps {
   label?: string;
   description?: string;

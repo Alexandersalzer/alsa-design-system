@@ -32,10 +32,6 @@
   width: 240px;
 }
 
-.app-layout__sidebar--md {
-  width: var(--size-sidebar-width); /* Uses your existing 280px token */
-}
-
 .app-layout__sidebar--lg {
   width: 320px;
 }
@@ -190,7 +186,6 @@
 }
 
 .app-layout-sidebar--sm { width: 240px; }
-.app-layout-sidebar--md { width: var(--size-sidebar-width); }
 .app-layout-sidebar--lg { width: 320px; }
 .app-layout-sidebar--collapsed { width: 64px; }
 
@@ -235,4 +230,355 @@
 .app-layout .header-search,
 .app-layout .dropdown {
   /* These should continue to work as expected */
+}
+
+
+
+
+
+
+/* ==============================================
+   src/design-system/tokens/semantic/colors.css
+   COMPLETE SEMANTIC COLOR SYSTEM - ALL TOKENS
+   ============================================== */
+
+:root {
+  /* ===== PRIMARY/SECONDARY COLOR SCALES ===== */
+  --primary-white: var(--foundation-white);
+  --primary-black: var(--foundation-black);
+  --primary-50: var(--foundation-gray-50);
+  --primary-100: var(--foundation-gray-100);
+  --primary-200: var(--foundation-gray-200);
+  --primary-300: var(--foundation-gray-300);
+  --primary-400: var(--foundation-gray-400);
+  --primary-500: var(--foundation-gray-500);
+  --primary-600: var(--foundation-gray-600);
+  --primary-700: var(--foundation-gray-700);
+  --primary-800: var(--foundation-gray-800);
+  --primary-900: var(--foundation-gray-900);
+  --primary-1000: var(--foundation-gray-1000);
+  --primary-1100: var(--foundation-gray-1100);
+  --primary-1200: var(--foundation-gray-1200);
+
+  --secondary-50: var(--foundation-gray-50);
+  --secondary-100: var(--foundation-gray-100);
+  --secondary-200: var(--foundation-gray-200);
+  --secondary-300: var(--foundation-gray-300);
+  --secondary-400: var(--foundation-gray-400);
+  --secondary-500: var(--foundation-gray-500);
+  --secondary-600: var(--foundation-gray-600);
+  --secondary-700: var(--foundation-gray-700);
+  --secondary-800: var(--foundation-gray-800);
+  --secondary-900: var(--foundation-gray-900);
+
+  /* ===== ACCENT COLOR SCALE ===== */
+  --accent-100: var(--foundation-purple-100);
+  --accent-200: var(--foundation-purple-200);
+  --accent-300: var(--foundation-purple-300);
+  --accent-400: var(--foundation-purple-400);
+  --accent-500: var(--foundation-purple-500);
+  --accent-600: var(--foundation-purple-600);
+  --accent-700: var(--foundation-purple-700);
+  --accent-800: var(--foundation-purple-800);
+  --accent-900: var(--foundation-purple-900);
+  --accent-950: var(--foundation-purple-950);
+ --accent-1000: var(--foundation-purple-1000);
+ --accent-1100: var(--foundation-purple-1100);
+ --accent-1200: var(--foundation-purple-1200);
+
+  /* ===== STATUS COLOR SCALES ===== */
+  /* Info/Azure scale - NOW BLUE INSTEAD OF PURPLE */
+  --info-100: var(--foundation-azure-100);
+  --info-200: var(--foundation-azure-200);
+  --info-300: var(--foundation-azure-300);
+  --info-400: var(--foundation-azure-400);
+  --info-500: var(--foundation-azure-500);
+  --info-600: var(--foundation-azure-600);
+  --info-700: var(--foundation-azure-700);
+  --info-800: var(--foundation-azure-800);
+  --info-900: var(--foundation-azure-900);
+  --info-950: var(--foundation-azure-950);
+  --info-1000: var(--foundation-azure-1000);
+  --info-1100: var(--foundation-azure-1100);
+  --info-1200: var(--foundation-azure-1200);
+
+  /* Error/Ruby scale */
+  --error-100: var(--foundation-ruby-100);
+  --error-200: var(--foundation-ruby-200);
+  --error-300: var(--foundation-ruby-300);
+  --error-400: var(--foundation-ruby-400);
+  --error-500: var(--foundation-ruby-500);
+  --error-600: var(--foundation-ruby-600);
+  --error-700: var(--foundation-ruby-700);
+  --error-800: var(--foundation-ruby-800);
+  --error-900: var(--foundation-ruby-900);
+  --error-950: var(--foundation-ruby-950);
+  --error-1000: var(--foundation-ruby-1000);
+  --error-1100: var(--foundation-ruby-1100);
+  --error-1200: var(--foundation-ruby-1200);
+
+  /* Success/Emerald scale */
+  --success-100: var(--foundation-emerald-100);
+  --success-200: var(--foundation-emerald-200);
+  --success-300: var(--foundation-emerald-300);
+  --success-400: var(--foundation-emerald-400);
+  --success-500: var(--foundation-emerald-500);
+  --success-600: var(--foundation-emerald-600);
+  --success-700: var(--foundation-emerald-700);
+  --success-800: var(--foundation-emerald-800);
+  --success-900: var(--foundation-emerald-900);
+  --success-950: var(--foundation-emerald-950);
+  --success-1000: var(--foundation-emerald-1000);
+  --success-1100: var(--foundation-emerald-1100);
+  --success-1200: var(--foundation-emerald-1200);
+
+  /* Warning/Honey scale */
+  --warning-100: var(--foundation-honey-100);
+  --warning-200: var(--foundation-honey-200);
+  --warning-300: var(--foundation-honey-300);
+  --warning-400: var(--foundation-honey-400);
+  --warning-500: var(--foundation-honey-500);
+  --warning-600: var(--foundation-honey-600);
+  --warning-700: var(--foundation-honey-700);
+  --warning-800: var(--foundation-honey-800);
+  --warning-900: var(--foundation-honey-900);
+  --warning-950: var(--foundation-honey-950);
+  --warning-1000: var(--foundation-honey-1000);
+  --warning-1100: var(--foundation-honey-1100);
+  --warning-1200: var(--foundation-honey-1200);
+
+  /* ===== SEMANTIC TEXT TOKENS ===== */
+  --text-primary: var(--primary-1000);
+  --text-secondary: var(--secondary-600);
+  --text-tertiary: var(--secondary-500);
+  --text-disabled: var(--secondary-300);
+  --text-placeholder: var(--secondary-400);
+  --text-inverse: var(--primary-white);
+  --text-heading-primary: var(--primary-1200);
+  --text-body-primary: var(--primary-1200);
+  --text-body-secondary: var(--secondary-600);
+  --text-label: var(--primary-1200);
+  --text-code: var(--primary-1100);
+  --text-error: var(--error-600);
+  --text-success: var(--success-600);
+  --text-warning: var(--warning-600);
+  --text-info: var(--info-600);
+
+  /* ===== SEMANTIC SURFACE TOKENS ===== */
+  --surface-background: #fff;
+  --surface-page: var(--primary-white);
+
+  --surface-overlay: rgba(0, 0, 0, 0.5);
+  --surface-backdrop: rgba(0, 0, 0, 0.3);
+  --surface-error-subtle: color-mix(in srgb, var(--error-500) 10%, var(--surface-card) 90%);
+
+  /* ===== SEMANTIC BORDER TOKENS ===== */
+  --border-default: var(--secondary-200);
+  --border-subtle: var(--secondary-100);
+  --border-hover: var(--secondary-300);
+  --border-focus: var(--accent-color);
+  --border-disabled: var(--secondary-100);
+  --border-error: var(--error-500);
+  --border-success: var(--success-500);
+  --border-warning: var(--warning-500);
+  --border-info: var(--info-500);
+  --border-light: var(--secondary-100);           
+  --border-light-hover: var(--secondary-200);     
+  --border-light-active: var(--secondary-300);    
+
+  /* ===== SEMANTIC ICON TOKENS ===== */
+  --icon-primary: var(--secondary-600);
+  --icon-secondary: var(--secondary-500);
+  --icon-tertiary: var(--secondary-400);
+  --icon-disabled: var(--secondary-300);
+  --icon-inverse: var(--primary-white);
+  --icon-brand: var(--accent-600);
+  --icon-accent: var(--accent-500);      
+  --icon-success: var(--success-600);    
+  --icon-warning: var(--warning-600);    
+  --icon-error: var(--error-600);        
+  --icon-info: var(--info-600);      
+
+  /* ===== SEMANTIC INTERACTIVE TOKENS ===== */
+  --interactive-primary: var(--primary-900);
+  --interactive-primary-hover: var(--primary-800);
+  --interactive-primary-active: var(--primary-700);
+  --interactive-primary-disabled: var(--secondary-200);
+  
+  --interactive-secondary: var(--secondary-100);
+  --interactive-secondary-hover: var(--secondary-200);
+  --interactive-secondary-active: var(--secondary-300);
+  --interactive-secondary-disabled: var(--secondary-50);
+
+  --interactive-accent: var(--accent-600);
+  --interactive-accent-hover: var(--accent-700);
+  --interactive-accent-active: var(--accent-800);
+  
+  --interactive-tertiary: transparent;
+  --interactive-tertiary-hover: var(--secondary-100);
+  --interactive-tertiary-active: var(--secondary-200);
+
+  --interactive-destructive: var(--error-500);              /* Solid red background */
+  --interactive-destructive-hover: var(--error-600);        /* Darker red on hover */
+  --interactive-destructive-active: var(--error-700);       /* Even darker on active */
+  --interactive-destructive-disabled: var(--error-200);     /* Light red when disabled */
+
+  --surface-button-destructive: var(--error-100); /* Light red background */
+  --surface-button-destructive-hover: var(--error-200); /* Slightly darker on hover */
+  --text-button-destructive: var(--error-700); /* Dark red text */
+  --border-button-destructive: var(--error-300); /*
+  
+  /* Success interactions */
+  --interactive-success: var(--success-500);
+  --interactive-success-hover: var(--success-600);
+  --interactive-success-active: var(--success-700);
+  
+  /* Warning interactions */
+  --interactive-warning: var(--warning-500);
+  --interactive-warning-hover: var(--warning-600);
+  --interactive-warning-active: var(--warning-700);
+
+  /* ===== SEMANTIC SHADOW TOKENS ===== */
+  --shadow-default: rgba(0, 0, 0, 0.1);
+  --shadow-subtle: rgba(0, 0, 0, 0.05);
+  --shadow-emphasis: rgba(0, 0, 0, 0.15);
+  --shadow-strong: rgba(0, 0, 0, 0.25);
+
+  /* Additional Navigation tokens that aren't in navigation.css */
+  --surface-nav: var(--primary-white);
+  --surface-nav-item: transparent;
+  --surface-nav-item-hover: var(--secondary-100);
+  --surface-nav-item-selected: var(--secondary-100);
+  --surface-nav-item-disabled: transparent;
+  --text-nav-item: var(--text-secondary);
+  --text-nav-item-selected: var(--accent-600);
+  --text-nav-item-disabled: var(--text-disabled);
+  --text-nav-item-hover: var(--text-primary);
+  --icon-nav-item: var(--icon-secondary);
+  --icon-nav-item-selected: var(--accent-600);
+  --icon-nav-item-disabled: var(--icon-disabled);
+  --icon-nav-item-hover: var(--icon-primary);
+}
+
+
+
+
+
+
+
+/* ==============================================
+   src/design-system/tokens/component/navigation.css
+   NAVIGATION COMPONENT TOKENS - FIXED WITH SHORTCUTS
+   ============================================== */
+
+:root {
+  /* ===== SIDEBAR TOKENS ===== */
+  --surface-sidebar: var(--surface-base);
+  --surface-sidebar-header: var(--surface-base);
+  --surface-sidebar-footer: var(--surface-base);
+  
+  /* ===== SIDEBAR DIMENSIONS (keep as-is) ===== */
+  --size-sidebar-width: 280px;
+  --size-sidebar-header-height: 64px;
+  --size-sidebar-logo-width: 40.8px;
+  --size-sidebar-logo-height: 16.55px;
+
+  /* ===== NAVIGATION SURFACES - USING SHORTCUTS ===== */
+  --surface-nav: var(--surface-base);
+  --surface-nav-item-hover: var(--secondary-100);
+  --surface-nav-item-selected: var(--surface-hover);
+  --surface-nav-item-disabled: transparent;
+
+  /* ===== NAVIGATION BORDERS - USING SHORTCUTS ===== */
+  --border-nav: var(--border-light);
+  --border-nav-item-selected: var(--accent-border);
+
+  /* ===== HEADER SPECIFIC TOKENS ===== */
+  --surface-header: var(--surface-base);
+  --border-header: var(--border-light);
+  
+  /* ===== DROPDOWN SPACING (keep as-is) ===== */
+  --space-dropdown-offset: var(--foundation-space-4);
+  --space-dropdown-padding: var(--foundation-space-5);
+  --space-dropdown-header-padding: var(--foundation-space-4) var(--foundation-space-5) var(--foundation-space-3);
+  --space-dropdown-content-padding: 0;
+  --space-dropdown-footer-padding: var(--foundation-space-3) var(--foundation-space-5) var(--foundation-space-4);
+  
+  /* ===== SEARCH INPUT TOKENS - USING SEMANTIC ===== */
+  --surface-search-input: var(--surface-input);
+  --border-search-input: var(--border-input);
+  --border-search-input-focus: var(--border-input-focus);
+  --text-search-input: var(--text-input);
+  --text-search-placeholder: var(--text-input-placeholder);
+  --icon-search: var(--icon-secondary);
+  
+  /* ===== SETUP GUIDE BUTTON TOKENS - USING SEMANTIC ===== */
+  --surface-setup-guide: var(--surface-button-secondary);
+  --surface-setup-guide-hover: var(--surface-button-secondary-hover);
+  --border-setup-guide: var(--border-button-secondary);
+  --border-setup-guide-hover: var(--border-button-secondary-hover);
+  --border-setup-guide-focus: var(--border-focus);
+  --text-setup-guide: var(--text-button-secondary);
+  
+  /* ===== USER MENU TOKENS - USING SEMANTIC ===== */
+  --surface-user-menu-trigger: transparent;
+  --surface-user-menu-trigger-hover: var(--surface-button-secondary-hover);
+  --border-user-menu-trigger: var(--border-button-secondary);
+  --border-user-menu-trigger-hover: var(--border-button-secondary-hover);
+  --border-user-menu-trigger-focus: var(--border-focus);
+  --text-user-menu-trigger: var(--text-button-secondary);
+  --icon-user-menu-trigger: var(--icon-secondary);
+  --icon-user-menu-chevron: var(--icon-tertiary);
+  
+  /* ===== USER MENU DROPDOWN TOKENS ===== */
+  --surface-user-menu-dropdown: var(--surface-dropdown);
+  --shadow-user-menu-dropdown: var(--shadow-dropdown);
+  
+  /* ===== USER MENU ITEM TOKENS - USING SHORTCUTS ===== */
+  --surface-user-menu-item: transparent;
+  --surface-user-menu-item-hover: var(--surface-nav-item-hover);
+  --text-user-menu-item: var(--text-nav-item);
+  --icon-user-menu-item: var(--icon-nav-item);
+  --text-user-menu-item-destructive: var(--error-text);        /* FIXED: Using shortcut */
+  --icon-user-menu-item-destructive: var(--error-icon);        /* FIXED: Using shortcut */
+  --surface-user-menu-item-destructive-hover: var(--error-subtle); /* FIXED: Using shortcut */
+
+  --text-nav-item: var(--text-secondary);
+  --text-nav-item-selected: var(--accent-600);
+  --text-nav-item-disabled: var(--text-disabled);
+  --text-nav-item-hover: var(--text-primary);
+
+  --icon-nav-item: var(--icon-secondary);
+  --icon-nav-item-selected: var(--accent-600);
+  --icon-nav-item-disabled: var(--icon-disabled);
+  --icon-nav-item-hover: var(--icon-primary);
+
+  
+  /* ===== NOTIFICATION DROPDOWN TOKENS ===== */
+  --surface-notification-dropdown: var(--surface-dropdown);
+  --border-notification-dropdown: var(--border-subtle);
+  --shadow-notification-dropdown: var(--shadow-dropdown);
+  
+  /* ===== NOTIFICATION LIST TOKENS - USING SEMANTIC ===== */
+  --surface-notification-item: transparent;
+  --surface-notification-item-hover: var(--surface-nav-item-hover);
+  --border-notification-item: var(--border-subtle);
+  --text-notification-title: var(--text-nav-item);
+  --text-notification-subtitle: var(--text-secondary);
+  --text-notification-caption: var(--text-tertiary);
+  
+  /* ===== NOTIFICATION INDICATOR TOKENS ===== */
+  --surface-notification-indicator: var(--accent-500);
+  
+  /* ===== EMPTY STATE TOKENS - USING SEMANTIC ===== */
+  --surface-empty-state: transparent;
+  --text-empty-state-title: var(--text-nav-item);
+  --text-empty-state-description: var(--text-secondary);
+  --icon-empty-state: var(--icon-secondary);
+
+  /* ===== LINK TOKENS ===== */
+  --text-link: var(--accent-color);
+  --text-link-hover: var(--accent-text);
+  --text-link-visited: var(--accent-text-strong);
+  --text-link-disabled: var(--text-disabled);  
 }

@@ -30,7 +30,7 @@
   --surface-button-accent-disabled: var(--interactive-primary-disabled);
   --text-button-accent: var(--text-primary);
   --text-button-accent-disabled: var(--text-disabled);
-  --border-button-accent: var(--interactive-accent-hover);
+  --border-button-accent: var(--interactive-accent);
   --border-button-accent-focus: var(--border-focus);
 
   /* Ghost Button */

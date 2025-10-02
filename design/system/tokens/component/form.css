@@ -7,7 +7,7 @@
   /* ===== CHECKBOX TOKENS - USING SHORTCUTS WHERE BENEFICIAL ===== */
   --surface-checkbox: var(--surface-base);
   --surface-checkbox-checked: var(--interactive-accent);
-  --surface-checkbox-hover: var(--accent-100);
+  --surface-checkbox-hover: var(--secondary-100);
   --surface-checkbox-disabled: var(--secondary-200);
  --surface-checkbox-disabled-checked: var(--secondary-400);
   
