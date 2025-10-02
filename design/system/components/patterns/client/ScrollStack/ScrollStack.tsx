@@ -65,6 +65,14 @@ interface ScrollStackComponent extends React.FC<ScrollStackProps> {
   Item: React.FC<ScrollStackItemProps>;
 }
 
+function getQuerySelector(useWindowScroll: boolean, scroller: HTMLDivElement | null, selector: string): HTMLElement[] {
+  if (useWindowScroll) {
+    return Array.from(document.querySelectorAll(selector)) as HTMLElement[];
+  }
+  if (!scroller) return [];
+  return Array.from(scroller.querySelectorAll(selector)) as HTMLElement[];
+}
+
 const ScrollStackBase: React.FC<ScrollStackProps> = ({ 
   children,
   className = '',
@@ -81,7 +89,6 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
   onStackComplete
 }) => {
   const scrollerRef = useRef<HTMLDivElement>(null);
-  const endElementRef = useRef<HTMLDivElement>(null);
   const stackCompletedRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
   const lenisRef = useRef<any>(null);
@@ -132,14 +139,18 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
   );
 
   const updateCardTransforms = useCallback(() => {
-    if (!cardsRef.current.length || isUpdatingRef.current || !endElementRef.current) return;
+    if (!cardsRef.current.length || isUpdatingRef.current) return;
 
     isUpdatingRef.current = true;
 
     const { scrollTop, containerHeight } = getScrollData();
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
     const scaleEndPositionPx = parsePercentage(scaleEndPosition, containerHeight);
-    const endElementTop = getElementOffset(endElementRef.current);
+
+    const [endElement] = getQuerySelector(useWindowScroll, scrollerRef.current, '[data-scroll-stack-end]');
+    if (!endElement) return;
+
+    const endElementTop = getElementOffset(endElement);
 
     cardsRef.current.forEach((card, i) => {
       if (!card) return;
@@ -295,17 +306,11 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
-    const cards = Array.from(
-      useWindowScroll
-        ? document.querySelectorAll('[data-scroll-stack-card]')
-        : scroller.querySelectorAll('[data-scroll-stack-card]')
-    ) as HTMLElement[];
-
-    cardsRef.current = cards;
+    cardsRef.current = getQuerySelector(useWindowScroll, scroller, '[data-scroll-stack-card]');
     const transformsCache = lastTransformsRef.current;
 
-    cards.forEach((card, i) => {
-      if (i < cards.length - 1) {
+    cardsRef.current.forEach((card, i) => {
+      if (i < cardsRef.current.length - 1) {
         card.style.marginBottom = `var(--foundation-space-${itemDistance})`;
       }
     });
@@ -377,7 +382,7 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
               </div>
             ))}
             <div 
-              ref={endElementRef}
+              data-scroll-stack-end 
               style={{ 
                 height: '100vh', 
                 pointerEvents: 'none' 
