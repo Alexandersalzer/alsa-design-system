@@ -4,11 +4,6 @@
    =============================================== */
 
 /* ===== STACK COMPONENT ===== */
-.stack {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
 
 /* Stack spacing variants */
 .stack--spacing-xs > * + * {
