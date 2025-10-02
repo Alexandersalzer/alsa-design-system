@@ -65,7 +65,7 @@ interface ScrollStackComponent extends React.FC<ScrollStackProps> {
   Item: React.FC<ScrollStackItemProps>;
 }
 
-function isHTMLElement(element: Element | null): element is HTMLElement {
+function isHTMLElement(element: Element | null | undefined): element is HTMLElement {
   return element instanceof HTMLElement;
 }
 
@@ -309,7 +309,7 @@ const ScrollStackBase: React.FC<ScrollStackProps> = ({
       useWindowScroll
         ? document.querySelectorAll('[data-scroll-stack-card]')
         : scroller.querySelectorAll('[data-scroll-stack-card]')
-    ) as HTMLElement[];
+    ).filter(isHTMLElement);
 
     cardsRef.current = cards;
     const transformsCache = lastTransformsRef.current;
