@@ -34,8 +34,6 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
   duration?: number;
   /** Whether the toast should disappear automatically or not */
   autoDismiss?: boolean;
-  /** Show progress bar for auto-dismiss (hidden by default, kept for future use) */
-  showProgress?: boolean;
   /** Called when animation completes */
   onAnimationComplete?: (state: ToastState) => void;
   /** Force animation state (for external control) */
@@ -68,7 +66,6 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   className,
   duration = 5000,
   autoDismiss = false,
-  showProgress = false,  // Changed default to false
   onAnimationComplete,
   forceState,
   style,
@@ -77,7 +74,6 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   const [animationState, setAnimationState] = useState<ToastState>('entering');
   const [isPaused, setIsPaused] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
 
   // Use forced state if provided, otherwise use internal state
   const currentState = forceState || animationState;
@@ -128,16 +124,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   // Pause/resume auto-dismiss on hover
   const handleMouseEnter = () => {
     setIsPaused(true);
-    if (progressRef.current) {
-      progressRef.current.style.animationPlayState = 'paused';
-    }
   };
 
   const handleMouseLeave = () => {
     setIsPaused(false);
-    if (progressRef.current) {
-      progressRef.current.style.animationPlayState = 'running';
-    }
   };
 
   // Don't render if exited
@@ -148,21 +138,15 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   const toastClasses = cn(
     'toast',
     `toast--${variant}`,
-    showProgress && 'toast--show-progress',  // Only add when showProgress is true
     className
   );
-
-  const toastStyle: React.CSSProperties = {
-    ...style,
-    '--toast-duration': duration > 0 ? `${duration}ms` : undefined,
-  } as React.CSSProperties;
 
   return (
     <div 
       ref={ref} 
       className={toastClasses}
       data-state={currentState}
-      style={toastStyle}
+      style={style}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       role="alert"
@@ -205,15 +189,6 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
             <XMarkIcon />
           </Icon>
         </button>
-      )}
-
-      {/* Progress Bar - Only rendered when showProgress is true */}
-      {showProgress && duration > 0 && currentState === 'visible' && autoDismiss && (
-        <div 
-          ref={progressRef}
-          className="toast__progress" 
-          aria-hidden="true"
-        />
       )}
     </div>
   );
