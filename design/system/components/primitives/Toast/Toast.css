@@ -57,27 +57,27 @@
   animation: toastSlideOut var(--foundation-duration-normal) var(--foundation-ease-in) forwards;
 }
 
-/* ===== TOAST VARIANTS (WITH SOLID BACKGROUNDS) ===== */
+/* ===== TOAST VARIANTS ===== */
 .toast--info {
-  background-color: var(--surface-toast-info-solid);
+  background-color: var(--surface-toast-info);
   border-color: var(--border-toast-info);
   color: var(--text-toast-info);
 }
 
 .toast--success {
-  background-color: var(--surface-toast-success-solid);
+  background-color: var(--surface-toast-success);
   border-color: var(--border-toast-success);
   color: var(--text-toast-success);
 }
 
 .toast--warning {
-  background-color: var(--surface-toast-warning-solid);
+  background-color: var(--surface-toast-warning);
   border-color: var(--border-toast-warning);
   color: var(--text-toast-warning);
 }
 
 .toast--error {
-  background-color: var(--surface-toast-error-solid);
+  background-color: var(--surface-toast-error);
   border-color: var(--border-toast-error);
   color: var(--text-toast-error);
 }
@@ -157,8 +157,7 @@
   outline-offset: 2px;
 }
 
-/* ===== PROGRESS BAR (HIDDEN BY DEFAULT - AVAILABLE FOR FUTURE USE) ===== */
-/* To enable: add class "toast--show-progress" to toast element */
+/* ===== PROGRESS BAR (REVISED) ===== */
 .toast__progress {
   position: absolute;
   bottom: 0;
@@ -168,19 +167,11 @@
   opacity: 0.4;
   border-radius: 0 0 var(--radius-toast, var(--foundation-radius-lg)) var(--radius-toast, var(--foundation-radius-lg));
 
-  /* Hidden by default */
-  display: none;
-
   /* Animated width for auto-dismiss */
   width: 0%;
   transform-origin: left center;
   animation: progressFill var(--toast-duration, 5000ms) linear forwards;
   animation-delay: var(--toast-delay, 0ms);
-}
-
-/* Show progress bar when explicitly enabled */
-.toast--show-progress .toast__progress {
-  display: block;
 }
 
 .toast:hover .toast__progress {
@@ -257,7 +248,7 @@
   }
 }
 
-/* Progress bar fill animation (for future use) */
+/* Progress bar fill animation */
 @keyframes progressFill {
   from {
     width: 0%;
