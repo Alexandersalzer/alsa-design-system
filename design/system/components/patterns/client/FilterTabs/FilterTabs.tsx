@@ -5,8 +5,8 @@
 
 import React, { useState } from 'react';
 import { Tab } from '../../../../../system/components/primitives/NavigationTab/Tab';
-import { Cluster } from '../../../utilities/cluster/Cluster';
-import { Stack } from '../../../utilities/stack/Stack';
+import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { Stack } from '../../../layout/utilities/stack/Stack';
 
 // ===== TYPE DEFINITIONS =====
 

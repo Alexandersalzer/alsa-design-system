@@ -1,6 +1,6 @@
 'use client';
 
-import { Section, Container } from '../../../../../system/layout';
+import { Section, Container } from '../../../layout';
 import { ContactForm, ContactFormData } from '../../../../../system/components/patterns/client/ContactForm';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';

@@ -1,6 +1,6 @@
 'use client';
 
-import { Section, Container } from '../../../../layout';
+import { Section, Container } from '../../../layout';
 import { RichText } from '../../../patterns/client/RichText/RichText';
 import { TypographyVariant } from '../../../primitives/Typography';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';

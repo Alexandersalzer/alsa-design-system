@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { Modal } from '../Modal';
-import { Stack } from '../../utilities/stack/Stack';
-import { Cluster } from '../../utilities/cluster/Cluster';
+import { Stack } from '../../layout/utilities/stack/Stack';
+import { Cluster } from '../../layout/utilities/cluster/Cluster';
 import { Button } from '../Button';
 import { Typography } from '../Typography';
 import { cn } from '../../../lib/utils';

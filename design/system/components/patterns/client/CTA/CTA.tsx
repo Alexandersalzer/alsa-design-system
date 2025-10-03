@@ -4,10 +4,10 @@ import { ReactElement } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Container } from '../../../../../system/layout/frames/container/Container';
-import { Stack } from '../../../utilities/stack/Stack';
-import { Cluster } from '../../../utilities/cluster/Cluster';
+import { Section } from '../../../layout/frames/section/Section';
+import { Container } from '../../../layout/frames/container/Container';
+import { Stack } from '../../../layout/utilities/stack/Stack';
+import { Cluster } from '../../../layout/utilities/cluster/Cluster';
 
 export interface CTAButton {
   text: string;

@@ -7,8 +7,8 @@ import React from 'react';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { VideoShowcase } from '../../../../../system/components/primitives/VideoShowcase';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../utilities/stack/Stack';
-import { Cluster } from '../../../utilities/cluster/Cluster';
+import { Stack } from '../../../layout/utilities/stack/Stack';
+import { Cluster } from '../../../layout/utilities/cluster/Cluster';
 import Image from 'next/image';
 import { GB, SE } from 'country-flag-icons/react/3x2';
 

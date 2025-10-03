@@ -4,8 +4,8 @@
 // ===============================================
 
 import React from 'react';
-import { Rhythm, RhythmItem } from '../../../utilities/rhythm/Rhythm';
-import { Block } from '../../../../../system/layout/frames/block/Block';
+import { Rhythm, RhythmItem } from '../../../layout/utilities/rhythm/Rhythm';
+import { Block } from '../../../layout/frames/block/Block';
 import { Button, ButtonProps } from '../../../../../system/components/primitives/Button';
 import { Typography, TypographyVariant, TypographyColor, TypographyWeight, TypographyAlign } from '../../../../../system/components/primitives/Typography';
 import { Icon  } from '../../../../../system/components/primitives/Icon';

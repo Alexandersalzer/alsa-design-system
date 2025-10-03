@@ -1,8 +1,8 @@
 'use client';
 
-import { Section } from '../../../../../system/layout/frames/section';
-import { Container } from '../../../../../system/layout/frames/container';
-import KjFooter from '../../../../../system/components/patterns/client/kj-footer/kj-footer';
+import { Section } from '../../../layout/frames/section';
+import { Container } from '../../../layout/frames/container';
+import KjFooter from '../../../patterns/client/_kj-footer/kj-footer';
 import { useEditingMode } from '../../../../../cms/wrappers/editing/EditingWrapper';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 

@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Picker/Picker.tsx
-// ENHANCED - Apple-style scroll lock + Smart positioning + New Variants
+// ENHANCED - Apple-style scroll lock + Smart positioning + Auto-width dropdown
 // ===============================================
 
 import { useState, useRef, useEffect, forwardRef, useId } from 'react';
@@ -178,6 +178,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
     shouldOpenUpward: boolean;
     maxHeight: number;
   }>({ shouldOpenUpward: false, maxHeight: maxHeight });
+  const [dropdownMinWidth, setDropdownMinWidth] = useState<number>(0);
   
   const containerRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -189,6 +190,49 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
   const descriptionId = description ? `${id}-description` : undefined;
   const errorId = error ? `${id}-error` : undefined;
   const successId = success ? `${id}-success` : undefined;
+
+  // Calculate optimal dropdown width based on longest option
+  useEffect(() => {
+    if (options.length === 0) return;
+
+    const measureElement = document.createElement('div');
+    measureElement.style.cssText = `
+      position: absolute;
+      visibility: hidden;
+      white-space: nowrap;
+      font-family: var(--font-body-family);
+      font-size: 14px;
+      padding: 8px 10px;
+    `;
+    
+    // Add size-specific styling
+    if (size === 'sm') {
+      measureElement.style.fontSize = '13px';
+      measureElement.style.padding = '6px 8px';
+    } else if (size === 'lg') {
+      measureElement.style.fontSize = '15px';
+      measureElement.style.padding = '10px 12px';
+    }
+
+    document.body.appendChild(measureElement);
+
+    let maxWidth = 0;
+    options.forEach(option => {
+      measureElement.textContent = option.label;
+      const width = measureElement.offsetWidth;
+      maxWidth = Math.max(maxWidth, width);
+    });
+
+    document.body.removeChild(measureElement);
+
+    // Add extra space for padding, margins, and checkmark icon
+    const extraSpace = multiple ? 60 : 40;
+    const minWidth = maxWidth + extraSpace;
+    
+    // Ensure dropdown is at least as wide as the trigger
+    const triggerWidth = triggerRef.current?.offsetWidth || 0;
+    setDropdownMinWidth(Math.max(minWidth, triggerWidth));
+  }, [options, size, multiple]);
 
   // Apply scroll lock when dropdown is open
   useScrollLock(isOpen, disableScrollLock);
@@ -458,13 +502,14 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
           </div>
         </button>
 
-        {/* Smart positioned dropdown */}
+        {/* Smart positioned dropdown with auto-width */}
         {isOpen && !disabled && !loading && (
           <div 
             ref={dropdownRef}
             className={dropdownClasses}
             style={{ 
               maxHeight: `${dropdownPosition.maxHeight}px`,
+              minWidth: `${dropdownMinWidth}px`,
               ...(dropdownPosition.shouldOpenUpward && {
                 bottom: '100%',
                 top: 'auto',

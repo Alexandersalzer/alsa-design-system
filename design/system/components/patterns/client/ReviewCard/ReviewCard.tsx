@@ -6,8 +6,8 @@
 import React from 'react';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../utilities/stack/Stack';
-import { Cluster } from '../../../utilities/cluster/Cluster';
+import { Stack } from '../../../layout/utilities/stack/Stack';
+import { Cluster } from '../../../layout/utilities/cluster/Cluster';
 
 // ===== TYPE DEFINITIONS =====
 

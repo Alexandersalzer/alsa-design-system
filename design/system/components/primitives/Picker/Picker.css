@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Picker/Picker.css
-   OPTIMIZED SPACING & PROPORTIONS
+   OPTIMIZED SPACING & PROPORTIONS + AUTO-WIDTH DROPDOWN
    ============================================== */
 
 /* ===== PICKER WRAPPER ===== */
@@ -221,13 +221,14 @@
   animation: pickerSpin 1s var(--foundation-ease-linear) infinite;
 }
 
-/* ===== PICKER DROPDOWN - OPTIMIZED SPACING ===== */
+/* ===== PICKER DROPDOWN - AUTO-WIDTH SUPPORT ===== */
 .picker-dropdown {
   position: absolute;
   top: calc(100% + 4px);
   left: 0;
-  width: 100%;
+  width: max-content;
   min-width: 100%;
+  max-width: 400px;
   z-index: var(--z-dropdown-active);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-dropdown);
@@ -265,7 +266,9 @@
 
 .picker-dropdown--compact {
   right: auto;
-  width: 240px;
+  width: max-content;
+  min-width: 240px;
+  max-width: 400px;
   max-height: 280px;
   padding: 4px;
   box-shadow: var(--foundation-shadow-md);
@@ -332,7 +335,7 @@
   min-height: 0;
 }
 
-/* ===== PICKER OPTION - BALANCED PROPORTIONS ===== */
+/* ===== PICKER OPTION - NO TRUNCATION ===== */
 .picker-option {
   padding: 8px 10px;
   cursor: pointer;
@@ -344,6 +347,7 @@
   justify-content: space-between;
   gap: 8px;
   color: var(--text-picker-option);
+  white-space: nowrap;
   
   opacity: 0;
   animation: optionFadeIn var(--foundation-duration-fast) var(--foundation-ease-out) forwards;
@@ -441,8 +445,6 @@
   font-weight: var(--foundation-weight-normal);
   line-height: 1.4;
   color: inherit;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -461,8 +463,6 @@
   font-weight: var(--foundation-weight-normal);
   line-height: 1.3;
   color: var(--text-secondary);
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 

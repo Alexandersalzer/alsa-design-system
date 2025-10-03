@@ -4,10 +4,10 @@ import { Typography } from '../../../../../system/components/primitives/Typograp
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { TextLink } from '../../../../../system/components/primitives/TextLink';
-import { Container } from '../../../../../system/layout/frames/container/Container';
-import { Grid } from '../../../utilities/grid/Grid';
-import { Stack } from '../../../utilities/stack/Stack';
-import { Cluster } from '../../../utilities/cluster/Cluster';
+import { Container } from '../../../layout/frames/container/Container';
+import { Grid } from '../../../layout/utilities/grid/Grid';
+import { Stack } from '../../../layout/utilities/stack/Stack';
+import { Cluster } from '../../../layout/utilities/cluster/Cluster';
 import {
   PhoneIcon,
   EnvelopeIcon,

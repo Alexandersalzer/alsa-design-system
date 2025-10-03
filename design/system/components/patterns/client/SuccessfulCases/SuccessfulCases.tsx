@@ -6,9 +6,9 @@
 'use client';
 
 import React from 'react';
-import { Container } from '../../../../../system/layout/frames/container/Container';
-import { Cluster } from '../../../utilities/cluster/Cluster';
-import { Stack } from '../../../utilities/stack/Stack';
+import { Container } from '../../../layout/frames/container/Container';
+import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { Stack } from '../../../layout/utilities/stack/Stack';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Icon } from '../../../../../system/components/primitives/Icon';

@@ -4,11 +4,11 @@ import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
-import { Stack } from '../../../utilities/stack/Stack';
-import { Cluster } from '../../../utilities/cluster/Cluster';
-import { Grid } from '../../../utilities/grid/Grid';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Container } from '../../../../../system/layout/frames/container/Container';
+import { Stack } from '../../../layout/utilities/stack/Stack';
+import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { Grid } from '../../../layout/utilities/grid/Grid';
+import { Section } from '../../../layout/frames/section/Section';
+import { Container } from '../../../layout/frames/container/Container';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import './Hero.css';
 

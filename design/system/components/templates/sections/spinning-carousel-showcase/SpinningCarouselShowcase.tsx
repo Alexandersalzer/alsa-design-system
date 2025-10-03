@@ -1,6 +1,6 @@
 'use client';
 
-import { Section, Container } from '../../../../../system/layout';
+import { Section, Container } from '../../../layout';
 import { SpinningCarousel, CarouselImage } from '../../../../../system/components/patterns/client/spinning-carousel';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname, useRouter } from 'next/navigation';

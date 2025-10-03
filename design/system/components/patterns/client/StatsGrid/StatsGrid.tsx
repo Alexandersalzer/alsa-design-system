@@ -5,9 +5,9 @@
 
 import React from 'react';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../utilities/stack/Stack';
-import { Cluster } from '../../../utilities/cluster/Cluster';
-import { ResponsiveGrid } from '../../../utilities/grid/Grid';
+import { Stack } from '../../../layout/utilities/stack/Stack';
+import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { ResponsiveGrid } from '../../../layout/utilities/grid/Grid';
 
 // ===== TYPE DEFINITIONS =====
 

@@ -1,9 +1,9 @@
 'use client';
 
 import { Typography } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../utilities/stack/Stack';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Container } from '../../../../../system/layout/frames/container/Container';
+import { Stack } from '../../../layout/utilities/stack/Stack';
+import { Section } from '../../../layout/frames/section/Section';
+import { Container } from '../../../layout/frames/container/Container';
 import { Card } from '../../../../../system/components/primitives/Card';
 
 export interface ProcessStep {

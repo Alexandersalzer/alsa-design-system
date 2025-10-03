@@ -1,6 +1,6 @@
 'use client';
 
-import { Section, Container } from '../../../../../system/layout';
+import { Section, Container } from '../../../layout';
 import { CountUpSection } from '../../../../../system/components/patterns/client/CountUpSection';
 import { TypographyColor } from '../../../../../system/components/primitives/Typography';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
