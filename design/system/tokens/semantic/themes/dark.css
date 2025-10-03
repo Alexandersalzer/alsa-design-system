@@ -111,44 +111,44 @@
   --warning-800: var(--foundation-honey-700);
   --warning-900: var(--foundation-honey-800);
 
-  /* ===== STATUS SHORTCUTS - DARK MODE PROPER COLORS ===== */
-  /* Dark backgrounds (900-950 range) with light text (300-400 range) */
+  /* ===== STATUS SHORTCUTS - DARK MODE PROPER COLORS (DARKER) ===== */
+  /* Very dark backgrounds (950-1000 range) with light text (300-400 range) */
   
-  /* Error shortcuts - dark red backgrounds */
-  --error-bg: #7A0B24;              /* foundation-ruby-900 - dark red background */
-  --error-bg-hover: #9B0E2E;        /* foundation-ruby-800 - slightly lighter on hover */
-  --error-border: #BE1139;          /* foundation-ruby-700 - visible border */
+  /* Error shortcuts - very dark red backgrounds */
+  --error-bg: #5C081B;              /* foundation-ruby-950 - very dark red background */
+  --error-bg-hover: #7A0B24;        /* foundation-ruby-900 - slightly lighter on hover */
+  --error-border: #9B0E2E;          /* foundation-ruby-800 - visible border */
   --error-text: #F7C6CC;            /* foundation-ruby-300 - light readable text */
   --error-text-strong: #FCE1E4;     /* foundation-ruby-200 - very light text */
   --error-icon: #F199A8;            /* foundation-ruby-400 - light icon */
-  --error-subtle: #5C081B;          /* foundation-ruby-950 - very dark subtle bg */
+  --error-subtle: #3D0512;          /* foundation-ruby-1000 - extremely dark subtle bg */
   
-  /* Success shortcuts - dark green backgrounds */
-  --success-bg: #065F46;              /* foundation-emerald-900 - dark green background */
-  --success-bg-hover: #047857;        /* foundation-emerald-800 - slightly lighter on hover */
-  --success-border: #059669;          /* foundation-emerald-700 - visible border */
+  /* Success shortcuts - very dark green backgrounds */
+  --success-bg: #064E3B;              /* foundation-emerald-950 - very dark green background */
+  --success-bg-hover: #065F46;        /* foundation-emerald-900 - slightly lighter on hover */
+  --success-border: #047857;          /* foundation-emerald-800 - visible border */
   --success-text: #A7F3D0;            /* foundation-emerald-300 - light readable text */
   --success-text-strong: #D1FAE5;     /* foundation-emerald-200 - very light text */
   --success-icon: #6EE7B7;            /* foundation-emerald-400 - light icon */
-  --success-subtle: #064E3B;          /* foundation-emerald-950 - very dark subtle bg */
+  --success-subtle: #022C22;          /* foundation-emerald-1000 - extremely dark subtle bg */
   
-  /* Warning shortcuts - dark yellow/orange backgrounds */
-  --warning-bg: #78350F;              /* foundation-honey-900 - dark amber background */
-  --warning-bg-hover: #92400E;        /* foundation-honey-800 - slightly lighter on hover */
-  --warning-border: #B45309;          /* foundation-honey-700 - visible border */
+  /* Warning shortcuts - very dark yellow/orange backgrounds */
+  --warning-bg: #451A03;              /* foundation-honey-950 - very dark amber background */
+  --warning-bg-hover: #78350F;        /* foundation-honey-900 - slightly lighter on hover */
+  --warning-border: #92400E;          /* foundation-honey-800 - visible border */
   --warning-text: #FCD34D;            /* foundation-honey-300 - light readable text */
   --warning-text-strong: #FDE68A;     /* foundation-honey-200 - very light text */
   --warning-icon: #FBBF24;            /* foundation-honey-400 - light icon */
-  --warning-subtle: #451A03;          /* foundation-honey-950 - very dark subtle bg */
+  --warning-subtle: #3A1507;          /* foundation-honey-1100 - extremely dark subtle bg */
   
-  /* Info shortcuts - dark blue backgrounds */
-  --info-bg: #155E75;              /* foundation-azure-900 - dark blue background */
-  --info-bg-hover: #0E7490;        /* foundation-azure-800 - slightly lighter on hover */
-  --info-border: #0891B2;          /* foundation-azure-700 - visible border */
+  /* Info shortcuts - very dark blue backgrounds */
+  --info-bg: #164E63;              /* foundation-azure-950 - very dark blue background */
+  --info-bg-hover: #155E75;        /* foundation-azure-900 - slightly lighter on hover */
+  --info-border: #0E7490;          /* foundation-azure-800 - visible border */
   --info-text: #A5F3FC;            /* foundation-azure-300 - light readable text */
   --info-text-strong: #CFFAFE;     /* foundation-azure-200 - very light text */
   --info-icon: #67E8F9;            /* foundation-azure-400 - light icon */
-  --info-subtle: #164E63;          /* foundation-azure-950 - very dark subtle bg */
+  --info-subtle: #083344;          /* foundation-azure-1000 - extremely dark subtle bg */
   
   /* ===== SEMANTIC SURFACE COLORS ===== */
   --surface-page: #171717;                                    /* Main dark background */
