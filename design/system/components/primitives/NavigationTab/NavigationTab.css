@@ -1,3 +1,4 @@
+
 /* ===============================================
    FIXED NAVIGATION TABS WITH CLEAN FOCUS STATES
    Like Spotify Dashboard - Only keyboard focus visible
@@ -14,15 +15,13 @@
   border-radius: var(--radius-button, 6px);
   
   /* Typography - Default body font */
-  font-family: var(--font-body-family, system-ui);
-  font-size: var(--font-label-md-size, 14px);
   font-weight: var(--font-label-weight, 500);
-  line-height: var(--font-label-md-leading, 1.4);
+
   text-decoration: none;
   
   /* Colors */
-  color: var(--text-nav-item, #6b7280);
-  background-color: var(--surface-sidebar, transparent);
+  color: var(--text-nav-item);
+  background-color: var(--surface-nav-item);
   
   /* Interaction */
   cursor: pointer;
@@ -82,7 +81,7 @@
 /* ===== CLEAN HOVER STATES ===== */
 .nav-item:hover:not(.nav-item--selected):not(.nav-item--disabled),
 .tab:hover:not(.tab--active):not(.tab--disabled) {
-  background-color: var(--surface-nav-item-hover, rgba(0, 0, 0, 0.05));
+  background-color: var(--surface-nav-item-hover);
 }
 
 /* ===== ACTIVE/SELECTED STATE ===== */
@@ -90,8 +89,8 @@
 .nav-item.selected,
 .tab--active,
 .tab.active {
-  background-color: var(--surface-nav-item-selected, rgba(59, 130, 246, 0.1));
-  color: var(--text-nav-item-selected, #1f2937);
+  background-color: var(--surface-nav-item-selected);
+  color: var(--text-nav-item-selected);
 }
 
 /* ===== KEYBOARD NAVIGATION SUPPORT ===== */
@@ -114,8 +113,8 @@
 .nav-item.disabled,
 .tab--disabled,
 .tab.disabled {
-  background-color: var(--surface-nav-item-disabled, transparent);
-  color: var(--text-nav-item-disabled, #9ca3af);
+  background-color: var(--surface-nav-item-disabled);
+  color: var(--text-nav-item-disabled);
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.6;
@@ -140,7 +139,7 @@
 .tab--active svg,
 .tab.active svg,
 .tab--active .tab__icon svg {
-  color: var(--icon-nav-item-selected, #3b82f6) !important;
+  color: var(--icon-nav-item-selected) !important;
 }
 
 /* Icon colors for disabled state */
@@ -150,7 +149,7 @@
 .tab--disabled svg,
 .tab.disabled svg,
 .tab--disabled .tab__icon svg {
-  color: var(--icon-nav-item-disabled, #d1d5db) !important;
+  color: var(--icon-nav-item-disabled) !important;
 }
 
 /* ===== TAB CONTENT STRUCTURE ===== */
@@ -192,7 +191,6 @@
   justify-content: center;
   border-bottom: none;
   margin-bottom: 0;
-  padding-bottom: 12px;
 }
 
 /* 🎯 CLEAN - Remove any conflicting pseudo-elements */
@@ -212,16 +210,16 @@
 }
 
 .tab--segment:hover:not(.tab--active):not(.tab--disabled) {
-  border-color: var(--border-nav-item-selected, #3b82f6);
-  background-color: var(--surface-nav-item-hover, rgba(59, 130, 246, 0.05));
+  border-color: var(--text-nav-item-selected);
+  background-color: var(--surface-nav-item-hover);
 }
 
 .tab--segment.tab--active,
 .tab--segment.active {
-  border-color: var(--border-nav-item-selected, #3b82f6);
-  background-color: var(--surface-nav-item-selected, #3b82f6);
-  color: white;
-  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+  border-color: var(--accent-500);
+  background-color: var(--surface-nav-item-selected);
+  color: var(--text-nav-item-selected);
+  box-shadow: 0 2px 4px rgba(var(--accent-500), 0.2);
 }
 
 /* ===== SIZE VARIANTS ===== */
@@ -307,7 +305,7 @@
   position: absolute;
   bottom: 0;
   height: 2px;
-  background: var(--border-nav-item-selected, #3b82f6);
+  background: var(--text-nav-item-selected);
   border-radius: var(--foundation-radius-full, 9999px);
   
   transition: 
@@ -315,13 +313,13 @@
     width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
     opacity 0.15s ease;
   
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 8px rgba(var(--text-nav-item-selected), 0.3);
   z-index: 10;
 }
 
 .tab-group__indicator--segment {
   position: absolute;
-  background: var(--surface-nav-item-selected, #3b82f6);
+  background: var(--text-nav-item-selected);
   border-radius: var(--foundation-radius-full, 9999px);
   
   transition: 
@@ -332,15 +330,10 @@
     opacity 0.15s ease;
   
   box-shadow: 
-    0 2px 4px rgba(59, 130, 246, 0.2),
+    0 2px 4px rgba(var(--text-nav-item-selected), 0.2),
     0 1px 2px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--border-nav-item-selected, #3b82f6);
+  border: 1px solid var(--text-nav-item-selected);
   z-index: 1;
-}
-
-/* ===== CLEAN HOVER EFFECTS ===== */
-.tab--animated:hover:not(.tab--active):not(.tab--disabled) {
-  background-color: var(--surface-nav-item-hover, rgba(0, 0, 0, 0.05));
 }
 
 /* ===== CLEAN NAVIGATION SIDEBAR ===== */
@@ -350,23 +343,17 @@
 }
 
 .sidebar__nav--animated .nav-item:hover:not(.nav-item--selected) {
-  background-color: var(--surface-nav-item-hover, rgba(0, 0, 0, 0.05));
+  background-color: var(--surface-nav-item-hover);
 }
 
 .sidebar__nav--animated .nav-item--selected {
-  background-color: var(--surface-nav-item-selected, rgba(59, 130, 246, 0.1));
+  background-color: var(--surface-nav-item-selected);
 }
 
 /* 🎯 CLEAN - No border indicators on sidebar */
 .sidebar__nav--animated .nav-item--selected::before,
 .sidebar__nav--animated .nav-item--selected::after {
   display: none;
-}
-
-/* ===== ACTIVE STATE VISUAL FEEDBACK ===== */
-.tab--animated:active:not(.tab--disabled),
-.nav-item:active:not(.nav-item--disabled) {
-  background-color: var(--surface-nav-item-hover, rgba(0, 0, 0, 0.1));
 }
 
 /* ===== BADGE/NOTIFICATION STYLES ===== */
@@ -430,8 +417,8 @@
 
 .nav-item[aria-current="page"],
 .tab[aria-current="page"] {
-  background-color: var(--surface-nav-item-selected, rgba(59, 130, 246, 0.1));
-  color: var(--text-nav-item-selected, #1f2937);
+  background-color: var(--surface-nav-item-selected);
+  color: var(--text-nav-item-selected);
 }
 
 /* ===== REDUCED MOTION SUPPORT ===== */

@@ -4,7 +4,7 @@
 // ===============================================
 
 import React from 'react';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Stack } from '../../../layout/utilities/stack/Stack';
 import { CountUp, CountUpProps } from '../../../../../system/components/primitives/CountUp';
 import { Typography, TypographyProps } from '../../../../../system/components/primitives/Typography';
 import { Button, ButtonProps } from '../../../../../system/components/primitives/Button';

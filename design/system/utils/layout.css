@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/utilities/layout.css
-   LAYOUT UTILITIES EXTRACTED FROM YOUR GLOBALS.CSS
+   LAYOUT UTILITIES WITH FLEXIBLE SIDEBAR FIX
    ============================================== */
 
 /* ===== DISPLAY UTILITIES ===== */
@@ -90,11 +90,6 @@
   transition: margin-left var(--foundation-duration-normal) var(--foundation-ease-smooth);
 }
 
-@media (min-width: 768px) {
-  .content-area {
-    margin-left: var(--size-sidebar-width);
-  }
-}
 
 /* ===== DASHBOARD LAYOUT ===== */
 .dashboard-main {
@@ -151,11 +146,6 @@
 @media (min-width: 1024px) {
   .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
-
-/* ==============================================
-   src/design-system/utilities/spacing.css
-   SPACING UTILITIES EXTRACTED FROM YOUR GLOBALS.CSS
-   ============================================== */
 
 /* ===== GAP UTILITIES ===== */
 .gap-xs { gap: var(--foundation-space-1); }
@@ -261,11 +251,6 @@
   border-width: 0;
 }
 
-/* ==============================================
-   ADD THESE TO: src/design-system/utilities/layout.css
-   MISSING LAYOUT UTILITIES
-   ============================================== */
-
 /* ===== PAGE LAYOUT UTILITIES ===== */
 .page-centered {
   min-height: 100vh;
@@ -359,54 +344,144 @@
   margin-top: var(--foundation-space-12);
 }
 
+/* ===============================================
+   DASHBOARD LAYOUT - FLEXIBLE SIDEBAR VERSION
+   =============================================== */
 
-/* Dashboard Layout */
+/* Dashboard Layout Container */
 .dashboard-container {
   width: 100%;
   height: 100vh;
   background: var(--surface-page);
   display: flex;
   overflow: hidden;
+  contain: layout style;
+  position: relative;
 }
 
-/* Sidebar */
+/* Flexible Sidebar */
 .sidebar {
-  width: var(--size-sidebar-width);
+  /* FLEXIBLE SIDEBAR APPROACH */
+  flex: 0 0 auto; /* Don't grow, don't shrink, auto size based on content */
+  max-width: 320px; /* Maximum width to prevent getting too wide */
+  
+  /* Layout properties */
   height: 100vh;
   background: var(--surface-nav);
   border-right: 1px solid var(--border-nav);
   display: flex;
   flex-direction: column;
   gap: var(--space-nav-section-gap);
+  position: relative;
+  contain: layout style;
 }
 
 .sidebar__header {
-  width: var(--size-sidebar-width);
+  /* Make header flexible to fit sidebar width */
+  width: 100%;
   height: var(--size-topbar-height);
   padding: 0 var(--space-nav-padding);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: var(--foundation-space-3);
+  flex-shrink: 0;
 }
 
 .sidebar__logo {
   display: flex;
   align-items: center;
-  padding: var(--foundation-space-3) 0;
+  padding: 0;
   text-decoration: none;
 }
 
-
-
 .sidebar__logo-image {
-  width: auto;
-  height: 28px;
-  max-width: 120px;
+  width: auto !important;
+  height: 40px !important;
+  max-width: 160px !important;
+  min-width: 40px !important;
   object-fit: contain;
-  
-  /* Makes white logos black for light sidebar */
+  border-radius: 6px;
   filter: brightness(0) saturate(100%);
-  
   transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+  contain: layout style;
+  
+  &.cropped-logo {
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Loading placeholder for logos */
+.loading-placeholder {
+  background-color: #e5e7eb;
+  border-radius: 6px;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  width: 160px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  contain: layout style;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Logo type-specific styles */
+.logo-type-text .sidebar__logo-image,
+.logo-type-wordmark .sidebar__logo-image {
+  width: auto !important;
+  height: 36px !important;
+  max-width: 140px !important;
+  max-height: 36px !important;
+}
+
+.logo-type-emblem .sidebar__logo-image,
+.logo-type-symbol .sidebar__logo-image,
+.logo-type-lettermark .sidebar__logo-image {
+  width: 28px !important;
+  height: 28px !important;
+  max-width: 28px !important;
+  max-height: 28px !important;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.logo-type-combination .sidebar__logo-image {
+  width: auto !important;
+  height: 32px !important;
+  max-width: 120px !important;
+  max-height: 32px !important;
+}
+
+/* Logo positioning */
+.logo-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-horizontal .sidebar__logo-image {
+  width: auto;
+  height: 16px;
+  max-width: 100px;
+}
+
+.logo-vertical .sidebar__logo-image {
+  width: 24px;
+  height: auto;
+  max-height: 40px;
+}
+
+.logo-square .sidebar__logo-image {
+  width: 24px;
+  height: 24px;
 }
 
 .sidebar__logo:hover .sidebar__logo-image {
@@ -414,7 +489,8 @@
 }
 
 .sidebar__content {
-  width: var(--size-sidebar-width);
+  /* Make content flexible to fit sidebar width */
+  width: 100%;
   padding: 0 var(--space-nav-item-padding-x);
   display: flex;
   flex-direction: column;
@@ -445,11 +521,14 @@
   padding-bottom: var(--space-nav-padding);
 }
 
-/* Main Area */
+/* Main Area - CRITICAL FIX FOR PROPER FLEX BEHAVIOR */
 .main-area {
-  flex: 1;
+  flex: 1 1 0%; /* Grow to fill remaining space, can shrink, base size 0 */
+  min-width: 0; /* CRITICAL: Allow shrinking below content size */
   display: flex;
   flex-direction: column;
+  contain: layout style;
+  position: relative;
 }
 
 .top-header {
@@ -461,16 +540,53 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .page-content {
   flex: 1;
   padding: var(--space-container-padding-md);
   overflow-y: auto;
 }
 
+/* Sidebar Variants */
+.sidebar--collapsed {
+  min-width: 64px;
+  max-width: 64px;
+  width: 64px;
+}
+
+.sidebar--auto {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 200px;
+  max-width: 400px;
+}
+
+.sidebar--proportional {
+  flex: 0 0 20%;
+  min-width: 240px;
+  max-width: 320px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .sidebar {
-    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    max-width: 80vw;
+    min-width: 280px;
+  }
+  
+  .sidebar--open {
+    transform: translateX(0);
+  }
+  
+  .main-area {
+    flex: 1;
+    margin-left: 0;
   }
   
   .top-header {
@@ -482,7 +598,7 @@
   }
 }
 
-    /* ===== PAGE CONTAINERS ===== */
+/* ===== PAGE CONTAINERS ===== */
 .page-container {
   width: 100%;
   max-width: var(--size-page-max-width);

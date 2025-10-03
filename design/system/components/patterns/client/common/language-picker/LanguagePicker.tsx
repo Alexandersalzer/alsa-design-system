@@ -18,7 +18,7 @@ import { type LanguagePickerProps } from './types';
 
 export const LanguagePicker: React.FC<LanguagePickerProps> = ({
   size = 'md',
-  variant = 'compact',
+  variant = 'default',
   placeholder = 'Välj språk',
   className,
   languageOptions,

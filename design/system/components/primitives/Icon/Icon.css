@@ -6,10 +6,9 @@
 /* ===== BASE ICON STYLES ===== */
 .icon {
   display: inline-block;
-  vertical-align: middle;
   flex-shrink: 0;
   fill: none;
-  stroke: currentColor; /* 🎯 KEY: Inherits parent color by default */
+  stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 2;
@@ -260,11 +259,6 @@ a:focus-visible .icon {
 .nav-item .icon,
 .tab .icon {
   transition: all 0.2s ease;
-}
-
-.nav-item:hover .icon,
-.tab:hover .icon {
-  transform: scale(1.05);
 }
 
 .nav-item.active .icon,

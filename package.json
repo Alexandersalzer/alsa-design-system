@@ -1,6 +1,10 @@
 {
   "name": "@blimpify-im/ui",
+<<<<<<< HEAD
   "version": "3.1.54",
+=======
+  "version": "3.1.102",
+>>>>>>> alex-simon
   "description": "Blimpify Design System - Reusable React components for client websites",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -12,26 +16,26 @@
       "types": "./dist/index.d.ts"
     },
     "./i18n": {
-      "import": "./dist/cms/i18n/i18n.js",
-      "require": "./dist/cms/i18n/i18n.js",
-      "types": "./dist/cms/i18n/i18n.d.ts"
+      "import": "./dist/design/cms/i18n/i18n.js",
+      "require": "./dist/design/cms/i18n/i18n.js",
+      "types": "./dist/design/cms/i18n/i18n.d.ts"
     },
     "./content": {
-      "import": "./dist/cms/wrappers/content/services/contentLoader.js",
-      "require": "./dist/cms/wrappers/content/services/contentLoader.js",
-      "types": "./dist/cms/wrappers/content/services/contentLoader.d.ts"
+      "import": "./dist/design/cms/wrappers/content/services/contentLoader.js",
+      "require": "./dist/design/cms/wrappers/content/services/contentLoader.js",
+      "types": "./dist/design/cms/wrappers/content/services/contentLoader.d.ts"
     },
     "./layout": {
-      "import": "./dist/cms/wrappers/ContentLayout.js",
-      "require": "./dist/cms/wrappers/ContentLayout.js",
-      "types": "./dist/cms/wrappers/ContentLayout.d.ts"
+      "import": "./dist/design/cms/wrappers/ContentLayout.js",
+      "require": "./dist/design/cms/wrappers/ContentLayout.js",
+      "types": "./dist/design/cms/wrappers/ContentLayout.d.ts"
     },
     "./client": {
-      "import": "./dist/system/components/templates/index.js",
-      "require": "./dist/system/components/templates/index.js",
-      "types": "./dist/system/components/templates/index.d.ts"
+      "import": "./dist/design/system/components/templates/index.js",
+      "require": "./dist/design/system/components/templates/index.js",
+      "types": "./dist/design/system/components/templates/index.d.ts"
     },
-    "./dist/index.css": "./dist/index.css"
+    "./dist/index.css": "./dist/design/index.css"
   },
   "files": [
     "dist"
@@ -39,7 +43,7 @@
   "scripts": {
     "build": "npm run build:ts && npm run build:css",
     "build:ts": "tsc",
-    "build:css": "find design -name '*.css' | while read file; do target=\"dist/${file#design/}\"; mkdir -p \"$(dirname \"$target\")\"; cp \"$file\" \"$target\"; done",
+    "build:css": "find design -name '*.css' | while read file; do target=\"dist/$file\"; mkdir -p \"$(dirname \"$target\")\"; cp \"$file\" \"$target\"; done",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "type-check": "tsc --noEmit",
@@ -72,6 +76,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "country-flag-icons": "^1.5.21",
     "lucide-react": "^0.525.0",
     "server-only": "^0.0.1"
   },

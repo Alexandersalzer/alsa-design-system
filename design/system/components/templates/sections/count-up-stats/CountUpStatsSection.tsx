@@ -1,6 +1,6 @@
 'use client';
 
-import { Section, Container } from '../../../../../system/layout';
+import { Section, Container } from '../../../layout';
 import { CountUpSection } from '../../../../../system/components/patterns/client/CountUpSection';
 import { TypographyColor } from '../../../../../system/components/primitives/Typography';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
@@ -57,8 +57,8 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
   countPrefix = '',
   countDecimals = 0,
   useEasing = true,
-  enableScrollTrigger = false, // Temporarily disable to test animation
-  triggerOffset = 50, // Trigger when element is 50px from bottom of viewport
+  enableScrollTrigger = true, // Temporarily disable to test animation
+  triggerOffset = 200, // Trigger when element is 50px from bottom of viewport
   
   // Typography defaults
   countVariant = 'display-xl',

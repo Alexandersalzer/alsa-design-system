@@ -1,8 +1,8 @@
 'use client';
 
-import { Section, Container } from '../../../../../system/layout';
+import { Section, Container } from '../../../layout';
 import { Results } from '../../../../../system/components/patterns/client/results';
-import { ResponsiveGrid } from '../../../../../system/layout/utilities/grid/Grid';
+import { ResponsiveGrid } from '../../../layout/utilities/grid/Grid';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 

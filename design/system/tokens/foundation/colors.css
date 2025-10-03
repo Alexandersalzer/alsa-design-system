@@ -55,20 +55,20 @@
 
   /* ===== RED FAMILY ===== */
   
-  /* Red-Light Scale - Used in AccentColorControl */
-  --foundation-red-light-100: #FFF5F5;
-  --foundation-red-light-200: #FED7D7;
-  --foundation-red-light-300: #FEB2B2;
-  --foundation-red-light-400: #FC8181;
-  --foundation-red-light-500: #F56565;
-  --foundation-red-light-600: #FCA5A5;
-  --foundation-red-light-700: #E53E3E;
-  --foundation-red-light-800: #C53030;
-  --foundation-red-light-900: #9B2C2C;
-  --foundation-red-light-950: #742A2A;
-  --foundation-red-light-1000: #450A0A;
-  --foundation-red-light-1100: #3C0E0E;
-  --foundation-red-light-1200: #1A0606;
+/* Red-Light Scale - Smooth & Consistent */
+--foundation-red-light-100: #FFF7F7;
+--foundation-red-light-200: #FFEAEA;
+--foundation-red-light-300: #FFD5D5;
+--foundation-red-light-400: #FFB8B8;
+--foundation-red-light-500: #FF9C9C;
+--foundation-red-light-600: #FCA5A5; /* main accent */
+--foundation-red-light-700: #F77676;
+--foundation-red-light-800: #E94D4D;
+--foundation-red-light-900: #D12F2F;
+--foundation-red-light-950: #B71C1C;
+--foundation-red-light-1000: #8A1212;
+--foundation-red-light-1100: #5C0C0C;
+--foundation-red-light-1200: #2E0606;
 
   /* Red Scale (Standard) - Used in AccentColorControl */
   --foundation-red-100: #FEF2F2;

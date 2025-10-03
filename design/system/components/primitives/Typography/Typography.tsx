@@ -131,7 +131,7 @@ const getColorValue = (color: TypographyColor): string => {
     'table-cell-secondary': 'var(--text-table-cell-secondary)',
     
     // State colors
-    'accent': 'var(--accent-500)',
+    'accent': 'var(--accent-color)',
     'success': 'var(--success-500)',
     'warning': 'var(--warning-500)',
     'error': 'var(--error-500)',

@@ -1,0 +1,179 @@
+/* ===============================================
+   MOBILE BOTTOM TAB BAR - RESPONSIVE NAVIGATION
+   =============================================== */
+
+/* ===== BOTTOM TAB BAR CONTAINER ===== */
+.bottom-tab-bar {
+  display: none; /* Hidden on desktop */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--surface-card);
+  border-top: 1px solid var(--border-default);
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  z-index: 1000;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background-color: rgba(var(--surface-card-rgb), 0.95);
+}
+
+/* ===== TAB BAR NAVIGATION ===== */
+.bottom-tab-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* ===== INDIVIDUAL TAB ITEMS ===== */
+.bottom-tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+  border-radius: var(--foundation-radius-sm);
+  text-decoration: none;
+  color: var(--text-nav-item);
+  transition: all 0.2s ease;
+  min-width: 0; /* Allow flex shrinking */
+  flex: 1;
+  max-width: 80px;
+  position: relative;
+}
+
+/* ===== TAB ITEM STATES ===== */
+.bottom-tab-item:hover {
+  background-color: var(--surface-nav-item-hover);
+}
+
+.bottom-tab-item--active {
+  color: var(--text-nav-item-selected);
+  background-color: var(--surface-nav-item-selected);
+}
+
+.bottom-tab-item--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ===== TAB ITEM CONTENT ===== */
+.bottom-tab-item__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--foundation-space-half);
+  transition: transform 0.2s ease;
+}
+
+.bottom-tab-item__label {
+  font-family: var(--font-label-family);
+  font-size: var(--font-label-xs-size);
+  font-weight: var(--foundation-weight-medium);
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.bottom-tab-item--active .bottom-tab-item__label {
+  font-weight: var(--foundation-weight-semibold);
+}
+
+/* ===== ICON SIZING ===== */
+.bottom-tab-item__icon svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* ===== BADGE SUPPORT ===== */
+.bottom-tab-item__badge {
+  position: absolute;
+  top: -2px;
+  right: 8px;
+  background: var(--surface-tag-accent);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 4px;
+  border-radius: var(--foundation-radius-full);
+  min-width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* ===== RESPONSIVE BEHAVIOR ===== */
+@media (max-width: 768px) {
+  /* Hide sidebar on mobile */
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  
+  /* Show bottom tab bar on mobile */
+  .bottom-tab-bar {
+    display: block;
+  }
+  
+  /* Adjust main content for bottom tab bar */
+  .main-area {
+    margin-left: 0;
+    padding-bottom: 80px; /* Space for bottom tab bar */
+  }
+  
+  /* Ensure page content doesn't overlap with bottom tabs */
+  .page-content {
+    padding-bottom: var(--foundation-space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  /* Smaller tabs on very small screens */
+  .bottom-tab-item {
+    padding: var(--foundation-space-half) var(--foundation-space-1);
+    max-width: 70px;
+  }
+  
+  .bottom-tab-item__icon svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  
+  .bottom-tab-item__label {
+    font-size: 10px;
+  }
+  
+  /* Reduce bottom padding on very small screens */
+  .main-area {
+    padding-bottom: 70px;
+  }
+}
+
+/* ===== ANIMATION FOR ACTIVE STATE ===== */
+.bottom-tab-item--active .bottom-tab-item__icon {
+  transform: scale(1.1);
+}
+
+/* ===== COMING SOON INDICATOR ===== */
+.bottom-tab-item--coming-soon {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.bottom-tab-item--coming-soon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  background: var(--warning-500);
+  border-radius: 50%;
+}

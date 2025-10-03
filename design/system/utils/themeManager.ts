@@ -3,7 +3,7 @@
 // FIXED: Proper initialization that preserves saved settings
 // ===============================================
 
-export type ColorScale = 'purple' | 'azure' | 'ruby' | 'emerald' | 'honey' | 'gray';
+export type ColorScale = 'purple' | 'azure' | 'ruby' | 'emerald' | 'honey' | 'gray' | 'custom-brand';
 export type RadiusScale = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
 export type ThemeMode = 'light' | 'dark';
 
@@ -87,6 +87,13 @@ export class ThemeManager {
 
     const root = document.documentElement;
     
+    // Handle custom-brand differently - don't override if it's already set
+    if (color === 'custom-brand') {
+      // For custom-brand, we don't override the CSS variables
+      // They should already be set by the color extraction process
+      return;
+    }
+    
     // Update your existing accent tokens to point to the selected foundation color
     const levels = [100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000, 1100, 1200];
     
@@ -144,7 +151,7 @@ export class ThemeManager {
           ...this.currentConfig, 
           ...savedConfig 
         };
-        console.log('🎨 Loaded saved theme config:', this.currentConfig);
+
       } catch (e) {
         console.warn('Failed to parse stored theme config, using defaults');
       }
@@ -153,7 +160,7 @@ export class ThemeManager {
         ...this.currentConfig, 
         ...fallbackConfig 
       };
-      console.log('🎨 Using fallback theme config:', this.currentConfig);
+
     }
 
     // Apply all configurations (ADD the theme mode line)
@@ -162,7 +169,7 @@ export class ThemeManager {
     this.applyRadiusScale(this.currentConfig.radiusScale);
     
     this.isInitialized = true;
-    console.log('🎨 Theme manager initialized with config:', this.currentConfig);
+
   }
 
   /**
@@ -171,44 +178,9 @@ export class ThemeManager {
   private saveToStorage(): void {
     if (typeof window === 'undefined') return;
     localStorage.setItem('blimpify-theme-config', JSON.stringify(this.currentConfig));
-    console.log('💾 Theme config saved:', this.currentConfig);
+
   }
 
-  /**
-   * Updated applyTheme method - include theme mode
-   */
-  applyTheme(config: Partial<ThemeConfig>): void {
-    if (config.themeMode) { // ✅ ADD this block
-      this.setThemeMode(config.themeMode);
-    }
-    if (config.accentColor) {
-      this.setAccentColor(config.accentColor);
-    }
-    if (config.radiusScale) {
-      this.setRadiusScale(config.radiusScale);
-    }
-  }
-
-  
-  /**
-   * Updated resetToDefaults method - include theme mode
-   */
-  resetToDefaults(): void {
-    if (typeof window === 'undefined') return;
-    
-    localStorage.removeItem('blimpify-theme-config');
-    this.currentConfig = {
-      accentColor: 'purple',
-      radiusScale: 'md',
-      themeMode: 'light' // ✅ ADD this line
-    };
-    
-    this.applyThemeMode(this.currentConfig.themeMode); // ✅ ADD this line
-    this.applyAccentColor(this.currentConfig.accentColor);
-    this.applyRadiusScale(this.currentConfig.radiusScale);
-    
-    console.log('🔄 Theme reset to defaults');
-  }
 
     // ✅ ADD these convenience getters:
   get isDark(): boolean {

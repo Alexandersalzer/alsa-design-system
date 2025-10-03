@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '../../../primitives/Button';
 import { TextLink } from '../../../primitives/TextLink';
-import { Cluster } from '../../../../layout/utilities/cluster/Cluster';
+import { Cluster } from '../../../layout/utilities/cluster/Cluster';
 
 // ===== NAV LINK COMPONENT =====
 export interface NavLinkProps {

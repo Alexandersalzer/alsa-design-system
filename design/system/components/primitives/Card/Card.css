@@ -62,43 +62,37 @@
   user-select: none;
 }
 
-/* Hover effects for clickable cards */
-.card--clickable:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--foundation-shadow-lg);
-  border-color: var(--border-card-hover, var(--accent-300));
-}
-
 /* Elevated cards hover effect */
 .card--elevated.card--clickable:hover {
   box-shadow: var(--foundation-shadow-xl);
-  transform: translateY(-3px);
+  background-color: var(--secondary-100);
 }
 
 /* Outlined cards hover effect */
 .card--outlined.card--clickable:hover {
-  border-color: var(--accent-500);
+  border-color: var(--secondary-500);
   box-shadow: var(--foundation-shadow-md);
+  background-color: var(--secondary-100);
 }
 
 /* Solid cards hover effect */
 .card--solid.card--clickable:hover {
   background-color: var(--surface-solid-hover);
-  transform: translateY(-2px);
+  /*background-color: var(--surface-solid-hover);*/
 }
 
 /* Active state (when pressed) */
 .card--clickable:active {
-  transform: translateY(0px);
   box-shadow: var(--foundation-shadow-sm);
   transition-duration: 0.1s;
+  background-color: var(--secondary-300);
 }
 
 /* Selected state */
 .card--selected {
   border-color: var(--accent-500);
   background-color: var(--surface-selected, var(--accent-50));
-  box-shadow: 0 0 0 2px var(--accent-500);
+  box-shadow: 0 0 0 2px var(--secondary-500);
 }
 
 /* Selected hover state */
@@ -121,10 +115,12 @@
   border-color: var(--accent-500);
 }
 
+
+
 /* ===== DOMAIN CARD SPECIFIC STYLES ===== */
 .domain-card {
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* Allow dropdowns to show outside the card */
 }
 
 .domain-card--clickable {
@@ -132,9 +128,9 @@
 }
 
 .domain-card--clickable:hover {
-  border-color: var(--accent-400);
+  border-color: var(--secondary-400);
+  background-color: var(--secondary-200);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transform: translateY(-1px);
 }
 
 .domain-card--clickable:hover .domain-info {
@@ -169,7 +165,6 @@
 
 /* Hover effect on status indicator */
 .domain-card--clickable:hover .status-indicator {
-  transform: scale(1.2);
   box-shadow: 0 0 8px currentColor;
 }
 
@@ -227,20 +222,75 @@
 .card--loading::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  animation: loading-shimmer 2s infinite;
+  width: 25px;
+  height: 25px;
+  background-color: var(--secondary-600);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='5'%3E%3C/circle%3E%3Cpath d='M20 21c0-4.418-3.582-8-8-8s-8 3.582-8 8'%3E%3C/path%3E%3C/svg%3E") no-repeat center / contain;
 }
 
-@keyframes loading-shimmer {
-  0% {
-    transform: translateX(-100%);
+/* ===== REVIEW CARD SPECIFIC STYLES ===== */
+.review-card {
+  width: 100%;
+  max-width: none; /* Remove max-width constraint */
+  height: 100%; /* Fill available height in grid row */
+  flex-direction: column;
+}
+
+/* Ensure card content fills available space */
+.review-card .card-content,
+.review-card > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* ===== RESULTS CARD SPECIFIC STYLES ===== */
+.results-card {
+  width: 100%;
+  max-width: 350px; /* Set a specific max width similar to KJ Marketing */
+  background-color: var(--surface-subtle, #f8f9fa); /* Light gray background */
+  padding: var(--foundation-space-4) !important; /* 16px padding around the image */
+  overflow: hidden;
+  height: auto; /* Let height be determined by content */
+  min-height: 280px; /* Minimum height for consistency */
+  border: 1px solid var(--border-subtle, #e5e7eb); /* Subtle border */
+  box-shadow: var(--foundation-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1)); /* Subtle shadow */
+}
+
+.results-image-container {
+  width: 100%;
+  height: 280px; /* Increased height for larger images */
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md, 8px); /* Rounded corners for container */
+  display: flex; /* Add flexbox for better centering */
+  align-items: center; /* Center image vertically */
+  justify-content: center; /* Center image horizontally */
+}
+
+.results-image-container img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain; /* Changed from cover to contain - shows entire image */
+  border-radius: var(--radius-md, 8px); /* Rounded corners for image */
+}
+
+/* ===== REVIEW GRID CENTERING WITH EQUAL HEIGHTS ===== */
+.review-grid-center {
+  justify-items: stretch; /* Stretch items to fill grid cells */
+  align-items: stretch; /* Align items to stretch vertically */
+}
+
+/* Ensure cards are centered on mobile when single column */
+@media (max-width: 767px) {
+  .review-grid-center {
+    justify-items: stretch; /* Keep stretching on mobile too */
   }
-  100% {
-    transform: translateX(100%);
+  
+  .review-card {
+    max-width: 100%;
+    margin: 0 auto;
   }
 }
 
@@ -256,11 +306,6 @@
   
   .card--padding-lg {
     padding: var(--foundation-space-6);
-  }
-
-  /* Reduce hover effects on mobile */
-  .card--clickable:hover {
-    transform: none;
   }
 }
 
@@ -345,13 +390,8 @@
 
 /* Interactive hover effects */
 .feature-card.card--clickable:hover {
-  transform: translateY(-4px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  border-color: var(--accent-400);
-}
-
-.feature-card.card--clickable:hover .feature-card__icon {
-  transform: scale(1.05);
+  background-color: var(--secondary-200);
 }
 
 .feature-card.card--clickable:hover .feature-card__price {
@@ -360,7 +400,6 @@
 
 /* Active card hover (should be more subtle) */
 .feature-card--active.card--clickable:hover {
-  transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
 }
 
@@ -398,9 +437,8 @@
 
 /* Focus states for accessibility */
 .feature-card.card--clickable:focus-visible {
-  outline: 3px solid var(--accent-500);
+  outline: 3px solid var(--secondary-500);
   outline-offset: 2px;
-  transform: translateY(-2px);
 }
 
 /* Loading state for feature cards */
@@ -432,9 +470,6 @@
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-  .feature-card.card--clickable:hover {
-    transform: none; /* Disable hover effects on mobile */
-  }
   
   .feature-card__price {
     padding: var(--foundation-space-2);
@@ -459,8 +494,213 @@
   .feature-card__price {
     transition: none;
   }
-  
-  .feature-card.card--clickable:hover {
-    transform: none;
+}
+
+/* ===== PORTFOLIO CARD SPECIFIC STYLES ===== */
+.portfolio-card {
+  width: 100%;
+  max-width: 320px; /* Reduced from 400px to fit 3 cards per row with gap */
+  background-color: var(--surface-card, #ffffff);
+  border: 1px solid var(--border-subtle, #e5e7eb);
+  box-shadow: var(--foundation-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1));
+  transition: all 0.2s ease;
+  overflow: hidden; /* Ensure media doesn't break card borders */
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Fill grid cell height */
+}
+
+/* Shared media container styles */
+.portfolio-media-container {
+  width: calc(100% + 2 * var(--foundation-space-4)); /* Extend beyond card padding */
+  margin: calc(-1 * var(--foundation-space-4)) calc(-1 * var(--foundation-space-4)) 0; /* Negative margins to extend to edges */
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm) var(--radius-sm); /* Rounded top corners only */
+  background-color: var(--surface-subtle, #f8f9fa);
+}
+
+/* Video-specific styles */
+.portfolio-media-container .video-showcase {
+  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0 !important; /* Override VideoShowcase radius */
+}
+
+/* Image container styles */
+.portfolio-image-container {
+  width: 100%;
+  height: 500px;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0; /* Rounded top corners only */
+}
+
+.portfolio-image-container img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0; /* Match container radius */
+}
+
+.portfolio-content {
+  padding: 0 var(--foundation-space-4) var(--foundation-space-4); /* Add horizontal and bottom padding */
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Allow content to fill remaining space */
+}
+
+/* Make the Stack inside portfolio-content fill available space */
+.portfolio-content > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Push views to bottom */
+.portfolio-content > div > :last-child {
+  margin-top: auto;
+}
+
+/* Eye icon styling */
+.eye-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary, #6b7280);
+  flex-shrink: 0;
+}
+
+.eye-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Portfolio flag styling */
+.portfolio-flag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  border-radius: var(--radius-xs, 4px);
+  padding: 2px;
+  box-shadow: var(--foundation-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 20px;
+}
+
+.portfolio-flag svg {
+  width: 24px;
+  height: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .portfolio-card {
+    max-width: 100%;
   }
+  
+  .portfolio-image-container {
+    height: 200px; /* Slightly smaller on mobile */
+  }
+}
+
+/* ===== PORTFOLIO CARD SPECIFIC STYLES ===== */
+.portfolio-card {
+  width: 100%;
+  max-width: 320px; /* Reduced from 400px to fit 3 cards per row with gap */
+  background-color: var(--surface-card, #ffffff);
+  border: 1px solid var(--border-subtle, #e5e7eb);
+  box-shadow: var(--foundation-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1));
+  transition: all 0.2s ease;
+  overflow: hidden; /* Ensure media doesn't break card borders */
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Fill grid cell height */
+}
+
+/* Shared media container styles */
+.portfolio-media-container {
+  width: calc(100% + 2 * var(--foundation-space-4)); /* Extend beyond card padding */
+  margin: calc(-1 * var(--foundation-space-4)) calc(-1 * var(--foundation-space-4)) 0; /* Negative margins to extend to edges */
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm) var(--radius-sm); /* Rounded top corners only */
+  background-color: var(--surface-subtle, #f8f9fa);
+}
+
+/* Video-specific styles */
+.portfolio-media-container .video-showcase {
+  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0 !important; /* Override VideoShowcase radius */
+}
+
+/* Image container styles */
+.portfolio-image-container {
+  width: 100%;
+  height: 500px;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0; /* Rounded top corners only */
+}
+
+.portfolio-image-container img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0; /* Match container radius */
+}
+
+.portfolio-content {
+  padding: 0 var(--foundation-space-4) var(--foundation-space-4); /* Add horizontal and bottom padding */
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Allow content to fill remaining space */
+}
+
+/* Make the Stack inside portfolio-content fill available space */
+.portfolio-content > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Push views to bottom */
+.portfolio-content > div > :last-child {
+  margin-top: auto;
+}
+
+/* Eye icon styling */
+.eye-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary, #6b7280);
+  flex-shrink: 0;
+}
+
+.eye-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Portfolio flag styling */
+.portfolio-flag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  border-radius: var(--radius-xs, 4px);
+  padding: 2px;
+  box-shadow: var(--foundation-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 20px;
+}
+
+.portfolio-flag svg {
+  width: 24px;
+  height: 16px;
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { Section, Container } from '../../../../layout';
+import { Section, Container } from '../../../layout';
 import { RichText } from '../../../patterns/client/RichText/RichText';
 import { TypographyVariant } from '../../../primitives/Typography';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
@@ -22,6 +22,8 @@ interface RichText0ButtonProps {
   containerAlign?: 'left' | 'center' | 'right';
   containerMaxWidth?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
   sectionPadding?: string;
+  paddingTop?: string;
+  paddingBottom?: string;
 }
 
 export const RichText0Button: React.FC<RichText0ButtonProps> = ({
@@ -37,7 +39,10 @@ export const RichText0Button: React.FC<RichText0ButtonProps> = ({
   textSpacing = 'sm', // Same as HeroSection
   textAlign = 'center', // Same as HeroSection
   maxWidth = '550px', // Same as HeroSection
-  containerAlign = 'center'
+  containerAlign = 'center',
+  containerMaxWidth = 'md',
+  paddingTop = '15rem',
+  paddingBottom = '10rem'
 }) => {
   const { getPageTemplateByLayoutIndex, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -75,10 +80,10 @@ export const RichText0Button: React.FC<RichText0ButtonProps> = ({
     >
       <Container 
         align={containerAlign}
-        maxWidth="md"
+        maxWidth={containerMaxWidth || "md"}
         style={{ 
-          paddingBottom: '10rem',
-          paddingTop: '15rem'
+          paddingBottom: paddingBottom || '10rem',
+          paddingTop: paddingTop || '15rem'
         }}
       >
         <RichText

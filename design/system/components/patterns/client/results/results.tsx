@@ -6,7 +6,7 @@
 import React from 'react';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Stack } from '../../../layout/utilities/stack/Stack';
 import Image from 'next/image';
 
 // ===== TYPE DEFINITIONS =====
@@ -57,7 +57,7 @@ export const Results: React.FC<ResultsProps> = ({
   radius = 'md',
   
   // Layout defaults
-  spacing = 'lg', // Increased spacing between card and text
+  spacing = 'sm', // Increased spacing between card and text
 }) => {
   return (
     <Stack spacing={spacing}>
@@ -77,7 +77,7 @@ export const Results: React.FC<ResultsProps> = ({
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover'
+                objectFit: 'contain' // Changed to contain to show full image compressed
               }}
               priority
             />

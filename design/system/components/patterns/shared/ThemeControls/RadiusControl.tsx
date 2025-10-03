@@ -20,16 +20,28 @@ const RADIUS_OPTIONS = [
 interface RadiusControlProps {
   columns?: 1 | 2 | 3 | 4 | 5 | 6;
   className?: string;
+  value?: string; // External value control
+  onChange?: (value: string) => void; // External change handler
 }
 
-export function RadiusControl({ columns = 4, className }: RadiusControlProps) {
+export function RadiusControl({ columns = 4, className, value, onChange }: RadiusControlProps) {
   const { radiusScale, setRadiusScale } = useTheme();
 
-  // ✅ Konvertera från DesignRadioCards string onChange till tema-systemet
+  // ✅ Handle radius change - support both internal and external control
   const handleRadiusChange = (radiusValue: string) => {
     console.log('🔄 RadiusControl: Ändrar radius till:', radiusValue);
+    
+    // If external onChange is provided, use it (for ProjectContext integration)
+    if (onChange) {
+      onChange(radiusValue);
+    }
+    
+    // Also update internal theme system
     setRadiusScale(radiusValue as RadiusScale);
   };
+
+  // Use external value if provided, otherwise use internal theme state
+  const currentValue = value || radiusScale;
 
   return (
     <div className={className}>
@@ -47,7 +59,7 @@ export function RadiusControl({ columns = 4, className }: RadiusControlProps) {
       {/* ✅ Använder DesignRadioCard med Root + Radius-objekt */}
       <DesignRadioCard.Root
         name="radius-scale"
-        value={radiusScale || 'md'}
+        value={currentValue || 'md'}
         onChange={handleRadiusChange}
         columns={columns}
         gap="xs"

@@ -1,6 +1,7 @@
 /* ==============================================
    src/design-system/utilities/typography.css
    ULTIMATE TYPOGRAPHY SYSTEM - COMPLETE & ENHANCED
+   CLEANED - No duplicate tab styles
 ============================================== */
    
 /* ===== FONT WEIGHT UTILITIES ===== */
@@ -281,7 +282,7 @@ p, .text-body {
 .text-heading { color: var(--text-heading-color); }
 .text-body { color: var(--text-body-color); }
 .text-label { color: var(--text-label-color); }
-.text-accent { color: var(--accent-500); }
+.text-accent { color: var(--accent-color); }
 .text-success { color: var(--success-600); }
 .text-warning { color: var(--warning-600); }
 .text-error { color: var(--error-600); }
@@ -377,24 +378,7 @@ p, .text-body {
   letter-spacing: 0.005em;
 }
 
-/* Better Tab Typography */
-.tab,
-.nav-item {
-  font-family: var(--font-label-family);
-  font-size: var(--font-label-md-size);
-  font-weight: var(--foundation-weight-medium);
-  line-height: var(--foundation-leading-none);
-  letter-spacing: 0.005em;
-}
-
-.tab--sm {
-  font-size: var(--font-label-sm-size);
-}
-
-.tab--lg {
-  font-size: var(--font-label-lg-size);
-  font-weight: var(--foundation-weight-semibold);
-}
+/* 🎯 REMOVED: All tab typography styles - handled by NavigationTab.css */
 
 /* Enhanced Card Typography */
 .card-title {

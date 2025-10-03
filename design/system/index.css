@@ -60,11 +60,14 @@
 @import './components/patterns/dashboard/editor/EditorPanel/EditorPanel.css';
 @import './components/patterns/dashboard/editor/EditorSection/EditorSection.css';
 @import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
+@import './components/patterns/client/FAQ/FAQ.css';
+@import './components/patterns/client/Hero/Hero.css';
+@import './components/patterns/client/ProcessSteps/ProcessSteps.css';
 
 /* STEP 6: Layout utilities */
-@import './layout/utilities/cluster/Cluster.css';
-@import './layout/utilities/rhythm/Rhythm.css';
-@import './layout/utilities/stack/Stack.css';
+@import './components/utilities/cluster/Cluster.css';
+@import './components/utilities/rhythm/Rhythm.css';
+@import './components/utilities/stack/Stack.css';
 
 /* STEP 7: Themes LAST */
 @import './tokens/semantic/themes/index.css';

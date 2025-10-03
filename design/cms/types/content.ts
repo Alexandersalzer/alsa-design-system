@@ -2,7 +2,7 @@
 export interface JsonBlock {
   type: 'title' | 'subtitle' | 'primaryButton' | 'secondaryButton' | 'text' | 'image' | 'navItem' | string;
   content?: string;
-  image_url?: string;
+  media_src?: string;
   slug?: string; // For navigation items
 }
 
@@ -13,7 +13,7 @@ export interface JsonPattern {
 
 export interface JsonTemplate {
   type: string;
-  image_url?: string;
+  media_src?: string;
   patterns: JsonPattern[];
 }
 
@@ -31,7 +31,7 @@ export interface Block {
   type: 'title' | 'subtitle' | 'primaryButton' | 'secondaryButton' | 'text' | 'image' | 'navItem' | string;
   position: number;
   content?: string;
-  image_url?: string;
+  media_src?: string;
   slug?: string; // For navigation items
 }
 
@@ -46,7 +46,7 @@ export interface Template {
   id: number;
   type: string;
   position: number;
-  image_url?: string;
+  media_src?: string;
   patterns: Pattern[];
 }
 

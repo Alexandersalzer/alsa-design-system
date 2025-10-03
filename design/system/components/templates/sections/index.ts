@@ -8,3 +8,5 @@ export { ContactFormSection } from './contact-form-section';
 export { ReviewSection } from './review-section';
 export { RichText0Button } from './RichText0Button';
 export { ResultsSection } from './results-section';
+export { StatsGridSection } from './stats-grid-section';
+export { FilterTabsSection } from './filter-tabs-section';

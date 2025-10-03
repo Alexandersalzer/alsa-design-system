@@ -1,38 +1,39 @@
 /* ===============================================
    src/design-system/components/patterns/page/Cluster.css
-   CLUSTER COMPONENT STYLES - Horizontal grouping with wrapping
+   CLUSTER (HStack) - Horizontal layout component
    =============================================== */
 
 .cluster {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
   justify-content: flex-start;
-  gap: var(--foundation-space-4); /* Default md spacing */
+  gap: var(--foundation-space-4);
 }
 
-/* ===== SPACING VARIANTS ===== */
+/* ===== SPACING ===== */
 .cluster--spacing-xs {
-  gap: var(--foundation-space-1); /* 4px */
+  gap: var(--foundation-space-1);
 }
 
 .cluster--spacing-sm {
-  gap: var(--foundation-space-2); /* 8px */
+  gap: var(--foundation-space-2);
 }
 
 .cluster--spacing-md {
-  gap: var(--foundation-space-4); /* 16px */
+  gap: var(--foundation-space-4);
 }
 
 .cluster--spacing-lg {
-  gap: var(--foundation-space-6); /* 24px */
+  gap: var(--foundation-space-6);
 }
 
 .cluster--spacing-xl {
-  gap: var(--foundation-space-8); /* 32px */
+  gap: var(--foundation-space-8);
 }
 
-/* ===== ALIGNMENT VARIANTS ===== */
+/* ===== ALIGNMENT ===== */
 .cluster--align-start {
   align-items: flex-start;
 }
@@ -49,7 +50,7 @@
   align-items: baseline;
 }
 
-/* ===== JUSTIFY VARIANTS ===== */
+/* ===== JUSTIFY ===== */
 .cluster--justify-start {
   justify-content: flex-start;
 }
@@ -74,38 +75,38 @@
   justify-content: space-evenly;
 }
 
-/* ===== WRAP VARIANTS ===== */
-.cluster--no-wrap {
-  flex-wrap: nowrap;
+/* ===== WRAP ===== */
+.cluster--wrap {
+  flex-wrap: wrap;
 }
 
-/* ===== DIRECTION VARIANTS ===== */
+/* ===== DIRECTION ===== */
 .cluster--row-reverse {
   flex-direction: row-reverse;
 }
 
-/* ===== RESPONSIVE BEHAVIOR ===== */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .cluster {
-    gap: var(--foundation-space-3); /* Slightly smaller gap on mobile */
+    gap: var(--foundation-space-3);
   }
-  
+
   .cluster--spacing-xs {
     gap: var(--foundation-space-1);
   }
-  
+
   .cluster--spacing-sm {
     gap: var(--foundation-space-2);
   }
-  
+
   .cluster--spacing-md {
     gap: var(--foundation-space-3);
   }
-  
+
   .cluster--spacing-lg {
     gap: var(--foundation-space-4);
   }
-  
+
   .cluster--spacing-xl {
     gap: var(--foundation-space-6);
   }
@@ -116,4 +117,4 @@
   .cluster {
     transition: none;
   }
-} 
+}

@@ -1,0 +1,101 @@
+import React, { forwardRef } from 'react';
+import { Modal } from '../Modal';
+import { Stack } from '../../layout/utilities/stack/Stack';
+import { Cluster } from '../../layout/utilities/cluster/Cluster';
+import { Button } from '../Button';
+import { Typography } from '../Typography';
+import { cn } from '../../../lib/utils';
+import './ConfirmationDialog.css';
+
+export interface ConfirmationDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  title: string;
+  message: string;
+  confirmText?: string;
+  cancelText?: string;
+  variant?: 'default' | 'warning' | 'danger';
+  loading?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+}
+
+export const ConfirmationDialog = forwardRef<HTMLDivElement, ConfirmationDialogProps>(
+  (
+    {
+      isOpen,
+      onClose,
+      onConfirm,
+      title,
+      message,
+      confirmText = 'Bekräfta',
+      cancelText = 'Avbryt',
+      variant = 'default',
+      loading = false,
+      size = 'sm',
+      className,
+      ...props
+    },
+    ref
+  ) => {
+    const getConfirmButtonVariant = (): 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive' => {
+      switch (variant) {
+        case 'danger':
+          return 'primary';
+        case 'warning':
+          return 'primary';
+        default:
+          return 'primary';
+      }
+    };
+
+    const getConfirmButtonClassName = () => {
+      switch (variant) {
+        case 'danger':
+          return 'bg-red-600 hover:bg-red-700 text-white';
+        case 'warning':
+          return 'bg-orange-600 hover:bg-orange-700 text-white';
+        default:
+          return '';
+      }
+    };
+
+    return (
+      <Modal
+        ref={ref}
+        isOpen={isOpen}
+        onClose={onClose}
+        title={title}
+        size={size}
+        className={cn('confirmation-dialog', `confirmation-dialog--${variant}`, className)}
+        {...props}
+      >
+        <Stack spacing="md">
+          <Typography variant="body-md" color="secondary">
+            {message}
+          </Typography>
+          <Cluster justify="end" spacing="sm">
+            <Button
+              variant="secondary"
+              onClick={onClose}
+              disabled={loading}
+            >
+              {cancelText}
+            </Button>
+            <Button
+              variant={getConfirmButtonVariant()}
+              onClick={onConfirm}
+              loading={loading}
+              className={getConfirmButtonClassName()}
+            >
+              {confirmText}
+            </Button>
+          </Cluster>
+        </Stack>
+      </Modal>
+    );
+  }
+);
+
+ConfirmationDialog.displayName = 'ConfirmationDialog';

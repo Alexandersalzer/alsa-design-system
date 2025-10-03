@@ -1,6 +1,6 @@
 'use client';
 
-import { Section, Container } from '../../../../../system/layout';
+import { Section, Container } from '../../../layout';
 import { RichText } from '../../../../../system/components/patterns/client/RichText/RichText';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
@@ -18,6 +18,7 @@ interface HeroSectionProps {
   textSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   textAlign?: 'left' | 'center' | 'right';
   maxWidth?: string;
+  containerMaxWidth?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ 
@@ -29,10 +30,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   buttonSize = 'md',
   unit = 'xl',
   textPosition = 1,
-  buttonPosition = 9,
+  buttonPosition = 6,
   textSpacing = 'sm',
   textAlign = 'center',
-  maxWidth = '550px'
+  maxWidth = '550px',
+  containerMaxWidth = 'md'
 }) => {
   const { getPageTemplate, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -62,6 +64,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <Container 
         align="center" 
         height="auto"
+        maxWidth={containerMaxWidth || "md"}
         style={{ 
           minHeight: '60vh', 
           paddingTop: '18rem', 

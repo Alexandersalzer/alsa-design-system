@@ -2,7 +2,7 @@
 import React, { forwardRef } from 'react';
 import './Tag.css';
 
-export type TagVariant = 'success' | 'error' | 'warning' | 'info' | 'accent';
+export type TagVariant = 'success' | 'error' | 'warning' | 'info' | 'accent' | 'default';
 export type TagSize = 'small' | 'medium' | 'large';
 
 export interface TagProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'onClick'> {
@@ -31,7 +31,6 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
   disabled = false,
   ...props
 }, ref) => {
-  // Build CSS classes following your button pattern
   const baseClasses = 'tag';
   const variantClass = `tag--${variant}`;
   const sizeClass = size !== 'medium' ? `tag--${size}` : '';
@@ -85,9 +84,7 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
           {icon}
         </span>
       )}
-      
       <span>{children}</span>
-      
       {removable && (
         <button
           className="tag__remove"
@@ -107,5 +104,4 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
 });
 
 Tag.displayName = 'Tag';
-
 export default Tag;

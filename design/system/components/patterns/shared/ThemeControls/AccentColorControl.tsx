@@ -2,25 +2,20 @@
 // AccentColorControl.tsx - Kortare namn för bättre UX
 // 3x10 grid med kortare, beskrivande namn
 // ===============================================
-import React from 'react';
-import { DesignRadioCard, DesignRadioCardItem } from '@blimpify-im/ui';
+import React, { useState, useEffect } from 'react';
+import { DesignRadioCard, DesignRadioCardItem, Button } from '@blimpify-im/ui';
 import { useTheme, type ColorScale } from '../../../../hooks/useTheme';
-import { SwatchIcon } from '@heroicons/react/24/outline';
+import { SwatchIcon, PaintBrushIcon } from '@heroicons/react/24/outline';
 import { Body, Icon } from '@blimpify-im/ui';
+import { extractColorsFromImage, applyColorsWithThemeManager } from '../../../../utils/colorExtraction';
 
 // Förkortade namn - behåller samma values för backend-kompatibilitet
 const COLOR_GRID = [
-  // Gray row
-  [
-    { value: 'gray-light', label: 'Ljus', hex: '#9CA3AF' },
-    { value: 'gray', label: 'grå', hex: '#6B7280' },
-    { value: 'slate', label: 'Mörk', hex: '#374151' }
-  ],
   // Pink row
   [
-    { value: 'pink-light', label: 'Ljus', hex: '#F9A8D4' },
-    { value: 'pink', label: 'Rosa', hex: '#F43F5E' },
-    { value: 'pink-dark', label: 'Ros', hex: '#E11D48' }
+    { value: 'pink-light', label: 'Flamingo', hex: '#F472B6' },
+    { value: 'pink', label: 'Rosa', hex: '#EC4899' },
+    { value: 'pink-dark', label: 'Ros', hex: '#D946EF' }
   ],
   // Red row
   [
@@ -30,7 +25,7 @@ const COLOR_GRID = [
   ],
   // Orange row
   [
-    { value: 'orange-light', label: 'Persika', hex: '#FB923C' },
+    { value: 'orange-light', label: 'Persika', hex: '#FFA366' },
     { value: 'orange', label: 'Orange', hex: '#F97316' },
     { value: 'tangerine', label: 'Mandarin', hex: '#EA580C' }
   ],
@@ -79,16 +74,28 @@ const ALL_COLORS = COLOR_GRID.flat();
 
 interface AccentColorControlProps {
   className?: string;
+  value?: string; // External value control
+  onChange?: (value: string) => void; // External change handler
 }
 
-export function AccentColorControl({ className }: AccentColorControlProps) {
+export function AccentColorControl({ className, value, onChange }: AccentColorControlProps) {
   const { accentColor, setAccentColor } = useTheme();
 
-  // Handle color change
+  // Handle color change - support both internal and external control
   const handleColorChange = (colorValue: string) => {
     console.log('🎨 AccentColorControl: Ändrar färg till:', colorValue);
+    
+    // If external onChange is provided, use it (for ProjectContext integration)
+    if (onChange) {
+      onChange(colorValue);
+    }
+    
+    // Also update internal theme system
     setAccentColor(colorValue as ColorScale);
   };
+
+  // Use external value if provided, otherwise use internal theme state
+  const currentValue = value || accentColor;
 
   return (
     <div className={className}>
@@ -118,7 +125,7 @@ export function AccentColorControl({ className }: AccentColorControlProps) {
                 label={color.label} // Nu kortare namn som "Ljus", "Medium", "Mörk" etc
                 variant="color"
                 colorValue={color.hex}
-                checked={accentColor === color.value}
+                checked={currentValue === color.value}
                 onClick={() => handleColorChange(color.value)}
                 className="aspect-square hover:scale-105 transition-transform"
               />

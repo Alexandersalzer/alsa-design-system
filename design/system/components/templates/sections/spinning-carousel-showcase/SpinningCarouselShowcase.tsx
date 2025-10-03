@@ -1,9 +1,10 @@
 'use client';
 
-import { Section, Container } from '../../../../../system/layout';
+import { Section, Container } from '../../../layout';
 import { SpinningCarousel, CarouselImage } from '../../../../../system/components/patterns/client/spinning-carousel';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { buildNavHref, extractLocaleFromPathname } from '../../../../../system/utils/navigation';
 
 interface SpinningCarouselShowcaseProps {
   pageSlug?: string;
@@ -39,6 +40,9 @@ interface SpinningCarouselShowcaseProps {
   
   // Interactive
   onImageClick?: (image: CarouselImage) => void;
+  
+  // Navigation
+  isEditingMode?: boolean;
 }
 
 export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> = ({
@@ -84,10 +88,15 @@ export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> =
   containerMaxWidth = 'full',
   sectionPadding = '4rem 0',
   
-  onImageClick
+  onImageClick,
+  isEditingMode = false
 }) => {
   const { getPageTemplate, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
+  const router = useRouter();
+  
+  // Get current locale for navigation
+  const currentLocale = extractLocaleFromPathname(pathname);
   
   // Determine which page slug to use
   const currentSlug = pageSlug || pathname.replace('/', '') || 'home';
@@ -102,8 +111,18 @@ export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> =
     if (onImageClick) {
       onImageClick(image);
     } else {
-      // Default action - could open modal, navigate, etc.
-      console.log('Carousel image clicked:', image.title || image.alt);
+      // Default action - navigate to about page
+      console.log('🎠 Carousel image clicked - navigating to about page');
+      
+      // Build the correct href for about page with current locale
+      const aboutHref = buildNavHref(
+        { href: '/about', slug: 'about' },
+        currentLocale,
+        isEditingMode
+      );
+      
+      console.log('🎠 Navigating to:', aboutHref);
+      router.push(aboutHref);
     }
   };
 

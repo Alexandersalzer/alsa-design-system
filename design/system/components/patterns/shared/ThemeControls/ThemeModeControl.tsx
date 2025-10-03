@@ -12,12 +12,16 @@ interface ThemeModeControlProps {
   className?: string;
   showLabel?: boolean; // Option to show/hide the section label
   size?: 'sm' | 'md' | 'lg'; // SegmentedControl size
+  value?: string; // External value control
+  onChange?: (value: string) => void; // External change handler
 }
 
 export function ThemeModeControl({ 
   className, 
   showLabel = true,
-  size = 'md'
+  size = 'md',
+  value,
+  onChange
 }: ThemeModeControlProps) {
   const { isDark, toggleDarkMode, isHydrated } = useTheme();
 
@@ -35,20 +39,24 @@ export function ThemeModeControl({
     }
   ];
 
-  // ✅ Handle theme change - endast växla om nödvändigt
-  const handleThemeChange = (value: string) => {
-    console.log('🌗 ThemeModeControl: Changing theme to:', value);
+  // ✅ Handle theme change - support both internal and external control
+  const handleThemeChange = (newValue: string) => {
+    console.log('🌗 ThemeModeControl: Changing theme to:', newValue);
     
-    const shouldBeDark = value === 'dark';
+    // If external onChange is provided, use it (for ProjectContext integration)
+    if (onChange) {
+      onChange(newValue);
+    }
     
-    // Bara växla om det faktiska läget inte matchar det valda
+    // Also update internal theme system if needed
+    const shouldBeDark = newValue === 'dark';
     if (isDark !== shouldBeDark) {
       toggleDarkMode();
     }
   };
 
-  // ✅ Aktuellt värde baserat på isDark state
-  const currentValue = isDark ? 'dark' : 'light';
+  // ✅ Use external value if provided, otherwise use internal theme state
+  const currentValue = value || (isDark ? 'dark' : 'light');
 
   // Loading state om inte hydratiserad
   if (!isHydrated) {
