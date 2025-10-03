@@ -1,13 +1,13 @@
 /* ==============================================
    src/design-system/components/primitives/Picker/Picker.css
-   OPTIMIZED SPACING & PROPORTIONS + AUTO-WIDTH DROPDOWN
+   SMOOTH PICKER COMPONENT STYLES - NO JUMPY ANIMATIONS
    ============================================== */
 
 /* ===== PICKER WRAPPER ===== */
 .picker-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-form-field-gap);
   position: relative;
 }
 
@@ -23,7 +23,7 @@
   font-weight: var(--foundation-weight-semibold);
   line-height: var(--font-body-md-leading);
   color: var(--text-form-label);
-  margin-bottom: 4px;
+  margin-bottom: var(--space-form-label-margin);
   display: block;
   cursor: pointer;
   user-select: none;
@@ -36,7 +36,7 @@
 
 .picker-label__required {
   color: var(--text-form-label-required);
-  margin-left: 2px;
+  margin-left: var(--foundation-space-1);
 }
 
 /* ===== PICKER DESCRIPTION ===== */
@@ -46,8 +46,8 @@
   font-weight: var(--foundation-weight-normal);
   line-height: var(--font-body-sm-leading);
   color: var(--text-form-hint);
-  margin-top: -2px;
-  margin-bottom: 6px;
+  margin-top: calc(-1 * var(--space-form-label-margin));
+  margin-bottom: var(--space-form-hint-margin);
 }
 
 .picker-wrapper--disabled .picker-description {
@@ -57,85 +57,54 @@
 /* ===== PICKER CONTAINER - SMART Z-INDEX ===== */
 .picker-container {
   position: relative;
-  z-index: var(--z-picker-container);
+  z-index: var(--z-picker-container); /* Base: z-index: 1 */
 }
 
+/* 🔥 CRITICAL: When picker is open, boost the entire container AND create new stacking context */
 .picker-container--open,
 .picker-container:focus-within,
 .picker-container:has(.picker-dropdown) {
-  z-index: var(--z-picker-open) !important;
+  z-index: var(--z-picker-open) !important; /* z-index: 1100 */
+  /* Force new stacking context to ensure dropdown stays above everything */
   transform: translateZ(0);
   position: relative;
 }
 
+/* 🚀 NUCLEAR OPTION: Ensure open picker dominates ALL other pickers */
 .picker-container--open ~ .picker-container,
 .picker-container:focus-within ~ .picker-container,
 .picker-container:has(.picker-dropdown) ~ .picker-container {
-  z-index: var(--z-picker-container) !important;
+  z-index: var(--z-picker-container) !important; /* Force siblings back down */
 }
 
-/* ===== PICKER BUTTON - PROPORTIONAL SIZING ===== */
+/* ===== PICKER BUTTON - SMOOTH & STABLE ===== */
 .picker {
   width: 100%;
-  min-height: 40px;
-  padding: 8px 12px;
+  min-height: 44px;
+  padding: var(--foundation-space-3) var(--foundation-space-4);
   border: 2px solid var(--border-picker);
   border-radius: var(--radius-picker);
   background-color: var(--surface-picker);
   color: var(--text-picker);
   font-family: var(--font-body-family);
-  font-size: 14px;
+  font-size: var(--font-body-md-size);
   font-weight: var(--foundation-weight-normal);
-  line-height: 1.5;
+  line-height: var(--font-body-md-leading);
   text-align: left;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
   outline: none;
   
+  /* FIXED: Only animate colors and shadows - NO transforms */
   transition: 
     border-color var(--foundation-duration-fast) var(--foundation-ease-out),
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
     box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
-/* ===== SIZE VARIANTS - PROPERLY SCALED ===== */
-.picker--sm {
-  min-height: 32px;
-  padding: 4px 8px;
-  font-size: 13px;
-  gap: 6px;
-}
-
-.picker--md {
-  min-height: 40px;
-  padding: 8px 12px;
-  font-size: 14px;
-  gap: 8px;
-}
-
-.picker--lg {
-  min-height: 48px;
-  padding: 12px 16px;
-  font-size: 16px;
-  gap: 10px;
-}
-
-/* ===== COMPACT VARIANT ===== */
-.picker--compact {
-  min-height: 32px;
-  padding: 4px 10px;
-  border: 1px solid var(--border-picker);
-  font-size: 13px;
-  min-width: 120px;
-  width: auto;
-  max-width: 200px;
-  gap: 6px;
-}
-
-/* ===== RADIUS VARIANTS ===== */
+/* ===== PICKER RADIUS VARIANTS ===== */
 .picker--radius-sm {
   border-radius: var(--radius-picker-sm);
 }
@@ -144,16 +113,42 @@
   border-radius: var(--radius-picker-lg);
 }
 
-/* ===== PICKER STATES ===== */
+/* ===== COMPACT VARIANT ===== */
+.picker--compact {
+  min-height: 32px;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  border: 1px solid var(--border-picker);
+  font-size: var(--font-body-sm-size);
+  min-width: 120px;
+  width: auto;
+  max-width: 200px;
+}
+
+/* ===== SIZE VARIANTS ===== */
+.picker--sm {
+  min-height: 36px;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  font-size: var(--font-body-sm-size);
+}
+
+.picker--lg {
+  min-height: 52px;
+  padding: var(--foundation-space-4) var(--foundation-space-5);
+  font-size: var(--font-body-lg-size);
+}
+
+/* ===== PICKER STATES - SMOOTH & STABLE ===== */
 .picker:hover:not(:disabled):not(.picker--open) {
   border-color: var(--border-picker-hover);
   background-color: var(--surface-picker-hover);
+  /* REMOVED: transform translateY - no more jumpiness */
   box-shadow: 
     0 2px 4px rgba(0, 0, 0, 0.04),
     0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .picker:active:not(:disabled) {
+  /* REMOVED: all transforms - no movement on press */
   background-color: var(--surface-picker-hover);
   border-color: var(--border-picker-focus);
 }
@@ -161,6 +156,7 @@
 .picker:focus,
 .picker--open {
   border-color: var(--border-picker-focus);
+  /* REMOVED: transform translateY - no more jumpiness */
   box-shadow: 
     0 2px 8px rgba(0, 0, 0, 0.08),
     0 1px 4px rgba(0, 0, 0, 0.06);
@@ -182,7 +178,7 @@
   border-color: var(--success-border);
 }
 
-/* ===== PICKER VALUE ===== */
+/* ===== PICKER VALUE - STABLE TEXT ===== */
 .picker-value {
   flex: 1;
   text-align: left;
@@ -190,18 +186,21 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   color: inherit;
+  /* Ensure text stays perfectly stable */
   display: flex;
   align-items: center;
   min-height: 1.5em;
 }
 
-/* ===== PICKER ICON ===== */
+/* ===== PICKER ICON - SMOOTH ROTATION ONLY ===== */
 .picker-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: var(--foundation-space-2);
   color: var(--icon-picker);
   flex-shrink: 0;
+  /* FIXED: Only rotate, no other transforms */
   transition: 
     transform var(--foundation-duration-normal) var(--foundation-ease-smooth),
     color var(--foundation-duration-fast) var(--foundation-ease-out);
@@ -221,41 +220,45 @@
   animation: pickerSpin 1s var(--foundation-ease-linear) infinite;
 }
 
-/* ===== PICKER DROPDOWN - AUTO-WIDTH SUPPORT ===== */
+/* ===== PICKER DROPDOWN - NUCLEAR Z-INDEX ===== */
 .picker-dropdown {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + var(--foundation-space-1));
   left: 0;
-  width: max-content;
-  min-width: 100%;
-  max-width: 400px;
-  z-index: var(--z-dropdown-active);
+  right: 0;
+  z-index: var(--z-dropdown-active); /* z-index: 2000 - VERY HIGH */
   border: 1px solid var(--border-default);
   border-radius: var(--radius-dropdown);
   background-color: var(--surface-dropdown);
   box-shadow: var(--foundation-shadow-lg);
   overflow: hidden;
   max-height: 400px;
-  padding: 4px;
+  padding: var(--foundation-space-1);
   display: flex;
   flex-direction: column;
   
+  /* FIXED: Smooth entrance without transform jumps */
   animation: dropdownFadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
   opacity: 1;
+  
+  /* 🚀 FORCE NEW STACKING CONTEXT */
   transform: translateZ(0);
   will-change: transform;
   isolation: isolate;
 }
 
+/* 🔥 EMERGENCY OVERRIDE: Force dropdown above everything */
 .picker-dropdown[data-open="true"] {
   z-index: var(--z-maximum) !important;
 }
 
+/* Closing animation */
 .picker-dropdown--closing {
   animation: dropdownFadeOut var(--foundation-duration-fast) var(--foundation-ease-in);
   pointer-events: none;
 }
 
+/* Dropdown radius variants */
 .picker-dropdown--radius-sm {
   border-radius: var(--radius-dropdown-sm);
 }
@@ -264,25 +267,32 @@
   border-radius: var(--radius-dropdown-lg);
 }
 
+/* Compact dropdown */
 .picker-dropdown--compact {
   right: auto;
-  width: max-content;
-  min-width: 240px;
-  max-width: 400px;
+  width: 240px;
   max-height: 280px;
-  padding: 4px;
+  padding: var(--foundation-space-1-5);
   box-shadow: var(--foundation-shadow-md);
 }
 
-/* ===== ANIMATIONS ===== */
+/* ===== SMOOTH ANIMATIONS - NO TRANSFORMS ===== */
 @keyframes dropdownFadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes dropdownFadeOut {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes pickerSpin {
@@ -290,23 +300,23 @@
   to { transform: rotate(360deg); }
 }
 
-/* ===== PICKER SEARCH - TIGHTER SPACING ===== */
+/* ===== PICKER SEARCH ===== */
 .picker-search {
   flex-shrink: 0;
-  margin-bottom: 4px;
-  padding: 0 4px 4px 4px;
+  margin-bottom: var(--foundation-space-2);
+  padding-bottom: var(--foundation-space-2);
   border-bottom: 1px solid var(--border-light);
 }
 
 .picker-search-input {
   width: 100%;
-  padding: 6px 10px;
+  padding: var(--foundation-space-2);
   border: 1px solid var(--border-input);
   border-radius: var(--radius-input-sm);
   background-color: var(--surface-input);
   color: var(--text-input);
   font-family: var(--font-body-family);
-  font-size: 13px;
+  font-size: var(--font-body-sm-size);
   outline: none;
   transition: 
     border-color var(--foundation-duration-fast) var(--foundation-ease-out),
@@ -335,66 +345,50 @@
   min-height: 0;
 }
 
-/* ===== PICKER OPTION - NO TRUNCATION ===== */
+/* ===== PICKER OPTION - STABLE & SMOOTH ===== */
 .picker-option {
-  padding: 8px 10px;
+  padding: var(--foundation-space-3) var(--foundation-space-4);
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: var(--radius-picker-sm);
   background: var(--surface-picker-option);
-  margin: 2px;
+  margin: 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
   color: var(--text-picker-option);
-  white-space: nowrap;
   
+  /* FIXED: Smooth entrance without transform movements */
   opacity: 0;
   animation: optionFadeIn var(--foundation-duration-fast) var(--foundation-ease-out) forwards;
   animation-delay: calc(var(--option-index, 0) * 20ms);
   
+  /* FIXED: Only color transitions - no position changes */
   transition: 
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
     color var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
-/* Size-specific option spacing */
-.picker--sm ~ .picker-dropdown .picker-option {
-  padding: 6px 8px;
-  margin: 1px;
-  gap: 6px;
-}
-
-.picker--lg ~ .picker-dropdown .picker-option {
-  padding: 10px 12px;
-  margin: 2px;
-  gap: 10px;
-}
-
-/* Compact variant options */
-.picker-dropdown--compact .picker-option {
-  padding: 6px 8px;
-  margin: 1px;
-  gap: 6px;
-}
-
 /* Option radius variants */
 .picker-option--radius-sm {
-  border-radius: 4px;
+  border-radius: var(--radius-picker-sm);
 }
 
 .picker-option--radius-lg {
-  border-radius: 8px;
+  border-radius: var(--radius-picker);
 }
 
-/* Option states */
+/* Option states - NO MOVEMENT */
 .picker-option:hover:not(.picker-option--disabled) {
   background-color: var(--surface-dropdown-option-hover);
+  /* REMOVED: translateX - no more jumping text */
 }
 
 .picker-option--focused {
   background-color: var(--surface-hover);
+  /* REMOVED: translateX - no more jumping text */
 }
+
+
 
 .picker-option--selected {
   background-color: var(--surface-picker-option-selected);
@@ -415,7 +409,7 @@
 .picker-option--empty {
   cursor: default;
   text-align: center;
-  padding: 24px 12px;
+  padding: var(--foundation-space-6);
   color: var(--text-secondary);
   font-style: italic;
   justify-content: center;
@@ -425,60 +419,45 @@
   background-color: transparent;
 }
 
+/* FIXED: Fade in only - no movement */
 @keyframes optionFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-/* ===== OPTION CONTENT - TIGHTER SPACING ===== */
+/* ===== OPTION CONTENT ===== */
 .picker-option-content {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--foundation-space-1);
   flex: 1;
-  min-width: 0;
 }
 
 .picker-option-label {
   font-family: var(--font-body-family);
-  font-size: 14px;
+  font-size: var(--font-body-md-size);
   font-weight: var(--foundation-weight-normal);
-  line-height: 1.4;
+  line-height: var(--font-body-md-leading);
   color: inherit;
-  white-space: nowrap;
-}
-
-/* Size-specific label sizing */
-.picker--sm ~ .picker-dropdown .picker-option-label {
-  font-size: 13px;
-}
-
-.picker--lg ~ .picker-dropdown .picker-option-label {
-  font-size: 15px;
 }
 
 .picker-option-description {
   font-family: var(--font-body-family);
-  font-size: 12px;
+  font-size: var(--font-body-sm-size);
   font-weight: var(--foundation-weight-normal);
-  line-height: 1.3;
+  line-height: var(--font-body-sm-leading);
   color: var(--text-secondary);
-  white-space: nowrap;
-}
-
-/* Size-specific description sizing */
-.picker--sm ~ .picker-dropdown .picker-option-description {
-  font-size: 11px;
-}
-
-.picker--lg ~ .picker-dropdown .picker-option-description {
-  font-size: 13px;
 }
 
 .picker-option-check {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: var(--foundation-space-2);
   flex-shrink: 0;
   color: var(--accent-icon);
 }
@@ -490,7 +469,7 @@
   font-weight: var(--foundation-weight-normal);
   line-height: var(--font-body-sm-leading);
   color: var(--text-form-error);
-  margin-top: 4px;
+  margin-top: var(--space-form-error-margin);
 }
 
 .picker-success {
@@ -499,7 +478,7 @@
   font-weight: var(--foundation-weight-normal);
   line-height: var(--font-body-sm-leading);
   color: var(--text-form-success);
-  margin-top: 4px;
+  margin-top: var(--space-form-error-margin);
 }
 
 /* ===== FOCUS STATES ===== */
@@ -509,11 +488,12 @@
   box-shadow: 
     0 0 0 3px rgba(var(--accent-500-rgb), 0.2),
     0 2px 4px rgba(0, 0, 0, 0.04);
+  /* REMOVED: transform - no jumping on focus */
 }
 
 /* ===== SCROLLBAR STYLING ===== */
 .picker-options::-webkit-scrollbar {
-  width: 6px;
+  width: var(--foundation-space-1-5);
 }
 
 .picker-options::-webkit-scrollbar-track {
@@ -522,7 +502,7 @@
 
 .picker-options::-webkit-scrollbar-thumb {
   background: var(--border-strong);
-  border-radius: 3px;
+  border-radius: var(--foundation-radius-sm);
 }
 
 .picker-options::-webkit-scrollbar-thumb:hover {
@@ -537,43 +517,32 @@
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 640px) {
   .picker {
-    padding: 6px 10px;
-    font-size: 14px;
-    min-height: 36px;
-  }
-  
-  .picker--sm {
-    min-height: 32px;
-    padding: 4px 8px;
-  }
-  
-  .picker--lg {
-    min-height: 44px;
-    padding: 10px 14px;
+    padding: var(--foundation-space-2);
+    font-size: var(--font-body-sm-size);
   }
   
   .picker-dropdown {
-    max-height: 280px;
-  }
-  
-  .picker-option {
-    padding: 8px 10px;
+    max-height: 200px;
   }
 }
 
 /* ===== PARENT CONTAINER FIXES ===== */
+/* Fix for when pickers are inside cards, stacks, or grids */
 .picker-container:focus-within {
+  /* Ensure the focused picker escapes any parent stacking context */
   z-index: var(--z-picker-open) !important;
 }
 
+/* Target common parent containers that might interfere */
 [class*="stack"]:has(.picker-container:focus-within),
 [class*="grid"]:has(.picker-container:focus-within),
 [class*="card"]:has(.picker-container:focus-within),
 [class*="cluster"]:has(.picker-container:focus-within) {
-  z-index: auto;
-  isolation: auto;
+  z-index: auto; /* Reset parent z-index */
+  isolation: auto; /* Don't create stacking context */
 }
 
+/* Nuclear option: Force active picker to escape ALL parent contexts */
 .picker-container:focus-within .picker-dropdown {
   position: fixed !important;
   top: auto !important;
