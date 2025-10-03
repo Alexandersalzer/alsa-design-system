@@ -33,8 +33,8 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Auto-dismiss duration in milliseconds (0 = no auto-dismiss) */
   duration?: number;
   /** Whether the toast should disappear automatically or not */
-  autoDismiss?: boolean;  // New prop for auto-dismiss
-  /** Show progress bar for auto-dismiss */
+  autoDismiss?: boolean;
+  /** Show progress bar for auto-dismiss (hidden by default, kept for future use) */
   showProgress?: boolean;
   /** Called when animation completes */
   onAnimationComplete?: (state: ToastState) => void;
@@ -67,8 +67,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   title,
   className,
   duration = 5000,
-  autoDismiss = false, // Default to true
-  showProgress = true,
+  autoDismiss = false,
+  showProgress = false,  // Changed default to false
   onAnimationComplete,
   forceState,
   style,
@@ -148,6 +148,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   const toastClasses = cn(
     'toast',
     `toast--${variant}`,
+    showProgress && 'toast--show-progress',  // Only add when showProgress is true
     className
   );
 
@@ -206,7 +207,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
         </button>
       )}
 
-      {/* Progress Bar */}
+      {/* Progress Bar - Only rendered when showProgress is true */}
       {showProgress && duration > 0 && currentState === 'visible' && autoDismiss && (
         <div 
           ref={progressRef}
