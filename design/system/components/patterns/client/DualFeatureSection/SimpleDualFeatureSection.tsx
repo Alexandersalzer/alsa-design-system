@@ -111,10 +111,10 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   padding="lg"
                   interactive={false}
                   style={{
-                    background: 'transparent', // Genomskinlig bakgrund istället för vit
-                    boxShadow: 'none', // Ingen skugga
+                    background: 'var(--surface-primary)', // Vanlig vit bakgrund
+                    boxShadow: 'var(--shadow-lg)',
                     width: '100%',
-                    minHeight: '120px', // Mindre höjd
+                    minHeight: '140px', // Mindre höjd
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 'var(--foundation-space-4)',
@@ -123,7 +123,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   }}
                 >
                   <H3 
-                    color="inverse" // Vit text för att synas över bakgrundsbilden
+                    color="primary"
                     weight="semibold"
                     style={{ margin: 0 }}
                   >
@@ -132,14 +132,14 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   
                   <Body 
                     size="md"
-                    color="inverse" // Vit text för att synas över bakgrundsbilden
+                    color="secondary"
                     style={{ margin: 0, flex: 1 }}
                   >
                     {card.description}
                   </Body>
 
                   <Button
-                    variant="secondary" // Sekundär knapp som fungerar bättre över bilder
+                    variant="primary"
                     size="md"
                     onClick={card.onButtonClick}
                   >
