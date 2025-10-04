@@ -70,7 +70,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
             gridTemplateColumns: 'repeat(2, 1fr)',
             gap: 'var(--foundation-space-8)',
             width: '100%',
-            maxWidth: '1200px', // Mycket större korten
+            maxWidth: 'var(--size-page-max-width)', // Samma bredd som stats-sektionen
             margin: '0 auto'
           }}>
             {cards.map((card) => (
