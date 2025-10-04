@@ -1,0 +1,118 @@
+import React from 'react';
+import { Button } from '../../../../../system/components/primitives/Button';
+import { H2, H3, Body } from '../../../../../system/components/primitives/Typography';
+import { Section } from '../../../../../system/layout/frames/section';
+
+// ===== TYPES =====
+export interface SimpleDualFeatureCard {
+  id: string;
+  title: string;
+  description: string;
+  buttonText: string;
+  onButtonClick?: () => void;
+}
+
+export interface SimpleDualFeatureSectionProps {
+  id?: string;
+  className?: string;
+  sectionTitle?: string;
+  cards: [SimpleDualFeatureCard, SimpleDualFeatureCard];
+}
+
+// ===== COMPONENT =====
+export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> = ({
+  id = "dual-features",
+  className,
+  sectionTitle,
+  cards,
+  ...props
+}) => {
+  if (cards.length !== 2) {
+    console.warn('SimpleDualFeatureSection requires exactly 2 cards');
+    return null;
+  }
+
+  return (
+    <Section 
+      id={id}
+      className={className}
+      style={{
+        backgroundColor: 'transparent',
+        paddingTop: 'var(--foundation-space-24)',
+        paddingBottom: 'var(--foundation-space-16)'
+      }}
+      {...props}
+    >
+      <div style={{ 
+        maxWidth: 'var(--size-page-max-width)',
+        margin: '0 auto',
+        padding: '0 var(--foundation-space-6)'
+      }}>
+        <div style={{ maxWidth: 'var(--size-page-content-max-width)', width: '100%' }}>
+          {/* Section Header */}
+          {sectionTitle && (
+            <div style={{ marginBottom: 'var(--foundation-space-16)', textAlign: 'center' }}>
+              <H2 
+                color="primary"
+                weight="bold"
+                style={{ margin: 0 }}
+              >
+                {sectionTitle}
+              </H2>
+            </div>
+          )}
+
+          {/* Cards Grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: 'var(--foundation-space-8)',
+            width: '100%'
+          }}>
+            {cards.map((card) => (
+              <div
+                key={card.id}
+                style={{
+                  background: 'var(--surface-primary)',
+                  borderRadius: 'var(--radius-lg)',
+                  padding: 'var(--foundation-space-8)',
+                  boxShadow: 'var(--shadow-md)',
+                  minHeight: '300px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 'var(--foundation-space-4)'
+                }}
+              >
+                <H3 
+                  color="primary"
+                  weight="semibold"
+                  style={{ margin: 0 }}
+                >
+                  {card.title}
+                </H3>
+                
+                <Body 
+                  size="md"
+                  color="secondary"
+                  style={{ margin: 0, flex: 1 }}
+                >
+                  {card.description}
+                </Body>
+
+                <Button
+                  variant="primary"
+                  size="md"
+                  onClick={card.onButtonClick}
+                >
+                  {card.buttonText}
+                </Button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Section>
+  );
+};
+
+SimpleDualFeatureSection.displayName = 'SimpleDualFeatureSection';
