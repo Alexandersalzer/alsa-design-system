@@ -2,7 +2,6 @@ import React from 'react';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { H2, H3, Body } from '../../../../../system/components/primitives/Typography';
 import { Section } from '../../../../../system/layout/frames/section';
-import { Card } from '../../../../../system/components/primitives/Card';
 
 // ===== TYPES =====
 export interface SimpleDualFeatureCard {
@@ -105,22 +104,20 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                 )}
 
                 {/* Innehållskort */}
-                <Card
-                  variant="default"
-                  radius="md"
-                  padding="md" // Mindre padding
-                  interactive={false}
+                <div
                   style={{
-                    background: 'var(--surface-primary) !important', // Korrekt designsystem-färg med !important
+                    background: 'var(--surface-primary)',
                     boxShadow: 'var(--shadow-lg)',
+                    borderRadius: 'var(--radius-md)',
+                    padding: 'var(--foundation-space-4)',
                     width: '100%',
-                    minHeight: '120px', // Ännu mindre höjd
+                    minHeight: '120px',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 'var(--foundation-space-3)', // Mindre gap mellan element
+                    gap: 'var(--foundation-space-3)',
                     position: 'relative',
                     zIndex: 2,
-                    opacity: '1 !important' // Säkerställ att den inte är transparent
+                    opacity: 1
                   }}
                 >
                   <H3 
@@ -146,7 +143,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   >
                     {card.buttonText}
                   </Button>
-                </Card>
+                </div>
               </div>
             ))}
           </div>
