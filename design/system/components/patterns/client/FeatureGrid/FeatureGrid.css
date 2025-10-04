@@ -24,7 +24,7 @@
 /* Responsive design for tablets */
 @media (max-width: 1024px) {
   .feature-grid {
-    gap: var(--foundation-space-md) !important;
+    gap: var(--foundation-space-lg) !important;
   }
   
   .feature-card--0 {
@@ -32,9 +32,12 @@
   }
   
   .feature-card--1,
-  .feature-card--2,
-  .feature-card--3 {
+  .feature-card--2 {
     min-height: 130px !important;
+  }
+  
+  .feature-card--3 {
+    min-height: 280px !important;
   }
 }
 
@@ -43,7 +46,7 @@
   .feature-grid {
     grid-template-columns: 1fr !important;
     grid-template-rows: repeat(4, auto) !important;
-    gap: var(--foundation-space-md) !important;
+    gap: var(--foundation-space-lg) !important;
   }
   
   .feature-card {
@@ -60,7 +63,7 @@
 /* Small mobile adjustments */
 @media (max-width: 480px) {
   .feature-grid {
-    gap: var(--foundation-space-sm) !important;
+    gap: var(--foundation-space-md) !important;
   }
   
   .feature-card {

@@ -67,7 +67,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               boxShadow: 'var(--shadow-md)',
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               cursor: 'pointer',
-              // Asymmetric layout: left card spans 2 rows
+              // Asymmetric layout: left card spans 2 rows, bottom-right card also spans 2 rows
               ...(index === 0 && {
                 gridRow: 'span 2',
                 minHeight: '320px'
@@ -79,7 +79,8 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                 minHeight: '150px'
               }),
               ...(index === 3 && {
-                minHeight: '150px'
+                gridRow: 'span 2',
+                minHeight: '320px'
               })
             }}
             onCardClick={() => {
@@ -88,20 +89,20 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               }
             }}
           >
-            <Stack spacing={index === 0 ? 'lg' : 'md'} align="start">
+            <Stack spacing={index === 0 || index === 3 ? 'lg' : 'md'} align="start">
               {/* Icon */}
               <div 
                 className="feature-icon"
                 style={{
-                  width: index === 0 ? '72px' : '56px',
-                  height: index === 0 ? '72px' : '56px',
+                  width: (index === 0 || index === 3) ? '72px' : '56px',
+                  height: (index === 0 || index === 3) ? '72px' : '56px',
                   flexShrink: 0,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderRadius: 'var(--radius-md)',
                   background: 'var(--surface-secondary)',
-                  padding: index === 0 ? '12px' : '8px'
+                  padding: (index === 0 || index === 3) ? '12px' : '8px'
                 }}
               >
                 <img
@@ -120,7 +121,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                 color="primary"
                 weight="semibold"
                 style={{
-                  fontSize: index === 0 ? '1.375rem' : '1.125rem',
+                  fontSize: (index === 0 || index === 3) ? '1.375rem' : '1.125rem',
                   lineHeight: '1.3',
                   margin: 0
                 }}
@@ -130,7 +131,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               
               {/* Description */}
               <Body 
-                size={index === 0 ? 'md' : 'sm'}
+                size={(index === 0 || index === 3) ? 'md' : 'sm'}
                 color="secondary"
                 style={{
                   lineHeight: '1.6',
