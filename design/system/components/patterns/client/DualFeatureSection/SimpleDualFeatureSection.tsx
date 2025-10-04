@@ -40,8 +40,8 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
       className={className}
       style={{
         backgroundColor: 'transparent',
-        paddingTop: 'var(--foundation-space-24)',
-        paddingBottom: 'var(--foundation-space-16)'
+        paddingTop: 'var(--foundation-space-32)', // Ökad padding för att matcha Om oss
+        paddingBottom: 'var(--foundation-space-24)' // Ökad padding för att matcha Om oss
       }}
       {...props}
     >
