@@ -8,6 +8,20 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, auto);
+  gap: var(--foundation-space-lg); /* Default spacing */
+}
+
+/* Dynamic spacing based on data attribute */
+.feature-grid[data-spacing="sm"] {
+  gap: var(--foundation-space-sm);
+}
+
+.feature-grid[data-spacing="md"] {
+  gap: var(--foundation-space-md);
+}
+
+.feature-grid[data-spacing="lg"] {
+  gap: var(--foundation-space-lg);
 }
 
 .feature-card {
