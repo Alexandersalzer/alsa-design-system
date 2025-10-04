@@ -106,17 +106,15 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                 {/* Innehållskort */}
                 <div
                   style={{
-                    background: 'rgba(255, 255, 255, 0.95)', // Semi-transparent vit bakgrund
-                    backdropFilter: 'blur(10px)', // Blur-effekt för glassmorphism
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)', // Mjukare skugga
-                    border: '1px solid rgba(255, 255, 255, 0.2)', // Subtle border
-                    borderRadius: 'var(--radius-lg)', // Större radius för modernare look
-                    padding: 'var(--foundation-space-6)', // Mer padding
+                    background: 'var(--surface-primary)', // Använd design system färg
+                    boxShadow: 'var(--shadow-lg)',
+                    borderRadius: 'var(--radius-lg)',
+                    padding: 'var(--foundation-space-5)', // Mindre padding
                     width: '100%',
-                    minHeight: '160px', // Större innehållskort
+                    height: '140px', // Samma höjd för alla kort
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 'var(--foundation-space-4)', // Mer mellanrum
+                    gap: 'var(--foundation-space-3)', // Mindre mellanrum
                     position: 'relative',
                     zIndex: 2,
                     opacity: 1
@@ -125,13 +123,13 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   <H3 
                     color="primary"
                     weight="semibold"
-                    style={{ margin: 0, fontSize: '1.25rem' }} // Större titel
+                    style={{ margin: 0, fontSize: '1.1rem' }} // Mindre titel
                   >
                     {card.title}
                   </H3>
                   
                   <Body 
-                    size="md" // Större text
+                    size="sm" // Mindre text
                     color="secondary"
                     style={{ margin: 0, flex: 1 }}
                   >
@@ -140,7 +138,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
 
                   <Button
                     variant="primary"
-                    size="md" // Större knapp
+                    size="sm" // Mindre knapp
                     onClick={card.onButtonClick}
                   >
                     {card.buttonText}
