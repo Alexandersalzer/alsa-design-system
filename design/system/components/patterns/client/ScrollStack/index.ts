@@ -1,2 +1,1 @@
-export { default as ScrollStack } from './ScrollStack';
-export { ScrollStackItem } from './ScrollStack';
+export { ScrollStack, ScrollStackItem } from './ScrollStack';
