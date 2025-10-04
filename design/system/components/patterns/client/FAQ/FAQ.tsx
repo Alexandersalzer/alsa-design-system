@@ -143,7 +143,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                         variant="h3" 
                         weight="semibold"
                         style={{ 
-                          color: 'var(--primary-white)',
+                          color: 'var(--text-primary)',
                           textAlign: 'left',
                           flex: 1,
                           fontSize: '1.5rem'
