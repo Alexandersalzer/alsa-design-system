@@ -8,13 +8,14 @@ import { Card } from '../../../../../system/components/primitives/Card';
 import { H4, Body } from '../../../../../system/components/primitives/Typography';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Section } from '../../../../../system/layout/frames/section/Section';
+import { ZapIcon, UserCheckIcon, ShieldIcon } from 'lucide-react';
 import './FeatureGrid.css';
 
 // ===== TYPE DEFINITIONS =====
 
 export interface FeatureItem {
   id: string;
-  icon: string; // Path to icon image in /images/icons/
+  icon: React.ReactNode; // React icon component
   title: string;
   description: string;
 }
@@ -28,9 +29,6 @@ export interface FeatureGridProps {
   
   // Layout options
   spacing?: 'sm' | 'md' | 'lg';
-  
-  // Optional click handler for features
-  onFeatureClick?: (feature: FeatureItem) => void;
 }
 
 // ===== MAIN FEATURE GRID COMPONENT =====
@@ -39,8 +37,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
   id = "features",
   className,
   features,
-  spacing = 'lg',
-  onFeatureClick
+  spacing = 'lg'
 }) => {
   // Ensure we have exactly 4 features for the asymmetric layout
   const displayFeatures = features.slice(0, 4);
@@ -70,13 +67,11 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             variant="default"
             radius="lg"
             padding="lg"
-            interactive={true}
+            interactive={false}
             className={`feature-card feature-card--${index}`}
             style={{
               background: 'var(--surface-primary)',
               boxShadow: 'var(--shadow-md)',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              cursor: 'pointer',
               // Diagonal asymmetric layout: top-left (0) and bottom-right (3) are large
               ...(index === 0 && {
                 gridColumn: '1',
@@ -99,11 +94,6 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                 minHeight: '360px'
               })
             }}
-            onCardClick={() => {
-              if (onFeatureClick) {
-                onFeatureClick(feature);
-              }
-            }}
           >
             <Stack spacing={index === 0 || index === 3 ? 'lg' : 'md'} align="start">
               {/* Icon */}
@@ -121,15 +111,13 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                   padding: (index === 0 || index === 3) ? '12px' : '8px'
                 }}
               >
-                <img
-                  src={feature.icon}
-                  alt={`${feature.title} icon`}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain'
-                  }}
-                />
+                <div style={{
+                  width: (index === 0 || index === 3) ? '32px' : '24px',
+                  height: (index === 0 || index === 3) ? '32px' : '24px',
+                  color: 'var(--text-primary)'
+                }}>
+                  {feature.icon}
+                </div>
               </div>
               
               {/* Title */}
@@ -169,28 +157,30 @@ FeatureGrid.displayName = 'FeatureGrid';
 
 // ===== USAGE EXAMPLE =====
 /*
+import { ZapIcon, UserCheckIcon, ShieldIcon, ClockIcon } from 'lucide-react';
+
 const exampleFeatures: FeatureItem[] = [
   {
     id: 'expertise',
-    icon: '/images/icons/expertise.png',
+    icon: <ZapIcon />,
     title: 'Expertis inom skadeståndsrätt',
     description: 'Vår djupa kunskap inom skadeståndsrätt säkerställer att du får den ersättning du förtjänar.'
   },
   {
     id: 'support',
-    icon: '/images/icons/support.png',
+    icon: <ClockIcon />,
     title: '24/7 Support',
     description: 'Vi finns här för dig när du behöver oss som mest.'
   },
   {
     id: 'success',
-    icon: '/images/icons/success.png',
+    icon: <ShieldIcon />,
     title: 'Hög framgångsgrad',
     description: 'Över 95% av våra klienter får ersättning.'
   },
   {
     id: 'free',
-    icon: '/images/icons/free.png',
+    icon: <UserCheckIcon />,
     title: 'Ingen kostnad',
     description: 'Du betalar ingenting förrän vi vinner ditt ärende.'
   }
@@ -199,9 +189,5 @@ const exampleFeatures: FeatureItem[] = [
 <FeatureGrid 
   features={exampleFeatures}
   spacing="lg"
-  onFeatureClick={(feature) => {
-    console.log('Feature clicked:', feature.title);
-    // Navigate to feature details or trigger modal
-  }}
 />
 */
