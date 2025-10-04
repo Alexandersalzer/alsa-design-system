@@ -8,20 +8,20 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, auto);
-  gap: var(--foundation-space-lg); /* Default spacing */
+  gap: 24px; /* Use fixed value that works */
 }
 
 /* Dynamic spacing based on data attribute */
 .feature-grid[data-spacing="sm"] {
-  gap: var(--foundation-space-sm);
+  gap: 16px;
 }
 
 .feature-grid[data-spacing="md"] {
-  gap: var(--foundation-space-md);
+  gap: 20px;
 }
 
 .feature-grid[data-spacing="lg"] {
-  gap: var(--foundation-space-lg);
+  gap: 24px;
 }
 
 .feature-card {
@@ -41,7 +41,7 @@
 /* Responsive design for tablets */
 @media (max-width: 1024px) {
   .feature-grid {
-    gap: var(--foundation-space-md) !important;
+    gap: 20px !important;
   }
   
   .feature-card--0 {
@@ -66,7 +66,7 @@
   .feature-grid {
     grid-template-columns: 1fr !important;
     grid-template-rows: repeat(4, auto) !important;
-    gap: var(--foundation-space-md) !important;
+    gap: 20px !important;
   }
   
   .feature-card {
@@ -84,7 +84,7 @@
 /* Small mobile adjustments */
 @media (max-width: 480px) {
   .feature-grid {
-    gap: var(--foundation-space-sm) !important;
+    gap: 16px !important;
   }
   
   .feature-card {
