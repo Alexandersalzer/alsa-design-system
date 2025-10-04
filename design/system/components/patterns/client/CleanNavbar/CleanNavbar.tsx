@@ -206,7 +206,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   variant="h3" 
                   weight="bold" 
                   color="inverse"
-                  style={{ color: 'var(--primary-white)', fontSize: '1.5rem' }}
+                  style={{ color: 'var(--text-primary)', fontSize: '1.5rem' }}
                 >
                   {brand.name || 'Företag'}
                 </Typography>
