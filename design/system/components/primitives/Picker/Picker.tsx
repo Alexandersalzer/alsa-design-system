@@ -121,20 +121,27 @@ const useScrollLock = (isLocked: boolean, disabled: boolean = false) => {
 const calculateDropdownPosition = (
   triggerElement: HTMLElement,
   dropdownHeight: number,
+  dropdownWidth: number = 300,
   offset: number = 8
 ) => {
   const triggerRect = triggerElement.getBoundingClientRect();
   const viewportHeight = window.innerHeight;
-  const scrollY = window.scrollY;
+  const viewportWidth = window.innerWidth;
   
   const spaceAbove = triggerRect.top;
   const spaceBelow = viewportHeight - triggerRect.bottom;
   
-  // Determine if dropdown should open upward or downward
+  // Vertical positioning
   const shouldOpenUpward = spaceBelow < dropdownHeight && spaceAbove > spaceBelow;
+  
+  // Horizontal positioning
+  const spaceRight = viewportWidth - triggerRect.left;
+  const spaceLeft = triggerRect.right;
+  const shouldAlignRight = spaceRight < dropdownWidth && spaceLeft > spaceRight;
   
   return {
     shouldOpenUpward,
+    shouldAlignRight,
     spaceAbove,
     spaceBelow,
     maxHeight: shouldOpenUpward 
@@ -176,8 +183,13 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [dropdownPosition, setDropdownPosition] = useState<{
     shouldOpenUpward: boolean;
+    shouldAlignRight: boolean;
     maxHeight: number;
-  }>({ shouldOpenUpward: false, maxHeight: maxHeight });
+  }>({ 
+    shouldOpenUpward: false, 
+    shouldAlignRight: false,
+    maxHeight: maxHeight 
+  });
   
   const containerRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -206,7 +218,8 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
   // Calculate dropdown position when opening
   const updateDropdownPosition = () => {
     if (triggerRef.current) {
-      const position = calculateDropdownPosition(triggerRef.current, maxHeight);
+      const dropdownWidth = dropdownRef.current?.offsetWidth || 300;
+      const position = calculateDropdownPosition(triggerRef.current, maxHeight, dropdownWidth);
       setDropdownPosition(position);
     }
   };
@@ -470,6 +483,10 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
                 top: 'auto',
                 marginBottom: 'var(--foundation-space-1)',
                 marginTop: '0'
+              }),
+              ...(dropdownPosition.shouldAlignRight && {
+                left: 'auto',
+                right: 0
               })
             }}
             data-multiple={multiple ? "true" : "false"}
