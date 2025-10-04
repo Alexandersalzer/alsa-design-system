@@ -106,9 +106,11 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                 {/* Innehållskort */}
                 <div
                   style={{
-                    background: 'var(--surface-primary)',
-                    boxShadow: 'var(--shadow-lg)',
-                    borderRadius: 'var(--radius-md)',
+                    background: 'rgba(255, 255, 255, 0.95)', // Semi-transparent vit bakgrund
+                    backdropFilter: 'blur(10px)', // Blur-effekt för glassmorphism
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)', // Mjukare skugga
+                    border: '1px solid rgba(255, 255, 255, 0.2)', // Subtle border
+                    borderRadius: 'var(--radius-lg)', // Större radius för modernare look
                     padding: 'var(--foundation-space-6)', // Mer padding
                     width: '100%',
                     minHeight: '160px', // Större innehållskort
