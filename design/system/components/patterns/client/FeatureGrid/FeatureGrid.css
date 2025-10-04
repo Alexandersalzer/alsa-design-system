@@ -45,19 +45,19 @@
   }
   
   .feature-card--0 {
-    min-height: 280px !important;
+    min-height: 320px !important;
   }
   
   .feature-card--1 {
-    min-height: 130px !important;
+    min-height: 160px !important;
   }
   
   .feature-card--2 {
-    min-height: 130px !important;
+    min-height: 160px !important;
   }
   
   .feature-card--3 {
-    min-height: 280px !important;
+    min-height: 320px !important;
   }
 }
 
@@ -72,7 +72,7 @@
   .feature-card {
     grid-column: 1 !important;
     grid-row: auto !important;
-    min-height: 200px !important;
+    min-height: 220px !important;
   }
   
   .feature-icon {
@@ -88,7 +88,7 @@
   }
   
   .feature-card {
-    min-height: 180px !important;
+    min-height: 200px !important;
   }
   
   .feature-icon {

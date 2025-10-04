@@ -60,7 +60,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
         margin: '0 auto',
         padding: '0 var(--foundation-space-6)'
       }}>
-        <div style={{ maxWidth: 'var(--size-page-content-max-width)', width: '100%' }}>
+        <div style={{ maxWidth: 'var(--size-page-max-width)', width: '100%' }}>
           <div 
             className="feature-grid"
             data-spacing={spacing}
@@ -82,22 +82,22 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               ...(index === 0 && {
                 gridColumn: '1',
                 gridRow: '1 / span 2',
-                minHeight: '320px'
+                minHeight: '360px'
               }),
               ...(index === 1 && {
                 gridColumn: '2',
                 gridRow: '1',
-                minHeight: '150px'
+                minHeight: '170px'
               }),
               ...(index === 2 && {
                 gridColumn: '1',
                 gridRow: '3',
-                minHeight: '150px'
+                minHeight: '170px'
               }),
               ...(index === 3 && {
                 gridColumn: '2',
                 gridRow: '2 / span 2',
-                minHeight: '320px'
+                minHeight: '360px'
               })
             }}
             onCardClick={() => {
