@@ -111,7 +111,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   padding="md" // Mindre padding
                   interactive={false}
                   style={{
-                    background: 'var(--surface-primary)', // Vanlig vit bakgrund
+                    background: '#ffffff !important', // Direkt vit färg istället för variabel
                     boxShadow: 'var(--shadow-lg)',
                     width: '100%',
                     minHeight: '120px', // Ännu mindre höjd
@@ -119,7 +119,8 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                     flexDirection: 'column',
                     gap: 'var(--foundation-space-3)', // Mindre gap mellan element
                     position: 'relative',
-                    zIndex: 2
+                    zIndex: 2,
+                    opacity: '1 !important' // Säkerställ att den inte är transparent
                   }}
                 >
                   <H3 
