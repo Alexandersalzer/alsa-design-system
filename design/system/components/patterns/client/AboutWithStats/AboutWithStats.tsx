@@ -137,7 +137,7 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
                     fontSize: 'clamp(3rem, 5vw, 4rem)',
                     lineHeight: 'var(--foundation-typography-line-height-tight)',
                     marginBottom: 'var(--foundation-space-3)',
-                    color: 'var(--primary-white)',
+                    color: 'var(--text-primary)',
                     background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
@@ -152,7 +152,7 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
                   color="inverse"
                   style={{
                     marginBottom: 'var(--foundation-space-2)',
-                    color: 'var(--primary-white)',
+                    color: 'var(--text-primary)',
                     fontSize: 'clamp(1.1rem, 2vw, 1.25rem)'
                   }}
                 >
@@ -163,7 +163,7 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
                   color="inverse"
                   style={{
                     lineHeight: 'var(--foundation-typography-line-height-normal)',
-                    color: 'var(--primary-white)',
+                    color: 'var(--text-primary)',
                     opacity: 0.8,
                     fontSize: '0.9rem'
                   }}
