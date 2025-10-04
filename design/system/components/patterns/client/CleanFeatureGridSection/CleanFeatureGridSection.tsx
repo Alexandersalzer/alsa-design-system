@@ -47,14 +47,14 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
             }
           }
           
-          .feature-grid {
+          .clean-feature-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: var(--foundation-space-8);
           }
           
           @media (min-width: 768px) {
-            .feature-grid {
+            .clean-feature-grid {
               grid-template-columns: repeat(3, 1fr);
             }
           }
@@ -141,7 +141,7 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
               </div>
             )}
             
-            <div className="feature-grid">
+            <div className="clean-feature-grid">
               {features.map((feature, index) => (
                 <article 
                   key={index}
