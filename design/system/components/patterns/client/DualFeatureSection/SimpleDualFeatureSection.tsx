@@ -10,7 +10,7 @@ export interface SimpleDualFeatureCard {
   title: string;
   description: string;
   buttonText: string;
-  imageUrl?: string; // Lägg till stöd för bilder
+  imageUrl?: string; // Bakgrundsbild för det stora kortet
   imageAlt?: string;
   onButtonClick?: () => void;
 }
@@ -73,28 +73,23 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
             width: '100%'
           }}>
             {cards.map((card) => (
-              <Card
+              <div
                 key={card.id}
-                variant="default"
-                radius="lg"
-                padding="lg"
-                interactive={false}
                 style={{
-                  background: card.imageUrl ? `url(${card.imageUrl})` : 'var(--surface-primary)',
+                  position: 'relative',
+                  minHeight: '400px',
+                  borderRadius: 'var(--radius-lg)',
+                  overflow: 'hidden',
+                  background: card.imageUrl ? `url(${card.imageUrl})` : 'var(--surface-secondary)',
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
-                  boxShadow: 'var(--shadow-md)',
-                  minHeight: '400px', // Gör korten högre och mer rektangulära
                   display: 'flex',
-                  flexDirection: 'column',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  padding: 0 // Override Card padding
+                  alignItems: 'flex-end',
+                  padding: 'var(--foundation-space-6)'
                 }}
               >
-                {/* Overlay för bättre textläsbarhet när det finns en bakgrundsbild */}
+                {/* Overlay för bättre kontrast */}
                 {card.imageUrl && (
                   <div style={{
                     position: 'absolute',
@@ -102,58 +97,53 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    background: 'linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%)',
+                    background: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%)',
                     zIndex: 1
                   }} />
                 )}
-                
-                {/* Innehåll */}
-                <div style={{
-                  position: 'relative',
-                  zIndex: 2,
-                  padding: 'var(--foundation-space-8)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 'var(--foundation-space-4)',
-                  height: '100%',
-                  justifyContent: 'space-between'
-                }}>
-                  <div>
-                    <H3 
-                      color={card.imageUrl ? "inverse" : "primary"}
-                      weight="semibold"
-                      style={{ margin: 0, marginBottom: 'var(--foundation-space-4)' }}
-                    >
-                      {card.title}
-                    </H3>
-                    
-                    <Body 
-                      size="md"
-                      color={card.imageUrl ? "inverse" : "secondary"}
-                      style={{ margin: 0 }}
-                    >
-                      {card.description}
-                    </Body>
-                  </div>
+
+                {/* Innehållskort */}
+                <Card
+                  variant="default"
+                  radius="md"
+                  padding="lg"
+                  interactive={false}
+                  style={{
+                    background: 'var(--surface-primary)',
+                    boxShadow: 'var(--shadow-lg)',
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 'var(--foundation-space-4)',
+                    position: 'relative',
+                    zIndex: 2
+                  }}
+                >
+                  <H3 
+                    color="primary"
+                    weight="semibold"
+                    style={{ margin: 0 }}
+                  >
+                    {card.title}
+                  </H3>
+                  
+                  <Body 
+                    size="md"
+                    color="secondary"
+                    style={{ margin: 0, flex: 1 }}
+                  >
+                    {card.description}
+                  </Body>
 
                   <Button
-                    variant={card.imageUrl ? "secondary" : "primary"}
+                    variant="primary"
                     size="md"
                     onClick={card.onButtonClick}
-                    style={{ 
-                      alignSelf: 'flex-start', 
-                      marginTop: 'var(--foundation-space-4)',
-                      ...(card.imageUrl && {
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                        color: 'var(--text-primary)',
-                        border: '1px solid rgba(255, 255, 255, 0.2)'
-                      })
-                    }}
                   >
                     {card.buttonText}
                   </Button>
-                </div>
-              </Card>
+                </Card>
+              </div>
             ))}
           </div>
         </div>
