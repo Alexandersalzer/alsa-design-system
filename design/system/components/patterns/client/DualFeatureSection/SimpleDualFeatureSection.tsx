@@ -38,11 +38,11 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
     <Section 
       id={id}
       className={className}
-      style={{
-        backgroundColor: 'transparent',
-        paddingTop: 'var(--foundation-space-32)', // Ökad padding för att matcha Om oss
-        paddingBottom: 'var(--foundation-space-24)' // Ökad padding för att matcha Om oss
-      }}
+            style={{
+              backgroundColor: 'transparent',
+              paddingTop: 'var(--foundation-space-24)', // Samma padding som Om oss
+              paddingBottom: 'var(--foundation-space-16)' // Samma padding som Om oss
+            }}
       {...props}
     >
       <div style={{ 

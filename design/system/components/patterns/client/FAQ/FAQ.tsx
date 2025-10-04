@@ -60,8 +60,8 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
       as="section"
       height="auto"
       style={{
-        paddingTop: 'var(--foundation-space-32)', // Ökad padding för att matcha Om oss
-        paddingBottom: 'var(--foundation-space-24)', // Ökad padding för att matcha Om oss
+        paddingTop: 'var(--foundation-space-24)', // Samma padding som Om oss
+        paddingBottom: 'var(--foundation-space-16)', // Samma padding som Om oss
         minHeight: '800px' // Lägg till minsta höjd för hela sektionen
       }}
     >
