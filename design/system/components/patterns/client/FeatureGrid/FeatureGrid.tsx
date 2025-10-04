@@ -60,11 +60,10 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
         margin: '0 auto',
         padding: '0 var(--foundation-space-6)'
       }}>
-        <div style={{ maxWidth: 'var(--size-page-max-width)', width: '100%' }}>
-          <div 
-            className="feature-grid"
-            data-spacing={spacing}
-          >
+        <div 
+          className="feature-grid"
+          data-spacing={spacing}
+        >
         {displayFeatures.map((feature, index) => (
           <Card
             key={feature.id}
@@ -162,8 +161,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
           ))}
         </div>
       </div>
-    </div>
-  </Section>
+    </Section>
   );
 };
 
