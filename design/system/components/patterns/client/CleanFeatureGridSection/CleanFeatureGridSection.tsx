@@ -103,7 +103,7 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
         style={{
           paddingTop: 'var(--foundation-space-24)',
           paddingBottom: 'var(--foundation-space-24)',
-          background: 'var(--surface-subtle)'
+          backgroundColor: 'transparent'
         }}
       >
         <Container maxWidth="lg">
