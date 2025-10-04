@@ -50,39 +50,39 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
           .feature-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: var(--foundation-space-12);
+            gap: var(--foundation-space-8);
           }
           
           @media (min-width: 768px) {
             .feature-grid {
-              grid-template-columns: repeat(2, 1fr);
+              grid-template-columns: repeat(3, 1fr);
             }
           }
           
           .feature-item {
             background: var(--surface-primary);
             border-radius: var(--radius-lg);
-            padding: var(--foundation-space-6);
+            padding: var(--foundation-space-4);
             animation: fadeInUp 0.6s ease-out;
             border: 1px solid var(--border-subtle);
           }
           
           .feature-icon {
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: var(--foundation-space-4);
+            margin-bottom: var(--foundation-space-3);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
           }
           
           .feature-icon svg {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             color: var(--text-primary);
             opacity: 0.9;
           }
@@ -160,7 +160,7 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
                       weight="bold"
                       style={{ 
                         color: 'var(--text-primary)',
-                        fontSize: feature.cta ? '1.75rem' : '1.25rem'
+                        fontSize: feature.cta ? '1.5rem' : '1.1rem'
                       }}
                     >
                       {feature.title}
