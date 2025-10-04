@@ -70,14 +70,16 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
             display: 'grid',
             gridTemplateColumns: 'repeat(2, 1fr)',
             gap: 'var(--foundation-space-8)',
-            width: '100%'
+            width: '100%',
+            maxWidth: '800px', // Gör korten smalare
+            margin: '0 auto'
           }}>
             {cards.map((card) => (
               <div
                 key={card.id}
                 style={{
                   position: 'relative',
-                  height: '450px', // Exakt höjd istället för minHeight
+                  height: '500px', // Gör korten högre
                   borderRadius: 'var(--radius-lg)',
                   overflow: 'hidden',
                   background: card.imageUrl ? `url(${card.imageUrl})` : 'var(--surface-secondary)',
@@ -109,10 +111,10 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   padding="lg"
                   interactive={false}
                   style={{
-                    background: 'var(--surface-primary)',
+                    background: 'var(--surface-primary)', // Endast vit bakgrund, ingen bild
                     boxShadow: 'var(--shadow-lg)',
                     width: '100%',
-                    minHeight: '160px', // Minimum höjd för innehållskortet
+                    minHeight: '180px', // Lite högre innehållskort
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 'var(--foundation-space-4)',
