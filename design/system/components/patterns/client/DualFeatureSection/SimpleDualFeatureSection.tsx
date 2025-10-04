@@ -10,6 +10,8 @@ export interface SimpleDualFeatureCard {
   title: string;
   description: string;
   buttonText: string;
+  imageUrl?: string; // Lägg till stöd för bilder
+  imageAlt?: string;
   onButtonClick?: () => void;
 }
 
@@ -78,38 +80,79 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                 padding="lg"
                 interactive={false}
                 style={{
-                  background: 'var(--surface-primary)',
+                  background: card.imageUrl ? `url(${card.imageUrl})` : 'var(--surface-primary)',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
                   boxShadow: 'var(--shadow-md)',
-                  minHeight: '300px',
+                  minHeight: '400px', // Gör korten högre och mer rektangulära
+                  display: 'flex',
+                  flexDirection: 'column',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  padding: 0 // Override Card padding
+                }}
+              >
+                {/* Overlay för bättre textläsbarhet när det finns en bakgrundsbild */}
+                {card.imageUrl && (
+                  <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%)',
+                    zIndex: 1
+                  }} />
+                )}
+                
+                {/* Innehåll */}
+                <div style={{
+                  position: 'relative',
+                  zIndex: 2,
+                  padding: 'var(--foundation-space-8)',
                   display: 'flex',
                   flexDirection: 'column',
                   gap: 'var(--foundation-space-4)',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                }}
-              >
-                <H3 
-                  color="primary"
-                  weight="semibold"
-                  style={{ margin: 0 }}
-                >
-                  {card.title}
-                </H3>
-                
-                <Body 
-                  size="md"
-                  color="secondary"
-                  style={{ margin: 0, flex: 1 }}
-                >
-                  {card.description}
-                </Body>
+                  height: '100%',
+                  justifyContent: 'space-between'
+                }}>
+                  <div>
+                    <H3 
+                      color={card.imageUrl ? "inverse" : "primary"}
+                      weight="semibold"
+                      style={{ margin: 0, marginBottom: 'var(--foundation-space-4)' }}
+                    >
+                      {card.title}
+                    </H3>
+                    
+                    <Body 
+                      size="md"
+                      color={card.imageUrl ? "inverse" : "secondary"}
+                      style={{ margin: 0 }}
+                    >
+                      {card.description}
+                    </Body>
+                  </div>
 
-                <Button
-                  variant="primary"
-                  size="md"
-                  onClick={card.onButtonClick}
-                >
-                  {card.buttonText}
-                </Button>
+                  <Button
+                    variant={card.imageUrl ? "secondary" : "primary"}
+                    size="md"
+                    onClick={card.onButtonClick}
+                    style={{ 
+                      alignSelf: 'flex-start', 
+                      marginTop: 'var(--foundation-space-4)',
+                      ...(card.imageUrl && {
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        color: 'var(--text-primary)',
+                        border: '1px solid rgba(255, 255, 255, 0.2)'
+                      })
+                    }}
+                  >
+                    {card.buttonText}
+                  </Button>
+                </div>
               </Card>
             ))}
           </div>
