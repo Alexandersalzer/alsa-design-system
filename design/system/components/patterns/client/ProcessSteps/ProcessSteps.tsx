@@ -59,7 +59,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
               style={{
                 fontSize: 'clamp(2.25rem, 4vw, 3rem)',
                 lineHeight: 'var(--foundation-typography-line-height-tight)',
-                color: 'var(--primary-white)',
+                color: 'var(--text-primary)',
                 marginBottom: 'var(--foundation-space-4)'
               }}
             >
@@ -87,7 +87,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
               variant="body-xl" 
               color="inverse"
               style={{
-                color: 'var(--primary-white)',
+                color: 'var(--text-primary)',
                 opacity: 0.9
               }}
             >
@@ -155,14 +155,14 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                     <Typography 
                       variant="h3" 
                       weight="bold"
-                      style={{ color: 'var(--primary-white)' }}
+                      style={{ color: 'var(--text-primary)' }}
                     >
                       {steps[activeStep]?.title}
                     </Typography>
                     <Typography 
                       variant="body-lg"
                       style={{ 
-                        color: 'var(--primary-white)', 
+                        color: 'var(--text-primary)', 
                         opacity: 0.9,
                         maxWidth: 'var(--size-page-content-max-width)',
                         lineHeight: 'var(--foundation-typography-line-height-relaxed)'
@@ -197,7 +197,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                   border: '1px solid rgba(255, 255, 255, 0.1)',
                   color: activeStep === 0 
                     ? 'rgba(255, 255, 255, 0.3)' 
-                    : 'var(--primary-white)',
+                    : 'var(--text-primary)',
                   cursor: activeStep === 0 ? 'not-allowed' : 'pointer',
                   transition: 'all 0.3s ease',
                   display: 'flex',
