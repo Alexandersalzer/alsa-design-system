@@ -15,7 +15,7 @@ import './FeatureGrid.css';
 
 export interface FeatureItem {
   id: string;
-  icon: React.ReactNode; // React icon component
+  icon?: React.ReactNode; // Optional React icon component
   title: string;
   description: string;
 }
@@ -96,29 +96,31 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             }}
           >
             <Stack spacing={index === 0 || index === 3 ? 'lg' : 'md'} align="start">
-              {/* Icon */}
-              <div 
-                className="feature-icon"
-                style={{
-                  width: (index === 0 || index === 3) ? '72px' : '56px',
-                  height: (index === 0 || index === 3) ? '72px' : '56px',
-                  flexShrink: 0,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 'var(--radius-md)',
-                  background: 'var(--surface-secondary)',
-                  padding: (index === 0 || index === 3) ? '12px' : '8px'
-                }}
-              >
-                <div style={{
-                  width: (index === 0 || index === 3) ? '32px' : '24px',
-                  height: (index === 0 || index === 3) ? '32px' : '24px',
-                  color: 'var(--text-primary)'
-                }}>
-                  {feature.icon}
+              {/* Icon - Only show if icon is provided */}
+              {feature.icon && (
+                <div 
+                  className="feature-icon"
+                  style={{
+                    width: (index === 0 || index === 3) ? '72px' : '56px',
+                    height: (index === 0 || index === 3) ? '72px' : '56px',
+                    flexShrink: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 'var(--radius-md)',
+                    background: 'var(--surface-secondary)',
+                    padding: (index === 0 || index === 3) ? '12px' : '8px'
+                  }}
+                >
+                  <div style={{
+                    width: (index === 0 || index === 3) ? '32px' : '24px',
+                    height: (index === 0 || index === 3) ? '32px' : '24px',
+                    color: 'var(--text-primary)'
+                  }}>
+                    {feature.icon}
+                  </div>
                 </div>
-              </div>
+              )}
               
               {/* Title */}
               <H4 
