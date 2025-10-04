@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { H2, H3, Body } from '../../../../../system/components/primitives/Typography';
 import { Section } from '../../../../../system/layout/frames/section';
+import { Card } from '../../../../../system/components/primitives/Card';
 
 // ===== TYPES =====
 export interface SimpleDualFeatureCard {
@@ -70,17 +71,20 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
             width: '100%'
           }}>
             {cards.map((card) => (
-              <div
+              <Card
                 key={card.id}
+                variant="default"
+                radius="lg"
+                padding="lg"
+                interactive={false}
                 style={{
                   background: 'var(--surface-primary)',
-                  borderRadius: 'var(--radius-lg)',
-                  padding: 'var(--foundation-space-8)',
                   boxShadow: 'var(--shadow-md)',
                   minHeight: '300px',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 'var(--foundation-space-4)'
+                  gap: 'var(--foundation-space-4)',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
                 }}
               >
                 <H3 
@@ -106,7 +110,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                 >
                   {card.buttonText}
                 </Button>
-              </div>
+              </Card>
             ))}
           </div>
         </div>
