@@ -6,10 +6,12 @@ import { Button } from '../../../../../system/components/primitives/Button';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { ZapIcon, UsersIcon, ShieldCheckIcon } from 'lucide-react';
 
 interface FeatureItem {
   title: string;
   description: string;
+  icon?: React.ReactNode;
   cta?: {
     label: string;
     href: string;
@@ -67,25 +69,29 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
             background: var(--surface-primary);
             border-radius: var(--radius-lg);
             padding: var(--foundation-space-6);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             animation: fadeInUp 0.6s ease-out;
             border: 1px solid var(--border-subtle);
+            margin-bottom: var(--foundation-space-4);
           }
           
-          .feature-item:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--border-primary);
+          .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--foundation-space-4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
           }
           
-          .feature-item--cta {
-            background: var(--surface-accent);
-            border-color: var(--accent-500);
-          }
-          
-          .feature-item--cta:hover {
-            border-color: var(--accent-600);
-            box-shadow: 0 8px 32px rgba(var(--accent-500-rgb), 0.2);
+          .feature-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--text-primary);
+            opacity: 0.9;
           }
           
           @media (min-width: 1024px) {
@@ -101,8 +107,8 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
         as="section"
         height="auto"
         style={{
-          paddingTop: 'var(--foundation-space-24)',
-          paddingBottom: 'var(--foundation-space-24)',
+          paddingTop: 'var(--foundation-space-32)',
+          paddingBottom: 'var(--foundation-space-32)',
           backgroundColor: 'transparent'
         }}
       >
@@ -146,6 +152,12 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <Stack spacing="md">
+                    {feature.icon && (
+                      <div className="feature-icon">
+                        {feature.icon}
+                      </div>
+                    )}
+                    
                     <Typography 
                       variant={feature.cta ? "h2" : "h3"}
                       weight="bold"
