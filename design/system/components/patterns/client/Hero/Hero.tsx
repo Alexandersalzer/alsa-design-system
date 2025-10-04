@@ -161,7 +161,6 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
                 fontSize: 'clamp(2.5rem, 5vw, 4rem)',
                 lineHeight: 'var(--foundation-typography-line-height-tight)',
                 textAlign: 'left',
-                color: 'var(--primary-white)',
                 textShadow: '0 4px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2)',
                 filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.1))'
               }}
@@ -174,7 +173,6 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               weight="semibold"
               style={{
                 textAlign: 'left',
-                color: 'var(--primary-white)',
                 opacity: 0.9,
                 textShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
                 filter: 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.05))'

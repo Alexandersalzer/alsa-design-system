@@ -129,9 +129,6 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
           }
-          .nav-link * {
-            color: var(--primary-white) !important;
-          }
           .nav-link:hover {
             color: #64748b !important;
             text-decoration: underline;
