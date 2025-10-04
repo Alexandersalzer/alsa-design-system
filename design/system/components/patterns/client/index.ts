@@ -21,4 +21,3 @@ export * from './AboutUs';
 export * from './SuccessfulCases';
 export * from './CTA';
 export * from './DoubleContactForm';
-export * from './ScrollStack';
