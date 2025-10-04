@@ -1,7 +1,7 @@
 /* ===============================================
-// src/design-system/components/primitives/Table/index.ts
-// Table COMPONENT styles
-/* ===============================================
+   src/design-system/components/primitives/Table/styles.css
+   Table COMPONENT STYLES - USING DESIGN TOKENS
+   =============================================== */
 
 /* Table Container */
 .table-container {
@@ -12,34 +12,34 @@
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
-  border-radius: 8px;
+  border-radius: var(--radius-table);
 }
 
 /* Base Table Styles */
 .table {
   width: 100%;
   border-collapse: collapse;
-  background-color: var(--color-surface, #ffffff);
+  background-color: var(--surface-table);
   font-size: 14px;
   line-height: 1.5;
 }
 
 /* Table Header */
 .table-header {
-  background-color: var(--color-surface-secondary, #f9fafb);
-  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  background-color: var(--surface-table-header);
+  border-bottom: 1px solid var(--border-table-header);
 }
 
 .table-header-row {
-  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  border-bottom: 1px solid var(--border-table-header);
 }
 
 .table-header-cell {
-  padding: 12px 16px;
+  padding: var(--padding-table-header-md);
   text-align: left;
   font-weight: 600;
   font-size: 13px;
-  color: var(--color-text-secondary, #6b7280);
+  color: var(--text-table-header);
   white-space: nowrap;
   letter-spacing: 0.01em;
 }
@@ -58,7 +58,8 @@
 
 /* Table Body */
 .table-body-row {
-  border-bottom: 1px solid var(--color-border-subtle, #f3f4f6);
+  background-color: var(--surface-table-row);
+  border-bottom: 1px solid var(--border-table-row);
   transition: background-color 0.15s ease;
 }
 
@@ -67,8 +68,8 @@
 }
 
 .table-body-cell {
-  padding: 14px 16px;
-  color: var(--color-text-primary, #111827);
+  padding: var(--padding-table-cell-md);
+  color: var(--text-table-cell);
   vertical-align: middle;
 }
 
@@ -90,17 +91,17 @@
 }
 
 .table--hoverable .table-body-row:hover {
-  background-color: var(--color-surface-hover, #f9fafb);
+  background-color: var(--surface-table-row-hover);
 }
 
 /* Table Variants */
 .table--bordered {
-  border: 1px solid var(--color-border, #e5e7eb);
+  border: 1px solid var(--border-table);
 }
 
 .table--bordered .table-header-cell,
 .table--bordered .table-body-cell {
-  border-right: 1px solid var(--color-border-subtle, #f3f4f6);
+  border-right: 1px solid var(--border-table-cell);
 }
 
 .table--bordered .table-header-cell:last-child,
@@ -109,41 +110,41 @@
 }
 
 .table--striped .table-body-row:nth-child(even) {
-  background-color: var(--color-surface-secondary, #f9fafb);
+  background-color: var(--surface-table-row-striped);
 }
 
 .table--striped.table--hoverable .table-body-row:nth-child(even):hover {
-  background-color: var(--color-surface-hover, #f3f4f6);
+  background-color: var(--surface-table-row-hover);
 }
 
 /* Table Sizes */
 .table--sm .table-header-cell {
-  padding: 8px 12px;
+  padding: var(--padding-table-header-sm);
   font-size: 12px;
 }
 
 .table--sm .table-body-cell {
-  padding: 10px 12px;
+  padding: var(--padding-table-cell-sm);
   font-size: 13px;
 }
 
 .table--md .table-header-cell {
-  padding: 12px 16px;
+  padding: var(--padding-table-header-md);
   font-size: 13px;
 }
 
 .table--md .table-body-cell {
-  padding: 14px 16px;
+  padding: var(--padding-table-cell-md);
   font-size: 14px;
 }
 
 .table--lg .table-header-cell {
-  padding: 16px 20px;
+  padding: var(--padding-table-header-lg);
   font-size: 14px;
 }
 
 .table--lg .table-body-cell {
-  padding: 18px 20px;
+  padding: var(--padding-table-cell-lg);
   font-size: 15px;
 }
 
@@ -154,9 +155,10 @@
   justify-content: center;
   min-height: 240px;
   padding: 48px 24px;
-  background-color: var(--color-surface, #ffffff);
-  border: 1px solid var(--color-border, #e5e7eb);
-  border-radius: 8px;
+  background-color: var(--surface-table);
+  border: 1px solid var(--border-table);
+  border-radius: var(--radius-table);
+  box-shadow: var(--shadow-table-empty);
 }
 
 .table-empty-content {
@@ -165,7 +167,7 @@
 
 .table-empty-text {
   margin: 0;
-  color: var(--color-text-secondary, #6b7280);
+  color: var(--text-table-empty);
   font-size: 14px;
 }
 
@@ -173,9 +175,10 @@
 .table-loading {
   min-height: 240px;
   padding: 16px;
-  background-color: var(--color-surface, #ffffff);
-  border: 1px solid var(--color-border, #e5e7eb);
-  border-radius: 8px;
+  background-color: var(--surface-table);
+  border: 1px solid var(--border-table);
+  border-radius: var(--radius-table);
+  box-shadow: var(--shadow-table-loading);
 }
 
 .table-loading-skeleton {
@@ -194,9 +197,9 @@
   height: 40px;
   background: linear-gradient(
     90deg,
-    var(--color-surface-secondary, #f3f4f6) 0%,
-    var(--color-surface-hover, #e5e7eb) 50%,
-    var(--color-surface-secondary, #f3f4f6) 100%
+    var(--surface-table-loading-base) 0%,
+    var(--surface-table-loading-shimmer) 50%,
+    var(--surface-table-loading-base) 100%
   );
   background-size: 200% 100%;
   animation: loading-shimmer 1.5s infinite;

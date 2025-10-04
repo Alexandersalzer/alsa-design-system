@@ -1,21 +1,46 @@
 /* ==============================================
    src/design-system/tokens/component/table.css
-   TABLE COMPONENT TOKENS
-============================================== */
+   TABLE COMPONENT TOKENS - COMPLETE IMPLEMENTATION
+   ============================================== */
 
 :root {
-  /* ===== TABLE SURFACES - USING SHORTCUTS ===== */
-  --surface-table: var(--surface-base);                    /* FIXED: was --primary-white */
-  --surface-table-header: var(--surface-subtle);           /* FIXED: was --secondary-50 */
-  --surface-table-row-hover: var(--surface-subtle);        /* FIXED: was --secondary-25 */
-  --surface-table-row-selected: var(--accent-subtle);      /* FIXED: was --accent-50, using shortcut */
+  /* ===== TABLE SURFACE TOKENS ===== */
+  --surface-table: var(--surface-page);
+  --surface-table-header: var(--secondary-50);
+  --surface-table-row: var(--surface-page);
+  --surface-table-row-hover: var(--secondary-100);
+  --surface-table-row-selected: var(--accent-100);
+  --surface-table-row-striped: var(--secondary-50);
   
-  /* ===== TABLE BORDERS - USING SHORTCUTS ===== */
-  --border-table: var(--border-light);                     /* FIXED: was --secondary-100 */
-  --border-table-row: var(--border-light);                 /* FIXED: was --secondary-100 */
+  /* ===== TABLE BORDER TOKENS ===== */
+  --border-table: var(--border-default);
+  --border-table-subtle: var(--border-subtle);
+  --border-table-header: var(--border-default);
+  --border-table-row: var(--border-subtle);
+  --border-table-cell: var(--border-subtle);
   
-  /* ===== TABLE TEXT COLORS - USING SHORTCUTS ===== */
-  --text-table-header: var(--text-strong);                 /* FIXED: was --primary-1000 */
-  --text-table-cell: var(--text-medium);                   /* FIXED: was --secondary-700 */
-  --text-table-cell-secondary: var(--text-light);          /* FIXED: was --secondary-500 */
+  /* ===== TABLE TEXT TOKENS ===== */
+  --text-table-header: var(--text-secondary);
+  --text-table-cell: var(--text-primary);
+  --text-table-cell-secondary: var(--text-secondary);
+  --text-table-empty: var(--text-secondary);
+  
+  /* ===== TABLE LOADING TOKENS ===== */
+  --surface-table-loading-base: var(--secondary-100);
+  --surface-table-loading-shimmer: var(--secondary-200);
+  
+  /* ===== TABLE SPACING TOKENS ===== */
+  --padding-table-cell-sm: 8px 12px;
+  --padding-table-cell-md: 12px 16px;
+  --padding-table-cell-lg: 16px 20px;
+  --padding-table-header-sm: 8px 12px;
+  --padding-table-header-md: 12px 16px;
+  --padding-table-header-lg: 16px 20px;
+  
+  /* ===== TABLE RADIUS TOKENS ===== */
+  --radius-table: var(--foundation-radius-lg);
+  
+  /* ===== TABLE SHADOW TOKENS ===== */
+  --shadow-table-empty: 0 1px 3px 0 var(--shadow-subtle);
+  --shadow-table-loading: 0 1px 3px 0 var(--shadow-subtle);
 }

@@ -230,4 +230,29 @@
   --border-error-subtle: var(--error-300);                   /* Subtle error borders */
   --border-info: var(--info-400);                            /* Lighter info borders */
   --border-info-subtle: var(--info-300);                     /* Subtle info borders */
+
+    /* ===== TABLE SURFACE TOKENS - DARK MODE ===== */
+  --surface-table: var(--primary-50);
+  --surface-table-header: var(--primary-100);
+  --surface-table-row: var(--primary-50);
+  --surface-table-row-hover: var(--primary-200);
+  --surface-table-row-selected: var(--accent-200);
+  --surface-table-row-striped: var(--primary-100);
+  
+  /* ===== TABLE BORDER TOKENS - DARK MODE ===== */
+  --border-table: var(--border-default);
+  --border-table-subtle: var(--border-subtle);
+  --border-table-header: var(--border-default);
+  --border-table-row: var(--border-subtle);
+  --border-table-cell: var(--border-subtle);
+  
+  /* ===== TABLE TEXT TOKENS - DARK MODE ===== */
+  --text-table-header: var(--text-secondary);
+  --text-table-cell: var(--text-primary);
+  --text-table-cell-secondary: var(--text-secondary);
+  --text-table-empty: var(--text-secondary);
+  
+  /* ===== TABLE LOADING TOKENS - DARK MODE ===== */
+  --surface-table-loading-base: var(--primary-200);
+  --surface-table-loading-shimmer: var(--primary-300);
 }
