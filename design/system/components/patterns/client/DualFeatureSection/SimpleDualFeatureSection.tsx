@@ -77,7 +77,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                 key={card.id}
                 style={{
                   position: 'relative',
-                  minHeight: '400px',
+                  height: '450px', // Exakt höjd istället för minHeight
                   borderRadius: 'var(--radius-lg)',
                   overflow: 'hidden',
                   background: card.imageUrl ? `url(${card.imageUrl})` : 'var(--surface-secondary)',
@@ -112,6 +112,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                     background: 'var(--surface-primary)',
                     boxShadow: 'var(--shadow-lg)',
                     width: '100%',
+                    minHeight: '160px', // Minimum höjd för innehållskortet
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 'var(--foundation-space-4)',
