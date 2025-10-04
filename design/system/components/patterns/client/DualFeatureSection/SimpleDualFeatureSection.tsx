@@ -70,7 +70,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
             gridTemplateColumns: 'repeat(2, 1fr)',
             gap: 'var(--foundation-space-8)',
             width: '100%',
-            maxWidth: '800px', // Gör korten smalare
+            maxWidth: '1200px', // Mycket större korten
             margin: '0 auto'
           }}>
             {cards.map((card) => (
@@ -78,7 +78,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                 key={card.id}
                 style={{
                   position: 'relative',
-                  height: '500px', // Gör korten högre
+                  height: '700px', // Mycket högre korten
                   borderRadius: 'var(--radius-lg)',
                   overflow: 'hidden',
                   background: card.imageUrl ? `url(${card.imageUrl})` : 'var(--surface-secondary)',
@@ -87,7 +87,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   backgroundRepeat: 'no-repeat',
                   display: 'flex',
                   alignItems: 'flex-end',
-                  padding: 'var(--foundation-space-6)'
+                  padding: 'var(--foundation-space-8)' // Mer padding för större kort
                 }}
               >
                 {/* Overlay för bättre kontrast */}
@@ -109,12 +109,12 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                     background: 'var(--surface-primary)',
                     boxShadow: 'var(--shadow-lg)',
                     borderRadius: 'var(--radius-md)',
-                    padding: 'var(--foundation-space-4)',
+                    padding: 'var(--foundation-space-6)', // Mer padding
                     width: '100%',
-                    minHeight: '120px',
+                    minHeight: '160px', // Större innehållskort
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 'var(--foundation-space-3)',
+                    gap: 'var(--foundation-space-4)', // Mer mellanrum
                     position: 'relative',
                     zIndex: 2,
                     opacity: 1
@@ -123,13 +123,13 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   <H3 
                     color="primary"
                     weight="semibold"
-                    style={{ margin: 0, fontSize: '1.1rem' }} // Mindre titel
+                    style={{ margin: 0, fontSize: '1.25rem' }} // Större titel
                   >
                     {card.title}
                   </H3>
                   
                   <Body 
-                    size="sm" // Mindre text
+                    size="md" // Större text
                     color="secondary"
                     style={{ margin: 0, flex: 1 }}
                   >
@@ -138,7 +138,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
 
                   <Button
                     variant="primary"
-                    size="sm" // Mindre knapp
+                    size="md" // Större knapp
                     onClick={card.onButtonClick}
                   >
                     {card.buttonText}
