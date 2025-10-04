@@ -1,0 +1,51 @@
+.scroll-stack-scroller {
+  --scroll-stack-transition: transform var(--motion-duration-base) var(--motion-easing-standard);
+  --scroll-stack-shadow: var(--shadow-lg);
+  --scroll-stack-border-radius: var(--radius-lg);
+  --scroll-stack-border-color: var(--border-subtle);
+  --scroll-stack-background: var(--surface-card);
+  
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+.scroll-stack-inner {
+  position: relative;
+  min-height: 100%;
+  padding: var(--foundation-space-8) var(--foundation-space-4);
+}
+
+.scroll-stack-card {
+  position: relative;
+  width: 100%;
+  transition: var(--scroll-stack-transition);
+  border-radius: var(--scroll-stack-border-radius);
+  background: var(--scroll-stack-background);
+  border: 1px solid var(--scroll-stack-border-color);
+  box-shadow: var(--scroll-stack-shadow);
+  overflow: hidden;
+}
+
+.scroll-stack-end {
+  position: relative;
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .scroll-stack-inner {
+    padding: var(--foundation-space-4) var(--foundation-space-2);
+  }
+  
+  .scroll-stack-card {
+    border-radius: var(--radius-md);
+  }
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .scroll-stack-card {
+  --scroll-stack-background: var(--surface-card-dark);
+  --scroll-stack-border-color: var(--border-subtle-dark);
+  --scroll-stack-shadow: var(--shadow-lg-dark);
+}

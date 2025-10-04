@@ -1,2 +1,2 @@
-export { ScrollStack } from './ScrollStack';
-export type { ScrollStackProps } from './ScrollStack';
+export { default as ScrollStack } from './ScrollStack';
+export { ScrollStackItem } from './ScrollStack';
