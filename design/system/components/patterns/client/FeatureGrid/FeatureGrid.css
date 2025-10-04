@@ -31,7 +31,10 @@
     min-height: 280px !important;
   }
   
-  .feature-card--1,
+  .feature-card--1 {
+    min-height: 130px !important;
+  }
+  
   .feature-card--2 {
     min-height: 130px !important;
   }
@@ -50,7 +53,8 @@
   }
   
   .feature-card {
-    grid-row: span 1 !important;
+    grid-column: 1 !important;
+    grid-row: auto !important;
     min-height: 200px !important;
   }
   

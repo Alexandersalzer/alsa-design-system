@@ -49,7 +49,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
-          gridTemplateRows: 'auto auto',
+          gridTemplateRows: 'repeat(3, auto)',
           gap: `var(--foundation-space-${spacing})`,
           width: '100%'
         }}
@@ -67,19 +67,25 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               boxShadow: 'var(--shadow-md)',
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               cursor: 'pointer',
-              // Asymmetric layout: left card spans 2 rows, bottom-right card also spans 2 rows
+              // Diagonal asymmetric layout: top-left (0) and bottom-right (3) are large
               ...(index === 0 && {
-                gridRow: 'span 2',
+                gridColumn: '1',
+                gridRow: '1 / span 2',
                 minHeight: '320px'
               }),
               ...(index === 1 && {
+                gridColumn: '2',
+                gridRow: '1',
                 minHeight: '150px'
               }),
               ...(index === 2 && {
+                gridColumn: '1',
+                gridRow: '3',
                 minHeight: '150px'
               }),
               ...(index === 3 && {
-                gridRow: 'span 2',
+                gridColumn: '2',
+                gridRow: '2 / span 2',
                 minHeight: '320px'
               })
             }}
