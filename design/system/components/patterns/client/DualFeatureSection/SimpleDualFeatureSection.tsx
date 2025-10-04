@@ -41,7 +41,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
             style={{
               backgroundColor: 'transparent',
               paddingTop: 'var(--foundation-space-24)', // Samma padding som Om oss
-              paddingBottom: 'var(--foundation-space-16)' // Samma padding som Om oss
+              paddingBottom: 'var(--foundation-space-40)' // Samma padding som stats-sektionen
             }}
       {...props}
     >
