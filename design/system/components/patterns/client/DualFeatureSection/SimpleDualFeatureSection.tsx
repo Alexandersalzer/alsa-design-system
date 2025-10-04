@@ -111,7 +111,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   padding="md" // Mindre padding
                   interactive={false}
                   style={{
-                    background: '#ffffff !important', // Direkt vit färg istället för variabel
+                    background: 'var(--surface-primary) !important', // Korrekt designsystem-färg med !important
                     boxShadow: 'var(--shadow-lg)',
                     width: '100%',
                     minHeight: '120px', // Ännu mindre höjd
