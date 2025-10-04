@@ -23,3 +23,4 @@ export * from './CTA';
 export * from './DoubleContactForm';
 export * from './DualFeatureSection';
 export * from './FeatureGrid';
+export * from './CleanFeatureGridSection';
