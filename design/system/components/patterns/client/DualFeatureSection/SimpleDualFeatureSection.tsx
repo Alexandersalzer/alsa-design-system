@@ -109,7 +109,6 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                     background: 'var(--surface-primary)', // Använd design system färg
                     boxShadow: 'var(--shadow-lg)',
                     borderRadius: 'var(--radius-lg)',
-                    padding: 'var(--foundation-space-5)', // Mindre padding
                     width: '100%',
                     height: '140px', // Samma höjd för alla kort
                     display: 'flex',

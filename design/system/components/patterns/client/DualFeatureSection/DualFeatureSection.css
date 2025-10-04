@@ -175,7 +175,6 @@
   }
   
   .dual-feature-content {
-    padding: var(--foundation-space-5);
     gap: var(--foundation-space-3);
   }
 }
