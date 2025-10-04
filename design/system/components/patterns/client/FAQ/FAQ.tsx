@@ -184,7 +184,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                         <Typography 
                           variant="body-md"
                           style={{ 
-                            color: 'var(--primary-white)',
+                            color: 'var(--text-primary)',
                             opacity: 0.9,
                             lineHeight: 'var(--foundation-typography-line-height-relaxed)',
                             textAlign: 'left',
