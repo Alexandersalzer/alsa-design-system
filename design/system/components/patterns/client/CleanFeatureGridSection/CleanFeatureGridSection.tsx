@@ -59,12 +59,6 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
             }
           }
           
-          @media (min-width: 1024px) {
-            .feature-grid {
-              grid-template-columns: repeat(3, 1fr);
-            }
-          }
-          
           .feature-item {
             background: var(--surface-primary);
             border-radius: var(--radius-lg);
