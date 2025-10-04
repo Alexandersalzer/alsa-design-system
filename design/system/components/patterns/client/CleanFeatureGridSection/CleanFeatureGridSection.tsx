@@ -50,7 +50,7 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
           .feature-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: var(--foundation-space-8);
+            gap: var(--foundation-space-12);
           }
           
           @media (min-width: 768px) {
