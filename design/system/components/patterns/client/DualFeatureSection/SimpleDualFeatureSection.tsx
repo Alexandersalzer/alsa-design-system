@@ -50,102 +50,100 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
         margin: '0 auto',
         padding: '0 var(--foundation-space-6)'
       }}>
-        <div style={{ maxWidth: 'var(--size-page-content-max-width)', width: '100%' }}>
-          {/* Section Header */}
-          {sectionTitle && (
-            <div style={{ marginBottom: 'var(--foundation-space-16)', textAlign: 'center' }}>
-              <H2 
-                color="primary"
-                weight="bold"
-                style={{ margin: 0 }}
-              >
-                {sectionTitle}
-              </H2>
-            </div>
-          )}
+        {/* Section Header */}
+        {sectionTitle && (
+          <div style={{ marginBottom: 'var(--foundation-space-16)', textAlign: 'center' }}>
+            <H2 
+              color="primary"
+              weight="bold"
+              style={{ margin: 0 }}
+            >
+              {sectionTitle}
+            </H2>
+          </div>
+        )}
 
-          {/* Cards Grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: 'var(--foundation-space-8)',
-            width: '100%',
-            maxWidth: 'var(--size-page-max-width)', // Samma bredd som stats-sektionen
-            margin: '0 auto'
-          }}>
-            {cards.map((card) => (
+        {/* Cards Grid */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: 'var(--foundation-space-8)',
+          width: '100%',
+          maxWidth: 'var(--size-page-max-width)', // Samma bredd som stats-sektionen
+          margin: '0 auto'
+        }}>
+          {cards.map((card) => (
+            <div
+              key={card.id}
+              style={{
+                position: 'relative',
+                height: '700px', // Mycket högre korten
+                borderRadius: 'var(--radius-lg)',
+                overflow: 'hidden',
+                background: card.imageUrl ? `url(${card.imageUrl})` : 'var(--surface-secondary)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                display: 'flex',
+                alignItems: 'flex-end',
+                padding: 'var(--foundation-space-8)' // Mer padding för större kort
+              }}
+            >
+              {/* Overlay för bättre kontrast */}
+              {card.imageUrl && (
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%)',
+                  zIndex: 1
+                }} />
+              )}
+
+              {/* Innehållskort */}
               <div
-                key={card.id}
                 style={{
-                  position: 'relative',
-                  height: '700px', // Mycket högre korten
+                  background: 'var(--surface-primary)', // Använd design system färg
+                  boxShadow: 'var(--shadow-lg)',
                   borderRadius: 'var(--radius-lg)',
-                  overflow: 'hidden',
-                  background: card.imageUrl ? `url(${card.imageUrl})` : 'var(--surface-secondary)',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
+                  width: '100%',
+                  height: '140px', // Samma höjd för alla kort
                   display: 'flex',
-                  alignItems: 'flex-end',
-                  padding: 'var(--foundation-space-8)' // Mer padding för större kort
+                  flexDirection: 'column',
+                  gap: 'var(--foundation-space-3)', // Mindre mellanrum
+                  position: 'relative',
+                  zIndex: 2,
+                  opacity: 1
                 }}
               >
-                {/* Overlay för bättre kontrast */}
-                {card.imageUrl && (
-                  <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%)',
-                    zIndex: 1
-                  }} />
-                )}
-
-                {/* Innehållskort */}
-                <div
-                  style={{
-                    background: 'var(--surface-primary)', // Använd design system färg
-                    boxShadow: 'var(--shadow-lg)',
-                    borderRadius: 'var(--radius-lg)',
-                    width: '100%',
-                    height: '140px', // Samma höjd för alla kort
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 'var(--foundation-space-3)', // Mindre mellanrum
-                    position: 'relative',
-                    zIndex: 2,
-                    opacity: 1
-                  }}
+                <H3 
+                  color="primary"
+                  weight="semibold"
+                  style={{ margin: 0, fontSize: '1.1rem' }} // Mindre titel
                 >
-                  <H3 
-                    color="primary"
-                    weight="semibold"
-                    style={{ margin: 0, fontSize: '1.1rem' }} // Mindre titel
-                  >
-                    {card.title}
-                  </H3>
-                  
-                  <Body 
-                    size="sm" // Mindre text
-                    color="secondary"
-                    style={{ margin: 0, flex: 1 }}
-                  >
-                    {card.description}
-                  </Body>
+                  {card.title}
+                </H3>
+                
+                <Body 
+                  size="sm" // Mindre text
+                  color="secondary"
+                  style={{ margin: 0, flex: 1 }}
+                >
+                  {card.description}
+                </Body>
 
-                  <Button
-                    variant="primary"
-                    size="sm" // Mindre knapp
-                    onClick={card.onButtonClick}
-                  >
-                    {card.buttonText}
-                  </Button>
-                </div>
+                <Button
+                  variant="primary"
+                  size="sm" // Mindre knapp
+                  onClick={card.onButtonClick}
+                >
+                  {card.buttonText}
+                </Button>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </Section>
