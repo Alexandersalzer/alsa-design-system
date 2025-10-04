@@ -108,16 +108,16 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                 <Card
                   variant="default"
                   radius="md"
-                  padding="lg"
+                  padding="md" // Mindre padding
                   interactive={false}
                   style={{
                     background: 'var(--surface-primary)', // Vanlig vit bakgrund
                     boxShadow: 'var(--shadow-lg)',
                     width: '100%',
-                    minHeight: '140px', // Mindre höjd
+                    minHeight: '120px', // Ännu mindre höjd
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 'var(--foundation-space-4)',
+                    gap: 'var(--foundation-space-3)', // Mindre gap mellan element
                     position: 'relative',
                     zIndex: 2
                   }}
@@ -125,13 +125,13 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   <H3 
                     color="primary"
                     weight="semibold"
-                    style={{ margin: 0 }}
+                    style={{ margin: 0, fontSize: '1.1rem' }} // Mindre titel
                   >
                     {card.title}
                   </H3>
                   
                   <Body 
-                    size="md"
+                    size="sm" // Mindre text
                     color="secondary"
                     style={{ margin: 0, flex: 1 }}
                   >
@@ -140,7 +140,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
 
                   <Button
                     variant="primary"
-                    size="md"
+                    size="sm" // Mindre knapp
                     onClick={card.onButtonClick}
                   >
                     {card.buttonText}
