@@ -95,58 +95,60 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               })
             }}
           >
-            <Stack spacing={index === 0 || index === 3 ? 'lg' : 'md'} align="start">
-              {/* Icon - Only show if icon is provided */}
-              {feature.icon && (
-                <div 
-                  className="feature-icon"
+            <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+              <Stack spacing={index === 0 || index === 3 ? 'lg' : 'md'} align="start">
+                {/* Icon - Only show if icon is provided */}
+                {feature.icon && (
+                  <div 
+                    className="feature-icon"
+                    style={{
+                      width: (index === 0 || index === 3) ? '72px' : '56px',
+                      height: (index === 0 || index === 3) ? '72px' : '56px',
+                      flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: 'var(--radius-md)',
+                      background: 'var(--surface-secondary)',
+                      padding: (index === 0 || index === 3) ? '12px' : '8px'
+                    }}
+                  >
+                    <div style={{
+                      width: (index === 0 || index === 3) ? '32px' : '24px',
+                      height: (index === 0 || index === 3) ? '32px' : '24px',
+                      color: 'var(--text-primary)'
+                    }}>
+                      {feature.icon}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Title */}
+                <H4 
+                  color="primary"
+                  weight="semibold"
                   style={{
-                    width: (index === 0 || index === 3) ? '72px' : '56px',
-                    height: (index === 0 || index === 3) ? '72px' : '56px',
-                    flexShrink: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: 'var(--radius-md)',
-                    background: 'var(--surface-secondary)',
-                    padding: (index === 0 || index === 3) ? '12px' : '8px'
+                    fontSize: (index === 0 || index === 3) ? '1.375rem' : '1.125rem',
+                    lineHeight: '1.3',
+                    margin: 0
                   }}
                 >
-                  <div style={{
-                    width: (index === 0 || index === 3) ? '32px' : '24px',
-                    height: (index === 0 || index === 3) ? '32px' : '24px',
-                    color: 'var(--text-primary)'
-                  }}>
-                    {feature.icon}
-                  </div>
-                </div>
-              )}
-              
-              {/* Title */}
-              <H4 
-                color="primary"
-                weight="semibold"
-                style={{
-                  fontSize: (index === 0 || index === 3) ? '1.375rem' : '1.125rem',
-                  lineHeight: '1.3',
-                  margin: 0
-                }}
-              >
-                {feature.title}
-              </H4>
-              
-              {/* Description */}
-              <Body 
-                size={(index === 0 || index === 3) ? 'md' : 'sm'}
-                color="secondary"
-                style={{
-                  lineHeight: '1.6',
-                  margin: 0
-                }}
-              >
-                {feature.description}
-              </Body>
-            </Stack>
+                  {feature.title}
+                </H4>
+                
+                {/* Description */}
+                <Body 
+                  size={(index === 0 || index === 3) ? 'md' : 'sm'}
+                  color="secondary"
+                  style={{
+                    lineHeight: '1.6',
+                    margin: 0
+                  }}
+                >
+                  {feature.description}
+                </Body>
+              </Stack>
+            </div>
           </Card>
           ))}
         </div>
