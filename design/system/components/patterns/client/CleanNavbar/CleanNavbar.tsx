@@ -124,7 +124,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             transform-origin: center;
           }
           .nav-link {
-            color: var(--primary-white) !important;
+            color: var(--text-primary) !important;
             text-decoration: none;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
@@ -138,6 +138,9 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           }
           .nav-link:hover * {
             color: #64748b !important;
+          }
+          .nav-link * {
+            color: var(--text-primary) !important;
           }
           .nav-link.active {
             color: var(--accent-500) !important;
