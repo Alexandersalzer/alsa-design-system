@@ -8,7 +8,6 @@ import { Card } from '../../../../../system/components/primitives/Card';
 import { H4, Body } from '../../../../../system/components/primitives/Typography';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Container } from '../../../../../system/layout/frames/container/Container';
 import './FeatureGrid.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -56,19 +55,22 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
         paddingBottom: 'var(--foundation-space-16)'
       }}
     >
-      <Container>
-        <div 
-          className="feature-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gridTemplateRows: 'repeat(3, auto)',
-            gap: `var(--foundation-space-${spacing})`,
-            width: '100%',
-            maxWidth: 'var(--size-page-content-max-width)',
-            margin: '0 auto'
-          }}
-        >
+      <div style={{ 
+        maxWidth: 'var(--size-page-max-width)',
+        margin: '0 auto',
+        padding: '0 var(--foundation-space-6)'
+      }}>
+        <div style={{ maxWidth: 'var(--size-page-content-max-width)', width: '100%' }}>
+          <div 
+            className="feature-grid"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gridTemplateRows: 'repeat(3, auto)',
+              gap: `var(--foundation-space-${spacing})`,
+              width: '100%'
+            }}
+          >
         {displayFeatures.map((feature, index) => (
           <Card
             key={feature.id}
@@ -163,9 +165,10 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               </Body>
             </Stack>
           </Card>
-        ))}
+          ))}
+        </div>
       </div>
-    </Container>
+    </div>
   </Section>
   );
 };
