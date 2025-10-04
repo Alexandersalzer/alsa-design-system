@@ -111,7 +111,11 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
           backgroundColor: 'transparent'
         }}
       >
-        <Container maxWidth="lg">
+        <div style={{ 
+          maxWidth: 'var(--size-page-max-width)',
+          margin: '0 auto',
+          padding: '0 var(--foundation-space-6)'
+        }}>
           <Stack spacing="lg" align="center">
             {(title || subtitle) && (
               <div style={{ textAlign: 'center', maxWidth: '800px' }}>
@@ -198,7 +202,7 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
               ))}
             </div>
           </Stack>
-        </Container>
+        </div>
       </Section>
     </>
   );
