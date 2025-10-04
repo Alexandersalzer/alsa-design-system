@@ -110,11 +110,6 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
         paddingBottom: 'var(--foundation-space-16)'
       }}
     >
-      <div style={{ 
-        maxWidth: 'var(--size-page-content-max-width)',
-        margin: '0 auto',
-        padding: '0 var(--foundation-space-6)'
-      }}>
         <Stack spacing="xl" align="center">
           {/* Visual */}
           {visualImage && (
@@ -389,7 +384,6 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
             )}
           </Grid>
         </Stack>
-      </div>
     </Section>
   );
 };
