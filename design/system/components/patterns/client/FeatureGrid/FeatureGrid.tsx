@@ -7,6 +7,8 @@ import React from 'react';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { H4, Body } from '../../../../../system/components/primitives/Typography';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Section } from '../../../../../system/layout/frames/section/Section';
+import { Container } from '../../../../../system/layout/frames/container/Container';
 import './FeatureGrid.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -19,6 +21,7 @@ export interface FeatureItem {
 }
 
 export interface FeatureGridProps {
+  id?: string;
   className?: string;
   
   // Content
@@ -34,26 +37,38 @@ export interface FeatureGridProps {
 // ===== MAIN FEATURE GRID COMPONENT =====
 
 export const FeatureGrid: React.FC<FeatureGridProps> = ({
+  id = "features",
   className,
   features,
-  spacing = 'md',
+  spacing = 'lg',
   onFeatureClick
 }) => {
   // Ensure we have exactly 4 features for the asymmetric layout
   const displayFeatures = features.slice(0, 4);
   
   return (
-    <div className={`feature-grid-container ${className || ''}`}>
-      <div 
-        className="feature-grid"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gridTemplateRows: 'repeat(3, auto)',
-          gap: `var(--foundation-space-${spacing})`,
-          width: '100%'
-        }}
-      >
+    <Section 
+      id={id}
+      className={className}
+      style={{
+        backgroundColor: 'transparent',
+        paddingTop: 'var(--foundation-space-24)',
+        paddingBottom: 'var(--foundation-space-16)'
+      }}
+    >
+      <Container>
+        <div 
+          className="feature-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gridTemplateRows: 'repeat(3, auto)',
+            gap: `var(--foundation-space-${spacing})`,
+            width: '100%',
+            maxWidth: 'var(--size-page-content-max-width)',
+            margin: '0 auto'
+          }}
+        >
         {displayFeatures.map((feature, index) => (
           <Card
             key={feature.id}
@@ -150,7 +165,8 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
           </Card>
         ))}
       </div>
-    </div>
+    </Container>
+  </Section>
   );
 };
 
