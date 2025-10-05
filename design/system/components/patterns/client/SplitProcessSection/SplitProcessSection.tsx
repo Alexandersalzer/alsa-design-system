@@ -45,6 +45,12 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
             align-items: stretch;
           }
           
+          @media (max-width: 1023px) {
+            .split-process-container {
+              align-items: start;
+            }
+          }
+          
           @media (min-width: 1024px) {
             .split-process-container {
               grid-template-columns: 1fr 1fr;
@@ -101,6 +107,15 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
             justify-content: flex-start;
             min-height: 100%;
             height: 100%;
+          }
+          
+          @media (max-width: 1023px) {
+            .right-content {
+              justify-content: flex-start;
+              align-items: flex-start;
+              min-height: auto;
+              height: auto;
+            }
           }
           
           @media (min-width: 1024px) {
