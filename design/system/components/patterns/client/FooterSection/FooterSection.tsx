@@ -79,15 +79,6 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
       ]
     },
     {
-      title: "Juridiskt",
-      links: [
-        { label: "Integritetspolicy", href: "#" },
-        { label: "Användarvillkor", href: "#" },
-        { label: "Cookie-policy", href: "#" },
-        { label: "Om oss", href: "#om-oss" }
-      ]
-    },
-    {
       title: "Support",
       links: [
         { label: "Vanliga frågor", href: "#faq" },
@@ -151,14 +142,14 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               bottom: 0,
               left: 0,
               right: 0,
-              height: '200px',
+              height: '300px',
               backgroundImage: 'url("/images/footer-bg.jpg")',
               backgroundSize: 'cover',
               backgroundPosition: 'center bottom',
               backgroundRepeat: 'no-repeat',
-              maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
-              opacity: 0.3,
+              maskImage: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)',
+              opacity: 0.4,
               zIndex: 1
             }}
           />
@@ -187,11 +178,12 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                     size="md"
                   />
                   <Typography 
-                    variant="body-sm"
+                    variant="body-xs"
                     color="secondary"
-                    style={{ 
-                      lineHeight: '1.6',
-                      maxWidth: '280px'
+                    style={{
+                      lineHeight: '1.5',
+                      maxWidth: '280px',
+                      fontSize: '0.875rem'
                     }}
                   >
                     {companyDescription}
@@ -204,10 +196,10 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                 <div key={index} style={{ flex: '1', minWidth: '200px' }}>
                   <Stack spacing="md" align="start">
                     <Typography 
-                      variant="h3" 
+                      variant="h4" 
                       weight="semibold"
                       color="primary"
-                      style={{ margin: 0, fontSize: '1rem' }}
+                      style={{ margin: 0, fontSize: '0.875rem' }}
                     >
                       {column.title}
                     </Typography>
@@ -219,7 +211,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                         href={link.href}
                         variant="secondary"
                         style={{
-                          fontSize: 'var(--foundation-typography-font-size-body-sm)',
+                          fontSize: '0.75rem',
                           color: 'var(--text-secondary)',
                           textDecoration: 'none',
                           transition: 'color 0.2s ease'
@@ -243,10 +235,10 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               <div style={{ flex: '1', minWidth: '200px' }}>
                 <Stack spacing="md" align="start">
                   <Typography 
-                    variant="h3" 
+                    variant="h4" 
                     weight="semibold"
                     color="primary"
-                    style={{ margin: 0, fontSize: '1rem' }}
+                    style={{ margin: 0, fontSize: '0.875rem' }}
                   >
                     Kontakt
                   </Typography>
@@ -259,7 +251,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                         href={`mailto:${email}`}
                         variant="secondary"
                         style={{
-                          fontSize: 'var(--foundation-typography-font-size-body-sm)',
+                          fontSize: '0.75rem',
                           color: 'var(--text-secondary)',
                           textDecoration: 'none'
                         }}
@@ -275,7 +267,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                         href={`tel:${phone}`}
                         variant="secondary"
                         style={{
-                          fontSize: 'var(--foundation-typography-font-size-body-sm)',
+                          fontSize: '0.75rem',
                           color: 'var(--text-secondary)',
                           textDecoration: 'none'
                         }}
@@ -287,14 +279,14 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                     {/* Social Links */}
                     <div style={{ marginTop: 'var(--foundation-space-md)' }}>
                       <Stack spacing="sm" align="start">
-                        <Typography 
-                          variant="body-sm"
-                          weight="semibold"
-                          color="primary"
-                          style={{ margin: 0 }}
-                        >
-                          Följ oss
-                        </Typography>
+                    <Typography 
+                      variant="body-xs"
+                      weight="semibold"
+                      color="primary"
+                      style={{ margin: 0, fontSize: '0.75rem' }}
+                    >
+                      Följ oss
+                    </Typography>
                         
                         <div style={{ display: 'flex', gap: 'var(--foundation-space-md)', alignItems: 'center' }}>
                           {socialLinks.map((social, index) => (
