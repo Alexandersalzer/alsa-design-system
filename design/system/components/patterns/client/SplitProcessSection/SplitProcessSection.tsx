@@ -49,6 +49,10 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
             .split-process-container {
               align-items: start;
             }
+            
+            .right-content {
+              order: -1;
+            }
           }
           
           @media (min-width: 1024px) {
