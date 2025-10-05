@@ -24,10 +24,8 @@ export {
   DashboardHeader,
   SettingsHeader,
   ArticleHeader,
-  StatusBadge,
   type PageHeaderProps,
   type DashboardHeaderProps,
   type SettingsHeaderProps,
   type ArticleHeaderProps,
-  type StatusBadgeProps
 } from './PageHeader';

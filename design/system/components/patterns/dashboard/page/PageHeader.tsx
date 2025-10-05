@@ -13,6 +13,10 @@ import { H1, Body, Display, H2, H3, H4, H5, H6 } from '../../../primitives/Typog
 import { Stack } from './Stack';
 import { Cluster } from './Cluster';
 
+// Import Tag component
+import { Tag } from '../../../primitives/Tag/Tag';
+import type { TagVariant, TagSize } from '../../../primitives/Tag/Tag';
+
 // ===== TYPE DEFINITIONS =====
 export interface PageHeaderProps {
   children?: ReactNode;
@@ -33,33 +37,9 @@ export interface PageHeaderProps {
   spacing?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
-export interface StatusBadgeProps {
-  children: ReactNode;
-  variant?: 'info' | 'success' | 'warning' | 'error' | 'neutral';
-  className?: string;
-}
-
-// ===== STATUS BADGE COMPONENT =====
-export const StatusBadge = React.forwardRef<HTMLDivElement, StatusBadgeProps>(({
-  children,
-  variant = 'neutral',
-  className,
-  ...props
-}, ref) => {
-  const classes = cn(
-    'status-badge',
-    `status-badge--${variant}`,
-    className
-  );
-
-  return (
-    <div ref={ref} className={classes} {...props}>
-      {children}
-    </div>
-  );
-});
-
-StatusBadge.displayName = 'StatusBadge';
+// Re-export Tag component for convenience
+export { Tag } from '../../../primitives/Tag/Tag';
+export type { TagProps, TagVariant, TagSize } from '../../../primitives/Tag/Tag';
 
 // ===== MAIN PAGE HEADER COMPONENT =====
 export const PageHeader = React.forwardRef<HTMLElement, PageHeaderProps>(({
