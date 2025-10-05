@@ -49,6 +49,14 @@
   
   .footer-cta-section > div {
     padding: var(--foundation-space-6) !important;
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: var(--foundation-space-6) !important;
+  }
+  
+  .footer-cta-section > div > div:first-child {
+    min-width: unset !important;
+    flex: none !important;
   }
   
   .footer-bottom-bar > div:last-child {

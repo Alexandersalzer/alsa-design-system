@@ -133,7 +133,16 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
       }}
     >
       <Container maxWidth="lg">
-        <Stack spacing="xl" align="start">
+        <div 
+          style={{
+            background: 'var(--surface-primary)',
+            borderRadius: 'var(--radius-lg)',
+            padding: 'var(--foundation-space-8)',
+            boxShadow: 'var(--shadow-md)',
+            border: '1px solid var(--border-subtle)'
+          }}
+        >
+          <Stack spacing="xl" align="start">
           
           {/* Main Content Grid */}
           <div className="footer-main-content">
@@ -311,15 +320,19 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                 padding: 'var(--foundation-space-8)',
                 boxShadow: 'var(--shadow-md)',
                 border: '1px solid var(--border-subtle)',
-                textAlign: 'center'
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 'var(--foundation-space-8)',
+                flexWrap: 'wrap'
               }}
             >
-              <Stack spacing="md" align="center">
+              <div style={{ flex: 1, minWidth: '300px' }}>
                 <Typography 
                   variant="h3" 
                   weight="bold"
                   color="primary"
-                  style={{ margin: 0 }}
+                  style={{ margin: 0, marginBottom: 'var(--foundation-space-sm)' }}
                 >
                   {ctaTitle}
                 </Typography>
@@ -329,36 +342,35 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                   color="secondary"
                   style={{ 
                     margin: 0,
-                    maxWidth: '600px',
                     lineHeight: '1.6'
                   }}
                 >
                   {ctaDescription}
                 </Typography>
-                
-                <div style={{ marginTop: 'var(--foundation-space-md)' }}>
-                  <Button 
-                    variant="primary"
-                    size="lg"
-                    onClick={() => {
-                      if (ctaButtonHref) {
-                        if (ctaButtonHref.startsWith('#')) {
-                          // Scroll to section
-                          const element = document.querySelector(ctaButtonHref);
-                          if (element) {
-                            element.scrollIntoView({ behavior: 'smooth' });
-                          }
-                        } else {
-                          // Navigate to page
-                          window.location.href = ctaButtonHref;
+              </div>
+              
+              <div style={{ flexShrink: 0 }}>
+                <Button 
+                  variant="primary"
+                  size="lg"
+                  onClick={() => {
+                    if (ctaButtonHref) {
+                      if (ctaButtonHref.startsWith('#')) {
+                        // Scroll to section
+                        const element = document.querySelector(ctaButtonHref);
+                        if (element) {
+                          element.scrollIntoView({ behavior: 'smooth' });
                         }
+                      } else {
+                        // Navigate to page
+                        window.location.href = ctaButtonHref;
                       }
-                    }}
-                  >
-                    {ctaButtonText}
-                  </Button>
-                </div>
-              </Stack>
+                    }
+                  }}
+                >
+                  {ctaButtonText}
+                </Button>
+              </div>
             </div>
           </div>
           
@@ -398,8 +410,9 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               </Typography>
             </div>
           </div>
-          
-        </Stack>
+
+          </Stack>
+        </div>
       </Container>
     </Section>
   );
