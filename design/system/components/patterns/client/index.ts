@@ -24,4 +24,5 @@ export * from './DoubleContactForm';
 export * from './DualFeatureSection';
 export * from './FeatureGrid';
 export * from './CleanFeatureGridSection';
+export * from './ProcessSection';
 export * from './FooterSection';
