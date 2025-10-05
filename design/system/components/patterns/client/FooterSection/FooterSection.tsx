@@ -68,46 +68,18 @@ export interface FooterSectionProps {
 export const FooterSection: React.FC<FooterSectionProps> = ({
   id = "footer",
   className,
-  companyName = "Jaksenvest Global AB",
-  companyDescription = "Vi hjälper dig att få den ersättning du förtjänar. Professionell juridisk rådgivning för skadeståndsärenden.",
-  columns = [
-    {
-      title: "Tjänster",
-      links: [
-        { label: "Skadeståndsberäkning", href: "#tjanster" },
-        { label: "Juridisk rådgivning", href: "#tjanster" },
-        { label: "Kostnadsfri konsultation", href: "#contact" },
-        { label: "No Win, No Fee", href: "#stats" }
-      ]
-    },
-    {
-      title: "Support",
-      links: [
-        { label: "Vanliga frågor", href: "#faq" },
-        { label: "Kontakta oss", href: "#contact" }
-      ]
-    }
-  ],
-  email = "kontakt@jaksenvest.se",
-  phone = "08-123 456 78",
-  socialLinks = [
-    {
-      platform: "linkedin",
-      href: "https://linkedin.com/company/jaksenvest-global-ab",
-      icon: <Icon size="sm" color="secondary"><LinkedinIcon /></Icon>
-    },
-    {
-      platform: "instagram", 
-      href: "https://instagram.com/jaksenvest_global",
-      icon: <Icon size="sm" color="secondary"><InstagramIcon /></Icon>
-    }
-  ],
-  ctaTitle = "Behöver du hjälp?",
-  ctaDescription = "Kontakta oss idag för kostnadsfri konsultation och få hjälp med ditt skadeståndsärende.",
-  ctaButtonText = "Boka konsultation",
-  ctaButtonHref = "#contact",
+  companyName,
+  companyDescription,
+  columns = [],
+  email,
+  phone,
+  socialLinks = [],
+  ctaTitle,
+  ctaDescription,
+  ctaButtonText,
+  ctaButtonHref,
   copyrightText,
-  poweredByText = "Powered by Blimpify IM",
+  poweredByText,
   backgroundImageUrl
 }) => {
   const currentYear = new Date().getFullYear();
@@ -175,32 +147,38 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
             >
               
               {/* Column 1: Company Info */}
-              <div style={{ flex: '1', minWidth: '280px' }}>
-                <Stack spacing="md" align="start">
-                             <Typography
-                               variant="h3"
-                               weight="bold"
-                               color="primary"
-                               style={{
-                                 margin: 0,
-                                 fontSize: '1.25rem'
-                               }}
-                             >
-                               {companyName}
-                             </Typography>
-                  <Typography 
-                    variant="body-xs"
-                    color="secondary"
-                    style={{
-                      lineHeight: '1.5',
-                      maxWidth: '280px',
-                      fontSize: '0.75rem'
-                    }}
-                  >
-                    {companyDescription}
-                  </Typography>
-                </Stack>
-              </div>
+              {(companyName || companyDescription) && (
+                <div style={{ flex: '1', minWidth: '280px' }}>
+                  <Stack spacing="md" align="start">
+                    {companyName && (
+                      <Typography
+                        variant="h3"
+                        weight="bold"
+                        color="primary"
+                        style={{
+                          margin: 0,
+                          fontSize: '1.25rem'
+                        }}
+                      >
+                        {companyName}
+                      </Typography>
+                    )}
+                    {companyDescription && (
+                      <Typography 
+                        variant="body-xs"
+                        color="secondary"
+                        style={{
+                          lineHeight: '1.5',
+                          maxWidth: '280px',
+                          fontSize: '0.75rem'
+                        }}
+                      >
+                        {companyDescription}
+                      </Typography>
+                    )}
+                  </Stack>
+                </div>
+              )}
               
               {/* Columns 2-4: Navigation Links */}
               {columns.map((column, index) => (
@@ -241,9 +219,9 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               ))}
               
               {/* Column 5: Social Links Only */}
-              <div style={{ flex: '1', minWidth: '200px' }}>
-                <Stack spacing="sm" align="start">
-                    {/* Social Links */}
+              {socialLinks.length > 0 && (
+                <div style={{ flex: '1', minWidth: '200px' }}>
+                  <Stack spacing="sm" align="start">
                     <Typography
                       variant="body-xs"
                       weight="semibold"
@@ -282,111 +260,124 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                         </TextLink>
                       ))}
                     </div>
-                </Stack>
-              </div>
+                  </Stack>
+                </div>
+              )}
               
             </div>
           </div>
           
           {/* CTA Section */}
-          <div className="footer-cta-section" style={{ width: '100%', marginTop: 'var(--foundation-space-24)' }}>
-            <div 
-              style={{
-                background: 'var(--surface-primary)',
-                borderRadius: 'var(--radius-lg)',
-                padding: 'var(--foundation-space-8)',
-                boxShadow: 'var(--shadow-md)',
-                border: '1px solid var(--border-subtle)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: 'var(--foundation-space-8)',
-                flexWrap: 'wrap'
-              }}
-            >
-              <div style={{ flex: 1, minWidth: '300px' }}>
-                <Typography 
-                  variant="h3" 
-                  weight="bold"
-                  color="primary"
-                  style={{ margin: 0, marginBottom: 'var(--foundation-space-sm)' }}
-                >
-                  {ctaTitle}
-                </Typography>
+          {(ctaTitle || ctaDescription || ctaButtonText) && (
+            <div className="footer-cta-section" style={{ width: '100%', marginTop: 'var(--foundation-space-24)' }}>
+              <div 
+                style={{
+                  background: 'var(--surface-primary)',
+                  borderRadius: 'var(--radius-lg)',
+                  padding: 'var(--foundation-space-8)',
+                  boxShadow: 'var(--shadow-md)',
+                  border: '1px solid var(--border-subtle)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 'var(--foundation-space-8)',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div style={{ flex: 1, minWidth: '300px' }}>
+                  {ctaTitle && (
+                    <Typography 
+                      variant="h3" 
+                      weight="bold"
+                      color="primary"
+                      style={{ margin: 0, marginBottom: 'var(--foundation-space-sm)' }}
+                    >
+                      {ctaTitle}
+                    </Typography>
+                  )}
+                  
+                  {ctaDescription && (
+                    <Typography 
+                      variant="body-md"
+                      color="secondary"
+                      style={{ 
+                        margin: 0,
+                        lineHeight: '1.6'
+                      }}
+                    >
+                      {ctaDescription}
+                    </Typography>
+                  )}
+                </div>
                 
-                <Typography 
-                  variant="body-md"
-                  color="secondary"
-                  style={{ 
-                    margin: 0,
-                    lineHeight: '1.6'
-                  }}
-                >
-                  {ctaDescription}
-                </Typography>
-              </div>
-              
-              <div style={{ flexShrink: 0 }}>
-                <Button 
-                  variant="primary"
-                  size="lg"
-                  onClick={() => {
-                    if (ctaButtonHref) {
-                      if (ctaButtonHref.startsWith('#')) {
-                        // Scroll to section
-                        const element = document.querySelector(ctaButtonHref);
-                        if (element) {
-                          element.scrollIntoView({ behavior: 'smooth' });
+                {ctaButtonText && ctaButtonHref && (
+                  <div style={{ flexShrink: 0 }}>
+                    <Button 
+                      variant="primary"
+                      size="lg"
+                      onClick={() => {
+                        if (ctaButtonHref.startsWith('#')) {
+                          // Scroll to section
+                          const element = document.querySelector(ctaButtonHref);
+                          if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' });
+                          }
+                        } else {
+                          // Navigate to page
+                          window.location.href = ctaButtonHref;
                         }
-                      } else {
-                        // Navigate to page
-                        window.location.href = ctaButtonHref;
-                      }
-                    }
-                  }}
-                >
-                  {ctaButtonText}
-                </Button>
+                      }}
+                    >
+                      {ctaButtonText}
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
+          )}
           
           {/* Bottom Bar */}
-          <div className="footer-bottom-bar" style={{ width: '100%' }}>
-            {/* Divider */}
-            <div 
-              style={{
-                height: '1px',
-                backgroundColor: 'var(--border-subtle)',
-                marginBottom: 'var(--foundation-space-lg)'
-              }}
-            />
-            
-            {/* Bottom Content */}
-            <div style={{ 
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: 'var(--foundation-space-md)'
-            }}>
-              <Typography 
-                variant="body-sm"
-                color="secondary"
-                style={{ margin: 0 }}
-              >
-                {copyrightText || defaultCopyright}
-              </Typography>
+          {(copyrightText || poweredByText || companyName) && (
+            <div className="footer-bottom-bar" style={{ width: '100%' }}>
+              {/* Divider */}
+              <div 
+                style={{
+                  height: '1px',
+                  backgroundColor: 'var(--border-subtle)',
+                  marginBottom: 'var(--foundation-space-lg)'
+                }}
+              />
               
-              <Typography 
-                variant="body-sm"
-                color="secondary"
-                style={{ margin: 0 }}
-              >
-                {poweredByText}
-              </Typography>
+              {/* Bottom Content */}
+              <div style={{ 
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: 'var(--foundation-space-md)'
+              }}>
+                {(copyrightText || companyName) && (
+                  <Typography 
+                    variant="body-sm"
+                    color="secondary"
+                    style={{ margin: 0 }}
+                  >
+                    {copyrightText || defaultCopyright}
+                  </Typography>
+                )}
+                
+                {poweredByText && (
+                  <Typography 
+                    variant="body-sm"
+                    color="secondary"
+                    style={{ margin: 0 }}
+                  >
+                    {poweredByText}
+                  </Typography>
+                )}
+              </div>
             </div>
-          </div>
+          )}
 
             </Stack>
           </div> {/* End of z-index 2 wrapper */}
