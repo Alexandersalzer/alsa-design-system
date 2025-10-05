@@ -9,6 +9,7 @@ export * from './Switch';
 export * from './Tag';
 export * from './Modal';
 export * from './Picker';
+export * from './Menu';
 export * from './FileUploader';
 export * from './Toast';
 export * from './TextLink';
