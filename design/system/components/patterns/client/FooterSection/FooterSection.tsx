@@ -96,7 +96,6 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
       }}
     >
       <div style={{ 
-        maxWidth: 'var(--size-page-max-width)',
         margin: '0 auto',
         padding: '0 var(--foundation-space-6)'
       }}>
