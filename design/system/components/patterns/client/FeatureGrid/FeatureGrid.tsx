@@ -72,7 +72,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             className={`feature-card feature-card--${index}`}
             style={{
               background: feature.backgroundImage 
-                ? `linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8)), url(${feature.backgroundImage})`
+                ? `url(${feature.backgroundImage})`
                 : 'var(--surface-primary)',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
@@ -101,7 +101,18 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               })
             }}
           >
-            <Stack spacing={index === 0 || index === 3 ? 'lg' : 'md'} align="start">
+            <Stack 
+              spacing={index === 0 || index === 3 ? 'lg' : 'md'} 
+              align="start"
+              style={{
+                background: feature.backgroundImage 
+                  ? 'rgba(255, 255, 255, 0.95)'
+                  : 'transparent',
+                borderRadius: 'var(--radius-md)',
+                padding: feature.backgroundImage ? 'var(--foundation-space-4)' : '0',
+                backdropFilter: feature.backgroundImage ? 'blur(10px)' : 'none'
+              }}
+            >
               {/* Icon - Only show if icon is provided */}
               {feature.icon && (
                 <div 
