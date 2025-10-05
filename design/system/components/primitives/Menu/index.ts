@@ -4,6 +4,23 @@
 // ===============================================
 
 export { Menu } from './Menu';
+
+export {
+  MenuRoot,
+  MenuTrigger,
+  MenuPositioner,
+  MenuContent,
+  MenuItem,
+  MenuItemGroup,
+  MenuSeparator,
+  MenuCheckboxItem,
+  MenuItemIndicator,
+  MenuItemCommand,
+  MenuRadioItemGroup,
+  MenuRadioItem,
+  MenuArrow
+} from './Menu';
+
 export type {
   MenuRootProps,
   MenuTriggerProps,
