@@ -48,8 +48,8 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
       className={className}
       style={{
         backgroundColor: 'transparent',
-        paddingTop: 'var(--foundation-space-24)',
-        paddingBottom: 'var(--foundation-space-16)'
+        paddingTop: 'var(--foundation-space-40)',
+        paddingBottom: 'var(--foundation-space-32)'
       }}
     >
       <div style={{ 
@@ -66,7 +66,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             key={feature.id}
             variant="default"
             radius="lg"
-            padding="lg"
+            padding="xl"
             interactive={false}
             className={`feature-card feature-card--${index}`}
             style={{
@@ -89,22 +89,22 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               ...(index === 0 && {
                 gridColumn: '1',
                 gridRow: '1 / span 2',
-                minHeight: '360px'
+                minHeight: '480px'
               }),
               ...(index === 1 && {
                 gridColumn: '2',
                 gridRow: '1',
-                minHeight: '170px'
+                minHeight: '240px'
               }),
               ...(index === 2 && {
                 gridColumn: '1',
                 gridRow: '3',
-                minHeight: '170px'
+                minHeight: '240px'
               }),
               ...(index === 3 && {
                 gridColumn: '2',
                 gridRow: '2 / span 2',
-                minHeight: '360px'
+                minHeight: '480px'
               })
             }}
           >
@@ -134,7 +134,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             
             <div style={{ position: 'relative', zIndex: 2 }}>
               <Stack 
-                spacing={index === 0 || index === 3 ? 'lg' : 'md'} 
+                spacing={index === 0 || index === 3 ? 'xl' : 'lg'} 
                 align="start"
               >
               {/* Icon - Only show if icon is provided */}
@@ -142,20 +142,20 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                 <div 
                   className="feature-icon"
                   style={{
-                    width: (index === 0 || index === 3) ? '72px' : '56px',
-                    height: (index === 0 || index === 3) ? '72px' : '56px',
+                    width: (index === 0 || index === 3) ? '96px' : '72px',
+                    height: (index === 0 || index === 3) ? '96px' : '72px',
                     flexShrink: 0,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: 'var(--radius-md)',
                     background: 'var(--surface-secondary)',
-                    padding: (index === 0 || index === 3) ? '12px' : '8px'
+                    padding: (index === 0 || index === 3) ? '16px' : '12px'
                   }}
                 >
                   <div style={{
-                    width: (index === 0 || index === 3) ? '32px' : '24px',
-                    height: (index === 0 || index === 3) ? '32px' : '24px',
+                    width: (index === 0 || index === 3) ? '40px' : '32px',
+                    height: (index === 0 || index === 3) ? '40px' : '32px',
                     color: 'var(--text-primary)'
                   }}>
                     {feature.icon}
@@ -168,7 +168,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                 color="primary"
                 weight="semibold"
                 style={{
-                  fontSize: (index === 0 || index === 3) ? '1.375rem' : '1.125rem',
+                  fontSize: (index === 0 || index === 3) ? '1.625rem' : '1.375rem',
                   lineHeight: '1.3',
                   margin: 0
                 }}
