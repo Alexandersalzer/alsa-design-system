@@ -132,14 +132,11 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               }}
             />
             
-            <Stack 
-              spacing={index === 0 || index === 3 ? 'lg' : 'md'} 
-              align="start"
-              style={{
-                position: 'relative',
-                zIndex: 2
-              }}
-            >
+            <div style={{ position: 'relative', zIndex: 2 }}>
+              <Stack 
+                spacing={index === 0 || index === 3 ? 'lg' : 'md'} 
+                align="start"
+              >
               {/* Icon - Only show if icon is provided */}
               {feature.icon && (
                 <div 
@@ -190,7 +187,8 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               >
                 {feature.description}
               </Body>
-            </Stack>
+              </Stack>
+            </div>
           </Card>
           ))}
         </div>
