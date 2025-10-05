@@ -191,7 +191,7 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
                   weight="bold"
                   style={{ 
                     color: 'var(--text-primary)',
-                    fontSize: 'clamp(3rem, 8vw, 7rem)',
+                    fontSize: 'clamp(3rem, 6vw, 5rem)',
                     lineHeight: '1.1',
                     maxWidth: '400px'
                   }}
