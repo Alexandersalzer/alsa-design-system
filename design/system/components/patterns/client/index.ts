@@ -25,4 +25,3 @@ export * from './DualFeatureSection';
 export * from './FeatureGrid';
 export * from './CleanFeatureGridSection';
 export * from './FooterSection';
-export * from './NavbarSection';

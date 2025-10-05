@@ -82,7 +82,8 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
                 color="secondary"
                 style={{
                   lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                  fontSize: 'clamp(1.1rem, 2vw, 1.2rem)'
+                  fontSize: 'clamp(1.1rem, 2vw, 1.2rem)',
+                  textAlign: 'center'
                 }}
               >
                 {subtitle}
