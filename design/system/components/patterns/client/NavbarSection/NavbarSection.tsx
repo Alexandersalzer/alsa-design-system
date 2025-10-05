@@ -128,9 +128,9 @@ export const NavbarSection: React.FC<NavbarSectionProps> = ({
               width: '100%',
               display: 'flex',
               flexDirection: 'row',
-              justifyContent: 'space-between',
               alignItems: 'center',
-              gap: 'var(--foundation-space-lg)'
+              gap: 'var(--foundation-space-lg)',
+              minHeight: '60px'
             }}
           >
             {/* Left Zone - Company Logo */}
@@ -180,60 +180,64 @@ export const NavbarSection: React.FC<NavbarSectionProps> = ({
             </div>
 
             {/* Middle Zone - Navigation Links (Desktop) */}
-            {links.length > 0 && (
-              <nav className="navbar-desktop-nav" style={{ display: 'flex' }}>
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 'var(--foundation-space-lg)' }}>
-                  {links.map((link, index) => (
-                    <TextLink
-                      key={index}
-                      href={link.href}
-                      variant="secondary"
-                      style={{
-                        fontSize: '0.875rem',
-                        fontWeight: '500',
-                        color: activeLink === link.href ? 'var(--accent-500)' : 'var(--text-primary)',
-                        textDecoration: 'none',
-                        transition: 'color 0.2s ease',
-                        position: 'relative'
-                      }}
-                      onMouseEnter={(e) => {
-                        if (activeLink !== link.href) {
-                          e.currentTarget.style.color = 'var(--accent-400)';
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        if (activeLink !== link.href) {
-                          e.currentTarget.style.color = 'var(--text-primary)';
-                        }
-                      }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleLinkClick(link);
-                      }}
-                    >
-                      {link.label}
-                      {activeLink === link.href && (
-                        <div
-                          style={{
-                            position: 'absolute',
-                            bottom: '-8px',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                            width: '20px',
-                            height: '2px',
-                            backgroundColor: 'var(--accent-500)',
-                            borderRadius: 'var(--radius-full)'
-                          }}
-                        />
-                      )}
-                    </TextLink>
-                  ))}
-                </div>
-              </nav>
-            )}
+            <div className="navbar-desktop-nav" style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
+              {links.length > 0 ? (
+                <nav>
+                  <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 'var(--foundation-space-lg)' }}>
+                    {links.map((link, index) => (
+                      <TextLink
+                        key={index}
+                        href={link.href}
+                        variant="secondary"
+                        style={{
+                          fontSize: '0.875rem',
+                          fontWeight: '500',
+                          color: activeLink === link.href ? 'var(--accent-500)' : 'var(--text-primary)',
+                          textDecoration: 'none',
+                          transition: 'color 0.2s ease',
+                          position: 'relative'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (activeLink !== link.href) {
+                            e.currentTarget.style.color = 'var(--accent-400)';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (activeLink !== link.href) {
+                            e.currentTarget.style.color = 'var(--text-primary)';
+                          }
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleLinkClick(link);
+                        }}
+                      >
+                        {link.label}
+                        {activeLink === link.href && (
+                          <div
+                            style={{
+                              position: 'absolute',
+                              bottom: '-8px',
+                              left: '50%',
+                              transform: 'translateX(-50%)',
+                              width: '20px',
+                              height: '2px',
+                              backgroundColor: 'var(--accent-500)',
+                              borderRadius: 'var(--radius-full)'
+                            }}
+                          />
+                        )}
+                      </TextLink>
+                    ))}
+                  </div>
+                </nav>
+              ) : (
+                <div style={{ flex: 1 }} />
+              )}
+            </div>
 
             {/* Right Zone - CTA Buttons (Desktop) */}
-            <div className="navbar-desktop-cta" style={{ display: 'flex', flexShrink: 0 }}>
+            <div className="navbar-desktop-cta" style={{ display: 'flex', flexShrink: 0, justifyContent: 'flex-end' }}>
               <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 'var(--foundation-space-sm)' }}>
                 {secondaryButton && (
                   <Button
