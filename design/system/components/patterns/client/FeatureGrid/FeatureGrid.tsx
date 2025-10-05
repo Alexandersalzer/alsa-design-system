@@ -72,27 +72,9 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             className={`feature-card feature-card--${index}`}
             style={{
               background: feature.backgroundImage ? `
-                linear-gradient(135deg, 
-                  rgba(255, 255, 255, 0.1) 0%, 
-                  rgba(255, 255, 255, 0.05) 25%,
-                  rgba(255, 255, 255, 0.02) 50%,
-                  rgba(255, 255, 255, 0.01) 75%,
-                  transparent 100%
-                ),
-                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
                 url('${feature.backgroundImage}'),
                 var(--surface-primary)
               ` : `
-                linear-gradient(135deg, 
-                  rgba(255, 255, 255, 0.1) 0%, 
-                  rgba(255, 255, 255, 0.05) 25%,
-                  rgba(255, 255, 255, 0.02) 50%,
-                  rgba(255, 255, 255, 0.01) 75%,
-                  transparent 100%
-                ),
-                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
                 var(--surface-primary)
               `,
               boxShadow: 'var(--shadow-md)',
@@ -125,30 +107,6 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               })
             }}
           >
-            {/* Pattern overlay that fades out near text */}
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: `
-                  radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
-                  radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
-                  linear-gradient(45deg, 
-                    rgba(255, 255, 255, 0.05) 0%, 
-                    transparent 20%,
-                    transparent 80%,
-                    rgba(255, 255, 255, 0.05) 100%
-                  )
-                `,
-                opacity: 0.6,
-                pointerEvents: 'none',
-                zIndex: 1
-              }}
-            />
-            
             <div style={{ position: 'relative', zIndex: 2 }}>
               <Stack 
                 spacing={index === 0 || index === 3 ? 'xl' : 'lg'} 
