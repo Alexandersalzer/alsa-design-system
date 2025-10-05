@@ -72,7 +72,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             className={`feature-card feature-card--${index}`}
             style={{
               background: feature.backgroundImage ? `
-                linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
+                linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)),
                 url('${feature.backgroundImage}'),
                 var(--surface-primary)
               ` : `
