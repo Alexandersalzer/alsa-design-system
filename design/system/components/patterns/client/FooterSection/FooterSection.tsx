@@ -123,7 +123,6 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
       }}
     >
       <div style={{ 
-        maxWidth: 'var(--size-page-max-width)',
         padding: 'var(--foundation-space-24) var(--foundation-space-6) var(--foundation-space-16) var(--foundation-space-6)'
       }}>
         <div 
@@ -134,7 +133,9 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
             boxShadow: 'var(--shadow-md)',
             border: '1px solid var(--border-subtle)',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            maxWidth: 'var(--size-page-max-width)',
+            margin: '0 auto'
           }}
         >
           {/* Background Image with Fade */}
