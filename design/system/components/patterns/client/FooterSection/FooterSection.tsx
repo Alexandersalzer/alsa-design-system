@@ -135,8 +135,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
             border: '1px solid var(--border-subtle)',
             position: 'relative',
             overflow: 'hidden',
-            maxWidth: 'var(--size-page-max-width)',
-            margin: '0 auto'
+            maxWidth: 'var(--size-page-max-width)'
           }}
         >
           {/* Background Image with Fade */}
@@ -184,7 +183,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                     color="primary"
                     style={{
                       margin: 0,
-                      fontSize: '1.5rem'
+                      fontSize: '1.25rem'
                     }}
                   >
                     {companyName}
@@ -195,7 +194,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                     style={{
                       lineHeight: '1.5',
                       maxWidth: '280px',
-                      fontSize: '0.875rem'
+                      fontSize: '0.75rem'
                     }}
                   >
                     {companyDescription}
@@ -211,7 +210,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                       variant="h4" 
                       weight="semibold"
                       color="primary"
-                      style={{ margin: 0, fontSize: '0.875rem' }}
+                      style={{ margin: 0, fontSize: '0.75rem' }}
                     >
                       {column.title}
                     </Typography>
@@ -222,7 +221,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                         href={link.href}
                         variant="secondary"
                         style={{
-                          fontSize: '0.75rem',
+                          fontSize: '0.625rem',
                           color: 'var(--text-secondary)',
                           textDecoration: 'none',
                           transition: 'color 0.2s ease'
@@ -248,7 +247,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                     variant="h4" 
                     weight="semibold"
                     color="primary"
-                    style={{ margin: 0, fontSize: '0.875rem' }}
+                    style={{ margin: 0, fontSize: '0.75rem' }}
                   >
                     Kontakt
                   </Typography>
@@ -259,7 +258,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                         href={`mailto:${email}`}
                         variant="secondary"
                         style={{
-                          fontSize: '0.75rem',
+                          fontSize: '0.625rem',
                           color: 'var(--text-secondary)',
                           textDecoration: 'none'
                         }}
@@ -275,7 +274,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                         href={`tel:${phone}`}
                         variant="secondary"
                         style={{
-                          fontSize: '0.75rem',
+                          fontSize: '0.625rem',
                           color: 'var(--text-secondary)',
                           textDecoration: 'none'
                         }}
@@ -289,7 +288,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                     variant="body-xs"
                     weight="semibold"
                     color="primary"
-                    style={{ margin: 0, fontSize: '0.75rem' }}
+                    style={{ margin: 0, fontSize: '0.625rem' }}
                   >
                     Följ oss
                   </Typography>
