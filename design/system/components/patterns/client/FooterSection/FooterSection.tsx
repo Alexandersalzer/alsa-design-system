@@ -1,9 +1,17 @@
+// ===============================================
+// design/system/components/patterns/client/FooterSection/FooterSection.tsx
+// MODERN FOOTER COMPONENT - Built with Blimpify Design System
+// ===============================================
+
 import React from 'react';
-import { Button } from '../../../../../system/components/primitives/Button';
-import { Typography } from '../../../../../system/components/primitives/Typography';
-import { Container } from '../../../../../system/layout/frames/container/Container';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Linkedin, Instagram, Mail, Phone } from 'lucide-react';
+import { MailIcon, PhoneIcon, LinkedinIcon, InstagramIcon } from 'lucide-react';
+import { Section } from '../../../../layout/frames/section/Section';
+import { Container } from '../../../../layout/frames/container/Container';
+import { Stack } from '../../../../layout/utilities/stack/Stack';
+import { Typography } from '../../../primitives/Typography';
+import { TextLink } from '../../../primitives/TextLink';
+import { Icon } from '../../../primitives/Icon';
+import { Logo } from '../../../primitives/Logo';
 import './FooterSection.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -19,21 +27,15 @@ export interface FooterColumn {
   links: FooterLink[];
 }
 
-export interface SocialLink {
-  platform: 'linkedin' | 'instagram';
-  href: string;
-  icon: React.ReactNode;
-}
-
 export interface FooterSectionProps {
   id?: string;
   className?: string;
   
   // Company info
   companyName?: string;
-  description?: string;
+  companyDescription?: string;
   
-  // Footer columns
+  // Columns
   columns?: FooterColumn[];
   
   // Contact info
@@ -41,179 +43,348 @@ export interface FooterSectionProps {
   phone?: string;
   
   // Social links
-  socialLinks?: SocialLink[];
+  socialLinks?: Array<{
+    platform: string;
+    href: string;
+    icon: React.ReactNode;
+  }>;
   
-  // Copyright
+  // Bottom bar
   copyrightText?: string;
   poweredByText?: string;
 }
 
-// ===== DEFAULT DATA =====
-
-const defaultColumns: FooterColumn[] = [
-  {
-    title: 'Juridik',
-    links: [
-      { label: 'Integritetspolicy', href: '/privacy' },
-      { label: 'Användarvillkor', href: '/terms' },
-      { label: 'Cookiepolicy', href: '/cookies' },
-      { label: 'GDPR & Datahantering', href: '/gdpr' }
-    ]
-  },
-  {
-    title: 'Företaget',
-    links: [
-      { label: 'Om oss', href: '/about' },
-      { label: 'Våra tjänster', href: '/services' },
-      { label: 'Kundreferenser', href: '/references' },
-      { label: 'Jobba med oss', href: '/careers' }
-    ]
-  },
-  {
-    title: 'Support',
-    links: [
-      { label: 'Vanliga frågor', href: '/faq' },
-      { label: 'Kontakta oss', href: '/contact' },
-      { label: 'Supportcenter', href: '/support' },
-      { label: 'Tekniska frågor', href: '/technical' }
-    ]
-  }
-];
-
-const defaultSocialLinks: SocialLink[] = [
-  {
-    platform: 'linkedin',
-    href: 'https://linkedin.com/company/blimpify-im',
-    icon: <Linkedin size={20} />
-  },
-  {
-    platform: 'instagram',
-    href: 'https://instagram.com/blimpify_im',
-    icon: <Instagram size={20} />
-  }
-];
-
-// ===== MAIN FOOTER SECTION COMPONENT =====
+// ===== MAIN FOOTER COMPONENT =====
 
 export const FooterSection: React.FC<FooterSectionProps> = ({
   id = "footer",
   className,
   companyName = "Blimpify IM",
-  description = "Vi bygger moderna hemsidor och digitala lösningar för företag inom skadeståndsrätt, juridik och servicebranscher.",
-  columns = defaultColumns,
+  companyDescription = "Vi bygger moderna hemsidor och digitala lösningar för företag inom skadeståndsrätt och juridik.",
+  columns = [
+    {
+      title: "Länkar",
+      links: [
+        { label: "Integritetspolicy", href: "/privacy" },
+        { label: "Användarvillkor", href: "/terms" },
+        { label: "Cookiepolicy", href: "/cookies" },
+        { label: "GDPR & Datahantering", href: "/gdpr" }
+      ]
+    },
+    {
+      title: "Företaget",
+      links: [
+        { label: "Om oss", href: "#om-oss" },
+        { label: "Våra tjänster", href: "#features" },
+        { label: "Kundreferenser", href: "#testimonials" },
+        { label: "Jobba med oss", href: "/careers" }
+      ]
+    },
+    {
+      title: "Support",
+      links: [
+        { label: "Vanliga frågor", href: "#faq" },
+        { label: "Kontakta oss", href: "#contact" },
+        { label: "Supportcenter", href: "/support" },
+        { label: "Tekniska frågor", href: "/technical" }
+      ]
+    }
+  ],
   email = "info@blimpify-im.com",
-  phone = "+46 70-123 45 67",
-  socialLinks = defaultSocialLinks,
+  phone = "08-123 45 678",
+  socialLinks = [
+    {
+      platform: "linkedin",
+      href: "https://linkedin.com/company/blimpify-im",
+      icon: <Icon size="sm" color="secondary"><LinkedinIcon /></Icon>
+    },
+    {
+      platform: "instagram", 
+      href: "https://instagram.com/blimpify_im",
+      icon: <Icon size="sm" color="secondary"><InstagramIcon /></Icon>
+    }
+  ],
   copyrightText,
-  poweredByText = "Powered by Blimpify IM"
+  poweredByText = "By Blimpify"
 }) => {
   const currentYear = new Date().getFullYear();
-  const finalCopyrightText = copyrightText || `© ${currentYear} ${companyName}. Alla rättigheter reserverade.`;
+  const defaultCopyright = `© ${currentYear} ${companyName}. Alla rättigheter reserverade.`;
 
   return (
-    <footer id={id} className={`footer-section ${className || ''}`}>
-      <div className="footer-container">
-        {/* Main footer content */}
-        <div className="footer-grid">
-          {/* Company info column */}
-          <div className="footer-company">
-            <div className="footer-logo">
-              <h2 className="footer-company-name">
-                {companyName}
-              </h2>
-            </div>
-            <p className="footer-description">
-              {description}
-            </p>
-          </div>
-
-          {/* Links columns */}
-          {columns.map((column, index) => (
-            <div key={index} className="footer-column">
-              <h4 className="footer-column-title">
-                {column.title}
-              </h4>
-              <nav>
-                <ul className="footer-links">
-                  {column.links.map((link, linkIndex) => (
-                    <li key={linkIndex}>
-                      <a
+    <Section 
+      id={id}
+      as="footer"
+      className={`footer-section ${className || ''}`}
+      style={{
+        backgroundColor: 'var(--surface-default)',
+        paddingTop: 'var(--foundation-space-24)',
+        paddingBottom: 'var(--foundation-space-16)'
+      }}
+    >
+      <Container maxWidth="lg">
+        <Stack spacing="xl" align="start">
+          
+          {/* Main Content Grid */}
+          <div className="footer-main-content">
+            <div 
+              style={{ 
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gap: 'var(--foundation-space-xl)',
+                width: '100%'
+              }}
+            >
+              
+              {/* Column 1: Company Info */}
+              <div style={{ maxWidth: '280px' }}>
+                <Stack spacing="md" align="start">
+                  <Logo 
+                    src="/logos/blimpify-logo.svg" 
+                    alt="Blimpify Logo" 
+                    size="md"
+                  />
+                  <Typography 
+                    variant="body-sm"
+                    color="secondary"
+                    style={{ 
+                      lineHeight: '1.6',
+                      maxWidth: '280px'
+                    }}
+                  >
+                    {companyDescription}
+                  </Typography>
+                </Stack>
+              </div>
+              
+              {/* Columns 2-4: Navigation Links */}
+              {columns.map((column, index) => (
+                <div key={index}>
+                  <Stack spacing="md" align="start">
+                    <Typography 
+                      variant="h3" 
+                      weight="semibold"
+                      color="primary"
+                      style={{ margin: 0, fontSize: '1rem' }}
+                    >
+                      {column.title}
+                    </Typography>
+                  
+                  <Stack spacing="sm" align="start">
+                    {column.links.map((link, linkIndex) => (
+                      <TextLink
+                        key={linkIndex}
                         href={link.href}
-                        target={link.external ? '_blank' : undefined}
-                        rel={link.external ? 'noopener noreferrer' : undefined}
-                        className="footer-link"
+                        variant="secondary"
+                        style={{
+                          fontSize: 'var(--foundation-typography-font-size-body-sm)',
+                          color: 'var(--text-secondary)',
+                          textDecoration: 'none',
+                          transition: 'color 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.color = 'var(--text-primary)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.color = 'var(--text-secondary)';
+                        }}
                       >
                         {link.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-          ))}
-
-          {/* Social & Contact column */}
-          <div className="footer-contact">
-            <h4 className="footer-column-title">
-              Kontakta oss
-            </h4>
-            
-            <div className="footer-contact-info">
-              {/* Email */}
-              <div className="footer-contact-item">
-                <Mail size={16} className="footer-contact-icon" />
-                <a
-                  href={`mailto:${email}`}
-                  className="footer-contact-link"
-                >
-                  {email}
-                </a>
-              </div>
-
-              {/* Phone */}
-              <div className="footer-contact-item">
-                <Phone size={16} className="footer-contact-icon" />
-                <a
-                  href={`tel:${phone}`}
-                  className="footer-contact-link"
-                >
-                  {phone}
-                </a>
-              </div>
-            </div>
-
-            {/* Social links */}
-            <div className="footer-social">
-              <h4 className="footer-column-title">
-                Följ oss
-              </h4>
-              <div className="footer-social-links">
-                {socialLinks.map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="footer-social-link"
+                      </TextLink>
+                    ))}
+                  </Stack>
+                  </Stack>
+                </div>
+              ))}
+              
+              {/* Column 5: Contact & Social */}
+              <div>
+                <Stack spacing="md" align="start">
+                  <Typography 
+                    variant="h3" 
+                    weight="semibold"
+                    color="primary"
+                    style={{ margin: 0, fontSize: '1rem' }}
                   >
-                    {social.icon}
-                  </a>
-                ))}
+                    Kontakt
+                  </Typography>
+                
+                  <Stack spacing="sm" align="start">
+                    {/* Email */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-sm)' }}>
+                      <Icon size="sm" color="secondary"><MailIcon /></Icon>
+                      <TextLink
+                        href={`mailto:${email}`}
+                        variant="secondary"
+                        style={{
+                          fontSize: 'var(--foundation-typography-font-size-body-sm)',
+                          color: 'var(--text-secondary)',
+                          textDecoration: 'none'
+                        }}
+                      >
+                        {email}
+                      </TextLink>
+                    </div>
+                    
+                    {/* Phone */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-sm)' }}>
+                      <Icon size="sm" color="secondary"><PhoneIcon /></Icon>
+                      <TextLink
+                        href={`tel:${phone}`}
+                        variant="secondary"
+                        style={{
+                          fontSize: 'var(--foundation-typography-font-size-body-sm)',
+                          color: 'var(--text-secondary)',
+                          textDecoration: 'none'
+                        }}
+                      >
+                        {phone}
+                      </TextLink>
+                    </div>
+                  
+                    {/* Social Links */}
+                    <div style={{ marginTop: 'var(--foundation-space-md)' }}>
+                      <Stack spacing="sm" align="start">
+                        <Typography 
+                          variant="body-sm"
+                          weight="semibold"
+                          color="primary"
+                          style={{ margin: 0 }}
+                        >
+                          Följ oss
+                        </Typography>
+                        
+                        <div style={{ display: 'flex', gap: 'var(--foundation-space-md)', alignItems: 'center' }}>
+                          {socialLinks.map((social, index) => (
+                            <TextLink
+                              key={index}
+                              href={social.href}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '32px',
+                                height: '32px',
+                                borderRadius: 'var(--radius-md)',
+                                backgroundColor: 'var(--surface-subtle)',
+                                transition: 'all 0.2s ease',
+                                textDecoration: 'none'
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.backgroundColor = 'var(--surface-secondary)';
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.backgroundColor = 'var(--surface-subtle)';
+                                e.currentTarget.style.transform = 'translateY(0)';
+                              }}
+                            >
+                              {social.icon}
+                            </TextLink>
+                          ))}
+                        </div>
+                      </Stack>
+                    </div>
+                  </Stack>
+                </Stack>
               </div>
+              
             </div>
           </div>
-        </div>
-
-        {/* Bottom bar */}
-        <div className="footer-bottom">
-          <p className="footer-copyright">
-            {finalCopyrightText}
-          </p>
-          <p className="footer-powered-by">
-            {poweredByText}
-          </p>
-        </div>
-      </div>
-    </footer>
+          
+          {/* Bottom Bar */}
+          <div className="footer-bottom-bar" style={{ width: '100%' }}>
+            {/* Divider */}
+            <div 
+              style={{
+                height: '1px',
+                backgroundColor: 'var(--border-subtle)',
+                marginBottom: 'var(--foundation-space-lg)'
+              }}
+            />
+            
+            {/* Bottom Content */}
+            <div style={{ 
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: 'var(--foundation-space-md)'
+            }}>
+              <Typography 
+                variant="body-sm"
+                color="secondary"
+                style={{ margin: 0 }}
+              >
+                {copyrightText || defaultCopyright}
+              </Typography>
+              
+              <Typography 
+                variant="body-sm"
+                color="secondary"
+                style={{ margin: 0 }}
+              >
+                {poweredByText}
+              </Typography>
+            </div>
+          </div>
+          
+        </Stack>
+      </Container>
+    </Section>
   );
 };
+
+FooterSection.displayName = 'FooterSection';
+
+// ===== USAGE EXAMPLE =====
+/*
+<FooterSection 
+  companyName="Jaksenvest Global AB"
+  companyDescription="Vi hjälper dig att få den ersättning du förtjänar. Professionell juridisk rådgivning för skadeståndsärenden."
+  email="kontakt@jaksenvest.se"
+  phone="08-123 456 78"
+  columns={[
+    {
+      title: 'Juridik',
+      links: [
+        { label: 'Integritetspolicy', href: '/privacy' },
+        { label: 'Användarvillkor', href: '/terms' },
+        { label: 'Cookiepolicy', href: '/cookies' },
+        { label: 'GDPR & Datahantering', href: '/gdpr' }
+      ]
+    },
+    {
+      title: 'Företaget',
+      links: [
+        { label: 'Om oss', href: '#om-oss' },
+        { label: 'Våra tjänster', href: '#features' },
+        { label: 'Kundreferenser', href: '#testimonials' },
+        { label: 'Jobba med oss', href: '/careers' }
+      ]
+    },
+    {
+      title: 'Support',
+      links: [
+        { label: 'Vanliga frågor', href: '#faq' },
+        { label: 'Kontakta oss', href: '#contact' },
+        { label: 'Supportcenter', href: '/support' },
+        { label: 'Tekniska frågor', href: '/technical' }
+      ]
+    }
+  ]}
+  socialLinks={[
+    {
+      platform: 'linkedin',
+      href: 'https://linkedin.com/company/jaksenvest-global-ab',
+      icon: <Icon name="linkedin" size="sm" color="text-secondary" />
+    },
+    {
+      platform: 'instagram',
+      href: 'https://instagram.com/jaksenvest_global',
+      icon: <Icon name="instagram" size="sm" color="text-secondary" />
+    }
+  ]}
+  copyrightText="© 2024 Jaksenvest Global AB. Alla rättigheter reserverade."
+  poweredByText="Powered by Blimpify IM"
+/>
+*/
