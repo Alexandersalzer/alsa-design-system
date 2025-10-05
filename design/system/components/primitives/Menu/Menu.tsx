@@ -277,7 +277,7 @@ export const MenuPositioner = ({ children }: MenuPositionerProps) => {
 };
 
 // ===============================================
-// MENU CONTENT (CENTERED + EDGE GUARD)
+// MENU CONTENT
 // ===============================================
 
 export interface MenuContentProps {
@@ -288,58 +288,61 @@ export interface MenuContentProps {
 
 export const MenuContent = ({ children, className, maxHeight = 400 }: MenuContentProps) => {
   const { contentId, size, contentRef, setIsOpen, triggerRef } = useMenuContext();
-  const [position, setPosition] = useState({
+  const [position, setPosition] = useState<{
+    top?: number;
+    left?: number;
+    shouldOpenUpward: boolean;
+    calculatedMaxHeight: number;
+  }>({
     shouldOpenUpward: false,
-    calculatedMaxHeight: maxHeight,
-    left: 0,
-    top: 0
+    calculatedMaxHeight: maxHeight
   });
 
   const handleKeyDown = (e: ReactKeyboardEvent) => {
-    if (e.key === 'Escape') setIsOpen(false);
+    if (e.key === 'Escape') {
+      setIsOpen(false);
+    }
   };
 
   const calculatePosition = () => {
     if (!contentRef.current || !triggerRef.current) return;
 
     const triggerRect = triggerRef.current.getBoundingClientRect();
-    const contentEl = contentRef.current;
-    const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
 
     const spaceAbove = triggerRect.top;
     const spaceBelow = viewportHeight - triggerRect.bottom;
-    const shouldOpenUpward = spaceBelow < maxHeight && spaceAbove > spaceBelow;
 
+    const shouldOpenUpward = spaceBelow < maxHeight && spaceAbove > spaceBelow;
     const calculatedMaxHeight = shouldOpenUpward
       ? Math.min(maxHeight, spaceAbove - 16)
       : Math.min(maxHeight, spaceBelow - 16);
 
-    // Center horizontally under trigger
-    let left = triggerRect.left + triggerRect.width / 2 - contentEl.offsetWidth / 2;
+    // Horizontal alignment
+    const left = triggerRect.left;
+    const rightSpace = viewportWidth - triggerRect.right;
+    const preferredWidth = contentRef.current.offsetWidth;
 
-    // Keep within viewport horizontally
-    if (left + contentEl.offsetWidth > viewportWidth - 8) {
-      left = viewportWidth - contentEl.offsetWidth - 8;
+    // Keep dropdown within viewport horizontally
+    let alignedLeft = left;
+    if (left + preferredWidth > viewportWidth - 8) {
+      alignedLeft = viewportWidth - preferredWidth - 8;
     }
-    if (left < 8) left = 8;
-
-    const top = shouldOpenUpward
-      ? triggerRect.top - calculatedMaxHeight - 8
-      : triggerRect.bottom + 8;
+    if (alignedLeft < 8) alignedLeft = 8;
 
     setPosition({
+      left: alignedLeft,
+      top: shouldOpenUpward ? undefined : triggerRect.bottom + window.scrollY + 8,
       shouldOpenUpward,
-      calculatedMaxHeight,
-      left,
-      top: top + window.scrollY
+      calculatedMaxHeight
     });
   };
 
   useEffect(() => {
     const timer = setTimeout(calculatePosition, 0);
     return () => clearTimeout(timer);
-  }, [maxHeight]);
+  }, [contentRef, triggerRef, maxHeight]);
 
   useEffect(() => {
     window.addEventListener('scroll', calculatePosition, true);
@@ -360,15 +363,23 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
       className={cn('menu-content', `menu-content--${size}`, className)}
       style={{
         position: 'absolute',
-        left: `${position.left}px`,
-        top: `${position.top}px`,
-        maxHeight: `${position.calculatedMaxHeight}px`
+        top: position.shouldOpenUpward
+          ? 'auto'
+          : position.top
+          ? `${position.top}px`
+          : undefined,
+        bottom: position.shouldOpenUpward ? `calc(100% + 8px)` : undefined,
+        left: position.left ? `${position.left}px` : undefined,
+        maxHeight: `${position.calculatedMaxHeight}px`,
+        marginTop: position.shouldOpenUpward ? '0' : '8px',
+        marginBottom: position.shouldOpenUpward ? '8px' : '0',
       }}
     >
       {children}
     </div>
   );
 };
+
 
 // ===============================================
 // MENU ITEM
