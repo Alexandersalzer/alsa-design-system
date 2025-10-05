@@ -11,7 +11,6 @@ import { Stack } from '../../../../layout/utilities/stack/Stack';
 import { Typography } from '../../../primitives/Typography';
 import { TextLink } from '../../../primitives/TextLink';
 import { Icon } from '../../../primitives/Icon';
-import { Logo } from '../../../primitives/Logo';
 import { Button } from '../../../primitives/Button';
 import './FooterSection.css';
 
@@ -172,11 +171,17 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               {/* Column 1: Company Info */}
               <div style={{ flex: '1', minWidth: '280px' }}>
                 <Stack spacing="md" align="start">
-                  <Logo 
-                    src="/logos/blimpify-logo.svg" 
-                    alt="Blimpify Logo" 
-                    size="md"
-                  />
+                  <Typography 
+                    variant="h2"
+                    weight="bold"
+                    color="primary"
+                    style={{
+                      margin: 0,
+                      fontSize: '1.5rem'
+                    }}
+                  >
+                    {companyName}
+                  </Typography>
                   <Typography 
                     variant="body-xs"
                     color="secondary"
