@@ -290,11 +290,9 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
   const { contentId, size, contentRef, setIsOpen, triggerRef } = useMenuContext();
   const [position, setPosition] = useState<{
     shouldOpenUpward: boolean;
-    shouldAlignRight: boolean;
     calculatedMaxHeight: number;
   }>({
     shouldOpenUpward: false,
-    shouldAlignRight: false,
     calculatedMaxHeight: maxHeight
   });
   
@@ -304,28 +302,18 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
     }
   };
   
-  // Calculate smart positioning - EXACTLY MATCHES PICKER
+  // Calculate vertical positioning only
   const calculatePosition = () => {
     if (!contentRef.current || !triggerRef.current) return;
     
-    const contentRect = contentRef.current.getBoundingClientRect();
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
-    const viewportWidth = window.innerWidth;
     
     const spaceAbove = triggerRect.top;
     const spaceBelow = viewportHeight - triggerRect.bottom;
     
     // Vertical positioning
     const shouldOpenUpward = spaceBelow < maxHeight && spaceAbove > spaceBelow;
-    
-    // Horizontal positioning - check if dropdown would overflow on the right
-    const contentWidth = contentRect.width || 200;
-    const spaceRight = viewportWidth - triggerRect.left;
-    const spaceLeft = triggerRect.right;
-    
-    // shouldAlignRight = true means NOT enough space on right, so align to RIGHT edge
-    const shouldAlignRight = spaceRight < contentWidth && spaceLeft > spaceRight;
     
     // Calculate actual max height based on available space
     const calculatedMaxHeight = shouldOpenUpward
@@ -334,7 +322,6 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
     
     setPosition({
       shouldOpenUpward,
-      shouldAlignRight,
       calculatedMaxHeight
     });
   };
@@ -375,10 +362,6 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
           top: 'auto',
           marginBottom: '8px',
           marginTop: '0'
-        }),
-        ...(position.shouldAlignRight && {
-          left: 'auto',
-          right: 0
         })
       }}
     >
