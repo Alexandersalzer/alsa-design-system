@@ -130,16 +130,18 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
         padding: '0 var(--foundation-space-6)'
       }}>
         <div style={{ 
-          maxWidth: 'var(--size-page-max-width)', 
-          width: '100%',
-          background: 'var(--surface-primary)',
-          borderRadius: 'var(--radius-lg)',
-          padding: 'var(--foundation-space-8)',
-          boxShadow: 'var(--shadow-md)',
-          border: '1px solid var(--border-subtle)',
-          position: 'relative',
-          overflow: 'hidden'
+          maxWidth: 'var(--size-page-content-max-width)', 
+          width: '100%'
         }}>
+          <div style={{ 
+            background: 'var(--surface-primary)',
+            borderRadius: 'var(--radius-lg)',
+            padding: 'var(--foundation-space-8)',
+            boxShadow: 'var(--shadow-md)',
+            border: '1px solid var(--border-subtle)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
           {/* Background Image with Fade */}
           {backgroundImageUrl && (
             <div 
@@ -391,9 +393,10 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
           </div>
 
             </Stack>
-          </div>
-        </div>
-      </div>
+          </div> {/* End of z-index 2 wrapper */}
+        </div> {/* End of card wrapper */}
+      </div> {/* End of content-max-width wrapper */}
+      </div> {/* End of outer padding div */}
     </Section>
   );
 };
