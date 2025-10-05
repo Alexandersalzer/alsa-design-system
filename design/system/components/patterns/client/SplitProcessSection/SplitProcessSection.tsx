@@ -135,9 +135,9 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
         as="section"
         height="auto"
         style={{
+          backgroundColor: 'transparent',
           paddingTop: 'var(--foundation-space-32)',
-          paddingBottom: 'var(--foundation-space-32)',
-          backgroundColor: 'transparent'
+          paddingBottom: 'var(--foundation-space-32)'
         }}
       >
         <div style={{ 
