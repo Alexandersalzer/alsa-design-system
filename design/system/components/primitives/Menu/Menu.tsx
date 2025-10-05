@@ -16,10 +16,14 @@ import React, {
   type KeyboardEvent as ReactKeyboardEvent,
   type MouseEvent as ReactMouseEvent
 } from 'react';
-import { cn } from '../../../lib/utils';
 import { Icon } from '../Icon/Icon';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import './Menu.css';
+
+// Local className utility to avoid dependency issues
+const cn = (...classes: (string | boolean | undefined | null)[]) => {
+  return classes.filter(Boolean).join(' ');
+};
 
 // ===============================================
 // TYPES & INTERFACES
@@ -56,6 +60,11 @@ const useMenuContext = () => {
     throw new Error('Menu components must be used within Menu.Root');
   }
   return context;
+};
+
+// Safe className utility fallback
+const safeClassNames = (...classes: (string | boolean | undefined | null)[]) => {
+  return classes.filter(Boolean).join(' ');
 };
 
 // ===============================================
