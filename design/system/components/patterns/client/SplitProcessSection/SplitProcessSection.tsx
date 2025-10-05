@@ -172,9 +172,9 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
                   weight="bold"
                   style={{ 
                     color: 'var(--text-primary)',
-                    fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
-                    lineHeight: '1.2',
-                    marginBottom: 'var(--foundation-space-6)',
+                    fontSize: '5rem',
+                    lineHeight: '1.1',
+                    marginBottom: 'var(--foundation-space-4)',
                     maxWidth: '400px'
                   }}
                 >
@@ -185,8 +185,9 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
                   variant="body-lg"
                   style={{ 
                     color: 'var(--text-secondary)',
-                    lineHeight: '1.6',
-                    maxWidth: '500px'
+                    lineHeight: '1.5',
+                    maxWidth: '450px',
+                    marginBottom: 'var(--foundation-space-4)'
                   }}
                 >
                   {rightSide.description}
