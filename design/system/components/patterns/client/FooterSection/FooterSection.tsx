@@ -143,7 +143,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               left: 0,
               right: 0,
               height: '300px',
-              backgroundImage: 'url("/images/footer-bg.jpg")',
+              backgroundImage: 'url("/img/pexels-ekaterina-bolovtsova-6077123.jpg")',
               backgroundSize: 'cover',
               backgroundPosition: 'center bottom',
               backgroundRepeat: 'no-repeat',
