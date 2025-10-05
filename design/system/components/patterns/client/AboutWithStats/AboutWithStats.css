@@ -1,0 +1,56 @@
+/* AboutWithStats Responsive Styles */
+.about-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--foundation-space-4);
+  text-align: center;
+  max-width: var(--size-page-max-width);
+  width: 100%;
+}
+
+/* Mobile-first responsive breakpoints */
+@media (max-width: 640px) {
+  .about-stats-grid {
+    grid-template-columns: 1fr;
+    gap: var(--foundation-space-3);
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .about-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--foundation-space-4);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .about-stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--foundation-space-4);
+  }
+}
+
+@media (min-width: 1025px) {
+  .about-stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--foundation-space-4);
+  }
+}
+
+/* Ensure cards don't overflow on very small screens */
+@media (max-width: 480px) {
+  .about-stats-grid {
+    padding: 0 var(--foundation-space-2);
+  }
+  
+  .about-stats-card {
+    padding: var(--foundation-space-4) !important;
+  }
+}
+
+/* Medium mobile screens */
+@media (min-width: 481px) and (max-width: 640px) {
+  .about-stats-card {
+    padding: var(--foundation-space-5) !important;
+  }
+}
