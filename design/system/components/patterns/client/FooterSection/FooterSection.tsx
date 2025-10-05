@@ -88,7 +88,6 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
   return (
     <Section 
       id={id}
-      as="footer"
       className={`footer-section ${className || ''}`}
       style={{
         backgroundColor: 'var(--surface-default)',
