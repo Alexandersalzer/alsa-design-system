@@ -138,12 +138,14 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
           paddingBottom: 'var(--foundation-space-32)'
         }}
       >
-        <div style={{ 
-          maxWidth: 'var(--size-page-max-width)',
-          margin: '0 auto',
-          padding: '0 var(--foundation-space-6)'
-        }}>
-          <div className="split-process-container">
+        <div 
+          className="split-process-container"
+          style={{ 
+            maxWidth: 'var(--size-page-max-width)',
+            margin: '0 auto',
+            padding: '0 var(--foundation-space-6)'
+          }}
+        >
             {/* Left Side - Process Items Grid */}
             <div className="process-grid">
               {leftSide.items.map((item, index) => (
@@ -221,7 +223,6 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
                 </Button>
               </Stack>
             </div>
-          </div>
         </div>
       </Section>
     </>
