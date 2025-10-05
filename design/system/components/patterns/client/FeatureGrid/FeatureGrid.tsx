@@ -101,9 +101,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               })
             }}
           >
-            <Stack 
-              spacing={index === 0 || index === 3 ? 'lg' : 'md'} 
-              align="start"
+            <div
               style={{
                 background: feature.backgroundImage 
                   ? 'rgba(255, 255, 255, 0.95)'
@@ -113,6 +111,10 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                 backdropFilter: feature.backgroundImage ? 'blur(10px)' : 'none'
               }}
             >
+              <Stack 
+                spacing={index === 0 || index === 3 ? 'lg' : 'md'} 
+                align="start"
+              >
               {/* Icon - Only show if icon is provided */}
               {feature.icon && (
                 <div 
@@ -163,7 +165,8 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               >
                 {feature.description}
               </Body>
-            </Stack>
+              </Stack>
+            </div>
           </Card>
           ))}
         </div>
