@@ -179,24 +179,24 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               {/* Column 1: Company Info */}
               <div style={{ flex: '1', minWidth: '280px' }}>
                 <Stack spacing="md" align="start">
-                  <Typography 
-                    variant="h2"
-                    weight="bold"
-                    color="primary"
-                    style={{
-                      margin: 0,
-                      fontSize: '1.5rem'
-                    }}
-                  >
-                    {companyName}
-                  </Typography>
+                             <Typography
+                               variant="h3"
+                               weight="bold"
+                               color="primary"
+                               style={{
+                                 margin: 0,
+                                 fontSize: '1.25rem'
+                               }}
+                             >
+                               {companyName}
+                             </Typography>
                   <Typography 
                     variant="body-xs"
                     color="secondary"
                     style={{
                       lineHeight: '1.5',
                       maxWidth: '280px',
-                      fontSize: '0.875rem'
+                      fontSize: '0.75rem'
                     }}
                   >
                     {companyDescription}
@@ -208,14 +208,14 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               {columns.map((column, index) => (
                 <div key={index} style={{ flex: '1', minWidth: '200px' }}>
                   <Stack spacing="sm" align="start">
-                    <Typography 
-                      variant="h4" 
-                      weight="semibold"
-                      color="primary"
-                      style={{ margin: 0, fontSize: '0.875rem' }}
-                    >
-                      {column.title}
-                    </Typography>
+                               <Typography
+                                 variant="h4"
+                                 weight="semibold"
+                                 color="primary"
+                                 style={{ margin: 0, fontSize: '0.75rem' }}
+                               >
+                                 {column.title}
+                               </Typography>
                     
                     {column.links.map((link, linkIndex) => (
                       <TextLink
@@ -223,7 +223,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                         href={link.href}
                         variant="secondary"
                         style={{
-                          fontSize: '0.75rem',
+                          fontSize: '0.65rem',
                           color: 'var(--text-secondary)',
                           textDecoration: 'none',
                           transition: 'color 0.2s ease'
@@ -242,88 +242,48 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                 </div>
               ))}
               
-              {/* Column 5: Contact & Social */}
+              {/* Column 5: Social Links Only */}
               <div style={{ flex: '1', minWidth: '200px' }}>
                 <Stack spacing="sm" align="start">
-                  <Typography 
-                    variant="h4" 
-                    weight="semibold"
-                    color="primary"
-                    style={{ margin: 0, fontSize: '0.875rem' }}
-                  >
-                    Kontakt
-                  </Typography>
-                    {/* Email */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-sm)' }}>
-                      <Icon size="sm" color="secondary"><MailIcon /></Icon>
-                      <TextLink
-                        href={`mailto:${email}`}
-                        variant="secondary"
-                        style={{
-                          fontSize: '0.75rem',
-                          color: 'var(--text-secondary)',
-                          textDecoration: 'none'
-                        }}
-                      >
-                        {email}
-                      </TextLink>
+                    {/* Social Links */}
+                    <Typography
+                      variant="body-xs"
+                      weight="semibold"
+                      color="primary"
+                      style={{ margin: 0, fontSize: '0.65rem' }}
+                    >
+                      Följ oss
+                    </Typography>
+
+                    <div style={{ display: 'flex', gap: 'var(--foundation-space-md)', alignItems: 'center' }}>
+                      {socialLinks.map((social, index) => (
+                        <TextLink
+                          key={index}
+                          href={social.href}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: 'var(--radius-md)',
+                            backgroundColor: 'var(--surface-subtle)',
+                            transition: 'all 0.2s ease',
+                            textDecoration: 'none'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = 'var(--surface-secondary)';
+                            e.currentTarget.style.transform = 'translateY(-2px)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = 'var(--surface-subtle)';
+                            e.currentTarget.style.transform = 'translateY(0)';
+                          }}
+                        >
+                          {social.icon}
+                        </TextLink>
+                      ))}
                     </div>
-                    
-                    {/* Phone */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-sm)' }}>
-                      <Icon size="sm" color="secondary"><PhoneIcon /></Icon>
-                      <TextLink
-                        href={`tel:${phone}`}
-                        variant="secondary"
-                        style={{
-                          fontSize: '0.75rem',
-                          color: 'var(--text-secondary)',
-                          textDecoration: 'none'
-                        }}
-                      >
-                        {phone}
-                      </TextLink>
-                    </div>
-                  
-                  {/* Social Links */}
-                  <Typography 
-                    variant="body-xs"
-                    weight="semibold"
-                    color="primary"
-                    style={{ margin: 0, fontSize: '0.75rem' }}
-                  >
-                    Följ oss
-                  </Typography>
-                  
-                  <div style={{ display: 'flex', gap: 'var(--foundation-space-md)', alignItems: 'center' }}>
-                    {socialLinks.map((social, index) => (
-                      <TextLink
-                        key={index}
-                        href={social.href}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '32px',
-                          height: '32px',
-                          borderRadius: 'var(--radius-md)',
-                          backgroundColor: 'var(--surface-subtle)',
-                          transition: 'all 0.2s ease',
-                          textDecoration: 'none'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = 'var(--surface-secondary)';
-                          e.currentTarget.style.transform = 'translateY(-2px)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = 'var(--surface-subtle)';
-                          e.currentTarget.style.transform = 'translateY(0)';
-                        }}
-                      >
-                        {social.icon}
-                      </TextLink>
-                    ))}
-                  </div>
                 </Stack>
               </div>
               
