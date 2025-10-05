@@ -287,13 +287,41 @@ export interface MenuContentProps {
 }
 
 export const MenuContent = ({ children, className, maxHeight = 400 }: MenuContentProps) => {
-  const { contentId, size, contentRef, setIsOpen } = useMenuContext();
+  const { contentId, size, contentRef, setIsOpen, triggerRef } = useMenuContext();
+  const [alignRight, setAlignRight] = useState(false);
   
   const handleKeyDown = (e: ReactKeyboardEvent) => {
     if (e.key === 'Escape') {
       setIsOpen(false);
     }
   };
+  
+  // Check positioning when content mounts and updates
+  useEffect(() => {
+    if (contentRef.current && triggerRef.current) {
+      const checkPosition = () => {
+        const contentRect = contentRef.current!.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        
+        // Check if menu would overflow on the right (with 16px padding)
+        const wouldOverflow = contentRect.right > viewportWidth - 16;
+        
+        setAlignRight(wouldOverflow);
+      };
+      
+      // Check immediately
+      checkPosition();
+      
+      // Recheck on window resize
+      window.addEventListener('resize', checkPosition);
+      window.addEventListener('scroll', checkPosition, true);
+      
+      return () => {
+        window.removeEventListener('resize', checkPosition);
+        window.removeEventListener('scroll', checkPosition, true);
+      };
+    }
+  }, [contentRef, triggerRef]);
   
   return (
     <div
@@ -305,6 +333,7 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
       className={cn(
         'menu-content',
         `menu-content--${size}`,
+        alignRight && 'menu-content--align-right',
         className
       )}
       style={{ maxHeight: `${maxHeight}px` }}
