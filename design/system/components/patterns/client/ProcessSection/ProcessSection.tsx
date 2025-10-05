@@ -4,7 +4,6 @@
 // ===============================================
 
 import React from 'react';
-import { Section } from '../../../../../system/layout/frames/section/Section';
 import { ArrowRightIcon } from 'lucide-react';
 import './ProcessSection.css';
 
@@ -50,7 +49,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({
   const displayCards = cards.slice(0, 4);
   
   return (
-    <Section 
+    <section 
       id={id}
       className={className}
       style={{
@@ -205,7 +204,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({
           </div>
         </div>
       </div>
-    </Section>
+    </section>
   );
 };
 
