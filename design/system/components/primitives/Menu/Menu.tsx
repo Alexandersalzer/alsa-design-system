@@ -19,6 +19,7 @@ import React, {
 import { cn } from '../../../lib/utils';
 import { Icon } from '../Icon/Icon';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
+import './Menu.css';
 
 // ===============================================
 // TYPES & INTERFACES
@@ -92,7 +93,7 @@ export interface MenuRootProps {
   className?: string;
 }
 
-const MenuRoot = ({
+export const MenuRoot = ({
   children,
   closeOnSelect = true,
   size = 'md',
@@ -202,7 +203,7 @@ export interface MenuTriggerProps {
   disabled?: boolean;
 }
 
-const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
+export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
   ({ children, asChild = false, className, disabled, ...props }, ref) => {
     const { isOpen, setIsOpen, triggerId, contentId, triggerRef, size } = useMenuContext();
     
@@ -267,7 +268,7 @@ export interface MenuPositionerProps {
   children: ReactNode;
 }
 
-const MenuPositioner = ({ children }: MenuPositionerProps) => {
+export const MenuPositioner = ({ children }: MenuPositionerProps) => {
   const { isOpen } = useMenuContext();
   
   if (!isOpen) return null;
@@ -285,7 +286,7 @@ export interface MenuContentProps {
   maxHeight?: number;
 }
 
-const MenuContent = ({ children, className, maxHeight = 400 }: MenuContentProps) => {
+export const MenuContent = ({ children, className, maxHeight = 400 }: MenuContentProps) => {
   const { contentId, size, contentRef, setIsOpen } = useMenuContext();
   
   const handleKeyDown = (e: ReactKeyboardEvent) => {
@@ -326,7 +327,7 @@ export interface MenuItemProps {
   className?: string;
 }
 
-const MenuItem = ({ 
+export const MenuItem = ({ 
   children, 
   value = '', 
   disabled = false, 
@@ -395,7 +396,7 @@ export interface MenuItemGroupProps {
   className?: string;
 }
 
-const MenuItemGroup = ({ children, label, className }: MenuItemGroupProps) => {
+export const MenuItemGroup = ({ children, label, className }: MenuItemGroupProps) => {
   const { size } = useMenuContext();
   
   return (
@@ -414,7 +415,7 @@ export interface MenuSeparatorProps {
   className?: string;
 }
 
-const MenuSeparator = ({ className }: MenuSeparatorProps) => {
+export const MenuSeparator = ({ className }: MenuSeparatorProps) => {
   const { size } = useMenuContext();
   
   return (
@@ -437,7 +438,7 @@ export interface MenuCheckboxItemProps {
   className?: string;
 }
 
-const MenuCheckboxItem = ({ 
+export const MenuCheckboxItem = ({ 
   children, 
   value,
   checked: controlledChecked,
@@ -494,7 +495,7 @@ export interface MenuItemIndicatorProps {
   className?: string;
 }
 
-const MenuItemIndicator = ({ children, className }: MenuItemIndicatorProps) => {
+export const MenuItemIndicator = ({ children, className }: MenuItemIndicatorProps) => {
   const { size } = useMenuContext();
   
   return (
@@ -517,7 +518,7 @@ export interface MenuItemCommandProps {
   className?: string;
 }
 
-const MenuItemCommand = ({ children, className }: MenuItemCommandProps) => {
+export const MenuItemCommand = ({ children, className }: MenuItemCommandProps) => {
   return <span className={cn('menu-item-command', className)}>{children}</span>;
 };
 
@@ -532,7 +533,7 @@ export interface MenuRadioItemGroupProps {
   className?: string;
 }
 
-const MenuRadioItemGroup = ({ 
+export const MenuRadioItemGroup = ({ 
   children, 
   value: controlledValue,
   onValueChange,
@@ -582,7 +583,7 @@ export interface MenuRadioItemProps {
   className?: string;
 }
 
-const MenuRadioItem = ({ 
+export const MenuRadioItem = ({ 
   children, 
   value,
   checked = false,
@@ -634,7 +635,7 @@ export interface MenuArrowProps {
   className?: string;
 }
 
-const MenuArrow = ({ className }: MenuArrowProps) => {
+export const MenuArrow = ({ className }: MenuArrowProps) => {
   return <div className={cn('menu-arrow', className)} />;
 };
 
