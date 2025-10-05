@@ -104,6 +104,18 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             }}
           >
             <div style={{ position: 'relative', zIndex: 2 }}>
+              {/* Text readability overlay */}
+              <div style={{
+                position: 'absolute',
+                top: '-8px',
+                left: '-8px',
+                right: '-8px',
+                bottom: '-8px',
+                background: 'rgba(0, 0, 0, 0.3)',
+                borderRadius: 'var(--radius-md)',
+                zIndex: -1
+              }} />
+              
               <Stack 
                 spacing={index === 0 || index === 3 ? 'xl' : 'lg'} 
                 align="start"
