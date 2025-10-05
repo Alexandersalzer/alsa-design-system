@@ -119,24 +119,28 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
       as="footer"
       className={`footer-section ${className || ''}`}
       style={{
-        backgroundColor: 'var(--surface-default)'
+        backgroundColor: 'var(--surface-default)',
+        paddingTop: 'var(--foundation-space-24)',
+        paddingBottom: 'var(--foundation-space-16)'
       }}
     >
       <div style={{ 
+        maxWidth: 'var(--size-page-max-width)',
         margin: '0 auto',
-        padding: 'var(--foundation-space-24) var(--foundation-space-6) var(--foundation-space-16) var(--foundation-space-6)'
+        padding: '0 var(--foundation-space-6)'
       }}>
-        <div 
-          style={{
-            background: 'var(--surface-primary)',
-            borderRadius: 'var(--radius-lg)',
-            padding: 'var(--foundation-space-8)',
-            boxShadow: 'var(--shadow-md)',
-            border: '1px solid var(--border-subtle)',
-            position: 'relative',
-            overflow: 'hidden'
-          }}
-        >
+        <div style={{ 
+          maxWidth: 'var(--size-page-content-max-width)', 
+          width: '100%',
+          background: 'var(--surface-primary)',
+          borderRadius: 'var(--radius-lg)',
+          padding: 'var(--foundation-space-8)',
+          boxShadow: 'var(--shadow-md)',
+          border: '1px solid var(--border-subtle)',
+          position: 'relative',
+          overflow: 'hidden',
+          margin: '0 auto'
+        }}>
           {/* Background Image with Fade */}
           {backgroundImageUrl && (
             <div 
