@@ -3,7 +3,6 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../../../lib/utils';
 import { IconButtons } from '../IconButton';
-import './Modal.css';
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 

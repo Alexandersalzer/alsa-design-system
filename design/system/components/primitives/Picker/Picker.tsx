@@ -8,7 +8,6 @@ import { SearchInput } from '../../../components/primitives/Input';
 import { cn } from '../../../lib/utils';
 import { Icon } from '../Icon/Icon';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
-import './Picker.css';
 
 // Import your design system types
 export type PickerSize = 'sm' | 'md' | 'lg';
