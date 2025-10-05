@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Menu/Menu.css
-   CHAKRA-INSPIRED MENU COMPONENT
+   CHAKRA-INSPIRED MENU COMPONENT - RIGHT-ALIGNED DEFAULT
    ============================================== */
 
 /* ===== MENU ROOT ===== */
@@ -91,11 +91,11 @@
   z-index: var(--z-dropdown-active);
 }
 
-/* ===== MENU CONTENT - DEFAULTS TO LEFT: 0 (LIKE PICKER) ===== */
+/* ===== MENU CONTENT - DEFAULTS TO RIGHT: 0 FOR USER MENUS ===== */
 .menu-content {
   position: absolute;
   top: calc(100% + 8px);
-  left: 0;
+  /*right: 0;*/
   min-width: 200px;
   max-height: 400px;
   background-color: var(--surface-dropdown);
