@@ -166,14 +166,15 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
             
             {/* Right Side - Header, Description and Button */}
             <div className="right-content">
-              <Stack spacing="lg" align="start">
+              <div style={{ flex: 1 }}>
                 <Typography 
                   variant="h1"
                   weight="bold"
                   style={{ 
                     color: 'var(--text-primary)',
                     fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
-                    lineHeight: '1.2'
+                    lineHeight: '1.2',
+                    marginBottom: 'var(--foundation-space-6)'
                   }}
                 >
                   {rightSide.title}
@@ -189,21 +190,21 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
                 >
                   {rightSide.description}
                 </Typography>
-                
-                <div style={{ marginTop: 'var(--foundation-space-4)' }}>
-                  <Button 
-                    variant={rightSide.buttonVariant || 'primary'}
-                    size="lg"
-                    onClick={() => {
-                      if (rightSide.buttonHref) {
-                        window.location.href = rightSide.buttonHref;
-                      }
-                    }}
-                  >
-                    {rightSide.buttonText}
-                  </Button>
-                </div>
-              </Stack>
+              </div>
+              
+              <div style={{ marginTop: 'auto' }}>
+                <Button 
+                  variant={rightSide.buttonVariant || 'primary'}
+                  size="lg"
+                  onClick={() => {
+                    if (rightSide.buttonHref) {
+                      window.location.href = rightSide.buttonHref;
+                    }
+                  }}
+                >
+                  {rightSide.buttonText}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
