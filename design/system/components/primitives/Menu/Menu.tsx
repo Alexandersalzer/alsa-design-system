@@ -288,7 +288,15 @@ export interface MenuContentProps {
 
 export const MenuContent = ({ children, className, maxHeight = 400 }: MenuContentProps) => {
   const { contentId, size, contentRef, setIsOpen, triggerRef } = useMenuContext();
-  const [alignRight, setAlignRight] = useState(false);
+  const [position, setPosition] = useState<{
+    shouldOpenUpward: boolean;
+    shouldAlignRight: boolean;
+    calculatedMaxHeight: number;
+  }>({
+    shouldOpenUpward: false,
+    shouldAlignRight: false,
+    calculatedMaxHeight: maxHeight
+  });
   
   const handleKeyDown = (e: ReactKeyboardEvent) => {
     if (e.key === 'Escape') {
@@ -296,32 +304,56 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
     }
   };
   
-  // Check positioning when content mounts and updates
+  // Calculate smart positioning
+  const calculatePosition = () => {
+    if (!contentRef.current || !triggerRef.current) return;
+    
+    const contentRect = contentRef.current.getBoundingClientRect();
+    const triggerRect = triggerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
+    
+    const spaceAbove = triggerRect.top;
+    const spaceBelow = viewportHeight - triggerRect.bottom;
+    const spaceRight = viewportWidth - triggerRect.left;
+    
+    // Vertical positioning
+    const shouldOpenUpward = spaceBelow < maxHeight && spaceAbove > spaceBelow;
+    
+    // Horizontal positioning - check if content would overflow right edge
+    const contentWidth = contentRect.width || 200; // fallback width
+    const wouldOverflowRight = triggerRect.left + contentWidth > viewportWidth - 16;
+    const shouldAlignRight = wouldOverflowRight;
+    
+    // Calculate actual max height based on available space
+    const calculatedMaxHeight = shouldOpenUpward
+      ? Math.min(maxHeight, spaceAbove - 16)
+      : Math.min(maxHeight, spaceBelow - 16);
+    
+    setPosition({
+      shouldOpenUpward,
+      shouldAlignRight,
+      calculatedMaxHeight
+    });
+  };
+  
+  // Calculate position on mount and when content changes
   useEffect(() => {
-    if (contentRef.current && triggerRef.current) {
-      const checkPosition = () => {
-        const contentRect = contentRef.current!.getBoundingClientRect();
-        const viewportWidth = window.innerWidth;
-        
-        // Check if menu would overflow on the right (with 16px padding)
-        const wouldOverflow = contentRect.right > viewportWidth - 16;
-        
-        setAlignRight(wouldOverflow);
-      };
-      
-      // Check immediately
-      checkPosition();
-      
-      // Recheck on window resize
-      window.addEventListener('resize', checkPosition);
-      window.addEventListener('scroll', checkPosition, true);
-      
-      return () => {
-        window.removeEventListener('resize', checkPosition);
-        window.removeEventListener('scroll', checkPosition, true);
-      };
-    }
-  }, [contentRef, triggerRef]);
+    // Small delay to ensure content is rendered with actual width
+    const timer = setTimeout(calculatePosition, 0);
+    return () => clearTimeout(timer);
+  }, [contentRef, triggerRef, maxHeight]);
+  
+  // Recalculate on scroll and resize
+  useEffect(() => {
+    window.addEventListener('scroll', calculatePosition, true);
+    window.addEventListener('resize', calculatePosition);
+    
+    return () => {
+      window.removeEventListener('scroll', calculatePosition, true);
+      window.removeEventListener('resize', calculatePosition);
+    };
+  }, []);
   
   return (
     <div
@@ -333,10 +365,21 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
       className={cn(
         'menu-content',
         `menu-content--${size}`,
-        alignRight && 'menu-content--align-right',
         className
       )}
-      style={{ maxHeight: `${maxHeight}px` }}
+      style={{
+        maxHeight: `${position.calculatedMaxHeight}px`,
+        ...(position.shouldOpenUpward && {
+          bottom: '100%',
+          top: 'auto',
+          marginBottom: '8px',
+          marginTop: '0'
+        }),
+        ...(position.shouldAlignRight && {
+          left: 'auto',
+          right: '0'
+        })
+      }}
     >
       {children}
     </div>

@@ -96,7 +96,6 @@
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  right: auto;
   min-width: 200px;
   max-height: 400px;
   background-color: var(--surface-dropdown);
@@ -111,12 +110,6 @@
   opacity: 1;
   transform: translateZ(0);
   will-change: transform, opacity;
-}
-
-/* Right-aligned when would overflow */
-.menu-content--align-right {
-  left: auto;
-  right: 0;
 }
 
 .menu-content--closing {
