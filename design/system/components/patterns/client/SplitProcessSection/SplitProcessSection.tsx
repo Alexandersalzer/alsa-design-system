@@ -141,6 +141,7 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
         <div 
           className="split-process-container"
           style={{ 
+            maxWidth: 'var(--size-page-max-width)',
             margin: '0 auto',
             padding: '0 var(--foundation-space-6)'
           }}
