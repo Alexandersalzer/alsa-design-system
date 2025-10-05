@@ -12,6 +12,7 @@ import { Typography } from '../../../primitives/Typography';
 import { TextLink } from '../../../primitives/TextLink';
 import { Icon } from '../../../primitives/Icon';
 import { Logo } from '../../../primitives/Logo';
+import { Button } from '../../../primitives/Button';
 import './FooterSection.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -49,6 +50,12 @@ export interface FooterSectionProps {
     icon: React.ReactNode;
   }>;
   
+  // CTA Section
+  ctaTitle?: string;
+  ctaDescription?: string;
+  ctaButtonText?: string;
+  ctaButtonHref?: string;
+  
   // Bottom bar
   copyrightText?: string;
   poweredByText?: string;
@@ -63,21 +70,21 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
   companyDescription = "Vi bygger moderna hemsidor och digitala lösningar för företag inom skadeståndsrätt och juridik.",
   columns = [
     {
-      title: "Länkar",
+      title: "Tjänster",
       links: [
-        { label: "Integritetspolicy", href: "/privacy" },
-        { label: "Användarvillkor", href: "/terms" },
-        { label: "Cookiepolicy", href: "/cookies" },
-        { label: "GDPR & Datahantering", href: "/gdpr" }
+        { label: "Skadeståndsberäkning", href: "#tjanster" },
+        { label: "Juridisk rådgivning", href: "#tjanster" },
+        { label: "Kostnadsfri konsultation", href: "#contact" },
+        { label: "No Win, No Fee", href: "#stats" }
       ]
     },
     {
-      title: "Företaget",
+      title: "Juridiskt",
       links: [
-        { label: "Om oss", href: "#om-oss" },
-        { label: "Våra tjänster", href: "#features" },
-        { label: "Kundreferenser", href: "#testimonials" },
-        { label: "Jobba med oss", href: "/careers" }
+        { label: "Integritetspolicy", href: "#" },
+        { label: "Användarvillkor", href: "#" },
+        { label: "Cookie-policy", href: "#" },
+        { label: "Om oss", href: "#om-oss" }
       ]
     },
     {
@@ -104,6 +111,10 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
       icon: <Icon size="sm" color="secondary"><InstagramIcon /></Icon>
     }
   ],
+  ctaTitle = "Behöver du hjälp?",
+  ctaDescription = "Kontakta oss idag för kostnadsfri konsultation och få hjälp med ditt skadeståndsärende.",
+  ctaButtonText = "Boka konsultation",
+  ctaButtonHref = "#contact",
   copyrightText,
   poweredByText = "By Blimpify"
 }) => {
@@ -288,6 +299,66 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                 </Stack>
               </div>
               
+            </div>
+          </div>
+          
+          {/* CTA Section */}
+          <div className="footer-cta-section" style={{ width: '100%', marginTop: 'var(--foundation-space-24)' }}>
+            <div 
+              style={{
+                background: 'var(--surface-primary)',
+                borderRadius: 'var(--radius-lg)',
+                padding: 'var(--foundation-space-8)',
+                boxShadow: 'var(--shadow-md)',
+                border: '1px solid var(--border-subtle)',
+                textAlign: 'center'
+              }}
+            >
+              <Stack spacing="md" align="center">
+                <Typography 
+                  variant="h3" 
+                  weight="bold"
+                  color="primary"
+                  style={{ margin: 0 }}
+                >
+                  {ctaTitle}
+                </Typography>
+                
+                <Typography 
+                  variant="body-md"
+                  color="secondary"
+                  style={{ 
+                    margin: 0,
+                    maxWidth: '600px',
+                    lineHeight: '1.6'
+                  }}
+                >
+                  {ctaDescription}
+                </Typography>
+                
+                <div style={{ marginTop: 'var(--foundation-space-md)' }}>
+                  <Button 
+                    variant="primary"
+                    size="lg"
+                    onClick={() => {
+                      if (ctaButtonHref) {
+                        if (ctaButtonHref.startsWith('#')) {
+                          // Scroll to section
+                          const element = document.querySelector(ctaButtonHref);
+                          if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' });
+                          }
+                        } else {
+                          // Navigate to page
+                          window.location.href = ctaButtonHref;
+                        }
+                      }
+                    }}
+                  >
+                    {ctaButtonText}
+                  </Button>
+                </div>
+              </Stack>
             </div>
           </div>
           

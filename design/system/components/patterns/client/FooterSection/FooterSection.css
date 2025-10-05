@@ -13,6 +13,10 @@
   width: 100%;
 }
 
+.footer-cta-section {
+  width: 100%;
+}
+
 .footer-bottom-bar {
   width: 100%;
 }
@@ -37,6 +41,14 @@
   .footer-section {
     padding-top: var(--foundation-space-20) !important;
     padding-bottom: var(--foundation-space-12) !important;
+  }
+  
+  .footer-cta-section {
+    margin-top: var(--foundation-space-16) !important;
+  }
+  
+  .footer-cta-section > div {
+    padding: var(--foundation-space-6) !important;
   }
   
   .footer-bottom-bar > div:last-child {
