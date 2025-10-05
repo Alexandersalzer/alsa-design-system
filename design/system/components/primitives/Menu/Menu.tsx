@@ -315,15 +315,18 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
     
     const spaceAbove = triggerRect.top;
     const spaceBelow = viewportHeight - triggerRect.bottom;
-    const spaceRight = viewportWidth - triggerRect.left;
+    const spaceLeft = triggerRect.left;
+    const spaceRight = viewportWidth - triggerRect.right;
     
     // Vertical positioning
     const shouldOpenUpward = spaceBelow < maxHeight && spaceAbove > spaceBelow;
     
-    // Horizontal positioning - check if content would overflow right edge
+    // Horizontal positioning - default to right-aligned, but check for overflow
     const contentWidth = contentRect.width || 200; // fallback width
-    const wouldOverflowRight = triggerRect.left + contentWidth > viewportWidth - 16;
-    const shouldAlignRight = wouldOverflowRight;
+    const wouldOverflowLeft = triggerRect.right - contentWidth < 16;
+    // Default to right-aligned (shouldAlignRight = false means right: 0)
+    // Only switch to left-aligned if it would overflow on the left
+    const shouldAlignRight = wouldOverflowLeft;
     
     // Calculate actual max height based on available space
     const calculatedMaxHeight = shouldOpenUpward
@@ -336,54 +339,6 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
       calculatedMaxHeight
     });
   };
-  
-  // Calculate position on mount and when content changes
-  useEffect(() => {
-    // Small delay to ensure content is rendered with actual width
-    const timer = setTimeout(calculatePosition, 0);
-    return () => clearTimeout(timer);
-  }, [contentRef, triggerRef, maxHeight]);
-  
-  // Recalculate on scroll and resize
-  useEffect(() => {
-    window.addEventListener('scroll', calculatePosition, true);
-    window.addEventListener('resize', calculatePosition);
-    
-    return () => {
-      window.removeEventListener('scroll', calculatePosition, true);
-      window.removeEventListener('resize', calculatePosition);
-    };
-  }, []);
-  
-  return (
-    <div
-      ref={contentRef}
-      id={contentId}
-      role="menu"
-      tabIndex={-1}
-      onKeyDown={handleKeyDown}
-      className={cn(
-        'menu-content',
-        `menu-content--${size}`,
-        className
-      )}
-      style={{
-        maxHeight: `${position.calculatedMaxHeight}px`,
-        ...(position.shouldOpenUpward && {
-          bottom: '100%',
-          top: 'auto',
-          marginBottom: '8px',
-          marginTop: '0'
-        }),
-        ...(position.shouldAlignRight && {
-          left: 'auto',
-          right: '0'
-        })
-      }}
-    >
-      {children}
-    </div>
-  );
 };
 
 // ===============================================
