@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Menu/Menu.tsx
-// CHAKRA-INSPIRED MENU COMPONENT (FIXED DROPDOWN POSITION)
+// CHAKRA-INSPIRED MENU COMPONENT
 // ===============================================
 
 import React, { 
@@ -13,7 +13,8 @@ import React, {
   useId,
   type ReactNode,
   type RefObject,
-  type KeyboardEvent as ReactKeyboardEvent
+  type KeyboardEvent as ReactKeyboardEvent,
+  type MouseEvent as ReactMouseEvent
 } from 'react';
 import { cn } from '../../../lib/utils';
 import { Icon } from '../Icon/Icon';
@@ -21,14 +22,12 @@ import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import './Menu.css';
 
 // ===============================================
-// TYPES & CONTEXT
+// TYPES & INTERFACES
 // ===============================================
 
 export type MenuSize = 'sm' | 'md' | 'lg';
 export type MenuVariant = 'subtle' | 'solid';
-export type MenuColorPalette =
-  | 'gray' | 'red' | 'orange' | 'yellow' | 'green' | 'teal'
-  | 'blue' | 'cyan' | 'purple' | 'pink';
+export type MenuColorPalette = 'gray' | 'red' | 'orange' | 'yellow' | 'green' | 'teal' | 'blue' | 'cyan' | 'purple' | 'pink';
 
 interface MenuContextValue {
   isOpen: boolean;
@@ -50,14 +49,17 @@ interface MenuContextValue {
 }
 
 const MenuContext = createContext<MenuContextValue | null>(null);
+
 const useMenuContext = () => {
   const context = useContext(MenuContext);
-  if (!context) throw new Error('Menu components must be used within Menu.Root');
+  if (!context) {
+    throw new Error('Menu components must be used within Menu.Root');
+  }
   return context;
 };
 
 // ===============================================
-// SCROLL LOCK
+// UTILITY: Scroll Lock
 // ===============================================
 
 const useScrollLock = (isLocked: boolean) => {
@@ -66,6 +68,7 @@ const useScrollLock = (isLocked: boolean) => {
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = 'hidden';
       document.body.style.paddingRight = `${scrollbarWidth}px`;
+      
       return () => {
         document.body.style.overflow = '';
         document.body.style.paddingRight = '';
@@ -108,30 +111,42 @@ export const MenuRoot = ({
   
   const triggerRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
-
+  
   const isControlled = controlledOpen !== undefined;
   const isOpen = isControlled ? controlledOpen : uncontrolledOpen;
-
+  
   const setIsOpen = (open: boolean) => {
-    if (!isControlled) setUncontrolledOpen(open);
+    if (!isControlled) {
+      setUncontrolledOpen(open);
+    }
     onOpenChange?.(open);
   };
-
+  
   const triggerId = useId();
   const contentId = useId();
+  
   useScrollLock(isOpen);
-
+  
   const toggleSelection = (value: string) => {
-    if (selectedValues.has(value)) selectedValues.delete(value);
-    else selectedValues.add(value);
+    if (selectedValues.has(value)) {
+      selectedValues.delete(value);
+    } else {
+      selectedValues.add(value);
+    }
   };
-
-  const registerItem = (value: string) => items.add(value);
-  const unregisterItem = (value: string) => items.delete(value);
-
+  
+  const registerItem = (value: string) => {
+    items.add(value);
+  };
+  
+  const unregisterItem = (value: string) => {
+    items.delete(value);
+  };
+  
   // Close on outside click
   useEffect(() => {
     if (!isOpen) return;
+    
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
       if (
@@ -141,10 +156,11 @@ export const MenuRoot = ({
         setIsOpen(false);
       }
     };
+    
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
-
+  
   const value: MenuContextValue = {
     isOpen,
     setIsOpen,
@@ -163,10 +179,13 @@ export const MenuRoot = ({
     triggerRef,
     contentRef
   };
-
+  
   return (
     <MenuContext.Provider value={value}>
-      <div className={cn('menu-root', className)} data-color-palette={colorPalette}>
+      <div 
+        className={cn('menu-root', className)}
+        data-color-palette={colorPalette}
+      >
         {children}
       </div>
     </MenuContext.Provider>
@@ -185,16 +204,18 @@ export interface MenuTriggerProps {
 }
 
 export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
-  ({ children, className, disabled, ...props }, ref) => {
+  ({ children, asChild = false, className, disabled, ...props }, ref) => {
     const { isOpen, setIsOpen, triggerId, contentId, triggerRef, size } = useMenuContext();
-
+    
     const handleClick = () => {
-      if (!disabled) setIsOpen(!isOpen);
+      if (disabled) return;
+      setIsOpen(!isOpen);
     };
-
+    
     const handleKeyDown = (e: ReactKeyboardEvent) => {
       if (disabled) return;
-      if (['Enter', ' '].includes(e.key)) {
+      
+      if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         setIsOpen(!isOpen);
       } else if (e.key === 'ArrowDown') {
@@ -202,13 +223,13 @@ export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
         setIsOpen(true);
       }
     };
-
+    
     return (
       <button
         ref={(node) => {
-          triggerRef.current = node;
+          if (triggerRef) (triggerRef as any).current = node;
           if (typeof ref === 'function') ref(node);
-          else if (ref) (ref as any).current = node;
+          else if (ref) ref.current = node;
         }}
         id={triggerId}
         type="button"
@@ -218,12 +239,17 @@ export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
         aria-expanded={isOpen}
         aria-haspopup="menu"
         aria-controls={contentId}
-        className={cn('menu-trigger', `menu-trigger--${size}`, isOpen && 'menu-trigger--open', className)}
+        className={cn(
+          'menu-trigger',
+          `menu-trigger--${size}`,
+          isOpen && 'menu-trigger--open',
+          className
+        )}
         {...props}
       >
         {children || 'Menu'}
         <div className="menu-trigger-icon">
-          <Icon color="secondary" size="sm">
+          <Icon color='secondary' size='sm'>
             <ChevronDownIcon />
           </Icon>
         </div>
@@ -231,28 +257,42 @@ export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
     );
   }
 );
+
 MenuTrigger.displayName = 'Menu.Trigger';
 
 // ===============================================
 // MENU POSITIONER
 // ===============================================
 
-export const MenuPositioner = ({ children }: { children: ReactNode }) => {
+export interface MenuPositionerProps {
+  children: ReactNode;
+}
+
+export const MenuPositioner = ({ children }: MenuPositionerProps) => {
   const { isOpen } = useMenuContext();
+  
   if (!isOpen) return null;
+  
   return <div className="menu-positioner">{children}</div>;
 };
 
 // ===============================================
-// MENU CONTENT (FIXED)
+// MENU CONTENT (CENTERED + EDGE GUARD)
 // ===============================================
 
-export const MenuContent = ({ children, className, maxHeight = 400 }: { children: ReactNode; className?: string; maxHeight?: number }) => {
+export interface MenuContentProps {
+  children: ReactNode;
+  className?: string;
+  maxHeight?: number;
+}
+
+export const MenuContent = ({ children, className, maxHeight = 400 }: MenuContentProps) => {
   const { contentId, size, contentRef, setIsOpen, triggerRef } = useMenuContext();
   const [position, setPosition] = useState({
     shouldOpenUpward: false,
     calculatedMaxHeight: maxHeight,
-    leftOffset: 0
+    left: 0,
+    top: 0
   });
 
   const handleKeyDown = (e: ReactKeyboardEvent) => {
@@ -260,9 +300,11 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: { children
   };
 
   const calculatePosition = () => {
-    if (!triggerRef.current || !contentRef.current) return;
+    if (!contentRef.current || !triggerRef.current) return;
 
     const triggerRect = triggerRef.current.getBoundingClientRect();
+    const contentEl = contentRef.current;
+    const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
     const spaceAbove = triggerRect.top;
@@ -273,10 +315,25 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: { children
       ? Math.min(maxHeight, spaceAbove - 16)
       : Math.min(maxHeight, spaceBelow - 16);
 
-    // Center horizontally relative to trigger
-    const leftOffset = triggerRect.width / 2 - contentRef.current.offsetWidth / 2;
+    // Center horizontally under trigger
+    let left = triggerRect.left + triggerRect.width / 2 - contentEl.offsetWidth / 2;
 
-    setPosition({ shouldOpenUpward, calculatedMaxHeight, leftOffset });
+    // Keep within viewport horizontally
+    if (left + contentEl.offsetWidth > viewportWidth - 8) {
+      left = viewportWidth - contentEl.offsetWidth - 8;
+    }
+    if (left < 8) left = 8;
+
+    const top = shouldOpenUpward
+      ? triggerRect.top - calculatedMaxHeight - 8
+      : triggerRect.bottom + 8;
+
+    setPosition({
+      shouldOpenUpward,
+      calculatedMaxHeight,
+      left,
+      top: top + window.scrollY
+    });
   };
 
   useEffect(() => {
@@ -302,11 +359,10 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: { children
       onKeyDown={handleKeyDown}
       className={cn('menu-content', `menu-content--${size}`, className)}
       style={{
-        transform: `translateX(${position.leftOffset}px)`,
-        maxHeight: `${position.calculatedMaxHeight}px`,
-        ...(position.shouldOpenUpward
-          ? { bottom: '100%', marginBottom: '8px', top: 'auto' }
-          : { top: '100%', marginTop: '8px' })
+        position: 'absolute',
+        left: `${position.left}px`,
+        top: `${position.top}px`,
+        maxHeight: `${position.calculatedMaxHeight}px`
       }}
     >
       {children}
@@ -318,38 +374,52 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: { children
 // MENU ITEM
 // ===============================================
 
-export const MenuItem = ({
-  children,
-  value = '',
-  disabled = false,
-  closeOnSelect: itemCloseOnSelect,
-  onClick,
-  className
-}: {
+export interface MenuItemProps {
   children: ReactNode;
   value?: string;
   disabled?: boolean;
   closeOnSelect?: boolean;
   onClick?: () => void;
   className?: string;
-}) => {
-  const { closeOnSelect: rootCloseOnSelect, setIsOpen, highlightedValue, setHighlightedValue, size, variant, registerItem, unregisterItem } = useMenuContext();
+}
+
+export const MenuItem = ({ 
+  children, 
+  value = '', 
+  disabled = false, 
+  closeOnSelect: itemCloseOnSelect,
+  onClick,
+  className
+}: MenuItemProps) => {
+  const { 
+    closeOnSelect: rootCloseOnSelect, 
+    setIsOpen, 
+    highlightedValue,
+    setHighlightedValue,
+    size,
+    variant,
+    registerItem,
+    unregisterItem
+  } = useMenuContext();
+  
   const shouldClose = itemCloseOnSelect ?? rootCloseOnSelect;
   const isHighlighted = highlightedValue === value;
-
+  
   useEffect(() => {
     if (value) {
       registerItem(value);
       return () => unregisterItem(value);
     }
   }, [value]);
-
+  
   const handleClick = () => {
     if (disabled) return;
     onClick?.();
-    if (shouldClose) setIsOpen(false);
+    if (shouldClose) {
+      setIsOpen(false);
+    }
   };
-
+  
   return (
     <div
       role="menuitem"
@@ -365,6 +435,7 @@ export const MenuItem = ({
         disabled && 'menu-item--disabled',
         className
       )}
+      aria-disabled={disabled}
     >
       {children}
     </div>
@@ -372,11 +443,18 @@ export const MenuItem = ({
 };
 
 // ===============================================
-// OTHER SUBCOMPONENTS (unchanged)
+// MENU ITEM GROUP
 // ===============================================
 
-export const MenuItemGroup = ({ children, label, className }: { children: ReactNode; label?: string; className?: string }) => {
+export interface MenuItemGroupProps {
+  children: ReactNode;
+  label?: string;
+  className?: string;
+}
+
+export const MenuItemGroup = ({ children, label, className }: MenuItemGroupProps) => {
   const { size } = useMenuContext();
+  
   return (
     <div role="group" className={cn('menu-item-group', `menu-item-group--${size}`, className)}>
       {label && <div className="menu-item-group-label">{label}</div>}
@@ -385,13 +463,240 @@ export const MenuItemGroup = ({ children, label, className }: { children: ReactN
   );
 };
 
-export const MenuSeparator = ({ className }: { className?: string }) => {
+// ===============================================
+// MENU SEPARATOR
+// ===============================================
+
+export interface MenuSeparatorProps {
+  className?: string;
+}
+
+export const MenuSeparator = ({ className }: MenuSeparatorProps) => {
   const { size } = useMenuContext();
-  return <div role="separator" className={cn('menu-separator', `menu-separator--${size}`, className)} />;
+  
+  return (
+    <div 
+      role="separator" 
+      className={cn('menu-separator', `menu-separator--${size}`, className)} 
+    />
+  );
 };
 
 // ===============================================
-// EXPORT
+// MENU CHECKBOX ITEM
+// ===============================================
+
+export interface MenuCheckboxItemProps {
+  children: ReactNode;
+  value: string;
+  checked?: boolean;
+  onChange?: (checked: boolean) => void;
+  className?: string;
+}
+
+export const MenuCheckboxItem = ({ 
+  children, 
+  value,
+  checked: controlledChecked,
+  onChange,
+  className
+}: MenuCheckboxItemProps) => {
+  const [uncontrolledChecked, setUncontrolledChecked] = useState(false);
+  const { size, highlightedValue, setHighlightedValue } = useMenuContext();
+  
+  const isControlled = controlledChecked !== undefined;
+  const isChecked = isControlled ? controlledChecked : uncontrolledChecked;
+  const isHighlighted = highlightedValue === value;
+  
+  const handleClick = () => {
+    const newChecked = !isChecked;
+    if (!isControlled) {
+      setUncontrolledChecked(newChecked);
+    }
+    onChange?.(newChecked);
+  };
+  
+  return (
+    <div
+      role="menuitemcheckbox"
+      aria-checked={isChecked}
+      onClick={handleClick}
+      onMouseEnter={() => setHighlightedValue(value)}
+      onMouseLeave={() => setHighlightedValue(null)}
+      className={cn(
+        'menu-checkbox-item',
+        `menu-checkbox-item--${size}`,
+        isHighlighted && 'menu-checkbox-item--highlighted',
+        className
+      )}
+    >
+      <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`)}>
+        {isChecked && (
+          <Icon color='primary' size='sm'>
+            <CheckIcon />
+          </Icon>
+        )}
+      </div>
+      {children}
+    </div>
+  );
+};
+
+// ===============================================
+// MENU ITEM INDICATOR
+// ===============================================
+
+export interface MenuItemIndicatorProps {
+  children?: ReactNode;
+  className?: string;
+}
+
+export const MenuItemIndicator = ({ children, className }: MenuItemIndicatorProps) => {
+  const { size } = useMenuContext();
+  
+  return (
+    <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`, className)}>
+      {children || (
+        <Icon color='primary' size='sm'>
+          <CheckIcon />
+        </Icon>
+      )}
+    </div>
+  );
+};
+
+// ===============================================
+// MENU ITEM COMMAND
+// ===============================================
+
+export interface MenuItemCommandProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export const MenuItemCommand = ({ children, className }: MenuItemCommandProps) => {
+  return <span className={cn('menu-item-command', className)}>{children}</span>;
+};
+
+// ===============================================
+// MENU RADIO ITEM GROUP
+// ===============================================
+
+export interface MenuRadioItemGroupProps {
+  children: ReactNode;
+  value?: string;
+  onValueChange?: (value: string) => void;
+  className?: string;
+}
+
+export const MenuRadioItemGroup = ({ 
+  children, 
+  value: controlledValue,
+  onValueChange,
+  className 
+}: MenuRadioItemGroupProps) => {
+  const [uncontrolledValue, setUncontrolledValue] = useState<string>('');
+  const { size } = useMenuContext();
+  
+  const isControlled = controlledValue !== undefined;
+  const value = isControlled ? controlledValue : uncontrolledValue;
+  
+  const handleValueChange = (newValue: string) => {
+    if (!isControlled) {
+      setUncontrolledValue(newValue);
+    }
+    onValueChange?.(newValue);
+  };
+  
+  return (
+    <div 
+      role="group" 
+      className={cn('menu-radio-item-group', `menu-radio-item-group--${size}`, className)}
+    >
+      {React.Children.map(children, child => {
+        if (React.isValidElement<MenuRadioItemProps>(child) && child.type === MenuRadioItem) {
+          const childProps = child.props as MenuRadioItemProps;
+          return React.cloneElement(child, {
+            checked: childProps.value === value,
+            onSelect: () => handleValueChange(childProps.value)
+          });
+        }
+        return child;
+      })}
+    </div>
+  );
+};
+
+// ===============================================
+// MENU RADIO ITEM
+// ===============================================
+
+export interface MenuRadioItemProps {
+  children: ReactNode;
+  value: string;
+  checked?: boolean;
+  onSelect?: () => void;
+  className?: string;
+}
+
+export const MenuRadioItem = ({ 
+  children, 
+  value,
+  checked = false,
+  onSelect,
+  className
+}: MenuRadioItemProps) => {
+  const { size, highlightedValue, setHighlightedValue, closeOnSelect, setIsOpen } = useMenuContext();
+  const isHighlighted = highlightedValue === value;
+  
+  const handleClick = () => {
+    onSelect?.();
+    if (closeOnSelect) {
+      setIsOpen(false);
+    }
+  };
+  
+  return (
+    <div
+      role="menuitemradio"
+      aria-checked={checked}
+      onClick={handleClick}
+      onMouseEnter={() => setHighlightedValue(value)}
+      onMouseLeave={() => setHighlightedValue(null)}
+      className={cn(
+        'menu-radio-item',
+        `menu-radio-item--${size}`,
+        isHighlighted && 'menu-radio-item--highlighted',
+        checked && 'menu-radio-item--selected',
+        className
+      )}
+    >
+      <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`)}>
+        {checked && (
+          <Icon color='primary' size='sm'>
+            <CheckIcon />
+          </Icon>
+        )}
+      </div>
+      {children}
+    </div>
+  );
+};
+
+// ===============================================
+// MENU ARROW (Optional decorative element)
+// ===============================================
+
+export interface MenuArrowProps {
+  className?: string;
+}
+
+export const MenuArrow = ({ className }: MenuArrowProps) => {
+  return <div className={cn('menu-arrow', className)} />;
+};
+
+// ===============================================
+// EXPORTS (Compound Component Pattern)
 // ===============================================
 
 export const Menu = Object.assign(MenuRoot, {
@@ -400,5 +705,11 @@ export const Menu = Object.assign(MenuRoot, {
   Content: MenuContent,
   Item: MenuItem,
   ItemGroup: MenuItemGroup,
-  Separator: MenuSeparator
+  Separator: MenuSeparator,
+  CheckboxItem: MenuCheckboxItem,
+  ItemIndicator: MenuItemIndicator,
+  ItemCommand: MenuItemCommand,
+  RadioItemGroup: MenuRadioItemGroup,
+  RadioItem: MenuRadioItem,
+  Arrow: MenuArrow
 });
