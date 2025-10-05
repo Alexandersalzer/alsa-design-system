@@ -58,6 +58,9 @@ export interface FooterSectionProps {
   // Bottom bar
   copyrightText?: string;
   poweredByText?: string;
+  
+  // Background image
+  backgroundImageUrl?: string;
 }
 
 // ===== MAIN FOOTER COMPONENT =====
@@ -104,7 +107,8 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
   ctaButtonText = "Boka konsultation",
   ctaButtonHref = "#contact",
   copyrightText,
-  poweredByText = "Powered by Blimpify IM"
+  poweredByText = "Powered by Blimpify IM",
+  backgroundImageUrl
 }) => {
   const currentYear = new Date().getFullYear();
   const defaultCopyright = `© ${currentYear} ${companyName}. Alla rättigheter reserverade.`;
@@ -135,23 +139,25 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
           }}
         >
           {/* Background Image with Fade */}
-          <div 
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: '300px',
-              backgroundImage: 'url("/img/pexels-ekaterina-bolovtsova-6077123.jpg")',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center bottom',
-              backgroundRepeat: 'no-repeat',
-              maskImage: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)',
-              opacity: 0.4,
-              zIndex: 1
-            }}
-          />
+          {backgroundImageUrl && (
+            <div 
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: '300px',
+                backgroundImage: `url("${backgroundImageUrl}")`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center bottom',
+                backgroundRepeat: 'no-repeat',
+                maskImage: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)',
+                opacity: 0.4,
+                zIndex: 1
+              }}
+            />
+          )}
           <div style={{ position: 'relative', zIndex: 2 }}>
             <Stack spacing="xl" align="start">
           
@@ -199,7 +205,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               {/* Columns 2-4: Navigation Links */}
               {columns.map((column, index) => (
                 <div key={index} style={{ flex: '1', minWidth: '200px' }}>
-                  <Stack spacing="md" align="start">
+                  <Stack spacing="sm" align="start">
                     <Typography 
                       variant="h4" 
                       weight="semibold"
@@ -208,8 +214,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                     >
                       {column.title}
                     </Typography>
-                  
-                  <Stack spacing="sm" align="start">
+                    
                     {column.links.map((link, linkIndex) => (
                       <TextLink
                         key={linkIndex}
@@ -232,13 +237,12 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                       </TextLink>
                     ))}
                   </Stack>
-                  </Stack>
                 </div>
               ))}
               
               {/* Column 5: Contact & Social */}
               <div style={{ flex: '1', minWidth: '200px' }}>
-                <Stack spacing="md" align="start">
+                <Stack spacing="sm" align="start">
                   <Typography 
                     variant="h4" 
                     weight="semibold"
@@ -247,8 +251,6 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                   >
                     Kontakt
                   </Typography>
-                
-                  <Stack spacing="sm" align="start">
                     {/* Email */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-sm)' }}>
                       <Icon size="sm" color="secondary"><MailIcon /></Icon>
@@ -281,50 +283,45 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                       </TextLink>
                     </div>
                   
-                    {/* Social Links */}
-                    <div style={{ marginTop: 'var(--foundation-space-md)' }}>
-                      <Stack spacing="sm" align="start">
-                    <Typography 
-                      variant="body-xs"
-                      weight="semibold"
-                      color="primary"
-                      style={{ margin: 0, fontSize: '0.75rem' }}
-                    >
-                      Följ oss
-                    </Typography>
-                        
-                        <div style={{ display: 'flex', gap: 'var(--foundation-space-md)', alignItems: 'center' }}>
-                          {socialLinks.map((social, index) => (
-                            <TextLink
-                              key={index}
-                              href={social.href}
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                width: '32px',
-                                height: '32px',
-                                borderRadius: 'var(--radius-md)',
-                                backgroundColor: 'var(--surface-subtle)',
-                                transition: 'all 0.2s ease',
-                                textDecoration: 'none'
-                              }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.backgroundColor = 'var(--surface-secondary)';
-                                e.currentTarget.style.transform = 'translateY(-2px)';
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.backgroundColor = 'var(--surface-subtle)';
-                                e.currentTarget.style.transform = 'translateY(0)';
-                              }}
-                            >
-                              {social.icon}
-                            </TextLink>
-                          ))}
-                        </div>
-                      </Stack>
-                    </div>
-                  </Stack>
+                  {/* Social Links */}
+                  <Typography 
+                    variant="body-xs"
+                    weight="semibold"
+                    color="primary"
+                    style={{ margin: 0, fontSize: '0.75rem' }}
+                  >
+                    Följ oss
+                  </Typography>
+                  
+                  <div style={{ display: 'flex', gap: 'var(--foundation-space-md)', alignItems: 'center' }}>
+                    {socialLinks.map((social, index) => (
+                      <TextLink
+                        key={index}
+                        href={social.href}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: 'var(--radius-md)',
+                          backgroundColor: 'var(--surface-subtle)',
+                          transition: 'all 0.2s ease',
+                          textDecoration: 'none'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = 'var(--surface-secondary)';
+                          e.currentTarget.style.transform = 'translateY(-2px)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = 'var(--surface-subtle)';
+                          e.currentTarget.style.transform = 'translateY(0)';
+                        }}
+                      >
+                        {social.icon}
+                      </TextLink>
+                    ))}
+                  </div>
                 </Stack>
               </div>
               
