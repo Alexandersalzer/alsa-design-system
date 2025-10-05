@@ -93,9 +93,9 @@
 
 /* ===== MENU CONTENT ===== */
 .menu-content {
-  position: fixed; /* Changed from absolute to fixed for better positioning */
-  min-width: fit-content; /* Changed from 200px to fit-content */
-  width: auto; /* Allow natural width */
+  position: fixed;
+  min-width: var(--menu-trigger-width, fit-content); /* Use trigger width as minimum */
+  width: auto;
   max-height: 400px;
   background-color: var(--surface-dropdown);
   border: 1px solid var(--border-default);

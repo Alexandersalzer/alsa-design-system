@@ -289,73 +289,75 @@ export interface MenuContentProps {
 export const MenuContent = ({ children, className, maxHeight = 400 }: MenuContentProps) => {
   const { contentId, size, contentRef, setIsOpen, triggerRef } = useMenuContext();
   const [position, setPosition] = useState<{
+    top?: number;
+    left?: number;
     shouldOpenUpward: boolean;
-    shouldAlignRight: boolean;
     calculatedMaxHeight: number;
+    triggerWidth?: number;
   }>({
     shouldOpenUpward: false,
-    shouldAlignRight: false,
-    calculatedMaxHeight: maxHeight
+    calculatedMaxHeight: maxHeight,
+    triggerWidth: undefined
   });
-  
+
   const handleKeyDown = (e: ReactKeyboardEvent) => {
     if (e.key === 'Escape') {
       setIsOpen(false);
     }
   };
-  
-  // Calculate smart positioning - EXACTLY MATCHES PICKER
+
   const calculatePosition = () => {
     if (!contentRef.current || !triggerRef.current) return;
-    
-    const contentRect = contentRef.current.getBoundingClientRect();
+
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
     const viewportWidth = window.innerWidth;
-    
+
     const spaceAbove = triggerRect.top;
     const spaceBelow = viewportHeight - triggerRect.bottom;
-    
-    // Vertical positioning
+
     const shouldOpenUpward = spaceBelow < maxHeight && spaceAbove > spaceBelow;
-    
-    // Horizontal positioning - check if dropdown would overflow on the right
-    const contentWidth = contentRect.width || 200;
-    const spaceRight = viewportWidth - triggerRect.left;
-    const spaceLeft = triggerRect.right;
-    
-    // shouldAlignRight = true means NOT enough space on right, so align to RIGHT edge
-    const shouldAlignRight = spaceRight < contentWidth && spaceLeft > spaceRight;
-    
-    // Calculate actual max height based on available space
     const calculatedMaxHeight = shouldOpenUpward
       ? Math.min(maxHeight, spaceAbove - 16)
       : Math.min(maxHeight, spaceBelow - 16);
-    
+
+    // Get trigger width
+    const triggerWidth = triggerRect.width;
+
+    // Horizontal alignment
+    const left = triggerRect.left;
+    const preferredWidth = Math.max(contentRef.current.offsetWidth, triggerWidth);
+
+    // Keep dropdown within viewport horizontally
+    let alignedLeft = left;
+    if (left + preferredWidth > viewportWidth - 8) {
+      alignedLeft = viewportWidth - preferredWidth - 8;
+    }
+    if (alignedLeft < 8) alignedLeft = 8;
+
     setPosition({
+      left: alignedLeft,
+      top: shouldOpenUpward ? undefined : triggerRect.bottom + window.scrollY + 8,
       shouldOpenUpward,
-      shouldAlignRight,
-      calculatedMaxHeight
+      calculatedMaxHeight,
+      triggerWidth
     });
   };
-  
-  // Calculate position on mount and when content changes
+
   useEffect(() => {
     const timer = setTimeout(calculatePosition, 0);
     return () => clearTimeout(timer);
   }, [contentRef, triggerRef, maxHeight]);
-  
-  // Recalculate on scroll and resize
+
   useEffect(() => {
     window.addEventListener('scroll', calculatePosition, true);
     window.addEventListener('resize', calculatePosition);
-    
     return () => {
       window.removeEventListener('scroll', calculatePosition, true);
       window.removeEventListener('resize', calculatePosition);
     };
   }, []);
-  
+
   return (
     <div
       ref={contentRef}
@@ -363,24 +365,22 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
       role="menu"
       tabIndex={-1}
       onKeyDown={handleKeyDown}
-      className={cn(
-        'menu-content',
-        `menu-content--${size}`,
-        className
-      )}
+      className={cn('menu-content', `menu-content--${size}`, className)}
       style={{
+        position: 'fixed',
+        top: position.shouldOpenUpward
+          ? 'auto'
+          : position.top
+          ? `${position.top}px`
+          : undefined,
+        bottom: position.shouldOpenUpward ? `calc(100% + 8px)` : undefined,
+        left: position.left ? `${position.left}px` : undefined,
         maxHeight: `${position.calculatedMaxHeight}px`,
-        ...(position.shouldOpenUpward && {
-          bottom: '100%',
-          top: 'auto',
-          marginBottom: '8px',
-          marginTop: '0'
-        }),
-        ...(position.shouldAlignRight && {
-          left: 'auto',
-          right: 0
-        })
-      }}
+        minWidth: position.triggerWidth ? `${position.triggerWidth}px` : 'fit-content',
+        marginTop: position.shouldOpenUpward ? '0' : '8px',
+        marginBottom: position.shouldOpenUpward ? '8px' : '0',
+        '--menu-trigger-width': position.triggerWidth ? `${position.triggerWidth}px` : 'fit-content'
+      } as React.CSSProperties}
     >
       {children}
     </div>
