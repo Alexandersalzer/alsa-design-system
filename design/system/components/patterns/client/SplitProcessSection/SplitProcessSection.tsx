@@ -174,7 +174,8 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
                     color: 'var(--text-primary)',
                     fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
                     lineHeight: '1.2',
-                    marginBottom: 'var(--foundation-space-6)'
+                    marginBottom: 'var(--foundation-space-6)',
+                    maxWidth: '400px'
                   }}
                 >
                   {rightSide.title}
