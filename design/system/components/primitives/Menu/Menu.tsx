@@ -3,7 +3,7 @@
 // CHAKRA-INSPIRED MENU COMPONENT
 // ===============================================
 
-import { 
+import React, { 
   useState, 
   useRef, 
   useEffect, 
@@ -44,8 +44,8 @@ interface MenuContextValue {
   toggleSelection: (value: string) => void;
   registerItem: (value: string) => void;
   unregisterItem: (value: string) => void;
-  triggerRef: RefObject<HTMLElement>;
-  contentRef: RefObject<HTMLDivElement>;
+  triggerRef: RefObject<HTMLElement | null>;
+  contentRef: RefObject<HTMLDivElement | null>;
 }
 
 const MenuContext = createContext<MenuContextValue | null>(null);
@@ -109,8 +109,8 @@ const MenuRoot = ({
   const [selectedValues] = useState(new Set<string>());
   const [items] = useState(new Set<string>());
   
-  const triggerRef = useRef<HTMLElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
   
   const isControlled = controlledOpen !== undefined;
   const isOpen = isControlled ? controlledOpen : uncontrolledOpen;
@@ -558,10 +558,11 @@ const MenuRadioItemGroup = ({
       className={cn('menu-radio-item-group', `menu-radio-item-group--${size}`, className)}
     >
       {React.Children.map(children, child => {
-        if (React.isValidElement(child) && child.type === MenuRadioItem) {
-          return React.cloneElement(child as React.ReactElement<MenuRadioItemProps>, {
-            checked: child.props.value === value,
-            onSelect: () => handleValueChange(child.props.value)
+        if (React.isValidElement<MenuRadioItemProps>(child) && child.type === MenuRadioItem) {
+          const childProps = child.props as MenuRadioItemProps;
+          return React.cloneElement(child, {
+            checked: childProps.value === value,
+            onSelect: () => handleValueChange(childProps.value)
           });
         }
         return child;
@@ -656,5 +657,3 @@ export const Menu = Object.assign(MenuRoot, {
   RadioItem: MenuRadioItem,
   Arrow: MenuArrow
 });
-
-Menu.displayName = 'Menu';
