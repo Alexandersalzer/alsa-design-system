@@ -15,12 +15,18 @@ interface ProcessItem {
 
 interface SplitProcessSectionContent {
   leftSide: {
-    items: ProcessItem[];
+    items?: ProcessItem[];
+    title?: string;
+    description?: string;
+    buttonText?: string;
+    buttonHref?: string;
+    buttonVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   };
   rightSide: {
-    title: string;
-    description: string;
-    buttonText: string;
+    items?: ProcessItem[];
+    title?: string;
+    description?: string;
+    buttonText?: string;
     buttonHref?: string;
     buttonVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   };
@@ -33,6 +39,14 @@ interface SplitProcessSectionProps {
 
 const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSectionProps) => {
   const { leftSide, rightSide } = content;
+  
+  // Determine which side has items and which has content
+  const leftHasItems = leftSide.items && leftSide.items.length > 0;
+  const rightHasItems = rightSide.items && rightSide.items.length > 0;
+  
+  // If left has items, use original structure, otherwise swap
+  const itemsSide = leftHasItems ? leftSide : rightSide;
+  const contentSide = leftHasItems ? rightSide : leftSide;
 
   return (
     <>
@@ -59,6 +73,18 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
             .split-process-container {
               grid-template-columns: 1fr 1fr;
               gap: var(--foundation-space-24);
+            }
+            
+            .split-process-container.swapped-order {
+              grid-template-columns: 1fr 1fr;
+            }
+            
+            .split-process-container.swapped-order .process-grid {
+              order: 2;
+            }
+            
+            .split-process-container.swapped-order .right-content {
+              order: 1;
             }
           }
           
@@ -139,16 +165,16 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
         }}
       >
         <div 
-          className="split-process-container"
+          className={`split-process-container ${leftHasItems ? 'original-order' : 'swapped-order'}`}
           style={{ 
             maxWidth: 'var(--size-page-max-width)',
             margin: '0 auto',
             padding: '0 var(--foundation-space-6)'
           }}
         >
-            {/* Left Side - Process Items Grid */}
+            {/* Items Side - Process Items Grid */}
             <div className="process-grid">
-              {leftSide.items.map((item, index) => (
+              {itemsSide.items?.map((item, index) => (
                 <div key={index} className="process-item">
                   <Stack spacing="md" align="start">
                     {item.icon && (
@@ -183,7 +209,7 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
               ))}
             </div>
             
-            {/* Right Side - Header, Description and Button */}
+            {/* Content Side - Header, Description and Button */}
             <div className="right-content">
               <Stack spacing="lg" align="start">
                 <Typography 
@@ -196,7 +222,7 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
                     maxWidth: '400px'
                   }}
                 >
-                  {rightSide.title}
+                  {contentSide.title}
                 </Typography>
                 
                 <Typography 
@@ -207,19 +233,19 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
                     maxWidth: '450px'
                   }}
                 >
-                  {rightSide.description}
+                  {contentSide.description}
                 </Typography>
                 
                 <Button 
-                  variant={rightSide.buttonVariant || 'primary'}
+                  variant={contentSide.buttonVariant || 'primary'}
                   size="lg"
                   onClick={() => {
-                    if (rightSide.buttonHref) {
-                      window.location.href = rightSide.buttonHref;
+                    if (contentSide.buttonHref) {
+                      window.location.href = contentSide.buttonHref;
                     }
                   }}
                 >
-                  {rightSide.buttonText}
+                  {contentSide.buttonText}
                 </Button>
               </Stack>
             </div>
