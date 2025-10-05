@@ -66,8 +66,8 @@ export interface FooterSectionProps {
 export const FooterSection: React.FC<FooterSectionProps> = ({
   id = "footer",
   className,
-  companyName = "Blimpify IM",
-  companyDescription = "Vi bygger moderna hemsidor och digitala lösningar för företag inom skadeståndsrätt och juridik.",
+  companyName = "Jaksenvest Global AB",
+  companyDescription = "Vi hjälper dig att få den ersättning du förtjänar. Professionell juridisk rådgivning för skadeståndsärenden.",
   columns = [
     {
       title: "Tjänster",
@@ -91,23 +91,21 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
       title: "Support",
       links: [
         { label: "Vanliga frågor", href: "#faq" },
-        { label: "Kontakta oss", href: "#contact" },
-        { label: "Supportcenter", href: "/support" },
-        { label: "Tekniska frågor", href: "/technical" }
+        { label: "Kontakta oss", href: "#contact" }
       ]
     }
   ],
-  email = "info@blimpify-im.com",
-  phone = "08-123 45 678",
+  email = "kontakt@jaksenvest.se",
+  phone = "08-123 456 78",
   socialLinks = [
     {
       platform: "linkedin",
-      href: "https://linkedin.com/company/blimpify-im",
+      href: "https://linkedin.com/company/jaksenvest-global-ab",
       icon: <Icon size="sm" color="secondary"><LinkedinIcon /></Icon>
     },
     {
       platform: "instagram", 
-      href: "https://instagram.com/blimpify_im",
+      href: "https://instagram.com/jaksenvest_global",
       icon: <Icon size="sm" color="secondary"><InstagramIcon /></Icon>
     }
   ],
@@ -116,7 +114,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
   ctaButtonText = "Boka konsultation",
   ctaButtonHref = "#contact",
   copyrightText,
-  poweredByText = "By Blimpify"
+  poweredByText = "Powered by Blimpify IM"
 }) => {
   const currentYear = new Date().getFullYear();
   const defaultCopyright = `© ${currentYear} ${companyName}. Alla rättigheter reserverade.`;
@@ -139,10 +137,31 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
             borderRadius: 'var(--radius-lg)',
             padding: 'var(--foundation-space-8)',
             boxShadow: 'var(--shadow-md)',
-            border: '1px solid var(--border-subtle)'
+            border: '1px solid var(--border-subtle)',
+            position: 'relative',
+            overflow: 'hidden'
           }}
         >
-          <Stack spacing="xl" align="start">
+          {/* Background Image with Fade */}
+          <div 
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '200px',
+              backgroundImage: 'url("/images/footer-bg.jpg")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center bottom',
+              backgroundRepeat: 'no-repeat',
+              maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+              opacity: 0.3,
+              zIndex: 1
+            }}
+          />
+          <div style={{ position: 'relative', zIndex: 2 }}>
+            <Stack spacing="xl" align="start">
           
           {/* Main Content Grid */}
           <div className="footer-main-content">
@@ -411,7 +430,8 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
             </div>
           </div>
 
-          </Stack>
+            </Stack>
+          </div>
         </div>
       </Container>
     </Section>
