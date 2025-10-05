@@ -114,18 +114,20 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
   const defaultCopyright = `© ${currentYear} ${companyName}. Alla rättigheter reserverade.`;
 
   return (
-    <Section 
+    <Section
       id={id}
       as="footer"
       className={`footer-section ${className || ''}`}
       style={{
-        backgroundColor: 'var(--surface-default)'
+        backgroundColor: 'var(--surface-default)',
+        paddingTop: 'var(--foundation-space-24)',
+        paddingBottom: 'var(--foundation-space-16)'
       }}
     >
       <div style={{ 
         maxWidth: 'var(--size-page-max-width)',
         margin: '0 auto',
-        padding: 'var(--foundation-space-24) var(--foundation-space-6) var(--foundation-space-16) var(--foundation-space-6)'
+        padding: '0 var(--foundation-space-6)'
       }}>
         <div 
           style={{
