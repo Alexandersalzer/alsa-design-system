@@ -1,0 +1,136 @@
+/* ===============================================
+   NavbarSection.css
+   Responsive styles for NavbarSection component
+   =============================================== */
+
+/* Desktop Navigation - Hidden on mobile */
+@media (min-width: 769px) {
+  .navbar-desktop-nav {
+    display: flex !important;
+  }
+  
+  .navbar-desktop-cta {
+    display: flex !important;
+  }
+  
+  .navbar-mobile-menu {
+    display: none !important;
+  }
+  
+  .navbar-mobile-overlay {
+    display: none !important;
+  }
+  
+  .navbar-mobile-menu-content {
+    display: none !important;
+  }
+}
+
+/* Mobile Navigation - Hidden on desktop */
+@media (max-width: 768px) {
+  .navbar-desktop-nav {
+    display: none !important;
+  }
+  
+  .navbar-desktop-cta {
+    display: none !important;
+  }
+  
+  .navbar-mobile-menu {
+    display: flex !important;
+  }
+  
+  .navbar-mobile-overlay {
+    display: block !important;
+  }
+  
+  .navbar-mobile-menu-content {
+    display: block !important;
+  }
+  
+  /* Adjust navbar padding on mobile */
+  .navbar-section {
+    padding-left: var(--foundation-space-4) !important;
+    padding-right: var(--foundation-space-4) !important;
+  }
+  
+  /* Make logo smaller on mobile */
+  .navbar-section .logo,
+  .navbar-section .company-name {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* Smooth animations */
+.navbar-section {
+  transition: all 0.3s ease;
+}
+
+.navbar-section .nav-link {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.navbar-section .nav-link:hover {
+  transform: translateY(-1px);
+}
+
+/* Focus states for accessibility */
+.navbar-section button:focus,
+.navbar-section a:focus {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 2px;
+}
+
+/* Mobile menu slide animation */
+@keyframes slideInRight {
+  from {
+    right: -100%;
+  }
+  to {
+    right: 0;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    right: 0;
+  }
+  to {
+    right: -100%;
+  }
+}
+
+.navbar-mobile-menu-content.slide-in {
+  animation: slideInRight 0.3s ease;
+}
+
+.navbar-mobile-menu-content.slide-out {
+  animation: slideOutRight 0.3s ease;
+}
+
+/* Overlay fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.navbar-mobile-overlay.fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+.navbar-mobile-overlay.fade-out {
+  animation: fadeOut 0.3s ease;
+}
