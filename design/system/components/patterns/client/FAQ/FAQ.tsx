@@ -102,8 +102,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
 
           {/* FAQ Items */}
           <div style={{ 
-            maxWidth: 'var(--size-page-content-max-width)', 
-            width: '100%',
+            width: 'var(--size-page-content-max-width)', // Fast bredd istället för maxWidth
             margin: '0 auto', // Centrera containern
             minHeight: '600px' // Lägg till minsta höjd för att behålla storlek
           }}>

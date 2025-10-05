@@ -130,7 +130,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
         padding: '0 var(--foundation-space-6)'
       }}>
         <div style={{ 
-          maxWidth: 'var(--size-page-content-max-width)', 
+          maxWidth: 'var(--size-page-max-width)', 
           width: '100%',
           background: 'var(--surface-primary)',
           borderRadius: 'var(--radius-lg)',
