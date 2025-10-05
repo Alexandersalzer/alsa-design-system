@@ -98,7 +98,7 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
           .right-content {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start;
             min-height: 100%;
             height: 100%;
           }
@@ -166,15 +166,14 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
             
             {/* Right Side - Header, Description and Button */}
             <div className="right-content">
-              <div style={{ flex: 1 }}>
+              <Stack spacing="lg" align="start">
                 <Typography 
                   variant="h1"
                   weight="bold"
                   style={{ 
                     color: 'var(--text-primary)',
-                    fontSize: '5rem',
+                    fontSize: 'clamp(3rem, 8vw, 7rem)',
                     lineHeight: '1.1',
-                    marginBottom: 'var(--foundation-space-4)',
                     maxWidth: '400px'
                   }}
                 >
@@ -186,15 +185,12 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
                   style={{ 
                     color: 'var(--text-secondary)',
                     lineHeight: '1.5',
-                    maxWidth: '450px',
-                    marginBottom: 'var(--foundation-space-4)'
+                    maxWidth: '450px'
                   }}
                 >
                   {rightSide.description}
                 </Typography>
-              </div>
-              
-              <div style={{ marginTop: 'auto' }}>
+                
                 <Button 
                   variant={rightSide.buttonVariant || 'primary'}
                   size="lg"
@@ -206,7 +202,7 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
                 >
                   {rightSide.buttonText}
                 </Button>
-              </div>
+              </Stack>
             </div>
           </div>
         </div>
