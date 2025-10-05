@@ -18,6 +18,7 @@ export interface FeatureItem {
   icon?: React.ReactNode; // Optional React icon component
   title: string;
   description: string;
+  backgroundImage?: string; // Optional background image URL
 }
 
 export interface FeatureGridProps {
@@ -70,7 +71,12 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             interactive={false}
             className={`feature-card feature-card--${index}`}
             style={{
-              background: 'var(--surface-primary)',
+              background: feature.backgroundImage 
+                ? `linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8)), url(${feature.backgroundImage})`
+                : 'var(--surface-primary)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
               boxShadow: 'var(--shadow-md)',
               // Diagonal asymmetric layout: top-left (0) and bottom-right (3) are large
               ...(index === 0 && {
