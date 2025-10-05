@@ -134,7 +134,9 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
             boxShadow: 'var(--shadow-md)',
             border: '1px solid var(--border-subtle)',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            maxWidth: 'var(--size-page-max-width)',
+            margin: '0 auto'
           }}
         >
           {/* Background Image with Fade */}
