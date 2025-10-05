@@ -132,8 +132,6 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
       
       <Section 
         id={id}
-        as="section"
-        height="auto"
         style={{
           backgroundColor: 'transparent',
           paddingTop: 'var(--foundation-space-32)',
