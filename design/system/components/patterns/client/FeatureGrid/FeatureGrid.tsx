@@ -72,6 +72,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             className={`feature-card feature-card--${index}`}
             style={{
               background: feature.backgroundImage ? `
+                linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
                 url('${feature.backgroundImage}'),
                 var(--surface-primary)
               ` : `
@@ -81,7 +82,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               position: 'relative',
               overflow: 'hidden',
               padding: 'var(--foundation-space-8)',
-              backgroundSize: feature.backgroundImage ? 'cover' : undefined,
+              backgroundSize: feature.backgroundImage ? 'contain' : undefined,
               backgroundPosition: feature.backgroundImage ? 'center' : undefined,
               backgroundRepeat: feature.backgroundImage ? 'no-repeat' : undefined,
               // Diagonal asymmetric layout: top-left (0) and bottom-right (3) are large
