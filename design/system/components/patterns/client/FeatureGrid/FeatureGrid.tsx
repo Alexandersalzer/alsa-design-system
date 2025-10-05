@@ -66,7 +66,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             key={feature.id}
             variant="default"
             radius="lg"
-            padding="xl"
+            padding="lg"
             interactive={false}
             className={`feature-card feature-card--${index}`}
             style={{
@@ -85,6 +85,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               boxShadow: 'var(--shadow-md)',
               position: 'relative',
               overflow: 'hidden',
+              padding: 'var(--foundation-space-8)',
               // Diagonal asymmetric layout: top-left (0) and bottom-right (3) are large
               ...(index === 0 && {
                 gridColumn: '1',
