@@ -4,7 +4,6 @@ import { Typography } from '../../../../../system/components/primitives/Typograp
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import './AboutWithStats.css';
 
 export interface AboutStatItem {
   id: string;
@@ -108,11 +107,19 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
           margin: '0 auto',
           padding: '0 var(--foundation-space-6)'
         }}>
-          <div className="about-stats-grid">
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: 'var(--foundation-space-6)',
+              textAlign: 'center',
+              maxWidth: 'var(--size-page-max-width)',
+              width: '100%'
+            }}
+          >
             {stats.map((stat) => (
               <div 
                 key={stat.id} 
-                className="about-stats-card"
                 style={{
                   textAlign: 'center',
                   padding: 'var(--foundation-space-6)',

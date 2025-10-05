@@ -18,7 +18,6 @@ export interface FeatureItem {
   icon?: React.ReactNode; // Optional React icon component
   title: string;
   description: string;
-  backgroundImage?: string; // Optional background image URL
 }
 
 export interface FeatureGridProps {
@@ -71,13 +70,21 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             interactive={false}
             className={`feature-card feature-card--${index}`}
             style={{
-              background: feature.backgroundImage 
-                ? `url(${feature.backgroundImage})`
-                : 'var(--surface-primary)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
+              background: `
+                linear-gradient(135deg, 
+                  rgba(255, 255, 255, 0.1) 0%, 
+                  rgba(255, 255, 255, 0.05) 25%,
+                  rgba(255, 255, 255, 0.02) 50%,
+                  rgba(255, 255, 255, 0.01) 75%,
+                  transparent 100%
+                ),
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
+                var(--surface-primary)
+              `,
               boxShadow: 'var(--shadow-md)',
+              position: 'relative',
+              overflow: 'hidden',
               // Diagonal asymmetric layout: top-left (0) and bottom-right (3) are large
               ...(index === 0 && {
                 gridColumn: '1',
@@ -101,20 +108,38 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               })
             }}
           >
+            {/* Pattern overlay that fades out near text */}
             <div
               style={{
-                background: feature.backgroundImage 
-                  ? 'rgba(255, 255, 255, 0.95)'
-                  : 'transparent',
-                borderRadius: 'var(--radius-md)',
-                padding: feature.backgroundImage ? 'var(--foundation-space-4)' : '0',
-                backdropFilter: feature.backgroundImage ? 'blur(10px)' : 'none'
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: `
+                  radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
+                  radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+                  linear-gradient(45deg, 
+                    rgba(255, 255, 255, 0.05) 0%, 
+                    transparent 20%,
+                    transparent 80%,
+                    rgba(255, 255, 255, 0.05) 100%
+                  )
+                `,
+                opacity: 0.6,
+                pointerEvents: 'none',
+                zIndex: 1
+              }}
+            />
+            
+            <Stack 
+              spacing={index === 0 || index === 3 ? 'lg' : 'md'} 
+              align="start"
+              style={{
+                position: 'relative',
+                zIndex: 2
               }}
             >
-              <Stack 
-                spacing={index === 0 || index === 3 ? 'lg' : 'md'} 
-                align="start"
-              >
               {/* Icon - Only show if icon is provided */}
               {feature.icon && (
                 <div 
@@ -165,8 +190,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               >
                 {feature.description}
               </Body>
-              </Stack>
-            </div>
+            </Stack>
           </Card>
           ))}
         </div>
