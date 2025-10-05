@@ -304,7 +304,7 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
     }
   };
   
-  // Calculate smart positioning
+  // Calculate smart positioning - EXACTLY MATCHES PICKER
   const calculatePosition = () => {
     if (!contentRef.current || !triggerRef.current) return;
     
@@ -319,10 +319,13 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
     // Vertical positioning
     const shouldOpenUpward = spaceBelow < maxHeight && spaceAbove > spaceBelow;
     
-    // Horizontal positioning - default to right-aligned, but check for overflow
+    // Horizontal positioning - check if dropdown would overflow on the right
     const contentWidth = contentRect.width || 200;
-    const wouldOverflowLeft = triggerRect.right - contentWidth < 16;
-    const shouldAlignRight = wouldOverflowLeft;
+    const spaceRight = viewportWidth - triggerRect.left;
+    const spaceLeft = triggerRect.right;
+    
+    // shouldAlignRight = true means NOT enough space on right, so align to RIGHT edge
+    const shouldAlignRight = spaceRight < contentWidth && spaceLeft > spaceRight;
     
     // Calculate actual max height based on available space
     const calculatedMaxHeight = shouldOpenUpward
@@ -374,8 +377,8 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
           marginTop: '0'
         }),
         ...(position.shouldAlignRight && {
-          right: 'auto',
-          left: '0'
+          left: 'auto',
+          right: 0
         })
       }}
     >
