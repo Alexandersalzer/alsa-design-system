@@ -71,7 +71,8 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             interactive={false}
             className={`feature-card feature-card--${index}`}
             style={{
-              background: feature.backgroundImage ? `url('${feature.backgroundImage}'), var(--surface-primary)` : `var(--surface-primary)`,
+              backgroundImage: feature.backgroundImage ? `url('${feature.backgroundImage}')` : undefined,
+              backgroundColor: 'var(--surface-primary)',
               boxShadow: 'var(--shadow-md)',
               position: 'relative',
               overflow: 'hidden',
