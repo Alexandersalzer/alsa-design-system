@@ -169,15 +169,17 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
           <div className="footer-main-content">
             <div 
               style={{ 
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                display: 'flex',
+                flexDirection: 'row',
                 gap: 'var(--foundation-space-xl)',
-                width: '100%'
+                width: '100%',
+                flexWrap: 'wrap',
+                alignItems: 'flex-start'
               }}
             >
               
               {/* Column 1: Company Info */}
-              <div style={{ maxWidth: '280px' }}>
+              <div style={{ flex: '1', minWidth: '280px' }}>
                 <Stack spacing="md" align="start">
                   <Logo 
                     src="/logos/blimpify-logo.svg" 
@@ -199,7 +201,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               
               {/* Columns 2-4: Navigation Links */}
               {columns.map((column, index) => (
-                <div key={index}>
+                <div key={index} style={{ flex: '1', minWidth: '200px' }}>
                   <Stack spacing="md" align="start">
                     <Typography 
                       variant="h3" 
@@ -238,7 +240,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               ))}
               
               {/* Column 5: Contact & Social */}
-              <div>
+              <div style={{ flex: '1', minWidth: '200px' }}>
                 <Stack spacing="md" align="start">
                   <Typography 
                     variant="h3" 
