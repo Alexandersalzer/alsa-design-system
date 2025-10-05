@@ -99,7 +99,7 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
         style={{
           backgroundColor: 'transparent',
           paddingTop: 'var(--foundation-space-16)',
-          paddingBottom: 'var(--foundation-space-40)'
+          paddingBottom: 'var(--foundation-space-80)'
         }}
       >
         <div style={{ 
