@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Menu/Menu.css
-   CHAKRA-INSPIRED MENU COMPONENT - RIGHT-ALIGNED DEFAULT
+   CHAKRA-INSPIRED MENU COMPONENT - FIXED POSITIONING
    ============================================== */
 
 /* ===== MENU ROOT ===== */
@@ -88,14 +88,17 @@
 /* ===== MENU POSITIONER ===== */
 .menu-positioner {
   position: absolute;
+  top: 100%;
+  right: 0;
   z-index: var(--z-dropdown-active);
+  margin-top: 4px;
 }
 
 /* ===== MENU CONTENT ===== */
 .menu-content {
-  position: fixed; /* Changed from absolute to fixed for better positioning */
-  min-width: fit-content; /* Changed from 200px to fit-content */
-  width: auto; /* Allow natural width */
+  position: relative;
+  min-width: fit-content;
+  width: auto;
   max-height: 400px;
   background-color: var(--surface-dropdown);
   border: 1px solid var(--border-default);
@@ -149,7 +152,7 @@
   cursor: pointer;
   user-select: none;
   outline: none;
-  white-space: nowrap; /* Prevent text wrapping */
+  white-space: nowrap;
   transition: 
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
     color var(--foundation-duration-fast) var(--foundation-ease-out);
@@ -382,7 +385,7 @@
 @keyframes menuFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateY(-4px);
   }
   to {
     opacity: 1;
@@ -397,7 +400,7 @@
   }
   to {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateY(-4px);
   }
 }
 
@@ -457,7 +460,7 @@
   border: 1px solid var(--border-default);
   transform: rotate(45deg);
   top: -6px;
-  left: 20px;
+  right: 20px;
   z-index: -1;
 }
 
