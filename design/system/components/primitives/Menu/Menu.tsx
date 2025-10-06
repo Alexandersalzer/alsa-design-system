@@ -14,7 +14,7 @@ import { cn } from '../../../lib/utils';
 import { Icon } from '../Icon/Icon';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import { Popover } from '../Popover';
-import { Listbox, ListboxItem } from '../Listbox';
+import { Listbox } from '../Listbox';
 import './Menu.css';
 
 // ===============================================
@@ -202,19 +202,21 @@ export const MenuItem = ({
   };
   
   return (
-    <ListboxItem
+    <div
       role="menuitem"
-      size={size}
-      disabled={disabled}
+      tabIndex={disabled ? -1 : 0}
       onClick={handleClick}
       className={cn(
         'menu-item',
+        `menu-item--${size}`,
         `menu-item--variant-${variant}`,
+        disabled && 'menu-item--disabled',
         className
       )}
+      aria-disabled={disabled}
     >
       {children}
-    </ListboxItem>
+    </div>
   );
 };
 
@@ -284,24 +286,26 @@ export const MenuCheckboxItem = ({
   };
   
   return (
-    <ListboxItem
+    <div
       role="menuitemcheckbox"
-      size={size}
-      onClick={handleClick}
       aria-checked={checked}
-      leading={
-        <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`)}>
-          {checked && (
-            <Icon color='primary' size='sm'>
-              <CheckIcon />
-            </Icon>
-          )}
-        </div>
-      }
-      className={cn('menu-checkbox-item', className)}
+      onClick={handleClick}
+      className={cn(
+        'menu-item',
+        'menu-checkbox-item',
+        `menu-item--${size}`,
+        className
+      )}
     >
+      <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`)}>
+        {checked && (
+          <Icon color='primary' size='sm'>
+            <CheckIcon />
+          </Icon>
+        )}
+      </div>
       {children}
-    </ListboxItem>
+    </div>
   );
 };
 
@@ -377,25 +381,27 @@ export const MenuRadioItem = ({
   const { size } = useMenuContext();
   
   return (
-    <ListboxItem
+    <div
       role="menuitemradio"
-      size={size}
-      selected={checked}
-      onClick={onSelect}
       aria-checked={checked}
-      leading={
-        <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`)}>
-          {checked && (
-            <Icon color='primary' size='sm'>
-              <CheckIcon />
-            </Icon>
-          )}
-        </div>
-      }
-      className={cn('menu-radio-item', className)}
+      onClick={onSelect}
+      className={cn(
+        'menu-item',
+        'menu-radio-item',
+        `menu-item--${size}`,
+        checked && 'menu-radio-item--selected',
+        className
+      )}
     >
+      <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`)}>
+        {checked && (
+          <Icon color='primary' size='sm'>
+            <CheckIcon />
+          </Icon>
+        )}
+      </div>
       {children}
-    </ListboxItem>
+    </div>
   );
 };
 
