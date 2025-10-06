@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Typography } from '@/design/system/components/primitives/Typography';
-import { Button } from '@/design/system/components/primitives/Button';
-import { Section } from '@/design/system/layout/frames/section/Section';
-import { Icon } from '@/design/system/components/primitives/Icon';
+import { Typography } from '../../../primitives/Typography';
+import { Button } from '../../../primitives/Button';
+import { Section } from '../../../../layout/frames/section/Section';
+import { Icon } from '../../../primitives/Icon';
 import { ChevronRightIcon, CheckIcon } from 'lucide-react';
 
 interface ProcessStep {
