@@ -7,7 +7,7 @@
 .alert {
   /* Layout */
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--space-alert-gap, var(--foundation-space-3));
   position: relative;
 
