@@ -280,43 +280,6 @@
 
 /* Typography handled by Body components */
 
-/* ===== USER MENU STYLES ===== */
-.user-menu {
-  position: relative;
-  flex-shrink: 0;
-}
-
-.user-menu-trigger {
-  display: flex;
-  align-items: center;
-  gap: var(--foundation-space-2);
-  padding: var(--space-button-padding-y-sm) var(--space-button-padding-x-md);
-  background: var(--surface-user-menu-trigger);
-  border: 1px solid var(--border-user-menu-trigger);
-  border-radius: var(--radius-button);
-  color: var(--text-user-menu-trigger);
-  cursor: pointer;
-  transition: var(--transition-button);
-  white-space: nowrap;
-  /* Typography handled by Label component inside */
-}
-
-.user-menu-trigger:hover {
-  background: var(--surface-user-menu-trigger-hover);
-  border-color: var(--border-user-menu-trigger-hover);
-}
-
-.user-menu-trigger:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--border-user-menu-trigger-focus);
-}
-
-
-
-.user-menu-trigger[aria-expanded="true"] .user-menu-trigger__chevron {
-  transform: rotate(180deg);
-}
-
 
 /* ===== DIVIDER ===== */
 .divider {
@@ -324,59 +287,4 @@
   border: none;
   border-top: 1px solid var(--border-divider);
   background: none;
-}
-
-
-/* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 768px) {
-  .top-header {
-    padding: 0 var(--space-container-padding-xs);
-  }
-  
-  .header-left {
-    max-width: none;
-    flex: 1;
-  }
-  
-  .header-search {
-    max-width: none;
-  }
-  
-  .header-right {
-    gap: var(--foundation-space-2);
-  }
-  
-  .setup-guide-btn {
-    padding: var(--foundation-space-2);
-    min-width: 36px;
-  }
-  
-  .dropdown-container .dropdown {
-    width: 280px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  .user-menu .user-menu-dropdown,
-  .user-menu-dropdown {
-    right: -8px;
-  }
-  
-  .user-menu-trigger {
-    padding: var(--foundation-space-2);
-    min-width: 36px;
-  }
-  
-  .user-menu-dropdown {
-    right: -8px;
-  }
-}
-
-@media (max-width: 480px) {
-  .dropdown-container .dropdown {
-    width: calc(100vw - 32px);
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: none;
-  }
 }
