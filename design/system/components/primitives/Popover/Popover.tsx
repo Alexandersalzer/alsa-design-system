@@ -56,6 +56,14 @@ const usePopoverContext = () => {
   return context;
 };
 
+// Min-width values by size
+const MIN_WIDTHS = {
+  xs: 160,
+  sm: 180,
+  md: 200,
+  lg: 240
+};
+
 // ===============================================
 // UTILITY: Scroll Lock
 // ===============================================
@@ -94,48 +102,6 @@ const useScrollLock = (isLocked: boolean, disabled: boolean = false) => {
       body.style.paddingRight = originalScrollbarWidth;
     }
   }, [isLocked, disabled, originalStyle, originalScrollbarWidth]);
-};
-
-// ===============================================
-// UTILITY: Smart Positioning
-// ===============================================
-
-const calculatePosition = (
-  triggerElement: HTMLElement,
-  contentElement: HTMLElement,
-  options: PositioningOptions = {}
-) => {
-  const {
-    placement = 'bottom-start',
-    offset = 8,
-    sameWidth = false
-  } = options;
-
-  const triggerRect = triggerElement.getBoundingClientRect();
-  const contentRect = contentElement.getBoundingClientRect();
-  const viewportHeight = window.innerHeight;
-  const viewportWidth = window.innerWidth;
-  
-  const spaceAbove = triggerRect.top;
-  const spaceBelow = viewportHeight - triggerRect.bottom;
-  const spaceLeft = triggerRect.left;
-  const spaceRight = viewportWidth - triggerRect.right;
-  
-  // Determine if we should flip placement
-  const shouldFlipVertical = placement.includes('bottom') && spaceBelow < contentRect.height && spaceAbove > spaceBelow;
-  const shouldFlipHorizontal = placement.includes('right') && spaceRight < contentRect.width && spaceLeft > spaceRight;
-  
-  // Calculate max dimensions
-  const maxHeight = shouldFlipVertical 
-    ? Math.min(spaceAbove - offset, 600)
-    : Math.min(spaceBelow - offset, 600);
-  
-  return {
-    shouldFlipVertical,
-    shouldFlipHorizontal,
-    maxHeight,
-    width: sameWidth ? triggerRect.width : undefined
-  };
 };
 
 // ===============================================
@@ -372,18 +338,19 @@ export const PopoverContent = ({
 }: PopoverContentProps) => {
   const { contentId, size, contentRef, triggerRef, autoFocus, isOpen } = usePopoverContext();
   const [position, setPosition] = useState<{
-    left?: number;
+    left: number;
     shouldOpenUpward: boolean;
     maxHeight: number;
-    minWidth?: number;
+    minWidth: number;
   }>({
+    left: 0,
     shouldOpenUpward: false,
-    maxHeight: maxHeight
+    maxHeight: maxHeight,
+    minWidth: MIN_WIDTHS[size]
   });
   
   // Calculate positioning
-    // Calculate positioning
-    const updatePosition = () => {
+  const updatePosition = () => {
     if (!contentRef.current || !triggerRef.current) return;
     
     const triggerRect = triggerRef.current.getBoundingClientRect();
@@ -394,57 +361,60 @@ export const PopoverContent = ({
     const spaceAbove = triggerRect.top;
     const spaceBelow = viewportHeight - triggerRect.bottom;
     
+    // Get CSS min-width for this size
+    const cssMinWidth = MIN_WIDTHS[size];
+    
+    // Determine actual content width (respecting CSS min-width)
+    const actualContentWidth = Math.max(
+      contentRect.width > 0 ? contentRect.width : cssMinWidth,
+      cssMinWidth
+    );
+    
     // Vertical positioning
     const shouldOpenUpward = spaceBelow < Math.min(maxHeight, contentRect.height) && spaceAbove > spaceBelow;
     const calculatedMaxHeight = shouldOpenUpward 
-        ? Math.min(maxHeight, spaceAbove - 16)
-        : Math.min(maxHeight, spaceBelow - 16);
+      ? Math.min(maxHeight, spaceAbove - 16)
+      : Math.min(maxHeight, spaceBelow - 16);
     
     // Horizontal positioning - prevent overflow
     let left = 0;
-    const contentWidth = contentRect.width > 0 ? contentRect.width : triggerRect.width;
     
     // Check if content would overflow on the right
-    if (triggerRect.left + contentWidth > viewportWidth - 16) {
-        // Align to right edge of trigger instead
-        left = triggerRect.width - contentWidth;
+    if (triggerRect.left + actualContentWidth > viewportWidth - 16) {
+      // Align to right edge of trigger
+      left = triggerRect.width - actualContentWidth;
     }
     
     // Check if it would overflow on the left
     if (triggerRect.left + left < 16) {
-        left = -triggerRect.left + 16;
+      left = -triggerRect.left + 16;
     }
     
     setPosition({
-        left,
-        shouldOpenUpward,
-        maxHeight: calculatedMaxHeight,
-        minWidth: positioning.sameWidth ? triggerRect.width : triggerRect.width
+      left,
+      shouldOpenUpward,
+      maxHeight: calculatedMaxHeight,
+      minWidth: Math.max(cssMinWidth, triggerRect.width)
     });
-    };
-
-    useEffect(() => {
-    if (!isOpen) return;
-    
-    // Use requestAnimationFrame twice to ensure content is fully rendered
-    const raf1 = requestAnimationFrame(() => {
-        const raf2 = requestAnimationFrame(() => {
-        updatePosition();
-        });
-        return () => cancelAnimationFrame(raf2);
-    });
-    
-    return () => cancelAnimationFrame(raf1);
-    }, [isOpen]);
+  };
   
+  // Position immediately when opened, then fine-tune after render
   useEffect(() => {
     if (!isOpen) return;
-    const timer = setTimeout(updatePosition, 0);
+    
+    // Immediate calculation
+    updatePosition();
+    
+    // Fine-tune after one frame
+    const timer = setTimeout(updatePosition, 16);
+    
     return () => clearTimeout(timer);
   }, [isOpen]);
   
+  // Recalculate on scroll/resize
   useEffect(() => {
     if (!isOpen) return;
+    
     window.addEventListener('scroll', updatePosition, true);
     window.addEventListener('resize', updatePosition);
     
@@ -481,7 +451,7 @@ export const PopoverContent = ({
       style={{
         maxHeight: `${position.maxHeight}px`,
         minWidth: width || position.minWidth,
-        left: position.left !== undefined ? `${position.left}px` : 0,
+        left: `${position.left}px`,
         ...(position.shouldOpenUpward ? {
           bottom: '100%',
           top: 'auto',
