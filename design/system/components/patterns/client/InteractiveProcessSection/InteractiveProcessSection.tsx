@@ -246,7 +246,7 @@ const InteractiveProcessSection = ({
                 >
                   <div className={`step-number ${index < activeStep ? 'completed' : ''}`}>
                     {index < activeStep ? (
-                      <Icon size="sm" color="white">
+                      <Icon size="sm" color="inverse">
                         <CheckIcon />
                       </Icon>
                     ) : (
