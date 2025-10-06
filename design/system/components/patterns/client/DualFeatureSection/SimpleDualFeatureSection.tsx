@@ -48,8 +48,12 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
               padding: var(--foundation-space-4) !important;
             }
             .dual-feature-content {
-              height: 120px !important;
+              height: 160px !important;
               padding: var(--foundation-space-3) !important;
+            }
+            .dual-feature-button {
+              font-size: 0.875rem !important;
+              padding: var(--foundation-space-2) var(--foundation-space-3) !important;
             }
             .dual-feature-title {
               font-size: 1rem !important;
@@ -68,7 +72,10 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
               padding: var(--foundation-space-6) !important;
             }
             .dual-feature-content {
-              height: 130px !important;
+              height: 150px !important;
+            }
+            .dual-feature-button {
+              font-size: 0.9rem !important;
             }
             .dual-feature-title {
               font-size: 1.125rem !important;
@@ -176,7 +183,8 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   position: 'relative',
                   zIndex: 2,
                   opacity: 1,
-                  padding: 'var(--foundation-space-4)'
+                  padding: 'var(--foundation-space-4)',
+                  justifyContent: 'space-between'
                 }}
               >
                 <H3 
@@ -200,6 +208,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                 <Button
                   variant="accent"
                   size="sm" // Mindre knapp
+                  className="dual-feature-button"
                   onClick={card.onButtonClick}
                 >
                   {card.buttonText}
