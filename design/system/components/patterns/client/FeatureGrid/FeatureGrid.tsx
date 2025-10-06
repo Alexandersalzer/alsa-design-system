@@ -125,20 +125,20 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                 <div 
                   className="feature-icon"
                   style={{
-                    width: (index === 0 || index === 3) ? '96px' : '72px',
-                    height: (index === 0 || index === 3) ? '96px' : '72px',
+                    width: '64px',
+                    height: '64px',
                     flexShrink: 0,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: 'var(--radius-md)',
                     background: 'var(--accent-500)',
-                    padding: (index === 0 || index === 3) ? '16px' : '12px'
+                    padding: '12px'
                   }}
                 >
                   <div style={{
-                    width: (index === 0 || index === 3) ? '40px' : '32px',
-                    height: (index === 0 || index === 3) ? '40px' : '32px',
+                    width: '28px',
+                    height: '28px',
                     color: 'white'
                   }}>
                     {feature.icon}
