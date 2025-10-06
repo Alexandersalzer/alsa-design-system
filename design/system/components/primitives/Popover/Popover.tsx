@@ -370,38 +370,67 @@ export const PopoverContent = ({
   width,
   positioning = {}
 }: PopoverContentProps) => {
-  const { contentId, size, contentRef, triggerRef, autoFocus } = usePopoverContext();
+  const { contentId, size, contentRef, triggerRef, autoFocus, isOpen } = usePopoverContext();
   const [position, setPosition] = useState<{
-    shouldFlipVertical: boolean;
-    shouldFlipHorizontal: boolean;
+    top?: number;
+    left?: number;
     maxHeight: number;
     width?: number;
   }>({
-    shouldFlipVertical: false,
-    shouldFlipHorizontal: false,
-    maxHeight: maxHeight,
-    width: undefined
+    maxHeight: maxHeight
   });
   
   // Calculate positioning
   const updatePosition = () => {
     if (!contentRef.current || !triggerRef.current) return;
     
-    const pos = calculatePosition(
-      triggerRef.current,
-      contentRef.current,
-      { ...positioning, offset: positioning.offset || 8 }
-    );
+    const triggerRect = triggerRef.current.getBoundingClientRect();
+    const contentRect = contentRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
     
-    setPosition(pos);
+    const spaceAbove = triggerRect.top;
+    const spaceBelow = viewportHeight - triggerRect.bottom;
+    const spaceLeft = triggerRect.left;
+    const spaceRight = viewportWidth - triggerRect.right;
+    
+    // Vertical positioning
+    const shouldOpenUpward = spaceBelow < Math.min(maxHeight, contentRect.height) && spaceAbove > spaceBelow;
+    const calculatedMaxHeight = shouldOpenUpward 
+      ? Math.min(maxHeight, spaceAbove - 16)
+      : Math.min(maxHeight, spaceBelow - 16);
+    
+    // Horizontal positioning - prevent overflow
+    let left = 0; // Position relative to trigger (default: align left edges)
+    const contentWidth = width ? (typeof width === 'number' ? width : triggerRect.width) : Math.max(triggerRect.width, contentRect.width);
+    
+    // Check if content would overflow on the right
+    if (triggerRect.left + contentWidth > viewportWidth - 16) {
+      // Align to right edge of trigger instead
+      left = triggerRect.width - contentWidth;
+    }
+    
+    // Check if it would overflow on the left
+    if (triggerRect.left + left < 16) {
+      left = -triggerRect.left + 16;
+    }
+    
+    setPosition({
+      left,
+      maxHeight: calculatedMaxHeight,
+      width: positioning.sameWidth ? triggerRect.width : undefined,
+      top: shouldOpenUpward ? undefined : triggerRect.height + 8
+    });
   };
   
   useEffect(() => {
+    if (!isOpen) return;
     const timer = setTimeout(updatePosition, 0);
     return () => clearTimeout(timer);
-  }, [contentRef, triggerRef, positioning]);
+  }, [isOpen]);
   
   useEffect(() => {
+    if (!isOpen) return;
     window.addEventListener('scroll', updatePosition, true);
     window.addEventListener('resize', updatePosition);
     
@@ -409,21 +438,19 @@ export const PopoverContent = ({
       window.removeEventListener('scroll', updatePosition, true);
       window.removeEventListener('resize', updatePosition);
     };
-  }, []);
+  }, [isOpen]);
   
   // Auto focus first focusable element
   useEffect(() => {
-    if (autoFocus && contentRef.current) {
+    if (autoFocus && contentRef.current && isOpen) {
       const focusable = contentRef.current.querySelector<HTMLElement>(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       );
       focusable?.focus();
     }
-  }, [autoFocus]);
+  }, [autoFocus, isOpen]);
   
-  const placement = positioning.placement || 'bottom-start';
-  const shouldOpenUpward = position.shouldFlipVertical || placement.includes('top');
-  const shouldAlignRight = position.shouldFlipHorizontal || placement.includes('end');
+  if (!isOpen) return null;
   
   return (
     <div
@@ -440,16 +467,10 @@ export const PopoverContent = ({
       style={{
         maxHeight: `${position.maxHeight}px`,
         width: width || position.width,
-        ...(shouldOpenUpward && {
-          bottom: '100%',
-          top: 'auto',
-          marginBottom: `${positioning.offset || 8}px`,
-          marginTop: '0'
-        }),
-        ...(shouldAlignRight && {
-          left: 'auto',
-          right: 0
-        })
+        left: position.left !== undefined ? `${position.left}px` : undefined,
+        top: position.top !== undefined ? `${position.top}px` : undefined,
+        bottom: position.top === undefined ? '100%' : undefined,
+        right: undefined // Never use right positioning
       }}
     >
       {children}

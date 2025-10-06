@@ -158,18 +158,9 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
   const { size } = useMenuContext();
   
   return (
-    <Popover.Positioner
-      positioning={{
-        placement: 'bottom-end',
-        offset: 8
-      }}
-    >
+    <Popover.Positioner>
       <Popover.Content 
         maxHeight={maxHeight}
-        positioning={{
-          placement: 'bottom-end',
-          offset: 8
-        }}
         className={cn('menu-content', `menu-content--${size}`, className)}
       >
         <Listbox role="menu" size={size} spacing="xs">
