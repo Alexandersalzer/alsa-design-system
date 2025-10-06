@@ -63,7 +63,7 @@
 @import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
 @import './components/patterns/client/FAQ/FAQ.css';
 @import './components/patterns/client/Hero/Hero.css';
-@import './components/patterns/client/ProcessSteps/ProcessSteps.css';
+@import './components/patterns/client/ProcessSteps/processSteps.css';
 
 /* STEP 6: Layout utilities */
 @import './components/layout/utilities/cluster/Cluster.css';
