@@ -1,4 +1,5 @@
 // src/design-system/components/primitives/index.ts
+export * from './Alert'
 export * from './Button';
 export * from './Card';
 export * from './Input';
