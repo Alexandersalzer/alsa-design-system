@@ -15,6 +15,7 @@
 
 
 /* STEP 4: Component CSS files */
+@import './components/primitives/Alert/Alert.css';
 @import './components/primitives/Button/Button.css';
 @import './components/primitives/Card/Card.css';
 @import './components/primitives/NavigationTab/NavigationTab.css';
