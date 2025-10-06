@@ -70,6 +70,7 @@
 @import './components/utilities/cluster/Cluster.css';
 @import './components/utilities/rhythm/Rhythm.css';
 @import './components/utilities/stack/Stack.css';
+@import './components/utilities/grid/Grid.css';
 
 /* STEP 7: Themes LAST */
 @import './tokens/semantic/themes/index.css';
