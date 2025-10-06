@@ -188,7 +188,7 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
                       weight="semibold"
                       style={{ 
                         color: 'var(--text-primary)',
-                        fontSize: '1.25rem',
+                        fontSize: '1.5rem',
                         lineHeight: '1.3'
                       }}
                     >
@@ -196,10 +196,11 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
                     </Typography>
                     
                     <Typography 
-                      variant="body-md"
+                      variant="body-lg"
                       style={{ 
                         color: 'var(--text-secondary)',
-                        lineHeight: '1.6'
+                        lineHeight: '1.6',
+                        fontSize: '1.125rem'
                       }}
                     >
                       {item.description}

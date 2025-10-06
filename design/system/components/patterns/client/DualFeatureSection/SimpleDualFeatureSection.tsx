@@ -82,7 +82,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                 overflow: 'hidden',
                 background: card.imageUrl ? `url(${card.imageUrl})` : 'var(--surface-secondary)',
                 backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                backgroundPosition: 'top center',
                 backgroundRepeat: 'no-repeat',
                 display: 'flex',
                 alignItems: 'flex-end',
