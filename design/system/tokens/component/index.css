@@ -7,6 +7,7 @@
 @import '../semantic/index.css';
 
 /* Import all component token files */
+@import './alert.css';
 @import './button.css';
 @import './card.css';
 @import './input.css';
