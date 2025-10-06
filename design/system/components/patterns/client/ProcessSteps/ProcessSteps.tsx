@@ -34,7 +34,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
     <div
       style={{
         paddingTop: 'var(--foundation-space-24)',
-        paddingBottom: 'var(--foundation-space-32)',
+        paddingBottom: 'var(--foundation-space-40)',
         backgroundColor: 'transparent'
       }}
     >
