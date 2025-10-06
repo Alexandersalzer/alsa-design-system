@@ -108,10 +108,49 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
               grid-template-columns: 1fr !important;
               gap: var(--foundation-space-3) !important;
             }
+            .contact-form-container {
+              padding: var(--foundation-space-4) !important;
+            }
+            .contact-form-title {
+              font-size: 1.25rem !important;
+            }
+            .contact-form-subtitle {
+              font-size: 0.875rem !important;
+            }
+            .contact-form-button {
+              width: 100% !important;
+              font-size: 0.875rem !important;
+              padding: var(--foundation-space-3) var(--foundation-space-4) !important;
+            }
           }
-          @media (min-width: 641px) {
+          @media (min-width: 641px) and (max-width: 1024px) {
             .contact-form-grid {
               grid-template-columns: repeat(2, 1fr) !important;
+              gap: var(--foundation-space-4) !important;
+            }
+            .contact-form-container {
+              padding: var(--foundation-space-6) !important;
+            }
+            .contact-form-title {
+              font-size: 1.375rem !important;
+            }
+            .contact-form-subtitle {
+              font-size: 1rem !important;
+            }
+          }
+          @media (min-width: 1025px) {
+            .contact-form-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+              gap: var(--foundation-space-6) !important;
+            }
+            .contact-form-container {
+              padding: var(--foundation-space-8) !important;
+            }
+            .contact-form-title {
+              font-size: 1.5rem !important;
+            }
+            .contact-form-subtitle {
+              font-size: 1.125rem !important;
             }
           }
         `
@@ -123,7 +162,9 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
         backgroundColor: 'var(--surface-card)',
         backdropFilter: 'blur(15px)',
         paddingTop: 'var(--foundation-space-16)',
-        paddingBottom: 'var(--foundation-space-16)'
+        paddingBottom: 'var(--foundation-space-16)',
+        paddingLeft: 'var(--foundation-space-4)',
+        paddingRight: 'var(--foundation-space-4)'
       }}
     >
         <Stack spacing="xl" align="center">
@@ -185,14 +226,15 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
             <Card 
               variant="elevated" 
               padding="md"
+              className="contact-form-container"
               style={{ height: 'fit-content' }}
             >
               <Stack spacing="md">
                 <Stack spacing="sm">
-                  <Typography variant="h3" weight="semibold" color="heading">
+                  <Typography variant="h3" weight="semibold" color="heading" className="contact-form-title">
                     {formTitle}
                   </Typography>
-                  <Typography variant="body-md" color="secondary">
+                  <Typography variant="body-md" color="secondary" className="contact-form-subtitle">
                     {formSubtitle}
                   </Typography>
                 </Stack>
@@ -307,6 +349,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                       type="submit"
                       variant="accent" 
                       size="lg" 
+                      className="contact-form-button"
                       style={{ width: '100%' }}
                       rightIcon={submitButton.icon ? <div style={{ width: '20px', height: '20px', color: 'white' }}>{submitButton.icon}</div> : undefined}
                     >
