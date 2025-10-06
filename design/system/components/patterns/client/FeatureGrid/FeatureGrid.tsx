@@ -118,7 +118,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               
               <Stack 
                 spacing={index === 0 || index === 3 ? 'xl' : 'lg'} 
-                align="center"
+                align="start"
               >
               {/* Icon - Only show if icon is provided */}
               {feature.icon && (
