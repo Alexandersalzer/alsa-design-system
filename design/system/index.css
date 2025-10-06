@@ -38,6 +38,9 @@
 @import './components/primitives/SpinningAnimation/SpinningAnimation.css';
 @import './components/primitives/Table/Table.css';
 
+@import './components/primitives/Popover/Popover.css';
+@import './components/primitives/Listbox/Listbox.css';
+
 
 /* STEP 5: Pattern components */
 @import './components/patterns/dashboard/Header/Header.css';
