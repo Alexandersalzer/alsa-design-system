@@ -35,6 +35,22 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
   }
 
   return (
+    <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @media (max-width: 768px) {
+            .dual-features-grid {
+              grid-template-columns: 1fr !important;
+              gap: var(--foundation-space-6) !important;
+            }
+          }
+          @media (min-width: 769px) {
+            .dual-features-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+          }
+        `
+      }} />
     <Section 
       id={id}
       className={className}
@@ -64,14 +80,17 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
         )}
 
         {/* Cards Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: 'var(--foundation-space-8)',
-          width: '100%',
-          maxWidth: 'var(--size-page-max-width)', // Samma bredd som stats-sektionen
-          margin: '0 auto'
-        }}>
+        <div 
+          className="dual-features-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: 'var(--foundation-space-8)',
+            width: '100%',
+            maxWidth: 'var(--size-page-max-width)', // Samma bredd som stats-sektionen
+            margin: '0 auto'
+          }}
+        >
           {cards.map((card) => (
             <div
               key={card.id}
@@ -147,6 +166,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
         </div>
       </div>
     </Section>
+    </>
   );
 };
 

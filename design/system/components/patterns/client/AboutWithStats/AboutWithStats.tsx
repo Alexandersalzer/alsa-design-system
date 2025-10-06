@@ -30,6 +30,26 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
 
   return (
     <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @media (max-width: 640px) {
+            .stats-grid {
+              grid-template-columns: 1fr !important;
+              gap: var(--foundation-space-4) !important;
+            }
+          }
+          @media (min-width: 641px) and (max-width: 1024px) {
+            .stats-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+          }
+          @media (min-width: 1025px) {
+            .stats-grid {
+              grid-template-columns: repeat(3, 1fr) !important;
+            }
+          }
+        `
+      }} />
       {/* About Section */}
       <Section 
         id={id} 
@@ -108,9 +128,10 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
           padding: '0 var(--foundation-space-6)'
         }}>
           <div
+            className="stats-grid"
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
               gap: 'var(--foundation-space-6)',
               textAlign: 'center',
               maxWidth: 'var(--size-page-max-width)',

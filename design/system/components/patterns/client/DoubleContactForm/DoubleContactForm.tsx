@@ -100,6 +100,22 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
   };
 
   return (
+    <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @media (max-width: 640px) {
+            .contact-form-grid {
+              grid-template-columns: 1fr !important;
+              gap: var(--foundation-space-3) !important;
+            }
+          }
+          @media (min-width: 641px) {
+            .contact-form-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+          }
+        `
+      }} />
     <Section 
       id={id} 
       className={className}
@@ -184,11 +200,14 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                 <form onSubmit={handleSubmit}>
                   <Stack spacing="md">
                     {/* First Row: Name and Email */}
-                    <div style={{ 
-                      display: 'grid', 
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-                      gap: 'var(--foundation-space-4)'
-                    }}>
+                    <div 
+                      className="contact-form-grid"
+                      style={{ 
+                        display: 'grid', 
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+                        gap: 'var(--foundation-space-4)'
+                      }}
+                    >
                       {fields.filter(field => field.name === 'name' || field.name === 'email').map((field) => (
                         <div key={field.name} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-2)' }}>
                           <label 
@@ -215,11 +234,14 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                     </div>
 
                     {/* Second Row: Phone and Case Type */}
-                    <div style={{ 
-                      display: 'grid', 
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-                      gap: 'var(--foundation-space-4)'
-                    }}>
+                    <div 
+                      className="contact-form-grid"
+                      style={{ 
+                        display: 'grid', 
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+                        gap: 'var(--foundation-space-4)'
+                      }}
+                    >
                       {fields.filter(field => field.name === 'phone' || field.name === 'caseType').map((field) => (
                         <div key={field.name} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-2)' }}>
                           <label 
@@ -385,6 +407,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
           </Grid>
         </Stack>
     </Section>
+    </>
   );
 };
 

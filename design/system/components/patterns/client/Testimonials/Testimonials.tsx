@@ -34,6 +34,27 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
   const { title, titleAccent, subtitle, testimonials } = content;
 
   return (
+    <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @media (max-width: 640px) {
+            .testimonials-grid {
+              grid-template-columns: 1fr !important;
+              gap: var(--foundation-space-4) !important;
+            }
+          }
+          @media (min-width: 641px) and (max-width: 1024px) {
+            .testimonials-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+          }
+          @media (min-width: 1025px) {
+            .testimonials-grid {
+              grid-template-columns: repeat(3, 1fr) !important;
+            }
+          }
+        `
+      }} />
     <Section 
       id={id} 
       className={className}
@@ -98,9 +119,10 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
           {/* Testimonials Grid */}
           <div style={{ width: '100%', maxWidth: 'var(--size-page-max-width)' }}>
             <div
+              className="testimonials-grid"
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
                 gap: 'var(--foundation-space-6)'
               }}
             >
@@ -207,8 +229,9 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
             </div>
           </div>
         </Stack>
-      </div>
-    </Section>
+        </div>
+      </Section>
+    </>
   );
 };
 
