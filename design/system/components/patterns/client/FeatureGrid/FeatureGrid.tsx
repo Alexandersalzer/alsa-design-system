@@ -149,7 +149,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                 color="primary"
                 weight="semibold"
                 style={{
-                  fontSize: (index === 0 || index === 3) ? '1.625rem' : '1.375rem',
+                  fontSize: '1.5rem',
                   lineHeight: '1.3',
                   margin: 0
                 }}
@@ -159,7 +159,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               
               {/* Description */}
               <Body 
-                size={(index === 0 || index === 3) ? 'md' : 'sm'}
+                size="md"
                 color="secondary"
                 style={{
                   lineHeight: '1.6',
