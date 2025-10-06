@@ -119,7 +119,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           .hamburger span {
             width: 24px;
             height: 2px;
-            background: var(--primary-white);
+            background: #ffffff;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             transform-origin: center;
           }
