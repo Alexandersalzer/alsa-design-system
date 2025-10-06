@@ -10,7 +10,7 @@ import { Radio } from '../../../primitives/Radio';
 import { Tag, type TagVariant, type TagSize } from '../../../primitives/Tag';
 import { Icon, type IconColor } from '../../../primitives/Icon';
 import { cn } from '../../../../lib/utils';
-import { Cluster } from '../page/Cluster';
+import { Cluster } from '../../../layout';
 
 export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   children?: React.ReactNode;

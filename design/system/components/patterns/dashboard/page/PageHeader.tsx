@@ -10,8 +10,8 @@ import { cn } from '../../../../lib/utils';
 import { H1, Body, Display, H2, H3, H4, H5, H6 } from '../../../primitives/Typography';
 
 // Import layout components
-import { Stack } from './Stack';
-import { Cluster } from './Cluster';
+import { Stack } from '../../../layout';
+import { Cluster } from '../../../layout';
 
 // Import Tag component
 import { Tag } from '../../../primitives/Tag/Tag';

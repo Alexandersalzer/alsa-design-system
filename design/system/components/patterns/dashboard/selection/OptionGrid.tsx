@@ -6,7 +6,7 @@
 import React from 'react';
 import { SelectionCard } from './SelectionCard';
 import { Grid } from '../page/Grid';
-import { Stack } from '../page/Stack';
+import { Stack } from '../../../layout';
 import { H4, Body } from '../../../primitives/Typography';
 import { Icon } from '../../../primitives/Icon';
 import { cn } from '../../../../lib/utils';

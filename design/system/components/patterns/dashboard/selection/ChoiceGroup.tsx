@@ -6,8 +6,8 @@
 import React from 'react';
 import { RadioGroup, Radio } from '../../../primitives/Radio';
 import { Checkbox } from '../../../primitives/Checkbox';
-import { Stack } from '../page/Stack';
-import { Grid } from '../page/Grid';
+import { Stack } from '../../../layout';
+import { Grid } from '../../../layout';
 import { Body, Label } from '../../../primitives/Typography';
 import { SelectionCard } from './SelectionCard';
 import { cn } from '../../../../lib/utils';
