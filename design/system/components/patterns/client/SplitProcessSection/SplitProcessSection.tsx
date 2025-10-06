@@ -95,11 +95,12 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
             height: 100%;
             align-content: start;
           }
-          
+
           @media (min-width: 768px) {
             .process-grid {
               grid-template-columns: repeat(2, 1fr);
               gap: var(--foundation-space-8);
+              max-width: 600px;
             }
           }
           
@@ -107,6 +108,11 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
             padding: var(--foundation-space-6);
             border-radius: var(--radius-md);
             transition: all 0.3s ease;
+            min-height: 200px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
           }
           
           .process-item:hover {
