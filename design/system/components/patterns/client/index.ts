@@ -25,5 +25,4 @@ export * from './DualFeatureSection';
 export * from './FeatureGrid';
 export * from './CleanFeatureGridSection';
 export * from './SplitProcessSection';
-export * from './InteractiveStepSection';
 export * from './FooterSection';
