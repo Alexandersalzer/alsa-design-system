@@ -137,8 +137,6 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                   }}
                 >
                   <div style={{
-                    width: '28px',
-                    height: '28px',
                     color: 'white'
                   }}>
                     {feature.icon}
