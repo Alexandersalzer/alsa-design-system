@@ -119,23 +119,6 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
             transform: translateY(-2px);
           }
           
-          .process-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--surface-secondary);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: var(--foundation-space-4);
-            border: 1px solid var(--border-subtle);
-          }
-          
-          .process-icon svg {
-            width: 24px;
-            height: 24px;
-            color: var(--text-primary);
-          }
           
           .right-content {
             display: flex;
@@ -183,12 +166,6 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
               {itemsSide.items?.map((item, index) => (
                 <div key={index} className="process-item">
                   <Stack spacing="md" align="start">
-                    {item.icon && (
-                      <div className="process-icon">
-                        {item.icon}
-                      </div>
-                    )}
-                    
                     <Typography 
                       variant="h4"
                       weight="semibold"
