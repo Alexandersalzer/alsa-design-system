@@ -135,7 +135,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                 </Body>
 
                 <Button
-                  variant="primary"
+                  variant="accent"
                   size="sm" // Mindre knapp
                   onClick={card.onButtonClick}
                 >
