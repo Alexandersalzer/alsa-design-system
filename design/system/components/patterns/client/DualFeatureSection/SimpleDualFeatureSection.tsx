@@ -38,15 +38,54 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
     <>
       <style dangerouslySetInnerHTML={{
         __html: `
-          @media (max-width: 768px) {
+          @media (max-width: 640px) {
+            .dual-features-grid {
+              grid-template-columns: 1fr !important;
+              gap: var(--foundation-space-4) !important;
+            }
+            .dual-feature-card {
+              height: 400px !important;
+              padding: var(--foundation-space-4) !important;
+            }
+            .dual-feature-content {
+              height: 120px !important;
+              padding: var(--foundation-space-3) !important;
+            }
+            .dual-feature-title {
+              font-size: 1rem !important;
+            }
+            .dual-feature-description {
+              font-size: 0.875rem !important;
+            }
+          }
+          @media (min-width: 641px) and (max-width: 1024px) {
             .dual-features-grid {
               grid-template-columns: 1fr !important;
               gap: var(--foundation-space-6) !important;
             }
+            .dual-feature-card {
+              height: 500px !important;
+              padding: var(--foundation-space-6) !important;
+            }
+            .dual-feature-content {
+              height: 130px !important;
+            }
+            .dual-feature-title {
+              font-size: 1.125rem !important;
+            }
           }
-          @media (min-width: 769px) {
+          @media (min-width: 1025px) {
             .dual-features-grid {
               grid-template-columns: repeat(2, 1fr) !important;
+            }
+            .dual-feature-card {
+              height: 700px !important;
+            }
+            .dual-feature-content {
+              height: 140px !important;
+            }
+            .dual-feature-title {
+              font-size: 1.1rem !important;
             }
           }
         `
@@ -94,6 +133,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
           {cards.map((card) => (
             <div
               key={card.id}
+              className="dual-feature-card"
               style={{
                 position: 'relative',
                 height: '700px', // Mycket högre korten
@@ -123,6 +163,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
 
               {/* Innehållskort */}
               <div
+                className="dual-feature-content"
                 style={{
                   background: 'var(--surface-primary)', // Använd design system färg
                   boxShadow: 'var(--shadow-lg)',
@@ -134,12 +175,14 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   gap: 'var(--foundation-space-3)', // Mindre mellanrum
                   position: 'relative',
                   zIndex: 2,
-                  opacity: 1
+                  opacity: 1,
+                  padding: 'var(--foundation-space-4)'
                 }}
               >
                 <H3 
                   color="primary"
                   weight="semibold"
+                  className="dual-feature-title"
                   style={{ margin: 0, fontSize: '1.1rem' }} // Mindre titel
                 >
                   {card.title}
@@ -148,6 +191,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                 <Body 
                   size="sm" // Mindre text
                   color="secondary"
+                  className="dual-feature-description"
                   style={{ margin: 0, flex: 1 }}
                 >
                   {card.description}
