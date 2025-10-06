@@ -132,14 +132,14 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: 'var(--radius-md)',
-                    background: 'var(--surface-secondary)',
+                    background: 'var(--accent-500)',
                     padding: (index === 0 || index === 3) ? '16px' : '12px'
                   }}
                 >
                   <div style={{
                     width: (index === 0 || index === 3) ? '40px' : '32px',
                     height: (index === 0 || index === 3) ? '40px' : '32px',
-                    color: 'var(--text-primary)'
+                    color: 'white'
                   }}>
                     {feature.icon}
                   </div>
