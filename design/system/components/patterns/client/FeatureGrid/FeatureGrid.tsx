@@ -76,7 +76,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               boxShadow: 'var(--shadow-md)',
               position: 'relative',
               overflow: 'hidden',
-              padding: 'var(--foundation-space-8)',
+              padding: 'var(--foundation-space-12)',
               backgroundSize: feature.backgroundImage ? 'cover' : undefined,
               backgroundPosition: feature.backgroundImage ? 'center' : undefined,
               backgroundRepeat: feature.backgroundImage ? 'no-repeat' : undefined,
@@ -149,7 +149,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                 color="primary"
                 weight="semibold"
                 style={{
-                  fontSize: (index === 0 || index === 3) ? '1.625rem' : '1.375rem',
+                  fontSize: (index === 0 || index === 3) ? '1.875rem' : '1.625rem',
                   lineHeight: '1.3',
                   margin: 0
                 }}
@@ -159,11 +159,12 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               
               {/* Description */}
               <Body 
-                size={(index === 0 || index === 3) ? 'md' : 'sm'}
+                size={(index === 0 || index === 3) ? 'lg' : 'md'}
                 color="secondary"
                 style={{
                   lineHeight: '1.6',
-                  margin: 0
+                  margin: 0,
+                  fontSize: (index === 0 || index === 3) ? '1.125rem' : '1rem'
                 }}
               >
                 {feature.description}
