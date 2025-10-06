@@ -1,24 +1,20 @@
 // ===============================================
 // src/design-system/components/primitives/Menu/Menu.tsx
-// CHAKRA-INSPIRED MENU COMPONENT - FIXED TYPESCRIPT ERRORS
+// REFACTORED - Uses Popover + Listbox primitives
 // ===============================================
 
 import React, { 
   useState, 
-  useRef, 
-  useEffect, 
   createContext, 
   useContext,
   forwardRef,
-  useId,
-  type ReactNode,
-  type RefObject,
-  type KeyboardEvent as ReactKeyboardEvent,
-  type MouseEvent as ReactMouseEvent
+  type ReactNode
 } from 'react';
 import { cn } from '../../../lib/utils';
 import { Icon } from '../Icon/Icon';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
+import { Popover } from '../Popover';
+import { Listbox, ListboxItem } from '../Listbox';
 import './Menu.css';
 
 // ===============================================
@@ -30,22 +26,10 @@ export type MenuVariant = 'subtle' | 'solid';
 export type MenuColorPalette = 'gray' | 'red' | 'orange' | 'yellow' | 'green' | 'teal' | 'blue' | 'cyan' | 'purple' | 'pink';
 
 interface MenuContextValue {
-  isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
   closeOnSelect: boolean;
   size: MenuSize;
   variant: MenuVariant;
   colorPalette: MenuColorPalette;
-  triggerId: string;
-  contentId: string;
-  highlightedValue: string | null;
-  setHighlightedValue: (value: string | null) => void;
-  selectedValues: Set<string>;
-  toggleSelection: (value: string) => void;
-  registerItem: (value: string) => void;
-  unregisterItem: (value: string) => void;
-  triggerRef: RefObject<HTMLElement | null>;
-  contentRef: RefObject<HTMLDivElement | null>;
 }
 
 const MenuContext = createContext<MenuContextValue | null>(null);
@@ -56,25 +40,6 @@ const useMenuContext = () => {
     throw new Error('Menu components must be used within Menu.Root');
   }
   return context;
-};
-
-// ===============================================
-// UTILITY: Scroll Lock
-// ===============================================
-
-const useScrollLock = (isLocked: boolean) => {
-  useEffect(() => {
-    if (isLocked) {
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-      
-      return () => {
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
-      };
-    }
-  }, [isLocked]);
 };
 
 // ===============================================
@@ -100,100 +65,38 @@ export const MenuRoot = ({
   variant = 'subtle',
   colorPalette = 'gray',
   defaultOpen = false,
-  open: controlledOpen,
+  open,
   onOpenChange,
   className
 }: MenuRootProps) => {
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-  const [highlightedValue, setHighlightedValue] = useState<string | null>(null);
-  const [selectedValues] = useState(new Set<string>());
-  const [items] = useState(new Set<string>());
-  
-  const triggerRef = useRef<HTMLElement | null>(null);
-  const contentRef = useRef<HTMLDivElement | null>(null);
-  
-  const isControlled = controlledOpen !== undefined;
-  const isOpen = isControlled ? controlledOpen : uncontrolledOpen;
-  
-  const setIsOpen = (open: boolean) => {
-    if (!isControlled) {
-      setUncontrolledOpen(open);
-    }
-    onOpenChange?.(open);
-  };
-  
-  const triggerId = useId();
-  const contentId = useId();
-  
-  useScrollLock(isOpen);
-  
-  const toggleSelection = (value: string) => {
-    if (selectedValues.has(value)) {
-      selectedValues.delete(value);
-    } else {
-      selectedValues.add(value);
-    }
-  };
-  
-  const registerItem = (value: string) => {
-    items.add(value);
-  };
-  
-  const unregisterItem = (value: string) => {
-    items.delete(value);
-  };
-  
-  // Close on outside click
-  useEffect(() => {
-    if (!isOpen) return;
-    
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (
-        triggerRef.current && !triggerRef.current.contains(target) &&
-        contentRef.current && !contentRef.current.contains(target)
-      ) {
-        setIsOpen(false);
-      }
-    };
-    
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen]);
-  
   const value: MenuContextValue = {
-    isOpen,
-    setIsOpen,
     closeOnSelect,
     size,
     variant,
-    colorPalette,
-    triggerId,
-    contentId,
-    highlightedValue,
-    setHighlightedValue,
-    selectedValues,
-    toggleSelection,
-    registerItem,
-    unregisterItem,
-    triggerRef,
-    contentRef
+    colorPalette
   };
   
   return (
     <MenuContext.Provider value={value}>
-      <div 
-        className={cn('menu-root', className)}
-        data-color-palette={colorPalette}
+      <Popover
+        open={open}
+        defaultOpen={defaultOpen}
+        onOpenChange={onOpenChange}
+        size={size}
       >
-        {children}
-      </div>
+        <div 
+          className={cn('menu-root', className)}
+          data-color-palette={colorPalette}
+        >
+          {children}
+        </div>
+      </Popover>
     </MenuContext.Provider>
   );
 };
 
 // ===============================================
-// MENU TRIGGER - WITH ASCHILD SUPPORT
+// MENU TRIGGER
 // ===============================================
 
 export interface MenuTriggerProps {
@@ -205,109 +108,41 @@ export interface MenuTriggerProps {
 
 export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
   ({ children, asChild = false, className, disabled, ...props }, ref) => {
-    const { isOpen, setIsOpen, triggerId, contentId, triggerRef, size } = useMenuContext();
+    const { size } = useMenuContext();
     
-    const handleClick = (e?: React.MouseEvent) => {
-      if (disabled) return;
-      e?.stopPropagation();
-      setIsOpen(!isOpen);
-    };
-    
-    const handleKeyDown = (e: ReactKeyboardEvent) => {
-      if (disabled) return;
-      
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        setIsOpen(!isOpen);
-      } else if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        setIsOpen(true);
-      }
-    };
-    
-    // ✅ IF ASCHILD - Clone the child element and pass props to it
-    if (asChild && React.isValidElement(children)) {
-      const childElement = children as React.ReactElement<any>;
-      return React.cloneElement(childElement, {
-        ref: (node: HTMLElement) => {
-          if (triggerRef) (triggerRef as any).current = node;
-          if (typeof ref === 'function') ref(node as any);
-          else if (ref) (ref as any).current = node;
-        },
-        id: triggerId,
-        disabled,
-        onClick: (e: React.MouseEvent) => {
-          handleClick(e);
-          // ✅ Properly typed access to onClick
-          if (childElement.props && typeof childElement.props.onClick === 'function') {
-            childElement.props.onClick(e);
-          }
-        },
-        onKeyDown: (e: React.KeyboardEvent) => {
-          handleKeyDown(e);
-          // ✅ Properly typed access to onKeyDown
-          if (childElement.props && typeof childElement.props.onKeyDown === 'function') {
-            childElement.props.onKeyDown(e);
-          }
-        },
-        'aria-expanded': isOpen,
-        'aria-haspopup': 'menu',
-        'aria-controls': contentId,
-      });
+    if (asChild) {
+      return (
+        <Popover.Trigger asChild ref={ref}>
+          {children}
+        </Popover.Trigger>
+      );
     }
     
-    // ✅ DEFAULT - Render button with chevron
     return (
-      <button
-        ref={(node) => {
-          if (triggerRef) (triggerRef as any).current = node;
-          if (typeof ref === 'function') ref(node);
-          else if (ref) ref.current = node;
-        }}
-        id={triggerId}
-        type="button"
-        disabled={disabled}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
-        aria-expanded={isOpen}
-        aria-haspopup="menu"
-        aria-controls={contentId}
-        className={cn(
-          'menu-trigger',
-          `menu-trigger--${size}`,
-          isOpen && 'menu-trigger--open',
-          className
-        )}
-        {...props}
-      >
-        {children || 'Menu'}
-        <div className="menu-trigger-icon">
-          <Icon color='secondary' size='sm'>
-            <ChevronDownIcon />
-          </Icon>
-        </div>
-      </button>
+      <Popover.Trigger asChild ref={ref}>
+        <button
+          type="button"
+          disabled={disabled}
+          className={cn(
+            'menu-trigger',
+            `menu-trigger--${size}`,
+            className
+          )}
+          {...props}
+        >
+          {children || 'Menu'}
+          <div className="menu-trigger-icon">
+            <Icon color='secondary' size='sm'>
+              <ChevronDownIcon />
+            </Icon>
+          </div>
+        </button>
+      </Popover.Trigger>
     );
   }
 );
 
 MenuTrigger.displayName = 'Menu.Trigger';
-
-// ===============================================
-// MENU POSITIONER
-// ===============================================
-
-export interface MenuPositionerProps {
-  children: ReactNode;
-}
-
-export const MenuPositioner = ({ children }: MenuPositionerProps) => {
-  const { isOpen } = useMenuContext();
-  
-  if (!isOpen) return null;
-  
-  return <div className="menu-positioner">{children}</div>;
-};
 
 // ===============================================
 // MENU CONTENT
@@ -320,103 +155,19 @@ export interface MenuContentProps {
 }
 
 export const MenuContent = ({ children, className, maxHeight = 400 }: MenuContentProps) => {
-  const { contentId, size, contentRef, setIsOpen, triggerRef } = useMenuContext();
-  const [position, setPosition] = useState<{
-    shouldOpenUpward: boolean;
-    shouldAlignRight: boolean;
-    calculatedMaxHeight: number;
-  }>({
-    shouldOpenUpward: false,
-    shouldAlignRight: false,
-    calculatedMaxHeight: maxHeight
-  });
-  
-  const handleKeyDown = (e: ReactKeyboardEvent) => {
-    if (e.key === 'Escape') {
-      setIsOpen(false);
-    }
-  };
-  
-  // Calculate smart positioning - EXACTLY MATCHES PICKER
-  const calculatePosition = () => {
-    if (!contentRef.current || !triggerRef.current) return;
-    
-    const contentRect = contentRef.current.getBoundingClientRect();
-    const triggerRect = triggerRef.current.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
-    const viewportWidth = window.innerWidth;
-    
-    const spaceAbove = triggerRect.top;
-    const spaceBelow = viewportHeight - triggerRect.bottom;
-    
-    // Vertical positioning
-    const shouldOpenUpward = spaceBelow < maxHeight && spaceAbove > spaceBelow;
-    
-    // Horizontal positioning - check if dropdown would overflow on the right
-    const contentWidth = contentRect.width || 200;
-    const spaceRight = viewportWidth - triggerRect.left;
-    const spaceLeft = triggerRect.right;
-    
-    // shouldAlignRight = true means NOT enough space on right, so align to RIGHT edge
-    const shouldAlignRight = spaceRight < contentWidth && spaceLeft > spaceRight;
-    
-    // Calculate actual max height based on available space
-    const calculatedMaxHeight = shouldOpenUpward
-      ? Math.min(maxHeight, spaceAbove - 16)
-      : Math.min(maxHeight, spaceBelow - 16);
-    
-    setPosition({
-      shouldOpenUpward,
-      shouldAlignRight,
-      calculatedMaxHeight
-    });
-  };
-  
-  // Calculate position on mount and when content changes
-  useEffect(() => {
-    const timer = setTimeout(calculatePosition, 0);
-    return () => clearTimeout(timer);
-  }, [contentRef, triggerRef, maxHeight]);
-  
-  // Recalculate on scroll and resize
-  useEffect(() => {
-    window.addEventListener('scroll', calculatePosition, true);
-    window.addEventListener('resize', calculatePosition);
-    
-    return () => {
-      window.removeEventListener('scroll', calculatePosition, true);
-      window.removeEventListener('resize', calculatePosition);
-    };
-  }, []);
+  const { size } = useMenuContext();
   
   return (
-    <div
-      ref={contentRef}
-      id={contentId}
-      role="menu"
-      tabIndex={-1}
-      onKeyDown={handleKeyDown}
-      className={cn(
-        'menu-content',
-        `menu-content--${size}`,
-        className
-      )}
-      style={{
-        maxHeight: `${position.calculatedMaxHeight}px`,
-        ...(position.shouldOpenUpward && {
-          bottom: '100%',
-          top: 'auto',
-          marginBottom: '8px',
-          marginTop: '0'
-        }),
-        ...(position.shouldAlignRight && {
-          left: 'auto',
-          right: 0
-        })
-      }}
-    >
-      {children}
-    </div>
+    <Popover.Positioner>
+      <Popover.Content 
+        maxHeight={maxHeight}
+        className={cn('menu-content', `menu-content--${size}`, className)}
+      >
+        <Listbox role="menu" size={size} spacing="xs">
+          {children}
+        </Listbox>
+      </Popover.Content>
+    </Popover.Positioner>
   );
 };
 
@@ -441,54 +192,30 @@ export const MenuItem = ({
   onClick,
   className
 }: MenuItemProps) => {
-  const { 
-    closeOnSelect: rootCloseOnSelect, 
-    setIsOpen, 
-    highlightedValue,
-    setHighlightedValue,
-    size,
-    variant,
-    registerItem,
-    unregisterItem
-  } = useMenuContext();
+  const { closeOnSelect: rootCloseOnSelect, size, variant } = useMenuContext();
   
   const shouldClose = itemCloseOnSelect ?? rootCloseOnSelect;
-  const isHighlighted = highlightedValue === value;
-  
-  useEffect(() => {
-    if (value) {
-      registerItem(value);
-      return () => unregisterItem(value);
-    }
-  }, [value]);
   
   const handleClick = () => {
     if (disabled) return;
     onClick?.();
-    if (shouldClose) {
-      setIsOpen(false);
-    }
+    // Popover will handle closing if needed
   };
   
   return (
-    <div
+    <ListboxItem
       role="menuitem"
-      tabIndex={disabled ? -1 : 0}
+      size={size}
+      disabled={disabled}
       onClick={handleClick}
-      onMouseEnter={() => !disabled && setHighlightedValue(value)}
-      onMouseLeave={() => setHighlightedValue(null)}
       className={cn(
         'menu-item',
-        `menu-item--${size}`,
         `menu-item--variant-${variant}`,
-        isHighlighted && 'menu-item--highlighted',
-        disabled && 'menu-item--disabled',
         className
       )}
-      aria-disabled={disabled}
     >
       {children}
-    </div>
+    </ListboxItem>
   );
 };
 
@@ -547,71 +274,35 @@ export interface MenuCheckboxItemProps {
 export const MenuCheckboxItem = ({ 
   children, 
   value,
-  checked: controlledChecked,
+  checked = false,
   onChange,
   className
 }: MenuCheckboxItemProps) => {
-  const [uncontrolledChecked, setUncontrolledChecked] = useState(false);
-  const { size, highlightedValue, setHighlightedValue } = useMenuContext();
-  
-  const isControlled = controlledChecked !== undefined;
-  const isChecked = isControlled ? controlledChecked : uncontrolledChecked;
-  const isHighlighted = highlightedValue === value;
+  const { size } = useMenuContext();
   
   const handleClick = () => {
-    const newChecked = !isChecked;
-    if (!isControlled) {
-      setUncontrolledChecked(newChecked);
-    }
-    onChange?.(newChecked);
+    onChange?.(!checked);
   };
   
   return (
-    <div
+    <ListboxItem
       role="menuitemcheckbox"
-      aria-checked={isChecked}
+      size={size}
       onClick={handleClick}
-      onMouseEnter={() => setHighlightedValue(value)}
-      onMouseLeave={() => setHighlightedValue(null)}
-      className={cn(
-        'menu-checkbox-item',
-        `menu-checkbox-item--${size}`,
-        isHighlighted && 'menu-checkbox-item--highlighted',
-        className
-      )}
+      aria-checked={checked}
+      leading={
+        <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`)}>
+          {checked && (
+            <Icon color='primary' size='sm'>
+              <CheckIcon />
+            </Icon>
+          )}
+        </div>
+      }
+      className={cn('menu-checkbox-item', className)}
     >
-      <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`)}>
-        {isChecked && (
-          <Icon color='primary' size='sm'>
-            <CheckIcon />
-          </Icon>
-        )}
-      </div>
       {children}
-    </div>
-  );
-};
-
-// ===============================================
-// MENU ITEM INDICATOR
-// ===============================================
-
-export interface MenuItemIndicatorProps {
-  children?: ReactNode;
-  className?: string;
-}
-
-export const MenuItemIndicator = ({ children, className }: MenuItemIndicatorProps) => {
-  const { size } = useMenuContext();
-  
-  return (
-    <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`, className)}>
-      {children || (
-        <Icon color='primary' size='sm'>
-          <CheckIcon />
-        </Icon>
-      )}
-    </div>
+    </ListboxItem>
   );
 };
 
@@ -641,22 +332,11 @@ export interface MenuRadioItemGroupProps {
 
 export const MenuRadioItemGroup = ({ 
   children, 
-  value: controlledValue,
+  value: selectedValue,
   onValueChange,
   className 
 }: MenuRadioItemGroupProps) => {
-  const [uncontrolledValue, setUncontrolledValue] = useState<string>('');
   const { size } = useMenuContext();
-  
-  const isControlled = controlledValue !== undefined;
-  const value = isControlled ? controlledValue : uncontrolledValue;
-  
-  const handleValueChange = (newValue: string) => {
-    if (!isControlled) {
-      setUncontrolledValue(newValue);
-    }
-    onValueChange?.(newValue);
-  };
   
   return (
     <div 
@@ -665,10 +345,9 @@ export const MenuRadioItemGroup = ({
     >
       {React.Children.map(children, child => {
         if (React.isValidElement<MenuRadioItemProps>(child) && child.type === MenuRadioItem) {
-          const childProps = child.props as MenuRadioItemProps;
           return React.cloneElement(child, {
-            checked: childProps.value === value,
-            onSelect: () => handleValueChange(childProps.value)
+            checked: child.props.value === selectedValue,
+            onSelect: () => onValueChange?.(child.props.value)
           });
         }
         return child;
@@ -696,53 +375,29 @@ export const MenuRadioItem = ({
   onSelect,
   className
 }: MenuRadioItemProps) => {
-  const { size, highlightedValue, setHighlightedValue, closeOnSelect, setIsOpen } = useMenuContext();
-  const isHighlighted = highlightedValue === value;
-  
-  const handleClick = () => {
-    onSelect?.();
-    if (closeOnSelect) {
-      setIsOpen(false);
-    }
-  };
+  const { size } = useMenuContext();
   
   return (
-    <div
+    <ListboxItem
       role="menuitemradio"
+      size={size}
+      selected={checked}
+      onClick={onSelect}
       aria-checked={checked}
-      onClick={handleClick}
-      onMouseEnter={() => setHighlightedValue(value)}
-      onMouseLeave={() => setHighlightedValue(null)}
-      className={cn(
-        'menu-radio-item',
-        `menu-radio-item--${size}`,
-        isHighlighted && 'menu-radio-item--highlighted',
-        checked && 'menu-radio-item--selected',
-        className
-      )}
+      leading={
+        <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`)}>
+          {checked && (
+            <Icon color='primary' size='sm'>
+              <CheckIcon />
+            </Icon>
+          )}
+        </div>
+      }
+      className={cn('menu-radio-item', className)}
     >
-      <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`)}>
-        {checked && (
-          <Icon color='primary' size='sm'>
-            <CheckIcon />
-          </Icon>
-        )}
-      </div>
       {children}
-    </div>
+    </ListboxItem>
   );
-};
-
-// ===============================================
-// MENU ARROW (Optional decorative element)
-// ===============================================
-
-export interface MenuArrowProps {
-  className?: string;
-}
-
-export const MenuArrow = ({ className }: MenuArrowProps) => {
-  return <div className={cn('menu-arrow', className)} />;
 };
 
 // ===============================================
@@ -751,15 +406,12 @@ export const MenuArrow = ({ className }: MenuArrowProps) => {
 
 export const Menu = Object.assign(MenuRoot, {
   Trigger: MenuTrigger,
-  Positioner: MenuPositioner,
   Content: MenuContent,
   Item: MenuItem,
   ItemGroup: MenuItemGroup,
   Separator: MenuSeparator,
   CheckboxItem: MenuCheckboxItem,
-  ItemIndicator: MenuItemIndicator,
   ItemCommand: MenuItemCommand,
   RadioItemGroup: MenuRadioItemGroup,
-  RadioItem: MenuRadioItem,
-  Arrow: MenuArrow
+  RadioItem: MenuRadioItem
 });

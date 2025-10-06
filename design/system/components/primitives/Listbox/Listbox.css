@@ -73,6 +73,7 @@
   cursor: default;
   outline: none;
   user-select: none;
+  position: relative;
   
   transition: 
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
@@ -103,8 +104,14 @@
   cursor: pointer;
 }
 
-.listbox-item--interactive:hover:not(.listbox-item--disabled) {
+/* ENHANCED HOVER - More visible */
+.listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
   background-color: var(--surface-hover);
+}
+
+/* Hover for selected items - slightly different shade */
+.listbox-item--interactive.listbox-item--selected:hover:not(.listbox-item--disabled) {
+  background-color: var(--surface-dropdown-option-selected-hover);
 }
 
 .listbox-item--interactive:active:not(.listbox-item--disabled) {
@@ -128,10 +135,6 @@
   background-color: var(--surface-picker-option-selected);
   color: var(--text-picker-option-selected);
   font-weight: var(--foundation-weight-semibold);
-}
-
-.listbox-item--selected:hover:not(.listbox-item--disabled) {
-  background-color: var(--surface-dropdown-option-selected-hover);
 }
 
 /* Disabled state */
