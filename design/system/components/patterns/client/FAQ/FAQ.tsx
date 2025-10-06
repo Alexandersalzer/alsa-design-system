@@ -53,6 +53,37 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
               transform: translateY(0);
             }
           }
+          
+          @media (max-width: 640px) {
+            .faq-container {
+              width: 100% !important;
+              max-width: 100% !important;
+              padding: 0 var(--foundation-space-4) !important;
+            }
+            .faq-item {
+              padding: 0 var(--foundation-space-2) !important;
+            }
+            .faq-question {
+              font-size: 1.25rem !important;
+            }
+          }
+          @media (min-width: 641px) and (max-width: 1024px) {
+            .faq-container {
+              width: 90% !important;
+              max-width: 90% !important;
+            }
+            .faq-question {
+              font-size: 1.375rem !important;
+            }
+          }
+          @media (min-width: 1025px) {
+            .faq-container {
+              width: var(--size-page-content-max-width) !important;
+            }
+            .faq-question {
+              font-size: 1.5rem !important;
+            }
+          }
         `
       }} />
       <Section 
@@ -101,11 +132,14 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
           </div>
 
           {/* FAQ Items */}
-          <div style={{ 
-            width: 'var(--size-page-content-max-width)', // Fast bredd istället för maxWidth
-            margin: '0 auto', // Centrera containern
-            minHeight: '600px' // Lägg till minsta höjd för att behålla storlek
-          }}>
+          <div 
+            className="faq-container"
+            style={{ 
+              width: 'var(--size-page-content-max-width)', // Fast bredd istället för maxWidth
+              margin: '0 auto', // Centrera containern
+              minHeight: '600px' // Lägg till minsta höjd för att behålla storlek
+            }}
+          >
             <Stack spacing="md">
               {items.map((item, index) => {
                 const isExpanded = expandedItems.has(index);
@@ -113,6 +147,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                 return (
                   <div 
                     key={index}
+                    className="faq-item"
                     style={{
                       width: '100%', // Fast bredd för varje FAQ-item
                       borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
@@ -142,6 +177,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                       <Typography 
                         variant="h3" 
                         weight="semibold"
+                        className="faq-question"
                         style={{ 
                           color: 'var(--text-primary)',
                           textAlign: 'left',
