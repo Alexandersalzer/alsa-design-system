@@ -382,7 +382,8 @@ export const PopoverContent = ({
   });
   
   // Calculate positioning
-  const updatePosition = () => {
+    // Calculate positioning
+    const updatePosition = () => {
     if (!contentRef.current || !triggerRef.current) return;
     
     const triggerRect = triggerRef.current.getBoundingClientRect();
@@ -396,31 +397,45 @@ export const PopoverContent = ({
     // Vertical positioning
     const shouldOpenUpward = spaceBelow < Math.min(maxHeight, contentRect.height) && spaceAbove > spaceBelow;
     const calculatedMaxHeight = shouldOpenUpward 
-      ? Math.min(maxHeight, spaceAbove - 16)
-      : Math.min(maxHeight, spaceBelow - 16);
+        ? Math.min(maxHeight, spaceAbove - 16)
+        : Math.min(maxHeight, spaceBelow - 16);
     
     // Horizontal positioning - prevent overflow
     let left = 0;
-    const contentWidth = contentRect.width || triggerRect.width;
+    const contentWidth = contentRect.width > 0 ? contentRect.width : triggerRect.width;
     
     // Check if content would overflow on the right
     if (triggerRect.left + contentWidth > viewportWidth - 16) {
-      // Align to right edge of trigger instead
-      left = triggerRect.width - contentWidth;
+        // Align to right edge of trigger instead
+        left = triggerRect.width - contentWidth;
     }
     
     // Check if it would overflow on the left
     if (triggerRect.left + left < 16) {
-      left = -triggerRect.left + 16;
+        left = -triggerRect.left + 16;
     }
     
     setPosition({
-      left,
-      shouldOpenUpward,
-      maxHeight: calculatedMaxHeight,
-      minWidth: positioning.sameWidth ? triggerRect.width : triggerRect.width
+        left,
+        shouldOpenUpward,
+        maxHeight: calculatedMaxHeight,
+        minWidth: positioning.sameWidth ? triggerRect.width : triggerRect.width
     });
-  };
+    };
+
+    useEffect(() => {
+    if (!isOpen) return;
+    
+    // Use requestAnimationFrame twice to ensure content is fully rendered
+    const raf1 = requestAnimationFrame(() => {
+        const raf2 = requestAnimationFrame(() => {
+        updatePosition();
+        });
+        return () => cancelAnimationFrame(raf2);
+    });
+    
+    return () => cancelAnimationFrame(raf1);
+    }, [isOpen]);
   
   useEffect(() => {
     if (!isOpen) return;

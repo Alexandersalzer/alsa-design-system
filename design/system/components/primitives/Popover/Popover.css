@@ -30,12 +30,11 @@
 }
 
 /* ===== POPOVER CONTENT ===== */
+/* ===== POPOVER CONTENT ===== */
 .popover-content {
   position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
+  /* Removed: top: calc(100% + 8px); and left: 0; - now controlled by inline styles */
   z-index: var(--z-popover);
-  min-width: 200px;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-dropdown);
   background-color: var(--surface-dropdown);
