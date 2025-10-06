@@ -372,11 +372,12 @@ export const PopoverContent = ({
 }: PopoverContentProps) => {
   const { contentId, size, contentRef, triggerRef, autoFocus, isOpen } = usePopoverContext();
   const [position, setPosition] = useState<{
-    top?: number;
     left?: number;
+    shouldOpenUpward: boolean;
     maxHeight: number;
-    width?: number;
+    minWidth?: number;
   }>({
+    shouldOpenUpward: false,
     maxHeight: maxHeight
   });
   
@@ -391,8 +392,6 @@ export const PopoverContent = ({
     
     const spaceAbove = triggerRect.top;
     const spaceBelow = viewportHeight - triggerRect.bottom;
-    const spaceLeft = triggerRect.left;
-    const spaceRight = viewportWidth - triggerRect.right;
     
     // Vertical positioning
     const shouldOpenUpward = spaceBelow < Math.min(maxHeight, contentRect.height) && spaceAbove > spaceBelow;
@@ -401,8 +400,8 @@ export const PopoverContent = ({
       : Math.min(maxHeight, spaceBelow - 16);
     
     // Horizontal positioning - prevent overflow
-    let left = 0; // Position relative to trigger (default: align left edges)
-    const contentWidth = width ? (typeof width === 'number' ? width : triggerRect.width) : Math.max(triggerRect.width, contentRect.width);
+    let left = 0;
+    const contentWidth = contentRect.width || triggerRect.width;
     
     // Check if content would overflow on the right
     if (triggerRect.left + contentWidth > viewportWidth - 16) {
@@ -417,9 +416,9 @@ export const PopoverContent = ({
     
     setPosition({
       left,
+      shouldOpenUpward,
       maxHeight: calculatedMaxHeight,
-      width: positioning.sameWidth ? triggerRect.width : undefined,
-      top: shouldOpenUpward ? undefined : triggerRect.height + 8
+      minWidth: positioning.sameWidth ? triggerRect.width : triggerRect.width
     });
   };
   
@@ -466,11 +465,17 @@ export const PopoverContent = ({
       )}
       style={{
         maxHeight: `${position.maxHeight}px`,
-        width: width || position.width,
-        left: position.left !== undefined ? `${position.left}px` : undefined,
-        top: position.top !== undefined ? `${position.top}px` : undefined,
-        bottom: position.top === undefined ? '100%' : undefined,
-        right: undefined // Never use right positioning
+        minWidth: width || position.minWidth,
+        left: position.left !== undefined ? `${position.left}px` : 0,
+        ...(position.shouldOpenUpward ? {
+          bottom: '100%',
+          top: 'auto',
+          marginBottom: '8px'
+        } : {
+          top: '100%',
+          bottom: 'auto',
+          marginTop: '8px'
+        })
       }}
     >
       {children}
