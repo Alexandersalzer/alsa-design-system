@@ -158,9 +158,18 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
   const { size } = useMenuContext();
   
   return (
-    <Popover.Positioner>
+    <Popover.Positioner
+      positioning={{
+        placement: 'bottom-end',
+        offset: 8
+      }}
+    >
       <Popover.Content 
         maxHeight={maxHeight}
+        positioning={{
+          placement: 'bottom-end',
+          offset: 8
+        }}
         className={cn('menu-content', `menu-content--${size}`, className)}
       >
         <Listbox role="menu" size={size} spacing="xs">
@@ -199,7 +208,6 @@ export const MenuItem = ({
   const handleClick = () => {
     if (disabled) return;
     onClick?.();
-    // Popover will handle closing if needed
   };
   
   return (
