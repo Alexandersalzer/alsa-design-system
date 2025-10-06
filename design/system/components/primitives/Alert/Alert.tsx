@@ -6,11 +6,8 @@
 import React, { forwardRef, ReactNode } from 'react';
 import { cn } from '../../../lib/utils';
 import { Typography } from '../Typography';
-import { 
-  Icon,
-  StatusIcons,
-  XMarkIcon
-} from '../Icon';
+import { StatusIcons } from '../Icon';
+import { IconButtons } from '../IconButton';
 
 // ===== TYPE DEFINITIONS =====
 export type AlertVariant = 'subtle' | 'solid' | 'outline';
@@ -55,7 +52,7 @@ export interface AlertDescriptionProps extends Omit<React.HTMLAttributes<HTMLPar
   className?: string;
 }
 
-export interface AlertCloseButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface AlertCloseButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
   /** Close handler */
   onClose?: () => void;
   /** Additional CSS classes */
@@ -207,18 +204,14 @@ export const AlertCloseButton = forwardRef<HTMLButtonElement, AlertCloseButtonPr
   ...props
 }, ref) => {
   return (
-    <button
-      ref={ref}
-      onClick={onClose}
-      className={cn('alert__close', className)}
-      aria-label="Close alert"
-      type="button"
-      {...props}
-    >
-      <Icon size="sm" color="primary">
-        <XMarkIcon />
-      </Icon>
-    </button>
+    <div className={cn('alert__close-wrapper', className)}>
+      <IconButtons.Close
+        onClick={onClose}
+        variant="ghost"
+        size="sm"
+        {...props}
+      />
+    </div>
   );
 });
 
