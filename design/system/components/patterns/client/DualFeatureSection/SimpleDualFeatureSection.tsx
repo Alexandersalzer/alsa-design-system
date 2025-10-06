@@ -60,6 +60,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
             }
             .dual-feature-description {
               font-size: 0.875rem !important;
+              -webkit-line-clamp: 2 !important;
             }
           }
           @media (min-width: 641px) and (max-width: 1024px) {
@@ -179,12 +180,11 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   height: '140px', // Samma höjd för alla kort
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 'var(--foundation-space-3)', // Mindre mellanrum
+                  gap: 'var(--foundation-space-2)', // Mindre mellanrum
                   position: 'relative',
                   zIndex: 2,
                   opacity: 1,
-                  padding: 'var(--foundation-space-4)',
-                  justifyContent: 'space-between'
+                  padding: 'var(--foundation-space-4)'
                 }}
               >
                 <H3 
@@ -200,7 +200,14 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   size="sm" // Mindre text
                   color="secondary"
                   className="dual-feature-description"
-                  style={{ margin: 0, flex: 1 }}
+                  style={{ 
+                    margin: 0, 
+                    flex: 1,
+                    overflow: 'hidden',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: 'vertical'
+                  }}
                 >
                   {card.description}
                 </Body>
@@ -210,6 +217,7 @@ export const SimpleDualFeatureSection: React.FC<SimpleDualFeatureSectionProps> =
                   size="sm" // Mindre knapp
                   className="dual-feature-button"
                   onClick={card.onButtonClick}
+                  style={{ marginTop: 'auto', flexShrink: 0 }}
                 >
                   {card.buttonText}
                 </Button>
