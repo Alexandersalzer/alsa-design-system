@@ -65,6 +65,9 @@ export const ListboxItem = forwardRef<HTMLLIElement, ListboxItemProps>(({
     }
   };
 
+  // Fix: Convert to boolean explicitly
+  const hasAccessories = Boolean(leading || trailing);
+
   return (
     <li
       ref={ref}
@@ -82,7 +85,7 @@ export const ListboxItem = forwardRef<HTMLLIElement, ListboxItemProps>(({
         disabled && 'listbox-item--disabled',
         focused && 'listbox-item--focused',
         interactive && 'listbox-item--interactive',
-        (leading || trailing) && 'listbox-item--with-accessories',
+        hasAccessories && 'listbox-item--with-accessories',
         className
       )}
       {...props}
