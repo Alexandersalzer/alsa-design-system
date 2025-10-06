@@ -4,8 +4,6 @@ import React, { useState } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { ChevronRightIcon, CheckIcon } from 'lucide-react';
 
