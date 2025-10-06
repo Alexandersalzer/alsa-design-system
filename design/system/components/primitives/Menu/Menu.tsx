@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Menu/Menu.tsx
-// CHAKRA-INSPIRED MENU COMPONENT
+// CHAKRA-INSPIRED MENU COMPONENT - FIXED TYPESCRIPT ERRORS
 // ===============================================
 
 import React, { 
@@ -193,7 +193,7 @@ export const MenuRoot = ({
 };
 
 // ===============================================
-// MENU TRIGGER
+// MENU TRIGGER - WITH ASCHILD SUPPORT
 // ===============================================
 
 export interface MenuTriggerProps {
@@ -207,8 +207,9 @@ export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
   ({ children, asChild = false, className, disabled, ...props }, ref) => {
     const { isOpen, setIsOpen, triggerId, contentId, triggerRef, size } = useMenuContext();
     
-    const handleClick = () => {
+    const handleClick = (e?: React.MouseEvent) => {
       if (disabled) return;
+      e?.stopPropagation();
       setIsOpen(!isOpen);
     };
     
@@ -224,6 +225,38 @@ export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
       }
     };
     
+    // ✅ IF ASCHILD - Clone the child element and pass props to it
+    if (asChild && React.isValidElement(children)) {
+      const childElement = children as React.ReactElement<any>;
+      return React.cloneElement(childElement, {
+        ref: (node: HTMLElement) => {
+          if (triggerRef) (triggerRef as any).current = node;
+          if (typeof ref === 'function') ref(node as any);
+          else if (ref) (ref as any).current = node;
+        },
+        id: triggerId,
+        disabled,
+        onClick: (e: React.MouseEvent) => {
+          handleClick(e);
+          // ✅ Properly typed access to onClick
+          if (childElement.props && typeof childElement.props.onClick === 'function') {
+            childElement.props.onClick(e);
+          }
+        },
+        onKeyDown: (e: React.KeyboardEvent) => {
+          handleKeyDown(e);
+          // ✅ Properly typed access to onKeyDown
+          if (childElement.props && typeof childElement.props.onKeyDown === 'function') {
+            childElement.props.onKeyDown(e);
+          }
+        },
+        'aria-expanded': isOpen,
+        'aria-haspopup': 'menu',
+        'aria-controls': contentId,
+      });
+    }
+    
+    // ✅ DEFAULT - Render button with chevron
     return (
       <button
         ref={(node) => {
