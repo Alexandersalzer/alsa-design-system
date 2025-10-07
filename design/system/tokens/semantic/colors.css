@@ -215,6 +215,112 @@
   --icon-nav-item-selected: var(--accent-600);
   --icon-nav-item-disabled: var(--icon-disabled);
   --icon-nav-item-hover: var(--icon-primary);
+
+  /* ===== MISSING TOKENS FROM DARK.CSS ===== */
+  /* These were in dark.css but missing from light mode */
+  
+  /* STATUS SHORTCUT TOKENS */
+  --error-bg: var(--error-100);
+  --error-bg-hover: var(--error-200);
+  --error-border: var(--error-300);
+  --error-text: var(--error-700);
+  --error-text-strong: var(--error-800);
+  --error-icon: var(--error-600);
+  --error-subtle: var(--error-50);
+  
+  --success-bg: var(--success-100);
+  --success-bg-hover: var(--success-200);
+  --success-border: var(--success-300);
+  --success-text: var(--success-700);
+  --success-text-strong: var(--success-800);
+  --success-icon: var(--success-600);
+  --success-subtle: var(--success-50);
+  
+  --warning-bg: var(--warning-100);
+  --warning-bg-hover: var(--warning-200);
+  --warning-border: var(--warning-300);
+  --warning-text: var(--warning-700);
+  --warning-text-strong: var(--warning-800);
+  --warning-icon: var(--warning-600);
+  --warning-subtle: var(--warning-50);
+  
+  --info-bg: var(--info-100);
+  --info-bg-hover: var(--info-200);
+  --info-border: var(--info-300);
+  --info-text: var(--info-700);
+  --info-text-strong: var(--info-800);
+  --info-icon: var(--info-600);
+  --info-subtle: var(--info-50);
+
+  /* TABLE TOKENS */
+  --surface-table: var(--primary-white);
+  --surface-table-header: var(--secondary-50);
+  --surface-table-row: var(--primary-white);
+  --surface-table-row-hover: var(--secondary-50);
+  --surface-table-row-selected: var(--accent-100);
+  --surface-table-row-striped: var(--secondary-50);
+  
+  --border-table: var(--border-default);
+  --border-table-subtle: var(--border-subtle);
+  --border-table-header: var(--border-default);
+  --border-table-row: var(--border-subtle);
+  --border-table-cell: var(--border-subtle);
+  
+  --text-table-header: var(--text-secondary);
+  --text-table-cell: var(--text-primary);
+  --text-table-cell-secondary: var(--text-secondary);
+  --text-table-empty: var(--text-tertiary);
+  
+  --surface-table-loading-base: var(--secondary-100);
+  --surface-table-loading-shimmer: var(--secondary-200);
+
+  /* ADDITIONAL SURFACE TOKENS */
+  --surface-page-secondary: var(--secondary-50);
+  --surface-card: var(--primary-white);
+  --surface-card-hover: var(--secondary-50);
+  --surface-card-selected: var(--secondary-100);
+  --surface-inverse: var(--primary-1200);
+  --surface-brand: var(--accent-500);
+  --surface-brand-subtle: color-mix(in srgb, var(--accent-500) 10%, var(--surface-page) 90%);
+  
+  --surface-success: var(--success-500);
+  --surface-success-subtle: color-mix(in srgb, var(--success-500) 10%, var(--surface-page) 90%);
+  --surface-warning: var(--warning-500);
+  --surface-warning-subtle: color-mix(in srgb, var(--warning-500) 10%, var(--surface-page) 90%);
+  --surface-error: var(--error-500);
+  --surface-info: var(--info-500);
+  --surface-info-subtle: color-mix(in srgb, var(--info-500) 10%, var(--surface-page) 90%);
+
+  /* ADDITIONAL TEXT TOKENS */
+  --text-quaternary: var(--secondary-400);
+  --text-on-interactive: var(--primary-white);
+  --text-brand: var(--accent-600);
+  --text-brand-on-brand: var(--primary-white);
+  
+  --text-heading-secondary: var(--primary-1100);
+  --text-caption: var(--secondary-500);
+  --text-link: var(--accent-600);
+  --text-link-hover: var(--accent-700);
+  
+  --text-success-on-success: var(--primary-white);
+  --text-warning-on-warning: var(--primary-white);
+  --text-error-on-error: var(--primary-white);
+  --text-info-on-info: var(--primary-white);
+
+  /* ADDITIONAL BORDER TOKENS */
+  --border-emphasis: var(--secondary-400);
+  --border-strong: var(--secondary-500);
+  --border-inverse: var(--primary-1200);
+  --border-brand: var(--accent-500);
+  --border-brand-subtle: var(--accent-300);
+  
+  --border-selected: var(--accent-500);
+  --border-active: var(--secondary-400);
+  
+  --border-success-subtle: var(--success-300);
+  --border-warning-subtle: var(--warning-300);
+  --border-error-subtle: var(--error-300);
+  --border-info-subtle: var(--info-300);
 }
 
 /* ==============================================
