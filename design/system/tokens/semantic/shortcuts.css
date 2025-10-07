@@ -52,7 +52,7 @@
   --surface-base: var(--surface-page);
   --surface-elevated: var(--secondary-100);
   --surface-subtle: var(--surface-card-hover);
-  --surface-hover: var(--surface-card-selected);
+  --surface-hover: var(--secondary-200);
   
   /* ===== TEXT SHORTCUTS ===== */
   /* Text intensity shortcuts */
