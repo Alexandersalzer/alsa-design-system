@@ -23,6 +23,8 @@ export * from './VideoShowcase';
 export * from './CountUp';
 export * from './SpinningAnimation';
 export * from './LogoIcon';
+export * from './Popover';
+export * from './Listbox';
 export * from './Logo';
 export * from './LineChart';
 export * from './Table';
