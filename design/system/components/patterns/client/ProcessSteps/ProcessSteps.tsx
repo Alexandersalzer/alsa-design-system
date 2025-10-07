@@ -6,7 +6,7 @@ import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Card } from '../../../../../system/components/primitives/Card';
 import React, { useState, useEffect } from 'react';
-import { ChevronLeftIcon, ChevronRightIcon, PauseIcon, PlayIcon } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
 export interface ProcessStep {
   number: number;
@@ -135,26 +135,6 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
-            {/* Progress Bar */}
-            <div style={{
-              position: 'absolute',
-              top: '-12px',
-              left: '0',
-              right: '0',
-              height: '4px',
-              background: 'rgba(255, 255, 255, 0.1)',
-              borderRadius: '2px',
-              overflow: 'hidden'
-            }}>
-              <div style={{
-                height: '100%',
-                width: `${progress}%`,
-                background: 'linear-gradient(90deg, var(--accent-500), var(--accent-400))',
-                transition: 'width 0.1s linear',
-                boxShadow: '0 0 8px rgba(99, 102, 241, 0.5)'
-              }} />
-            </div>
-
             <Card
               variant="elevated"
               padding="lg"
@@ -172,35 +152,6 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 position: 'relative'
               }}
             >
-              {/* Pause/Play Button */}
-              <button
-                onClick={() => setIsPaused(!isPaused)}
-                style={{
-                  position: 'absolute',
-                  top: '16px',
-                  right: '16px',
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '50%',
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  color: 'var(--text-primary)',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'all 0.3s ease',
-                  zIndex: 10
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                }}
-              >
-                {isPaused ? <PlayIcon size={18} /> : <PauseIcon size={18} />}
-              </button>
 
               <div style={{ textAlign: 'center', padding: 'var(--foundation-space-8)' }}>
                 <Stack spacing="xl" align="center">
@@ -333,10 +284,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                         : 'rgba(255, 255, 255, 0.2)',
                       border: 'none',
                       cursor: 'pointer',
-                      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                      boxShadow: index === activeStep 
-                        ? '0 4px 12px rgba(99, 102, 241, 0.4)' 
-                        : 'none'
+                      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
                     }}
                     onMouseEnter={(e) => {
                       if (index !== activeStep) {
@@ -370,21 +318,16 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  opacity: activeStep === steps.length - 1 ? 0.4 : 1,
-                  boxShadow: activeStep < steps.length - 1 
-                    ? '0 6px 20px rgba(99, 102, 241, 0.4)' 
-                    : 'none'
+                  opacity: activeStep === steps.length - 1 ? 0.4 : 1
                 }}
                 onMouseEnter={(e) => {
                   if (activeStep < steps.length - 1) {
                     e.currentTarget.style.transform = 'scale(1.05)';
-                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(99, 102, 241, 0.5)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (activeStep < steps.length - 1) {
                     e.currentTarget.style.transform = 'scale(1)';
-                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(99, 102, 241, 0.4)';
                   }
                 }}
               >
