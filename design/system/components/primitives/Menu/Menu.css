@@ -31,8 +31,7 @@
   transition: 
     border-color var(--foundation-duration-fast) var(--foundation-ease-out),
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
-    box-shadow var(--foundation-duration-fast) var(--foundation-ease-out),
-    transform var(--foundation-duration-fast) var(--foundation-ease-out);
+    box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
 .menu-trigger:hover:not(:disabled):not([aria-expanded="true"]) {
@@ -46,7 +45,6 @@
 .menu-trigger:active:not(:disabled) {
   background-color: var(--surface-pressed);
   border-color: var(--border-hover);
-  transform: translateY(1px);
 }
 
 .menu-trigger:focus-visible {
@@ -73,7 +71,6 @@
 
 .menu-trigger:disabled:hover {
   box-shadow: none;
-  transform: none;
 }
 
 /* Size variants */
