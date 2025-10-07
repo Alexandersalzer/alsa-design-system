@@ -104,6 +104,11 @@
   cursor: pointer;
 }
 
+/* ENHANCED HOVER - More visible */
+.listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  background-color: var(--surface-hover);
+}
+
 /* Hover for selected items - slightly different shade */
 .listbox-item--interactive.listbox-item--selected:hover:not(.listbox-item--disabled) {
   background-color: var(--surface-dropdown-option-selected-hover);
