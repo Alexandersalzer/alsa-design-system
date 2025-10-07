@@ -97,24 +97,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 marginBottom: 'var(--foundation-space-4)'
               }}
             >
-              {title.split(' ').map((word, index) => {
-                if (titleAccent && word === titleAccent) {
-                  return (
-                    <span 
-                      key={index} 
-                      style={{
-                        background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text'
-                      }}
-                    >
-                      {word}{' '}
-                    </span>
-                  );
-                }
-                return word + ' ';
-              })}
+              {title}
             </Typography>
 
             <Typography 
