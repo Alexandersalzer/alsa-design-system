@@ -213,30 +213,8 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    boxShadow: '0 12px 40px rgba(99, 102, 241, 0.4)',
-                    transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                    position: 'relative'
+                    transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
                   }}>
-                    {/* Rotating ring */}
-                    <div style={{
-                      position: 'absolute',
-                      inset: '-8px',
-                      border: '2px solid rgba(255, 255, 255, 0.3)',
-                      borderRadius: '50%',
-                      borderTopColor: 'transparent',
-                      borderRightColor: 'transparent',
-                      animation: 'rotate 3s linear infinite',
-                      opacity: isPaused ? 0.3 : 1,
-                      transition: 'opacity 0.3s ease'
-                    }} />
-                    <style>
-                      {`
-                        @keyframes rotate {
-                          from { transform: rotate(0deg); }
-                          to { transform: rotate(360deg); }
-                        }
-                      `}
-                    </style>
                     {steps[activeStep]?.icon ? (
                       <div style={{
                         width: '80px',
