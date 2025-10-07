@@ -157,7 +157,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
 
             <Card
               variant="elevated"
-              padding="xl"
+              padding="lg"
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
                 backdropFilter: 'blur(20px)',
