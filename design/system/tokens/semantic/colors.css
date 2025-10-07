@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/tokens/semantic/colors.css
-   COMPLETE SEMANTIC COLOR SYSTEM - ALL TOKENS
+   COMPLETE SEMANTIC COLOR SYSTEM WITH AUTO DARK MODE
    ============================================== */
 
 :root {
@@ -43,12 +43,12 @@
   --accent-800: var(--foundation-purple-800);
   --accent-900: var(--foundation-purple-900);
   --accent-950: var(--foundation-purple-950);
- --accent-1000: var(--foundation-purple-1000);
- --accent-1100: var(--foundation-purple-1100);
- --accent-1200: var(--foundation-purple-1200);
+  --accent-1000: var(--foundation-purple-1000);
+  --accent-1100: var(--foundation-purple-1100);
+  --accent-1200: var(--foundation-purple-1200);
 
   /* ===== STATUS COLOR SCALES ===== */
-  /* Info/Azure scale - NOW BLUE INSTEAD OF PURPLE */
+  /* Info/Azure scale */
   --info-100: var(--foundation-azure-100);
   --info-200: var(--foundation-azure-200);
   --info-300: var(--foundation-azure-300);
@@ -128,24 +128,23 @@
   /* ===== SEMANTIC SURFACE TOKENS ===== */
   --surface-background: #fff;
   --surface-page: var(--primary-white);
-
   --surface-overlay: rgba(0, 0, 0, 0.5);
   --surface-backdrop: rgba(0, 0, 0, 0.3);
-  --surface-error-subtle: color-mix(in srgb, var(--error-500) 10%, var(--surface-card) 90%);
+  --surface-error-subtle: color-mix(in srgb, var(--error-500) 10%, var(--surface-page) 90%);
 
   /* ===== SEMANTIC BORDER TOKENS ===== */
   --border-default: var(--secondary-200);
   --border-subtle: var(--secondary-100);
   --border-hover: var(--secondary-300);
-  --border-focus: var(--accent-color);
+  --border-focus: var(--accent-500);  /* Fixed: was --accent-color which doesn't exist */
   --border-disabled: var(--secondary-100);
   --border-error: var(--error-500);
   --border-success: var(--success-500);
   --border-warning: var(--warning-500);
   --border-info: var(--info-500);
-  --border-light: var(--secondary-100);           
-  --border-light-hover: var(--secondary-200);     
-  --border-light-active: var(--secondary-300);    
+  --border-light: var(--secondary-100);
+  --border-light-hover: var(--secondary-200);
+  --border-light-active: var(--secondary-300);
 
   /* ===== SEMANTIC ICON TOKENS ===== */
   --icon-primary: var(--secondary-600);
@@ -154,11 +153,11 @@
   --icon-disabled: var(--secondary-300);
   --icon-inverse: var(--primary-white);
   --icon-brand: var(--accent-600);
-  --icon-accent: var(--accent-500);      
-  --icon-success: var(--success-600);    
-  --icon-warning: var(--warning-600);    
-  --icon-error: var(--error-600);        
-  --icon-info: var(--info-600);      
+  --icon-accent: var(--accent-500);
+  --icon-success: var(--success-600);
+  --icon-warning: var(--warning-600);
+  --icon-error: var(--error-600);
+  --icon-info: var(--info-600);
 
   /* ===== SEMANTIC INTERACTIVE TOKENS ===== */
   --interactive-primary: var(--primary-900);
@@ -179,22 +178,20 @@
   --interactive-tertiary-hover: var(--secondary-100);
   --interactive-tertiary-active: var(--secondary-200);
 
-  --interactive-destructive: var(--error-500);              /* Solid red background */
-  --interactive-destructive-hover: var(--error-600);        /* Darker red on hover */
-  --interactive-destructive-active: var(--error-700);       /* Even darker on active */
-  --interactive-destructive-disabled: var(--error-200);     /* Light red when disabled */
+  --interactive-destructive: var(--error-500);
+  --interactive-destructive-hover: var(--error-600);
+  --interactive-destructive-active: var(--error-700);
+  --interactive-destructive-disabled: var(--error-200);
 
-  --surface-button-destructive: var(--error-100); /* Light red background */
-  --surface-button-destructive-hover: var(--error-200); /* Slightly darker on hover */
-  --text-button-destructive: var(--error-700); /* Dark red text */
-  --border-button-destructive: var(--error-300); /*
+  --surface-button-destructive: var(--error-100);
+  --surface-button-destructive-hover: var(--error-200);
+  --text-button-destructive: var(--error-700);
+  --border-button-destructive: var(--error-300);
   
-  /* Success interactions */
   --interactive-success: var(--success-500);
   --interactive-success-hover: var(--success-600);
   --interactive-success-active: var(--success-700);
   
-  /* Warning interactions */
   --interactive-warning: var(--warning-500);
   --interactive-warning-hover: var(--warning-600);
   --interactive-warning-active: var(--warning-700);
@@ -205,7 +202,7 @@
   --shadow-emphasis: rgba(0, 0, 0, 0.15);
   --shadow-strong: rgba(0, 0, 0, 0.25);
 
-  /* Additional Navigation tokens that aren't in navigation.css */
+  /* ===== NAVIGATION TOKENS ===== */
   --surface-nav: var(--primary-white);
   --surface-nav-item: transparent;
   --surface-nav-item-hover: var(--secondary-100);
@@ -218,4 +215,244 @@
   --icon-nav-item-selected: var(--accent-600);
   --icon-nav-item-disabled: var(--icon-disabled);
   --icon-nav-item-hover: var(--icon-primary);
+}
+
+/* ==============================================
+   DARK MODE - FLIP ALL SEMANTIC SCALES
+   ============================================== */
+[data-theme="dark"] {
+  /* FLIP PRIMARY SCALE */
+  --primary-white: var(--foundation-black);
+  --primary-black: var(--foundation-white);
+  --primary-50: var(--foundation-gray-1200);
+  --primary-100: var(--foundation-gray-1100);
+  --primary-200: var(--foundation-gray-1000);
+  --primary-300: var(--foundation-gray-900);
+  --primary-400: var(--foundation-gray-800);
+  --primary-500: var(--foundation-gray-700);
+  --primary-600: var(--foundation-gray-600);
+  --primary-700: var(--foundation-gray-500);
+  --primary-800: var(--foundation-gray-400);
+  --primary-900: var(--foundation-gray-300);
+  --primary-1000: var(--foundation-gray-200);
+  --primary-1100: var(--foundation-gray-100);
+  --primary-1200: var(--foundation-gray-50);
+
+  /* FLIP SECONDARY SCALE */
+  --secondary-50: var(--foundation-gray-900);
+  --secondary-100: var(--foundation-gray-800);
+  --secondary-200: var(--foundation-gray-700);
+  --secondary-300: var(--foundation-gray-600);
+  --secondary-400: var(--foundation-gray-500);
+  --secondary-500: var(--foundation-gray-400);
+  --secondary-600: var(--foundation-gray-300);
+  --secondary-700: var(--foundation-gray-200);
+  --secondary-800: var(--foundation-gray-100);
+  --secondary-900: var(--foundation-gray-50);
+
+  /* FLIP ACCENT SCALE */
+  --accent-100: var(--foundation-purple-1200);
+  --accent-200: var(--foundation-purple-1100);
+  --accent-300: var(--foundation-purple-1000);
+  --accent-400: var(--foundation-purple-950);
+  --accent-500: var(--foundation-purple-900);
+  --accent-600: var(--foundation-purple-800);
+  --accent-700: var(--foundation-purple-700);
+  --accent-800: var(--foundation-purple-600);
+  --accent-900: var(--foundation-purple-500);
+  --accent-950: var(--foundation-purple-400);
+  --accent-1000: var(--foundation-purple-300);
+  --accent-1100: var(--foundation-purple-200);
+  --accent-1200: var(--foundation-purple-100);
+
+  /* FLIP INFO SCALE */
+  --info-100: var(--foundation-azure-1200);
+  --info-200: var(--foundation-azure-1100);
+  --info-300: var(--foundation-azure-1000);
+  --info-400: var(--foundation-azure-950);
+  --info-500: var(--foundation-azure-900);
+  --info-600: var(--foundation-azure-800);
+  --info-700: var(--foundation-azure-700);
+  --info-800: var(--foundation-azure-600);
+  --info-900: var(--foundation-azure-500);
+  --info-950: var(--foundation-azure-400);
+  --info-1000: var(--foundation-azure-300);
+  --info-1100: var(--foundation-azure-200);
+  --info-1200: var(--foundation-azure-100);
+
+  /* FLIP ERROR SCALE */
+  --error-100: var(--foundation-ruby-1200);
+  --error-200: var(--foundation-ruby-1100);
+  --error-300: var(--foundation-ruby-1000);
+  --error-400: var(--foundation-ruby-950);
+  --error-500: var(--foundation-ruby-900);
+  --error-600: var(--foundation-ruby-800);
+  --error-700: var(--foundation-ruby-700);
+  --error-800: var(--foundation-ruby-600);
+  --error-900: var(--foundation-ruby-500);
+  --error-950: var(--foundation-ruby-400);
+  --error-1000: var(--foundation-ruby-300);
+  --error-1100: var(--foundation-ruby-200);
+  --error-1200: var(--foundation-ruby-100);
+
+  /* FLIP SUCCESS SCALE */
+  --success-100: var(--foundation-emerald-1200);
+  --success-200: var(--foundation-emerald-1100);
+  --success-300: var(--foundation-emerald-1000);
+  --success-400: var(--foundation-emerald-950);
+  --success-500: var(--foundation-emerald-900);
+  --success-600: var(--foundation-emerald-800);
+  --success-700: var(--foundation-emerald-700);
+  --success-800: var(--foundation-emerald-600);
+  --success-900: var(--foundation-emerald-500);
+  --success-950: var(--foundation-emerald-400);
+  --success-1000: var(--foundation-emerald-300);
+  --success-1100: var(--foundation-emerald-200);
+  --success-1200: var(--foundation-emerald-100);
+
+  /* FLIP WARNING SCALE */
+  --warning-100: var(--foundation-honey-1200);
+  --warning-200: var(--foundation-honey-1100);
+  --warning-300: var(--foundation-honey-1000);
+  --warning-400: var(--foundation-honey-950);
+  --warning-500: var(--foundation-honey-900);
+  --warning-600: var(--foundation-honey-800);
+  --warning-700: var(--foundation-honey-700);
+  --warning-800: var(--foundation-honey-600);
+  --warning-900: var(--foundation-honey-500);
+  --warning-950: var(--foundation-honey-400);
+  --warning-1000: var(--foundation-honey-300);
+  --warning-1100: var(--foundation-honey-200);
+  --warning-1200: var(--foundation-honey-100);
+
+  /* ===== DARK MODE SPECIFIC OVERRIDES ===== */
+  /* These tokens need special handling in dark mode */
+  
+  /* Surface adjustments for dark mode */
+  --surface-background: #000;
+  --surface-page: var(--primary-50);  /* Now points to dark background */
+  --surface-overlay: rgba(0, 0, 0, 0.8);
+  --surface-backdrop: rgba(0, 0, 0, 0.6);
+  
+  /* Shadow adjustments for dark mode */
+  --shadow-default: rgba(0, 0, 0, 0.3);
+  --shadow-subtle: rgba(0, 0, 0, 0.2);
+  --shadow-emphasis: rgba(0, 0, 0, 0.4);
+  --shadow-strong: rgba(0, 0, 0, 0.5);
+  
+  /* Text inverse should now be dark in dark mode */
+  --text-inverse: var(--primary-black);  /* Now points to white */
+  
+  /* Icon inverse should now be dark in dark mode */
+  --icon-inverse: var(--primary-black);  /* Now points to white */
+
+  /* ===== STATUS SHORTCUT TOKENS FOR DARK MODE ===== */
+  /* From your dark.css - these need special dark mode values */
+  
+  /* Error shortcuts - dark mode */
+  --error-bg: var(--error-950);
+  --error-bg-hover: var(--error-900);
+  --error-border: var(--error-800);
+  --error-text: var(--error-300);
+  --error-text-strong: var(--error-200);
+  --error-icon: var(--error-400);
+  --error-subtle: var(--error-1000);
+  
+  /* Success shortcuts - dark mode */
+  --success-bg: var(--success-950);
+  --success-bg-hover: var(--success-900);
+  --success-border: var(--success-800);
+  --success-text: var(--success-300);
+  --success-text-strong: var(--success-200);
+  --success-icon: var(--success-400);
+  --success-subtle: var(--success-1000);
+  
+  /* Warning shortcuts - dark mode */
+  --warning-bg: var(--warning-950);
+  --warning-bg-hover: var(--warning-900);
+  --warning-border: var(--warning-800);
+  --warning-text: var(--warning-300);
+  --warning-text-strong: var(--warning-200);
+  --warning-icon: var(--warning-400);
+  --warning-subtle: var(--warning-1100);
+  
+  /* Info shortcuts - dark mode */
+  --info-bg: var(--info-950);
+  --info-bg-hover: var(--info-900);
+  --info-border: var(--info-800);
+  --info-text: var(--info-300);
+  --info-text-strong: var(--info-200);
+  --info-icon: var(--info-400);
+  --info-subtle: var(--info-1000);
+  
+  /* ===== TABLE TOKENS FOR DARK MODE ===== */
+  /* From your dark.css */
+  --surface-table: var(--primary-50);
+  --surface-table-header: var(--primary-100);
+  --surface-table-row: var(--primary-50);
+  --surface-table-row-hover: var(--primary-200);
+  --surface-table-row-selected: var(--accent-200);
+  --surface-table-row-striped: var(--primary-100);
+  
+  --border-table: var(--border-default);
+  --border-table-subtle: var(--border-subtle);
+  --border-table-header: var(--border-default);
+  --border-table-row: var(--border-subtle);
+  --border-table-cell: var(--border-subtle);
+  
+  --text-table-header: var(--text-secondary);
+  --text-table-cell: var(--text-primary);
+  --text-table-cell-secondary: var(--text-secondary);
+  --text-table-empty: var(--text-secondary);
+  
+  --surface-table-loading-base: var(--primary-200);
+  --surface-table-loading-shimmer: var(--primary-300);
+
+  /* ===== ADDITIONAL SURFACE TOKENS FROM DARK.CSS ===== */
+  --surface-page-secondary: var(--primary-100);
+  --surface-card: var(--primary-50);
+  --surface-card-hover: var(--primary-200);
+  --surface-card-selected: var(--primary-300);
+  --surface-inverse: var(--primary-1200);  /* Light surface in dark mode */
+  --surface-brand: var(--accent-500);
+  --surface-brand-subtle: color-mix(in srgb, var(--accent-500) 10%, var(--surface-page) 90%);
+  
+  --surface-success: var(--success-500);
+  --surface-success-subtle: color-mix(in srgb, var(--success-500) 10%, var(--surface-page) 90%);
+  --surface-warning: var(--warning-500);
+  --surface-warning-subtle: color-mix(in srgb, var(--warning-500) 10%, var(--surface-page) 90%);
+  --surface-error: var(--error-500);
+  --surface-info: var(--info-500);
+  --surface-info-subtle: color-mix(in srgb, var(--info-500) 10%, var(--surface-page) 90%);
+
+  /* ===== ADDITIONAL TEXT TOKENS FROM DARK.CSS ===== */
+  --text-quaternary: var(--secondary-700);
+  --text-on-interactive: var(--primary-50);  /* Dark text on light backgrounds in dark mode */
+  --text-brand: var(--accent-500);
+  --text-brand-on-brand: #ffffff;
+  
+  --text-heading-secondary: var(--primary-1100);
+  --text-caption: var(--secondary-700);
+  --text-link: var(--accent-500);
+  --text-link-hover: var(--accent-400);
+  
+  --text-success-on-success: #000000;
+  --text-warning-on-warning: #000000;
+  --text-error-on-error: #000000;
+  --text-info-on-info: #000000;
+
+  /* ===== ADDITIONAL BORDER TOKENS FROM DARK.CSS ===== */
+  --border-emphasis: var(--secondary-400);
+  --border-strong: var(--secondary-500);
+  --border-inverse: var(--secondary-700);
+  --border-brand: var(--accent-500);
+  --border-brand-subtle: var(--accent-300);
+  
+  --border-selected: var(--accent-500);
+  --border-active: var(--secondary-500);
+  
+  --border-success-subtle: var(--success-300);
+  --border-warning-subtle: var(--warning-300);
+  --border-error-subtle: var(--error-300);
+  --border-info-subtle: var(--info-300);
 }

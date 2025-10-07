@@ -1,15 +1,16 @@
 // ===============================================
 // src/design-system/components/patterns/dashboard/display/Notification.tsx
-// NOTIFICATION COMPONENT - For displaying notifications
+// NOTIFICATION COMPONENT - Refactored with Popover primitive
 // ===============================================
 
-import React, { useState, useRef, useEffect } from 'react';
-import { Bell, Check, X, MoreHorizontal } from 'lucide-react';
+import React, { useState } from 'react';
+import { Bell, Check } from 'lucide-react';
 import { cn } from '../../../../lib/utils';
-import { Label, Body, Icon, Button } from '../../../primitives';
+import { Label, Body, Icon, Button, IconButtons } from '../../../primitives';
+import { Popover } from '../../../primitives/Popover';
 import './Notification.css';
 
-// ===== NOTIFICATION ITEM COMPONENT =====
+// ===== TYPES =====
 export interface NotificationItemProps {
   id: string;
   type: 'chat_message' | 'support_ticket' | 'order_update' | 'website_published' | 'feature_activated' | 'billing' | 'system';
@@ -21,10 +22,10 @@ export interface NotificationItemProps {
   source_type?: string;
   onClick?: () => void;
   onMarkAsRead?: (id: string) => void;
-  /** Controls whether the leading emoji icon is shown */
   showIcon?: boolean;
 }
 
+// ===== NOTIFICATION ITEM COMPONENT =====
 export const NotificationItem: React.FC<NotificationItemProps> = ({
   id,
   type,
@@ -54,25 +55,6 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
         return '💰';
       default:
         return '🔔';
-    }
-  };
-
-  const getTypeColor = () => {
-    switch (type) {
-      case 'chat_message':
-        return 'info';
-      case 'support_ticket':
-        return 'warning';
-      case 'order_update':
-        return 'accent';
-      case 'website_published':
-        return 'success';
-      case 'feature_activated':
-        return 'success';
-      case 'billing':
-        return 'warning';
-      default:
-        return 'primary';
     }
   };
 
@@ -141,8 +123,126 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
   );
 };
 
-// ===== NOTIFICATION DROPDOWN COMPONENT =====
-export interface NotificationDropdownProps {
+// ===== MAIN NOTIFICATION COMPONENT (using Popover) =====
+export interface NotificationProps {
+  notifications: NotificationItemProps[];
+  unreadCount: number;
+  onNotificationClick?: (notification: NotificationItemProps) => void;
+  onMarkAsRead?: (id: string) => void;
+  onMarkAllAsRead?: () => void;
+  onViewAll?: () => void;
+  className?: string;
+  showIcons?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
+
+export const Notification: React.FC<NotificationProps> = ({
+  notifications,
+  unreadCount,
+  onNotificationClick,
+  onMarkAsRead,
+  onMarkAllAsRead,
+  onViewAll,
+  className,
+  showIcons = true,
+  open,
+  onOpenChange
+}) => {
+  return (
+    <Popover 
+      open={open} 
+      onOpenChange={onOpenChange}
+      size="md"
+    >
+      <Popover.Trigger asChild>
+        <div className={cn("notification-trigger-wrapper", className)}>
+          <IconButtons.Bell
+            variant="secondary"
+            size="md"
+            badge={unreadCount > 0 ? unreadCount : undefined}
+            aria-label="Notiser"
+          />
+        </div>
+      </Popover.Trigger>
+      
+      <Popover.Positioner>
+        <Popover.Content 
+          maxHeight={500}
+          className="notification-popover-content"
+        >
+          {/* Header */}
+          <div className="notification-header">
+            <Label size="lg" weight="bold" color="heading">
+              Notiser
+            </Label>
+            {unreadCount > 0 && onMarkAllAsRead && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onMarkAllAsRead}
+              >
+                <Label size="sm" weight="medium" color="secondary">
+                  Markera alla som lästa
+                </Label>
+              </Button>
+            )}
+          </div>
+          
+          {/* Content */}
+          <div className="notification-list">
+            {notifications.length > 0 ? (
+              <>
+                {notifications.map((notification) => (
+                  <NotificationItem
+                    key={notification.id}
+                    {...notification}
+                    showIcon={showIcons}
+                    onClick={() => onNotificationClick?.(notification)}
+                    onMarkAsRead={onMarkAsRead}
+                  />
+                ))}
+              </>
+            ) : (
+              <div className="notification-empty">
+                <div className="notification-empty__icon">
+                  <Icon size="xl" color="tertiary">
+                    <Bell />
+                  </Icon>
+                </div>
+                <Body size="sm" weight="medium" color="primary">
+                  Inga nya notiser
+                </Body>
+                <Body size="xs" color="secondary">
+                  Du kommer att se notiser här när de kommer in
+                </Body>
+              </div>
+            )}
+          </div>
+          
+          {/* Footer */}
+          {notifications.length > 0 && onViewAll && (
+            <div className="notification-footer">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="notification-view-all-btn"
+                onClick={onViewAll}
+              >
+                <Label size="sm" weight="medium" color="secondary">
+                  Visa alla notiser
+                </Label>
+              </Button>
+            </div>
+          )}
+        </Popover.Content>
+      </Popover.Positioner>
+    </Popover>
+  );
+};
+
+// ===== LEGACY EXPORTS FOR BACKWARDS COMPATIBILITY =====
+export const NotificationDropdown: React.FC<{
   isOpen: boolean;
   notifications: NotificationItemProps[];
   unreadCount: number;
@@ -150,33 +250,22 @@ export interface NotificationDropdownProps {
   onMarkAsRead?: (id: string) => void;
   onMarkAllAsRead?: () => void;
   onViewAll?: () => void;
-  /** Controls whether icons are shown for notification items */
   showIcons?: boolean;
-}
-
-export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
-  isOpen,
-  notifications,
-  unreadCount,
-  onNotificationClick,
-  onMarkAsRead,
-  onMarkAllAsRead,
-  onViewAll,
-  showIcons = true
-}) => {
+}> = ({ isOpen, ...props }) => {
+  // Legacy wrapper - just renders content without Popover
   if (!isOpen) return null;
-
+  
   return (
     <div className="notification-dropdown">
-      <div className="notification-dropdown__header">
+      <div className="notification-header">
         <Label size="lg" weight="bold" color="heading">
           Notiser
         </Label>
-        {unreadCount > 0 && onMarkAllAsRead && (
+        {props.unreadCount > 0 && props.onMarkAllAsRead && (
           <Button
             variant="ghost"
             size="sm"
-            onClick={onMarkAllAsRead}
+            onClick={props.onMarkAllAsRead}
           >
             <Label size="sm" weight="medium" color="secondary">
               Markera alla som lästa
@@ -186,22 +275,22 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
       </div>
       
       <div className="notification-dropdown__content">
-        {notifications.length > 0 ? (
+        {props.notifications.length > 0 ? (
           <div className="notification-dropdown__list">
-            {notifications.map((notification) => (
+            {props.notifications.map((notification) => (
               <NotificationItem
                 key={notification.id}
                 {...notification}
-                showIcon={showIcons}
-                onClick={() => onNotificationClick?.(notification)}
-                onMarkAsRead={onMarkAsRead}
+                showIcon={props.showIcons}
+                onClick={() => props.onNotificationClick?.(notification)}
+                onMarkAsRead={props.onMarkAsRead}
               />
             ))}
           </div>
         ) : (
           <div className="notification-dropdown__empty">
             <div className="notification-dropdown__empty-icon">
-              <Icon size="xl" color="empty-state">
+              <Icon size="xl" color="tertiary">
                 <Bell />
               </Icon>
             </div>
@@ -215,13 +304,13 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
         )}
       </div>
       
-      {notifications.length > 0 && onViewAll && (
+      {props.notifications.length > 0 && props.onViewAll && (
         <div className="notification-dropdown__footer">
           <Button
             variant="ghost"
             size="sm"
             className="notification-dropdown__view-all-btn"
-            onClick={onViewAll}
+            onClick={props.onViewAll}
           >
             <Label size="sm" weight="medium" color="secondary">
               Visa alla notiser
@@ -229,110 +318,6 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
           </Button>
         </div>
       )}
-    </div>
-  );
-};
-
-// ===== NOTIFICATION BELL COMPONENT =====
-export interface NotificationBellProps {
-  unreadCount: number;
-  isOpen: boolean;
-  onToggle: () => void;
-  className?: string;
-}
-
-export const NotificationBell: React.FC<NotificationBellProps> = ({
-  unreadCount,
-  isOpen,
-  onToggle,
-  className
-}) => {
-  return (
-    <button
-      className={cn(
-        "notification-bell",
-        isOpen && "notification-bell--active",
-        className
-      )}
-      onClick={onToggle}
-      aria-label="Notiser"
-    >
-      <div className="notification-bell__icon">
-        <Icon size="md" color="primary">
-          <Bell />
-        </Icon>
-      </div>
-      {unreadCount > 0 && (
-        <div className="notification-bell__badge">
-          <Label size="xs" weight="bold" color="button-primary">
-            {unreadCount > 99 ? '99+' : unreadCount}
-          </Label>
-        </div>
-      )}
-    </button>
-  );
-};
-
-// ===== MAIN NOTIFICATION COMPONENT =====
-export interface NotificationProps {
-  notifications: NotificationItemProps[];
-  unreadCount: number;
-  isOpen: boolean;
-  onToggle: () => void;
-  onNotificationClick?: (notification: NotificationItemProps) => void;
-  onMarkAsRead?: (id: string) => void;
-  onMarkAllAsRead?: () => void;
-  onViewAll?: () => void;
-  className?: string;
-  /** Controls whether icons are shown for notification items */
-  showIcons?: boolean;
-}
-
-export const Notification: React.FC<NotificationProps> = ({
-  notifications,
-  unreadCount,
-  isOpen,
-  onToggle,
-  onNotificationClick,
-  onMarkAsRead,
-  onMarkAllAsRead,
-  onViewAll,
-  className,
-  showIcons = true
-}) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    if (!isOpen) return;
-    
-    const handleClick = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        onToggle();
-      }
-    };
-    
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [isOpen, onToggle]);
-
-  return (
-    <div ref={containerRef} className={cn("notification-container", className)}>
-      <NotificationBell
-        unreadCount={unreadCount}
-        isOpen={isOpen}
-        onToggle={onToggle}
-      />
-      <NotificationDropdown
-        isOpen={isOpen}
-        notifications={notifications}
-        unreadCount={unreadCount}
-        onNotificationClick={onNotificationClick}
-        onMarkAsRead={onMarkAsRead}
-        onMarkAllAsRead={onMarkAllAsRead}
-        onViewAll={onViewAll}
-        showIcons={showIcons}
-      />
     </div>
   );
 };
