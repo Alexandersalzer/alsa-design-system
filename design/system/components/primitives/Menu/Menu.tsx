@@ -106,14 +106,28 @@ export interface MenuTriggerProps {
   disabled?: boolean;
 }
 
+// ===============================================
+// MENU TRIGGER - FIXED ASCHILD CLASS MERGING
+// ===============================================
+
 export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
   ({ children, asChild = false, className, disabled, ...props }, ref) => {
     const { size } = useMenuContext();
     
-    if (asChild) {
+    if (asChild && React.isValidElement(children)) {
+      // Clone the child and merge our classes with theirs
+      const childElement = children as React.ReactElement<any>;
       return (
         <Popover.Trigger asChild ref={ref}>
-          {children}
+          {React.cloneElement(childElement, {
+            className: cn(
+              'menu-trigger',
+              `menu-trigger--${size}`,
+              className,
+              childElement.props.className // Preserve the child's original className
+            ),
+            disabled: disabled || childElement.props.disabled
+          })}
         </Popover.Trigger>
       );
     }
