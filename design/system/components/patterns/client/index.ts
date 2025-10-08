@@ -8,6 +8,7 @@ export * from './Hero';
 export * from './PKLHero';
 export * from './OurExpertise';
 export * from './WhyChooseUs';
+export * from './ContactAssessment';
 export * from './ProcessSteps';
 export * from './spinning-banner';
 export * from './CountUpSection';
