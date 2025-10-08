@@ -115,6 +115,19 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
             flex-shrink: 0;
           }
           
+          .submit-button button {
+            background-color: var(--button-primary-background, var(--primary-500)) !important;
+            color: white !important;
+          }
+          
+          .submit-button button:hover {
+            background-color: var(--button-primary-background-hover, var(--primary-600)) !important;
+          }
+          
+          .submit-button button:disabled {
+            opacity: 0.6;
+          }
+          
           .image-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
