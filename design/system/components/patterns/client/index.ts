@@ -5,6 +5,7 @@ export * from './kj-footer';
 export * from './NotionFooter';
 export * from './FAQ';
 export * from './Hero';
+export * from './PKLHero';
 export * from './ProcessSteps';
 export * from './spinning-banner';
 export * from './CountUpSection';
