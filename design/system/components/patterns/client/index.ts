@@ -9,6 +9,7 @@ export * from './PKLHero';
 export * from './OurExpertise';
 export * from './WhyChooseUs';
 export * from './ContactAssessment';
+export * from './PKLFooter';
 export * from './ProcessSteps';
 export * from './spinning-banner';
 export * from './CountUpSection';
