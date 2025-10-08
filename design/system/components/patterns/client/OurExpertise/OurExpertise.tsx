@@ -147,7 +147,7 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
               
               {/* Main Heading */}
               <Typography 
-                variant="heading-lg" 
+                variant="h2" 
                 weight="semibold"
                 color="primary"
                 as="h2"
@@ -187,13 +187,13 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
                 {/* Service Icon */}
                 <div className="service-card-icon">
                   <Icon size="md" color="primary">
-                    {service.icon}
+                    {service.icon as React.ReactElement}
                   </Icon>
                 </div>
                 
                 {/* Service Title */}
                 <Typography 
-                  variant="heading-sm" 
+                  variant="h4" 
                   weight="semibold"
                   className="service-card-title"
                   as="h3"
