@@ -6,12 +6,12 @@ import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
 
-export interface FooterLink {
+export interface PKLFooterLink {
   label: string;
   href: string;
 }
 
-export interface SocialLink {
+export interface PKLSocialLink {
   name: string;
   href: string;
   icon: React.ReactElement;
@@ -21,9 +21,9 @@ export interface PKLFooterContent {
   logo?: React.ReactElement;
   companyName?: string;
   description: string;
-  links: FooterLink[];
-  support: FooterLink[];
-  social: SocialLink[];
+  links: PKLFooterLink[];
+  support: PKLFooterLink[];
+  social: PKLSocialLink[];
   copyright: string;
 }
 

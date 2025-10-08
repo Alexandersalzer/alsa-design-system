@@ -1,2 +1,2 @@
 export { PKLFooter } from './PKLFooter';
-export type { PKLFooterProps, PKLFooterContent, FooterLink, SocialLink } from './PKLFooter';
+export type { PKLFooterProps, PKLFooterContent, PKLFooterLink, PKLSocialLink } from './PKLFooter';
