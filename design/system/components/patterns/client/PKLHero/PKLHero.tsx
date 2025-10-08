@@ -220,7 +220,7 @@ export const PKLHero: React.FC<PKLHeroProps> = ({
                   </Button>
                   
                   <Button 
-                    variant="outline" 
+                    variant="secondary" 
                     size="lg"
                     onClick={handleSecondaryClick}
                   >
