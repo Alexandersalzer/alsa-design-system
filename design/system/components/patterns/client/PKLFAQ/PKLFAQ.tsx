@@ -7,7 +7,7 @@ import { Container } from '../../../../../system/layout/frames/container/Contain
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 
-export interface FAQItem {
+export interface PKLFAQItem {
   id: string;
   question: string;
   answer: string;
@@ -17,7 +17,7 @@ export interface PKLFAQContent {
   label?: string;
   title: string;
   description?: string;
-  faqs: FAQItem[];
+  faqs: PKLFAQItem[];
 }
 
 export interface PKLFAQProps {
