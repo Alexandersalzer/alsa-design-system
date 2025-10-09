@@ -59,26 +59,34 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
           background: var(--surface-page);
         }
         
+        .pkl-faq-container {
+          display: grid;
+          grid-template-columns: 1fr 2fr;
+          gap: var(--foundation-space-12);
+          align-items: start;
+        }
+        
         .pkl-faq-header {
           text-align: left;
-          max-width: var(--size-page-content-max-width);
+          position: sticky;
+          top: 120px;
         }
         
         .pkl-faq-accordion-container {
-          max-width: 800px;
-          margin: 0 auto;
+          width: 100%;
         }
         
         .pkl-faq-accordion {
-          background: var(--surface-subtle);
-          border-radius: var(--radius-lg);
-          padding: var(--foundation-space-4);
-          box-shadow: var(--shadow-xs);
+          background: transparent;
+          border-radius: 0;
+          padding: 0;
+          box-shadow: none;
         }
         
         .pkl-faq-item {
           border-bottom: 1px solid var(--border-subtle);
           transition: background 0.2s ease;
+          background: transparent;
         }
         
         .pkl-faq-item:last-child {
@@ -86,7 +94,7 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
         }
         
         .pkl-faq-item:hover {
-          background: var(--surface-hover);
+          background: transparent;
         }
         
         .pkl-faq-question-button {
@@ -148,9 +156,20 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
           line-height: 1.75;
         }
         
+        @media (max-width: 1024px) {
+          .pkl-faq-container {
+            grid-template-columns: 1fr;
+            gap: var(--foundation-space-8);
+          }
+          
+          .pkl-faq-header {
+            position: static;
+          }
+        }
+        
         @media (max-width: 768px) {
           .pkl-faq-accordion {
-            padding: var(--foundation-space-2);
+            padding: 0;
           }
           
           .pkl-faq-question-button {
@@ -177,8 +196,8 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
         }}
       >
         <Container maxWidth="lg">
-          <Stack spacing="xl" align="start">
-            {/* Header Area */}
+          <div className="pkl-faq-container">
+            {/* Header Area - Left Side */}
             <div className="pkl-faq-header">
               <Stack spacing="md" align="start">
                 {label && (
@@ -193,7 +212,6 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
                   <Typography 
                     variant="body-md" 
                     color="secondary"
-                    style={{ maxWidth: 'var(--size-page-content-max-width)' }}
                   >
                     {description}
                   </Typography>
@@ -201,7 +219,7 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
               </Stack>
             </div>
 
-            {/* Accordion / Questions */}
+            {/* Accordion / Questions - Right Side */}
             <div className="pkl-faq-accordion-container">
               <div className="pkl-faq-accordion">
                 {faqs.map((faq, index) => {
@@ -240,7 +258,7 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
                 })}
               </div>
             </div>
-          </Stack>
+          </div>
         </Container>
       </Section>
     </>
