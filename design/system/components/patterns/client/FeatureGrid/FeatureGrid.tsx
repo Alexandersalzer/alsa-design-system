@@ -104,18 +104,6 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             }}
           >
             <div style={{ position: 'relative', zIndex: 2 }}>
-              {/* Text readability overlay */}
-              <div style={{
-                position: 'absolute',
-                top: '-8px',
-                left: '-8px',
-                right: '-8px',
-                bottom: '-8px',
-                background: 'rgba(0, 0, 0, 0.7)',
-                borderRadius: 'var(--radius-md)',
-                zIndex: -1
-              }} />
-              
               <Stack 
                 spacing={index === 0 || index === 3 ? 'xl' : 'lg'} 
                 align="start"
@@ -133,14 +121,13 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                     justifyContent: 'center',
                     borderRadius: 'var(--radius-md)',
                     background: 'var(--accent-500)',
-                    padding: '12px'
+                    padding: '12px',
+                    color: 'white'
                   }}
                 >
-                  <div style={{
-                    color: 'white'
-                  }}>
-                    {feature.icon}
-                  </div>
+                  {React.cloneElement(feature.icon as React.ReactElement, {
+                    style: { width: '100%', height: '100%', strokeWidth: 2 }
+                  })}
                 </div>
               )}
               
