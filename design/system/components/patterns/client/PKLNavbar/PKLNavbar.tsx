@@ -83,11 +83,6 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
     <>
       <style dangerouslySetInnerHTML={{
         __html: `
-          .pkl-navbar-wrapper {
-            position: relative;
-            width: 100%;
-          }
-          
           .pkl-navbar-container {
             position: sticky;
             top: 0;
@@ -283,83 +278,84 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
         `
       }} />
       
-      <div className="pkl-navbar-wrapper">
+      <>
         <div className="pkl-navbar-container" id={id}>
           <div className="pkl-navbar">
-          {/* Background Image */}
-          <div className="pkl-navbar-background" />
-          
-          {/* Overlay */}
-          <div className="pkl-navbar-overlay" />
-          
-          {/* Content */}
-          <div className="pkl-navbar-content">
-            {/* Top Bar - Always Visible */}
-            <div className="pkl-navbar-top">
-              {/* Logo */}
-              <div className="pkl-navbar-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                {logo && <img src={logo} alt={logoText} />}
-                <span>{logoText}</span>
-              </div>
-              
-              {/* Navigation - Desktop */}
-              <nav className="pkl-navbar-nav">
-                {navigationItems.map((item, index) => (
-                  <a
-                    key={index}
-                    className="pkl-navbar-nav-item"
-                    onClick={() => handleNavClick(item.href)}
-                  >
-                    {item.label}
-                  </a>
-                ))}
-              </nav>
-              
-              {/* CTA Button */}
-              <div className="pkl-navbar-actions">
-                <Button 
-                  variant="primary" 
-                  size="md"
-                  onClick={handleCtaClick}
-                >
-                  {ctaText}
-                </Button>
-              </div>
-            </div>
+            {/* Background Image */}
+            <div className="pkl-navbar-background" />
             
-            {/* Hero Content - Fades Out on Scroll */}
-            {(heroTitle || heroSubtitle) && (
-              <div className="pkl-navbar-hero">
-                {heroTitle && (
-                  <Typography
-                    variant="display-lg"
-                    weight="semibold"
-                    as="h1"
-                    className="pkl-navbar-hero-title"
-                  >
-                    {heroTitle}
-                  </Typography>
-                )}
+            {/* Overlay */}
+            <div className="pkl-navbar-overlay" />
+            
+            {/* Content */}
+            <div className="pkl-navbar-content">
+              {/* Top Bar - Always Visible */}
+              <div className="pkl-navbar-top">
+                {/* Logo */}
+                <div className="pkl-navbar-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                  {logo && <img src={logo} alt={logoText} />}
+                  <span>{logoText}</span>
+                </div>
                 
-                {heroSubtitle && (
-                  <Typography
-                    variant="body-lg"
-                    className="pkl-navbar-hero-subtitle"
+                {/* Navigation - Desktop */}
+                <nav className="pkl-navbar-nav">
+                  {navigationItems.map((item, index) => (
+                    <a
+                      key={index}
+                      className="pkl-navbar-nav-item"
+                      onClick={() => handleNavClick(item.href)}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </nav>
+                
+                {/* CTA Button */}
+                <div className="pkl-navbar-actions">
+                  <Button 
+                    variant="primary" 
+                    size="md"
+                    onClick={handleCtaClick}
                   >
-                    {heroSubtitle}
-                  </Typography>
-                )}
+                    {ctaText}
+                  </Button>
+                </div>
               </div>
-            )}
+              
+              {/* Hero Content - Fades Out on Scroll */}
+              {(heroTitle || heroSubtitle) && (
+                <div className="pkl-navbar-hero">
+                  {heroTitle && (
+                    <Typography
+                      variant="display-lg"
+                      weight="semibold"
+                      as="h1"
+                      className="pkl-navbar-hero-title"
+                    >
+                      {heroTitle}
+                    </Typography>
+                  )}
+                  
+                  {heroSubtitle && (
+                    <Typography
+                      variant="body-lg"
+                      className="pkl-navbar-hero-subtitle"
+                    >
+                      {heroSubtitle}
+                    </Typography>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-      
-      {/* Spacer to prevent content from being hidden under sticky navbar when collapsed */}
-      {isScrolled && (
-        <div style={{ height: '100px' }} />
-      )}
-    </div>
+        
+        {/* Spacer to compensate for sticky navbar height change */}
+        <div style={{ 
+          height: isScrolled ? '0px' : 'calc(60vh - 80px)',
+          transition: 'height 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)'
+        }} />
+      </>
     </>
   );
 };
