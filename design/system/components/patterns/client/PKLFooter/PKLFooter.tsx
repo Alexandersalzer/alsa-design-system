@@ -85,13 +85,13 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         .pkl-footer-content {
           position: relative;
           z-index: 2;
-          padding: var(--foundation-space-12) var(--foundation-space-8);
+          padding: var(--foundation-space-16) var(--foundation-space-10);
         }
         
         .pkl-footer-brand {
           display: flex;
           flex-direction: column;
-          gap: var(--foundation-space-4);
+          gap: var(--foundation-space-5);
         }
         
         .pkl-footer-logo {
@@ -115,7 +115,7 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         .pkl-footer-column {
           display: flex;
           flex-direction: column;
-          gap: var(--foundation-space-4);
+          gap: var(--foundation-space-5);
         }
         
         .pkl-footer-column-title {
@@ -129,7 +129,7 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         .pkl-footer-links {
           display: flex;
           flex-direction: column;
-          gap: var(--foundation-space-3);
+          gap: var(--foundation-space-4);
         }
         
         .pkl-footer-link {
@@ -149,7 +149,8 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         .pkl-footer-contact {
           display: flex;
           flex-direction: column;
-          gap: var(--foundation-space-2);
+          gap: var(--foundation-space-3);
+          margin-top: var(--foundation-space-2);
         }
         
         .pkl-footer-contact-item {
@@ -160,7 +161,7 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         .pkl-footer-social {
           display: flex;
           gap: var(--foundation-space-4);
-          margin-top: var(--foundation-space-4);
+          margin-top: var(--foundation-space-6);
         }
         
         .pkl-footer-social-link {
@@ -183,14 +184,14 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         }
         
         .pkl-footer-bottom {
-          margin-top: var(--foundation-space-8);
-          padding-top: var(--foundation-space-6);
+          margin-top: var(--foundation-space-12);
+          padding-top: var(--foundation-space-8);
           border-top: 1px solid var(--border-light);
           display: flex;
           justify-content: space-between;
           align-items: center;
           flex-wrap: wrap;
-          gap: var(--foundation-space-4);
+          gap: var(--foundation-space-6);
         }
         
         .pkl-footer-copyright {
@@ -218,12 +219,28 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         
         @media (max-width: 768px) {
           .pkl-footer-content {
-            padding: var(--foundation-space-8) var(--foundation-space-6);
+            padding: var(--foundation-space-10) var(--foundation-space-6);
           }
           
           .pkl-footer-bottom {
             flex-direction: column;
             align-items: flex-start;
+            gap: var(--foundation-space-4);
+          }
+          
+          .pkl-footer-brand {
+            padding-bottom: var(--foundation-space-6);
+            border-bottom: 1px solid var(--border-light);
+            width: 100%;
+          }
+          
+          .pkl-footer-column {
+            width: 100%;
+          }
+          
+          .pkl-footer-bottom-links {
+            flex-wrap: wrap;
+            gap: var(--foundation-space-4);
           }
         }
       `}</style>
