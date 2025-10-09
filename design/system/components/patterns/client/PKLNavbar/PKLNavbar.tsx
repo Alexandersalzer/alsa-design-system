@@ -85,7 +85,6 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
         __html: `
           .pkl-navbar-wrapper {
             position: relative;
-            margin-bottom: var(--foundation-space-8);
           }
           
           .pkl-navbar-container {
