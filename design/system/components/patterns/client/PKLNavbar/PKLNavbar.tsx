@@ -142,19 +142,22 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: ${isScrolled ? 'center' : 'space-between'};
-            padding: ${isScrolled ? '0 var(--foundation-space-8)' : 'var(--foundation-space-6) var(--foundation-space-8)'};
-            transition: justify-content 1s cubic-bezier(0.22, 0.61, 0.36, 1),
-                        padding 1s cubic-bezier(0.22, 0.61, 0.36, 1);
+            justify-content: flex-end;
+            padding: 0 var(--foundation-space-8) var(--foundation-space-8);
           }
           
           .pkl-navbar-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            flex-shrink: 0;
-            min-height: ${isScrolled ? '80px' : 'auto'};
+            height: 80px;
+            padding: 0 var(--foundation-space-8);
+            z-index: 10;
           }
           
           .pkl-navbar-logo {
@@ -202,12 +205,11 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
           }
           
           .pkl-navbar-hero {
-            display: ${isScrolled ? 'none' : 'flex'};
+            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            flex: 1;
             opacity: ${isScrolled ? '0' : '1'};
             transform: translateY(${isScrolled ? '-60px' : '0'}) scale(${isScrolled ? '0.9' : '1'});
             transition: opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
@@ -215,7 +217,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             pointer-events: ${isScrolled ? 'none' : 'auto'};
             max-width: var(--size-page-content-max-width);
             margin: 0 auto;
-            padding: var(--foundation-space-8) 0;
+            padding-bottom: var(--foundation-space-8);
             will-change: opacity, transform;
           }
           
