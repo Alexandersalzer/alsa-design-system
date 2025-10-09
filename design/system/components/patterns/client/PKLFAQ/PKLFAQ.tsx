@@ -116,8 +116,8 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
         .pkl-faq-question-text {
           flex: 1;
           color: var(--text-primary);
-          font-size: var(--foundation-typography-size-md);
-          font-weight: var(--font-weight-medium);
+          font-size: var(--foundation-typography-size-lg);
+          font-weight: var(--font-weight-semibold);
           line-height: 1.5;
         }
         
