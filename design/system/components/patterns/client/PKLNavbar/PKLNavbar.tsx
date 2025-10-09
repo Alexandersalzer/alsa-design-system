@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
 
 export interface PKLNavbarContent {
@@ -12,6 +13,9 @@ export interface PKLNavbarContent {
   }>;
   ctaText: string;
   ctaHref?: string;
+  heroImage?: string;
+  heroTitle?: string;
+  heroSubtitle?: string;
 }
 
 export interface PKLNavbarProps {
@@ -30,18 +34,21 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
     logoText = "PKL",
     navigationItems,
     ctaText,
-    ctaHref
+    ctaHref,
+    heroImage,
+    heroTitle,
+    heroSubtitle
   } = content;
 
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Trigger compact mode after scrolling 50px
+      // Trigger shrink after scrolling 50px for smoother transition
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -74,47 +81,82 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             left: 0;
             right: 0;
             z-index: 1000;
-            transition: all 0.3s ease-in-out;
-            background: var(--surface-page);
+            margin: 0 auto;
+            max-width: calc(100% - var(--foundation-space-8));
+            padding: var(--foundation-space-4);
           }
           
           .pkl-navbar {
-            max-width: var(--size-page-max-width);
-            margin: 0 auto;
-            padding: ${isScrolled ? 'var(--foundation-space-4)' : 'var(--foundation-space-6)'} var(--foundation-space-6);
+            position: relative;
+            width: 100%;
+            height: ${isScrolled ? '80px' : '60vh'};
+            min-height: 80px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        box-shadow 0.3s ease;
+            box-shadow: ${isScrolled ? 'var(--shadow-lg)' : 'var(--shadow-md)'};
+            will-change: height;
+          }
+          
+          .pkl-navbar-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('${heroImage}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+          }
+          
+          .pkl-navbar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+              to bottom, 
+              rgba(0,0,0,${isScrolled ? '0.7' : '0.4'}) 0%, 
+              rgba(0,0,0,${isScrolled ? '0.8' : '0.6'}) 100%
+            );
+            transition: background 0.4s ease;
+          }
+          
+          .pkl-navbar-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: ${isScrolled ? 'center' : 'space-between'};
+            padding: var(--foundation-space-6) var(--foundation-space-8);
+            transition: justify-content 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          }
+          
+          .pkl-navbar-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: all 0.3s ease-in-out;
-            border-bottom: 1px solid ${isScrolled ? 'var(--border-light)' : 'transparent'};
-            backdrop-filter: ${isScrolled ? 'blur(10px)' : 'none'};
-            background: ${isScrolled ? 'rgba(var(--surface-page-rgb), 0.95)' : 'transparent'};
+            width: 100%;
           }
           
           .pkl-navbar-logo {
             display: flex;
             align-items: center;
             gap: var(--foundation-space-3);
-            color: var(--text-primary);
-            font-size: 1.25rem;
+            color: white;
+            font-size: ${isScrolled ? '1.25rem' : '1.5rem'};
             font-weight: var(--font-weight-bold);
+            transition: font-size 0.3s ease;
             cursor: pointer;
-            transition: all 0.3s ease-in-out;
-          }
-          
-          .pkl-navbar-logo:hover {
-            color: var(--primary-500);
           }
           
           .pkl-navbar-logo img {
-            height: 32px;
-            transition: all 0.3s ease-in-out;
-          }
-          
-          .pkl-navbar-center {
-            display: flex;
-            align-items: center;
-            gap: var(--foundation-space-8);
+            height: ${isScrolled ? '32px' : '40px'};
+            transition: height 0.3s ease;
           }
           
           .pkl-navbar-nav {
@@ -124,32 +166,18 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
           }
           
           .pkl-navbar-nav-item {
-            color: var(--text-primary);
+            color: white;
             font-size: var(--foundation-typography-size-md);
             font-weight: var(--font-weight-medium);
             cursor: pointer;
-            transition: all 0.2s ease-in-out;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            opacity: 0.9;
             text-decoration: none;
-            position: relative;
-          }
-          
-          .pkl-navbar-nav-item::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-500);
-            transition: width 0.2s ease-in-out;
           }
           
           .pkl-navbar-nav-item:hover {
-            color: var(--primary-500);
-          }
-          
-          .pkl-navbar-nav-item:hover::after {
-            width: 100%;
+            opacity: 1;
+            transform: translateY(-2px);
           }
           
           .pkl-navbar-actions {
@@ -158,57 +186,155 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             gap: var(--foundation-space-4);
           }
           
+          .pkl-navbar-hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex: 1;
+            opacity: ${isScrolled ? '0' : '1'};
+            transform: translateY(${isScrolled ? '-30px' : '0'});
+            transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            pointer-events: ${isScrolled ? 'none' : 'auto'};
+            max-width: var(--size-page-content-max-width);
+            margin: 0 auto;
+            padding: var(--foundation-space-8) 0;
+            will-change: opacity, transform;
+          }
+          
+          .pkl-navbar-hero-title {
+            color: white;
+            margin-bottom: var(--foundation-space-4);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+          }
+          
+          .pkl-navbar-hero-subtitle {
+            color: white;
+            opacity: 0.9;
+            margin-bottom: var(--foundation-space-6);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+          }
+          
+          .pkl-navbar-hero-actions {
+            display: flex;
+            gap: var(--foundation-space-4);
+            justify-content: center;
+            flex-wrap: wrap;
+          }
+          
           @media (max-width: 768px) {
+            .pkl-navbar-container {
+              max-width: calc(100% - var(--foundation-space-4));
+              padding: var(--foundation-space-2);
+            }
+            
             .pkl-navbar {
+              height: ${isScrolled ? '70px' : '50vh'};
+              min-height: 70px;
+            }
+            
+            .pkl-navbar-content {
               padding: var(--foundation-space-4);
             }
             
-            .pkl-navbar-center {
+            .pkl-navbar-nav {
               display: none;
             }
             
             .pkl-navbar-logo {
-              font-size: 1.1rem;
+              font-size: ${isScrolled ? '1.1rem' : '1.25rem'};
+            }
+            
+            .pkl-navbar-hero {
+              padding: var(--foundation-space-4) 0;
+            }
+          }
+          
+          @media (prefers-reduced-motion: reduce) {
+            .pkl-navbar,
+            .pkl-navbar-content,
+            .pkl-navbar-hero,
+            .pkl-navbar-logo,
+            .pkl-navbar-logo img,
+            .pkl-navbar-overlay {
+              transition: none !important;
             }
           }
         `
       }} />
       
-      <nav className="pkl-navbar-container" id={id}>
+      <div className="pkl-navbar-container" id={id}>
         <div className="pkl-navbar">
-          {/* Logo */}
-          <div className="pkl-navbar-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            {logo && <img src={logo} alt={logoText} />}
-            <span>{logoText}</span>
-          </div>
+          {/* Background Image */}
+          <div className="pkl-navbar-background" />
           
-          {/* Center - Navigation */}
-          <div className="pkl-navbar-center">
-            <div className="pkl-navbar-nav">
-              {navigationItems.map((item, index) => (
-                <a
-                  key={index}
-                  className="pkl-navbar-nav-item"
-                  onClick={() => handleNavClick(item.href)}
+          {/* Overlay */}
+          <div className="pkl-navbar-overlay" />
+          
+          {/* Content */}
+          <div className="pkl-navbar-content">
+            {/* Top Bar - Always Visible */}
+            <div className="pkl-navbar-top">
+              {/* Logo */}
+              <div className="pkl-navbar-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                {logo && <img src={logo} alt={logoText} />}
+                <span>{logoText}</span>
+              </div>
+              
+              {/* Navigation - Desktop */}
+              <nav className="pkl-navbar-nav">
+                {navigationItems.map((item, index) => (
+                  <a
+                    key={index}
+                    className="pkl-navbar-nav-item"
+                    onClick={() => handleNavClick(item.href)}
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </nav>
+              
+              {/* CTA Button */}
+              <div className="pkl-navbar-actions">
+                <Button 
+                  variant="primary" 
+                  size="md"
+                  onClick={handleCtaClick}
                 >
-                  {item.label}
-                </a>
-              ))}
+                  {ctaText}
+                </Button>
+              </div>
             </div>
-          </div>
-          
-          {/* Right - CTA Button */}
-          <div className="pkl-navbar-actions">
-            <Button 
-              variant="primary" 
-              size="md"
-              onClick={handleCtaClick}
-            >
-              {ctaText}
-            </Button>
+            
+            {/* Hero Content - Fades Out on Scroll */}
+            {(heroTitle || heroSubtitle) && (
+              <div className="pkl-navbar-hero">
+                {heroTitle && (
+                  <Typography
+                    variant="display-lg"
+                    weight="semibold"
+                    as="h1"
+                    className="pkl-navbar-hero-title"
+                  >
+                    {heroTitle}
+                  </Typography>
+                )}
+                
+                {heroSubtitle && (
+                  <Typography
+                    variant="body-lg"
+                    className="pkl-navbar-hero-subtitle"
+                  >
+                    {heroSubtitle}
+                  </Typography>
+                )}
+              </div>
+            )}
           </div>
         </div>
-      </nav>
+      </div>
     </>
   );
 };
