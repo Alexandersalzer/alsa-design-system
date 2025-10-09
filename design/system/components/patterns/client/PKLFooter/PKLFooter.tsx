@@ -109,7 +109,8 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         
         .pkl-footer-tagline {
           color: var(--text-secondary);
-          max-width: 300px;
+          max-width: 320px;
+          line-height: 1.6;
         }
         
         .pkl-footer-column {
@@ -150,12 +151,19 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
           display: flex;
           flex-direction: column;
           gap: var(--foundation-space-3);
-          margin-top: var(--foundation-space-2);
+          margin-top: var(--foundation-space-6);
         }
         
         .pkl-footer-contact-item {
           color: var(--text-secondary);
           font-size: var(--foundation-typography-size-sm);
+          line-height: 1.6;
+        }
+        
+        .pkl-footer-contact-item strong {
+          color: var(--text-primary);
+          font-weight: var(--font-weight-medium);
+          margin-right: var(--foundation-space-2);
         }
         
         .pkl-footer-social {
