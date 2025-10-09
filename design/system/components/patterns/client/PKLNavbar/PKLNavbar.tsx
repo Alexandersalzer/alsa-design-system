@@ -83,6 +83,11 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
     <>
       <style dangerouslySetInnerHTML={{
         __html: `
+          .pkl-navbar-wrapper {
+            position: relative;
+            margin-bottom: var(--foundation-space-8);
+          }
+          
           .pkl-navbar-container {
             position: sticky;
             top: 0;
@@ -92,7 +97,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             width: 100%;
             padding: var(--foundation-space-4) var(--foundation-space-4);
             pointer-events: none;
-            margin-bottom: calc(-80px + var(--foundation-space-4));
+            background: var(--surface-page);
           }
           
           .pkl-navbar {
@@ -280,13 +285,14 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
         `
       }} />
       
-      <div className="pkl-navbar-container" id={id}>
-        <div className="pkl-navbar">
-          {/* Background Image */}
-          <div className="pkl-navbar-background" />
-          
-          {/* Overlay */}
-          <div className="pkl-navbar-overlay" />
+      <div className="pkl-navbar-wrapper">
+        <div className="pkl-navbar-container" id={id}>
+          <div className="pkl-navbar">
+            {/* Background Image */}
+            <div className="pkl-navbar-background" />
+            
+            {/* Overlay */}
+            <div className="pkl-navbar-overlay" />
           
           {/* Content */}
           <div className="pkl-navbar-content">
@@ -349,6 +355,8 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             )}
           </div>
         </div>
+      </div>
+      
       </div>
     </>
   );
