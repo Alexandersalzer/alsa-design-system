@@ -128,7 +128,7 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
         as="section"
         style={{
           backgroundColor: 'var(--surface-page)',
-          paddingTop: 'var(--foundation-space-16)',
+          paddingTop: 'calc(var(--foundation-space-16) + var(--foundation-space-12))',
           paddingBottom: 'var(--foundation-space-16)'
         }}
       >
