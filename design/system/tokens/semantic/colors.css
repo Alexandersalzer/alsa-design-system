@@ -238,7 +238,7 @@
   --text-tertiary: var(--secondary-500);
   --text-disabled: var(--secondary-300);
   --text-placeholder: var(--secondary-400);
-  --text-inverse: var(--primary-black);
+  --text-inverse: var(--primary-white);
   --text-heading-primary: var(--primary-1200);
   --text-body-primary: var(--primary-1200);
   --text-body-secondary: var(--secondary-600);
@@ -296,10 +296,10 @@
   --icon-info: var(--info-600);
 
   /* ===== SEMANTIC INTERACTIVE TOKENS ===== */
-  --interactive-primary: var(--primary-900);
-  --interactive-primary-hover: var(--primary-800);
-  --interactive-primary-active: var(--primary-700);
-  --interactive-primary-disabled: var(--secondary-200);
+  --interactive-primary: var(--primary-black);
+  --interactive-primary-hover: var(--primary-1000);
+  --interactive-primary-active: var(--primary-900);
+  --interactive-primary-disabled: var(--secondary-700);
   
   --interactive-secondary: var(--secondary-100);
   --interactive-secondary-hover: var(--secondary-200);
