@@ -142,8 +142,9 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             display: flex;
             flex-direction: column;
             justify-content: ${isScrolled ? 'center' : 'space-between'};
-            padding: var(--foundation-space-6) var(--foundation-space-8);
-            transition: justify-content 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            padding: ${isScrolled ? '0 var(--foundation-space-8)' : 'var(--foundation-space-6) var(--foundation-space-8)'};
+            transition: justify-content 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        padding 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
           }
           
           .pkl-navbar-top {
@@ -151,6 +152,8 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             align-items: center;
             justify-content: space-between;
             width: 100%;
+            flex-shrink: 0;
+            min-height: ${isScrolled ? '80px' : 'auto'};
           }
           
           .pkl-navbar-logo {
