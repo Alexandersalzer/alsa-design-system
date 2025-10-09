@@ -133,15 +133,17 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         }
         
         .pkl-footer-link {
-          color: var(--text-secondary);
+          color: white;
           font-size: var(--foundation-typography-size-md);
           text-decoration: none;
-          transition: color 0.2s ease;
+          transition: color 0.2s ease, opacity 0.2s ease;
           cursor: pointer;
+          opacity: 0.9;
         }
         
         .pkl-footer-link:hover {
-          color: var(--text-primary);
+          color: white;
+          opacity: 1;
         }
         
         .pkl-footer-contact {
@@ -202,14 +204,16 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         }
         
         .pkl-footer-bottom-link {
-          color: var(--text-tertiary);
+          color: white;
           font-size: var(--foundation-typography-size-sm);
           text-decoration: none;
-          transition: color 0.2s ease;
+          transition: opacity 0.2s ease;
+          opacity: 0.7;
         }
         
         .pkl-footer-bottom-link:hover {
-          color: var(--text-primary);
+          color: white;
+          opacity: 1;
         }
         
         @media (max-width: 768px) {
