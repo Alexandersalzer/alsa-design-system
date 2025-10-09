@@ -350,9 +350,9 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
           </div>
         </div>
         
-        {/* Spacer to compensate for sticky navbar height change */}
+        {/* Spacer to prevent content jump when navbar shrinks */}
         <div style={{ 
-          height: isScrolled ? '0px' : 'calc(60vh - 80px)',
+          height: isScrolled ? '0px' : 'calc(60vh - 88px)',
           transition: 'height 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)'
         }} />
       </>
