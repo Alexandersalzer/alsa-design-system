@@ -84,6 +84,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             margin: 0 auto;
             max-width: calc(100% - var(--foundation-space-8));
             padding: var(--foundation-space-4);
+            background: var(--surface-page);
           }
           
           .pkl-navbar {
