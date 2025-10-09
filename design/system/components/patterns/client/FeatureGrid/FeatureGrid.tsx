@@ -30,6 +30,9 @@ export interface FeatureGridProps {
   
   // Layout options
   spacing?: 'sm' | 'md' | 'lg';
+  
+  // Icon styling
+  iconColor?: string; // CSS color value or CSS variable
 }
 
 // ===== MAIN FEATURE GRID COMPONENT =====
@@ -38,7 +41,8 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
   id = "features",
   className,
   features,
-  spacing = 'lg'
+  spacing = 'lg',
+  iconColor = 'white'
 }) => {
   // Ensure we have exactly 4 features for the asymmetric layout
   const displayFeatures = features.slice(0, 4);
@@ -122,7 +126,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                     borderRadius: 'var(--radius-md)',
                     background: 'var(--accent-500)',
                     padding: '12px',
-                    color: 'white'
+                    color: iconColor
                   }}
                 >
                   {React.cloneElement(feature.icon as React.ReactElement<any>, {
