@@ -92,6 +92,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             width: 100%;
             padding: var(--foundation-space-4) var(--foundation-space-4);
             pointer-events: none;
+            margin-bottom: calc(-80px + var(--foundation-space-4));
           }
           
           .pkl-navbar {
