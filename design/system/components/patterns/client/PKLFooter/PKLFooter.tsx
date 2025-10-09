@@ -222,6 +222,10 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
             padding: var(--foundation-space-10) var(--foundation-space-6);
           }
           
+          .pkl-footer-grid {
+            gap: var(--foundation-space-10) !important;
+          }
+          
           .pkl-footer-bottom {
             flex-direction: column;
             align-items: flex-start;
@@ -229,13 +233,20 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
           }
           
           .pkl-footer-brand {
-            padding-bottom: var(--foundation-space-6);
+            padding-bottom: var(--foundation-space-8);
             border-bottom: 1px solid var(--border-light);
             width: 100%;
+            margin-bottom: var(--foundation-space-4);
           }
           
           .pkl-footer-column {
             width: 100%;
+            padding-bottom: var(--foundation-space-6);
+            border-bottom: 1px solid var(--border-light);
+          }
+          
+          .pkl-footer-column:last-of-type {
+            border-bottom: none;
           }
           
           .pkl-footer-bottom-links {
