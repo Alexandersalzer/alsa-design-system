@@ -83,6 +83,11 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
     <>
       <style dangerouslySetInnerHTML={{
         __html: `
+          .pkl-navbar-wrapper {
+            position: relative;
+            width: 100%;
+          }
+          
           .pkl-navbar-container {
             position: sticky;
             top: 0;
@@ -278,8 +283,9 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
         `
       }} />
       
-      <div className="pkl-navbar-container" id={id}>
-        <div className="pkl-navbar">
+      <div className="pkl-navbar-wrapper">
+        <div className="pkl-navbar-container" id={id}>
+          <div className="pkl-navbar">
           {/* Background Image */}
           <div className="pkl-navbar-background" />
           
@@ -348,6 +354,12 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
           </div>
         </div>
       </div>
+      
+      {/* Spacer to prevent content from being hidden under sticky navbar when collapsed */}
+      {isScrolled && (
+        <div style={{ height: '100px' }} />
+      )}
+    </div>
     </>
   );
 };
