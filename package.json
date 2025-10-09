@@ -39,7 +39,7 @@
   "scripts": {
     "build": "npm run build:ts && npm run build:css",
     "build:ts": "tsc",
-    "build:css": "find design -name '*.css' | while read file; do target=\"dist/$file\"; mkdir -p \"$(dirname \"$target\")\"; cp \"$file\" \"$target\"; done",
+    "build:css": "powershell -Command \"Get-ChildItem -Recurse design -Filter '*.css' | ForEach-Object { $target = 'dist/' + $_.FullName.Substring('design'.Length); $null = New-Item -Path (Split-Path $target -Parent) -ItemType Directory -Force; Copy-Item $_.FullName -Destination $target }\"",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "type-check": "tsc --noEmit",
@@ -84,6 +84,6 @@
     "@typescript-eslint/parser": "^8",
     "eslint": "^9",
     "next": "^15.0.0",
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   }
 }
