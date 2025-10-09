@@ -7,7 +7,7 @@ import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 
-export interface FAQItem {
+export interface PKLFAQItem {
   question: string;
   answer: string;
 }
@@ -16,7 +16,7 @@ export interface PKLFAQContent {
   label?: string;
   title: string;
   subtitle: string;
-  items: FAQItem[];
+  items: PKLFAQItem[];
 }
 
 export interface PKLFAQProps {
