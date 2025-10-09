@@ -129,8 +129,7 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
         style={{
           backgroundColor: 'var(--surface-page)',
           paddingTop: 'var(--foundation-space-16)',
-          paddingBottom: 'var(--foundation-space-16)',
-          marginTop: 'calc(-60vh + 80px + var(--foundation-space-8))'
+          paddingBottom: 'var(--foundation-space-16)'
         }}
       >
         <div className="our-expertise-container">
