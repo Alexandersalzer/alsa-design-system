@@ -228,7 +228,8 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         <div className="pkl-footer">
           <div className="pkl-footer-content">
             <Grid 
-              columns={{ initial: 1, tablet: 2, desktop: 4 }} 
+              columns="auto-fit"
+              minItemWidth="250px"
               gap="xl"
               className="pkl-footer-grid"
             >
