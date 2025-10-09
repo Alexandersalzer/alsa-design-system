@@ -133,7 +133,7 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         }
         
         .pkl-footer-link {
-          color: white;
+          color: white !important;
           font-size: var(--foundation-typography-size-md);
           text-decoration: none;
           transition: color 0.2s ease, opacity 0.2s ease;
@@ -142,7 +142,7 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         }
         
         .pkl-footer-link:hover {
-          color: white;
+          color: white !important;
           opacity: 1;
         }
         
@@ -171,14 +171,14 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
           justify-content: center;
           border-radius: var(--radius-md);
           background: var(--surface-subtle);
-          color: var(--text-secondary);
+          color: var(--text-secondary) !important;
           transition: all 0.2s ease;
           text-decoration: none;
         }
         
         .pkl-footer-social-link:hover {
           background: var(--accent-500);
-          color: white;
+          color: white !important;
           transform: translateY(-2px);
         }
         
@@ -204,7 +204,7 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         }
         
         .pkl-footer-bottom-link {
-          color: white;
+          color: white !important;
           font-size: var(--foundation-typography-size-sm);
           text-decoration: none;
           transition: opacity 0.2s ease;
@@ -212,7 +212,7 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         }
         
         .pkl-footer-bottom-link:hover {
-          color: white;
+          color: white !important;
           opacity: 1;
         }
         
