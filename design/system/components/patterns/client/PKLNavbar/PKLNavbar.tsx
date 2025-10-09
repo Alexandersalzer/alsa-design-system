@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
+import { Section } from '../../../../../system/layout/frames/section/Section';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 
 export interface PKLNavbarContent {
   logo?: string;
@@ -81,50 +83,41 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
     <>
       <style dangerouslySetInnerHTML={{
         __html: `
-          .pkl-navbar {
+          /* Sticky Navbar */
+          .pkl-sticky-navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-          }
-          
-          .pkl-navbar.expanded {
-            height: 60vh;
-            min-height: 500px;
-          }
-          
-          .pkl-navbar.compact {
             height: 80px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-md);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
           }
           
-          .navbar-overlay {
+          .pkl-sticky-navbar.visible {
+            pointer-events: all;
+          }
+          
+          .navbar-background {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            transition: opacity 0.4s ease;
-          }
-          
-          .navbar-overlay.expanded {
-            background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%);
-            opacity: 1;
-          }
-          
-          .navbar-overlay.compact {
             background: var(--surface-card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+          }
+          
+          .pkl-sticky-navbar.visible .navbar-background {
             opacity: 0.95;
           }
           
-          .navbar-content {
+          .navbar-inner {
             position: relative;
             z-index: 2;
             height: 100%;
@@ -132,74 +125,38 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             margin: 0 auto;
             padding: 0 var(--foundation-space-6);
             display: flex;
-            flex-direction: column;
-            transition: all 0.4s ease;
-          }
-          
-          /* Expanded State - Hero Mode */
-          .navbar-content.expanded {
-            justify-content: space-between;
-            padding-top: var(--foundation-space-6);
-            padding-bottom: var(--foundation-space-12);
-          }
-          
-          .navbar-top {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            transition: all 0.4s ease;
+            justify-content: space-between;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+          }
+          
+          .pkl-sticky-navbar.visible .navbar-inner {
+            opacity: 1;
+            transform: translateY(0);
           }
           
           .navbar-logo {
             display: flex;
             align-items: center;
             gap: var(--foundation-space-3);
-            transition: all 0.4s ease;
           }
           
           .navbar-logo img {
-            transition: all 0.4s ease;
-          }
-          
-          .navbar-content.expanded .navbar-logo img {
-            height: 48px;
-          }
-          
-          .navbar-content.compact .navbar-logo img {
             height: 32px;
           }
           
           .navbar-logo-text {
             font-weight: var(--font-weight-semibold);
-            transition: all 0.4s ease;
-          }
-          
-          .navbar-content.expanded .navbar-logo-text {
-            font-size: var(--foundation-typography-size-xl);
-            color: white;
-          }
-          
-          .navbar-content.compact .navbar-logo-text {
             font-size: var(--foundation-typography-size-lg);
             color: var(--text-primary);
           }
           
-          /* Navigation Links */
           .navbar-nav {
             display: flex;
             align-items: center;
             gap: var(--foundation-space-6);
-            transition: all 0.4s ease;
-          }
-          
-          .navbar-content.expanded .navbar-nav {
-            opacity: 0;
-            pointer-events: none;
-          }
-          
-          .navbar-content.compact .navbar-nav {
-            opacity: 1;
-            pointer-events: all;
           }
           
           .navbar-nav a {
@@ -214,62 +171,6 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             color: var(--primary-500);
           }
           
-          /* Hero Content */
-          .navbar-hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            flex: 1;
-            transition: all 0.4s ease;
-          }
-          
-          .navbar-content.expanded .navbar-hero {
-            opacity: 1;
-            transform: translateY(0);
-          }
-          
-          .navbar-content.compact .navbar-hero {
-            opacity: 0;
-            transform: translateY(-20px);
-            pointer-events: none;
-            position: absolute;
-          }
-          
-          .navbar-hero-title {
-            margin-bottom: var(--foundation-space-4);
-            max-width: var(--size-page-content-max-width);
-          }
-          
-          .navbar-hero-subtitle {
-            margin-bottom: var(--foundation-space-6);
-            max-width: var(--size-page-narrow-max-width);
-          }
-          
-          .navbar-hero-actions {
-            display: flex;
-            gap: var(--foundation-space-4);
-            justify-content: center;
-            flex-wrap: wrap;
-          }
-          
-          /* Compact State - CTA Button */
-          .navbar-cta {
-            transition: all 0.4s ease;
-          }
-          
-          .navbar-content.expanded .navbar-cta {
-            opacity: 0;
-            pointer-events: none;
-          }
-          
-          .navbar-content.compact .navbar-cta {
-            opacity: 1;
-            pointer-events: all;
-          }
-          
-          /* Mobile Menu */
           .mobile-menu-button {
             display: none;
             background: none;
@@ -277,10 +178,6 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             cursor: pointer;
             padding: var(--foundation-space-2);
             color: var(--text-primary);
-          }
-          
-          .navbar-content.expanded .mobile-menu-button {
-            color: white;
           }
           
           .mobile-menu {
@@ -314,13 +211,57 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             border-radius: var(--radius-sm);
           }
           
-          /* Responsive */
+          /* Hero Section */
+          .pkl-hero-section {
+            position: relative;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: var(--foundation-space-12);
+          }
+          
+          .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%);
+          }
+          
+          .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: var(--size-page-content-max-width);
+            margin: 0 auto;
+            padding: var(--foundation-space-12) var(--foundation-space-6);
+            text-align: center;
+          }
+          
+          .hero-title {
+            margin-bottom: var(--foundation-space-4);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+          }
+          
+          .hero-subtitle {
+            margin-bottom: var(--foundation-space-6);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+          }
+          
+          .hero-actions {
+            display: flex;
+            gap: var(--foundation-space-4);
+            justify-content: center;
+            flex-wrap: wrap;
+          }
+          
           @media (max-width: 768px) {
-            .pkl-navbar.expanded {
-              height: 70vh;
-              min-height: 400px;
-            }
-            
             .navbar-nav {
               display: none;
             }
@@ -329,122 +270,69 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
               display: block;
             }
             
-            .navbar-hero-actions {
+            .hero-actions {
               flex-direction: column;
               width: 100%;
               max-width: 300px;
+              margin: 0 auto;
             }
             
-            .navbar-hero-actions button {
+            .hero-actions button {
               width: 100%;
             }
-          }
-          
-          /* Smooth text shadows for readability */
-          .text-with-shadow {
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
           }
         `
       }} />
       
+      {/* Sticky Navbar */}
       <nav 
-        id={id}
-        className={`pkl-navbar ${isScrolled ? 'compact' : 'expanded'}`}
-        style={{
-          backgroundImage: heroImage && !isScrolled ? `url(${heroImage})` : 'none',
-        }}
+        className={`pkl-sticky-navbar ${isScrolled ? 'visible' : ''}`}
       >
-        <div className={`navbar-overlay ${isScrolled ? 'compact' : 'expanded'}`} />
+        <div className="navbar-background" />
         
-        <div className={`navbar-content ${isScrolled ? 'compact' : 'expanded'}`}>
-          {/* Top Bar */}
-          <div className="navbar-top">
-            {/* Logo */}
-            <div className="navbar-logo">
-              {logo && (
-                <img src={logo} alt={logoAlt || businessName} />
-              )}
-              <span className="navbar-logo-text">{businessName}</span>
-            </div>
-            
-            {/* Desktop Navigation */}
-            <div className="navbar-nav">
-              {navigationLinks.map((link, index) => (
-                <a key={index} href={link.href}>
-                  {link.label}
-                </a>
-              ))}
-            </div>
-            
-            {/* Compact CTA */}
-            <div className="navbar-cta">
-              <Button 
-                variant="primary" 
-                size="md"
-                onClick={handlePrimaryClick}
-              >
-                {primaryButtonText}
-              </Button>
-            </div>
-            
-            {/* Mobile Menu Button */}
-            <button 
-              className="mobile-menu-button"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                {isMobileMenuOpen ? (
-                  <path d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path d="M3 12h18M3 6h18M3 18h18" />
-                )}
-              </svg>
-            </button>
+        <div className="navbar-inner">
+          {/* Logo */}
+          <div className="navbar-logo">
+            {logo && (
+              <img src={logo} alt={logoAlt || businessName} />
+            )}
+            <span className="navbar-logo-text">{businessName}</span>
           </div>
           
-          {/* Hero Content (Expanded State) */}
-          <div className="navbar-hero">
-            <div className="navbar-hero-title">
-              <Typography 
-                variant="display-lg" 
-                weight="semibold"
-                as="h1"
-                style={{ color: 'white' }}
-                className="text-with-shadow"
-              >
-                {heroTitle}
-              </Typography>
-            </div>
-            
-            <div className="navbar-hero-subtitle">
-              <Typography 
-                variant="body-lg"
-                style={{ color: 'white', opacity: 0.9 }}
-                className="text-with-shadow"
-              >
-                {heroSubtitle}
-              </Typography>
-            </div>
-            
-            <div className="navbar-hero-actions">
-              <Button 
-                variant="primary" 
-                size="lg"
-                onClick={handlePrimaryClick}
-              >
-                {primaryButtonText}
-              </Button>
-              
-              <Button 
-                variant="secondary" 
-                size="lg"
-                onClick={handleSecondaryClick}
-              >
-                {secondaryButtonText}
-              </Button>
-            </div>
+          {/* Desktop Navigation */}
+          <div className="navbar-nav">
+            {navigationLinks.map((link, index) => (
+              <a key={index} href={link.href}>
+                {link.label}
+              </a>
+            ))}
           </div>
+          
+          {/* CTA Button */}
+          <div>
+            <Button 
+              variant="primary" 
+              size="md"
+              onClick={handlePrimaryClick}
+            >
+              {primaryButtonText}
+            </Button>
+          </div>
+          
+          {/* Mobile Menu Button */}
+          <button 
+            className="mobile-menu-button"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {isMobileMenuOpen ? (
+                <path d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path d="M3 12h18M3 6h18M3 18h18" />
+              )}
+            </svg>
+          </button>
         </div>
         
         {/* Mobile Menu */}
@@ -463,8 +351,57 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
         )}
       </nav>
       
-      {/* Spacer to prevent content jump */}
-      <div style={{ height: isScrolled ? '80px' : '60vh', minHeight: isScrolled ? '80px' : '500px' }} />
+      {/* Hero Section */}
+      <Section
+        id={id}
+        as="section"
+        className="pkl-hero-section"
+        style={{
+          backgroundImage: heroImage ? `url(${heroImage})` : 'none',
+        }}
+      >
+        <div className="hero-overlay" />
+        
+        <div className="hero-content">
+          <Stack spacing="lg" align="center">
+            <Typography 
+              variant="display-lg" 
+              weight="semibold"
+              as="h1"
+              style={{ color: 'white' }}
+              className="hero-title"
+            >
+              {heroTitle}
+            </Typography>
+            
+            <Typography 
+              variant="body-lg"
+              style={{ color: 'white', opacity: 0.9 }}
+              className="hero-subtitle"
+            >
+              {heroSubtitle}
+            </Typography>
+            
+            <div className="hero-actions">
+              <Button 
+                variant="primary" 
+                size="lg"
+                onClick={handlePrimaryClick}
+              >
+                {primaryButtonText}
+              </Button>
+              
+              <Button 
+                variant="secondary" 
+                size="lg"
+                onClick={handleSecondaryClick}
+              >
+                {secondaryButtonText}
+              </Button>
+            </div>
+          </Stack>
+        </div>
+      </Section>
     </>
   );
 };
