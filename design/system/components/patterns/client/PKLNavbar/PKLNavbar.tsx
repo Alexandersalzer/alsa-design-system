@@ -167,7 +167,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
           }
           
           .pkl-navbar-nav-item {
-            color: white;
+            color: white !important;
             font-size: var(--foundation-typography-size-md);
             font-weight: var(--font-weight-medium);
             cursor: pointer;
@@ -177,7 +177,8 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
           }
           
           .pkl-navbar-nav-item:hover {
-            opacity: 1;
+            opacity: 1 !important;
+            color: white !important;
             transform: translateY(-2px);
           }
           
