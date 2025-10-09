@@ -7,6 +7,7 @@ export * from './FAQ';
 export * from './Hero';
 export * from './PKLHero';
 export * from './PKLNavbar';
+export * from './PKLFooter';
 export * from './OurExpertise';
 export * from './WhyChooseUs';
 export * from './ContactAssessment';
