@@ -56,14 +56,21 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
           padding-bottom: var(--foundation-space-16);
         }
         
+        .pkl-faq-layout {
+          display: grid;
+          grid-template-columns: 1fr 2fr;
+          gap: var(--foundation-space-16);
+          align-items: start;
+        }
+        
         .pkl-faq-header {
+          position: sticky;
+          top: calc(80px + var(--foundation-space-8));
           text-align: left;
-          margin-bottom: var(--foundation-space-12);
         }
         
         .pkl-faq-accordion {
-          max-width: 800px;
-          margin: 0 auto;
+          width: 100%;
         }
         
         .pkl-faq-item {
@@ -134,14 +141,26 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
           }
         }
         
+        @media (max-width: 1024px) {
+          .pkl-faq-layout {
+            grid-template-columns: 1fr;
+            gap: var(--foundation-space-12);
+          }
+          
+          .pkl-faq-header {
+            position: relative;
+            top: 0;
+          }
+        }
+        
         @media (max-width: 768px) {
           .pkl-faq-section {
             padding-top: var(--foundation-space-12);
             padding-bottom: var(--foundation-space-12);
           }
           
-          .pkl-faq-header {
-            margin-bottom: var(--foundation-space-8);
+          .pkl-faq-layout {
+            gap: var(--foundation-space-8);
           }
           
           .pkl-faq-item {
@@ -160,8 +179,8 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
 
       <Section id={id} as="section" className="pkl-faq-section">
         <Container maxWidth="lg">
-          <Stack spacing="xl">
-            {/* Header Area */}
+          <div className="pkl-faq-layout">
+            {/* Header Area - Left Side */}
             <div className="pkl-faq-header">
               <Stack spacing="md" align="start">
                 {label && (
@@ -175,14 +194,13 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
                 <Typography 
                   variant="body-md" 
                   color="secondary"
-                  style={{ maxWidth: 'var(--size-page-content-max-width)' }}
                 >
                   {subtitle}
                 </Typography>
               </Stack>
             </div>
 
-            {/* Accordion / Questions */}
+            {/* Accordion / Questions - Right Side */}
             <div className="pkl-faq-accordion">
               {items.map((item, index) => {
                 const isExpanded = expandedItems.has(index);
@@ -215,7 +233,7 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
                 );
               })}
             </div>
-          </Stack>
+          </div>
         </Container>
       </Section>
     </>
