@@ -81,21 +81,22 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             left: 0;
             right: 0;
             z-index: 1000;
-            margin: 0 auto;
-            max-width: calc(100% - var(--foundation-space-8));
-            padding: var(--foundation-space-4);
+            width: 100%;
+            padding: var(--foundation-space-4) var(--foundation-space-4);
             background: var(--surface-page);
           }
           
           .pkl-navbar {
             position: relative;
             width: 100%;
+            max-width: var(--size-page-max-width);
+            margin: 0 auto;
             height: ${isScrolled ? '80px' : '60vh'};
             min-height: 80px;
             border-radius: var(--radius-lg);
             overflow: hidden;
-            transition: height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                        box-shadow 0.3s ease;
+            transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+                        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: ${isScrolled ? 'var(--shadow-lg)' : 'var(--shadow-md)'};
             will-change: height;
           }
@@ -123,7 +124,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
               rgba(0,0,0,${isScrolled ? '0.7' : '0.4'}) 0%, 
               rgba(0,0,0,${isScrolled ? '0.8' : '0.6'}) 100%
             );
-            transition: background 0.4s ease;
+            transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
           }
           
           .pkl-navbar-content {
@@ -134,7 +135,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             flex-direction: column;
             justify-content: ${isScrolled ? 'center' : 'space-between'};
             padding: var(--foundation-space-6) var(--foundation-space-8);
-            transition: justify-content 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: justify-content 0.6s cubic-bezier(0.16, 1, 0.3, 1);
           }
           
           .pkl-navbar-top {
@@ -151,13 +152,13 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             color: white;
             font-size: ${isScrolled ? '1.25rem' : '1.5rem'};
             font-weight: var(--font-weight-bold);
-            transition: font-size 0.3s ease;
+            transition: font-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
           }
           
           .pkl-navbar-logo img {
             height: ${isScrolled ? '32px' : '40px'};
-            transition: height 0.3s ease;
+            transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
           }
           
           .pkl-navbar-nav {
@@ -196,9 +197,9 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             text-align: center;
             flex: 1;
             opacity: ${isScrolled ? '0' : '1'};
-            transform: translateY(${isScrolled ? '-30px' : '0'});
-            transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateY(${isScrolled ? '-40px' : '0'}) scale(${isScrolled ? '0.95' : '1'});
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: ${isScrolled ? 'none' : 'auto'};
             max-width: var(--size-page-content-max-width);
             margin: 0 auto;
@@ -228,7 +229,6 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
           
           @media (max-width: 768px) {
             .pkl-navbar-container {
-              max-width: calc(100% - var(--foundation-space-4));
               padding: var(--foundation-space-2);
             }
             
