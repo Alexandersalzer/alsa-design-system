@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 
@@ -55,8 +54,10 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
   return (
     <>
       <style>{`
-        .pkl-faq-section {
-          background: var(--surface-page);
+        .pkl-faq-outer-container {
+          max-width: var(--size-page-max-width);
+          margin: 0 auto;
+          padding: 0 var(--foundation-space-6);
         }
         
         .pkl-faq-container {
@@ -70,6 +71,7 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
           text-align: left;
           position: sticky;
           top: 120px;
+          max-width: var(--size-page-content-max-width);
         }
         
         .pkl-faq-accordion-container {
@@ -188,14 +190,14 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
 
       <Section 
         id={id} 
-        as="section" 
-        className="pkl-faq-section"
+        as="section"
         style={{
+          backgroundColor: 'var(--surface-page)',
           paddingTop: 'var(--foundation-space-16)',
           paddingBottom: 'var(--foundation-space-16)'
         }}
       >
-        <Container maxWidth="lg">
+        <div className="pkl-faq-outer-container">
           <div className="pkl-faq-container">
             {/* Header Area - Left Side */}
             <div className="pkl-faq-header">
@@ -259,7 +261,7 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
               </div>
             </div>
           </div>
-        </Container>
+        </div>
       </Section>
     </>
   );
