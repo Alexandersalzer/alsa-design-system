@@ -201,7 +201,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
           }
           
           .pkl-navbar-hero {
-            display: flex;
+            display: ${isScrolled ? 'none' : 'flex'};
             flex-direction: column;
             align-items: center;
             justify-content: center;
