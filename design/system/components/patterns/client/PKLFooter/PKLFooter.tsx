@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Typography } from '../../../../primitives/Typography';
-import { Button } from '../../../../primitives/Button';
-import { Stack } from '../../../../utilities/stack/Stack';
-import { Grid } from '../../../../utilities/grid/Grid';
+import { Typography } from '../../../../../system/components/primitives/Typography';
+import { Button } from '../../../../../system/components/primitives/Button';
+import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
 
 export interface PKLFooterContent {
   logo?: string;
@@ -64,7 +64,7 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
 
   return (
     <>
-      <style jsx>{`
+      <style>{`
         .pkl-footer-container {
           width: 100%;
           padding: var(--foundation-space-4);
