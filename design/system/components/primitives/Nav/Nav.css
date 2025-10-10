@@ -153,6 +153,6 @@
 }
 
 .nav-item--tabs.nav-item--active {
-  border-bottom-color: var(--accent-500, #3b82f6);
+  border-bottom-color: var(--accent-500);
   background-color: transparent;
 }
