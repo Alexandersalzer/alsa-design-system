@@ -85,13 +85,13 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         .pkl-footer-content {
           position: relative;
           z-index: 2;
-          padding: var(--foundation-space-16) var(--foundation-space-10);
+          padding: var(--foundation-space-12) var(--foundation-space-10);
         }
         
         .pkl-footer-brand {
           display: flex;
           flex-direction: column;
-          gap: var(--foundation-space-6);
+          gap: var(--foundation-space-4);
         }
         
         .pkl-footer-logo {
@@ -99,8 +99,10 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
           align-items: center;
           gap: var(--foundation-space-3);
           color: var(--text-primary);
-          font-size: 1.5rem;
-          font-weight: var(--font-weight-bold);
+          font-size: var(--foundation-typography-size-sm);
+          font-weight: var(--font-weight-semibold);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
         
         .pkl-footer-logo img {
@@ -198,29 +200,29 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         }
         
         .pkl-footer-bottom {
-          margin-top: var(--foundation-space-12);
-          padding-top: var(--foundation-space-8);
+          margin-top: var(--foundation-space-8);
+          padding-top: var(--foundation-space-6);
           border-top: 1px solid var(--border-light);
           display: flex;
           justify-content: space-between;
           align-items: center;
           flex-wrap: wrap;
-          gap: var(--foundation-space-6);
+          gap: var(--foundation-space-4);
         }
         
         .pkl-footer-copyright {
           color: var(--text-tertiary);
-          font-size: var(--foundation-typography-size-sm);
+          font-size: var(--foundation-typography-size-xs);
         }
         
         .pkl-footer-bottom-links {
           display: flex;
-          gap: var(--foundation-space-6);
+          gap: var(--foundation-space-4);
         }
         
         .pkl-footer-bottom-link {
           color: white !important;
-          font-size: var(--foundation-typography-size-sm);
+          font-size: var(--foundation-typography-size-xs);
           text-decoration: none;
           transition: opacity 0.2s ease;
           opacity: 0.7;
