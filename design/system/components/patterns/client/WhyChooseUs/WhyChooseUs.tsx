@@ -23,8 +23,6 @@ export interface WhyChooseUsContent {
   ctaText: string;
   ctaHref?: string;
   processImage?: string;
-  performanceText: string;
-  performanceNumber: string;
   benefits: Benefit[];
 }
 
@@ -54,8 +52,6 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
     ctaText,
     ctaHref,
     processImage,
-    performanceText,
-    performanceNumber,
     benefits
   } = content;
 
@@ -98,22 +94,6 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
             border: 1px solid var(--border-light);
           }
           
-          .performance-card {
-            background: var(--surface-card);
-            border-radius: var(--radius-lg);
-            padding: var(--foundation-space-8);
-            text-align: center;
-            margin-bottom: var(--foundation-space-10);
-            border: 1px solid var(--border-medium);
-          }
-          
-          .performance-number {
-            font-size: clamp(3rem, 6vw, 4.5rem);
-            font-weight: var(--font-weight-bold);
-            line-height: 1;
-            color: var(--primary-500);
-            margin-bottom: var(--foundation-space-3);
-          }
           
           .benefits-grid {
             gap: var(--foundation-space-6);
@@ -176,10 +156,6 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
             }
             
             .process-card {
-              padding: var(--foundation-space-6);
-            }
-            
-            .performance-card {
               padding: var(--foundation-space-6);
             }
           }
@@ -297,23 +273,8 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
             </Grid>
           </div>
           
-          {/* 3️⃣ Performance Metrics + Benefits */}
+          {/* 3️⃣ Benefits Grid */}
           <div>
-            {/* Performance Card */}
-            <div className="performance-card">
-              <div className="performance-number">
-                {performanceNumber}
-              </div>
-              <Typography 
-                variant={textScale === 'lg' ? 'display-md' : textScale === 'sm' ? 'body-lg' : 'display-sm'}
-                color="primary"
-                weight="semibold"
-              >
-                {performanceText}
-              </Typography>
-            </div>
-            
-            {/* Benefits Grid */}
             <Grid 
               columns={3} 
               gap="lg" 
