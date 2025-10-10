@@ -4,7 +4,7 @@
 // ===============================================
 
 import React, { forwardRef, ElementType, ReactNode } from 'react';
-import { cn } from '@/design/system/lib/utils';
+import { cn } from '../../../../lib/utils';  // Changed from '@/design/system/lib/utils'
 
 export interface BoxProps extends React.HTMLAttributes<HTMLElement> {
   /** Content to render inside the box */
