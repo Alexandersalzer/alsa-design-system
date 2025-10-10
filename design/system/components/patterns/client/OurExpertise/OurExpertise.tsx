@@ -26,13 +26,15 @@ export interface OurExpertiseProps {
   id?: string;
   paddingTop?: string;
   paddingBottom?: string;
+  textScale?: 'sm' | 'md' | 'lg';
 }
 
 export const OurExpertise: React.FC<OurExpertiseProps> = ({ 
   content, 
   id = "our-expertise",
   paddingTop = 'var(--foundation-space-24)',
-  paddingBottom = 'var(--foundation-space-24)'
+  paddingBottom = 'var(--foundation-space-24)',
+  textScale = 'md'
 }) => {
   const { subheading, heading, description, services } = content;
 
@@ -151,7 +153,7 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
               
               {/* Main Heading */}
               <Typography 
-                variant="h2" 
+                variant={textScale === 'lg' ? 'display-sm' : textScale === 'sm' ? 'h3' : 'h2'}
                 weight="semibold"
                 color="primary"
                 as="h2"
@@ -161,7 +163,7 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
               
               {/* Description */}
               <Typography 
-                variant="body-md"
+                variant={textScale === 'lg' ? 'body-lg' : textScale === 'sm' ? 'body-sm' : 'body-md'}
                 color="secondary"
                 style={{
                   maxWidth: 'var(--size-page-narrow-max-width)'
@@ -197,7 +199,7 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
                 
                 {/* Service Title */}
                 <Typography 
-                  variant="h4" 
+                  variant={textScale === 'lg' ? 'h3' : textScale === 'sm' ? 'body-lg' : 'h4'}
                   weight="semibold"
                   className="service-card-title"
                   as="h3"
@@ -207,7 +209,7 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
                 
                 {/* Service Description */}
                 <Typography 
-                  variant="body-sm"
+                  variant={textScale === 'lg' ? 'body-md' : 'body-sm'}
                   color="secondary"
                   className="service-card-description"
                 >

@@ -24,6 +24,7 @@ export interface ContactAssessmentProps {
   id?: string;
   paddingTop?: string;
   paddingBottom?: string;
+  textScale?: 'sm' | 'md' | 'lg';
 }
 
 export const ContactAssessment: React.FC<ContactAssessmentProps> = ({ 
@@ -31,7 +32,8 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
   onSubmit,
   id = "contact-assessment",
   paddingTop = 'var(--foundation-space-24)',
-  paddingBottom = 'var(--foundation-space-24)'
+  paddingBottom = 'var(--foundation-space-24)',
+  textScale = 'md'
 }) => {
   const { 
     title, 
@@ -254,7 +256,7 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
                 {/* Left Side - Text and Form */}
                 <Stack spacing="lg" align="start">
                   <Typography 
-                    variant="h2" 
+                    variant={textScale === 'lg' ? 'display-sm' : textScale === 'sm' ? 'h3' : 'h2'}
                     weight="semibold"
                     color="primary"
                     as="h2"
@@ -267,7 +269,7 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
                   </Typography>
                   
                   <Typography 
-                    variant="body-md"
+                    variant={textScale === 'lg' ? 'body-lg' : textScale === 'sm' ? 'body-sm' : 'body-md'}
                     style={{
                       color: 'var(--text-secondary)',
                       textAlign: 'left',

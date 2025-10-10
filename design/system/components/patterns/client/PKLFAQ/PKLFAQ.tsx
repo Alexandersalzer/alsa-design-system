@@ -25,6 +25,7 @@ export interface PKLFAQProps {
   expandAll?: boolean;
   paddingTop?: string;
   paddingBottom?: string;
+  textScale?: 'sm' | 'md' | 'lg';
 }
 
 export const PKLFAQ: React.FC<PKLFAQProps> = ({ 
@@ -32,7 +33,8 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
   id = "pkl-faq",
   expandAll = false,
   paddingTop = 'var(--foundation-space-24)',
-  paddingBottom = 'var(--foundation-space-24)'
+  paddingBottom = 'var(--foundation-space-24)',
+  textScale = 'md'
 }) => {
   const { label, title, description, faqs } = content;
   
@@ -211,12 +213,17 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
                     {label}
                   </Typography>
                 )}
-                <Typography variant="h2" weight="semibold" color="primary" as="h2">
+                <Typography 
+                  variant={textScale === 'lg' ? 'display-sm' : textScale === 'sm' ? 'h3' : 'h2'}
+                  weight="semibold" 
+                  color="primary" 
+                  as="h2"
+                >
                   {title}
                 </Typography>
                 {description && (
                   <Typography 
-                    variant="body-md" 
+                    variant={textScale === 'lg' ? 'body-lg' : textScale === 'sm' ? 'body-sm' : 'body-md'}
                     color="secondary"
                   >
                     {description}
