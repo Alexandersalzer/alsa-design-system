@@ -57,65 +57,82 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
       <style dangerouslySetInnerHTML={{
         __html: `
           .why-choose-us-container {
-            max-width: var(--size-page-narrow-max-width);
+            max-width: var(--size-page-max-width);
             margin: 0 auto;
             padding: 0 var(--foundation-space-6);
-            text-align: center;
+          }
+          
+          .why-choose-us-content {
+            max-width: 1000px;
+            margin: 0 auto;
           }
           
           .why-choose-us-header {
-            margin-bottom: var(--foundation-space-12);
-          }
-          
-          .benefits-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--foundation-space-4);
-            margin-bottom: var(--foundation-space-12);
-            max-width: 600px;
+            text-align: center;
+            margin-bottom: var(--foundation-space-16);
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
           }
           
+          .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--foundation-space-6);
+            margin-bottom: var(--foundation-space-12);
+          }
+          
           .benefit-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: var(--foundation-space-4);
-            padding: var(--foundation-space-4);
+            padding: var(--foundation-space-6);
             background: var(--surface-subtle);
-            border-radius: var(--radius-md);
-            transition: all 0.2s ease;
+            border-radius: var(--radius-lg);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
           }
           
           .benefit-item:hover {
             background: var(--surface-muted);
-            transform: translateX(4px);
+            border-color: var(--border-medium);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
           }
           
           .benefit-icon {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             flex-shrink: 0;
             color: var(--accent-500);
+            margin-top: 2px;
           }
           
           .benefit-text {
             text-align: left;
             flex: 1;
+            line-height: 1.6;
           }
           
           .cta-section {
             display: flex;
             justify-content: center;
+            margin-top: var(--foundation-space-8);
           }
           
           @media (max-width: 768px) {
-            .why-choose-us-container {
-              max-width: 100%;
+            .benefits-grid {
+              grid-template-columns: 1fr;
+              gap: var(--foundation-space-4);
             }
             
             .benefit-item {
-              padding: var(--foundation-space-3);
+              padding: var(--foundation-space-5);
+            }
+            
+            .benefit-icon {
+              width: 24px;
+              height: 24px;
             }
           }
         `
@@ -131,58 +148,61 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
         }}
       >
         <div className="why-choose-us-container">
-          {/* Header */}
-          <div className="why-choose-us-header">
-            <Stack spacing="md" align="center">
-              <Typography 
-                variant={textScale === 'lg' ? 'display-md' : textScale === 'sm' ? 'h3' : 'h2'}
-                weight="semibold"
-                color="primary"
-                as="h2"
-              >
-                {heading}
-              </Typography>
-              
-              <Typography 
-                variant={textScale === 'lg' ? 'body-xl' : textScale === 'sm' ? 'body-sm' : 'body-md'}
-                color="secondary"
-              >
-                {description}
-              </Typography>
-            </Stack>
-          </div>
-          
-          {/* Simple Benefits List */}
-          <div className="benefits-list">
-            {benefits.map((benefit, index) => (
-              <div key={index} className="benefit-item">
-                {benefit.icon && (
-                  <div className="benefit-icon">
-                    {React.cloneElement(benefit.icon as React.ReactElement<any>, {
-                      style: { width: '100%', height: '100%', strokeWidth: 2 }
-                    })}
-                  </div>
-                )}
+          <div className="why-choose-us-content">
+            {/* Header */}
+            <div className="why-choose-us-header">
+              <Stack spacing="lg" align="center">
                 <Typography 
-                  variant={textScale === 'lg' ? 'body-lg' : 'body-md'}
-                  weight="medium"
-                  className="benefit-text"
+                  variant={textScale === 'lg' ? 'display-md' : textScale === 'sm' ? 'h3' : 'h2'}
+                  weight="semibold"
+                  color="primary"
+                  as="h2"
                 >
-                  {benefit.title}
+                  {heading}
                 </Typography>
-              </div>
-            ))}
-          </div>
-          
-          {/* CTA Button */}
-          <div className="cta-section">
-            <Button 
-              variant="primary" 
-              size="lg"
-              onClick={handleCtaClick}
-            >
-              {ctaText}
-            </Button>
+                
+                <Typography 
+                  variant={textScale === 'lg' ? 'body-xl' : textScale === 'sm' ? 'body-sm' : 'body-md'}
+                  color="secondary"
+                >
+                  {description}
+                </Typography>
+              </Stack>
+            </div>
+            
+            {/* Benefits Grid */}
+            <div className="benefits-grid">
+              {benefits.map((benefit, index) => (
+                <div key={index} className="benefit-item">
+                  {benefit.icon && (
+                    <div className="benefit-icon">
+                      {React.cloneElement(benefit.icon as React.ReactElement<any>, {
+                        style: { width: '100%', height: '100%', strokeWidth: 2 }
+                      })}
+                    </div>
+                  )}
+                  <Typography 
+                    variant={textScale === 'lg' ? 'body-lg' : 'body-md'}
+                    weight="medium"
+                    className="benefit-text"
+                    color="primary"
+                  >
+                    {benefit.title}
+                  </Typography>
+                </div>
+              ))}
+            </div>
+            
+            {/* CTA Button */}
+            <div className="cta-section">
+              <Button 
+                variant="primary" 
+                size="lg"
+                onClick={handleCtaClick}
+              >
+                {ctaText}
+              </Button>
+            </div>
           </div>
         </div>
       </Section>
