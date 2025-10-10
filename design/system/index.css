@@ -41,6 +41,10 @@
 @import './components/primitives/Popover/Popover.css';
 @import './components/primitives/Listbox/Listbox.css';
 
+/* NEW: Add Box and Nav CSS imports */
+@import './components/primitives/Box/Box.css';
+@import './components/primitives/Nav/Nav.css';
+
 
 /* STEP 5: Pattern components */
 @import './components/patterns/dashboard/Header/Header.css';

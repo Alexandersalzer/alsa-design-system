@@ -17,6 +17,7 @@ export * from './TextLink';
 export * from './SegmentedControl';
 export * from './Stepper';
 export * from './IconButton';
+export * from './Nav';
 export * from './NavigationTab';
 export * from './Typography';
 export * from './VideoShowcase';
