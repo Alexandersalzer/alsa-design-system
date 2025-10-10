@@ -256,7 +256,7 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
                 {/* Left Side - Text and Form */}
                 <Stack spacing="lg" align="start">
                   <Typography 
-                    variant={textScale === 'lg' ? 'display-sm' : textScale === 'sm' ? 'h3' : 'h2'}
+                    variant={textScale === 'lg' ? 'display-md' : textScale === 'sm' ? 'h3' : 'h2'}
                     weight="semibold"
                     color="primary"
                     as="h2"
@@ -269,7 +269,7 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
                   </Typography>
                   
                   <Typography 
-                    variant={textScale === 'lg' ? 'body-lg' : textScale === 'sm' ? 'body-sm' : 'body-md'}
+                    variant={textScale === 'lg' ? 'body-xl' : textScale === 'sm' ? 'body-sm' : 'body-md'}
                     style={{
                       color: 'var(--text-secondary)',
                       textAlign: 'left',

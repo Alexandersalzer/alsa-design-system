@@ -212,7 +212,7 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
           <div className="why-choose-us-header">
             <Stack spacing="lg">
               <Typography 
-                variant={textScale === 'lg' ? 'display-sm' : textScale === 'sm' ? 'h3' : 'h2'}
+                variant={textScale === 'lg' ? 'display-md' : textScale === 'sm' ? 'h3' : 'h2'}
                 weight="semibold"
                 color="primary"
                 as="h2"
@@ -221,7 +221,7 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
               </Typography>
               
               <Typography 
-                variant={textScale === 'lg' ? 'body-lg' : textScale === 'sm' ? 'body-sm' : 'body-md'}
+                variant={textScale === 'lg' ? 'body-xl' : textScale === 'sm' ? 'body-sm' : 'body-md'}
                 color="secondary"
                 style={{
                   maxWidth: 'var(--size-page-narrow-max-width)'
