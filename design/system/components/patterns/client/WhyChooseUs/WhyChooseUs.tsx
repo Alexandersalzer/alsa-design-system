@@ -5,24 +5,17 @@ import { Typography } from '../../../../../system/components/primitives/Typograp
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 
 export interface Benefit {
   title: string;
-  subtitle: string;
-  number: string;
+  icon?: React.ReactNode;
 }
 
 export interface WhyChooseUsContent {
   heading: string;
   description: string;
-  approachLabel: string;
-  approachTitle: string;
-  approachDescription: string;
   ctaText: string;
   ctaHref?: string;
-  processImage?: string;
   benefits: Benefit[];
 }
 
@@ -46,12 +39,8 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
   const { 
     heading, 
     description, 
-    approachLabel,
-    approachTitle,
-    approachDescription,
     ctaText,
     ctaHref,
-    processImage,
     benefits
   } = content;
 
@@ -68,107 +57,65 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
       <style dangerouslySetInnerHTML={{
         __html: `
           .why-choose-us-container {
-            max-width: var(--size-page-max-width);
+            max-width: var(--size-page-narrow-max-width);
             margin: 0 auto;
             padding: 0 var(--foundation-space-6);
+            text-align: center;
           }
           
           .why-choose-us-header {
-            max-width: var(--size-page-content-max-width);
             margin-bottom: var(--foundation-space-12);
           }
           
-          .process-card {
-            background: var(--surface-muted);
-            border-radius: var(--radius-lg);
-            padding: var(--foundation-space-8);
+          .benefits-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--foundation-space-4);
             margin-bottom: var(--foundation-space-12);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
           }
           
-          .process-image {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-light);
-          }
-          
-          
-          .benefits-grid {
-            gap: var(--foundation-space-6);
-          }
-          
-          .benefit-card {
-            padding: var(--foundation-space-6) 0;
-            border-top: 1px solid var(--border-light);
-            position: relative;
-            padding-top: var(--foundation-space-8);
-          }
-          
-          .benefit-card:first-child {
-            border-top: none;
-            padding-top: var(--foundation-space-6);
-          }
-          
-          .benefit-number {
-            position: absolute;
-            top: var(--foundation-space-2);
-            right: 0;
-            font-size: ${textScale === 'lg' ? 'var(--foundation-typography-size-md)' : 'var(--foundation-typography-size-sm)'};
-            font-weight: var(--font-weight-medium);
-            color: var(--text-tertiary);
-            background: var(--surface-subtle);
-            border-radius: var(--radius-full);
-            width: ${textScale === 'lg' ? '40px' : '32px'};
-            height: ${textScale === 'lg' ? '40px' : '32px'};
+          .benefit-item {
             display: flex;
             align-items: center;
+            gap: var(--foundation-space-4);
+            padding: var(--foundation-space-4);
+            background: var(--surface-subtle);
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+          }
+          
+          .benefit-item:hover {
+            background: var(--surface-muted);
+            transform: translateX(4px);
+          }
+          
+          .benefit-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            color: var(--accent-500);
+          }
+          
+          .benefit-text {
+            text-align: left;
+            flex: 1;
+          }
+          
+          .cta-section {
+            display: flex;
             justify-content: center;
           }
           
-          .benefit-title {
-            margin-bottom: var(--foundation-space-2);
-            color: var(--text-primary);
-          }
-          
-          .benefit-subtitle {
-            color: var(--text-secondary);
-          }
-          
-          .cta-button {
-            margin-top: var(--foundation-space-4);
-          }
-          
           @media (max-width: 768px) {
-            .benefits-grid {
-              grid-template-columns: 1fr;
-              gap: 0;
+            .why-choose-us-container {
+              max-width: 100%;
             }
             
-            .benefit-card {
-              padding: var(--foundation-space-6) 0;
-              border-top: 1px solid var(--border-light);
-            }
-            
-            .benefit-card:first-child {
-              border-top: none;
-            }
-            
-            .process-card {
-              padding: var(--foundation-space-6);
-            }
-          }
-          
-          @media (min-width: 769px) and (max-width: 1024px) {
-            .benefits-grid {
-              grid-template-columns: repeat(2, 1fr);
-            }
-          }
-          
-          @media (min-width: 1025px) {
-            .benefits-grid {
-              grid-template-columns: repeat(3, 1fr);
+            .benefit-item {
+              padding: var(--foundation-space-3);
             }
           }
         `
@@ -184,9 +131,9 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
         }}
       >
         <div className="why-choose-us-container">
-          {/* 1️⃣ Header Area */}
+          {/* Header */}
           <div className="why-choose-us-header">
-            <Stack spacing="lg">
+            <Stack spacing="md" align="center">
               <Typography 
                 variant={textScale === 'lg' ? 'display-md' : textScale === 'sm' ? 'h3' : 'h2'}
                 weight="semibold"
@@ -199,114 +146,43 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
               <Typography 
                 variant={textScale === 'lg' ? 'body-xl' : textScale === 'sm' ? 'body-sm' : 'body-md'}
                 color="secondary"
-                style={{
-                  maxWidth: 'var(--size-page-narrow-max-width)'
-                }}
               >
                 {description}
               </Typography>
             </Stack>
           </div>
           
-          {/* 2️⃣ Feature Block / Process Card */}
-          <div className="process-card">
-            <Grid 
-              columns={2} 
-              gap="xl" 
-              alignItems="center"
-              collapseOn="tablet"
-              minItemWidth="300px"
-            >
-              {/* Left Side - Text Content */}
-              <Stack spacing="md">
+          {/* Simple Benefits List */}
+          <div className="benefits-list">
+            {benefits.map((benefit, index) => (
+              <div key={index} className="benefit-item">
+                {benefit.icon && (
+                  <div className="benefit-icon">
+                    {React.cloneElement(benefit.icon as React.ReactElement<any>, {
+                      style: { width: '100%', height: '100%', strokeWidth: 2 }
+                    })}
+                  </div>
+                )}
                 <Typography 
-                  variant="label-sm" 
-                  color="primary"
+                  variant={textScale === 'lg' ? 'body-lg' : 'body-md'}
                   weight="medium"
+                  className="benefit-text"
                 >
-                  {approachLabel}
+                  {benefit.title}
                 </Typography>
-                
-                <Typography 
-                  variant={textScale === 'lg' ? 'h2' : textScale === 'sm' ? 'h4' : 'h3'}
-                  weight="semibold"
-                  color="primary"
-                  as="h3"
-                >
-                  {approachTitle}
-                </Typography>
-                
-                <Typography 
-                  variant={textScale === 'lg' ? 'body-md' : 'body-sm'}
-                  color="secondary"
-                >
-                  {approachDescription}
-                </Typography>
-                
-                <Button 
-                  variant="ghost" 
-                  size="md"
-                  onClick={handleCtaClick}
-                  className="cta-button"
-                  style={{
-                    alignSelf: 'flex-start',
-                    padding: 0,
-                    height: 'auto',
-                    color: 'var(--primary-500)',
-                    textDecoration: 'underline'
-                  }}
-                >
-                  {ctaText}
-                </Button>
-              </Stack>
-              
-              {/* Right Side - Image */}
-              {processImage && (
-                <div>
-                  <img 
-                    src={processImage} 
-                    alt="PKL Consulting Process"
-                    className="process-image"
-                  />
-                </div>
-              )}
-            </Grid>
+              </div>
+            ))}
           </div>
           
-          {/* 3️⃣ Benefits Grid */}
-          <div>
-            <Grid 
-              columns={3} 
-              gap="lg" 
-              collapseOn="tablet"
-              minItemWidth="250px"
-              className="benefits-grid"
+          {/* CTA Button */}
+          <div className="cta-section">
+            <Button 
+              variant="primary" 
+              size="lg"
+              onClick={handleCtaClick}
             >
-              {benefits.map((benefit, index) => (
-                <div key={index} className="benefit-card">
-                  <div className="benefit-number">
-                    {benefit.number}
-                  </div>
-                  
-                  <Typography 
-                    variant={textScale === 'lg' ? 'h3' : textScale === 'sm' ? 'body-lg' : 'h4'}
-                    weight="semibold"
-                    className="benefit-title"
-                    as="h4"
-                  >
-                    {benefit.title}
-                  </Typography>
-                  
-                  <Typography 
-                    variant={textScale === 'lg' ? 'body-md' : 'body-sm'}
-                    color="secondary"
-                    className="benefit-subtitle"
-                  >
-                    {benefit.subtitle}
-                  </Typography>
-                </div>
-              ))}
-            </Grid>
+              {ctaText}
+            </Button>
           </div>
         </div>
       </Section>
