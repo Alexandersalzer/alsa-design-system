@@ -122,9 +122,9 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
         .pkl-faq-question-text {
           flex: 1;
           color: var(--text-primary);
-          font-size: ${textScale === 'lg' ? 'clamp(1.5rem, 2vw, 2rem)' : textScale === 'sm' ? 'var(--foundation-typography-size-lg)' : 'var(--foundation-typography-size-xl)'};
+          font-size: ${textScale === 'lg' ? 'clamp(1.25rem, 1.5vw, 1.5rem)' : textScale === 'sm' ? 'var(--foundation-typography-size-lg)' : 'var(--foundation-typography-size-xl)'};
           font-weight: var(--font-weight-semibold);
-          line-height: 1.3;
+          line-height: 1.4;
         }
         
         .pkl-faq-icon {
