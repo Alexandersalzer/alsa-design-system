@@ -22,12 +22,16 @@ export interface ContactAssessmentProps {
   content: ContactAssessmentContent;
   onSubmit?: (email: string) => void;
   id?: string;
+  paddingTop?: string;
+  paddingBottom?: string;
 }
 
 export const ContactAssessment: React.FC<ContactAssessmentProps> = ({ 
   content, 
   onSubmit,
-  id = "contact-assessment" 
+  id = "contact-assessment",
+  paddingTop = 'var(--foundation-space-24)',
+  paddingBottom = 'var(--foundation-space-24)'
 }) => {
   const { 
     title, 
@@ -232,7 +236,9 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
         id={id}
         as="section"
         style={{
-          backgroundColor: 'var(--surface-page)'
+          backgroundColor: 'var(--surface-page)',
+          paddingTop,
+          paddingBottom
         }}
       >
         <div className="contact-assessment-container">

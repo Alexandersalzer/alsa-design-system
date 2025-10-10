@@ -23,12 +23,16 @@ export interface PKLFAQProps {
   content: PKLFAQContent;
   id?: string;
   expandAll?: boolean;
+  paddingTop?: string;
+  paddingBottom?: string;
 }
 
 export const PKLFAQ: React.FC<PKLFAQProps> = ({ 
   content, 
   id = "pkl-faq",
-  expandAll = false 
+  expandAll = false,
+  paddingTop = 'var(--foundation-space-24)',
+  paddingBottom = 'var(--foundation-space-24)'
 }) => {
   const { label, title, description, faqs } = content;
   
@@ -192,7 +196,9 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
         id={id} 
         as="section"
         style={{
-          backgroundColor: 'var(--surface-page)'
+          backgroundColor: 'var(--surface-page)',
+          paddingTop,
+          paddingBottom
         }}
       >
         <div className="pkl-faq-outer-container">

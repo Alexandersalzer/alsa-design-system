@@ -32,12 +32,16 @@ export interface WhyChooseUsProps {
   content: WhyChooseUsContent;
   onCtaClick?: () => void;
   id?: string;
+  paddingTop?: string;
+  paddingBottom?: string;
 }
 
 export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ 
   content, 
   onCtaClick,
-  id = "why-choose-us" 
+  id = "why-choose-us",
+  paddingTop = 'var(--foundation-space-24)',
+  paddingBottom = 'var(--foundation-space-24)'
 }) => {
   const { 
     heading, 
@@ -196,7 +200,9 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
         id={id}
         as="section"
         style={{
-          backgroundColor: 'var(--surface-page)'
+          backgroundColor: 'var(--surface-page)',
+          paddingTop,
+          paddingBottom
         }}
       >
         <div className="why-choose-us-container">

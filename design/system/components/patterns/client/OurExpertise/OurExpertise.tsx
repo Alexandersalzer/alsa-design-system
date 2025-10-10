@@ -24,11 +24,15 @@ export interface OurExpertiseContent {
 export interface OurExpertiseProps {
   content: OurExpertiseContent;
   id?: string;
+  paddingTop?: string;
+  paddingBottom?: string;
 }
 
 export const OurExpertise: React.FC<OurExpertiseProps> = ({ 
   content, 
-  id = "our-expertise" 
+  id = "our-expertise",
+  paddingTop = 'var(--foundation-space-24)',
+  paddingBottom = 'var(--foundation-space-24)'
 }) => {
   const { subheading, heading, description, services } = content;
 
@@ -127,7 +131,9 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
         id={id}
         as="section"
         style={{
-          backgroundColor: 'var(--surface-page)'
+          backgroundColor: 'var(--surface-page)',
+          paddingTop,
+          paddingBottom
         }}
       >
         <div className="our-expertise-container">
