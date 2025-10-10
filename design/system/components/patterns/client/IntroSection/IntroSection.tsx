@@ -240,7 +240,6 @@ export const IntroSection: React.FC<IntroSectionProps> = ({
                     variant={primaryButtonVariant}
                     size={buttonSize}
                     onClick={handlePrimaryClick}
-                    href={primaryButtonHref}
                   >
                     {primaryButtonText}
                   </Button>
@@ -251,7 +250,6 @@ export const IntroSection: React.FC<IntroSectionProps> = ({
                     variant={secondaryButtonVariant}
                     size={buttonSize}
                     onClick={handleSecondaryClick}
-                    href={secondaryButtonHref}
                   >
                     {secondaryButtonText}
                   </Button>
