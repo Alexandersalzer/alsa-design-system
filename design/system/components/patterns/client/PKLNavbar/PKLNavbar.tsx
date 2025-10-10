@@ -43,6 +43,9 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    // Check initial scroll position on mount
+    setIsScrolled(window.scrollY > 100);
+    
     let ticking = false;
     
     const handleScroll = () => {
