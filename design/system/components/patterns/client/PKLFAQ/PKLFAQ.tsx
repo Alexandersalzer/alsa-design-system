@@ -131,7 +131,7 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
           width: 24px;
           height: 24px;
           flex-shrink: 0;
-          color: var(--accent-500);
+          color: var(--accent-500);x
           transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         

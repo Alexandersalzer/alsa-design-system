@@ -33,4 +33,3 @@ export * from './FeatureGrid';
 export * from './CleanFeatureGridSection';
 export * from './SplitProcessSection';
 export * from './FooterSection';
-export * from './IntroSection';

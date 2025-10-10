@@ -44,15 +44,15 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
 
   useEffect(() => {
     // Check initial scroll position on mount
-    setIsScrolled(window.scrollY > 100);
+    setIsScrolled(window.scrollY > 10);
     
     let ticking = false;
     
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          // Trigger shrink after scrolling 100px for smoother, more gradual transition
-          setIsScrolled(window.scrollY > 100);
+          // Trigger shrink immediately when scrolling starts for responsive feel
+          setIsScrolled(window.scrollY > 10);
           ticking = false;
         });
         ticking = true;
