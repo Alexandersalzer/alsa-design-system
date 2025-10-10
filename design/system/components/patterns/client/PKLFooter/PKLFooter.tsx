@@ -91,7 +91,7 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         .pkl-footer-brand {
           display: flex;
           flex-direction: column;
-          gap: var(--foundation-space-5);
+          gap: var(--foundation-space-6);
         }
         
         .pkl-footer-logo {
@@ -109,14 +109,15 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         
         .pkl-footer-tagline {
           color: var(--text-secondary);
-          max-width: 320px;
+          max-width: 280px;
+          font-size: var(--foundation-typography-size-sm);
           line-height: 1.6;
         }
         
         .pkl-footer-column {
           display: flex;
           flex-direction: column;
-          gap: var(--foundation-space-5);
+          gap: var(--foundation-space-4);
         }
         
         .pkl-footer-column-title {
@@ -125,21 +126,22 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
           font-size: var(--foundation-typography-size-sm);
           text-transform: uppercase;
           letter-spacing: 0.05em;
+          margin-bottom: var(--foundation-space-2);
         }
         
         .pkl-footer-links {
           display: flex;
           flex-direction: column;
-          gap: var(--foundation-space-4);
+          gap: var(--foundation-space-3);
         }
         
         .pkl-footer-link {
           color: white !important;
-          font-size: var(--foundation-typography-size-sm);
+          font-size: var(--foundation-typography-size-xs);
           text-decoration: none;
           transition: color 0.2s ease, opacity 0.2s ease;
           cursor: pointer;
-          opacity: 0.9;
+          opacity: 0.8;
         }
         
         .pkl-footer-link:hover {
@@ -150,20 +152,24 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         .pkl-footer-contact {
           display: flex;
           flex-direction: column;
-          gap: var(--foundation-space-3);
-          margin-top: var(--foundation-space-6);
+          gap: var(--foundation-space-2);
         }
         
         .pkl-footer-contact-item {
           color: var(--text-secondary);
-          font-size: var(--foundation-typography-size-sm);
+          font-size: var(--foundation-typography-size-xs);
           line-height: 1.6;
+          display: flex;
+          flex-direction: column;
+          gap: var(--foundation-space-1);
         }
         
         .pkl-footer-contact-item strong {
-          color: var(--text-primary);
+          color: var(--text-tertiary);
           font-weight: var(--font-weight-medium);
-          margin-right: var(--foundation-space-2);
+          font-size: var(--foundation-typography-size-xs);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
         
         .pkl-footer-social {
