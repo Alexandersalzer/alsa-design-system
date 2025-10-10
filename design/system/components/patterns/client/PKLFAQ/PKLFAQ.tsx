@@ -192,9 +192,7 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
         id={id} 
         as="section"
         style={{
-          backgroundColor: 'var(--surface-page)',
-          paddingTop: 'var(--foundation-space-24)',
-          paddingBottom: 'var(--foundation-space-24)'
+          backgroundColor: 'var(--surface-page)'
         }}
       >
         <div className="pkl-faq-outer-container">

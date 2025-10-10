@@ -232,9 +232,7 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
         id={id}
         as="section"
         style={{
-          backgroundColor: 'var(--surface-page)',
-          paddingTop: 'var(--foundation-space-24)',
-          paddingBottom: 'var(--foundation-space-24)'
+          backgroundColor: 'var(--surface-page)'
         }}
       >
         <div className="contact-assessment-container">
