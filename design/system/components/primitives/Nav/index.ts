@@ -6,7 +6,7 @@ export { Nav } from './Nav';
 export type { 
   NavRootProps, 
   NavListProps, 
-  NavItemProps, 
+  NavPrimitiveItemProps,
   NavSectionProps,
   NavVariant 
 } from './Nav';

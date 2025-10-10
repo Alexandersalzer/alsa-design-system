@@ -9,9 +9,6 @@ export type { LayoutProps, PageContainerProps } from './Layout';
 export { MainContent, ContentSection } from './MainContent';
 export type { MainContentProps, ContentSectionProps } from './MainContent';
 
-export { Sidebar, SidebarHeader, SidebarContent, SidebarFooter } from './sidebar';
-export type { SidebarProps, SidebarHeaderProps, SidebarContentProps, SidebarFooterProps } from './sidebar';
-
 
 // NEW: Static page layouts (Phase 1)
 export { 
