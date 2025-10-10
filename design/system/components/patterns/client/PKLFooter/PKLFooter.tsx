@@ -135,7 +135,7 @@ export const PKLFooter: React.FC<PKLFooterProps> = ({
         
         .pkl-footer-link {
           color: white !important;
-          font-size: var(--foundation-typography-size-md);
+          font-size: var(--foundation-typography-size-sm);
           text-decoration: none;
           transition: color 0.2s ease, opacity 0.2s ease;
           cursor: pointer;
