@@ -1,6 +1,6 @@
 /* ===============================================
    src/design-system/components/primitives/Menu/Menu.css
-   SIMPLIFIED - Uses Popover + Listbox primitives
+   SIMPLIFIED - Uses Popover + Listbox primitives - PROPER TOKENS
    ============================================== */
 
 /* ===== MENU ROOT ===== */
@@ -19,7 +19,8 @@
   min-height: 40px;
   min-width: 120px;
   border: 2px solid var(--border-default);
-  border-radius: var(--radius-md);
+  /* FIXED: Use proper button radius token */
+  border-radius: var(--radius-button);
   background-color: var(--surface-default);
   color: var(--text-default);
   font-family: var(--font-body-family);
@@ -131,7 +132,8 @@
   gap: 8px;
   padding: 8px 12px;
   margin: 2px 0;
-  border-radius: 6px;
+  /* FIXED: Use proper foundation radius token instead of hardcoded 6px */
+  border-radius: var(--foundation-radius-md);
   background-color: transparent;
   color: var(--text-default);
   font-family: var(--font-body-family);

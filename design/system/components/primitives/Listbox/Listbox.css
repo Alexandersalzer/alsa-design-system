@@ -1,6 +1,6 @@
 /* ===============================================
    src/design-system/components/primitives/Listbox/Listbox.css
-   INTERACTIVE SELECTION LIST STYLES
+   INTERACTIVE SELECTION LIST STYLES - PROPER TOKENS
    ============================================== */
 
 /* ===== LISTBOX CONTAINER ===== */
@@ -38,6 +38,7 @@
 /* Variant styles */
 .listbox--bordered {
   border: 1px solid var(--border-default);
+  /* FIXED: Use proper foundation radius token */
   border-radius: var(--foundation-radius-md);
   padding: 4px;
 }
@@ -67,6 +68,7 @@
   align-items: center;
   gap: 12px;
   padding: 8px 12px;
+  /* FIXED: Use proper foundation radius token */
   border-radius: var(--foundation-radius-md);
   background-color: transparent;
   color: var(--text-primary);
@@ -238,7 +240,8 @@
 
 .listbox::-webkit-scrollbar-thumb {
   background: var(--border-strong);
-  border-radius: 3px;
+  /* FIXED: Use proper foundation radius token */
+  border-radius: var(--foundation-radius-sm);
 }
 
 .listbox::-webkit-scrollbar-thumb:hover {
