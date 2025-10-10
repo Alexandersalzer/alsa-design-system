@@ -1,6 +1,6 @@
 /* ===============================================
    src/design-system/components/primitives/Picker/Picker.css
-   SIMPLIFIED - Uses Popover + Listbox primitives - PROPER TOKENS
+   SIMPLIFIED - Uses Popover + Listbox primitives - RESPONSIVE TOKENS
    ============================================== */
 
 /* ===== PICKER WRAPPER ===== */
@@ -60,8 +60,8 @@
   min-height: 40px;
   padding: 8px 12px;
   border: 2px solid var(--border-picker);
-  /* FIXED: Use proper input radius token */
-  border-radius: var(--radius-input);
+  /* FIXED: Use responsive picker radius token (responds to user's radius scale) */
+  border-radius: var(--radius-picker);
   background-color: var(--surface-picker);
   color: var(--text-picker);
   font-family: var(--font-body-family);
@@ -116,13 +116,13 @@
   gap: 6px;
 }
 
-/* Radius variants - FIXED: Use proper foundation tokens */
+/* Radius variants - FIXED: Use responsive picker size tokens */
 .picker--radius-sm {
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-picker-sm);
 }
 
 .picker--radius-lg {
-  border-radius: var(--foundation-radius-lg);
+  border-radius: var(--radius-picker-lg);
 }
 
 /* States */
@@ -213,13 +213,13 @@
   min-width: 200px;
 }
 
-/* FIXED: Use proper dropdown radius tokens */
+/* FIXED: Use responsive dropdown radius tokens */
 .picker-content--radius-sm {
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-dropdown-sm);
 }
 
 .picker-content--radius-lg {
-  border-radius: var(--foundation-radius-lg);
+  border-radius: var(--radius-dropdown-lg);
 }
 
 /* ===== PICKER SEARCH ===== */
@@ -234,7 +234,7 @@
   width: 100%;
   padding: 6px 10px;
   border: 1px solid var(--border-input);
-  /* FIXED: Use proper input radius token */
+  /* FIXED: Use responsive input radius token */
   border-radius: var(--radius-input);
   background-color: var(--surface-input);
   color: var(--text-input);

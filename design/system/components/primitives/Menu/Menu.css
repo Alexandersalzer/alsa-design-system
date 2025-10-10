@@ -126,14 +126,15 @@
 }
 
 /* ===== MENU ITEM ===== */
+/* Menu items should match listbox items */
 .menu-item {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
   margin: 2px 0;
-  /* FIXED: Use proper foundation radius token instead of hardcoded 6px */
-  border-radius: var(--foundation-radius-md);
+  /* FIXED: Use responsive button radius token like listbox */
+  border-radius: var(--radius-button);
   background-color: transparent;
   color: var(--text-default);
   font-family: var(--font-body-family);
