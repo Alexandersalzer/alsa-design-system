@@ -1,9 +1,8 @@
 // ===============================================
 // src/design-system/components/primitives/Nav/index.ts
-// Nav component exports
 // ===============================================
 
-export { Nav, NavRoot, NavList, NavItem, NavSection } from './Nav';
+export { Nav } from './Nav';
 export type { 
   NavRootProps, 
   NavListProps, 
@@ -11,3 +10,5 @@ export type {
   NavSectionProps,
   NavVariant 
 } from './Nav';
+
+// Don't export the individual components, only Nav compound component
