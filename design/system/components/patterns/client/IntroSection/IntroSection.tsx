@@ -9,14 +9,17 @@ import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster'
 
 // ===== TYPE DEFINITIONS =====
 
+export interface TrustMetric {
+  number: string;
+  label: string;
+}
+
 export interface IntroSectionContent {
-  label?: string;
   heading: string;
   description: string;
-  primaryButtonText?: string;
-  primaryButtonHref?: string;
-  secondaryButtonText?: string;
-  secondaryButtonHref?: string;
+  image?: string;
+  imageAlt?: string;
+  metrics?: TrustMetric[];
 }
 
 export interface IntroSectionProps {
@@ -26,27 +29,17 @@ export interface IntroSectionProps {
   // Layout controls
   paddingTop?: string;
   paddingBottom?: string;
-  maxWidth?: string;
-  textAlign?: 'left' | 'center' | 'right';
   
   // Typography controls
   textScale?: 'sm' | 'md' | 'lg' | 'xl';
-  headingColor?: string;
-  descriptionColor?: string;
-  labelColor?: string;
   
   // Background controls
   backgroundColor?: string;
   
-  // Button controls
-  showButtons?: boolean;
-  buttonSize?: 'sm' | 'md' | 'lg' | 'xl';
-  primaryButtonVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
-  secondaryButtonVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
-  
-  // Callbacks
-  onPrimaryClick?: () => void;
-  onSecondaryClick?: () => void;
+  // Visual controls
+  showImage?: boolean;
+  showMetrics?: boolean;
+  reverseLayout?: boolean; // Text on right, image on left
 }
 
 // ===== MAIN COMPONENT =====
@@ -58,39 +51,26 @@ export const IntroSection: React.FC<IntroSectionProps> = ({
   // Layout
   paddingTop = 'var(--foundation-space-24)',
   paddingBottom = 'var(--foundation-space-24)',
-  maxWidth = 'var(--size-page-content-max-width)',
-  textAlign = 'center',
   
   // Typography
   textScale = 'md',
-  headingColor,
-  descriptionColor,
-  labelColor,
   
   // Background
   backgroundColor = 'var(--surface-page)',
   
-  // Buttons
-  showButtons = true,
-  buttonSize = 'lg',
-  primaryButtonVariant = 'primary',
-  secondaryButtonVariant = 'secondary',
-  
-  // Callbacks
-  onPrimaryClick,
-  onSecondaryClick
+  // Visual
+  showImage = true,
+  showMetrics = true,
+  reverseLayout = false
 }) => {
   const {
-    label,
     heading,
     description,
-    primaryButtonText,
-    primaryButtonHref,
-    secondaryButtonText,
-    secondaryButtonHref
+    image,
+    imageAlt,
+    metrics = []
   } = content;
 
-  // Map textScale to Typography variants
   const getHeadingVariant = () => {
     switch (textScale) {
       case 'xl': return 'display-lg';
@@ -104,36 +84,10 @@ export const IntroSection: React.FC<IntroSectionProps> = ({
   const getDescriptionVariant = () => {
     switch (textScale) {
       case 'xl': return 'body-xl';
-      case 'lg': return 'body-xl';
-      case 'md': return 'body-lg';
-      case 'sm': return 'body-md';
-      default: return 'body-lg';
-    }
-  };
-
-  const getLabelVariant = () => {
-    switch (textScale) {
-      case 'xl': return 'label-md';
-      case 'lg': return 'label-md';
-      case 'md': return 'label-sm';
-      case 'sm': return 'label-sm';
-      default: return 'label-sm';
-    }
-  };
-
-  const handlePrimaryClick = () => {
-    if (onPrimaryClick) {
-      onPrimaryClick();
-    } else if (primaryButtonHref) {
-      window.location.href = primaryButtonHref;
-    }
-  };
-
-  const handleSecondaryClick = () => {
-    if (onSecondaryClick) {
-      onSecondaryClick();
-    } else if (secondaryButtonHref) {
-      window.location.href = secondaryButtonHref;
+      case 'lg': return 'body-lg';
+      case 'md': return 'body-md';
+      case 'sm': return 'body-sm';
+      default: return 'body-md';
     }
   };
 
@@ -141,50 +95,91 @@ export const IntroSection: React.FC<IntroSectionProps> = ({
     <>
       <style>{`
         .intro-section-container {
-          max-width: ${maxWidth};
+          max-width: var(--size-page-max-width);
           margin: 0 auto;
           padding: 0 var(--foundation-space-6);
-          text-align: ${textAlign};
         }
         
-        .intro-section-content {
-          display: flex;
-          flex-direction: column;
-          align-items: ${textAlign === 'left' ? 'flex-start' : textAlign === 'right' ? 'flex-end' : 'center'};
-          gap: var(--foundation-space-8);
+        .intro-section-grid {
+          display: grid;
+          grid-template-columns: ${reverseLayout ? '1fr 1.2fr' : '1.2fr 1fr'};
+          gap: var(--foundation-space-12);
+          align-items: center;
         }
         
         .intro-section-text {
           display: flex;
           flex-direction: column;
-          gap: ${textScale === 'xl' || textScale === 'lg' ? 'var(--foundation-space-6)' : 'var(--foundation-space-4)'};
-          max-width: 100%;
+          gap: var(--foundation-space-6);
+          order: ${reverseLayout ? '2' : '1'};
         }
         
-        .intro-section-buttons {
+        .intro-section-visual {
           display: flex;
-          gap: var(--foundation-space-4);
-          flex-wrap: wrap;
-          justify-content: ${textAlign === 'left' ? 'flex-start' : textAlign === 'right' ? 'flex-end' : 'center'};
+          flex-direction: column;
+          gap: var(--foundation-space-8);
+          order: ${reverseLayout ? '1' : '2'};
         }
         
-        @media (max-width: 768px) {
-          .intro-section-container {
-            text-align: left;
+        .intro-section-image {
+          width: 100%;
+          height: auto;
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-lg);
+          border: 1px solid var(--border-light);
+          object-fit: cover;
+          max-height: 400px;
+        }
+        
+        .intro-metrics {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+          gap: var(--foundation-space-6);
+        }
+        
+        .metric-item {
+          text-align: center;
+          padding: var(--foundation-space-4);
+          background: var(--surface-subtle);
+          border-radius: var(--radius-md);
+          border: 1px solid var(--border-light);
+        }
+        
+        .metric-number {
+          font-size: ${textScale === 'xl' || textScale === 'lg' ? 'clamp(2rem, 4vw, 3rem)' : 'clamp(1.5rem, 3vw, 2rem)'};
+          font-weight: var(--font-weight-bold);
+          color: var(--accent-500);
+          line-height: 1;
+          margin-bottom: var(--foundation-space-2);
+        }
+        
+        .metric-label {
+          font-size: var(--foundation-typography-size-sm);
+          color: var(--text-secondary);
+          line-height: 1.4;
+        }
+        
+        @media (max-width: 968px) {
+          .intro-section-grid {
+            grid-template-columns: 1fr;
+            gap: var(--foundation-space-8);
           }
           
-          .intro-section-content {
-            align-items: flex-start;
+          .intro-section-text {
+            order: 1;
           }
           
-          .intro-section-buttons {
-            justify-content: flex-start;
-            width: 100%;
+          .intro-section-visual {
+            order: 2;
           }
           
-          .intro-section-buttons button {
-            flex: 1;
-            min-width: 140px;
+          .intro-section-image {
+            max-height: 300px;
+          }
+          
+          .intro-metrics {
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: var(--foundation-space-4);
           }
         }
       `}</style>
@@ -199,61 +194,47 @@ export const IntroSection: React.FC<IntroSectionProps> = ({
         }}
       >
         <div className="intro-section-container">
-          <div className="intro-section-content">
-            {/* Text Content */}
+          <div className="intro-section-grid">
+            {/* Text Side */}
             <div className="intro-section-text">
-              {label && (
-                <Typography
-                  variant={getLabelVariant()}
-                  color={labelColor ? undefined : 'accent'}
-                  weight="medium"
-                  style={labelColor ? { color: labelColor } : undefined}
-                >
-                  {label}
-                </Typography>
-              )}
-              
               <Typography
                 variant={getHeadingVariant()}
                 weight="semibold"
-                color={headingColor ? undefined : 'primary'}
+                color="primary"
                 as="h2"
-                style={headingColor ? { color: headingColor } : undefined}
               >
                 {heading}
               </Typography>
               
               <Typography
                 variant={getDescriptionVariant()}
-                color={descriptionColor ? undefined : 'secondary'}
-                style={descriptionColor ? { color: descriptionColor } : undefined}
+                color="secondary"
+                style={{ lineHeight: '1.7' }}
               >
                 {description}
               </Typography>
+              
+              {/* Metrics under text */}
+              {showMetrics && metrics && metrics.length > 0 && (
+                <div className="intro-metrics">
+                  {metrics.map((metric, index) => (
+                    <div key={index} className="metric-item">
+                      <div className="metric-number">{metric.number}</div>
+                      <div className="metric-label">{metric.label}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
             
-            {/* Buttons */}
-            {showButtons && (primaryButtonText || secondaryButtonText) && (
-              <div className="intro-section-buttons">
-                {primaryButtonText && (
-                  <Button
-                    variant={primaryButtonVariant}
-                    size={buttonSize}
-                    onClick={handlePrimaryClick}
-                  >
-                    {primaryButtonText}
-                  </Button>
-                )}
-                
-                {secondaryButtonText && (
-                  <Button
-                    variant={secondaryButtonVariant}
-                    size={buttonSize}
-                    onClick={handleSecondaryClick}
-                  >
-                    {secondaryButtonText}
-                  </Button>
-                )}
+            {/* Visual Side */}
+            {showImage && image && (
+              <div className="intro-section-visual">
+                <img
+                  src={image}
+                  alt={imageAlt || 'Company visual'}
+                  className="intro-section-image"
+                />
               </div>
             )}
           </div>
