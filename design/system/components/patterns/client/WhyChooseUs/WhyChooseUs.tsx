@@ -197,8 +197,8 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
         as="section"
         style={{
           backgroundColor: 'var(--surface-page)',
-          paddingTop: 'var(--foundation-space-16)',
-          paddingBottom: 'var(--foundation-space-16)'
+          paddingTop: 'var(--foundation-space-24)',
+          paddingBottom: 'var(--foundation-space-24)'
         }}
       >
         <div className="why-choose-us-container">

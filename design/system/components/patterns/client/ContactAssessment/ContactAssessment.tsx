@@ -233,8 +233,8 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
         as="section"
         style={{
           backgroundColor: 'var(--surface-page)',
-          paddingTop: 'var(--foundation-space-16)',
-          paddingBottom: 'var(--foundation-space-16)'
+          paddingTop: 'var(--foundation-space-24)',
+          paddingBottom: 'var(--foundation-space-24)'
         }}
       >
         <div className="contact-assessment-container">
