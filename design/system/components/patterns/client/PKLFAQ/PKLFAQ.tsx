@@ -122,7 +122,7 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
         .pkl-faq-question-text {
           flex: 1;
           color: var(--text-primary);
-          font-size: var(--foundation-typography-size-xl);
+          font-size: ${textScale === 'lg' ? 'var(--foundation-typography-size-2xl)' : textScale === 'sm' ? 'var(--foundation-typography-size-lg)' : 'var(--foundation-typography-size-xl)'};
           font-weight: var(--font-weight-semibold);
           line-height: 1.4;
         }
@@ -160,7 +160,7 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
         
         .pkl-faq-answer-content {
           color: var(--text-secondary);
-          font-size: var(--foundation-typography-size-sm);
+          font-size: ${textScale === 'lg' ? 'var(--foundation-typography-size-md)' : textScale === 'sm' ? 'var(--foundation-typography-size-xs)' : 'var(--foundation-typography-size-sm)'};
           line-height: 1.75;
         }
         

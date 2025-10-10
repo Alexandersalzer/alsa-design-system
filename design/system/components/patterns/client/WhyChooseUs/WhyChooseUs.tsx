@@ -135,13 +135,13 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
             position: absolute;
             top: var(--foundation-space-2);
             right: 0;
-            font-size: var(--foundation-typography-size-sm);
+            font-size: ${textScale === 'lg' ? 'var(--foundation-typography-size-md)' : 'var(--foundation-typography-size-sm)'};
             font-weight: var(--font-weight-medium);
             color: var(--text-tertiary);
             background: var(--surface-subtle);
             border-radius: var(--radius-full);
-            width: 32px;
-            height: 32px;
+            width: ${textScale === 'lg' ? '40px' : '32px'};
+            height: ${textScale === 'lg' ? '40px' : '32px'};
             display: flex;
             align-items: center;
             justify-content: center;
