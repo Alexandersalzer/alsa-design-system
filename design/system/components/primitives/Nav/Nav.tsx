@@ -27,7 +27,7 @@ export interface NavRootProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
 }
 
-export const NavRoot = forwardRef<HTMLElement, NavRootProps>(({
+const NavRoot = forwardRef<HTMLElement, NavRootProps>(({
   children,
   variant = 'sidebar',
   currentPath,
@@ -57,7 +57,7 @@ export interface NavListProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
 }
 
-export const NavList = forwardRef<HTMLDivElement, NavListProps>(({
+const NavList = forwardRef<HTMLDivElement, NavListProps>(({
   children,
   label,
   className,
@@ -81,7 +81,8 @@ export const NavList = forwardRef<HTMLDivElement, NavListProps>(({
 NavList.displayName = 'NavList';
 
 // ===== NAV ITEM =====
-export interface NavItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+// ADD 'export' keyword here!
+export interface NavPrimitiveItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   href?: string;
   isActive?: boolean;
@@ -92,7 +93,7 @@ export interface NavItemProps extends React.ButtonHTMLAttributes<HTMLButtonEleme
   as?: 'button' | 'a';
 }
 
-export const NavItem = forwardRef<HTMLButtonElement, NavItemProps>(({
+const NavItem = forwardRef<HTMLButtonElement, NavPrimitiveItemProps>(({
   children,
   href,
   onClick,
@@ -170,7 +171,7 @@ export interface NavSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
 }
 
-export const NavSection = forwardRef<HTMLDivElement, NavSectionProps>(({
+const NavSection = forwardRef<HTMLDivElement, NavSectionProps>(({
   children,
   label,
   className,
