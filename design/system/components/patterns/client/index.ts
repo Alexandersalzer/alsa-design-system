@@ -11,6 +11,7 @@ export * from './PKLFooter';
 export * from './PKLFAQ';
 export * from './PKLAbout';
 export * from './PKLTeam';
+export * from './PKLCTA';
 export * from './OurExpertise';
 export * from './WhyChooseUs';
 export * from './ContactAssessment';
