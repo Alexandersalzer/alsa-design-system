@@ -235,7 +235,7 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
           display: none;
         }
         
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
           .pkl-faq-categories-content-grid {
             grid-template-columns: 1fr;
             gap: var(--foundation-space-8);
