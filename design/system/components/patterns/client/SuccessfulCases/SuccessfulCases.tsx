@@ -91,7 +91,13 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
                   height: '100%'
                 }}
               >
-                <Stack spacing="md" align="center" style={{ flex: 1, justifyContent: 'space-between' }}>
+                <div style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  flex: 1, 
+                  justifyContent: 'space-between',
+                  gap: 'var(--foundation-space-6)'
+                }}>
                   {/* Icon and Content */}
                   <Stack spacing="md" align="center">
                     {c.icon && (
@@ -129,7 +135,12 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
 
                   {/* Compensation and Duration - Always at bottom */}
                   {(c.compensation || c.duration) && (
-                    <Stack spacing="sm" style={{ width: '100%' }}>
+                    <div style={{ 
+                      display: 'flex', 
+                      flexDirection: 'column', 
+                      gap: 'var(--foundation-space-3)',
+                      width: '100%'
+                    }}>
                       {c.compensation && (
                         <div style={{
                           padding: 'var(--foundation-space-3) var(--foundation-space-4)',
@@ -154,9 +165,9 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
                           </Typography>
                         </div>
                       )}
-                    </Stack>
+                    </div>
                   )}
-                </Stack>
+                </div>
               </Card>
             ))}
           </div>
