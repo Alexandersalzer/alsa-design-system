@@ -94,10 +94,6 @@ export const PKLAbout: React.FC<PKLAboutProps> = ({
             gap: var(--foundation-space-6);
           }
           
-          .pkl-about-label {
-            color: var(--accent-500);
-          }
-          
           .pkl-about-stats {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -241,7 +237,7 @@ export const PKLAbout: React.FC<PKLAboutProps> = ({
                 {label && (
                   <Typography 
                     variant="label-sm" 
-                    className="pkl-about-label"
+                    color="accent"
                     weight="medium"
                   >
                     {label}

@@ -143,9 +143,9 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
           <div className="our-expertise-header">
             <Stack spacing="lg">
               {/* Subheading */}
-              <Typography 
+                <Typography 
                 variant="label-sm" 
-                color="primary"
+                color="accent"
                 weight="medium"
               >
                 {subheading}
