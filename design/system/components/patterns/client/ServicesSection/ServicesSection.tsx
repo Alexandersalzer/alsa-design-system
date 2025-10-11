@@ -69,10 +69,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
           {/* Services Grid */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: 'var(--foundation-space-6)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
+            gap: 'var(--foundation-space-8)',
             width: '100%',
-            maxWidth: '1200px'
+            maxWidth: '100%'
           }}>
             {services.map((service) => (
               <Card

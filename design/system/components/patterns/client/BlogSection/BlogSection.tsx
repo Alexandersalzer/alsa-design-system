@@ -139,12 +139,12 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
 
                 {/* Content */}
                 <div style={{
-                  padding: 'var(--foundation-space-8)',
+                  padding: 'var(--foundation-space-6)',
                   display: 'flex',
                   flexDirection: 'column',
                   flex: 1
                 }}>
-                  <Stack spacing="lg" align="start">
+                  <Stack spacing="sm" align="start">
                     {/* Category Badge */}
                     {post.category && (
                       <div style={{
@@ -167,7 +167,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
                       color="heading"
                       style={{ 
                         textAlign: 'left',
-                        lineHeight: '1.4',
+                        lineHeight: '1.3',
                         fontSize: 'clamp(1.25rem, 2vw, 1.5rem)'
                       }}
                     >
@@ -180,7 +180,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
                       weight="regular"
                       color="secondary"
                       style={{ 
-                        lineHeight: '1.8', 
+                        lineHeight: '1.6', 
                         textAlign: 'left',
                         flex: 1
                       }}
@@ -191,7 +191,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
                     {/* Footer Meta */}
                     <div style={{
                       width: '100%',
-                      paddingTop: 'var(--foundation-space-6)',
+                      paddingTop: 'var(--foundation-space-4)',
                       borderTop: '1px solid var(--border-subtle)',
                       marginTop: 'auto'
                     }}>
