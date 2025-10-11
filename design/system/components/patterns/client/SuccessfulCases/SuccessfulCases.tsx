@@ -11,7 +11,7 @@ import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster'
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Card } from '../../../../../system/components/primitives/Card';
-import { Icon } from '../../../../../system/components/primitives/Icon';
+import { IconContainer } from '../../../../../system/components/primitives/IconContainer';
 import { Button } from '../../../../../system/components/primitives/Button';
 
 export interface SuccessCase {
@@ -101,18 +101,13 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
                   {/* Icon and Content */}
                   <Stack spacing="md" align="center">
                     {c.icon && (
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '64px',
-                        height: '64px',
-                        borderRadius: 'var(--foundation-radius-full)',
-                        background: 'var(--accent-50)',
-                        border: '2px solid var(--accent-200)'
-                      }}>
-                        <Icon size="lg" color="accent">{c.icon}</Icon>
-                      </div>
+                      <IconContainer
+                        variant="circle"
+                        size="md"
+                        iconColor="accent"
+                      >
+                        {c.icon}
+                      </IconContainer>
                     )}
 
                     <Typography

@@ -8,6 +8,7 @@ import { Card } from '../../../../../system/components/primitives/Card';
 import { H4, Body } from '../../../../../system/components/primitives/Typography';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Section } from '../../../../../system/layout/frames/section/Section';
+import { IconContainer } from '../../../../../system/components/primitives/IconContainer';
 import { ZapIcon, UserCheckIcon, ShieldIcon } from 'lucide-react';
 import './FeatureGrid.css';
 
@@ -114,25 +115,16 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               >
               {/* Icon - Only show if icon is provided */}
               {feature.icon && (
-                <div 
-                  className="feature-icon"
-                  style={{
-                    width: '64px',
-                    height: '64px',
-                    flexShrink: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: 'var(--radius-md)',
-                    background: 'var(--accent-500)',
-                    padding: '12px',
-                    color: iconColor
-                  }}
+                <IconContainer
+                  variant="soft-rounded"
+                  size="md"
+                  iconColor="white"
+                  backgroundColor="var(--accent-500)"
+                  borderColor="transparent"
+                  borderWidth="0"
                 >
-                  {React.cloneElement(feature.icon as React.ReactElement<any>, {
-                    style: { width: '100%', height: '100%', strokeWidth: 2, color: 'inherit' }
-                  })}
-                </div>
+                  {feature.icon as React.ReactElement}
+                </IconContainer>
               )}
               
               {/* Title */}

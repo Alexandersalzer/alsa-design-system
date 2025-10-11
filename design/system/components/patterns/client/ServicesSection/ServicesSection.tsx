@@ -9,7 +9,7 @@ import React from 'react';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Card } from '../../../../../system/components/primitives/Card';
-import { Icon } from '../../../../../system/components/primitives/Icon';
+import { IconContainer } from '../../../../../system/components/primitives/IconContainer';
 
 export interface Service {
   id: string;
@@ -103,18 +103,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   {/* Icon and Title */}
                   <Stack spacing="md" align="start">
                     {service.icon && (
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '64px',
-                        height: '64px',
-                        borderRadius: 'var(--foundation-radius-lg)',
-                        background: 'var(--accent-50)',
-                        border: '2px solid var(--accent-200)'
-                      }}>
-                        <Icon size="lg" color="accent">{service.icon}</Icon>
-                      </div>
+                      <IconContainer
+                        variant="rounded"
+                        size="md"
+                        iconColor="accent"
+                      >
+                        {service.icon}
+                      </IconContainer>
                     )}
 
                     <Typography
