@@ -1,6 +1,6 @@
 // ===============================================
 // design/system/components/patterns/client/PKLTestimonials/PKLTestimonials.tsx
-// PKL TESTIMONIALS SECTION - Client feedback carousel
+// PKL TESTIMONIALS SECTION - Carousel-based client testimonials
 // ===============================================
 
 'use client';
@@ -13,19 +13,19 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 // ===== TYPE DEFINITIONS =====
 
-export interface PKLTestimonial {
+export interface Testimonial {
   id: string;
   quote: string;
   author: string;
   role: string;
-  image?: string;
+  avatar?: string;
 }
 
 export interface PKLTestimonialsContent {
-  label?: string;
+  label: string;
   heading: string;
   description: string;
-  testimonials: PKLTestimonial[];
+  testimonials: Testimonial[];
 }
 
 export interface PKLTestimonialsProps {
@@ -45,24 +45,20 @@ export const PKLTestimonials: React.FC<PKLTestimonialsProps> = ({
   paddingBottom = 'var(--foundation-space-24)',
   textScale = 'md'
 }) => {
-  const { 
-    label,
-    heading, 
-    description,
-    testimonials
-  } = content;
+  const { label, heading, description, testimonials } = content;
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+  const nextSlide = () => {
+    setActiveIndex((prev) => (prev + 1) % testimonials.length);
   };
 
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+  const prevSlide = () => {
+    setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
-  const currentTestimonial = testimonials[currentIndex];
+  const goToSlide = (index: number) => {
+    setActiveIndex(index);
+  };
 
   return (
     <>
@@ -74,78 +70,78 @@ export const PKLTestimonials: React.FC<PKLTestimonialsProps> = ({
             padding: 0 var(--foundation-space-6);
           }
           
-          .pkl-testimonials-wrapper {
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-2xl);
-            padding: var(--foundation-space-12);
-          }
-          
           .pkl-testimonials-grid {
             display: grid;
-            grid-template-columns: 1fr 1.5fr;
+            grid-template-columns: 1fr 2fr;
             gap: var(--foundation-space-16);
-            align-items: center;
+            align-items: start;
           }
           
-          .pkl-testimonials-header {
-            display: flex;
-            flex-direction: column;
-            gap: var(--foundation-space-6);
-            text-align: left;
+          .pkl-testimonials-intro {
+            position: sticky;
+            top: 120px;
           }
           
-          .pkl-testimonials-content {
+          .pkl-testimonials-carousel {
+            position: relative;
+          }
+          
+          .pkl-testimonials-track {
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+          }
+          
+          .pkl-testimonials-slides {
             display: flex;
-            flex-direction: column;
-            gap: var(--foundation-space-6);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-${activeIndex * 100}%);
           }
           
           .pkl-testimonial-card {
-            background: var(--surface-muted);
-            border-radius: var(--radius-xl);
+            min-width: 100%;
             padding: var(--foundation-space-8);
+            background: var(--surface-subtle);
             border: 1px solid var(--border-light);
-            box-shadow: var(--shadow-sm);
-            min-height: 280px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-          }
-          
-          .pkl-testimonial-body {
+            border-radius: var(--radius-lg);
             display: flex;
             gap: var(--foundation-space-6);
             align-items: flex-start;
           }
           
-          .pkl-testimonial-image {
+          .pkl-testimonial-avatar {
             width: 80px;
             height: 80px;
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius-full);
             object-fit: cover;
             flex-shrink: 0;
             border: 2px solid var(--border-medium);
           }
           
-          .pkl-testimonial-image-placeholder {
+          .pkl-testimonial-avatar-placeholder {
             width: 80px;
             height: 80px;
-            border-radius: var(--radius-lg);
-            background: var(--surface-subtle);
-            flex-shrink: 0;
+            border-radius: var(--radius-full);
+            background: var(--surface-muted);
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
             border: 2px solid var(--border-medium);
-            color: var(--text-tertiary);
             font-size: var(--foundation-typography-size-2xl);
-            font-weight: var(--font-weight-bold);
+            font-weight: var(--font-weight-semibold);
+            color: var(--accent-500);
+          }
+          
+          .pkl-testimonial-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--foundation-space-4);
           }
           
           .pkl-testimonial-quote {
-            flex: 1;
             color: var(--text-primary);
-            font-size: ${textScale === 'lg' ? 'var(--foundation-typography-size-lg)' : 'var(--foundation-typography-size-md)'};
+            font-size: ${textScale === 'lg' ? 'var(--foundation-typography-size-lg)' : textScale === 'sm' ? 'var(--foundation-typography-size-sm)' : 'var(--foundation-typography-size-md)'};
             line-height: 1.7;
             font-style: italic;
           }
@@ -154,37 +150,37 @@ export const PKLTestimonials: React.FC<PKLTestimonialsProps> = ({
             display: flex;
             flex-direction: column;
             gap: var(--foundation-space-1);
-            padding-top: var(--foundation-space-4);
-            border-top: 1px solid var(--border-light);
+            margin-top: var(--foundation-space-2);
           }
           
-          .pkl-testimonial-name {
+          .pkl-testimonial-author-name {
             color: var(--text-primary);
+            font-size: var(--foundation-typography-size-sm);
             font-weight: var(--font-weight-semibold);
-            font-size: var(--foundation-typography-size-md);
           }
           
-          .pkl-testimonial-role {
-            color: var(--text-tertiary);
-            font-size: var(--foundation-typography-size-sm);
+          .pkl-testimonial-author-role {
+            color: var(--text-secondary);
+            font-size: var(--foundation-typography-size-xs);
           }
           
           .pkl-testimonials-controls {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-top: var(--foundation-space-6);
           }
           
-          .pkl-testimonials-arrows {
+          .pkl-testimonials-nav {
             display: flex;
             gap: var(--foundation-space-3);
           }
           
-          .pkl-testimonial-arrow {
-            width: 44px;
-            height: 44px;
+          .pkl-testimonials-nav-button {
+            width: 40px;
+            height: 40px;
             border-radius: var(--radius-md);
-            background: var(--surface-subtle);
+            background: var(--surface-card);
             border: 1px solid var(--border-medium);
             display: flex;
             align-items: center;
@@ -194,20 +190,15 @@ export const PKLTestimonials: React.FC<PKLTestimonialsProps> = ({
             color: var(--text-secondary);
           }
           
-          .pkl-testimonial-arrow:hover {
-            background: var(--surface-card);
+          .pkl-testimonials-nav-button:hover {
+            background: var(--surface-muted);
             border-color: var(--accent-500);
             color: var(--accent-500);
-            transform: translateY(-2px);
           }
           
-          .pkl-testimonial-arrow:active {
-            transform: translateY(0);
-          }
-          
-          .pkl-testimonial-arrow svg {
-            width: 20px;
-            height: 20px;
+          .pkl-testimonials-nav-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
           }
           
           .pkl-testimonials-dots {
@@ -215,26 +206,24 @@ export const PKLTestimonials: React.FC<PKLTestimonialsProps> = ({
             gap: var(--foundation-space-2);
           }
           
-          .pkl-testimonial-dot {
+          .pkl-testimonials-dot {
             width: 8px;
             height: 8px;
-            border-radius: 50%;
-            background: var(--surface-subtle);
+            border-radius: var(--radius-full);
+            background: var(--surface-muted);
             border: 1px solid var(--border-medium);
             cursor: pointer;
             transition: all 0.3s ease;
           }
           
-          .pkl-testimonial-dot.active {
+          .pkl-testimonials-dot.active {
             background: var(--accent-500);
             border-color: var(--accent-500);
             width: 24px;
-            border-radius: var(--radius-full);
           }
           
-          .pkl-testimonial-dot:hover:not(.active) {
-            background: var(--surface-card);
-            transform: scale(1.2);
+          .pkl-testimonials-dot:hover:not(.active) {
+            background: var(--border-strong);
           }
           
           @media (max-width: 1024px) {
@@ -243,33 +232,35 @@ export const PKLTestimonials: React.FC<PKLTestimonialsProps> = ({
               gap: var(--foundation-space-10);
             }
             
-            .pkl-testimonials-header {
-              text-align: center;
-            }
-            
-            .pkl-testimonial-card {
-              min-height: auto;
+            .pkl-testimonials-intro {
+              position: static;
             }
           }
           
-          @media (max-width: 640px) {
-            .pkl-testimonials-wrapper {
-              padding: var(--foundation-space-6);
-            }
-            
-            .pkl-testimonial-body {
-              flex-direction: column;
-              align-items: center;
-              text-align: center;
-            }
-            
+          @media (max-width: 768px) {
             .pkl-testimonial-card {
+              flex-direction: column;
               padding: var(--foundation-space-6);
+            }
+            
+            .pkl-testimonial-avatar,
+            .pkl-testimonial-avatar-placeholder {
+              width: 60px;
+              height: 60px;
             }
             
             .pkl-testimonials-controls {
-              flex-direction: column;
+              flex-direction: column-reverse;
               gap: var(--foundation-space-4);
+              align-items: stretch;
+            }
+            
+            .pkl-testimonials-dots {
+              justify-content: center;
+            }
+            
+            .pkl-testimonials-nav {
+              justify-content: space-between;
             }
           }
         `
@@ -285,105 +276,106 @@ export const PKLTestimonials: React.FC<PKLTestimonialsProps> = ({
         }}
       >
         <div className="pkl-testimonials-container">
-          <div className="pkl-testimonials-wrapper">
-            <div className="pkl-testimonials-grid">
-              {/* Left Side - Header */}
-              <div className="pkl-testimonials-header">
-                <Stack spacing="md" align="start">
-                  {label && (
-                    <Typography 
-                      variant="label-sm" 
-                      color="accent"
-                      weight="medium"
-                    >
-                      {label}
-                    </Typography>
-                  )}
-                  
-                  <Typography 
-                    variant={textScale === 'lg' ? 'display-md' : textScale === 'sm' ? 'h3' : 'h2'}
-                    weight="semibold"
-                    color="primary"
-                    as="h2"
-                  >
-                    {heading}
-                  </Typography>
-                  
-                  <Typography 
-                    variant={textScale === 'lg' ? 'body-xl' : textScale === 'sm' ? 'body-sm' : 'body-md'}
-                    color="secondary"
-                  >
-                    {description}
-                  </Typography>
-                </Stack>
+          <div className="pkl-testimonials-grid">
+            {/* Left Side - Introduction */}
+            <div className="pkl-testimonials-intro">
+              <Stack spacing="lg" align="start">
+                <Typography 
+                  variant="label-sm" 
+                  color="accent"
+                  weight="medium"
+                >
+                  {label}
+                </Typography>
+                
+                <Typography 
+                  variant={textScale === 'lg' ? 'display-md' : textScale === 'sm' ? 'h3' : 'h2'}
+                  weight="semibold"
+                  color="primary"
+                  as="h2"
+                >
+                  {heading}
+                </Typography>
+                
+                <Typography 
+                  variant={textScale === 'lg' ? 'body-xl' : textScale === 'sm' ? 'body-sm' : 'body-md'}
+                  color="secondary"
+                  style={{ lineHeight: 1.7 }}
+                >
+                  {description}
+                </Typography>
+              </Stack>
+            </div>
+            
+            {/* Right Side - Carousel */}
+            <div className="pkl-testimonials-carousel">
+              <div className="pkl-testimonials-track">
+                <div className="pkl-testimonials-slides">
+                  {testimonials.map((testimonial, index) => (
+                    <div key={testimonial.id} className="pkl-testimonial-card">
+                      {/* Avatar */}
+                      {testimonial.avatar ? (
+                        <img 
+                          src={testimonial.avatar} 
+                          alt={testimonial.author}
+                          className="pkl-testimonial-avatar"
+                        />
+                      ) : (
+                        <div className="pkl-testimonial-avatar-placeholder">
+                          {testimonial.author.charAt(0)}
+                        </div>
+                      )}
+                      
+                      {/* Content */}
+                      <div className="pkl-testimonial-content">
+                        <blockquote className="pkl-testimonial-quote">
+                          "{testimonial.quote}"
+                        </blockquote>
+                        
+                        <div className="pkl-testimonial-author">
+                          <div className="pkl-testimonial-author-name">
+                            {testimonial.author}
+                          </div>
+                          <div className="pkl-testimonial-author-role">
+                            {testimonial.role}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
               
-              {/* Right Side - Testimonial Carousel */}
-              <div className="pkl-testimonials-content">
-                {/* Testimonial Card */}
-                <div className="pkl-testimonial-card">
-                  <div className="pkl-testimonial-body">
-                    {/* Image */}
-                    {currentTestimonial.image ? (
-                      <img 
-                        src={currentTestimonial.image} 
-                        alt={currentTestimonial.author}
-                        className="pkl-testimonial-image"
-                      />
-                    ) : (
-                      <div className="pkl-testimonial-image-placeholder">
-                        {currentTestimonial.author.charAt(0)}
-                      </div>
-                    )}
-                    
-                    {/* Quote */}
-                    <div className="pkl-testimonial-quote">
-                      "{currentTestimonial.quote}"
-                    </div>
-                  </div>
-                  
-                  {/* Author Info */}
-                  <div className="pkl-testimonial-author">
-                    <div className="pkl-testimonial-name">
-                      {currentTestimonial.author}
-                    </div>
-                    <div className="pkl-testimonial-role">
-                      {currentTestimonial.role}
-                    </div>
-                  </div>
+              {/* Controls */}
+              <div className="pkl-testimonials-controls">
+                {/* Navigation Arrows */}
+                <div className="pkl-testimonials-nav">
+                  <button 
+                    onClick={prevSlide}
+                    className="pkl-testimonials-nav-button"
+                    aria-label="Previous testimonial"
+                  >
+                    <ChevronLeftIcon style={{ width: '20px', height: '20px' }} />
+                  </button>
+                  <button 
+                    onClick={nextSlide}
+                    className="pkl-testimonials-nav-button"
+                    aria-label="Next testimonial"
+                  >
+                    <ChevronRightIcon style={{ width: '20px', height: '20px' }} />
+                  </button>
                 </div>
                 
-                {/* Controls */}
-                <div className="pkl-testimonials-controls">
-                  {/* Navigation Arrows */}
-                  <div className="pkl-testimonials-arrows">
-                    <button 
-                      className="pkl-testimonial-arrow" 
-                      onClick={handlePrevious}
-                      aria-label="Previous testimonial"
-                    >
-                      <ChevronLeftIcon />
-                    </button>
-                    <button 
-                      className="pkl-testimonial-arrow" 
-                      onClick={handleNext}
-                      aria-label="Next testimonial"
-                    >
-                      <ChevronRightIcon />
-                    </button>
-                  </div>
-                  
-                  {/* Dots Indicator */}
-                  <div className="pkl-testimonials-dots">
-                    {testimonials.map((_, index) => (
-                      <button
-                        key={index}
-                        className={`pkl-testimonial-dot ${index === currentIndex ? 'active' : ''}`}
-                        onClick={() => setCurrentIndex(index)}
-                        aria-label={`Go to testimonial ${index + 1}`}
-                      />
-                    ))}
-                  </div>
+                {/* Dots Indicator */}
+                <div className="pkl-testimonials-dots">
+                  {testimonials.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => goToSlide(index)}
+                      className={`pkl-testimonials-dot ${index === activeIndex ? 'active' : ''}`}
+                      aria-label={`Go to testimonial ${index + 1}`}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
