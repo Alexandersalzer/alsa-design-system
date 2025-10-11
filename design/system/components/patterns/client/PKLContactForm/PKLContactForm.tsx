@@ -15,7 +15,7 @@ import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 
 // ===== TYPE DEFINITIONS =====
 
-export interface ContactFormData {
+export interface PKLContactFormData {
   name: string;
   email: string;
   company?: string;
@@ -37,7 +37,7 @@ export interface PKLContactFormContent {
 
 export interface PKLContactFormProps {
   content: PKLContactFormContent;
-  onSubmit?: (data: ContactFormData) => void;
+  onSubmit?: (data: PKLContactFormData) => void;
   id?: string;
   paddingTop?: string;
   paddingBottom?: string;
@@ -66,7 +66,7 @@ export const PKLContactForm: React.FC<PKLContactFormProps> = ({
     buttonText = "Skicka meddelande"
   } = content;
 
-  const [formData, setFormData] = useState<ContactFormData>({
+  const [formData, setFormData] = useState<PKLContactFormData>({
     name: '',
     email: '',
     company: '',
