@@ -134,6 +134,12 @@ export const PKLCTA: React.FC<PKLCTAProps> = ({
           justify-content: center;
           align-items: center;
           flex-wrap: wrap;
+          margin-top: var(--foundation-space-6);
+        }
+        
+        .pkl-cta-buttons button {
+          flex-shrink: 0;
+          transition: all 0.2s ease;
         }
         
         .pkl-cta-stats {
@@ -212,23 +218,63 @@ export const PKLCTA: React.FC<PKLCTAProps> = ({
         
         @media (max-width: 768px) {
           .pkl-cta-card {
-            padding: var(--foundation-space-10) var(--foundation-space-6);
+            padding: var(--foundation-space-8) var(--foundation-space-4);
+            margin: 0 var(--foundation-space-2);
+          }
+          
+          .pkl-cta-content {
+            max-width: 100%;
+            padding: 0;
           }
           
           .pkl-cta-buttons {
             flex-direction: column;
             width: 100%;
+            gap: var(--foundation-space-3);
           }
           
           .pkl-cta-buttons button {
             width: 100%;
+            min-height: 48px;
           }
           
           .pkl-cta-stats {
             grid-template-columns: repeat(2, 1fr);
-            gap: var(--foundation-space-6);
-            margin-top: var(--foundation-space-8);
-            padding-top: var(--foundation-space-8);
+            gap: var(--foundation-space-4);
+            margin-top: var(--foundation-space-6);
+            padding-top: var(--foundation-space-6);
+          }
+          
+          /* Hide decorative elements on mobile to avoid clutter */
+          .pkl-cta-bg-decoration {
+            display: none;
+          }
+          
+          /* Ensure text is readable on mobile */
+          .pkl-cta-heading {
+            font-size: clamp(1.5rem, 5vw, 2.25rem) !important;
+            line-height: 1.3 !important;
+          }
+          
+          .pkl-cta-description {
+            font-size: clamp(1rem, 4vw, 1.125rem) !important;
+            line-height: 1.5 !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .pkl-cta-card {
+            padding: var(--foundation-space-6) var(--foundation-space-3);
+            margin: 0 var(--foundation-space-1);
+          }
+          
+          .pkl-cta-buttons {
+            gap: var(--foundation-space-2);
+          }
+          
+          .pkl-cta-stats {
+            grid-template-columns: 1fr;
+            gap: var(--foundation-space-3);
           }
         }
       `}</style>
