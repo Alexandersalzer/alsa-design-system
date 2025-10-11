@@ -131,7 +131,7 @@ export const PKLPricing: React.FC<PKLPricingProps> = ({
         .pkl-pricing-name {
           color: var(--text-primary);
           margin-bottom: var(--foundation-space-2);
-          font-size: ${textScale === 'lg' ? 'clamp(1.25rem, 2vw, 1.5rem)' : 'clamp(1.125rem, 1.75vw, 1.375rem)'} !important;
+          font-size: ${textScale === 'lg' ? 'clamp(1.125rem, 1.5vw, 1.25rem)' : 'clamp(1rem, 1.25vw, 1.125rem)'} !important;
         }
         
         .pkl-pricing-price-wrapper {
@@ -143,7 +143,7 @@ export const PKLPricing: React.FC<PKLPricingProps> = ({
         }
         
         .pkl-pricing-price {
-          font-size: ${textScale === 'lg' ? 'clamp(2rem, 3vw, 2.5rem)' : 'clamp(1.75rem, 2.5vw, 2.25rem)'};
+          font-size: ${textScale === 'lg' ? 'clamp(1.75rem, 2.5vw, 2rem)' : 'clamp(1.5rem, 2vw, 1.75rem)'};
           font-weight: var(--font-weight-bold);
           line-height: 1.1;
           color: var(--accent-500);
