@@ -79,8 +79,6 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
           .contact-assessment-card {
             background: var(--surface-card);
             border-radius: var(--radius-lg);
-            padding: var(--foundation-space-12);
-            position: relative;
             overflow: hidden;
           }
           
@@ -192,9 +190,6 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
           }
           
           @media (max-width: 768px) {
-            .contact-assessment-card {
-              padding: var(--foundation-space-8);
-            }
             
             .contact-form {
               max-width: 100%;
