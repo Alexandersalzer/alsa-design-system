@@ -366,11 +366,6 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
               padding: var(--foundation-space-2);
             }
             
-            .pkl-navbar {
-              height: ${isScrolled ? '70px' : '50vh'};
-              min-height: 70px;
-            }
-            
             .pkl-navbar-content {
               padding: var(--foundation-space-4);
             }
