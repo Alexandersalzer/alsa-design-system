@@ -89,9 +89,9 @@ export const IconContainer: React.FC<IconContainerProps> = ({
   if (variant === 'none') {
     if (useCustomColor) {
       return (
-        <div style={{ color: iconColor as string }}>
-          {React.cloneElement(children, { 
-            style: { width: '100%', height: '100%', ...children.props.style }
+        <div style={{ color: iconColor as string, display: 'flex' }}>
+          {React.cloneElement(children as React.ReactElement<any>, { 
+            style: { width: '100%', height: '100%', ...(children.props as any)?.style }
           })}
         </div>
       );
@@ -120,8 +120,8 @@ export const IconContainer: React.FC<IconContainerProps> = ({
       }}
     >
       {useCustomColor ? (
-        React.cloneElement(children, { 
-          style: { width: '100%', height: '100%', ...children.props.style }
+        React.cloneElement(children as React.ReactElement<any>, { 
+          style: { width: '100%', height: '100%', ...(children.props as any)?.style }
         })
       ) : (
         <Icon size={finalIconSize} color={iconColor as IconColor}>
