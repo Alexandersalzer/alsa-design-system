@@ -81,7 +81,6 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
         .pkl-faq-categories-outer-container {
           max-width: var(--size-page-max-width);
           margin: 0 auto;
-          padding: 0 var(--foundation-space-6);
         }
         
         .pkl-faq-categories-main-header {
@@ -332,7 +331,9 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
         style={{
           backgroundColor: 'var(--surface-page)',
           paddingTop,
-          paddingBottom
+          paddingBottom,
+          paddingLeft: 'var(--foundation-space-6)',
+          paddingRight: 'var(--foundation-space-6)'
         }}
       >
         <div className="pkl-faq-categories-outer-container">
