@@ -246,7 +246,6 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
           
           .pkl-faq-categories-sidebar {
             position: static;
-            flex-direction: row !important; /* Override column to row on mobile */
             overflow-x: auto;
             white-space: nowrap;
             padding: var(--foundation-space-4) var(--foundation-space-6);
