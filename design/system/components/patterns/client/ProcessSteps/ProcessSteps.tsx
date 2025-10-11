@@ -14,6 +14,7 @@ export interface ProcessStep {
   title: string;
   description: string;
   icon?: React.ReactElement;
+  backgroundImage?: string;
 }
 
 export interface ProcessStepsContent {
@@ -123,7 +124,12 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
               variant="elevated"
               padding="lg"
               style={{
-                background: 'rgba(255, 255, 255, 0.05)',
+                background: steps[activeStep]?.backgroundImage 
+                  ? `linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('${steps[activeStep].backgroundImage}')`
+                  : 'rgba(255, 255, 255, 0.05)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
                 backdropFilter: 'blur(20px)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 borderRadius: 'var(--foundation-radius-xl)',
