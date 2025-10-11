@@ -13,24 +13,24 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 
 // ===== TYPE DEFINITIONS =====
 
-export interface FAQItem {
+export interface PKLFAQCategoryItem {
   id: string;
   question: string;
   answer: string;
 }
 
-export interface FAQCategory {
+export interface PKLFAQCategory {
   id: string;
   label: string;
   title: string;
   description?: string;
-  faqs: FAQItem[];
+  faqs: PKLFAQCategoryItem[];
 }
 
 export interface PKLFAQCategoriesContent {
   heading: string;
   description: string;
-  categories: FAQCategory[];
+  categories: PKLFAQCategory[];
 }
 
 export interface PKLFAQCategoriesProps {
