@@ -13,6 +13,7 @@ export * from './PKLAbout';
 export * from './PKLTeam';
 export * from './PKLValues';
 export * from './PKLServiceDetails';
+export * from './PKLContactInfo';
 export * from './PKLCTA';
 export * from './PKLPortfolio';
 export * from './OurExpertise';
