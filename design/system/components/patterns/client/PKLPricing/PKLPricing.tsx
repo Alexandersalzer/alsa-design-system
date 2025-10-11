@@ -325,7 +325,6 @@ export const PKLPricing: React.FC<PKLPricingProps> = ({
                     variant={tier.highlighted ? 'primary' : 'secondary'}
                     size="lg"
                     onClick={() => handleButtonClick(tier.name, tier.buttonHref)}
-                    href={tier.buttonHref}
                     style={{ width: '100%' }}
                   >
                     {tier.buttonText}
