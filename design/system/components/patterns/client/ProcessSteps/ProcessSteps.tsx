@@ -124,14 +124,9 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
               variant="elevated"
               padding="lg"
               style={{
-                background: steps[activeStep]?.backgroundImage 
-                  ? `linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('${steps[activeStep].backgroundImage}')`
-                  : 'rgba(255, 255, 255, 0.05)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
+                background: 'var(--surface-primary)',
                 backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
+                border: '1px solid var(--border-subtle)',
                 borderRadius: 'var(--foundation-radius-xl)',
                 boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.05)',
                 minHeight: '500px',
@@ -139,11 +134,31 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                position: 'relative'
+                position: 'relative',
+                overflow: 'hidden'
               }}
             >
+              {/* Background Image with overlay */}
+              {steps[activeStep]?.backgroundImage && (
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  backgroundImage: `url('${steps[activeStep].backgroundImage}')`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  opacity: 0.08,
+                  transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                  zIndex: 0
+                }} />
+              )}
 
-              <div style={{ textAlign: 'center', padding: 'var(--foundation-space-8)' }}>
+              <div style={{ 
+                textAlign: 'center', 
+                padding: 'var(--foundation-space-8)',
+                position: 'relative',
+                zIndex: 1
+              }}>
                 <Stack spacing="xl" align="center">
                   {/* Large Icon */}
                   {steps[activeStep]?.icon && (
