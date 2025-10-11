@@ -74,7 +74,6 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
           .contact-assessment-container {
             max-width: var(--size-page-max-width);
             margin: 0 auto;
-            padding: 0 var(--foundation-space-6);
           }
           
           .contact-assessment-card {
