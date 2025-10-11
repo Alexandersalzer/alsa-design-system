@@ -1,22 +1,20 @@
 /* ===============================================
    src/design-system/components/primitives/SegmentedControl/SegmentedControl.css
-   ENHANCED SEGMENTED CONTROL - INTEGRATED WITH DESIGN SYSTEM
+   ENHANCED SEGMENTED CONTROL - PROPER TOKENS
    =============================================== */
 
 /* ===== BASE COMPONENT ===== */
 .segmented-control {
   position: relative;
   display: inline-flex;
-  /* ENHANCED: More visible track background */
   background: var(--secondary-50);
   border: 1px solid var(--border-default);
-  /* Uses same radius as buttons for consistency with your design system */
+  /* Uses button radius for consistency */
   border-radius: var(--radius-button);
   padding: var(--foundation-space-1);
   overflow: hidden;
   isolation: isolate;
   gap: var(--foundation-space-1);
-  /* Add subtle inner shadow for depth */
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
@@ -26,11 +24,9 @@
   top: var(--foundation-space-1);
   left: var(--foundation-space-1);
   bottom: var(--foundation-space-1);
-  /* ENHANCED: Bright white background that stands out */
   background: var(--secondary-200);
-  /* Slightly smaller radius than container for visual separation */
-  border-radius: var(--radius-button-sm);
-  /* ENHANCED: More prominent shadow for the floating effect */
+  /* FIXED: Use proper button radius token, slightly smaller than container */
+  border-radius: calc(var(--radius-button) - 2px);
   box-shadow: 
     0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.08),
@@ -57,8 +53,8 @@
   min-width: 0;
   flex: 1;
   padding: var(--foundation-space-2) var(--foundation-space-3);
-  /* Match indicator radius */
-  border-radius: var(--radius-button-sm);
+  /* FIXED: Match indicator radius */
+  border-radius: calc(var(--radius-button) - 2px);
   box-sizing: border-box;
   text-align: center;
   white-space: nowrap;
@@ -72,7 +68,7 @@
   top: 50%;
   transform: translateY(-50%);
   height: 60%;
-  border-radius: var(--radius-button-sm);
+  border-radius: var(--foundation-radius-sm);
   width: 2px;
   background: var(--secondary-200);
   opacity: 0.5;
@@ -80,12 +76,10 @@
   z-index: 2;
 }
 
-/* Hide divider on last option */
 .segmented-control__option:last-child::after {
   display: none;
 }
 
-/* Hide divider when option is selected or before selected */
 .segmented-control__option[data-selected="true"]::after,
 .segmented-control__option[data-before-selected="true"]::after {
   opacity: 0;
@@ -115,8 +109,8 @@
 }
 
 .segmented-control__icon svg {
-  width: 16px;
-  height: 16px;
+  width: var(--foundation-size-icon-sm);
+  height: var(--foundation-size-icon-sm);
 }
 
 /* ===== SIZE VARIANTS ===== */
@@ -124,19 +118,20 @@
 /* Small */
 .segmented-control--sm {
   padding: 2px;
-  border-radius: var(--radius-button-sm);
+  border-radius: var(--foundation-radius-sm);
 }
 
 .segmented-control--sm .segmented-control__indicator {
   top: 2px;
   left: 2px;
   bottom: 2px;
-  border-radius: var(--radius-xs);
+  /* FIXED: Use proper foundation radius */
+  border-radius: calc(var(--foundation-radius-sm) - 1px);
 }
 
 .segmented-control--sm .segmented-control__option {
   padding: var(--foundation-space-1) var(--foundation-space-3);
-  border-radius: var(--radius-xs);
+  border-radius: calc(var(--foundation-radius-sm) - 1px);
 }
 
 .segmented-control--sm .segmented-control__option::after {
@@ -151,19 +146,20 @@
 /* Large */
 .segmented-control--lg {
   padding: var(--foundation-space-2);
-  border-radius: var(--radius-button-lg);
+  border-radius: var(--foundation-radius-lg);
 }
 
 .segmented-control--lg .segmented-control__indicator {
   top: var(--foundation-space-2);
   left: var(--foundation-space-2);
   bottom: var(--foundation-space-2);
-  border-radius: var(--radius-button);
+  /* FIXED: Use proper foundation radius */
+  border-radius: calc(var(--foundation-radius-lg) - 2px);
 }
 
 .segmented-control--lg .segmented-control__option {
   padding: var(--foundation-space-3) var(--foundation-space-4);
-  border-radius: var(--radius-button);
+  border-radius: calc(var(--foundation-radius-lg) - 2px);
 }
 
 .segmented-control--lg .segmented-control__option::after {
@@ -171,40 +167,28 @@
 }
 
 .segmented-control--lg .segmented-control__icon svg {
-  width: 18px;
-  height: 18px;
+  width: var(--foundation-size-icon-md);
+  height: var(--foundation-size-icon-md);
 }
 
 /* ===== STYLE VARIANTS ===== */
 
-/* 
-  PILL VARIANT
-  - Uses pill radius from your design system
-  - Respects your radius scale settings
-  - Best for 2-3 options with short labels
-  - Modern, friendly appearance
-*/
+/* PILL VARIANT */
 .segmented-control--pill {
-  border-radius: var(--radius-pill);
-  /* Enhanced track contrast for pill variant */
+  /* FIXED: Use proper full radius token */
+  border-radius: var(--foundation-radius-full);
   background: var(--secondary-100);
 }
 
 .segmented-control--pill .segmented-control__indicator {
-  border-radius: var(--radius-pill);
+  border-radius: var(--foundation-radius-full);
 }
 
 .segmented-control--pill .segmented-control__option {
-  border-radius: var(--radius-pill);
+  border-radius: var(--foundation-radius-full);
 }
 
-/* 
-  GHOST VARIANT
-  - Transparent background (no visible track)
-  - Only the selected item has a background
-  - Minimal, clean appearance
-  - Best for integrating into already-styled containers
-*/
+/* GHOST VARIANT */
 .segmented-control--ghost {
   background: transparent;
   border: none;
@@ -218,6 +202,8 @@
   top: 0;
   left: 0;
   bottom: 0;
+  /* FIXED: Use proper button radius */
+  border-radius: var(--radius-button);
   box-shadow: 
     0 1px 2px rgba(0, 0, 0, 0.08),
     0 0 0 1px var(--border-subtle);
@@ -225,6 +211,7 @@
 
 .segmented-control--ghost .segmented-control__option {
   padding: var(--foundation-space-2) var(--foundation-space-3);
+  border-radius: var(--radius-button);
 }
 
 /* ===== FULL WIDTH ===== */
@@ -253,7 +240,7 @@
   .segmented-control__option {
     padding: var(--foundation-space-2);
     gap: var(--foundation-space-1);
-    min-width: 44px; /* Minimum touch target */
+    min-width: 44px;
   }
   
   .segmented-control__icon svg {

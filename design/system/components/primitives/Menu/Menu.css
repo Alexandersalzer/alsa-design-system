@@ -1,6 +1,6 @@
-/* ==============================================
+/* ===============================================
    src/design-system/components/primitives/Menu/Menu.css
-   CHAKRA-INSPIRED MENU COMPONENT - FIXED POSITIONING
+   SIMPLIFIED - Uses Popover + Listbox primitives - PROPER TOKENS
    ============================================== */
 
 /* ===== MENU ROOT ===== */
@@ -16,8 +16,11 @@
   justify-content: space-between;
   gap: 8px;
   padding: 8px 16px;
+  min-height: 40px;
+  min-width: 120px;
   border: 2px solid var(--border-default);
-  border-radius: var(--radius-md);
+  /* FIXED: Use proper button radius token */
+  border-radius: var(--radius-button);
   background-color: var(--surface-default);
   color: var(--text-default);
   font-family: var(--font-body-family);
@@ -32,47 +35,71 @@
     box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
-.menu-trigger:hover {
+.menu-trigger:hover:not(:disabled):not([aria-expanded="true"]) {
   background-color: var(--surface-hover);
+  border-color: var(--border-hover);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.menu-trigger:active:not(:disabled) {
+  background-color: var(--surface-pressed);
   border-color: var(--border-hover);
 }
 
 .menu-trigger:focus-visible {
   border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(var(--accent-500-rgb), 0.2);
+  box-shadow: 
+    0 0 0 3px rgba(var(--accent-500-rgb), 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-.menu-trigger--open {
+.menu-trigger[aria-expanded="true"] {
   background-color: var(--surface-hover);
   border-color: var(--border-focus);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .menu-trigger:disabled {
   cursor: not-allowed;
   opacity: 0.6;
   background-color: var(--surface-disabled);
+  border-color: var(--border-disabled);
 }
 
-/* ===== SIZE VARIANTS ===== */
+.menu-trigger:disabled:hover {
+  box-shadow: none;
+}
+
+/* Size variants */
 .menu-trigger--sm {
+  min-height: 32px;
   padding: 6px 12px;
   font-size: 13px;
   gap: 6px;
+  min-width: 100px;
 }
 
 .menu-trigger--md {
+  min-height: 40px;
   padding: 8px 16px;
   font-size: 14px;
   gap: 8px;
+  min-width: 120px;
 }
 
 .menu-trigger--lg {
+  min-height: 48px;
   padding: 10px 20px;
   font-size: 15px;
   gap: 10px;
+  min-width: 140px;
 }
 
-/* ===== TRIGGER ICON ===== */
+/* Trigger icon */
 .menu-trigger-icon {
   display: flex;
   align-items: center;
@@ -81,68 +108,33 @@
   transition: transform var(--foundation-duration-normal) var(--foundation-ease-smooth);
 }
 
-.menu-trigger--open .menu-trigger-icon {
+.menu-trigger[aria-expanded="true"] .menu-trigger-icon {
   transform: rotate(180deg);
 }
 
-/* ===== MENU POSITIONER ===== */
-.menu-positioner {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  z-index: var(--z-dropdown-active);
-  margin-top: 4px;
-}
-
-/* ===== MENU CONTENT ===== */
+/* ===== MENU CONTENT (Popover customization) ===== */
 .menu-content {
-  position: relative;
-  min-width: fit-content;
-  width: auto;
-  max-height: 400px;
-  background-color: var(--surface-dropdown);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-dropdown);
-  box-shadow: var(--foundation-shadow-lg);
   padding: 6px;
-  overflow-y: auto;
-  z-index: var(--z-dropdown-active);
-  
-  animation: menuFadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
-  opacity: 1;
-  transform: translateZ(0);
-  will-change: transform, opacity;
 }
 
-.menu-content--closing {
-  animation: menuFadeOut var(--foundation-duration-fast) var(--foundation-ease-in);
-  pointer-events: none;
-}
-
-/* ===== SIZE VARIANTS - CONTENT ===== */
 .menu-content--sm {
   padding: 4px;
-  min-width: fit-content;
-}
-
-.menu-content--md {
-  padding: 6px;
-  min-width: fit-content;
 }
 
 .menu-content--lg {
   padding: 8px;
-  min-width: fit-content;
 }
 
 /* ===== MENU ITEM ===== */
+/* Menu items should match listbox items */
 .menu-item {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
   margin: 2px 0;
-  border-radius: 6px;
+  /* FIXED: Use responsive button radius token like listbox */
+  border-radius: var(--radius-button);
   background-color: transparent;
   color: var(--text-default);
   font-family: var(--font-body-family);
@@ -159,11 +151,14 @@
 }
 
 .menu-item:hover:not(.menu-item--disabled) {
-  background-color: var(--surface-menu-hover);
+  background-color: var(--surface-hover);
 }
 
-.menu-item--highlighted {
+.menu-item:focus-visible:not(.menu-item--disabled) {
   background-color: var(--surface-hover);
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  box-shadow: inset 0 0 0 2px var(--border-focus);
 }
 
 .menu-item--disabled {
@@ -176,7 +171,7 @@
   background-color: transparent;
 }
 
-/* ===== SIZE VARIANTS - ITEM ===== */
+/* Size variants */
 .menu-item--sm {
   padding: 6px 10px;
   font-size: 13px;
@@ -193,6 +188,31 @@
   padding: 10px 14px;
   font-size: 15px;
   gap: 10px;
+}
+
+/* Variant styles */
+.menu-item--variant-subtle:hover:not(.menu-item--disabled) {
+  background-color: var(--surface-hover);
+}
+
+.menu-item--variant-solid:hover:not(.menu-item--disabled) {
+  background-color: var(--accent-solid);
+  color: var(--text-on-accent);
+}
+
+/* ===== MENU CHECKBOX ITEM ===== */
+.menu-checkbox-item {
+  /* Inherits all menu-item styles */
+}
+
+/* ===== MENU RADIO ITEM ===== */
+.menu-radio-item {
+  /* Inherits all menu-item styles */
+}
+
+.menu-radio-item--selected {
+  background-color: var(--surface-selected);
+  font-weight: var(--foundation-weight-medium);
 }
 
 /* ===== MENU ITEM GROUP ===== */
@@ -235,54 +255,6 @@
   margin: 8px 0;
 }
 
-/* ===== MENU CHECKBOX ITEM ===== */
-.menu-checkbox-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  margin: 2px 0;
-  border-radius: 6px;
-  background-color: transparent;
-  color: var(--text-default);
-  font-family: var(--font-body-family);
-  font-size: 14px;
-  font-weight: var(--foundation-weight-normal);
-  line-height: 1.5;
-  cursor: pointer;
-  user-select: none;
-  outline: none;
-  white-space: nowrap;
-  transition: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
-}
-
-.menu-checkbox-item:hover {
-  background-color: var(--surface-hover);
-}
-
-.menu-checkbox-item--highlighted {
-  background-color: var(--surface-hover);
-}
-
-/* ===== SIZE VARIANTS - CHECKBOX ITEM ===== */
-.menu-checkbox-item--sm {
-  padding: 6px 10px;
-  font-size: 13px;
-  gap: 6px;
-}
-
-.menu-checkbox-item--md {
-  padding: 8px 12px;
-  font-size: 14px;
-  gap: 8px;
-}
-
-.menu-checkbox-item--lg {
-  padding: 10px 14px;
-  font-size: 15px;
-  gap: 10px;
-}
-
 /* ===== MENU ITEM INDICATOR ===== */
 .menu-item-indicator {
   display: flex;
@@ -314,130 +286,6 @@
   white-space: nowrap;
 }
 
-.menu-item--sm .menu-item-command {
-  font-size: 11px;
-  padding-left: 12px;
-}
-
-.menu-item--lg .menu-item-command {
-  font-size: 13px;
-  padding-left: 20px;
-}
-
-/* ===== RADIO ITEM GROUP ===== */
-.menu-radio-item-group {
-  padding: 4px 0;
-}
-
-.menu-radio-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  margin: 2px 0;
-  border-radius: 6px;
-  background-color: transparent;
-  color: var(--text-default);
-  font-family: var(--font-body-family);
-  font-size: 14px;
-  font-weight: var(--foundation-weight-normal);
-  line-height: 1.5;
-  cursor: pointer;
-  user-select: none;
-  outline: none;
-  white-space: nowrap;
-  transition: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
-}
-
-.menu-radio-item:hover {
-  background-color: var(--surface-hover);
-}
-
-.menu-radio-item--highlighted {
-  background-color: var(--surface-hover);
-}
-
-.menu-radio-item--selected {
-  background-color: var(--surface-selected);
-  font-weight: var(--foundation-weight-medium);
-}
-
-/* ===== SIZE VARIANTS - RADIO ITEM ===== */
-.menu-radio-item--sm {
-  padding: 6px 10px;
-  font-size: 13px;
-  gap: 6px;
-}
-
-.menu-radio-item--md {
-  padding: 8px 12px;
-  font-size: 14px;
-  gap: 8px;
-}
-
-.menu-radio-item--lg {
-  padding: 10px 14px;
-  font-size: 15px;
-  gap: 10px;
-}
-
-/* ===== ANIMATIONS ===== */
-@keyframes menuFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes menuFadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-}
-
-/* ===== SCROLLBAR STYLING ===== */
-.menu-content::-webkit-scrollbar {
-  width: 6px;
-}
-
-.menu-content::-webkit-scrollbar-track {
-  background: var(--surface-subtle);
-}
-
-.menu-content::-webkit-scrollbar-thumb {
-  background: var(--border-strong);
-  border-radius: 3px;
-}
-
-.menu-content::-webkit-scrollbar-thumb:hover {
-  background: var(--border-hover);
-}
-
-.menu-content {
-  scrollbar-width: thin;
-  scrollbar-color: var(--border-strong) var(--surface-subtle);
-}
-
-/* ===== VARIANT: SUBTLE ===== */
-.menu-item--variant-subtle:hover {
-  background-color: var(--surface-hover);
-}
-
-/* ===== VARIANT: SOLID ===== */
-.menu-item--variant-solid:hover {
-  background-color: var(--accent-solid);
-  color: var(--text-on-accent);
-}
-
 /* ===== COLOR PALETTE SUPPORT ===== */
 .menu-root[data-color-palette="blue"] .menu-trigger:focus-visible {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
@@ -451,53 +299,15 @@
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
 }
 
-/* ===== ARROW (Optional) ===== */
-.menu-arrow {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background: var(--surface-dropdown);
-  border: 1px solid var(--border-default);
-  transform: rotate(45deg);
-  top: -6px;
-  right: 20px;
-  z-index: -1;
-}
-
-/* ===== REDUCED MOTION SUPPORT ===== */
+/* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
   .menu-trigger,
-  .menu-content,
-  .menu-item,
-  .menu-trigger-icon {
+  .menu-trigger-icon,
+  .menu-item {
     transition: 
       background-color 0.15s ease,
       border-color 0.15s ease,
       color 0.15s ease !important;
-  }
-  
-  .menu-content {
-    animation: simpleFadeIn 0.15s ease !important;
-  }
-  
-  .menu-content--closing {
-    animation: simpleFadeOut 0.1s ease !important;
-  }
-  
-  @keyframes simpleFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes simpleFadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
-  }
-}
-
-/* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 640px) {
-  .menu-content {
-    max-height: 300px;
+    animation: none !important;
   }
 }
