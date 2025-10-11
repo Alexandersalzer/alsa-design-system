@@ -83,7 +83,6 @@ export const PKLCTA: React.FC<PKLCTAProps> = ({
         .pkl-cta-outer-container {
           max-width: var(--size-page-max-width);
           margin: 0 auto;
-          padding: 0 var(--foundation-space-6);
         }
         
         .pkl-cta-card {
