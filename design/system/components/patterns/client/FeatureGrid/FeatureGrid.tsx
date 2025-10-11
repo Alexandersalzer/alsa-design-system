@@ -119,6 +119,8 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
                   variant="circle"
                   size="md"
                   iconColor="accent"
+                  backgroundColor="var(--surface-card)"
+                  borderColor="var(--border-medium)"
                 >
                   {feature.icon as React.ReactElement}
                 </IconContainer>
