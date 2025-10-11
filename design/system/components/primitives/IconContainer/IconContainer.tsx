@@ -21,7 +21,7 @@ export interface IconContainerProps {
   variant?: IconContainerVariant;
   size?: IconContainerSize;
   iconSize?: IconSize;
-  iconColor?: IconColor;
+  iconColor?: IconColor | string; // Can be IconColor or custom CSS color
   backgroundColor?: string;
   borderColor?: string;
   borderWidth?: string;
@@ -71,10 +71,33 @@ export const IconContainer: React.FC<IconContainerProps> = ({
   const finalIconSize = iconSize || defaultIconSize;
   const borderRadius = radiusMap[variant];
 
+  // Check if iconColor is a valid IconColor or a custom CSS color string
+  const isValidIconColor = (color: string): color is IconColor => {
+    const validColors: IconColor[] = [
+      'primary', 'secondary', 'tertiary', 'disabled', 'inverse',
+      'heading', 'body', 'accent', 'success', 'warning', 'error',
+      'muted', 'subtle', 'nav-item', 'nav-item-hover', 'nav-item-selected',
+      'user-menu', 'search', 'empty-state', 'card-primary',
+      'button-primary', 'button-secondary', 'button-accent', 'button-ghost', 'button-destructive', 'button-disabled'
+    ];
+    return validColors.includes(color as IconColor);
+  };
+
+  const useCustomColor = typeof iconColor === 'string' && !isValidIconColor(iconColor);
+
   // If variant is 'none', render icon without container
   if (variant === 'none') {
+    if (useCustomColor) {
+      return (
+        <div style={{ color: iconColor as string }}>
+          {React.cloneElement(children, { 
+            style: { width: '100%', height: '100%', ...children.props.style }
+          })}
+        </div>
+      );
+    }
     return (
-      <Icon size={finalIconSize} color={iconColor}>
+      <Icon size={finalIconSize} color={iconColor as IconColor}>
         {children}
       </Icon>
     );
@@ -92,12 +115,19 @@ export const IconContainer: React.FC<IconContainerProps> = ({
         borderRadius: borderRadius,
         background: backgroundColor,
         border: `${borderWidth} solid ${borderColor}`,
-        flexShrink: 0
+        flexShrink: 0,
+        ...(useCustomColor && { color: iconColor as string })
       }}
     >
-      <Icon size={finalIconSize} color={iconColor}>
-        {children}
-      </Icon>
+      {useCustomColor ? (
+        React.cloneElement(children, { 
+          style: { width: '100%', height: '100%', ...children.props.style }
+        })
+      ) : (
+        <Icon size={finalIconSize} color={iconColor as IconColor}>
+          {children}
+        </Icon>
+      )}
     </div>
   );
 };
