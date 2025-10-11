@@ -13,7 +13,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 // ===== TYPE DEFINITIONS =====
 
-export interface Testimonial {
+export interface PKLTestimonial {
   id: string;
   quote: string;
   author: string;
@@ -25,7 +25,7 @@ export interface PKLTestimonialsContent {
   label?: string;
   heading: string;
   description: string;
-  testimonials: Testimonial[];
+  testimonials: PKLTestimonial[];
 }
 
 export interface PKLTestimonialsProps {
