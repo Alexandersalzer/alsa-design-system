@@ -224,6 +224,32 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
           line-height: 1.75;
         }
         
+        .pkl-faq-category-dots {
+          display: none;
+          justify-content: center;
+          gap: var(--foundation-space-2);
+          margin-top: var(--foundation-space-4);
+          padding: 0 var(--foundation-space-4);
+        }
+        
+        .pkl-faq-category-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: var(--radius-full);
+          background: var(--border-medium);
+          transition: all 0.3s ease;
+          cursor: pointer;
+        }
+        
+        .pkl-faq-category-dot.active {
+          background: var(--accent-500);
+          width: 24px;
+        }
+        
+        .pkl-faq-category-dot:hover {
+          background: var(--accent-400);
+        }
+        
         @media (max-width: 1024px) {
           .pkl-faq-categories-content-grid {
             grid-template-columns: 1fr;
@@ -238,6 +264,8 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
             padding: var(--foundation-space-4);
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
+            scroll-snap-type: x mandatory; /* Snap scrolling */
+            scroll-behavior: smooth;
           }
           
           .pkl-faq-categories-sidebar::-webkit-scrollbar {
@@ -247,6 +275,11 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
           .pkl-faq-category-button {
             flex-shrink: 0;
             white-space: nowrap;
+            scroll-snap-align: center; /* Snap to center */
+          }
+          
+          .pkl-faq-category-dots {
+            display: flex; /* Show dots on mobile */
           }
         }
         
@@ -302,16 +335,30 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
             </div>
 
             {/* Sidebar - Category Navigation */}
-            <div className="pkl-faq-categories-sidebar">
-              {categories.map((category) => (
-                <button
-                  key={category.id}
-                  className={`pkl-faq-category-button ${activeCategory === category.id ? 'active' : ''}`}
-                  onClick={() => handleCategoryClick(category.id)}
-                >
-                  {category.label}
-                </button>
-              ))}
+            <div>
+              <div className="pkl-faq-categories-sidebar">
+                {categories.map((category) => (
+                  <button
+                    key={category.id}
+                    className={`pkl-faq-category-button ${activeCategory === category.id ? 'active' : ''}`}
+                    onClick={() => handleCategoryClick(category.id)}
+                  >
+                    {category.label}
+                  </button>
+                ))}
+              </div>
+              
+              {/* Category Dots - Only visible on mobile/tablet */}
+              <div className="pkl-faq-category-dots">
+                {categories.map((category) => (
+                  <button
+                    key={`dot-${category.id}`}
+                    className={`pkl-faq-category-dot ${activeCategory === category.id ? 'active' : ''}`}
+                    onClick={() => handleCategoryClick(category.id)}
+                    aria-label={`Go to ${category.label}`}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Main Content - FAQ Items */}
