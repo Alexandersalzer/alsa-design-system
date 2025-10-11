@@ -140,6 +140,7 @@ export const PKLPricing: React.FC<PKLPricingProps> = ({
           justify-content: center;
           gap: var(--foundation-space-2);
           margin-bottom: var(--foundation-space-2);
+          white-space: nowrap;
         }
         
         .pkl-pricing-price {
