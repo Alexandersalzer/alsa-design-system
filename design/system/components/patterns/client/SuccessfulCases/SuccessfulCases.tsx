@@ -130,36 +130,39 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
 
                   {/* Compensation and Duration - Always at bottom */}
                   {(c.compensation || c.duration) && (
-                    <div style={{ 
-                      display: 'flex', 
-                      flexDirection: 'column', 
-                      gap: 'var(--foundation-space-3)',
-                      width: '100%'
-                    }}>
-                      {c.compensation && (
-                        <div style={{
-                          padding: 'var(--foundation-space-3) var(--foundation-space-4)',
-                          background: 'var(--accent-50)',
-                          borderRadius: 'var(--foundation-radius-md)',
-                          border: '2px solid var(--accent-200)'
-                        }}>
-                          <Typography variant="body-sm" weight="bold" color="accent">
-                            Ersättning: {c.compensation}
-                          </Typography>
-                        </div>
-                      )}
-                      {c.duration && (
-                        <div style={{
-                          padding: 'var(--foundation-space-3) var(--foundation-space-4)',
-                          background: 'var(--surface-subtle)',
-                          borderRadius: 'var(--foundation-radius-md)',
-                          border: '1px solid var(--border-subtle)'
-                        }}>
-                          <Typography variant="body-sm" weight="semibold" color="secondary">
-                            Tidsram: {c.duration}
-                          </Typography>
-                        </div>
-                      )}
+                    <div style={{ width: '100%' }}>
+                      <Stack spacing="sm" align="center">
+                        {c.compensation && (
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: 'var(--foundation-space-2)'
+                          }}>
+                            <Typography variant="body-sm" weight="medium" color="secondary">
+                              Ersättning:
+                            </Typography>
+                            <Typography variant="body-sm" weight="bold" color="accent">
+                              {c.compensation}
+                            </Typography>
+                          </div>
+                        )}
+                        {c.duration && (
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: 'var(--foundation-space-2)'
+                          }}>
+                            <Typography variant="body-sm" weight="medium" color="secondary">
+                              Tidsram:
+                            </Typography>
+                            <Typography variant="body-sm" weight="bold" color="secondary">
+                              {c.duration}
+                            </Typography>
+                          </div>
+                        )}
+                      </Stack>
                     </div>
                   )}
                 </div>
