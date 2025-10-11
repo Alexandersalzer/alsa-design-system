@@ -5,6 +5,7 @@ import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Card } from '../../../../../system/components/primitives/Card';
+import { IconContainer } from '../../../../../system/components/primitives/IconContainer';
 import React, { useState, useEffect } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
@@ -139,37 +140,15 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
               <div style={{ textAlign: 'center', padding: 'var(--foundation-space-8)' }}>
                 <Stack spacing="xl" align="center">
                   {/* Large Icon */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
-                    width: '160px',
-                    height: '160px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
-                  }}>
-                    {steps[activeStep]?.icon ? (
-                      <div style={{
-                        width: '80px',
-                        height: '80px',
-                        color: '#ffffff',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}>
-                        {steps[activeStep].icon}
-                      </div>
-                    ) : (
-                      <Typography 
-                        variant="h1" 
-                        weight="bold"
-                        style={{ color: '#ffffff', fontSize: '4rem' }}
-                      >
-                        {steps[activeStep]?.number}
-                      </Typography>
-                    )}
-                  </div>
+                  {steps[activeStep]?.icon && (
+                    <IconContainer
+                      variant="circle"
+                      size="xl"
+                      iconColor="accent"
+                    >
+                      {steps[activeStep].icon}
+                    </IconContainer>
+                  )}
 
                   {/* Content */}
                   <Stack spacing="lg" align="center">
