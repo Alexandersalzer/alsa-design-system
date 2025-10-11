@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Section } from '../../../../../system/layout/frames/section/Section';
-import { PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
+import { PlusIcon } from '@heroicons/react/24/outline';
 
 export interface PKLFAQItem {
   id: string;
@@ -131,12 +131,12 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
           width: 24px;
           height: 24px;
           flex-shrink: 0;
-          color: var(--accent-500);x
+          color: var(--accent-500);
           transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .pkl-faq-icon.expanded {
-          transform: rotate(180deg);
+          transform: rotate(45deg);
         }
         
         .pkl-faq-answer {
@@ -249,13 +249,7 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
                         <span className="pkl-faq-question-text">
                           {faq.question}
                         </span>
-                        <div className={`pkl-faq-icon ${expanded ? 'expanded' : ''}`}>
-                          {expanded ? (
-                            <MinusIcon style={{ width: '100%', height: '100%' }} />
-                          ) : (
-                            <PlusIcon style={{ width: '100%', height: '100%' }} />
-                          )}
-                        </div>
+                        <PlusIcon className={`pkl-faq-icon ${expanded ? 'expanded' : ''}`} />
                       </button>
                       
                       <div
