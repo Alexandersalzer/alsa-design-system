@@ -215,7 +215,19 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
           }
           
           .pkl-navbar-nav-item:visited {
+            color: white !important;
             transform: none;
+          }
+          
+          /* Försäkra att alla länkar alltid är vita */
+          .pkl-navbar-nav a,
+          .pkl-navbar-nav a:link,
+          .pkl-navbar-nav a:visited,
+          .pkl-navbar-nav a:hover,
+          .pkl-navbar-nav a:focus,
+          .pkl-navbar-nav a:active {
+            color: white !important;
+            text-decoration: none !important;
           }
           
           .pkl-navbar-actions {
