@@ -205,10 +205,17 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             text-decoration: none;
           }
           
-          .pkl-navbar-nav-item:hover {
+          .pkl-navbar-nav-item:hover,
+          .pkl-navbar-nav-item:visited,
+          .pkl-navbar-nav-item:active,
+          .pkl-navbar-nav-item:focus {
             opacity: 1 !important;
             color: white !important;
             transform: translateY(-2px);
+          }
+          
+          .pkl-navbar-nav-item:visited {
+            transform: none;
           }
           
           .pkl-navbar-actions {
