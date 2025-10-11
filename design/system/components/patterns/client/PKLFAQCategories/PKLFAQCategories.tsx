@@ -112,11 +112,11 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
         
         .pkl-faq-category-button {
           display: block;
-          width: 100%;
-          padding: var(--foundation-space-4);
+          width: fit-content;
+          padding: var(--foundation-space-3) var(--foundation-space-4);
           border-radius: var(--radius-md);
           color: var(--text-secondary);
-          font-size: var(--foundation-typography-size-md);
+          font-size: var(--foundation-typography-size-sm);
           font-weight: var(--font-weight-medium);
           text-decoration: none;
           text-align: left;
