@@ -3,9 +3,6 @@
 // MAIN PATTERN EXPORTS - All pattern components
 // ===============================================
 
-// ===== AUTHENTICATION PATTERNS =====
-export * from './auth';
-
 // ===== EDITOR PATTERNS (Complete Week 1-3 system) =====
 export * from './editor';
 
