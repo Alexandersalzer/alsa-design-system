@@ -98,6 +98,12 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
           align-items: start;
         }
         
+        .pkl-faq-categories-sidebar-wrapper {
+          /* Wrapper that contains sidebar + step indicator */
+          display: flex;
+          flex-direction: column;
+        }
+        
         .pkl-faq-categories-sidebar {
           position: sticky;
           top: 120px;
@@ -357,7 +363,7 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
             </div>
 
             {/* Sidebar - Category Navigation */}
-            <div>
+            <div className="pkl-faq-categories-sidebar-wrapper">
               <div className="pkl-faq-categories-sidebar">
                 {categories.map((category) => (
                   <button
