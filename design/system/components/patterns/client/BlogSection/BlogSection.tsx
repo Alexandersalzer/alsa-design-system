@@ -78,8 +78,8 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
           {/* Blog Posts Grid */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: 'var(--foundation-space-6)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gap: 'var(--foundation-space-8)',
             width: '100%',
             maxWidth: '1200px'
           }}>
@@ -114,7 +114,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
                 {post.imageUrl && (
                   <div style={{
                     width: '100%',
-                    height: '200px',
+                    height: '220px',
                     overflow: 'hidden',
                     backgroundColor: 'var(--surface-subtle)'
                   }}>
@@ -124,7 +124,14 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
                       style={{
                         width: '100%',
                         height: '100%',
-                        objectFit: 'cover'
+                        objectFit: 'cover',
+                        transition: 'transform 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
                       }}
                     />
                   </div>
@@ -132,88 +139,106 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
 
                 {/* Content */}
                 <div style={{
-                  padding: 'var(--foundation-space-6)',
+                  padding: 'var(--foundation-space-8)',
                   display: 'flex',
                   flexDirection: 'column',
-                  flex: 1,
-                  gap: 'var(--foundation-space-4)'
+                  flex: 1
                 }}>
-                  {/* Meta */}
-                  <Cluster spacing="sm" align="center" wrap>
+                  <Stack spacing="lg" align="start">
+                    {/* Category Badge */}
                     {post.category && (
                       <div style={{
-                        padding: 'var(--foundation-space-1) var(--foundation-space-3)',
+                        padding: 'var(--foundation-space-2) var(--foundation-space-4)',
                         backgroundColor: 'var(--accent-50)',
                         borderRadius: 'var(--foundation-radius-full)',
-                        border: '1px solid var(--accent-200)'
+                        border: '1px solid var(--accent-200)',
+                        display: 'inline-block'
                       }}>
-                        <Typography variant="body-xs" weight="semibold" color="accent">
-                          {post.category}
+                        <Typography variant="body-xs" weight="bold" color="accent">
+                          {post.category.toUpperCase()}
                         </Typography>
                       </div>
                     )}
-                    <Typography variant="body-xs" color="secondary">
-                      {post.date}
+
+                    {/* Title */}
+                    <Typography
+                      variant="h4"
+                      weight="bold"
+                      color="heading"
+                      style={{ 
+                        textAlign: 'left',
+                        lineHeight: '1.4',
+                        fontSize: 'clamp(1.25rem, 2vw, 1.5rem)'
+                      }}
+                    >
+                      {post.title}
                     </Typography>
-                    {post.readTime && (
-                      <>
-                        <Typography variant="body-xs" color="secondary">•</Typography>
-                        <Typography variant="body-xs" color="secondary">
-                          {post.readTime}
-                        </Typography>
-                      </>
-                    )}
-                  </Cluster>
 
-                  {/* Title */}
-                  <Typography
-                    variant="h4"
-                    weight="bold"
-                    color="heading"
-                    style={{ textAlign: 'left' }}
-                  >
-                    {post.title}
-                  </Typography>
+                    {/* Excerpt */}
+                    <Typography
+                      variant="body-md"
+                      weight="regular"
+                      color="secondary"
+                      style={{ 
+                        lineHeight: '1.8', 
+                        textAlign: 'left',
+                        flex: 1
+                      }}
+                    >
+                      {post.excerpt}
+                    </Typography>
 
-                  {/* Excerpt */}
-                  <Typography
-                    variant="body-md"
-                    weight="regular"
-                    color="secondary"
-                    style={{ 
-                      lineHeight: '1.6', 
-                      textAlign: 'left',
-                      flex: 1
-                    }}
-                  >
-                    {post.excerpt}
-                  </Typography>
-
-                  {/* Author & Read More */}
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginTop: 'auto',
-                    paddingTop: 'var(--foundation-space-4)',
-                    borderTop: '1px solid var(--border-subtle)'
-                  }}>
-                    {post.author && (
-                      <Typography variant="body-sm" weight="medium" color="secondary">
-                        {post.author}
-                      </Typography>
-                    )}
-                    {post.link && (
-                      <Typography 
-                        variant="body-sm" 
-                        weight="semibold" 
-                        color="accent"
-                        style={{ cursor: 'pointer' }}
-                      >
-                        Läs mer →
-                      </Typography>
-                    )}
-                  </div>
+                    {/* Footer Meta */}
+                    <div style={{
+                      width: '100%',
+                      paddingTop: 'var(--foundation-space-6)',
+                      borderTop: '1px solid var(--border-subtle)',
+                      marginTop: 'auto'
+                    }}>
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        flexWrap: 'wrap',
+                        gap: 'var(--foundation-space-3)'
+                      }}>
+                        {/* Date and Read Time */}
+                        <div style={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          gap: 'var(--foundation-space-2)' 
+                        }}>
+                          <Typography variant="body-sm" weight="medium" color="secondary">
+                            {post.date}
+                          </Typography>
+                          {post.readTime && (
+                            <>
+                              <Typography variant="body-sm" color="secondary">•</Typography>
+                              <Typography variant="body-sm" weight="medium" color="secondary">
+                                {post.readTime}
+                              </Typography>
+                            </>
+                          )}
+                        </div>
+                        
+                        {/* Read More Link */}
+                        {post.link && (
+                          <Typography 
+                            variant="body-sm" 
+                            weight="bold" 
+                            color="accent"
+                            style={{ 
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center'
+                            }}
+                          >
+                            Läs mer →
+                          </Typography>
+                        )}
+                      </div>
+                    </div>
+                  </Stack>
                 </div>
               </Card>
             ))}
