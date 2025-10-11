@@ -3,10 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 export interface PKLNavbarContent {
   logo?: string;
   logoText?: string;
+  logoHref?: string;
   navigationItems: Array<{
     label: string;
     href: string;
@@ -32,6 +34,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
   const { 
     logo,
     logoText = "PKL",
+    logoHref = "/",
     navigationItems,
     ctaText,
     ctaHref,
@@ -41,6 +44,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
   } = content;
 
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     // Check initial scroll position on mount
@@ -72,6 +76,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
   };
 
   const handleNavClick = (href: string) => {
+    setIsMobileMenuOpen(false); // Close mobile menu on navigation
     if (href.startsWith('#')) {
       const element = document.querySelector(href);
       if (element) {
@@ -80,6 +85,11 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
     } else {
       window.location.href = href;
     }
+  };
+
+  const handleLogoClick = () => {
+    setIsMobileMenuOpen(false);
+    window.location.href = logoHref;
   };
 
   return (
@@ -244,6 +254,106 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             flex-wrap: wrap;
           }
           
+          .pkl-navbar-hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: var(--foundation-space-2);
+            color: white;
+            z-index: 1001;
+          }
+          
+          .pkl-navbar-hamburger svg {
+            width: 28px;
+            height: 28px;
+          }
+          
+          .pkl-navbar-mobile-menu {
+            position: fixed;
+            top: 0;
+            right: ${isMobileMenuOpen ? '0' : '-100%'};
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: var(--surface-card);
+            box-shadow: var(--shadow-2xl);
+            transition: right 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+            z-index: 1002;
+            display: flex;
+            flex-direction: column;
+            padding: var(--foundation-space-8) var(--foundation-space-6);
+          }
+          
+          .pkl-navbar-mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: ${isMobileMenuOpen ? '1' : '0'};
+            pointer-events: ${isMobileMenuOpen ? 'auto' : 'none'};
+            transition: opacity 0.3s ease;
+            z-index: 1001;
+          }
+          
+          .pkl-navbar-mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--foundation-space-6);
+            padding-bottom: var(--foundation-space-4);
+            border-bottom: 1px solid var(--border-medium);
+          }
+          
+          .pkl-navbar-mobile-menu-title {
+            color: var(--text-primary);
+            font-size: var(--foundation-typography-size-lg);
+            font-weight: var(--font-weight-semibold);
+          }
+          
+          .pkl-navbar-mobile-close {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: var(--foundation-space-2);
+            color: var(--text-primary);
+          }
+          
+          .pkl-navbar-mobile-close svg {
+            width: 24px;
+            height: 24px;
+          }
+          
+          .pkl-navbar-mobile-nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--foundation-space-1);
+            flex: 1;
+          }
+          
+          .pkl-navbar-mobile-nav-item {
+            color: var(--text-primary);
+            font-size: var(--foundation-typography-size-md);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            padding: var(--foundation-space-4);
+            border-radius: var(--radius-md);
+            transition: background 0.2s ease;
+            text-decoration: none;
+          }
+          
+          .pkl-navbar-mobile-nav-item:hover {
+            background: var(--surface-muted);
+          }
+          
+          .pkl-navbar-mobile-cta {
+            margin-top: var(--foundation-space-4);
+            padding-top: var(--foundation-space-4);
+            border-top: 1px solid var(--border-medium);
+          }
+          
           @media (max-width: 768px) {
             .pkl-navbar-container {
               padding: var(--foundation-space-2);
@@ -259,6 +369,14 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             }
             
             .pkl-navbar-nav {
+              display: none;
+            }
+            
+            .pkl-navbar-hamburger {
+              display: block;
+            }
+            
+            .pkl-navbar-actions {
               display: none;
             }
             
@@ -297,7 +415,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             {/* Top Bar - Always Visible */}
             <div className="pkl-navbar-top">
               {/* Logo */}
-              <div className="pkl-navbar-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <div className="pkl-navbar-logo" onClick={handleLogoClick}>
                 {logo && <img src={logo} alt={logoText} />}
                 <span>{logoText}</span>
               </div>
@@ -315,7 +433,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
                 ))}
               </nav>
               
-              {/* CTA Button */}
+              {/* CTA Button - Desktop */}
               <div className="pkl-navbar-actions">
                 <Button 
                   variant="primary" 
@@ -325,6 +443,15 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
                   {ctaText}
                 </Button>
               </div>
+              
+              {/* Hamburger Menu - Mobile */}
+              <button 
+                className="pkl-navbar-hamburger" 
+                onClick={() => setIsMobileMenuOpen(true)}
+                aria-label="Open menu"
+              >
+                <Bars3Icon />
+              </button>
             </div>
             
             {/* Hero Content - Fades Out on Scroll */}
@@ -352,6 +479,49 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
               </div>
             )}
           </div>
+        </div>
+      </div>
+      
+      {/* Mobile Menu Overlay */}
+      <div 
+        className="pkl-navbar-mobile-overlay" 
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
+      
+      {/* Mobile Menu */}
+      <div className="pkl-navbar-mobile-menu">
+        <div className="pkl-navbar-mobile-menu-header">
+          <span className="pkl-navbar-mobile-menu-title">{logoText}</span>
+          <button 
+            className="pkl-navbar-mobile-close"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-label="Close menu"
+          >
+            <XMarkIcon />
+          </button>
+        </div>
+        
+        <nav className="pkl-navbar-mobile-nav">
+          {navigationItems.map((item, index) => (
+            <a
+              key={index}
+              className="pkl-navbar-mobile-nav-item"
+              onClick={() => handleNavClick(item.href)}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        
+        <div className="pkl-navbar-mobile-cta">
+          <Button 
+            variant="primary" 
+            size="md"
+            onClick={handleCtaClick}
+            style={{ width: '100%' }}
+          >
+            {ctaText}
+          </Button>
         </div>
       </div>
     </>
