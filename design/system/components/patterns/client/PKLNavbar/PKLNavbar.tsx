@@ -196,7 +196,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
           }
           
           .pkl-navbar-nav-item {
-            color: white !important;
+            color: white;
             font-size: var(--foundation-typography-size-md);
             font-weight: var(--font-weight-medium);
             cursor: pointer;
@@ -209,25 +209,13 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
           .pkl-navbar-nav-item:visited,
           .pkl-navbar-nav-item:active,
           .pkl-navbar-nav-item:focus {
-            opacity: 1 !important;
-            color: white !important;
+            opacity: 1;
+            color: white;
             transform: translateY(-2px);
           }
           
           .pkl-navbar-nav-item:visited {
-            color: white !important;
             transform: none;
-          }
-          
-          /* Försäkra att alla länkar alltid är vita */
-          .pkl-navbar-nav a,
-          .pkl-navbar-nav a:link,
-          .pkl-navbar-nav a:visited,
-          .pkl-navbar-nav a:hover,
-          .pkl-navbar-nav a:focus,
-          .pkl-navbar-nav a:active {
-            color: white !important;
-            text-decoration: none !important;
           }
           
           .pkl-navbar-actions {
