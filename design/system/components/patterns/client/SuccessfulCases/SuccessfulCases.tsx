@@ -70,88 +70,96 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
             )}
           </Stack>
 
-          {/* Cases */}
-          <Cluster spacing="lg" justify="center" wrap>
+          {/* Cases - Grid layout for equal heights */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 'var(--foundation-space-6)',
+            width: '100%',
+            maxWidth: '1200px'
+          }}>
             {cases.map((c) => (
               <Card
                 key={c.id}
                 variant="solid"
                 radius="lg"
                 style={{
-                  width: '300px',
-                  minHeight: '300px',
                   display: 'flex',
                   flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
                   padding: 'var(--foundation-space-6)',
                   textAlign: 'center',
+                  height: '100%'
                 }}
               >
-                {c.icon && (
-                  <div
-                    style={{
-                      marginBottom: 'var(--foundation-space-4)',
-                    }}
-                  >
-                    <Icon size="lg">{c.icon}</Icon>
-                  </div>
-                )}
-
-                <Typography
-                  variant="display-lg"
-                  weight="semibold"
-                  color="heading"
-                >
-                  {c.title}
-                </Typography>
-
-                <Typography
-                  variant="body-md"
-                  weight="regular"
-                  color="secondary"
-                  style={{ marginTop: 'var(--foundation-space-2)' }}
-                >
-                  {c.description}
-                </Typography>
-
-                {(c.compensation || c.duration) && (
-                  <div style={{ 
-                    marginTop: 'var(--foundation-space-4)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 'var(--foundation-space-2)',
-                    width: '100%'
-                  }}>
-                    {c.compensation && (
+                <Stack spacing="md" align="center" style={{ flex: 1, justifyContent: 'space-between' }}>
+                  {/* Icon and Content */}
+                  <Stack spacing="md" align="center">
+                    {c.icon && (
                       <div style={{
-                        padding: 'var(--foundation-space-2) var(--foundation-space-3)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '64px',
+                        height: '64px',
+                        borderRadius: 'var(--foundation-radius-full)',
                         background: 'var(--accent-50)',
-                        borderRadius: 'var(--foundation-radius-md)',
-                        border: '1px solid var(--accent-200)'
+                        border: '2px solid var(--accent-200)'
                       }}>
-                        <Typography variant="body-sm" weight="semibold" color="accent">
-                          Ersättning: {c.compensation}
-                        </Typography>
+                        <Icon size="lg" color="accent">{c.icon}</Icon>
                       </div>
                     )}
-                    {c.duration && (
-                      <div style={{
-                        padding: 'var(--foundation-space-2) var(--foundation-space-3)',
-                        background: 'var(--surface-subtle)',
-                        borderRadius: 'var(--foundation-radius-md)',
-                        border: '1px solid var(--border-subtle)'
-                      }}>
-                        <Typography variant="body-sm" weight="medium" color="secondary">
-                          Tidsram: {c.duration}
-                        </Typography>
-                      </div>
-                    )}
-                  </div>
-                )}
+
+                    <Typography
+                      variant="h4"
+                      weight="bold"
+                      color="heading"
+                    >
+                      {c.title}
+                    </Typography>
+
+                    <Typography
+                      variant="body-md"
+                      weight="regular"
+                      color="secondary"
+                      style={{ lineHeight: '1.6' }}
+                    >
+                      {c.description}
+                    </Typography>
+                  </Stack>
+
+                  {/* Compensation and Duration - Always at bottom */}
+                  {(c.compensation || c.duration) && (
+                    <Stack spacing="sm" style={{ width: '100%' }}>
+                      {c.compensation && (
+                        <div style={{
+                          padding: 'var(--foundation-space-3) var(--foundation-space-4)',
+                          background: 'var(--accent-50)',
+                          borderRadius: 'var(--foundation-radius-md)',
+                          border: '2px solid var(--accent-200)'
+                        }}>
+                          <Typography variant="body-sm" weight="bold" color="accent">
+                            Ersättning: {c.compensation}
+                          </Typography>
+                        </div>
+                      )}
+                      {c.duration && (
+                        <div style={{
+                          padding: 'var(--foundation-space-3) var(--foundation-space-4)',
+                          background: 'var(--surface-subtle)',
+                          borderRadius: 'var(--foundation-radius-md)',
+                          border: '1px solid var(--border-subtle)'
+                        }}>
+                          <Typography variant="body-sm" weight="semibold" color="secondary">
+                            Tidsram: {c.duration}
+                          </Typography>
+                        </div>
+                      )}
+                    </Stack>
+                  )}
+                </Stack>
               </Card>
             ))}
-          </Cluster>
+          </div>
 
           {/* CTA */}
           <Stack spacing="lg" align="center">

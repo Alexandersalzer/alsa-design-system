@@ -10,7 +10,6 @@ export * from './PKLNavbar';
 export * from './PKLFooter';
 export * from './PKLFAQ';
 export * from './PKLAbout';
-export * from './PKLTestimonials';
 export * from './OurExpertise';
 export * from './WhyChooseUs';
 export * from './ContactAssessment';
