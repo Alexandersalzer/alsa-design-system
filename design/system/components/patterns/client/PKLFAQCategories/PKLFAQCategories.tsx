@@ -119,7 +119,7 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
           font-size: var(--foundation-typography-size-md);
           font-weight: var(--font-weight-medium);
           text-decoration: none;
-          text-align: left;
+          text-align: center; /* Center align text */
           transition: all 0.2s ease;
           cursor: pointer;
           border: 1px solid transparent;
@@ -266,12 +266,36 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
             padding: var(--foundation-space-3) var(--foundation-space-6); /* Larger touch target */
             font-size: var(--foundation-typography-size-sm);
             border-radius: var(--radius-full); /* Pill shape for clarity */
+            text-align: center; /* Center align on mobile */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--foundation-space-2);
           }
           
           .pkl-faq-category-button.active {
             background: var(--accent-500); /* More visible active state */
             color: white;
             border-color: var(--accent-500);
+          }
+          
+          /* Step indicator dots */
+          .pkl-faq-category-button::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: transparent;
+            transition: all 0.2s ease;
+          }
+          
+          .pkl-faq-category-button.active::after {
+            background: white; /* White dot for active */
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+          }
+          
+          .pkl-faq-category-button:not(.active)::after {
+            background: var(--border-medium); /* Gray dot for inactive */
           }
         }
         
