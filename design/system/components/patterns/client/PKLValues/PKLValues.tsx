@@ -48,6 +48,13 @@ export const PKLValues: React.FC<PKLValuesProps> = ({
     values
   } = content;
 
+  // Dynamisk grid baserat på antal värderingar
+  const gridColumns = values.length === 3 
+    ? 'repeat(3, 1fr)'  // 3 kort = 3 kolumner
+    : values.length === 4 
+    ? 'repeat(2, 1fr)'  // 4 kort = 2x2
+    : 'repeat(auto-fit, minmax(280px, 1fr))'; // Annat = auto
+
   return (
     <>
       <style>{`
@@ -65,7 +72,7 @@ export const PKLValues: React.FC<PKLValuesProps> = ({
         
         .pkl-values-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          grid-template-columns: ${gridColumns};
           gap: var(--foundation-space-8);
         }
         
@@ -87,9 +94,16 @@ export const PKLValues: React.FC<PKLValuesProps> = ({
           margin: 0;
         }
         
+        @media (max-width: 1024px) {
+          .pkl-values-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: var(--foundation-space-6);
+          }
+        }
+        
         @media (max-width: 768px) {
           .pkl-values-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr !important;
             gap: var(--foundation-space-6);
           }
           
