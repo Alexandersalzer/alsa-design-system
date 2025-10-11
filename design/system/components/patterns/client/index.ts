@@ -28,6 +28,7 @@ export * from './AboutWithStats';
 export * from './AboutUs';
 export * from './SuccessfulCases';
 export * from './ServicesSection';
+export * from './BlogSection';
 export * from './CTA';
 export * from './DoubleContactForm';
 export * from './DualFeatureSection';
