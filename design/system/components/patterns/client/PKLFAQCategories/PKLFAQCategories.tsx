@@ -88,19 +88,19 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
           text-align: center;
           max-width: var(--size-page-content-max-width);
           margin: 0 auto var(--foundation-space-12);
+          grid-column: 1 / -1; /* Span both columns */
         }
         
         .pkl-faq-categories-content-grid {
           display: grid;
           grid-template-columns: 280px 1fr;
           gap: var(--foundation-space-12);
-          align-items: stretch; /* Changed from start to stretch */
+          align-items: start;
         }
         
         .pkl-faq-categories-sidebar {
           position: sticky;
           top: 120px;
-          align-self: start; /* Stick to top but stretch full height */
           display: flex;
           flex-direction: column;
           gap: var(--foundation-space-2);
@@ -108,8 +108,6 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
           border: 1px solid var(--border-medium);
           border-radius: var(--radius-lg);
           padding: var(--foundation-space-6);
-          height: fit-content; /* Adjust to content but maintain full visual height */
-          max-height: calc(100vh - 140px); /* Don't exceed viewport */
         }
         
         .pkl-faq-category-button {
@@ -277,32 +275,32 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
         }}
       >
         <div className="pkl-faq-categories-outer-container">
-          {/* Main Header */}
-          <div className="pkl-faq-categories-main-header">
-            <Stack spacing="md" align="center">
-              <Typography 
-                variant={textScale === 'lg' ? 'display-md' : textScale === 'sm' ? 'h3' : 'h2'}
-                weight="semibold"
-                color="primary"
-                as="h1"
-              >
-                {heading}
-              </Typography>
-              
-              <Typography 
-                variant={textScale === 'lg' ? 'body-xl' : textScale === 'sm' ? 'body-sm' : 'body-md'}
-                color="secondary"
-                style={{
-                  maxWidth: 'var(--size-page-narrow-max-width)'
-                }}
-              >
-                {description}
-              </Typography>
-            </Stack>
-          </div>
-
-          {/* Content Grid - Sidebar + Main */}
+          {/* Content Grid - Header + Sidebar + Main */}
           <div className="pkl-faq-categories-content-grid">
+            {/* Main Header - Spans both columns */}
+            <div className="pkl-faq-categories-main-header">
+              <Stack spacing="md" align="center">
+                <Typography 
+                  variant={textScale === 'lg' ? 'display-md' : textScale === 'sm' ? 'h3' : 'h2'}
+                  weight="semibold"
+                  color="primary"
+                  as="h1"
+                >
+                  {heading}
+                </Typography>
+                
+                <Typography 
+                  variant={textScale === 'lg' ? 'body-xl' : textScale === 'sm' ? 'body-sm' : 'body-md'}
+                  color="secondary"
+                  style={{
+                    maxWidth: 'var(--size-page-narrow-max-width)'
+                  }}
+                >
+                  {description}
+                </Typography>
+              </Stack>
+            </div>
+
             {/* Sidebar - Category Navigation */}
             <div className="pkl-faq-categories-sidebar">
               {categories.map((category) => (
