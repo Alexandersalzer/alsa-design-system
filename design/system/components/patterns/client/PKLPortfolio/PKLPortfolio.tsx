@@ -80,6 +80,7 @@ export const PKLPortfolio: React.FC<PKLPortfolioProps> = ({
         .pkl-portfolio-outer-container {
           max-width: var(--size-page-max-width);
           margin: 0 auto;
+          padding: 0 var(--foundation-space-6);
         }
         
         .pkl-portfolio-header {
@@ -145,6 +146,7 @@ export const PKLPortfolio: React.FC<PKLPortfolioProps> = ({
           border: 1px solid var(--border-medium);
           border-radius: var(--radius-lg);
           padding: var(--foundation-space-8);
+          min-height: 500px;
         }
         
         .pkl-portfolio-case-image {
