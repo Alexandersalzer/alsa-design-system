@@ -94,12 +94,13 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
           display: grid;
           grid-template-columns: 280px 1fr;
           gap: var(--foundation-space-12);
-          align-items: start;
+          align-items: stretch; /* Changed from start to stretch */
         }
         
         .pkl-faq-categories-sidebar {
           position: sticky;
           top: 120px;
+          align-self: start; /* Stick to top but stretch full height */
           display: flex;
           flex-direction: column;
           gap: var(--foundation-space-2);
@@ -107,6 +108,8 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
           border: 1px solid var(--border-medium);
           border-radius: var(--radius-lg);
           padding: var(--foundation-space-6);
+          height: fit-content; /* Adjust to content but maintain full visual height */
+          max-height: calc(100vh - 140px); /* Don't exceed viewport */
         }
         
         .pkl-faq-category-button {
