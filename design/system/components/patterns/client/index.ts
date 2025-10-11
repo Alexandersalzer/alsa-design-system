@@ -9,6 +9,7 @@ export * from './PKLHero';
 export * from './PKLNavbar';
 export * from './PKLFooter';
 export * from './PKLFAQ';
+export * from './PKLFAQCategories';
 export * from './PKLAbout';
 export * from './PKLTeam';
 export * from './PKLValues';
