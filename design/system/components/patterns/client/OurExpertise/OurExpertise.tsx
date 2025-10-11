@@ -6,7 +6,7 @@ import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Section } from '../../../../../system/layout/frames/section/Section';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
 import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
-import { ArrowRightIcon, ChartBarIcon, CogIcon, DocumentTextIcon, UserGroupIcon } from '@heroicons/react/24/outline';
+import { ChartBarIcon, CogIcon, DocumentTextIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 
 export interface ServiceCard {
   icon: React.ReactNode;
@@ -65,10 +65,6 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
             flex-direction: column;
           }
           
-          .service-card:hover {
-            transform: scale(1.02);
-            box-shadow: var(--shadow-md);
-          }
           
           .service-card-icon {
             margin-bottom: var(--foundation-space-4);
@@ -86,19 +82,6 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
             margin-bottom: var(--foundation-space-4);
           }
           
-          .service-card-arrow {
-            position: absolute;
-            top: var(--foundation-space-4);
-            right: var(--foundation-space-4);
-            opacity: 0.6;
-            transition: all var(--foundation-motion-fast);
-            color: var(--text-tertiary);
-          }
-          
-          .service-card:hover .service-card-arrow {
-            opacity: 1;
-            transform: translateX(2px);
-          }
           
           .our-expertise-grid {
             gap: var(--foundation-space-6);
@@ -184,12 +167,6 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
           >
             {services.map((service, index) => (
               <div key={index} className="service-card">
-                {/* Arrow Icon */}
-                <ArrowRightIcon 
-                  className="service-card-arrow"
-                  style={{ width: '20px', height: '20px' }}
-                />
-                
                 {/* Service Icon */}
                 <div className="service-card-icon">
                   <Icon size="md" color="primary">
