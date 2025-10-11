@@ -224,6 +224,11 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
           line-height: 1.75;
         }
         
+        /* Step indicator - hidden on desktop */
+        .pkl-faq-step-indicator {
+          display: none;
+        }
+        
         @media (max-width: 1024px) {
           .pkl-faq-categories-content-grid {
             grid-template-columns: 1fr;
@@ -267,10 +272,6 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
             font-size: var(--foundation-typography-size-sm);
             border-radius: var(--radius-full); /* Pill shape for clarity */
             text-align: center; /* Center align on mobile */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--foundation-space-2);
           }
           
           .pkl-faq-category-button.active {
@@ -279,23 +280,28 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
             border-color: var(--accent-500);
           }
           
-          /* Step indicator dots */
-          .pkl-faq-category-button::after {
-            content: '';
-            width: 6px;
-            height: 6px;
+          /* Step indicator - visible on mobile */
+          .pkl-faq-step-indicator {
+            display: flex !important; /* Show on mobile */
+            justify-content: center;
+            align-items: center;
+            gap: var(--foundation-space-3);
+            padding: var(--foundation-space-4) 0 var(--foundation-space-2);
+          }
+          
+          .pkl-faq-step-dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: transparent;
-            transition: all 0.2s ease;
+            background: var(--border-medium);
+            transition: all 0.3s ease;
+            cursor: pointer;
           }
           
-          .pkl-faq-category-button.active::after {
-            background: white; /* White dot for active */
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-          }
-          
-          .pkl-faq-category-button:not(.active)::after {
-            background: var(--border-medium); /* Gray dot for inactive */
+          .pkl-faq-step-dot.active {
+            background: var(--accent-500);
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+            transform: scale(1.3);
           }
         }
         
@@ -351,16 +357,28 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
             </div>
 
             {/* Sidebar - Category Navigation */}
-            <div className="pkl-faq-categories-sidebar">
-              {categories.map((category) => (
-                <button
-                  key={category.id}
-                  className={`pkl-faq-category-button ${activeCategory === category.id ? 'active' : ''}`}
-                  onClick={() => handleCategoryClick(category.id)}
-                >
-                  {category.label}
-                </button>
-              ))}
+            <div>
+              <div className="pkl-faq-categories-sidebar">
+                {categories.map((category) => (
+                  <button
+                    key={category.id}
+                    className={`pkl-faq-category-button ${activeCategory === category.id ? 'active' : ''}`}
+                    onClick={() => handleCategoryClick(category.id)}
+                  >
+                    {category.label}
+                  </button>
+                ))}
+              </div>
+              {/* Step indicator dots - only visible on mobile/tablet */}
+              <div className="pkl-faq-step-indicator">
+                {categories.map((category) => (
+                  <div
+                    key={`dot-${category.id}`}
+                    className={`pkl-faq-step-dot ${activeCategory === category.id ? 'active' : ''}`}
+                    onClick={() => handleCategoryClick(category.id)}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Main Content - FAQ Items */}
