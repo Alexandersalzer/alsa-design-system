@@ -104,7 +104,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   <Stack spacing="md" align="start">
                     {service.icon && (
                       <IconContainer
-                        variant="rounded"
+                        variant="circle"
                         size="md"
                         iconColor="accent"
                       >

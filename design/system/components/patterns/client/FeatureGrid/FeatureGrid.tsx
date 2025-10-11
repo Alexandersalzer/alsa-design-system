@@ -116,12 +116,9 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               {/* Icon - Only show if icon is provided */}
               {feature.icon && (
                 <IconContainer
-                  variant="soft-rounded"
+                  variant="circle"
                   size="md"
-                  iconColor="white"
-                  backgroundColor="var(--accent-500)"
-                  borderColor="transparent"
-                  borderWidth="0"
+                  iconColor="accent"
                 >
                   {feature.icon as React.ReactElement}
                 </IconContainer>
