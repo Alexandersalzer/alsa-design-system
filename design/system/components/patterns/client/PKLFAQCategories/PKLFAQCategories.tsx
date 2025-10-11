@@ -112,11 +112,11 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
         
         .pkl-faq-category-button {
           display: block;
-          width: fit-content;
-          padding: var(--foundation-space-3) var(--foundation-space-4);
+          width: 100%;
+          padding: var(--foundation-space-4);
           border-radius: var(--radius-md);
           color: var(--text-secondary);
-          font-size: var(--foundation-typography-size-sm);
+          font-size: var(--foundation-typography-size-md);
           font-weight: var(--font-weight-medium);
           text-decoration: none;
           text-align: left;
@@ -224,8 +224,8 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
           line-height: 1.75;
         }
         
-        .pkl-faq-category-dots {
-          display: none;
+        .pkl-faq-category-indicators {
+          display: none; /* Hidden on desktop */
           justify-content: center;
           gap: var(--foundation-space-2);
           margin-top: var(--foundation-space-4);
@@ -235,7 +235,7 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
         .pkl-faq-category-dot {
           width: 8px;
           height: 8px;
-          border-radius: var(--radius-full);
+          border-radius: 50%;
           background: var(--border-medium);
           transition: all 0.3s ease;
           cursor: pointer;
@@ -244,6 +244,7 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
         .pkl-faq-category-dot.active {
           background: var(--accent-500);
           width: 24px;
+          border-radius: var(--radius-full);
         }
         
         .pkl-faq-category-dot:hover {
@@ -264,8 +265,6 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
             padding: var(--foundation-space-4);
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
-            scroll-snap-type: x mandatory; /* Snap scrolling */
-            scroll-behavior: smooth;
           }
           
           .pkl-faq-categories-sidebar::-webkit-scrollbar {
@@ -275,11 +274,10 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
           .pkl-faq-category-button {
             flex-shrink: 0;
             white-space: nowrap;
-            scroll-snap-align: center; /* Snap to center */
           }
           
-          .pkl-faq-category-dots {
-            display: flex; /* Show dots on mobile */
+          .pkl-faq-category-indicators {
+            display: flex; /* Show on mobile */
           }
         }
         
@@ -348,14 +346,14 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
                 ))}
               </div>
               
-              {/* Category Dots - Only visible on mobile/tablet */}
-              <div className="pkl-faq-category-dots">
+              {/* Category Indicators (dots) - Only visible on mobile/tablet */}
+              <div className="pkl-faq-category-indicators">
                 {categories.map((category) => (
                   <button
                     key={`dot-${category.id}`}
                     className={`pkl-faq-category-dot ${activeCategory === category.id ? 'active' : ''}`}
                     onClick={() => handleCategoryClick(category.id)}
-                    aria-label={`Go to ${category.label}`}
+                    aria-label={category.label}
                   />
                 ))}
               </div>
