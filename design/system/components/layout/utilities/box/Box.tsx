@@ -1,5 +1,5 @@
 // ===============================================
-// src/design-system/components/primitives/Box/Box.tsx
+// design/system/components/layout/utilities/box/Box.tsx
 // Box - The foundational layout primitive
 // ===============================================
 
