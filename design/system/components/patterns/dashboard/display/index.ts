@@ -3,6 +3,4 @@
 // DISPLAY PATTERNS - Info guides, notifications, etc.
 // ===============================================
 
-export * from './InfoGuide';
-export * from './Notification';
 export * from './CompanyLogo';
