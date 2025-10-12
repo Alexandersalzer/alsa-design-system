@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { SelectionCard } from './SelectionCard';
-import { Grid } from '../page/Grid';
+import { Grid } from '../../../layout';
 import { Label, Body } from '../../../primitives/Typography';
 import { cn } from '../../../../lib/utils';
 
