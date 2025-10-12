@@ -43,6 +43,7 @@ export type TypographyColor =
   | 'button-primary'    // --text-button-primary (white, primary button)
   | 'button-secondary'  // --text-button-secondary (black, secondary button)
   | 'button-accent'     // --text-button-accent (white, accent button)
+  | 'button-destructive'
   | 'button-disabled'   // --text-button-primary-disabled (gray-400, disabled button)
   
   // === COMPONENT-SPECIFIC COLORS ===
@@ -117,7 +118,9 @@ const getColorValue = (color: TypographyColor): string => {
     'button-primary': 'var(--text-button-primary)',
     'button-secondary': 'var(--text-button-secondary)',
     'button-accent': 'var(--text-button-accent)',
+    'button-destructive': 'var(--text-button-destructive)',
     'button-disabled': 'var(--text-button-primary-disabled)',
+
     
     // Component-specific colors
     'card-primary': 'var(--text-card-primary)',
