@@ -50,23 +50,18 @@
 @import './components/patterns/dashboard/Header/Header.css';
 @import './components/patterns/dashboard/auth/AuthContainer.css';
 @import './components/patterns/dashboard/auth/AuthForm.css';
-@import './components/patterns/dashboard/auth/AuthField.css';
-@import './components/patterns/dashboard/auth/AuthCard.css';
+
 @import './components/patterns/dashboard/layout/AppLayout.css';
-@import './components/patterns/dashboard/layout/StaticPageLayout.css';
+
 @import './components/patterns/dashboard/layout/PropertyGroup.css';
 @import './components/patterns/dashboard/page/PageContent.css';
-@import './components/patterns/dashboard/page/Grid.css';
 @import './components/patterns/dashboard/page/PageHeader.css';
-@import './components/patterns/dashboard/page/LayoutUtilities.css';
+/*@import './components/patterns/dashboard/page/LayoutUtilities.css';*/
 @import './components/patterns/dashboard/selection/SelectionCard.css';
 @import './components/patterns/dashboard/selection/CheckboxCard.css';
 @import './components/patterns/dashboard/selection/DesignRadioCard.css';
 @import './components/patterns/dashboard/selection/RadioCard.css';
-@import './components/patterns/dashboard/editor/EditorShell/EditorShell.css';
-@import './components/patterns/dashboard/editor/EditorTabs/EditorTabs.css';
-@import './components/patterns/dashboard/editor/EditorPanel/EditorPanel.css';
-@import './components/patterns/dashboard/editor/EditorSection/EditorSection.css';
+
 @import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
 @import './components/patterns/client/FAQ/FAQ.css';
 @import './components/patterns/client/Hero/Hero.css';
