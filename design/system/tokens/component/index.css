@@ -7,15 +7,14 @@
 @import '../semantic/index.css';
 
 /* Import all component token files */
-@import './alert.css';
+
 @import './button.css';
 @import './card.css';
 @import './input.css';
 @import './navigation.css';
 @import './modal.css';
-@import './toast.css';
+@import './notifications.css';
 @import './table.css';
-@import './tag.css';
 @import './loading.css';
 @import './divider.css';
 @import './layout.css';
@@ -27,3 +26,8 @@
 @import './editor.css';
 @import './tabs.css';
 @import './menu.css';
+
+/*
+@import './alert.css';
+@import './tag.css';
+@import './toast.css'; */

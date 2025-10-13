@@ -1,0 +1,106 @@
+/* ===============================================
+   design/system/components/layout/utilities/divider/Divider.css
+   Divider Component Styles
+   =============================================== */
+
+/* ===== BASE DIVIDER ===== */
+.divider {
+  border: none;
+  background: none;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* ===== HORIZONTAL DIVIDER (DEFAULT) ===== */
+.divider--horizontal {
+  width: 100%;
+  height: 0;
+  border-top: var(--size-divider-thickness) solid var(--border-divider);
+}
+
+/* ===== VERTICAL DIVIDER ===== */
+.divider--vertical {
+  width: 0;
+  height: 100%;
+  border-left: var(--size-divider-thickness) solid var(--border-divider);
+  margin: 0 var(--space-divider-margin-md);
+}
+
+/* ===== WEIGHT VARIANTS ===== */
+.divider--default {
+  border-color: var(--border-divider);
+}
+
+.divider--strong {
+  border-color: var(--border-divider-strong);
+  border-width: var(--size-divider-thickness-strong);
+}
+
+.divider--emphasis {
+  border-color: var(--border-divider-emphasis);
+  border-width: var(--size-divider-thickness-strong);
+}
+
+/* ===== SPACING VARIANTS (for horizontal) ===== */
+.divider--spacing-sm {
+  margin-top: var(--space-divider-margin-sm);
+  margin-bottom: var(--space-divider-margin-sm);
+}
+
+.divider--spacing-md {
+  margin-top: var(--space-divider-margin-md);
+  margin-bottom: var(--space-divider-margin-md);
+}
+
+.divider--spacing-lg {
+  margin-top: var(--space-divider-margin-lg);
+  margin-bottom: var(--space-divider-margin-lg);
+}
+
+/* ===== DIVIDER WITH LABEL ===== */
+.divider-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: var(--space-divider-text-padding);
+}
+
+.divider-container .divider {
+  flex: 1;
+  margin: 0;
+}
+
+.divider-label {
+  color: var(--text-divider);
+  font-size: var(--foundation-font-size-sm);
+  font-weight: var(--foundation-font-weight-medium);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Label positions */
+.divider-container--left .divider:first-child {
+  flex: 0;
+  width: 0;
+}
+
+.divider-container--right .divider:last-child {
+  flex: 0;
+  width: 0;
+}
+
+/* Spacing for labeled dividers */
+.divider-container--sm {
+  margin-top: var(--space-divider-margin-sm);
+  margin-bottom: var(--space-divider-margin-sm);
+}
+
+.divider-container--md {
+  margin-top: var(--space-divider-margin-md);
+  margin-bottom: var(--space-divider-margin-md);
+}
+
+.divider-container--lg {
+  margin-top: var(--space-divider-margin-lg);
+  margin-bottom: var(--space-divider-margin-lg);
+}
