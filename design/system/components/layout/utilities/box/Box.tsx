@@ -1,10 +1,12 @@
 // ===============================================
-// design/system/components/layout/utilities/box/Box.tsx
+// LOCATION: design/system/components/layout/utilities/box/Box.tsx
 // Box - The foundational layout primitive
+// UPDATED: Now imports Box.css
 // ===============================================
 
 import React, { forwardRef, ElementType, ReactNode } from 'react';
-import { cn } from '../../../../lib/utils';  // Changed from '@/design/system/lib/utils'
+import { cn } from '../../../../lib/utils';
+import './Box.css';
 
 export interface BoxProps extends React.HTMLAttributes<HTMLElement> {
   /** Content to render inside the box */

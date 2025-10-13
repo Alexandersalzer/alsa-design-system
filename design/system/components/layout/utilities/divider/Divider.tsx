@@ -1,5 +1,5 @@
 // ===============================================
-// design/system/components/layout/utilities/divider/Divider.tsx
+// LOCATION: design/system/components/layout/utilities/divider/Divider.tsx
 // Divider - Visual separator component
 // ===============================================
 

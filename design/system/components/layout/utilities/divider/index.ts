@@ -1,5 +1,5 @@
 // ===============================================
-// design/system/components/layout/utilities/divider/index.ts
+// LOCATION: design/system/components/layout/utilities/divider/index.ts
 // Divider component exports
 // ===============================================
 
