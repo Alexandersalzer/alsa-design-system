@@ -1,67 +1,50 @@
-:root {
-  /* ==============================================
-     BUTTON TOKENS — CLEAN + ACCESSIBLE + CONSISTENT
-     References: src/design-system/tokens/semantic/colors.css
-     ============================================== */
-
-  /* ===== PRIMARY BUTTON =====
-     High-contrast button used for main actions.
-     Black surface, white text — always readable. */
-  --surface-button-primary: var(--interactive-primary);
-  --surface-button-primary-hover: var(--interactive-primary-hover);
-  --surface-button-primary-active: var(--interactive-primary-active);
-  --surface-button-primary-disabled: var(--interactive-primary-disabled);
-  --text-button-primary: var(--always-white);
-  --text-button-primary-disabled: var(--text-disabled);
-  --border-button-primary: var(--interactive-primary-hover);
-  --border-button-primary-focus: var(--border-focus);
-
-  /* ===== SECONDARY BUTTON =====
-     Neutral gray background with dark text — medium contrast. */
-  --surface-button-secondary: var(--interactive-secondary);
-  --surface-button-secondary-hover: var(--interactive-secondary-hover);
-  --surface-button-secondary-active: var(--interactive-secondary-active);
-  --surface-button-secondary-disabled: var(--interactive-secondary-disabled);
-  --text-button-secondary: var(--always-black);
-  --text-button-secondary-disabled: var(--text-disabled);
-  --border-button-secondary: var(--border-default);
-  --border-button-secondary-hover: var(--border-hover);
-  --border-button-secondary-focus: var(--border-focus);
-  --border-button-secondary-active: var(--border-active);
-  --border-button-secondary-disabled: var(--border-disabled);
-
-  /* ===== ACCENT BUTTON =====
-     Strong brand button (purple), always white text. */
-  --surface-button-accent: var(--interactive-accent);
-  --surface-button-accent-hover: var(--interactive-accent-hover);
-  --surface-button-accent-active: var(--interactive-accent-active);
-  --surface-button-accent-disabled: var(--interactive-primary-disabled);
-  --text-button-accent: var(--always-white);
-  --text-button-accent-disabled: var(--text-disabled);
-  --border-button-accent: var(--interactive-accent);
-  --border-button-accent-focus: var(--border-focus);
-
-  /* ===== GHOST BUTTON =====
-     Transparent background, subtle gray hover, neutral text. */
-  --surface-button-ghost: var(--interactive-tertiary);
-  --surface-button-ghost-hover: var(--interactive-tertiary-hover);
-  --surface-button-ghost-active: var(--interactive-tertiary-active);
-  --surface-button-ghost-disabled: transparent;
-  --text-button-ghost: var(--text-secondary);
-  --text-button-ghost-disabled: var(--text-disabled);
-  --border-button-ghost: transparent;
-  --border-button-ghost-hover: var(--border-light-hover);
-  --border-button-ghost-focus: var(--border-focus);
-
-  /* ===== DESTRUCTIVE BUTTON =====
-     Red surface, always white text — meets contrast WCAG AA. */
-  --surface-button-destructive: var(--interactive-destructive);
-  --surface-button-destructive-hover: var(--interactive-destructive-hover);
-  --surface-button-destructive-active: var(--interactive-destructive-active);
-  --surface-button-destructive-disabled: var(--interactive-destructive-disabled);
-  --text-button-destructive: var(--always-white);
-  --text-button-destructive-disabled: var(--text-disabled);
-  --border-button-destructive: var(--interactive-destructive);
-  --border-button-destructive-hover: var(--interactive-destructive-hover);
-  --border-button-destructive-focus: var(--border-focus);
-}
+:root { 
+   /* Primary Button */ 
+   --surface-button-primary: var(--interactive-primary);
+   --surface-button-primary-hover: var(--interactive-primary-hover); 
+   --surface-button-primary-active: var(--interactive-primary-active); 
+   --surface-button-primary-disabled: var(--interactive-primary-disabled); 
+   --text-button-primary: var(--text-inverse); 
+   --text-button-primary-disabled: var(--text-disabled); 
+   --border-button-primary: var(--interactive-primary-hover); 
+   
+   --border-button-secondary-hover: var(--border-light-hover); 
+   --border-button-primary-focus: var(--border-focus); /* Secondary Button */ 
+   --surface-button-secondary: var(--interactive-secondary); 
+   --surface-button-secondary-hover: var(--interactive-secondary-hover); 
+   --surface-button-secondary-active: var(--interactive-secondary-active); 
+   --surface-button-secondary-disabled: var(--interactive-secondary-disabled); 
+   --text-button-secondary: var(--text-primary); 
+   --text-button-secondary-disabled: var(--text-disabled); 
+   --border-button-secondary: var(--interactive-secondary-hover); 
+   --border-button-secondary-hover: var(--border-light-hover); 
+   --border-button-secondary-focus: var(--border-focus); 
+   --border-button-secondary-disabled: var(--border-disabled); 
+   --border-button-secondary-active: var(--border-light-active); 
+   
+   /* Accent Button */ 
+   --surface-button-accent: var(--interactive-accent); 
+   --surface-button-accent-hover: var(--interactive-accent-hover); 
+   --surface-button-accent-active: var(--interactive-accent-active); 
+   --surface-button-accent-disabled: var(--interactive-primary-disabled); 
+   --text-button-accent: var(--always-white); 
+   --text-button-accent-disabled: var(--always-white); 
+   --border-button-accent: var(--interactive-accent); 
+   --border-button-accent-focus: var(--border-focus); 
+   
+   /* Ghost Button */ 
+   --surface-button-ghost: var(--interactive-tertiary); 
+   --surface-button-ghost-hover: var(--interactive-tertiary-hover); 
+   --surface-button-ghost-active: var(--interactive-tertiary-active); 
+   --text-button-ghost: var(--text-secondary);
+   
+   /* Destructive Button */ 
+   --surface-button-destructive: var(--interactive-destructive); 
+   --surface-button-destructive-hover: var(--interactive-destructive-hover); 
+   --border-button-destructive: var(--interactive-destructive-hover); 
+   --surface-button-accent-active: var(--interactive-destructive-active); 
+   --surface-button-accent-disabled: var(--interactive-destructive-disabled); 
+   --text-button-destructive: var(--always-white); 
+   --text-button-destructive-disabled: var(--always-white); 
+   --border-button-destructive: var(--interactive-accent); 
+   --border-button-destructive-focus: var(--border-focus); }
