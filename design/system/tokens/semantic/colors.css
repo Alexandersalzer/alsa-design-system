@@ -15,6 +15,8 @@
 :root {
   /* ===== PRIMARY/SECONDARY COLOR SCALES (CALCULATED) ===== */
   /* These use color-mix to automatically invert based on --is-dark */
+  --always-white: var(--foundation-white);
+  --always-black: var(--foundation-black);
   
   --primary-white: color-mix(
     in srgb,
