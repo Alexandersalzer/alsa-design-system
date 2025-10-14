@@ -58,14 +58,14 @@
   --surface-button-accent: var(--interactive-accent);
   --surface-button-accent-hover: var(--interactive-accent-hover);
   --surface-button-accent-active: var(--interactive-accent-active);
-  --surface-button-accent-disabled: var(--interactive-primary-disabled);
+  --surface-button-accent-disabled: var(--interactive-accent-disabled);
 
   --text-button-accent: var(--always-white);
   --text-button-accent-disabled: var(--text-disabled);
 
   --border-button-accent: var(--interactive-accent);
   --border-button-accent-focus: var(--border-focus);
-  --border-button-accent-disabled: var(--interactive-primary-disabled);
+  --border-button-accent-disabled: var(--interactive-accent-disabled);
 }
 
 /* ==========================================================
