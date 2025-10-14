@@ -7,7 +7,7 @@
 import React, { forwardRef, ReactNode } from 'react';
 import { Stack } from '../../../layout';
 import { Typography } from '../../../primitives';
-import { cn } from '@/design/system/lib/utils';
+import { cn } from '../../../../lib/utils';
 
 export interface FieldsetProps {
   legend?: ReactNode;
