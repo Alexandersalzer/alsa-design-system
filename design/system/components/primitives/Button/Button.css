@@ -161,6 +161,14 @@
   to { transform: rotate(360deg); }
 }
 
+/* Ensure spinner aligns visually with text */
+.btn-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.25rem;
+}
+
 /* ===== PERFECT FORM ALIGNMENT ===== */
 /* When buttons and inputs are used together in forms */
 .clean-auth-form .btn-lg,
