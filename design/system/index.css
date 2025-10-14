@@ -36,6 +36,7 @@
 @import './components/primitives/Stepper/Stepper.css';
 @import './components/primitives/TextLink/TextLink.css';
 @import './components/primitives/SpinningAnimation/SpinningAnimation.css';
+@import './components/primitives/Spinner/Spinner.css';
 @import './components/primitives/Table/Table.css';
 
 @import './components/primitives/Popover/Popover.css';

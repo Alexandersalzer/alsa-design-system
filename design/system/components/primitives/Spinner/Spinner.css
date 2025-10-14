@@ -1,0 +1,77 @@
+/* ===============================================
+   LOCATION: design/system/components/layout/utilities/spinner/Spinner.css
+   Spinner Component Styles
+   =============================================== */
+
+/* ===== BASE SPINNER ===== */
+.spinner {
+  display: inline-block;
+  position: relative;
+  border-style: solid;
+  border-radius: 50%;
+  animation: spinner-rotate var(--spinner-duration, 0.45s) linear infinite;
+  flex-shrink: 0;
+  
+  /* Default colors based on semantic tokens */
+  border-color: var(--spinner-track-color, var(--border-subtle));
+  border-top-color: var(--spinner-color, var(--accent-500));
+}
+
+/* ===== SIZE VARIANTS ===== */
+.spinner--inherit {
+  width: 1em;
+  height: 1em;
+  border-width: 2px;
+}
+
+.spinner--xs {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-width: 2px;
+}
+
+.spinner--sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 2px;
+}
+
+.spinner--md {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-width: 3px;
+}
+
+.spinner--lg {
+  width: 2rem;
+  height: 2rem;
+  border-width: 4px;
+}
+
+.spinner--xl {
+  width: 3rem;
+  height: 3rem;
+  border-width: 5px;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes spinner-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== ACCESSIBILITY LABEL ===== */
+.spinner__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
