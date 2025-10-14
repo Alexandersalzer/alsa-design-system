@@ -4,6 +4,7 @@ import styles from './Container.module.css';
 type Alignment = 'left' | 'center' | 'right';
 type Height = 'auto' | 'full' | 'fit';
 type MaxWidth = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
+type Padding = 'none' | 'sm' | 'md' | 'lg' | 'xl';
 
 interface ContainerProps {
   children: ReactNode;
@@ -13,6 +14,7 @@ interface ContainerProps {
   align?: Alignment;
   height?: Height;
   maxWidth?: MaxWidth;
+  padding?: Padding;
   style?: React.CSSProperties;
 }
 
@@ -65,6 +67,25 @@ const getMaxWidthClass = (maxWidth: MaxWidth): string => {
   }
 };
 
+const getPaddingClass = (padding?: Padding): string => {
+  if (!padding) return ''; // Use default from CSS
+  
+  switch (padding) {
+    case 'none':
+      return styles.paddingNone;
+    case 'sm':
+      return styles.paddingSm;
+    case 'md':
+      return styles.paddingMd;
+    case 'lg':
+      return styles.paddingLg;
+    case 'xl':
+      return styles.paddingXl;
+    default:
+      return '';
+  }
+};
+
 export const Container = ({ 
   children, 
   className = '', 
@@ -73,12 +94,14 @@ export const Container = ({
   align = 'left',
   height = 'auto',
   maxWidth = 'none',
+  padding,
   style
 }: ContainerProps) => {
   const alignmentClass = getAlignmentClass(align);
   const heightClass = getHeightClass(height);
   const maxWidthClass = getMaxWidthClass(maxWidth);
-  const combinedClassName = `${styles.container} ${alignmentClass} ${heightClass} ${maxWidthClass} ${className}`.trim();
+  const paddingClass = getPaddingClass(padding);
+  const combinedClassName = `${styles.container} ${alignmentClass} ${heightClass} ${maxWidthClass} ${paddingClass} ${className}`.trim();
   
   return (
     <Component 

@@ -131,9 +131,7 @@ export const PKLAbout: React.FC<PKLAboutProps> = ({
         style={{
           backgroundColor: 'var(--surface-page)',
           paddingTop,
-          paddingBottom,
-          paddingLeft: 'var(--foundation-space-6)',
-          paddingRight: 'var(--foundation-space-6)'
+          paddingBottom
         }}
       >
         <Container maxWidth="2xl">
