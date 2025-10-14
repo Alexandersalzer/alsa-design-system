@@ -3,21 +3,29 @@
    Spinner Component Styles
    =============================================== */
 
-/* ===== BASE SPINNER ===== */
+/* ==========================================================
+   BASE SPINNER
+   ========================================================== */
+
 .spinner {
   display: inline-block;
   position: relative;
+  flex-shrink: 0;
   border-style: solid;
   border-radius: 50%;
   animation: spinner-rotate var(--spinner-duration, 0.45s) linear infinite;
-  flex-shrink: 0;
-  
-  /* Default colors based on semantic tokens */
+
+  /* Default visual tokens (semantic-friendly) */
   border-color: var(--spinner-track-color, var(--border-subtle));
   border-top-color: var(--spinner-color, var(--accent-500));
+  opacity: var(--spinner-opacity, 1);
+  transition: opacity 0.2s ease;
 }
 
-/* ===== SIZE VARIANTS ===== */
+/* ==========================================================
+   SIZE VARIANTS
+   ========================================================== */
+
 .spinner--inherit {
   width: 1em;
   height: 1em;
@@ -54,7 +62,10 @@
   border-width: 5px;
 }
 
-/* ===== ANIMATION ===== */
+/* ==========================================================
+   ANIMATION
+   ========================================================== */
+
 @keyframes spinner-rotate {
   0% {
     transform: rotate(0deg);
@@ -64,7 +75,41 @@
   }
 }
 
-/* ===== ACCESSIBILITY LABEL ===== */
+/* ==========================================================
+   THEME VARIANTS (used inside components like buttons)
+   ========================================================== */
+
+/* Light on dark backgrounds (e.g., button-primary, accent) */
+.spinner--inverse {
+  border-color: var(--spinner-track-color, rgba(255, 255, 255, 0.25));
+  border-top-color: var(--spinner-color, var(--text-inverse));
+}
+
+/* Subtle variant for low-contrast UI (e.g., loading panels) */
+.spinner--subtle {
+  border-color: var(--spinner-track-color, var(--border-subtle));
+  border-top-color: var(--spinner-color, var(--secondary-400));
+}
+
+/* Accent variant for brand emphasis */
+.spinner--accent {
+  border-color: var(--spinner-track-color, var(--accent-200));
+  border-top-color: var(--spinner-color, var(--accent-600));
+}
+
+/* ==========================================================
+   DISABLED / HIDDEN STATES
+   ========================================================== */
+
+.spinner--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ==========================================================
+   ACCESSIBILITY LABEL (Screen Reader Only)
+   ========================================================== */
+
 .spinner__label {
   position: absolute;
   width: 1px;
