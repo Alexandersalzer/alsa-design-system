@@ -25,6 +25,7 @@
 
   --border-button-primary: var(--interactive-primary-hover);
   --border-button-primary-focus: var(--border-focus);
+  --border-button-primary-disabled: var(--interactive-primary-disabled);
 }
 
 /* ==========================================================
@@ -64,6 +65,7 @@
 
   --border-button-accent: var(--interactive-accent);
   --border-button-accent-focus: var(--border-focus);
+  --border-button-accent-disabled: var(--interactive-primary-disabled);
 }
 
 /* ==========================================================
@@ -95,4 +97,5 @@
 
   --border-button-destructive: var(--interactive-destructive-hover);
   --border-button-destructive-focus: var(--border-focus);
+  --border-button-destructive-disabled: var(--interactive-destructive-disabled)
 }

@@ -301,7 +301,7 @@
   --interactive-primary: var(--primary-black);
   --interactive-primary-hover: var(--primary-1000);
   --interactive-primary-active: var(--primary-900);
-  --interactive-primary-disabled: var(--secondary-700);
+  --interactive-primary-disabled: var(--secondary-800);
   
   --interactive-secondary: var(--secondary-100);
   --interactive-secondary-hover: var(--secondary-200);
@@ -311,6 +311,7 @@
   --interactive-accent: var(--accent-600);
   --interactive-accent-hover: var(--accent-700);
   --interactive-accent-active: var(--accent-800);
+  --interactive-accent-disabled: var(--accent-500);
   
   --interactive-tertiary: transparent;
   --interactive-tertiary-hover: var(--secondary-100);
@@ -319,7 +320,7 @@
   --interactive-destructive: var(--error-500);
   --interactive-destructive-hover: var(--error-600);
   --interactive-destructive-active: var(--error-700);
-  --interactive-destructive-disabled: var(--error-200);
+  --interactive-destructive-disabled: var(--error-300);
 
   --surface-button-destructive: var(--error-100);
   --surface-button-destructive-hover: var(--error-200);
