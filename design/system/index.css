@@ -47,6 +47,10 @@
 
 
 /* STEP 5: Pattern components */
+@import './components/patterns/forms/fieldset/Fieldset.css';
+
+
+
 @import './components/patterns/dashboard/Header/Header.css';
 @import './components/patterns/dashboard/auth/AuthContainer.css';
 @import './components/patterns/dashboard/auth/AuthForm.css';
