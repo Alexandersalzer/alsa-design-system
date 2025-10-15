@@ -6,6 +6,7 @@
 import React, { forwardRef, ReactNode } from 'react';
 import { cn } from '../../../lib/utils';
 import { Label, TypographyColor, TypographyWeight } from '../Typography';
+import { Spinner } from '../../primitives/Spinner/Spinner';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -85,7 +86,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 
   const typographyProps = getTypographyProps(variant, size, isDisabled);
 
-
   // Build button classes (NO typography classes - handled by Label component)
   const buttonClasses = cn(
     'btn',
@@ -95,35 +95,33 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     className
   );
 
+  const spinnerColorMap = {
+    primary: 'var(--text-button-primary)',
+    secondary: 'var(--text-button-secondary)',
+    accent: 'var(--text-button-accent)',
+    ghost: 'var(--text-secondary)',
+    destructive: 'var(--primary-white)',
+  };
+
+  const spinnerColor = spinnerColorMap[variant] || 'var(--accent-500)';
+
   return (
     <button
       ref={ref}
       className={buttonClasses}
       disabled={isDisabled}
+      aria-busy={loading}
       {...props}
     >
-      {/* Loading Spinner */}
+      {/* ===== LOADING STATE (spinner integrated) ===== */}
       {loading && (
-        <svg
-          className="h-4 w-4 animate-spin"
-          fill="none"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
+        <span className="btn-spinner" aria-hidden="true">
+          <Spinner
+            size={size === 'sm' ? 'xs' : 'sm'}
+            color={spinnerColor}
+            animationDuration="0.6s"
           />
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          />
-        </svg>
+        </span>
       )}
 
       {/* Left Icon */}
@@ -166,30 +164,23 @@ export default Button;
 
 // ✅ PRIMARY BUTTON
 <Button variant="primary">Save</Button>
-// Typography color: 'button-primary' → --text-button-primary → white text
 
 // ✅ SECONDARY BUTTON  
 <Button variant="secondary">Cancel</Button>
-// Typography color: 'button-secondary' → --text-button-secondary → black text
 
 // ✅ ACCENT BUTTON
 <Button variant="accent">Subscribe</Button>
-// Typography color: 'button-accent' → --text-button-accent → white text
 
 // ✅ GHOST BUTTON
 <Button variant="ghost">Learn More</Button>
-// Typography color: 'secondary' → --text-secondary → gray text
 
 // ✅ destructive BUTTON
 <Button variant="destructive">Delete</Button>
-// Typography color: 'error' → --error-500 → red text
 
 // ✅ DISABLED BUTTON (any variant)
 <Button variant="primary" disabled>Disabled</Button>
-// Typography color: 'button-disabled' → --text-button-primary-disabled → gray text
 
 // ✅ LOADING BUTTON (any variant)
 <Button variant="primary" loading>Saving...</Button>
-// Typography color: 'button-disabled' → --text-button-primary-disabled → gray text
 
 */

@@ -30,6 +30,7 @@ export * from './Logo';
 export * from './LineChart';
 export * from './Table';
 export * from './ConfirmationDialog';
+export * from './Spinner'
 
 
 // Icon needs special handling since it's a default export

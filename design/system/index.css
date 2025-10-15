@@ -36,7 +36,11 @@
 @import './components/primitives/Stepper/Stepper.css';
 @import './components/primitives/TextLink/TextLink.css';
 @import './components/primitives/SpinningAnimation/SpinningAnimation.css';
+@import './components/primitives/Spinner/Spinner.css';
 @import './components/primitives/Table/Table.css';
+@import './components/patterns/shared/EmptyState/LoadingSkeleton.css';
+
+
 
 @import './components/primitives/Popover/Popover.css';
 @import './components/primitives/Listbox/Listbox.css';
@@ -47,6 +51,10 @@
 
 
 /* STEP 5: Pattern components */
+@import './components/patterns/forms/fieldset/Fieldset.css';
+
+
+
 @import './components/patterns/dashboard/Header/Header.css';
 @import './components/patterns/dashboard/auth/AuthContainer.css';
 @import './components/patterns/dashboard/auth/AuthForm.css';

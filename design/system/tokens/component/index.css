@@ -26,6 +26,8 @@
 @import './editor.css';
 @import './tabs.css';
 @import './menu.css';
+@import './spinner.css';
+@import './loadingSkeleton.css';
 
 /*
 @import './alert.css';

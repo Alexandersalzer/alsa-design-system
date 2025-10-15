@@ -151,14 +151,17 @@
   background-color: var(--surface-button-destructive-hover);
 }
 
-/* Loading state */
-.btn:disabled .animate-spin {
-  animation: spin 1s linear infinite;
-}
-
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+/* Ensure spinner aligns visually with text */
+.btn-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.25rem;
 }
 
 /* ===== PERFECT FORM ALIGNMENT ===== */
