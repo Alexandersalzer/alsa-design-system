@@ -1,0 +1,120 @@
+/* ===============================================
+   src/design-system/components/patterns/page/Cluster.css
+   CLUSTER (HStack) - Horizontal layout component
+   =============================================== */
+
+.cluster {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--foundation-space-4);
+}
+
+/* ===== SPACING ===== */
+.cluster--spacing-xs {
+  gap: var(--foundation-space-1);
+}
+
+.cluster--spacing-sm {
+  gap: var(--foundation-space-2);
+}
+
+.cluster--spacing-md {
+  gap: var(--foundation-space-4);
+}
+
+.cluster--spacing-lg {
+  gap: var(--foundation-space-6);
+}
+
+.cluster--spacing-xl {
+  gap: var(--foundation-space-8);
+}
+
+/* ===== ALIGNMENT ===== */
+.cluster--align-start {
+  align-items: flex-start;
+}
+
+.cluster--align-center {
+  align-items: center;
+}
+
+.cluster--align-end {
+  align-items: flex-end;
+}
+
+.cluster--align-baseline {
+  align-items: baseline;
+}
+
+/* ===== JUSTIFY ===== */
+.cluster--justify-start {
+  justify-content: flex-start;
+}
+
+.cluster--justify-center {
+  justify-content: center;
+}
+
+.cluster--justify-end {
+  justify-content: flex-end;
+}
+
+.cluster--justify-between {
+  justify-content: space-between;
+}
+
+.cluster--justify-around {
+  justify-content: space-around;
+}
+
+.cluster--justify-evenly {
+  justify-content: space-evenly;
+}
+
+/* ===== WRAP ===== */
+.cluster--wrap {
+  flex-wrap: wrap;
+}
+
+/* ===== DIRECTION ===== */
+.cluster--row-reverse {
+  flex-direction: row-reverse;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .cluster {
+    gap: var(--foundation-space-3);
+  }
+
+  .cluster--spacing-xs {
+    gap: var(--foundation-space-1);
+  }
+
+  .cluster--spacing-sm {
+    gap: var(--foundation-space-2);
+  }
+
+  .cluster--spacing-md {
+    gap: var(--foundation-space-3);
+  }
+
+  .cluster--spacing-lg {
+    gap: var(--foundation-space-4);
+  }
+
+  .cluster--spacing-xl {
+    gap: var(--foundation-space-6);
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .cluster {
+    transition: none;
+  }
+}
