@@ -4,7 +4,6 @@
 // ===============================================
 
 import React from "react";
-import "./LoadingSkeleton.css";
 
 export type SkeletonVariant = "pulse" | "shine" | "none";
 export type SkeletonShape = "rect" | "circle" | "text";
