@@ -1,0 +1,30 @@
+/* ===============================================
+   src/design-system/tokens/component/loading.css
+   LOADING TOKENS — SKELETON COMPONENT
+   =============================================== */
+
+/*
+  Tokens for Skeleton placeholder components used in loading states.
+  These are set once and switched via your theme system.
+*/
+
+:root {
+  /* Grays chosen for soft contrast and accessibility */
+  --surface-skeleton-start: var(--foundation-gray-200);
+  --surface-skeleton-end: var(--foundation-gray-300);
+
+  /* Optional accent tokens if you extend palette support */
+  --surface-skeleton-start-accent: var(--foundation-slate-200);
+  --surface-skeleton-end-accent: var(--foundation-slate-300);
+
+  --opacity-skeleton-pulse-min: 0.6;
+  --opacity-skeleton-pulse-max: 1.0;
+  --alpha-skeleton-shine-min: 0;
+  --alpha-skeleton-shine-mid: 0.35;
+  --alpha-skeleton-shine-max: 0;
+  --duration-skeleton-pulse: 1.5s;
+  --duration-skeleton-shine: 1.2s;
+  --radius-skeleton: var(--foundation-radius-md);
+  --radius-skeleton-circle: 9999px;
+  --easing-skeleton: var(--foundation-easing-standard);
+}

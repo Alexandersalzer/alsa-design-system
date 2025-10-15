@@ -1,9 +1,11 @@
+// ===============================================
+// src/design-system/components/patterns/shared/LoadingSkeleton.tsx
+// SKELETON COMPONENTS - Pulse, Shine, and Text variants for content placeholders
+// ===============================================
+
 import React from "react";
 import "./LoadingSkeleton.css";
 
-/**
- * TYPES
- */
 export type SkeletonVariant = "pulse" | "shine" | "none";
 export type SkeletonShape = "rect" | "circle" | "text";
 
@@ -21,9 +23,6 @@ export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   fadeDuration?: number;
 }
 
-/**
- * Main Skeleton Component
- */
 export const Skeleton: React.FC<SkeletonProps> = ({
   width = "100%",
   height = "20px",
@@ -35,7 +34,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   lines,
   lineHeight = "1rem",
   lineGap = "0.5rem",
-  fadeDuration = 200,
+  fadeDuration = 400,
   className = "",
   style,
   children,
@@ -45,17 +44,13 @@ export const Skeleton: React.FC<SkeletonProps> = ({
     return (
       <div
         className={`skeleton-content ${className}`}
-        style={{
-          transition: `opacity ${fadeDuration}ms ease`,
-          opacity: 1,
-        }}
+        style={{ transition: `opacity ${fadeDuration}ms ease`, opacity: 1 }}
       >
         {children}
       </div>
     );
   }
 
-  // Text skeleton variant (multiple lines)
   if (shape === "text" && lines) {
     return (
       <div
@@ -66,17 +61,17 @@ export const Skeleton: React.FC<SkeletonProps> = ({
             "--end-color": endColor,
             "--line-height": lineHeight,
             "--line-gap": lineGap,
-          } as React.CSSProperties & Record<string, string | number>
+          } as React.CSSProperties
         }
+        aria-busy={loading}
+        aria-live="polite"
         {...rest}
       >
         {Array.from({ length: lines }).map((_, i) => (
           <span
             key={i}
             className="skeleton-line"
-            style={{
-              width: i === lines - 1 ? "70%" : "100%",
-            }}
+            style={{ width: i === lines - 1 ? "70%" : "100%" }}
           />
         ))}
       </div>
@@ -86,6 +81,8 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   return (
     <div
       className={`skeleton ${variant} ${shape} ${className}`}
+      aria-busy={loading}
+      aria-live="polite"
       style={
         {
           "--start-color": startColor,
@@ -93,48 +90,25 @@ export const Skeleton: React.FC<SkeletonProps> = ({
           width: typeof width === "number" ? `${width}px` : width,
           height: typeof height === "number" ? `${height}px` : height,
           ...style,
-        } as React.CSSProperties & Record<string, string | number>
+        } as React.CSSProperties
       }
       {...rest}
     />
   );
 };
 
-/**
- * Circle Skeleton
- */
-export interface SkeletonCircleProps
-  extends Omit<SkeletonProps, "shape" | "width" | "height"> {
+export interface SkeletonCircleProps extends Omit<SkeletonProps, "shape" | "width" | "height"> {
   size?: string | number;
 }
 
-export const SkeletonCircle: React.FC<SkeletonCircleProps> = ({
-  size = "40px",
-  ...props
-}) => (
-  <Skeleton
-    {...props}
-    shape="circle"
-    width={size}
-    height={size}
-  />
+export const SkeletonCircle: React.FC<SkeletonCircleProps> = ({ size = "40px", ...props }) => (
+  <Skeleton {...props} shape="circle" width={size} height={size} />
 );
 
-/**
- * Text Skeleton
- */
-export interface SkeletonTextProps
-  extends Omit<SkeletonProps, "shape" | "height"> {
+export interface SkeletonTextProps extends Omit<SkeletonProps, "shape" | "height"> {
   noOfLines?: number;
 }
 
-export const SkeletonText: React.FC<SkeletonTextProps> = ({
-  noOfLines = 3,
-  ...props
-}) => (
-  <Skeleton
-    {...props}
-    shape="text"
-    lines={noOfLines}
-  />
+export const SkeletonText: React.FC<SkeletonTextProps> = ({ noOfLines = 3, ...props }) => (
+  <Skeleton {...props} shape="text" lines={noOfLines} />
 );
