@@ -138,8 +138,8 @@ im-dashboard/src/design-system/
 │       │   ├── Grid.css 🆕
 │       │   ├── Stack.tsx 🆕              # Vertical spacing
 │       │   ├── Stack.css 🆕
-│       │   ├── Cluster.tsx 🆕            # Horizontal grouping
-│       │   ├── Cluster.css 🆕
+│       │   ├── HStack.tsx 🆕            # Horizontal grouping
+│       │   ├── HStack.css 🆕
 │       │   └── index.ts 🔄
 │       │
 │       ├── 📁 settings/                  # 🆕 NEW - Settings patterns
@@ -246,7 +246,7 @@ export { ModalLayout } from './ModalLayout';
 @import './components/patterns/page/PageContent.css';
 @import './components/patterns/page/Grid.css';
 @import './components/patterns/page/Stack.css';
-@import './components/patterns/page/Cluster.css';
+@import './components/patterns/page/HStack.css';
 
 /* NEW: Settings pattern imports 🆕 */
 @import './components/patterns/settings/SettingsSection.css';

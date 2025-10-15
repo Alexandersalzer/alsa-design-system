@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { Stack } from '../../../layout/utilities/stack/Stack';
-import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { Input } from '../../../../../system/components/primitives/Input';
 import { Textarea } from '../../../../../system/components/primitives/Textarea';
 import { Button } from '../../../../../system/components/primitives/Button';
@@ -173,8 +173,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   return (
     <form onSubmit={handleSubmit} className={className}>
       <Stack spacing="sm">
-        {/* Name and Company in a Cluster (horizontal layout) */}
-        <Cluster spacing={fieldSpacing} wrap={true}>
+        {/* Name and Company in a HStack (horizontal layout) */}
+        <HStack spacing={fieldSpacing} wrap={true}>
           {/* Name Field */}
           <Stack spacing="xs" flexChild={true}>
             <Typography variant="label-sm" weight="bold" color="primary" align="left">
@@ -206,7 +206,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               radius="sm"
             />
           </Stack>
-        </Cluster>
+        </HStack>
         
         {/* Email Field */}
         <Stack spacing="xs">

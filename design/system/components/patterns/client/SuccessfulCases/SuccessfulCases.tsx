@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Container } from '../../../layout/frames/container/Container';
-import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { Stack } from '../../../layout/utilities/stack/Stack';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Card } from '../../../../../system/components/primitives/Card';
@@ -61,7 +61,7 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
           </Stack>
 
           {/* Cases */}
-          <Cluster spacing="lg" justify="center" wrap>
+          <HStack spacing="lg" justify="center" wrap>
             {cases.map((c) => (
               <Card
                 key={c.id}
@@ -106,7 +106,7 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
                 </Typography>
               </Card>
             ))}
-          </Cluster>
+          </HStack>
 
           {/* CTA */}
           <Stack spacing="lg" align="center">

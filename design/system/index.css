@@ -77,7 +77,7 @@
 
 /* STEP 6: Layout utilities */
 @import './components/layout/utilities/divider/Divider.css';
-@import './components/layout/utilities/cluster/Cluster.css';
+@import './components/layout/utilities/hstack/Cluster.css';
 @import './components/layout/utilities/rhythm/Rhythm.css';
 @import './components/layout/utilities/stack/Stack.css';
 @import './components/layout/utilities/grid/Grid.css';

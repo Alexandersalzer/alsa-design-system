@@ -8,7 +8,7 @@ import { Section } from '../../../layout/frames/section/Section';
 import { Container } from '../../../layout/frames/container/Container';
 import { Grid } from '../../../layout/utilities/grid/Grid';
 import { Stack } from '../../../layout/utilities/stack/Stack';
-import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Picker } from '../../../../../system/components/primitives/Picker';
 import { Input } from '../../../../../system/components/primitives/Input';

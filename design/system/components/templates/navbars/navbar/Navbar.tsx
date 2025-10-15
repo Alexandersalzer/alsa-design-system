@@ -5,7 +5,7 @@ import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent
 import { usePathname, useRouter } from 'next/navigation';
 import { Section } from '../../../layout/frames/section';
 import { Container } from '../../../layout/frames/container';
-import { Cluster } from '../../../layout/utilities/cluster';
+import { HStack } from '../../../layout/utilities/hStack';
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
 import { 
   getNavigationContext, 
@@ -181,7 +181,7 @@ const Navbar = ({
       zIndex={1000}
     >
       <Container maxWidth="lg">
-        <Cluster justify="between" align="center" className="h-16">
+        <HStack justify="between" align="center" className="h-16">
           <BrandLink 
             href={nav.buildBrandHref(brandHref)}
             variant={brandVariant}
@@ -208,7 +208,7 @@ const Navbar = ({
             size={navSize}
             onLinkClick={handleNavClick}
           />
-        </Cluster>
+        </HStack>
       </Container>
     </Section>
   );

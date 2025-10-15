@@ -8,7 +8,7 @@ import { Card } from '../../../../../system/components/primitives/Card';
 import { VideoShowcase } from '../../../../../system/components/primitives/VideoShowcase';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
 import { Stack } from '../../../layout/utilities/stack/Stack';
-import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { HStack } from '../../../layout/utilities/hStack/HStack';
 import Image from 'next/image';
 import { GB, SE } from 'country-flag-icons/react/3x2';
 
@@ -182,7 +182,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
             </Typography>       
             {/* Views with Eye Icon - only show if views exist */}
             {views && (
-              <Cluster spacing="xs" align="center">
+              <HStack spacing="xs" align="center">
                 <div className="eye-icon">
                   <svg 
                     width="16" 
@@ -206,7 +206,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                 >
                   {views}
                 </Typography>
-              </Cluster>
+              </HStack>
             )}
           </Stack>
         </div>

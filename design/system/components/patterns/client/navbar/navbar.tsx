@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '../../../primitives/Button';
 import { TextLink } from '../../../primitives/TextLink';
-import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { HStack } from '../../../layout/utilities/hStack/HStack';
 
 // ===== NAV LINK COMPONENT =====
 export interface NavLinkProps {
@@ -96,7 +96,7 @@ export const NavMenu = ({
   };
 
   return (
-    <Cluster spacing={spacing} wrap={wrap} className={className}>
+    <HStack spacing={spacing} wrap={wrap} className={className}>
       {items.map((item, index) => {
         // Use individual item variant/size or fallback to global defaults
         const itemVariant = item.variant || variant;
@@ -141,7 +141,7 @@ export const NavMenu = ({
           );
         }
       })}
-    </Cluster>
+    </HStack>
   );
 };
 
@@ -185,7 +185,7 @@ export const BrandLink = ({
       className={className}
       onClick={onClick}
     >
-      <Cluster spacing="sm" align="center" className="brand-cluster">
+      <HStack spacing="sm" align="center" className="brand-hStack">
         {logoSrc && (
           <img 
             src={logoSrc} 
@@ -196,7 +196,7 @@ export const BrandLink = ({
           />
         )}
         <span className="brand-text">{children}</span>
-      </Cluster>
+      </HStack>
     </TextLink>
   );
 };

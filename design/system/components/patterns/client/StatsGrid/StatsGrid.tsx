@@ -6,7 +6,7 @@
 import React from 'react';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
 import { Stack } from '../../../layout/utilities/stack/Stack';
-import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { ResponsiveGrid } from '../../../layout/utilities/grid/Grid';
 
 // ===== TYPE DEFINITIONS =====

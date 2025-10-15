@@ -7,7 +7,7 @@ import React from 'react';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
 import { Stack } from '../../../layout/utilities/stack/Stack';
-import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { HStack } from '../../../layout/utilities/hStack/HStack';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -89,7 +89,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
     >
       <Stack spacing={spacing}>
         {/* Header: Icon + Name/Subtitle horizontally */}
-        <Cluster spacing={headerSpacing} align="start">
+        <HStack spacing={headerSpacing} align="start">
           {/* Profile Icon */}
           {showIcon && (
             <div className="testimonial-avatar">
@@ -117,7 +117,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
               {subtitle}
             </Typography>
           </Stack>
-        </Cluster>
+        </HStack>
         
         {/* Review Text - Below header */}
         <Typography
