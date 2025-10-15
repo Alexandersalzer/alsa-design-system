@@ -6,21 +6,25 @@
 import React, { forwardRef } from 'react';
 import { cn } from '../../../lib/utils';
 
+
 export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Spinner size */
   size?: 'inherit' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
   /** Custom color (overrides semantic accent) */
   color?: string;
+
   /** Track color (defaults to subtle border color) */
   trackColor?: string;
+
   /** Border thickness */
   thickness?: string | number;
+
   /** Spin speed (e.g. '0.45s', '1s') */
   animationDuration?: string;
+
   /** Optional accessibility label */
   label?: string;
-  /** Theme variant (light, inverse, subtle, accent) */
-  variant?: 'default' | 'inverse' | 'subtle' | 'accent';
 }
 
 export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
@@ -32,7 +36,6 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
       thickness,
       animationDuration = '0.45s',
       label,
-      variant = 'default',
       className,
       style,
       ...props
@@ -52,12 +55,7 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
         ref={ref}
         role="status"
         aria-label={label || 'Loading'}
-        className={cn(
-          'spinner',
-          `spinner--${size}`,
-          variant !== 'default' && `spinner--${variant}`,
-          className
-        )}
+        className={cn('spinner', `spinner--${size}`, className)}
         style={spinnerStyle}
         {...props}
       >

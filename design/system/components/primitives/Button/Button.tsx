@@ -118,7 +118,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
         <span className="btn-spinner" aria-hidden="true">
           <Spinner
             size={size === 'sm' ? 'xs' : 'sm'}
-            variant={variant === 'primary' || variant === 'accent' ? 'inverse' : 'default'}
+            color={spinnerColor}
             animationDuration="0.6s"
           />
         </span>

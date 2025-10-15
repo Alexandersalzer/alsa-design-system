@@ -26,42 +26,75 @@
    SIZE VARIANTS
    ========================================================== */
 
-.spinner--inherit { width: 1em; height: 1em; border-width: 2px; }
-.spinner--xs      { width: 0.75rem; height: 0.75rem; border-width: 2px; }
-.spinner--sm      { width: 1rem; height: 1rem; border-width: 2px; }
-.spinner--md      { width: 1.5rem; height: 1.5rem; border-width: 3px; }
-.spinner--lg      { width: 2rem; height: 2rem; border-width: 4px; }
-.spinner--xl      { width: 3rem; height: 3rem; border-width: 5px; }
+.spinner--inherit {
+  width: 1em;
+  height: 1em;
+  border-width: 2px;
+}
+
+.spinner--xs {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-width: 2px;
+}
+
+.spinner--sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 2px;
+}
+
+.spinner--md {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-width: 3px;
+}
+
+.spinner--lg {
+  width: 2rem;
+  height: 2rem;
+  border-width: 4px;
+}
+
+.spinner--xl {
+  width: 3rem;
+  height: 3rem;
+  border-width: 5px;
+}
 
 /* ==========================================================
    ANIMATION
    ========================================================== */
 
 @keyframes spinner-rotate {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* ==========================================================
    THEME VARIANTS (used inside components like buttons)
    ========================================================== */
 
-/* ✅ Light on dark backgrounds (primary / accent buttons) */
+/* Light on dark backgrounds (e.g., button-primary, accent) */
 .spinner--inverse {
-  --spinner-track-color: rgba(255, 255, 255, 0.25);
-  --spinner-color: var(--always-white);
+  border-color: var(--spinner-track-color, rgba(255, 255, 255, 0.25));
+  border-top-color: var(--spinner-color, var(--text-inverse));
 }
 
 /* Subtle variant for low-contrast UI (e.g., loading panels) */
 .spinner--subtle {
-  --spinner-track-color: var(--border-subtle);
-  --spinner-color: var(--secondary-400);
+  border-color: var(--spinner-track-color, var(--border-subtle));
+  border-top-color: var(--spinner-color, var(--secondary-400));
 }
 
 /* Accent variant for brand emphasis */
 .spinner--accent {
-  --spinner-track-color: var(--accent-200);
-  --spinner-color: var(--accent-600);
+  border-color: var(--spinner-track-color, var(--accent-200));
+  border-top-color: var(--spinner-color, var(--accent-600));
 }
 
 /* ==========================================================
