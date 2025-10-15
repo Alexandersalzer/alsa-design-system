@@ -1,9 +1,9 @@
 /* ===============================================
-   src/design-system/components/patterns/page/hstack.css
-   hstack (HStack) - Horizontal layout component
+   src/design-system/components/patterns/page/hStack.css
+   hStack (hStack) - Horizontal layout component
    =============================================== */
 
-.hstack {
+.hStack {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -13,108 +13,108 @@
 }
 
 /* ===== SPACING ===== */
-.hstack--spacing-xs {
+.hStack--spacing-xs {
   gap: var(--foundation-space-1);
 }
 
-.hstack--spacing-sm {
+.hStack--spacing-sm {
   gap: var(--foundation-space-2);
 }
 
-.hstack--spacing-md {
+.hStack--spacing-md {
   gap: var(--foundation-space-4);
 }
 
-.hstack--spacing-lg {
+.hStack--spacing-lg {
   gap: var(--foundation-space-6);
 }
 
-.hstack--spacing-xl {
+.hStack--spacing-xl {
   gap: var(--foundation-space-8);
 }
 
 /* ===== ALIGNMENT ===== */
-.hstack--align-start {
+.hStack--align-start {
   align-items: flex-start;
 }
 
-.hstack--align-center {
+.hStack--align-center {
   align-items: center;
 }
 
-.hstack--align-end {
+.hStack--align-end {
   align-items: flex-end;
 }
 
-.hstack--align-baseline {
+.hStack--align-baseline {
   align-items: baseline;
 }
 
 /* ===== JUSTIFY ===== */
-.hstack--justify-start {
+.hStack--justify-start {
   justify-content: flex-start;
 }
 
-.hstack--justify-center {
+.hStack--justify-center {
   justify-content: center;
 }
 
-.hstack--justify-end {
+.hStack--justify-end {
   justify-content: flex-end;
 }
 
-.hstack--justify-between {
+.hStack--justify-between {
   justify-content: space-between;
 }
 
-.hstack--justify-around {
+.hStack--justify-around {
   justify-content: space-around;
 }
 
-.hstack--justify-evenly {
+.hStack--justify-evenly {
   justify-content: space-evenly;
 }
 
 /* ===== WRAP ===== */
-.hstack--wrap {
+.hStack--wrap {
   flex-wrap: wrap;
 }
 
 /* ===== DIRECTION ===== */
-.hstack--row-reverse {
+.hStack--row-reverse {
   flex-direction: row-reverse;
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .hstack {
+  .hStack {
     gap: var(--foundation-space-3);
   }
 
-  .hstack--spacing-xs {
+  .hStack--spacing-xs {
     gap: var(--foundation-space-1);
   }
 
-  .hstack--spacing-sm {
+  .hStack--spacing-sm {
     gap: var(--foundation-space-2);
   }
 
-  .hstack--spacing-md {
+  .hStack--spacing-md {
     gap: var(--foundation-space-3);
   }
 
-  .hstack--spacing-lg {
+  .hStack--spacing-lg {
     gap: var(--foundation-space-4);
   }
 
-  .hstack--spacing-xl {
+  .hStack--spacing-xl {
     gap: var(--foundation-space-6);
   }
 }
 
 /* ===== ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
-  .hstack {
+  .hStack {
     transition: none;
   }
 }

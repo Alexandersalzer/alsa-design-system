@@ -11,7 +11,7 @@ import { H1, Body, Display, H2, H3, H4, H5, H6 } from '../../../primitives/Typog
 
 // Import layout components
 import { Stack } from '../../../layout';
-import { HStack } from '../../../layout/utilities/hStack';
+import { HStack } from '../../../layout';
 
 // Import Tag component
 import { Tag } from '../../../primitives/Tag/Tag';
