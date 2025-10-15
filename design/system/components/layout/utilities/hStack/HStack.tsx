@@ -36,15 +36,15 @@ export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(({
   ...props
 }, ref) => {
   // Build CSS classes
-  const classes = buildClasses(
-    'HStack',
-    `HStack--spacing-${spacing}`,
-    align !== 'center' && `HStack--align-${align}`,
-    justify !== 'start' && `HStack--justify-${justify}`,
-    wrap && 'HStack--wrap', // CHANGED: Apply wrap class when true
-    direction !== 'row' && `HStack--${direction}`,
+    const classes = buildClasses(
+    'hStack',
+    `hStack--spacing-${spacing}`,
+    align !== 'center' && `hStack--align-${align}`,
+    justify !== 'start' && `hStack--justify-${justify}`,
+    wrap && 'hStack--wrap',
+    direction !== 'row' && `hStack--${direction}`,
     className
-  );
+    );
 
   return (
     <div ref={ref} className={classes} {...props}>
