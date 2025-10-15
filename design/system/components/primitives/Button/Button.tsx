@@ -70,7 +70,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
         case 'ghost':
           return 'secondary';         // Uses --text-secondary (gray) for ghost buttons
         case 'destructive':
-          return 'error';             // Uses --error-500 for destructive buttons
+          return 'button-destructive';             // Uses --error-500 for destructive buttons
         default:
           return 'button-primary';
       }
