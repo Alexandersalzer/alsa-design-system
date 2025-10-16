@@ -53,7 +53,6 @@
 /* STEP 5: Pattern components */
 @import './components/patterns/forms/fieldset/Fieldset.css';
 
-@import './components/patterns/dashboard/layout/PropertyGroup.css';
 @import './components/patterns/dashboard/page/PageContent.css';
 @import './components/patterns/dashboard/page/PageHeader.css';
 /*@import './components/patterns/dashboard/page/LayoutUtilities.css';*/
