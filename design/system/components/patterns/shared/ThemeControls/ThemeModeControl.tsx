@@ -56,10 +56,10 @@ export function ThemeModeControl({
   };
 
   // ✅ Use external value if provided, otherwise use internal theme state
-  const currentValue = value ?? (isDark ? 'dark' : 'light') ?? 'light';
+  const currentValue = value || (isDark ? 'dark' : 'light');
 
   // Loading state om inte hydratiserad
-  if (!isHydrated) {
+  if (!isHydrated) {  
     return (
       <div className={className}>
         {showLabel && (
