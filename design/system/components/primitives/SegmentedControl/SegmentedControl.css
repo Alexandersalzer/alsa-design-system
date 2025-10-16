@@ -289,3 +289,7 @@
 [dir="rtl"] .segmented-control__indicator {
   /* Transform will be handled by JavaScript for RTL */
 }
+
+.segmented-control[data-mounted="false"] .segmented-control__indicator {
+  transition: none !important;
+}
