@@ -48,36 +48,41 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
     width: `${100 / options.length}%`
   });
 
-  // Update indicator position and width based on selected option
   useEffect(() => {
-    const selectedIndex = options.findIndex(option => option.value === value);
-    if (selectedIndex === -1) return;
+    const updateIndicator = () => {
+      const selectedIndex = options.findIndex(option => option.value === value);
+      if (selectedIndex === -1) return;
 
-    const container = containerRef.current;
-    if (!container) return;
+      const container = containerRef.current;
+      if (!container) return;
 
-    // Get all option buttons
-    const buttons = container.querySelectorAll('.segmented-control__option');
-    const selectedButton = buttons[selectedIndex] as HTMLElement;
-    
-    if (!selectedButton) return;
+      const buttons = container.querySelectorAll('.segmented-control__option');
+      const selectedButton = buttons[selectedIndex] as HTMLElement;
+      if (!selectedButton) return;
 
-    // Calculate position and width relative to the container
-    const containerRect = container.getBoundingClientRect();
-    const buttonRect = selectedButton.getBoundingClientRect();
-    
-    // Account for container padding
-    const containerStyle = getComputedStyle(container);
-    const paddingLeft = parseFloat(containerStyle.paddingLeft) || 0;
-    const paddingTop = parseFloat(containerStyle.paddingTop) || 0;
-    
-    const relativeLeft = buttonRect.left - containerRect.left - paddingLeft;
-    const buttonWidth = buttonRect.width;
-    
-    setIndicatorStyle({
-      transform: `translateX(${relativeLeft}px)`,
-      width: `${buttonWidth}px`
-    });
+      const containerRect = container.getBoundingClientRect();
+      const buttonRect = selectedButton.getBoundingClientRect();
+      const containerStyle = getComputedStyle(container);
+      const paddingLeft = parseFloat(containerStyle.paddingLeft) || 0;
+
+      const relativeLeft = buttonRect.left - containerRect.left - paddingLeft;
+      const buttonWidth = buttonRect.width;
+
+      setIndicatorStyle({
+        transform: `translateX(${relativeLeft}px)`,
+        width: `${buttonWidth}px`,
+      });
+    };
+
+    // ✅ Run after paint to ensure correct layout
+    const raf = requestAnimationFrame(updateIndicator);
+    // ✅ Also handle delayed fonts/layout shifts
+    const timeout = setTimeout(updateIndicator, 50);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(timeout);
+    };
   }, [value, options]);
 
   // Handle keyboard navigation
