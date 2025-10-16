@@ -96,6 +96,31 @@
   border-color: var(--error-500);
 }
 
+/* ===== CHECKED / ACCENT STATE ===== */
+.checkbox--checked,
+.checkbox--indeterminate {
+  border-color: var(--border-checkbox-accent);
+  background-color: var(--surface-checkbox-accent);
+}
+
+.checkbox--checked:hover:not(:disabled),
+.checkbox--indeterminate:hover:not(:disabled) {
+  background-color: var(--accent-600);
+}
+
+/* Use proper accent icon color */
+.checkbox--checked .checkbox__icon,
+.checkbox--indeterminate .checkbox__icon {
+  color: var(--icon-checkbox-accent);
+}
+
+/* Dimmed white when disabled */
+.checkbox--checked:disabled .checkbox__icon,
+.checkbox--indeterminate:disabled .checkbox__icon {
+  color: var(--icon-checkbox-accent-disabled);
+}
+
+
 /* ===== CHECKBOX ICON ===== */
 .checkbox__icon {
   position: absolute;
