@@ -5,7 +5,7 @@ import { Typography } from '../../../../../system/components/primitives/Typograp
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Stack } from '../../../layout/utilities/stack/Stack';
-import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { Grid } from '../../../layout/utilities/grid/Grid';
 import { Section } from '../../../layout/frames/section/Section';
 import { Container } from '../../../layout/frames/container/Container';
@@ -71,7 +71,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               {subtitle}
             </Typography>
 
-            <Cluster className="hero-cta-cluster">
+            <HStack className="hero-cta-hStack">
               <Button 
                 variant="accent" 
                 size="lg"
@@ -80,7 +80,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               >
                 {ctaText}
               </Button>
-            </Cluster>
+            </HStack>
           </Stack>
           
           {/* Bilden höger på desktop, ovanpå på mobil */}

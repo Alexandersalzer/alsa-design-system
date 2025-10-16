@@ -1,5 +1,5 @@
 // ===============================================
-// src/design-system/components/patterns/shared/LoadingSkeleton.tsx
+// design/system/components/primitives/LoadingSkeleton/LoadingSkeleton.tsx
 // SKELETON COMPONENTS - Pulse, Shine, and Text variants for content placeholders
 // ===============================================
 

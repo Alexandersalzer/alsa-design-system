@@ -5,7 +5,7 @@ import { Card } from '../../../../../system/components/primitives/Card';
 import { Section } from '../../../layout/frames/section/Section';
 import { Container } from '../../../layout/frames/container/Container';
 import { Stack } from '../../../layout/utilities/stack/Stack';
-import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { StarIcon } from '@heroicons/react/24/solid';
 
 export interface Testimonial {
@@ -118,7 +118,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                   <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <Stack spacing="md">
                     {/* Rating Stars */}
-                    <Cluster spacing="xs" align="center">
+                    <HStack spacing="xs" align="center">
                       {[...Array(testimonial.rating || 5)].map((_, i) => (
                         <div 
                           key={i} 
@@ -132,7 +132,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                           <StarIcon />
                         </div>
                       ))}
-                    </Cluster>
+                    </HStack>
                     
                     {/* Testimonial Text */}
                     <div style={{ flex: 1 }}>

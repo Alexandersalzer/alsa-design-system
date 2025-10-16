@@ -1,0 +1,120 @@
+/* ===============================================
+   src/design-system/components/patterns/page/hStack.css
+   hStack (hStack) - Horizontal layout component
+   =============================================== */
+
+.hStack {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--foundation-space-4);
+}
+
+/* ===== SPACING ===== */
+.hStack--spacing-xs {
+  gap: var(--foundation-space-1);
+}
+
+.hStack--spacing-sm {
+  gap: var(--foundation-space-2);
+}
+
+.hStack--spacing-md {
+  gap: var(--foundation-space-4);
+}
+
+.hStack--spacing-lg {
+  gap: var(--foundation-space-6);
+}
+
+.hStack--spacing-xl {
+  gap: var(--foundation-space-8);
+}
+
+/* ===== ALIGNMENT ===== */
+.hStack--align-start {
+  align-items: flex-start;
+}
+
+.hStack--align-center {
+  align-items: center;
+}
+
+.hStack--align-end {
+  align-items: flex-end;
+}
+
+.hStack--align-baseline {
+  align-items: baseline;
+}
+
+/* ===== JUSTIFY ===== */
+.hStack--justify-start {
+  justify-content: flex-start;
+}
+
+.hStack--justify-center {
+  justify-content: center;
+}
+
+.hStack--justify-end {
+  justify-content: flex-end;
+}
+
+.hStack--justify-between {
+  justify-content: space-between;
+}
+
+.hStack--justify-around {
+  justify-content: space-around;
+}
+
+.hStack--justify-evenly {
+  justify-content: space-evenly;
+}
+
+/* ===== WRAP ===== */
+.hStack--wrap {
+  flex-wrap: wrap;
+}
+
+/* ===== DIRECTION ===== */
+.hStack--row-reverse {
+  flex-direction: row-reverse;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .hStack {
+    gap: var(--foundation-space-3);
+  }
+
+  .hStack--spacing-xs {
+    gap: var(--foundation-space-1);
+  }
+
+  .hStack--spacing-sm {
+    gap: var(--foundation-space-2);
+  }
+
+  .hStack--spacing-md {
+    gap: var(--foundation-space-3);
+  }
+
+  .hStack--spacing-lg {
+    gap: var(--foundation-space-4);
+  }
+
+  .hStack--spacing-xl {
+    gap: var(--foundation-space-6);
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .hStack {
+    transition: none;
+  }
+}

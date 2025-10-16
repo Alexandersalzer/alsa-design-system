@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/patterns/page/PageHeader.tsx
-// FIXED PAGE HEADER - Using Stack and Cluster Properly
+// FIXED PAGE HEADER - Using Stack and HStack Properly
 // ===============================================
 
 import React, { ReactNode } from 'react';
@@ -11,7 +11,7 @@ import { H1, Body, Display, H2, H3, H4, H5, H6 } from '../../../primitives/Typog
 
 // Import layout components
 import { Stack } from '../../../layout';
-import { Cluster } from '../../../layout';
+import { HStack } from '../../../layout';
 
 // Import Tag component
 import { Tag } from '../../../primitives/Tag/Tag';
@@ -102,7 +102,7 @@ export const PageHeader = React.forwardRef<HTMLElement, PageHeaderProps>(({
 
   return (
     <header ref={ref} className={classes} {...props}>
-      <Cluster spacing="lg" justify="between" align="start" wrap={false}>
+      <HStack spacing="lg" justify="between" align="start" wrap={false}>
         <Stack spacing="xs" className="page-header__text">
           {getTitleComponent()}
           {getSubtitleComponent()}
@@ -116,7 +116,7 @@ export const PageHeader = React.forwardRef<HTMLElement, PageHeaderProps>(({
             {actions}
           </div>
         )}
-      </Cluster>
+      </HStack>
     </header>
   );
 });

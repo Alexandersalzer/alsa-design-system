@@ -1,4 +1,4 @@
-// src/design-system/components/patterns/EmptyState/index.ts
+// design/system/components/primitives/LoadingSkeleton/index.ts
 
 export {
   Skeleton,

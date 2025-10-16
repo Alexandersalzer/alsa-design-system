@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Typography } from '../../../primitives/Typography';
 import { Stack } from '../../../layout/utilities/stack/Stack';
-import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { Rhythm, RhythmItem } from '../../../layout/utilities/rhythm/Rhythm';
 import { Picker } from '../../../primitives/Picker';
 
@@ -85,7 +85,7 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
     <Rhythm unit="md" align="center" direction="column">
       {/* Title with Logo */}
       <RhythmItem at={1}>
-        <Cluster spacing="md" align="center" justify="center">
+        <HStack spacing="md" align="center" justify="center">
           <img 
             src="/images/sections/kjlogo.jpg" 
             alt="KJ Marketing Sweden Logo"
@@ -101,7 +101,7 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
           >
             {companyName}
           </Typography>
-        </Cluster>
+        </HStack>
       </RhythmItem>
 
       {/* Language Picker */}

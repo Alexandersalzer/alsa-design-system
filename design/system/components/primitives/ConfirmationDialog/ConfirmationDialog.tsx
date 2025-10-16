@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { Modal } from '../Modal';
 import { Stack } from '../../layout/utilities/stack/Stack';
-import { Cluster } from '../../layout/utilities/cluster/Cluster';
+import { HStack } from '../../layout/utilities/hStack/HStack';
 import { Button } from '../Button';
 import { Typography } from '../Typography';
 import { cn } from '../../../lib/utils';
@@ -75,7 +75,7 @@ export const ConfirmationDialog = forwardRef<HTMLDivElement, ConfirmationDialogP
           <Typography variant="body-md" color="secondary">
             {message}
           </Typography>
-          <Cluster justify="end" spacing="sm">
+          <HStack justify="end" spacing="sm">
             <Button
               variant="secondary"
               onClick={onClose}
@@ -91,7 +91,7 @@ export const ConfirmationDialog = forwardRef<HTMLDivElement, ConfirmationDialogP
             >
               {confirmText}
             </Button>
-          </Cluster>
+          </HStack>
         </Stack>
       </Modal>
     );

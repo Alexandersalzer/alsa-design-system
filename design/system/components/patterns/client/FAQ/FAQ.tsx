@@ -8,7 +8,7 @@ import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Section } from '../../../layout/frames/section/Section';
 import { Container } from '../../../layout/frames/container/Container';
 import { Stack } from '../../../layout/utilities/stack/Stack';
-import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import './FAQ.css';
 
@@ -131,7 +131,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                     }}
                   >
                     <Stack spacing="md">
-                      <Cluster justify="between" align="center">
+                      <HStack justify="between" align="center">
                       <Typography 
                         variant="h4" 
                         weight="semibold" 
@@ -163,7 +163,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                           <ChevronDownIcon />
                         </Icon>
                       </Button>
-                    </Cluster>
+                    </HStack>
                     
                     {isExpanded && (
                       <div className="faq-answer">

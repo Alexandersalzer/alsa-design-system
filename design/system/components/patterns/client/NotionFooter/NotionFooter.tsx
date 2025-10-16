@@ -7,7 +7,7 @@ import { TextLink } from '../../../../../system/components/primitives/TextLink';
 import { Container } from '../../../layout/frames/container/Container';
 import { Grid } from '../../../layout/utilities/grid/Grid';
 import { Stack } from '../../../layout/utilities/stack/Stack';
-import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { HStack } from '../../../layout/utilities/hStack/HStack';
 import {
   PhoneIcon,
   EnvelopeIcon,
@@ -96,32 +96,32 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
                 </Typography>
 
                 <Stack spacing="sm" align="start">
-                  <Cluster spacing="sm" align="start">
+                  <HStack spacing="sm" align="start">
                     <Icon color="secondary" size="sm">
                       <PhoneIcon />
                     </Icon>
                     <Typography variant="body-sm" color="secondary">
                       {phone}
                     </Typography>
-                  </Cluster>
+                  </HStack>
                   
-                  <Cluster spacing="sm" align="start">
+                  <HStack spacing="sm" align="start">
                     <Icon color="secondary" size="sm">
                       <EnvelopeIcon />
                     </Icon>
                     <Typography variant="body-sm" color="secondary">
                       {email}
                     </Typography>
-                  </Cluster>
+                  </HStack>
                   
-                  <Cluster spacing="sm" align="start">
+                  <HStack spacing="sm" align="start">
                     <Icon color="secondary" size="sm">
                       <MapPinIcon />
                     </Icon>
                     <Typography variant="body-sm" color="secondary">
                       {address}
                     </Typography>
-                  </Cluster>
+                  </HStack>
                 </Stack>
               </Stack>
             </section>
@@ -174,8 +174,8 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
           </Grid>
 
           {/* Bottom row */}
-          <Cluster justify="between" align="center" wrap>
-            <Cluster spacing="sm" align="center">
+          <HStack justify="between" align="center" wrap>
+            <HStack spacing="sm" align="center">
               <Typography variant="body-sm" color="tertiary">
                 {copyright}
               </Typography>
@@ -185,7 +185,7 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
               <Typography variant="body-sm" color="tertiary">
                 Alla rättigheter förbehållna
               </Typography>
-            </Cluster>
+            </HStack>
 
             <Button
               variant="accent"
@@ -195,7 +195,7 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
             >
               {ctaText}
             </Button>
-          </Cluster>
+          </HStack>
         </Stack>
       </Container>
     </footer>

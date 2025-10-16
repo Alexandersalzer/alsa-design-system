@@ -51,7 +51,7 @@
     background-clip: text;
   }
   
-  .hero-cta-cluster {
+  .hero-cta-hstack {
     justify-content: flex-start;
   }
   
@@ -86,7 +86,7 @@
       align-items: center;
     }
   
-    .hero-cta-cluster {
+    .hero-cta-hstack {
       justify-content: center;
     }
   }

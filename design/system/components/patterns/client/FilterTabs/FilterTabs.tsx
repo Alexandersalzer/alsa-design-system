@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { Tab } from '../../../../../system/components/primitives/NavigationTab/Tab';
-import { Cluster } from '../../../layout/utilities/cluster/Cluster';
+import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { Stack } from '../../../layout/utilities/stack/Stack';
 
 // ===== TYPE DEFINITIONS =====
@@ -84,7 +84,7 @@ export const FilterTabs: React.FC<FilterTabsProps> = ({
     <div className={`filter-tabs ${className || ''}`}>
       <Stack spacing={containerSpacing} align="center">
         {/* Filter Tabs */}
-        <Cluster 
+        <HStack 
           spacing={spacing}
           align={align}
           justify={justify}
@@ -103,7 +103,7 @@ export const FilterTabs: React.FC<FilterTabsProps> = ({
               {filter.label}
             </Tab>
           ))}
-        </Cluster>
+        </HStack>
       </Stack>
     </div>
   );

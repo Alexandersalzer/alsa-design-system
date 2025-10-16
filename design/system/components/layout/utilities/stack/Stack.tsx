@@ -16,7 +16,7 @@ export interface StackProps {
   split?: boolean;
   // Responsive behavior
   collapseSpacing?: 'mobile' | 'tablet' | 'never';
-  // Flex child behavior (for use in Cluster, etc.)
+  // Flex child behavior (for use in HStack, etc.)
   flexChild?: boolean;
   // Full width behavior
   fullWidth?: boolean;
