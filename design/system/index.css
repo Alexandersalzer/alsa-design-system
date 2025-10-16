@@ -38,7 +38,7 @@
 @import './components/primitives/SpinningAnimation/SpinningAnimation.css';
 @import './components/primitives/Spinner/Spinner.css';
 @import './components/primitives/Table/Table.css';
-@import './components/patterns/shared/EmptyState/LoadingSkeleton.css';
+@import './components/primitives/LoadingSkeleton/LoadingSkeleton.css';
 
 
 
