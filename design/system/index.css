@@ -53,14 +53,6 @@
 /* STEP 5: Pattern components */
 @import './components/patterns/forms/fieldset/Fieldset.css';
 
-
-
-@import './components/patterns/dashboard/Header/Header.css';
-@import './components/patterns/dashboard/auth/AuthContainer.css';
-@import './components/patterns/dashboard/auth/AuthForm.css';
-
-@import './components/patterns/dashboard/layout/AppLayout.css';
-
 @import './components/patterns/dashboard/layout/PropertyGroup.css';
 @import './components/patterns/dashboard/page/PageContent.css';
 @import './components/patterns/dashboard/page/PageHeader.css';
@@ -70,7 +62,6 @@
 @import './components/patterns/dashboard/selection/DesignRadioCard.css';
 @import './components/patterns/dashboard/selection/RadioCard.css';
 
-@import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
 @import './components/patterns/client/FAQ/FAQ.css';
 @import './components/patterns/client/Hero/Hero.css';
 @import './components/patterns/client/ProcessSteps/processSteps.css';
