@@ -37,7 +37,8 @@ export interface StepperProps extends React.HTMLAttributes<HTMLDivElement> {
   extraCost?: number;                  // Extra costs only (to determine if we should show price)
   formatPrice?: (price: number) => string; // Custom price formatter
   basePackageName?: string;            // Name to search for in products (e.g. "Standard hemsida")
-  basePackagePrice?: number;           // Hardcoded base package price (fallback: 6999)
+  basePackagePrice?: number;           // Current base package price (0 for single-page, multipage price for multi-page)
+  showBasePriceAlways?: boolean;       // Always show base price, even if 0
 
   // ✨ NEW STICKY MODE PROPS
   sticky?: boolean;                    // Enable sticky navigation
@@ -71,6 +72,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
   formatPrice = (price: number) => `${price.toLocaleString('sv-SE')} kr`,
   basePackageName = 'Standard hemsida',
   basePackagePrice,
+  showBasePriceAlways = false,
 
   // Sticky mode props
   sticky = false,
@@ -92,14 +94,14 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
 
   // Use provided basePackagePrice or fallback to hardcoded value
   useEffect(() => {
-    if (showPriceInButton) {
-      // Use provided price prop or fallback to hardcoded value
-      const priceToUse = basePackagePrice || 6999; // Standard website package price
+    if (showPriceInButton || showBasePriceAlways) {
+      // Use provided price prop or fallback to 0 (since we now handle base prices explicitly)
+      const priceToUse = basePackagePrice ?? 0;
       setBasePrice(priceToUse);
-      console.log('🔍 Using base package price:', priceToUse, basePackagePrice ? '(from prop)' : '(hardcoded fallback)');
+      console.log('🔍 Using base package price:', priceToUse, basePackagePrice !== undefined ? '(from prop)' : '(fallback to 0)');
     }
     setPriceLoading(false);
-  }, [showPriceInButton, basePackagePrice]);
+  }, [showPriceInButton, showBasePriceAlways, basePackagePrice]);
 
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === steps.length - 1;
@@ -114,14 +116,21 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
 
   // Generate dynamic next button label with price
   const getNextButtonLabel = () => {
-    if (!showPriceInButton || typeof totalPrice !== 'number' || priceLoading) {
+    if (priceLoading) {
       return nextLabel;
     }
 
-    // Show price if we have extra costs or a total different from base
-    const hasExtraCosts = extraCost > 0 || totalPrice > basePrice;
-    if (hasExtraCosts) {
-      return `${nextLabel} (${formatPrice(totalPrice)})`;
+    // Always show price if showBasePriceAlways is true, regardless of extra costs
+    if (showBasePriceAlways && typeof totalPrice === 'number') {
+      return formatPrice(totalPrice);
+    }
+
+    // Show price if showPriceInButton is true and we have extra costs
+    if (showPriceInButton && typeof totalPrice === 'number') {
+      const hasExtraCosts = extraCost > 0 || totalPrice > basePrice;
+      if (hasExtraCosts) {
+        return formatPrice(totalPrice);
+      }
     }
     
     return nextLabel;
