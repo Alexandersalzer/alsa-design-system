@@ -151,25 +151,26 @@ export const AvailabilityBanner = forwardRef<HTMLDivElement, AvailabilityBannerP
   let bannerType: BannerType = 'default';
   let message = '';
 
-  if (isLoading) {
+    if (isLoading) {
     bannerType = 'loading';
-    message = 'Kontrollerar tillgängliga platser...';
-  } else if (error) {
+    message = 'Kontrollerar tillgänglighet i vår Early Access...';
+    } else if (error) {
     bannerType = 'error';
-    message = error;
-  } else if (isFullyBooked) {
+    message = 'Kunde inte hämta tillgänglighet just nu. Försök igen om en stund.';
+    } else if (isFullyBooked) {
     bannerType = 'error';
-    message = `Attans! Alla ${totalSpots} platser är fulla. Vi stöter på stor efterfrågan. Försök igen senare!`;
-  } else if (availableSpots === 1) {
+    message = `Alla ${totalSpots} platser i vår Early Access är nu fyllda. Nya platser öppnas snart!`;
+    } else if (availableSpots === 1) {
     bannerType = 'error';
-    message = `Bara 1 plats kvar av ${totalSpots}! Skynda dig innan den är slut.`;
-  } else if (availableSpots <= 3) {
+    message = `Sista platsen kvar i vår Early Access – först till kvarn!`;
+    } else if (availableSpots <= 3) {
     bannerType = 'warning';
-    message = `Bara ${availableSpots} platser kvar av ${totalSpots}! Skynda dig innan de är slut.`;
-  } else {
+    message = `Endast ${availableSpots} platser kvar i vår Early Access – först till kvarn.`;
+    } else {
     bannerType = 'default';
-    message = `${availableSpots} av ${totalSpots} platser lediga`;
-  }
+    message = `${availableSpots} av ${totalSpots} platser tillgängliga i vår Early Access just nu.`;
+    }
+
 
   return (
     <Banner
