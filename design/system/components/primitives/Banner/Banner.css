@@ -79,11 +79,12 @@
 /* ===== BANNER TEXT ALIGNMENT ===== */
 
 .banner__content {
-  /* Flex container for icon + message - CENTERED, no flex expansion */
+  /* Flex container for icon + message - CENTERED and EXPANDED */
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-banner-gap);
+  flex: 1; /* VIKTIGT: Låter content expandera och centrera */
 }
 
 .banner__icon {
@@ -157,29 +158,30 @@
 
 @media (max-width: 768px) {
   .banner {
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: var(--foundation-space-2);
-    padding: var(--foundation-space-2) var(--foundation-space-4);
+    flex-direction: row; /* Behåll horisontell layout på mobil */
+    align-items: center;
+    gap: var(--foundation-space-3);
+    padding: var(--foundation-space-3) var(--foundation-space-4);
     min-height: auto;
   }
 
   .banner__content {
-    width: 100%;
-    justify-content: flex-start;
+    flex: 1; /* Fortsätt expandera på mobil */
+    justify-content: center; /* Behåll centrering */
   }
 
   .banner__actions {
-    width: 100%;
-    margin-left: 0;
-    justify-content: flex-end;
+    margin-left: auto; /* Behåll actions till höger */
+    flex-shrink: 0;
   }
 
   .banner__action {
-    align-self: flex-end;
     padding: 6px 12px;
     font-size: 0.7rem;
+  }
+
+  .banner__message {
+    font-size: 0.875rem;
   }
 }
 
