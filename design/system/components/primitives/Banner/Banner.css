@@ -5,7 +5,7 @@
 
 /* ===== BASE BANNER STYLING ===== */
 .banner {
-  /* Layout - flexbox for icon + message + actions CENTERED */
+  /* Layout - flexbox for icon + message + action CENTERED */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,17 +25,6 @@
 
   /* Remove default margins */
   margin: 0;
-  
-  /* Z-index for sticky positioning */
-  position: relative;
-  z-index: 40;
-}
-
-/* ===== STICKY BANNER ===== */
-.banner--sticky {
-  position: sticky;
-  top: 0;
-  z-index: 40;
 }
 
 /* ===== BANNER TYPE VARIANTS ===== */
@@ -75,6 +64,8 @@
   background-color: var(--surface-banner-error);
   color: var(--text-banner-error);
 }
+
+/* ===== CONTENT LAYOUT ===== */
 
 /* ===== BANNER TEXT ALIGNMENT ===== */
 
@@ -117,23 +108,13 @@
 .banner__message {
   /* Message typography */
   margin: 0;
+  flex: 1;
   line-height: var(--foundation-leading-normal);
   font-size: 0.9375rem;
   letter-spacing: 0;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
 
-/* ===== ACTION BUTTONS ===== */
-
-.banner__actions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-banner-gap);
-  margin-left: auto;
-  flex-shrink: 0;
-}
+/* ===== ACTION BUTTON ===== */
 
 .banner__action {
   flex-shrink: 0;
@@ -159,7 +140,6 @@
   .banner {
     flex-direction: column;
     align-items: flex-start;
-    justify-content: flex-start;
     gap: var(--foundation-space-2);
     padding: var(--foundation-space-2) var(--foundation-space-4);
     min-height: auto;
@@ -167,13 +147,6 @@
 
   .banner__content {
     width: 100%;
-    justify-content: flex-start;
-  }
-
-  .banner__actions {
-    width: 100%;
-    margin-left: 0;
-    justify-content: flex-end;
   }
 
   .banner__action {
