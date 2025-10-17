@@ -32,37 +32,29 @@
 
 /* ===== SIZE VARIANTS - EXACTLY MATCH BUTTON HEIGHTS ===== */
 .icon-btn--sm {
-  width: 32px;
-  height: 32px;
-  min-height: 32px;
-  max-height: 32px;
+  width: var(--control-height-sm);
+  height: var(--control-height-sm);
   /* Small padding for icon centering */
   padding: 6px;
 }
 
 .icon-btn--md{
-  width: 40px;
-  height: 40px;
-  min-height: 40px;
-  max-height: 40px;
+  width: var(--control-height-md);
+  height: var(--control-height-md);
   /* Medium padding for icon centering */
   padding: 8px;
 }
 
 .icon-btn--lg {
-  width: 48px;
-  height: 48px;
-  min-height: 48px;
-  max-height: 48px;
+  width: var(--control-height-lg);
+  height: var(--control-height-lg);
   /* Large padding for icon centering */
   padding: 12px;
 }
 
 .icon-btn--xl {
-  width: 56px;
-  height: 56px;
-  min-height: 56px;
-  max-height: 56px;
+  width: var(--control-height-xl);
+  height: var(--control-height-xl);
   /* Extra large padding for icon centering */
   padding: 16px;
 }

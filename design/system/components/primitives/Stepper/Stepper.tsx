@@ -233,7 +233,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
             showPriceInButton && totalPrice && (extraCost || 0) > 0 ? 'stepper-button--with-price' : false
           )}
           rightIcon={
-            <Icon size="sm" color="button-primary" className="button-icon">
+            <Icon size="sm" color="button-accent" className="button-icon">
               <ChevronRightIcon />
             </Icon>
           }

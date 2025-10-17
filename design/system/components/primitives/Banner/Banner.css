@@ -5,7 +5,7 @@
 
 /* ===== BASE BANNER STYLING ===== */
 .banner {
-  /* Layout - flexbox for icon + message + action CENTERED */
+  /* Layout - flexbox for icon + message + actions CENTERED */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,56 +25,74 @@
 
   /* Remove default margins */
   margin: 0;
+  
+  /* Z-index for sticky positioning */
+  position: relative;
+  z-index: 40;
+}
+
+/* ===== STICKY BANNER ===== */
+.banner--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 40;
 }
 
 /* ===== BANNER TYPE VARIANTS ===== */
 
-/* Default - Accent color */
+/* ===== BANNER BORDERS (TOKEN-BASED) ===== */
+
 .banner--default {
   background-color: var(--surface-banner-default);
   color: var(--text-banner-default);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-/* Loading - Lighter accent, subtle */
-.banner--loading {
-  background-color: var(--surface-banner-loading);
-  color: var(--text-banner-loading);
-}
-
-/* Info - Accent (same as default) */
 .banner--info {
   background-color: var(--surface-banner-info);
   color: var(--text-banner-info);
+  border-bottom: 1px solid var(--border-info-subtle);
 }
 
-/* Success - Green (many spots available) */
 .banner--success {
   background-color: var(--surface-banner-success);
   color: var(--text-banner-success);
+  border-bottom: 1px solid var(--border-success-subtle);
 }
 
-/* Warning - Yellow (limited spots) */
 .banner--warning {
   background-color: var(--surface-banner-warning);
   color: var(--text-banner-warning);
+  border-bottom: 1px solid var(--border-warning-subtle);
 }
 
-/* Error - Red (fully booked) */
 .banner--error {
   background-color: var(--surface-banner-error);
   color: var(--text-banner-error);
+  border-bottom: 1px solid var(--border-error-subtle);
 }
 
-/* ===== CONTENT LAYOUT ===== */
+.banner--accent {
+  background-color: var(--surface-banner-accent);
+  color: var(--text-banner-accent);
+  border-bottom: 1px solid var(--border-brand-subtle);
+}
+
+.banner--loading {
+  background-color: var(--surface-banner-loading);
+  color: var(--text-banner-loading);
+  border-bottom: 1px solid var(--border-light);
+}
 
 /* ===== BANNER TEXT ALIGNMENT ===== */
 
 .banner__content {
-  /* Flex container for icon + message - CENTERED, no flex expansion */
+  /* Flex container for icon + message - CENTERED and EXPANDED */
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-banner-gap);
+  flex: 1; /* VIKTIGT: Låter content expandera och centrera */
 }
 
 .banner__icon {
@@ -108,13 +126,23 @@
 .banner__message {
   /* Message typography */
   margin: 0;
-  flex: 1;
   line-height: var(--foundation-leading-normal);
   font-size: 0.9375rem;
   letter-spacing: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
-/* ===== ACTION BUTTON ===== */
+/* ===== ACTION BUTTONS ===== */
+
+.banner__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-banner-gap);
+  margin-left: auto;
+  flex-shrink: 0;
+}
 
 .banner__action {
   flex-shrink: 0;
@@ -138,21 +166,30 @@
 
 @media (max-width: 768px) {
   .banner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--foundation-space-2);
-    padding: var(--foundation-space-2) var(--foundation-space-4);
+    flex-direction: row; /* Behåll horisontell layout på mobil */
+    align-items: center;
+    gap: var(--foundation-space-3);
+    padding: var(--foundation-space-3) var(--foundation-space-4);
     min-height: auto;
   }
 
   .banner__content {
-    width: 100%;
+    flex: 1; /* Fortsätt expandera på mobil */
+    justify-content: center; /* Behåll centrering */
+  }
+
+  .banner__actions {
+    margin-left: auto; /* Behåll actions till höger */
+    flex-shrink: 0;
   }
 
   .banner__action {
-    align-self: flex-end;
     padding: 6px 12px;
     font-size: 0.7rem;
+  }
+
+  .banner__message {
+    font-size: 0.875rem;
   }
 }
 

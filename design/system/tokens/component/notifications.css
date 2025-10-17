@@ -136,7 +136,7 @@
   --icon-tag-warning: var(--warning-icon);
 
   /* INFO (neutral) */
-  --surface-tag-info: var(--neutral-bg);
+  --surface-tag-info: var(--info-100);
   --surface-tag-info-hover: var(--neutral-bg-hover);
   --surface-tag-info-active: var(--neutral-border);
   --text-tag-info: var(--neutral-text);
@@ -145,7 +145,7 @@
   --icon-tag-info: var(--neutral-icon);
 
   /* ACCENT */
-  --surface-tag-accent: var(--accent-bg);
+  --surface-tag-accent: var(--accent-100);
   --surface-tag-accent-hover: var(--accent-bg-hover);
   --surface-tag-accent-active: var(--accent-border);
   --text-tag-accent: var(--accent-text);
@@ -217,32 +217,37 @@
   /* ===== BANNER STATES ===== */
   
   /* DEFAULT - Primary text, subtle accent background */
-  --surface-banner-default: color-mix(in srgb, var(--accent-500) 8%, transparent 92%);
+  --surface-banner-default: var(--surface-page);
   --text-banner-default: var(--text-primary);
   --icon-banner-default: var(--icon-primary);
   
   /* LOADING - Primary text, subtle accent background */
-  --surface-banner-loading: color-mix(in srgb, var(--accent-500) 8%, transparent 92%);
+  --surface-banner-loading: color-mix(in srgb, var(--secondary-300) 10%, transparent 90%);
   --text-banner-loading: var(--text-primary);
   --icon-banner-loading: var(--icon-primary);
+
+  /* INFO - Primary text, subtle accent background */
+  --surface-banner-accent: color-mix(in srgb, var(--accent-300) 10%, transparent 90%);
+  --text-banner-accent: var(--text-primary);
+  --icon-banner-accent: var(--icon-primary);
   
   /* INFO - Primary text, subtle accent background */
-  --surface-banner-info: color-mix(in srgb, var(--accent-500) 8%, transparent 92%);
+  --surface-banner-info: color-mix(in srgb, var(--info-300) 10%, transparent 90%);
   --text-banner-info: var(--text-primary);
   --icon-banner-info: var(--icon-primary);
   
   /* SUCCESS - NOT USED FOR AVAILABILITY */
-  --surface-banner-success: color-mix(in srgb, var(--accent-500) 8%, transparent 92%);
+  --surface-banner-success: color-mix(in srgb, var(--success-300) 10%, transparent 90%);
   --text-banner-success: var(--text-primary);
   --icon-banner-success: var(--icon-primary);
   
   /* WARNING - Subtle error background for 3 spots left */
-  --surface-banner-warning: color-mix(in srgb, var(--error-500) 8%, transparent 92%);
+  --surface-banner-warning: color-mix(in srgb, var(--warning-300) 10%, transparent 90%);
   --text-banner-warning: var(--text-primary);
   --icon-banner-warning: var(--icon-primary);
   
   /* ERROR - Subtle error background for 1 spot left */
-  --surface-banner-error: color-mix(in srgb, var(--error-500) 8%, transparent 92%);
+  --surface-banner-error: color-mix(in srgb, var(--error-300) 10%, transparent 90%);
   --text-banner-error: var(--text-primary);
   --icon-banner-error: var(--icon-primary);
   

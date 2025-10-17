@@ -27,22 +27,22 @@
 /* Button sizes - UPDATED TO MATCH INPUT HEIGHTS */
 .btn-sm {
   padding: var(--foundation-space-1) var(--foundation-space-2);
-  min-height: 32px; /* Matches input--sm */
+  height: var(--control-height-sm); /* Matches input--sm */
 }
 
 .btn-md {
   padding: var(--foundation-space-2) var(--foundation-space-4);
-  min-height: 40px; /* Matches input--md */
+  height: var(--control-height-md);
 }
 
 .btn-lg {
   padding: var(--foundation-space-3) var(--foundation-space-4);
-  min-height: 48px; /* Matches input--lg */
+  height: var(--control-height-lg);
 }
 
 .btn-xl {
   padding: var(--foundation-space-4) var(--foundation-space-6);
-  min-height: 56px; /* Extra large for special cases */
+  height: var(--control-height-xl);
 }
 
 /* Button Variants */

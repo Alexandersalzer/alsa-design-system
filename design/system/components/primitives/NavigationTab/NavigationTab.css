@@ -226,7 +226,7 @@
   padding: var(--foundation-space-1, 4px) var(--foundation-space-2, 8px);
   font-size: var(--font-label-sm-size, 13px);
   gap: var(--foundation-space-1, 4px);
-  min-height: 32px;
+  height: var(--control-height-sm);
 }
 
 .tab--sm svg,
@@ -239,7 +239,7 @@
   padding: var(--foundation-space-3, 12px) var(--foundation-space-4, 16px);
   font-size: var(--font-label-lg-size, 16px);
   gap: var(--foundation-space-3, 12px);
-  min-height: 48px;
+  height: var(--control-height-lg);
 }
 
 .tab--lg svg,

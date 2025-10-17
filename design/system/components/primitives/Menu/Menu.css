@@ -76,7 +76,7 @@
 
 /* Size variants */
 .menu-trigger--sm {
-  min-height: 32px;
+  height: var(--control-height-sm);
   padding: 6px 12px;
   font-size: 13px;
   gap: 6px;
@@ -84,7 +84,7 @@
 }
 
 .menu-trigger--md {
-  min-height: 40px;
+  height: var(--control-height-md);
   padding: 8px 16px;
   font-size: 14px;
   gap: 8px;
@@ -92,7 +92,7 @@
 }
 
 .menu-trigger--lg {
-  min-height: 48px;
+  height: var(--control-height-lg);
   padding: 10px 20px;
   font-size: 15px;
   gap: 10px;

@@ -76,7 +76,7 @@
   padding: var(--foundation-space-1) var(--foundation-space-2);
   font-size: var(--font-body-sm-size);
   line-height: var(--font-body-sm-leading);
-  min-height: 32px;
+  height: var(--control-height-sm);
 }
 
 /* Default size uses component-specific radius token */
@@ -84,14 +84,14 @@
   padding: var(--space-input-padding-y) var(--space-input-padding-x);
   font-size: var(--font-body-md-size);
   line-height: var(--font-body-md-leading);
-  min-height: var(--size-input-height);
+  height: var(--control-height-md);
 }
 
 .input--lg {
   padding: var(--foundation-space-3) var(--foundation-space-4);
   font-size: var(--font-body-lg-size);
   line-height: var(--font-body-lg-leading);
-  min-height: 48px;
+  height: var(--control-height-lg);
 }
 
 /* ===== SIZE + RADIUS COMBINATIONS ===== */
