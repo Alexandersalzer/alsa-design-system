@@ -1,370 +1,319 @@
 // ===============================================
-// FINAL UPDATES SUMMARY
-// Availability Check Fix + Material Design Banner
+// DISCRETE ACCENT BANNER - COMPLETE SETUP GUIDE
 // ===============================================
 
 /**
- * TWO CRITICAL FIXES IMPLEMENTED:
+ * YOU NOW HAVE 4 FILES:
  * 
- * 1. AVAILABILITY CHECK IN STEPPER BUTTON
- * 2. MATERIAL DESIGN BANNER COMPONENT
+ * 1. banner-tokens.css
+ *    → Add to src/design-system/tokens/component/notifications.css
+ *    → Defines all banner color tokens + spacing tokens
+ *    → Theme-aware (light/dark mode compatible)
+ * 
+ * 2. Banner-simple.tsx
+ *    → Replace src/design-system/components/primitives/Banner/Banner.tsx
+ *    → Clean, simple component (no variants, one purpose)
+ *    → Single-line message with optional icon + action button
+ * 
+ * 3. Banner-simple.css
+ *    → Replace src/design-system/components/primitives/Banner/Banner.css
+ *    → Full-width, no border-radius styling
+ *    → Token-based colors only
+ * 
+ * 4. StepWizard-banner-fixed.tsx
+ *    → Replace your current StepWizard.tsx
+ *    → Banner in separate container (not affected by left panel)
+ *    → Full-width visibility guaranteed
  */
 
 // ===============================================
-// FIX #1: AVAILABILITY CHECK IN STEPPER
+// KEY FEATURES
 // ===============================================
 
 /**
- * PROBLEM:
- * - User could click the top Stepper button even when no spots were available
- * - Would proceed to checkout without validation
- * - Would let user pay without actually getting access
- * 
- * SOLUTION:
- * - Added availability check to getNextButtonState()
- * - Button now disabled when availableSpots === 0
- * - Added availability check in handleNext() before checkout
- * - Added toast error if user tries to bypass
- * 
- * CHANGES IN StepWizard-FIXED-availability.tsx:
- */
-
-// Before (BROKEN):
-const getNextButtonState = () => {
-  if (currentStep === steps.length - 1) {
-    return !(termsAgreed && privacyAgreed) || isSubmitting;
-  }
-  return isSubmitting;
-};
-
-// After (FIXED):
-const getNextButtonState = () => {
-  // On final step, check if terms are agreed AND availability exists
-  if (currentStep === steps.length - 1) {
-    const hasAvailability = availabilityData?.hasAvailability !== false;
-    return !(termsAgreed && privacyAgreed && hasAvailability) || isSubmitting;
-    //     ↑ Now includes availability check
-  }
-  return isSubmitting;
-};
-
-/**
- * ALSO ADDED IN handleNext():
- * 
- * // FIXED: On final step, check both terms AND availability before proceeding
- * if (currentStep === steps.length - 1) {
- *   if (!termsAgreed || !privacyAgreed) {
- *     toast.warning('Du måste godkänna villkoren...', 'Godkännande krävs');
- *     return;
- *   }
- *
- *   // Check availability before checkout
- *   const hasAvailability = availabilityData?.hasAvailability !== false;
- *   if (!hasAvailability) {
- *     toast.error('Attans, inga platser lediga...', 'Ingen tillgänglighet');
- *     return;
- *   }
- *
- *   handleCheckout();
- *   return;
- * }
- */
-
-/**
- * ALSO ADDED IN handleCheckout():
- * 
- * // CRITICAL: Check availability before checkout
- * const hasAvailability = availabilityData?.hasAvailability !== false;
- * if (!hasAvailability) {
- *   toast.error('Attans, inga platser lediga. Försök igen senare.', 'Ingen tillgänglighet');
- *   return;
- * }
- */
-
-/**
- * NOW THE FLOW IS:
- * 
- * 1. User fills form and clicks "Nästa" button
- * 2. If on final step:
- *    a. Check if terms/privacy agreed → show warning if not
- *    b. Check if availability exists → show error if full
- *    c. If both pass → proceed to handleCheckout()
- * 3. In handleCheckout():
- *    a. ANOTHER check for availability
- *    b. Only then proceed to Stripe
- * 
- * THREE LAYERS OF PROTECTION:
- * ✓ Button disabled state (prevents clicks)
- * ✓ handleNext validation (prevents bypass)
- * ✓ handleCheckout validation (final safeguard)
+ * ✓ FULL WIDTH - No border-radius, edge-to-edge
+ * ✓ NOT HIDDEN - Banner wrapper outside panel flow
+ * ✓ TOKEN-BASED - Uses CSS variables, no hardcoded colors
+ * ✓ THEME AWARE - Works in light AND dark mode
+ * ✓ ACCENT COLOR - Discrete, uses your brand color
+ * ✓ URGENCY VARIANTS:
+ *   - success: many spots available (green)
+ *   - warning: limited spots (yellow/orange)
+ *   - error: fully booked (red)
+ * ✓ SINGLE LINE - Clean, not cluttered
+ * ✓ RESPONSIVE - Stacks on mobile
+ * ✓ ICON + MESSAGE + ACTION - Flexible content
  */
 
 // ===============================================
-// FIX #2: MATERIAL DESIGN BANNER COMPONENT
+// USAGE IN STEPWIZARD
 // ===============================================
 
 /**
- * PROBLEM WITH OLD BANNER:
- * - Too complex with many composite parts
- * - Not aligned with Material Design specs
- * - Had unnecessary metrics grid
- * - Didn't match Material Design documentation
+ * Banner is displayed above everything:
  * 
- * NEW BANNER APPROACH:
- * - Simpler, cleaner API
- * - Follows Material Design guidelines exactly
- * - Persistent, non-modal design
- * - Left border for status indication
- * - Top-of-screen placement
- * 
- * KEY DIFFERENCES:
+ * ┌─────────────────────────────────────────────┐
+ * │  🔔 5 av 10 platser lediga (50% fullt)     │  ← Banner wrapper (full width)
+ * └─────────────────────────────────────────────┘
+ * ┌─────────────────────────────────────────────┐
+ * │ ╔═════════════════════════════════════════╗ │
+ * │ ║ [Design Panel] │ Main Content...       ║ │  ← Main layout
+ * │ ║                │                       ║ │
+ * │ ╚═════════════════════════════════════════╝ │
+ * └─────────────────────────────────────────────┘
  */
 
-// Old approach (Too complex):
+/**
+ * COMPONENT HIERARCHY:
+ * 
+ * <div class="min-h-screen">
+ *   {/* BANNER WRAPPER - FULL WIDTH, OUTSIDE PANEL */}
+ *   <div class="banner-wrapper">
+ *     <AvailabilityBanner ... />
+ *   </div>
+ * 
+ *   {/* MAIN LAYOUT - DESIGN PANEL + CONTENT */}
+ *   <div class="step-wizard-layout">
+ *     <LiveDesignPanel ... />
+ *     <div class="main-content">
+ *       <Stepper ... />
+ *       <Content ... />
+ *     </div>
+ *   </div>
+ * </div>
+ */
+
+// ===============================================
+// TOKEN SYSTEM
+// ===============================================
+
+/**
+ * BANNER TOKENS IN notifications.css:
+ * 
+ * Base:
+ * - --radius-banner: 0 (no border-radius)
+ * - --space-banner-padding-y: var(--foundation-space-3)
+ * - --space-banner-padding-x: var(--foundation-space-6)
+ * - --space-banner-gap: var(--foundation-space-3)
+ * 
+ * Types (all use white text on colored background):
+ * - --surface-banner-default: var(--accent-600)
+ * - --text-banner-default: var(--primary-white)
+ * 
+ * - --surface-banner-loading: var(--accent-500)
+ * - --text-banner-loading: var(--primary-white)
+ * 
+ * - --surface-banner-success: var(--success-600)
+ * - --text-banner-success: var(--primary-white)
+ * 
+ * - --surface-banner-warning: var(--warning-600)
+ * - --text-banner-warning: var(--primary-white)
+ * 
+ * - --surface-banner-error: var(--error-600)
+ * - --text-banner-error: var(--primary-white)
+ * 
+ * COLORS ADAPT TO THEME:
+ * Light mode: Bright accent, green, yellow, red
+ * Dark mode: Same colors (white text always visible)
+ */
+
+// ===============================================
+// COMPONENT API
+// ===============================================
+
+/**
+ * Simple Banner:
+ */
+import { Banner } from '@/design-system/components/primitives/Banner';
+
+<Banner
+  message="5 av 10 platser lediga"
+  type="success"
+  icon={<CheckIcon />}
+  actionText="Börja nu"
+  onAction={() => scroll()}
+/>
+
+/**
+ * Availability Banner (auto-determines type):
+ */
+import { AvailabilityBanner } from '@/design-system/components/primitives/Banner';
+
 <AvailabilityBanner
   availableSpots={5}
   totalSpots={10}
   isLoading={false}
   error={null}
-  metrics={[...]}  // Too much detail
-/>
-
-// New approach (Simple & clean):
-<Banner.Root
-  variant="success"
-  text="5 av 10 platser lediga (50% fullt)"
-  actionText="Börja nu"
+  showAction={true}
   onAction={() => scrollToForm()}
-  showClose={false}
 />
 
 /**
- * BANNER STRUCTURE (Material Design):
+ * Convenience exports:
+ */
+<InfoBanner message="New update available" />
+<SuccessBanner message="Lots of spots available" />
+<WarningBanner message="Only 2 spots left!" />
+<ErrorBanner message="Fully booked" />
+<LoadingBanner message="Checking availability..." />
+
+// ===============================================
+// AVAILABILITY LOGIC
+// ===============================================
+
+/**
+ * AvailabilityBanner automatically determines:
  * 
- * ┌─────────────────────────────────────────────────────┐
- * │ ■ ICON │ TEXT CONTENT    │ ACTION BUTTON │ X CLOSE  │
- * └─────────────────────────────────────────────────────┘
- *  ▲
- *  Left colored border for status
+ * LOADING:
+ * - Message: "Kontrollerar tillgängliga platser..."
+ * - Type: loading
+ * - Animation: subtle pulse
  * 
- * VARIANTS:
- * - info (blue)
- * - success (green)
- * - warning (yellow)
- * - error (red)
+ * ERROR:
+ * - Message: Shows error message
+ * - Type: error (red)
+ * 
+ * FULLY BOOKED (availableSpots === 0):
+ * - Message: "Attans! Alla 10 platser är fulla..."
+ * - Type: error (red)
+ * - No action button
+ * 
+ * LIMITED (availableSpots <= 2):
+ * - Message: "Bara 2 platser kvar av 10!"
+ * - Type: warning (yellow)
+ * - Urgent tone
+ * 
+ * PLENTY (availableSpots > 2):
+ * - Message: "5 av 10 platser lediga (50% fullt)"
+ * - Type: success (green)
+ * - Calm tone
  */
 
-/**
- * SPECIALIZED AVAILABILITY BANNER:
- * Auto-determines variant based on availability
- */
-
-// Before (complex):
-<AvailabilityBanner
-  availableSpots={5}
-  totalSpots={10}
-  metrics={[{ label: 'Lediga', value: 5 }, ...]}
-/>
-
-// After (automatic):
-<AvailabilityBanner
-  availableSpots={5}
-  totalSpots={10}
-/>
-// Automatically shows:
-// ✓ Success status (green) - 50% full
-// ✓ "5 av 10 platser lediga (50% fullt)"
-// ✓ Proper icon
-
-// With 0 spots:
-<AvailabilityBanner availableSpots={0} totalSpots={10} />
-// Automatically shows:
-// ✓ Error status (red)
-// ✓ "Attans! Alla 10 platser är fulla..."
-// ✓ No action button (can't join)
-
-// With 2 spots:
-<AvailabilityBanner availableSpots={2} totalSpots={10} />
-// Automatically shows:
-// ✓ Warning status (yellow) - urgent
-// ✓ "Bara 2 platser lediga av 10! Skynda dig..."
-// ✓ Action button available
+// ===============================================
+// STYLING DETAILS
+// ===============================================
 
 /**
- * RESPONSIVE BEHAVIOR:
+ * LAYOUT:
+ * - Full width with internal padding only
+ * - No external margin or border-radius
+ * - Flexbox: icon | message | action
+ * - Min height: 56px for good touch targets
  * 
+ * RESPONSIVE:
  * Desktop (768px+):
- * ├─ Icon │ Text │ Actions ┤
+ * ├─ Icon (20x20) │ Message │ Action Button ┤
  * 
  * Mobile (<768px):
- * ├─ Icon  │ Text ┤
- * ├─ Actions (full width) ┤
- * ├─ Close button (top right) ┤
+ * ├─ Icon │ Message ┤
+ * ├─ Action Button (align right) ┤
+ * 
+ * Tiny (<480px):
+ * ├─ Smaller icon (18x18)
+ * ├─ Smaller text
+ * ├─ Smaller padding
+ * 
+ * ANIMATIONS:
+ * - Loading state: subtle pulse animation
+ * - Respects prefers-reduced-motion
+ * - Smooth color transitions
  */
-
-/**
- * USAGE IN STEPWIZARD:
- */
-
-// At the top of page:
-{availabilityData && (
-  <div className="px-4 py-3 md:px-6 md:py-4">
-    <AvailabilityBanner
-      availableSpots={availabilityData.availableSpots}
-      totalSpots={availabilityData.maxSpots}
-      isLoading={availabilityLoading}
-      error={availabilityError}
-      showAction={false}  // Don't need action in banner
-    />
-  </div>
-)}
-
-/**
- * STYLING:
- * - 52px minimum height
- * - 4px left colored border for status
- * - Rounded corners (md radius)
- * - Full width responsive
- * - Dark mode support
- * - High contrast mode support
- * - Reduced motion support
- */
-
-/**
- * COMPONENT COMPOSITION:
- */
-
-// Simple approach (recommended):
-<Banner.Root
-  variant="warning"
-  text="Bara 2 platser lediga!"
-  actionText="Börja nu"
-  onAction={handleStart}
-/>
-
-// Custom composition:
-<Banner.Root variant="success">
-  <Banner.Graphic icon={<CheckIcon />} />
-  <Banner.Text>Du är anmäld!</Banner.Text>
-  <Banner.Actions>
-    <Banner.Action onClick={handleClose}>Stäng</Banner.Action>
-  </Banner.Actions>
-</Banner.Root>
-
-// Convenience variants:
-<SuccessBanner text="Allt är klart!" />
-<ErrorBanner text="Något gick fel..." />
-<WarningBanner text="Begränsad tid!" />
-<InfoBanner text="Ny uppdatering tillgänglig" />
 
 /**
  * ACCESSIBILITY:
- * ✓ role="banner"
- * ✓ aria-live="assertive"
- * ✓ Focus styles on buttons
- * ✓ High contrast mode
- * ✓ Reduced motion support
- * ✓ Semantic HTML
+ * ✓ role="status"
+ * ✓ aria-live="polite"
+ * ✓ Sufficient color contrast (white on colored)
+ * ✓ Focus states on action button
+ * ✓ Readable at all zoom levels
+ * ✓ Works with screen readers
  */
 
 // ===============================================
-// FILES TO REPLACE/UPDATE
+// SETUP CHECKLIST
 // ===============================================
 
 /**
- * 1. AVAILABILITY FIX:
- *    Replace StepWizard.tsx with:
- *    → StepWizard-FIXED-availability.tsx
+ * 1. ADD TOKENS:
+ *    ☐ Copy contents of banner-tokens.css
+ *    ☐ Paste into src/design-system/tokens/component/notifications.css
+ *    ☐ Keep existing ALERT and TOAST tokens
+ *    ☐ Verify tokens are imported in your main CSS
  * 
- * 2. NEW BANNER COMPONENT:
- *    Replace Banner.tsx with:
- *    → Banner-MD-design.tsx
+ * 2. UPDATE BANNER COMPONENT:
+ *    ☐ Replace Banner.tsx with Banner-simple.tsx
+ *    ☐ Replace Banner.css with Banner-simple.css
+ *    ☐ Keep Banner/index.ts unchanged
  * 
- *    Replace Banner.css with:
- *    → Banner-MD-design.css
+ * 3. UPDATE STEPWIZARD:
+ *    ☐ Replace StepWizard.tsx with StepWizard-banner-fixed.tsx
+ *    ☐ Verify imports are correct
+ *    ☐ Test that banner is full-width and visible
  * 
- *    Keep Banner/index.ts (exports unchanged)
- */
-
-/**
- * 3. VERIFY IMPORTS:
- *    In StepWizard, import should be:
- *    
- *    import { AvailabilityBanner } from '../../design-system/components/primitives/Banner';
- *    
- *    NOT from @blimpify-im/ui
- */
-
-// ===============================================
-// TESTING CHECKLIST
-// ===============================================
-
-/**
- * AVAILABILITY BLOCK:
- * ☐ Form fills normally when spots available
- * ☐ Top button (Stepper) disabled when spots = 0
- * ☐ Click disabled button shows nothing (good UX)
- * ☐ Toast error shows if somehow bypass attempted
- * ☐ Bottom button also shows error if availability checked
- * ☐ Checkout prevented even if manual POST attempted
- * 
- * BANNER DISPLAY:
- * ☐ Shows at top of page
- * ☐ Green when >2 spots available
- * ☐ Yellow when 1-2 spots available
- * ☐ Red when 0 spots available
- * ☐ Shows loading state initially
- * ☐ Responsive on mobile/tablet
- * ☐ No action button when full
- * ☐ Cannot be dismissed
- * 
- * RESPONSIVE DESIGN:
- * ☐ Desktop: Icon | Text | Actions in one row
- * ☐ Mobile: Icon | Text on top, Actions below
- * ☐ Mobile: Close button in corner, not squished
- * ☐ Text doesn't overflow or wrap awkwardly
- * ☐ Buttons have adequate touch targets
+ * 4. TEST:
+ *    ☐ Banner shows at top of page
+ *    ☐ Not hidden behind left panel
+ *    ☐ Correct color based on availability
+ *    ☐ Responsive on mobile
+ *    ☐ Dark mode works
+ *    ☐ Icon displays
+ *    ☐ Loading animation works
  */
 
 // ===============================================
-// MIGRATION NOTES
+// TROUBLESHOOTING
 // ===============================================
 
 /**
- * The new Banner is simpler but functionally equivalent:
+ * Banner hidden behind panel:
+ * → Check banner-wrapper is outside step-wizard-layout
+ * → Verify z-index doesn't apply to banner
+ * → Make sure panel doesn't have overflow:visible on wrapper
  * 
- * OLD API → NEW API:
- * BannerMetrics      → Removed (not needed for availability)
- * BannerIndicator    → BannerGraphic (optional)
- * BannerTitle        → Removed (title is implicit in text)
- * BannerDescription  → Uses text prop directly
+ * Colors not applying:
+ * → Check tokens are imported before Banner.css
+ * → Verify --is-dark variable is set on [data-theme="dark"]
+ * → Check color-mix() browser support
  * 
- * NEW FEATURES:
- * - showClose prop for dismiss button
- * - dismissible prop (true = can hide)
- * - actionText/onAction for primary button
- * - secondaryActionText/onSecondaryAction for secondary
+ * Icon not showing:
+ * → Pass icon prop to AvailabilityBanner
+ * → Use icon from @heroicons/react or StatusIcons
  * 
- * For other uses, you can still use composite API:
- * <Banner.Root>
- *   <Banner.Graphic />
- *   <Banner.Text />
- *   <Banner.Actions>
- *     <Banner.Action />
- *   </Banner.Actions>
- * </Banner.Root>
+ * Responsive issues:
+ * → Check viewport meta tag is set
+ * → Media queries may need adjustment for your breakpoints
+ * → Test on actual mobile devices, not just browser resize
  */
 
+// ===============================================
+// FUTURE ENHANCEMENTS
+// ===============================================
+
 /**
- * MATERIAL DESIGN REFERENCES:
- * https://material.io/components/banners/
+ * Optional improvements:
  * 
- * Key principles implemented:
- * ✓ Persistent placement at top
- * ✓ Non-modal (doesn't block interaction)
- * ✓ One primary action button
- * ✓ Optional secondary action
- * ✓ Optional dismiss/close
- * ✓ Color-coded borders for status
- * ✓ Responsive stacking
+ * 1. DISMISSIBLE:
+ *    - Add onClose prop to Banner
+ *    - Show close button (X) on right
+ *    - Remember dismissal in localStorage
+ * 
+ * 2. STICKY:
+ *    - Use position: sticky
+ *    - Banner stays visible when scrolling
+ *    - Good for persistent availability info
+ * 
+ * 3. ANIMATION ENTRANCE:
+ *    - Slide down from top
+ *    - Fade in on load
+ *    - Slide out when dismissed
+ * 
+ * 4. MULTIPLE BANNERS:
+ *    - Stack multiple banners vertically
+ *    - Priority system (error > warning > success)
+ *    - Auto-dismiss after timeout
+ * 
+ * 5. COUNTDOWN:
+ *    - Show time until offer expires
+ *    - Real-time spot count updates
+ *    - Refresh from API every N seconds
  */

@@ -4,21 +4,16 @@
 // ===============================================
 export {
   Banner,
-  BannerRoot,
-  BannerContent,
-  BannerAction,
   ErrorBanner,
   SuccessBanner,
   WarningBanner,
   InfoBanner,
+  LoadingBanner,
   AvailabilityBanner,
 } from './Banner';
 
 export type {
-  BannerRootProps,
-  BannerContentProps,
-  BannerActionProps,
-  BannerVariant,
-  BannerTextProps,
+  BannerProps,
+  BannerType,
   AvailabilityBannerProps,
 } from './Banner';

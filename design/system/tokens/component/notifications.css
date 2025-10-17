@@ -194,3 +194,62 @@
   --radius-tag: var(--radius-badge);
   --transition-tag: var(--transition-button);
 }
+
+/* ==========================================================
+  📰 BANNER TOKENS
+  Full-width top banner for important messages/announcements
+  Uses accent color with white/black text for discrete appearance
+  Compatible with light/dark mode
+  ========================================================== */
+
+:root {
+  /* ===== BANNER BASE TOKENS ===== */
+  
+  /* Layout - no border-radius, full width with internal padding */
+  --radius-banner: 0;
+  --space-banner-padding-y: var(--foundation-space-3);
+  --space-banner-padding-x: var(--foundation-space-6);
+  --space-banner-gap: var(--foundation-space-3);
+  
+  /* Base styling */
+  --transition-banner: var(--foundation-duration-fast) var(--foundation-ease-out);
+  
+  /* ===== BANNER STATES ===== */
+  
+  /* DEFAULT - Accent color (discrete, used for general info) */
+  --surface-banner-default: var(--accent-600);
+  --text-banner-default: var(--primary-white);
+  --icon-banner-default: var(--primary-white);
+  
+  /* LOADING - Lighter accent (subtle while fetching) */
+  --surface-banner-loading: var(--accent-500);
+  --text-banner-loading: var(--primary-white);
+  --icon-banner-loading: var(--primary-white);
+  
+  /* INFO - Accent (for announcements/news) */
+  --surface-banner-info: var(--accent-600);
+  --text-banner-info: var(--primary-white);
+  --icon-banner-info: var(--primary-white);
+  
+  /* SUCCESS - Success color (plenty of spots available) */
+  --surface-banner-success: var(--success-600);
+  --text-banner-success: var(--primary-white);
+  --icon-banner-success: var(--primary-white);
+  
+  /* WARNING - Warning color (limited spots, urgency) */
+  --surface-banner-warning: var(--warning-600);
+  --text-banner-warning: var(--primary-white);
+  --icon-banner-warning: var(--primary-white);
+  
+  /* ERROR - Error color (fully booked, no availability) */
+  --surface-banner-error: var(--error-600);
+  --text-banner-error: var(--primary-white);
+  --icon-banner-error: var(--primary-white);
+  
+  /* ===== BANNER ACTION TOKENS ===== */
+  --text-banner-action: var(--primary-white);
+  --text-banner-action-hover: var(--secondary-100);
+  
+  /* ===== BANNER ICON TOKENS ===== */
+  --size-banner-icon: 20px;
+}
