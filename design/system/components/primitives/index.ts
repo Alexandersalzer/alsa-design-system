@@ -32,6 +32,7 @@ export * from './Table';
 export * from './ConfirmationDialog';
 export * from './Spinner'
 export * from './LoadingSkeleton'
+export * from './Banner'
 
 
 // Icon needs special handling since it's a default export

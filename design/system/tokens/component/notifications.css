@@ -194,3 +194,59 @@
   --radius-tag: var(--radius-badge);
   --transition-tag: var(--transition-button);
 }
+
+/* ==========================================================
+   📰 BANNER TOKENS - FIXED
+   Primary text on subtle accent background
+   Warning only for 3 spots, Error only for 1 spot
+   No success color on availability
+   ========================================================== */
+
+:root {
+  /* ===== BANNER BASE TOKENS ===== */
+  
+  /* Layout - minimal padding, no border-radius */
+  --radius-banner: 0;
+  --space-banner-padding-y: var(--foundation-space-2);
+  --space-banner-padding-x: var(--foundation-space-3);
+  --space-banner-gap: var(--foundation-space-2);
+  
+  /* Base styling */
+  --transition-banner: var(--foundation-duration-fast) var(--foundation-ease-out);
+  
+  /* ===== BANNER STATES ===== */
+  
+  /* DEFAULT - Primary text, subtle accent background */
+  --surface-banner-default: color-mix(in srgb, var(--accent-500) 8%, transparent 92%);
+  --text-banner-default: var(--text-primary);
+  --icon-banner-default: var(--icon-primary);
+  
+  /* LOADING - Primary text, subtle accent background */
+  --surface-banner-loading: color-mix(in srgb, var(--accent-500) 8%, transparent 92%);
+  --text-banner-loading: var(--text-primary);
+  --icon-banner-loading: var(--icon-primary);
+  
+  /* INFO - Primary text, subtle accent background */
+  --surface-banner-info: color-mix(in srgb, var(--accent-500) 8%, transparent 92%);
+  --text-banner-info: var(--text-primary);
+  --icon-banner-info: var(--icon-primary);
+  
+  /* SUCCESS - NOT USED FOR AVAILABILITY */
+  --surface-banner-success: color-mix(in srgb, var(--accent-500) 8%, transparent 92%);
+  --text-banner-success: var(--text-primary);
+  --icon-banner-success: var(--icon-primary);
+  
+  /* WARNING - Subtle error background for 3 spots left */
+  --surface-banner-warning: color-mix(in srgb, var(--error-500) 8%, transparent 92%);
+  --text-banner-warning: var(--text-primary);
+  --icon-banner-warning: var(--icon-primary);
+  
+  /* ERROR - Subtle error background for 1 spot left */
+  --surface-banner-error: color-mix(in srgb, var(--error-500) 8%, transparent 92%);
+  --text-banner-error: var(--text-primary);
+  --icon-banner-error: var(--icon-primary);
+  
+  /* ===== BANNER ACTION TOKENS ===== */
+  --text-banner-action: var(--text-primary);
+  --text-banner-action-hover: var(--text-secondary);
+}

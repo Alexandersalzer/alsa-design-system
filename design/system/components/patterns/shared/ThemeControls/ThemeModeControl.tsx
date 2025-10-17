@@ -59,7 +59,7 @@ export function ThemeModeControl({
   const currentValue = value || (isDark ? 'dark' : 'light');
 
   // Loading state om inte hydratiserad
-  if (!isHydrated) {
+  if (!isHydrated) {  
     return (
       <div className={className}>
         {showLabel && (

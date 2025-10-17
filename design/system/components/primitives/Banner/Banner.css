@@ -1,0 +1,208 @@
+/* ==============================================
+   src/design-system/components/primitives/Banner/Banner.css
+   SIMPLE DISCRETE BANNER - Full width, clean design
+   ============================================== */
+
+/* ===== BASE BANNER STYLING ===== */
+.banner {
+  /* Layout - flexbox for icon + message + action CENTERED */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-banner-gap);
+  width: 100%;
+
+  /* Sizing - internal padding only, no external margin */
+  padding: var(--space-banner-padding-y) var(--space-banner-padding-x);
+  min-height: 56px;
+
+  /* Styling */
+  border-radius: var(--radius-banner);
+  font-family: var(--foundation-font-secondary);
+
+  /* Transitions */
+  transition: all var(--transition-banner);
+
+  /* Remove default margins */
+  margin: 0;
+}
+
+/* ===== BANNER TYPE VARIANTS ===== */
+
+/* Default - Accent color */
+.banner--default {
+  background-color: var(--surface-banner-default);
+  color: var(--text-banner-default);
+}
+
+/* Loading - Lighter accent, subtle */
+.banner--loading {
+  background-color: var(--surface-banner-loading);
+  color: var(--text-banner-loading);
+}
+
+/* Info - Accent (same as default) */
+.banner--info {
+  background-color: var(--surface-banner-info);
+  color: var(--text-banner-info);
+}
+
+/* Success - Green (many spots available) */
+.banner--success {
+  background-color: var(--surface-banner-success);
+  color: var(--text-banner-success);
+}
+
+/* Warning - Yellow (limited spots) */
+.banner--warning {
+  background-color: var(--surface-banner-warning);
+  color: var(--text-banner-warning);
+}
+
+/* Error - Red (fully booked) */
+.banner--error {
+  background-color: var(--surface-banner-error);
+  color: var(--text-banner-error);
+}
+
+/* ===== CONTENT LAYOUT ===== */
+
+/* ===== BANNER TEXT ALIGNMENT ===== */
+
+.banner__content {
+  /* Flex container for icon + message - CENTERED, no flex expansion */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-banner-gap);
+}
+
+.banner__icon {
+  /* Icon sizing */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--size-banner-icon);
+  height: var(--size-banner-icon);
+  color: var(--icon-banner-default);
+}
+
+.banner--loading .banner__icon,
+.banner--info .banner__icon {
+  color: var(--icon-banner-info);
+}
+
+.banner--success .banner__icon {
+  color: var(--icon-banner-success);
+}
+
+.banner--warning .banner__icon {
+  color: var(--icon-banner-warning);
+}
+
+.banner--error .banner__icon {
+  color: var(--icon-banner-error);
+}
+
+.banner__message {
+  /* Message typography */
+  margin: 0;
+  flex: 1;
+  line-height: var(--foundation-leading-normal);
+  font-size: 0.9375rem;
+  letter-spacing: 0;
+}
+
+/* ===== ACTION BUTTON ===== */
+
+.banner__action {
+  flex-shrink: 0;
+  color: var(--text-banner-action);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.75rem;
+  padding: 8px 16px;
+  min-height: auto;
+  height: auto;
+  white-space: nowrap;
+  transition: all var(--transition-banner);
+}
+
+.banner__action:hover {
+  color: var(--text-banner-action-hover);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+  .banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--foundation-space-2);
+    padding: var(--foundation-space-2) var(--foundation-space-4);
+    min-height: auto;
+  }
+
+  .banner__content {
+    width: 100%;
+  }
+
+  .banner__action {
+    align-self: flex-end;
+    padding: 6px 12px;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner {
+    padding: var(--foundation-space-2) var(--foundation-space-3);
+  }
+
+  .banner__message {
+    font-size: 0.875rem;
+  }
+
+  .banner__icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .banner {
+    transition: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .banner {
+    outline: 1px solid currentColor;
+    outline-offset: -1px;
+  }
+}
+
+/* ===== ANIMATION - LOADING STATE ===== */
+
+@keyframes banner-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.banner--loading {
+  animation: banner-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner--loading {
+    animation: none;
+  }
+}

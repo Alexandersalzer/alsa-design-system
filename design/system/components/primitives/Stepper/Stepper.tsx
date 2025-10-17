@@ -1,6 +1,6 @@
 // ===============================================
 // FIXED: src/design-system/components/primitives/Stepper/Stepper.tsx
-// Removed automatic disabling of next button on last step
+// Fixed: Next button now properly becomes active on last step when conditions are met
 // ===============================================
 
 import React, { forwardRef, useEffect, useState } from 'react';
@@ -110,9 +110,11 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
   // Determine if we should show content
   const showContent = !hideContent && !navigationOnly && !!currentStepData;
 
-  // ✅ FIXED: Calculate actual disabled states - DON'T auto-disable on last step
+  // ✅ FIXED: Calculate actual disabled states
   const isPreviousDisabled = previousDisabled || isFirstStep;
-  const isNextDisabled = nextDisabled; // ✅ Only use the prop, not automatic last step disable
+  // On last step, respect nextDisabled prop only. Don't auto-disable.
+  // This allows parent (StepWizard) to control the button state based on form validation
+  const isNextDisabled = nextDisabled;
 
   // Generate dynamic next button label with price
   const getNextButtonLabel = () => {
@@ -225,7 +227,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
         <Button
           variant="accent"
           onClick={onNext}
-          disabled={isNextDisabled} // ✅ FIXED: Now properly respects the prop
+          disabled={isNextDisabled}
           className={cn(
             'stepper-button',
             showPriceInButton && totalPrice && (extraCost || 0) > 0 ? 'stepper-button--with-price' : false

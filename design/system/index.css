@@ -39,6 +39,7 @@
 @import './components/primitives/Spinner/Spinner.css';
 @import './components/primitives/Table/Table.css';
 @import './components/primitives/LoadingSkeleton/LoadingSkeleton.css';
+@import './components/primitives/Banner/Banner.css';
 
 
 
@@ -53,11 +54,9 @@
 /* STEP 5: Pattern components */
 @import './components/patterns/forms/fieldset/Fieldset.css';
 
-@import './components/patterns/dashboard/layout/PropertyGroup.css';
 @import './components/patterns/dashboard/page/PageContent.css';
 @import './components/patterns/dashboard/page/PageHeader.css';
-/*@import './components/patterns/dashboard/page/LayoutUtilities.css';*/
-@import './components/patterns/dashboard/selection/SelectionCard.css';
+
 @import './components/patterns/dashboard/selection/CheckboxCard.css';
 @import './components/patterns/dashboard/selection/DesignRadioCard.css';
 @import './components/patterns/dashboard/selection/RadioCard.css';
