@@ -1,13 +1,14 @@
 // ==============================================
 // src/design-system/components/primitives/Banner/Banner.tsx
 // SIMPLE DISCRETE BANNER - Full width, token-based
-// Single line message with optional icon and action
+// Sticky, with close button support
 // ==============================================
 
-import React, { forwardRef, ReactNode } from 'react';
+import React, { forwardRef, ReactNode, useState } from 'react';
 import { cn } from '../../../lib/utils';
 import { Typography } from '../Typography';
 import { Button } from '../Button';
+import { IconButtons } from '../IconButton/IconButton';
 
 // ===== TYPE DEFINITIONS =====
 export type BannerType = 'default' | 'info' | 'success' | 'warning' | 'error' | 'loading';
@@ -24,9 +25,11 @@ export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Action button click handler */
   onAction?: () => void;
   /** Show close button */
-  closable?: boolean;
-  /** Close button click handler */
+  showClose?: boolean;
+  /** Close button handler */
   onClose?: () => void;
+  /** Sticky positioning */
+  sticky?: boolean;
   /** Additional CSS classes */
   className?: string;
 }
@@ -38,14 +41,25 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(({
   icon,
   actionText,
   onAction,
-  closable = false,
+  showClose = false,
   onClose,
+  sticky = false,
   className,
   ...props
 }, ref) => {
+  const [isClosed, setIsClosed] = useState(false);
+
+  const handleClose = () => {
+    setIsClosed(true);
+    onClose?.();
+  };
+
+  if (isClosed) return null;
+
   const bannerClasses = cn(
     'banner',
     `banner--${type}`,
+    sticky && 'banner--sticky',
     className
   );
 
@@ -74,30 +88,28 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(({
         </Typography>
       </div>
 
-      {/* Action button */}
-      {actionText && (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onAction}
-          className="banner__action"
-        >
-          {actionText}
-        </Button>
-      )}
-
-      {/* Close button */}
-      {closable && (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onClose}
-          className="banner__close"
-          aria-label="Stäng banner"
-        >
-          ×
-        </Button>
-      )}
+      {/* Action and Close buttons */}
+      <div className="banner__actions">
+        {actionText && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onAction}
+            className="banner__action"
+          >
+            {actionText}
+          </Button>
+        )}
+        
+        {showClose && (
+          <IconButtons.Close
+            onClick={handleClose}
+            aria-label="Close banner"
+            variant="ghost"
+            size="sm"
+          />
+        )}
+      </div>
     </div>
   );
 });
@@ -126,6 +138,8 @@ export const AvailabilityBanner = forwardRef<HTMLDivElement, AvailabilityBannerP
   showAction = false,
   onAction,
   icon,
+  showClose = true,
+  sticky = true,
   className,
   ...props
 }, ref) => {
@@ -165,6 +179,8 @@ export const AvailabilityBanner = forwardRef<HTMLDivElement, AvailabilityBannerP
       icon={icon}
       actionText={showAction && !isFullyBooked && !isLoading ? 'Börja nu' : undefined}
       onAction={onAction}
+      showClose={showClose}
+      sticky={sticky}
       className={className}
       {...props}
     />
