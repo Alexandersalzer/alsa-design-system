@@ -175,7 +175,7 @@
 
   /* Specifika element */
   --radius-input: var(--radius-button);
-  --radius-input-sm: var(--radius-button-sm);
+  --radius-input-sm: var(--radius-button);
   --radius-input-lg: var(--radius-button-lg);
 
   --radius-checkbox: var(--form-radius-small);
