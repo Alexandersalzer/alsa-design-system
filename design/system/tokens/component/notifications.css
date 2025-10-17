@@ -242,7 +242,7 @@
   --icon-banner-success: var(--icon-primary);
   
   /* WARNING - Subtle error background for 3 spots left */
-  --surface-banner-warning: color-mix(in srgb, var(--error-300) 10%, transparent 90%);
+  --surface-banner-warning: color-mix(in srgb, var(--warning-300) 10%, transparent 90%);
   --text-banner-warning: var(--text-primary);
   --icon-banner-warning: var(--icon-primary);
   
