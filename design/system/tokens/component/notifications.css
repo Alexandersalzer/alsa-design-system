@@ -195,89 +195,58 @@
   --transition-tag: var(--transition-button);
 }
 
-/* Add this section to src/design-system/tokens/component/notifications.css */
-
 /* ==========================================================
-   📰 BANNER TOKENS
-   Full-width top banner for important messages/announcements
-   Uses accent color with subtle transparent background
+   📰 BANNER TOKENS - FIXED
+   Primary text on subtle accent background
+   Warning only for 3 spots, Error only for 1 spot
+   No success color on availability
    ========================================================== */
 
 :root {
   /* ===== BANNER BASE TOKENS ===== */
   
-  /* Layout - no border-radius, internal padding only */
+  /* Layout - minimal padding, no border-radius */
   --radius-banner: 0;
-  --space-banner-padding-y: var(--foundation-space-3);
-  --space-banner-padding-x: var(--foundation-space-6);
-  --space-banner-gap: var(--foundation-space-3);
+  --space-banner-padding-y: var(--foundation-space-2);
+  --space-banner-padding-x: var(--foundation-space-3);
+  --space-banner-gap: var(--foundation-space-2);
   
   /* Base styling */
   --transition-banner: var(--foundation-duration-fast) var(--foundation-ease-out);
   
-  /* ===== BANNER STATES - ACCENT COLOR WITH SUBTLE BACKGROUND ===== */
+  /* ===== BANNER STATES ===== */
   
-  /* DEFAULT - Accent color text, subtle background */
+  /* DEFAULT - Primary text, subtle accent background */
   --surface-banner-default: color-mix(in srgb, var(--accent-500) 8%, transparent 92%);
-  --text-banner-default: var(--accent-700);
-  --icon-banner-default: var(--accent-600);
+  --text-banner-default: var(--text-primary);
+  --icon-banner-default: var(--icon-primary);
   
-  /* LOADING - Light accent background */
+  /* LOADING - Primary text, subtle accent background */
   --surface-banner-loading: color-mix(in srgb, var(--accent-500) 8%, transparent 92%);
-  --text-banner-loading: var(--accent-700);
-  --icon-banner-loading: var(--accent-600);
+  --text-banner-loading: var(--text-primary);
+  --icon-banner-loading: var(--icon-primary);
   
-  /* INFO - Accent (for announcements) */
+  /* INFO - Primary text, subtle accent background */
   --surface-banner-info: color-mix(in srgb, var(--accent-500) 8%, transparent 92%);
-  --text-banner-info: var(--accent-700);
-  --icon-banner-info: var(--accent-600);
+  --text-banner-info: var(--text-primary);
+  --icon-banner-info: var(--icon-primary);
   
-  /* SUCCESS - Success text, subtle background (not green-600) */
-  --surface-banner-success: color-mix(in srgb, var(--success-500) 8%, transparent 92%);
-  --text-banner-success: var(--success-700);
-  --icon-banner-success: var(--success-600);
+  /* SUCCESS - NOT USED FOR AVAILABILITY */
+  --surface-banner-success: color-mix(in srgb, var(--accent-500) 8%, transparent 92%);
+  --text-banner-success: var(--text-primary);
+  --icon-banner-success: var(--icon-primary);
   
-  /* WARNING - Warning text, subtle background */
-  --surface-banner-warning: color-mix(in srgb, var(--warning-500) 8%, transparent 92%);
-  --text-banner-warning: var(--warning-700);
-  --icon-banner-warning: var(--warning-600);
+  /* WARNING - Subtle error background for 3 spots left */
+  --surface-banner-warning: color-mix(in srgb, var(--error-500) 8%, transparent 92%);
+  --text-banner-warning: var(--text-primary);
+  --icon-banner-warning: var(--icon-primary);
   
-  /* ERROR - Error text, subtle background */
+  /* ERROR - Subtle error background for 1 spot left */
   --surface-banner-error: color-mix(in srgb, var(--error-500) 8%, transparent 92%);
-  --text-banner-error: var(--error-700);
-  --icon-banner-error: var(--error-600);
+  --text-banner-error: var(--text-primary);
+  --icon-banner-error: var(--icon-primary);
   
   /* ===== BANNER ACTION TOKENS ===== */
-  --text-banner-action: var(--accent-700);
-  --text-banner-action-hover: var(--accent-800);
-}
-
-/* ===== DARK MODE ADJUSTMENTS ===== */
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark mode - lighter text on subtle background */
-    --text-banner-default: var(--accent-300);
-    --text-banner-loading: var(--accent-300);
-    --text-banner-info: var(--accent-300);
-    --text-banner-success: var(--success-300);
-    --text-banner-warning: var(--warning-300);
-    --text-banner-error: var(--error-300);
-    
-    --icon-banner-default: var(--accent-400);
-    --icon-banner-loading: var(--accent-400);
-    --icon-banner-info: var(--accent-400);
-    --icon-banner-success: var(--success-400);
-    --icon-banner-warning: var(--warning-400);
-    --icon-banner-error: var(--error-400);
-    
-    --text-banner-action: var(--accent-300);
-    --text-banner-action-hover: var(--accent-200);
-  }
-}
-
-/* ===== ACCESSIBILITY ===== */
-@media (prefers-reduced-motion: reduce) {
-  :root {
-    --transition-banner: none;
-  }
+  --text-banner-action: var(--text-primary);
+  --text-banner-action-hover: var(--text-secondary);
 }
