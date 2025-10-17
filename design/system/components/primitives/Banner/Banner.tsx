@@ -9,6 +9,8 @@ import { cn } from '../../../lib/utils';
 import { Typography } from '../Typography';
 import { Button } from '../Button';
 import { IconButtons } from '../IconButton/IconButton';
+import { Input } from '../Input';
+
 
 // ===== TYPE DEFINITIONS =====
 export type BannerType = 'default' | 'info' | 'success' | 'warning' | 'error' | 'loading';
@@ -116,7 +118,6 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(({
 
 Banner.displayName = 'Banner';
 
-// ===== SPECIALIZED AVAILABILITY BANNER =====
 export interface AvailabilityBannerProps extends Omit<BannerProps, 'type' | 'message'> {
   /** Available spots count */
   availableSpots: number;
@@ -128,6 +129,8 @@ export interface AvailabilityBannerProps extends Omit<BannerProps, 'type' | 'mes
   error?: string | null;
   /** Show action button to jump to form */
   showAction?: boolean;
+  /** Callback when user submits email for waitlist */
+ onWaitlistSubmit?: (email: string) => Promise<void>;
 }
 
 export const AvailabilityBanner = forwardRef<HTMLDivElement, AvailabilityBannerProps>(({
@@ -137,56 +140,106 @@ export const AvailabilityBanner = forwardRef<HTMLDivElement, AvailabilityBannerP
   error = null,
   showAction = false,
   onAction,
+  onWaitlistSubmit, // 👈 LÄGG TILL DEN HÄR
   icon,
   showClose = true,
   sticky = true,
   className,
   ...props
 }, ref) => {
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
   const takenSpots = totalSpots - availableSpots;
   const isFullyBooked = availableSpots === 0;
-  const percentageFull = Math.round((takenSpots / totalSpots) * 100);
 
-  // Determine type and message based on status
   let bannerType: BannerType = 'default';
   let message = '';
 
-    if (isLoading) {
+  if (isLoading) {
     bannerType = 'loading';
     message = 'Kontrollerar tillgänglighet i vår Early Access...';
-    } else if (error) {
+  } else if (error) {
     bannerType = 'error';
     message = 'Kunde inte hämta tillgänglighet just nu. Försök igen om en stund.';
-    } else if (isFullyBooked) {
+  } else if (isFullyBooked) {
     bannerType = 'error';
-    message = `Alla ${totalSpots} platser i vår Early Access är nu fyllda. Nya platser öppnas snart!`;
-    } else if (availableSpots === 1) {
+    message = `Alla ${totalSpots} platser i vår Early Access är nu fyllda. Få ett mejl när vi öppnar upp igen!`;
+  } else if (availableSpots === 1) {
     bannerType = 'error';
     message = `Sista platsen kvar i vår Early Access – först till kvarn!`;
-    } else if (availableSpots <= 3) {
+  } else if (availableSpots <= 3) {
     bannerType = 'warning';
     message = `Endast ${availableSpots} platser kvar i vår Early Access – först till kvarn.`;
-    } else {
+  } else {
     bannerType = 'default';
     message = `${availableSpots} av ${totalSpots} platser tillgängliga i vår Early Access just nu.`;
+  }
+
+  const handleEmailSubmit = async () => {
+    if (!email || !email.includes('@')) return; // enkel validering
+    if (!onWaitlistSubmit) return; // 👈 kolla om callback finns
+
+    setSubmitting(true);
+
+    try {
+        await onWaitlistSubmit(email); // 👈 anropa callback från parent
+        setSubmitted(true);
+    } catch (err) {
+        console.error('Error submitting email:', err);
+    } finally {
+        setSubmitting(false);
     }
+    };
 
 
   return (
-    <Banner
-      ref={ref}
-      message={message}
-      type={bannerType}
-      icon={icon}
-      actionText={showAction && !isFullyBooked && !isLoading ? 'Börja nu' : undefined}
-      onAction={onAction}
-      showClose={showClose}
-      sticky={sticky}
-      className={className}
-      {...props}
-    />
+    <div className="w-full">
+      <Banner
+        ref={ref}
+        message={message}
+        type={bannerType}
+        icon={icon}
+        showClose={showClose}
+        sticky={sticky}
+        className={className}
+        {...props}
+      />
+
+      {/* Email waitlist input – shown only when fully booked */}
+      {isFullyBooked && !submitted && (
+        <div className="flex flex-col md:flex-row items-center gap-2 p-4 md:p-5 border-t border-[var(--border-subtle)] bg-[var(--surface-banner-error)]">
+          <Input
+            type="email"
+            placeholder="Din e-postadress"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            radius="md"
+            size="md"
+            className="flex-1"
+          />
+          <Button
+            size="sm"
+            onClick={handleEmailSubmit}
+            disabled={submitting || !email}
+          >
+            {submitting ? 'Skickar...' : 'Notifiera mig'}
+          </Button>
+        </div>
+      )}
+
+      {isFullyBooked && submitted && (
+        <div className="p-4 md:p-5 text-center bg-[var(--surface-banner-success)]">
+          <Typography variant="body-md">
+            Tack! Du får ett mejl när vi öppnar nästa Early Access.
+          </Typography>
+        </div>
+      )}
+    </div>
   );
 });
+
 
 AvailabilityBanner.displayName = 'AvailabilityBanner';
 
