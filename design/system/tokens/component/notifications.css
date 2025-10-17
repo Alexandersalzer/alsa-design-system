@@ -136,7 +136,7 @@
   --icon-tag-warning: var(--warning-icon);
 
   /* INFO (neutral) */
-  --surface-tag-info: var(--neutral-bg);
+  --surface-tag-info: var(--info-100);
   --surface-tag-info-hover: var(--neutral-bg-hover);
   --surface-tag-info-active: var(--neutral-border);
   --text-tag-info: var(--neutral-text);
@@ -145,7 +145,7 @@
   --icon-tag-info: var(--neutral-icon);
 
   /* ACCENT */
-  --surface-tag-accent: var(--accent-bg);
+  --surface-tag-accent: var(--accent-100);
   --surface-tag-accent-hover: var(--accent-bg-hover);
   --surface-tag-accent-active: var(--accent-border);
   --text-tag-accent: var(--accent-text);
