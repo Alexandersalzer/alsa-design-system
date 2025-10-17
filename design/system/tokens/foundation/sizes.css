@@ -1,0 +1,7 @@
+:root {
+  /* Control heights (used by inputs, buttons, icon buttons, selects, etc.) */
+  --control-height-sm: 34px;
+  --control-height-md: 40px;
+  --control-height-lg: 48px;
+  --control-height-xl: 56px;
+}
