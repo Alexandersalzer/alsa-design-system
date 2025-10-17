@@ -66,10 +66,13 @@
 
 /* ===== CONTENT LAYOUT ===== */
 
+/* ===== BANNER TEXT ALIGNMENT ===== */
+
 .banner__content {
-  /* Flex container for icon + message */
+  /* Flex container for icon + message - CENTERED */
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-banner-gap);
   flex: 1;
   min-width: 0;

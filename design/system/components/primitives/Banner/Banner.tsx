@@ -128,13 +128,13 @@ export const AvailabilityBanner = forwardRef<HTMLDivElement, AvailabilityBannerP
     bannerType = 'error';
     message = `Attans! Alla ${totalSpots} platser är fulla. Vi stöter på stor efterfrågan. Försök igen senare!`;
   } else if (availableSpots === 1) {
-    bannerType = 'warning';
+    bannerType = 'error';
     message = `Bara 1 plats kvar av ${totalSpots}! Skynda dig innan den är slut.`;
-  } else if (availableSpots <= 2) {
+  } else if (availableSpots <= 3) {
     bannerType = 'warning';
     message = `Bara ${availableSpots} platser kvar av ${totalSpots}! Skynda dig innan de är slut.`;
   } else {
-    bannerType = 'success';
+    bannerType = 'default';
     message = `${availableSpots} av ${totalSpots} platser lediga (${percentageFull}% fullt)`;
   }
 
