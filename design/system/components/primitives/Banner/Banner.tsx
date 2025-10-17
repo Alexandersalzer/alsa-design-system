@@ -1,41 +1,41 @@
 // ==============================================
 // src/design-system/components/primitives/Banner/Banner.tsx
-// BANNER COMPONENT - Displays alerts, announcements, and availability info
+// BANNER COMPONENT - Material Design approach
+// Displays persistent messages with optional actions
 // ==============================================
 
-import React, { forwardRef, ReactNode } from 'react';
+import React, { forwardRef, ReactNode, useState } from 'react';
 import { cn } from '../../../lib/utils';
 import { Typography } from '../Typography';
 import { StatusIcons } from '../Icon';
-import { IconButtons } from '../IconButton';
+import { Button } from '../Button';
 
 // ===== TYPE DEFINITIONS =====
-export type BannerVariant = 'subtle' | 'solid' | 'outline';
-export type BannerStatus = 'info' | 'success' | 'warning' | 'error';
-export type BannerSize = 'sm' | 'md' | 'lg';
+export type BannerVariant = 'info' | 'success' | 'warning' | 'error';
 
 export interface BannerRootProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Banner status/type */
-  status?: BannerStatus;
-  /** Visual variant */
   variant?: BannerVariant;
-  /** Banner size */
-  size?: BannerSize;
-  /** Additional CSS classes */
-  className?: string;
-  /** Banner children */
-  children: ReactNode;
-  /** Close button handler */
-  onClose?: () => void;
+  /** Banner text content */
+  text: string;
+  /** Primary action button text */
+  actionText?: string;
+  /** Primary action button handler */
+  onAction?: () => void;
+  /** Secondary action button text */
+  secondaryActionText?: string;
+  /** Secondary action button handler */
+  onSecondaryAction?: () => void;
   /** Show close button */
   showClose?: boolean;
-}
-
-export interface BannerIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Custom icon (defaults to status icon) */
-  children?: ReactNode;
+  /** Close handler */
+  onClose?: () => void;
+  /** Icon/graphic element */
+  icon?: ReactNode;
   /** Additional CSS classes */
   className?: string;
+  /** Whether banner is dismissible */
+  dismissible?: boolean;
 }
 
 export interface BannerContentProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -45,48 +45,41 @@ export interface BannerContentProps extends React.HTMLAttributes<HTMLDivElement>
   className?: string;
 }
 
-export interface BannerTitleProps extends Omit<React.HTMLAttributes<HTMLHeadingElement>, 'color'> {
-  /** Title text */
+export interface BannerTextProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'color'> {
+  /** Text content */
   children: ReactNode;
   /** Additional CSS classes */
   className?: string;
 }
 
-export interface BannerDescriptionProps extends Omit<React.HTMLAttributes<HTMLParagraphElement>, 'color'> {
-  /** Description text */
+export interface BannerActionsProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Action children (buttons) */
   children: ReactNode;
   /** Additional CSS classes */
   className?: string;
 }
 
-export interface BannerMetricsProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Metrics children */
+export interface BannerActionProps extends React.HTMLAttributes<HTMLButtonElement> {
+  /** Button text */
   children: ReactNode;
+  /** Is primary action */
+  primary?: boolean;
+  /** Button click handler */
+  onClick?: () => void;
   /** Additional CSS classes */
   className?: string;
 }
 
-export interface BannerMetricProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Metric label */
-  label: ReactNode;
-  /** Metric value */
-  value: ReactNode;
-  /** Metric variant (accent, success, warning, error) */
-  variant?: 'accent' | 'success' | 'warning' | 'error' | 'secondary';
-  /** Additional CSS classes */
-  className?: string;
-}
-
-export interface BannerActionProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Action children */
-  children: ReactNode;
+export interface BannerGraphicProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Graphic/icon content */
+  children?: ReactNode;
   /** Additional CSS classes */
   className?: string;
 }
 
 // ===== ICON MAPPING =====
-const getStatusIcon = (status: BannerStatus): ReactNode => {
-  switch (status) {
+const getVariantIcon = (variant: BannerVariant): ReactNode => {
+  switch (variant) {
     case 'success':
       return <StatusIcons.Success />;
     case 'warning':
@@ -101,20 +94,33 @@ const getStatusIcon = (status: BannerStatus): ReactNode => {
 
 // ===== ROOT COMPONENT =====
 export const BannerRoot = forwardRef<HTMLDivElement, BannerRootProps>(({
-  status = 'info',
-  variant = 'subtle',
-  size = 'md',
-  className,
-  children,
-  onClose,
+  variant = 'info',
+  text,
+  actionText,
+  onAction,
+  secondaryActionText,
+  onSecondaryAction,
   showClose = false,
+  onClose,
+  icon,
+  className,
+  dismissible = true,
   ...props
 }, ref) => {
+  const [isDismissed, setIsDismissed] = useState(false);
+
+  const handleClose = () => {
+    setIsDismissed(true);
+    onClose?.();
+  };
+
+  if (isDismissed && dismissible) {
+    return null;
+  }
+
   const bannerClasses = cn(
     'banner',
-    `banner--${status}`,
     `banner--${variant}`,
-    `banner--${size}`,
     className
   );
 
@@ -122,25 +128,69 @@ export const BannerRoot = forwardRef<HTMLDivElement, BannerRootProps>(({
     <div
       ref={ref}
       className={bannerClasses}
-      role="status"
-      aria-live="polite"
-      data-status={status}
+      role="banner"
+      aria-live="assertive"
       data-variant={variant}
-      data-size={size}
       {...props}
     >
-      <div className="banner__inner">
-        {children}
-      </div>
-      {showClose && (
-        <div className="banner__close-wrapper">
-          <IconButtons.Close
-            onClick={onClose}
-            variant="ghost"
-            size="sm"
-            aria-label="Close banner"
-          />
+      <div className="banner__content">
+        {/* Graphic/Icon */}
+        {icon && (
+          <div className="banner__graphic">
+            {icon}
+          </div>
+        )}
+
+        {/* Text Content */}
+        <div className="banner__text-wrapper">
+          <Typography
+            variant="body-md"
+            className="banner__text"
+            as="p"
+          >
+            {text}
+          </Typography>
         </div>
+      </div>
+
+      {/* Actions */}
+      {(actionText || secondaryActionText) && (
+        <div className="banner__actions">
+          {secondaryActionText && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onSecondaryAction}
+              className="banner__secondary-action"
+            >
+              {secondaryActionText}
+            </Button>
+          )}
+          {actionText && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onAction}
+              className="banner__primary-action"
+            >
+              {actionText}
+            </Button>
+          )}
+        </div>
+      )}
+
+      {/* Close button - optional */}
+      {showClose && (
+        <button
+          className="banner__close-button"
+          onClick={handleClose}
+          aria-label="Dismiss banner"
+          type="button"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
       )}
     </div>
   );
@@ -148,45 +198,16 @@ export const BannerRoot = forwardRef<HTMLDivElement, BannerRootProps>(({
 
 BannerRoot.displayName = 'Banner.Root';
 
-// ===== INDICATOR COMPONENT =====
-export const BannerIndicator = forwardRef<HTMLDivElement, BannerIndicatorProps>(({
-  children,
-  className,
-  ...props
-}, ref) => {
-  const indicatorClasses = cn(
-    'banner__indicator',
-    className
-  );
-
-  return (
-    <div
-      ref={ref}
-      className={indicatorClasses}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-});
-
-BannerIndicator.displayName = 'Banner.Indicator';
-
-// ===== CONTENT COMPONENT =====
+// ===== CONTENT COMPONENT (for custom layouts) =====
 export const BannerContent = forwardRef<HTMLDivElement, BannerContentProps>(({
   children,
   className,
   ...props
 }, ref) => {
-  const contentClasses = cn(
-    'banner__content',
-    className
-  );
-
   return (
     <div
       ref={ref}
-      className={contentClasses}
+      className={cn('banner__content', className)}
       {...props}
     >
       {children}
@@ -196,251 +217,108 @@ export const BannerContent = forwardRef<HTMLDivElement, BannerContentProps>(({
 
 BannerContent.displayName = 'Banner.Content';
 
-// ===== TITLE COMPONENT =====
-export const BannerTitle = forwardRef<HTMLHeadingElement, BannerTitleProps>(({
+// ===== TEXT COMPONENT =====
+export const BannerText = forwardRef<HTMLDivElement, BannerTextProps>(({
   children,
   className,
   ...props
 }, ref) => {
-  return (
-    <Typography
-      ref={ref}
-      variant="label-md"
-      weight="semibold"
-      className={cn('banner__title', className)}
-      as="h4"
-      {...props}
-    >
-      {children}
-    </Typography>
-  );
-});
-
-BannerTitle.displayName = 'Banner.Title';
-
-// ===== DESCRIPTION COMPONENT =====
-export const BannerDescription = forwardRef<HTMLParagraphElement, BannerDescriptionProps>(({
-  children,
-  className,
-  ...props
-}, ref) => {
-  return (
-    <Typography
-      ref={ref}
-      variant="body-sm"
-      className={cn('banner__description', className)}
-      as="p"
-      {...props}
-    >
-      {children}
-    </Typography>
-  );
-});
-
-BannerDescription.displayName = 'Banner.Description';
-
-// ===== METRICS CONTAINER COMPONENT =====
-export const BannerMetrics = forwardRef<HTMLDivElement, BannerMetricsProps>(({
-  children,
-  className,
-  ...props
-}, ref) => {
-  const metricsClasses = cn(
-    'banner__metrics',
-    className
-  );
-
   return (
     <div
       ref={ref}
-      className={metricsClasses}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-});
-
-BannerMetrics.displayName = 'Banner.Metrics';
-
-// ===== METRIC COMPONENT =====
-export const BannerMetric = forwardRef<HTMLDivElement, BannerMetricProps>(({
-  label,
-  value,
-  variant = 'secondary',
-  className,
-  ...props
-}, ref) => {
-  const metricClasses = cn(
-    'banner__metric',
-    `banner__metric--${variant}`,
-    className
-  );
-
-  return (
-    <div
-      ref={ref}
-      className={metricClasses}
+      className={cn('banner__text-wrapper', className)}
       {...props}
     >
       <Typography
-        variant="body-xs"
-        weight="medium"
-        className="banner__metric-label"
-        as="span"
+        variant="body-md"
+        className="banner__text"
+        as="p"
       >
-        {label}
-      </Typography>
-      <Typography
-        variant="h4"
-        weight="bold"
-        className="banner__metric-value"
-        as="span"
-      >
-        {value}
+        {children}
       </Typography>
     </div>
   );
 });
 
-BannerMetric.displayName = 'Banner.Metric';
+BannerText.displayName = 'Banner.Text';
 
-// ===== ACTION COMPONENT =====
-export const BannerAction = forwardRef<HTMLDivElement, BannerActionProps>(({
+// ===== ACTIONS COMPONENT =====
+export const BannerActions = forwardRef<HTMLDivElement, BannerActionsProps>(({
   children,
   className,
   ...props
 }, ref) => {
-  const actionClasses = cn(
-    'banner__action',
-    className
-  );
-
   return (
     <div
       ref={ref}
-      className={actionClasses}
+      className={cn('banner__actions', className)}
       {...props}
     >
       {children}
     </div>
+  );
+});
+
+BannerActions.displayName = 'Banner.Actions';
+
+// ===== ACTION BUTTON COMPONENT =====
+export const BannerAction = forwardRef<HTMLButtonElement, BannerActionProps>(({
+  children,
+  primary = false,
+  onClick,
+  className,
+  ...props
+}, ref) => {
+  return (
+    <Button
+      ref={ref}
+      variant="ghost"
+      size="sm"
+      onClick={onClick}
+      className={cn(
+        primary ? 'banner__primary-action' : 'banner__secondary-action',
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </Button>
   );
 });
 
 BannerAction.displayName = 'Banner.Action';
 
-// ===== COMPOSITE BANNER OBJECT =====
-export const Banner = {
-  Root: BannerRoot,
-  Indicator: BannerIndicator,
-  Content: BannerContent,
-  Title: BannerTitle,
-  Description: BannerDescription,
-  Metrics: BannerMetrics,
-  Metric: BannerMetric,
-  Action: BannerAction,
-};
-
-// ===== CLOSED COMPONENT COMPOSITION (Convenience) =====
-export interface BannerClosedProps
-  extends Omit<BannerRootProps, 'children' | 'title'> {
-  /** Banner title */
-  title?: ReactNode;
-  /** Banner description/message */
-  description?: ReactNode;
-  /** Metrics to display */
-  metrics?: Array<{
-    label: ReactNode;
-    value: ReactNode;
-    variant?: 'accent' | 'success' | 'warning' | 'error' | 'secondary';
-  }>;
-  /** Custom icon */
-  icon?: ReactNode;
-  /** Action element/button */
-  action?: ReactNode;
-}
-
-
-export const BannerClosed = forwardRef<HTMLDivElement, BannerClosedProps>(({
-  status = 'info',
-  variant = 'subtle',
-  size = 'md',
-  title,
-  description,
-  metrics,
-  icon,
-  action,
+// ===== GRAPHIC COMPONENT =====
+export const BannerGraphic = forwardRef<HTMLDivElement, BannerGraphicProps>(({
+  children,
   className,
-  onClose,
-  showClose,
   ...props
 }, ref) => {
   return (
-    <BannerRoot
+    <div
       ref={ref}
-      status={status}
-      variant={variant}
-      size={size}
-      className={className}
-      onClose={onClose}
-      showClose={showClose}
+      className={cn('banner__graphic', className)}
       {...props}
     >
-      <BannerIndicator>
-        {icon || getStatusIcon(status)}
-      </BannerIndicator>
-
-      <BannerContent>
-        {title && <BannerTitle>{title}</BannerTitle>}
-        {description && <BannerDescription>{description}</BannerDescription>}
-
-        {metrics && metrics.length > 0 && (
-          <BannerMetrics>
-            {metrics.map((metric, index) => (
-              <BannerMetric
-                key={index}
-                label={metric.label}
-                value={metric.value}
-                variant={metric.variant}
-              />
-            ))}
-          </BannerMetrics>
-        )}
-      </BannerContent>
-
-      {action && <BannerAction>{action}</BannerAction>}
-    </BannerRoot>
+      {children}
+    </div>
   );
 });
 
-BannerClosed.displayName = 'BannerClosed';
+BannerGraphic.displayName = 'Banner.Graphic';
 
-// ===== CONVENIENCE COMPONENTS =====
-export interface ErrorBannerProps extends Omit<BannerClosedProps, 'status'> {}
-export const ErrorBanner = forwardRef<HTMLDivElement, ErrorBannerProps>((props, ref) => (
-  <BannerClosed ref={ref} status="error" {...props} />
-));
-ErrorBanner.displayName = 'ErrorBanner';
+// ===== COMPOSITE BANNER OBJECT =====
+export const Banner = {
+  Root: BannerRoot,
+  Content: BannerContent,
+  Text: BannerText,
+  Actions: BannerActions,
+  Action: BannerAction,
+  Graphic: BannerGraphic,
+};
 
-export interface SuccessBannerProps extends Omit<BannerClosedProps, 'status'> {}
-export const SuccessBanner = forwardRef<HTMLDivElement, SuccessBannerProps>((props, ref) => (
-  <BannerClosed ref={ref} status="success" {...props} />
-));
-SuccessBanner.displayName = 'SuccessBanner';
-
-export interface WarningBannerProps extends Omit<BannerClosedProps, 'status'> {}
-export const WarningBanner = forwardRef<HTMLDivElement, WarningBannerProps>((props, ref) => (
-  <BannerClosed ref={ref} status="warning" {...props} />
-));
-WarningBanner.displayName = 'WarningBanner';
-
-export interface InfoBannerProps extends Omit<BannerClosedProps, 'status'> {}
-export const InfoBanner = forwardRef<HTMLDivElement, InfoBannerProps>((props, ref) => (
-  <BannerClosed ref={ref} status="info" {...props} />
-));
-InfoBanner.displayName = 'InfoBanner';
-
-export interface AvailabilityBannerProps extends Omit<BannerClosedProps, 'status'> {
+// ===== SPECIALIZED AVAILABILITY BANNER =====
+export interface AvailabilityBannerProps extends Omit<BannerRootProps, 'text' | 'children'> {
   /** Available spots count */
   availableSpots: number;
   /** Total spots count */
@@ -449,6 +327,8 @@ export interface AvailabilityBannerProps extends Omit<BannerClosedProps, 'status
   isLoading?: boolean;
   /** Error state */
   error?: string | null;
+  /** Show action button to jump to form */
+  showAction?: boolean;
 }
 
 export const AvailabilityBanner = forwardRef<HTMLDivElement, AvailabilityBannerProps>(({
@@ -456,55 +336,69 @@ export const AvailabilityBanner = forwardRef<HTMLDivElement, AvailabilityBannerP
   totalSpots,
   isLoading = false,
   error = null,
+  showAction = false,
+  onAction,
   className,
-  onClose,
-  showClose,
-  action,
   ...props
 }, ref) => {
   const takenSpots = totalSpots - availableSpots;
-  const percentageFull = Math.round((takenSpots / totalSpots) * 100);
   const isFullyBooked = availableSpots === 0;
+  const isLow = availableSpots > 0 && availableSpots <= 2;
 
-  const status = isFullyBooked ? 'error' : availableSpots <= 2 ? 'warning' : 'success';
-  const title = isLoading ? 'Hämtar tillgänglighet...' : isFullyBooked ? 'Fullt bokad' : 'Platser lediga';
-  const description = isLoading
-    ? 'Vänta medan vi kontrollerar tillgängliga platser'
-    : error
-    ? error
-    : `${availableSpots} av ${totalSpots} platser lediga (${percentageFull}% full)`;
+  // Determine variant based on status
+  let variant: BannerVariant = 'success';
+  let text = '';
+
+  if (isLoading) {
+    variant = 'info';
+    text = 'Kontrollerar tillgängliga platser...';
+  } else if (error) {
+    variant = 'error';
+    text = error;
+  } else if (isFullyBooked) {
+    variant = 'error';
+    text = `Attans! Alla ${totalSpots} platser är fulla. Vi stöter på stor efterfrågan. Försök igen senare!`;
+  } else if (isLow) {
+    variant = 'warning';
+    text = `Bara ${availableSpots} plats${availableSpots === 1 ? '' : 'er'} lediga av ${totalSpots}! Skynda dig innan de är slut.`;
+  } else {
+    variant = 'success';
+    text = `${availableSpots} av ${totalSpots} platser lediga (${Math.round((takenSpots / totalSpots) * 100)}% fullt)`;
+  }
 
   return (
-    <BannerClosed
+    <BannerRoot
       ref={ref}
-      status={status}
-      variant="solid"
-      size="md"
-      title={title}
-      description={description}
-      metrics={
-        !isLoading && !error
-          ? [
-              {
-                label: 'Lediga',
-                value: availableSpots,
-                variant: isFullyBooked ? 'error' : 'success',
-              },
-              {
-                label: 'Tagna',
-                value: takenSpots,
-                variant: 'warning',
-              },
-            ]
-          : undefined
-      }
-      action={action}
+      variant={variant}
+      text={text}
+      actionText={showAction && !isFullyBooked && !isLoading ? 'Börja nu' : undefined}
+      onAction={onAction}
+      dismissible={false}
       className={className}
-      onClose={onClose}
-      showClose={showClose}
       {...props}
     />
   );
 });
 
 AvailabilityBanner.displayName = 'AvailabilityBanner';
+
+// ===== CONVENIENCE VARIANTS =====
+export const InfoBanner = forwardRef<HTMLDivElement, Omit<BannerRootProps, 'variant'>>(
+  (props, ref) => <BannerRoot ref={ref} variant="info" {...props} />
+);
+InfoBanner.displayName = 'InfoBanner';
+
+export const SuccessBanner = forwardRef<HTMLDivElement, Omit<BannerRootProps, 'variant'>>(
+  (props, ref) => <BannerRoot ref={ref} variant="success" {...props} />
+);
+SuccessBanner.displayName = 'SuccessBanner';
+
+export const WarningBanner = forwardRef<HTMLDivElement, Omit<BannerRootProps, 'variant'>>(
+  (props, ref) => <BannerRoot ref={ref} variant="warning" {...props} />
+);
+WarningBanner.displayName = 'WarningBanner';
+
+export const ErrorBanner = forwardRef<HTMLDivElement, Omit<BannerRootProps, 'variant'>>(
+  (props, ref) => <BannerRoot ref={ref} variant="error" {...props} />
+);
+ErrorBanner.displayName = 'ErrorBanner';
