@@ -161,13 +161,13 @@ export const AvailabilityBanner = forwardRef<
       message = 'Kunde inte hämta tillgänglighet just nu. Försök igen om en stund.';
     } else if (isFullyBooked) {
       bannerType = 'error';
-      message = `Alla ${totalSpots} platser är nu fyllda. Få chansen till nästa släpp!`;
+      message = `Alla ${totalSpots} platser är nu tagna. Få chansen till nästa släpp!`;
     } else if (availableSpots === 1) {
       bannerType = 'warning';
       message = `Sista platsen kvar i vår Early Access – först till kvarn!`;
     } else if (availableSpots <= 3) {
       bannerType = 'warning';
-      message = `Endast ${availableSpots} platser kvar i vår Early Access – först till kvarn!`;
+      message = `Endast ${availableSpots} platser kvar i vår Early Access – Skynda innan det tar slut!`;
     } else {
       bannerType = 'default';
       message = `${availableSpots} av ${totalSpots} platser tillgängliga i vår Early Access.`;
@@ -221,15 +221,15 @@ export const AvailabilityBanner = forwardRef<
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 radius="sm"
-                size="md"
+                size="sm"
                 className="w-44"
               />
               <Button
-                size="md"
+                size="sm"
                 onClick={handleEmailSubmit}
                 disabled={submitting || !email}
               >
-                {submitting ? 'Skickar...' : 'Notifiera mig'}
+                {submitting ? 'Skickar...' : 'Få notis'}
               </Button>
             </div>
           )}
