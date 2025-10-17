@@ -58,6 +58,12 @@
   color: var(--text-banner-info);
 }
 
+/* Accent - Accent (same as default) */
+.banner--accent {
+  background-color: var(--surface-banner-accent);
+  color: var(--text-banner-accent);
+}
+
 /* Success - Green (many spots available) */
 .banner--success {
   background-color: var(--surface-banner-success);

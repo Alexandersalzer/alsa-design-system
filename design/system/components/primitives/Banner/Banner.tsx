@@ -15,6 +15,7 @@ import { Input } from '../Input';
 export type BannerType =
   | 'default'
   | 'info'
+  | 'accent'
   | 'success'
   | 'warning'
   | 'error'
@@ -160,7 +161,7 @@ export const AvailabilityBanner = forwardRef<
       message = 'Kunde inte hämta tillgänglighet just nu. Försök igen om en stund.';
     } else if (isFullyBooked) {
       bannerType = 'error';
-      message = `Alla ${totalSpots} platser är nu fyllda. Lämna din e-post för att bli notifierad!`;
+      message = `Alla ${totalSpots} platser är nu fyllda. Få chansen till nästa släpp!`;
     } else if (availableSpots === 1) {
       bannerType = 'warning';
       message = `Sista platsen kvar i vår Early Access – först till kvarn!`;
@@ -220,7 +221,7 @@ export const AvailabilityBanner = forwardRef<
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 radius="sm"
-                size="sm"
+                size="md"
                 className="w-44"
               />
               <Button
@@ -261,6 +262,10 @@ AvailabilityBanner.displayName = 'AvailabilityBanner';
 // ===== CONVENIENCE EXPORTS =====
 export const InfoBanner = (props: Omit<BannerProps, 'type'>) => (
   <Banner {...props} type="info" />
+);
+
+export const AccentBanner = (props: Omit<BannerProps, 'type'>) => (
+  <Banner {...props} type="accent" />
 );
 
 export const SuccessBanner = (props: Omit<BannerProps, 'type'>) => (
