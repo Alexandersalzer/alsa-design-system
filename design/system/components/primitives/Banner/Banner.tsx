@@ -225,7 +225,7 @@ export const AvailabilityBanner = forwardRef<
                 className="w-44"
               />
               <Button
-                size="sm"
+                size="md"
                 onClick={handleEmailSubmit}
                 disabled={submitting || !email}
               >
