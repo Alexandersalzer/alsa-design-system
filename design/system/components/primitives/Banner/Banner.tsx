@@ -23,6 +23,10 @@ export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
   actionText?: string;
   /** Action button click handler */
   onAction?: () => void;
+  /** Show close button */
+  closable?: boolean;
+  /** Close button click handler */
+  onClose?: () => void;
   /** Additional CSS classes */
   className?: string;
 }
@@ -34,6 +38,8 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(({
   icon,
   actionText,
   onAction,
+  closable = false,
+  onClose,
   className,
   ...props
 }, ref) => {
@@ -77,6 +83,19 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(({
           className="banner__action"
         >
           {actionText}
+        </Button>
+      )}
+
+      {/* Close button */}
+      {closable && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onClose}
+          className="banner__close"
+          aria-label="Stäng banner"
+        >
+          ×
         </Button>
       )}
     </div>
