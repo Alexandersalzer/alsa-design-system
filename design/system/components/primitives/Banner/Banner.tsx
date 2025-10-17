@@ -135,7 +135,7 @@ export const AvailabilityBanner = forwardRef<HTMLDivElement, AvailabilityBannerP
     message = `Bara ${availableSpots} platser kvar av ${totalSpots}! Skynda dig innan de är slut.`;
   } else {
     bannerType = 'default';
-    message = `${availableSpots} av ${totalSpots} platser lediga (${percentageFull}% fullt)`;
+    message = `${availableSpots} av ${totalSpots} platser lediga`;
   }
 
   return (

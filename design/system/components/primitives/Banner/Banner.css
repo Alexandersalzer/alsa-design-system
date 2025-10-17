@@ -5,9 +5,10 @@
 
 /* ===== BASE BANNER STYLING ===== */
 .banner {
-  /* Layout - flexbox for icon + message + action */
+  /* Layout - flexbox for icon + message + action CENTERED */
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-banner-gap);
   width: 100%;
 
@@ -69,13 +70,11 @@
 /* ===== BANNER TEXT ALIGNMENT ===== */
 
 .banner__content {
-  /* Flex container for icon + message - CENTERED */
+  /* Flex container for icon + message - CENTERED, no flex expansion */
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-banner-gap);
-  flex: 1;
-  min-width: 0;
 }
 
 .banner__icon {
