@@ -9,11 +9,7 @@ import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Container } from '../../../../../system/layout/frames/container/Container';
 import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
-import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
-import { Card } from '../../../../../system/components/primitives/Card';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -71,59 +67,158 @@ export const PKLAbout: React.FC<PKLAboutProps> = ({
 
   return (
     <>
-      <style>{`
-        .pkl-about-stat-value {
-          font-size: ${textScale === 'lg' ? 'var(--foundation-typography-size-5xl)' : textScale === 'sm' ? 'var(--foundation-typography-size-3xl)' : 'var(--foundation-typography-size-4xl)'};
-          font-weight: var(--font-weight-bold);
-          line-height: 1;
-          background: linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-        
-        .pkl-about-stat-label {
-          color: var(--text-secondary);
-          font-size: ${textScale === 'lg' ? 'var(--foundation-typography-size-sm)' : 'var(--foundation-typography-size-xs)'};
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          font-weight: var(--font-weight-medium);
-        }
-        
-        .pkl-about-image {
-          width: 100%;
-          height: 100%;
-          min-height: 500px;
-          object-fit: cover;
-          border-radius: var(--radius-2xl);
-        }
-        
-        .pkl-about-image-wrapper {
-          position: relative;
-          width: 100%;
-        }
-        
-        .pkl-about-image-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(
-            135deg,
-            rgba(59, 130, 246, 0.15) 0%,
-            transparent 50%
-          );
-          border-radius: var(--radius-2xl);
-          pointer-events: none;
-        }
-        
-        @media (max-width: 640px) {
-          .pkl-about-image {
-            min-height: 300px;
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          .pkl-about-container {
+            max-width: var(--size-page-max-width);
+            margin: 0 auto;
+            padding: 0 var(--foundation-space-6);
           }
-        }
-      `}</style>
+          
+          .pkl-about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--foundation-space-16);
+            align-items: center;
+          }
+          
+          .pkl-about-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--foundation-space-8);
+          }
+          
+          .pkl-about-text {
+            display: flex;
+            flex-direction: column;
+            gap: var(--foundation-space-6);
+          }
+          
+          .pkl-about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--foundation-space-8);
+            padding: var(--foundation-space-8);
+            background: var(--surface-subtle);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+          }
+          
+          .pkl-about-stat {
+            display: flex;
+            flex-direction: column;
+            gap: var(--foundation-space-2);
+          }
+          
+          .pkl-about-stat-value {
+            font-size: ${textScale === 'lg' ? 'var(--foundation-typography-size-5xl)' : textScale === 'sm' ? 'var(--foundation-typography-size-3xl)' : 'var(--foundation-typography-size-4xl)'};
+            font-weight: var(--font-weight-bold);
+            line-height: 1;
+            background: linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+          
+          .pkl-about-stat-label {
+            color: var(--text-secondary);
+            font-size: ${textScale === 'lg' ? 'var(--foundation-typography-size-sm)' : 'var(--foundation-typography-size-xs)'};
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: var(--font-weight-medium);
+          }
+          
+          .pkl-about-image-container {
+            position: relative;
+            height: 100%;
+            min-height: 500px;
+          }
+          
+          .pkl-about-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+          }
+          
+          .pkl-about-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-medium);
+          }
+          
+          /* Decorative gradient overlay on image */
+          .pkl-about-image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+              135deg,
+              rgba(59, 130, 246, 0.15) 0%,
+              transparent 50%
+            );
+            border-radius: var(--radius-2xl);
+            pointer-events: none;
+          }
+          
+          /* Decorative accent element */
+          .pkl-about-accent {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(
+              circle at center,
+              rgba(59, 130, 246, 0.2) 0%,
+              transparent 70%
+            );
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+          }
+          
+          @media (max-width: 1024px) {
+            .pkl-about-grid {
+              grid-template-columns: 1fr;
+              gap: var(--foundation-space-12);
+            }
+            
+            .pkl-about-image-container {
+              min-height: 400px;
+              order: -1;
+            }
+            
+            .pkl-about-stats {
+              grid-template-columns: repeat(2, 1fr);
+            }
+          }
+          
+          @media (max-width: 640px) {
+            .pkl-about-stats {
+              grid-template-columns: 1fr;
+              gap: var(--foundation-space-6);
+            }
+            
+            .pkl-about-image-container {
+              min-height: 300px;
+            }
+            
+            .pkl-about-accent {
+              width: 150px;
+              height: 150px;
+              top: -10px;
+              right: -10px;
+            }
+          }
+        `
+      }} />
       
       <Section
         id={id}
@@ -134,16 +229,11 @@ export const PKLAbout: React.FC<PKLAboutProps> = ({
           paddingBottom
         }}
       >
-        <Container maxWidth="2xl">
-          <Grid
-            columns={2}
-            gap="xl"
-            collapseOn="tablet"
-            alignItems="center"
-          >
+        <div className="pkl-about-container">
+          <div className="pkl-about-grid">
             {/* Left Side - Content */}
-            <Stack spacing="xl">
-              <Stack spacing="lg">
+            <div className="pkl-about-content">
+              <div className="pkl-about-text">
                 {label && (
                   <Typography 
                     variant="label-sm" 
@@ -172,7 +262,7 @@ export const PKLAbout: React.FC<PKLAboutProps> = ({
                 </Typography>
                 
                 {ctaText && (
-                  <Cluster spacing="md" justify="start">
+                  <div style={{ marginTop: 'var(--foundation-space-4)' }}>
                     <Button 
                       variant="primary" 
                       size="lg"
@@ -180,54 +270,45 @@ export const PKLAbout: React.FC<PKLAboutProps> = ({
                     >
                       {ctaText}
                     </Button>
-                  </Cluster>
+                  </div>
                 )}
-              </Stack>
+              </div>
               
               {/* Stats Grid */}
-              <Card 
-                variant="outlined"
-                radius="lg"
-                style={{
-                  padding: 'var(--foundation-space-8)',
-                  backgroundColor: 'var(--surface-subtle)'
-                }}
-              >
-                <Grid
-                  columns={2}
-                  gap="lg"
-                  collapseOn="mobile"
-                >
-                  {stats.map((stat, index) => (
-                    <Stack key={index} spacing="sm">
-                      <div className="pkl-about-stat-value">
-                        {stat.value}
-                      </div>
-                      <div className="pkl-about-stat-label">
-                        {stat.label}
-                      </div>
-                    </Stack>
-                  ))}
-                </Grid>
-              </Card>
-            </Stack>
+              <div className="pkl-about-stats">
+                {stats.map((stat, index) => (
+                  <div key={index} className="pkl-about-stat">
+                    <div className="pkl-about-stat-value">
+                      {stat.value}
+                    </div>
+                    <div className="pkl-about-stat-label">
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
             
             {/* Right Side - Image */}
             {image && (
-              <div className="pkl-about-image-wrapper">
-                <img 
-                  src={image} 
-                  alt="PKL Consulting"
-                  className="pkl-about-image"
-                />
-                <div className="pkl-about-image-overlay" />
+              <div className="pkl-about-image-container">
+                <div className="pkl-about-accent" />
+                <div className="pkl-about-image-wrapper">
+                  <img 
+                    src={image} 
+                    alt="PKL Consulting"
+                    className="pkl-about-image"
+                  />
+                  <div className="pkl-about-image-overlay" />
+                </div>
               </div>
             )}
-          </Grid>
-        </Container>
+          </div>
+        </div>
       </Section>
     </>
   );
 };
 
 PKLAbout.displayName = 'PKLAbout';
+
