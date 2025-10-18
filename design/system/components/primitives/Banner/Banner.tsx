@@ -217,7 +217,7 @@ export const AvailabilityBanner = forwardRef<
             <div className="flex items-center gap-2 ml-4 flex-wrap justify-center sm:flex-nowrap">
               <Input
                 type="email"
-                placeholder="Din e-post"
+                placeholder="Fyll i din e-post"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 radius="sm"
