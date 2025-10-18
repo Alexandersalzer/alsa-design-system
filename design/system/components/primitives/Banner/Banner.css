@@ -67,7 +67,7 @@
 }
 
 .banner--error {
-  background-color: var(--surface-banner-accent);
+  background-color: var(--surface-page);
   color: var(--text-banner-accent);
   border-bottom: 1px solid var(--border-error-subtle);
 }
