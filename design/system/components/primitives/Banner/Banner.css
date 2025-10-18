@@ -134,6 +134,15 @@
   overflow: hidden;
 }
 
+/* Allow text wrapping on mobile */
+@media (max-width: 768px) {
+  .banner__message {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+}
+
 /* ===== ACTION BUTTONS ===== */
 
 .banner__actions {
@@ -166,45 +175,82 @@
 
 @media (max-width: 768px) {
   .banner {
-    flex-direction: row; /* Behåll horisontell layout på mobil */
+    flex-wrap: wrap; /* Tillåt wrapping på mobil */
     align-items: center;
-    gap: var(--foundation-space-3);
+    justify-content: center;
+    gap: var(--foundation-space-2);
     padding: var(--foundation-space-3) var(--foundation-space-4);
     min-height: auto;
   }
 
   .banner__content {
-    flex: 1; /* Fortsätt expandera på mobil */
-    justify-content: center; /* Behåll centrering */
+    flex: 1 1 auto; /* Flexibel bredd */
+    min-width: 0; /* Tillåt shrinking */
+    justify-content: center;
   }
 
   .banner__actions {
-    margin-left: auto; /* Behåll actions till höger */
+    margin-left: 0; /* Ta bort auto-margin på mobil */
     flex-shrink: 0;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .banner__action {
-    padding: 6px 12px;
-    font-size: 0.7rem;
+    padding: 8px 16px;
+    font-size: 0.75rem;
+    min-width: auto;
   }
 
   .banner__message {
     font-size: 0.875rem;
+    text-align: center;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .banner {
-    padding: var(--foundation-space-2) var(--foundation-space-3);
+    flex-direction: column; /* Stack vertikalt på små skärmar */
+    padding: var(--foundation-space-3) var(--foundation-space-3);
+    gap: var(--foundation-space-3);
+  }
+
+  .banner__content {
+    width: 100%;
+    flex-direction: column;
+    text-align: center;
   }
 
   .banner__message {
     font-size: 0.875rem;
+    width: 100%;
   }
 
   .banner__icon {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .banner__actions {
+    width: 100%;
+    justify-content: center;
+    gap: var(--foundation-space-2);
+  }
+
+  .banner__action {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  /* Waitlist input/button på mobil */
+  .banner input[type="email"] {
+    min-width: 160px;
+    max-width: 100%;
+  }
+
+  .banner button {
+    white-space: nowrap;
+    min-width: auto;
   }
 }
 

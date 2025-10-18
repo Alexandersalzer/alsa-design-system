@@ -161,16 +161,16 @@ export const AvailabilityBanner = forwardRef<
       message = 'Kunde inte hämta tillgänglighet just nu. Försök igen om en stund.';
     } else if (isFullyBooked) {
       bannerType = 'error';
-      message = `Just nu är Early Access fullt - säkra din plats och få prioriterad inbjudan vid nästa release`;
+      message = `Early Access är fullt just nu!`;
     } else if (availableSpots === 1) {
       bannerType = 'warning';
-      message = `Sista platsen kvar i vår Early Access – först till kvarn!`;
+      message = `Sista platsen kvar i Early Access – först till kvarn!`;
     } else if (availableSpots <= 3) {
       bannerType = 'warning';
-      message = `Endast ${availableSpots} platser kvar i vår Early Access – Skynda innan det tar slut!`;
+      message = `Endast ${availableSpots} platser kvar i vår Early Access!`;
     } else {
       bannerType = 'default';
-      message = `${availableSpots} av ${totalSpots} platser tillgängliga i vår Early Access.`;
+      message = `${availableSpots} av ${totalSpots} platser tillgängliga i Early Access.`;
     }
 
     const handleEmailSubmit = async () => {
@@ -206,7 +206,7 @@ export const AvailabilityBanner = forwardRef<
           {/* Message */}
           <Typography
             variant="body-md"
-            className="banner__message whitespace-nowrap text-center"
+            className="banner__message text-center"
             as="p"
           >
             {message}
@@ -214,7 +214,7 @@ export const AvailabilityBanner = forwardRef<
 
           {/* Inline waitlist (if fully booked) */}
           {isFullyBooked && !submitted && (
-            <div className="flex items-center gap-2 ml-4">
+            <div className="flex items-center gap-2 ml-4 flex-wrap justify-center sm:flex-nowrap">
               <Input
                 type="email"
                 placeholder="Din e-post"
@@ -222,20 +222,21 @@ export const AvailabilityBanner = forwardRef<
                 onChange={(e) => setEmail(e.target.value)}
                 radius="sm"
                 size="sm"
-                className="w-44"
+                className="w-44 min-w-[160px] sm:w-44"
               />
               <Button
                 size="sm"
                 onClick={handleEmailSubmit}
                 disabled={submitting || !email}
+                className="whitespace-nowrap"
               >
-                {submitting ? 'Skickar...' : 'Få notis'}
+                {submitting ? 'Skickar...' : 'Bli prioriterad'}
               </Button>
             </div>
           )}
 
           {isFullyBooked && submitted && (
-            <Typography variant="body-sm" className="ml-4 text-[var(--text-banner-success)]">
+            <Typography variant="body-sm" className="ml-4 text-[var(--text-banner-success)] text-center">
               Tack! Du får ett mejl när vi öppnar igen.
             </Typography>
           )}
