@@ -25,6 +25,7 @@ export interface NavRootProps extends React.HTMLAttributes<HTMLElement> {
   variant?: NavVariant;
   currentPath?: string;
   className?: string;
+  gap?: 'sm' | 'md' | 'lg' | 'xl'; // Add gap prop
 }
 
 const NavRoot = forwardRef<HTMLElement, NavRootProps>(({
@@ -32,6 +33,7 @@ const NavRoot = forwardRef<HTMLElement, NavRootProps>(({
   variant = 'sidebar',
   currentPath,
   className,
+  gap = 'md', // Default gap
   ...props
 }, ref) => {
   return (
@@ -40,6 +42,11 @@ const NavRoot = forwardRef<HTMLElement, NavRootProps>(({
         ref={ref}
         className={cn('nav-root', `nav-root--${variant}`, className)}
         role="navigation"
+        style={{ 
+          display: 'flex',
+          flexDirection: 'column',
+          gap: `var(--foundation-space-${gap === 'sm' ? '2' : gap === 'md' ? '3' : gap === 'lg' ? '4' : '5'})`
+        }}
         {...props}
       >
         {children}
@@ -47,7 +54,6 @@ const NavRoot = forwardRef<HTMLElement, NavRootProps>(({
     </NavContext.Provider>
   );
 });
-
 NavRoot.displayName = 'NavRoot';
 
 // ===== NAV LIST =====
