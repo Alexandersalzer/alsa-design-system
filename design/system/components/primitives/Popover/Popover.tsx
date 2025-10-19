@@ -433,12 +433,17 @@ export const PopoverContent = ({
   // Auto focus first focusable element
   useEffect(() => {
     if (autoFocus && contentRef.current && isOpen) {
-      const focusable = contentRef.current.querySelector<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      focusable?.focus();
+      // 🎯 FIX: Don't auto-focus if the trigger contains an input
+      const triggerHasInput = triggerRef.current?.querySelector('input, textarea');
+      
+      if (!triggerHasInput) {
+        const focusable = contentRef.current.querySelector<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        focusable?.focus();
+      }
     }
-  }, [autoFocus, isOpen]);
+  }, [autoFocus, isOpen, triggerRef]);
   
   if (!isOpen) return null;
   
