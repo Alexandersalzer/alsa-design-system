@@ -134,16 +134,16 @@
 }
 
 .popover-body {
-  padding: 16px;
+  padding: 8px;
   overflow-y: auto;
 }
 
 .popover-body--sm {
-  padding: 12px;
+  padding: 4px;
 }
 
 .popover-body--lg {
-  padding: 20px;
+  padding: 12px;
 }
 
 .popover-footer {

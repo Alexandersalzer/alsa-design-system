@@ -42,6 +42,7 @@
   /* Layout */
   display: inline-flex;
   align-items: center;
+  justify-content: flex-start; 
   gap: var(--space-nav-item-gap);
   padding: var(--space-nav-item-padding-y) var(--space-nav-item-padding-x);
   border-radius: var(--radius-button);
@@ -52,6 +53,7 @@
   font-weight: var(--font-label-weight);
   line-height: var(--font-label-md-leading);
   text-decoration: none;
+  text-align: left;
   
   /* Colors */
   color: var(--text-nav-item);
@@ -166,6 +168,7 @@
   width: 100%;
   justify-content: flex-start;
   min-height: 40px;
+  text-align: left;
 }
 
 /* Horizontal variant */

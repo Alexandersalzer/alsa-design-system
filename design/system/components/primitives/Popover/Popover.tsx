@@ -161,14 +161,20 @@ export const PopoverRoot = ({
     
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
-      if (
-        triggerRef.current && !triggerRef.current.contains(target) &&
-        contentRef.current && !contentRef.current.contains(target)
-      ) {
+      
+      // Check if click is inside trigger or content
+      const isInsideTrigger = triggerRef.current?.contains(target);
+      const isInsideContent = contentRef.current?.contains(target);
+      
+      // 🎯 KEY FIX: Also check if the target is an input/textarea inside the trigger
+      const isInputInTrigger = triggerRef.current?.querySelector('input, textarea')?.contains(target);
+      
+      if (!isInsideTrigger && !isInsideContent && !isInputInTrigger) {
         setIsOpen(false);
       }
     };
-    
+
+    // Use 'mousedown' instead of 'click' for better UX
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen, closeOnInteractOutside]);
@@ -427,12 +433,17 @@ export const PopoverContent = ({
   // Auto focus first focusable element
   useEffect(() => {
     if (autoFocus && contentRef.current && isOpen) {
-      const focusable = contentRef.current.querySelector<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      focusable?.focus();
+      // 🎯 FIX: Don't auto-focus if the trigger contains an input
+      const triggerHasInput = triggerRef.current?.querySelector('input, textarea');
+      
+      if (!triggerHasInput) {
+        const focusable = contentRef.current.querySelector<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        focusable?.focus();
+      }
     }
-  }, [autoFocus, isOpen]);
+  }, [autoFocus, isOpen, triggerRef]);
   
   if (!isOpen) return null;
   
