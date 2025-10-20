@@ -167,7 +167,7 @@
 .nav-item--sidebar {
   width: 100%;
   justify-content: flex-start;
-  min-height: 40px;
+  height: var(--control-height-sm);
   text-align: left;
 }
 
@@ -193,7 +193,7 @@
   .nav-item,
   .nav-item--sidebar {
     padding: var(--foundation-space-2) var(--foundation-space-3);
-    min-height: 44px; /* Better touch targets on mobile */
+    min-height: var(--control-height-sm);
   }
 }
 
