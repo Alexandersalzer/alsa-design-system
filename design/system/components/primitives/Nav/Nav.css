@@ -163,22 +163,35 @@
 /* ===== VARIANT-SPECIFIC STYLES ===== */
 
 /* Sidebar variant */
-/* Sidebar variant (force consistent height) */
+/* FORCE NAV ITEM HEIGHT (sidebar) */
 .nav-item--sidebar {
   width: 100%;
+  display: flex !important;
+  align-items: center !important;
   justify-content: flex-start;
-  height: var(--control-height-sm); /* 34px */
   text-align: left;
 
-  /* 🔒 Force height discipline */
+  /* Hard-lock height */
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+
+  /* Neutralize anything that adds vertical space */
   line-height: 1 !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  overflow: hidden !important;
+}
 
-  /* Ensure perfect vertical centering */
-  display: flex;
-  align-items: center;
-  overflow: hidden;
+.nav-item--sidebar .nav-item__label,
+.nav-item--sidebar .nav-item__icon,
+.nav-item--sidebar .nav-item__badge {
+  line-height: 1 !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 /* Horizontal variant */
