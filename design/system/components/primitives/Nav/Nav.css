@@ -108,8 +108,8 @@
 }
 
 .nav-item__icon svg {
-  width: var(--foundation-size-icon-md) !important;
-  height: var(--foundation-size-icon-md) !important;
+  width: var(--foundation-size-icon-sm) !important;
+  height: var(--foundation-size-icon-sm) !important;
   flex-shrink: 0;
   color: var(--icon-nav-item);
   transition: color 0.15s ease;
