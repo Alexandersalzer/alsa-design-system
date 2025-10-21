@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Input/Input.tsx
-// FIXED - Using cn() utility with radius prop and your Icon pattern
+// UPDATED - Added fullWidth prop support
 // ===============================================
 
 import React, { forwardRef, ReactNode, useId, useState } from 'react';
@@ -18,6 +18,7 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   radius?: 'sm' | 'md' | 'lg';
   type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search';
   showPasswordToggle?: boolean;
+  fullWidth?: boolean; // 👈 NEW PROP
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -33,6 +34,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     radius = 'md',
     type = 'text',
     showPasswordToggle = true,
+    fullWidth = false, // 👈 NEW PROP WITH DEFAULT
     id,
     ...props
   }, ref) => {
@@ -45,7 +47,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const shouldShowToggle = isPassword && showPasswordToggle;
     const actualType = isPassword && showPassword ? 'text' : type;
 
-    // Build class names explicitly to avoid type issues - BACK TO YOUR ORIGINAL PATTERN
+    // Build class names explicitly to avoid type issues
     const inputClasses = [
       'input',
       `input--${size}`,
@@ -55,11 +57,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       leftIcon ? 'input-with-left-icon' : null,
       rightIcon ? 'input-with-right-icon' : null,
       variant === 'search' ? 'search-input' : null,
+      fullWidth ? 'input--full-width' : null, // 👈 NEW CLASS
       className
     ].filter(Boolean);
 
     return (
-      <div className="input-group">
+      <div className={cn('input-group', fullWidth ? 'input-group--full-width' : null)}> {/* 👈 UPDATED */}
         {/* Label */}
         {label && (
           <label htmlFor={inputId} className="input-label">
@@ -140,13 +143,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = 'Input';
 
-// Search Input Component - Updated with your Icon pattern
+// Search Input Component - Updated with fullWidth support
 export interface SearchInputProps extends Omit<InputProps, 'variant'> {
   onClear?: () => void;
 }
 
 export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ onClear, value, size = 'md', radius = 'md', ...props }, ref) => {
+  ({ onClear, value, size = 'md', radius = 'md', fullWidth = false, ...props }, ref) => {
     const searchIcon = (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
         <path
@@ -185,6 +188,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         leftIcon={searchIcon}
         rightIcon={clearIcon}
         value={value}
+        fullWidth={fullWidth} // 👈 PASS THROUGH
         {...props}
       />
     );

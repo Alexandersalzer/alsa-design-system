@@ -1,6 +1,6 @@
 /* ===============================================
    src/design-system/components/primitives/Nav/Nav.css
-   Navigation primitive styles - USING PROPER TOKENS
+   Navigation primitive styles - SCALED DOWN SIZES
    =============================================== */
 
 /* ===== NAV ROOT ===== */
@@ -37,21 +37,21 @@
   flex-direction: row;
 }
 
-/* ===== NAV ITEM ===== */
+/* ===== NAV ITEM - SCALED DOWN ===== */
 .nav-item {
   /* Layout */
   display: inline-flex;
   align-items: center;
   justify-content: flex-start; 
-  gap: var(--space-nav-item-gap);
-  padding: var(--space-nav-item-padding-y) var(--space-nav-item-padding-x);
+  gap: var(--foundation-space-2); /* Reduced from 3 */
+  padding: var(--foundation-space-2) var(--foundation-space-3); /* Reduced padding */
   border-radius: var(--radius-button);
   
-  /* Typography */
+  /* Typography - Smaller */
   font-family: var(--font-body-family);
-  font-size: var(--font-label-md-size);
-  font-weight: var(--font-label-weight);
-  line-height: var(--font-label-md-leading);
+  font-size: 13px; /* Reduced from 14px */
+  font-weight: 500; /* Reduced from 600 */
+  line-height: 1.4;
   text-decoration: none;
   text-align: left;
   
@@ -65,6 +65,7 @@
   border: none;
   position: relative;
   outline: none;
+  min-height: 36px; /* Reduced from 40px */
 }
 
 /* Keyboard focus */
@@ -89,7 +90,7 @@
 .nav-item--active {
   background-color: var(--surface-nav-item-selected);
   color: var(--text-nav-item-selected);
-  font-weight: var(--foundation-weight-semibold);
+  font-weight: 600; /* Slightly bolder when active */
 }
 
 /* Disabled state */
@@ -109,8 +110,8 @@
 }
 
 .nav-item__icon svg {
-  width: var(--foundation-size-icon-md) !important;
-  height: var(--foundation-size-icon-md) !important;
+  width: 18px !important; /* Reduced from 20px */
+  height: 18px !important; /* Reduced from 20px */
   flex-shrink: 0;
   color: var(--icon-nav-item);
   transition: color 0.15s ease;
@@ -148,8 +149,8 @@
 
 .nav-section__label {
   padding: var(--foundation-space-2) var(--foundation-space-3);
-  font-size: var(--font-label-xs-size);
-  font-weight: var(--foundation-weight-semibold);
+  font-size: 10px; /* Reduced from 11px */
+  font-weight: 600;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -167,7 +168,7 @@
 .nav-item--sidebar {
   width: 100%;
   justify-content: flex-start;
-  min-height: 40px;
+  min-height: 36px; /* Reduced from 40px */
   text-align: left;
 }
 
@@ -188,18 +189,139 @@
   background-color: transparent;
 }
 
+/* ===== COLLAPSIBLE NAV ITEMS WITH SUBTABS ===== */
+.nav-item-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-item--has-children {
+  position: relative;
+}
+
+.nav-subtabs {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: var(--foundation-space-4); /* Reduced from space-5 */
+  margin-top: 2px; /* Reduced from 4px */
+  margin-left: var(--foundation-space-3); /* Reduced from space-4 */
+  position: relative;
+}
+
+/* ===== SUBTAB WRAPPER WITH ARROW ===== */
+.nav-subtab-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+}
+
+.nav-item--subtab {
+  font-size: 12px; /* Reduced from 13px */
+  min-height: 32px; /* Reduced from 36px */
+  padding: var(--foundation-space-2) var(--foundation-space-3); /* Smaller padding */
+  position: relative;
+  flex: 1;
+}
+
+/* Arrow indicator - only shows on active or hover */
+.nav-subtab__arrow {
+  position: absolute;
+  right: var(--foundation-space-3);
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.nav-subtab-wrapper--active .nav-subtab__arrow,
+.nav-subtab-wrapper--hover .nav-subtab__arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Line connector - only to ACTIVE child */
+.nav-subtab-wrapper--active .nav-item--subtab::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--foundation-space-4));
+  top: 0;
+  bottom: 50%;
+  width: calc(var(--foundation-space-3));
+  border-left: 2px solid var(--accent-500); /* Active color */
+  border-bottom: 2px solid var(--accent-500); /* Active color */
+  border-bottom-left-radius: 4px; /* Reduced from 6px */
+}
+
+/* Vertical line connecting all items except the last - only when active child exists */
+.nav-subtab-wrapper--active:not(:last-child) .nav-item--subtab::after {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--foundation-space-4));
+  top: 50%;
+  bottom: calc(-1 * var(--foundation-space-1) - 1px);
+  width: 2px;
+  background: var(--accent-500); /* Active color */
+}
+
+/* Hover connector - subtle gray */
+.nav-subtab-wrapper--hover:not(.nav-subtab-wrapper--active) .nav-item--subtab::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--foundation-space-4));
+  top: 0;
+  bottom: 50%;
+  width: calc(var(--foundation-space-3));
+  border-left: 2px solid var(--border-subtle);
+  border-bottom: 2px solid var(--border-subtle);
+  border-bottom-left-radius: 4px;
+}
+
+.nav-item--subtab .nav-item__icon svg {
+  width: 14px !important; /* Reduced from 16px */
+  height: 14px !important; /* Reduced from 16px */
+}
+
+/* ===== SIDEBAR FOOTER SETTINGS ITEM ===== */
+.sidebar__footer {
+  margin-top: auto;
+  padding: var(--foundation-space-3);
+  flex-shrink: 0;
+}
+
+.sidebar__settings-item {
+  width: 100%;
+  min-height: 48px; /* Slightly larger for footer */
+}
+
+.sidebar__settings-item:hover {
+  background-color: var(--surface-nav-item-hover);
+}
+
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .nav-item,
   .nav-item--sidebar {
     padding: var(--foundation-space-2) var(--foundation-space-3);
-    min-height: 44px; /* Better touch targets on mobile */
+    min-height: 40px; /* Better touch targets on mobile */
+  }
+  
+  .nav-item--subtab {
+    min-height: 36px;
   }
 }
 
 @media (max-width: 480px) {
   .nav-item__label {
-    font-size: var(--font-label-sm-size);
+    font-size: 12px;
+  }
+  
+  .nav-item--subtab {
+    font-size: 11px;
   }
 }
 
@@ -216,7 +338,8 @@
 
 /* ===== REDUCED MOTION SUPPORT ===== */
 @media (prefers-reduced-motion: reduce) {
-  .nav-item {
+  .nav-item,
+  .nav-subtab__arrow {
     transition: background-color 0.15s ease, color 0.15s ease !important;
   }
 }
