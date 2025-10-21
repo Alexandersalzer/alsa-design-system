@@ -163,11 +163,22 @@
 /* ===== VARIANT-SPECIFIC STYLES ===== */
 
 /* Sidebar variant */
+/* Sidebar variant (force consistent height) */
 .nav-item--sidebar {
   width: 100%;
   justify-content: flex-start;
-  height: var(--control-height-sm);
+  height: var(--control-height-sm); /* 34px */
   text-align: left;
+
+  /* 🔒 Force height discipline */
+  line-height: 1 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+
+  /* Ensure perfect vertical centering */
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
 /* Horizontal variant */
