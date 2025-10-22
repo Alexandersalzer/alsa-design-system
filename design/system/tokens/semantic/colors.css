@@ -301,7 +301,7 @@
   --interactive-primary: var(--primary-black);
   --interactive-primary-hover: var(--primary-1000);
   --interactive-primary-active: var(--primary-900);
-  --interactive-primary-disabled: var(--secondary-800);
+  --interactive-primary-disabled: var(--secondary-600);
   
   --interactive-secondary: var(--secondary-100);
   --interactive-secondary-hover: var(--secondary-200);
