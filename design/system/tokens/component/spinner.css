@@ -8,9 +8,9 @@
   --spinner-track-color: var(--secondary-300);
 
   /* Button-specific overrides (contrast-tuned) */
-  --spinner-track-on-primary: var(--secondary-700);
+  --spinner-track-on-primary: var(--primary-900);
   --spinner-track-on-secondary: var(--secondary-400);
-  --spinner-track-on-accent: var(--secondary-700);
+  --spinner-track-on-accent: var(--accent-700);
   --spinner-track-on-destructive: var(--secondary-700);
   --spinner-track-on-ghost: var(--secondary-300);
 }
