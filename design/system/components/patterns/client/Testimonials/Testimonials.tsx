@@ -4,7 +4,7 @@ import { Typography } from '../../../../../system/components/primitives/Typograp
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Section } from '../../../layout/frames/section/Section';
 import { Container } from '../../../layout/frames/container/Container';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { StarIcon } from '@heroicons/react/24/solid';
 
@@ -44,10 +44,10 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
       }}
     >
       <Container maxWidth="xl" align="center">
-        <Stack spacing="xl" align="center">
+        <VStack spacing="xl" align="center">
           {/* Header */}
           <div style={{ maxWidth: '1200px', width: '100%' }}>
-            <Stack spacing="lg" align="center">
+            <VStack spacing="lg" align="center">
             <Typography 
               variant="h2" 
               weight="bold" 
@@ -88,7 +88,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
               >
                 {subtitle}
               </Typography>
-            </Stack>
+            </VStack>
           </div>
 
           {/* Testimonials Grid */}
@@ -116,7 +116,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                   }}
                 >
                   <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                    <Stack spacing="md">
+                    <VStack spacing="md">
                     {/* Rating Stars */}
                     <HStack spacing="xs" align="center">
                       {[...Array(testimonial.rating || 5)].map((_, i) => (
@@ -175,13 +175,13 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                         </Typography>
                       </div>
                     </div>
-                    </Stack>
+                    </VStack>
                   </div>
                 </Card>
               ))}
             </div>
           </div>
-        </Stack>
+        </VStack>
       </Container>
     </Section>
   );

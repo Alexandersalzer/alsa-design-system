@@ -6,7 +6,7 @@ import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Section } from '../../../layout/frames/section/Section';
 import { Container } from '../../../layout/frames/container/Container';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { HStack } from '../../../layout/utilities/hStack/HStack';
 
 export interface CTAButton {
@@ -52,7 +52,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
     >
       <Container maxWidth="xl" align="center">
         <div style={{ maxWidth: '800px', width: '100%' }}>
-          <Stack spacing="lg" align="center">
+          <VStack spacing="lg" align="center">
             {/* Title */}
             <Typography 
               variant="h3" 
@@ -104,16 +104,16 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
             {/* Info Section */}
             {info.length > 0 && (
               <div style={{ maxWidth: '600px', width: '100%' }}>
-                <Stack spacing="sm" align="center">
+                <VStack spacing="sm" align="center">
                   {info.map((item, index) => (
                     <Typography key={index} variant="body-sm" color="secondary" style={{ textAlign: 'center' }}>
                       <strong>{item.label}:</strong> {item.value}
                     </Typography>
                   ))}
-                </Stack>
+                </VStack>
               </div>
             )}
-          </Stack>
+          </VStack>
         </div>
       </Container>
     </Section>

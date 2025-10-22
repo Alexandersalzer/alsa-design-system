@@ -2,7 +2,7 @@
 // ThemeControlPanel.tsx - Updated for simplified AccentColorControl
 // ===============================================
 import React from 'react';
-import { Stack } from '@blimpify-im/ui';
+import { VStack } from '@blimpify-im/ui';
 import { AccentColorControl } from './AccentColorControl';
 import { RadiusControl } from './RadiusControl';
 import { ThemeModeControl } from './ThemeModeControl';
@@ -29,7 +29,7 @@ export function ThemeControlPanel({
 }: ThemeControlPanelProps) {
   return (
     <div className={className}>
-      <Stack spacing="xl">
+      <VStack spacing="xl">
         {showThemeToggle && (
           <ThemeModeControl />
         )}
@@ -41,7 +41,7 @@ export function ThemeControlPanel({
         {showRadiusControl && (
           <RadiusControl columns={radiusColumns} />
         )}
-      </Stack>
+      </VStack>
     </div>
   );
 }

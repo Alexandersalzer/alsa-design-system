@@ -8,7 +8,7 @@
 import React from 'react';
 import { Container } from '../../../layout/frames/container/Container';
 import { HStack } from '../../../layout/utilities/hStack/HStack';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Icon } from '../../../../../system/components/primitives/Icon';
@@ -35,9 +35,9 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
   return (
     <section>
       <Container maxWidth="xl" align="center">
-        <Stack spacing="lg" align="center">
+        <VStack spacing="lg" align="center">
           {/* Text */}
-          <Stack spacing="md" align="center">
+          <VStack spacing="md" align="center">
             <Typography
               variant="display-lg"
               weight="bold"
@@ -58,7 +58,7 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
                 {subheading}
               </Typography>
             )}
-          </Stack>
+          </VStack>
 
           {/* Cases */}
           <HStack spacing="lg" justify="center" wrap>
@@ -109,12 +109,12 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
           </HStack>
 
           {/* CTA */}
-          <Stack spacing="lg" align="center">
+          <VStack spacing="lg" align="center">
             <Button variant="accent" size="lg">
               Starta bedömning
             </Button>
-          </Stack>
-        </Stack>
+          </VStack>
+        </VStack>
       </Container>
     </section>
   );

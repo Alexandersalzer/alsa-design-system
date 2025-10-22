@@ -1,98 +1,98 @@
 /* ===============================================
-   src/design-system/components/layout/utilities/stack/Stack.css
+   src/design-system/components/layout/utilities/vStack/VStack.css
    STACK COMPONENT - Vertical spacing layout
    =============================================== */
 
 /* ===== BASE STACK ===== */
-.stack {
+.vStack {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
 /* ===== SPACING VARIANTS ===== */
-.stack--spacing-xs {
+.vStack--spacing-xs {
   gap: var(--foundation-space-1, 4px);
 }
 
-.stack--spacing-sm {
+.vStack--spacing-sm {
   gap: var(--foundation-space-2, 8px);
 }
 
-.stack--spacing-md {
+.vStack--spacing-md {
   gap: var(--foundation-space-4, 16px);
 }
 
-.stack--spacing-lg {
+.vStack--spacing-lg {
   gap: var(--foundation-space-6, 24px);
 }
 
-.stack--spacing-xl {
+.vStack--spacing-xl {
   gap: var(--foundation-space-8, 32px);
 }
 
-.stack--spacing-2xl {
+.vStack--spacing-2xl {
   gap: var(--foundation-space-12, 48px);
 }
 
-.stack--spacing-3xl {
+.vStack--spacing-3xl {
   gap: var(--foundation-space-16, 64px);
 }
 
 /* ===== ALIGNMENT VARIANTS ===== */
-.stack--align-start {
+.vStack--align-start {
   align-items: flex-start;
 }
 
-.stack--align-center {
+.vStack--align-center {
   align-items: center;
 }
 
-.stack--align-end {
+.vStack--align-end {
   align-items: flex-end;
 }
 
-.stack--align-stretch {
+.vStack--align-stretch {
   align-items: stretch;
 }
 
 /* ===== SPLIT BEHAVIOR ===== */
-.stack--split {
+.vStack--split {
   justify-content: space-between;
   min-height: 100%;
 }
 
 /* ===== RESPONSIVE COLLAPSE ===== */
 @media (max-width: 767px) {
-  .stack--collapse-mobile.stack--spacing-xl,
-  .stack--collapse-mobile.stack--spacing-2xl,
-  .stack--collapse-mobile.stack--spacing-3xl {
+  .vStack--collapse-mobile.vStack--spacing-xl,
+  .vStack--collapse-mobile.vStack--spacing-2xl,
+  .vStack--collapse-mobile.vStack--spacing-3xl {
     gap: var(--foundation-space-4, 16px);
   }
 }
 
 @media (max-width: 1023px) {
-  .stack--collapse-tablet.stack--spacing-xl,
-  .stack--collapse-tablet.stack--spacing-2xl,
-  .stack--collapse-tablet.stack--spacing-3xl {
+  .vStack--collapse-tablet.vStack--spacing-xl,
+  .vStack--collapse-tablet.vStack--spacing-2xl,
+  .vStack--collapse-tablet.vStack--spacing-3xl {
     gap: var(--foundation-space-6, 24px);
   }
 }
 
 /* ===== FLEX CHILD ===== */
-.stack--flex-child {
+.vStack--flex-child {
   flex: 1;
   min-height: 0;
 }
 
 /* ===== FULL WIDTH ===== */
-.stack--full-width {
+.vStack--full-width {
   width: 100%;
 }
 
 /* ===== ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
-  .stack {
+  .vStack {
     transition: none;
   }
 }

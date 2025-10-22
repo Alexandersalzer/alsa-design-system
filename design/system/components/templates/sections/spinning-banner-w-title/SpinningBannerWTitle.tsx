@@ -1,7 +1,7 @@
 'use client';
 
 import { Section, Container } from '../../../layout';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { SpinningBanner } from '../../../../../system/components/patterns/client/spinning-banner';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
@@ -75,7 +75,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
         paddingTop: '3rem',
         paddingBottom: '3rem'
       }}>
-        <Stack spacing="xs" align="center">
+        <VStack spacing="xs" align="center">
           {/* Portfolio Title */}
           <Typography
             variant="label-xs"
@@ -93,7 +93,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
             speed={speed}
             direction={direction}
           />
-        </Stack>
+        </VStack>
       </Container>
     </Section>
   );

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Typography } from '../../../primitives/Typography';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { Rhythm, RhythmItem } from '../../../layout/utilities/rhythm/Rhythm';
 import { Picker } from '../../../primitives/Picker';
@@ -118,7 +118,7 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
 
       {/* Contact Info and Copyright */}
       <RhythmItem at={5}>
-        <Stack spacing="xs" align="center">
+        <VStack spacing="xs" align="center">
           <Typography 
             variant="body-md" 
             color="tertiary" 
@@ -144,7 +144,7 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
           >
             {copyright}
           </Typography>
-        </Stack>
+        </VStack>
       </RhythmItem>
       
       <RhythmItem at={7}>

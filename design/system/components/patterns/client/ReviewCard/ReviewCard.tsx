@@ -6,7 +6,7 @@
 import React from 'react';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { HStack } from '../../../layout/utilities/hStack/HStack';
 
 // ===== TYPE DEFINITIONS =====
@@ -87,7 +87,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
       padding={padding}
       radius={radius}
     >
-      <Stack spacing={spacing}>
+      <VStack spacing={spacing}>
         {/* Header: Icon + Name/Subtitle horizontally */}
         <HStack spacing={headerSpacing} align="start">
           {/* Profile Icon */}
@@ -98,7 +98,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
           )}
           
           {/* Name and Subtitle vertically */}
-          <Stack spacing="xs" flexChild={true}>
+          <VStack spacing="xs" flexChild={true}>
             <Typography
               variant={nameVariant}
               weight={nameWeight}
@@ -116,7 +116,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
             >
               {subtitle}
             </Typography>
-          </Stack>
+          </VStack>
         </HStack>
         
         {/* Review Text - Below header */}
@@ -128,7 +128,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
         >
           {reviewText}
         </Typography>
-      </Stack>
+      </VStack>
     </Card>
   );
 };

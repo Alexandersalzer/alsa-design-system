@@ -6,7 +6,7 @@
 import React from 'react';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import Image from 'next/image';
 
 // ===== TYPE DEFINITIONS =====
@@ -60,7 +60,7 @@ export const Results: React.FC<ResultsProps> = ({
   spacing = 'sm', // Increased spacing between card and text
 }) => {
   return (
-    <Stack spacing={spacing}>
+    <VStack spacing={spacing}>
       <Card
         className={`results-card ${className || ''}`}
         variant={variant}
@@ -85,7 +85,7 @@ export const Results: React.FC<ResultsProps> = ({
       </Card>
       
       {/* Description below card */}
-      <Stack spacing="xs">
+      <VStack spacing="xs">
         <Typography variant="body-lg" weight="regular" color="secondary" align="left">
           {subtitle}
         </Typography>
@@ -95,8 +95,8 @@ export const Results: React.FC<ResultsProps> = ({
         <Typography variant="body-md" weight="regular" color="secondary" align="left">
           {body}
         </Typography>
-      </Stack>
-    </Stack>
+      </VStack>
+    </VStack>
   );
 };
 

@@ -4,7 +4,7 @@ import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { Grid } from '../../../layout/utilities/grid/Grid';
 import { Section } from '../../../layout/frames/section/Section';
@@ -62,7 +62,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
       <Container maxWidth="xl" align="center" height="full" className="hero-container">
         <Grid columns={2} gap="xl" alignItems="center" collapseOn="tablet" className="hero-grid">
           {/* Text först i DOM på desktop */}
-          <Stack spacing="lg" align="start" className="hero-text-content">
+          <VStack spacing="lg" align="start" className="hero-text-content">
             <Typography variant="display-lg" as="h1" weight="bold" color="heading">
               {title} {titleAccent && <span className="hero-title-accent">{titleAccent}</span>}
             </Typography>
@@ -81,7 +81,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
                 {ctaText}
               </Button>
             </HStack>
-          </Stack>
+          </VStack>
           
           {/* Bilden höger på desktop, ovanpå på mobil */}
           {visualImage && (

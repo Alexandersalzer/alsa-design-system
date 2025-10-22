@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/patterns/page/PageHeader.tsx
-// FIXED PAGE HEADER - Using Stack and HStack Properly
+// FIXED PAGE HEADER - Using VStack and HStack Properly
 // ===============================================
 
 import React, { ReactNode } from 'react';
@@ -10,7 +10,7 @@ import { cn } from '../../../../lib/utils';
 import { H1, Body, Display, H2, H3, H4, H5, H6 } from '../../../primitives/Typography';
 
 // Import layout components
-import { Stack } from '../../../layout';
+import { VStack } from '../../../layout';
 import { HStack } from '../../../layout';
 
 // Import Tag component
@@ -103,13 +103,13 @@ export const PageHeader = React.forwardRef<HTMLElement, PageHeaderProps>(({
   return (
     <header ref={ref} className={classes} {...props}>
       <HStack spacing="lg" justify="between" align="start" wrap={false}>
-        <Stack spacing="xs" className="page-header__text">
+        <VStack spacing="xs" className="page-header__text">
           {getTitleComponent()}
           {getSubtitleComponent()}
           {getDescriptionComponent()}
           
           {children}
-        </Stack>
+        </VStack>
         
         {actions && (
           <div className="page-header__actions">

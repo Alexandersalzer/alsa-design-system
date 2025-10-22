@@ -1,5 +1,5 @@
 // ===============================================
-// src/design-system/components/layout/utilities/stack/Stack.tsx
+// src/design-system/components/layout/utilities/vStack/VStack.tsx
 // FIXED STACK COMPONENT - With proper style prop support
 // ===============================================
 import React, { ReactNode, CSSProperties } from 'react';
@@ -30,7 +30,7 @@ function buildClasses(...classNames: (string | undefined | false)[]): string {
 }
 
 // ===== MAIN STACK COMPONENT =====
-export const Stack = React.forwardRef<HTMLDivElement, StackProps>(({
+export const VStack = React.forwardRef<HTMLDivElement, StackProps>(({
   children,
   className,
   spacing = 'md',
@@ -44,13 +44,13 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(({
 }, ref) => {
   // Build CSS classes
   const classes = buildClasses(
-    'stack',
-    `stack--spacing-${spacing}`,
-    align !== 'stretch' && `stack--align-${align}`,
-    split && 'stack--split',
-    collapseSpacing !== 'never' && `stack--collapse-${collapseSpacing}`,
-    flexChild && 'stack--flex-child',
-    fullWidth && 'stack--full-width',
+    'vStack',
+    `vStack--spacing-${spacing}`,
+    align !== 'stretch' && `vStack--align-${align}`,
+    split && 'vStack--split',
+    collapseSpacing !== 'never' && `vStack--collapse-${collapseSpacing}`,
+    flexChild && 'vStack--flex-child',
+    fullWidth && 'vStack--full-width',
     className
   );
 
@@ -61,4 +61,4 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(({
   );
 });
 
-Stack.displayName = 'Stack';
+VStack.displayName = 'VStack';

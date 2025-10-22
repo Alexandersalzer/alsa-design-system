@@ -7,7 +7,7 @@ import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Section } from '../../../layout/frames/section/Section';
 import { Container } from '../../../layout/frames/container/Container';
 import { Grid } from '../../../layout/utilities/grid/Grid';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Picker } from '../../../../../system/components/primitives/Picker';
@@ -111,7 +111,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
       }}
     >
       <Container maxWidth="2xl" align="center">
-        <Stack spacing="xl" align="center">
+        <VStack spacing="xl" align="center">
           {/* Visual */}
           {visualImage && (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -132,7 +132,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
           
           {/* Header */}
           <div style={{ textAlign: 'center', maxWidth: '1200px', width: '100%' }}>
-            <Stack spacing="md" align="center">
+            <VStack spacing="md" align="center">
             <Typography 
               variant="h2" 
               weight="bold" 
@@ -153,7 +153,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
             >
               {subtitle}
             </Typography>
-            </Stack>
+            </VStack>
           </div>
           
           {/* Form & Info Grid */}
@@ -170,18 +170,18 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
               padding="lg"
               style={{ height: 'fit-content' }}
             >
-              <Stack spacing="lg">
-                <Stack spacing="sm">
+              <VStack spacing="lg">
+                <VStack spacing="sm">
                   <Typography variant="h3" weight="semibold" color="heading">
                     {formTitle}
                   </Typography>
                   <Typography variant="body-md" color="secondary">
                     {formSubtitle}
                   </Typography>
-                </Stack>
+                </VStack>
                 
                 <form onSubmit={handleSubmit}>
-                  <Stack spacing="lg">
+                  <VStack spacing="lg">
                     {fields.map((field, index) => (
                       <div key={field.name} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-2)' }}>
                         <label 
@@ -234,9 +234,9 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                     >
                       {submitButton.text}
                     </Button>
-                  </Stack>
+                  </VStack>
                 </form>
-              </Stack>
+              </VStack>
             </Card>
             
             {/* Contact Information */}
@@ -250,20 +250,20 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
               }}
             >
               <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <Stack spacing="lg">
-                <Stack spacing="sm">
+                <VStack spacing="lg">
+                <VStack spacing="sm">
                   <Typography variant="h3" weight="semibold" color="heading">
                     {contactInfoTitle}
                   </Typography>
                   <Typography variant="body-md" color="secondary">
                     {contactInfoSubtitle}
                   </Typography>
-                </Stack>
+                </VStack>
               
                 <div style={{ flex: 1 }}>
-                  <Stack spacing="lg">
+                  <VStack spacing="lg">
                     {contactInfo.map((info, index) => (
-                      <Stack spacing="md" align="center" key={index}>
+                      <VStack spacing="md" align="center" key={index}>
                         <div
                           style={{
                             background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
@@ -286,7 +286,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                             {info.icon}
                           </Icon>
                         </div>
-                        <Stack spacing="xs" align="center">
+                        <VStack spacing="xs" align="center">
                           <Typography variant="body-md" weight="semibold" color="primary" style={{ textAlign: 'center' }}>
                             {info.title}
                           </Typography>
@@ -296,14 +296,14 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                           <Typography variant="body-sm" color="secondary" style={{ textAlign: 'center' }}>
                             {info.subtitle}
                           </Typography>
-                        </Stack>
-                      </Stack>
+                        </VStack>
+                      </VStack>
                     ))}
-                  </Stack>
+                  </VStack>
                 </div>
                 
                 {/* Action Buttons */}
-                <Stack spacing="md">
+                <VStack spacing="md">
                   {actions.map((action, index) => (
                     <Button
                       key={index}
@@ -316,12 +316,12 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                       {action.text}
                     </Button>
                   ))}
-                </Stack>
-                </Stack>
+                </VStack>
+                </VStack>
               </div>
             </Card>
           </Grid>
-        </Stack>
+        </VStack>
       </Container>
     </Section>
   );

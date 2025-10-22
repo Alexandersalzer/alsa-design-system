@@ -1,7 +1,7 @@
 'use client';
 
 import { Typography } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { Section } from '../../../layout/frames/section/Section';
 import { Container } from '../../../layout/frames/container/Container';
 import { Card } from '../../../../../system/components/primitives/Card';
@@ -32,10 +32,10 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
       className="process-steps-section"
     >
       <Container maxWidth="xl" align="center">
-        <Stack spacing="xl" align="center">
+        <VStack spacing="xl" align="center">
           {/* Header */}
           <div className="process-steps-header">
-            <Stack spacing="lg" align="center">
+            <VStack spacing="lg" align="center">
               <Typography
                 variant="h2"
                 weight="bold"
@@ -59,7 +59,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
               >
                 {subtitle}
               </Typography>
-            </Stack>
+            </VStack>
           </div>
 
           {/* Steps Grid */}
@@ -71,7 +71,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                 padding="lg"
                 className="process-step-card"
               >
-                <Stack spacing="lg" align="center">
+                <VStack spacing="lg" align="center">
                   {/* Step Number */}
                   <div className="process-step-number">
                     <Typography variant="h3" weight="bold" color="inverse">
@@ -80,7 +80,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                   </div>
 
                   {/* Step Content */}
-                  <Stack spacing="md" align="center">
+                  <VStack spacing="md" align="center">
                     <Typography
                       variant="h4"
                       weight="semibold"
@@ -97,12 +97,12 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                     >
                       {step.description}
                     </Typography>
-                  </Stack>
-                </Stack>
+                  </VStack>
+                </VStack>
               </Card>
             ))}
           </div>
-        </Stack>
+        </VStack>
       </Container>
     </Section>
   );

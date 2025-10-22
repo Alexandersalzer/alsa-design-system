@@ -4,7 +4,7 @@
 // ===============================================
 
 import React, { useState } from 'react';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { Input } from '../../../../../system/components/primitives/Input';
 import { Textarea } from '../../../../../system/components/primitives/Textarea';
@@ -172,11 +172,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   
   return (
     <form onSubmit={handleSubmit} className={className}>
-      <Stack spacing="sm">
+      <VStack spacing="sm">
         {/* Name and Company in a HStack (horizontal layout) */}
         <HStack spacing={fieldSpacing} wrap={true}>
           {/* Name Field */}
-          <Stack spacing="xs" flexChild={true}>
+          <VStack spacing="xs" flexChild={true}>
             <Typography variant="label-sm" weight="bold" color="primary" align="left">
               {nameLabel}
             </Typography>
@@ -189,10 +189,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               size="md"
               radius="sm"
             />
-          </Stack>
+          </VStack>
           
           {/* Company Field */}
-          <Stack spacing="xs" flexChild={true}>
+          <VStack spacing="xs" flexChild={true}>
             <Typography variant="label-sm" weight="bold" color="primary" align="left">
               {companyLabel}
             </Typography>
@@ -205,11 +205,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               size="md"
               radius="sm"
             />
-          </Stack>
+          </VStack>
         </HStack>
         
         {/* Email Field */}
-        <Stack spacing="xs">
+        <VStack spacing="xs">
           <Typography variant="label-sm" weight="bold" color="primary" align="left">
             {emailLabel}
           </Typography>
@@ -223,10 +223,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             size="md"
             radius="sm"
           />
-        </Stack>
+        </VStack>
         
         {/* Message Field */}
-        <Stack spacing="xs">
+        <VStack spacing="xs">
           <Typography variant="label-sm" weight="bold" color="primary" align="left">
             {messageLabel}
           </Typography>
@@ -240,7 +240,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             maxRows={8}
             autoResize={true}
           />
-        </Stack>
+        </VStack>
         
         {/* Submit Button */}
         <Button
@@ -252,7 +252,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         >
           {isLoading ? 'Sending...' : submitButtonText}
         </Button>
-      </Stack>
+      </VStack>
     </form>
   );
 };

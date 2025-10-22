@@ -7,7 +7,7 @@ import React from 'react';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { VideoShowcase } from '../../../../../system/components/primitives/VideoShowcase';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { HStack } from '../../../layout/utilities/hStack/HStack';
 import Image from 'next/image';
 import { GB, SE } from 'country-flag-icons/react/3x2';
@@ -100,7 +100,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
       padding="sm" // Override to sm since media extends to edges
       radius={radius}
     >
-      <Stack spacing={spacing}>
+      <VStack spacing={spacing}>
         {/* Media Container - extends to card edges */}
         <div className="portfolio-media-container">
           {/* Flag indicator - positioned absolutely in top-right corner */}
@@ -151,7 +151,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
         
         {/* Content - with padding */}
         <div className="portfolio-content">
-          <Stack spacing="sm">
+          <VStack spacing="sm">
             {/* Category */}
             <Typography
               variant={categoryVariant}
@@ -208,9 +208,9 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                 </Typography>
               </HStack>
             )}
-          </Stack>
+          </VStack>
         </div>
-      </Stack>
+      </VStack>
     </Card>
   );
 };

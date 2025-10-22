@@ -5,7 +5,7 @@ import { Section, Container } from '../../../layout';
 import { FilterTabs } from '../../../patterns/client/FilterTabs';
 import { PortfolioCard } from '../../../patterns/client/PortfolioCard';
 import { ResponsiveGrid } from '../../../layout/utilities/grid/Grid';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { useContent } from '../../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 
@@ -184,7 +184,7 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
           paddingBottom: '4rem'
         }}
       >
-        <Stack spacing="xl">
+        <VStack spacing="xl">
           {/* Filter Tabs */}
           <FilterTabs
             filters={filters}
@@ -221,7 +221,7 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
               />
             ))}
           </ResponsiveGrid>
-        </Stack>
+        </VStack>
       </Container>
     </Section>
   );

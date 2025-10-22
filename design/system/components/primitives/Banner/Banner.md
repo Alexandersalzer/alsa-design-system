@@ -308,7 +308,7 @@ import { AvailabilityBanner } from '@/design-system/components/primitives/Banner
  *    - Slide out when dismissed
  * 
  * 4. MULTIPLE BANNERS:
- *    - Stack multiple banners vertically
+ *    - VStack multiple banners vertically
  *    - Priority system (error > warning > success)
  *    - Auto-dismiss after timeout
  * 
