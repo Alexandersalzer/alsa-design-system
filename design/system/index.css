@@ -13,7 +13,6 @@
 
 @import './tokens/semantic/themes/calculated-theme.css';
 
-
 /* STEP 4: Component CSS files */
 @import './components/primitives/Alert/Alert.css';
 @import './components/primitives/Button/Button.css';
