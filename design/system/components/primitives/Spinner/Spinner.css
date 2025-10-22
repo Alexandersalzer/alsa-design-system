@@ -87,8 +87,8 @@
 
 /* Subtle variant for low-contrast UI (e.g., loading panels) */
 .spinner--subtle {
-  border-color: var(--spinner-track-color, var(--border-subtle));
-  border-top-color: var(--spinner-color, var(--secondary-400));
+  border-color: var(--spinner-track-color);
+  border-top-color: var(--spinner-color);
 }
 
 /* Accent variant for brand emphasis */
