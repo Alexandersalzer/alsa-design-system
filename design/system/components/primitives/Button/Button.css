@@ -52,6 +52,12 @@
   border-color: var(--border-button-primary); 
 }
 
+/* Ensure icons inside primary buttons are white */
+.btn-primary .icon,
+.btn-primary [class*="icon-"] {
+  color: var(--text-button-primary) !important;
+}
+
 .btn-primary:hover:not(:disabled) {
   background-color: var(--surface-button-primary-hover);
   border-color: var(--interactive-primary-active);
