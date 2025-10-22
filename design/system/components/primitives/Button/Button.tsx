@@ -103,7 +103,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     destructive: 'var(--primary-white)',
   };
 
-  const spinnerColor = spinnerColorMap[variant] || 'var(--accent-500)';
+  const spinnerColor = spinnerColorMap[variant] || 'transparent';
 
   return (
     <button
@@ -117,8 +117,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
       {loading && (
         <span className="btn-spinner" aria-hidden="true">
           <Spinner
-            size={size === 'sm' ? 'xs' : 'sm'}
-            color={spinnerColor}
+            size={size === "sm" ? "xs" : "sm"}
+            variant={variant}
+            disabled={disabled}
             animationDuration="0.6s"
           />
         </span>
