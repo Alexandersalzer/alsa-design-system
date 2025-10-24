@@ -106,7 +106,7 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
               </Typography>
             </VStack>
           </div>
-        </div>
+        </Container>
       </Section>
 
       {/* Statistics Section */}

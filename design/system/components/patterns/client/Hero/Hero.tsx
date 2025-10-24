@@ -168,7 +168,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
           {/* Visual image */}
           {visualImage && (
             <div className="hero-image-content">
-              <Stack align="center">
+              <VStack align="center">
               <img 
                 src={visualImage} 
                 alt={visualAlt}
@@ -179,11 +179,11 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
                   objectFit: 'contain'
                 }}
               />
-              </Stack>
+              </VStack>
             </div>
           )}
         </Grid>
-      </div>
+      </Container>
     </Section>
     </>
   );
