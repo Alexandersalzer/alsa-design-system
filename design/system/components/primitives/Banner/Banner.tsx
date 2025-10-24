@@ -160,8 +160,8 @@ export const AvailabilityBanner = forwardRef<
       bannerType = 'error';
       message = 'Kunde inte hämta tillgänglighet just nu. Försök igen om en stund.';
     } else if (isFullyBooked) {
-      bannerType = 'error';
-      message = `Alla ${totalSpots ?? 10} platser är nu tagna. Få chansen till nästa släpp!`;
+      bannerType = 'accent';
+      message = `Snart öppnar vi upp early access igen. Få chansen till nästa släpp!`;
     } else if (availableSpots === 1) {
       bannerType = 'warning';
       message = `Sista platsen kvar i vår Early Access – först till kvarn!`;
