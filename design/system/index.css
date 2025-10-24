@@ -58,18 +58,10 @@
 @import './components/patterns/dashboard/selection/CheckboxCard.css';
 @import './components/patterns/dashboard/selection/DesignRadioCard.css';
 @import './components/patterns/dashboard/selection/RadioCard.css';
-<<<<<<< HEAD
 
 @import './components/patterns/client/FAQ/FAQ.css';
 @import './components/patterns/client/Hero/Hero.css';
 @import './components/patterns/client/ProcessSteps/processSteps.css';
-=======
-@import './components/patterns/dashboard/editor/EditorShell/EditorShell.css';
-@import './components/patterns/dashboard/editor/EditorTabs/EditorTabs.css';
-@import './components/patterns/dashboard/editor/EditorPanel/EditorPanel.css';
-@import './components/patterns/dashboard/editor/EditorSection/EditorSection.css';
-@import './components/patterns/dashboard/ThemeControls/ThemeControls.css';
->>>>>>> origin/simon-ny
 
 /* STEP 6: Layout utilities */
 @import './components/layout/utilities/divider/Divider.css';
