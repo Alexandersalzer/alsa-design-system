@@ -10,7 +10,6 @@ import { Grid } from '../../../layout/utilities/grid/Grid';
 import { Section } from '../../../layout/frames/section/Section';
 import { Container } from '../../../layout/frames/container/Container';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import './Hero.css';
 
 export interface HeroContent {
   title: string;
@@ -50,14 +49,88 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
   };
 
   return (
-    <Section
+    <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          .hero-text-content {
+            order: 2;
+            text-align: center;
+          }
+          .hero-image-content {
+            order: 1;
+          }
+          .hero-text-content h1,
+          .hero-text-content p {
+            text-align: center !important;
+          }
+          .hero-cta-cluster {
+            display: flex !important;
+            justify-content: center !important;
+          }
+          .hero-text-stack {
+            align-items: center !important;
+          }
+          .hero-grid {
+            gap: var(--foundation-space-12) !important;
+          }
+          .hero-image-content img {
+            transform: translateX(20px);
+            max-width: 90%;
+          }
+          @media (min-width: 769px) {
+            .hero-text-content {
+              order: 1;
+              text-align: left;
+            }
+            .hero-image-content {
+              order: 2;
+            }
+            .hero-text-content h1,
+            .hero-text-content p {
+              text-align: left !important;
+            }
+            .hero-cta-cluster {
+              justify-content: flex-start !important;
+            }
+            .hero-text-stack {
+              align-items: flex-start !important;
+            }
+            .hero-grid {
+              gap: var(--foundation-space-8) !important;
+            }
+            .hero-image-content img {
+              transform: translateX(40px);
+              max-width: 85%;
+            }
+          }
+        `
+      }} />
+      <Section
       id={id}
       as="section"
       height="full"
-      className={`hero-section ${backgroundImage ? 'hero-section--with-bg' : ''}`}
-      style={backgroundImage ? { backgroundImage: `url(${backgroundImage})` } : undefined}
+      style={{
+        background: backgroundImage 
+          ? `linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 50%, rgba(51, 65, 85, 0.4) 100%), url(${backgroundImage})`
+          : 'linear-gradient(135deg, var(--surface-page) 0%, var(--surface-subtle) 100%)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        position: 'relative',
+        minHeight: '100vh'
+      }}
     >
-      {backgroundImage && <div className="hero-background-overlay" />}
+      {backgroundImage && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(90deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.4) 40%, rgba(51, 65, 85, 0.1) 70%, transparent 100%)',
+          zIndex: 1
+        }} />
+      )}
       
       <Container maxWidth="xl" align="center" height="full" className="hero-container">
         <Grid columns={2} gap="xl" alignItems="center" collapseOn="tablet" className="hero-grid">
@@ -67,7 +140,16 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               {title} {titleAccent && <span className="hero-title-accent">{titleAccent}</span>}
             </Typography>
             
-            <Typography variant="body-xl" color="body">
+            <Typography 
+              variant="body-xl" 
+              weight="semibold"
+              style={{
+                textAlign: 'left',
+                opacity: 0.9,
+                textShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+                filter: 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.05))'
+              }}
+            >
               {subtitle}
             </Typography>
 
@@ -75,7 +157,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
               <Button 
                 variant="accent" 
                 size="lg"
-                rightIcon={<Icon color="inverse"><ArrowRightIcon /></Icon>}
+                rightIcon={<ArrowRightIcon style={{ width: '20px', height: '20px', color: 'white' }} />}
                 onClick={handleCtaClick}
               >
                 {ctaText}
@@ -83,15 +165,27 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
             </HStack>
           </VStack>
           
-          {/* Bilden höger på desktop, ovanpå på mobil */}
+          {/* Visual image */}
           {visualImage && (
-            <div className="hero-visual">
-              <img src={visualImage} alt={visualAlt} className="hero-visual-image" />
+            <div className="hero-image-content">
+              <Stack align="center">
+              <img 
+                src={visualImage} 
+                alt={visualAlt}
+                style={{
+                  width: '100%',
+                  maxWidth: 'var(--size-page-narrow-max-width)',
+                  height: 'auto',
+                  objectFit: 'contain'
+                }}
+              />
+              </Stack>
             </div>
           )}
         </Grid>
-      </Container>
+      </div>
     </Section>
+    </>
   );
 };
 

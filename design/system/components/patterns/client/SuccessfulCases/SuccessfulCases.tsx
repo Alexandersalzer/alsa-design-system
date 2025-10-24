@@ -11,13 +11,15 @@ import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Card } from '../../../../../system/components/primitives/Card';
-import { Icon } from '../../../../../system/components/primitives/Icon';
+import { IconContainer } from '../../../../../system/components/primitives/IconContainer';
 import { Button } from '../../../../../system/components/primitives/Button';
 
 export interface SuccessCase {
   id: string;
   title: string;
   description: string;
+  compensation?: string;
+  duration?: string;
   icon?: React.ReactElement;
 }
 
@@ -39,10 +41,14 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
           {/* Text */}
           <VStack spacing="md" align="center">
             <Typography
-              variant="display-lg"
+              variant="h2"
               weight="bold"
               color="heading"
-              align="center"
+              style={{
+                fontSize: 'clamp(2.25rem, 4vw, 3rem)',
+                lineHeight: 'var(--foundation-typography-line-height-tight)',
+                textAlign: 'center'
+              }}
             >
               {heading}
             </Typography>
@@ -53,7 +59,7 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
                 weight="medium"
                 color="secondary"
                 align="center"
-                style={{ maxWidth: '640px' }}
+                style={{ maxWidth: 'var(--size-page-narrow-max-width)' }}
               >
                 {subheading}
               </Typography>
@@ -68,42 +74,88 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
                 variant="solid"
                 radius="lg"
                 style={{
-                  width: '300px',
-                  minHeight: '300px',
                   display: 'flex',
                   flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
                   padding: 'var(--foundation-space-6)',
                   textAlign: 'center',
+                  height: '100%'
                 }}
               >
-                {c.icon && (
-                  <div
-                    style={{
-                      marginBottom: 'var(--foundation-space-4)',
-                    }}
-                  >
-                    <Icon size="lg">{c.icon}</Icon>
-                  </div>
-                )}
+                <div style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  flex: 1, 
+                  justifyContent: 'space-between',
+                  gap: 'var(--foundation-space-6)'
+                }}>
+                  {/* Icon and Content */}
+                  <Stack spacing="md" align="center">
+                    {c.icon && (
+                      <IconContainer
+                        variant="circle"
+                        size="md"
+                        iconColor="accent"
+                      >
+                        {c.icon}
+                      </IconContainer>
+                    )}
 
-                <Typography
-                  variant="display-lg"
-                  weight="semibold"
-                  color="heading"
-                >
-                  {c.title}
-                </Typography>
+                    <Typography
+                      variant="h4"
+                      weight="bold"
+                      color="heading"
+                    >
+                      {c.title}
+                    </Typography>
 
-                <Typography
-                  variant="body-md"
-                  weight="regular"
-                  color="secondary"
-                  style={{ marginTop: 'var(--foundation-space-2)' }}
-                >
-                  {c.description}
-                </Typography>
+                    <Typography
+                      variant="body-md"
+                      weight="regular"
+                      color="secondary"
+                      style={{ lineHeight: '1.6' }}
+                    >
+                      {c.description}
+                    </Typography>
+                  </Stack>
+
+                  {/* Compensation and Duration - Always at bottom */}
+                  {(c.compensation || c.duration) && (
+                    <div style={{ width: '100%' }}>
+                      <Stack spacing="sm" align="center">
+                        {c.compensation && (
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: 'var(--foundation-space-2)'
+                          }}>
+                            <Typography variant="body-sm" weight="medium" color="secondary">
+                              Ersättning:
+                            </Typography>
+                            <Typography variant="body-sm" weight="bold" color="accent">
+                              {c.compensation}
+                            </Typography>
+                          </div>
+                        )}
+                        {c.duration && (
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: 'var(--foundation-space-2)'
+                          }}>
+                            <Typography variant="body-sm" weight="medium" color="secondary">
+                              Tidsram:
+                            </Typography>
+                            <Typography variant="body-sm" weight="bold" color="secondary">
+                              {c.duration}
+                            </Typography>
+                          </div>
+                        )}
+                      </Stack>
+                    </div>
+                  )}
+                </div>
               </Card>
             ))}
           </HStack>

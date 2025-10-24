@@ -56,10 +56,10 @@ export interface DoubleContactFormContent {
     text: string;
     icon?: ReactElement;
   };
-  contactInfoTitle: string;
-  contactInfoSubtitle: string;
-  contactInfo: ContactInfo[];
-  actions: ContactAction[];
+  contactInfoTitle?: string;
+  contactInfoSubtitle?: string;
+  contactInfo?: ContactInfo[];
+  actions?: ContactAction[];
 }
 
 export interface DoubleContactFormProps {
@@ -81,7 +81,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
     contactInfoTitle,
     contactInfoSubtitle,
     contactInfo,
-    actions
+    actions = []
   } = content;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -100,14 +100,71 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
   };
 
   return (
+    <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @media (max-width: 640px) {
+            .contact-form-grid {
+              grid-template-columns: 1fr !important;
+              gap: var(--foundation-space-3) !important;
+            }
+            .contact-form-container {
+              padding: var(--foundation-space-4) !important;
+            }
+            .contact-form-title {
+              font-size: 1.25rem !important;
+            }
+            .contact-form-subtitle {
+              font-size: 0.875rem !important;
+            }
+            .contact-form-button {
+              width: 100% !important;
+              font-size: 0.875rem !important;
+              padding: var(--foundation-space-3) var(--foundation-space-4) !important;
+            }
+          }
+          @media (min-width: 641px) and (max-width: 1024px) {
+            .contact-form-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+              gap: var(--foundation-space-4) !important;
+            }
+            .contact-form-container {
+              padding: var(--foundation-space-6) !important;
+            }
+            .contact-form-title {
+              font-size: 1.375rem !important;
+            }
+            .contact-form-subtitle {
+              font-size: 1rem !important;
+            }
+          }
+          @media (min-width: 1025px) {
+            .contact-form-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+              gap: var(--foundation-space-6) !important;
+            }
+            .contact-form-container {
+              padding: var(--foundation-space-8) !important;
+            }
+            .contact-form-title {
+              font-size: 1.5rem !important;
+            }
+            .contact-form-subtitle {
+              font-size: 1.125rem !important;
+            }
+          }
+        `
+      }} />
     <Section 
       id={id} 
       className={className}
       style={{
         backgroundColor: 'var(--surface-card)',
         backdropFilter: 'blur(15px)',
-        paddingTop: 'var(--foundation-space-20)',
-        paddingBottom: 'var(--foundation-space-20)'
+        paddingTop: 'var(--foundation-space-16)',
+        paddingBottom: 'var(--foundation-space-16)',
+        paddingLeft: 'var(--foundation-space-4)',
+        paddingRight: 'var(--foundation-space-4)'
       }}
     >
       <Container maxWidth="2xl" align="center">
@@ -138,7 +195,9 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
               weight="bold" 
               color="heading"
               style={{
-                fontSize: 'clamp(1.5rem, 5vw, 2.2rem)'
+                fontSize: 'clamp(2.25rem, 4vw, 3rem)',
+                lineHeight: 'var(--foundation-typography-line-height-tight)',
+                textAlign: 'center'
               }}
             >
               {title}
@@ -158,16 +217,17 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
           
           {/* Form & Info Grid */}
           <Grid 
-            columns={2} 
-            gap="xl"
-            minItemWidth="300px"
+            columns={contactInfo && contactInfo.length > 0 ? 2 : 1} 
+            gap="lg"
+            minItemWidth="280px"
             collapseOn="mobile"
-            style={{ maxWidth: '1000px', width: '100%' }}
+            style={{ maxWidth: 'var(--size-page-narrow-max-width)', width: '100%' }}
           >
             {/* Contact Form */}
             <Card 
               variant="elevated" 
-              padding="lg"
+              padding="md"
+              className="contact-form-container"
               style={{ height: 'fit-content' }}
             >
               <VStack spacing="lg">
@@ -175,7 +235,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                   <Typography variant="h3" weight="semibold" color="heading">
                     {formTitle}
                   </Typography>
-                  <Typography variant="body-md" color="secondary">
+                  <Typography variant="body-md" color="secondary" className="contact-form-subtitle">
                     {formSubtitle}
                   </Typography>
                 </VStack>
@@ -229,8 +289,9 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                       type="submit"
                       variant="accent" 
                       size="lg" 
+                      className="contact-form-button"
                       style={{ width: '100%' }}
-                      rightIcon={submitButton.icon ? <Icon color="inverse">{submitButton.icon}</Icon> : undefined}
+                      rightIcon={submitButton.icon ? <div style={{ width: '20px', height: '20px', color: 'white' }}>{submitButton.icon}</div> : undefined}
                     >
                       {submitButton.text}
                     </Button>
@@ -324,6 +385,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
         </VStack>
       </Container>
     </Section>
+    </>
   );
 };
 

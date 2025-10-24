@@ -38,3 +38,4 @@ export * from './Banner'
 // Icon needs special handling since it's a default export
 export { default as Icon } from './Icon';
 export * from './Icon';  // For any named exports too
+export * from './IconContainer';

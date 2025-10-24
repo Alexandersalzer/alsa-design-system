@@ -34,6 +34,27 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
   const { title, titleAccent, subtitle, testimonials } = content;
 
   return (
+    <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @media (max-width: 640px) {
+            .testimonials-grid {
+              grid-template-columns: 1fr !important;
+              gap: var(--foundation-space-4) !important;
+            }
+          }
+          @media (min-width: 641px) and (max-width: 1024px) {
+            .testimonials-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+          }
+          @media (min-width: 1025px) {
+            .testimonials-grid {
+              grid-template-columns: repeat(3, 1fr) !important;
+            }
+          }
+        `
+      }} />
     <Section 
       id={id} 
       className={className}
@@ -53,8 +74,9 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
               weight="bold" 
               color="heading"
               style={{
-                fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
-                textAlign: 'left'
+                fontSize: 'clamp(2.25rem, 4vw, 3rem)',
+                lineHeight: 'var(--foundation-typography-line-height-tight)',
+                textAlign: 'center'
               }}
             >
                 {title.split(' ').map((word, index) => {
@@ -81,7 +103,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                 variant="body-xl" 
                 color="secondary"
                 style={{
-                  maxWidth: '700px',
+                  maxWidth: 'var(--size-page-content-max-width)',
                   textAlign: 'left',
                   lineHeight: 'var(--foundation-typography-line-height-relaxed)'
                 }}
@@ -92,24 +114,25 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
           </div>
 
           {/* Testimonials Grid */}
-          <div style={{ width: '100%', maxWidth: '1200px' }}>
+          <div style={{ width: '100%', maxWidth: 'var(--size-page-max-width)' }}>
             <div
+              className="testimonials-grid"
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-                gap: 'var(--foundation-space-8)'
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gap: 'var(--foundation-space-6)'
               }}
             >
               {testimonials.map((testimonial) => (
                 <Card 
                   key={testimonial.id} 
                   variant="elevated"
-                  padding="lg"
+                  padding="md"
                   style={{
-                    background: 'var(--surface-card)',
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: 'var(--foundation-radius-lg)',
-                    height: '280px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: 'var(--foundation-radius-xl)',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between'
@@ -135,42 +158,57 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
                     </HStack>
                     
                     {/* Testimonial Text */}
-                    <div style={{ flex: 1 }}>
+                    <div style={{ height: '90px', display: 'flex', alignItems: 'flex-start' }}>
                       <Typography 
-                        variant="body-md" 
-                        color="secondary"
+                        variant="body-sm" 
+                        color="primary"
                         style={{
-                          lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                          textAlign: 'left'
+                          lineHeight: 'var(--foundation-typography-line-height-normal)',
+                          textAlign: 'left',
+                          fontSize: '0.9rem'
                         }}
                       >
-                        "{testimonial.text}"
+                        {testimonial.text}
                       </Typography>
                     </div>
                     
                     {/* Author Info */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-4)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-2)', paddingTop: 'var(--foundation-space-1)' }}>
+                      {/* Simple Avatar */}
                       <div
                         style={{
-                          width: '50px',
-                          height: '50px',
+                          width: '40px',
+                          height: '40px',
                           borderRadius: '50%',
-                          background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                          background: 'linear-gradient(135deg, #1f2937, #64748b)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          flexShrink: 0
+                          flexShrink: 0,
+                          position: 'relative',
+                          boxShadow: '0 4px 16px rgba(31, 41, 55, 0.2)'
                         }}
                       >
-                        <Typography variant="body-md" weight="bold" color="inverse">
-                          {testimonial.authorInitial}
-                        </Typography>
+                        {/* Simple Person Icon */}
+                        <div style={{
+                          width: '20px',
+                          height: '20px',
+                          color: 'var(--primary-white)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}>
+                          <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: '100%', height: '100%' }}>
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                          </svg>
+                        </div>
                       </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-1)' }}>
-                        <Typography variant="body-md" weight="semibold" color="primary">
+                      
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-1)', flex: 1 }}>
+                        <Typography variant="body-sm" weight="semibold" color="primary" style={{ textAlign: 'left' }}>
                           {testimonial.author}
                         </Typography>
-                        <Typography variant="body-sm" color="secondary">
+                        <Typography variant="body-xs" color="secondary" style={{ textAlign: 'left' }}>
                           {testimonial.caseType}
                         </Typography>
                       </div>

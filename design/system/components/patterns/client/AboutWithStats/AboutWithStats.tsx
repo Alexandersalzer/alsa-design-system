@@ -30,13 +30,33 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
 
   return (
     <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @media (max-width: 640px) {
+            .stats-grid {
+              grid-template-columns: 1fr !important;
+              gap: var(--foundation-space-4) !important;
+            }
+          }
+          @media (min-width: 641px) and (max-width: 1024px) {
+            .stats-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+          }
+          @media (min-width: 1025px) {
+            .stats-grid {
+              grid-template-columns: repeat(3, 1fr) !important;
+            }
+          }
+        `
+      }} />
       {/* About Section */}
       <Section 
         id={id} 
         className={className}
         style={{
           backgroundColor: 'transparent',
-          paddingTop: 'var(--foundation-space-16)',
+          paddingTop: 'var(--foundation-space-24)',
           paddingBottom: 'var(--foundation-space-16)'
         }}
       >
@@ -48,8 +68,9 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
                 weight="bold" 
                 color="heading"
                 style={{
-                  fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
-                  lineHeight: 'var(--foundation-typography-line-height-tight)'
+                  fontSize: 'clamp(2.25rem, 4vw, 3rem)',
+                  lineHeight: 'var(--foundation-typography-line-height-tight)',
+                  textAlign: 'center'
                 }}
               >
                 {title.split(' ').map((word, index) => {
@@ -77,14 +98,15 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
                 color="secondary"
                 style={{
                   lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                  fontSize: 'clamp(1.1rem, 2vw, 1.2rem)'
+                  fontSize: 'clamp(1.1rem, 2vw, 1.2rem)',
+                  textAlign: 'center'
                 }}
               >
                 {subtitle}
               </Typography>
             </VStack>
           </div>
-        </Container>
+        </div>
       </Section>
 
       {/* Statistics Section */}
@@ -93,16 +115,23 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
         style={{
           backgroundColor: 'transparent',
           paddingTop: 'var(--foundation-space-16)',
-          paddingBottom: 'var(--foundation-space-40)'
+          paddingBottom: 'var(--foundation-space-32)'
         }}
       >
-        <Container maxWidth="xl" align="center">
+        <div style={{ 
+          maxWidth: 'var(--size-page-max-width)',
+          margin: '0 auto',
+          padding: '0 var(--foundation-space-6)'
+        }}>
           <div
+            className="stats-grid"
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-              gap: 'var(--foundation-space-8)',
-              textAlign: 'center'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: 'var(--foundation-space-6)',
+              textAlign: 'center',
+              maxWidth: 'var(--size-page-max-width)',
+              width: '100%'
             }}
           >
             {stats.map((stat) => (
@@ -110,36 +139,51 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
                 key={stat.id} 
                 style={{
                   textAlign: 'center',
-                  padding: 'var(--foundation-space-4)'
+                  padding: 'var(--foundation-space-6)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: 'var(--foundation-radius-xl)',
+                  boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.05)'
                 }}
               >
                 <Typography 
-                  variant="h2" 
+                  variant="h1" 
                   weight="bold" 
-                  color="heading"
+                  color="inverse"
                   style={{
-                    fontSize: 'clamp(2rem, 3vw, 2.5rem)',
+                    fontSize: 'clamp(3rem, 5vw, 4rem)',
                     lineHeight: 'var(--foundation-typography-line-height-tight)',
-                    marginBottom: 'var(--foundation-space-2)'
+                    marginBottom: 'var(--foundation-space-3)',
+                    color: 'var(--text-primary)',
+                    background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
                   }}
                 >
                   {stat.value}
                 </Typography>
                 <Typography 
-                  variant="h5" 
+                  variant="h4" 
                   weight="semibold" 
-                  color="heading"
+                  color="inverse"
                   style={{
-                    marginBottom: 'var(--foundation-space-2)'
+                    marginBottom: 'var(--foundation-space-2)',
+                    color: 'var(--text-primary)',
+                    fontSize: 'clamp(1.1rem, 2vw, 1.25rem)'
                   }}
                 >
                   {stat.title}
                 </Typography>
                 <Typography 
-                  variant="body-md" 
-                  color="secondary"
+                  variant="body-sm" 
+                  color="inverse"
                   style={{
-                    lineHeight: 'var(--foundation-typography-line-height-normal)'
+                    lineHeight: 'var(--foundation-typography-line-height-normal)',
+                    color: 'var(--text-primary)',
+                    opacity: 0.8,
+                    fontSize: '0.9rem'
                   }}
                 >
                   {stat.description}
@@ -147,7 +191,7 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
               </div>
             ))}
           </div>
-        </Container>
+        </div>
       </Section>
     </>
   );

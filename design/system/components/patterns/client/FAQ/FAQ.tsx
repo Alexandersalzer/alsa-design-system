@@ -2,8 +2,6 @@
 
 import React, { useState } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
-import { Card } from '../../../../../system/components/primitives/Card';
-import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Section } from '../../../layout/frames/section/Section';
 import { Container } from '../../../layout/frames/container/Container';
@@ -30,7 +28,7 @@ interface FAQProps {
 
 const FAQ = ({ content, id = "faq" }: FAQProps) => {
   const { title, subtitle, items } = content;
-  const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
+  const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set([0]));
 
   const toggleExpanded = (index: number) => {
     const newExpanded = new Set(expandedItems);
@@ -43,13 +41,60 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
   };
 
   return (
-    <Section 
+    <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @keyframes fadeInDown {
+            from {
+              opacity: 0;
+              transform: translateY(-10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          
+          @media (max-width: 640px) {
+            .faq-container {
+              width: 100% !important;
+              max-width: 100% !important;
+              padding: 0 var(--foundation-space-4) !important;
+            }
+            .faq-item {
+              padding: 0 var(--foundation-space-2) !important;
+            }
+            .faq-question {
+              font-size: 1.25rem !important;
+            }
+          }
+          @media (min-width: 641px) and (max-width: 1024px) {
+            .faq-container {
+              width: 90% !important;
+              max-width: 90% !important;
+            }
+            .faq-question {
+              font-size: 1.375rem !important;
+            }
+          }
+          @media (min-width: 1025px) {
+            .faq-container {
+              width: var(--size-page-content-max-width) !important;
+            }
+            .faq-question {
+              font-size: 1.5rem !important;
+            }
+          }
+        `
+      }} />
+      <Section 
       id={id}
       as="section"
       height="auto"
       style={{
-        paddingTop: 'var(--foundation-space-24)',
-        paddingBottom: 'var(--foundation-space-24)'
+        paddingTop: 'var(--foundation-space-24)', // Samma padding som Om oss
+        paddingBottom: 'var(--foundation-space-16)', // Samma padding som Om oss
+        minHeight: '800px' // Lägg till minsta höjd för hela sektionen
       }}
     >
       <Container maxWidth="xl" align="center">
@@ -67,30 +112,13 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                   textAlign: 'center'
                 }}
               >
-                {title.split(' ').map((word, index) => {
-                  if (word === 'frågor') {
-                    return (
-                      <span 
-                        key={index} 
-                        style={{
-                          background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
-                          WebkitBackgroundClip: 'text',
-                          WebkitTextFillColor: 'transparent',
-                          backgroundClip: 'text'
-                        }}
-                      >
-                        {word}
-                      </span>
-                    );
-                  }
-                  return word + ' ';
-                })}
+                {title}
               </Typography>
               <Typography 
                 variant="body-xl" 
                 color="secondary"
                 style={{
-                  maxWidth: '650px',
+                  maxWidth: 'var(--size-page-narrow-max-width)',
                   textAlign: 'center',
                   lineHeight: 'var(--foundation-typography-line-height-relaxed)'
                 }}
@@ -107,16 +135,15 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                 const isExpanded = expandedItems.has(index);
                 
                 return (
-                  <Card 
-                    key={index} 
-                    variant="elevated"
-                    padding="lg"
+                  <div 
+                    key={index}
                     className="faq-item"
                     style={{
-                      background: 'var(--surface-card)',
-                      border: '1px solid var(--border-subtle)',
-                      borderRadius: 'var(--foundation-radius-lg)',
-                      cursor: 'pointer'
+                      width: '100%', // Fast bredd för varje FAQ-item
+                      borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                      paddingBottom: 'var(--foundation-space-6)',
+                      cursor: 'pointer',
+                      transition: 'all var(--foundation-duration-fast) var(--foundation-easing-ease-out)'
                     }}
                     onClick={() => toggleExpanded(index)}
                     role="button"
@@ -133,14 +160,14 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                     <VStack spacing="md">
                       <HStack justify="between" align="center">
                       <Typography 
-                        variant="h4" 
-                        weight="semibold" 
-                        color="heading"
-                        style={{
-                          fontSize: 'var(--foundation-typography-size-lg)',
-                          lineHeight: 'var(--foundation-typography-line-height-tight)',
+                        variant="h3" 
+                        weight="semibold"
+                        className="faq-question"
+                        style={{ 
+                          color: 'var(--text-primary)',
+                          textAlign: 'left',
                           flex: 1,
-                          marginRight: 'var(--foundation-space-3)'
+                          fontSize: '1.5rem'
                         }}
                       >
                         {item.question}
@@ -166,14 +193,18 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                     </HStack>
                     
                     {isExpanded && (
-                      <div className="faq-answer">
+                      <div style={{
+                        marginTop: 'var(--foundation-space-4)',
+                        animation: 'fadeInDown 0.3s ease-out'
+                      }}>
                         <Typography 
-                          variant="body-md" 
-                          color="secondary"
-                          style={{
+                          variant="body-md"
+                          style={{ 
+                            color: 'var(--text-primary)',
+                            opacity: 0.9,
                             lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                            paddingTop: 'var(--foundation-space-2)',
-                            borderTop: '1px solid var(--border-subtle)'
+                            textAlign: 'left',
+                            width: '100%' // Fast bredd för svars-texten
                           }}
                         >
                           {item.answer}
@@ -189,6 +220,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
         </VStack>
       </Container>
     </Section>
+    </>
   );
 };
 

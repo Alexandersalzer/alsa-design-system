@@ -5,11 +5,16 @@ import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { Section } from '../../../layout/frames/section/Section';
 import { Container } from '../../../layout/frames/container/Container';
 import { Card } from '../../../../../system/components/primitives/Card';
+import { IconContainer } from '../../../../../system/components/primitives/IconContainer';
+import React, { useState, useEffect } from 'react';
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
 export interface ProcessStep {
   number: number;
   title: string;
   description: string;
+  icon?: React.ReactElement;
+  backgroundImage?: string;
 }
 
 export interface ProcessStepsContent {
@@ -17,6 +22,7 @@ export interface ProcessStepsContent {
   titleAccent?: string;
   subtitle: string;
   steps: ProcessStep[];
+  autoScrollInterval?: number; // milliseconds, default 5000
 }
 
 export interface ProcessStepsProps {
@@ -24,12 +30,49 @@ export interface ProcessStepsProps {
 }
 
 export function ProcessSteps({ content }: ProcessStepsProps) {
-  const { title, titleAccent, subtitle, steps } = content;
+  const { title, titleAccent, subtitle, steps, autoScrollInterval = 5000 } = content;
+  const [activeStep, setActiveStep] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (isPaused) return;
+
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) return 0;
+        return prev + (100 / (autoScrollInterval / 100));
+      });
+    }, 100);
+
+    const autoScrollTimer = setInterval(() => {
+      setActiveStep((prev) => {
+        const next = prev + 1;
+        if (next >= steps.length) return 0;
+        return next;
+      });
+      setProgress(0);
+    }, autoScrollInterval);
+
+    return () => {
+      clearInterval(progressInterval);
+      clearInterval(autoScrollTimer);
+    };
+  }, [steps.length, isPaused, autoScrollInterval]);
+
+  const handleStepChange = (newStep: number) => {
+    setActiveStep(newStep);
+    setProgress(0);
+  };
 
   return (
-    <Section
-      id="process-steps"
-      className="process-steps-section"
+    <div
+      style={{
+        paddingTop: 'var(--foundation-space-32)',
+        paddingBottom: 'var(--foundation-space-32)',
+        backgroundColor: 'transparent'
+      }}
     >
       <Container maxWidth="xl" align="center">
         <VStack spacing="xl" align="center">
@@ -87,15 +130,19 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
                       color="heading"
                       className="process-step-title"
                     >
-                      {step.title}
+                      {steps[activeStep]?.title}
                     </Typography>
-
-                    <Typography
-                      variant="body-lg"
-                      color="secondary"
-                      className="process-step-description"
+                    <Typography 
+                      variant="body-xl"
+                      style={{ 
+                        color: 'var(--text-primary)', 
+                        opacity: 0.9,
+                        maxWidth: '600px',
+                        lineHeight: '1.8',
+                        fontSize: 'clamp(1rem, 2vw, 1.25rem)'
+                      }}
                     >
-                      {step.description}
+                      {steps[activeStep]?.description}
                     </Typography>
                   </VStack>
                 </VStack>

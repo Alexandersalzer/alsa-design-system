@@ -55,25 +55,29 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
           <VStack spacing="lg" align="center">
             {/* Title */}
             <Typography 
-              variant="h3" 
-              weight="semibold" 
-              color="heading"
+              variant="h2" 
+              weight="bold" 
+              color="inverse"
               style={{
-                fontSize: 'clamp(1.8rem, 3vw, 2.2rem)',
-                textAlign: 'center'
+                fontSize: 'clamp(2.25rem, 4vw, 3rem)',
+                lineHeight: 'var(--foundation-typography-line-height-tight)',
+                textAlign: 'center',
+                color: 'var(--primary-white)'
               }}
             >
               {title}
             </Typography>
             
             {/* Subtitle */}
-            <div style={{ maxWidth: '600px', width: '100%' }}>
+            <div style={{ maxWidth: 'var(--size-page-narrow-max-width)', width: '100%' }}>
               <Typography 
                 variant="body-lg" 
-                color="secondary"
+                color="inverse"
                 style={{
                   lineHeight: 'var(--foundation-typography-line-height-relaxed)',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  color: 'var(--primary-white)',
+                  opacity: 0.9
                 }}
               >
                 {subtitle}
@@ -93,7 +97,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
                   variant={button.variant}
                   size="lg"
                   onClick={button.href ? () => window.location.href = button.href! : button.onClick}
-                  rightIcon={button.icon ? <Icon color={button.variant === 'accent' ? 'inverse' : 'primary'}>{button.icon}</Icon> : undefined}
+                  rightIcon={button.icon ? <div style={{ width: '20px', height: '20px', color: button.variant === 'accent' ? 'white' : 'var(--text-primary)' }}>{button.icon}</div> : undefined}
                   style={button.variant === 'accent' ? { color: 'white' } : undefined}
                 >
                   {button.text}
@@ -106,7 +110,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
               <div style={{ maxWidth: '600px', width: '100%' }}>
                 <VStack spacing="sm" align="center">
                   {info.map((item, index) => (
-                    <Typography key={index} variant="body-sm" color="secondary" style={{ textAlign: 'center' }}>
+                    <Typography key={index} variant="body-sm" color="inverse" style={{ textAlign: 'center', color: 'var(--primary-white)', opacity: 0.8 }}>
                       <strong>{item.label}:</strong> {item.value}
                     </Typography>
                   ))}
@@ -115,7 +119,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
             )}
           </VStack>
         </div>
-      </Container>
+      </div>
     </Section>
   );
 };

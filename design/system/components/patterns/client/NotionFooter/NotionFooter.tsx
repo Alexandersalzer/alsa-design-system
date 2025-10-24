@@ -61,8 +61,9 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
       role="contentinfo" 
       aria-label="Sidfot"
       style={{
-        background: 'var(--surface-default, #0b0b0c)',
-        borderTop: '1px solid var(--border-subtle, rgba(255,255,255,0.08))',
+        background: 'rgba(0, 0, 0, 0.15)',
+        backdropFilter: 'blur(20px)',
+        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
         padding: 'var(--foundation-space-16, 4rem) 0 var(--foundation-space-8, 2rem)'
       }}
     >
@@ -190,7 +191,7 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
             <Button
               variant="accent"
               size="sm"
-              rightIcon={<Icon color="inverse" size="sm"><ArrowRightIcon /></Icon>}
+              rightIcon={<ArrowRightIcon style={{ width: '16px', height: '16px', color: 'white' }} />}
               onClick={() => (window.location.href = ctaHref)}
             >
               {ctaText}
