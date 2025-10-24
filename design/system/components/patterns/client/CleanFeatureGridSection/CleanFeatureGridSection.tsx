@@ -3,10 +3,8 @@
 import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Container } from '../../../../../system/layout/frames/container/Container';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { ZapIcon, UsersIcon, ShieldCheckIcon } from 'lucide-react';
+import { Section } from '@blimpify-im/ui';
+import { VStack } from '../../../layout';
 
 interface FeatureItem {
   title: string;
@@ -110,10 +108,10 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
           margin: '0 auto',
           padding: '0 var(--foundation-space-6)'
         }}>
-          <Stack spacing="lg" align="center">
+          <VStack spacing="lg" align="center">
             {(title || subtitle) && (
               <div style={{ textAlign: 'center', maxWidth: '800px' }}>
-                <Stack spacing="md" align="center">
+                <VStack spacing="md" align="center">
                 {title && (
                   <Typography 
                     variant="h2" 
@@ -137,7 +135,7 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
                     {subtitle}
                   </Typography>
                 )}
-                </Stack>
+                </VStack>
               </div>
             )}
             
@@ -148,7 +146,7 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
                   className={`feature-item ${feature.cta ? 'feature-item--cta' : ''}`}
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <Stack spacing="md">
+                  <VStack spacing="md">
                     {feature.icon && (
                       <div className="feature-icon">
                         {feature.icon}
@@ -191,11 +189,11 @@ const CleanFeatureGridSection = ({ content, id = "feature-grid" }: CleanFeatureG
                         </Button>
                       </div>
                     )}
-                  </Stack>
+                  </VStack>
                 </article>
               ))}
             </div>
-          </Stack>
+          </VStack>
         </div>
       </Section>
     </>

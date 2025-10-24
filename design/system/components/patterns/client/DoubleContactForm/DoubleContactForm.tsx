@@ -322,46 +322,46 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                 </VStack>
               
                 <div style={{ flex: 1 }}>
-                  <VStack spacing="lg">
-                    {contactInfo.map((info, index) => (
-                      <VStack spacing="md" align="center" key={index}>
-                        <div
+                <VStack spacing="lg">
+                  {contactInfo?.map((info, index) => (
+                    <VStack spacing="md" align="center" key={index}>
+                      <div
+                        style={{
+                          background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
+                          width: 'clamp(48px, 8vw, 64px)',
+                          height: 'clamp(48px, 8vw, 64px)',
+                          borderRadius: 'var(--foundation-radius-md)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0
+                        }}
+                      >
+                        <Icon 
+                          color="inverse"
                           style={{
-                            background: 'linear-gradient(135deg, var(--accent-500), var(--accent-400))',
-                            width: 'clamp(48px, 8vw, 64px)',
-                            height: 'clamp(48px, 8vw, 64px)',
-                            borderRadius: 'var(--foundation-radius-md)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexShrink: 0
+                            width: 'clamp(24px, 4vw, 32px)',
+                            height: 'clamp(24px, 4vw, 32px)'
                           }}
                         >
-                          <Icon 
-                            color="inverse"
-                            style={{
-                              width: 'clamp(24px, 4vw, 32px)',
-                              height: 'clamp(24px, 4vw, 32px)'
-                            }}
-                          >
-                            {info.icon}
-                          </Icon>
-                        </div>
-                        <VStack spacing="xs" align="center">
-                          <Typography variant="body-md" weight="semibold" color="primary" style={{ textAlign: 'center' }}>
-                            {info.title}
-                          </Typography>
-                          <Typography variant="body-lg" color="secondary" style={{ textAlign: 'center' }}>
-                            {info.value}
-                          </Typography>
-                          <Typography variant="body-sm" color="secondary" style={{ textAlign: 'center' }}>
-                            {info.subtitle}
-                          </Typography>
-                        </VStack>
+                          {info.icon}
+                        </Icon>
+                      </div>
+                      <VStack spacing="xs" align="center">
+                        <Typography variant="body-md" weight="semibold" color="primary" style={{ textAlign: 'center' }}>
+                          {info.title}
+                        </Typography>
+                        <Typography variant="body-lg" color="secondary" style={{ textAlign: 'center' }}>
+                          {info.value}
+                        </Typography>
+                        <Typography variant="body-sm" color="secondary" style={{ textAlign: 'center' }}>
+                          {info.subtitle}
+                        </Typography>
                       </VStack>
-                    ))}
-                  </VStack>
-                </div>
+                    </VStack>
+                  ))}
+                </VStack>
+              </div>
                 
                 {/* Action Buttons */}
                 <VStack spacing="md">

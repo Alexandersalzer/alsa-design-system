@@ -2,8 +2,7 @@
 
 import React, { useState } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Section } from '../../../../../system/layout/frames/section/Section';
+import { Section, VStack } from '../../../layout';
 import { PlusIcon } from '@heroicons/react/24/outline';
 
 export interface PKLFAQItem {
@@ -207,7 +206,7 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
           <div className="pkl-faq-container">
             {/* Header Area - Left Side */}
             <div className="pkl-faq-header">
-              <Stack spacing="md" align="start">
+              <VStack spacing="md" align="start">
                 {label && (
                   <Typography variant="label-sm" color="accent" weight="medium">
                     {label}
@@ -229,7 +228,7 @@ export const PKLFAQ: React.FC<PKLFAQProps> = ({
                     {description}
                   </Typography>
                 )}
-              </Stack>
+              </VStack>
             </div>
 
             {/* Accordion / Questions - Right Side */}

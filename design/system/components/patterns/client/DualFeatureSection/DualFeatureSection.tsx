@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { H2, H3, Body } from '../../../../../system/components/primitives/Typography';
-import { Section } from '../../../../../system/layout/frames/section';
+import { Section } from '../../../layout';
 import './DualFeatureSection.css';
 
 // ===== TYPES =====

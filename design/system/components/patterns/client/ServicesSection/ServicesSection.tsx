@@ -6,7 +6,7 @@
 'use client';
 
 import React from 'react';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { VStack } from '../../../layout';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { IconContainer } from '../../../../../system/components/primitives/IconContainer';
@@ -37,9 +37,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
         margin: '0 auto',
         padding: '0 var(--foundation-space-6)'
       }}>
-        <Stack spacing="lg" align="center">
+        <VStack spacing="lg" align="center">
           {/* Header */}
-          <Stack spacing="md" align="center">
+          <VStack spacing="md" align="center">
             <Typography
               variant="h2"
               weight="bold"
@@ -64,7 +64,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 {subheading}
               </Typography>
             )}
-          </Stack>
+          </VStack>
 
           {/* Services Grid */}
           <div style={{
@@ -101,7 +101,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   gap: 'var(--foundation-space-5)'
                 }}>
                   {/* Icon and Title */}
-                  <Stack spacing="md" align="start">
+                  <VStack spacing="md" align="start">
                     {service.icon && (
                       <IconContainer
                         variant="circle"
@@ -129,11 +129,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                     >
                       {service.description}
                     </Typography>
-                  </Stack>
+                  </VStack>
 
                   {/* Features List */}
                   {service.features && service.features.length > 0 && (
-                    <Stack spacing="xs" align="start">
+                    <VStack spacing="xs" align="start">
                       {service.features.map((feature, index) => (
                         <div 
                           key={index}
@@ -162,13 +162,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                           </Typography>
                         </div>
                       ))}
-                    </Stack>
+                    </VStack>
                   )}
                 </div>
               </Card>
             ))}
           </div>
-        </Stack>
+        </VStack>
       </div>
     </section>
   );

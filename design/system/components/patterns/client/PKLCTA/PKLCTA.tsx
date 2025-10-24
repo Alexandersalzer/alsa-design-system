@@ -8,8 +8,7 @@
 import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { VStack, Section } from '../../../layout';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -298,7 +297,7 @@ export const PKLCTA: React.FC<PKLCTAProps> = ({
             
             {/* Content */}
             <div className="pkl-cta-content">
-              <Stack spacing="lg" align="center">
+              <VStack spacing="lg" align="center">
                 {/* Label */}
                 {label && (
                   <Typography 
@@ -370,7 +369,7 @@ export const PKLCTA: React.FC<PKLCTAProps> = ({
                     ))}
                   </div>
                 )}
-              </Stack>
+              </VStack>
             </div>
           </div>
         </div>

@@ -3,8 +3,7 @@
 import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { VStack, Section } from '../../../layout';
 
 export interface Benefit {
   title: string;
@@ -151,7 +150,7 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
           <div className="why-choose-us-content">
             {/* Header */}
             <div className="why-choose-us-header">
-              <Stack spacing="lg" align="center">
+              <VStack spacing="lg" align="center">
                 <Typography 
                   variant={textScale === 'lg' ? 'display-md' : textScale === 'sm' ? 'h3' : 'h2'}
                   weight="semibold"
@@ -167,7 +166,7 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
                 >
                   {description}
                 </Typography>
-              </Stack>
+              </VStack>
             </div>
             
             {/* Benefits Grid */}

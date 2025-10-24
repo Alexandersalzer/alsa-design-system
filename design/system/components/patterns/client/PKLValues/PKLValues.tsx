@@ -7,8 +7,7 @@
 
 import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { VStack, Section } from '../../../layout';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -125,7 +124,7 @@ export const PKLValues: React.FC<PKLValuesProps> = ({
         <div className="pkl-values-outer-container">
           {/* Header */}
           <div className="pkl-values-header">
-            <Stack spacing="md" align="center">
+            <VStack spacing="md" align="center">
               {label && (
                 <Typography 
                   variant="label-sm" 
@@ -151,7 +150,7 @@ export const PKLValues: React.FC<PKLValuesProps> = ({
               >
                 {description}
               </Typography>
-            </Stack>
+            </VStack>
           </div>
 
           {/* Values Grid */}

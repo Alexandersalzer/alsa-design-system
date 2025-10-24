@@ -4,10 +4,9 @@ import React, { useState } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Input } from '../../../../../system/components/primitives/Input';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { Section } from '@blimpify-im/ui';
+import { VStack } from '../../../layout';
+import { Grid } from '../../../layout';
 
 export interface ContactAssessmentContent {
   title: string;
@@ -248,7 +247,7 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
                 minItemWidth="300px"
               >
                 {/* Left Side - Text and Form */}
-                <Stack spacing="lg" align="start">
+                <VStack spacing="lg" align="start">
                   <Typography 
                     variant={textScale === 'lg' ? 'display-md' : textScale === 'sm' ? 'h3' : 'h2'}
                     weight="semibold"
@@ -302,7 +301,7 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
                       </div>
                     </div>
                   </form>
-                </Stack>
+                </VStack>
                 
                 {/* Right Side - Image Composition */}
                 <div className="image-grid">

@@ -6,8 +6,8 @@
 import React from 'react';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { H4, Body } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Section } from '../../../../../system/layout/frames/section/Section';
+import { VStack } from '../../../layout';
+import { Section } from '../../../layout';
 import { IconContainer } from '../../../../../system/components/primitives/IconContainer';
 import { ZapIcon, UserCheckIcon, ShieldIcon } from 'lucide-react';
 import './FeatureGrid.css';
@@ -109,7 +109,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             }}
           >
             <div style={{ position: 'relative', zIndex: 2 }}>
-              <Stack 
+              <VStack 
                 spacing={index === 0 || index === 3 ? 'xl' : 'lg'} 
                 align="start"
               >
@@ -150,7 +150,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               >
                 {feature.description}
               </Body>
-              </Stack>
+              </VStack>
             </div>
           </Card>
           ))}

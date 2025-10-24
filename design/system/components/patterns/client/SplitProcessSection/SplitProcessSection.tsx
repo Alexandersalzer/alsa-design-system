@@ -3,9 +3,7 @@
 import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { VStack, Section} from '../../../layout';
 
 interface ProcessItem {
   title: string;
@@ -165,7 +163,7 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
             <div className="process-grid">
               {itemsSide.items?.map((item, index) => (
                 <div key={index} className="process-item">
-                  <Stack spacing="md" align="start">
+                  <VStack spacing="md" align="start">
                     <Typography 
                       variant="h4"
                       weight="semibold"
@@ -188,14 +186,14 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
                     >
                       {item.description}
                     </Typography>
-                  </Stack>
+                  </VStack>
                 </div>
               ))}
             </div>
             
             {/* Content Side - Header, Description and Button */}
             <div className="right-content">
-              <Stack spacing="lg" align="start">
+              <VStack spacing="lg" align="start">
                 <Typography 
                   variant="h1"
                   weight="bold"
@@ -231,7 +229,7 @@ const SplitProcessSection = ({ content, id = "split-process" }: SplitProcessSect
                 >
                   {contentSide.buttonText}
                 </Button>
-              </Stack>
+              </VStack>
             </div>
         </div>
       </Section>

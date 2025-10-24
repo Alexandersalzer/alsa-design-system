@@ -1,8 +1,7 @@
 import React from 'react';
 import { Button } from '../../../../../system/components/primitives/Button';
 import { H2, H3, Body } from '../../../../../system/components/primitives/Typography';
-import { Section } from '../../../../../system/layout/frames/section';
-
+import { Section } from '../../../layout';
 // ===== TYPES =====
 export interface SimpleDualFeatureCard {
   id: string;

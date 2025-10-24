@@ -8,8 +8,8 @@
 import React, { useState } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Section } from '../../../layout';
+import { VStack } from '../../../layout';
 import { Card } from '../../../../../system/components/primitives/Card';
 
 // ===== TYPE DEFINITIONS =====
@@ -252,7 +252,7 @@ export const PKLPortfolio: React.FC<PKLPortfolioProps> = ({
         <div className="pkl-portfolio-outer-container">
           {/* Header */}
           <div className="pkl-portfolio-header">
-            <Stack spacing="md" align="center">
+            <VStack spacing="md" align="center">
               {label && (
                 <Typography 
                   variant="label-sm" 
@@ -278,7 +278,7 @@ export const PKLPortfolio: React.FC<PKLPortfolioProps> = ({
               >
                 {description}
               </Typography>
-            </Stack>
+            </VStack>
           </div>
 
           {/* Portfolio Grid */}
@@ -323,7 +323,7 @@ export const PKLPortfolio: React.FC<PKLPortfolioProps> = ({
                   </div>
                 )}
                 
-                <Stack spacing="lg">
+                <VStack spacing="lg">
                   {/* Title & Client */}
                   <div>
                     <Typography 
@@ -387,7 +387,7 @@ export const PKLPortfolio: React.FC<PKLPortfolioProps> = ({
                       {currentCase.impact}
                     </div>
                   </div>
-                </Stack>
+                </VStack>
               </div>
             )}
           </div>
@@ -395,7 +395,7 @@ export const PKLPortfolio: React.FC<PKLPortfolioProps> = ({
           {/* CTA */}
           {ctaText && (
             <div className="pkl-portfolio-cta">
-              <Stack spacing="md" align="center">
+              <VStack spacing="md" align="center">
                 <Typography 
                   variant="h4"
                   weight="semibold"
@@ -410,7 +410,7 @@ export const PKLPortfolio: React.FC<PKLPortfolioProps> = ({
                 >
                   {ctaText}
                 </Button>
-              </Stack>
+              </VStack>
             </div>
           )}
         </div>

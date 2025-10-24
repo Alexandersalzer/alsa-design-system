@@ -3,9 +3,9 @@
 import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
+import { Section } from '../../../layout';
+import { VStack } from '../../../layout';
+
 
 export interface PKLHeroContent {
   title: string;
@@ -188,7 +188,7 @@ export const PKLHero: React.FC<PKLHeroProps> = ({
             
             {/* Textinnehåll */}
             <div className="pkl-hero-text-section">
-              <Stack spacing="lg">
+              <VStack spacing="lg">
                 {/* Titel */}
                 <Typography 
                   variant="display-lg" 
@@ -227,7 +227,7 @@ export const PKLHero: React.FC<PKLHeroProps> = ({
                     {secondaryButtonText}
                   </Button>
                 </div>
-              </Stack>
+              </VStack>
             </div>
           </div>
         </div>

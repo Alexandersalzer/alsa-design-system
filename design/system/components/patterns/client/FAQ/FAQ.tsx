@@ -9,6 +9,7 @@ import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import './FAQ.css';
+import { Button, Card } from '@blimpify-im/ui';
 
 interface FAQItem {
   question: string;
@@ -135,7 +136,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                 const isExpanded = expandedItems.has(index);
                 
                 return (
-                  <div 
+                  <Card 
                     key={index}
                     className="faq-item"
                     style={{

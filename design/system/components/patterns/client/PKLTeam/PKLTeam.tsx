@@ -7,8 +7,7 @@
 
 import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Section , VStack} from '../../../layout';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -154,7 +153,7 @@ export const PKLTeam: React.FC<PKLTeamProps> = ({
         <div className="pkl-team-container">
           {/* Header */}
           <div className="pkl-team-header">
-            <Stack spacing="md" align="center">
+            <VStack spacing="md" align="center">
               <Typography 
                 variant="label-sm" 
                 color="accent"
@@ -179,7 +178,7 @@ export const PKLTeam: React.FC<PKLTeamProps> = ({
               >
                 {description}
               </Typography>
-            </Stack>
+            </VStack>
           </div>
           
           {/* Team Grid */}

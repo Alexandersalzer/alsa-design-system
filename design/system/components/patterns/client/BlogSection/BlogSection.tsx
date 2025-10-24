@@ -6,11 +6,10 @@
 'use client';
 
 import React from 'react';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { VStack } from '../../../layout';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Card } from '../../../../../system/components/primitives/Card';
 import { Button } from '../../../../../system/components/primitives/Button';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
 
 export interface BlogPost {
   id: string;
@@ -46,9 +45,9 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
         margin: '0 auto',
         padding: '0 var(--foundation-space-6)'
       }}>
-        <Stack spacing="lg" align="center">
+        <VStack spacing="lg" align="center">
           {/* Header */}
-          <Stack spacing="md" align="center">
+          <VStack spacing="md" align="center">
             <Typography
               variant="h2"
               weight="bold"
@@ -73,7 +72,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
                 {subheading}
               </Typography>
             )}
-          </Stack>
+          </VStack>
 
           {/* Blog Posts Grid */}
           <div style={{
@@ -144,7 +143,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
                   flexDirection: 'column',
                   flex: 1
                 }}>
-                  <Stack spacing="sm" align="start">
+                  <VStack spacing="sm" align="start">
                     {/* Category Badge */}
                     {post.category && (
                       <div style={{
@@ -238,7 +237,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
                         )}
                       </div>
                     </div>
-                  </Stack>
+                  </VStack>
                 </div>
               </Card>
             ))}
@@ -254,7 +253,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
               {ctaText}
             </Button>
           )}
-        </Stack>
+        </VStack>
       </div>
     </section>
   );

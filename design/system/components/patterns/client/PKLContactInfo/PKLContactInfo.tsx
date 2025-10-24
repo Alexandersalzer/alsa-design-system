@@ -7,8 +7,7 @@
 
 import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { VStack,Section } from '../../../layout';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -144,7 +143,7 @@ export const PKLContactInfo: React.FC<PKLContactInfoProps> = ({
         <div className="pkl-contact-info-outer-container">
           {/* Header */}
           <div className="pkl-contact-info-header">
-            <Stack spacing="md" align="center">
+            <VStack spacing="md" align="center">
               {label && (
                 <Typography 
                   variant="label-sm" 
@@ -170,7 +169,7 @@ export const PKLContactInfo: React.FC<PKLContactInfoProps> = ({
               >
                 {description}
               </Typography>
-            </Stack>
+            </VStack>
           </div>
 
           {/* Contact Methods Grid */}

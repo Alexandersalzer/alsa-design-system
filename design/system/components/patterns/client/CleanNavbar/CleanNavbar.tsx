@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
-import { Cluster } from '../../../../../system/layout/utilities/cluster/Cluster';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { VStack } from '../../../layout';
 
 export interface NavItem {
   href: string;
@@ -317,9 +316,9 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          <Stack spacing="lg">
+          <VStack spacing="lg">
             {/* Mobile Links */}
-            <Stack spacing="md">
+            <VStack spacing="md">
               {items.map((it) => (
                 <a
                   key={'m-' + it.href + it.label}
@@ -336,7 +335,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   </Typography>
                 </a>
               ))}
-            </Stack>
+            </VStack>
 
             {/* Mobile CTA */}
             {ctaButton && (
@@ -360,7 +359,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                 {ctaButton.text}
               </Button>
             )}
-          </Stack>
+          </VStack>
         </div>
       </div>
     </>

@@ -3,9 +3,7 @@
 import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Icon } from '../../../../../system/components/primitives/Icon';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
+import { VStack, Grid, Section} from '../../../layout';
 import { ChartBarIcon, CogIcon, DocumentTextIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 
 export interface ServiceCard {
@@ -124,7 +122,7 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
         <div className="our-expertise-container">
           {/* Header Area */}
           <div className="our-expertise-header">
-            <Stack spacing="lg">
+            <VStack spacing="lg">
               {/* Subheading */}
                 <Typography 
                 variant="label-sm" 
@@ -154,7 +152,7 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
               >
                 {description}
               </Typography>
-            </Stack>
+            </VStack>
           </div>
           
           {/* Services Grid */}

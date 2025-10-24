@@ -8,8 +8,8 @@
 import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Section } from '../../../layout';
+import { VStack } from '../../../layout';
 import { CheckIcon } from '@heroicons/react/24/outline';
 
 // ===== TYPE DEFINITIONS =====
@@ -233,7 +233,7 @@ export const PKLPricing: React.FC<PKLPricingProps> = ({
         <div className="pkl-pricing-outer-container">
           {/* Header */}
           <div className="pkl-pricing-header">
-            <Stack spacing="md" align="center">
+            <VStack spacing="md" align="center">
               {label && (
                 <Typography 
                   variant="label-sm" 
@@ -262,7 +262,7 @@ export const PKLPricing: React.FC<PKLPricingProps> = ({
               >
                 {description}
               </Typography>
-            </Stack>
+            </VStack>
           </div>
 
           {/* Pricing Grid */}

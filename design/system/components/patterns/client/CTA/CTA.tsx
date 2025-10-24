@@ -119,7 +119,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
             )}
           </VStack>
         </div>
-      </div>
+      </Container>
     </Section>
   );
 };

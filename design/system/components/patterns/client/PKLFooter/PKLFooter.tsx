@@ -3,8 +3,8 @@
 import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Button } from '../../../../../system/components/primitives/Button';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Grid } from '../../../../../system/layout/utilities/grid/Grid';
+import { VStack } from '../../../layout';
+import { Grid } from '../../../layout';
 
 export interface PKLFooterContent {
   logo?: string;

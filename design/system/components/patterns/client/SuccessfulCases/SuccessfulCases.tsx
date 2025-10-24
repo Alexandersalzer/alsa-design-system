@@ -89,7 +89,7 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
                   gap: 'var(--foundation-space-6)'
                 }}>
                   {/* Icon and Content */}
-                  <Stack spacing="md" align="center">
+                  <VStack spacing="md" align="center">
                     {c.icon && (
                       <IconContainer
                         variant="circle"
@@ -116,12 +116,12 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
                     >
                       {c.description}
                     </Typography>
-                  </Stack>
+                  </VStack>
 
                   {/* Compensation and Duration - Always at bottom */}
                   {(c.compensation || c.duration) && (
                     <div style={{ width: '100%' }}>
-                      <Stack spacing="sm" align="center">
+                      <VStack spacing="sm" align="center">
                         {c.compensation && (
                           <div style={{
                             display: 'flex',
@@ -152,7 +152,7 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
                             </Typography>
                           </div>
                         )}
-                      </Stack>
+                      </VStack>
                     </div>
                   )}
                 </div>

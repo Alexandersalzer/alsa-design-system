@@ -10,8 +10,7 @@ import { Typography } from '../../../../../system/components/primitives/Typograp
 import { Button } from '../../../../../system/components/primitives/Button';
 import { Input } from '../../../../../system/components/primitives/Input';
 import { Textarea } from '../../../../../system/components/primitives/Textarea';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { VStack ,Section} from '../../../layout';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -178,7 +177,7 @@ export const PKLContactForm: React.FC<PKLContactFormProps> = ({
         <div className="pkl-contact-form-outer-container">
           {/* Header */}
           <div className="pkl-contact-form-header">
-            <Stack spacing="md" align="center">
+            <VStack spacing="md" align="center">
               {label && (
                 <Typography 
                   variant="label-sm" 
@@ -204,7 +203,7 @@ export const PKLContactForm: React.FC<PKLContactFormProps> = ({
               >
                 {description}
               </Typography>
-            </Stack>
+            </VStack>
           </div>
 
           {/* Form Card */}

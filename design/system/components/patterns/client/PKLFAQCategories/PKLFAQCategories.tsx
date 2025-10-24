@@ -7,8 +7,8 @@
 
 import React, { useState } from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Section } from '../../../layout';
+import { VStack } from '../../../layout';
 import { PlusIcon } from '@heroicons/react/24/outline';
 
 // ===== TYPE DEFINITIONS =====
@@ -340,7 +340,7 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
           <div className="pkl-faq-categories-content-grid">
             {/* Main Header - Spans both columns */}
             <div className="pkl-faq-categories-main-header">
-              <Stack spacing="md" align="center">
+              <VStack spacing="md" align="center">
                 <Typography 
                   variant={textScale === 'lg' ? 'display-md' : textScale === 'sm' ? 'h3' : 'h2'}
                   weight="semibold"
@@ -359,7 +359,7 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
                 >
                   {description}
                 </Typography>
-              </Stack>
+              </VStack>
             </div>
 
             {/* Sidebar - Category Navigation */}
@@ -393,7 +393,7 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
                 <>
                   {/* Category Header */}
                   <div className="pkl-faq-category-header">
-                    <Stack spacing="sm" align="start">
+                    <VStack spacing="sm" align="start">
                       <Typography 
                         variant="label-sm" 
                         color="accent"
@@ -419,7 +419,7 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
                           {activeCategoryData.description}
                         </Typography>
                       )}
-                    </Stack>
+                    </VStack>
                   </div>
 
                   {/* FAQ Accordion */}

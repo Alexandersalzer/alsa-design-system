@@ -1,8 +1,7 @@
 'use client';
 
 import { Typography } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
-import { Container } from '../../../../../system/layout/frames/container/Container';
+import { VStack } from '../../../layout';
 import { Card } from '../../../../../system/components/primitives/Card';
 import React from 'react';
 
@@ -128,7 +127,7 @@ export function AboutUs({ content }: AboutUsProps) {
                 boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.05)'
               }}
             >
-              <Stack spacing="md">
+              <VStack spacing="md">
                 <Typography
                   variant="h3"
                   weight="bold"
@@ -146,7 +145,7 @@ export function AboutUs({ content }: AboutUsProps) {
                 >
                   {story.content}
                 </Typography>
-              </Stack>
+              </VStack>
             </Card>
           </div>
 
@@ -177,7 +176,7 @@ export function AboutUs({ content }: AboutUsProps) {
                     height: '100%'
                   }}
                 >
-                  <Stack spacing="md" align="center">
+                  <VStack spacing="md" align="center">
                     <div style={{
                       background: 'linear-gradient(135deg, #1f2937, #64748b)',
                       width: '80px',
@@ -217,7 +216,7 @@ export function AboutUs({ content }: AboutUsProps) {
                     >
                       {value.description}
                     </Typography>
-                  </Stack>
+                  </VStack>
                 </Card>
               ))}
             </div>
@@ -240,7 +239,7 @@ export function AboutUs({ content }: AboutUsProps) {
                 boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.05)'
               }}
             >
-              <Stack spacing="md">
+              <VStack spacing="md">
                 <Typography
                   variant="h3"
                   weight="bold"
@@ -282,7 +281,7 @@ export function AboutUs({ content }: AboutUsProps) {
                     </div>
                   ))}
                 </div>
-              </Stack>
+              </VStack>
             </Card>
           </div>
 
@@ -311,7 +310,7 @@ export function AboutUs({ content }: AboutUsProps) {
                     height: '100%'
                   }}
                 >
-                  <Stack spacing="md" align="center">
+                  <VStack spacing="md" align="center">
                     <div style={{
                       background: 'linear-gradient(135deg, #1f2937, #64748b)',
                       width: '80px',
@@ -376,7 +375,7 @@ export function AboutUs({ content }: AboutUsProps) {
                     >
                       {member.description}
                     </Typography>
-                  </Stack>
+                  </VStack>
                 </Card>
               ))}
             </div>

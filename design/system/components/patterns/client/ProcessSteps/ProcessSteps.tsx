@@ -67,7 +67,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
   };
 
   return (
-    <div
+    <Section
       style={{
         paddingTop: 'var(--foundation-space-32)',
         paddingBottom: 'var(--foundation-space-32)',

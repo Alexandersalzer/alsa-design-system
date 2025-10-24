@@ -5,9 +5,9 @@
 
 import React from 'react';
 import { MailIcon, PhoneIcon, LinkedinIcon, InstagramIcon } from 'lucide-react';
-import { Section } from '../../../../layout/frames/section/Section';
-import { Container } from '../../../../layout/frames/container/Container';
-import { Stack } from '../../../../layout/utilities/stack/Stack';
+import { Section } from '../../../layout';
+import { Container } from '../../../layout';
+import { VStack } from '../../../layout';
 import { Typography } from '../../../primitives/Typography';
 import { TextLink } from '../../../primitives/TextLink';
 import { Icon } from '../../../primitives/Icon';
@@ -130,7 +130,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
             />
           )}
           <div style={{ position: 'relative', zIndex: 2 }}>
-            <Stack spacing="xl" align="start">
+            <VStack spacing="xl" align="start">
           
           {/* Main Content Grid */}
           <div className="footer-main-content">
@@ -148,7 +148,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               {/* Column 1: Company Info */}
               {(companyName || companyDescription) && (
                 <div style={{ flex: '1', minWidth: '280px' }}>
-                  <Stack spacing="md" align="start">
+                  <VStack spacing="md" align="start">
                     {companyName && (
                       <Typography
                         variant="h3"
@@ -175,14 +175,14 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                         {companyDescription}
                       </Typography>
                     )}
-                  </Stack>
+                  </VStack>
                 </div>
               )}
               
               {/* Columns 2-4: Navigation Links */}
               {columns.map((column, index) => (
                 <div key={index} style={{ flex: '1', minWidth: '200px' }}>
-                  <Stack spacing="sm" align="start">
+                  <VStack spacing="sm" align="start">
                                <Typography
                                  variant="h4"
                                  weight="semibold"
@@ -213,14 +213,14 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                         {link.label}
                       </TextLink>
                     ))}
-                  </Stack>
+                  </VStack>
                 </div>
               ))}
               
               {/* Column 5: Social Links Only */}
               {socialLinks.length > 0 && (
                 <div style={{ flex: '1', minWidth: '200px' }}>
-                  <Stack spacing="sm" align="start">
+                  <VStack spacing="sm" align="start">
                     <Typography
                       variant="body-xs"
                       weight="semibold"
@@ -259,7 +259,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                         </TextLink>
                       ))}
                     </div>
-                  </Stack>
+                  </VStack>
                 </div>
               )}
               
@@ -378,7 +378,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
             </div>
           )}
 
-            </Stack>
+            </VStack>
           </div> {/* End of z-index 2 wrapper */}
         </div> {/* End of card wrapper */}
       </div> {/* End of outer padding div */}

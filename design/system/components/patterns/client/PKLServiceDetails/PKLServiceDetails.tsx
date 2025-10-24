@@ -7,8 +7,8 @@
 
 import React from 'react';
 import { Typography } from '../../../../../system/components/primitives/Typography';
-import { Section } from '../../../../../system/layout/frames/section/Section';
-import { Stack } from '../../../../../system/layout/utilities/stack/Stack';
+import { Section } from '../../../layout';
+import { VStack } from '../../../layout';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -165,7 +165,7 @@ export const PKLServiceDetails: React.FC<PKLServiceDetailsProps> = ({
         <div className="pkl-service-details-outer-container">
           {/* Header */}
           <div className="pkl-service-details-header">
-            <Stack spacing="md" align="center">
+            <VStack spacing="md" align="center">
               {label && (
                 <Typography 
                   variant="label-sm" 
@@ -191,7 +191,7 @@ export const PKLServiceDetails: React.FC<PKLServiceDetailsProps> = ({
               >
                 {description}
               </Typography>
-            </Stack>
+            </VStack>
           </div>
 
           {/* Services Grid */}
