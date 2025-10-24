@@ -1,6 +1,6 @@
 /* =============================================== */
 /* src/design-system/components/primitives/Icon/Icon.css */
-/* FIXED ICON STYLES - Now uses correct token sizes */
+/* FIXED ICON STYLES - Uses single-dash classnames */
 /* =============================================== */
 
 /* ===== BASE ICON STYLES ===== */
@@ -16,193 +16,99 @@
 }
 
 /* ===== SIZE VARIANTS - FIXED TO MATCH TOKENS ===== */
-.icon--xs {
-  width: var(--icon-size-xs, 12px);   /* ✅ Uses token */
-  height: var(--icon-size-xs, 12px);  /* ✅ Uses token */
+.icon-xs {
+  width: var(--icon-size-xs, 12px);
+  height: var(--icon-size-xs, 12px);
   stroke-width: 1.5;
 }
 
-.icon--sm {
-  width: var(--icon-size-sm, 14px);   /* ✅ FIXED: Now 14px instead of 16px */
-  height: var(--icon-size-sm, 14px);  /* ✅ FIXED: Now 14px instead of 16px */
+.icon-sm {
+  width: var(--icon-size-sm, 14px);
+  height: var(--icon-size-sm, 14px);
   stroke-width: 2;
 }
 
-.icon--md {
-  width: var(--icon-size-md, 16px);   /* ✅ FIXED: Now 16px instead of 20px */
-  height: var(--icon-size-md, 16px);  /* ✅ FIXED: Now 16px instead of 20px */
+.icon-md {
+  width: var(--icon-size-md, 16px);
+  height: var(--icon-size-md, 16px);
   stroke-width: 2;
 }
 
-.icon--lg {
-  width: var(--icon-size-lg, 20px);   /* ✅ FIXED: Now 20px instead of 24px */
-  height: var(--icon-size-lg, 20px);  /* ✅ FIXED: Now 20px instead of 24px */
+.icon-lg {
+  width: var(--icon-size-lg, 20px);
+  height: var(--icon-size-lg, 20px);
   stroke-width: 2;
 }
 
-.icon--xl {
-  width: var(--icon-size-xl, 24px);   /* ✅ FIXED: Now 24px instead of 32px */
-  height: var(--icon-size-xl, 24px);  /* ✅ FIXED: Now 24px instead of 32px */
+.icon-xl {
+  width: var(--icon-size-xl, 24px);
+  height: var(--icon-size-xl, 24px);
   stroke-width: 2;
 }
 
-.icon--2xl {
-  width: var(--icon-size-2xl, 32px);  /* ✅ FIXED: Now 32px instead of 40px */
-  height: var(--icon-size-2xl, 32px); /* ✅ FIXED: Now 32px instead of 40px */
+.icon-2xl {
+  width: var(--icon-size-2xl, 32px);
+  height: var(--icon-size-2xl, 32px);
   stroke-width: 1.5;
 }
 
 /* ===== CRITICAL FIX FOR ICONBUTTON ALIGNMENT ===== */
-/* Override vertical-align when Icon is inside IconButton */
 .icon-btn .icon {
-  vertical-align: unset !important;  /* ✅ Prevent misalignment */
-  margin: 0 !important;              /* ✅ Remove any margins */
-  display: block !important;         /* ✅ Proper display */
-  transform: none !important;        /* ✅ No transforms */
+  vertical-align: unset !important;
+  margin: 0 !important;
+  display: block !important;
+  transform: none !important;
 }
 
 /* ===== COLOR VARIANTS ===== */
-/* Only apply when color is explicitly set (not 'current') */
+.icon-primary { color: var(--text-primary); }
+.icon-secondary { color: var(--text-secondary); }
+.icon-tertiary { color: var(--text-tertiary); }
+.icon-disabled { color: var(--text-disabled); }
+.icon-inverse { color: var(--text-inverse); }
+.icon-heading { color: var(--text-heading); }
+.icon-body { color: var(--text-body); }
+.icon-muted { color: var(--text-disabled); }
 
-/* Text Colors */
-.icon--primary {
-  color: var(--text-primary);
-}
+.icon-accent { color: var(--accent-500); }
+.icon-success { color: var(--success-600); }
+.icon-warning { color: var(--warning-600); }
+.icon-error { color: var(--error-600); }
+.icon-subtle { color: var(--text-subtle); }
 
-.icon--secondary {
-  color: var(--text-secondary);
-}
+.icon-nav-item { color: var(--text-nav-item); }
+.icon-nav-item-hover { color: var(--text-nav-item-hover); }
+.icon-nav-item-selected { color: var(--text-nav-item-selected); }
 
-.icon--tertiary {
-  color: var(--text-tertiary);
-}
-
-.icon--disabled {
-  color: var(--text-disabled);
-}
-
-.icon--inverse {
-  color: var(--text-inverse);
-}
-
-.icon--heading {
-  color: var(--text-heading);
-}
-
-.icon--body {
-  color: var(--text-body);
-}
-
-.icon--muted {
-  color: var(--text-disabled);
-}
-
-/* Semantic Colors */
-.icon--accent {
-  color: var(--accent-500);
-}
-
-.icon--success {
-  color: var(--success-600);
-}
-
-.icon--warning {
-  color: var(--warning-600);
-}
-
-.icon--error {
-  color: var(--error-600);
-}
-
-.icon--subtle {
-  color: var(--text-subtle);
-}
-
-/* Navigation Colors */
-.icon--nav-item {
-  color: var(--text-nav-item);
-}
-
-.icon--nav-item-hover {
-  color: var(--text-nav-item-hover);
-}
-
-.icon--nav-item-selected {
-  color: var(--text-nav-item-selected);
-}
-
-/* Context-Specific Colors */
-.icon--user-menu {
-  color: var(--text-user-menu);
-}
-
-.icon--search {
-  color: var(--text-search);
-}
-
-.icon--empty-state {
-  color: var(--text-empty-state);
-}
-
-.icon--card-primary {
-  color: var(--text-card-primary);
-}
+.icon-user-menu { color: var(--text-user-menu); }
+.icon-search { color: var(--text-search); }
+.icon-empty-state { color: var(--text-empty-state); }
+.icon-card-primary { color: var(--text-card-primary); }
 
 /* Button Colors */
-.icon--button-primary {
-  color: var(--text-button-primary);
-}
-
-.icon--button-secondary {
-  color: var(--text-button-secondary);
-}
-
-.icon--button-accent {
-  color: var(--text-button-accent);
-}
-
-.icon--button-ghost {
-  color: var(--text-button-ghost);
-}
-
-.icon--button-destructive {
-  color: var(--text-button-destructive);
-}
-
-.icon--button-disabled {
-  color: var(--text-button-disabled);
-}
+.icon-button-primary { color: var(--text-button-primary); }
+.icon-button-secondary { color: var(--text-button-secondary); }
+.icon-button-accent { color: var(--text-button-accent); }
+.icon-button-ghost { color: var(--text-button-ghost); }
+.icon-button-destructive { color: var(--text-button-destructive); }
+.icon-button-disabled { color: var(--text-button-disabled); }
 
 /* ===== WEIGHT VARIANTS ===== */
-.icon--weight-thin {
-  stroke-width: var(--icon-stroke-thin, 1);
-}
-
-.icon--weight-light {
-  stroke-width: var(--icon-stroke-light, 1.5);
-}
-
-.icon--weight-regular {
-  stroke-width: var(--icon-stroke-regular, 1.75);
-}
-
-.icon--weight-medium {
-  stroke-width: var(--icon-stroke-medium, 2);
-}
-
-.icon--weight-bold {
-  stroke-width: var(--icon-stroke-bold, 3);
-}
+.icon-weight-thin { stroke-width: var(--icon-stroke-thin, 1); }
+.icon-weight-light { stroke-width: var(--icon-stroke-light, 1.5); }
+.icon-weight-regular { stroke-width: var(--icon-stroke-regular, 1.75); }
+.icon-weight-medium { stroke-width: var(--icon-stroke-medium, 2); }
+.icon-weight-bold { stroke-width: var(--icon-stroke-bold, 3); }
 
 /* Disabled state */
-.icon--button-disabled,
+.icon-button-disabled,
 button:disabled .icon,
 .button:disabled .icon {
   opacity: 0.5;
   transform: none !important;
 }
 
-/* Focus states for accessibility */
+/* Focus states */
 button:focus-visible .icon,
 .button:focus-visible .icon,
 a:focus-visible .icon {
@@ -212,34 +118,18 @@ a:focus-visible .icon {
 }
 
 /* ===== ANIMATION UTILITIES ===== */
-.icon--spin {
-  animation: icon-spin 1s linear infinite;
-}
-
-.icon--pulse {
-  animation: icon-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.icon--bounce {
-  animation: icon-bounce 1s infinite;
-}
+.icon-spin { animation: icon-spin 1s linear infinite; }
+.icon-pulse { animation: icon-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+.icon-bounce { animation: icon-bounce 1s infinite; }
 
 @keyframes icon-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes icon-pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 @keyframes icon-bounce {
@@ -254,32 +144,27 @@ a:focus-visible .icon {
 }
 
 /* ===== CONTEXT-SPECIFIC STYLES ===== */
-
-/* Icons in navigation items */
 .nav-item .icon,
 .tab .icon {
   transition: all 0.2s ease;
 }
 
 .nav-item.active .icon,
-.nav-item--active .icon,
+.nav-item-active .icon,
 .tab.active .icon,
-.tab--active .icon {
+.tab-active .icon {
   transform: scale(1.1);
 }
 
-/* Icons in cards */
-.card .icon--card-primary {
+.card .icon-card-primary {
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
-/* Icons in buttons */
 .button .icon {
   flex-shrink: 0;
 }
 
-/* Button with only icon (no text) */
-.button--icon-only {
+.button-icon-only {
   padding: var(--foundation-space-2);
   aspect-ratio: 1;
   display: inline-flex;
@@ -287,54 +172,40 @@ a:focus-visible .icon {
   justify-content: center;
 }
 
-.button--icon-only .icon {
+.button-icon-only .icon {
   margin: 0;
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
 @media (max-width: 768px) {
-  /* Slightly larger icons on mobile for better touch targets */
-  .icon--sm {
+  .icon-sm {
     width: calc(var(--icon-size-sm, 14px) + 2px);
     height: calc(var(--icon-size-sm, 14px) + 2px);
   }
-  
-  .icon--md {
+  .icon-md {
     width: calc(var(--icon-size-md, 16px) + 2px);
     height: calc(var(--icon-size-md, 16px) + 2px);
   }
-  
-  .icon--lg {
+  .icon-lg {
     width: calc(var(--icon-size-lg, 20px) + 2px);
     height: calc(var(--icon-size-lg, 20px) + 2px);
   }
 }
 
-/* ===== HIGH CONTRAST MODE SUPPORT ===== */
+/* ===== HIGH CONTRAST MODE ===== */
 @media (prefers-contrast: high) {
-  .icon {
-    stroke-width: 2.5;
-  }
-  
-  .icon--weight-thin {
-    stroke-width: 2;
-  }
-  
-  .icon--weight-light {
-    stroke-width: 2.5;
-  }
-  
-  .icon--weight-bold {
-    stroke-width: 3.5;
-  }
+  .icon { stroke-width: 2.5; }
+  .icon-weight-thin { stroke-width: 2; }
+  .icon-weight-light { stroke-width: 2.5; }
+  .icon-weight-bold { stroke-width: 3.5; }
 }
 
-/* ===== REDUCED MOTION SUPPORT ===== */
+/* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
   .icon,
-  .icon--spin,
-  .icon--pulse,
-  .icon--bounce,
+  .icon-spin,
+  .icon-pulse,
+  .icon-bounce,
   button:hover .icon,
   .button:hover .icon,
   a:hover .icon,
@@ -344,8 +215,7 @@ a:focus-visible .icon {
     transform: none;
     transition: none;
   }
-  
-  /* But keep the IconButton alignment fixes */
+
   .icon-btn .icon {
     vertical-align: unset !important;
     margin: 0 !important;
@@ -354,19 +224,12 @@ a:focus-visible .icon {
   }
 }
 
-/* ===== DARK MODE ADJUSTMENTS ===== */
+/* ===== DARK MODE ===== */
 [data-theme="dark"] .icon,
-.dark .icon {
-  /* Slightly thinner strokes in dark mode for better readability */
-  stroke-width: 1.8;
-}
+.dark .icon { stroke-width: 1.8; }
 
-[data-theme="dark"] .icon--weight-medium,
-.dark .icon--weight-medium {
-  stroke-width: 2.2;
-}
+[data-theme="dark"] .icon-weight-medium,
+.dark .icon-weight-medium { stroke-width: 2.2; }
 
-[data-theme="dark"] .icon--weight-bold,
-.dark .icon--weight-bold {
-  stroke-width: 2.8;
-}
+[data-theme="dark"] .icon-weight-bold,
+.dark .icon-weight-bold { stroke-width: 2.8; }

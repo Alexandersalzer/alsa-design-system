@@ -6,7 +6,7 @@ import { Icon } from '../../../../../system/components/primitives/Icon';
 import { TextLink } from '../../../../../system/components/primitives/TextLink';
 import { Container } from '../../../layout/frames/container/Container';
 import { Grid } from '../../../layout/utilities/grid/Grid';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { HStack } from '../../../layout/utilities/hStack/HStack';
 import {
   PhoneIcon,
@@ -67,7 +67,7 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
       }}
     >
       <Container maxWidth="xl" align="center">
-        <Stack spacing="xl">
+        <VStack spacing="xl">
           {/* Top grid - using Grid utility with responsive behavior */}
           <Grid 
             columns={3} 
@@ -77,7 +77,7 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
           >
             {/* Company */}
             <section aria-label="Företagsinformation">
-              <Stack spacing="md" align="start">
+              <VStack spacing="md" align="start">
                 <Typography 
                   variant="h4" 
                   weight="bold" 
@@ -95,7 +95,7 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
                   {companyDescription}
                 </Typography>
 
-                <Stack spacing="sm" align="start">
+                <VStack spacing="sm" align="start">
                   <HStack spacing="sm" align="start">
                     <Icon color="secondary" size="sm">
                       <PhoneIcon />
@@ -122,18 +122,18 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
                       {address}
                     </Typography>
                   </HStack>
-                </Stack>
-              </Stack>
+                </VStack>
+              </VStack>
             </section>
 
             {/* Services */}
             <nav aria-label={services.title}>
-              <Stack spacing="md" align="start">
+              <VStack spacing="md" align="start">
                 <Typography variant="body-md" weight="semibold" color="heading">
                   {services.title}
                 </Typography>
                 
-                <Stack spacing="sm" align="start">
+                <VStack spacing="sm" align="start">
                   {services.links.map((link, index) => (
                     <TextLink 
                       key={index}
@@ -145,18 +145,18 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
                       {link.label}
                     </TextLink>
                   ))}
-                </Stack>
-              </Stack>
+                </VStack>
+              </VStack>
             </nav>
 
             {/* Legal */}
             <nav aria-label={legal.title}>
-              <Stack spacing="md" align="start">
+              <VStack spacing="md" align="start">
                 <Typography variant="body-md" weight="semibold" color="heading">
                   {legal.title}
                 </Typography>
                 
-                <Stack spacing="sm" align="start">
+                <VStack spacing="sm" align="start">
                   {legal.links.map((link, index) => (
                     <TextLink 
                       key={index}
@@ -168,8 +168,8 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
                       {link.label}
                     </TextLink>
                   ))}
-                </Stack>
-              </Stack>
+                </VStack>
+              </VStack>
             </nav>
           </Grid>
 
@@ -196,7 +196,7 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
               {ctaText}
             </Button>
           </HStack>
-        </Stack>
+        </VStack>
       </Container>
     </footer>
   );

@@ -136,8 +136,8 @@ im-dashboard/src/design-system/
 │       │   ├── PageContent.css 🆕
 │       │   ├── Grid.tsx 🆕               # Responsive grid system
 │       │   ├── Grid.css 🆕
-│       │   ├── Stack.tsx 🆕              # Vertical spacing
-│       │   ├── Stack.css 🆕
+│       │   ├── VStack.tsx 🆕              # Vertical spacing
+│       │   ├── VStack.css 🆕
 │       │   ├── HStack.tsx 🆕            # Horizontal grouping
 │       │   ├── HStack.css 🆕
 │       │   └── index.ts 🔄
@@ -245,7 +245,7 @@ export { ModalLayout } from './ModalLayout';
 /* NEW: Page pattern imports 🆕 */
 @import './components/patterns/page/PageContent.css';
 @import './components/patterns/page/Grid.css';
-@import './components/patterns/page/Stack.css';
+@import './components/patterns/page/VStack.css';
 @import './components/patterns/page/HStack.css';
 
 /* NEW: Settings pattern imports 🆕 */

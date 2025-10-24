@@ -3,7 +3,7 @@
 import { Typography } from '../../../../../system/components/primitives/Typography';
 import { Section } from '../../../layout/frames/section/Section';
 import { Container } from '../../../layout/frames/container/Container';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 
 export interface AboutStatItem {
   id: string;
@@ -42,7 +42,7 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
       >
         <Container maxWidth="xl" align="center">
           <div style={{ maxWidth: '800px', width: '100%' }}>
-            <Stack spacing="lg" align="center">
+            <VStack spacing="lg" align="center">
               <Typography 
                 variant="h2" 
                 weight="bold" 
@@ -82,7 +82,7 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
               >
                 {subtitle}
               </Typography>
-            </Stack>
+            </VStack>
           </div>
         </Container>
       </Section>

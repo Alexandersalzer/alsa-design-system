@@ -1,15 +1,15 @@
 // ===============================================
-// src/design-system/components/layout/utilities/stack/Stack.tsx
-// FIXED STACK COMPONENT - With proper style prop support
+// src/design-system/components/patterns/page/Stack.tsx
+// STACK COMPONENT - Vertical spacing layout
 // ===============================================
-import React, { ReactNode, CSSProperties } from 'react';
+import React, { ReactNode } from 'react';
 
 // ===== TYPE DEFINITIONS =====
-export interface StackProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface StackProps {
   children: ReactNode;
   className?: string;
   // Spacing between items
-  spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
+  spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   // Alignment
   align?: 'start' | 'center' | 'end' | 'stretch';
   // Split behavior (push last item to bottom)
@@ -20,8 +20,6 @@ export interface StackProps extends React.HTMLAttributes<HTMLDivElement> {
   flexChild?: boolean;
   // Full width behavior
   fullWidth?: boolean;
-  // Style prop (now properly typed)
-  style?: CSSProperties;
 }
 
 // ===== SIMPLE CLASS CONCATENATION =====
@@ -39,7 +37,6 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(({
   collapseSpacing = 'mobile',
   flexChild,
   fullWidth = false,
-  style,
   ...props
 }, ref) => {
   // Build CSS classes
@@ -55,7 +52,7 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(({
   );
 
   return (
-    <div ref={ref} className={classes} style={style} {...props}>
+    <div ref={ref} className={classes} {...props}>
       {children}
     </div>
   );

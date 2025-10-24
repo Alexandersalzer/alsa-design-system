@@ -1,4 +1,4 @@
-export * from './stack';
+export * from './vStack';
 export * from './hStack';
 export * from './rhythm';
 export * from './portal';

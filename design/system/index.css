@@ -11,8 +11,6 @@
 /* STEP 3: Component tokens (surface-button-primary, etc.) */
 @import './tokens/component/index.css';
 
-@import './tokens/semantic/themes/calculated-theme.css';
-
 
 /* STEP 4: Component CSS files */
 @import './components/primitives/Alert/Alert.css';
@@ -69,7 +67,7 @@
 @import './components/layout/utilities/divider/Divider.css';
 @import './components/layout/utilities/hStack/HStack.css';
 @import './components/layout/utilities/rhythm/Rhythm.css';
-@import './components/layout/utilities/stack/Stack.css';
+@import './components/layout/utilities/vStack/VStack.css';
 @import './components/layout/utilities/grid/Grid.css';
 @import './components/layout/utilities/box/Box.css';
 

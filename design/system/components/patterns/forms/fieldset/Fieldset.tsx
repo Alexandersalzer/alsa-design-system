@@ -1,11 +1,11 @@
 // ===============================================
 // src/design-system/components/patterns/forms/Fieldset.tsx
 // FIELDSET COMPONENT - Accessible grouping with legend, errors, and helper text
-// Uses Stack and Typography for layout and text styling
+// Uses VStack and Typography for layout and text styling
 // ===============================================
 
 import React, { forwardRef, ReactNode } from 'react';
-import { Stack } from '../../../layout';
+import { VStack } from '../../../layout';
 import { Typography } from '../../../primitives';
 import { cn } from '../../../../lib/utils';
 
@@ -58,9 +58,9 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(({
         </Typography>
       )}
 
-      <Stack spacing={size === 'sm' ? 'sm' : (size === 'lg' ? 'lg' : 'md')} align="stretch">
+      <VStack spacing={size === 'sm' ? 'sm' : (size === 'lg' ? 'lg' : 'md')} align="stretch">
         {children}
-      </Stack>
+      </VStack>
 
       {helper && !error && (
         <Typography variant="body-sm" color="secondary" className="fieldset-helper">

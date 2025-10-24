@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Modal } from '../Modal';
-import { Stack } from '../../layout/utilities/stack/Stack';
+import { VStack } from '../../layout/utilities/vStack/VStack';
 import { HStack } from '../../layout/utilities/hStack/HStack';
 import { Button } from '../Button';
 import { Typography } from '../Typography';
@@ -71,7 +71,7 @@ export const ConfirmationDialog = forwardRef<HTMLDivElement, ConfirmationDialogP
         className={cn('confirmation-dialog', `confirmation-dialog--${variant}`, className)}
         {...props}
       >
-        <Stack spacing="md">
+        <VStack spacing="md">
           <Typography variant="body-md" color="secondary">
             {message}
           </Typography>
@@ -92,7 +92,7 @@ export const ConfirmationDialog = forwardRef<HTMLDivElement, ConfirmationDialogP
               {confirmText}
             </Button>
           </HStack>
-        </Stack>
+        </VStack>
       </Modal>
     );
   }

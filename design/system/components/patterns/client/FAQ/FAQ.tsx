@@ -7,7 +7,7 @@ import { Button } from '../../../../../system/components/primitives/Button';
 import { Icon } from '../../../../../system/components/primitives/Icon';
 import { Section } from '../../../layout/frames/section/Section';
 import { Container } from '../../../layout/frames/container/Container';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import './FAQ.css';
@@ -53,10 +53,10 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
       }}
     >
       <Container maxWidth="xl" align="center">
-        <Stack spacing="xl" align="center">
+        <VStack spacing="xl" align="center">
           {/* Header */}
           <div style={{ maxWidth: '800px', width: '100%' }}>
-            <Stack spacing="lg" align="center">
+            <VStack spacing="lg" align="center">
               <Typography 
                 variant="h2" 
                 weight="bold"
@@ -97,12 +97,12 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
               >
                 {subtitle}
               </Typography>
-            </Stack>
+            </VStack>
           </div>
 
           {/* FAQ Items */}
           <div style={{ width: '100%', maxWidth: '800px' }}>
-            <Stack spacing="md">
+            <VStack spacing="md">
               {items.map((item, index) => {
                 const isExpanded = expandedItems.has(index);
                 
@@ -130,7 +130,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                       }
                     }}
                   >
-                    <Stack spacing="md">
+                    <VStack spacing="md">
                       <HStack justify="between" align="center">
                       <Typography 
                         variant="h4" 
@@ -180,13 +180,13 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
                         </Typography>
                       </div>
                     )}
-                  </Stack>
+                  </VStack>
                   </Card>
                 );
               })}
-            </Stack>
+            </VStack>
           </div>
-        </Stack>
+        </VStack>
       </Container>
     </Section>
   );

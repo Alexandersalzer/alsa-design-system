@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { Typography, TypographyColor } from '../../../../../system/components/primitives/Typography';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { HStack } from '../../../layout/utilities/hStack/HStack';
 import { ResponsiveGrid } from '../../../layout/utilities/grid/Grid';
 
@@ -77,7 +77,7 @@ export const StatsGrid: React.FC<StatsGridProps> = ({
       >
         {stats.map((stat) => (
           <div key={stat.id} style={{ textAlign: 'center' }}>
-            <Stack 
+            <VStack 
               spacing={spacing} 
               align={align}
             >
@@ -100,7 +100,7 @@ export const StatsGrid: React.FC<StatsGridProps> = ({
               >
                 {stat.label}
               </Typography>
-            </Stack>
+            </VStack>
           </div>
         ))}
       </ResponsiveGrid>

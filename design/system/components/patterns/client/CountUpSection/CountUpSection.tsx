@@ -1,10 +1,10 @@
 // ===============================================
 // design/system/components/patterns/client/CountUpSection/CountUpSection.tsx
-// COUNT UP SECTION PATTERN - CountUp + Subtitle + Button with Stack layout
+// COUNT UP SECTION PATTERN - CountUp + Subtitle + Button with VStack layout
 // ===============================================
 
 import React from 'react';
-import { Stack } from '../../../layout/utilities/stack/Stack';
+import { VStack } from '../../../layout/utilities/vStack/VStack';
 import { CountUp, CountUpProps } from '../../../../../system/components/primitives/CountUp';
 import { Typography, TypographyProps } from '../../../../../system/components/primitives/Typography';
 import { Button, ButtonProps } from '../../../../../system/components/primitives/Button';
@@ -43,7 +43,7 @@ export interface CountUpSectionProps {
     onClick?: () => void;
   } & Omit<ButtonProps, 'children' | 'onClick'>;
   
-  // Stack configuration
+  // VStack configuration
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   align?: 'start' | 'center' | 'end' | 'stretch';
 }
@@ -59,7 +59,7 @@ export const CountUpSection: React.FC<CountUpSectionProps> = ({
   align = 'center'
 }) => {
   return (
-    <Stack
+    <VStack
       className={className}
       spacing={spacing}
       align={align}
@@ -94,7 +94,7 @@ export const CountUpSection: React.FC<CountUpSectionProps> = ({
           {button.text}
         </Button>
       )}
-    </Stack>
+    </VStack>
   );
 };
 

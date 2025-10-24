@@ -43,42 +43,43 @@
 /* ===== BANNER BORDERS (TOKEN-BASED) ===== */
 
 .banner--default {
-  background-color: var(--surface-banner-default);
+  /*background-color: var(--surface-banner-default);*/
   color: var(--text-banner-default);
   border-bottom: 1px solid var(--border-subtle);
 }
 
 .banner--info {
-  background-color: var(--surface-banner-info);
+  /*background-color: var(--surface-banner-info);*/
   color: var(--text-banner-info);
   border-bottom: 1px solid var(--border-info-subtle);
 }
 
 .banner--success {
-  background-color: var(--surface-banner-success);
+  /*background-color: var(--surface-banner-success);*/
   color: var(--text-banner-success);
   border-bottom: 1px solid var(--border-success-subtle);
 }
 
 .banner--warning {
-  background-color: var(--surface-banner-warning);
+  /*background-color: var(--surface-banner-warning);*/
   color: var(--text-banner-warning);
   border-bottom: 1px solid var(--border-warning-subtle);
 }
 
 .banner--error {
-  background-color: var(--surface-page);
-  color: var(--text-banner-accent);
+  /*background-color: var(--surface-banner-error);*/
+  color: var(--text-banner-error);
   border-bottom: 1px solid var(--border-error-subtle);
 }
 
 .banner--accent {
+  /*background-color: var(--surface-banner-accent);*/
   color: var(--text-banner-accent);
   border-bottom: 1px solid var(--border-brand-subtle);
 }
 
 .banner--loading {
-  background-color: var(--surface-banner-loading);
+  /*background-color: var(--surface-banner-loading);*/
   color: var(--text-banner-loading);
   border-bottom: 1px solid var(--border-light);
 }

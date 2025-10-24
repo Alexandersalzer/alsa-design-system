@@ -1,45 +1,51 @@
 /* ===============================================
-   src/design-system/components/layout/utilities/stack/Stack.css
-   STACK COMPONENT - Vertical spacing layout
+   src/design-system/components/patterns/page/Stack.css
+   STACK (VStack) - Vertical layout component
    =============================================== */
 
-/* ===== BASE STACK ===== */
 .stack {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+  gap: var(--foundation-space-4);
+}
+
+/* ===== WIDTH VARIANTS ===== */
+.stack--full-width {
   width: 100%;
 }
 
-/* ===== SPACING VARIANTS ===== */
+.stack--flex-child {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ===== SPACING ===== */
 .stack--spacing-xs {
-  gap: var(--foundation-space-1, 4px);
+  gap: var(--foundation-space-1);
 }
 
 .stack--spacing-sm {
-  gap: var(--foundation-space-2, 8px);
+  gap: var(--foundation-space-2);
 }
 
 .stack--spacing-md {
-  gap: var(--foundation-space-4, 16px);
+  gap: var(--foundation-space-4);
 }
 
 .stack--spacing-lg {
-  gap: var(--foundation-space-6, 24px);
+  gap: var(--foundation-space-6);
 }
 
 .stack--spacing-xl {
-  gap: var(--foundation-space-8, 32px);
+  gap: var(--foundation-space-8);
 }
 
 .stack--spacing-2xl {
-  gap: var(--foundation-space-12, 48px);
+  gap: var(--foundation-space-12);
 }
 
-.stack--spacing-3xl {
-  gap: var(--foundation-space-16, 64px);
-}
-
-/* ===== ALIGNMENT VARIANTS ===== */
+/* ===== ALIGNMENT ===== */
 .stack--align-start {
   align-items: flex-start;
 }
@@ -56,38 +62,74 @@
   align-items: stretch;
 }
 
-/* ===== SPLIT BEHAVIOR ===== */
+/* ===== SPLIT ===== */
 .stack--split {
-  justify-content: space-between;
   min-height: 100%;
 }
 
-/* ===== RESPONSIVE COLLAPSE ===== */
+.stack--split > :last-child {
+  margin-top: auto;
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 767px) {
-  .stack--collapse-mobile.stack--spacing-xl,
-  .stack--collapse-mobile.stack--spacing-2xl,
-  .stack--collapse-mobile.stack--spacing-3xl {
-    gap: var(--foundation-space-4, 16px);
+  .stack--collapse-mobile {
+    gap: var(--foundation-space-3);
+  }
+
+  .stack--collapse-mobile.stack--spacing-xs {
+    gap: var(--foundation-space-1);
+  }
+
+  .stack--collapse-mobile.stack--spacing-sm {
+    gap: var(--foundation-space-2);
+  }
+
+  .stack--collapse-mobile.stack--spacing-md {
+    gap: var(--foundation-space-3);
+  }
+
+  .stack--collapse-mobile.stack--spacing-lg {
+    gap: var(--foundation-space-4);
+  }
+
+  .stack--collapse-mobile.stack--spacing-xl {
+    gap: var(--foundation-space-6);
+  }
+
+  .stack--collapse-mobile.stack--spacing-2xl {
+    gap: var(--foundation-space-8);
   }
 }
 
 @media (max-width: 1023px) {
-  .stack--collapse-tablet.stack--spacing-xl,
-  .stack--collapse-tablet.stack--spacing-2xl,
-  .stack--collapse-tablet.stack--spacing-3xl {
-    gap: var(--foundation-space-6, 24px);
+  .stack--collapse-tablet {
+    gap: var(--foundation-space-3);
   }
-}
 
-/* ===== FLEX CHILD ===== */
-.stack--flex-child {
-  flex: 1;
-  min-height: 0;
-}
+  .stack--collapse-tablet.stack--spacing-xs {
+    gap: var(--foundation-space-1);
+  }
 
-/* ===== FULL WIDTH ===== */
-.stack--full-width {
-  width: 100%;
+  .stack--collapse-tablet.stack--spacing-sm {
+    gap: var(--foundation-space-2);
+  }
+
+  .stack--collapse-tablet.stack--spacing-md {
+    gap: var(--foundation-space-3);
+  }
+
+  .stack--collapse-tablet.stack--spacing-lg {
+    gap: var(--foundation-space-4);
+  }
+
+  .stack--collapse-tablet.stack--spacing-xl {
+    gap: var(--foundation-space-6);
+  }
+
+  .stack--collapse-tablet.stack--spacing-2xl {
+    gap: var(--foundation-space-8);
+  }
 }
 
 /* ===== ACCESSIBILITY ===== */

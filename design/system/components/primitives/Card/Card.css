@@ -548,7 +548,7 @@
   flex: 1; /* Allow content to fill remaining space */
 }
 
-/* Make the Stack inside portfolio-content fill available space */
+/* Make the VStack inside portfolio-content fill available space */
 .portfolio-content > div {
   display: flex;
   flex-direction: column;
@@ -658,7 +658,7 @@
   flex: 1; /* Allow content to fill remaining space */
 }
 
-/* Make the Stack inside portfolio-content fill available space */
+/* Make the VStack inside portfolio-content fill available space */
 .portfolio-content > div {
   display: flex;
   flex-direction: column;
