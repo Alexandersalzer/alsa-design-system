@@ -1,6 +1,6 @@
 'use client';
 
-import { Section, Container } from '../../../components';
+import { Section, Container } from '../../../components/frames';
 import { StatsGrid } from '../../../patterns/client/StatsGrid';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
