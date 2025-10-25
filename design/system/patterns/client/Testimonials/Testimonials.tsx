@@ -1,0 +1,207 @@
+'use client';
+
+import { Typography } from '../../../../system/components/primitives/Typography';
+import { Card } from '../../../../system/components/primitives/Card';
+import { Section } from '../../../components/frames/section/Section';
+import { Container } from '../../../components/frames/container/Container';
+import { VStack } from '../../../components/layout/vStack/VStack';
+import { HStack } from '../../../components/layout/hStack/HStack';
+import { StarIcon } from '@heroicons/react/24/solid';
+
+export interface Testimonial {
+  id: string;
+  text: string;
+  author: string;
+  authorInitial: string;
+  caseType: string;
+  rating?: number; // Default 5 stars
+}
+
+export interface TestimonialsContent {
+  title: string;
+  titleAccent?: string;
+  subtitle: string;
+  testimonials: Testimonial[];
+}
+
+export interface TestimonialsProps {
+  id?: string;
+  content: TestimonialsContent;
+  className?: string;
+}
+
+const Testimonials = ({ id = "testimonials", content, className }: TestimonialsProps) => {
+  const { title, titleAccent, subtitle, testimonials } = content;
+
+  return (
+    <Section 
+      id={id} 
+      className={className}
+      style={{
+        backgroundColor: 'transparent',
+        paddingTop: 'var(--foundation-space-24)',
+        paddingBottom: 'var(--foundation-space-24)'
+      }}
+    >
+      <Container maxWidth="xl" align="center">
+        <VStack spacing="xl" align="center">
+          {/* Header */}
+          <div style={{ maxWidth: '1200px', width: '100%' }}>
+            <VStack spacing="lg" align="center">
+            <Typography 
+              variant="h2" 
+              weight="bold" 
+              color="heading"
+              style={{
+                fontSize: 'clamp(2.25rem, 4vw, 3rem)',
+                lineHeight: 'var(--foundation-typography-line-height-tight)',
+                textAlign: 'center'
+              }}
+            >
+                {title.split(' ').map((word, index) => {
+                  if (titleAccent && word === titleAccent) {
+                    return (
+                      <span 
+                        key={index} 
+                        style={{
+                          background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%)',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: 'text'
+                        }}
+                      >
+                        {word}
+                      </span>
+                    );
+                  }
+                  return word + ' ';
+                })}
+              </Typography>
+              
+              <Typography 
+                variant="body-xl" 
+                color="secondary"
+                style={{
+                  maxWidth: 'var(--size-page-content-max-width)',
+                  textAlign: 'left',
+                  lineHeight: 'var(--foundation-typography-line-height-relaxed)'
+                }}
+              >
+                {subtitle}
+              </Typography>
+            </VStack>
+          </div>
+
+          {/* Testimonials Grid */}
+          <div style={{ width: '100%', maxWidth: 'var(--size-page-max-width)' }}>
+            <div
+              className="testimonials-grid"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gap: 'var(--foundation-space-6)'
+              }}
+            >
+              {testimonials.map((testimonial) => (
+                <Card 
+                  key={testimonial.id} 
+                  variant="elevated"
+                  padding="md"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: 'var(--foundation-radius-xl)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <VStack spacing="md">
+                    {/* Rating Stars */}
+                    <HStack spacing="xs" align="center">
+                      {[...Array(testimonial.rating || 5)].map((_, i) => (
+                        <div 
+                          key={i} 
+                          style={{
+                            width: '20px',
+                            height: '20px',
+                            color: 'var(--accent-500)',
+                            fill: 'currentColor'
+                          }}
+                        >
+                          <StarIcon />
+                        </div>
+                      ))}
+                    </HStack>
+                    
+                    {/* Testimonial Text */}
+                    <div style={{ height: '90px', display: 'flex', alignItems: 'flex-start' }}>
+                      <Typography 
+                        variant="body-sm" 
+                        color="primary"
+                        style={{
+                          lineHeight: 'var(--foundation-typography-line-height-normal)',
+                          textAlign: 'left',
+                          fontSize: '0.9rem'
+                        }}
+                      >
+                        {testimonial.text}
+                      </Typography>
+                    </div>
+                    
+                    {/* Author Info */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--foundation-space-2)', paddingTop: 'var(--foundation-space-1)' }}>
+                      {/* Simple Avatar */}
+                      <div
+                        style={{
+                          width: '40px',
+                          height: '40px',
+                          borderRadius: '50%',
+                          background: 'linear-gradient(135deg, #1f2937, #64748b)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0,
+                          position: 'relative',
+                          boxShadow: '0 4px 16px rgba(31, 41, 55, 0.2)'
+                        }}
+                      >
+                        {/* Simple Person Icon */}
+                        <div style={{
+                          width: '20px',
+                          height: '20px',
+                          color: 'var(--primary-white)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}>
+                          <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: '100%', height: '100%' }}>
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                          </svg>
+                        </div>
+                      </div>
+                      
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--foundation-space-1)', flex: 1 }}>
+                        <Typography variant="body-sm" weight="semibold" color="primary" style={{ textAlign: 'left' }}>
+                          {testimonial.author}
+                        </Typography>
+                        <Typography variant="body-xs" color="secondary" style={{ textAlign: 'left' }}>
+                          {testimonial.caseType}
+                        </Typography>
+                      </div>
+                    </div>
+                    </VStack>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </VStack>
+      </Container>
+    </Section>
+  );
+};
+
+export { Testimonials };
