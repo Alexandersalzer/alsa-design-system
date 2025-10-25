@@ -7,8 +7,9 @@ import React from 'react';
 import { Card } from '../../../../system/components/primitives/Card';
 import { H4, Body } from '../../../../system/components/primitives/Typography';
 import { VStack } from '../../../components/layout';
+import { Box } from '../../../components/layout/box/Box';
+import { Icon } from '../../../../system/components/primitives/Icon';
 import { Section } from '../../../components';
-import { IconContainer } from '../../../../system/components/primitives/IconContainer';
 import { ZapIcon, UserCheckIcon, ShieldIcon } from 'lucide-react';
 import './FeatureGrid.css';
 
@@ -115,15 +116,32 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
               >
               {/* Icon - Only show if icon is provided */}
               {feature.icon && (
-                <IconContainer
-                  variant="circle"
-                  size="md"
-                  iconColor="accent"
-                  backgroundColor="var(--surface-card)"
-                  borderColor="var(--border-medium)"
+                <Box
+                  style={{
+                    width: '64px',
+                    height: '64px',
+                    borderRadius: 'var(--foundation-radius-full)',
+                    backgroundColor: 'var(--surface-card)',
+                    border: '2px solid var(--border-medium)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    transition: 'all 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                 >
-                  {feature.icon as React.ReactElement}
-                </IconContainer>
+                  <Icon size="lg" color="accent">
+                    {feature.icon as React.ReactElement}
+                  </Icon>
+                </Box>
               )}
               
               {/* Title */}

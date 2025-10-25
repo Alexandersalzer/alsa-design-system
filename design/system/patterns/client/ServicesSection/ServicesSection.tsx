@@ -7,9 +7,10 @@
 
 import React from 'react';
 import { VStack } from '../../../components/layout';
+import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../../system/components';
 import { Card } from '../../../../system/components/primitives/Card';
-import { IconContainer } from '../../../../system/components';
+import { Icon } from '../../../../system/components/primitives/Icon';
 
 export interface Service {
   id: string;
@@ -103,13 +104,32 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   {/* Icon and Title */}
                   <VStack spacing="md" align="start">
                     {service.icon && (
-                      <IconContainer
-                        variant="circle"
-                        size="md"
-                        iconColor="accent"
+                      <Box
+                        style={{
+                          width: '64px',
+                          height: '64px',
+                          borderRadius: 'var(--foundation-radius-full)',
+                          backgroundColor: 'var(--accent-50)',
+                          border: '2px solid var(--accent-200)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0,
+                          transition: 'all 0.2s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.05)';
+                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.boxShadow = 'none';
+                        }}
                       >
-                        {service.icon}
-                      </IconContainer>
+                        <Icon size="lg" color="accent">
+                          {service.icon}
+                        </Icon>
+                      </Box>
                     )}
 
                     <Typography
@@ -175,4 +195,3 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
 };
 
 ServicesSection.displayName = 'ServicesSection';
-
