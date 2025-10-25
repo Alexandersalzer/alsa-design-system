@@ -5,7 +5,6 @@ import { VStack } from '../../../components/layout/vStack/VStack';
 import { Section } from '../../../components/frames/section/Section';
 import { Container } from '../../../components/frames/container/Container';
 import { Card } from '../../../../system/components/primitives/Card';
-import { IconContainer } from '../../../../system/components/primitives/IconContainer';
 import React, { useState, useEffect } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 

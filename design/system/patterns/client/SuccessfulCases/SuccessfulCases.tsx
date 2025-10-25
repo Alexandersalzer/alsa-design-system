@@ -9,9 +9,10 @@ import React from 'react';
 import { Container } from '../../../components/frames/container/Container';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { VStack } from '../../../components/layout/vStack/VStack';
+import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../../system/components/primitives/Typography';
 import { Card } from '../../../../system/components/primitives/Card';
-import { IconContainer } from '../../../../system/components';
+import { Icon } from '../../../../system/components/primitives/Icon';
 import { Button } from '../../../../system/components';
 
 export interface SuccessCase {
@@ -91,13 +92,32 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
                   {/* Icon and Content */}
                   <VStack spacing="md" align="center">
                     {c.icon && (
-                      <IconContainer
-                        variant="circle"
-                        size="md"
-                        iconColor="accent"
+                      <Box
+                        style={{
+                          width: '64px',
+                          height: '64px',
+                          borderRadius: 'var(--foundation-radius-full)',
+                          backgroundColor: 'var(--accent-50)',
+                          border: '2px solid var(--accent-200)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0,
+                          transition: 'all 0.2s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.05)';
+                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.boxShadow = 'none';
+                        }}
                       >
-                        {c.icon}
-                      </IconContainer>
+                        <Icon size="lg" color="accent">
+                          {c.icon}
+                        </Icon>
+                      </Box>
                     )}
 
                     <Typography
