@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Typography } from '../../../../system/components/primitives/Typography';
-import { Icon } from '../../../../system/components/primitives/Icon';
+import { Icon } from '../../../../system/components';
 import { VStack, Grid} from '../../../components/layout';
 import { Section} from '../../../components';
 import { ChartBarIcon, CogIcon, DocumentTextIcon, UserGroupIcon } from '@heroicons/react/24/outline';
