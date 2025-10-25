@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { Card } from '../../../../system/components/primitives/Card';
-import { VideoShowcase } from '../../../../system/components/primitives/VideoShowcase';
+import { VideoShowcase } from '../../../../system/components/primitives/media';
 import { Typography, TypographyColor } from '../../../../system/components/primitives/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';

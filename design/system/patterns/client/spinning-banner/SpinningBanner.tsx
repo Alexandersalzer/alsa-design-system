@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { SpinningAnimation, SpinningAnimationItem } from '../../../../system/components/primitives/SpinningAnimation';
+import { CarouselAnimation, CarouselAnimationItem } from '../../../components/primitives/CarouselAnimation';
 
 interface SpinningBannerProps {
   logos?: Array<{
@@ -33,7 +33,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
   className = ''
 }) => {
   // Transform logos into SpinningAnimationItem format
-  const animationItems: SpinningAnimationItem[] = logos.map((logo, index) => ({
+  const animationItems: CarouselAnimationItem[] = logos.map((logo, index) => ({
     id: `${logo.src}-${index}`,
     content: (
       <img
@@ -52,7 +52,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
   }));
 
   return (
-    <SpinningAnimation
+    <CarouselAnimation
       items={animationItems}
       speed={speed}
       direction={direction}

@@ -6,7 +6,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { SpinningAnimation, SpinningAnimationItem } from '../../../../system/components/primitives/SpinningAnimation';
+import { CarouselAnimation, CarouselAnimationItem } from '../../../components/primitives/CarouselAnimation';
 
 export interface CarouselImage {
   src: string;
@@ -84,8 +84,8 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
   // State for global hover effect
   const [isHovering, setIsHovering] = useState(false);
 
-  // Transform images into SpinningAnimationItem format
-  const carouselItems: SpinningAnimationItem[] = images.map((image, index) => ({
+  // Transform images into CarouselAnimationItem format
+  const carouselItems: CarouselAnimationItem[] = images.map((image, index) => ({
     id: `${image.src}-${index}`,
     content: (
       <div
@@ -120,7 +120,7 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
   }));
 
   return (
-    <SpinningAnimation
+    <CarouselAnimation
       items={carouselItems}
       speed={speed}
       direction={direction}

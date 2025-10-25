@@ -1,20 +1,20 @@
 // ===============================================
-// design/system/components/primitives/SpinningAnimation/SpinningAnimation.tsx
-// SPINNING ANIMATION PRIMITIVE - Reusable horizontal scrolling animation
+// design/system/components/primitives/CarouselAnimation/CarouselAnimation.tsx
+// Carousel ANIMATION PRIMITIVE - Reusable horizontal scrolling animation
 // ===============================================
 
 'use client';
 
 import React, { useEffect, useRef, ReactNode } from 'react';
-import './SpinningAnimation.css';
+import './CarouselAnimation.css';
 
-export interface SpinningAnimationItem {
+export interface CarouselAnimationItem {
   id: string | number;
   content: ReactNode;
 }
 
-export interface SpinningAnimationProps {
-  items: SpinningAnimationItem[];
+export interface CarouselAnimationProps {
+  items: CarouselAnimationItem[];
   speed?: number; // Animation speed in seconds
   direction?: 'left' | 'right';
   className?: string;
@@ -38,7 +38,7 @@ export interface SpinningAnimationProps {
   duplicateCount?: number; // How many times to duplicate items for seamless loop
 }
 
-export const SpinningAnimation: React.FC<SpinningAnimationProps> = ({
+export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
   items,
   speed = 30,
   direction = 'left',
@@ -97,18 +97,18 @@ export const SpinningAnimation: React.FC<SpinningAnimationProps> = ({
 
   return (
     <div 
-      className={`spinning-animation-container ${enableFadeEdges ? 'with-fade-edges' : ''} ${className}`}
+      className={`Carousel-animation-container ${enableFadeEdges ? 'with-fade-edges' : ''} ${className}`}
       style={containerStyle}
     >
       <div 
         ref={animationRef} 
-        className="spinning-animation-track"
+        className="Carousel-animation-track"
         style={trackStyle}
       >
         {duplicatedItems.map((item, index) => (
           <div 
             key={`${item.id}-${index}`} 
-            className="spinning-animation-item"
+            className="Carousel-animation-item"
             style={itemStyle}
           >
             {item.content}

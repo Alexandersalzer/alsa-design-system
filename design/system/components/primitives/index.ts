@@ -3,6 +3,7 @@ export * from './actions'
 export * from './forms'
 export * from './feedback'
 export * from './overlays'
+export * from './media'
 
 
 export * from './Card';
@@ -10,9 +11,9 @@ export * from './Table';
 export * from './Listbox';
 export * from './Typography';
 
-export * from './VideoShowcase';
+
 export * from './CountUp';
-export * from './SpinningAnimation';
+export * from './CarouselAnimation';
 export * from './LogoIcon';
 
 
