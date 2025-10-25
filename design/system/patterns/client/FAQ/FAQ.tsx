@@ -8,7 +8,6 @@ import { Container } from '../../../components/frames/container/Container';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
-import './FAQ.css';
 import { Button, Card } from '@blimpify-im/ui';
 
 interface FAQItem {
