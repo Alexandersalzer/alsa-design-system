@@ -54,7 +54,7 @@
 @import './components/primitives/Listbox/Listbox.css';
 @import './components/primitives/CarouselAnimation/CarouselAnimation.css';
 @import './components/primitives/Logo/Logo.css';
-@import './components/primitives/Typography/Typography.css';
+/* @import './components/primitives/Typography/Typography.css'; */
 
 /* Layout Components */
 @import './components/layout/box/Box.css';
