@@ -8,7 +8,7 @@ import { VStack } from '../../../components/layout/vStack/VStack';
 import { CountUp, CountUpProps } from '../../../../system/components/primitives/CountUp';
 import { Typography, TypographyProps } from '../../../../system/components/primitives/Typography';
 import { Button, ButtonProps } from '../../../../system/components';
-import { Icon } from '../../../../system/components/primitives/Icon';
+import { Icon } from '../../../../system/components/primitives/media';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 // ===== TYPE DEFINITIONS =====

@@ -8,7 +8,7 @@ import { Card } from '../../../../system/components/primitives/Card';
 import { H4, Body } from '../../../../system/components/primitives/Typography';
 import { VStack } from '../../../components/layout';
 import { Box } from '../../../components/layout/box/Box';
-import { Icon } from '../../../../system/components/primitives/Icon';
+import { Icon } from '../../../../system/components/primitives/media';
 import { Section } from '../../../components';
 import { ZapIcon, UserCheckIcon, ShieldIcon } from 'lucide-react';
 import './FeatureGrid.css';

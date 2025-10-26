@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Typography } from '../../../../system/components/primitives/Typography';
-import { Icon } from '../../../../system/components/primitives/Icon';
+import { Icon } from '../../../../system/components/primitives/media';
 import { Section } from '../../../components/frames/section/Section';
 import { Container } from '../../../components/frames/container/Container';
 import { VStack } from '../../../components/layout/vStack/VStack';

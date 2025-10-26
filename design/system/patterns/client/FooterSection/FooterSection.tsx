@@ -8,7 +8,7 @@ import { Section } from '../../../components';
 import { VStack } from '../../../components/layout';
 import { Typography } from '../../../components/primitives/Typography';
 import { TextLink } from '../../../components';
-import { Icon } from '../../../components/primitives/Icon';
+import { Icon } from '../../../components/primitives/media';
 import { Button } from '../../../components';
 import './FooterSection.css';
 

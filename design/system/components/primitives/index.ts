@@ -19,11 +19,3 @@ export * from './LogoIcon';
 
 export * from './Logo';
 export * from './LineChart';
-
-
-
-
-
-// Icon needs special handling since it's a default export
-export { default as Icon } from './Icon';
-export * from './Icon';  // For any named exports too

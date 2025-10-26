@@ -6,7 +6,7 @@
 import React, { forwardRef, ReactNode } from 'react';
 import { cn } from '../../../../lib/utils';
 import { Typography } from '../../Typography';
-import { StatusIcons } from '../../Icon';
+import { StatusIcons } from '../../media';
 import { IconButtons } from '../../actions';
 
 // ===== TYPE DEFINITIONS =====

@@ -11,7 +11,7 @@ import React, {
   type ReactNode
 } from 'react';
 import { cn } from '../../../../lib/utils';
-import { Icon } from '../../Icon/Icon';
+import { Icon } from '../../media';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import { Popover } from '../Popover';
 import { Listbox } from '../../Listbox';

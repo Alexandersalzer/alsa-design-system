@@ -1,10 +1,11 @@
 'use client';
 
-import { Section, Container } from '../../../components';
-import { RichText } from '../../../patterns/client/RichText/RichText';
-import { TypographyVariant } from '../../../components/primitives/Typography';
-import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
+import { Section, Container } from '../../components';
+import { RichText } from '../../patterns/client/RichText/RichText';
+import { TypographyVariant } from '../../components/primitives/Typography';
+import { useContent } from '../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
+import { Button } from '@blimpify-im/ui';
 
 interface RichText0ButtonProps {
   pageSlug?: string;
@@ -86,6 +87,7 @@ export const RichText0Button: React.FC<RichText0ButtonProps> = ({
           paddingTop: paddingTop || '15rem'
         }}
       >
+        {/* FEL EXEMPEL, Detta är primitives */} 
         <RichText
           heading={title}
           headingAs={titleAs}
@@ -100,6 +102,17 @@ export const RichText0Button: React.FC<RichText0ButtonProps> = ({
           headingVariant={headingVariant}
           subtitleVariant={subtitleVariant}
         />
+        <Button>
+            Button
+        </Button>
+
+        
+        {/* RÄTT EXEMPEL */} 
+        {/* Använding av pattern */} 
+        <RichText0Button>
+
+        </RichText0Button>
+
       </Container>
     </Section>
   );

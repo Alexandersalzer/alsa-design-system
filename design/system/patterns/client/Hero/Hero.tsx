@@ -3,7 +3,7 @@
 import React from 'react';
 import { Typography } from '../../../../system/components/primitives/Typography';
 import { Button } from '../../../../system/components';
-import { Icon } from '../../../../system/components/primitives/Icon';
+import { Icon } from '../../../../system/components/primitives/media';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Grid } from '../../../components/layout/grid/Grid';

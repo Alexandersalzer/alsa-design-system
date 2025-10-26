@@ -10,7 +10,7 @@ import { VStack } from '../../../components/layout';
 import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../../system/components';
 import { Card } from '../../../../system/components/primitives/Card';
-import { Icon } from '../../../../system/components/primitives/Icon';
+import { Icon } from '../../../../system/components/primitives/media';
 
 export interface Service {
   id: string;

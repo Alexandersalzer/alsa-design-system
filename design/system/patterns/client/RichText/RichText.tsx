@@ -8,7 +8,7 @@ import { Rhythm, RhythmItem } from '../../../components/layout/rhythm/Rhythm';
 import { Block } from '../../../components/frames/block/Block';
 import { Button, ButtonProps } from '../../../../system/components';
 import { Typography, TypographyVariant, TypographyColor, TypographyWeight, TypographyAlign } from '../../../../system/components';
-import { Icon  } from '../../../../system/components/primitives/Icon';
+import { Icon  } from '../../../../system/components/primitives/media';
 import { ArrowRightIcon } from 'lucide-react';
 
 // ===== TYPE DEFINITIONS =====

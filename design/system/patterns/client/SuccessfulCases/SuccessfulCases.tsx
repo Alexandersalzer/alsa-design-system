@@ -12,7 +12,7 @@ import { VStack } from '../../../components/layout/vStack/VStack';
 import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../../system/components/primitives/Typography';
 import { Card } from '../../../../system/components/primitives/Card';
-import { Icon } from '../../../../system/components/primitives/Icon';
+import { Icon } from '../../../../system/components/primitives/media';
 import { Button } from '../../../../system/components';
 
 export interface SuccessCase {

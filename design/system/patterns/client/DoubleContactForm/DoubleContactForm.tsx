@@ -3,7 +3,7 @@
 import { ReactElement } from 'react';
 import { Typography } from '../../../../system/components/primitives/Typography';
 import { Button } from '../../../../system/components';
-import { Icon } from '../../../../system/components/primitives/Icon';
+import { Icon } from '../../../../system/components/primitives/media';
 import { Section } from '../../../components/frames/section/Section';
 import { Container } from '../../../components/frames/container/Container';
 import { Grid } from '../../../components/layout/grid/Grid';
