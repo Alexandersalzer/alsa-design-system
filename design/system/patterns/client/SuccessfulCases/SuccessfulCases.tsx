@@ -11,7 +11,7 @@ import { HStack } from '../../../components/layout/hStack/HStack';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../components/Typography';
-import { Card } from '../../../components/Card';
+import { Card } from '../../../components/layout';
 import { Icon } from '../../../components/media';
 import { Button } from '../../../../system/components';
 

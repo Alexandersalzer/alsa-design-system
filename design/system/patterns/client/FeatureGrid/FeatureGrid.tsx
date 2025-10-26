@@ -4,7 +4,7 @@
 // ===============================================
 
 import React from 'react';
-import { Card } from '../../../components/Card';
+import { Card } from '../../../components/layout';
 import { H4, Body } from '../../../components/Typography';
 import { VStack } from '../../../components/layout';
 import { Box } from '../../../components/layout/box/Box';

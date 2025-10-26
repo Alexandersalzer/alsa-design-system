@@ -8,7 +8,7 @@ import { cn } from '../../../lib/utils';
 import { Icon } from '../../media';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import { Popover } from '../../overlays';
-import { Listbox, ListboxItem, ListboxItemText } from '../../Listbox';
+import { Listbox, ListboxItem, ListboxItemText } from '../../lists';
 import './Picker.css';
 
 // ===============================================

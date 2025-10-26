@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent } from '../../../components/Card';
+import { Card, CardContent } from '../../../components/layout';
 import { Label, Body } from '../../../components';
 import { Button } from '../../../components';
 import { Tag } from '../../../components/feedback/Tag';

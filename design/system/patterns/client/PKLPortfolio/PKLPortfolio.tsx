@@ -10,7 +10,7 @@ import { Typography } from '../../../components/Typography';
 import { Button } from '../../../../system/components';
 import { Section } from '../../../components'
 import { VStack } from '../../../components/layout';
-import { Card } from '../../../components/Card';
+import { Card } from '../../../components/layout';
 
 // ===== TYPE DEFINITIONS =====
 

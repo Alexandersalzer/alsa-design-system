@@ -5,3 +5,4 @@ export * from './portal';
 export * from './grid';
 export * from './box'
 export * from './divider'
+export * from './Card';

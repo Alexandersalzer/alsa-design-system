@@ -1,7 +1,7 @@
 'use client';
 
 import { Typography } from '../../../components/Typography';
-import { Card } from '../../../components/Card';
+import { Card } from '../../../components/layout';
 import { Section } from '../../../components/frames/section/Section';
 import { Container } from '../../../components/frames/container/Container';
 import { VStack } from '../../../components/layout/vStack/VStack';

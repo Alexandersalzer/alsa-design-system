@@ -4,7 +4,7 @@
 // ===============================================
 
 import React, { forwardRef, useId } from 'react';
-import { Card, CardContent } from '../../../components/Card';
+import { Card, CardContent } from '../../../components/layout';
 import { Checkbox } from '../../../components';
 import { Icon } from '../../../components/media';
 import { cn } from '../../../lib/utils';

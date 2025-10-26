@@ -9,7 +9,7 @@ import { Container } from '../../../components/frames/container/Container';
 import { Grid } from '../../../components/layout/grid/Grid';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
-import { Card } from '../../../components/Card';
+import { Card } from '../../../components/layout';
 import { Picker } from '../../../../system/components';
 import { Input } from '../../../../system/components';
 import { Textarea } from '../../../../system/components';

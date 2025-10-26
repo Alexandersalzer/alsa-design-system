@@ -8,7 +8,7 @@
 // ===============================================
 
 import React, { forwardRef, useId } from 'react';
-import { Card, CardContent } from '../../../components/Card';
+import { Card, CardContent } from '../../../components/layout';
 import { cn } from '../../../lib/utils';
 
 export interface DesignRadioCardItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {

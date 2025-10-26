@@ -2,7 +2,7 @@
 
 import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout';
-import { Card } from '../../../components/Card';
+import { Card } from '../../../components/layout';
 import React from 'react';
 
 export interface AboutValue {

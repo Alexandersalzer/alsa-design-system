@@ -8,7 +8,7 @@ import React, {
   type ReactNode,
   type HTMLAttributes
 } from 'react';
-import { cn } from '../../lib/utils';
+import { cn } from '../../../lib/utils';
 import './Listbox.css';
 
 // ===============================================
