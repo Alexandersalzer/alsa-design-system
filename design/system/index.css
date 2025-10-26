@@ -54,7 +54,7 @@
 @import './components/primitives/Listbox/Listbox.css';
 @import './components/primitives/CarouselAnimation/CarouselAnimation.css';
 @import './components/primitives/Logo/Logo.css';
-/* @import './components/primitives/Typography/Typography.css'; */
+
 
 /* Layout Components */
 @import './components/layout/box/Box.css';
@@ -71,7 +71,7 @@
 @import './patterns/dashboard/selection/CheckboxCard.css';
 @import './patterns/dashboard/selection/DesignRadioCard.css';
 @import './patterns/dashboard/selection/RadioCard.css';
-@import './patterns/client/FAQ/FAQ.css';
+
 @import './patterns/client/Hero/Hero.css';
 @import './patterns/client/ProcessSteps/processSteps.css';
 
@@ -81,3 +81,7 @@
 /* STEP 7: Utilities LAST (so they can override if needed) */
 @import './utils/index.css';
 @import './utils/typography.css';
+
+
+/* @import './components/primitives/Typography/Typography.css'; */
+/* @import './patterns/client/FAQ/FAQ.css';*/
