@@ -9,8 +9,8 @@ import React from 'react';
 import { VStack } from '../../../components/layout';
 import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../../system/components';
-import { Card } from '../../../../system/components/primitives/Card';
-import { Icon } from '../../../../system/components/primitives/media';
+import { Card } from '../../../components/Card';
+import { Icon } from '../../../components/media';
 
 export interface Service {
   id: string;

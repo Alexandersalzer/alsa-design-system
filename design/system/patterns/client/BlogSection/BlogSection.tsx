@@ -7,8 +7,8 @@
 
 import React from 'react';
 import { VStack } from '../../../components/layout';
-import { Typography } from '../../../../system/components/primitives/Typography';
-import { Card } from '../../../../system/components/primitives/Card';
+import { Typography } from '../../../components/Typography';
+import { Card } from '../../../components/Card';
 import { Button } from '../../../../system/components';
 
 export interface BlogPost {

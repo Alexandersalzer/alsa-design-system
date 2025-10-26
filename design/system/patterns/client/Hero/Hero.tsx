@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Typography } from '../../../../system/components/primitives/Typography';
+import { Typography } from '../../../components/Typography';
 import { Button } from '../../../../system/components';
-import { Icon } from '../../../../system/components/primitives/media';
+import { Icon } from '../../../components/media';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Grid } from '../../../components/layout/grid/Grid';

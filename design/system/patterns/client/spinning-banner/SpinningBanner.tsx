@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { CarouselAnimation, CarouselAnimationItem } from '../../../components/primitives/CarouselAnimation';
+import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
 
 interface SpinningBannerProps {
   logos?: Array<{

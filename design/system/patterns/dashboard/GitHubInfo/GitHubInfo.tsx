@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card, CardContent } from '../../../components/primitives/Card';
+import { Card, CardContent } from '../../../components/Card';
 import { Label, Body } from '../../../components';
 import { Button } from '../../../components';
-import { Tag } from '../../../components/primitives/feedback/Tag';
+import { Tag } from '../../../components/feedback/Tag';
 import { IconButton } from '../../../components';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 

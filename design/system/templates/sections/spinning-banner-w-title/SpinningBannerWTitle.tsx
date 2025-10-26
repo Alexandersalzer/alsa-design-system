@@ -3,7 +3,7 @@
 import { Section, Container } from '../../../components';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { SpinningBanner } from '../../../../system/patterns/client/spinning-banner';
-import { Typography } from '../../../../system/components/primitives/Typography';
+import { Typography } from '../../../components/Typography';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 

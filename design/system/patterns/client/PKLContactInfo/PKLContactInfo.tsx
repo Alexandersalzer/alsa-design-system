@@ -6,7 +6,7 @@
 'use client';
 
 import React from 'react';
-import { Typography } from '../../../../system/components/primitives/Typography';
+import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout';
 import { Section } from '../../../components'
 

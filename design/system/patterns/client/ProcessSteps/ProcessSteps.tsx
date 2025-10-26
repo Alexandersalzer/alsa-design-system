@@ -1,10 +1,10 @@
 'use client';
 
-import { Typography } from '../../../../system/components/primitives/Typography';
+import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { Section } from '../../../components/frames/section/Section';
 import { Container } from '../../../components/frames/container/Container';
-import { Card } from '../../../../system/components/primitives/Card';
+import { Card } from '../../../components/Card';
 import React, { useState, useEffect } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Typography } from '../../../../system/components/primitives/Typography';
+import { Typography } from '../../../components/Typography';
 import { Button } from '../../../../system/components';
 import { Section } from '@blimpify-im/ui';
 import { VStack } from '../../../components/layout';

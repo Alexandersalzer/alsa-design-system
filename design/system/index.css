@@ -14,46 +14,46 @@
 /* STEP 4: Component CSS files */
 
 /* Primitives - Feedback */
-@import './components/primitives/feedback/Alert/Alert.css';
-@import './components/primitives/feedback/Toast/Toast.css';
-@import './components/primitives/feedback/Tag/Tag.css';
-@import './components/primitives/feedback/Spinner/Spinner.css';
-@import './components/primitives/feedback/LoadingSkeleton/LoadingSkeleton.css';
-@import './components/primitives/feedback/Banner/Banner.css';
+@import './components/feedback/Alert/Alert.css';
+@import './components/feedback/Toast/Toast.css';
+@import './components/feedback/Tag/Tag.css';
+@import './components/feedback/Spinner/Spinner.css';
+@import './components/feedback/LoadingSkeleton/LoadingSkeleton.css';
+@import './components/feedback/Banner/Banner.css';
 
 /* Primitives - Actions */
-@import './components/primitives/actions/Button/Button.css';
-@import './components/primitives/actions/IconButton/IconButton.css';
-@import './components/primitives/actions/TextLink/TextLink.css';
-@import './components/primitives/actions/SegmentedControl/SegmentedControl.css';
-@import './components/primitives/actions/Nav/Nav.css';
-@import './components/primitives/actions/NavigationTab/NavigationTab.css';
+@import './components/actions/Button/Button.css';
+@import './components/actions/IconButton/IconButton.css';
+@import './components/actions/TextLink/TextLink.css';
+@import './components/actions/SegmentedControl/SegmentedControl.css';
+@import './components/actions/Nav/Nav.css';
+@import './components/actions/NavigationTab/NavigationTab.css';
 
 /* Primitives - Forms */
-@import './components/primitives/forms/Input/Input.css';
-@import './components/primitives/forms/Checkbox/Checkbox.css';
-@import './components/primitives/forms/Radio/Radio.css';
-@import './components/primitives/forms/Textarea/Textarea.css';
-@import './components/primitives/forms/Switch/Switch.css';
-@import './components/primitives/forms/Picker/Picker.css';
-@import './components/primitives/forms/FileUploader/FileUploader.css';
+@import './components/forms/Input/Input.css';
+@import './components/forms/Checkbox/Checkbox.css';
+@import './components/forms/Radio/Radio.css';
+@import './components/forms/Textarea/Textarea.css';
+@import './components/forms/Switch/Switch.css';
+@import './components/forms/Picker/Picker.css';
+@import './components/forms/FileUploader/FileUploader.css';
 
 /* Primitives - Overlays */
-@import './components/primitives/overlays/Menu/Menu.css';
-@import './components/primitives/overlays/Modal/Modal.css';
-@import './components/primitives/overlays/Popover/Popover.css';
+@import './components/overlays/Menu/Menu.css';
+@import './components/overlays/Modal/Modal.css';
+@import './components/overlays/Popover/Popover.css';
 
 /* Primitives - Media */
-@import './components/primitives/media/Icon/Icon.css';
-@import './components/primitives/media/Avatar/Avatar.css';
+@import './components/media/Icon/Icon.css';
+@import './components/media/Avatar/Avatar.css';
 
 /* Primitives - Standalone Components */
-@import './components/primitives/Card/Card.css';
-@import './components/primitives/Table/Table.css';
-@import './components/primitives/LineChart/LineChart.css';
-@import './components/primitives/Listbox/Listbox.css';
-@import './components/primitives/CarouselAnimation/CarouselAnimation.css';
-@import './components/primitives/Logo/Logo.css';
+@import './components/Card/Card.css';
+@import './components/Table/Table.css';
+@import './components/LineChart/LineChart.css';
+@import './components/Listbox/Listbox.css';
+@import './components/CarouselAnimation/CarouselAnimation.css';
+@import './components/Logo/Logo.css';
 
 
 /* Layout Components */

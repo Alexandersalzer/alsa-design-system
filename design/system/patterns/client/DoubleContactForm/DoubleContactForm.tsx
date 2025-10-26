@@ -1,15 +1,15 @@
 'use client';
 
 import { ReactElement } from 'react';
-import { Typography } from '../../../../system/components/primitives/Typography';
+import { Typography } from '../../../components/Typography';
 import { Button } from '../../../../system/components';
-import { Icon } from '../../../../system/components/primitives/media';
+import { Icon } from '../../../components/media';
 import { Section } from '../../../components/frames/section/Section';
 import { Container } from '../../../components/frames/container/Container';
 import { Grid } from '../../../components/layout/grid/Grid';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
-import { Card } from '../../../../system/components/primitives/Card';
+import { Card } from '../../../components/Card';
 import { Picker } from '../../../../system/components';
 import { Input } from '../../../../system/components';
 import { Textarea } from '../../../../system/components';

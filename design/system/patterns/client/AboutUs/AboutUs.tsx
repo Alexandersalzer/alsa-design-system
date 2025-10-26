@@ -1,8 +1,8 @@
 'use client';
 
-import { Typography } from '../../../../system/components/primitives/Typography';
+import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout';
-import { Card } from '../../../../system/components/primitives/Card';
+import { Card } from '../../../components/Card';
 import React from 'react';
 
 export interface AboutValue {

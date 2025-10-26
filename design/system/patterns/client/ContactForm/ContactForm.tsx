@@ -9,7 +9,7 @@ import { HStack } from '../../../components/layout/hStack/HStack';
 import { Input } from '../../../../system/components';
 import { Textarea } from '../../../../system/components';
 import { Button } from '../../../../system/components';
-import { Typography } from '../../../../system/components/primitives/Typography';
+import { Typography } from '../../../components/Typography';
 import { Icon, ArrowRightIcon } from '../../../';
 // ===== TYPE DEFINITIONS =====
 

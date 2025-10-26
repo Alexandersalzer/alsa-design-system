@@ -1,9 +1,9 @@
 import React, { forwardRef } from 'react';
-import { Modal } from '../../../components/primitives/overlays/Modal';
+import { Modal } from '../../../components/overlays/Modal';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Button } from '../../../components';
-import { Typography } from '../../../components/primitives/Typography';
+import { Typography } from '../../../components/Typography';
 import { cn } from '../../../lib/utils';
 import './ConfirmationDialog.css';
 

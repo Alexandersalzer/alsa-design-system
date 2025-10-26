@@ -4,9 +4,9 @@
 // ===============================================
 
 import React, { forwardRef, useId } from 'react';
-import { Card, CardContent } from '../../../components/primitives/Card';
+import { Card, CardContent } from '../../../components/Card';
 import { Checkbox } from '../../../components';
-import { Icon } from '../../../components/primitives/media';
+import { Icon } from '../../../components/media';
 import { cn } from '../../../lib/utils';
 
 export interface CheckboxCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {

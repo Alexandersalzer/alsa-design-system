@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Typography } from '../../../../system/components/primitives/Typography';
-import { Icon } from '../../../../system/components/primitives/media';
+import { Typography } from '../../../components/Typography';
+import { Icon } from '../../../components/media';
 import { Section } from '../../../components/frames/section/Section';
 import { Container } from '../../../components/frames/container/Container';
 import { VStack } from '../../../components/layout/vStack/VStack';

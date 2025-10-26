@@ -6,9 +6,9 @@
 import React from 'react';
 import { Section } from '../../../components';
 import { VStack } from '../../../components/layout';
-import { Typography } from '../../../components/primitives/Typography';
+import { Typography } from '../../../components/Typography';
 import { TextLink } from '../../../components';
-import { Icon } from '../../../components/primitives/media';
+import { Icon } from '../../../components/media';
 import { Button } from '../../../components';
 import './FooterSection.css';
 

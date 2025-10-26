@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../../../../system/components';
-import { H2, H3, Body } from '../../../../system/components/primitives/Typography';
+import { H2, H3, Body } from '../../../components/Typography';
 import { Section } from '../../../components';
 // ===== TYPES =====
 export interface SimpleDualFeatureCard {

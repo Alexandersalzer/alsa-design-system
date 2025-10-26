@@ -4,8 +4,8 @@
 // ===============================================
 
 import React from 'react';
-import { Card } from '../../../../system/components/primitives/Card';
-import { Typography, TypographyColor } from '../../../../system/components/primitives/Typography';
+import { Card } from '../../../components/Card';
+import { Typography, TypographyColor } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 

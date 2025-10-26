@@ -1,7 +1,7 @@
 'use client';
 
 import { Section, Container, Block } from '../../../components/frames';
-import { VideoShowcase as VideoShowcasePrimitive } from '../../../../system/components/primitives';
+import { VideoShowcase as VideoShowcasePrimitive } from '../../../../system/components';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 

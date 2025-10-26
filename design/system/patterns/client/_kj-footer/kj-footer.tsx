@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Typography } from '../../../components/primitives/Typography';
+import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Rhythm, RhythmItem } from '../../../components/layout/rhythm/Rhythm';
-import { Picker } from '../../../components/primitives';
+import { Picker } from '../../../components';
 
 interface FooterContent {
   companyName?: string;

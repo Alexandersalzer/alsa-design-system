@@ -2,7 +2,7 @@
 
 import { Section, Container } from '../../../components';
 import { CountUpSection } from '../../../../system/patterns/client/CountUpSection';
-import { TypographyColor } from '../../../../system/components/primitives/Typography';
+import { TypographyColor } from '../../../components/Typography';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 

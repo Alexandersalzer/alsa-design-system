@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Button } from '../../../../system/components';
-import { H2, H3, Body } from '../../../../system/components/primitives/Typography';
+import { H2, H3, Body } from '../../../components/Typography';
 import { Section } from '../../../components';
 import './DualFeatureSection.css';
 

@@ -6,7 +6,7 @@ import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 import { sendEmailFormUniversal, sendEmailForm } from '../../../../../api/contact';
 import { useState } from 'react';
-import { SuccessToast, ErrorToast } from '../../../components/primitives/feedback';
+import { SuccessToast, ErrorToast } from '../../../components/feedback';
 
 interface ContactFormSectionProps {
   pageSlug?: string;

@@ -2,7 +2,7 @@
 
 import { Section, Container } from '../../components';
 import { RichText } from '../../patterns/client/RichText/RichText';
-import { TypographyVariant } from '../../components/primitives/Typography';
+import { TypographyVariant } from '../../components/Typography';
 import { useContent } from '../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 import { Button } from '@blimpify-im/ui';

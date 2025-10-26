@@ -6,7 +6,7 @@
 
 import React, { forwardRef, ReactNode } from 'react';
 import { VStack } from '../../../components/layout';
-import { Typography } from '../../../components/primitives';
+import { Typography } from '../../../components';
 import { cn } from '../../../lib/utils';
 
 export interface FieldsetProps {

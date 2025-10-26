@@ -5,9 +5,9 @@
 
 import React, { forwardRef, useEffect, useState } from 'react';
 import { cn } from '../../../lib/utils';
-import { H3, Body } from '../../../components/primitives/Typography';
-import { Button } from '../../../components/primitives/actions/Button';
-import { Icon } from '../../../components/primitives/media';
+import { H3, Body } from '../../../components/Typography';
+import { Button } from '../../../components/actions/Button';
+import { Icon } from '../../../components/media';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 // ===== STEP INTERFACE =====

@@ -4,11 +4,11 @@
 // ===============================================
 
 import React from 'react';
-import { Card } from '../../../../system/components/primitives/Card';
-import { H4, Body } from '../../../../system/components/primitives/Typography';
+import { Card } from '../../../components/Card';
+import { H4, Body } from '../../../components/Typography';
 import { VStack } from '../../../components/layout';
 import { Box } from '../../../components/layout/box/Box';
-import { Icon } from '../../../../system/components/primitives/media';
+import { Icon } from '../../../components/media';
 import { Section } from '../../../components';
 import { ZapIcon, UserCheckIcon, ShieldIcon } from 'lucide-react';
 import './FeatureGrid.css';

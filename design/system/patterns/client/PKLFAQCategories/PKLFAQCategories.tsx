@@ -6,7 +6,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Typography } from '../../../../system/components/primitives/Typography';
+import { Typography } from '../../../components/Typography';
 import { Section } from '../../../components'
 import { VStack } from '../../../components/layout';
 import { PlusIcon } from '@heroicons/react/24/outline';

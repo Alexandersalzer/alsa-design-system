@@ -1,9 +1,9 @@
 'use client';
 
 import { ReactElement } from 'react';
-import { Typography } from '../../../../system/components/primitives/Typography';
+import { Typography } from '../../../components/Typography';
 import { Button } from '../../../../system/components';
-import { Icon } from '../../../../system/components/primitives/media';
+import { Icon } from '../../../components/media';
 import { Section } from '../../../components/frames/section/Section';
 import { Container } from '../../../components/frames/container/Container';
 import { VStack } from '../../../components/layout/vStack/VStack';

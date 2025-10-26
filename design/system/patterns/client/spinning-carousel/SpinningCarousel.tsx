@@ -6,7 +6,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { CarouselAnimation, CarouselAnimationItem } from '../../../components/primitives/CarouselAnimation';
+import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
 
 export interface CarouselImage {
   src: string;

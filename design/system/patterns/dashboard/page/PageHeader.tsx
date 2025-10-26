@@ -7,15 +7,15 @@ import React, { ReactNode } from 'react';
 import { cn } from '../../../lib/utils';
 
 // Import Typography components
-import { H1, Body, Display, H2, H3, H4, H5, H6 } from '../../../components/primitives/Typography';
+import { H1, Body, Display, H2, H3, H4, H5, H6 } from '../../../components/Typography';
 
 // Import layout components
 import { VStack } from '../../../components/layout';
 import { HStack } from '../../../components/layout';
 
 // Import Tag component
-import { Tag } from '../../../components/primitives/feedback/Tag/Tag';
-import type { TagVariant, TagSize } from '../../../components/primitives/feedback/Tag/Tag';
+import { Tag } from '../../../components/feedback/Tag/Tag';
+import type { TagVariant, TagSize } from '../../../components/feedback/Tag/Tag';
 
 // ===== TYPE DEFINITIONS =====
 export interface PageHeaderProps {
@@ -38,8 +38,8 @@ export interface PageHeaderProps {
 }
 
 // Re-export Tag component for convenience
-export { Tag } from '../../../components/primitives/feedback/Tag/Tag';
-export type { TagProps, TagVariant, TagSize } from '../../../components/primitives/feedback/Tag/Tag';
+export { Tag } from '../../../components/feedback/Tag/Tag';
+export type { TagProps, TagVariant, TagSize } from '../../../components/feedback/Tag/Tag';
 
 // ===== MAIN PAGE HEADER COMPONENT =====
 export const PageHeader = React.forwardRef<HTMLElement, PageHeaderProps>(({

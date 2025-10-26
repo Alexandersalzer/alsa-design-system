@@ -8,7 +8,7 @@ import { cn } from '../../../lib/utils';
 import { extractColorsFromImage, applyColorsWithThemeManager, ExtractedColors } from '../../../utils/colorExtraction';
 import { analyzeLogo, LogoAnalysis, getLogoClasses, getLogoStyles, getLogoContainerClasses } from '../../../utils/logoAnalysis';
 import { smartCropLogo, CroppedLogoResult, getCroppingOptionsForUseCase } from '../../../utils/logoCropping';
-import { LogoIcon } from '../../../components/primitives/LogoIcon';
+import { LogoIcon } from '../../../components/LogoIcon';
 
 // ===== TYPE DEFINITIONS =====
 export interface CompanyLogoProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'loading'> {
