@@ -1,9 +1,9 @@
 /* ===============================================
    design/system/components/primitives/CarouselAnimation/CarouselAnimation.css
-   carousel ANIMATION PRIMITIVE STYLES - Flexible and reusable
+   Carousel ANIMATION PRIMITIVE STYLES - Flexible and reusable
    =============================================== */
 
-@keyframes carouselScroll {
+@keyframes CarouselScroll {
   0% {
     transform: translateX(0);
   }
@@ -12,15 +12,15 @@
   }
 }
 
-.carousel-animation-container {
+.Carousel-animation-container {
   width: 100%;
   overflow: hidden;
   position: relative;
 }
 
 /* Fade edges - only applied when enabled */
-.carousel-animation-container.with-fade-edges::before,
-.carousel-animation-container.with-fade-edges::after {
+.Carousel-animation-container.with-fade-edges::before,
+.Carousel-animation-container.with-fade-edges::after {
   content: '';
   position: absolute;
   top: 0;
@@ -30,7 +30,7 @@
   pointer-events: none;
 }
 
-.carousel-animation-container.with-fade-edges::before {
+.Carousel-animation-container.with-fade-edges::before {
   left: 0;
   background: linear-gradient(to right, 
     var(--fade-color, #f7f7f7) 0%, 
@@ -41,7 +41,7 @@
   );
 }
 
-.carousel-animation-container.with-fade-edges::after {
+.Carousel-animation-container.with-fade-edges::after {
   right: 0;
   background: linear-gradient(to left, 
     var(--fade-color, #f7f7f7) 0%, 
@@ -54,7 +54,7 @@
 
 /* Fallback for browsers that don't support color-mix */
 @supports not (color: color-mix(in srgb, white, black)) {
-  .carousel-animation-container.with-fade-edges::before {
+  .Carousel-animation-container.with-fade-edges::before {
     background: linear-gradient(to right, 
       rgba(247,247,247,1) 0%, 
       rgba(247,247,247,0.9) 20%, 
@@ -64,7 +64,7 @@
     );
   }
 
-  .carousel-animation-container.with-fade-edges::after {
+  .Carousel-animation-container.with-fade-edges::after {
     background: linear-gradient(to left, 
       rgba(247,247,247,1) 0%, 
       rgba(247,247,247,0.9) 20%, 
@@ -75,7 +75,7 @@
   }
   
   /* Special handling for transparent backgrounds */
-  .carousel-animation-container.with-fade-edges[style*="transparent"]::before {
+  .Carousel-animation-container.with-fade-edges[style*="transparent"]::before {
     background: linear-gradient(to right, 
       rgba(255,255,255,1) 0%, 
       rgba(255,255,255,0.9) 20%, 
@@ -85,7 +85,7 @@
     );
   }
 
-  .carousel-animation-container.with-fade-edges[style*="transparent"]::after {
+  .Carousel-animation-container.with-fade-edges[style*="transparent"]::after {
     background: linear-gradient(to left, 
       rgba(255,255,255,1) 0%, 
       rgba(255,255,255,0.9) 20%, 
@@ -96,30 +96,30 @@
   }
 }
 
-.carousel-animation-track {
+.Carousel-animation-track {
   display: flex;
   align-items: center;
-  animation: carouselScroll var(--animation-duration, 30s) linear infinite var(--animation-direction, normal);
+  animation: CarouselScroll var(--animation-duration, 30s) linear infinite var(--animation-direction, normal);
   width: fit-content;
 }
 
-.carousel-animation-item {
+.Carousel-animation-item {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Special styling for carousel images - removed problematic styles */
-.carousel-carousel .carousel-animation-item {
+/* Special styling for Carousel images - removed problematic styles */
+.Carousel-Carousel .Carousel-animation-item {
   border-radius: inherit;
 }
 
-/* Ensure no background colors interfere with carousel */
-.carousel-carousel .carousel-animation-container {
+/* Ensure no background colors interfere with Carousel */
+.Carousel-Carousel .Carousel-animation-container {
   background: transparent !important;
 }
 
-.carousel-carousel .carousel-animation-track {
+.Carousel-Carousel .Carousel-animation-track {
   background: transparent !important;
 } 
