@@ -1,6 +1,6 @@
 /* ===============================================
-   BLIMPIFY-UI SYSTEM INDEX.CSS - CORRECT IMPORT ORDER
-   =============================================== */
+ BLIMPIFY-UI SYSTEM INDEX.CSS - CORRECT IMPORT ORDER
+ =============================================== */
 
 /* STEP 1: Foundation tokens (colors, spacing, etc.) */
 @import './tokens/foundation/index.css';
@@ -11,69 +11,77 @@
 /* STEP 3: Component tokens (surface-button-primary, etc.) */
 @import './tokens/component/index.css';
 
-
 /* STEP 4: Component CSS files */
-@import './components/primitives/Alert/Alert.css';
-@import './components/primitives/Button/Button.css';
-@import './components/primitives/Card/Card.css';
-@import './components/primitives/NavigationTab/NavigationTab.css';
-@import './components/primitives/Input/Input.css';
-@import './components/primitives/IconButton/IconButton.css';
-@import './components/primitives/Checkbox/Checkbox.css';
-@import './components/primitives/Radio/Radio.css';
-@import './components/primitives/Textarea/Textarea.css';
-@import './components/primitives/Switch/Switch.css';
-@import './components/primitives/Picker/Picker.css';
-@import './components/primitives/Menu/Menu.css';
-@import './components/primitives/Toast/Toast.css';
-@import './components/primitives/Modal/Modal.css';
-@import './components/primitives/FileUploader/FileUploader.css';
-@import './components/primitives/Icon/Icon.css';
-@import './components/primitives/Tag/Tag.css';
-@import './components/primitives/SegmentedControl/SegmentedControl.css';
-@import './components/primitives/Stepper/Stepper.css';
-@import './components/primitives/TextLink/TextLink.css';
-@import './components/primitives/SpinningAnimation/SpinningAnimation.css';
-@import './components/primitives/Spinner/Spinner.css';
-@import './components/primitives/Table/Table.css';
-@import './components/primitives/LoadingSkeleton/LoadingSkeleton.css';
-@import './components/primitives/Banner/Banner.css';
+
+/* Primitives - Feedback */
+@import './components/feedback/Alert/Alert.css';
+@import './components/feedback/Toast/Toast.css';
+@import './components/feedback/Tag/Tag.css';
+@import './components/feedback/Spinner/Spinner.css';
+@import './components/feedback/LoadingSkeleton/LoadingSkeleton.css';
+@import './components/feedback/Banner/Banner.css';
+
+/* Primitives - Actions */
+@import './components/actions/Button/Button.css';
+@import './components/actions/IconButton/IconButton.css';
+@import './components/actions/TextLink/TextLink.css';
+@import './components/actions/SegmentedControl/SegmentedControl.css';
+@import './components/actions/Nav/Nav.css';
+@import './components/actions/NavigationTab/NavigationTab.css';
+
+/* Primitives - Forms */
+@import './components/forms/Input/Input.css';
+@import './components/forms/Checkbox/Checkbox.css';
+@import './components/forms/Radio/Radio.css';
+@import './components/forms/Textarea/Textarea.css';
+@import './components/forms/Switch/Switch.css';
+@import './components/forms/Picker/Picker.css';
+@import './components/forms/FileUploader/FileUploader.css';
+
+/* Primitives - Overlays */
+@import './components/overlays/Menu/Menu.css';
+@import './components/overlays/Modal/Modal.css';
+@import './components/overlays/Popover/Popover.css';
+
+/* Primitives - Media */
+@import './components/media/Icon/Icon.css';
+@import './components/media/Avatar/Avatar.css';
+
+/* Primitives - Standalone Components */
+@import './components/layout/Card/Card.css';
+@import './components/Table/Table.css';
+@import './components/LineChart/LineChart.css';
+@import './components/lists/Listbox/Listbox.css';
+@import './components/CarouselAnimation/CarouselAnimation.css';
+@import './components/Logo/Logo.css';
 
 
-
-@import './components/primitives/Popover/Popover.css';
-@import './components/primitives/Listbox/Listbox.css';
-
-/* NEW: Add Box and Nav CSS imports */
-
-@import './components/primitives/Nav/Nav.css';
-
+/* Layout Components */
+@import './components/layout/box/Box.css';
+@import './components/layout/divider/Divider.css';
+@import './components/layout/hStack/HStack.css';
+@import './components/layout/vStack/VStack.css';
+@import './components/layout/rhythm/Rhythm.css';
+@import './components/layout/grid/Grid.css';
 
 /* STEP 5: Pattern components */
-@import './components/patterns/forms/fieldset/Fieldset.css';
+@import './patterns/forms/fieldset/Fieldset.css';
+@import './patterns/dashboard/page/PageContent.css';
+@import './patterns/dashboard/page/PageHeader.css';
+@import './patterns/dashboard/selection/CheckboxCard.css';
+@import './patterns/dashboard/selection/DesignRadioCard.css';
+@import './patterns/dashboard/selection/RadioCard.css';
 
-@import './components/patterns/dashboard/page/PageContent.css';
-@import './components/patterns/dashboard/page/PageHeader.css';
+@import './patterns/client/CleanNavbar/CleanNavbar.css';
+@import './patterns/client/FAQ/FAQ.css';
 
-@import './components/patterns/dashboard/selection/CheckboxCard.css';
-@import './components/patterns/dashboard/selection/DesignRadioCard.css';
-@import './components/patterns/dashboard/selection/RadioCard.css';
 
-@import './components/patterns/client/FAQ/FAQ.css';
-@import './components/patterns/client/Hero/Hero.css';
-@import './components/patterns/client/ProcessSteps/processSteps.css';
+@import './patterns/client/Hero/Hero.css';
+@import './patterns/client/ProcessSteps/processSteps.css';
 
-/* STEP 6: Layout utilities */
-@import './components/layout/utilities/divider/Divider.css';
-@import './components/layout/utilities/hStack/HStack.css';
-@import './components/layout/utilities/rhythm/Rhythm.css';
-@import './components/layout/utilities/vStack/VStack.css';
-@import './components/layout/utilities/grid/Grid.css';
-@import './components/layout/utilities/box/Box.css';
-
-/* STEP 7: Themes LAST */
+/* STEP 6: Themes LAST */
 @import './tokens/semantic/themes/index.css';
 
-/* STEP 8: Utilities LAST (so they can override if needed) */
+/* STEP 7: Utilities LAST (so they can override if needed) */
 @import './utils/index.css';
 @import './utils/typography.css';

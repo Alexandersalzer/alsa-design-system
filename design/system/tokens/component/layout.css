@@ -133,8 +133,8 @@
   
   /* ===== PAGE CONTAINER DIMENSIONS ===== */
   --size-page-max-width: 1200px;
-  --size-page-content-max-width: 800px;
-  --size-page-narrow-max-width: 600px;
+  --size-page-content-max-width: 1000px;
+  --size-page-narrow-max-width: 800px;
   
   /* ===== TRANSITION TOKENS ===== */
   --transition-fast: 0.15s ease;

@@ -1,6 +1,10 @@
 {
   "name": "@blimpify-im/ui",
+<<<<<<< HEAD
   "version": "0.1.593",
+=======
+  "version": "3.1.323",
+>>>>>>> alex
   "description": "Blimpify Design System - Reusable React components for client websites",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -37,6 +41,8 @@
     "dist"
   ],
   "scripts": {
+    "validate:css": "node validate-css.js",
+    "prebuild": "npm run validate:css",
     "build": "npm run build:ts && npm run build:css",
     "build:ts": "tsc",
     "build:css": "find design -name '*.css' | while read file; do target=\"dist/$file\"; mkdir -p \"$(dirname \"$target\")\"; cp \"$file\" \"$target\"; done",
@@ -71,9 +77,10 @@
     }
   },
   "dependencies": {
-    "@blimpify-im/ui": "^0.1.580",
     "@heroicons/react": "^2.2.0",
+    "@studio-freight/lenis": "^1.0.42",
     "country-flag-icons": "^1.5.21",
+    "lenis": "^1.3.11",
     "lucide-react": "^0.525.0",
     "server-only": "^0.0.1"
   },
