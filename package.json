@@ -27,9 +27,9 @@
       "types": "./dist/design/cms/wrappers/ContentLayout.d.ts"
     },
     "./client": {
-      "import": "./dist/design/system/components/templates/index.js",
-      "require": "./dist/design/system/components/templates/index.js",
-      "types": "./dist/design/system/components/templates/index.d.ts"
+      "import": "./dist/design/system/templates/index.js",
+      "require": "./dist/design/system/templates/index.js",
+      "types": "./dist/design/system/templates/index.d.ts"
     },
     "./dist/index.css": "./dist/design/index.css"
   },
