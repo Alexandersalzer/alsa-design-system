@@ -73,7 +73,6 @@
     }
   },
   "dependencies": {
-    "@blimpify-im/ui": "^0.1.580",
     "@heroicons/react": "^2.2.0",
     "@studio-freight/lenis": "^1.0.42",
     "country-flag-icons": "^1.5.21",

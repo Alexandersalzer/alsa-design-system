@@ -72,6 +72,10 @@
 @import './patterns/dashboard/selection/DesignRadioCard.css';
 @import './patterns/dashboard/selection/RadioCard.css';
 
+@import './patterns/client/CleanNavbar/CleanNavbar.css';
+@import './patterns/client/FAQ/FAQ.css';
+
+
 @import './patterns/client/Hero/Hero.css';
 @import './patterns/client/ProcessSteps/processSteps.css';
 
