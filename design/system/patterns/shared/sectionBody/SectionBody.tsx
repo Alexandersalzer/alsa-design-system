@@ -1,6 +1,6 @@
 // ===============================================
 // LOCATION: design/system/components/patterns/content-blocks/SectionBody/SectionBody.tsx
-// SectionBody - Simplified, cleaner, with TextLink support
+// SectionBody - NO CSS FILE NEEDED - Uses existing layout components
 // ===============================================
 
 import React, { ReactNode } from 'react';
@@ -13,8 +13,6 @@ import { TextLink, TextLinkProps } from '../../../components/actions/TextLink/Te
 import { Button, ButtonProps } from '../../../components/actions/Button/Button';
 import { Input } from '../../../components/forms/Input/Input';
 import { SegmentedControl } from '../../../components/actions/SegmentedControl/SegmentedControl';
-import { cn } from '../../../lib/utils';
-import './SectionBody.css';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -31,7 +29,7 @@ export interface SectionBodyTagConfig {
   variant?: TagVariant;
   size?: TagSize;
   icon?: ReactNode;
-  href?: string; // Optional link inside tag
+  href?: string;
 }
 
 export interface SectionBodyTextLinkConfig extends Omit<TextLinkProps, 'children'> {
@@ -51,21 +49,17 @@ export interface SectionBodyInputButtonConfig {
 
 export interface SectionBodySegmentedConfig {
   options: Array<{ label: string; value: string }>;
-  value: string; // Required for SegmentedControl
-  onChange: (value: string) => void; // Required for SegmentedControl
+  value: string;
+  onChange: (value: string) => void;
 }
 
 export interface SectionBodyProps {
-  // ===== MAIN CONTENT (REQUIRED) =====
-  /** Heading text - REQUIRED, cannot be hidden */
+  // ===== MAIN CONTENT =====
   heading: ReactNode;
-  /** Body text - can be hidden */
   body?: ReactNode;
   
   // ===== OPTIONAL ELEMENTS =====
-  /** Tag/Label component above heading (can contain link) */
   tag?: SectionBodyTagConfig | false;
-  /** Text link instead of tag (mutually exclusive) */
   textLink?: SectionBodyTextLinkConfig | false;
   
   // ===== HEADING STYLING =====
@@ -86,7 +80,7 @@ export interface SectionBodyProps {
   buttonGroup?: SectionBodyButtonConfig[];
   inputButton?: SectionBodyInputButtonConfig;
   segmentedControl?: SectionBodySegmentedConfig;
-  actionTextLink?: SectionBodyTextLinkConfig; // For action area text links
+  actionTextLink?: SectionBodyTextLinkConfig;
   
   // ===== LAYOUT & SPACING =====
   textAlign?: TypographyAlign;
@@ -106,19 +100,6 @@ export interface SectionBodyProps {
   className?: string;
   style?: React.CSSProperties;
 }
-
-// ===== SPACING HELPER =====
-const getSpacingValue = (size: string): string => {
-  const spacingMap: Record<string, string> = {
-    'xs': '0.5rem',
-    'sm': '1rem',
-    'md': '1.5rem',
-    'lg': '2rem',
-    'xl': '3rem',
-    '2xl': '4rem',
-  };
-  return spacingMap[size] || spacingMap.md;
-};
 
 // ===== MAIN SECTION BODY COMPONENT =====
 
@@ -172,20 +153,27 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
   const hasBody = !hideBody && body;
   const hasActions = !hideActions && actionType !== 'none';
 
+  // Map alignment for VStack
+  const vStackAlign = textAlign === 'center' ? 'center' : textAlign === 'right' ? 'end' : 'start';
+  
+  // Map alignment for HStack (button groups)
+  const hStackJustify = textAlign === 'center' ? 'center' : textAlign === 'right' ? 'end' : 'start';
+
   return (
     <Box
-      className={cn('section-body', `section-body--align-${textAlign}`, className)}
+      className={className}
       style={{
         maxWidth: typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth,
         margin: '0 auto',
+        width: '100%',
         ...style,
       }}
     >
-      <VStack spacing="md" align={textAlign === 'center' ? 'center' : 'start'}>
+      <VStack spacing={headingBodySpacing} align={vStackAlign}>
         
-        {/* Tag or TextLink (mutually exclusive) */}
+        {/* Tag or TextLink */}
         {hasTag && tag && (
-          <Box className="section-body__tag" style={{ marginBottom: getSpacingValue(tagSpacing) }}>
+          <Box>
             {tag.href ? (
               <TextLink href={tag.href} variant="accent" size="sm">
                 <Tag
@@ -209,7 +197,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
         )}
 
         {hasTextLink && textLink && !hasTag && (
-          <Box className="section-body__text-link" style={{ marginBottom: getSpacingValue(tagSpacing) }}>
+          <Box>
             <TextLink
               variant={textLink.variant || 'accent'}
               size={textLink.size || 'md'}
@@ -229,33 +217,27 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
           color={headingColor}
           weight={headingWeight}
           align={textAlign}
-          className="section-body__heading"
         >
           {heading}
         </Typography>
 
         {/* Body Text */}
         {hasBody && (
-          <Box style={{ marginTop: getSpacingValue(headingBodySpacing) }}>
-            <Typography
-              as={bodyAs}
-              variant={bodyVariant}
-              color={bodyColor}
-              weight={bodyWeight}
-              align={textAlign}
-              className="section-body__body"
-            >
-              {body}
-            </Typography>
-          </Box>
+          <Typography
+            as={bodyAs}
+            variant={bodyVariant}
+            color={bodyColor}
+            weight={bodyWeight}
+            align={textAlign}
+          >
+            {body}
+          </Typography>
         )}
 
         {/* Actions */}
         {hasActions && (
-          <Box 
-            style={{ marginTop: getSpacingValue(bodyActionSpacing) }}
-            className="section-body__actions"
-          >
+          <VStack spacing={bodyActionSpacing} align={vStackAlign}>
+            
             {/* Single Button */}
             {actionType === 'button' && button && (
               <Button
@@ -272,8 +254,8 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
             {actionType === 'button-group' && buttonGroup && buttonGroup.length > 0 && (
               <HStack 
                 spacing={buttonGroupSpacing} 
-                justify="center"
-                className="section-body__button-group"
+                justify={hStackJustify}
+                wrap={true}
               >
                 {buttonGroup.map((btn, index) => (
                   <Button
@@ -291,11 +273,11 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
 
             {/* Input + Button */}
             {actionType === 'input-button' && inputButton && (
-              <HStack spacing="sm" className="section-body__input-button">
+              <HStack spacing="sm" wrap={false}>
                 <Input
                   type="text"
                   placeholder={inputButton.inputPlaceholder || 'Enter your email...'}
-                  className="section-body__input"
+                  style={{ flex: 1, minWidth: '200px' }}
                 />
                 <Button
                   variant="primary"
@@ -333,7 +315,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
                 {actionTextLink.text}
               </TextLink>
             )}
-          </Box>
+          </VStack>
         )}
       </VStack>
     </Box>
