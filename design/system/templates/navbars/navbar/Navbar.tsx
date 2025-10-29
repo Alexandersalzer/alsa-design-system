@@ -41,7 +41,8 @@ export interface NavbarProps {
   logoAlt?: string;
   logoWidth?: number;
   logoHeight?: number;
-  maxWidth?: string; // Add maxWidth prop for navbar content
+  maxWidth?: string;
+  height?: string;
 }
 
 const Navbar = ({ 
@@ -59,7 +60,8 @@ const Navbar = ({
   logoAlt = 'KJ Marketing Logo',
   logoWidth = 32,
   logoHeight = 32,
-  maxWidth = '1280px' // Default max width for navbar content
+  maxWidth = '1280px',
+  height = '4rem' // 64px
 }: NavbarProps) => {
   const { isEditingMode } = useEditingMode();
   const { getGlobalComponent, getTemplateBlocks, getBlocksByType, content } = useContent();
@@ -192,10 +194,12 @@ const Navbar = ({
           maxWidth: maxWidth,
           margin: '0 auto',
           padding: '0 var(--foundation-space-4)',
-          width: '100%'
+          width: '100%',
+          height: height // Set height on container
         }}
       >
-        <HStack justify="between" align="center">
+        {/* HStack for horizontal layout - NO style prop */}
+        <HStack justify="between" align="center" spacing="md" className="navbar-content">
           <BrandLink 
             href={nav.buildBrandHref(brandHref)}
             variant={brandVariant}
@@ -210,9 +214,6 @@ const Navbar = ({
           >
             {brandName}
           </BrandLink>
-          
-          {/* Spacer */}
-          <div style={{ flex: 1 }} />
           
           <NavMenu 
             items={menuItems} 
