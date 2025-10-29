@@ -1,0 +1,456 @@
+/* =============================================== */
+/* design/system/components/media/Avatar/Avatar.css */
+/* Avatar component styles */
+/* =============================================== */
+
+/* ===== BASE AVATAR STYLES ===== */
+.avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  user-select: none;
+  vertical-align: middle;
+  border: 2px solid transparent;
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
+}
+
+/* ===== SIZE VARIANTS ===== */
+.avatar-2xs {
+  width: 24px;
+  height: 24px;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.avatar-xs {
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.avatar-sm {
+  width: 40px;
+  height: 40px;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.avatar-md {
+  width: 48px;
+  height: 48px;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.avatar-lg {
+  width: 56px;
+  height: 56px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.avatar-xl {
+  width: 64px;
+  height: 64px;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.avatar-2xl {
+  width: 80px;
+  height: 80px;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.avatar-full {
+  width: 100%;
+  height: 100%;
+  font-size: inherit;
+}
+
+/* ===== SHAPE VARIANTS ===== */
+.avatar-full {
+  border-radius: 9999px;
+}
+
+.avatar-rounded {
+  border-radius: var(--foundation-radius-md);
+}
+
+.avatar-square {
+  border-radius: var(--foundation-radius-sm);
+}
+
+/* ===== COLOR PALETTE VARIANTS - SUBTLE ===== */
+.avatar-subtle.avatar-gray {
+  background-color: var(--gray-100);
+  color: var(--gray-700);
+}
+
+.avatar-subtle.avatar-red {
+  background-color: var(--red-100);
+  color: var(--red-700);
+}
+
+.avatar-subtle.avatar-orange {
+  background-color: var(--orange-100);
+  color: var(--orange-700);
+}
+
+.avatar-subtle.avatar-yellow {
+  background-color: var(--yellow-100);
+  color: var(--yellow-700);
+}
+
+.avatar-subtle.avatar-green {
+  background-color: var(--green-100);
+  color: var(--green-700);
+}
+
+.avatar-subtle.avatar-teal {
+  background-color: var(--teal-100);
+  color: var(--teal-700);
+}
+
+.avatar-subtle.avatar-blue {
+  background-color: var(--blue-100);
+  color: var(--blue-700);
+}
+
+.avatar-subtle.avatar-cyan {
+  background-color: var(--cyan-100);
+  color: var(--cyan-700);
+}
+
+.avatar-subtle.avatar-purple {
+  background-color: var(--purple-100);
+  color: var(--purple-700);
+}
+
+.avatar-subtle.avatar-pink {
+  background-color: var(--pink-100);
+  color: var(--pink-700);
+}
+
+/* ===== COLOR PALETTE VARIANTS - SOLID ===== */
+.avatar-solid.avatar-gray {
+  background-color: var(--gray-600);
+  color: var(--always-white);
+}
+
+.avatar-solid.avatar-red {
+  background-color: var(--red-600);
+  color: var(--always-white);
+}
+
+.avatar-solid.avatar-orange {
+  background-color: var(--orange-600);
+  color: var(--always-white);
+}
+
+.avatar-solid.avatar-yellow {
+  background-color: var(--yellow-600);
+  color: var(--always-white);
+}
+
+.avatar-solid.avatar-green {
+  background-color: var(--green-600);
+  color: var(--always-white);
+}
+
+.avatar-solid.avatar-teal {
+  background-color: var(--teal-600);
+  color: var(--always-white);
+}
+
+.avatar-solid.avatar-blue {
+  background-color: var(--blue-600);
+  color: var(--always-white);
+}
+
+.avatar-solid.avatar-cyan {
+  background-color: var(--cyan-600);
+  color: var(--always-white);
+}
+
+.avatar-solid.avatar-purple {
+  background-color: var(--purple-600);
+  color: var(--always-white);
+}
+
+.avatar-solid.avatar-pink {
+  background-color: var(--pink-600);
+  color: var(--always-white);
+}
+
+/* ===== COLOR PALETTE VARIANTS - OUTLINE ===== */
+.avatar-outline.avatar-gray {
+  background-color: transparent;
+  border-color: var(--gray-300);
+  color: var(--gray-700);
+}
+
+.avatar-outline.avatar-red {
+  background-color: transparent;
+  border-color: var(--red-300);
+  color: var(--red-700);
+}
+
+.avatar-outline.avatar-orange {
+  background-color: transparent;
+  border-color: var(--orange-300);
+  color: var(--orange-700);
+}
+
+.avatar-outline.avatar-yellow {
+  background-color: transparent;
+  border-color: var(--yellow-300);
+  color: var(--yellow-700);
+}
+
+.avatar-outline.avatar-green {
+  background-color: transparent;
+  border-color: var(--green-300);
+  color: var(--green-700);
+}
+
+.avatar-outline.avatar-teal {
+  background-color: transparent;
+  border-color: var(--teal-300);
+  color: var(--teal-700);
+}
+
+.avatar-outline.avatar-blue {
+  background-color: transparent;
+  border-color: var(--blue-300);
+  color: var(--blue-700);
+}
+
+.avatar-outline.avatar-cyan {
+  background-color: transparent;
+  border-color: var(--cyan-300);
+  color: var(--cyan-700);
+}
+
+.avatar-outline.avatar-purple {
+  background-color: transparent;
+  border-color: var(--purple-300);
+  color: var(--purple-700);
+}
+
+.avatar-outline.avatar-pink {
+  background-color: transparent;
+  border-color: var(--pink-300);
+  color: var(--pink-700);
+}
+
+/* ===== BORDERLESS VARIANT ===== */
+.avatar-borderless {
+  border: none !important;
+}
+
+/* ===== AVATAR IMAGE ===== */
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* ===== AVATAR FALLBACK ===== */
+.avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 0;
+}
+
+.avatar-initials {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+/* ===== AVATAR GROUP ===== */
+.avatar-group {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.avatar-group .avatar {
+  margin-left: -8px;
+  box-shadow: 0 0 0 2px var(--surface-card-primary);
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
+}
+
+.avatar-group .avatar:first-child {
+  margin-left: 0;
+}
+
+.avatar-group .avatar:hover {
+  transform: translateY(-2px);
+  z-index: 10;
+}
+
+/* Group spacing variants */
+.avatar-group-sm .avatar {
+  margin-left: -6px;
+}
+
+.avatar-group-md .avatar {
+  margin-left: -8px;
+}
+
+.avatar-group-lg .avatar {
+  margin-left: -12px;
+}
+
+/* ===== INTERACTIVE STATES ===== */
+.avatar:hover {
+  cursor: default;
+}
+
+.avatar[role="button"],
+button .avatar,
+a .avatar {
+  cursor: pointer;
+}
+
+.avatar[role="button"]:hover,
+button:hover .avatar,
+a:hover .avatar {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.avatar:focus-visible {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: 2px;
+}
+
+/* ===== DARK MODE ADJUSTMENTS ===== */
+[data-theme="dark"] .avatar-subtle.avatar-gray,
+.dark .avatar-subtle.avatar-gray {
+  background-color: var(--gray-800);
+  color: var(--gray-200);
+}
+
+[data-theme="dark"] .avatar-outline.avatar-gray,
+.dark .avatar-outline.avatar-gray {
+  border-color: var(--gray-700);
+  color: var(--gray-200);
+}
+
+[data-theme="dark"] .avatar-group .avatar,
+.dark .avatar-group .avatar {
+  box-shadow: 0 0 0 2px var(--surface-card-primary);
+}
+
+/* ===== RING EFFECT (for outline props) ===== */
+.avatar-ring {
+  box-shadow: 0 0 0 4px var(--surface-card-primary);
+}
+
+.avatar-ring-sm {
+  box-shadow: 0 0 0 2px var(--surface-card-primary);
+}
+
+.avatar-ring-md {
+  box-shadow: 0 0 0 4px var(--surface-card-primary);
+}
+
+.avatar-ring-lg {
+  box-shadow: 0 0 0 6px var(--surface-card-primary);
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .avatar,
+  .avatar-group .avatar,
+  button:hover .avatar,
+  a:hover .avatar {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .avatar {
+    border-width: 3px;
+  }
+  
+  .avatar-outline {
+    border-width: 3px;
+  }
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+  .avatar-2xs {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+
+  .avatar-xs {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+  }
+
+  .avatar-sm {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+
+  .avatar-md {
+    width: 44px;
+    height: 44px;
+    font-size: 15px;
+  }
+}
+
+/* ===== STATUS BADGE SUPPORT ===== */
+.avatar-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 25%;
+  height: 25%;
+  min-width: 8px;
+  min-height: 8px;
+  border-radius: 9999px;
+  border: 2px solid var(--surface-card-primary);
+  z-index: 2;
+}
+
+.avatar-badge-online {
+  background-color: var(--success-500);
+}
+
+.avatar-badge-offline {
+  background-color: var(--gray-400);
+}
+
+.avatar-badge-busy {
+  background-color: var(--error-500);
+}
+
+.avatar-badge-away {
+  background-color: var(--warning-500);
+}
