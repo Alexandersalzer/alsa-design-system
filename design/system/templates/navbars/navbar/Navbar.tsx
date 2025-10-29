@@ -3,9 +3,8 @@
 import { useEditingMode } from '../../../../cms/wrappers/editing/EditingWrapper';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname, useRouter } from 'next/navigation';
-import { Section } from '../../../components/frames/section';
-import { Container } from '../../../components/frames/container';
-import { HStack } from '../../../components/layout/hStack';
+import { HStack } from '../../../components/layout/hStack/HStack';
+import { Box } from '../../../components/layout/box/Box';
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
 import { 
   getNavigationContext, 
@@ -42,6 +41,7 @@ export interface NavbarProps {
   logoAlt?: string;
   logoWidth?: number;
   logoHeight?: number;
+  maxWidth?: string; // Add maxWidth prop for navbar content
 }
 
 const Navbar = ({ 
@@ -58,7 +58,8 @@ const Navbar = ({
   logoSrc = '/images/sections/kjlogo.jpg',
   logoAlt = 'KJ Marketing Logo',
   logoWidth = 32,
-  logoHeight = 32
+  logoHeight = 32,
+  maxWidth = '1280px' // Default max width for navbar content
 }: NavbarProps) => {
   const { isEditingMode } = useEditingMode();
   const { getGlobalComponent, getTemplateBlocks, getBlocksByType, content } = useContent();
@@ -173,15 +174,28 @@ const Navbar = ({
   }));
 
   return (
-    <Section 
+    <Box
       as="nav"
-      style={{ backgroundColor: 'var(--primary-white)' }}
-      sticky={true}
-      top={0}
-      zIndex={1000}
+      className={className}
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000,
+        backgroundColor: 'var(--primary-white)',
+        borderBottom: '1px solid var(--border-light)',
+        width: '100%'
+      }}
     >
-      <Container maxWidth="lg">
-        <HStack justify="between" align="center" className="h-16">
+      {/* Inner container with max width */}
+      <Box
+        style={{
+          maxWidth: maxWidth,
+          margin: '0 auto',
+          padding: '0 var(--foundation-space-4)',
+          width: '100%'
+        }}
+      >
+        <HStack justify="between" align="center">
           <BrandLink 
             href={nav.buildBrandHref(brandHref)}
             variant={brandVariant}
@@ -198,7 +212,7 @@ const Navbar = ({
           </BrandLink>
           
           {/* Spacer */}
-          <div className="flex-1" />
+          <div style={{ flex: 1 }} />
           
           <NavMenu 
             items={menuItems} 
@@ -209,9 +223,9 @@ const Navbar = ({
             onLinkClick={handleNavClick}
           />
         </HStack>
-      </Container>
-    </Section>
+      </Box>
+    </Box>
   );
 };
 
-export default Navbar; 
+export default Navbar;
