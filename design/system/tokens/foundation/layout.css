@@ -1,0 +1,48 @@
+/* ==============================================
+   src/design-system/tokens/foundation/width.css
+   PRACTICAL width SYSTEM - Optimized for Real-World Usage
+   ============================================== */
+:root {
+  /* ===== width SCALE: NONE (Sharp edges everywhere) ===== */
+  --foundation-continer-width-2xs: 0;
+  --foundation-max-width-2xs: 0;
+
+  /* ===== width SCALE: XS (Ultra Fine - 1px increments) ===== */
+  --foundation-continer-width-xs: 0;
+  --foundation-max-width-xs: 0;
+  
+  /* ===== width SCALE: SM (Small - 2px increments) ===== */
+  --foundation-continer-width-sm: 0;
+  --foundation-max-width-sm: 0;
+
+  /* ===== width SCALE: MD (Medium - 4px increments) ===== */
+  --foundation-continer-width-md: 0;
+  --foundation-max-width-md: 0;
+
+  /* ===== width SCALE: LG (Large - 5px increments) ===== */
+  --foundation-continer-width-lg: 0;
+  --foundation-max-width-lg: 0;
+
+  /* ===== width SCALE: XL (Extra Large - 6px increments) ===== */
+  --foundation-continer-width-xl: 0;
+  --foundation-max-width-xl: 0;
+
+  /* ===== width SCALE: 2XL (Maximum - 8px increments) ===== */
+  --foundation-continer-width-2xl: 0;
+  --foundation-max-width-2xl: 0;
+
+  /* ===== width SCALE: FULL (Hero - 10px increments) ===== */
+  --foundation-continer-width-3xl: 0;
+  --foundation-max-width-3xl: 0;
+
+
+  --selected-width-scale-none: var(--foundation-width-md-none);
+  --selected-width-scale-xs: var(--foundation-width-md-xs);
+  --selected-width-scale-sm: var(--foundation-width-md-sm);
+  --selected-width-scale-md: var(--foundation-width-md-md);
+  --selected-width-scale-lg: var(--foundation-width-md-lg);
+  --selected-width-scale-xl: var(--foundation-width-md-xl);
+  --selected-width-scale-2xl: var(--foundation-width-md-2xl);
+  --selected-width-scale-full: var(--foundation-width-md-full);
+
+}
