@@ -1,5 +1,5 @@
 /* =============================================== */
-/* Avatar Component Styles (Refactored for Box) */
+/* Avatar Component Styles (Clean + Secondary Default) */
 /* =============================================== */
 
 /* ===== BASE AVATAR STYLES ===== */
@@ -8,85 +8,16 @@
   flex-shrink: 0;
   border: 2px solid transparent;
   vertical-align: middle;
-  transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
-}
+  position: relative;
+  overflow: hidden;
 
-/* ===== COLOR VARIANTS ===== */
+  /* ✅ Always visible + contrasting default */
+  background-color: var(--secondary-100);
+  color: var(--secondary-700);
 
-/* Subtle */
-.avatar-subtle.avatar-gray {
-  background-color: var(--gray-100);
-  color: var(--gray-700);
+  /* ✅ Remove stupid animation bullshit */
+  transition: none;
 }
-.avatar-subtle.avatar-red {
-  background-color: var(--red-100);
-  color: var(--red-700);
-}
-.avatar-subtle.avatar-orange {
-  background-color: var(--orange-100);
-  color: var(--orange-700);
-}
-.avatar-subtle.avatar-yellow {
-  background-color: var(--yellow-100);
-  color: var(--yellow-700);
-}
-.avatar-subtle.avatar-green {
-  background-color: var(--green-100);
-  color: var(--green-700);
-}
-.avatar-subtle.avatar-teal {
-  background-color: var(--teal-100);
-  color: var(--teal-700);
-}
-.avatar-subtle.avatar-blue {
-  background-color: var(--blue-100);
-  color: var(--blue-700);
-}
-.avatar-subtle.avatar-cyan {
-  background-color: var(--cyan-100);
-  color: var(--cyan-700);
-}
-.avatar-subtle.avatar-purple {
-  background-color: var(--purple-100);
-  color: var(--purple-700);
-}
-.avatar-subtle.avatar-pink {
-  background-color: var(--pink-100);
-  color: var(--pink-700);
-}
-
-/* Solid */
-.avatar-solid[class*="avatar-"] {
-  color: var(--always-white);
-}
-.avatar-solid.avatar-gray { background-color: var(--gray-600); }
-.avatar-solid.avatar-red { background-color: var(--red-600); }
-.avatar-solid.avatar-orange { background-color: var(--orange-600); }
-.avatar-solid.avatar-yellow { background-color: var(--yellow-600); }
-.avatar-solid.avatar-green { background-color: var(--green-600); }
-.avatar-solid.avatar-teal { background-color: var(--teal-600); }
-.avatar-solid.avatar-blue { background-color: var(--blue-600); }
-.avatar-solid.avatar-cyan { background-color: var(--cyan-600); }
-.avatar-solid.avatar-purple { background-color: var(--purple-600); }
-.avatar-solid.avatar-pink { background-color: var(--pink-600); }
-
-/* Outline */
-.avatar-outline[class*="avatar-"] {
-  background-color: transparent;
-}
-.avatar-outline.avatar-gray { border-color: var(--gray-300); color: var(--gray-700); }
-.avatar-outline.avatar-red { border-color: var(--red-300); color: var(--red-700); }
-.avatar-outline.avatar-orange { border-color: var(--orange-300); color: var(--orange-700); }
-.avatar-outline.avatar-yellow { border-color: var(--yellow-300); color: var(--yellow-700); }
-.avatar-outline.avatar-green { border-color: var(--green-300); color: var(--green-700); }
-.avatar-outline.avatar-teal { border-color: var(--teal-300); color: var(--teal-700); }
-.avatar-outline.avatar-blue { border-color: var(--blue-300); color: var(--blue-700); }
-.avatar-outline.avatar-cyan { border-color: var(--cyan-300); color: var(--cyan-700); }
-.avatar-outline.avatar-purple { border-color: var(--purple-300); color: var(--purple-700); }
-.avatar-outline.avatar-pink { border-color: var(--pink-300); color: var(--pink-700); }
-
-/* Borderless */
-.avatar-borderless { border: none !important; }
 
 /* ===== IMAGE LAYER ===== */
 .avatar-image {
@@ -95,68 +26,52 @@
   object-fit: cover;
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
 }
 
-/* ===== FALLBACK ===== */
+/* ===== FALLBACK (initials or icon) ===== */
 .avatar-fallback {
-  z-index: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .avatar-initials {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.025em;
 }
 
-/* ===== GROUP STACKING ===== */
+/* ===== OUTLINE VARIANT ===== */
+.avatar-outline {
+  background-color: transparent !important;
+  border-color: var(--secondary-300);
+  color: var(--secondary-700);
+}
+
+/* ===== BORDERLESS ===== */
+.avatar-borderless {
+  border: none !important;
+}
+
+/* ===== AVATAR GROUP (Stacking) ===== */
 .avatar-group {
   display: inline-flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
   align-items: center;
 }
-.avatar-group .avatar {
-  box-shadow: 0 0 0 2px var(--surface-card-primary);
-  transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
-}
+
+/* Group margin sizes */
 .avatar-group-sm .avatar { margin-left: -6px; }
 .avatar-group-md .avatar { margin-left: -8px; }
 .avatar-group-lg .avatar { margin-left: -12px; }
-.avatar-group .avatar:first-child { margin-left: 0; }
-.avatar-group .avatar:hover {
-  transform: translateY(-2px);
-  z-index: 10;
-}
 
-/* ===== INTERACTION ===== */
-.avatar:hover { cursor: default; }
-.avatar[role="button"],
-button .avatar, a .avatar { cursor: pointer; }
-.avatar[role="button"]:hover,
-button:hover .avatar,
-a:hover .avatar {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
-}
-.avatar:focus-visible {
-  outline: 2px solid var(--focus-ring-color);
-  outline-offset: 2px;
-}
-
-/* ===== DARK MODE ===== */
-[data-theme="dark"] .avatar-subtle.avatar-gray,
-.dark .avatar-subtle.avatar-gray {
-  background-color: var(--gray-800);
-  color: var(--gray-200);
-}
-[data-theme="dark"] .avatar-outline.avatar-gray,
-.dark .avatar-outline.avatar-gray {
-  border-color: var(--gray-700);
-  color: var(--gray-200);
-}
-[data-theme="dark"] .avatar-group .avatar,
-.dark .avatar-group .avatar {
-  box-shadow: 0 0 0 2px var(--surface-card-primary);
+.avatar-group .avatar:first-child {
+  margin-left: 0;
 }
 
 /* ===== STATUS BADGES ===== */
@@ -170,17 +85,31 @@ a:hover .avatar {
   min-height: 8px;
   border-radius: var(--foundation-radius-full);
   border: 2px solid var(--surface-card-primary);
-  z-index: 2;
+  z-index: 3;
 }
+
 .avatar-badge-online { background-color: var(--success-500); }
-.avatar-badge-offline { background-color: var(--gray-400); }
+.avatar-badge-offline { background-color: var(--secondary-300); }
 .avatar-badge-busy { background-color: var(--error-500); }
 .avatar-badge-away { background-color: var(--warning-500); }
 
-/* Accessibility */
+/* ===== DARK MODE ===== */
+[data-theme="dark"] .avatar,
+.dark .avatar {
+  background-color: var(--secondary-800);
+  color: var(--secondary-200);
+}
+
+[data-theme="dark"] .avatar-outline,
+.dark .avatar-outline {
+  background-color: transparent;
+  border-color: var(--secondary-600);
+  color: var(--secondary-200);
+}
+
+/* ===== Accessibility ===== */
 @media (prefers-reduced-motion: reduce) {
-  .avatar,
-  .avatar-group .avatar {
+  .avatar {
     transition: none;
     transform: none;
   }
