@@ -9,7 +9,7 @@ import React, {
   useState,
   useCallback,
 } from 'react';
-import { Label } from '../../Typography';
+import { Label } from '../../Typography/Typography'; // ← ONLY CHANGE: Added /Typography
 import { cn } from '../../../lib/utils';
 
 export interface SegmentedControlOption {

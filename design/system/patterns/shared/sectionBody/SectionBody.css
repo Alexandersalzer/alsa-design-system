@@ -1,0 +1,181 @@
+/* ===============================================
+ * LOCATION: design/system/components/patterns/content-blocks/SectionBody/SectionBody.css
+ * SectionBody Component Styles
+ * =============================================== */
+
+/* ===== BASE STYLES ===== */
+.section-body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== ALIGNMENT VARIANTS ===== */
+.section-body--align-left {
+  text-align: left;
+  align-items: flex-start;
+}
+
+.section-body--align-center {
+  text-align: center;
+  align-items: center;
+}
+
+.section-body--align-right {
+  text-align: right;
+  align-items: flex-end;
+}
+
+/* ===== TAG STYLES ===== */
+.section-body__tag {
+  display: inline-flex;
+  margin-bottom: var(--foundation-space-2);
+}
+
+/* ===== HEADING GROUP ===== */
+.section-body__heading-group {
+  width: 100%;
+}
+
+.section-body__heading {
+  /* Typography styles applied via Typography component */
+}
+
+.section-body__mini-text {
+  margin-top: var(--foundation-space-2);
+  /* Typography styles applied via Typography component */
+}
+
+/* ===== BODY TEXT ===== */
+.section-body__body {
+  line-height: 1.6;
+  /* Typography styles applied via Typography component */
+}
+
+/* ===== ACTIONS ===== */
+.section-body__actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.section-body--align-left .section-body__actions {
+  justify-content: flex-start;
+}
+
+.section-body--align-right .section-body__actions {
+  justify-content: flex-end;
+}
+
+/* ===== BUTTON GROUP ===== */
+.section-body__button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--foundation-space-3);
+}
+
+/* ===== INPUT + BUTTON ===== */
+.section-body__input-button {
+  display: flex;
+  gap: var(--foundation-space-2);
+  max-width: 500px;
+  width: 100%;
+}
+
+.section-body__input {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* ===== RESPONSIVE BEHAVIOR ===== */
+
+/* Mobile: Stack buttons vertically */
+@media (max-width: 768px) {
+  .section-body__button-group {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .section-body__button-group > * {
+    width: 100%;
+  }
+
+  .section-body__input-button {
+    flex-direction: column;
+    gap: var(--foundation-space-2);
+  }
+
+  .section-body__input {
+    width: 100%;
+  }
+}
+
+/* Tablet: Adjust spacing */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .section-body__button-group {
+    gap: var(--foundation-space-2);
+  }
+}
+
+/* ===== SIZE VARIANTS (For Hero vs Regular Section) ===== */
+
+/* Large variant (Hero sections) */
+.section-body--size-large .section-body__heading {
+  font-size: var(--text-display-xl-size);
+  line-height: var(--text-display-xl-line-height);
+}
+
+.section-body--size-large .section-body__body {
+  font-size: var(--text-body-xl-size);
+  line-height: var(--text-body-xl-line-height);
+}
+
+/* Medium variant (Regular sections) */
+.section-body--size-medium .section-body__heading {
+  font-size: var(--text-display-md-size);
+  line-height: var(--text-display-md-line-height);
+}
+
+.section-body--size-medium .section-body__body {
+  font-size: var(--text-body-lg-size);
+  line-height: var(--text-body-lg-line-height);
+}
+
+/* Small variant (Compact sections) */
+.section-body--size-small .section-body__heading {
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line-height);
+}
+
+.section-body--size-small .section-body__body {
+  font-size: var(--text-body-md-size);
+  line-height: var(--text-body-md-line-height);
+}
+
+/* ===== ANIMATION STATES ===== */
+.section-body__actions button {
+  transition: transform 0.2s ease;
+}
+
+.section-body__actions button:hover {
+  transform: translateY(-2px);
+}
+
+.section-body__actions button:active {
+  transform: translateY(0);
+}
+
+/* ===== ACCESSIBILITY ===== */
+.section-body:focus-within {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 4px;
+  border-radius: var(--radius-md);
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .section-body__actions button {
+    transition: none;
+  }
+}

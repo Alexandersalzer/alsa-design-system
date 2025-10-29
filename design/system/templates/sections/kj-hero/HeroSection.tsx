@@ -1,40 +1,70 @@
 'use client';
 
 import { Section, Container } from '../../../components';
-import { RichText } from '../../../../system/patterns/client/RichText/RichText';
+import { SectionBody } from '../../../../system/patterns/shared/sectionBody/SectionBody';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 
 interface HeroSectionProps {
   pageSlug?: string;
-  templateIndex?: number; // New prop to specify which hero template instance (0, 1, 2...)
-  titleAs?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  subtitleAs?: 'p' | 'span' | 'div';
+  templateIndex?: number; // Which hero template instance (0, 1, 2...)
+  
+  // Heading styling
+  headingAs?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  headingVariant?: 'display-xl' | 'display-lg' | 'display-md' | 'h1' | 'h2';
+  
+  // Body/subtitle styling
+  bodyAs?: 'p' | 'span' | 'div';
+  bodyVariant?: 'body-xl' | 'body-lg' | 'body-md';
+  
+  // Button styling
   buttonVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   buttonSize?: 'sm' | 'md' | 'lg' | 'xl';
-  unit?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  textPosition?: number;
-  buttonPosition?: number;
-  textSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  
+  // Layout
   textAlign?: 'left' | 'center' | 'right';
   maxWidth?: string;
   containerMaxWidth?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
+  
+  // Spacing
+  headingBodySpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  bodyActionSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  
+  // Optional tag
+  showTag?: boolean;
+  tagText?: string;
+  tagVariant?: 'success' | 'error' | 'warning' | 'info' | 'accent' | 'default';
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ 
   pageSlug,
-  templateIndex = 0, // Default to first hero template
-  titleAs = 'h1',
-  subtitleAs = 'p',
+  templateIndex = 0,
+  
+  // Heading
+  headingAs = 'h1',
+  headingVariant = 'display-xl',
+  
+  // Body
+  bodyAs = 'p',
+  bodyVariant = 'body-xl',
+  
+  // Button
   buttonVariant = 'primary',
-  buttonSize = 'md',
-  unit = 'xl',
-  textPosition = 1,
-  buttonPosition = 6,
-  textSpacing = 'sm',
+  buttonSize = 'xl',
+  
+  // Layout
   textAlign = 'center',
-  maxWidth = '550px',
-  containerMaxWidth = 'md'
+  maxWidth = '800px',
+  containerMaxWidth = 'md',
+  
+  // Spacing
+  headingBodySpacing = 'md',
+  bodyActionSpacing = 'xl',
+  
+  // Tag
+  showTag = false,
+  tagText = 'New',
+  tagVariant = 'accent',
 }) => {
   const { getPageTemplate, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -58,7 +88,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   if (!title && !subtitle && !primaryButtonText) {
     return null;
   }
-
+  
+  // Determine action type based on available buttons
+  const hasSecondaryButton = secondaryButtonText && secondaryButtonText.trim() !== '';
+  const actionType = hasSecondaryButton ? 'button-group' : 'button';
+  
   return (
     <Section id="hero-section" height="auto">
       <Container 
@@ -74,26 +108,64 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           flexDirection: 'column'
         }}
       >
-        <RichText
+        <SectionBody
+          // Optional tag
+          tag={showTag ? {
+            text: tagText,
+            variant: tagVariant,
+            size: 'medium'
+          } : undefined}
+          
+          // Heading (required)
           heading={title}
-          headingAs={titleAs}
-          headingVariant="display-xl" // Explicit variant for hero
-          subtitle={subtitle}
-          subtitleAs={subtitleAs}
-          subtitleVariant="body-xl" // Explicit variant for hero
-          button={{
+          headingAs={headingAs}
+          headingVariant={headingVariant}
+          headingColor="heading"
+          headingWeight="bold"
+          
+          // Body/subtitle (optional)
+          body={subtitle || undefined}
+          bodyAs={bodyAs}
+          bodyVariant={bodyVariant}
+          bodyColor="body"
+          bodyWeight="regular"
+          
+          // Actions
+          actionType={actionType}
+          
+          // Single button
+          button={!hasSecondaryButton && primaryButtonText ? {
+            text: primaryButtonText,
             variant: buttonVariant,
             size: buttonSize,
-            children: primaryButtonText
-          }}
-          unit={unit}
-          textPosition={textPosition}
-          buttonPosition={buttonPosition}
-          textSpacing={textSpacing}
+          } : undefined}
+          
+          // Button group (primary + secondary)
+          buttonGroup={hasSecondaryButton ? [
+            {
+              text: primaryButtonText,
+              variant: buttonVariant,
+              size: buttonSize,
+            },
+            {
+              text: secondaryButtonText,
+              variant: 'secondary',
+              size: buttonSize,
+            }
+          ] : undefined}
+          
+          // Layout
           textAlign={textAlign}
           maxWidth={maxWidth}
+          
+          // Spacing
+          tagSpacing="sm"
+          headingBodySpacing={headingBodySpacing}
+          bodyActionSpacing={bodyActionSpacing}
         />
       </Container>
     </Section>
   );
 };
+
+export default HeroSection;
