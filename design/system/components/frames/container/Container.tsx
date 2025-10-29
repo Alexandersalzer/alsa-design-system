@@ -78,8 +78,9 @@ export const Container = ({
   const alignmentClass = getAlignmentClass(align);
   const heightClass = getHeightClass(height);
   const maxWidthClass = getMaxWidthClass(maxWidth);
-  const combinedClassName = `${styles.container} ${alignmentClass} ${heightClass} ${maxWidthClass} ${className}`.trim();
   
+  const combinedClassName = `${styles.container} ${alignmentClass} ${heightClass} ${maxWidthClass} ${className}`.trim();
+
   return (
     <Component 
       id={id}
@@ -89,4 +90,4 @@ export const Container = ({
       {children}
     </Component>
   );
-}; 
+};

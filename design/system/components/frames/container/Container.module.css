@@ -7,37 +7,29 @@
   min-height: fit-content;
 }
 
-/* Max Width variants */
+/* Max Width variants - USING SEMANTIC TOKENS */
 .maxWidthNone {
   max-width: none;
 }
 
-.maxWidthXs {
-  max-width: 480px;
-  margin: 0 auto;
-}
-
-.maxWidthSm {
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-.maxWidthMd {
-  max-width: 768px;
-  margin: 0 auto;
-}
-
-.maxWidthLg {
-  margin: 0 auto;
-}
-
+/* Content width - for text, cards, services, testimonials, contact */
 .maxWidthXl {
-  max-width: 1280px;
+  max-width: var(--width-content);
   margin: 0 auto;
 }
 
+/* Media width - for big images, heroes, illustrations */
 .maxWidth2xl {
-  max-width: 1536px;
+  max-width: var(--width-media);
+  margin: 0 auto;
+}
+
+/* Legacy sizes - map to content width */
+.maxWidthXs,
+.maxWidthSm,
+.maxWidthMd,
+.maxWidthLg {
+  max-width: var(--width-content);
   margin: 0 auto;
 }
 
@@ -59,7 +51,7 @@
   height: fit-content;
 }
 
-/* Alignment classes - now using flexbox for better control */
+/* Alignment classes */
 .alignLeft {
   align-items: flex-start;
   text-align: left;
@@ -83,13 +75,12 @@
   }
 }
 
-/* When container has hero content - more generous spacing */
+/* When container has hero content */
 .container:has(h1) {
   gap: var(--foundation-space-8, 2rem);
   padding: var(--foundation-space-6, 1.5rem);
 }
 
-/* Ensure proper spacing for hero sections */
 @media (min-width: 769px) {
   .container:has(h1) {
     padding: var(--foundation-space-8, 2rem);
@@ -97,13 +88,13 @@
   }
 }
 
-/* Make sure child elements expand properly */
+/* Child elements */
 .container > * {
   width: 100%;
   flex-shrink: 0;
 }
 
-/* Special handling for button containers */
+/* Button containers */
 .container > *:has(button),
 .container > *:has(.btn) {
   gap: var(--foundation-space-4, 1rem);
@@ -111,7 +102,6 @@
   flex-wrap: wrap;
 }
 
-/* Mobile button stacking */
 @media (max-width: 768px) {
   .container > *:has(button),
   .container > *:has(.btn) {
@@ -122,4 +112,4 @@
   .container > *:has(.btn) .btn {
     width: 100%;
   }
-} 
+}

@@ -1,48 +1,60 @@
 /* ==============================================
-   src/design-system/tokens/foundation/width.css
-   PRACTICAL width SYSTEM - Optimized for Real-World Usage
+   src/design-system/tokens/foundation/layout.css
+   LAYOUT WIDTH TOKENS - TWO WIDTHS PER SCALE
+   User selects ONE scale, gets TWO consistent widths
    ============================================== */
+
 :root {
-  /* ===== width SCALE: NONE (Sharp edges everywhere) ===== */
-  --foundation-continer-width-2xs: 0;
-  --foundation-max-width-2xs: 0;
+  /* ===== WIDTH SCALE: XS (Narrow - Blog focused) ===== */
+  --foundation-layout-xs-content: 48rem;   /* 768px - content/text sections */
+  --foundation-layout-xs-media: 80rem;     /* 1280px - image/hero sections */
 
-  /* ===== width SCALE: XS (Ultra Fine - 1px increments) ===== */
-  --foundation-continer-width-xs: 0;
-  --foundation-max-width-xs: 0;
-  
-  /* ===== width SCALE: SM (Small - 2px increments) ===== */
-  --foundation-continer-width-sm: 0;
-  --foundation-max-width-sm: 0;
+  /* ===== WIDTH SCALE: SM (Small - Balanced narrow) ===== */
+  --foundation-layout-sm-content: 56rem;   /* 896px - content/text sections */
+  --foundation-layout-sm-media: 90rem;     /* 1440px - image/hero sections */
 
-  /* ===== width SCALE: MD (Medium - 4px increments) ===== */
-  --foundation-continer-width-md: 0;
-  --foundation-max-width-md: 0;
+  /* ===== WIDTH SCALE: MD (Medium - Standard websites) ===== */
+  --foundation-layout-md-content: 80rem;   /* 1280px - content/text sections */
+  --foundation-layout-md-media: 96rem;     /* 1536px - image/hero sections */
 
-  /* ===== width SCALE: LG (Large - 5px increments) ===== */
-  --foundation-continer-width-lg: 0;
-  --foundation-max-width-lg: 0;
+  /* ===== WIDTH SCALE: LG (Large - Wide layouts) ===== */
+  --foundation-layout-lg-content: 90rem;   /* 1440px - content/text sections */
+  --foundation-layout-lg-media: 108rem;    /* 1728px - image/hero sections */
 
-  /* ===== width SCALE: XL (Extra Large - 6px increments) ===== */
-  --foundation-continer-width-xl: 0;
-  --foundation-max-width-xl: 0;
+  /* ===== WIDTH SCALE: XL (Extra Large - Dashboard/App) ===== */
+  --foundation-layout-xl-content: 96rem;   /* 1536px - content/text sections */
+  --foundation-layout-xl-media: 112rem;    /* 1792px - image/hero sections */
 
-  /* ===== width SCALE: 2XL (Maximum - 8px increments) ===== */
-  --foundation-continer-width-2xl: 0;
-  --foundation-max-width-2xl: 0;
+  /* ===== WIDTH SCALE: 2XL (Maximum - Ultra-wide) ===== */
+  --foundation-layout-2xl-content: 108rem; /* 1728px - content/text sections */
+  --foundation-layout-2xl-media: 120rem;   /* 1920px - image/hero sections */
 
-  /* ===== width SCALE: FULL (Hero - 10px increments) ===== */
-  --foundation-continer-width-3xl: 0;
-  --foundation-max-width-3xl: 0;
+  /* ===== WIDTH SCALE: FULL (Hero - Maximum flexibility) ===== */
+  --foundation-layout-full-content: 120rem; /* 1920px - content/text sections */
+  --foundation-layout-full-media: 160rem;   /* 2560px - image/hero sections */
 
-
-  --selected-width-scale-none: var(--foundation-width-md-none);
-  --selected-width-scale-xs: var(--foundation-width-md-xs);
-  --selected-width-scale-sm: var(--foundation-width-md-sm);
-  --selected-width-scale-md: var(--foundation-width-md-md);
-  --selected-width-scale-lg: var(--foundation-width-md-lg);
-  --selected-width-scale-xl: var(--foundation-width-md-xl);
-  --selected-width-scale-2xl: var(--foundation-width-md-2xl);
-  --selected-width-scale-full: var(--foundation-width-md-full);
-
+  /* ===== SELECTED WIDTH SCALE (User picks ONE scale) ===== */
+  /* Default: MD scale (1280px content, 1536px media) */
+  --selected-layout-scale-content: var(--foundation-layout-md-content);
+  --selected-layout-scale-media: var(--foundation-layout-md-media);
 }
+
+/* 
+LAYOUT WIDTH SCALE SUMMARY - TWO WIDTHS PER SCALE:
+===================================================
+
+User selects ONE scale and gets BOTH widths:
+
+XS (Narrow Blog):    Content: 768px  | Media: 1280px
+SM (Small Balanced): Content: 896px  | Media: 1440px
+MD (Standard):       Content: 1280px | Media: 1536px  ← DEFAULT
+LG (Wide Layout):    Content: 1440px | Media: 1728px
+XL (Dashboard):      Content: 1536px | Media: 1792px
+2XL (Ultra-wide):    Content: 1728px | Media: 1920px
+FULL (Hero):         Content: 1920px | Media: 2560px
+
+USAGE IN CONTAINER:
+===================
+<Container maxWidth="xl">  → uses --selected-layout-scale-content (1280px default)
+<Container maxWidth="2xl"> → uses --selected-layout-scale-media (1536px default)
+*/

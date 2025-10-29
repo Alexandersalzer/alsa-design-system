@@ -185,7 +185,7 @@ export const BrandLink = ({
       className={className}
       onClick={onClick}
     >
-      <HStack spacing="sm" align="center" className="brand-hStack">
+      <HStack spacing="sm" align="center">
         {logoSrc && (
           <img 
             src={logoSrc} 
