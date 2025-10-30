@@ -44,6 +44,9 @@ export interface SetupGuideProps {
   phase?: SetupPhase;
   className?: string;
   onNavigate?: (href: string) => void;
+  // Alternativt: tillåt externa steps och progress
+  customSteps?: SetupStep[];
+  customProgress?: number;
 }
 
 // ===== MOCKAD DATA =====
@@ -113,15 +116,19 @@ const getSteps = (phase: SetupPhase): SetupStep[] => {
 export const SetupGuide: React.FC<SetupGuideProps> = ({ 
   phase = 'building', 
   className,
-  onNavigate 
+  onNavigate,
+  customSteps,
+  customProgress
 }) => {
-  const steps = getSteps(phase);
+  const steps = customSteps || getSteps(phase);
   
-  // Beräkna progress
+  // Beräkna progress (använd custom om tillgängligt)
   const completedSteps = steps.filter(s => s.completed).length;
-  const progress = steps.length > 0 
-    ? Math.round((completedSteps / steps.length) * 100) 
-    : 0;
+  const progress = customProgress !== undefined 
+    ? customProgress
+    : (steps.length > 0 
+        ? Math.round((completedSteps / steps.length) * 100) 
+        : 0);
 
   const handleNavigate = (href: string) => {
     if (onNavigate) {
