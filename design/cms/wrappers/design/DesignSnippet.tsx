@@ -1,4 +1,3 @@
-'use client';
 import type { DesignJson } from "./designLoader";
 
 export type RadiusScale =
