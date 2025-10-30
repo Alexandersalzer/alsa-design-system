@@ -1,32 +1,11 @@
 import type { DesignJson } from "./designLoader";
 
-export type RadiusScale =
-  | "none"
-  | "xs"
-  | "sm"
-  | "md"
-  | "lg"
-  | "xl"
-  | "2xl"
-  | "full";
-
-/** Säker normalisering av radius-värde */
-function normalizeRadius(input: unknown): RadiusScale {
-  const allowed: RadiusScale[] = [
-    "none", "xs", "sm", "md", "lg", "xl", "2xl", "full",
-  ];
-  if (typeof input === "string" && allowed.includes(input as RadiusScale)) {
-    return input as RadiusScale;
-  }
-  return "md"; // fallback
-}
-
 /** 
  * Genererar CSS-variabler från design.json
  * Används för att injicera design tokens direkt i <head>
  */
 export function buildCssVars(design: DesignJson): string {
-  const radius = normalizeRadius(design?.globalStyles?.radius);
+  const radius = design?.globalStyles?.radius || "md";
   const accentColor = design?.globalStyles?.accentColor || "#2ace28";
   const isDark = design?.globalStyles?.isDark ?? false;
   const fontPrimary = design?.globalStyles?.fontPrimary || "Sora";
