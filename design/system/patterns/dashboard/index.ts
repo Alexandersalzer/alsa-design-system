@@ -18,3 +18,4 @@ export * from './display';
 
 // ===== SETUP & ONBOARDING =====
 export * from './SetupGuide';
+export * from './ProgressButton';
