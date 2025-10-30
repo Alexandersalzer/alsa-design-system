@@ -15,3 +15,6 @@ export * from './GitHubInfo';
 
 // ===== DISPLAY PATTERNS =====
 export * from './display';
+
+// ===== SETUP & ONBOARDING =====
+export * from './SetupGuide';
