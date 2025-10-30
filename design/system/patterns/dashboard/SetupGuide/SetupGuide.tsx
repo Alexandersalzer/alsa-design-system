@@ -181,8 +181,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
 
   // Visa setup-guide
   return (
-    <>
-      {/* Animations CSS */}
+    <PageSection className={className}>
       <style>{`
         @keyframes setupStepComplete {
           0% {
@@ -205,9 +204,8 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
         }
       `}</style>
       
-      <PageSection className={className}>
-        {/* Visuell separator */}
-        <Divider style={{ marginBottom: 'var(--foundation-space-8)' }} />
+      {/* Visuell separator */}
+      <Divider style={{ marginBottom: 'var(--foundation-space-8)' }} />
       
       <VStack spacing="xl">
         {/* Header */}
@@ -355,7 +353,6 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
         )}
       </VStack>
     </PageSection>
-    </>
   );
 };
 
