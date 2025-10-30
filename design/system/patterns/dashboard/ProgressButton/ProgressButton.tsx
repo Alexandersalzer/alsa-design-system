@@ -13,8 +13,7 @@ import {
   HStack, 
   Body, 
   Tag,
-  H3,
-  Divider
+  Box
 } from '../../../components';
 import { 
   CheckCircleIcon
@@ -79,40 +78,47 @@ export const ProgressButton: React.FC<ProgressButtonProps> = ({
         positioning={{ placement: 'bottom-end', offset: 8 }}
         className="progress-button-popover"
       >
+        <Popover.Header>
+          <VStack spacing="xs" align="start">
+            <Box as="h3" style={{ 
+              margin: 0,
+              fontSize: 'var(--font-body-lg-size)',
+              fontWeight: 'var(--foundation-weight-semibold)',
+              color: 'var(--text-primary)',
+              lineHeight: 'var(--font-body-lg-leading)'
+            }}>
+              Setup-status
+            </Box>
+            <Body size="sm" color="secondary">
+              {isComplete
+                ? 'Alla steg är slutförda! 🎉'
+                : `${completed} av ${total} steg slutförda`
+              }
+            </Body>
+          </VStack>
+        </Popover.Header>
+
         <Popover.Body>
-          <VStack spacing="md">
-            {/* Header */}
-            <VStack spacing="xs">
-              <H3>Setup-status</H3>
-              <Body size="sm" color="secondary">
-                {isComplete
-                  ? 'Alla steg är slutförda! 🎉'
-                  : `${completed} av ${total} steg slutförda`
-                }
-              </Body>
-            </VStack>
-
-            <Divider />
-
-            {/* Steps list */}
-            <VStack spacing="sm">
-              {steps.map((step) => (
+          <VStack spacing="sm">
+            {steps.map((step) => (
+              <Box key={step.key} style={{ padding: 'var(--foundation-space-1) 0' }}>
                 <HStack
-                  key={step.key}
                   align="center"
                   justify="between"
                   spacing="sm"
                 >
-                  <Body size="sm">{step.title}</Body>
+                  <Box style={{ flex: 1 }}>
+                    <Body size="sm">{step.title}</Body>
+                  </Box>
                   <Tag
                     size="small"
                     variant={step.completed ? 'success' : 'default'}
                   >
-                    {step.completed ? '✓' : 'Ej klart'}
+                    {step.completed ? '✓ Klart' : 'Ej klart'}
                   </Tag>
                 </HStack>
-              ))}
-            </VStack>
+              </Box>
+            ))}
           </VStack>
         </Popover.Body>
       </Popover.Content>
