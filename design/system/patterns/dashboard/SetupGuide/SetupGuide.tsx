@@ -171,13 +171,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
     );
   }
 
-  // Spåra nyligen slutförda steg för animation
-  const [recentlyCompleted, setRecentlyCompleted] = useState<Set<string>>(new Set());
-
-  useEffect(() => {
-    const completed = new Set(steps.filter(s => s.completed).map(s => s.key));
-    setRecentlyCompleted(completed);
-  }, [steps]);
+  // Removed animation tracking to prevent re-render issues
 
   // Visa setup-guide
   return (
@@ -210,8 +204,6 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                 onCardClick={!step.completed ? () => handleNavigate(step.href) : undefined}
                 style={{
                   opacity: step.completed ? 0.7 : 1,
-                  cursor: step.completed ? 'default' : 'pointer',
-                  animation: step.completed ? 'setupStepComplete 0.5s ease-out' : 'none',
                   minHeight: '120px',
                   width: '100%'
                 }}
