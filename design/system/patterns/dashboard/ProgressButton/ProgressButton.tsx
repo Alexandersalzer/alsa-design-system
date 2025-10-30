@@ -13,7 +13,8 @@ import {
   HStack, 
   Body, 
   Tag,
-  Box
+  H3,
+  Divider
 } from '../../../components';
 import { 
   CheckCircleIcon
@@ -48,81 +49,63 @@ export const ProgressButton: React.FC<ProgressButtonProps> = ({
   const total = totalSteps ?? steps.length;
 
   return (
-    <>
-      <style>{`
-        .progress-button-popover {
-          min-width: 280px;
-          max-width: 320px;
-        }
-      `}</style>
-      
-      <Popover
-      open={open}
+    <Popover 
+      open={open} 
       onOpenChange={setOpen}
-      closeOnEscape
-      closeOnInteractOutside
       size="sm"
     >
       <Popover.Trigger asChild>
         <Button
           variant={isComplete ? 'secondary' : 'accent'}
           size="sm"
-          onClick={() => setOpen(!open)}
           className={className}
         >
           {isComplete ? 'Setup klar 🎉' : `${progress}% klart`}
         </Button>
       </Popover.Trigger>
 
-      <Popover.Content
-        positioning={{ placement: 'bottom-end', offset: 8 }}
-        className="progress-button-popover"
-      >
-        <Popover.Header>
-          <VStack spacing="xs" align="start">
-            <Box as="h3" style={{ 
-              margin: 0,
-              fontSize: 'var(--font-body-lg-size)',
-              fontWeight: 'var(--foundation-weight-semibold)',
-              color: 'var(--text-primary)',
-              lineHeight: 'var(--font-body-lg-leading)'
-            }}>
-              Setup-status
-            </Box>
-            <Body size="sm" color="secondary">
-              {isComplete
-                ? 'Alla steg är slutförda! 🎉'
-                : `${completed} av ${total} steg slutförda`
-              }
-            </Body>
-          </VStack>
-        </Popover.Header>
+      <Popover.Positioner>
+        <Popover.Content width={300}>
+          <Popover.Header>
+            <HStack spacing="md" justify="between" align="center">
+              <H3>Setup-status</H3>
+            </HStack>
+          </Popover.Header>
 
-        <Popover.Body>
-          <VStack spacing="sm">
-            {steps.map((step) => (
-              <Box key={step.key} style={{ padding: 'var(--foundation-space-1) 0' }}>
-                <HStack
-                  align="center"
-                  justify="between"
-                  spacing="sm"
-                >
-                  <Box style={{ flex: 1 }}>
-                    <Body size="sm">{step.title}</Body>
-                  </Box>
-                  <Tag
-                    size="small"
-                    variant={step.completed ? 'success' : 'default'}
+          <Popover.Body>
+            <VStack spacing="md">
+              <Body size="sm" color="secondary">
+                {isComplete
+                  ? 'Alla steg är slutförda! 🎉'
+                  : `${completed} av ${total} steg slutförda`
+                }
+              </Body>
+
+              <Divider />
+
+              {/* Steps list */}
+              <VStack spacing="sm">
+                {steps.map((step) => (
+                  <HStack
+                    key={step.key}
+                    align="center"
+                    justify="between"
+                    spacing="sm"
                   >
-                    {step.completed ? '✓ Klart' : 'Ej klart'}
-                  </Tag>
-                </HStack>
-              </Box>
-            ))}
-          </VStack>
-        </Popover.Body>
-      </Popover.Content>
+                    <Body size="sm">{step.title}</Body>
+                    <Tag
+                      size="small"
+                      variant={step.completed ? 'success' : 'default'}
+                    >
+                      {step.completed ? '✓' : 'Ej klart'}
+                    </Tag>
+                  </HStack>
+                ))}
+              </VStack>
+            </VStack>
+          </Popover.Body>
+        </Popover.Content>
+      </Popover.Positioner>
     </Popover>
-    </>
   );
 };
