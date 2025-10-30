@@ -7,7 +7,6 @@
 
 import React from 'react';
 import {
-  PageSection,
   VStack,
   HStack,
   Grid,
@@ -20,6 +19,7 @@ import {
   Icon,
   Box
 } from '../../../components';
+import { PageSection } from '../page';
 import {
   CheckCircleIcon,
   CircleStackIcon,
