@@ -31,6 +31,11 @@
       "require": "./dist/design/system/templates/index.js",
       "types": "./dist/design/system/templates/index.d.ts"
     },
+    "./design": {
+      "import": "./dist/design/cms/wrappers/design/index.js",
+      "require": "./dist/design/cms/wrappers/design/index.js",
+      "types": "./dist/design/cms/wrappers/design/index.d.ts"
+    },
     "./dist/index.css": "./dist/design/index.css"
   },
   "files": [
