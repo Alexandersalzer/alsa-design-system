@@ -50,7 +50,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
         borderBottom: '1px solid var(--border-default)'
       }}
     >
-      <Container maxWidth="xl" align="center">
+      <Container align="center">
         <div style={{ maxWidth: '800px', width: '100%' }}>
           <VStack spacing="lg" align="center">
             {/* Title */}

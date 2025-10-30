@@ -37,7 +37,7 @@ export const SuccessfulCases: React.FC<SuccessfulCasesProps> = ({
 }) => {
   return (
     <section>
-      <Container maxWidth="xl" align="center">
+      <Container align="center">
         <VStack spacing="lg" align="center">
           {/* Text */}
           <VStack spacing="md" align="center">

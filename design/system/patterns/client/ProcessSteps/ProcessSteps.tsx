@@ -73,7 +73,7 @@ export function ProcessSteps({ content }: ProcessStepsProps) {
         backgroundColor: 'transparent'
       }}
     >
-      <Container maxWidth="xl" align="center">
+      <Container align="center">
         <VStack spacing="xl" align="center">
           {/* Header */}
           <div className="process-steps-header">

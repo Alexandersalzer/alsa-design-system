@@ -97,7 +97,7 @@ const FAQ = ({ content, id = "faq" }: FAQProps) => {
         minHeight: '800px' // Lägg till minsta höjd för hela sektionen
       }}
     >
-      <Container maxWidth="xl" align="center">
+      <Container align="center">
         <VStack spacing="xl" align="center">
           {/* Header */}
           <div style={{ maxWidth: '800px', width: '100%' }}>

@@ -60,7 +60,7 @@ const AboutWithStats = ({ id = "om-oss", content, className }: AboutWithStatsPro
           paddingBottom: 'var(--foundation-space-16)'
         }}
       >
-        <Container maxWidth="xl" align="center">
+        <Container align="center">
           <div style={{ maxWidth: '800px', width: '100%' }}>
             <VStack spacing="lg" align="center">
               <Typography 

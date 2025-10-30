@@ -47,7 +47,7 @@ export const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
     >
       <Container 
         align="center" 
-        maxWidth="lg"
+        useMediaWidth
         style={{ 
           paddingTop: '4rem',
           paddingBottom: '4rem'
