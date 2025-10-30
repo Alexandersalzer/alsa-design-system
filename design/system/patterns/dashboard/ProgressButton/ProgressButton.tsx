@@ -15,10 +15,12 @@ import {
   Tag,
   Label,
   Listbox,
-  ListboxItem
+  ListboxItem,
+  Icon
 } from '../../../components';
 import { 
-  CheckCircleIcon
+  CheckCircleIcon,
+  ClockIcon
 } from '@heroicons/react/24/outline';
 
 // ===== TYPES =====
@@ -61,7 +63,7 @@ export const ProgressButton: React.FC<ProgressButtonProps> = ({
           size="sm"
           className={className}
         >
-          {isComplete ? 'Setup klar 🎉' : `${progress}% klart`}
+          {isComplete ? 'Setup klart' : `${progress}% klart`}
         </Button>
       </Popover.Trigger>
 
@@ -82,7 +84,7 @@ export const ProgressButton: React.FC<ProgressButtonProps> = ({
             {isComplete ? (
               <VStack spacing="md" align="center" style={{ padding: 'var(--foundation-space-4) 0' }}>
                 <Body size="lg" weight="medium" color="success">
-                  🎉 Alla steg är slutförda!
+                  Alla steg är slutförda!
                 </Body>
                 <Body size="sm" color="secondary">
                   Din webbplats är redo
@@ -95,9 +97,9 @@ export const ProgressButton: React.FC<ProgressButtonProps> = ({
                     key={step.key}
                     size="md"
                     leading={
-                      <span style={{ fontSize: '20px' }}>
-                        {step.completed ? '✅' : '⚪️'}
-                      </span>
+                      <Icon size="md" color={step.completed ? 'success' : 'tertiary'}>
+                        {step.completed ? <CheckCircleIcon /> : <ClockIcon />}
+                      </Icon>
                     }
                     trailing={
                       step.completed ? (
