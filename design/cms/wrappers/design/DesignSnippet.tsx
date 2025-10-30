@@ -1,6 +1,4 @@
-
-
-import { getDesignConfig, type DesignJson } from "./designLoader";
+import type { DesignJson } from "./designLoader";
 
 export type RadiusScale =
   | "none"
@@ -24,7 +22,7 @@ function normalizeRadius(input: unknown): RadiusScale {
 }
 
 /** Genererar CSS-variabler från design.json */
-function buildCssVars(design: DesignJson): string {
+export function buildCssVars(design: DesignJson): string {
   const radius = normalizeRadius(design?.globalStyles?.radius);
 
   return `
@@ -43,12 +41,15 @@ function buildCssVars(design: DesignJson): string {
 
 /**
  * DesignSnippet
- * - Hämtar JSON via getDesignConfig()
+ * - Tar emot design config som prop
  * - Genererar CSS-variabler och injicerar i <style>
  */
-export async function DesignSnippet() {
-  const design = await getDesignConfig();
+interface DesignSnippetProps {
+  design: DesignJson;
+}
+
+export function DesignSnippet({ design }: DesignSnippetProps) {
   const css = buildCssVars(design);
 
-  return <style>{css}</style>;
+  return <style dangerouslySetInnerHTML={{ __html: css }} />;
 }
