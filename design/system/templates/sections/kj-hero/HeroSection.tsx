@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 
 interface HeroSectionProps {
   pageSlug?: string;
-  templateIndex?: number; // Which hero template instance (0, 1, 2...)
+  templateIndex?: number;
   
   // Heading styling
   headingAs?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -24,7 +24,7 @@ interface HeroSectionProps {
   // Layout
   textAlign?: 'left' | 'center' | 'right';
   maxWidth?: string;
-  containerMaxWidth?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
+  useMediaWidth?: boolean; // ✅ SIMPLE BOOLEAN
   
   // Spacing
   headingBodySpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
@@ -55,7 +55,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   // Layout
   textAlign = 'center',
   maxWidth = '800px',
-  containerMaxWidth = 'md',
+  useMediaWidth = false, // ✅ Default: content width
   
   // Spacing
   headingBodySpacing = 'md',
@@ -98,7 +98,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <Container 
         align="center" 
         height="auto"
-        maxWidth={containerMaxWidth || "md"}
+        useMediaWidth={useMediaWidth} // ✅ CLEAN!
         style={{ 
           minHeight: '60vh', 
           paddingTop: '18rem', 

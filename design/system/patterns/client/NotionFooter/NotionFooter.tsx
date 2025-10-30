@@ -67,7 +67,7 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
         padding: 'var(--foundation-space-16, 4rem) 0 var(--foundation-space-8, 2rem)'
       }}
     >
-      <Container maxWidth="xl" align="center">
+      <Container align="center">
         <VStack spacing="xl">
           {/* Top grid - using Grid utility with responsive behavior */}
           <Grid 

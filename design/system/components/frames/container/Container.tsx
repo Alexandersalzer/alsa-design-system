@@ -3,7 +3,6 @@ import styles from './Container.module.css';
 
 type Alignment = 'left' | 'center' | 'right';
 type Height = 'auto' | 'full' | 'fit';
-type MaxWidth = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
 
 interface ContainerProps {
   children: ReactNode;
@@ -12,7 +11,7 @@ interface ContainerProps {
   as?: React.ElementType;
   align?: Alignment;
   height?: Height;
-  maxWidth?: MaxWidth;
+  useMediaWidth?: boolean; // ✅ SIMPLE BOOLEAN!
   style?: React.CSSProperties;
 }
 
@@ -41,30 +40,6 @@ const getHeightClass = (height: Height): string => {
   }
 };
 
-const getMaxWidthClass = (maxWidth: MaxWidth): string => {
-  switch (maxWidth) {
-    case 'xs':
-      return styles.maxWidthXs;
-    case 'sm':
-      return styles.maxWidthSm;
-    case 'md':
-      return styles.maxWidthMd;
-    case 'lg':
-      return styles.maxWidthLg;
-    case 'xl':
-      return styles.maxWidthXl;
-    case '2xl':
-      return styles.maxWidth2xl;
-    case '3xl':
-      return styles.maxWidth3xl;
-    case 'full':
-      return styles.maxWidthFull;
-    case 'none':
-    default:
-      return styles.maxWidthNone;
-  }
-};
-
 export const Container = ({ 
   children, 
   className = '', 
@@ -72,14 +47,17 @@ export const Container = ({
   as: Component = 'div',
   align = 'left',
   height = 'auto',
-  maxWidth = 'none',
+  useMediaWidth = false, // ✅ Default: use content width
   style
 }: ContainerProps) => {
   const alignmentClass = getAlignmentClass(align);
   const heightClass = getHeightClass(height);
-  const maxWidthClass = getMaxWidthClass(maxWidth);
-  const combinedClassName = `${styles.container} ${alignmentClass} ${heightClass} ${maxWidthClass} ${className}`.trim();
   
+  // ✅ SIMPLE: Add media class if true
+  const maxWidthClass = useMediaWidth ? styles.maxWidthMedia : '';
+  
+  const combinedClassName = `${styles.container} ${alignmentClass} ${heightClass} ${maxWidthClass} ${className}`.trim();
+
   return (
     <Component 
       id={id}
@@ -89,4 +67,4 @@ export const Container = ({
       {children}
     </Component>
   );
-}; 
+};

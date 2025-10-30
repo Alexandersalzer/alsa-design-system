@@ -4,4 +4,8 @@
   --control-height-md: 40px;
   --control-height-lg: 48px;
   --control-height-xl: 56px;
+
+  /* ✅ Navbar height tokens */
+  --navbar-height: 64px; /* Default */
+  --navbar-height-mobile: 56px;
 }

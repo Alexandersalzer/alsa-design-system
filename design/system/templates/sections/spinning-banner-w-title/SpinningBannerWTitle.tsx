@@ -70,7 +70,6 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
     >
       <Container 
       align="center" 
-      maxWidth="lg"
       style={{ 
         paddingTop: '3rem',
         paddingBottom: '3rem'

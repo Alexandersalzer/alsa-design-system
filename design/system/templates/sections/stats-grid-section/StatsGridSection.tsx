@@ -91,7 +91,6 @@ export const StatsGridSection: React.FC<StatsGridSectionProps> = ({
     >
       <Container 
         align={containerAlign}
-        maxWidth={containerMaxWidth}
         style={{ 
           paddingTop: '4rem',
           paddingBottom: '4rem'

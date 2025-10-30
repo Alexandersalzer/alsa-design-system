@@ -132,7 +132,7 @@ export const Hero: React.FC<HeroProps> = ({ content, onCtaClick, id = "hero" }) 
         }} />
       )}
       
-      <Container maxWidth="xl" align="center" height="full" className="hero-container">
+      <Container align="center" height="full" className="hero-container">
         <Grid columns={2} gap="xl" alignItems="center" collapseOn="tablet" className="hero-grid">
           {/* Text först i DOM på desktop */}
           <VStack spacing="lg" align="start" className="hero-text-content">

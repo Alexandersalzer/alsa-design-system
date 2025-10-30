@@ -178,7 +178,6 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
     >
       <Container 
         align={containerAlign}
-        maxWidth="lg"
         style={{ 
           paddingTop: '2rem',
           paddingBottom: '4rem'

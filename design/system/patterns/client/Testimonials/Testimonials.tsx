@@ -43,7 +43,7 @@ const Testimonials = ({ id = "testimonials", content, className }: TestimonialsP
         paddingBottom: 'var(--foundation-space-24)'
       }}
     >
-      <Container maxWidth="xl" align="center">
+      <Container align="center">
         <VStack spacing="xl" align="center">
           {/* Header */}
           <div style={{ maxWidth: '1200px', width: '100%' }}>
