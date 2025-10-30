@@ -13,8 +13,9 @@ import {
   HStack, 
   Body, 
   Tag,
-  H3,
-  Divider
+  Label,
+  Listbox,
+  ListboxItem
 } from '../../../components';
 import { 
   CheckCircleIcon
@@ -65,44 +66,62 @@ export const ProgressButton: React.FC<ProgressButtonProps> = ({
       </Popover.Trigger>
 
       <Popover.Positioner>
-        <Popover.Content width={300}>
+        <Popover.Content width={340}>
           <Popover.Header>
             <HStack spacing="md" justify="between" align="center">
-              <H3>Setup-status</H3>
+              <Label size="lg" weight="bold" color="heading">
+                Setup-status
+              </Label>
+              <Label size="sm" weight="medium" color="accent">
+                {completed}/{total}
+              </Label>
             </HStack>
           </Popover.Header>
 
           <Popover.Body>
-            <VStack spacing="md">
-              <Body size="sm" color="secondary">
-                {isComplete
-                  ? 'Alla steg är slutförda! 🎉'
-                  : `${completed} av ${total} steg slutförda`
-                }
-              </Body>
-
-              <Divider />
-
-              {/* Steps list */}
-              <VStack spacing="sm">
-                {steps.map((step) => (
-                  <HStack
-                    key={step.key}
-                    align="center"
-                    justify="between"
-                    spacing="sm"
-                  >
-                    <Body size="sm">{step.title}</Body>
-                    <Tag
-                      size="small"
-                      variant={step.completed ? 'success' : 'default'}
-                    >
-                      {step.completed ? '✓' : 'Ej klart'}
-                    </Tag>
-                  </HStack>
-                ))}
+            {isComplete ? (
+              <VStack spacing="md" align="center" style={{ padding: 'var(--foundation-space-4) 0' }}>
+                <Body size="lg" weight="medium" color="success">
+                  🎉 Alla steg är slutförda!
+                </Body>
+                <Body size="sm" color="secondary">
+                  Din webbplats är redo
+                </Body>
               </VStack>
-            </VStack>
+            ) : (
+              <Listbox size="md" spacing="xs">
+                {steps.map((step) => (
+                  <ListboxItem
+                    key={step.key}
+                    size="md"
+                    leading={
+                      <span style={{ fontSize: '20px' }}>
+                        {step.completed ? '✅' : '⚪️'}
+                      </span>
+                    }
+                    trailing={
+                      step.completed ? (
+                        <Label size="xs" weight="medium" color="success">
+                          Klart
+                        </Label>
+                      ) : (
+                        <Label size="xs" weight="medium" color="tertiary">
+                          Ej klart
+                        </Label>
+                      )
+                    }
+                  >
+                    <Label 
+                      size="sm" 
+                      weight={step.completed ? 'regular' : 'semibold'}
+                      color={step.completed ? 'secondary' : 'primary'}
+                    >
+                      {step.title}
+                    </Label>
+                  </ListboxItem>
+                ))}
+              </Listbox>
+            )}
           </Popover.Body>
         </Popover.Content>
       </Popover.Positioner>
