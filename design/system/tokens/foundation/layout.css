@@ -1,38 +1,44 @@
 /* ==============================================
    src/design-system/tokens/foundation/layout.css
-   LAYOUT WIDTH TOKENS - TWO WIDTHS PER SCALE
-   User selects ONE scale, gets TWO consistent widths
+   LAYOUT WIDTH TOKENS - 9 SCALES FOR MAXIMUM FLEXIBILITY
    ============================================== */
-
 :root {
-  /* ===== WIDTH SCALE: XS (Narrow - Blog focused) ===== */
-  --foundation-layout-xs-content: 48rem;   /* 768px - content/text sections */
-  --foundation-layout-xs-media: 80rem;     /* 1280px - image/hero sections */
-
-  /* ===== WIDTH SCALE: SM (Small - Balanced narrow) ===== */
-  --foundation-layout-sm-content: 56rem;   /* 896px - content/text sections */
-  --foundation-layout-sm-media: 90rem;     /* 1440px - image/hero sections */
-
-  /* ===== WIDTH SCALE: MD (Medium - Standard websites) ===== */
-  --foundation-layout-md-content: 80rem;   /* 1280px - content/text sections */
-  --foundation-layout-md-media: 96rem;     /* 1536px - image/hero sections */
-
-  /* ===== WIDTH SCALE: LG (Large - Wide layouts) ===== */
-  --foundation-layout-lg-content: 90rem;   /* 1440px - content/text sections */
-  --foundation-layout-lg-media: 108rem;    /* 1728px - image/hero sections */
-
-  /* ===== WIDTH SCALE: XL (Extra Large - Dashboard/App) ===== */
-  --foundation-layout-xl-content: 96rem;   /* 1536px - content/text sections */
-  --foundation-layout-xl-media: 112rem;    /* 1792px - image/hero sections */
-
-  /* ===== WIDTH SCALE: 2XL (Maximum - Ultra-wide) ===== */
-  --foundation-layout-2xl-content: 108rem; /* 1728px - content/text sections */
-  --foundation-layout-2xl-media: 120rem;   /* 1920px - image/hero sections */
-
-  /* ===== WIDTH SCALE: FULL (Hero - Maximum flexibility) ===== */
-  --foundation-layout-full-content: 120rem; /* 1920px - content/text sections */
+  /* ===== WIDTH SCALE: XXS (Extra Extra Small - Mobile-first) ===== */
+  --foundation-layout-xxs-content: 40rem;   /* 640px - content/text sections */
+  --foundation-layout-xxs-media: 64rem;     /* 1024px - image/hero sections */
+  
+  /* ===== WIDTH SCALE: XS (Extra Small - Narrow blog) ===== */
+  --foundation-layout-xs-content: 48rem;    /* 768px - content/text sections */
+  --foundation-layout-xs-media: 80rem;      /* 1280px - image/hero sections */
+  
+  /* ===== WIDTH SCALE: SM (Small - Compact) ===== */
+  --foundation-layout-sm-content: 64rem;    /* 1024px - content/text sections */
+  --foundation-layout-sm-media: 90rem;      /* 1440px - image/hero sections */
+  
+  /* ===== WIDTH SCALE: MD (Medium - Standard) ===== */
+  --foundation-layout-md-content: 80rem;    /* 1280px - content/text sections */
+  --foundation-layout-md-media: 96rem;      /* 1536px - image/hero sections */
+  
+  /* ===== WIDTH SCALE: LG (Large - Wide) ===== */
+  --foundation-layout-lg-content: 90rem;    /* 1440px - content/text sections */
+  --foundation-layout-lg-media: 108rem;     /* 1728px - image/hero sections */
+  
+  /* ===== WIDTH SCALE: XL (Extra Large - Spacious) ===== */
+  --foundation-layout-xl-content: 100rem;   /* 1600px - content/text sections */
+  --foundation-layout-xl-media: 120rem;     /* 1920px - image/hero sections */
+  
+  /* ===== WIDTH SCALE: 2XL (Extra Extra Large - Dashboard) ===== */
+  --foundation-layout-2xl-content: 112rem;  /* 1792px - content/text sections */
+  --foundation-layout-2xl-media: 128rem;    /* 2048px - image/hero sections */
+  
+  /* ===== WIDTH SCALE: 3XL (Triple Extra Large - Ultra-wide) ===== */
+  --foundation-layout-3xl-content: 120rem;  /* 1920px - content/text sections */
+  --foundation-layout-3xl-media: 140rem;    /* 2240px - image/hero sections */
+  
+  /* ===== WIDTH SCALE: FULL (Maximum - Hero sections) ===== */
+  --foundation-layout-full-content: 128rem; /* 2048px - content/text sections */
   --foundation-layout-full-media: 160rem;   /* 2560px - image/hero sections */
-
+  
   /* ===== SELECTED WIDTH SCALE (User picks ONE scale) ===== */
   /* Default: MD scale (1280px content, 1536px media) */
   --selected-layout-scale-content: var(--foundation-layout-md-content);
@@ -40,21 +46,49 @@
 }
 
 /* 
-LAYOUT WIDTH SCALE SUMMARY - TWO WIDTHS PER SCALE:
-===================================================
+9-SCALE LAYOUT SYSTEM - COMPLETE PROGRESSION:
+==============================================
 
-User selects ONE scale and gets BOTH widths:
+Scale | Content | Media   | Gap    | Use Case
+------|---------|---------|--------|------------------
+XXS   |  640px  | 1024px  |        | Mobile-first, minimal
+      |         |         | +128px |
+XS    |  768px  | 1280px  |        | Narrow blogs
+      |         |         | +256px |
+SM    | 1024px  | 1440px  |        | Compact sites
+      |         |         | +256px |
+MD    | 1280px  | 1536px  |        | Standard (DEFAULT) ✅
+      |         |         | +160px |
+LG    | 1440px  | 1728px  |        | Wide marketing
+      |         |         | +160px |
+XL    | 1600px  | 1920px  |        | Spacious layouts
+      |         |         | +192px |
+2XL   | 1792px  | 2048px  |        | Dashboards
+      |         |         | +128px |
+3XL   | 1920px  | 2240px  |        | Ultra-wide
+      |         |         | +128px |
+FULL  | 2048px  | 2560px  |        | Maximum hero
 
-XS (Narrow Blog):    Content: 768px  | Media: 1280px
-SM (Small Balanced): Content: 896px  | Media: 1440px
-MD (Standard):       Content: 1280px | Media: 1536px  ← DEFAULT
-LG (Wide Layout):    Content: 1440px | Media: 1728px
-XL (Dashboard):      Content: 1536px | Media: 1792px
-2XL (Ultra-wide):    Content: 1728px | Media: 1920px
-FULL (Hero):         Content: 1920px | Media: 2560px
-
-USAGE IN CONTAINER:
+SMOOTH PROGRESSION:
 ===================
-<Container maxWidth="xl">  → uses --selected-layout-scale-content (1280px default)
-<Container maxWidth="2xl"> → uses --selected-layout-scale-media (1536px default)
+XXS → XS:   +128px (640 → 768)    ✅
+XS  → SM:   +256px (768 → 1024)   ✅
+SM  → MD:   +256px (1024 → 1280)  ✅
+MD  → LG:   +160px (1280 → 1440)  ✅
+LG  → XL:   +160px (1440 → 1600)  ✅
+XL  → 2XL:  +192px (1600 → 1792)  ✅
+2XL → 3XL:  +128px (1792 → 1920)  ✅
+3XL → FULL: +128px (1920 → 2048)  ✅
+
+RECOMMENDED USAGE:
+==================
+XXS:  Mobile-first apps, minimal interfaces
+XS:   Narrow blogs, reading-focused sites
+SM:   Compact corporate sites
+MD:   Standard websites (most common) ← DEFAULT
+LG:   Wide marketing sites, portfolios
+XL:   Spacious modern sites
+2XL:  Data dashboards, admin panels
+3XL:  Ultra-wide creative portfolios
+FULL: Maximum hero sections, full-bleed layouts
 */
