@@ -3,7 +3,6 @@ import styles from './Container.module.css';
 
 type Alignment = 'left' | 'center' | 'right';
 type Height = 'auto' | 'full' | 'fit';
-type MaxWidth = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'media' | 'full';
 
 interface ContainerProps {
   children: ReactNode;
@@ -12,7 +11,7 @@ interface ContainerProps {
   as?: React.ElementType;
   align?: Alignment;
   height?: Height;
-  maxWidth?: MaxWidth;
+  useMediaWidth?: boolean; // ✅ SIMPLE BOOLEAN!
   style?: React.CSSProperties;
 }
 
@@ -41,25 +40,6 @@ const getHeightClass = (height: Height): string => {
   }
 };
 
-const getMaxWidthClass = (maxWidth: MaxWidth): string => {
-  switch (maxWidth) {
-    case 'media':
-      return styles.maxWidthMedia;  // ← NEW: Uses --width-media token
-    case 'xs':
-    case 'sm':
-    case 'md':
-    case 'lg':
-    case 'xl':
-    case '2xl':
-      return styles.maxWidthXl;  // All legacy sizes use content width
-    case 'full':
-      return styles.maxWidthFull;
-    case 'none':
-    default:
-      return styles.maxWidthNone;
-  }
-};
-
 export const Container = ({ 
   children, 
   className = '', 
@@ -67,12 +47,14 @@ export const Container = ({
   as: Component = 'div',
   align = 'left',
   height = 'auto',
-  maxWidth = 'none',  // Default: uses --width-container
+  useMediaWidth = false, // ✅ Default: use content width
   style
 }: ContainerProps) => {
   const alignmentClass = getAlignmentClass(align);
   const heightClass = getHeightClass(height);
-  const maxWidthClass = getMaxWidthClass(maxWidth);
+  
+  // ✅ SIMPLE: Add media class if true
+  const maxWidthClass = useMediaWidth ? styles.maxWidthMedia : '';
   
   const combinedClassName = `${styles.container} ${alignmentClass} ${heightClass} ${maxWidthClass} ${className}`.trim();
 

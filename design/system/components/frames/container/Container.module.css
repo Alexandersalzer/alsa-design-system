@@ -6,35 +6,14 @@
   padding: var(--foundation-space-4, 1rem);
   min-height: fit-content;
   
-  /* ✅ DEFAULT: All containers use content width */
-  max-width: var(--width-container);
+  /* ✅ DEFAULT: Content width */
+  max-width: var(--width-content);
   margin: 0 auto;
 }
 
-/* Max Width variants */
-.maxWidthNone {
-  max-width: none;
-}
-
-/* ✅ MEDIA WIDTH - for big image/hero sections */
+/* ✅ ONLY ONE VARIANT: Media width for heroes/videos */
 .maxWidthMedia {
   max-width: var(--width-media);
-  margin: 0 auto;
-}
-
-.maxWidthFull {
-  max-width: 100%;
-}
-
-/* Legacy sizes - all map to content width */
-.maxWidthXs,
-.maxWidthSm,
-.maxWidthMd,
-.maxWidthLg,
-.maxWidthXl,
-.maxWidth2xl {
-  max-width: var(--width-container);
-  margin: 0 auto;
 }
 
 /* Height variants */
