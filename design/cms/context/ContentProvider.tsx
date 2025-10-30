@@ -43,6 +43,9 @@ interface ContentProviderProps {
   initialContent?: WebsiteContent | null;
 }
 
+// Create the context BEFORE using it
+const ContentContext = createContext<ContentContextType | undefined>(undefined);
+
 export function ContentProvider({ children, initialContent = null }: ContentProviderProps) {
   const [dynamicContent, setDynamicContent] = useState<WebsiteContent | null>(initialContent);
   const [isLoading, setIsLoading] = useState(true);
@@ -164,8 +167,6 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
     </ContentContext.Provider>
   );
 }
-
-const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export function useContent() {
   const context = useContext(ContentContext);
