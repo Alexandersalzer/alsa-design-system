@@ -5,7 +5,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   VStack,
   HStack,
@@ -17,7 +17,8 @@ import {
   Body,
   Button,
   Icon,
-  Box
+  Box,
+  Divider
 } from '../../../components';
 import { PageSection } from '../page';
 import {
@@ -164,9 +165,44 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
     );
   }
 
+  // Spåra nyligen slutförda steg för animation
+  const [recentlyCompleted, setRecentlyCompleted] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    const completed = new Set(steps.filter(s => s.completed).map(s => s.key));
+    setRecentlyCompleted(completed);
+  }, [steps]);
+
   // Visa setup-guide
   return (
-    <PageSection className={className}>
+    <>
+      {/* Animations CSS */}
+      <style>{`
+        @keyframes setupStepComplete {
+          0% {
+            transform: scale(0.95);
+            opacity: 0.5;
+          }
+          50% {
+            transform: scale(1.02);
+          }
+          100% {
+            transform: scale(1);
+            opacity: 0.7;
+          }
+        }
+        
+        @keyframes setupProgressGrow {
+          from {
+            width: 0;
+          }
+        }
+      `}</style>
+      
+      <PageSection className={className}>
+        {/* Visuell separator */}
+        <Divider style={{ marginBottom: 'var(--foundation-space-8)' }} />
+      
       <VStack spacing="xl">
         {/* Header */}
         <VStack spacing="sm">
@@ -179,8 +215,8 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
           </Body>
         </VStack>
 
-        {/* Steps Grid */}
-        <Grid columns={{ base: 1, md: 2 }} gap="md">
+        {/* Steps Grid - RESPONSIV */}
+        <Grid columns={{ base: 1, md: 2, lg: 3 }} gap="md">
           {steps.map((step) => {
             const IconComponent = step.icon;
             
@@ -192,7 +228,9 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                 onCardClick={!step.completed ? () => handleNavigate(step.href) : undefined}
                 style={{
                   opacity: step.completed ? 0.7 : 1,
-                  cursor: step.completed ? 'default' : 'pointer'
+                  cursor: step.completed ? 'default' : 'pointer',
+                  animation: step.completed ? 'setupStepComplete 0.5s ease-out' : 'none',
+                  transform: step.completed ? 'scale(1)' : 'scale(1)'
                 }}
               >
                 <CardContent>
@@ -251,50 +289,74 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
           })}
         </Grid>
 
-        {/* Progress Card */}
-        <Card 
-          variant="outlined"
-          style={{
-            background: 'linear-gradient(135deg, var(--accent-50) 0%, var(--accent-100) 100%)'
-          }}
-        >
-          <CardContent>
-            <VStack spacing="md">
-              {/* Progress Bar */}
-              <Box
-                style={{
-                  width: '100%',
-                  height: '8px',
-                  backgroundColor: 'var(--surface-subtle)',
-                  borderRadius: 'var(--radius-full)',
-                  overflow: 'hidden'
-                }}
-              >
+        {/* Progress Card eller Gratulation */}
+        {progress === 100 ? (
+          <Card 
+            variant="elevated"
+            style={{
+              background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-600) 100%)',
+              animation: 'setupStepComplete 0.6s ease-out'
+            }}
+          >
+            <CardContent>
+              <VStack spacing="md" align="center" style={{ padding: 'var(--foundation-space-4)' }}>
+                <Box style={{ fontSize: '48px', lineHeight: 1 }}>🎉</Box>
+                <VStack spacing="xs" align="center">
+                  <H3 style={{ color: 'white' }}>Grattis! Din webbplats är nu live!</H3>
+                  <Body size="sm" style={{ color: 'rgba(255,255,255,0.9)' }}>
+                    Alla setup-steg är slutförda
+                  </Body>
+                </VStack>
+              </VStack>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card 
+            variant="outlined"
+            style={{
+              background: 'linear-gradient(135deg, var(--accent-50) 0%, var(--accent-100) 100%)'
+            }}
+          >
+            <CardContent>
+              <VStack spacing="md">
+                {/* Progress Bar */}
                 <Box
                   style={{
-                    width: `${progress}%`,
-                    height: '100%',
-                    backgroundColor: 'var(--accent-500)',
+                    width: '100%',
+                    height: '8px',
+                    backgroundColor: 'var(--surface-subtle)',
                     borderRadius: 'var(--radius-full)',
-                    transition: 'width 0.6s ease'
+                    overflow: 'hidden'
                   }}
-                />
-              </Box>
+                >
+                  <Box
+                    style={{
+                      width: `${progress}%`,
+                      height: '100%',
+                      backgroundColor: 'var(--accent-500)',
+                      borderRadius: 'var(--radius-full)',
+                      transition: 'width 0.6s ease',
+                      animation: 'setupProgressGrow 0.8s ease-out'
+                    }}
+                  />
+                </Box>
 
-              {/* Progress Text */}
-              <HStack justify="between" align="center">
-                <Body size="sm" weight="medium">
-                  {completedSteps} av {steps.length} steg slutförda
-                </Body>
-                <Body size="sm" weight="bold" color="accent">
-                  {progress}% klart
-                </Body>
-              </HStack>
-            </VStack>
-          </CardContent>
-        </Card>
+                {/* Progress Text */}
+                <HStack justify="between" align="center">
+                  <Body size="sm" weight="medium">
+                    {completedSteps} av {steps.length} steg slutförda
+                  </Body>
+                  <Body size="sm" weight="bold" color="accent">
+                    {progress}% klart
+                  </Body>
+                </HStack>
+              </VStack>
+            </CardContent>
+          </Card>
+        )}
       </VStack>
     </PageSection>
+    </>
   );
 };
 
