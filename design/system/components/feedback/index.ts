@@ -4,3 +4,4 @@ export * from './Tag';
 export * from './Toast';
 export * from './Spinner'
 export * from './LoadingSkeleton'
+export * from './Progress'
