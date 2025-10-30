@@ -22,7 +22,7 @@
   --foundation-radius-xs-xl: 0.3125rem;   /* 5px */
   --foundation-radius-xs-2xl: 0.375rem;   /* 6px */
   --foundation-radius-xs-full: 9999px;
-
+  
   /* ===== RADIUS SCALE: SM (Small - 2px increments) ===== */
   --foundation-radius-sm-none: 0;
   --foundation-radius-sm-xs: 0.125rem;    /* 2px */
