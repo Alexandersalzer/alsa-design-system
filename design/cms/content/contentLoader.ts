@@ -63,37 +63,68 @@ async function loadPageLayout(locale: string, pageSlug: string) {
 }
 
 /**
- * Load global template content for a specific locale and component type
+ * Load navbar content for a specific locale
  * Uses dynamic import to avoid bundling fs in browser
  */
-export async function getGlobalComponentContent(locale: string = 'sv', componentType: string) {
+export async function getNavbarContent(locale: string = 'sv') {
   if (typeof window !== 'undefined') {
-    throw new Error('getGlobalComponentContent is only available on server-side');
+    throw new Error('getNavbarContent is only available on server-side');
   }
 
   try {
     const { promises: fs } = await import('fs');
     const path = await import('path');
     
-    const globalPath = path.join(
+    const navbarPath = path.join(
       process.cwd(), 
       'public', 
       'content', 
       locale, 
-      'globals',
-      componentType,
-      `${componentType}.json`
+      'navbar.json'
     );
-    const fileContent = await fs.readFile(globalPath, 'utf8');
-    const globalData = JSON.parse(fileContent);
+    const fileContent = await fs.readFile(navbarPath, 'utf8');
+    const navbarData = JSON.parse(fileContent);
     
-    // Return the natural JSON structure without artificial fields
-    return globalData;
+    return navbarData;
   } catch (error) {
-    console.error(`Failed to load ${componentType} content for locale ${locale}:`, error);
+    console.error(`Failed to load navbar content for locale ${locale}:`, error);
     // Fallback to Swedish if locale file doesn't exist
     if (locale !== 'sv') {
-      return getGlobalComponentContent('sv', componentType);
+      return getNavbarContent('sv');
+    }
+    return null;
+  }
+}
+
+/**
+ * Load footer content for a specific locale
+ * Uses dynamic import to avoid bundling fs in browser
+ */
+export async function getFooterContent(locale: string = 'sv') {
+  if (typeof window !== 'undefined') {
+    throw new Error('getFooterContent is only available on server-side');
+  }
+
+  try {
+    const { promises: fs } = await import('fs');
+    const path = await import('path');
+    
+    const footerPath = path.join(
+      process.cwd(), 
+      'public', 
+      'content', 
+      locale, 
+      'footer.json'
+    );
+    const fileContent = await fs.readFile(footerPath, 'utf8');
+    const footerData = JSON.parse(fileContent);
+    
+    return footerData;
+  } catch (error) {
+    console.error(`Failed to load footer content for locale ${locale}:`, error);
+    // Fallback to Swedish if locale file doesn't exist
+    if (locale !== 'sv') {
+      return getFooterContent('sv');
     }
     return null;
   }
@@ -209,26 +240,16 @@ export async function getAllPagesContent(locale: string = 'sv') {
     // Load all global components
     const globals: { [key: string]: any } = {};
     
-    try {
-      const globalsDir = path.join(process.cwd(), 'public', 'content', locale, 'globals');
-      const globalEntries = await fs.readdir(globalsDir, { withFileTypes: true });
-      
-      for (const entry of globalEntries) {
-        if (entry.isDirectory()) {
-          const componentType = entry.name;
-          const globalContent = await getGlobalComponentContent(locale, componentType);
-          if (globalContent) {
-            globals[componentType] = globalContent;
-          }
-        }
-      }
-    } catch (error) {
-      console.error(`Failed to load globals directory for locale ${locale}:`, error);
-      // Fallback to just navbar for backward compatibility
-      const navbarContent = await getGlobalComponentContent(locale, 'navbar');
-      if (navbarContent) {
-        globals.navbar = navbarContent;
-      }
+    // Load navbar content
+    const navbarContent = await getNavbarContent(locale);
+    if (navbarContent) {
+      globals.navbar = navbarContent;
+    }
+    
+    // Load footer content
+    const footerContent = await getFooterContent(locale);
+    if (footerContent) {
+      globals.footer = footerContent;
     }
     
     // Convert pages array to object keyed by slug for WebsiteContent format
