@@ -2,6 +2,7 @@
  * Server-komponent — ingen "use client"
  * Renderar ett <style> block i <head> vid build/SSR
  */
+'use client';
 
 import { getDesignConfig, type DesignJson } from "./designLoader";
 
