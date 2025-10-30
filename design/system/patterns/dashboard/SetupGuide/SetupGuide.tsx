@@ -182,28 +182,6 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
   // Visa setup-guide
   return (
     <PageSection className={className}>
-      <style>{`
-        @keyframes setupStepComplete {
-          0% {
-            transform: scale(0.95);
-            opacity: 0.5;
-          }
-          50% {
-            transform: scale(1.02);
-          }
-          100% {
-            transform: scale(1);
-            opacity: 0.7;
-          }
-        }
-        
-        @keyframes setupProgressGrow {
-          from {
-            width: 0;
-          }
-        }
-      `}</style>
-      
       {/* Visuell separator */}
       <Divider style={{ marginBottom: 'var(--foundation-space-8)' }} />
       
