@@ -21,7 +21,10 @@ function normalizeRadius(input: unknown): RadiusScale {
   return "md"; // fallback
 }
 
-/** Genererar CSS-variabler från design.json */
+/** 
+ * Genererar CSS-variabler från design.json
+ * Används för att injicera design tokens direkt i <head>
+ */
 export function buildCssVars(design: DesignJson): string {
   const radius = normalizeRadius(design?.globalStyles?.radius);
 
@@ -37,19 +40,4 @@ export function buildCssVars(design: DesignJson): string {
       --selected-radius-scale-full: var(--foundation-radius-${radius}-full);
     }
   `.trim();
-}
-
-/**
- * DesignSnippet
- * - Tar emot design config som prop
- * - Genererar CSS-variabler och injicerar i <style>
- */
-interface DesignSnippetProps {
-  design: DesignJson;
-}
-
-export function DesignSnippet({ design }: DesignSnippetProps) {
-  const css = buildCssVars(design);
-
-  return <style dangerouslySetInnerHTML={{ __html: css }} />;
 }
