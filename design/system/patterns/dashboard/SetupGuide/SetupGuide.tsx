@@ -9,7 +9,6 @@ import React, { useEffect, useState } from 'react';
 import {
   VStack,
   HStack,
-  Grid,
   Card,
   CardContent,
   H2,
@@ -215,8 +214,8 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
           </Body>
         </VStack>
 
-        {/* Steps Grid - RESPONSIV */}
-        <Grid columns={{ base: 1, md: 2, lg: 3 }} gap="md">
+        {/* Steps - Vertikal Stack */}
+        <VStack spacing="lg">
           {steps.map((step) => {
             const IconComponent = step.icon;
             
@@ -230,64 +229,57 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                   opacity: step.completed ? 0.7 : 1,
                   cursor: step.completed ? 'default' : 'pointer',
                   animation: step.completed ? 'setupStepComplete 0.5s ease-out' : 'none',
-                  transform: step.completed ? 'scale(1)' : 'scale(1)'
+                  minHeight: '120px',
+                  width: '100%'
                 }}
               >
                 <CardContent>
-                  <HStack spacing="md" align="start">
-                    {/* Icon */}
-                    <Box
-                      style={{
-                        width: '48px',
-                        height: '48px',
-                        borderRadius: 'var(--radius-md)',
-                        backgroundColor: step.completed 
-                          ? 'var(--success-subtle)' 
-                          : 'var(--accent-subtle)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0
-                      }}
-                    >
-                      <Icon 
-                        size="lg" 
-                        color={step.completed ? 'success' : 'accent'}
-                      >
-                        {step.completed ? <CheckCircleIcon /> : <IconComponent />}
-                      </Icon>
+                  <HStack spacing="md" align="center" justify="between">
+                    {/* Vänster: Ikon + Text */}
+                    <Box style={{ flex: 1 }}>
+                      <HStack spacing="md" align="center">
+                        {/* Icon */}
+                        <Icon 
+                          size="xl" 
+                          color={step.completed ? 'success' : 'accent'}
+                        >
+                          {step.completed ? <CheckCircleIcon /> : <IconComponent />}
+                        </Icon>
+
+                        {/* Content */}
+                        <VStack spacing="xs" align="start">
+                          <H3>{step.title}</H3>
+                          <Body size="sm" color="secondary">
+                            {step.description}
+                          </Body>
+                          {step.completed && (
+                            <Body size="xs" color="success" weight="medium">
+                              ✓ Klart
+                            </Body>
+                          )}
+                        </VStack>
+                      </HStack>
                     </Box>
 
-                    {/* Content */}
-                    <VStack spacing="sm" style={{ flex: 1 }}>
-                      <H3>{step.title}</H3>
-                      <Body size="sm" color="secondary">
-                        {step.description}
-                      </Body>
-                      {!step.completed && (
-                        <Button 
-                          variant="accent" 
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleNavigate(step.href);
-                          }}
-                        >
-                          Gå till
-                        </Button>
-                      )}
-                      {step.completed && (
-                        <Body size="xs" color="success" weight="medium">
-                          ✓ Klart
-                        </Body>
-                      )}
-                    </VStack>
+                    {/* Höger: Knapp */}
+                    {!step.completed && (
+                      <Button 
+                        variant="accent" 
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleNavigate(step.href);
+                        }}
+                      >
+                        Gå till
+                      </Button>
+                    )}
                   </HStack>
                 </CardContent>
               </Card>
             );
           })}
-        </Grid>
+        </VStack>
 
         {/* Progress Card eller Gratulation */}
         {progress === 100 ? (
