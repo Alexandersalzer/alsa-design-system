@@ -27,9 +27,19 @@ function normalizeRadius(input: unknown): RadiusScale {
  */
 export function buildCssVars(design: DesignJson): string {
   const radius = normalizeRadius(design?.globalStyles?.radius);
+  const accentColor = design?.globalStyles?.accentColor || "#2ace28";
+  const isDark = design?.globalStyles?.isDark ?? false;
+  const fontPrimary = design?.globalStyles?.fontPrimary || "Sora";
+
+  // Generate Google Fonts URL for the primary font
+  const fontWeights = "400;600;700;800";
+  const fontUrl = `https://fonts.googleapis.com/css2?family=${fontPrimary.replace(/\s/g, '+')}:wght@${fontWeights}&display=swap`;
 
   return `
+    @import url('${fontUrl}');
+
     :root {
+      /* Radius tokens */
       --selected-radius-scale-none: var(--foundation-radius-${radius}-none);
       --selected-radius-scale-xs:   var(--foundation-radius-${radius}-xs);
       --selected-radius-scale-sm:   var(--foundation-radius-${radius}-sm);
@@ -38,6 +48,15 @@ export function buildCssVars(design: DesignJson): string {
       --selected-radius-scale-xl:   var(--foundation-radius-${radius}-xl);
       --selected-radius-scale-2xl:  var(--foundation-radius-${radius}-2xl);
       --selected-radius-scale-full: var(--foundation-radius-${radius}-full);
+
+      /* Accent color */
+      --accent-color: ${accentColor};
+
+      /* Theme control - 0 for light, 1 for dark */
+      --is-dark: ${isDark ? 1 : 0};
+
+      /* Font configuration */
+      --font-primary-name: '${fontPrimary}';
     }
   `.trim();
 }

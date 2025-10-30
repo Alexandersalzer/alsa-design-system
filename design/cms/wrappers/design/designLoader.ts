@@ -6,7 +6,9 @@
 export interface DesignJson {
     globalStyles?: {
       radius?: string;
-      // kan byggas ut: accentColor, fontPrimary, isDark etc
+      accentColor?: string;
+      isDark?: boolean;
+      fontPrimary?: string;
     };
   }
   
@@ -27,7 +29,14 @@ export interface DesignJson {
     } catch (error) {
       console.error("⚠️ Failed to load design.json from public/design:", error);
       // Return fallback-config om något går fel
-      return { globalStyles: { radius: "md" } };
+      return { 
+        globalStyles: { 
+          radius: "md",
+          accentColor: "#2ace28",
+          isDark: false,
+          fontPrimary: "Sora"
+        } 
+      };
     }
   }
   
