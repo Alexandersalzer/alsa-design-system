@@ -52,7 +52,7 @@
   box-sizing: border-box;
 }
 
-/* Prevent any potential horizontal scrolling */
-.section > * {
+/* ❌ REMOVED THIS - IT WAS BREAKING CONTAINER WIDTH! */
+/* .section > * {
   max-width: 100%;
-} 
+} */
