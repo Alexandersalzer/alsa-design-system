@@ -9,6 +9,8 @@ export interface DesignJson {
       accentColor?: string;
       isDark?: boolean;
       fontPrimary?: string;
+      layoutContent?: string;
+      layoutMedia?: string;
     };
   }
   
@@ -34,7 +36,9 @@ export interface DesignJson {
           radius: "md",
           accentColor: "#2ace28",
           isDark: false,
-          fontPrimary: "Sora"
+          fontPrimary: "Sora",
+          layoutContent: "md",
+          layoutMedia: "xl"
         } 
       };
     }

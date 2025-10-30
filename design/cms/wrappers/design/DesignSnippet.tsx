@@ -30,6 +30,8 @@ export function buildCssVars(design: DesignJson): string {
   const accentColor = design?.globalStyles?.accentColor || "#2ace28";
   const isDark = design?.globalStyles?.isDark ?? false;
   const fontPrimary = design?.globalStyles?.fontPrimary || "Sora";
+  const layoutContent = design?.globalStyles?.layoutContent || "md";
+  const layoutMedia = design?.globalStyles?.layoutMedia || "xl";
 
   // Generate Google Fonts URL for the primary font
   const fontWeights = "400;600;700;800";
@@ -48,6 +50,10 @@ export function buildCssVars(design: DesignJson): string {
       --selected-radius-scale-xl:   var(--foundation-radius-${radius}-xl);
       --selected-radius-scale-2xl:  var(--foundation-radius-${radius}-2xl);
       --selected-radius-scale-full: var(--foundation-radius-${radius}-full);
+
+      /* Layout tokens */
+      --selected-layout-scale-content: var(--foundation-layout-${layoutContent}-content);
+      --selected-layout-scale-media: var(--foundation-layout-${layoutMedia}-media);
 
       /* Accent color */
       --accent-color: ${accentColor};
