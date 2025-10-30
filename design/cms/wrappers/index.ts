@@ -6,3 +6,5 @@ export * from './content';
 
 // Export all editing functionality
 export * from './editing'; 
+
+export * from './design';
