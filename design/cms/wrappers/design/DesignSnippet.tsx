@@ -2,6 +2,9 @@
 // Denna komponent renderar ett <style>-block i <head> vid build/SSR,
 // så variablerna finns på plats före första paint.
 
+import fs from "fs";
+import path from "path";
+
 export type RadiusScale =
   | "none"
   | "xs"
@@ -54,13 +57,25 @@ function buildCssVars(design: DesignJson): string {
   `.trim();
 }
 
+function readDesignFile(): DesignJson {
+    try {
+      const filePath = path.join(process.cwd(), "public", "design", "design.json");
+      const json = fs.readFileSync(filePath, "utf-8");
+      return JSON.parse(json);
+    } catch (err) {
+      console.warn("⚠️  DesignSnippet: kunde inte läsa public/design/design.json – fallback används.", err);
+      return { globalStyles: { radius: "md" } };
+    }
+  }
+
 /**
  * DesignSnippet
  * - Läser en kontrollerad design.json-struktur
  * - Översätter till CSS custom properties som överskriver "selected" tokens
  * - Renderas i <head> för noll FOUC
  */
-export function DesignSnippet({ design }: { design: DesignJson }) {
+export function DesignSnippet() {
+  const design = readDesignFile();
   const css = buildCssVars(design);
   return <style>{css}</style>;
 }
