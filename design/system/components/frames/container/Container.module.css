@@ -5,36 +5,36 @@
   gap: var(--foundation-space-6, 1.5rem);
   padding: var(--foundation-space-4, 1rem);
   min-height: fit-content;
+  
+  /* ✅ DEFAULT: All containers use content width */
+  max-width: var(--width-container);
+  margin: 0 auto;
 }
 
-/* Max Width variants - USING SEMANTIC TOKENS */
+/* Max Width variants */
 .maxWidthNone {
   max-width: none;
 }
 
-/* Content width - for text, cards, services, testimonials, contact */
-.maxWidthXl {
-  max-width: var(--width-content);
-  margin: 0 auto;
-}
-
-/* Media width - for big images, heroes, illustrations */
-.maxWidth2xl {
+/* ✅ MEDIA WIDTH - for big image/hero sections */
+.maxWidthMedia {
   max-width: var(--width-media);
-  margin: 0 auto;
-}
-
-/* Legacy sizes - map to content width */
-.maxWidthXs,
-.maxWidthSm,
-.maxWidthMd,
-.maxWidthLg {
-  max-width: var(--width-content);
   margin: 0 auto;
 }
 
 .maxWidthFull {
   max-width: 100%;
+}
+
+/* Legacy sizes - all map to content width */
+.maxWidthXs,
+.maxWidthSm,
+.maxWidthMd,
+.maxWidthLg,
+.maxWidthXl,
+.maxWidth2xl {
+  max-width: var(--width-container);
+  margin: 0 auto;
 }
 
 /* Height variants */

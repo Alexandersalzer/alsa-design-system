@@ -3,7 +3,7 @@ import styles from './Container.module.css';
 
 type Alignment = 'left' | 'center' | 'right';
 type Height = 'auto' | 'full' | 'fit';
-type MaxWidth = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
+type MaxWidth = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'media' | 'full';
 
 interface ContainerProps {
   children: ReactNode;
@@ -43,20 +43,15 @@ const getHeightClass = (height: Height): string => {
 
 const getMaxWidthClass = (maxWidth: MaxWidth): string => {
   switch (maxWidth) {
+    case 'media':
+      return styles.maxWidthMedia;  // ← NEW: Uses --width-media token
     case 'xs':
-      return styles.maxWidthXs;
     case 'sm':
-      return styles.maxWidthSm;
     case 'md':
-      return styles.maxWidthMd;
     case 'lg':
-      return styles.maxWidthLg;
     case 'xl':
-      return styles.maxWidthXl;
     case '2xl':
-      return styles.maxWidth2xl;
-    case '3xl':
-      return styles.maxWidth3xl;
+      return styles.maxWidthXl;  // All legacy sizes use content width
     case 'full':
       return styles.maxWidthFull;
     case 'none':
@@ -72,7 +67,7 @@ export const Container = ({
   as: Component = 'div',
   align = 'left',
   height = 'auto',
-  maxWidth = 'none',
+  maxWidth = 'none',  // Default: uses --width-container
   style
 }: ContainerProps) => {
   const alignmentClass = getAlignmentClass(align);
