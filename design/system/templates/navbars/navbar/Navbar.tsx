@@ -109,20 +109,6 @@ const Navbar = ({
   // Use navigation utilities for consistent route handling with CMS content
   const nav = getNavigationContext(pathname, isEditingMode, content);
 
-  // Find the home page slug dynamically from CMS content based on current locale
-  const getHomeSlug = (): string => {
-    if (!content?.pages) return brandHref.replace('/', '') || 'home';
-    
-    // Find home page matching current locale
-    const homePages = Object.values(content.pages).filter((p: any) => p.type === 'home');
-    const homePage = homePages.find((p: any) => p.language === nav.currentLocale) || homePages[0];
-    
-    return (homePage as any)?.slug || brandHref.replace('/', '') || 'home';
-  };
-
-  // Use dynamic home slug instead of hardcoded brandHref prop
-  const dynamicBrandHref = `/${getHomeSlug()}`;
-
   // Use CMS items if available, otherwise fallback to passed navItems
   const finalNavItems = cmsNavItems.length > 0 ? cmsNavItems : navItems;
 
@@ -158,11 +144,11 @@ const Navbar = ({
 
   // Handle brand link click
   const handleBrandClick = () => {
-    const brandSlug = getHomeSlug();
-    const fullBrandHref = nav.buildBrandHref(dynamicBrandHref);
+    const brandSlug = brandHref.replace('/', '') || 'home';
+    const fullBrandHref = nav.buildBrandHref(brandHref);
     
     console.log('🧭 Brand clicked:', {
-      dynamicBrandHref,
+      originalHref: brandHref,
       brandSlug,
       fullBrandHref,
       currentLocale,
@@ -213,7 +199,7 @@ const Navbar = ({
         {/* HStack for horizontal layout */}
         <HStack justify="between" align="center" spacing="md" className="navbar-content">
           <BrandLink 
-            href={nav.buildBrandHref(dynamicBrandHref)}
+            href={nav.buildBrandHref(brandHref)}
             variant={brandVariant}
             size={brandSize}
             weight={brandWeight}
