@@ -212,23 +212,18 @@ export async function getAllPagesContent(locale: string = 'sv') {
     
     const pages = [];
     
-    // Load from new pages structure (if it exists)
+    // Load from new pages structure
     const pagesDir = path.join(process.cwd(), 'public', 'content', locale, 'pages');
-    try {
-      const pageEntries = await fs.readdir(pagesDir, { withFileTypes: true });
-      
-      for (const entry of pageEntries) {
-        if (entry.isDirectory()) {
-          const pageSlug = entry.name;
-          const content = await getPageContent(locale, pageSlug);
-          if (content) {
-            pages.push(content);
-          }
+    const pageEntries = await fs.readdir(pagesDir, { withFileTypes: true });
+    
+    for (const entry of pageEntries) {
+      if (entry.isDirectory()) {
+        const pageSlug = entry.name;
+        const content = await getPageContent(locale, pageSlug);
+        if (content) {
+          pages.push(content);
         }
       }
-    } catch (error) {
-      // Pages directory doesn't exist, that's ok - we'll load from direct JSON files
-      console.log(`No pages directory found for locale ${locale}, using direct JSON files only`);
     }
     
     // Also check for any remaining direct JSON files (like about.json) for backward compatibility
