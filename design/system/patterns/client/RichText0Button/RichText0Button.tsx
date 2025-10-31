@@ -34,11 +34,11 @@ export const RichText0Button: React.FC<RichText0ButtonProps> = ({
   // Typography variants - can be overridden at template level
   headingVariant = 'display-lg', // Valid TypographyVariant
   subtitleVariant = 'body-md', // Valid TypographyVariant
-  unit = 'xl', // Same as HeroSection
+  unit = 'xl', // Same as Hero
   textPosition = 1,
-  textSpacing = 'sm', // Same as HeroSection
-  textAlign = 'center', // Same as HeroSection
-  maxWidth = '550px', // Same as HeroSection
+  textSpacing = 'sm', // Same as Hero
+  textAlign = 'center', // Same as Hero
+  maxWidth = '550px', // Same as Hero
   containerAlign = 'center',
   containerMaxWidth = 'md',
   paddingTop = '15rem',

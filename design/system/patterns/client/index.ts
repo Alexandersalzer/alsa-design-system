@@ -4,7 +4,6 @@ export * from './RichText';
 export * from './_kj-footer';
 export * from './NotionFooter';
 export * from './FAQ';
-export * from './Hero';
 export * from './PKLHero';
 export * from './PKLNavbar';
 export * from './PKLFooter';

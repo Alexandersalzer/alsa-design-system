@@ -1,7 +1,7 @@
 'use client';
 
 import { Section, Container } from '../../../components';
-import { SectionBody } from '../../../../system/patterns/shared/sectionBody/SectionBody';
+import { SectionBody } from '../../../patterns/shared/sectionBody/SectionBody';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 
@@ -36,7 +36,7 @@ interface HeroSectionProps {
   tagVariant?: 'success' | 'error' | 'warning' | 'info' | 'accent' | 'default';
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ 
+export const Hero: React.FC<HeroSectionProps> = ({ 
   pageSlug,
   templateIndex = 0,
   
@@ -92,7 +92,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   
   if (pageV2) {
     // NEW FORMAT: Use V2 queries
-    console.log('✅ HeroSection: Using V2 format for page:', currentSlug);
+    console.log('✅ Hero: Using V2 format for page:', currentSlug);
     
     // Get hero section
     const heroSection = getSectionV2(pageV2, 'hero', templateIndex);
@@ -126,7 +126,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     }
   } else {
     // LEGACY FORMAT: Use old queries
-    console.log('ℹ️ HeroSection: Using legacy format for page:', currentSlug);
+    console.log('ℹ️ Hero: Using legacy format for page:', currentSlug);
     
     // Get specific hero template by index
     const heroTemplate = getPageTemplate(currentSlug, 'hero', templateIndex);
@@ -225,4 +225,4 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   );
 };
 
-export default HeroSection;
+export default Hero;
