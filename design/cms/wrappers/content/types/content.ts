@@ -66,7 +66,7 @@ export interface WebsiteContent {
  */
 export interface ContentComponent {
   type: string;
-  content?: string | ContentButtonContent | ContentLogoContent;
+  content?: string | ContentButtonContent | ContentLogoContent | ContentVideoContent;
   settings?: Record<string, any>;
 }
 
@@ -84,6 +84,14 @@ export interface ContentButtonContent {
 export interface ContentLogoContent {
   src: string;
   alt: string;
+}
+
+/**
+ * Video-specific content structure
+ */
+export interface ContentVideoContent {
+  src: string;
+  poster?: string;
 }
 
 /**

@@ -1,8 +1,9 @@
 'use client';
 
-import { Section, Container } from '../../../components';
+import { Section, Container, Block } from '../../../components';
 import { SectionBody } from '../../../patterns/shared/sectionBody/SectionBody';
 import { SpinningBanner } from '../../../patterns/client/spinning-banner/SpinningBanner';
+import { VideoShowcase } from '../../../components/media/VideoShowcase/VideoShowcase';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 
@@ -98,6 +99,11 @@ export const Hero: React.FC<HeroSectionProps> = ({
   let spinningBannerSpeed = 30;
   let spinningBannerDirection: 'left' | 'right' = 'left';
   
+  // Video showcase data
+  let showVideoShowcase = false;
+  let videoSrc = '';
+  let videoPoster = '';
+  
   if (pageV2) {
     // NEW FORMAT: Use V2 queries
     console.log('✅ Hero: Using V2 format for page:', currentSlug);
@@ -162,6 +168,26 @@ export const Hero: React.FC<HeroSectionProps> = ({
           .filter(logo => logo.src); // Only include logos with valid src
         
         spinningBannerLogos = logoComponents;
+      }
+    }
+    
+    // Get media pattern for video
+    const mediaPattern = getPatternV2(heroSection, 'media', 0);
+    
+    if (mediaPattern) {
+      const videoComponent = getComponentV2(mediaPattern, 'video');
+      
+      if (videoComponent && videoComponent.content) {
+        const content = videoComponent.content as any;
+        if (typeof content === 'object' && content.src) {
+          showVideoShowcase = true;
+          videoSrc = content.src;
+          videoPoster = content.poster || '';
+        } else if (typeof content === 'object' && content.content) {
+          // Handle nested content structure
+          showVideoShowcase = true;
+          videoSrc = content.content;
+        }
       }
     }
   } else {
@@ -281,6 +307,26 @@ export const Hero: React.FC<HeroSectionProps> = ({
               speed={spinningBannerSpeed}
               direction={spinningBannerDirection}
             />
+          </div>
+        )}
+        
+        {showVideoShowcase && (
+          <div style={{ marginTop: '4rem', width: '100%' }}>
+            <Block>
+              <VideoShowcase
+                src={videoSrc}
+                poster={videoPoster}
+                autoPlay={false}
+                muted={true}
+                loop={true}
+                controls={false}
+                showPlayButton={true}
+                variant="elevated"
+                size="full"
+                aspectRatio="16-9"
+                radius="md"
+              />
+            </Block>
           </div>
         )}
       </Container>
