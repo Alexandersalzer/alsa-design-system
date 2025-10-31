@@ -2,6 +2,7 @@
 
 import { Section, Container } from '../../../components';
 import { SectionBody } from '../../../patterns/shared/sectionBody/SectionBody';
+import { SpinningBanner } from '../../../patterns/client/spinning-banner/SpinningBanner';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
 
@@ -90,6 +91,13 @@ export const Hero: React.FC<HeroSectionProps> = ({
   let secondaryButtonText = '';
   let tagContent = tagText;
   
+  // Spinning banner data
+  let showSpinningBanner = false;
+  let spinningBannerHeading = '';
+  let spinningBannerLogos: Array<{ src: string; alt: string }> = [];
+  let spinningBannerSpeed = 30;
+  let spinningBannerDirection: 'left' | 'right' = 'left';
+  
   if (pageV2) {
     // NEW FORMAT: Use V2 queries
     console.log('✅ Hero: Using V2 format for page:', currentSlug);
@@ -122,6 +130,38 @@ export const Hero: React.FC<HeroSectionProps> = ({
         } else if (typeof actionComponent.content === 'string') {
           primaryButtonText = actionComponent.content;
         }
+      }
+    }
+    
+    // Get spinningLogos pattern
+    const spinningLogosPattern = getPatternV2(heroSection, 'spinningLogos', 0);
+    
+    if (spinningLogosPattern) {
+      showSpinningBanner = true;
+      
+      // Get heading from spinningLogos
+      const spinningHeadingComponent = getComponentV2(spinningLogosPattern, 'heading');
+      spinningBannerHeading = getComponentContentV2(spinningHeadingComponent);
+      
+      // Get settings
+      const settings = spinningLogosPattern.settings || {};
+      spinningBannerSpeed = settings.speed || 30;
+      spinningBannerDirection = settings.direction || 'left';
+      
+      // Get all logo components
+      if (spinningLogosPattern.components) {
+        const logoComponents = Object.entries(spinningLogosPattern.components)
+          .filter(([key, comp]) => comp.type === 'logo')
+          .map(([key, comp]) => {
+            const content = comp.content as any;
+            return {
+              src: content?.src || '',
+              alt: content?.alt || 'Logo'
+            };
+          })
+          .filter(logo => logo.src); // Only include logos with valid src
+        
+        spinningBannerLogos = logoComponents;
       }
     }
   } else {
@@ -220,6 +260,29 @@ export const Hero: React.FC<HeroSectionProps> = ({
           headingBodySpacing={headingBodySpacing}
           bodyActionSpacing={bodyActionSpacing}
         />
+        
+        {showSpinningBanner && (
+          <div style={{ marginTop: '4rem', width: '100%' }}>
+            {spinningBannerHeading && (
+              <h3 style={{ 
+                textAlign: 'center', 
+                marginBottom: '2rem',
+                fontSize: 'var(--font-size-sm)',
+                fontWeight: 'var(--font-weight-medium)',
+                color: 'var(--color-text-tertiary)',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase'
+              }}>
+                {spinningBannerHeading}
+              </h3>
+            )}
+            <SpinningBanner
+              logos={spinningBannerLogos}
+              speed={spinningBannerSpeed}
+              direction={spinningBannerDirection}
+            />
+          </div>
+        )}
       </Container>
     </Section>
   );

@@ -62,11 +62,11 @@ export interface WebsiteContent {
 
 /**
  * Component - Lowest level content unit
- * Examples: tag, heading, body, button, video
+ * Examples: tag, heading, body, button, video, logo
  */
 export interface ContentComponent {
   type: string;
-  content?: string | ContentButtonContent;
+  content?: string | ContentButtonContent | ContentLogoContent;
   settings?: Record<string, any>;
 }
 
@@ -76,6 +76,14 @@ export interface ContentComponent {
 export interface ContentButtonContent {
   type: string;
   content: string;
+}
+
+/**
+ * Logo-specific content structure
+ */
+export interface ContentLogoContent {
+  src: string;
+  alt: string;
 }
 
 /**
