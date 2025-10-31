@@ -280,4 +280,56 @@ export async function getAllPagesContent(locale: string = 'sv') {
     }
     return null;
   }
+}
+
+/**
+ * Get the home page slug for a specific locale
+ * This is typically the first page in the content or a page marked as home
+ * Uses dynamic import to avoid bundling fs in browser
+ */
+export async function getHomePageSlug(locale: string = 'sv'): Promise<string> {
+  if (typeof window !== 'undefined') {
+    throw new Error('getHomePageSlug is only available on server-side');
+  }
+
+  try {
+    const { promises: fs } = await import('fs');
+    const path = await import('path');
+    
+    // Check for direct JSON files in the locale folder
+    const contentDir = path.join(process.cwd(), 'public', 'content', locale);
+    const entries = await fs.readdir(contentDir, { withFileTypes: true });
+    const directFiles = entries.filter(entry => 
+      entry.isFile() && 
+      entry.name.endsWith('.json') &&
+      !['navbar.json', 'footer.json'].includes(entry.name)
+    );
+    
+    // Look for a file with slug field or use filename
+    for (const file of directFiles) {
+      const filePath = path.join(contentDir, file.name);
+      const fileContent = await fs.readFile(filePath, 'utf8');
+      const content = JSON.parse(fileContent);
+      
+      // Check if this is marked as home page or has name "Hem"/"Home"
+      if (content.name === 'Hem' || content.name === 'Home' || content.slug === 'hem' || content.slug === 'home') {
+        return content.slug || file.name.replace('.json', '');
+      }
+    }
+    
+    // Fallback: return the first page's slug
+    if (directFiles.length > 0) {
+      const firstFile = directFiles[0];
+      const filePath = path.join(contentDir, firstFile.name);
+      const fileContent = await fs.readFile(filePath, 'utf8');
+      const content = JSON.parse(fileContent);
+      return content.slug || firstFile.name.replace('.json', '');
+    }
+    
+    // Default fallback
+    return 'hem';
+  } catch (error) {
+    console.error(`Failed to get home page slug for locale ${locale}:`, error);
+    return 'hem'; // Default fallback
+  }
 } 
