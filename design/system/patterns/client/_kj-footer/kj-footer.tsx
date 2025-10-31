@@ -111,8 +111,6 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
           value={selectedLanguage}
           onChange={handleLanguageChange}
           placeholder="Välj språk"
-          size="md"
-          variant="compact"
         />
       </RhythmItem>
 
