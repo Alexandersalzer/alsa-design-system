@@ -66,23 +66,80 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   tagText = 'New',
   tagVariant = 'accent',
 }) => {
-  const { getPageTemplate, getTemplateBlocks, getBlockContent } = useContent();
+  const { 
+    getPageTemplate, 
+    getTemplateBlocks, 
+    getBlockContent,
+    getPageV2,
+    getSectionV2,
+    getPatternV2,
+    getComponentV2,
+    getComponentContentV2
+  } = useContent();
   const pathname = usePathname();
   
   // Determine which page slug to use
   const currentSlug = pageSlug || pathname.replace('/', '') || 'home';
   
-  // Get specific hero template by index
-  const heroTemplate = getPageTemplate(currentSlug, 'hero', templateIndex);
+  // Try V2 format first
+  const pageV2 = getPageV2(currentSlug);
   
-  // Get blocks from hero pattern
-  const heroBlocks = getTemplateBlocks(heroTemplate, 'hero');
+  let title = '';
+  let subtitle = '';
+  let primaryButtonText = '';
+  let secondaryButtonText = '';
+  let tagContent = tagText;
   
-  // Extract content using generic functions
-  const title = getBlockContent(heroBlocks, 'title') || '';
-  const subtitle = getBlockContent(heroBlocks, 'subtitle') || '';
-  const primaryButtonText = getBlockContent(heroBlocks, 'primaryButton') || '';
-  const secondaryButtonText = getBlockContent(heroBlocks, 'secondaryButton') || '';
+  if (pageV2) {
+    // NEW FORMAT: Use V2 queries
+    console.log('✅ HeroSection: Using V2 format for page:', currentSlug);
+    
+    // Get hero section
+    const heroSection = getSectionV2(pageV2, 'hero', templateIndex);
+    
+    // Get sectionBody pattern
+    const sectionBodyPattern = getPatternV2(heroSection, 'sectionBody', 0);
+    
+    // Extract content from components
+    if (sectionBodyPattern) {
+      const headingComponent = getComponentV2(sectionBodyPattern, 'heading');
+      const bodyComponent = getComponentV2(sectionBodyPattern, 'body');
+      const tagComponent = getComponentV2(sectionBodyPattern, 'tag');
+      const actionComponent = getComponentV2(sectionBodyPattern, 'button');
+      
+      title = getComponentContentV2(headingComponent);
+      subtitle = getComponentContentV2(bodyComponent);
+      
+      if (tagComponent) {
+        tagContent = getComponentContentV2(tagComponent);
+        showTag = true; // Auto-show tag if it exists in content
+      }
+      
+      // Handle button content
+      if (actionComponent && actionComponent.content) {
+        if (typeof actionComponent.content === 'object' && 'content' in actionComponent.content) {
+          primaryButtonText = actionComponent.content.content;
+        } else if (typeof actionComponent.content === 'string') {
+          primaryButtonText = actionComponent.content;
+        }
+      }
+    }
+  } else {
+    // LEGACY FORMAT: Use old queries
+    console.log('ℹ️ HeroSection: Using legacy format for page:', currentSlug);
+    
+    // Get specific hero template by index
+    const heroTemplate = getPageTemplate(currentSlug, 'hero', templateIndex);
+    
+    // Get blocks from hero pattern
+    const heroBlocks = getTemplateBlocks(heroTemplate, 'hero');
+    
+    // Extract content using generic functions
+    title = getBlockContent(heroBlocks, 'title') || '';
+    subtitle = getBlockContent(heroBlocks, 'subtitle') || '';
+    primaryButtonText = getBlockContent(heroBlocks, 'primaryButton') || '';
+    secondaryButtonText = getBlockContent(heroBlocks, 'secondaryButton') || '';
+  }
   
   // Don't render if no content is available
   if (!title && !subtitle && !primaryButtonText) {
@@ -111,7 +168,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <SectionBody
           // Optional tag
           tag={showTag ? {
-            text: tagText,
+            text: tagContent,
             variant: tagVariant,
             size: 'medium'
           } : undefined}
