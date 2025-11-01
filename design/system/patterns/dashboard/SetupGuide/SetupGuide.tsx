@@ -31,12 +31,14 @@ import {
 
 // ===== TYPES =====
 interface SetupStep {
-  key: string;
+  id?: string;  // Stöd för både id och key
+  key?: string;
   title: string;
   description: string;
-  href: string;
+  href?: string;
   completed: boolean;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  actionLabel?: string;
 }
 
 type SetupPhase = 'building' | 'launch' | 'done';
@@ -45,7 +47,9 @@ export interface SetupGuideProps {
   phase?: SetupPhase;
   className?: string;
   onNavigate?: (href: string) => void;
-  // Alternativt: tillåt externa steps och progress
+  // Stöd för både nya och gamla prop-namn
+  steps?: SetupStep[];
+  progress?: number;
   customSteps?: SetupStep[];
   customProgress?: number;
 }
@@ -113,23 +117,43 @@ const getSteps = (phase: SetupPhase): SetupStep[] => {
   return [];
 };
 
+// Fallback ikoner om step inte har egen
+const getDefaultIcon = (stepKey: string) => {
+  const iconMap: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
+    overview: EyeIcon,
+    requests: ChatBubbleLeftRightIcon,
+    preview: GlobeAltIcon,
+    features: CircleStackIcon,
+    review: EyeIcon,
+    domain: GlobeAltIcon,
+    publish: CheckCircleIcon,
+    done: CheckCircleIcon
+  };
+  return iconMap[stepKey] || CircleStackIcon;
+};
+
 // ===== MAIN COMPONENT =====
 export const SetupGuide: React.FC<SetupGuideProps> = ({ 
   phase = 'building', 
   className,
   onNavigate,
+  steps: stepsProp,
+  progress: progressProp,
   customSteps,
   customProgress
 }) => {
-  const steps = customSteps || getSteps(phase);
+  // Stöd för både nya (steps) och gamla (customSteps) prop-namn
+  const steps = stepsProp || customSteps || getSteps(phase);
   
-  // Beräkna progress (använd custom om tillgängligt)
+  // Beräkna progress
   const completedSteps = steps.filter(s => s.completed).length;
-  const progress = customProgress !== undefined 
-    ? customProgress
-    : (steps.length > 0 
-        ? Math.round((completedSteps / steps.length) * 100) 
-        : 0);
+  const progress = progressProp !== undefined
+    ? progressProp
+    : (customProgress !== undefined 
+        ? customProgress
+        : (steps.length > 0 
+            ? Math.round((completedSteps / steps.length) * 100) 
+            : 0));
 
   const handleNavigate = (href: string) => {
     if (onNavigate) {
@@ -188,14 +212,16 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
         {/* Steps - Vertikal Stack */}
         <VStack spacing="lg">
           {steps.map((step) => {
-            const IconComponent = step.icon;
+            const stepKey = step.id || step.key || '';
+            const stepHref = step.href || '/overview';
+            const IconComponent = step.icon || getDefaultIcon(stepKey);
             
             return (
               <Card 
-                key={step.key} 
+                key={stepKey} 
                 variant="outlined"
                 interactive={!step.completed}
-                onCardClick={!step.completed ? () => handleNavigate(step.href) : undefined}
+                onCardClick={!step.completed && stepHref ? () => handleNavigate(stepHref) : undefined}
                 className={step.completed ? 'setup-guide__step-card setup-guide__step-card--completed' : 'setup-guide__step-card'}
                 style={{ minHeight: '120px', width: '100%' }}
               >
@@ -228,16 +254,16 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                     </Box>
 
                     {/* Höger: Knapp */}
-                    {!step.completed && (
+                    {!step.completed && stepHref && (
                       <Button 
                         variant="accent" 
                         size="sm"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleNavigate(step.href);
+                          handleNavigate(stepHref);
                         }}
                       >
-                        Gå till
+                        {step.actionLabel || 'Gå till'}
                       </Button>
                     )}
                   </HStack>
