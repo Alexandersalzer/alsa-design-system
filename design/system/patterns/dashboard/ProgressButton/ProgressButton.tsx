@@ -6,6 +6,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import './ProgressButton.css';
 import { 
   Button, 
   Popover,
@@ -82,7 +83,7 @@ export const ProgressButton: React.FC<ProgressButtonProps> = ({
 
           <Popover.Body>
             {isComplete ? (
-              <VStack spacing="md" align="center" style={{ padding: 'var(--foundation-space-4) 0' }}>
+              <VStack spacing="md" align="center" className="progress-button__completion">
                 <Body size="lg" weight="medium" color="success">
                   Alla steg är slutförda!
                 </Body>

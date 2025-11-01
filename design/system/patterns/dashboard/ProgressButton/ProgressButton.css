@@ -1,0 +1,10 @@
+/* ===============================================
+   ProgressButton.css
+   Styling för ProgressButton-komponenten
+   =============================================== */
+
+/* Completion message padding */
+.progress-button__completion {
+  padding: var(--foundation-space-4) 0;
+}
+

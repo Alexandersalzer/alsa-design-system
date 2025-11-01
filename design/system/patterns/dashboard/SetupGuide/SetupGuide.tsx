@@ -5,7 +5,8 @@
 
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import './SetupGuide.css';
 import {
   VStack,
   HStack,
@@ -142,13 +143,8 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
       <PageSection>
         <Card variant="elevated">
           <CardContent>
-            <VStack spacing="lg" align="center" style={{ padding: 'var(--foundation-space-8)' }}>
-              <Box
-                style={{
-                  fontSize: '64px',
-                  lineHeight: 1
-                }}
-              >
+            <VStack spacing="lg" align="center" className="setup-guide__celebration">
+              <Box className="setup-guide__celebration-emoji">
                 🎉
               </Box>
               <VStack spacing="sm" align="center">
@@ -171,13 +167,11 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
     );
   }
 
-  // Removed animation tracking to prevent re-render issues
-
   // Visa setup-guide
   return (
     <PageSection className={className}>
       {/* Visuell separator */}
-      <Divider style={{ marginBottom: 'var(--foundation-space-8)' }} />
+      <Divider className="setup-guide__divider" />
       
       <VStack spacing="xl">
         {/* Header */}
@@ -202,16 +196,13 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                 variant="outlined"
                 interactive={!step.completed}
                 onCardClick={!step.completed ? () => handleNavigate(step.href) : undefined}
-                style={{
-                  opacity: step.completed ? 0.7 : 1,
-                  minHeight: '120px',
-                  width: '100%'
-                }}
+                className={step.completed ? 'setup-guide__step-card setup-guide__step-card--completed' : 'setup-guide__step-card'}
+                style={{ minHeight: '120px', width: '100%' }}
               >
                 <CardContent>
                   <HStack spacing="md" align="center" justify="between">
                     {/* Vänster: Ikon + Text */}
-                    <Box style={{ flex: 1 }}>
+                    <Box className="setup-guide__step-content">
                       <HStack spacing="md" align="center">
                         {/* Icon */}
                         <Icon 
@@ -260,17 +251,14 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
         {progress === 100 ? (
           <Card 
             variant="elevated"
-            style={{
-              background: 'linear-gradient(135deg, var(--accent-500) 0%, var(--accent-600) 100%)',
-              animation: 'setupStepComplete 0.6s ease-out'
-            }}
+            className="setup-guide__completed-card"
           >
             <CardContent>
-              <VStack spacing="md" align="center" style={{ padding: 'var(--foundation-space-4)' }}>
-                <Box style={{ fontSize: '48px', lineHeight: 1 }}>🎉</Box>
+              <VStack spacing="md" align="center" className="setup-guide__completed-content">
+                <Box className="setup-guide__completed-emoji">🎉</Box>
                 <VStack spacing="xs" align="center">
-                  <H3 style={{ color: 'white' }}>Grattis! Din webbplats är nu live!</H3>
-                  <Body size="sm" style={{ color: 'rgba(255,255,255,0.9)' }}>
+                  <H3 className="setup-guide__completed-title">Grattis! Din webbplats är nu live!</H3>
+                  <Body size="sm" className="setup-guide__completed-subtitle">
                     Alla setup-steg är slutförda
                   </Body>
                 </VStack>
@@ -280,33 +268,17 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
         ) : (
           <Card 
             variant="outlined"
-            style={{
-              background: 'linear-gradient(135deg, var(--accent-50) 0%, var(--accent-100) 100%)'
-            }}
+            className="setup-guide__progress-card"
           >
             <CardContent>
               <VStack spacing="md">
                 {/* Progress Bar */}
-                <Box
-                  style={{
-                    width: '100%',
-                    height: '8px',
-                    backgroundColor: 'var(--surface-subtle)',
-                    borderRadius: 'var(--radius-full)',
-                    overflow: 'hidden'
-                  }}
-                >
-                  <Box
-                    style={{
-                      width: `${progress}%`,
-                      height: '100%',
-                      backgroundColor: 'var(--accent-500)',
-                      borderRadius: 'var(--radius-full)',
-                      transition: 'width 0.6s ease',
-                      animation: 'setupProgressGrow 0.8s ease-out'
-                    }}
+                <div className="setup-guide__progress-track">
+                  <div
+                    className="setup-guide__progress-bar"
+                    style={{ width: `${progress}%` }}
                   />
-                </Box>
+                </div>
 
                 {/* Progress Text */}
                 <HStack justify="between" align="center">
