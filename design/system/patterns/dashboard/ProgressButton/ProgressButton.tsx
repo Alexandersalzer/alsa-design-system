@@ -26,8 +26,7 @@ import {
 
 // ===== TYPES =====
 interface ProgressStep {
-  id?: string;
-  key?: string;
+  key: string;
   title: string;
   completed: boolean;
 }
@@ -94,40 +93,36 @@ export const ProgressButton: React.FC<ProgressButtonProps> = ({
               </VStack>
             ) : (
               <Listbox size="md" spacing="xs">
-                {steps.map((step) => {
-                  const stepKey = step.id || step.key || '';
-                  
-                  return (
-                    <ListboxItem
-                      key={stepKey}
-                      size="md"
-                      leading={
-                        <Icon size="md" color={step.completed ? 'success' : 'tertiary'}>
-                          {step.completed ? <CheckCircleIcon /> : <ClockIcon />}
-                        </Icon>
-                      }
-                      trailing={
-                        step.completed ? (
-                          <Label size="xs" weight="medium" color="success">
-                            Klart
-                          </Label>
-                        ) : (
-                          <Label size="xs" weight="medium" color="tertiary">
-                            Ej klart
-                          </Label>
-                        )
-                      }
+                {steps.map((step) => (
+                  <ListboxItem
+                    key={step.key}
+                    size="md"
+                    leading={
+                      <Icon size="md" color={step.completed ? 'success' : 'tertiary'}>
+                        {step.completed ? <CheckCircleIcon /> : <ClockIcon />}
+                      </Icon>
+                    }
+                    trailing={
+                      step.completed ? (
+                        <Label size="xs" weight="medium" color="success">
+                          Klart
+                        </Label>
+                      ) : (
+                        <Label size="xs" weight="medium" color="tertiary">
+                          Ej klart
+                        </Label>
+                      )
+                    }
+                  >
+                    <Label 
+                      size="sm" 
+                      weight={step.completed ? 'regular' : 'semibold'}
+                      color={step.completed ? 'secondary' : 'primary'}
                     >
-                      <Label 
-                        size="sm" 
-                        weight={step.completed ? 'regular' : 'semibold'}
-                        color={step.completed ? 'secondary' : 'primary'}
-                      >
-                        {step.title}
-                      </Label>
-                    </ListboxItem>
-                  );
-                })}
+                      {step.title}
+                    </Label>
+                  </ListboxItem>
+                ))}
               </Listbox>
             )}
           </Popover.Body>
