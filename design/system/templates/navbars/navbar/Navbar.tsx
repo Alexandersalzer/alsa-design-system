@@ -6,13 +6,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Box } from '../../../components/layout/box/Box';
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
-import { Container } from '../../../components';
 import { 
   getNavigationContext, 
   useNavigationMessaging,
   type NavigationItem 
 } from '../../../utils/navigation';
-import { ArrowRightIcon } from 'lucide-react';
+import { ArrowRightIcon, Container } from 'lucide-react';
 import { ContentBlock } from '../../../../cms/wrappers/content/types/content';
 
 export interface NavItem extends NavigationItem {
@@ -176,7 +175,7 @@ const Navbar = ({
 
   return (
     <Container
-      as="nav"
+      
       className={className}
       style={{
         position: 'sticky',
@@ -192,7 +191,6 @@ const Navbar = ({
         style={{
           maxWidth: 'var(--width-navbar)', // ← Uses semantic token (defaults to content width)
           margin: '0 auto',
-          padding: '0 var(--foundation-space-4)',
           width: '100%',
           height: height
         }}
