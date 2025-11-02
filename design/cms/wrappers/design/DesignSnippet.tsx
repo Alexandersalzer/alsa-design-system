@@ -1,4 +1,5 @@
 import type { DesignJson } from "./designLoader";
+import { getDesignConfig } from "./designLoader";
 
 /** 
  * Genererar CSS-variabler från design.json
@@ -44,4 +45,16 @@ export function buildCssVars(design: DesignJson): string {
       --font-primary-name: '${fontPrimary}';
     }
   `.trim();
+}
+
+/**
+ * Parent function som kombinerar getDesignConfig + buildCssVars
+ * Detta är den primära funktionen som ska användas i layouts
+ * 
+ * @returns CSS string redo att injectas i <style> tag
+ */
+export async function designSnippet(): Promise<string> {
+  const designConfig = await getDesignConfig();
+  const designCss = buildCssVars(designConfig);
+  return designCss;
 }
