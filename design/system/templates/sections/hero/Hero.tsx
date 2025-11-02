@@ -234,7 +234,7 @@ export const Hero: React.FC<HeroSectionProps> = ({
       patternOrder = heroSection.order || Object.keys(heroSection.patterns);
       patterns = patternOrder
         .map(key => heroSection.patterns[key])
-        .filter(p => p.type !== 'sectionBody'); // Exclude sectionBody since it's rendered separately
+        .filter(p => p && p.type && p.type !== 'sectionBody'); // Exclude undefined, null, and sectionBody
     }
   } else {
     // LEGACY FORMAT: Use old queries
