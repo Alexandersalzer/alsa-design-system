@@ -223,14 +223,6 @@ export const Hero: React.FC<HeroSectionProps> = ({
       align="center"
       height="auto"
       useMediaWidth={false} // regular max width
-      style={{
-        minHeight: '60vh',
-        paddingTop: '18rem',
-        paddingBottom: '2rem',
-        justifyContent: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
     >
       <SectionBody
         tag={
