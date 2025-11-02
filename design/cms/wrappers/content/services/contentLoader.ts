@@ -212,39 +212,32 @@ export async function getAllPagesContent(locale: string = 'sv') {
     
     const pages = [];
     
-    // Load from new pages structure (if it exists)
-    const pagesDir = path.join(process.cwd(), 'public', 'content', locale, 'pages');
-    try {
-      const pageEntries = await fs.readdir(pagesDir, { withFileTypes: true });
-      
-      for (const entry of pageEntries) {
-        if (entry.isDirectory()) {
-          const pageSlug = entry.name;
-          const content = await getPageContent(locale, pageSlug);
-          if (content) {
-            pages.push(content);
-          }
-        }
-      }
-    } catch (error) {
-      // Pages directory doesn't exist, that's ok - we'll load from direct JSON files
-      console.log(`No pages directory found for locale ${locale}, using direct JSON files only`);
-    }
-    
-    // Also check for any remaining direct JSON files (like about.json) for backward compatibility
+    // Load all JSON files from the locale directory
     const contentDir = path.join(process.cwd(), 'public', 'content', locale);
     const entries = await fs.readdir(contentDir, { withFileTypes: true });
-    const directFiles = entries.filter(entry => entry.isFile() && entry.name.endsWith('.json'));
     
-    for (const file of directFiles) {
-      const pageSlug = file.name.replace('.json', '');
+    // Filter for page files (exclude global files like navbar.json, footer.json)
+    const pageFiles = entries.filter(entry => 
+      entry.isFile() && 
+      entry.name.endsWith('.json') &&
+      !['navbar.json', 'footer.json'].includes(entry.name)
+    );
+    
+    // Load each page file
+    for (const file of pageFiles) {
       try {
         const filePath = path.join(contentDir, file.name);
         const fileContent = await fs.readFile(filePath, 'utf8');
         const content = JSON.parse(fileContent);
+        
+        // Ensure slug is set
+        if (!content.slug) {
+          content.slug = file.name.replace('.json', '');
+        }
+        
         pages.push(content);
       } catch (error) {
-        console.error(`Failed to load direct file ${file.name}:`, error);
+        console.error(`Failed to load page file ${file.name}:`, error);
       }
     }
 
@@ -263,7 +256,7 @@ export async function getAllPagesContent(locale: string = 'sv') {
       globals.footer = footerContent;
     }
     
-    // Convert pages array to object keyed by slug for WebsiteContent format
+    // Convert pages array to object keyed by slug
     const pagesObject: { [key: string]: any } = {};
     pages.filter(Boolean).forEach(page => {
       if (page.slug) {
