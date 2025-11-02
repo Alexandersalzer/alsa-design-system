@@ -1,8 +1,3 @@
-interface LayoutItem {
-  template: string;
-  [key: string]: unknown;
-}
-
 /**
  * Load a global template/component file
  * Uses dynamic import to avoid bundling fs in browser
@@ -29,36 +24,6 @@ async function getTemplateContent(locale: string, templateName: string) {
   } catch (error) {
     console.error(`Failed to load global template ${templateName} in locale ${locale}:`, error);
     return null;
-  }
-}
-
-/**
- * Load layout configuration for a specific page
- * Uses dynamic import to avoid bundling fs in browser
- */
-async function loadPageLayout(locale: string, pageSlug: string) {
-  if (typeof window !== 'undefined') {
-    throw new Error('loadPageLayout is only available on server-side');
-  }
-
-  try {
-    const { promises: fs } = await import('fs');
-    const path = await import('path');
-    
-    const layoutPath = path.join(
-      process.cwd(), 
-      'public', 
-      'content', 
-      locale, 
-      'pages', 
-      pageSlug, 
-      'layout.json'
-    );
-    const fileContent = await fs.readFile(layoutPath, 'utf8');
-    return JSON.parse(fileContent);
-  } catch (error) {
-    console.error(`Failed to load layout for page ${pageSlug} in locale ${locale}:`, error);
-    return [];
   }
 }
 
@@ -131,7 +96,7 @@ export async function getFooterContent(locale: string = 'sv') {
 }
 
 /**
- * Load content for a specific page and locale using the separated structure
+ * Load content for a specific page and locale
  * Uses dynamic import to avoid bundling fs in browser
  */
 export async function getPageContent(locale: string = 'sv', pageSlug: string) {
@@ -143,8 +108,8 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string) {
     const { promises: fs } = await import('fs');
     const path = await import('path');
     
-    // First, try to load the new nested format (hem.json directly in locale folder)
-    const directPagePath = path.join(
+    // Load page file directly from locale folder (e.g., hem.json, home.json)
+    const pageFilePath = path.join(
       process.cwd(),
       'public',
       'content',
@@ -152,60 +117,16 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string) {
       `${pageSlug}.json`
     );
     
-    try {
-      const directContent = await fs.readFile(directPagePath, 'utf8');
-      const pageData = JSON.parse(directContent);
-      
-      // Check if it's the new format (has sections property)
-      if (pageData.sections && pageData.order) {
-        console.log(`✅ Loaded new format content for page: ${pageSlug}`);
-        return pageData;
-      }
-    } catch (err) {
-      // File doesn't exist or isn't the new format, continue to old format
-      console.log(`ℹ️ No new format file found at ${directPagePath}, trying old format...`);
+    const fileContent = await fs.readFile(pageFilePath, 'utf8');
+    const pageData = JSON.parse(fileContent);
+    
+    // Ensure slug is set
+    if (!pageData.slug) {
+      pageData.slug = pageSlug;
     }
     
-    // Fall back to old format: Load page.json (metadata only)
-    const pagePath = path.join(
-      process.cwd(), 
-      'public', 
-      'content', 
-      locale, 
-      'pages', 
-      pageSlug, 
-      'page.json'
-    );
-    
-    const pageContent = await fs.readFile(pagePath, 'utf8');
-    const pageData = JSON.parse(pageContent);
-    
-    // Load layout.json separately
-    const layoutData = await loadPageLayout(locale, pageSlug);
-    
-    // Load all templates referenced in the layout
-    if (layoutData && Array.isArray(layoutData)) {
-      const templates = await Promise.all(
-        layoutData.map(async (layoutItem: LayoutItem) => {
-          // Always load from global templates directory
-          const template = await getTemplateContent(locale, layoutItem.template);
-          return template; // Return natural structure without modifications
-        })
-      );
-      
-      // Return combined data with templates
-      return {
-        ...pageData,
-        slug: pageSlug, // Ensure slug is set
-        templates: templates.filter(t => t !== null)
-      };
-    }
-    
-    return {
-      ...pageData,
-      slug: pageSlug, // Ensure slug is set
-      templates: []
-    };
+    console.log(`✅ Loaded content for page: ${pageSlug}`);
+    return pageData;
   } catch (error) {
     console.error(`Failed to load content for page ${pageSlug} in locale ${locale}:`, error);
     // Fallback to Swedish if locale file doesn't exist
@@ -231,53 +152,35 @@ export async function getAllPagesContent(locale: string = 'sv') {
     
     const pages = [];
     
-    // First, check for direct JSON files in the locale folder (new format like hem.json)
+    // Load all JSON files in the locale folder
     const contentDir = path.join(process.cwd(), 'public', 'content', locale);
     const entries = await fs.readdir(contentDir, { withFileTypes: true });
-    const directFiles = entries.filter(entry => 
+    
+    // Filter for page files (exclude global files like navbar.json, footer.json)
+    const pageFiles = entries.filter(entry => 
       entry.isFile() && 
       entry.name.endsWith('.json') &&
-      !['navbar.json', 'footer.json'].includes(entry.name) // Exclude globals
+      !['navbar.json', 'footer.json'].includes(entry.name)
     );
     
-    for (const file of directFiles) {
+    // Load each page file
+    for (const file of pageFiles) {
       const pageSlug = file.name.replace('.json', '');
       try {
         const filePath = path.join(contentDir, file.name);
         const fileContent = await fs.readFile(filePath, 'utf8');
         const content = JSON.parse(fileContent);
-        // Set slug if not present
+        
+        // Ensure slug is set
         if (!content.slug) {
           content.slug = pageSlug;
         }
+        
         pages.push(content);
-        console.log(`✅ Loaded page from direct file: ${file.name}`);
+        console.log(`✅ Loaded page: ${file.name}`);
       } catch (error) {
-        console.error(`Failed to load direct file ${file.name}:`, error);
+        console.error(`Failed to load page file ${file.name}:`, error);
       }
-    }
-    
-    // Also load from old pages structure if it exists
-    const pagesDir = path.join(process.cwd(), 'public', 'content', locale, 'pages');
-    try {
-      const pageEntries = await fs.readdir(pagesDir, { withFileTypes: true });
-      
-      for (const entry of pageEntries) {
-        if (entry.isDirectory()) {
-          const pageSlug = entry.name;
-          // Only load if not already loaded from direct file
-          if (!pages.find(p => p.slug === pageSlug)) {
-            const content = await getPageContent(locale, pageSlug);
-            if (content) {
-              pages.push(content);
-              console.log(`✅ Loaded page from pages folder: ${pageSlug}`);
-            }
-          }
-        }
-      }
-    } catch (err) {
-      // Pages directory doesn't exist, that's ok
-      console.log('ℹ️ No pages directory found, using only direct JSON files');
     }
 
     // Load all global components
