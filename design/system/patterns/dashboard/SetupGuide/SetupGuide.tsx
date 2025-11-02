@@ -113,6 +113,16 @@ const getSteps = (phase: SetupPhase): SetupStep[] => {
   return [];
 };
 
+// ===== HELPER FUNCTIONS =====
+const getPhaseText = (phase?: string) => {
+  switch (phase) {
+    case 'building': return 'Fas 1: Bygger';
+    case 'launch': return 'Fas 2: Lansering';
+    case 'done': return 'Klart';
+    default: return 'Setup';
+  }
+};
+
 // ===== MAIN COMPONENT =====
 export const SetupGuide: React.FC<SetupGuideProps> = ({ 
   phase = 'building', 
@@ -281,14 +291,21 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                 </div>
 
                 {/* Progress Text */}
-                <HStack justify="between" align="center">
-                  <Body size="sm" weight="medium">
-                    {completedSteps} av {steps.length} steg slutförda
-                  </Body>
-                  <Body size="sm" weight="bold" color="accent">
-                    {progress}% totalt klart
-                  </Body>
-                </HStack>
+                <VStack spacing="xs">
+                  <HStack justify="between" align="center">
+                    <Body size="sm" weight="medium">
+                      {completedSteps} av {steps.length} steg slutförda
+                    </Body>
+                    <Body size="sm" weight="bold" color="accent">
+                      {progress}% totalt klart
+                    </Body>
+                  </HStack>
+                  <HStack justify="between" align="center">
+                    <Body size="xs" color="secondary">
+                      {getPhaseText(phase)} • {completedSteps}/{steps.length} steg i denna fas
+                    </Body>
+                  </HStack>
+                </VStack>
               </VStack>
             </CardContent>
           </Card>
