@@ -134,9 +134,6 @@ export const SpinningCarouselShowcase: React.FC<SpinningCarouselShowcaseProps> =
       <Container 
         useMediaWidth
         align={containerAlign}
-        style={{ 
-          padding: sectionPadding
-        }}
       >
         <SpinningCarousel
           images={images}
