@@ -286,7 +286,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                     {completedSteps} av {steps.length} steg slutförda
                   </Body>
                   <Body size="sm" weight="bold" color="accent">
-                    {progress}% klart
+                    {progress}% totalt klart
                   </Body>
                 </HStack>
               </VStack>

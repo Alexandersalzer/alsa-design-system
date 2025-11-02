@@ -36,6 +36,7 @@ export interface ProgressButtonProps {
   steps: ProgressStep[];
   completedSteps?: number;
   totalSteps?: number;
+  phase?: 'building' | 'launch' | 'done';
   className?: string;
 }
 
@@ -45,12 +46,23 @@ export const ProgressButton: React.FC<ProgressButtonProps> = ({
   steps,
   completedSteps,
   totalSteps,
+  phase,
   className
 }) => {
   const [open, setOpen] = useState(false);
   const isComplete = progress >= 100;
   const completed = completedSteps ?? steps.filter(s => s.completed).length;
   const total = totalSteps ?? steps.length;
+
+  // Fas-indikator text
+  const getPhaseText = (phase?: string) => {
+    switch (phase) {
+      case 'building': return 'Fas 1: Bygger';
+      case 'launch': return 'Fas 2: Lansering';
+      case 'done': return 'Klart';
+      default: return 'Setup';
+    }
+  };
 
   return (
     <Popover 
@@ -71,14 +83,24 @@ export const ProgressButton: React.FC<ProgressButtonProps> = ({
       <Popover.Positioner>
         <Popover.Content width={340}>
           <Popover.Header>
-            <HStack spacing="md" justify="between" align="center">
-              <Label size="lg" weight="bold" color="heading">
-                Setup-status
-              </Label>
-              <Label size="sm" weight="medium" color="accent">
-                {completed}/{total}
-              </Label>
-            </HStack>
+            <VStack spacing="xs">
+              <HStack spacing="md" justify="between" align="center">
+                <Label size="lg" weight="bold" color="heading">
+                  Setup-status
+                </Label>
+                <Label size="sm" weight="medium" color="accent">
+                  {progress}% totalt klart
+                </Label>
+              </HStack>
+              <HStack spacing="md" justify="between" align="center">
+                <Label size="sm" color="secondary">
+                  {getPhaseText(phase)}
+                </Label>
+                <Label size="sm" weight="medium" color="secondary">
+                  {completed}/{total} steg i denna fas
+                </Label>
+              </HStack>
+            </VStack>
           </Popover.Header>
 
           <Popover.Body>
