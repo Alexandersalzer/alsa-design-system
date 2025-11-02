@@ -1,20 +1,31 @@
 /* ==============================================
    CONTAINER COMPONENT
-   Handles inner gap and alignment — no padding/margins
+   Handles horizontal layout, alignment & internal gap
    ============================================== */
 
 .container {
   width: 100%;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 
+  /* Internal layout */
   gap: var(--foundation-space-6);
+
+  /* Width and centering */
   max-width: var(--width-container);
-  margin: 0 auto;
+  margin-inline: auto;
+
+  /* ✅ Horizontal breathing room (edge padding) */
+  padding-inline: var(--foundation-space-4);
+
+  /* Minimum vertical space (content safety) */
   min-height: fit-content;
 }
 
-/* Variant for large media or illustrations */
+/* ===== VARIANTS ===== */
+
+/* Larger media/visuals */
 .maxWidthMedia {
   max-width: var(--width-media);
 }
@@ -29,12 +40,19 @@
 .alignCenter { align-items: center; text-align: center; }
 .alignRight  { align-items: flex-end; text-align: right; }
 
-/* Responsive gap */
+/* ===== RESPONSIVE ===== */
+
+/* Smaller screens → tighter horizontal padding & smaller gap */
 @media (max-width: 768px) {
-  .container { gap: var(--foundation-space-4); }
+  .container {
+    padding-inline: var(--foundation-space-3);
+    gap: var(--foundation-space-4);
+  }
 }
 
+/* If the container has a heading, open up internal spacing */
 .container:has(h1) { gap: var(--foundation-space-8); }
+
 @media (min-width: 769px) {
   .container:has(h1) { gap: var(--foundation-space-10); }
 }

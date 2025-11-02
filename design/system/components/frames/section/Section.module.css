@@ -8,10 +8,11 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding-top: var(--foundation-section-spacing-md);
-  padding-bottom: var(--foundation-section-spacing-md);
-  overflow: hidden; /* optional safety for big visuals */
+  padding-top: var(--space-section);
+  padding-bottom: var(--space-section);
+  overflow: hidden;
 }
+
 
 /* ===== SPACING VARIANTS ===== */
 .spacingXs  { padding-block: var(--foundation-section-spacing-xs); }
