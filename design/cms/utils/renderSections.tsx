@@ -17,7 +17,7 @@ const SECTION_COMPONENTS: Record<string, React.ComponentType<any>> = {
 /**
  * Interface for section data from JSON
  */
-interface SectionData {
+export interface SectionData {
   type: string;
   patterns?: Record<string, any>;
   order?: string[];
