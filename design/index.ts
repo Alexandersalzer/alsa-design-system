@@ -64,5 +64,8 @@ export {
 // Export layout components (client-safe)
 export { ContentLayout } from './cms/wrappers/ContentLayout';
 
+// Export dynamic section rendering
+export { DynamicSections, renderSections } from './cms/utils';
+
 // Export WebsiteContent type from new location
 export { type WebsiteContent } from './cms/wrappers/content/types/content'; 
