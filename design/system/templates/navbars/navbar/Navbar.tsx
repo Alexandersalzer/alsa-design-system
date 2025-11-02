@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Box } from '../../../components/layout/box/Box';
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
+import { Container } from '../../../components';
 import { 
   getNavigationContext, 
   useNavigationMessaging,
@@ -174,7 +175,7 @@ const Navbar = ({
   }));
 
   return (
-    <Box
+    <Container
       as="nav"
       className={className}
       style={{
@@ -223,7 +224,7 @@ const Navbar = ({
           />
         </HStack>
       </Box>
-    </Box>
+    </Container>
   );
 };
 
