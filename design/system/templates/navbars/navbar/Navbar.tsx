@@ -46,7 +46,7 @@ export interface NavbarProps {
 
 const Navbar = ({ 
   brandName = 'MARKETING SWEDEN',
-  brandHref = '/home',
+  brandHref = '/hem',
   navItems = [],
   className,
   navVariant = 'ghost',
