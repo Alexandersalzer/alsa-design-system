@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/tokens/semantic/layout.css
-   FLUID RESPONSIVE WIDTH SYSTEM
+   FLUID RESPONSIVE WIDTH SYSTEM (Fixed)
    ============================================== */
 
 :root {
@@ -9,11 +9,15 @@
   --selected-layout-scale-media: var(--foundation-layout-base-media);
 
   /* ===== FLUID WIDTH TOKENS ===== */
-  /*  Content container - text-heavy sections */
-  --width-content: clamp(100%, 90vw, var(--selected-layout-scale-content));
+  /*
+    These now grow fluidly between mobile and desktop.
+    - min width: 20rem (320px)
+    - preferred: 90vw
+    - max width: your selected content/media scale
+  */
 
-  /*  Media container - image/video/hero sections */
-  --width-media: clamp(100%, 95vw, var(--selected-layout-scale-media));
+  --width-content: clamp(20rem, 90vw, var(--selected-layout-scale-content));
+  --width-media: clamp(20rem, 95vw, var(--selected-layout-scale-media));
 
   /* ===== ALIASES ===== */
   --width-container: var(--width-content);
