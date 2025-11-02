@@ -26,7 +26,7 @@ interface HeroSectionProps {
   // Layout
   textAlign?: 'left' | 'center' | 'right';
   maxWidth?: string;
-  useMediaWidth?: boolean; // ✅ SIMPLE BOOLEAN
+  useMediaWidth?: boolean;
   
   // Spacing
   headingBodySpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
@@ -36,7 +36,106 @@ interface HeroSectionProps {
   showTag?: boolean;
   tagText?: string;
   tagVariant?: 'success' | 'error' | 'warning' | 'info' | 'accent' | 'default';
+  
+  // Pattern spacing
+  patternSpacing?: string;
 }
+
+/**
+ * Pattern Renderer - Dynamically renders patterns based on content
+ */
+const renderPattern = (pattern: any, index: number) => {
+  if (!pattern || !pattern.type) return null;
+
+  switch (pattern.type) {
+    case 'spinningLogos': {
+      // Extract heading
+      const headingComponent = pattern.components?.heading_lKz6fL || 
+                               Object.values(pattern.components || {}).find((c: any) => c.type === 'heading');
+      const heading = headingComponent?.content || '';
+      
+      // Extract settings
+      const settings = pattern.settings || {};
+      const speed = settings.speed || 30;
+      const direction = settings.direction || 'left';
+      
+      // Extract logos
+      const logos = Object.entries(pattern.components || {})
+        .filter(([key, comp]: [string, any]) => comp.type === 'logo')
+        .map(([key, comp]: [string, any]) => {
+          const content = comp.content as any;
+          return {
+            src: content?.src || '',
+            alt: content?.alt || 'Logo'
+          };
+        })
+        .filter(logo => logo.src);
+      
+      if (logos.length === 0) return null;
+      
+      return (
+        <div key={`pattern-${index}`} style={{ marginTop: '4rem', width: '100%' }}>
+          {heading && (
+            <h3 style={{ 
+              textAlign: 'center', 
+              marginBottom: '2rem',
+              fontSize: 'var(--font-size-sm)',
+              fontWeight: 'var(--font-weight-medium)',
+              color: 'var(--color-text-tertiary)',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase'
+            }}>
+              {heading}
+            </h3>
+          )}
+          <SpinningBanner
+            logos={logos}
+            speed={speed}
+            direction={direction}
+          />
+        </div>
+      );
+    }
+    
+    case 'media': {
+      // Extract video component
+      const videoComponent = pattern.components?.video_p9Bj3v || 
+                            Object.values(pattern.components || {}).find((c: any) => c.type === 'video');
+      
+      if (!videoComponent || !videoComponent.content) return null;
+      
+      const content = videoComponent.content as any;
+      const videoSrc = content?.src || content?.content || '';
+      const videoPoster = content?.poster || '';
+      
+      if (!videoSrc) return null;
+      
+      return (
+        <div key={`pattern-${index}`} style={{ marginTop: '4rem', width: '100%' }}>
+          <Block>
+            <VideoShowcase
+              src={videoSrc}
+              poster={videoPoster}
+              autoPlay={false}
+              muted={true}
+              loop={true}
+              controls={false}
+              showPlayButton={true}
+              variant="elevated"
+              size="full"
+              aspectRatio="16-9"
+              radius="md"
+            />
+          </Block>
+        </div>
+      );
+    }
+    
+    default:
+      console.log(`⚠️ Unknown pattern type: ${pattern.type}`);
+      return null;
+  }
+};
 
 export const Hero: React.FC<HeroSectionProps> = ({ 
   pageSlug,
@@ -57,11 +156,12 @@ export const Hero: React.FC<HeroSectionProps> = ({
   // Layout
   textAlign = 'center',
   maxWidth = '800px',
-  useMediaWidth = false, // ✅ Default: content width
+  useMediaWidth = false,
   
   // Spacing
   headingBodySpacing = 'md',
   bodyActionSpacing = 'xl',
+  patternSpacing = '4rem',
   
   // Tag
   showTag = false,
@@ -91,18 +191,8 @@ export const Hero: React.FC<HeroSectionProps> = ({
   let primaryButtonText = '';
   let secondaryButtonText = '';
   let tagContent = tagText;
-  
-  // Spinning banner data
-  let showSpinningBanner = false;
-  let spinningBannerHeading = '';
-  let spinningBannerLogos: Array<{ src: string; alt: string }> = [];
-  let spinningBannerSpeed = 30;
-  let spinningBannerDirection: 'left' | 'right' = 'left';
-  
-  // Video showcase data
-  let showVideoShowcase = false;
-  let videoSrc = '';
-  let videoPoster = '';
+  let patterns: any[] = [];
+  let patternOrder: string[] = [];
   
   if (pageV2) {
     // NEW FORMAT: Use V2 queries
@@ -139,56 +229,12 @@ export const Hero: React.FC<HeroSectionProps> = ({
       }
     }
     
-    // Get spinningLogos pattern
-    const spinningLogosPattern = getPatternV2(heroSection, 'spinningLogos', 0);
-    
-    if (spinningLogosPattern) {
-      showSpinningBanner = true;
-      
-      // Get heading from spinningLogos
-      const spinningHeadingComponent = getComponentV2(spinningLogosPattern, 'heading');
-      spinningBannerHeading = getComponentContentV2(spinningHeadingComponent);
-      
-      // Get settings
-      const settings = spinningLogosPattern.settings || {};
-      spinningBannerSpeed = settings.speed || 30;
-      spinningBannerDirection = settings.direction || 'left';
-      
-      // Get all logo components
-      if (spinningLogosPattern.components) {
-        const logoComponents = Object.entries(spinningLogosPattern.components)
-          .filter(([key, comp]) => comp.type === 'logo')
-          .map(([key, comp]) => {
-            const content = comp.content as any;
-            return {
-              src: content?.src || '',
-              alt: content?.alt || 'Logo'
-            };
-          })
-          .filter(logo => logo.src); // Only include logos with valid src
-        
-        spinningBannerLogos = logoComponents;
-      }
-    }
-    
-    // Get media pattern for video
-    const mediaPattern = getPatternV2(heroSection, 'media', 0);
-    
-    if (mediaPattern) {
-      const videoComponent = getComponentV2(mediaPattern, 'video');
-      
-      if (videoComponent && videoComponent.content) {
-        const content = videoComponent.content as any;
-        if (typeof content === 'object' && content.src) {
-          showVideoShowcase = true;
-          videoSrc = content.src;
-          videoPoster = content.poster || '';
-        } else if (typeof content === 'object' && content.content) {
-          // Handle nested content structure
-          showVideoShowcase = true;
-          videoSrc = content.content;
-        }
-      }
+    // Get all patterns and their order
+    if (heroSection?.patterns) {
+      patternOrder = heroSection.order || Object.keys(heroSection.patterns);
+      patterns = patternOrder
+        .map(key => heroSection.patterns[key])
+        .filter(p => p.type !== 'sectionBody'); // Exclude sectionBody since it's rendered separately
     }
   } else {
     // LEGACY FORMAT: Use old queries
@@ -221,7 +267,7 @@ export const Hero: React.FC<HeroSectionProps> = ({
       <Container 
         align="center" 
         height="auto"
-        useMediaWidth={useMediaWidth} // ✅ CLEAN!
+        useMediaWidth={useMediaWidth}
         style={{ 
           minHeight: '60vh', 
           paddingTop: '18rem', 
@@ -287,48 +333,8 @@ export const Hero: React.FC<HeroSectionProps> = ({
           bodyActionSpacing={bodyActionSpacing}
         />
         
-        {showSpinningBanner && (
-          <div style={{ marginTop: '4rem', width: '100%' }}>
-            {spinningBannerHeading && (
-              <h3 style={{ 
-                textAlign: 'center', 
-                marginBottom: '2rem',
-                fontSize: 'var(--font-size-sm)',
-                fontWeight: 'var(--font-weight-medium)',
-                color: 'var(--color-text-tertiary)',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase'
-              }}>
-                {spinningBannerHeading}
-              </h3>
-            )}
-            <SpinningBanner
-              logos={spinningBannerLogos}
-              speed={spinningBannerSpeed}
-              direction={spinningBannerDirection}
-            />
-          </div>
-        )}
-        
-        {showVideoShowcase && (
-          <div style={{ marginTop: '4rem', width: '100%' }}>
-            <Block>
-              <VideoShowcase
-                src={videoSrc}
-                poster={videoPoster}
-                autoPlay={false}
-                muted={true}
-                loop={true}
-                controls={false}
-                showPlayButton={true}
-                variant="elevated"
-                size="full"
-                aspectRatio="16-9"
-                radius="md"
-              />
-            </Block>
-          </div>
-        )}
+        {/* Dynamically render patterns based on content */}
+        {patterns.map((pattern, index) => renderPattern(pattern, index))}
       </Container>
     </Section>
   );
