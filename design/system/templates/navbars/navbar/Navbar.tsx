@@ -5,13 +5,14 @@ import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname, useRouter } from 'next/navigation';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Box } from '../../../components/layout/box/Box';
+import { Container } from '../../../components'; // ✅ Import from your design system
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
 import { 
   getNavigationContext, 
   useNavigationMessaging,
   type NavigationItem 
 } from '../../../utils/navigation';
-import { ArrowRightIcon, Container } from 'lucide-react';
+import { ArrowRightIcon } from 'lucide-react'; // ✅ Only import icon from lucide
 import { ContentBlock } from '../../../../cms/wrappers/content/types/content';
 
 export interface NavItem extends NavigationItem {
@@ -96,7 +97,7 @@ const Navbar = ({
       href: block.config?.href || `/${slug || ''}`,
       label: block.content || '',
       slug: slug || '',
-      componentType: index === navItemBlocks.length - 1 ? 'button' : 'textlink', // Last item as button
+      componentType: index === navItemBlocks.length - 1 ? 'button' : 'textlink',
       textLinkVariant: 'primary',
       weight: 'medium',
       underline: 'hover',
@@ -128,7 +129,7 @@ const Navbar = ({
     pathname,
     isEditingMode,
     '🧭 Navbar',
-    content // Pass CMS content for locale detection
+    content
   );
 
   // Handle navigation clicks - unified for both nav items and brand
@@ -174,8 +175,8 @@ const Navbar = ({
   }));
 
   return (
-    <Container
-      
+    <Box
+      as="nav"
       className={className}
       style={{
         position: 'sticky',
@@ -186,17 +187,15 @@ const Navbar = ({
         width: '100%'
       }}
     >
-      {/* Inner container with max width using --width-navbar token */}
-      <Box
-        style={{
-          maxWidth: 'var(--width-navbar)', // ← Uses semantic token (defaults to content width)
-          margin: '0 auto',
-          width: '100%',
-          height: height
-        }}
-      >
-        {/* HStack for horizontal layout */}
-        <HStack justify="between" align="center" spacing="md" className="navbar-content">
+      {/* Content constrained to container width */}
+      <Container height="fit">
+        <HStack 
+          justify="between" 
+          align="center" 
+          spacing="md" 
+          wrap={false}
+          className="navbar-content"
+        >
           <BrandLink 
             href={nav.buildBrandHref(brandHref)}
             variant={brandVariant}
@@ -221,8 +220,8 @@ const Navbar = ({
             onLinkClick={handleNavClick}
           />
         </HStack>
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 };
 
