@@ -96,7 +96,7 @@ export const NavMenu = ({
   };
 
   return (
-    <HStack spacing={spacing} wrap={wrap} className={className}>
+    <HStack spacing={spacing} wrap={wrap} className={className} align='center'>
       {items.map((item, index) => {
         // Use individual item variant/size or fallback to global defaults
         const itemVariant = item.variant || variant;
@@ -176,27 +176,29 @@ export const BrandLink = ({
   onClick
 }: BrandLinkProps) => {
   return (
-    <TextLink
-      href={href}
-      variant={variant}
-      size={size}
-      weight={weight}
-      underline={underline}
-      className={className}
-      onClick={onClick}
-    >
-      <HStack spacing="sm" align="center">
-        {logoSrc && (
-          <img 
-            src={logoSrc} 
-            alt={logoAlt}
-            width={logoWidth}
-            height={logoHeight}
-            className="object-contain flex-shrink-0"
-          />
-        )}
-        <span className="brand-text">{children}</span>
-      </HStack>
-    </TextLink>
+    <HStack align='center'>
+      <TextLink
+        href={href}
+        variant={variant}
+        size={size}
+        weight={weight}
+        underline={underline}
+        className={className}
+        onClick={onClick}
+      >
+        <HStack spacing="sm" align="center">
+          {logoSrc && (
+            <img 
+              src={logoSrc} 
+              alt={logoAlt}
+              width={logoWidth}
+              height={logoHeight}
+              className="object-contain flex-shrink-0"
+            />
+          )}
+          <span className="brand-text">{children}</span>
+        </HStack>
+      </TextLink>
+    </HStack>
   );
 };
