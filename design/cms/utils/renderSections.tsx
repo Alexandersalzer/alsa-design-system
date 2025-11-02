@@ -83,7 +83,7 @@ export function renderSections({
 /**
  * Higher-order component that wraps renderSections for easier use
  */
-export function DynamicSections({ 
+export function Sections({ 
   sections, 
   sectionOrder, 
   pageSlug 
