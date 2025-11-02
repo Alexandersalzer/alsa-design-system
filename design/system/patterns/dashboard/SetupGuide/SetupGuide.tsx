@@ -48,6 +48,9 @@ export interface SetupGuideProps {
   // Alternativt: tillåt externa steps och progress
   customSteps?: SetupStep[];
   customProgress?: number;
+  // Congratulations modal control
+  showCongratulations?: boolean;
+  onDismissCongratulations?: () => void;
 }
 
 // ===== MOCKAD DATA =====
@@ -129,7 +132,9 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
   className,
   onNavigate,
   customSteps,
-  customProgress
+  customProgress,
+  showCongratulations = true,
+  onDismissCongratulations
 }) => {
   const steps = customSteps || getSteps(phase);
   
@@ -147,8 +152,8 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
     }
   };
 
-  // Om done - visa gratulationskort
-  if (phase === 'done') {
+  // Om done - visa gratulationskort (om inte redan sett)
+  if (phase === 'done' && showCongratulations) {
     return (
       <PageSection>
         <Card variant="elevated">
@@ -166,7 +171,12 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
               <Button 
                 variant="primary" 
                 size="lg"
-                onClick={() => handleNavigate('/website')}
+                onClick={() => {
+                  if (onDismissCongratulations) {
+                    onDismissCongratulations();
+                  }
+                  handleNavigate('/website');
+                }}
               >
                 Visa min webbplats
               </Button>
@@ -175,6 +185,11 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
         </Card>
       </PageSection>
     );
+  }
+  
+  // Om done men congratulations redan sett - visa ingenting
+  if (phase === 'done') {
+    return null;
   }
 
   // Visa setup-guide
