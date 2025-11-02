@@ -1,33 +1,4 @@
 /**
- * Load a global template/component file
- * Uses dynamic import to avoid bundling fs in browser
- */
-async function getTemplateContent(locale: string, templateName: string) {
-  if (typeof window !== 'undefined') {
-    throw new Error('getTemplateContent is only available on server-side');
-  }
-
-  try {
-    const { promises: fs } = await import('fs');
-    const path = await import('path');
-    
-    const templatePath = path.join(
-      process.cwd(), 
-      'public', 
-      'content', 
-      locale, 
-      'templates', 
-      `${templateName}.json`
-    );
-    const fileContent = await fs.readFile(templatePath, 'utf8');
-    return JSON.parse(fileContent);
-  } catch (error) {
-    console.error(`Failed to load global template ${templateName} in locale ${locale}:`, error);
-    return null;
-  }
-}
-
-/**
  * Load navbar content for a specific locale
  * Uses dynamic import to avoid bundling fs in browser
  */
