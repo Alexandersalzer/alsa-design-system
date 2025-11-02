@@ -291,21 +291,14 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                 </div>
 
                 {/* Progress Text */}
-                <VStack spacing="xs">
-                  <HStack justify="between" align="center">
-                    <Body size="sm" weight="medium">
-                      {completedSteps} av {steps.length} steg slutförda
-                    </Body>
-                    <Body size="sm" weight="bold" color="accent">
-                      {progress}% totalt klart
-                    </Body>
-                  </HStack>
-                  <HStack justify="between" align="center">
-                    <Body size="xs" color="secondary">
-                      {getPhaseText(phase)} • {completedSteps}/{steps.length} steg i denna fas
-                    </Body>
-                  </HStack>
-                </VStack>
+                <HStack justify="between" align="center">
+                  <Body size="sm" weight="medium" color="secondary">
+                    {getPhaseText(phase)} • {completedSteps}/{steps.length} steg i denna fas
+                  </Body>
+                  <Body size="sm" weight="bold" color="accent">
+                    {progress}% totalt klart
+                  </Body>
+                </HStack>
               </VStack>
             </CardContent>
           </Card>
