@@ -175,54 +175,62 @@ const Navbar = ({
   }));
 
   return (
+  <Box
+    as="nav"
+    className={className}
+    style={{
+      position: 'sticky',
+      top: 0,
+      zIndex: 1000,
+      backgroundColor: 'var(--primary-white)',
+      borderBottom: '1px solid var(--border-light)',
+      width: '100%'
+    }}
+  >
+    {/* Content constrained wrapper */}
     <Box
-      as="nav"
-      className={className}
       style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 1000,
-        backgroundColor: 'var(--primary-white)',
-        borderBottom: '1px solid var(--border-light)',
-        width: '100%'
+        maxWidth: 'var(--width-content)',
+        margin: '0 auto',
+        padding: '0 var(--foundation-space-4)',
+        width: '100%',
+        height: height
       }}
     >
-      {/* Content constrained to container width */}
-      <Container height="fit">
-        <HStack 
-          justify="between" 
-          align="center" 
-          spacing="md" 
-          wrap={false}
-          className="navbar-content"
+      <HStack 
+        justify="between" 
+        align="center" 
+        spacing="md" 
+        wrap={false}
+        className="navbar-content"
+      >
+        <BrandLink 
+          href={nav.buildBrandHref(brandHref)}
+          variant={brandVariant}
+          size={brandSize}
+          weight={brandWeight}
+          underline={brandUnderline}
+          logoSrc={logoSrc}
+          logoAlt={logoAlt}
+          logoWidth={logoWidth}
+          logoHeight={logoHeight}
+          onClick={handleBrandClick}
         >
-          <BrandLink 
-            href={nav.buildBrandHref(brandHref)}
-            variant={brandVariant}
-            size={brandSize}
-            weight={brandWeight}
-            underline={brandUnderline}
-            logoSrc={logoSrc}
-            logoAlt={logoAlt}
-            logoWidth={logoWidth}
-            logoHeight={logoHeight}
-            onClick={handleBrandClick}
-          >
-            {brandName}
-          </BrandLink>
-          
-          <NavMenu 
-            items={menuItems} 
-            spacing="xl" 
-            wrap={false}
-            variant={navVariant}
-            size={navSize}
-            onLinkClick={handleNavClick}
-          />
-        </HStack>
-      </Container>
+          {brandName}
+        </BrandLink>
+        
+        <NavMenu 
+          items={menuItems} 
+          spacing="xl" 
+          wrap={false}
+          variant={navVariant}
+          size={navSize}
+          onLinkClick={handleNavClick}
+        />
+      </HStack>
     </Box>
-  );
+  </Box>
+);
 };
 
 export default Navbar;
