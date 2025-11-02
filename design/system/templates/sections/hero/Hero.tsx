@@ -217,121 +217,111 @@ export const Hero: React.FC<HeroSectionProps> = ({
   const actionType = hasSecondaryButton ? 'button-group' : 'button';
   
   return (
-    <Section id="hero-section" height="auto">
-      <Container 
-        align="center" 
-        height="auto"
-        useMediaWidth={useMediaWidth} // ✅ CLEAN!
-        style={{ 
-          minHeight: '60vh', 
-          paddingTop: '18rem', 
-          paddingBottom: '2rem',
-          justifyContent: 'center',
-          display: 'flex',
-          flexDirection: 'column'
-        }}
-      >
-        <SectionBody
-          // Optional tag
-          tag={showTag ? {
-            text: tagContent,
-            variant: tagVariant,
-            size: 'medium'
-          } : undefined}
-          
-          // Heading (required)
-          heading={title}
-          headingAs={headingAs}
-          headingVariant={headingVariant}
-          headingColor="heading"
-          headingWeight="bold"
-          
-          // Body/subtitle (optional)
-          body={subtitle || undefined}
-          bodyAs={bodyAs}
-          bodyVariant={bodyVariant}
-          bodyColor="body"
-          bodyWeight="regular"
-          
-          // Actions
-          actionType={actionType}
-          
-          // Single button
-          button={!hasSecondaryButton && primaryButtonText ? {
-            text: primaryButtonText,
-            variant: buttonVariant,
-            size: buttonSize,
-          } : undefined}
-          
-          // Button group (primary + secondary)
-          buttonGroup={hasSecondaryButton ? [
-            {
-              text: primaryButtonText,
-              variant: buttonVariant,
-              size: buttonSize,
-            },
-            {
-              text: secondaryButtonText,
-              variant: 'secondary',
-              size: buttonSize,
-            }
-          ] : undefined}
-          
-          // Layout
-          textAlign={textAlign}
-          maxWidth={maxWidth}
-          
-          // Spacing
-          tagSpacing="sm"
-          headingBodySpacing={headingBodySpacing}
-          bodyActionSpacing={bodyActionSpacing}
-        />
-        
-        {showSpinningBanner && (
-          <div style={{ marginTop: '4rem', width: '100%' }}>
-            {spinningBannerHeading && (
-              <h3 style={{ 
-                textAlign: 'center', 
+  <Section id="hero-section" height="auto">
+    {/* Regular-width container for text + spinning banner */}
+    <Container
+      align="center"
+      height="auto"
+      useMediaWidth={false} // regular max width
+      style={{
+        minHeight: '60vh',
+        paddingTop: '18rem',
+        paddingBottom: '2rem',
+        justifyContent: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <SectionBody
+        tag={
+          showTag
+            ? { text: tagContent, variant: tagVariant, size: 'medium' }
+            : undefined
+        }
+        heading={title}
+        headingAs={headingAs}
+        headingVariant={headingVariant}
+        headingColor="heading"
+        headingWeight="bold"
+        body={subtitle || undefined}
+        bodyAs={bodyAs}
+        bodyVariant={bodyVariant}
+        bodyColor="body"
+        bodyWeight="regular"
+        actionType={hasSecondaryButton ? 'button-group' : 'button'}
+        button={
+          !hasSecondaryButton && primaryButtonText
+            ? { text: primaryButtonText, variant: buttonVariant, size: buttonSize }
+            : undefined
+        }
+        buttonGroup={
+          hasSecondaryButton
+            ? [
+                { text: primaryButtonText, variant: buttonVariant, size: buttonSize },
+                { text: secondaryButtonText, variant: 'secondary', size: buttonSize },
+              ]
+            : undefined
+        }
+        textAlign={textAlign}
+        maxWidth={maxWidth}
+        tagSpacing="sm"
+        headingBodySpacing={headingBodySpacing}
+        bodyActionSpacing={bodyActionSpacing}
+      />
+
+      {showSpinningBanner && (
+        <div style={{ marginTop: '4rem', width: '100%' }}>
+          {spinningBannerHeading && (
+            <h3
+              style={{
+                textAlign: 'center',
                 marginBottom: '2rem',
                 fontSize: 'var(--font-size-sm)',
                 fontWeight: 'var(--font-weight-medium)',
                 color: 'var(--color-text-tertiary)',
                 letterSpacing: '0.1em',
-                textTransform: 'uppercase'
-              }}>
-                {spinningBannerHeading}
-              </h3>
-            )}
-            <SpinningBanner
-              logos={spinningBannerLogos}
-              speed={spinningBannerSpeed}
-              direction={spinningBannerDirection}
-            />
-          </div>
-        )}
-        
-        {showVideoShowcase && (
-          <div style={{ marginTop: '4rem', width: '100%' }}>
-            <Block>
-              <VideoShowcase
-                src={videoSrc}
-                poster={videoPoster}
-                autoPlay={false}
-                muted={true}
-                loop={true}
-                controls={false}
-                showPlayButton={true}
-                variant="elevated"
-                size="full"
-                aspectRatio="16-9"
-                radius="md"
-              />
-            </Block>
-          </div>
-        )}
+                textTransform: 'uppercase',
+              }}
+            >
+              {spinningBannerHeading}
+            </h3>
+          )}
+          <SpinningBanner
+            logos={spinningBannerLogos}
+            speed={spinningBannerSpeed}
+            direction={spinningBannerDirection}
+          />
+        </div>
+      )}
+    </Container>
+
+    {/* Wider container only for video showcase */}
+    {showVideoShowcase && (
+      <Container
+        align="center"
+        height="auto"
+        useMediaWidth={true} // <-- maxWidthMedia
+        style={{ marginTop: '4rem' }}
+      >
+        <Block>
+          <VideoShowcase
+            src={videoSrc}
+            poster={videoPoster}
+            autoPlay={false}
+            muted={true}
+            loop={true}
+            controls={false}
+            showPlayButton={true}
+            variant="elevated"
+            size="full"
+            aspectRatio="16-9"
+            radius="md"
+          />
+        </Block>
       </Container>
-    </Section>
-  );
+    )}
+  </Section>
+);
 };
 
 export default Hero;
