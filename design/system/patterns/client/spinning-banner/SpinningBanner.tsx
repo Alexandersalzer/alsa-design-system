@@ -32,7 +32,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
   direction = 'left',
   className = ''
 }) => {
-  // Transform logos into SpinningAnimationItem format
+  // Transform logos into CarouselAnimationItem format
   const animationItems: CarouselAnimationItem[] = logos.map((logo, index) => ({
     id: `${logo.src}-${index}`,
     content: (
@@ -57,21 +57,17 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
       speed={speed}
       direction={direction}
       className={className}
-      
-      // Match original SpinningBanner styling exactly
+      // ✅ Use semantic token instead of hardcoded color
       containerHeight="auto"
-      backgroundColor="#f7f7f7"
+      backgroundColor="var(--surface-page)"
       padding="5px"
-      
       itemWidth="120px"
       itemHeight="70px"
       itemPadding="15px"
       gap="50px"
-      
       enableFadeEdges={true}
       fadeWidth="200px"
-      
       duplicateCount={6}
     />
   );
-}; 
+};
