@@ -1,6 +1,7 @@
 'use client';
 
 import { Hero } from '../../system/templates/sections/hero/Hero';
+import { Section } from '../../system/components/frames/section/Section';
 
 /**
  * Section type to component mapping
@@ -35,6 +36,7 @@ interface RenderSectionsProps {
 
 /**
  * Dynamically renders sections based on JSON content
+ * Each section is wrapped in a Section frame component
  * 
  * @param sections - Object containing all sections keyed by their IDs
  * @param sectionOrder - Array defining the order in which sections should be rendered
@@ -68,13 +70,18 @@ export function renderSections({
         return null;
       }
 
-      // Render the section component with appropriate props
+      // Wrap each section component in a Section frame
       return (
-        <SectionComponent
+        <Section 
           key={`${sectionKey}-${index}`}
-          pageSlug={pageSlug}
-          templateIndex={index}
-        />
+          id={`${type}-section-${index}`}
+          height="auto"
+        >
+          <SectionComponent
+            pageSlug={pageSlug}
+            templateIndex={index}
+          />
+        </Section>
       );
     })
     .filter(Boolean); // Remove null values

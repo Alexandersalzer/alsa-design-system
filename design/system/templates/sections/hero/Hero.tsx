@@ -1,6 +1,6 @@
 'use client';
 
-import { Section, Container, Block } from '../../../components';
+import { Container, Block } from '../../../components';
 import { SectionBody } from '../../../patterns/shared/sectionBody/SectionBody';
 import { SpinningBanner } from '../../../patterns/client/spinning-banner/SpinningBanner';
 import { VideoShowcase } from '../../../components/media/VideoShowcase/VideoShowcase';
@@ -263,72 +263,78 @@ export const Hero: React.FC<HeroSectionProps> = ({
   const actionType = hasSecondaryButton ? 'button-group' : 'button';
   
   return (
-    <Section id="hero-section" height="auto">
-      <Container
-        align="center"
-        height="auto"
-        useMediaWidth={false} // regular max width
-      >
-        <SectionBody
-          // Optional tag
-          tag={showTag ? {
-            text: tagContent,
-            variant: tagVariant,
-            size: 'medium'
-          } : undefined}
-          
-          // Heading (required)
-          heading={title}
-          headingAs={headingAs}
-          headingVariant={headingVariant}
-          headingColor="heading"
-          headingWeight="bold"
-          
-          // Body/subtitle (optional)
-          body={subtitle || undefined}
-          bodyAs={bodyAs}
-          bodyVariant={bodyVariant}
-          bodyColor="body"
-          bodyWeight="regular"
-          
-          // Actions
-          actionType={actionType}
-          
-          // Single button
-          button={!hasSecondaryButton && primaryButtonText ? {
+    <Container
+      align="center"
+      height="auto"
+      useMediaWidth={useMediaWidth}
+      style={{ 
+        minHeight: '60vh', 
+        paddingTop: '18rem', 
+        paddingBottom: '2rem',
+        justifyContent: 'center',
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+    >
+      <SectionBody
+        // Optional tag
+        tag={showTag ? {
+          text: tagContent,
+          variant: tagVariant,
+          size: 'medium'
+        } : undefined}
+        
+        // Heading (required)
+        heading={title}
+        headingAs={headingAs}
+        headingVariant={headingVariant}
+        headingColor="heading"
+        headingWeight="bold"
+        
+        // Body/subtitle (optional)
+        body={subtitle || undefined}
+        bodyAs={bodyAs}
+        bodyVariant={bodyVariant}
+        bodyColor="body"
+        bodyWeight="regular"
+        
+        // Actions
+        actionType={actionType}
+        
+        // Single button
+        button={!hasSecondaryButton && primaryButtonText ? {
+          text: primaryButtonText,
+          variant: buttonVariant,
+          size: buttonSize,
+        } : undefined}
+        
+        // Button group (primary + secondary)
+        buttonGroup={hasSecondaryButton ? [
+          {
             text: primaryButtonText,
             variant: buttonVariant,
             size: buttonSize,
-          } : undefined}
-          
-          // Button group (primary + secondary)
-          buttonGroup={hasSecondaryButton ? [
-            {
-              text: primaryButtonText,
-              variant: buttonVariant,
-              size: buttonSize,
-            },
-            {
-              text: secondaryButtonText,
-              variant: 'secondary',
-              size: buttonSize,
-            }
-          ] : undefined}
-          
-          // Layout
-          textAlign={textAlign}
-          maxWidth={maxWidth}
-          
-          // Spacing
-          tagSpacing="sm"
-          headingBodySpacing={headingBodySpacing}
-          bodyActionSpacing={bodyActionSpacing}
-        />
+          },
+          {
+            text: secondaryButtonText,
+            variant: 'secondary',
+            size: buttonSize,
+          }
+        ] : undefined}
         
-        {/* Dynamically render patterns based on content */}
-        {patterns.map((pattern, index) => renderPattern(pattern, index))}
-      </Container>
-  </Section>
+        // Layout
+        textAlign={textAlign}
+        maxWidth={maxWidth}
+        
+        // Spacing
+        tagSpacing="sm"
+        headingBodySpacing={headingBodySpacing}
+        bodyActionSpacing={bodyActionSpacing}
+      />
+      
+      {/* Dynamically render patterns based on content */}
+      {patterns.map((pattern, index) => renderPattern(pattern, index))}
+    </Container>
 );
 };
 
