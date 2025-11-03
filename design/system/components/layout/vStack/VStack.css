@@ -1,6 +1,5 @@
 /* ===============================================
    src/design-system/components/layout/utilities/vStack/VStack.css
-   STACK COMPONENT - Vertical spacing layout
    =============================================== */
 
 /* ===== BASE STACK ===== */
@@ -39,7 +38,7 @@
   gap: var(--foundation-space-16, 64px);
 }
 
-/* ===== ALIGNMENT VARIANTS ===== */
+/* ===== ALIGNMENT VARIANTS (cross-axis / horizontal) ===== */
 .vStack--align-start {
   align-items: flex-start;
 }
@@ -54,6 +53,31 @@
 
 .vStack--align-stretch {
   align-items: stretch;
+}
+
+/* ===== JUSTIFY VARIANTS (main-axis / vertical) - NEW! ===== */
+.vStack--justify-start {
+  justify-content: flex-start;
+}
+
+.vStack--justify-center {
+  justify-content: center;
+}
+
+.vStack--justify-end {
+  justify-content: flex-end;
+}
+
+.vStack--justify-between {
+  justify-content: space-between;
+}
+
+.vStack--justify-around {
+  justify-content: space-around;
+}
+
+.vStack--justify-evenly {
+  justify-content: space-evenly;
 }
 
 /* ===== SPLIT BEHAVIOR ===== */
