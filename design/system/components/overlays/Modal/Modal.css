@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--foundation-space-4);
+  padding: var(--foundation-space-2);  /* Reduced from space-4 for more height */
   backdrop-filter: blur(2px);
   
   /* ðŸŽ¯ CLEAN FADE IN */
@@ -28,8 +28,8 @@
   border: 1px solid var(--border-modal);
   border-radius: var(--radius-modal);
   box-shadow: var(--shadow-modal);
-  max-height: 90vh;
-  overflow-y: auto;
+  max-height: 95vh;
+  overflow: visible;  /* Changed from overflow-y: auto to prevent dropdown clipping */
   position: relative;
   width: 100%;
   display: flex;
@@ -40,15 +40,38 @@
 }
 
 /* ===== MODAL SIZES ===== */
-.modal--sm { max-width: 400px; }
-.modal--md { max-width: 500px; }
-.modal--lg { max-width: 800px; }  /* Increased from 700px */
-.modal--xl { max-width: 1000px; }  /* Increased from 900px */
-.modal--2xl { max-width: 1200px; }  /* New larger size */
-.modal--3xl { max-width: 1400px; }  /* New extra large size */
+.modal--sm { 
+  max-width: 400px;
+  min-height: 300px;  /* Ensure minimum height */
+}
+.modal--md { 
+  max-width: 500px;
+  min-height: 400px;  /* Ensure minimum height */
+}
+.modal--lg { 
+  max-width: 800px;
+  max-height: 90vh;
+  min-height: 600px;  /* Ensure substantial height */
+}
+.modal--xl { 
+  max-width: 1000px;
+  max-height: 92vh;
+  min-height: 700px;  /* Ensure substantial height */
+}
+.modal--2xl { 
+  max-width: 1200px;
+  max-height: 94vh;
+  min-height: 800px;  /* Ensure substantial height */
+}
+.modal--3xl { 
+  max-width: 1400px;
+  max-height: 96vh;
+  min-height: 850px;  /* Ensure substantial height */
+}
 .modal--full {
   max-width: calc(100vw - var(--foundation-space-8));
   max-height: calc(100vh - var(--foundation-space-8));
+  min-height: calc(100vh - var(--foundation-space-8));
 }
 
 /* ===== MODAL HEADER ===== */
@@ -78,8 +101,18 @@
 /* ===== MODAL CONTENT ===== */
 .modal__content {
   padding: var(--foundation-space-6);
-  flex: 1;
-  overflow-y: auto;
+  flex: 1 1 auto;  /* Allow content to grow and shrink */
+  overflow-y: auto;  /* Scroll only the content, not the entire modal */
+  overflow-x: visible;  /* Allow dropdowns to extend horizontally */
+  min-height: 0;  /* Allow flexbox to properly size */
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== ENSURE DROPDOWNS/POPOVERS EXTEND BEYOND MODAL ===== */
+.modal__content .popover-content,
+.modal__content .picker-content {
+  position: fixed !important;  /* Use fixed positioning to escape modal bounds */
 }
 
 /* ===== MODAL WITHOUT HEADER ===== */
@@ -151,6 +184,7 @@
   .modal--3xl {
     max-width: 100%;
     margin: 0;
+    min-height: auto;  /* Reset min-height on mobile */
   }
   
   .modal__header {
