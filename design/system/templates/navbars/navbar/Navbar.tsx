@@ -202,7 +202,6 @@ const Navbar = ({
         align="center" 
         spacing="md" 
         wrap={false}
-        className="navbar-content"
       >
         <BrandLink 
           href={nav.buildBrandHref(brandHref)}

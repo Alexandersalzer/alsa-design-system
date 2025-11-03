@@ -39,7 +39,7 @@ export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(({
     const classes = buildClasses(
     'hStack',
     `hStack--spacing-${spacing}`,
-    align !== 'center' && `hStack--align-${align}`,
+    `hStack--align-${align}`,
     justify !== 'start' && `hStack--justify-${justify}`,
     wrap && 'hStack--wrap',
     direction !== 'row' && `hStack--${direction}`,
