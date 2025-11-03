@@ -5,7 +5,7 @@ import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Rhythm, RhythmItem } from '../../../components/layout/rhythm/Rhythm';
-import { Picker } from '../../../components';
+import { Menu } from '../../../components/overlays/Menu';
 
 interface FooterContent {
   companyName?: string;
@@ -49,25 +49,23 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
   const options = languageOptions || defaultLanguageOptions;
 
   // Handle language change
-  const handleLanguageChange = (value: string | null) => {
-    if (value) {
-      setSelectedLanguage(value);
-      
-      // Get current path and switch language
-      const currentPath = window.location.pathname;
-      const pathSegments = currentPath.split('/').filter(Boolean);
-      
-      // Remove current locale if present
-      if (pathSegments[0] === 'sv' || pathSegments[0] === 'en') {
-        pathSegments.shift();
-      }
-      
-      // Build new path with selected language
-      const newPath = `/${value}${pathSegments.length > 0 ? '/' + pathSegments.join('/') : ''}`;
-      
-      // Navigate to new path
-      window.location.href = newPath;
+  const handleLanguageChange = (value: string) => {
+    setSelectedLanguage(value);
+    
+    // Get current path and switch language
+    const currentPath = window.location.pathname;
+    const pathSegments = currentPath.split('/').filter(Boolean);
+    
+    // Remove current locale if present
+    if (pathSegments[0] === 'sv' || pathSegments[0] === 'en') {
+      pathSegments.shift();
     }
+    
+    // Build new path with selected language
+    const newPath = `/${value}${pathSegments.length > 0 ? '/' + pathSegments.join('/') : ''}`;
+    
+    // Navigate to new path
+    window.location.href = newPath;
   };
 
   // Get current locale from URL
@@ -80,6 +78,9 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
       setSelectedLanguage(currentLocale);
     }
   }, []);
+
+  // Get selected language label for Menu trigger
+  const selectedLabel = options.find(opt => opt.value === selectedLanguage)?.label || 'Svenska';
 
   return (
     <Rhythm unit="md" align="center" direction="column">
@@ -104,16 +105,25 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
         </HStack>
       </RhythmItem>
 
-      {/* Language Picker */}
+      {/* Language Menu */}
       <RhythmItem at={3}>
-        <Picker
-          options={options}
-          value={selectedLanguage}
-          onChange={handleLanguageChange}
-          placeholder="Välj språk"
-          size="md"
-          variant="compact"
-        />
+        <Menu size="md">
+          <Menu.Trigger>
+            {selectedLabel}
+          </Menu.Trigger>
+          <Menu.Content>
+            {options.map((option) => (
+              <Menu.RadioItem
+                key={option.value}
+                value={option.value}
+                checked={selectedLanguage === option.value}
+                onSelect={() => handleLanguageChange(option.value)}
+              >
+                {option.label}
+              </Menu.RadioItem>
+            ))}
+          </Menu.Content>
+        </Menu>
       </RhythmItem>
 
       {/* Contact Info and Copyright */}

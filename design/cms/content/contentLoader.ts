@@ -63,37 +63,68 @@ async function loadPageLayout(locale: string, pageSlug: string) {
 }
 
 /**
- * Load global template content for a specific locale and component type
+ * Load navbar content for a specific locale
  * Uses dynamic import to avoid bundling fs in browser
  */
-export async function getGlobalComponentContent(locale: string = 'sv', componentType: string) {
+export async function getNavbarContent(locale: string = 'sv') {
   if (typeof window !== 'undefined') {
-    throw new Error('getGlobalComponentContent is only available on server-side');
+    throw new Error('getNavbarContent is only available on server-side');
   }
 
   try {
     const { promises: fs } = await import('fs');
     const path = await import('path');
     
-    const globalPath = path.join(
+    const navbarPath = path.join(
       process.cwd(), 
       'public', 
       'content', 
       locale, 
-      'globals',
-      componentType,
-      `${componentType}.json`
+      'navbar.json'
     );
-    const fileContent = await fs.readFile(globalPath, 'utf8');
-    const globalData = JSON.parse(fileContent);
+    const fileContent = await fs.readFile(navbarPath, 'utf8');
+    const navbarData = JSON.parse(fileContent);
     
-    // Return the natural JSON structure without artificial fields
-    return globalData;
+    return navbarData;
   } catch (error) {
-    console.error(`Failed to load ${componentType} content for locale ${locale}:`, error);
+    console.error(`Failed to load navbar content for locale ${locale}:`, error);
     // Fallback to Swedish if locale file doesn't exist
     if (locale !== 'sv') {
-      return getGlobalComponentContent('sv', componentType);
+      return getNavbarContent('sv');
+    }
+    return null;
+  }
+}
+
+/**
+ * Load footer content for a specific locale
+ * Uses dynamic import to avoid bundling fs in browser
+ */
+export async function getFooterContent(locale: string = 'sv') {
+  if (typeof window !== 'undefined') {
+    throw new Error('getFooterContent is only available on server-side');
+  }
+
+  try {
+    const { promises: fs } = await import('fs');
+    const path = await import('path');
+    
+    const footerPath = path.join(
+      process.cwd(), 
+      'public', 
+      'content', 
+      locale, 
+      'footer.json'
+    );
+    const fileContent = await fs.readFile(footerPath, 'utf8');
+    const footerData = JSON.parse(fileContent);
+    
+    return footerData;
+  } catch (error) {
+    console.error(`Failed to load footer content for locale ${locale}:`, error);
+    // Fallback to Swedish if locale file doesn't exist
+    if (locale !== 'sv') {
+      return getFooterContent('sv');
     }
     return null;
   }
@@ -112,7 +143,30 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string) {
     const { promises: fs } = await import('fs');
     const path = await import('path');
     
-    // Load page.json (metadata only)
+    // First, try to load the new nested format (hem.json directly in locale folder)
+    const directPagePath = path.join(
+      process.cwd(),
+      'public',
+      'content',
+      locale,
+      `${pageSlug}.json`
+    );
+    
+    try {
+      const directContent = await fs.readFile(directPagePath, 'utf8');
+      const pageData = JSON.parse(directContent);
+      
+      // Check if it's the new format (has sections property)
+      if (pageData.sections && pageData.order) {
+        console.log(`✅ Loaded new format content for page: ${pageSlug}`);
+        return pageData;
+      }
+    } catch (err) {
+      // File doesn't exist or isn't the new format, continue to old format
+      console.log(`ℹ️ No new format file found at ${directPagePath}, trying old format...`);
+    }
+    
+    // Fall back to old format: Load page.json (metadata only)
     const pagePath = path.join(
       process.cwd(), 
       'public', 
@@ -177,22 +231,14 @@ export async function getAllPagesContent(locale: string = 'sv') {
     
     const pages = [];
     
-    // Load from new pages structure
-    const pagesDir = path.join(process.cwd(), 'public', 'content', locale, 'pages');
-    const pageEntries = await fs.readdir(pagesDir, { withFileTypes: true });
-    
-    for (const entry of pageEntries) {
-      if (entry.isDirectory()) {
-        const pageSlug = entry.name;
-        const content = await getPageContent(locale, pageSlug);
-        if (content) pages.push(content);
-      }
-    }
-    
-    // Also check for any remaining direct JSON files (like about.json) for backward compatibility
+    // First, check for direct JSON files in the locale folder (new format like hem.json)
     const contentDir = path.join(process.cwd(), 'public', 'content', locale);
     const entries = await fs.readdir(contentDir, { withFileTypes: true });
-    const directFiles = entries.filter(entry => entry.isFile() && entry.name.endsWith('.json'));
+    const directFiles = entries.filter(entry => 
+      entry.isFile() && 
+      entry.name.endsWith('.json') &&
+      !['navbar.json', 'footer.json'].includes(entry.name) // Exclude globals
+    );
     
     for (const file of directFiles) {
       const pageSlug = file.name.replace('.json', '');
@@ -200,35 +246,53 @@ export async function getAllPagesContent(locale: string = 'sv') {
         const filePath = path.join(contentDir, file.name);
         const fileContent = await fs.readFile(filePath, 'utf8');
         const content = JSON.parse(fileContent);
+        // Set slug if not present
+        if (!content.slug) {
+          content.slug = pageSlug;
+        }
         pages.push(content);
+        console.log(`✅ Loaded page from direct file: ${file.name}`);
       } catch (error) {
         console.error(`Failed to load direct file ${file.name}:`, error);
       }
+    }
+    
+    // Also load from old pages structure if it exists
+    const pagesDir = path.join(process.cwd(), 'public', 'content', locale, 'pages');
+    try {
+      const pageEntries = await fs.readdir(pagesDir, { withFileTypes: true });
+      
+      for (const entry of pageEntries) {
+        if (entry.isDirectory()) {
+          const pageSlug = entry.name;
+          // Only load if not already loaded from direct file
+          if (!pages.find(p => p.slug === pageSlug)) {
+            const content = await getPageContent(locale, pageSlug);
+            if (content) {
+              pages.push(content);
+              console.log(`✅ Loaded page from pages folder: ${pageSlug}`);
+            }
+          }
+        }
+      }
+    } catch (err) {
+      // Pages directory doesn't exist, that's ok
+      console.log('ℹ️ No pages directory found, using only direct JSON files');
     }
 
     // Load all global components
     const globals: { [key: string]: any } = {};
     
-    try {
-      const globalsDir = path.join(process.cwd(), 'public', 'content', locale, 'globals');
-      const globalEntries = await fs.readdir(globalsDir, { withFileTypes: true });
-      
-      for (const entry of globalEntries) {
-        if (entry.isDirectory()) {
-          const componentType = entry.name;
-          const globalContent = await getGlobalComponentContent(locale, componentType);
-          if (globalContent) {
-            globals[componentType] = globalContent;
-          }
-        }
-      }
-    } catch (error) {
-      console.error(`Failed to load globals directory for locale ${locale}:`, error);
-      // Fallback to just navbar for backward compatibility
-      const navbarContent = await getGlobalComponentContent(locale, 'navbar');
-      if (navbarContent) {
-        globals.navbar = navbarContent;
-      }
+    // Load navbar content
+    const navbarContent = await getNavbarContent(locale);
+    if (navbarContent) {
+      globals.navbar = navbarContent;
+    }
+    
+    // Load footer content
+    const footerContent = await getFooterContent(locale);
+    if (footerContent) {
+      globals.footer = footerContent;
     }
     
     // Convert pages array to object keyed by slug for WebsiteContent format

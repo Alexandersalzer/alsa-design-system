@@ -11,59 +11,52 @@ interface ContainerProps {
   as?: React.ElementType;
   align?: Alignment;
   height?: Height;
-  useMediaWidth?: boolean; // ✅ SIMPLE BOOLEAN!
+  useMediaWidth?: boolean; // ✅ Switch between content or media width
   style?: React.CSSProperties;
 }
 
 const getAlignmentClass = (align: Alignment): string => {
   switch (align) {
+    case 'center': return styles.alignCenter;
+    case 'right': return styles.alignRight;
     case 'left':
-      return styles.alignLeft;
-    case 'center':
-      return styles.alignCenter;
-    case 'right':
-      return styles.alignRight;
-    default:
-      return styles.alignLeft;
+    default: return styles.alignLeft;
   }
 };
 
 const getHeightClass = (height: Height): string => {
   switch (height) {
-    case 'full':
-      return styles.heightFull;
-    case 'fit':
-      return styles.heightFit;
+    case 'full': return styles.heightFull;
+    case 'fit': return styles.heightFit;
     case 'auto':
-    default:
-      return styles.heightAuto;
+    default: return styles.heightAuto;
   }
 };
 
-export const Container = ({ 
-  children, 
-  className = '', 
+export const Container = ({
+  children,
+  className = '',
   id,
   as: Component = 'div',
   align = 'left',
   height = 'auto',
-  useMediaWidth = false, // ✅ Default: use content width
-  style
+  useMediaWidth = false,
+  style,
 }: ContainerProps) => {
   const alignmentClass = getAlignmentClass(align);
   const heightClass = getHeightClass(height);
-  
-  // ✅ SIMPLE: Add media class if true
-  const maxWidthClass = useMediaWidth ? styles.maxWidthMedia : '';
-  
-  const combinedClassName = `${styles.container} ${alignmentClass} ${heightClass} ${maxWidthClass} ${className}`.trim();
+  const widthClass = useMediaWidth ? styles.maxWidthMedia : '';
+
+  const combinedClassName = [
+    styles.container,
+    alignmentClass,
+    heightClass,
+    widthClass,
+    className,
+  ].join(' ').trim();
 
   return (
-    <Component 
-      id={id}
-      className={combinedClassName}
-      style={style}
-    >
+    <Component id={id} className={combinedClassName} style={style}>
       {children}
     </Component>
   );

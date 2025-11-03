@@ -7,6 +7,9 @@ export * from './types';
 // Export all hooks
 export * from './hooks';
 
+// Export all helpers
+export * from './helpers';
+
 // Export all utilities (client-safe)
 export * from './utils';
 

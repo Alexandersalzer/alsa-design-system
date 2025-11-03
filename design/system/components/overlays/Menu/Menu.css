@@ -17,11 +17,11 @@
   gap: 8px;
   padding: 8px 16px;
   min-height: 40px;
-  border: 2px solid var(--border-default);
+  border: 2px solid var(--border-picker);
   /* FIXED: Use proper button radius token */
   border-radius: var(--radius-button);
-  background-color: var(--surface-default);
-  color: var(--text-default);
+  background-color: var(--surface-picker);
+  color: var(--text-picker);
   font-family: var(--font-body-family);
   font-size: 14px;
   font-weight: var(--foundation-weight-medium);
@@ -35,28 +35,28 @@
 }
 
 .menu-trigger:hover:not(:disabled):not([aria-expanded="true"]) {
-  background-color: var(--surface-hover);
-  border-color: var(--border-hover);
+  background-color: var(--surface-picker-hover);
+  border-color: var(--border-picker-hover);
   box-shadow: 
     0 2px 4px rgba(0, 0, 0, 0.04),
     0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .menu-trigger:active:not(:disabled) {
-  background-color: var(--surface-pressed);
-  border-color: var(--border-hover);
+  background-color: var(--surface-picker-hover);
+  border-color: var(--border-picker-focus);
 }
 
 .menu-trigger:focus-visible {
-  border-color: var(--border-focus);
+  border-color: var(--border-picker-focus);
   box-shadow: 
     0 0 0 3px rgba(var(--accent-500-rgb), 0.2),
     0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .menu-trigger[aria-expanded="true"] {
-  background-color: var(--surface-hover);
-  border-color: var(--border-focus);
+  background-color: var(--surface-picker-hover);
+  border-color: var(--border-picker-focus);
   box-shadow: 
     0 2px 8px rgba(0, 0, 0, 0.08),
     0 1px 4px rgba(0, 0, 0, 0.06);
@@ -65,8 +65,8 @@
 .menu-trigger:disabled {
   cursor: not-allowed;
   opacity: 0.6;
-  background-color: var(--surface-disabled);
-  border-color: var(--border-disabled);
+  background-color: var(--surface-picker-disabled);
+  border-color: var(--border-picker-disabled);
 }
 
 .menu-trigger:disabled:hover {
@@ -132,7 +132,7 @@
   /* FIXED: Use responsive button radius token like listbox */
   border-radius: var(--radius-button);
   background-color: transparent;
-  color: var(--text-default);
+  color: var(--text-dropdown);
   font-family: var(--font-body-family);
   font-size: 14px;
   font-weight: var(--foundation-weight-normal);
@@ -147,11 +147,11 @@
 }
 
 .menu-item:hover:not(.menu-item--disabled) {
-  background-color: var(--surface-hover);
+  background-color: var(--surface-dropdown-option-hover);
 }
 
 .menu-item:focus-visible:not(.menu-item--disabled) {
-  background-color: var(--surface-hover);
+  background-color: var(--surface-dropdown-option-hover);
   outline: 2px solid transparent;
   outline-offset: -2px;
   box-shadow: inset 0 0 0 2px var(--border-focus);
@@ -160,7 +160,7 @@
 .menu-item--disabled {
   cursor: not-allowed;
   opacity: 0.5;
-  color: var(--text-disabled);
+  color: var(--text-dropdown-disabled);
 }
 
 .menu-item--disabled:hover {
@@ -207,7 +207,7 @@
 }
 
 .menu-radio-item--selected {
-  background-color: var(--surface-selected);
+  background-color: var(--surface-dropdown-option-selected);
   font-weight: var(--foundation-weight-medium);
 }
 

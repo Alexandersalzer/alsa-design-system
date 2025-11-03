@@ -1,58 +1,40 @@
+/* ==============================================
+   SECTION COMPONENT
+   Controls vertical rhythm, position, and height.
+   ============================================== */
+
 .section {
   width: 100%;
-  max-width: 100vw;
-  box-sizing: border-box;
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  padding-top: var(--space-section);
+  padding-bottom: var(--space-section);
+  overflow: hidden;
 }
 
-/* Position variants */
-.positionStatic {
-  position: static;
-}
 
-.positionRelative {
-  position: relative;
-}
+/* ===== SPACING VARIANTS ===== */
+.spacingXs  { padding-block: var(--foundation-section-spacing-xs); }
+.spacingSm  { padding-block: var(--foundation-section-spacing-sm); }
+.spacingMd  { padding-block: var(--foundation-section-spacing-md); }
+.spacingLg  { padding-block: var(--foundation-section-spacing-lg); }
+.spacingXl  { padding-block: var(--foundation-section-spacing-xl); }
+.spacing2xl { padding-block: var(--foundation-section-spacing-2xl); }
 
-.positionSticky {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
+/* ===== POSITION VARIANTS ===== */
+.positionStatic   { position: static; }
+.positionRelative { position: relative; }
+.positionSticky   { position: sticky; top: 0; z-index: 1000; }
+.positionFixed    { position: fixed; top: 0; z-index: 1000; }
+.positionAbsolute { position: absolute; }
 
-.positionFixed {
-  position: fixed;
-  top: 0;
-  z-index: 1000;
-}
+/* ===== HEIGHT VARIANTS ===== */
+.heightAuto   { min-height: fit-content; }
+.heightFull   { min-height: 100vh; justify-content: center; }
+.heightScreen { height: 100vh; justify-content: center; }
 
-.positionAbsolute {
-  position: absolute;
-}
-
-/* Height variants */
-.heightAuto {
-  min-height: fit-content;
-}
-
-.heightFull {
-  min-height: 100vh;
-  justify-content: center;
-}
-
-.heightScreen {
-  height: 100vh;
-  justify-content: center;
-}
-
-/* Ensure all child elements respect the section boundaries */
+/* ===== UNIVERSAL RESET ===== */
 .section * {
   box-sizing: border-box;
 }
-
-/* ❌ REMOVED THIS - IT WAS BREAKING CONTAINER WIDTH! */
-/* .section > * {
-  max-width: 100%;
-} */

@@ -1,5 +1,5 @@
 // ===============================================
-// src/design-system/components/patterns/page/HStack.tsx
+// design/system/components/layout/hStack/HStack.tsx
 // HStack COMPONENT - Horizontal grouping with wrapping
 // ===============================================
 import React, { ReactNode } from 'react';

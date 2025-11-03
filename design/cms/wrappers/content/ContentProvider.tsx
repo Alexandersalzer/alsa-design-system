@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useState, useEffect } from 'react';
-import { type WebsiteContent } from './types/content';
+import { type AnyWebsiteContent } from './types/content';
 import {
   requestWebsiteContent,
   setupMessageListener,
@@ -11,13 +11,14 @@ import { useEditingMode } from '../editing/EditingWrapper';
 import { ContentContextType, ContentProviderProps } from './types/context';
 import { useContentQueries } from './hooks/useContentQueries';
 import { useContentBlocks } from './hooks/useContentBlocks';
+import { useContentQueriesV2 } from './hooks/useContentQueriesV2';
 
 // Create the context
 export const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export function ContentProvider({ children, initialContent = null }: ContentProviderProps) {
   const { isEditingMode } = useEditingMode();
-  const [dynamicContent, setDynamicContent] = useState<WebsiteContent | null>(initialContent);
+  const [dynamicContent, setDynamicContent] = useState<AnyWebsiteContent | null>(initialContent);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,7 +30,7 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
       requestWebsiteContent();
 
       const messageHandlers: MessageHandlers = {
-        onContentUpdate: (content: WebsiteContent) => {
+        onContentUpdate: (content: AnyWebsiteContent) => {
           console.log('🔄 ContentProvider: Received content update from parent:', {
             pages: Object.keys(content.pages || {}).length,
             globals: Object.keys(content.globals || {}).length
@@ -38,7 +39,7 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
           setIsLoading(false);
           setError(null);
         },
-        onWebsiteContentResponse: (content: WebsiteContent) => {
+        onWebsiteContentResponse: (content: AnyWebsiteContent) => {
           console.log('✅ ContentProvider: Received website content response from parent API:', {
             pages: Object.keys(content.pages || {}).length,
             globals: Object.keys(content.globals || {}).length
@@ -86,13 +87,15 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
   // Use the modular hooks
   const contentQueries = useContentQueries(activeContent);
   const contentBlocks = useContentBlocks();
+  const contentQueriesV2 = useContentQueriesV2(activeContent);
 
   const contextValue: ContentContextType = {
     content: activeContent,
     isLoading,
     error,
     ...contentQueries,
-    ...contentBlocks
+    ...contentBlocks,
+    ...contentQueriesV2
   };
 
   return (

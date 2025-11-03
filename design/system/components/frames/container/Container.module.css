@@ -1,94 +1,58 @@
+/* ==============================================
+   CONTAINER COMPONENT
+   Handles horizontal layout, alignment & internal gap
+   ============================================== */
+
 .container {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--foundation-space-6, 1.5rem);
-  padding: var(--foundation-space-4, 1rem);
+  box-sizing: border-box;
+
+  /* Internal layout */
+  gap: var(--foundation-space-6);
+
+  /* Width and centering */
+  max-width: var(--width-container);
+  margin-inline: auto;
+
+  /* ✅ Horizontal breathing room (edge padding) */
+  padding-inline: var(--foundation-space-4);
+
+  /* Minimum vertical space (content safety) */
   min-height: fit-content;
-  
-  /* ✅ DEFAULT: Content width */
-  max-width: var(--width-content);
-  margin: 0 auto;
 }
 
-/* ✅ ONLY ONE VARIANT: Media width for heroes/videos */
+/* ===== VARIANTS ===== */
+
+/* Larger media/visuals */
 .maxWidthMedia {
   max-width: var(--width-media);
 }
 
 /* Height variants */
-.heightAuto {
-  min-height: fit-content;
-}
+.heightAuto { min-height: fit-content; }
+.heightFull { flex: 1; justify-content: center; }
+.heightFit  { height: fit-content; }
 
-.heightFull {
-  flex: 1;
-  justify-content: center;
-}
+/* Alignment variants */
+.alignLeft   { align-items: flex-start; text-align: left; }
+.alignCenter { align-items: center; text-align: center; }
+.alignRight  { align-items: flex-end; text-align: right; }
 
-.heightFit {
-  height: fit-content;
-}
+/* ===== RESPONSIVE ===== */
 
-/* Alignment classes */
-.alignLeft {
-  align-items: flex-start;
-  text-align: left;
-}
-
-.alignCenter {
-  align-items: center;
-  text-align: center;
-}
-
-.alignRight {
-  align-items: flex-end;
-  text-align: right;
-}
-
-/* Responsive behavior */
+/* Smaller screens → tighter horizontal padding & smaller gap */
 @media (max-width: 768px) {
   .container {
-    padding: var(--foundation-space-3, 0.75rem);
-    gap: var(--foundation-space-4, 1rem);
+    padding-inline: var(--foundation-space-3);
+    gap: var(--foundation-space-4);
   }
 }
 
-/* When container has hero content */
-.container:has(h1) {
-  gap: var(--foundation-space-8, 2rem);
-  padding: var(--foundation-space-6, 1.5rem);
-}
+/* If the container has a heading, open up internal spacing */
+.container:has(h1) { gap: var(--foundation-space-8); }
 
 @media (min-width: 769px) {
-  .container:has(h1) {
-    padding: var(--foundation-space-8, 2rem);
-    gap: var(--foundation-space-10, 2.5rem);
-  }
-}
-
-/* Child elements */
-.container > * {
-  width: 100%;
-  flex-shrink: 0;
-}
-
-/* Button containers */
-.container > *:has(button),
-.container > *:has(.btn) {
-  gap: var(--foundation-space-4, 1rem);
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-@media (max-width: 768px) {
-  .container > *:has(button),
-  .container > *:has(.btn) {
-    flex-direction: column;
-  }
-  
-  .container > *:has(button) button,
-  .container > *:has(.btn) .btn {
-    width: 100%;
-  }
+  .container:has(h1) { gap: var(--foundation-space-10); }
 }

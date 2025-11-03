@@ -1,46 +1,26 @@
 /* ==============================================
    src/design-system/tokens/semantic/layout.css
-   SEMANTIC LAYOUT TOKENS - Only Two Widths
+   FLUID RESPONSIVE WIDTH SYSTEM (Fixed)
    ============================================== */
 
 :root {
-  /* ===== THE ONLY TWO WIDTHS YOU NEED ===== */
-  
-  /* Content width - for text, cards, services, testimonials, contact, etc. */
-  --width-content: var(--selected-layout-scale-content);
-  
-  /* Media width - for big images, heroes, illustrations */
-  --width-media: var(--selected-layout-scale-media);
-  
-  /* ===== COMPONENT-SPECIFIC ALIASES ===== */
-  /* These all reference the two main widths above */
-  
-  /* Navbar width (typically matches content) */
-  --width-navbar: var(--width-content);
-  
-  /* Footer width (typically matches content) */
-  --width-footer: var(--width-content);
-  
-  /* Container width (defaults to content) */
+  /* ===== SELECTED WIDTH SCALE ===== */
+  --selected-layout-scale-content: var(--foundation-layout-base-content);
+  --selected-layout-scale-media: var(--foundation-layout-base-media);
+
+  /* ===== FLUID WIDTH TOKENS ===== */
+  /*
+    These now grow fluidly between mobile and desktop.
+    - min width: 20rem (320px)
+    - preferred: 90vw
+    - max width: your selected content/media scale
+  */
+
+  --width-content: clamp(20rem, 90vw, var(--selected-layout-scale-content));
+  --width-media: clamp(20rem, 95vw, var(--selected-layout-scale-media));
+
+  /* ===== ALIASES ===== */
   --width-container: var(--width-content);
+  --width-navbar: var(--width-content);
+  --width-footer: var(--width-content);
 }
-
-/*
-SEMANTIC LAYER PURPOSE:
-=======================
-
-Foundation → Selected → Semantic → Component
-
-Benefits:
-1. Clear naming (--width-content vs --selected-layout-scale-content)
-2. Client customization (can override semantic without touching foundation)
-3. Future-proof (easy to add aliases)
-4. Matches radius pattern (you already use semantic for radius)
-
-USAGE:
-======
---width-content  →  Use for 95% of sections (text, cards, services)
---width-media    →  Use for big image/hero sections
-
-User picks ONE scale in foundation, both semantic widths update automatically!
-*/
