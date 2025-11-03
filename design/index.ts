@@ -65,7 +65,7 @@ export {
 export { ContentLayout } from './cms/wrappers/ContentLayout';
 
 // Export dynamic section rendering
-export { Sections, renderSections } from './cms/utils';
+export { Sections, renderSections, type SectionData } from './cms/utils';
 
 // Export WebsiteContent type from new location
 export { type WebsiteContent } from './cms/wrappers/content/types/content'; 

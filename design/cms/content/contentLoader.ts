@@ -109,6 +109,51 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string) {
 }
 
 /**
+ * Get page props for rendering a specific page
+ * Lightweight function that only loads what's needed for PageLayout
+ */
+export async function getPageProps(locale: string = 'sv', pageSlug: string) {
+  if (typeof window !== 'undefined') {
+    throw new Error('getPageProps is only available on server-side');
+  }
+
+  try {
+    const { promises: fs } = await import('fs');
+    const path = await import('path');
+    
+    const pageFilePath = path.join(
+      process.cwd(),
+      'public',
+      'content',
+      locale,
+      `${pageSlug}.json`
+    );
+    
+    const fileContent = await fs.readFile(pageFilePath, 'utf8');
+    const pageData = JSON.parse(fileContent);
+    
+    // Return only what PageLayout needs
+    return {
+      sections: pageData.sections || {},
+      sectionOrder: pageData.order || [],
+      pageSlug: pageData.slug || pageSlug
+    };
+  } catch (error) {
+    console.error(`Failed to load page props for ${pageSlug} in locale ${locale}:`, error);
+    // Fallback to Swedish if locale file doesn't exist
+    if (locale !== 'sv') {
+      return getPageProps('sv', pageSlug);
+    }
+    // Return empty state if all fails
+    return {
+      sections: {},
+      sectionOrder: [],
+      pageSlug
+    };
+  }
+}
+
+/**
  * Load all pages for a specific locale (used for navigation, etc.)
  * Uses dynamic import to avoid bundling fs in browser
  */
