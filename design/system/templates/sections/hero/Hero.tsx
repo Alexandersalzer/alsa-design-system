@@ -270,7 +270,7 @@ export const Hero: React.FC<HeroSectionProps> = ({
                 marginBottom: '2rem',
                 fontSize: 'var(--font-size-sm)',
                 fontWeight: 'var(--font-weight-medium)',
-                color: 'var(--color-text-tertiary)',
+                color: 'var(--text-secondary)',
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
               }}

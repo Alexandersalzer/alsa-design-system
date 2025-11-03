@@ -18,7 +18,7 @@
   padding: var(--foundation-space-4);
   backdrop-filter: blur(2px);
   
-  /* 🎯 CLEAN FADE IN */
+  /* ðŸŽ¯ CLEAN FADE IN */
   animation: modalBackdropFadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
 }
 
@@ -35,15 +35,17 @@
   display: flex;
   flex-direction: column;
   
-  /* 🎯 CLEAN SCALE IN */
+  /* ðŸŽ¯ CLEAN SCALE IN */
   animation: modalScaleIn var(--foundation-duration-normal) var(--foundation-ease-out);
 }
 
 /* ===== MODAL SIZES ===== */
 .modal--sm { max-width: 400px; }
 .modal--md { max-width: 500px; }
-.modal--lg { max-width: 700px; }
-.modal--xl { max-width: 900px; }
+.modal--lg { max-width: 800px; }  /* Increased from 700px */
+.modal--xl { max-width: 1000px; }  /* Increased from 900px */
+.modal--2xl { max-width: 1200px; }  /* New larger size */
+.modal--3xl { max-width: 1400px; }  /* New extra large size */
 .modal--full {
   max-width: calc(100vw - var(--foundation-space-8));
   max-height: calc(100vh - var(--foundation-space-8));
@@ -106,7 +108,7 @@
   }
 }
 
-/* 🎯 CLOSING ANIMATIONS (when modal is closing) */
+/* ðŸŽ¯ CLOSING ANIMATIONS (when modal is closing) */
 .modal-backdrop--closing {
   animation: modalBackdropFadeOut var(--foundation-duration-fast) var(--foundation-ease-in);
 }
@@ -144,7 +146,9 @@
   .modal--sm,
   .modal--md,
   .modal--lg,
-  .modal--xl {
+  .modal--xl,
+  .modal--2xl,
+  .modal--3xl {
     max-width: 100%;
     margin: 0;
   }
