@@ -68,6 +68,42 @@ export async function getFooterContent(locale: string = 'sv') {
 }
 
 /**
+ * Get all page slugs for a specific locale
+ * Ultra-lightweight function for generateStaticParams - only reads filenames
+ */
+export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> {
+  if (typeof window !== 'undefined') {
+    throw new Error('getAllPageSlugs is only available on server-side');
+  }
+
+  try {
+    const { promises: fs } = await import('fs');
+    const path = await import('path');
+    
+    const contentDir = path.join(process.cwd(), 'public', 'content', locale);
+    const entries = await fs.readdir(contentDir, { withFileTypes: true });
+    
+    // Filter for page files (exclude global files like navbar.json, footer.json)
+    const pageSlugs = entries
+      .filter(entry => 
+        entry.isFile() && 
+        entry.name.endsWith('.json') &&
+        !['navbar.json', 'footer.json'].includes(entry.name)
+      )
+      .map(entry => entry.name.replace('.json', ''));
+    
+    return pageSlugs;
+  } catch (error) {
+    console.error(`Failed to load page slugs for locale ${locale}:`, error);
+    // Fallback to Swedish if locale doesn't exist
+    if (locale !== 'sv') {
+      return getAllPageSlugs('sv');
+    }
+    return [];
+  }
+}
+
+/**
  * Get page props for rendering a specific page
  * Lightweight function that only loads what's needed for PageLayout
  */
