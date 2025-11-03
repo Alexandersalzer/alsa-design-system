@@ -192,7 +192,7 @@ const Navbar = ({
       style={{
         maxWidth: 'var(--width-content)',
         margin: '0 auto',
-        padding: '0 var(--foundation-space-4)',
+        padding: '0 var(--foundation-space-2)',
         width: '100%',
         height: height
       }}

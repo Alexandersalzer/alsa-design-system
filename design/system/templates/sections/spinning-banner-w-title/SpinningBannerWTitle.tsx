@@ -81,7 +81,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
             uppercase
             weight="regular"
             align="center"
-            color="tertiary"
+            color="secondary"  // ✅ Changed from "tertiary" to "secondary" (or use "body")
           >
             EN LITEN DEL AV MIN PORTFÖLJ
           </Typography>

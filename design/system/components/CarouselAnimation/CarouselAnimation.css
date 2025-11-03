@@ -33,10 +33,10 @@
 .Carousel-animation-container.with-fade-edges::before {
   left: 0;
   background: linear-gradient(to right, 
-    var(--fade-color, #f7f7f7) 0%, 
-    color-mix(in srgb, var(--fade-color, #f7f7f7) 90%, transparent) 20%, 
-    color-mix(in srgb, var(--fade-color, #f7f7f7) 70%, transparent) 40%, 
-    color-mix(in srgb, var(--fade-color, #f7f7f7) 30%, transparent) 70%,
+    var(--fade-color, var(--surface-page)) 0%, 
+    color-mix(in srgb, var(--fade-color, var(--surface-page)) 90%, transparent) 20%, 
+    color-mix(in srgb, var(--fade-color, var(--surface-page)) 70%, transparent) 40%, 
+    color-mix(in srgb, var(--fade-color, var(--surface-page)) 30%, transparent) 70%,
     transparent 100%
   );
 }
@@ -44,10 +44,10 @@
 .Carousel-animation-container.with-fade-edges::after {
   right: 0;
   background: linear-gradient(to left, 
-    var(--fade-color, #f7f7f7) 0%, 
-    color-mix(in srgb, var(--fade-color, #f7f7f7) 90%, transparent) 20%, 
-    color-mix(in srgb, var(--fade-color, #f7f7f7) 70%, transparent) 40%,
-    color-mix(in srgb, var(--fade-color, #f7f7f7) 30%, transparent) 70%, 
+    var(--fade-color, var(--surface-page)) 0%, 
+    color-mix(in srgb, var(--fade-color, var(--surface-page)) 90%, transparent) 20%, 
+    color-mix(in srgb, var(--fade-color, var(--surface-page)) 70%, transparent) 40%,
+    color-mix(in srgb, var(--fade-color, var(--surface-page)) 30%, transparent) 70%, 
     transparent 100%
   );
 }
@@ -55,43 +55,23 @@
 /* Fallback for browsers that don't support color-mix */
 @supports not (color: color-mix(in srgb, white, black)) {
   .Carousel-animation-container.with-fade-edges::before {
+    /* Use semi-transparent white/black based on theme */
     background: linear-gradient(to right, 
-      rgba(247,247,247,1) 0%, 
-      rgba(247,247,247,0.9) 20%, 
-      rgba(247,247,247,0.7) 40%, 
-      rgba(247,247,247,0.3) 70%,
-      rgba(247,247,247,0) 100%
-    );
-  }
-
-  .Carousel-animation-container.with-fade-edges::after {
-    background: linear-gradient(to left, 
-      rgba(247,247,247,1) 0%, 
-      rgba(247,247,247,0.9) 20%, 
-      rgba(247,247,247,0.7) 40%,
-      rgba(247,247,247,0.3) 70%, 
-      rgba(247,247,247,0) 100%
+      var(--surface-page) 0%, 
+      color-mix(in srgb, var(--surface-page) 90%, transparent) 20%, 
+      color-mix(in srgb, var(--surface-page) 70%, transparent) 40%, 
+      color-mix(in srgb, var(--surface-page) 30%, transparent) 70%,
+      transparent 100%
     );
   }
   
-  /* Special handling for transparent backgrounds */
-  .Carousel-animation-container.with-fade-edges[style*="transparent"]::before {
-    background: linear-gradient(to right, 
-      rgba(255,255,255,1) 0%, 
-      rgba(255,255,255,0.9) 20%, 
-      rgba(255,255,255,0.7) 40%, 
-      rgba(255,255,255,0.3) 70%,
-      rgba(255,255,255,0) 100%
-    );
-  }
-
-  .Carousel-animation-container.with-fade-edges[style*="transparent"]::after {
+  .Carousel-animation-container.with-fade-edges::after {
     background: linear-gradient(to left, 
-      rgba(255,255,255,1) 0%, 
-      rgba(255,255,255,0.9) 20%, 
-      rgba(255,255,255,0.7) 40%,
-      rgba(255,255,255,0.3) 70%, 
-      rgba(255,255,255,0) 100%
+      var(--surface-page) 0%, 
+      color-mix(in srgb, var(--surface-page) 90%, transparent) 20%, 
+      color-mix(in srgb, var(--surface-page) 70%, transparent) 40%,
+      color-mix(in srgb, var(--surface-page) 30%, transparent) 70%, 
+      transparent 100%
     );
   }
 }
@@ -110,7 +90,7 @@
   justify-content: center;
 }
 
-/* Special styling for Carousel images - removed problematic styles */
+/* Special styling for Carousel images */
 .Carousel-Carousel .Carousel-animation-item {
   border-radius: inherit;
 }
@@ -122,4 +102,4 @@
 
 .Carousel-Carousel .Carousel-animation-track {
   background: transparent !important;
-} 
+}

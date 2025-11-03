@@ -15,27 +15,19 @@ export interface CarouselAnimationItem {
 
 export interface CarouselAnimationProps {
   items: CarouselAnimationItem[];
-  speed?: number; // Animation speed in seconds
+  speed?: number;
   direction?: 'left' | 'right';
   className?: string;
-  
-  // Container styling
   containerHeight?: string;
   backgroundColor?: string;
   padding?: string;
-  
-  // Item styling
   itemWidth?: string;
   itemHeight?: string;
   itemPadding?: string;
   gap?: string;
-  
-  // Fade edges
   enableFadeEdges?: boolean;
   fadeWidth?: string;
-  
-  // Animation behavior
-  duplicateCount?: number; // How many times to duplicate items for seamless loop
+  duplicateCount?: number;
 }
 
 export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
@@ -43,35 +35,25 @@ export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
   speed = 30,
   direction = 'left',
   className = '',
-  
-  // Container defaults
   containerHeight = 'auto',
-  backgroundColor = '#f7f7f7',
+  backgroundColor = 'var(--surface-page)', // ✅ Changed default
   padding = '5px',
-  
-  // Item defaults
   itemWidth = '120px',
   itemHeight = '70px',
   itemPadding = '15px',
   gap = '50px',
-  
-  // Fade edges defaults
   enableFadeEdges = true,
   fadeWidth = '200px',
-  
-  // Animation defaults
   duplicateCount = 6
 }) => {
   const animationRef = useRef<HTMLDivElement>(null);
 
-  // Create duplicated items for seamless infinite loop
   const duplicatedItems = Array.from({ length: duplicateCount }, () => items).flat();
 
   useEffect(() => {
     const element = animationRef.current;
     if (!element) return;
 
-    // Set CSS custom properties for animation
     element.style.setProperty('--animation-duration', `${speed}s`);
     element.style.setProperty('--animation-direction', direction === 'left' ? 'normal' : 'reverse');
     element.style.setProperty('--duplicate-count', duplicateCount.toString());
@@ -117,4 +99,4 @@ export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
       </div>
     </div>
   );
-}; 
+};
