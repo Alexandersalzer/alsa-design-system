@@ -267,14 +267,6 @@ export const Hero: React.FC<HeroSectionProps> = ({
       align="center"
       height="auto"
       useMediaWidth={useMediaWidth}
-      style={{ 
-        minHeight: '60vh', 
-        paddingTop: '18rem', 
-        paddingBottom: '2rem',
-        justifyContent: 'center',
-        display: 'flex',
-        flexDirection: 'column'
-      }}
     >
       <SectionBody
         // Optional tag
