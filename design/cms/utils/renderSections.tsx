@@ -27,11 +27,72 @@ interface RenderSectionsProps {
 
 /**
  * Pattern Renderer - Dynamically renders patterns based on content
+ * Each pattern can optionally be wrapped in a Container
  */
-const renderPattern = (pattern: any, index: number) => {
+const renderPattern = (pattern: any, index: number, useContainer: boolean = true) => {
   if (!pattern || !pattern.type) return null;
 
+  let content: React.ReactNode = null;
+
   switch (pattern.type) {
+    case 'sectionBody': {
+      // Extract components from sectionBody
+      const components = pattern.components || {};
+      const headingComponent = Object.values(components).find((c: any) => c.type === 'heading') as any;
+      const bodyComponent = Object.values(components).find((c: any) => c.type === 'body') as any;
+      const tagComponent = Object.values(components).find((c: any) => c.type === 'tag') as any;
+      const buttonComponent = Object.values(components).find((c: any) => c.type === 'button') as any;
+      
+      const title = headingComponent?.content || '';
+      const subtitle = bodyComponent?.content || '';
+      const tagText = tagComponent?.content || '';
+      let primaryButtonText = '';
+      
+      // Handle button content
+      if (buttonComponent?.content) {
+        if (typeof buttonComponent.content === 'object' && 'content' in buttonComponent.content) {
+          primaryButtonText = buttonComponent.content.content;
+        } else if (typeof buttonComponent.content === 'string') {
+          primaryButtonText = buttonComponent.content;
+        }
+      }
+      
+      // Don't render if no content
+      if (!title && !subtitle && !primaryButtonText) return null;
+      
+      content = (
+        <SectionBody
+          tag={tagText ? {
+            text: tagText,
+            variant: 'accent',
+            size: 'medium'
+          } : undefined}
+          heading={title}
+          headingAs="h1"
+          headingVariant="display-xl"
+          headingColor="heading"
+          headingWeight="bold"
+          body={subtitle || undefined}
+          bodyAs="p"
+          bodyVariant="body-xl"
+          bodyColor="body"
+          bodyWeight="regular"
+          actionType={primaryButtonText ? 'button' : undefined}
+          button={primaryButtonText ? {
+            text: primaryButtonText,
+            variant: 'primary',
+            size: 'xl'
+          } : undefined}
+          textAlign="center"
+          maxWidth="800px"
+          tagSpacing="sm"
+          headingBodySpacing="md"
+          bodyActionSpacing="xl"
+        />
+      );
+      break;
+    }
+    
     case 'spinningLogos': {
       // Extract heading
       const headingComponent = pattern.components?.heading_lKz6fL || 
@@ -57,8 +118,8 @@ const renderPattern = (pattern: any, index: number) => {
       
       if (logos.length === 0) return null;
       
-      return (
-        <div key={`pattern-${index}`} style={{ marginTop: '4rem', width: '100%' }}>
+      content = (
+        <>
           {heading && (
             <h3 style={{ 
               textAlign: 'center', 
@@ -77,8 +138,9 @@ const renderPattern = (pattern: any, index: number) => {
             speed={speed}
             direction={direction}
           />
-        </div>
+        </>
       );
+      break;
     }
     
     case 'media': {
@@ -88,42 +150,62 @@ const renderPattern = (pattern: any, index: number) => {
       
       if (!videoComponent || !videoComponent.content) return null;
       
-      const content = videoComponent.content as any;
-      const videoSrc = content?.src || content?.content || '';
-      const videoPoster = content?.poster || '';
+      const videoContent = videoComponent.content as any;
+      const videoSrc = videoContent?.src || videoContent?.content || '';
+      const videoPoster = videoContent?.poster || '';
       
       if (!videoSrc) return null;
       
-      return (
-        <div key={`pattern-${index}`} style={{ marginTop: '4rem', width: '100%' }}>
-          <Component>
-            <VideoShowcase
-              src={videoSrc}
-              poster={videoPoster}
-              autoPlay={false}
-              muted={true}
-              loop={true}
-              controls={false}
-              showPlayButton={true}
-              variant="elevated"
-              size="full"
-              aspectRatio="16-9"
-              radius="md"
-            />
-          </Component>
-        </div>
+      content = (
+        <Component>
+          <VideoShowcase
+            src={videoSrc}
+            poster={videoPoster}
+            autoPlay={false}
+            muted={true}
+            loop={true}
+            controls={false}
+            showPlayButton={true}
+            variant="elevated"
+            size="full"
+            aspectRatio="16-9"
+            radius="md"
+          />
+        </Component>
       );
+      break;
     }
     
     default:
       console.log(`⚠️ Unknown pattern type: ${pattern.type}`);
       return null;
   }
+
+  // If no content was generated, return null
+  if (!content) return null;
+
+  // Wrap in Container if requested
+  if (useContainer) {
+    return (
+      <Container
+        key={`pattern-${index}`}
+        align="center"
+        height="auto"
+        useMediaWidth={false}
+        style={{ marginTop: index > 0 ? '4rem' : undefined }}
+      >
+        {content}
+      </Container>
+    );
+  }
+
+  // Return raw content with key
+  return <div key={`pattern-${index}`}>{content}</div>;
 };
 
 /**
  * Dynamically renders sections based on JSON content
- * Each section contains SectionBody + additional patterns
+ * Each section renders all patterns in order (including sectionBody)
  * 
  * @param sections - Object containing all sections keyed by their IDs
  * @param sectionOrder - Array defining the order in which sections should be rendered
@@ -141,7 +223,7 @@ export function renderSections({
   }
 
   return sectionOrder
-    .map((sectionKey, index) => {
+    .map((sectionKey, sectionIndex) => {
       const sectionData = sections[sectionKey];
       
       if (!sectionData) {
@@ -151,92 +233,37 @@ export function renderSections({
 
       const { type, patterns } = sectionData;
       
-      // Extract sectionBody pattern
-      const sectionBodyPattern = Object.values(patterns || {}).find(
-        (p: any) => p.type === 'sectionBody'
-      ) as any;
-      
-      if (!sectionBodyPattern) {
-        console.warn(`⚠️ No sectionBody found for section "${sectionKey}"`);
+      if (!patterns) {
+        console.warn(`⚠️ No patterns found for section "${sectionKey}"`);
         return null;
       }
       
-      // Extract components from sectionBody
-      const components = sectionBodyPattern.components || {};
-      const headingComponent = Object.values(components).find((c: any) => c.type === 'heading') as any;
-      const bodyComponent = Object.values(components).find((c: any) => c.type === 'body') as any;
-      const tagComponent = Object.values(components).find((c: any) => c.type === 'tag') as any;
-      const buttonComponent = Object.values(components).find((c: any) => c.type === 'button') as any;
+      // Get pattern order from section data
+      const patternOrder = sectionData.order || Object.keys(patterns);
       
-      const title = headingComponent?.content || '';
-      const subtitle = bodyComponent?.content || '';
-      const tagText = tagComponent?.content || '';
-      let primaryButtonText = '';
+      // Render all patterns (including sectionBody)
+      const renderedPatterns = patternOrder
+        .map((patternKey, patternIndex) => {
+          const pattern = patterns[patternKey];
+          if (!pattern) return null;
+          
+          return renderPattern(pattern, patternIndex, true);
+        })
+        .filter(Boolean); // Remove null values
       
-      // Handle button content
-      if (buttonComponent?.content) {
-        if (typeof buttonComponent.content === 'object' && 'content' in buttonComponent.content) {
-          primaryButtonText = buttonComponent.content.content;
-        } else if (typeof buttonComponent.content === 'string') {
-          primaryButtonText = buttonComponent.content;
-        }
-      }
-      
-      // Get additional patterns (exclude sectionBody)
-      const patternOrder = sectionData.order || Object.keys(patterns || {});
-      const additionalPatterns = patternOrder
-        .map(key => patterns![key])
-        .filter(p => p && p.type && p.type !== 'sectionBody');
-      
-      // Don't render if no content
-      if (!title && !subtitle && !primaryButtonText) {
+      // Don't render section if no patterns were rendered
+      if (renderedPatterns.length === 0) {
         return null;
       }
       
-      // Render section with SectionBody + patterns
+      // Wrap all patterns in a Section frame
       return (
         <Section 
-          key={`${sectionKey}-${index}`}
-          id={`${type}-section-${index}`}
+          key={`${sectionKey}-${sectionIndex}`}
+          id={`${type}-section-${sectionIndex}`}
           height="auto"
         >
-          <Container
-            align="center"
-            height="auto"
-            useMediaWidth={false}
-          >
-            <SectionBody
-              tag={tagText ? {
-                text: tagText,
-                variant: 'accent',
-                size: 'medium'
-              } : undefined}
-              heading={title}
-              headingAs="h1"
-              headingVariant="display-xl"
-              headingColor="heading"
-              headingWeight="bold"
-              body={subtitle || undefined}
-              bodyAs="p"
-              bodyVariant="body-xl"
-              bodyColor="body"
-              bodyWeight="regular"
-              actionType={primaryButtonText ? 'button' : undefined}
-              button={primaryButtonText ? {
-                text: primaryButtonText,
-                variant: 'primary',
-                size: 'xl'
-              } : undefined}
-              textAlign="center"
-              maxWidth="800px"
-              tagSpacing="sm"
-              headingBodySpacing="md"
-              bodyActionSpacing="xl"
-            />
-            
-            {/* Render additional patterns */}
-            {additionalPatterns.map((pattern, idx) => renderPattern(pattern, idx))}
-          </Container>
+          {renderedPatterns}
         </Section>
       );
     })
