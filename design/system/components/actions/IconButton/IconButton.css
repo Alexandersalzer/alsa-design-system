@@ -86,7 +86,7 @@
   margin: 0 !important;
   
   /* Ensure proper display */
-  display: block !important;
+  display: component !important;
   
   /* Remove any transform that could affect height */
   transform: none !important;

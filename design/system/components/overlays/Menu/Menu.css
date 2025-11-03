@@ -6,7 +6,7 @@
 /* ===== MENU ROOT ===== */
 .menu-root {
   position: relative;
-  display: inline-block;
+  display: inline-component;
 }
 
 /* ===== MENU TRIGGER ===== */

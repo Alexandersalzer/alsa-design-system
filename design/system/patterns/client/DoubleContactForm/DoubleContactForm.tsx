@@ -250,7 +250,7 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
                             color: 'var(--text-primary)',
                             fontSize: 'var(--foundation-typography-size-sm)',
                             textAlign: 'left',
-                            display: 'block'
+                            display: 'component'
                           }}
                         >
                           {field.label}

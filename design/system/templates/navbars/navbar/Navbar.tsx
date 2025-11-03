@@ -77,25 +77,25 @@ const Navbar = ({
   const navItemBlocks = getBlocksByType(navbarBlocks, 'navItem');
 
   // Convert CMS blocks to nav items with better slug handling
-  const cmsNavItems: NavItem[] = navItemBlocks.map((block: ContentBlock, index: number) => {
+  const cmsNavItems: NavItem[] = navItemBlocks.map((component: ContentBlock, index: number) => {
     // Extract slug with better fallback logic
     let slug = '';
-    if (block.slug && block.slug.trim()) {
-      slug = block.slug.trim();
-    } else if (block.config?.href) {
-      slug = block.config.href.replace('/', '').trim();
+    if (component.slug && component.slug.trim()) {
+      slug = component.slug.trim();
+    } else if (component.config?.href) {
+      slug = component.config.href.replace('/', '').trim();
     }
     
     console.log('🧭 Processing CMS nav item:', {
-      blockSlug: block.slug,
-      blockHref: block.config?.href,
+      blockSlug: component.slug,
+      blockHref: component.config?.href,
       extractedSlug: slug,
-      content: block.content
+      content: component.content
     });
 
     return {
-      href: block.config?.href || `/${slug || ''}`,
-      label: block.content || '',
+      href: component.config?.href || `/${slug || ''}`,
+      label: component.content || '',
       slug: slug || '',
       componentType: index === navItemBlocks.length - 1 ? 'button' : 'textlink',
       textLinkVariant: 'primary',

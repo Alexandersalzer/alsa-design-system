@@ -375,7 +375,7 @@ export const PKLNavbar: React.FC<PKLNavbarProps> = ({
             }
             
             .pkl-navbar-hamburger {
-              display: block;
+              display: component;
             }
             
             .pkl-navbar-actions {

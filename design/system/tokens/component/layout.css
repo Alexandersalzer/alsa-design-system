@@ -99,7 +99,7 @@
   /* OTHER CONTENT ELEMENTS */
   --radius-image: var(--radius-sm);                     /* Uses your semantic token */
   --radius-video: var(--radius-md);                     /* Uses your semantic token */
-  --radius-code-block: var(--radius-sm);                /* Uses your semantic token */
+  --radius-code-component: var(--radius-sm);                /* Uses your semantic token */
 
   /* LEVEL 3: DEEPLY NESTED COMPONENTS */
   --radius-badge: var(--radius-sm);                     /* Uses your semantic token */

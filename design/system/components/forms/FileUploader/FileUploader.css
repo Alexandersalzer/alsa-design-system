@@ -18,7 +18,7 @@
 
 /* ===== FILE UPLOADER LABEL ===== */
 .file-uploader-label {
-  display: block;
+  display: component;
   cursor: pointer;
   user-select: none;
   font-family: var(--font-body-family);

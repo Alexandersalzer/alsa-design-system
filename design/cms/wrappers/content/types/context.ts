@@ -24,7 +24,7 @@ export interface ContentContextType {
   getTemplateBlocks: (template: ContentTemplate | GlobalComponent | undefined, patternType?: string) => ContentBlock[];
   getAllBlocks: (template: ContentTemplate | GlobalComponent | undefined) => ContentBlock[];
   
-  // Block query functions (from useContentBlocks)
+  // Component query functions (from useContentBlocks)
   getBlocksByType: (blocks: ContentBlock[], blockType: string) => ContentBlock[];
   getBlockContent: (blocks: ContentBlock[], blockType: string) => string | undefined;
   getBlockConfig: (blocks: ContentBlock[], blockType: string) => any;

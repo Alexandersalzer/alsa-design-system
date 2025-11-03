@@ -10,7 +10,7 @@
 
 /* Base skeleton */
 .skeleton {
-  display: inline-block;
+  display: inline-component;
   position: relative;
   background-color: var(--start-color, var(--skeleton-start));
   border-radius: 0.375rem;

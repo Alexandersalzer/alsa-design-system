@@ -6,7 +6,7 @@
 /* ===== BASE COMPANY LOGO ===== */
 .company-logo {
   /* Base styling */
-  display: block;
+  display: component;
   max-width: 100%;
   height: auto;
   

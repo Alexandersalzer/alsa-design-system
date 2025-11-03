@@ -120,10 +120,10 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
     if (!heroPattern?.blocks) return undefined;
 
     // Extract content from blocks
-    const title = heroPattern.blocks.find((block: any) => block.type === 'title')?.content || '';
-    const subtitle = heroPattern.blocks.find((block: any) => block.type === 'subtitle')?.content || '';
-    const primaryButtonText = heroPattern.blocks.find((block: any) => block.type === 'primaryButton')?.content || '';
-    const secondaryButtonText = heroPattern.blocks.find((block: any) => block.type === 'secondaryButton')?.content || '';
+    const title = heroPattern.blocks.find((component: any) => component.type === 'title')?.content || '';
+    const subtitle = heroPattern.blocks.find((component: any) => component.type === 'subtitle')?.content || '';
+    const primaryButtonText = heroPattern.blocks.find((component: any) => component.type === 'primaryButton')?.content || '';
+    const secondaryButtonText = heroPattern.blocks.find((component: any) => component.type === 'secondaryButton')?.content || '';
 
     return {
       title,
@@ -144,10 +144,10 @@ export function ContentProvider({ children, initialContent = null }: ContentProv
 
     // Extract nav items from blocks
     const navItems = navbarPattern.blocks
-      .filter((block: any) => block.type === 'navItem')
-      .map((block: any) => ({
-        label: block.content || '',
-        slug: block.slug || ''
+      .filter((component: any) => component.type === 'navItem')
+      .map((component: any) => ({
+        label: component.content || '',
+        slug: component.slug || ''
       }));
 
     return { navItems };

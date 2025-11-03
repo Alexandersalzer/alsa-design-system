@@ -110,7 +110,7 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            display: 'block',
+            display: 'component',
             transition: 'opacity 0.3s ease',
             opacity: isHovering ? 0.3 : 1, // Global opacity effect like KJ Marketing
           }}

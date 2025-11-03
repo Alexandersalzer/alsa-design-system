@@ -70,8 +70,8 @@
   --font-code-weight: var(--foundation-weight-regular);
   --text-code-color: var(--text-primary);  /* 🎯 FIXED: Use semantic text token */
   --surface-code-inline: var(--surface-card-hover);  /* 🎯 FIXED: Use semantic surface token */
-  --surface-code-block: var(--surface-card);  /* 🎯 FIXED: Use semantic surface token */
-  --border-code-block: var(--border-default);  /* 🎯 FIXED: Use semantic border token */
+  --surface-code-component: var(--surface-card);  /* 🎯 FIXED: Use semantic surface token */
+  --border-code-component: var(--border-default);  /* 🎯 FIXED: Use semantic border token */
   
   /* Code Sizes */
   --font-code-lg-size: var(--foundation-size-base);

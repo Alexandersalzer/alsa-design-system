@@ -117,13 +117,13 @@ export const FilterTabsSection: React.FC<FilterTabsSectionProps> = ({
       const flag = getBlockContent(patternBlocks, 'flag') || undefined; // Optional flag
       
       // Support multiple filter categories - collect all filterCategory blocks
-      const filterCategoryBlocks = patternBlocks.filter(block => block.type === 'filterCategory');
+      const filterCategoryBlocks = patternBlocks.filter(component => component.type === 'filterCategory');
       let filterCategories: string[] = [];
       
       if (filterCategoryBlocks.length > 0) {
         // Collect all filterCategory values
         filterCategories = filterCategoryBlocks
-          .map(block => block.content)
+          .map(component => component.content)
           .filter((content): content is string => Boolean(content));
       } else {
         filterCategories = ['all'];

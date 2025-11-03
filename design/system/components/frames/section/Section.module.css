@@ -15,12 +15,12 @@
 
 
 /* ===== SPACING VARIANTS ===== */
-.spacingXs  { padding-block: var(--foundation-section-spacing-xs); }
-.spacingSm  { padding-block: var(--foundation-section-spacing-sm); }
-.spacingMd  { padding-block: var(--foundation-section-spacing-md); }
-.spacingLg  { padding-block: var(--foundation-section-spacing-lg); }
-.spacingXl  { padding-block: var(--foundation-section-spacing-xl); }
-.spacing2xl { padding-block: var(--foundation-section-spacing-2xl); }
+.spacingXs  { padding-component: var(--foundation-section-spacing-xs); }
+.spacingSm  { padding-component: var(--foundation-section-spacing-sm); }
+.spacingMd  { padding-component: var(--foundation-section-spacing-md); }
+.spacingLg  { padding-component: var(--foundation-section-spacing-lg); }
+.spacingXl  { padding-component: var(--foundation-section-spacing-xl); }
+.spacing2xl { padding-component: var(--foundation-section-spacing-2xl); }
 
 /* ===== POSITION VARIANTS ===== */
 .positionStatic   { position: static; }

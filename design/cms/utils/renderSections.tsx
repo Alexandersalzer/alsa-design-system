@@ -1,7 +1,7 @@
 'use client';
 
 import { Section } from '../../system/components/frames/section/Section';
-import { Container, Block } from '../../system/components';
+import { Container, Component } from '../../system/components';
 import { SectionBody } from '../../system/patterns/shared/sectionBody/SectionBody';
 import { SpinningBanner } from '../../system/patterns/client/spinning-banner/SpinningBanner';
 import { VideoShowcase } from '../../system/components/media/VideoShowcase/VideoShowcase';
@@ -96,7 +96,7 @@ const renderPattern = (pattern: any, index: number) => {
       
       return (
         <div key={`pattern-${index}`} style={{ marginTop: '4rem', width: '100%' }}>
-          <Block>
+          <Component>
             <VideoShowcase
               src={videoSrc}
               poster={videoPoster}
@@ -110,7 +110,7 @@ const renderPattern = (pattern: any, index: number) => {
               aspectRatio="16-9"
               radius="md"
             />
-          </Block>
+          </Component>
         </div>
       );
     }

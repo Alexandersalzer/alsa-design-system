@@ -70,7 +70,7 @@
 
 /* ===== BASE ICON STYLES ===== */
 .icon {
-  display: inline-block;
+  display: inline-component;
   vertical-align: middle;
   flex-shrink: 0;
   fill: none;
@@ -257,7 +257,7 @@
 /* ===== Icon Badge Containers ===== */
 .icon-badge {
   position: relative;
-  display: inline-block;
+  display: inline-component;
 }
 
 .icon-badge__indicator {

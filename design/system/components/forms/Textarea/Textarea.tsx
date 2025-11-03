@@ -158,7 +158,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
             fontWeight: 'var(--foundation-weight-medium)',
             color: disabled ? 'var(--text-disabled)' : 'var(--text-primary)',
             marginBottom: 'var(--space-form-label-margin)',
-            display: 'block'
+            display: 'component'
           }}
         >
           {label}

@@ -193,7 +193,7 @@ export const BrandLink = ({
             width={logoWidth}
             height={logoHeight}
             className="object-contain flex-shrink-0"
-            style={{ display: 'block' }}
+            style={{ display: 'component' }}
           />
         )}
         <span className="brand-text" style={{ display: 'flex', alignItems: 'center' }}>{children}</span>

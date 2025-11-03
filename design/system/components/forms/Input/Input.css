@@ -23,7 +23,7 @@
   line-height: var(--font-label-md-leading);
   color: var(--text-form-label);
   margin-bottom: var(--foundation-space-1);
-  display: block;
+  display: component;
 }
 
 /* ===== INPUT WRAPPER ===== */

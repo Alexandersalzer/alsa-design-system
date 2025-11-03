@@ -16,7 +16,7 @@
 /* Primitives - Feedback */
 @import './components/frames/container/Container.module.css';
 @import './components/frames/section/Section.module.css';
-@import './components/frames/block/Block.module.css';
+@import './components/frames/component/Component.module.css';
 
 @import './components/feedback/Alert/Alert.css';
 @import './components/feedback/Toast/Toast.css';

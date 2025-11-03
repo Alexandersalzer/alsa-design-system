@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { Rhythm, RhythmItem } from '../../../components/layout/rhythm/Rhythm';
-import { Block } from '../../../components/frames/block/Block';
+import { Component } from '../../../components/frames/component/Component';
 import { Button, ButtonProps } from '../../../../system/components';
 import { Typography, TypographyVariant, TypographyColor, TypographyWeight, TypographyAlign } from '../../../../system/components';
 import { Icon  } from '../../../components/media';
@@ -114,7 +114,7 @@ export const RichText: React.FC<RichTextProps> = ({
         {/* Button */}
         {button && (
           <RhythmItem at={buttonPosition}>
-            <Block className="flex justify-center">
+            <Component className="flex justify-center">
               <Button 
                 {...button}
                 variant={button.variant || "primary"}
@@ -122,7 +122,7 @@ export const RichText: React.FC<RichTextProps> = ({
               >
                 {button.children}
               </Button>
-            </Block>
+            </Component>
           </RhythmItem>
         )}
       </Rhythm>

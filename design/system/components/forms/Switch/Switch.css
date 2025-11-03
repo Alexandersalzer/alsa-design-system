@@ -51,7 +51,7 @@
 /* Switch element */
 .switch {
   position: relative;
-  display: inline-block;
+  display: inline-component;
   cursor: pointer;
   outline: none;
   transition: var(--transition-switch-focus);
@@ -70,7 +70,7 @@
 /* Track */
 .switch-track {
   position: relative;
-  display: block;
+  display: component;
   background-color: var(--surface-switch-track);
   border-radius: var(--radius-switch-track);
   border: 1px solid transparent;

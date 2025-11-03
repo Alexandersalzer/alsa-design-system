@@ -56,8 +56,8 @@
 }
 
 /* ===== DISPLAY ===== */
-.box-display-block { display: block; }
-.box-display-inline-block { display: inline-block; }
+.box-display-component { display: component; }
+.box-display-inline-component { display: inline-component; }
 .box-display-flex { display: flex; }
 .box-display-inline-flex { display: inline-flex; }
 .box-display-grid { display: grid; }
