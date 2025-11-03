@@ -29,13 +29,14 @@
   border-radius: var(--radius-modal);
   box-shadow: var(--shadow-modal);
   max-height: 95vh;
-  overflow: visible;  /* Changed from overflow-y: auto to prevent dropdown clipping */
+  overflow-y: auto;  /* Modal itself scrolls when content is too tall */
+  overflow-x: visible;  /* But allows horizontal overflow for dropdowns */
   position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
   
-  /* ðŸŽ¯ CLEAN SCALE IN */
+  /* 🎯 CLEAN SCALE IN */
   animation: modalScaleIn var(--foundation-duration-normal) var(--foundation-ease-out);
 }
 
@@ -51,7 +52,7 @@
 .modal--lg { 
   max-width: 800px;
   max-height: 90vh;
-  min-height: 600px;  /* Ensure substantial height */
+  min-height: 700px;  /* Increased from 600px - more room for dropdowns */
 }
 .modal--xl { 
   max-width: 1000px;
@@ -102,17 +103,10 @@
 .modal__content {
   padding: var(--foundation-space-6);
   flex: 1 1 auto;  /* Allow content to grow and shrink */
-  overflow-y: auto;  /* Scroll only the content, not the entire modal */
-  overflow-x: visible;  /* Allow dropdowns to extend horizontally */
+  overflow: visible;  /* Content doesn't clip - modal container handles scrolling */
   min-height: 0;  /* Allow flexbox to properly size */
   display: flex;
   flex-direction: column;
-}
-
-/* ===== ENSURE DROPDOWNS/POPOVERS EXTEND BEYOND MODAL ===== */
-.modal__content .popover-content,
-.modal__content .picker-content {
-  position: fixed !important;  /* Use fixed positioning to escape modal bounds */
 }
 
 /* ===== MODAL WITHOUT HEADER ===== */
