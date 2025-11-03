@@ -68,6 +68,59 @@ export async function getFooterContent(locale: string = 'sv') {
 }
 
 /**
+ * Get the start/home page slug for a specific locale
+ * Ultra-lightweight function for redirects - only reads files until it finds the start page
+ */
+export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
+  if (typeof window !== 'undefined') {
+    throw new Error('getStartPageSlug is only available on server-side');
+  }
+
+  try {
+    const { promises: fs } = await import('fs');
+    const path = await import('path');
+    
+    const contentDir = path.join(process.cwd(), 'public', 'content', locale);
+    const entries = await fs.readdir(contentDir, { withFileTypes: true });
+    
+    // Filter for page files
+    const pageFiles = entries.filter(entry => 
+      entry.isFile() && 
+      entry.name.endsWith('.json') &&
+      !['navbar.json', 'footer.json'].includes(entry.name)
+    );
+    
+    // Read files until we find the start page
+    for (const file of pageFiles) {
+      try {
+        const filePath = path.join(contentDir, file.name);
+        const fileContent = await fs.readFile(filePath, 'utf8');
+        const content = JSON.parse(fileContent);
+        
+        // Check if this is the start page for this locale
+        if (content.type === 'start' && content.language === locale) {
+          return content.slug || file.name.replace('.json', '');
+        }
+      } catch (error) {
+        // Continue to next file if this one fails
+        continue;
+      }
+    }
+    
+    // Fallback to Swedish if no start page found and not already Swedish
+    if (locale !== 'sv') {
+      return getStartPageSlug('sv');
+    }
+    
+    // Ultimate fallback
+    return 'home';
+  } catch (error) {
+    console.error(`Failed to find start page slug for locale ${locale}:`, error);
+    return 'home';
+  }
+}
+
+/**
  * Get all page slugs for a specific locale
  * Ultra-lightweight function for generateStaticParams - only reads filenames
  */
