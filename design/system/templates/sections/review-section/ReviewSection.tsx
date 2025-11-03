@@ -1,6 +1,7 @@
 'use client';
 
 import { Section, Container } from '../../../components';
+import { SectionBody } from '../../../patterns/shared/sectionBody/SectionBody';
 import { ResponsiveGrid } from '../../../components/layout/grid/Grid';
 import { ReviewCard } from '../../../../system/patterns/client/ReviewCard';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
@@ -13,7 +14,16 @@ interface ReviewSectionProps {
   // Layout configuration
   containerAlign?: 'left' | 'center' | 'right';
   containerMaxWidth?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
-  sectionPadding?: string;
+  
+  // SectionBody configuration
+  headingAs?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  headingVariant?: 'display-xl' | 'display-lg' | 'display-md' | 'h1' | 'h2';
+  bodyAs?: 'p' | 'span' | 'div';
+  bodyVariant?: 'body-xl' | 'body-lg' | 'body-md';
+  textAlign?: 'left' | 'center' | 'right';
+  maxWidth?: string;
+  headingBodySpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  bodyGridSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   
   // Card styling
   cardVariant?: 'default' | 'elevated' | 'outlined';
@@ -23,6 +33,7 @@ interface ReviewSectionProps {
   
   // Grid layout
   minItemWidth?: string;
+
 }
 
 export const ReviewSection: React.FC<ReviewSectionProps> = ({
@@ -31,8 +42,17 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
   
   // Layout defaults
   containerAlign = 'center',
-  containerMaxWidth = 'xl', // Larger for multiple cards
-  sectionPadding = '5rem 0',
+  containerMaxWidth = 'xl',
+  
+  // SectionBody defaults
+  headingAs = 'h2',
+  headingVariant = 'display-lg',
+  bodyAs = 'p',
+  bodyVariant = 'body-lg',
+  textAlign = 'center',
+  maxWidth = '700px',
+  headingBodySpacing = 'md',
+  bodyGridSpacing = 'xl',
   
   // Card styling defaults
   cardVariant = 'default',
@@ -57,16 +77,32 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
     return null;
   }
   
+  // Get the template type dynamically
+  const templateType = template.type;
+  
+  // Get the first pattern for SectionBody content (heading + subtitle)
+  const firstPattern = template.patterns?.[0];
+  const sectionBodyBlocks = firstPattern?.blocks || [];
+  
+  // Extract SectionBody content from first pattern
+  const heading = getBlockContent(sectionBodyBlocks, 'title') || '';
+  const body = getBlockContent(sectionBodyBlocks, 'subtitle') || '';
+  
   // Get all patterns from the template (each pattern = one review card)
+  // Skip the first pattern if it's used for SectionBody
   const patterns = template.patterns || [];
   
-  if (patterns.length === 0) {
-    console.log('No patterns found in reviewCard template');
+  // If first pattern has title/subtitle, start from index 1, otherwise from 0
+  const hasSectionBody = heading || body;
+  const reviewPatterns = hasSectionBody ? patterns.slice(1) : patterns;
+  
+  if (reviewPatterns.length === 0) {
+    console.log('No review patterns found in reviewCard template');
     return null;
   }
   
   // Create review cards from each pattern
-  const reviewCards = patterns.map((pattern, index) => {
+  const reviewCards = reviewPatterns.map((pattern, index) => {
     // Get blocks for this specific pattern
     const patternBlocks = pattern.blocks || [];
     
@@ -90,14 +126,29 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
     >
       <Container 
         align={containerAlign}
-        style={{ 
-            paddingBottom: '5rem',
-            paddingTop: '0rem'
-        }}
       >
+        {/* SectionBody for heading and subtitle */}
+        {(heading || body) && (
+            <SectionBody
+              heading={heading || undefined}
+              headingAs={headingAs}
+              headingVariant={headingVariant}
+              headingColor="heading"
+              headingWeight="bold"
+              body={body || undefined}
+              bodyAs={bodyAs}
+              bodyVariant={bodyVariant}
+              bodyColor="body"
+              bodyWeight="regular"
+              textAlign={textAlign}
+              maxWidth={maxWidth}
+              headingBodySpacing={headingBodySpacing}
+            />
+        )}
+        
         {/* Grid layout for multiple review cards with equal heights */}
         <ResponsiveGrid
-          minItemWidth="280px"
+          minItemWidth={minItemWidth}
           className="review-grid-center"
           style={{
             alignItems: 'stretch', // Ensure all grid items stretch to same height
@@ -122,4 +173,4 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
       </Container>
     </Section>
   );
-}; 
+};

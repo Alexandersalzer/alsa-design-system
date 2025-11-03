@@ -264,18 +264,10 @@ export const Hero: React.FC<HeroSectionProps> = ({
   
   return (
     <Section id="hero-section" height="auto">
-      <Container 
-        align="center" 
+      <Container
+        align="center"
         height="auto"
-        useMediaWidth={useMediaWidth}
-        style={{ 
-          minHeight: '60vh', 
-          paddingTop: '18rem', 
-          paddingBottom: '2rem',
-          justifyContent: 'center',
-          display: 'flex',
-          flexDirection: 'column'
-        }}
+        useMediaWidth={false} // regular max width
       >
         <SectionBody
           // Optional tag
@@ -336,8 +328,8 @@ export const Hero: React.FC<HeroSectionProps> = ({
         {/* Dynamically render patterns based on content */}
         {patterns.map((pattern, index) => renderPattern(pattern, index))}
       </Container>
-    </Section>
-  );
+  </Section>
+);
 };
 
 export default Hero;

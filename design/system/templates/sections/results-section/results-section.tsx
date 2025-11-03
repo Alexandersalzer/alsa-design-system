@@ -1,6 +1,7 @@
 'use client';
 
 import { Section, Container } from '../../../components';
+import { SectionBody } from '../../../patterns/shared/sectionBody/SectionBody';
 import { Results } from '../../../../system/patterns/client/results';
 import { ResponsiveGrid } from '../../../components/layout/grid/Grid';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
@@ -9,11 +10,45 @@ import { usePathname } from 'next/navigation';
 interface ResultsSectionProps {
   pageSlug?: string;
   templateIndex?: number;
+  
+  // Layout configuration
+  containerAlign?: 'left' | 'center' | 'right';
+  
+  // SectionBody configuration
+  headingAs?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  headingVariant?: 'display-xl' | 'display-lg' | 'display-md' | 'h1' | 'h2';
+  bodyAs?: 'p' | 'span' | 'div';
+  bodyVariant?: 'body-xl' | 'body-lg' | 'body-md';
+  textAlign?: 'left' | 'center' | 'right';
+  maxWidth?: string;
+  headingBodySpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  bodyGridSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  
+  // Grid layout
+  minItemWidth?: string;
+
 }
 
 export const ResultsSection: React.FC<ResultsSectionProps> = ({ 
   pageSlug,
   templateIndex = 0,
+  
+  // Layout defaults
+  containerAlign = 'center',
+  
+  // SectionBody defaults
+  headingAs = 'h2',
+  headingVariant = 'display-lg',
+  bodyAs = 'p',
+  bodyVariant = 'body-lg',
+  textAlign = 'center',
+  maxWidth = '700px',
+  headingBodySpacing = 'md',
+  bodyGridSpacing = 'xl',
+  
+  // Grid defaults
+  minItemWidth = '280px',
+  
 }) => {
   const { getPageTemplateByLayoutIndex, getTemplateBlocks, getBlockContent } = useContent();
   const pathname = usePathname();
@@ -29,48 +64,79 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
     return null;
   }
   
-  // Get all patterns from the template (each pattern = one review card)
+  // Get the template type dynamically
+  const templateType = template.type;
+  
+  // Get the first pattern for SectionBody content (heading + subtitle)
+  const firstPattern = template.patterns?.[0];
+  const sectionBodyBlocks = firstPattern?.blocks || [];
+  
+  // Extract SectionBody content from first pattern
+  const heading = getBlockContent(sectionBodyBlocks, 'title') || '';
+  const body = getBlockContent(sectionBodyBlocks, 'subtitle') || '';
+  
+  // Get all patterns from the template (each pattern = one results card)
+  // Skip the first pattern if it's used for SectionBody
   const patterns = template.patterns || [];
   
-  if (patterns.length === 0) {
-    console.log('No patterns found in reviewCard template');
+  // If first pattern has title/subtitle, start from index 1, otherwise from 0
+  const hasSectionBody = heading || body;
+  const resultsPatterns = hasSectionBody ? patterns.slice(1) : patterns;
+  
+  if (resultsPatterns.length === 0) {
+    console.log('No result patterns found in template');
     return null;
   }
   
-  // Create review cards from each pattern
-  const resultsCards = patterns.map((pattern, index) => {
+  // Create results cards from each pattern
+  const resultsCards = resultsPatterns.map((pattern, index) => {
     // Get blocks for this specific pattern
     const patternBlocks = pattern.blocks || [];
     
     // Extract content from this pattern's blocks
     const title = getBlockContent(patternBlocks, 'title') || `Title ${index + 1}`;
     const subtitle = getBlockContent(patternBlocks, 'subtitle') || 'Subtitle';
-    const body = getBlockContent(patternBlocks, 'body') || 'Body!';
+    const resultBody = getBlockContent(patternBlocks, 'body') || 'Body!';
     const image = getBlockContent(patternBlocks, 'image') || 'tiktokstats.jpeg';
     
     return {
-      id: `review-${index}`,
+      id: `result-${index}`,
       title,
       subtitle,
-      body,
+      body: resultBody,
       image
     };
   });
-  
+
   return (
-    <Section id="results-section" height="auto">
+    <Section id={`results-section-${templateIndex}`} height="auto">
       <Container 
-        align="center" 
+        align={containerAlign} 
         height="auto"
-        style={{ 
-          paddingTop: '2rem', 
-          paddingBottom: '2rem'
-        }}
       >
-        {/* Grid layout for multiple review cards */}
+        {/* SectionBody for heading and subtitle */}
+        {(heading || body) && (
+            <SectionBody
+              heading={heading || undefined}
+              headingAs={headingAs}
+              headingVariant={headingVariant}
+              headingColor="heading"
+              headingWeight="bold"
+              body={body || undefined}
+              bodyAs={bodyAs}
+              bodyVariant={bodyVariant}
+              bodyColor="body"
+              bodyWeight="regular"
+              textAlign={textAlign}
+              maxWidth={maxWidth}
+              headingBodySpacing={headingBodySpacing}
+            />
+        )}
+        
+        {/* Grid layout for multiple results cards */}
         <ResponsiveGrid
-          minItemWidth="280px"
-          className="review-grid-center"
+          minItemWidth={minItemWidth}
+          className="results-grid-center"
           style={{
             justifyItems: 'center'
           }}

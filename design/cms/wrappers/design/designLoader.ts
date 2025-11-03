@@ -11,6 +11,7 @@ export interface DesignJson {
       fontPrimary?: string;
       layoutContent?: string;
       layoutMedia?: string;
+      sectionSpacing?: string; // 👈 add this
     };
   }
   
