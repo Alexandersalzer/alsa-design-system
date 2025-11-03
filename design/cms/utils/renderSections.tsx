@@ -204,14 +204,6 @@ export function renderSections({
             align="center"
             height="auto"
             useMediaWidth={false}
-            style={{ 
-              minHeight: '60vh', 
-              paddingTop: '18rem', 
-              paddingBottom: '2rem',
-              justifyContent: 'center',
-              display: 'flex',
-              flexDirection: 'column'
-            }}
           >
             <SectionBody
               tag={tagText ? {
