@@ -1,4 +1,4 @@
-export { Hero } from './hero/Hero'; 
+// Hero section is now handled dynamically in renderSections
 export { SpinningBannerWTitle } from './spinning-banner-w-title';
 export { VideoShowcaseSection } from './video-showcase';
 export { CountUpStatsSection } from './count-up-stats';
