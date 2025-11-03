@@ -31,6 +31,7 @@ export interface SectionData {
 interface RenderSectionsProps {
   sections: Record<string, SectionData>;
   sectionOrder: string[];
+  pageSlug: string;
 }
 
 /**
@@ -39,11 +40,13 @@ interface RenderSectionsProps {
  * 
  * @param sections - Object containing all sections keyed by their IDs
  * @param sectionOrder - Array defining the order in which sections should be rendered
+ * @param pageSlug - The current page slug for content lookup
  * @returns Array of rendered section components
  */
 export function renderSections({ 
   sections, 
-  sectionOrder 
+  sectionOrder, 
+  pageSlug 
 }: RenderSectionsProps): React.ReactNode[] {
   if (!sections || !sectionOrder) {
     console.warn('⚠️ renderSections: No sections or section order provided');
@@ -75,6 +78,7 @@ export function renderSections({
           height="auto"
         >
           <SectionComponent
+            pageSlug={pageSlug}
             templateIndex={index}
           />
         </Section>
@@ -88,9 +92,10 @@ export function renderSections({
  */
 export function Sections({ 
   sections, 
-  sectionOrder 
+  sectionOrder, 
+  pageSlug 
 }: RenderSectionsProps) {
-  const renderedSections = renderSections({ sections, sectionOrder });
+  const renderedSections = renderSections({ sections, sectionOrder, pageSlug });
   
   return <>{renderedSections}</>;
 }
