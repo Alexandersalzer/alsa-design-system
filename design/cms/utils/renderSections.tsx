@@ -21,13 +21,12 @@ export interface SectionData {
 interface RenderSectionProps {
   sectionData: SectionData;
   sectionKey: string;
-  sectionIndex: number;
 }
 
 /**
- * Props for renderSections function
+ * Props for Sections component
  */
-interface RenderSectionsProps {
+interface SectionsProps {
   sections: Record<string, SectionData>;
   sectionOrder: string[];
   pageSlug: string;
@@ -60,8 +59,7 @@ const renderPattern = (pattern: any, index: number) => {
  */
 export function renderSection({ 
   sectionData, 
-  sectionKey, 
-  sectionIndex 
+  sectionKey
 }: RenderSectionProps): React.ReactNode {
   if (!sectionData?.patterns) return null;
 
@@ -81,8 +79,8 @@ export function renderSection({
   // Wrap all patterns in a Section with VStack for spacing
   return (
     <Section 
-      key={`${sectionKey}-${sectionIndex}`}
-      id={`${type}-section-${sectionIndex}`}
+      key={sectionKey}
+      id={`${type}-section`}
       height="auto"
     >
       <VStack align="stretch">
@@ -93,31 +91,21 @@ export function renderSection({
 }
 
 /**
- * Renders multiple sections based on sectionOrder
- */
-export function renderSections({ 
-  sections, 
-  sectionOrder
-}: RenderSectionsProps): React.ReactNode[] {
-
-  return sectionOrder
-    .map((sectionKey, sectionIndex) => {
-      const sectionData = sections[sectionKey];
-      return renderSection({ sectionData, sectionKey, sectionIndex });
-    })
-    .filter(Boolean);
-}
-
-/**
- * Higher-order component that wraps renderSections for easier use
+ * Main component that renders all sections based on sectionOrder
  */
 export function Sections({ 
   sections, 
-  sectionOrder, 
-  pageSlug 
-}: RenderSectionsProps) {
-  const renderedSections = renderSections({ sections, sectionOrder, pageSlug });
-  
-  return <>{renderedSections}</>;
+  sectionOrder
+}: SectionsProps) {
+  return (
+    <>
+      {sectionOrder
+        .map((sectionKey) => {
+          const sectionData = sections[sectionKey];
+          return renderSection({ sectionData, sectionKey });
+        })
+        .filter(Boolean)}
+    </>
+  );
 }
 
