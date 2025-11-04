@@ -27,5 +27,5 @@
   --space-container-2xl: var(--foundation-container-spacing-2xl);
 
   /* ✅ Default semantic alias (optional - if you want global control) */
-  --space-container: var(--selected-container-spacing, var(--space-container-md));
+  --space-container: var(--selected-container-spacing);
 }

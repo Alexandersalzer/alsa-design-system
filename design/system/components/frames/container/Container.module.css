@@ -8,8 +8,8 @@
   flex-direction: column;
   box-sizing: border-box;
 
-  padding-top: var(--space-container-padding-lg);
-  padding-bottom: var(--space-container-padding-lg);
+  padding-top: var(--space-container);
+  padding-bottom: var(--space-container);
   
   /* Internal layout - uses global selected spacing */
   gap: var(--space-container);
