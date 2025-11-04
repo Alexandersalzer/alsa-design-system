@@ -3,16 +3,16 @@
 import { useEditingMode } from '../../../../cms/wrappers/editing/EditingWrapper';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname, useRouter } from 'next/navigation';
-import { Section } from '../../../components/frames/section';
-import { Container } from '../../../components/frames/container';
-import { HStack } from '../../../components/layout/hStack';
+import { HStack } from '../../../components/layout/hStack/HStack';
+import { Box } from '../../../components/layout/box/Box';
+import { Container } from '../../../components'; // ✅ Import from your design system
 import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
 import { 
   getNavigationContext, 
   useNavigationMessaging,
   type NavigationItem 
 } from '../../../utils/navigation';
-import { ArrowRightIcon } from 'lucide-react';
+import { ArrowRightIcon } from 'lucide-react'; // ✅ Only import icon from lucide
 import { ContentBlock } from '../../../../cms/wrappers/content/types/content';
 
 export interface NavItem extends NavigationItem {
@@ -42,6 +42,7 @@ export interface NavbarProps {
   logoAlt?: string;
   logoWidth?: number;
   logoHeight?: number;
+  height?: string;
 }
 
 const Navbar = ({ 
@@ -58,7 +59,8 @@ const Navbar = ({
   logoSrc = '/images/sections/kjlogo.jpg',
   logoAlt = 'KJ Marketing Logo',
   logoWidth = 32,
-  logoHeight = 32
+  logoHeight = 32,
+  height = 'var(--navbar-height)'
 }: NavbarProps) => {
   const { isEditingMode } = useEditingMode();
   const { getGlobalComponent, getTemplateBlocks, getBlocksByType, content } = useContent();
@@ -84,7 +86,7 @@ const Navbar = ({
       slug = block.config.href.replace('/', '').trim();
     }
     
-    console.log('ðŸ§­ Processing CMS nav item:', {
+    console.log('🧭 Processing CMS nav item:', {
       blockSlug: block.slug,
       blockHref: block.config?.href,
       extractedSlug: slug,
@@ -95,7 +97,7 @@ const Navbar = ({
       href: block.config?.href || `/${slug || ''}`,
       label: block.content || '',
       slug: slug || '',
-      componentType: index === navItemBlocks.length - 1 ? 'button' : 'textlink', // Last item as button
+      componentType: index === navItemBlocks.length - 1 ? 'button' : 'textlink',
       textLinkVariant: 'primary',
       weight: 'medium',
       underline: 'hover',
@@ -111,7 +113,7 @@ const Navbar = ({
   // Use CMS items if available, otherwise fallback to passed navItems
   const finalNavItems = cmsNavItems.length > 0 ? cmsNavItems : navItems;
 
-  console.log('ðŸ§­ Navbar navigation context:', {
+  console.log('🧭 Navbar navigation context:', {
     isEditingMode,
     currentLocale: nav.currentLocale,
     pathname,
@@ -121,18 +123,18 @@ const Navbar = ({
     contentLocale: content?.meta?.locale
   });
 
-  // Setup navigation messaging (handles both parentâ†’child and childâ†’parent)
+  // Setup navigation messaging (handles both parent→child and child→parent)
   const { handleNavigationClick, currentLocale } = useNavigationMessaging(
     router,
     pathname,
     isEditingMode,
-    'ðŸ§­ Navbar',
-    content // Pass CMS content for locale detection
+    '🧭 Navbar',
+    content
   );
 
   // Handle navigation clicks - unified for both nav items and brand
   const handleNavClick = (item: NavMenuItem) => {
-    console.log('ðŸ§­ Nav item clicked:', {
+    console.log('🧭 Nav item clicked:', {
       href: item.href,
       slug: item.slug,
       currentLocale,
@@ -146,7 +148,7 @@ const Navbar = ({
     const brandSlug = brandHref.replace('/', '') || 'home';
     const fullBrandHref = nav.buildBrandHref(brandHref);
     
-    console.log('ðŸ§­ Brand clicked:', {
+    console.log('🧭 Brand clicked:', {
       originalHref: brandHref,
       brandSlug,
       fullBrandHref,
@@ -173,49 +175,61 @@ const Navbar = ({
   }));
 
   return (
-    <Section 
-      as="nav"
-      style={{ backgroundColor: 'var(--primary-white)' }}
-      sticky={true}
-      top={0}
-      zIndex={1000}
+  <Box
+    as="nav"
+    className={className}
+    style={{
+      position: 'sticky',
+      top: 0,
+      zIndex: 1000,
+      backgroundColor: 'var(--primary-white)',
+      borderBottom: '1px solid var(--border-light)',
+      width: '100%'
+    }}
+  >
+    {/* Content constrained wrapper */}
+    <Box
+      style={{
+        maxWidth: 'var(--width-content)',
+        margin: '0 auto',
+        padding: '0 var(--foundation-space-2)',
+        width: '100%',
+        height: height
+      }}
     >
-      <Container 
-        height="full"
-        style={{ 
-          flexDirection: 'row', 
-          alignItems: 'center',
-          padding: '0 var(--foundation-space-4)'
-        }}
+      <HStack 
+        justify="between" 
+        align="center" 
+        spacing="md" 
+        wrap={false}
       >
-        <HStack justify="between" align="center" className="navbar-hstack">
-          <BrandLink 
-            href={nav.buildBrandHref(brandHref)}
-            variant={brandVariant}
-            size={brandSize}
-            weight={brandWeight}
-            underline={brandUnderline}
-            logoSrc={logoSrc}
-            logoAlt={logoAlt}
-            logoWidth={logoWidth}
-            logoHeight={logoHeight}
-            onClick={handleBrandClick}
-          >
-            {brandName}
-          </BrandLink>
-          
-          <NavMenu 
-            items={menuItems} 
-            spacing="xl" 
-            wrap={false}
-            variant={navVariant}
-            size={navSize}
-            onLinkClick={handleNavClick}
-          />
-        </HStack>
-      </Container>
-    </Section>
-  );
+        <BrandLink 
+          href={nav.buildBrandHref(brandHref)}
+          variant={brandVariant}
+          size={brandSize}
+          weight={brandWeight}
+          underline={brandUnderline}
+          logoSrc={logoSrc}
+          logoAlt={logoAlt}
+          logoWidth={logoWidth}
+          logoHeight={logoHeight}
+          onClick={handleBrandClick}
+        >
+          {brandName}
+        </BrandLink>
+        
+        <NavMenu 
+          items={menuItems} 
+          spacing="xl" 
+          wrap={false}
+          variant={navVariant}
+          size={navSize}
+          onLinkClick={handleNavClick}
+        />
+      </HStack>
+    </Box>
+  </Box>
+);
 };
 
 export default Navbar;
