@@ -314,7 +314,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
                 {buttonGroup.map((btn, index) => (
                   <Button
                     key={index}
-                    variant={btn.variant || (index === 0 ? 'accent' : 'secondary')}
+                    variant={btn.variant || (index === 0 ? 'secondary' : 'accent')}
                     size={btn.size || 'lg'}
                     onClick={btn.onClick}
                     {...btn}
