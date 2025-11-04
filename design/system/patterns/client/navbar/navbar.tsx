@@ -176,6 +176,7 @@ export const BrandLink = ({
   onClick
 }: BrandLinkProps) => {
   return (
+    
     <TextLink
       href={href}
       variant={variant}
@@ -185,7 +186,7 @@ export const BrandLink = ({
       className={className}
       onClick={onClick}
     >
-      <HStack spacing="sm" align="center">
+      <HStack align="center">
         {logoSrc && (
           <img 
             src={logoSrc} 
@@ -199,5 +200,6 @@ export const BrandLink = ({
         <span className="brand-text" style={{ display: 'flex', alignItems: 'center' }}>{children}</span>
       </HStack>
     </TextLink>
+    
   );
 };

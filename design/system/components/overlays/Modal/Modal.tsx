@@ -3,6 +3,7 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../../../lib/utils';
 import { IconButtons } from '../../actions';
+import { H3 } from '../../Typography';
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
@@ -99,13 +100,17 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
       <div ref={ref} className={modalClasses} {...props}>
         {(title || showCloseButton) && (
           <div className="modal__header">
-            {title && <h2 id="modal-title" className="modal__title">{title}</h2>}
+            {title && (
+              <H3 id="modal-title" className="modal__title">
+                {title}
+              </H3>
+            )}
             {showCloseButton && (
               <IconButtons.Close
                 onClick={onClose}
                 variant="ghost"
                 size="md"
-                aria-label="Stäng modal"
+                aria-label="StÃ¤ng modal"
                 className="modal__close-btn"
               />
             )}
@@ -116,7 +121,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
     </div>
   );
 
-  // 👇 THIS is the important part
+  // ðŸ‘‡ THIS is the important part
   return createPortal(modalElement, document.body);
 });
 

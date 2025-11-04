@@ -70,7 +70,7 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
   subtitleColor = 'secondary',
   
   // Button defaults
-  buttonVariant = 'primary',
+  buttonVariant = 'accent',
   buttonSize = 'md',
   
   // Layout defaults

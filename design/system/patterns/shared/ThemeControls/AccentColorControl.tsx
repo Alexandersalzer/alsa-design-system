@@ -9,69 +9,6 @@ import { SwatchIcon, PaintBrushIcon } from '@heroicons/react/24/outline';
 import { Body, Icon, Button } from '@blimpify-im/ui';
 import { extractColorsFromImage, applyColorsWithThemeManager } from '../../../utils/colorExtraction';
 
-// Förkortade namn - behåller samma values för backend-kompatibilitet
-const COLOR_GRID = [
-  // Pink row
-  [
-    { value: 'pink-light', label: 'Flamingo', hex: '#F472B6' },
-    { value: 'pink', label: 'Rosa', hex: '#EC4899' },
-    { value: 'pink-dark', label: 'Ros', hex: '#D946EF' }
-  ],
-  // Red row
-  [
-    { value: 'red-light', label: 'Bär', hex: '#FCA5A5' },
-    { value: 'red', label: 'Röd', hex: '#ef2a2aff' },
-    { value: 'red-dark', label: 'Vinröd', hex: '#DC2626' }
-  ],
-  // Orange row
-  [
-    { value: 'orange-light', label: 'Persika', hex: '#FFA366' },
-    { value: 'orange', label: 'Orange', hex: '#F97316' },
-    { value: 'tangerine', label: 'Mandarin', hex: '#EA580C' }
-  ],
-  // Yellow row
-  [
-    { value: 'yellow-light', label: 'Citron', hex: '#FDE047' },
-    { value: 'yellow', label: 'Gul', hex: '#F59E0B' },
-    { value: 'yellow-dark', label: 'Guld', hex: '#D97706' }
-  ],
-  // Green row
-  [
-    { value: 'green-light', label: 'Mint', hex: '#4ADE80' },
-    { value: 'green', label: 'Grön', hex: '#10B981' },
-    { value: 'green-dark', label: 'Skog', hex: '#059669' }
-  ],
-  // Teal row
-  [
-    { value: 'teal-light', label: 'Aqua', hex: '#5EEAD4' },
-    { value: 'teal', label: 'Teal', hex: '#14B8A6' },
-    { value: 'teal-dark', label: 'Jade', hex: '#0F766E' }
-  ],
-  // Blue row
-  [
-    { value: 'blue-light', label: 'Himmel', hex: '#60A5FA' },
-    { value: 'blue', label: 'Blå', hex: '#3B82F6' },
-    { value: 'blue-dark', label: 'Marin', hex: '#1D4ED8' }
-  ],
-  // Purple row
-  [
-    { value: 'purple-light', label: 'Orchid', hex: '#C084FC' },
-    { value: 'purple', label: 'Lila', hex: '#A855F7' },
-    { value: 'purple-dark', label: 'Violett', hex: '#7C3AED' }
-  ],
-];
-
-  // Indigo row
-/*
-  [
-    { value: 'indigo-light', label: 'Moln', hex: '#A5B4FC' },
-    { value: 'indigo', label: 'Indigo', hex: '#6366F1' },
-    { value: 'indigo-dark', label: 'Natt', hex: '#4338CA' }
-  ], */
-
-// Flatten the grid for the radio group
-const ALL_COLORS = COLOR_GRID.flat();
-
 interface AccentColorControlProps {
   className?: string;
   value?: string; // External value control
@@ -79,7 +16,7 @@ interface AccentColorControlProps {
 }
 
 export function AccentColorControl({ className, value, onChange }: AccentColorControlProps) {
-  const { accentColor, setAccentColor } = useTheme();
+  const { accentColor, setAccentColor, isDark } = useTheme();
 
   // Handle color change - support both internal and external control
   const handleColorChange = (colorValue: string) => {
@@ -96,6 +33,65 @@ export function AccentColorControl({ className, value, onChange }: AccentColorCo
 
   // Use external value if provided, otherwise use internal theme state
   const currentValue = value || accentColor;
+
+  // Dynamic hex for inverse based on current theme
+  const inverseHex = isDark ? '#f7f7f7' : '#010101';
+
+  // Define COLOR_GRID inside component so it can access isDark
+  const COLOR_GRID = [
+    // Inverse row (single item)
+    [
+      { value: 'inverse', label: 'Neutral', hex: inverseHex },
+    ],
+    // Pink row
+    [
+      { value: 'pink-light', label: 'Flamingo', hex: '#F472B6' },
+      { value: 'pink', label: 'Rosa', hex: '#EC4899' },
+      { value: 'pink-dark', label: 'Ros', hex: '#D946EF' }
+    ],
+    // Red row
+    [
+      { value: 'red-light', label: 'Bär', hex: '#FCA5A5' },
+      { value: 'red', label: 'Röd', hex: '#ef2a2aff' },
+      { value: 'red-dark', label: 'Vinröd', hex: '#DC2626' }
+    ],
+    // Orange row
+    [
+      { value: 'orange-light', label: 'Persika', hex: '#FFA366' },
+      { value: 'orange', label: 'Orange', hex: '#F97316' },
+      { value: 'tangerine', label: 'Mandarin', hex: '#EA580C' }
+    ],
+    // Yellow row
+    [
+      { value: 'yellow-light', label: 'Citron', hex: '#FDE047' },
+      { value: 'yellow', label: 'Gul', hex: '#F59E0B' },
+      { value: 'yellow-dark', label: 'Guld', hex: '#D97706' }
+    ],
+    // Green row
+    [
+      { value: 'green-light', label: 'Mint', hex: '#4ADE80' },
+      { value: 'green', label: 'Grön', hex: '#10B981' },
+      { value: 'green-dark', label: 'Skog', hex: '#059669' }
+    ],
+    // Teal row
+    [
+      { value: 'teal-light', label: 'Aqua', hex: '#5EEAD4' },
+      { value: 'teal', label: 'Teal', hex: '#14B8A6' },
+      { value: 'teal-dark', label: 'Jade', hex: '#0F766E' }
+    ],
+    // Blue row
+    [
+      { value: 'blue-light', label: 'Himmel', hex: '#60A5FA' },
+      { value: 'blue', label: 'Blå', hex: '#3B82F6' },
+      { value: 'blue-dark', label: 'Marin', hex: '#1D4ED8' }
+    ],
+    // Purple row
+    [
+      { value: 'purple-light', label: 'Orchid', hex: '#C084FC' },
+      { value: 'purple', label: 'Lila', hex: '#A855F7' },
+      { value: 'purple-dark', label: 'Violett', hex: '#7C3AED' }
+    ],
+  ];
 
   return (
     <div className={className}>
@@ -122,7 +118,7 @@ export function AccentColorControl({ className, value, onChange }: AccentColorCo
               <DesignRadioCardItem
                 key={color.value}
                 value={color.value}
-                label={color.label} // Nu kortare namn som "Ljus", "Medium", "Mörk" etc
+                label={color.label}
                 variant="color"
                 colorValue={color.hex}
                 checked={currentValue === color.value}

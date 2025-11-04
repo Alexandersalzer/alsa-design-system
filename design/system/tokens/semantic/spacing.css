@@ -2,8 +2,8 @@
    src/design-system/tokens/semantic/spacing.css
    SEMANTIC SPACING TOKENS
    ============================================== */
-
 :root {
+  /* ===== SECTION SPACING ===== */
   /* Base mapping to foundation */
   --space-section-xs: var(--foundation-section-spacing-xs);
   --space-section-sm: var(--foundation-section-spacing-sm);
@@ -13,7 +13,19 @@
   --space-section-2xl: var(--foundation-section-spacing-2xl);
 
   /* Default semantic aliases */
-  --space-section: var(--selected-section-spacing); /* ✅ now dynamic */
+  --space-section: var(--selected-section-spacing); /* ✅ dynamic */
   --space-section-prominent: var(--space-section-lg);
   --space-section-hero: var(--space-section-xl);
+
+  /* ===== CONTAINER SPACING ===== */
+  /* ✅ NEW - Base mapping to foundation */
+  --space-container-xs: var(--foundation-container-spacing-xs);
+  --space-container-sm: var(--foundation-container-spacing-sm);
+  --space-container-md: var(--foundation-container-spacing-md);
+  --space-container-lg: var(--foundation-container-spacing-lg);
+  --space-container-xl: var(--foundation-container-spacing-xl);
+  --space-container-2xl: var(--foundation-container-spacing-2xl);
+
+  /* ✅ Default semantic alias (optional - if you want global control) */
+  --space-container: var(--selected-container-spacing, var(--space-container-md));
 }

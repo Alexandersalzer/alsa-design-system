@@ -1,40 +1,39 @@
 // ===============================================
 // src/design-system/components/layout/utilities/vStack/VStack.tsx
-// FIXED STACK COMPONENT - With proper style prop support
 // ===============================================
 import React, { ReactNode, CSSProperties } from 'react';
 
-// ===== TYPE DEFINITIONS =====
 export interface StackProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   // Spacing between items
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
-  // Alignment
+  // Horizontal alignment (cross-axis)
   align?: 'start' | 'center' | 'end' | 'stretch';
+  // Vertical distribution (main-axis) - NEW!
+  justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
   // Split behavior (push last item to bottom)
   split?: boolean;
   // Responsive behavior
   collapseSpacing?: 'mobile' | 'tablet' | 'never';
-  // Flex child behavior (for use in HStack, etc.)
+  // Flex child behavior
   flexChild?: boolean;
   // Full width behavior
   fullWidth?: boolean;
-  // Style prop (now properly typed)
+  // Style prop
   style?: CSSProperties;
 }
 
-// ===== SIMPLE CLASS CONCATENATION =====
 function buildClasses(...classNames: (string | undefined | false)[]): string {
   return classNames.filter(Boolean).join(' ');
 }
 
-// ===== MAIN STACK COMPONENT =====
 export const VStack = React.forwardRef<HTMLDivElement, StackProps>(({
   children,
   className,
   spacing = 'md',
   align = 'stretch',
+  justify, // NEW!
   split = false,
   collapseSpacing = 'mobile',
   flexChild,
@@ -42,11 +41,11 @@ export const VStack = React.forwardRef<HTMLDivElement, StackProps>(({
   style,
   ...props
 }, ref) => {
-  // Build CSS classes
   const classes = buildClasses(
     'vStack',
     `vStack--spacing-${spacing}`,
     align !== 'stretch' && `vStack--align-${align}`,
+    justify && `vStack--justify-${justify}`, // NEW!
     split && 'vStack--split',
     collapseSpacing !== 'never' && `vStack--collapse-${collapseSpacing}`,
     flexChild && 'vStack--flex-child',
