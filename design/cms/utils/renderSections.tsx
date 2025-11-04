@@ -2,6 +2,7 @@
 
 import { Section } from '../../system/components/frames/section/Section';
 import { Container } from '../../system/components';
+import { VStack } from '../../system/components/layout/vStack/VStack';
 import { patternRegistry } from '../../system/patterns/client';
 
 /**
@@ -76,14 +77,16 @@ export function renderSections({
     
     if (renderedPatterns.length === 0) return null;
     
-    // Wrap all patterns in a Section
+    // Wrap all patterns in a Section with VStack for spacing
     return (
       <Section 
         key={`${sectionKey}-${sectionIndex}`}
         id={`${type}-section-${sectionIndex}`}
         height="auto"
       >
-        {renderedPatterns}
+        <VStack spacing="xl" align="stretch">
+          {renderedPatterns}
+        </VStack>
       </Section>
     );
   }).filter(Boolean);
