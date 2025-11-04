@@ -5,23 +5,22 @@ import type { DesignJson } from "./designLoader";
  * Injects design tokens dynamically into <head>.
  */
 export function buildCssVars(design: DesignJson): string {
-  const radius         = design?.globalStyles?.radius         || "md";
-  const accentColor    = design?.globalStyles?.accentColor    || "purple";
-  const isDark         = design?.globalStyles?.isDark         ?? false;
-  const fontPrimary    = design?.globalStyles?.fontPrimary    || "Sora";
-  const layoutContent  = design?.globalStyles?.layoutContent  || "md";
-  const layoutMedia    = design?.globalStyles?.layoutMedia    || "xl";
-  const sectionSpacing = design?.globalStyles?.sectionSpacing || "md";
+  const radius          = design?.globalStyles?.radius          || "md";
+  const accentColor     = design?.globalStyles?.accentColor     || "purple";
+  const isDark          = design?.globalStyles?.isDark          ?? false;
+  const fontPrimary     = design?.globalStyles?.fontPrimary     || "Sora";
+  const layoutContent   = design?.globalStyles?.layoutContent   || "md";
+  const layoutMedia     = design?.globalStyles?.layoutMedia     || "xl";
+  const sectionSpacing  = design?.globalStyles?.sectionSpacing  || "md";
+  const containerSpacing = design?.globalStyles?.containerSpacing || "md"; // ✅ NEW
 
   const fontWeights = "400;600;700;800";
   const fontUrl = `https://fonts.googleapis.com/css2?family=${fontPrimary.replace(/\s/g, '+')}:wght@${fontWeights}&display=swap`;
 
-  // 🎨 Handle "inverse" accent color (uses existing --secondary-* scale)
   const isInverseAccent = accentColor === "inverse";
 
   return `
     @import url('${fontUrl}');
-    
     :root {
       /* ===== Radius (selected scale) ===== */
       --selected-radius-scale-none: var(--foundation-radius-${radius}-none);
@@ -39,6 +38,9 @@ export function buildCssVars(design: DesignJson): string {
 
       /* ===== Section spacing (selected scale) ===== */
       --selected-section-spacing: var(--foundation-section-spacing-${sectionSpacing});
+
+      /* ===== Container spacing (selected scale) ===== */
+      --selected-container-spacing: var(--foundation-container-spacing-${containerSpacing});
 
       ${isInverseAccent ? `
       /* ===== Inverse Accent (uses existing --secondary-* scale) ===== */

@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
-import { Rhythm, RhythmItem } from '../../../components/layout/rhythm/Rhythm';
 import { Menu } from '../../../components/overlays/Menu';
 
 interface FooterContent {
@@ -16,20 +15,16 @@ interface FooterContent {
 }
 
 interface KjFooterProps {
-  // Optional override for language options if needed
   languageOptions?: Array<{
     value: string;
     label: string;
     icon?: React.ReactNode;
   }>;
-  // Editing mode passed from parent component
   isEditingMode?: boolean;
-  // Content from CMS
   content?: FooterContent;
 }
 
 const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterProps) => {
-  // Extract content from props
   const {
     companyName,
     email,
@@ -40,7 +35,6 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
 
   const [selectedLanguage, setSelectedLanguage] = useState<string>('sv');
 
-  // Default language options
   const defaultLanguageOptions = [
     { value: 'sv', label: 'Svenska' },
     { value: 'en', label: 'English' }
@@ -48,27 +42,20 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
 
   const options = languageOptions || defaultLanguageOptions;
 
-  // Handle language change
   const handleLanguageChange = (value: string) => {
     setSelectedLanguage(value);
     
-    // Get current path and switch language
     const currentPath = window.location.pathname;
     const pathSegments = currentPath.split('/').filter(Boolean);
     
-    // Remove current locale if present
     if (pathSegments[0] === 'sv' || pathSegments[0] === 'en') {
       pathSegments.shift();
     }
     
-    // Build new path with selected language
     const newPath = `/${value}${pathSegments.length > 0 ? '/' + pathSegments.join('/') : ''}`;
-    
-    // Navigate to new path
     window.location.href = newPath;
   };
 
-  // Get current locale from URL
   useEffect(() => {
     const currentPath = window.location.pathname;
     const pathSegments = currentPath.split('/').filter(Boolean);
@@ -79,115 +66,107 @@ const KjFooter = ({ languageOptions, isEditingMode = false, content }: KjFooterP
     }
   }, []);
 
-  // Get selected language label for Menu trigger
   const selectedLabel = options.find(opt => opt.value === selectedLanguage)?.label || 'Svenska';
 
   return (
-    <Rhythm unit="md" align="center" direction="column">
+    <VStack spacing="xl" align="center" fullWidth>
       {/* Title with Logo */}
-      <RhythmItem at={1}>
-        <HStack spacing="md" align="center" justify="center">
-          <img 
-            src="/images/sections/kjlogo.jpg" 
-            alt="KJ Marketing Sweden Logo"
-            width={40}
-            height={40}
-            className="object-contain flex-shrink-0"
-          />
-          <Typography 
-            variant="h4" 
-            color="inverse" 
-            align="center"
-            weight="semibold"
-          >
-            {companyName}
-          </Typography>
-        </HStack>
-      </RhythmItem>
+      <HStack spacing="md" align="center" justify="center">
+        <img 
+          src="/images/sections/kjlogo.jpg" 
+          alt="KJ Marketing Sweden Logo"
+          width={40}
+          height={40}
+          className="object-contain flex-shrink-0"
+        />
+        <Typography 
+          variant="h4" 
+          color="inverse" 
+          align="center"
+          weight="semibold"
+        >
+          {companyName}
+        </Typography>
+      </HStack>
 
       {/* Language Menu */}
-      <RhythmItem at={3}>
-        <Menu size="md">
-          <Menu.Trigger>
-            {selectedLabel}
-          </Menu.Trigger>
-          <Menu.Content>
-            {options.map((option) => (
-              <Menu.RadioItem
-                key={option.value}
-                value={option.value}
-                checked={selectedLanguage === option.value}
-                onSelect={() => handleLanguageChange(option.value)}
-              >
-                {option.label}
-              </Menu.RadioItem>
-            ))}
-          </Menu.Content>
-        </Menu>
-      </RhythmItem>
+      <Menu size="md">
+        <Menu.Trigger>
+          {selectedLabel}
+        </Menu.Trigger>
+        <Menu.Content>
+          {options.map((option) => (
+            <Menu.RadioItem
+              key={option.value}
+              value={option.value}
+              checked={selectedLanguage === option.value}
+              onSelect={() => handleLanguageChange(option.value)}
+            >
+              {option.label}
+            </Menu.RadioItem>
+          ))}
+        </Menu.Content>
+      </Menu>
 
       {/* Contact Info and Copyright */}
-      <RhythmItem at={5}>
-        <VStack spacing="xs" align="center">
-          <Typography 
-            variant="body-md" 
-            color="tertiary" 
-            align="center"
-            weight="semibold"
+      <VStack spacing="xs" align="center">
+        <Typography 
+          variant="body-md" 
+          color="tertiary" 
+          align="center"
+          weight="semibold"
+        >
+          <a 
+            href={`mailto:${email}`}
+            style={{ 
+              color: 'inherit', 
+              textDecoration: 'underline',
+              textUnderlineOffset: '2px'
+            }}
           >
-            <a 
-              href={`mailto:${email}`}
-              style={{ 
-                color: 'inherit', 
-                textDecoration: 'underline',
-                textUnderlineOffset: '2px'
-              }}
-            >
-              {email}
-            </a>
-          </Typography>
-          <Typography 
-            variant="body-sm" 
-            color="tertiary" 
-            align="center"
-            weight="semibold"
-          >
-            {copyright}
-          </Typography>
-        </VStack>
-      </RhythmItem>
-      
-      <RhythmItem at={7}>
+            {email}
+          </a>
+        </Typography>
         <Typography 
           variant="body-sm" 
           color="tertiary" 
           align="center"
           weight="semibold"
         >
-          {credits}{' '}
-          <Typography 
-            variant="body-sm" 
-            color="placeholder" 
-            weight="bold"
-            as="span"
-          >
-            <a 
-              href="https://blimpify-im.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ 
-                color: 'inherit', 
-                textDecoration: 'underline',
-                textUnderlineOffset: '6px',
-                textDecorationColor: 'var(--text-tertiary)'
-              }}
-            >
-              {creditsLink}
-            </a>
-          </Typography>
+          {copyright}
         </Typography>
-      </RhythmItem>
-    </Rhythm>
+      </VStack>
+      
+      {/* Credits */}
+      <Typography 
+        variant="body-sm" 
+        color="tertiary" 
+        align="center"
+        weight="semibold"
+      >
+        {credits}{' '}
+        <Typography 
+          variant="body-sm" 
+          color="placeholder" 
+          weight="bold"
+          as="span"
+        >
+          <a 
+            href="https://blimpify-im.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ 
+              color: 'inherit', 
+              textDecoration: 'underline',
+              textUnderlineOffset: '6px',
+              textDecorationColor: 'var(--text-tertiary)'
+            }}
+          >
+            {creditsLink}
+          </a>
+        </Typography>
+      </Typography>
+    </VStack>
   );
 };
 
