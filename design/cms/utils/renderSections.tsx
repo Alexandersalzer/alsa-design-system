@@ -84,7 +84,7 @@ export function renderSections({
         id={`${type}-section-${sectionIndex}`}
         height="auto"
       >
-        <VStack spacing="xl" align="stretch">
+        <VStack align="stretch">
           {renderedPatterns}
         </VStack>
       </Section>
