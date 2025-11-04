@@ -100,9 +100,13 @@ export function Sections({
   return (
     <>
       {sectionOrder
-        .map((sectionKey) => {
+        .map((sectionKey, index) => {
           const sectionData = sections[sectionKey];
-          return renderSection({ sectionData, sectionKey });
+          if (!sectionData) return null;
+          
+          // Use unique key combining sectionKey and index for React
+          const uniqueKey = `${sectionKey}-${index}`;
+          return renderSection({ sectionData, sectionKey: uniqueKey });
         })
         .filter(Boolean)}
     </>
