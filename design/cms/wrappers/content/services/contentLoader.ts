@@ -1,5 +1,40 @@
 
 /**
+ * Load global content (navbar and footer) for a specific locale
+ * Uses dynamic import to avoid bundling fs in browser
+ */
+export async function getGlobalsContent(locale: string = 'sv') {
+  if (typeof window !== 'undefined') {
+    throw new Error('getGlobalsContent is only available on server-side');
+  }
+
+  try {
+    const globals: { [key: string]: any } = {};
+    
+    // Load navbar content
+    const navbarContent = await getNavbarContent(locale);
+    if (navbarContent) {
+      globals.navbar = navbarContent;
+    }
+    
+    // Load footer content
+    const footerContent = await getFooterContent(locale);
+    if (footerContent) {
+      globals.footer = footerContent;
+    }
+    
+    return globals;
+  } catch (error) {
+    console.error(`Failed to load globals for locale ${locale}:`, error);
+    // Fallback to Swedish if locale doesn't exist
+    if (locale !== 'sv') {
+      return getGlobalsContent('sv');
+    }
+    return {};
+  }
+}
+
+/**
  * Load navbar content for a specific locale
  * Uses dynamic import to avoid bundling fs in browser
  */
@@ -245,21 +280,6 @@ export async function getAllPagesContent(locale: string = 'sv') {
       }
     }
 
-    // Load all global components
-    const globals: { [key: string]: any } = {};
-    
-    // Load navbar content
-    const navbarContent = await getNavbarContent(locale);
-    if (navbarContent) {
-      globals.navbar = navbarContent;
-    }
-    
-    // Load footer content
-    const footerContent = await getFooterContent(locale);
-    if (footerContent) {
-      globals.footer = footerContent;
-    }
-    
     // Convert pages array to object keyed by slug
     const pagesObject: { [key: string]: any } = {};
     pages.filter(Boolean).forEach(page => {
@@ -269,8 +289,7 @@ export async function getAllPagesContent(locale: string = 'sv') {
     });
 
     const result = {
-      pages: pagesObject,
-      globals: Object.keys(globals).length > 0 ? globals : undefined
+      pages: pagesObject
     };
 
     return result;
