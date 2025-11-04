@@ -51,7 +51,7 @@ export const Hero: React.FC<HeroSectionProps> = ({
   bodyVariant = 'body-xl',
   
   // Button
-  buttonVariant = 'primary',
+  buttonVariant = 'accent',
   buttonSize = 'xl',
   
   // Layout
