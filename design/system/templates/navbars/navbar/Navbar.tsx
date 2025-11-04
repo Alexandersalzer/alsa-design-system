@@ -1,7 +1,6 @@
 'use client';
 
 import { useEditingMode } from '../../../../cms/wrappers/editing';
-import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname, useRouter } from 'next/navigation';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Box } from '../../../components/layout/box/Box';
@@ -43,6 +42,25 @@ export interface NavbarProps {
   logoWidth?: number;
   logoHeight?: number;
   height?: string;
+  // Add prop for navbar data
+  section?: {
+    navbar_fjVaWmY?: {
+      type: string;
+      pattern?: {
+        navbar_fjVaWmY?: {
+          type: string;
+          components?: Record<string, {
+            type: string;
+            content: string;
+            slug: string;
+            config?: {
+              href: string;
+            };
+          }>;
+        };
+      };
+    };
+  };
 }
 
 const Navbar = ({ 
@@ -60,24 +78,21 @@ const Navbar = ({
   logoAlt = 'KJ Marketing Logo',
   logoWidth = 32,
   logoHeight = 32,
-  height = 'var(--navbar-height)'
+  height = 'var(--navbar-height)',
+  section
 }: NavbarProps) => {
   const { isEditingMode } = useEditingMode();
-  const { getGlobalComponent, getTemplateBlocks, getBlocksByType, content } = useContent();
   const pathname = usePathname();
   const router = useRouter();
 
-  // Get navbar global component using generic function
-  const navbarComponent = getGlobalComponent('navbar');
+  // Extract navbar data from props
+  const navbarPattern = section?.navbar_fjVaWmY?.pattern?.navbar_fjVaWmY;
+  const components = navbarPattern?.components || {};
   
-  // Get blocks from navbar pattern
-  const navbarBlocks = getTemplateBlocks(navbarComponent, 'navbar');
-  
-  // Get nav items from blocks
-  const navItemBlocks = getBlocksByType(navbarBlocks, 'navItem');
-
-  // Convert CMS blocks to nav items with better slug handling
-  const cmsNavItems: NavItem[] = navItemBlocks.map((component: ContentBlock, index: number) => {
+  // Convert CMS components to nav items
+  const cmsNavItems: NavItem[] = Object.values(components)
+    .filter((component: any) => component.type === 'navItem')
+    .map((component: any, index: number) => {
     // Extract slug with better fallback logic
     let slug = '';
     if (component.slug && component.slug.trim()) {
@@ -93,32 +108,27 @@ const Navbar = ({
       content: component.content
     });
 
+    const navItemsArray = Object.values(components).filter((c: any) => c.type === 'navItem');
     return {
       href: component.config?.href || `/${slug || ''}`,
       label: component.content || '',
       slug: slug || '',
-      componentType: index === navItemBlocks.length - 1 ? 'button' : 'textlink',
+      componentType: index === navItemsArray.length - 1 ? 'button' : 'textlink',
       textLinkVariant: 'primary',
       weight: 'medium',
       underline: 'hover',
       variant: 'primary',
-      rightIcon: index === navItemBlocks.length - 1 ? <ArrowRightIcon /> : undefined,
+      rightIcon: index === navItemsArray.length - 1 ? <ArrowRightIcon /> : undefined,
       size: navSize
     };
   });
 
-  // Use navigation utilities for consistent route handling with CMS content
-  const nav = getNavigationContext(pathname, isEditingMode, content);
+  // Use navigation utilities for consistent route handling
+  const nav = getNavigationContext(pathname, isEditingMode, null);
 
-  // Find the home page slug dynamically from CMS content based on current locale
+  // Find the home page slug - use brandHref as fallback
   const getHomeSlug = (): string => {
-    if (!content?.pages) return brandHref.replace('/', '') || 'home';
-    
-    // Find home page matching current locale
-    const homePages = Object.values(content.pages).filter((p: any) => p.type === 'home');
-    const homePage = homePages.find((p: any) => p.language === nav.currentLocale) || homePages[0];
-    
-    return (homePage as any)?.slug || brandHref.replace('/', '') || 'home';
+    return brandHref.replace('/', '') || 'home';
   };
 
   // Use dynamic home slug instead of hardcoded brandHref prop
@@ -132,9 +142,7 @@ const Navbar = ({
     currentLocale: nav.currentLocale,
     pathname,
     cmsNavItemsCount: cmsNavItems.length,
-    finalNavItemsCount: finalNavItems.length,
-    hasContentMeta: !!content?.meta,
-    contentLocale: content?.meta?.locale
+    finalNavItemsCount: finalNavItems.length
   });
 
   // Setup navigation messaging (handles both parent→child and child→parent)
@@ -143,7 +151,7 @@ const Navbar = ({
     pathname,
     isEditingMode,
     '🧭 Navbar',
-    content
+    null
   );
 
   // Handle navigation clicks - unified for both nav items and brand
