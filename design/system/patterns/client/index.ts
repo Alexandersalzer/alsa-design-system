@@ -1,12 +1,10 @@
-import { SectionBody } from '../shared/sectionBody/SectionBody';
-import { SpinningBanner } from './spinning-banner/SpinningBanner';
-import { VideoShowcase } from '../../components/media/VideoShowcase/VideoShowcase';
+import { SectionBodyPattern, SpinningBannerPattern, VideoShowcasePattern } from '../adapters';
 
 // Mappa typ → komponent
 export const patternRegistry: Record<string, React.ComponentType<any>> = {
-  sectionBody: SectionBody,
-  spinningLogos: SpinningBanner,
-  media: VideoShowcase,
+  sectionBody: SectionBodyPattern,
+  spinningLogos: SpinningBannerPattern,
+  media: VideoShowcasePattern,
 };
 
 export * from './navbar';

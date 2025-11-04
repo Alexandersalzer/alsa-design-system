@@ -4,3 +4,4 @@ export * from './dashboard';
 export * from './shared'
 export * from './shared/ThemeControls';
 export * from './forms';
+export * from './adapters';
