@@ -7,7 +7,7 @@ import {
   setupMessageListener,
   type MessageHandlers
 } from '../../messaging/content/child/contentMessaging';
-import { useEditingMode } from '../editing/EditingWrapper';
+import { useEditingMode } from '../editing';
 import { ContentContextType, ContentProviderProps } from './types/context';
 import { useContentQueries } from './hooks/useContentQueries';
 import { useContentBlocks } from './hooks/useContentBlocks';

@@ -3,7 +3,7 @@
 import { Section } from '../../../components/frames/section';
 import { Container } from '../../../components/frames/container';
 import KjFooter from '../../../patterns/client/_kj-footer/kj-footer';
-import { useEditingMode } from '../../../../cms/wrappers/editing/EditingWrapper';
+import { useEditingMode } from '../../../../cms/wrappers/editing';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 
 const Footer = () => {

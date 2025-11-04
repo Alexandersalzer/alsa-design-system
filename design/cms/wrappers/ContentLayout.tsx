@@ -1,6 +1,6 @@
 'use client';
 
-import { ContentProvider, EditingModeWrapper } from '../..';
+import { ContentProvider } from '../..';
 import { ReactNode } from "react";
 import type { WebsiteContent } from "./content/types/content";
 
@@ -14,11 +14,9 @@ export function ContentLayout({
   initialContent
 }: ContentLayoutProps) {
   return (
-    <EditingModeWrapper>
-      <ContentProvider initialContent={initialContent}>
-        {children}
-      </ContentProvider>
-    </EditingModeWrapper>
+    <ContentProvider initialContent={initialContent}>
+      {children}
+    </ContentProvider>
   );
 }
 

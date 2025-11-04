@@ -1,6 +1,6 @@
 'use client';
 
-import { useEditingMode } from '../../../../cms/wrappers/editing/EditingWrapper';
+import { useEditingMode } from '../../../../cms/wrappers/editing';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname, useRouter } from 'next/navigation';
 import { HStack } from '../../../components/layout/hStack/HStack';
