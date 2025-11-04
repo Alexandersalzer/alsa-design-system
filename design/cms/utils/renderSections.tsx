@@ -47,40 +47,46 @@ const renderPattern = (pattern: any, index: number) => {
 
 /**
  * Dynamically renders sections based on JSON content
+ * Each section renders all patterns in order
  */
 export function renderSections({ 
   sections, 
   sectionOrder, 
   pageSlug 
 }: RenderSectionsProps): React.ReactNode[] {
-  if (!sections || !sectionOrder) return [];
+  if (!sections || !sectionOrder) {
+    console.warn('⚠️ renderSections: No sections or section order provided');
+    return [];
+  }
 
-  return sectionOrder
-    .map((sectionKey, sectionIndex) => {
-      const sectionData = sections[sectionKey];
-      if (!sectionData?.patterns) return null;
-      
-      const patternOrder = sectionData.order || Object.keys(sectionData.patterns);
-      const renderedPatterns = patternOrder
-        .map((patternKey, patternIndex) => {
-          const pattern = sectionData.patterns![patternKey];
-          return pattern ? renderPattern(pattern, patternIndex) : null;
-        })
-        .filter(Boolean);
-      
-      if (renderedPatterns.length === 0) return null;
-      
-      return (
-        <Section 
-          key={`${sectionKey}-${sectionIndex}`}
-          id={`${sectionData.type}-section-${sectionIndex}`}
-          height="auto"
-        >
-          {renderedPatterns}
-        </Section>
-      );
-    })
-    .filter(Boolean);
+  return sectionOrder.map((sectionKey, sectionIndex) => {
+    const sectionData = sections[sectionKey];
+    if (!sectionData?.patterns) return null;
+
+    const { type, patterns } = sectionData;
+    const patternOrder = sectionData.order || Object.keys(patterns);
+    
+    // Render all patterns for this section
+    const renderedPatterns = patternOrder
+      .map((patternKey, patternIndex) => {
+        const pattern = patterns[patternKey];
+        return pattern ? renderPattern(pattern, patternIndex) : null;
+      })
+      .filter(Boolean);
+    
+    if (renderedPatterns.length === 0) return null;
+    
+    // Wrap all patterns in a Section
+    return (
+      <Section 
+        key={`${sectionKey}-${sectionIndex}`}
+        id={`${type}-section-${sectionIndex}`}
+        height="auto"
+      >
+        {renderedPatterns}
+      </Section>
+    );
+  }).filter(Boolean);
 }
 
 /**
