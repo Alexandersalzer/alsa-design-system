@@ -36,50 +36,32 @@ const renderPattern = (pattern: any, index: number, useContainer: boolean = true
 
   switch (pattern.type) {
     case 'sectionBody': {
-      // Extract components from sectionBody
       const components = pattern.components || {};
       const headingComponent = Object.values(components).find((c: any) => c.type === 'heading') as any;
       const bodyComponent = Object.values(components).find((c: any) => c.type === 'body') as any;
       const tagComponent = Object.values(components).find((c: any) => c.type === 'tag') as any;
       const buttonComponent = Object.values(components).find((c: any) => c.type === 'button') as any;
       
-      const title = headingComponent?.content || '';
-      const subtitle = bodyComponent?.content || '';
-      const tagText = tagComponent?.content || '';
-      let primaryButtonText = '';
-      
-      // Handle button content
-      if (buttonComponent?.content) {
-        if (typeof buttonComponent.content === 'object' && 'content' in buttonComponent.content) {
-          primaryButtonText = buttonComponent.content.content;
-        } else if (typeof buttonComponent.content === 'string') {
-          primaryButtonText = buttonComponent.content;
-        }
-      }
-      
-      // Don't render if no content
-      if (!title && !subtitle && !primaryButtonText) return null;
-      
       content = (
         <SectionBody
-          tag={tagText ? {
-            text: tagText,
+          tag={tagComponent?.content ? {
+            text: tagComponent.content,
             variant: 'accent',
             size: 'medium'
           } : undefined}
-          heading={title}
+          heading={headingComponent?.content || ''}
           headingAs="h1"
           headingVariant="display-xl"
           headingColor="heading"
           headingWeight="bold"
-          body={subtitle || undefined}
+          body={bodyComponent?.content || undefined}
           bodyAs="p"
           bodyVariant="body-xl"
           bodyColor="body"
           bodyWeight="regular"
-          actionType={primaryButtonText ? 'button' : undefined}
-          button={primaryButtonText ? {
-            text: primaryButtonText,
+          actionType={buttonComponent?.content ? 'button' : undefined}
+          button={buttonComponent?.content ? {
+            text: typeof buttonComponent.content === 'object' ? buttonComponent.content.content : buttonComponent.content,
             variant: 'primary',
             size: 'xl'
           } : undefined}
@@ -94,84 +76,41 @@ const renderPattern = (pattern: any, index: number, useContainer: boolean = true
     }
     
     case 'spinningLogos': {
-      // Extract heading
-      const headingComponent = pattern.components?.heading_lKz6fL || 
-                               Object.values(pattern.components || {}).find((c: any) => c.type === 'heading');
-      const heading = headingComponent?.content || '';
-      
-      // Extract settings
-      const settings = pattern.settings || {};
-      const speed = settings.speed || 30;
-      const direction = settings.direction || 'left';
-      
-      // Extract logos
       const logos = Object.entries(pattern.components || {})
         .filter(([key, comp]: [string, any]) => comp.type === 'logo')
-        .map(([key, comp]: [string, any]) => {
-          const content = comp.content as any;
-          return {
-            src: content?.src || '',
-            alt: content?.alt || 'Logo'
-          };
-        })
+        .map(([key, comp]: [string, any]) => ({
+          src: comp.content?.src || '',
+          alt: comp.content?.alt || 'Logo'
+        }))
         .filter(logo => logo.src);
       
-      if (logos.length === 0) return null;
-      
       content = (
-        <>
-          {heading && (
-            <h3 style={{ 
-              textAlign: 'center', 
-              marginBottom: '2rem',
-              fontSize: 'var(--font-size-sm)',
-              fontWeight: 'var(--font-weight-medium)',
-              color: 'var(--color-text-tertiary)',
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase'
-            }}>
-              {heading}
-            </h3>
-          )}
-          <SpinningBanner
-            logos={logos}
-            speed={speed}
-            direction={direction}
-          />
-        </>
+        <SpinningBanner
+          logos={logos}
+          speed={pattern.settings?.speed || 30}
+          direction={pattern.settings?.direction || 'left'}
+        />
       );
       break;
     }
     
     case 'media': {
-      // Extract video component
-      const videoComponent = pattern.components?.video_p9Bj3v || 
-                            Object.values(pattern.components || {}).find((c: any) => c.type === 'video');
-      
-      if (!videoComponent || !videoComponent.content) return null;
-      
-      const videoContent = videoComponent.content as any;
-      const videoSrc = videoContent?.src || videoContent?.content || '';
-      const videoPoster = videoContent?.poster || '';
-      
-      if (!videoSrc) return null;
+      const videoComponent = Object.values(pattern.components || {}).find((c: any) => c.type === 'video') as any;
       
       content = (
-        <Component>
-          <VideoShowcase
-            src={videoSrc}
-            poster={videoPoster}
-            autoPlay={false}
-            muted={true}
-            loop={true}
-            controls={false}
-            showPlayButton={true}
-            variant="elevated"
-            size="full"
-            aspectRatio="16-9"
-            radius="md"
-          />
-        </Component>
+        <VideoShowcase
+          src={videoComponent?.content?.src || ''}
+          poster={videoComponent?.content?.poster || ''}
+          autoPlay={false}
+          muted={true}
+          loop={true}
+          controls={false}
+          showPlayButton={true}
+          variant="elevated"
+          size="full"
+          aspectRatio="16-9"
+          radius="md"
+        />
       );
       break;
     }
@@ -181,7 +120,6 @@ const renderPattern = (pattern: any, index: number, useContainer: boolean = true
       return null;
   }
 
-  // If no content was generated, return null
   if (!content) return null;
 
   // Wrap in Container if requested

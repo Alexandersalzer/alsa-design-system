@@ -1,3 +1,12 @@
+import { SectionBody } from '../shared/sectionBody/SectionBody';
+import { SpinningBanner } from './spinning-banner/SpinningBanner';
+
+// Mappa typ → komponent
+export const patternRegistry: Record<string, React.ComponentType<any>> = {
+  sectionBody: SectionBody,
+  spinningLogos: SpinningBanner
+};
+
 export * from './navbar';
 export * from './CleanNavbar';
 export * from './RichText';
