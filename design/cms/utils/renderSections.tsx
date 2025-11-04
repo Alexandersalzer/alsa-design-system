@@ -42,6 +42,47 @@ const renderPattern = (pattern: any, index: number) => {
     return null;
   }
 
+  // Transform data for specific pattern types
+  let transformedProps = { ...pattern };
+  
+  if (pattern.type === 'sectionBody' && pattern.components) {
+    // Transform sectionBody data directly
+    const { components } = pattern;
+    const headingComponent = Object.values(components).find((c: any) => c.type === 'heading') as any;
+    const bodyComponent = Object.values(components).find((c: any) => c.type === 'body') as any;
+    const tagComponent = Object.values(components).find((c: any) => c.type === 'tag') as any;
+    const buttonComponent = Object.values(components).find((c: any) => c.type === 'button') as any;
+    
+    transformedProps = {
+      tag: tagComponent?.content ? {
+        text: tagComponent.content,
+        variant: 'accent',
+        size: 'medium'
+      } : undefined,
+      heading: headingComponent?.content || '',
+      headingAs: "h1",
+      headingVariant: "display-xl",
+      headingColor: "heading",
+      headingWeight: "bold",
+      body: bodyComponent?.content || undefined,
+      bodyAs: "p",
+      bodyVariant: "body-xl",
+      bodyColor: "body",
+      bodyWeight: "regular",
+      actionType: buttonComponent?.content ? 'button' : undefined,
+      button: buttonComponent?.content ? {
+        text: typeof buttonComponent.content === 'object' ? buttonComponent.content.content : buttonComponent.content,
+        variant: 'primary',
+        size: 'xl'
+      } : undefined,
+      textAlign: "center",
+      maxWidth: "800px",
+      tagSpacing: "sm",
+      headingBodySpacing: "md",
+      bodyActionSpacing: "xl"
+    };
+  }
+
   return (
     <Container 
       key={`pattern-${index}`}
@@ -49,7 +90,7 @@ const renderPattern = (pattern: any, index: number) => {
       height="auto"
       useMediaWidth={false}
     >
-      <PatternComponent {...pattern} />
+      <PatternComponent {...transformedProps} />
     </Container>
   );
 };
