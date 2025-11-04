@@ -190,7 +190,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
       actionType_final = 'button';
       button_final = {
         text: typeof buttonComponent.content === 'object' ? buttonComponent.content.content : buttonComponent.content,
-        variant: 'primary',
+        variant: 'secondary',
         size: 'xl'
       };
     }
@@ -295,7 +295,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
             {/* Single Button */}
             {actionType_final === 'button' && button_final && (
               <Button
-                variant={button_final.variant || 'primary'}
+                variant={button_final.variant || 'accent'}
                 size={button_final.size || 'lg'}
                 onClick={button_final.onClick}
                 {...button_final}
@@ -314,7 +314,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
                 {buttonGroup.map((btn, index) => (
                   <Button
                     key={index}
-                    variant={btn.variant || (index === 0 ? 'primary' : 'secondary')}
+                    variant={btn.variant || (index === 0 ? 'accent' : 'secondary')}
                     size={btn.size || 'lg'}
                     onClick={btn.onClick}
                     {...btn}
@@ -334,7 +334,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
                   style={{ flex: 1, minWidth: '200px' }}
                 />
                 <Button
-                  variant="primary"
+                  variant="accent"
                   size="lg"
                   onClick={() => inputButton.onSubmit?.('')}
                 >
