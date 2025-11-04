@@ -29,7 +29,7 @@ interface RenderSectionsProps {
 const renderPattern = (pattern: any, index: number) => {
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
-    console.warn(`⚠️ Unknown pattern type: ${pattern.type}`);
+    console.warn(`Unknown pattern type: ${pattern.type}`);
     return null;
   }
 
@@ -39,7 +39,6 @@ const renderPattern = (pattern: any, index: number) => {
       align="center"
       height="auto"
       useMediaWidth={false}
-      style={{ marginTop: index > 0 ? '4rem' : undefined }}
     >
       <PatternComponent {...pattern} />
     </Container>
@@ -48,69 +47,40 @@ const renderPattern = (pattern: any, index: number) => {
 
 /**
  * Dynamically renders sections based on JSON content
- * Each section renders all patterns in order (including sectionBody)
- * 
- * @param sections - Object containing all sections keyed by their IDs
- * @param sectionOrder - Array defining the order in which sections should be rendered
- * @param pageSlug - The current page slug for content lookup
- * @returns Array of rendered section components
  */
 export function renderSections({ 
   sections, 
   sectionOrder, 
   pageSlug 
 }: RenderSectionsProps): React.ReactNode[] {
-  if (!sections || !sectionOrder) {
-    console.warn('⚠️ renderSections: No sections or section order provided');
-    return [];
-  }
+  if (!sections || !sectionOrder) return [];
 
   return sectionOrder
     .map((sectionKey, sectionIndex) => {
       const sectionData = sections[sectionKey];
+      if (!sectionData?.patterns) return null;
       
-      if (!sectionData) {
-        console.warn(`⚠️ renderSections: Section "${sectionKey}" not found in sections object`);
-        return null;
-      }
-
-      const { type, patterns } = sectionData;
-      
-      if (!patterns) {
-        console.warn(`⚠️ No patterns found for section "${sectionKey}"`);
-        return null;
-      }
-      
-      // Get pattern order from section data
-      const patternOrder = sectionData.order || Object.keys(patterns);
-      
-      // Render all patterns (including sectionBody)
+      const patternOrder = sectionData.order || Object.keys(sectionData.patterns);
       const renderedPatterns = patternOrder
         .map((patternKey, patternIndex) => {
-          const pattern = patterns[patternKey];
-          if (!pattern) return null;
-          
-          return renderPattern(pattern, patternIndex);
+          const pattern = sectionData.patterns![patternKey];
+          return pattern ? renderPattern(pattern, patternIndex) : null;
         })
-        .filter(Boolean); // Remove null values
+        .filter(Boolean);
       
-      // Don't render section if no patterns were rendered
-      if (renderedPatterns.length === 0) {
-        return null;
-      }
+      if (renderedPatterns.length === 0) return null;
       
-      // Wrap all patterns in a Section frame
       return (
         <Section 
           key={`${sectionKey}-${sectionIndex}`}
-          id={`${type}-section-${sectionIndex}`}
+          id={`${sectionData.type}-section-${sectionIndex}`}
           height="auto"
         >
           {renderedPatterns}
         </Section>
       );
     })
-    .filter(Boolean); // Remove null values
+    .filter(Boolean);
 }
 
 /**
