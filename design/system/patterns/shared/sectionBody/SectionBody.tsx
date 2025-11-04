@@ -190,7 +190,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
       actionType_final = 'button';
       button_final = {
         text: typeof buttonComponent.content === 'object' ? buttonComponent.content.content : buttonComponent.content,
-        variant: 'secondary',
+        variant: 'accent',
         size: 'xl'
       };
     }
@@ -314,7 +314,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
                 {buttonGroup.map((btn, index) => (
                   <Button
                     key={index}
-                    variant={btn.variant || (index === 0 ? 'secondary' : 'accent')}
+                    variant={btn.variant || (index === 0 ? 'accent' : 'accent')}
                     size={btn.size || 'lg'}
                     onClick={btn.onClick}
                     {...btn}
