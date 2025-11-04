@@ -1,1 +1,0 @@
-export { VideoShowcasePattern } from './VideoShowcasePattern';
