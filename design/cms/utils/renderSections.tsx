@@ -82,7 +82,7 @@ export function renderSection({
       id={`${type}-section`}
       height="auto"
     >
-      {renderedPatterns}
+        {renderedPatterns}
     </Section>
   );
 }
