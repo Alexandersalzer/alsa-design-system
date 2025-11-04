@@ -1,4 +1,4 @@
 // Export dynamic section rendering
-export { Sections, renderSections } from './renderSections';
+export { Sections } from './renderSections';
 export type { SectionData } from './renderSections';
 
