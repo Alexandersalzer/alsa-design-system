@@ -195,9 +195,9 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
  * Get page props for rendering a specific page
  * Lightweight function that only loads what's needed for PageLayout
  */
-export async function getPageProps(locale: string = 'sv', pageSlug: string) {
+export async function getPageContent(locale: string = 'sv', pageSlug: string) {
   if (typeof window !== 'undefined') {
-    throw new Error('getPageProps is only available on server-side');
+    throw new Error('getPageContent is only available on server-side');
   }
 
   try {
@@ -225,7 +225,7 @@ export async function getPageProps(locale: string = 'sv', pageSlug: string) {
     console.error(`Failed to load page props for ${pageSlug} in locale ${locale}:`, error);
     // Fallback to Swedish if locale file doesn't exist
     if (locale !== 'sv') {
-      return getPageProps('sv', pageSlug);
+      return getPageContent('sv', pageSlug);
     }
     // Return empty state if all fails
     return {
