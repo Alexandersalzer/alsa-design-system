@@ -123,6 +123,8 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
       const fileContent = await fs.readFile(indexPath, 'utf8');
       const content = JSON.parse(fileContent);
       
+      console.log('getStartPageSlug - found content:', content.slug, 'for locale:', locale);
+      
       // Return slug from content (should be 'hem' or 'home')
       if (content.slug) {
         return content.slug;
@@ -131,6 +133,7 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
       // Fallback based on locale if no slug in content
       return locale === 'sv' ? 'hem' : 'home';
     } catch (error) {
+      console.log('getStartPageSlug - index.json error:', (error as Error)?.message || error);
       // index.json doesn't exist, try other files
     }
     
