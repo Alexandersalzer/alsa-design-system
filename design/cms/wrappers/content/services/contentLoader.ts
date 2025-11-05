@@ -123,15 +123,11 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
       const fileContent = await fs.readFile(indexPath, 'utf8');
       const content = JSON.parse(fileContent);
       
-      console.log(`[DEBUG] index.json content for ${locale}:`, { slug: content.slug, type: content.type });
-      
       // Return the slug from index.json
       if (content.slug) {
-        console.log(`[DEBUG] Returning slug from index.json: ${content.slug}`);
         return content.slug;
       }
     } catch (error) {
-      console.log(`[DEBUG] Failed to read index.json for ${locale}:`, error);
       // index.json doesn't exist or failed to parse, continue to search other files
     }
     
@@ -151,7 +147,6 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
         
         // Check if this is the start page for this locale
         if (content.type === 'start' && content.language === locale) {
-          console.log(`[DEBUG] Found start page in ${file.name}: ${content.slug}`);
           return content.slug || 'home';
         }
       } catch (error) {
@@ -162,12 +157,10 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
     
     // Fallback to Swedish if no start page found and not already Swedish
     if (locale !== 'sv') {
-      console.log(`[DEBUG] No start page found for ${locale}, falling back to Swedish`);
       return getStartPageSlug('sv');
     }
     
     // Ultimate fallback
-    console.log(`[DEBUG] Using ultimate fallback: home`);
     return 'home';
   } catch (error) {
     console.error(`Failed to find start page slug for locale ${locale}:`, error);
@@ -198,6 +191,8 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
       !['navbar.json', 'footer.json'].includes(entry.name)
     );
     
+    console.log(`[DEBUG] getAllPageSlugs for ${locale}: found ${pageFiles.length} page files:`, pageFiles.map(f => f.name));
+    
     const pageSlugs: string[] = [];
     
     // Read each file and extract the slug from content
@@ -207,12 +202,11 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
         const fileContent = await fs.readFile(filePath, 'utf8');
         const content = JSON.parse(fileContent);
         
+        console.log(`[DEBUG] File ${file.name} contains slug: ${content.slug}`);
+        
         // Add the slug if it exists
         if (content.slug) {
-          console.log(`[DEBUG] Found slug in ${file.name}: ${content.slug}`);
           pageSlugs.push(content.slug);
-        } else {
-          console.log(`[DEBUG] No slug found in ${file.name}`);
         }
       } catch (error) {
         console.error(`Failed to parse page file ${file.name}:`, error);
@@ -221,7 +215,7 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
       }
     }
     
-    console.log(`[DEBUG] All page slugs for ${locale}:`, pageSlugs);
+    console.log(`[DEBUG] getAllPageSlugs for ${locale} returning:`, pageSlugs);
     return pageSlugs;
   } catch (error) {
     console.error(`Failed to load page slugs for locale ${locale}:`, error);
