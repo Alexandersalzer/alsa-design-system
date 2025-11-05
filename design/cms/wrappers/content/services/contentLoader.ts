@@ -193,6 +193,7 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
 /**
  * Get page props for rendering a specific page
  * Lightweight function that only loads what's needed for PageLayout
+ * Maps start page slug to index.json file
  */
 export async function getPageContent(locale: string = 'sv', pageSlug: string) {
   if (typeof window !== 'undefined') {
@@ -203,12 +204,18 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string) {
     const { promises: fs } = await import('fs');
     const path = await import('path');
     
+    // Get the start page slug to check if this is the start page
+    const startSlug = await getStartPageSlug(locale);
+    
+    // If this is the start page, use index.json
+    const fileName = pageSlug === startSlug ? 'index.json' : `${pageSlug}.json`;
+    
     const pageFilePath = path.join(
       process.cwd(),
       'public',
       'content',
       locale,
-      `${pageSlug}.json`
+      fileName
     );
     
     const fileContent = await fs.readFile(pageFilePath, 'utf8');
