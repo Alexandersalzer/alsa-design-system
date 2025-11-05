@@ -111,40 +111,14 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
     throw new Error('getStartPageSlug is only available on server-side');
   }
 
-  console.log('getStartPageSlug called with locale:', locale);
-
   try {
     const { promises: fs } = await import('fs');
     const path = await import('path');
     
     const contentDir = path.join(process.cwd(), 'public', 'content', locale);
-    console.log('getStartPageSlug - contentDir:', contentDir);
-    
-    // First try index.json (new format)
-    try {
-      const indexPath = path.join(contentDir, 'index.json');
-      console.log('getStartPageSlug - trying indexPath:', indexPath);
-      const fileContent = await fs.readFile(indexPath, 'utf8');
-      const content = JSON.parse(fileContent);
-      
-      console.log('getStartPageSlug - found content:', { slug: content.slug, type: content.type, language: content.language });
-      
-      // Return slug from content (should be 'hem' or 'home')
-      if (content.slug) {
-        console.log('getStartPageSlug - returning slug:', content.slug);
-        return content.slug;
-      }
-      
-      console.log('getStartPageSlug - no slug in content, using fallback');
-      // Fallback based on locale if no slug in content
-      return locale === 'sv' ? 'hem' : 'home';
-    } catch (error) {
-      console.log('getStartPageSlug - index.json error:', (error as Error)?.message || error);
-      // index.json doesn't exist, try other files
-    }
-    
-    // Fallback: read all files and find start page
     const entries = await fs.readdir(contentDir, { withFileTypes: true });
+    
+    // Filter for page files
     const pageFiles = entries.filter(entry => 
       entry.isFile() && 
       entry.name.endsWith('.json') &&
@@ -160,7 +134,7 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
         
         // Check if this is the start page for this locale
         if (content.type === 'start' && content.language === locale) {
-          return content.slug || (locale === 'sv' ? 'hem' : 'home');
+          return content.slug || file.name.replace('.json', '');
         }
       } catch (error) {
         // Continue to next file if this one fails
@@ -174,10 +148,10 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
     }
     
     // Ultimate fallback
-    return locale === 'sv' ? 'hem' : 'home';
+    return 'home';
   } catch (error) {
     console.error(`Failed to find start page slug for locale ${locale}:`, error);
-    return locale === 'sv' ? 'hem' : 'home';
+    return 'home';
   }
 }
 
@@ -198,45 +172,13 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
     const entries = await fs.readdir(contentDir, { withFileTypes: true });
     
     // Filter for page files (exclude global files like navbar.json, footer.json)
-    const pageFiles = entries.filter(entry => 
-      entry.isFile() && 
-      entry.name.endsWith('.json') &&
-      !['navbar.json', 'footer.json'].includes(entry.name)
-    );
-    
-    const pageSlugs: string[] = [];
-    
-    // Read each file to get the actual slug from content
-    for (const file of pageFiles) {
-      try {
-        const filePath = path.join(contentDir, file.name);
-        const fileContent = await fs.readFile(filePath, 'utf8');
-        const content = JSON.parse(fileContent);
-        
-        console.log('getAllPageSlugs - processing file:', file.name, 'content.slug:', content.slug);
-        
-        // Get slug from content, or derive from filename
-        let slug = content.slug;
-        
-        if (!slug) {
-          if (file.name === 'index.json') {
-            slug = locale === 'sv' ? 'hem' : 'home';
-          } else if (file.name.startsWith('page.')) {
-            slug = file.name.replace('page.', '').replace('.json', '');
-          } else {
-            slug = file.name.replace('.json', '');
-          }
-        }
-        
-        console.log('getAllPageSlugs - final slug for', file.name, ':', slug);
-        
-        if (slug) {
-          pageSlugs.push(slug);
-        }
-      } catch (error) {
-        console.error(`Failed to read page file ${file.name}:`, error);
-      }
-    }
+    const pageSlugs = entries
+      .filter(entry => 
+        entry.isFile() && 
+        entry.name.endsWith('.json') &&
+        !['navbar.json', 'footer.json'].includes(entry.name)
+      )
+      .map(entry => entry.name.replace('.json', ''));
     
     return pageSlugs;
   } catch (error) {
@@ -262,61 +204,40 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string) {
     const { promises: fs } = await import('fs');
     const path = await import('path');
     
-    // Try different filename patterns based on slug
-    let possibleFilenames: string[] = [];
+    const contentDir = path.join(process.cwd(), 'public', 'content', locale);
+    const entries = await fs.readdir(contentDir, { withFileTypes: true });
     
-    if (pageSlug === 'hem' || pageSlug === 'home') {
-      // For start pages, try index.json first
-      possibleFilenames = [
-        'index.json',                 // Start page format
-        `${pageSlug}.json`,           // Fallback to original format
-        `page.${pageSlug}.json`       // Fallback to page.prefix format
-      ];
-    } else {
-      // For other pages, try page.prefix first
-      possibleFilenames = [
-        `page.${pageSlug}.json`,      // New format: page.om-oss.json
-        `${pageSlug}.json`,           // Original format: om-oss.json
-        'index.json'                  // Last resort
-      ];
-    }
+    // Filter for page files (exclude global files like navbar.json, footer.json)
+    const pageFiles = entries.filter(entry => 
+      entry.isFile() && 
+      entry.name.endsWith('.json') &&
+      !['navbar.json', 'footer.json'].includes(entry.name)
+    );
     
-    let pageData: any = null;
-    
-    // Try each filename pattern
-    for (const filename of possibleFilenames) {
+    // Find the file with matching slug
+    for (const file of pageFiles) {
       try {
-        const testPath = path.join(
-          process.cwd(),
-          'public',
-          'content',
-          locale,
-          filename
-        );
+        const filePath = path.join(contentDir, file.name);
+        const fileContent = await fs.readFile(filePath, 'utf8');
+        const pageData = JSON.parse(fileContent);
         
-        const fileContent = await fs.readFile(testPath, 'utf8');
-        const content = JSON.parse(fileContent);
-        
-        // Check if this file matches the requested slug
-        if (content.slug === pageSlug) {
-          pageData = content;
-          break;
+        // Check if this file's slug matches what we're looking for
+        if (pageData.slug === pageSlug) {
+          return {
+            sections: pageData.sections || {},
+            order: pageData.order || []
+          };
         }
       } catch (error) {
-        // Continue to next filename pattern
+        // Continue to next file if this one fails to parse
+        console.error(`Failed to parse page file ${file.name}:`, error);
         continue;
       }
     }
     
-    if (!pageData) {
-      throw new Error(`No page found for slug: ${pageSlug}`);
-    }
+    // If no matching file found, throw error
+    throw new Error(`No page found with slug "${pageSlug}" in locale "${locale}"`);
     
-    // Return only what PageLayout needs
-    return {
-      sections: pageData.sections || {},
-      order: pageData.order || []
-    };
   } catch (error) {
     console.error(`Failed to load page props for ${pageSlug} in locale ${locale}:`, error);
     // Fallback to Swedish if locale file doesn't exist
