@@ -27,7 +27,7 @@ interface RenderSectionProps {
  */
 interface SectionsProps {
   sections: Record<string, SectionData>;
-  sectionOrder: string[];
+  order: string[];
 }
 
 /**
@@ -94,11 +94,11 @@ export function renderSection({
  */
 export function Sections({ 
   sections, 
-  sectionOrder
+  order
 }: SectionsProps) {
   return (
     <>
-      {sectionOrder
+      {order
         .map((sectionKey, index) => {
           const sectionData = sections[sectionKey];
           if (!sectionData) return null;

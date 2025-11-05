@@ -23,7 +23,7 @@ export default async function Page({ params }: PageProps) {
 
 ### 3. 💾 Data Fetching - `getPageContent()`
 ```tsx
-const { sections, sectionOrder } = await getPageContent(locale, slug);
+const { sections, order } = await getPageContent(locale, slug);
 ```
 
 **In `contentLoader.ts`:**
@@ -38,7 +38,7 @@ const pageData = JSON.parse(fileContent);
 // 3. Return only what's needed
 return {
   sections: pageData.sections || {},     // → Complete sections object
-  sectionOrder: pageData.order || []     // → ["hero_jVaWmY", "hero_jVaWmY"]
+  order: pageData.order || []            // → ["hero_jVaWmY", "hero_jVaWmY"]
 };
 ```
 
@@ -55,26 +55,26 @@ sections = {
     order: ["sectionBody_fdsH2a", "spinningLogos_s5ZvJd", "media_p9Bj3v"]
   }
 }
-sectionOrder = ["hero_jVaWmY", "hero_jVaWmY"]
+order = ["hero_jVaWmY", "hero_jVaWmY"]
 ```
 
 ### 4. 🎯 Props Passing - Server → Client
 ```tsx
 return (
   <PageLayout
-    sections={sections}      // → Complete sections data
-    sectionOrder={sectionOrder} // → Rendering order
+    sectionsData={sections}  // → Complete sections data
+    sectionOrder={order}     // → Rendering order
   />
 );
 ```
 
 ### 5. 🖥️ Client Component - `child.tsx`
 ```tsx
-export default function PageLayout({ sections, sectionOrder }: PageLayoutProps) {
+export default function PageLayout({ sectionsData, sectionOrder }: PageLayoutProps) {
   return (
     <main>
       <Sections 
-        sections={sections}      // → Forward data
+        sections={sectionsData}   // → Forward data
         sectionOrder={sectionOrder} // → Forward order
       />
     </main>
@@ -193,7 +193,7 @@ page.tsx (Server Component)
   ↓ 
 getPageContent("sv", "hem")
   ↓
-Read hem.json → { sections: {...}, sectionOrder: [...] }
+Read hem.json → { sections: {...}, order: [...] }
   ↓
 PageLayout (Client Component)
   ↓
