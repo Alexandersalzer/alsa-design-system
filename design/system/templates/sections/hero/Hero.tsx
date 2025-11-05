@@ -293,7 +293,6 @@ export const Hero: React.FC<HeroSectionProps> = ({
         align="center"
         height="auto"
         useMediaWidth={true} // <-- maxWidthMedia
-        style={{ marginTop: '4rem' }}
       >
         <Block>
           <VideoShowcase
