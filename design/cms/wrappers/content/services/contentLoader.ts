@@ -218,7 +218,7 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string) {
     // Return only what PageLayout needs
     return {
       sections: pageData.sections || {},
-      sectionOrder: pageData.order || []
+      order: pageData.order || []
     };
   } catch (error) {
     console.error(`Failed to load page props for ${pageSlug} in locale ${locale}:`, error);
@@ -229,7 +229,7 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string) {
     // Return empty state if all fails
     return {
       sections: {},
-      sectionOrder: []
+      order: []
     };
   }
 }
