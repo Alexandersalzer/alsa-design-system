@@ -123,11 +123,15 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
       const fileContent = await fs.readFile(indexPath, 'utf8');
       const content = JSON.parse(fileContent);
       
+      console.log(`[DEBUG] getStartPageSlug for ${locale} - index.json content:`, { slug: content.slug, type: content.type, language: content.language });
+      
       // Return the slug from index.json
       if (content.slug) {
+        console.log(`[DEBUG] getStartPageSlug returning: ${content.slug}`);
         return content.slug;
       }
     } catch (error) {
+      console.log(`[DEBUG] Failed to read index.json for ${locale}:`, error);
       // index.json doesn't exist or failed to parse, continue to search other files
     }
     
@@ -147,6 +151,7 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
         
         // Check if this is the start page for this locale
         if (content.type === 'start' && content.language === locale) {
+          console.log(`[DEBUG] Found start page in ${file.name}: ${content.slug}`);
           return content.slug || 'home';
         }
       } catch (error) {
@@ -157,10 +162,12 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
     
     // Fallback to Swedish if no start page found and not already Swedish
     if (locale !== 'sv') {
+      console.log(`[DEBUG] No start page found for ${locale}, falling back to Swedish`);
       return getStartPageSlug('sv');
     }
     
     // Ultimate fallback
+    console.log(`[DEBUG] Using ultimate fallback: home`);
     return 'home';
   } catch (error) {
     console.error(`Failed to find start page slug for locale ${locale}:`, error);
