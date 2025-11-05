@@ -123,8 +123,13 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
       const fileContent = await fs.readFile(indexPath, 'utf8');
       const content = JSON.parse(fileContent);
       
-      // Return slug from content, or default based on locale
-      return content.slug || (locale === 'sv' ? 'hem' : 'home');
+      // Return slug from content (should be 'hem' or 'home')
+      if (content.slug) {
+        return content.slug;
+      }
+      
+      // Fallback based on locale if no slug in content
+      return locale === 'sv' ? 'hem' : 'home';
     } catch (error) {
       // index.json doesn't exist, try other files
     }
@@ -146,7 +151,7 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
         
         // Check if this is the start page for this locale
         if (content.type === 'start' && content.language === locale) {
-          return content.slug || file.name.replace('.json', '');
+          return content.slug || (locale === 'sv' ? 'hem' : 'home');
         }
       } catch (error) {
         // Continue to next file if this one fails
@@ -244,14 +249,25 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string) {
     const { promises: fs } = await import('fs');
     const path = await import('path');
     
-    // Try different filename patterns
-    const possibleFilenames = [
-      `${pageSlug}.json`,           // Original format: hem.json
-      `page.${pageSlug}.json`,      // New format: page.om-oss.json
-      `index.json`                  // Start page format
-    ];
+    // Try different filename patterns based on slug
+    let possibleFilenames: string[] = [];
     
-    let pageFilePath: string | null = null;
+    if (pageSlug === 'hem' || pageSlug === 'home') {
+      // For start pages, try index.json first
+      possibleFilenames = [
+        'index.json',                 // Start page format
+        `${pageSlug}.json`,           // Fallback to original format
+        `page.${pageSlug}.json`       // Fallback to page.prefix format
+      ];
+    } else {
+      // For other pages, try page.prefix first
+      possibleFilenames = [
+        `page.${pageSlug}.json`,      // New format: page.om-oss.json
+        `${pageSlug}.json`,           // Original format: om-oss.json
+        'index.json'                  // Last resort
+      ];
+    }
+    
     let pageData: any = null;
     
     // Try each filename pattern
@@ -269,10 +285,7 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string) {
         const content = JSON.parse(fileContent);
         
         // Check if this file matches the requested slug
-        if (content.slug === pageSlug || 
-            (pageSlug === 'hem' && filename === 'index.json') ||
-            (pageSlug === 'home' && filename === 'index.json')) {
-          pageFilePath = testPath;
+        if (content.slug === pageSlug) {
           pageData = content;
           break;
         }
