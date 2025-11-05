@@ -108,10 +108,6 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
     >
       <Container 
         align={containerAlign}
-        style={{ 
-          paddingTop: '4rem',
-          paddingBottom: '2rem'
-        }}
       >
         <CountUpSection
           countUp={{
