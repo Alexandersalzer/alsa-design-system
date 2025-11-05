@@ -28,7 +28,6 @@ interface RenderSectionProps {
 interface SectionsProps {
   sections: Record<string, SectionData>;
   sectionOrder: string[];
-  pageSlug: string;
 }
 
 /**
