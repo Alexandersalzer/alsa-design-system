@@ -116,16 +116,29 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
     const path = await import('path');
     
     const contentDir = path.join(process.cwd(), 'public', 'content', locale);
-    const entries = await fs.readdir(contentDir, { withFileTypes: true });
     
-    // Filter for page files
+    // First, try to load index.json directly (most common start page)
+    try {
+      const indexPath = path.join(contentDir, 'index.json');
+      const fileContent = await fs.readFile(indexPath, 'utf8');
+      const content = JSON.parse(fileContent);
+      
+      // Return the slug from index.json
+      if (content.slug) {
+        return content.slug;
+      }
+    } catch (error) {
+      // index.json doesn't exist or failed to parse, continue to search other files
+    }
+    
+    // Fallback: search all page files for one with type: 'start'
+    const entries = await fs.readdir(contentDir, { withFileTypes: true });
     const pageFiles = entries.filter(entry => 
       entry.isFile() && 
       entry.name.endsWith('.json') &&
       !['navbar.json', 'footer.json'].includes(entry.name)
     );
     
-    // Read files until we find the start page
     for (const file of pageFiles) {
       try {
         const filePath = path.join(contentDir, file.name);
@@ -134,7 +147,7 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
         
         // Check if this is the start page for this locale
         if (content.type === 'start' && content.language === locale) {
-          return content.slug || 'home'; // Return the slug from JSON, not filename
+          return content.slug || 'home';
         }
       } catch (error) {
         // Continue to next file if this one fails
