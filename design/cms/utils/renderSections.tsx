@@ -40,12 +40,15 @@ const renderPattern = (pattern: any, index: number) => {
     return null;
   }
 
+  // Check if pattern has settings that affect Container behavior
+  const useMediaWidth = pattern.settings?.useMediaWidth ?? false;
+
   return (
     <Container 
       key={`pattern-${index}`}
       align="center"
       height="auto"
-      useMediaWidth={false}
+      useMediaWidth={useMediaWidth}
     >
       <PatternComponent {...pattern} />
     </Container>

@@ -10,6 +10,10 @@ interface MediaPatternProps {
     type: string;
     content: any;
   }>;
+  settings?: {
+    useMediaWidth?: boolean;
+    [key: string]: any;
+  };
   
   // ===== LEGACY PROPS =====
   src?: string;
