@@ -125,7 +125,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
   textLink,
   
   // Heading styling
-  headingVariant = 'display-md',
+  headingVariant = 'display-xl',
   headingColor = 'heading',
   headingWeight = 'bold',
   headingAs = 'h2',

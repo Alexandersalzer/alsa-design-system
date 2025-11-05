@@ -75,7 +75,7 @@ export default function PageLayout({ sectionsData, sectionOrder }: PageLayoutPro
     <main>
       <Sections 
         sections={sectionsData}   // → Forward data
-        sectionOrder={sectionOrder} // → Forward order
+        order={sectionOrder} // → Forward order
       />
     </main>
   );
@@ -86,10 +86,10 @@ export default function PageLayout({ sectionsData, sectionOrder }: PageLayoutPro
 
 #### A. Sections Component Start:
 ```tsx
-export function Sections({ sections, sectionOrder }: SectionsProps) {
+export function Sections({ sections, order }: SectionsProps) {
   return (
     <>
-      {sectionOrder.map((sectionKey, index) => {
+      {order.map((sectionKey, index) => {
         // sectionKey = "hero_jVaWmY" (first iteration)
         // index = 0
         const sectionData = sections[sectionKey]; // → Fetch section data
