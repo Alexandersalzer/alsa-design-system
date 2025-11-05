@@ -111,25 +111,31 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
     throw new Error('getStartPageSlug is only available on server-side');
   }
 
+  console.log('getStartPageSlug called with locale:', locale);
+
   try {
     const { promises: fs } = await import('fs');
     const path = await import('path');
     
     const contentDir = path.join(process.cwd(), 'public', 'content', locale);
+    console.log('getStartPageSlug - contentDir:', contentDir);
     
     // First try index.json (new format)
     try {
       const indexPath = path.join(contentDir, 'index.json');
+      console.log('getStartPageSlug - trying indexPath:', indexPath);
       const fileContent = await fs.readFile(indexPath, 'utf8');
       const content = JSON.parse(fileContent);
       
-      console.log('getStartPageSlug - found content:', content.slug, 'for locale:', locale);
+      console.log('getStartPageSlug - found content:', { slug: content.slug, type: content.type, language: content.language });
       
       // Return slug from content (should be 'hem' or 'home')
       if (content.slug) {
+        console.log('getStartPageSlug - returning slug:', content.slug);
         return content.slug;
       }
       
+      console.log('getStartPageSlug - no slug in content, using fallback');
       // Fallback based on locale if no slug in content
       return locale === 'sv' ? 'hem' : 'home';
     } catch (error) {
@@ -207,6 +213,8 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
         const fileContent = await fs.readFile(filePath, 'utf8');
         const content = JSON.parse(fileContent);
         
+        console.log('getAllPageSlugs - processing file:', file.name, 'content.slug:', content.slug);
+        
         // Get slug from content, or derive from filename
         let slug = content.slug;
         
@@ -219,6 +227,8 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
             slug = file.name.replace('.json', '');
           }
         }
+        
+        console.log('getAllPageSlugs - final slug for', file.name, ':', slug);
         
         if (slug) {
           pageSlugs.push(slug);
