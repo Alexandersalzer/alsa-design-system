@@ -272,25 +272,8 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
           })}
         </VStack>
 
-        {/* Progress Card eller Gratulation */}
-        {progress === 100 ? (
-          <Card 
-            variant="elevated"
-            className="setup-guide__completed-card"
-          >
-            <CardContent>
-              <VStack spacing="md" align="center" className="setup-guide__completed-content">
-                <Box className="setup-guide__completed-emoji">🎉</Box>
-                <VStack spacing="xs" align="center">
-                  <H3 className="setup-guide__completed-title">Grattis! Din webbplats är nu live!</H3>
-                  <Body size="sm" className="setup-guide__completed-subtitle">
-                    Alla setup-steg är slutförda
-                  </Body>
-                </VStack>
-              </VStack>
-            </CardContent>
-          </Card>
-        ) : (
+        {/* Progress Card */}
+        {progress < 100 && (
           <Card 
             variant="outlined"
             className="setup-guide__progress-card"
