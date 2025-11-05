@@ -2,7 +2,7 @@ import { SectionBody } from '../shared/sectionBody/SectionBody';
 import { SpinningBanner } from './spinning-banner/SpinningBanner';
 import { MediaPattern } from './media/MediaPattern';
 import { Fieldset } from '../forms/fieldset';
-import { KJContactForm } from '../main/_kj-contact-form';
+import { KJContactForm } from '../main/kj-contact-form';
 
 // Mappa typ → komponent
 export const patternRegistry: Record<string, React.ComponentType<any>> = {
