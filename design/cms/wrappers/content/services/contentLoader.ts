@@ -104,7 +104,7 @@ export async function getFooterContent(locale: string = 'sv') {
 
 /**
  * Get the start/home page slug for a specific locale
- * Ultra-lightweight function for redirects - only reads files until it finds the start page
+ * Ultra-lightweight function for redirects - reads slug from JSON content
  */
 export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
   if (typeof window !== 'undefined') {
@@ -134,7 +134,7 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
         
         // Check if this is the start page for this locale
         if (content.type === 'start' && content.language === locale) {
-          return content.slug || file.name.replace('.json', '');
+          return content.slug || 'home'; // Return the slug from JSON, not filename
         }
       } catch (error) {
         // Continue to next file if this one fails
