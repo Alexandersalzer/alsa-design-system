@@ -68,7 +68,6 @@ const Navbar = ({
   brandHref = '/hem',
   navItems = [],
   className,
-  navVariant = 'ghost',
   navSize = 'md',
   brandVariant = 'brand',
   brandSize = 'lg',
@@ -185,7 +184,7 @@ const Navbar = ({
     ...item,
     href: nav.buildNavHref(item),
     isActive: nav.isNavItemActive(item, pathname),
-    variant: item.variant || navVariant,
+    variant: item.variant,
     size: item.size || navSize,
     rightIcon: item.rightIcon,
     leftIcon: item.leftIcon,
@@ -243,7 +242,6 @@ const Navbar = ({
           items={menuItems} 
           spacing="xl" 
           wrap={false}
-          variant={navVariant}
           size={navSize}
           onLinkClick={handleNavClick}
         />
