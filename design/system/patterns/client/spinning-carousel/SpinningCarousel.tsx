@@ -15,74 +15,98 @@ export interface CarouselImage {
 }
 
 export interface SpinningCarouselProps {
+  // NEW: Accept components object like other patterns
+  components?: Record<string, {
+    type: 'image' | 'video' | 'icon' | 'logo';
+    content: {
+      src: string;
+      alt: string;
+      title?: string;
+    };
+  }>;
+  
+  // NEW: Accept settings object like other patterns
+  settings?: {
+    speed?: number;
+    direction?: 'left' | 'right';
+    imageWidth?: string;
+    imageHeight?: string;
+    imageBorderRadius?: string;
+    containerHeight?: string;
+    backgroundColor?: string;
+    padding?: string;
+    gap?: string;
+    enableFadeEdges?: boolean;
+    fadeWidth?: string;
+    duplicateCount?: number;
+  };
+  
+  // OLD: Keep for backwards compatibility
   images?: CarouselImage[];
   speed?: number;
   direction?: 'left' | 'right';
   className?: string;
-  
-  // Image styling
   imageWidth?: string;
   imageHeight?: string;
   imageBorderRadius?: string;
-  
-  // Container styling
   containerHeight?: string;
   backgroundColor?: string;
   padding?: string;
   gap?: string;
-  
-  // Fade edges
   enableFadeEdges?: boolean;
   fadeWidth?: string;
-  
-  // Animation behavior
   duplicateCount?: number;
-  
-  // Interactive
   onImageClick?: (image: CarouselImage) => void;
 }
 
 export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
-  images = [
-    { src: '/images/thumbnails/dayinthelife.png', alt: 'Day in the life UGC video', title: 'Day in the Life' },
-    { src: '/images/thumbnails/dog.png', alt: 'Dog UGC video', title: 'Pet Content' },
-    { src: '/images/thumbnails/gardenugc.png', alt: 'Garden UGC video', title: 'Garden Content' },
-    { src: '/images/thumbnails/herboxa.png', alt: 'Herboxa UGC video', title: 'Product Review' },
-    { src: '/images/thumbnails/instagramad.png', alt: 'Instagram ad', title: 'Instagram Ad' },
-    { src: '/images/thumbnails/interviewvoxpop.png', alt: 'Interview vox pop', title: 'Interview Style' },
-    { src: '/images/thumbnails/offer-swap-ad.png', alt: 'Offer swap ad', title: 'Promotional Ad' },
-    { src: '/images/thumbnails/oldintro.png', alt: 'Old intro video', title: 'Intro Video' },
-    { src: '/images/thumbnails/oliveoilugc.png', alt: 'Olive oil UGC', title: 'Food Content' },
-    { src: '/images/thumbnails/one of my clients tiktok.png', alt: 'Client TikTok', title: 'TikTok Content' },
-    { src: '/images/thumbnails/perfume.png', alt: 'Perfume UGC', title: 'Beauty Content' },
-    { src: '/images/thumbnails/realestate.png', alt: 'Real estate content', title: 'Real Estate' }
-  ],
-  speed = 40,
-  direction = 'left',
+  // NEW props
+  components,
+  settings = {},
+  
+  // OLD props (fallbacks)
+  images: imagesProp,
+  speed: speedProp = 40,
+  direction: directionProp = 'left',
   className = '',
-  
-  // Image defaults - matching KJ Marketing carousel dimensions (portrait format)
-  imageWidth = '280px',
-  imageHeight = '450px',
-  imageBorderRadius = '12px',
-  
-  // Container defaults - no background color
-  containerHeight = 'auto',
-  backgroundColor = 'transparent', // Ensure transparent background
-  padding = '20px 0',
-  gap = '20px',
-  
-  // Fade edges defaults - disabled to avoid background issues
-  enableFadeEdges = false, // Disable fade edges to avoid background color issues
-  fadeWidth = '150px',
-  
-  // Animation defaults
-  duplicateCount = 4,
-  
+  imageWidth: imageWidthProp = '280px',
+  imageHeight: imageHeightProp = '450px',
+  imageBorderRadius: imageBorderRadiusProp = '12px',
+  containerHeight: containerHeightProp = 'auto',
+  backgroundColor: backgroundColorProp = 'transparent',
+  padding: paddingProp = '20px 0',
+  gap: gapProp = '20px',
+  enableFadeEdges: enableFadeEdgesProp = false,
+  fadeWidth: fadeWidthProp = '150px',
+  duplicateCount: duplicateCountProp = 4,
   onImageClick
 }) => {
-  // State for global hover effect
   const [isHovering, setIsHovering] = useState(false);
+
+  // Merge settings with direct props (settings take priority)
+  const speed = settings.speed ?? speedProp;
+  const direction = settings.direction ?? directionProp;
+  const imageWidth = settings.imageWidth ?? imageWidthProp;
+  const imageHeight = settings.imageHeight ?? imageHeightProp;
+  const imageBorderRadius = settings.imageBorderRadius ?? imageBorderRadiusProp;
+  const containerHeight = settings.containerHeight ?? containerHeightProp;
+  const backgroundColor = settings.backgroundColor ?? backgroundColorProp;
+  const padding = settings.padding ?? paddingProp;
+  const gap = settings.gap ?? gapProp;
+  const enableFadeEdges = settings.enableFadeEdges ?? enableFadeEdgesProp;
+  const fadeWidth = settings.fadeWidth ?? fadeWidthProp;
+  const duplicateCount = settings.duplicateCount ?? duplicateCountProp;
+
+  // Transform components object into images array OR use imagesProp
+  const images: CarouselImage[] = components
+    ? Object.values(components)
+        .filter(comp => comp.type === 'image' || comp.type === 'logo')
+        .map(comp => ({
+          src: comp.content.src,
+          alt: comp.content.alt,
+          title: comp.content.title
+        }))
+    : imagesProp || [];
 
   // Transform images into CarouselAnimationItem format
   const carouselItems: CarouselAnimationItem[] = images.map((image, index) => ({
@@ -110,9 +134,9 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            display: 'component',
+            display: 'block',
             transition: 'opacity 0.3s ease',
-            opacity: isHovering ? 0.3 : 1, // Global opacity effect like KJ Marketing
+            opacity: isHovering ? 0.3 : 1,
           }}
         />
       </div>
@@ -141,4 +165,4 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
       duplicateCount={duplicateCount}
     />
   );
-}; 
+};
