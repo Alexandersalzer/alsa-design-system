@@ -2,11 +2,13 @@ import { SectionBody } from '../shared/sectionBody/SectionBody';
 import { SpinningBanner } from './spinning-banner/SpinningBanner';
 import { MediaPattern } from './media/MediaPattern';
 import { FormPattern } from '../forms/form';
+import { SpinningCarousel } from './spinning-carousel/SpinningCarousel';
 
 // Mappa typ → komponent
 export const patternRegistry: Record<string, React.ComponentType<any>> = {
   sectionBody: SectionBody,
   spinningLogos: SpinningBanner,
+  spinningCarousel: SpinningCarousel,
   media: MediaPattern,
   form: FormPattern,
 };

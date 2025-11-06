@@ -39,10 +39,8 @@ const Footer = ({ section }: FooterProps) => {
     <Section 
       as="footer" 
       style={{ 
-        backgroundColor: 'var(--primary-1200)',
+        backgroundColor: 'var(--primary-black)',
         overflow: 'visible', // Allow dropdown to show outside footer bounds
-        paddingTop: 'var(--foundation-space-16, 4rem)',
-        paddingBottom: 'var(--foundation-space-16, 4rem)'
       }}
     >
       <Container align="center">

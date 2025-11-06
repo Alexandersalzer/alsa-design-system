@@ -181,7 +181,6 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
     body = bodyComponent?.content || undefined;
     tag = tagComponent?.content ? {
       text: tagComponent.content,
-      variant: 'accent',
       size: 'medium'
     } : false;
 
@@ -190,7 +189,6 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
       actionType_final = 'button';
       button_final = {
         text: typeof buttonComponent.content === 'object' ? buttonComponent.content.content : buttonComponent.content,
-        variant: 'accent',
         size: 'xl'
       };
     }
@@ -229,9 +227,8 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
         {hasTag && tag && (
           <Box>
             {tag.href ? (
-              <TextLink href={tag.href} variant="accent" size="sm">
+              <TextLink href={tag.href} size="sm">
                 <Tag
-                  variant={tag.variant || 'accent'}
                   size={tag.size || 'medium'}
                   icon={tag.icon}
                 >
@@ -240,7 +237,6 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
               </TextLink>
             ) : (
               <Tag
-                variant={tag.variant || 'accent'}
                 size={tag.size || 'medium'}
                 icon={tag.icon}
               >
@@ -253,7 +249,6 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
         {hasTextLink && textLink && !hasTag && (
           <Box>
             <TextLink
-              variant={textLink.variant || 'accent'}
               size={textLink.size || 'md'}
               weight={textLink.weight || 'semibold'}
               href={textLink.href}
@@ -295,7 +290,6 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
             {/* Single Button */}
             {actionType_final === 'button' && button_final && (
               <Button
-                variant={button_final.variant || 'accent'}
                 size={button_final.size || 'lg'}
                 onClick={button_final.onClick}
                 {...button_final}
@@ -314,7 +308,6 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
                 {buttonGroup.map((btn, index) => (
                   <Button
                     key={index}
-                    variant={btn.variant || (index === 0 ? 'accent' : 'accent')}
                     size={btn.size || 'lg'}
                     onClick={btn.onClick}
                     {...btn}
@@ -334,7 +327,6 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
                   style={{ flex: 1, minWidth: '200px' }}
                 />
                 <Button
-                  variant="accent"
                   size="lg"
                   onClick={() => inputButton.onSubmit?.('')}
                 >
@@ -360,7 +352,6 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
             {/* Text Link (as action) */}
             {actionType_final === 'text-link' && actionTextLink && (
               <TextLink
-                variant={actionTextLink.variant || 'accent'}
                 size={actionTextLink.size || 'lg'}
                 weight={actionTextLink.weight || 'semibold'}
                 href={actionTextLink.href}
