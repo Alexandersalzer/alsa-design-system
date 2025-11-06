@@ -128,31 +128,7 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
       }
     } catch (error) {
       console.log(`[DEBUG] Failed to read start.json for ${locale}:`, error);
-      // start.json doesn't exist or failed to parse, continue to search other files
-    }
-    
-    // Fallback: search all page files for one with type: 'start'
-    const entries = await fs.readdir(contentDir, { withFileTypes: true });
-    const pageFiles = entries.filter(entry => 
-      entry.isFile() && 
-      entry.name.endsWith('.json') &&
-      !['navbar.json', 'footer.json'].includes(entry.name)
-    );
-    
-    for (const file of pageFiles) {
-      try {
-        const filePath = path.join(contentDir, file.name);
-        const fileContent = await fs.readFile(filePath, 'utf8');
-        const content = JSON.parse(fileContent);
-        
-        // Check if this is the start page for this locale
-        if (content.type === 'start' && content.language === locale) {
-          return content.slug || 'home';
-        }
-      } catch (error) {
-        // Continue to next file if this one fails
-        continue;
-      }
+      // start.json doesn't exist, fallback to Swedish or ultimate fallback
     }
     
     // Fallback to Swedish if no start page found and not already Swedish
