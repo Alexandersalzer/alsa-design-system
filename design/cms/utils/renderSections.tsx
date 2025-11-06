@@ -33,7 +33,7 @@ interface SectionsProps {
 /**
  * Pattern Renderer - Dynamically renders patterns based on content
  */
-const renderPattern = (pattern: any, index: number) => {
+export const renderPattern = (pattern: any, index: number) => {
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
     console.warn(`Unknown pattern type: ${pattern.type}`);

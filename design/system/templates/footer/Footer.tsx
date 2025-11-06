@@ -1,8 +1,7 @@
 'use client';
 
 import { Section } from '../../components/frames/section';
-import { Container } from '../../components/frames/container';
-import { patternRegistry } from '../../patterns/client';
+import { renderPattern } from '../../../cms/utils/renderSections';
 
 interface FooterProps {
   section?: {
@@ -13,27 +12,6 @@ interface FooterProps {
     };
   };
 }
-
-/**
- * Footer Pattern Renderer - Dynamically renders footer patterns based on content
- */
-const renderFooterPattern = (pattern: any, index: number) => {
-  const PatternComponent = patternRegistry[pattern.type];
-  if (!PatternComponent) {
-    console.warn(`Unknown footer pattern type: ${pattern.type}`);
-    return null;
-  }
-
-  return (
-    <Container 
-      key={`footer-pattern-${index}`}
-      align="center"
-      height="auto"
-    >
-      <PatternComponent {...pattern} />
-    </Container>
-  );
-};
 
 const Footer = ({ section }: FooterProps) => {
   if (!section) return null;
@@ -49,7 +27,7 @@ const Footer = ({ section }: FooterProps) => {
   const renderedPatterns = patternOrder
     .map((patternKey, patternIndex) => {
       const pattern = patterns[patternKey];
-      return pattern ? renderFooterPattern(pattern, patternIndex) : null;
+      return pattern ? renderPattern(pattern, patternIndex) : null;
     })
     .filter(Boolean);
   
