@@ -22,16 +22,13 @@ export const NavLink = ({
   className = '',
   isActive = false,
   onClick,
-  variant = 'ghost',
   size = 'md'
 }: NavLinkProps) => {
   // Use different variant for active state
-  const buttonVariant = isActive ? 'secondary' : variant;
 
   return (
     <Link href={href} className={className}>
       <Button 
-        variant={buttonVariant}
         size={size}
         onClick={onClick}
         className="w-full"
@@ -74,7 +71,6 @@ export const NavMenu = ({
   wrap = false,
   className = '',
   onLinkClick,
-  variant = 'ghost',
   size = 'md'
 }: NavMenuProps) => {
   const router = useRouter();
@@ -99,7 +95,7 @@ export const NavMenu = ({
     <HStack spacing={spacing} wrap={wrap} className={className} align='center'>
       {items.map((item, index) => {
         // Use individual item variant/size or fallback to global defaults
-        const itemVariant = item.variant || variant;
+        const itemVariant = item.variant ;
         const itemSize = item.size || size;
         
         // Check if this should be a TextLink or Button
