@@ -22,13 +22,13 @@ export const NavLink = ({
   className = '',
   isActive = false,
   onClick,
+  variant = 'primary',
   size = 'md'
 }: NavLinkProps) => {
-  // Use different variant for active state
-
   return (
     <Link href={href} className={className}>
       <Button 
+        variant={variant}
         size={size}
         onClick={onClick}
         className="w-full"
@@ -71,6 +71,7 @@ export const NavMenu = ({
   wrap = false,
   className = '',
   onLinkClick,
+  variant = 'primary', // Global default variant
   size = 'md'
 }: NavMenuProps) => {
   const router = useRouter();
@@ -94,8 +95,8 @@ export const NavMenu = ({
   return (
     <HStack spacing={spacing} wrap={wrap} className={className} align='center'>
       {items.map((item, index) => {
-        // Use individual item variant/size or fallback to global defaults
-        const itemVariant = item.variant ;
+        // ✅ FIX: Use individual item variant/size or fallback to global defaults
+        const itemVariant = item.variant || variant;
         const itemSize = item.size || size;
         
         // Check if this should be a TextLink or Button
@@ -172,7 +173,6 @@ export const BrandLink = ({
   onClick
 }: BrandLinkProps) => {
   return (
-    
     <TextLink
       href={href}
       variant={variant}
@@ -196,6 +196,5 @@ export const BrandLink = ({
         <span className="brand-text" style={{ display: 'flex', alignItems: 'center' }}>{children}</span>
       </HStack>
     </TextLink>
-    
   );
 };
