@@ -1,5 +1,5 @@
 'use client';
 
-export * from './footers'; 
-export * from './navbars'; 
+export * from './footer'; 
+export * from './navbar'; 
 export * from './sections'; 

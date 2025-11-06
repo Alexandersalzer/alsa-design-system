@@ -2,6 +2,7 @@ import { SectionBody } from '../shared/sectionBody/SectionBody';
 import { SpinningBanner } from './spinning-banner/SpinningBanner';
 import { MediaPattern } from './media/MediaPattern';
 import { FormPattern } from '../forms/form';
+import { KjFooter } from './_kj-footer';
 
 // Mappa typ → komponent
 export const patternRegistry: Record<string, React.ComponentType<any>> = {
@@ -9,6 +10,7 @@ export const patternRegistry: Record<string, React.ComponentType<any>> = {
   spinningLogos: SpinningBanner,
   media: MediaPattern,
   form: FormPattern,
+  kj: KjFooter, // Map to 'kj' to match footer.json type
 };
 
 export * from './navbar';

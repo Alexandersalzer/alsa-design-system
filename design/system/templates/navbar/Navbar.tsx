@@ -1,18 +1,18 @@
 'use client';
 
-import { useEditingMode } from '../../../../cms/wrappers/editing';
+import { useEditingMode } from '../../../cms/wrappers/editing';
 import { usePathname, useRouter } from 'next/navigation';
-import { HStack } from '../../../components/layout/hStack/HStack';
-import { Box } from '../../../components/layout/box/Box';
-import { Container } from '../../../components'; // ✅ Import from your design system
-import { BrandLink, NavMenu, type NavMenuItem } from '../../../patterns/client/navbar';
+import { HStack } from '../../components/layout/hStack/HStack';
+import { Box } from '../../components/layout/box/Box';
+import { Container } from '../../components'; // ✅ Import from your design system
+import { BrandLink, NavMenu, type NavMenuItem } from '../../patterns/client/navbar';
 import { 
   getNavigationContext, 
   useNavigationMessaging,
   type NavigationItem 
-} from '../../../utils/navigation';
+} from '../../utils/navigation';
 import { ArrowRightIcon } from 'lucide-react'; // ✅ Only import icon from lucide
-import { ContentBlock } from '../../../../cms/wrappers/content/types/content';
+import { ContentBlock } from '../../../cms/wrappers/content/types/content';
 
 export interface NavItem extends NavigationItem {
   label: string;
@@ -214,7 +214,7 @@ const Navbar = ({
       style={{
         maxWidth: 'var(--width-content)',
         margin: '0 auto',
-        padding: 'var(--foundation-space-2)',
+        padding: '0 var(--foundation-space-2)',
         width: '100%',
         height: height
       }}
