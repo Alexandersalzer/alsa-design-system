@@ -3,6 +3,7 @@ import { SpinningBanner } from './spinning-banner/SpinningBanner';
 import { MediaPattern } from './media/MediaPattern';
 import { FormPattern } from '../forms/form';
 import { SpinningCarousel } from './spinning-carousel/SpinningCarousel';
+import { Testimonials } from './Testimonials/Testimonials';
 
 // Mappa typ → komponent
 export const patternRegistry: Record<string, React.ComponentType<any>> = {
@@ -11,6 +12,7 @@ export const patternRegistry: Record<string, React.ComponentType<any>> = {
   spinningCarousel: SpinningCarousel,
   media: MediaPattern,
   form: FormPattern,
+    testimonials: Testimonials,
 };
 
 export * from './navbar';
