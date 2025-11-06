@@ -50,6 +50,10 @@
   align-items: baseline;
 }
 
+.hStack--align-stretch {
+  align-items: stretch;
+}
+
 /* ===== JUSTIFY ===== */
 .hStack--justify-start {
   justify-content: flex-start;
