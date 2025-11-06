@@ -25,7 +25,6 @@ export async function getGlobalsContent(locale: string = 'sv') {
     
     return globals;
   } catch (error) {
-    console.error(`Failed to load globals for locale ${locale}:`, error);
     // Fallback to Swedish if locale doesn't exist
     if (locale !== 'sv') {
       return getGlobalsContent('sv');
@@ -59,7 +58,6 @@ export async function getNavbarContent(locale: string = 'sv') {
     
     return navbarData;
   } catch (error) {
-    console.error(`Failed to load navbar content for locale ${locale}:`, error);
     // Fallback to Swedish if locale file doesn't exist
     if (locale !== 'sv') {
       return getNavbarContent('sv');
@@ -93,7 +91,6 @@ export async function getFooterContent(locale: string = 'sv') {
     
     return footerData;
   } catch (error) {
-    console.error(`Failed to load footer content for locale ${locale}:`, error);
     // Fallback to Swedish if locale file doesn't exist
     if (locale !== 'sv') {
       return getFooterContent('sv');
@@ -123,7 +120,6 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
       const fileContent = await fs.readFile(indexPath, 'utf8');
       const content = JSON.parse(fileContent);
       
-      console.log(`[DEBUG] getStartPageSlug for ${locale} - start.json content:`, { slug: content.slug, type: content.type, language: content.language });
       
       // Return the slug from start.json
       if (content.slug) {
@@ -151,7 +147,6 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
         
         // Check if this is the start page for this locale
         if (content.type === 'start' && content.language === locale) {
-          console.log(`[DEBUG] Found start page in ${file.name}: ${content.slug}`);
           return content.slug || 'home';
         }
       } catch (error) {
@@ -162,12 +157,10 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
     
     // Fallback to Swedish if no start page found and not already Swedish
     if (locale !== 'sv') {
-      console.log(`[DEBUG] No start page found for ${locale}, falling back to Swedish`);
       return getStartPageSlug('sv');
     }
     
     // Ultimate fallback
-    console.log(`[DEBUG] Using ultimate fallback: home`);
     return 'home';
   } catch (error) {
     console.error(`Failed to find start page slug for locale ${locale}:`, error);
@@ -198,7 +191,6 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
       !['navbar.json', 'footer.json'].includes(entry.name)
     );
     
-    console.log(`[DEBUG] getAllPageSlugs for ${locale}: found ${pageFiles.length} page files:`, pageFiles.map(f => f.name));
     
     const pageSlugs: string[] = [];
     
@@ -209,7 +201,6 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
         const fileContent = await fs.readFile(filePath, 'utf8');
         const content = JSON.parse(fileContent);
         
-        console.log(`[DEBUG] File ${file.name} contains slug: ${content.slug}`);
         
         // Add the slug if it exists
         if (content.slug) {
@@ -222,7 +213,6 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
       }
     }
     
-    console.log(`[DEBUG] getAllPageSlugs for ${locale} returning:`, pageSlugs);
     return pageSlugs;
   } catch (error) {
     console.error(`Failed to load page slugs for locale ${locale}:`, error);
