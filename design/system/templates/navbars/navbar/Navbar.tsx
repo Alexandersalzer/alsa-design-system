@@ -55,6 +55,7 @@ export interface NavbarProps {
             slug: string;
             config?: {
               href: string;
+              variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
             };
           }>;
         };
@@ -104,7 +105,8 @@ const Navbar = ({
       blockSlug: component.slug,
       blockHref: component.config?.href,
       extractedSlug: slug,
-      content: component.content
+      content: component.content,
+      variant: component.config?.variant // ✅ Log the variant
     });
 
     const navItemsArray = Object.values(components).filter((c: any) => c.type === 'navItem');
@@ -112,6 +114,7 @@ const Navbar = ({
       href: component.config?.href || `/${slug || ''}`,
       label: component.content || '',
       slug: slug || '',
+      variant: component.config?.variant, // ✅ Extract variant from config!
       componentType: index === navItemsArray.length - 1 ? 'button' : 'textlink',
       textLinkVariant: 'primary',
       weight: 'medium',
@@ -184,7 +187,7 @@ const Navbar = ({
     ...item,
     href: nav.buildNavHref(item),
     isActive: nav.isNavItemActive(item, pathname),
-    variant: item.variant,
+    variant: item.variant, // ✅ Pass variant through
     size: item.size || navSize,
     rightIcon: item.rightIcon,
     leftIcon: item.leftIcon,
