@@ -117,22 +117,22 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
     
     const contentDir = path.join(process.cwd(), 'public', 'content', locale);
     
-    // First, try to load index.json directly (most common start page)
+    // First, try to load start.json directly (most common start page)
     try {
-      const indexPath = path.join(contentDir, 'index.json');
+      const indexPath = path.join(contentDir, 'start.json');
       const fileContent = await fs.readFile(indexPath, 'utf8');
       const content = JSON.parse(fileContent);
       
-      console.log(`[DEBUG] getStartPageSlug for ${locale} - index.json content:`, { slug: content.slug, type: content.type, language: content.language });
+      console.log(`[DEBUG] getStartPageSlug for ${locale} - start.json content:`, { slug: content.slug, type: content.type, language: content.language });
       
-      // Return the slug from index.json
+      // Return the slug from start.json
       if (content.slug) {
         console.log(`[DEBUG] getStartPageSlug returning: ${content.slug}`);
         return content.slug;
       }
     } catch (error) {
-      console.log(`[DEBUG] Failed to read index.json for ${locale}:`, error);
-      // index.json doesn't exist or failed to parse, continue to search other files
+      console.log(`[DEBUG] Failed to read start.json for ${locale}:`, error);
+      // start.json doesn't exist or failed to parse, continue to search other files
     }
     
     // Fallback: search all page files for one with type: 'start'
