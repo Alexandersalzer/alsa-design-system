@@ -121,10 +121,11 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
       const content = JSON.parse(fileContent);
       
       
-      // Return the slug from start.json
-      if (content.slug) {
-        console.log(`[DEBUG] getStartPageSlug returning: ${content.slug}`);
-        return content.slug;
+      // Generate slug from name if no explicit slug exists
+      const slug = content.slug || content.name?.toLowerCase().replace(/\s+/g, '-');
+      if (slug) {
+        console.log(`[DEBUG] getStartPageSlug returning: ${slug}`);
+        return slug;
       }
     } catch (error) {
       console.log(`[DEBUG] Failed to read start.json for ${locale}:`, error);
@@ -178,9 +179,10 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
         const content = JSON.parse(fileContent);
         
         
-        // Add the slug if it exists
-        if (content.slug) {
-          pageSlugs.push(content.slug);
+        // Generate slug from name if no explicit slug exists
+        const slug = content.slug || content.name?.toLowerCase().replace(/\s+/g, '-');
+        if (slug) {
+          pageSlugs.push(slug);
         }
       } catch (error) {
         console.error(`Failed to parse page file ${file.name}:`, error);
@@ -230,8 +232,11 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string) {
         const fileContent = await fs.readFile(filePath, 'utf8');
         const pageData = JSON.parse(fileContent);
         
+        // Generate slug from name if no explicit slug exists  
+        const slug = pageData.slug || pageData.name?.toLowerCase().replace(/\s+/g, '-');
+        
         // Check if this file's slug matches what we're looking for
-        if (pageData.slug === pageSlug) {
+        if (slug === pageSlug) {
           return {
             sections: pageData.sections || {},
             order: pageData.order || []
