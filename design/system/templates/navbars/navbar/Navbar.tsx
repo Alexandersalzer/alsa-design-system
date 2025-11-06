@@ -117,7 +117,6 @@ const Navbar = ({
       textLinkVariant: 'primary',
       weight: 'medium',
       underline: 'hover',
-      variant: 'accent',
       rightIcon: index === navItemsArray.length - 1 ? <ArrowRightIcon /> : undefined,
       size: navSize
     };
