@@ -44,7 +44,6 @@ const Navbar = ({ section }: NavbarProps) => {
         borderBottom: '1px solid var(--border-light)',
         paddingTop: '0',
         paddingBottom: '0',
-        height: 'var(--navbar-height)'
       }}
     >
       {renderedPatterns}

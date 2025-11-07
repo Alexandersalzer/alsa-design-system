@@ -200,7 +200,6 @@ export const KjNavbar = ({
   logoAlt,
   logoWidth = 32,
   logoHeight = 32,
-  height = 'var(--navbar-height)',
   components = {}
 }: KjNavbarProps) => {
 
@@ -284,7 +283,6 @@ export const KjNavbar = ({
           margin: '0 auto',
           padding: '0 var(--foundation-space-2)',
           width: '100%',
-          height: height
         }}
       >
         <HStack 
