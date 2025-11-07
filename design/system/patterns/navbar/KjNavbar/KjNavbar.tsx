@@ -239,7 +239,7 @@ export const KjNavbar = ({
   const router = useRouter();
 
   // Hardcoded S3 base URL
-  const S3_BASE_URL_MEMBERS = 'https://cdn.blimpify-im.com/members/';
+  const S3_BASE_URL_MEMBERS = 'https://cdn.blimpify-im.com/members';
 
   // Extract data from components if available
   const logoComponent = Object.values(components).find(comp => comp.type === 'logo');
