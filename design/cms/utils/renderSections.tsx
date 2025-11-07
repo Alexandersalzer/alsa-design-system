@@ -2,7 +2,7 @@
 
 import { Section } from '../../system/components/frames/section/Section';
 import { Container } from '../../system/components';
-import { patternRegistry } from '../../system/patterns/client';
+import { patternRegistry } from '../../system/patterns/registry';
 
 /**
  * Interface for section data from JSON
