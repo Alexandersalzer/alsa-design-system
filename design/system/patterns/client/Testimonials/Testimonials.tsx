@@ -75,7 +75,7 @@ const Testimonials = ({
               {testimonials.map((testimonial) => (
                 <Card 
                   key={testimonial.id} 
-                  variant="elevated"
+                  variant="solid"
                   padding="md"
                   style={{
                     background: 'rgba(255, 255, 255, 0.05)',
@@ -106,22 +106,6 @@ const Testimonials = ({
                       </div>
                     </HStack>
 
-                    {/* Rating Stars */}
-                    <HStack spacing="xs" align="center">
-                      {[...Array(testimonial.rating || 5)].map((_, i) => (
-                        <div 
-                          key={i} 
-                          style={{
-                            width: '20px',
-                            height: '20px',
-                            color: 'var(--accent-500)',
-                            fill: 'currentColor'
-                          }}
-                        >
-                          <StarIcon />
-                        </div>
-                      ))}
-                    </HStack>
                     
                     {/* Testimonial Text */}
                     <Typography 
