@@ -1,18 +1,10 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
-import { useEditingMode } from '../../../../cms/wrappers/editing';
-import { usePathname } from 'next/navigation';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Box } from '../../../components/layout/box/Box';
 import { Button } from '../../../components';
 import { TextLink } from '../../../components';
-import { 
-  getNavigationContext, 
-  useNavigationMessaging,
-  type NavigationItem 
-} from '../../../utils/navigation';
 import { ArrowRightIcon } from 'lucide-react';
 
 // ===== NAV MENU INTERFACES & COMPONENTS =====
@@ -36,7 +28,6 @@ interface NavMenuProps {
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   wrap?: boolean;
   className?: string;
-  onLinkClick?: (item: NavMenuItem) => void;
   variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg' | 'xl';
 }
@@ -46,27 +37,9 @@ const NavMenu = ({
   spacing = 'sm', 
   wrap = false,
   className = '',
-  onLinkClick,
   variant = 'ghost',
   size = 'md'
 }: NavMenuProps) => {
-  const router = useRouter();
-
-  const handleItemClick = (item: NavMenuItem) => {
-    // Check if this is a .html file (edit mode)
-    const isHtmlFile = item.href.endsWith('.html');
-    
-    if (isHtmlFile) {
-      // Navigate to .html file directly
-      window.location.href = item.href;
-    } else {
-      // Use Next.js router for internal navigation
-      router.push(item.href);
-    }
-    
-    // Call optional click handler
-    onLinkClick?.(item);
-  };
 
   return (
     <HStack spacing={spacing} wrap={wrap} className={className} align='center'>
@@ -77,7 +50,7 @@ const NavMenu = ({
         
         // Check if this should be a TextLink or Button
         if (item.componentType === 'textlink') {
-          // Render as TextLink (it handles .html vs regular routes internally)
+          // Render as TextLink
           const textLinkVariant = item.textLinkVariant || 'primary';
           const activeVariant = item.isActive ? 'accent' : textLinkVariant;
           
@@ -89,7 +62,6 @@ const NavMenu = ({
               size={itemSize}
               weight={item.weight || 'medium'}
               underline={item.underline || 'hover'}
-              onClick={() => onLinkClick?.(item)}
               leftIcon={item.leftIcon}
               rightIcon={item.rightIcon}
             >
@@ -97,7 +69,7 @@ const NavMenu = ({
             </TextLink>
           );
         } else {
-          // Render as Button (default behavior)
+          // Render as Button
           const buttonVariant = item.isActive ? 'secondary' : itemVariant;
           
           return (
@@ -105,7 +77,6 @@ const NavMenu = ({
               key={item.href || index}
               variant={buttonVariant}
               size={itemSize}
-              onClick={() => handleItemClick(item)}
               rightIcon={item.rightIcon}
               leftIcon={item.leftIcon}
             >
@@ -131,7 +102,6 @@ interface BrandLinkProps {
   logoWidth?: number;
   logoHeight?: number;
   underline?: 'none' | 'hover' | 'always';
-  onClick?: () => void;
 }
 
 const BrandLink = ({ 
@@ -145,8 +115,7 @@ const BrandLink = ({
   logoAlt = 'Logo',
   logoWidth = 40,
   logoHeight = 40,
-  underline = 'none',
-  onClick
+  underline = 'none'
 }: BrandLinkProps) => {
   return (
     <TextLink
@@ -156,7 +125,6 @@ const BrandLink = ({
       weight={weight}
       underline={underline}
       className={className}
-      onClick={onClick}
     >
       <HStack align="center">
         {logoSrc && (
@@ -175,8 +143,10 @@ const BrandLink = ({
   );
 };
 
-export interface NavItem extends NavigationItem {
+export interface NavItem {
+  href: string;
   label: string;
+  slug?: string;
   variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   rightIcon?: React.ReactNode;
@@ -218,7 +188,7 @@ export interface KjNavbarProps {
 
 export const KjNavbar = ({ 
   brandName,
-  brandHref,
+  brandHref = '/',
   navItems = [],
   className,
   navVariant = 'ghost',
@@ -234,9 +204,6 @@ export const KjNavbar = ({
   height = 'var(--navbar-height)',
   components = {}
 }: KjNavbarProps) => {
-  const { isEditingMode } = useEditingMode();
-  const pathname = usePathname();
-  const router = useRouter();
 
   // Hardcoded S3 base URL
   const S3_BASE_URL_MEMBERS = 'https://cdn.blimpify-im.com/members';
@@ -261,43 +228,22 @@ export const KjNavbar = ({
 
   // Use component data as fallbacks, no hardcoded fallbacks
   const finalBrandName = brandName || (typeof titleComponent?.content === 'string' ? titleComponent.content : undefined);
-  const finalBrandHref = brandHref || '/';
+  const finalBrandHref = brandHref;
   const finalLogoEndpoint = logoEndpoint || logoEndpointFromComponent;
   const finalLogoSrc = finalLogoEndpoint ? `${S3_BASE_URL_MEMBERS}/${finalLogoEndpoint}` : undefined;
   const finalLogoAlt = logoAlt || (typeof logoComponent?.content === 'object' ? logoComponent.content.alt : undefined);
 
-  console.log('🖼️ Logo processing:', {
-    logoEndpointProp: logoEndpoint,
-    logoEndpointFromComponent,
-    finalLogoEndpoint,
-    finalLogoSrc,
-    logoComponentContent: logoComponent?.content
-  });
+
 
   // Convert CMS components to nav items
   const cmsNavItems: NavItem[] = Object.values(components)
     .filter((component: any) => component.type === 'navItem')
     .map((component: any, index: number) => {
-    // Extract slug with better fallback logic
-    let slug = '';
-    if (component.slug && component.slug.trim()) {
-      slug = component.slug.trim();
-    } else if (component.config?.href) {
-      slug = component.config.href.replace('/', '').trim();
-    }
-    
-    console.log('🧭 Processing CMS nav item:', {
-      blockSlug: component.slug,
-      blockHref: component.config?.href,
-      extractedSlug: slug,
-      content: component.content
-    });
-
     const navItemsArray = Object.values(components).filter((c: any) => c.type === 'navItem');
     return {
-      href: component.config?.href || `/${slug || ''}`,
+      href: component.config?.href || '/',
       label: component.content || '',
-      slug: slug || '',
+      slug: '',
       componentType: index === navItemsArray.length - 1 ? 'button' : 'textlink',
       textLinkVariant: 'primary',
       weight: 'medium',
@@ -308,69 +254,13 @@ export const KjNavbar = ({
     };
   });
 
-  // Use navigation utilities for consistent route handling
-  const nav = getNavigationContext(pathname, isEditingMode, null);
-
-  // Find the home page slug - use finalBrandHref as fallback
-  const getHomeSlug = (): string => {
-    return finalBrandHref.replace('/', '') || 'home';
-  };
-
-  // Use dynamic home slug instead of hardcoded brandHref prop
-  const dynamicBrandHref = `/${getHomeSlug()}`;
-
   // Use CMS items if available, otherwise fallback to passed navItems
   const finalNavItems = cmsNavItems.length > 0 ? cmsNavItems : navItems;
 
-  console.log('🧭 Navbar navigation context:', {
-    isEditingMode,
-    currentLocale: nav.currentLocale,
-    pathname,
-    cmsNavItemsCount: cmsNavItems.length,
-    finalNavItemsCount: finalNavItems.length
-  });
-
-  // Setup navigation messaging (handles both parent→child and child→parent)
-  const { handleNavigationClick, currentLocale } = useNavigationMessaging(
-    router,
-    pathname,
-    isEditingMode,
-    '🧭 Navbar',
-    null
-  );
-
-  // Handle navigation clicks - unified for both nav items and brand
-  const handleNavClick = (item: NavMenuItem) => {
-    console.log('🧭 Nav item clicked:', {
-      href: item.href,
-      slug: item.slug,
-      currentLocale,
-      isEditingMode
-    });
-    handleNavigationClick(item.href, item.slug);
-  };
-
-  // Handle brand link click
-  const handleBrandClick = () => {
-    const brandSlug = getHomeSlug();
-    const fullBrandHref = nav.buildBrandHref(dynamicBrandHref);
-    
-    console.log('🧭 Brand clicked:', {
-      dynamicBrandHref,
-      brandSlug,
-      fullBrandHref,
-      currentLocale,
-      isEditingMode
-    });
-    
-    handleNavigationClick(fullBrandHref, brandSlug);
-  };
-
-  // Transform NavItem[] to NavMenuItem[] with proper hrefs and active states
+  // Transform NavItem[] to NavMenuItem[] 
   const menuItems: NavMenuItem[] = finalNavItems.map(item => ({
     ...item,
-    href: nav.buildNavHref(item),
-    isActive: nav.isNavItemActive(item, pathname),
+    isActive: false, // Simplified - no active state logic
     variant: item.variant || navVariant,
     size: item.size || navSize,
     rightIcon: item.rightIcon,
@@ -405,7 +295,7 @@ export const KjNavbar = ({
           wrap={false}
         >
           <BrandLink 
-            href={nav.buildBrandHref(finalBrandHref)}
+            href={finalBrandHref}
             variant={brandVariant}
             size={brandSize}
             weight={brandWeight}
@@ -414,7 +304,6 @@ export const KjNavbar = ({
             logoAlt={finalLogoAlt}
             logoWidth={logoWidth}
             logoHeight={logoHeight}
-            onClick={handleBrandClick}
           >
             {finalBrandName}
           </BrandLink>
@@ -425,7 +314,6 @@ export const KjNavbar = ({
             wrap={false}
             variant={navVariant}
             size={navSize}
-            onLinkClick={handleNavClick}
           />
         </HStack>
       </Box>
