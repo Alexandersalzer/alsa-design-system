@@ -37,7 +37,7 @@ const NavMenu = ({
   spacing = 'sm', 
   wrap = false,
   className = '',
-  variant = 'ghost',
+  variant = 'primary',
   size = 'md'
 }: NavMenuProps) => {
 
