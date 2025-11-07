@@ -113,24 +113,24 @@ export function getAllBlocks(template: ContentTemplate | GlobalComponent | undef
  * Pure function to filter blocks by type
  */
 export function getBlocksByType(blocks: ContentBlock[], blockType: string): ContentBlock[] {
-  const filteredBlocks = blocks.filter(block => block.type === blockType);
+  const filteredBlocks = blocks.filter(component => component.type === blockType);
   return filteredBlocks;
 }
 
 /**
- * Pure function to get content from the first block of a specific type
+ * Pure function to get content from the first component of a specific type
  */
 export function getBlockContent(blocks: ContentBlock[], blockType: string): string | undefined {
-  const block = blocks.find(block => block.type === blockType);
-  const content = block?.content;
+  const component = blocks.find(component => component.type === blockType);
+  const content = component?.content;
   return content;
 }
 
 /**
- * Pure function to get config from the first block of a specific type
+ * Pure function to get config from the first component of a specific type
  */
 export function getBlockConfig(blocks: ContentBlock[], blockType: string): any {
-  const block = blocks.find(block => block.type === blockType);
-  const config = block?.config;
+  const component = blocks.find(component => component.type === blockType);
+  const config = component?.config;
   return config;
 } 

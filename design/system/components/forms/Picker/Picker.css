@@ -24,7 +24,7 @@
   line-height: var(--font-body-md-leading);
   color: var(--text-form-label);
   margin-bottom: 4px;
-  display: block;
+  display: component;
   cursor: pointer;
   user-select: none;
 }

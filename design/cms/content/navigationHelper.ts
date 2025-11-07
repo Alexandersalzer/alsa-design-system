@@ -69,11 +69,11 @@ export function enhanceNavigationWithCMS(
 
   // Extract nav items from blocks with href, label, and slug
   const jsonNavItems: JsonNavItem[] = navbarPattern.blocks
-    .filter((block: NavbarBlock) => block.type === 'navItem')
-    .map((block: NavbarBlock) => ({
-      label: block.content || '',
-      slug: block.slug || '',
-      href: block.config?.href || `/${block.slug || ''}`
+    .filter((component: NavbarBlock) => component.type === 'navItem')
+    .map((component: NavbarBlock) => ({
+      label: component.content || '',
+      slug: component.slug || '',
+      href: component.config?.href || `/${component.slug || ''}`
     }));
 
   // Create navigation items by combining CMS data with component configuration

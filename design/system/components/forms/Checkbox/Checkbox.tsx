@@ -237,7 +237,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
             fontWeight: 'var(--foundation-weight-semibold)',
             color: 'var(--text-primary)',
             marginBottom: 'var(--space-form-label-margin)',
-            display: 'block'
+            display: 'component'
           }}
         >
           {label}

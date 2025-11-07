@@ -3,7 +3,7 @@ import { ContentBlock } from '../types/content';
 import * as queries from '../utils/contentQueries';
 
 /**
- * Hook that provides block manipulation utilities
+ * Hook that provides component manipulation utilities
  */
 export function useContentBlocks() {
   const getBlocksByType = useCallback((blocks: ContentBlock[], blockType: string): ContentBlock[] => {

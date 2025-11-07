@@ -3,26 +3,36 @@
 import { Section } from '../../../components/frames/section';
 import { Container } from '../../../components/frames/container';
 import KjFooter from '../../../patterns/client/_kj-footer/kj-footer';
-import { useEditingMode } from '../../../../cms/wrappers/editing/EditingWrapper';
-import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
+import { useEditingMode } from '../../../../cms/wrappers/editing';
 
-const Footer = () => {
+interface FooterProps {
+  section?: {
+    footer_fjVaWmY?: {
+      type: string;
+      pattern?: Array<{
+        type: string;
+        components?: Record<string, {
+          type: string;
+          content: string;
+        }>;
+      }>;
+    };
+  };
+}
+
+const Footer = ({ section }: FooterProps) => {
   const { isEditingMode } = useEditingMode();
-  const { getGlobalComponent, getTemplateBlocks, getBlockContent } = useContent();
   
-  // Get footer global component using generic function
-  const footerComponent = getGlobalComponent('footer');
+  // Extract footer content from props
+  const footerPattern = section?.footer_fjVaWmY?.pattern?.[0];
+  const components = footerPattern?.components || {};
   
-  // Get blocks from footer pattern
-  const footerBlocks = getTemplateBlocks(footerComponent, 'footer');
-  
-  // Get content from CMS blocks
   const footerContent = {
-    companyName: getBlockContent(footerBlocks, 'companyName'),
-    email: getBlockContent(footerBlocks, 'email'),
-    copyright: getBlockContent(footerBlocks, 'copyright'),
-    credits: getBlockContent(footerBlocks, 'credits'),
-    creditsLink: getBlockContent(footerBlocks, 'creditsLink')
+    companyName: Object.values(components).find((c: any) => c.type === 'companyName')?.content || '',
+    email: Object.values(components).find((c: any) => c.type === 'email')?.content || '',
+    copyright: Object.values(components).find((c: any) => c.type === 'copyright')?.content || '',
+    credits: Object.values(components).find((c: any) => c.type === 'credits')?.content || '',
+    creditsLink: Object.values(components).find((c: any) => c.type === 'creditsLink')?.content || ''
   };
   
   return (

@@ -151,7 +151,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
                         backgroundColor: 'var(--accent-50)',
                         borderRadius: 'var(--foundation-radius-full)',
                         border: '1px solid var(--accent-200)',
-                        display: 'inline-block'
+                        display: 'inline-component'
                       }}>
                         <Typography variant="body-xs" weight="bold" color="accent">
                           {post.category.toUpperCase()}

@@ -53,9 +53,19 @@ export interface SectionBodySegmentedConfig {
   onChange: (value: string) => void;
 }
 
+// ===== JSON COMPONENT STRUCTURE =====
+export interface JsonComponent {
+  type: string;
+  content: any;
+}
+
 export interface SectionBodyProps {
-  // ===== MAIN CONTENT =====
-  heading: ReactNode;
+  // ===== NEW: JSON STRUCTURE SUPPORT =====
+  type?: string;
+  components?: Record<string, JsonComponent>;
+  
+  // ===== MAIN CONTENT (Legacy support) =====
+  heading?: ReactNode;
   body?: ReactNode;
   
   // ===== OPTIONAL ELEMENTS =====
@@ -104,14 +114,18 @@ export interface SectionBodyProps {
 // ===== MAIN SECTION BODY COMPONENT =====
 
 export const SectionBody: React.FC<SectionBodyProps> = ({
-  // Content
-  heading,
-  body,
-  tag,
+  // NEW: JSON Structure
+  type,
+  components,
+  
+  // Content (Legacy)
+  heading: legacyHeading,
+  body: legacyBody,
+  tag: legacyTag,
   textLink,
   
   // Heading styling
-  headingVariant = 'display-md',
+  headingVariant = 'display-lg',
   headingColor = 'heading',
   headingWeight = 'bold',
   headingAs = 'h2',
@@ -148,10 +162,50 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
   className,
   style,
 }) => {
+  // ===== EXTRACT DATA FROM JSON COMPONENTS OR USE LEGACY PROPS =====
+  let heading: ReactNode;
+  let body: ReactNode;
+  let tag: SectionBodyTagConfig | false;
+  let actionType_final: SectionBodyActionType = actionType;
+  let button_final: SectionBodyButtonConfig | undefined;
+
+  if (components) {
+    // Extract data from JSON structure
+    const headingComponent = Object.values(components).find((c: any) => c.type === 'heading');
+    const bodyComponent = Object.values(components).find((c: any) => c.type === 'body');
+    const tagComponent = Object.values(components).find((c: any) => c.type === 'tag');
+    const buttonComponent = Object.values(components).find((c: any) => c.type === 'button');
+
+    // Map to component props
+    heading = headingComponent?.content || '';
+    body = bodyComponent?.content || undefined;
+    tag = tagComponent?.content ? {
+      text: tagComponent.content,
+      variant: 'accent',
+      size: 'medium'
+    } : false;
+
+    // Handle button action
+    if (buttonComponent?.content) {
+      actionType_final = 'button';
+      button_final = {
+        text: typeof buttonComponent.content === 'object' ? buttonComponent.content.content : buttonComponent.content,
+        variant: 'accent',
+        size: 'xl'
+      };
+    }
+  } else {
+    // Use legacy props
+    heading = legacyHeading;
+    body = legacyBody;
+    tag = legacyTag || false;
+    button_final = button;
+  }
+
   const hasTag = !hideTag && tag;
   const hasTextLink = !hideTextLink && textLink;
   const hasBody = !hideBody && body;
-  const hasActions = !hideActions && actionType !== 'none';
+  const hasActions = !hideActions && actionType_final !== 'none';
 
   // Map alignment for VStack
   const vStackAlign = textAlign === 'center' ? 'center' : textAlign === 'right' ? 'end' : 'start';
@@ -239,19 +293,19 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
           <VStack spacing={bodyActionSpacing} align={vStackAlign}>
             
             {/* Single Button */}
-            {actionType === 'button' && button && (
+            {actionType_final === 'button' && button_final && (
               <Button
-                variant={button.variant || 'primary'}
-                size={button.size || 'lg'}
-                onClick={button.onClick}
-                {...button}
+                variant={button_final.variant || 'accent'}
+                size={button_final.size || 'lg'}
+                onClick={button_final.onClick}
+                {...button_final}
               >
-                {button.text}
+                {button_final.text}
               </Button>
             )}
 
             {/* Button Group */}
-            {actionType === 'button-group' && buttonGroup && buttonGroup.length > 0 && (
+            {actionType_final === 'button-group' && buttonGroup && buttonGroup.length > 0 && (
               <HStack 
                 spacing={buttonGroupSpacing} 
                 justify={hStackJustify}
@@ -260,7 +314,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
                 {buttonGroup.map((btn, index) => (
                   <Button
                     key={index}
-                    variant={btn.variant || (index === 0 ? 'primary' : 'secondary')}
+                    variant={btn.variant || (index === 0 ? 'accent' : 'accent')}
                     size={btn.size || 'lg'}
                     onClick={btn.onClick}
                     {...btn}
@@ -272,7 +326,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
             )}
 
             {/* Input + Button */}
-            {actionType === 'input-button' && inputButton && (
+            {actionType_final === 'input-button' && inputButton && (
               <HStack spacing="sm" wrap={false}>
                 <Input
                   type="text"
@@ -280,7 +334,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
                   style={{ flex: 1, minWidth: '200px' }}
                 />
                 <Button
-                  variant="primary"
+                  variant="accent"
                   size="lg"
                   onClick={() => inputButton.onSubmit?.('')}
                 >
@@ -290,7 +344,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
             )}
 
             {/* Segmented Control */}
-            {actionType === 'segmented-control' && 
+            {actionType_final === 'segmented-control' && 
              segmentedControl && 
              segmentedControl.options.length > 0 && 
              segmentedControl.value !== undefined && 
@@ -304,7 +358,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
             )}
 
             {/* Text Link (as action) */}
-            {actionType === 'text-link' && actionTextLink && (
+            {actionType_final === 'text-link' && actionTextLink && (
               <TextLink
                 variant={actionTextLink.variant || 'accent'}
                 size={actionTextLink.size || 'lg'}

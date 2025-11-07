@@ -1,20 +1,20 @@
 import React, { ReactNode } from 'react';
-import styles from './Block.module.css';
+import styles from './Component.module.css';
 
-interface BlockProps {
+interface ComponentProps {
   children: ReactNode;
   className?: string;
   id?: string;
   as?: React.ElementType;
 }
 
-export const Block = ({ 
+export const Component = ({ 
   children, 
   className = '', 
   id,
   as: Component = 'div'
-}: BlockProps) => {
-  const combinedClassName = `${styles.block} ${className}`.trim();
+}: ComponentProps) => {
+  const combinedClassName = `${styles.component} ${className}`.trim();
   
   return (
     <Component 

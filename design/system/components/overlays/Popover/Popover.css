@@ -6,7 +6,7 @@
 /* ===== POPOVER ROOT ===== */
 .popover-root {
   position: relative;
-  display: inline-block;
+  display: inline-component;
 }
 
 /* ===== POPOVER TRIGGER ===== */

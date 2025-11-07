@@ -4,9 +4,9 @@
    ============================================== */
 
 /* ===== DISPLAY UTILITIES ===== */
-.block { display: block; }
+.component { display: component; }
 .inline { display: inline; }
-.inline-block { display: inline-block; }
+.inline-component { display: inline-component; }
 .inline-flex { display: inline-flex; }
 .hidden { display: none; }
 

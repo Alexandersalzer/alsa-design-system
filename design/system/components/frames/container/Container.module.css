@@ -2,57 +2,62 @@
    CONTAINER COMPONENT
    Handles horizontal layout, alignment & internal gap
    ============================================== */
-
 .container {
   width: 100%;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
 
-  /* Internal layout */
-  gap: var(--foundation-space-6);
-
+  padding-top: var(--space-container);
+  padding-bottom: var(--space-container);
+  
+  /* Internal layout - uses global selected spacing */
+  gap: var(--space-container);
+  
   /* Width and centering */
   max-width: var(--width-container);
   margin-inline: auto;
-
-  /* ✅ Horizontal breathing room (edge padding) */
+  
+  /* Horizontal breathing room (edge padding) */
   padding-inline: var(--foundation-space-4);
-
+  
   /* Minimum vertical space (content safety) */
   min-height: fit-content;
 }
 
-/* ===== VARIANTS ===== */
+/* ===== SPACING VARIANTS ===== */
+.spacingXs  { gap: var(--foundation-container-spacing-xs); }
+.spacingSm  { gap: var(--foundation-container-spacing-sm); }
+.spacingMd  { gap: var(--foundation-container-spacing-md); }
+.spacingLg  { gap: var(--foundation-container-spacing-lg); }
+.spacingXl  { gap: var(--foundation-container-spacing-xl); }
+.spacing2xl { gap: var(--foundation-container-spacing-2xl); }
 
-/* Larger media/visuals */
+/* ===== WIDTH VARIANTS ===== */
 .maxWidthMedia {
   max-width: var(--width-media);
 }
 
-/* Height variants */
+/* ===== HEIGHT VARIANTS ===== */
 .heightAuto { min-height: fit-content; }
 .heightFull { flex: 1; justify-content: center; }
 .heightFit  { height: fit-content; }
 
-/* Alignment variants */
+/* ===== ALIGNMENT VARIANTS ===== */
 .alignLeft   { align-items: flex-start; text-align: left; }
 .alignCenter { align-items: center; text-align: center; }
 .alignRight  { align-items: flex-end; text-align: right; }
 
 /* ===== RESPONSIVE ===== */
 
-/* Smaller screens → tighter horizontal padding & smaller gap */
+/* Smaller screens → tighter horizontal padding */
 @media (max-width: 768px) {
   .container {
     padding-inline: var(--foundation-space-3);
-    gap: var(--foundation-space-4);
   }
 }
 
-/* If the container has a heading, open up internal spacing */
-.container:has(h1) { gap: var(--foundation-space-8); }
-
-@media (min-width: 769px) {
-  .container:has(h1) { gap: var(--foundation-space-10); }
+/* ===== UNIVERSAL RESET ===== */
+.container * {
+  box-sizing: border-box;
 }

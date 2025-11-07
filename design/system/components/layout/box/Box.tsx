@@ -34,7 +34,7 @@ export interface BoxProps extends React.HTMLAttributes<HTMLElement> {
   border?: 'none' | 'light' | 'default' | 'heavy';
   
   /** Display type */
-  display?: 'block' | 'inline-block' | 'flex' | 'inline-flex' | 'grid' | 'inline-grid' | 'none';
+  display?: 'component' | 'inline-component' | 'flex' | 'inline-flex' | 'grid' | 'inline-grid' | 'none';
   
   /** Flex direction (only when display is flex) */
   direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse';

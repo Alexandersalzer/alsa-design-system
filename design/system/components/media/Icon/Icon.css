@@ -5,7 +5,7 @@
 
 /* ===== BASE ICON STYLES ===== */
 .icon {
-  display: inline-block;
+  display: inline-component;
   flex-shrink: 0;
   fill: none;
   stroke: currentColor;
@@ -56,7 +56,7 @@
 .icon-btn .icon {
   vertical-align: unset !important;
   margin: 0 !important;
-  display: block !important;
+  display: component !important;
   transform: none !important;
 }
 
@@ -219,7 +219,7 @@ a:focus-visible .icon {
   .icon-btn .icon {
     vertical-align: unset !important;
     margin: 0 !important;
-    display: block !important;
+    display: component !important;
     transform: none !important;
   }
 }

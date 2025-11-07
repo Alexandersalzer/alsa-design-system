@@ -3,6 +3,7 @@ import styles from './Container.module.css';
 
 type Alignment = 'left' | 'center' | 'right';
 type Height = 'auto' | 'full' | 'fit';
+type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
 interface ContainerProps {
   children: ReactNode;
@@ -11,7 +12,8 @@ interface ContainerProps {
   as?: React.ElementType;
   align?: Alignment;
   height?: Height;
-  useMediaWidth?: boolean; // ✅ Switch between content or media width
+  useMediaWidth?: boolean;
+  spacing?: SpacingScale; // ✅ optional per-container override (uses .spacingMd etc.)
   style?: React.CSSProperties;
 }
 
@@ -33,6 +35,11 @@ const getHeightClass = (height: Height): string => {
   }
 };
 
+const getSpacingClass = (spacing?: SpacingScale): string => {
+  if (!spacing) return '';
+  return styles[`spacing${spacing.charAt(0).toUpperCase() + spacing.slice(1)}`] || '';
+};
+
 export const Container = ({
   children,
   className = '',
@@ -41,10 +48,12 @@ export const Container = ({
   align = 'left',
   height = 'auto',
   useMediaWidth = false,
+  spacing, // optional override
   style,
 }: ContainerProps) => {
   const alignmentClass = getAlignmentClass(align);
   const heightClass = getHeightClass(height);
+  const spacingClass = getSpacingClass(spacing);
   const widthClass = useMediaWidth ? styles.maxWidthMedia : '';
 
   const combinedClassName = [
@@ -52,6 +61,7 @@ export const Container = ({
     alignmentClass,
     heightClass,
     widthClass,
+    spacingClass,
     className,
   ].join(' ').trim();
 

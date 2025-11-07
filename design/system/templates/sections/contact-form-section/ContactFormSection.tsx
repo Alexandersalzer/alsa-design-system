@@ -62,7 +62,7 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
   // Form styling defaults
   spacing = 'lg',
   fieldSpacing = 'md',
-  buttonVariant = 'primary',
+  buttonVariant = 'accent',
   buttonSize = 'md',
   
 }) => {

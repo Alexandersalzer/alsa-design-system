@@ -1,7 +1,6 @@
 'use client';
 
-import { useEditingMode } from '../../../../cms/wrappers/editing/EditingWrapper';
-import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
+import { useEditingMode } from '../../../../cms/wrappers/editing';
 import { usePathname, useRouter } from 'next/navigation';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Box } from '../../../components/layout/box/Box';
@@ -43,11 +42,30 @@ export interface NavbarProps {
   logoWidth?: number;
   logoHeight?: number;
   height?: string;
+  // Add prop for navbar data
+  section?: {
+    navbar_fjVaWmY?: {
+      type: string;
+      pattern?: {
+        navbar_fjVaWmY?: {
+          type: string;
+          components?: Record<string, {
+            type: string;
+            content: string;
+            slug: string;
+            config?: {
+              href: string;
+            };
+          }>;
+        };
+      };
+    };
+  };
 }
 
 const Navbar = ({ 
   brandName = 'MARKETING SWEDEN',
-  brandHref = '/home',
+  brandHref = '/hem',
   navItems = [],
   className,
   navVariant = 'ghost',
@@ -60,55 +78,61 @@ const Navbar = ({
   logoAlt = 'KJ Marketing Logo',
   logoWidth = 32,
   logoHeight = 32,
-  height = 'var(--navbar-height)'
+  height = 'var(--navbar-height)',
+  section
 }: NavbarProps) => {
   const { isEditingMode } = useEditingMode();
-  const { getGlobalComponent, getTemplateBlocks, getBlocksByType, content } = useContent();
   const pathname = usePathname();
   const router = useRouter();
 
-  // Get navbar global component using generic function
-  const navbarComponent = getGlobalComponent('navbar');
+  // Extract navbar data from props
+  const navbarPattern = section?.navbar_fjVaWmY?.pattern?.navbar_fjVaWmY;
+  const components = navbarPattern?.components || {};
   
-  // Get blocks from navbar pattern
-  const navbarBlocks = getTemplateBlocks(navbarComponent, 'navbar');
-  
-  // Get nav items from blocks
-  const navItemBlocks = getBlocksByType(navbarBlocks, 'navItem');
-
-  // Convert CMS blocks to nav items with better slug handling
-  const cmsNavItems: NavItem[] = navItemBlocks.map((block: ContentBlock, index: number) => {
+  // Convert CMS components to nav items
+  const cmsNavItems: NavItem[] = Object.values(components)
+    .filter((component: any) => component.type === 'navItem')
+    .map((component: any, index: number) => {
     // Extract slug with better fallback logic
     let slug = '';
-    if (block.slug && block.slug.trim()) {
-      slug = block.slug.trim();
-    } else if (block.config?.href) {
-      slug = block.config.href.replace('/', '').trim();
+    if (component.slug && component.slug.trim()) {
+      slug = component.slug.trim();
+    } else if (component.config?.href) {
+      slug = component.config.href.replace('/', '').trim();
     }
     
     console.log('🧭 Processing CMS nav item:', {
-      blockSlug: block.slug,
-      blockHref: block.config?.href,
+      blockSlug: component.slug,
+      blockHref: component.config?.href,
       extractedSlug: slug,
-      content: block.content
+      content: component.content
     });
 
+    const navItemsArray = Object.values(components).filter((c: any) => c.type === 'navItem');
     return {
-      href: block.config?.href || `/${slug || ''}`,
-      label: block.content || '',
+      href: component.config?.href || `/${slug || ''}`,
+      label: component.content || '',
       slug: slug || '',
-      componentType: index === navItemBlocks.length - 1 ? 'button' : 'textlink',
+      componentType: index === navItemsArray.length - 1 ? 'button' : 'textlink',
       textLinkVariant: 'primary',
       weight: 'medium',
       underline: 'hover',
-      variant: 'primary',
-      rightIcon: index === navItemBlocks.length - 1 ? <ArrowRightIcon /> : undefined,
+      variant: 'accent',
+      rightIcon: index === navItemsArray.length - 1 ? <ArrowRightIcon /> : undefined,
       size: navSize
     };
   });
 
-  // Use navigation utilities for consistent route handling with CMS content
-  const nav = getNavigationContext(pathname, isEditingMode, content);
+  // Use navigation utilities for consistent route handling
+  const nav = getNavigationContext(pathname, isEditingMode, null);
+
+  // Find the home page slug - use brandHref as fallback
+  const getHomeSlug = (): string => {
+    return brandHref.replace('/', '') || 'home';
+  };
+
+  // Use dynamic home slug instead of hardcoded brandHref prop
+  const dynamicBrandHref = `/${getHomeSlug()}`;
 
   // Use CMS items if available, otherwise fallback to passed navItems
   const finalNavItems = cmsNavItems.length > 0 ? cmsNavItems : navItems;
@@ -118,9 +142,7 @@ const Navbar = ({
     currentLocale: nav.currentLocale,
     pathname,
     cmsNavItemsCount: cmsNavItems.length,
-    finalNavItemsCount: finalNavItems.length,
-    hasContentMeta: !!content?.meta,
-    contentLocale: content?.meta?.locale
+    finalNavItemsCount: finalNavItems.length
   });
 
   // Setup navigation messaging (handles both parent→child and child→parent)
@@ -129,7 +151,7 @@ const Navbar = ({
     pathname,
     isEditingMode,
     '🧭 Navbar',
-    content
+    null
   );
 
   // Handle navigation clicks - unified for both nav items and brand
@@ -145,11 +167,11 @@ const Navbar = ({
 
   // Handle brand link click
   const handleBrandClick = () => {
-    const brandSlug = brandHref.replace('/', '') || 'home';
-    const fullBrandHref = nav.buildBrandHref(brandHref);
+    const brandSlug = getHomeSlug();
+    const fullBrandHref = nav.buildBrandHref(dynamicBrandHref);
     
     console.log('🧭 Brand clicked:', {
-      originalHref: brandHref,
+      dynamicBrandHref,
       brandSlug,
       fullBrandHref,
       currentLocale,
@@ -192,7 +214,7 @@ const Navbar = ({
       style={{
         maxWidth: 'var(--width-content)',
         margin: '0 auto',
-        padding: '0 var(--foundation-space-4)',
+        padding: 'var(--foundation-space-2)',
         width: '100%',
         height: height
       }}
@@ -202,7 +224,6 @@ const Navbar = ({
         align="center" 
         spacing="md" 
         wrap={false}
-        className="navbar-content"
       >
         <BrandLink 
           href={nav.buildBrandHref(brandHref)}

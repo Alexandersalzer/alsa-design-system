@@ -1,6 +1,6 @@
 'use client';
 
-import { Section, Container, Block } from '../../../components/frames';
+import { Section, Container, Component } from '../../../components/frames';
 import { VideoShowcase as VideoShowcasePrimitive } from '../../../../system/components';
 import { useContent } from '../../../../cms/wrappers/content/hooks/useContent';
 import { usePathname } from 'next/navigation';
@@ -53,7 +53,7 @@ export const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
           paddingBottom: '4rem'
         }}
       >
-        <Block>
+        <Component>
           <VideoShowcasePrimitive
             src={videoSrc}
             poster={videoPoster}
@@ -67,7 +67,7 @@ export const VideoShowcaseSection: React.FC<VideoShowcaseSectionProps> = ({
             aspectRatio="16-9"
             radius="md"
           />
-        </Block>
+        </Component>
       </Container>
     </Section>
   );

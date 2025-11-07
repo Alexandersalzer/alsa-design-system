@@ -116,7 +116,7 @@ export const PKLFAQCategories: React.FC<PKLFAQCategoriesProps> = ({
         }
         
         .pkl-faq-category-button {
-          display: block;
+          display: component;
           width: 100%;
           padding: var(--foundation-space-4);
           border-radius: var(--radius-md);

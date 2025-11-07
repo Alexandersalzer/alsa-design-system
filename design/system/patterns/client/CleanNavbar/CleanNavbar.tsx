@@ -159,7 +159,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
               flex-direction: row;
             }
             .desktop-cta {
-              display: block !important;
+              display: component !important;
             }
           }
         `

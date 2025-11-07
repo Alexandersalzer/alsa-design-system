@@ -1,13 +1,11 @@
-import { useContext } from 'react';
-import { ToggleContext, type ToggleContextType } from '../EditingWrapper';
+export interface ToggleContextType {
+  isEditingMode: boolean;
+}
 
 /**
  * Hook to access editing mode state
+ * Note: Always returns false since editing mode has been removed
  */
 export function useEditingMode(): ToggleContextType {
-  const context = useContext(ToggleContext);
-  if (context === undefined) {
-    throw new Error('useEditingMode must be used within an EditingModeWrapper');
-  }
-  return context;
+  return { isEditingMode: false };
 } 

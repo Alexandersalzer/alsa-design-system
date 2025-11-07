@@ -70,7 +70,7 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
   subtitleColor = 'secondary',
   
   // Button defaults
-  buttonVariant = 'primary',
+  buttonVariant = 'accent',
   buttonSize = 'md',
   
   // Layout defaults
@@ -108,10 +108,6 @@ export const CountUpStatsSection: React.FC<CountUpStatsSectionProps> = ({
     >
       <Container 
         align={containerAlign}
-        style={{ 
-          paddingTop: '4rem',
-          paddingBottom: '2rem'
-        }}
       >
         <CountUpSection
           countUp={{

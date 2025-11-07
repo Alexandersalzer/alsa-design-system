@@ -1,4 +1,4 @@
-// blimpify-ui/design/system/components/primitives/Portal/Portal.tsx
+// blimpify-ui/design/system/components/layout/Portal/Portal.tsx
 
 import React, { useEffect, useState, useRef, type ReactNode, type RefObject } from 'react';
 import { createPortal } from 'react-dom';

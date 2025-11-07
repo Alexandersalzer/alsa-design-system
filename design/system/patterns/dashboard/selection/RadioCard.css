@@ -101,7 +101,7 @@
   cursor: pointer;
   user-select: none;
   line-height: 1.4;
-  display: block;
+  display: component;
   margin-bottom: 4px;
 }
 

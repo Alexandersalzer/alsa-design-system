@@ -26,7 +26,7 @@ export interface JsonPage {
 }
 
 // Database-aligned types (with required id and position)
-export interface Block {
+export interface Component {
   id: number;
   type: 'title' | 'subtitle' | 'primaryButton' | 'secondaryButton' | 'text' | 'image' | 'navItem' | string;
   position: number;
@@ -39,7 +39,7 @@ export interface Pattern {
   id: number;
   type: string;
   position: number;
-  blocks: Block[];
+  blocks: Component[];
 }
 
 export interface Template {
@@ -64,9 +64,9 @@ export interface WebsiteContent {
   globals?: { [key: string]: JsonTemplate }; // Use JsonTemplate for file content
 }
 
-// Enum for mapping block types
+// Enum for mapping component types
 export enum BlockType {
-  // Hero-specific block types
+  // Hero-specific component types
   TITLE = 'title',
   SUBTITLE = 'subtitle',
   PRIMARY_BUTTON = 'primaryButton',
@@ -75,7 +75,7 @@ export enum BlockType {
   IMAGE = 'image',
 }
 
-// Constants for mapping block types in Hero section
+// Constants for mapping component types in Hero section
 export const BLOCK_TYPES = {
   HERO: {
     TITLE: 'title',

@@ -11,7 +11,7 @@ export interface HStackProps {
   // Spacing between items
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   // Alignment
-  align?: 'start' | 'center' | 'end' | 'baseline';
+  align?: 'start' | 'center' | 'end' | 'baseline' | 'stretch'; // ← Added stretch
   justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
   // Wrapping behavior
   wrap?: boolean;
@@ -31,20 +31,20 @@ export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(({
   spacing = 'md',
   align = 'center',
   justify = 'start',
-  wrap = false, // CHANGED: Default to false
+  wrap = false,
   direction = 'row',
   ...props
 }, ref) => {
   // Build CSS classes
-    const classes = buildClasses(
+  const classes = buildClasses(
     'hStack',
     `hStack--spacing-${spacing}`,
-    align !== 'center' && `hStack--align-${align}`,
+    `hStack--align-${align}`,
     justify !== 'start' && `hStack--justify-${justify}`,
     wrap && 'hStack--wrap',
     direction !== 'row' && `hStack--${direction}`,
     className
-    );
+  );
 
   return (
     <div ref={ref} className={classes} {...props}>
