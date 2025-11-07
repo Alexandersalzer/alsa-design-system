@@ -1,1 +1,1 @@
-export { default as KjFooter } from './kj-footer';
+export { default as KjFooter } from './KjFooter';
