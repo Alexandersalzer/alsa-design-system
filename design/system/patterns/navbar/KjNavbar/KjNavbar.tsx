@@ -239,7 +239,7 @@ export const KjNavbar = ({
   const router = useRouter();
 
   // Hardcoded S3 base URL
-  const S3_BASE_URL = 'https://media-storage-blimpify.s3.eu-north-1.amazonaws.com';
+  const S3_BASE_URL_MEMBERS = 'https://cdn.blimpify-im.com/members/';
 
   // Extract data from components if available
   const logoComponent = Object.values(components).find(comp => comp.type === 'logo');
@@ -250,8 +250,8 @@ export const KjNavbar = ({
   if (typeof logoComponent?.content === 'object' && logoComponent.content.src) {
     // Extract only the endpoint part if it's a full URL, otherwise use as is
     const logoSrc = logoComponent.content.src;
-    if (logoSrc.startsWith('https://media-storage-blimpify.s3.eu-north-1.amazonaws.com/')) {
-      logoEndpointFromComponent = logoSrc.replace('https://media-storage-blimpify.s3.eu-north-1.amazonaws.com/', '');
+    if (logoSrc.startsWith('https://cdn.blimpify-im.com/members/')) {
+      logoEndpointFromComponent = logoSrc.replace('https://cdn.blimpify-im.com/members/', '');
     } else if (logoSrc.startsWith('/')) {
       logoEndpointFromComponent = logoSrc.substring(1); // Remove leading slash
     } else {
@@ -263,7 +263,7 @@ export const KjNavbar = ({
   const finalBrandName = brandName || (typeof titleComponent?.content === 'string' ? titleComponent.content : undefined);
   const finalBrandHref = brandHref || '/';
   const finalLogoEndpoint = logoEndpoint || logoEndpointFromComponent;
-  const finalLogoSrc = finalLogoEndpoint ? `${S3_BASE_URL}/${finalLogoEndpoint}` : undefined;
+  const finalLogoSrc = finalLogoEndpoint ? `${S3_BASE_URL_MEMBERS}/${finalLogoEndpoint}` : undefined;
   const finalLogoAlt = logoAlt || (typeof logoComponent?.content === 'object' ? logoComponent.content.alt : undefined);
 
   console.log('🖼️ Logo processing:', {
