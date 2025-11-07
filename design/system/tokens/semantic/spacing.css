@@ -5,27 +5,40 @@
 :root {
   /* ===== SECTION SPACING ===== */
   /* Base mapping to foundation */
+  --space-section-2xs: var(--foundation-section-spacing-2xs);
   --space-section-xs: var(--foundation-section-spacing-xs);
   --space-section-sm: var(--foundation-section-spacing-sm);
   --space-section-md: var(--foundation-section-spacing-md);
   --space-section-lg: var(--foundation-section-spacing-lg);
   --space-section-xl: var(--foundation-section-spacing-xl);
   --space-section-2xl: var(--foundation-section-spacing-2xl);
-
+  
   /* Default semantic aliases */
   --space-section: var(--selected-section-spacing); /* ✅ dynamic */
   --space-section-prominent: var(--space-section-lg);
   --space-section-hero: var(--space-section-xl);
-
+  
   /* ===== CONTAINER SPACING ===== */
-  /* ✅ NEW - Base mapping to foundation */
+  /* Base mapping to foundation */
   --space-container-xs: var(--foundation-container-spacing-xs);
   --space-container-sm: var(--foundation-container-spacing-sm);
   --space-container-md: var(--foundation-container-spacing-md);
   --space-container-lg: var(--foundation-container-spacing-lg);
   --space-container-xl: var(--foundation-container-spacing-xl);
   --space-container-2xl: var(--foundation-container-spacing-2xl);
-
-  /* ✅ Default semantic alias (optional - if you want global control) */
+  
+  /* Default semantic alias */
   --space-container: var(--selected-container-spacing);
+  
+  /* ===== NAVBAR CONTAINER SPACING ===== */
+  /* ✅ NEW - Base mapping to foundation */
+  --space-navbar-xs: var(--foundation-navbar-spacing-xs);
+  --space-navbar-sm: var(--foundation-navbar-spacing-sm);
+  --space-navbar-md: var(--foundation-navbar-spacing-md);
+  --space-navbar-lg: var(--foundation-navbar-spacing-lg);
+  --space-navbar-xl: var(--foundation-navbar-spacing-xl);
+  --space-navbar-2xl: var(--foundation-navbar-spacing-2xl);
+  
+  /* Default semantic alias for navbar */
+  --space-navbar: var(--selected-navbar-spacing);
 }

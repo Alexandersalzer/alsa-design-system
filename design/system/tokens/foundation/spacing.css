@@ -21,52 +21,56 @@
 
 /* ==============================================
    FOUNDATION SECTION SPACING SCALE (Responsive)
-   Significantly reduced and more practical values
+   Balanced scale with 2xs-2xl range
    ============================================== */
 
 :root {
   /* ===== MOBILE BASE VALUES (<768px) ===== */
-  --foundation-section-spacing-xs: 2rem;     /* 32px - much smaller starting point */
-  --foundation-section-spacing-sm: 2.5rem;   /* 40px */
-  --foundation-section-spacing-md: 3rem;     /* 48px */
-  --foundation-section-spacing-lg: 3.5rem;   /* 56px */
-  --foundation-section-spacing-xl: 4rem;     /* 64px */
-  --foundation-section-spacing-2xl: 4.5rem;  /* 72px - capped much lower */
+  --foundation-section-spacing-2xs: 2.5rem;   /* 40px - NEW minimum */
+  --foundation-section-spacing-xs: 3rem;      /* 48px */
+  --foundation-section-spacing-sm: 3.5rem;    /* 56px */
+  --foundation-section-spacing-md: 4rem;      /* 64px */
+  --foundation-section-spacing-lg: 4.5rem;    /* 72px */
+  --foundation-section-spacing-xl: 5rem;      /* 80px */
+  --foundation-section-spacing-2xl: 5.5rem;   /* 88px - reduced max */
 }
 
 /* ===== TABLET (≥768px) ===== */
 @media (min-width: 768px) {
   :root {
-    --foundation-section-spacing-xs: 2.5rem;   /* 40px */
-    --foundation-section-spacing-sm: 3rem;     /* 48px */
-    --foundation-section-spacing-md: 3.5rem;   /* 56px */
-    --foundation-section-spacing-lg: 4rem;     /* 64px */
-    --foundation-section-spacing-xl: 4.5rem;   /* 72px */
-    --foundation-section-spacing-2xl: 5.5rem;  /* 88px */
+    --foundation-section-spacing-2xs: 3rem;     /* 48px */
+    --foundation-section-spacing-xs: 3.5rem;    /* 56px */
+    --foundation-section-spacing-sm: 4rem;      /* 64px */
+    --foundation-section-spacing-md: 4.5rem;    /* 72px */
+    --foundation-section-spacing-lg: 5rem;      /* 80px */
+    --foundation-section-spacing-xl: 5.5rem;    /* 88px */
+    --foundation-section-spacing-2xl: 6.5rem;   /* 104px */
   }
 }
 
 /* ===== DESKTOP (≥1024px) ===== */
 @media (min-width: 1024px) {
   :root {
-    --foundation-section-spacing-xs: 3rem;     /* 48px */
-    --foundation-section-spacing-sm: 3.5rem;   /* 56px */
-    --foundation-section-spacing-md: 4rem;     /* 64px */
-    --foundation-section-spacing-lg: 5rem;     /* 80px */
-    --foundation-section-spacing-xl: 6rem;     /* 96px */
-    --foundation-section-spacing-2xl: 7rem;    /* 112px */
+    --foundation-section-spacing-2xs: 3.5rem;   /* 56px */
+    --foundation-section-spacing-xs: 4rem;      /* 64px */
+    --foundation-section-spacing-sm: 4.5rem;    /* 72px */
+    --foundation-section-spacing-md: 5rem;      /* 80px */
+    --foundation-section-spacing-lg: 5.5rem;    /* 88px */
+    --foundation-section-spacing-xl: 6rem;      /* 96px */
+    --foundation-section-spacing-2xl: 7rem;     /* 112px */
   }
 }
 
 /* ===== LARGE DESKTOP (≥1440px) ===== */
 @media (min-width: 1440px) {
   :root {
-    --foundation-section-spacing-xs: 3.5rem;   /* 56px */
-    --foundation-section-spacing-sm: 4rem;     /* 64px */
-    --foundation-section-spacing-md: 4.5rem;   /* 72px */
-    --foundation-section-spacing-lg: 5.5rem;   /* 88px */
-    --foundation-section-spacing-xl: 6.5rem;   /* 104px */
-    --foundation-section-spacing-2xl: 8rem;    /* 128px - max cap */
+    --foundation-section-spacing-2xs: 4rem;     /* 64px */
+    --foundation-section-spacing-xs: 4.5rem;    /* 72px */
+    --foundation-section-spacing-sm: 5rem;      /* 80px */
+    --foundation-section-spacing-md: 5.5rem;    /* 88px */
+    --foundation-section-spacing-lg: 6rem;      /* 96px */
+    --foundation-section-spacing-xl: 6.5rem;    /* 104px */
+    --foundation-section-spacing-2xl: 7.5rem;   /* 120px - capped lower */
   }
 }
 
@@ -117,5 +121,55 @@
     --foundation-container-spacing-lg: 4.5rem;
     --foundation-container-spacing-xl: 5.5rem;
     --foundation-container-spacing-2xl: 6.5rem;
+  }
+}
+
+/* ==============================================
+   FOUNDATION NAVBAR CONTAINER SPACING SCALE
+   Tight vertical spacing for navigation components
+   ============================================== */
+:root {
+  /* ===== MOBILE BASE VALUES (<768px) ===== */
+  --foundation-navbar-spacing-xs: 0.75rem;   /* 12px */
+  --foundation-navbar-spacing-sm: 1rem;      /* 16px */
+  --foundation-navbar-spacing-md: 1.25rem;   /* 20px */
+  --foundation-navbar-spacing-lg: 1.5rem;    /* 24px */
+  --foundation-navbar-spacing-xl: 1.75rem;   /* 28px */
+  --foundation-navbar-spacing-2xl: 2rem;     /* 32px */
+}
+
+/* ===== TABLET (≥768px) ===== */
+@media (min-width: 768px) {
+  :root {
+    --foundation-navbar-spacing-xs: 0.875rem;  /* 14px */
+    --foundation-navbar-spacing-sm: 1.125rem;  /* 18px */
+    --foundation-navbar-spacing-md: 1.375rem;  /* 22px */
+    --foundation-navbar-spacing-lg: 1.625rem;  /* 26px */
+    --foundation-navbar-spacing-xl: 1.875rem;  /* 30px */
+    --foundation-navbar-spacing-2xl: 2.25rem;  /* 36px */
+  }
+}
+
+/* ===== DESKTOP (≥1024px) ===== */
+@media (min-width: 1024px) {
+  :root {
+    --foundation-navbar-spacing-xs: 1rem;      /* 16px */
+    --foundation-navbar-spacing-sm: 1.25rem;   /* 20px */
+    --foundation-navbar-spacing-md: 1.5rem;    /* 24px */
+    --foundation-navbar-spacing-lg: 1.75rem;   /* 28px */
+    --foundation-navbar-spacing-xl: 2rem;      /* 32px */
+    --foundation-navbar-spacing-2xl: 2.5rem;   /* 40px */
+  }
+}
+
+/* ===== LARGE DESKTOP (≥1440px) ===== */
+@media (min-width: 1440px) {
+  :root {
+    --foundation-navbar-spacing-xs: 1.125rem;  /* 18px */
+    --foundation-navbar-spacing-sm: 1.375rem;  /* 22px */
+    --foundation-navbar-spacing-md: 1.625rem;  /* 26px */
+    --foundation-navbar-spacing-lg: 1.875rem;  /* 30px */
+    --foundation-navbar-spacing-xl: 2.125rem;  /* 34px */
+    --foundation-navbar-spacing-2xl: 2.75rem;  /* 44px */
   }
 }

@@ -174,6 +174,7 @@ export interface KjNavbarProps {
   logoWidth?: number;
   logoHeight?: number;
   height?: string;
+  navbarSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; // ✅ NEW
   
   // Component data from CMS (from navbar.json structure)
   components?: Record<string, {
@@ -200,6 +201,7 @@ export const KjNavbar = ({
   logoAlt,
   logoWidth = 32,
   logoHeight = 32,
+  navbarSpacing = 'md', // ✅ NEW - default navbar spacing
   components = {}
 }: KjNavbarProps) => {
 
@@ -231,7 +233,8 @@ export const KjNavbar = ({
   const finalLogoSrc = finalLogoEndpoint ? `${S3_BASE_URL_MEMBERS}/${finalLogoEndpoint}` : undefined;
   const finalLogoAlt = logoAlt || (typeof logoComponent?.content === 'object' ? logoComponent.content.alt : undefined);
 
-
+  // ✅ Map navbar spacing to CSS variable
+  const navbarSpacingVar = `var(--space-navbar-${navbarSpacing})`;
 
   // Convert CMS components to nav items
   const cmsNavItems: NavItem[] = Object.values(components)
@@ -242,7 +245,7 @@ export const KjNavbar = ({
       href: component.config?.href || '/',
       label: component.content || '',
       slug: '',
-      variant: component.config?.variant, // ✅ Extract variant from config!
+      variant: component.config?.variant,
       componentType: index === navItemsArray.length - 1 ? 'button' : 'textlink',
       textLinkVariant: 'primary',
       weight: 'medium',
@@ -258,7 +261,7 @@ export const KjNavbar = ({
   // Transform NavItem[] to NavMenuItem[] 
   const menuItems: NavMenuItem[] = finalNavItems.map(item => ({
     ...item,
-    isActive: false, // Simplified - no active state logic
+    isActive: false,
     variant: item.variant,
     size: item.size || navSize,
     rightIcon: item.rightIcon,
@@ -281,7 +284,7 @@ export const KjNavbar = ({
         style={{
           maxWidth: 'var(--width-content)',
           margin: '0 auto',
-          padding: '0 var(--foundation-space-2)',
+          padding: `${navbarSpacingVar} var(--foundation-space-2)`, // ✅ Use navbar spacing for vertical padding
           width: '100%',
         }}
       >
