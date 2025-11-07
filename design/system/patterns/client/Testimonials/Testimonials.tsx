@@ -51,16 +51,6 @@ const Testimonials = ({
     : content?.testimonials || [];
 
   return (
-    <Section 
-      id={id} 
-      className={className}
-      style={{
-        backgroundColor: 'transparent',
-        paddingTop: 'var(--foundation-space-24)',
-        paddingBottom: 'var(--foundation-space-24)'
-      }}
-    >
-      <Container align="center">
         <VStack spacing="xl" align="center">
           {/* Testimonials Grid */}
           <div style={{ width: '100%', maxWidth: 'var(--size-page-max-width)' }}>
@@ -125,8 +115,6 @@ const Testimonials = ({
             </div>
           </div>
         </VStack>
-      </Container>
-    </Section>
   );
 };
 
