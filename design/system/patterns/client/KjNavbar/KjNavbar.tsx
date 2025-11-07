@@ -25,6 +25,7 @@ export interface NavItem extends NavigationItem {
 }
 
 export interface KjNavbarProps {
+  // Props that can be passed directly or extracted from components
   brandName?: string;
   brandHref?: string;
   navItems?: NavItem[];
@@ -40,11 +41,12 @@ export interface KjNavbarProps {
   logoWidth?: number;
   logoHeight?: number;
   height?: string;
-  // Add prop for navbar data from CMS
+  
+  // Component data from CMS (from navbar.json structure)
   components?: Record<string, {
     type: string;
-    content: string;
-    slug: string;
+    content: string | { src: string; alt: string };
+    slug?: string;
     config?: {
       href: string;
     };
@@ -52,8 +54,8 @@ export interface KjNavbarProps {
 }
 
 export const KjNavbar = ({ 
-  brandName = 'MARKETING SWEDEN',
-  brandHref = '/hem',
+  brandName,
+  brandHref,
   navItems = [],
   className,
   navVariant = 'ghost',
@@ -62,8 +64,8 @@ export const KjNavbar = ({
   brandSize = 'lg',
   brandWeight = 'bold',
   brandUnderline = 'none',
-  logoSrc = '/images/sections/kjlogo.jpg',
-  logoAlt = 'KJ Marketing Logo',
+  logoSrc,
+  logoAlt,
   logoWidth = 32,
   logoHeight = 32,
   height = 'var(--navbar-height)',
@@ -72,6 +74,16 @@ export const KjNavbar = ({
   const { isEditingMode } = useEditingMode();
   const pathname = usePathname();
   const router = useRouter();
+
+  // Extract data from components if available
+  const logoComponent = Object.values(components).find(comp => comp.type === 'logo');
+  const titleComponent = Object.values(components).find(comp => comp.type === 'title');
+  
+  // Use component data as fallbacks
+  const finalBrandName = brandName || (typeof titleComponent?.content === 'string' ? titleComponent.content : 'MARKETING SWEDEN');
+  const finalBrandHref = brandHref || '/hem';
+  const finalLogoSrc = logoSrc || (typeof logoComponent?.content === 'object' ? logoComponent.content.src : '/images/sections/kjlogo.jpg');
+  const finalLogoAlt = logoAlt || (typeof logoComponent?.content === 'object' ? logoComponent.content.alt : 'KJ Marketing Logo');
 
   // Convert CMS components to nav items
   const cmsNavItems: NavItem[] = Object.values(components)
@@ -110,9 +122,9 @@ export const KjNavbar = ({
   // Use navigation utilities for consistent route handling
   const nav = getNavigationContext(pathname, isEditingMode, null);
 
-  // Find the home page slug - use brandHref as fallback
+  // Find the home page slug - use finalBrandHref as fallback
   const getHomeSlug = (): string => {
-    return brandHref.replace('/', '') || 'home';
+    return finalBrandHref.replace('/', '') || 'home';
   };
 
   // Use dynamic home slug instead of hardcoded brandHref prop
@@ -204,18 +216,18 @@ export const KjNavbar = ({
           wrap={false}
         >
           <BrandLink 
-            href={nav.buildBrandHref(brandHref)}
+            href={nav.buildBrandHref(finalBrandHref)}
             variant={brandVariant}
             size={brandSize}
             weight={brandWeight}
             underline={brandUnderline}
-            logoSrc={logoSrc}
-            logoAlt={logoAlt}
+            logoSrc={finalLogoSrc}
+            logoAlt={finalLogoAlt}
             logoWidth={logoWidth}
             logoHeight={logoHeight}
             onClick={handleBrandClick}
           >
-            {brandName}
+            {finalBrandName}
           </BrandLink>
           
           <NavMenu 

@@ -12,7 +12,7 @@ export const patternRegistry: Record<string, React.ComponentType<any>> = {
   media: MediaPattern,
   form: FormPattern,
   kj: KjFooter, // Map to 'kj' to match footer.json type
-  kjNavbar: KjNavbar, // Map to 'kjNavbar' for navbar pattern
+  kjNav: KjNavbar, // Map to 'kjNav' to match navbar.json type
 };
 
 export * from './navbar';
