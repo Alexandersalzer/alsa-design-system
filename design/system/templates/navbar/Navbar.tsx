@@ -1,60 +1,106 @@
 'use client';
 
-import { Box } from '../../components/layout/box/Box';
-import { renderPattern } from '../../../cms/utils/renderSections';
+import { Section } from '../../components/frames/section';
+import { Container } from '../../components/frames/container';
+import { KjNavbar, type NavItem } from '../../patterns/client/KjNavbar';
 
 interface NavbarProps {
+  brandName?: string;
+  brandHref?: string;
+  navItems?: NavItem[];
   className?: string;
+  navVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
+  navSize?: 'sm' | 'md' | 'lg' | 'xl';
+  brandVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'brand';
+  brandSize?: 'sm' | 'md' | 'lg' | 'xl';
+  brandWeight?: 'regular' | 'medium' | 'semibold' | 'bold';
+  brandUnderline?: 'none' | 'hover' | 'always';
+  logoSrc?: string;
+  logoAlt?: string;
+  logoWidth?: number;
+  logoHeight?: number;
   height?: string;
+  // Add prop for navbar data
   section?: {
-    [key: string]: {
+    navbar_fjVaWmY?: {
       type: string;
-      patterns?: Record<string, any>;
-      order?: string[];
+      pattern?: {
+        navbar_fjVaWmY?: {
+          type: string;
+          components?: Record<string, {
+            type: string;
+            content: string;
+            slug: string;
+            config?: {
+              href: string;
+            };
+          }>;
+        };
+      };
     };
   };
 }
 
 const Navbar = ({ 
+  brandName,
+  brandHref,
+  navItems,
   className,
-  height = 'var(--navbar-height)',
+  navVariant,
+  navSize,
+  brandVariant,
+  brandSize,
+  brandWeight,
+  brandUnderline,
+  logoSrc,
+  logoAlt,
+  logoWidth,
+  logoHeight,
+  height,
   section
 }: NavbarProps) => {
-  if (!section) return null;
-  
-  // Get the first (and usually only) navbar section
-  const navbarSection = Object.values(section)[0];
-  if (!navbarSection?.patterns) return null;
+  // Extract navbar data from props
+  const navbarPattern = section?.navbar_fjVaWmY?.pattern?.navbar_fjVaWmY;
+  const components = navbarPattern?.components || {};
 
-  const { patterns } = navbarSection;
-  const patternOrder = navbarSection.order || Object.keys(patterns);
-  
-  // Render all patterns for the navbar
-  const renderedPatterns = patternOrder
-    .map((patternKey, patternIndex) => {
-      const pattern = patterns[patternKey];
-      return pattern ? renderPattern(pattern, patternIndex) : null;
-    })
-    .filter(Boolean);
-  
-  if (renderedPatterns.length === 0) return null;
-  
   return (
-    <Box
+    <Section
       as="nav"
-      className={className}
       style={{
         position: 'sticky',
         top: 0,
         zIndex: 1000,
         backgroundColor: 'var(--primary-white)',
         borderBottom: '1px solid var(--border-light)',
-        width: '100%',
-        height: height
+        paddingTop: '0',
+        paddingBottom: '0',
+        height: height || 'var(--navbar-height)'
       }}
     >
-      {renderedPatterns}
-    </Box>
+      <Container
+        align="center"
+        height="auto"
+      >
+        <KjNavbar
+          brandName={brandName}
+          brandHref={brandHref}
+          navItems={navItems}
+          className={className}
+          navVariant={navVariant}
+          navSize={navSize}
+          brandVariant={brandVariant}
+          brandSize={brandSize}
+          brandWeight={brandWeight}
+          brandUnderline={brandUnderline}
+          logoSrc={logoSrc}
+          logoAlt={logoAlt}
+          logoWidth={logoWidth}
+          logoHeight={logoHeight}
+          height={height}
+          components={components}
+        />
+      </Container>
+    </Section>
   );
 };
 

@@ -3,7 +3,7 @@ import { SpinningBanner } from './spinning-banner/SpinningBanner';
 import { MediaPattern } from './media/MediaPattern';
 import { FormPattern } from '../forms/form';
 import { KjFooter } from '../footer/KjFooter';
-import { KjNav } from './kjNav';
+import { KjNavbar } from './KjNavbar/KjNavbar';
 
 // Mappa typ → komponent
 export const patternRegistry: Record<string, React.ComponentType<any>> = {
@@ -12,7 +12,7 @@ export const patternRegistry: Record<string, React.ComponentType<any>> = {
   media: MediaPattern,
   form: FormPattern,
   kj: KjFooter, // Map to 'kj' to match footer.json type
-  kjNav: KjNav, // Map to 'kjNav' to match navbar.json type
+  kjNavbar: KjNavbar, // Map to 'kjNavbar' for navbar pattern
 };
 
 export * from './navbar';
@@ -63,4 +63,4 @@ export * from './SplitProcessSection';
 export * from './FooterSection';
 
 export * from './RichText0Button';
-export * from './kjNav';
+export * from './KjNavbar';
