@@ -38,6 +38,10 @@
   max-width: var(--width-media);
 }
 
+.maxWidthForm {
+  max-width: var(--width-form);
+}
+
 /* ===== HEIGHT VARIANTS ===== */
 .heightAuto { min-height: fit-content; }
 .heightFull { flex: 1; justify-content: center; }
