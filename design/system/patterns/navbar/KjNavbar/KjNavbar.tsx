@@ -199,7 +199,7 @@ export interface KjNavbarProps {
   brandSize?: 'sm' | 'md' | 'lg' | 'xl';
   brandWeight?: 'regular' | 'medium' | 'semibold' | 'bold';
   brandUnderline?: 'none' | 'hover' | 'always';
-  logoSrc?: string;
+  logoEndpoint?: string; // Only the endpoint part, base URL is hardcoded
   logoAlt?: string;
   logoWidth?: number;
   logoHeight?: number;
@@ -227,7 +227,7 @@ export const KjNavbar = ({
   brandSize = 'lg',
   brandWeight = 'bold',
   brandUnderline = 'none',
-  logoSrc,
+  logoEndpoint,
   logoAlt,
   logoWidth = 32,
   logoHeight = 32,
@@ -238,15 +238,41 @@ export const KjNavbar = ({
   const pathname = usePathname();
   const router = useRouter();
 
+  // Hardcoded S3 base URL
+  const S3_BASE_URL = 'https://media-storage-blimpify.s3.eu-north-1.amazonaws.com';
+
   // Extract data from components if available
   const logoComponent = Object.values(components).find(comp => comp.type === 'logo');
   const titleComponent = Object.values(components).find(comp => comp.type === 'title');
   
-  // Use component data as fallbacks
-  const finalBrandName = brandName || (typeof titleComponent?.content === 'string' ? titleComponent.content : 'MARKETING SWEDEN');
-  const finalBrandHref = brandHref || '/hem';
-  const finalLogoSrc = logoSrc || (typeof logoComponent?.content === 'object' ? logoComponent.content.src : '/images/sections/kjlogo.jpg');
-  const finalLogoAlt = logoAlt || (typeof logoComponent?.content === 'object' ? logoComponent.content.alt : 'KJ Marketing Logo');
+  // Extract logo endpoint from components or props
+  let logoEndpointFromComponent = '';
+  if (typeof logoComponent?.content === 'object' && logoComponent.content.src) {
+    // Extract only the endpoint part if it's a full URL, otherwise use as is
+    const logoSrc = logoComponent.content.src;
+    if (logoSrc.startsWith('https://media-storage-blimpify.s3.eu-north-1.amazonaws.com/')) {
+      logoEndpointFromComponent = logoSrc.replace('https://media-storage-blimpify.s3.eu-north-1.amazonaws.com/', '');
+    } else if (logoSrc.startsWith('/')) {
+      logoEndpointFromComponent = logoSrc.substring(1); // Remove leading slash
+    } else {
+      logoEndpointFromComponent = logoSrc;
+    }
+  }
+
+  // Use component data as fallbacks, no hardcoded fallbacks
+  const finalBrandName = brandName || (typeof titleComponent?.content === 'string' ? titleComponent.content : undefined);
+  const finalBrandHref = brandHref || '/';
+  const finalLogoEndpoint = logoEndpoint || logoEndpointFromComponent;
+  const finalLogoSrc = finalLogoEndpoint ? `${S3_BASE_URL}/${finalLogoEndpoint}` : undefined;
+  const finalLogoAlt = logoAlt || (typeof logoComponent?.content === 'object' ? logoComponent.content.alt : undefined);
+
+  console.log('🖼️ Logo processing:', {
+    logoEndpointProp: logoEndpoint,
+    logoEndpointFromComponent,
+    finalLogoEndpoint,
+    finalLogoSrc,
+    logoComponentContent: logoComponent?.content
+  });
 
   // Convert CMS components to nav items
   const cmsNavItems: NavItem[] = Object.values(components)
