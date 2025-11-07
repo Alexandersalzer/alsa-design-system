@@ -18,6 +18,7 @@
 
   --width-content: clamp(20rem, 90vw, var(--selected-layout-scale-content));
   --width-media: clamp(20rem, 95vw, var(--selected-layout-scale-media));
+  --width-form: clamp(20rem, 90vw, 25rem); 
 
   /* ===== ALIASES ===== */
   --width-container: var(--width-content);

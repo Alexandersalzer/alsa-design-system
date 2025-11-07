@@ -4,6 +4,8 @@ import { createPortal } from 'react-dom';
 import { cn } from '../../../lib/utils';
 import { IconButtons } from '../../actions';
 import { H3 } from '../../Typography';
+import { VStack } from '../../layout/vStack/VStack';
+import { HStack } from '../../layout/hStack/HStack';
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
@@ -98,30 +100,42 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
       aria-labelledby={title ? 'modal-title' : undefined}
     >
       <div ref={ref} className={modalClasses} {...props}>
-        {(title || showCloseButton) && (
-          <div className="modal__header">
-            {title && (
-              <H3 id="modal-title" className="modal__title">
-                {title}
-              </H3>
-            )}
-            {showCloseButton && (
-              <IconButtons.Close
-                onClick={onClose}
-                variant="ghost"
-                size="md"
-                aria-label="StÃ¤ng modal"
-                className="modal__close-btn"
-              />
-            )}
+        <VStack spacing="sm" className="modal__layout" style={{ height: '100%' }}>
+          {/* Header with close button */}
+          {(title || showCloseButton) && (
+            <HStack 
+              justify="between" 
+              align="center" 
+              className="modal__header"
+            >
+              {title ? (
+                <H3 id="modal-title" className="modal__title">
+                  {title}
+                </H3>
+              ) : (
+                <div />
+              )}
+              {showCloseButton && (
+                <IconButtons.Close
+                  onClick={onClose}
+                  variant="ghost"
+                  size="md"
+                  aria-label="Stäng modal"
+                  className="modal__close-btn"
+                />
+              )}
+            </HStack>
+          )}
+          
+          {/* Content area - grows to fill space */}
+          <div className="modal__content">
+            {children}
           </div>
-        )}
-        <div className="modal__content">{children}</div>
+        </VStack>
       </div>
     </div>
   );
 
-  // ðŸ‘‡ THIS is the important part
   return createPortal(modalElement, document.body);
 });
 

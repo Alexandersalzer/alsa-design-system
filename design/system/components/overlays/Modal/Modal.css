@@ -1,6 +1,5 @@
 /* ==============================================
  src/design-system/components/primitives/Modal/Modal.css
- ENHANCED WITH CLEAN ANIMATIONS - Replace your existing file
  ============================================== */
 
 /* ===== MODAL BACKDROP ===== */
@@ -15,10 +14,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--foundation-space-2);  /* Reduced from space-4 for more height */
+  padding: var(--foundation-space-2);
   backdrop-filter: blur(2px);
   
-  /* ðŸŽ¯ CLEAN FADE IN */
   animation: modalBackdropFadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
 }
 
@@ -29,45 +27,43 @@
   border-radius: var(--radius-modal);
   box-shadow: var(--shadow-modal);
   max-height: 95vh;
-  overflow-y: auto;  /* Modal itself scrolls when content is too tall */
-  overflow-x: visible;  /* But allows horizontal overflow for dropdowns */
+  overflow: hidden;
   position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
   
-  /* 🎯 CLEAN SCALE IN */
   animation: modalScaleIn var(--foundation-duration-normal) var(--foundation-ease-out);
 }
 
 /* ===== MODAL SIZES ===== */
 .modal--sm { 
   max-width: 400px;
-  min-height: 300px;  /* Ensure minimum height */
+  min-height: 300px;
 }
 .modal--md { 
   max-width: 500px;
-  min-height: 400px;  /* Ensure minimum height */
+  min-height: 400px;
 }
 .modal--lg { 
   max-width: 800px;
   max-height: 90vh;
-  min-height: 700px;  /* Increased from 600px - more room for dropdowns */
+  min-height: 700px;
 }
 .modal--xl { 
   max-width: 1000px;
   max-height: 92vh;
-  min-height: 700px;  /* Ensure substantial height */
+  min-height: 700px;
 }
 .modal--2xl { 
   max-width: 1200px;
   max-height: 94vh;
-  min-height: 800px;  /* Ensure substantial height */
+  min-height: 800px;
 }
 .modal--3xl { 
   max-width: 1400px;
   max-height: 96vh;
-  min-height: 850px;  /* Ensure substantial height */
+  min-height: 850px;
 }
 .modal--full {
   max-width: calc(100vw - var(--foundation-space-8));
@@ -75,14 +71,18 @@
   min-height: calc(100vh - var(--foundation-space-8));
 }
 
+/* ===== MODAL LAYOUT ===== */
+.modal__layout {
+  height: 100%;
+  min-height: 0;
+}
+
 /* ===== MODAL HEADER ===== */
 .modal__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: var(--foundation-space-6) var(--foundation-space-6) var(--foundation-space-4);
   border-bottom: 1px solid var(--border-modal);
   flex-shrink: 0;
+  min-height: 60px;
 }
 
 .modal__title {
@@ -102,9 +102,9 @@
 /* ===== MODAL CONTENT ===== */
 .modal__content {
   padding: var(--foundation-space-6);
-  flex: 1 1 auto;  /* Allow content to grow and shrink */
-  overflow: visible;  /* Content doesn't clip - modal container handles scrolling */
-  min-height: 0;  /* Allow flexbox to properly size */
+  flex: 1 1 auto;
+  overflow: auto;
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
@@ -135,7 +135,7 @@
   }
 }
 
-/* ðŸŽ¯ CLOSING ANIMATIONS (when modal is closing) */
+/* CLOSING ANIMATIONS */
 .modal-backdrop--closing {
   animation: modalBackdropFadeOut var(--foundation-duration-fast) var(--foundation-ease-in);
 }
@@ -178,7 +178,7 @@
   .modal--3xl {
     max-width: 100%;
     margin: 0;
-    min-height: auto;  /* Reset min-height on mobile */
+    min-height: auto;
   }
   
   .modal__header {

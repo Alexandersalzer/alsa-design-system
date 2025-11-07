@@ -1,5 +1,17 @@
+import { SectionBody } from '../shared/sectionBody/SectionBody';
+import { SpinningBanner } from './spinning-banner/SpinningBanner';
+import { MediaPattern } from './media/MediaPattern';
+import { FormPattern } from '../forms/form';
 
+// Mappa typ → komponent
+export const patternRegistry: Record<string, React.ComponentType<any>> = {
+  sectionBody: SectionBody,
+  spinningLogos: SpinningBanner,
+  media: MediaPattern,
+  form: FormPattern,
+};
 
+export * from './navbar';
 export * from './CleanNavbar';
 export * from './RichText';
 export * from '../footer/KjFooter';
@@ -47,4 +59,3 @@ export * from './SplitProcessSection';
 export * from './FooterSection';
 
 export * from './RichText0Button';
-export * from '../navbar/KjNavbar';

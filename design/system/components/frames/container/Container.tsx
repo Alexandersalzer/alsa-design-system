@@ -13,7 +13,8 @@ interface ContainerProps {
   align?: Alignment;
   height?: Height;
   useMediaWidth?: boolean;
-  spacing?: SpacingScale; // ✅ optional per-container override (uses .spacingMd etc.)
+  useFormWidth?: boolean;
+  spacing?: SpacingScale;
   style?: React.CSSProperties;
 }
 
@@ -48,13 +49,19 @@ export const Container = ({
   align = 'left',
   height = 'auto',
   useMediaWidth = false,
-  spacing, // optional override
+  useFormWidth = false,
+  spacing,
   style,
 }: ContainerProps) => {
   const alignmentClass = getAlignmentClass(align);
   const heightClass = getHeightClass(height);
   const spacingClass = getSpacingClass(spacing);
-  const widthClass = useMediaWidth ? styles.maxWidthMedia : '';
+  
+  const widthClass = useFormWidth 
+    ? styles.maxWidthForm 
+    : useMediaWidth 
+    ? styles.maxWidthMedia 
+    : '';
 
   const combinedClassName = [
     styles.container,

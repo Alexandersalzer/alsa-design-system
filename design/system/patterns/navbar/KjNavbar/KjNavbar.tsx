@@ -191,7 +191,6 @@ export const KjNavbar = ({
   brandHref = '/',
   navItems = [],
   className,
-  navVariant = 'ghost',
   navSize = 'md',
   brandVariant = 'brand',
   brandSize = 'lg',
@@ -244,11 +243,11 @@ export const KjNavbar = ({
       href: component.config?.href || '/',
       label: component.content || '',
       slug: '',
+      variant: component.config?.variant, // ✅ Extract variant from config!
       componentType: index === navItemsArray.length - 1 ? 'button' : 'textlink',
       textLinkVariant: 'primary',
       weight: 'medium',
       underline: 'hover',
-      variant: 'accent',
       rightIcon: index === navItemsArray.length - 1 ? <ArrowRightIcon /> : undefined,
       size: navSize
     };
@@ -261,7 +260,7 @@ export const KjNavbar = ({
   const menuItems: NavMenuItem[] = finalNavItems.map(item => ({
     ...item,
     isActive: false, // Simplified - no active state logic
-    variant: item.variant || navVariant,
+    variant: item.variant,
     size: item.size || navSize,
     rightIcon: item.rightIcon,
     leftIcon: item.leftIcon,
@@ -312,7 +311,6 @@ export const KjNavbar = ({
             items={menuItems} 
             spacing="xl" 
             wrap={false}
-            variant={navVariant}
             size={navSize}
           />
         </HStack>
