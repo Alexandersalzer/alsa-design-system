@@ -78,7 +78,6 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(({
     collapseOn !== 'never' && `grid--collapse-${collapseOn}`,
     alignItems !== 'stretch' && `grid--align-${alignItems}`,
     justifyItems !== 'stretch' && `grid--justify-${justifyItems}`,
-    // Add responsive column classes if using responsive object
     isResponsiveValue(columns) && 'grid--responsive',
     className
   );
@@ -97,8 +96,9 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(({
     return `repeat(${columns}, minmax(${minItemWidth}, 1fr))`;
   };
 
-  // Build inline styles
+  // ✅ FIX: Add display: 'grid' here
   const inlineStyles: CSSProperties = {
+    display: 'grid',
     gridTemplateColumns: getGridTemplateColumns(),
     ...style
   };
