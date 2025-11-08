@@ -7,7 +7,8 @@ export interface DesignJson {
     layoutContent?: string;
     layoutMedia?: string;
     sectionSpacing?: string;
-    containerSpacing?: string; // ✅ NEW
+    containerSpacing?: string;
+    navbarSpacing?: string;
   };
 }
 
@@ -34,7 +35,8 @@ export async function getDesignConfig(): Promise<DesignJson> {
         layoutContent: "md",
         layoutMedia: "xl",
         sectionSpacing: "md",
-        containerSpacing: "md" // ✅ NEW fallback
+        containerSpacing: "md",
+        navbarSpacing: "md"
       } 
     };
   }

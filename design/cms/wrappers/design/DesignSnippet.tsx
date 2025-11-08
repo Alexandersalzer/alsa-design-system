@@ -6,14 +6,15 @@ import { getDesignConfig } from "./designLoader";
  * Injects design tokens dynamically into <head>.
  */
 export function buildCssVars(design: DesignJson): string {
-  const radius          = design?.globalStyles?.radius          || "md";
-  const accentColor     = design?.globalStyles?.accentColor     || "purple";
-  const isDark          = design?.globalStyles?.isDark          ?? false;
-  const fontPrimary     = design?.globalStyles?.fontPrimary     || "Sora";
-  const layoutContent   = design?.globalStyles?.layoutContent   || "md";
-  const layoutMedia     = design?.globalStyles?.layoutMedia     || "xl";
-  const sectionSpacing  = design?.globalStyles?.sectionSpacing  || "md";
-  const containerSpacing = design?.globalStyles?.containerSpacing || "md"; // ✅ NEW
+  const radius           = design?.globalStyles?.radius           || "md";
+  const accentColor      = design?.globalStyles?.accentColor      || "purple";
+  const isDark           = design?.globalStyles?.isDark           ?? false;
+  const fontPrimary      = design?.globalStyles?.fontPrimary      || "Sora";
+  const layoutContent    = design?.globalStyles?.layoutContent    || "md";
+  const layoutMedia      = design?.globalStyles?.layoutMedia      || "xl";
+  const sectionSpacing   = design?.globalStyles?.sectionSpacing   || "md";
+  const containerSpacing = design?.globalStyles?.containerSpacing || "md";
+  const navbarSpacing    = design?.globalStyles?.navbarSpacing    || "md"; // ✅ NEW
 
   const fontWeights = "400;600;700;800";
   const fontUrl = `https://fonts.googleapis.com/css2?family=${fontPrimary.replace(/\s/g, '+')}:wght@${fontWeights}&display=swap`;
@@ -43,6 +44,9 @@ export function buildCssVars(design: DesignJson): string {
       /* ===== Container spacing (selected scale) ===== */
       --selected-container-spacing: var(--foundation-container-spacing-${containerSpacing});
 
+      /* ===== Navbar spacing (selected scale) ===== */
+      --selected-navbar-spacing: var(--foundation-navbar-spacing-${navbarSpacing});
+
       ${isInverseAccent ? `
       /* ===== Inverse Accent (uses existing --secondary-* scale) ===== */
       --accent-100:  var(--secondary-100);
@@ -50,9 +54,9 @@ export function buildCssVars(design: DesignJson): string {
       --accent-300:  var(--secondary-300);
       --accent-400:  var(--secondary-400);
       --accent-500:  var(--secondary-500);
-      --accent-600:  var(--secondary-600);
-      --accent-700:  var(--secondary-700);
-      --accent-800:  var(--secondary-800);
+      --accent-600:  var(--secondary-1200);
+      --accent-700:  var(--secondary-1100);
+      --accent-800:  var(--secondary-1000);
       --accent-900:  var(--secondary-900);
       --accent-950:  var(--secondary-900);
       --accent-1000: var(--secondary-900);

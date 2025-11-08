@@ -181,7 +181,6 @@ export interface KjNavbarProps {
   logoAlt?: string;
   logoWidth?: number;
   logoHeight?: number;
-  height?: string;
 }
 
 export const KjNavbar = ({ 
@@ -202,7 +201,6 @@ export const KjNavbar = ({
   logoAlt,
   logoWidth = 32,
   logoHeight = 32,
-  height = 'var(--navbar-height)'
 }: KjNavbarProps) => {
 
   // Hardcoded S3 base URL
@@ -284,7 +282,6 @@ export const KjNavbar = ({
           margin: '0 auto',
           padding: 'var(--foundation-navbar)',
           width: '100%',
-          height: height
         }}
       >
         <HStack 
