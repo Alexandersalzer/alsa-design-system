@@ -97,14 +97,14 @@ export const renderGlobalPattern = (pattern: PatternNode, patternKey: string, in
   // Hämta useMediaWidth från props
   const useMediaWidth = pattern.props?.useMediaWidth ?? false;
 
-  // Container för layout men utan spacing för globala patterns
+  // Container för layout men utan padding för globala patterns
   return (
     <Container 
       key={`${patternKey}-${index}`}
       align="center"
       height="auto"
       useMediaWidth={useMediaWidth}
-      spacing={undefined} // Explicit no spacing för globala patterns
+      noPadding={true} // Ingen vertical padding för navbar/footer
     >
       <PatternComponent 
         type={pattern.type}
