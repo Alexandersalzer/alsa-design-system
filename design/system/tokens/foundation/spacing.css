@@ -126,51 +126,52 @@
 }
 
 /* ==============================================
-   FOUNDATION NAVBAR CONTAINER SPACING SCALE
+   FOUNDATION NAVBAR SPACING SCALE
+   REDUCED BY ~50% - Since padding-top + padding-bottom = 2x visual spacing
    Tight vertical spacing for navigation components
    ============================================== */
 :root {
   /* ===== MOBILE BASE VALUES (<768px) ===== */
-  --foundation-navbar-spacing-xs: 0.75rem;   /* 12px */
-  --foundation-navbar-spacing-sm: 1rem;      /* 16px */
-  --foundation-navbar-spacing-md: 1.25rem;   /* 20px */
-  --foundation-navbar-spacing-lg: 1.5rem;    /* 24px */
-  --foundation-navbar-spacing-xl: 1.75rem;   /* 28px */
-  --foundation-navbar-spacing-2xl: 2rem;     /* 32px */
+  --foundation-navbar-spacing-xs: 0.375rem;  /* 6px  → 12px total */
+  --foundation-navbar-spacing-sm: 0.5rem;    /* 8px  → 16px total */
+  --foundation-navbar-spacing-md: 0.625rem;  /* 10px → 20px total */
+  --foundation-navbar-spacing-lg: 0.75rem;   /* 12px → 24px total */
+  --foundation-navbar-spacing-xl: 0.875rem;  /* 14px → 28px total */
+  --foundation-navbar-spacing-2xl: 1rem;     /* 16px → 32px total */
 }
 
 /* ===== TABLET (≥768px) ===== */
 @media (min-width: 768px) {
   :root {
-    --foundation-navbar-spacing-xs: 0.875rem;  /* 14px */
-    --foundation-navbar-spacing-sm: 1.125rem;  /* 18px */
-    --foundation-navbar-spacing-md: 1.375rem;  /* 22px */
-    --foundation-navbar-spacing-lg: 1.625rem;  /* 26px */
-    --foundation-navbar-spacing-xl: 1.875rem;  /* 30px */
-    --foundation-navbar-spacing-2xl: 2.25rem;  /* 36px */
+    --foundation-navbar-spacing-xs: 0.4375rem; /* 7px  → 14px total */
+    --foundation-navbar-spacing-sm: 0.5625rem; /* 9px  → 18px total */
+    --foundation-navbar-spacing-md: 0.6875rem; /* 11px → 22px total */
+    --foundation-navbar-spacing-lg: 0.8125rem; /* 13px → 26px total */
+    --foundation-navbar-spacing-xl: 0.9375rem; /* 15px → 30px total */
+    --foundation-navbar-spacing-2xl: 1.125rem; /* 18px → 36px total */
   }
 }
 
 /* ===== DESKTOP (≥1024px) ===== */
 @media (min-width: 1024px) {
   :root {
-    --foundation-navbar-spacing-xs: 1rem;      /* 16px */
-    --foundation-navbar-spacing-sm: 1.25rem;   /* 20px */
-    --foundation-navbar-spacing-md: 1.5rem;    /* 24px */
-    --foundation-navbar-spacing-lg: 1.75rem;   /* 28px */
-    --foundation-navbar-spacing-xl: 2rem;      /* 32px */
-    --foundation-navbar-spacing-2xl: 2.5rem;   /* 40px */
+    --foundation-navbar-spacing-xs: 0.5rem;    /* 8px  → 16px total */
+    --foundation-navbar-spacing-sm: 0.625rem;  /* 10px → 20px total */
+    --foundation-navbar-spacing-md: 0.75rem;   /* 12px → 24px total */
+    --foundation-navbar-spacing-lg: 0.875rem;  /* 14px → 28px total */
+    --foundation-navbar-spacing-xl: 1rem;      /* 16px → 32px total */
+    --foundation-navbar-spacing-2xl: 1.25rem;  /* 20px → 40px total */
   }
 }
 
 /* ===== LARGE DESKTOP (≥1440px) ===== */
 @media (min-width: 1440px) {
   :root {
-    --foundation-navbar-spacing-xs: 1.125rem;  /* 18px */
-    --foundation-navbar-spacing-sm: 1.375rem;  /* 22px */
-    --foundation-navbar-spacing-md: 1.625rem;  /* 26px */
-    --foundation-navbar-spacing-lg: 1.875rem;  /* 30px */
-    --foundation-navbar-spacing-xl: 2.125rem;  /* 34px */
-    --foundation-navbar-spacing-2xl: 2.75rem;  /* 44px */
+    --foundation-navbar-spacing-xs: 0.5625rem;  /* 9px  → 18px total */
+    --foundation-navbar-spacing-sm: 0.6875rem;  /* 11px → 22px total */
+    --foundation-navbar-spacing-md: 0.8125rem;  /* 13px → 26px total */
+    --foundation-navbar-spacing-lg: 0.9375rem;  /* 15px → 30px total */
+    --foundation-navbar-spacing-xl: 1.0625rem;  /* 17px → 34px total */
+    --foundation-navbar-spacing-2xl: 1.375rem;  /* 22px → 44px total */
   }
 }
