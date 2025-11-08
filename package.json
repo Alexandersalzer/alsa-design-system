@@ -1,6 +1,6 @@
 {
   "name": "@blimpify-im/ui",
-  "version": "0.1.776",
+  "version": "0.1.775",
   "description": "Blimpify Design System - Reusable React components for client websites",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -17,9 +17,9 @@
       "types": "./dist/design/cms/i18n/i18n.d.ts"
     },
     "./content": {
-      "import": "./dist/content/index.js",
-      "require": "./dist/content/index.js",
-      "types": "./dist/content/index.d.ts"
+      "import": "./dist/design/cms/wrappers/content/services/contentLoader.js",
+      "require": "./dist/design/cms/wrappers/content/services/contentLoader.js",
+      "types": "./dist/design/cms/wrappers/content/services/contentLoader.d.ts"
     },
     "./layout": {
       "import": "./dist/design/cms/wrappers/ContentLayout.js",
