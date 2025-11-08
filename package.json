@@ -17,9 +17,9 @@
       "types": "./dist/design/cms/i18n/i18n.d.ts"
     },
     "./content": {
-      "import": "./dist/design/cms/wrappers/content/services/contentLoader.js",
-      "require": "./dist/design/cms/wrappers/content/services/contentLoader.js",
-      "types": "./dist/design/cms/wrappers/content/services/contentLoader.d.ts"
+      "import": "./dist/content/index.js",
+      "require": "./dist/content/index.js",
+      "types": "./dist/content/index.d.ts"
     },
     "./layout": {
       "import": "./dist/design/cms/wrappers/ContentLayout.js",
