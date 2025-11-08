@@ -158,7 +158,15 @@ export interface NavItem {
 }
 
 export interface KjNavbarProps {
-  // Props that can be passed directly or extracted from components
+  // New CMS structure
+  type?: string;
+  props?: Record<string, any>;
+  components?: Record<string, {
+    type: string;
+    props: Record<string, any>;
+  }>;
+  
+  // Legacy props for backwards compatibility
   brandName?: string;
   brandHref?: string;
   navItems?: NavItem[];
@@ -169,24 +177,18 @@ export interface KjNavbarProps {
   brandSize?: 'sm' | 'md' | 'lg' | 'xl';
   brandWeight?: 'regular' | 'medium' | 'semibold' | 'bold';
   brandUnderline?: 'none' | 'hover' | 'always';
-  logoEndpoint?: string; // Only the endpoint part, base URL is hardcoded
+  logoEndpoint?: string;
   logoAlt?: string;
   logoWidth?: number;
   logoHeight?: number;
   height?: string;
-  
-  // Component data from CMS (from navbar.json structure)
-  components?: Record<string, {
-    type: string;
-    content: string | { src: string; alt: string };
-    slug?: string;
-    config?: {
-      href: string;
-    };
-  }>;
 }
 
 export const KjNavbar = ({ 
+  type,
+  props: cmsProps = {},
+  components = {},
+  // Legacy props
   brandName,
   brandHref = '/',
   navItems = [],
@@ -200,50 +202,48 @@ export const KjNavbar = ({
   logoAlt,
   logoWidth = 32,
   logoHeight = 32,
-  height = 'var(--navbar-height)',
-  components = {}
+  height = 'var(--navbar-height)'
 }: KjNavbarProps) => {
 
   // Hardcoded S3 base URL
   const S3_BASE_URL_MEMBERS = 'https://cdn.blimpify-im.com/members';
 
-  // Extract data from components if available
+  // Extract data from new CMS structure
   const logoComponent = Object.values(components).find(comp => comp.type === 'logo');
   const titleComponent = Object.values(components).find(comp => comp.type === 'title');
   
-  // Extract logo endpoint from components or props
+  // Extract logo endpoint from new props structure
   let logoEndpointFromComponent = '';
-  if (typeof logoComponent?.content === 'object' && logoComponent.content.src) {
-    // Extract only the endpoint part if it's a full URL, otherwise use as is
-    const logoSrc = logoComponent.content.src;
+  if (logoComponent?.props?.src) {
+    const logoSrc = logoComponent.props.src;
     if (logoSrc.startsWith('https://cdn.blimpify-im.com/members/')) {
       logoEndpointFromComponent = logoSrc.replace('https://cdn.blimpify-im.com/members/', '');
     } else if (logoSrc.startsWith('/')) {
-      logoEndpointFromComponent = logoSrc.substring(1); // Remove leading slash
+      logoEndpointFromComponent = logoSrc.substring(1);
     } else {
       logoEndpointFromComponent = logoSrc;
     }
   }
 
-  // Use component data as fallbacks, no hardcoded fallbacks
-  const finalBrandName = brandName || (typeof titleComponent?.content === 'string' ? titleComponent.content : undefined);
+  // Use new structure with fallbacks to legacy props
+  const finalBrandName = brandName || titleComponent?.props?.content;
   const finalBrandHref = brandHref;
   const finalLogoEndpoint = logoEndpoint || logoEndpointFromComponent;
   const finalLogoSrc = finalLogoEndpoint ? `${S3_BASE_URL_MEMBERS}/${finalLogoEndpoint}` : undefined;
-  const finalLogoAlt = logoAlt || (typeof logoComponent?.content === 'object' ? logoComponent.content.alt : undefined);
+  const finalLogoAlt = logoAlt || logoComponent?.props?.alt;
 
 
 
-  // Convert CMS components to nav items
+  // Convert CMS components to nav items (new structure)
   const cmsNavItems: NavItem[] = Object.values(components)
     .filter((component: any) => component.type === 'navItem')
     .map((component: any, index: number) => {
     const navItemsArray = Object.values(components).filter((c: any) => c.type === 'navItem');
     return {
-      href: component.config?.href || '/',
-      label: component.content || '',
+      href: component.props?.href || '/',
+      label: component.props?.content || '',
       slug: '',
-      variant: component.config?.variant, // ✅ Extract variant from config!
+      variant: component.props?.variant,
       componentType: index === navItemsArray.length - 1 ? 'button' : 'textlink',
       textLinkVariant: 'primary',
       weight: 'medium',

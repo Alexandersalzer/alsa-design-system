@@ -5,17 +5,19 @@ import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 
 interface KjFooterProps {
+  type?: string;
+  props?: Record<string, any>;
   components?: Record<string, {
     type: string;
-    content: string;
+    props: Record<string, any>;
   }>;
 }
 
-const KjFooter = ({ components = {} }: KjFooterProps) => {
-  // Extract content from components
+const KjFooter = ({ type, props, components = {} }: KjFooterProps) => {
+  // Extract content from new components structure
   const componentsList = Object.values(components);
-  const title = componentsList.find(c => c.type === 'title')?.content || 'KJ MARKETING SWEDEN';
-  const bodies = componentsList.filter(c => c.type === 'body').map(c => c.content);
+  const title = componentsList.find(c => c.type === 'title')?.props?.content || 'KJ MARKETING SWEDEN';
+  const bodies = componentsList.filter(c => c.type === 'body').map(c => c.props?.content || '');
 
   return (
     <VStack spacing="xl" align="center" fullWidth>

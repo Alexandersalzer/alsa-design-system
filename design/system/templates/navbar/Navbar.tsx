@@ -2,15 +2,10 @@
 
 import { Section } from '../../components/frames/section';
 import { renderPattern } from '../../../cms/utils/renderSections';
+import { SectionNode } from '../../core/types/nodes';
 
 interface NavbarProps {
-  section?: {
-    [key: string]: {
-      type: string;
-      patterns?: Record<string, any>;
-      order?: string[];
-    };
-  };
+  section?: Record<string, SectionNode>;
 }
 
 const Navbar = ({ section }: NavbarProps) => {
@@ -20,8 +15,8 @@ const Navbar = ({ section }: NavbarProps) => {
   const navbarSection = Object.values(section)[0];
   if (!navbarSection?.patterns) return null;
 
-  const { patterns } = navbarSection;
-  const patternOrder = navbarSection.order || Object.keys(patterns);
+  const { patterns, order, props: sectionProps } = navbarSection;
+  const patternOrder = order || Object.keys(patterns);
   
   // Render all patterns for the navbar
   const renderedPatterns = patternOrder

@@ -2,23 +2,22 @@
 
 import { Section } from '../../system/components/frames/section/Section';
 import { Container } from '../../system/components';
+import { Component } from '../../system/components/frames/component/Component';
 import { patternRegistry } from '../../system/patterns/registry';
+import { componentRegistry } from '../../system/components/registry';
 
-/**
- * Interface for section data from JSON
- */
-export interface SectionData {
-  type: string;
-  patterns?: Record<string, any>;
-  order?: string[];
-  [key: string]: any;
-}
+// Import nya node types
+import { 
+  SectionNode, 
+  PatternNode, 
+  ComponentNode
+} from '../../system/core/types/nodes';
 
 /**
  * Props for renderSection function
  */
 interface RenderSectionProps {
-  sectionData: SectionData;
+  sectionData: SectionNode;
   sectionKey: string;
 }
 
@@ -26,31 +25,59 @@ interface RenderSectionProps {
  * Props for Sections component
  */
 interface SectionsProps {
-  sections: Record<string, SectionData>;
+  sections: Record<string, SectionNode>;
   order: string[];
 }
 
 /**
- * Pattern Renderer - Dynamically renders patterns based on content
+ * Component Renderer - Renderar enskilda components med Component wrapper
  */
-export const renderPattern = (pattern: any, index: number) => {
+export const renderComponent = (component: ComponentNode, componentKey: string, index: number) => {
+  const ComponentElement = componentRegistry[component.type];
+  if (!ComponentElement) {
+    console.warn(`Unknown component type: ${component.type}`);
+    return null;
+  }
+
+  return (
+    <Component 
+      key={`${componentKey}-${index}`}
+      id={componentKey}
+      className={`component-${component.type}`}
+    >
+      <ComponentElement 
+        type={component.type}
+        props={component.props}
+      />
+    </Component>
+  );
+};
+
+/**
+ * Pattern Renderer - Pattern har full kontroll över component rendering
+ */
+export const renderPattern = (pattern: PatternNode, index: number) => {
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
     console.warn(`Unknown pattern type: ${pattern.type}`);
     return null;
   }
 
-  // Check if pattern has settings that affect Container behavior
-  const useMediaWidth = pattern.settings?.useMediaWidth ?? false;
+  // Hämta useMediaWidth från props istället för settings
+  const useMediaWidth = pattern.props?.useMediaWidth ?? false;
 
   return (
     <Container 
-      key={`pattern-${index}`}
+      key={`${index}`}
       align="center"
       height="auto"
       useMediaWidth={useMediaWidth}
     >
-      <PatternComponent {...pattern} />
+      <PatternComponent 
+        type={pattern.type}
+        props={pattern.props}
+        components={pattern.components}
+      />
     </Container>
   );
 };
@@ -64,8 +91,8 @@ export function renderSection({
 }: RenderSectionProps): React.ReactNode {
   if (!sectionData?.patterns) return null;
 
-  const { type, patterns } = sectionData;
-  const patternOrder = sectionData.order || Object.keys(patterns);
+  const { type, patterns, order, props: sectionProps } = sectionData;
+  const patternOrder = order || Object.keys(patterns);
   
   // Render all patterns for this section
   const renderedPatterns = patternOrder
@@ -76,15 +103,15 @@ export function renderSection({
     .filter(Boolean);
   
   if (renderedPatterns.length === 0) return null;
+
   
-  // Wrap all patterns in a Section with VStack for spacing
   return (
     <Section 
       key={sectionKey}
       id={`${type}-section`}
       height="auto"
     >
-        {renderedPatterns}
+      {renderedPatterns}
     </Section>
   );
 }

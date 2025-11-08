@@ -2,15 +2,10 @@
 
 import { Section } from '../../components/frames/section';
 import { renderPattern } from '../../../cms/utils/renderSections';
+import { SectionNode } from '../../core/types/nodes';
 
 interface FooterProps {
-  section?: {
-    [key: string]: {
-      type: string;
-      patterns?: Record<string, any>;
-      order?: string[];
-    };
-  };
+  section?: Record<string, SectionNode>;
 }
 
 const Footer = ({ section }: FooterProps) => {
@@ -20,8 +15,8 @@ const Footer = ({ section }: FooterProps) => {
   const footerSection = Object.values(section)[0];
   if (!footerSection?.patterns) return null;
 
-  const { patterns } = footerSection;
-  const patternOrder = footerSection.order || Object.keys(patterns);
+  const { patterns, order, props: sectionProps } = footerSection;
+  const patternOrder = order || Object.keys(patterns);
   
   // Render all patterns for the footer
   const renderedPatterns = patternOrder
