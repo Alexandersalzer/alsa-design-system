@@ -1,17 +1,17 @@
 'use client';
 
-import { Section } from '../../system/components/frames/section/Section';
-import { Container } from '../../system/components';
-import { Component } from '../../system/components/frames/component/Component';
-import { patternRegistry } from '../../system/patterns/registry';
-import { componentRegistry } from '../../system/components/registry';
+import { Section } from '../../components/frames/section/Section';
+import { Container } from '../../components';
+import { Component } from '../../components/frames/component/Component';
+import { patternRegistry } from '../../patterns/registry';
+import { componentRegistry } from '../../components/registry';
 
 // Import nya node types
 import { 
   SectionNode, 
   PatternNode, 
   ComponentNode
-} from '../../system/core/types/nodes';
+} from '../types/nodes';
 
 /**
  * Props for renderSection function
