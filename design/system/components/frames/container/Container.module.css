@@ -52,6 +52,12 @@
 .alignCenter { align-items: center; text-align: center; }
 .alignRight  { align-items: flex-end; text-align: right; }
 
+/* ===== PADDING VARIANTS ===== */
+.noPadding {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 /* ===== RESPONSIVE ===== */
 
 /* Smaller screens → tighter horizontal padding */

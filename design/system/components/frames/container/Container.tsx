@@ -15,6 +15,7 @@ interface ContainerProps {
   useMediaWidth?: boolean;
   useFormWidth?: boolean;
   spacing?: SpacingScale;
+  noPadding?: boolean; // För globala patterns utan vertical padding
   style?: React.CSSProperties;
 }
 
@@ -41,6 +42,10 @@ const getSpacingClass = (spacing?: SpacingScale): string => {
   return styles[`spacing${spacing.charAt(0).toUpperCase() + spacing.slice(1)}`] || '';
 };
 
+const getPaddingClass = (noPadding: boolean): string => {
+  return noPadding ? styles.noPadding : '';
+};
+
 export const Container = ({
   children,
   className = '',
@@ -51,11 +56,13 @@ export const Container = ({
   useMediaWidth = false,
   useFormWidth = false,
   spacing,
+  noPadding = false,
   style,
 }: ContainerProps) => {
   const alignmentClass = getAlignmentClass(align);
   const heightClass = getHeightClass(height);
   const spacingClass = getSpacingClass(spacing);
+  const paddingClass = getPaddingClass(noPadding);
   
   const widthClass = useFormWidth 
     ? styles.maxWidthForm 
@@ -69,6 +76,7 @@ export const Container = ({
     heightClass,
     widthClass,
     spacingClass,
+    paddingClass,
     className,
   ].join(' ').trim();
 
