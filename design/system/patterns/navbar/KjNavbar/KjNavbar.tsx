@@ -276,14 +276,15 @@ export const KjNavbar = ({
       }}
     >
       {/* Content constrained wrapper */}
-      <Box
-        style={{
-          maxWidth: 'var(--width-content)',
-          margin: '0 auto',
-          padding: 'var(--foundation-navbar)',
-          width: '100%',
-        }}
-      >
+      <Box
+        style={{
+          maxWidth: 'var(--width-content)',
+          margin: '0 auto',
+          paddingTop: 'var(--selected-navbar-spacing)',      // ✅ FIXED
+          paddingBottom: 'var(--selected-navbar-spacing)',   // ✅ FIXED
+          width: '100%',
+        }}
+      >
         <HStack 
           justify="between" 
           align="center" 
