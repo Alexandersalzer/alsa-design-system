@@ -67,6 +67,7 @@ const formComponentRegistry: Record<string, React.ComponentType<any>> = {
       disabled,
       error,
       helper,
+      fullWidth, // ✅ Extract but don't pass to Input
       ...rest 
     } = props;
     
@@ -94,9 +95,9 @@ const formComponentRegistry: Record<string, React.ComponentType<any>> = {
         helper={helper}
         required={required}
         disabled={disabled}
-        fullWidth
         size="md"
         radius="md"
+        style={fullWidth ? { width: '100%' } : undefined} // ✅ Apply as style instead
         {...rest}
       />
     );
@@ -112,6 +113,7 @@ const formComponentRegistry: Record<string, React.ComponentType<any>> = {
       disabled,
       error,
       helper,
+      fullWidth, // ✅ Extract but don't pass to Textarea
       ...rest 
     } = props;
     
@@ -125,7 +127,7 @@ const formComponentRegistry: Record<string, React.ComponentType<any>> = {
         helper={helper}
         required={required}
         disabled={disabled}
-        fullWidth
+        style={fullWidth ? { width: '100%' } : undefined} // ✅ Apply as style instead
         {...rest}
       />
     );
@@ -138,6 +140,7 @@ const formComponentRegistry: Record<string, React.ComponentType<any>> = {
       checked,
       disabled,
       required,
+      fullWidth, // ✅ Extract
       ...rest 
     } = props;
     
@@ -162,6 +165,7 @@ const formComponentRegistry: Record<string, React.ComponentType<any>> = {
       disabled,
       required,
       orientation = 'vertical',
+      fullWidth, // ✅ Extract
       ...rest 
     } = props;
     
@@ -185,6 +189,7 @@ const formComponentRegistry: Record<string, React.ComponentType<any>> = {
       name, 
       checked,
       disabled,
+      fullWidth, // ✅ Extract
       ...rest 
     } = props;
     
@@ -208,6 +213,7 @@ const formComponentRegistry: Record<string, React.ComponentType<any>> = {
       maxSize,
       disabled,
       helper,
+      fullWidth, // ✅ Extract
       ...rest 
     } = props;
     
@@ -236,6 +242,7 @@ const formComponentRegistry: Record<string, React.ComponentType<any>> = {
       required,
       error,
       helper,
+      fullWidth, // ✅ Extract
       ...rest 
     } = props;
     
@@ -250,13 +257,14 @@ const formComponentRegistry: Record<string, React.ComponentType<any>> = {
         helper={helper}
         disabled={disabled}
         required={required}
+        style={fullWidth ? { width: '100%' } : undefined} // ✅ Apply as style
         {...rest}
       />
     );
   },
   
   button: (props: any) => {
-    const { content, fullWidth, ...rest } = props;
+    const { content, fullWidth, colSpan, rowSpan, ...rest } = props; // ✅ Extract fullWidth, colSpan, rowSpan
     
     const buttonType = content?.type || 'primary';
     const buttonText = content?.content || 'Submit';
@@ -293,7 +301,7 @@ const formComponentRegistry: Record<string, React.ComponentType<any>> = {
         radius="md"
         leftIcon={leftIconComponent}
         rightIcon={rightIconComponent}
-        style={fullWidth ? { width: '100%' } : undefined}
+        style={fullWidth ? { width: '100%' } : undefined} // ✅ Apply as style instead
         {...rest}
       >
         {buttonText}
@@ -336,7 +344,7 @@ export const FormPattern: React.FC<FormPatternProps> = ({
     if (layout === 'stack') {
       const StackComponent = direction === 'horizontal' ? HStack : VStack;
       return (
-        <StackComponent spacing={spacing} align="stretch" fullWidth={fullWidth}>
+        <StackComponent spacing={spacing} align="stretch" style={fullWidth ? { width: '100%' } : undefined}>
           {componentEntries.map(([key, data]: [string, any]) => {
             const ComponentType = formComponentRegistry[data.type];
             
@@ -345,14 +353,9 @@ export const FormPattern: React.FC<FormPatternProps> = ({
               return null;
             }
 
-            const { fullWidth: componentFullWidth, ...componentProps } = data;
-
             return (
-              <div key={key}>
-                <ComponentType 
-                  {...componentProps} 
-                  fullWidth={componentFullWidth !== undefined ? componentFullWidth : true} 
-                />
+              <div key={key} style={{ width: '100%' }}>
+                <ComponentType {...data} />
               </div>
             );
           })}
@@ -373,16 +376,13 @@ export const FormPattern: React.FC<FormPatternProps> = ({
             }
 
             // Extract layout properties
-            const { colSpan, rowSpan, fullWidth: componentFullWidth, ...componentProps } = data;
+            const { colSpan, rowSpan, ...componentProps } = data;
 
             // Use GridItem for proper span support
             if (colSpan || rowSpan) {
               return (
                 <GridItem key={key} colSpan={colSpan} rowSpan={rowSpan}>
-                  <ComponentType 
-                    {...componentProps} 
-                    fullWidth={componentFullWidth !== undefined ? componentFullWidth : true} 
-                  />
+                  <ComponentType {...componentProps} />
                 </GridItem>
               );
             }
@@ -390,10 +390,7 @@ export const FormPattern: React.FC<FormPatternProps> = ({
             // Regular rendering without spans
             return (
               <div key={key}>
-                <ComponentType 
-                  {...componentProps} 
-                  fullWidth={componentFullWidth !== undefined ? componentFullWidth : true} 
-                />
+                <ComponentType {...componentProps} />
               </div>
             );
           })}
@@ -413,14 +410,9 @@ export const FormPattern: React.FC<FormPatternProps> = ({
               return null;
             }
 
-            const { fullWidth: componentFullWidth, ...componentProps } = data;
-
             return (
               <div key={key}>
-                <ComponentType 
-                  {...componentProps} 
-                  fullWidth={componentFullWidth !== undefined ? componentFullWidth : true} 
-                />
+                <ComponentType {...data} />
               </div>
             );
           })}
