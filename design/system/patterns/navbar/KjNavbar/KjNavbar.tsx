@@ -40,17 +40,13 @@ const NavMenu = ({
   variant = 'primary',
   size = 'md'
 }: NavMenuProps) => {
-
   return (
     <HStack spacing={spacing} wrap={wrap} className={className} align='center'>
       {items.map((item, index) => {
-        // Use individual item variant/size or fallback to global defaults
         const itemVariant = item.variant || variant;
         const itemSize = item.size || size;
         
-        // Check if this should be a TextLink or Button
         if (item.componentType === 'textlink') {
-          // Render as TextLink
           const textLinkVariant = item.textLinkVariant || 'primary';
           const activeVariant = item.isActive ? 'accent' : textLinkVariant;
           
@@ -69,7 +65,6 @@ const NavMenu = ({
             </TextLink>
           );
         } else {
-          // Render as Button
           const buttonVariant = item.isActive ? 'secondary' : itemVariant;
           
           return (
@@ -126,7 +121,7 @@ const BrandLink = ({
       underline={underline}
       className={className}
     >
-      <HStack align="center">
+      <HStack align="center" spacing="sm">
         {logoSrc && (
           <img 
             src={logoSrc} 
@@ -134,10 +129,9 @@ const BrandLink = ({
             width={logoWidth}
             height={logoHeight}
             className="object-contain flex-shrink-0"
-            style={{ display: 'component' }}
           />
         )}
-        <span className="brand-text" style={{ display: 'flex', alignItems: 'center' }}>{children}</span>
+        {children && <span>{children}</span>}
       </HStack>
     </TextLink>
   );
@@ -158,25 +152,21 @@ export interface NavItem {
 }
 
 export interface KjNavbarProps {
-  // Props that can be passed directly or extracted from components
   brandName?: string;
   brandHref?: string;
   navItems?: NavItem[];
   className?: string;
-  navVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   navSize?: 'sm' | 'md' | 'lg' | 'xl';
   brandVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'brand';
   brandSize?: 'sm' | 'md' | 'lg' | 'xl';
   brandWeight?: 'regular' | 'medium' | 'semibold' | 'bold';
   brandUnderline?: 'none' | 'hover' | 'always';
-  logoEndpoint?: string; // Only the endpoint part, base URL is hardcoded
+  logoEndpoint?: string;
   logoAlt?: string;
   logoWidth?: number;
   logoHeight?: number;
-  height?: string;
-  navbarSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; // ✅ NEW
+  navbarSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   
-  // Component data from CMS (from navbar.json structure)
   components?: Record<string, {
     type: string;
     content: string | { src: string; alt: string };
@@ -201,64 +191,52 @@ export const KjNavbar = ({
   logoAlt,
   logoWidth = 32,
   logoHeight = 32,
-  navbarSpacing = 'md', // ✅ NEW - default navbar spacing
+  navbarSpacing,
   components = {}
 }: KjNavbarProps) => {
-
-  // Hardcoded S3 base URL
   const S3_BASE_URL_MEMBERS = 'https://cdn.blimpify-im.com/members';
 
-  // Extract data from components if available
   const logoComponent = Object.values(components).find(comp => comp.type === 'logo');
   const titleComponent = Object.values(components).find(comp => comp.type === 'title');
   
-  // Extract logo endpoint from components or props
   let logoEndpointFromComponent = '';
   if (typeof logoComponent?.content === 'object' && logoComponent.content.src) {
-    // Extract only the endpoint part if it's a full URL, otherwise use as is
     const logoSrc = logoComponent.content.src;
     if (logoSrc.startsWith('https://cdn.blimpify-im.com/members/')) {
       logoEndpointFromComponent = logoSrc.replace('https://cdn.blimpify-im.com/members/', '');
     } else if (logoSrc.startsWith('/')) {
-      logoEndpointFromComponent = logoSrc.substring(1); // Remove leading slash
+      logoEndpointFromComponent = logoSrc.substring(1);
     } else {
       logoEndpointFromComponent = logoSrc;
     }
   }
 
-  // Use component data as fallbacks, no hardcoded fallbacks
   const finalBrandName = brandName || (typeof titleComponent?.content === 'string' ? titleComponent.content : undefined);
   const finalBrandHref = brandHref;
   const finalLogoEndpoint = logoEndpoint || logoEndpointFromComponent;
   const finalLogoSrc = finalLogoEndpoint ? `${S3_BASE_URL_MEMBERS}/${finalLogoEndpoint}` : undefined;
   const finalLogoAlt = logoAlt || (typeof logoComponent?.content === 'object' ? logoComponent.content.alt : undefined);
 
-  // ✅ Map navbar spacing to CSS variable
-  const navbarSpacingVar = `var(--space-navbar-${navbarSpacing})`;
-
-  // Convert CMS components to nav items
   const cmsNavItems: NavItem[] = Object.values(components)
     .filter((component: any) => component.type === 'navItem')
     .map((component: any, index: number) => {
-    const navItemsArray = Object.values(components).filter((c: any) => c.type === 'navItem');
-    return {
-      href: component.config?.href || '/',
-      label: component.content || '',
-      slug: '',
-      variant: component.config?.variant,
-      componentType: index === navItemsArray.length - 1 ? 'button' : 'textlink',
-      textLinkVariant: 'primary',
-      weight: 'medium',
-      underline: 'hover',
-      rightIcon: index === navItemsArray.length - 1 ? <ArrowRightIcon /> : undefined,
-      size: navSize
-    };
-  });
+      const navItemsArray = Object.values(components).filter((c: any) => c.type === 'navItem');
+      return {
+        href: component.config?.href || '/',
+        label: component.content || '',
+        slug: '',
+        variant: component.config?.variant,
+        componentType: index === navItemsArray.length - 1 ? 'button' : 'textlink',
+        textLinkVariant: 'primary',
+        weight: 'medium',
+        underline: 'hover',
+        rightIcon: index === navItemsArray.length - 1 ? <ArrowRightIcon /> : undefined,
+        size: navSize
+      };
+    });
 
-  // Use CMS items if available, otherwise fallback to passed navItems
   const finalNavItems = cmsNavItems.length > 0 ? cmsNavItems : navItems;
 
-  // Transform NavItem[] to NavMenuItem[] 
   const menuItems: NavMenuItem[] = finalNavItems.map(item => ({
     ...item,
     isActive: false,
@@ -272,19 +250,27 @@ export const KjNavbar = ({
     underline: item.underline
   }));
 
+  // ✅ Use --selected-navbar-spacing from global styles, or allow prop override
+  const navbarSpacingVar = navbarSpacing 
+    ? `var(--space-navbar-${navbarSpacing})` 
+    : 'var(--selected-navbar-spacing)';
+
   return (
     <Box
+      as="nav"
       className={className}
       style={{
-        width: '100%'
+        width: '100%',
       }}
     >
-      {/* Content constrained wrapper */}
+      {/* Content-constrained wrapper with navbar spacing */}
       <Box
         style={{
           maxWidth: 'var(--width-content)',
           margin: '0 auto',
-          padding: `${navbarSpacingVar} var(--foundation-space-2)`, // ✅ Use navbar spacing for vertical padding
+          paddingTop: navbarSpacingVar,
+          paddingBottom: navbarSpacingVar,
+          paddingInline: 'var(--foundation-space-4)',
           width: '100%',
         }}
       >

@@ -76,51 +76,52 @@
 
 /* ==============================================
    FOUNDATION CONTAINER SPACING SCALE (Responsive)
-   Internal vertical rhythm for Container component
+   REDUCED BY ~50% - Since padding-top + padding-bottom = 2x visual spacing
+   Also used for internal gap between children
    ============================================== */
 :root {
   /* ===== MOBILE BASE VALUES (<768px) ===== */
-  --foundation-container-spacing-xs: 1rem;     /* 16px */
-  --foundation-container-spacing-sm: 1.5rem;   /* 24px */
-  --foundation-container-spacing-md: 2rem;     /* 32px */
-  --foundation-container-spacing-lg: 2.5rem;   /* 40px */
-  --foundation-container-spacing-xl: 3rem;     /* 48px */
-  --foundation-container-spacing-2xl: 4rem;    /* 64px */
+  --foundation-container-spacing-xs: 0.5rem;    /* 8px  → 16px total */
+  --foundation-container-spacing-sm: 0.75rem;   /* 12px → 24px total */
+  --foundation-container-spacing-md: 1rem;      /* 16px → 32px total */
+  --foundation-container-spacing-lg: 1.25rem;   /* 20px → 40px total */
+  --foundation-container-spacing-xl: 1.5rem;    /* 24px → 48px total */
+  --foundation-container-spacing-2xl: 2rem;     /* 32px → 64px total */
 }
 
 /* ===== TABLET (≥768px) ===== */
 @media (min-width: 768px) {
   :root {
-    --foundation-container-spacing-xs: 1.25rem;
-    --foundation-container-spacing-sm: 1.75rem;
-    --foundation-container-spacing-md: 2.5rem;
-    --foundation-container-spacing-lg: 3rem;
-    --foundation-container-spacing-xl: 3.5rem;
-    --foundation-container-spacing-2xl: 4.5rem;
+    --foundation-container-spacing-xs: 0.625rem;  /* 10px → 20px total */
+    --foundation-container-spacing-sm: 0.875rem;  /* 14px → 28px total */
+    --foundation-container-spacing-md: 1.25rem;   /* 20px → 40px total */
+    --foundation-container-spacing-lg: 1.5rem;    /* 24px → 48px total */
+    --foundation-container-spacing-xl: 1.75rem;   /* 28px → 56px total */
+    --foundation-container-spacing-2xl: 2.25rem;  /* 36px → 72px total */
   }
 }
 
 /* ===== DESKTOP (≥1024px) ===== */
 @media (min-width: 1024px) {
   :root {
-    --foundation-container-spacing-xs: 1.5rem;
-    --foundation-container-spacing-sm: 2rem;
-    --foundation-container-spacing-md: 3rem;
-    --foundation-container-spacing-lg: 4rem;
-    --foundation-container-spacing-xl: 5rem;
-    --foundation-container-spacing-2xl: 6rem;
+    --foundation-container-spacing-xs: 0.75rem;   /* 12px → 24px total */
+    --foundation-container-spacing-sm: 1rem;      /* 16px → 32px total */
+    --foundation-container-spacing-md: 1.5rem;    /* 24px → 48px total */
+    --foundation-container-spacing-lg: 2rem;      /* 32px → 64px total */
+    --foundation-container-spacing-xl: 2.5rem;    /* 40px → 80px total */
+    --foundation-container-spacing-2xl: 3rem;     /* 48px → 96px total */
   }
 }
 
 /* ===== LARGE DESKTOP (≥1440px) ===== */
 @media (min-width: 1440px) {
   :root {
-    --foundation-container-spacing-xs: 1.75rem;
-    --foundation-container-spacing-sm: 2.25rem;
-    --foundation-container-spacing-md: 3.5rem;
-    --foundation-container-spacing-lg: 4.5rem;
-    --foundation-container-spacing-xl: 5.5rem;
-    --foundation-container-spacing-2xl: 6.5rem;
+    --foundation-container-spacing-xs: 0.875rem;  /* 14px → 28px total */
+    --foundation-container-spacing-sm: 1.125rem;  /* 18px → 36px total */
+    --foundation-container-spacing-md: 1.75rem;   /* 28px → 56px total */
+    --foundation-container-spacing-lg: 2.25rem;   /* 36px → 72px total */
+    --foundation-container-spacing-xl: 2.75rem;   /* 44px → 88px total */
+    --foundation-container-spacing-2xl: 3.25rem;  /* 52px → 104px total */
   }
 }
 
