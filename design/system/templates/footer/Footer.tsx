@@ -1,7 +1,7 @@
 'use client';
 
 import { Section } from '../../components/frames/section';
-import { renderPattern } from '../../core/render/renderSections';
+import { renderGlobalPattern } from '../../core/render/renderSections';
 import { SectionNode } from '../../core/types/nodes';
 
 interface FooterProps {
@@ -18,11 +18,11 @@ const Footer = ({ section }: FooterProps) => {
   const { patterns, order, props: sectionProps } = footerSection;
   const patternOrder = order || Object.keys(patterns);
   
-  // Render all patterns for the footer
+  // Render patterns using shared renderGlobalPattern function
   const renderedPatterns = patternOrder
     .map((patternKey, patternIndex) => {
       const pattern = patterns[patternKey];
-      return pattern ? renderPattern(pattern, patternIndex) : null;
+      return pattern ? renderGlobalPattern(pattern, patternKey, patternIndex) : null;
     })
     .filter(Boolean);
   

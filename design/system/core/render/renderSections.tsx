@@ -55,6 +55,7 @@ export const renderComponent = (component: ComponentNode, componentKey: string, 
 
 /**
  * Pattern Renderer - Pattern har full kontroll över component rendering
+ * För content sections (med Container wrapper)
  */
 export const renderPattern = (pattern: PatternNode, index: number) => {
   const PatternComponent = patternRegistry[pattern.type];
@@ -72,6 +73,38 @@ export const renderPattern = (pattern: PatternNode, index: number) => {
       align="center"
       height="auto"
       useMediaWidth={useMediaWidth}
+    >
+      <PatternComponent 
+        type={pattern.type}
+        props={pattern.props}
+        components={pattern.components}
+      />
+    </Container>
+  );
+};
+
+/**
+ * Global Pattern Renderer - För navbar/footer patterns
+ * Använder Container för layout men utan spacing
+ */
+export const renderGlobalPattern = (pattern: PatternNode, patternKey: string, index: number) => {
+  const PatternComponent = patternRegistry[pattern.type];
+  if (!PatternComponent) {
+    console.warn(`Unknown pattern type: ${pattern.type}`);
+    return null;
+  }
+
+  // Hämta useMediaWidth från props
+  const useMediaWidth = pattern.props?.useMediaWidth ?? false;
+
+  // Container för layout men utan spacing för globala patterns
+  return (
+    <Container 
+      key={`${patternKey}-${index}`}
+      align="center"
+      height="auto"
+      useMediaWidth={useMediaWidth}
+      spacing={undefined} // Explicit no spacing för globala patterns
     >
       <PatternComponent 
         type={pattern.type}
