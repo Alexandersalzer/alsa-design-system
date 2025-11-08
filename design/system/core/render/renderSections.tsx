@@ -139,3 +139,16 @@ export function Sections({
   );
 }
 
+/**
+ * Page component - Higher level abstraction for rendering complete pages
+ * Simplifies the API for client-next
+ */
+interface PageProps {
+  sections: Record<string, SectionNode>;
+  order: string[];
+}
+
+export function Page({ sections, order }: PageProps) {
+  return <Sections sections={sections} order={order} />;
+}
+
