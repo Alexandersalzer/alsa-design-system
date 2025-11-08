@@ -1,2 +1,2 @@
-export { Sections } from './renderSections';
+export { Page } from './renderSections';
 export * from './contentLoader';
