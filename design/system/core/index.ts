@@ -12,8 +12,5 @@ export type {
   PatternNode,
   SectionNode,
   PageNode
-} from './types/BaseNode';
+} from './types/nodes';
 
-
-// Re-export everything for convenience
-export * from './types/BaseNode';
