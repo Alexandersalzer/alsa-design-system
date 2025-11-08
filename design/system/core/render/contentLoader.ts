@@ -2,20 +2,20 @@
 import { SectionNode, PageNode } from '../types/nodes';
 
 /**
- * Globals content structure
+ * Shell content structure
  */
-interface GlobalsContent {
+interface ShellContent {
   navbar?: Record<string, SectionNode>;
   footer?: Record<string, SectionNode>;
 }
 
 /**
- * Load global content (navbar and footer) for a specific locale
+ * Load shell content (navbar and footer) for a specific locale
  * Uses dynamic import to avoid bundling fs in browser
  */
-export async function getGlobalsContent(locale: string = 'sv'): Promise<GlobalsContent> {
+export async function getShellContent(locale: string = 'sv'): Promise<ShellContent> {
   if (typeof window !== 'undefined') {
-    throw new Error('getGlobalsContent is only available on server-side');
+    throw new Error('getShellContent is only available on server-side');
   }
 
   try {
@@ -31,7 +31,7 @@ export async function getGlobalsContent(locale: string = 'sv'): Promise<GlobalsC
   } catch (error) {
     // Fallback to Swedish if locale doesn't exist
     if (locale !== 'sv') {
-      return getGlobalsContent('sv');
+      return getShellContent('sv');
     }
     return {};
   }
@@ -135,7 +135,7 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
     const contentDir = path.join(process.cwd(), 'public', 'content', locale);
     const entries = await fs.readdir(contentDir, { withFileTypes: true });
     
-    // Filter for page files (exclude global files)
+    // Filter for page files (exclude shell files)
     const pageFiles = entries.filter(entry => 
       entry.isFile() && 
       entry.name.endsWith('.json') &&
@@ -190,7 +190,7 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string): P
     const contentDir = path.join(process.cwd(), 'public', 'content', locale);
     const entries = await fs.readdir(contentDir, { withFileTypes: true });
     
-    // Filter for page files (exclude global files)
+    // Filter for page files (exclude shell files)
     const pageFiles = entries.filter(entry => 
       entry.isFile() && 
       entry.name.endsWith('.json') &&

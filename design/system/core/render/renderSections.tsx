@@ -84,10 +84,10 @@ export const renderPattern = (pattern: PatternNode, index: number) => {
 };
 
 /**
- * Global Pattern Renderer - För navbar/footer patterns
+ * Shell Pattern Renderer - För navbar/footer patterns
  * Använder Container för layout men utan spacing
  */
-export const renderGlobalPattern = (pattern: PatternNode, patternKey: string, index: number) => {
+export const renderShellPattern = (pattern: PatternNode, patternKey: string, index: number) => {
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
     console.warn(`Unknown pattern type: ${pattern.type}`);
@@ -97,7 +97,7 @@ export const renderGlobalPattern = (pattern: PatternNode, patternKey: string, in
   // Hämta useMediaWidth från props
   const useMediaWidth = pattern.props?.useMediaWidth ?? false;
 
-  // Container för layout men utan padding för globala patterns
+  // Container för layout men utan padding för shell patterns
   return (
     <Container 
       key={`${patternKey}-${index}`}

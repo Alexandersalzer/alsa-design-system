@@ -46,5 +46,5 @@ export const componentRegistry: Record<string, React.ComponentType<any>> = {
   modal: Modal,
   popover: Popover,
   table: Table,
-  typography: Typography,
+  text: Typography,
 }; 

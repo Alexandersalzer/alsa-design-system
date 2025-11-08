@@ -1,7 +1,7 @@
 'use client';
 
 import { Section } from '../../components/frames/section';
-import { renderGlobalPattern } from '../../core/render/renderSections';
+import { renderShellPattern } from '../../core/render/renderSections';
 import { SectionNode } from '../../core/types/nodes';
 
 interface NavbarProps {
@@ -18,11 +18,11 @@ const Navbar = ({ section }: NavbarProps) => {
   const { patterns, order, props: sectionProps } = navbarSection;
   const patternOrder = order || Object.keys(patterns);
   
-  // Render patterns using shared renderGlobalPattern function
+  // Render patterns using shared renderShellPattern function
   const renderedPatterns = patternOrder
     .map((patternKey, patternIndex) => {
       const pattern = patterns[patternKey];
-      return pattern ? renderGlobalPattern(pattern, patternKey, patternIndex) : null;
+      return pattern ? renderShellPattern(pattern, patternKey, patternIndex) : null;
     })
     .filter(Boolean);
   
