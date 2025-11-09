@@ -1,3 +1,12 @@
+/* blimpify-ui/design/system/components/Logo/Logo.css */
+.logo {
+  transition: transform 0.2s ease-in-out;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
 /* Logo component styles */
 .logo-container {
   position: relative;

@@ -1,7 +1,9 @@
+// blimpify-ui/design/system/patterns/client/spinning-banner/SpinningBanner.tsx
 'use client';
 
 import React from 'react';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
+import { Logo } from '../../../components/media/Logo';
 
 interface SpinningBannerProps {
   // ===== NEW: JSON STRUCTURE SUPPORT =====
@@ -22,7 +24,7 @@ interface SpinningBannerProps {
     width?: number;
     height?: number;
   }>;
-  speed?: number; // Animation speed in seconds
+  speed?: number;
   direction?: 'left' | 'right';
   className?: string;
 }
@@ -43,7 +45,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
   let logos: Array<{ src: string; alt: string; width?: number; height?: number; }>;
   let speed: number;
   let direction: 'left' | 'right';
-
+  
   if (components) {
     // Extract logos from JSON structure
     const logoComponents = Object.entries(components)
@@ -53,7 +55,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
         alt: comp.content?.alt || 'Logo'
       }))
       .filter(logo => logo.src);
-
+    
     logos = logoComponents;
     speed = settings?.speed || 30;
     direction = settings?.direction || 'left';
@@ -74,32 +76,28 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
     speed = legacySpeed || 30;
     direction = legacyDirection || 'left';
   }
-  // Transform logos into SpinningAnimationItem format
+  
+  // ✅ Transform logos using Logo component
   const animationItems: CarouselAnimationItem[] = logos.map((logo, index) => ({
     id: `${logo.src}-${index}`,
     content: (
-      <img
+      <Logo
         src={logo.src}
         alt={logo.alt}
-        style={{
-          maxWidth: '100%',
-          maxHeight: '100%',
-          width: 'auto',
-          height: 'auto',
-          objectFit: 'contain',
-          filter: 'grayscale(100%) opacity(0.6)'
-        }}
+        size="md"
+        variant="contain"
+        grayscale={true}
+        opacity={0.6}
       />
     )
   }));
-
+  
   return (
     <CarouselAnimation
       items={animationItems}
       speed={speed}
       direction={direction}
       className={className}
-      // ✅ Use semantic token instead of hardcoded color
       containerHeight="auto"
       backgroundColor="var(--surface-page)"
       padding="5px"

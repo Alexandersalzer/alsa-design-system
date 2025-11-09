@@ -9,7 +9,7 @@ import { Banner, Spinner, Tag, Toast } from './feedback';
 import { Checkbox, FileUploader, Input, Picker, Radio, Switch, Textarea } from './forms';
 import { LineChart } from './LineChart';
 import { Listbox } from './lists/Listbox';
-import { Logo } from './Logo';
+import { Logo } from './media/Logo';
 import { LogoIcon } from './LogoIcon';
 import { Avatar, Icon, VideoShowcase } from './media';
 import { Menu, Modal, Popover } from './overlays';
