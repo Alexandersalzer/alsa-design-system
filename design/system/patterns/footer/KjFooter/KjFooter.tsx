@@ -8,6 +8,7 @@ import { PatternNode } from '../../../core/types/nodes';
 
 const KjFooter = ({ components = {} }: PatternNode) => {
   // Extract components by their roles using shared utility
+  const logoComponents = getComponentsByRole(components, 'logo');
   const titleComponents = getComponentsByRole(components, 'title');
   const emailComponents = getComponentsByRole(components, 'email');
   const legalComponents = getComponentsByRole(components, 'legal');
@@ -17,13 +18,10 @@ const KjFooter = ({ components = {} }: PatternNode) => {
     <VStack spacing="xl" align="center" fullWidth>
       {/* Header: Logo + Title */}
       <HStack spacing="md" align="center" justify="center">
-        <img 
-          src="/images/sections/kjlogo.jpg" 
-          alt="KJ Marketing Sweden Logo"
-          width={40}
-          height={40}
-          className="object-contain flex-shrink-0"
-        />
+        {/* Render logo components */}
+        {logoComponents.map(([key, component], index) => 
+          renderComponent(component, key, index)
+        )}
         {/* Render title components */}
         {titleComponents.map(([key, component], index) => 
           renderComponent(component, key, index)
