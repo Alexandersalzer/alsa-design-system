@@ -25,27 +25,27 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           className="object-contain flex-shrink-0"
         />
         {/* Render title components */}
-        {titleComponents.map((component, index) => 
-          renderComponent(component, component.key, index)
+        {titleComponents.map(([key, component], index) => 
+          renderComponent(component, key, index)
         )}
       </HStack>
 
       {/* Contact & Legal Info */}
       <VStack spacing="xs" align="center">
         {/* Email components */}
-        {emailComponents.map((component, index) => 
-          renderComponent(component, component.key, index)
+        {emailComponents.map(([key, component], index) => 
+          renderComponent(component, key, index)
         )}
         {/* Legal components */}
-        {legalComponents.map((component, index) => 
-          renderComponent(component, component.key, index)
+        {legalComponents.map(([key, component], index) => 
+          renderComponent(component, key, index)
         )}
       </VStack>
 
       {/* Attribution */}
       <VStack spacing="xs" align="center">
-        {attributeComponents.map((component, index) => 
-          renderComponent(component, component.key, index)
+        {attributeComponents.map(([key, component], index) => 
+          renderComponent(component, key, index)
         )}
       </VStack>
     </VStack>
