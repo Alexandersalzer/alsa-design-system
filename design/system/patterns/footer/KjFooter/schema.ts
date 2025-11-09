@@ -3,7 +3,7 @@
 // Schema definition for KJ Footer pattern
 // ===============================================
 
-import { PatternSchema } from '../types/base';
+import { PatternSchema } from '../../../schemas/types/base';
 
 export const KjFooterPatternSchema: PatternSchema = {
   type: 'kj',

@@ -1,11 +1,11 @@
 // ===============================================
-// blimpify-ui/design/system/schemas/components/TextComponentSchema.ts
+// blimpify-ui/design/system/schemas/components/TypographySchema.ts
 // Schema definition for Text component (Typography)
 // ===============================================
 
-import { ComponentSchema } from '../types/base';
+import { ComponentSchema } from '../../schemas/types/base';
 
-export const TextComponentSchema: ComponentSchema = {
+export const TypographySchema: ComponentSchema = {
   type: 'text',
   props: {
     content: {

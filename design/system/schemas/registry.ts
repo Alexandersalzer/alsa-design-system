@@ -13,12 +13,12 @@ import {
 // Import all pattern schemas
 import {
   KjFooterPatternSchema
-} from './patterns';
+} from '../patterns/footer/KjFooter/schema';
 
 // Import all component schemas
 import {
-  TextComponentSchema
-} from './components';
+  TypographySchema
+} from '../components/Typography/schema';
 
 /**
  * Central schema registry containing all schema definitions
@@ -34,7 +34,7 @@ export const schemaRegistry: SchemaRegistry = {
   },
   
   components: {
-    text: TextComponentSchema
+    text: TypographySchema
   }
 };
 

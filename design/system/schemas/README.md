@@ -25,7 +25,7 @@ schemas/
 │   └── index.ts
 ├── components/          # Schema för components (button, text, etc.)
 │   ├── ButtonComponentSchema.ts
-│   ├── TextComponentSchema.ts
+│   ├── TypographySchema.ts
 │   ├── TagComponentSchema.ts
 │   ├── ImageComponentSchema.ts
 │   ├── VideoComponentSchema.ts

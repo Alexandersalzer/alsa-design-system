@@ -634,7 +634,7 @@ export function withTypography<P extends Record<string, any>>(
 // Old Heading component is now replaced by the new dynamic Heading component above
 
 // ===== JSON-DRIVEN TEXT COMPONENT =====
-// Maps TextComponentSchema to the appropriate convenience component
+// Maps TypographySchema to the appropriate convenience component
 
 export interface JsonTextProps {
   type: 'text';
