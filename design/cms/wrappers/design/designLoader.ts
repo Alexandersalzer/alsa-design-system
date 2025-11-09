@@ -3,6 +3,7 @@ export interface DesignJson {
     radius?: string;
     accentColor?: string;
     isDark?: boolean;
+    themeTone?: 'neutral' | 'warm' | 'cool';
     fontPrimary?: string;
     fontSecondary?: string;
     fontWeightScale?: 'light' | 'regular' | 'strong';
@@ -34,6 +35,7 @@ export async function getDesignConfig(): Promise<DesignJson> {
         radius: "md",
         accentColor: "purple",
         isDark: false,
+        themeTone: "neutral",
         fontPrimary: "Sora",
         layoutContent: "md",
         layoutMedia: "xl",
