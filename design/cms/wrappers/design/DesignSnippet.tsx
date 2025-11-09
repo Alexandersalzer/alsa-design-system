@@ -12,7 +12,7 @@ export function buildCssVars(design: DesignJson): string {
   const radius           = design?.globalStyles?.radius           || "md";
   const accentColor      = design?.globalStyles?.accentColor      || "purple";
   const isDark           = design?.globalStyles?.isDark           ?? false;
-  const themeTone        = design?.globalStyles?.themeTone        || "neutral"; // NEW
+  const themeTone        = design?.globalStyles?.themeTone        || "neutral";
   const fontPrimary      = design?.globalStyles?.fontPrimary      || "Sora";
   const fontSecondary    = design?.globalStyles?.fontSecondary    || fontPrimary;
   const fontWeightScale  = design?.globalStyles?.fontWeightScale  || "regular";
@@ -36,16 +36,10 @@ export function buildCssVars(design: DesignJson): string {
   const isInverseAccent = accentColor === "inverse";
 
   /* =========================================================
-     3. Generate dynamic CSS variables with theme tone
+     3. Generate dynamic CSS variables
      ========================================================= */
   return `
     @import url('${fontUrl}');
-    
-    <script>
-      // Apply data-theme-tone attribute immediately on page load
-      document.documentElement.setAttribute('data-theme-tone', '${themeTone}');
-    </script>
-    
     :root {
       /* ===== FONTS ===== */
       --font-primary-name: '${fontPrimary}';
@@ -134,4 +128,13 @@ export async function designSnippet(): Promise<string> {
   const designConfig = await getDesignConfig();
   const designCss = buildCssVars(designConfig);
   return designCss;
+}
+
+/**
+ * Helper to get themeTone for setting HTML attribute
+ * Export this so it can be used in layouts
+ */
+export async function getThemeTone(): Promise<string> {
+  const designConfig = await getDesignConfig();
+  return designConfig?.globalStyles?.themeTone || "neutral";
 }

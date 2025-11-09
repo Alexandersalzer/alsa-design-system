@@ -3,7 +3,7 @@ export interface DesignJson {
     radius?: string;
     accentColor?: string;
     isDark?: boolean;
-    themeTone?: 'neutral' | 'warm' | 'cool';
+    themeTone?: 'neutral' | 'warm' | 'cool'; // ADD THIS LINE
     fontPrimary?: string;
     fontSecondary?: string;
     fontWeightScale?: 'light' | 'regular' | 'strong';
@@ -20,7 +20,6 @@ export async function getDesignConfig(): Promise<DesignJson> {
   if (typeof window !== "undefined") {
     throw new Error("getDesignConfig is only available on the server-side");
   }
-
   try {
     const { promises: fs } = await import("fs");
     const path = await import("path");
@@ -35,7 +34,7 @@ export async function getDesignConfig(): Promise<DesignJson> {
         radius: "md",
         accentColor: "purple",
         isDark: false,
-        themeTone: "neutral",
+        themeTone: "neutral", // ADD THIS LINE
         fontPrimary: "Sora",
         layoutContent: "md",
         layoutMedia: "xl",
