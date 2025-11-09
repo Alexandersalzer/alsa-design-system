@@ -80,8 +80,6 @@
   align-items: center;
   animation: CarouselScroll var(--animation-duration, 30s) linear infinite var(--animation-direction, normal);
   width: fit-content;
-  /* ✅ Apply invert based on theme */
-  filter: invert(var(--is-dark, 0));
 }
 
 .Carousel-animation-item {
@@ -89,6 +87,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  filter: invert(var(--is-dark, 0));
 }
 
 /* Special styling for Carousel images */
