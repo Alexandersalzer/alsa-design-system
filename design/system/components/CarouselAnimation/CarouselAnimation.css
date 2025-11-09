@@ -55,7 +55,6 @@
 /* Fallback for browsers that don't support color-mix */
 @supports not (color: color-mix(in srgb, white, black)) {
   .Carousel-animation-container.with-fade-edges::before {
-    /* Use semi-transparent white/black based on theme */
     background: linear-gradient(to right, 
       var(--surface-page) 0%, 
       color-mix(in srgb, var(--surface-page) 90%, transparent) 20%, 
@@ -64,7 +63,7 @@
       transparent 100%
     );
   }
-  
+
   .Carousel-animation-container.with-fade-edges::after {
     background: linear-gradient(to left, 
       var(--surface-page) 0%, 
@@ -88,6 +87,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ✅ FIXED: Invert logos in dark mode using your --is-dark variable */
+.Carousel-animation-item img {
+  filter: invert(var(--is-dark, 0));
 }
 
 /* Special styling for Carousel images */
