@@ -316,6 +316,49 @@ export const Code = forwardRef<HTMLElement, CodeProps>(
 
 Code.displayName = 'Code';
 
+// ===== DYNAMIC HEADING COMPONENT =====
+export interface HeadingProps extends Omit<TypographyProps, 'variant' | 'as'> {
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+  color?: TypographyColor;
+  weight?: TypographyWeight;
+}
+
+export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(({
+  level = 1,
+  color = 'heading',
+  weight,
+  ...props
+}, ref) => {
+  // Map level to variant and default weight
+  const getVariantAndWeight = (level: number): { variant: TypographyVariant; defaultWeight: TypographyWeight } => {
+    switch (level) {
+      case 1: return { variant: 'h1', defaultWeight: 'bold' };
+      case 2: return { variant: 'h2', defaultWeight: 'semibold' };
+      case 3: return { variant: 'h3', defaultWeight: 'semibold' };
+      case 4: return { variant: 'h4', defaultWeight: 'medium' };
+      case 5: return { variant: 'h5', defaultWeight: 'medium' };
+      case 6: return { variant: 'h6', defaultWeight: 'medium' };
+      default: return { variant: 'h1', defaultWeight: 'bold' };
+    }
+  };
+
+  const { variant, defaultWeight } = getVariantAndWeight(level);
+  const finalWeight = weight || defaultWeight;
+
+  return (
+    <Typography
+      ref={ref}
+      as={`h${level}` as ElementType}
+      variant={variant}
+      color={color}
+      weight={finalWeight}
+      {...props}
+    />
+  );
+});
+
+Heading.displayName = 'Heading';
+
 // ===== SIMPLE H1-H6 HEADING COMPONENTS =====
 
 interface BaseHeadingProps extends Omit<TypographyProps, 'variant' | 'as'> {
@@ -588,32 +631,152 @@ export function withTypography<P extends Record<string, any>>(
 }
 
 // ===== BACKWARDS COMPATIBILITY =====
-// Keep old Heading component for migration purposes
-/** @deprecated Use H1, H2, H3, H4, H5, H6 components instead */
-export const Heading = forwardRef<HTMLHeadingElement, {
-  level?: 1 | 2 | 3 | 4 | 5 | 6;
-  color?: TypographyColor;
-  weight?: TypographyWeight;
-  children: ReactNode;
-  className?: string;
-}>(({ level = 1, color = 'heading', weight, children, className, ...props }, ref) => {
-  // Map old levels to new components
-  const HeadingComponent = [H1, H2, H3, H4, H5, H6][level - 1] || H1;
-  
-  return (
-    <HeadingComponent
-      ref={ref}
-      color={color}
-      weight={weight}
-      className={className}
-      {...props}
-    >
-      {children}
-    </HeadingComponent>
-  );
+// Old Heading component is now replaced by the new dynamic Heading component above
+
+// ===== JSON-DRIVEN TEXT COMPONENT =====
+// Maps TextComponentSchema to the appropriate convenience component
+
+export interface JsonTextProps {
+  type: 'text';
+  props: {
+    content: string;
+    variant?: 'display' | 'heading' | 'body' | 'label' | 'code';
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+    align?: TypographyAlign;
+  };
+}
+
+// Size mapping utility - maps normalized sizes to variant-specific sizes
+const mapSizeForVariant = (
+  variant: 'display' | 'heading' | 'body' | 'label' | 'code',
+  normalizedSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+) => {
+  const sizeMappings = {
+    display: {
+      xs: 'sm',  // display-sm
+      sm: 'sm',  // display-sm  
+      md: 'md',  // display-md
+      lg: 'lg',  // display-lg
+      xl: 'xl'   // display-xl
+    },
+    heading: {
+      xs: 6,     // h6 (smallest)
+      sm: 5,     // h5
+      md: 4,     // h4
+      lg: 2,     // h2  
+      xl: 1      // h1 (largest)
+    },
+    body: {
+      xs: 'xs',  // body-xs
+      sm: 'sm',  // body-sm
+      md: 'md',  // body-md
+      lg: 'lg',  // body-lg
+      xl: 'xl'   // body-xl
+    },
+    label: {
+      xs: 'xs',  // label-xs
+      sm: 'sm',  // label-sm
+      md: 'md',  // label-md
+      lg: 'lg',  // label-lg
+      xl: 'lg'   // label-lg (max för label)
+    },
+    code: {
+      xs: 'sm',  // code-sm (min för code)
+      sm: 'sm',  // code-sm
+      md: 'md',  // code-md
+      lg: 'lg',  // code-lg
+      xl: 'lg'   // code-lg (max för code)
+    }
+  } as const;
+
+  return sizeMappings[variant][normalizedSize];
+};
+
+export const JsonText = forwardRef<HTMLElement, JsonTextProps>(({ 
+  type, 
+  props: jsonProps 
+}, ref) => {
+  const {
+    content,
+    variant = 'body',
+    size = 'md',
+    align
+  } = jsonProps;
+
+  const sharedProps = {
+    children: content,
+    align
+  };
+
+  // Map to appropriate convenience component with size mapping
+  switch (variant) {
+    case 'display': {
+      const displaySize = mapSizeForVariant('display', size) as 'xl' | 'lg' | 'md' | 'sm';
+      return (
+        <Display
+          ref={ref as any}
+          size={displaySize}
+          {...sharedProps}
+        />
+      );
+    }
+
+    case 'heading': {
+      const headingLevel = mapSizeForVariant('heading', size) as 1 | 2 | 3 | 4 | 5 | 6;
+      return (
+        <Heading
+          ref={ref as any}
+          level={headingLevel}
+          {...sharedProps}
+        />
+      );
+    }
+
+    case 'body': {
+      const bodySize = mapSizeForVariant('body', size) as 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+      return (
+        <Body
+          ref={ref as any}
+          size={bodySize}
+          {...sharedProps}
+        />
+      );
+    }
+
+    case 'label': {
+      const labelSize = mapSizeForVariant('label', size) as 'lg' | 'md' | 'sm' | 'xs';
+      return (
+        <Label
+          ref={ref as any}
+          size={labelSize}
+          {...sharedProps}
+        />
+      );
+    }
+
+    case 'code': {
+      const codeSize = mapSizeForVariant('code', size) as 'lg' | 'md' | 'sm';
+      return (
+        <Code
+          ref={ref as any}
+          size={codeSize}
+          {...sharedProps}
+        />
+      );
+    }
+
+    default:
+      return (
+        <Body
+          ref={ref as any}
+          size="md"
+          {...sharedProps}
+        />
+      );
+  }
 });
 
-Heading.displayName = 'Heading';
+JsonText.displayName = 'JsonText';
 
 // ===== EXPORT ALL =====
 export { getDefaultElement, getColorValue };

@@ -1,0 +1,35 @@
+// ===============================================
+// blimpify-ui/design/system/schemas/components/TextComponentSchema.ts
+// Schema definition for Text component (Typography)
+// ===============================================
+
+import { ComponentSchema } from '../types/base';
+
+export const TextComponentSchema: ComponentSchema = {
+  type: 'text',
+  props: {
+    content: {
+      type: 'string',
+      required: true,
+      description: 'Text content to display'
+    },
+    variant: {
+      type: 'enum',
+      values: ['display', 'heading', 'body', 'label', 'code'],
+      default: 'body',
+      description: 'Type of text component - each has smart defaults for size, color, and weight'
+    },
+    size: {
+      type: 'enum',
+      values: ['xs', 'sm', 'md', 'lg', 'xl'],
+      default: 'md',
+      description: 'Size - maps to appropriate size for each variant (xs=smallest, xl=largest)'
+    },
+    align: {
+      type: 'enum',
+      values: ['left', 'center', 'right', 'justify'],
+      default: 'left',
+      description: 'Text alignment'
+    }
+  }
+};

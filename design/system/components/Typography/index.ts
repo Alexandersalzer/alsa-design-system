@@ -10,7 +10,8 @@ export {
   Body,
   Label,
   Code,
-  TypographyGroup
+  TypographyGroup,
+  JsonText
 } from './Typography';
 
 // ===== SIMPLE HEADING COMPONENTS - H1 through H6 =====
@@ -23,9 +24,9 @@ export {
   H6
 } from './Typography';
 
-// ===== LEGACY COMPATIBILITY =====
+// ===== DYNAMIC HEADING COMPONENT =====
 export {
-  Heading  // @deprecated - use H1-H6 instead
+  Heading  // Dynamic heading with level 1-6 prop
 } from './Typography';
 
 // ===== TYPES =====
