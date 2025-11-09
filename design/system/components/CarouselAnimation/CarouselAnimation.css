@@ -87,7 +87,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: invert(var(--is-dark, 0));
+  /*filter: invert(var(--is-dark, 0));*/
 }
 
 /* Special styling for Carousel images */

@@ -65,8 +65,12 @@ export const Logo: React.FC<LogoProps> = ({
     objectFit: variant,
     opacity: imageLoaded ? opacity : 0,
     transition: 'opacity 0.2s ease-in-out',
-    filter: grayscale ? 'grayscale(100%)' : 'none',
+    filter: `
+      ${grayscale ? 'grayscale(100%)' : ''} 
+      invert(var(--is-dark, 0))
+    `.trim(),
   };
+
 
   const fallbackStyle: React.CSSProperties = {
     width: '100%',
