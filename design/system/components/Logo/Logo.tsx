@@ -41,17 +41,6 @@ export const Logo: React.FC<LogoProps> = ({
   const [imageError, setImageError] = React.useState(false);
   const [imageLoaded, setImageLoaded] = React.useState(false);
 
-  // Build full URL with CDN base URL if src doesn't start with http/https
-  const getFullImageUrl = (imageSrc: string): string => {
-    if (imageSrc.startsWith('http://') || imageSrc.startsWith('https://')) {
-      return imageSrc;
-    }
-    const baseUrl = 'https://cdn.blimpify-im.com/members/';
-    return `${baseUrl}${imageSrc}`;
-  };
-
-  const fullImageUrl = getFullImageUrl(src);
-
   const handleImageError = () => {
     setImageError(true);
   };
@@ -100,7 +89,7 @@ export const Logo: React.FC<LogoProps> = ({
     <div className={containerClasses} onClick={onClick}>
       {!imageError ? (
         <img
-          src={fullImageUrl}
+          src={src}
           alt={alt}
           className={imageClasses}
           style={imageStyle}
