@@ -20,6 +20,8 @@ export interface PropDefinition {
 export interface ComponentSchema {
   type: string;
   props: Record<string, PropDefinition>;
+  role?: string; // Semantic role for pattern-specific positioning
+  order?: number; // Default order within role group
 }
 
 /**

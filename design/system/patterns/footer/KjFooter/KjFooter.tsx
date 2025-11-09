@@ -15,20 +15,21 @@ interface KjFooterProps {
 }
 
 const KjFooter = ({ type, props, components = {} }: KjFooterProps) => {
-  // Convert components object to ComponentNode array
-  const componentsList = Object.entries(components).map(([key, component]) => ({
-    ...component,
-    key
-  } as ComponentNode & { key: string }));
+  // Helper function to get components by role
+  const getComponentsByRole = (role: string) => 
+    Object.entries(components)
+      .filter(([key, component]) => component.props?.role === role)
+      .map(([key, component]) => ({ ...component, key }));
 
-  // Render all components using renderComponent
-  const renderedComponents = componentsList.map((component, index) => 
-    renderComponent(component, component.key, index)
-  );
+  // Extract components by their roles
+  const titleComponents = getComponentsByRole('title');
+  const emailComponents = getComponentsByRole('email');
+  const legalComponents = getComponentsByRole('legal');
+  const attributeComponents = getComponentsByRole('attribute');
 
   return (
     <VStack spacing="xl" align="center" fullWidth>
-      {/* Logo Section - Fixed layout element */}
+      {/* Header: Logo + Title */}
       <HStack spacing="md" align="center" justify="center">
         <img 
           src="/images/sections/kjlogo.jpg" 
@@ -37,11 +38,29 @@ const KjFooter = ({ type, props, components = {} }: KjFooterProps) => {
           height={40}
           className="object-contain flex-shrink-0"
         />
+        {/* Render title components */}
+        {titleComponents.map((component, index) => 
+          renderComponent(component, component.key, index)
+        )}
       </HStack>
 
-      {/* Schema-driven components */}
+      {/* Contact & Legal Info */}
       <VStack spacing="xs" align="center">
-        {renderedComponents}
+        {/* Email components */}
+        {emailComponents.map((component, index) => 
+          renderComponent(component, component.key, index)
+        )}
+        {/* Legal components */}
+        {legalComponents.map((component, index) => 
+          renderComponent(component, component.key, index)
+        )}
+      </VStack>
+
+      {/* Attribution */}
+      <VStack spacing="xs" align="center">
+        {attributeComponents.map((component, index) => 
+          renderComponent(component, component.key, index)
+        )}
       </VStack>
     </VStack>
   );
