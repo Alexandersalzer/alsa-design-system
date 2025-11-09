@@ -61,14 +61,14 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
     // Use legacy props with defaults
     logos = legacyLogos || [
       { src: '/images/kjlogos/huellogo.png', alt: 'Huel Logo' },
-      { src: '/images/kjlogos/fazerlogo.png', alt: 'Fazer Logo' },
+      { src: '/images/kjlogos/logoFazer.png', alt: 'Fazer Logo' },
       { src: '/images/kjlogos/wolt.png', alt: 'Wolt Logo' },
       { src: '/images/kjlogos/tradera.png', alt: 'Tradera Logo' },
       { src: '/images/kjlogos/philips.png', alt: 'Philips Logo' },
       { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime Logo' },
       { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet Logo' },
       { src: '/images/kjlogos/benandjerrylogo.png', alt: 'Ben & Jerry\'s Logo' },
-      { src: '/images/kjlogos/mindler.png', alt: 'Mindler Logo' },
+      { src: '/images/kjlogos/logoMindler.png', alt: 'Mindler Logo' },
       { src: '/images/kjlogos/swiffer.png', alt: 'Swiffer Logo' }
     ];
     speed = legacySpeed || 30;
