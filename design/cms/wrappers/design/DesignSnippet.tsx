@@ -124,10 +124,16 @@ export function buildCssVars(design: DesignJson): string {
  * 
  * @returns CSS string redo att injectas i <style> tag
  */
-export async function designSnippet(): Promise<string> {
+/**
+ * Returns both CSS and theme metadata
+ */
+export async function designSnippet(): Promise<{ css: string; themeTone: string; isDark: boolean }> {
   const designConfig = await getDesignConfig();
-  const designCss = buildCssVars(designConfig);
-  return designCss;
+  const themeTone = designConfig?.globalStyles?.themeTone || "neutral";
+  const isDark = designConfig?.globalStyles?.isDark ?? false;
+  const css = buildCssVars(designConfig);
+  
+  return { css, themeTone, isDark };
 }
 
 /**
