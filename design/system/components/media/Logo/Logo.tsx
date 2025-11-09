@@ -63,7 +63,7 @@ export const Logo: React.FC<LogoProps> = ({
     width: 'auto',
     height: 'auto',
     objectFit: variant,
-    opacity: imageLoaded ? opacity : 0,
+    opacity: opacity,
     transition: 'opacity 0.2s ease-in-out',
     filter: `
       ${grayscale ? 'grayscale(100%)' : ''} 
