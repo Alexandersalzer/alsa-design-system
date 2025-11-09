@@ -24,6 +24,16 @@ export interface PatternNode extends BaseNode {
 }
 
 /**
+ * Standard props interface för alla pattern components
+ * Baserat på PatternNode struktur
+ */
+export interface PatternProps {
+  type?: string;
+  props?: Record<string, any>;
+  components?: Record<string, ComponentNode>;
+}
+
+/**
  * Section - Container för patterns  
  * Top-level containers som organiserar patterns
  */

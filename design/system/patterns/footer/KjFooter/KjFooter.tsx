@@ -3,29 +3,14 @@
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { renderComponent } from '../../../core/render/renderSections';
-import { ComponentNode } from '../../../core/types/nodes';
+import { getComponentsByRole, PatternProps } from '../../../core/utils';
 
-interface KjFooterProps {
-  type?: string;
-  props?: Record<string, any>;
-  components?: Record<string, {
-    type: string;
-    props: Record<string, any>;
-  }>;
-}
-
-const KjFooter = ({ type, props, components = {} }: KjFooterProps) => {
-  // Helper function to get components by role
-  const getComponentsByRole = (role: string) => 
-    Object.entries(components)
-      .filter(([key, component]) => component.props?.role === role)
-      .map(([key, component]) => ({ ...component, key }));
-
-  // Extract components by their roles
-  const titleComponents = getComponentsByRole('title');
-  const emailComponents = getComponentsByRole('email');
-  const legalComponents = getComponentsByRole('legal');
-  const attributeComponents = getComponentsByRole('attribute');
+const KjFooter = ({ components = {} }: PatternProps) => {
+  // Extract components by their roles using shared utility
+  const titleComponents = getComponentsByRole(components, 'title');
+  const emailComponents = getComponentsByRole(components, 'email');
+  const legalComponents = getComponentsByRole(components, 'legal');
+  const attributeComponents = getComponentsByRole(components, 'attribute');
 
   return (
     <VStack spacing="xl" align="center" fullWidth>
