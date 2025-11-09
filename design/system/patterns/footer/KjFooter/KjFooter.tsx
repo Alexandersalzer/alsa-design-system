@@ -14,41 +14,38 @@ interface KjFooterProps {
   }>;
 }
 
-const KjFooter = ({ type, props = {}, components = {} }: KjFooterProps) => {
-  // Extract props with defaults from schema
-  const logoSpacing = props.logoSpacing || 'xl';
-  const contentSpacing = props.contentSpacing || 'xs';
-  const showLogo = props.showLogo !== undefined ? props.showLogo : true;
-
+const KjFooter = ({ type, props, components = {} }: KjFooterProps) => {
   // Convert components object to ComponentNode array
   const componentsList = Object.entries(components).map(([key, component]) => ({
     ...component,
     key
   } as ComponentNode & { key: string }));
 
-  // Render all components using renderComponent
-  const renderedComponents = componentsList.map((component, index) => 
-    renderComponent(component, component.key, index)
+  // Separate header components (logo + title) from body components
+  const logoComponent = componentsList.find(comp => comp.key.includes('logo'));
+  const titleComponent = componentsList.find(comp => comp.key.includes('title'));
+  const bodyComponents = componentsList.filter(comp => 
+    !comp.key.includes('logo') && !comp.key.includes('title')
+  );
+
+  // Render components using renderComponent
+  const renderedLogo = logoComponent ? renderComponent(logoComponent, logoComponent.key, 0) : null;
+  const renderedTitle = titleComponent ? renderComponent(titleComponent, titleComponent.key, 1) : null;
+  const renderedBodyComponents = bodyComponents.map((component, index) => 
+    renderComponent(component, component.key, index + 2)
   );
 
   return (
-    <VStack spacing={logoSpacing} align="center" fullWidth>
-      {/* Logo Section - Conditional based on props */}
-      {showLogo && (
-        <HStack spacing="md" align="center" justify="center">
-          <img 
-            src="/images/sections/kjlogo.jpg" 
-            alt="KJ Marketing Sweden Logo"
-            width={40}
-            height={40}
-            className="object-contain flex-shrink-0"
-          />
-        </HStack>
-      )}
+    <VStack spacing="xl" align="center" fullWidth>
+      {/* Header Section - Logo + Title in HStack */}
+      <HStack spacing="md" align="center" justify="center">
+        {renderedLogo}
+        {renderedTitle}
+      </HStack>
 
-      {/* Schema-driven components */}
-      <VStack spacing={contentSpacing} align="center">
-        {renderedComponents}
+      {/* Body Components */}
+      <VStack spacing="xs" align="center">
+        {renderedBodyComponents}
       </VStack>
     </VStack>
   );
