@@ -59,7 +59,7 @@ export const SpinningBannerWTitle: React.FC<SpinningBannerWTitleProps> = ({
     { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime Logo' },
     { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet Logo' },
     { src: '/images/kjlogos/benandjerrylogo.png', alt: 'Ben & Jerry\'s Logo' },
-    { src: '/images/kjlogos/logoMindler.png', alt: 'Mindler Logo' },
+    { src: '/images/kjlogos/mindlerLogo.png', alt: 'Mindler Logo' },
     { src: '/images/kjlogos/swiffer.png', alt: 'Swiffer Logo' }
   ];
 
