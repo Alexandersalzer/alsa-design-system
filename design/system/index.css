@@ -86,4 +86,4 @@
 
 /* STEP 7: Utilities LAST (so they can override if needed) */
 @import './utils/index.css';
-@import './utils/typography.css';
+@import './components/Typography/Typography.css';

@@ -132,3 +132,15 @@
   --foundation-weightscale-strong-body:    var(--foundation-weight-medium);
   --foundation-weightscale-strong-label:   var(--foundation-weight-bold);
 }
+
+/* =========================================================
+   7. DEFAULT SELECTED FALLBACKS
+   Safe defaults before selectors override dynamically.
+   ========================================================= */
+
+:root {
+  --selected-font-size-base: var(--foundation-typography-md-base);
+  --selected-font-weight-heading: var(--foundation-weightscale-regular-heading);
+  --selected-font-weight-body: var(--foundation-weightscale-regular-body);
+  --selected-font-weight-label: var(--foundation-weightscale-regular-label);
+}
