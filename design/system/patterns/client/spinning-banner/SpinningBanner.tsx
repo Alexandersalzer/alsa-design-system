@@ -60,17 +60,17 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
   const sizeMap = useMemo(() => {
     switch (logoSize) {
       case 'xs':
-        return { width: 80, height: 40, gap: 28, padding: 8 };
+        return { width: 80, height: 40, gap: 32, padding: 8 };
       case 'sm':
-        return { width: 100, height: 50, gap: 36, padding: 10 };
+        return { width: 100, height: 50, gap: 40, padding: 10 };
       case 'md':
-        return { width: 130, height: 65, gap: 48, padding: 12 };
+        return { width: 130, height: 65, gap: 52, padding: 12 };
       case 'lg':
-        return { width: 160, height: 80, gap: 60, padding: 14 };
+        return { width: 160, height: 80, gap: 68, padding: 14 };
       case 'xl':
-        return { width: 200, height: 100, gap: 75, padding: 16 };
+        return { width: 200, height: 100, gap: 86, padding: 16 };
       default:
-        return { width: 130, height: 65, gap: 48, padding: 12 };
+        return { width: 130, height: 65, gap: 52, padding: 12 };
     }
   }, [logoSize]);
 
