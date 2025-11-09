@@ -1,4 +1,3 @@
-// blimpify-ui/design/system/patterns/client/spinning-banner/SpinningBanner.tsx
 'use client';
 
 import React from 'react';
@@ -10,6 +9,11 @@ interface SpinningBannerProps {
   props?: {
     speed?: number;
     direction?: 'left' | 'right';
+    logoSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+    logoOpacity?: number;
+    animated?: boolean;
+    levels?: number;
+    subtleBackground?: boolean;
   };
   components?: Record<string, {
     type: string;
@@ -23,78 +27,86 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
   props: patternProps = {},
   components = {}
 }) => {
-  const speed = patternProps.speed || 30;
-  const direction = patternProps.direction || 'left';
+  // 🎛️ Configurable props
+  const {
+    speed = 30,
+    direction = 'left',
+    logoSize = 'md',
+    logoOpacity = 1,
+    animated = true,
+    levels = 1,
+    subtleBackground = false,
+  } = patternProps;
 
-  const headingComponent = Object.values(components).find(comp => comp.type === 'heading');
-
+  // 🧩 Extract logos from components
   const logoComponents = Object.entries(components)
-    .filter(([key, comp]: [string, any]) => comp.type === 'logo')
-    .map(([key, comp]: [string, any]) => {
-      if (comp.props) {
-        return {
-          src: comp.props.src || '',
-          alt: comp.props.alt || 'Logo'
-        };
-      }
-      if (comp.content) {
-        return {
-          src: comp.content.src || '',
-          alt: comp.content.alt || 'Logo'
-        };
-      }
-      return null;
-    })
-    .filter((logo): logo is NonNullable<typeof logo> => logo !== null && logo.src !== '');
+    .filter(([_, comp]) => comp.type === 'logo')
+    .map(([_, comp]) => ({
+      src: comp.props?.src || comp.content?.src || '',
+      alt: comp.props?.alt || comp.content?.alt || 'Logo',
+      size: comp.props?.size || logoSize,
+      opacity: comp.props?.opacity ?? logoOpacity,
+    }))
+    .filter((logo) => logo.src !== '');
 
+  // 🪄 Default fallback logos
   const logos = logoComponents.length > 0 ? logoComponents : [
-    { src: '/images/kjlogos/huellogo.png', alt: 'Huel Logo' },
-    { src: '/images/kjlogos/logoFazer.png', alt: 'Fazer Logo' },
-    { src: '/images/kjlogos/wolt.png', alt: 'Wolt Logo' },
-    { src: '/images/kjlogos/tradera.png', alt: 'Tradera Logo' },
-    { src: '/images/kjlogos/philips.png', alt: 'Philips Logo' },
-    { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime Logo' },
-    { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet Logo' },
-    { src: '/images/kjlogos/benandjerrylogo.png', alt: "Ben & Jerry's Logo" },
-    { src: '/images/kjlogos/mindlerLogo.png', alt: 'Mindler Logo' },
-    { src: '/images/kjlogos/swiffer.png', alt: 'Swiffer Logo' }
+    { src: '/images/kjlogos/huellogo.png', alt: 'Huel Logo', size: logoSize, opacity: logoOpacity },
+    { src: '/images/kjlogos/logoFazer.png', alt: 'Fazer Logo', size: logoSize, opacity: logoOpacity },
+    { src: '/images/kjlogos/wolt.png', alt: 'Wolt Logo', size: logoSize, opacity: logoOpacity },
+    { src: '/images/kjlogos/tradera.png', alt: 'Tradera Logo', size: logoSize, opacity: logoOpacity },
+    { src: '/images/kjlogos/philips.png', alt: 'Philips Logo', size: logoSize, opacity: logoOpacity },
+    { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime Logo', size: logoSize, opacity: logoOpacity },
+    { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet Logo', size: logoSize, opacity: logoOpacity },
+    { src: '/images/kjlogos/benandjerrylogo.png', alt: "Ben & Jerry's Logo", size: logoSize, opacity: logoOpacity },
+    { src: '/images/kjlogos/mindlerLogo.png', alt: 'Mindler Logo', size: logoSize, opacity: logoOpacity },
+    { src: '/images/kjlogos/swiffer.png', alt: 'Swiffer Logo', size: logoSize, opacity: logoOpacity },
   ];
 
-  // ✅ Transform logos - NO grayscale/opacity (track handles it)
+  // 🌀 Build Carousel items
   const animationItems: CarouselAnimationItem[] = logos.map((logo, index) => ({
     id: `${logo.src}-${index}`,
     content: (
-      <Logo
-        src={logo.src}
-        alt={logo.alt}
-        size="md"
-        variant="contain"
-      />
-    )
+      <div
+        style={{
+          backgroundColor: subtleBackground ? 'var(--surface-muted)' : 'transparent',
+          borderRadius: '8px',
+          padding: subtleBackground ? '8px' : '0',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Logo
+          src={logo.src}
+          alt={logo.alt}
+          size={logo.size}
+          variant="contain"
+          opacity={logo.opacity}
+        />
+      </div>
+    ),
   }));
 
-  return (
-    <>
-      {headingComponent && (
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <h3>{headingComponent.props?.content || headingComponent.content}</h3>
-        </div>
-      )}
-      <CarouselAnimation
-        items={animationItems}
-        speed={speed}
-        direction={direction}
-        containerHeight="auto"
-        backgroundColor="var(--surface-page)"
-        padding="5px"
-        itemWidth="120px"
-        itemHeight="70px"
-        itemPadding="15px"
-        gap="50px"
-        enableFadeEdges={true}
-        fadeWidth="200px"
-        duplicateCount={6}
-      />
-    </>
-  );
+  // 🎞️ Render multiple stacked banners if levels > 1
+  const banners = Array.from({ length: levels }, (_, i) => (
+    <CarouselAnimation
+      key={`banner-${i}`}
+      items={animationItems}
+      speed={animated ? speed : 0}
+      direction={i % 2 === 0 ? direction : direction === 'left' ? 'right' : 'left'}
+      containerHeight="auto"
+      backgroundColor="var(--surface-page)"
+      padding="5px"
+      itemWidth="120px"
+      itemHeight="70px"
+      itemPadding="15px"
+      gap="50px"
+      enableFadeEdges={true}
+      fadeWidth="200px"
+      duplicateCount={6}
+    />
+  ));
+
+  return <>{banners}</>;
 };
