@@ -4,66 +4,30 @@
    ============================================== */
 
 :root {
-  /* ===== HEADING TOKENS ===== */
+  /* =========================================================
+     1. HEADING TOKENS
+     ========================================================= */
   --font-heading-family: var(--foundation-font-primary);
-  --font-heading-weight: var(--foundation-weight-bold);
+  --font-heading-weight: var(--selected-font-weight-heading);
   --text-heading-color: var(--text-primary);
 
-  /* ===== DISPLAY SIZES ===== */
-  --font-display-xl-size: var(--selected-font-size-6xl);
-  --font-display-xl-leading: var(--selected-leading-tight);
-  --font-display-lg-size: var(--selected-font-size-5xl);
-  --font-display-lg-leading: var(--selected-leading-tight);
-  --font-display-md-size: var(--selected-font-size-4xl);
-  --font-display-md-leading: var(--selected-leading-tight);
-  --font-display-sm-size: var(--selected-font-size-3xl);
-  --font-display-sm-leading: var(--selected-leading-snug);
-
-  /* ===== HEADING SIZES ===== */
-  --font-h1-size: var(--selected-font-size-3xl);
-  --font-h1-leading: var(--selected-leading-tight);
-  --font-h2-size: var(--selected-font-size-2xl);
-  --font-h2-leading: var(--selected-leading-tight);
-  --font-h3-size: var(--selected-font-size-xl);
-  --font-h3-leading: var(--selected-leading-snug);
-  --font-h4-size: var(--selected-font-size-lg);
-  --font-h4-leading: var(--selected-leading-snug);
-  --font-h5-size: var(--selected-font-size-base);
-  --font-h5-leading: var(--selected-leading-normal);
-  --font-h6-size: var(--selected-font-size-sm);
-  --font-h6-leading: var(--selected-leading-normal);
-
-  /* ===== BODY TEXT ===== */
+  /* =========================================================
+     2. BODY TOKENS
+     ========================================================= */
   --font-body-family: var(--foundation-font-secondary);
-  --font-body-weight: var(--foundation-weight-regular);
+  --font-body-weight: var(--selected-font-weight-body);
   --text-body-color: var(--text-secondary);
 
-  --font-body-xl-size: var(--selected-font-size-xl);
-  --font-body-xl-leading: var(--selected-leading-relaxed);
-  --font-body-lg-size: var(--selected-font-size-lg);
-  --font-body-lg-leading: var(--selected-leading-relaxed);
-  --font-body-md-size: var(--selected-font-size-base);
-  --font-body-md-leading: var(--selected-leading-normal);
-  --font-body-sm-size: var(--selected-font-size-sm);
-  --font-body-sm-leading: var(--selected-leading-normal);
-  --font-body-xs-size: var(--selected-font-size-xs);
-  --font-body-xs-leading: var(--selected-leading-normal);
-
-  /* ===== LABELS ===== */
+  /* =========================================================
+     3. LABEL TOKENS
+     ========================================================= */
   --font-label-family: var(--foundation-font-secondary);
-  --font-label-weight: var(--foundation-weight-bold);
+  --font-label-weight: var(--selected-font-weight-label);
   --text-label-color: var(--text-primary);
 
-  --font-label-lg-size: var(--selected-font-size-lg);
-  --font-label-lg-leading: var(--selected-leading-normal);
-  --font-label-md-size: var(--selected-font-size-base);
-  --font-label-md-leading: var(--selected-leading-normal);
-  --font-label-sm-size: var(--selected-font-size-sm);
-  --font-label-sm-leading: var(--selected-leading-normal);
-  --font-label-xs-size: var(--selected-font-size-xs);
-  --font-label-xs-leading: var(--selected-leading-normal);
-
-  /* ===== CODE / MONO ===== */
+  /* =========================================================
+     4. CODE / MONO TOKENS
+     ========================================================= */
   --font-code-family: var(--foundation-font-mono);
   --font-code-weight: var(--foundation-weight-regular);
   --text-code-color: var(--text-primary);
@@ -71,14 +35,90 @@
   --surface-code-component: var(--surface-card);
   --border-code-component: var(--border-default);
 
+  /* =========================================================
+     5. DISPLAY SIZES
+     ========================================================= */
+  --font-display-xl-size: var(--selected-font-size-6xl);
+  --font-display-xl-leading: var(--selected-leading-tight);
+
+  --font-display-lg-size: var(--selected-font-size-5xl);
+  --font-display-lg-leading: var(--selected-leading-tight);
+
+  --font-display-md-size: var(--selected-font-size-4xl);
+  --font-display-md-leading: var(--selected-leading-tight);
+
+  --font-display-sm-size: var(--selected-font-size-3xl);
+  --font-display-sm-leading: var(--selected-leading-snug);
+
+  /* =========================================================
+     6. HEADING SIZES
+     ========================================================= */
+  --font-h1-size: var(--selected-font-size-3xl);
+  --font-h1-leading: var(--selected-leading-tight);
+
+  --font-h2-size: var(--selected-font-size-2xl);
+  --font-h2-leading: var(--selected-leading-tight);
+
+  --font-h3-size: var(--selected-font-size-xl);
+  --font-h3-leading: var(--selected-leading-snug);
+
+  --font-h4-size: var(--selected-font-size-lg);
+  --font-h4-leading: var(--selected-leading-snug);
+
+  --font-h5-size: var(--selected-font-size-base);
+  --font-h5-leading: var(--selected-leading-normal);
+
+  --font-h6-size: var(--selected-font-size-sm);
+  --font-h6-leading: var(--selected-leading-normal);
+
+  /* =========================================================
+     7. BODY SIZES
+     ========================================================= */
+  --font-body-xl-size: var(--selected-font-size-xl);
+  --font-body-xl-leading: var(--selected-leading-relaxed);
+
+  --font-body-lg-size: var(--selected-font-size-lg);
+  --font-body-lg-leading: var(--selected-leading-relaxed);
+
+  --font-body-md-size: var(--selected-font-size-base);
+  --font-body-md-leading: var(--selected-leading-normal);
+
+  --font-body-sm-size: var(--selected-font-size-sm);
+  --font-body-sm-leading: var(--selected-leading-normal);
+
+  --font-body-xs-size: var(--selected-font-size-xs);
+  --font-body-xs-leading: var(--selected-leading-normal);
+
+  /* =========================================================
+     8. LABEL SIZES
+     ========================================================= */
+  --font-label-lg-size: var(--selected-font-size-lg);
+  --font-label-lg-leading: var(--selected-leading-normal);
+
+  --font-label-md-size: var(--selected-font-size-base);
+  --font-label-md-leading: var(--selected-leading-normal);
+
+  --font-label-sm-size: var(--selected-font-size-sm);
+  --font-label-sm-leading: var(--selected-leading-normal);
+
+  --font-label-xs-size: var(--selected-font-size-xs);
+  --font-label-xs-leading: var(--selected-leading-normal);
+
+  /* =========================================================
+     9. CODE SIZES
+     ========================================================= */
   --font-code-lg-size: var(--selected-font-size-base);
   --font-code-lg-leading: var(--selected-leading-normal);
+
   --font-code-md-size: var(--selected-font-size-sm);
   --font-code-md-leading: var(--selected-leading-normal);
+
   --font-code-sm-size: var(--selected-font-size-xs);
   --font-code-sm-leading: var(--selected-leading-normal);
 
-  /* ===== ADDITIONAL TEXT VARIANTS ===== */
+  /* =========================================================
+     10. ADDITIONAL TEXT VARIANTS
+     ========================================================= */
   --text-caption: var(--text-tertiary);
   --text-overline: var(--text-secondary);
   --text-subtitle: var(--text-secondary);

@@ -1,16 +1,20 @@
 /* ==============================================
    TYPOGRAPHY FOUNDATION
-   Provides base fonts, weights, sizes, and
-   scalable size + line-height sets (sm/md/lg)
+   Base typography system for Blimpify design tokens
+   Defines: fonts, weights, sizes, line-heights, and scales
    ============================================== */
 
 :root {
-  /* ===== FONT FAMILIES ===== */
+  /* =========================================================
+     1. FONT FAMILIES
+     ========================================================= */
   --foundation-font-primary: var(--font-primary-name), system-ui, -apple-system, sans-serif;
-  --foundation-font-secondary: var(--font-primary-name), system-ui, -apple-system, sans-serif;
+  --foundation-font-secondary: var(--font-secondary-name), system-ui, -apple-system, sans-serif;
   --foundation-font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
 
-  /* ===== FONT WEIGHTS ===== */
+  /* =========================================================
+     2. FONT WEIGHTS
+     ========================================================= */
   --foundation-weight-light: 300;
   --foundation-weight-regular: 400;
   --foundation-weight-medium: 500;
@@ -19,7 +23,9 @@
   --foundation-weight-extrabold: 800;
   --foundation-weight-black: 900;
 
-  /* ===== BASE FONT SIZES (reference only) ===== */
+  /* =========================================================
+     3. BASE FONT SIZES (Reference only)
+     ========================================================= */
   --foundation-size-xs: 0.75rem;     /* 12px */
   --foundation-size-sm: 0.875rem;    /* 14px */
   --foundation-size-base: 1rem;      /* 16px */
@@ -32,7 +38,9 @@
   --foundation-size-6xl: 3.75rem;    /* 60px */
   --foundation-size-7xl: 4.5rem;     /* 72px */
 
-  /* ===== BASE LINE HEIGHTS (reference only) ===== */
+  /* =========================================================
+     4. BASE LINE HEIGHTS (Reference only)
+     ========================================================= */
   --foundation-leading-none: 1;
   --foundation-leading-tight: 1.25;
   --foundation-leading-snug: 1.375;
@@ -40,11 +48,12 @@
   --foundation-leading-relaxed: 1.625;
   --foundation-leading-loose: 2;
 
-  /* ==============================================
-     TYPOGRAPHY SCALE SETS (sizes + line heights)
-     ============================================== */
+  /* =========================================================
+     5. TYPOGRAPHY SCALE SETS (sizes + line heights)
+     Each scale defines small, medium, and large visual systems
+     ========================================================= */
 
-  /* --- Small scale (compact, tighter) --- */
+  /* --- Small Scale (compact, tighter) --- */
   --foundation-typography-sm-xs: 0.7rem;
   --foundation-typography-sm-sm: 0.825rem;
   --foundation-typography-sm-base: 0.95rem;
@@ -63,7 +72,7 @@
   --foundation-typography-sm-leading-relaxed: 1.45;
   --foundation-typography-sm-leading-loose: 1.6;
 
-  /* --- Medium scale (default, balanced) --- */
+  /* --- Medium Scale (balanced, default) --- */
   --foundation-typography-md-xs: var(--foundation-size-xs);
   --foundation-typography-md-sm: var(--foundation-size-sm);
   --foundation-typography-md-base: var(--foundation-size-base);
@@ -82,7 +91,7 @@
   --foundation-typography-md-leading-relaxed: var(--foundation-leading-relaxed);
   --foundation-typography-md-leading-loose: var(--foundation-leading-loose);
 
-  /* --- Large scale (open, airy) --- */
+  /* --- Large Scale (open, airy) --- */
   --foundation-typography-lg-xs: 0.8rem;
   --foundation-typography-lg-sm: 0.95rem;
   --foundation-typography-lg-base: 1.1rem;
@@ -100,4 +109,26 @@
   --foundation-typography-lg-leading-normal: 1.6;
   --foundation-typography-lg-leading-relaxed: 1.75;
   --foundation-typography-lg-leading-loose: 1.9;
+}
+
+/* =========================================================
+   6. FONT WEIGHT SCALES
+   Provides “light”, “regular”, and “strong” typography systems
+   ========================================================= */
+
+:root {
+  /* --- Light typography system (subtle) --- */
+  --foundation-weightscale-light-heading: var(--foundation-weight-regular);
+  --foundation-weightscale-light-body:    var(--foundation-weight-light);
+  --foundation-weightscale-light-label:   var(--foundation-weight-regular);
+
+  /* --- Regular typography system (balanced, default) --- */
+  --foundation-weightscale-regular-heading: var(--foundation-weight-semibold);
+  --foundation-weightscale-regular-body:    var(--foundation-weight-regular);
+  --foundation-weightscale-regular-label:   var(--foundation-weight-semibold);
+
+  /* --- Strong typography system (emphasis-heavy) --- */
+  --foundation-weightscale-strong-heading: var(--foundation-weight-bold);
+  --foundation-weightscale-strong-body:    var(--foundation-weight-medium);
+  --foundation-weightscale-strong-label:   var(--foundation-weight-bold);
 }

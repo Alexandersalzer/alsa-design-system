@@ -4,6 +4,8 @@ export interface DesignJson {
     accentColor?: string;
     isDark?: boolean;
     fontPrimary?: string;
+    fontSecondary?: string;
+    fontWeightScale?: 'light' | 'regular' | 'strong';
     layoutContent?: string;
     layoutMedia?: string;
     sectionSpacing?: string;
