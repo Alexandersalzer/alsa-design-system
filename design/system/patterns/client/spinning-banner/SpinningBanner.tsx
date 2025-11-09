@@ -1,19 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
 import { Logo } from '../../../components/media/Logo';
 
 interface SpinningBannerProps {
-  type?: string;
   props?: {
     speed?: number;
     direction?: 'left' | 'right';
     logoSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     logoOpacity?: number;
+    grayscale?: boolean;
     animated?: boolean;
-    levels?: number;
-    subtleBackground?: boolean;
   };
   components?: Record<string, {
     type: string;
@@ -23,90 +21,130 @@ interface SpinningBannerProps {
 }
 
 export const SpinningBanner: React.FC<SpinningBannerProps> = ({
-  type,
   props: patternProps = {},
   components = {}
 }) => {
-  // 🎛️ Configurable props
   const {
-    speed = 30,
+    speed = 25,
     direction = 'left',
     logoSize = 'md',
     logoOpacity = 1,
-    animated = true,
-    levels = 1,
-    subtleBackground = false,
+    grayscale = true,
+    animated = true
   } = patternProps;
 
-  // 🧩 Extract logos from components
-  const logoComponents = Object.entries(components)
+  // Extract logo data only
+  const logos = Object.entries(components)
     .filter(([_, comp]) => comp.type === 'logo')
     .map(([_, comp]) => ({
       src: comp.props?.src || comp.content?.src || '',
       alt: comp.props?.alt || comp.content?.alt || 'Logo',
-      size: comp.props?.size || logoSize,
-      opacity: comp.props?.opacity ?? logoOpacity,
     }))
-    .filter((logo) => logo.src !== '');
+    .filter((l) => l.src);
 
-  // 🪄 Default fallback logos
-  const logos = logoComponents.length > 0 ? logoComponents : [
-    { src: '/images/kjlogos/huellogo.png', alt: 'Huel Logo', size: logoSize, opacity: logoOpacity },
-    { src: '/images/kjlogos/logoFazer.png', alt: 'Fazer Logo', size: logoSize, opacity: logoOpacity },
-    { src: '/images/kjlogos/wolt.png', alt: 'Wolt Logo', size: logoSize, opacity: logoOpacity },
-    { src: '/images/kjlogos/tradera.png', alt: 'Tradera Logo', size: logoSize, opacity: logoOpacity },
-    { src: '/images/kjlogos/philips.png', alt: 'Philips Logo', size: logoSize, opacity: logoOpacity },
-    { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime Logo', size: logoSize, opacity: logoOpacity },
-    { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet Logo', size: logoSize, opacity: logoOpacity },
-    { src: '/images/kjlogos/benandjerrylogo.png', alt: "Ben & Jerry's Logo", size: logoSize, opacity: logoOpacity },
-    { src: '/images/kjlogos/mindlerLogo.png', alt: 'Mindler Logo', size: logoSize, opacity: logoOpacity },
-    { src: '/images/kjlogos/swiffer.png', alt: 'Swiffer Logo', size: logoSize, opacity: logoOpacity },
+  // Fallback set
+  const fallback = [
+    { src: '/images/kjlogos/huellogo.png', alt: 'Huel' },
+    { src: '/images/kjlogos/logoFazer.png', alt: 'Fazer' },
+    { src: '/images/kjlogos/wolt.png', alt: 'Wolt' },
+    { src: '/images/kjlogos/tradera.png', alt: 'Tradera' },
+    { src: '/images/kjlogos/philips.png', alt: 'Philips' },
+    { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime' },
+    { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet' },
+    { src: '/images/kjlogos/mindlerLogo.png', alt: 'Mindler' },
   ];
 
-  // 🌀 Build Carousel items
-  const animationItems: CarouselAnimationItem[] = logos.map((logo, index) => ({
+  const allLogos = logos.length ? logos : fallback;
+
+  // ✅ Smarter proportional sizing
+  const sizeMap = useMemo(() => {
+    switch (logoSize) {
+      case 'xs':
+        return { width: 80, height: 40, gap: 28, padding: 8 };
+      case 'sm':
+        return { width: 100, height: 50, gap: 36, padding: 10 };
+      case 'md':
+        return { width: 130, height: 65, gap: 48, padding: 12 };
+      case 'lg':
+        return { width: 160, height: 80, gap: 60, padding: 14 };
+      case 'xl':
+        return { width: 200, height: 100, gap: 75, padding: 16 };
+      default:
+        return { width: 130, height: 65, gap: 48, padding: 12 };
+    }
+  }, [logoSize]);
+
+  const animationItems: CarouselAnimationItem[] = allLogos.map((logo, index) => ({
     id: `${logo.src}-${index}`,
     content: (
       <div
         style={{
-          backgroundColor: subtleBackground ? 'var(--surface-muted)' : 'transparent',
-          borderRadius: '8px',
-          padding: subtleBackground ? '8px' : '0',
+          width: '100%',
+          height: '100%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          opacity: logoOpacity,
+          filter: grayscale ? 'grayscale(1)' : 'none',
+          transition: 'opacity 0.2s ease-in-out'
         }}
       >
         <Logo
           src={logo.src}
           alt={logo.alt}
-          size={logo.size}
+          size={logoSize}
           variant="contain"
-          opacity={logo.opacity}
         />
       </div>
-    ),
+    )
   }));
 
-  // 🎞️ Render multiple stacked banners if levels > 1
-  const banners = Array.from({ length: levels }, (_, i) => (
+  // Smooth scroll duplication
+  const duplicateCount = 6;
+
+  if (!animated) {
+    // Non-animated version
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: `${sizeMap.gap}px`,
+          padding: '10px 0'
+        }}
+      >
+        {animationItems.map((item) => (
+          <div
+            key={item.id}
+            style={{
+              width: `${sizeMap.width}px`,
+              height: `${sizeMap.height}px`,
+              padding: `${sizeMap.padding}px`
+            }}
+          >
+            {item.content}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // ✅ Animated version
+  return (
     <CarouselAnimation
-      key={`banner-${i}`}
       items={animationItems}
-      speed={animated ? speed : 0}
-      direction={i % 2 === 0 ? direction : direction === 'left' ? 'right' : 'left'}
-      containerHeight="auto"
-      backgroundColor="var(--surface-page)"
+      speed={speed}
+      direction={direction}
+      backgroundColor="transparent"
       padding="5px"
-      itemWidth="120px"
-      itemHeight="70px"
-      itemPadding="15px"
-      gap="50px"
+      itemWidth={`${sizeMap.width}px`}
+      itemHeight={`${sizeMap.height}px`}
+      itemPadding={`${sizeMap.padding}px`}
+      gap={`${sizeMap.gap}px`}
       enableFadeEdges={true}
       fadeWidth="200px"
-      duplicateCount={6}
+      duplicateCount={duplicateCount}
     />
-  ));
-
-  return <>{banners}</>;
+  );
 };

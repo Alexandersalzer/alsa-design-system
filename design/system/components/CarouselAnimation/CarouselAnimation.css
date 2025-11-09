@@ -4,13 +4,15 @@
    =============================================== */
 
 @keyframes CarouselScroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(calc(-100% / var(--duplicate-count, 6)));
-  }
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
+
+.Carousel-animation-track {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
 
 .Carousel-animation-container {
   width: 100%;
