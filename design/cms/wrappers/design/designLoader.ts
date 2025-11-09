@@ -9,6 +9,7 @@ export interface DesignJson {
     sectionSpacing?: string;
     containerSpacing?: string;
     navbarSpacing?: string;
+    typographyScale?: 'sm' | 'md' | 'lg';
   };
 }
 

@@ -15,7 +15,7 @@ export function buildCssVars(design: DesignJson): string {
   const sectionSpacing   = design?.globalStyles?.sectionSpacing   || "md";
   const containerSpacing = design?.globalStyles?.containerSpacing || "md";
   const navbarSpacing    = design?.globalStyles?.navbarSpacing    || "md"; // ✅ NEW
-
+  const typographyScale = design?.globalStyles?.typographyScale || "md";
   const fontWeights = "400;600;700;800";
   const fontUrl = `https://fonts.googleapis.com/css2?family=${fontPrimary.replace(/\s/g, '+')}:wght@${fontWeights}&display=swap`;
 
@@ -78,6 +78,28 @@ export function buildCssVars(design: DesignJson): string {
       --accent-1100: var(--foundation-${accentColor}-1100);
       --accent-1200: var(--foundation-${accentColor}-1200);
       `}
+
+      /* ===== Typography scale (selected size scale) ===== */
+      --selected-font-size-xs: var(--foundation-typography-${typographyScale}-xs);
+      --selected-font-size-sm: var(--foundation-typography-${typographyScale}-sm);
+      --selected-font-size-base: var(--foundation-typography-${typographyScale}-base);
+      --selected-font-size-lg: var(--foundation-typography-${typographyScale}-lg);
+      --selected-font-size-xl: var(--foundation-typography-${typographyScale}-xl);
+      --selected-font-size-2xl: var(--foundation-typography-${typographyScale}-2xl);
+      --selected-font-size-3xl: var(--foundation-typography-${typographyScale}-3xl);
+      --selected-font-size-4xl: var(--foundation-typography-${typographyScale}-4xl);
+      --selected-font-size-5xl: var(--foundation-typography-${typographyScale}-5xl);
+      --selected-font-size-6xl: var(--foundation-typography-${typographyScale}-6xl);
+      --selected-font-size-7xl: var(--foundation-typography-${typographyScale}-7xl);
+
+      /* ===== Typography line-height scale ===== */
+      --selected-leading-tight:   var(--foundation-typography-${typographyScale}-leading-tight);
+      --selected-leading-snug:    var(--foundation-typography-${typographyScale}-leading-snug);
+      --selected-leading-normal:  var(--foundation-typography-${typographyScale}-leading-normal);
+      --selected-leading-relaxed: var(--foundation-typography-${typographyScale}-leading-relaxed);
+      --selected-leading-loose:   var(--foundation-typography-${typographyScale}-leading-loose);
+
+
 
       /* ===== Theme & font ===== */
       --is-dark: ${isDark ? 1 : 0};
