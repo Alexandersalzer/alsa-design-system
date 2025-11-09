@@ -3,9 +3,10 @@
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { renderComponent } from '../../../core/render/renderSections';
-import { getComponentsByRole, PatternProps } from '../../../core/utils';
+import { getComponentsByRole } from '../../../core/utils/componentHelpers';
+import { PatternNode } from '../../../core/types/nodes';
 
-const KjFooter = ({ components = {} }: PatternProps) => {
+const KjFooter = ({ components = {} }: PatternNode) => {
   // Extract components by their roles using shared utility
   const titleComponents = getComponentsByRole(components, 'title');
   const emailComponents = getComponentsByRole(components, 'email');
