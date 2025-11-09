@@ -1,8 +1,10 @@
 'use client';
+
 import React from 'react';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
 
 interface SpinningBannerProps {
+  // ===== NEW: JSON STRUCTURE SUPPORT =====
   type?: string;
   components?: Record<string, {
     type: string;
@@ -12,31 +14,38 @@ interface SpinningBannerProps {
     speed?: number;
     direction?: 'left' | 'right';
   };
+  
+  // ===== LEGACY PROPS =====
   logos?: Array<{
     src: string;
     alt: string;
     width?: number;
     height?: number;
   }>;
-  speed?: number;
+  speed?: number; // Animation speed in seconds
   direction?: 'left' | 'right';
   className?: string;
 }
 
 export const SpinningBanner: React.FC<SpinningBannerProps> = ({
+  // NEW: JSON Structure
   type,
   components,
   settings,
+  
+  // Legacy props
   logos: legacyLogos,
   speed: legacySpeed,
   direction: legacyDirection,
   className = ''
 }) => {
+  // ===== EXTRACT DATA FROM JSON COMPONENTS OR USE LEGACY PROPS =====
   let logos: Array<{ src: string; alt: string; width?: number; height?: number; }>;
   let speed: number;
   let direction: 'left' | 'right';
 
   if (components) {
+    // Extract logos from JSON structure
     const logoComponents = Object.entries(components)
       .filter(([key, comp]: [string, any]) => comp.type === 'logo')
       .map(([key, comp]: [string, any]) => ({
@@ -49,6 +58,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
     speed = settings?.speed || 30;
     direction = settings?.direction || 'left';
   } else {
+    // Use legacy props with defaults
     logos = legacyLogos || [
       { src: '/images/kjlogos/huellogo.png', alt: 'Huel Logo' },
       { src: '/images/kjlogos/fazerlogo.png', alt: 'Fazer Logo' },
@@ -64,58 +74,42 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
     speed = legacySpeed || 30;
     direction = legacyDirection || 'left';
   }
-
-  const instanceId = React.useId();
-  const uniqueClass = `spinning-banner-logo-${instanceId.replace(/:/g, '')}`;
-
+  // Transform logos into SpinningAnimationItem format
   const animationItems: CarouselAnimationItem[] = logos.map((logo, index) => ({
     id: `${logo.src}-${index}`,
     content: (
       <img
         src={logo.src}
         alt={logo.alt}
-        className={uniqueClass}
         style={{
           maxWidth: '100%',
           maxHeight: '100%',
           width: 'auto',
           height: 'auto',
           objectFit: 'contain',
-          transition: 'filter 0.3s ease'
+          filter: 'grayscale(100%) opacity(0.6)'
         }}
       />
     )
   }));
 
   return (
-    <>
-      <style>{`
-        .${uniqueClass} {
-          filter: grayscale(100%) opacity(0.6);
-        }
-
-        [data-theme="dark"] .${uniqueClass},
-        .dark .${uniqueClass} {
-          filter: grayscale(100%) opacity(0.6) invert(1);
-        }
-      `}</style>
-      
-      <CarouselAnimation
-        items={animationItems}
-        speed={speed}
-        direction={direction}
-        className={className}
-        containerHeight="auto"
-        backgroundColor="var(--surface-page)"
-        padding="5px"
-        itemWidth="120px"
-        itemHeight="70px"
-        itemPadding="15px"
-        gap="50px"
-        enableFadeEdges={true}
-        fadeWidth="200px"
-        duplicateCount={6}
-      />
-    </>
+    <CarouselAnimation
+      items={animationItems}
+      speed={speed}
+      direction={direction}
+      className={className}
+      // ✅ Use semantic token instead of hardcoded color
+      containerHeight="auto"
+      backgroundColor="var(--surface-page)"
+      padding="5px"
+      itemWidth="120px"
+      itemHeight="70px"
+      itemPadding="15px"
+      gap="50px"
+      enableFadeEdges={true}
+      fadeWidth="200px"
+      duplicateCount={6}
+    />
   );
 };
