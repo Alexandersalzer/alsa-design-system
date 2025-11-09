@@ -8,23 +8,6 @@ import { PatternSchema } from '../types/base';
 export const KjFooterPatternSchema: PatternSchema = {
   type: 'kj',
   props: {
-    logoSpacing: {
-      type: 'enum',
-      values: ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl'],
-      default: 'xl',
-      description: 'Spacing between logo and content sections'
-    },
-    contentSpacing: {
-      type: 'enum',
-      values: ['none', 'xs', 'sm', 'md', 'lg', 'xl'],
-      default: 'xs', 
-      description: 'Spacing between text components'
-    },
-    showLogo: {
-      type: 'boolean',
-      default: true,
-      description: 'Whether to show the KJ logo'
-    }
   },
   components: {
     title: {

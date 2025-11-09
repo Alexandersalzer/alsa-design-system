@@ -21,31 +21,27 @@ const KjFooter = ({ type, props, components = {} }: KjFooterProps) => {
     key
   } as ComponentNode & { key: string }));
 
-  // Separate header components (logo + title) from body components
-  const logoComponent = componentsList.find(comp => comp.key.includes('logo'));
-  const titleComponent = componentsList.find(comp => comp.key.includes('title'));
-  const bodyComponents = componentsList.filter(comp => 
-    !comp.key.includes('logo') && !comp.key.includes('title')
-  );
-
-  // Render components using renderComponent
-  const renderedLogo = logoComponent ? renderComponent(logoComponent, logoComponent.key, 0) : null;
-  const renderedTitle = titleComponent ? renderComponent(titleComponent, titleComponent.key, 1) : null;
-  const renderedBodyComponents = bodyComponents.map((component, index) => 
-    renderComponent(component, component.key, index + 2)
+  // Render all components using renderComponent
+  const renderedComponents = componentsList.map((component, index) => 
+    renderComponent(component, component.key, index)
   );
 
   return (
     <VStack spacing="xl" align="center" fullWidth>
-      {/* Header Section - Logo + Title in HStack */}
+      {/* Logo Section - Fixed layout element */}
       <HStack spacing="md" align="center" justify="center">
-        {renderedLogo}
-        {renderedTitle}
+        <img 
+          src="/images/sections/kjlogo.jpg" 
+          alt="KJ Marketing Sweden Logo"
+          width={40}
+          height={40}
+          className="object-contain flex-shrink-0"
+        />
       </HStack>
 
-      {/* Body Components */}
+      {/* Schema-driven components */}
       <VStack spacing="xs" align="center">
-        {renderedBodyComponents}
+        {renderedComponents}
       </VStack>
     </VStack>
   );

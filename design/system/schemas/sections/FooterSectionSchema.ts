@@ -12,23 +12,31 @@ export const FooterSectionSchema: SectionSchema = {
       type: 'enum',
       values: ['light', 'dark', 'transparent'],
       default: 'dark',
-      description: 'Footer section background color theme'
+      description: 'Footer background color theme'
     },
-    spacing: {
-      type: 'enum',
-      values: ['none', 'xs', 'sm', 'md', 'lg', 'xl'],
-      default: 'lg',
-      description: 'Vertical spacing between footer patterns'
-    }
+    align: CommonProps.align
   },
   patterns: {
     kj: {
       type: 'kj',
-      props: {} // Pattern-specific props defined in KjFooterPatternSchema
+      props: {
+        layout: {
+          type: 'enum',
+          values: ['single-column', 'multi-column', 'centered'],
+          default: 'single-column',
+          description: 'Footer layout style'
+        }
+      }
     },
     footer: {
-      type: 'footer', 
-      props: {} // Pattern-specific props defined in FooterPatternSchema
+      type: 'footer',
+      props: {
+        layout: {
+          type: 'enum',
+          values: ['simple', 'detailed', 'minimal'],
+          default: 'simple'
+        }
+      }
     }
   },
   requiredPatterns: [] // Footer sections don't require sectionBody
