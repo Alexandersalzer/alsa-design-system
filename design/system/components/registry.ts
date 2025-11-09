@@ -15,7 +15,6 @@ import { Avatar, Icon, VideoShowcase } from './media';
 import { Menu, Modal, Popover } from './overlays';
 import { Table } from './Table';
 import { Typography, JsonText } from './Typography';
-import { SimpleImage } from './media/SimpleImage/SimpleImage';
 
 
 export const componentRegistry: Record<string, React.ComponentType<any>> = {
@@ -49,8 +48,6 @@ export const componentRegistry: Record<string, React.ComponentType<any>> = {
   table: Table,
   // JSON-driven text component that maps to Display, Heading, Body, Label, Code
   text: JsonText,
-  // Schema-driven image component
-  image: SimpleImage,
   // Keep original Typography for backwards compatibility
   typography: Typography,
 }; 
