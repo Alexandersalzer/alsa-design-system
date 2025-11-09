@@ -2,7 +2,6 @@
 'use client';
 
 import React from 'react';
-import styles from './Logo.module.css';
 
 export interface LogoProps {
   src: string;
