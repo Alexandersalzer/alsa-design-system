@@ -396,30 +396,30 @@ const NavbarComponent = ({
         animationDirection={mobileAnimationDirection}
         transparent={mobileOverlayTransparent}
       >
-        <Container spacing="lg" height="full">
-          <VStack spacing="2xl" className="navbar__mobile-menu">
-            <HStack justify="between" align="center">
-              <BrandLink
-                href={brandHref}
-                variant={brandVariant}
-                size={brandSize}
-                weight={brandWeight}
-                underline={brandUnderline}
-                logoSrc={logoSrc}
-                logoAlt={logoAlt}
-                logoWidth={logoWidth}
-                logoHeight={logoHeight}
-              >
-                {brandName}
-              </BrandLink>
+        <VStack spacing="lg" className="navbar__mobile-menu">
+          <HStack justify="between" align="center" className="navbar__container">
+            <BrandLink
+              href={brandHref}
+              variant={brandVariant}
+              size={brandSize}
+              weight={brandWeight}
+              underline={brandUnderline}
+              logoSrc={logoSrc}
+              logoAlt={logoAlt}
+              logoWidth={logoWidth}
+              logoHeight={logoHeight}
+            >
+              {brandName}
+            </BrandLink>
 
-              <MobileMenuButton
-                isOpen={isMobileMenuOpen}
-                onClick={() => setIsMobileMenuOpen(false)}
-                buttonVariant={mobileMenuButtonStyle}
-              />
-            </HStack>
+            <MobileMenuButton
+              isOpen={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(false)}
+              buttonVariant={mobileMenuButtonStyle}
+            />
+          </HStack>
 
+          <Box className="navbar__mobile-menu-content">
             <NavMenu
               items={navItems}
               spacing="md"
@@ -442,8 +442,8 @@ const NavbarComponent = ({
                 Starta projekt
               </Button>
             )}
-          </VStack>
-        </Container>
+          </Box>
+        </VStack>
       </MobileMenuOverlay>
     </Box>
   );
