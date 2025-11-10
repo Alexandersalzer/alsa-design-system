@@ -94,8 +94,6 @@ const BrandLink = ({
   weight = 'bold',
   logoSrc,
   logoAlt = 'Logo',
-  logoWidth = 40,
-  logoHeight = 40,
   underline = 'none',
 }: BrandLinkProps) => (
   <TextLink

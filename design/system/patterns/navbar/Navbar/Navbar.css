@@ -23,17 +23,20 @@
   position: sticky;
   top: 0;
   background: var(--color-surface);
+  z-index: var(--z-navbar, 50);
 }
 
 /* ===== VARIANT: BAR ===== */
 .navbar--bar {
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
+  z-index: var(--z-navbar, 50);
 }
 
 .navbar--bar.navbar--transparent {
   background: transparent;
   border-bottom: none;
+  z-index: var(--z-navbar, 50);
 }
 
 /* ===== VARIANT: PILL ===== */

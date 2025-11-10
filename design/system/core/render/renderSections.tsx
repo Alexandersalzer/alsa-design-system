@@ -127,7 +127,19 @@ export function renderSection({
   const { type, patterns, order, props: sectionProps } = sectionData;
   const patternOrder = order || Object.keys(patterns);
   
-  // Render all patterns for this section
+  // Special handling for navbar - no Section wrapper, no Container padding
+  if (type === 'navbar') {
+    const renderedPatterns = patternOrder
+      .map((patternKey, index) => {
+        const pattern = patterns[patternKey];
+        return pattern ? renderShellPattern(pattern, patternKey, index) : null;
+      })
+      .filter(Boolean);
+    
+    return <>{renderedPatterns}</>;
+  }
+  
+  // Render all patterns for regular sections
   const renderedPatterns = patternOrder
     .map((patternKey) => {
       const pattern = patterns[patternKey];
