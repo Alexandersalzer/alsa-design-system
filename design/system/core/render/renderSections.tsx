@@ -15,14 +15,6 @@ import {
 } from '../types/nodes';
 
 /**
- * Props for renderSection function
- */
-interface RenderSectionProps {
-  sectionData: SectionNode;
-  sectionKey: string;
-}
-
-/**
  * Props for Sections component
  */
 interface SectionsProps {
@@ -119,10 +111,7 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, ind
 /**
  * Renders a single section with its patterns
  */
-export function renderSection({ 
-  sectionData, 
-  sectionKey
-}: RenderSectionProps): React.ReactNode {
+export function renderSection(sectionData: SectionNode, sectionKey: string): React.ReactNode {
   if (!sectionData?.patterns) return null;
 
   const { type, patterns, order, props: sectionProps } = sectionData;
@@ -160,11 +149,11 @@ export function Sections({
   return (
     <>
       {order
-        .map((sectionKey) => {
+        .map((sectionKey: string) => {
           const sectionData = sections[sectionKey];
           if (!sectionData) return null;
           
-          return renderSection({ sectionData, sectionKey });
+          return renderSection(sectionData, sectionKey);
         })
         .filter(Boolean)}
     </>
