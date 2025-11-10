@@ -3,7 +3,7 @@
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { renderComponent } from '../../../core/render/renderSections';
-import { getComponentsByRole } from '../../../core/utils/componentHelpers';
+import { getComponentsByRole } from '../../../core/utils/helpers';
 import { PatternNode } from '../../../core/types/nodes';
 
 const KjFooter = ({ components = {} }: PatternNode) => {
