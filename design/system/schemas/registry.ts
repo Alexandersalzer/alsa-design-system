@@ -8,7 +8,7 @@ import { SchemaRegistry } from './types/base';
 // Import all section schemas
 import {
   FooterSectionSchema
-} from './sections';
+} from '../templates/footer/schema';
 
 // Import all pattern schemas
 import {

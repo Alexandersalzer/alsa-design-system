@@ -3,7 +3,7 @@
 // Schema definition for Footer section
 // ===============================================
 
-import { SectionSchema, StandardProps } from '../types/base';
+import { SectionSchema, StandardProps } from '../../schemas/types/base';
 
 export const FooterSectionSchema: SectionSchema = {
   type: 'footer',
