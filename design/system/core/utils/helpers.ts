@@ -4,6 +4,7 @@
 // ===============================================
 
 import { ComponentNode } from '../types/nodes';
+import { renderComponent } from '../render/renderSections';
 
 /**
  * Get components filtered by their role property
@@ -15,4 +16,15 @@ export const getComponentsByRole = (
 ): [string, ComponentNode][] => {
   return Object.entries(components)
     .filter(([key, component]) => component.props?.role === role);
+};
+
+export const renderComponentsByRole = (
+  components: Record<string, ComponentNode>, 
+  role: string
+): React.ReactNode[] => {
+  const roleComponents = getComponentsByRole(components, role);
+  
+  return roleComponents.map(([key, component], index) => 
+    renderComponent(component, key, index)
+  );
 };

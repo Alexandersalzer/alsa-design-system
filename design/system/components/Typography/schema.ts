@@ -25,12 +25,6 @@ export const TypographySchema: ComponentSchema = {
       default: 'md',
       description: 'Size - maps to appropriate size for each variant (xs=smallest, xl=largest)'
     },
-    align: {
-      type: 'enum',
-      values: ['left', 'center', 'right', 'justify'],
-      default: 'left',
-      description: 'Text alignment'
-    },
     role: {
       type: 'string',
       description: 'Semantic role for pattern layout placement (title, email, legal, attribute, etc.)'
