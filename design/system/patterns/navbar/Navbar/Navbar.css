@@ -56,12 +56,13 @@
 
 .navbar--pill .navbar__container {
   max-width: var(--width-container);
-  background-color: var(--surface-navbar);
+  background-color: var(--surface-default);
   backdrop-filter: blur(50px);
   -webkit-backdrop-filter: blur(50px);
-  border-radius: var(--radius-3xl);
-  box-shadow: var(--shadow-sm);
-  padding: var(--space-navbar-md) var(--space-navbar-xl);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-subtle);
+  padding: var(--space-navbar-sm) var(--space-navbar-lg);
 }
 
 .navbar--pill.navbar--sticky {
@@ -73,9 +74,10 @@
 
 /* Transparent pill with glass effect */
 .navbar--pill.navbar--transparent .navbar__container {
-  background: var(--surface-navbar-transparent);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* ===== WIDTH VARIANTS ===== */
