@@ -7,123 +7,150 @@
 
 /* ========== NEUTRAL (DEFAULT) ========== */
 :root,
-/* ========== DEEP (CINEMATIC DARK GRAY) ========== */
-:root[data-theme-tone="deep"] {
-  --foundation-white: #e8e8ea;
-  --foundation-black: #0b0b0d;
+/* ===== COLOR FOUNDATION - CLEAN STRUCTURE ===== */
+/* ==============================================
+   FOUNDATION GRAY VARIANTS — REFINED 2025 SET
+   Seven timeless tone families for modern websites
+   ============================================== */
 
-  --foundation-gray-50:  #1a1a1d;
-  --foundation-gray-100: #202023;
-  --foundation-gray-200: #2a2a2d;
-  --foundation-gray-300: #323235;
-  --foundation-gray-400: #3a3a3d;
-  --foundation-gray-500: #48484c;
-  --foundation-gray-600: #5c5c60;
-  --foundation-gray-700: #757579;
-  --foundation-gray-800: #9a9aa0;
-  --foundation-gray-900: #c3c3c8;
-  --foundation-gray-1000: #d8d8dc;
-  --foundation-gray-1100: #e2e2e6;
-  --foundation-gray-1200: #ededf0;
+/* ========== BASE (NEUTRAL GRAY) ========== */
+:root[data-theme-tone="base"] {
+  --foundation-white: #f6f6f6;
+  --foundation-black: #111111;
+
+  --foundation-gray-50:  #f7f7f7;
+  --foundation-gray-100: #f1f1f1;
+  --foundation-gray-200: #e5e5e5;
+  --foundation-gray-300: #d6d6d6;
+  --foundation-gray-400: #bfbfbf;
+  --foundation-gray-500: #a5a5a5;
+  --foundation-gray-600: #888888;
+  --foundation-gray-700: #6b6b6b;
+  --foundation-gray-800: #505050;
+  --foundation-gray-900: #383838;
+  --foundation-gray-1000: #252525;
+  --foundation-gray-1100: #1a1a1a;
+  --foundation-gray-1200: #111111;
 }
 
-/* ========== PASTEL (BRIGHT MINIMAL TONE) ========== */
-:root[data-theme-tone="pastel"] {
-  --foundation-white: #ffffff;
-  --foundation-black: #101010;
+/* ========== IVORY (SOFT BEIGE NEUTRAL) ========== */
+:root[data-theme-tone="ivory"] {
+  --foundation-white: #faf8f4;
+  --foundation-black: #171311;
 
-  --foundation-gray-50:  #ffffff;
-  --foundation-gray-100: #fefdfc;
-  --foundation-gray-200: #fdfaf8;
-  --foundation-gray-300: #f9f3ed;
-  --foundation-gray-400: #f2eae2;
-  --foundation-gray-500: #e6ddd5;
-  --foundation-gray-600: #d6ccc2;
-  --foundation-gray-700: #b5aaa0;
-  --foundation-gray-800: #8e847c;
-  --foundation-gray-900: #5e5853;
-  --foundation-gray-1000: #3a3531;
-  --foundation-gray-1100: #25221f;
-  --foundation-gray-1200: #181614;
-}
-
-/* ========== SAND (NEUTRAL-WARM HYBRID) ========== */
-:root[data-theme-tone="sand"] {
-  --foundation-white: #f6f4f0;
-  --foundation-black: #1a1816;
-
-  --foundation-gray-50:  #faf7f3;
+  --foundation-gray-50:  #faf8f4;
   --foundation-gray-100: #f4efe8;
-  --foundation-gray-200: #ebe3da;
-  --foundation-gray-300: #ddd3c6;
-  --foundation-gray-400: #c8bba9;
-  --foundation-gray-500: #b2a392;
-  --foundation-gray-600: #98897b;
-  --foundation-gray-700: #7a6e63;
-  --foundation-gray-800: #5e554d;
-  --foundation-gray-900: #403c37;
-  --foundation-gray-1000: #2b2724;
-  --foundation-gray-1100: #1f1b18;
-  --foundation-gray-1200: #161310;
+  --foundation-gray-200: #ebe3d9;
+  --foundation-gray-300: #ded2c4;
+  --foundation-gray-400: #cdbba7;
+  --foundation-gray-500: #bca38b;
+  --foundation-gray-600: #a38977;
+  --foundation-gray-700: #8b7162;
+  --foundation-gray-800: #705a4e;
+  --foundation-gray-900: #56453c;
+  --foundation-gray-1000: #3d302b;
+  --foundation-gray-1100: #28201d;
+  --foundation-gray-1200: #171311;
 }
 
-:root[data-theme-tone="neutral"] {
-  --foundation-white: #f7f7f7;
-  --foundation-black: #171717;
+/* ========== CLAY (EARTHY WARM GRAY) ========== */
+:root[data-theme-tone="clay"] {
+  --foundation-white: #f6f4f2;
+  --foundation-black: #130e0d;
 
-  --foundation-gray-50:  #f9f9f9;
-  --foundation-gray-100: #f3f3f3;
-  --foundation-gray-200: #e7e7e7;
-  --foundation-gray-300: #d4d4d4;
-  --foundation-gray-400: #bdbdbd;
-  --foundation-gray-500: #999999;
-  --foundation-gray-600: #7a7a7a;
-  --foundation-gray-700: #5c5c5c;
-  --foundation-gray-800: #404040;
-  --foundation-gray-900: #2a2a2a;
-  --foundation-gray-1000: #1b1b1b;
-  --foundation-gray-1100: #191919;
-  --foundation-gray-1200: #171717;
+  --foundation-gray-50:  #f6f4f2;
+  --foundation-gray-100: #efeae7;
+  --foundation-gray-200: #e3d8d2;
+  --foundation-gray-300: #d3c3bb;
+  --foundation-gray-400: #bea79d;
+  --foundation-gray-500: #a68c82;
+  --foundation-gray-600: #8d736a;
+  --foundation-gray-700: #755d55;
+  --foundation-gray-800: #5d4943;
+  --foundation-gray-900: #463632;
+  --foundation-gray-1000: #312623;
+  --foundation-gray-1100: #201816;
+  --foundation-gray-1200: #130e0d;
 }
 
-/* ========== WARM (SOFT BEIGE) ========== */
-:root[data-theme-tone="warm"] {
-  --foundation-white: #eceae7;
-  --foundation-black: #1a1410;
+/* ========== SLATE (CINEMATIC COOL NEUTRAL) ========== */
+:root[data-theme-tone="slate"] {
+  --foundation-white: #f6f7f8;
+  --foundation-black: #0e0f10;
 
-  --foundation-gray-50:  #faf8f5;
-  --foundation-gray-100: #f3efeb;
-  --foundation-gray-200: #e5e0da;
-  --foundation-gray-300: #d0cac2;
-  --foundation-gray-400: #b9b0a8;
-  --foundation-gray-500: #9c938b;
-  --foundation-gray-600: #7f756e;
-  --foundation-gray-700: #615852;
-  --foundation-gray-800: #463f3a;
-  --foundation-gray-900: #2f2a26;
-  --foundation-gray-1000: #1e1a17;
-  --foundation-gray-1100: #171310;
-  --foundation-gray-1200: #120e0b;
+  --foundation-gray-50:  #f6f7f8;
+  --foundation-gray-100: #eceef0;
+  --foundation-gray-200: #dee1e4;
+  --foundation-gray-300: #cdd1d5;
+  --foundation-gray-400: #b6bbc0;
+  --foundation-gray-500: #9aa0a6;
+  --foundation-gray-600: #7e848a;
+  --foundation-gray-700: #64696e;
+  --foundation-gray-800: #4d5054;
+  --foundation-gray-900: #36383b;
+  --foundation-gray-1000: #242527;
+  --foundation-gray-1100: #161718;
+  --foundation-gray-1200: #0e0f10;
 }
 
-/* ========== COOL (MUTED GRAY) ========== */
-:root[data-theme-tone="cool"] {
-  --foundation-white: #e9eaec;
-  --foundation-black: #0d0f12;
+/* ========== FROST (SILVER-TECH BLUE GRAY) ========== */
+:root[data-theme-tone="frost"] {
+  --foundation-white: #f6f9fb;
+  --foundation-black: #111617;
 
-  --foundation-gray-50:  #f3f4f6;
-  --foundation-gray-100: #e5e7eb;
-  --foundation-gray-200: #d1d5db;
-  --foundation-gray-300: #9ca3af;
-  --foundation-gray-400: #6b7280;
-  --foundation-gray-500: #4b5563;
-  --foundation-gray-600: #374151;
-  --foundation-gray-700: #1f2937;
-  --foundation-gray-800: #111827;
-  --foundation-gray-900: #0b0f1a;
-  --foundation-gray-1000: #080b12;
-  --foundation-gray-1100: #05070d;
-  --foundation-gray-1200: #03050a;
+  --foundation-gray-50:  #f6f9fb;
+  --foundation-gray-100: #ecf1f6;
+  --foundation-gray-200: #dfe6ed;
+  --foundation-gray-300: #cdd6df;
+  --foundation-gray-400: #b6c2cc;
+  --foundation-gray-500: #9caab7;
+  --foundation-gray-600: #83909c;
+  --foundation-gray-700: #6a7883;
+  --foundation-gray-800: #525f68;
+  --foundation-gray-900: #3c474e;
+  --foundation-gray-1000: #283236;
+  --foundation-gray-1100: #1a2225;
+  --foundation-gray-1200: #111617;
+}
+
+/* ========== SAGE (NATURAL GREEN GRAY) ========== */
+:root[data-theme-tone="sage"] {
+  --foundation-white: #f6f8f6;
+  --foundation-black: #111111;
+
+  --foundation-gray-50:  #f6f8f6;
+  --foundation-gray-100: #edf1ed;
+  --foundation-gray-200: #e1e7e1;
+  --foundation-gray-300: #d1d8d1;
+  --foundation-gray-400: #bcc4bc;
+  --foundation-gray-500: #a3aba3;
+  --foundation-gray-600: #8a918a;
+  --foundation-gray-700: #717771;
+  --foundation-gray-800: #585c58;
+  --foundation-gray-900: #404340;
+  --foundation-gray-1000: #2b2d2b;
+  --foundation-gray-1100: #1b1c1b;
+  --foundation-gray-1200: #111111;
+}
+
+/* ========== PEARL (CREAMY MINIMAL NEUTRAL) ========== */
+:root[data-theme-tone="pearl"] {
+  --foundation-white: #f9f7f6;
+  --foundation-black: #15100f;
+
+  --foundation-gray-50:  #f9f7f6;
+  --foundation-gray-100: #f4eeec;
+  --foundation-gray-200: #ebe0dc;
+  --foundation-gray-300: #decfc8;
+  --foundation-gray-400: #cdb7af;
+  --foundation-gray-500: #b49c92;
+  --foundation-gray-600: #9b8279;
+  --foundation-gray-700: #826a62;
+  --foundation-gray-800: #68534e;
+  --foundation-gray-900: #4e3d39;
+  --foundation-gray-1000: #352a27;
+  --foundation-gray-1100: #221b19;
+  --foundation-gray-1200: #15100f;
 }
 
 /* ==============================================
