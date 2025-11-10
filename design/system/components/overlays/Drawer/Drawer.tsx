@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { cn } from '../../../lib/utils';
 import { HStack } from '../../layout/hStack/HStack';
 import { VStack } from '../../layout/vStack/VStack';
+import { Portal } from '../../layout/portal/Portal';
 import { Button, IconButtons } from '../../../components';
 
 export type DrawerPlacement = 'start' | 'end' | 'top' | 'bottom';
@@ -74,7 +75,7 @@ export const Drawer = ({
 
   if (!isOpen && !isClosing) return null;
 
-  return (
+  const drawerContent = (
     <div
       className={cn(
         'drawer-backdrop',
@@ -128,6 +129,13 @@ export const Drawer = ({
         </VStack>
       </aside>
     </div>
+  );
+
+  // Render in portal to ensure proper z-index stacking
+  return (
+    <Portal>
+      {drawerContent}
+    </Portal>
   );
 };
 

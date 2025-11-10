@@ -6,7 +6,7 @@
   position: fixed;
   inset: 0;
   background: var(--surface-modal-backdrop);
-  z-index: var(--z-drawer, 9999);
+  z-index: var(--z-modal-backdrop);
   display: flex;
   align-items: stretch;
   justify-content: flex-end;
@@ -23,9 +23,9 @@
   box-shadow: var(--shadow-modal);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  position: relative;
-  z-index: 10000;
+  overflow: visible;
+  position: absolute;
+  z-index: var(--z-modal);
   animation: drawerSlideInEnd var(--foundation-duration-normal) var(--foundation-ease-out);
 }
 
@@ -128,6 +128,13 @@
   .drawer--lg,
   .drawer--xl {
     width: 100%;
+  }
+  
+  .drawer-backdrop {
+    /* Ensure backdrop always covers full screen on mobile */
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: var(--z-modal-backdrop) !important;
   }
 }
 

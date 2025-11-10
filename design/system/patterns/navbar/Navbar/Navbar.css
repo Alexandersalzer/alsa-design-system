@@ -12,7 +12,7 @@
 .navbar__container {
   width: 100%;
   padding: var(--space-navbar);
-  overflow: hidden;
+  overflow: visible;
   position: relative;
   transition: all var(--foundation-duration-normal) var(--foundation-ease-out);
 }
