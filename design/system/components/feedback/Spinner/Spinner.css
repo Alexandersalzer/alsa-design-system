@@ -93,8 +93,8 @@
 
 /* Accent variant for brand emphasis */
 .spinner--accent {
-  border-color: var(--spinner-track-color, var(--accent-200));
-  border-top-color: var(--spinner-color, var(--accent-600));
+  border-color:  var(--accent-200);
+  border-top-color: var(--accent-600);
 }
 
 /* ==========================================================

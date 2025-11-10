@@ -1,0 +1,68 @@
+/* ===============================================
+   Progress.css
+   Styling för Progress-komponenten
+   =============================================== */
+
+.progress {
+  width: 100%;
+  background-color: var(--surface-subtle);
+  overflow: hidden;
+  position: relative;
+  border-radius: var(--radius-sm);
+}
+
+/* Size variants */
+.progress--size-xs {
+  height: 4px;
+}
+
+.progress--size-sm {
+  height: 6px;
+}
+
+.progress--size-md {
+  height: 8px;
+}
+
+.progress--size-lg {
+  height: 12px;
+}
+
+/* Rounded variant */
+.progress--rounded {
+  border-radius: var(--radius-full);
+}
+
+/* Progress bar (indicator) */
+.progress__indicator {
+  height: 100%;
+  transition: width 0.6s ease;
+  border-radius: inherit;
+}
+
+/* Animated variant */
+.progress--animated .progress__indicator {
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Color variants */
+.progress--color-accent .progress__indicator {
+  background-color: var(--accent-500);
+}
+
+.progress--color-success .progress__indicator {
+  background-color: var(--success-500);
+}
+
+.progress--color-warning .progress__indicator {
+  background-color: var(--warning-500);
+}
+
+.progress--color-error .progress__indicator {
+  background-color: var(--error-500);
+}
+
+.progress--color-info .progress__indicator {
+  background-color: var(--info-500);
+}
+
