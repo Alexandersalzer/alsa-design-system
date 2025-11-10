@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import {
   Drawer,
   Modal,
+  Popover,
   IconButton,
   TextLink,
   Button,
@@ -94,6 +95,8 @@ const BrandLink = ({
   weight = 'bold',
   logoSrc,
   logoAlt = 'Logo',
+  logoWidth = 40,
+  logoHeight = 40,
   underline = 'none',
 }: BrandLinkProps) => (
   <TextLink
@@ -215,7 +218,6 @@ interface MobileMenuOverlayProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  navbarVariant: NavbarVariant;
   overlayVariant?: MobileOverlayVariant;
   animationDirection?: AnimationDirection;
   transparent?: boolean;
@@ -225,46 +227,63 @@ const MobileMenuOverlay = ({
   isOpen,
   onClose,
   children,
-  navbarVariant,
   overlayVariant = 'full',
   animationDirection = 'right',
   transparent = false,
 }: MobileMenuOverlayProps) => {
-  // Pill variant always uses Modal
-  if (navbarVariant === 'pill') {
+  // Decide which system primitive to use
+  if (overlayVariant === 'sidebar') {
     return (
-      <Modal
+      <Drawer
         isOpen={isOpen}
         onClose={onClose}
-        size="full"
+        placement={animationDirection === 'left' ? 'start' : 'end'}
         showCloseButton={false}
-        className={transparent ? 'modal--transparent' : ''}
+        className={transparent ? 'drawer--transparent' : ''}
       >
         {children}
-      </Modal>
+      </Drawer>
+    );
+  }
+  if (overlayVariant === 'dropdown') {
+    return (
+      <Popover
+        open={isOpen}
+        onOpenChange={(open) => {
+          if (!open) onClose();
+        }}
+        modal={false}
+        closeOnInteractOutside
+        closeOnEscape
+      >
+        <Popover.Trigger asChild>
+          {/* Invisible trigger element – Popover needs one */}
+          <div style={{ display: 'none' }} />
+        </Popover.Trigger>
+        <Popover.Positioner>
+          <Popover.Content
+            className={transparent ? 'popover--transparent' : ''}
+            positioning={{ placement: 'bottom-start' }}
+            maxHeight={600}
+          >
+            {children}
+          </Popover.Content>
+        </Popover.Positioner>
+      </Popover>
     );
   }
 
-  // Bar variant uses Drawer
+  // Default = full modal
   return (
-    <Drawer
+    <Modal
       isOpen={isOpen}
       onClose={onClose}
-      placement={
-        animationDirection === 'left' 
-          ? 'start' 
-          : animationDirection === 'top'
-          ? 'top'
-          : animationDirection === 'bottom'
-          ? 'bottom'
-          : 'end'
-      }
-      size="md"
+      size="full"
       showCloseButton={false}
-      className={transparent ? 'drawer--transparent' : ''}
+      className={transparent ? 'modal--transparent' : ''}
     >
       {children}
-    </Drawer>
+    </Modal>
   );
 };
 
@@ -397,9 +416,8 @@ const NavbarComponent = ({
       <MobileMenuOverlay
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
-        navbarVariant={navbarVariant}
-        overlayVariant={mobileOverlayVariant}
-        animationDirection={mobileAnimationDirection}
+        overlayVariant={navbarVariant === 'pill' ? 'dropdown' : mobileOverlayVariant}
+        animationDirection={navbarVariant === 'pill' ? 'top' : mobileAnimationDirection}
         transparent={mobileOverlayTransparent}
       >
         <Container spacing="lg" height="full">
