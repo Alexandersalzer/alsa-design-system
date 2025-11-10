@@ -4,20 +4,13 @@
 
 /* ===== BASE NAVBAR ===== */
 .navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   width: 100%;
   z-index: var(--z-navbar, 50);
-  padding: var(--foundation-space-2) var(--foundation-space-6);
-  display: flex;
-  justify-content: center;
 }
 
 .navbar__container {
   width: 100%;
-  max-width: var(--width-container);
   padding: var(--space-navbar);
   overflow: hidden;
   position: relative;
@@ -33,23 +26,19 @@
 
 /* ===== STICKY VARIANT ===== */
 .navbar--sticky {
-  position: fixed;
+  position: sticky;
   top: 0;
+  z-index: var(--z-navbar, 50);
 }
 
 /* ===== VARIANT: BAR ===== */
 .navbar--bar {
   background: var(--surface-default);
   border-bottom: 1px solid var(--border-default);
-  padding: 0;
-  position: relative;
 }
 
 .navbar--bar .navbar__container {
   max-width: 100%;
-  border-radius: 0;
-  background: transparent;
-  backdrop-filter: none;
 }
 
 .navbar--bar.navbar--transparent {
@@ -60,15 +49,26 @@
 /* ===== VARIANT: PILL ===== */
 .navbar--pill {
   background: transparent;
+  padding: var(--foundation-space-2) var(--foundation-space-6);
+  display: flex;
+  justify-content: center;
 }
 
 .navbar--pill .navbar__container {
+  max-width: var(--width-container);
   background-color: var(--surface-navbar);
   backdrop-filter: blur(50px);
   -webkit-backdrop-filter: blur(50px);
   border-radius: var(--radius-3xl);
   box-shadow: var(--shadow-sm);
   padding: var(--space-navbar-md) var(--space-navbar-xl);
+}
+
+.navbar--pill.navbar--sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 /* Transparent pill with glass effect */
@@ -79,24 +79,27 @@
 }
 
 /* ===== WIDTH VARIANTS ===== */
-/* BAR width variants - use container scale */
+/* BAR width variants - constrain container */
 .navbar--bar.navbar--width-full .navbar__container {
   max-width: 100%;
 }
 
 .navbar--bar.navbar--width-content .navbar__container {
   max-width: var(--width-content);
+  margin: 0 auto;
 }
 
 .navbar--bar.navbar--width-narrow .navbar__container {
   max-width: var(--foundation-layout-sm-content);
+  margin: 0 auto;
 }
 
 .navbar--bar.navbar--width-wide .navbar__container {
   max-width: var(--foundation-layout-xl-content);
+  margin: 0 auto;
 }
 
-/* PILL width variants - can use either container or form scale */
+/* PILL width variants - constrain pill container */
 .navbar--pill.navbar--width-full .navbar__container {
   max-width: calc(100% - var(--foundation-space-8));
 }
@@ -209,7 +212,7 @@
 
 /* ===== RESPONSIVE PADDING ===== */
 @media (max-width: 640px) {
-  .navbar {
+  .navbar--pill {
     padding: var(--foundation-space-2) var(--foundation-space-4);
   }
   
