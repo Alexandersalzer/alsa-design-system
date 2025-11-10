@@ -1,22 +1,9 @@
 'use client';
-
 import React, { useState } from 'react';
-import {
-  Drawer,
-  Modal,
-  IconButton,
-  TextLink,
-  Button,
-  Box,
-  VStack,
-  HStack,
-  Logo,
-  Container,
-} from '../../../components';
+import { Box, HStack, VStack, Button, TextLink, IconButton, Container, Logo, Drawer, Modal } from '../../../components';
 import { MenuIcon, XIcon } from 'lucide-react';
 
-// ===== TYPES =====
-export type NavbarVariant = 'pill' | 'bar';
+export type NavbarVariant = 'bar' | 'pill';
 export type NavbarWidth = 'full' | 'content' | 'narrow' | 'wide';
 export type MobileBreakpoint = 'sm' | 'md' | 'lg';
 export type AnimationDirection = 'left' | 'right' | 'top' | 'bottom';
@@ -33,14 +20,6 @@ export interface NavItem {
   isActive?: boolean;
 }
 
-// ===== PATTERN PROPS =====
-interface NavbarPatternProps {
-  type: string;
-  props: Record<string, any>;
-  components: Record<string, any>;
-}
-
-// ===== COMPONENT PROPS =====
 export interface NavbarProps {
   brandName?: string;
   brandHref?: string;
@@ -49,13 +28,17 @@ export interface NavbarProps {
   logoWidth?: number;
   logoHeight?: number;
   navItems?: NavItem[];
+
   navbarVariant?: NavbarVariant;
   transparent?: boolean;
   navbarWidth?: NavbarWidth;
+  sticky?: boolean;
+
   mobileBreakpoint?: MobileBreakpoint;
-  mobileMenuButtonStyle?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   mobileAnimationDirection?: AnimationDirection;
+  mobileMenuButtonStyle?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   mobileOverlayTransparent?: boolean;
+
   brandVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'brand';
   brandSize?: 'sm' | 'md' | 'lg' | 'xl';
   brandWeight?: 'regular' | 'medium' | 'semibold' | 'bold';
@@ -63,23 +46,11 @@ export interface NavbarProps {
   navSize?: 'sm' | 'md' | 'lg' | 'xl';
   navVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   className?: string;
-  sticky?: boolean;
 }
 
-// ===== BRAND LINK =====
-interface BrandLinkProps {
-  href: string;
-  children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'brand';
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  weight?: 'regular' | 'medium' | 'semibold' | 'bold';
-  logoSrc?: string;
-  logoAlt?: string;
-  logoWidth?: number;
-  logoHeight?: number;
-  underline?: 'none' | 'hover' | 'always';
-}
-
+/* ---------------------------------------------
+   BRAND LINK
+--------------------------------------------- */
 const BrandLink = ({
   href,
   children,
@@ -91,7 +62,7 @@ const BrandLink = ({
   logoWidth = 40,
   logoHeight = 40,
   underline = 'none',
-}: BrandLinkProps) => (
+}: any) => (
   <TextLink
     href={href}
     variant={variant}
@@ -108,7 +79,7 @@ const BrandLink = ({
           size="md"
           variant="contain"
           className="navbar__brand-logo"
-          fallbackText={children?.toString().charAt(0) || 'B'}
+          fallbackText={children?.toString()?.charAt(0) || 'B'}
         />
       )}
       {children && <span className="navbar__brand-name">{children}</span>}
@@ -116,45 +87,22 @@ const BrandLink = ({
   </TextLink>
 );
 
-// ===== NAV MENU =====
-interface NavMenuProps {
-  items: NavItem[];
-  spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
-  isMobile?: boolean;
-  onItemClick?: () => void;
-}
-
-const NavMenu = ({
-  items,
-  spacing = 'xl',
-  size = 'md',
-  variant = 'primary',
-  isMobile = false,
-  onItemClick,
-}: NavMenuProps) => {
+/* ---------------------------------------------
+   NAV MENU
+--------------------------------------------- */
+const NavMenu = ({ items = [], isMobile = false, onItemClick, spacing = 'lg', size = 'md', variant = 'primary' }: any) => {
   const Stack = isMobile ? VStack : HStack;
-  const stackProps = isMobile
-    ? { spacing, align: 'stretch' as const }
-    : { spacing, wrap: false, align: 'center' as const };
-
   return (
-    <Stack {...stackProps}>
-      {items.map((item, index) => {
-        const itemVariant = item.variant || variant;
-        const itemSize = item.size || size;
-
-        if (item.componentType === 'textlink') {
-          const textLinkVariant = item.textLinkVariant || 'primary';
-          const activeVariant = item.isActive ? 'accent' : textLinkVariant;
-
+    <Stack spacing={spacing} align={isMobile ? 'stretch' : 'center'} wrap={!isMobile}>
+      {items.map((item: NavItem, i: number) => {
+        const type = item.componentType || 'textlink';
+        if (type === 'textlink') {
           return (
             <TextLink
-              key={item.href || index}
+              key={i}
               href={item.href}
-              variant={activeVariant}
-              size={itemSize}
+              variant={item.isActive ? 'accent' : item.textLinkVariant || 'primary'}
+              size={item.size || size}
               weight={item.weight || 'medium'}
               underline={item.underline || 'hover'}
               onClick={onItemClick}
@@ -163,15 +111,12 @@ const NavMenu = ({
             </TextLink>
           );
         }
-
-        const buttonVariant = item.isActive ? 'secondary' : itemVariant;
-
         return (
           <Button
-            key={item.href || index}
+            key={i}
             href={item.href}
-            variant={buttonVariant}
-            size={itemSize}
+            variant={item.isActive ? 'secondary' : item.variant || variant}
+            size={item.size || size}
             onClick={onItemClick}
           >
             {item.label}
@@ -182,152 +127,24 @@ const NavMenu = ({
   );
 };
 
-// ===== MOBILE MENU BUTTON =====
-interface MobileMenuButtonProps {
-  isOpen: boolean;
-  onClick: () => void;
-  buttonVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
-}
-
-const MobileMenuButton = ({
-  isOpen,
-  onClick,
-  buttonVariant = 'ghost',
-}: MobileMenuButtonProps) => (
-  <IconButton
-    icon={isOpen ? <XIcon /> : <MenuIcon />}
-    variant={buttonVariant}
-    size="lg"
-    aria-label={isOpen ? 'Close menu' : 'Open menu'}
-    onClick={onClick}
-  />
-);
-
-// ===== MOBILE MENU OVERLAY =====
-interface MobileMenuOverlayProps {
-  isOpen: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-  navbarVariant: NavbarVariant;
-  animationDirection?: AnimationDirection;
-  transparent?: boolean;
-}
-
-const MobileMenuOverlay = ({
-  isOpen,
-  onClose,
-  children,
-  navbarVariant,
-  animationDirection = 'right',
-  transparent = false,
-}: MobileMenuOverlayProps) => {
-  // Bar variant uses Drawer (side panel)
-  if (navbarVariant === 'bar') {
-    const placement = animationDirection === 'left' ? 'start' : 
-                     animationDirection === 'top' ? 'top' : 
-                     animationDirection === 'bottom' ? 'bottom' : 'end';
-
-    return (
-      <Drawer
-        isOpen={isOpen}
-        onClose={onClose}
-        placement={placement}
-        size="md"
-        showCloseButton={false}
-        className={transparent ? 'drawer--transparent' : ''}
-      >
-        {children}
-      </Drawer>
-    );
-  }
-
-  // Pill variant uses Modal (full screen)
-  return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      size="full"
-      showCloseButton={false}
-      className={transparent ? 'modal--transparent' : ''}
-    >
-      {children}
-    </Modal>
-  );
-};
-
-// ===== TRANSFORM FUNCTION =====
-function transformPatternToProps(patternProps: NavbarPatternProps): NavbarProps {
-  const { props, components } = patternProps;
-
-  // Extract components
-  const logo = Object.values(components || {}).find((c: any) => c.type === 'logo') as any;
-  const brand = Object.values(components || {}).find((c: any) => c.type === 'title') as any;
-
-  // Transform navItems from components
-  const navItems: NavItem[] = Object.values(components || {})
-    .filter((c: any) => c.type === 'navItem')
-    .map((item: any) => ({
-      href: item.props?.href || '/',
-      label: item.props?.content || '',
-      componentType: item.props?.componentType || 'textlink',
-      variant: item.props?.variant,
-      size: item.props?.size,
-      textLinkVariant: item.props?.textLinkVariant,
-      weight: item.props?.weight,
-      underline: item.props?.underline,
-      isActive: item.props?.isActive,
-    }));
-
-  return {
-    // Navbar config
-    navbarVariant: props?.navbarVariant || 'bar',
-    transparent: props?.transparent || false,
-    navbarWidth: props?.navbarWidth || 'content',
-    sticky: props?.sticky || false,
-
-    // Mobile config
-    mobileBreakpoint: props?.mobileBreakpoint || 'md',
-    mobileAnimationDirection: props?.mobileAnimationDirection || 'right',
-    mobileMenuButtonStyle: props?.mobileMenuButtonStyle || 'ghost',
-    mobileOverlayTransparent: props?.mobileOverlayTransparent || false,
-
-    // Brand config
-    brandName: brand?.props?.content || props?.brandName,
-    brandHref: props?.brandHref || '/',
-    brandVariant: props?.brandVariant || 'brand',
-    brandSize: props?.brandSize || 'lg',
-    brandWeight: props?.brandWeight || 'bold',
-    brandUnderline: props?.brandUnderline || 'none',
-
-    // Logo config
-    logoSrc: logo?.props?.src,
-    logoAlt: logo?.props?.alt || 'Logo',
-    logoWidth: logo?.props?.width || 40,
-    logoHeight: logo?.props?.height || 40,
-
-    // Navigation config
-    navItems,
-    navSize: props?.navSize || 'md',
-    navVariant: props?.navVariant || 'primary',
-    className: props?.className,
-  };
-}
-
-// ===== NAVBAR COMPONENT =====
+/* ---------------------------------------------
+   MAIN NAVBAR COMPONENT
+--------------------------------------------- */
 const NavbarComponent = ({
   brandName,
   brandHref = '/',
   logoSrc,
   logoAlt = 'Logo',
-  logoWidth = 32,
-  logoHeight = 32,
+  logoWidth = 40,
+  logoHeight = 40,
   navItems = [],
   navbarVariant = 'bar',
   transparent = false,
   navbarWidth = 'content',
+  sticky = false,
   mobileBreakpoint = 'md',
-  mobileMenuButtonStyle = 'ghost',
   mobileAnimationDirection = 'right',
+  mobileMenuButtonStyle = 'ghost',
   mobileOverlayTransparent = false,
   brandVariant = 'brand',
   brandSize = 'lg',
@@ -336,10 +153,8 @@ const NavbarComponent = ({
   navSize = 'md',
   navVariant = 'primary',
   className = '',
-  sticky = false,
 }: NavbarProps) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const [isOpen, setIsOpen] = useState(false);
   const navbarClasses = [
     'navbar',
     `navbar--${navbarVariant}`,
@@ -348,15 +163,12 @@ const NavbarComponent = ({
     transparent && 'navbar--transparent',
     sticky && 'navbar--sticky',
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  ].filter(Boolean).join(' ');
 
   return (
     <Box className={navbarClasses}>
       <Box className="navbar__container">
-        <HStack justify="between" align="center" spacing="md" wrap={false} className="navbar__content">
-          {/* Brand */}
+        <HStack justify="between" align="center" className="navbar__content">
           <BrandLink
             href={brandHref}
             variant={brandVariant}
@@ -371,82 +183,95 @@ const NavbarComponent = ({
             {brandName}
           </BrandLink>
 
-          {/* Desktop Menu */}
+          {/* Desktop menu */}
           <Box className="navbar__desktop-menu">
-            <NavMenu 
-              items={navItems} 
-              spacing="xl" 
-              size={navSize} 
-              variant={navVariant} 
-            />
+            <NavMenu items={navItems} size={navSize} variant={navVariant} />
           </Box>
 
-          {/* Mobile Toggle */}
+          {/* Mobile toggle */}
           <Box className="navbar__mobile-toggle">
-            <MobileMenuButton
-              isOpen={isMobileMenuOpen}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              buttonVariant={mobileMenuButtonStyle}
+            <IconButton
+              icon={isOpen ? <XIcon /> : <MenuIcon />}
+              variant={mobileMenuButtonStyle}
+              size="lg"
+              aria-label="Toggle menu"
+              onClick={() => setIsOpen(!isOpen)}
             />
           </Box>
         </HStack>
       </Box>
 
-      {/* Mobile Menu Overlay */}
-      <MobileMenuOverlay
-        isOpen={isMobileMenuOpen}
-        onClose={() => setIsMobileMenuOpen(false)}
-        navbarVariant={navbarVariant}
-        animationDirection={mobileAnimationDirection}
-        transparent={mobileOverlayTransparent}
-      >
-        <VStack spacing="lg" className="navbar__mobile-menu">
-          {/* Mobile Header */}
-          <HStack justify="between" align="center" className="navbar__container">
-            <BrandLink
-              href={brandHref}
-              variant={brandVariant}
-              size={brandSize}
-              weight={brandWeight}
-              underline={brandUnderline}
-              logoSrc={logoSrc}
-              logoAlt={logoAlt}
-              logoWidth={logoWidth}
-              logoHeight={logoHeight}
-            >
-              {brandName}
-            </BrandLink>
-
-            <MobileMenuButton
-              isOpen={true}
-              onClick={() => setIsMobileMenuOpen(false)}
-              buttonVariant={mobileMenuButtonStyle}
-            />
-          </HStack>
-
-          {/* Mobile Menu Content */}
-          <Container className="navbar__mobile-menu-content">
-            <VStack spacing="xl" align="center">
-              <NavMenu
-                items={navItems}
-                spacing="lg"
-                size={navSize}
-                variant={navVariant}
-                isMobile
-                onItemClick={() => setIsMobileMenuOpen(false)}
-              />
-            </VStack>
-          </Container>
-        </VStack>
-      </MobileMenuOverlay>
+      {/* Mobile overlay */}
+      {navbarVariant === 'pill' ? (
+        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} size="full" showCloseButton={false} className={mobileOverlayTransparent ? 'modal--transparent' : ''}>
+          <VStack spacing="xl" className="navbar__mobile-menu">
+            <BrandLink href={brandHref} logoSrc={logoSrc} logoAlt={logoAlt}>{brandName}</BrandLink>
+            <NavMenu items={navItems} isMobile onItemClick={() => setIsOpen(false)} />
+          </VStack>
+        </Modal>
+      ) : (
+        <Drawer isOpen={isOpen} onClose={() => setIsOpen(false)} placement={mobileAnimationDirection === 'left' ? 'start' : 'end'} className={mobileOverlayTransparent ? 'drawer--transparent' : ''}>
+          <VStack spacing="lg" className="navbar__mobile-menu">
+            <NavMenu items={navItems} isMobile onItemClick={() => setIsOpen(false)} />
+          </VStack>
+        </Drawer>
+      )}
     </Box>
   );
 };
 
-// ===== MAIN EXPORT =====
-export const Navbar = (patternProps: NavbarPatternProps) => {
-  const componentProps = transformPatternToProps(patternProps);
-  return <NavbarComponent {...componentProps} />;
+/* ---------------------------------------------
+   TRANSFORM JSON → PROPS
+--------------------------------------------- */
+function transformPatternToProps(sectionData: any): NavbarProps {
+  const sectionProps = sectionData.props || {};
+  const patternKey =
+    sectionData.order?.[0] || Object.keys(sectionData.patterns || {})[0];
+  const pattern = sectionData.patterns?.[patternKey] || {};
+  const components = (pattern.components || {}) as Record<
+    string,
+    { type: string; props?: Record<string, any> }
+  >;
+
+  // ✅ Now TypeScript knows each component has a type + props
+  const logo = Object.values(components).find(
+    (c) => c.type === 'logo'
+  );
+  const title = Object.values(components).find(
+    (c) => c.type === 'title'
+  );
+
+  const navItems: NavItem[] = Object.values(components)
+    .filter((c) => c.type === 'navItem')
+    .map((c) => ({
+      href: c.props?.href || '/',
+      label: c.props?.content || '',
+      componentType: c.props?.componentType || 'textlink',
+      variant: c.props?.variant,
+      size: c.props?.size,
+      textLinkVariant: c.props?.textLinkVariant,
+      weight: c.props?.weight,
+      underline: c.props?.underline,
+    }));
+
+  return {
+    ...sectionProps,
+    brandName: title?.props?.content || sectionProps.brandName,
+    logoSrc: logo?.props?.src,
+    logoAlt: logo?.props?.alt,
+    logoWidth: logo?.props?.width,
+    logoHeight: logo?.props?.height,
+    navItems,
+  };
+}
+
+
+/* ---------------------------------------------
+   EXPORT FINAL NAVBAR
+--------------------------------------------- */
+export const Navbar = (sectionData: any) => {
+  const props = transformPatternToProps(sectionData);
+  return <NavbarComponent {...props} />;
 };
 
 export default Navbar;
