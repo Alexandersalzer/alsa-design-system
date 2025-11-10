@@ -211,7 +211,7 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   style = {},
   ...rest
 }, ref) => {
-  const Component = as || getDefaultElement(variant);
+  const Element = as || getDefaultElement(variant);
   
   const classes = buildTypographyClasses({
     variant,
@@ -233,14 +233,14 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   };
 
   return (
-    <Component
+    <Element
       ref={ref}
       className={classes}
       style={combinedStyle}
       {...rest}
     >
       {children}
-    </Component>
+    </Element>
   );
 });
 
