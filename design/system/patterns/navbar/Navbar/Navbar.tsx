@@ -232,33 +232,33 @@ const MobileMenuOverlay = ({
   animationDirection = 'right',
   transparent = false,
 }: MobileMenuOverlayProps) => {
-  // Pill variant ALWAYS uses Modal (full screen)
-  if (navbarVariant === 'pill') {
+  // Bar variant ALWAYS uses Drawer (side panel)
+  if (navbarVariant === 'bar') {
     return (
-      <Modal
+      <Drawer
         isOpen={isOpen}
         onClose={onClose}
-        size="full"
+        placement={animationDirection === 'left' ? 'start' : animationDirection === 'top' ? 'top' : animationDirection === 'bottom' ? 'bottom' : 'end'}
+        size="md"
         showCloseButton={false}
-        className={transparent ? 'modal--transparent' : ''}
+        className={transparent ? 'drawer--transparent' : ''}
       >
         {children}
-      </Modal>
+      </Drawer>
     );
   }
 
-  // Bar variant ALWAYS uses Drawer (side panel)
+  // Pill variant ALWAYS uses Modal (full screen)
   return (
-    <Drawer
+    <Modal
       isOpen={isOpen}
       onClose={onClose}
-      placement={animationDirection === 'left' ? 'start' : animationDirection === 'top' ? 'top' : animationDirection === 'bottom' ? 'bottom' : 'end'}
-      size="md"
+      size="full"
       showCloseButton={false}
-      className={transparent ? 'drawer--transparent' : ''}
+      className={transparent ? 'modal--transparent' : ''}
     >
       {children}
-    </Drawer>
+    </Modal>
   );
 };
 
