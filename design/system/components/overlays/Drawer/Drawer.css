@@ -1,138 +1,112 @@
-/* ===============================================
-   design/system/components/overlays/Drawer/Drawer.css
-   =============================================== */
+/* ========================================================
+   UNIVERSAL DRAWER OVERLAY
+   Supports: mobileOverlay (full-screen modal behavior)
+   ======================================================== */
 
 .drawer-backdrop {
   position: fixed;
   inset: 0;
-  background: var(--surface-modal-backdrop);
-  z-index: var(--z-modal-backdrop);
+  background: var(--surface-modal-backdrop, rgba(0,0,0,0.4));
+  z-index: var(--z-modal-backdrop, 1000);
   display: flex;
+  justify-content: flex-end;
   align-items: stretch;
+  animation: drawerBackdropFadeIn 0.3s var(--foundation-ease-out);
+}
+
+.drawer-backdrop--overlay {
   justify-content: center;
-  animation: drawerBackdropFadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
+  align-items: center;
 }
 
 .drawer-backdrop--closing {
-  animation: drawerBackdropFadeOut var(--foundation-duration-fast) var(--foundation-ease-in);
+  animation: drawerBackdropFadeOut 0.25s var(--foundation-ease-in);
 }
 
+/* Core Drawer */
 .drawer {
-  background: var(--surface-modal-content);
-  border: 1px solid var(--border-modal);
-  box-shadow: var(--shadow-modal);
+  position: fixed;
+  background: var(--surface-modal-content, var(--surface-elevated));
+  border: 1px solid var(--border-modal, rgba(255,255,255,0.1));
+  box-shadow: var(--shadow-modal, 0 8px 32px rgba(0,0,0,0.2));
   display: flex;
   flex-direction: column;
-  overflow: visible;
-  position: absolute;
-  z-index: var(--z-modal);
-  animation: drawerSlideInEnd var(--foundation-duration-normal) var(--foundation-ease-out);
+  overflow: hidden;
+  z-index: var(--z-modal, 1001);
+  border-radius: var(--radius-md);
+  animation-duration: 0.3s;
+  animation-timing-function: var(--foundation-ease-out);
+  max-height: 100vh;
 }
 
-.drawer--closing {
-  animation: drawerSlideOutEnd var(--foundation-duration-fast) var(--foundation-ease-in);
-}
-
-.drawer--end {
-  height: 100%;
-  right: 0;
-  border-left: 1px solid var(--border-modal);
-  animation-name: drawerSlideInEnd;
-}
-
-.drawer--start {
-  height: 100%;
-  left: 0;
-  border-right: 1px solid var(--border-modal);
-  animation-name: drawerSlideInStart;
-}
-
-.drawer--top {
+/* Overlay mode: fullscreen modal */
+.drawer--mobile-overlay {
   width: 100%;
+  height: 100%;
   top: 0;
-  border-bottom: 1px solid var(--border-modal);
-  animation-name: drawerSlideInTop;
+  left: 0;
+  border-radius: 0;
+  animation-name: drawerSlideInMobile;
 }
 
-.drawer--bottom {
-  width: 100%;
-  bottom: 0;
-  border-top: 1px solid var(--border-modal);
-  animation-name: drawerSlideInBottom;
+.drawer--closing.drawer--mobile-overlay {
+  animation-name: drawerSlideOutMobile;
 }
 
-.drawer--xs { width: 300px; }
-.drawer--sm { width: 400px; }
-.drawer--md { width: 500px; }
-.drawer--lg { width: 640px; }
-.drawer--xl { width: 800px; }
-.drawer--full { width: 100%; height: 100%; }
+/* Placements */
+.drawer--end { top: 0; right: 0; height: 100%; animation-name: drawerSlideInEnd; }
+.drawer--start { top: 0; left: 0; height: 100%; animation-name: drawerSlideInStart; }
+.drawer--top { top: 0; width: 100%; animation-name: drawerSlideInTop; }
+.drawer--bottom { bottom: 0; width: 100%; animation-name: drawerSlideInBottom; }
+
+/* Closing animations */
+.drawer--closing.drawer--end { animation-name: drawerSlideOutEnd; }
+.drawer--closing.drawer--start { animation-name: drawerSlideOutStart; }
+.drawer--closing.drawer--top { animation-name: drawerSlideOutTop; }
+.drawer--closing.drawer--bottom { animation-name: drawerSlideOutBottom; }
 
 .drawer__content {
-  height: 100%;
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--foundation-space-6);
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(var(--foundation-space-6) + env(safe-area-inset-bottom));
 }
 
+/* Close button */
 .drawer__close {
   position: absolute;
-  top: var(--space-md);
-  right: var(--space-md);
-  z-index: 1;
+  top: var(--foundation-space-4);
+  right: var(--foundation-space-4);
+  z-index: 2;
 }
 
 /* Animations */
-@keyframes drawerBackdropFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes drawerBackdropFadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-@keyframes drawerSlideInEnd {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-@keyframes drawerSlideOutEnd {
-  from { transform: translateX(0); opacity: 1; }
-  to { transform: translateX(100%); opacity: 0; }
-}
-@keyframes drawerSlideInStart {
-  from { transform: translateX(-100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-@keyframes drawerSlideOutStart {
-  from { transform: translateX(0); opacity: 1; }
-  to { transform: translateX(-100%); opacity: 0; }
-}
-@keyframes drawerSlideInTop {
-  from { transform: translateY(-100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-@keyframes drawerSlideOutTop {
-  from { transform: translateY(0); opacity: 1; }
-  to { transform: translateY(-100%); opacity: 0; }
-}
-@keyframes drawerSlideInBottom {
+@keyframes drawerBackdropFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes drawerBackdropFadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+@keyframes drawerSlideInEnd { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes drawerSlideOutEnd { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+
+@keyframes drawerSlideInStart { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes drawerSlideOutStart { from { transform: translateX(0); opacity: 1; } to { transform: translateX(-100%); opacity: 0; } }
+
+@keyframes drawerSlideInTop { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes drawerSlideOutTop { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-100%); opacity: 0; } }
+
+@keyframes drawerSlideInBottom { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes drawerSlideOutBottom { from { transform: translateY(0); opacity: 1; } to { transform: translateY(100%); opacity: 0; } }
+
+/* Fullscreen mobile overlay animations */
+@keyframes drawerSlideInMobile {
   from { transform: translateY(100%); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
-@keyframes drawerSlideOutBottom {
+@keyframes drawerSlideOutMobile {
   from { transform: translateY(0); opacity: 1; }
   to { transform: translateY(100%); opacity: 0; }
 }
 
-@media (max-width: 768px) {
-  .drawer--sm,
-  .drawer--md,
-  .drawer--lg,
-  .drawer--xl {
-    width: 100%;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .drawer,
-  .drawer-backdrop {
-    animation: none !important;
-  }
+  .drawer, .drawer-backdrop { animation: none !important; }
 }

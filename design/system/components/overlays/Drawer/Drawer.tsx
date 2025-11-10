@@ -1,8 +1,4 @@
-// ===============================================
-// design/system/components/overlays/Drawer/Drawer.tsx
-// Drawer component using Blimpify design-system primitives
-// ===============================================
-
+'use client';
 import React, { useEffect, useState } from 'react';
 import { cn } from '../../../lib/utils';
 import { HStack } from '../../layout/hStack/HStack';
@@ -26,6 +22,7 @@ export interface DrawerProps {
   closeOnEscape?: boolean;
   closeOnBackdropClick?: boolean;
   preventScroll?: boolean;
+  mobileOverlay?: boolean; // ✅ NEW: turns Drawer into full overlay for mobile
 }
 
 export const Drawer = ({
@@ -41,60 +38,66 @@ export const Drawer = ({
   closeOnEscape = true,
   closeOnBackdropClick = true,
   preventScroll = true,
+  mobileOverlay = false,
 }: DrawerProps) => {
   const [isClosing, setIsClosing] = useState(false);
 
   // === Disable background scroll ===
   useEffect(() => {
     if (isOpen && preventScroll) document.body.style.overflow = 'hidden';
-    else document.body.style.overflow = '';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      if (preventScroll) document.body.style.overflow = '';
+    };
   }, [isOpen, preventScroll]);
 
-  // === ESC key ===
+  // === Handle Escape key ===
   useEffect(() => {
     if (!isOpen || !closeOnEscape) return;
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setIsClosing(true);
-        setTimeout(onClose, 200);
-      }
+      if (e.key === 'Escape') handleClose();
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, closeOnEscape, onClose]);
+  }, [isOpen, closeOnEscape]);
 
-  // === Backdrop click ===
+  const handleClose = () => {
+    setIsClosing(true);
+    // Wait for CSS animation (300ms)
+    setTimeout(() => {
+      setIsClosing(false);
+      onClose();
+    }, 300);
+  };
+
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!closeOnBackdropClick) return;
-    if (e.target === e.currentTarget) {
-      setIsClosing(true);
-      setTimeout(onClose, 200);
-    }
+    if (e.target === e.currentTarget) handleClose();
   };
 
   if (!isOpen && !isClosing) return null;
 
-  const drawerContent = (
-    <div
-      className={cn(
-        'drawer-backdrop',
-        isClosing && 'drawer-backdrop--closing'
-      )}
-      onClick={handleBackdropClick}
-    >
-      <aside
+  return (
+    <Portal>
+      <div
         className={cn(
-          'drawer',
-          `drawer--${placement}`,
-          `drawer--${size}`,
-          isClosing && 'drawer--closing',
-          className
+          'drawer-backdrop',
+          mobileOverlay && 'drawer-backdrop--overlay',
+          isClosing && 'drawer-backdrop--closing'
         )}
-        role="dialog"
-        aria-modal="true"
+        onClick={handleBackdropClick}
       >
-        <VStack spacing="lg" className="drawer__content" fullWidth>
+        <aside
+          className={cn(
+            'drawer',
+            `drawer--${placement}`,
+            `drawer--${size}`,
+            mobileOverlay && 'drawer--mobile-overlay',
+            isClosing && 'drawer--closing',
+            className
+          )}
+          role="dialog"
+          aria-modal="true"
+        >
           {showCloseButton && (
             <HStack justify="end" className="drawer__close">
               {closeButtonVariant === 'icon' ? (
@@ -102,42 +105,23 @@ export const Drawer = ({
                   aria-label="Close drawer"
                   variant="ghost"
                   size="md"
-                  onClick={() => {
-                    setIsClosing(true);
-                    setTimeout(onClose, 200);
-                  }}
+                  onClick={handleClose}
                 />
               ) : (
-                <Button
-                  variant="ghost"
-                  size="md"
-                  onClick={() => {
-                    setIsClosing(true);
-                    setTimeout(onClose, 200);
-                  }}
-                >
+                <Button variant="ghost" size="md" onClick={handleClose}>
                   {closeButtonLabel}
                 </Button>
               )}
             </HStack>
           )}
 
-          {/* Actual drawer body */}
-          <VStack spacing="lg" align="stretch" fullWidth flexChild>
+          <VStack spacing="lg" align="stretch" fullWidth className="drawer__content">
             {children}
           </VStack>
-        </VStack>
-      </aside>
-    </div>
-  );
-
-  // Render in portal to ensure proper z-index stacking
-  return (
-    <Portal>
-      {drawerContent}
+        </aside>
+      </div>
     </Portal>
   );
 };
 
 export default Drawer;
-  
