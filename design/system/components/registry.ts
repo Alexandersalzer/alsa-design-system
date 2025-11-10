@@ -14,7 +14,7 @@ import { LogoIcon } from './LogoIcon';
 import { Avatar, Icon, VideoShowcase } from './media';
 import { Menu, Modal, Popover } from './overlays';
 import { Table } from './Table';
-import { Typography } from './Typography';
+import { Typography, JsonText } from './Typography';
 
 
 export const componentRegistry: Record<string, React.ComponentType<any>> = {
@@ -46,5 +46,8 @@ export const componentRegistry: Record<string, React.ComponentType<any>> = {
   modal: Modal,
   popover: Popover,
   table: Table,
+  // JSON-driven text component that maps to Display, Heading, Body, Label, Code
+  text: JsonText,
+  // Keep original Typography for backwards compatibility
   typography: Typography,
 }; 

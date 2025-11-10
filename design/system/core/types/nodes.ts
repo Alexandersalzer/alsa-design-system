@@ -12,7 +12,7 @@ export interface BaseNode {
  * Atomic UI element som inte innehåller andra noder
  */
 export interface ComponentNode extends BaseNode {
-  // Inga extra properties - components är leaf nodes
+  role?: string; // Optional role for semantic grouping within patterns
 }
 
 /**
@@ -21,6 +21,16 @@ export interface ComponentNode extends BaseNode {
  */
 export interface PatternNode extends BaseNode {
   components: Record<string, ComponentNode>; // Required - pattern måste ha components
+}
+
+/**
+ * Standard props interface för alla pattern components
+ * Baserat på PatternNode struktur
+ */
+export interface PatternProps {
+  type?: string;
+  props?: Record<string, any>;
+  components?: Record<string, ComponentNode>;
 }
 
 /**

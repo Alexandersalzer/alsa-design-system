@@ -41,7 +41,7 @@ export const renderComponent = (component: ComponentNode, componentKey: string, 
 
   return (
     <Component 
-      key={`${componentKey}-${index}`}
+      key={componentKey}
       id={componentKey}
       className={`component-${component.type}`}
     >
@@ -57,7 +57,7 @@ export const renderComponent = (component: ComponentNode, componentKey: string, 
  * Pattern Renderer - Pattern har full kontroll över component rendering
  * För content sections (med Container wrapper)
  */
-export const renderPattern = (pattern: PatternNode, index: number) => {
+export const renderPattern = (pattern: PatternNode, patternKey: string) => {
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
     console.warn(`Unknown pattern type: ${pattern.type}`);
@@ -69,7 +69,7 @@ export const renderPattern = (pattern: PatternNode, index: number) => {
 
   return (
     <Container 
-      key={`${index}`}
+      key={patternKey}
       align="center"
       height="auto"
       useMediaWidth={useMediaWidth}
@@ -84,10 +84,10 @@ export const renderPattern = (pattern: PatternNode, index: number) => {
 };
 
 /**
- * Global Pattern Renderer - För navbar/footer patterns
+ * Shell Pattern Renderer - För navbar/footer patterns
  * Använder Container för layout men utan spacing
  */
-export const renderGlobalPattern = (pattern: PatternNode, patternKey: string, index: number) => {
+export const renderShellPattern = (pattern: PatternNode, patternKey: string, index: number) => {
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
     console.warn(`Unknown pattern type: ${pattern.type}`);
@@ -97,7 +97,7 @@ export const renderGlobalPattern = (pattern: PatternNode, patternKey: string, in
   // Hämta useMediaWidth från props
   const useMediaWidth = pattern.props?.useMediaWidth ?? false;
 
-  // Container för layout men utan padding för globala patterns
+  // Container för layout men utan padding för shell patterns
   return (
     <Container 
       key={`${patternKey}-${index}`}
@@ -129,9 +129,9 @@ export function renderSection({
   
   // Render all patterns for this section
   const renderedPatterns = patternOrder
-    .map((patternKey, patternIndex) => {
+    .map((patternKey) => {
       const pattern = patterns[patternKey];
-      return pattern ? renderPattern(pattern, patternIndex) : null;
+      return pattern ? renderPattern(pattern, patternKey) : null;
     })
     .filter(Boolean);
   
@@ -159,13 +159,11 @@ export function Sections({
   return (
     <>
       {order
-        .map((sectionKey, index) => {
+        .map((sectionKey) => {
           const sectionData = sections[sectionKey];
           if (!sectionData) return null;
           
-          // Use unique key combining sectionKey and index for React
-          const uniqueKey = `${sectionKey}-${index}`;
-          return renderSection({ sectionData, sectionKey: uniqueKey });
+          return renderSection({ sectionData, sectionKey });
         })
         .filter(Boolean)}
     </>
