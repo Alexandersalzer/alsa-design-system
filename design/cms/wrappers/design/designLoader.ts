@@ -3,10 +3,10 @@ export interface DesignJson {
     radius?: string;
     accentColor?: string;
     isDark?: boolean;
-    themeTone?: 'neutral' | 'warm' | 'cool'; // ADD THIS LINE
+    themeTone?: 'neutral' | 'warm' | 'cool' | 'deep' | 'pastel' | 'sand';
     fontPrimary?: string;
     fontSecondary?: string;
-    fontWeightScale?: 'light' | 'regular' | 'strong';
+    fontWeightScale?: 'light' | 'regular' | 'strong' | 'extraStrong';
     layoutContent?: string;
     layoutMedia?: string;
     sectionSpacing?: string;

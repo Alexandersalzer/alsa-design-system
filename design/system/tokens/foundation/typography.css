@@ -112,25 +112,29 @@
 }
 
 /* =========================================================
-   6. FONT WEIGHT SCALES
-   Provides “light”, “regular”, and “strong” typography systems
+   6. FONT WEIGHT SCALES (baked step-up system)
    ========================================================= */
 
 :root {
-  /* --- Light typography system (subtle) --- */
-  --foundation-weightscale-light-heading: var(--foundation-weight-regular);
-  --foundation-weightscale-light-body:    var(--foundation-weight-light);
-  --foundation-weightscale-light-label:   var(--foundation-weight-regular);
+  /* --- Light (acts like old regular) --- */
+  --foundation-weightscale-light-heading: var(--foundation-weight-semibold);
+  --foundation-weightscale-light-body:    var(--foundation-weight-regular);
+  --foundation-weightscale-light-label:   var(--foundation-weight-semibold);
 
-  /* --- Regular typography system (balanced, default) --- */
-  --foundation-weightscale-regular-heading: var(--foundation-weight-semibold);
-  --foundation-weightscale-regular-body:    var(--foundation-weight-regular);
-  --foundation-weightscale-regular-label:   var(--foundation-weight-semibold);
+  /* --- Regular (acts like old strong) --- */
+  --foundation-weightscale-regular-heading: var(--foundation-weight-bold);
+  --foundation-weightscale-regular-body:    var(--foundation-weight-medium);
+  --foundation-weightscale-regular-label:   var(--foundation-weight-bold);
 
-  /* --- Strong typography system (emphasis-heavy) --- */
-  --foundation-weightscale-strong-heading: var(--foundation-weight-bold);
-  --foundation-weightscale-strong-body:    var(--foundation-weight-medium);
-  --foundation-weightscale-strong-label:   var(--foundation-weight-bold);
+  /* --- Strong (acts like old extraStrong) --- */
+  --foundation-weightscale-strong-heading: var(--foundation-weight-extrabold);
+  --foundation-weightscale-strong-body:    var(--foundation-weight-semibold);
+  --foundation-weightscale-strong-label:   var(--foundation-weight-extrabold);
+
+  /* --- ExtraStrong (kept for flexibility but not scaled up further) --- */
+  --foundation-weightscale-extraStrong-heading: var(--foundation-weight-black);
+  --foundation-weightscale-extraStrong-body:    var(--foundation-weight-bold);
+  --foundation-weightscale-extraStrong-label:   var(--foundation-weight-black);
 }
 
 /* =========================================================

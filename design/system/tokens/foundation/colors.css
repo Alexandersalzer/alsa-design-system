@@ -7,6 +7,66 @@
 
 /* ========== NEUTRAL (DEFAULT) ========== */
 :root,
+/* ========== DEEP (CINEMATIC DARK GRAY) ========== */
+:root[data-theme-tone="deep"] {
+  --foundation-white: #e8e8ea;
+  --foundation-black: #0b0b0d;
+
+  --foundation-gray-50:  #1a1a1d;
+  --foundation-gray-100: #202023;
+  --foundation-gray-200: #2a2a2d;
+  --foundation-gray-300: #323235;
+  --foundation-gray-400: #3a3a3d;
+  --foundation-gray-500: #48484c;
+  --foundation-gray-600: #5c5c60;
+  --foundation-gray-700: #757579;
+  --foundation-gray-800: #9a9aa0;
+  --foundation-gray-900: #c3c3c8;
+  --foundation-gray-1000: #d8d8dc;
+  --foundation-gray-1100: #e2e2e6;
+  --foundation-gray-1200: #ededf0;
+}
+
+/* ========== PASTEL (BRIGHT MINIMAL TONE) ========== */
+:root[data-theme-tone="pastel"] {
+  --foundation-white: #ffffff;
+  --foundation-black: #101010;
+
+  --foundation-gray-50:  #ffffff;
+  --foundation-gray-100: #fefdfc;
+  --foundation-gray-200: #fdfaf8;
+  --foundation-gray-300: #f9f3ed;
+  --foundation-gray-400: #f2eae2;
+  --foundation-gray-500: #e6ddd5;
+  --foundation-gray-600: #d6ccc2;
+  --foundation-gray-700: #b5aaa0;
+  --foundation-gray-800: #8e847c;
+  --foundation-gray-900: #5e5853;
+  --foundation-gray-1000: #3a3531;
+  --foundation-gray-1100: #25221f;
+  --foundation-gray-1200: #181614;
+}
+
+/* ========== SAND (NEUTRAL-WARM HYBRID) ========== */
+:root[data-theme-tone="sand"] {
+  --foundation-white: #f6f4f0;
+  --foundation-black: #1a1816;
+
+  --foundation-gray-50:  #faf7f3;
+  --foundation-gray-100: #f4efe8;
+  --foundation-gray-200: #ebe3da;
+  --foundation-gray-300: #ddd3c6;
+  --foundation-gray-400: #c8bba9;
+  --foundation-gray-500: #b2a392;
+  --foundation-gray-600: #98897b;
+  --foundation-gray-700: #7a6e63;
+  --foundation-gray-800: #5e554d;
+  --foundation-gray-900: #403c37;
+  --foundation-gray-1000: #2b2724;
+  --foundation-gray-1100: #1f1b18;
+  --foundation-gray-1200: #161310;
+}
+
 :root[data-theme-tone="neutral"] {
   --foundation-white: #f7f7f7;
   --foundation-black: #171717;
