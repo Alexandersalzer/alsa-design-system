@@ -19,9 +19,15 @@ export async function getShellContent(
     
     const shellPath = path.join(process.cwd(), 'public', 'content', locale, `${shellType}.json`);
     const fileContent = await fs.readFile(shellPath, 'utf8');
-    const shellData: Record<string, SectionNode> = JSON.parse(fileContent);
+    const allData = JSON.parse(fileContent);
     
-    return shellData;
+    // If the file contains both navbar and footer, extract the specific one
+    if (allData[shellType]) {
+      return allData[shellType];
+    }
+    
+    // Otherwise assume the entire file is the shell data
+    return allData;
   } catch (error) {
     // Fallback to Swedish if locale file doesn't exist
     if (locale !== 'sv') {
