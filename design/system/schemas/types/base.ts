@@ -20,8 +20,6 @@ export interface PropDefinition {
 export interface ComponentSchema {
   type: string;
   props: Record<string, PropDefinition>;
-  role?: string; // Semantic role for pattern-specific positioning
-  order?: number; // Default order within role group
 }
 
 /**
@@ -56,37 +54,12 @@ export interface SchemaRegistry {
 /**
  * Common prop definitions that can be reused
  */
-export const CommonProps = {
-  // Layout props
-  container: {
-    type: 'enum' as const,
-    values: ['narrow', 'medium', 'wide', 'full'],
-    default: 'medium'
-  },
-  
-  padding: {
-    type: 'enum' as const,
-    values: ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl'],
-    default: 'md'
-  },
-  
-  spacing: {
-    type: 'enum' as const,
-    values: ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl'],
-    default: 'md'
-  },
-  
+export const StandardProps = {
   // Visual props
   background: {
     type: 'enum' as const,
     values: ['light', 'dark', 'transparent'],
     default: 'light'
-  },
-  
-  align: {
-    type: 'enum' as const,
-    values: ['left', 'center', 'right'],
-    default: 'left'
   },
   
   // Content props
@@ -95,37 +68,9 @@ export const CommonProps = {
     required: true
   },
   
-  variant: {
-    type: 'string' as const
-  },
-  
   // Media props
   src: {
     type: 'string' as const,
     required: true
-  },
-  
-  alt: {
-    type: 'string' as const,
-    required: true
-  },
-  
-  // Form props
-  name: {
-    type: 'string' as const,
-    required: true
-  },
-  
-  label: {
-    type: 'string' as const
-  },
-  
-  placeholder: {
-    type: 'string' as const
-  },
-  
-  required: {
-    type: 'boolean' as const,
-    default: false
   }
 } as const;

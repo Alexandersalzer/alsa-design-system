@@ -8,12 +8,6 @@ import { PatternSchema } from '../../../schemas/types/base';
 export const KjFooterPatternSchema: PatternSchema = {
   type: 'kj',
   props: {
-    layout: {
-      type: 'enum',
-      values: ['default', 'compact', 'extended'],
-      default: 'default',
-      description: 'Footer layout variant'
-    }
   },
   components: {
     text: {
@@ -36,12 +30,6 @@ export const KjFooterPatternSchema: PatternSchema = {
           default: 'sm',
           description: 'Size mapping for variant'
         },
-        align: {
-          type: 'enum',
-          values: ['left', 'center', 'right', 'justify'],
-          default: 'center',
-          description: 'Text alignment'
-        },
         role: {
           type: 'enum',
           values: ['title', 'email', 'legal', 'attribute'],
@@ -49,6 +37,6 @@ export const KjFooterPatternSchema: PatternSchema = {
           description: 'Component role for layout placement - title: next to logo, email/legal: middle section, attribute: bottom section'
         }
       }
-    }
-  }
+    },
+  },
 };
