@@ -34,42 +34,37 @@ export interface NavItem {
   isActive?: boolean;
 }
 
+// ===== PATTERN PROPS (what the registry passes) =====
+interface NavbarPatternProps {
+  type: string;
+  props: Record<string, any>;
+  components: Record<string, any>;
+}
+
+// ===== COMPONENT PROPS (internal) =====
 export interface NavbarProps {
-  // Brand
   brandName?: string;
   brandHref?: string;
   logoSrc?: string;
   logoAlt?: string;
   logoWidth?: number;
   logoHeight?: number;
-  
-  // Navigation items
   navItems?: NavItem[];
-  
-  // Navbar style variants
   navbarVariant?: NavbarVariant;
   transparent?: boolean;
   navbarWidth?: NavbarWidth;
-  
-  // Mobile menu configuration
   mobileBreakpoint?: MobileBreakpoint;
   mobileMenuButtonVariant?: MobileMenuButtonVariant;
   mobileMenuButtonStyle?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   mobileOverlayVariant?: MobileOverlayVariant;
   mobileAnimationDirection?: AnimationDirection;
   mobileOverlayTransparent?: boolean;
-  
-  // Brand customization
   brandVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'brand';
   brandSize?: 'sm' | 'md' | 'lg' | 'xl';
   brandWeight?: 'regular' | 'medium' | 'semibold' | 'bold';
   brandUnderline?: 'none' | 'hover' | 'always';
-  
-  // Nav items defaults
   navSize?: 'sm' | 'md' | 'lg' | 'xl';
   navVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
-  
-  // Other
   className?: string;
   sticky?: boolean;
 }
@@ -286,49 +281,105 @@ const MobileMenuOverlay = ({
   );
 };
 
-// ===== MAIN NAVBAR COMPONENT =====
-export const Navbar = ({ 
-  // Brand
+// ===== TRANSFORM FUNCTION =====
+// Converts pattern props (from JSON) to component props
+function transformPatternToProps(patternProps: NavbarPatternProps): NavbarProps {
+  const { props, components } = patternProps;
+
+  // Extract logo
+  const logo = Object.values(components || {}).find(
+    (c: any) => c.type === 'logo'
+  ) as any;
+
+  // Extract brand/title
+  const brand = Object.values(components || {}).find(
+    (c: any) => c.type === 'title'
+  ) as any;
+
+  // Extract and transform nav items
+  const navItems: NavItem[] = Object.values(components || {})
+    .filter((c: any) => c.type === 'navItem')
+    .map((item: any) => ({
+      href: item.props?.href || '/',
+      label: item.props?.content || '',
+      componentType: item.props?.componentType || 'textlink',
+      variant: item.props?.variant,
+      size: item.props?.size,
+      textLinkVariant: item.props?.textLinkVariant,
+      weight: item.props?.weight,
+      underline: item.props?.underline,
+      rightIcon: item.props?.rightIcon,
+      leftIcon: item.props?.leftIcon,
+      isActive: item.props?.isActive,
+    }));
+
+  return {
+    // Navbar style
+    navbarVariant: props?.navbarVariant || 'bar',
+    transparent: props?.transparent || false,
+    navbarWidth: props?.navbarWidth || 'content',
+    sticky: props?.sticky || false,
+
+    // Mobile menu
+    mobileBreakpoint: props?.mobileBreakpoint || 'md',
+    mobileOverlayVariant: props?.mobileOverlayVariant || 'full',
+    mobileAnimationDirection: props?.mobileAnimationDirection || 'right',
+    mobileMenuButtonStyle: props?.mobileMenuButtonStyle || 'ghost',
+    mobileOverlayTransparent: props?.mobileOverlayTransparent || false,
+
+    // Brand
+    brandName: brand?.props?.content || props?.brandName,
+    brandHref: props?.brandHref || '/',
+    brandVariant: props?.brandVariant || 'brand',
+    brandSize: props?.brandSize || 'lg',
+    brandWeight: props?.brandWeight || 'bold',
+    brandUnderline: props?.brandUnderline || 'none',
+
+    // Logo
+    logoSrc: logo?.props?.src,
+    logoAlt: logo?.props?.alt || 'Logo',
+    logoWidth: logo?.props?.width || 40,
+    logoHeight: logo?.props?.height || 40,
+
+    // Nav items
+    navItems,
+    navSize: props?.navSize || 'md',
+    navVariant: props?.navVariant || 'primary',
+
+    // Other
+    className: props?.className,
+  };
+}
+
+// ===== INTERNAL NAVBAR COMPONENT =====
+const NavbarComponent = ({ 
   brandName,
   brandHref = '/',
   logoSrc,
   logoAlt = 'Logo',
   logoWidth = 32,
   logoHeight = 32,
-  
-  // Navigation
   navItems = [],
-  
-  // Navbar variants
   navbarVariant = 'bar',
   transparent = false,
   navbarWidth = 'content',
-  
-  // Mobile menu
   mobileBreakpoint = 'md',
   mobileMenuButtonVariant = 'hamburger',
   mobileMenuButtonStyle = 'ghost',
   mobileOverlayVariant = 'full',
   mobileAnimationDirection = 'right',
   mobileOverlayTransparent = false,
-  
-  // Brand customization
   brandVariant = 'brand',
   brandSize = 'lg',
   brandWeight = 'bold',
   brandUnderline = 'none',
-  
-  // Nav defaults
   navSize = 'md',
   navVariant = 'primary',
-  
-  // Other
   className = '',
   sticky = false,
 }: NavbarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Build classes
   const navbarClasses = [
     'navbar',
     `navbar--${navbarVariant}`,
@@ -349,7 +400,6 @@ export const Navbar = ({
           wrap={false}
           className="navbar__content"
         >
-          {/* Brand Section */}
           <BrandLink 
             href={brandHref}
             variant={brandVariant}
@@ -364,7 +414,6 @@ export const Navbar = ({
             {brandName}
           </BrandLink>
           
-          {/* Desktop Navigation */}
           <Box className="navbar__desktop-menu">
             <NavMenu 
               items={navItems} 
@@ -374,7 +423,6 @@ export const Navbar = ({
             />
           </Box>
 
-          {/* Mobile Menu Button */}
           <Box className="navbar__mobile-toggle">
             <MobileMenuButton
               isOpen={isMobileMenuOpen}
@@ -386,7 +434,6 @@ export const Navbar = ({
         </HStack>
       </Box>
 
-      {/* Mobile Menu Overlay */}
       <MobileMenuOverlay
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
@@ -395,7 +442,6 @@ export const Navbar = ({
         transparent={mobileOverlayTransparent}
       >
         <VStack spacing="lg" className="navbar__mobile-menu">
-          {/* Mobile Header */}
           <Box className="navbar__mobile-header">
             <HStack justify="between" align="center">
               <BrandLink 
@@ -420,7 +466,6 @@ export const Navbar = ({
             </HStack>
           </Box>
 
-          {/* Mobile Navigation Items */}
           <NavMenu 
             items={navItems} 
             spacing="md" 
@@ -433,6 +478,13 @@ export const Navbar = ({
       </MobileMenuOverlay>
     </Box>
   );
+};
+
+// ===== EXPORTED PATTERN WRAPPER =====
+// This is what gets registered in the pattern registry
+export const Navbar = (patternProps: NavbarPatternProps) => {
+  const componentProps = transformPatternToProps(patternProps);
+  return <NavbarComponent {...componentProps} />;
 };
 
 export default Navbar;

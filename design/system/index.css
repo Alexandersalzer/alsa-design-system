@@ -77,6 +77,8 @@
 
 @import './patterns/client/CleanNavbar/CleanNavbar.css';
 @import './patterns/client/FAQ/FAQ.css';
+@import './patterns/navbar/Navbar/Navbar.css';
+
 
 
 @import './patterns/client/ProcessSteps/processSteps.css';
