@@ -8,17 +8,17 @@ import { SchemaRegistry } from './types/base';
 // Import all section schemas
 import {
   FooterSectionSchema
-} from '../templates/footer/schema';
+} from '../../templates/footer/schema';
 
 // Import all pattern schemas
 import {
   KjFooterPatternSchema
-} from '../patterns/footer/KjFooter/schema';
+} from '../../patterns/footer/KjFooter/schema';
 
 // Import all component schemas
 import {
   TypographySchema
-} from '../components/Typography/schema';
+} from '../../components/Typography/schema';
 
 /**
  * Central schema registry containing all schema definitions

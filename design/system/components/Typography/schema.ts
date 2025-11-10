@@ -3,7 +3,7 @@
 // Schema definition for Text component (Typography)
 // ===============================================
 
-import { ComponentSchema } from '../../schemas/types/base';
+import { ComponentSchema } from '../../core/schemas/types/base';
 
 export const TypographySchema: ComponentSchema = {
   type: 'text',
