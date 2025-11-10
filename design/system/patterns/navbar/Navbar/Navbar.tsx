@@ -253,17 +253,17 @@ const MobileMenuOverlay = ({
   if (!isOpen && !isAnimating) return null;
 
   const overlayClasses = [
-    'responsive-navbar__overlay',
-    `responsive-navbar__overlay--${overlayVariant}`,
-    `responsive-navbar__overlay--${animationDirection}`,
-    isOpen ? 'responsive-navbar__overlay--open' : 'responsive-navbar__overlay--closing',
-    transparent && 'responsive-navbar__overlay--transparent'
+    'navbar__overlay',
+    `navbar__overlay--${overlayVariant}`,
+    `navbar__overlay--${animationDirection}`,
+    isOpen ? 'navbar__overlay--open' : 'navbar__overlay--closing',
+    transparent && 'navbar__overlay--transparent'
   ].filter(Boolean).join(' ');
 
   const contentClasses = [
-    'responsive-navbar__overlay-content',
-    `responsive-navbar__overlay-content--${overlayVariant}`,
-    `responsive-navbar__overlay-content--${animationDirection}`
+    'navbar__overlay-content',
+    `navbar__overlay-content--${overlayVariant}`,
+    `navbar__overlay-content--${animationDirection}`
   ].join(' ');
 
   return (
@@ -286,7 +286,7 @@ const MobileMenuOverlay = ({
   );
 };
 
-// ===== MAIN RESPONSIVE NAVBAR COMPONENT =====
+// ===== MAIN NAVBAR COMPONENT =====
 export const Navbar = ({ 
   // Brand
   brandName,
@@ -330,24 +330,24 @@ export const Navbar = ({
 
   // Build classes
   const navbarClasses = [
-    'responsive-navbar',
-    `responsive-navbar--${navbarVariant}`,
-    `responsive-navbar--width-${navbarWidth}`,
-    `responsive-navbar--mobile-${mobileBreakpoint}`,
-    transparent && 'responsive-navbar--transparent',
-    sticky && 'responsive-navbar--sticky',
+    'navbar',
+    `navbar--${navbarVariant}`,
+    `navbar--width-${navbarWidth}`,
+    `navbar--mobile-${mobileBreakpoint}`,
+    transparent && 'navbar--transparent',
+    sticky && 'navbar--sticky',
     className
   ].filter(Boolean).join(' ');
 
   return (
     <Box className={navbarClasses}>
-      <Box className="responsive-navbar__container">
+      <Box className="navbar__container">
         <HStack 
           justify="between" 
           align="center" 
           spacing="md" 
           wrap={false}
-          className="responsive-navbar__content"
+          className="navbar__content"
         >
           {/* Brand Section */}
           <BrandLink 
@@ -365,7 +365,7 @@ export const Navbar = ({
           </BrandLink>
           
           {/* Desktop Navigation */}
-          <Box className="responsive-navbar__desktop-menu">
+          <Box className="navbar__desktop-menu">
             <NavMenu 
               items={navItems} 
               spacing="xl" 
@@ -375,7 +375,7 @@ export const Navbar = ({
           </Box>
 
           {/* Mobile Menu Button */}
-          <Box className="responsive-navbar__mobile-toggle">
+          <Box className="navbar__mobile-toggle">
             <MobileMenuButton
               isOpen={isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -394,9 +394,9 @@ export const Navbar = ({
         animationDirection={mobileAnimationDirection}
         transparent={mobileOverlayTransparent}
       >
-        <VStack spacing="lg" className="responsive-navbar__mobile-menu">
+        <VStack spacing="lg" className="navbar__mobile-menu">
           {/* Mobile Header */}
-          <Box className="responsive-navbar__mobile-header">
+          <Box className="navbar__mobile-header">
             <HStack justify="between" align="center">
               <BrandLink 
                 href={brandHref}
