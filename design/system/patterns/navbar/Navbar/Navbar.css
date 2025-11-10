@@ -31,59 +31,93 @@
   z-index: var(--z-navbar, 50);
 }
 
-/* ===== VARIANT: BAR ===== */
+/* ===== VARIANT: BAR (Traditional Header Navbar) ===== */
 .navbar--bar {
   background: var(--surface-default);
   border-bottom: 1px solid var(--border-default);
+  width: 100%;
+  position: relative;
 }
 
 .navbar--bar .navbar__container {
-  max-width: 100%;
+  width: 100%;
+  padding: var(--space-navbar-md) var(--space-navbar-lg);
+  margin: 0 auto;
 }
 
 .navbar--bar.navbar--transparent {
   background: transparent;
   border-bottom: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-/* ===== VARIANT: PILL ===== */
+.navbar--bar.navbar--sticky {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-navbar, 50);
+}
+
+/* ===== VARIANT: PILL (Floating Pill Navbar) ===== */
 .navbar--pill {
   background: transparent;
-  padding: var(--foundation-space-2) var(--foundation-space-6);
+  padding: var(--foundation-space-4) var(--foundation-space-6);
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .navbar--pill .navbar__container {
-  max-width: var(--width-container);
+  max-width: fit-content;
+  min-width: 600px;
   background-color: var(--surface-default);
-  backdrop-filter: blur(50px);
-  -webkit-backdrop-filter: blur(50px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
   border: 1px solid var(--border-subtle);
-  padding: var(--space-navbar-sm) var(--space-navbar-lg);
+  padding: var(--foundation-space-3) var(--foundation-space-6);
+  margin: 0 auto;
+  position: relative;
 }
 
 .navbar--pill.navbar--sticky {
   position: fixed;
-  top: 0;
+  top: var(--foundation-space-4);
   left: 0;
   right: 0;
+  z-index: var(--z-navbar, 50);
 }
 
-/* Transparent pill with glass effect */
+/* Enhanced glass effect for transparent pill */
 .navbar--pill.navbar--transparent .navbar__container {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Dark mode adjustments for pill */
+@media (prefers-color-scheme: dark) {
+  .navbar--pill.navbar--transparent .navbar__container {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
 }
 
 /* ===== WIDTH VARIANTS ===== */
-/* BAR width variants - constrain container */
+
+/* BAR width variants - full width header with content constraints */
 .navbar--bar.navbar--width-full .navbar__container {
   max-width: 100%;
+  padding-left: var(--foundation-space-4);
+  padding-right: var(--foundation-space-4);
 }
 
 .navbar--bar.navbar--width-content .navbar__container {
@@ -101,25 +135,38 @@
   margin: 0 auto;
 }
 
-/* PILL width variants - constrain pill container */
+/* PILL width variants - floating pill with different sizes */
 .navbar--pill.navbar--width-full .navbar__container {
+  min-width: 70%;
   max-width: calc(100% - var(--foundation-space-8));
 }
 
 .navbar--pill.navbar--width-content .navbar__container {
-  max-width: var(--width-container);
+  min-width: 600px;
+  max-width: 800px;
 }
 
 .navbar--pill.navbar--width-narrow .navbar__container {
-  max-width: var(--foundation-layout-sm-content);
+  min-width: 400px;
+  max-width: 600px;
 }
 
 .navbar--pill.navbar--width-wide .navbar__container {
-  max-width: var(--foundation-layout-lg-content);
+  min-width: 800px;
+  max-width: 1000px;
 }
 
-.navbar--pill.navbar--width-form .navbar__container {
-  max-width: var(--width-form);
+/* Responsive adjustments for pill */
+@media (max-width: 768px) {
+  .navbar--pill .navbar__container {
+    min-width: calc(100% - var(--foundation-space-8));
+    max-width: calc(100% - var(--foundation-space-4));
+    margin: 0 var(--foundation-space-2);
+  }
+  
+  .navbar--pill.navbar--sticky {
+    top: var(--foundation-space-2);
+  }
 }
 
 /* ===== BRAND LINK ===== */
@@ -217,22 +264,33 @@
 
 /* ===== RESPONSIVE PADDING ===== */
 @media (max-width: 640px) {
-  .navbar--pill {
-    padding: var(--foundation-space-2) var(--foundation-space-4);
+  .navbar--bar .navbar__container {
+    padding: var(--foundation-space-3) var(--foundation-space-4);
   }
   
-  .navbar__container {
-    padding: var(--space-navbar-sm);
+  .navbar--pill {
+    padding: var(--foundation-space-2) var(--foundation-space-3);
   }
   
   .navbar--pill .navbar__container {
-    padding: var(--space-navbar-sm) var(--space-navbar-md);
+    padding: var(--foundation-space-2) var(--foundation-space-4);
+    min-width: calc(100% - var(--foundation-space-6));
   }
 }
 
 @media (min-width: 768px) {
+  .navbar--bar .navbar__container {
+    padding: var(--space-navbar-md) var(--space-navbar-lg);
+  }
+  
   .navbar--pill .navbar__container {
-    padding: var(--space-navbar-md) var(--space-navbar-xl);
+    padding: var(--foundation-space-3) var(--foundation-space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .navbar--pill .navbar__container {
+    padding: var(--foundation-space-4) var(--foundation-space-8);
   }
 }
 

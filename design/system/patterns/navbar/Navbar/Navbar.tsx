@@ -430,11 +430,12 @@ const NavbarComponent = ({
                 onItemClick={() => setIsMobileMenuOpen(false)}
               />
 
-              {navbarVariant === 'bar' && (
+              {/* Show CTA button only for bar variant or when pill has few items */}
+              {(navbarVariant === 'bar' || navItems.length <= 2) && (
                 <Button
                   variant="accent"
                   size="lg"
-                  radius="lg"
+                  radius={navbarVariant === 'pill' ? 'full' : 'lg'}
                   onClick={() => {
                     setIsMobileMenuOpen(false);
                     window.location.href = '/contact';
