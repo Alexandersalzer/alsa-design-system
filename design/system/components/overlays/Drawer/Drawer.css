@@ -9,7 +9,7 @@
   z-index: var(--z-modal-backdrop);
   display: flex;
   align-items: stretch;
-  justify-content: flex-end;
+  justify-content: center;
   animation: drawerBackdropFadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
 }
 
@@ -35,14 +35,14 @@
 
 .drawer--end {
   height: 100%;
-  right: 0;
+  margin-left: auto;
   border-left: 1px solid var(--border-modal);
   animation-name: drawerSlideInEnd;
 }
 
 .drawer--start {
   height: 100%;
-  left: 0;
+  margin-right: auto;
   border-right: 1px solid var(--border-modal);
   animation-name: drawerSlideInStart;
 }
@@ -70,13 +70,12 @@
 
 .drawer__content {
   height: 100%;
-  padding: var(--space-container-lg);
 }
 
 .drawer__close {
   position: absolute;
-  top: var(--space-navbar);
-  right: var(--space-navbar);
+  top: var(--space-md);
+  right: var(--space-md);
   z-index: 1;
 }
 
@@ -128,13 +127,6 @@
   .drawer--lg,
   .drawer--xl {
     width: 100%;
-  }
-  
-  .drawer-backdrop {
-    /* Ensure backdrop always covers full screen on mobile */
-    position: fixed !important;
-    inset: 0 !important;
-    z-index: var(--z-modal-backdrop) !important;
   }
 }
 
