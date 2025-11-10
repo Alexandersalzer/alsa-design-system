@@ -19,15 +19,9 @@ export async function getShellContent(
     
     const shellPath = path.join(process.cwd(), 'public', 'content', locale, `${shellType}.json`);
     const fileContent = await fs.readFile(shellPath, 'utf8');
-    const allData = JSON.parse(fileContent);
+    const shellData: Record<string, SectionNode> = JSON.parse(fileContent);
     
-    // If the file contains both navbar and footer, extract the specific one
-    if (allData[shellType]) {
-      return allData[shellType];
-    }
-    
-    // Otherwise assume the entire file is the shell data
-    return allData;
+    return shellData;
   } catch (error) {
     // Fallback to Swedish if locale file doesn't exist
     if (locale !== 'sv') {
@@ -37,7 +31,21 @@ export async function getShellContent(
   }
 }
 
+/**
+ * Load navbar content for a specific locale
+ * Convenience wrapper around getShellContent
+ */
+export async function getNavbarContent(locale: string = 'sv'): Promise<Record<string, SectionNode> | null> {
+  return getShellContent('navbar', locale);
+}
 
+/**
+ * Load footer content for a specific locale  
+ * Convenience wrapper around getShellContent
+ */
+export async function getFooterContent(locale: string = 'sv'): Promise<Record<string, SectionNode> | null> {
+  return getShellContent('footer', locale);
+}
 
 /**
  * Get the start/home page slug for a specific locale
