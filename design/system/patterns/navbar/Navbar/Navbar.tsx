@@ -19,8 +19,6 @@ import { MenuIcon, XIcon } from 'lucide-react';
 export type NavbarVariant = 'pill' | 'bar';
 export type NavbarWidth = 'full' | 'content' | 'narrow' | 'wide';
 export type MobileBreakpoint = 'sm' | 'md' | 'lg';
-export type MobileMenuButtonVariant = 'hamburger' | 'dots' | 'minimal';
-export type MobileOverlayVariant = 'full' | 'dropdown' | 'sidebar';
 export type AnimationDirection = 'left' | 'right' | 'top' | 'bottom';
 
 export interface NavItem {
@@ -32,8 +30,6 @@ export interface NavItem {
   textLinkVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'brand';
   weight?: 'regular' | 'medium' | 'semibold' | 'bold';
   underline?: 'none' | 'hover' | 'always';
-  rightIcon?: React.ReactNode;
-  leftIcon?: React.ReactNode;
   isActive?: boolean;
 }
 
@@ -57,9 +53,7 @@ export interface NavbarProps {
   transparent?: boolean;
   navbarWidth?: NavbarWidth;
   mobileBreakpoint?: MobileBreakpoint;
-  mobileMenuButtonVariant?: MobileMenuButtonVariant;
   mobileMenuButtonStyle?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
-  mobileOverlayVariant?: MobileOverlayVariant;
   mobileAnimationDirection?: AnimationDirection;
   mobileOverlayTransparent?: boolean;
   brandVariant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'brand';
@@ -163,8 +157,6 @@ const NavMenu = ({
               size={itemSize}
               weight={item.weight || 'medium'}
               underline={item.underline || 'hover'}
-              leftIcon={item.leftIcon}
-              rightIcon={item.rightIcon}
               onClick={onItemClick}
             >
               {item.label}
@@ -177,10 +169,9 @@ const NavMenu = ({
         return (
           <Button
             key={item.href || index}
+            href={item.href}
             variant={buttonVariant}
             size={itemSize}
-            rightIcon={item.rightIcon}
-            leftIcon={item.leftIcon}
             onClick={onItemClick}
           >
             {item.label}
@@ -218,7 +209,6 @@ interface MobileMenuOverlayProps {
   onClose: () => void;
   children: React.ReactNode;
   navbarVariant: NavbarVariant;
-  overlayVariant?: MobileOverlayVariant;
   animationDirection?: AnimationDirection;
   transparent?: boolean;
 }
@@ -228,17 +218,20 @@ const MobileMenuOverlay = ({
   onClose,
   children,
   navbarVariant,
-  overlayVariant = 'full',
   animationDirection = 'right',
   transparent = false,
 }: MobileMenuOverlayProps) => {
-  // Bar variant ALWAYS uses Drawer (side panel)
+  // Bar variant uses Drawer (side panel)
   if (navbarVariant === 'bar') {
+    const placement = animationDirection === 'left' ? 'start' : 
+                     animationDirection === 'top' ? 'top' : 
+                     animationDirection === 'bottom' ? 'bottom' : 'end';
+
     return (
       <Drawer
         isOpen={isOpen}
         onClose={onClose}
-        placement={animationDirection === 'left' ? 'start' : animationDirection === 'top' ? 'top' : animationDirection === 'bottom' ? 'bottom' : 'end'}
+        placement={placement}
         size="md"
         showCloseButton={false}
         className={transparent ? 'drawer--transparent' : ''}
@@ -248,7 +241,7 @@ const MobileMenuOverlay = ({
     );
   }
 
-  // Pill variant ALWAYS uses Modal (full screen)
+  // Pill variant uses Modal (full screen)
   return (
     <Modal
       isOpen={isOpen}
@@ -266,9 +259,11 @@ const MobileMenuOverlay = ({
 function transformPatternToProps(patternProps: NavbarPatternProps): NavbarProps {
   const { props, components } = patternProps;
 
+  // Extract components
   const logo = Object.values(components || {}).find((c: any) => c.type === 'logo') as any;
   const brand = Object.values(components || {}).find((c: any) => c.type === 'title') as any;
 
+  // Transform navItems from components
   const navItems: NavItem[] = Object.values(components || {})
     .filter((c: any) => c.type === 'navItem')
     .map((item: any) => ({
@@ -280,23 +275,23 @@ function transformPatternToProps(patternProps: NavbarPatternProps): NavbarProps 
       textLinkVariant: item.props?.textLinkVariant,
       weight: item.props?.weight,
       underline: item.props?.underline,
-      rightIcon: item.props?.rightIcon,
-      leftIcon: item.props?.leftIcon,
       isActive: item.props?.isActive,
     }));
 
   return {
+    // Navbar config
     navbarVariant: props?.navbarVariant || 'bar',
     transparent: props?.transparent || false,
     navbarWidth: props?.navbarWidth || 'content',
     sticky: props?.sticky || false,
 
+    // Mobile config
     mobileBreakpoint: props?.mobileBreakpoint || 'md',
-    mobileOverlayVariant: props?.mobileOverlayVariant || 'full',
     mobileAnimationDirection: props?.mobileAnimationDirection || 'right',
     mobileMenuButtonStyle: props?.mobileMenuButtonStyle || 'ghost',
     mobileOverlayTransparent: props?.mobileOverlayTransparent || false,
 
+    // Brand config
     brandName: brand?.props?.content || props?.brandName,
     brandHref: props?.brandHref || '/',
     brandVariant: props?.brandVariant || 'brand',
@@ -304,11 +299,13 @@ function transformPatternToProps(patternProps: NavbarPatternProps): NavbarProps 
     brandWeight: props?.brandWeight || 'bold',
     brandUnderline: props?.brandUnderline || 'none',
 
+    // Logo config
     logoSrc: logo?.props?.src,
     logoAlt: logo?.props?.alt || 'Logo',
     logoWidth: logo?.props?.width || 40,
     logoHeight: logo?.props?.height || 40,
 
+    // Navigation config
     navItems,
     navSize: props?.navSize || 'md',
     navVariant: props?.navVariant || 'primary',
@@ -330,7 +327,6 @@ const NavbarComponent = ({
   navbarWidth = 'content',
   mobileBreakpoint = 'md',
   mobileMenuButtonStyle = 'ghost',
-  mobileOverlayVariant = 'full',
   mobileAnimationDirection = 'right',
   mobileOverlayTransparent = false,
   brandVariant = 'brand',
@@ -360,6 +356,7 @@ const NavbarComponent = ({
     <Box className={navbarClasses}>
       <Box className="navbar__container">
         <HStack justify="between" align="center" spacing="md" wrap={false} className="navbar__content">
+          {/* Brand */}
           <BrandLink
             href={brandHref}
             variant={brandVariant}
@@ -374,10 +371,17 @@ const NavbarComponent = ({
             {brandName}
           </BrandLink>
 
+          {/* Desktop Menu */}
           <Box className="navbar__desktop-menu">
-            <NavMenu items={navItems} spacing="xl" size={navSize} variant={navVariant} />
+            <NavMenu 
+              items={navItems} 
+              spacing="xl" 
+              size={navSize} 
+              variant={navVariant} 
+            />
           </Box>
 
+          {/* Mobile Toggle */}
           <Box className="navbar__mobile-toggle">
             <MobileMenuButton
               isOpen={isMobileMenuOpen}
@@ -388,15 +392,16 @@ const NavbarComponent = ({
         </HStack>
       </Box>
 
+      {/* Mobile Menu Overlay */}
       <MobileMenuOverlay
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
         navbarVariant={navbarVariant}
-        overlayVariant={mobileOverlayVariant}
         animationDirection={mobileAnimationDirection}
         transparent={mobileOverlayTransparent}
       >
         <VStack spacing="lg" className="navbar__mobile-menu">
+          {/* Mobile Header */}
           <HStack justify="between" align="center" className="navbar__container">
             <BrandLink
               href={brandHref}
@@ -413,37 +418,23 @@ const NavbarComponent = ({
             </BrandLink>
 
             <MobileMenuButton
-              isOpen={isMobileMenuOpen}
+              isOpen={true}
               onClick={() => setIsMobileMenuOpen(false)}
               buttonVariant={mobileMenuButtonStyle}
             />
           </HStack>
 
+          {/* Mobile Menu Content */}
           <Container className="navbar__mobile-menu-content">
             <VStack spacing="xl" align="center">
               <NavMenu
                 items={navItems}
-                spacing="md"
+                spacing="lg"
                 size={navSize}
                 variant={navVariant}
                 isMobile
                 onItemClick={() => setIsMobileMenuOpen(false)}
               />
-
-              {/* Show CTA button only for bar variant or when pill has few items */}
-              {(navbarVariant === 'bar' || navItems.length <= 2) && (
-                <Button
-                  variant="accent"
-                  size="lg"
-                  radius={navbarVariant === 'pill' ? 'full' : 'lg'}
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    window.location.href = '/contact';
-                  }}
-                >
-                  Starta projekt
-                </Button>
-              )}
             </VStack>
           </Container>
         </VStack>
@@ -452,7 +443,7 @@ const NavbarComponent = ({
   );
 };
 
-// ===== EXPORT =====
+// ===== MAIN EXPORT =====
 export const Navbar = (patternProps: NavbarPatternProps) => {
   const componentProps = transformPatternToProps(patternProps);
   return <NavbarComponent {...componentProps} />;
