@@ -10,7 +10,8 @@ import { componentRegistry } from '../../components/registry';
 import { 
   SectionNode, 
   PatternNode, 
-  ComponentNode
+  ComponentNode,
+  PageNode
 } from '../types/nodes';
 
 /**
@@ -174,12 +175,7 @@ export function Sections({
  * Page component - Higher level abstraction for rendering complete pages
  * Simplifies the API for client-next
  */
-interface PageProps {
-  sections: Record<string, SectionNode>;
-  order: string[];
-}
-
-export function Page({ sections, order }: PageProps) {
+export function Page({ sections, order }: PageNode) {
   return <Sections sections={sections} order={order} />;
 }
 

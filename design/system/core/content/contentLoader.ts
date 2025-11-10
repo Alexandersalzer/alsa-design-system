@@ -167,18 +167,10 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
 }
 
 /**
- * Page content structure for rendering
- */
-interface PageContent {
-  sections: Record<string, SectionNode>;
-  order: string[];
-}
-
-/**
  * Get page content for rendering a specific page
- * Returns typed PageNode structure optimized for rendering
+ * Returns complete PageNode structure
  */
-export async function getPageContent(locale: string = 'sv', pageSlug: string): Promise<PageContent> {
+export async function getPageContent(locale: string = 'sv', pageSlug: string): Promise<PageNode> {
   if (typeof window !== 'undefined') {
     throw new Error('getPageContent is only available on server-side');
   }
@@ -207,10 +199,7 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string): P
         const slug = pageData.name?.toLowerCase().replace(/\s+/g, '-');
         
         if (slug === pageSlug) {
-          return {
-            sections: pageData.sections,
-            order: pageData.order
-          };
+          return pageData;
         }
       } catch {
         continue; // Skip invalid files
@@ -225,6 +214,12 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string): P
       return getPageContent('sv', pageSlug);
     }
     
-    return { sections: {}, order: [] };
+    return { 
+      name: 'Not Found',
+      language: locale,
+      sections: {}, 
+      order: [],
+      props: {} 
+    };
   }
 }
