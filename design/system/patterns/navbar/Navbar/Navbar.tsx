@@ -419,30 +419,32 @@ const NavbarComponent = ({
             />
           </HStack>
 
-          <Box className="navbar__mobile-menu-content">
-            <NavMenu
-              items={navItems}
-              spacing="md"
-              size={navSize}
-              variant={navVariant}
-              isMobile
-              onItemClick={() => setIsMobileMenuOpen(false)}
-            />
+          <Container className="navbar__mobile-menu-content">
+            <VStack spacing="xl" align="center">
+              <NavMenu
+                items={navItems}
+                spacing="md"
+                size={navSize}
+                variant={navVariant}
+                isMobile
+                onItemClick={() => setIsMobileMenuOpen(false)}
+              />
 
-            {navbarVariant === 'bar' && (
-              <Button
-                variant="accent"
-                size="lg"
-                radius="lg"
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  window.location.href = '/contact';
-                }}
-              >
-                Starta projekt
-              </Button>
-            )}
-          </Box>
+              {navbarVariant === 'bar' && (
+                <Button
+                  variant="accent"
+                  size="lg"
+                  radius="lg"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    window.location.href = '/contact';
+                  }}
+                >
+                  Starta projekt
+                </Button>
+              )}
+            </VStack>
+          </Container>
         </VStack>
       </MobileMenuOverlay>
     </Box>

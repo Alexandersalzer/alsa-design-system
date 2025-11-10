@@ -209,11 +209,8 @@
 .navbar__mobile-menu {
   height: 100%;
   padding: 0;
-}
-
-.navbar__mobile-menu-content {
-  padding: var(--space-container-lg);
-  padding-top: var(--space-lg);
+  display: flex;
+  flex-direction: column;
 }
 
 /* ===== RESPONSIVE PADDING ===== */
