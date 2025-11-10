@@ -6,9 +6,6 @@ import { getDesignConfig } from "./designLoader";
  * Injects design tokens dynamically into <head>.
  */
 export function buildCssVars(design: DesignJson): string {
-  /* =========================================================
-     1. Extract values and apply safe fallbacks
-     ========================================================= */
   const radius           = design?.globalStyles?.radius           || "md";
   const accentColor      = design?.globalStyles?.accentColor      || "purple";
   const isDark           = design?.globalStyles?.isDark           ?? false;
@@ -21,23 +18,18 @@ export function buildCssVars(design: DesignJson): string {
   const sectionSpacing   = design?.globalStyles?.sectionSpacing   || "md";
   const containerSpacing = design?.globalStyles?.containerSpacing || "md";
   const navbarSpacing    = design?.globalStyles?.navbarSpacing    || "md";
+  const formWidth        = design?.globalStyles?.formWidth        || "sm";  // ← NEW
   const typographyScale  = design?.globalStyles?.typographyScale  || "md";
 
-  /* =========================================================
-     2. Dynamically load both primary + secondary fonts
-     ========================================================= */
   const fontWeights = "300;400;500;600;700;800;900";
   const fontsToImport = [fontPrimary, fontSecondary]
-    .filter((f, i, arr) => arr.indexOf(f) === i) // remove duplicates
+    .filter((f, i, arr) => arr.indexOf(f) === i)
     .map(f => `family=${f.replace(/\s/g, '+')}:wght@${fontWeights}`)
     .join('&');
   const fontUrl = `https://fonts.googleapis.com/css2?${fontsToImport}&display=swap`;
 
   const isInverseAccent = accentColor === "inverse";
 
-  /* =========================================================
-     3. Generate dynamic CSS variables
-     ========================================================= */
   return `
     @import url('${fontUrl}');
     :root {
@@ -58,6 +50,9 @@ export function buildCssVars(design: DesignJson): string {
       /* ===== Layout widths ===== */
       --selected-layout-scale-content: var(--foundation-layout-${layoutContent}-content);
       --selected-layout-scale-media:   var(--foundation-layout-${layoutMedia}-media);
+      
+      /* ===== Form width ===== */
+      --selected-form-width: var(--foundation-form-${formWidth}-width);
 
       /* ===== Spacing ===== */
       --selected-section-spacing:   var(--foundation-section-spacing-${sectionSpacing});

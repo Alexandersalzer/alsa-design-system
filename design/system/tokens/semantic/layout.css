@@ -1,24 +1,18 @@
 /* ==============================================
    src/design-system/tokens/semantic/layout.css
-   FLUID RESPONSIVE WIDTH SYSTEM (Fixed)
+   FLUID RESPONSIVE WIDTH SYSTEM (Compressed)
    ============================================== */
 
 :root {
   /* ===== SELECTED WIDTH SCALE ===== */
   --selected-layout-scale-content: var(--foundation-layout-base-content);
   --selected-layout-scale-media: var(--foundation-layout-base-media);
+  --selected-form-width: var(--foundation-form-md-width);
 
   /* ===== FLUID WIDTH TOKENS ===== */
-  /*
-    These now grow fluidly between mobile and desktop.
-    - min width: 20rem (320px)
-    - preferred: 90vw
-    - max width: your selected content/media scale
-  */
-
-  --width-content: clamp(20rem, 90vw, var(--selected-layout-scale-content));
-  --width-media: clamp(20rem, 95vw, var(--selected-layout-scale-media));
-  --width-form: clamp(20rem, 90vw, 25rem); 
+  --width-content: clamp(18rem, 88vw, var(--selected-layout-scale-content));
+  --width-media: clamp(18rem, 92vw, var(--selected-layout-scale-media));
+  --width-form: clamp(18rem, 88vw, var(--selected-form-width)); /* Slightly tighter bounds */
 
   /* ===== ALIASES ===== */
   --width-container: var(--width-content);

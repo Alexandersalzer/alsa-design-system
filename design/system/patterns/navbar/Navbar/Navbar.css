@@ -11,7 +11,7 @@
 
 .navbar__container {
   width: 100%;
-  padding: var(--space-4);
+  padding: var(--space-navbar, var(--space-4));
 }
 
 .navbar__content {
@@ -38,18 +38,23 @@
 
 /* ===== VARIANT: PILL ===== */
 .navbar--pill {
-  padding: var(--space-2) 0;
+  /* Add vertical spacing for floating effect */
+  padding: var(--space-navbar-md, var(--space-3)) 0;
+  background: transparent; /* Outer wrapper is transparent */
 }
 
 .navbar--pill .navbar__container {
+  /* The actual pill container */
+  max-width: var(--width-navbar-pill);
+  margin: 0 auto;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-sm);
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-navbar-sm, var(--space-2)) var(--space-navbar-lg, var(--space-6));
 }
 
-/* Transparent pill */
+/* Transparent pill with glass effect */
 .navbar--pill.navbar--transparent .navbar__container {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
@@ -65,48 +70,43 @@
   }
 }
 
-/* ===== PILL VARIANT: MOBILE DROPDOWN ===== */
-.navbar--pill .navbar__overlay--dropdown .navbar__overlay-content {
-  top: var(--navbar-height, 64px);
-  height: calc(100vh - var(--navbar-height, 64px));
-  background: var(--surface-nav, var(--color-surface));
-  border: none;
-  border-bottom-left-radius: var(--radius-2xl);
-  border-bottom-right-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-lg);
-  animation: navbarSlideDown 0.25s var(--ease-out) forwards;
-}
-
-@keyframes navbarSlideDown {
-  from {
-    transform: translateY(-12px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
 /* ===== WIDTH VARIANTS ===== */
-.navbar--width-full .navbar__container {
+/* BAR width variants */
+.navbar--bar.navbar--width-full .navbar__container {
   max-width: 100%;
   margin: 0;
 }
 
-.navbar--width-content .navbar__container {
-  max-width: var(--width-content, 1200px);
+.navbar--bar.navbar--width-content .navbar__container {
+  max-width: var(--width-content);
   margin: 0 auto;
 }
 
-.navbar--width-narrow .navbar__container {
+.navbar--bar.navbar--width-narrow .navbar__container {
   max-width: 960px;
   margin: 0 auto;
 }
 
-.navbar--width-wide .navbar__container {
+.navbar--bar.navbar--width-wide .navbar__container {
   max-width: 1440px;
   margin: 0 auto;
+}
+
+/* PILL width variants - always centered with margins */
+.navbar--pill.navbar--width-full .navbar__container {
+  max-width: calc(100% - var(--space-navbar-xl, 4rem));
+}
+
+.navbar--pill.navbar--width-content .navbar__container {
+  max-width: var(--width-navbar-pill);
+}
+
+.navbar--pill.navbar--width-narrow .navbar__container {
+  max-width: clamp(20rem, 85vw, 900px);
+}
+
+.navbar--pill.navbar--width-wide .navbar__container {
+  max-width: clamp(20rem, 90vw, calc(var(--width-content) + 8rem));
 }
 
 /* ===== DESKTOP / MOBILE TOGGLE ===== */
@@ -125,8 +125,8 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: var(--z-overlay, 120);
-  transition: opacity 0.3s var(--ease-out);
+  z-index: var(--z-modal, 100);
+  transition: opacity 0.3s var(--ease-out, ease-out);
 }
 
 .navbar__overlay--transparent {
@@ -145,28 +145,21 @@
 /* ===== OVERLAY CONTENT (shared) ===== */
 .navbar__overlay-content {
   background: var(--color-surface);
-  transition: transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out);
-  will-change: transform, opacity;
+  transition: transform 0.3s var(--ease-out, ease-out);
+  will-change: transform;
   overflow-y: auto;
-  z-index: var(--z-overlay-content, 121);
 }
 
-/* ===== VARIANT: FULL ===== */
+/* ===== VARIANT: FULL (for pill navbar) ===== */
 .navbar__overlay--full .navbar__overlay-content {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  background: var(--surface-nav, var(--color-surface));
-  padding: var(--space-6) var(--space-4);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-top: 1px solid var(--border-default);
+  padding: var(--space-container-lg, var(--space-6));
 }
 
-/* ===== VARIANT: DROPDOWN ===== */
+/* ===== VARIANT: DROPDOWN (for bar navbar) ===== */
 .navbar__overlay--dropdown {
   background: transparent;
 }
@@ -178,10 +171,12 @@
   right: 0;
   width: 100%;
   max-height: 80vh;
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
   box-shadow: var(--shadow-xl);
 }
 
-/* ===== VARIANT: SIDEBAR ===== */
+/* ===== VARIANT: SIDEBAR (drawer style) ===== */
 .navbar__overlay--sidebar .navbar__overlay-content {
   position: absolute;
   top: 0;
@@ -190,9 +185,10 @@
   max-width: 400px;
   height: 100%;
   box-shadow: var(--shadow-2xl);
+  padding: var(--space-container-lg, var(--space-6));
 }
 
-/* ===== ANIMATION: RIGHT ===== */
+/* ===== ANIMATION: RIGHT (default for sidebar) ===== */
 .navbar__overlay-content--right {
   right: 0;
   transform: translateX(100%);
@@ -246,16 +242,16 @@
 
 /* ===== MOBILE MENU CONTENT ===== */
 .navbar__mobile-menu {
-  padding: var(--space-6);
+  padding: var(--space-container-lg, var(--space-6));
 }
+
 .navbar__mobile-header {
-  padding-bottom: var(--space-4);
+  padding-bottom: var(--space-navbar, var(--space-4));
   border-bottom: 1px solid var(--color-border);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-navbar, var(--space-4));
 }
 
 /* ===== BREAKPOINTS ===== */
-
 /* — Small (640px) — */
 .navbar--mobile-sm .navbar__desktop-menu { display: none; }
 .navbar--mobile-sm .navbar__mobile-toggle { display: flex; }
@@ -300,30 +296,27 @@
 /* ===== RESPONSIVE PADDING ===== */
 @media (max-width: 640px) {
   .navbar__container {
-    padding: var(--space-3) var(--space-4);
+    padding: var(--space-navbar-sm, var(--space-3)) var(--space-navbar, var(--space-4));
   }
+  
+  .navbar--pill .navbar__container {
+    padding: var(--space-navbar-sm, var(--space-2)) var(--space-navbar, var(--space-4));
+  }
+  
   .navbar__mobile-menu {
-    padding: var(--space-4);
+    padding: var(--space-navbar, var(--space-4));
   }
 }
 
 @media (min-width: 768px) {
   .navbar--pill .navbar__container {
-    padding: var(--space-3) var(--space-6);
+    padding: var(--space-navbar-sm, var(--space-3)) var(--space-navbar-xl, var(--space-6));
   }
 }
 
 @media (min-width: 1024px) {
   .navbar__container {
-    padding: var(--space-4) var(--space-6);
-  }
-}
-
-/* ===== DARK MODE OVERLAYS ===== */
-@media (prefers-color-scheme: dark) {
-  .navbar__overlay--full .navbar__overlay-content,
-  .navbar__overlay--dropdown .navbar__overlay-content {
-    background: var(--surface-nav-dark, rgba(10, 10, 10, 0.95));
+    padding: var(--space-navbar, var(--space-4)) var(--space-navbar-xl, var(--space-6));
   }
 }
 

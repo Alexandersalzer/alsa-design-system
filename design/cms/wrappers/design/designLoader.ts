@@ -3,16 +3,7 @@ export interface DesignJson {
     radius?: string;
     accentColor?: string;
     isDark?: boolean;
-    themeTone?:
-      | "mono"
-      | "linen"
-      | "ink"
-      | "clay"
-      | "slate"
-      | "sage"
-      | "frost"
-      | "pearl";
-
+    themeTone?: "mono" | "linen" | "ink" | "clay" | "slate" | "sage" | "frost" | "pearl";
     fontPrimary?: string;
     fontSecondary?: string;
     fontWeightScale?: "light" | "regular" | "strong" | "extraStrong";
@@ -21,6 +12,7 @@ export interface DesignJson {
     sectionSpacing?: string;
     containerSpacing?: string;
     navbarSpacing?: string;
+    formWidth?: string;         // ← NEW: xs | sm | md | lg | xl
     typographyScale?: "sm" | "md" | "lg";
   };
 }
