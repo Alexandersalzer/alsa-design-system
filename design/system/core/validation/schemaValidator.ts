@@ -38,30 +38,49 @@ export const validateComponent = (component: ComponentNode): ValidationResult =>
 
 /**
  * Validate pattern against existing schema registry
+ * Also logs errors to console for immediate feedback
  */
-export const validatePattern = (pattern: PatternNode): ValidationResult => {
+export const validatePattern = (pattern: PatternNode, patternKey?: string): ValidationResult => {
   const schema = existingSchemas.patterns[pattern.type];
   
   if (!schema) {
     const availableTypes = Object.keys(existingSchemas.patterns);
-    return {
+    const result = {
       valid: false,
       errors: [
         `Unknown pattern type: "${pattern.type}"`,
         `Available pattern types: ${availableTypes.join(', ') || 'none registered'}`
       ]
     };
+    
+    // Log error if patternKey is provided
+    if (patternKey) {
+      console.error(`❌ Pattern validation failed for "${patternKey}":`, result.errors);
+    }
+    
+    return result;
   }
 
   const baseValidation = validateNodeAgainstSchema(pattern, schema, 'pattern');
   
   // Additional pattern-specific validation
+  let finalValidation = baseValidation;
   if (baseValidation.valid && pattern.components) {
     const componentValidation = validatePatternComponents(pattern, schema);
-    return mergeValidationResults(baseValidation, componentValidation);
+    finalValidation = mergeValidationResults(baseValidation, componentValidation);
   }
 
-  return baseValidation;
+  // Log errors if validation failed and patternKey is provided
+  if (!finalValidation.valid && patternKey) {
+    console.error(`❌ Pattern validation failed for "${patternKey}":`, finalValidation.errors);
+  }
+
+  // Log warnings in development
+  if (process.env.NODE_ENV === 'development' && finalValidation.warnings && finalValidation.warnings.length > 0 && patternKey) {
+    console.warn(`⚠️ Pattern warnings for "${patternKey}":`, finalValidation.warnings);
+  }
+
+  return finalValidation;
 };
 
 /**

@@ -10,12 +10,11 @@ import { componentRegistry } from '../../components/registry';
 import { 
   SectionNode, 
   PatternNode, 
-  ComponentNode,
   PageNode
 } from '../types/nodes';
 
 // Import validation system
-import { validateComponent, validatePattern, validateSection } from '../validation/schemaValidator';
+import { validatePattern } from '../validation/schemaValidator';
 
 /**
  * Props for Sections component
@@ -26,52 +25,13 @@ interface SectionsProps {
 }
 
 /**
- * Component Renderer - Renderar enskilda components med Component wrapper
- */
-export const renderComponent = (component: ComponentNode, componentKey: string, index: number) => {
-  // Validate component before rendering
-  const validation = validateComponent(component);
-  
-  if (!validation.valid) {
-    console.error(`❌ Component validation failed for "${componentKey}":`, validation.errors);
-    
-    // Return null for invalid components
-    return null;
-  }
-
-  // Log warnings in development
-  if (process.env.NODE_ENV === 'development' && validation.warnings && validation.warnings.length > 0) {
-    console.warn(`⚠️ Component warnings for "${componentKey}":`, validation.warnings);
-  }
-
-  const ComponentElement = componentRegistry[component.type];
-  if (!ComponentElement) {
-    console.warn(`Unknown component type: ${component.type}`);
-    return null;
-  }
-
-  return (
-    <Component 
-      key={componentKey}
-      id={componentKey}
-      className={`component-${component.type}`}
-    >
-      <ComponentElement 
-        type={component.type}
-        props={component.props}
-      />
-    </Component>
-  );
-};
-
-/**
  * Pattern Renderer - Pattern har full kontroll över component rendering
  * För content sections (med Container wrapper)
  */
 export const renderPattern = (pattern: PatternNode, patternKey: string) => {
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
-    console.warn(`Unknown pattern type: ${pattern.type}`);
+    console.warn(`Pattern: ${pattern.type} don't exist in registry`);
     return null;
   }
 
@@ -99,24 +59,16 @@ export const renderPattern = (pattern: PatternNode, patternKey: string) => {
  * Använder Container för layout men utan spacing
  */
 export const renderShellPattern = (pattern: PatternNode, patternKey: string, index: number) => {
-  // Validate pattern before rendering
-  const validation = validatePattern(pattern);
+  // Validate pattern before rendering (includes error logging)
+  const validation = validatePattern(pattern, patternKey);
   
   if (!validation.valid) {
-    console.error(`❌ Pattern validation failed for "${patternKey}":`, validation.errors);
-    
-    // Return null for invalid patterns
-    return null;
-  }
-
-  // Log warnings in development
-  if (process.env.NODE_ENV === 'development' && validation.warnings && validation.warnings.length > 0) {
-    console.warn(`⚠️ Pattern warnings for "${patternKey}":`, validation.warnings);
+    return null; 
   }
 
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
-    console.warn(`Unknown pattern type: ${pattern.type}`);
+    console.warn(`Pattern: ${pattern.type} don't exist in registry`);
     return null;
   }
 
