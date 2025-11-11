@@ -11,18 +11,11 @@ import { schemaRegistry as existingSchemas } from '../schemas/registry';
  * This checks that the existing schemas are available and sets up validation
  */
 export function registerAllSchemas() {
-  console.log('🚀 Initializing validation system...');
-
   try {
-    // Check that schemas exist
+    // Check that schemas exist - silent initialization
     const componentTypes = Object.keys(existingSchemas.components);
     const patternTypes = Object.keys(existingSchemas.patterns);  
     const sectionTypes = Object.keys(existingSchemas.sections);
-
-    console.log('✅ Validation system initialized');
-    console.log('📋 Available component types:', componentTypes);
-    console.log('🧩 Available pattern types:', patternTypes);
-    console.log('📄 Available section types:', sectionTypes);
     
   } catch (error) {
     console.error('❌ Failed to initialize validation system:', error);

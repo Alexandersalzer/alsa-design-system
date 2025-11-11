@@ -29,20 +29,7 @@ export const SchemaInitializer: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
-  // Show loading or error state in development
-  if (process.env.NODE_ENV === 'development' && !schemasRegistered) {
-    return (
-      <div style={{ 
-        padding: '20px', 
-        background: '#f5f5f5',
-        border: '1px solid #ccc',
-        margin: '20px',
-        textAlign: 'center'
-      }}>
-        <p>🔄 Registering validation schemas...</p>
-      </div>
-    );
-  }
+  // Don't show loading state - initialize silently
 
   if (process.env.NODE_ENV === 'development' && error) {
     return (

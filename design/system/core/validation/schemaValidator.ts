@@ -33,14 +33,6 @@ export const validateComponent = (component: ComponentNode): ValidationResult =>
     };
   }
 
-  // Debug logging
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`🔍 Validating component "${component.type}"`, { 
-      props: component.props, 
-      schema: schema.props 
-    });
-  }
-
   return validateNodeAgainstSchema(component, schema, 'component');
 };
 
