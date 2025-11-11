@@ -92,9 +92,6 @@ const NavbarBar = ({ section }: NavbarBarProps) => {
       <Drawer
         isOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
-        placement="end"
-        size="md"
-        mobileOverlay
         showCloseButton
         closeButtonVariant="icon"
         preventScroll
