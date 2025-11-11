@@ -65,7 +65,7 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  position: relative;
+  position: relative; /* Normal document flow */
   --navbar-pill-height: 80px;
   min-height: var(--navbar-pill-height);
 }
@@ -84,21 +84,17 @@
   position: relative;
 }
 
-/* Pill navbar sticky positioning */
+/* Pill navbar sticky positioning - stays in document flow */
 .navbar--pill.navbar--sticky {
-  position: fixed;
+  position: sticky;
   top: var(--foundation-space-4);
-  left: 0;
-  right: 0;
   z-index: var(--z-navbar, 50);
+  /* Ingen fixed positioning - använder sticky istället */
 }
 
-/* Spacer for pill navbar content offset */
+/* Ta bort spacer - behövs inte längre */
 .navbar__pill-spacer {
-  height: calc(var(--navbar-pill-height) + var(--foundation-space-8));
-  visibility: hidden;
-  pointer-events: none;
-  display: block;
+  display: none;
 }
 
 /* Responsive navbar height */
