@@ -29,6 +29,10 @@
   position: sticky;
   top: 0;
   z-index: var(--z-navbar, 50);
+  /* background-color: var(--primary-white); */
+  /* border-bottom: 1px solid var(--border-light); */
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 /* ===== VARIANT: BAR (Traditional Header Navbar) ===== */
@@ -60,12 +64,12 @@
 
 /* ===== VARIANT: PILL (Floating Pill Navbar) ===== */
 .navbar--pill {
-  background: transparent; /* Transparent background so content shows through */
+  background: transparent;
   padding: var(--foundation-space-4) var(--foundation-space-6);
   display: flex;
   justify-content: center;
   width: 100%;
-  position: relative; /* Normal document flow - takes up space */
+  position: relative;
   --navbar-pill-height: 80px;
   min-height: var(--navbar-pill-height);
 }
@@ -73,7 +77,7 @@
 .navbar--pill .navbar__container {
   max-width: fit-content;
   min-width: 600px;
-  background-color: var(--surface-default); /* Only the pill itself has background */
+  background-color: var(--surface-default);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius-pill);
@@ -84,20 +88,17 @@
   position: relative;
 }
 
-/* Sticky behavior when scrolling - but stays in document flow */
 .navbar--pill.navbar--sticky {
-  position: sticky;
-  top: var(--foundation-space-4);
-  z-index: var(--z-navbar, 50);
-  /* Behåller transparent background så content syns bakom */
+  /* position: sticky; */
+  /* top: var(--foundation-space-4); */
+  /* z-index: var(--z-navbar, 50); */
+  background-color: transparent;
 }
 
-/* Remove spacer - not needed with proper positioning */
 .navbar__pill-spacer {
   display: none;
 }
 
-/* Responsive navbar height */
 @media (max-width: 768px) {
   .navbar--pill {
     --navbar-pill-height: 64px;
@@ -107,14 +108,10 @@
     min-width: 320px;
     padding: var(--foundation-space-2) var(--foundation-space-4);
   }
-}
-
-.navbar--pill.navbar--sticky {
-  position: fixed;
-  top: var(--foundation-space-4);
-  left: 0;
-  right: 0;
-  z-index: var(--z-navbar, 50);
+  
+  .navbar--pill.navbar--sticky {
+    top: var(--foundation-space-2);
+  }
 }
 
 /* Enhanced glass effect for transparent pill */
