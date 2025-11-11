@@ -49,47 +49,50 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
           )}
         </HStack>
 
-        {/* MIDDLE */}
-        {menuItems.length > 0 && (
-          <HStack
-            className={`navbar-pill__middle navbar-pill__middle--${align}`}
-            spacing="lg"
-          >
-            {menuItems.map((item: any, i) => (
-              <TextLink
-                key={i}
-                href={item.props?.href || '/'}
-                size="md"
-                underline="hover"
-              >
-                {item.props?.content}
-              </TextLink>
-            ))}
-          </HStack>
-        )}
+        {/* CENTER + RIGHT CONTENT (hidden on mobile) */}
+        <div className={`navbar-pill__content ${mobileOpen ? 'is-open' : ''}`}>
+          {menuItems.length > 0 && (
+            <HStack
+              className={`navbar-pill__middle navbar-pill__middle--${align}`}
+              spacing="lg"
+            >
+              {menuItems.map((item: any, i) => (
+                <TextLink
+                  key={i}
+                  href={item.props?.href || '/'}
+                  size="md"
+                  underline="hover"
+                >
+                  {item.props?.content}
+                </TextLink>
+              ))}
+            </HStack>
+          )}
 
-        {/* RIGHT (hardcoded roles) */}
-        <HStack spacing="sm" className="navbar-pill__right">
-          {secondaryAction && (
-            <Button variant="ghost" href={secondaryAction.props?.href}>
-              {secondaryAction.props?.content}
-            </Button>
-          )}
-          {primaryAction && (
-            <Button variant="primary" href={primaryAction.props?.href}>
-              {primaryAction.props?.content}
-            </Button>
-          )}
-          <Button
-            variant="ghost"
-            size="md"
-            aria-label="Toggle menu"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="navbar-pill__mobile-toggle"
-          >
-            {mobileOpen ? <XIcon /> : <MenuIcon />}
-          </Button>
-        </HStack>
+          <HStack spacing="sm" className="navbar-pill__right">
+            {secondaryAction && (
+              <Button variant="ghost" href={secondaryAction.props?.href}>
+                {secondaryAction.props?.content}
+              </Button>
+            )}
+            {primaryAction && (
+              <Button variant="primary" href={primaryAction.props?.href}>
+                {primaryAction.props?.content}
+              </Button>
+            )}
+          </HStack>
+        </div>
+
+        {/* MOBILE TOGGLE (always visible on mobile) */}
+        <Button
+          variant="ghost"
+          size="md"
+          aria-label="Toggle menu"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="navbar-pill__mobile-toggle"
+        >
+          {mobileOpen ? <XIcon /> : <MenuIcon />}
+        </Button>
       </Box>
 
       {/* MOBILE MENU */}
@@ -105,7 +108,7 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
             </TextLink>
           ))}
           {primaryAction && (
-            <Button href={primaryAction.props?.href}>
+            <Button href={primaryAction.props?.href} onClick={() => setMobileOpen(false)}>
               {primaryAction.props?.content}
             </Button>
           )}
