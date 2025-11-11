@@ -26,14 +26,14 @@
   box-shadow: var(--shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.06));
   padding: var(--foundation-space-3) var(--foundation-space-6);
   max-width: 100%;
-  min-width: 600px;
   transition: all var(--foundation-duration-normal) var(--foundation-ease-out);
 
+  /* This allows the container query below to react to the actual navbar width */
   container-type: inline-size;
 }
 
 /* -----------------------------------------------
-   Groups
+   Layout groups
 ----------------------------------------------- */
 .navbar-pill__left,
 .navbar-pill__middle,
@@ -42,7 +42,9 @@
   align-items: center;
 }
 
-.navbar-pill__left { gap: var(--foundation-space-2); }
+.navbar-pill__left {
+  gap: var(--foundation-space-2);
+}
 
 .navbar-pill__middle {
   flex: 1;
@@ -89,7 +91,7 @@
 }
 
 /* -----------------------------------------------
-   Mobile toggle
+   Mobile toggle (hidden by default)
 ----------------------------------------------- */
 .navbar-pill__mobile-toggle {
   display: none;
@@ -103,6 +105,7 @@
    Mobile dropdown menu
 ----------------------------------------------- */
 .navbar-pill__mobile-menu {
+  display: none;
   flex-direction: column;
   background: var(--surface-default, #fff);
   border: 1px solid var(--border-subtle, #e5e7eb);
@@ -156,27 +159,36 @@
 
 /* -----------------------------------------------
    Content-aware collapse (container query)
+   Trigger when pill content area becomes cramped
 ----------------------------------------------- */
-@container (max-width: 640px) {
+@container (max-width: 850px) {
   .navbar-pill__content {
     display: none;
   }
 
   .navbar-pill__mobile-toggle {
     display: inline-flex;
+  }
+
+  .navbar-pill__mobile-menu {
+    display: flex;
   }
 }
 
 /* -----------------------------------------------
    Fallback: early viewport collapse
 ----------------------------------------------- */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .navbar-pill__content {
     display: none;
   }
 
   .navbar-pill__mobile-toggle {
     display: inline-flex;
+  }
+
+  .navbar-pill__mobile-menu {
+    display: flex;
   }
 
   .navbar-pill__container {
