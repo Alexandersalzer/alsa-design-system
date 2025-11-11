@@ -4,7 +4,6 @@ import { Section } from '../../components/frames/section/Section';
 import { Container } from '../../components';
 import { patternRegistry } from '../../patterns/registry';
 import { SectionNode, PatternNode, PageNode } from '../types/nodes';
-import { validatePattern } from '../validation/schemaValidator';
 
 /**
  * Props for Sections component
@@ -49,12 +48,6 @@ export const renderPattern = (pattern: PatternNode, patternKey: string) => {
  * Använder Container för layout men utan spacing
  */
 export const renderShellPattern = (pattern: PatternNode, patternKey: string, index: number) => {
-  // Validate pattern before rendering (includes error logging)
-  const validation = validatePattern(pattern, patternKey);
-  
-  if (!validation.valid) {
-    return null; 
-  }
 
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {

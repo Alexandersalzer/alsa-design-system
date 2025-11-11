@@ -17,10 +17,6 @@ export type {
 // Render utilities and components
 export * from './render';
 
-// Validation system - console logging only
-export { validatePattern } from './validation/schemaValidator';
-
-export * from './schemas';
 
 export * from './content';
 
