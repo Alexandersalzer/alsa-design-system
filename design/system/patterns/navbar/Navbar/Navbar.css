@@ -1,5 +1,5 @@
 /* ===============================================
-   Navbar.css — Universal Navbar Pattern
+   Navbar.css — Clean Universal Navbar Pattern
    =============================================== */
 
 /* ===== BASE NAVBAR ===== */
@@ -29,18 +29,15 @@
   position: sticky;
   top: 0;
   z-index: var(--z-navbar, 50);
-  background-color: transparent;
-  border-bottom: 0px solid var(--border-light);
-  padding-top: 0;
-  padding-bottom: 0;
 }
 
-/* ===== VARIANT: BAR (Traditional Header Navbar) ===== */
+/* ===============================================
+   BAR VARIANT (Traditional Header Navbar)
+   =============================================== */
 .navbar--bar {
   background: var(--surface-default);
   border-bottom: 1px solid var(--border-default);
   width: 100%;
-  position: relative;
 }
 
 .navbar--bar .navbar__container {
@@ -49,6 +46,7 @@
   margin: 0 auto;
 }
 
+/* Transparent bar */
 .navbar--bar.navbar--transparent {
   background: transparent;
   border-bottom: none;
@@ -56,91 +54,15 @@
   -webkit-backdrop-filter: blur(8px);
 }
 
+/* Sticky bar */
 .navbar--bar.navbar--sticky {
-  position: sticky;
-  top: 0;
-  z-index: var(--z-navbar, 50);
+  background: var(--surface-default);
 }
 
-/* ===== VARIANT: PILL (Floating Pill Navbar) ===== */
-.navbar--pill {
-  background: transparent;
-  padding: var(--foundation-space-4) var(--foundation-space-6);
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  position: relative;
-  --navbar-pill-height: 80px;
-  min-height: var(--navbar-pill-height);
-}
-
-.navbar--pill .navbar__container {
-  max-width: fit-content;
-  min-width: 600px;
-  background-color: var(--surface-default);
-  border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--border-subtle);
-  padding: var(--foundation-space-3) var(--foundation-space-6);
-  margin: 0 auto;
-  position: relative;
-}
-
-.navbar--pill.navbar--sticky {
-  /* position: sticky; */
-  /* top: var(--foundation-space-4); */
-  /* z-index: var(--z-navbar, 50); */
-  background-color: transparent;
-}
-
-.navbar__pill-spacer {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .navbar--pill {
-    --navbar-pill-height: 64px;
-  }
-  
-  .navbar--pill .navbar__container {
-    min-width: 320px;
-    padding: var(--foundation-space-2) var(--foundation-space-4);
-  }
-  
-  .navbar--pill.navbar--sticky {
-    top: var(--foundation-space-2);
-  }
-}
-
-/* Enhanced glass effect for transparent pill */
-.navbar--pill.navbar--transparent .navbar__container {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-/* Dark mode adjustments for pill */
-@media (prefers-color-scheme: dark) {
-  .navbar--pill.navbar--transparent .navbar__container {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  }
-}
-
-/* ===== WIDTH VARIANTS ===== */
-
-/* BAR width variants - full width header with content constraints */
+/* Width variants for bar */
 .navbar--bar.navbar--width-full .navbar__container {
   max-width: 100%;
-  padding-left: var(--foundation-space-4);
-  padding-right: var(--foundation-space-4);
+  padding: 0 var(--foundation-space-4);
 }
 
 .navbar--bar.navbar--width-content .navbar__container {
@@ -158,7 +80,58 @@
   margin: 0 auto;
 }
 
-/* PILL width variants - floating pill with different sizes */
+/* ===============================================
+   PILL VARIANT (Floating Rounded Navbar)
+   =============================================== */
+.navbar--pill {
+  background: transparent; /* The outer section (page background stays visible) */
+  padding: var(--foundation-space-4) var(--foundation-space-6);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  min-height: 80px;
+}
+
+.navbar--pill .navbar__container {
+  background-color: var(--surface-default); /* Rounded pill background */
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-subtle);
+  padding: var(--foundation-space-3) var(--foundation-space-6);
+  margin: 0 auto;
+  max-width: fit-content;
+  min-width: 600px;
+}
+
+/* Transparent pill — keep shape, remove background */
+.navbar--pill.navbar--transparent .navbar__container {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Sticky pill */
+.navbar--pill.navbar--sticky {
+  top: var(--foundation-space-2);
+}
+
+/* Dark mode transparent pill */
+@media (prefers-color-scheme: dark) {
+  .navbar--pill.navbar--transparent .navbar__container {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Width variants for pill */
 .navbar--pill.navbar--width-full .navbar__container {
   min-width: 70%;
   max-width: calc(100% - var(--foundation-space-8));
@@ -179,25 +152,14 @@
   max-width: 1000px;
 }
 
-/* Responsive adjustments for pill */
-@media (max-width: 768px) {
-  .navbar--pill .navbar__container {
-    min-width: calc(100% - var(--foundation-space-8));
-    max-width: calc(100% - var(--foundation-space-4));
-    margin: 0 var(--foundation-space-2);
-  }
-  
-  .navbar--pill.navbar--sticky {
-    top: var(--foundation-space-2);
-  }
-}
-
-/* ===== BRAND LINK ===== */
+/* ===============================================
+   BRAND + NAV CONTENT
+   =============================================== */
 .navbar__brand-link {
   display: flex;
   align-items: center;
-  padding-left: 0;
   justify-content: flex-start;
+  padding-left: 0;
 }
 
 .navbar__brand-logo {
@@ -211,12 +173,9 @@
   white-space: nowrap;
 }
 
-/* ===== DESKTOP / MOBILE TOGGLE ===== */
 .navbar__desktop-menu {
   display: flex;
   gap: var(--foundation-space-2);
-  transition: margin-right var(--foundation-duration-normal) var(--foundation-ease-out);
-  margin-right: 0;
 }
 
 .navbar__mobile-toggle {
@@ -225,149 +184,86 @@
   justify-content: center;
 }
 
-/* ===== BREAKPOINTS ===== */
-/* — Small (640px) — */
-.navbar--mobile-sm .navbar__desktop-menu { 
-  display: none; 
-}
-.navbar--mobile-sm .navbar__mobile-toggle { 
-  display: flex; 
-}
-
-@media (min-width: 640px) {
-  .navbar--mobile-sm .navbar__desktop-menu { 
-    display: flex; 
-  }
-  .navbar--mobile-sm .navbar__mobile-toggle { 
-    display: none; 
-  }
-}
-
-/* — Medium (768px, default) — */
-.navbar--mobile-md .navbar__desktop-menu { 
-  display: none; 
-}
-.navbar--mobile-md .navbar__mobile-toggle { 
-  display: flex; 
-}
-
-@media (min-width: 768px) {
-  .navbar--mobile-md .navbar__desktop-menu { 
-    display: flex; 
-  }
-  .navbar--mobile-md .navbar__mobile-toggle { 
-    display: none; 
-  }
-}
-
-/* — Large (1024px) — */
-.navbar--mobile-lg .navbar__desktop-menu { 
-  display: none; 
-}
-.navbar--mobile-lg .navbar__mobile-toggle { 
-  display: flex; 
-}
-
-@media (min-width: 1024px) {
-  .navbar--mobile-lg .navbar__desktop-menu { 
-    display: flex; 
-  }
-  .navbar--mobile-lg .navbar__mobile-toggle { 
-    display: none; 
-  }
-}
-
-/* ===== MOBILE MENU CONTENT ===== */
 .navbar__mobile-menu {
   height: 100%;
-  padding: 0;
   display: flex;
   flex-direction: column;
 }
 
-/* ===== RESPONSIVE PADDING ===== */
+/* ===============================================
+   RESPONSIVE + BREAKPOINTS
+   =============================================== */
+
+/* Mobile breakpoints */
+.navbar--mobile-sm .navbar__desktop-menu,
+.navbar--mobile-md .navbar__desktop-menu,
+.navbar--mobile-lg .navbar__desktop-menu {
+  display: none;
+}
+
+.navbar--mobile-sm .navbar__mobile-toggle,
+.navbar--mobile-md .navbar__mobile-toggle,
+.navbar--mobile-lg .navbar__mobile-toggle {
+  display: flex;
+}
+
+@media (min-width: 640px) {
+  .navbar--mobile-sm .navbar__desktop-menu { display: flex; }
+  .navbar--mobile-sm .navbar__mobile-toggle { display: none; }
+}
+
+@media (min-width: 768px) {
+  .navbar--mobile-md .navbar__desktop-menu { display: flex; }
+  .navbar--mobile-md .navbar__mobile-toggle { display: none; }
+}
+
+@media (min-width: 1024px) {
+  .navbar--mobile-lg .navbar__desktop-menu { display: flex; }
+  .navbar--mobile-lg .navbar__mobile-toggle { display: none; }
+}
+
+/* Pill responsive sizes */
+@media (max-width: 768px) {
+  .navbar--pill .navbar__container {
+    min-width: calc(100% - var(--foundation-space-8));
+    max-width: calc(100% - var(--foundation-space-4));
+    padding: var(--foundation-space-2) var(--foundation-space-4);
+    margin: 0 var(--foundation-space-2);
+  }
+}
+
+/* Small screens */
 @media (max-width: 640px) {
   .navbar--bar .navbar__container {
     padding: var(--foundation-space-3) var(--foundation-space-4);
   }
-  
+
   .navbar--pill {
     padding: var(--foundation-space-2) var(--foundation-space-3);
   }
-  
-  .navbar--pill .navbar__container {
-    padding: var(--foundation-space-2) var(--foundation-space-4);
-    min-width: calc(100% - var(--foundation-space-6));
-  }
 }
 
-@media (min-width: 768px) {
-  .navbar--bar .navbar__container {
-    padding: var(--space-navbar-md) var(--space-navbar-lg);
-  }
-  
-  .navbar--pill .navbar__container {
-    padding: var(--foundation-space-3) var(--foundation-space-6);
-  }
-}
-
+/* Larger pill padding */
 @media (min-width: 1024px) {
   .navbar--pill .navbar__container {
     padding: var(--foundation-space-4) var(--foundation-space-8);
   }
 }
 
-/* ===== ACCESSIBILITY ===== */
+/* ===============================================
+   ACCESSIBILITY + PRINT
+   =============================================== */
 @media (prefers-reduced-motion: reduce) {
   .navbar__container {
     transition: none;
   }
 }
 
-/* ===== PRINT ===== */
 @media print {
-  .navbar__mobile-toggle { 
-    display: none; 
+  .navbar__mobile-toggle {
+    display: none;
   }
-  .navbar__desktop-menu { 
-    display: flex; 
+  .navbar__desktop-menu {
+    display: flex;
   }
-}
-
-/* ===============================================
-   FIX — Clean Transparent + Sticky behavior
-   =============================================== */
-
-/* --- BAR variant transparent or sticky --- */
-.navbar--bar.navbar--transparent,
-.navbar--bar.navbar--sticky.navbar--transparent {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-.navbar--bar.navbar--sticky .navbar__container {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* --- PILL variant transparent or sticky --- */
-.navbar--pill.navbar--transparent .navbar__container,
-.navbar--pill.navbar--sticky .navbar__container {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-/* --- Ensure pill layout stays centered even when transparent --- */
-.navbar--pill.navbar--sticky {
-  position: sticky;
-  top: var(--foundation-space-2);
-  z-index: var(--z-navbar, 50);
-  background: transparent !important;
 }
