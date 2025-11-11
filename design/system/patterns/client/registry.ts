@@ -1,5 +1,5 @@
 import { SpinningBanner } from './spinning-banner/SpinningBanner';
-import { MediaPattern } from './media/MediaPattern';
+import { MediaPattern } from './media';
 import { SpinningCarousel } from './spinning-carousel';
 import { Testimonials } from './Testimonials';
 
