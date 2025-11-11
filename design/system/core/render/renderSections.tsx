@@ -87,7 +87,7 @@ export const renderPattern = (pattern: PatternNode, patternKey: string) => {
  * Shell Pattern Renderer - För navbar/footer patterns
  * Använder Container för layout men utan spacing
  */
-export const renderShellPattern = (pattern: PatternNode, patternKey: string, index: number) => {
+export const renderShellPattern = (pattern: PatternNode, patternKey: string, index: number, sectionData?: SectionNode) => {
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
     console.warn(`Unknown pattern type: ${pattern.type}`);
@@ -110,6 +110,7 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, ind
         type={pattern.type}
         props={pattern.props}
         components={pattern.components}
+        section={sectionData} // Pass as 'section' to match Navbar component
       />
     </Container>
   );
@@ -132,7 +133,7 @@ export function renderSection({
     const renderedPatterns = patternOrder
       .map((patternKey, index) => {
         const pattern = patterns[patternKey];
-        return pattern ? renderShellPattern(pattern, patternKey, index) : null;
+        return pattern ? renderShellPattern(pattern, patternKey, index, sectionData) : null;
       })
       .filter(Boolean);
     
