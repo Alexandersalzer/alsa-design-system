@@ -64,7 +64,7 @@ const SectionBody = ({ components = {} }: PatternNode) => {
         <Button
           size="lg"
         >
-          {get('typography', 'primary').content}
+          {get('button', 'primary').content}
         </Button>
       </VStack>
     </Box>
