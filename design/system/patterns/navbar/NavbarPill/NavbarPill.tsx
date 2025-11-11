@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { SectionNode } from '../../../core/types/nodes';
 import { Box, HStack, VStack, Button, TextLink } from '../../../components';
-import { MenuIcon, XIcon } from 'lucide-react';
+import { MenuIcon } from 'lucide-react';
 import { Modal } from '../../../components/overlays/Modal/Modal';
 import './NavbarPill.css';
 
@@ -98,15 +98,15 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
         </Box>
       </nav>
 
-      {/* MODAL OVERLAY MENU */}
+      {/* FULLSCREEN MODAL MENU */}
       <Modal
         isOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
         size="full"
-        title={businessName?.props?.content || 'Menu'}
+        title={businessName?.props?.content || 'Meny'}
         showCloseButton
       >
-        <VStack spacing="lg" align="center" className="navbar-pill__modal-menu">
+        <VStack spacing="xl" align="center" className="navbar-pill__modal-menu">
           {menuItems.map((item: any, i) => (
             <TextLink
               key={i}
@@ -124,7 +124,6 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
                 variant="ghost"
                 href={secondaryAction.props?.href}
                 onClick={() => setMobileOpen(false)}
-                className="navbar-pill__mobile-button"
               >
                 {secondaryAction.props?.content}
               </Button>
@@ -134,7 +133,6 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
                 variant="primary"
                 href={primaryAction.props?.href}
                 onClick={() => setMobileOpen(false)}
-                className="navbar-pill__mobile-button"
               >
                 {primaryAction.props?.content}
               </Button>

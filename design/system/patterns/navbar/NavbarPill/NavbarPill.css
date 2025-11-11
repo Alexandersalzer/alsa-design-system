@@ -4,18 +4,24 @@
   display: flex;
   justify-content: center;
   z-index: 50;
+  background: transparent;
 }
 
 .navbar-pill__container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 90%;
-  max-width: 1200px;
-  background: white;
+  width: var(--width-navbar);
+  background: var(--surface-nav);
+  border: 1px solid var(--border-default);
   border-radius: 9999px;
-  padding: 0.5rem 1rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: var(--space-navbar-sm) var(--space-navbar-md);
+  box-shadow: 0 2px 6px var(--shadow-subtle);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar-pill__container:hover {
+  box-shadow: 0 4px 12px var(--shadow-emphasis);
 }
 
 .navbar-pill__left,
@@ -48,18 +54,19 @@
   font-weight: 600;
   font-size: 1.1rem;
   margin-left: 0.5rem;
-  color: #111;
+  color: var(--text-heading-primary);
   text-decoration: none;
 }
 
 .navbar-pill__content {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--foundation-space-4);
 }
 
 .navbar-pill__mobile-toggle {
   display: none;
+  color: var(--icon-primary);
 }
 
 /* Larger breakpoint for mobile mode */
@@ -77,30 +84,32 @@
   }
 }
 
-/* ===== Modal-specific navbar styles ===== */
+/* ===== Modal styles ===== */
 .navbar-pill__modal-menu {
   width: 100%;
   align-items: center;
   justify-content: center;
   height: 100%;
   text-align: center;
-  padding-top: 3rem;
+  background: var(--surface-page);
+  color: var(--text-heading-primary);
+  padding-top: var(--foundation-space-8);
 }
 
 .navbar-pill__modal-link {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #111;
+  color: var(--text-nav-item);
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
 .navbar-pill__modal-link:hover {
-  opacity: 0.7;
+  color: var(--text-nav-item-selected);
 }
 
 .navbar-pill__modal-actions {
   width: 100%;
   max-width: 400px;
-  margin-top: 2rem;
+  margin-top: var(--foundation-space-10);
 }
