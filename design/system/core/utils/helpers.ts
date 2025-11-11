@@ -3,7 +3,7 @@
 // Utility functions for working with components in patterns
 // ===============================================
 
-import { ComponentNode } from '../types/nodes';
+import { ComponentNode, PatternNode } from '../types/nodes';
 
 /**
  * Get content from the first component with a specific type and optional role
@@ -30,5 +30,22 @@ export const getComponentProps = (
 export const useComponentProps = (components: Record<string, ComponentNode>) => {
   return (type: string, role?: string, fallback: Record<string, any> = {}) => {
     return getComponentProps(components, type, role, fallback);
+  };
+};
+
+/**
+ * Get props from a pattern
+ * Returns the props object or a fallback value
+ */
+export const getPatternProps = (
+  pattern: PatternNode,
+  fallback: Record<string, any> = {}
+): Record<string, any> => {
+  return pattern?.props || fallback;
+};
+
+export const usePatternProps = (pattern: PatternNode) => {
+  return (fallback: Record<string, any> = {}) => {
+    return getPatternProps(pattern, fallback);
   };
 };

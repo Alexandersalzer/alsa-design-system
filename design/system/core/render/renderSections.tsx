@@ -4,6 +4,7 @@ import { Section } from '../../components/frames/section/Section';
 import { Container } from '../../components';
 import { patternRegistry } from '../../patterns/registry';
 import { SectionNode, PatternNode } from '../types/nodes';
+import { getPatternProps } from '../utils/helpers';
 
 /**
  * Props for Sections component
@@ -24,15 +25,15 @@ export const renderPattern = (pattern: PatternNode, patternKey: string) => {
     return null;
   }
 
-  // Hämta useMediaWidth från props istället för settings
-  const useMediaWidth = pattern.props?.useMediaWidth ?? false;
+  // Hämta useMediaWidth från props med getPatternProps
+  const patternProps = getPatternProps(pattern);
 
   return (
     <Container 
       key={patternKey}
       align="center"
       height="auto"
-      useMediaWidth={useMediaWidth}
+      useMediaWidth={patternProps.useMediaWidth || false}
     >
       <PatternComponent 
         type={pattern.type}
@@ -55,8 +56,8 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, ind
     return null;
   }
 
-  // Hämta useMediaWidth från props
-  const useMediaWidth = pattern.props?.useMediaWidth ?? false;
+  // Hämta useMediaWidth från props med getPatternProps
+  const patternProps = getPatternProps(pattern);
 
   // Container för layout men utan padding för shell patterns
   return (
@@ -64,8 +65,8 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, ind
       key={`${patternKey}-${index}`}
       align="center"
       height="auto"
-      useMediaWidth={useMediaWidth}
-      noPadding={true} // Ingen vertical padding för navbar/footer
+      useMediaWidth={patternProps.useMediaWidth || false}
+      noPadding={false} // Ingen vertical padding för navbar/footer
     >
       <PatternComponent 
         type={pattern.type}
@@ -82,7 +83,7 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, ind
 export function renderSection(sectionData: SectionNode, sectionKey: string): React.ReactNode {
   if (!sectionData?.patterns) return null;
 
-  const { type, patterns, order, props: sectionProps } = sectionData;
+  const { type, patterns, order } = sectionData;
   const patternOrder = order || Object.keys(patterns);
   
   // Render all patterns for regular sections
