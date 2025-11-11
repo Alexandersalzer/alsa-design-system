@@ -49,8 +49,8 @@ const NavbarBar = ({ section }: NavbarBarProps) => {
           )}
         </HStack>
 
-        {/* CENTER + RIGHT CONTENT (hidden on mobile) */}
-        <div className={`navbar-bar__content ${mobileOpen ? 'is-open' : ''}`}>
+        {/* DESKTOP CONTENT */}
+        <div className="navbar-bar__content">
           {menuItems.length > 0 && (
             <HStack className={`navbar-bar__middle navbar-bar__middle--${align}`} spacing="lg">
               {menuItems.map((item: any, i) => (
@@ -75,7 +75,7 @@ const NavbarBar = ({ section }: NavbarBarProps) => {
           </HStack>
         </div>
 
-        {/* MOBILE TOGGLE (always visible on mobile) */}
+        {/* MOBILE TOGGLE */}
         <Button
           variant="ghost"
           size="md"
@@ -100,11 +100,12 @@ const NavbarBar = ({ section }: NavbarBarProps) => {
               {item.props?.content}
             </TextLink>
           ))}
+
           <VStack spacing="sm" className="navbar-bar__mobile-actions">
             {secondaryAction && (
-              <Button 
-                variant="ghost" 
-                href={secondaryAction.props?.href} 
+              <Button
+                variant="ghost"
+                href={secondaryAction.props?.href}
                 onClick={() => setMobileOpen(false)}
                 className="navbar-bar__mobile-button"
               >
@@ -112,9 +113,9 @@ const NavbarBar = ({ section }: NavbarBarProps) => {
               </Button>
             )}
             {primaryAction && (
-              <Button 
-                variant="primary" 
-                href={primaryAction.props?.href} 
+              <Button
+                variant="primary"
+                href={primaryAction.props?.href}
                 onClick={() => setMobileOpen(false)}
                 className="navbar-bar__mobile-button"
               >

@@ -1,5 +1,5 @@
 /* =====================================================
-   NavbarBar.css — Clean Sticky Bar Header
+   NavbarBar.css — Clean Sticky Bar Header (Aligned + Responsive)
    ===================================================== */
 
 .navbar-bar {
@@ -21,9 +21,21 @@
   max-width: var(--width-content);
   margin: 0 auto;
   padding: var(--foundation-space-3) var(--foundation-space-6);
+  position: relative;
 }
 
-/* Left / Middle / Right groups */
+/* --- CONTENT WRAPPER --- */
+.navbar-bar__content {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex: 1;
+  justify-content: flex-end;
+  gap: var(--foundation-space-4);
+  position: static;
+}
+
+/* Groups */
 .navbar-bar__left,
 .navbar-bar__middle,
 .navbar-bar__right {
@@ -41,12 +53,8 @@
   gap: var(--foundation-space-4);
 }
 
-.navbar-bar__middle--left {
-  justify-content: flex-start;
-}
-.navbar-bar__middle--right {
-  justify-content: flex-end;
-}
+.navbar-bar__middle--left { justify-content: flex-start; }
+.navbar-bar__middle--right { justify-content: flex-end; }
 
 .navbar-bar__right {
   gap: var(--foundation-space-2);
@@ -76,17 +84,6 @@
   border: none;
 }
 
-/* Interactions */
-.navbar-bar a,
-.navbar-bar button {
-  transition: all 0.2s ease;
-}
-
-.navbar-bar a:hover,
-.navbar-bar button:hover {
-  opacity: 0.8;
-}
-
 /* Transparent variant */
 .navbar-bar--transparent {
   background: transparent;
@@ -95,23 +92,7 @@
   -webkit-backdrop-filter: blur(8px);
 }
 
-/* Smooth animation for mobile dropdown */
-.navbar-bar__content.is-open {
-  animation: fadeSlideDown 0.2s ease-out;
-}
-
-@keyframes fadeSlideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Mobile responsiveness */
+/* --- MOBILE LAYOUT --- */
 @media (max-width: 768px) {
   .navbar-bar__content {
     display: none;
@@ -121,40 +102,37 @@
     display: inline-flex;
   }
 
-  .navbar-bar__mobile-menu {
+  .navbar-bar__content.is-open {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     width: 100%;
     background: var(--surface-default, #fff);
+    position: absolute;
+    top: 100%;
+    left: 0;
     border-top: 1px solid var(--border-default);
     padding: var(--foundation-space-4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 49;
+    animation: fadeSlideDown 0.2s ease-out;
+  }
+
+  .navbar-bar__middle,
+  .navbar-bar__right {
+    flex-direction: column;
+    align-items: flex-start;
     gap: var(--foundation-space-3);
-  }
-
-  .navbar-bar__mobile-link {
-    display: block;
-    padding: var(--foundation-space-2) 0;
-    text-decoration: none;
-    color: var(--text-default);
-    font-size: var(--typography-body-normal-size);
-    border-bottom: 1px solid var(--border-subtle);
-  }
-
-  .navbar-bar__mobile-link:last-of-type {
-    border-bottom: none;
-  }
-
-  .navbar-bar__mobile-actions {
-    margin-top: var(--foundation-space-3);
-    gap: var(--foundation-space-2);
-  }
-
-  .navbar-bar__mobile-button {
     width: 100%;
-    justify-content: center;
   }
 
   .navbar-bar__container {
     padding: var(--foundation-space-3) var(--foundation-space-4);
   }
+}
+
+/* Animation */
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
