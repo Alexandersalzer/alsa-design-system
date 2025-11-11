@@ -1,0 +1,269 @@
+/* ===============================================
+   Navbar.css — Clean Universal Navbar Pattern
+   =============================================== */
+
+/* ===== BASE NAVBAR ===== */
+.navbar {
+  position: relative;
+  width: 100%;
+  z-index: var(--z-navbar, 50);
+}
+
+.navbar__container {
+  width: 100%;
+  padding: var(--space-navbar);
+  overflow: visible;
+  position: relative;
+  transition: all var(--foundation-duration-normal) var(--foundation-ease-out);
+}
+
+.navbar__content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ===== STICKY VARIANT ===== */
+.navbar--sticky {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-navbar, 50);
+}
+
+/* ===============================================
+   BAR VARIANT (Traditional Header Navbar)
+   =============================================== */
+.navbar--bar {
+  background: var(--surface-default);
+  border-bottom: 1px solid var(--border-default);
+  width: 100%;
+}
+
+.navbar--bar .navbar__container {
+  width: 100%;
+  padding: var(--space-navbar-md) var(--space-navbar-lg);
+  margin: 0 auto;
+}
+
+/* Transparent bar */
+.navbar--bar.navbar--transparent {
+  background: transparent;
+  border-bottom: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Sticky bar */
+.navbar--bar.navbar--sticky {
+  background: var(--surface-default);
+}
+
+/* Width variants for bar */
+.navbar--bar.navbar--width-full .navbar__container {
+  max-width: 100%;
+  padding: 0 var(--foundation-space-4);
+}
+
+.navbar--bar.navbar--width-content .navbar__container {
+  max-width: var(--width-content);
+  margin: 0 auto;
+}
+
+.navbar--bar.navbar--width-narrow .navbar__container {
+  max-width: var(--foundation-layout-sm-content);
+  margin: 0 auto;
+}
+
+.navbar--bar.navbar--width-wide .navbar__container {
+  max-width: var(--foundation-layout-xl-content);
+  margin: 0 auto;
+}
+
+/* ===============================================
+   PILL VARIANT (Floating Rounded Navbar)
+   =============================================== */
+.navbar--pill {
+  background: transparent; /* The outer section (page background stays visible) */
+  padding: var(--foundation-space-4) var(--foundation-space-6);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  min-height: 80px;
+}
+
+.navbar--pill .navbar__container {
+  background-color: var(--surface-default); /* Rounded pill background */
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-subtle);
+  padding: var(--foundation-space-3) var(--foundation-space-6);
+  margin: 0 auto;
+  max-width: fit-content;
+  min-width: 600px;
+}
+
+/* Transparent pill — keep shape, remove background */
+.navbar--pill.navbar--transparent .navbar__container {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Sticky pill */
+.navbar--pill.navbar--sticky {
+  top: var(--foundation-space-2);
+}
+
+/* Dark mode transparent pill */
+@media (prefers-color-scheme: dark) {
+  .navbar--pill.navbar--transparent .navbar__container {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Width variants for pill */
+.navbar--pill.navbar--width-full .navbar__container {
+  min-width: 70%;
+  max-width: calc(100% - var(--foundation-space-8));
+}
+
+.navbar--pill.navbar--width-content .navbar__container {
+  min-width: 600px;
+  max-width: 800px;
+}
+
+.navbar--pill.navbar--width-narrow .navbar__container {
+  min-width: 400px;
+  max-width: 600px;
+}
+
+.navbar--pill.navbar--width-wide .navbar__container {
+  min-width: 800px;
+  max-width: 1000px;
+}
+
+/* ===============================================
+   BRAND + NAV CONTENT
+   =============================================== */
+.navbar__brand-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 0;
+}
+
+.navbar__brand-logo {
+  margin-right: var(--foundation-space-2);
+}
+
+.navbar__brand-name {
+  font-family: var(--font-family-brand);
+  font-weight: var(--font-weight-extrabold);
+  font-size: var(--typography-heading-h4-size);
+  white-space: nowrap;
+}
+
+.navbar__desktop-menu {
+  display: flex;
+  gap: var(--foundation-space-2);
+}
+
+.navbar__mobile-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__mobile-menu {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===============================================
+   RESPONSIVE + BREAKPOINTS
+   =============================================== */
+
+/* Mobile breakpoints */
+.navbar--mobile-sm .navbar__desktop-menu,
+.navbar--mobile-md .navbar__desktop-menu,
+.navbar--mobile-lg .navbar__desktop-menu {
+  display: none;
+}
+
+.navbar--mobile-sm .navbar__mobile-toggle,
+.navbar--mobile-md .navbar__mobile-toggle,
+.navbar--mobile-lg .navbar__mobile-toggle {
+  display: flex;
+}
+
+@media (min-width: 640px) {
+  .navbar--mobile-sm .navbar__desktop-menu { display: flex; }
+  .navbar--mobile-sm .navbar__mobile-toggle { display: none; }
+}
+
+@media (min-width: 768px) {
+  .navbar--mobile-md .navbar__desktop-menu { display: flex; }
+  .navbar--mobile-md .navbar__mobile-toggle { display: none; }
+}
+
+@media (min-width: 1024px) {
+  .navbar--mobile-lg .navbar__desktop-menu { display: flex; }
+  .navbar--mobile-lg .navbar__mobile-toggle { display: none; }
+}
+
+/* Pill responsive sizes */
+@media (max-width: 768px) {
+  .navbar--pill .navbar__container {
+    min-width: calc(100% - var(--foundation-space-8));
+    max-width: calc(100% - var(--foundation-space-4));
+    padding: var(--foundation-space-2) var(--foundation-space-4);
+    margin: 0 var(--foundation-space-2);
+  }
+}
+
+/* Small screens */
+@media (max-width: 640px) {
+  .navbar--bar .navbar__container {
+    padding: var(--foundation-space-3) var(--foundation-space-4);
+  }
+
+  .navbar--pill {
+    padding: var(--foundation-space-2) var(--foundation-space-3);
+  }
+}
+
+/* Larger pill padding */
+@media (min-width: 1024px) {
+  .navbar--pill .navbar__container {
+    padding: var(--foundation-space-4) var(--foundation-space-8);
+  }
+}
+
+/* ===============================================
+   ACCESSIBILITY + PRINT
+   =============================================== */
+@media (prefers-reduced-motion: reduce) {
+  .navbar__container {
+    transition: none;
+  }
+}
+
+@media print {
+  .navbar__mobile-toggle {
+    display: none;
+  }
+  .navbar__desktop-menu {
+    display: flex;
+  }
+}

@@ -22,7 +22,7 @@ const Navbar = ({ section }: NavbarProps) => {
   const renderedPatterns = patternOrder
     .map((patternKey, patternIndex) => {
       const pattern = patterns[patternKey];
-      return pattern ? renderShellPattern(pattern, patternKey, patternIndex) : null;
+      return pattern ? renderShellPattern(navbarSection, pattern, patternKey, patternIndex) : null;
     })
     .filter(Boolean);
   
@@ -39,7 +39,6 @@ const Navbar = ({ section }: NavbarProps) => {
         borderBottom: '1px solid var(--border-light)',
         paddingTop: '0',
         paddingBottom: '0',
-        height: 'var(--navbar-height)'
       }}
     >
       {renderedPatterns}

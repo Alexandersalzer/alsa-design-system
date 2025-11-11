@@ -1,1 +1,0 @@
-export { SpinningBannerWTitle } from './SpinningBannerWTitle'; 

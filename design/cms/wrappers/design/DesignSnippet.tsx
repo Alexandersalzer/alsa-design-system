@@ -6,24 +6,38 @@ import { getDesignConfig } from "./designLoader";
  * Injects design tokens dynamically into <head>.
  */
 export function buildCssVars(design: DesignJson): string {
-  const radius          = design?.globalStyles?.radius          || "md";
-  const accentColor     = design?.globalStyles?.accentColor     || "purple";
-  const isDark          = design?.globalStyles?.isDark          ?? false;
-  const fontPrimary     = design?.globalStyles?.fontPrimary     || "Sora";
-  const layoutContent   = design?.globalStyles?.layoutContent   || "md";
-  const layoutMedia     = design?.globalStyles?.layoutMedia     || "xl";
-  const sectionSpacing  = design?.globalStyles?.sectionSpacing  || "md";
-  const containerSpacing = design?.globalStyles?.containerSpacing || "md"; // ✅ NEW
+  const radius           = design?.globalStyles?.radius           || "md";
+  const accentColor      = design?.globalStyles?.accentColor      || "purple";
+  const isDark           = design?.globalStyles?.isDark           ?? false;
+  const themeTone        = design?.globalStyles?.themeTone        || "neutral";
+  const fontPrimary      = design?.globalStyles?.fontPrimary      || "Sora";
+  const fontSecondary    = design?.globalStyles?.fontSecondary    || fontPrimary;
+  const fontWeightScale  = design?.globalStyles?.fontWeightScale  || "regular";
+  const layoutContent    = design?.globalStyles?.layoutContent    || "md";
+  const layoutMedia      = design?.globalStyles?.layoutMedia      || "xl";
+  const sectionSpacing   = design?.globalStyles?.sectionSpacing   || "md";
+  const containerSpacing = design?.globalStyles?.containerSpacing || "md";
+  const navbarSpacing    = design?.globalStyles?.navbarSpacing    || "md";
+  const formWidth        = design?.globalStyles?.formWidth        || "sm";  // ← NEW
+  const typographyScale  = design?.globalStyles?.typographyScale  || "md";
 
-  const fontWeights = "400;600;700;800";
-  const fontUrl = `https://fonts.googleapis.com/css2?family=${fontPrimary.replace(/\s/g, '+')}:wght@${fontWeights}&display=swap`;
+  const fontWeights = "300;400;500;600;700;800;900";
+  const fontsToImport = [fontPrimary, fontSecondary]
+    .filter((f, i, arr) => arr.indexOf(f) === i)
+    .map(f => `family=${f.replace(/\s/g, '+')}:wght@${fontWeights}`)
+    .join('&');
+  const fontUrl = `https://fonts.googleapis.com/css2?${fontsToImport}&display=swap`;
 
   const isInverseAccent = accentColor === "inverse";
 
   return `
     @import url('${fontUrl}');
     :root {
-      /* ===== Radius (selected scale) ===== */
+      /* ===== FONTS ===== */
+      --font-primary-name: '${fontPrimary}';
+      --font-secondary-name: '${fontSecondary}';
+
+      /* ===== Radius ===== */
       --selected-radius-scale-none: var(--foundation-radius-${radius}-none);
       --selected-radius-scale-xs:   var(--foundation-radius-${radius}-xs);
       --selected-radius-scale-sm:   var(--foundation-radius-${radius}-sm);
@@ -33,51 +47,68 @@ export function buildCssVars(design: DesignJson): string {
       --selected-radius-scale-2xl:  var(--foundation-radius-${radius}-2xl);
       --selected-radius-scale-full: var(--foundation-radius-${radius}-full);
 
-      /* ===== Layout widths (selected scale) ===== */
+      /* ===== Layout widths ===== */
       --selected-layout-scale-content: var(--foundation-layout-${layoutContent}-content);
       --selected-layout-scale-media:   var(--foundation-layout-${layoutMedia}-media);
+      
+      /* ===== Form width ===== */
+      --selected-form-width: var(--foundation-form-${formWidth}-width);
 
-      /* ===== Section spacing (selected scale) ===== */
-      --selected-section-spacing: var(--foundation-section-spacing-${sectionSpacing});
-
-      /* ===== Container spacing (selected scale) ===== */
+      /* ===== Spacing ===== */
+      --selected-section-spacing:   var(--foundation-section-spacing-${sectionSpacing});
       --selected-container-spacing: var(--foundation-container-spacing-${containerSpacing});
+      --selected-navbar-spacing:    var(--foundation-navbar-spacing-${navbarSpacing});
 
+      /* ===== Accent ===== */
       ${isInverseAccent ? `
-      /* ===== Inverse Accent (uses existing --secondary-* scale) ===== */
-      --accent-100:  var(--secondary-100);
-      --accent-200:  var(--secondary-200);
-      --accent-300:  var(--secondary-300);
-      --accent-400:  var(--secondary-400);
-      --accent-500:  var(--secondary-500);
-      --accent-600:  var(--secondary-600);
-      --accent-700:  var(--secondary-700);
-      --accent-800:  var(--secondary-800);
-      --accent-900:  var(--secondary-900);
-      --accent-950:  var(--secondary-900);
-      --accent-1000: var(--secondary-900);
-      --accent-1100: var(--secondary-900);
-      --accent-1200: var(--secondary-900);
+        --accent-100: var(--secondary-100);
+        --accent-200: var(--secondary-200);
+        --accent-300: var(--secondary-300);
+        --accent-400: var(--secondary-400);
+        --accent-500: var(--secondary-500);
+        --accent-600: var(--secondary-1200);
+        --accent-700: var(--secondary-1100);
+        --accent-800: var(--secondary-1000);
+        --accent-900: var(--secondary-900);
       ` : `
-      /* ===== Accent color scale (overrides semantic colors.css) ===== */
-      --accent-100:  var(--foundation-${accentColor}-100);
-      --accent-200:  var(--foundation-${accentColor}-200);
-      --accent-300:  var(--foundation-${accentColor}-300);
-      --accent-400:  var(--foundation-${accentColor}-400);
-      --accent-500:  var(--foundation-${accentColor}-500);
-      --accent-600:  var(--foundation-${accentColor}-600);
-      --accent-700:  var(--foundation-${accentColor}-700);
-      --accent-800:  var(--foundation-${accentColor}-800);
-      --accent-900:  var(--foundation-${accentColor}-900);
-      --accent-950:  var(--foundation-${accentColor}-950);
-      --accent-1000: var(--foundation-${accentColor}-1000);
-      --accent-1100: var(--foundation-${accentColor}-1100);
-      --accent-1200: var(--foundation-${accentColor}-1200);
+        --accent-100: var(--foundation-${accentColor}-100);
+        --accent-200: var(--foundation-${accentColor}-200);
+        --accent-300: var(--foundation-${accentColor}-300);
+        --accent-400: var(--foundation-${accentColor}-400);
+        --accent-500: var(--foundation-${accentColor}-500);
+        --accent-600: var(--foundation-${accentColor}-600);
+        --accent-700: var(--foundation-${accentColor}-700);
+        --accent-800: var(--foundation-${accentColor}-800);
+        --accent-900: var(--foundation-${accentColor}-900);
       `}
 
-      /* ===== Theme & font ===== */
+      /* ===== Typography scale ===== */
+      --selected-font-size-xs:   var(--foundation-typography-${typographyScale}-xs);
+      --selected-font-size-sm:   var(--foundation-typography-${typographyScale}-sm);
+      --selected-font-size-base: var(--foundation-typography-${typographyScale}-base);
+      --selected-font-size-lg:   var(--foundation-typography-${typographyScale}-lg);
+      --selected-font-size-xl:   var(--foundation-typography-${typographyScale}-xl);
+      --selected-font-size-2xl:  var(--foundation-typography-${typographyScale}-2xl);
+      --selected-font-size-3xl:  var(--foundation-typography-${typographyScale}-3xl);
+      --selected-font-size-4xl:  var(--foundation-typography-${typographyScale}-4xl);
+      --selected-font-size-5xl:  var(--foundation-typography-${typographyScale}-5xl);
+      --selected-font-size-6xl:  var(--foundation-typography-${typographyScale}-6xl);
+      --selected-font-size-7xl:  var(--foundation-typography-${typographyScale}-7xl);
+
+      /* ===== Line height scale ===== */
+      --selected-leading-tight:   var(--foundation-typography-${typographyScale}-leading-tight);
+      --selected-leading-snug:    var(--foundation-typography-${typographyScale}-leading-snug);
+      --selected-leading-normal:  var(--foundation-typography-${typographyScale}-leading-normal);
+      --selected-leading-relaxed: var(--foundation-typography-${typographyScale}-leading-relaxed);
+      --selected-leading-loose:   var(--foundation-typography-${typographyScale}-leading-loose);
+
+      /* ===== Font weight scale ===== */
+      --selected-font-weight-heading: var(--foundation-weightscale-${fontWeightScale}-heading);
+      --selected-font-weight-body:    var(--foundation-weightscale-${fontWeightScale}-body);
+      --selected-font-weight-label:   var(--foundation-weightscale-${fontWeightScale}-label);
+
+      /* ===== Theme ===== */
       --is-dark: ${isDark ? 1 : 0};
-      --font-primary-name: '${fontPrimary}';
     }
   `.trim();
 }
@@ -88,8 +119,23 @@ export function buildCssVars(design: DesignJson): string {
  * 
  * @returns CSS string redo att injectas i <style> tag
  */
-export async function designSnippet(): Promise<string> {
+/**
+ * Returns both CSS and theme metadata
+ */
+export async function designSnippet(): Promise<{ css: string; themeTone: string; isDark: boolean }> {
   const designConfig = await getDesignConfig();
-  const designCss = buildCssVars(designConfig);
-  return designCss;
+  const themeTone = designConfig?.globalStyles?.themeTone || "neutral";
+  const isDark = designConfig?.globalStyles?.isDark ?? false;
+  const css = buildCssVars(designConfig);
+  
+  return { css, themeTone, isDark };
+}
+
+/**
+ * Helper to get themeTone for setting HTML attribute
+ * Export this so it can be used in layouts
+ */
+export async function getThemeTone(): Promise<string> {
+  const designConfig = await getDesignConfig();
+  return designConfig?.globalStyles?.themeTone || "neutral";
 }

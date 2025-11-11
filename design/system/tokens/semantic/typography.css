@@ -1,88 +1,124 @@
 /* ==============================================
-   src/design-system/tokens/semantic/typography.css
-   TYPOGRAPHY TOKENS - Updated for theme compatibility
+   TYPOGRAPHY TOKENS (Semantic)
+   Dynamically adapt to selected typography scale
    ============================================== */
 
 :root {
-  /* ===== HEADING TOKENS ===== */
+  /* =========================================================
+     1. HEADING TOKENS
+     ========================================================= */
   --font-heading-family: var(--foundation-font-primary);
-  --font-heading-weight: var(--foundation-weight-bold);
-  --text-heading-color: var(--text-primary);  /* 🎯 FIXED: Use semantic text token */
-  
-  /* Display Sizes */
-  --font-display-xl-size: var(--foundation-size-6xl);
-  --font-display-xl-leading: var(--foundation-leading-tight);
-  --font-display-lg-size: var(--foundation-size-5xl);
-  --font-display-lg-leading: var(--foundation-leading-tight);
-  --font-display-md-size: var(--foundation-size-4xl);
-  --font-display-md-leading: var(--foundation-leading-tight);
-  --font-display-sm-size: var(--foundation-size-3xl);
-  --font-display-sm-leading: var(--foundation-leading-snug);
-  
-  /* Heading Sizes */
-  --font-h1-size: var(--foundation-size-3xl);
-  --font-h1-leading: var(--foundation-leading-tight);
-  --font-h2-size: var(--foundation-size-2xl);
-  --font-h2-leading: var(--foundation-leading-tight);
-  --font-h3-size: var(--foundation-size-xl);
-  --font-h3-leading: var(--foundation-leading-snug);
-  --font-h4-size: var(--foundation-size-lg);
-  --font-h4-leading: var(--foundation-leading-snug);
-  --font-h5-size: var(--foundation-size-base);
-  --font-h5-leading: var(--foundation-leading-normal);
-  --font-h6-size: var(--foundation-size-sm);
-  --font-h6-leading: var(--foundation-leading-normal);
-  
-  /* ===== BODY TEXT TOKENS ===== */
+  --font-heading-weight: var(--selected-font-weight-heading);
+  --text-heading-color: var(--text-primary);
+
+  /* =========================================================
+     2. BODY TOKENS
+     ========================================================= */
   --font-body-family: var(--foundation-font-secondary);
-  --font-body-weight: var(--foundation-weight-regular);
-  --text-body-color: var(--text-secondary);  /* 🎯 FIXED: Use semantic text token */
-  
-  /* Body Sizes */
-  --font-body-xl-size: var(--foundation-size-xl);
-  --font-body-xl-leading: var(--foundation-leading-relaxed);
-  --font-body-lg-size: var(--foundation-size-lg);
-  --font-body-lg-leading: var(--foundation-leading-relaxed);
-  --font-body-md-size: var(--foundation-size-base);
-  --font-body-md-leading: var(--foundation-leading-normal);
-  --font-body-sm-size: var(--foundation-size-sm);
-  --font-body-sm-leading: var(--foundation-leading-normal);
-  --font-body-xs-size: var(--foundation-size-xs);
-  --font-body-xs-leading: var(--foundation-leading-normal);
-  
-  /* ===== LABEL TOKENS ===== */
+  --font-body-weight: var(--selected-font-weight-body);
+  --text-body-color: var(--text-secondary);
+
+  /* =========================================================
+     3. LABEL TOKENS
+     ========================================================= */
   --font-label-family: var(--foundation-font-secondary);
-  --font-label-weight: var(--foundation-weight-bold);
-  --text-label-color: var(--text-primary);  /* 🎯 FIXED: Use semantic text token */
-  
-  /* Label Sizes */
-  --font-label-lg-size: var(--foundation-size-lg);
-  --font-label-lg-leading: var(--foundation-leading-normal);
-  --font-label-md-size: var(--foundation-size-base);
-  --font-label-md-leading: var(--foundation-leading-normal);
-  --font-label-sm-size: var(--foundation-size-sm);
-  --font-label-sm-leading: var(--foundation-leading-normal);
-  --font-label-xs-size: var(--foundation-size-xs);
-  --font-label-xs-leading: var(--foundation-leading-normal);
-  
-  /* ===== CODE/MONO TOKENS ===== */
+  --font-label-weight: var(--selected-font-weight-label);
+  --text-label-color: var(--text-primary);
+
+  /* =========================================================
+     4. CODE / MONO TOKENS
+     ========================================================= */
   --font-code-family: var(--foundation-font-mono);
   --font-code-weight: var(--foundation-weight-regular);
-  --text-code-color: var(--text-primary);  /* 🎯 FIXED: Use semantic text token */
-  --surface-code-inline: var(--surface-card-hover);  /* 🎯 FIXED: Use semantic surface token */
-  --surface-code-component: var(--surface-card);  /* 🎯 FIXED: Use semantic surface token */
-  --border-code-component: var(--border-default);  /* 🎯 FIXED: Use semantic border token */
-  
-  /* Code Sizes */
-  --font-code-lg-size: var(--foundation-size-base);
-  --font-code-lg-leading: var(--foundation-leading-normal);
-  --font-code-md-size: var(--foundation-size-sm);
-  --font-code-md-leading: var(--foundation-leading-normal);
-  --font-code-sm-size: var(--foundation-size-xs);
-  --font-code-sm-leading: var(--foundation-leading-normal);
-  
-  /* ===== ADDITIONAL TEXT VARIANTS ===== */
-  /* These provide more granular control for components */
+  --text-code-color: var(--text-primary);
+  --surface-code-inline: var(--surface-card-hover);
+  --surface-code-component: var(--surface-card);
+  --border-code-component: var(--border-default);
+
+  /* =========================================================
+     5. DISPLAY SIZES
+     ========================================================= */
+  --font-display-xl-size: var(--selected-font-size-6xl);
+  --font-display-xl-leading: var(--selected-leading-tight);
+
+  --font-display-lg-size: var(--selected-font-size-5xl);
+  --font-display-lg-leading: var(--selected-leading-tight);
+
+  --font-display-md-size: var(--selected-font-size-4xl);
+  --font-display-md-leading: var(--selected-leading-tight);
+
+  --font-display-sm-size: var(--selected-font-size-3xl);
+  --font-display-sm-leading: var(--selected-leading-snug);
+
+  /* =========================================================
+     6. HEADING SIZES
+     ========================================================= */
+  --font-h1-size: var(--selected-font-size-3xl);
+  --font-h1-leading: var(--selected-leading-tight);
+
+  --font-h2-size: var(--selected-font-size-2xl);
+  --font-h2-leading: var(--selected-leading-tight);
+
+  --font-h3-size: var(--selected-font-size-xl);
+  --font-h3-leading: var(--selected-leading-snug);
+
+  --font-h4-size: var(--selected-font-size-lg);
+  --font-h4-leading: var(--selected-leading-snug);
+
+  --font-h5-size: var(--selected-font-size-base);
+  --font-h5-leading: var(--selected-leading-normal);
+
+  --font-h6-size: var(--selected-font-size-sm);
+  --font-h6-leading: var(--selected-leading-normal);
+
+  /* =========================================================
+     7. BODY SIZES
+     ========================================================= */
+  --font-body-xl-size: var(--selected-font-size-xl);
+  --font-body-xl-leading: var(--selected-leading-relaxed);
+
+  --font-body-lg-size: var(--selected-font-size-lg);
+  --font-body-lg-leading: var(--selected-leading-relaxed);
+
+  --font-body-md-size: var(--selected-font-size-base);
+  --font-body-md-leading: var(--selected-leading-normal);
+
+  --font-body-sm-size: var(--selected-font-size-sm);
+  --font-body-sm-leading: var(--selected-leading-normal);
+
+  --font-body-xs-size: var(--selected-font-size-xs);
+  --font-body-xs-leading: var(--selected-leading-normal);
+
+  /* =========================================================
+     8. LABEL SIZES
+     ========================================================= */
+  --font-label-lg-size: var(--selected-font-size-lg);
+  --font-label-lg-leading: var(--selected-leading-normal);
+
+  --font-label-md-size: var(--selected-font-size-base);
+  --font-label-md-leading: var(--selected-leading-normal);
+
+  --font-label-sm-size: var(--selected-font-size-sm);
+  --font-label-sm-leading: var(--selected-leading-normal);
+
+  --font-label-xs-size: var(--selected-font-size-xs);
+  --font-label-xs-leading: var(--selected-leading-normal);
+
+  /* =========================================================
+     9. CODE SIZES
+     ========================================================= */
+  --font-code-lg-size: var(--selected-font-size-base);
+  --font-code-lg-leading: var(--selected-leading-normal);
+
+  --font-code-md-size: var(--selected-font-size-sm);
+  --font-code-md-leading: var(--selected-leading-normal);
+
+  --font-code-sm-size: var(--selected-font-size-xs);
+  --font-code-sm-leading: var(--selected-leading-normal);
+
+  /* =========================================================
+     10. ADDITIONAL TEXT VARIANTS
+     ========================================================= */
   --text-caption: var(--text-tertiary);
   --text-overline: var(--text-secondary);
   --text-subtitle: var(--text-secondary);

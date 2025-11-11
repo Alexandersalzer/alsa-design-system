@@ -1,105 +1,80 @@
 /* ==============================================
    src/design-system/tokens/foundation/layout.css
-   LAYOUT WIDTH TOKENS - FOCUSED ON 1000-1800px
+   LAYOUT + FORM WIDTH TOKENS (Compressed Version)
    ============================================== */
+
 :root {
   /* ===== WIDTH SCALE: XS (Extra Small) ===== */
-  --foundation-layout-xs-content: 64rem;    /* 1024px - content */
-  --foundation-layout-xs-media: 80rem;      /* 1280px - media */
-  
+  --foundation-layout-xs-content: 58rem;   /* 928px  */
+  --foundation-layout-xs-media:   72rem;   /* 1152px */
+  --foundation-form-xs-width:     20rem;   /* 320px  */
+
   /* ===== WIDTH SCALE: SM (Small) ===== */
-  --foundation-layout-sm-content: 70rem;    /* 1120px - content */
-  --foundation-layout-sm-media: 86rem;      /* 1376px - media */
-  
+  --foundation-layout-sm-content: 64rem;   /* 1024px */
+  --foundation-layout-sm-media:   78rem;   /* 1248px */
+  --foundation-form-sm-width:     26rem;   /* 416px  */
+
   /* ===== WIDTH SCALE: MD (Medium) ===== */
-  --foundation-layout-md-content: 76rem;    /* 1216px - content */
-  --foundation-layout-md-media: 92rem;      /* 1472px - media */
-  
-  /* ===== WIDTH SCALE: BASE (Base - Standard) ===== */
-  --foundation-layout-base-content: 80rem;  /* 1280px - content ✅ DEFAULT */
-  --foundation-layout-base-media: 96rem;    /* 1536px - media */
-  
+  --foundation-layout-md-content: 70rem;   /* 1120px */
+  --foundation-layout-md-media:   84rem;   /* 1344px */
+  --foundation-form-md-width:     32rem;   /* 512px  */
+
+  /* ===== WIDTH SCALE: BASE (Standard - DEFAULT) ===== */
+  --foundation-layout-base-content: 74rem; /* 1184px ✅ DEFAULT */
+  --foundation-layout-base-media:   88rem; /* 1408px */
+  --foundation-form-base-width:     32rem; /* alias for MD */
+
   /* ===== WIDTH SCALE: LG (Large) ===== */
-  --foundation-layout-lg-content: 86rem;    /* 1376px - content */
-  --foundation-layout-lg-media: 102rem;     /* 1632px - media */
-  
+  --foundation-layout-lg-content: 78rem;   /* 1248px */
+  --foundation-layout-lg-media:   92rem;   /* 1472px */
+  --foundation-form-lg-width:     38rem;   /* 608px  */
+
   /* ===== WIDTH SCALE: XL (Extra Large) ===== */
-  --foundation-layout-xl-content: 92rem;    /* 1472px - content */
-  --foundation-layout-xl-media: 108rem;     /* 1728px - media */
-  
+  --foundation-layout-xl-content: 82rem;   /* 1312px */
+  --foundation-layout-xl-media:   96rem;   /* 1536px */
+  --foundation-form-xl-width:     42rem;   /* 672px  */
+
   /* ===== WIDTH SCALE: 2XL (Extra Extra Large) ===== */
-  --foundation-layout-2xl-content: 98rem;   /* 1568px - content */
-  --foundation-layout-2xl-media: 114rem;    /* 1824px - media */
-  
-  /* ===== WIDTH SCALE: 3XL (Max) ===== */
-  --foundation-layout-3xl-content: 104rem;  /* 1664px - content */
-  --foundation-layout-3xl-media: 120rem;    /* 1920px - media */
-  
+  --foundation-layout-2xl-content: 86rem;  /* 1376px */
+  --foundation-layout-2xl-media:   100rem; /* 1600px */
+  --foundation-form-2xl-width:     46rem;  /* 736px  */
+
+  /* ===== WIDTH SCALE: 3XL (Ultra Large) ===== */
+  --foundation-layout-3xl-content: 90rem;  /* 1440px */
+  --foundation-layout-3xl-media:   104rem; /* 1664px */
+  --foundation-form-3xl-width:     50rem;  /* 800px  */
+
   /* ===== WIDTH SCALE: MAX (Maximum) ===== */
-  --foundation-layout-max-content: 112rem;  /* 1792px - content */
-  --foundation-layout-max-media: 128rem;    /* 2048px - media */
-  
-  /* ===== SELECTED WIDTH SCALE (User picks ONE scale) ===== */
-  /* Default: BASE scale (1280px content) */
+  --foundation-layout-max-content: 96rem;  /* 1536px */
+  --foundation-layout-max-media:   110rem; /* 1760px */
+  --foundation-form-max-width:     54rem;  /* 864px  */
+
+  /* ===== SELECTED WIDTH SCALE (Defaults) ===== */
   --selected-layout-scale-content: var(--foundation-layout-base-content);
-  --selected-layout-scale-media: var(--foundation-layout-base-media);
+  --selected-layout-scale-media:   var(--foundation-layout-base-media);
+  --selected-form-width:           var(--foundation-form-md-width);
 }
 
-/* 
-9-SCALE SYSTEM - FOCUSED ON 1000-1800px WITH 96px STEPS:
-=========================================================
+/* ==============================================
+   9-SCALE SYSTEM OVERVIEW (Compressed)
+   ----------------------------------------------
+   Focused on ~900–1500px for cleaner, denser layout
+   ==============================================
 
-Scale | Content | Media   | Step   | Use Case
-------|---------|---------|--------|------------------
-XS    | 1024px  | 1280px  |        | Compact
-      |         |         | +96px  |
-SM    | 1120px  | 1376px  |        | Small
-      |         |         | +96px  |
-MD    | 1216px  | 1472px  |        | Medium
-      |         |         | +96px  |
-BASE  | 1280px  | 1536px  |        | Standard ✅ DEFAULT
-      |         |         | +96px  |
-LG    | 1376px  | 1632px  |        | Large
-      |         |         | +96px  |
-XL    | 1472px  | 1728px  |        | Extra Large
-      |         |         | +96px  |
-2XL   | 1568px  | 1824px  |        | 2X Large
-      |         |         | +96px  |
-3XL   | 1664px  | 1920px  |        | 3X Large
-      |         |         | +96px  |
-MAX   | 1792px  | 2048px  |        | Maximum
+   Scale | Content | Media  | Form  | Use Case
+   ------|----------|--------|-------|-------------------------
+   XS    | 928px    | 1152px | 320px | Compact mobile
+   SM    | 1024px   | 1248px | 416px | Small
+   MD    | 1120px   | 1344px | 512px | Standard form ✅
+   BASE  | 1184px   | 1408px | 512px | Default (alias to MD)
+   LG    | 1248px   | 1472px | 608px | Large forms
+   XL    | 1312px   | 1536px | 672px | Extra large
+   2XL   | 1376px   | 1600px | 736px | 2x large
+   3XL   | 1440px   | 1664px | 800px | 3x large
+   MAX   | 1536px   | 1760px | 864px | Maximum
 
-JÄMNA 96px STEG:
-================
-1024px  XS
-1120px  SM    (+96px)
-1216px  MD    (+96px)
-1280px  BASE  (+96px) ✅ DEFAULT
-1376px  LG    (+96px)
-1472px  XL    (+96px)
-1568px  2XL   (+96px)
-1664px  3XL   (+96px)
-1792px  MAX   (+96px)
-
-FOKUSERAT PÅ 1000-1800px:
-==========================
-✅ 9 olika alternativ
-✅ Jämna 96px steg (6rem)
-✅ Alla mellan 1024-1792px
-✅ Inget over 1800px content width
-✅ Perfekt för vanliga skärmar
-
-REN MATEMATIK:
-==============
-1024px = 64rem  = 16 × 64px
-1120px = 70rem  = 16 × 70px
-1216px = 76rem  = 16 × 76px
-1280px = 80rem  = 16 × 80px  ← DEFAULT
-1376px = 86rem  = 16 × 86px
-1472px = 92rem  = 16 × 92px
-1568px = 98rem  = 16 × 98px
-1664px = 104rem = 16 × 104px
-1792px = 112rem = 16 × 112px
-
-Alla jämna tal i rem! 🎯
+   ✅ More compact across all devices
+   ✅ Smaller step size (~56–64px)
+   ✅ Narrower max width (no wasted space)
+   ✅ Keeps visual rhythm & even increments
 */

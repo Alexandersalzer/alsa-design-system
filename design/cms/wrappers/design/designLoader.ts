@@ -3,11 +3,17 @@ export interface DesignJson {
     radius?: string;
     accentColor?: string;
     isDark?: boolean;
+    themeTone?: "mono" | "linen" | "ink" | "clay" | "slate" | "sage" | "frost" | "pearl";
     fontPrimary?: string;
+    fontSecondary?: string;
+    fontWeightScale?: "light" | "regular" | "strong" | "extraStrong";
     layoutContent?: string;
     layoutMedia?: string;
     sectionSpacing?: string;
-    containerSpacing?: string; // ✅ NEW
+    containerSpacing?: string;
+    navbarSpacing?: string;
+    formWidth?: string;         // ← NEW: xs | sm | md | lg | xl
+    typographyScale?: "sm" | "md" | "lg";
   };
 }
 
@@ -25,17 +31,22 @@ export async function getDesignConfig(): Promise<DesignJson> {
     return json;
   } catch (error) {
     console.error("⚠️ Failed to load design.json from public/design:", error);
-    return { 
-      globalStyles: { 
+    return {
+      globalStyles: {
         radius: "md",
         accentColor: "purple",
         isDark: false,
+        themeTone: "mono", // ✅ matches your default tone in CSS
         fontPrimary: "Sora",
+        fontSecondary: "Inter",
+        fontWeightScale: "regular",
         layoutContent: "md",
         layoutMedia: "xl",
         sectionSpacing: "md",
-        containerSpacing: "md" // ✅ NEW fallback
-      } 
+        containerSpacing: "md",
+        navbarSpacing: "md",
+        typographyScale: "md",
+      },
     };
   }
 }

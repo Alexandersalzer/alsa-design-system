@@ -18,5 +18,5 @@ export * from './CarouselAnimation';
 export * from './LogoIcon';
 
 
-export * from './Logo';
+export * from './media/Logo';
 export * from './LineChart';

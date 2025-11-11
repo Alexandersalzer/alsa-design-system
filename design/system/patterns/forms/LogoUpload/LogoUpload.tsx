@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { FileUploader } from '../../../components';
-import { Logo } from '../../../components/Logo';
+import { Logo } from '../../../components/media/Logo';
 
 export interface LogoUploadProps {
   currentLogoUrl?: string;
@@ -98,8 +98,6 @@ export const LogoUpload: React.FC<LogoUploadProps> = ({
             alt="Logotyp preview"
             size={previewSize}
             variant="contain"
-            maxWidth="120px"
-            maxHeight="60px"
             className="border border-gray-200 rounded"
           />
           <div className="flex-1">

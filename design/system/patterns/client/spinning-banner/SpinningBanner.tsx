@@ -1,115 +1,150 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
+import { Logo } from '../../../components/media/Logo';
 
 interface SpinningBannerProps {
-  // ===== NEW: JSON STRUCTURE SUPPORT =====
-  type?: string;
-  components?: Record<string, {
-    type: string;
-    content: any;
-  }>;
-  settings?: {
+  props?: {
     speed?: number;
     direction?: 'left' | 'right';
+    logoSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+    logoOpacity?: number;
+    grayscale?: boolean;
+    animated?: boolean;
   };
-  
-  // ===== LEGACY PROPS =====
-  logos?: Array<{
-    src: string;
-    alt: string;
-    width?: number;
-    height?: number;
+  components?: Record<string, {
+    type: string;
+    props?: any;
+    content?: any;
   }>;
-  speed?: number; // Animation speed in seconds
-  direction?: 'left' | 'right';
-  className?: string;
 }
 
 export const SpinningBanner: React.FC<SpinningBannerProps> = ({
-  // NEW: JSON Structure
-  type,
-  components,
-  settings,
-  
-  // Legacy props
-  logos: legacyLogos,
-  speed: legacySpeed,
-  direction: legacyDirection,
-  className = ''
+  props: patternProps = {},
+  components = {}
 }) => {
-  // ===== EXTRACT DATA FROM JSON COMPONENTS OR USE LEGACY PROPS =====
-  let logos: Array<{ src: string; alt: string; width?: number; height?: number; }>;
-  let speed: number;
-  let direction: 'left' | 'right';
+  const {
+    speed = 25,
+    direction = 'left',
+    logoSize = 'md',
+    logoOpacity = 1,
+    grayscale = true,
+    animated = true
+  } = patternProps;
 
-  if (components) {
-    // Extract logos from JSON structure
-    const logoComponents = Object.entries(components)
-      .filter(([key, comp]: [string, any]) => comp.type === 'logo')
-      .map(([key, comp]: [string, any]) => ({
-        src: comp.content?.src || '',
-        alt: comp.content?.alt || 'Logo'
-      }))
-      .filter(logo => logo.src);
+  // Extract logo data only
+  const logos = Object.entries(components)
+    .filter(([_, comp]) => comp.type === 'logo')
+    .map(([_, comp]) => ({
+      src: comp.props?.src || comp.content?.src || '',
+      alt: comp.props?.alt || comp.content?.alt || 'Logo',
+    }))
+    .filter((l) => l.src);
 
-    logos = logoComponents;
-    speed = settings?.speed || 30;
-    direction = settings?.direction || 'left';
-  } else {
-    // Use legacy props with defaults
-    logos = legacyLogos || [
-      { src: '/images/kjlogos/huellogo.png', alt: 'Huel Logo' },
-      { src: '/images/kjlogos/fazerlogo.png', alt: 'Fazer Logo' },
-      { src: '/images/kjlogos/wolt.png', alt: 'Wolt Logo' },
-      { src: '/images/kjlogos/tradera.png', alt: 'Tradera Logo' },
-      { src: '/images/kjlogos/philips.png', alt: 'Philips Logo' },
-      { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime Logo' },
-      { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet Logo' },
-      { src: '/images/kjlogos/benandjerrylogo.png', alt: 'Ben & Jerry\'s Logo' },
-      { src: '/images/kjlogos/mindler.png', alt: 'Mindler Logo' },
-      { src: '/images/kjlogos/swiffer.png', alt: 'Swiffer Logo' }
-    ];
-    speed = legacySpeed || 30;
-    direction = legacyDirection || 'left';
-  }
-  // Transform logos into SpinningAnimationItem format
-  const animationItems: CarouselAnimationItem[] = logos.map((logo, index) => ({
+  // Fallback set
+  const fallback = [
+    { src: '/images/kjlogos/huellogo.png', alt: 'Huel' },
+    { src: '/images/kjlogos/logoFazer.png', alt: 'Fazer' },
+    { src: '/images/kjlogos/wolt.png', alt: 'Wolt' },
+    { src: '/images/kjlogos/tradera.png', alt: 'Tradera' },
+    { src: '/images/kjlogos/philips.png', alt: 'Philips' },
+    { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime' },
+    { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet' },
+    { src: '/images/kjlogos/mindlerLogo.png', alt: 'Mindler' },
+  ];
+
+  const allLogos = logos.length ? logos : fallback;
+
+  // ✅ Smarter proportional sizing
+  const sizeMap = useMemo(() => {
+    switch (logoSize) {
+      case 'xs':
+        return { width: 80, height: 40, gap: 32, padding: 8 };
+      case 'sm':
+        return { width: 100, height: 50, gap: 40, padding: 10 };
+      case 'md':
+        return { width: 130, height: 65, gap: 52, padding: 12 };
+      case 'lg':
+        return { width: 160, height: 80, gap: 68, padding: 14 };
+      case 'xl':
+        return { width: 200, height: 100, gap: 86, padding: 16 };
+      default:
+        return { width: 130, height: 65, gap: 52, padding: 12 };
+    }
+  }, [logoSize]);
+
+  const animationItems: CarouselAnimationItem[] = allLogos.map((logo, index) => ({
     id: `${logo.src}-${index}`,
     content: (
-      <img
-        src={logo.src}
-        alt={logo.alt}
+      <div
         style={{
-          maxWidth: '100%',
-          maxHeight: '100%',
-          width: 'auto',
-          height: 'auto',
-          objectFit: 'contain',
-          filter: 'grayscale(100%) opacity(0.6)'
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          opacity: logoOpacity,
+          filter: grayscale ? 'grayscale(1)' : 'none',
+          transition: 'opacity 0.2s ease-in-out'
         }}
-      />
+      >
+        <Logo
+          src={logo.src}
+          alt={logo.alt}
+          size={logoSize}
+          variant="contain"
+        />
+      </div>
     )
   }));
 
+  // Smooth scroll duplication
+  const duplicateCount = 6;
+
+  if (!animated) {
+    // Non-animated version
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: `${sizeMap.gap}px`,
+          padding: '10px 0'
+        }}
+      >
+        {animationItems.map((item) => (
+          <div
+            key={item.id}
+            style={{
+              width: `${sizeMap.width}px`,
+              height: `${sizeMap.height}px`,
+              padding: `${sizeMap.padding}px`
+            }}
+          >
+            {item.content}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // ✅ Animated version
   return (
     <CarouselAnimation
       items={animationItems}
       speed={speed}
       direction={direction}
-      className={className}
-      // ✅ Use semantic token instead of hardcoded color
-      containerHeight="auto"
       backgroundColor="var(--surface-page)"
       padding="5px"
-      itemWidth="120px"
-      itemHeight="70px"
-      itemPadding="15px"
-      gap="50px"
+      itemWidth={`${sizeMap.width}px`}
+      itemHeight={`${sizeMap.height}px`}
+      itemPadding={`${sizeMap.padding}px`}
+      gap={`${sizeMap.gap}px`}
       enableFadeEdges={true}
       fadeWidth="200px"
-      duplicateCount={6}
+      duplicateCount={duplicateCount}
     />
   );
 };

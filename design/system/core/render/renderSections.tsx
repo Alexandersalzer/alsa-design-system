@@ -85,7 +85,7 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
   const { type, patterns, order, props: sectionProps } = sectionData;
   const patternOrder = order || Object.keys(patterns);
   
-  // Render all patterns for this section
+  // Render all patterns for regular sections
   const renderedPatterns = patternOrder
     .map((patternKey) => {
       const pattern = patterns[patternKey];
