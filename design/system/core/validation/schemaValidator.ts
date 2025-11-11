@@ -33,6 +33,14 @@ export const validateComponent = (component: ComponentNode): ValidationResult =>
     };
   }
 
+  // Debug logging
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`🔍 Validating component "${component.type}"`, { 
+      props: component.props, 
+      schema: schema.props 
+    });
+  }
+
   return validateNodeAgainstSchema(component, schema, 'component');
 };
 
@@ -144,21 +152,40 @@ function validateNodeAgainstSchema(
  */
 function validatePatternComponents(pattern: PatternNode, schema: any): ValidationResult {
   const errors: string[] = [];
+  const warnings: string[] = [];
 
-  // For now, just validate that components exist and are valid types
   if (pattern.components) {
     Object.entries(pattern.components).forEach(([key, component]) => {
+      // 1. Check if component type exists in registry
       if (!existingSchemas.components[component.type]) {
         errors.push(
           `Pattern "${pattern.type}" contains unknown component type "${component.type}"`
         );
+        return; // Skip further validation if type doesn't exist
+      }
+
+      // 2. Validate each component against its own schema
+      const componentValidation = validateComponent(component);
+      if (!componentValidation.valid) {
+        // Add context about which pattern this component is in
+        componentValidation.errors.forEach(error => {
+          errors.push(`Component "${key}" in pattern "${pattern.type}": ${error}`);
+        });
+      }
+
+      // Add component warnings with context
+      if (componentValidation.warnings) {
+        componentValidation.warnings.forEach(warning => {
+          warnings.push(`Component "${key}" in pattern "${pattern.type}": ${warning}`);
+        });
       }
     });
   }
 
   return {
     valid: errors.length === 0,
-    errors
+    errors,
+    warnings: warnings.length > 0 ? warnings : undefined
   };
 }
 
