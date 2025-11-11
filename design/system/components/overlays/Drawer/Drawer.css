@@ -51,7 +51,6 @@
 .drawer__content {
   flex: 1;
   overflow-y: auto;
-  padding: var(--foundation-space-8, 2rem);
   text-align: center;
   -webkit-overflow-scrolling: touch;
 }

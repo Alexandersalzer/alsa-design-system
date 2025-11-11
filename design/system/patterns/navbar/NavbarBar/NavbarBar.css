@@ -8,7 +8,6 @@
   z-index: var(--z-navbar, 50);
   background: var(--surface-nav, var(--surface-page));
   border-bottom: 1px solid var(--border-default);
-  box-shadow: 0 1px 4px var(--shadow-subtle);
   width: 100%;
   transition: all var(--foundation-duration-normal) var(--foundation-ease-out);
 }
@@ -191,7 +190,6 @@
 [data-theme="dark"] .navbar-bar {
   background: var(--surface-nav);
   border-bottom-color: var(--border-subtle);
-  box-shadow: 0 1px 6px var(--shadow-strong);
 }
 
 [data-theme="dark"] .navbar-bar__brand {
