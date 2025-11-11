@@ -76,9 +76,7 @@
 @import './patterns/dashboard/selection/DesignRadioCard.css';
 @import './patterns/dashboard/selection/RadioCard.css';
 
-@import './patterns/client/CleanNavbar/CleanNavbar.css';
 @import './patterns/client/FAQ/FAQ.css';
-@import './patterns/navbar/NavbarLegacy/NavbarLegacy.css';
 
 @import './patterns/navbar/NavbarBar.module.css';
 @import './patterns/navbar/NavbarPill.module.css';
