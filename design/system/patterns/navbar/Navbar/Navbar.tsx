@@ -1,7 +1,23 @@
 'use client';
+
 import React, { useState } from 'react';
-import { Box, HStack, VStack, Button, TextLink, IconButton, Container, Logo, Drawer, Modal } from '../../../components';
+import {
+  Box,
+  HStack,
+  VStack,
+  Button,
+  TextLink,
+  IconButton,
+  Logo,
+  Drawer,
+  Modal
+} from '../../../components';
 import { MenuIcon, XIcon } from 'lucide-react';
+import { SectionNode } from '../../../core';
+
+// ---------------------------------------------
+// TYPES
+// ---------------------------------------------
 
 export type NavbarVariant = 'bar' | 'pill';
 export type NavbarWidth = 'full' | 'content' | 'narrow' | 'wide';
@@ -48,9 +64,10 @@ export interface NavbarProps {
   className?: string;
 }
 
-/* ---------------------------------------------
-   BRAND LINK
---------------------------------------------- */
+// ---------------------------------------------
+// COMPONENTS
+// ---------------------------------------------
+
 const BrandLink = ({
   href,
   children,
@@ -61,7 +78,7 @@ const BrandLink = ({
   logoAlt = 'Logo',
   logoWidth = 40,
   logoHeight = 40,
-  underline = 'none',
+  underline = 'none'
 }: any) => (
   <TextLink
     href={href}
@@ -78,7 +95,6 @@ const BrandLink = ({
           alt={logoAlt}
           size="md"
           variant="contain"
-          className="navbar__brand-logo"
           fallbackText={children?.toString()?.charAt(0) || 'B'}
         />
       )}
@@ -87,10 +103,14 @@ const BrandLink = ({
   </TextLink>
 );
 
-/* ---------------------------------------------
-   NAV MENU
---------------------------------------------- */
-const NavMenu = ({ items = [], isMobile = false, onItemClick, spacing = 'lg', size = 'md', variant = 'primary' }: any) => {
+const NavMenu = ({
+  items = [],
+  isMobile = false,
+  onItemClick,
+  spacing = 'lg',
+  size = 'md',
+  variant = 'primary'
+}: any) => {
   const Stack = isMobile ? VStack : HStack;
   return (
     <Stack spacing={spacing} align={isMobile ? 'stretch' : 'center'} wrap={!isMobile}>
@@ -127,9 +147,10 @@ const NavMenu = ({ items = [], isMobile = false, onItemClick, spacing = 'lg', si
   );
 };
 
-/* ---------------------------------------------
-   MAIN NAVBAR COMPONENT
---------------------------------------------- */
+// ---------------------------------------------
+// MAIN NAVBAR
+// ---------------------------------------------
+
 const NavbarComponent = ({
   brandName,
   brandHref = '/',
@@ -152,9 +173,10 @@ const NavbarComponent = ({
   brandUnderline = 'none',
   navSize = 'md',
   navVariant = 'primary',
-  className = '',
+  className = ''
 }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
   const navbarClasses = [
     'navbar',
     `navbar--${navbarVariant}`,
@@ -162,8 +184,10 @@ const NavbarComponent = ({
     `navbar--mobile-${mobileBreakpoint}`,
     transparent && 'navbar--transparent',
     sticky && 'navbar--sticky',
-    className,
-  ].filter(Boolean).join(' ');
+    className
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <Box className={navbarClasses}>
@@ -183,12 +207,10 @@ const NavbarComponent = ({
             {brandName}
           </BrandLink>
 
-          {/* Desktop menu */}
           <Box className="navbar__desktop-menu">
             <NavMenu items={navItems} size={navSize} variant={navVariant} />
           </Box>
 
-          {/* Mobile toggle */}
           <Box className="navbar__mobile-toggle">
             <IconButton
               icon={isOpen ? <XIcon /> : <MenuIcon />}
@@ -201,16 +223,28 @@ const NavbarComponent = ({
         </HStack>
       </Box>
 
-      {/* Mobile overlay */}
       {navbarVariant === 'pill' ? (
-        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} size="full" showCloseButton={false} className={mobileOverlayTransparent ? 'modal--transparent' : ''}>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          size="full"
+          showCloseButton={false}
+          className={mobileOverlayTransparent ? 'modal--transparent' : ''}
+        >
           <VStack spacing="xl" className="navbar__mobile-menu">
-            <BrandLink href={brandHref} logoSrc={logoSrc} logoAlt={logoAlt}>{brandName}</BrandLink>
+            <BrandLink href={brandHref} logoSrc={logoSrc} logoAlt={logoAlt}>
+              {brandName}
+            </BrandLink>
             <NavMenu items={navItems} isMobile onItemClick={() => setIsOpen(false)} />
           </VStack>
         </Modal>
       ) : (
-        <Drawer isOpen={isOpen} onClose={() => setIsOpen(false)} placement={mobileAnimationDirection === 'left' ? 'start' : 'end'} className={mobileOverlayTransparent ? 'drawer--transparent' : ''}>
+        <Drawer
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          placement={mobileAnimationDirection === 'left' ? 'start' : 'end'}
+          className={mobileOverlayTransparent ? 'drawer--transparent' : ''}
+        >
           <VStack spacing="lg" className="navbar__mobile-menu">
             <NavMenu items={navItems} isMobile onItemClick={() => setIsOpen(false)} />
           </VStack>
@@ -220,30 +254,28 @@ const NavbarComponent = ({
   );
 };
 
-/* ---------------------------------------------
-   TRANSFORM JSON → PROPS
---------------------------------------------- */
-function transformPatternToProps(sectionData: any): NavbarProps {
+// ---------------------------------------------
+// TRANSFORM JSON → PROPS
+// ---------------------------------------------
+
+function transformPatternToProps(sectionData: SectionNode): NavbarProps {
+  if (!sectionData?.patterns) {
+    console.warn('Navbar: invalid sectionData', sectionData);
+    return {} as NavbarProps;
+  }
+
   const sectionProps = sectionData.props || {};
   const patternKey =
     sectionData.order?.[0] || Object.keys(sectionData.patterns || {})[0];
   const pattern = sectionData.patterns?.[patternKey] || {};
-  const components = (pattern.components || {}) as Record<
-    string,
-    { type: string; props?: Record<string, any> }
-  >;
+  const components = pattern.components || {};
 
-  // ✅ Now TypeScript knows each component has a type + props
-  const logo = Object.values(components).find(
-    (c) => c.type === 'logo'
-  );
-  const title = Object.values(components).find(
-    (c) => c.type === 'title'
-  );
+  const logo = Object.values(components).find((c: any) => c.type === 'logo');
+  const title = Object.values(components).find((c: any) => c.type === 'title');
 
   const navItems: NavItem[] = Object.values(components)
-    .filter((c) => c.type === 'navItem')
-    .map((c) => ({
+    .filter((c: any) => c.type === 'navItem')
+    .map((c: any) => ({
       href: c.props?.href || '/',
       label: c.props?.content || '',
       componentType: c.props?.componentType || 'textlink',
@@ -251,7 +283,7 @@ function transformPatternToProps(sectionData: any): NavbarProps {
       size: c.props?.size,
       textLinkVariant: c.props?.textLinkVariant,
       weight: c.props?.weight,
-      underline: c.props?.underline,
+      underline: c.props?.underline
     }));
 
   return {
@@ -261,16 +293,21 @@ function transformPatternToProps(sectionData: any): NavbarProps {
     logoAlt: logo?.props?.alt,
     logoWidth: logo?.props?.width,
     logoHeight: logo?.props?.height,
-    navItems,
+    navItems
   };
 }
 
+// ---------------------------------------------
+// EXPORT FINAL
+// ---------------------------------------------
 
-/* ---------------------------------------------
-   EXPORT FINAL NAVBAR
---------------------------------------------- */
-export const Navbar = (sectionData: any) => {
-  const props = transformPatternToProps(sectionData);
+export const Navbar = ({ section }: { section?: SectionNode }) => {
+  if (!section) {
+    console.warn('Navbar: no section data provided');
+    return null;
+  }
+
+  const props = transformPatternToProps(section);
   return <NavbarComponent {...props} />;
 };
 
