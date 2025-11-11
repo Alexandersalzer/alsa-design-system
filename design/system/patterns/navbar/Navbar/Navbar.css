@@ -60,12 +60,12 @@
 
 /* ===== VARIANT: PILL (Floating Pill Navbar) ===== */
 .navbar--pill {
-  background: transparent;
+  background: transparent; /* Transparent background so content shows through */
   padding: var(--foundation-space-4) var(--foundation-space-6);
   display: flex;
   justify-content: center;
   width: 100%;
-  position: relative; /* Normal document flow */
+  position: relative; /* Normal document flow - takes up space */
   --navbar-pill-height: 80px;
   min-height: var(--navbar-pill-height);
 }
@@ -73,7 +73,7 @@
 .navbar--pill .navbar__container {
   max-width: fit-content;
   min-width: 600px;
-  background-color: var(--surface-default);
+  background-color: var(--surface-default); /* Only the pill itself has background */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius-pill);
@@ -84,15 +84,15 @@
   position: relative;
 }
 
-/* Pill navbar sticky positioning - stays in document flow */
+/* Sticky behavior when scrolling - but stays in document flow */
 .navbar--pill.navbar--sticky {
   position: sticky;
   top: var(--foundation-space-4);
   z-index: var(--z-navbar, 50);
-  /* Ingen fixed positioning - använder sticky istället */
+  /* Behåller transparent background så content syns bakom */
 }
 
-/* Ta bort spacer - behövs inte längre */
+/* Remove spacer - not needed with proper positioning */
 .navbar__pill-spacer {
   display: none;
 }
