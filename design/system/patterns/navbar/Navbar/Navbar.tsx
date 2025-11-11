@@ -190,67 +190,74 @@ const NavbarComponent = ({
     .join(' ');
 
   return (
-    <Box className={navbarClasses}>
-      <Box className="navbar__container">
-        <HStack justify="between" align="center" className="navbar__content">
-          <BrandLink
-            href={brandHref}
-            variant={brandVariant}
-            size={brandSize}
-            weight={brandWeight}
-            underline={brandUnderline}
-            logoSrc={logoSrc}
-            logoAlt={logoAlt}
-            logoWidth={logoWidth}
-            logoHeight={logoHeight}
-          >
-            {brandName}
-          </BrandLink>
-
-          <Box className="navbar__desktop-menu">
-            <NavMenu items={navItems} size={navSize} variant={navVariant} />
-          </Box>
-
-          <Box className="navbar__mobile-toggle">
-            <IconButton
-              icon={isOpen ? <XIcon /> : <MenuIcon />}
-              variant={mobileMenuButtonStyle}
-              size="lg"
-              aria-label="Toggle menu"
-              onClick={() => setIsOpen(!isOpen)}
-            />
-          </Box>
-        </HStack>
-      </Box>
-
-      {navbarVariant === 'pill' ? (
-        <Modal
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          size="full"
-          showCloseButton={false}
-          className={mobileOverlayTransparent ? 'modal--transparent' : ''}
-        >
-          <VStack spacing="xl" className="navbar__mobile-menu">
-            <BrandLink href={brandHref} logoSrc={logoSrc} logoAlt={logoAlt}>
+    <>
+      <Box className={navbarClasses}>
+        <Box className="navbar__container">
+          <HStack justify="between" align="center" className="navbar__content">
+            <BrandLink
+              href={brandHref}
+              variant={brandVariant}
+              size={brandSize}
+              weight={brandWeight}
+              underline={brandUnderline}
+              logoSrc={logoSrc}
+              logoAlt={logoAlt}
+              logoWidth={logoWidth}
+              logoHeight={logoHeight}
+            >
               {brandName}
             </BrandLink>
-            <NavMenu items={navItems} isMobile onItemClick={() => setIsOpen(false)} />
-          </VStack>
-        </Modal>
-      ) : (
-        <Drawer
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          placement={mobileAnimationDirection === 'left' ? 'start' : 'end'}
-          className={mobileOverlayTransparent ? 'drawer--transparent' : ''}
-        >
-          <VStack spacing="lg" className="navbar__mobile-menu">
-            <NavMenu items={navItems} isMobile onItemClick={() => setIsOpen(false)} />
-          </VStack>
-        </Drawer>
+
+            <Box className="navbar__desktop-menu">
+              <NavMenu items={navItems} size={navSize} variant={navVariant} />
+            </Box>
+
+            <Box className="navbar__mobile-toggle">
+              <IconButton
+                icon={isOpen ? <XIcon /> : <MenuIcon />}
+                variant={mobileMenuButtonStyle}
+                size="lg"
+                aria-label="Toggle menu"
+                onClick={() => setIsOpen(!isOpen)}
+              />
+            </Box>
+          </HStack>
+        </Box>
+
+        {navbarVariant === 'pill' ? (
+          <Modal
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            size="full"
+            showCloseButton={false}
+            className={mobileOverlayTransparent ? 'modal--transparent' : ''}
+          >
+            <VStack spacing="xl" className="navbar__mobile-menu">
+              <BrandLink href={brandHref} logoSrc={logoSrc} logoAlt={logoAlt}>
+                {brandName}
+              </BrandLink>
+              <NavMenu items={navItems} isMobile onItemClick={() => setIsOpen(false)} />
+            </VStack>
+          </Modal>
+        ) : (
+          <Drawer
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            placement={mobileAnimationDirection === 'left' ? 'start' : 'end'}
+            className={mobileOverlayTransparent ? 'drawer--transparent' : ''}
+          >
+            <VStack spacing="lg" className="navbar__mobile-menu">
+              <NavMenu items={navItems} isMobile onItemClick={() => setIsOpen(false)} />
+            </VStack>
+          </Drawer>
+        )}
+      </Box>
+
+      {/* Spacer för pill navbar när sticky - hindrar content overlap */}
+      {navbarVariant === 'pill' && sticky && (
+        <Box className="navbar__pill-spacer" />
       )}
-    </Box>
+    </>
   );
 };
 

@@ -65,6 +65,9 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  position: relative;
+  --navbar-pill-height: 80px;
+  min-height: var(--navbar-pill-height);
 }
 
 .navbar--pill .navbar__container {
@@ -79,6 +82,35 @@
   padding: var(--foundation-space-3) var(--foundation-space-6);
   margin: 0 auto;
   position: relative;
+}
+
+/* Pill navbar sticky positioning */
+.navbar--pill.navbar--sticky {
+  position: fixed;
+  top: var(--foundation-space-4);
+  left: 0;
+  right: 0;
+  z-index: var(--z-navbar, 50);
+}
+
+/* Spacer for pill navbar content offset */
+.navbar__pill-spacer {
+  height: calc(var(--navbar-pill-height) + var(--foundation-space-8));
+  visibility: hidden;
+  pointer-events: none;
+  display: block;
+}
+
+/* Responsive navbar height */
+@media (max-width: 768px) {
+  .navbar--pill {
+    --navbar-pill-height: 64px;
+  }
+  
+  .navbar--pill .navbar__container {
+    min-width: 320px;
+    padding: var(--foundation-space-2) var(--foundation-space-4);
+  }
 }
 
 .navbar--pill.navbar--sticky {
