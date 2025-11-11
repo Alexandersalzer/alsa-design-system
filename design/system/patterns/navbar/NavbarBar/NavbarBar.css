@@ -1,5 +1,5 @@
 /* =====================================================
-   NavbarBar.css — Clean Sticky Bar Header (Aligned + Responsive)
+   NavbarBar.css — Clean Sticky Bar Header (Aligned + Responsive + Content-Aware)
    ===================================================== */
 
 .navbar-bar {
@@ -13,7 +13,9 @@
   transition: all var(--foundation-duration-normal) var(--foundation-ease-out);
 }
 
-/* Container */
+/* -----------------------------------------------
+   Container (enables content-aware layout)
+----------------------------------------------- */
 .navbar-bar__container {
   display: flex;
   align-items: center;
@@ -22,20 +24,14 @@
   margin: 0 auto;
   padding: var(--foundation-space-3) var(--foundation-space-6);
   position: relative;
+
+  /* Enable container queries */
+  container-type: inline-size;
 }
 
-/* --- CONTENT WRAPPER --- */
-.navbar-bar__content {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  flex: 1;
-  justify-content: flex-end;
-  gap: var(--foundation-space-4);
-  position: static;
-}
-
-/* Groups */
+/* -----------------------------------------------
+   Core Layout Groups
+----------------------------------------------- */
 .navbar-bar__left,
 .navbar-bar__middle,
 .navbar-bar__right {
@@ -50,17 +46,21 @@
 .navbar-bar__middle {
   flex: 1;
   justify-content: center;
-  gap: var(--foundation-space-4);
+  gap: var(--foundation-space-5);
+  min-width: 0; /* prevents overflow collisions */
 }
 
 .navbar-bar__middle--left { justify-content: flex-start; }
 .navbar-bar__middle--right { justify-content: flex-end; }
 
 .navbar-bar__right {
-  gap: var(--foundation-space-2);
+  gap: var(--foundation-space-3);
+  flex-shrink: 0; /* keep actions visible */
 }
 
-/* Logo & brand */
+/* -----------------------------------------------
+   Logo & Brand
+----------------------------------------------- */
 .navbar-bar__logo {
   height: 40px;
   width: auto;
@@ -75,7 +75,23 @@
   text-decoration: none;
 }
 
-/* Mobile toggle */
+/* -----------------------------------------------
+   Desktop Content Wrapper
+----------------------------------------------- */
+.navbar-bar__content {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex: 1;
+  justify-content: flex-end;
+  gap: var(--foundation-space-6);
+  position: static;
+  transition: all 0.25s ease;
+}
+
+/* -----------------------------------------------
+   Mobile Toggle
+----------------------------------------------- */
 .navbar-bar__mobile-toggle {
   display: none;
   align-items: center;
@@ -92,8 +108,44 @@
   -webkit-backdrop-filter: blur(8px);
 }
 
-/* --- MOBILE LAYOUT --- */
-@media (max-width: 768px) {
+/* -----------------------------------------------
+   MOBILE MENU DROPDOWN
+----------------------------------------------- */
+.navbar-bar__mobile-menu {
+  display: none;
+  flex-direction: column;
+  background: var(--surface-default, #fff);
+  border-top: 1px solid var(--border-default);
+  padding: var(--foundation-space-4);
+  gap: var(--foundation-space-3);
+}
+
+.navbar-bar__mobile-link {
+  text-decoration: none;
+  color: var(--text-default);
+  font-size: var(--typography-body-normal-size);
+  padding: var(--foundation-space-2) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.navbar-bar__mobile-link:last-of-type {
+  border-bottom: none;
+}
+
+.navbar-bar__mobile-actions {
+  margin-top: var(--foundation-space-3);
+  gap: var(--foundation-space-2);
+}
+
+.navbar-bar__mobile-button {
+  width: 100%;
+  justify-content: center;
+}
+
+/* -----------------------------------------------
+   CONTENT-AWARE COLLAPSE (Container Query)
+----------------------------------------------- */
+@container (max-width: 880px) {
   .navbar-bar__content {
     display: none;
   }
@@ -102,36 +154,31 @@
     display: inline-flex;
   }
 
-  .navbar-bar__content.is-open {
+  .navbar-bar__mobile-menu {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    background: var(--surface-default, #fff);
-    position: absolute;
-    top: 100%;
-    left: 0;
-    border-top: 1px solid var(--border-default);
-    padding: var(--foundation-space-4);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    z-index: 49;
-    animation: fadeSlideDown 0.2s ease-out;
-  }
-
-  .navbar-bar__middle,
-  .navbar-bar__right {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--foundation-space-3);
-    width: 100%;
-  }
-
-  .navbar-bar__container {
-    padding: var(--foundation-space-3) var(--foundation-space-4);
   }
 }
 
-/* Animation */
+/* -----------------------------------------------
+   FALLBACK: Early viewport-based collapse
+----------------------------------------------- */
+@media (max-width: 960px) {
+  .navbar-bar__content {
+    display: none;
+  }
+
+  .navbar-bar__mobile-toggle {
+    display: inline-flex;
+  }
+
+  .navbar-bar__mobile-menu {
+    display: flex;
+  }
+}
+
+/* -----------------------------------------------
+   Animation for dropdown appearance
+----------------------------------------------- */
 @keyframes fadeSlideDown {
   from { opacity: 0; transform: translateY(-6px); }
   to   { opacity: 1; transform: translateY(0); }

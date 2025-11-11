@@ -49,20 +49,12 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
           )}
         </HStack>
 
-        {/* CENTER + RIGHT CONTENT (hidden on mobile) */}
-        <div className={`navbar-pill__content ${mobileOpen ? 'is-open' : ''}`}>
+        {/* DESKTOP CONTENT */}
+        <div className="navbar-pill__content">
           {menuItems.length > 0 && (
-            <HStack
-              className={`navbar-pill__middle navbar-pill__middle--${align}`}
-              spacing="lg"
-            >
+            <HStack className={`navbar-pill__middle navbar-pill__middle--${align}`} spacing="lg">
               {menuItems.map((item: any, i) => (
-                <TextLink
-                  key={i}
-                  href={item.props?.href || '/'}
-                  size="md"
-                  underline="hover"
-                >
+                <TextLink key={i} href={item.props?.href || '/'} size="md" underline="hover">
                   {item.props?.content}
                 </TextLink>
               ))}
@@ -83,7 +75,7 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
           </HStack>
         </div>
 
-        {/* MOBILE TOGGLE (always visible on mobile) */}
+        {/* MOBILE TOGGLE */}
         <Button
           variant="ghost"
           size="md"
@@ -97,21 +89,40 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
 
       {/* MOBILE MENU */}
       {mobileOpen && (
-        <VStack className="navbar-pill__mobile-menu" spacing="sm">
+        <VStack className="navbar-pill__mobile-menu" spacing="md">
           {menuItems.map((item: any, i) => (
             <TextLink
               key={i}
               href={item.props?.href || '/'}
               onClick={() => setMobileOpen(false)}
+              className="navbar-pill__mobile-link"
             >
               {item.props?.content}
             </TextLink>
           ))}
-          {primaryAction && (
-            <Button href={primaryAction.props?.href} onClick={() => setMobileOpen(false)}>
-              {primaryAction.props?.content}
-            </Button>
-          )}
+
+          <VStack spacing="sm" className="navbar-pill__mobile-actions">
+            {secondaryAction && (
+              <Button
+                variant="ghost"
+                href={secondaryAction.props?.href}
+                onClick={() => setMobileOpen(false)}
+                className="navbar-pill__mobile-button"
+              >
+                {secondaryAction.props?.content}
+              </Button>
+            )}
+            {primaryAction && (
+              <Button
+                variant="primary"
+                href={primaryAction.props?.href}
+                onClick={() => setMobileOpen(false)}
+                className="navbar-pill__mobile-button"
+              >
+                {primaryAction.props?.content}
+              </Button>
+            )}
+          </VStack>
         </VStack>
       )}
     </nav>
