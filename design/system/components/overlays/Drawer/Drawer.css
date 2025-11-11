@@ -1,138 +1,95 @@
-/* ========================================================
-   UNIVERSAL DRAWER — SMOOTH & STABLE VERSION
-   ======================================================== */
+/* ==========================================================
+   FULLSCREEN DRAWER (used as mobile menu)
+   ========================================================== */
 
-.drawer-wrapper {
+.drawer-overlay {
   position: fixed;
   inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
   display: flex;
-  justify-content: flex-end;
-  align-items: stretch;
-  background: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: flex-end;
   opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.25s ease, visibility 0.25s ease;
-  z-index: var(--z-modal-backdrop, 1000);
+  pointer-events: none;
+  transition: opacity 0.25s ease;
 }
 
-.drawer-wrapper--open {
+.drawer-overlay--open {
   opacity: 1;
-  visibility: visible;
+  pointer-events: auto;
 }
 
-.drawer-wrapper--closed {
+.drawer-overlay--closing {
+  opacity: 0;
   pointer-events: none;
 }
 
-/* Core Drawer */
+/* Drawer panel */
 .drawer {
   position: relative;
-  background: var(--surface-modal-content, var(--surface-elevated));
-  border: 1px solid var(--border-modal, rgba(255,255,255,0.1));
-  box-shadow: var(--shadow-modal, 0 8px 32px rgba(0,0,0,0.2));
+  width: 100%;
+  height: 100%;
+  background: var(--surface-modal-content, #fff);
+  border-radius: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  border-radius: var(--radius-md);
-  max-height: 100vh;
-  transform: translateX(100%);
-  transition: transform 0.3s var(--foundation-ease-out);
-  z-index: var(--z-modal, 1001);
-}
-
-/* Overlay mode: fullscreen modal */
-.drawer--mobile-overlay {
-  width: 100%;
-  height: 100%;
-  border-radius: 0;
-}
-
-/* Placement & animation logic */
-.drawer--end {
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 80%;
-  max-width: 420px;
-  transform: translateX(100%);
-}
-
-.drawer--start {
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 80%;
-  max-width: 420px;
-  transform: translateX(-100%);
-}
-
-.drawer--top {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  max-height: 80%;
-  transform: translateY(-100%);
-}
-
-.drawer--bottom {
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  max-height: 80%;
   transform: translateY(100%);
+  transition: transform 0.3s var(--foundation-ease-out, ease);
 }
 
-/* Open/Close transitions */
-.drawer--open.drawer--end { transform: translateX(0); }
-.drawer--open.drawer--start { transform: translateX(0); }
-.drawer--open.drawer--top { transform: translateY(0); }
-.drawer--open.drawer--bottom { transform: translateY(0); }
-
-.drawer--closed.drawer--end { transform: translateX(100%); }
-.drawer--closed.drawer--start { transform: translateX(-100%); }
-.drawer--closed.drawer--top { transform: translateY(-100%); }
-.drawer--closed.drawer--bottom { transform: translateY(100%); }
-
-/* Mobile overlay slides from bottom */
-.drawer--mobile-overlay.drawer--open {
+.drawer--open {
   transform: translateY(0);
 }
 
-.drawer--mobile-overlay.drawer--closed {
+.drawer--close {
   transform: translateY(100%);
 }
 
-/* Sizes */
-.drawer--xs { max-width: 280px; }
-.drawer--sm { max-width: 360px; }
-.drawer--md { max-width: 420px; }
-.drawer--lg { max-width: 560px; }
-.drawer--xl { max-width: 720px; }
-.drawer--full { width: 100%; max-width: none; }
-
-/* Content */
+/* Content area */
 .drawer__content {
   flex: 1;
   overflow-y: auto;
-  padding: var(--foundation-space-6);
+  padding: var(--foundation-space-8, 2rem);
+  text-align: center;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: calc(var(--foundation-space-6) + env(safe-area-inset-bottom));
 }
 
-/* Close button */
 .drawer__close {
   position: absolute;
-  top: var(--foundation-space-4);
-  right: var(--foundation-space-4);
-  z-index: 2;
+  top: var(--foundation-space-4, 1rem);
+  right: var(--foundation-space-4, 1rem);
+  z-index: 10;
 }
 
-/* Accessibility & motion */
+/* Desktop: slide from right instead of bottom */
+@media (min-width: 768px) {
+  .drawer-overlay {
+    align-items: stretch;
+    justify-content: flex-end;
+  }
+
+  .drawer {
+    width: 100%;
+    max-width: 480px;
+    height: 100%;
+    transform: translateX(100%);
+  }
+
+  .drawer--open {
+    transform: translateX(0);
+  }
+
+  .drawer--close {
+    transform: translateX(100%);
+  }
+}
+
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .drawer,
-  .drawer-wrapper {
+  .drawer-overlay {
     transition: none !important;
   }
 }

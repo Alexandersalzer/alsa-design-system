@@ -7,86 +7,66 @@ import { HStack } from '../../layout/hStack/HStack';
 import { VStack } from '../../layout/vStack/VStack';
 import { Button, IconButtons } from '../../../components';
 
-export type DrawerPlacement = 'start' | 'end' | 'top' | 'bottom';
-export type DrawerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
-
 export interface DrawerProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  placement?: DrawerPlacement;
-  size?: DrawerSize;
   showCloseButton?: boolean;
   closeButtonVariant?: 'icon' | 'text';
+  closeButtonLabel?: string;
   className?: string;
-  closeOnBackdropClick?: boolean;
-  closeOnEscape?: boolean;
   preventScroll?: boolean;
-  mobileOverlay?: boolean;
 }
 
-/**
- * Clean & stable Drawer with CSS transitions.
- * Uses opacity/transform instead of unmount flicker.
- */
-export const Drawer = ({
+const Drawer = ({
   isOpen,
   onClose,
   children,
-  placement = 'end',
-  size = 'md',
   showCloseButton = true,
   closeButtonVariant = 'icon',
-  className = '',
-  closeOnBackdropClick = true,
-  closeOnEscape = true,
+  closeButtonLabel = 'Close',
+  className,
   preventScroll = true,
-  mobileOverlay = false,
 }: DrawerProps) => {
   const [mounted, setMounted] = useState(false);
+  const [visible, setVisible] = useState(false);
 
-  // mount safety for SSR
   useEffect(() => setMounted(true), []);
 
-  // lock scroll
   useEffect(() => {
-    if (isOpen && preventScroll) document.body.style.overflow = 'hidden';
-    else document.body.style.overflow = '';
-    return () => {
+    if (isOpen) {
+      setVisible(true);
+      if (preventScroll) document.body.style.overflow = 'hidden';
+    } else {
       document.body.style.overflow = '';
-    };
+      const t = setTimeout(() => setVisible(false), 250);
+      return () => clearTimeout(t);
+    }
   }, [isOpen, preventScroll]);
 
-  // escape key
   useEffect(() => {
-    if (!isOpen || !closeOnEscape) return;
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) onClose();
     };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [isOpen, closeOnEscape, onClose]);
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen, onClose]);
 
-  if (!mounted) return null;
+  if (!mounted || !visible) return null;
 
   return createPortal(
     <div
       className={cn(
-        'drawer-wrapper',
-        isOpen ? 'drawer-wrapper--open' : 'drawer-wrapper--closed',
+        'drawer-overlay',
+        isOpen ? 'drawer-overlay--open' : 'drawer-overlay--closing',
       )}
-      onClick={(e) => {
-        if (closeOnBackdropClick && e.target === e.currentTarget) onClose();
-      }}
+      onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <aside
         className={cn(
           'drawer',
-          `drawer--${placement}`,
-          `drawer--${size}`,
-          mobileOverlay && 'drawer--mobile-overlay',
-          isOpen ? 'drawer--open' : 'drawer--closed',
-          className
+          isOpen ? 'drawer--open' : 'drawer--close',
+          className,
         )}
         role="dialog"
         aria-modal="true"
@@ -95,19 +75,18 @@ export const Drawer = ({
           <HStack justify="end" className="drawer__close">
             {closeButtonVariant === 'icon' ? (
               <IconButtons.Close
-                aria-label="Close drawer"
+                aria-label="Close menu"
                 variant="ghost"
                 size="md"
                 onClick={onClose}
               />
             ) : (
               <Button variant="ghost" size="md" onClick={onClose}>
-                Close
+                {closeButtonLabel}
               </Button>
             )}
           </HStack>
         )}
-
         <VStack spacing="lg" align="stretch" fullWidth className="drawer__content">
           {children}
         </VStack>
