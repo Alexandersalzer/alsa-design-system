@@ -1,4 +1,4 @@
-import { SectionBody } from './sectionBody/SectionBody';
+import SectionBody from './sectionBody/SectionBody';
 
 /**
  * Shared patterns registry

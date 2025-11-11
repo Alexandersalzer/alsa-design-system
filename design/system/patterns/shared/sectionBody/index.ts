@@ -3,5 +3,4 @@
 // SectionBody Export File
 // ===============================================
 
-export * from './SectionBody';
-export { default } from './SectionBody';
+export { default as SectionBody } from './SectionBody';
