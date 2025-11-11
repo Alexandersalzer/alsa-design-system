@@ -29,8 +29,8 @@
   position: sticky;
   top: 0;
   z-index: var(--z-navbar, 50);
-  /* background-color: var(--primary-white); */
-  /* border-bottom: 1px solid var(--border-light); */
+  background-color: transparent;
+  border-bottom: 0px solid var(--border-light);
   padding-top: 0;
   padding-bottom: 0;
 }
