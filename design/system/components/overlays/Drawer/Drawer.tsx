@@ -1,15 +1,16 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '../../../lib/utils';
 import { HStack } from '../../layout/hStack/HStack';
 import { VStack } from '../../layout/vStack/VStack';
-import { Portal } from '../../layout/portal/Portal';
 import { Button, IconButtons } from '../../../components';
 
 export type DrawerPlacement = 'start' | 'end' | 'top' | 'bottom';
 export type DrawerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
-export interface DrawerProps {
+interface DrawerProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
@@ -17,14 +18,17 @@ export interface DrawerProps {
   size?: DrawerSize;
   showCloseButton?: boolean;
   closeButtonVariant?: 'icon' | 'text';
-  closeButtonLabel?: string;
   className?: string;
-  closeOnEscape?: boolean;
   closeOnBackdropClick?: boolean;
+  closeOnEscape?: boolean;
   preventScroll?: boolean;
-  mobileOverlay?: boolean; // ✅ NEW: turns Drawer into full overlay for mobile
+  mobileOverlay?: boolean;
 }
 
+/**
+ * Clean & stable Drawer with CSS transitions.
+ * Uses opacity/transform instead of unmount flicker.
+ */
 export const Drawer = ({
   isOpen,
   onClose,
@@ -33,94 +37,83 @@ export const Drawer = ({
   size = 'md',
   showCloseButton = true,
   closeButtonVariant = 'icon',
-  closeButtonLabel = 'Close',
   className = '',
-  closeOnEscape = true,
   closeOnBackdropClick = true,
+  closeOnEscape = true,
   preventScroll = true,
   mobileOverlay = false,
 }: DrawerProps) => {
-  const [isClosing, setIsClosing] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // === Disable background scroll ===
+  // mount safety for SSR
+  useEffect(() => setMounted(true), []);
+
+  // lock scroll
   useEffect(() => {
     if (isOpen && preventScroll) document.body.style.overflow = 'hidden';
+    else document.body.style.overflow = '';
     return () => {
-      if (preventScroll) document.body.style.overflow = '';
+      document.body.style.overflow = '';
     };
   }, [isOpen, preventScroll]);
 
-  // === Handle Escape key ===
+  // escape key
   useEffect(() => {
     if (!isOpen || !closeOnEscape) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') handleClose();
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
     };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, closeOnEscape]);
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [isOpen, closeOnEscape, onClose]);
 
-  const handleClose = () => {
-    setIsClosing(true);
-    // Wait for CSS animation (300ms)
-    setTimeout(() => {
-      setIsClosing(false);
-      onClose();
-    }, 300);
-  };
+  if (!mounted) return null;
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!closeOnBackdropClick) return;
-    if (e.target === e.currentTarget) handleClose();
-  };
-
-  if (!isOpen && !isClosing) return null;
-
-  return (
-    <Portal>
-      <div
+  return createPortal(
+    <div
+      className={cn(
+        'drawer-wrapper',
+        isOpen ? 'drawer-wrapper--open' : 'drawer-wrapper--closed',
+      )}
+      onClick={(e) => {
+        if (closeOnBackdropClick && e.target === e.currentTarget) onClose();
+      }}
+    >
+      <aside
         className={cn(
-          'drawer-backdrop',
-          mobileOverlay && 'drawer-backdrop--overlay',
-          isClosing && 'drawer-backdrop--closing'
+          'drawer',
+          `drawer--${placement}`,
+          `drawer--${size}`,
+          mobileOverlay && 'drawer--mobile-overlay',
+          isOpen ? 'drawer--open' : 'drawer--closed',
+          className
         )}
-        onClick={handleBackdropClick}
+        role="dialog"
+        aria-modal="true"
       >
-        <aside
-          className={cn(
-            'drawer',
-            `drawer--${placement}`,
-            `drawer--${size}`,
-            mobileOverlay && 'drawer--mobile-overlay',
-            isClosing && 'drawer--closing',
-            className
-          )}
-          role="dialog"
-          aria-modal="true"
-        >
-          {showCloseButton && (
-            <HStack justify="end" className="drawer__close">
-              {closeButtonVariant === 'icon' ? (
-                <IconButtons.Close
-                  aria-label="Close drawer"
-                  variant="ghost"
-                  size="md"
-                  onClick={handleClose}
-                />
-              ) : (
-                <Button variant="ghost" size="md" onClick={handleClose}>
-                  {closeButtonLabel}
-                </Button>
-              )}
-            </HStack>
-          )}
+        {showCloseButton && (
+          <HStack justify="end" className="drawer__close">
+            {closeButtonVariant === 'icon' ? (
+              <IconButtons.Close
+                aria-label="Close drawer"
+                variant="ghost"
+                size="md"
+                onClick={onClose}
+              />
+            ) : (
+              <Button variant="ghost" size="md" onClick={onClose}>
+                Close
+              </Button>
+            )}
+          </HStack>
+        )}
 
-          <VStack spacing="lg" align="stretch" fullWidth className="drawer__content">
-            {children}
-          </VStack>
-        </aside>
-      </div>
-    </Portal>
+        <VStack spacing="lg" align="stretch" fullWidth className="drawer__content">
+          {children}
+        </VStack>
+      </aside>
+    </div>,
+    document.body
   );
 };
 

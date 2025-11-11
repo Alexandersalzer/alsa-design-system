@@ -1,70 +1,118 @@
 /* ========================================================
-   UNIVERSAL DRAWER OVERLAY
-   Supports: mobileOverlay (full-screen modal behavior)
+   UNIVERSAL DRAWER — SMOOTH & STABLE VERSION
    ======================================================== */
 
-.drawer-backdrop {
+.drawer-wrapper {
   position: fixed;
   inset: 0;
-  background: var(--surface-modal-backdrop, rgba(0,0,0,0.4));
-  z-index: var(--z-modal-backdrop, 1000);
   display: flex;
   justify-content: flex-end;
   align-items: stretch;
-  animation: drawerBackdropFadeIn 0.3s var(--foundation-ease-out);
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: var(--z-modal-backdrop, 1000);
 }
 
-.drawer-backdrop--overlay {
-  justify-content: center;
-  align-items: center;
+.drawer-wrapper--open {
+  opacity: 1;
+  visibility: visible;
 }
 
-.drawer-backdrop--closing {
-  animation: drawerBackdropFadeOut 0.25s var(--foundation-ease-in);
+.drawer-wrapper--closed {
+  pointer-events: none;
 }
 
 /* Core Drawer */
 .drawer {
-  position: fixed;
+  position: relative;
   background: var(--surface-modal-content, var(--surface-elevated));
   border: 1px solid var(--border-modal, rgba(255,255,255,0.1));
   box-shadow: var(--shadow-modal, 0 8px 32px rgba(0,0,0,0.2));
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  z-index: var(--z-modal, 1001);
   border-radius: var(--radius-md);
-  animation-duration: 0.3s;
-  animation-timing-function: var(--foundation-ease-out);
   max-height: 100vh;
+  transform: translateX(100%);
+  transition: transform 0.3s var(--foundation-ease-out);
+  z-index: var(--z-modal, 1001);
 }
 
 /* Overlay mode: fullscreen modal */
 .drawer--mobile-overlay {
   width: 100%;
   height: 100%;
+  border-radius: 0;
+}
+
+/* Placement & animation logic */
+.drawer--end {
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 80%;
+  max-width: 420px;
+  transform: translateX(100%);
+}
+
+.drawer--start {
   top: 0;
   left: 0;
-  border-radius: 0;
-  animation-name: drawerSlideInMobile;
+  height: 100%;
+  width: 80%;
+  max-width: 420px;
+  transform: translateX(-100%);
 }
 
-.drawer--closing.drawer--mobile-overlay {
-  animation-name: drawerSlideOutMobile;
+.drawer--top {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  max-height: 80%;
+  transform: translateY(-100%);
 }
 
-/* Placements */
-.drawer--end { top: 0; right: 0; height: 100%; animation-name: drawerSlideInEnd; }
-.drawer--start { top: 0; left: 0; height: 100%; animation-name: drawerSlideInStart; }
-.drawer--top { top: 0; width: 100%; animation-name: drawerSlideInTop; }
-.drawer--bottom { bottom: 0; width: 100%; animation-name: drawerSlideInBottom; }
+.drawer--bottom {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  max-height: 80%;
+  transform: translateY(100%);
+}
 
-/* Closing animations */
-.drawer--closing.drawer--end { animation-name: drawerSlideOutEnd; }
-.drawer--closing.drawer--start { animation-name: drawerSlideOutStart; }
-.drawer--closing.drawer--top { animation-name: drawerSlideOutTop; }
-.drawer--closing.drawer--bottom { animation-name: drawerSlideOutBottom; }
+/* Open/Close transitions */
+.drawer--open.drawer--end { transform: translateX(0); }
+.drawer--open.drawer--start { transform: translateX(0); }
+.drawer--open.drawer--top { transform: translateY(0); }
+.drawer--open.drawer--bottom { transform: translateY(0); }
 
+.drawer--closed.drawer--end { transform: translateX(100%); }
+.drawer--closed.drawer--start { transform: translateX(-100%); }
+.drawer--closed.drawer--top { transform: translateY(-100%); }
+.drawer--closed.drawer--bottom { transform: translateY(100%); }
+
+/* Mobile overlay slides from bottom */
+.drawer--mobile-overlay.drawer--open {
+  transform: translateY(0);
+}
+
+.drawer--mobile-overlay.drawer--closed {
+  transform: translateY(100%);
+}
+
+/* Sizes */
+.drawer--xs { max-width: 280px; }
+.drawer--sm { max-width: 360px; }
+.drawer--md { max-width: 420px; }
+.drawer--lg { max-width: 560px; }
+.drawer--xl { max-width: 720px; }
+.drawer--full { width: 100%; max-width: none; }
+
+/* Content */
 .drawer__content {
   flex: 1;
   overflow-y: auto;
@@ -81,32 +129,10 @@
   z-index: 2;
 }
 
-/* Animations */
-@keyframes drawerBackdropFadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes drawerBackdropFadeOut { from { opacity: 1; } to { opacity: 0; } }
-
-@keyframes drawerSlideInEnd { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-@keyframes drawerSlideOutEnd { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
-
-@keyframes drawerSlideInStart { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-@keyframes drawerSlideOutStart { from { transform: translateX(0); opacity: 1; } to { transform: translateX(-100%); opacity: 0; } }
-
-@keyframes drawerSlideInTop { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-@keyframes drawerSlideOutTop { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-100%); opacity: 0; } }
-
-@keyframes drawerSlideInBottom { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-@keyframes drawerSlideOutBottom { from { transform: translateY(0); opacity: 1; } to { transform: translateY(100%); opacity: 0; } }
-
-/* Fullscreen mobile overlay animations */
-@keyframes drawerSlideInMobile {
-  from { transform: translateY(100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-@keyframes drawerSlideOutMobile {
-  from { transform: translateY(0); opacity: 1; }
-  to { transform: translateY(100%); opacity: 0; }
-}
-
+/* Accessibility & motion */
 @media (prefers-reduced-motion: reduce) {
-  .drawer, .drawer-backdrop { animation: none !important; }
+  .drawer,
+  .drawer-wrapper {
+    transition: none !important;
+  }
 }
