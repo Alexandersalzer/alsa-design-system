@@ -1,46 +1,31 @@
 // ===============================================
 // blimpify-ui/design/system/core/validation/registerSchemas.ts
-// Auto-registration of all schemas for runtime validation
+// Schema validation initialization for existing schema system
 // ===============================================
 
-import { schemaRegistry } from './schemaValidator';
-
-// Import component schemas
-import { TypographySchema } from '../../components/Typography/schema';
-
-// Import pattern schemas
-import { KjFooterPatternSchema } from '../../patterns/footer/KjFooter/schema';
-
-// Import section schemas
-import { FooterSectionSchema } from '../../templates/footer/schema';
+import { validateComponent, validatePattern, validateSection } from './schemaValidator';
+import { schemaRegistry as existingSchemas } from '../schemas/registry';
 
 /**
- * Register all schemas with the schema registry
- * This should be called once during application initialization
+ * Initialize validation system
+ * This checks that the existing schemas are available and sets up validation
  */
 export function registerAllSchemas() {
-  console.log('🚀 Registering all schemas...');
+  console.log('🚀 Initializing validation system...');
 
   try {
-    // Register component schemas
-    schemaRegistry.registerComponent('text', TypographySchema);
+    // Check that schemas exist
+    const componentTypes = Object.keys(existingSchemas.components);
+    const patternTypes = Object.keys(existingSchemas.patterns);  
+    const sectionTypes = Object.keys(existingSchemas.sections);
 
-    // Register pattern schemas  
-    schemaRegistry.registerPattern('kj', KjFooterPatternSchema);
-
-    // Register section schemas
-    schemaRegistry.registerSection('footer', FooterSectionSchema);
-
-    console.log('✅ All schemas registered successfully');
-    
-    // Log available types for debugging
-    const availableTypes = schemaRegistry.getAvailableTypes();
-    console.log('📋 Available component types:', availableTypes.components);
-    console.log('🧩 Available pattern types:', availableTypes.patterns);
-    console.log('📄 Available section types:', availableTypes.sections);
+    console.log('✅ Validation system initialized');
+    console.log('📋 Available component types:', componentTypes);
+    console.log('🧩 Available pattern types:', patternTypes);
+    console.log('📄 Available section types:', sectionTypes);
     
   } catch (error) {
-    console.error('❌ Failed to register schemas:', error);
+    console.error('❌ Failed to initialize validation system:', error);
     throw error;
   }
 }
@@ -57,11 +42,11 @@ export function validateJSON(json: any, type: 'component' | 'pattern' | 'section
   try {
     switch (type) {
       case 'component':
-        return schemaRegistry.validateComponent(json);
+        return validateComponent(json);
       case 'pattern':
-        return schemaRegistry.validatePattern(json);
+        return validatePattern(json);
       case 'section':
-        return schemaRegistry.validateSection(json);
+        return validateSection(json);
       default:
         return { valid: false, errors: [`Unknown validation type: ${type}`] };
     }

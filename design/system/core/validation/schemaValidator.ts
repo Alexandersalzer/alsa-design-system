@@ -1,9 +1,14 @@
 // ===============================================
 // blimpify-ui/design/system/core/validation/schemaValidator.ts
-// Schema validation system for runtime type checking
+// Simple validation system using existing schemas
 // ===============================================
 
 import { ComponentNode, PatternNode, SectionNode } from '../types/nodes';
+import { 
+  schemaRegistry as existingSchemas,
+  SchemaUtils 
+} from '../schemas/registry';
+import { PropDefinition } from '../schemas/types/base';
 
 export interface ValidationResult {
   valid: boolean;
@@ -11,256 +16,191 @@ export interface ValidationResult {
   warnings?: string[];
 }
 
-export interface SchemaProperty {
-  type: string;
-  required?: boolean;
-  values?: string[]; // For enum types
-  default?: any;
-  description?: string;
-}
+/**
+ * Validate component against existing schema registry
+ */
+export const validateComponent = (component: ComponentNode): ValidationResult => {
+  const schema = existingSchemas.components[component.type];
+  
+  if (!schema) {
+    const availableTypes = Object.keys(existingSchemas.components);
+    return {
+      valid: false,
+      errors: [
+        `Unknown component type: "${component.type}"`,
+        `Available component types: ${availableTypes.join(', ') || 'none registered'}`
+      ]
+    };
+  }
 
-export interface ComponentSchema {
-  type: string;
-  props?: Record<string, SchemaProperty>;
-  requiredProps?: string[];
-}
+  return validateNodeAgainstSchema(component, schema, 'component');
+};
 
-export interface PatternSchema {
-  type: string;
-  props?: Record<string, SchemaProperty>;
-  allowedComponents?: string[];
-  requiredRoles?: string[];
-}
+/**
+ * Validate pattern against existing schema registry
+ */
+export const validatePattern = (pattern: PatternNode): ValidationResult => {
+  const schema = existingSchemas.patterns[pattern.type];
+  
+  if (!schema) {
+    const availableTypes = Object.keys(existingSchemas.patterns);
+    return {
+      valid: false,
+      errors: [
+        `Unknown pattern type: "${pattern.type}"`,
+        `Available pattern types: ${availableTypes.join(', ') || 'none registered'}`
+      ]
+    };
+  }
 
-export interface SectionSchema {
-  type: string;
-  props?: Record<string, SchemaProperty>;
-  patterns?: Record<string, PatternSchema>;
-  requiredPatterns?: string[];
+  const baseValidation = validateNodeAgainstSchema(pattern, schema, 'pattern');
+  
+  // Additional pattern-specific validation
+  if (baseValidation.valid && pattern.components) {
+    const componentValidation = validatePatternComponents(pattern, schema);
+    return mergeValidationResults(baseValidation, componentValidation);
+  }
+
+  return baseValidation;
+};
+
+/**
+ * Validate section against existing schema registry
+ */
+export const validateSection = (section: SectionNode): ValidationResult => {
+  const schema = existingSchemas.sections[section.type];
+  
+  if (!schema) {
+    const availableTypes = Object.keys(existingSchemas.sections);
+    return {
+      valid: false,
+      errors: [
+        `Unknown section type: "${section.type}"`,
+        `Available section types: ${availableTypes.join(', ') || 'none registered'}`
+      ]
+    };
+  }
+
+  return validateNodeAgainstSchema(section, schema, 'section');
+};
+
+/**
+ * Validate node against schema
+ */
+function validateNodeAgainstSchema(
+  node: ComponentNode | PatternNode | SectionNode, 
+  schema: any,
+  nodeType: string
+): ValidationResult {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+
+  // Validate props if schema defines them
+  if (schema.props && node.props) {
+    Object.entries(schema.props as Record<string, PropDefinition>).forEach(([propName, propSchema]) => {
+      const propValue = node.props?.[propName];
+
+      // Check required props
+      if (propSchema.required && (propValue === undefined || propValue === null || propValue === '')) {
+        errors.push(`Missing required ${nodeType} prop: "${propName}"`);
+      }
+
+      // Validate enum values
+      if (propSchema.type === 'enum' && propValue !== undefined && propValue !== null) {
+        if (propSchema.values && Array.isArray(propSchema.values) && !(propSchema.values as any[]).includes(propValue)) {
+          errors.push(
+            `Invalid ${nodeType} prop "${propName}": "${propValue}". Must be one of: ${(propSchema.values as any[]).join(', ')}`
+          );
+        }
+      }
+
+      // Type validation
+      if (propValue !== undefined && propValue !== null) {
+        const typeValidation = validatePropType(propValue, propSchema, propName, nodeType);
+        errors.push(...typeValidation.errors);
+        warnings.push(...(typeValidation.warnings || []));
+      }
+    });
+  }
+
+  // Check for unknown props (warnings only)
+  if (schema.props && node.props) {
+    Object.keys(node.props).forEach(propName => {
+      if (!schema.props[propName]) {
+        warnings.push(`Unknown ${nodeType} prop: "${propName}". This prop is not defined in the schema.`);
+      }
+    });
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+    warnings: warnings.length > 0 ? warnings : undefined
+  };
 }
 
 /**
- * Schema Registry - Central registry for all component, pattern, and section schemas
- * Provides runtime validation against registered schemas
+ * Validate pattern components
  */
-class SchemaRegistry {
-  private componentSchemas = new Map<string, ComponentSchema>();
-  private patternSchemas = new Map<string, PatternSchema>();
-  private sectionSchemas = new Map<string, SectionSchema>();
+function validatePatternComponents(pattern: PatternNode, schema: any): ValidationResult {
+  const errors: string[] = [];
 
-  // Component registration
-  registerComponent(type: string, schema: ComponentSchema) {
-    this.componentSchemas.set(type, schema);
-    console.log(`📋 Registered component schema: ${type}`);
+  // For now, just validate that components exist and are valid types
+  if (pattern.components) {
+    Object.entries(pattern.components).forEach(([key, component]) => {
+      if (!existingSchemas.components[component.type]) {
+        errors.push(
+          `Pattern "${pattern.type}" contains unknown component type "${component.type}"`
+        );
+      }
+    });
   }
 
-  // Pattern registration
-  registerPattern(type: string, schema: PatternSchema) {
-    this.patternSchemas.set(type, schema);
-    console.log(`🧩 Registered pattern schema: ${type}`);
-  }
-
-  // Section registration
-  registerSection(type: string, schema: SectionSchema) {
-    this.sectionSchemas.set(type, schema);
-    console.log(`📄 Registered section schema: ${type}`);
-  }
-
-  // Component validation
-  validateComponent(component: ComponentNode): ValidationResult {
-    const schema = this.componentSchemas.get(component.type);
-    
-    if (!schema) {
-      return {
-        valid: false,
-        errors: [
-          `Unknown component type: "${component.type}"`,
-          `Available component types: ${Array.from(this.componentSchemas.keys()).join(', ') || 'none registered'}`
-        ]
-      };
-    }
-
-    return this.validateNodeAgainstSchema(component, schema, 'component');
-  }
-
-  // Pattern validation
-  validatePattern(pattern: PatternNode): ValidationResult {
-    const schema = this.patternSchemas.get(pattern.type);
-    
-    if (!schema) {
-      return {
-        valid: false,
-        errors: [
-          `Unknown pattern type: "${pattern.type}"`,
-          `Available pattern types: ${Array.from(this.patternSchemas.keys()).join(', ') || 'none registered'}`
-        ]
-      };
-    }
-
-    const baseValidation = this.validateNodeAgainstSchema(pattern, schema, 'pattern');
-    
-    // Additional pattern-specific validation
-    if (baseValidation.valid && schema.allowedComponents && pattern.components) {
-      const componentValidation = this.validatePatternComponents(pattern, schema);
-      return this.mergeValidationResults(baseValidation, componentValidation);
-    }
-
-    return baseValidation;
-  }
-
-  // Section validation
-  validateSection(section: SectionNode): ValidationResult {
-    const schema = this.sectionSchemas.get(section.type);
-    
-    if (!schema) {
-      return {
-        valid: false,
-        errors: [
-          `Unknown section type: "${section.type}"`,
-          `Available section types: ${Array.from(this.sectionSchemas.keys()).join(', ') || 'none registered'}`
-        ]
-      };
-    }
-
-    return this.validateNodeAgainstSchema(section, schema, 'section');
-  }
-
-  // Get available types for debugging
-  getAvailableTypes() {
-    return {
-      components: Array.from(this.componentSchemas.keys()),
-      patterns: Array.from(this.patternSchemas.keys()),
-      sections: Array.from(this.sectionSchemas.keys())
-    };
-  }
-
-  // Private validation methods
-  private validateNodeAgainstSchema(
-    node: ComponentNode | PatternNode | SectionNode, 
-    schema: ComponentSchema | PatternSchema | SectionSchema, 
-    nodeType: string
-  ): ValidationResult {
-    const errors: string[] = [];
-    const warnings: string[] = [];
-
-    // Validate props if schema defines them
-    if (schema.props && node.props) {
-      Object.entries(schema.props).forEach(([propName, propSchema]) => {
-        const propValue = node.props?.[propName];
-
-        // Check required props
-        if (propSchema.required && (propValue === undefined || propValue === null || propValue === '')) {
-          errors.push(`Missing required ${nodeType} prop: "${propName}"`);
-        }
-
-        // Validate enum values
-        if (propSchema.type === 'enum' && propValue !== undefined && propValue !== null) {
-          if (!propSchema.values?.includes(propValue)) {
-            errors.push(
-              `Invalid ${nodeType} prop "${propName}": "${propValue}". Must be one of: ${propSchema.values?.join(', ') || 'none defined'}`
-            );
-          }
-        }
-
-        // Type validation
-        if (propValue !== undefined && propValue !== null) {
-          const typeValidation = this.validatePropType(propValue, propSchema, propName, nodeType);
-          errors.push(...typeValidation.errors);
-          warnings.push(...typeValidation.warnings || []);
-        }
-      });
-    }
-
-    // Check for unknown props (warnings only)
-    if (schema.props && node.props) {
-      Object.keys(node.props).forEach(propName => {
-        if (!schema.props![propName]) {
-          warnings.push(`Unknown ${nodeType} prop: "${propName}". This prop is not defined in the schema.`);
-        }
-      });
-    }
-
-    return {
-      valid: errors.length === 0,
-      errors,
-      warnings: warnings.length > 0 ? warnings : undefined
-    };
-  }
-
-  private validatePatternComponents(pattern: PatternNode, schema: PatternSchema): ValidationResult {
-    const errors: string[] = [];
-
-    if (schema.allowedComponents && pattern.components) {
-      Object.entries(pattern.components).forEach(([key, component]) => {
-        if (!schema.allowedComponents!.includes(component.type)) {
-          errors.push(
-            `Pattern "${pattern.type}" does not allow component type "${component.type}". Allowed: ${schema.allowedComponents!.join(', ')}`
-          );
-        }
-      });
-    }
-
-    // Validate required roles
-    if (schema.requiredRoles && pattern.components) {
-      const componentRoles = Object.values(pattern.components)
-        .map(c => c.props?.role)
-        .filter(Boolean);
-
-      schema.requiredRoles.forEach(requiredRole => {
-        if (!componentRoles.includes(requiredRole)) {
-          errors.push(`Pattern "${pattern.type}" is missing required role: "${requiredRole}"`);
-        }
-      });
-    }
-
-    return {
-      valid: errors.length === 0,
-      errors
-    };
-  }
-
-  private validatePropType(value: any, propSchema: SchemaProperty, propName: string, nodeType: string): ValidationResult {
-    const errors: string[] = [];
-    const warnings: string[] = [];
-
-    switch (propSchema.type) {
-      case 'string':
-        if (typeof value !== 'string') {
-          errors.push(`${nodeType} prop "${propName}" must be a string, got ${typeof value}`);
-        }
-        break;
-      case 'number':
-        if (typeof value !== 'number') {
-          errors.push(`${nodeType} prop "${propName}" must be a number, got ${typeof value}`);
-        }
-        break;
-      case 'boolean':
-        if (typeof value !== 'boolean') {
-          errors.push(`${nodeType} prop "${propName}" must be a boolean, got ${typeof value}`);
-        }
-        break;
-      // Add more type validations as needed
-    }
-
-    return { valid: errors.length === 0, errors, warnings };
-  }
-
-  private mergeValidationResults(...results: ValidationResult[]): ValidationResult {
-    const allErrors = results.flatMap(r => r.errors);
-    const allWarnings = results.flatMap(r => r.warnings || []);
-
-    return {
-      valid: allErrors.length === 0,
-      errors: allErrors,
-      warnings: allWarnings.length > 0 ? allWarnings : undefined
-    };
-  }
+  return {
+    valid: errors.length === 0,
+    errors
+  };
 }
 
-// Export singleton instance
-export const schemaRegistry = new SchemaRegistry();
+/**
+ * Validate individual prop type
+ */
+function validatePropType(value: any, propSchema: PropDefinition, propName: string, nodeType: string): ValidationResult {
+  const errors: string[] = [];
+  const warnings: string[] = [];
 
-// Export validation utilities
-export const validateComponent = (component: ComponentNode) => schemaRegistry.validateComponent(component);
-export const validatePattern = (pattern: PatternNode) => schemaRegistry.validatePattern(pattern);
-export const validateSection = (section: SectionNode) => schemaRegistry.validateSection(section);
+  switch (propSchema.type) {
+    case 'string':
+      if (typeof value !== 'string') {
+        errors.push(`${nodeType} prop "${propName}" must be a string, got ${typeof value}`);
+      }
+      break;
+    case 'number':
+      if (typeof value !== 'number') {
+        errors.push(`${nodeType} prop "${propName}" must be a number, got ${typeof value}`);
+      }
+      break;
+    case 'boolean':
+      if (typeof value !== 'boolean') {
+        errors.push(`${nodeType} prop "${propName}" must be a boolean, got ${typeof value}`);
+      }
+      break;
+    // Add more type validations as needed
+  }
+
+  return { valid: errors.length === 0, errors, warnings };
+}
+
+/**
+ * Merge validation results
+ */
+function mergeValidationResults(...results: ValidationResult[]): ValidationResult {
+  const allErrors = results.flatMap(r => r.errors);
+  const allWarnings = results.flatMap(r => r.warnings || []);
+
+  return {
+    valid: allErrors.length === 0,
+    errors: allErrors,
+    warnings: allWarnings.length > 0 ? allWarnings : undefined
+  };
+}
