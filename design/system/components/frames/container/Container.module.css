@@ -40,6 +40,13 @@
   max-width: var(--width-form);
 }
 
+/* NEW: full-width variant for navbar/footer shells */
+.maxWidthNavbar {
+  width: 100%;
+  max-width: 100%;
+  padding-inline: 0; /* No horizontal padding */
+}
+
 /* ===== HEIGHT VARIANTS ===== */
 .heightAuto { min-height: fit-content; }
 .heightFull { flex: 1; justify-content: center; }

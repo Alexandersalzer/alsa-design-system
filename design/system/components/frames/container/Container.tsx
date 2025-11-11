@@ -14,8 +14,9 @@ interface ContainerProps {
   height?: Height;
   useMediaWidth?: boolean;
   useFormWidth?: boolean;
+  useNavbarWidth?: boolean; // ✅ NEW PROP
   spacing?: SpacingScale;
-  noPadding?: boolean; // För globala patterns utan vertical padding
+  noPadding?: boolean;
   style?: React.CSSProperties;
 }
 
@@ -55,6 +56,7 @@ export const Container = ({
   height = 'auto',
   useMediaWidth = false,
   useFormWidth = false,
+  useNavbarWidth = false, // ✅ NEW
   spacing,
   noPadding = false,
   style,
@@ -64,10 +66,12 @@ export const Container = ({
   const spacingClass = getSpacingClass(spacing);
   const paddingClass = getPaddingClass(noPadding);
   
-  const widthClass = useFormWidth 
-    ? styles.maxWidthForm 
-    : useMediaWidth 
-    ? styles.maxWidthMedia 
+  const widthClass = useNavbarWidth
+    ? styles.maxWidthNavbar // ✅ NEW
+    : useFormWidth
+    ? styles.maxWidthForm
+    : useMediaWidth
+    ? styles.maxWidthMedia
     : '';
 
   const combinedClassName = [

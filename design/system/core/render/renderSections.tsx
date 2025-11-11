@@ -94,17 +94,17 @@ export const renderShellPattern = (sectionData: any, pattern: PatternNode, patte
     return null;
   }
 
-  // Hämta useMediaWidth från props
-  const useMediaWidth = pattern.props?.useMediaWidth ?? false;
+  // Hämta useNavbarWidth från props
+  const useNavbarWidth = pattern.props?.useNavbarWidth ?? false;
 
-  // Container för layout men utan padding för shell patterns
+  // Container utan padding, full width för navbar/footer
   return (
     <Container 
       key={`${patternKey}-${index}`}
       align="center"
       height="auto"
-      useMediaWidth={useMediaWidth}
-      noPadding={true} // Ingen vertical padding för navbar/footer
+      useNavbarWidth={useNavbarWidth}
+      noPadding={true}
     >
       <PatternComponent 
         type={pattern.type}
