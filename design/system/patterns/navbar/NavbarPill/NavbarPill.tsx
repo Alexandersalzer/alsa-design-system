@@ -52,9 +52,17 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
         {/* DESKTOP CONTENT */}
         <div className="navbar-pill__content">
           {menuItems.length > 0 && (
-            <HStack className={`navbar-pill__middle navbar-pill__middle--${align}`} spacing="lg">
+            <HStack
+              className={`navbar-pill__middle navbar-pill__middle--${align}`}
+              spacing="lg"
+            >
               {menuItems.map((item: any, i) => (
-                <TextLink key={i} href={item.props?.href || '/'} size="md" underline="hover">
+                <TextLink
+                  key={i}
+                  href={item.props?.href || '/'}
+                  size="md"
+                  underline="hover"
+                >
                   {item.props?.content}
                 </TextLink>
               ))}
@@ -88,7 +96,12 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
       </Box>
 
       {/* MOBILE MENU */}
-      <VStack className={`navbar-pill__mobile-menu ${mobileOpen ? 'navbar-pill__mobile-menu--open' : ''}`} spacing="md">
+      <VStack
+        className={`navbar-pill__mobile-menu ${
+          mobileOpen ? 'navbar-pill__mobile-menu--open' : ''
+        }`}
+        spacing="md"
+      >
         {menuItems.map((item: any, i) => (
           <TextLink
             key={i}
