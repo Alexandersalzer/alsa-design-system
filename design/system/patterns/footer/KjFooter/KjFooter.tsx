@@ -4,7 +4,7 @@ import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { PatternNode } from '../../../core/types/nodes';
-import { getContentByRole } from '../../../core/utils/helpers';
+import { getComponentContent } from '../../../core/utils/helpers';
 
 const KjFooter = ({ components = {} }: PatternNode) => {
   return (
@@ -24,7 +24,7 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           align="center"
           weight="semibold"
         >
-          {getContentByRole(components, 'title')}
+          {getComponentContent(components, 'typography', 'title')}
         </Typography>
       </HStack>
 
@@ -38,14 +38,14 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           weight="semibold"
         >
           <a 
-            href={`mailto:${getContentByRole(components, 'email')}`}
+            href={`mailto:${getComponentContent(components, 'typography', 'email')}`}
             style={{ 
               color: 'inherit', 
               textDecoration: 'underline',
               textUnderlineOffset: '2px'
             }}
           >
-            {getContentByRole(components, 'email')}
+            {getComponentContent(components, 'typography', 'email')}
           </a>
         </Typography>
         
@@ -56,7 +56,7 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           align="center"
           weight="semibold"
         >
-          {getContentByRole(components, 'legal')}
+          {getComponentContent(components, 'typography', 'legal')}
         </Typography>
       </VStack>
       {/* Attribution */}
@@ -66,9 +66,9 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           align="center"
           weight="semibold"
         >
-          {getContentByRole(components, 'attribute').includes('Blimpify-IM') ? (
+          {getComponentContent(components, 'typography', 'attribute').includes('Blimpify-IM') ? (
             <>
-              {getContentByRole(components, 'attribute').replace('Blimpify-IM', '')}{' '}
+              {getComponentContent(components, 'typography', 'attribute').replace('Blimpify-IM', '')}{' '}
               <a 
                 href="https://blimpify-im.com"
                 target="_blank"
@@ -84,7 +84,7 @@ const KjFooter = ({ components = {} }: PatternNode) => {
               </a>
             </>
           ) : (
-            getContentByRole(components, 'attribute')
+            getComponentContent(components, 'typography', 'attribute')
           )}
         </Typography>
     </VStack>
