@@ -78,9 +78,11 @@
 
 @import './patterns/client/CleanNavbar/CleanNavbar.css';
 @import './patterns/client/FAQ/FAQ.css';
-@import './patterns/navbar/Navbar/Navbar.css';
+@import './patterns/navbar/NavbarLegacy/NavbarLegacy.css';
 
-
+@import './patterns/navbar/NavbarBar.module.css';
+@import './patterns/navbar/NavbarPill.module.css';
+@import './patterns/navbar/Navbar.module.css';
 
 @import './patterns/client/ProcessSteps/processSteps.css';
 

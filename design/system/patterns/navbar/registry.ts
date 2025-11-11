@@ -1,8 +1,9 @@
-import { KjNavbar } from './KjNavbar/KjNavbar';
-import { Navbar } from './Navbar/Navbar';
+import { Navbar } from './Navbar';
+import { NavbarBar } from './NavbarBar';
+import { NavbarPill } from './NavbarPill';
 
-// Navbar patterns registry
-export const navbarRegistry: Record<string, React.ComponentType<any>> = {
-  kjNav: KjNavbar,    // Legacy client-specific navbar
-  navbar: Navbar,     // ← Universal navbar pattern (ONLY THIS!)
+export const navbarRegistry = {
+  navbar: Navbar,        // base if you ever want direct simple use
+  navbar_bar: NavbarBar, // variant
+  navbar_pill: NavbarPill, // variant
 };
