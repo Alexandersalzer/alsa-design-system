@@ -1,101 +1,55 @@
-/* ==============================================
-   NAVBAR BAR VARIANT
-   Uses semantic tokens for spacing, width, and color
-   ============================================== */
+/* --------------------------------------------- */
+/* NavbarBar Pattern                             */
+/* --------------------------------------------- */
 
-.navbar-bar {
-  background: var(--surface-nav);
-  border-bottom: 1px solid var(--border-light);
-  color: var(--text-nav-item);
-  position: relative;
+.navbar--bar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   width: 100%;
-  z-index: 100;
+  background-color: var(--primary-white);
+  border-bottom: 1px solid var(--border-light);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
-/* Inner wrapper – constrained width */
-.navbar-bar .navbar-base__row {
-  max-width: var(--width-navbar);
-  margin-inline: auto;
-  padding-block: var(--space-navbar);
-  padding-inline: var(--space-container);
+.navbar--bar .navbar__row {
+  padding: 0.75rem 1.5rem;
 }
 
-/* Brand */
-.navbar-bar .navbar-base__brand a {
-  color: var(--text-heading-primary);
+.navbar--bar .navbar__logo {
+  height: 40px;
+  width: auto;
 }
 
-/* Links group */
-.navbar-bar .navbar-base__main a {
-  color: var(--text-nav-item);
+.navbar--bar .navbar__brand-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.navbar--bar .navbar__main a {
   transition: color 0.2s ease;
 }
 
-.navbar-bar .navbar-base__main a:hover {
-  color: var(--text-nav-item-selected);
+.navbar--bar .navbar__main a:hover {
+  color: var(--accent-600);
 }
 
-/* Right buttons */
-.navbar-bar .navbar-base__actions button {
-  font-weight: 500;
+.navbar--bar .navbar__actions button {
+  transition: background 0.2s ease;
 }
 
-/* ==============================================
-   MOBILE STYLING
-   ============================================== */
-.navbar-bar__mobile-overlay {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background: var(--surface-nav);
-  border-top: 1px solid var(--border-light);
-  box-shadow: 0 4px 8px var(--shadow-subtle);
-  animation: fadeIn 0.25s ease forwards;
+.navbar--bar .navbar__actions button:hover {
+  background-color: var(--accent-50);
 }
 
-.navbar-bar__mobile-inner {
-  max-width: var(--width-navbar);
-  margin-inline: auto;
-  padding-block: calc(var(--space-navbar) * 0.75);
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.navbar-bar__mobile-link,
-.navbar-bar__mobile-button {
-  display: block;
-  width: 100%;
-  padding: 0.75rem 0;
-  text-align: left;
-  font-size: 1rem;
-  color: var(--text-nav-item);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-.navbar-bar__mobile-link:hover,
-.navbar-bar__mobile-button:hover {
-  color: var(--text-nav-item-selected);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-0.25rem);
+@media (max-width: 768px) {
+  .navbar--bar .navbar__main {
+    display: none;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-/* ==============================================
-   DARK MODE
-   ============================================== */
-[data-theme="dark"] .navbar-bar {
-  background: var(--surface-inverse);
-  border-bottom-color: var(--border-strong);
+  .navbar--bar .navbar__mobile-menu {
+    background-color: var(--primary-white);
+    padding: 1rem;
+    border-top: 1px solid var(--border-light);
+  }
 }

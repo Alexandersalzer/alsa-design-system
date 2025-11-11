@@ -78,9 +78,8 @@
 
 @import './patterns/client/FAQ/FAQ.css';
 
-@import './patterns/navbar/NavbarBar.module.css';
-@import './patterns/navbar/NavbarPill.module.css';
-@import './patterns/navbar/Navbar.module.css';
+@import './patterns/navbar/NavbarBar/NavbarBar.css';
+@import './patterns/navbar/NavbarPill/NavbarPill.css';
 
 @import './patterns/client/ProcessSteps/processSteps.css';
 

@@ -31,15 +31,6 @@ const Navbar = ({ section }: NavbarProps) => {
   return (
     <Section 
       as="nav" 
-      style={{ 
-        position: 'sticky',
-        top: 0,
-        zIndex: 1000,
-        backgroundColor: 'var(--primary-white)',
-        borderBottom: '1px solid var(--border-light)',
-        paddingTop: '0',
-        paddingBottom: '0',
-      }}
     >
       {renderedPatterns}
     </Section>

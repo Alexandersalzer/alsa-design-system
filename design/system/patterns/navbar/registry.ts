@@ -1,9 +1,8 @@
-import { Navbar } from './Navbar';
-import { NavbarBar } from './NavbarBar';
-import { NavbarPill } from './NavbarPill';
+import NavbarBar from './NavbarBar/NavbarBar';
+import NavbarPill from './NavbarPill/NavbarPill';
 
-export const navbarRegistry = {
-  navbar: Navbar,        // base if you ever want direct simple use
-  navbar_bar: NavbarBar, // variant
-  navbar_pill: NavbarPill, // variant
+export const navbarRegistry: Record<string, any> = {
+  navbar: NavbarBar,
+  navbar_bar: NavbarBar,
+  navbar_pill: NavbarPill,
 };
