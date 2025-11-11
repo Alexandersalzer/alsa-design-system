@@ -18,9 +18,7 @@ export type {
 export * from './render';
 
 // Validation system - console logging only
-export { SchemaInitializer } from './validation/SchemaInitializer';
-export { registerAllSchemas, validateJSON } from './validation/registerSchemas';
-export { validateComponent, validatePattern, validateSection } from './validation/schemaValidator';
+export { validatePattern } from './validation/schemaValidator';
 
 export * from './schemas';
 

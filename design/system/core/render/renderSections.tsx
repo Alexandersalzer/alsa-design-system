@@ -3,15 +3,7 @@
 import { Section } from '../../components/frames/section/Section';
 import { Container } from '../../components';
 import { patternRegistry } from '../../patterns/registry';
-
-// Import nya node types
-import { 
-  SectionNode, 
-  PatternNode, 
-  PageNode
-} from '../types/nodes';
-
-// Import validation system
+import { SectionNode, PatternNode, PageNode } from '../types/nodes';
 import { validatePattern } from '../validation/schemaValidator';
 
 /**

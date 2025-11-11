@@ -4,10 +4,7 @@
 // ===============================================
 
 import { ComponentNode, PatternNode, SectionNode } from '../types/nodes';
-import { 
-  schemaRegistry as existingSchemas,
-  SchemaUtils 
-} from '../schemas/registry';
+import { schemaRegistry as existingSchemas } from '../schemas/registry';
 import { PropDefinition } from '../schemas/types/base';
 
 export interface ValidationResult {
@@ -83,25 +80,7 @@ export const validatePattern = (pattern: PatternNode, patternKey?: string): Vali
   return finalValidation;
 };
 
-/**
- * Validate section against existing schema registry
- */
-export const validateSection = (section: SectionNode): ValidationResult => {
-  const schema = existingSchemas.sections[section.type];
-  
-  if (!schema) {
-    const availableTypes = Object.keys(existingSchemas.sections);
-    return {
-      valid: false,
-      errors: [
-        `Unknown section type: "${section.type}"`,
-        `Available section types: ${availableTypes.join(', ') || 'none registered'}`
-      ]
-    };
-  }
 
-  return validateNodeAgainstSchema(section, schema, 'section');
-};
 
 /**
  * Validate node against schema
@@ -133,11 +112,9 @@ function validateNodeAgainstSchema(
         }
       }
 
-      // Type validation
-      if (propValue !== undefined && propValue !== null) {
-        const typeValidation = validatePropType(propValue, propSchema, propName, nodeType);
-        errors.push(...typeValidation.errors);
-        warnings.push(...(typeValidation.warnings || []));
+      // Basic type validation för strings (det viktigaste)
+      if (propValue !== undefined && propValue !== null && propSchema.type === 'string' && typeof propValue !== 'string') {
+        errors.push(`${nodeType} prop "${propName}" must be a string, got ${typeof propValue}`);
       }
     });
   }
@@ -200,34 +177,7 @@ function validatePatternComponents(pattern: PatternNode, schema: any): Validatio
   };
 }
 
-/**
- * Validate individual prop type
- */
-function validatePropType(value: any, propSchema: PropDefinition, propName: string, nodeType: string): ValidationResult {
-  const errors: string[] = [];
-  const warnings: string[] = [];
 
-  switch (propSchema.type) {
-    case 'string':
-      if (typeof value !== 'string') {
-        errors.push(`${nodeType} prop "${propName}" must be a string, got ${typeof value}`);
-      }
-      break;
-    case 'number':
-      if (typeof value !== 'number') {
-        errors.push(`${nodeType} prop "${propName}" must be a number, got ${typeof value}`);
-      }
-      break;
-    case 'boolean':
-      if (typeof value !== 'boolean') {
-        errors.push(`${nodeType} prop "${propName}" must be a boolean, got ${typeof value}`);
-      }
-      break;
-    // Add more type validations as needed
-  }
-
-  return { valid: errors.length === 0, errors, warnings };
-}
 
 /**
  * Merge validation results
