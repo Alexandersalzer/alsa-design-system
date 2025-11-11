@@ -9,11 +9,23 @@ import styles from './NavbarPill.module.css';
 
 export const NavbarPill = (props: any) => {
   return (
-    <Popover modal>
-      <Navbar
-        {...props}
-        className={`${styles['navbar-pill']} ${props.className || ''}`}
-        renderMobileMenu={(items) => (
+    <Navbar
+      {...props}
+      className={`${styles['navbar-pill']} ${props.className || ''}`}
+      // Override the base mobile menu renderer with a Popover
+      renderMobileMenu={(items) => (
+        <Popover modal>
+          <Popover.Trigger asChild>
+            <Button
+              variant="ghost"
+              size="md"
+              aria-label="Toggle menu"
+              className={styles['navbar-pill__toggle']}
+            >
+              ☰
+            </Button>
+          </Popover.Trigger>
+
           <Popover.Content
             className={styles['navbar-pill__popover']}
             positioning={{ placement: 'bottom', offset: 8 }}
@@ -43,20 +55,8 @@ export const NavbarPill = (props: any) => {
               )}
             </VStack>
           </Popover.Content>
-        )}
-      />
-
-      {/* Mobile toggle inside Popover.Trigger */}
-      <Popover.Trigger asChild>
-        <Button
-          variant="ghost"
-          size="md"
-          aria-label="Toggle menu"
-          className={styles['navbar-pill__toggle']}
-        >
-          ☰
-        </Button>
-      </Popover.Trigger>
-    </Popover>
+        </Popover>
+      )}
+    />
   );
 };
