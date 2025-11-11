@@ -64,7 +64,7 @@
 
 /* ===== VARIANT: PILL (Floating Pill Navbar) ===== */
 .navbar--pill {
-  background: transparent;
+  background: var(--surface-default);
   padding: var(--foundation-space-4) var(--foundation-space-6);
   display: flex;
   justify-content: center;
@@ -78,8 +78,6 @@
   max-width: fit-content;
   min-width: 600px;
   background-color: var(--surface-default);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--border-subtle);
@@ -92,7 +90,7 @@
   /* position: sticky; */
   /* top: var(--foundation-space-4); */
   /* z-index: var(--z-navbar, 50); */
-  background-color: transparent;
+  background-color: var(--surface-default);
 }
 
 .navbar__pill-spacer {
