@@ -157,7 +157,7 @@
 /* -----------------------------------------------
    Content-aware collapse (container query)
 ----------------------------------------------- */
-@container (max-width: 880px) {
+@container (max-width: 640px) {
   .navbar-pill__content {
     display: none;
   }
@@ -170,7 +170,7 @@
 /* -----------------------------------------------
    Fallback: early viewport collapse
 ----------------------------------------------- */
-@media (max-width: 960px) {
+@media (max-width: 768px) {
   .navbar-pill__content {
     display: none;
   }
