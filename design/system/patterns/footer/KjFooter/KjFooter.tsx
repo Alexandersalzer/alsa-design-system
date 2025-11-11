@@ -68,9 +68,9 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           align="center"
           weight="semibold"
         >
-          {get('typography', 'attribute').content.includes('Blimpify-IM') ? (
+          {get('typography', 'attribute').content?.includes('Blimpify-IM') ? (
             <>
-              {get('typography', 'attribute').content.replace('Blimpify-IM', '')}{' '}
+              {get('typography', 'attribute').content?.replace('Blimpify-IM', '')}{' '}
               <a 
                 href="https://blimpify-im.com"
                 target="_blank"
