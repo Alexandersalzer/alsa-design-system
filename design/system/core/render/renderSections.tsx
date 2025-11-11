@@ -128,11 +128,3 @@ export function Sections({
   );
 }
 
-/**
- * Page component - Higher level abstraction for rendering complete pages
- * Simplifies the API for client-next
- */
-export function Page({ sections, order }: PageNode) {
-  return <Sections sections={sections} order={order} />;
-}
-

@@ -1,1 +1,1 @@
-export { Page } from './renderSections';
+export { Sections } from './renderSections';
