@@ -26,3 +26,10 @@ export const getComponentProps = (
   });
   return component?.props || fallback;
 };
+
+export const useComponentProps = (components: Record<string, ComponentNode>) => {
+  return (type: string, role?: string, prop: string = 'content', fallback: any = '') => {
+    const component = getComponentProps(components, type, role);
+    return component?.[prop] ?? fallback;
+  };
+};

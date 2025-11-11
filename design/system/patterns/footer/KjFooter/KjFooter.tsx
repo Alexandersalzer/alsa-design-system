@@ -4,9 +4,11 @@ import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { PatternNode } from '../../../core/types/nodes';
-import { getComponentProps } from '../../../core/utils/helpers';
+import { useComponentProps } from '../../../core/utils/helpers';
 
 const KjFooter = ({ components = {} }: PatternNode) => {
+  const get = useComponentProps(components);
+  
   return (
     <VStack spacing="xl" align="center" fullWidth>
       {/* Title with Logo */}
@@ -22,9 +24,9 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           variant="h4" 
           color="inverse" 
           align="center"
-          weight={getComponentProps(components, 'typography', 'title').weight || 'semibold'}
+          weight="semibold"
         >
-          {getComponentProps(components, 'typography', 'title').content}
+          {get('typography', 'title').content}
         </Typography>
       </HStack>
 
@@ -38,14 +40,14 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           weight="semibold"
         >
           <a 
-            href={`mailto:${getComponentProps(components, 'typography', 'email').content}`}
+            href={`mailto:${get('typography', 'email').content}`}
             style={{ 
               color: 'inherit', 
               textDecoration: 'underline',
               textUnderlineOffset: '2px'
             }}
           >
-            {getComponentProps(components, 'typography', 'email').content}
+            {get('typography', 'email').content}
           </a>
         </Typography>
         
@@ -56,7 +58,7 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           align="center"
           weight="semibold"
         >
-          {getComponentProps(components, 'typography', 'legal').content}
+          {get('typography', 'legal').content}
         </Typography>
       </VStack>
       {/* Attribution */}
@@ -66,9 +68,9 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           align="center"
           weight="semibold"
         >
-          {getComponentProps(components, 'typography', 'attribute').content.includes('Blimpify-IM') ? (
+          {get('typography', 'attribute').content.includes('Blimpify-IM') ? (
             <>
-              {getComponentProps(components, 'typography', 'attribute').content.replace('Blimpify-IM', '')}{' '}
+              {get('typography', 'attribute').content.replace('Blimpify-IM', '')}{' '}
               <a 
                 href="https://blimpify-im.com"
                 target="_blank"
@@ -84,7 +86,7 @@ const KjFooter = ({ components = {} }: PatternNode) => {
               </a>
             </>
           ) : (
-            getComponentProps(components, 'typography', 'attribute').content
+            get('typography', 'attribute').content
           )}
         </Typography>
     </VStack>
