@@ -5,24 +5,13 @@
 
 import React, { ReactNode } from 'react';
 import { VStack } from '../../../components/layout/vStack/VStack';
-import { HStack } from '../../../components/layout/hStack/HStack';
 import { Box } from '../../../components/layout/box/Box';
-import { Typography, TypographyVariant, TypographyColor, TypographyWeight, TypographyAlign } from '../../../components/Typography/Typography';
+import { Typography, TypographyAlign } from '../../../components/Typography/Typography';
 import { Tag, TagVariant, TagSize } from '../../../components/feedback/Tag/Tag';
-import { TextLink, TextLinkProps } from '../../../components/actions/TextLink/TextLink';
+import { TextLinkProps } from '../../../components/actions/TextLink/TextLink';
 import { Button, ButtonProps } from '../../../components/actions/Button/Button';
-import { Input } from '../../../components/forms/Input/Input';
-import { SegmentedControl } from '../../../components/actions/SegmentedControl/SegmentedControl';
 
 // ===== TYPE DEFINITIONS =====
-
-export type SectionBodyActionType = 
-  | 'none'
-  | 'button' 
-  | 'button-group' 
-  | 'input-button'
-  | 'segmented-control'
-  | 'text-link';
 
 export interface SectionBodyTagConfig {
   text: string;
@@ -72,25 +61,10 @@ export interface SectionBodyProps {
   tag?: SectionBodyTagConfig | false;
   textLink?: SectionBodyTextLinkConfig | false;
   
-  // ===== HEADING STYLING =====
-  headingVariant?: TypographyVariant;
-  headingColor?: TypographyColor;
-  headingWeight?: TypographyWeight;
-  headingAs?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  
-  // ===== BODY TEXT STYLING =====
-  bodyVariant?: TypographyVariant;
-  bodyColor?: TypographyColor;
-  bodyWeight?: TypographyWeight;
-  bodyAs?: 'p' | 'div' | 'span';
+
   
   // ===== ACTION COMPONENTS =====
-  actionType?: SectionBodyActionType;
   button?: SectionBodyButtonConfig;
-  buttonGroup?: SectionBodyButtonConfig[];
-  inputButton?: SectionBodyInputButtonConfig;
-  segmentedControl?: SectionBodySegmentedConfig;
-  actionTextLink?: SectionBodyTextLinkConfig;
   
   // ===== LAYOUT & SPACING =====
   textAlign?: TypographyAlign;
@@ -115,48 +89,21 @@ export interface SectionBodyProps {
 
 export const SectionBody: React.FC<SectionBodyProps> = ({
   // NEW: JSON Structure
-  type,
   components,
   
   // Content (Legacy)
   heading: legacyHeading,
   body: legacyBody,
   tag: legacyTag,
-  textLink,
-  
-  // Heading styling
-  headingVariant = 'display-lg',
-  headingColor = 'heading',
-  headingWeight = 'bold',
-  headingAs = 'h2',
-  
-  // Body styling
-  bodyVariant = 'body-lg',
-  bodyColor = 'body',
-  bodyWeight = 'regular',
-  bodyAs = 'p',
   
   // Actions
-  actionType = 'none',
+
   button,
-  buttonGroup,
-  inputButton,
-  segmentedControl,
-  actionTextLink,
   
   // Layout
   textAlign = 'center',
-  tagSpacing = 'sm',
   headingBodySpacing = 'md',
-  bodyActionSpacing = 'lg',
   maxWidth = '650px',
-  buttonGroupSpacing = 'md',
-  
-  // Visibility
-  hideBody = false,
-  hideTag = false,
-  hideTextLink = false,
-  hideActions = false,
   
   // Style
   className,
@@ -166,8 +113,7 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
   let heading: ReactNode;
   let body: ReactNode;
   let tag: SectionBodyTagConfig | false;
-  let actionType_final: SectionBodyActionType = actionType;
-  let button_final: SectionBodyButtonConfig | undefined;
+  let buttonText: string = '';
 
   if (components) {
     // Extract data from JSON structure
@@ -184,32 +130,19 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
       size: 'medium'
     } : false;
 
-    // Handle button action
-    if (buttonComponent?.content) {
-      actionType_final = 'button';
-      button_final = {
-        text: typeof buttonComponent.content === 'object' ? buttonComponent.content.content : buttonComponent.content,
-        size: 'xl'
-      };
-    }
+    // Handle button text
+    buttonText = buttonComponent?.content || '';
   } else {
     // Use legacy props
     heading = legacyHeading;
     body = legacyBody;
     tag = legacyTag || false;
-    button_final = button;
+    buttonText = button?.text || '';
   }
-
-  const hasTag = !hideTag && tag;
-  const hasTextLink = !hideTextLink && textLink;
-  const hasBody = !hideBody && body;
-  const hasActions = !hideActions && actionType_final !== 'none';
 
   // Map alignment for VStack
   const vStackAlign = textAlign === 'center' ? 'center' : textAlign === 'right' ? 'end' : 'start';
   
-  // Map alignment for HStack (button groups)
-  const hStackJustify = textAlign === 'center' ? 'center' : textAlign === 'right' ? 'end' : 'start';
 
   return (
     <Box
@@ -223,145 +156,44 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
     >
       <VStack spacing={headingBodySpacing} align={vStackAlign}>
         
-        {/* Tag or TextLink */}
-        {hasTag && tag && (
-          <Box>
-            {tag.href ? (
-              <TextLink href={tag.href} size="sm">
-                <Tag
-                  size={tag.size || 'medium'}
-                  icon={tag.icon}
-                >
-                  {tag.text}
-                </Tag>
-              </TextLink>
-            ) : (
-              <Tag
-                size={tag.size || 'medium'}
-                icon={tag.icon}
-              >
-                {tag.text}
-              </Tag>
-            )}
-          </Box>
-        )}
-
-        {hasTextLink && textLink && !hasTag && (
-          <Box>
-            <TextLink
-              size={textLink.size || 'md'}
-              weight={textLink.weight || 'semibold'}
-              href={textLink.href}
-              {...textLink}
-            >
-              {textLink.text}
-            </TextLink>
-          </Box>
-        )}
+        {/* Tag */}
+        <Box>
+          <Tag
+            size="medium"
+            icon={null}
+          >
+            {tag && tag.text}
+          </Tag>
+        </Box>
 
         {/* Heading */}
         <Typography
-          as={headingAs}
-          variant={headingVariant}
-          color={headingColor}
-          weight={headingWeight}
+          as="h2"
+          variant="display-lg"
+          color="heading"
+          weight="bold"
           align={textAlign}
         >
           {heading}
         </Typography>
 
         {/* Body Text */}
-        {hasBody && (
-          <Typography
-            as={bodyAs}
-            variant={bodyVariant}
-            color={bodyColor}
-            weight={bodyWeight}
-            align={textAlign}
-          >
-            {body}
-          </Typography>
-        )}
+        <Typography
+          as="p"
+          variant="body-lg"
+          color="body"
+          weight="regular"
+          align={textAlign}
+        >
+          {body}
+        </Typography>
 
-        {/* Actions */}
-        {hasActions && (
-          <VStack spacing={bodyActionSpacing} align={vStackAlign}>
-            
-            {/* Single Button */}
-            {actionType_final === 'button' && button_final && (
-              <Button
-                size={button_final.size || 'lg'}
-                onClick={button_final.onClick}
-                {...button_final}
-              >
-                {button_final.text}
-              </Button>
-            )}
-
-            {/* Button Group */}
-            {actionType_final === 'button-group' && buttonGroup && buttonGroup.length > 0 && (
-              <HStack 
-                spacing={buttonGroupSpacing} 
-                justify={hStackJustify}
-                wrap={true}
-              >
-                {buttonGroup.map((btn, index) => (
-                  <Button
-                    key={index}
-                    size={btn.size || 'lg'}
-                    onClick={btn.onClick}
-                    {...btn}
-                  >
-                    {btn.text}
-                  </Button>
-                ))}
-              </HStack>
-            )}
-
-            {/* Input + Button */}
-            {actionType_final === 'input-button' && inputButton && (
-              <HStack spacing="sm" wrap={false}>
-                <Input
-                  type="text"
-                  placeholder={inputButton.inputPlaceholder || 'Enter your email...'}
-                  style={{ flex: 1, minWidth: '200px' }}
-                />
-                <Button
-                  size="lg"
-                  onClick={() => inputButton.onSubmit?.('')}
-                >
-                  {inputButton.buttonText}
-                </Button>
-              </HStack>
-            )}
-
-            {/* Segmented Control */}
-            {actionType_final === 'segmented-control' && 
-             segmentedControl && 
-             segmentedControl.options.length > 0 && 
-             segmentedControl.value !== undefined && 
-             segmentedControl.onChange !== undefined && (
-              <SegmentedControl
-                options={segmentedControl.options}
-                value={segmentedControl.value}
-                onChange={segmentedControl.onChange}
-                size="md"
-              />
-            )}
-
-            {/* Text Link (as action) */}
-            {actionType_final === 'text-link' && actionTextLink && (
-              <TextLink
-                size={actionTextLink.size || 'lg'}
-                weight={actionTextLink.weight || 'semibold'}
-                href={actionTextLink.href}
-                {...actionTextLink}
-              >
-                {actionTextLink.text}
-              </TextLink>
-            )}
-          </VStack>
-        )}
+        {/* Button */}
+        <Button
+          size="lg"
+        >
+          {buttonText}
+        </Button>
       </VStack>
     </Box>
   );
