@@ -89,21 +89,39 @@ const NavbarBar = ({ section }: NavbarBarProps) => {
 
       {/* MOBILE MENU */}
       {mobileOpen && (
-        <VStack className="navbar-bar__mobile-menu" spacing="sm">
+        <VStack className="navbar-bar__mobile-menu" spacing="md">
           {menuItems.map((item: any, i) => (
             <TextLink
               key={i}
               href={item.props?.href || '/'}
               onClick={() => setMobileOpen(false)}
+              className="navbar-bar__mobile-link"
             >
               {item.props?.content}
             </TextLink>
           ))}
-          {primaryAction && (
-            <Button href={primaryAction.props?.href} onClick={() => setMobileOpen(false)}>
-              {primaryAction.props?.content}
-            </Button>
-          )}
+          <VStack spacing="sm" className="navbar-bar__mobile-actions">
+            {secondaryAction && (
+              <Button 
+                variant="ghost" 
+                href={secondaryAction.props?.href} 
+                onClick={() => setMobileOpen(false)}
+                className="navbar-bar__mobile-button"
+              >
+                {secondaryAction.props?.content}
+              </Button>
+            )}
+            {primaryAction && (
+              <Button 
+                variant="primary" 
+                href={primaryAction.props?.href} 
+                onClick={() => setMobileOpen(false)}
+                className="navbar-bar__mobile-button"
+              >
+                {primaryAction.props?.content}
+              </Button>
+            )}
+          </VStack>
         </VStack>
       )}
     </nav>
