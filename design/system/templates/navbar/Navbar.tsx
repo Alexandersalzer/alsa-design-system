@@ -31,6 +31,13 @@ const Navbar = ({ section }: NavbarProps) => {
   return (
     <Section 
       as="nav" 
+      style={{ 
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000,
+        paddingTop: '0',
+        paddingBottom: '0',
+      }}
     >
       {renderedPatterns}
     </Section>
