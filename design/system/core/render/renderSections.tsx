@@ -16,7 +16,6 @@ import {
 
 // Import validation system
 import { validateComponent, validatePattern, validateSection } from '../validation/schemaValidator';
-import { ValidationError, ValidationInfo } from '../validation/ErrorComponents';
 
 /**
  * Props for Sections component
@@ -36,21 +35,13 @@ export const renderComponent = (component: ComponentNode, componentKey: string, 
   if (!validation.valid) {
     console.error(`❌ Component validation failed for "${componentKey}":`, validation.errors);
     
-    // Return error component in development
-    if (process.env.NODE_ENV === 'development') {
-      return (
-        <ValidationError
-          key={componentKey}
-          type="component"
-          nodeType={component.type}
-          nodeKey={componentKey}
-          validation={validation}
-        />
-      );
-    }
-    
-    // Return null in production
+    // Return null for invalid components
     return null;
+  }
+
+  // Log warnings in development
+  if (process.env.NODE_ENV === 'development' && validation.warnings && validation.warnings.length > 0) {
+    console.warn(`⚠️ Component warnings for "${componentKey}":`, validation.warnings);
   }
 
   const ComponentElement = componentRegistry[component.type];
@@ -69,12 +60,6 @@ export const renderComponent = (component: ComponentNode, componentKey: string, 
         type={component.type}
         props={component.props}
       />
-      {process.env.NODE_ENV === 'development' && validation.warnings && (
-        <ValidationInfo 
-          validation={validation}
-          type="comp"
-        />
-      )}
     </Component>
   );
 };
@@ -120,20 +105,13 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, ind
   if (!validation.valid) {
     console.error(`❌ Pattern validation failed for "${patternKey}":`, validation.errors);
     
-    // Return error component in development
-    if (process.env.NODE_ENV === 'development') {
-      return (
-        <ValidationError
-          key={patternKey}
-          type="pattern"
-          nodeType={pattern.type}
-          nodeKey={patternKey}
-          validation={validation}
-        />
-      );
-    }
-    
+    // Return null for invalid patterns
     return null;
+  }
+
+  // Log warnings in development
+  if (process.env.NODE_ENV === 'development' && validation.warnings && validation.warnings.length > 0) {
+    console.warn(`⚠️ Pattern warnings for "${patternKey}":`, validation.warnings);
   }
 
   const PatternComponent = patternRegistry[pattern.type];
@@ -159,12 +137,6 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, ind
         props={pattern.props}
         components={pattern.components}
       />
-      {process.env.NODE_ENV === 'development' && validation.warnings && (
-        <ValidationInfo 
-          validation={validation}
-          type="pattern"
-        />
-      )}
     </Container>
   );
 };
