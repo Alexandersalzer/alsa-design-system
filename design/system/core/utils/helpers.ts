@@ -49,3 +49,17 @@ export const usePatternProps = (pattern: PatternNode) => {
     return getPatternProps(pattern, fallback);
   };
 };
+
+/**
+ * Check if a component type exists in the components object
+ * Returns a function that checks for component existence
+ */
+export const componentPresent = (components: Record<string, ComponentNode>) => {
+  return (type: string, role?: string) => {
+    return Object.values(components).some(c => {
+      const matchesType = c.type === type;
+      const matchesRole = role ? c.role === role : true;
+      return matchesType && matchesRole;
+    });
+  };
+};
