@@ -204,7 +204,7 @@ export const KjNavbar = ({
 }: KjNavbarProps) => {
 
   // Hardcoded S3 base URL
-  const S3_BASE_URL_MEMBERS = 'https://cdn.blimpify-im.com/members';
+  const CDN_BASE_URL = 'https://cdn.blimpify-im.com/members';
 
   // Extract data from new CMS structure
   const logoComponent = Object.values(components).find(comp => comp.type === 'logo');
@@ -227,7 +227,7 @@ export const KjNavbar = ({
   const finalBrandName = brandName || titleComponent?.props?.content;
   const finalBrandHref = brandHref;
   const finalLogoEndpoint = logoEndpoint || logoEndpointFromComponent;
-  const finalLogoSrc = finalLogoEndpoint ? `${S3_BASE_URL_MEMBERS}/${finalLogoEndpoint}` : undefined;
+  const finalLogoSrc = finalLogoEndpoint ? `${CDN_BASE_URL}/${finalLogoEndpoint}` : undefined;
   const finalLogoAlt = logoAlt || logoComponent?.props?.alt;
 
 

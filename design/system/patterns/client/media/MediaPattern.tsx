@@ -1,7 +1,7 @@
 'use client';
 
 import { VideoShowcase } from '../../../components/media/VideoShowcase/VideoShowcase';
-import { useComponentProps, S3_BASE_URL_MEMBERS } from '../../../core/utils/helpers';
+import { useComponentProps, CDN_BASE_URL } from '../../../core/utils/helpers';
 import { PatternNode } from '../../../core/types/nodes';
 
 const MediaPattern = ({ components = {} }: PatternNode) => {
@@ -9,7 +9,7 @@ const MediaPattern = ({ components = {} }: PatternNode) => {
 
   return (
     <VideoShowcase
-      src={`${S3_BASE_URL_MEMBERS}${get('video').src}`}
+      src={`${CDN_BASE_URL}${get('video').src}`}
       autoPlay={false}
       muted={true}
       loop={true}
