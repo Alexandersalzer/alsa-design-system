@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { SectionNode } from '../../../core/types/nodes';
 import { Box, HStack, VStack, Button, TextLink } from '../../../components';
-import { MenuIcon, XIcon } from 'lucide-react';
+import { MenuIcon } from 'lucide-react';
+import Drawer from '../../../components/overlays/Drawer/Drawer';
 import './NavbarBar.css';
 
 interface NavbarBarProps {
@@ -79,35 +80,44 @@ const NavbarBar = ({ section }: NavbarBarProps) => {
         <Button
           variant="ghost"
           size="md"
-          aria-label="Toggle menu"
-          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Open menu"
+          onClick={() => setMobileOpen(true)}
           className="navbar-bar__mobile-toggle"
         >
-          {mobileOpen ? <XIcon /> : <MenuIcon />}
+          <MenuIcon />
         </Button>
       </Box>
 
-      {/* MOBILE MENU */}
-      {mobileOpen && (
-        <VStack className="navbar-bar__mobile-menu" spacing="md">
+      {/* MOBILE DRAWER */}
+      <Drawer
+        isOpen={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        placement="end"
+        size="md"
+        mobileOverlay
+        showCloseButton
+        closeButtonVariant="icon"
+        preventScroll
+      >
+        <VStack spacing="lg" align="center" className="navbar-bar__drawer-content">
           {menuItems.map((item: any, i) => (
             <TextLink
               key={i}
               href={item.props?.href || '/'}
               onClick={() => setMobileOpen(false)}
-              className="navbar-bar__mobile-link"
+              className="navbar-bar__drawer-link"
             >
               {item.props?.content}
             </TextLink>
           ))}
 
-          <VStack spacing="sm" className="navbar-bar__mobile-actions">
+          <VStack spacing="sm" className="navbar-bar__drawer-actions">
             {secondaryAction && (
               <Button
                 variant="ghost"
                 href={secondaryAction.props?.href}
                 onClick={() => setMobileOpen(false)}
-                className="navbar-bar__mobile-button"
+                className="navbar-bar__drawer-button"
               >
                 {secondaryAction.props?.content}
               </Button>
@@ -117,14 +127,14 @@ const NavbarBar = ({ section }: NavbarBarProps) => {
                 variant="primary"
                 href={primaryAction.props?.href}
                 onClick={() => setMobileOpen(false)}
-                className="navbar-bar__mobile-button"
+                className="navbar-bar__drawer-button"
               >
                 {primaryAction.props?.content}
               </Button>
             )}
           </VStack>
         </VStack>
-      )}
+      </Drawer>
     </nav>
   );
 };
