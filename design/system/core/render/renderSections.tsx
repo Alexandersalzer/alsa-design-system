@@ -3,7 +3,7 @@
 import { Section } from '../../components/frames/section/Section';
 import { Container } from '../../components';
 import { patternRegistry } from '../../patterns/registry';
-import { SectionNode, PatternNode, PageNode } from '../types/nodes';
+import { SectionNode, PatternNode } from '../types/nodes';
 
 /**
  * Props for Sections component
