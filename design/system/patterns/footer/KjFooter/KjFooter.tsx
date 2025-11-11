@@ -58,8 +58,8 @@ const KjFooter = ({ components = {} }: PatternNode) => {
         >
           {getContentByRole(components, 'legal')}
         </Typography>
-        
-        {/* Attribution */}
+      </VStack>
+      {/* Attribution */}
         <Typography 
           variant="body-sm"
           color="tertiary" 
@@ -87,7 +87,6 @@ const KjFooter = ({ components = {} }: PatternNode) => {
             getContentByRole(components, 'attribute')
           )}
         </Typography>
-      </VStack>
     </VStack>
   );
 };
