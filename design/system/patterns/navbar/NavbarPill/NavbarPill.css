@@ -105,6 +105,7 @@
    Mobile dropdown menu
 ----------------------------------------------- */
 .navbar-pill__mobile-menu {
+  display: none;
   flex-direction: column;
   background: var(--surface-default, #fff);
   border: 1px solid var(--border-subtle, #e5e7eb);
@@ -113,6 +114,10 @@
   margin-top: var(--foundation-space-2);
   gap: var(--foundation-space-3);
   animation: fadeSlideDown 0.2s ease-out;
+}
+
+.navbar-pill__mobile-menu--open {
+  display: flex;
 }
 
 .navbar-pill__mobile-link {
