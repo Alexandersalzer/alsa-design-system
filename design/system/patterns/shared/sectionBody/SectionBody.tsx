@@ -123,15 +123,23 @@ export const SectionBody: React.FC<SectionBodyProps> = ({
     const buttonComponent = Object.values(components).find((c: any) => c.type === 'button');
 
     // Map to component props
-    heading = headingComponent?.content || '';
-    body = bodyComponent?.content || undefined;
+    heading = typeof headingComponent?.content === 'string' 
+      ? headingComponent.content 
+      : (headingComponent?.content?.content || '');
+    body = typeof bodyComponent?.content === 'string' 
+      ? bodyComponent.content 
+      : (bodyComponent?.content?.content || '');
     tag = tagComponent?.content ? {
-      text: tagComponent.content,
+      text: typeof tagComponent.content === 'string' 
+        ? tagComponent.content 
+        : (tagComponent.content?.content || ''),
       size: 'medium'
     } : false;
 
     // Handle button text
-    buttonText = buttonComponent?.content || '';
+    buttonText = typeof buttonComponent?.content === 'string' 
+      ? buttonComponent.content 
+      : (buttonComponent?.content?.content || '');
   } else {
     // Use legacy props
     heading = legacyHeading;
