@@ -28,3 +28,16 @@ export const renderComponentsByRole = (
     renderComponent(component, key, index)
   );
 };
+
+/**
+ * Get content from the first component with a specific role
+ * Returns the content string or a fallback value
+ */
+export const getContentByRole = (
+  components: Record<string, ComponentNode>, 
+  role: string,
+  fallback: string = ''
+): string => {
+  const component = Object.values(components).find(c => c.role === role);
+  return component?.props?.content || fallback;
+};

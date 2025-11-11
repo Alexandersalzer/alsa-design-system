@@ -3,10 +3,20 @@
 import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
-import { PatternNode } from '../../../core/types/nodes';
-import { getContentByRole } from '../../../core/utils/helpers';
 
-const KjFooter = ({ components = {} }: PatternNode) => {
+interface KjFooterProps {
+  components?: Record<string, {
+    type: string;
+    content: string;
+  }>;
+}
+
+const KjFooter = ({ components = {} }: KjFooterProps) => {
+  // Extract content from components
+  const componentsList = Object.values(components);
+  const title = componentsList.find(c => c.type === 'title')?.content || 'KJ MARKETING SWEDEN';
+  const bodies = componentsList.filter(c => c.type === 'body').map(c => c.content);
+
   return (
     <VStack spacing="xl" align="center" fullWidth>
       {/* Title with Logo */}
@@ -24,56 +34,34 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           align="center"
           weight="semibold"
         >
-          {getContentByRole(components, 'title')}
+          {title}
         </Typography>
       </HStack>
 
       {/* Body Content */}
       <VStack spacing="xs" align="center">
-        {/* Email */}
-        {getContentByRole(components, 'email') && (
+        {bodies.map((body, index) => (
           <Typography 
-            variant="body-md"
+            key={index}
+            variant={index === 0 ? "body-md" : "body-sm"}
             color="tertiary" 
             align="center"
             weight="semibold"
           >
-            <a 
-              href={`mailto:${getContentByRole(components, 'email')}`}
-              style={{ 
-                color: 'inherit', 
-                textDecoration: 'underline',
-                textUnderlineOffset: '2px'
-              }}
-            >
-              {getContentByRole(components, 'email')}
-            </a>
-          </Typography>
-        )}
-        
-        {/* Legal */}
-        {getContentByRole(components, 'legal') && (
-          <Typography 
-            variant="body-sm"
-            color="tertiary" 
-            align="center"
-            weight="semibold"
-          >
-            {getContentByRole(components, 'legal')}
-          </Typography>
-        )}
-        
-        {/* Attribution */}
-        {getContentByRole(components, 'attribute') && (
-          <Typography 
-            variant="body-sm"
-            color="tertiary" 
-            align="center"
-            weight="semibold"
-          >
-            {getContentByRole(components, 'attribute').includes('Blimpify-IM') ? (
+            {body.includes('@') ? (
+              <a 
+                href={`mailto:${body}`}
+                style={{ 
+                  color: 'inherit', 
+                  textDecoration: 'underline',
+                  textUnderlineOffset: '2px'
+                }}
+              >
+                {body}
+              </a>
+            ) : body.includes('Blimpify-IM') ? (
               <>
-                {getContentByRole(components, 'attribute').replace('Blimpify-IM', '')}{' '}
+                {body.replace('Blimpify-IM', '')}{' '}
                 <a 
                   href="https://blimpify-im.com"
                   target="_blank"
@@ -89,10 +77,10 @@ const KjFooter = ({ components = {} }: PatternNode) => {
                 </a>
               </>
             ) : (
-              getContentByRole(components, 'attribute')
+              body
             )}
           </Typography>
-        )}
+        ))}
       </VStack>
     </VStack>
   );
