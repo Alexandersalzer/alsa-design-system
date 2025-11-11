@@ -13,15 +13,9 @@
   width: 90%;
   max-width: 1200px;
   background: white;
-  border-radius: 9999px; /* pill shape */
+  border-radius: 9999px;
   padding: 0.5rem 1rem;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Hover/scroll styles if needed */
-.navbar-pill__container:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .navbar-pill__left,
@@ -64,51 +58,12 @@
   gap: 1rem;
 }
 
-.navbar-pill__right {
-  justify-content: flex-end;
-}
-
-/* Mobile toggle */
 .navbar-pill__mobile-toggle {
   display: none;
 }
 
-/* Mobile menu */
-.navbar-pill__mobile-menu {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  background: white;
-  width: 90%;
-  max-width: 600px;
-  margin: 0.5rem auto 0;
-  border-radius: 1rem;
-  padding: 1rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.navbar-pill__mobile-menu--open {
-  display: flex;
-}
-
-.navbar-pill__mobile-link {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #111;
-  text-decoration: none;
-}
-
-.navbar-pill__mobile-link:hover {
-  text-decoration: underline;
-}
-
-.navbar-pill__mobile-actions {
-  width: 100%;
-  align-items: stretch;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
+/* Larger breakpoint for mobile mode */
+@media (max-width: 1100px) {
   .navbar-pill__content {
     display: none;
   }
@@ -120,4 +75,32 @@
   .navbar-pill__container {
     width: 95%;
   }
+}
+
+/* ===== Modal-specific navbar styles ===== */
+.navbar-pill__modal-menu {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding-top: 3rem;
+}
+
+.navbar-pill__modal-link {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.navbar-pill__modal-link:hover {
+  opacity: 0.7;
+}
+
+.navbar-pill__modal-actions {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 2rem;
 }
