@@ -10,7 +10,7 @@ import { Button, IconButtons } from '../../../components';
 export type DrawerPlacement = 'start' | 'end' | 'top' | 'bottom';
 export type DrawerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
-interface DrawerProps {
+export interface DrawerProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
