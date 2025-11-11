@@ -68,26 +68,20 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           align="center"
           weight="semibold"
         >
-          {get('typography', 'attribute').content?.includes('Blimpify-IM') ? (
-            <>
-              {get('typography', 'attribute').content?.replace('Blimpify-IM', '')}{' '}
-              <a 
-                href="https://blimpify-im.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ 
-                  color: 'var(--text-placeholder)', 
-                  textDecoration: 'underline',
-                  textUnderlineOffset: '6px',
-                  fontWeight: 'bold'
-                }}
-              >
-                Blimpify-IM
-              </a>
-            </>
-          ) : (
-            get('typography', 'attribute').content
-          )}
+          {get('typography', 'attribute').content}{' '}
+          <a 
+            href="https://blimpify-im.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ 
+              color: 'var(--text-placeholder)', 
+              textDecoration: 'underline',
+              textUnderlineOffset: '6px',
+              fontWeight: 'bold'
+            }}
+          >
+            Blimpify
+          </a>
         </Typography>
     </VStack>
   );
