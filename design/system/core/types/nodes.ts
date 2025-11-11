@@ -12,7 +12,7 @@ export interface BaseNode {
  * Atomic UI element som inte innehåller andra noder
  */
 export interface ComponentNode extends BaseNode {
-  role?: string; // Optional role for semantic grouping within patterns
+  // role is now in props for consistency across all node types
 }
 
 /**

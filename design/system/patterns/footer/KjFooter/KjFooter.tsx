@@ -31,68 +31,62 @@ const KjFooter = ({ components = {} }: PatternNode) => {
       {/* Body Content */}
       <VStack spacing="xs" align="center">
         {/* Email */}
-        {getContentByRole(components, 'email') && (
-          <Typography 
-            variant="body-md"
-            color="tertiary" 
-            align="center"
-            weight="semibold"
+        <Typography 
+          variant="body-md"
+          color="tertiary" 
+          align="center"
+          weight="semibold"
+        >
+          <a 
+            href={`mailto:${getContentByRole(components, 'email')}`}
+            style={{ 
+              color: 'inherit', 
+              textDecoration: 'underline',
+              textUnderlineOffset: '2px'
+            }}
           >
-            <a 
-              href={`mailto:${getContentByRole(components, 'email')}`}
-              style={{ 
-                color: 'inherit', 
-                textDecoration: 'underline',
-                textUnderlineOffset: '2px'
-              }}
-            >
-              {getContentByRole(components, 'email')}
-            </a>
-          </Typography>
-        )}
+            {getContentByRole(components, 'email')}
+          </a>
+        </Typography>
         
         {/* Legal */}
-        {getContentByRole(components, 'legal') && (
-          <Typography 
-            variant="body-sm"
-            color="tertiary" 
-            align="center"
-            weight="semibold"
-          >
-            {getContentByRole(components, 'legal')}
-          </Typography>
-        )}
+        <Typography 
+          variant="body-sm"
+          color="tertiary" 
+          align="center"
+          weight="semibold"
+        >
+          {getContentByRole(components, 'legal')}
+        </Typography>
         
         {/* Attribution */}
-        {getContentByRole(components, 'attribute') && (
-          <Typography 
-            variant="body-sm"
-            color="tertiary" 
-            align="center"
-            weight="semibold"
-          >
-            {getContentByRole(components, 'attribute').includes('Blimpify-IM') ? (
-              <>
-                {getContentByRole(components, 'attribute').replace('Blimpify-IM', '')}{' '}
-                <a 
-                  href="https://blimpify-im.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ 
-                    color: 'var(--text-placeholder)', 
-                    textDecoration: 'underline',
-                    textUnderlineOffset: '6px',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  Blimpify-IM
-                </a>
-              </>
-            ) : (
-              getContentByRole(components, 'attribute')
-            )}
-          </Typography>
-        )}
+        <Typography 
+          variant="body-sm"
+          color="tertiary" 
+          align="center"
+          weight="semibold"
+        >
+          {getContentByRole(components, 'attribute').includes('Blimpify-IM') ? (
+            <>
+              {getContentByRole(components, 'attribute').replace('Blimpify-IM', '')}{' '}
+              <a 
+                href="https://blimpify-im.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ 
+                  color: 'var(--text-placeholder)', 
+                  textDecoration: 'underline',
+                  textUnderlineOffset: '6px',
+                  fontWeight: 'bold'
+                }}
+              >
+                Blimpify-IM
+              </a>
+            </>
+          ) : (
+            getContentByRole(components, 'attribute')
+          )}
+        </Typography>
       </VStack>
     </VStack>
   );

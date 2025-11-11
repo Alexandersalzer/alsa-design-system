@@ -38,6 +38,6 @@ export const getContentByRole = (
   role: string,
   fallback: string = ''
 ): string => {
-  const component = Object.values(components).find(c => c.role === role);
+  const component = Object.values(components).find(c => c.props?.role === role);
   return component?.props?.content || fallback;
 };
