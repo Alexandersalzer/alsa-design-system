@@ -3,40 +3,13 @@
 // Schema definition for KJ Footer pattern
 // ===============================================
 
-import { PatternSchema } from '../../../core/schemas/types/base';
+import { PatternSchema } from '../../../core/validation/schemaValidator';
 
 export const KjFooterPatternSchema: PatternSchema = {
   type: 'kj',
   props: {
+    // No specific props for KjFooter pattern yet
   },
-  components: {
-    text: {
-      type: 'text',
-      props: {
-        content: {
-          type: 'string',
-          required: true,
-          description: 'Text content to display'
-        },
-        variant: {
-          type: 'enum',
-          values: ['heading', 'body'],
-          default: 'body',
-          description: 'Typography variant'
-        },
-        size: {
-          type: 'enum',
-          values: ['xs', 'sm', 'md', 'lg', 'xl'],
-          default: 'sm',
-          description: 'Size mapping for variant'
-        },
-        role: {
-          type: 'enum',
-          values: ['title', 'email', 'legal', 'attribute'],
-          required: true,
-          description: 'Component role for layout placement - title: next to logo, email/legal: middle section, attribute: bottom section'
-        }
-      }
-    },
-  },
+  allowedComponents: ['text'],
+  requiredRoles: ['title'] // At minimum, we need a title
 };

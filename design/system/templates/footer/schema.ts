@@ -3,19 +3,15 @@
 // Schema definition for Footer section
 // ===============================================
 
-import { SectionSchema, StandardProps } from '../../core/schemas/types/base';
+import { SectionSchema } from '../../core/validation/schemaValidator';
 
 export const FooterSectionSchema: SectionSchema = {
   type: 'footer',
   props: {
-    background: StandardProps.background
-  },
-  patterns: {
-    kj: {
-      type: 'kj',
-      props: {
-      }
+    background: {
+      type: 'string',
+      description: 'Background color or style for the footer section'
     }
   },
-  requiredPatterns: [] // Footer sections don't require sectionBody
+  requiredPatterns: [] // Footer sections don't require specific patterns
 };

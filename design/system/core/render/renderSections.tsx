@@ -14,6 +14,10 @@ import {
   PageNode
 } from '../types/nodes';
 
+// Import validation system
+import { validateComponent, validatePattern, validateSection } from '../validation/schemaValidator';
+import { ValidationError, ValidationInfo } from '../validation/ErrorComponents';
+
 /**
  * Props for Sections component
  */
@@ -26,6 +30,29 @@ interface SectionsProps {
  * Component Renderer - Renderar enskilda components med Component wrapper
  */
 export const renderComponent = (component: ComponentNode, componentKey: string, index: number) => {
+  // Validate component before rendering
+  const validation = validateComponent(component);
+  
+  if (!validation.valid) {
+    console.error(`❌ Component validation failed for "${componentKey}":`, validation.errors);
+    
+    // Return error component in development
+    if (process.env.NODE_ENV === 'development') {
+      return (
+        <ValidationError
+          key={componentKey}
+          type="component"
+          nodeType={component.type}
+          nodeKey={componentKey}
+          validation={validation}
+        />
+      );
+    }
+    
+    // Return null in production
+    return null;
+  }
+
   const ComponentElement = componentRegistry[component.type];
   if (!ComponentElement) {
     console.warn(`Unknown component type: ${component.type}`);
@@ -42,6 +69,12 @@ export const renderComponent = (component: ComponentNode, componentKey: string, 
         type={component.type}
         props={component.props}
       />
+      {process.env.NODE_ENV === 'development' && validation.warnings && (
+        <ValidationInfo 
+          validation={validation}
+          type="comp"
+        />
+      )}
     </Component>
   );
 };
@@ -81,6 +114,28 @@ export const renderPattern = (pattern: PatternNode, patternKey: string) => {
  * Använder Container för layout men utan spacing
  */
 export const renderShellPattern = (pattern: PatternNode, patternKey: string, index: number) => {
+  // Validate pattern before rendering
+  const validation = validatePattern(pattern);
+  
+  if (!validation.valid) {
+    console.error(`❌ Pattern validation failed for "${patternKey}":`, validation.errors);
+    
+    // Return error component in development
+    if (process.env.NODE_ENV === 'development') {
+      return (
+        <ValidationError
+          key={patternKey}
+          type="pattern"
+          nodeType={pattern.type}
+          nodeKey={patternKey}
+          validation={validation}
+        />
+      );
+    }
+    
+    return null;
+  }
+
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
     console.warn(`Unknown pattern type: ${pattern.type}`);
@@ -104,6 +159,12 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, ind
         props={pattern.props}
         components={pattern.components}
       />
+      {process.env.NODE_ENV === 'development' && validation.warnings && (
+        <ValidationInfo 
+          validation={validation}
+          type="pattern"
+        />
+      )}
     </Container>
   );
 };

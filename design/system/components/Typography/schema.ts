@@ -3,7 +3,7 @@
 // Schema definition for Text component (Typography)
 // ===============================================
 
-import { ComponentSchema } from '../../core/schemas/types/base';
+import { ComponentSchema } from '../../core/validation/schemaValidator';
 
 export const TypographySchema: ComponentSchema = {
   type: 'text',
@@ -26,8 +26,10 @@ export const TypographySchema: ComponentSchema = {
       description: 'Size - maps to appropriate size for each variant (xs=smallest, xl=largest)'
     },
     role: {
-      type: 'string',
-      description: 'Semantic role for pattern layout placement (title, email, legal, attribute, etc.)'
+      type: 'enum',
+      values: ['title', 'email', 'legal', 'attribute', 'body', 'heading', 'subtitle'],
+      description: 'Semantic role for pattern layout placement'
     }
-  }
+  },
+  requiredProps: ['content']
 };

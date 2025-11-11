@@ -17,6 +17,11 @@ export type {
 // Render utilities and components
 export * from './render';
 
+// Validation system
+export { SchemaInitializer } from './validation/SchemaInitializer';
+export { registerAllSchemas, validateJSON } from './validation/registerSchemas';
+export { validateComponent, validatePattern, validateSection } from './validation/schemaValidator';
+
 export * from './schemas';
 
 export * from './content';
