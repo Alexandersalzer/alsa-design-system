@@ -22,7 +22,7 @@ const Footer = ({ section }: FooterProps) => {
   const renderedPatterns = patternOrder
     .map((patternKey, patternIndex) => {
       const pattern = patterns[patternKey];
-      return pattern ? renderShellPattern(footerSection, pattern, patternKey, patternIndex) : null;
+      return pattern ? renderShellPattern(pattern, patternKey, patternIndex) : null;
     })
     .filter(Boolean);
   
