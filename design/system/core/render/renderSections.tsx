@@ -2,9 +2,7 @@
 
 import { Section } from '../../components/frames/section/Section';
 import { Container } from '../../components';
-import { Component } from '../../components/frames/component/Component';
 import { patternRegistry } from '../../patterns/registry';
-import { componentRegistry } from '../../components/registry';
 
 // Import nya node types
 import { 
