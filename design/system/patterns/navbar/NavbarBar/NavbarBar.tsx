@@ -4,86 +4,74 @@ import React, { useState } from 'react';
 import { SectionNode } from '../../../core/types/nodes';
 import { Box, HStack, VStack, Button, TextLink } from '../../../components';
 import { MenuIcon, XIcon } from 'lucide-react';
+import './NavbarBar.css';
 
 interface NavbarBarProps {
   section?: SectionNode;
 }
 
-export const NavbarBar = ({ section }: NavbarBarProps) => {
+const NavbarBar = ({ section }: NavbarBarProps) => {
   if (!section) return null;
 
-  const sectionProps = section.props || {};
   const patternKey = section.order?.[0] || Object.keys(section.patterns || {})[0];
   const pattern = section.patterns?.[patternKey];
   const components = pattern?.components || {};
+  const patternProps = pattern?.props || {};
 
-  // Parse components
-  const logo = Object.values(components).find((c: any) => c.type === 'logo');
-  const title = Object.values(components).find((c: any) => c.type === 'title');
-  const rawItems = Object.values(components).filter((c: any) => c.type === 'navItem');
-
-  // Build groups
-  const leftGroup = logo || title ? [logo, title].filter(Boolean) : [];
-  const middleGroup = rawItems.filter((i: any) => i.props?.group === 'middle');
-  const rightGroup = rawItems.filter((i: any) => i.props?.group === 'right');
+  // Roles
+  const logo = Object.values(components).find((c: any) => c.props?.role === 'logo');
+  const businessName = Object.values(components).find((c: any) => c.props?.role === 'businessName');
+  const menuItems = Object.values(components).filter((c: any) => c.props?.role === 'menuItem');
+  const primaryAction = Object.values(components).find((c: any) => c.props?.role === 'primaryAction');
+  const secondaryAction = Object.values(components).find((c: any) => c.props?.role === 'secondaryAction');
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  const align: 'left' | 'center' | 'right' = sectionProps.mainGroupAlign || 'center';
+  const align: 'left' | 'center' | 'right' = patternProps.menuAlign || 'center';
 
   return (
     <nav className="navbar-bar">
-      <Box className="navbar-bar__inner">
-        {/* LEFT: brand */}
+      <Box className="navbar-bar__container">
+        {/* LEFT */}
         <HStack align="center" spacing="sm" className="navbar-bar__left">
           {logo && (
             <img
               src={logo.props?.src}
               alt={logo.props?.alt || 'Logo'}
+              className="navbar-bar__logo"
               width={logo.props?.width || 40}
               height={logo.props?.height || 40}
-              className="navbar-bar__logo"
             />
           )}
-          {title && (
-            <TextLink href="/" weight="bold" size="lg" underline="none">
-              {title.props?.content}
+          {businessName && (
+            <TextLink href="/" className="navbar-bar__brand">
+              {businessName.props?.content}
             </TextLink>
           )}
         </HStack>
 
         {/* MIDDLE */}
-        {middleGroup.length > 0 && (
-          <HStack
-            className={`navbar-bar__middle navbar-bar__middle--${align}`}
-            spacing="lg"
-          >
-            {middleGroup.map((item: any, i) => (
-              <TextLink
-                key={i}
-                href={item.props?.href || '/'}
-                size="md"
-                underline="hover"
-              >
+        {menuItems.length > 0 && (
+          <HStack className={`navbar-bar__middle navbar-bar__middle--${align}`} spacing="lg">
+            {menuItems.map((item: any, i) => (
+              <TextLink key={i} href={item.props?.href || '/'} size="md" underline="hover">
                 {item.props?.content}
               </TextLink>
             ))}
           </HStack>
         )}
 
-        {/* RIGHT */}
+        {/* RIGHT (hardcoded roles) */}
         <HStack spacing="sm" className="navbar-bar__right">
-          {rightGroup.map((item: any, i) => {
-            const type = item.props?.componentType || 'textlink';
-            return type === 'button' ? (
-              <Button key={i} href={item.props?.href || '/'} size="md">
-                {item.props?.content}
-              </Button>
-            ) : (
-              <TextLink key={i} href={item.props?.href || '/'} size="md">
-                {item.props?.content}
-              </TextLink>
-            );
-          })}
+          {secondaryAction && (
+            <Button variant="ghost" href={secondaryAction.props?.href}>
+              {secondaryAction.props?.content}
+            </Button>
+          )}
+          {primaryAction && (
+            <Button variant="primary" href={primaryAction.props?.href}>
+              {primaryAction.props?.content}
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="md"
@@ -99,7 +87,7 @@ export const NavbarBar = ({ section }: NavbarBarProps) => {
       {/* MOBILE MENU */}
       {mobileOpen && (
         <VStack className="navbar-bar__mobile-menu" spacing="sm">
-          {[...middleGroup, ...rightGroup].map((item: any, i) => (
+          {menuItems.map((item: any, i) => (
             <TextLink
               key={i}
               href={item.props?.href || '/'}
@@ -108,6 +96,9 @@ export const NavbarBar = ({ section }: NavbarBarProps) => {
               {item.props?.content}
             </TextLink>
           ))}
+          {primaryAction && (
+            <Button href={primaryAction.props?.href}>{primaryAction.props?.content}</Button>
+          )}
         </VStack>
       )}
     </nav>

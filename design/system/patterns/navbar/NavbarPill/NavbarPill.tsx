@@ -4,57 +4,58 @@ import React, { useState } from 'react';
 import { SectionNode } from '../../../core/types/nodes';
 import { Box, HStack, VStack, Button, TextLink } from '../../../components';
 import { MenuIcon, XIcon } from 'lucide-react';
+import './NavbarPill.css';
 
 interface NavbarPillProps {
   section?: SectionNode;
 }
 
-export const NavbarPill = ({ section }: NavbarPillProps) => {
+const NavbarPill = ({ section }: NavbarPillProps) => {
   if (!section) return null;
 
-  const sectionProps = section.props || {};
   const patternKey = section.order?.[0] || Object.keys(section.patterns || {})[0];
   const pattern = section.patterns?.[patternKey];
   const components = pattern?.components || {};
+  const patternProps = pattern?.props || {};
 
-  const logo = Object.values(components).find((c: any) => c.type === 'logo');
-  const title = Object.values(components).find((c: any) => c.type === 'title');
-  const rawItems = Object.values(components).filter((c: any) => c.type === 'navItem');
-
-  const middleGroup = rawItems.filter((i: any) => i.props?.group === 'middle');
-  const rightGroup = rawItems.filter((i: any) => i.props?.group === 'right');
+  // Roles
+  const logo = Object.values(components).find((c: any) => c.props?.role === 'logo');
+  const businessName = Object.values(components).find((c: any) => c.props?.role === 'businessName');
+  const menuItems = Object.values(components).filter((c: any) => c.props?.role === 'menuItem');
+  const primaryAction = Object.values(components).find((c: any) => c.props?.role === 'primaryAction');
+  const secondaryAction = Object.values(components).find((c: any) => c.props?.role === 'secondaryAction');
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  const align: 'left' | 'center' | 'right' = sectionProps.mainGroupAlign || 'center';
+  const align: 'left' | 'center' | 'right' = patternProps.menuAlign || 'center';
 
   return (
     <nav className="navbar-pill">
-      <Box className="navbar-pill__inner">
-        {/* Left */}
+      <Box className="navbar-pill__container">
+        {/* LEFT */}
         <HStack align="center" spacing="sm" className="navbar-pill__left">
           {logo && (
             <img
               src={logo.props?.src}
               alt={logo.props?.alt || 'Logo'}
+              className="navbar-pill__logo"
               width={logo.props?.width || 40}
               height={logo.props?.height || 40}
-              className="navbar-pill__logo"
             />
           )}
-          {title && (
-            <TextLink href="/" weight="bold" size="lg" underline="none">
-              {title.props?.content}
+          {businessName && (
+            <TextLink href="/" className="navbar-pill__brand">
+              {businessName.props?.content}
             </TextLink>
           )}
         </HStack>
 
-        {/* Middle */}
-        {middleGroup.length > 0 && (
+        {/* MIDDLE */}
+        {menuItems.length > 0 && (
           <HStack
             className={`navbar-pill__middle navbar-pill__middle--${align}`}
             spacing="lg"
           >
-            {middleGroup.map((item: any, i) => (
+            {menuItems.map((item: any, i) => (
               <TextLink
                 key={i}
                 href={item.props?.href || '/'}
@@ -67,14 +68,18 @@ export const NavbarPill = ({ section }: NavbarPillProps) => {
           </HStack>
         )}
 
-        {/* Right */}
+        {/* RIGHT (hardcoded roles) */}
         <HStack spacing="sm" className="navbar-pill__right">
-          {rightGroup.map((item: any, i) => (
-            <Button key={i} href={item.props?.href || '/'} size="md">
-              {item.props?.content}
+          {secondaryAction && (
+            <Button variant="ghost" href={secondaryAction.props?.href}>
+              {secondaryAction.props?.content}
             </Button>
-          ))}
-
+          )}
+          {primaryAction && (
+            <Button variant="primary" href={primaryAction.props?.href}>
+              {primaryAction.props?.content}
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="md"
@@ -87,9 +92,10 @@ export const NavbarPill = ({ section }: NavbarPillProps) => {
         </HStack>
       </Box>
 
+      {/* MOBILE MENU */}
       {mobileOpen && (
         <VStack className="navbar-pill__mobile-menu" spacing="sm">
-          {[...middleGroup, ...rightGroup].map((item: any, i) => (
+          {menuItems.map((item: any, i) => (
             <TextLink
               key={i}
               href={item.props?.href || '/'}
@@ -98,6 +104,11 @@ export const NavbarPill = ({ section }: NavbarPillProps) => {
               {item.props?.content}
             </TextLink>
           ))}
+          {primaryAction && (
+            <Button href={primaryAction.props?.href}>
+              {primaryAction.props?.content}
+            </Button>
+          )}
         </VStack>
       )}
     </nav>
