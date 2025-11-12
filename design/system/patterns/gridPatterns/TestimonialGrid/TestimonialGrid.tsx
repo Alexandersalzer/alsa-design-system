@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { Grid } from '../../../components';
 import { TestimonialCard } from '../../cards/TestimonialCard';
 import './TestimonialGrid.css';
 
@@ -18,8 +17,7 @@ export interface TestimonialData {
 // ===== PATTERN PROPS =====
 export interface TestimonialGridProps {
   props?: {
-    minItemWidth?: string; // Simplified approach - e.g. '280px' for testimonials
-    maxColumns?: number; // Optional column limit
+    columns?: number; // Number of masonry columns
     gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     maxWidth?: string;
   };
@@ -43,8 +41,7 @@ export const TestimonialGrid: React.FC<TestimonialGridProps> = ({
   components = {}
 }) => {
   const {
-    minItemWidth = '280px', // Optimized for testimonial cards
-    maxColumns = 3, // Prevent too many columns on very wide screens
+    columns = 3, // Number of masonry columns
     gap = 'md',
     maxWidth = '1200px'
   } = patternProps;
@@ -65,24 +62,20 @@ export const TestimonialGrid: React.FC<TestimonialGridProps> = ({
   if (testimonials.length === 0) return null;
 
   return (
-    <div className="testimonial-grid-container" style={{ maxWidth, margin: '0 auto' }}>
-      <Grid
-        minItemWidth={minItemWidth}
-        maxColumns={maxColumns}
-        gap={gap}
-        className="testimonial-grid"
-      >
-        {testimonials.map((testimonial, index) => (
-          <TestimonialCard
-            key={`testimonial-${index}`}
-            text={testimonial.text}
-            author={testimonial.author}
-            authorInitial={testimonial.authorInitial}
-            caseType={testimonial.caseType}
-            rating={testimonial.rating}
-          />
-        ))}
-      </Grid>
+    <div 
+      className={`testimonial-grid-container testimonial-grid--columns-${columns} testimonial-grid--gap-${gap}`}
+      style={{ maxWidth, margin: '0 auto' }}
+    >
+      {testimonials.map((testimonial, index) => (
+        <TestimonialCard
+          key={`testimonial-${index}`}
+          text={testimonial.text}
+          author={testimonial.author}
+          authorInitial={testimonial.authorInitial}
+          caseType={testimonial.caseType}
+          rating={testimonial.rating}
+        />
+      ))}
     </div>
   );
 };
