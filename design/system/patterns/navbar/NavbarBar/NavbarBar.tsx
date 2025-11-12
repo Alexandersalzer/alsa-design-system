@@ -16,6 +16,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
     const renderIf = componentPresent(components);
     const mapComponentIndices = useMapComponents(components);
 
+  const textLinkIndices = mapComponentIndices('textlink', 'menuItem');
   const [mobileOpen, setMobileOpen] = useState(false);
   
   // Map menuAlign values
@@ -50,9 +51,9 @@ const NavbarBar = ( patternNode: PatternNode) => {
 
         {/* DESKTOP CONTENT */}
         <div className="navbar-bar__content">
-          {renderIf('textlink', 'menuItem') && (
+          {textLinkIndices.length > 0 && (
             <HStack className={`navbar-bar__middle navbar-bar__middle--${align}`} spacing="lg">
-              {mapComponentIndices('textlink', 'menuItem').map(i => (
+              {textLinkIndices.map(i => (
                 <TextLink key={i} href={getComponent('textlink', 'menuItem', {}, i).href} size="md" underline="hover">
                   {getComponent('textlink', 'menuItem', {}, i).content}
                 </TextLink>
@@ -95,7 +96,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
         preventScroll
       >
         <VStack spacing="lg" align="center" className="navbar-bar__drawer-content">
-          {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem').map(i => (
+          {textLinkIndices.map(i => (
             <TextLink
               key={i}
               href={getComponent('textlink', 'menuItem', {}, i).href}
