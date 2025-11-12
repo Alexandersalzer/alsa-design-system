@@ -1,45 +1,164 @@
-/* ResultsCard Pattern Styles */
+/* ResultsCard Pattern Styles - Flexible Design System */
+
+/* ===== BASE CARD STYLES ===== */
 .results-card {
   width: 100%;
-  max-width: 320px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
 }
 
+/* ===== IMAGE CONTAINER VARIANTS ===== */
 .results-card-image-container {
   width: calc(100% + 2 * var(--foundation-space-6));
   margin: calc(-1 * var(--foundation-space-6)) calc(-1 * var(--foundation-space-6)) 0;
   position: relative;
-  aspect-ratio: 2 / 3;
   overflow: hidden;
   border-radius: var(--radius-card) var(--radius-card) 0 0;
 }
 
-.results-card-image {
-  width: 100%;
-  height: 150%;
-  object-fit: cover;
-  object-position: center top;
-  margin-top: -25%;
+/* Aspect Ratio Variants */
+.results-card-image-container--2-3 {
+  aspect-ratio: 2 / 3;
 }
 
-.results-card-content {
+.results-card-image-container--1-1 {
+  aspect-ratio: 1 / 1;
+}
+
+.results-card-image-container--16-9 {
+  aspect-ratio: 16 / 9;
+}
+
+.results-card-image-container--4-3 {
+  aspect-ratio: 4 / 3;
+}
+
+/* ===== IMAGE OVERFLOW EFFECT ===== */
+.results-card-image {
+  width: 100%;
+  height: 150%; /* Create overflow effect */
+  object-fit: cover;
+  object-position: center top; /* Show top, hide bottom */
+  margin-top: -25%; /* Push image up for overflow */
+  transition: transform 0.3s ease;
+}
+
+/* ===== CARD VARIANTS ===== */
+
+/* Default Variant */
+.results-card--default {
+  max-width: 350px;
+}
+
+/* Compact Variant */
+.results-card--compact {
+  max-width: 280px;
+}
+
+.results-card--compact .results-card-image-container {
+  aspect-ratio: 1 / 1;
+}
+
+.results-card--compact .results-card-image {
+  height: 120%;
+  margin-top: -10%;
+}
+
+/* Hero Variant */
+.results-card--hero {
+  max-width: 500px;
+}
+
+.results-card--hero .results-card-image-container {
+  aspect-ratio: 16 / 9;
+}
+
+/* Minimal Variant */
+.results-card--minimal {
+  max-width: 320px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* ===== PADDING VARIANTS ===== */
+.results-card--padding-sm .results-card-content {
+  padding-top: var(--foundation-space-2);
+}
+
+.results-card--padding-md .results-card-content {
+  padding-top: var(--foundation-space-3);
+}
+
+.results-card--padding-lg .results-card-content {
   padding-top: var(--foundation-space-4);
+}
+
+.results-card--padding-xl .results-card-content {
+  padding-top: var(--foundation-space-6);
+}
+
+/* ===== TEXT ALIGNMENT VARIANTS ===== */
+.results-card-content--center {
+  text-align: center;
+  align-items: center;
+}
+
+.results-card-content--right {
+  text-align: right;
+  align-items: flex-end;
+}
+
+/* ===== CONTENT STYLES ===== */
+.results-card-content {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-/* Responsive adjustments */
+.results-card-heading {
+  line-height: 1.2;
+}
+
+.results-card-subheading {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.results-card-description {
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+/* ===== HOVER EFFECTS ===== */
+.results-card:hover .results-card-image {
+  transform: scale(1.05);
+}
+
+.results-card:hover {
+  box-shadow: var(--foundation-shadow-lg);
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
 @media (max-width: 768px) {
-  .results-card-image-container {
+  .results-card {
+    max-width: 100%;
+  }
+  
+  .results-card-image-container--2-3 {
     aspect-ratio: 1 / 1;
   }
   
   .results-card-image {
     height: 120%;
     margin-top: -10%;
+  }
+  
+  .results-card-subheading {
+    font-size: 1.5rem;
   }
 }
