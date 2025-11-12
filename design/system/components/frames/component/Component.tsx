@@ -1,25 +1,25 @@
-import React, { ReactNode, forwardRef } from 'react';
+import React, { ReactNode } from 'react';
 import styles from './Component.module.css';
 
-interface ComponentProps extends React.HTMLAttributes<HTMLElement> {
+interface ComponentProps {
   children: ReactNode;
   className?: string;
   id?: string;
   as?: React.ElementType;
+  [key: string]: any; // Allow all other props
 }
 
-export const Component = forwardRef<HTMLElement, ComponentProps>(({ 
+export const Component = ({ 
   children, 
   className = '', 
   id,
   as: Element = 'div',
   ...rest
-}, ref) => {
+}: ComponentProps) => {
   const combinedClassName = `${styles.component} ${className}`.trim();
   
   return (
     <Element 
-      ref={ref}
       id={id}
       className={combinedClassName}
       {...rest}
@@ -27,6 +27,6 @@ export const Component = forwardRef<HTMLElement, ComponentProps>(({
       {children}
     </Element>
   );
-});
+};
 
 Component.displayName = 'Component'; 
