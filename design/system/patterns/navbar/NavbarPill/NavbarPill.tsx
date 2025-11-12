@@ -1,23 +1,19 @@
 'use client';
 
 import React, { useState } from 'react';
-import { SectionNode } from '../../../core/types/nodes';
 import { Box, HStack, VStack, Button, TextLink } from '../../../components';
 import { MenuIcon } from 'lucide-react';
 import { Modal } from '../../../components/overlays/Modal/Modal';
 import './NavbarPill.css';
 
 interface NavbarPillProps {
-  section?: SectionNode;
+  type?: string;
+  props?: Record<string, any>;
+  components?: Record<string, any>;
 }
 
-const NavbarPill = ({ section }: NavbarPillProps) => {
-  if (!section) return null;
-
-  const patternKey = section.order?.[0] || Object.keys(section.patterns || {})[0];
-  const pattern = section.patterns?.[patternKey];
-  const components = pattern?.components || {};
-  const patternProps = pattern?.props || {};
+const NavbarPill = ({ type, props: patternProps = {}, components = {} }: NavbarPillProps) => {
+  if (!components) return null;
 
   // Roles
   const logo = Object.values(components).find((c: any) => c.props?.role === 'logo');
@@ -27,7 +23,15 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
   const secondaryAction = Object.values(components).find((c: any) => c.props?.role === 'secondaryAction');
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  const align: 'left' | 'center' | 'right' = patternProps.menuAlign || 'center';
+  
+  // Map menuAlign values
+  const alignMap: Record<string, 'left' | 'center' | 'right'> = {
+    left: 'left',
+    center: 'center', 
+    right: 'right',
+    middle: 'center', // Map 'middle' to 'center'
+  };
+  const align = alignMap[patternProps.menuAlign] || 'center';
 
   return (
     <>
