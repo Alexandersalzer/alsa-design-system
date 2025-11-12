@@ -3,6 +3,7 @@
 import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
+import { Picker } from '../../../components/forms/Picker/Picker';
 import { PatternNode } from '../../../core/types/nodes';
 import { useComponentProps, componentPresent, CDN_BASE_URL } from '../../../core/utils/helpers';
 
@@ -32,6 +33,21 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           {get('typography', 'title').content}
         </Typography>
       </HStack>
+
+      {/* Language Picker */}
+      {renderIf('picker', 'languageSelector') && (
+        <Picker
+          placeholder={get('picker', 'languageSelector').placeholder}
+          size={get('picker', 'languageSelector').size}
+          variant={get('picker', 'languageSelector').variant}
+          options={get('picker', 'languageSelector').options || []}
+          value={get('picker', 'languageSelector').value}
+          onChange={(value) => {
+            console.log('Language changed to:', value);
+            // Här kan du hantera språkbyte
+          }}
+        />
+      )}
 
       {/* Body Content */}
       <VStack spacing="xs" align="center">
