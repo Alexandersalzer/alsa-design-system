@@ -88,7 +88,7 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
   
   // Validate section type first
   if (!isValidSectionType(type)) {
-    console.error(`❌ Unknown section type "${type}" in section "${sectionKey}". Valid types: hero, portfolio, testimonials, contact, featureGrid`);
+    console.error(`Unknown section type "${type}" in section "${sectionKey}". Valid types: hero, portfolio, testimonials, contact, featureGrid`);
     return null;
   }
   
