@@ -27,6 +27,8 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
   const secondaryAction = Object.values(components).find((c: any) => c.props?.role === 'secondaryAction');
 
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Align options
   const align: 'left' | 'center' | 'right' = patternProps.menuAlign || 'center';
 
   return (

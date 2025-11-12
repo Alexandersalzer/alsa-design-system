@@ -24,11 +24,17 @@
   box-shadow: 0 4px 12px var(--shadow-emphasis);
 }
 
+/* Structure */
 .navbar-pill__left,
 .navbar-pill__middle,
 .navbar-pill__right {
   display: flex;
   align-items: center;
+}
+
+.navbar-pill__left,
+.navbar-pill__right {
+  flex: 1; /* Ensures center stays visually centered */
 }
 
 .navbar-pill__middle {
@@ -40,10 +46,15 @@
   justify-content: flex-start;
 }
 
+.navbar-pill__middle--center {
+  justify-content: center;
+}
+
 .navbar-pill__middle--right {
   justify-content: flex-end;
 }
 
+/* Branding */
 .navbar-pill__logo {
   height: 40px;
   width: auto;
@@ -58,6 +69,7 @@
   text-decoration: none;
 }
 
+/* Menu and buttons */
 .navbar-pill__content {
   display: flex;
   align-items: center;
@@ -69,7 +81,7 @@
   color: var(--icon-primary);
 }
 
-/* Larger breakpoint for mobile mode */
+/* ===== Responsive ===== */
 @media (max-width: 1100px) {
   .navbar-pill__content {
     display: none;
@@ -84,7 +96,7 @@
   }
 }
 
-/* ===== Modal styles ===== */
+/* ===== Modal (mobile menu) ===== */
 .navbar-pill__modal-menu {
   width: 100%;
   align-items: center;
@@ -113,4 +125,3 @@
   max-width: 400px;
   margin-top: var(--foundation-space-10);
 }
-
