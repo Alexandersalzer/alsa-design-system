@@ -5,6 +5,7 @@
 
 import React, { ReactNode, ElementType, forwardRef } from 'react';
 import { cn } from '../../lib/utils';
+import { Component } from '../frames/component/Component';
 
 // ===== TYPE DEFINITIONS =====
 export type TypographyVariant =
@@ -233,14 +234,9 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   };
 
   return (
-    <Element
-      ref={ref}
-      className={classes}
-      style={combinedStyle}
-      {...rest}
-    >
+    <Component as={Element} ref={ref} className={classes} style={combinedStyle} {...rest}>
       {children}
-    </Element>
+    </Component>
   );
 });
 
