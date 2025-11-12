@@ -3,7 +3,6 @@
 /* ===== BASE CARD STYLES ===== */
 .results-card {
   width: 100%;
-  max-width: 350px;
   display: flex;
   flex-direction: column;
   gap: var(--foundation-space-4);
@@ -14,7 +13,7 @@
   aspect-ratio: 2 / 3;
   position: relative;
   overflow: hidden;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-card);
   background: var(--semantic-color-background-surface);
   padding: var(--foundation-space-4) var(--foundation-space-4) 0; /* padding left, top, right - NO bottom */
 }
@@ -27,22 +26,19 @@
   border-radius: var(--radius-sm);
 }
 
-/* ===== TEXT CONTENT (outside the card, no background) ===== */
-.results-card-content {
+/* ===== TEXT CONTENT (VStack component, no background) ===== */
+.results-card-text {
   display: flex;
   flex-direction: column;
   gap: var(--foundation-space-3);
   text-align: left;
-  background: none;
+  background: none !important;
   padding: 0;
+  margin-top: var(--foundation-space-4);
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .results-card {
-    max-width: 100%;
-  }
-  
   .results-card-image-container {
     aspect-ratio: 1 / 1;
     padding: var(--foundation-space-3) var(--foundation-space-3) 0;

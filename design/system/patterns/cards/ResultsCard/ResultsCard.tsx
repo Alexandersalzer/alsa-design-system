@@ -31,8 +31,8 @@ export function ResultsCard({
         />
       </Card>
       
-      {/* Text Content - outside the card, no background */}
-      <div className="results-card-content">
+      {/* Text Content - VStack with no background, left aligned */}
+      <VStack spacing="sm" className="results-card-text">
         <Typography variant="h4" weight="bold" color="primary">
           {subheading}
         </Typography>
@@ -42,7 +42,7 @@ export function ResultsCard({
         <Typography variant="body-sm" weight="regular" color="tertiary">
           {description}
         </Typography>
-      </div>
+      </VStack>
     </div>
   );
 }
