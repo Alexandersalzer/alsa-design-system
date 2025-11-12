@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
@@ -10,6 +12,39 @@ import { useComponentProps, componentPresent, CDN_BASE_URL } from '../../../core
 const KjFooter = ({ components = {} }: PatternNode) => {
   const get = useComponentProps(components);
   const renderIf = componentPresent(components);
+  const pathname = usePathname();
+  const router = useRouter();
+  const [currentLocale, setCurrentLocale] = useState<string>('sv');
+
+  // Extract locale from pathname
+  useEffect(() => {
+    const segments = pathname.split('/').filter(Boolean);
+    const localeFromPath = segments[0];
+    
+    // Check if first segment is a valid locale
+    if (localeFromPath === 'sv' || localeFromPath === 'en') {
+      setCurrentLocale(localeFromPath);
+    } else {
+      setCurrentLocale('sv'); // Default fallback
+    }
+  }, [pathname]);
+
+  // Handle language change
+  const handleLanguageChange = (value: string | null) => {
+    if (value && (value === 'sv' || value === 'en')) {
+      console.log('Language changed to:', value);
+      
+      // Get current path without locale
+      const segments = pathname.split('/').filter(Boolean);
+      const pathWithoutLocale = segments.slice(1).join('/');
+      
+      // Build new path with new locale
+      const newPath = `/${value}${pathWithoutLocale ? '/' + pathWithoutLocale : ''}`;
+      
+      // Navigate to new locale
+      router.push(newPath);
+    }
+  };
   
   return (
     <VStack spacing="xl" align="center" fullWidth>
@@ -41,11 +76,8 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           size={get('picker', 'languageSelector').size}
           variant={get('picker', 'languageSelector').variant}
           options={get('picker', 'languageSelector').options || []}
-          value={get('picker', 'languageSelector').value}
-          onChange={(value) => {
-            console.log('Language changed to:', value);
-            // Här kan du hantera språkbyte
-          }}
+          value={currentLocale}
+          onChange={handleLanguageChange}
         />
       )}
 
