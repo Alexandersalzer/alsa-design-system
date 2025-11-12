@@ -54,8 +54,8 @@ const NavbarBar = ( patternNode: PatternNode) => {
           {renderIf('menuItem') && (
             <HStack className={`navbar-bar__middle navbar-bar__middle--${align}`} spacing="lg">
               {textLink.map((item: any, i: number) => (
-                <TextLink key={i} href={getComponent('typography', 'menuItem').href} size="md" underline="hover">
-                  {getComponent('typography', 'menuItem').content}
+                <TextLink key={i} href={getComponent('textlink', 'menuItem').href} size="md" underline="hover">
+                  {getComponent('textlink', 'menuItem').content}
                 </TextLink>
               ))}
             </HStack>
@@ -99,11 +99,11 @@ const NavbarBar = ( patternNode: PatternNode) => {
           {renderIf('menuItem') && textLink.map((item: any, i) => (
             <TextLink
               key={i}
-              href={getComponent('typography', 'menuItem').href}
+              href={getComponent('textlink', 'menuItem').href}
               onClick={() => setMobileOpen(false)}
               className="navbar-bar__drawer-link"
             >
-              {getComponent('typography', 'menuItem').content}
+              {getComponent('textlink', 'menuItem').content}
             </TextLink>
           ))}
 
