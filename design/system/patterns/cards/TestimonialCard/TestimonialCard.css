@@ -25,18 +25,6 @@
   gap: var(--foundation-space-3);
 }
 
-.testimonial-avatar {
-  width: 40px;
-  height: 40px;
-  background: var(--color-primary-100);
-  border: 2px solid var(--color-primary-200);
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
 .testimonial-author-details {
   flex: 1;
   display: flex;
@@ -49,10 +37,5 @@
 @media (max-width: 768px) {
   .testimonial-card-content {
     padding: var(--foundation-space-3);
-  }
-  
-  .testimonial-avatar {
-    width: 36px;
-    height: 36px;
   }
 }

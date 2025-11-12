@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, VStack, Typography } from '../../../components';
+import { Avatar } from '../../../components/media/Avatar';
 import './TestimonialCard.css';
 
 interface TestimonialCardProps {
@@ -24,11 +25,13 @@ export function TestimonialCard({
       <VStack spacing="md" className="testimonial-card-content">
         {/* Author Info at top */}
         <div className="testimonial-author">
-          <div className="testimonial-avatar">
-            <Typography variant="body-sm" weight="bold" color="primary">
-              {authorInitial}
-            </Typography>
-          </div>
+          <Avatar
+            name={author}
+            variant="outline"
+            size="md"
+            shape="full"
+            colorPalette="gray"
+          />
           <VStack spacing="xs" className="testimonial-author-details">
             <Typography variant="body-sm" weight="bold" color="primary">
               {author}
