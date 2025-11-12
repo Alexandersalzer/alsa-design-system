@@ -66,3 +66,27 @@ export const componentPresent = (components: Record<string, ComponentNode>) => {
     });
   };
 };
+
+/**
+ * Map over components of a specific type and optional role
+ * Returns array of component props for easy mapping
+ */
+export const mapComponents = (
+  components: Record<string, ComponentNode>,
+  type: string,
+  role?: string
+): Record<string, any>[] => {
+  const matchingComponents = Object.values(components).filter(c => {
+    const matchesType = c.type === type;
+    const matchesRole = role ? c.role === role : true;
+    return matchesType && matchesRole;
+  });
+  
+  return matchingComponents.map(c => c.props || {});
+};
+
+export const useMapComponents = (components: Record<string, ComponentNode>) => {
+  return (type: string, role?: string) => {
+    return mapComponents(components, type, role);
+  };
+};

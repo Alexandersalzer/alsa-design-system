@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../components';
 import { MenuIcon } from 'lucide-react';
 import { Modal } from '../../../components/overlays/Modal/Modal';
+import { alignMap } from '../utils';
 import './NavbarPill.css';
 
 interface NavbarPillProps {
@@ -23,14 +24,6 @@ const NavbarPill = ({ type, props: patternProps = {}, components = {} }: NavbarP
   const secondaryAction = Object.values(components).find((c: any) => c.props?.role === 'secondaryAction');
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  
-  // Map menuAlign values
-  const alignMap: Record<string, 'left' | 'center' | 'right'> = {
-    left: 'left',
-    center: 'center', 
-    right: 'right',
-    middle: 'center', // Map 'middle' to 'center'
-  };
   const align = alignMap[patternProps.menuAlign] || 'center';
 
   return (
