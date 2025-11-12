@@ -20,7 +20,7 @@ export function TestimonialCard({
   rating 
 }: TestimonialCardProps) {
   return (
-    <Card variant="solid" className="testimonial-card">
+    <Card variant="outlined" className="testimonial-card">
       <VStack spacing="md" className="testimonial-card-content">
         {/* Author Info at top */}
         <div className="testimonial-author">

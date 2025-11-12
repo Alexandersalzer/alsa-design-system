@@ -61,7 +61,7 @@ export const TestimonialGrid: React.FC<TestimonialGridProps> = ({
 }) => {
   const {
     columns = 3,
-    gap = 'lg',
+    gap = 'md',
     maxWidth = '1200px'
   } = patternProps;
 
