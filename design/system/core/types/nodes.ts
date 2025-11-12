@@ -1,9 +1,11 @@
+import { SectionType } from '../schemas/sections';
+
 /**
  * Base interface som alla noder delar
  * Endast gemensamma properties
  */
-export interface BaseNode {
-  type: string;
+export interface BaseNode<T extends string = string> {
+  type: T;
   props?: Record<string, any>; // Optional eftersom alla kanske inte har props
 }
 
@@ -28,7 +30,7 @@ export interface PatternNode extends BaseNode {
  * Section - Container för patterns  
  * Top-level containers som organiserar patterns
  */
-export interface SectionNode extends BaseNode {
+export interface SectionNode extends BaseNode<SectionType> {
   patterns: Record<string, PatternNode>; // Required - section måste ha patterns
   order: string[]; // Required - sections behöver rendering order
 }

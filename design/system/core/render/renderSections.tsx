@@ -5,6 +5,7 @@ import { Container } from '../../components';
 import { patternRegistry } from '../../patterns/registry';
 import { SectionNode, PatternNode } from '../types/nodes';
 import { getPatternProps } from '../utils/helpers';
+import { isPatternAllowed, validateRequiredPatterns } from '../schemas/sections';
 
 /**
  * Props for Sections component
@@ -86,11 +87,22 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
   const { type, patterns, order } = sectionData;
   const patternOrder = order || Object.keys(patterns);
   
-  // Render all patterns for regular sections
+  // Validate required patterns
+  if (!validateRequiredPatterns(type, patterns)) {
+    return null;
+  }
+  
+  // Filter and render only allowed patterns
   const renderedPatterns = patternOrder
     .map((patternKey) => {
       const pattern = patterns[patternKey];
-      return pattern ? renderPattern(pattern, patternKey) : null;
+      if (!pattern) return null;
+      
+      if (!isPatternAllowed(type, pattern.type)) {
+        return null;
+      }
+      
+      return renderPattern(pattern, patternKey);
     })
     .filter(Boolean);
   
