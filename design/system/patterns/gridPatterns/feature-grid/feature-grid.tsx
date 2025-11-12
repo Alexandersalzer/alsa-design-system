@@ -766,3 +766,5 @@ export const FeatureGrid: React.FC<FeatureGridPatternProps> = ({
 };
 
 FeatureGrid.displayName = 'FeatureGrid';
+
+export default FeatureGrid;
