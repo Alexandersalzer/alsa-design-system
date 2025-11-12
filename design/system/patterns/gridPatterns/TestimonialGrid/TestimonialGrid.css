@@ -1,0 +1,97 @@
+/* TestimonialGrid Pattern Styles */
+
+/* ===== BASE GRID CONTAINER ===== */
+.testimonial-grid-container {
+  width: 100%;
+  padding: 0 var(--foundation-space-4);
+}
+
+.testimonial-grid {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.testimonial-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== COLUMN COUNT VARIANTS ===== */
+.testimonial-grid--columns-2 .testimonial-column {
+  flex-basis: 50%;
+}
+
+.testimonial-grid--columns-3 .testimonial-column {
+  flex-basis: 33.333%;
+}
+
+.testimonial-grid--columns-4 .testimonial-column {
+  flex-basis: 25%;
+}
+
+/* ===== GAP VARIANTS ===== */
+.testimonial-grid--gap-xs {
+  gap: var(--foundation-space-2);
+}
+
+.testimonial-grid--gap-sm {
+  gap: var(--foundation-space-3);
+}
+
+.testimonial-grid--gap-md {
+  gap: var(--foundation-space-4);
+}
+
+.testimonial-grid--gap-lg {
+  gap: var(--foundation-space-5);
+}
+
+.testimonial-grid--gap-xl {
+  gap: var(--foundation-space-6);
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 1024px) {
+  .testimonial-grid--columns-4 {
+    flex-direction: column;
+  }
+  
+  .testimonial-grid--columns-4 .testimonial-column {
+    flex-basis: auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .testimonial-grid-container {
+    padding: 0 var(--foundation-space-3);
+  }
+  
+  .testimonial-grid--columns-3,
+  .testimonial-grid--columns-4 {
+    flex-direction: column;
+  }
+  
+  .testimonial-grid--columns-3 .testimonial-column,
+  .testimonial-grid--columns-4 .testimonial-column {
+    flex-basis: auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .testimonial-grid--columns-2,
+  .testimonial-grid--columns-3,
+  .testimonial-grid--columns-4 {
+    flex-direction: column;
+  }
+  
+  .testimonial-grid--columns-2 .testimonial-column,
+  .testimonial-grid--columns-3 .testimonial-column,
+  .testimonial-grid--columns-4 .testimonial-column {
+    flex-basis: auto;
+    width: 100%;
+  }
+}
