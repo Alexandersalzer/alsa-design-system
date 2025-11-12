@@ -86,14 +86,19 @@
   color: var(--icon-primary);
 }
 
-/* ✅ Full mobile support restored */
 @media (max-width: 1100px) {
+  /* Hide all middle items and right-side buttons (keep toggle visible) */
   .navbar-pill__middle,
-  .navbar-pill__right > :not(.navbar-pill__mobile-toggle)
-  > * {
+  .navbar-pill__right > :not(.navbar-pill__mobile-toggle) {
     display: none;
   }
 
+  /* Keep logo + brand visible */
+  .navbar-pill__left {
+    display: flex;
+  }
+
+  /* Show mobile toggle button */
   .navbar-pill__mobile-toggle {
     display: block;
   }
@@ -102,6 +107,7 @@
     width: 95%;
   }
 }
+
 
 /* Modal styles */
 .navbar-pill__modal-menu {
