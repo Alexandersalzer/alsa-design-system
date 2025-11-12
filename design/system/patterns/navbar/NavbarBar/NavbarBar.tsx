@@ -5,6 +5,7 @@ import { Box, HStack, VStack, Button, TextLink } from '../../../components';
 import { MenuIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
 import { useComponentProps, componentPresent, usePatternProps, useMapComponents, CDN_BASE_URL } from '../../../core/utils/helpers';
+import { alignMap } from '../utils';
 import './NavbarBar.css';
 import { PatternNode } from '../../../core/types/nodes';
 
@@ -17,14 +18,6 @@ const NavbarBar = ( patternNode: PatternNode) => {
     const mapComponentIndices = useMapComponents(components);
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  
-  // Map menuAlign values
-  const alignMap: Record<string, 'left' | 'center' | 'right'> = {
-    left: 'left',
-    center: 'center', 
-    right: 'right',
-    middle: 'center', // Map 'middle' to 'center'
-  };
   const align = alignMap[getPatternProps().menuAlign] || 'center';
 
   return (
