@@ -21,17 +21,17 @@ export function ResultsCard({
   imageAlt 
 }: ResultsCardProps) {
   return (
-    <Card variant="elevated" className="results-card">
-      {/* Image Container with 2:3 aspect ratio and overflow effect */}
-      <div className="results-card-image-container">
+    <div className="results-card">
+      {/* Image Card - separate container */}
+      <Card variant="elevated" className="results-card-image-container">
         <img 
           src={`${CDN_BASE_URL}${imageSrc}`}
           alt={imageAlt}
           className="results-card-image"
         />
-      </div>
+      </Card>
       
-      {/* Text Content */}
+      {/* Text Content - placed under the card */}
       <VStack spacing="md" className="results-card-content">
         <Typography variant="h4" weight="bold" color="primary">
           {subheading}
@@ -43,6 +43,6 @@ export function ResultsCard({
           {description}
         </Typography>
       </VStack>
-    </Card>
+    </div>
   );
 }

@@ -4,19 +4,19 @@
 .results-card {
   width: 100%;
   max-width: 350px;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  gap: var(--foundation-space-4);
 }
 
-/* ===== IMAGE CONTAINER WITH 2:3 RATIO AND OVERFLOW ===== */
+/* ===== IMAGE CARD (separate from text) ===== */
 .results-card-image-container {
-  width: calc(100% + 2 * var(--foundation-space-6));
-  margin: calc(-1 * var(--foundation-space-6)) calc(-1 * var(--foundation-space-6)) var(--foundation-space-6);
   aspect-ratio: 2 / 3;
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-md);
+  background: var(--semantic-color-background-surface);
+  padding: var(--foundation-space-4) var(--foundation-space-4) 0; /* padding left, top, right - NO bottom */
 }
 
 .results-card-image {
@@ -24,10 +24,10 @@
   height: 120%; /* Create overflow effect - bottom is hidden */
   object-fit: cover;
   object-position: center top; /* Show top, hide bottom */
-  margin-top: -10%; /* Push image up for overflow */
+  border-radius: var(--radius-sm);
 }
 
-/* ===== TEXT CONTENT ===== */
+/* ===== TEXT CONTENT (placed under the card) ===== */
 .results-card-content {
   display: flex;
   flex-direction: column;
@@ -42,10 +42,10 @@
   
   .results-card-image-container {
     aspect-ratio: 1 / 1;
+    padding: var(--foundation-space-3) var(--foundation-space-3) 0;
   }
   
   .results-card-image {
     height: 110%;
-    margin-top: -5%;
   }
 }
