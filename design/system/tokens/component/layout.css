@@ -65,6 +65,7 @@
   /* ===== 🔧 FIXED BORDER RADIUS COMPONENT TOKENS ===== */
   /* All form components now have consistent rounded rectangle radius */
   /* Using YOUR semantic radius tokens - NOT foundation tokens! */
+  --radius-navbar-pill: var(--radius-lg);
   
   /* LEVEL 1: CONTAINER COMPONENTS (Outer shells) */
   --radius-card-sm: var(--radius-sm);                   /* Uses your semantic token */

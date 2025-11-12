@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Box, HStack, VStack, Button, TextLink } from '../../../components';
+import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../components';
 import { MenuIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
 import { useComponentProps, componentPresent, usePatternProps, useMapComponents, CDN_BASE_URL } from '../../../core/utils/helpers';
@@ -69,16 +69,15 @@ const NavbarBar = ( patternNode: PatternNode) => {
           </HStack>
         </div>
 
-        {/* MOBILE TOGGLE */}
-        <Button
+        {/* MOBILE TOGGLE - separate from content */}
+        <IconButton
           variant="ghost"
           size="md"
-          aria-label="Open menu"
+          aria-label="Toggle menu"
           onClick={() => setMobileOpen(true)}
           className="navbar-bar__mobile-toggle"
-        >
-          <MenuIcon />
-        </Button>
+          icon={<MenuIcon />}
+        />
       </Box>
 
       {/* MOBILE DRAWER */}
