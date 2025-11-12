@@ -51,7 +51,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
 
         {/* DESKTOP CONTENT */}
         <div className="navbar-bar__content">
-          {renderIf('menuItem') && (
+          {renderIf('textlink') && (
             <HStack className={`navbar-bar__middle navbar-bar__middle--${align}`} spacing="lg">
               {textLink.map((item: any, i: number) => (
                 <TextLink key={i} href={getComponent('textlink', 'menuItem').href} size="md" underline="hover">
@@ -96,7 +96,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
         preventScroll
       >
         <VStack spacing="lg" align="center" className="navbar-bar__drawer-content">
-          {renderIf('menuItem') && textLink.map((item: any, i) => (
+          {renderIf('textlink') && textLink.map((item: any, i) => (
             <TextLink
               key={i}
               href={getComponent('textlink', 'menuItem').href}
