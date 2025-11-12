@@ -2,93 +2,49 @@
 import { SectionNode, PageNode } from '../types/nodes';
 
 /**
- * Shell content structure
+ * Generic shell content loader for navbar, footer, etc.
+ * Returns typed SectionNode structure
  */
-interface ShellContent {
-  navbar?: Record<string, SectionNode>;
-  footer?: Record<string, SectionNode>;
-}
-
-/**
- * Load shell content (navbar and footer) for a specific locale
- * Uses dynamic import to avoid bundling fs in browser
- */
-export async function getShellContent(locale: string = 'sv'): Promise<ShellContent> {
+export async function getShellContent(
+  shellType: 'navbar' | 'footer', 
+  locale: string = 'sv'
+): Promise<Record<string, SectionNode> | null> {
   if (typeof window !== 'undefined') {
     throw new Error('getShellContent is only available on server-side');
   }
 
   try {
-    const [navbarContent, footerContent] = await Promise.all([
-      getNavbarContent(locale),
-      getFooterContent(locale)
-    ]);
+    const { promises: fs } = await import('fs');
+    const path = await import('path');
     
-    return {
-      navbar: navbarContent || undefined,
-      footer: footerContent || undefined
-    };
+    const shellPath = path.join(process.cwd(), 'public', 'content', locale, `${shellType}.json`);
+    const fileContent = await fs.readFile(shellPath, 'utf8');
+    const shellData: Record<string, SectionNode> = JSON.parse(fileContent);
+    
+    return shellData;
   } catch (error) {
-    // Fallback to Swedish if locale doesn't exist
+    // Fallback to Swedish if locale file doesn't exist
     if (locale !== 'sv') {
-      return getShellContent('sv');
+      return getShellContent(shellType, 'sv');
     }
-    return {};
+    return null;
   }
 }
 
 /**
  * Load navbar content for a specific locale
- * Returns typed SectionNode structure
+ * Convenience wrapper around getShellContent
  */
 export async function getNavbarContent(locale: string = 'sv'): Promise<Record<string, SectionNode> | null> {
-  if (typeof window !== 'undefined') {
-    throw new Error('getNavbarContent is only available on server-side');
-  }
-
-  try {
-    const { promises: fs } = await import('fs');
-    const path = await import('path');
-    
-    const navbarPath = path.join(process.cwd(), 'public', 'content', locale, 'navbar.json');
-    const fileContent = await fs.readFile(navbarPath, 'utf8');
-    const navbarData: Record<string, SectionNode> = JSON.parse(fileContent);
-    
-    return navbarData;
-  } catch (error) {
-    // Fallback to Swedish if locale file doesn't exist
-    if (locale !== 'sv') {
-      return getNavbarContent('sv');
-    }
-    return null;
-  }
+  return getShellContent('navbar', locale);
 }
 
 /**
- * Load footer content for a specific locale
- * Returns typed SectionNode structure
+ * Load footer content for a specific locale  
+ * Convenience wrapper around getShellContent
  */
 export async function getFooterContent(locale: string = 'sv'): Promise<Record<string, SectionNode> | null> {
-  if (typeof window !== 'undefined') {
-    throw new Error('getFooterContent is only available on server-side');
-  }
-
-  try {
-    const { promises: fs } = await import('fs');
-    const path = await import('path');
-    
-    const footerPath = path.join(process.cwd(), 'public', 'content', locale, 'footer.json');
-    const fileContent = await fs.readFile(footerPath, 'utf8');
-    const footerData: Record<string, SectionNode> = JSON.parse(fileContent);
-    
-    return footerData;
-  } catch (error) {
-    // Fallback to Swedish if locale file doesn't exist
-    if (locale !== 'sv') {
-      return getFooterContent('sv');
-    }
-    return null;
-  }
+  return getShellContent('footer', locale);
 }
 
 /**
@@ -167,18 +123,10 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
 }
 
 /**
- * Page content structure for rendering
- */
-interface PageContent {
-  sections: Record<string, SectionNode>;
-  order: string[];
-}
-
-/**
  * Get page content for rendering a specific page
- * Returns typed PageNode structure optimized for rendering
+ * Returns complete PageNode structure
  */
-export async function getPageContent(locale: string = 'sv', pageSlug: string): Promise<PageContent> {
+export async function getPageContent(locale: string = 'sv', pageSlug: string): Promise<PageNode> {
   if (typeof window !== 'undefined') {
     throw new Error('getPageContent is only available on server-side');
   }
@@ -207,10 +155,7 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string): P
         const slug = pageData.name?.toLowerCase().replace(/\s+/g, '-');
         
         if (slug === pageSlug) {
-          return {
-            sections: pageData.sections,
-            order: pageData.order
-          };
+          return pageData;
         }
       } catch {
         continue; // Skip invalid files
@@ -225,6 +170,12 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string): P
       return getPageContent('sv', pageSlug);
     }
     
-    return { sections: {}, order: [] };
+    return { 
+      name: 'Not Found',
+      language: locale,
+      sections: {}, 
+      order: [],
+      props: {} 
+    };
   }
 }

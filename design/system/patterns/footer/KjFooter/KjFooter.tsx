@@ -1,21 +1,17 @@
 'use client';
 
+import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
-import { renderComponent } from '../../../core/render/renderSections';
-import { getComponentsByRole } from '../../../core/utils/componentHelpers';
 import { PatternNode } from '../../../core/types/nodes';
+import { useComponentProps } from '../../../core/utils/helpers';
 
 const KjFooter = ({ components = {} }: PatternNode) => {
-  // Extract components by their roles using shared utility
-  const titleComponents = getComponentsByRole(components, 'title');
-  const emailComponents = getComponentsByRole(components, 'email');
-  const legalComponents = getComponentsByRole(components, 'legal');
-  const attributeComponents = getComponentsByRole(components, 'attribute');
-
+  const get = useComponentProps(components);
+  
   return (
     <VStack spacing="xl" align="center" fullWidth>
-      {/* Header: Logo + Title */}
+      {/* Title with Logo */}
       <HStack spacing="md" align="center" justify="center">
         <img 
           src="/images/sections/kjlogo.jpg" 
@@ -24,30 +20,69 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           height={40}
           className="object-contain flex-shrink-0"
         />
-        {/* Render title components */}
-        {titleComponents.map(([key, component], index) => 
-          renderComponent(component, key, index)
-        )}
+        <Typography 
+          variant="h4" 
+          color="inverse" 
+          align="center"
+          weight="semibold"
+        >
+          {get('typography', 'title').content}
+        </Typography>
       </HStack>
 
-      {/* Contact & Legal Info */}
+      {/* Body Content */}
       <VStack spacing="xs" align="center">
-        {/* Email components */}
-        {emailComponents.map(([key, component], index) => 
-          renderComponent(component, key, index)
-        )}
-        {/* Legal components */}
-        {legalComponents.map(([key, component], index) => 
-          renderComponent(component, key, index)
-        )}
+        {/* Email */}
+        <Typography 
+          variant="body-md"
+          color="tertiary" 
+          align="center"
+          weight="semibold"
+        >
+          <a 
+            href={`mailto:${get('typography', 'email').content}`}
+            style={{ 
+              color: 'inherit', 
+              textDecoration: 'underline',
+              textUnderlineOffset: '2px'
+            }}
+          >
+            {get('typography', 'email').content}
+          </a>
+        </Typography>
+        
+        {/* Legal */}
+        <Typography 
+          variant="body-sm"
+          color="tertiary" 
+          align="center"
+          weight="semibold"
+        >
+          {get('typography', 'legal').content}
+        </Typography>
       </VStack>
-
       {/* Attribution */}
-      <VStack spacing="xs" align="center">
-        {attributeComponents.map(([key, component], index) => 
-          renderComponent(component, key, index)
-        )}
-      </VStack>
+        <Typography 
+          variant="body-sm"
+          color="tertiary" 
+          align="center"
+          weight="semibold"
+        >
+          {get('typography', 'attribute').content}{' '}
+          <a 
+            href="https://blimpify-im.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ 
+              color: 'var(--text-placeholder)', 
+              textDecoration: 'underline',
+              textUnderlineOffset: '6px',
+              fontWeight: 'bold'
+            }}
+          >
+            Blimpify
+          </a>
+        </Typography>
     </VStack>
   );
 };

@@ -1,0 +1,1 @@
+export { default as MediaPattern } from './MediaPattern';

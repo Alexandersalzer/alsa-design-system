@@ -3,7 +3,7 @@
 // Export all core utilities
 // ===============================================
 
-export * from './componentHelpers';
+export * from './helpers';
 
 // Re-export commonly used types for easier imports
-export type { PatternProps, ComponentNode } from '../types/nodes';
+export type { ComponentNode } from '../types/nodes';

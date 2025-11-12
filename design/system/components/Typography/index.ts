@@ -56,7 +56,6 @@ export {
   withTypography
 } from './Typography';
 
-export { TypographySchema } from './schema';
 
 // ===== USAGE EXAMPLES =====
 /*

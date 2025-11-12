@@ -2,24 +2,9 @@
 
 import { Section } from '../../components/frames/section/Section';
 import { Container } from '../../components';
-import { Component } from '../../components/frames/component/Component';
 import { patternRegistry } from '../../patterns/registry';
-import { componentRegistry } from '../../components/registry';
-
-// Import nya node types
-import { 
-  SectionNode, 
-  PatternNode, 
-  ComponentNode
-} from '../types/nodes';
-
-/**
- * Props for renderSection function
- */
-interface RenderSectionProps {
-  sectionData: SectionNode;
-  sectionKey: string;
-}
+import { SectionNode, PatternNode } from '../types/nodes';
+import { getPatternProps } from '../utils/helpers';
 
 /**
  * Props for Sections component
@@ -30,49 +15,25 @@ interface SectionsProps {
 }
 
 /**
- * Component Renderer - Renderar enskilda components med Component wrapper
- */
-export const renderComponent = (component: ComponentNode, componentKey: string, index: number) => {
-  const ComponentElement = componentRegistry[component.type];
-  if (!ComponentElement) {
-    console.warn(`Unknown component type: ${component.type}`);
-    return null;
-  }
-
-  return (
-    <Component 
-      key={componentKey}
-      id={componentKey}
-      className={`component-${component.type}`}
-    >
-      <ComponentElement 
-        type={component.type}
-        props={component.props}
-      />
-    </Component>
-  );
-};
-
-/**
  * Pattern Renderer - Pattern har full kontroll över component rendering
  * För content sections (med Container wrapper)
  */
 export const renderPattern = (pattern: PatternNode, patternKey: string) => {
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
-    console.warn(`Unknown pattern type: ${pattern.type}`);
+    console.warn(`Pattern: ${pattern.type} don't exist in registry`);
     return null;
   }
 
-  // Hämta useMediaWidth från props istället för settings
-  const useMediaWidth = pattern.props?.useMediaWidth ?? false;
+  // Hämta useMediaWidth från props med getPatternProps
+  const patternProps = getPatternProps(pattern);
 
   return (
     <Container 
       key={patternKey}
       align="center"
       height="auto"
-      useMediaWidth={useMediaWidth}
+      useMediaWidth={patternProps.useMediaWidth || false}
     >
       <PatternComponent 
         type={pattern.type}
@@ -87,10 +48,11 @@ export const renderPattern = (pattern: PatternNode, patternKey: string) => {
  * Shell Pattern Renderer - För navbar/footer patterns
  * Använder Container för layout men utan spacing
  */
-export const renderShellPattern = (sectionData: any, pattern: PatternNode, patternKey: string, index: number) => {
+export const renderShellPattern = (pattern: PatternNode, patternKey: string, index: number) => {
+
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
-    console.warn(`Unknown pattern type: ${pattern.type}`);
+    console.warn(`Pattern: ${pattern.type} don't exist in registry`);
     return null;
   }
 
@@ -110,7 +72,6 @@ export const renderShellPattern = (sectionData: any, pattern: PatternNode, patte
         type={pattern.type}
         props={pattern.props}
         components={pattern.components}
-        section={sectionData}
       />
     </Container>
   );
@@ -119,26 +80,11 @@ export const renderShellPattern = (sectionData: any, pattern: PatternNode, patte
 /**
  * Renders a single section with its patterns
  */
-export function renderSection({ 
-  sectionData, 
-  sectionKey
-}: RenderSectionProps): React.ReactNode {
+export function renderSection(sectionData: SectionNode, sectionKey: string): React.ReactNode {
   if (!sectionData?.patterns) return null;
 
-  const { type, patterns, order, props: sectionProps } = sectionData;
+  const { type, patterns, order } = sectionData;
   const patternOrder = order || Object.keys(patterns);
-  
-  // Special handling for navbar - no Section wrapper, no Container padding
-  if (type === 'navbar') {
-    const renderedPatterns = patternOrder
-      .map((patternKey, index) => {
-        const pattern = patterns[patternKey];
-        return pattern ? renderShellPattern(sectionData, pattern, patternKey, index) : null;
-      })
-      .filter(Boolean);
-    
-    return <>{renderedPatterns}</>;
-  }
   
   // Render all patterns for regular sections
   const renderedPatterns = patternOrder
@@ -172,27 +118,14 @@ export function Sections({
   return (
     <>
       {order
-        .map((sectionKey) => {
+        .map((sectionKey: string) => {
           const sectionData = sections[sectionKey];
           if (!sectionData) return null;
           
-          return renderSection({ sectionData, sectionKey });
+          return renderSection(sectionData, sectionKey);
         })
         .filter(Boolean)}
     </>
   );
-}
-
-/**
- * Page component - Higher level abstraction for rendering complete pages
- * Simplifies the API for client-next
- */
-interface PageProps {
-  sections: Record<string, SectionNode>;
-  order: string[];
-}
-
-export function Page({ sections, order }: PageProps) {
-  return <Sections sections={sections} order={order} />;
 }
 
