@@ -45,9 +45,11 @@ const NavbarBar = ( patternNode: PatternNode) => {
         <div className="navbar-bar__content">
           {renderIf('textlink', 'menuItem') && (
             <HStack className={`navbar-bar__middle navbar-bar__middle--${align}`} spacing="lg">
-              {mapComponentIndices('textlink', 'menuItem').map(i => (
-                <TextLink key={i} href={getComponent('textlink', 'menuItem', {}, i).href} size="md" underline="hover">
-                  {getComponent('textlink', 'menuItem', {}, i).content}
+              {mapComponentIndices('textlink', 'menuItem')
+              .slice(0, getPatternProps().maxMenuItems)
+              .map((props, i) => (
+                <TextLink key={i} href={props.href} size="md" underline="hover">
+                  {props.content}
                 </TextLink>
               ))}
             </HStack>
@@ -88,14 +90,15 @@ const NavbarBar = ( patternNode: PatternNode) => {
         preventScroll
       >
         <VStack spacing="lg" align="center" className="navbar-bar__drawer-content">
-          {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem').map(i => (
+          {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem')
+          .map((props, i) => (
             <TextLink
               key={i}
-              href={getComponent('textlink', 'menuItem', {}, i).href}
+              href={props.href}
               onClick={() => setMobileOpen(false)}
               className="navbar-bar__drawer-link"
             >
-              {getComponent('textlink', 'menuItem', {}, i).content}
+              {props.content}
             </TextLink>
           ))}
 
