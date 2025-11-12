@@ -39,15 +39,16 @@
 
 /* LEFT GROUP - always on the left, content-sized only */
 .navbar-bar__left {
-  gap: var(--foundation-space-2);
+  justify-content: flex-start;
   flex-shrink: 0; /* Never shrink */
   flex-grow: 0; /* Never grow */
+  gap: var(--foundation-space-2);
 }
 
 .navbar-bar__middle {
   flex-grow: 1; /* Takes all available space like NavbarPill */
   flex-shrink: 0;
-  justify-content: center;
+  justify-content: center; /* Default center */
   gap: var(--foundation-space-5);
   min-width: 0; /* prevents overflow collisions */
 }
@@ -58,9 +59,10 @@
 
 /* RIGHT GROUP - always on the right, content-sized only */
 .navbar-bar__right {
-  gap: var(--foundation-space-2);
+  justify-content: flex-end;
   flex-shrink: 0; /* Never shrink */
   flex-grow: 0; /* Never grow */
+  gap: var(--foundation-space-2);
 }
 
 /* -----------------------------------------------
@@ -98,13 +100,8 @@
 ----------------------------------------------- */
 .navbar-bar__mobile-toggle {
   display: none;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
   color: var(--icon-primary);
-  cursor: pointer;
-  transition: color 0.2s ease;
+  margin-left: auto; /* Push to far right */
 }
 
 .navbar-bar__mobile-toggle:hover {
@@ -122,24 +119,26 @@
 /* -----------------------------------------------
    Responsive Collapse
 ----------------------------------------------- */
-@container (max-width: 880px) {
+@media (max-width: 1100px) {
+  /* Hide all middle items and right-side buttons */
   .navbar-bar__content {
     display: none;
   }
 
-  .navbar-bar__mobile-toggle {
-    display: inline-flex;
-  }
-}
-
-/* Fallback for older browsers */
-@media (max-width: 960px) {
-  .navbar-bar__content {
-    display: none;
+  /* Keep logo + brand visible */
+  .navbar-bar__left {
+    display: flex;
   }
 
+  /* Show mobile toggle button at far right */
   .navbar-bar__mobile-toggle {
-    display: inline-flex;
+    display: block;
+  }
+
+  /* Adjust container for mobile layout */
+  .navbar-bar__container {
+    gap: 0; /* Remove gap in mobile, use margin-left: auto instead */
+    justify-content: flex-start;
   }
 }
 
