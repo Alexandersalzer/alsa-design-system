@@ -42,13 +42,11 @@
   gap: var(--foundation-space-2);
   flex-shrink: 0; /* Never shrink */
   flex-grow: 0; /* Never grow */
-  order: 1;
 }
 
 .navbar-bar__middle {
   flex-grow: 1; /* Takes all available space like NavbarPill */
   flex-shrink: 0;
-  order: 2;
   justify-content: center;
   gap: var(--foundation-space-5);
   min-width: 0; /* prevents overflow collisions */
@@ -63,7 +61,6 @@
   gap: var(--foundation-space-2);
   flex-shrink: 0; /* Never shrink */
   flex-grow: 0; /* Never grow */
-  order: 3;
 }
 
 /* -----------------------------------------------
