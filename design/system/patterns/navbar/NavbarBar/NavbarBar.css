@@ -18,7 +18,8 @@
 .navbar-bar__container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start; /* Changed from space-between to control spacing */
+  gap: var(--foundation-space-8); /* Main gap between groups like NavbarPill */
   max-width: var(--width-navbar);
   margin: 0 auto;
   padding: var(--foundation-space-3) var(--foundation-space-6);
@@ -36,23 +37,33 @@
   align-items: center;
 }
 
+/* LEFT GROUP - always on the left, content-sized only */
 .navbar-bar__left {
   gap: var(--foundation-space-2);
+  flex-shrink: 0; /* Never shrink */
+  flex-grow: 0; /* Never grow */
+  order: 1;
 }
 
 .navbar-bar__middle {
-  flex: 1;
+  flex-grow: 1; /* Takes all available space like NavbarPill */
+  flex-shrink: 0;
+  order: 2;
   justify-content: center;
   gap: var(--foundation-space-5);
   min-width: 0; /* prevents overflow collisions */
 }
 
 .navbar-bar__middle--left { justify-content: flex-start; }
+.navbar-bar__middle--center { justify-content: center; }
 .navbar-bar__middle--right { justify-content: flex-end; }
 
+/* RIGHT GROUP - always on the right, content-sized only */
 .navbar-bar__right {
-  gap: var(--foundation-space-3);
-  flex-shrink: 0;
+  gap: var(--foundation-space-2);
+  flex-shrink: 0; /* Never shrink */
+  flex-grow: 0; /* Never grow */
+  order: 3;
 }
 
 /* -----------------------------------------------
@@ -81,7 +92,7 @@
   flex-direction: row;
   flex: 1;
   justify-content: flex-end;
-  gap: var(--foundation-space-6);
+  gap: var(--foundation-space-8); /* Gap between middle and right groups */
   transition: all 0.25s ease;
 }
 

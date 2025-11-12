@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start; /* Changed from space-between to control spacing */
-  gap: var(--foundation-space-6); /* Increased default spacing between groups */
+  gap: var(--foundation-space-8); /* Increased default spacing between groups */
   max-width: var(--width-navbar);
   width: 100%;
   margin: 0 auto;
@@ -26,13 +26,13 @@
 
 /* When middle is centered - larger gap for better 3-group separation */
 .navbar-pill__container:has(.navbar-pill__middle--center) {
-  gap: var(--foundation-space-8);
+  gap: var(--foundation-space-10);
 }
 
 /* When middle is left/right aligned - smaller gap for 2-group appearance */
 .navbar-pill__container:has(.navbar-pill__middle--left),
 .navbar-pill__container:has(.navbar-pill__middle--right) {
-  gap: var(--foundation-space-4);
+  gap: var(--foundation-space-6);
 }
 
 .navbar-pill__container:hover {
