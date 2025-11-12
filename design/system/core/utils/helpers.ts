@@ -20,19 +20,32 @@ export const getComponentProps = (
   components: Record<string, ComponentNode>,
   type: string,
   role?: string,
-  fallback: Record<string, any> = {}
+  fallback: Record<string, any> = {},
+  index: number = 0
 ): Record<string, any> => {
-  const component = Object.values(components).find(c => {
+  const matchingComponents = Object.entries(components).filter(([key, c]) => {
     const matchesType = c.type === type;
     const matchesRole = role ? c.role === role : true;
     return matchesType && matchesRole;
   });
-  return component?.props || fallback;
+  
+  if (matchingComponents.length === 0) {
+    return fallback;
+  }
+  
+  // If index is out of bounds, return the first component
+  const componentIndex = index >= matchingComponents.length ? 0 : index;
+  const [componentKey, component] = matchingComponents[componentIndex];
+  
+  return {
+    ...component.props,
+    _componentKey: componentKey // Include the unique key for reference
+  };
 };
 
 export const useComponentProps = (components: Record<string, ComponentNode>) => {
-  return (type: string, role?: string, fallback: Record<string, any> = {}) => {
-    return getComponentProps(components, type, role, fallback);
+  return (type: string, role?: string, fallback: Record<string, any> = {}, index: number = 0) => {
+    return getComponentProps(components, type, role, fallback, index);
   };
 };
 
@@ -64,5 +77,51 @@ export const componentPresent = (components: Record<string, ComponentNode>) => {
       const matchesRole = role ? c.role === role : true;
       return matchesType && matchesRole;
     });
+  };
+};
+
+/**
+ * Get all components of a specific type and optional role
+ * Returns array of all matching components
+ */
+export const getAllComponents = (
+  components: Record<string, ComponentNode>,
+  type: string,
+  role?: string
+): ComponentNode[] => {
+  return Object.values(components).filter(c => {
+    const matchesType = c.type === type;
+    const matchesRole = role ? c.role === role : true;
+    return matchesType && matchesRole;
+  });
+};
+
+export const useAllComponents = (components: Record<string, ComponentNode>) => {
+  return (type: string, role?: string) => {
+    return getAllComponents(components, type, role);
+  };
+};
+
+/**
+ * Map over components of a specific type and optional role
+ * Returns array of indices for use with getComponentProps
+ */
+export const mapComponents = (
+  components: Record<string, ComponentNode>,
+  type: string,
+  role?: string
+): number[] => {
+  const matchingComponents = Object.values(components).filter(c => {
+    const matchesType = c.type === type;
+    const matchesRole = role ? c.role === role : true;
+    return matchesType && matchesRole;
+  });
+  
+  return matchingComponents.map((_, index) => index);
+};
+
+export const useMapComponents = (components: Record<string, ComponentNode>) => {
+  return (type: string, role?: string) => {
+    return mapComponents(components, type, role);
   };
 };

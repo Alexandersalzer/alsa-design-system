@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Box, HStack, VStack, Button, TextLink } from '../../../components';
 import { MenuIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
-import { useComponentProps, componentPresent, usePatternProps } from '../../../core/utils/helpers';
+import { useComponentProps, componentPresent, usePatternProps, useMapComponents } from '../../../core/utils/helpers';
 import './NavbarBar.css';
 import { PatternNode } from '../../../core/types/nodes';
 
@@ -14,8 +14,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
     const getComponent = useComponentProps(components);
     const getPatternProps = usePatternProps(patternNode);
     const renderIf = componentPresent(components);
-
-  const textLink = Object.values(components).filter((c: any) => c.type === 'textlink' && c.role === 'menuItem');
+    const mapComponentIndices = useMapComponents(components);
 
   const [mobileOpen, setMobileOpen] = useState(false);
   
@@ -51,11 +50,11 @@ const NavbarBar = ( patternNode: PatternNode) => {
 
         {/* DESKTOP CONTENT */}
         <div className="navbar-bar__content">
-          {renderIf('textlink') && (
+          {renderIf('textlink', 'menuItem') && (
             <HStack className={`navbar-bar__middle navbar-bar__middle--${align}`} spacing="lg">
-              {textLink.map((item: any, i: number) => (
-                <TextLink key={i} href={getComponent('textlink', 'menuItem').href} size="md" underline="hover">
-                  {getComponent('textlink', 'menuItem').content}
+              {mapComponentIndices('textlink', 'menuItem').map(i => (
+                <TextLink key={i} href={getComponent('textlink', 'menuItem', {}, i).href} size="md" underline="hover">
+                  {getComponent('textlink', 'menuItem', {}, i).content}
                 </TextLink>
               ))}
             </HStack>
@@ -96,14 +95,14 @@ const NavbarBar = ( patternNode: PatternNode) => {
         preventScroll
       >
         <VStack spacing="lg" align="center" className="navbar-bar__drawer-content">
-          {renderIf('textlink') && textLink.map((item: any, i) => (
+          {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem').map(i => (
             <TextLink
               key={i}
-              href={getComponent('textlink', 'menuItem').href}
+              href={getComponent('textlink', 'menuItem', {}, i).href}
               onClick={() => setMobileOpen(false)}
               className="navbar-bar__drawer-link"
             >
-              {getComponent('textlink', 'menuItem').content}
+              {getComponent('textlink', 'menuItem', {}, i).content}
             </TextLink>
           ))}
 
