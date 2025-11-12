@@ -20,31 +20,9 @@ export function TestimonialCard({
   rating 
 }: TestimonialCardProps) {
   return (
-    <Card variant="elevated" className="testimonial-card">
+    <Card variant="solid" className="testimonial-card">
       <VStack spacing="md" className="testimonial-card-content">
-        {/* Rating Stars */}
-        <div className="testimonial-rating">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <span 
-              key={index} 
-              className={`testimonial-star ${index < rating ? 'filled' : 'empty'}`}
-            >
-              ★
-            </span>
-          ))}
-        </div>
-
-        {/* Quote Text */}
-        <Typography 
-          variant="body-md" 
-          weight="regular" 
-          color="secondary"
-          className="testimonial-text"
-        >
-          "{text}"
-        </Typography>
-
-        {/* Author Info */}
+        {/* Author Info at top */}
         <div className="testimonial-author">
           <div className="testimonial-avatar">
             <Typography variant="body-sm" weight="bold" color="primary">
@@ -60,6 +38,16 @@ export function TestimonialCard({
             </Typography>
           </VStack>
         </div>
+
+        {/* Quote Text at bottom */}
+        <Typography 
+          variant="body-md" 
+          weight="regular" 
+          color="secondary"
+          className="testimonial-text"
+        >
+          {text}
+        </Typography>
       </VStack>
     </Card>
   );
