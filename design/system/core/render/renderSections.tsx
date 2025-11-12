@@ -57,7 +57,7 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, ind
   }
 
   // Hämta useNavbarWidth från props
-  const useNavbarWidth = pattern.props?.useNavbarWidth ?? false;
+  const patternProps = getPatternProps(pattern);
 
   // Container utan padding, full width för navbar/footer
   return (
@@ -65,7 +65,7 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, ind
       key={`${patternKey}-${index}`}
       align="center"
       height="auto"
-      useNavbarWidth={useNavbarWidth}
+      useNavbarWidth={patternProps.useNavbarWidth || false}
       noPadding={true}
     >
       <PatternComponent 
