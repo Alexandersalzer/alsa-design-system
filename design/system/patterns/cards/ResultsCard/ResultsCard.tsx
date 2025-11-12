@@ -22,7 +22,7 @@ export function ResultsCard({
 }: ResultsCardProps) {
   return (
     <div className="results-card">
-      {/* Image Card - separate container */}
+      {/* Image Card - separate container with background */}
       <Card variant="elevated" className="results-card-image-container">
         <img 
           src={`${CDN_BASE_URL}${imageSrc}`}
@@ -31,8 +31,8 @@ export function ResultsCard({
         />
       </Card>
       
-      {/* Text Content - placed under the card */}
-      <VStack spacing="md" className="results-card-content">
+      {/* Text Content - outside the card, no background */}
+      <div className="results-card-content">
         <Typography variant="h4" weight="bold" color="primary">
           {subheading}
         </Typography>
@@ -42,7 +42,7 @@ export function ResultsCard({
         <Typography variant="body-sm" weight="regular" color="tertiary">
           {description}
         </Typography>
-      </VStack>
+      </div>
     </div>
   );
 }

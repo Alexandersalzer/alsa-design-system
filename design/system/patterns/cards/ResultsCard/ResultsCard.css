@@ -27,11 +27,14 @@
   border-radius: var(--radius-sm);
 }
 
-/* ===== TEXT CONTENT (placed under the card) ===== */
+/* ===== TEXT CONTENT (outside the card, no background) ===== */
 .results-card-content {
   display: flex;
   flex-direction: column;
   gap: var(--foundation-space-3);
+  text-align: left;
+  background: none;
+  padding: 0;
 }
 
 /* ===== RESPONSIVE ===== */
