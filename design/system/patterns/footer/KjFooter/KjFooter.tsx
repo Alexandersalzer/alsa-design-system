@@ -6,12 +6,20 @@ import { HStack } from '../../../components/layout/hStack/HStack';
 import { Picker } from '../../../components/forms/Picker/Picker';
 import { PatternNode } from '../../../core/types/nodes';
 import { useComponentProps, componentPresent, CDN_BASE_URL } from '../../../core/utils/helpers';
-import { useLocaleSwitch } from '../../../hooks/useLocaleSwitch';
+import { useLocaleSwitch, useCurrentLocale } from '../../../core/utils/localeUtils';
 
 const KjFooter = ({ components = {} }: PatternNode) => {
   const get = useComponentProps(components);
   const renderIf = componentPresent(components);
-  const { switchToLocale, getCurrentLocale } = useLocaleSwitch();
+  const { switchLocale } = useLocaleSwitch();
+  const currentLocale = useCurrentLocale();
+  
+  const handleLanguageChange = (newLocale: string | null) => {
+    if (newLocale && newLocale !== currentLocale) {
+      console.log('Language picker: switching to locale:', newLocale);
+      switchLocale(newLocale);
+    }
+  };
   
   return (
     <VStack spacing="xl" align="center" fullWidth>
@@ -43,12 +51,8 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           size={get('picker', 'languageSelector').size}
           variant={get('picker', 'languageSelector').variant}
           options={get('picker', 'languageSelector').options || []}
-          value={getCurrentLocale()}
-          onChange={(value) => {
-            if (value) {
-              switchToLocale(value);
-            }
-          }}
+          value={currentLocale}
+          onChange={handleLanguageChange}
         />
       )}
 
