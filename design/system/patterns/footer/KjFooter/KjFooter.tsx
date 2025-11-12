@@ -4,22 +4,25 @@ import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { PatternNode } from '../../../core/types/nodes';
-import { useComponentProps } from '../../../core/utils/helpers';
+import { useComponentProps, componentPresent, CDN_BASE_URL } from '../../../core/utils/helpers';
 
 const KjFooter = ({ components = {} }: PatternNode) => {
   const get = useComponentProps(components);
+  const renderIf = componentPresent(components);
   
   return (
     <VStack spacing="xl" align="center" fullWidth>
       {/* Title with Logo */}
       <HStack spacing="md" align="center" justify="center">
-        <img 
-          src="/images/sections/kjlogo.jpg" 
-          alt="KJ Marketing Sweden Logo"
-          width={40}
-          height={40}
-          className="object-contain flex-shrink-0"
-        />
+        {renderIf('logo') && (
+          <img
+            src={`${CDN_BASE_URL}${get('logo').src}`}
+            alt={get('logo').alt || 'Logo'}
+            width={get('logo').width || 40}
+            height={get('logo').height || 40}
+            className="object-contain flex-shrink-0"
+          />
+        )}
         <Typography 
           variant="h4" 
           color="inverse" 
