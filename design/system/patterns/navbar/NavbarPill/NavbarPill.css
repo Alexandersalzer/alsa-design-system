@@ -7,11 +7,12 @@
   background: transparent;
 }
 
-/* Pill container centered like NavbarBar */
+/* Core pill layout */
 .navbar-pill__container {
   display: flex;
   align-items: center;
   max-width: var(--width-navbar);
+  width: 100%;
   margin: 0 auto;
   background: var(--surface-nav);
   border: 1px solid var(--border-default);
@@ -19,15 +20,13 @@
   padding: var(--space-navbar-sm) var(--space-navbar-md);
   box-shadow: 0 2px 6px var(--shadow-subtle);
   transition: background 0.3s ease, box-shadow 0.3s ease;
-  width: 100%;
-  position: relative;
 }
 
 .navbar-pill__container:hover {
   box-shadow: 0 4px 12px var(--shadow-emphasis);
 }
 
-/* Layout groups */
+/* Groups */
 .navbar-pill__left,
 .navbar-pill__middle,
 .navbar-pill__right {
@@ -35,10 +34,12 @@
   align-items: center;
 }
 
-/* Match NavbarBar centering logic */
 .navbar-pill__left,
 .navbar-pill__right {
   flex: 1;
+}
+
+.navbar-pill__left {
   justify-content: flex-start;
 }
 
@@ -50,14 +51,21 @@
   flex: 0 1 auto;
   justify-content: center;
   gap: var(--foundation-space-5);
-  min-width: 0;
 }
 
-.navbar-pill__middle--left { justify-content: flex-start; }
-.navbar-pill__middle--center { justify-content: center; }
-.navbar-pill__middle--right { justify-content: flex-end; }
+.navbar-pill__middle--left {
+  justify-content: flex-start;
+}
 
-/* Branding */
+.navbar-pill__middle--center {
+  justify-content: center;
+}
+
+.navbar-pill__middle--right {
+  justify-content: flex-end;
+}
+
+/* Logo + brand */
 .navbar-pill__logo {
   height: 40px;
   width: auto;
@@ -72,15 +80,17 @@
   text-decoration: none;
 }
 
-/* Buttons and menu links */
+/* Buttons */
 .navbar-pill__mobile-toggle {
   display: none;
   color: var(--icon-primary);
 }
 
-/* Responsive */
+/* ✅ Full mobile support restored */
 @media (max-width: 1100px) {
-  .navbar-pill__middle {
+  .navbar-pill__middle,
+  .navbar-pill__right > :not(.navbar-pill__mobile-toggle),
+  .navbar-pill__left > * {
     display: none;
   }
 

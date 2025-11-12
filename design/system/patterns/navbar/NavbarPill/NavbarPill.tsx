@@ -51,7 +51,7 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
             )}
           </HStack>
 
-          {/* CENTER */}
+          {/* MIDDLE */}
           {menuItems.length > 0 && (
             <HStack
               className={`navbar-pill__middle navbar-pill__middle--${align}`}
@@ -82,7 +82,6 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
                 {primaryAction.props?.content}
               </Button>
             )}
-            {/* MOBILE TOGGLE */}
             <Button
               variant="ghost"
               size="md"
@@ -96,7 +95,7 @@ const NavbarPill = ({ section }: NavbarPillProps) => {
         </Box>
       </nav>
 
-      {/* FULLSCREEN MODAL MENU */}
+      {/* MOBILE MODAL MENU */}
       <Modal
         isOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
