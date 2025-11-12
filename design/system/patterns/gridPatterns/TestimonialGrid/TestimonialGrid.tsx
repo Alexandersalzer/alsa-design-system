@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { VStack } from '../../../components';
+import { Grid } from '../../../components';
 import { TestimonialCard } from '../../cards/TestimonialCard';
 import './TestimonialGrid.css';
 
@@ -18,7 +18,8 @@ export interface TestimonialData {
 // ===== PATTERN PROPS =====
 export interface TestimonialGridProps {
   props?: {
-    columns?: number;
+    minItemWidth?: string; // Simplified approach - e.g. '280px' for testimonials
+    maxColumns?: number; // Optional column limit
     gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     maxWidth?: string;
   };
@@ -34,25 +35,7 @@ export interface TestimonialGridProps {
   }>;
 }
 
-// ===== MASONRY DISTRIBUTION ALGORITHM =====
-function distributeTestimonials(testimonials: TestimonialData[], columnCount: number): TestimonialData[][] {
-  const columns: TestimonialData[][] = Array.from({ length: columnCount }, () => []);
-  const columnHeights = Array(columnCount).fill(0);
-
-  testimonials.forEach((testimonial) => {
-    // Estimate height based on text length (rough approximation)
-    const estimatedHeight = 200 + (testimonial.text.length * 0.8);
-    
-    // Find column with minimum height
-    const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
-    
-    // Add testimonial to shortest column
-    columns[shortestColumnIndex].push(testimonial);
-    columnHeights[shortestColumnIndex] += estimatedHeight;
-  });
-
-  return columns;
-}
+// ===== PATTERN PROPS =====
 
 // ===== MAIN TESTIMONIAL GRID PATTERN =====
 export const TestimonialGrid: React.FC<TestimonialGridProps> = ({
@@ -60,7 +43,8 @@ export const TestimonialGrid: React.FC<TestimonialGridProps> = ({
   components = {}
 }) => {
   const {
-    columns = 3,
+    minItemWidth = '280px', // Optimized for testimonial cards
+    maxColumns = 3, // Prevent too many columns on very wide screens
     gap = 'md',
     maxWidth = '1200px'
   } = patternProps;
@@ -80,34 +64,25 @@ export const TestimonialGrid: React.FC<TestimonialGridProps> = ({
 
   if (testimonials.length === 0) return null;
 
-  // Distribute testimonials across columns for balanced heights
-  const distributedColumns = distributeTestimonials(testimonials, columns);
-
   return (
-    <div 
-      className="testimonial-grid-container" 
-      style={{ maxWidth, margin: '0 auto' }}
-    >
-      <div className={`testimonial-grid testimonial-grid--columns-${columns} testimonial-grid--gap-${gap}`}>
-        {distributedColumns.map((columnTestimonials, columnIndex) => (
-          <VStack 
-            key={`testimonial-column-${columnIndex}`}
-            spacing={gap}
-            className="testimonial-column"
-          >
-            {columnTestimonials.map((testimonial, testimonialIndex) => (
-              <TestimonialCard
-                key={`testimonial-${columnIndex}-${testimonialIndex}`}
-                text={testimonial.text}
-                author={testimonial.author}
-                authorInitial={testimonial.authorInitial}
-                caseType={testimonial.caseType}
-                rating={testimonial.rating}
-              />
-            ))}
-          </VStack>
+    <div className="testimonial-grid-container" style={{ maxWidth, margin: '0 auto' }}>
+      <Grid
+        minItemWidth={minItemWidth}
+        maxColumns={maxColumns}
+        gap={gap}
+        className="testimonial-grid"
+      >
+        {testimonials.map((testimonial, index) => (
+          <TestimonialCard
+            key={`testimonial-${index}`}
+            text={testimonial.text}
+            author={testimonial.author}
+            authorInitial={testimonial.authorInitial}
+            caseType={testimonial.caseType}
+            rating={testimonial.rating}
+          />
         ))}
-      </div>
+      </Grid>
     </div>
   );
 };

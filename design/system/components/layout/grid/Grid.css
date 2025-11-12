@@ -9,39 +9,51 @@
   width: 100%;
 }
 
-/* ===== RESPONSIVE GRID ===== */
-.grid--responsive {
-  /* Responsive columns handled via CSS variables and media queries */
+/* ===== AUTO-FIT GRID (Primary approach) ===== */
+.grid--auto-fit {
+  /* CSS-only responsive grid - works instantly on resize */
+  grid-template-columns: repeat(auto-fit, minmax(var(--min-item-width, 300px), 1fr));
 }
 
-/* Responsive breakpoints for columns */
+/* Optional max columns constraint */
+.grid--auto-fit[style*="--max-columns"] {
+  grid-template-columns: repeat(min(var(--max-columns, 6), auto-fit), minmax(var(--min-item-width, 300px), 1fr));
+}
+
+/* ===== LEGACY RESPONSIVE GRID (Deprecated but maintained for compatibility) ===== */
+.grid--responsive {
+  /* Base: mobile first - use CSS variable or fallback to 1 column */
+  grid-template-columns: repeat(var(--grid-cols-base, 1), 1fr);
+}
+
+/* Responsive breakpoints for columns - direct values for reliable real-time updates */
 @media (min-width: 640px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-sm, var(--grid-cols-base, 1)), 1fr) !important;
+    grid-template-columns: repeat(var(--grid-cols-sm, 2), 1fr);
   }
 }
 
 @media (min-width: 768px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-md, var(--grid-cols-sm, var(--grid-cols-base, 2))), 1fr) !important;
+    grid-template-columns: repeat(var(--grid-cols-md, 3), 1fr);
   }
 }
 
 @media (min-width: 1024px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-lg, var(--grid-cols-md, var(--grid-cols-sm, 3))), 1fr) !important;
+    grid-template-columns: repeat(var(--grid-cols-lg, 3), 1fr);
   }
 }
 
 @media (min-width: 1280px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-xl, var(--grid-cols-lg, var(--grid-cols-md, 3))), 1fr) !important;
+    grid-template-columns: repeat(var(--grid-cols-xl, 3), 1fr);
   }
 }
 
 @media (min-width: 1536px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-2xl, var(--grid-cols-xl, var(--grid-cols-lg, 3))), 1fr) !important;
+    grid-template-columns: repeat(var(--grid-cols-2xl, 3), 1fr);
   }
 }
 
@@ -101,7 +113,8 @@
 
 /* ===== GRID ITEM ===== */
 .grid-item {
-  /* Grid item base styles */
+  /* Base styles for grid items */
+  min-width: 0; /* Prevent overflow issues */
 }
 
 /* ===== RESPONSIVE COLLAPSE ===== */
@@ -125,19 +138,23 @@
 
 /* Card Grid */
 .card-grid {
-  /* Inherits from grid */
+  /* Inherits from grid - optimized for card layouts */
+  align-items: stretch;
 }
 
 .card-grid--compact {
   /* Optimized for small cards */
+  --min-item-width: 250px;
 }
 
 .card-grid--standard {
   /* Standard card spacing */
+  --min-item-width: 300px;
 }
 
 .card-grid--spacious {
   /* Extra spacing for premium feel */
+  --min-item-width: 350px;
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */

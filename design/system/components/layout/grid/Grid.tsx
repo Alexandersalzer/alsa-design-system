@@ -17,15 +17,15 @@ export interface ResponsiveValue {
 export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
-  // Grid configuration - supports responsive object
-  columns?: number | 'auto-fit' | 'auto-fill' | ResponsiveValue;
-  minItemWidth?: string; // e.g., '300px', '250px'
+  // Simplified grid configuration - auto-fit approach
+  minItemWidth?: string; // e.g., '280px', '350px'
+  maxColumns?: number; // Optional limit on column count
   gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  // Responsive behavior
-  collapseOn?: 'mobile' | 'tablet' | 'never';
   // Alignment
   alignItems?: 'start' | 'center' | 'end' | 'stretch';
   justifyItems?: 'start' | 'center' | 'end' | 'stretch';
+  // Legacy support - will convert to auto-fit
+  columns?: number | 'auto-fit' | 'auto-fill' | ResponsiveValue;
 }
 
 export interface GridItemProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -62,55 +62,52 @@ function getResponsiveStyles(columns: ResponsiveValue): CSSProperties {
 export const Grid = React.forwardRef<HTMLDivElement, GridProps>(({
   children,
   className,
-  columns = 'auto-fit',
   minItemWidth = '300px',
+  maxColumns,
   gap = 'md',
-  collapseOn = 'mobile',
   alignItems = 'stretch',
   justifyItems = 'stretch',
   style,
+  // Legacy support
+  columns,
   ...props
 }, ref) => {
-  // Build CSS classes
-  const classes = buildClasses(
-    'grid',
-    `grid--gap-${gap}`,
-    collapseOn !== 'never' && `grid--collapse-${collapseOn}`,
-    alignItems !== 'stretch' && `grid--align-${alignItems}`,
-    justifyItems !== 'stretch' && `grid--justify-${justifyItems}`,
-    // Add responsive column classes if using responsive object
-    isResponsiveValue(columns) && 'grid--responsive',
-    className
-  );
-
-  // Build grid template columns
-  const getGridTemplateColumns = () => {
+  // Convert legacy responsive columns to minItemWidth if needed
+  const getMinWidth = () => {
+    if (minItemWidth !== '300px') return minItemWidth;
+    
+    // Convert common responsive patterns to sensible min widths
     if (isResponsiveValue(columns)) {
-      // Return base value for inline style
-      return columns.base ? `repeat(${columns.base}, 1fr)` : '1fr';
+      const mdCols = columns.md || columns.sm || columns.base || 3;
+      // Assume ~1200px container, calculate min width
+      return `${Math.floor(1200 / mdCols) - 24}px`;
     }
     
     if (typeof columns === 'number') {
-      return `repeat(${columns}, 1fr)`;
+      return `${Math.floor(1200 / columns) - 24}px`;
     }
     
-    return `repeat(${columns}, minmax(${minItemWidth}, 1fr))`;
+    return minItemWidth;
   };
 
-  // Build inline styles
+  const finalMinWidth = getMinWidth();
+
+  // Build CSS classes
+  const classes = buildClasses(
+    'grid',
+    'grid--auto-fit',
+    `grid--gap-${gap}`,
+    alignItems !== 'stretch' && `grid--align-${alignItems}`,
+    justifyItems !== 'stretch' && `grid--justify-${justifyItems}`,
+    className
+  );
+
+  // Build inline styles - simple and reliable
   const inlineStyles: CSSProperties = {
-    gridTemplateColumns: getGridTemplateColumns(),
+    ...(finalMinWidth && { ['--min-item-width' as any]: finalMinWidth }),
+    ...(maxColumns && { ['--max-columns' as any]: maxColumns }),
     ...style
   };
-
-  // Add CSS variables for responsive breakpoints
-  if (isResponsiveValue(columns)) {
-    if (columns.sm) (inlineStyles as any)['--grid-cols-sm'] = columns.sm;
-    if (columns.md) (inlineStyles as any)['--grid-cols-md'] = columns.md;
-    if (columns.lg) (inlineStyles as any)['--grid-cols-lg'] = columns.lg;
-    if (columns.xl) (inlineStyles as any)['--grid-cols-xl'] = columns.xl;
-    if (columns['2xl']) (inlineStyles as any)['--grid-cols-2xl'] = columns['2xl'];
-  }
 
   return (
     <div
@@ -177,7 +174,6 @@ export const ResponsiveGrid = React.forwardRef<HTMLDivElement, ResponsiveGridPro
   return (
     <Grid
       ref={ref}
-      columns="auto-fit"
       minItemWidth={minItemWidth}
       gap={gap}
       className={className}
