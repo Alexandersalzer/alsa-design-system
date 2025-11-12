@@ -89,8 +89,8 @@
 /* ✅ Full mobile support restored */
 @media (max-width: 1100px) {
   .navbar-pill__middle,
-  .navbar-pill__right > :not(.navbar-pill__mobile-toggle),
-  .navbar-pill__left > * {
+  .navbar-pill__right > :not(.navbar-pill__mobile-toggle)
+  > * {
     display: none;
   }
 
