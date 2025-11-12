@@ -144,10 +144,6 @@
   justify-content: center;
   height: 100%;
   text-align: center;
-  padding-top: var(--foundation-space-8);
-  padding-bottom: var(--foundation-space-8);
-  padding-left: var(--foundation-space-6);
-  padding-right: var(--foundation-space-6);
   background: var(--surface-modal-content);
   color: var(--text-body-primary);
 }
@@ -167,7 +163,6 @@
 
 /* ✅ FIXED: Full-width buttons and no offset */
 .navbar-bar__drawer-actions {
-  width: 100%;
   margin-top: var(--foundation-space-8);
   gap: var(--foundation-space-2);
   display: flex;
