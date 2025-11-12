@@ -1,26 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, HStack, VStack, Button, TextLink } from '../../../components';
 import { MenuIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
+import { useComponentProps, componentPresent, usePatternProps } from '../../../core/utils/helpers';
 import './NavbarBar.css';
+import { PatternNode } from '../../../core/types/nodes';
 
-interface NavbarBarProps {
-  type?: string;
-  props?: Record<string, any>;
-  components?: Record<string, any>;
-}
 
-const NavbarBar = ({ type, props: patternProps = {}, components = {} }: NavbarBarProps) => {
-  if (!components) return null;
+const NavbarBar = ( patternNode: PatternNode) => {
+    const { components = {} } = patternNode;
+    const getComponent = useComponentProps(components);
+    const patternProps = usePatternProps(patternNode);
+    const renderIf = componentPresent(components);
 
-  // Roles
-  const logo = Object.values(components).find((c: any) => c.props?.role === 'logo');
-  const businessName = Object.values(components).find((c: any) => c.props?.role === 'businessName');
-  const menuItems = Object.values(components).filter((c: any) => c.props?.role === 'menuItem');
-  const primaryAction = Object.values(components).find((c: any) => c.props?.role === 'primaryAction');
-  const secondaryAction = Object.values(components).find((c: any) => c.props?.role === 'secondaryAction');
+  const textLink = Object.values(components).filter((c: any) => c.props?.role === 'menuItem');
 
   const [mobileOpen, setMobileOpen] = useState(false);
   
@@ -31,50 +26,50 @@ const NavbarBar = ({ type, props: patternProps = {}, components = {} }: NavbarBa
     right: 'right',
     middle: 'center', // Map 'middle' to 'center'
   };
-  const align = alignMap[patternProps.menuAlign] || 'center';
+  const align = alignMap[patternProps().menuAlign] || 'center';
 
   return (
     <nav className="navbar-bar">
       <Box className="navbar-bar__container">
         {/* LEFT */}
         <HStack align="center" spacing="sm" className="navbar-bar__left">
-          {logo && (
+          {renderIf('logo') && (
             <img
-              src={logo.props?.src}
-              alt={logo.props?.alt || 'Logo'}
+              src={getComponent('logo').src}
+              alt={getComponent('logo').alt || 'Logo'}
               className="navbar-bar__logo"
-              width={logo.props?.width || 40}
-              height={logo.props?.height || 40}
+              width={getComponent('logo').width || 40}
+              height={getComponent('logo').height || 40}
             />
           )}
-          {businessName && (
+          {renderIf('typography', 'businessName') && (
             <TextLink href="/" className="navbar-bar__brand">
-              {businessName.props?.content}
+              {getComponent('typography', 'businessName').content}
             </TextLink>
           )}
         </HStack>
 
         {/* DESKTOP CONTENT */}
         <div className="navbar-bar__content">
-          {menuItems.length > 0 && (
+          {renderIf('menuItem') && (
             <HStack className={`navbar-bar__middle navbar-bar__middle--${align}`} spacing="lg">
-              {menuItems.map((item: any, i) => (
-                <TextLink key={i} href={item.props?.href || '/'} size="md" underline="hover">
-                  {item.props?.content}
+              {textLink.map((item: any, i: number) => (
+                <TextLink key={i} href={getComponent('typography', 'menuItem').href} size="md" underline="hover">
+                  {getComponent('typography', 'menuItem').content}
                 </TextLink>
               ))}
             </HStack>
           )}
 
           <HStack spacing="sm" className="navbar-bar__right">
-            {secondaryAction && (
-              <Button variant="ghost" href={secondaryAction.props?.href}>
-                {secondaryAction.props?.content}
+            {renderIf('button', 'secondaryAction') && (
+              <Button variant="ghost" href={getComponent('button', 'secondaryAction').href}>
+                {getComponent('button', 'secondaryAction').content}
               </Button>
             )}
-            {primaryAction && (
-              <Button variant="primary" href={primaryAction.props?.href}>
-                {primaryAction.props?.content}
+            {renderIf('button', 'primaryAction') && (
+              <Button variant="primary" href={getComponent('button', 'primaryAction').href}>
+                {getComponent('button', 'primaryAction').content}
               </Button>
             )}
           </HStack>
@@ -101,36 +96,36 @@ const NavbarBar = ({ type, props: patternProps = {}, components = {} }: NavbarBa
         preventScroll
       >
         <VStack spacing="lg" align="center" className="navbar-bar__drawer-content">
-          {menuItems.map((item: any, i) => (
+          {renderIf('menuItem') && textLink.map((item: any, i) => (
             <TextLink
               key={i}
-              href={item.props?.href || '/'}
+              href={getComponent('typography', 'menuItem').href}
               onClick={() => setMobileOpen(false)}
               className="navbar-bar__drawer-link"
             >
-              {item.props?.content}
+              {getComponent('typography', 'menuItem').content}
             </TextLink>
           ))}
 
           <VStack spacing="sm" className="navbar-bar__drawer-actions">
-            {secondaryAction && (
+            {renderIf('button', 'secondaryAction') && (
               <Button
                 variant="ghost"
-                href={secondaryAction.props?.href}
+                href={getComponent('button', 'secondaryAction').href}
                 onClick={() => setMobileOpen(false)}
                 className="navbar-bar__drawer-button"
               >
-                {secondaryAction.props?.content}
+                {getComponent('button', 'secondaryAction').content}
               </Button>
             )}
-            {primaryAction && (
+            {renderIf('button', 'primaryAction') && (
               <Button
                 variant="primary"
-                href={primaryAction.props?.href}
+                href={getComponent('button', 'primaryAction').href}
                 onClick={() => setMobileOpen(false)}
                 className="navbar-bar__drawer-button"
               >
-                {primaryAction.props?.content}
+                {getComponent('button', 'primaryAction').content}
               </Button>
             )}
           </VStack>
