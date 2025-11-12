@@ -11,6 +11,7 @@ import { cn } from '../../../lib/utils';
 import { Label, TypographyColor, TypographyWeight } from '../../Typography';
 import { Spinner } from '../../feedback';
 import { useLocaleHref } from '../../../hooks/useLocaleHref';
+import { Component } from '../../frames/component/Component';
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -137,22 +138,23 @@ export const Button = forwardRef<
 
       if (isInternal) {
         return (
-          <Link href={localeAwareHref} {...linkProps}>
+          <Component as={Link} href={localeAwareHref} className={buttonClasses} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined}>
             {content}
-          </Link>
+          </Component>
         );
       }
 
       return (
-        <a href={localeAwareHref} {...linkProps}>
+        <Component as="a" href={localeAwareHref} className={buttonClasses} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined}>
           {content}
-        </a>
+        </Component>
       );
     }
 
     // 🧠 Render as <button>
     return (
-      <button
+      <Component
+        as="button"
         ref={ref as React.Ref<HTMLButtonElement>}
         className={buttonClasses}
         disabled={isDisabled}
@@ -160,7 +162,7 @@ export const Button = forwardRef<
         {...props}
       >
         {content}
-      </button>
+      </Component>
     );
   }
 );

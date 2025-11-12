@@ -6,9 +6,11 @@ interface ComponentProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
   id?: string;
   as?: React.ElementType;
+  // Allow any additional props for different element types
+  [key: string]: any;
 }
 
-export const Component = forwardRef<HTMLElement, ComponentProps>(({ 
+export const Component = forwardRef<any, ComponentProps>(({ 
   children, 
   className = '', 
   id,
