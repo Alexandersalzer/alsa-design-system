@@ -1,5 +1,1 @@
-.component {
-  /* Helt transparent wrapper - tar bara den plats som innehållet behöver */
-  /* Ingen layout styling - låter det inre innehållet bestämma storleken */
-  display: contents; /* Transparent wrapper som inte skapar egen layout box */
-} 
+/* Tom CSS fil - Component är helt transparent wrapper */

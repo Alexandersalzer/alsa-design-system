@@ -1,5 +1,4 @@
 import React, { ReactNode, forwardRef } from 'react';
-import styles from './Component.module.css';
 
 interface ComponentProps extends React.HTMLAttributes<HTMLElement> {
   children: ReactNode;
@@ -15,7 +14,7 @@ export const Component = forwardRef<HTMLElement, ComponentProps>(({
   as: Element = 'div',
   ...rest
 }, ref) => {
-  const combinedClassName = `${styles.component} ${className}`.trim();
+  const combinedClassName = `${className}`.trim();
   
   return (
     <Element 
