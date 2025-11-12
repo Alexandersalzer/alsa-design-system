@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Box, HStack, VStack, Button, TextLink } from '../../../components';
+import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../components';
 import { MenuIcon } from 'lucide-react';
 import { Modal } from '../../../components/overlays/Modal/Modal';
 import './NavbarPill.css';
@@ -86,15 +86,14 @@ const NavbarPill = ({ type, props: patternProps = {}, components = {} }: NavbarP
                 {primaryAction.props?.content}
               </Button>
             )}
-            <Button
+            <IconButton
               variant="ghost"
               size="md"
               aria-label="Toggle menu"
               onClick={() => setMobileOpen(true)}
               className="navbar-pill__mobile-toggle"
-            >
-              <MenuIcon />
-            </Button>
+              icon={<MenuIcon />}
+            />
           </HStack>
         </Box>
       </nav>
