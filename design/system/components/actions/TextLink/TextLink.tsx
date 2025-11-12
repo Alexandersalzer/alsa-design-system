@@ -8,7 +8,6 @@ import Link from 'next/link';
 import { cn } from '../../../lib/utils';
 import { Label, TypographyColor, TypographyWeight } from '../../Typography';
 import { useLocaleHref } from '../../../hooks/useLocaleHref';
-import { Component } from '../../frames/component/Component';
 import './TextLink.css';
 
 export interface TextLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -133,8 +132,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   // If it's a .html file (edit mode), use regular anchor tag
   if (isHtmlFile) {
     return (
-      <Component
-        as="a"
+      <a
         ref={ref}
         href={localeAwareHref}
         className={textLinkClasses}
@@ -143,14 +141,13 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
         {...props}
       >
         {linkContent}
-      </Component>
+      </a>
     );
   }
 
   // Otherwise, use Next.js Link for internal routing
   return (
-    <Component
-      as={Link}
+    <Link
       href={localeAwareHref || '#'}
       className={textLinkClasses}
       aria-disabled={disabled}
@@ -159,7 +156,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
       {...props}
     >
       {linkContent}
-    </Component>
+    </Link>
   );
 });
 
