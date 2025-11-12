@@ -4,7 +4,6 @@
 // ===============================================
 
 export * from './helpers';
-export * from './localeUtils';
 
 // Re-export commonly used types for easier imports
 export type { ComponentNode } from '../types/nodes';
