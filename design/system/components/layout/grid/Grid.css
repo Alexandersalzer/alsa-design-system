@@ -17,31 +17,31 @@
 /* Responsive breakpoints for columns */
 @media (min-width: 640px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-sm, 1), 1fr) !important;
+    grid-template-columns: repeat(var(--grid-cols-sm, var(--grid-cols-base, 1)), 1fr) !important;
   }
 }
 
 @media (min-width: 768px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-md, 2), 1fr) !important;
+    grid-template-columns: repeat(var(--grid-cols-md, var(--grid-cols-sm, var(--grid-cols-base, 2))), 1fr) !important;
   }
 }
 
 @media (min-width: 1024px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-lg, 3), 1fr) !important;
+    grid-template-columns: repeat(var(--grid-cols-lg, var(--grid-cols-md, var(--grid-cols-sm, 3))), 1fr) !important;
   }
 }
 
 @media (min-width: 1280px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-xl, 4), 1fr) !important;
+    grid-template-columns: repeat(var(--grid-cols-xl, var(--grid-cols-lg, var(--grid-cols-md, 3))), 1fr) !important;
   }
 }
 
 @media (min-width: 1536px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-2xl, 4), 1fr) !important;
+    grid-template-columns: repeat(var(--grid-cols-2xl, var(--grid-cols-xl, var(--grid-cols-lg, 3))), 1fr) !important;
   }
 }
 
