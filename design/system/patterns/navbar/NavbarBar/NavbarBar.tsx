@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Box, HStack, VStack, Button, TextLink } from '../../../components';
 import { MenuIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
-import { useComponentProps, componentPresent, usePatternProps, useMapComponents } from '../../../core/utils/helpers';
+import { useComponentProps, componentPresent, usePatternProps, useMapComponents, CDN_BASE_URL } from '../../../core/utils/helpers';
 import './NavbarBar.css';
 import { PatternNode } from '../../../core/types/nodes';
 
@@ -34,7 +34,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
         <HStack align="center" spacing="sm" className="navbar-bar__left">
           {renderIf('logo') && (
             <img
-              src={getComponent('logo').src}
+              src={`${CDN_BASE_URL}${getComponent('logo').src}`}
               alt={getComponent('logo').alt || 'Logo'}
               className="navbar-bar__logo"
               width={getComponent('logo').width || 40}
