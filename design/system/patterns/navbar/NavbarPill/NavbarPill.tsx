@@ -86,15 +86,17 @@ const NavbarPill = ({ type, props: patternProps = {}, components = {} }: NavbarP
                 {primaryAction.props?.content}
               </Button>
             )}
-            <IconButton
-              variant="ghost"
-              size="md"
-              aria-label="Toggle menu"
-              onClick={() => setMobileOpen(true)}
-              className="navbar-pill__mobile-toggle"
-              icon={<MenuIcon />}
-            />
           </HStack>
+
+          {/* MOBILE TOGGLE - separate from right group */}
+          <IconButton
+            variant="ghost"
+            size="md"
+            aria-label="Toggle menu"
+            onClick={() => setMobileOpen(true)}
+            className="navbar-pill__mobile-toggle"
+            icon={<MenuIcon />}
+          />
         </Box>
       </nav>
 

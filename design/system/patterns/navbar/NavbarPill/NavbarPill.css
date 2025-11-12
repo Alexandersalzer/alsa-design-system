@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start; /* Changed from space-between to control spacing */
-  gap: var(--foundation-space-3); /* Default spacing between groups */
+  gap: var(--foundation-space-6); /* Increased default spacing between groups */
   max-width: var(--width-navbar);
   width: 100%;
   margin: 0 auto;
@@ -24,15 +24,15 @@
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* When middle is centered - increase gap for better 3-group separation */
+/* When middle is centered - larger gap for better 3-group separation */
 .navbar-pill__container:has(.navbar-pill__middle--center) {
-  gap: var(--foundation-space-6);
+  gap: var(--foundation-space-8);
 }
 
 /* When middle is left/right aligned - smaller gap for 2-group appearance */
 .navbar-pill__container:has(.navbar-pill__middle--left),
 .navbar-pill__container:has(.navbar-pill__middle--right) {
-  gap: var(--foundation-space-2);
+  gap: var(--foundation-space-4);
 }
 
 .navbar-pill__container:hover {
@@ -104,12 +104,13 @@
 .navbar-pill__mobile-toggle {
   display: none;
   color: var(--icon-primary);
+  margin-left: auto; /* Push to far right */
 }
 
 @media (max-width: 1100px) {
-  /* Hide all middle items and right-side buttons (keep toggle visible) */
+  /* Hide all middle items and right-side buttons */
   .navbar-pill__middle,
-  .navbar-pill__right > :not(.navbar-pill__mobile-toggle) {
+  .navbar-pill__right {
     display: none;
   }
 
@@ -118,13 +119,17 @@
     display: flex;
   }
 
-  /* Show mobile toggle button */
+  /* Show mobile toggle button at far right */
   .navbar-pill__mobile-toggle {
     display: block;
+    order: 3; /* Ensure it's last */
   }
 
+  /* Adjust container for mobile layout */
   .navbar-pill__container {
     width: 95%;
+    gap: 0; /* Remove gap in mobile, use margin-left: auto instead */
+    justify-content: flex-start;
   }
 }
 
