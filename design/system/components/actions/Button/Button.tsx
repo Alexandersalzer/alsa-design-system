@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { cn } from '../../../lib/utils';
 import { Label, TypographyColor, TypographyWeight } from '../../Typography';
 import { Spinner } from '../../feedback';
+import { useLocaleHref } from '../../../hooks/useLocaleHref';
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -45,7 +46,11 @@ export const Button = forwardRef<
     },
     ref
   ) => {
+    const { buildHref } = useLocaleHref();
     const isDisabled = disabled || loading;
+    
+    // Build locale-aware href
+    const localeAwareHref = href ? buildHref(href) : undefined;
 
     const getTypographyProps = (
       variant: string,
@@ -122,8 +127,8 @@ export const Button = forwardRef<
     );
 
     // 🔗 Render as Link or <a>
-    if (href) {
-      const isInternal = href.startsWith('/');
+    if (localeAwareHref) {
+      const isInternal = localeAwareHref.startsWith('/');
       const linkProps = {
         className: buttonClasses,
         target,
@@ -132,14 +137,14 @@ export const Button = forwardRef<
 
       if (isInternal) {
         return (
-          <Link href={href} {...linkProps}>
+          <Link href={localeAwareHref} {...linkProps}>
             {content}
           </Link>
         );
       }
 
       return (
-        <a href={href} {...linkProps}>
+        <a href={localeAwareHref} {...linkProps}>
           {content}
         </a>
       );

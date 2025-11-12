@@ -7,6 +7,7 @@ import React, { forwardRef, ReactNode } from 'react';
 import Link from 'next/link';
 import { cn } from '../../../lib/utils';
 import { Label, TypographyColor, TypographyWeight } from '../../Typography';
+import { useLocaleHref } from '../../../hooks/useLocaleHref';
 import './TextLink.css';
 
 export interface TextLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -33,6 +34,11 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   href,
   ...props
 }, ref) => {
+  
+  const { buildHref } = useLocaleHref();
+  
+  // Build locale-aware href
+  const localeAwareHref = href ? buildHref(href) : undefined;
   
   // Map textlink variant + state to typography properties
   const getTypographyProps = (
@@ -91,7 +97,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   );
 
   // Check if this is a .html file (edit mode) or regular Next.js route
-  const isHtmlFile = href?.endsWith('.html');
+  const isHtmlFile = localeAwareHref?.endsWith('.html');
 
   // Content to render inside the link
   const linkContent = (
@@ -128,7 +134,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
     return (
       <a
         ref={ref}
-        href={href}
+        href={localeAwareHref}
         className={textLinkClasses}
         aria-disabled={disabled}
         tabIndex={disabled ? -1 : undefined}
@@ -142,7 +148,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   // Otherwise, use Next.js Link for internal routing
   return (
     <Link
-      href={href || '#'}
+      href={localeAwareHref || '#'}
       className={textLinkClasses}
       aria-disabled={disabled}
       tabIndex={disabled ? -1 : undefined}
