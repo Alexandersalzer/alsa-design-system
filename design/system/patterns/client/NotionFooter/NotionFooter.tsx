@@ -74,7 +74,6 @@ const NotionFooter = ({ content }: NotionFooterProps) => {
             columns={3} 
             minItemWidth="250px" 
             gap="xl"
-            collapseOn="mobile"
           >
             {/* Company */}
             <section aria-label="Företagsinformation">

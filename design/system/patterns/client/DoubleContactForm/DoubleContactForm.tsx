@@ -220,7 +220,6 @@ const DoubleContactForm = ({ id = "double-contact-form", content, className, onS
             columns={contactInfo && contactInfo.length > 0 ? 2 : 1} 
             gap="lg"
             minItemWidth="280px"
-            collapseOn="mobile"
             style={{ maxWidth: 'var(--size-page-narrow-max-width)', width: '100%' }}
           >
             {/* Contact Form */}

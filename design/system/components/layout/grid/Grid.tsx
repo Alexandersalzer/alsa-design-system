@@ -73,41 +73,60 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(({
   ...props
 }, ref) => {
   // Convert legacy responsive columns to minItemWidth if needed
-  const getMinWidth = () => {
-    if (minItemWidth !== '300px') return minItemWidth;
-    
-    // Convert common responsive patterns to sensible min widths
+  const getGridConfig = () => {
+    // If user explicitly passed responsive columns object, use legacy responsive approach
     if (isResponsiveValue(columns)) {
-      const mdCols = columns.md || columns.sm || columns.base || 3;
-      // Assume ~1200px container, calculate min width
-      return `${Math.floor(1200 / mdCols) - 24}px`;
+      return { useResponsive: true, responsiveColumns: columns };
     }
     
+    // If user passed specific number of columns, convert to responsive object
     if (typeof columns === 'number') {
-      return `${Math.floor(1200 / columns) - 24}px`;
+      return { useResponsive: true, responsiveColumns: { base: 1, sm: Math.max(1, columns - 1), md: columns } };
     }
     
-    return minItemWidth;
+    // Default to auto-fit approach
+    const autoMinWidth = minItemWidth !== '300px' ? minItemWidth : '300px';
+    return { useResponsive: false, minWidth: autoMinWidth };
   };
 
-  const finalMinWidth = getMinWidth();
+  const gridConfig = getGridConfig();
 
   // Build CSS classes
   const classes = buildClasses(
     'grid',
-    'grid--auto-fit',
+    gridConfig.useResponsive ? 'grid--responsive' : 'grid--auto-fit',
     `grid--gap-${gap}`,
     alignItems !== 'stretch' && `grid--align-${alignItems}`,
     justifyItems !== 'stretch' && `grid--justify-${justifyItems}`,
     className
   );
 
-  // Build inline styles - simple and reliable
+  // Build inline styles
   const inlineStyles: CSSProperties = {
-    ...(finalMinWidth && { ['--min-item-width' as any]: finalMinWidth }),
-    ...(maxColumns && { ['--max-columns' as any]: maxColumns }),
     ...style
   };
+
+  if (gridConfig.useResponsive && gridConfig.responsiveColumns) {
+    // Set CSS variables for responsive breakpoints
+    const cols = gridConfig.responsiveColumns;
+    if (cols.base !== undefined) (inlineStyles as any)['--grid-cols-base'] = cols.base;
+    if (cols.sm !== undefined) (inlineStyles as any)['--grid-cols-sm'] = cols.sm;
+    if (cols.md !== undefined) (inlineStyles as any)['--grid-cols-md'] = cols.md;
+    if (cols.lg !== undefined) (inlineStyles as any)['--grid-cols-lg'] = cols.lg;
+    if (cols.xl !== undefined) (inlineStyles as any)['--grid-cols-xl'] = cols.xl;
+    if (cols['2xl'] !== undefined) (inlineStyles as any)['--grid-cols-2xl'] = cols['2xl'];
+  } else {
+    // Auto-fit approach
+    (inlineStyles as any)['--min-item-width'] = gridConfig.minWidth;
+    if (maxColumns) (inlineStyles as any)['--max-columns'] = maxColumns;
+  }
+
+  console.log('Grid Debug:', { 
+    useResponsive: gridConfig.useResponsive, 
+    columns, 
+    responsiveColumns: gridConfig.responsiveColumns,
+    cssVars: inlineStyles 
+  });
 
   return (
     <div

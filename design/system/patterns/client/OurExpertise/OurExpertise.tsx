@@ -160,7 +160,6 @@ export const OurExpertise: React.FC<OurExpertiseProps> = ({
           <Grid 
             columns={4} 
             gap="lg" 
-            collapseOn="tablet"
             minItemWidth="250px"
             className="our-expertise-grid"
           >
