@@ -7,24 +7,27 @@
   background: transparent;
 }
 
+/* Pill container centered like NavbarBar */
 .navbar-pill__container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: var(--width-navbar);
+  max-width: var(--width-navbar);
+  margin: 0 auto;
   background: var(--surface-nav);
   border: 1px solid var(--border-default);
   border-radius: 9999px;
   padding: var(--space-navbar-sm) var(--space-navbar-md);
   box-shadow: 0 2px 6px var(--shadow-subtle);
   transition: background 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  position: relative;
 }
 
 .navbar-pill__container:hover {
   box-shadow: 0 4px 12px var(--shadow-emphasis);
 }
 
-/* Structure */
+/* Layout groups */
 .navbar-pill__left,
 .navbar-pill__middle,
 .navbar-pill__right {
@@ -32,27 +35,27 @@
   align-items: center;
 }
 
+/* Match NavbarBar centering logic */
 .navbar-pill__left,
 .navbar-pill__right {
-  flex: 1; /* Ensures center stays visually centered */
-}
-
-.navbar-pill__middle {
   flex: 1;
-  justify-content: center;
-}
-
-.navbar-pill__middle--left {
   justify-content: flex-start;
 }
 
-.navbar-pill__middle--center {
-  justify-content: center;
-}
-
-.navbar-pill__middle--right {
+.navbar-pill__right {
   justify-content: flex-end;
 }
+
+.navbar-pill__middle {
+  flex: 0 1 auto;
+  justify-content: center;
+  gap: var(--foundation-space-5);
+  min-width: 0;
+}
+
+.navbar-pill__middle--left { justify-content: flex-start; }
+.navbar-pill__middle--center { justify-content: center; }
+.navbar-pill__middle--right { justify-content: flex-end; }
 
 /* Branding */
 .navbar-pill__logo {
@@ -69,21 +72,15 @@
   text-decoration: none;
 }
 
-/* Menu and buttons */
-.navbar-pill__content {
-  display: flex;
-  align-items: center;
-  gap: var(--foundation-space-4);
-}
-
+/* Buttons and menu links */
 .navbar-pill__mobile-toggle {
   display: none;
   color: var(--icon-primary);
 }
 
-/* ===== Responsive ===== */
+/* Responsive */
 @media (max-width: 1100px) {
-  .navbar-pill__content {
+  .navbar-pill__middle {
     display: none;
   }
 
@@ -96,7 +93,7 @@
   }
 }
 
-/* ===== Modal (mobile menu) ===== */
+/* Modal styles */
 .navbar-pill__modal-menu {
   width: 100%;
   align-items: center;
@@ -113,7 +110,7 @@
   font-weight: 600;
   color: var(--text-nav-item);
   text-decoration: none;
-  transition: color 0.2s ease, opacity 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .navbar-pill__modal-link:hover {
