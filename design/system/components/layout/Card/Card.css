@@ -44,9 +44,9 @@
 }
 
 .card--solid {
-  background-color: var(--surface-solid);
-  border: 1px solid var(--border-solid);
-  color: var(--text-solid);
+  background-color: var(--surface-card-solid);
+  border: 1px solid var(--border-card);
+  color: var(--text-card-primary);
 }
 
 /* ===== INTERACTIVE CARD STATES ===== */
