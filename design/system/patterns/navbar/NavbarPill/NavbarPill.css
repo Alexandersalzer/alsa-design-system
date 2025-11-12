@@ -104,7 +104,7 @@
   margin-left: auto; /* Push to far right */
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1024px) {
   /* Hide all middle items and right-side buttons */
   .navbar-pill__middle,
   .navbar-pill__right {
