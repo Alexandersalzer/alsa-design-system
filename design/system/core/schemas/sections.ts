@@ -31,28 +31,50 @@ export const sectionTypeConfig = {
 export type SectionType = keyof typeof sectionTypeConfig;
 
 /**
+ * Validates if section type exists in config
+ */
+export function isValidSectionType(sectionType: string): sectionType is SectionType {
+  return sectionType in sectionTypeConfig;
+}
+
+/**
  * Validates if pattern is allowed for section type
  */
 export function isPatternAllowed(sectionType: string, patternType: string): boolean {
-  const config = sectionTypeConfig[sectionType as SectionType];
-  if (!config) {
-    console.warn(`Unknown section type: ${sectionType}`);
-    return true; // Fallback to allow if unknown
+  if (!isValidSectionType(sectionType)) {
+    return false; // Don't log here, let renderSection handle it
   }
-  return (config.allowedPatterns as readonly string[]).includes(patternType);
+  
+  const config = sectionTypeConfig[sectionType];
+  const isAllowed = (config.allowedPatterns as readonly string[]).includes(patternType);
+  
+  if (!isAllowed) {
+    console.warn(`❌ Pattern "${patternType}" is not allowed in section type "${sectionType}". Allowed patterns: ${config.allowedPatterns.join(', ')}`);
+  }
+  
+  return isAllowed;
 }
 
 /**
  * Validates if all required patterns are present
  */
 export function validateRequiredPatterns(sectionType: string, patterns: Record<string, { type: string }>): boolean {
-  const config = sectionTypeConfig[sectionType as SectionType];
-  if (!config) return true;
+  if (!isValidSectionType(sectionType)) {
+    return false; // Don't log here, let renderSection handle it
+  }
   
+  const config = sectionTypeConfig[sectionType];
   const presentPatternTypes = Object.values(patterns).map(p => p.type);
-  return config.requiredPatterns.every(required => 
-    presentPatternTypes.includes(required)
+  const missingPatterns = config.requiredPatterns.filter(required => 
+    !presentPatternTypes.includes(required)
   );
+  
+  if (missingPatterns.length > 0) {
+    console.error(`❌ Section type "${sectionType}" is missing required patterns: ${missingPatterns.join(', ')}`);
+    return false;
+  }
+  
+  return true;
 }
 
 /**

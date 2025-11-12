@@ -5,7 +5,7 @@ import { Container } from '../../components';
 import { patternRegistry } from '../../patterns/registry';
 import { SectionNode, PatternNode } from '../types/nodes';
 import { getPatternProps } from '../utils/helpers';
-import { isPatternAllowed, validateRequiredPatterns } from '../schemas/sections';
+import { isPatternAllowed, validateRequiredPatterns, isValidSectionType } from '../schemas/sections';
 
 /**
  * Props for Sections component
@@ -85,6 +85,13 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
   if (!sectionData?.patterns) return null;
 
   const { type, patterns, order } = sectionData;
+  
+  // Validate section type first
+  if (!isValidSectionType(type)) {
+    console.error(`❌ Unknown section type "${type}" in section "${sectionKey}". Valid types: hero, portfolio, testimonials, contact, featureGrid`);
+    return null;
+  }
+  
   const patternOrder = order || Object.keys(patterns);
   
   // Validate required patterns
