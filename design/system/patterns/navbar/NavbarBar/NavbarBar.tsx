@@ -12,10 +12,10 @@ import { PatternNode } from '../../../core/types/nodes';
 const NavbarBar = ( patternNode: PatternNode) => {
     const { components = {} } = patternNode;
     const getComponent = useComponentProps(components);
-    const patternProps = usePatternProps(patternNode);
+    const getPatternProps = usePatternProps(patternNode);
     const renderIf = componentPresent(components);
 
-  const textLink = Object.values(components).filter((c: any) => c.props?.role === 'menuItem');
+  const textLink = Object.values(components).filter((c: any) => c.type === 'textlink' && c.role === 'menuItem');
 
   const [mobileOpen, setMobileOpen] = useState(false);
   
@@ -26,7 +26,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
     right: 'right',
     middle: 'center', // Map 'middle' to 'center'
   };
-  const align = alignMap[patternProps().menuAlign] || 'center';
+  const align = alignMap[getPatternProps().menuAlign] || 'center';
 
   return (
     <nav className="navbar-bar">
