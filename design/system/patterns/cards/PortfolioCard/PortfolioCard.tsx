@@ -34,6 +34,10 @@ export function PortfolioCard({
   category,
   countryCode
 }: PortfolioCardProps) {
+  // Only prepend CDN_BASE_URL if mediaSrc does not already start with http/https
+  const getMediaUrl = (src: string) =>
+    src.startsWith('http://') || src.startsWith('https://') ? src : `${CDN_BASE_URL}${src}`;
+
   return (
     <Card variant="outlined" className="portfolio-card">
       {/* Media Container - Full bleed at top */}
@@ -49,7 +53,7 @@ export function PortfolioCard({
         {mediaType === 'video' ? (
           <div className="portfolio-video-container">
             <video
-              src={`${CDN_BASE_URL}${mediaSrc}`}
+              src={getMediaUrl(mediaSrc)}
               className="portfolio-video"
               controls
               preload="metadata"
@@ -61,7 +65,7 @@ export function PortfolioCard({
         ) : (
           <div className="portfolio-image-container">
             <img 
-              src={`${CDN_BASE_URL}${mediaSrc}`}
+              src={getMediaUrl(mediaSrc)}
               alt={mediaAlt}
               className="portfolio-image"
             />
