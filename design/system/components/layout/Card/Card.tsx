@@ -11,11 +11,13 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'elevated' | 'outlined' | 'solid';
   padding?: 'sm' | 'md' | 'lg';
   radius?: 'sm' | 'md' | 'lg';
-  // ✅ NEW: Interactive properties
+  // ✅ NEW: Width constraint options
+  width?: 'auto' | 'constrained' | 'compact' | 'spacious';
+  // ✅ Interactive properties
   interactive?: boolean;
   disabled?: boolean;
   selected?: boolean;
-  // ✅ NEW: Click handler for interactive cards
+  // ✅ Click handler for interactive cards
   onCardClick?: () => void;
 }
 
@@ -24,7 +26,8 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     className, 
     variant = 'default', 
     padding = 'md', 
-    radius = 'md', 
+    radius = 'md',
+    width = 'auto', // Default: no width constraints
     interactive = false,
     disabled = false,
     selected = false,
@@ -52,7 +55,12 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       radius === 'sm' && 'card--radius-sm',
       radius === 'lg' && 'card--radius-lg',
       
-      // ✅ NEW: Interactive state classes
+      // ✅ NEW: Width constraint classes
+      width === 'constrained' && 'card--constrained',
+      width === 'compact' && 'card--compact',
+      width === 'spacious' && 'card--spacious',
+      
+      // Interactive state classes
       interactive && 'card--interactive',
       isClickable && 'card--clickable',
       disabled && 'card--disabled',
@@ -96,7 +104,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 
 Card.displayName = 'Card';
 
-// ✅ NEW: Interactive Card wrapper for easier usage
+// ✅ Interactive Card wrapper for easier usage
 export interface InteractiveCardProps extends Omit<CardProps, 'interactive'> {
   onCardClick: () => void;
 }
@@ -159,14 +167,26 @@ CardFooter.displayName = 'CardFooter';
 
 /* ===== USAGE EXAMPLES =====
 
-// ✅ Default card (no interaction)
+// ✅ Default card (no interaction, no width constraints - fills parent)
 <Card>
-  <CardContent>Static card</CardContent>
+  <CardContent>Flexible card</CardContent>
 </Card>
 
-// ✅ Interactive card with hover and click
-<Card interactive onCardClick={() => console.log('clicked')}>
-  <CardContent>Clickable card</CardContent>
+// ✅ Constrained standalone card (fixed width like before)
+<Card width="constrained">
+  <CardContent>Fixed width card (18-24rem)</CardContent>
+</Card>
+
+// ✅ Interactive card in a grid (no width constraints)
+<Grid>
+  <Card interactive onCardClick={() => console.log('clicked')}>
+    <CardContent>Grid card</CardContent>
+  </Card>
+</Grid>
+
+// ✅ Dashboard cards with fixed width
+<Card width="constrained" variant="outlined">
+  <CardContent>Dashboard stat card</CardContent>
 </Card>
 
 // ✅ Interactive card wrapper (cleaner syntax)

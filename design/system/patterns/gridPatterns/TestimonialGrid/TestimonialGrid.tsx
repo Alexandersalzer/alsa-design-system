@@ -19,7 +19,6 @@ export interface TestimonialGridProps {
   props?: {
     columns?: number; // Number of masonry columns
     gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    maxWidth?: string;
   };
   components?: Record<string, {
     type: string;
@@ -42,8 +41,7 @@ export const TestimonialGrid: React.FC<TestimonialGridProps> = ({
 }) => {
   const {
     columns = 3, // Number of masonry columns
-    gap = 'md',
-    maxWidth = '1200px'
+    gap = 'md'
   } = patternProps;
 
   // Extract testimonial data
@@ -64,7 +62,6 @@ export const TestimonialGrid: React.FC<TestimonialGridProps> = ({
   return (
     <div 
       className={`testimonial-grid-container testimonial-grid--columns-${columns} testimonial-grid--gap-${gap}`}
-      style={{ maxWidth, margin: '0 auto' }}
     >
       {testimonials.map((testimonial, index) => (
         <TestimonialCard
