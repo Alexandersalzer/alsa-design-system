@@ -18,14 +18,7 @@ export interface ResultsCardData {
 // ===== PATTERN PROPS =====
 export interface ResultsGridProps {
   props?: {
-    columns?: {
-      base?: number;
-      sm?: number;
-      md?: number;
-      lg?: number;
-      xl?: number;
-      '2xl'?: number;
-    };
+    cardDensity?: 'compact' | 'standard' | 'spacious';
     gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     maxWidth?: string;
   };
@@ -45,9 +38,8 @@ export const ResultsGrid: React.FC<ResultsGridProps> = ({
   components = {}
 }) => {
   const {
-    columns = { base: 1, sm: 2, md: 3 },
-    gap = 'lg',
-    maxWidth = '1200px'
+    cardDensity = 'standard',
+    gap = 'lg'
   } = patternProps;
 
   // Extract resultsCard data
@@ -65,10 +57,16 @@ export const ResultsGrid: React.FC<ResultsGridProps> = ({
 
   if (cards.length === 0) return null;
 
+  //
+  // To control columns:
+  // - Use cardDensity (compact/standard/spacious)
+  // - Adjust maxWidth via design tokens (e.g. --width-content)
+  //
+  const maxWidth = patternProps.maxWidth || 'var(--width-content)';
   return (
     <div className="results-grid-container" style={{ maxWidth, margin: '0 auto' }}>
       <Grid
-        columns={columns}
+        cardDensity={cardDensity}
         gap={gap}
         className="results-grid"
       >

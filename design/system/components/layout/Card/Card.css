@@ -12,6 +12,9 @@
   box-shadow: var(--foundation-shadow-sm);
   transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
   position: relative;
+  width: 100%;
+  min-width: var(--selected-card-min-width, 18rem);
+  max-width: var(--selected-card-max-width, 24rem);
 }
 
 /* ===== CARD RADIUS SIZE VARIANTS ===== */
