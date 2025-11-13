@@ -57,14 +57,8 @@ export const ResultsGrid: React.FC<ResultsGridProps> = ({
 
   if (cards.length === 0) return null;
 
-  //
-  // To control columns:
-  // - Use cardDensity (compact/standard/spacious)
-  // - Adjust maxWidth via design tokens (e.g. --width-content)
-  //
-  const maxWidth = patternProps.maxWidth || 'var(--width-content)';
   return (
-    <div className="results-grid-container" style={{ maxWidth, margin: '0 auto' }}>
+    <div className="results-grid-container">
       <Grid
         cardDensity={cardDensity}
         gap={gap}
