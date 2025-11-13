@@ -134,18 +134,3 @@ export const COMMON_PROPS: PropDefinition[] = [
     examples: [200, 100, 400]
   }
 ];
-
-/**
- * Helper function to get props for a specific component type
- */
-export const getPropsForComponent = (componentType: string): PropDefinition[] => {
-  return COMMON_PROPS.filter(prop => prop.usedBy.includes(componentType));
-};
-
-/**
- * Helper function to check if a prop is valid for a component type
- */
-export const isPropValidForComponent = (propName: string, componentType: string): boolean => {
-  const prop = COMMON_PROPS.find(p => p.name === propName);
-  return prop ? prop.usedBy.includes(componentType) : false;
-};
