@@ -15,13 +15,16 @@
   border-radius: var(--radius-card);
   background: var(--surface-card-solid);
   padding: var(--foundation-space-4) var(--foundation-space-4) 0; /* padding left, top, right - NO bottom */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .results-card-image {
-  width: 100%;
-  height: 120%; /* Create overflow effect - bottom is hidden */
-  object-fit: cover;
-  object-position: center top; /* Show top, hide bottom */
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  object-position: center;
   border-radius: var(--radius-sm);
 }
 
