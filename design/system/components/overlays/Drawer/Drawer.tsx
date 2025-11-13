@@ -71,24 +71,26 @@ const Drawer = ({
         role="dialog"
         aria-modal="true"
       >
-        {showCloseButton && (
-          <HStack justify="end" className="drawer__close">
-            {closeButtonVariant === 'icon' ? (
-              <IconButtons.Close
-                aria-label="Close menu"
-                variant="ghost"
-                size="md"
-                onClick={onClose}
-              />
-            ) : (
-              <Button variant="ghost" size="md" onClick={onClose}>
-                {closeButtonLabel}
-              </Button>
-            )}
-          </HStack>
-        )}
         <VStack spacing="lg" align="stretch" fullWidth className="drawer__content">
-          {children}
+          {showCloseButton && (
+            <HStack justify="end" className="drawer__header">
+              {closeButtonVariant === 'icon' ? (
+                <IconButtons.Close
+                  aria-label="Close menu"
+                  variant="ghost"
+                  size="md"
+                  onClick={onClose}
+                />
+              ) : (
+                <Button variant="ghost" size="md" onClick={onClose}>
+                  {closeButtonLabel}
+                </Button>
+              )}
+            </HStack>
+          )}
+          <div className="drawer__body">
+            {children}
+          </div>
         </VStack>
       </aside>
     </div>,

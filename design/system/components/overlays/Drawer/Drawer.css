@@ -49,17 +49,24 @@
 /* Content area */
 .drawer__content {
   flex: 1;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
   -webkit-overflow-scrolling: touch;
   max-width: var(--width-navbar);
   margin: 0 auto;
+  padding: var(--foundation-space-4) var(--foundation-space-6); /* Add vertical padding too */
 }
 
-.drawer__close {
-  position: absolute;
-  top: var(--foundation-space-4, 1rem);
-  right: var(--foundation-space-4, 1rem);
-  z-index: 10;
+.drawer__header {
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.drawer__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 
 /* Desktop: slide from right instead of bottom */
