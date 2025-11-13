@@ -79,7 +79,7 @@
 
   /* LEVEL 2: FORM COMPONENTS - 🎯 CONSISTENT ROUNDED RECTANGLES */
   --radius-button-sm: var(--radius-xs);                 /* Uses your semantic token */
-  --radius-button: var(--radius-md);                    /* Uses your semantic token */
+  --radius-button: var(--radius-sm);                    /* Uses your semantic token */
   --radius-button-lg: var(--radius-md);                 /* Uses your semantic token */
   
   /* 🔧 FIXED: Inputs now match button radius exactly */
