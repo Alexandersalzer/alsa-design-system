@@ -4,27 +4,20 @@ import React, { useState } from 'react';
 import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../components';
 import { MenuIcon } from 'lucide-react';
 import { Modal } from '../../../components/overlays/Modal/Modal';
+import { useComponentProps, componentPresent, usePatternProps, useMapComponents, CDN_BASE_URL } from '../../../core/utils/helpers';
 import { alignMap } from '../utils';
 import './NavbarPill.css';
+import { PatternNode } from '../../../core/types/nodes';
 
-interface NavbarPillProps {
-  type?: string;
-  props?: Record<string, any>;
-  components?: Record<string, any>;
-}
-
-const NavbarPill = ({ type, props: patternProps = {}, components = {} }: NavbarPillProps) => {
-  if (!components) return null;
-
-  // Roles
-  const logo = Object.values(components).find((c: any) => c.props?.role === 'logo');
-  const businessName = Object.values(components).find((c: any) => c.props?.role === 'businessName');
-  const menuItems = Object.values(components).filter((c: any) => c.props?.role === 'menuItem');
-  const primaryAction = Object.values(components).find((c: any) => c.props?.role === 'primaryAction');
-  const secondaryAction = Object.values(components).find((c: any) => c.props?.role === 'secondaryAction');
+const NavbarPill = (patternNode: PatternNode) => {
+  const { components = {} } = patternNode;
+  const getComponent = useComponentProps(components);
+  const getPatternProps = usePatternProps(patternNode);
+  const renderIf = componentPresent(components);
+  const mapComponentIndices = useMapComponents(components);
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  const align = alignMap[patternProps.menuAlign] || 'center';
+  const align = alignMap[getPatternProps().menuAlign] || 'center';
 
   return (
     <>
@@ -32,36 +25,38 @@ const NavbarPill = ({ type, props: patternProps = {}, components = {} }: NavbarP
         <Box className="navbar-pill__container">
           {/* LEFT */}
           <HStack align="center" spacing="sm" className="navbar-pill__left">
-            {logo && (
+            {renderIf('logo') && (
               <img
-                src={logo.props?.src}
-                alt={logo.props?.alt || 'Logo'}
+                src={`${CDN_BASE_URL}${getComponent('logo').src}`}
+                alt={getComponent('logo').alt || 'Logo'}
                 className="navbar-pill__logo"
-                width={logo.props?.width || 40}
-                height={logo.props?.height || 40}
+                width={getComponent('logo').width || 40}
+                height={getComponent('logo').height || 40}
               />
             )}
-            {businessName && (
+            {renderIf('typography', 'businessName') && (
               <TextLink href="/" className="navbar-pill__brand">
-                {businessName.props?.content}
+                {getComponent('typography', 'businessName').content}
               </TextLink>
             )}
           </HStack>
 
           {/* MIDDLE */}
-          {menuItems.length > 0 && (
+          {renderIf('textlink', 'menuItem') && (
             <HStack
               className={`navbar-pill__middle navbar-pill__middle--${align}`}
               spacing="lg"
             >
-              {menuItems.map((item: any, i) => (
+              {mapComponentIndices('textlink', 'menuItem')
+                .slice(0, getPatternProps().maxMenuItems)
+                .map((props, i) => (
                 <TextLink
                   key={i}
-                  href={item.props?.href || '/'}
+                  href={props.href || '/'}
                   size="md"
                   underline="hover"
                 >
-                  {item.props?.content}
+                  {props.content}
                 </TextLink>
               ))}
             </HStack>
@@ -69,14 +64,14 @@ const NavbarPill = ({ type, props: patternProps = {}, components = {} }: NavbarP
 
           {/* RIGHT */}
           <HStack spacing="sm" className="navbar-pill__right">
-            {secondaryAction && (
-              <Button variant="ghost" href={secondaryAction.props?.href}>
-                {secondaryAction.props?.content}
+            {renderIf('button', 'secondaryAction') && (
+              <Button variant="ghost" href={getComponent('button', 'secondaryAction').href}>
+                {getComponent('button', 'secondaryAction').content}
               </Button>
             )}
-            {primaryAction && (
-              <Button variant="primary" href={primaryAction.props?.href}>
-                {primaryAction.props?.content}
+            {renderIf('button', 'primaryAction') && (
+              <Button variant="primary" href={getComponent('button', 'primaryAction').href}>
+                {getComponent('button', 'primaryAction').content}
               </Button>
             )}
           </HStack>
@@ -98,38 +93,39 @@ const NavbarPill = ({ type, props: patternProps = {}, components = {} }: NavbarP
         isOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
         size="full"
-        title={businessName?.props?.content || 'Meny'}
+        title={getComponent('typography', 'businessName').content || 'Meny'}
         showCloseButton
       >
         <VStack spacing="xl" align="center" className="navbar-pill__modal-menu">
-          {menuItems.map((item: any, i) => (
+          {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem')
+            .map((props, i) => (
             <TextLink
               key={i}
-              href={item.props?.href || '/'}
+              href={props.href || '/'}
               onClick={() => setMobileOpen(false)}
               className="navbar-pill__modal-link"
             >
-              {item.props?.content}
+              {props.content}
             </TextLink>
           ))}
 
           <VStack spacing="sm" className="navbar-pill__modal-actions">
-            {secondaryAction && (
+            {renderIf('button', 'secondaryAction') && (
               <Button
                 variant="ghost"
-                href={secondaryAction.props?.href}
+                href={getComponent('button', 'secondaryAction').href}
                 onClick={() => setMobileOpen(false)}
               >
-                {secondaryAction.props?.content}
+                {getComponent('button', 'secondaryAction').content}
               </Button>
             )}
-            {primaryAction && (
+            {renderIf('button', 'primaryAction') && (
               <Button
                 variant="primary"
-                href={primaryAction.props?.href}
+                href={getComponent('button', 'primaryAction').href}
                 onClick={() => setMobileOpen(false)}
               >
-                {primaryAction.props?.content}
+                {getComponent('button', 'primaryAction').content}
               </Button>
             )}
           </VStack>

@@ -54,16 +54,24 @@ export const usePatternProps = (pattern: PatternNode) => {
 };
 
 /**
- * Check if a component type exists in the components object
- * Returns a function that checks for component existence
+ * Check if a component should be rendered (exists and not hidden)
+ * Returns a function that checks for component existence and visibility
  */
 export const componentPresent = (components: Record<string, ComponentNode>) => {
   return (type: string, role?: string) => {
-    return Object.values(components).some(c => {
+    const component = Object.values(components).find(c => {
       const matchesType = c.type === type;
       const matchesRole = role ? c.role === role : true;
       return matchesType && matchesRole;
     });
+    
+    if (!component) return false;
+    
+    // Check if component is hidden
+    const props = component.props || {};
+    if (props.hidden === true) return false;
+    
+    return true;
   };
 };
 

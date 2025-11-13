@@ -1,25 +1,33 @@
 'use client';
 
+import { usePathname, useRouter } from 'next/navigation';
 import { Typography } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
+import { Picker } from '../../../components/forms/Picker/Picker';
 import { PatternNode } from '../../../core/types/nodes';
-import { useComponentProps } from '../../../core/utils/helpers';
+import { useComponentProps, componentPresent, CDN_BASE_URL } from '../../../core/utils/helpers';
+import { getPickerLocale, handleLocaleChange } from '../../../core/utils/locale';
 
 const KjFooter = ({ components = {} }: PatternNode) => {
   const get = useComponentProps(components);
+  const renderIf = componentPresent(components);
+  const pathname = usePathname(); // getPickerLocale
+  const router = useRouter(); // handleLocaleChange
   
   return (
     <VStack spacing="xl" align="center" fullWidth>
       {/* Title with Logo */}
       <HStack spacing="md" align="center" justify="center">
-        <img 
-          src="/images/sections/kjlogo.jpg" 
-          alt="KJ Marketing Sweden Logo"
-          width={40}
-          height={40}
-          className="object-contain flex-shrink-0"
-        />
+        {renderIf('logo') && (
+          <img
+            src={`${CDN_BASE_URL}${get('logo').src}`}
+            alt={get('logo').alt || 'Logo'}
+            width={get('logo').width || 40}
+            height={get('logo').height || 40}
+            className="object-contain flex-shrink-0"
+          />
+        )}
         <Typography 
           variant="h4" 
           color="inverse" 
@@ -29,6 +37,18 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           {get('typography', 'title').content}
         </Typography>
       </HStack>
+
+      {/* Language Picker */}
+      {renderIf('picker', 'languageSelector') && (
+        <Picker
+          placeholder={get('picker', 'languageSelector').placeholder}
+          size={get('picker', 'languageSelector').size}
+          variant={get('picker', 'languageSelector').variant}
+          options={get('picker', 'languageSelector').options || []}
+          value={getPickerLocale(pathname, get('picker', 'languageSelector').options || [])}
+          onChange={(value) => handleLocaleChange(router, value)}
+        />
+      )}
 
       {/* Body Content */}
       <VStack spacing="xs" align="center">
