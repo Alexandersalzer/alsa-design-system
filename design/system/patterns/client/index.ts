@@ -31,7 +31,6 @@ export * from './ReviewCard';
 export * from './results';
 export * from './StatsGrid';
 export * from './FilterTabs';
-export * from './PortfolioCard';
 export * from './Testimonials';
 export * from './AboutWithStats';
 export * from './AboutUs';
