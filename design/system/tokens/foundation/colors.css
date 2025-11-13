@@ -29,6 +29,26 @@
   --foundation-gray-1200: #171717;
 }
 
+:root[data-theme-tone="aqua"] {
+  --foundation-white: #eef6fb;
+  --foundation-black: #0a0e12; 
+
+  --foundation-gray-50:  #f3f8fd;
+  --foundation-gray-100: #e4eff9; 
+  --foundation-gray-200: #d1e3f3;
+  --foundation-gray-300: #b7d0eb; 
+  --foundation-gray-400: #95b7de;  
+  --foundation-gray-500: #769dcd;
+  --foundation-gray-600: #5b83b6; 
+  --foundation-gray-700: #446a98;
+  --foundation-gray-800: #305078;  
+  --foundation-gray-900: #1f3756;  
+  --foundation-gray-1000: #14263b;
+  --foundation-gray-1100: #0d1825;
+  --foundation-gray-1200: #080f15; 
+}
+
+
 /* ========== WARM (SOFT BEIGE) ========== */
 :root[data-theme-tone="linen"] {
   --foundation-white: #eceae7;
