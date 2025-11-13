@@ -3,51 +3,7 @@
    FLUID RESPONSIVE WIDTH SYSTEM (Compressed)
    ============================================== */
 
-/*
-  COPILOT INSTRUCTION:
-  --------------------
-  This file defines scalable layout tokens.  
-  When adding new card sizes or density modes:
-  - Mirror the pattern: foundation-card-*-min/max
-  - Keep rem units for fluid scaling
-  - Ensure semantic tokens wrap them in clamp()
-  - All widths must be consistent with typography scale
-*/
-
 :root {
-  /* ===== DEFAULT FLUID CARD WIDTH ===== */
-  --width-card: clamp(
-    var(--selected-card-min-width),
-    30vw,
-    var(--selected-card-max-width)
-  );
-
-  /* ======================================
-     DENSITY MODES
-     --------------------------------------
-     compact  → most columns, smallest cards
-     standard → balanced (DEFAULT)
-     spacious → fewer columns, larger cards
-     ====================================== */
-
-  --width-card-compact: clamp(
-    var(--foundation-card-xs-min),
-    25vw,
-    var(--foundation-card-sm-max)
-  );
-
-  --width-card-standard: clamp(
-    var(--foundation-card-sm-min),
-    30vw,
-    var(--foundation-card-md-max)
-  );
-
-  --width-card-spacious: clamp(
-    var(--foundation-card-md-min),
-    35vw,
-    var(--foundation-card-lg-max)
-  );
-
   /* ===== SELECTED WIDTH SCALE ===== */
   --selected-layout-scale-content: var(--foundation-layout-base-content);
   --selected-layout-scale-media: var(--foundation-layout-base-media);

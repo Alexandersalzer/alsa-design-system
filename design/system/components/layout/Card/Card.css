@@ -15,23 +15,6 @@
   width: 100%; /* Let parent control width */
 }
 
-/* ===== OPTIONAL WIDTH CONSTRAINT MODIFIERS ===== */
-/* Use these ONLY when you need fixed-width standalone cards */
-.card--constrained {
-  min-width: var(--selected-card-min-width, 18rem);
-  max-width: var(--selected-card-max-width, 24rem);
-}
-
-.card--compact {
-  min-width: var(--foundation-card-xs-min);
-  max-width: var(--foundation-card-sm-max);
-}
-
-.card--spacious {
-  min-width: var(--foundation-card-md-min);
-  max-width: var(--foundation-card-lg-max);
-}
-
 /* ===== CARD RADIUS SIZE VARIANTS ===== */
 .card--radius-sm {
   border-radius: var(--radius-card-sm);

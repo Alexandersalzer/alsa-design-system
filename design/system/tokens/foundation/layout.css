@@ -3,33 +3,7 @@
    LAYOUT + FORM WIDTH TOKENS (Compressed Version)
    ============================================== */
 
-/*
-   COPILOT INSTRUCTION:
-   --------------------
-   This file defines scalable layout tokens.  
-   When adding new card sizes or density modes:
-   - Mirror the pattern: foundation-card-*-min/max
-   - Keep rem units for fluid scaling
-   - Ensure semantic tokens wrap them in clamp()
-   - All widths must be consistent with typography scale
-*/
-
 :root {
-   /* ===== MIN WIDTHS (rem = fluid with root font-size) ===== */
-   --foundation-card-xs-min: 14rem;  /* 224px: tightest */
-   --foundation-card-sm-min: 16rem;  /* 256px */
-   --foundation-card-md-min: 18rem;  /* 288px (default minimum) */
-   --foundation-card-lg-min: 20rem;  /* 320px */
-
-   /* ===== MAX WIDTHS ===== */
-   --foundation-card-sm-max: 22rem;  /* 352px */
-   --foundation-card-md-max: 24rem;  /* 384px (default maximum) */
-   --foundation-card-lg-max: 26rem;  /* 416px */
-
-   /* ===== SELECTED SCALE (DEFAULT) ===== */
-   --selected-card-min-width: var(--foundation-card-md-min);
-   --selected-card-max-width: var(--foundation-card-md-max);
-
   /* ===== WIDTH SCALE: XS (Extra Small) ===== */
   --foundation-layout-xs-content: 58rem;   /* 928px  */
   --foundation-layout-xs-media:   72rem;   /* 1152px */
