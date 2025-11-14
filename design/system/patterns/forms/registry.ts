@@ -1,6 +1,7 @@
-import { FormPattern } from './form';
+import { FormPattern, KjForm } from './form';
 
 // Forms patterns registry
 export const formsRegistry: Record<string, React.ComponentType<any>> = {
   form: FormPattern,
+  kjForm: KjForm,
 };
