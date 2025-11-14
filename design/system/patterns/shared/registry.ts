@@ -1,4 +1,5 @@
 import SectionBody from './sectionBody/SectionBody';
+import { ButtonGroup } from './ButtonGroup/ButtonGroup';
 
 /**
  * Shared patterns registry
@@ -6,4 +7,5 @@ import SectionBody from './sectionBody/SectionBody';
  */
 export const sharedPatterns: Record<string, React.ComponentType<any>> = {
   sectionBody: SectionBody,
+  buttonGroup: ButtonGroup,
 };
