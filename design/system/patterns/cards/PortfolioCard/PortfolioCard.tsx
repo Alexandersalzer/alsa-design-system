@@ -1,130 +1,201 @@
+// ===============================================
+// design/system/components/patterns/client/PortfolioCard/PortfolioCard.tsx
+// PORTFOLIO CARD PATTERN - Clean, modern design following ResultsCard pattern
+// ===============================================
+
 import React from 'react';
-import { Card, VStack, HStack, Typography } from '../../../components';
-import { CDN_BASE_URL } from '../../../core/utils/helpers';
+import { Card } from '../../../components/layout';
+import { Typography, TypographyColor } from '../../../components/Typography';
+import { VStack } from '../../../components/layout/vStack/VStack';
+import { HStack } from '../../../components/layout/hStack/HStack';
+import { Icon } from '../../../components/media/Icon/Icon';
+import { EyeIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
+import { GB, SE } from 'country-flag-icons/react/3x2';
 import './PortfolioCard.css';
 
+// ===== TYPE DEFINITIONS =====
+
 export interface PortfolioCardProps {
-  title: string;
-  description?: string;
-  mediaType: 'image' | 'video';
-  mediaSrc: string;
-  mediaAlt?: string;
-  views?: number;
+  className?: string;
+  
+  // Content
   category?: string;
-  countryCode?: string; // ISO country code for flag (e.g., 'SE', 'US', 'GB')
+  title: string;
+  description: string;
+  views?: string;
+  videoSrc?: string; // Optional - either video or image
+  imageSrc?: string; // Optional - either video or image
+  flag?: 'uk' | 'sv'; // Optional flag for country/language indicator
+  
+  // Styling options
+  variant?: 'default' | 'elevated' | 'outlined';
+  padding?: 'sm' | 'md' | 'lg';
+  radius?: 'sm' | 'md' | 'lg';
+  
+  // Typography variants
+  categoryVariant?: 'body-xl' | 'body-lg' | 'body-md' | 'body-sm' | 'body-xs' | 'label-lg' | 'label-md' | 'label-sm';
+  titleVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body-xl' | 'body-lg' | 'body-md' | 'body-sm';
+  descriptionVariant?: 'body-xl' | 'body-lg' | 'body-md' | 'body-sm' | 'body-xs';
+  viewsVariant?: 'body-xl' | 'body-lg' | 'body-md' | 'body-sm' | 'body-xs' | 'label-lg' | 'label-md' | 'label-sm';
+  
+  // Typography weights
+  categoryWeight?: 'regular' | 'medium' | 'semibold' | 'bold';
+  titleWeight?: 'regular' | 'medium' | 'semibold' | 'bold' | 'extrabold';
+  descriptionWeight?: 'regular' | 'medium' | 'semibold';
+  viewsWeight?: 'regular' | 'medium' | 'semibold' | 'bold';
+  
+  // Typography colors
+  categoryColor?: TypographyColor;
+  titleColor?: TypographyColor;
+  descriptionColor?: TypographyColor;
+  viewsColor?: TypographyColor;
+  
+  // Layout spacing
+  spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }
 
+// ===== MAIN PORTFOLIO CARD COMPONENT =====
 
-// Country code to flag emoji mapping
-const getCountryFlag = (countryCode: string): string => {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split('')
-    .map(char => 127397 + char.charCodeAt(0));
-  return String.fromCodePoint(...codePoints);
+export const PortfolioCard: React.FC<PortfolioCardProps> = ({
+  className,
+  category,
+  title,
+  description,
+  views,
+  videoSrc,
+  imageSrc,
+  flag,
+  
+  // Card styling defaults
+  variant = 'elevated',
+  padding = 'md',
+  radius = 'md',
+  
+  // Typography defaults - clean, modern style
+  categoryVariant = 'body-xs',
+  titleVariant = 'h5',
+  descriptionVariant = 'body-sm',
+  viewsVariant = 'body-xs',
+  
+  categoryWeight = 'medium',
+  titleWeight = 'bold',
+  descriptionWeight = 'regular',
+  viewsWeight = 'regular',
+  
+  categoryColor = 'tertiary',
+  titleColor = 'primary',
+  descriptionColor = 'secondary',
+  viewsColor = 'tertiary',
+  
+  // Layout defaults
+  spacing = 'md'
+}) => {
+  // Determine if we have video or image content
+  const hasVideo = Boolean(videoSrc);
+  const hasImage = Boolean(imageSrc);
+  
+  return (
+    <VStack spacing={spacing} className={`portfolio-card-wrapper ${className || ''}`}>
+      {/* Media Card - Elevated background like ResultsCard */}
+      <Card
+        variant={variant}
+        padding={padding}
+        radius={radius}
+        className="portfolio-media-card"
+      >
+        {/* Flag indicator - positioned absolutely */}
+        {flag && (
+          <HStack className="portfolio-flag">
+            {flag === 'uk' && <GB />}
+            {flag === 'sv' && <SE />}
+          </HStack>
+        )}
+        
+        {/* Video content */}
+        {hasVideo && videoSrc && (
+          <video
+            src={videoSrc}
+            className="portfolio-video"
+            controls
+            preload="metadata"
+            playsInline
+          >
+            Your browser does not support the video tag.
+          </video>
+        )}
+        
+        {/* Image content */}
+        {hasImage && !hasVideo && imageSrc && (
+          <Image
+            src={imageSrc}
+            alt={title}
+            width={400}
+            height={300}
+            className="portfolio-image"
+            style={{
+              width: '100%',
+              height: 'auto',
+              objectFit: 'cover'
+            }}
+            priority
+          />
+        )}
+      </Card>
+      
+      {/* Text Content - Similar to ResultsCard, no background */}
+      <VStack spacing="sm" className="portfolio-text-content">
+        {/* Category and Views Row */}
+        {(category || views) && (
+          <HStack spacing="sm" className="portfolio-meta">
+            {category && (
+              <Typography
+                variant={categoryVariant}
+                weight={categoryWeight}
+                color={categoryColor}
+                className="portfolio-category"
+              >
+                {category}
+              </Typography>
+            )}
+            
+            {views && (
+              <HStack spacing="xs">
+                <Icon size="xs" color="tertiary">
+                  <EyeIcon />
+                </Icon>
+                <Typography
+                  variant={viewsVariant}
+                  weight={viewsWeight}
+                  color={viewsColor}
+                >
+                  {views}
+                </Typography>
+              </HStack>
+            )}
+          </HStack>
+        )}
+        
+        {/* Title */}
+        <Typography
+          variant={titleVariant}
+          weight={titleWeight}
+          color={titleColor}
+        >
+          {title}
+        </Typography>
+        
+        {/* Description */}
+        <Typography
+          variant={descriptionVariant}
+          weight={descriptionWeight}
+          color={descriptionColor}
+        >
+          {description}
+        </Typography>
+      </VStack>
+    </VStack>
+  );
 };
 
-export function PortfolioCard({ 
-  title, 
-  description,
-  mediaType,
-  mediaSrc,
-  mediaAlt = 'Portfolio item',
-  views,
-  category,
-  countryCode
-}: PortfolioCardProps) {
-  // Only prepend CDN_BASE_URL if mediaSrc does not already start with http/https
-  const getMediaUrl = (src: string) =>
-    src.startsWith('http://') || src.startsWith('https://') ? src : `${CDN_BASE_URL}${src}`;
-
-  return (
-    <Card variant="outlined" className="portfolio-card">
-      {/* Media Container - Full bleed at top */}
-      <div className="portfolio-media-container">
-        {countryCode && (
-          <div className="portfolio-flag" title={countryCode}>
-            <span role="img" aria-label={`${countryCode} flag`}>
-              {getCountryFlag(countryCode)}
-            </span>
-          </div>
-        )}
-
-        {mediaType === 'video' ? (
-          <div className="portfolio-video-container">
-            <video
-              src={getMediaUrl(mediaSrc)}
-              className="portfolio-video"
-              controls
-              preload="metadata"
-              playsInline
-            >
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        ) : (
-          <div className="portfolio-image-container">
-            <img 
-              src={getMediaUrl(mediaSrc)}
-              alt={mediaAlt}
-              className="portfolio-image"
-            />
-          </div>
-        )}
-      </div>
-
-      {/* Content Section */}
-      <div className="portfolio-content">
-        <VStack spacing="sm">
-          {/* Category tag if provided */}
-          {category && (
-            <Typography variant="body-xs" weight="medium" color="tertiary" className="portfolio-category">
-              {category}
-            </Typography>
-          )}
-
-          {/* Title */}
-          <Typography variant="h5" weight="bold" color="primary">
-            {title}
-          </Typography>
-
-          {/* Description */}
-          {description && (
-            <Typography variant="body-sm" weight="regular" color="secondary">
-              {description}
-            </Typography>
-          )}
-
-          {/* Views count */}
-          {views !== undefined && (
-            <HStack spacing="xs" className="portfolio-views">
-              <span className="eye-icon" aria-label="Views">
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  strokeWidth={1.5} 
-                  stroke="currentColor"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" 
-                  />
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" 
-                  />
-                </svg>
-              </span>
-              <Typography variant="body-xs" weight="regular" color="secondary">
-                {views.toLocaleString()}
-              </Typography>
-            </HStack>
-          )}
-        </VStack>
-      </div>
-    </Card>
-  );
-}
+PortfolioCard.displayName = 'PortfolioCard';
