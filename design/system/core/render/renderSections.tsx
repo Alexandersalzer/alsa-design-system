@@ -67,6 +67,7 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, ind
       align="center"
       height="auto"
       useNavbarWidth={patternProps.useNavbarWidth || false}
+      useFormWidth={patternProps.useFormWidth || false}
       noPadding={true}
     >
       <PatternComponent 
