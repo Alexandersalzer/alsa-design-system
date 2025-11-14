@@ -16,7 +16,7 @@ export interface ButtonGroupProps {
 }
 
 export const ButtonGroup: React.FC<ButtonGroupProps> = ({
-  buttons,
+  buttons = [],
   onClick,
   activeValue,
   size = 'md',
@@ -25,18 +25,20 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({
   className = '',
 }) => (
   <div className={`button-group ${className}`} style={{ display: 'flex', gap: '0.5rem' }}>
-    {buttons.map((btn) => (
-      <Button
-        key={btn.value}
-        variant={activeValue === btn.value ? 'primary' : variant}
-        size={size}
-        radius={radius}
-        onClick={() => onClick?.(btn.value)}
-        aria-pressed={activeValue === btn.value}
-      >
-        {btn.label}
-      </Button>
-    ))}
+    {Array.isArray(buttons) && buttons.length > 0 ? (
+      buttons.map((btn) => (
+        <Button
+          key={btn.value}
+          variant={activeValue === btn.value ? 'primary' : variant}
+          size={size}
+          radius={radius}
+          onClick={() => onClick?.(btn.value)}
+          aria-pressed={activeValue === btn.value}
+        >
+          {btn.label}
+        </Button>
+      ))
+    ) : null}
   </div>
 );
 
