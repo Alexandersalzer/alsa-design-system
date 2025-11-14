@@ -13,7 +13,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 // ===== MAIN KJ FORM COMPONENT =====
-const KjForm = ({ components = {} }: PatternNode) => {
+const GridForm = ({ components = {} }: PatternNode) => {
   const get = useComponentProps(components);
   const renderIf = componentPresent(components);
   
@@ -130,6 +130,6 @@ const KjForm = ({ components = {} }: PatternNode) => {
   );
 };
 
-KjForm.displayName = 'KjForm';
+GridForm.displayName = 'GridForm';
 
-export default KjForm;
+export default GridForm;

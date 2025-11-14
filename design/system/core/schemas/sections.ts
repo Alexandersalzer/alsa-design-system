@@ -16,7 +16,7 @@ export const sectionTypeConfig = {
     requiredPatterns: ['sectionBody']
   },
   contact: {
-    allowedPatterns: ['sectionBody', 'form', 'kjform'],
+    allowedPatterns: ['sectionBody', 'form', 'gridForm'],
     requiredPatterns: ['sectionBody']
   },
   featureGrid: {

@@ -3,5 +3,5 @@
 // ===============================================
 
 export { FormPattern } from './Form';
-export { default as KjForm } from './KjForm';
+export { default as GridForm } from './GridForm';
 export type { FormPatternProps } from './Form';
