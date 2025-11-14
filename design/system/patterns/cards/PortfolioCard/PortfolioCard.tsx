@@ -22,11 +22,12 @@ export interface PortfolioCardProps {
   // Content
   category?: string;
   title: string;
-  description: string;
-  views?: string;
-  videoSrc?: string; // Optional - either video or image
-  imageSrc?: string; // Optional - either video or image
-  flag?: 'uk' | 'sv'; // Optional flag for country/language indicator
+  description?: string; // Make description optional
+  views?: number;
+  mediaType: 'image' | 'video';
+  mediaSrc: string;
+  mediaAlt?: string;
+  countryCode?: string;
   
   // Styling options
   variant?: 'default' | 'elevated' | 'outlined';
@@ -63,9 +64,10 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   title,
   description,
   views,
-  videoSrc,
-  imageSrc,
-  flag,
+  mediaType,
+  mediaSrc,
+  mediaAlt,
+  countryCode,
   
   // Card styling defaults
   variant = 'elevated',
@@ -92,8 +94,8 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   spacing = 'md'
 }) => {
   // Determine if we have video or image content
-  const hasVideo = Boolean(videoSrc);
-  const hasImage = Boolean(imageSrc);
+  const isVideo = mediaType === 'video' && !!mediaSrc;
+  const isImage = mediaType === 'image' && !!mediaSrc;
   
   return (
     <VStack spacing={spacing} className={`portfolio-card-wrapper ${className || ''}`}>
@@ -104,18 +106,17 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
         radius={radius}
         className="portfolio-media-card"
       >
-        {/* Flag indicator - positioned absolutely */}
-        {flag && (
+        {/* Country flag indicator if provided */}
+        {countryCode && (
           <HStack className="portfolio-flag">
-            {flag === 'uk' && <GB />}
-            {flag === 'sv' && <SE />}
+            {countryCode.toLowerCase() === 'uk' && <GB />}
+            {countryCode.toLowerCase() === 'sv' && <SE />}
           </HStack>
         )}
-        
         {/* Video content */}
-        {hasVideo && videoSrc && (
+        {isVideo && (
           <video
-            src={videoSrc}
+            src={mediaSrc}
             className="portfolio-video"
             controls
             preload="metadata"
@@ -124,12 +125,11 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
             Your browser does not support the video tag.
           </video>
         )}
-        
         {/* Image content */}
-        {hasImage && !hasVideo && imageSrc && (
+        {isImage && (
           <Image
-            src={imageSrc}
-            alt={title}
+            src={mediaSrc}
+            alt={mediaAlt || title}
             width={400}
             height={300}
             className="portfolio-image"
@@ -186,13 +186,15 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
         </Typography>
         
         {/* Description */}
-        <Typography
-          variant={descriptionVariant}
-          weight={descriptionWeight}
-          color={descriptionColor}
-        >
-          {description}
-        </Typography>
+        {description && (
+          <Typography
+            variant={descriptionVariant}
+            weight={descriptionWeight}
+            color={descriptionColor}
+          >
+            {description}
+          </Typography>
+        )}
       </VStack>
     </VStack>
   );
