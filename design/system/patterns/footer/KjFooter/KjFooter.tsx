@@ -1,10 +1,6 @@
 'use client';
-
 import { usePathname, useRouter } from 'next/navigation';
-import { Typography } from '../../../components/Typography';
-import { VStack } from '../../../components/layout/vStack/VStack';
-import { HStack } from '../../../components/layout/hStack/HStack';
-import { Picker } from '../../../components/forms/Picker/Picker';
+import { Typography, VStack, HStack, Menu } from '../../../components';
 import { PatternNode } from '../../../core/types/nodes';
 import { useComponentProps, componentPresent, CDN_BASE_URL } from '../../../core/utils/helpers';
 import { getPickerLocale, handleLocaleChange } from '../../../core/utils/locale';
@@ -12,9 +8,14 @@ import { getPickerLocale, handleLocaleChange } from '../../../core/utils/locale'
 const KjFooter = ({ components = {} }: PatternNode) => {
   const get = useComponentProps(components);
   const renderIf = componentPresent(components);
-  const pathname = usePathname(); // getPickerLocale
-  const router = useRouter(); // handleLocaleChange
-  
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // Get current locale and menu options
+  const menuOptions = get('menu', 'languageSelector').options || [];
+  const currentLocale = getPickerLocale(pathname, menuOptions);
+  const currentOption = menuOptions.find((opt: any) => opt.value === currentLocale);
+
   return (
     <VStack spacing="xl" align="center" fullWidth>
       {/* Title with Logo */}
@@ -38,16 +39,29 @@ const KjFooter = ({ components = {} }: PatternNode) => {
         </Typography>
       </HStack>
 
-      {/* Language Picker */}
-      {renderIf('picker', 'languageSelector') && (
-        <Picker
-          placeholder={get('picker', 'languageSelector').placeholder}
-          size={get('picker', 'languageSelector').size}
-          variant={get('picker', 'languageSelector').variant}
-          options={get('picker', 'languageSelector').options || []}
-          value={getPickerLocale(pathname, get('picker', 'languageSelector').options || [])}
-          onChange={(value) => handleLocaleChange(router, value)}
-        />
+      {/* Language Menu */}
+      {renderIf('menu', 'languageSelector') && (
+        <Menu 
+          size={get('menu', 'languageSelector').size || 'sm'}
+          variant={get('menu', 'languageSelector').variant || 'subtle'}
+          closeOnSelect={true}
+        >
+          <Menu.Trigger>
+            {currentOption?.label || get('menu', 'languageSelector').placeholder || 'Select Language'}
+          </Menu.Trigger>
+          
+          <Menu.Content>
+            {menuOptions.map((option: any) => (
+              <Menu.Item
+                key={option.value}
+                value={option.value}
+                onClick={() => handleLocaleChange(router, option.value)}
+              >
+                {option.label}
+              </Menu.Item>
+            ))}
+          </Menu.Content>
+        </Menu>
       )}
 
       {/* Body Content */}
@@ -70,7 +84,7 @@ const KjFooter = ({ components = {} }: PatternNode) => {
             {get('typography', 'email').content}
           </a>
         </Typography>
-        
+
         {/* Legal */}
         <Typography 
           variant="body-sm"
@@ -81,28 +95,29 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           {get('typography', 'legal').content}
         </Typography>
       </VStack>
+
       {/* Attribution */}
-        <Typography 
-          variant="body-sm"
-          color="tertiary" 
-          align="center"
-          weight="semibold"
+      <Typography 
+        variant="body-sm"
+        color="tertiary" 
+        align="center"
+        weight="semibold"
+      >
+        {get('typography', 'attribute').content}{' '}
+        <a 
+          href="https://blimpify-im.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ 
+            color: 'var(--text-placeholder)', 
+            textDecoration: 'underline',
+            textUnderlineOffset: '6px',
+            fontWeight: 'bold'
+          }}
         >
-          {get('typography', 'attribute').content}{' '}
-          <a 
-            href="https://blimpify-im.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ 
-              color: 'var(--text-placeholder)', 
-              textDecoration: 'underline',
-              textUnderlineOffset: '6px',
-              fontWeight: 'bold'
-            }}
-          >
-            Blimpify
-          </a>
-        </Typography>
+          Blimpify
+        </a>
+      </Typography>
     </VStack>
   );
 };

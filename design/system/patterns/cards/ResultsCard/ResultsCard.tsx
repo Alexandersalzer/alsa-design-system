@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, VStack, Typography } from '../../../components';
+import { CDN_BASE_URL } from '../../../core/utils/helpers';
 import './ResultsCard.css';
 
 interface ResultsCardProps {
@@ -20,25 +21,28 @@ export function ResultsCard({
   imageAlt 
 }: ResultsCardProps) {
   return (
-    <Card variant="elevated" className="results-card">
-      <div className="results-card-image-container">
+    <div className="results-card">
+      {/* Image Card - separate container with background */}
+      <Card variant="elevated" className="results-card-image-container">
         <img 
-          src={imageSrc} 
+          src={`${CDN_BASE_URL}${imageSrc}`}
           alt={imageAlt}
           className="results-card-image"
         />
-      </div>
-      <VStack spacing="md" className="results-card-content">
-        <Typography variant="h5" weight="semibold">
-          {heading}
-        </Typography>
-        <Typography variant="body-sm" color="secondary">
+      </Card>
+      
+      {/* Text Content - VStack with no background, left aligned */}
+      <VStack spacing="sm" className="results-card-text">
+        <Typography variant="h4" weight="bold" color="primary">
           {subheading}
         </Typography>
-        <Typography variant="body-md">
+        <Typography variant="body-md" weight="regular" color="secondary">
+          {heading}
+        </Typography>
+        <Typography variant="body-sm" weight="regular" color="tertiary">
           {description}
         </Typography>
       </VStack>
-    </Card>
+    </div>
   );
 }

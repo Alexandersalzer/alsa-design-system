@@ -1,3 +1,17 @@
+/*
+  COPILOT INSTRUCTION:
+  --------------------
+  Grid.tsx supports:
+  - auto-fit responsive grid
+  - density-based card widths via semantic tokens
+  - minItemWidth overrides
+
+  When extending:
+  - Add new density modes by adding new semantic tokens
+  - Map `cardDensity` -> CSS variable (--width-card-*)
+  - Never hardcode pixel values in Grid.tsx
+  - Always source widths from design tokens
+*/
 // ===============================================
 // src/design-system/components/layout/utilities/grid/Grid.tsx
 // FIXED GRID COMPONENT - Responsive grid layouts with Chakra-like API
@@ -17,15 +31,20 @@ export interface ResponsiveValue {
 export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
-  // Grid configuration - supports responsive object
-  columns?: number | 'auto-fit' | 'auto-fill' | ResponsiveValue;
-  minItemWidth?: string; // e.g., '300px', '250px'
+  /**
+   * Card density mode (uses semantic tokens for min width)
+   * 'compact' | 'standard' | 'spacious'
+   */
+  cardDensity?: 'compact' | 'standard' | 'spacious';
+  /**
+   * Min width override (optional)
+   */
+  minItemWidth?: string;
+  maxColumns?: number;
   gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  // Responsive behavior
-  collapseOn?: 'mobile' | 'tablet' | 'never';
-  // Alignment
   alignItems?: 'start' | 'center' | 'end' | 'stretch';
   justifyItems?: 'start' | 'center' | 'end' | 'stretch';
+  columns?: number | 'auto-fit' | 'auto-fill' | ResponsiveValue;
 }
 
 export interface GridItemProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -62,63 +81,53 @@ function getResponsiveStyles(columns: ResponsiveValue): CSSProperties {
 export const Grid = React.forwardRef<HTMLDivElement, GridProps>(({
   children,
   className,
-  columns = 'auto-fit',
-  minItemWidth = '300px',
+  cardDensity,
+  minItemWidth,
+  maxColumns,
   gap = 'md',
-  collapseOn = 'mobile',
   alignItems = 'stretch',
   justifyItems = 'stretch',
   style,
+  columns,
   ...props
 }, ref) => {
-  // Build CSS classes
+  // =====================================================
+  // 💡 NEW: Resolve minItemWidth from density mode
+  // =====================================================
+  let resolvedMinWidth = minItemWidth;
+
+  if (!minItemWidth && cardDensity) {
+    if (cardDensity === 'compact') resolvedMinWidth = 'var(--width-card-compact)';
+    if (cardDensity === 'standard') resolvedMinWidth = 'var(--width-card-standard)';
+    if (cardDensity === 'spacious') resolvedMinWidth = 'var(--width-card-spacious)';
+  }
+
+  // Default to dynamic card width
+  if (!resolvedMinWidth) resolvedMinWidth = 'var(--width-card)';
+
+  // =====================================================
+  // Legacy responsive mode detection (kept for backwards compatibility)
+  // =====================================================
+  const useResponsive = isResponsiveValue(columns);
+
+  const inlineStyles: CSSProperties = { ...style };
+  if (!useResponsive) {
+    (inlineStyles as Record<string, any>)['--min-item-width'] = resolvedMinWidth;
+    if (maxColumns) (inlineStyles as Record<string, any>)['--max-columns'] = maxColumns;
+  }
+
+  // Build classes
   const classes = buildClasses(
     'grid',
+    useResponsive ? 'grid--responsive' : 'grid--auto-fit',
     `grid--gap-${gap}`,
-    collapseOn !== 'never' && `grid--collapse-${collapseOn}`,
     alignItems !== 'stretch' && `grid--align-${alignItems}`,
     justifyItems !== 'stretch' && `grid--justify-${justifyItems}`,
-    // Add responsive column classes if using responsive object
-    isResponsiveValue(columns) && 'grid--responsive',
     className
   );
 
-  // Build grid template columns
-  const getGridTemplateColumns = () => {
-    if (isResponsiveValue(columns)) {
-      // Return base value for inline style
-      return columns.base ? `repeat(${columns.base}, 1fr)` : '1fr';
-    }
-    
-    if (typeof columns === 'number') {
-      return `repeat(${columns}, 1fr)`;
-    }
-    
-    return `repeat(${columns}, minmax(${minItemWidth}, 1fr))`;
-  };
-
-  // Build inline styles
-  const inlineStyles: CSSProperties = {
-    gridTemplateColumns: getGridTemplateColumns(),
-    ...style
-  };
-
-  // Add CSS variables for responsive breakpoints
-  if (isResponsiveValue(columns)) {
-    if (columns.sm) (inlineStyles as any)['--grid-cols-sm'] = columns.sm;
-    if (columns.md) (inlineStyles as any)['--grid-cols-md'] = columns.md;
-    if (columns.lg) (inlineStyles as any)['--grid-cols-lg'] = columns.lg;
-    if (columns.xl) (inlineStyles as any)['--grid-cols-xl'] = columns.xl;
-    if (columns['2xl']) (inlineStyles as any)['--grid-cols-2xl'] = columns['2xl'];
-  }
-
   return (
-    <div
-      ref={ref}
-      className={classes}
-      style={inlineStyles}
-      {...props}
-    >
+    <div ref={ref} className={classes} style={inlineStyles} {...props}>
       {children}
     </div>
   );
@@ -177,7 +186,6 @@ export const ResponsiveGrid = React.forwardRef<HTMLDivElement, ResponsiveGridPro
   return (
     <Grid
       ref={ref}
-      columns="auto-fit"
       minItemWidth={minItemWidth}
       gap={gap}
       className={className}

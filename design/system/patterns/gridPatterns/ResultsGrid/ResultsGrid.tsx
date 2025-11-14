@@ -18,14 +18,7 @@ export interface ResultsCardData {
 // ===== PATTERN PROPS =====
 export interface ResultsGridProps {
   props?: {
-    columns?: {
-      base?: number;
-      sm?: number;
-      md?: number;
-      lg?: number;
-      xl?: number;
-      '2xl'?: number;
-    };
+    cardDensity?: 'compact' | 'standard' | 'spacious';
     gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     maxWidth?: string;
   };
@@ -45,12 +38,11 @@ export const ResultsGrid: React.FC<ResultsGridProps> = ({
   components = {}
 }) => {
   const {
-    columns = { base: 1, sm: 2, md: 3 },
-    gap = 'lg',
-    maxWidth = '1200px'
+    cardDensity = 'standard',
+    gap = 'lg'
   } = patternProps;
 
-  // Extract resultsCard data only
+  // Extract resultsCard data
   const cards = Object.entries(components)
     .filter(([_, comp]) => comp.type === 'resultsCard')
     .map(([_, comp]) => ({
@@ -63,46 +55,16 @@ export const ResultsGrid: React.FC<ResultsGridProps> = ({
     }))
     .filter((card) => card.heading && card.imageSrc);
 
-  // Fallback data
-  const fallbackCards = [
-    {
-      type: 'resultsCard' as const,
-      heading: 'UGC Reklam',
-      subheading: '10.4 miljoner visningar',
-      description: 'Denna videon förändrade detta företagets framtid – en UGC video skapad av någon som har känsla för det.',
-      imageSrc: '/images/results/ugc-reklam.jpg',
-      imageAlt: 'UGC Reklam resultat'
-    },
-    {
-      type: 'resultsCard' as const,
-      heading: 'TikTok Growth',
-      subheading: '12.300 följare på 2 månader',
-      description: 'Fick styra deras TikTok i 2 månader – appen blev en av de mest trendande på App Store.',
-      imageSrc: '/images/results/tiktok-growth.jpg',
-      imageAlt: 'TikTok Growth resultat'
-    },
-    {
-      type: 'resultsCard' as const,
-      heading: 'Otrolig ROAS',
-      subheading: 'Spenderade bara 60 kr',
-      description: 'Varje lead gav 750–2500 kr i resultat av bara 60 kr i annonskostnad.',
-      imageSrc: '/images/results/roas.jpg',
-      imageAlt: 'ROAS resultat'
-    }
-  ];
-
-  const allCards = cards.length ? cards : fallbackCards;
-
-  if (allCards.length === 0) return null;
+  if (cards.length === 0) return null;
 
   return (
-    <div className="results-grid-container" style={{ maxWidth, margin: '0 auto' }}>
+    <div className="results-grid-container">
       <Grid
-        columns={columns}
+        cardDensity={cardDensity}
         gap={gap}
         className="results-grid"
       >
-        {allCards.map((card, index) => (
+        {cards.map((card, index) => (
           <ResultsCard
             key={`results-card-${index}`}
             heading={card.heading}

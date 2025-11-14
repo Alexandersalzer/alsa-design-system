@@ -243,7 +243,6 @@ export const ContactAssessment: React.FC<ContactAssessmentProps> = ({
                 columns={2} 
                 gap="xl" 
                 alignItems="center"
-                collapseOn="tablet"
                 minItemWidth="300px"
               >
                 {/* Left Side - Text and Form */}

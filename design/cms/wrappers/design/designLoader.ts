@@ -3,7 +3,7 @@ export interface DesignJson {
     radius?: string;
     accentColor?: string;
     isDark?: boolean;
-    themeTone?: "mono" | "linen" | "ink" | "clay" | "slate" | "sage" | "frost" | "pearl";
+    themeTone?: "mono" | "linen" | "ink" | "clay" | "slate" | "sage" | "frost" | "pearl" | "aqua";
     fontPrimary?: string;
     fontSecondary?: string;
     fontWeightScale?: "light" | "regular" | "strong" | "extraStrong";
@@ -36,7 +36,7 @@ export async function getDesignConfig(): Promise<DesignJson> {
         radius: "md",
         accentColor: "purple",
         isDark: false,
-        themeTone: "mono", // ✅ matches your default tone in CSS
+  themeTone: "mono", // Add "aqua" to enable for clients
         fontPrimary: "Sora",
         fontSecondary: "Inter",
         fontWeightScale: "regular",

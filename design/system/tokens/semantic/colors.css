@@ -428,9 +428,6 @@
 
   /* ===== ADDITIONAL SURFACE TOKENS ===== */
   --surface-page-secondary: var(--secondary-50);
-  --surface-card: var(--primary-white);
-  --surface-card-hover: var(--secondary-50);
-  --surface-card-selected: var(--secondary-100);
   --surface-inverse: var(--primary-1200);
   --surface-brand: var(--accent-500);
   --surface-brand-subtle: color-mix(in srgb, var(--accent-500) 10%, var(--surface-page) 90%);

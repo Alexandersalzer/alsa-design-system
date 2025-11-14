@@ -8,11 +8,11 @@ export const sectionTypeConfig = {
     requiredPatterns: ['sectionBody']
   },
   portfolio: {
-    allowedPatterns: ['sectionBody', 'spinningCarousel', 'gallery'],
+    allowedPatterns: ['sectionBody', 'spinningCarousel', 'gallery', 'portfolioGrid'],
     requiredPatterns: ['sectionBody']
   },
   testimonials: {
-    allowedPatterns: ['sectionBody', 'testimonials'],
+    allowedPatterns: ['sectionBody', 'testimonials', 'testimonialGrid'],
     requiredPatterns: ['sectionBody']
   },
   contact: {
@@ -21,6 +21,10 @@ export const sectionTypeConfig = {
   },
   featureGrid: {
     allowedPatterns: ['sectionBody', 'featureGrid'],
+    requiredPatterns: ['sectionBody']
+  },
+  resultsGrid: {
+    allowedPatterns: ['sectionBody', 'resultsGrid'],
     requiredPatterns: ['sectionBody']
   }
 } as const;
