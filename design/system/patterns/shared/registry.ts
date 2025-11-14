@@ -1,5 +1,5 @@
 import SectionBody from './sectionBody/SectionBody';
-import { ButtonGroup } from './ButtonGroup/ButtonGroup';
+import ButtonGroup from './ButtonGroup';
 
 /**
  * Shared patterns registry
