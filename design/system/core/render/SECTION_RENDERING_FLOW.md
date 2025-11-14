@@ -131,8 +131,6 @@ const renderPattern = (pattern: any, index: number) => {
   const PatternComponent = patternRegistry[pattern.type];
   // → SectionBody, SpinningBanner, or MediaPattern
   
-  const useMediaWidth = pattern.settings?.useMediaWidth ?? false;
-  // → For media: true if settings.useMediaWidth is set
   
   return (
     <Container useMediaWidth={useMediaWidth}>

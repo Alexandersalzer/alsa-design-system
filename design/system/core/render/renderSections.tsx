@@ -35,6 +35,7 @@ export const renderPattern = (pattern: PatternNode, patternKey: string) => {
       align="center"
       height="auto"
       useMediaWidth={patternProps.useMediaWidth || false}
+      useFormWidth={patternProps.useFormWidth || false}
     >
       <PatternComponent 
         type={pattern.type}
