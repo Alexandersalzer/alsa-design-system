@@ -15,7 +15,7 @@
   gap: var(--foundation-space-8); /* Increased default spacing between groups */
   max-width: var(--width-navbar);
   width: 100%;
-  margin: 0 auto;
+  margin: var(--space-navbar) auto;
   background: var(--surface-nav);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-navbar-pill);
