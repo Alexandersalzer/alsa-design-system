@@ -1,15 +1,14 @@
-/* ===============================================
-   src/design-system/components/primitives/Popover/Popover.css
-   LOW-LEVEL POSITIONING PRIMITIVE STYLES
-   ============================================== */
+/* ============================================================
+   POPover Base Styles
+   ============================================================ */
 
-/* ===== POPOVER ROOT ===== */
+/* ROOT */
 .popover-root {
   position: relative;
-  display: inline-component;
+  display: inline-block;
 }
 
-/* ===== POPOVER TRIGGER ===== */
+/* TRIGGER */
 .popover-trigger {
   all: unset;
   cursor: pointer;
@@ -23,42 +22,47 @@
   opacity: 0.6;
 }
 
-/* ===== POPOVER POSITIONER ===== */
+/* POSITIONER (normal mode) */
 .popover-positioner {
-  /* Position and z-index controlled by inline styles for portal */
-  pointer-events: none; /* Let clicks pass through to content */
+  pointer-events: none;
 }
 
-/* ===== POPOVER CONTENT ===== */
+/* CONTENT */
 .popover-content {
-  position: relative; /* Relative to positioner */
+  position: relative;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-dropdown);
   background-color: var(--surface-dropdown);
   box-shadow: var(--foundation-shadow-lg);
   overflow: hidden;
-  pointer-events: auto; /* Re-enable pointer events on content */
-  
+  pointer-events: auto;
+
   animation: popoverFadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
   transform: translateZ(0);
   will-change: transform;
 }
 
-/* Alignment adjustments based on placement */
+/* CONTENT SIZE VARIANTS */
+.popover-content--xs { min-width: 160px; font-size: 12px; }
+.popover-content--sm { min-width: 180px; font-size: 13px; }
+.popover-content--md { min-width: 200px; font-size: 14px; }
+.popover-content--lg { min-width: 240px; font-size: 15px; }
+
+/* STANDARD MODE ALIGNMENT (NOT NAVBAR MODE) */
 .popover-positioner[data-placement^="bottom"] .popover-content,
 .popover-positioner[data-placement^="top"] .popover-content {
-  transform: translateX(-50%); /* Center align for top/bottom placements */
+  transform: translateX(-50%);
 }
 
 .popover-positioner[data-placement$="-start"] .popover-content {
-  transform: translateX(0); /* Left align for -start variants */
+  transform: translateX(0);
 }
 
 .popover-positioner[data-placement$="-end"] .popover-content {
-  transform: translateX(-100%); /* Right align for -end variants */
+  transform: translateX(-100%);
 }
 
-/* ===== POPOVER ARROW ===== */
+/* ARROW */
 .popover-arrow {
   position: absolute;
   width: 12px;
@@ -75,56 +79,13 @@
   height: 100%;
 }
 
-/* Size variants */
-.popover-content--xs {
-  min-width: 160px;
-  font-size: 12px;
-}
-
-.popover-content--sm {
-  min-width: 180px;
-  font-size: 13px;
-}
-
-.popover-content--md {
-  min-width: 200px;
-  font-size: 14px;
-}
-
-.popover-content--lg {
-  min-width: 240px;
-  font-size: 15px;
-}
-
+/* ANIMATION */
 @keyframes popoverFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== POPOVER ARROW ===== */
-.popover-arrow {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background-color: var(--surface-dropdown);
-  border: 1px solid var(--border-default);
-  transform: rotate(45deg);
-  top: -6px;
-  left: 16px;
-}
-
-.popover-arrow-tip {
-  width: 100%;
-  height: 100%;
-}
-
-/* ===== POPOVER CLOSE TRIGGER ===== */
+/* CLOSE BUTTON */
 .popover-close-trigger {
   all: unset;
   position: absolute;
@@ -139,7 +100,6 @@
   cursor: pointer;
   color: var(--icon-secondary);
   font-size: 20px;
-  line-height: 1;
   transition: all var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
@@ -148,103 +108,51 @@
   color: var(--icon-primary);
 }
 
-/* ===== POPOVER SECTIONS ===== */
-.popover-header {
-  padding: 16px;
-  border-bottom: 1px solid var(--border-light);
-}
+/* SECTIONS */
+.popover-header      { padding: 16px; border-bottom: 1px solid var(--border-light); }
+.popover-header--sm  { padding: 12px; }
+.popover-header--lg  { padding: 20px; }
+.popover-body        { padding: 8px; overflow-y: auto; }
+.popover-body--sm    { padding: 4px; }
+.popover-body--lg    { padding: 12px; }
+.popover-footer      { padding: 16px; border-top: 1px solid var(--border-light); }
+.popover-footer--sm  { padding: 12px; }
+.popover-footer--lg  { padding: 20px; }
 
-.popover-header--sm {
-  padding: 12px;
-}
-
-.popover-header--lg {
-  padding: 20px;
-}
-
-.popover-body {
-  padding: 8px;
-  overflow-y: auto;
-}
-
-.popover-body--sm {
-  padding: 4px;
-}
-
-.popover-body--lg {
-  padding: 12px;
-}
-
-.popover-footer {
-  padding: 16px;
-  border-top: 1px solid var(--border-light);
-}
-
-.popover-footer--sm {
-  padding: 12px;
-}
-
-.popover-footer--lg {
-  padding: 20px;
-}
-
-/* ===== POPOVER TITLE & DESCRIPTION ===== */
 .popover-title {
   margin: 0;
   font-family: var(--font-body-family);
   font-size: var(--font-body-lg-size);
   font-weight: var(--foundation-weight-semibold);
-  line-height: var(--font-body-lg-leading);
   color: var(--text-primary);
 }
 
 .popover-description {
-  margin: 8px 0 0 0;
+  margin-top: 8px;
   font-family: var(--font-body-family);
   font-size: var(--font-body-sm-size);
-  font-weight: var(--foundation-weight-normal);
-  line-height: var(--font-body-sm-leading);
   color: var(--text-secondary);
 }
 
-/* ===== SCROLLBAR STYLING ===== */
-.popover-body::-webkit-scrollbar {
-  width: 6px;
-}
-
-.popover-body::-webkit-scrollbar-track {
-  background: var(--surface-subtle);
-}
-
+/* SCROLLBAR */
+.popover-body::-webkit-scrollbar { width: 6px; }
+.popover-body::-webkit-scrollbar-track { background: var(--surface-subtle); }
 .popover-body::-webkit-scrollbar-thumb {
   background: var(--border-strong);
   border-radius: 3px;
 }
+.popover-body::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
 
-.popover-body::-webkit-scrollbar-thumb:hover {
-  background: var(--border-hover);
-}
-
-/* ===== REDUCED MOTION ===== */
+/* REDUCED MOTION */
 @media (prefers-reduced-motion: reduce) {
-  .popover-content {
-    animation: simpleFadeIn 0.15s ease;
-  }
-  
-  @keyframes simpleFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
+  .popover-content { animation: simpleFadeIn 0.15s ease; }
+  @keyframes simpleFadeIn { from { opacity: 0; } to { opacity: 1; } }
 }
 
+/* ============================================================
+   NAVBAR MODE (Chakra-style full-width mobile menu)
+   ============================================================ */
 
-/* =======================================================================================
-   NAVBAR MODE — triggered via: positioning={{ navbar: true }}
-   ======================================================================================= */
-
-/* ---------------------------------------
-   Positioner becomes full-width
---------------------------------------- */
 .popover-positioner[data-navbar] {
   left: 0 !important;
   width: 100vw !important;
@@ -253,26 +161,19 @@
   pointer-events: none;
 }
 
-/* ---------------------------------------
-   Content base for navbar mode
---------------------------------------- */
+.popover-positioner[data-navbar] .popover-arrow {
+  display: none;
+}
+
 .popover-content[data-navbar] {
   width: calc(100vw - 2rem);
   max-width: 360px;
   border-radius: var(--radius-lg);
   pointer-events: auto;
-  transform: none !important;
+  transform: none !important; /* critical fix */
 }
 
-/* Hide the arrow in navbar mode */
-.popover-positioner[data-navbar] .popover-arrow {
-  display: none;
-}
-
-/* =======================================================================================
-   NAVBAR ALIGNMENTS
-   ======================================================================================= */
-
+/* ALIGNMENT */
 .popover-content[data-navbar][data-alignment="left"] {
   margin-left: 0.5rem;
   margin-right: auto;
@@ -288,10 +189,7 @@
   margin-right: 0.5rem;
 }
 
-/* =======================================================================================
-   NAVBAR ANIMATION VARIANTS
-   ======================================================================================= */
-
+/* ANIMATION VARIANTS */
 .popover-content[data-navbar][data-animation="slide-fade"] {
   animation: navbarSlideFade 0.18s var(--foundation-ease-out);
 }
@@ -301,90 +199,11 @@
 }
 
 @keyframes navbarSlideFade {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes navbarFade {
   from { opacity: 0; }
-  to { opacity: 1; }
-}
-/* ============================================================
-   NAVBAR ALIGNMENT (Chakra-style)
-   ============================================================ */
-
-.popover-content[data-navbar][data-alignment="left"] {
-  margin-left: 0.5rem;
-  margin-right: auto;
-}
-
-.popover-content[data-navbar][data-alignment="center"] {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.popover-content[data-navbar][data-alignment="right"] {
-  margin-left: auto;
-  margin-right: 0.5rem;
-}
-
-
-/* ============================================================
-   NAVBAR ANIMATION VARIANTS
-   ============================================================ */
-
-.popover-content[data-navbar][data-animation="slide-fade"] {
-  animation: navbarSlideFade 0.18s var(--foundation-ease-out);
-}
-
-.popover-content[data-navbar][data-animation="fade"] {
-  animation: navbarFade 0.15s var(--foundation-ease-out);
-}
-
-@keyframes navbarSlideFade {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes navbarFade {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-/* ============================================================
-   CHAKRA-STYLE NAVBAR MENU MODE
-   Triggered with: positioning={{ navbar: true }}
-   ============================================================ */
-
-.popover-positioner[data-navbar] {
-  left: 0 !important;
-  width: 100vw !important;
-  display: flex;
-  justify-content: center;
-  pointer-events: none; /* same as default */
-}
-
-.popover-content[data-navbar] {
-  width: calc(100vw - 2rem);
-  max-width: 360px; /* Chakra uses around 320–380px */
-  border-radius: var(--radius-lg);
-  pointer-events: auto;
-  transform: none !important; /* disable auto centering */
-  animation: popoverFadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
-}
-
-/* Disable arrow for navbar mode */
-.popover-positioner[data-navbar] .popover-arrow {
-  display: none;
+  to   { opacity: 1; }
 }
