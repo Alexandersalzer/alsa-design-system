@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Box, HStack, VStack, Button, TextLink, IconButton, IconButtons } from '../../../components';
-import { MenuIcon } from 'lucide-react';
+import { CrossIcon, MenuIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
 import { useComponentProps, componentPresent, usePatternProps, useMapComponents, CDN_BASE_URL } from '../../../core/utils/helpers';
 import { alignMap } from '../utils';
@@ -78,7 +78,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
           className="navbar-bar__mobile-toggle"
           icon={
             mobileOpen 
-              ? <IconButtons.Close size="md" /> 
+              ? <CrossIcon /> 
               : <MenuIcon />
           }
         />
