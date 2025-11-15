@@ -2,7 +2,6 @@
 
 .portfolio-grid-container {
   width: 100%;
-  padding: 0 var(--foundation-space-4);
 }
 
 .portfolio-grid {
@@ -16,9 +15,6 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .portfolio-grid-container {
-    padding: 0 var(--foundation-space-3);
-  }
 
   .portfolio-grid {
     /* Adjust gap for mobile */
