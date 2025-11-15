@@ -29,6 +29,11 @@ interface PositioningOptions {
   placement?: PopoverPlacement;
   offset?: number;
   strategy?: 'absolute' | 'fixed';
+
+  /** NAVBAR MODE (CInspo-style) */
+  navbar?: boolean;
+  alignment?: 'left' | 'center' | 'right';
+  animation?: 'slide-fade' | 'fade';
 }
 
 interface PopoverContextValue {
@@ -318,24 +323,42 @@ export const PopoverPositioner = ({ children }: PopoverPositionerProps) => {
     availableWidth: 0,
     availableHeight: 0
   });
-  
-  const { 
+
+  const {
     placement = 'bottom',
     offset = 8,
-    strategy = 'absolute'
+    strategy = 'absolute',
+    navbar = false
   } = positioning;
-  
+
   // Calculate position
   const updatePosition = () => {
     if (!triggerRef.current || !isOpen) return;
-    
+
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    
+
+  if (navbar) {
+    let x = viewportWidth / 2; // default center
+
+    if (positioning.alignment === 'left') x = viewportWidth * 0.05;
+    if (positioning.alignment === 'right') x = viewportWidth - viewportWidth * 0.05;
+
+    return setPosition({
+      x,
+      y: triggerRect.bottom + offset,
+      referenceWidth: triggerRect.width,
+      referenceHeight: triggerRect.height,
+      availableWidth: viewportWidth,
+      availableHeight: viewportHeight,
+    });
+  }
+
+
     let x = 0;
     let y = 0;
-    
+
     // Calculate base position based on placement
     switch (placement) {
       case 'bottom':
@@ -359,7 +382,7 @@ export const PopoverPositioner = ({ children }: PopoverPositionerProps) => {
         y = triggerRect.top;
         break;
     }
-    
+
     // Handle alignment variants
     if (placement.includes('end')) {
       x = triggerRect.right;
@@ -369,12 +392,12 @@ export const PopoverPositioner = ({ children }: PopoverPositionerProps) => {
         x = triggerRect.left + (triggerRect.width / 2);
       }
     }
-    
+
     const availableWidth = viewportWidth - x - 16;
-    const availableHeight = placement.startsWith('bottom') 
-      ? viewportHeight - y - 16 
+    const availableHeight = placement.startsWith('bottom')
+      ? viewportHeight - y - 16
       : y - 16;
-    
+
     setPosition({
       x,
       y,
@@ -384,31 +407,32 @@ export const PopoverPositioner = ({ children }: PopoverPositionerProps) => {
       availableHeight: Math.max(200, availableHeight)
     });
   };
-  
+
   useEffect(() => {
     if (!isOpen) return;
-    
+
     updatePosition();
     const timer = setTimeout(updatePosition, 16);
-    
+
     window.addEventListener('scroll', updatePosition, true);
     window.addEventListener('resize', updatePosition);
-    
+
     return () => {
       clearTimeout(timer);
       window.removeEventListener('scroll', updatePosition, true);
       window.removeEventListener('resize', updatePosition);
     };
-  }, [isOpen, placement]);
-  
+  }, [isOpen, placement, navbar]);
+
   if (!isOpen) return null;
-  
+
   // Portal to body
   return createPortal(
-    <div 
+    <div
       ref={positionerRef}
       className="popover-positioner"
       data-placement={placement}
+      data-navbar={navbar ? "" : undefined}
       style={{
         position: strategy,
         isolation: 'isolate',
@@ -467,7 +491,7 @@ export const PopoverContent = ({
   
   if (!isOpen) return null;
   
-  return (
+    return (
     <div
       ref={contentRef}
       id={contentId}
@@ -475,6 +499,11 @@ export const PopoverContent = ({
       aria-modal="false"
       tabIndex={-1}
       data-placement={positioning.placement || 'bottom'}
+      data-navbar={positioning.navbar ? "" : undefined}
+
+      data-alignment={positioning.alignment}
+      data-animation={positioning.animation}
+
       className={cn(
         'popover-content',
         `popover-content--${size}`,

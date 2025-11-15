@@ -9,13 +9,12 @@ import { alignMap } from '../utils';
 import './NavbarBar.css';
 import { PatternNode } from '../../../core/types/nodes';
 
-
-const NavbarBar = ( patternNode: PatternNode) => {
-    const { components = {} } = patternNode;
-    const getComponent = useComponentProps(components);
-    const getPatternProps = usePatternProps(patternNode);
-    const renderIf = componentPresent(components);
-    const mapComponentIndices = useMapComponents(components);
+const NavbarBar = (patternNode: PatternNode) => {
+  const { components = {} } = patternNode;
+  const getComponent = useComponentProps(components);
+  const getPatternProps = usePatternProps(patternNode);
+  const renderIf = componentPresent(components);
+  const mapComponentIndices = useMapComponents(components);
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const align = alignMap[getPatternProps().menuAlign] || 'center';
@@ -41,20 +40,22 @@ const NavbarBar = ( patternNode: PatternNode) => {
           )}
         </HStack>
 
-        {/* DESKTOP CONTENT */}
+        {/* DESKTOP ITEMS */}
         <HStack className="navbar-bar__content">
           {renderIf('textlink', 'menuItem') && (
-            <HStack className={`navbar-bar__middle navbar-bar__middle--${align}`} spacing="lg">
+            <HStack 
+              className={`navbar-bar__middle navbar-bar__middle--${align}`}
+              spacing="lg"
+            >
               {mapComponentIndices('textlink', 'menuItem')
-              .slice(0, getPatternProps().maxMenuItems)
-              .map((props, i) => (
-                <TextLink key={i} href={props.href} size="md" underline="hover">
-                  {props.content}
-                </TextLink>
-              ))}
+                .slice(0, getPatternProps().maxMenuItems)
+                .map((props, i) => (
+                  <TextLink key={i} href={props.href} size="md" underline="hover">
+                    {props.content}
+                  </TextLink>
+                ))}
             </HStack>
           )}
-
           <HStack spacing="sm" className="navbar-bar__right">
             {renderIf('button', 'secondaryAction') && (
               <Button variant="ghost" href={getComponent('button', 'secondaryAction').href}>
@@ -69,13 +70,19 @@ const NavbarBar = ( patternNode: PatternNode) => {
           </HStack>
         </HStack>
 
-        {/* MOBILE TOGGLE WITH POPOVER */}
+        {/* MOBILE MENU (CHAKRA STYLE) */}
         <Popover
           open={mobileOpen}
           onOpenChange={setMobileOpen}
           closeOnInteractOutside
           closeOnEscape
-          positioning={{ placement: 'bottom-end', offset: 12 }}
+          positioning={{
+            placement: 'bottom',
+            offset: 12,
+            navbar: true,
+            alignment: align,        // left, center, right
+            animation: 'slide-fade', // or "fade"
+          }}
         >
           <Popover.Trigger asChild>
             <IconButton
@@ -83,26 +90,13 @@ const NavbarBar = ( patternNode: PatternNode) => {
               size="md"
               aria-label="Toggle menu"
               className="navbar-bar__mobile-toggle"
-              icon={<MenuIcon />}
+              icon={mobileOpen ? <XIcon /> : <MenuIcon />}
             />
           </Popover.Trigger>
-
           <Popover.Positioner>
-            <Popover.Content className="navbar-bar__mobile-menu" width={280}>
+            <Popover.Content className="navbar-bar__mobile-menu">
               <VStack spacing="md" align="stretch" className="navbar-bar__mobile-content">
-                {/* Close button */}
-                <HStack justify="end" className="navbar-bar__mobile-header">
-                  <Popover.CloseTrigger asChild>
-                    <IconButton
-                      variant="ghost"
-                      size="sm"
-                      icon={<XIcon />}
-                      aria-label="Close menu"
-                    />
-                  </Popover.CloseTrigger>
-                </HStack>
-
-                {/* Menu items */}
+                {/* MENU ITEMS */}
                 {renderIf('textlink', 'menuItem') && (
                   <VStack spacing="xs" align="stretch">
                     {mapComponentIndices('textlink', 'menuItem').map((props, i) => (
@@ -117,8 +111,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
                     ))}
                   </VStack>
                 )}
-
-                {/* Action buttons */}
+                {/* ACTION BUTTONS */}
                 <VStack spacing="sm" className="navbar-bar__mobile-actions">
                   {renderIf('button', 'secondaryAction') && (
                     <Button

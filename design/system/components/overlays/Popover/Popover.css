@@ -236,3 +236,155 @@
     to { opacity: 1; }
   }
 }
+
+
+/* =======================================================================================
+   NAVBAR MODE — triggered via: positioning={{ navbar: true }}
+   ======================================================================================= */
+
+/* ---------------------------------------
+   Positioner becomes full-width
+--------------------------------------- */
+.popover-positioner[data-navbar] {
+  left: 0 !important;
+  width: 100vw !important;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* ---------------------------------------
+   Content base for navbar mode
+--------------------------------------- */
+.popover-content[data-navbar] {
+  width: calc(100vw - 2rem);
+  max-width: 360px;
+  border-radius: var(--radius-lg);
+  pointer-events: auto;
+  transform: none !important;
+}
+
+/* Hide the arrow in navbar mode */
+.popover-positioner[data-navbar] .popover-arrow {
+  display: none;
+}
+
+/* =======================================================================================
+   NAVBAR ALIGNMENTS
+   ======================================================================================= */
+
+.popover-content[data-navbar][data-alignment="left"] {
+  margin-left: 0.5rem;
+  margin-right: auto;
+}
+
+.popover-content[data-navbar][data-alignment="center"] {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.popover-content[data-navbar][data-alignment="right"] {
+  margin-left: auto;
+  margin-right: 0.5rem;
+}
+
+/* =======================================================================================
+   NAVBAR ANIMATION VARIANTS
+   ======================================================================================= */
+
+.popover-content[data-navbar][data-animation="slide-fade"] {
+  animation: navbarSlideFade 0.18s var(--foundation-ease-out);
+}
+
+.popover-content[data-navbar][data-animation="fade"] {
+  animation: navbarFade 0.15s var(--foundation-ease-out);
+}
+
+@keyframes navbarSlideFade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes navbarFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* ============================================================
+   NAVBAR ALIGNMENT (Chakra-style)
+   ============================================================ */
+
+.popover-content[data-navbar][data-alignment="left"] {
+  margin-left: 0.5rem;
+  margin-right: auto;
+}
+
+.popover-content[data-navbar][data-alignment="center"] {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.popover-content[data-navbar][data-alignment="right"] {
+  margin-left: auto;
+  margin-right: 0.5rem;
+}
+
+
+/* ============================================================
+   NAVBAR ANIMATION VARIANTS
+   ============================================================ */
+
+.popover-content[data-navbar][data-animation="slide-fade"] {
+  animation: navbarSlideFade 0.18s var(--foundation-ease-out);
+}
+
+.popover-content[data-navbar][data-animation="fade"] {
+  animation: navbarFade 0.15s var(--foundation-ease-out);
+}
+
+@keyframes navbarSlideFade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes navbarFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* ============================================================
+   CHAKRA-STYLE NAVBAR MENU MODE
+   Triggered with: positioning={{ navbar: true }}
+   ============================================================ */
+
+.popover-positioner[data-navbar] {
+  left: 0 !important;
+  width: 100vw !important;
+  display: flex;
+  justify-content: center;
+  pointer-events: none; /* same as default */
+}
+
+.popover-content[data-navbar] {
+  width: calc(100vw - 2rem);
+  max-width: 360px; /* Chakra uses around 320–380px */
+  border-radius: var(--radius-lg);
+  pointer-events: auto;
+  transform: none !important; /* disable auto centering */
+  animation: popoverFadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
+}
+
+/* Disable arrow for navbar mode */
+.popover-positioner[data-navbar] .popover-arrow {
+  display: none;
+}
