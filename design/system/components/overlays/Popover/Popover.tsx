@@ -436,10 +436,10 @@ export const PopoverPositioner = ({ children }: PopoverPositionerProps) => {
       style={{
         position: strategy,
         isolation: 'isolate',
-        minWidth: 'max-content',
+        minWidth: navbar ? undefined : 'max-content',
         top: 0,
-        left: 0,
-        transform: `translate3d(var(--x), var(--y), 0)`,
+        left: navbar ? '0' : 'var(--x)',
+        transform: navbar ? `translate3d(0, var(--y), 0)` : `translate3d(var(--x), var(--y), 0)`,
         zIndex: 'var(--z-index)',
         '--x': `${position.x}px`,
         '--y': `${position.y}px`,
@@ -492,32 +492,31 @@ export const PopoverContent = ({
   if (!isOpen) return null;
   
     return (
-    <div
-      ref={contentRef}
-      id={contentId}
-      role="dialog"
-      aria-modal="false"
-      tabIndex={-1}
-      data-placement={positioning.placement || 'bottom'}
-      data-navbar={positioning.navbar ? "" : undefined}
-
-      data-alignment={positioning.alignment}
-      data-animation={positioning.animation}
-
-      className={cn(
-        'popover-content',
-        `popover-content--${size}`,
-        className
-      )}
-      style={{
-        maxHeight: maxHeight ? `${maxHeight}px` : 'var(--available-height)',
-        width: width || 'auto',
-        pointerEvents: 'auto'
-      }}
-    >
-      {children}
-    </div>
-  );
+      <div
+        ref={contentRef}
+        id={contentId}
+        role="dialog"
+        aria-modal="false"
+        tabIndex={-1}
+        data-placement={positioning.placement || 'bottom'}
+        data-navbar={positioning.navbar ? "" : undefined}
+        data-alignment={positioning.alignment}
+        data-animation={positioning.animation}
+        className={cn(
+          'popover-content',
+          !positioning.navbar && `popover-content--${size}`,
+          className
+        )}
+        style={{
+          maxHeight: maxHeight ? `${maxHeight}px` : 'var(--available-height)',
+          width: positioning.navbar ? 'calc(100vw - 2rem)' : (width || 'auto'),
+          minWidth: positioning.navbar ? 0 : undefined,
+          pointerEvents: 'auto'
+        }}
+      >
+        {children}
+      </div>
+    );
 };
 
 // ===============================================

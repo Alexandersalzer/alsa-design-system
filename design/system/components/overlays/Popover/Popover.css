@@ -150,7 +150,7 @@
 }
 
 /* ============================================================
-   NAVBAR MODE (Chakra-style full-width mobile menu)
+   NAVBAR MODE (Full-width mobile dropdown)
    ============================================================ */
 
 .popover-positioner[data-navbar] {
@@ -162,15 +162,15 @@
 }
 
 .popover-positioner[data-navbar] .popover-arrow {
-  display: none;
+  display: none !important;
 }
 
 .popover-content[data-navbar] {
-  width: calc(100vw - 2rem);
+  width: calc(100vw - 2rem) !important;
   max-width: 360px;
   border-radius: var(--radius-lg);
+  transform: none !important;
   pointer-events: auto;
-  transform: none !important; /* critical fix */
 }
 
 /* ALIGNMENT */
@@ -189,7 +189,7 @@
   margin-right: 0.5rem;
 }
 
-/* ANIMATION VARIANTS */
+/* ANIMATIONS */
 .popover-content[data-navbar][data-animation="slide-fade"] {
   animation: navbarSlideFade 0.18s var(--foundation-ease-out);
 }
