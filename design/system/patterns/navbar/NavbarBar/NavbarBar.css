@@ -40,17 +40,17 @@
 /* LEFT GROUP - always on the left, content-sized only */
 .navbar-bar__left {
   justify-content: flex-start;
-  flex-shrink: 0;
-  flex-grow: 0;
+  flex-shrink: 0; /* Never shrink */
+  flex-grow: 0; /* Never grow */
   gap: var(--foundation-space-2);
 }
 
 .navbar-bar__middle {
-  flex-grow: 1;
+  flex-grow: 1; /* Takes all available space like NavbarPill */
   flex-shrink: 0;
-  justify-content: center;
+  justify-content: center; /* Default center */
   gap: var(--foundation-space-5);
-  min-width: 0;
+  min-width: 0; /* prevents overflow collisions */
 }
 
 .navbar-bar__middle--left { justify-content: flex-start; }
@@ -60,8 +60,8 @@
 /* RIGHT GROUP - always on the right, content-sized only */
 .navbar-bar__right {
   justify-content: flex-end;
-  flex-shrink: 0;
-  flex-grow: 0;
+  flex-shrink: 0; /* Never shrink */
+  flex-grow: 0; /* Never grow */
   gap: var(--foundation-space-2);
 }
 
@@ -91,7 +91,7 @@
   flex-direction: row;
   flex: 1;
   justify-content: flex-end;
-  gap: var(--foundation-space-8);
+  gap: var(--foundation-space-8); /* Gap between middle and right groups */
   transition: all 0.25s ease;
 }
 
@@ -137,53 +137,12 @@
 
   /* Adjust container for mobile layout */
   .navbar-bar__container {
-    gap: 0; /* Remove gap in mobile, use margin-left: auto instead */
-    justify-content: flex-start;
+    gap: 0;
   }
 }
 
-/* -----------------------------------------------
-   Drawer Styles (Mobile Menu)
------------------------------------------------ */
 
-.navbar-bar__drawer-content {
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
-  background: var(--surface-modal-content);
-  color: var(--text-body-primary);
-}
-
-.navbar-bar__drawer-link {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-nav-item);
-  text-decoration: none;
-  transition: color 0.2s ease;
-  padding: var(--foundation-space-2) 0;
-}
-
-.navbar-bar__drawer-link:hover {
-  color: var(--text-nav-item-selected);
-}
-
-/* ✅ FIXED: Full-width buttons and no offset */
-.navbar-bar__drawer-actions {
-  margin-top: var(--foundation-space-8);
-  gap: var(--foundation-space-2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 var(--foundation-space-6);
-}
-
-.navbar-bar__drawer-button {
-  width: 100%;
-  max-width: none;
-  justify-content: center;
-  border-radius: var(--radius-md);
-}
+/* Drawer content for navbar (moved from NavbarBar.css to Drawer.css) */
 
 /* -----------------------------------------------
    Animations

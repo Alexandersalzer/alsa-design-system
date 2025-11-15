@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -11,17 +11,22 @@ export interface DrawerProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  className?: string;
+  /** drawer presentation */
+  type?: 'right' | 'left' | 'bottom' | 'top' | 'navbar';
   showCloseButton?: boolean;
   closeButtonVariant?: 'icon' | 'text';
   closeButtonLabel?: string;
-  className?: string;
   preventScroll?: boolean;
 }
+
+const ANIMATION_DURATION = 250;
 
 const Drawer = ({
   isOpen,
   onClose,
   children,
+  type = 'right',
   showCloseButton = true,
   closeButtonVariant = 'icon',
   closeButtonLabel = 'Close',
@@ -39,10 +44,10 @@ const Drawer = ({
       if (preventScroll) document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
-      const t = setTimeout(() => setVisible(false), 250);
+      const t = setTimeout(() => setVisible(false), ANIMATION_DURATION);
       return () => clearTimeout(t);
     }
-  }, [isOpen, preventScroll]);
+  }, [isOpen]);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -50,7 +55,7 @@ const Drawer = ({
     };
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!mounted || !visible) return null;
 
@@ -65,6 +70,7 @@ const Drawer = ({
       <aside
         className={cn(
           'drawer',
+          `drawer--${type}`,
           isOpen ? 'drawer--open' : 'drawer--close',
           className,
         )}
@@ -88,13 +94,12 @@ const Drawer = ({
               )}
             </HStack>
           )}
-          <div className="drawer__body">
-            {children}
-          </div>
+
+          <div className="drawer__body">{children}</div>
         </VStack>
       </aside>
     </div>,
-    document.body
+    document.body,
   );
 };
 
