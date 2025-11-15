@@ -45,7 +45,10 @@
 /* Overlay */
 .drawer-overlay {
   position: fixed;
-  inset: 0;
+  top: var(--navbar-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(0,0,0,0.32);
   opacity: 0;
   transition: opacity 250ms var(--foundation-ease-out);
@@ -72,9 +75,9 @@
 /* TOP DRAWER — Mobile Navbar */
 .drawer--top,
 .drawer--navbar {
-    top: 0;
-    left: 0;
-    transform: translateY(-100%);
+  top: var(--navbar-height);
+  left: 0;
+  transform: translateY(-100%);
 }
 .drawer--open.drawer--top,
 .drawer--open.drawer--navbar {

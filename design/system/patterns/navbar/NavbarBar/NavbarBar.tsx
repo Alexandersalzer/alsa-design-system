@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../components';
+import { Box, HStack, VStack, Button, TextLink, IconButton, IconButtons } from '../../../components';
 import { MenuIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
 import { useComponentProps, componentPresent, usePatternProps, useMapComponents, CDN_BASE_URL } from '../../../core/utils/helpers';
@@ -74,9 +74,13 @@ const NavbarBar = ( patternNode: PatternNode) => {
           variant="ghost"
           size="md"
           aria-label="Toggle menu"
-          onClick={() => setMobileOpen(true)}
+          onClick={() => setMobileOpen(!mobileOpen)}
           className="navbar-bar__mobile-toggle"
-          icon={<MenuIcon />}
+          icon={
+            mobileOpen 
+              ? <IconButtons.Close size="md" /> 
+              : <MenuIcon />
+          }
         />
       </Box>
 
@@ -84,8 +88,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
       <Drawer
         isOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
-        showCloseButton
-        closeButtonVariant="icon"
+        showCloseButton={false}
         preventScroll
         type="top"
       >
