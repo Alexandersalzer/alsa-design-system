@@ -1,59 +1,28 @@
-/* Navbar-specific drawer content (for mobile nav) */
-.drawer-navbar-content {
-  align-items: center;
-  justify-content: flex-start;
-  height: 100%;
-  text-align: center;
-  background: var(--surface-modal-content);
-  color: var(--text-body-primary);
-  padding-top: var(--foundation-space-12);
+/* Navbar height variable — update if needed */
+:root {
+  --navbar-height: 64px;
 }
 
-.drawer-navbar-link {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-nav-item);
-  text-decoration: none;
-  transition: color 0.2s var(--foundation-ease-out);
-  padding: var(--foundation-space-2) 0;
-}
-.drawer-navbar-link:hover {
-  color: var(--text-nav-item-selected);
-}
-
-.drawer-navbar-actions {
-  margin-top: var(--foundation-space-8);
-  gap: var(--foundation-space-2);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  padding: 0 var(--foundation-space-6);
-}
-
-.drawer-navbar-button {
-  width: 100%;
-  max-width: none;
-  justify-content: flex-start;
-  border-radius: var(--radius-md);
-  text-align: left;
-}
 /* ==========================================================
-   FULLSCREEN DRAWER (used as mobile menu)
+   FULLSCREEN DRAWER (mobile menu)
    ========================================================== */
 
-
-/* Overlay */
+/* Overlay BELOW the navbar */
 .drawer-overlay {
   position: fixed;
   top: var(--navbar-height);
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.32);
+
+  background: rgba(0, 0, 0, 0.32);
   opacity: 0;
   transition: opacity 250ms var(--foundation-ease-out);
+
+  /* Drawer must be below navbar but above content */
   z-index: calc(var(--z-navbar, 50) - 1);
 }
+
 .drawer-overlay--open {
   opacity: 1;
 }
@@ -72,37 +41,45 @@
   transition: transform 250ms var(--foundation-ease-out);
 }
 
-/* TOP DRAWER — Mobile Navbar */
+/* TOP / NAVBAR drawer */
 .drawer--top,
 .drawer--navbar {
   top: var(--navbar-height);
   left: 0;
-  z-index: calc(var(--z-navbar, 50) - 1);
   transform: translateY(-100%);
-}
-.drawer--open.drawer--top,
-.drawer--open.drawer--navbar {
-    transform: translateY(0);
-}
-.drawer--close.drawer--top,
-.drawer--close.drawer--navbar {
-    transform: translateY(-100%);
+  z-index: calc(var(--z-navbar, 50) - 1);
 }
 
-/* Content area */
+.drawer--open.drawer--top,
+.drawer--open.drawer--navbar {
+  transform: translateY(0);
+}
+
+.drawer--close.drawer--top,
+.drawer--close.drawer--navbar {
+  transform: translateY(-100%);
+}
+
+/* Drawer content area */
 .drawer__content {
   flex: 1;
   display: flex;
   flex-direction: column;
   -webkit-overflow-scrolling: touch;
+
+  /* Prevent overflow / width issues on mobile */
   max-width: 100vw;
+  width: 100%;
+  box-sizing: border-box;
+
   margin: 0 auto;
   padding: var(--foundation-space-3) var(--foundation-space-6);
-  box-sizing: border-box;
 }
+
 .drawer__header {
   flex-shrink: 0;
 }
+
 .drawer__body {
   flex: 1;
   display: flex;
@@ -110,6 +87,55 @@
   justify-content: flex-start;
   text-align: center;
   padding-top: var(--foundation-space-12);
+}
+
+/* ==========================================================
+   NAVBAR DRAWER CONTENT (links/buttons)
+   ========================================================== */
+
+.drawer-navbar-content {
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  text-align: center;
+
+  background: var(--surface-modal-content);
+  color: var(--text-body-primary);
+
+  padding-top: var(--foundation-space-12);
+}
+
+.drawer-navbar-link {
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  color: var(--text-nav-item);
+  text-decoration: none;
+
+  padding: var(--foundation-space-2) 0;
+  transition: color 0.2s var(--foundation-ease-out);
+}
+
+.drawer-navbar-link:hover {
+  color: var(--text-nav-item-selected);
+}
+
+.drawer-navbar-actions {
+  margin-top: var(--foundation-space-8);
+  gap: var(--foundation-space-2);
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  padding: 0 var(--foundation-space-6);
+}
+
+.drawer-navbar-button {
+  width: 100%;
+  justify-content: flex-start;
+  border-radius: var(--radius-md);
+  text-align: left;
 }
 
 /* Reduced motion */
