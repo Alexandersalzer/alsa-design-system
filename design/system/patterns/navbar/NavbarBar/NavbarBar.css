@@ -1,5 +1,5 @@
 /* =====================================================
-   NavbarBar.css — Clean Sticky Header with Drawer Integration (Fixed)
+   NavbarBar.css — Clean Sticky Header with Popover Mobile Menu
    ===================================================== */
 
 .navbar-bar {
@@ -18,13 +18,13 @@
 .navbar-bar__container {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Changed from space-between to control spacing */
-  gap: var(--foundation-space-8); /* Main gap between groups like NavbarPill */
+  justify-content: flex-start;
+  gap: var(--foundation-space-8);
   max-width: var(--width-navbar);
   margin: 0 auto;
   padding: var(--foundation-space-3) var(--foundation-space-6);
   position: relative;
-  container-type: inline-size; /* enables container queries */
+  container-type: inline-size;
 }
 
 /* -----------------------------------------------
@@ -40,17 +40,17 @@
 /* LEFT GROUP - always on the left, content-sized only */
 .navbar-bar__left {
   justify-content: flex-start;
-  flex-shrink: 0; /* Never shrink */
-  flex-grow: 0; /* Never grow */
+  flex-shrink: 0;
+  flex-grow: 0;
   gap: var(--foundation-space-2);
 }
 
 .navbar-bar__middle {
-  flex-grow: 1; /* Takes all available space like NavbarPill */
+  flex-grow: 1;
   flex-shrink: 0;
-  justify-content: center; /* Default center */
+  justify-content: center;
   gap: var(--foundation-space-5);
-  min-width: 0; /* prevents overflow collisions */
+  min-width: 0;
 }
 
 .navbar-bar__middle--left { justify-content: flex-start; }
@@ -60,8 +60,8 @@
 /* RIGHT GROUP - always on the right, content-sized only */
 .navbar-bar__right {
   justify-content: flex-end;
-  flex-shrink: 0; /* Never shrink */
-  flex-grow: 0; /* Never grow */
+  flex-shrink: 0;
+  flex-grow: 0;
   gap: var(--foundation-space-2);
 }
 
@@ -91,7 +91,7 @@
   flex-direction: row;
   flex: 1;
   justify-content: flex-end;
-  gap: var(--foundation-space-8); /* Gap between middle and right groups */
+  gap: var(--foundation-space-8);
   transition: all 0.25s ease;
 }
 
@@ -101,11 +101,56 @@
 .navbar-bar__mobile-toggle {
   display: none;
   color: var(--icon-primary);
-  margin-left: auto; /* Push to far right */
+  margin-left: auto;
 }
 
 .navbar-bar__mobile-toggle:hover {
   color: var(--icon-brand);
+}
+
+/* -----------------------------------------------
+   Mobile Menu (Popover Content)
+----------------------------------------------- */
+.navbar-bar__mobile-menu {
+  /* Remove default popover padding since we use VStack */
+  padding: 0 !important;
+}
+
+.navbar-bar__mobile-content {
+  padding: var(--foundation-space-4);
+  min-width: 280px;
+}
+
+.navbar-bar__mobile-header {
+  padding-bottom: var(--foundation-space-2);
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: var(--foundation-space-2);
+}
+
+.navbar-bar__mobile-link {
+  font-size: var(--font-body-md-size);
+  font-weight: var(--foundation-weight-medium);
+  color: var(--text-nav-item);
+  text-decoration: none;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  border-radius: var(--radius-sm);
+  transition: all var(--foundation-duration-fast) var(--foundation-ease-out);
+}
+
+.navbar-bar__mobile-link:hover {
+  background-color: var(--surface-hover);
+  color: var(--text-nav-item-selected);
+}
+
+.navbar-bar__mobile-actions {
+  padding-top: var(--foundation-space-3);
+  border-top: 1px solid var(--border-subtle);
+  margin-top: var(--foundation-space-2);
+}
+
+.navbar-bar__mobile-button {
+  width: 100%;
+  justify-content: center;
 }
 
 /* Transparent variant */
@@ -137,52 +182,9 @@
 
   /* Adjust container for mobile layout */
   .navbar-bar__container {
-    gap: 0; /* Remove gap in mobile, use margin-left: auto instead */
+    gap: 0;
     justify-content: flex-start;
   }
-}
-
-/* -----------------------------------------------
-   Drawer Styles (Mobile Menu)
------------------------------------------------ */
-
-.navbar-bar__drawer-content {
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
-  background: var(--surface-modal-content);
-  color: var(--text-body-primary);
-}
-
-.navbar-bar__drawer-link {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-nav-item);
-  text-decoration: none;
-  transition: color 0.2s ease;
-  padding: var(--foundation-space-2) 0;
-}
-
-.navbar-bar__drawer-link:hover {
-  color: var(--text-nav-item-selected);
-}
-
-/* ✅ FIXED: Full-width buttons and no offset */
-.navbar-bar__drawer-actions {
-  margin-top: var(--foundation-space-8);
-  gap: var(--foundation-space-2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 var(--foundation-space-6);
-}
-
-.navbar-bar__drawer-button {
-  width: 100%;
-  max-width: none;
-  justify-content: center;
-  border-radius: var(--radius-md);
 }
 
 /* -----------------------------------------------
@@ -205,7 +207,7 @@
   color: var(--text-inverse);
 }
 
-[data-theme="dark"] .navbar-bar__drawer-content {
-  background: var(--surface-modal-content);
+[data-theme="dark"] .navbar-bar__mobile-content {
+  background: var(--surface-dropdown);
   color: var(--text-body-primary);
 }

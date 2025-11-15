@@ -1,0 +1,47 @@
+/* ===============================================
+   Stats/Stats.css
+   Styles for Stats component variants
+   =============================================== */
+
+/* ===== STAT WITH SEPARATOR ===== */
+.stat-with-separator {
+  position: relative;
+}
+
+.stat-separator {
+  background-color: var(--border-light);
+  flex-shrink: 0;
+}
+
+/* ===== STAT WITH LEFT BORDER ===== */
+.stat--left-border-responsive {
+  position: relative;
+}
+
+/* Responsive: Remove left border on mobile, add top border instead */
+@media (max-width: 768px) {
+  .stat--left-border-responsive {
+    border-left: none !important;
+    border-top: 4px solid var(--accent-color) !important;
+    padding-left: 0 !important;
+    padding-top: var(--space-md) !important;
+  }
+}
+
+/* ===== STAT WITH LOGO ===== */
+.stat-logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.stat-logo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* ===== STAT WITH ICON ===== */
+/* Icon container styles are handled inline via Box component */
+/* Additional hover effects can be added here if needed */

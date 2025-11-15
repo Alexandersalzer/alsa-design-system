@@ -25,25 +25,54 @@
 
 /* ===== POPOVER POSITIONER ===== */
 .popover-positioner {
-  position: absolute;
-  z-index: var(--z-popover);
+  /* Position and z-index controlled by inline styles for portal */
+  pointer-events: none; /* Let clicks pass through to content */
 }
 
 /* ===== POPOVER CONTENT ===== */
-/* ===== POPOVER CONTENT ===== */
 .popover-content {
-  position: absolute;
-  /* Removed: top: calc(100% + 8px); and left: 0; - now controlled by inline styles */
-  z-index: var(--z-popover);
+  position: relative; /* Relative to positioner */
   border: 1px solid var(--border-default);
   border-radius: var(--radius-dropdown);
   background-color: var(--surface-dropdown);
   box-shadow: var(--foundation-shadow-lg);
   overflow: hidden;
+  pointer-events: auto; /* Re-enable pointer events on content */
   
   animation: popoverFadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
   transform: translateZ(0);
   will-change: transform;
+}
+
+/* Alignment adjustments based on placement */
+.popover-positioner[data-placement^="bottom"] .popover-content,
+.popover-positioner[data-placement^="top"] .popover-content {
+  transform: translateX(-50%); /* Center align for top/bottom placements */
+}
+
+.popover-positioner[data-placement$="-start"] .popover-content {
+  transform: translateX(0); /* Left align for -start variants */
+}
+
+.popover-positioner[data-placement$="-end"] .popover-content {
+  transform: translateX(-100%); /* Right align for -end variants */
+}
+
+/* ===== POPOVER ARROW ===== */
+.popover-arrow {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: var(--surface-dropdown);
+  border: 1px solid var(--border-default);
+  transform: rotate(45deg);
+  top: -6px;
+  left: 16px;
+}
+
+.popover-arrow-tip {
+  width: 100%;
+  height: 100%;
 }
 
 /* Size variants */

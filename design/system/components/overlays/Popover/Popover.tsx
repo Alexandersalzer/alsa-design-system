@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Popover/Popover.tsx
-// LOW-LEVEL POSITIONING PRIMITIVE - Chakra-inspired structure
+// IMPROVED POPOVER - Chakra-inspired with portal positioning
 // ===============================================
 
 import React, { 
@@ -14,6 +14,7 @@ import React, {
   type ReactNode,
   type RefObject
 } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '../../../lib/utils';
 import './Popover.css';
 
@@ -27,9 +28,7 @@ export type PopoverPlacement = 'top' | 'bottom' | 'left' | 'right' | 'top-start'
 interface PositioningOptions {
   placement?: PopoverPlacement;
   offset?: number;
-  sameWidth?: boolean;
   strategy?: 'absolute' | 'fixed';
-  hideWhenDetached?: boolean;
 }
 
 interface PopoverContextValue {
@@ -44,6 +43,7 @@ interface PopoverContextValue {
   closeOnEscape: boolean;
   closeOnInteractOutside: boolean;
   modal: boolean;
+  positioning: PositioningOptions;
 }
 
 const PopoverContext = createContext<PopoverContextValue | null>(null);
@@ -118,8 +118,7 @@ export interface PopoverRootProps {
   closeOnEscape?: boolean;
   closeOnInteractOutside?: boolean;
   modal?: boolean;
-  lazyMount?: boolean;
-  unmountOnExit?: boolean;
+  positioning?: PositioningOptions;
   className?: string;
 }
 
@@ -133,6 +132,7 @@ export const PopoverRoot = ({
   closeOnEscape = true,
   closeOnInteractOutside = true,
   modal = false,
+  positioning = {},
   className
 }: PopoverRootProps) => {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
@@ -162,11 +162,8 @@ export const PopoverRoot = ({
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
       
-      // Check if click is inside trigger or content
       const isInsideTrigger = triggerRef.current?.contains(target);
       const isInsideContent = contentRef.current?.contains(target);
-      
-      // 🎯 KEY FIX: Also check if the target is an input/textarea inside the trigger
       const isInputInTrigger = triggerRef.current?.querySelector('input, textarea')?.contains(target);
       
       if (!isInsideTrigger && !isInsideContent && !isInputInTrigger) {
@@ -174,7 +171,6 @@ export const PopoverRoot = ({
       }
     };
 
-    // Use 'mousedown' instead of 'click' for better UX
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen, closeOnInteractOutside]);
@@ -204,7 +200,8 @@ export const PopoverRoot = ({
     autoFocus,
     closeOnEscape,
     closeOnInteractOutside,
-    modal
+    modal,
+    positioning
   };
   
   return (
@@ -303,23 +300,135 @@ export const PopoverTrigger = forwardRef<HTMLButtonElement, PopoverTriggerProps>
 PopoverTrigger.displayName = 'Popover.Trigger';
 
 // ===============================================
-// POPOVER POSITIONER
+// POPOVER POSITIONER (Portal with Absolute Positioning)
 // ===============================================
 
 export interface PopoverPositionerProps {
   children: ReactNode;
-  positioning?: PositioningOptions;
 }
 
-export const PopoverPositioner = ({ children, positioning }: PopoverPositionerProps) => {
-  const { isOpen } = usePopoverContext();
+export const PopoverPositioner = ({ children }: PopoverPositionerProps) => {
+  const { isOpen, triggerRef, positioning } = usePopoverContext();
+  const positionerRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({
+    x: 0,
+    y: 0,
+    referenceWidth: 0,
+    referenceHeight: 0,
+    availableWidth: 0,
+    availableHeight: 0
+  });
+  
+  const { 
+    placement = 'bottom',
+    offset = 8,
+    strategy = 'absolute'
+  } = positioning;
+  
+  // Calculate position
+  const updatePosition = () => {
+    if (!triggerRef.current || !isOpen) return;
+    
+    const triggerRect = triggerRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    let x = 0;
+    let y = 0;
+    
+    // Calculate base position based on placement
+    switch (placement) {
+      case 'bottom':
+      case 'bottom-start':
+      case 'bottom-end':
+        x = triggerRect.left;
+        y = triggerRect.bottom + offset;
+        break;
+      case 'top':
+      case 'top-start':
+      case 'top-end':
+        x = triggerRect.left;
+        y = triggerRect.top - offset;
+        break;
+      case 'left':
+        x = triggerRect.left - offset;
+        y = triggerRect.top;
+        break;
+      case 'right':
+        x = triggerRect.right + offset;
+        y = triggerRect.top;
+        break;
+    }
+    
+    // Handle alignment variants
+    if (placement.includes('end')) {
+      x = triggerRect.right;
+    } else if (!placement.includes('start')) {
+      // Center alignment for 'bottom' and 'top'
+      if (placement === 'bottom' || placement === 'top') {
+        x = triggerRect.left + (triggerRect.width / 2);
+      }
+    }
+    
+    const availableWidth = viewportWidth - x - 16;
+    const availableHeight = placement.startsWith('bottom') 
+      ? viewportHeight - y - 16 
+      : y - 16;
+    
+    setPosition({
+      x,
+      y,
+      referenceWidth: triggerRect.width,
+      referenceHeight: triggerRect.height,
+      availableWidth: Math.max(200, availableWidth),
+      availableHeight: Math.max(200, availableHeight)
+    });
+  };
+  
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    updatePosition();
+    const timer = setTimeout(updatePosition, 16);
+    
+    window.addEventListener('scroll', updatePosition, true);
+    window.addEventListener('resize', updatePosition);
+    
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
+    };
+  }, [isOpen, placement]);
   
   if (!isOpen) return null;
   
-  return (
-    <div className="popover-positioner">
+  // Portal to body
+  return createPortal(
+    <div 
+      ref={positionerRef}
+      className="popover-positioner"
+      data-placement={placement}
+      style={{
+        position: strategy,
+        isolation: 'isolate',
+        minWidth: 'max-content',
+        top: 0,
+        left: 0,
+        transform: `translate3d(var(--x), var(--y), 0)`,
+        zIndex: 'var(--z-index)',
+        '--x': `${position.x}px`,
+        '--y': `${position.y}px`,
+        '--z-index': 'var(--z-popover)',
+        '--reference-width': `${position.referenceWidth}px`,
+        '--reference-height': `${position.referenceHeight}px`,
+        '--available-width': `${position.availableWidth}px`,
+        '--available-height': `${position.availableHeight}px`,
+      } as React.CSSProperties}
+    >
       {children}
-    </div>
+    </div>,
+    document.body
   );
 };
 
@@ -332,108 +441,19 @@ export interface PopoverContentProps {
   className?: string;
   maxHeight?: number;
   width?: number | string;
-  positioning?: PositioningOptions;
 }
 
 export const PopoverContent = ({ 
   children, 
   className, 
-  maxHeight = 600,
-  width,
-  positioning = {}
+  maxHeight,
+  width
 }: PopoverContentProps) => {
-  const { contentId, size, contentRef, triggerRef, autoFocus, isOpen } = usePopoverContext();
-  const [position, setPosition] = useState<{
-    left: number;
-    shouldOpenUpward: boolean;
-    maxHeight: number;
-    minWidth: number;
-  }>({
-    left: 0,
-    shouldOpenUpward: false,
-    maxHeight: maxHeight,
-    minWidth: MIN_WIDTHS[size]
-  });
-  
-  // Calculate positioning
-  const updatePosition = () => {
-    if (!contentRef.current || !triggerRef.current) return;
-    
-    const triggerRect = triggerRef.current.getBoundingClientRect();
-    const contentRect = contentRef.current.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
-    const viewportWidth = window.innerWidth;
-    
-    const spaceAbove = triggerRect.top;
-    const spaceBelow = viewportHeight - triggerRect.bottom;
-    
-    // Get CSS min-width for this size
-    const cssMinWidth = MIN_WIDTHS[size];
-    
-    // Determine actual content width (respecting CSS min-width)
-    const actualContentWidth = Math.max(
-      contentRect.width > 0 ? contentRect.width : cssMinWidth,
-      cssMinWidth
-    );
-    
-    // Vertical positioning
-    const shouldOpenUpward = spaceBelow < Math.min(maxHeight, contentRect.height) && spaceAbove > spaceBelow;
-    const calculatedMaxHeight = shouldOpenUpward 
-      ? Math.min(maxHeight, spaceAbove - 16)
-      : Math.min(maxHeight, spaceBelow - 16);
-    
-    // Horizontal positioning - prevent overflow
-    let left = 0;
-    
-    // Check if content would overflow on the right
-    if (triggerRect.left + actualContentWidth > viewportWidth - 16) {
-      // Align to right edge of trigger
-      left = triggerRect.width - actualContentWidth;
-    }
-    
-    // Check if it would overflow on the left
-    if (triggerRect.left + left < 16) {
-      left = -triggerRect.left + 16;
-    }
-    
-    setPosition({
-      left,
-      shouldOpenUpward,
-      maxHeight: calculatedMaxHeight,
-      minWidth: Math.max(cssMinWidth, triggerRect.width)
-    });
-  };
-  
-  // Position immediately when opened, then fine-tune after render
-  useEffect(() => {
-    if (!isOpen) return;
-    
-    // Immediate calculation
-    updatePosition();
-    
-    // Fine-tune after one frame
-    const timer = setTimeout(updatePosition, 16);
-    
-    return () => clearTimeout(timer);
-  }, [isOpen]);
-  
-  // Recalculate on scroll/resize
-  useEffect(() => {
-    if (!isOpen) return;
-    
-    window.addEventListener('scroll', updatePosition, true);
-    window.addEventListener('resize', updatePosition);
-    
-    return () => {
-      window.removeEventListener('scroll', updatePosition, true);
-      window.removeEventListener('resize', updatePosition);
-    };
-  }, [isOpen]);
+  const { contentId, size, contentRef, triggerRef, autoFocus, isOpen, positioning } = usePopoverContext();
   
   // Auto focus first focusable element
   useEffect(() => {
     if (autoFocus && contentRef.current && isOpen) {
-      // 🎯 FIX: Don't auto-focus if the trigger contains an input
       const triggerHasInput = triggerRef.current?.querySelector('input, textarea');
       
       if (!triggerHasInput) {
@@ -454,24 +474,16 @@ export const PopoverContent = ({
       role="dialog"
       aria-modal="false"
       tabIndex={-1}
+      data-placement={positioning.placement || 'bottom'}
       className={cn(
         'popover-content',
         `popover-content--${size}`,
         className
       )}
       style={{
-        maxHeight: `${position.maxHeight}px`,
-        minWidth: width || position.minWidth,
-        left: `${position.left}px`,
-        ...(position.shouldOpenUpward ? {
-          bottom: '100%',
-          top: 'auto',
-          marginBottom: '8px'
-        } : {
-          top: '100%',
-          bottom: 'auto',
-          marginTop: '8px'
-        })
+        maxHeight: maxHeight ? `${maxHeight}px` : 'var(--available-height)',
+        width: width || 'auto',
+        pointerEvents: 'auto'
       }}
     >
       {children}

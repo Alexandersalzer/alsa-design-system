@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../components';
-import { MenuIcon } from 'lucide-react';
-import Drawer from '../../../components/overlays/Drawer/Drawer';
+import { MenuIcon, XIcon } from 'lucide-react';
+import { Popover } from '../../../components';
 import { useComponentProps, componentPresent, usePatternProps, useMapComponents, CDN_BASE_URL } from '../../../core/utils/helpers';
 import { alignMap } from '../utils';
 import './NavbarBar.css';
@@ -42,7 +42,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
         </HStack>
 
         {/* DESKTOP CONTENT */}
-        <div className="navbar-bar__content">
+        <HStack className="navbar-bar__content">
           {renderIf('textlink', 'menuItem') && (
             <HStack className={`navbar-bar__middle navbar-bar__middle--${align}`} spacing="lg">
               {mapComponentIndices('textlink', 'menuItem')
@@ -67,64 +67,85 @@ const NavbarBar = ( patternNode: PatternNode) => {
               </Button>
             )}
           </HStack>
-        </div>
+        </HStack>
 
-        {/* MOBILE TOGGLE - separate from content */}
-        <IconButton
-          variant="ghost"
-          size="md"
-          aria-label="Toggle menu"
-          onClick={() => setMobileOpen(true)}
-          className="navbar-bar__mobile-toggle"
-          icon={<MenuIcon />}
-        />
+        {/* MOBILE TOGGLE WITH POPOVER */}
+        <Popover
+          open={mobileOpen}
+          onOpenChange={setMobileOpen}
+          closeOnInteractOutside
+          closeOnEscape
+          positioning={{ placement: 'bottom-end', offset: 12 }}
+        >
+          <Popover.Trigger asChild>
+            <IconButton
+              variant="ghost"
+              size="md"
+              aria-label="Toggle menu"
+              className="navbar-bar__mobile-toggle"
+              icon={<MenuIcon />}
+            />
+          </Popover.Trigger>
+
+          <Popover.Positioner>
+            <Popover.Content className="navbar-bar__mobile-menu" width={280}>
+              <VStack spacing="md" align="stretch" className="navbar-bar__mobile-content">
+                {/* Close button */}
+                <HStack justify="end" className="navbar-bar__mobile-header">
+                  <Popover.CloseTrigger asChild>
+                    <IconButton
+                      variant="ghost"
+                      size="sm"
+                      icon={<XIcon />}
+                      aria-label="Close menu"
+                    />
+                  </Popover.CloseTrigger>
+                </HStack>
+
+                {/* Menu items */}
+                {renderIf('textlink', 'menuItem') && (
+                  <VStack spacing="xs" align="stretch">
+                    {mapComponentIndices('textlink', 'menuItem').map((props, i) => (
+                      <TextLink
+                        key={i}
+                        href={props.href}
+                        onClick={() => setMobileOpen(false)}
+                        className="navbar-bar__mobile-link"
+                      >
+                        {props.content}
+                      </TextLink>
+                    ))}
+                  </VStack>
+                )}
+
+                {/* Action buttons */}
+                <VStack spacing="sm" className="navbar-bar__mobile-actions">
+                  {renderIf('button', 'secondaryAction') && (
+                    <Button
+                      variant="ghost"
+                      href={getComponent('button', 'secondaryAction').href}
+                      onClick={() => setMobileOpen(false)}
+                      className="navbar-bar__mobile-button"
+                    >
+                      {getComponent('button', 'secondaryAction').content}
+                    </Button>
+                  )}
+                  {renderIf('button', 'primaryAction') && (
+                    <Button
+                      variant="primary"
+                      href={getComponent('button', 'primaryAction').href}
+                      onClick={() => setMobileOpen(false)}
+                      className="navbar-bar__mobile-button"
+                    >
+                      {getComponent('button', 'primaryAction').content}
+                    </Button>
+                  )}
+                </VStack>
+              </VStack>
+            </Popover.Content>
+          </Popover.Positioner>
+        </Popover>
       </Box>
-
-      {/* MOBILE DRAWER */}
-      <Drawer
-        isOpen={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-        showCloseButton
-        closeButtonVariant="icon"
-        preventScroll
-      >
-        <VStack spacing="lg" align="center" className="navbar-bar__drawer-content">
-          {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem')
-          .map((props, i) => (
-            <TextLink
-              key={i}
-              href={props.href}
-              onClick={() => setMobileOpen(false)}
-              className="navbar-bar__drawer-link"
-            >
-              {props.content}
-            </TextLink>
-          ))}
-
-          <VStack spacing="sm" className="navbar-bar__drawer-actions">
-            {renderIf('button', 'secondaryAction') && (
-              <Button
-                variant="ghost"
-                href={getComponent('button', 'secondaryAction').href}
-                onClick={() => setMobileOpen(false)}
-                className="navbar-bar__drawer-button"
-              >
-                {getComponent('button', 'secondaryAction').content}
-              </Button>
-            )}
-            {renderIf('button', 'primaryAction') && (
-              <Button
-                variant="primary"
-                href={getComponent('button', 'primaryAction').href}
-                onClick={() => setMobileOpen(false)}
-                className="navbar-bar__drawer-button"
-              >
-                {getComponent('button', 'primaryAction').content}
-              </Button>
-            )}
-          </VStack>
-        </VStack>
-      </Drawer>
     </nav>
   );
 };
