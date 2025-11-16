@@ -15,15 +15,24 @@ import './PortfolioGrid.css';
 // TYPES
 // =====================================================
 
+interface PortfolioNormalizedItem {
+  key: string;
+  title: string;
+  mediaSrc: string;
+  mediaAlt: string;
+  mediaType: 'image' | 'video';
+  description?: string;
+  views?: number;
+  category?: string;
+  countryCode?: string;
+}
+
 export interface PortfolioGridProps {
   props?: {
     cardDensity?: 'compact' | 'standard' | 'spacious';
     gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     default?: string;
-    buttons?: {
-      label: string;
-      value: string;
-    }[];
+    buttons?: { label: string; value: string }[];
   };
 
   components?: Record<
@@ -61,31 +70,28 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
   const [active, setActive] = useState(defaultValue);
 
   // =====================================================
-  // NORMALIZE PORTFOLIO ITEMS
+  // NORMALIZE PORTFOLIO ITEMS (FULLY TYPED)
   // =====================================================
 
-  const allItems = useMemo(() => {
+  const allItems: PortfolioNormalizedItem[] = useMemo(() => {
     return Object.entries(components)
       .filter(([, comp]) => comp.type === 'portfolio' && comp.mediaSrc)
-      .map(([key, comp]) => {
-        const mediaSrc = comp.mediaSrc!.startsWith('/members/')
-          ? `${CDN_BASE_URL}${comp.mediaSrc!.replace('/members', '')}`
-          : comp.mediaSrc!;
+      .map(([key, comp]): PortfolioNormalizedItem => {
+        let mediaSrc = comp.mediaSrc!;
+
+        if (mediaSrc.startsWith('/members/')) {
+          mediaSrc = `${CDN_BASE_URL}${mediaSrc.replace('/members', '')}`;
+        }
 
         return {
           key,
-
-          // Required props — strictly typed
           title: comp.title ?? 'Untitled Project',
           mediaSrc,
           mediaAlt: comp.mediaAlt || comp.title || 'Portfolio media',
 
-          // 🔥 FIXED TYPE: cast to strict union type
-          mediaType: (comp.mediaType === 'video' ? 'video' : 'image') as
-            | 'video'
-            | 'image',
+          // 🔥 Perfectly typed now
+          mediaType: comp.mediaType === 'video' ? 'video' : 'image',
 
-          // Optional props — kept safe
           description: comp.description,
           views: comp.views,
           category: comp.category,
@@ -95,8 +101,17 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
   }, [components]);
 
   // =====================================================
-  // FILTER BY TABS
+  // FILTER (handles weird Swedish categories)
   // =====================================================
+
+  const normalize = (str: string) =>
+    str
+      .toLowerCase()
+      .replace(/\s+/g, '')
+      .replace(/[åä]/g, 'a')
+      .replace(/ö/g, 'o')
+      .replace(/&/g, '')
+      .trim();
 
   const visibleItems = useMemo(() => {
     if (!hasTabs) return allItems;
@@ -105,11 +120,37 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
     return allItems.filter(
       item =>
         item.category &&
-        item.category.toLowerCase() === active.toLowerCase()
+        normalize(item.category) === normalize(active)
     );
   }, [active, allItems, hasTabs]);
 
-  if (visibleItems.length === 0) return null;
+  // =====================================================
+  // EMPTY STATE — KEEP TABS VISIBLE
+  // =====================================================
+
+  if (visibleItems.length === 0) {
+    return (
+      <div className="portfolio-grid-container">
+        {hasTabs && (
+          <TabGroup variant="navigation" className="mb-6">
+            {buttons.map(btn => (
+              <Tab
+                key={btn.value}
+                isActive={active === btn.value}
+                onClick={() => setActive(btn.value)}
+              >
+                {btn.label}
+              </Tab>
+            ))}
+          </TabGroup>
+        )}
+
+        <p style={{ textAlign: 'center', opacity: 0.6 }}>
+          Inga projekt i denna kategori ännu.
+        </p>
+      </div>
+    );
+  }
 
   // =====================================================
   // RENDER
@@ -118,7 +159,6 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
   return (
     <div className="portfolio-grid-container">
 
-      {/* ---------- TABS ---------- */}
       {hasTabs && (
         <TabGroup variant="navigation" className="mb-6">
           {buttons.map(btn => (
@@ -133,7 +173,6 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
         </TabGroup>
       )}
 
-      {/* ---------- GRID ---------- */}
       <Grid cardDensity={cardDensity} gap={gap} className="portfolio-grid">
         {visibleItems.map((item, index) => (
           <PortfolioCard
@@ -141,7 +180,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
             title={item.title}
             mediaSrc={item.mediaSrc}
             mediaAlt={item.mediaAlt}
-            mediaType={item.mediaType}   // <–– now STRICT & TS-SAFE
+            mediaType={item.mediaType}  // now ALWAYS correct type
             description={item.description}
             views={item.views}
             category={item.category}
