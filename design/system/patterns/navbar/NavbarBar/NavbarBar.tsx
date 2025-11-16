@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, HStack, VStack, Button, TextLink, IconButton, IconButtons } from '../../../components';
 import { CrossIcon, MenuIcon, XIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
@@ -17,8 +17,25 @@ const NavbarBar = ( patternNode: PatternNode) => {
     const renderIf = componentPresent(components);
     const mapComponentIndices = useMapComponents(components);
 
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const align = alignMap[getPatternProps().menuAlign] || 'center';
+
+  // Auto-close drawer when screen becomes desktop size (debounced)
+  // Prevents mobile drawer from staying open if user resizes to desktop
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        if (window.innerWidth > 1024) {
+          setMobileOpen(false);
+        }
+      }, 50);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <nav className="navbar-bar">
