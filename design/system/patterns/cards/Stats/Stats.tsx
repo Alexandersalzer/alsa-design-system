@@ -451,35 +451,28 @@ const StatWithLogo: React.FC<StatItemComponentProps> = ({
 
 // ===== MAIN STATS COMPONENT =====
 
-export const Stats: React.FC<StatsProps> = ({
-  className,
-  stats = [],
-  variant = 'centered',
-  
-  // Typography defaults
-  valueVariant = 'display-md',
-  valueWeight = 'bold',
-  valueColor = 'primary',
-  
-  labelVariant = 'body-md',
-  labelWeight = 'medium',
-  labelColor = 'secondary',
-  
-  descriptionVariant = 'body-sm',
-  descriptionColor = 'tertiary',
-  
-  // Layout defaults
-  spacing = 'sm',
-  align = 'center',
-  
-  // Card defaults
-  cardVariant = 'elevated',
-  cardPadding = 'lg',
-  
-  // Icon defaults
-  iconSize = 'lg',
-  iconColor = 'accent'
-}) => {
+export const Stats: React.FC<any> = (rawProps) => {
+  // Support both direct and CMS-wrapped props
+  const props = rawProps?.props ? rawProps.props : rawProps;
+  const {
+    className,
+    stats = [],
+    variant = 'centered',
+    valueVariant = 'display-md',
+    valueWeight = 'bold',
+    valueColor = 'primary',
+    labelVariant = 'body-md',
+    labelWeight = 'medium',
+    labelColor = 'secondary',
+    descriptionVariant = 'body-sm',
+    descriptionColor = 'tertiary',
+    spacing = 'sm',
+    align = 'center',
+    cardVariant = 'elevated',
+    cardPadding = 'lg',
+    iconSize = 'lg',
+    iconColor = 'accent',
+  } = props;
   
   const commonProps = {
     valueVariant,
@@ -555,7 +548,7 @@ export const Stats: React.FC<StatsProps> = ({
         wrap={true}
         className={className}
       >
-        {stats.map((stat, index) => renderStat(stat, index))}
+  {stats.map((stat: StatItem, index: number) => renderStat(stat, index))}
       </HStack>
     );
   }
@@ -569,7 +562,7 @@ export const Stats: React.FC<StatsProps> = ({
       wrap={true}
       className={className}
     >
-      {stats.map((stat, index) => renderStat(stat, index))}
+  {stats.map((stat: StatItem, index: number) => renderStat(stat, index))}
     </HStack>
   );
 };
