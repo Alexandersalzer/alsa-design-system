@@ -330,12 +330,10 @@
   box-sizing: border-box;
 }
 
-/* ==========================================================
-   ACCESSIBILITY
-   ========================================================== */
-@media (prefers-reduced-motion: reduce) {
+/* TEMPORARILY COMMENT THIS OUT FOR TESTING */
+/* @media (prefers-reduced-motion: reduce) {
   .drawer,
   .drawer-overlay {
     transition: none !important;
   }
-}
+} */

@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../../lib/utils";
@@ -26,8 +25,6 @@ export interface DrawerProps {
   style?: React.CSSProperties;
 }
 
-const ANIMATION_DURATION = 400;
-
 const Drawer = ({
   isOpen,
   onClose,
@@ -41,31 +38,37 @@ const Drawer = ({
   style,
 }: DrawerProps) => {
   const [mounted, setMounted] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false); // 👈 ADD THIS
+  const [isClosing, setIsClosing] = useState(false);
+
+  // Dynamic animation duration based on drawer type
+  const ANIMATION_DURATION = type === "pill" ? 400 : 250;
 
   useEffect(() => setMounted(true), []);
 
   // Handle scroll locking & scrollbar compensation
   useEffect(() => {
     if (isOpen) {
-      setVisible(true);
-      setIsAnimating(true); // 👈 ADD THIS
+      setIsClosing(false); // Reset closing state when opening
       if (preventScroll) {
         const scrollbarWidth = getScrollbarWidth();
         document.body.style.overflow = "hidden";
         document.body.style.paddingRight = `${scrollbarWidth}px`;
       }
     } else {
-      setIsAnimating(false); // 👈 ADD THIS
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
-      
-      // Wait for animation to complete before unmounting
-      const t = setTimeout(() => setVisible(false), ANIMATION_DURATION);
-      return () => clearTimeout(t);
+      if (mounted) {
+        setIsClosing(true); // Start closing animation
+        
+        // Wait for animation to complete before cleaning up
+        const timeout = setTimeout(() => {
+          setIsClosing(false);
+          document.body.style.overflow = "";
+          document.body.style.paddingRight = "";
+        }, ANIMATION_DURATION);
+        
+        return () => clearTimeout(timeout);
+      }
     }
-  }, [isOpen, preventScroll]);
+  }, [isOpen, preventScroll, mounted, ANIMATION_DURATION]);
 
   // Escape key handler
   useEffect(() => {
@@ -76,7 +79,11 @@ const Drawer = ({
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
-  if (!mounted || !visible) return null;
+  // Don't render until mounted
+  if (!mounted) return null;
+  
+  // Don't render if not open and not closing (animation finished)
+  if (!isOpen && !isClosing) return null;
 
   // Pill drawer uses simpler structure (no wrapper divs)
   const isPill = type === "pill";
@@ -85,7 +92,7 @@ const Drawer = ({
     <div
       className={cn(
         "drawer-overlay",
-        isAnimating ? "drawer-overlay--open" : "drawer-overlay--closing" // 👈 CHANGED
+        isOpen ? "drawer-overlay--open" : "drawer-overlay--closing"
       )}
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
@@ -93,7 +100,7 @@ const Drawer = ({
         className={cn(
           "drawer",
           `drawer--${type}`,
-          isAnimating ? "drawer--open" : "drawer--close", // 👈 CHANGED
+          isOpen ? "drawer--open" : "drawer--close",
           className
         )}
         style={style}
