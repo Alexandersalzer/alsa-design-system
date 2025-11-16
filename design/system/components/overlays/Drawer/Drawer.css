@@ -1,3 +1,48 @@
+/* ===========================================
+   DYNAMIC MOBILE MENU ALIGNMENT
+=========================================== */
+
+/* LEFT */
+.drawer-align-left {
+  text-align: left;
+  align-items: flex-start;
+}
+
+.drawer-align-left .drawer-navbar-link {
+  text-align: left;
+}
+
+.drawer-align-left .drawer-navbar-button {
+  justify-content: flex-start;
+}
+
+/* CENTER */
+.drawer-align-center {
+  text-align: center;
+  align-items: center;
+}
+
+.drawer-align-center .drawer-navbar-link {
+  text-align: center;
+}
+
+.drawer-align-center .drawer-navbar-button {
+  justify-content: center;
+}
+
+/* RIGHT */
+.drawer-align-right {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.drawer-align-right .drawer-navbar-link {
+  text-align: right;
+}
+
+.drawer-align-right .drawer-navbar-button {
+  justify-content: flex-end;
+}
 /* Navbar height variable — update if needed */
 :root {
   --navbar-height: 64px;
@@ -129,45 +174,6 @@
   max-width: 100%;
   box-sizing: border-box;
   border-radius: var(--radius-button);
-}
-/* ===========================================
-   DYNAMIC ALIGNMENT FOR MOBILE DRAWER
-=========================================== */
-
-/* LEFT */
-.drawer-align-left {
-  text-align: left;
-  align-items: flex-start;
-}
-.drawer-align-left .drawer-navbar-button {
-  justify-content: flex-start;
-}
-.drawer-align-left .drawer-navbar-content {
-  align-items: flex-start;
-}
-
-/* CENTER */
-.drawer-align-center {
-  text-align: center;
-  align-items: center;
-}
-.drawer-align-center .drawer-navbar-button {
-  justify-content: center;
-}
-.drawer-align-center .drawer-navbar-content {
-  align-items: center;
-}
-
-/* RIGHT */
-.drawer-align-right {
-  text-align: right;
-  align-items: flex-end;
-}
-.drawer-align-right .drawer-navbar-button {
-  justify-content: flex-end;
-}
-.drawer-align-right .drawer-navbar-content {
-  align-items: flex-end;
 }
 
 /* Reduced motion */

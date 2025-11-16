@@ -20,7 +20,12 @@ const NavbarBar = ( patternNode: PatternNode) => {
 
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  const align = alignMap[getPatternProps().menuAlign] || 'center';
+
+  const desktopAlign = alignMap[getPatternProps().menuAlign] || 'center';
+  const mobileAlign =
+    alignMap[getPatternProps().mobileMenuAlign] ||
+    alignMap[getPatternProps().menuAlign] ||
+    'center';
 
   // Auto-close drawer when screen becomes desktop size (debounced)
   // Prevents mobile drawer from staying open if user resizes to desktop
@@ -62,7 +67,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
         {/* DESKTOP CONTENT */}
         <div className="navbar-bar__content">
           {renderIf('textlink', 'menuItem') && (
-            <HStack className={`navbar-bar__middle navbar-bar__middle--${align}`} spacing="lg">
+            <HStack className={`navbar-bar__middle navbar-bar__middle--${desktopAlign}`} spacing="lg">
               {mapComponentIndices('textlink', 'menuItem')
               .slice(0, getPatternProps().maxMenuItems)
               .map((props, i) => (
@@ -115,7 +120,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
           align="stretch"
           className={cn(
             "drawer-navbar-content",
-            `drawer-align-${align}`
+            `drawer-align-${mobileAlign}`
           )}
         >
           {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem')
