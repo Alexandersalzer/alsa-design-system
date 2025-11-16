@@ -5,7 +5,6 @@
 
 import React from 'react';
 import { Card } from '../../../components/layout';
-import { VideoShowcase } from '../../../components/media';
 import { Typography, TypographyColor } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
@@ -114,19 +113,17 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
           )}
           
           {isVideo && (
-            <VideoShowcase
-              src={mediaSrc}
-              variant="elevated"
-              size="full"
-              aspectRatio="auto"
-              radius="none"
-              showPlayButton={true}
-              controls={false}
-              autoPlay={false}
-              muted={true}
-              loop={true}
-              playsInline={true}
-            />
+            <div className="portfolio-video-container">
+              <video
+                className="portfolio-video"
+                preload="metadata"
+                playsInline
+                controls
+              >
+                <source src={mediaSrc} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
           )}
           
           {isImage && (
