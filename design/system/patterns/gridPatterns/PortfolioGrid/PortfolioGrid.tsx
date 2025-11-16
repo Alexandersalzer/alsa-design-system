@@ -23,7 +23,7 @@ interface PortfolioNormalizedItem {
   mediaType: 'image' | 'video';
   description?: string;
   views?: number;
-  category?: string;
+  category?: string | string[];
   countryCode?: string;
 }
 
@@ -117,11 +117,13 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
     if (!hasTabs) return allItems;
     if (active === 'all') return allItems;
 
-    return allItems.filter(
-      item =>
-        item.category &&
-        normalize(item.category) === normalize(active)
-    );
+    return allItems.filter(item => {
+      if (!item.category) return false;
+      if (Array.isArray(item.category)) {
+        return item.category.some(cat => normalize(cat) === normalize(active));
+      }
+      return normalize(item.category) === normalize(active);
+    });
   }, [active, allItems, hasTabs]);
 
   // =====================================================
