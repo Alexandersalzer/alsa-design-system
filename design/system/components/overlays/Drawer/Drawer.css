@@ -35,9 +35,8 @@
   width: 100%;
   max-width: 100%;
   transition: transform 250ms var(--foundation-ease-out);
-  
-  /* CRITICAL: Make drawer a flex column */
   display: flex;
+  flex-direction: column;
 }
 
 /* TOP / NAVBAR drawer positioning */
@@ -73,11 +72,12 @@
 .drawer.drawer-variant-sheet {
   height: auto;
   max-height: 80vh;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
   box-shadow: var(--shadow-lg);
 }
 
 /* ==========================================================
-   DRAWER CONTENT STRUCTURE
+   DRAWER CONTENT STRUCTURE (for bar/top drawers only)
    ========================================================== */
 .drawer__content {
   flex: 1;
@@ -227,16 +227,24 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: auto;
+  width: auto; /* Set via inline style from pill width */
   max-width: none;
   overflow-y: auto;
+  overflow-x: hidden;
+  
+  /* Override base drawer styles */
   background: var(--surface-nav);
-  border-top: none;
+  border: none; /* 👈 NO BORDER */
   border-radius: 0 0 var(--radius-navbar-pill) var(--radius-navbar-pill);
   box-shadow: 0 4px 12px var(--shadow-emphasis);
+  
+  /* Animation */
   transform: translateY(-100%);
   transition: transform 250ms var(--foundation-ease-out);
   z-index: 49;
+  
+  /* Padding to account for starting from middle of pill */
+  padding-top: calc(var(--space-navbar) / 2);
 }
 
 .drawer--pill.drawer--open {
@@ -266,6 +274,9 @@
   display: flex;
   flex-direction: column;
   gap: var(--foundation-space-4);
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden; /* 👈 NO HORIZONTAL SCROLL */
 }
 
 .drawer--pill.drawer-variant-pill-fullscreen .drawer-pill-content {
@@ -297,6 +308,8 @@
   gap: var(--foundation-space-2);
   display: flex;
   flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .drawer--pill.drawer-variant-pill-fullscreen .drawer-pill-actions {
@@ -306,6 +319,8 @@
 
 .drawer-pill-button {
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* ==========================================================

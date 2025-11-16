@@ -49,7 +49,6 @@ const Drawer = ({
   useEffect(() => {
     if (isOpen) {
       setVisible(true);
-
       if (preventScroll) {
         const scrollbarWidth = getScrollbarWidth();
         document.body.style.overflow = "hidden";
@@ -58,7 +57,6 @@ const Drawer = ({
     } else {
       document.body.style.overflow = "";
       document.body.style.paddingRight = "";
-
       const t = setTimeout(() => setVisible(false), ANIMATION_DURATION);
       return () => clearTimeout(t);
     }
@@ -74,6 +72,9 @@ const Drawer = ({
   }, [isOpen, onClose]);
 
   if (!mounted || !visible) return null;
+
+  // Pill drawer uses simpler structure (no wrapper divs)
+  const isPill = type === "pill";
 
   return createPortal(
     <div
@@ -94,25 +95,31 @@ const Drawer = ({
         role="dialog"
         aria-modal="true"
       >
-        <VStack spacing="lg" align="stretch" fullWidth className="drawer__content">
-          {showCloseButton && (
-            <HStack justify="end" className="drawer__header">
-              {closeButtonVariant === "icon" ? (
-                <IconButtons.Close
-                  aria-label="Close menu"
-                  variant="ghost"
-                  size="md"
-                  onClick={onClose}
-                />
-              ) : (
-                <Button variant="ghost" size="md" onClick={onClose}>
-                  {closeButtonLabel}
-                </Button>
-              )}
-            </HStack>
-          )}
-          <div className="drawer__body">{children}</div>
-        </VStack>
+        {isPill ? (
+          // Pill drawer: render children directly, no wrappers
+          children
+        ) : (
+          // Bar/top drawer: use full wrapper structure
+          <VStack spacing="lg" align="stretch" fullWidth className="drawer__content">
+            {showCloseButton && (
+              <HStack justify="end" className="drawer__header">
+                {closeButtonVariant === "icon" ? (
+                  <IconButtons.Close
+                    aria-label="Close menu"
+                    variant="ghost"
+                    size="md"
+                    onClick={onClose}
+                  />
+                ) : (
+                  <Button variant="ghost" size="md" onClick={onClose}>
+                    {closeButtonLabel}
+                  </Button>
+                )}
+              </HStack>
+            )}
+            <div className="drawer__body">{children}</div>
+          </VStack>
+        )}
       </aside>
     </div>,
     document.body

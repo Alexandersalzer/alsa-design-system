@@ -31,7 +31,7 @@ const NavbarPill = (patternNode: PatternNode) => {
       if (pillRef.current) {
         const rect = pillRef.current.getBoundingClientRect();
         setPillMetrics({
-          top: rect.bottom,
+          top: rect.top + (rect.height / 2),
           left: rect.left,
           width: rect.width,
         });
