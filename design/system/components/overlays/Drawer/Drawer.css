@@ -229,8 +229,7 @@
   left: 0;
   width: auto;
   max-width: none;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden; /* 👈 CRITICAL - hides content during scale */
   
   /* Override base drawer styles */
   background: var(--surface-nav);
@@ -238,12 +237,13 @@
   border-radius: 0 0 var(--radius-navbar-pill) var(--radius-navbar-pill);
   box-shadow: 0 4px 12px var(--shadow-emphasis);
   
-  /* Animation - scale down and move up when closed */
-  transform-origin: top center;
-  transform: translateY(0) scaleY(0);
+  /* Animation - height grows from 0 */
+  max-height: 0; /* 👈 Start at 0 height */
   opacity: 0;
-  transition: transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1), 
-              opacity 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: translateY(0);
+  transition: max-height 500ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 400ms ease-out,
+              box-shadow 400ms ease-out;
   
   z-index: 40;
   
@@ -252,27 +252,33 @@
 }
 
 .drawer--pill.drawer--open {
-  transform: translateY(0) scaleY(1);
+  max-height: 80vh; /* 👈 Expand to full height */
   opacity: 1;
 }
 
 .drawer--pill.drawer--close {
-  transform: translateY(0) scaleY(0);
+  max-height: 0; /* 👈 Collapse to 0 */
   opacity: 0;
-  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: max-height 350ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 300ms ease-in;
 }
 
 /* Sheet variant (compact) */
 .drawer--pill.drawer-variant-pill-sheet {
-  height: auto;
-  max-height: 60vh;
+  /* max-height handled by open/close states */
+}
+
+.drawer--pill.drawer-variant-pill-sheet.drawer--open {
+  max-height: 60vh; /* 👈 Sheet is shorter */
 }
 
 /* Fullscreen variant (tall) */
 .drawer--pill.drawer-variant-pill-fullscreen {
-  height: 100%;
-  max-height: calc(100vh - var(--navbar-height) - 80px);
+  /* max-height handled by open/close states */
+}
+
+.drawer--pill.drawer-variant-pill-fullscreen.drawer--open {
+  max-height: calc(100vh - var(--navbar-height) - 80px); /* 👈 Fullscreen is taller */
 }
 
 /* Content styling - MUST fill drawer height */
@@ -290,7 +296,7 @@
 /* Links section - stays at top */
 .drawer-pill-links {
   flex-shrink: 0;
-  padding-top: var(--foundation-space-6); /* 👈 ADDED SPACING */
+  padding-top: var(--foundation-space-6);
 }
 
 .drawer-pill-link {
@@ -330,10 +336,12 @@
   box-sizing: border-box;
 }
 
-/* TEMPORARILY COMMENT THIS OUT FOR TESTING */
-/* @media (prefers-reduced-motion: reduce) {
+/* ==========================================================
+   ACCESSIBILITY
+   ========================================================== */
+@media (prefers-reduced-motion: reduce) {
   .drawer,
   .drawer-overlay {
     transition: none !important;
   }
-} */
+}
