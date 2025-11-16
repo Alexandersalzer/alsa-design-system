@@ -3,7 +3,8 @@ import { clientRegistry } from './client/registry';
 import { formsRegistry } from './forms/registry';
 import { footerRegistry } from './footer/registry';
 import { navbarRegistry } from './navbar/registry';
-import { gridPatternsRegistry } from './gridPatterns/registry'; // ✅ Import this
+import { gridPatternsRegistry } from './gridPatterns/registry';
+import { cardsRegistry } from './cards/registry';
 
 // Parent pattern registry - combines all local registries
 export const patternRegistry: Record<string, React.ComponentType<any>> = {
@@ -12,5 +13,6 @@ export const patternRegistry: Record<string, React.ComponentType<any>> = {
   ...formsRegistry,
   ...footerRegistry,
   ...navbarRegistry,
-  ...gridPatternsRegistry, // ✅ Add it here
+  ...gridPatternsRegistry,
+  ...cardsRegistry,
 };
