@@ -36,7 +36,7 @@
   max-width: 100%;
   transition: transform 250ms var(--foundation-ease-out);
   
-  /* 👇 CRITICAL: Make drawer a flex column */
+  /* CRITICAL: Make drawer a flex column */
   display: flex;
   flex-direction: column;
 }
@@ -61,7 +61,7 @@
 }
 
 /* ==========================================================
-   DRAWER VARIANTS (fullscreen vs sheet)
+   DRAWER VARIANTS (fullscreen vs sheet) - FOR NAVBAR BAR
    ========================================================== */
 
 /* Fullscreen variant (default) - takes full height below navbar */
@@ -82,7 +82,7 @@
    DRAWER CONTENT STRUCTURE
    ========================================================== */
 .drawer__content {
-  flex: 1; /* 👈 Takes full height inside drawer */
+  flex: 1;
   display: flex;
   flex-direction: column;
   -webkit-overflow-scrolling: touch;
@@ -99,7 +99,7 @@
 }
 
 .drawer__body {
-  flex: 1; /* 👈 Takes remaining space */
+  flex: 1;
   display: flex;
   width: var(--width-container);
   flex-direction: column;
@@ -108,14 +108,14 @@
 }
 
 /* ==========================================================
-   NAVBAR DRAWER CONTENT
+   NAVBAR BAR DRAWER CONTENT
    ========================================================== */
 .drawer-navbar-content {
   background: var(--surface-modal-content);
   color: var(--text-body-primary);
   display: flex;
   flex-direction: column;
-  height: 100%; /* 👈 Fill drawer__body */
+  height: 100%;
 }
 
 .drawer-navbar-link {
@@ -133,7 +133,7 @@
 
 .drawer-navbar-actions {
   gap: var(--foundation-space-2);
-  margin-top: auto; /* 👈 THIS pushes buttons to bottom */
+  margin-top: auto;
   padding-top: var(--foundation-space-12);
   display: flex;
   flex-direction: column;
@@ -149,7 +149,7 @@
 }
 
 /* ==========================================================
-   MOBILE MENU ALIGNMENT
+   MOBILE MENU ALIGNMENT (applies to both bar and pill)
    ========================================================== */
 .drawer-align-left {
   text-align: left;
@@ -161,6 +161,14 @@
 }
 
 .drawer-align-left .drawer-navbar-button {
+  justify-content: flex-start;
+}
+
+.drawer-align-left .drawer-pill-link {
+  text-align: left;
+}
+
+.drawer-align-left .drawer-pill-button {
   justify-content: flex-start;
 }
 
@@ -177,6 +185,14 @@
   justify-content: center;
 }
 
+.drawer-align-center .drawer-pill-link {
+  text-align: center;
+}
+
+.drawer-align-center .drawer-pill-button {
+  justify-content: center;
+}
+
 .drawer-align-right {
   text-align: right;
   align-items: flex-end;
@@ -190,14 +206,12 @@
   justify-content: flex-end;
 }
 
-/* ==========================================================
-   ACCESSIBILITY
-   ========================================================== */
-@media (prefers-reduced-motion: reduce) {
-  .drawer,
-  .drawer-overlay {
-    transition: none !important;
-  }
+.drawer-align-right .drawer-pill-link {
+  text-align: right;
+}
+
+.drawer-align-right .drawer-pill-button {
+  justify-content: flex-end;
 }
 
 /* ==========================================================
@@ -207,30 +221,25 @@
 /* Pill drawer overlay - subtle, positioned below pill */
 .drawer-overlay:has(.drawer--pill) {
   top: 0;
-  background: rgba(0, 0, 0, 0.15); /* More subtle overlay */
+  background: rgba(0, 0, 0, 0.15);
 }
 
-/* Pill drawer positioning - absolute, matches pill width/position */
+/* Pill drawer base positioning */
 .drawer--pill {
-  position: absolute; /* Not fixed - flows with pill */
-  top: 0; /* Set via inline style */
-  left: 0; /* Set via inline style */
-  width: auto; /* Set via inline style */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: auto;
   max-width: none;
-  height: auto;
-  max-height: 70vh;
   overflow-y: auto;
-  
-  /* Match pill styling */
   background: var(--surface-nav);
   border: 1px solid var(--border-default);
-  border-top: none; /* Seamless connection to pill */
+  border-top: none;
   border-radius: 0 0 var(--radius-navbar-pill) var(--radius-navbar-pill);
   box-shadow: 0 4px 12px var(--shadow-emphasis);
-  
-  /* Slide down animation */
   transform: translateY(-100%);
-  z-index: 49; /* Just below pill */
+  transition: transform 250ms var(--foundation-ease-out);
+  z-index: 49;
 }
 
 .drawer--pill.drawer--open {
@@ -241,12 +250,34 @@
   transform: translateY(-100%);
 }
 
-/* Pill drawer content styling */
+/* Sheet variant (compact) */
+.drawer--pill.drawer-variant-pill-sheet {
+  height: auto;
+  max-height: 60vh;
+}
+
+/* Fullscreen variant (tall) */
+.drawer--pill.drawer-variant-pill-fullscreen {
+  height: auto;
+  max-height: calc(100vh - var(--navbar-height) - 80px);
+  min-height: 70vh;
+}
+
+/* Content styling */
 .drawer-pill-content {
   padding: var(--foundation-space-6) var(--space-navbar);
   display: flex;
   flex-direction: column;
   gap: var(--foundation-space-4);
+}
+
+.drawer--pill.drawer-variant-pill-fullscreen .drawer-pill-content {
+  min-height: 100%;
+  justify-content: space-between;
+}
+
+.drawer--pill.drawer-variant-pill-sheet .drawer-pill-content {
+  justify-content: flex-start;
 }
 
 .drawer-pill-link {
@@ -267,8 +298,25 @@
   padding-top: var(--foundation-space-4);
   border-top: 1px solid var(--border-subtle);
   gap: var(--foundation-space-2);
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer--pill.drawer-variant-pill-fullscreen .drawer-pill-actions {
+  margin-top: auto;
+  padding-top: var(--foundation-space-8);
 }
 
 .drawer-pill-button {
   width: 100%;
+}
+
+/* ==========================================================
+   ACCESSIBILITY
+   ========================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .drawer,
+  .drawer-overlay {
+    transition: none !important;
+  }
 }

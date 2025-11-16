@@ -23,6 +23,7 @@ const NavbarPill = (patternNode: PatternNode) => {
 
   const align = alignMap[getPatternProps().menuAlign] || 'center';
   const mobileAlign = alignMap[getPatternProps().mobileMenuAlign] || align;
+  const mobileVariant = getPatternProps().mobileMenuVariant || 'sheet';
 
   // Calculate pill dimensions for drawer positioning
   useEffect(() => {
@@ -138,7 +139,7 @@ const NavbarPill = (patternNode: PatternNode) => {
         showCloseButton={false}
         preventScroll={true}
         type="pill"
-        className="drawer-variant-pill"
+        className={`drawer-variant-pill-${mobileVariant}`}
         style={{
           top: `${pillMetrics.top}px`,
           left: `${pillMetrics.left}px`,
