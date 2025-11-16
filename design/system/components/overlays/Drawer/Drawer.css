@@ -38,7 +38,6 @@
   
   /* CRITICAL: Make drawer a flex column */
   display: flex;
-  flex-direction: column;
 }
 
 /* TOP / NAVBAR drawer positioning */
@@ -74,7 +73,6 @@
 .drawer.drawer-variant-sheet {
   height: auto;
   max-height: 80vh;
-  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
   box-shadow: var(--shadow-lg);
 }
 
@@ -233,7 +231,6 @@
   max-width: none;
   overflow-y: auto;
   background: var(--surface-nav);
-  border: 1px solid var(--border-default);
   border-top: none;
   border-radius: 0 0 var(--radius-navbar-pill) var(--radius-navbar-pill);
   box-shadow: 0 4px 12px var(--shadow-emphasis);
