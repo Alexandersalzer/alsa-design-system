@@ -22,7 +22,7 @@
   gap: var(--foundation-space-8);
   max-width: var(--width-navbar);
   margin: 0 auto;
-  padding: var(--foundation-space-3) var(--foundation-space-6);
+  padding: var(--foundation-space-3) 0;
   position: relative;
   container-type: inline-size;
 }
