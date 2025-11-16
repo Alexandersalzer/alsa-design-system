@@ -26,7 +26,7 @@ export interface DrawerProps {
   style?: React.CSSProperties;
 }
 
-const ANIMATION_DURATION = 250;
+const ANIMATION_DURATION = 400;
 
 const Drawer = ({
   isOpen,
@@ -42,6 +42,7 @@ const Drawer = ({
 }: DrawerProps) => {
   const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false); // 👈 ADD THIS
 
   useEffect(() => setMounted(true), []);
 
@@ -49,14 +50,18 @@ const Drawer = ({
   useEffect(() => {
     if (isOpen) {
       setVisible(true);
+      setIsAnimating(true); // 👈 ADD THIS
       if (preventScroll) {
         const scrollbarWidth = getScrollbarWidth();
         document.body.style.overflow = "hidden";
         document.body.style.paddingRight = `${scrollbarWidth}px`;
       }
     } else {
+      setIsAnimating(false); // 👈 ADD THIS
       document.body.style.overflow = "";
       document.body.style.paddingRight = "";
+      
+      // Wait for animation to complete before unmounting
       const t = setTimeout(() => setVisible(false), ANIMATION_DURATION);
       return () => clearTimeout(t);
     }
@@ -80,7 +85,7 @@ const Drawer = ({
     <div
       className={cn(
         "drawer-overlay",
-        isOpen ? "drawer-overlay--open" : "drawer-overlay--closing"
+        isAnimating ? "drawer-overlay--open" : "drawer-overlay--closing" // 👈 CHANGED
       )}
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
@@ -88,7 +93,7 @@ const Drawer = ({
         className={cn(
           "drawer",
           `drawer--${type}`,
-          isOpen ? "drawer--open" : "drawer--close",
+          isAnimating ? "drawer--open" : "drawer--close", // 👈 CHANGED
           className
         )}
         style={style}
