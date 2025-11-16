@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { cn } from '../../../lib/utils';
 import { Box, HStack, VStack, Button, TextLink, IconButton, IconButtons } from '../../../components';
 import { CrossIcon, MenuIcon, XIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
@@ -109,7 +110,14 @@ const NavbarBar = ( patternNode: PatternNode) => {
         preventScroll
         type="top"
       >
-        <VStack spacing="lg" align="center" className="drawer-navbar-content">
+        <VStack
+          spacing="lg"
+          align="stretch"
+          className={cn(
+            "drawer-navbar-content",
+            `drawer-align-${align}`
+          )}
+        >
           {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem')
             .map((props, i) => (
               <TextLink
