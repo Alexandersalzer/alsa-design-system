@@ -147,25 +147,29 @@ const NavbarPill = (patternNode: PatternNode) => {
         }}
       >
         <VStack
-          spacing="lg"
+          spacing="md"
           align="stretch"
           className={cn(
             "drawer-pill-content",
             `drawer-align-${mobileAlign}`
           )}
         >
-          {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem')
-            .map((props, i) => (
-            <TextLink
-              key={i}
-              href={props.href || '/'}
-              onClick={() => setMobileOpen(false)}
-              className="drawer-pill-link"
-            >
-              {props.content}
-            </TextLink>
-          ))}
+          {/* Links section */}
+          <VStack spacing="md" align="stretch" className="drawer-pill-links">
+            {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem')
+              .map((props, i) => (
+              <TextLink
+                key={i}
+                href={props.href || '/'}
+                onClick={() => setMobileOpen(false)}
+                className="drawer-pill-link"
+              >
+                {props.content}
+              </TextLink>
+            ))}
+          </VStack>
 
+          {/* Actions section - pushed to bottom */}
           <VStack spacing="sm" className="drawer-pill-actions">
             {renderIf('button', 'secondaryAction') && (
               <Button

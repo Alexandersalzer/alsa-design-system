@@ -34,10 +34,6 @@
   gap: var(--foundation-space-6);
 }
 
-.navbar-pill__container:hover {
-  box-shadow: 0 4px 12px var(--shadow-emphasis);
-}
-
 /* Groups */
 .navbar-pill__left,
 .navbar-pill__middle,

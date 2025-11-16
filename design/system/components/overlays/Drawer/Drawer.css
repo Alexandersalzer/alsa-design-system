@@ -227,20 +227,20 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: auto; /* Set via inline style from pill width */
+  width: auto;
   max-width: none;
   overflow-y: auto;
   overflow-x: hidden;
   
   /* Override base drawer styles */
   background: var(--surface-nav);
-  border: none; /* 👈 NO BORDER */
+  border: none;
   border-radius: 0 0 var(--radius-navbar-pill) var(--radius-navbar-pill);
   box-shadow: 0 4px 12px var(--shadow-emphasis);
   
-  /* Animation */
+  /* Smoother, more natural animation */
   transform: translateY(-100%);
-  transition: transform 250ms var(--foundation-ease-out);
+  transition: transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1); /* Bounce ease-out */
   z-index: 49;
   
   /* Padding to account for starting from middle of pill */
@@ -253,6 +253,7 @@
 
 .drawer--pill.drawer--close {
   transform: translateY(-100%);
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1); /* Faster close, no bounce */
 }
 
 /* Sheet variant (compact) */
@@ -268,7 +269,7 @@
   min-height: 70vh;
 }
 
-/* Content styling */
+/* Content styling - MUST fill drawer height */
 .drawer-pill-content {
   padding: var(--foundation-space-6) var(--space-navbar);
   display: flex;
@@ -276,16 +277,13 @@
   gap: var(--foundation-space-4);
   width: 100%;
   box-sizing: border-box;
-  overflow-x: hidden; /* 👈 NO HORIZONTAL SCROLL */
+  overflow-x: hidden;
+  min-height: 100%; /* 👈 CRITICAL - fill drawer */
 }
 
-.drawer--pill.drawer-variant-pill-fullscreen .drawer-pill-content {
-  min-height: 100%;
-  justify-content: space-between;
-}
-
-.drawer--pill.drawer-variant-pill-sheet .drawer-pill-content {
-  justify-content: flex-start;
+/* Links section - stays at top */
+.drawer-pill-links {
+  flex-shrink: 0; /* Don't shrink links */
 }
 
 .drawer-pill-link {
@@ -301,19 +299,21 @@
   color: var(--text-nav-item-selected);
 }
 
+/* Actions section - pushed to bottom */
 .drawer-pill-actions {
-  margin-top: var(--foundation-space-4);
-  padding-top: var(--foundation-space-4);
+  margin-top: auto; /* 👈 PUSHES TO BOTTOM */
+  padding-top: var(--foundation-space-6);
   border-top: 1px solid var(--border-subtle);
   gap: var(--foundation-space-2);
   display: flex;
   flex-direction: column;
   width: 100%;
   box-sizing: border-box;
+  flex-shrink: 0; /* Don't shrink buttons */
 }
 
+/* In fullscreen, add more space above buttons */
 .drawer--pill.drawer-variant-pill-fullscreen .drawer-pill-actions {
-  margin-top: auto;
   padding-top: var(--foundation-space-8);
 }
 
@@ -321,14 +321,4 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-}
-
-/* ==========================================================
-   ACCESSIBILITY
-   ========================================================== */
-@media (prefers-reduced-motion: reduce) {
-  .drawer,
-  .drawer-overlay {
-    transition: none !important;
-  }
 }
