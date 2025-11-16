@@ -142,6 +142,9 @@
 .drawer-navbar-content {
   background: var(--surface-modal-content);
   color: var(--text-body-primary);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .drawer-navbar-link {
@@ -161,6 +164,7 @@
 
 .drawer-navbar-actions {
   gap: var(--foundation-space-2);
+  margin-top: auto;
   padding-top: var(--foundation-space-12);
   display: flex;
   flex-direction: column;
