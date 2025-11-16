@@ -116,6 +116,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
         showCloseButton={false}
         preventScroll
         type="top"
+        className={`drawer-variant-${mobileVariant}`}
       >
         <VStack
           spacing="lg"
@@ -123,7 +124,6 @@ const NavbarBar = ( patternNode: PatternNode) => {
           className={cn(
             "drawer-navbar-content",
             `drawer-align-${mobileAlign}`,
-            `drawer-variant-${mobileVariant}`
           )}
         >
           {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem')

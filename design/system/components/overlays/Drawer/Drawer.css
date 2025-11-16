@@ -1,92 +1,47 @@
-/* ===========================================
-   DYNAMIC MOBILE MENU ALIGNMENT
-=========================================== */
-
-/* LEFT */
-.drawer-align-left {
-  text-align: left;
-  align-items: flex-start;
-}
-
-.drawer-align-left .drawer-navbar-link {
-  text-align: left;
-}
-
-.drawer-align-left .drawer-navbar-button {
-  justify-content: flex-start;
-}
-
-/* CENTER */
-.drawer-align-center {
-  text-align: center;
-  align-items: center;
-}
-
-.drawer-align-center .drawer-navbar-link {
-  text-align: center;
-}
-
-.drawer-align-center .drawer-navbar-button {
-  justify-content: center;
-}
-
-/* RIGHT */
-.drawer-align-right {
-  text-align: right;
-  align-items: flex-end;
-}
-
-.drawer-align-right .drawer-navbar-link {
-  text-align: right;
-}
-
-.drawer-align-right .drawer-navbar-button {
-  justify-content: flex-end;
-}
-/* Navbar height variable — update if needed */
+/* Navbar height variable */
 :root {
   --navbar-height: 64px;
 }
 
 /* ==========================================================
-   FULLSCREEN DRAWER (mobile menu)
+   DRAWER OVERLAY
    ========================================================== */
-
-/* Overlay BELOW the navbar */
 .drawer-overlay {
   position: fixed;
   top: var(--navbar-height);
   left: 0;
   right: 0;
   bottom: 0;
-
   background: rgba(0, 0, 0, 0.32);
   opacity: 0;
   transition: opacity 250ms var(--foundation-ease-out);
-
-  /* Drawer must be below navbar but above content */
   z-index: calc(var(--z-navbar, 50) - 1);
 }
 
 .drawer-overlay--open {
   opacity: 1;
 }
+
 .drawer-overlay--closing {
   opacity: 0;
 }
 
-/* Drawer base */
+/* ==========================================================
+   DRAWER BASE
+   ========================================================== */
 .drawer {
   position: fixed;
   background: var(--surface-modal-content);
   width: 100%;
   max-width: 100%;
-  height: calc(100% - var(--navbar-height));
-  max-height: calc(100% - var(--navbar-height));
   transition: transform 250ms var(--foundation-ease-out);
+  
+  /* 👇 CRITICAL: Make drawer a flex column */
+  display: flex;
+  flex-direction: column;
 }
 
-/* TOP / NAVBAR drawer */
+/* TOP / NAVBAR drawer positioning */
 .drawer--top,
 .drawer--navbar {
   top: var(--navbar-height);
@@ -105,18 +60,36 @@
   transform: translateY(-100%);
 }
 
-/* Drawer content area */
+/* ==========================================================
+   DRAWER VARIANTS (fullscreen vs sheet)
+   ========================================================== */
+
+/* Fullscreen variant (default) - takes full height below navbar */
+.drawer.drawer-variant-fullscreen {
+  height: calc(100% - var(--navbar-height));
+  max-height: calc(100% - var(--navbar-height));
+}
+
+/* Sheet variant - shorter top sheet with rounded corners */
+.drawer.drawer-variant-sheet {
+  height: auto;
+  max-height: 80vh;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ==========================================================
+   DRAWER CONTENT STRUCTURE
+   ========================================================== */
 .drawer__content {
-  flex: 1;
+  flex: 1; /* 👈 Takes full height inside drawer */
   display: flex;
   flex-direction: column;
   -webkit-overflow-scrolling: touch;
   align-items: center;
-  /* Prevent overflow / width issues on mobile */
   max-width: 100vw;
   width: 100%;
   box-sizing: border-box;
-
   margin: 0 auto;
   padding: var(--space-container) 0;
 }
@@ -126,7 +99,7 @@
 }
 
 .drawer__body {
-  flex: 1;
+  flex: 1; /* 👈 Takes remaining space */
   display: flex;
   width: var(--width-container);
   flex-direction: column;
@@ -134,26 +107,22 @@
   text-align: center;
 }
 
-/* ======================================a====================
-   NAVBAR DRAWER CONTENT (links/buttons)
+/* ==========================================================
+   NAVBAR DRAWER CONTENT
    ========================================================== */
-
-
 .drawer-navbar-content {
   background: var(--surface-modal-content);
   color: var(--text-body-primary);
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100%; /* 👈 Fill drawer__body */
 }
 
 .drawer-navbar-link {
   font-size: 1.5rem;
   font-weight: 600;
-
   color: var(--text-nav-item);
   text-decoration: none;
-
   padding: var(--foundation-space-2) 0;
   transition: color 0.2s var(--foundation-ease-out);
 }
@@ -164,7 +133,7 @@
 
 .drawer-navbar-actions {
   gap: var(--foundation-space-2);
-  margin-top: auto;
+  margin-top: auto; /* 👈 THIS pushes buttons to bottom */
   padding-top: var(--foundation-space-12);
   display: flex;
   flex-direction: column;
@@ -179,7 +148,51 @@
   border-radius: var(--radius-button);
 }
 
-/* Reduced motion */
+/* ==========================================================
+   MOBILE MENU ALIGNMENT
+   ========================================================== */
+.drawer-align-left {
+  text-align: left;
+  align-items: flex-start;
+}
+
+.drawer-align-left .drawer-navbar-link {
+  text-align: left;
+}
+
+.drawer-align-left .drawer-navbar-button {
+  justify-content: flex-start;
+}
+
+.drawer-align-center {
+  text-align: center;
+  align-items: center;
+}
+
+.drawer-align-center .drawer-navbar-link {
+  text-align: center;
+}
+
+.drawer-align-center .drawer-navbar-button {
+  justify-content: center;
+}
+
+.drawer-align-right {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.drawer-align-right .drawer-navbar-link {
+  text-align: right;
+}
+
+.drawer-align-right .drawer-navbar-button {
+  justify-content: flex-end;
+}
+
+/* ==========================================================
+   ACCESSIBILITY
+   ========================================================== */
 @media (prefers-reduced-motion: reduce) {
   .drawer,
   .drawer-overlay {
