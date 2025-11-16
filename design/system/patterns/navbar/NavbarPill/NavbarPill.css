@@ -21,6 +21,8 @@
   padding: var(--space-navbar);
   box-shadow: 0 2px 6px var(--shadow-subtle);
   transition: background 0.3s ease, box-shadow 0.3s ease;
+  position: relative; /* 👈 ADD THIS */
+  z-index: 50; /* 👈 ADD THIS - keeps pill above drawer */
 }
 
 /* When middle is centered - larger gap for better 3-group separation */
