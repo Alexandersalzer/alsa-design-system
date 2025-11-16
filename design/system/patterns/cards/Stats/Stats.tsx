@@ -453,7 +453,7 @@ const StatWithLogo: React.FC<StatItemComponentProps> = ({
 
 export const Stats: React.FC<StatsProps> = ({
   className,
-  stats,
+  stats = [],
   variant = 'centered',
   
   // Typography defaults
