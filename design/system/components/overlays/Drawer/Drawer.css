@@ -199,3 +199,76 @@
     transition: none !important;
   }
 }
+
+/* ==========================================================
+   PILL DRAWER VARIANT (dropdown under pill navbar)
+   ========================================================== */
+
+/* Pill drawer overlay - subtle, positioned below pill */
+.drawer-overlay:has(.drawer--pill) {
+  top: 0;
+  background: rgba(0, 0, 0, 0.15); /* More subtle overlay */
+}
+
+/* Pill drawer positioning - absolute, matches pill width/position */
+.drawer--pill {
+  position: absolute; /* Not fixed - flows with pill */
+  top: 0; /* Set via inline style */
+  left: 0; /* Set via inline style */
+  width: auto; /* Set via inline style */
+  max-width: none;
+  height: auto;
+  max-height: 70vh;
+  overflow-y: auto;
+  
+  /* Match pill styling */
+  background: var(--surface-nav);
+  border: 1px solid var(--border-default);
+  border-top: none; /* Seamless connection to pill */
+  border-radius: 0 0 var(--radius-navbar-pill) var(--radius-navbar-pill);
+  box-shadow: 0 4px 12px var(--shadow-emphasis);
+  
+  /* Slide down animation */
+  transform: translateY(-100%);
+  z-index: 49; /* Just below pill */
+}
+
+.drawer--pill.drawer--open {
+  transform: translateY(0);
+}
+
+.drawer--pill.drawer--close {
+  transform: translateY(-100%);
+}
+
+/* Pill drawer content styling */
+.drawer-pill-content {
+  padding: var(--foundation-space-6) var(--space-navbar);
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-4);
+}
+
+.drawer-pill-link {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-nav-item);
+  text-decoration: none;
+  padding: var(--foundation-space-2) 0;
+  transition: color 0.2s var(--foundation-ease-out);
+}
+
+.drawer-pill-link:hover {
+  color: var(--text-nav-item-selected);
+}
+
+.drawer-pill-actions {
+  margin-top: var(--foundation-space-4);
+  padding-top: var(--foundation-space-4);
+  border-top: 1px solid var(--border-subtle);
+  gap: var(--foundation-space-2);
+}
+
+.drawer-pill-button {
+  width: 100%;
+}

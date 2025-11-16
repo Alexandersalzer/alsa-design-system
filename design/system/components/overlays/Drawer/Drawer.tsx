@@ -18,11 +18,12 @@ export interface DrawerProps {
   onClose: () => void;
   children: React.ReactNode;
   className?: string;
-  type?: "right" | "left" | "bottom" | "top" | "navbar";
+  type?: "right" | "left" | "bottom" | "top" | "navbar" | "pill";
   showCloseButton?: boolean;
   closeButtonVariant?: "icon" | "text";
   closeButtonLabel?: string;
   preventScroll?: boolean;
+  style?: React.CSSProperties;
 }
 
 const ANIMATION_DURATION = 250;
@@ -37,6 +38,7 @@ const Drawer = ({
   closeButtonLabel = "Close",
   className,
   preventScroll = true,
+  style,
 }: DrawerProps) => {
   const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -88,6 +90,7 @@ const Drawer = ({
           isOpen ? "drawer--open" : "drawer--close",
           className
         )}
+        style={style}
         role="dialog"
         aria-modal="true"
       >

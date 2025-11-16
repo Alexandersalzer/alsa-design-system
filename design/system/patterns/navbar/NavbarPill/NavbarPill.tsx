@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../components';
-import { MenuIcon } from 'lucide-react';
-import { Modal } from '../../../components/overlays/Modal/Modal';
+import { MenuIcon, XIcon } from 'lucide-react';
+import Drawer from '../../../components/overlays/Drawer/Drawer';
 import { useComponentProps, componentPresent, usePatternProps, useMapComponents, CDN_BASE_URL } from '../../../core/utils/helpers';
 import { alignMap } from '../utils';
 import './NavbarPill.css';
 import { PatternNode } from '../../../core/types/nodes';
+import { cn } from '../../../lib/utils';
 
 const NavbarPill = (patternNode: PatternNode) => {
   const { components = {} } = patternNode;
@@ -17,12 +18,54 @@ const NavbarPill = (patternNode: PatternNode) => {
   const mapComponentIndices = useMapComponents(components);
 
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [pillMetrics, setPillMetrics] = useState({ top: 0, left: 0, width: 0 });
+  const pillRef = useRef<HTMLDivElement>(null);
+
   const align = alignMap[getPatternProps().menuAlign] || 'center';
+  const mobileAlign = alignMap[getPatternProps().mobileMenuAlign] || align;
+
+  // Calculate pill dimensions for drawer positioning
+  useEffect(() => {
+    const updateMetrics = () => {
+      if (pillRef.current) {
+        const rect = pillRef.current.getBoundingClientRect();
+        setPillMetrics({
+          top: rect.bottom,
+          left: rect.left,
+          width: rect.width,
+        });
+      }
+    };
+
+    updateMetrics();
+    window.addEventListener('resize', updateMetrics);
+    window.addEventListener('scroll', updateMetrics);
+    
+    return () => {
+      window.removeEventListener('resize', updateMetrics);
+      window.removeEventListener('scroll', updateMetrics);
+    };
+  }, [mobileOpen]);
+
+  // Auto-close drawer when screen becomes desktop size
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        if (window.innerWidth > 1024) {
+          setMobileOpen(false);
+        }
+      }, 50);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <>
       <nav className="navbar-pill">
-        <Box className="navbar-pill__container">
+        <Box ref={pillRef} className="navbar-pill__container">
           {/* LEFT */}
           <HStack align="center" spacing="sm" className="navbar-pill__left">
             {renderIf('logo') && (
@@ -41,7 +84,7 @@ const NavbarPill = (patternNode: PatternNode) => {
             )}
           </HStack>
 
-          {/* MIDDLE */}
+          {/* MIDDLE - Desktop only */}
           {renderIf('textlink', 'menuItem') && (
             <HStack
               className={`navbar-pill__middle navbar-pill__middle--${align}`}
@@ -62,7 +105,7 @@ const NavbarPill = (patternNode: PatternNode) => {
             </HStack>
           )}
 
-          {/* RIGHT */}
+          {/* RIGHT - Desktop only */}
           <HStack spacing="sm" className="navbar-pill__right">
             {renderIf('button', 'secondaryAction') && (
               <Button variant="ghost" href={getComponent('button', 'secondaryAction').href}>
@@ -76,45 +119,59 @@ const NavbarPill = (patternNode: PatternNode) => {
             )}
           </HStack>
 
-          {/* MOBILE TOGGLE - separate from right group */}
+          {/* MOBILE TOGGLE */}
           <IconButton
             variant="ghost"
             size="md"
             aria-label="Toggle menu"
-            onClick={() => setMobileOpen(true)}
+            onClick={() => setMobileOpen(!mobileOpen)}
             className="navbar-pill__mobile-toggle"
-            icon={<MenuIcon />}
+            icon={mobileOpen ? <XIcon /> : <MenuIcon />}
           />
         </Box>
       </nav>
 
-      {/* MOBILE MODAL MENU */}
-      <Modal
+      {/* MOBILE DRAWER - positioned below pill */}
+      <Drawer
         isOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
-        size="full"
-        title={getComponent('typography', 'businessName').content || 'Meny'}
-        showCloseButton
+        showCloseButton={false}
+        preventScroll={true}
+        type="pill"
+        className="drawer-variant-pill"
+        style={{
+          top: `${pillMetrics.top}px`,
+          left: `${pillMetrics.left}px`,
+          width: `${pillMetrics.width}px`,
+        }}
       >
-        <VStack spacing="xl" align="center" className="navbar-pill__modal-menu">
+        <VStack
+          spacing="lg"
+          align="stretch"
+          className={cn(
+            "drawer-pill-content",
+            `drawer-align-${mobileAlign}`
+          )}
+        >
           {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem')
             .map((props, i) => (
             <TextLink
               key={i}
               href={props.href || '/'}
               onClick={() => setMobileOpen(false)}
-              className="navbar-pill__modal-link"
+              className="drawer-pill-link"
             >
               {props.content}
             </TextLink>
           ))}
 
-          <VStack spacing="sm" className="navbar-pill__modal-actions">
+          <VStack spacing="sm" className="drawer-pill-actions">
             {renderIf('button', 'secondaryAction') && (
               <Button
                 variant="ghost"
                 href={getComponent('button', 'secondaryAction').href}
                 onClick={() => setMobileOpen(false)}
+                className="drawer-pill-button"
               >
                 {getComponent('button', 'secondaryAction').content}
               </Button>
@@ -124,13 +181,14 @@ const NavbarPill = (patternNode: PatternNode) => {
                 variant="primary"
                 href={getComponent('button', 'primaryAction').href}
                 onClick={() => setMobileOpen(false)}
+                className="drawer-pill-button"
               >
                 {getComponent('button', 'primaryAction').content}
               </Button>
             )}
           </VStack>
         </VStack>
-      </Modal>
+      </Drawer>
     </>
   );
 };
