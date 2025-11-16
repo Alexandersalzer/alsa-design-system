@@ -21,11 +21,13 @@ const NavbarBar = ( patternNode: PatternNode) => {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
+
   const desktopAlign = alignMap[getPatternProps().menuAlign] || 'center';
   const mobileAlign =
     alignMap[getPatternProps().mobileMenuAlign] ||
     alignMap[getPatternProps().menuAlign] ||
     'center';
+  const mobileVariant = getPatternProps().mobileMenuVariant || 'fullscreen';
 
   // Auto-close drawer when screen becomes desktop size (debounced)
   // Prevents mobile drawer from staying open if user resizes to desktop
@@ -120,7 +122,8 @@ const NavbarBar = ( patternNode: PatternNode) => {
           align="stretch"
           className={cn(
             "drawer-navbar-content",
-            `drawer-align-${mobileAlign}`
+            `drawer-align-${mobileAlign}`,
+            `drawer-variant-${mobileVariant}`
           )}
         >
           {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem')

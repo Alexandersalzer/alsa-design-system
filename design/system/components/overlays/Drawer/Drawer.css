@@ -1,3 +1,15 @@
+/* Fullscreen drawer (default) */
+.drawer-variant-fullscreen .drawer {
+  height: calc(100% - var(--navbar-height));
+}
+
+/* Sheet drawer (top sheet) */
+.drawer-variant-sheet .drawer {
+  height: auto;
+  max-height: 80vh;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
 /* ===========================================
    DYNAMIC MOBILE MENU ALIGNMENT
 =========================================== */
@@ -140,7 +152,7 @@
 
 
 .drawer-navbar-content {
-  height: 100%;
+  height: calc(100% - var(--navbar-height));
   background: var(--surface-modal-content);
   color: var(--text-body-primary);
 }
