@@ -1,217 +1,197 @@
-// ===============================================
-// design/system/components/patterns/client/PortfolioCard/PortfolioCard.tsx
-// PORTFOLIO CARD PATTERN - Video/Image portfolio card like KJ Marketing
-// ===============================================
+'use client';
 
-import React from 'react';
-import { Card } from '../../../components/layout';
-import { Typography, TypographyColor } from '../../../components/Typography';
-import { VStack } from '../../../components/layout/vStack/VStack';
-import { HStack } from '../../../components/layout/hStack/HStack';
-import Image from 'next/image';
-import { GB, SE } from 'country-flag-icons/react/3x2';
+import React, { useState, useMemo } from 'react';
+import { CDN_BASE_URL } from '../../../core/utils/helpers';
+import { Grid } from '../../../components';
+import { PortfolioCard } from '../../cards/PortfolioCard/PortfolioCard';
 
-// ===== TYPE DEFINITIONS =====
+// Tabs
+import { TabGroup } from '../../../components';
+import { Tab } from '../../../components';
 
-export interface PortfolioCardProps {
-  className?: string;
-  
-  // Content
-  category?: string | string[]; // Array or single string
+import './PortfolioGrid.css';
+
+// =====================================================
+// TYPES
+// =====================================================
+
+interface PortfolioNormalizedItem {
+  key: string;
   title: string;
+  mediaSrc: string;
+  mediaAlt: string;
+  mediaType: 'image' | 'video';
   description?: string;
-  views?: number | string;
-  mediaType: 'image' | 'video'; // Required - determines media type
-  mediaSrc: string; // Required - single source for either video or image
-  mediaAlt?: string; // Alt text for accessibility
-  countryCode?: string; // Country code for flag (e.g., 'uk', 'sv')
-  
-  // Styling options
-  variant?: 'default' | 'elevated' | 'outlined';
-  padding?: 'sm' | 'md' | 'lg';
-  radius?: 'sm' | 'md' | 'lg';
-  
-  // Typography variants
-  categoryVariant?: 'body-xl' | 'body-lg' | 'body-md' | 'body-sm' | 'body-xs' | 'label-lg' | 'label-md' | 'label-sm';
-  titleVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body-xl' | 'body-lg' | 'body-md' | 'body-sm';
-  descriptionVariant?: 'body-xl' | 'body-lg' | 'body-md' | 'body-sm' | 'body-xs';
-  viewsVariant?: 'body-xl' | 'body-lg' | 'body-md' | 'body-sm' | 'body-xs' | 'label-lg' | 'label-md' | 'label-sm';
-  
-  // Typography weights
-  categoryWeight?: 'regular' | 'medium' | 'semibold' | 'bold';
-  titleWeight?: 'regular' | 'medium' | 'semibold' | 'bold' | 'extrabold';
-  descriptionWeight?: 'regular' | 'medium' | 'semibold';
-  viewsWeight?: 'regular' | 'medium' | 'semibold' | 'bold';
-  
-  // Typography colors
-  categoryColor?: TypographyColor;
-  titleColor?: TypographyColor;
-  descriptionColor?: TypographyColor;
-  viewsColor?: TypographyColor;
-  
-  // Layout spacing
-  spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  views?: number;
+  category?: string | string[];
+  countryCode?: string;
 }
 
-// ===== MAIN PORTFOLIO CARD COMPONENT =====
+export interface PortfolioGridProps {
+  props?: {
+    cardDensity?: 'compact' | 'standard' | 'spacious';
+    gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+    default?: string;
+    buttons?: { label: string; value: string }[];
+  };
 
-export const PortfolioCard: React.FC<PortfolioCardProps> = ({
-  className,
-  category,
-  title,
-  description,
-  views,
-  mediaType,
-  mediaSrc,
-  mediaAlt,
-  countryCode,
-  
-  // Card styling defaults
-  variant = 'default',
-  padding = 'md',
-  radius = 'sm',
-  
-  // Typography defaults - matching KJ Marketing style
-  categoryVariant = 'label-sm',
-  titleVariant = 'h4',
-  descriptionVariant = 'body-sm',
-  viewsVariant = 'label-sm',
-  
-  categoryWeight = 'medium',
-  titleWeight = 'bold',
-  descriptionWeight = 'regular',
-  viewsWeight = 'medium',
-  
-  categoryColor = 'secondary',
-  titleColor = 'primary',
-  descriptionColor = 'primary',
-  viewsColor = 'secondary',
-  
-  // Layout defaults
-  spacing = 'sm'
+  components?: Record<
+    string,
+    {
+      type: string;
+      title?: string;
+      description?: string;
+      mediaType?: 'image' | 'video';
+      mediaSrc?: string;
+      mediaAlt?: string;
+      views?: number;
+      category?: string;
+      countryCode?: string;
+    }
+  >;
+}
+
+// =====================================================
+// COMPONENT
+// =====================================================
+
+export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
+  props: patternProps = {},
+  components = {}
 }) => {
-  // Determine if we have video or image content based on mediaType
-  const isVideo = mediaType === 'video';
-  const isImage = mediaType === 'image';
-  
+  const {
+    cardDensity = 'standard',
+    gap = 'lg',
+    default: defaultValue = 'all',
+    buttons = []
+  } = patternProps;
+
+  const hasTabs = buttons.length > 0;
+  const [active, setActive] = useState(defaultValue);
+
+  // =====================================================
+  // NORMALIZE PORTFOLIO ITEMS (FULLY TYPED)
+  // =====================================================
+
+  const allItems: PortfolioNormalizedItem[] = useMemo(() => {
+    return Object.entries(components)
+      .filter(([, comp]) => comp.type === 'portfolio' && comp.mediaSrc)
+      .map(([key, comp]): PortfolioNormalizedItem => {
+        let mediaSrc = comp.mediaSrc!;
+
+        if (mediaSrc.startsWith('/members/')) {
+          mediaSrc = `${CDN_BASE_URL}${mediaSrc.replace('/members', '')}`;
+        }
+
+        return {
+          key,
+          title: comp.title ?? 'Untitled Project',
+          mediaSrc,
+          mediaAlt: comp.mediaAlt || comp.title || 'Portfolio media',
+
+          // 🔥 Perfectly typed now
+          mediaType: comp.mediaType === 'video' ? 'video' : 'image',
+
+          description: comp.description,
+          views: comp.views,
+          category: comp.category,
+          countryCode: comp.countryCode
+        };
+      });
+  }, [components]);
+
+  // =====================================================
+  // FILTER (handles weird Swedish categories)
+  // =====================================================
+
+  const normalize = (str: string) =>
+    str
+      .toLowerCase()
+      .replace(/\s+/g, '')
+      .replace(/[åä]/g, 'a')
+      .replace(/ö/g, 'o')
+      .replace(/&/g, '')
+      .trim();
+
+  const visibleItems = useMemo(() => {
+    if (!hasTabs) return allItems;
+    if (active === 'all') return allItems;
+
+    return allItems.filter(item => {
+      if (!item.category) return false;
+      if (Array.isArray(item.category)) {
+        return item.category.some(cat => normalize(cat) === normalize(active));
+      }
+      return normalize(item.category) === normalize(active);
+    });
+  }, [active, allItems, hasTabs]);
+
+  // =====================================================
+  // EMPTY STATE — KEEP TABS VISIBLE
+  // =====================================================
+
+  if (visibleItems.length === 0) {
+    return (
+      <div className="portfolio-grid-container">
+        {hasTabs && (
+          <TabGroup variant="navigation" className="mb-6">
+            {buttons.map(btn => (
+              <Tab
+                key={btn.value}
+                isActive={active === btn.value}
+                onClick={() => setActive(btn.value)}
+              >
+                {btn.label}
+              </Tab>
+            ))}
+          </TabGroup>
+        )}
+
+        <p style={{ textAlign: 'center', opacity: 0.6 }}>
+          Inga projekt i denna kategori ännu.
+        </p>
+      </div>
+    );
+  }
+
+  // =====================================================
+  // RENDER
+  // =====================================================
+
   return (
-    <Card
-      className={`portfolio-card ${className || ''}`}
-      variant={variant}
-      padding="sm" // Override to sm since media extends to edges
-      radius={radius}
-    >
-      <VStack spacing={spacing}>
-        {/* Media Container - extends to card edges */}
-        <div className="portfolio-media-container">
-          {/* Flag indicator - positioned absolutely in top-right corner */}
-          {countryCode && (
-            <div className="portfolio-flag">
-              {countryCode.toLowerCase() === 'uk' && <GB />}
-              {countryCode.toLowerCase() === 'sv' && <SE />}
-            </div>
-          )}
-          
-          {isVideo && (
-            <div className="portfolio-video-container">
-              <video
-                className="portfolio-video"
-                preload="metadata"
-                playsInline
-                controls
-              >
-                <source src={mediaSrc} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          )}
-          
-          {isImage && (
-            <div className="portfolio-image-container">
-              <Image
-                src={mediaSrc}
-                alt={mediaAlt || title}
-                width={400}
-                height={240}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover'
-                }}
-                priority
-              />
-            </div>
-          )}
-        </div>
-        
-        {/* Content - with padding */}
-        <div className="portfolio-content">
-          <VStack spacing="sm">
-            {/* Category - show first category if array, otherwise show the string */}
-            {category && (
-              <Typography
-                variant={categoryVariant}
-                weight={categoryWeight}
-                color={categoryColor}
-                align="left"
-              >
-                {Array.isArray(category) ? category[0] : category}
-              </Typography>
-            )}
-            
-            {/* Title */}
-            <Typography
-              variant={titleVariant}
-              weight={titleWeight}
-              color={titleColor}
-              align="left"
+    <div className="portfolio-grid-container">
+
+      {hasTabs && (
+        <TabGroup variant="navigation" className="mb-6">
+          {buttons.map(btn => (
+            <Tab
+              key={btn.value}
+              isActive={active === btn.value}
+              onClick={() => setActive(btn.value)}
             >
-              {title}
-            </Typography> 
-            {/* Description - only show if exists */}
-            {description && (
-              <Typography
-                variant={descriptionVariant}
-                weight={descriptionWeight}
-                color={descriptionColor}
-                align="left"
-              >
-                {description}
-              </Typography>
-            )}
-            {/* Views with Eye Icon - only show if views exist */}
-            {views && (
-              <HStack spacing="xs" align="center">
-                <div className="eye-icon">
-                  <svg 
-                    width="16" 
-                    height="16" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="2" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round"
-                  >
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                  </svg>
-                </div>
-                <Typography
-                  variant={viewsVariant}
-                  weight={viewsWeight}
-                  color={viewsColor}
-                  align="left"
-                >
-                  {typeof views === 'number' ? views.toLocaleString() : views}
-                </Typography>
-              </HStack>
-            )}
-          </VStack>
-        </div>
-      </VStack>
-    </Card>
+              {btn.label}
+            </Tab>
+          ))}
+        </TabGroup>
+      )}
+
+      <Grid cardDensity={cardDensity} gap={gap} className="portfolio-grid">
+        {visibleItems.map((item, index) => (
+          <PortfolioCard
+            key={`portfolio-${index}`}
+            title={item.title}
+            mediaSrc={item.mediaSrc}
+            mediaAlt={item.mediaAlt}
+            mediaType={item.mediaType}  // now ALWAYS correct type
+            description={item.description}
+            views={item.views}
+            category={item.category}
+            countryCode={item.countryCode}
+          />
+        ))}
+      </Grid>
+    </div>
   );
 };
 
-PortfolioCard.displayName = 'PortfolioCard';
+PortfolioGrid.displayName = 'PortfolioGrid';
