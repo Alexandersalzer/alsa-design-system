@@ -63,14 +63,6 @@
   }
 }
 
-/* ===== EMPTY STATE STYLING ===== */
-.portfolio-grid-container p {
-  text-align: center;
-  opacity: 0.6;
-  padding: 3rem 1rem;
-  font-size: 1rem;
-}
-
 /* ===== ENSURE CARDS FILL GRID CELLS ===== */
 .portfolio-grid > * {
   width: 100%;
