@@ -34,31 +34,44 @@ export function useEditingModeHandler() {
       }, '*');
     };
 
-    const handleMessage = (event: MessageEvent<PostMessage<EditingModePayload>>) => {
-      // CORS säkerhetskontroll
-      if (!isOriginAllowed(event.origin)) {
+    const handleMessage = (event: MessageEvent) => {
+      // CORS säkerhetskontroll för editing mode meddelanden
+      if (event.data?.type === EDITING_MODE_MESSAGE && !isOriginAllowed(event.origin)) {
         return;
       }
 
-      // Kontrollera message type
-      if (event.data?.type !== EDITING_MODE_MESSAGE) {
-        return;
+      // Hantera editing mode meddelanden
+      if (event.data?.type === EDITING_MODE_MESSAGE) {
+        const { isEditing } = event.data.payload;
+        const html = document.documentElement;
+        
+        // Uppdatera HTML class
+        if (isEditing) {
+          html.classList.remove('production-mode');
+          html.classList.add('editing-mode');
+        } else {
+          html.classList.remove('editing-mode');
+          html.classList.add('production-mode');
+        }
+        
+        // Skicka höjd varje gång editing mode ändras
+        setTimeout(sendHeight, 100);
+        
+        console.log(`[EditingMode] Updated to ${isEditing ? 'editing-mode' : 'production-mode'}`);
       }
-
-      const { isEditing } = event.data.payload;
-      const html = document.documentElement;
       
-      // Uppdatera HTML class
-      if (isEditing) {
-        html.classList.remove('production-mode');
-        html.classList.add('editing-mode');
-      } else {
-        html.classList.remove('editing-mode');
-        html.classList.add('production-mode');
+      // Hantera höjdförfrågningar
+      if (event.data?.type === 'REQUEST_HEIGHT') {
+        sendHeight();
+        console.log('[EditingMode] Height requested and sent');
       }
-      
-      console.log(`[EditingMode] Updated to ${isEditing ? 'editing-mode' : 'production-mode'}`);
     };
+
+    // Skicka höjd när komponenten mountas
+    setTimeout(() => {
+      sendHeight();
+      console.log('[EditingMode] Initial height sent on mount');
+    }, 500);
 
     window.addEventListener('message', handleMessage);
     
