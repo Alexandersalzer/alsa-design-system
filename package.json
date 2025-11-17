@@ -36,6 +36,11 @@
       "require": "./dist/design/cms/wrappers/design/index.js",
       "types": "./dist/design/cms/wrappers/design/index.d.ts"
     },
+    "./postmessage": {
+      "import": "./dist/design/system/core/postmessage/index.js",
+      "require": "./dist/design/system/core/postmessage/index.js",
+      "types": "./dist/design/system/core/postmessage/index.d.ts"
+    },
     "./dist/index.css": "./dist/design/index.css"
   },
   "files": [
