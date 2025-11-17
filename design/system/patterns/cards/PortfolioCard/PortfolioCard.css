@@ -9,7 +9,7 @@
   width: 100%;
   aspect-ratio: 2 / 3;
   overflow: hidden;
-  border-radius: var(--radius-card) !important;
+  border-radius: var(--radius-card-sm);
   background: transparent;
 }
 
@@ -25,7 +25,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: var(--radius-card) !important;
   aspect-ratio: 2 / 3 !important;
 }
 
@@ -38,15 +37,15 @@
 
 .portfolio-image-container img {
   object-fit: cover !important;
-  border-radius: var(--radius-card) !important;
-  aspect-ratio: 2 / 3 !important;
+  border-radius: var(--radius-card-sm);
+  aspect-ratio: 2 / 3;
 }
 
 /* Override VideoShowcase styles that interfere */
 .portfolio-card .video-showcase,
 .portfolio-card video {
-  aspect-ratio: 2 / 3 !important;
-  border-radius: var(--radius-card) !important;
+  aspect-ratio: 2 / 3;
+  border-radius: var(--radius-card);
 }
 
 /* Content Area - padding for text */
