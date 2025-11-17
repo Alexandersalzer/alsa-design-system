@@ -1,4 +1,5 @@
 /**
+ * Not used yet
  * Component Props Schema Definitions
  * This file defines common props that can be used across different component types
  * Used for documentation and reference - not actively enforced

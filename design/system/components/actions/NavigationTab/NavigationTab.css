@@ -264,7 +264,7 @@
   display: flex;
   align-items: center;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   overflow: auto; /* Prevent focus outline clipping */
 }
 
