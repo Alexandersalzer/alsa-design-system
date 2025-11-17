@@ -10,6 +10,7 @@ import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import Image from 'next/image';
 import { GB, SE } from 'country-flag-icons/react/3x2';
+import './PortfolioCard.css';
 
 // ===== TYPE DEFINITIONS =====
 
