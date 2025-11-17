@@ -3,13 +3,14 @@
 // PORTFOLIO CARD PATTERN - Video/Image portfolio card like KJ Marketing
 // ===============================================
 
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Card } from '../../../components/layout';
 import { Typography, TypographyColor } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import Image from 'next/image';
 import { GB, SE } from 'country-flag-icons/react/3x2';
+import './PortfolioCard.css';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -90,10 +91,80 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   // Layout defaults
   spacing = 'sm'
 }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoError, setVideoError] = useState(false);
+  const [isIntersecting, setIsIntersecting] = useState(false);
+
   // Determine if we have video or image content based on mediaType
   const isVideo = mediaType === 'video';
   const isImage = mediaType === 'image';
-  
+
+  // Intersection Observer for lazy loading videos
+  useEffect(() => {
+    if (!isVideo || !videoRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsIntersecting(entry.isIntersecting);
+        });
+      },
+      {
+        rootMargin: '50px', // Start loading slightly before visible
+        threshold: 0.1
+      }
+    );
+
+    observer.observe(videoRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isVideo]);
+
+  // Handle video errors
+  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    const video = e.currentTarget;
+    const error = video.error;
+    
+    if (error) {
+      switch (error.code) {
+        case MediaError.MEDIA_ERR_ABORTED:
+          console.debug('Video load aborted by user:', mediaSrc);
+          break;
+        case MediaError.MEDIA_ERR_NETWORK:
+          console.warn('Network error loading video:', mediaSrc);
+          setVideoError(true);
+          break;
+        case MediaError.MEDIA_ERR_DECODE:
+          console.warn('Video decode error:', mediaSrc);
+          setVideoError(true);
+          break;
+        case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+          console.warn('Video format not supported or CORS issue:', mediaSrc);
+          setVideoError(true);
+          break;
+        default:
+          console.warn('Unknown video error:', mediaSrc, error);
+          setVideoError(true);
+      }
+    } else {
+      console.warn('Video error without error object:', mediaSrc, e);
+      setVideoError(true);
+    }
+  };
+
+  // Handle video load abort
+  const handleVideoAbort = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    // Silently handle abort - this is normal when scrolling
+    console.debug('Video load aborted (normal):', mediaSrc);
+  };
+
+  // Handle video stalled
+  const handleVideoStalled = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    console.debug('Video stalled:', mediaSrc);
+  };
+
   return (
     <Card
       className={`portfolio-card ${className || ''}`}
@@ -112,17 +183,41 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
             </div>
           )}
           
-          {isVideo && (
+          {isVideo && !videoError && (
             <div className="portfolio-video-container">
               <video
+                ref={videoRef}
                 className="portfolio-video"
-                preload="metadata"
+                src={isIntersecting ? mediaSrc : undefined}
+                poster="" // Browser will show first frame as thumbnail
+                preload={isIntersecting ? "metadata" : "none"}
                 playsInline
                 controls
+                onError={handleVideoError}
+                onAbort={handleVideoAbort}
+                onStalled={handleVideoStalled}
+                controlsList="nodownload"
+                disablePictureInPicture
+                {...(typeof window !== 'undefined' && !window.location.hostname.includes('localhost') 
+                  ? { crossOrigin: 'anonymous' as const } 
+                  : {})}
               >
-                <source src={mediaSrc} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
+            </div>
+          )}
+
+          {isVideo && videoError && (
+            <div className="portfolio-video-container" style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              background: '#f0f0f0',
+              minHeight: '240px'
+            }}>
+              <Typography variant="body-sm" color="secondary" align="center">
+                Video not available
+              </Typography>
             </div>
           )}
           
