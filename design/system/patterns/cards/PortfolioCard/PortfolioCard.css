@@ -7,9 +7,9 @@
 .portfolio-media-container {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 2 / 3;
   overflow: hidden;
-  border-radius: var(--radius-md, 8px);
+  border-radius: var(--radius-card);
   background: #f5f5f5;
 }
 
@@ -25,7 +25,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: var(--radius-md, 8px);
+  border-radius: var(--radius-card);
 }
 
 /* Image Element - same treatment as video */
@@ -37,7 +37,7 @@
 
 .portfolio-image-container img {
   object-fit: cover;
-  border-radius: var(--radius-md, 8px);
+  border-radius: var(--radius-card);
 }
 
 /* Content Area - padding for text */
