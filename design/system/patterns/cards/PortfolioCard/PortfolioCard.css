@@ -10,7 +10,7 @@
   aspect-ratio: 2 / 3;
   overflow: hidden;
   border-radius: var(--radius-card) !important;
-  background: #f5f5f5;
+  background: transparent;
 }
 
 /* Video Element - contained and responsive */

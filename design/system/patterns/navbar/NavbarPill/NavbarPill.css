@@ -18,6 +18,7 @@
   margin: var(--space-navbar) auto;
   background: var(--surface-nav);
   border-radius: var(--radius-navbar-pill);
+  border: solid 3px var(--secondary-100);
   padding: var(--space-navbar);
   box-shadow: 0 2px 6px var(--shadow-subtle);
   transition: background 0.3s ease, box-shadow 0.3s ease;
@@ -110,7 +111,7 @@
 }
 
 .navbar-pill__mobile-toggle:hover {
-  color: var(--icon-brand);
+  color: var(--icon-nav-item-hover);
 }
 
 /* Responsive behavior */

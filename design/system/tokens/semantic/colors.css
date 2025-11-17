@@ -285,7 +285,7 @@
   --border-light-active: var(--secondary-300);
 
   /* ===== SEMANTIC ICON TOKENS ===== */
-  --icon-primary: var(--secondary-600);
+  --icon-primary: var(--text-primary);
   --icon-secondary: var(--secondary-500);
   --icon-tertiary: var(--secondary-400);
   --icon-disabled: var(--secondary-300);
