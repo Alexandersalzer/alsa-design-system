@@ -9,13 +9,13 @@
 
 'use client';
 
-import { usePostMessageEditingMode } from './usePostMessageEditingMode';
+import { useEditingModeHandler } from './hook';
 
 /**
  * Komponent som lyssnar på postMessage från parent för editing mode
  * Placeras i layout.tsx för att aktiveras globalt
  */
-export function PostMessageEditingMode() {
-  usePostMessageEditingMode();
+export function EditingModeHandler() {
+  useEditingModeHandler();
   return null; // Ingen UI, bara logik
 }

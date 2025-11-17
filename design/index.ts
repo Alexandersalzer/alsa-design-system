@@ -71,4 +71,4 @@ export { Sections} from './cms/utils';
 export { type WebsiteContent } from './cms/wrappers/content/types/content';
 
 // Export PostMessage functionality
-export { PostMessageEditingMode } from './system/core/postmessage'; 
+export { EditingModeHandler } from './system/core/postmessage'; 

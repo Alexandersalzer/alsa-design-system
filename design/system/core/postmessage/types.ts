@@ -1,20 +1,19 @@
 /**
- * PostMessage Types
+ * PostMessage Types - Shared with IM-dashboard
  * 
- * TypeScript interfaces för postMessage-kommunikation mellan parent och iframe:s
+ * Återanvänder samma interfaces som IM-dashboard för konsistens
  * @author William
  * @since 2025-11-17
  */
 
-export interface PostMessageData {
-  type: 'TOGGLE_EDITING_MODE' | 'EDITING_MODE_UPDATED';
-  payload: EditingModePayload;
-  source?: string;
-  timestamp?: number;
+export interface PostMessage<T = any> {
+  type: string;
+  payload: T;
 }
 
 export interface EditingModePayload {
   isEditing: boolean;
   websiteVersionId?: number;
-  success?: boolean;
 }
+
+export const EDITING_MODE_MESSAGE = 'TOGGLE_EDITING_MODE';
