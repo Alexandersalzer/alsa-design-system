@@ -41,13 +41,6 @@
   aspect-ratio: 2 / 3;
 }
 
-/* Override VideoShowcase styles that interfere */
-.portfolio-card .video-showcase,
-.portfolio-card video {
-  aspect-ratio: 2 / 3;
-  border-radius: var(--radius-card);
-}
-
 /* Content Area - padding for text */
 .portfolio-content {
   padding: var(--foundation-space-3, 12px) 0;
