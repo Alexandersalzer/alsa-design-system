@@ -15,6 +15,7 @@ import { EDITING_MODE_MESSAGE } from './types';
 
 /**
  * Lyssna på editing mode meddelanden och uppdatera HTML class
+ * Hanterar också höjdkommunikation mellan iframe och parent
  */
 export function useEditingModeHandler() {
   useEffect(() => {
@@ -22,6 +23,16 @@ export function useEditingModeHandler() {
     if (typeof window === 'undefined' || window === window.parent) {
       return;
     }
+
+    const sendHeight = () => {
+      // Enklaste sättet att få faktisk höjd
+      const height = document.documentElement.scrollHeight;
+      
+      window.parent.postMessage({
+        type: 'IFRAME_HEIGHT',
+        payload: { height }
+      }, '*');
+    };
 
     const handleMessage = (event: MessageEvent<PostMessage<EditingModePayload>>) => {
       // CORS säkerhetskontroll
