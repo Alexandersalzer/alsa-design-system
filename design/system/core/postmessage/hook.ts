@@ -24,14 +24,45 @@ export function useEditingModeHandler() {
       return;
     }
 
-    const sendHeight = () => {
-      // Enklaste sättet att få faktisk höjd
-      const height = document.documentElement.scrollHeight;
+    // Funktion för att beräkna höjd baserat på width
+    const calculateHeightForWidth = (targetWidth: number) => {
+      // Skapa en temporär container för att mäta innehåll vid specifik bredd
+      const testContainer = document.createElement('div');
+      testContainer.style.width = `${targetWidth}px`;
+      testContainer.style.position = 'absolute';
+      testContainer.style.left = '-9999px';
+      testContainer.style.top = '0';
+      testContainer.style.visibility = 'hidden';
+      testContainer.style.height = 'auto';
+      testContainer.innerHTML = document.body.innerHTML;
+      
+      document.body.appendChild(testContainer);
+      const height = testContainer.scrollHeight;
+      document.body.removeChild(testContainer);
+      
+      return height;
+    };
+
+    const sendHeight = (iframeId?: string, targetWidth?: number) => {
+      let height;
+      
+      if (targetWidth) {
+        // Beräkna höjd för specifik bredd
+        height = calculateHeightForWidth(targetWidth);
+      } else {
+        // Default: använd nuvarande bredd
+        height = document.documentElement.scrollHeight;
+      }
       
       window.parent.postMessage({
         type: 'IFRAME_HEIGHT',
-        payload: { height }
+        payload: { 
+          height, 
+          iframeId // Inkludera iframe ID i svaret
+        }
       }, '*');
+      
+      console.log(`[EditingMode] Height sent: ${height}px for iframe: ${iframeId || 'default'} (width: ${targetWidth || 'current'})`);
     };
 
     const handleMessage = (event: MessageEvent) => {
@@ -54,16 +85,17 @@ export function useEditingModeHandler() {
           html.classList.add('production-mode');
         }
         
-        // Skicka höjd varje gång editing mode ändras
-        setTimeout(sendHeight, 100);
+        // Skicka höjd för alla aktiva iframe:ar när editing mode ändras
+        setTimeout(() => sendHeight(), 100);
         
         console.log(`[EditingMode] Updated to ${isEditing ? 'editing-mode' : 'production-mode'}`);
       }
       
-      // Hantera höjdförfrågningar
+      // Hantera width-specifika höjdförfrågningar
       if (event.data?.type === 'REQUEST_HEIGHT') {
-        sendHeight();
-        console.log('[EditingMode] Height requested and sent');
+        const { iframeId, width } = event.data.payload || {};
+        sendHeight(iframeId, width);
+        console.log(`[EditingMode] Height requested for width: ${width}px, ID: ${iframeId}`);
       }
     };
 
