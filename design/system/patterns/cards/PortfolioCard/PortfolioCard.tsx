@@ -188,6 +188,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                 ref={videoRef}
                 className="portfolio-video"
                 src={isIntersecting ? mediaSrc : undefined}
+                poster="" // Browser will show first frame as thumbnail
                 preload={isIntersecting ? "metadata" : "none"}
                 playsInline
                 controls
@@ -196,7 +197,9 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                 onStalled={handleVideoStalled}
                 controlsList="nodownload"
                 disablePictureInPicture
-                crossOrigin="anonymous"
+                {...(typeof window !== 'undefined' && !window.location.hostname.includes('localhost') 
+                  ? { crossOrigin: 'anonymous' as const } 
+                  : {})}
               >
                 Your browser does not support the video tag.
               </video>

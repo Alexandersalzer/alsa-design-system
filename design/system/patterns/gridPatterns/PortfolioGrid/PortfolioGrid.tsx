@@ -163,7 +163,11 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
     <div className="portfolio-grid-container">
 
       {hasTabs && (
-        <TabGroup variant="navigation" className="mb-6">
+        <TabGroup 
+          variant="navigation" 
+          orientation="horizontal"
+          className="mb-6"
+        >
           {buttons.map(btn => (
             <Tab
               key={btn.value}
