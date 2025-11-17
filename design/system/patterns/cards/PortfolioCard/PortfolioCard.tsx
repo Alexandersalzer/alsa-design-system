@@ -110,7 +110,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
         });
       },
       {
-        rootMargin: '50px', // Start loading slightly before visible
+        rootMargin: '50px',
         threshold: 0.1
       }
     );
@@ -154,13 +154,10 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
     }
   };
 
-  // Handle video load abort
   const handleVideoAbort = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    // Silently handle abort - this is normal when scrolling
     console.debug('Video load aborted (normal):', mediaSrc);
   };
 
-  // Handle video stalled
   const handleVideoStalled = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
     console.debug('Video stalled:', mediaSrc);
   };
@@ -169,13 +166,11 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
     <Card
       className={`portfolio-card ${className || ''}`}
       variant={variant}
-      padding="sm" // Override to sm since media extends to edges
+      padding="sm"
       radius={radius}
     >
       <VStack spacing={spacing}>
-        {/* Media Container - extends to card edges */}
         <div className="portfolio-media-container">
-          {/* Flag indicator - positioned absolutely in top-right corner */}
           {countryCode && (
             <div className="portfolio-flag">
               {countryCode.toLowerCase() === 'uk' && <GB />}
@@ -189,7 +184,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                 ref={videoRef}
                 className="portfolio-video"
                 src={isIntersecting ? mediaSrc : undefined}
-                poster="" // Browser will show first frame as thumbnail
+                poster=""
                 preload={isIntersecting ? "metadata" : "none"}
                 playsInline
                 controls
@@ -239,10 +234,8 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
           )}
         </div>
         
-        {/* Content - with padding */}
         <div className="portfolio-content">
           <VStack spacing="sm">
-            {/* Category - show first category if array, otherwise show the string */}
             {category && (
               <Typography
                 variant={categoryVariant}
@@ -254,7 +247,6 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               </Typography>
             )}
             
-            {/* Title */}
             <Typography
               variant={titleVariant}
               weight={titleWeight}
@@ -262,8 +254,8 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               align="left"
             >
               {title}
-            </Typography> 
-            {/* Description - only show if exists */}
+            </Typography>
+            
             {description && (
               <Typography
                 variant={descriptionVariant}
@@ -274,7 +266,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                 {description}
               </Typography>
             )}
-            {/* Views with Eye Icon - only show if views exist */}
+            
             {views && (
               <HStack spacing="xs" align="center">
                 <div className="eye-icon">
