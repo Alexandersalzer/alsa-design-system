@@ -164,7 +164,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
 
       {hasTabs && (
         <TabGroup 
-          variant="navigation" 
+          variant="page" 
           orientation="horizontal"
           className="mb-6"
         >

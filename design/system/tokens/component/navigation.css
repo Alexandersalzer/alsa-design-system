@@ -77,9 +77,10 @@
   --surface-user-menu-item-destructive-hover: var(--error-subtle); /* FIXED: Using shortcut */
 
   --text-nav-item: var(--text-secondary);
-  --text-nav-item-selected: var(--accent-600);
+  --text-nav-item-selected: var(--text-primary);
   --text-nav-item-disabled: var(--text-disabled);
   --text-nav-item-hover: var(--text-primary);
+  
 
   --icon-nav-item: var(--icon-secondary);
   --icon-nav-item-selected: var(--accent-600);
