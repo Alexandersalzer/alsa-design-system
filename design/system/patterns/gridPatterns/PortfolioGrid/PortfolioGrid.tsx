@@ -79,6 +79,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
       .map(([key, comp]): PortfolioNormalizedItem => {
         let mediaSrc = comp.mediaSrc!;
 
+        // Handle CDN URL transformation
         if (mediaSrc.startsWith('/members/')) {
           mediaSrc = `${CDN_BASE_URL}${mediaSrc.replace('/members', '')}`;
         }
@@ -89,7 +90,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
           mediaSrc,
           mediaAlt: comp.mediaAlt || comp.title || 'Portfolio media',
 
-          // 🔥 Perfectly typed now
+          // Perfectly typed now
           mediaType: comp.mediaType === 'video' ? 'video' : 'image',
 
           description: comp.description,
@@ -176,13 +177,13 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
       )}
 
       <Grid cardDensity={cardDensity} gap={gap} className="portfolio-grid">
-        {visibleItems.map((item, index) => (
+        {visibleItems.map((item) => (
           <PortfolioCard
-            key={`portfolio-${index}`}
+            key={item.key}
             title={item.title}
             mediaSrc={item.mediaSrc}
             mediaAlt={item.mediaAlt}
-            mediaType={item.mediaType}  // now ALWAYS correct type
+            mediaType={item.mediaType}
             description={item.description}
             views={item.views}
             category={item.category}
