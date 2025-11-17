@@ -93,20 +93,6 @@
 .avatar-badge-busy { background-color: var(--error-500); }
 .avatar-badge-away { background-color: var(--warning-500); }
 
-/* ===== DARK MODE ===== */
-[data-theme="dark"] .avatar,
-.dark .avatar {
-  background-color: var(--secondary-800);
-  color: var(--secondary-200);
-}
-
-[data-theme="dark"] .avatar-outline,
-.dark .avatar-outline {
-  background-color: transparent;
-  border-color: var(--secondary-600);
-  color: var(--secondary-200);
-}
-
 /* ===== Accessibility ===== */
 @media (prefers-reduced-motion: reduce) {
   .avatar {

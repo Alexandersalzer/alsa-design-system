@@ -139,13 +139,3 @@
     justify-content: flex-start;
   }
 }
-
-/* Dark mode adjustments */
-[data-theme="dark"] .navbar-pill__container {
-  background: var(--surface-nav);
-  border-color: var(--border-subtle);
-}
-
-[data-theme="dark"] .navbar-pill__brand {
-  color: var(--text-inverse);
-}

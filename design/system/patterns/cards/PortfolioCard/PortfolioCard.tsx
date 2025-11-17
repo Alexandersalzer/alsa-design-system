@@ -99,19 +99,22 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   const isVideo = mediaType === 'video';
   const isImage = mediaType === 'image';
 
-  // Intersection Observer for lazy loading videos
+  // Track if video has been loaded once - then keep it loaded
   useEffect(() => {
     if (!isVideo || !videoRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          setIsIntersecting(entry.isIntersecting);
+          // Once intersecting, mark as loaded and keep it
+          if (entry.isIntersecting) {
+            setIsIntersecting(true);
+          }
         });
       },
       {
-        rootMargin: '50px',
-        threshold: 0.1
+        rootMargin: '200px', // Load earlier for smoother experience
+        threshold: 0.01
       }
     );
 
@@ -183,8 +186,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               <video
                 ref={videoRef}
                 className="portfolio-video"
-                src={isIntersecting ? mediaSrc : undefined}
-                poster=""
+                src={isIntersecting ? `${mediaSrc}#t=0.1` : undefined}
                 preload={isIntersecting ? "metadata" : "none"}
                 playsInline
                 controls
