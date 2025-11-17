@@ -18,13 +18,13 @@
 .navbar-bar__container {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Changed from space-between to control spacing */
-  gap: var(--foundation-space-8); /* Main gap between groups like NavbarPill */
+  justify-content: space-between;
+  gap: var(--foundation-space-8);
   max-width: var(--width-navbar);
   margin: 0 auto;
-  padding: var(--foundation-space-3) var(--foundation-space-6);
+  padding: var(--space-navbar) 0;
   position: relative;
-  container-type: inline-size; /* enables container queries */
+  container-type: inline-size;
 }
 
 /* -----------------------------------------------
@@ -101,7 +101,7 @@
 .navbar-bar__mobile-toggle {
   display: none;
   color: var(--icon-primary);
-  margin-left: auto; /* Push to far right */
+  margin-left: auto;
 }
 
 .navbar-bar__mobile-toggle:hover {
@@ -137,53 +137,12 @@
 
   /* Adjust container for mobile layout */
   .navbar-bar__container {
-    gap: 0; /* Remove gap in mobile, use margin-left: auto instead */
-    justify-content: flex-start;
+    gap: 0;
   }
 }
 
-/* -----------------------------------------------
-   Drawer Styles (Mobile Menu)
------------------------------------------------ */
 
-.navbar-bar__drawer-content {
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
-  background: var(--surface-modal-content);
-  color: var(--text-body-primary);
-}
-
-.navbar-bar__drawer-link {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-nav-item);
-  text-decoration: none;
-  transition: color 0.2s ease;
-  padding: var(--foundation-space-2) 0;
-}
-
-.navbar-bar__drawer-link:hover {
-  color: var(--text-nav-item-selected);
-}
-
-/* ✅ FIXED: Full-width buttons and no offset */
-.navbar-bar__drawer-actions {
-  margin-top: var(--foundation-space-8);
-  gap: var(--foundation-space-2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 var(--foundation-space-6);
-}
-
-.navbar-bar__drawer-button {
-  width: 100%;
-  max-width: none;
-  justify-content: center;
-  border-radius: var(--radius-md);
-}
+/* Drawer content for navbar (moved from NavbarBar.css to Drawer.css) */
 
 /* -----------------------------------------------
    Animations

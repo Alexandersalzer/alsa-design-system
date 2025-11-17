@@ -1,9 +1,22 @@
 // ===============================================
-// src/design-system/components/primitives/Popover/index.ts
-// POPOVER EXPORTS
+// Popover Component Exports
 // ===============================================
 
-export { Popover } from './Popover';
+export {
+  Popover,
+  PopoverRoot,
+  PopoverTrigger,
+  PopoverPositioner,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseTrigger,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverTitle,
+  PopoverDescription
+} from './Popover';
+
 export type {
   PopoverRootProps,
   PopoverTriggerProps,

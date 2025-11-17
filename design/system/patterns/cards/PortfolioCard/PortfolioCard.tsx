@@ -1,15 +1,13 @@
 // ===============================================
 // design/system/components/patterns/client/PortfolioCard/PortfolioCard.tsx
-// PORTFOLIO CARD PATTERN - Clean, modern design following ResultsCard pattern
+// PORTFOLIO CARD PATTERN - Video/Image portfolio card like KJ Marketing
 // ===============================================
 
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Card } from '../../../components/layout';
 import { Typography, TypographyColor } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
-import { Icon } from '../../../components/media/Icon/Icon';
-import { EyeIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { GB, SE } from 'country-flag-icons/react/3x2';
 import './PortfolioCard.css';
@@ -20,14 +18,14 @@ export interface PortfolioCardProps {
   className?: string;
   
   // Content
-  category?: string;
+  category?: string | string[]; // Array or single string
   title: string;
-  description?: string; // Make description optional
-  views?: number;
-  mediaType: 'image' | 'video';
-  mediaSrc: string;
-  mediaAlt?: string;
-  countryCode?: string;
+  description?: string;
+  views?: number | string;
+  mediaType: 'image' | 'video'; // Required - determines media type
+  mediaSrc: string; // Required - single source for either video or image
+  mediaAlt?: string; // Alt text for accessibility
+  countryCode?: string; // Country code for flag (e.g., 'uk', 'sv')
   
   // Styling options
   variant?: 'default' | 'elevated' | 'outlined';
@@ -70,133 +68,244 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   countryCode,
   
   // Card styling defaults
-  variant = 'elevated',
+  variant = 'default',
   padding = 'md',
-  radius = 'md',
+  radius = 'sm',
   
-  // Typography defaults - clean, modern style
-  categoryVariant = 'body-xs',
-  titleVariant = 'h5',
+  // Typography defaults - matching KJ Marketing style
+  categoryVariant = 'label-sm',
+  titleVariant = 'h4',
   descriptionVariant = 'body-sm',
-  viewsVariant = 'body-xs',
+  viewsVariant = 'label-sm',
   
   categoryWeight = 'medium',
   titleWeight = 'bold',
   descriptionWeight = 'regular',
-  viewsWeight = 'regular',
+  viewsWeight = 'medium',
   
-  categoryColor = 'tertiary',
+  categoryColor = 'secondary',
   titleColor = 'primary',
-  descriptionColor = 'secondary',
-  viewsColor = 'tertiary',
+  descriptionColor = 'primary',
+  viewsColor = 'secondary',
   
   // Layout defaults
-  spacing = 'md'
+  spacing = 'sm'
 }) => {
-  // Determine if we have video or image content
-  const isVideo = mediaType === 'video' && !!mediaSrc;
-  const isImage = mediaType === 'image' && !!mediaSrc;
-  
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoError, setVideoError] = useState(false);
+  const [isIntersecting, setIsIntersecting] = useState(false);
+
+  // Determine if we have video or image content based on mediaType
+  const isVideo = mediaType === 'video';
+  const isImage = mediaType === 'image';
+
+  // Intersection Observer for lazy loading videos
+  useEffect(() => {
+    if (!isVideo || !videoRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsIntersecting(entry.isIntersecting);
+        });
+      },
+      {
+        rootMargin: '50px', // Start loading slightly before visible
+        threshold: 0.1
+      }
+    );
+
+    observer.observe(videoRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isVideo]);
+
+  // Handle video errors
+  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    const video = e.currentTarget;
+    const error = video.error;
+    
+    if (error) {
+      switch (error.code) {
+        case MediaError.MEDIA_ERR_ABORTED:
+          console.debug('Video load aborted by user:', mediaSrc);
+          break;
+        case MediaError.MEDIA_ERR_NETWORK:
+          console.warn('Network error loading video:', mediaSrc);
+          setVideoError(true);
+          break;
+        case MediaError.MEDIA_ERR_DECODE:
+          console.warn('Video decode error:', mediaSrc);
+          setVideoError(true);
+          break;
+        case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+          console.warn('Video format not supported or CORS issue:', mediaSrc);
+          setVideoError(true);
+          break;
+        default:
+          console.warn('Unknown video error:', mediaSrc, error);
+          setVideoError(true);
+      }
+    } else {
+      console.warn('Video error without error object:', mediaSrc, e);
+      setVideoError(true);
+    }
+  };
+
+  // Handle video load abort
+  const handleVideoAbort = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    // Silently handle abort - this is normal when scrolling
+    console.debug('Video load aborted (normal):', mediaSrc);
+  };
+
+  // Handle video stalled
+  const handleVideoStalled = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    console.debug('Video stalled:', mediaSrc);
+  };
+
   return (
-    <VStack spacing={spacing} className={`portfolio-card-wrapper ${className || ''}`}>
-      {/* Media Card - Elevated background like ResultsCard */}
-      <Card
-        variant={variant}
-        padding={padding}
-        radius={radius}
-        className="portfolio-media-card"
-      >
-        {/* Country flag indicator if provided */}
-        {countryCode && (
-          <HStack className="portfolio-flag">
-            {countryCode.toLowerCase() === 'uk' && <GB />}
-            {countryCode.toLowerCase() === 'sv' && <SE />}
-          </HStack>
-        )}
-        {/* Video content */}
-        {isVideo && (
-          <video
-            src={mediaSrc}
-            className="portfolio-video"
-            controls
-            preload="metadata"
-            playsInline
-          >
-            Your browser does not support the video tag.
-          </video>
-        )}
-        {/* Image content */}
-        {isImage && (
-          <Image
-            src={mediaSrc}
-            alt={mediaAlt || title}
-            width={400}
-            height={300}
-            className="portfolio-image"
-            style={{
-              width: '100%',
-              height: 'auto',
-              objectFit: 'cover'
-            }}
-            priority
-          />
-        )}
-      </Card>
-      
-      {/* Text Content - Similar to ResultsCard, no background */}
-      <VStack spacing="sm" className="portfolio-text-content">
-        {/* Category and Views Row */}
-        {(category || views) && (
-          <HStack spacing="sm" className="portfolio-meta">
+    <Card
+      className={`portfolio-card ${className || ''}`}
+      variant={variant}
+      padding="sm" // Override to sm since media extends to edges
+      radius={radius}
+    >
+      <VStack spacing={spacing}>
+        {/* Media Container - extends to card edges */}
+        <div className="portfolio-media-container">
+          {/* Flag indicator - positioned absolutely in top-right corner */}
+          {countryCode && (
+            <div className="portfolio-flag">
+              {countryCode.toLowerCase() === 'uk' && <GB />}
+              {countryCode.toLowerCase() === 'sv' && <SE />}
+            </div>
+          )}
+          
+          {isVideo && !videoError && (
+            <div className="portfolio-video-container">
+              <video
+                ref={videoRef}
+                className="portfolio-video"
+                src={isIntersecting ? mediaSrc : undefined}
+                poster="" // Browser will show first frame as thumbnail
+                preload={isIntersecting ? "metadata" : "none"}
+                playsInline
+                controls
+                onError={handleVideoError}
+                onAbort={handleVideoAbort}
+                onStalled={handleVideoStalled}
+                controlsList="nodownload"
+                disablePictureInPicture
+                {...(typeof window !== 'undefined' && !window.location.hostname.includes('localhost') 
+                  ? { crossOrigin: 'anonymous' as const } 
+                  : {})}
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          )}
+
+          {isVideo && videoError && (
+            <div className="portfolio-video-container" style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              background: '#f0f0f0',
+              minHeight: '240px'
+            }}>
+              <Typography variant="body-sm" color="secondary" align="center">
+                Video not available
+              </Typography>
+            </div>
+          )}
+          
+          {isImage && (
+            <div className="portfolio-image-container">
+              <Image
+                src={mediaSrc}
+                alt={mediaAlt || title}
+                width={400}
+                height={240}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+                priority
+              />
+            </div>
+          )}
+        </div>
+        
+        {/* Content - with padding */}
+        <div className="portfolio-content">
+          <VStack spacing="sm">
+            {/* Category - show first category if array, otherwise show the string */}
             {category && (
               <Typography
                 variant={categoryVariant}
                 weight={categoryWeight}
                 color={categoryColor}
-                className="portfolio-category"
+                align="left"
               >
-                {category}
+                {Array.isArray(category) ? category[0] : category}
               </Typography>
             )}
             
+            {/* Title */}
+            <Typography
+              variant={titleVariant}
+              weight={titleWeight}
+              color={titleColor}
+              align="left"
+            >
+              {title}
+            </Typography> 
+            {/* Description - only show if exists */}
+            {description && (
+              <Typography
+                variant={descriptionVariant}
+                weight={descriptionWeight}
+                color={descriptionColor}
+                align="left"
+              >
+                {description}
+              </Typography>
+            )}
+            {/* Views with Eye Icon - only show if views exist */}
             {views && (
-              <HStack spacing="xs">
-                <Icon size="xs" color="tertiary">
-                  <EyeIcon />
-                </Icon>
+              <HStack spacing="xs" align="center">
+                <div className="eye-icon">
+                  <svg 
+                    width="16" 
+                    height="16" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </div>
                 <Typography
                   variant={viewsVariant}
                   weight={viewsWeight}
                   color={viewsColor}
+                  align="left"
                 >
-                  {views}
+                  {typeof views === 'number' ? views.toLocaleString() : views}
                 </Typography>
               </HStack>
             )}
-          </HStack>
-        )}
-        
-        {/* Title */}
-        <Typography
-          variant={titleVariant}
-          weight={titleWeight}
-          color={titleColor}
-        >
-          {title}
-        </Typography>
-        
-        {/* Description */}
-        {description && (
-          <Typography
-            variant={descriptionVariant}
-            weight={descriptionWeight}
-            color={descriptionColor}
-          >
-            {description}
-          </Typography>
-        )}
+          </VStack>
+        </div>
       </VStack>
-    </VStack>
+    </Card>
   );
 };
 

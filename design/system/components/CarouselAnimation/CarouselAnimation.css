@@ -28,7 +28,6 @@
   top: 0;
   bottom: 0;
   width: var(--fade-width, 200px);
-  z-index: 2;
   pointer-events: none;
 }
 

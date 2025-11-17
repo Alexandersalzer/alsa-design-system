@@ -1,97 +1,344 @@
-/* ==========================================================
-   FULLSCREEN DRAWER (used as mobile menu)
-   ========================================================== */
+/* Navbar height variable */
+:root {
+  --navbar-height: 64px;
+}
 
+/* ==========================================================
+   DRAWER OVERLAY
+   ========================================================== */
 .drawer-overlay {
   position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  z-index: 1000;
-  justify-content: center;
-  align-items: flex-end;
+  top: var(--navbar-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.32);
   opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
+  transition: opacity 250ms var(--foundation-ease-out);
+  z-index: calc(var(--z-navbar, 50) - 1);
 }
 
 .drawer-overlay--open {
   opacity: 1;
-  pointer-events: auto;
 }
 
 .drawer-overlay--closing {
   opacity: 0;
-  pointer-events: none;
 }
 
-/* Drawer panel */
+/* ==========================================================
+   DRAWER BASE
+   ========================================================== */
 .drawer {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  position: fixed;
   background: var(--surface-modal-content);
-  border-radius: 0;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 100%;
+  transition: transform 250ms var(--foundation-ease-out);
   display: flex;
   flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.3s var(--foundation-ease-out, ease);
 }
 
-.drawer--open {
+/* TOP / NAVBAR drawer positioning */
+.drawer--top,
+.drawer--navbar {
+  top: var(--navbar-height);
+  left: 0;
+  transform: translateY(-100%);
+  z-index: calc(var(--z-navbar, 50) - 1);
+}
+
+.drawer--open.drawer--top,
+.drawer--open.drawer--navbar {
   transform: translateY(0);
 }
 
-.drawer--close {
-  transform: translateY(100%);
+.drawer--close.drawer--top,
+.drawer--close.drawer--navbar {
+  transform: translateY(-100%);
 }
 
-/* Content area */
+/* ==========================================================
+   DRAWER VARIANTS (fullscreen vs sheet) - FOR NAVBAR BAR
+   ========================================================== */
+
+/* Fullscreen variant (default) - takes full height below navbar */
+.drawer.drawer-variant-fullscreen {
+  height: calc(100% - var(--navbar-height));
+  max-height: calc(100% - var(--navbar-height));
+}
+
+/* Sheet variant - shorter top sheet with rounded corners */
+.drawer.drawer-variant-sheet {
+  height: auto;
+  max-height: 80vh;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ==========================================================
+   DRAWER CONTENT STRUCTURE (for bar/top drawers only)
+   ========================================================== */
 .drawer__content {
   flex: 1;
   display: flex;
   flex-direction: column;
   -webkit-overflow-scrolling: touch;
-  max-width: var(--width-navbar);
+  align-items: center;
+  max-width: 100vw;
+  width: 100%;
+  box-sizing: border-box;
   margin: 0 auto;
-  padding: var(--foundation-space-4) var(--foundation-space-6); /* Add vertical padding too */
+  padding: var(--space-container) 0;
 }
 
 .drawer__header {
-  flex-shrink: 0; /* Prevent shrinking */
+  flex-shrink: 0;
 }
 
 .drawer__body {
   flex: 1;
   display: flex;
+  width: var(--width-container);
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
 }
 
-/* Desktop: slide from right instead of bottom */
-@media (min-width: 768px) {
-  .drawer-overlay {
-    align-items: stretch;
-    justify-content: flex-end;
-  }
-
-  .drawer {
-    width: 100%;
-    height: 100%;
-    transform: translateX(100%);
-  }
-
-  .drawer--open {
-    transform: translateX(0);
-  }
-
-  .drawer--close {
-    transform: translateX(100%);
-  }
+/* ==========================================================
+   NAVBAR BAR DRAWER CONTENT
+   ========================================================== */
+.drawer-navbar-content {
+  background: var(--surface-modal-content);
+  color: var(--text-body-primary);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-/* Reduced motion */
+.drawer-navbar-link {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-nav-item);
+  text-decoration: none;
+  padding: var(--foundation-space-2) 0;
+  transition: color 0.2s var(--foundation-ease-out);
+}
+
+.drawer-navbar-link:hover {
+  color: var(--text-nav-item-selected);
+}
+
+.drawer-navbar-actions {
+  gap: var(--foundation-space-2);
+  margin-top: auto;
+  padding-top: var(--foundation-space-12);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.drawer-navbar-button {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  border-radius: var(--radius-button);
+}
+
+/* ==========================================================
+   MOBILE MENU ALIGNMENT (applies to both bar and pill)
+   ========================================================== */
+.drawer-align-left {
+  text-align: left;
+  align-items: flex-start;
+}
+
+.drawer-align-left .drawer-navbar-link {
+  text-align: left;
+}
+
+.drawer-align-left .drawer-navbar-button {
+  justify-content: flex-start;
+}
+
+.drawer-align-left .drawer-pill-link {
+  text-align: left;
+}
+
+.drawer-align-left .drawer-pill-button {
+  justify-content: flex-start;
+}
+
+.drawer-align-center {
+  text-align: center;
+  align-items: center;
+}
+
+.drawer-align-center .drawer-navbar-link {
+  text-align: center;
+}
+
+.drawer-align-center .drawer-navbar-button {
+  justify-content: center;
+}
+
+.drawer-align-center .drawer-pill-link {
+  text-align: center;
+}
+
+.drawer-align-center .drawer-pill-button {
+  justify-content: center;
+}
+
+.drawer-align-right {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.drawer-align-right .drawer-navbar-link {
+  text-align: right;
+}
+
+.drawer-align-right .drawer-navbar-button {
+  justify-content: flex-end;
+}
+
+.drawer-align-right .drawer-pill-link {
+  text-align: right;
+}
+
+.drawer-align-right .drawer-pill-button {
+  justify-content: flex-end;
+}
+
+/* ==========================================================
+   PILL DRAWER VARIANT (dropdown under pill navbar)
+   ========================================================== */
+
+/* Pill drawer overlay - subtle, positioned below pill */
+.drawer-overlay:has(.drawer--pill) {
+  top: 0;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* Pill drawer base positioning */
+.drawer--pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: auto;
+  max-width: none;
+  overflow: hidden; /* 👈 CRITICAL - hides content during scale */
+  
+  /* Override base drawer styles */
+  background: var(--surface-nav);
+  border: none;
+  border-radius: 0 0 var(--radius-navbar-pill) var(--radius-navbar-pill);
+  box-shadow: 0 4px 12px var(--shadow-emphasis);
+  
+  /* Animation - height grows from 0 */
+  max-height: 0; /* 👈 Start at 0 height */
+  opacity: 0;
+  transform: translateY(0);
+  transition: max-height 500ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 400ms ease-out,
+              box-shadow 400ms ease-out;
+  
+  z-index: 40;
+  
+  /* Padding to account for starting from middle of pill */
+  padding-top: calc(var(--space-navbar) / 2);
+}
+
+.drawer--pill.drawer--open {
+  max-height: 80vh; /* 👈 Expand to full height */
+  opacity: 1;
+}
+
+.drawer--pill.drawer--close {
+  max-height: 0; /* 👈 Collapse to 0 */
+  opacity: 0;
+  transition: max-height 350ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 300ms ease-in;
+}
+
+/* Sheet variant (compact) */
+.drawer--pill.drawer-variant-pill-sheet {
+  /* max-height handled by open/close states */
+}
+
+.drawer--pill.drawer-variant-pill-sheet.drawer--open {
+  max-height: 60vh; /* 👈 Sheet is shorter */
+}
+
+/* Fullscreen variant (tall) */
+.drawer--pill.drawer-variant-pill-fullscreen {
+  /* max-height handled by open/close states */
+}
+
+.drawer--pill.drawer-variant-pill-fullscreen.drawer--open {
+  max-height: calc(100vh - var(--navbar-height) - 80px); /* 👈 Fullscreen is taller */
+}
+
+/* Content styling - MUST fill drawer height */
+.drawer-pill-content {
+  padding: var(--foundation-space-6) var(--space-navbar);
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-4);
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  min-height: 100%;
+}
+
+/* Links section - stays at top */
+.drawer-pill-links {
+  flex-shrink: 0;
+  padding-top: var(--foundation-space-6);
+}
+
+.drawer-pill-link {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-nav-item);
+  text-decoration: none;
+  padding: var(--foundation-space-2) 0;
+  transition: color 0.2s var(--foundation-ease-out);
+}
+
+.drawer-pill-link:hover {
+  color: var(--text-nav-item-selected);
+}
+
+/* Actions section - pushed to bottom */
+.drawer-pill-actions {
+  margin-top: auto;
+  padding-top: var(--foundation-space-6);
+  border-top: 1px solid var(--border-subtle);
+  gap: var(--foundation-space-2);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* In fullscreen, add more space above buttons */
+.drawer--pill.drawer-variant-pill-fullscreen .drawer-pill-actions {
+  padding-top: var(--foundation-space-8);
+}
+
+.drawer-pill-button {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* ==========================================================
+   ACCESSIBILITY
+   ========================================================== */
 @media (prefers-reduced-motion: reduce) {
   .drawer,
   .drawer-overlay {

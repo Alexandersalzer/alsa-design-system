@@ -1,7 +1,6 @@
 /* ResultsGrid Pattern Styles */
 .results-grid-container {
   width: 100%;
-  padding: 0 var(--foundation-space-4);
 }
 
 .results-grid {
@@ -15,9 +14,6 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .results-grid-container {
-    padding: 0 var(--foundation-space-3);
-  }
   
   .results-grid {
     /* 2 columns = medium gap */
