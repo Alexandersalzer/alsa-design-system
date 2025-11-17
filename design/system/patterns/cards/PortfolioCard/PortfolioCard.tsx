@@ -123,8 +123,34 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
 
   // Handle video errors
   const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.warn('Video failed to load:', mediaSrc, e);
-    setVideoError(true);
+    const video = e.currentTarget;
+    const error = video.error;
+    
+    if (error) {
+      switch (error.code) {
+        case MediaError.MEDIA_ERR_ABORTED:
+          console.debug('Video load aborted by user:', mediaSrc);
+          break;
+        case MediaError.MEDIA_ERR_NETWORK:
+          console.warn('Network error loading video:', mediaSrc);
+          setVideoError(true);
+          break;
+        case MediaError.MEDIA_ERR_DECODE:
+          console.warn('Video decode error:', mediaSrc);
+          setVideoError(true);
+          break;
+        case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+          console.warn('Video format not supported or CORS issue:', mediaSrc);
+          setVideoError(true);
+          break;
+        default:
+          console.warn('Unknown video error:', mediaSrc, error);
+          setVideoError(true);
+      }
+    } else {
+      console.warn('Video error without error object:', mediaSrc, e);
+      setVideoError(true);
+    }
   };
 
   // Handle video load abort
@@ -161,6 +187,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               <video
                 ref={videoRef}
                 className="portfolio-video"
+                src={isIntersecting ? mediaSrc : undefined}
                 preload={isIntersecting ? "metadata" : "none"}
                 playsInline
                 controls
@@ -169,8 +196,8 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                 onStalled={handleVideoStalled}
                 controlsList="nodownload"
                 disablePictureInPicture
+                crossOrigin="anonymous"
               >
-                {isIntersecting && <source src={mediaSrc} type="video/mp4" />}
                 Your browser does not support the video tag.
               </video>
             </div>
