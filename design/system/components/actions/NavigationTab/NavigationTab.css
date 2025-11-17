@@ -263,7 +263,9 @@
 .sidebar__nav {
   display: flex;
   align-items: center;
-  overflow: visible; /* Prevent focus outline clipping */
+  display: flex;
+  justify-content: space-between;
+  overflow: auto; /* Prevent focus outline clipping */
 }
 
 /* Vertical layout (sidebar) */
@@ -385,7 +387,7 @@
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .tab-group--horizontal {
-    flex-wrap: wrap;
+    overflow: auto;
     gap: 4px;
   }
   
