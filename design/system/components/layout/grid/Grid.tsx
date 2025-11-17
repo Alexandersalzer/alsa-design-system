@@ -106,20 +106,33 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(({
   if (!resolvedMinWidth) resolvedMinWidth = 'var(--width-card)';
 
   // =====================================================
-  // Legacy responsive mode detection (kept for backwards compatibility)
+  // Determine grid mode
   // =====================================================
   const useResponsive = isResponsiveValue(columns);
+  const useExplicitColumns = typeof columns === 'number';
+  const useAutoFit = !useResponsive && !useExplicitColumns && (cardDensity || minItemWidth);
 
   const inlineStyles: CSSProperties = { ...style };
-  if (!useResponsive) {
+
+  if (useExplicitColumns) {
+    // Explicit column count - use fixed columns (e.g., columns={2})
+    inlineStyles.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+  } else if (useAutoFit) {
+    // Auto-fit mode only when cardDensity or minItemWidth is provided
     (inlineStyles as Record<string, any>)['--min-item-width'] = resolvedMinWidth;
     if (maxColumns) (inlineStyles as Record<string, any>)['--max-columns'] = maxColumns;
+  } else if (useResponsive) {
+    // Responsive mode with breakpoint objects
+    // Handled by CSS classes
   }
 
   // Build classes
   const classes = buildClasses(
     'grid',
-    useResponsive ? 'grid--responsive' : 'grid--auto-fit',
+    useExplicitColumns ? 'grid--explicit' : 
+      useAutoFit ? 'grid--auto-fit' : 
+      useResponsive ? 'grid--responsive' : 
+      'grid--explicit', // ← Default to explicit if nothing specified
     `grid--gap-${gap}`,
     alignItems !== 'stretch' && `grid--align-${alignItems}`,
     justifyItems !== 'stretch' && `grid--justify-${justifyItems}`,

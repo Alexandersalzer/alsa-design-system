@@ -17,12 +17,14 @@
 /* ===== TEXTAREA LABEL ===== */
 .textarea-label {
   font-family: var(--font-body-family);
-  font-size: var(--font-body-md-size);
+  font-size: var(--font-label-md-size);
   font-weight: var(--foundation-weight-semibold);
-  line-height: var(--font-body-md-leading);
+  line-height: var(--font-label-md-leading);
   color: var(--text-form-label);
-  margin-bottom: 4px;
-  display: component;
+  margin-bottom: var(--foundation-space-1);
+  display: block;
+  text-align: left;
+  width: 100%;
   cursor: pointer;
   user-select: none;
 }
