@@ -76,6 +76,7 @@ const NavbarPill = (patternNode: PatternNode) => {
                 alt={getComponent('logo').alt || 'Logo'}
                 width={getComponent('logo').width || 40}
                 height={getComponent('logo').height || 40}
+                variant={getComponent('logo').variant || 'auto'}
                 className="navbar-pill__logo"
                 loading="eager"
                 priority={true}

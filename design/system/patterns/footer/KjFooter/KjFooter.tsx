@@ -27,6 +27,7 @@ const KjFooter = ({ components = {} }: PatternNode) => {
             alt={get('logo').alt || 'Logo'}
             width={get('logo').width || 40}
             height={get('logo').height || 40}
+            variant={get('logo').variant || 'auto'}
             objectFit="contain"
             loading="lazy"
             className="flex-shrink-0"
