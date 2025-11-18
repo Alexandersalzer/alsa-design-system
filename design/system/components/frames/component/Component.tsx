@@ -1,4 +1,6 @@
 import React, { ReactNode, forwardRef } from 'react';
+import styles from './Component.module.css';
+import { applyEditingMode } from '../../../core/postmessage';
 
 interface ComponentProps extends React.HTMLAttributes<HTMLElement> {
   children: ReactNode;
@@ -14,7 +16,11 @@ export const Component = forwardRef<HTMLElement, ComponentProps>(({
   as: Element = 'div',
   ...rest
 }, ref) => {
-  const combinedClassName = `${className}`.trim();
+  const isEditing = applyEditingMode();
+  const combinedClassName = [
+    isEditing && styles.editingMode,
+    className
+  ].filter(Boolean).join(' ').trim();
   
   return (
     <Element 
