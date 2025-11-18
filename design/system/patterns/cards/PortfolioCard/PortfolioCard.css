@@ -1,91 +1,87 @@
 /* ===============================================
-   PortfolioCard.css - SIMPLE FIX - Add poster background
+   PortfolioCard.css - Video Showcase Pattern
+   Clean, contained video/image display
 ============================================== */
 
-/* ===== MEDIA CONTAINER ===== */
+/* Media Container - prevents overflow */
 .portfolio-media-container {
   position: relative;
   width: 100%;
+  aspect-ratio: 2 / 3;
   overflow: hidden;
-  border-radius: var(--radius-md);
-  /* ✅ Add background while video poster loads */
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: var(--radius-card-sm);
+  background: transparent;
 }
 
-/* ===== VIDEO WRAPPER ===== */
-.portfolio-video-wrapper {
-  position: relative;
+/* Video Element - contained and responsive */
+.portfolio-video-container {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #000;
+  height: 100%;
+  position: relative;
 }
 
-/* ===== VIDEO ELEMENT ===== */
 .portfolio-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  /* ✅ Ensure video appears on top of background */
-  position: relative;
-  z-index: 1;
+  aspect-ratio: 2 / 3 !important;
 }
 
-/* ===== VIDEO ERROR STATE ===== */
-.portfolio-video-error {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: var(--surface-muted);
-  color: var(--text-tertiary);
-}
-
-/* ===== IMAGE CONTAINER ===== */
+/* Image Element - same treatment as video */
 .portfolio-image-container {
-  position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
+  height: 100%;
+  position: relative;
 }
 
-/* ===== FLAG ===== */
+.portfolio-image-container img {
+  object-fit: cover !important;
+  border-radius: var(--radius-card-sm);
+  aspect-ratio: 2 / 3;
+}
+
+/* Content Area - padding for text */
+.portfolio-content {
+  padding: var(--foundation-space-3, 12px) 0;
+}
+
+/* Flag - same as before */
 .portfolio-flag {
   position: absolute;
   top: 12px;
   right: 12px;
-  width: 32px;
-  height: auto;
   z-index: 10;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 2px;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 28px;
+  height: 20px;
 }
 
 .portfolio-flag svg {
-  width: 100%;
-  height: auto;
+  width: 24px;
+  height: 16px;
   display: block;
 }
 
-/* ===== CONTENT ===== */
-.portfolio-content {
-  padding: var(--spacing-3) var(--spacing-2) var(--spacing-2);
-}
-
-/* ===== EYE ICON ===== */
+/* Eye icon for views */
 .eye-icon {
   display: flex;
   align-items: center;
-  color: var(--text-secondary);
+  color: var(--color-text-secondary, #6b7280);
 }
 
-/* ===== RESPONSIVE ===== */
+/* Responsive */
 @media (max-width: 768px) {
-  .portfolio-flag {
-    width: 24px;
-    top: 8px;
-    right: 8px;
+  .portfolio-media-container {
+    aspect-ratio: 1 / 1;
+  }
+  
+  .portfolio-video,
+  .portfolio-image-container img {
+    aspect-ratio: 1 / 1 !important;
   }
 }

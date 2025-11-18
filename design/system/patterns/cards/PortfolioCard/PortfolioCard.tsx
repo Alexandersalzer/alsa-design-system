@@ -1,6 +1,6 @@
 // ===============================================
 // design/system/components/patterns/client/PortfolioCard/PortfolioCard.tsx
-// PORTFOLIO CARD - Instant thumbnail loading, lazy video loading
+// PORTFOLIO CARD PATTERN - Video/Image portfolio card like KJ Marketing
 // ===============================================
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ import { Card } from '../../../components/layout';
 import { Typography, TypographyColor } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
-import { Image as CustomImage } from '../../../components/media/Image/Image';
+import Image from 'next/image';
 import { GB, SE } from 'country-flag-icons/react/3x2';
 import './PortfolioCard.css';
 
@@ -92,106 +92,77 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   spacing = 'sm'
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [thumbnail, setThumbnail] = useState<string | null>(null);
-  const [isVideoVisible, setIsVideoVisible] = useState(false);
-  const [showVideo, setShowVideo] = useState(false);
   const [videoError, setVideoError] = useState(false);
+  const [isIntersecting, setIsIntersecting] = useState(false);
 
+  // Determine if we have video or image content based on mediaType
   const isVideo = mediaType === 'video';
   const isImage = mediaType === 'image';
 
-  // ✅ STEP 1: Generate thumbnail immediately on mount (for videos)
+  // Track if video has been loaded once - then keep it loaded
   useEffect(() => {
-    if (!isVideo) return;
-
-    const generateThumbnail = async () => {
-      try {
-        // Create a hidden video element to capture thumbnail
-        const video = document.createElement('video');
-        video.src = `${mediaSrc}#t=0.5`; // Seek to 0.5s for better frame
-        video.crossOrigin = 'anonymous';
-        video.preload = 'metadata';
-        video.muted = true;
-
-        // Wait for video to load metadata
-        await new Promise<void>((resolve, reject) => {
-          video.onloadeddata = () => resolve();
-          video.onerror = () => reject(new Error('Failed to load video'));
-          
-          // Timeout after 3 seconds
-          setTimeout(() => reject(new Error('Thumbnail generation timeout')), 3000);
-        });
-
-        // Seek to get a frame
-        video.currentTime = 0.5;
-
-        await new Promise<void>((resolve) => {
-          video.onseeked = () => resolve();
-        });
-
-        // Draw frame to canvas
-        const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth || 640;
-        canvas.height = video.videoHeight || 360;
-        
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          
-          // Convert to data URL
-          const thumbnailUrl = canvas.toDataURL('image/jpeg', 0.8);
-          setThumbnail(thumbnailUrl);
-        }
-
-        // Cleanup
-        video.remove();
-      } catch (error) {
-        console.warn('Thumbnail generation failed, will use video poster:', error);
-        // Fallback: use video itself as poster
-        setThumbnail(null);
-      }
-    };
-
-    generateThumbnail();
-  }, [isVideo, mediaSrc]);
-
-  // ✅ STEP 2: Intersection observer to load video only when visible
-  useEffect(() => {
-    if (!isVideo || !containerRef.current) return;
+    if (!isVideo || !videoRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          // Once intersecting, mark as loaded and keep it
           if (entry.isIntersecting) {
-            setIsVideoVisible(true);
+            setIsIntersecting(true);
           }
         });
       },
       {
-        rootMargin: '200px',
+        rootMargin: '200px', // Load earlier for smoother experience
         threshold: 0.01
       }
     );
 
-    observer.observe(containerRef.current);
+    observer.observe(videoRef.current);
 
     return () => {
       observer.disconnect();
     };
   }, [isVideo]);
 
-  // Handle click to show video player
-  const handleThumbnailClick = () => {
-    if (isVideo && !showVideo) {
-      setShowVideo(true);
+  // Handle video errors
+  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    const video = e.currentTarget;
+    const error = video.error;
+    
+    if (error) {
+      switch (error.code) {
+        case MediaError.MEDIA_ERR_ABORTED:
+          console.debug('Video load aborted by user:', mediaSrc);
+          break;
+        case MediaError.MEDIA_ERR_NETWORK:
+          console.warn('Network error loading video:', mediaSrc);
+          setVideoError(true);
+          break;
+        case MediaError.MEDIA_ERR_DECODE:
+          console.warn('Video decode error:', mediaSrc);
+          setVideoError(true);
+          break;
+        case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+          console.warn('Video format not supported or CORS issue:', mediaSrc);
+          setVideoError(true);
+          break;
+        default:
+          console.warn('Unknown video error:', mediaSrc, error);
+          setVideoError(true);
+      }
+    } else {
+      console.warn('Video error without error object:', mediaSrc, e);
+      setVideoError(true);
     }
   };
 
-  // Handle video errors
-  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.warn('Video error:', mediaSrc, e);
-    setVideoError(true);
+  const handleVideoAbort = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    console.debug('Video load aborted (normal):', mediaSrc);
+  };
+
+  const handleVideoStalled = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    console.debug('Video stalled:', mediaSrc);
   };
 
   return (
@@ -202,12 +173,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
       radius={radius}
     >
       <VStack spacing={spacing}>
-        <div 
-          ref={containerRef}
-          className="portfolio-media-container"
-          onClick={handleThumbnailClick}
-          style={{ cursor: isVideo && !showVideo ? 'pointer' : 'default' }}
-        >
+        <div className="portfolio-media-container">
           {countryCode && (
             <div className="portfolio-flag">
               {countryCode.toLowerCase() === 'uk' && <GB />}
@@ -215,97 +181,56 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
             </div>
           )}
           
-          {/* ✅ Show thumbnail for videos (instant display) */}
-          {isVideo && !showVideo && (
-            <div className="portfolio-video-thumbnail">
-              {thumbnail ? (
-                <CustomImage
-                  src={thumbnail}
-                  alt={mediaAlt || title}
-                  width="100%"
-                  height="auto"
-                  aspectRatio="16/9"
-                  objectFit="cover"
-                  priority
-                  showSkeleton={false}
-                  className="portfolio-thumbnail-image"
-                />
-              ) : (
-                <video
-                  className="portfolio-video-poster"
-                  src={`${mediaSrc}#t=0.1`}
-                  preload="metadata"
-                  muted
-                  playsInline
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover'
-                  }}
-                />
-              )}
-              
-              {/* Play button overlay */}
-              <div className="portfolio-play-overlay">
-                <svg 
-                  width="64" 
-                  height="64" 
-                  viewBox="0 0 64 64" 
-                  fill="none"
-                  className="portfolio-play-icon"
-                >
-                  <circle cx="32" cy="32" r="32" fill="rgba(0,0,0,0.7)" />
-                  <path 
-                    d="M26 20L44 32L26 44V20Z" 
-                    fill="white"
-                  />
-                </svg>
-              </div>
-            </div>
-          )}
-
-          {/* ✅ Show actual video player when clicked (lazy loaded) */}
-          {isVideo && showVideo && isVideoVisible && !videoError && (
+          {isVideo && !videoError && (
             <div className="portfolio-video-container">
               <video
                 ref={videoRef}
                 className="portfolio-video"
-                src={mediaSrc}
-                preload="auto"
+                src={isIntersecting ? `${mediaSrc}#t=0.1` : undefined}
+                preload={isIntersecting ? "metadata" : "none"}
                 playsInline
                 controls
-                autoPlay
                 onError={handleVideoError}
+                onAbort={handleVideoAbort}
+                onStalled={handleVideoStalled}
                 controlsList="nodownload"
                 disablePictureInPicture
-                crossOrigin="anonymous"
+                {...(typeof window !== 'undefined' && !window.location.hostname.includes('localhost') 
+                  ? { crossOrigin: 'anonymous' as const } 
+                  : {})}
               >
                 Your browser does not support the video tag.
               </video>
             </div>
           )}
 
-          {/* Error state */}
           {isVideo && videoError && (
-            <div className="portfolio-video-error">
+            <div className="portfolio-video-container" style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              background: '#f0f0f0',
+              minHeight: '240px'
+            }}>
               <Typography variant="body-sm" color="secondary" align="center">
                 Video not available
               </Typography>
             </div>
           )}
           
-          {/* Regular images */}
           {isImage && (
             <div className="portfolio-image-container">
-              <CustomImage
+              <Image
                 src={mediaSrc}
                 alt={mediaAlt || title}
-                width="100%"
-                height="auto"
-                aspectRatio="16/9"
-                objectFit="cover"
+                width={400}
+                height={240}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
                 priority
-                showSkeleton={true}
               />
             </div>
           )}
