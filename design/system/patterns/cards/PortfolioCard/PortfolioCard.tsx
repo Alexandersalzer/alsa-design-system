@@ -1,14 +1,15 @@
 // ===============================================
 // design/system/components/patterns/client/PortfolioCard/PortfolioCard.tsx
-// PORTFOLIO CARD PATTERN - Video/Image portfolio card like KJ Marketing
+// PORTFOLIO CARD PATTERN - Using Video component with cache detection
 // ===============================================
 
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import { Card } from '../../../components/layout';
 import { Typography, TypographyColor } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
-import Image from 'next/image';
+import { Video } from '../../../components/media/Video';
+import { Image } from '../../../components/media/Image';
 import { GB, SE } from 'country-flag-icons/react/3x2';
 import './PortfolioCard.css';
 
@@ -91,79 +92,8 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   // Layout defaults
   spacing = 'sm'
 }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoError, setVideoError] = useState(false);
-  const [isIntersecting, setIsIntersecting] = useState(false);
-
-  // Determine if we have video or image content based on mediaType
   const isVideo = mediaType === 'video';
   const isImage = mediaType === 'image';
-
-  // Track if video has been loaded once - then keep it loaded
-  useEffect(() => {
-    if (!isVideo || !videoRef.current) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          // Once intersecting, mark as loaded and keep it
-          if (entry.isIntersecting) {
-            setIsIntersecting(true);
-          }
-        });
-      },
-      {
-        rootMargin: '200px', // Load earlier for smoother experience
-        threshold: 0.01
-      }
-    );
-
-    observer.observe(videoRef.current);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [isVideo]);
-
-  // Handle video errors
-  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    const video = e.currentTarget;
-    const error = video.error;
-    
-    if (error) {
-      switch (error.code) {
-        case MediaError.MEDIA_ERR_ABORTED:
-          console.debug('Video load aborted by user:', mediaSrc);
-          break;
-        case MediaError.MEDIA_ERR_NETWORK:
-          console.warn('Network error loading video:', mediaSrc);
-          setVideoError(true);
-          break;
-        case MediaError.MEDIA_ERR_DECODE:
-          console.warn('Video decode error:', mediaSrc);
-          setVideoError(true);
-          break;
-        case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-          console.warn('Video format not supported or CORS issue:', mediaSrc);
-          setVideoError(true);
-          break;
-        default:
-          console.warn('Unknown video error:', mediaSrc, error);
-          setVideoError(true);
-      }
-    } else {
-      console.warn('Video error without error object:', mediaSrc, e);
-      setVideoError(true);
-    }
-  };
-
-  const handleVideoAbort = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.debug('Video load aborted (normal):', mediaSrc);
-  };
-
-  const handleVideoStalled = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.debug('Video stalled:', mediaSrc);
-  };
 
   return (
     <Card
@@ -181,58 +111,34 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
             </div>
           )}
           
-          {isVideo && !videoError && (
-            <div className="portfolio-video-container">
-              <video
-                ref={videoRef}
-                className="portfolio-video"
-                src={isIntersecting ? `${mediaSrc}#t=0.1` : undefined}
-                preload={isIntersecting ? "metadata" : "none"}
-                playsInline
-                controls
-                onError={handleVideoError}
-                onAbort={handleVideoAbort}
-                onStalled={handleVideoStalled}
-                controlsList="nodownload"
-                disablePictureInPicture
-                {...(typeof window !== 'undefined' && !window.location.hostname.includes('localhost') 
-                  ? { crossOrigin: 'anonymous' as const } 
-                  : {})}
-              >
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          )}
-
-          {isVideo && videoError && (
-            <div className="portfolio-video-container" style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              background: '#f0f0f0',
-              minHeight: '240px'
-            }}>
-              <Typography variant="body-sm" color="secondary" align="center">
-                Video not available
-              </Typography>
-            </div>
+          {isVideo && (
+            <Video
+              src={mediaSrc}
+              aspectRatio="16/9"
+              radius={radius}
+              loading="lazy"
+              showSkeleton={true}
+              controls
+              playsInline
+              preload="metadata"
+              controlsList="nodownload"
+              disablePictureInPicture
+              className="portfolio-video"
+            />
           )}
           
           {isImage && (
-            <div className="portfolio-image-container">
-              <Image
-                src={mediaSrc}
-                alt={mediaAlt || title}
-                width={400}
-                height={240}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover'
-                }}
-                priority
-              />
-            </div>
+            <Image
+              src={mediaSrc}
+              alt={mediaAlt || title}
+              aspectRatio="16/9"
+              objectFit="cover"
+              radius={radius}
+              loading="lazy"
+              showSkeleton={true}
+              priority={false}
+              className="portfolio-image"
+            />
           )}
         </div>
         

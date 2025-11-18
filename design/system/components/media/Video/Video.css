@@ -1,0 +1,135 @@
+/* ===============================================
+   Video.css - Video Component Styles with Delayed Skeleton
+   ✨ Only skeleton animates - video appears INSTANTLY when loaded
+============================================== */
+
+/* ===== CONTAINER ===== */
+.video-container {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #000;
+}
+
+.video-container--radius-none { border-radius: 0; }
+.video-container--radius-sm { border-radius: var(--radius-sm); }
+.video-container--radius-md { border-radius: var(--radius-md); }
+.video-container--radius-lg { border-radius: var(--radius-lg); }
+.video-container--radius-xl { border-radius: var(--radius-xl); }
+
+/* ===== VIDEO ===== */
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* ✅ NO ANIMATION - Video appears instantly when loaded */
+}
+
+.video--radius-none { border-radius: 0; }
+.video--radius-sm { border-radius: var(--radius-sm); }
+.video--radius-md { border-radius: var(--radius-md); }
+.video--radius-lg { border-radius: var(--radius-lg); }
+.video--radius-xl { border-radius: var(--radius-xl); }
+
+.video--loaded {
+  opacity: 1;
+}
+
+/* ===== SKELETON LOADING STATE ===== */
+.video-skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--surface-subtle) 0%,
+    var(--surface-muted) 50%,
+    var(--surface-subtle) 100%
+  );
+  background-size: 200% 100%;
+  z-index: 1;
+}
+
+/* ✨ DELAYED FADE-IN: Skeleton starts invisible and slowly fades in
+   
+   Timeline:
+   0ms:     Skeleton opacity = 0 (invisible)
+   200ms:   Still 0 (giving fast videos time to load poster)
+   800ms:   Opacity = 0.3 (becoming visible)
+   1500ms:  Opacity = 1 (fully visible)
+   
+   Result:
+   - Fast videos (< 200ms):  Poster loads before skeleton visible = NO FLASH! ✅
+   - Medium videos (200-800ms): Skeleton slowly fades in, then video pops in instantly
+   - Slow videos (> 800ms): Full skeleton visible, video pops in when ready
+   
+   Video ALWAYS appears instantly (no fade) - only skeleton animates!
+*/
+.video-skeleton--delayed {
+  opacity: 0;
+  animation: videoSkeletonDelayedFadeIn 1.5s ease-in forwards,
+             videoSkeletonPulse 1.5s ease-in-out infinite;
+}
+
+/* Skeleton fades in slowly - gives fast videos time to load first */
+@keyframes videoSkeletonDelayedFadeIn {
+  0% {
+    opacity: 0;
+  }
+  13% {
+    /* 200ms delay - fast cached videos load during this time */
+    opacity: 0;
+  }
+  53% {
+    /* 800ms - slowly becoming visible */
+    opacity: 0.3;
+  }
+  100% {
+    /* 1500ms - fully visible for slow videos */
+    opacity: 1;
+  }
+}
+
+/* Subtle pulse animation for skeleton */
+@keyframes videoSkeletonPulse {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ===== ERROR STATE ===== */
+.video-error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  background: var(--surface-muted);
+  color: var(--text-tertiary);
+  z-index: 2;
+}
+
+.video-error-text {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .video,
+  .video-skeleton {
+    animation: none !important;
+    transition: none !important;
+  }
+}
