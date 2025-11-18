@@ -16,52 +16,52 @@
 
 /* ===== SIZE VARIANTS ===== */
 .logo-text--size-xs {
-  font-size: var(--typography-body-sm-size);
+  font-size: var(--font-body-sm-size);
 }
 
 .logo-text--size-sm {
-  font-size: var(--typography-body-md-size);
+  font-size: var(--font-body-md-size);
 }
 
 .logo-text--size-md {
-  font-size: var(--typography-heading-h5-size);
+  font-size: var(--font-h5-size);
 }
 
 .logo-text--size-lg {
-  font-size: var(--typography-heading-h4-size);
+  font-size: var(--font-h4-size);
 }
 
 .logo-text--size-xl {
-  font-size: var(--typography-heading-h3-size);
+  font-size: var(--font-h3-size);
 }
 
 .logo-text--size-2xl {
-  font-size: var(--typography-heading-h2-size);
+  font-size: var(--font-h2-size);
 }
 
 /* ===== WEIGHT VARIANTS ===== */
 .logo-text--weight-normal {
-  font-weight: var(--font-weight-normal);
+  font-weight: var(--foundation-weight-regular);
 }
 
 .logo-text--weight-medium {
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--foundation-weight-medium);
 }
 
 .logo-text--weight-semibold {
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--foundation-weight-semibold);
 }
 
 .logo-text--weight-bold {
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--foundation-weight-bold);
 }
 
 .logo-text--weight-extrabold {
-  font-weight: var(--font-weight-extrabold);
+  font-weight: var(--foundation-weight-extrabold);
 }
 
 .logo-text--weight-black {
-  font-weight: var(--font-weight-black);
+  font-weight: var(--foundation-weight-black);
 }
 
 /* ===== TRANSFORM VARIANTS ===== */
@@ -104,7 +104,7 @@
 
 /* ===== COLOR VARIANTS ===== */
 .logo-text--color-primary {
-  color: var(--text-heading-primary);
+  color: var(--text-heading-color);  /* Uses heading color which adapts to dark mode */
 }
 
 .logo-text--color-secondary {
@@ -121,19 +121,19 @@
 
 /* ===== FONT FAMILY VARIANTS ===== */
 .logo-text--font-brand {
-  font-family: var(--font-family-brand);
+  font-family: var(--font-heading-family);  /* Brand uses heading font */
 }
 
 .logo-text--font-heading {
-  font-family: var(--font-family-heading);
+  font-family: var(--font-heading-family);
 }
 
 .logo-text--font-body {
-  font-family: var(--font-family-body);
+  font-family: var(--font-body-family);
 }
 
 .logo-text--font-mono {
-  font-family: var(--font-family-mono);
+  font-family: var(--foundation-font-mono);
 }
 
 /* ===== GRADIENT EFFECT ===== */
@@ -265,14 +265,8 @@ a.logo-text:focus-visible {
   .logo-text--gradient {
     background: none;
     -webkit-text-fill-color: inherit;
-    color: var(--text-heading-primary);
+    color: var(--text-heading-color);
   }
-}
-
-/* ===== DARK MODE ADJUSTMENTS ===== */
-[data-theme="dark"] .logo-text--color-primary,
-.dark .logo-text--color-primary {
-  color: var(--text-inverse);
 }
 
 /* ===== PRESET COMPONENT STYLES ===== */
