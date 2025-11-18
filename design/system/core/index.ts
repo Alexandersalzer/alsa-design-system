@@ -20,3 +20,6 @@ export * from './render';
 
 export * from './content';
 
+// PostMessage functionality
+export * from './postmessage';
+

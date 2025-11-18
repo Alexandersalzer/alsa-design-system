@@ -68,4 +68,7 @@ export { ContentLayout } from './cms/wrappers/ContentLayout';
 export { Sections} from './cms/utils';
 
 // Export WebsiteContent type from new location
-export { type WebsiteContent } from './cms/wrappers/content/types/content'; 
+export { type WebsiteContent } from './cms/wrappers/content/types/content';
+
+// Export PostMessage functionality
+export { EditingModeHandler } from './system/core/postmessage'; 
