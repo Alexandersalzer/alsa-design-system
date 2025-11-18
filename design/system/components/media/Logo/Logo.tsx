@@ -25,8 +25,8 @@ export interface LogoProps {
   width?: number;
   /** Image height */
   height?: number;
-  /** Logo image variant for dark mode */
-  imageVariant?: 'auto' | 'light' | 'dark' | 'color';
+  /** Unified color for both image and text - adapts to theme */
+  color?: 'auto' | 'light' | 'dark' | 'brand';
   /** Text size */
   textSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   /** Text weight */
@@ -35,8 +35,6 @@ export interface LogoProps {
   textTransform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
   /** Text letter spacing */
   textSpacing?: 'normal' | 'tight' | 'wide' | 'wider' | 'widest';
-  /** Text color variant */
-  textColor?: 'primary' | 'secondary' | 'inverse' | 'inherit';
   /** Text gradient effect */
   textGradient?: boolean;
   /** Spacing between image and text */
@@ -64,12 +62,11 @@ export const Logo: React.FC<LogoProps> = ({
   href = '/',
   width = 40,
   height = 40,
-  imageVariant = 'auto',
+  color = 'auto',
   textSize = 'lg',
   textWeight = 'extrabold',
   textTransform = 'none',
   textSpacing = 'normal',
-  textColor = 'primary',
   textGradient = false,
   gap = 'sm',
   align = 'center',
@@ -79,6 +76,29 @@ export const Logo: React.FC<LogoProps> = ({
   onClick,
   className,
 }) => {
+  // Map unified color to image variant and text color
+  const getImageVariant = (color: 'auto' | 'light' | 'dark' | 'brand'): 'auto' | 'light' | 'dark' | 'color' => {
+    const mapping = {
+      'auto': 'auto',
+      'light': 'dark',   // Light color = show dark logo on light bg
+      'dark': 'light',   // Dark color = show light logo on dark bg
+      'brand': 'color'
+    } as const;
+    return mapping[color];
+  };
+
+  const getTextColor = (color: 'auto' | 'light' | 'dark' | 'brand'): 'primary' | 'secondary' | 'inverse' | 'inherit' => {
+    const mapping = {
+      'auto': 'primary',    // Auto-adapts to theme
+      'light': 'inverse',   // Light = white text
+      'dark': 'primary',    // Dark = black text
+      'brand': 'primary'    // Brand = use primary (can be customized)
+    } as const;
+    return mapping[color];
+  };
+
+  const imageVariant = getImageVariant(color);
+  const textColor = getTextColor(color);
   // Determine what to render
   const hasImage = Boolean(src);
   const hasText = Boolean(text);

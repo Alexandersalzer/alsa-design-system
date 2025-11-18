@@ -68,7 +68,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   // Card styling defaults
   variant = 'default',
   padding = 'md',
-  radius = 'sm',
+  radius = 'md',
   
   // Typography defaults - matching KJ Marketing style
   categoryVariant = 'label-sm',

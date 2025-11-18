@@ -211,7 +211,6 @@
 
 .logo-text--hover:hover {
   opacity: 0.8;
-  transform: translateY(-1px);
 }
 
 .logo-text--hover:active {
