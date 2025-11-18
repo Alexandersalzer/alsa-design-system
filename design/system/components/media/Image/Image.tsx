@@ -156,8 +156,8 @@ export const Image: React.FC<ImageProps> = ({
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* Loading skeleton */}
-      {showSkeleton && !isLoaded && !hasError && (
+      {/* Loading skeleton - only show for lazy loaded images */}
+      {showSkeleton && !isLoaded && !hasError && !priority && loading !== 'eager' && (
         <div className="image-skeleton" />
       )}
 
