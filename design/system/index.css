@@ -51,6 +51,7 @@
 /* Primitives - Media */
 @import './components/media/Icon/Icon.css';
 @import './components/media/Avatar/Avatar.css';
+@import './components/media/Image/Image.css';
 
 /* Primitives - Standalone Components */
 @import './components/layout/Card/Card.css';
