@@ -201,7 +201,9 @@ export const Video: React.FC<VideoProps> = ({
           controls={controls}
           playsInline={playsInline}
           preload={priority || isCached ? 'auto' : preload}
-          crossOrigin={crossOrigin}
+          {...(typeof window !== 'undefined' && !window.location.hostname.includes('localhost')
+            ? { crossOrigin: crossOrigin as 'anonymous' | 'use-credentials' | undefined }
+            : {})}
           {...props}
         >
           Your browser does not support the video tag.

@@ -114,8 +114,8 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
           {isVideo && (
             <Video
               src={mediaSrc}
-              aspectRatio="16/9"
-              radius={radius}
+              aspectRatio="2/3"
+              radius="sm"
               loading="lazy"
               showSkeleton={true}
               controls
@@ -131,9 +131,9 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
             <Image
               src={mediaSrc}
               alt={mediaAlt || title}
-              aspectRatio="16/9"
+              aspectRatio="2/3"
               objectFit="cover"
-              radius={radius}
+              radius="sm"
               loading="lazy"
               showSkeleton={true}
               priority={false}

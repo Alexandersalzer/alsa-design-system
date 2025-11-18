@@ -1,57 +1,54 @@
 /* ===============================================
-   PortfolioCard.css - Clean, simple styles
+   PortfolioCard.css - Video Showcase Pattern
+   Clean, contained video/image display with 2/3 aspect ratio
 ============================================== */
 
-/* ===== MEDIA CONTAINER ===== */
+/* Media Container - prevents overflow */
 .portfolio-media-container {
   position: relative;
   width: 100%;
+  aspect-ratio: 2 / 3;
   overflow: hidden;
+  border-radius: var(--radius-card-sm);
+  background: transparent;
 }
 
-/* ===== FLAG ===== */
+/* Flag - same as before */
 .portfolio-flag {
   position: absolute;
   top: 12px;
   right: 12px;
-  width: 32px;
-  height: auto;
   z-index: 10;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 2px;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 28px;
+  height: 20px;
 }
 
 .portfolio-flag svg {
-  width: 100%;
-  height: auto;
+  width: 24px;
+  height: 16px;
   display: block;
 }
 
-/* ===== VIDEO & IMAGE (handled by components) ===== */
-.portfolio-video,
-.portfolio-image {
-  width: 100%;
-  height: auto;
-}
-
-/* ===== CONTENT ===== */
+/* Content Area - padding for text */
 .portfolio-content {
-  padding: var(--spacing-3) var(--spacing-2) var(--spacing-2);
+  padding: var(--foundation-space-3, 12px) 0;
 }
 
-/* ===== EYE ICON ===== */
+/* Eye icon for views */
 .eye-icon {
   display: flex;
   align-items: center;
-  color: var(--text-secondary);
+  color: var(--color-text-secondary, #6b7280);
 }
 
-/* ===== RESPONSIVE ===== */
+/* Responsive */
 @media (max-width: 768px) {
-  .portfolio-flag {
-    width: 24px;
-    top: 8px;
-    right: 8px;
+  .portfolio-media-container {
+    aspect-ratio: 1 / 1;
   }
 }
