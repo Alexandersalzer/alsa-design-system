@@ -1,6 +1,5 @@
 /* ===============================================
-   Video.css - Video Component Styles with Delayed Skeleton
-   ✨ Only skeleton animates - video appears INSTANTLY when loaded
+   Video.css - Simple, Fast Video Component
 ============================================== */
 
 /* ===== CONTAINER ===== */
@@ -11,96 +10,53 @@
   background: #000;
 }
 
-.video-container--radius-none { border-radius: 0; }
-.video-container--radius-sm { border-radius: var(--radius-sm); }
-.video-container--radius-md { border-radius: var(--radius-md); }
-.video-container--radius-lg { border-radius: var(--radius-lg); }
-.video-container--radius-xl { border-radius: var(--radius-xl); }
+.video-container--radius-none { 
+  border-radius: 0; 
+}
 
-/* ===== VIDEO ===== */
-.video {
+.video-container--radius-sm { 
+  border-radius: var(--radius-sm, 4px); 
+}
+
+.video-container--radius-md { 
+  border-radius: var(--radius-md, 8px); 
+}
+
+.video-container--radius-lg { 
+  border-radius: var(--radius-lg, 12px); 
+}
+
+.video-container--radius-xl { 
+  border-radius: var(--radius-xl, 16px); 
+}
+
+/* ===== VIDEO ELEMENT ===== */
+.video-element {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* ✅ NO ANIMATION - Video appears instantly when loaded */
+  background: #000;
 }
 
-.video--radius-none { border-radius: 0; }
-.video--radius-sm { border-radius: var(--radius-sm); }
-.video--radius-md { border-radius: var(--radius-md); }
-.video--radius-lg { border-radius: var(--radius-lg); }
-.video--radius-xl { border-radius: var(--radius-xl); }
-
-.video--loaded {
-  opacity: 1;
+.video-element--radius-none { 
+  border-radius: 0; 
 }
 
-/* ===== SKELETON LOADING STATE ===== */
-.video-skeleton {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--surface-subtle) 0%,
-    var(--surface-muted) 50%,
-    var(--surface-subtle) 100%
-  );
-  background-size: 200% 100%;
-  z-index: 1;
+.video-element--radius-sm { 
+  border-radius: var(--radius-sm, 4px); 
 }
 
-/* ✨ DELAYED FADE-IN: Skeleton starts invisible and slowly fades in
-   
-   Timeline:
-   0ms:     Skeleton opacity = 0 (invisible)
-   200ms:   Still 0 (giving fast videos time to load poster)
-   800ms:   Opacity = 0.3 (becoming visible)
-   1500ms:  Opacity = 1 (fully visible)
-   
-   Result:
-   - Fast videos (< 200ms):  Poster loads before skeleton visible = NO FLASH! ✅
-   - Medium videos (200-800ms): Skeleton slowly fades in, then video pops in instantly
-   - Slow videos (> 800ms): Full skeleton visible, video pops in when ready
-   
-   Video ALWAYS appears instantly (no fade) - only skeleton animates!
-*/
-.video-skeleton--delayed {
-  opacity: 0;
-  animation: videoSkeletonDelayedFadeIn 1.5s ease-in forwards,
-             videoSkeletonPulse 1.5s ease-in-out infinite;
+.video-element--radius-md { 
+  border-radius: var(--radius-md, 8px); 
 }
 
-/* Skeleton fades in slowly - gives fast videos time to load first */
-@keyframes videoSkeletonDelayedFadeIn {
-  0% {
-    opacity: 0;
-  }
-  13% {
-    /* 200ms delay - fast cached videos load during this time */
-    opacity: 0;
-  }
-  53% {
-    /* 800ms - slowly becoming visible */
-    opacity: 0.3;
-  }
-  100% {
-    /* 1500ms - fully visible for slow videos */
-    opacity: 1;
-  }
+.video-element--radius-lg { 
+  border-radius: var(--radius-lg, 12px); 
 }
 
-/* Subtle pulse animation for skeleton */
-@keyframes videoSkeletonPulse {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+.video-element--radius-xl { 
+  border-radius: var(--radius-xl, 16px); 
 }
 
 /* ===== ERROR STATE ===== */
@@ -114,21 +70,24 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-2);
-  background: var(--surface-muted);
-  color: var(--text-tertiary);
-  z-index: 2;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.video-error svg {
+  opacity: 0.6;
 }
 
 .video-error-text {
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-medium);
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* ===== ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
-  .video,
-  .video-skeleton {
+  .video-element {
     animation: none !important;
     transition: none !important;
   }

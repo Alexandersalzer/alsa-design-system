@@ -1,6 +1,6 @@
 // ===============================================
 // design/system/components/media/Video/Video.tsx
-// VIDEO COMPONENT - Cache detection + delayed skeleton + instant poster display
+// VIDEO COMPONENT - Fast, simple, instant poster display
 // ===============================================
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -16,7 +16,7 @@ export interface VideoProps extends Omit<React.VideoHTMLAttributes<HTMLVideoElem
   width?: number | string;
   /** Video height */
   height?: number | string;
-  /** Aspect ratio (e.g., '16/9', '4/3', '1/1') */
+  /** Aspect ratio (e.g., '16/9', '4/3', '2/3', '1/1') */
   aspectRatio?: string;
   /** Border radius */
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
@@ -24,12 +24,8 @@ export interface VideoProps extends Omit<React.VideoHTMLAttributes<HTMLVideoElem
   loading?: 'lazy' | 'eager';
   /** Priority loading (disables lazy loading) */
   priority?: boolean;
-  /** Show loading skeleton */
-  showSkeleton?: boolean;
-  /** Callback when video loads */
-  onLoad?: () => void;
   /** Callback when video errors */
-  onError?: () => void;
+  onVideoError?: () => void;
   /** Lazy load threshold (in pixels) */
   rootMargin?: string;
   /** Custom className */
@@ -46,64 +42,23 @@ export const Video: React.FC<VideoProps> = ({
   radius = 'md',
   loading = 'lazy',
   priority = false,
-  showSkeleton = true,
-  onLoad,
-  onError,
-  rootMargin = '200px',
+  onVideoError,
+  rootMargin = '100px',
   className,
   style,
   controls = true,
   playsInline = true,
   preload = 'metadata',
-  crossOrigin = 'anonymous',
   ...props
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [isCached, setIsCached] = useState(false);
 
-  // ✅ OPTIMIZATION 1: Check if video is already cached (CloudFront/CDN)
+  // Lazy loading with IntersectionObserver
   useEffect(() => {
-    if (!src || priority || loading === 'eager') {
-      return;
-    }
-
-    // Create a test video to check cache
-    const testVideo = document.createElement('video');
-    testVideo.src = src;
-    testVideo.preload = 'metadata';
-
-    // If video loads super fast (< 50ms), it's cached
-    const startTime = Date.now();
-    
-    const checkCache = () => {
-      const loadTime = Date.now() - startTime;
-      if (loadTime < 50) {
-        // Video is in browser cache or CDN cache - show immediately!
-        setIsCached(true);
-        setIsLoaded(true);
-        setIsIntersecting(true);
-      }
-    };
-
-    testVideo.onloadedmetadata = checkCache;
-    
-    // Also check if already complete (sync load from cache)
-    if (testVideo.readyState >= 1) {
-      checkCache();
-    }
-
-    return () => {
-      testVideo.remove();
-    };
-  }, [src, priority, loading]);
-
-  // Intersection Observer for lazy loading (skip if cached)
-  useEffect(() => {
-    if (priority || loading === 'eager' || isCached) {
+    if (priority || loading === 'eager') {
       setIsIntersecting(true);
       return;
     }
@@ -129,37 +84,27 @@ export const Video: React.FC<VideoProps> = ({
     return () => {
       observer.disconnect();
     };
-  }, [priority, loading, rootMargin, isCached]);
-
-  // Handle video load
-  const handleLoadedMetadata = () => {
-    setIsLoaded(true);
-    setHasError(false);
-    onLoad?.();
-  };
+  }, [priority, loading, rootMargin]);
 
   // Handle video error
-  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+  const handleVideoError = () => {
     console.warn('Video error:', src);
     setHasError(true);
-    onError?.();
+    onVideoError?.();
   };
 
-  const shouldLoad = isIntersecting || priority || isCached;
+  const shouldLoad = isIntersecting || priority;
 
-  // Build container classes
+  // Build classes
   const containerClasses = cn(
     'video-container',
     `video-container--radius-${radius}`,
     className
   );
 
-  // Build video classes
   const videoClasses = cn(
-    'video',
-    `video--radius-${radius}`,
-    isLoaded && 'video--loaded',
-    hasError && 'video--error'
+    'video-element',
+    `video-element--radius-${radius}`
   );
 
   // Container styles
@@ -169,40 +114,25 @@ export const Video: React.FC<VideoProps> = ({
     aspectRatio: aspectRatio || undefined,
     position: 'relative',
     overflow: 'hidden',
+    background: '#000',
     ...style
-  };
-
-  // ✅ OPTIMIZATION 2: Video appears instantly (no fade animation)
-  const videoStyles: React.CSSProperties = {
-    width: '100%',
-    height: '100%',
-    display: 'block',
-    objectFit: 'cover',
-    opacity: isLoaded ? 1 : 0,  // Instant switch when loaded
-    transition: 'none'           // No fade animation
   };
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* ✅ OPTIMIZATION 3: Delayed skeleton - DON'T show for cached videos */}
-      {showSkeleton && !isLoaded && !hasError && !priority && !isCached && loading !== 'eager' && (
-        <div className="video-skeleton video-skeleton--delayed" />
-      )}
-
-      {/* Actual video */}
+      {/* Video element - browser handles poster natively */}
       {shouldLoad && !hasError && (
         <video
           ref={videoRef}
           className={videoClasses}
-          style={videoStyles}
           src={src}
-          onLoadedMetadata={handleLoadedMetadata}
+          poster={`${src}#t=0.1`}
           onError={handleVideoError}
           controls={controls}
           playsInline={playsInline}
-          preload={priority || isCached ? 'auto' : preload}
+          preload={preload}
           {...(typeof window !== 'undefined' && !window.location.hostname.includes('localhost')
-            ? { crossOrigin: crossOrigin as 'anonymous' | 'use-credentials' | undefined }
+            ? { crossOrigin: 'anonymous' as const }
             : {})}
           {...props}
         >
@@ -214,8 +144,8 @@ export const Video: React.FC<VideoProps> = ({
       {hasError && (
         <div className="video-error">
           <svg
-            width="40"
-            height="40"
+            width="48"
+            height="48"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -223,8 +153,14 @@ export const Video: React.FC<VideoProps> = ({
             strokeLinecap="round"
             strokeLinejoin="round"
           >
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-            <path d="M23 7l-7 5 7 5V7z" />
+            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
+            <line x1="7" y1="2" x2="7" y2="22" />
+            <line x1="17" y1="2" x2="17" y2="22" />
+            <line x1="2" y1="12" x2="22" y2="12" />
+            <line x1="2" y1="7" x2="7" y2="7" />
+            <line x1="2" y1="17" x2="7" y2="17" />
+            <line x1="17" y1="17" x2="22" y2="17" />
+            <line x1="17" y1="7" x2="22" y2="7" />
           </svg>
           <span className="video-error-text">Video not available</span>
         </div>

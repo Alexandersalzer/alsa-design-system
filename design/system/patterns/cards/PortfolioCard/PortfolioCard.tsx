@@ -117,7 +117,6 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               aspectRatio="2/3"
               radius="sm"
               loading="lazy"
-              showSkeleton={true}
               controls
               playsInline
               preload="metadata"
