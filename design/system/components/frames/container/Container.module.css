@@ -72,6 +72,16 @@
   }
 }
 
+/* ===== EDITING MODE HOVER EFFECT ===== */
+.editingMode {
+  transition: border 0.2s ease-in-out;
+}
+
+.editingMode:hover {
+  border: 1px solid rgba(59, 130, 246, 0.6); /* Blue border with transparency */
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2); /* Subtle glow */
+}
+
 /* ===== UNIVERSAL RESET ===== */
 .container * {
   box-sizing: border-box;

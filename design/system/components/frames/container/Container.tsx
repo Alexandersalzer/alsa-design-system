@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import styles from './Container.module.css';
+import { applyEditingMode } from '../../../core/postmessage';
 
 type Alignment = 'left' | 'center' | 'right';
 type Height = 'auto' | 'full' | 'fit';
@@ -61,6 +62,7 @@ export const Container = ({
   noPadding = false,
   style,
 }: ContainerProps) => {
+  const isEditing = applyEditingMode();
   const alignmentClass = getAlignmentClass(align);
   const heightClass = getHeightClass(height);
   const spacingClass = getSpacingClass(spacing);
@@ -81,6 +83,7 @@ export const Container = ({
     widthClass,
     spacingClass,
     paddingClass,
+    isEditing && styles.editingMode,
     className,
   ].join(' ').trim();
 
