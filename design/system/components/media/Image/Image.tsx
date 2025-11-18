@@ -157,7 +157,7 @@ export const Image: React.FC<ImageProps> = ({
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
       {/* Loading skeleton */}
-      {showSkeleton && !isLoaded && !hasError && (
+      {shouldLoad && showSkeleton && !isLoaded && !hasError && (
         <div className="image-skeleton" />
       )}
 
