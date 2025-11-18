@@ -1,113 +1,48 @@
 /* ===============================================
-   Image.css - Smart Image Component Styles
+   Image.css - Image Component Styles with Delayed Skeleton
+   ✨ Only skeleton animates - image appears INSTANTLY when loaded
 ============================================== */
 
-/* ===== IMAGE CONTAINER ===== */
+/* ===== CONTAINER ===== */
 .image-container {
   position: relative;
+  display: inline-block;
   overflow: hidden;
-  background-color: var(--secondary-100);
-  display: block;
 }
 
-/* ===== RADIUS VARIANTS - Using Component Tokens ===== */
-.image-container--radius-none {
-  border-radius: var(--radius-none);
-}
+.image-container--radius-none { border-radius: 0; }
+.image-container--radius-sm { border-radius: var(--radius-sm); }
+.image-container--radius-md { border-radius: var(--radius-md); }
+.image-container--radius-lg { border-radius: var(--radius-lg); }
+.image-container--radius-xl { border-radius: var(--radius-xl); }
+.image-container--radius-full { border-radius: 9999px; }
 
-.image-container--radius-sm {
-  border-radius: var(--radius-image);
-}
-
-.image-container--radius-md {
-  border-radius: var(--radius-image);
-}
-
-.image-container--radius-lg {
-  border-radius: var(--radius-video);
-}
-
-.image-container--radius-xl {
-  border-radius: var(--radius-modal);
-}
-
-.image-container--radius-full {
-  border-radius: var(--radius-full);
-}
-
-/* ===== HOVER ZOOM EFFECT ===== */
-.image-container--hover-zoom {
-  cursor: pointer;
-}
-
-.image-container--hover-zoom .image {
-  transition: transform var(--foundation-duration-normal) var(--foundation-easing-standard);
-}
-
-.image-container--hover-zoom:hover .image {
-  transform: scale(1.05);
-}
-
-/* ===== ACTUAL IMAGE ===== */
+/* ===== IMAGE ===== */
 .image {
+  display: block;
   width: 100%;
   height: 100%;
-  display: block;
-  opacity: 0;
-  transition: opacity var(--foundation-duration-normal) var(--foundation-easing-standard);
+  /* ✅ NO ANIMATION - Image appears instantly when loaded */
 }
+
+.image--object-fit-cover { object-fit: cover; }
+.image--object-fit-contain { object-fit: contain; }
+.image--object-fit-fill { object-fit: fill; }
+.image--object-fit-none { object-fit: none; }
+.image--object-fit-scale-down { object-fit: scale-down; }
+
+.image--radius-none { border-radius: 0; }
+.image--radius-sm { border-radius: var(--radius-sm); }
+.image--radius-md { border-radius: var(--radius-md); }
+.image--radius-lg { border-radius: var(--radius-lg); }
+.image--radius-xl { border-radius: var(--radius-xl); }
+.image--radius-full { border-radius: 9999px; }
 
 .image--loaded {
   opacity: 1;
 }
 
-/* ===== OBJECT FIT VARIANTS ===== */
-.image--object-fit-cover {
-  object-fit: cover;
-}
-
-.image--object-fit-contain {
-  object-fit: contain;
-}
-
-.image--object-fit-fill {
-  object-fit: fill;
-}
-
-.image--object-fit-none {
-  object-fit: none;
-}
-
-.image--object-fit-scale-down {
-  object-fit: scale-down;
-}
-
-/* ===== IMAGE RADIUS (matches container) ===== */
-.image--radius-none {
-  border-radius: var(--radius-none);
-}
-
-.image--radius-sm {
-  border-radius: var(--radius-image);
-}
-
-.image--radius-md {
-  border-radius: var(--radius-image);
-}
-
-.image--radius-lg {
-  border-radius: var(--radius-video);
-}
-
-.image--radius-xl {
-  border-radius: var(--radius-modal);
-}
-
-.image--radius-full {
-  border-radius: var(--radius-full);
-}
-
-/* ===== LOADING SKELETON ===== */
+/* ===== SKELETON LOADING STATE ===== */
 .image-skeleton {
   position: absolute;
   top: 0;
@@ -116,21 +51,72 @@
   height: 100%;
   background: linear-gradient(
     90deg,
-    var(--secondary-100) 0%,
-    var(--secondary-200) 50%,
-    var(--secondary-100) 100%
+    var(--surface-subtle) 0%,
+    var(--surface-muted) 50%,
+    var(--surface-subtle) 100%
   );
   background-size: 200% 100%;
-  animation: skeleton-loading var(--foundation-duration-slow) var(--foundation-easing-standard) infinite;
+  z-index: 1;
 }
 
-@keyframes skeleton-loading {
+/* ✨ DELAYED FADE-IN: Skeleton starts invisible and slowly fades in
+   
+   Timeline:
+   0ms:     Skeleton opacity = 0 (invisible)
+   200ms:   Still 0 (giving fast images time to load)
+   800ms:   Opacity = 0.3 (becoming visible)
+   1500ms:  Opacity = 1 (fully visible)
+   
+   Result:
+   - Fast images (< 200ms):  Load before skeleton visible = NO FLASH! ✅
+   - Medium images (200-800ms): Skeleton slowly fades in, then image pops in instantly
+   - Slow images (> 800ms): Full skeleton visible, image pops in when ready
+   
+   Image ALWAYS appears instantly (no fade) - only skeleton animates!
+*/
+.image-skeleton--delayed {
+  opacity: 0;
+  animation: skeletonDelayedFadeIn 1.5s ease-in forwards,
+             skeletonPulse 1.5s ease-in-out infinite;
+}
+
+/* Skeleton fades in slowly - gives fast images time to load first */
+@keyframes skeletonDelayedFadeIn {
   0% {
-    background-position: 200% 0;
+    opacity: 0;
+  }
+  13% {
+    /* 200ms delay - fast cached images load during this time */
+    opacity: 0;
+  }
+  53% {
+    /* 800ms - slowly becoming visible */
+    opacity: 0.3;
   }
   100% {
-    background-position: -200% 0;
+    /* 1500ms - fully visible for slow images */
+    opacity: 1;
   }
+}
+
+/* Subtle pulse animation for skeleton */
+@keyframes skeletonPulse {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ===== HOVER ZOOM EFFECT ===== */
+/* Only transform animates on hover, not opacity */
+.image-container--hover-zoom .image {
+  transition: transform 0.3s ease;
+}
+
+.image-container--hover-zoom:hover .image {
+  transform: scale(1.05);
 }
 
 /* ===== ERROR STATE ===== */
@@ -144,60 +130,36 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--secondary-100);
-  color: var(--text-secondary);
-  gap: var(--foundation-space-2);
-}
-
-.image-error svg {
-  opacity: 0.5;
+  gap: var(--spacing-2);
+  background: var(--surface-muted);
+  color: var(--text-tertiary);
+  z-index: 2;
 }
 
 .image-error-text {
-  font-size: var(--foundation-text-sm);
-  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
 }
 
-/* ===== AVATAR IMAGE VARIANTS ===== */
+/* ===== AVATAR SPECIFIC STYLES ===== */
 .avatar-image {
-  flex-shrink: 0;
+  border-radius: 9999px;
 }
 
-.avatar-image--xs {
-  width: 32px;
-  height: 32px;
-}
+.avatar-image--xs { width: 32px; height: 32px; }
+.avatar-image--sm { width: 40px; height: 40px; }
+.avatar-image--md { width: 48px; height: 48px; }
+.avatar-image--lg { width: 64px; height: 64px; }
+.avatar-image--xl { width: 96px; height: 96px; }
 
-.avatar-image--sm {
-  width: 40px;
-  height: 40px;
-}
-
-.avatar-image--md {
-  width: 48px;
-  height: 48px;
-}
-
-.avatar-image--lg {
-  width: 64px;
-  height: 64px;
-}
-
-.avatar-image--xl {
-  width: 96px;
-  height: 96px;
-}
-
-/* ===== LOGO IMAGE VARIANTS ===== */
+/* ===== LOGO SPECIFIC STYLES ===== */
 .logo-image {
-  display: block;
+  object-fit: contain;
 }
 
-/* ===== LOGO VARIANT: AUTO (default behavior) ===== */
-/* Black logo on light mode, inverts to white in dark mode */
+/* Logo dark mode variants */
 .logo-image--auto {
-  background-color: transparent;
-  filter: none;
+  /* Default: black logo inverts to white in dark mode */
 }
 
 [data-theme="dark"] .logo-image--auto,
@@ -205,12 +167,8 @@
   filter: invert(1);
 }
 
-/* ===== LOGO VARIANT: LIGHT ===== */
-/* Logo designed for LIGHT backgrounds (black/dark logo) */
-/* Inverts in dark mode to become visible on dark background */
 .logo-image--light {
-  background-color: transparent;
-  filter: none;
+  /* Light logo: designed for light backgrounds, inverts in dark mode */
 }
 
 [data-theme="dark"] .logo-image--light,
@@ -218,51 +176,27 @@
   filter: invert(1);
 }
 
-/* ===== LOGO VARIANT: DARK ===== */
-/* Logo designed for DARK backgrounds (white/light logo) */
-/* Inverts in light mode to become visible on light background */
 .logo-image--dark {
-  background-color: transparent;
+  /* Dark logo: designed for dark backgrounds, inverts in light mode */
   filter: invert(1);
 }
 
 [data-theme="dark"] .logo-image--dark,
 .dark .logo-image--dark {
-  filter: none;
+  filter: invert(0);
 }
 
-/* ===== LOGO VARIANT: COLOR ===== */
-/* Full-color logo, NEVER inverts regardless of theme */
 .logo-image--color {
-  background-color: transparent;
-  filter: none;
-}
-
-[data-theme="dark"] .logo-image--color,
-.dark .logo-image--color {
-  filter: none;
-}
-
-/* ===== RESPONSIVE ADJUSTMENTS ===== */
-@media (max-width: 640px) {
-  .image-container--hover-zoom:hover .image {
-    transform: scale(1.02);
-  }
+  /* Full-color logo: never inverts */
+  filter: none !important;
 }
 
 /* ===== ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
   .image,
-  .image-skeleton,
-  .image-container--hover-zoom .image {
-    animation: none;
-    transition: none;
-  }
-}
-
-/* ===== HIGH CONTRAST MODE ===== */
-@media (prefers-contrast: high) {
-  .image-error {
-    border: 2px solid currentColor;
+  .image-container--hover-zoom .image,
+  .image-skeleton {
+    animation: none !important;
+    transition: none !important;
   }
 }

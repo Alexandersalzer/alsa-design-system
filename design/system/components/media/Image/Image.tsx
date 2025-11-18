@@ -1,6 +1,6 @@
 // ===============================================
 // design/system/components/media/Image/Image.tsx
-// IMAGE COMPONENT - Smart image with cache detection and instant loading
+// IMAGE COMPONENT - Cache detection + delayed skeleton + instant image display
 // ===============================================
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -73,7 +73,7 @@ export const Image: React.FC<ImageProps> = ({
   const [hasError, setHasError] = useState(false);
   const [isCached, setIsCached] = useState(false);
 
-  // ✅ Check if image is already cached (CloudFront/CDN)
+  // ✅ OPTIMIZATION 1: Check if image is already cached (CloudFront/CDN)
   useEffect(() => {
     if (!src || priority || loading === 'eager') {
       return;
@@ -178,20 +178,20 @@ export const Image: React.FC<ImageProps> = ({
     ...style
   };
 
-  // Image styles - if cached, show immediately without fade
+  // ✅ OPTIMIZATION 2: Image appears instantly (no fade animation)
   const imageStyles: React.CSSProperties = {
     width: '100%',
     height: '100%',
     display: 'block',
-    opacity: (priority || loading === 'eager' || isCached) ? 1 : (isLoaded ? 1 : 0),
-    transition: isCached ? 'none' : 'opacity 0.3s ease, transform 0.3s ease'
+    opacity: isLoaded ? 1 : 0,  // Instant switch when loaded
+    transition: 'none'           // No fade animation
   };
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* Loading skeleton - DON'T show for cached images */}
+      {/* ✅ OPTIMIZATION 3: Delayed skeleton - DON'T show for cached images */}
       {showSkeleton && !isLoaded && !hasError && !priority && !isCached && loading !== 'eager' && (
-        <div className="image-skeleton" />
+        <div className="image-skeleton image-skeleton--delayed" />
       )}
 
       {/* Actual image */}
