@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { cn } from '../../../lib/utils';
 import { Box, HStack, VStack, Button, TextLink, IconButton, IconButtons } from '../../../components';
+import { LogoImage } from '../../../components/media/Image';
 import { CrossIcon, MenuIcon, XIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
 import { useComponentProps, componentPresent, usePatternProps, useMapComponents, CDN_BASE_URL } from '../../../core/utils/helpers';
@@ -30,7 +31,6 @@ const NavbarBar = ( patternNode: PatternNode) => {
   const mobileVariant = getPatternProps().mobileMenuVariant || 'fullscreen';
 
   // Auto-close drawer when screen becomes desktop size (debounced)
-  // Prevents mobile drawer from staying open if user resizes to desktop
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     const handleResize = () => {
@@ -51,12 +51,14 @@ const NavbarBar = ( patternNode: PatternNode) => {
         {/* LEFT */}
         <HStack align="center" spacing="sm" className="navbar-bar__left">
           {renderIf('logo') && (
-            <img
+            <LogoImage
               src={`${CDN_BASE_URL}${getComponent('logo').src}`}
               alt={getComponent('logo').alt || 'Logo'}
-              className="navbar-bar__logo"
               width={getComponent('logo').width || 40}
               height={getComponent('logo').height || 40}
+              className="navbar-bar__logo"
+              loading="eager"
+              priority={true}
             />
           )}
           {renderIf('typography', 'businessName') && (
@@ -94,7 +96,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
           </HStack>
         </div>
 
-        {/* MOBILE TOGGLE - separate from content */}
+        {/* MOBILE TOGGLE */}
         <IconButton
           variant="ghost"
           size="md"

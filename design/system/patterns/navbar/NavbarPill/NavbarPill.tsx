@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../components';
+import { LogoImage } from '../../../components/media/Image';
 import { MenuIcon, XIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
 import { useComponentProps, componentPresent, usePatternProps, useMapComponents, CDN_BASE_URL } from '../../../core/utils/helpers';
@@ -70,12 +71,14 @@ const NavbarPill = (patternNode: PatternNode) => {
           {/* LEFT */}
           <HStack align="center" spacing="sm" className="navbar-pill__left">
             {renderIf('logo') && (
-              <img
+              <LogoImage
                 src={`${CDN_BASE_URL}${getComponent('logo').src}`}
                 alt={getComponent('logo').alt || 'Logo'}
-                className="navbar-pill__logo"
                 width={getComponent('logo').width || 40}
                 height={getComponent('logo').height || 40}
+                className="navbar-pill__logo"
+                loading="eager"
+                priority={true}
               />
             )}
             {renderIf('typography', 'businessName') && (
@@ -132,7 +135,7 @@ const NavbarPill = (patternNode: PatternNode) => {
         </Box>
       </nav>
 
-      {/* MOBILE DRAWER - positioned below pill */}
+      {/* MOBILE DRAWER */}
       <Drawer
         isOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
@@ -169,7 +172,7 @@ const NavbarPill = (patternNode: PatternNode) => {
             ))}
           </VStack>
 
-          {/* Actions section - pushed to bottom */}
+          {/* Actions section */}
           <VStack spacing="sm" className="drawer-pill-actions">
             {renderIf('button', 'secondaryAction') && (
               <Button

@@ -202,6 +202,18 @@
   filter: brightness(0) invert(1);
 }
 
+/* ===== DARK MODE LOGO INVERSION ===== */
+[data-theme="dark"] .logo-image,
+.dark .logo-image {
+  filter: invert(1);
+}
+
+/* Don't double-invert dark variant logos */
+[data-theme="dark"] .logo-image--dark,
+.dark .logo-image--dark {
+  filter: brightness(0) invert(1);
+}
+
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
 @media (max-width: 640px) {
   .image-container--hover-zoom:hover .image {

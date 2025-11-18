@@ -1,6 +1,7 @@
 'use client';
 import { usePathname, useRouter } from 'next/navigation';
 import { Typography, VStack, HStack, Menu } from '../../../components';
+import { LogoImage } from '../../../components/media/Image';
 import { PatternNode } from '../../../core/types/nodes';
 import { useComponentProps, componentPresent, CDN_BASE_URL } from '../../../core/utils/helpers';
 import { getPickerLocale, handleLocaleChange } from '../../../core/utils/locale';
@@ -21,12 +22,14 @@ const KjFooter = ({ components = {} }: PatternNode) => {
       {/* Title with Logo */}
       <HStack spacing="md" align="center" justify="center">
         {renderIf('logo') && (
-          <img
+          <LogoImage
             src={`${CDN_BASE_URL}${get('logo').src}`}
             alt={get('logo').alt || 'Logo'}
             width={get('logo').width || 40}
             height={get('logo').height || 40}
-            className="object-contain flex-shrink-0"
+            objectFit="contain"
+            loading="lazy"
+            className="flex-shrink-0"
           />
         )}
         <Typography 
