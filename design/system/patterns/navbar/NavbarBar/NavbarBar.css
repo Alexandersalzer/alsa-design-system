@@ -105,7 +105,7 @@
 }
 
 .navbar-bar__mobile-toggle:hover {
-  color: var(--icon-brand);
+  color: var(--icon-primary);
 }
 
 /* Transparent variant */

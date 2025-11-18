@@ -150,7 +150,7 @@ export const Image: React.FC<ImageProps> = ({
     width: '100%',
     height: '100%',
     display: 'block',
-    opacity: isLoaded ? 1 : 0,
+    opacity: (priority || loading === 'eager') ? 1 : (isLoaded ? 1 : 0),
     transition: 'opacity 0.3s ease, transform 0.3s ease'
   };
 
