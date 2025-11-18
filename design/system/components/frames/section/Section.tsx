@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import styles from './Section.module.css';
+import { useEditingMode } from '../../../core/postmessage';
 
 type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
@@ -61,6 +62,7 @@ export const Section = ({
   spacing, // optional override
   style,
 }: SectionProps) => {
+  const isEditing = useEditingMode();
   const heightClass = getHeightClass(height);
   const positionClass = getPositionClass(position, sticky);
   const spacingClass = getSpacingClass(spacing);
@@ -70,6 +72,7 @@ export const Section = ({
     heightClass,
     positionClass,
     spacingClass,
+    isEditing && styles.editingMode,
     className,
   ].join(' ').trim();
 

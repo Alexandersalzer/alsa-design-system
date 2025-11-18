@@ -35,11 +35,11 @@
 .heightScreen { height: 100vh; justify-content: center; }
 
 /* ===== EDITING MODE HOVER EFFECT ===== */
-:global(html.editing-mode) .section {
+.editingMode {
   transition: border 0.2s ease-in-out;
 }
 
-:global(html.editing-mode) .section:hover {
+.editingMode:hover {
   border: 1px solid rgba(59, 130, 246, 0.6); /* Blue border with transparency */
   box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2); /* Subtle glow */
 }
