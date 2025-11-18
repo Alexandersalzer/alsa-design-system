@@ -28,12 +28,8 @@ const KjFooter = ({ components = {} }: PatternNode) => {
             width={get('logo').width || 40}
             height={get('logo').height || 40}
             objectFit="contain"
-            variant='dark'
             loading="lazy"
             className="flex-shrink-0"
-            style={{
-              filter: 'invert(0)'
-            }}
           />
         )}
         <Typography 
