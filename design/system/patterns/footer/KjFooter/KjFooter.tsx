@@ -25,12 +25,12 @@ const KjFooter = ({ components = {} }: PatternNode) => {
     href: '/',
     width: renderIf('logo') ? (get('logo').width || 40) : undefined,
     height: renderIf('logo') ? (get('logo').height || 40) : undefined,
-    imageVariant: renderIf('logo') ? (get('logo').variant || 'dark') : 'dark', // Default to 'dark' for footer
-    textSize: renderIf('typography', 'title') ? (get('typography', 'title').size || 'md') : 'md',
-    textWeight: renderIf('typography', 'title') ? (get('typography', 'title').weight || 'semibold') : 'semibold',
-    textTransform: renderIf('typography', 'title') ? (get('typography', 'title').transform || 'uppercase') : 'uppercase',
-    textSpacing: renderIf('typography', 'title') ? (get('typography', 'title').spacing || 'wide') : 'wide',
-    gap: 'md',
+    imageVariant: renderIf('logo') ? (get('logo').variant || 'dark') : 'dark' as const, // Default to 'dark' for footer
+    textSize: renderIf('typography', 'title') ? (get('typography', 'title').size || 'md') : 'md' as const,
+    textWeight: renderIf('typography', 'title') ? (get('typography', 'title').weight || 'semibold') : 'semibold' as const,
+    textTransform: renderIf('typography', 'title') ? (get('typography', 'title').transform || 'uppercase') : 'uppercase' as const,
+    textSpacing: renderIf('typography', 'title') ? (get('typography', 'title').spacing || 'wide') : 'wide' as const,
+    gap: 'md' as const,
     loading: 'lazy' as const,
     className: 'footer-logo',
   };
