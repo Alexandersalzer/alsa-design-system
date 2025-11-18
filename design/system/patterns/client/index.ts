@@ -30,7 +30,6 @@ export * from './ContactForm';
 export * from './ReviewCard';
 export * from './results';
 export * from './FilterTabs';
-export * from './Testimonials';
 export * from './AboutWithStats';
 export * from './AboutUs';
 export * from './SuccessfulCases';
