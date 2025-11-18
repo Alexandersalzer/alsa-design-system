@@ -66,7 +66,7 @@ export const Image: React.FC<ImageProps> = ({
   style,
   ...props
 }) => {
-  const imgRef = useRef<HTMLImageElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -78,7 +78,7 @@ export const Image: React.FC<ImageProps> = ({
       return;
     }
 
-    if (!imgRef.current) return;
+    if (!containerRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -94,7 +94,7 @@ export const Image: React.FC<ImageProps> = ({
       }
     );
 
-    observer.observe(imgRef.current);
+    observer.observe(containerRef.current);
 
     return () => {
       observer.disconnect();
@@ -155,7 +155,7 @@ export const Image: React.FC<ImageProps> = ({
   };
 
   return (
-    <div className={containerClasses} style={containerStyles}>
+    <div ref={containerRef} className={containerClasses} style={containerStyles}>
       {/* Loading skeleton */}
       {showSkeleton && !isLoaded && !hasError && (
         <div className="image-skeleton" />
@@ -164,7 +164,6 @@ export const Image: React.FC<ImageProps> = ({
       {/* Actual image */}
       {shouldLoad && (
         <img
-          ref={imgRef}
           src={currentSrc}
           alt={alt}
           className={imageClasses}
