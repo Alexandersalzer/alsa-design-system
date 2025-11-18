@@ -3,6 +3,7 @@
 import React, { useMemo } from 'react';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
 import { LogoImage } from '../../../components/media/Image';
+import { CDN_BASE_URL } from '../../../core/utils/helpers';
 
 interface SpinningBannerProps {
   props?: {
@@ -42,16 +43,16 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
     }))
     .filter((l) => l.src);
 
-  // Fallback set
+  // Fallback set (these would also come from JSON in production)
   const fallback = [
-    { src: '/images/kjlogos/huellogo.png', alt: 'Huel' },
-    { src: '/images/kjlogos/logoFazer.png', alt: 'Fazer' },
-    { src: '/images/kjlogos/wolt.png', alt: 'Wolt' },
-    { src: '/images/kjlogos/tradera.png', alt: 'Tradera' },
-    { src: '/images/kjlogos/philips.png', alt: 'Philips' },
-    { src: '/images/kjlogos/skyshowtime.png', alt: 'SkyShowtime' },
-    { src: '/images/kjlogos/aftonbladet.png', alt: 'Aftonbladet' },
-    { src: '/images/kjlogos/mindlerLogo.png', alt: 'Mindler' },
+    { src: '/2194716412/images/logos/huellogo.png', alt: 'Huel' },
+    { src: '/2194716412/images/logos/logoFazer.png', alt: 'Fazer' },
+    { src: '/2194716412/images/logos/wolt.png', alt: 'Wolt' },
+    { src: '/2194716412/images/logos/tradera.png', alt: 'Tradera' },
+    { src: '/2194716412/images/logos/philips.png', alt: 'Philips' },
+    { src: '/2194716412/images/logos/skyshowtime.png', alt: 'SkyShowtime' },
+    { src: '/2194716412/images/logos/aftonbladet.png', alt: 'Aftonbladet' },
+    { src: '/2194716412/images/logos/mindlerLogo.png', alt: 'Mindler' },
   ];
 
   const allLogos = logos.length ? logos : fallback;
@@ -89,11 +90,11 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
         }}
       >
         <LogoImage
-          src={logo.src}
+          src={`${CDN_BASE_URL}${logo.src}`}
           alt={logo.alt}
           width={sizeMap.width}
           height={sizeMap.height}
-          objectFit="cover"
+          objectFit="contain"
           loading="lazy"
           showSkeleton={true}
           style={{

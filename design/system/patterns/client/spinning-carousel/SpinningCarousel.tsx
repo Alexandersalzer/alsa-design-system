@@ -1,6 +1,6 @@
 // ===============================================
 // design/system/components/patterns/client/spinning-carousel/SpinningCarousel.tsx
-// SPINNING CAROUSEL PATTERN - Using new Image component
+// SPINNING CAROUSEL PATTERN - Using new Image component with CDN support
 // ===============================================
 
 'use client';
@@ -8,6 +8,7 @@
 import React, { useState } from 'react';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
 import { Image } from '../../../components/media/Image';
+import { CDN_BASE_URL } from '../../../core/utils/helpers';
 
 export interface CarouselImage {
   src: string;
@@ -133,7 +134,7 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
         }}
       >
         <Image
-          src={image.src}
+          src={`${CDN_BASE_URL}${image.src}`}
           alt={image.alt}
           title={image.title}
           width="100%"
