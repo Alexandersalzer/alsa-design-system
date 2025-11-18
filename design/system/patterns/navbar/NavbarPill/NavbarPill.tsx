@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../components';
-import { LogoImage } from '../../../components/media/Image';
+import { Logo } from '../../../components/media/Logo';
 import { MenuIcon, XIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
 import { useComponentProps, componentPresent, usePatternProps, useMapComponents, CDN_BASE_URL } from '../../../core/utils/helpers';
@@ -64,30 +64,34 @@ const NavbarPill = (patternNode: PatternNode) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+    // Build logo props
+  const logoProps = {
+    src: renderIf('logo') ? `${CDN_BASE_URL}${getComponent('logo').src}` : undefined,
+    alt: renderIf('logo') ? (getComponent('logo').alt || 'Logo') : undefined,
+    text: renderIf('typography', 'businessName') ? getComponent('typography', 'businessName').content : undefined,
+    href: '/',
+    width: renderIf('logo') ? (getComponent('logo').width || 40) : undefined,
+    height: renderIf('logo') ? (getComponent('logo').height || 40) : undefined,
+    imageVariant: renderIf('logo') ? (getComponent('logo').variant || 'auto') : 'auto',
+    textSize: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').size || 'lg') : 'lg',
+    textWeight: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').weight || 'extrabold') : 'extrabold',
+    textTransform: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').transform || 'none') : 'none',
+    textSpacing: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').spacing || 'normal') : 'normal',
+    textGradient: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').gradient || false) : false,
+    gap: renderIf('logo') && renderIf('typography', 'businessName') ? (getPatternProps().logoGap || 'sm') : 'sm',
+    hideTextOnMobile: getPatternProps().hideLogoTextOnMobile || false,
+    loading: 'eager' as const,
+    priority: true,
+  };
+
   return (
     <>
       <nav className="navbar-pill">
         <Box ref={pillRef} className="navbar-pill__container">
-          {/* LEFT */}
-          <HStack align="center" spacing="sm" className="navbar-pill__left">
-            {renderIf('logo') && (
-              <LogoImage
-                src={`${CDN_BASE_URL}${getComponent('logo').src}`}
-                alt={getComponent('logo').alt || 'Logo'}
-                width={getComponent('logo').width || 40}
-                height={getComponent('logo').height || 40}
-                variant={getComponent('logo').variant || 'auto'}
-                className="navbar-pill__logo"
-                loading="eager"
-                priority={true}
-              />
-            )}
-            {renderIf('typography', 'businessName') && (
-              <TextLink href="/" className="navbar-pill__brand">
-                {getComponent('typography', 'businessName').content}
-              </TextLink>
-            )}
-          </HStack>
+          {/* LEFT - Unified Logo */}
+          <div className="navbar-pill__left">
+            <Logo {...logoProps} className="navbar-pill__logo" />
+          </div>
 
           {/* MIDDLE - Desktop only */}
           {renderIf('textlink', 'menuItem') && (

@@ -1,0 +1,65 @@
+/* ===============================================
+   Logo.css - Unified Logo Component Styles
+============================================== */
+
+/* ===== BASE LOGO STYLES ===== */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+.logo:hover {
+  opacity: 0.9;
+}
+
+.logo:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* ===== SINGLE IMAGE ONLY ===== */
+.logo__image-only {
+  display: block;
+}
+
+/* ===== SINGLE TEXT ONLY ===== */
+.logo__text-only {
+  display: inline-block;
+}
+
+/* ===== COMBINED IMAGE + TEXT ===== */
+.logo--combined {
+  display: inline-flex;
+}
+
+.logo__combined-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo__image {
+  flex-shrink: 0;
+}
+
+.logo__text {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ===== MOBILE TEXT HIDING ===== */
+@media (max-width: 768px) {
+  .logo--hide-text-mobile .logo__text--hide-mobile {
+    display: none;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .logo {
+    transition: none;
+  }
+}

@@ -31,7 +31,7 @@ export function ResultsCard({
   imageAlt,
   // Defaults
   imageRadius = 'sm',
-  imageObjectFit = 'cover',
+  imageObjectFit = 'contain',
   imageAspectRatio = '2/3',
   cardVariant = 'elevated',
   cardPadding = 'md',

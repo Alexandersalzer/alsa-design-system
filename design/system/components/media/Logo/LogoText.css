@@ -1,0 +1,292 @@
+/* ===============================================
+   LogoText.css - Branded Text Component Styles
+============================================== */
+
+/* ===== BASE STYLES ===== */
+.logo-text {
+  display: inline-block;
+  text-decoration: none;
+  line-height: 1.2;
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== SIZE VARIANTS ===== */
+.logo-text--size-xs {
+  font-size: var(--typography-body-sm-size);
+}
+
+.logo-text--size-sm {
+  font-size: var(--typography-body-md-size);
+}
+
+.logo-text--size-md {
+  font-size: var(--typography-heading-h5-size);
+}
+
+.logo-text--size-lg {
+  font-size: var(--typography-heading-h4-size);
+}
+
+.logo-text--size-xl {
+  font-size: var(--typography-heading-h3-size);
+}
+
+.logo-text--size-2xl {
+  font-size: var(--typography-heading-h2-size);
+}
+
+/* ===== WEIGHT VARIANTS ===== */
+.logo-text--weight-normal {
+  font-weight: var(--font-weight-normal);
+}
+
+.logo-text--weight-medium {
+  font-weight: var(--font-weight-medium);
+}
+
+.logo-text--weight-semibold {
+  font-weight: var(--font-weight-semibold);
+}
+
+.logo-text--weight-bold {
+  font-weight: var(--font-weight-bold);
+}
+
+.logo-text--weight-extrabold {
+  font-weight: var(--font-weight-extrabold);
+}
+
+.logo-text--weight-black {
+  font-weight: var(--font-weight-black);
+}
+
+/* ===== TRANSFORM VARIANTS ===== */
+.logo-text--transform-none {
+  text-transform: none;
+}
+
+.logo-text--transform-uppercase {
+  text-transform: uppercase;
+}
+
+.logo-text--transform-lowercase {
+  text-transform: lowercase;
+}
+
+.logo-text--transform-capitalize {
+  text-transform: capitalize;
+}
+
+/* ===== SPACING VARIANTS ===== */
+.logo-text--spacing-normal {
+  letter-spacing: 0;
+}
+
+.logo-text--spacing-tight {
+  letter-spacing: -0.02em;
+}
+
+.logo-text--spacing-wide {
+  letter-spacing: 0.025em;
+}
+
+.logo-text--spacing-wider {
+  letter-spacing: 0.05em;
+}
+
+.logo-text--spacing-widest {
+  letter-spacing: 0.1em;
+}
+
+/* ===== COLOR VARIANTS ===== */
+.logo-text--color-primary {
+  color: var(--text-heading-primary);
+}
+
+.logo-text--color-secondary {
+  color: var(--text-secondary);
+}
+
+.logo-text--color-inverse {
+  color: var(--text-inverse);
+}
+
+.logo-text--color-inherit {
+  color: inherit;
+}
+
+/* ===== FONT FAMILY VARIANTS ===== */
+.logo-text--font-brand {
+  font-family: var(--font-family-brand);
+}
+
+.logo-text--font-heading {
+  font-family: var(--font-family-heading);
+}
+
+.logo-text--font-body {
+  font-family: var(--font-family-body);
+}
+
+.logo-text--font-mono {
+  font-family: var(--font-family-mono);
+}
+
+/* ===== GRADIENT EFFECT ===== */
+.logo-text--gradient {
+  background: linear-gradient(
+    to right,
+    var(--brand-primary),
+    var(--brand-secondary, var(--brand-primary))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gradient Direction Variants */
+.logo-text--gradient-to-r {
+  background: linear-gradient(
+    to right,
+    var(--brand-primary),
+    var(--brand-secondary, var(--brand-primary))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo-text--gradient-to-br {
+  background: linear-gradient(
+    to bottom right,
+    var(--brand-primary),
+    var(--brand-secondary, var(--brand-primary))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo-text--gradient-to-b {
+  background: linear-gradient(
+    to bottom,
+    var(--brand-primary),
+    var(--brand-secondary, var(--brand-primary))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo-text--gradient-to-bl {
+  background: linear-gradient(
+    to bottom left,
+    var(--brand-primary),
+    var(--brand-secondary, var(--brand-primary))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo-text--gradient-to-l {
+  background: linear-gradient(
+    to left,
+    var(--brand-primary),
+    var(--brand-secondary, var(--brand-primary))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== HOVER EFFECTS ===== */
+.logo-text--hover {
+  cursor: pointer;
+}
+
+.logo-text--hover:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+.logo-text--hover:active {
+  transform: translateY(0);
+}
+
+/* Hover effect for gradient text */
+.logo-text--gradient.logo-text--hover:hover {
+  opacity: 1;
+  filter: brightness(1.1);
+}
+
+/* ===== LINK SPECIFIC STYLES ===== */
+a.logo-text {
+  cursor: pointer;
+}
+
+a.logo-text:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+  .logo-text--size-2xl {
+    font-size: var(--typography-heading-h3-size);
+  }
+
+  .logo-text--size-xl {
+    font-size: var(--typography-heading-h4-size);
+  }
+
+  .logo-text--size-lg {
+    font-size: var(--typography-heading-h5-size);
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .logo-text,
+  .logo-text--hover:hover,
+  .logo-text--hover:active {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+  .logo-text--gradient {
+    background: none;
+    -webkit-text-fill-color: inherit;
+    color: var(--text-heading-primary);
+  }
+}
+
+/* ===== DARK MODE ADJUSTMENTS ===== */
+[data-theme="dark"] .logo-text--color-primary,
+.dark .logo-text--color-primary {
+  color: var(--text-inverse);
+}
+
+/* ===== PRESET COMPONENT STYLES ===== */
+
+/* BrandName preset - no additional styles needed, uses base */
+
+/* ProductName preset - subtle enhancement */
+.logo-text.product-name {
+  position: relative;
+}
+
+/* SectionTitle preset - enhanced for headers */
+.logo-text.section-title {
+  display: block;
+  border-bottom: 2px solid var(--border-default);
+  padding-bottom: var(--foundation-space-2);
+}
