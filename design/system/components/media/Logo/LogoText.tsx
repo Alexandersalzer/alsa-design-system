@@ -103,6 +103,8 @@ export interface BrandNameProps {
   transform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
   /** Letter spacing */
   spacing?: 'normal' | 'tight' | 'wide' | 'wider' | 'widest';
+  /** Color variant */
+  color?: 'primary' | 'secondary' | 'inverse' | 'inherit';
   /** Enable gradient */
   gradient?: boolean;
   /** Custom className */
@@ -120,6 +122,7 @@ export const BrandName: React.FC<BrandNameProps> = ({
   weight = 'extrabold',
   transform = 'none',
   spacing = 'normal',
+  color = 'primary',
   gradient = false,
   ...props
 }) => {
@@ -130,6 +133,7 @@ export const BrandName: React.FC<BrandNameProps> = ({
       weight={weight}
       transform={transform}
       spacing={spacing}
+      color={color}
       gradient={gradient}
       font="brand"
     />

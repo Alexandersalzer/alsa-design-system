@@ -35,6 +35,8 @@ export interface LogoProps {
   textTransform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
   /** Text letter spacing */
   textSpacing?: 'normal' | 'tight' | 'wide' | 'wider' | 'widest';
+  /** Text color variant */
+  textColor?: 'primary' | 'secondary' | 'inverse' | 'inherit';
   /** Text gradient effect */
   textGradient?: boolean;
   /** Spacing between image and text */
@@ -67,6 +69,7 @@ export const Logo: React.FC<LogoProps> = ({
   textWeight = 'extrabold',
   textTransform = 'none',
   textSpacing = 'normal',
+  textColor = 'primary',
   textGradient = false,
   gap = 'sm',
   align = 'center',
@@ -128,6 +131,7 @@ export const Logo: React.FC<LogoProps> = ({
           weight={textWeight}
           transform={textTransform}
           spacing={textSpacing}
+          color={textColor}
           gradient={textGradient}
           className="logo__text-only"
         >
@@ -161,6 +165,7 @@ export const Logo: React.FC<LogoProps> = ({
           weight={textWeight}
           transform={textTransform}
           spacing={textSpacing}
+          color={textColor}
           gradient={textGradient}
           className={cn(
             'logo__text',
