@@ -236,14 +236,20 @@ export const AvatarImage: React.FC<AvatarImageProps> = ({
 AvatarImage.displayName = 'AvatarImage';
 
 export interface LogoImageProps extends Omit<ImageProps, 'objectFit'> {
-  /** Logo variant */
-  variant?: 'light' | 'dark';
+  /** 
+   * Logo variant for dark mode handling:
+   * - 'auto': Inverts in dark mode (default, for black logos)
+   * - 'light': Logo designed for light backgrounds, inverts in dark mode
+   * - 'dark': Logo designed for dark backgrounds, inverts in light mode
+   * - 'color': Full-color logo, never inverts
+   */
+  variant?: 'auto' | 'light' | 'dark' | 'color';
   /** Object fit behavior (defaults to contain for logos) */
   objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
 }
 
 export const LogoImage: React.FC<LogoImageProps> = ({
-  variant = 'light',
+  variant = 'auto',
   objectFit = 'contain',
   className,
   ...props

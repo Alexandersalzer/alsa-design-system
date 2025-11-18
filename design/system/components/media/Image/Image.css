@@ -193,25 +193,54 @@
   display: block;
 }
 
-.logo-image--light {
+/* ===== LOGO VARIANT: AUTO (default behavior) ===== */
+/* Black logo on light mode, inverts to white in dark mode */
+.logo-image--auto {
   background-color: transparent;
+  filter: none;
 }
 
-.logo-image--dark {
-  background-color: transparent;
-  filter: brightness(0) invert(1);
-}
-
-/* ===== DARK MODE LOGO INVERSION ===== */
-[data-theme="dark"] .logo-image,
-.dark .logo-image {
+[data-theme="dark"] .logo-image--auto,
+.dark .logo-image--auto {
   filter: invert(1);
 }
 
-/* Don't double-invert dark variant logos */
+/* ===== LOGO VARIANT: LIGHT ===== */
+/* Logo designed for LIGHT backgrounds (black/dark logo) */
+/* Inverts in dark mode to become visible on dark background */
+.logo-image--light {
+  background-color: transparent;
+  filter: none;
+}
+
+[data-theme="dark"] .logo-image--light,
+.dark .logo-image--light {
+  filter: invert(1);
+}
+
+/* ===== LOGO VARIANT: DARK ===== */
+/* Logo designed for DARK backgrounds (white/light logo) */
+/* Inverts in light mode to become visible on light background */
+.logo-image--dark {
+  background-color: transparent;
+  filter: invert(1);
+}
+
 [data-theme="dark"] .logo-image--dark,
 .dark .logo-image--dark {
-  filter: brightness(0) invert(1);
+  filter: none;
+}
+
+/* ===== LOGO VARIANT: COLOR ===== */
+/* Full-color logo, NEVER inverts regardless of theme */
+.logo-image--color {
+  background-color: transparent;
+  filter: none;
+}
+
+[data-theme="dark"] .logo-image--color,
+.dark .logo-image--color {
+  filter: none;
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */

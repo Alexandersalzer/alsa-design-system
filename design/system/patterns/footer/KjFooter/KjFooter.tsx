@@ -31,6 +31,9 @@ const KjFooter = ({ components = {} }: PatternNode) => {
             variant='dark'
             loading="lazy"
             className="flex-shrink-0"
+            style={{
+              filter: 'invert(0)'
+            }}
           />
         )}
         <Typography 

@@ -153,13 +153,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
         <label
           htmlFor={id}
           className="textarea-label"
-          style={{
-            fontSize: size === 'sm' ? 'var(--foundation-text-sm)' : size === 'lg' ? 'var(--foundation-text-lg)' : 'var(--foundation-text-md)',
-            fontWeight: 'var(--foundation-weight-medium)',
-            color: disabled ? 'var(--text-disabled)' : 'var(--text-primary)',
-            marginBottom: 'var(--space-form-label-margin)',
-            display: 'component'
-          }}
         >
           {label}
           {required && (
