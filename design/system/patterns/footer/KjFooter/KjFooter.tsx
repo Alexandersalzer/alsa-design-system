@@ -1,131 +1,177 @@
 'use client';
-import { usePathname, useRouter } from 'next/navigation';
-import { Typography, VStack, Menu } from '../../../components';
+
+import { useState, useEffect } from 'react';
+import { cn } from '../../../lib/utils';
+import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../components';
 import { Logo } from '../../../components/media/Logo';
+import { MenuIcon, XIcon } from 'lucide-react';
+import Drawer from '../../../components/overlays/Drawer/Drawer';
+import { useComponentProps, componentPresent, usePatternProps, useMapComponents, CDN_BASE_URL } from '../../../core/utils/helpers';
+import { alignMap } from '../../navbar/utils';
+import './NavbarBar.css';
 import { PatternNode } from '../../../core/types/nodes';
-import { useComponentProps, componentPresent, CDN_BASE_URL } from '../../../core/utils/helpers';
-import { getPickerLocale, handleLocaleChange } from '../../../core/utils/locale';
 
-const KjFooter = ({ components = {} }: PatternNode) => {
-  const get = useComponentProps(components);
-  const renderIf = componentPresent(components);
-  const pathname = usePathname();
-  const router = useRouter();
 
-  // Get current locale and menu options
-  const menuOptions = get('menu', 'languageSelector').options || [];
-  const currentLocale = getPickerLocale(pathname, menuOptions);
-  const currentOption = menuOptions.find((opt: any) => opt.value === currentLocale);
+const NavbarBar = ( patternNode: PatternNode) => {
+    const { components = {} } = patternNode;
+    const getComponent = useComponentProps(components);
+    const getPatternProps = usePatternProps(patternNode);
+    const renderIf = componentPresent(components);
+    const mapComponentIndices = useMapComponents(components);
+
+
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+
+  const desktopAlign = alignMap[getPatternProps().menuAlign] || 'center';
+  const mobileAlign =
+    alignMap[getPatternProps().mobileMenuAlign] ||
+    alignMap[getPatternProps().menuAlign] ||
+    'center';
+  const mobileVariant = getPatternProps().mobileMenuVariant || 'fullscreen';
+
+  // Auto-close drawer when screen becomes desktop size (debounced)
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        if (window.innerWidth > 1024) {
+          setMobileOpen(false);
+        }
+      }, 50);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Build logo props
   const logoProps = {
-    src: renderIf('logo') ? `${CDN_BASE_URL}${get('logo').src}` : undefined,
-    alt: renderIf('logo') ? (get('logo').alt || 'Logo') : undefined,
-    text: renderIf('typography', 'title') ? get('typography', 'title').content : undefined,
+    src: renderIf('logo') ? `${CDN_BASE_URL}${getComponent('logo').src}` : undefined,
+    alt: renderIf('logo') ? (getComponent('logo').alt || 'Logo') : undefined,
+    text: renderIf('typography', 'businessName') ? getComponent('typography', 'businessName').content : undefined,
     href: '/',
-    width: renderIf('logo') ? (get('logo').width || 40) : undefined,
-    height: renderIf('logo') ? (get('logo').height || 40) : undefined,
-    imageVariant: renderIf('logo') ? (get('logo').variant || 'dark') : 'dark' as const,
-    textSize: renderIf('typography', 'title') ? (get('typography', 'title').size || 'md') : 'md' as const,
-    textWeight: renderIf('typography', 'title') ? (get('typography', 'title').weight || 'semibold') : 'semibold' as const,
-    textTransform: renderIf('typography', 'title') ? (get('typography', 'title').transform || 'uppercase') : 'uppercase' as const,
-    textSpacing: renderIf('typography', 'title') ? (get('typography', 'title').spacing || 'wide') : 'wide' as const,
-    textColor: 'inverse' as const,
-    gap: 'md' as const,
-    loading: 'lazy' as const,
-    className: 'footer-logo',
+    width: renderIf('logo') ? (getComponent('logo').width || 40) : undefined,
+    height: renderIf('logo') ? (getComponent('logo').height || 40) : undefined,
+    imageVariant: renderIf('logo') ? (getComponent('logo').variant || 'auto') : 'auto' as const,
+    textSize: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').size || 'lg') : 'lg' as const,
+    textWeight: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').weight || 'extrabold') : 'extrabold' as const,
+    textTransform: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').transform || 'none') : 'none' as const,
+    textSpacing: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').spacing || 'normal') : 'normal' as const,
+    textColor: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').color || 'primary') : 'primary' as const,
+    textGradient: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').gradient || false) : false,
+    gap: renderIf('logo') && renderIf('typography', 'businessName') ? (getPatternProps().logoGap || 'sm') : 'sm' as const,
+    hideTextOnMobile: getPatternProps().hideLogoTextOnMobile || false,
+    loading: 'eager' as const,
+    priority: true,
   };
 
   return (
-    <VStack spacing="xl" align="center" fullWidth>
-      {/* Unified Logo (replaces separate LogoImage + Typography) */}
-      <Logo {...logoProps} />
+    <nav className="navbar-bar">
+      <Box className="navbar-bar__container">
+        {/* LEFT - Unified Logo */}
+        <div className="navbar-bar__left">
+          <Logo {...logoProps} className="navbar-bar__logo" />
+        </div>
 
-      {/* Language Menu */}
-      {renderIf('menu', 'languageSelector') && (
-        <Menu 
-          size={get('menu', 'languageSelector').size || 'sm'}
-          variant={get('menu', 'languageSelector').variant || 'subtle'}
-          closeOnSelect={true}
-        >
-          <Menu.Trigger>
-            {currentOption?.label || get('menu', 'languageSelector').placeholder || 'Select Language'}
-          </Menu.Trigger>
-          
-          <Menu.Content>
-            {menuOptions.map((option: any) => (
-              <Menu.Item
-                key={option.value}
-                value={option.value}
-                onClick={() => handleLocaleChange(router, option.value)}
-              >
-                {option.label}
-              </Menu.Item>
-            ))}
-          </Menu.Content>
-        </Menu>
-      )}
+        {/* DESKTOP CONTENT */}
+        <div className="navbar-bar__content">
+          {renderIf('textlink', 'menuItem') && (
+            <HStack className={`navbar-bar__middle navbar-bar__middle--${desktopAlign}`} spacing="lg">
+              {mapComponentIndices('textlink', 'menuItem')
+              .slice(0, getPatternProps().maxMenuItems)
+              .map((props, i) => (
+                <TextLink key={i} href={props.href} size="md" underline="hover">
+                  {props.content}
+                </TextLink>
+              ))}
+            </HStack>
+          )}
 
-      {/* Body Content */}
-      <VStack spacing="xs" align="center">
-        {/* Email */}
-        <Typography 
-          variant="body-md"
-          color="tertiary" 
-          align="center"
-          weight="semibold"
-        >
-          <a 
-            href={`mailto:${get('typography', 'email').content}`}
-            style={{ 
-              color: 'inherit', 
-              textDecoration: 'underline',
-              textUnderlineOffset: '2px'
-            }}
-          >
-            {get('typography', 'email').content}
-          </a>
-        </Typography>
+          <HStack spacing="sm" className="navbar-bar__right">
+            {renderIf('button', 'secondaryAction') && (
+              <Button variant="ghost" href={getComponent('button', 'secondaryAction').href}>
+                {getComponent('button', 'secondaryAction').content}
+              </Button>
+            )}
+            {renderIf('button', 'primaryAction') && (
+              <Button variant="primary" href={getComponent('button', 'primaryAction').href}>
+                {getComponent('button', 'primaryAction').content}
+              </Button>
+            )}
+          </HStack>
+        </div>
 
-        {/* Legal */}
-        <Typography 
-          variant="body-sm"
-          color="tertiary" 
-          align="center"
-          weight="semibold"
-        >
-          {get('typography', 'legal').content}
-        </Typography>
-      </VStack>
+        {/* MOBILE TOGGLE */}
+        <IconButton
+          variant="ghost"
+          size="md"
+          aria-label="Toggle menu"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="navbar-bar__mobile-toggle"
+          icon={
+            mobileOpen 
+              ? <XIcon /> 
+              : <MenuIcon />
+          }
+        />
+      </Box>
 
-      {/* Attribution */}
-      <Typography 
-        variant="body-sm"
-        color="tertiary" 
-        align="center"
-        weight="semibold"
+      {/* MOBILE DRAWER */}
+      <Drawer
+        isOpen={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        showCloseButton={false}
+        preventScroll
+        type="top"
+        className={`drawer-variant-${mobileVariant}`}
       >
-        {get('typography', 'attribute').content}{' '}
-        <a 
-          href="https://blimpify-im.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ 
-            color: 'var(--text-placeholder)', 
-            textDecoration: 'underline',
-            textUnderlineOffset: '6px',
-            fontWeight: 'bold'
-          }}
+        <VStack
+          spacing="lg"
+          align="stretch"
+          className={cn(
+            "drawer-navbar-content",
+            `drawer-align-${mobileAlign}`,
+          )}
         >
-          Blimpify
-        </a>
-      </Typography>
-    </VStack>
+          {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem')
+            .map((props, i) => (
+              <TextLink
+                key={i}
+                href={props.href}
+                onClick={() => setMobileOpen(false)}
+                className="drawer-navbar-link"
+              >
+                {props.content}
+              </TextLink>
+            ))}
+
+          <VStack spacing="sm" className="drawer-navbar-actions">
+            {renderIf('button', 'secondaryAction') && (
+              <Button
+                variant="ghost"
+                href={getComponent('button', 'secondaryAction').href}
+                onClick={() => setMobileOpen(false)}
+                className="drawer-navbar-button"
+              >
+                {getComponent('button', 'secondaryAction').content}
+              </Button>
+            )}
+            {renderIf('button', 'primaryAction') && (
+              <Button
+                variant="primary"
+                href={getComponent('button', 'primaryAction').href}
+                onClick={() => setMobileOpen(false)}
+                className="drawer-navbar-button"
+              >
+                {getComponent('button', 'primaryAction').content}
+              </Button>
+            )}
+          </VStack>
+        </VStack>
+      </Drawer>
+    </nav>
   );
 };
 
-// Named export
-export { KjFooter };
-
-// Default export
-export default KjFooter;
+export default NavbarBar;
