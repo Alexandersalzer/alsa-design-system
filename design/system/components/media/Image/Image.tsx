@@ -1,6 +1,6 @@
 // ===============================================
 // design/system/components/media/Image/Image.tsx
-// IMAGE COMPONENT - Smart image with lazy loading, caching, and error handling
+// IMAGE COMPONENT - Smart image with cache detection and instant loading
 // ===============================================
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -67,13 +67,46 @@ export const Image: React.FC<ImageProps> = ({
   ...props
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [isCached, setIsCached] = useState(false);
 
-  // Intersection Observer for lazy loading
+  // ✅ Check if image is already cached (CloudFront/CDN)
   useEffect(() => {
-    if (priority || loading === 'eager') {
+    if (!src || priority || loading === 'eager') {
+      return;
+    }
+
+    // Create a test image to check cache
+    const testImg = new window.Image();
+    testImg.src = src;
+
+    // If image loads super fast (< 10ms), it's cached
+    const startTime = Date.now();
+    
+    const checkCache = () => {
+      const loadTime = Date.now() - startTime;
+      if (loadTime < 10) {
+        // Image is in browser cache or CDN cache - show immediately!
+        setIsCached(true);
+        setIsLoaded(true);
+        setIsIntersecting(true);
+      }
+    };
+
+    testImg.onload = checkCache;
+    
+    // Also check if already complete (sync load from cache)
+    if (testImg.complete) {
+      checkCache();
+    }
+  }, [src, priority, loading]);
+
+  // Intersection Observer for lazy loading (skip if cached)
+  useEffect(() => {
+    if (priority || loading === 'eager' || isCached) {
       setIsIntersecting(true);
       return;
     }
@@ -99,7 +132,7 @@ export const Image: React.FC<ImageProps> = ({
     return () => {
       observer.disconnect();
     };
-  }, [priority, loading, rootMargin]);
+  }, [priority, loading, rootMargin, isCached]);
 
   // Handle image load
   const handleLoad = () => {
@@ -116,7 +149,7 @@ export const Image: React.FC<ImageProps> = ({
 
   // Determine which src to use
   const currentSrc = hasError && fallbackSrc ? fallbackSrc : src;
-  const shouldLoad = isIntersecting || priority;
+  const shouldLoad = isIntersecting || priority || isCached;
 
   // Build container classes
   const containerClasses = cn(
@@ -145,32 +178,33 @@ export const Image: React.FC<ImageProps> = ({
     ...style
   };
 
-  // Image styles
+  // Image styles - if cached, show immediately without fade
   const imageStyles: React.CSSProperties = {
     width: '100%',
     height: '100%',
     display: 'block',
-    opacity: (priority || loading === 'eager') ? 1 : (isLoaded ? 1 : 0),
-    transition: 'opacity 0.3s ease, transform 0.3s ease'
+    opacity: (priority || loading === 'eager' || isCached) ? 1 : (isLoaded ? 1 : 0),
+    transition: isCached ? 'none' : 'opacity 0.3s ease, transform 0.3s ease'
   };
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* Loading skeleton - only show for lazy loaded images */}
-      {showSkeleton && !isLoaded && !hasError && !priority && loading !== 'eager' && (
+      {/* Loading skeleton - DON'T show for cached images */}
+      {showSkeleton && !isLoaded && !hasError && !priority && !isCached && loading !== 'eager' && (
         <div className="image-skeleton" />
       )}
 
       {/* Actual image */}
       {shouldLoad && (
         <img
+          ref={imgRef}
           src={currentSrc}
           alt={alt}
           className={imageClasses}
           style={imageStyles}
           onLoad={handleLoad}
           onError={handleError}
-          loading={priority ? 'eager' : 'lazy'}
+          loading={priority || isCached ? 'eager' : 'lazy'}
           {...props}
         />
       )}
