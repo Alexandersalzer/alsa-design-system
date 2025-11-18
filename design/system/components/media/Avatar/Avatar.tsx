@@ -1,12 +1,13 @@
 // ===============================================
 // design/system/components/media/Avatar/Avatar.tsx
-// Avatar component refactored to use Box utilities
+// Avatar component using Image component internally
 // ===============================================
 
-import React, { forwardRef, ReactElement, useState } from 'react';
+import React, { forwardRef, ReactElement } from 'react';
 import { cn } from '../../../lib/utils';
 import { UserIcon } from '@heroicons/react/24/outline';
 import { Icon } from '../../media/Icon';
+import { Image } from '../../media/Image';
 import { Box } from '../../layout/box/Box';
 
 // ===== TYPE DEFINITIONS =====
@@ -45,7 +46,7 @@ export interface AvatarRootProps
   children?: React.ReactNode;
 }
 
-// ===== SIZE MAP USING BOX PROPS =====
+// ===== SIZE MAP =====
 const SIZE_MAP: Record<
   Exclude<AvatarSize, 'full'>,
   {
@@ -125,50 +126,6 @@ export const AvatarRoot = forwardRef<HTMLDivElement, AvatarRootProps>(
 );
 
 AvatarRoot.displayName = 'AvatarRoot';
-
-// ===== AVATAR IMAGE COMPONENT =====
-export interface AvatarImageProps
-  extends React.ImgHTMLAttributes<HTMLImageElement> {
-  src?: string;
-  srcSet?: string;
-  loading?: 'eager' | 'lazy';
-  onError?: (
-    e: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => void;
-}
-
-export const AvatarImage = forwardRef<
-  HTMLImageElement,
-  AvatarImageProps
->(({ src, srcSet, loading = 'lazy', className, alt = '', onError, ...props }, ref) => {
-  const [imageError, setImageError] = useState(false);
-
-  const handleError = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => {
-    setImageError(true);
-    onError?.(e);
-  };
-
-  if (imageError || !src) {
-    return null;
-  }
-
-  return (
-    <img
-      ref={ref}
-      src={src}
-      srcSet={srcSet}
-      loading={loading}
-      alt={alt}
-      className={cn('avatar-image', className)}
-      onError={handleError}
-      {...props}
-    />
-  );
-});
-
-AvatarImage.displayName = 'AvatarImage';
 
 // ===== AVATAR FALLBACK COMPONENT =====
 export interface AvatarFallbackProps
@@ -270,12 +227,11 @@ export const AvatarGroup = forwardRef<
 
 AvatarGroup.displayName = 'AvatarGroup';
 
-// ===== CLOSED COMPONENT COMPOSITION =====
+// ===== COMPOSITE AVATAR COMPONENT =====
 export interface AvatarProps extends AvatarRootProps {
   name?: string;
   src?: string;
-  srcSet?: string;
-  loading?: AvatarImageProps['loading'];
+  loading?: 'eager' | 'lazy';
   icon?: ReactElement;
   fallback?: React.ReactNode;
 }
@@ -285,8 +241,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     const {
       name,
       src,
-      srcSet,
-      loading,
+      loading = 'lazy',
       icon,
       fallback,
       children,
@@ -298,6 +253,9 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
       className,
       ...rest
     } = props;
+
+    const isFullSize = size === 'full';
+    const boxSize = !isFullSize ? SIZE_MAP[size] : undefined;
 
     return (
       <AvatarRoot
@@ -313,7 +271,25 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
         <AvatarFallback name={name}>
           {fallback || icon}
         </AvatarFallback>
-        <AvatarImage src={src} srcSet={srcSet} loading={loading} />
+        {src && (
+          <Image
+            src={src}
+            alt={name || 'Avatar'}
+            width={isFullSize ? '100%' : boxSize?.width}
+            height={isFullSize ? '100%' : boxSize?.height}
+            radius={shape === 'full' ? 'full' : shape === 'rounded' ? 'md' : 'sm'}
+            objectFit="cover"
+            loading={loading}
+            priority={loading === 'eager'}
+            showSkeleton={false}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              zIndex: 1
+            }}
+          />
+        )}
         {children}
       </AvatarRoot>
     );
@@ -328,7 +304,6 @@ export default Avatar;
 // ===== NAMESPACE API =====
 export const AvatarNamespace = Object.assign(Avatar, {
   Root: AvatarRoot,
-  Image: AvatarImage,
   Fallback: AvatarFallback,
   Group: AvatarGroup,
 });

@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
-import { Logo } from '../../../components/media/Logo';
+import { LogoImage } from '../../../components/media/Image';
 
 interface SpinningBannerProps {
   props?: {
@@ -56,7 +56,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
 
   const allLogos = logos.length ? logos : fallback;
 
-  // ✅ Smarter proportional sizing
+  // ✅ Proportional sizing using design tokens
   const sizeMap = useMemo(() => {
     switch (logoSize) {
       case 'xs':
@@ -85,15 +85,21 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
           alignItems: 'center',
           justifyContent: 'center',
           opacity: logoOpacity,
-          filter: grayscale ? 'grayscale(1)' : 'none',
           transition: 'opacity 0.2s ease-in-out'
         }}
       >
-        <Logo
+        <LogoImage
           src={logo.src}
           alt={logo.alt}
-          size={logoSize}
-          variant="contain"
+          width={sizeMap.width}
+          height={sizeMap.height}
+          objectFit="contain"
+          loading="lazy"
+          showSkeleton={true}
+          style={{
+            filter: grayscale ? 'grayscale(1)' : 'none',
+            transition: 'filter 0.3s ease'
+          }}
         />
       </div>
     )

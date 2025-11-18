@@ -1,0 +1,227 @@
+/* ===============================================
+   Image.css - Smart Image Component Styles
+============================================== */
+
+/* ===== IMAGE CONTAINER ===== */
+.image-container {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--secondary-100);
+  display: block;
+}
+
+/* ===== RADIUS VARIANTS - Using Component Tokens ===== */
+.image-container--radius-none {
+  border-radius: var(--radius-none);
+}
+
+.image-container--radius-sm {
+  border-radius: var(--radius-image);
+}
+
+.image-container--radius-md {
+  border-radius: var(--radius-image);
+}
+
+.image-container--radius-lg {
+  border-radius: var(--radius-video);
+}
+
+.image-container--radius-xl {
+  border-radius: var(--radius-modal);
+}
+
+.image-container--radius-full {
+  border-radius: var(--radius-full);
+}
+
+/* ===== HOVER ZOOM EFFECT ===== */
+.image-container--hover-zoom {
+  cursor: pointer;
+}
+
+.image-container--hover-zoom .image {
+  transition: transform var(--foundation-duration-normal) var(--foundation-easing-standard);
+}
+
+.image-container--hover-zoom:hover .image {
+  transform: scale(1.05);
+}
+
+/* ===== ACTUAL IMAGE ===== */
+.image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  transition: opacity var(--foundation-duration-normal) var(--foundation-easing-standard);
+}
+
+.image--loaded {
+  opacity: 1;
+}
+
+/* ===== OBJECT FIT VARIANTS ===== */
+.image--object-fit-cover {
+  object-fit: cover;
+}
+
+.image--object-fit-contain {
+  object-fit: contain;
+}
+
+.image--object-fit-fill {
+  object-fit: fill;
+}
+
+.image--object-fit-none {
+  object-fit: none;
+}
+
+.image--object-fit-scale-down {
+  object-fit: scale-down;
+}
+
+/* ===== IMAGE RADIUS (matches container) ===== */
+.image--radius-none {
+  border-radius: var(--radius-none);
+}
+
+.image--radius-sm {
+  border-radius: var(--radius-image);
+}
+
+.image--radius-md {
+  border-radius: var(--radius-image);
+}
+
+.image--radius-lg {
+  border-radius: var(--radius-video);
+}
+
+.image--radius-xl {
+  border-radius: var(--radius-modal);
+}
+
+.image--radius-full {
+  border-radius: var(--radius-full);
+}
+
+/* ===== LOADING SKELETON ===== */
+.image-skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--secondary-100) 0%,
+    var(--secondary-200) 50%,
+    var(--secondary-100) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading var(--foundation-duration-slow) var(--foundation-easing-standard) infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ===== ERROR STATE ===== */
+.image-error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--secondary-100);
+  color: var(--text-secondary);
+  gap: var(--foundation-space-2);
+}
+
+.image-error svg {
+  opacity: 0.5;
+}
+
+.image-error-text {
+  font-size: var(--foundation-text-sm);
+  color: var(--text-tertiary);
+}
+
+/* ===== AVATAR IMAGE VARIANTS ===== */
+.avatar-image {
+  flex-shrink: 0;
+}
+
+.avatar-image--xs {
+  width: 32px;
+  height: 32px;
+}
+
+.avatar-image--sm {
+  width: 40px;
+  height: 40px;
+}
+
+.avatar-image--md {
+  width: 48px;
+  height: 48px;
+}
+
+.avatar-image--lg {
+  width: 64px;
+  height: 64px;
+}
+
+.avatar-image--xl {
+  width: 96px;
+  height: 96px;
+}
+
+/* ===== LOGO IMAGE VARIANTS ===== */
+.logo-image {
+  display: block;
+}
+
+.logo-image--light {
+  background-color: transparent;
+}
+
+.logo-image--dark {
+  background-color: transparent;
+  filter: brightness(0) invert(1);
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 640px) {
+  .image-container--hover-zoom:hover .image {
+    transform: scale(1.02);
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .image,
+  .image-skeleton,
+  .image-container--hover-zoom .image {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+  .image-error {
+    border: 2px solid currentColor;
+  }
+}
