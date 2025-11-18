@@ -98,7 +98,6 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
           loading="lazy"
           showSkeleton={true}
           style={{
-            filter: grayscale ? 'grayscale(1)' : 'none',
             transition: 'filter 0.3s ease'
           }}
         />
