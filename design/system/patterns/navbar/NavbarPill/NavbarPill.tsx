@@ -1,36 +1,55 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { cn } from '../../../lib/utils';
+import React, { useState, useRef, useEffect } from 'react';
 import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../components';
 import { Logo } from '../../../components/media/Logo';
 import { MenuIcon, XIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
 import { useComponentProps, componentPresent, usePatternProps, useMapComponents, CDN_BASE_URL } from '../../../core/utils/helpers';
 import { alignMap } from '../utils';
-import './NavbarBar.css';
+import './NavbarPill.css';
 import { PatternNode } from '../../../core/types/nodes';
+import { cn } from '../../../lib/utils';
 
-
-const NavbarBar = ( patternNode: PatternNode) => {
-    const { components = {} } = patternNode;
-    const getComponent = useComponentProps(components);
-    const getPatternProps = usePatternProps(patternNode);
-    const renderIf = componentPresent(components);
-    const mapComponentIndices = useMapComponents(components);
-
+const NavbarPill = (patternNode: PatternNode) => {
+  const { components = {} } = patternNode;
+  const getComponent = useComponentProps(components);
+  const getPatternProps = usePatternProps(patternNode);
+  const renderIf = componentPresent(components);
+  const mapComponentIndices = useMapComponents(components);
 
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [pillMetrics, setPillMetrics] = useState({ top: 0, left: 0, width: 0 });
+  const pillRef = useRef<HTMLDivElement>(null);
 
+  const align = alignMap[getPatternProps().menuAlign] || 'center';
+  const mobileAlign = alignMap[getPatternProps().mobileMenuAlign] || align;
+  const mobileVariant = getPatternProps().mobileMenuVariant || 'sheet';
 
-  const desktopAlign = alignMap[getPatternProps().menuAlign] || 'center';
-  const mobileAlign =
-    alignMap[getPatternProps().mobileMenuAlign] ||
-    alignMap[getPatternProps().menuAlign] ||
-    'center';
-  const mobileVariant = getPatternProps().mobileMenuVariant || 'fullscreen';
+  // Calculate pill dimensions for drawer positioning
+  useEffect(() => {
+    const updateMetrics = () => {
+      if (pillRef.current) {
+        const rect = pillRef.current.getBoundingClientRect();
+        setPillMetrics({
+          top: rect.top + (rect.height / 2),
+          left: rect.left,
+          width: rect.width,
+        });
+      }
+    };
 
-  // Auto-close drawer when screen becomes desktop size (debounced)
+    updateMetrics();
+    window.addEventListener('resize', updateMetrics);
+    window.addEventListener('scroll', updateMetrics);
+    
+    return () => {
+      window.removeEventListener('resize', updateMetrics);
+      window.removeEventListener('scroll', updateMetrics);
+    };
+  }, [mobileOpen]);
+
+  // Auto-close drawer when screen becomes desktop size
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     const handleResize = () => {
@@ -62,33 +81,40 @@ const NavbarBar = ( patternNode: PatternNode) => {
     textGradient: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').gradient || false) : false,
     gap: renderIf('logo') && renderIf('typography', 'businessName') ? (getPatternProps().logoGap || 'sm') : 'sm' as const,
     hideTextOnMobile: getPatternProps().hideLogoTextOnMobile || false,
-    loading: 'eager' as const,
-    priority: true,
   };
 
   return (
-    <nav className="navbar-bar">
-      <Box className="navbar-bar__container">
-        {/* LEFT - Unified Logo */}
-        <div className="navbar-bar__left">
-          <Logo {...logoProps} className="navbar-bar__logo" />
-        </div>
+    <>
+      <nav className="navbar-pill">
+        <Box ref={pillRef} className="navbar-pill__container">
+          {/* LEFT - Unified Logo */}
+          <div className="navbar-pill__left">
+            <Logo {...logoProps} className="navbar-pill__logo" />
+          </div>
 
-        {/* DESKTOP CONTENT */}
-        <div className="navbar-bar__content">
+          {/* MIDDLE - Desktop only */}
           {renderIf('textlink', 'menuItem') && (
-            <HStack className={`navbar-bar__middle navbar-bar__middle--${desktopAlign}`} spacing="lg">
+            <HStack
+              className={`navbar-pill__middle navbar-pill__middle--${align}`}
+              spacing="lg"
+            >
               {mapComponentIndices('textlink', 'menuItem')
-              .slice(0, getPatternProps().maxMenuItems)
-              .map((props, i) => (
-                <TextLink key={i} href={props.href} size="md" underline="hover">
+                .slice(0, getPatternProps().maxMenuItems)
+                .map((props, i) => (
+                <TextLink
+                  key={i}
+                  href={props.href || '/'}
+                  size="md"
+                  underline="hover"
+                >
                   {props.content}
                 </TextLink>
               ))}
             </HStack>
           )}
 
-          <HStack spacing="sm" className="navbar-bar__right">
+          {/* RIGHT - Desktop only */}
+          <HStack spacing="sm" className="navbar-pill__right">
             {renderIf('button', 'secondaryAction') && (
               <Button variant="ghost" href={getComponent('button', 'secondaryAction').href}>
                 {getComponent('button', 'secondaryAction').content}
@@ -100,59 +126,64 @@ const NavbarBar = ( patternNode: PatternNode) => {
               </Button>
             )}
           </HStack>
-        </div>
 
-        {/* MOBILE TOGGLE */}
-        <IconButton
-          variant="ghost"
-          size="md"
-          aria-label="Toggle menu"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="navbar-bar__mobile-toggle"
-          icon={
-            mobileOpen 
-              ? <XIcon /> 
-              : <MenuIcon />
-          }
-        />
-      </Box>
+          {/* MOBILE TOGGLE */}
+          <IconButton
+            variant="ghost"
+            size="md"
+            aria-label="Toggle menu"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="navbar-pill__mobile-toggle"
+            icon={mobileOpen ? <XIcon /> : <MenuIcon />}
+          />
+        </Box>
+      </nav>
 
       {/* MOBILE DRAWER */}
       <Drawer
         isOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
         showCloseButton={false}
-        preventScroll
-        type="top"
-        className={`drawer-variant-${mobileVariant}`}
+        preventScroll={true}
+        type="pill"
+        className={`drawer-variant-pill-${mobileVariant}`}
+        style={{
+          top: `${pillMetrics.top}px`,
+          left: `${pillMetrics.left}px`,
+          width: `${pillMetrics.width}px`,
+        }}
       >
         <VStack
-          spacing="lg"
+          spacing="md"
           align="stretch"
           className={cn(
-            "drawer-navbar-content",
-            `drawer-align-${mobileAlign}`,
+            "drawer-pill-content",
+            `drawer-align-${mobileAlign}`
           )}
         >
-          {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem')
-            .map((props, i) => (
+          {/* Links section */}
+          <VStack spacing="md" align="stretch" className="drawer-pill-links">
+            {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem')
+              .map((props, i) => (
               <TextLink
                 key={i}
-                href={props.href}
+                href={props.href || '/'}
                 onClick={() => setMobileOpen(false)}
-                className="drawer-navbar-link"
+                className="drawer-pill-link"
               >
                 {props.content}
               </TextLink>
             ))}
+          </VStack>
 
-          <VStack spacing="sm" className="drawer-navbar-actions">
+          {/* Actions section */}
+          <VStack spacing="sm" className="drawer-pill-actions">
             {renderIf('button', 'secondaryAction') && (
               <Button
                 variant="ghost"
                 href={getComponent('button', 'secondaryAction').href}
                 onClick={() => setMobileOpen(false)}
-                className="drawer-navbar-button"
+                className="drawer-pill-button"
               >
                 {getComponent('button', 'secondaryAction').content}
               </Button>
@@ -162,7 +193,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
                 variant="primary"
                 href={getComponent('button', 'primaryAction').href}
                 onClick={() => setMobileOpen(false)}
-                className="drawer-navbar-button"
+                className="drawer-pill-button"
               >
                 {getComponent('button', 'primaryAction').content}
               </Button>
@@ -170,8 +201,8 @@ const NavbarBar = ( patternNode: PatternNode) => {
           </VStack>
         </VStack>
       </Drawer>
-    </nav>
+    </>
   );
 };
 
-export default NavbarBar;
+export default NavbarPill;
