@@ -16,4 +16,4 @@ export { ALLOWED_ORIGINS, isOriginAllowed } from './cors';
 // React components
 export { useEditingModeHandler } from './hook';
 export { EditingModeHandler } from './EditingModeHandler';
-export { useEditingMode } from './useEditingMode';
+export { applyEditingMode } from './applyEditingMode';

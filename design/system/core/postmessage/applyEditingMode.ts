@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
  * Hook som returnerar om editing mode är aktivt
  * Lyssnar på ändringar i HTML klassen för att uppdatera state
  */
-export function useEditingMode(): boolean {
+export function applyEditingMode(): boolean {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
