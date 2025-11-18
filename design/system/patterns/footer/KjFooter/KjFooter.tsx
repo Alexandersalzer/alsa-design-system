@@ -1,227 +1,131 @@
-// ===============================================
-// design/system/components/media/Logo/LogoText.tsx
-// LOGO TEXT COMPONENT - Branded text for logos and headings
-// ===============================================
+'use client';
+import { usePathname, useRouter } from 'next/navigation';
+import { Typography, VStack, Menu } from '../../../components';
+import { Logo } from '../../../components/media/Logo';
+import { PatternNode } from '../../../core/types/nodes';
+import { useComponentProps, componentPresent, CDN_BASE_URL } from '../../../core/utils/helpers';
+import { getPickerLocale, handleLocaleChange } from '../../../core/utils/locale';
 
-import React from 'react';
-import { cn } from '../../../lib/utils';
-import './LogoText.css';
+const KjFooter = ({ components = {} }: PatternNode) => {
+  const get = useComponentProps(components);
+  const renderIf = componentPresent(components);
+  const pathname = usePathname();
+  const router = useRouter();
 
-// ===== TYPE DEFINITIONS =====
+  // Get current locale and menu options
+  const menuOptions = get('menu', 'languageSelector').options || [];
+  const currentLocale = getPickerLocale(pathname, menuOptions);
+  const currentOption = menuOptions.find((opt: any) => opt.value === currentLocale);
 
-export interface LogoTextProps {
-  /** Text content */
-  children: React.ReactNode;
-  /** Link href (optional) */
-  href?: string;
-  /** Size variant */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  /** Font weight */
-  weight?: 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'black';
-  /** Text transform */
-  transform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
-  /** Letter spacing */
-  spacing?: 'normal' | 'tight' | 'wide' | 'wider' | 'widest';
-  /** Color variant */
-  color?: 'primary' | 'secondary' | 'inverse' | 'inherit';
-  /** Font family variant */
-  font?: 'brand' | 'heading' | 'body' | 'mono';
-  /** Enable gradient text effect */
-  gradient?: boolean;
-  /** Gradient direction (if gradient enabled) */
-  gradientDirection?: 'to-r' | 'to-br' | 'to-b' | 'to-bl' | 'to-l';
-  /** Enable hover effect */
-  hover?: boolean;
-  /** Custom className */
-  className?: string;
-  /** Click handler */
-  onClick?: () => void;
-}
+  // Build logo props
+  const logoProps = {
+    src: renderIf('logo') ? `${CDN_BASE_URL}${get('logo').src}` : undefined,
+    alt: renderIf('logo') ? (get('logo').alt || 'Logo') : undefined,
+    text: renderIf('typography', 'title') ? get('typography', 'title').content : undefined,
+    href: '/',
+    width: renderIf('logo') ? (get('logo').width || 40) : undefined,
+    height: renderIf('logo') ? (get('logo').height || 40) : undefined,
+    imageVariant: renderIf('logo') ? (get('logo').variant || 'dark') : 'dark' as const,
+    textSize: renderIf('typography', 'title') ? (get('typography', 'title').size || 'md') : 'md' as const,
+    textWeight: renderIf('typography', 'title') ? (get('typography', 'title').weight || 'semibold') : 'semibold' as const,
+    textTransform: renderIf('typography', 'title') ? (get('typography', 'title').transform || 'uppercase') : 'uppercase' as const,
+    textSpacing: renderIf('typography', 'title') ? (get('typography', 'title').spacing || 'wide') : 'wide' as const,
+    textColor: 'inverse' as const,
+    gap: 'md' as const,
+    loading: 'lazy' as const,
+    className: 'footer-logo',
+  };
 
-// ===== LOGO TEXT COMPONENT =====
-
-export const LogoText: React.FC<LogoTextProps> = ({
-  children,
-  href,
-  size = 'md',
-  weight = 'extrabold',
-  transform = 'none',
-  spacing = 'normal',
-  color = 'primary',
-  font = 'brand',
-  gradient = false,
-  gradientDirection = 'to-r',
-  hover = true,
-  className,
-  onClick,
-}) => {
-  const classes = cn(
-    'logo-text',
-    `logo-text--size-${size}`,
-    `logo-text--weight-${weight}`,
-    `logo-text--transform-${transform}`,
-    `logo-text--spacing-${spacing}`,
-    `logo-text--color-${color}`,
-    `logo-text--font-${font}`,
-    gradient && 'logo-text--gradient',
-    gradient && `logo-text--gradient-${gradientDirection}`,
-    hover && 'logo-text--hover',
-    className
-  );
-
-  // If href is provided, render as link
-  if (href) {
-    return (
-      <a href={href} className={classes} onClick={onClick}>
-        {children}
-      </a>
-    );
-  }
-
-  // Otherwise render as span
   return (
-    <span className={classes} onClick={onClick}>
-      {children}
-    </span>
+    <VStack spacing="xl" align="center" fullWidth>
+      {/* Unified Logo (replaces separate LogoImage + Typography) */}
+      <Logo {...logoProps} />
+
+      {/* Language Menu */}
+      {renderIf('menu', 'languageSelector') && (
+        <Menu 
+          size={get('menu', 'languageSelector').size || 'sm'}
+          variant={get('menu', 'languageSelector').variant || 'subtle'}
+          closeOnSelect={true}
+        >
+          <Menu.Trigger>
+            {currentOption?.label || get('menu', 'languageSelector').placeholder || 'Select Language'}
+          </Menu.Trigger>
+          
+          <Menu.Content>
+            {menuOptions.map((option: any) => (
+              <Menu.Item
+                key={option.value}
+                value={option.value}
+                onClick={() => handleLocaleChange(router, option.value)}
+              >
+                {option.label}
+              </Menu.Item>
+            ))}
+          </Menu.Content>
+        </Menu>
+      )}
+
+      {/* Body Content */}
+      <VStack spacing="xs" align="center">
+        {/* Email */}
+        <Typography 
+          variant="body-md"
+          color="tertiary" 
+          align="center"
+          weight="semibold"
+        >
+          <a 
+            href={`mailto:${get('typography', 'email').content}`}
+            style={{ 
+              color: 'inherit', 
+              textDecoration: 'underline',
+              textUnderlineOffset: '2px'
+            }}
+          >
+            {get('typography', 'email').content}
+          </a>
+        </Typography>
+
+        {/* Legal */}
+        <Typography 
+          variant="body-sm"
+          color="tertiary" 
+          align="center"
+          weight="semibold"
+        >
+          {get('typography', 'legal').content}
+        </Typography>
+      </VStack>
+
+      {/* Attribution */}
+      <Typography 
+        variant="body-sm"
+        color="tertiary" 
+        align="center"
+        weight="semibold"
+      >
+        {get('typography', 'attribute').content}{' '}
+        <a 
+          href="https://blimpify-im.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ 
+            color: 'var(--text-placeholder)', 
+            textDecoration: 'underline',
+            textUnderlineOffset: '6px',
+            fontWeight: 'bold'
+          }}
+        >
+          Blimpify
+        </a>
+      </Typography>
+    </VStack>
   );
 };
 
-LogoText.displayName = 'LogoText';
+// Named export
+export { KjFooter };
 
-// ===== SPECIALIZED VARIANTS =====
-
-export interface BrandNameProps {
-  /** Brand name text */
-  children: React.ReactNode;
-  /** Link href */
-  href?: string;
-  /** Size variant */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  /** Font weight */
-  weight?: 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'black';
-  /** Text transform */
-  transform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
-  /** Letter spacing */
-  spacing?: 'normal' | 'tight' | 'wide' | 'wider' | 'widest';
-  /** Color variant */
-  color?: 'primary' | 'secondary' | 'inverse' | 'inherit';
-  /** Enable gradient */
-  gradient?: boolean;
-  /** Custom className */
-  className?: string;
-  /** Click handler */
-  onClick?: () => void;
-}
-
-/**
- * BrandName - Preset for main brand/company names
- * Used in navbars and headers
- */
-export const BrandName: React.FC<BrandNameProps> = ({
-  size = 'lg',
-  weight = 'extrabold',
-  transform = 'none',
-  spacing = 'normal',
-  color = 'primary',
-  gradient = false,
-  ...props
-}) => {
-  return (
-    <LogoText
-      {...props}
-      size={size}
-      weight={weight}
-      transform={transform}
-      spacing={spacing}
-      color={color}
-      gradient={gradient}
-      font="brand"
-    />
-  );
-};
-
-BrandName.displayName = 'BrandName';
-
-export interface ProductNameProps {
-  /** Product name text */
-  children: React.ReactNode;
-  /** Link href */
-  href?: string;
-  /** Size variant */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  /** Font weight */
-  weight?: 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'black';
-  /** Text transform */
-  transform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
-  /** Letter spacing */
-  spacing?: 'normal' | 'tight' | 'wide' | 'wider' | 'widest';
-  /** Custom className */
-  className?: string;
-}
-
-/**
- * ProductName - Preset for product/app names
- * Used in dashboards and product headers
- */
-export const ProductName: React.FC<ProductNameProps> = ({
-  size = 'md',
-  weight = 'bold',
-  spacing = 'tight',
-  ...props
-}) => {
-  return (
-    <LogoText
-      {...props}
-      size={size}
-      weight={weight}
-      spacing={spacing}
-      font="heading"
-    />
-  );
-};
-
-ProductName.displayName = 'ProductName';
-
-export interface SectionTitleProps {
-  /** Section title text */
-  children: React.ReactNode;
-  /** Link href */
-  href?: string;
-  /** Size variant */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  /** Font weight */
-  weight?: 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'black';
-  /** Text transform */
-  transform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
-  /** Letter spacing */
-  spacing?: 'normal' | 'tight' | 'wide' | 'wider' | 'widest';
-  /** Color variant */
-  color?: 'primary' | 'secondary' | 'inverse' | 'inherit';
-  /** Custom className */
-  className?: string;
-}
-
-/**
- * SectionTitle - Preset for section titles
- * Used in footers and content sections
- */
-export const SectionTitle: React.FC<SectionTitleProps> = ({
-  size = 'md',
-  weight = 'semibold',
-  transform = 'uppercase',
-  spacing = 'wide',
-  ...props
-}) => {
-  return (
-    <LogoText
-      {...props}
-      size={size}
-      weight={weight}
-      transform={transform}
-      spacing={spacing}
-      font="heading"
-    />
-  );
-};
-
-SectionTitle.displayName = 'SectionTitle';
+// Default export
+export default KjFooter;
