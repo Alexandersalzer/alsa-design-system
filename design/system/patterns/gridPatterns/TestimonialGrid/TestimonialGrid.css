@@ -18,7 +18,7 @@
 }
 
 .testimonial-grid--columns-3 {
-  column-width: 16rem; /* Always fit 3 columns */
+  column-width: 18rem; /* Always fit 3 columns */
 }
 
 .testimonial-grid--columns-4 {

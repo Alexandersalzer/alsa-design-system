@@ -6,7 +6,6 @@
 export { 
   Avatar,
   AvatarRoot,
-  AvatarImage,
   AvatarFallback,
   AvatarGroup,
   AvatarNamespace,
@@ -15,7 +14,6 @@ export {
 export type { 
   AvatarProps,
   AvatarRootProps,
-  AvatarImageProps,
   AvatarFallbackProps,
   AvatarGroupProps,
   AvatarSize,

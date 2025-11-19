@@ -236,7 +236,7 @@
 
   /* ===== SEMANTIC TEXT TOKENS ===== */
   --text-primary: var(--primary-1000);
-  --text-secondary: var(--secondary-600);
+  --text-secondary: var(--secondary-700);
   --text-tertiary: var(--secondary-500);
   --text-disabled: var(--secondary-300);
   --text-placeholder: var(--secondary-400);
@@ -285,7 +285,7 @@
   --border-light-active: var(--secondary-300);
 
   /* ===== SEMANTIC ICON TOKENS ===== */
-  --icon-primary: var(--secondary-600);
+  --icon-primary: var(--text-primary);
   --icon-secondary: var(--secondary-500);
   --icon-tertiary: var(--secondary-400);
   --icon-disabled: var(--secondary-300);
@@ -369,7 +369,6 @@
   --icon-nav-item: var(--icon-secondary);
   --icon-nav-item-selected: var(--accent-600);
   --icon-nav-item-disabled: var(--icon-disabled);
-  --icon-nav-item-hover: var(--icon-primary);
 
   /* ===== STATUS SHORTCUT TOKENS ===== */
   --error-bg: var(--error-100);
@@ -441,7 +440,6 @@
   --surface-info-subtle: color-mix(in srgb, var(--info-500) 10%, var(--surface-page) 90%);
 
   /* ===== ADDITIONAL TEXT TOKENS ===== */
-  --text-quaternary: var(--secondary-400);
   --text-on-interactive: var(--primary-white);
   --text-brand: var(--accent-600);
   --text-brand-on-brand: var(--primary-white);

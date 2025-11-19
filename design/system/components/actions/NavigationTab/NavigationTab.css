@@ -177,11 +177,21 @@
 /* ===== LAYOUT VARIANTS ===== */
 
 /* Navigation variant (sidebar) */
-.nav-item,
-.tab--navigation {
+/* Sidebar navigation: left aligned */
+.sidebar__nav .nav-item {
   width: 100%;
   justify-content: flex-start;
-  min-height: 40px;
+}
+
+/* Vertical tab groups: left aligned */
+.tab-group--vertical .nav-item {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+/* Horizontal page tabs: centered */
+.tab-group--horizontal .tab--page {
+  justify-content: center;
 }
 
 /* Page variant (horizontal with animated underline) */
@@ -253,7 +263,9 @@
 .sidebar__nav {
   display: flex;
   align-items: center;
-  overflow: visible; /* Prevent focus outline clipping */
+  display: flex;
+  justify-content: space-around;
+  overflow: auto; /* Prevent focus outline clipping */
 }
 
 /* Vertical layout (sidebar) */
@@ -375,7 +387,7 @@
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .tab-group--horizontal {
-    flex-wrap: wrap;
+    overflow: auto;
     gap: 4px;
   }
   

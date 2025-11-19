@@ -153,13 +153,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
         <label
           htmlFor={id}
           className="textarea-label"
-          style={{
-            fontSize: size === 'sm' ? 'var(--foundation-text-sm)' : size === 'lg' ? 'var(--foundation-text-lg)' : 'var(--foundation-text-md)',
-            fontWeight: 'var(--foundation-weight-medium)',
-            color: disabled ? 'var(--text-disabled)' : 'var(--text-primary)',
-            marginBottom: 'var(--space-form-label-margin)',
-            display: 'component'
-          }}
         >
           {label}
           {required && (
@@ -174,12 +167,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
         <div
           id={descriptionId}
           className="textarea-description"
-          style={{
-            fontSize: 'var(--foundation-text-sm)',
-            color: disabled ? 'var(--text-disabled)' : 'var(--text-secondary)',
-            marginTop: label ? 'calc(-1 * var(--space-form-label-margin))' : '0',
-            marginBottom: 'var(--space-form-hint-margin)'
-          }}
         >
           {description}
         </div>

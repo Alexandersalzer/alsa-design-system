@@ -366,7 +366,7 @@ export const FormPattern: React.FC<FormPatternProps> = ({
     // GRID LAYOUT
     if (layout === 'grid') {
       return (
-        <Grid columns={columns} gap={spacing} className="form-grid">
+        <Grid columns={columns} gap={spacing}>
           {componentEntries.map(([key, data]: [string, any]) => {
             const ComponentType = formComponentRegistry[data.type];
             

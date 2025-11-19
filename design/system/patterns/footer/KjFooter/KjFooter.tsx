@@ -1,6 +1,7 @@
 'use client';
 import { usePathname, useRouter } from 'next/navigation';
-import { Typography, VStack, HStack, Menu } from '../../../components';
+import { Typography, VStack, Menu } from '../../../components';
+import { Logo } from '../../../components/media/Logo';
 import { PatternNode } from '../../../core/types/nodes';
 import { useComponentProps, componentPresent, CDN_BASE_URL } from '../../../core/utils/helpers';
 import { getPickerLocale, handleLocaleChange } from '../../../core/utils/locale';
@@ -16,28 +17,28 @@ const KjFooter = ({ components = {} }: PatternNode) => {
   const currentLocale = getPickerLocale(pathname, menuOptions);
   const currentOption = menuOptions.find((opt: any) => opt.value === currentLocale);
 
+  // Build logo props
+  const logoProps = {
+    src: renderIf('logo') ? `${CDN_BASE_URL}${get('logo').src}` : undefined,
+    alt: renderIf('logo') ? (get('logo').alt || 'Logo') : undefined,
+    text: renderIf('typography', 'title') ? get('typography', 'title').content : undefined,
+    href: '/',
+    width: renderIf('logo') ? (get('logo').width || 40) : undefined,
+    height: renderIf('logo') ? (get('logo').height || 40) : undefined,
+    color: renderIf('logo') ? (get('logo').color || 'light') : 'light' as const,
+    textSize: renderIf('typography', 'title') ? (get('typography', 'title').size || 'md') : 'md' as const,
+    textWeight: renderIf('typography', 'title') ? (get('typography', 'title').weight || 'semibold') : 'semibold' as const,
+    textTransform: renderIf('typography', 'title') ? (get('typography', 'title').transform || 'uppercase') : 'uppercase' as const,
+    textSpacing: renderIf('typography', 'title') ? (get('typography', 'title').spacing || 'wide') : 'wide' as const,
+    gap: 'md' as const,
+    loading: 'lazy' as const,
+    className: 'footer-logo',
+  };
+
   return (
     <VStack spacing="xl" align="center" fullWidth>
-      {/* Title with Logo */}
-      <HStack spacing="md" align="center" justify="center">
-        {renderIf('logo') && (
-          <img
-            src={`${CDN_BASE_URL}${get('logo').src}`}
-            alt={get('logo').alt || 'Logo'}
-            width={get('logo').width || 40}
-            height={get('logo').height || 40}
-            className="object-contain flex-shrink-0"
-          />
-        )}
-        <Typography 
-          variant="h4" 
-          color="inverse" 
-          align="center"
-          weight="semibold"
-        >
-          {get('typography', 'title').content}
-        </Typography>
-      </HStack>
+      {/* Unified Logo (replaces separate LogoImage + Typography) */}
+      <Logo {...logoProps} />
 
       {/* Language Menu */}
       {renderIf('menu', 'languageSelector') && (
@@ -122,4 +123,8 @@ const KjFooter = ({ components = {} }: PatternNode) => {
   );
 };
 
+// Named export
+export { KjFooter };
+
+// Default export
 export default KjFooter;

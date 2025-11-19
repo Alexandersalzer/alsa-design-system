@@ -105,7 +105,7 @@
 }
 
 .navbar-bar__mobile-toggle:hover {
-  color: var(--icon-brand);
+  color: var(--icon-primary);
 }
 
 /* Transparent variant */
@@ -150,21 +150,4 @@
 @keyframes fadeSlideDown {
   from { opacity: 0; transform: translateY(-6px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-/* -----------------------------------------------
-   Dark Mode adjustments
------------------------------------------------ */
-[data-theme="dark"] .navbar-bar {
-  background: var(--surface-nav);
-  border-bottom-color: var(--border-subtle);
-}
-
-[data-theme="dark"] .navbar-bar__brand {
-  color: var(--text-inverse);
-}
-
-[data-theme="dark"] .navbar-bar__drawer-content {
-  background: var(--surface-modal-content);
-  color: var(--text-body-primary);
 }

@@ -1,0 +1,94 @@
+/* ===============================================
+   Video.css - Simple, Fast Video Component
+============================================== */
+
+/* ===== CONTAINER ===== */
+.video-container {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #000;
+}
+
+.video-container--radius-none { 
+  border-radius: 0; 
+}
+
+.video-container--radius-sm { 
+  border-radius: var(--radius-sm, 4px); 
+}
+
+.video-container--radius-md { 
+  border-radius: var(--radius-md, 8px); 
+}
+
+.video-container--radius-lg { 
+  border-radius: var(--radius-lg, 12px); 
+}
+
+.video-container--radius-xl { 
+  border-radius: var(--radius-xl, 16px); 
+}
+
+/* ===== VIDEO ELEMENT ===== */
+.video-element {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+.video-element--radius-none { 
+  border-radius: 0; 
+}
+
+.video-element--radius-sm { 
+  border-radius: var(--radius-sm, 4px); 
+}
+
+.video-element--radius-md { 
+  border-radius: var(--radius-md, 8px); 
+}
+
+.video-element--radius-lg { 
+  border-radius: var(--radius-lg, 12px); 
+}
+
+.video-element--radius-xl { 
+  border-radius: var(--radius-xl, 16px); 
+}
+
+/* ===== ERROR STATE ===== */
+.video-error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.video-error svg {
+  opacity: 0.6;
+}
+
+.video-error-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .video-element {
+    animation: none !important;
+    transition: none !important;
+  }
+}

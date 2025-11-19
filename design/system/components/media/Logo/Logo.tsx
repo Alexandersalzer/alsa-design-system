@@ -1,118 +1,205 @@
-// blimpify-ui/design/system/components/Logo/Logo.tsx
-'use client';
+// ===============================================
+// design/system/components/media/Logo/Logo.tsx
+// UNIFIED LOGO COMPONENT - Handles image, text, or both
+// ===============================================
 
 import React from 'react';
+import { cn } from '../../../lib/utils';
+import { HStack } from '../../layout';
+import { LogoImage, LogoImageProps } from '../Image/Image';
+import { BrandName } from './LogoText';
+import './Logo.css';
+
+// ===== TYPE DEFINITIONS =====
 
 export interface LogoProps {
-  src: string;
-  alt: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  variant?: 'contain' | 'cover' | 'fill';
-  grayscale?: boolean;
-  opacity?: number;
-  className?: string;
-  fallbackText?: string;
+  /** Logo image source (optional) */
+  src?: string;
+  /** Image alt text */
+  alt?: string;
+  /** Logo text content (optional) */
+  text?: string;
+  /** Link href for entire logo */
+  href?: string;
+  /** Image width */
+  width?: number;
+  /** Image height */
+  height?: number;
+  /** Unified color for both image and text - adapts to theme */
+  color?: 'auto' | 'light' | 'dark' | 'brand';
+  /** Text size */
+  textSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  /** Text weight */
+  textWeight?: 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'black';
+  /** Text transform */
+  textTransform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
+  /** Text letter spacing */
+  textSpacing?: 'normal' | 'tight' | 'wide' | 'wider' | 'widest';
+  /** Text gradient effect */
+  textGradient?: boolean;
+  /** Spacing between image and text */
+  gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  /** Alignment of image and text */
+  align?: 'start' | 'center' | 'end';
+  /** Show only image on mobile, hide text */
+  hideTextOnMobile?: boolean;
+  /** Image loading strategy */
+  loading?: 'eager' | 'lazy';
+  /** Priority loading */
+  priority?: boolean;
+  /** Click handler */
   onClick?: () => void;
+  /** Custom className */
+  className?: string;
 }
 
-const sizeMap = {
-  xs: { width: '60px', height: '40px' },
-  sm: { width: '80px', height: '50px' },
-  md: { width: '120px', height: '70px' },
-  lg: { width: '160px', height: '90px' },
-  xl: { width: '200px', height: '110px' },
-  '2xl': { width: '240px', height: '130px' }
-};
+// ===== MAIN LOGO COMPONENT =====
 
 export const Logo: React.FC<LogoProps> = ({
   src,
-  alt,
-  size = 'md',
-  variant = 'contain',
-  grayscale = false,
-  opacity = 1,
-  className = '',
-  fallbackText,
-  onClick
+  alt = 'Logo',
+  text,
+  href = '/',
+  width = 40,
+  height = 40,
+  color = 'auto',
+  textSize = 'lg',
+  textWeight = 'extrabold',
+  textTransform = 'none',
+  textSpacing = 'normal',
+  textGradient = false,
+  gap = 'sm',
+  align = 'center',
+  hideTextOnMobile = false,
+  loading = 'lazy',
+  priority = false,
+  onClick,
+  className,
 }) => {
-  const [imageError, setImageError] = React.useState(false);
-  const [imageLoaded, setImageLoaded] = React.useState(false);
-
-  const handleImageError = () => {
-    setImageError(true);
+  // Map unified color to image variant and text color
+  const getImageVariant = (color: 'auto' | 'light' | 'dark' | 'brand'): 'auto' | 'light' | 'dark' | 'color' => {
+    const mapping = {
+      'auto': 'auto',
+      'light': 'dark',   // Light color = show dark logo on light bg
+      'dark': 'light',   // Dark color = show light logo on dark bg
+      'brand': 'color'
+    } as const;
+    return mapping[color];
   };
 
-  const handleImageLoad = () => {
-    setImageLoaded(true);
+  const getTextColor = (color: 'auto' | 'light' | 'dark' | 'brand'): 'primary' | 'secondary' | 'inverse' | 'inherit' => {
+    const mapping = {
+      'auto': 'primary',    // Auto-adapts to theme
+      'light': 'inverse',   // Light = white text
+      'dark': 'primary',    // Dark = black text
+      'brand': 'primary'    // Brand = use primary (can be customized)
+    } as const;
+    return mapping[color];
   };
 
-  const { width, height } = sizeMap[size];
+  const imageVariant = getImageVariant(color);
+  const textColor = getTextColor(color);
+  // Determine what to render
+  const hasImage = Boolean(src);
+  const hasText = Boolean(text);
+  const hasBoth = hasImage && hasText;
 
-  const containerStyle: React.CSSProperties = {
-    width,
-    height,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: onClick ? 'pointer' : 'default',
-  };
+  // If neither image nor text, return null
+  if (!hasImage && !hasText) {
+    return null;
+  }
 
-  const imageStyle: React.CSSProperties = {
-    maxWidth: '100%',
-    maxHeight: '100%',
-    width: 'auto',
-    height: 'auto',
-    objectFit: variant,
-    opacity: opacity,
-    transition: 'opacity 0.2s ease-in-out',
-    filter: `
-      ${grayscale ? 'grayscale(100%)' : ''} 
-      invert(var(--is-dark, 0))
-    `.trim(),
-  };
+  // Container classes
+  const containerClasses = cn(
+    'logo',
+    hasBoth && 'logo--combined',
+    hideTextOnMobile && hasText && 'logo--hide-text-mobile',
+    className
+  );
 
+  // Wrapper component (link or div)
+  const Wrapper = href ? 'a' : 'div';
+  const wrapperProps = href 
+    ? { href, onClick, className: containerClasses }
+    : { onClick, className: containerClasses };
 
-  const fallbackStyle: React.CSSProperties = {
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'var(--surface-muted)',
-    color: 'var(--text-tertiary)',
-    fontSize: '0.75rem',
-    fontWeight: 500,
-    borderRadius: '4px',
-  };
-
-  if (imageError && fallbackText) {
+  // Single image only
+  if (hasImage && !hasText) {
     return (
-      <div style={containerStyle} className={className} onClick={onClick}>
-        <div style={fallbackStyle}>
-          {fallbackText}
-        </div>
-      </div>
+      <Wrapper {...wrapperProps}>
+        <LogoImage
+          src={src!}
+          alt={alt}
+          width={width}
+          height={height}
+          variant={imageVariant}
+          loading={loading}
+          priority={priority}
+          className="logo__image-only"
+        />
+      </Wrapper>
     );
   }
 
+  // Single text only
+  if (!hasImage && hasText) {
+    return (
+      <Wrapper {...wrapperProps}>
+        <BrandName
+          href={undefined}
+          size={textSize}
+          weight={textWeight}
+          transform={textTransform}
+          spacing={textSpacing}
+          color={textColor}
+          gradient={textGradient}
+          className="logo__text-only"
+        >
+          {text}
+        </BrandName>
+      </Wrapper>
+    );
+  }
+
+  // Combined image + text
   return (
-    <div style={containerStyle} className={className} onClick={onClick}>
-      {!imageError ? (
-        <img
-          src={src}
+    <Wrapper {...wrapperProps}>
+      <HStack 
+        align={align} 
+        spacing={gap === 'xl' ? 'lg' : gap}
+        className="logo__combined-container"
+      >
+        <LogoImage
+          src={src!}
           alt={alt}
-          style={imageStyle}
-          onError={handleImageError}
-          onLoad={handleImageLoad}
-          loading="lazy"
+          width={width}
+          height={height}
+          variant={imageVariant}
+          loading={loading}
+          priority={priority}
+          className="logo__image"
         />
-      ) : (
-        <div style={fallbackStyle}>
-          <svg style={{ width: '50%', height: '50%' }} fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
-          </svg>
-        </div>
-      )}
-    </div>
+        <BrandName
+          href={undefined}
+          size={textSize}
+          weight={textWeight}
+          transform={textTransform}
+          spacing={textSpacing}
+          color={textColor}
+          gradient={textGradient}
+          className={cn(
+            'logo__text',
+            hideTextOnMobile && 'logo__text--hide-mobile'
+          )}
+        >
+          {text}
+        </BrandName>
+      </HStack>
+    </Wrapper>
   );
 };
+
+Logo.displayName = 'Logo';
+
+// ===== EXPORT =====
+export default Logo;
