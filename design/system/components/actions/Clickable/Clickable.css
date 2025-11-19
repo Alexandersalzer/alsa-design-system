@@ -1,6 +1,6 @@
 /* ===============================================
    design/system/components/actions/Clickable/Clickable.css
-   CLICKABLE COMPONENT - Fixed animations and polish
+   CLICKABLE COMPONENT - Using dynamic radius tokens
    =============================================== */
 
 /* ===== BASE STYLES ===== */
@@ -114,25 +114,33 @@
   padding-inline: var(--foundation-space-10); 
 }
 
-/* ===== BORDER RADIUS VARIANTS ===== */
+/* ===== BORDER RADIUS VARIANTS - DYNAMIC TOKENS ===== */
 .clickable--radius-none { 
-  border-radius: 0; 
+  border-radius: var(--radius-none); 
 }
 
 .clickable--radius-sm { 
-  border-radius: var(--foundation-radius-sm); 
+  border-radius: var(--radius-sm); 
 }
 
 .clickable--radius-md { 
-  border-radius: var(--foundation-radius-md); 
+  border-radius: var(--radius-md); 
 }
 
 .clickable--radius-lg { 
-  border-radius: var(--foundation-radius-lg); 
+  border-radius: var(--radius-lg); 
 }
 
 .clickable--radius-xl { 
-  border-radius: var(--foundation-radius-xl); 
+  border-radius: var(--radius-xl); 
+}
+
+.clickable--radius-2xl { 
+  border-radius: var(--radius-2xl); 
+}
+
+.clickable--radius-full { 
+  border-radius: var(--radius-full); 
 }
 
 /* ===== BACKGROUND VARIANTS ===== */
@@ -194,13 +202,13 @@
   border-color: var(--border-hover);
 }
 
-/* Active state - FIXED: subtle scale with smooth animation */
+/* Active state - subtle scale with smooth animation */
 .clickable--interactive:active:not(.clickable--disabled):not(.clickable--loading) {
   background-color: var(--surface-pressed);
-  transform: scale(0.995); /* Very subtle scale - was 0.99 */
+  transform: scale(0.995);
   transition: 
     background-color 100ms var(--foundation-easing-standard),
-    transform 100ms var(--foundation-easing-standard); /* Added smooth animation */
+    transform 100ms var(--foundation-easing-standard);
 }
 
 /* Focus state for accessibility */

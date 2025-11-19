@@ -11,7 +11,7 @@ import './Clickable.css';
 
 export type ClickableAs = 'div' | 'button' | 'a' | 'li';
 export type ClickablePadding = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-export type ClickableRadius = 'none' | 'sm' | 'md' | 'lg' | 'xl';
+export type ClickableRadius = 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'; // ✅ Added 2xl and full
 export type ClickableBackground = 'transparent' | 'subdued' | 'card' | 'hover' | 'selected';
 export type ClickableBorder = 'none' | 'base' | 'strong' | 'subtle';
 
