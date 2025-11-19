@@ -1,6 +1,6 @@
 // ===============================================
 // design/system/components/actions/Clickable/Clickable.tsx
-// GENERIC INTERACTIVE CONTAINER - Like Shopify's s-clickable
+// GENERIC INTERACTIVE CONTAINER - Smart event handling
 // ===============================================
 
 import React, { forwardRef, type ReactNode, type HTMLAttributes } from 'react';
@@ -43,6 +43,9 @@ export interface ClickableProps extends Omit<HTMLAttributes<HTMLElement>, 'onCli
   width?: 'auto' | 'full';
   maxWidth?: string; // e.g., '800px', '100%'
   
+  // Event handling control
+  stopPropagationOnInteractive?: boolean; // Default: true - automatically ignore clicks on buttons/links
+  
   // Accessibility
   role?: string;
   'aria-label'?: string;
@@ -73,6 +76,7 @@ export const Clickable = forwardRef<HTMLElement, ClickableProps>(({
   borderStyle = 'solid',
   width = 'auto',
   maxWidth,
+  stopPropagationOnInteractive = true,
   role,
   className,
   ...props
@@ -81,12 +85,28 @@ export const Clickable = forwardRef<HTMLElement, ClickableProps>(({
   // Determine element type
   const Component = href ? 'a' : as;
   
-  // Handle click
+  // Handle click with smart child detection
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (disabled || loading) {
       e.preventDefault();
       return;
     }
+    
+    // ✅ Smart detection: Don't trigger onClick if click came from interactive child
+    if (stopPropagationOnInteractive && onClick) {
+      const target = e.target as HTMLElement;
+      
+      // Check if the click originated from an interactive element
+      const interactiveParent = target.closest(
+        'button, a, input, select, textarea, [role="button"], [role="link"], [data-interactive="true"]'
+      );
+      
+      // If click is on interactive child, don't trigger Clickable's onClick
+      if (interactiveParent && interactiveParent !== e.currentTarget) {
+        return;
+      }
+    }
+    
     onClick?.();
   };
   
@@ -95,6 +115,19 @@ export const Clickable = forwardRef<HTMLElement, ClickableProps>(({
     if (disabled || loading) return;
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
+      
+      // Same smart detection for keyboard
+      if (stopPropagationOnInteractive && onClick) {
+        const target = e.target as HTMLElement;
+        const interactiveParent = target.closest(
+          'button, a, input, select, textarea, [role="button"], [role="link"]'
+        );
+        
+        if (interactiveParent && interactiveParent !== e.currentTarget) {
+          return;
+        }
+      }
+      
       onClick?.();
     }
   };

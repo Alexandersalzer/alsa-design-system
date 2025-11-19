@@ -32,6 +32,7 @@
 @import './components/actions/SegmentedControl/SegmentedControl.css';
 @import './components/actions/Nav/Nav.css';
 @import './components/actions/NavigationTab/NavigationTab.css';
+@import './components/actions/Clickable/Clickable.css';
 
 /* Primitives - Forms */
 @import './components/forms/Input/Input.css';

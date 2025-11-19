@@ -1,17 +1,17 @@
 // ===============================================
 // design/system/components/layout/hStack/HStack.tsx
-// HStack COMPONENT - Horizontal grouping with wrapping
+// UPDATED TO ACCEPT ALL DIV PROPS
 // ===============================================
-import React, { ReactNode } from 'react';
+import React, { ReactNode, HTMLAttributes } from 'react';
 
 // ===== TYPE DEFINITIONS =====
-export interface HStackProps {
+export interface HStackProps extends HTMLAttributes<HTMLDivElement> { // ✅ Extend HTMLAttributes
   children: ReactNode;
   className?: string;
   // Spacing between items
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   // Alignment
-  align?: 'start' | 'center' | 'end' | 'baseline' | 'stretch'; // ← Added stretch
+  align?: 'start' | 'center' | 'end' | 'baseline' | 'stretch';
   justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
   // Wrapping behavior
   wrap?: boolean;
@@ -33,7 +33,7 @@ export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(({
   justify = 'start',
   wrap = false,
   direction = 'row',
-  ...props
+  ...props // ✅ Now includes onClick and other HTML props
 }, ref) => {
   // Build CSS classes
   const classes = buildClasses(
