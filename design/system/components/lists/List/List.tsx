@@ -1,6 +1,6 @@
 // ===============================================
 // design/system/components/layout/List/List.tsx
-// SEMANTIC LIST WRAPPER - For ul/ol with proper semantics
+// SEMANTIC LIST WRAPPER - Properly styled
 // ===============================================
 
 import React, { forwardRef, type ReactNode, type HTMLAttributes } from 'react';
@@ -10,13 +10,13 @@ import './List.css';
 // ===== TYPE DEFINITIONS =====
 
 export type ListVariant = 'default' | 'divided' | 'bordered';
-export type ListSpacing = 'none' | 'xs' | 'sm' | 'md' | 'lg';
+export type ListSpacing = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export interface ListProps extends HTMLAttributes<HTMLUListElement | HTMLOListElement> {
   children: ReactNode;
   
   // List type
-  ordered?: boolean; // ul vs ol
+  ordered?: boolean;
   
   // Visual variants
   variant?: ListVariant;

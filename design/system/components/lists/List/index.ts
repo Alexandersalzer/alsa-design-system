@@ -3,4 +3,4 @@
 // ===============================================
 
 export { List } from './List';
-export type { ListProps } from './List';
+export type { ListProps, ListVariant, ListSpacing } from './List';

@@ -1,21 +1,24 @@
 /* ===============================================
    design/system/components/actions/Clickable/Clickable.css
+   CLICKABLE COMPONENT - Fully styled with transitions
    =============================================== */
 
+/* ===== BASE STYLES ===== */
 .clickable {
   display: block;
   position: relative;
   cursor: default;
   transition: 
-    background-color 150ms ease,
-    border-color 150ms ease,
-    transform 100ms ease,
-    box-shadow 150ms ease;
+    background-color var(--foundation-duration-fast) var(--foundation-easing-standard),
+    border-color var(--foundation-duration-fast) var(--foundation-easing-standard),
+    box-shadow var(--foundation-duration-fast) var(--foundation-easing-standard),
+    transform 100ms var(--foundation-easing-standard);
   text-decoration: none;
   color: inherit;
+  box-sizing: border-box;
 }
 
-/* ===== WIDTH ===== */
+/* ===== WIDTH VARIANTS ===== */
 .clickable--width-full {
   width: 100%;
 }
@@ -24,37 +27,115 @@
   width: auto;
 }
 
-/* ===== PADDING ===== */
-.clickable--padding-none { padding: 0; }
-.clickable--padding-xs { padding: var(--spacing-xs); }
-.clickable--padding-sm { padding: var(--spacing-sm); }
-.clickable--padding-md { padding: var(--spacing-md); }
-.clickable--padding-lg { padding: var(--spacing-lg); }
-.clickable--padding-xl { padding: var(--spacing-xl); }
+/* ===== PADDING VARIANTS ===== */
+.clickable--padding-none { 
+  padding: 0; 
+}
+
+.clickable--padding-xs { 
+  padding: var(--foundation-space-2); 
+}
+
+.clickable--padding-sm { 
+  padding: var(--foundation-space-3); 
+}
+
+.clickable--padding-md { 
+  padding: var(--foundation-space-4); 
+}
+
+.clickable--padding-lg { 
+  padding: var(--foundation-space-6); 
+}
+
+.clickable--padding-xl { 
+  padding: var(--foundation-space-8); 
+}
+
+.clickable--padding-2xl { 
+  padding: var(--foundation-space-10); 
+}
 
 /* Padding block overrides */
-.clickable--padding-block-none { padding-block: 0; }
-.clickable--padding-block-xs { padding-block: var(--spacing-xs); }
-.clickable--padding-block-sm { padding-block: var(--spacing-sm); }
-.clickable--padding-block-md { padding-block: var(--spacing-md); }
-.clickable--padding-block-lg { padding-block: var(--spacing-lg); }
-.clickable--padding-block-xl { padding-block: var(--spacing-xl); }
+.clickable--padding-block-none { 
+  padding-block: 0; 
+}
+
+.clickable--padding-block-xs { 
+  padding-block: var(--foundation-space-2); 
+}
+
+.clickable--padding-block-sm { 
+  padding-block: var(--foundation-space-3); 
+}
+
+.clickable--padding-block-md { 
+  padding-block: var(--foundation-space-4); 
+}
+
+.clickable--padding-block-lg { 
+  padding-block: var(--foundation-space-6); 
+}
+
+.clickable--padding-block-xl { 
+  padding-block: var(--foundation-space-8); 
+}
+
+.clickable--padding-block-2xl { 
+  padding-block: var(--foundation-space-10); 
+}
 
 /* Padding inline overrides */
-.clickable--padding-inline-none { padding-inline: 0; }
-.clickable--padding-inline-xs { padding-inline: var(--spacing-xs); }
-.clickable--padding-inline-sm { padding-inline: var(--spacing-sm); }
-.clickable--padding-inline-md { padding-inline: var(--spacing-md); }
-.clickable--padding-inline-lg { padding-inline: var(--spacing-lg); }
-.clickable--padding-inline-xl { padding-inline: var(--spacing-xl); }
+.clickable--padding-inline-none { 
+  padding-inline: 0; 
+}
 
-/* ===== BORDER RADIUS ===== */
-.clickable--radius-none { border-radius: 0; }
-.clickable--radius-sm { border-radius: var(--foundation-radius-sm); }
-.clickable--radius-md { border-radius: var(--foundation-radius-md); }
-.clickable--radius-lg { border-radius: var(--foundation-radius-lg); }
+.clickable--padding-inline-xs { 
+  padding-inline: var(--foundation-space-2); 
+}
 
-/* ===== BACKGROUND ===== */
+.clickable--padding-inline-sm { 
+  padding-inline: var(--foundation-space-3); 
+}
+
+.clickable--padding-inline-md { 
+  padding-inline: var(--foundation-space-4); 
+}
+
+.clickable--padding-inline-lg { 
+  padding-inline: var(--foundation-space-6); 
+}
+
+.clickable--padding-inline-xl { 
+  padding-inline: var(--foundation-space-8); 
+}
+
+.clickable--padding-inline-2xl { 
+  padding-inline: var(--foundation-space-10); 
+}
+
+/* ===== BORDER RADIUS VARIANTS ===== */
+.clickable--radius-none { 
+  border-radius: 0; 
+}
+
+.clickable--radius-sm { 
+  border-radius: var(--foundation-radius-sm); 
+}
+
+.clickable--radius-md { 
+  border-radius: var(--foundation-radius-md); 
+}
+
+.clickable--radius-lg { 
+  border-radius: var(--foundation-radius-lg); 
+}
+
+.clickable--radius-xl { 
+  border-radius: var(--foundation-radius-xl); 
+}
+
+/* ===== BACKGROUND VARIANTS ===== */
 .clickable--bg-transparent {
   background-color: transparent;
 }
@@ -75,62 +156,69 @@
   background-color: var(--surface-selected);
 }
 
-/* ===== BORDER ===== */
+/* ===== BORDER VARIANTS ===== */
 .clickable--border-none {
   border: none;
 }
 
 .clickable--border-base {
-  border-width: 1px;
-  border-color: var(--border-base);
+  border: 1px solid var(--border-base);
 }
 
 .clickable--border-strong {
-  border-width: 1px;
-  border-color: var(--border-strong);
+  border: 1px solid var(--border-strong);
 }
 
 .clickable--border-subtle {
-  border-width: 1px;
-  border-color: var(--border-subtle);
+  border: 1px solid var(--border-subtle);
 }
 
-/* Border styles */
-.clickable--border-solid {
-  border-style: solid;
-}
-
-.clickable--border-dashed {
+/* Border style variants */
+.clickable--border-style-dashed {
   border-style: dashed;
 }
 
-.clickable--border-dotted {
+.clickable--border-style-dotted {
   border-style: dotted;
 }
 
 /* ===== INTERACTIVE STATES ===== */
 .clickable--interactive {
   cursor: pointer;
+  user-select: none;
 }
 
+/* Hover state */
 .clickable--interactive:hover:not(.clickable--disabled):not(.clickable--loading) {
   background-color: var(--surface-hover);
+  border-color: var(--border-hover);
+  box-shadow: var(--foundation-shadow-sm);
 }
 
+/* Active state (when pressed) */
 .clickable--interactive:active:not(.clickable--disabled):not(.clickable--loading) {
   background-color: var(--surface-pressed);
   transform: scale(0.99);
+  box-shadow: none;
 }
 
+/* Focus state for accessibility */
 .clickable--interactive:focus-visible {
   outline: 2px solid var(--accent-500);
   outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--accent-100);
 }
 
 /* ===== SELECTED STATE ===== */
 .clickable--selected {
   background-color: var(--surface-selected) !important;
   border-color: var(--border-selected) !important;
+  box-shadow: 0 0 0 2px var(--accent-500);
+}
+
+.clickable--selected:hover:not(.clickable--disabled) {
+  background-color: var(--surface-selected-hover) !important;
+  box-shadow: 0 0 0 2px var(--accent-600);
 }
 
 /* ===== DISABLED STATE ===== */
@@ -145,4 +233,66 @@
   opacity: 0.6;
   cursor: wait;
   pointer-events: none;
+}
+
+.clickable--loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-base);
+  border-top-color: var(--accent-500);
+  border-radius: 50%;
+  animation: clickable-spin 0.6s linear infinite;
+}
+
+@keyframes clickable-spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ===== DARK MODE ADJUSTMENTS ===== */
+[data-theme="dark"] .clickable--interactive:hover:not(.clickable--disabled):not(.clickable--loading) {
+  background-color: var(--surface-hover-dark, rgba(255, 255, 255, 0.05));
+}
+
+[data-theme="dark"] .clickable--interactive:active:not(.clickable--disabled):not(.clickable--loading) {
+  background-color: var(--surface-pressed-dark, rgba(255, 255, 255, 0.1));
+}
+
+/* ===== REDUCED MOTION SUPPORT ===== */
+@media (prefers-reduced-motion: reduce) {
+  .clickable {
+    transition: none;
+  }
+  
+  .clickable--interactive:active {
+    transform: none;
+  }
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+  .clickable--border-base,
+  .clickable--border-subtle,
+  .clickable--border-strong {
+    border-width: 2px;
+  }
+  
+  .clickable--selected {
+    border-width: 3px;
+  }
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+  .clickable--padding-lg {
+    padding: var(--foundation-space-4);
+  }
+  
+  .clickable--padding-xl {
+    padding: var(--foundation-space-6);
+  }
 }

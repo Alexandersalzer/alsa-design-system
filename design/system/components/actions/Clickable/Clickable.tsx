@@ -1,6 +1,6 @@
 // ===============================================
 // design/system/components/actions/Clickable/Clickable.tsx
-// GENERIC INTERACTIVE CONTAINER - Smart event handling
+// GENERIC INTERACTIVE CONTAINER - Fully styled and polished
 // ===============================================
 
 import React, { forwardRef, type ReactNode, type HTMLAttributes } from 'react';
@@ -10,8 +10,8 @@ import './Clickable.css';
 // ===== TYPE DEFINITIONS =====
 
 export type ClickableAs = 'div' | 'button' | 'a' | 'li';
-export type ClickablePadding = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-export type ClickableRadius = 'none' | 'sm' | 'md' | 'lg';
+export type ClickablePadding = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+export type ClickableRadius = 'none' | 'sm' | 'md' | 'lg' | 'xl';
 export type ClickableBackground = 'transparent' | 'subdued' | 'card' | 'hover' | 'selected';
 export type ClickableBorder = 'none' | 'base' | 'strong' | 'subtle';
 
@@ -26,7 +26,7 @@ export interface ClickableProps extends Omit<HTMLAttributes<HTMLElement>, 'onCli
   loading?: boolean;
   
   // Visual states
-  interactive?: boolean; // Enable hover/active effects
+  interactive?: boolean;
   selected?: boolean;
   
   // Layout & Styling
@@ -41,10 +41,10 @@ export interface ClickableProps extends Omit<HTMLAttributes<HTMLElement>, 'onCli
   
   // Width control
   width?: 'auto' | 'full';
-  maxWidth?: string; // e.g., '800px', '100%'
+  maxWidth?: string;
   
   // Event handling control
-  stopPropagationOnInteractive?: boolean; // Default: true - automatically ignore clicks on buttons/links
+  stopPropagationOnInteractive?: boolean;
   
   // Accessibility
   role?: string;
@@ -82,26 +82,20 @@ export const Clickable = forwardRef<HTMLElement, ClickableProps>(({
   ...props
 }, ref) => {
   
-  // Determine element type
   const Component = href ? 'a' : as;
   
-  // Handle click with smart child detection
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (disabled || loading) {
       e.preventDefault();
       return;
     }
     
-    // ✅ Smart detection: Don't trigger onClick if click came from interactive child
     if (stopPropagationOnInteractive && onClick) {
       const target = e.target as HTMLElement;
-      
-      // Check if the click originated from an interactive element
       const interactiveParent = target.closest(
         'button, a, input, select, textarea, [role="button"], [role="link"], [data-interactive="true"]'
       );
       
-      // If click is on interactive child, don't trigger Clickable's onClick
       if (interactiveParent && interactiveParent !== e.currentTarget) {
         return;
       }
@@ -110,13 +104,11 @@ export const Clickable = forwardRef<HTMLElement, ClickableProps>(({
     onClick?.();
   };
   
-  // Handle keyboard
   const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
     if (disabled || loading) return;
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       
-      // Same smart detection for keyboard
       if (stopPropagationOnInteractive && onClick) {
         const target = e.target as HTMLElement;
         const interactiveParent = target.closest(
@@ -145,7 +137,7 @@ export const Clickable = forwardRef<HTMLElement, ClickableProps>(({
         `clickable--radius-${borderRadius}`,
         `clickable--bg-${background}`,
         `clickable--border-${border}`,
-        `clickable--border-${borderStyle}`,
+        borderStyle !== 'solid' && `clickable--border-style-${borderStyle}`,
         `clickable--width-${width}`,
         isInteractive && 'clickable--interactive',
         disabled && 'clickable--disabled',
