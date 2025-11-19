@@ -1,0 +1,148 @@
+/* ===============================================
+   design/system/components/actions/Clickable/Clickable.css
+   =============================================== */
+
+.clickable {
+  display: block;
+  position: relative;
+  cursor: default;
+  transition: 
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 100ms ease,
+    box-shadow 150ms ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ===== WIDTH ===== */
+.clickable--width-full {
+  width: 100%;
+}
+
+.clickable--width-auto {
+  width: auto;
+}
+
+/* ===== PADDING ===== */
+.clickable--padding-none { padding: 0; }
+.clickable--padding-xs { padding: var(--spacing-xs); }
+.clickable--padding-sm { padding: var(--spacing-sm); }
+.clickable--padding-md { padding: var(--spacing-md); }
+.clickable--padding-lg { padding: var(--spacing-lg); }
+.clickable--padding-xl { padding: var(--spacing-xl); }
+
+/* Padding block overrides */
+.clickable--padding-block-none { padding-block: 0; }
+.clickable--padding-block-xs { padding-block: var(--spacing-xs); }
+.clickable--padding-block-sm { padding-block: var(--spacing-sm); }
+.clickable--padding-block-md { padding-block: var(--spacing-md); }
+.clickable--padding-block-lg { padding-block: var(--spacing-lg); }
+.clickable--padding-block-xl { padding-block: var(--spacing-xl); }
+
+/* Padding inline overrides */
+.clickable--padding-inline-none { padding-inline: 0; }
+.clickable--padding-inline-xs { padding-inline: var(--spacing-xs); }
+.clickable--padding-inline-sm { padding-inline: var(--spacing-sm); }
+.clickable--padding-inline-md { padding-inline: var(--spacing-md); }
+.clickable--padding-inline-lg { padding-inline: var(--spacing-lg); }
+.clickable--padding-inline-xl { padding-inline: var(--spacing-xl); }
+
+/* ===== BORDER RADIUS ===== */
+.clickable--radius-none { border-radius: 0; }
+.clickable--radius-sm { border-radius: var(--foundation-radius-sm); }
+.clickable--radius-md { border-radius: var(--foundation-radius-md); }
+.clickable--radius-lg { border-radius: var(--foundation-radius-lg); }
+
+/* ===== BACKGROUND ===== */
+.clickable--bg-transparent {
+  background-color: transparent;
+}
+
+.clickable--bg-subdued {
+  background-color: var(--surface-subdued);
+}
+
+.clickable--bg-card {
+  background-color: var(--surface-card);
+}
+
+.clickable--bg-hover {
+  background-color: var(--surface-hover);
+}
+
+.clickable--bg-selected {
+  background-color: var(--surface-selected);
+}
+
+/* ===== BORDER ===== */
+.clickable--border-none {
+  border: none;
+}
+
+.clickable--border-base {
+  border-width: 1px;
+  border-color: var(--border-base);
+}
+
+.clickable--border-strong {
+  border-width: 1px;
+  border-color: var(--border-strong);
+}
+
+.clickable--border-subtle {
+  border-width: 1px;
+  border-color: var(--border-subtle);
+}
+
+/* Border styles */
+.clickable--border-solid {
+  border-style: solid;
+}
+
+.clickable--border-dashed {
+  border-style: dashed;
+}
+
+.clickable--border-dotted {
+  border-style: dotted;
+}
+
+/* ===== INTERACTIVE STATES ===== */
+.clickable--interactive {
+  cursor: pointer;
+}
+
+.clickable--interactive:hover:not(.clickable--disabled):not(.clickable--loading) {
+  background-color: var(--surface-hover);
+}
+
+.clickable--interactive:active:not(.clickable--disabled):not(.clickable--loading) {
+  background-color: var(--surface-pressed);
+  transform: scale(0.99);
+}
+
+.clickable--interactive:focus-visible {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 2px;
+}
+
+/* ===== SELECTED STATE ===== */
+.clickable--selected {
+  background-color: var(--surface-selected) !important;
+  border-color: var(--border-selected) !important;
+}
+
+/* ===== DISABLED STATE ===== */
+.clickable--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ===== LOADING STATE ===== */
+.clickable--loading {
+  opacity: 0.6;
+  cursor: wait;
+  pointer-events: none;
+}

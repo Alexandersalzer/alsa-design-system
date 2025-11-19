@@ -61,7 +61,6 @@ export function buildCssVars(design: DesignJson): string {
 
       /* ===== Accent ===== */
       ${isInverseAccent ? `
-        --surface-button-accent: var(--interactive-primary);
         --accent-100: var(--secondary-100);
         --accent-200: var(--secondary-200);
         --accent-300: var(--secondary-300);

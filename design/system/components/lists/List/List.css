@@ -1,0 +1,65 @@
+/* ===============================================
+   design/system/components/layout/List/List.css
+   =============================================== */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== VARIANTS ===== */
+
+/* Default: No visual styling, just semantic */
+.list--default {
+  /* No additional styling */
+}
+
+/* Divided: Border between items */
+.list--divided > * + * {
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Bordered: Full border around list */
+.list--bordered {
+  border: 1px solid var(--border-base);
+  border-radius: var(--foundation-radius-md);
+  overflow: hidden;
+}
+
+.list--bordered > * + * {
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ===== SPACING ===== */
+
+.list--spacing-none > * + * {
+  margin-top: 0;
+}
+
+.list--spacing-xs > * + * {
+  margin-top: var(--spacing-xs);
+}
+
+.list--spacing-sm > * + * {
+  margin-top: var(--spacing-sm);
+}
+
+.list--spacing-md > * + * {
+  margin-top: var(--spacing-md);
+}
+
+.list--spacing-lg > * + * {
+  margin-top: var(--spacing-lg);
+}
+
+/* ===== DARK MODE ===== */
+
+[data-theme="dark"] .list--divided > * + *,
+[data-theme="dark"] .list--bordered > * + * {
+  border-color: var(--border-subtle-dark);
+}
+
+[data-theme="dark"] .list--bordered {
+  border-color: var(--border-base-dark);
+}
