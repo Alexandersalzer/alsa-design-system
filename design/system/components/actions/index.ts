@@ -4,3 +4,4 @@ export * from './TextLink';
 export * from './Nav';
 export * from './NavigationTab';
 export * from './SegmentedControl';
+export * from './Clickable';
