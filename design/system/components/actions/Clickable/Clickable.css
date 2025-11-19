@@ -1,6 +1,6 @@
 /* ===============================================
    design/system/components/actions/Clickable/Clickable.css
-   CLICKABLE COMPONENT - Fully styled with transitions
+   CLICKABLE COMPONENT - Fixed animations and polish
    =============================================== */
 
 /* ===== BASE STYLES ===== */
@@ -12,7 +12,7 @@
     background-color var(--foundation-duration-fast) var(--foundation-easing-standard),
     border-color var(--foundation-duration-fast) var(--foundation-easing-standard),
     box-shadow var(--foundation-duration-fast) var(--foundation-easing-standard),
-    transform 100ms var(--foundation-easing-standard);
+    transform 150ms var(--foundation-easing-standard);
   text-decoration: none;
   color: inherit;
   box-sizing: border-box;
@@ -188,18 +188,19 @@
   user-select: none;
 }
 
-/* Hover state */
+/* Hover state - smooth and subtle */
 .clickable--interactive:hover:not(.clickable--disabled):not(.clickable--loading) {
   background-color: var(--surface-hover);
   border-color: var(--border-hover);
-  box-shadow: var(--foundation-shadow-sm);
 }
 
-/* Active state (when pressed) */
+/* Active state - FIXED: subtle scale with smooth animation */
 .clickable--interactive:active:not(.clickable--disabled):not(.clickable--loading) {
   background-color: var(--surface-pressed);
-  transform: scale(0.99);
-  box-shadow: none;
+  transform: scale(0.995); /* Very subtle scale - was 0.99 */
+  transition: 
+    background-color 100ms var(--foundation-easing-standard),
+    transform 100ms var(--foundation-easing-standard); /* Added smooth animation */
 }
 
 /* Focus state for accessibility */
