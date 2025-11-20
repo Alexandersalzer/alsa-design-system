@@ -173,13 +173,14 @@ export class ThemeManager {
   }
 
   /**
-   * Save to localStorage
+   * Save to localStorage and notify page
    */
   private saveToStorage(): void {
     if (typeof window === 'undefined') return;
     localStorage.setItem('blimpify-theme-config', JSON.stringify(this.currentConfig));
-
-  }
+    // Dispatch event to trigger instant updates without reload
+    window.dispatchEvent(new CustomEvent('theme-changed'));
+  }   
 
 
     // ✅ ADD these convenience getters:
