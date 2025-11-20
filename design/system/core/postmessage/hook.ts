@@ -10,9 +10,10 @@
 
 import { useEffect } from 'react';
 import { isOriginAllowed } from './cors';
-import type { PostMessage, EditingModePayload } from './types';
-import { EDITING_MODE_MESSAGE } from './types';
+import type { PostMessage, EditingModePayload, DesignTokensPayload } from './types';
+import { EDITING_MODE_MESSAGE, DESIGN_TOKENS_MESSAGE } from './types';
 import { applyEditingMode } from './applyEditingMode';
+import { buildCssVars } from '../../../cms/wrappers/design/DesignSnippet';
 
 /**
  * Lyssna på editing mode meddelanden och uppdatera HTML class
@@ -102,8 +103,8 @@ export function useEditingModeHandler() {
     };
 
     const handleMessage = (event: MessageEvent) => {
-      // CORS säkerhetskontroll för editing mode meddelanden
-      if (event.data?.type === EDITING_MODE_MESSAGE && !isOriginAllowed(event.origin)) {
+      // CORS säkerhetskontroll för alla meddelanden
+      if (!isOriginAllowed(event.origin)) {
         return;
       }
 
@@ -125,6 +126,33 @@ export function useEditingModeHandler() {
         setTimeout(() => sendHeight(), 100);
         
         console.log(`[EditingMode] Updated to ${isEditing ? 'editing-mode' : 'production-mode'}`);
+      }
+
+      // ✨ Hantera design tokens meddelanden
+      if (event.data?.type === DESIGN_TOKENS_MESSAGE) {
+        const { designTokens } = event.data.payload;
+        
+        // Generera ny CSS från API design tokens
+        const newCSS = buildCssVars({ globalStyles: designTokens });
+        
+        // Uppdatera design CSS i DOM
+        const designStyle = document.querySelector('head style#design-css') as HTMLStyleElement;
+        if (designStyle) {
+          designStyle.innerHTML = newCSS;
+          console.log('🎨 Design tokens applied from API');
+        }
+        
+        // Uppdatera HTML attribut
+        const html = document.documentElement;
+        if (designTokens.themeTone) {
+          html.setAttribute('data-theme-tone', designTokens.themeTone);
+        }
+        if (typeof designTokens.isDark === 'boolean') {
+          html.setAttribute('data-theme', designTokens.isDark ? 'dark' : 'light');
+        }
+
+        // Skicka höjd efter CSS ändringar
+        setTimeout(() => sendHeight(), 100);
       }
       
       // Hantera width-specifika höjdförfrågningar
