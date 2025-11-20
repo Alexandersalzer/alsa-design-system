@@ -122,11 +122,9 @@ export function buildCssVars(design: DesignJson): string {
  */
 /**
  * Returns both CSS and theme metadata
- * Automatically checks editing mode via headers/DOM class
+ * Takes isEditing parameter to avoid duplicate getEditingMode calls
  */
-export async function designSnippet(): Promise<{ css: string; themeTone: string; isDark: boolean }> {
-  const isEditing = await getEditingMode();
-  
+export async function designSnippet(isEditing: boolean = false): Promise<{ css: string; themeTone: string; isDark: boolean }> {
   if (isEditing) {
     // Return minimal data utan att läsa design.json eller generera CSS
     return {
