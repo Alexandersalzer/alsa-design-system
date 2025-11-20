@@ -12,12 +12,31 @@ import { useEffect } from 'react';
 import { isOriginAllowed } from './cors';
 import type { PostMessage, EditingModePayload } from './types';
 import { EDITING_MODE_MESSAGE } from './types';
+import { applyEditingMode } from './applyEditingMode';
 
 /**
  * Lyssna på editing mode meddelanden och uppdatera HTML class
  * Hanterar också höjdkommunikation mellan iframe och parent
+ * Hanterar design CSS visibility baserat på editing mode
  */
 export function useEditingModeHandler() {
+  const isEditing = applyEditingMode();
+
+  // Hantera design CSS visibility baserat på editing mode
+  useEffect(() => {
+    const designStyle = document.querySelector('head style#design-css') as HTMLStyleElement;
+    
+    if (designStyle) {
+      if (isEditing) {
+        designStyle.style.display = 'none';
+        console.log('🎨 Design CSS hidden - editing mode active');
+      } else {
+        designStyle.style.display = 'block';
+        console.log('🎨 Design CSS shown - production mode active');
+      }
+    }
+  }, [isEditing]);
+
   useEffect(() => {
     // Endast körs i iframe context
     if (typeof window === 'undefined' || window === window.parent) {
