@@ -122,7 +122,15 @@ export function buildCssVars(design: DesignJson): string {
 /**
  * Returns both CSS and theme metadata
  */
-export async function designSnippet(): Promise<{ css: string; themeTone: string; isDark: boolean }> {
+export async function designSnippet(isEditing: boolean = false): Promise<{ css: string; themeTone: string; isDark: boolean }> {
+    if (isEditing) {
+    // Return minimal data utan att läsa design.json eller generera CSS
+    return {
+      css: "",
+      themeTone: "mono",
+      isDark: false
+    };
+  }
   const designConfig = await getDesignConfig();
   const themeTone = designConfig?.globalStyles?.themeTone || "neutral";
   const isDark = designConfig?.globalStyles?.isDark ?? false;
