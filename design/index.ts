@@ -5,7 +5,7 @@ export * from './system';
 export * from './cms/wrappers';
 
 // Export editing state functionality
-export { getEditingMode, getEditingModeSync } from './system/core/editing/editingState';
+export { getEditingMode } from './system/core/editing/editingState';
 
 // Export initial messaging functionality (editing status only)
 export {

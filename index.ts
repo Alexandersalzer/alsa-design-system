@@ -6,6 +6,6 @@ export { sendEmailForm, sendEmailFormUniversal } from './api/contact';
 export type { ApiResponse, ContactFormData } from './api/contact';
 
 // Editing state exports
-export { getEditingMode, getEditingModeSync } from './design/system/core/editing/editingState';
+export { getEditingMode } from './design/system/core/editing/editingState';
 
 
