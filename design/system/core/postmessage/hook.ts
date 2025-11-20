@@ -22,18 +22,35 @@ import { applyEditingMode } from './applyEditingMode';
 export function useEditingModeHandler() {
   const isEditing = applyEditingMode();
 
-  // Hantera design CSS visibility baserat på editing mode
+  // Hantera design CSS baserat på editing mode
   useEffect(() => {
     const designStyle = document.querySelector('head style#design-css') as HTMLStyleElement;
     
     if (designStyle) {
       if (isEditing) {
-        designStyle.style.display = 'none';
-        console.log('🎨 Design CSS hidden - editing mode active');
+        // Spara original CSS för senare återställning
+        if (!designStyle.dataset.originalCss) {
+          designStyle.dataset.originalCss = designStyle.innerHTML;
+        }
+        
+        // Rensa CSS innehållet - förbered för API-laddad CSS
+        designStyle.innerHTML = '';
+        console.log('🎨 Design CSS cleared - editing mode active');
+        
+        // TODO: I framtiden - ladda CSS från API här
+        // loadEditingModeCSS().then(apiCss => {
+        //   designStyle.innerHTML = apiCss;
+        // });
+        
       } else {
-        designStyle.style.display = 'block';
-        console.log('🎨 Design CSS shown - production mode active');
+        // Återställ original CSS från server-side generering
+        if (designStyle.dataset.originalCss) {
+          designStyle.innerHTML = designStyle.dataset.originalCss;
+          console.log('🎨 Design CSS restored - production mode active');
+        }
       }
+    } else {
+      console.warn('⚠️ No design style element found with ID #design-css');
     }
   }, [isEditing]);
 
