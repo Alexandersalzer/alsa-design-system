@@ -128,41 +128,30 @@ export function useEditingModeHandler() {
         console.log(`[EditingMode] Updated to ${isEditing ? 'editing-mode' : 'production-mode'}`);
       }
 
-      // ✨ Hantera design tokens meddelanden (inklusive theme switch)
+      // ✨ Hantera design tokens meddelanden
       if (event.data?.type === DESIGN_TOKENS_MESSAGE) {
         const { designTokens } = event.data.payload;
         
-        // Kolla om det är en partial update (bara theme switch)
-        const isPartialUpdate = designTokens?.globalStyles && 
-          Object.keys(designTokens.globalStyles).length === 1 && 
-          'isDark' in designTokens.globalStyles;
-
-        if (isPartialUpdate) {
-          // Bara uppdatera HTML theme attribut för snabb preview
-          const html = document.documentElement;
-          html.setAttribute('data-theme', designTokens.globalStyles.isDark ? 'dark' : 'light');
-          console.log('🌙 Theme switched to:', designTokens.globalStyles.isDark ? 'dark' : 'light');
-        } else {
-          // Full design tokens update - generera ny CSS
-          const newCSS = buildCssVars({ globalStyles: designTokens.globalStyles || designTokens });
-          
-          const designStyle = document.querySelector('head style#design-css') as HTMLStyleElement;
-          if (designStyle) {
-            designStyle.innerHTML = newCSS;
-            console.log('🎨 Full design tokens applied from API');
-          }
-          
-          // Uppdatera HTML attribut
-          const html = document.documentElement;
-          if (designTokens.globalStyles?.themeTone || designTokens.themeTone) {
-            html.setAttribute('data-theme-tone', designTokens.globalStyles?.themeTone || designTokens.themeTone);
-          }
-          if (typeof (designTokens.globalStyles?.isDark ?? designTokens.isDark) === 'boolean') {
-            html.setAttribute('data-theme', (designTokens.globalStyles?.isDark ?? designTokens.isDark) ? 'dark' : 'light');
-          }
+        // Generera ny CSS från API design tokens
+        const newCSS = buildCssVars({ globalStyles: designTokens });
+        
+        // Uppdatera design CSS i DOM
+        const designStyle = document.querySelector('head style#design-css') as HTMLStyleElement;
+        if (designStyle) {
+          designStyle.innerHTML = newCSS;
+          console.log('🎨 Design tokens applied from API');
+        }
+        
+        // Uppdatera HTML attribut
+        const html = document.documentElement;
+        if (designTokens.themeTone) {
+          html.setAttribute('data-theme-tone', designTokens.themeTone);
+        }
+        if (typeof designTokens.isDark === 'boolean') {
+          html.setAttribute('data-theme', designTokens.isDark ? 'dark' : 'light');
         }
 
-        // Skicka höjd efter CSS/theme ändringar
+        // Skicka höjd efter CSS ändringar
         setTimeout(() => sendHeight(), 100);
       }
       
