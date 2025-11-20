@@ -1,5 +1,6 @@
 import type { DesignJson } from "./designLoader";
 import { getDesignConfig } from "./designLoader";
+import { getEditingMode } from "../../../system/core/editing/editingState";
 
 /**
  * Generates CSS variables from design.json
@@ -121,16 +122,20 @@ export function buildCssVars(design: DesignJson): string {
  */
 /**
  * Returns both CSS and theme metadata
+ * Automatically checks editing mode via headers/DOM class
  */
-export async function designSnippet(isEditing: boolean = false): Promise<{ css: string; themeTone: string; isDark: boolean }> {
-    if (isEditing) {
+export async function designSnippet(): Promise<{ css: string; themeTone: string; isDark: boolean }> {
+  const isEditing = await getEditingMode();
+  
+  if (isEditing) {
     // Return minimal data utan att läsa design.json eller generera CSS
     return {
       css: "",
-      themeTone: "mono",
+      themeTone: "mono", 
       isDark: false
     };
   }
+  
   const designConfig = await getDesignConfig();
   const themeTone = designConfig?.globalStyles?.themeTone || "neutral";
   const isDark = designConfig?.globalStyles?.isDark ?? false;
