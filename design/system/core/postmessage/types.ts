@@ -16,4 +16,10 @@ export interface EditingModePayload {
   websiteVersionId?: number;
 }
 
+export interface DesignTokensPayload {
+  designTokens: any; // Samma struktur som design.json globalStyles
+  websiteVersionId?: number;
+}
+
 export const EDITING_MODE_MESSAGE = 'TOGGLE_EDITING_MODE';
+export const DESIGN_TOKENS_MESSAGE = 'UPDATE_DESIGN_TOKENS';

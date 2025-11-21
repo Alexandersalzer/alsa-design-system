@@ -4,6 +4,9 @@ export * from './system';
 // Export all CMS wrappers functionality
 export * from './cms/wrappers';
 
+// Export editing state functionality
+export { getEditingMode } from './system/core/editing/editingState';
+
 // Export initial messaging functionality (editing status only)
 export {
   InitialMessageHandler,
