@@ -1,5 +1,5 @@
 // src/design-system/components/primitives/SegmentedControl/SegmentedControl.tsx
-// FIXED SEGMENTED CONTROL - Proper click handling on all options
+// WITH EXTENSIVE DEBUG LOGGING
 
 import React, {
   useRef,
@@ -52,10 +52,14 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
     width: string;
   }>({ transform: 'translateX(0px)', width: '0px' });
 
+  console.log('🔄 SegmentedControl render - value:', value, 'options:', options.map(o => o.value));
+
   const selectedIndex = useMemo(
     () => options.findIndex((o) => o.value === value),
     [options, value]
   );
+
+  console.log('   selectedIndex:', selectedIndex);
 
   const readContainerPadding = (el: HTMLElement | null) => {
     if (!el) return { left: 0, top: 0 };
@@ -222,8 +226,6 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
         style={{
           ...indicatorStyle,
           transition: mounted ? undefined : 'none',
-          // CRITICAL FIX: pointer-events none so it doesn't block clicks
-          pointerEvents: 'none',
         }}
         aria-hidden="true"
       />
@@ -243,11 +245,18 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
               isDisabled && 'segmented-control__option--disabled'
             )}
             onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
+              console.log('🖱️ Button clicked:', {
+                optionValue: option.value,
+                currentValue: value,
+                isDisabled,
+                event: e.type
+              });
+              
               if (!isDisabled) {
-                console.log(`🔘 Clicked option: ${option.value}, current: ${value}`);
+                console.log('   ✅ Not disabled, calling onChange with:', option.value);
                 onChange(option.value);
+              } else {
+                console.log('   ❌ Button is disabled, not calling onChange');
               }
             }}
             disabled={isDisabled}
