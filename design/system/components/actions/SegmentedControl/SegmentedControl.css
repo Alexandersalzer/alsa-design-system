@@ -1,6 +1,6 @@
 /* ===============================================
    src/design-system/components/primitives/SegmentedControl/SegmentedControl.css
-   ENHANCED SEGMENTED CONTROL - PROPER TOKENS
+   FIXED SEGMENTED CONTROL - Proper click handling
    =============================================== */
 
 /* ===== BASE COMPONENT ===== */
@@ -9,7 +9,6 @@
   display: inline-flex;
   background: var(--secondary-50);
   border: 1px solid var(--border-default);
-  /* Uses button radius for consistency */
   border-radius: var(--radius-button);
   padding: var(--foundation-space-1);
   overflow: hidden;
@@ -25,7 +24,6 @@
   left: var(--foundation-space-1);
   bottom: var(--foundation-space-1);
   background: var(--secondary-200);
-  /* FIXED: Use proper button radius token, slightly smaller than container */
   border-radius: calc(var(--radius-button) - 2px);
   box-shadow: 
     0 1px 3px rgba(0, 0, 0, 0.12),
@@ -36,6 +34,8 @@
     width 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 1;
   height: auto;
+  /* CRITICAL FIX: Don't block clicks */
+  pointer-events: none;
 }
 
 /* ===== OPTIONS ===== */
@@ -49,11 +49,12 @@
   border: none;
   cursor: pointer;
   transition: all 0.15s ease;
+  /* FIXED: Ensure buttons are above indicator and clickable */
   z-index: 2;
+  pointer-events: auto;
   min-width: 0;
   flex: 1;
   padding: var(--foundation-space-2) var(--foundation-space-3);
-  /* FIXED: Match indicator radius */
   border-radius: calc(var(--radius-button) - 2px);
   box-sizing: border-box;
   text-align: center;
@@ -74,6 +75,8 @@
   opacity: 0.5;
   transition: opacity 0.15s ease;
   z-index: 2;
+  /* Don't block clicks */
+  pointer-events: none;
 }
 
 .segmented-control__option:last-child::after {
@@ -89,6 +92,7 @@
 .segmented-control__option:focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
+  z-index: 3;
 }
 
 .segmented-control__option:hover:not(:disabled):not(.segmented-control__option--disabled) {
@@ -96,16 +100,23 @@
   opacity: 0.9;
 }
 
+.segmented-control__option:active:not(:disabled):not(.segmented-control__option--disabled) {
+  opacity: 0.7;
+}
+
 .segmented-control__option--disabled {
   cursor: not-allowed;
   opacity: 0.5;
+  pointer-events: none;
 }
 
 .segmented-control__icon {
   display: flex;
   align-items: center;
-  color: var(--text-primary);
+  color: inherit;
   flex-shrink: 0;
+  /* Don't block clicks */
+  pointer-events: none;
 }
 
 .segmented-control__icon svg {
@@ -125,7 +136,6 @@
   top: 2px;
   left: 2px;
   bottom: 2px;
-  /* FIXED: Use proper foundation radius */
   border-radius: calc(var(--foundation-radius-sm) - 1px);
 }
 
@@ -153,7 +163,6 @@
   top: var(--foundation-space-2);
   left: var(--foundation-space-2);
   bottom: var(--foundation-space-2);
-  /* FIXED: Use proper foundation radius */
   border-radius: calc(var(--foundation-radius-lg) - 2px);
 }
 
@@ -175,7 +184,6 @@
 
 /* PILL VARIANT */
 .segmented-control--pill {
-  /* FIXED: Use proper full radius token */
   border-radius: var(--foundation-radius-full);
   background: var(--secondary-100);
 }
@@ -202,7 +210,6 @@
   top: 0;
   left: 0;
   bottom: 0;
-  /* FIXED: Use proper button radius */
   border-radius: var(--radius-button);
   box-shadow: 
     0 1px 2px rgba(0, 0, 0, 0.08),
@@ -285,11 +292,7 @@
   }
 }
 
-/* ===== RTL SUPPORT ===== */
-[dir="rtl"] .segmented-control__indicator {
-  /* Transform will be handled by JavaScript for RTL */
-}
-
+/* ===== NO TRANSITION ON FIRST PAINT ===== */
 .segmented-control[data-mounted="false"] .segmented-control__indicator {
   transition: none !important;
 }
