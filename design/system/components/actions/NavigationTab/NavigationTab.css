@@ -61,6 +61,7 @@
 
 /* 🎯 ENHANCED: Navigation tabs with better weight hierarchy */
 .nav-item .nav-item__label {
+  color: rgba(var(--text-nav-item-selected));
   font-weight: var(--foundation-weight-medium, 500);
   transition: font-weight 0.15s ease;
 }

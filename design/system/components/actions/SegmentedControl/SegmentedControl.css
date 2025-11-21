@@ -104,7 +104,7 @@
 .segmented-control__icon {
   display: flex;
   align-items: center;
-  color: inherit;
+  color: var(--text-primary);
   flex-shrink: 0;
 }
 

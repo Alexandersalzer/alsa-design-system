@@ -28,7 +28,7 @@
   
   /* ===== NAVIGATION TEXT - USING SHORTCUTS ===== */
   --text-nav-item: var(--text-secondary);
-  --text-nav-item-selected: var(--text-primary);
+  --text-nav-item-selected: var(--accent-600);
   --text-nav-item-disabled: var(--text-disabled);
   --text-nav-item-hover: var(--text-primary);
 
