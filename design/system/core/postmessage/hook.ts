@@ -155,6 +155,32 @@ export function useEditingModeHandler() {
         setTimeout(() => sendHeight(), 100);
       }
       
+      // ✨ Hantera partiella design token-uppdateringar (live updates)
+      if (event.data?.type === 'DESIGN_TOKENS_UPDATE') {
+        const { updates } = event.data.payload;
+        
+        if (updates) {
+          const root = document.documentElement;
+          
+          // Hantera theme mode uppdateringar
+          if (typeof updates.isDark === 'boolean') {
+            root.style.setProperty('--is-dark', updates.isDark ? '1' : '0');
+            root.setAttribute('data-theme', updates.isDark ? 'dark' : 'light');
+            
+            console.log(`🎨 Theme updated via postMessage: ${updates.isDark ? 'dark' : 'light'}`);
+          }
+
+          // Hantera andra design token uppdateringar (framtida expansion)
+          if (updates.themeTone) {
+            root.setAttribute('data-theme-tone', updates.themeTone);
+            console.log(`🎨 Theme tone updated: ${updates.themeTone}`);
+          }
+
+          // Skicka höjd efter CSS ändringar
+          setTimeout(() => sendHeight(), 100);
+        }
+      }
+
       // Hantera width-specifika höjdförfrågningar
       if (event.data?.type === 'REQUEST_HEIGHT') {
         const { iframeId, width } = event.data.payload || {};
