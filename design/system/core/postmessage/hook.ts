@@ -162,18 +162,116 @@ export function useEditingModeHandler() {
         if (updates) {
           const root = document.documentElement;
           
-          // Hantera theme mode uppdateringar
+          // ===== THEME & VISUAL =====
+          
+          // Theme mode
           if (typeof updates.isDark === 'boolean') {
             root.style.setProperty('--is-dark', updates.isDark ? '1' : '0');
             root.setAttribute('data-theme', updates.isDark ? 'dark' : 'light');
-            
-            console.log(`🎨 Theme updated via postMessage: ${updates.isDark ? 'dark' : 'light'}`);
+            console.log(`🎨 Theme mode updated: ${updates.isDark ? 'dark' : 'light'}`);
           }
 
-          // Hantera andra design token uppdateringar (framtida expansion)
+          // Theme tone
           if (updates.themeTone) {
             root.setAttribute('data-theme-tone', updates.themeTone);
             console.log(`🎨 Theme tone updated: ${updates.themeTone}`);
+          }
+
+          // Accent color
+          if (updates.accentColor) {
+            const isInverse = updates.accentColor === 'inverse';
+            const levels = [100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000, 1100, 1200];
+            
+            if (isInverse) {
+              levels.forEach(level => {
+                root.style.setProperty(`--accent-${level}`, `var(--secondary-${level})`);
+              });
+            } else {
+              levels.forEach(level => {
+                root.style.setProperty(`--accent-${level}`, `var(--foundation-${updates.accentColor}-${level})`);
+              });
+            }
+            console.log(`🎨 Accent color updated: ${updates.accentColor}`);
+          }
+
+          // Radius
+          if (updates.radius) {
+            const radiusScales = ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', 'full'];
+            radiusScales.forEach(scale => {
+              root.style.setProperty(
+                `--selected-radius-scale-${scale}`,
+                `var(--foundation-radius-${updates.radius}-${scale})`
+              );
+            });
+            console.log(`🎨 Radius updated: ${updates.radius}`);
+          }
+
+          // ===== TYPOGRAPHY =====
+          
+          if (updates.fontPrimary) {
+            root.style.setProperty('--font-primary-name', `'${updates.fontPrimary}'`);
+            console.log(`🎨 Primary font updated: ${updates.fontPrimary}`);
+          }
+
+          if (updates.fontSecondary) {
+            root.style.setProperty('--font-secondary-name', `'${updates.fontSecondary}'`);
+            console.log(`🎨 Secondary font updated: ${updates.fontSecondary}`);
+          }
+
+          if (updates.fontWeightScale) {
+            root.style.setProperty('--selected-font-weight-heading', `var(--foundation-weightscale-${updates.fontWeightScale}-heading)`);
+            root.style.setProperty('--selected-font-weight-body', `var(--foundation-weightscale-${updates.fontWeightScale}-body)`);
+            root.style.setProperty('--selected-font-weight-label', `var(--foundation-weightscale-${updates.fontWeightScale}-label)`);
+            console.log(`🎨 Font weight scale updated: ${updates.fontWeightScale}`);
+          }
+
+          if (updates.typographyScale) {
+            const typographyProperties = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl'];
+            const lineHeightProperties = ['tight', 'snug', 'normal', 'relaxed', 'loose'];
+            
+            // Update font sizes
+            typographyProperties.forEach(size => {
+              root.style.setProperty(`--selected-font-size-${size}`, `var(--foundation-typography-${updates.typographyScale}-${size})`);
+            });
+            
+            // Update line heights
+            lineHeightProperties.forEach(leading => {
+              root.style.setProperty(`--selected-leading-${leading}`, `var(--foundation-typography-${updates.typographyScale}-leading-${leading})`);
+            });
+            
+            console.log(`🎨 Typography scale updated: ${updates.typographyScale}`);
+          }
+
+          // ===== LAYOUT & SPACING =====
+          
+          if (updates.layoutContent) {
+            root.style.setProperty('--selected-layout-scale-content', `var(--foundation-layout-${updates.layoutContent}-content)`);
+            console.log(`🎨 Layout content updated: ${updates.layoutContent}`);
+          }
+
+          if (updates.layoutMedia) {
+            root.style.setProperty('--selected-layout-scale-media', `var(--foundation-layout-${updates.layoutMedia}-media)`);
+            console.log(`🎨 Layout media updated: ${updates.layoutMedia}`);
+          }
+
+          if (updates.formWidth) {
+            root.style.setProperty('--selected-form-width', `var(--foundation-form-${updates.formWidth}-width)`);
+            console.log(`🎨 Form width updated: ${updates.formWidth}`);
+          }
+
+          if (updates.sectionSpacing) {
+            root.style.setProperty('--selected-section-spacing', `var(--foundation-section-spacing-${updates.sectionSpacing})`);
+            console.log(`🎨 Section spacing updated: ${updates.sectionSpacing}`);
+          }
+
+          if (updates.containerSpacing) {
+            root.style.setProperty('--selected-container-spacing', `var(--foundation-container-spacing-${updates.containerSpacing})`);
+            console.log(`🎨 Container spacing updated: ${updates.containerSpacing}`);
+          }
+
+          if (updates.navbarSpacing) {
+            root.style.setProperty('--selected-navbar-spacing', `var(--foundation-navbar-spacing-${updates.navbarSpacing})`);
+            console.log(`🎨 Navbar spacing updated: ${updates.navbarSpacing}`);
           }
 
           // Skicka höjd efter CSS ändringar
