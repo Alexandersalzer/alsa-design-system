@@ -17,7 +17,7 @@ import { useHeightSync } from './useHeightSync';
  * Hook som lyssnar på TOGGLE_EDITING_MODE postMessages och uppdaterar HTML class
  * Returnerar aktuell editing mode state
  */
-export function useEditingMode(): boolean {
+export function useEditMode(): boolean {
   const [isEditing, setIsEditing] = useState(false);
   const syncHeight = useHeightSync();
 

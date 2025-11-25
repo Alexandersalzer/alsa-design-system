@@ -19,7 +19,7 @@ export { ALLOWED_ORIGINS, isOriginAllowed } from './cors';
 
 // React hooks (modern approach)
 export { 
-  useEditingMode, 
+  useEditMode, 
   useDesignCSS, 
   useIFrameHeight, 
   useDesignTokenUpdates,

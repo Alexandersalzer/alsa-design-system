@@ -10,7 +10,7 @@
 'use client';
 
 import { 
-  useEditingMode, 
+  useEditMode, 
   useDesignCSS, 
   useIFrameHeight, 
   useDesignTokenUpdates 
@@ -23,7 +23,7 @@ import {
  * Använder nu separerade hooks för bättre separation of concerns
  */
 export function EditingModeHandler() {
-  const isEditing = useEditingMode();
+  const isEditing = useEditMode();
   
   useDesignCSS(isEditing);
   useIFrameHeight();
