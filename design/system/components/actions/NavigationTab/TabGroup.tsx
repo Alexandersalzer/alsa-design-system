@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Tab/TabGroup.tsx
-// FIXED VERSION - Uses Tab key for navigation like everyone expects
+// ENHANCED VERSION - Added justify prop for flexible alignment
 // ===============================================
 
 import React, { ReactNode, useState, useRef, useEffect, useCallback } from 'react';
@@ -12,6 +12,7 @@ interface TabGroupProps {
   orientation?: 'horizontal' | 'vertical';
   className?: string;
   animated?: boolean;
+  justify?: 'start' | 'center' | 'end' | 'between' | 'around';
 }
 
 interface TabProps {
@@ -28,7 +29,8 @@ export const TabGroup: React.FC<TabGroupProps> = ({
   variant = 'navigation',
   orientation = 'horizontal',
   className = '',
-  animated = true
+  animated = true,
+  justify = 'start'
 }) => {
   const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -160,6 +162,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     'tab-group',
     `tab-group--${variant}`,
     `tab-group--${orientation}`,
+    `tab-group--justify-${justify}`,
     animated && 'tab-group--animated',
     className
   ].filter(Boolean).join(' ');

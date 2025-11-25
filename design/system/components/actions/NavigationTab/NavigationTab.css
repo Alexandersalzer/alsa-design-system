@@ -1,6 +1,5 @@
-
 /* ===============================================
-   FIXED NAVIGATION TABS WITH CLEAN FOCUS STATES
+   FIXED NAVIGATION TABS WITH CLEAN FOCUS STATES & JUSTIFY VARIANTS
    Like Spotify Dashboard - Only keyboard focus visible
    =============================================== */
 
@@ -264,9 +263,33 @@
 .sidebar__nav {
   display: flex;
   align-items: center;
-  display: flex;
-  justify-content: space-around;
   overflow: auto; /* Prevent focus outline clipping */
+}
+
+/* ===== NEW: JUSTIFY VARIANTS ===== */
+/* Default: start (left-aligned) */
+.tab-group--justify-start {
+  justify-content: flex-start;
+}
+
+/* Center alignment */
+.tab-group--justify-center {
+  justify-content: center;
+}
+
+/* End alignment (right) */
+.tab-group--justify-end {
+  justify-content: flex-end;
+}
+
+/* Space between - items spread across full width */
+.tab-group--justify-between {
+  justify-content: space-between;
+}
+
+/* Space around - even spacing around items */
+.tab-group--justify-around {
+  justify-content: space-around;
 }
 
 /* Vertical layout (sidebar) */
