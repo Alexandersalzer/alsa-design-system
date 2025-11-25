@@ -7,13 +7,26 @@
  */
 
 // Types (shared with IM-dashboard)
-export type { PostMessage, EditingModePayload } from './types';
-export { EDITING_MODE_MESSAGE } from './types';
+export type { 
+  PostMessage, 
+  EditingModePayload, 
+  DesignTokensPayload
+} from './types';
+export { MESSAGE_TYPES } from './types';
 
 // CORS
 export { ALLOWED_ORIGINS, isOriginAllowed } from './cors';
 
-// React components
+// React hooks (modern approach)
+export { 
+  useEditingMode, 
+  useDesignCSS, 
+  useIFrameHeight, 
+  useDesignTokenUpdates,
+  useHeightSync 
+} from './hooks';
+
+// Legacy components (deprecated)
 export { useEditingModeHandler } from './hook';
 export { EditingModeHandler } from './EditingModeHandler';
 export { applyEditingMode } from './applyEditingMode';
