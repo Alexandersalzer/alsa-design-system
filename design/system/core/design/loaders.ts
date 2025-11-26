@@ -1,23 +1,7 @@
-export interface DesignJson {
-  globalStyles?: {
-    radius?: string;
-    accentColor?: string;
-    isDark?: boolean;
-    themeTone?: "mono" | "linen" | "ink" | "clay" | "slate" | "sage" | "frost" | "pearl" | "aqua";
-    fontPrimary?: string;
-    fontSecondary?: string;
-    fontWeightScale?: "light" | "regular" | "strong" | "extraStrong";
-    layoutContent?: string;
-    layoutMedia?: string;
-    sectionSpacing?: string;
-    containerSpacing?: string;
-    navbarSpacing?: string;
-    formWidth?: string;         // ← NEW: xs | sm | md | lg | xl
-    typographyScale?: "sm" | "md" | "lg";
-  };
-}
+import type { DesignConfig } from "../types/design";
 
-export async function getDesignConfig(): Promise<DesignJson> {
+
+export async function getDesignConfig(): Promise<DesignConfig> {
   if (typeof window !== "undefined") {
     throw new Error("getDesignConfig is only available on the server-side");
   }
@@ -36,7 +20,7 @@ export async function getDesignConfig(): Promise<DesignJson> {
         radius: "md",
         accentColor: "purple",
         isDark: false,
-  themeTone: "mono", // Add "aqua" to enable for clients
+        themeTone: "mono", // Add "aqua" to enable for clients
         fontPrimary: "Sora",
         fontSecondary: "Inter",
         fontWeightScale: "regular",

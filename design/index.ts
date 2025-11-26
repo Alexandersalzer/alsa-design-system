@@ -2,7 +2,7 @@
 export * from './system';
 
 // Export editing state functionality
-export { getEditingMode } from './system/core/editing/editingState';
+export { getEditingMode } from './system/core/utils/editingState';
 
 // Export PostMessage functionality
 export { EditingModeHandler } from './system/core/postmessage'; 

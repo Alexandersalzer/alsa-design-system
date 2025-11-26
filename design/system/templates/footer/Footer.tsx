@@ -1,7 +1,7 @@
 'use client';
 
 import { Section } from '../../components/frames/section';
-import { renderShellPattern } from '../../core/rendering/renderSections';
+import { renderShellPattern } from '../../core/render/sections/renderSections';
 import { SectionNode } from '../../core/types/nodes';
 
 interface FooterProps {

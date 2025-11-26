@@ -1,4 +1,4 @@
-import { SectionType } from '../rendering/schemas/sections';
+import { SectionType } from '../render/validation/sections';
 
 /**
  * Base interface som alla noder delar

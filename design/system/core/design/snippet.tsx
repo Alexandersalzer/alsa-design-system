@@ -1,12 +1,12 @@
-import type { DesignJson } from "./loader";
-import { getDesignConfig } from "./loader";
-import { getEditingMode } from "../editing/editingState";
+import type { DesignConfig } from "../types/design";
+import { getDesignConfig } from "./loaders";
+import { getEditingMode } from "../utils/editingState";
 
 /**
  * Generates CSS variables from design.json
  * Injects design tokens dynamically into <head>.
  */
-export function buildCssVars(design: DesignJson): string {
+export function buildCssVars(design: DesignConfig): string {
   const radius           = design?.globalStyles?.radius           || "md";
   const accentColor      = design?.globalStyles?.accentColor      || "purple";
   const isDark           = design?.globalStyles?.isDark           ?? false;

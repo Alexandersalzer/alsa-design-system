@@ -15,7 +15,7 @@ export type {
 } from './types/nodes';
 
 // Render utilities and components
-export * from './rendering';
+export * from './render';
 
 
 export * from './content';

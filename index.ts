@@ -2,6 +2,6 @@
 export * from './design/index';
 
 // Editing state exports
-export { getEditingMode } from './design/system/core/editing/editingState';
+export { getEditingMode } from './design/system/core/utils/editingState';
 
 

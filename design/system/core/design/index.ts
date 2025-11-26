@@ -1,4 +1,4 @@
 export { buildCssVars, designSnippet, getThemeTone } from './snippet';
-export { getDesignConfig } from './loader';
-export type { DesignJson } from './loader';
-export { getEditingMode } from '../editing/editingState';
+export { getDesignConfig } from './loaders';
+export type { DesignConfig } from '../types/design';
+export { getEditingMode } from '../utils/editingState';
