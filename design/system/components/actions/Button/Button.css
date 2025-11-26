@@ -51,7 +51,7 @@
 
 /* ===== PRIMARY ===== */
 .btn-primary {
-  background-color: var(--surface-button-primary);
+  background-color: var(--interactive-primary);
   color: var(--text-button-primary);
   border-color: var(--border-button-primary); 
 }

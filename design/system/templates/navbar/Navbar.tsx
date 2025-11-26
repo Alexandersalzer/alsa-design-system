@@ -1,7 +1,7 @@
 'use client';
 
 import { Section } from '../../components/frames/section';
-import { renderShellPattern } from '../../core/render/sections';
+import { renderShellPattern } from '../../core/render/shells';
 import { SectionNode } from '../../core/types/nodes';
 
 interface NavbarProps {
