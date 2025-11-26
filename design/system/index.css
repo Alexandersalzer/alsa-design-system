@@ -83,8 +83,6 @@
 
 @import './patterns/client/ProcessSteps/processSteps.css';
 
-/* STEP 6: Themes LAST */
-@import './tokens/semantic/themes/index.css';
 
 /* STEP 7: Utilities LAST (so they can override if needed) */
 @import './utils/index.css';
