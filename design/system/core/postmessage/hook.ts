@@ -13,7 +13,7 @@ import { isOriginAllowed } from './cors';
 import type { PostMessage, EditingModePayload, DesignTokensPayload } from './types';
 import { MESSAGE_TYPES } from './types';
 import { applyEditingMode } from './applyEditingMode';
-import { buildCssVars } from '../design/DesignSnippet';
+import { buildCssVars } from '../design/snippet';
 
 /**
  * Lyssna på editing mode meddelanden och uppdatera HTML class

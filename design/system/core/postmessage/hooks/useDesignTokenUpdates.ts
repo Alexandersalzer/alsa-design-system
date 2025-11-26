@@ -11,7 +11,7 @@
 import { useEffect } from 'react';
 import { isOriginAllowed } from '../cors';
 import { MESSAGE_TYPES } from '../types';
-import { buildCssVars } from '../../design/DesignSnippet';
+import { buildCssVars } from '../../design/snippet';
 import { useHeightSync } from './useHeightSync';
 
 /**

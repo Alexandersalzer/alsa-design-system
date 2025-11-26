@@ -5,7 +5,7 @@ import { Container } from '../../components';
 import { patternRegistry } from '../../patterns/registry';
 import { SectionNode, PatternNode } from '../types/nodes';
 import { getPatternProps } from '../utils/helpers';
-import { isPatternAllowed, validateRequiredPatterns, isValidSectionType } from '../schemas/sections';
+import { isPatternAllowed, validateRequiredPatterns, isValidSectionType } from './schemas/sections';
 
 /**
  * Props for Sections component

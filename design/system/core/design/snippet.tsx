@@ -1,5 +1,5 @@
-import type { DesignJson } from "./designLoader";
-import { getDesignConfig } from "./designLoader";
+import type { DesignJson } from "./loader";
+import { getDesignConfig } from "./loader";
 import { getEditingMode } from "../editing/editingState";
 
 /**
