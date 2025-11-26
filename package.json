@@ -12,9 +12,9 @@
       "types": "./dist/index.d.ts"
     },
     "./i18n": {
-      "import": "./dist/design/cms/i18n/i18n.js",
-      "require": "./dist/design/cms/i18n/i18n.js",
-      "types": "./dist/design/cms/i18n/i18n.d.ts"
+      "import": "./dist/design/system/core/i18n/i18n.js",
+      "require": "./dist/design/system/core/i18n/i18n.js",
+      "types": "./dist/design/system/core/i18n/i18n.d.ts"
     },
     "./content": {
       "import": "./dist/design/system/core/render/contentLoader.js",
@@ -32,9 +32,9 @@
       "types": "./dist/design/system/templates/index.d.ts"
     },
     "./design": {
-      "import": "./dist/design/cms/wrappers/design/index.js",
-      "require": "./dist/design/cms/wrappers/design/index.js",
-      "types": "./dist/design/cms/wrappers/design/index.d.ts"
+      "import": "./dist/design/system/core/design/index.js",
+      "require": "./dist/design/system/core/design/index.js",
+      "types": "./dist/design/system/core/design/index.d.ts"
     },
     "./postmessage": {
       "import": "./dist/design/system/core/postmessage/index.js",

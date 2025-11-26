@@ -1,6 +1,6 @@
 import type { DesignJson } from "./designLoader";
 import { getDesignConfig } from "./designLoader";
-import { getEditingMode } from "../../../system/core/editing/editingState";
+import { getEditingMode } from "../editing/editingState";
 
 /**
  * Generates CSS variables from design.json
