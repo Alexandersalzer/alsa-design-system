@@ -1,6 +1,5 @@
 import type { DesignConfig } from "../types/design";
 import { getDesignConfig } from "./loaders";
-import { getEditingMode } from "../utils/editingState";
 
 /**
  * Generates CSS variables from design.json
