@@ -1,6 +1,6 @@
 /* ===============================================
    src/design-system/components/primitives/SegmentedControl/SegmentedControl.css
-   FIXED SEGMENTED CONTROL - Proper click handling
+   ENHANCED SEGMENTED CONTROL - Dynamic design tokens
    =============================================== */
 
 /* ===== BASE COMPONENT ===== */
@@ -9,7 +9,7 @@
   display: inline-flex;
   background: var(--secondary-50);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-button);
+  border-radius: var(--radius-button); /* ✅ Dynamic radius */
   padding: var(--foundation-space-1);
   overflow: hidden;
   isolation: isolate;
@@ -24,7 +24,7 @@
   left: var(--foundation-space-1);
   bottom: var(--foundation-space-1);
   background: var(--secondary-200);
-  border-radius: calc(var(--radius-button) - 2px);
+  border-radius: calc(var(--radius-button) - 2px); /* ✅ Dynamic radius with offset */
   box-shadow: 
     0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.08),
@@ -44,7 +44,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--foundation-space-1);
+  gap: var(--foundation-space-2); /* ✅ Increased gap for better spacing */
   background: transparent;
   border: none;
   cursor: pointer;
@@ -54,8 +54,8 @@
   pointer-events: auto;
   min-width: 0;
   flex: 1;
-  padding: var(--foundation-space-2) var(--foundation-space-3);
-  border-radius: calc(var(--radius-button) - 2px);
+  padding: var(--foundation-space-2) var(--foundation-space-4); /* ✅ Better padding */
+  border-radius: calc(var(--radius-button) - 2px); /* ✅ Dynamic radius */
   box-sizing: border-box;
   text-align: center;
   white-space: nowrap;
@@ -128,20 +128,23 @@
 
 /* Small */
 .segmented-control--sm {
-  padding: 2px;
-  border-radius: var(--foundation-radius-sm);
+  padding: var(--foundation-space-1);
+  border-radius: var(--radius-button); /* ✅ Dynamic */
+  gap: var(--foundation-space-1);
 }
 
 .segmented-control--sm .segmented-control__indicator {
-  top: 2px;
-  left: 2px;
-  bottom: 2px;
-  border-radius: calc(var(--foundation-radius-sm) - 1px);
+  top: var(--foundation-space-1);
+  left: var(--foundation-space-1);
+  bottom: var(--foundation-space-1);
+  border-radius: calc(var(--radius-button) - 2px); /* ✅ Dynamic */
 }
 
 .segmented-control--sm .segmented-control__option {
-  padding: var(--foundation-space-1) var(--foundation-space-3);
-  border-radius: calc(var(--foundation-radius-sm) - 1px);
+  padding: var(--foundation-space-1) var(--foundation-space-3); /* ✅ Better padding */
+  gap: var(--foundation-space-1);
+  border-radius: calc(var(--radius-button) - 2px); /* ✅ Dynamic */
+  min-height: var(--control-height-sm); /* ✅ Match button/input height */
 }
 
 .segmented-control--sm .segmented-control__option::after {
@@ -153,22 +156,42 @@
   height: 14px;
 }
 
+/* Medium (default) */
+.segmented-control--md {
+  padding: var(--foundation-space-1);
+  border-radius: var(--radius-button); /* ✅ Dynamic */
+}
+
+.segmented-control--md .segmented-control__indicator {
+  border-radius: calc(var(--radius-button) - 2px); /* ✅ Dynamic */
+}
+
+.segmented-control--md .segmented-control__option {
+  padding: var(--foundation-space-2) var(--foundation-space-4); /* ✅ Better padding */
+  gap: var(--foundation-space-2);
+  border-radius: calc(var(--radius-button) - 2px); /* ✅ Dynamic */
+  min-height: var(--control-height-md); /* ✅ Match button/input height */
+}
+
 /* Large */
 .segmented-control--lg {
   padding: var(--foundation-space-2);
-  border-radius: var(--foundation-radius-lg);
+  border-radius: var(--radius-button); /* ✅ Dynamic */
+  gap: var(--foundation-space-2);
 }
 
 .segmented-control--lg .segmented-control__indicator {
   top: var(--foundation-space-2);
   left: var(--foundation-space-2);
   bottom: var(--foundation-space-2);
-  border-radius: calc(var(--foundation-radius-lg) - 2px);
+  border-radius: calc(var(--radius-button) - 2px); /* ✅ Dynamic */
 }
 
 .segmented-control--lg .segmented-control__option {
-  padding: var(--foundation-space-3) var(--foundation-space-4);
-  border-radius: calc(var(--foundation-radius-lg) - 2px);
+  padding: var(--foundation-space-3) var(--foundation-space-5); /* ✅ Better padding */
+  gap: var(--foundation-space-2);
+  border-radius: calc(var(--radius-button) - 2px); /* ✅ Dynamic */
+  min-height: var(--control-height-lg); /* ✅ Match button/input height */
 }
 
 .segmented-control--lg .segmented-control__option::after {
@@ -184,16 +207,16 @@
 
 /* PILL VARIANT */
 .segmented-control--pill {
-  border-radius: var(--foundation-radius-full);
+  border-radius: var(--foundation-radius-full); /* ✅ Dynamic full radius */
   background: var(--secondary-100);
 }
 
 .segmented-control--pill .segmented-control__indicator {
-  border-radius: var(--foundation-radius-full);
+  border-radius: var(--foundation-radius-full); /* ✅ Dynamic full radius */
 }
 
 .segmented-control--pill .segmented-control__option {
-  border-radius: var(--foundation-radius-full);
+  border-radius: var(--foundation-radius-full); /* ✅ Dynamic full radius */
 }
 
 /* GHOST VARIANT */
@@ -202,6 +225,7 @@
   border: none;
   padding: 0;
   box-shadow: none;
+  gap: var(--foundation-space-2); /* ✅ Better spacing between ghost buttons */
 }
 
 .segmented-control--ghost .segmented-control__indicator {
@@ -210,15 +234,16 @@
   top: 0;
   left: 0;
   bottom: 0;
-  border-radius: var(--radius-button);
+  border-radius: var(--radius-button); /* ✅ Dynamic */
   box-shadow: 
     0 1px 2px rgba(0, 0, 0, 0.08),
     0 0 0 1px var(--border-subtle);
 }
 
 .segmented-control--ghost .segmented-control__option {
-  padding: var(--foundation-space-2) var(--foundation-space-3);
-  border-radius: var(--radius-button);
+  padding: var(--foundation-space-2) var(--foundation-space-4); /* ✅ Better padding */
+  border-radius: var(--radius-button); /* ✅ Dynamic */
+  min-height: var(--control-height-md); /* ✅ Match button/input height */
 }
 
 /* ===== FULL WIDTH ===== */
@@ -235,19 +260,21 @@
 /* ===== RESPONSIVE ===== */
 @media (max-width: 640px) {
   .segmented-control {
-    padding: 2px;
+    padding: var(--foundation-space-1);
+    gap: var(--foundation-space-1);
   }
   
   .segmented-control__indicator {
-    top: 2px;
-    left: 2px;
-    bottom: 2px;
+    top: var(--foundation-space-1);
+    left: var(--foundation-space-1);
+    bottom: var(--foundation-space-1);
   }
   
   .segmented-control__option {
-    padding: var(--foundation-space-2);
+    padding: var(--foundation-space-2) var(--foundation-space-3);
     gap: var(--foundation-space-1);
-    min-width: 44px;
+    min-width: 44px; /* Touch target */
+    min-height: 44px; /* Touch target */
   }
   
   .segmented-control__icon svg {
