@@ -21,11 +21,6 @@
       "require": "./dist/design/system/core/render/contentLoader.js",
       "types": "./dist/design/system/core/render/contentLoader.d.ts"
     },
-    "./layout": {
-      "import": "./dist/design/cms/wrappers/ContentLayout.js",
-      "require": "./dist/design/cms/wrappers/ContentLayout.js",
-      "types": "./dist/design/cms/wrappers/ContentLayout.d.ts"
-    },
     "./client": {
       "import": "./dist/design/system/templates/index.js",
       "require": "./dist/design/system/templates/index.js",
