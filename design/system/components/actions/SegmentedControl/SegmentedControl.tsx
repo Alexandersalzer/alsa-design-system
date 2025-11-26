@@ -1,5 +1,5 @@
 // src/design-system/components/primitives/SegmentedControl/SegmentedControl.tsx
-// ROBUST SEGMENTED CONTROL — stable first paint, no jank, SSR-safe
+// FIXED SEGMENTED CONTROL - Proper click handling on all options
 
 import React, {
   useRef,
@@ -9,7 +9,7 @@ import React, {
   useState,
   useCallback,
 } from 'react';
-import { Label } from '../../Typography/Typography'; // ← ONLY CHANGE: Added /Typography
+import { Label } from '../../Typography/Typography';
 import { cn } from '../../../lib/utils';
 
 export interface SegmentedControlOption {
@@ -31,7 +31,6 @@ export interface SegmentedControlProps {
   'aria-label'?: string;
 }
 
-/** useIsomorphicLayoutEffect to avoid SSR warnings */
 const useIsoLayoutEffect =
   typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
@@ -58,7 +57,6 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
     [options, value]
   );
 
-  /** Read container padding (content-box) to position indicator precisely */
   const readContainerPadding = (el: HTMLElement | null) => {
     if (!el) return { left: 0, top: 0 };
     const s = getComputedStyle(el);
@@ -68,7 +66,6 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
     };
   };
 
-  /** Measure & update indicator (idempotent + resilient) */
   const updateIndicator = useCallback(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -84,13 +81,10 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
     const btnRect = selectedBtn.getBoundingClientRect();
     const pad = readContainerPadding(container);
 
-    // Left offset relative to the *content box* of container
     const relativeLeft = btnRect.left - containerRect.left - pad.left;
     const width = btnRect.width;
 
-    // Guard against tiny/zero widths from early paints
     if (!width || width < 40) {
-      // schedule one more pass next frame
       requestAnimationFrame(() => {
         const btnRect2 = selectedBtn.getBoundingClientRect();
         const containerRect2 = container.getBoundingClientRect();
@@ -112,9 +106,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
     });
   }, [options, selectedIndex]);
 
-  /** Schedule a safe measurement after paint */
   const scheduleMeasure = useCallback(() => {
-    // Double rAF: after layout & any subsequent reflow (fonts/flex)
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         updateIndicator();
@@ -122,24 +114,20 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
     });
   }, [updateIndicator]);
 
-  // Mark mounted to control initial animation (no slide-in on first paint)
   useIsoLayoutEffect(() => {
     setMounted(true);
   }, []);
 
-  // Measure on mount and whenever options/value change
   useEffect(() => {
     scheduleMeasure();
   }, [scheduleMeasure, options.length, value]);
 
-  // Re-measure on resize
   useEffect(() => {
     const onResize = () => scheduleMeasure();
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, [scheduleMeasure]);
 
-  // Re-measure on container/button size changes (ResizeObserver)
   useEffect(() => {
     const container = containerRef.current;
     if (!container || typeof ResizeObserver === 'undefined') return;
@@ -147,7 +135,6 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
     const ro = new ResizeObserver(() => scheduleMeasure());
     ro.observe(container);
 
-    // Also observe each option
     const buttons = container.querySelectorAll('.segmented-control__option');
     buttons.forEach((b) => ro.observe(b));
 
@@ -156,9 +143,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
     };
   }, [options.length, scheduleMeasure]);
 
-  // Re-measure after fonts load (handles late webfont swaps)
   useEffect(() => {
-    // Safari/older may not support document.fonts — guard it
     const anyDoc = document as any;
     const fonts = anyDoc?.fonts;
     if (!fonts || !fonts.ready || typeof fonts.ready.then !== 'function') return;
@@ -172,7 +157,6 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
     };
   }, [scheduleMeasure]);
 
-  // Keyboard navigation
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (disabled) return;
     const current = selectedIndex;
@@ -202,7 +186,6 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
         return;
     }
 
-    // Skip disabled options
     let safety = 0;
     while (options[newIndex]?.disabled && safety++ < options.length) {
       newIndex =
@@ -231,7 +214,6 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
       aria-label={ariaLabel}
       aria-disabled={disabled || undefined}
       onKeyDown={handleKeyDown}
-      // Data flag to enable transitions only after first stable paint
       data-mounted={mounted ? 'true' : 'false'}
     >
       {/* Sliding background indicator */}
@@ -239,11 +221,9 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
         className="segmented-control__indicator"
         style={{
           ...indicatorStyle,
-          // Disable transition on first paint; enable afterwards
-          transition:
-            mounted
-              ? undefined // use CSS default transitions
-              : 'none',
+          transition: mounted ? undefined : 'none',
+          // CRITICAL FIX: pointer-events none so it doesn't block clicks
+          pointerEvents: 'none',
         }}
         aria-hidden="true"
       />
@@ -262,7 +242,14 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
               'segmented-control__option',
               isDisabled && 'segmented-control__option--disabled'
             )}
-            onClick={() => !isDisabled && onChange(option.value)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (!isDisabled) {
+                console.log(`🔘 Clicked option: ${option.value}, current: ${value}`);
+                onChange(option.value);
+              }
+            }}
             disabled={isDisabled}
             role="radio"
             aria-checked={isSelected}

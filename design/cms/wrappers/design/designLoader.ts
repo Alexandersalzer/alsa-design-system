@@ -36,7 +36,7 @@ export async function getDesignConfig(): Promise<DesignJson> {
         radius: "md",
         accentColor: "purple",
         isDark: false,
-  themeTone: "mono", // Add "aqua" to enable for clients
+        themeTone: "mono",
         fontPrimary: "Sora",
         fontSecondary: "Inter",
         fontWeightScale: "regular",

@@ -1,6 +1,6 @@
 /* ===============================================
    PortfolioCard.css - Video Showcase Pattern
-   Clean, contained video/image display
+   Clean, contained video/image display with 2/3 aspect ratio
 ============================================== */
 
 /* Media Container - prevents overflow */
@@ -9,40 +9,8 @@
   width: 100%;
   aspect-ratio: 2 / 3;
   overflow: hidden;
-  border-radius: var(--radius-card);
-  background: #f5f5f5;
-}
-
-/* Video Element - contained and responsive */
-.portfolio-video-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.portfolio-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  border-radius: var(--radius-card);
-}
-
-/* Image Element - same treatment as video */
-.portfolio-image-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.portfolio-image-container img {
-  object-fit: cover;
-  border-radius: var(--radius-card);
-}
-
-/* Content Area - padding for text */
-.portfolio-content {
-  padding: var(--foundation-space-3, 12px) 0;
+  border-radius: var(--radius-card-sm);
+  background: transparent;
 }
 
 /* Flag - same as before */
@@ -64,6 +32,11 @@
   width: 24px;
   height: 16px;
   display: block;
+}
+
+/* Content Area - padding for text */
+.portfolio-content {
+  padding: var(--foundation-space-3, 12px) 0;
 }
 
 /* Eye icon for views */

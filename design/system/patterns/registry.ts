@@ -1,5 +1,5 @@
 import { sharedPatterns } from './shared/registry';
-import { clientRegistry } from './client/registry';
+import { clientRegistry } from './animated/registry';
 import { formsRegistry } from './forms/registry';
 import { footerRegistry } from './footer/registry';
 import { navbarRegistry } from './navbar/registry';

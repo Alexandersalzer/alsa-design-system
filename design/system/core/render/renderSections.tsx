@@ -32,7 +32,6 @@ export const renderPattern = (pattern: PatternNode, patternKey: string) => {
   return (
     <Container 
       key={patternKey}
-      align="center"
       height="auto"
       useMediaWidth={patternProps.useMediaWidth || false}
       useFormWidth={patternProps.useFormWidth || false}

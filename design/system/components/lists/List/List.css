@@ -1,0 +1,117 @@
+/* ===============================================
+   design/system/components/layout/List/List.css
+   LIST COMPONENT - Properly styled
+   =============================================== */
+
+/* ===== BASE STYLES ===== */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* ===== VARIANT: DEFAULT ===== */
+.list--default {
+  /* No additional styling */
+}
+
+/* ===== VARIANT: DIVIDED ===== */
+.list--divided {
+  /* Each item after the first gets a top border */
+}
+
+.list--divided > * + * {
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ===== VARIANT: BORDERED ===== */
+.list--bordered {
+  border: 1px solid var(--border-base);
+  border-radius: var(--foundation-radius-md);
+  overflow: hidden;
+  box-shadow: var(--foundation-shadow-sm);
+}
+
+.list--bordered > * + * {
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* First item in bordered list */
+.list--bordered > *:first-child {
+  border-top-left-radius: var(--foundation-radius-md);
+  border-top-right-radius: var(--foundation-radius-md);
+}
+
+/* Last item in bordered list */
+.list--bordered > *:last-child {
+  border-bottom-left-radius: var(--foundation-radius-md);
+  border-bottom-right-radius: var(--foundation-radius-md);
+}
+
+/* ===== SPACING VARIANTS ===== */
+
+.list--spacing-none > * + * {
+  margin-top: 0;
+}
+
+.list--spacing-xs > * + * {
+  margin-top: var(--foundation-space-1);
+}
+
+.list--spacing-sm > * + * {
+  margin-top: var(--foundation-space-2);
+}
+
+.list--spacing-md > * + * {
+  margin-top: var(--foundation-space-3);
+}
+
+.list--spacing-lg > * + * {
+  margin-top: var(--foundation-space-4);
+}
+
+.list--spacing-xl > * + * {
+  margin-top: var(--foundation-space-6);
+}
+
+/* ===== DARK MODE ===== */
+[data-theme="dark"] .list--divided > * + *,
+[data-theme="dark"] .list--bordered > * + * {
+  border-color: var(--border-subtle-dark, rgba(255, 255, 255, 0.1));
+}
+
+[data-theme="dark"] .list--bordered {
+  border-color: var(--border-base-dark, rgba(255, 255, 255, 0.2));
+}
+
+/* ===== ORDERED LIST STYLES ===== */
+.list[role="list"] {
+  counter-reset: list-counter;
+}
+
+.list[role="list"] > li {
+  counter-increment: list-counter;
+}
+
+/* ===== ACCESSIBILITY ===== */
+.list:focus {
+  outline: none;
+}
+
+.list:focus-visible {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 2px;
+  border-radius: var(--foundation-radius-sm);
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+  .list--spacing-lg > * + * {
+    margin-top: var(--foundation-space-3);
+  }
+  
+  .list--spacing-xl > * + * {
+    margin-top: var(--foundation-space-4);
+  }
+}

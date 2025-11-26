@@ -1,12 +1,14 @@
 // ===============================================
 // design/system/components/patterns/client/spinning-carousel/SpinningCarousel.tsx
-// SPINNING CAROUSEL PATTERN - Image carousel using SpinningAnimation primitive
+// SPINNING CAROUSEL PATTERN - Using new Image component with CDN support
 // ===============================================
 
 'use client';
 
 import React, { useState } from 'react';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
+import { Image } from '../../../components/media/Image';
+import { CDN_BASE_URL } from '../../../core/utils/helpers';
 
 export interface CarouselImage {
   src: string;
@@ -15,7 +17,6 @@ export interface CarouselImage {
 }
 
 export interface SpinningCarouselProps {
-  // NEW: Accept components object like other patterns
   components?: Record<string, {
     type: 'image' | 'video' | 'icon' | 'logo';
     content: {
@@ -25,7 +26,6 @@ export interface SpinningCarouselProps {
     };
   }>;
   
-  // NEW: Accept settings object like other patterns
   settings?: {
     speed?: number;
     direction?: 'left' | 'right';
@@ -41,7 +41,6 @@ export interface SpinningCarouselProps {
     duplicateCount?: number;
   };
   
-  // OLD: Keep for backwards compatibility
   images?: CarouselImage[];
   speed?: number;
   direction?: 'left' | 'right';
@@ -60,11 +59,8 @@ export interface SpinningCarouselProps {
 }
 
 export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
-  // NEW props
   components,
   settings = {},
-  
-  // OLD props (fallbacks)
   images: imagesProp,
   speed: speedProp = 40,
   direction: directionProp = 'left',
@@ -83,7 +79,7 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
 }) => {
   const [isHovering, setIsHovering] = useState(false);
 
-  // Merge settings with direct props (settings take priority)
+  // Merge settings with direct props
   const speed = settings.speed ?? speedProp;
   const direction = settings.direction ?? directionProp;
   const imageWidth = settings.imageWidth ?? imageWidthProp;
@@ -97,7 +93,7 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
   const fadeWidth = settings.fadeWidth ?? fadeWidthProp;
   const duplicateCount = settings.duplicateCount ?? duplicateCountProp;
 
-  // Transform components object into images array OR use imagesProp
+  // Transform components object into images array
   const images: CarouselImage[] = components
     ? Object.values(components)
         .filter(comp => comp.type === 'image' || comp.type === 'logo')
@@ -108,36 +104,46 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
         }))
     : imagesProp || [];
 
-  // Transform images into CarouselAnimationItem format
+  // Map radius string to Image component radius
+  const getRadiusVariant = (radius: string): 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full' => {
+    const numericRadius = parseInt(radius);
+    if (numericRadius <= 4) return 'sm';
+    if (numericRadius <= 8) return 'md';
+    if (numericRadius <= 12) return 'lg';
+    if (numericRadius <= 16) return 'xl';
+    if (radius.includes('full') || radius.includes('9999')) return 'full';
+    return 'lg';
+  };
+
+  // Transform images into CarouselAnimationItem format using Image component
   const carouselItems: CarouselAnimationItem[] = images.map((image, index) => ({
     id: `${image.src}-${index}`,
     content: (
       <div
-        className="carousel-image-container"
+        className="carousel-image-wrapper"
         onClick={() => onImageClick?.(image)}
-        style={{
-          cursor: onImageClick ? 'pointer' : 'default',
-          borderRadius: imageBorderRadius,
-          overflow: 'hidden',
-          position: 'relative',
-          width: '100%',
-          height: '100%',
-        }}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
+        style={{
+          cursor: onImageClick ? 'pointer' : 'default',
+          width: '100%',
+          height: '100%',
+          position: 'relative',
+          opacity: isHovering ? 0.7 : 1,
+          transition: 'opacity 0.3s ease'
+        }}
       >
-        <img
-          src={image.src}
+        <Image
+          src={`${CDN_BASE_URL}${image.src}`}
           alt={image.alt}
           title={image.title}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            display: 'block',
-            transition: 'opacity 0.3s ease',
-            opacity: isHovering ? 0.3 : 1,
-          }}
+          width="100%"
+          height="100%"
+          objectFit="cover"
+          radius={getRadiusVariant(imageBorderRadius)}
+          loading="lazy"
+          showSkeleton={true}
+          hoverZoom={!!onImageClick}
         />
       </div>
     )
@@ -149,19 +155,15 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
       speed={speed}
       direction={direction}
       className={`spinning-carousel ${className}`}
-      
       containerHeight={containerHeight}
       backgroundColor={backgroundColor}
       padding={padding}
-      
       itemWidth={imageWidth}
       itemHeight={imageHeight}
       itemPadding="0"
       gap={gap}
-      
       enableFadeEdges={enableFadeEdges}
       fadeWidth={fadeWidth}
-      
       duplicateCount={duplicateCount}
     />
   );

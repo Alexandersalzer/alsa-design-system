@@ -26,7 +26,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
 
   return (
     <form onSubmit={handleSubmit} className="kj-contact-form">
-      <Grid columns={2} gap="md" className="form-grid">
+      <Grid columns={2} gap="md">
         
         {/* Name Field - colSpan 1 */}
         {renderIf('input', 'name') && (

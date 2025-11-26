@@ -1,6 +1,6 @@
 {
   "name": "@blimpify-im/ui",
-  "version": "3.2.72",
+  "version": "3.2.132",
   "description": "Blimpify Design System - Reusable React components for client websites",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -35,6 +35,11 @@
       "import": "./dist/design/cms/wrappers/design/index.js",
       "require": "./dist/design/cms/wrappers/design/index.js",
       "types": "./dist/design/cms/wrappers/design/index.d.ts"
+    },
+    "./postmessage": {
+      "import": "./dist/design/system/core/postmessage/index.js",
+      "require": "./dist/design/system/core/postmessage/index.js",
+      "types": "./dist/design/system/core/postmessage/index.d.ts"
     },
     "./dist/index.css": "./dist/design/index.css"
   },
@@ -78,7 +83,6 @@
     }
   },
   "dependencies": {
-    "@blimpify-im/ui": "^3.1.549",
     "@heroicons/react": "^2.2.0",
     "@studio-freight/lenis": "^1.0.42",
     "country-flag-icons": "^1.5.21",

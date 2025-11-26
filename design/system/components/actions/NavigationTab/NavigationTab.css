@@ -1,6 +1,5 @@
-
 /* ===============================================
-   FIXED NAVIGATION TABS WITH CLEAN FOCUS STATES
+   FIXED NAVIGATION TABS WITH CLEAN FOCUS STATES & JUSTIFY VARIANTS
    Like Spotify Dashboard - Only keyboard focus visible
    =============================================== */
 
@@ -61,6 +60,7 @@
 
 /* 🎯 ENHANCED: Navigation tabs with better weight hierarchy */
 .nav-item .nav-item__label {
+  color: rgba(var(--text-nav-item-selected));
   font-weight: var(--foundation-weight-medium, 500);
   transition: font-weight 0.15s ease;
 }
@@ -177,11 +177,21 @@
 /* ===== LAYOUT VARIANTS ===== */
 
 /* Navigation variant (sidebar) */
-.nav-item,
-.tab--navigation {
+/* Sidebar navigation: left aligned */
+.sidebar__nav .nav-item {
   width: 100%;
   justify-content: flex-start;
-  min-height: 40px;
+}
+
+/* Vertical tab groups: left aligned */
+.tab-group--vertical .nav-item {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+/* Horizontal page tabs: centered */
+.tab-group--horizontal .tab--page {
+  justify-content: center;
 }
 
 /* Page variant (horizontal with animated underline) */
@@ -253,7 +263,33 @@
 .sidebar__nav {
   display: flex;
   align-items: center;
-  overflow: visible; /* Prevent focus outline clipping */
+  overflow: auto; /* Prevent focus outline clipping */
+}
+
+/* ===== NEW: JUSTIFY VARIANTS ===== */
+/* Default: start (left-aligned) */
+.tab-group--justify-start {
+  justify-content: flex-start;
+}
+
+/* Center alignment */
+.tab-group--justify-center {
+  justify-content: center;
+}
+
+/* End alignment (right) */
+.tab-group--justify-end {
+  justify-content: flex-end;
+}
+
+/* Space between - items spread across full width */
+.tab-group--justify-between {
+  justify-content: space-between;
+}
+
+/* Space around - even spacing around items */
+.tab-group--justify-around {
+  justify-content: space-around;
 }
 
 /* Vertical layout (sidebar) */
@@ -375,7 +411,7 @@
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .tab-group--horizontal {
-    flex-wrap: wrap;
+    overflow: auto;
     gap: 4px;
   }
   

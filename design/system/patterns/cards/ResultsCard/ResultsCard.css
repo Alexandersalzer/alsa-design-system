@@ -7,47 +7,32 @@
   flex-direction: column;
 }
 
-/* ===== IMAGE CARD (separate from text) ===== */
+/* ===== IMAGE CARD CONTAINER ===== */
 .results-card-image-container {
-  aspect-ratio: 2 / 3;
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--radius-card);
-  background: var(--surface-card-solid);
-  padding: var(--foundation-space-4) var(--foundation-space-4) 0; /* padding left, top, right - NO bottom */
-  
-  /* Flexbox centering for images */
+  background-color: var(--secondary-100);
+  /* Image component handles: radius, aspect-ratio, loading, skeleton */
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
+/* ===== IMAGE ITSELF ===== */
 .results-card-image {
-  width: 100%;
-  object-fit: cover;
-  object-position: center;
-  border-radius: var(--radius-sm);
+  /* Image component handles all styling via props */
+  /* This class exists only for potential overrides */
 }
 
-/* ===== TEXT CONTENT (VStack component, no background) ===== */
+/* ===== TEXT CONTENT ===== */
 .results-card-text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--foundation-space-3);
+  /* VStack handles spacing via props */
   text-align: left;
-  background: none !important;
-  padding: 0;
   margin-top: var(--foundation-space-4);
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .results-card-image-container {
-    aspect-ratio: 1 / 1;
-    padding: var(--foundation-space-3) var(--foundation-space-3) 0;
-  }
-  
-  .results-card-image {
-    height: 110%;
+  .results-card-text {
+    margin-top: var(--foundation-space-3);
   }
 }

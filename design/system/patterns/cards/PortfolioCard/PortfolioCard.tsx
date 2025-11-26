@@ -1,14 +1,15 @@
 // ===============================================
 // design/system/components/patterns/client/PortfolioCard/PortfolioCard.tsx
-// PORTFOLIO CARD PATTERN - Video/Image portfolio card like KJ Marketing
+// PORTFOLIO CARD PATTERN - Using Video component with cache detection
 // ===============================================
 
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import { Card } from '../../../components/layout';
 import { Typography, TypographyColor } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
-import Image from 'next/image';
+import { Video } from '../../../components/media/Video';
+import { Image } from '../../../components/media/Image';
 import { GB, SE } from 'country-flag-icons/react/3x2';
 import './PortfolioCard.css';
 
@@ -70,7 +71,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   // Card styling defaults
   variant = 'default',
   padding = 'md',
-  radius = 'sm',
+  radius = 'md',
   
   // Typography defaults - matching KJ Marketing style
   categoryVariant = 'label-sm',
@@ -91,91 +92,18 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   // Layout defaults
   spacing = 'sm'
 }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoError, setVideoError] = useState(false);
-  const [isIntersecting, setIsIntersecting] = useState(false);
-
-  // Determine if we have video or image content based on mediaType
   const isVideo = mediaType === 'video';
   const isImage = mediaType === 'image';
-
-  // Intersection Observer for lazy loading videos
-  useEffect(() => {
-    if (!isVideo || !videoRef.current) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setIsIntersecting(entry.isIntersecting);
-        });
-      },
-      {
-        rootMargin: '50px', // Start loading slightly before visible
-        threshold: 0.1
-      }
-    );
-
-    observer.observe(videoRef.current);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [isVideo]);
-
-  // Handle video errors
-  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    const video = e.currentTarget;
-    const error = video.error;
-    
-    if (error) {
-      switch (error.code) {
-        case MediaError.MEDIA_ERR_ABORTED:
-          console.debug('Video load aborted by user:', mediaSrc);
-          break;
-        case MediaError.MEDIA_ERR_NETWORK:
-          console.warn('Network error loading video:', mediaSrc);
-          setVideoError(true);
-          break;
-        case MediaError.MEDIA_ERR_DECODE:
-          console.warn('Video decode error:', mediaSrc);
-          setVideoError(true);
-          break;
-        case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-          console.warn('Video format not supported or CORS issue:', mediaSrc);
-          setVideoError(true);
-          break;
-        default:
-          console.warn('Unknown video error:', mediaSrc, error);
-          setVideoError(true);
-      }
-    } else {
-      console.warn('Video error without error object:', mediaSrc, e);
-      setVideoError(true);
-    }
-  };
-
-  // Handle video load abort
-  const handleVideoAbort = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    // Silently handle abort - this is normal when scrolling
-    console.debug('Video load aborted (normal):', mediaSrc);
-  };
-
-  // Handle video stalled
-  const handleVideoStalled = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.debug('Video stalled:', mediaSrc);
-  };
 
   return (
     <Card
       className={`portfolio-card ${className || ''}`}
       variant={variant}
-      padding="sm" // Override to sm since media extends to edges
+      padding="sm"
       radius={radius}
     >
       <VStack spacing={spacing}>
-        {/* Media Container - extends to card edges */}
         <div className="portfolio-media-container">
-          {/* Flag indicator - positioned absolutely in top-right corner */}
           {countryCode && (
             <div className="portfolio-flag">
               {countryCode.toLowerCase() === 'uk' && <GB />}
@@ -183,66 +111,38 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
             </div>
           )}
           
-          {isVideo && !videoError && (
-            <div className="portfolio-video-container">
-              <video
-                ref={videoRef}
-                className="portfolio-video"
-                src={isIntersecting ? mediaSrc : undefined}
-                poster="" // Browser will show first frame as thumbnail
-                preload={isIntersecting ? "metadata" : "none"}
-                playsInline
-                controls
-                onError={handleVideoError}
-                onAbort={handleVideoAbort}
-                onStalled={handleVideoStalled}
-                controlsList="nodownload"
-                disablePictureInPicture
-                {...(typeof window !== 'undefined' && !window.location.hostname.includes('localhost') 
-                  ? { crossOrigin: 'anonymous' as const } 
-                  : {})}
-              >
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          )}
-
-          {isVideo && videoError && (
-            <div className="portfolio-video-container" style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              background: '#f0f0f0',
-              minHeight: '240px'
-            }}>
-              <Typography variant="body-sm" color="secondary" align="center">
-                Video not available
-              </Typography>
-            </div>
+          {isVideo && (
+            <Video
+              src={mediaSrc}
+              aspectRatio="2/3"
+              radius="sm"
+              loading="lazy"
+              controls
+              playsInline
+              preload="metadata"
+              controlsList="nodownload"
+              disablePictureInPicture
+              className="portfolio-video"
+            />
           )}
           
           {isImage && (
-            <div className="portfolio-image-container">
-              <Image
-                src={mediaSrc}
-                alt={mediaAlt || title}
-                width={400}
-                height={240}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover'
-                }}
-                priority
-              />
-            </div>
+            <Image
+              src={mediaSrc}
+              alt={mediaAlt || title}
+              aspectRatio="2/3"
+              objectFit="cover"
+              radius="sm"
+              loading="lazy"
+              showSkeleton={true}
+              priority={false}
+              className="portfolio-image"
+            />
           )}
         </div>
         
-        {/* Content - with padding */}
         <div className="portfolio-content">
           <VStack spacing="sm">
-            {/* Category - show first category if array, otherwise show the string */}
             {category && (
               <Typography
                 variant={categoryVariant}
@@ -254,7 +154,6 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               </Typography>
             )}
             
-            {/* Title */}
             <Typography
               variant={titleVariant}
               weight={titleWeight}
@@ -262,8 +161,8 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               align="left"
             >
               {title}
-            </Typography> 
-            {/* Description - only show if exists */}
+            </Typography>
+            
             {description && (
               <Typography
                 variant={descriptionVariant}
@@ -274,7 +173,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                 {description}
               </Typography>
             )}
-            {/* Views with Eye Icon - only show if views exist */}
+            
             {views && (
               <HStack spacing="xs" align="center">
                 <div className="eye-icon">

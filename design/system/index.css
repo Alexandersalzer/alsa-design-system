@@ -32,6 +32,7 @@
 @import './components/actions/SegmentedControl/SegmentedControl.css';
 @import './components/actions/Nav/Nav.css';
 @import './components/actions/NavigationTab/NavigationTab.css';
+@import './components/actions/Clickable/Clickable.css';
 
 /* Primitives - Forms */
 @import './components/forms/Input/Input.css';
@@ -51,6 +52,7 @@
 /* Primitives - Media */
 @import './components/media/Icon/Icon.css';
 @import './components/media/Avatar/Avatar.css';
+@import './components/media/Image/Image.css';
 
 /* Primitives - Standalone Components */
 @import './components/layout/Card/Card.css';
@@ -58,8 +60,6 @@
 @import './components/LineChart/LineChart.css';
 @import './components/lists/Listbox/Listbox.css';
 @import './components/CarouselAnimation/CarouselAnimation.css';
-@import './components/media/Logo/Logo.css';
-
 
 /* Layout Components */
 @import './components/layout/box/Box.css';
