@@ -10,10 +10,11 @@ import { nameToSlug } from '../utils/loaders';
 export async function getShellContent(
   shellType: 'navbar' | 'footer', 
   locale: string
-): Promise<Record<string, SectionNode> | null> {
-  return loadJsonFile<Record<string, SectionNode>>(
+): Promise<Record<string, SectionNode>> {
+  const content = await loadJsonFile<Record<string, SectionNode>>(
     `content/${locale}/${shellType}.json`
   );
+  return content || {};
 }
 
 /**
@@ -37,7 +38,7 @@ export async function getFooterContent(locale: string): Promise<Record<string, S
  * Get page content for rendering a specific page
  * Returns complete PageNode structure
  */
-export async function getPageContent(locale: string, pageSlug: string): Promise<PageNode | null> {
+export async function getPageContent(locale: string, pageSlug: string): Promise<PageNode> {
   const contentFiles = await listDirectory(`content/${locale}`);
   
   // Excluding navbar and footer files
@@ -57,6 +58,5 @@ export async function getPageContent(locale: string, pageSlug: string): Promise<
       }
     }
   }
-  
-  throw new Error(`Page not found: ${locale}/${pageSlug}`);
+throw new Error(`Page not found: ${locale}/${pageSlug}`);
 }
