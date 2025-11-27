@@ -1,1 +1,1 @@
-export * from './contentLoader';
+export * from './loaders';

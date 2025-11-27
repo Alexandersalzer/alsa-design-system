@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { cn } from "../../../lib/utils";
+import { cn } from "../../../utils/cn";
 import { HStack } from "../../layout/hStack/HStack";
 import { VStack } from "../../layout/vStack/VStack";
 import { Button, IconButtons } from "../../../components";

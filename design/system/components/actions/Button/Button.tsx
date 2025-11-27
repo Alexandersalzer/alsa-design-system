@@ -7,7 +7,7 @@
 
 import React, { forwardRef, ReactNode } from 'react';
 import Link from 'next/link';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import { Label, TypographyColor, TypographyWeight } from '../../Typography';
 import { Spinner } from '../../feedback';
 import { useLocaleHref } from '../../../hooks/useLocaleHref';

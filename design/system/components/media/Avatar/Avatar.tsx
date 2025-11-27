@@ -4,7 +4,7 @@
 // ===============================================
 
 import React, { forwardRef, ReactElement } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import { UserIcon } from '@heroicons/react/24/outline';
 import { Icon } from '../../media/Icon';
 import { Image } from '../../media/Image';

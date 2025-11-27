@@ -4,7 +4,7 @@
 // ===============================================
 
 import React, { useRef, useEffect, useState } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import './Video.css';
 
 // ===== TYPE DEFINITIONS =====

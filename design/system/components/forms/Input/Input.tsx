@@ -5,7 +5,7 @@
 
 import React, { forwardRef, ReactNode, useId, useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
   label?: string;

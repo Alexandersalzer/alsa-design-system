@@ -4,7 +4,7 @@
 // ===============================================
 
 import React, { forwardRef, ReactNode, useRef, useState, useCallback } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import { Label, TypographyColor } from '../..';
 
 export interface FileUploaderProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {

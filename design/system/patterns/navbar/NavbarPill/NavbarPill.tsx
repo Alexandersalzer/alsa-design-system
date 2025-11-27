@@ -9,7 +9,7 @@ import { useComponentProps, componentPresent, usePatternProps, useMapComponents,
 import { alignMap } from '../utils';
 import './NavbarPill.css';
 import { PatternNode } from '../../../core/types/nodes';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 
 const NavbarPill = (patternNode: PatternNode) => {
   const { components = {} } = patternNode;

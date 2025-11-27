@@ -7,7 +7,7 @@
 'use client';
 
 import React, { forwardRef } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import './Progress.css';
 
 export type ProgressSize = 'xs' | 'sm' | 'md' | 'lg';

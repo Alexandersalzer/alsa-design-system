@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../components';
 import { Logo } from '../../../components/media/Logo';
 import { MenuIcon, XIcon } from 'lucide-react';

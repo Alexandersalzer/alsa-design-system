@@ -4,7 +4,7 @@
 // ===============================================
 
 import { useState, useRef, useEffect, forwardRef, useId } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import { Icon } from '../../media';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import { Popover } from '../../overlays';

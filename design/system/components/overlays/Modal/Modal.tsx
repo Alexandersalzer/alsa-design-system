@@ -1,7 +1,7 @@
 // src/design-system/components/primitives/Modal/Modal.tsx
 import React, { forwardRef, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import { IconButtons } from '../../actions';
 import { H3 } from '../../Typography';
 import { VStack } from '../../layout/vStack/VStack';

@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { extractLocaleFromPathname } from '../utils/navigation';
 
 /**
  * Hook för att automatiskt hantera locale i href:s
@@ -13,7 +12,6 @@ import { extractLocaleFromPathname } from '../utils/navigation';
  */
 export function useLocaleHref() {
   const pathname = usePathname();
-  const currentLocale = extractLocaleFromPathname(pathname);
 
   /**
    * Bygger en locale-medveten href från en given href
@@ -40,7 +38,7 @@ export function useLocaleHref() {
 
     // För relativa länkar som börjar med /, lägg till locale
     if (href.startsWith('/')) {
-      return `/${currentLocale}${href}`;
+      return `/${'start'}${href}`;
     }
 
     // För andra typer av länkar, returnera som de är
@@ -48,7 +46,6 @@ export function useLocaleHref() {
   };
 
   return { 
-    buildHref, 
-    currentLocale 
+    buildHref
   };
 }

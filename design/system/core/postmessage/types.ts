@@ -11,15 +11,32 @@ export interface PostMessage<T = any> {
   payload: T;
 }
 
+/**
+ * Alla postMessage typer som används i systemet
+ * Synkroniserat med IM-dashboard för konsistens
+ */
+export const MESSAGE_TYPES = {
+  // Editing Mode
+  TOGGLE_EDITING_MODE: 'TOGGLE_EDITING_MODE',
+  
+  // Design Tokens
+  UPDATE_DESIGN_TOKENS: 'UPDATE_DESIGN_TOKENS',      // Initial load från databas
+  DESIGN_TOKENS_UPDATE: 'DESIGN_TOKENS_UPDATE',      // Live updates
+  
+  // Height Communication
+  SEND_HEIGHT: 'SEND_HEIGHT',
+  REQUEST_HEIGHT: 'REQUEST_HEIGHT',
+  IFRAME_HEIGHT: 'IFRAME_HEIGHT',
+  
+  // Future message types
+  UPDATE_CONTENT: 'UPDATE_CONTENT',
+  SELECT_COMPONENT: 'SELECT_COMPONENT',
+} as const;
+
 export interface EditingModePayload {
   isEditing: boolean;
-  websiteVersionId?: number;
 }
 
 export interface DesignTokensPayload {
   designTokens: any; // Samma struktur som design.json globalStyles
-  websiteVersionId?: number;
 }
-
-export const EDITING_MODE_MESSAGE = 'TOGGLE_EDITING_MODE';
-export const DESIGN_TOKENS_MESSAGE = 'UPDATE_DESIGN_TOKENS';

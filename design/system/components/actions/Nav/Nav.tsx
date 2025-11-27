@@ -4,7 +4,7 @@
 // ===============================================
 
 import React, { createContext, useContext, forwardRef, ReactNode } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import { Icon, IconColor } from '../../media';
 
 // ===== TYPES =====

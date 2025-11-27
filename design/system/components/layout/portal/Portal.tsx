@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef, type ReactNode, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 
 // ===============================================
 // TYPES & INTERFACES
