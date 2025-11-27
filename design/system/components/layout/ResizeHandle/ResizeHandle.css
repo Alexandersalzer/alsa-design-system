@@ -1,0 +1,220 @@
+/* ==============================================
+   src/design-system/components/layout/ResizeHandle/ResizeHandle.css
+   Draggable resize handle styles
+   ============================================== */
+
+/* ===== BASE HANDLE ===== */
+.resize-handle {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  transition: background-color 0.15s ease;
+  z-index: 15;
+}
+
+/* ===== ORIENTATION: VERTICAL (for horizontal panels) ===== */
+.resize-handle--vertical {
+  top: 0;
+  bottom: 0;
+  width: 16px;
+  cursor: col-resize;
+}
+
+/* ===== ORIENTATION: HORIZONTAL (for vertical panels) ===== */
+.resize-handle--horizontal {
+  left: 0;
+  right: 0;
+  height: 16px;
+  cursor: row-resize;
+}
+
+/* ===== POSITION: START (left or top) ===== */
+.resize-handle--vertical.resize-handle--start {
+  left: 0;
+  transform: translateX(-50%);
+}
+
+.resize-handle--horizontal.resize-handle--start {
+  top: 0;
+  transform: translateY(-50%);
+}
+
+/* ===== POSITION: END (right or bottom) ===== */
+.resize-handle--vertical.resize-handle--end {
+  right: 0;
+  transform: translateX(50%);
+}
+
+.resize-handle--horizontal.resize-handle--end {
+  bottom: 0;
+  transform: translateY(50%);
+}
+
+/* ===== COLLAPSED STATE ===== */
+.resize-handle--collapsed {
+  width: 20px;
+}
+
+.resize-handle--collapsed.resize-handle--vertical.resize-handle--start {
+  left: 0;
+  transform: none;
+}
+
+.resize-handle--collapsed.resize-handle--vertical.resize-handle--end {
+  right: 0;
+  left: auto;
+  transform: none;
+}
+
+.resize-handle--collapsed.resize-handle--horizontal.resize-handle--start {
+  top: 0;
+  transform: none;
+}
+
+.resize-handle--collapsed.resize-handle--horizontal.resize-handle--end {
+  bottom: 0;
+  top: auto;
+  transform: none;
+}
+
+/* ===== HOVER STATE ===== */
+.resize-handle:hover,
+.resize-handle--hover {
+  background-color: transparent;
+}
+
+/* ===== ACTIVE STATE ===== */
+.resize-handle--active {
+  background-color: transparent;
+}
+
+/* ===== DISABLED STATE ===== */
+.resize-handle--disabled {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ===== INDICATOR (the visible line) ===== */
+.resize-handle__indicator {
+  border-radius: 2px;
+  background-color: transparent;
+  transition: 
+    background-color 0.15s ease,
+    width 0.15s ease,
+    height 0.15s ease,
+    opacity 0.15s ease;
+}
+
+/* Vertical indicator */
+.resize-handle--vertical .resize-handle__indicator {
+  width: 3px;
+  height: 48px;
+}
+
+/* Horizontal indicator */
+.resize-handle--horizontal .resize-handle__indicator {
+  width: 48px;
+  height: 3px;
+}
+
+/* ===== INDICATOR - HOVER STATE ===== */
+.resize-handle:hover .resize-handle__indicator,
+.resize-handle--hover .resize-handle__indicator {
+  background-color: var(--accent-600, #2563eb);
+  opacity: 0.6;
+}
+
+/* ===== INDICATOR - ACTIVE STATE ===== */
+.resize-handle--active .resize-handle__indicator {
+  background-color: var(--accent-600, #2563eb);
+  opacity: 0.8;
+}
+
+.resize-handle--active.resize-handle--vertical .resize-handle__indicator {
+  height: 64px;
+}
+
+.resize-handle--active.resize-handle--horizontal .resize-handle__indicator {
+  width: 64px;
+}
+
+/* ===== INDICATOR - COLLAPSED STATE ===== */
+.resize-handle--collapsed .resize-handle__indicator {
+  background-color: var(--accent-700, #1d4ed8);
+  opacity: 0.4;
+}
+
+.resize-handle--collapsed.resize-handle--vertical .resize-handle__indicator {
+  height: 56px;
+}
+
+.resize-handle--collapsed.resize-handle--horizontal .resize-handle__indicator {
+  width: 56px;
+}
+
+/* Collapsed + Hover */
+.resize-handle--collapsed:hover .resize-handle__indicator,
+.resize-handle--collapsed.resize-handle--hover .resize-handle__indicator {
+  background-color: var(--accent-600, #2563eb);
+  opacity: 0.7;
+}
+
+.resize-handle--collapsed.resize-handle--vertical:hover .resize-handle__indicator,
+.resize-handle--collapsed.resize-handle--vertical.resize-handle--hover .resize-handle__indicator {
+  height: 64px;
+}
+
+.resize-handle--collapsed.resize-handle--horizontal:hover .resize-handle__indicator,
+.resize-handle--collapsed.resize-handle--horizontal.resize-handle--hover .resize-handle__indicator {
+  width: 64px;
+}
+
+/* Collapsed + Active */
+.resize-handle--collapsed.resize-handle--active .resize-handle__indicator {
+  background-color: var(--accent-600, #2563eb);
+  opacity: 0.9;
+}
+
+.resize-handle--collapsed.resize-handle--active.resize-handle--vertical .resize-handle__indicator {
+  height: 72px;
+}
+
+.resize-handle--collapsed.resize-handle--active.resize-handle--horizontal .resize-handle__indicator {
+  width: 72px;
+}
+
+/* ===== FOCUS STATE (keyboard accessibility) ===== */
+.resize-handle:focus {
+  outline: none;
+}
+
+.resize-handle:focus-visible .resize-handle__indicator {
+  background-color: var(--accent-600, #2563eb);
+  opacity: 0.8;
+}
+
+/* ===== DISABLED INDICATOR ===== */
+.resize-handle--disabled .resize-handle__indicator {
+  opacity: 0.2;
+}
+
+/* ===== RESPONSIVE - LARGER TOUCH TARGETS ===== */
+@media (max-width: 768px) {
+  .resize-handle--vertical {
+    width: 24px;
+  }
+  
+  .resize-handle--horizontal {
+    height: 24px;
+  }
+  
+  .resize-handle--collapsed.resize-handle--vertical {
+    width: 28px;
+  }
+  
+  .resize-handle--collapsed.resize-handle--horizontal {
+    height: 28px;
+  }
+}
