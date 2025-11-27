@@ -1,7 +1,7 @@
 'use client';
 
 import { VideoShowcase } from '../../../components/media/VideoShowcase/VideoShowcase';
-import { componentProps } from '../../../core/utils/helpers';
+import { componentProps } from '../../../core/utils/props';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
 

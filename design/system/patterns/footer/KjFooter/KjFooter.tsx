@@ -3,7 +3,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Typography, VStack, Menu } from '../../../components';
 import { Logo } from '../../../components/media/Logo';
 import { PatternNode } from '../../../core/types/nodes';
-import { componentProps, componentPresent } from '../../../core/utils/helpers';
+import { componentProps, componentPresent } from '../../../core/utils/props';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { getPickerLocale, handleLocaleChange } from '../../../core/routing';
 

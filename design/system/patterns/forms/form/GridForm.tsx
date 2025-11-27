@@ -3,7 +3,7 @@
 import React from 'react';
 import { Grid, GridItem } from '../../../components/layout';
 import { Button, Input, Textarea, Icon } from '../../../components';
-import { componentProps, componentPresent } from '../../../core/utils/helpers';
+import { componentProps, componentPresent } from '../../../core/utils/props';
 import { PatternNode } from '../../../core/types/nodes';
 import { 
   UserIcon,

@@ -6,7 +6,7 @@ import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../comp
 import { Logo } from '../../../components/media/Logo';
 import { MenuIcon, XIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
-import { componentProps, componentPresent, patternProps, useMapComponents } from '../../../core/utils/helpers';
+import { componentProps, componentPresent, patternProps, useMapComponents } from '../../../core/utils/props';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { alignMap } from '../utils';
 import './NavbarBar.css';

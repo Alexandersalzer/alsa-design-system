@@ -9,7 +9,7 @@ import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import { Tag } from '../../../components/feedback/Tag/Tag';
 import { Button } from '../../../components/actions/Button/Button';
-import { componentProps, componentPresent } from '../../../core/utils/helpers';
+import { componentProps, componentPresent } from '../../../core/utils/props';
 import { PatternNode } from '../../../core/types/nodes';
 
 

@@ -140,12 +140,3 @@ export async function designSnippet(isEditing: boolean = false): Promise<{ css: 
   
   return { css, themeTone, isDark };
 }
-
-/**
- * Helper to get themeTone for setting HTML attribute
- * Export this so it can be used in layouts
- */
-export async function getThemeTone(): Promise<string> {
-  const designConfig = await getDesignConfig();
-  return designConfig?.globalStyles?.themeTone || "neutral";
-}
