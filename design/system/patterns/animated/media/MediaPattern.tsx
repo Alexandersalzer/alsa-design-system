@@ -1,7 +1,8 @@
 'use client';
 
 import { VideoShowcase } from '../../../components/media/VideoShowcase/VideoShowcase';
-import { useComponentProps, CDN_BASE_URL } from '../../../core/utils/helpers';
+import { useComponentProps } from '../../../core/utils/helpers';
+import { CDN_BASE_URL } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
 
 const MediaPattern = ({ components = {} }: PatternNode) => {

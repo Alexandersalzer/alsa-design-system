@@ -5,8 +5,6 @@
 
 import { ComponentNode, PatternNode } from '../types/nodes';
 
-// ===== CONSTANTS =====
-export const CDN_BASE_URL = 'https://cdn.blimpify-im.com/members';
 
 /**
  * Get content from the first component with a specific type and optional role

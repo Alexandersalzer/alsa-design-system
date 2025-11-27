@@ -8,7 +8,7 @@
 import React, { useState } from 'react';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
 import { Image } from '../../../components/media/Image';
-import { CDN_BASE_URL } from '../../../core/utils/helpers';
+import { CDN_BASE_URL } from '../../../core/utils/env';
 
 export interface CarouselImage {
   src: string;

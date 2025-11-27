@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { CDN_BASE_URL } from '../../../core/utils/helpers';
+import { CDN_BASE_URL } from '../../../core/utils/env';
 import { Grid } from '../../../components';
 import { PortfolioCard } from '../../cards/PortfolioCard/PortfolioCard';
 

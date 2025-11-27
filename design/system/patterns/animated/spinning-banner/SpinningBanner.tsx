@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
 import { LogoImage } from '../../../components/media/Image';
-import { CDN_BASE_URL } from '../../../core/utils/helpers';
+import { CDN_BASE_URL } from '../../../core/utils/env';
 
 interface SpinningBannerProps {
   props?: {

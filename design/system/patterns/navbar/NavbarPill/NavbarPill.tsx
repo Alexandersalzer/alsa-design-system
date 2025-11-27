@@ -5,7 +5,8 @@ import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../comp
 import { Logo } from '../../../components/media/Logo';
 import { MenuIcon, XIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
-import { useComponentProps, componentPresent, usePatternProps, useMapComponents, CDN_BASE_URL } from '../../../core/utils/helpers';
+import { useComponentProps, componentPresent, usePatternProps, useMapComponents } from '../../../core/utils/helpers';
+import { CDN_BASE_URL } from '../../../core/utils/env';
 import { alignMap } from '../utils';
 import './NavbarPill.css';
 import { PatternNode } from '../../../core/types/nodes';
