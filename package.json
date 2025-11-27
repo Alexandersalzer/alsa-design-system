@@ -12,9 +12,9 @@
       "types": "./dist/index.d.ts"
     },
     "./content": {
-      "import": "./dist/design/system/core/render/contentLoader.js",
-      "require": "./dist/design/system/core/render/contentLoader.js",
-      "types": "./dist/design/system/core/render/contentLoader.d.ts"
+      "import": "./dist/design/system/core/content/index.js",
+      "require": "./dist/design/system/core/content/index.js",
+      "types": "./dist/design/system/core/content/index.d.ts"
     },
     "./shells": {
       "import": "./dist/design/system/shells/index.js",
