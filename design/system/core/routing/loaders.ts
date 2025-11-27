@@ -1,5 +1,5 @@
 import { PageNode } from '../types/nodes';
-import { loadJsonFile, listDirectory } from '../utils/loaders';
+import { loadJsonFile, listDirectory, nameToSlug } from '../utils/loaders';
 
 /**
  * Get the start/home page slug for a specific locale
@@ -9,7 +9,7 @@ export async function getStartPageSlug(locale: string): Promise<string | null> {
   const pageData = await loadJsonFile<PageNode>(`content/${locale}/start.json`);
   
   if (pageData?.name) {
-    return pageData.name.toLowerCase().replace(/\s+/g, '-');
+    return nameToSlug(pageData.name);
   }
   
   return null;
@@ -22,6 +22,7 @@ export async function getStartPageSlug(locale: string): Promise<string | null> {
 export async function getAllPageSlugs(locale: string): Promise<string[]> {
   const contentFiles = await listDirectory(`content/${locale}`);
   
+   // Excluding navbar and footer files
   const pageFiles = contentFiles.filter(file => 
     file.endsWith('.json') &&
     !['navbar.json', 'footer.json'].includes(file)
@@ -30,7 +31,7 @@ export async function getAllPageSlugs(locale: string): Promise<string[]> {
   const slugs = await Promise.all(
     pageFiles.map(async (file) => {
       const pageData = await loadJsonFile<PageNode>(`content/${locale}/${file}`);
-      return pageData?.name?.toLowerCase().replace(/\s+/g, '-') || null;
+      return pageData?.name ? nameToSlug(pageData.name) : null;
     })
   );
   

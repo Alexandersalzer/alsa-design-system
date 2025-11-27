@@ -70,3 +70,11 @@ export async function listDirectory(dirPath: string): Promise<string[]> {
     return [];
   }
 }
+
+/**
+ * Convert page prop value name to URL-safe slug
+ * Centralized logic used by multiple functions
+ */
+export const nameToSlug = (name: string): string => {
+  return name.toLowerCase().replace(/\s+/g, '-');
+};
