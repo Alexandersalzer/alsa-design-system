@@ -1,11 +1,9 @@
 /**
- * Generic JSON file loader for server-side operations
+ * Generic JSON file loader for server-side operations.
+ * Reads and parses JSON files from the public directory with type safety.
+ * Returns null if file doesn't exist or parsing fails - no fallbacks provided.
  */
-export async function loadJsonFile<T>(
-  filePath: string,
-  fallbackLocale?: string,
-  fallbackData?: T
-): Promise<T | null> {
+export async function loadJsonFile<T>(filePath: string): Promise<T | null> {
   if (typeof window !== 'undefined') {
     throw new Error('loadJsonFile is only available on server-side');
   }
@@ -19,36 +17,15 @@ export async function loadJsonFile<T>(
     return JSON.parse(fileContent) as T;
     
   } catch (error) {
-    // Try fallback locale if provided
-    if (fallbackLocale && filePath.includes('/')) {
-      const pathParts = filePath.split('/');
-      const localeIndex = pathParts.findIndex((part, index) => 
-        index > 0 && part !== 'content' && part !== 'design'
-      );
-      
-      if (localeIndex > -1 && pathParts[localeIndex] !== fallbackLocale) {
-        pathParts[localeIndex] = fallbackLocale;
-        const fallbackPath = pathParts.join('/');
-        
-        try {
-          return await loadJsonFile<T>(fallbackPath, undefined, fallbackData);
-        } catch {
-          // Continue to fallback data
-        }
-      }
-    }
-    
-    // Return fallback data or null
-    if (fallbackData !== undefined) {
-      return fallbackData;
-    }
-    
     return null;
   }
 }
 
 /**
  * List directory contents on server-side
+ * Returns array of file and directory names. 
+ * Exempel 1 listDirectory("content") → ["sv", "en", "de"]
+ * Exempel 2 listDirectory("content/sv") → ["navbar.json", "footer.json", "start.json"]
  */
 export async function listDirectory(dirPath: string): Promise<string[]> {
   if (typeof window !== 'undefined') {
