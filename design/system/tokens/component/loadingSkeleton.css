@@ -14,8 +14,8 @@
   --surface-skeleton-end: var(--foundation-gray-300);
 
   /* Optional accent tokens if you extend palette support */
-  --surface-skeleton-start-accent: var(--foundation-slate-200);
-  --surface-skeleton-end-accent: var(--foundation-slate-300);
+  --surface-skeleton-start-accent: var(--foundation-gray-200);
+  --surface-skeleton-end-accent: var(--foundation-gray-300);
 
   --opacity-skeleton-pulse-min: 0.6;
   --opacity-skeleton-pulse-max: 1.0;

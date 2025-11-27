@@ -3,9 +3,6 @@
 // Add theme manager to your existing utils exports
 // ===============================================
 
-// Your existing exports
-export * from './locale';
-export * from './navigation';
 
 // Add theme management
 export { 
@@ -15,8 +12,6 @@ export {
   type RadiusScale 
 } from './themeManager';
 
-// Add color extraction
-export * from './colorExtraction';
 
 // Add logo analysis
 export * from './logoAnalysis';
