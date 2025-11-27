@@ -3,7 +3,6 @@
 import { Section } from '../../components/frames/section/Section';
 import { SectionNode } from '../types/nodes';
 import { renderPattern } from './patterns';
-import { isPatternAllowed, validateRequiredPatterns, isValidSectionType } from './validation/sections';
 
 /**
  * Props for Sections component
@@ -20,29 +19,12 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
   if (!sectionData?.patterns) return null;
 
   const { type, patterns, order } = sectionData;
-  
-  // Validate section type first
-  if (!isValidSectionType(type)) {
-    console.error(`Unknown section type "${type}" in section "${sectionKey}". Valid types: hero, portfolio, testimonials, contact, featureGrid`);
-    return null;
-  }
-  
   const patternOrder = order || Object.keys(patterns);
   
-  // Validate required patterns
-  if (!validateRequiredPatterns(type, patterns)) {
-    return null;
-  }
-  
-  // Filter and render only allowed patterns
   const renderedPatterns = patternOrder
     .map((patternKey) => {
       const pattern = patterns[patternKey];
       if (!pattern) return null;
-      
-      if (!isPatternAllowed(type, pattern.type)) {
-        return null;
-      }
       
       return renderPattern(pattern, patternKey);
     })
@@ -50,7 +32,6 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
   
   if (renderedPatterns.length === 0) return null;
 
-  
   return (
     <Section 
       key={sectionKey}
