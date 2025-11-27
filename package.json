@@ -1,6 +1,6 @@
 {
   "name": "@blimpify-im/ui",
-  "version": "3.2.136",
+  "version": "0.1.914",
   "description": "Blimpify Design System - Reusable React components for client websites",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -78,6 +78,7 @@
     }
   },
   "dependencies": {
+    "@blimpify-im/ui": "^3.1.549",
     "@heroicons/react": "^2.2.0",
     "@studio-freight/lenis": "^1.0.42",
     "country-flag-icons": "^1.5.21",
