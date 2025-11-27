@@ -11,11 +11,6 @@
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./i18n": {
-      "import": "./dist/design/system/core/routing/i18n.js",
-      "require": "./dist/design/system/core/routing/i18n.js",
-      "types": "./dist/design/system/core/routing/i18n.d.ts"
-    },
     "./content": {
       "import": "./dist/design/system/core/render/contentLoader.js",
       "require": "./dist/design/system/core/render/contentLoader.js",
