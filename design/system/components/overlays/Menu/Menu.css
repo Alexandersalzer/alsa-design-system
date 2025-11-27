@@ -49,8 +49,8 @@
 
 .menu-trigger:focus-visible {
   border-color: var(--border-picker-focus);
-  box-shadow: 
-    0 0 0 3px rgba(var(--accent-500-rgb), 0.2),
+  box-shadow:
+    0 0 0 3px var(--surface-accent-muted),
     0 2px 4px rgba(0, 0, 0, 0.04);
 }
 

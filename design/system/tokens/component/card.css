@@ -5,10 +5,10 @@
 
    :root {
     /* ===== CARD SURFACES ===== */
-    --surface-card: var(--primary-white);                  /* Already defined in semantic */
-    --surface-card-solid: var(--primary-100);              /* Darker/solid card surface */
-    --surface-card-hover: var(--primary-100);        /* Already defined in semantic */
-    --surface-card-selected: var(--primary-100);
+    --surface-card: var(--always-white);                  /* Already defined in semantic */
+    --surface-card-solid: var(--surface-elevated);              /* Darker/solid card surface */
+    --surface-card-hover: var(--surface-elevated);        /* Already defined in semantic */
+    --surface-card-selected: var(--surface-elevated);
     
     /* ===== CARD BORDERS ===== */
     --border-card: var(--border-default);                   /* Using semantic border tokens */

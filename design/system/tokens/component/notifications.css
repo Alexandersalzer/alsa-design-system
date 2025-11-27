@@ -222,7 +222,7 @@
   --icon-banner-default: var(--icon-primary);
   
   /* LOADING - Primary text, subtle accent background */
-  --surface-banner-loading: color-mix(in srgb, var(--secondary-300) 10%, transparent 90%);
+  --surface-banner-loading: color-mix(in srgb, var(--neutral-300) 10%, transparent 90%);
   --text-banner-loading: var(--text-primary);
   --icon-banner-loading: var(--icon-primary);
 

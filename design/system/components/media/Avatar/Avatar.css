@@ -12,8 +12,8 @@
   overflow: hidden;
 
   /* ✅ Always visible + contrasting default */
-  background-color: var(--secondary-100);
-  color: var(--secondary-700);
+  background-color: var(--surface-elevated);
+  color: var(--text-muted);
 
   /* ✅ Remove stupid animation bullshit */
   transition: none;
@@ -48,8 +48,8 @@
 /* ===== OUTLINE VARIANT ===== */
 .avatar-outline {
   background-color: transparent !important;
-  border-color: var(--secondary-300);
-  color: var(--secondary-700);
+  border-color: var(--border-strong);
+  color: var(--text-muted);
 }
 
 /* ===== BORDERLESS ===== */
@@ -88,10 +88,10 @@
   z-index: 3;
 }
 
-.avatar-badge-online { background-color: var(--success-500); }
-.avatar-badge-offline { background-color: var(--secondary-300); }
-.avatar-badge-busy { background-color: var(--error-500); }
-.avatar-badge-away { background-color: var(--warning-500); }
+.avatar-badge-online { background-color: var(--icon-success); }
+.avatar-badge-offline { background-color: var(--icon-disabled); }
+.avatar-badge-busy { background-color: var(--icon-error); }
+.avatar-badge-away { background-color: var(--icon-warning); }
 
 /* ===== Accessibility ===== */
 @media (prefers-reduced-motion: reduce) {

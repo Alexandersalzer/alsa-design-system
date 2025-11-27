@@ -207,7 +207,7 @@
 }
 
 .nav-item--tabs.nav-item--active {
-  border-bottom-color: var(--accent-500);
+  border-bottom-color: var(--border-accent);
   background-color: transparent;
 }
 

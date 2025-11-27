@@ -228,21 +228,21 @@
 }
 
 .textarea::-webkit-scrollbar-track {
-  background: var(--secondary-100);
+  background: var(--surface-elevated);
   border-radius: var(--foundation-radius-sm);
 }
 
 .textarea::-webkit-scrollbar-thumb {
-  background: var(--secondary-300);
+  background: var(--border-strong);
   border-radius: var(--foundation-radius-sm);
 }
 
 .textarea::-webkit-scrollbar-thumb:hover {
-  background: var(--secondary-400);
+  background: var(--border-emphasis);
 }
 
 /* Firefox scrollbar */
 .textarea {
   scrollbar-width: thin;
-  scrollbar-color: var(--secondary-300) var(--secondary-100);
+  scrollbar-color: var(--border-strong) var(--surface-elevated);
 }

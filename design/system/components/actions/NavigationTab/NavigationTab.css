@@ -225,10 +225,10 @@
 
 .tab--segment.tab--active,
 .tab--segment.active {
-  border-color: var(--accent-500);
+  border-color: var(--border-accent);
   background-color: var(--surface-nav-item-selected);
   color: var(--text-nav-item-selected);
-  box-shadow: 0 2px 4px rgba(var(--accent-500), 0.2);
+  box-shadow: 0 2px 4px var(--surface-accent-muted);
 }
 
 /* ===== SIZE VARIANTS ===== */
@@ -317,7 +317,7 @@
 
 /* Segment tabs container */
 .tab-group--segment {
-  background-color: var(--secondary-50, #f8fafc);
+  background-color: var(--surface-raised, #f8fafc);
   border-radius: var(--foundation-radius-full, 9999px);
   padding: var(--foundation-space-1, 4px);
   gap: var(--foundation-space-1, 4px);

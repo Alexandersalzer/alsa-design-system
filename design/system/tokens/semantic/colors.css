@@ -1,112 +1,132 @@
 /* ==============================================
-   src/design-system/tokens/semantic/colors.css
-   COMPLETE SEMANTIC COLOR SYSTEM WITH AUTO DARK MODE
+   semantic/colors.css
+   BLIMPIFY DESIGN SYSTEM - SEMANTIC COLOR TOKENS
+
+   ARCHITECTURE:
+   ┌─────────────────────────────────────────────┐
+   │ 1. THEME CONTROL                            │
+   │ 2. PRIMITIVE SCALES (internal only)         │
+   │    - Neutral (auto-inverts)                 │
+   │    - Accent (auto-inverts, set by snippet)  │
+   │    - Status (error, success, warning, info) │
+   │ 3. SEMANTIC TOKENS (use these!)             │
+   │    - Surfaces                               │
+   │    - Text                                   │
+   │    - Borders                                │
+   │    - Icons                                  │
+   │    - Interactive                            │
+   └─────────────────────────────────────────────┘
+
+   RULES:
+   • Components use ONLY section 3 tokens
+   • Section 2 is internal - never use directly
+   • snippet.ts can override accent scale
    ============================================== */
 
-/* ===== SET THE --is-dark VARIABLE ===== */
+
+/* =============================================================================
+   1. THEME CONTROL
+   ============================================================================= */
+
 :root {
-  --is-dark: 0; /* Light mode by default */
+  --is-dark: 0;
 }
 
 [data-theme="dark"] {
-  --is-dark: 1; /* Dark mode */
+  --is-dark: 1;
 }
 
+
+/* =============================================================================
+   2. PRIMITIVE SCALES
+   ⚠️  INTERNAL ONLY - Components should NOT reference these directly
+   ============================================================================= */
+
 :root {
-  /* ===== PRIMARY/SECONDARY COLOR SCALES (CALCULATED) ===== */
-  /* These use color-mix to automatically invert based on --is-dark */
+  /* -------------------------------------------------------------------------
+     2.1 CONSTANTS
+     ------------------------------------------------------------------------- */
   --always-white: var(--foundation-white);
   --always-black: var(--foundation-black);
-  
-  --primary-white: color-mix(
+
+  /* -------------------------------------------------------------------------
+     2.2 NEUTRAL SCALE (auto-inverts based on --is-dark)
+     ------------------------------------------------------------------------- */
+  --neutral-0: color-mix(
     in srgb,
     var(--foundation-white) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-gray-1200) calc(var(--is-dark) * 100%)
+    var(--foundation-black) calc(var(--is-dark) * 100%)
   );
-  --primary-black: color-mix(
-    in srgb,
-    var(--foundation-black) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-white) calc(var(--is-dark) * 100%)
-  );
-  
-  --primary-50: color-mix(
+  --neutral-50: color-mix(
     in srgb,
     var(--foundation-gray-50) calc((1 - var(--is-dark)) * 100%),
     var(--foundation-gray-1200) calc(var(--is-dark) * 100%)
   );
-  --primary-100: color-mix(
+  --neutral-100: color-mix(
     in srgb,
     var(--foundation-gray-100) calc((1 - var(--is-dark)) * 100%),
     var(--foundation-gray-1100) calc(var(--is-dark) * 100%)
   );
-  --primary-200: color-mix(
+  --neutral-200: color-mix(
     in srgb,
     var(--foundation-gray-200) calc((1 - var(--is-dark)) * 100%),
     var(--foundation-gray-1000) calc(var(--is-dark) * 100%)
   );
-  --primary-300: color-mix(
+  --neutral-300: color-mix(
     in srgb,
     var(--foundation-gray-300) calc((1 - var(--is-dark)) * 100%),
     var(--foundation-gray-900) calc(var(--is-dark) * 100%)
   );
-  --primary-400: color-mix(
+  --neutral-400: color-mix(
     in srgb,
     var(--foundation-gray-400) calc((1 - var(--is-dark)) * 100%),
     var(--foundation-gray-800) calc(var(--is-dark) * 100%)
   );
-  --primary-500: color-mix(
+  --neutral-500: color-mix(
     in srgb,
     var(--foundation-gray-500) calc((1 - var(--is-dark)) * 100%),
     var(--foundation-gray-700) calc(var(--is-dark) * 100%)
   );
-  --primary-600: color-mix(
+  --neutral-600: color-mix(
     in srgb,
     var(--foundation-gray-600) calc((1 - var(--is-dark)) * 100%),
     var(--foundation-gray-600) calc(var(--is-dark) * 100%)
   );
-  --primary-700: color-mix(
+  --neutral-700: color-mix(
     in srgb,
     var(--foundation-gray-700) calc((1 - var(--is-dark)) * 100%),
     var(--foundation-gray-500) calc(var(--is-dark) * 100%)
   );
-  --primary-800: color-mix(
+  --neutral-800: color-mix(
     in srgb,
     var(--foundation-gray-800) calc((1 - var(--is-dark)) * 100%),
     var(--foundation-gray-400) calc(var(--is-dark) * 100%)
   );
-  --primary-900: color-mix(
+  --neutral-900: color-mix(
     in srgb,
     var(--foundation-gray-900) calc((1 - var(--is-dark)) * 100%),
     var(--foundation-gray-300) calc(var(--is-dark) * 100%)
   );
-  --primary-1000: color-mix(
+  --neutral-1000: color-mix(
     in srgb,
     var(--foundation-gray-1000) calc((1 - var(--is-dark)) * 100%),
     var(--foundation-gray-200) calc(var(--is-dark) * 100%)
   );
-  --primary-1100: color-mix(
+  --neutral-1100: color-mix(
     in srgb,
     var(--foundation-gray-1100) calc((1 - var(--is-dark)) * 100%),
     var(--foundation-gray-100) calc(var(--is-dark) * 100%)
   );
-  --primary-1200: color-mix(
+  --neutral-1200: color-mix(
     in srgb,
     var(--foundation-gray-1200) calc((1 - var(--is-dark)) * 100%),
     var(--foundation-gray-50) calc(var(--is-dark) * 100%)
   );
 
-  --secondary-50: var(--primary-50);
-  --secondary-100: var(--primary-100);
-  --secondary-200: var(--primary-200);
-  --secondary-300: var(--primary-300);
-  --secondary-400: var(--primary-400);
-  --secondary-500: var(--primary-500);
-  --secondary-600: var(--primary-600);
-  --secondary-700: var(--primary-700);
-  --secondary-800: var(--primary-800);
-  --secondary-900: var(--primary-900);
-
-  /* ===== ACCENT COLOR SCALE (CALCULATED) ===== */
+  /* -------------------------------------------------------------------------
+     2.3 ACCENT SCALE (auto-inverts, overridden by snippet.ts)
+     Default: purple - snippet.ts replaces with user's chosen color
+     ------------------------------------------------------------------------- */
   --accent-100: color-mix(
     in srgb,
     var(--foundation-purple-100) calc((1 - var(--is-dark)) * 100%),
@@ -125,36 +145,31 @@
   --accent-400: color-mix(
     in srgb,
     var(--foundation-purple-400) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-950) calc(var(--is-dark) * 100%)
+    var(--foundation-purple-900) calc(var(--is-dark) * 100%)
   );
   --accent-500: color-mix(
     in srgb,
     var(--foundation-purple-500) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-900) calc(var(--is-dark) * 100%)
+    var(--foundation-purple-800) calc(var(--is-dark) * 100%)
   );
   --accent-600: color-mix(
     in srgb,
     var(--foundation-purple-600) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-800) calc(var(--is-dark) * 100%)
+    var(--foundation-purple-700) calc(var(--is-dark) * 100%)
   );
   --accent-700: color-mix(
     in srgb,
     var(--foundation-purple-700) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-700) calc(var(--is-dark) * 100%)
+    var(--foundation-purple-600) calc(var(--is-dark) * 100%)
   );
   --accent-800: color-mix(
     in srgb,
     var(--foundation-purple-800) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-600) calc(var(--is-dark) * 100%)
+    var(--foundation-purple-500) calc(var(--is-dark) * 100%)
   );
   --accent-900: color-mix(
     in srgb,
     var(--foundation-purple-900) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-500) calc(var(--is-dark) * 100%)
-  );
-  --accent-950: color-mix(
-    in srgb,
-    var(--foundation-purple-950) calc((1 - var(--is-dark)) * 100%),
     var(--foundation-purple-400) calc(var(--is-dark) * 100%)
   );
   --accent-1000: color-mix(
@@ -173,299 +188,339 @@
     var(--foundation-purple-100) calc(var(--is-dark) * 100%)
   );
 
-  /* ===== STATUS COLOR SCALES (CALCULATED) ===== */
-  /* Info/Azure scale */
-  --info-100: color-mix(in srgb, var(--foundation-azure-100) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-1200) calc(var(--is-dark) * 100%));
-  --info-200: color-mix(in srgb, var(--foundation-azure-200) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-1100) calc(var(--is-dark) * 100%));
-  --info-300: color-mix(in srgb, var(--foundation-azure-300) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-1000) calc(var(--is-dark) * 100%));
-  --info-400: color-mix(in srgb, var(--foundation-azure-400) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-950) calc(var(--is-dark) * 100%));
-  --info-500: color-mix(in srgb, var(--foundation-azure-500) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-900) calc(var(--is-dark) * 100%));
-  --info-600: color-mix(in srgb, var(--foundation-azure-600) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-800) calc(var(--is-dark) * 100%));
-  --info-700: color-mix(in srgb, var(--foundation-azure-700) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-700) calc(var(--is-dark) * 100%));
-  --info-800: color-mix(in srgb, var(--foundation-azure-800) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-600) calc(var(--is-dark) * 100%));
-  --info-900: color-mix(in srgb, var(--foundation-azure-900) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-500) calc(var(--is-dark) * 100%));
-  --info-950: color-mix(in srgb, var(--foundation-azure-950) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-400) calc(var(--is-dark) * 100%));
-  --info-1000: color-mix(in srgb, var(--foundation-azure-1000) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-300) calc(var(--is-dark) * 100%));
-  --info-1100: color-mix(in srgb, var(--foundation-azure-1100) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-200) calc(var(--is-dark) * 100%));
-  --info-1200: color-mix(in srgb, var(--foundation-azure-1200) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-100) calc(var(--is-dark) * 100%));
-
-  /* Error/Ruby scale */
+  /* -------------------------------------------------------------------------
+     2.4 ERROR SCALE (ruby)
+     ------------------------------------------------------------------------- */
   --error-100: color-mix(in srgb, var(--foundation-ruby-100) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-1200) calc(var(--is-dark) * 100%));
   --error-200: color-mix(in srgb, var(--foundation-ruby-200) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-1100) calc(var(--is-dark) * 100%));
   --error-300: color-mix(in srgb, var(--foundation-ruby-300) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-1000) calc(var(--is-dark) * 100%));
-  --error-400: color-mix(in srgb, var(--foundation-ruby-400) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-950) calc(var(--is-dark) * 100%));
-  --error-500: color-mix(in srgb, var(--foundation-ruby-500) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-900) calc(var(--is-dark) * 100%));
-  --error-600: color-mix(in srgb, var(--foundation-ruby-600) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-800) calc(var(--is-dark) * 100%));
-  --error-700: color-mix(in srgb, var(--foundation-ruby-700) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-700) calc(var(--is-dark) * 100%));
-  --error-800: color-mix(in srgb, var(--foundation-ruby-800) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-600) calc(var(--is-dark) * 100%));
-  --error-900: color-mix(in srgb, var(--foundation-ruby-900) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-500) calc(var(--is-dark) * 100%));
-  --error-950: color-mix(in srgb, var(--foundation-ruby-950) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-400) calc(var(--is-dark) * 100%));
-  --error-1000: color-mix(in srgb, var(--foundation-ruby-1000) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-300) calc(var(--is-dark) * 100%));
-  --error-1100: color-mix(in srgb, var(--foundation-ruby-1100) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-200) calc(var(--is-dark) * 100%));
-  --error-1200: color-mix(in srgb, var(--foundation-ruby-1200) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-100) calc(var(--is-dark) * 100%));
+  --error-400: color-mix(in srgb, var(--foundation-ruby-400) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-900) calc(var(--is-dark) * 100%));
+  --error-500: color-mix(in srgb, var(--foundation-ruby-500) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-800) calc(var(--is-dark) * 100%));
+  --error-600: color-mix(in srgb, var(--foundation-ruby-600) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-700) calc(var(--is-dark) * 100%));
+  --error-700: color-mix(in srgb, var(--foundation-ruby-700) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-600) calc(var(--is-dark) * 100%));
+  --error-800: color-mix(in srgb, var(--foundation-ruby-800) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-500) calc(var(--is-dark) * 100%));
+  --error-900: color-mix(in srgb, var(--foundation-ruby-900) calc((1 - var(--is-dark)) * 100%), var(--foundation-ruby-400) calc(var(--is-dark) * 100%));
 
-  /* Success/Emerald scale */
+  /* -------------------------------------------------------------------------
+     2.5 SUCCESS SCALE (emerald)
+     ------------------------------------------------------------------------- */
   --success-100: color-mix(in srgb, var(--foundation-emerald-100) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-1200) calc(var(--is-dark) * 100%));
   --success-200: color-mix(in srgb, var(--foundation-emerald-200) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-1100) calc(var(--is-dark) * 100%));
   --success-300: color-mix(in srgb, var(--foundation-emerald-300) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-1000) calc(var(--is-dark) * 100%));
-  --success-400: color-mix(in srgb, var(--foundation-emerald-400) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-950) calc(var(--is-dark) * 100%));
-  --success-500: color-mix(in srgb, var(--foundation-emerald-500) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-900) calc(var(--is-dark) * 100%));
-  --success-600: color-mix(in srgb, var(--foundation-emerald-600) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-800) calc(var(--is-dark) * 100%));
-  --success-700: color-mix(in srgb, var(--foundation-emerald-700) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-700) calc(var(--is-dark) * 100%));
-  --success-800: color-mix(in srgb, var(--foundation-emerald-800) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-600) calc(var(--is-dark) * 100%));
-  --success-900: color-mix(in srgb, var(--foundation-emerald-900) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-500) calc(var(--is-dark) * 100%));
-  --success-950: color-mix(in srgb, var(--foundation-emerald-950) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-400) calc(var(--is-dark) * 100%));
-  --success-1000: color-mix(in srgb, var(--foundation-emerald-1000) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-300) calc(var(--is-dark) * 100%));
-  --success-1100: color-mix(in srgb, var(--foundation-emerald-1100) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-200) calc(var(--is-dark) * 100%));
-  --success-1200: color-mix(in srgb, var(--foundation-emerald-1200) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-100) calc(var(--is-dark) * 100%));
+  --success-400: color-mix(in srgb, var(--foundation-emerald-400) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-900) calc(var(--is-dark) * 100%));
+  --success-500: color-mix(in srgb, var(--foundation-emerald-500) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-800) calc(var(--is-dark) * 100%));
+  --success-600: color-mix(in srgb, var(--foundation-emerald-600) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-700) calc(var(--is-dark) * 100%));
+  --success-700: color-mix(in srgb, var(--foundation-emerald-700) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-600) calc(var(--is-dark) * 100%));
+  --success-800: color-mix(in srgb, var(--foundation-emerald-800) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-500) calc(var(--is-dark) * 100%));
+  --success-900: color-mix(in srgb, var(--foundation-emerald-900) calc((1 - var(--is-dark)) * 100%), var(--foundation-emerald-400) calc(var(--is-dark) * 100%));
 
-  /* Warning/Honey scale */
+  /* -------------------------------------------------------------------------
+     2.6 WARNING SCALE (honey)
+     ------------------------------------------------------------------------- */
   --warning-100: color-mix(in srgb, var(--foundation-honey-100) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-1200) calc(var(--is-dark) * 100%));
   --warning-200: color-mix(in srgb, var(--foundation-honey-200) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-1100) calc(var(--is-dark) * 100%));
   --warning-300: color-mix(in srgb, var(--foundation-honey-300) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-1000) calc(var(--is-dark) * 100%));
-  --warning-400: color-mix(in srgb, var(--foundation-honey-400) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-950) calc(var(--is-dark) * 100%));
-  --warning-500: color-mix(in srgb, var(--foundation-honey-500) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-900) calc(var(--is-dark) * 100%));
-  --warning-600: color-mix(in srgb, var(--foundation-honey-600) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-800) calc(var(--is-dark) * 100%));
-  --warning-700: color-mix(in srgb, var(--foundation-honey-700) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-700) calc(var(--is-dark) * 100%));
-  --warning-800: color-mix(in srgb, var(--foundation-honey-800) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-600) calc(var(--is-dark) * 100%));
-  --warning-900: color-mix(in srgb, var(--foundation-honey-900) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-500) calc(var(--is-dark) * 100%));
-  --warning-950: color-mix(in srgb, var(--foundation-honey-950) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-400) calc(var(--is-dark) * 100%));
-  --warning-1000: color-mix(in srgb, var(--foundation-honey-1000) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-300) calc(var(--is-dark) * 100%));
-  --warning-1100: color-mix(in srgb, var(--foundation-honey-1100) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-200) calc(var(--is-dark) * 100%));
-  --warning-1200: color-mix(in srgb, var(--foundation-honey-1200) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-100) calc(var(--is-dark) * 100%));
+  --warning-400: color-mix(in srgb, var(--foundation-honey-400) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-900) calc(var(--is-dark) * 100%));
+  --warning-500: color-mix(in srgb, var(--foundation-honey-500) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-800) calc(var(--is-dark) * 100%));
+  --warning-600: color-mix(in srgb, var(--foundation-honey-600) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-700) calc(var(--is-dark) * 100%));
+  --warning-700: color-mix(in srgb, var(--foundation-honey-700) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-600) calc(var(--is-dark) * 100%));
+  --warning-800: color-mix(in srgb, var(--foundation-honey-800) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-500) calc(var(--is-dark) * 100%));
+  --warning-900: color-mix(in srgb, var(--foundation-honey-900) calc((1 - var(--is-dark)) * 100%), var(--foundation-honey-400) calc(var(--is-dark) * 100%));
 
-  /* ===== SEMANTIC TEXT TOKENS ===== */
-  --text-primary: var(--primary-1000);
-  --text-secondary: var(--secondary-700);
-  --text-tertiary: var(--secondary-500);
-  --text-disabled: var(--secondary-300);
-  --text-placeholder: var(--secondary-400);
-  --text-inverse: var(--primary-white);
-  --text-heading-primary: var(--primary-1200);
-  --text-body-primary: var(--primary-1200);
-  --text-body-secondary: var(--secondary-600);
-  --text-label: var(--primary-1200);
-  --text-code: var(--primary-1100);
-  --text-error: var(--error-600);
-  --text-success: var(--success-600);
-  --text-warning: var(--warning-600);
-  --text-info: var(--info-600);
+  /* -------------------------------------------------------------------------
+     2.7 INFO SCALE (azure)
+     ------------------------------------------------------------------------- */
+  --info-100: color-mix(in srgb, var(--foundation-azure-100) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-1200) calc(var(--is-dark) * 100%));
+  --info-200: color-mix(in srgb, var(--foundation-azure-200) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-1100) calc(var(--is-dark) * 100%));
+  --info-300: color-mix(in srgb, var(--foundation-azure-300) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-1000) calc(var(--is-dark) * 100%));
+  --info-400: color-mix(in srgb, var(--foundation-azure-400) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-900) calc(var(--is-dark) * 100%));
+  --info-500: color-mix(in srgb, var(--foundation-azure-500) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-800) calc(var(--is-dark) * 100%));
+  --info-600: color-mix(in srgb, var(--foundation-azure-600) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-700) calc(var(--is-dark) * 100%));
+  --info-700: color-mix(in srgb, var(--foundation-azure-700) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-600) calc(var(--is-dark) * 100%));
+  --info-800: color-mix(in srgb, var(--foundation-azure-800) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-500) calc(var(--is-dark) * 100%));
+  --info-900: color-mix(in srgb, var(--foundation-azure-900) calc((1 - var(--is-dark)) * 100%), var(--foundation-azure-400) calc(var(--is-dark) * 100%));
+}
 
-  /* ===== SEMANTIC SURFACE TOKENS ===== */
-  --surface-background: color-mix(
-    in srgb,
-    #fff calc((1 - var(--is-dark)) * 100%),
-    #000 calc(var(--is-dark) * 100%)
-  );
-  --surface-page: var(--primary-white);
-  --surface-overlay: color-mix(
-    in srgb,
-    rgba(0, 0, 0, 0.5) calc((1 - var(--is-dark)) * 100%),
-    rgba(0, 0, 0, 0.8) calc(var(--is-dark) * 100%)
-  );
-  --surface-backdrop: color-mix(
-    in srgb,
-    rgba(0, 0, 0, 0.3) calc((1 - var(--is-dark)) * 100%),
-    rgba(0, 0, 0, 0.6) calc(var(--is-dark) * 100%)
-  );
-  --surface-error-subtle: color-mix(in srgb, var(--error-500) 10%, var(--surface-page) 90%);
 
-  /* ===== SEMANTIC BORDER TOKENS ===== */
-  --border-default: var(--secondary-200);
-  --border-subtle: var(--secondary-100);
-  --border-hover: var(--secondary-300);
+/* =============================================================================
+   3. SEMANTIC TOKENS
+   ✅ USE THESE IN COMPONENTS
+   ============================================================================= */
+
+:root {
+  /* =========================================================================
+     3.1 SURFACES
+
+     Naming: --surface-[context]
+     Variants: [base], -subtle, -muted
+
+     | Variant | Intensity | Use Case                    |
+     |---------|-----------|------------------------------|
+     | base    | solid     | buttons, solid badges        |
+     | subtle  | light     | toasts, alerts, backgrounds  |
+     | muted   | medium    | badges on subtle, hover      |
+     ========================================================================= */
+
+  /* ----- Page & Layout ----- */
+  --surface-page: var(--neutral-0);
+  --surface-page-alt: var(--neutral-50);
+
+  /* ----- Elevation Layers ----- */
+  --surface-base: var(--neutral-0);
+  --surface-raised: var(--neutral-50);
+  --surface-elevated: var(--neutral-100);
+  --surface-floating: var(--neutral-0);
+
+  /* ----- Interactive States ----- */
+  --surface-hover: var(--neutral-100);
+  --surface-active: var(--neutral-200);
+  --surface-selected: var(--neutral-200);
+  --surface-disabled: var(--neutral-100);
+
+  /* ----- Inverse ----- */
+  --surface-inverse: var(--neutral-1200);
+  --surface-inverse-hover: var(--neutral-1100);
+  --surface-inverse-active: var(--neutral-1000);
+
+  /* ----- Overlays ----- */
+  --surface-backdrop: rgba(0, 0, 0, 0.4);
+  --surface-scrim: rgba(0, 0, 0, 0.6);
+
+  /* ----- Accent (3 variants) ----- */
+  --surface-accent: var(--accent-600);           /* solid: buttons */
+  --surface-accent-subtle: var(--accent-100);    /* light: toast bg, alert bg */
+  --surface-accent-muted: var(--accent-200);     /* medium: badge, tag */
+
+  /* ----- Error (3 variants) ----- */
+  --surface-error: var(--error-600);             /* solid: destructive button */
+  --surface-error-subtle: var(--error-100);      /* light: error toast, alert */
+  --surface-error-muted: var(--error-200);       /* medium: error badge */
+
+  /* ----- Success (3 variants) ----- */
+  --surface-success: var(--success-600);         /* solid: success button */
+  --surface-success-subtle: var(--success-100);  /* light: success toast */
+  --surface-success-muted: var(--success-200);   /* medium: success badge */
+
+  /* ----- Warning (3 variants) ----- */
+  --surface-warning: var(--warning-600);         /* solid: warning button */
+  --surface-warning-subtle: var(--warning-100);  /* light: warning toast */
+  --surface-warning-muted: var(--warning-200);   /* medium: warning badge */
+
+  /* ----- Info (3 variants) ----- */
+  --surface-info: var(--info-600);               /* solid: info button */
+  --surface-info-subtle: var(--info-100);        /* light: info toast */
+  --surface-info-muted: var(--info-200);         /* medium: info badge */
+
+
+  /* =========================================================================
+     3.2 TEXT
+
+     Naming: --text-[hierarchy] or --text-[status]
+     Variants: [base], -strong
+     ========================================================================= */
+
+  /* ----- Hierarchy ----- */
+  --text-default: var(--neutral-1000);
+  --text-strong: var(--neutral-1200);
+  --text-muted: var(--neutral-700);
+  --text-subtle: var(--neutral-500);
+  --text-disabled: var(--neutral-400);
+  --text-placeholder: var(--neutral-400);
+
+  /* ----- Inverse (on dark backgrounds) ----- */
+  --text-inverse: var(--neutral-0);
+  --text-inverse-muted: var(--neutral-400);
+
+  /* ----- On Colored Surfaces ----- */
+  --text-on-accent: var(--always-white);
+  --text-on-error: var(--always-white);
+  --text-on-success: var(--always-white);
+  --text-on-warning: var(--neutral-1200);        /* dark text on yellow! */
+  --text-on-info: var(--always-white);
+
+  /* ----- Accent ----- */
+  --text-accent: var(--accent-700);
+  --text-accent-strong: var(--accent-800);
+
+  /* ----- Error ----- */
+  --text-error: var(--error-700);
+  --text-error-strong: var(--error-800);
+
+  /* ----- Success ----- */
+  --text-success: var(--success-700);
+  --text-success-strong: var(--success-800);
+
+  /* ----- Warning ----- */
+  --text-warning: var(--warning-700);
+  --text-warning-strong: var(--warning-800);
+
+  /* ----- Info ----- */
+  --text-info: var(--info-700);
+  --text-info-strong: var(--info-800);
+
+  /* ----- Links ----- */
+  --text-link: var(--accent-600);
+  --text-link-hover: var(--accent-700);
+
+
+  /* =========================================================================
+     3.3 BORDERS
+
+     Naming: --border-[intensity] or --border-[status]
+     Variants: [base], -subtle
+     ========================================================================= */
+
+  /* ----- Intensity ----- */
+  --border-default: var(--neutral-200);
+  --border-subtle: var(--neutral-100);
+  --border-strong: var(--neutral-300);
+  --border-emphasis: var(--neutral-400);
+
+  /* ----- States ----- */
+  --border-hover: var(--neutral-300);
   --border-focus: var(--accent-500);
-  --border-disabled: var(--secondary-100);
-  --border-error: var(--error-500);
-  --border-success: var(--success-500);
-  --border-warning: var(--warning-500);
-  --border-info: var(--info-500);
-  --border-light: var(--secondary-100);
-  --border-light-hover: var(--secondary-200);
-  --border-light-active: var(--secondary-300);
+  --border-active: var(--neutral-400);
+  --border-selected: var(--accent-500);
+  --border-disabled: var(--neutral-200);
 
-  /* ===== SEMANTIC ICON TOKENS ===== */
-  --icon-primary: var(--text-primary);
-  --icon-secondary: var(--secondary-500);
-  --icon-tertiary: var(--secondary-400);
-  --icon-disabled: var(--secondary-300);
-  --icon-inverse: var(--primary-black);
-  --icon-brand: var(--accent-600);
-  --icon-accent: var(--accent-500);
+  /* ----- Inverse ----- */
+  --border-inverse: var(--neutral-1200);
+
+  /* ----- Accent ----- */
+  --border-accent: var(--accent-500);
+  --border-accent-subtle: var(--accent-300);
+
+  /* ----- Error ----- */
+  --border-error: var(--error-500);
+  --border-error-subtle: var(--error-300);
+
+  /* ----- Success ----- */
+  --border-success: var(--success-500);
+  --border-success-subtle: var(--success-300);
+
+  /* ----- Warning ----- */
+  --border-warning: var(--warning-500);
+  --border-warning-subtle: var(--warning-300);
+
+  /* ----- Info ----- */
+  --border-info: var(--info-500);
+  --border-info-subtle: var(--info-300);
+
+
+  /* =========================================================================
+     3.4 ICONS
+
+     Naming: --icon-[hierarchy] or --icon-[status]
+     ========================================================================= */
+
+  /* ----- Hierarchy ----- */
+  --icon-default: var(--neutral-700);
+  --icon-strong: var(--neutral-1000);
+  --icon-muted: var(--neutral-500);
+  --icon-subtle: var(--neutral-400);
+  --icon-disabled: var(--neutral-300);
+
+  /* ----- Inverse ----- */
+  --icon-inverse: var(--neutral-0);
+
+  /* ----- On Colored Surfaces ----- */
+  --icon-on-accent: var(--always-white);
+  --icon-on-error: var(--always-white);
+  --icon-on-success: var(--always-white);
+  --icon-on-warning: var(--neutral-1200);
+  --icon-on-info: var(--always-white);
+
+  /* ----- Status ----- */
+  --icon-accent: var(--accent-600);
+  --icon-error: var(--error-600);
   --icon-success: var(--success-600);
   --icon-warning: var(--warning-600);
-  --icon-error: var(--error-600);
   --icon-info: var(--info-600);
 
-  /* ===== SEMANTIC INTERACTIVE TOKENS ===== */
-  --interactive-primary: var(--primary-black);
-  --interactive-primary-hover: var(--primary-1000);
-  --interactive-primary-active: var(--primary-900);
-  --interactive-primary-disabled: var(--secondary-600);
-  
-  --interactive-secondary: var(--secondary-100);
-  --interactive-secondary-hover: var(--secondary-200);
-  --interactive-secondary-active: var(--secondary-300);
-  --interactive-secondary-disabled: var(--secondary-50);
 
+  /* =========================================================================
+     3.5 INTERACTIVE
+
+     Button and control states
+     Naming: --interactive-[variant]-[state]
+     ========================================================================= */
+
+  /* ----- Primary (dark/inverse) ----- */
+  --interactive-primary: var(--neutral-1200);
+  --interactive-primary-hover: var(--neutral-1100);
+  --interactive-primary-active: var(--neutral-1000);
+  --interactive-primary-disabled: var(--neutral-400);
+
+  /* ----- Secondary (light/subtle) ----- */
+  --interactive-secondary: var(--neutral-100);
+  --interactive-secondary-hover: var(--neutral-200);
+  --interactive-secondary-active: var(--neutral-300);
+  --interactive-secondary-disabled: var(--neutral-50);
+
+  /* ----- Tertiary (ghost/transparent) ----- */
+  --interactive-tertiary: transparent;
+  --interactive-tertiary-hover: var(--neutral-100);
+  --interactive-tertiary-active: var(--neutral-200);
+
+  /* ----- Accent (snippet.ts overrides for inverse mode) ----- */
   --interactive-accent: var(--accent-600);
   --interactive-accent-hover: var(--accent-700);
   --interactive-accent-active: var(--accent-800);
-  --interactive-accent-disabled: var(--accent-500);
-  
-  --interactive-tertiary: transparent;
-  --interactive-tertiary-hover: var(--secondary-100);
-  --interactive-tertiary-active: var(--secondary-200);
+  --interactive-accent-disabled: var(--accent-400);
 
-  --interactive-destructive: var(--error-500);
-  --interactive-destructive-hover: var(--error-600);
-  --interactive-destructive-active: var(--error-700);
-  --interactive-destructive-disabled: var(--error-300);
+  /* ----- Destructive ----- */
+  --interactive-destructive: var(--error-600);
+  --interactive-destructive-hover: var(--error-700);
+  --interactive-destructive-active: var(--error-800);
+  --interactive-destructive-disabled: var(--error-400);
 
-  --surface-button-destructive: var(--error-100);
-  --surface-button-destructive-hover: var(--error-200);
-  --text-button-destructive: var(--error-700);
-  --border-button-destructive: var(--error-300);
-  
-  --interactive-success: var(--success-500);
-  --interactive-success-hover: var(--success-600);
-  --interactive-success-active: var(--success-700);
-  
-  --interactive-warning: var(--warning-500);
-  --interactive-warning-hover: var(--warning-600);
-  --interactive-warning-active: var(--warning-700);
+  /* ----- Success ----- */
+  --interactive-success: var(--success-600);
+  --interactive-success-hover: var(--success-700);
+  --interactive-success-active: var(--success-800);
+  --interactive-success-disabled: var(--success-400);
 
-  /* ===== SEMANTIC SHADOW TOKENS ===== */
-  --shadow-default: color-mix(
-    in srgb,
-    rgba(0, 0, 0, 0.1) calc((1 - var(--is-dark)) * 100%),
-    rgba(0, 0, 0, 0.3) calc(var(--is-dark) * 100%)
-  );
-  --shadow-subtle: color-mix(
-    in srgb,
-    rgba(0, 0, 0, 0.05) calc((1 - var(--is-dark)) * 100%),
-    rgba(0, 0, 0, 0.2) calc(var(--is-dark) * 100%)
-  );
-  --shadow-emphasis: color-mix(
-    in srgb,
-    rgba(0, 0, 0, 0.15) calc((1 - var(--is-dark)) * 100%),
-    rgba(0, 0, 0, 0.4) calc(var(--is-dark) * 100%)
-  );
-  --shadow-strong: color-mix(
-    in srgb,
-    rgba(0, 0, 0, 0.25) calc((1 - var(--is-dark)) * 100%),
-    rgba(0, 0, 0, 0.5) calc(var(--is-dark) * 100%)
-  );
+  /* ----- Warning ----- */
+  --interactive-warning: var(--warning-600);
+  --interactive-warning-hover: var(--warning-700);
+  --interactive-warning-active: var(--warning-800);
+  --interactive-warning-disabled: var(--warning-400);
+}
 
-  /* ===== NAVIGATION TOKENS ===== */
-  --surface-nav: var(--primary-white);
-  --surface-nav-item: transparent;
-  --surface-nav-item-hover: var(--secondary-100);
-  --surface-nav-item-selected: var(--secondary-100);
-  --surface-nav-item-disabled: transparent;
-  --text-nav-item: var(--text-secondary);
-  --text-nav-item-selected: var(--accent-600);
-  --text-nav-item-disabled: var(--text-disabled);
-  --icon-nav-item: var(--icon-secondary);
-  --icon-nav-item-selected: var(--accent-600);
-  --icon-nav-item-disabled: var(--icon-disabled);
 
-  /* ===== STATUS SHORTCUT TOKENS ===== */
-  --error-bg: var(--error-100);
-  --error-bg-hover: var(--error-200);
-  --error-border: var(--error-300);
-  --error-text: var(--error-700);
-  --error-text-strong: var(--error-800);
-  --error-icon: var(--error-600);
-  --error-subtle: var(--error-100);
-  
-  --success-bg: var(--success-100);
-  --success-bg-hover: var(--success-200);
-  --success-border: var(--success-300);
-  --success-text: var(--success-700);
-  --success-text-strong: var(--success-800);
-  --success-icon: var(--success-600);
-  --success-subtle: var(--success-100);
-  
-  --warning-bg: var(--warning-100);
-  --warning-bg-hover: var(--warning-200);
-  --warning-border: var(--warning-300);
-  --warning-text: var(--warning-700);
-  --warning-text-strong: var(--warning-800);
-  --warning-icon: var(--warning-600);
-  --warning-subtle: var(--warning-100);
-  
-  --info-bg: var(--info-100);
-  --info-bg-hover: var(--info-200);
-  --info-border: var(--info-300);
-  --info-text: var(--info-700);
-  --info-text-strong: var(--info-800);
-  --info-icon: var(--info-600);
-  --info-subtle: var(--info-100);
+/* =============================================================================
+   DARK MODE ADJUSTMENTS
+   Fine-tune specific tokens for dark mode
+   ============================================================================= */
 
-  /* ===== TABLE TOKENS ===== */
-  --surface-table: var(--primary-white);
-  --surface-table-header: var(--secondary-50);
-  --surface-table-row: var(--primary-white);
-  --surface-table-row-hover: var(--secondary-50);
-  --surface-table-row-selected: var(--accent-100);
-  --surface-table-row-striped: var(--secondary-50);
-  
-  --border-table: var(--border-default);
-  --border-table-subtle: var(--border-subtle);
-  --border-table-header: var(--border-default);
-  --border-table-row: var(--border-subtle);
-  --border-table-cell: var(--border-subtle);
-  
-  --text-table-header: var(--text-secondary);
-  --text-table-cell: var(--text-primary);
-  --text-table-cell-secondary: var(--text-secondary);
-  --text-table-empty: var(--text-tertiary);
-  
-  --surface-table-loading-base: var(--secondary-100);
-  --surface-table-loading-shimmer: var(--secondary-200);
+[data-theme="dark"] {
+  --surface-backdrop: rgba(0, 0, 0, 0.7);
+  --surface-scrim: rgba(0, 0, 0, 0.85);
+}
 
-  /* ===== ADDITIONAL SURFACE TOKENS ===== */
-  --surface-page-secondary: var(--secondary-50);
-  --surface-inverse: var(--primary-1200);
-  --surface-brand: var(--accent-500);
-  --surface-brand-subtle: color-mix(in srgb, var(--accent-500) 10%, var(--surface-page) 90%);
-  
-  --surface-success: var(--success-500);
-  --surface-success-subtle: color-mix(in srgb, var(--success-500) 10%, var(--surface-page) 90%);
-  --surface-warning: var(--warning-500);
-  --surface-warning-subtle: color-mix(in srgb, var(--warning-500) 10%, var(--surface-page) 90%);
-  --surface-error: var(--error-500);
-  --surface-info: var(--info-500);
-  --surface-info-subtle: color-mix(in srgb, var(--info-500) 10%, var(--surface-page) 90%);
 
-  /* ===== ADDITIONAL TEXT TOKENS ===== */
-  --text-on-interactive: var(--primary-white);
-  --text-brand: var(--accent-600);
-  --text-brand-on-brand: var(--primary-white);
-  
-  --text-heading-secondary: var(--primary-1100);
-  --text-caption: var(--secondary-500);
-  --text-link: var(--accent-600);
-  --text-link-hover: var(--accent-700);
-  
-  --text-success-on-success: var(--primary-white);
-  --text-warning-on-warning: var(--primary-white);
-  --text-error-on-error: var(--primary-white);
-  --text-info-on-info: var(--primary-white);
+/* =============================================================================
+   LEGACY ALIASES
+   For backward compatibility - migrate components away from these
+   ============================================================================= */
 
-  /* ===== ADDITIONAL BORDER TOKENS ===== */
-  --border-emphasis: var(--secondary-400);
-  --border-strong: var(--secondary-500);
-  --border-inverse: var(--primary-1200);
-  --border-brand: var(--accent-500);
-  --border-brand-subtle: var(--accent-300);
-  
-  --border-selected: var(--accent-500);
-  --border-active: var(--secondary-400);
-  
-  --border-success-subtle: var(--success-300);
-  --border-warning-subtle: var(--warning-300);
-  --border-error-subtle: var(--error-300);
-  --border-info-subtle: var(--info-300);
+:root {
+  /* Old text naming */
+  --text-primary: var(--text-default);
+  --text-secondary: var(--text-muted);
+  --text-tertiary: var(--text-subtle);
+
+  /* Old icon naming */
+  --icon-primary: var(--icon-strong);
+  --icon-secondary: var(--icon-default);
+  --icon-tertiary: var(--icon-muted);
+
+  /* Old surface naming */
+  --surface-card: var(--surface-base);
+  --surface-card-hover: var(--surface-hover);
+
+  /* Old border naming */
+  --border-light: var(--border-subtle);
+  --border-light-hover: var(--border-default);
+  --border-light-active: var(--border-strong);
 }

@@ -6,28 +6,28 @@
 :root {
   /* ===== TABLE SURFACE TOKENS ===== */
   --surface-table: var(--surface-page);
-  --surface-table-header: var(--secondary-50);
+  --surface-table-header: var(--surface-raised);
   --surface-table-row: var(--surface-page);
-  --surface-table-row-hover: var(--secondary-100);
+  --surface-table-row-hover: var(--surface-elevated);
   --surface-table-row-selected: var(--accent-100);
-  --surface-table-row-striped: var(--secondary-50);
-  
+  --surface-table-row-striped: var(--surface-raised);
+
   /* ===== TABLE BORDER TOKENS ===== */
   --border-table: var(--border-default);
   --border-table-subtle: var(--border-subtle);
   --border-table-header: var(--border-default);
   --border-table-row: var(--border-subtle);
   --border-table-cell: var(--border-subtle);
-  
+
   /* ===== TABLE TEXT TOKENS ===== */
   --text-table-header: var(--text-secondary);
   --text-table-cell: var(--text-primary);
   --text-table-cell-secondary: var(--text-secondary);
   --text-table-empty: var(--text-secondary);
-  
+
   /* ===== TABLE LOADING TOKENS ===== */
-  --surface-table-loading-base: var(--secondary-100);
-  --surface-table-loading-shimmer: var(--secondary-200);
+  --surface-table-loading-base: var(--surface-elevated);
+  --surface-table-loading-shimmer: var(--surface-hover);
   
   /* ===== TABLE SPACING TOKENS ===== */
   --padding-table-cell-sm: 8px 12px;

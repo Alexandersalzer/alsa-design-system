@@ -1,4 +1,4 @@
 :root {
   /* Surface */
-  --surface-menu-hover: var(--secondary-200);
+  --surface-menu-hover: var(--surface-hover);
 }

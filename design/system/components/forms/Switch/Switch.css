@@ -253,7 +253,7 @@
 }
 
 .switch-wrapper--success .switch-track {
-  border-color: var(--success-500);
+  border-color: var(--border-success);
   transition: var(--transition-switch-border);
 }
 

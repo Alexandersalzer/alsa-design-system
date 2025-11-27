@@ -16,16 +16,16 @@
      - Används för binära val
      ========================================================== */
   --surface-checkbox: var(--surface-base);
-  --surface-checkbox-hover: var(--secondary-100);
+  --surface-checkbox-hover: var(--surface-elevated);
   --surface-checkbox-checked: var(--interactive-accent);
-  --surface-checkbox-disabled: var(--secondary-200);
-  --surface-checkbox-disabled-checked: var(--secondary-400);
+  --surface-checkbox-disabled: var(--surface-hover);
+  --surface-checkbox-disabled-checked: var(--border-emphasis);
 
   --border-checkbox: var(--border-default);
   --border-checkbox-hover: var(--border-focus);
   --border-checkbox-focus: var(--border-focus);
   --border-checkbox-checked: var(--border-focus);
-  --border-checkbox-disabled: var(--secondary-300);
+  --border-checkbox-disabled: var(--border-strong);
 
   --icon-checkbox: var(--icon-inverse);
   --icon-checkbox-disabled: var(--icon-disabled);
@@ -68,8 +68,8 @@
   --surface-picker-hover: var(--surface-hover);
   --surface-picker-disabled: var(--surface-subtle);
   --surface-picker-option: transparent;
-  --surface-picker-option-hover: var(--secondary-200);
-  --surface-picker-option-selected: var(--secondary-300);
+  --surface-picker-option-hover: var(--surface-hover);
+  --surface-picker-option-selected: var(--surface-active);
 
   --border-picker: var(--border-default);
   --border-picker-hover: var(--border-hover);
@@ -95,9 +95,9 @@
   --surface-dropdown-hover: var(--surface-hover);
   --surface-dropdown-disabled: var(--surface-subtle);
   --surface-dropdown-option: var(--surface-base);
-  --surface-dropdown-option-hover: var(--secondary-200);
-  --surface-dropdown-option-selected: var(--secondary-300);
-  --surface-dropdown-option-selected-hover: var(--secondary-400);
+  --surface-dropdown-option-hover: var(--surface-hover);
+  --surface-dropdown-option-selected: var(--surface-active);
+  --surface-dropdown-option-selected-hover: var(--border-emphasis);
 
   --border-dropdown: var(--border-default);
   --border-dropdown-hover: var(--border-hover);
@@ -140,8 +140,8 @@
      SWITCH
      - På/av-växling
      ========================================================== */
-  --surface-switch-track: var(--secondary-200);
-  --surface-switch-track-hover: var(--secondary-300);
+  --surface-switch-track: var(--surface-hover);
+  --surface-switch-track-hover: var(--surface-active);
   --surface-switch-track-checked: var(--interactive-accent);
   --surface-switch-track-checked-hover: var(--interactive-accent);
   --surface-switch-track-disabled: var(--interactive-secondary-disabled);

@@ -50,9 +50,9 @@
   /* ===== NEUTRAL/SURFACE SHORTCUTS ===== */
   /* Common surface patterns using semantic tokens */
   --surface-base: var(--surface-page);
-  --surface-elevated: var(--secondary-100);
+  --surface-elevated: var(--neutral-100);
   --surface-subtle: var(--surface-card-hover);
-  --surface-hover: var(--secondary-200);
+  --surface-hover: var(--neutral-200);
   
   /* ===== TEXT SHORTCUTS ===== */
   /* Text intensity shortcuts */
