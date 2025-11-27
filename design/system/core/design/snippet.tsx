@@ -134,8 +134,18 @@ export async function designSnippet(isEditing: boolean = false): Promise<{ css: 
   }
   
   const designConfig = await getDesignConfig();
-  const themeTone = designConfig?.globalStyles?.themeTone || "neutral";
-  const isDark = designConfig?.globalStyles?.isDark ?? false;
+  
+  if (!designConfig) {
+    // No design config found, return defaults
+    return {
+      css: "",
+      themeTone: "neutral",
+      isDark: false
+    };
+  }
+  
+  const themeTone = designConfig.globalStyles?.themeTone || "neutral";
+  const isDark = designConfig.globalStyles?.isDark ?? false;
   const css = buildCssVars(designConfig);
   
   return { css, themeTone, isDark };
