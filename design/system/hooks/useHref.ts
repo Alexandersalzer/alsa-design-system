@@ -2,15 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 
-/**
- * Hook för att automatiskt hantera locale i href:s
- * Lägger automatiskt till aktuell locale till relativa länkar
- * 
- * @example
- * const { buildHref } = useLocaleHref();
- * const localeHref = buildHref('/portfolio'); // blir '/sv/portfolio' om locale är 'sv'
- */
-export function useLocaleHref() {
+export function useHref() {
   const pathname = usePathname();
 
   /**
@@ -20,11 +12,6 @@ export function useLocaleHref() {
    * @returns Href med locale tillagd om det behövs
    */
   const buildHref = (href: string): string => {
-    // Returnera som den är om:
-    // - href är tom/undefined
-    // - href är extern (börjar med http/https)
-    // - href är en anchor link (#section)
-    // - href är en mailto/tel länk
     if (!href || 
         href.startsWith('http') || 
         href.startsWith('mailto:') || 
@@ -34,9 +21,9 @@ export function useLocaleHref() {
     }
 
     // Extrahera aktuell locale från pathname
-    const currentLocale = pathname.split('/')[1] || 'sv'; // fallback till 'sv'
+    const currentLocale = pathname.split('/')[1];
 
-    // För relativa länkar som börjar med /, lägg till locale
+    // Lägger till locale för relativa länkar
     if (href.startsWith('/')) {
       return `/${currentLocale}${href}`;
     }

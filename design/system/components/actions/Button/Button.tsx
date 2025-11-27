@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { cn } from '../../../utils/cn';
 import { Label, TypographyColor, TypographyWeight } from '../../Typography';
 import { Spinner } from '../../feedback';
-import { useLocaleHref } from '../../../hooks/useLocaleHref';
+import { useHref } from '../../../hooks/useHref';
 import { Component } from '../../frames/component/Component';
 
 export interface ButtonProps
@@ -47,7 +47,7 @@ export const Button = forwardRef<
     },
     ref
   ) => {
-    const { buildHref } = useLocaleHref();
+    const { buildHref } = useHref();
     const isDisabled = disabled || loading;
     
     // Build locale-aware href
