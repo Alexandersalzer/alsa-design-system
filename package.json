@@ -16,10 +16,10 @@
       "require": "./dist/design/system/core/render/contentLoader.js",
       "types": "./dist/design/system/core/render/contentLoader.d.ts"
     },
-    "./client": {
-      "import": "./dist/design/system/templates/index.js",
-      "require": "./dist/design/system/templates/index.js",
-      "types": "./dist/design/system/templates/index.d.ts"
+    "./shells": {
+      "import": "./dist/design/system/shells/index.js",
+      "require": "./dist/design/system/shells/index.js",
+      "types": "./dist/design/system/shells/index.d.ts"
     },
     "./design": {
       "import": "./dist/design/system/core/design/index.js",
