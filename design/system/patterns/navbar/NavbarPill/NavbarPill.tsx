@@ -5,7 +5,7 @@ import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../comp
 import { Logo } from '../../../components/media/Logo';
 import { MenuIcon, XIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
-import { useComponentProps, componentPresent, usePatternProps, useMapComponents } from '../../../core/utils/helpers';
+import { componentProps, componentPresent, patternProps, useMapComponents } from '../../../core/utils/helpers';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { alignMap } from '../utils';
 import './NavbarPill.css';
@@ -14,8 +14,8 @@ import { cn } from '../../../utils/cn';
 
 const NavbarPill = (patternNode: PatternNode) => {
   const { components = {} } = patternNode;
-  const getComponent = useComponentProps(components);
-  const getPatternProps = usePatternProps(patternNode);
+  const getComponent = componentProps(components);
+  const getPatternProps = patternProps(patternNode);
   const renderIf = componentPresent(components);
   const mapComponentIndices = useMapComponents(components);
 

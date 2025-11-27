@@ -1,12 +1,12 @@
 'use client';
 
 import { VideoShowcase } from '../../../components/media/VideoShowcase/VideoShowcase';
-import { useComponentProps } from '../../../core/utils/helpers';
+import { componentProps } from '../../../core/utils/helpers';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
 
 const MediaPattern = ({ components = {} }: PatternNode) => {
-  const get = useComponentProps(components);
+  const get = componentProps(components);
 
   return (
     <VideoShowcase

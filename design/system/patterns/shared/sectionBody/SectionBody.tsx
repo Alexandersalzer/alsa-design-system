@@ -9,14 +9,14 @@ import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import { Tag } from '../../../components/feedback/Tag/Tag';
 import { Button } from '../../../components/actions/Button/Button';
-import { useComponentProps, componentPresent } from '../../../core/utils/helpers';
+import { componentProps, componentPresent } from '../../../core/utils/helpers';
 import { PatternNode } from '../../../core/types/nodes';
 
 
 // ===== MAIN SECTION BODY COMPONENT =====
 
 const SectionBody = ({ components = {} }: PatternNode) => {
-  const get = useComponentProps(components);
+  const get = componentProps(components);
   const renderIf = componentPresent(components);
   
   return (

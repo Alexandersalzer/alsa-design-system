@@ -3,12 +3,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Typography, VStack, Menu } from '../../../components';
 import { Logo } from '../../../components/media/Logo';
 import { PatternNode } from '../../../core/types/nodes';
-import { useComponentProps, componentPresent } from '../../../core/utils/helpers';
+import { componentProps, componentPresent } from '../../../core/utils/helpers';
 import { CDN_BASE_URL } from '../../../core/utils/env';
-import { getPickerLocale, handleLocaleChange } from '../../../core/utils/locale';
+import { getPickerLocale, handleLocaleChange } from '../../../core/routing';
 
 const KjFooter = ({ components = {} }: PatternNode) => {
-  const get = useComponentProps(components);
+  const get = componentProps(components);
   const renderIf = componentPresent(components);
   const pathname = usePathname();
   const router = useRouter();

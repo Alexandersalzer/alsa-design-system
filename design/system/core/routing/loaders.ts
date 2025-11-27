@@ -100,3 +100,12 @@ export async function getAvailableLocales(): Promise<string[]> {
     return ['sv']; // Default fallback
   }
 }
+
+/**
+ * Extract current locale from pathname for picker display
+ * Falls back to first option value if no locale found in path
+ */
+export const getPickerLocale = (pathname: string, options: { value: string; label: string }[] = []) => {
+  const segments = pathname.split('/').filter(Boolean);
+  return segments[0] || options?.[0]?.value || '';
+};

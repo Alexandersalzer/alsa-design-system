@@ -3,7 +3,7 @@
 import React from 'react';
 import { Grid, GridItem } from '../../../components/layout';
 import { Button, Input, Textarea, Icon } from '../../../components';
-import { useComponentProps, componentPresent } from '../../../core/utils/helpers';
+import { componentProps, componentPresent } from '../../../core/utils/helpers';
 import { PatternNode } from '../../../core/types/nodes';
 import { 
   UserIcon,
@@ -14,7 +14,7 @@ import {
 
 // ===== MAIN KJ FORM COMPONENT =====
 const GridForm = ({ components = {} }: PatternNode) => {
-  const get = useComponentProps(components);
+  const get = componentProps(components);
   const renderIf = componentPresent(components);
   
   // Handle form submission

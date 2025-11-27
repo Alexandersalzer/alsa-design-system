@@ -28,7 +28,7 @@ export const getComponentProps = (
   return component?.props || fallback;
 };
 
-export const useComponentProps = (components: Record<string, ComponentNode>) => {
+export const componentProps = (components: Record<string, ComponentNode>) => {
   return (type: string, role?: string, fallback: Record<string, any> = {}) => {
     return getComponentProps(components, type, role, fallback);
   };
@@ -45,7 +45,7 @@ export const getPatternProps = (
   return pattern?.props || fallback;
 };
 
-export const usePatternProps = (pattern: PatternNode) => {
+export const patternProps = (pattern: PatternNode) => {
   return (fallback: Record<string, any> = {}) => {
     return getPatternProps(pattern, fallback);
   };
