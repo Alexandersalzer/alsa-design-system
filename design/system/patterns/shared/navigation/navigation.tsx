@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 
 export interface NavItemProps {
   href: string;

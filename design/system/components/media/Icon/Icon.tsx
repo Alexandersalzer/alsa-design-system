@@ -5,7 +5,7 @@
 
 
 import React, { forwardRef, ReactElement, cloneElement } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 
 // ===== TYPE DEFINITIONS =====
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';

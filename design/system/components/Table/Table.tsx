@@ -5,7 +5,7 @@
 
 
 import React from 'react';
-import { cn } from '../../lib/utils';
+import { cn } from '../../utils/cn';
 
 export interface TableColumn<T = any> {
   key: string;

@@ -4,7 +4,7 @@
 // ===============================================
 
 import React, { forwardRef, useId } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import { CheckIcon, MinusIcon } from '@heroicons/react/24/outline';
 import { Icon } from '../../media' 
 export type CheckboxSize = 'sm' | 'md' | 'lg';

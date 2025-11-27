@@ -10,7 +10,7 @@ import React, {
   useCallback,
 } from 'react';
 import { Label } from '../../Typography/Typography'; // ← ONLY CHANGE: Added /Typography
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 
 export interface SegmentedControlOption {
   value: string;

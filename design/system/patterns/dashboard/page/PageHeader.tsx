@@ -4,7 +4,7 @@
 // ===============================================
 
 import React, { ReactNode } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 
 // Import Typography components
 import { H1, Body, Display, H2, H3, H4, H5, H6 } from '../../../components/Typography';
