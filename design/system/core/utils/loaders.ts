@@ -1,3 +1,5 @@
+import 'server-only';
+
 /**
  * Generic JSON file loader for server-side operations.
  * Reads and parses JSON files from the public directory with type safety.
