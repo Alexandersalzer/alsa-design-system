@@ -22,4 +22,5 @@ export * from './content';
 
 // PostMessage functionality
 export * from './postmessage';
+export * from './utils';
 
