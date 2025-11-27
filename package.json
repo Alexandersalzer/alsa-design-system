@@ -36,6 +36,11 @@
       "require": "./dist/design/system/core/postmessage/index.js",
       "types": "./dist/design/system/core/postmessage/index.d.ts"
     },
+    "./routing": {
+      "import": "./dist/design/system/core/routing/index.js",
+      "require": "./dist/design/system/core/routing/index.js",
+      "types": "./dist/design/system/core/routing/index.d.ts"
+    },
     "./dist/index.css": "./dist/design/index.css"
   },
   "files": [
