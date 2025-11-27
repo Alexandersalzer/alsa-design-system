@@ -5,7 +5,7 @@ import { loadJsonFile, listDirectory } from '../utils/loaders';
  * Get the start/home page slug for a specific locale
  * Reads from PageNode structure
  */
-export async function getStartPageSlug(locale: string = 'sv'): Promise<string | null> {
+export async function getStartPageSlug(locale: string): Promise<string | null> {
   const pageData = await loadJsonFile<PageNode>(`content/${locale}/start.json`);
   
   if (pageData?.name) {
@@ -16,10 +16,10 @@ export async function getStartPageSlug(locale: string = 'sv'): Promise<string | 
 }
 
 /**
- * Get all page slugs for a specific locale
+ * Get all page slugs for a specific locale, extraherar name från page sidor och konverterar till slug
  * Reads from PageNode structures
  */
-export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> {
+export async function getAllPageSlugs(locale: string): Promise<string[]> {
   const contentFiles = await listDirectory(`content/${locale}`);
   
   const pageFiles = contentFiles.filter(file => 
@@ -34,14 +34,7 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
     })
   );
   
-  const validSlugs = slugs.filter((slug): slug is string => slug !== null);
-  
-  // Fallback to Swedish if no slugs found and not already Swedish
-  if (validSlugs.length === 0 && locale !== 'sv') {
-    return getAllPageSlugs('sv');
-  }
-  
-  return validSlugs;
+  return slugs.filter((slug): slug is string => slug !== null);
 }
 
 /**
@@ -50,13 +43,8 @@ export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> 
  */
 export async function getAvailableLocales(): Promise<string[]> {
   const entries = await listDirectory('content');
-  
-  if (entries.length === 0) {
-    return ['sv']; // Default fallback
-  }
-  
-  // Filter for directories (locale folders)
   const locales = [];
+  
   for (const entry of entries) {
     // Check if it's a directory by trying to list its contents
     const subEntries = await listDirectory(`content/${entry}`);
@@ -65,14 +53,14 @@ export async function getAvailableLocales(): Promise<string[]> {
     }
   }
   
-  return locales.length > 0 ? locales : ['sv'];
+  return locales;
 }
 
 /**
  * Extract current locale from pathname for picker display
  * Falls back to first option value if no locale found in path
  */
-export const getPickerLocale = (pathname: string, options: { value: string; label: string }[] = []) => {
+export const getPickerLocale = (pathname: string) => {
   const segments = pathname.split('/').filter(Boolean);
-  return segments[0] || options?.[0]?.value || '';
+  return segments[0] || null;
 };

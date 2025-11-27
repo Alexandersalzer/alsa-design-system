@@ -15,7 +15,7 @@ const KjFooter = ({ components = {} }: PatternNode) => {
 
   // Get current locale and menu options
   const menuOptions = get('menu', 'languageSelector').options || [];
-  const currentLocale = getPickerLocale(pathname, menuOptions);
+  const currentLocale = getPickerLocale(pathname);
   const currentOption = menuOptions.find((opt: any) => opt.value === currentLocale);
 
   // Build logo props
