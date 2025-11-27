@@ -5,17 +5,14 @@ import { loadJsonFile, listDirectory } from '../utils/loaders';
  * Get the start/home page slug for a specific locale
  * Reads from PageNode structure
  */
-export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
-  const pageData = await loadJsonFile<PageNode>(
-    `content/${locale}/start.json`,
-    'sv'
-  );
+export async function getStartPageSlug(locale: string = 'sv'): Promise<string | null> {
+  const pageData = await loadJsonFile<PageNode>(`content/${locale}/start.json`);
   
-  if (pageData) {
-    return pageData.name?.toLowerCase().replace(/\s+/g, '-') || 'home';
+  if (pageData?.name) {
+    return pageData.name.toLowerCase().replace(/\s+/g, '-');
   }
   
-  return 'home';
+  return null;
 }
 
 /**
