@@ -43,6 +43,7 @@
   ],
   "scripts": {
     "validate:css": "node validate-css.js",
+    "validate:content": "tsx design/system/core/scripts/validateContent.ts",
     "prebuild": "npm run validate:css",
     "build": "npm run build:ts && npm run build:css",
     "build:ts": "tsc",
@@ -94,6 +95,7 @@
     "@typescript-eslint/parser": "^8",
     "eslint": "^9",
     "next": "^15.0.0",
+    "tsx": "^4.0.0",
     "typescript": "^5.9.3"
   }
 }
