@@ -23,22 +23,22 @@ export function useLocaleHref() {
     // Returnera som den är om:
     // - href är tom/undefined
     // - href är extern (börjar med http/https)
-    // - href redan innehåller locale (/sv/ eller /en/)
     // - href är en anchor link (#section)
     // - href är en mailto/tel länk
     if (!href || 
         href.startsWith('http') || 
         href.startsWith('mailto:') || 
         href.startsWith('tel:') ||
-        href.startsWith('#') ||
-        href.includes('/sv/') || 
-        href.includes('/en/')) {
+        href.startsWith('#')) {
       return href;
     }
 
+    // Extrahera aktuell locale från pathname
+    const currentLocale = pathname.split('/')[1] || 'sv'; // fallback till 'sv'
+
     // För relativa länkar som börjar med /, lägg till locale
     if (href.startsWith('/')) {
-      return `/${'start'}${href}`;
+      return `/${currentLocale}${href}`;
     }
 
     // För andra typer av länkar, returnera som de är
