@@ -8,11 +8,10 @@ import { loadJsonFile, listDirectory } from '../utils/loaders';
  */
 export async function getShellContent(
   shellType: 'navbar' | 'footer', 
-  locale: string = 'sv'
+  locale: string
 ): Promise<Record<string, SectionNode> | null> {
   return loadJsonFile<Record<string, SectionNode>>(
-    `content/${locale}/${shellType}.json`,
-    'sv'
+    `content/${locale}/${shellType}.json`
   );
 }
 
@@ -20,7 +19,7 @@ export async function getShellContent(
  * Load navbar content for a specific locale
  * Convenience wrapper around getShellContent
  */
-export async function getNavbarContent(locale: string = 'sv'): Promise<Record<string, SectionNode> | null> {
+export async function getNavbarContent(locale: string): Promise<Record<string, SectionNode> | null> {
   return getShellContent('navbar', locale);
 }
 
@@ -28,7 +27,7 @@ export async function getNavbarContent(locale: string = 'sv'): Promise<Record<st
  * Load footer content for a specific locale  
  * Convenience wrapper around getShellContent
  */
-export async function getFooterContent(locale: string = 'sv'): Promise<Record<string, SectionNode> | null> {
+export async function getFooterContent(locale: string): Promise<Record<string, SectionNode> | null> {
   return getShellContent('footer', locale);
 }
 
@@ -37,7 +36,7 @@ export async function getFooterContent(locale: string = 'sv'): Promise<Record<st
  * Get page content for rendering a specific page
  * Returns complete PageNode structure
  */
-export async function getPageContent(locale: string = 'sv', pageSlug: string): Promise<PageNode> {
+export async function getPageContent(locale: string, pageSlug: string): Promise<PageNode | null> {
   const contentFiles = await listDirectory(`content/${locale}`);
   
   const pageFiles = contentFiles.filter(file => 
@@ -57,17 +56,5 @@ export async function getPageContent(locale: string = 'sv', pageSlug: string): P
     }
   }
   
-  // Try fallback locale
-  if (locale !== 'sv') {
-    return getPageContent('sv', pageSlug);
-  }
-  
-  // Final fallback
-  return { 
-    name: 'Not Found',
-    language: locale,
-    sections: {}, 
-    order: [],
-    props: {} 
-  };
+  return null;
 }
