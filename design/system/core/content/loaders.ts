@@ -58,5 +58,5 @@ export async function getPageContent(locale: string, pageSlug: string): Promise<
     }
   }
   
-  return null;
+  throw new Error(`Page not found: ${locale}/${pageSlug}`);
 }
