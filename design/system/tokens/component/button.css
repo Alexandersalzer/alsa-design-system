@@ -4,16 +4,14 @@
    ============================================== */
 
 /*
-  Varje knapptyp bygger på de semantiska färgerna
-  från colors.css (t.ex. --interactive-primary, --text-inverse, etc.)
-  Detta säkerställer automatisk anpassning till dark mode.
+  Buttons use the interactive tokens from semantic/colors.css.
+  These automatically adapt to dark mode and accent overrides.
 */
 
 /* ==========================================================
    PRIMARY BUTTON
-   - Huvudknapp, används för primära åtgärder (t.ex. "Spara", "Skicka")
-   - Använder accentuerad kontrast (mörk bakgrund, ljus text)
    ========================================================== */
+
 :root {
   --surface-button-primary: var(--interactive-primary);
   --surface-button-primary-hover: var(--interactive-primary-hover);
@@ -24,78 +22,87 @@
   --text-button-primary-disabled: var(--text-disabled);
 
   --border-button-primary: var(--interactive-primary-hover);
+  --border-button-primary-hover: var(--border-hover);
   --border-button-primary-focus: var(--border-focus);
-  --border-button-primary-disabled: var(--interactive-primary-disabled);
+  --border-button-primary-active: var(--border-active);
+  --border-button-primary-disabled: var(--border-disabled);
 }
 
 /* ==========================================================
    SECONDARY BUTTON
-   - Sekundär åtgärd eller neutral handling
-   - Ljus bakgrund, mörk text
    ========================================================== */
+
 :root {
   --surface-button-secondary: var(--interactive-secondary);
   --surface-button-secondary-hover: var(--interactive-secondary-hover);
   --surface-button-secondary-active: var(--interactive-secondary-active);
   --surface-button-secondary-disabled: var(--interactive-secondary-disabled);
 
-  --text-button-secondary: var(--text-primary);
+  --text-button-secondary: var(--text-default);
   --text-button-secondary-disabled: var(--text-disabled);
 
-  --border-button-secondary: var(--interactive-secondary-hover);
-  --border-button-secondary-hover: var(--border-light-hover);
+  --border-button-secondary: var(--border-default);
+  --border-button-secondary-hover: var(--border-hover);
+  --border-button-secondary-active: var(--border-active);
   --border-button-secondary-focus: var(--border-focus);
   --border-button-secondary-disabled: var(--border-disabled);
-  --border-button-secondary-active: var(--border-light-active);
 }
 
 /* ==========================================================
    ACCENT BUTTON
-   - Färgaccenterad knapp (ex. lila)
-   - För särskilda åtgärder, t.ex. "Uppgradera"
    ========================================================== */
+
 :root {
   --surface-button-accent: var(--interactive-accent);
   --surface-button-accent-hover: var(--interactive-accent-hover);
   --surface-button-accent-active: var(--interactive-accent-active);
   --surface-button-accent-disabled: var(--interactive-accent-disabled);
 
-  --text-button-accent: var(--always-white);
+  --text-button-accent: var(--text-on-accent);
   --text-button-accent-disabled: var(--text-disabled);
 
-  --border-button-accent: var(--interactive-accent);
+  --border-button-accent: var(--border-accent);
+  --border-button-accent-hover: var(--border-accent-subtle);
   --border-button-accent-focus: var(--border-focus);
+  --border-button-accent-active: var(--border-active);
   --border-button-accent-disabled: var(--interactive-accent-disabled);
 }
 
 /* ==========================================================
-   GHOST BUTTON
-   - Transparent bakgrund med subtil hover
-   - För sekundära eller icke-distraherande åtgärder
+   GHOST BUTTON (tertiary)
    ========================================================== */
+
 :root {
   --surface-button-ghost: var(--interactive-tertiary);
   --surface-button-ghost-hover: var(--interactive-tertiary-hover);
   --surface-button-ghost-active: var(--interactive-tertiary-active);
 
-  --text-button-ghost: var(--text-secondary);
-  --text-button-ghost-hover: var(--text-primary);
+  --text-button-ghost: var(--text-muted);
+  --text-button-ghost-hover: var(--text-default);
+  --text-button-ghost-active: var(--text-strong);
+
+  --border-button-ghost: transparent;
+  --border-button-ghost-hover: var(--border-subtle);
+  --border-button-ghost-focus: var(--border-focus);
+  --border-button-ghost-active: var(--border-active);
 }
 
 /* ==========================================================
    DESTRUCTIVE BUTTON
-   - För åtgärder som tar bort, raderar eller varnar användaren
    ========================================================== */
+
 :root {
   --surface-button-destructive: var(--interactive-destructive);
   --surface-button-destructive-hover: var(--interactive-destructive-hover);
   --surface-button-destructive-active: var(--interactive-destructive-active);
   --surface-button-destructive-disabled: var(--interactive-destructive-disabled);
 
-  --text-button-destructive: var(--always-white);
+  --text-button-destructive: var(--text-on-error);
   --text-button-destructive-disabled: var(--text-disabled);
 
-  --border-button-destructive: var(--interactive-destructive-hover);
+  --border-button-destructive: var(--border-error);
+  --border-button-destructive-hover: var(--border-error-subtle);
   --border-button-destructive-focus: var(--border-focus);
-  --border-button-destructive-disabled: var(--interactive-destructive-disabled)
+  --border-button-destructive-active: var(--border-active);
+  --border-button-destructive-disabled: var(--interactive-destructive-disabled);
 }
