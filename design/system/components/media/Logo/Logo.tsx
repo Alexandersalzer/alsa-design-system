@@ -1,6 +1,6 @@
 // ===============================================
 // design/system/components/media/Logo/Logo.tsx
-// UNIFIED LOGO COMPONENT - Handles image, text, or both
+// UNIFIED LOGO COMPONENT - Handles image, text, or both + RADIUS SUPPORT
 // ===============================================
 
 import React from 'react';
@@ -25,6 +25,8 @@ export interface LogoProps {
   width?: number;
   /** Image height */
   height?: number;
+  /** Border radius for image */
+  radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   /** Unified color for both image and text - adapts to theme */
   color?: 'auto' | 'light' | 'dark' | 'brand';
   /** Text size */
@@ -62,6 +64,7 @@ export const Logo: React.FC<LogoProps> = ({
   href = '/',
   width = 40,
   height = 40,
+  radius = 'none',
   color = 'auto',
   textSize = 'lg',
   textWeight = 'extrabold',
@@ -99,6 +102,7 @@ export const Logo: React.FC<LogoProps> = ({
 
   const imageVariant = getImageVariant(color);
   const textColor = getTextColor(color);
+  
   // Determine what to render
   const hasImage = Boolean(src);
   const hasText = Boolean(text);
@@ -132,6 +136,7 @@ export const Logo: React.FC<LogoProps> = ({
           alt={alt}
           width={width}
           height={height}
+          radius={radius}
           variant={imageVariant}
           loading={loading}
           priority={priority}
@@ -174,6 +179,7 @@ export const Logo: React.FC<LogoProps> = ({
           alt={alt}
           width={width}
           height={height}
+          radius={radius}
           variant={imageVariant}
           loading={loading}
           priority={priority}
