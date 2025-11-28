@@ -5,54 +5,54 @@
 
 :root {
   /* ===== SUCCESS TAG ===== */
-  --surface-tag-success: var(--success-bg);
-  --surface-tag-success-hover: var(--success-bg-hover);
-  --surface-tag-success-active: var(--success-border);
-  --text-tag-success: var(--success-text);
-  --text-tag-success-hover: var(--success-text-strong);
-  --border-tag-success: var(--success-border);
-  --border-tag-success-hover: var(--success-border);
-  --icon-tag-success: var(--success-icon);
+  --surface-tag-success: var(--surface-success);
+  --surface-tag-success-hover: var(--surface-success-hover);
+  --surface-tag-success-active: var(--border-success);
+  --text-tag-success: var(--text-success);
+  --text-tag-success-hover: var(--text-success-strong);
+  --border-tag-success: var(--border-success);
+  --border-tag-success-hover: var(--border-success);
+  --icon-tag-success: var(--icon-success);
 
   /* ===== ERROR TAG ===== */
-  --surface-tag-error: var(--error-bg);
-  --surface-tag-error-hover: var(--error-bg-hover);
-  --surface-tag-error-active: var(--error-border);
-  --text-tag-error: var(--error-text);
-  --text-tag-error-hover: var(--error-text-strong);
-  --border-tag-error: var(--error-border);
-  --border-tag-error-hover: var(--error-border);
-  --icon-tag-error: var(--error-icon);
+  --surface-tag-error: var(--surface-error);
+  --surface-tag-error-hover: var(--surface-error-hover);
+  --surface-tag-error-active: var(--border-error);
+  --text-tag-error: var(--text-error);
+  --text-tag-error-hover: var(--text-error-strong);
+  --border-tag-error: var(--border-error);
+  --border-tag-error-hover: var(--border-error);
+  --icon-tag-error: var(--icon-error);
 
   /* ===== WARNING TAG ===== */
-  --surface-tag-warning: var(--warning-bg);
-  --surface-tag-warning-hover: var(--warning-bg-hover);
-  --surface-tag-warning-active: var(--warning-border);
-  --text-tag-warning: var(--warning-text);
-  --text-tag-warning-hover: var(--warning-text-strong);
-  --border-tag-warning: var(--warning-border);
-  --border-tag-warning-hover: var(--warning-border);
-  --icon-tag-warning: var(--warning-icon);
+  --surface-tag-warning: var(--surface-warning);
+  --surface-tag-warning-hover: var(--surface-warning-hover);
+  --surface-tag-warning-active: var(--border-warning);
+  --text-tag-warning: var(--text-warning);
+  --text-tag-warning-hover: var(--text-warning-strong);
+  --border-tag-warning: var(--border-warning);
+  --border-tag-warning-hover: var(--border-warning);
+  --icon-tag-warning: var(--icon-warning);
 
   /* ===== INFO TAG ===== */
-  --surface-tag-info: var(--neutral-bg);
-  --surface-tag-info-hover: var(--neutral-bg-hover);
-  --surface-tag-info-active: var(--neutral-border);
-  --text-tag-info: var(--neutral-text);
-  --text-tag-info-hover: var(--neutral-text-strong);
-  --border-tag-info: var(--neutral-border);
-  --border-tag-info-hover: var(--neutral-border);
-  --icon-tag-info: var(--neutral-icon);
+  --surface-tag-info: var(--surface-neutral);
+  --surface-tag-info-hover: var(--surface-neutral-hover);
+  --surface-tag-info-active: var(--border-neutral);
+  --text-tag-info: var(--text-neutral);
+  --text-tag-info-hover: var(--text-neutral-strong);
+  --border-tag-info: var(--border-neutral);
+  --border-tag-info-hover: var(--border-neutral);
+  --icon-tag-info: var(--icon-neutral);
 
   /* ===== ACCENT TAG ===== */
-  --surface-tag-accent: var(--accent-bg);
-  --surface-tag-accent-hover: var(--accent-bg-hover);
-  --surface-tag-accent-active: var(--accent-border);
-  --text-tag-accent: var(--accent-text);
-  --text-tag-accent-hover: var(--accent-text-strong);
-  --border-tag-accent: var(--accent-border);
-  --border-tag-accent-hover: var(--accent-border);
-  --icon-tag-accent: var(--accent-icon);
+  --surface-tag-accent: var(--surface-accent);
+  --surface-tag-accent-hover: var(--surface-accent-hover);
+  --surface-tag-accent-active: var(--border-accent);
+  --text-tag-accent: var(--text-accent);
+  --text-tag-accent-hover: var(--text-accent-strong);
+  --border-tag-accent: var(--border-accent);
+  --border-tag-accent-hover: var(--border-accent);
+  --icon-tag-accent: var(--icon-accent);
 
   /* ===== DEFAULT TAG ===== */
   --surface-tag-default: var(--foundation-gray-100);

@@ -49,11 +49,46 @@
    BUTTON VARIANTS
    ========================================================== */
 
-/* ===== PRIMARY ===== */
+/* ===== BRAND (AUTO-ADAPTIVE) ✨ NEW ===== */
+.btn-brand {
+  background-color: var(--surface-button-brand);
+  color: var(--text-button-brand);
+  border-color: var(--border-button-brand);
+}
+
+/* Ensure icons inside brand buttons match text color */
+.btn-brand .icon,
+.btn-brand [class*="icon-"] {
+  color: var(--text-button-brand) !important;
+}
+
+.btn-brand:hover:not(:disabled) {
+  background-color: var(--surface-button-brand-hover);
+  border-color: var(--border-button-brand-hover);
+}
+
+.btn-brand:active:not(:disabled) {
+  background-color: var(--surface-button-brand-active);
+}
+
+.btn-brand:focus-visible {
+  outline: 2px solid var(--border-button-brand-focus);
+  outline-offset: 2px;
+}
+
+.btn-brand:disabled {
+  background-color: var(--surface-button-brand-disabled);
+  border-color: var(--surface-button-brand-disabled);
+  color: var(--text-button-brand-disabled);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ===== PRIMARY (ALWAYS INVERSE/DARK) ===== */
 .btn-primary {
   background-color: var(--interactive-primary);
   color: var(--text-button-primary);
-  border-color: var(--border-button-primary); 
+  border-color: var(--border-button-primary);
 }
 
 /* Ensure icons inside primary buttons match text color */

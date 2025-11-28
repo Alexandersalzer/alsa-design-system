@@ -6,10 +6,33 @@
 /*
   Buttons use the interactive tokens from semantic/colors.css.
   These automatically adapt to dark mode and accent overrides.
+
+  🎨 NEW: "brand" variant uses intent tokens - auto-adapts to accent intensity
 */
 
 /* ==========================================================
-   PRIMARY BUTTON
+   BRAND BUTTON (AUTO-ADAPTIVE) ✨ NEW
+   Uses intent tokens - automatically adapts to accent intensity
+   ========================================================== */
+
+:root {
+  --surface-button-brand: var(--intent-action-primary);
+  --surface-button-brand-hover: var(--intent-action-primary-hover);
+  --surface-button-brand-active: var(--intent-action-primary-active);
+  --surface-button-brand-disabled: var(--intent-action-primary-disabled);
+
+  --text-button-brand: var(--intent-text-on-action);
+  --text-button-brand-disabled: var(--text-disabled);
+
+  --border-button-brand: var(--intent-action-primary);
+  --border-button-brand-hover: var(--intent-action-primary-hover);
+  --border-button-brand-focus: var(--intent-focus-ring);
+  --border-button-brand-active: var(--intent-action-primary-active);
+  --border-button-brand-disabled: var(--border-disabled);
+}
+
+/* ==========================================================
+   PRIMARY BUTTON (ALWAYS INVERSE/DARK)
    ========================================================== */
 
 :root {
@@ -49,23 +72,25 @@
 }
 
 /* ==========================================================
-   ACCENT BUTTON
+   ACCENT BUTTON (AUTO-ADAPTIVE) ✨ UPDATED
+   Now uses intent tokens - respects accent intensity
+   Same as "brand" variant
    ========================================================== */
 
 :root {
-  --surface-button-accent: var(--interactive-accent);
-  --surface-button-accent-hover: var(--interactive-accent-hover);
-  --surface-button-accent-active: var(--interactive-accent-active);
-  --surface-button-accent-disabled: var(--interactive-accent-disabled);
+  --surface-button-accent: var(--intent-action-primary);
+  --surface-button-accent-hover: var(--intent-action-primary-hover);
+  --surface-button-accent-active: var(--intent-action-primary-active);
+  --surface-button-accent-disabled: var(--intent-action-primary-disabled);
 
-  --text-button-accent: var(--text-on-accent);
+  --text-button-accent: var(--intent-text-on-action);
   --text-button-accent-disabled: var(--text-disabled);
 
-  --border-button-accent: var(--border-accent);
-  --border-button-accent-hover: var(--border-accent-subtle);
-  --border-button-accent-focus: var(--border-focus);
-  --border-button-accent-active: var(--border-active);
-  --border-button-accent-disabled: var(--interactive-accent-disabled);
+  --border-button-accent: var(--intent-action-primary);
+  --border-button-accent-hover: var(--intent-action-primary-hover);
+  --border-button-accent-focus: var(--intent-focus-ring);
+  --border-button-accent-active: var(--intent-action-primary-active);
+  --border-button-accent-disabled: var(--border-disabled);
 }
 
 /* ==========================================================

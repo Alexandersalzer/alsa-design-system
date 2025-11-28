@@ -285,6 +285,7 @@
   /* ----- Overlays ----- */
   --surface-backdrop: rgba(0, 0, 0, 0.4);
   --surface-scrim: rgba(0, 0, 0, 0.6);
+  --surface-overlay: rgba(0, 0, 0, 0.5);
 
   /* ----- Accent (3 variants) ----- */
   --surface-accent: var(--accent-600);           /* solid: buttons */
@@ -310,6 +311,11 @@
   --surface-info: var(--info-600);               /* solid: info button */
   --surface-info-subtle: var(--info-100);        /* light: info toast */
   --surface-info-muted: var(--info-200);         /* medium: info badge */
+
+  /* ----- Input Surfaces (ADDED) ----- */
+  --surface-input: var(--surface-base);
+  --surface-input-hover: var(--surface-hover);
+  --surface-input-disabled: var(--surface-disabled);
 
 
   /* =========================================================================
@@ -406,6 +412,14 @@
   --border-info: var(--info-500);
   --border-info-subtle: var(--info-300);
 
+  /* ----- Input Borders (ADDED) ----- */
+  --border-input: var(--border-default);
+  --border-input-hover: var(--border-hover);
+  --border-input-focus: var(--border-focus);
+  --border-input-active: var(--border-active);
+  --border-input-disabled: var(--border-disabled);
+  --border-input-error: var(--border-error);
+
 
   /* =========================================================================
      3.4 ICONS
@@ -485,6 +499,161 @@
   --interactive-warning-hover: var(--warning-700);
   --interactive-warning-active: var(--warning-800);
   --interactive-warning-disabled: var(--warning-400);
+
+
+  /* =========================================================================
+     3.6 SHADOWS
+
+     Semantic shadow tokens for elevation
+     ========================================================================= */
+
+  /* ----- Elevation Shadows ----- */
+  --shadow-subtle: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-default: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-emphasis: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-strong: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-extra-strong: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+
+  /* =========================================================================
+     3.7 INTENT TOKENS (AUTO-ADAPTIVE)
+
+     🎯 These tokens automatically adapt based on accent intensity
+     🎨 Components should use THESE instead of direct semantic tokens
+     ⚙️ snippet.ts sets [data-accent-intensity] attribute
+
+     Intensity Levels:
+     - vibrant:    Accent color everywhere (100% accent presence)
+     - normal:     Balanced - accent on primary actions (50% accent presence)
+     - discrete:   Minimal accent - only CTAs and focus (25% accent presence)
+     - monochrome: No accent - pure neutral/inverse (0% accent presence)
+     ========================================================================= */
+
+  /* ----- Action Intents (Buttons, CTAs) ----- */
+  --intent-action-primary: var(--interactive-accent);           /* Main CTA - adapts */
+  --intent-action-primary-hover: var(--interactive-accent-hover);
+  --intent-action-primary-active: var(--interactive-accent-active);
+  --intent-action-primary-disabled: var(--interactive-accent-disabled);
+
+  --intent-action-secondary: var(--interactive-secondary);      /* Secondary action - adapts */
+  --intent-action-secondary-hover: var(--interactive-secondary-hover);
+  --intent-action-secondary-active: var(--interactive-secondary-active);
+  --intent-action-secondary-disabled: var(--interactive-secondary-disabled);
+
+  /* ----- Navigation Intents ----- */
+  --intent-nav-item-active-bg: var(--surface-accent-muted);    /* Active nav background - adapts */
+  --intent-nav-item-active-text: var(--text-accent);           /* Active nav text - adapts */
+  --intent-nav-item-active-icon: var(--icon-accent);           /* Active nav icon - adapts */
+  --intent-nav-item-active-border: var(--border-accent);       /* Active nav border - adapts */
+
+  /* ----- Link Intents ----- */
+  --intent-link: var(--text-link);                             /* Link color - adapts */
+  --intent-link-hover: var(--text-link-hover);                 /* Link hover - adapts */
+
+  /* ----- Focus Intents ----- */
+  --intent-focus-ring: var(--border-focus);                    /* Focus ring - adapts */
+  --intent-focus-bg: var(--surface-accent-subtle);             /* Focus background - adapts */
+
+  /* ----- Badge/Tag Intents ----- */
+  --intent-badge-bg: var(--surface-accent-muted);              /* Badge background - adapts */
+  --intent-badge-text: var(--text-accent);                     /* Badge text - adapts */
+  --intent-badge-border: var(--border-accent-subtle);          /* Badge border - adapts */
+
+  /* ----- Icon Intents ----- */
+  --intent-icon-accent: var(--icon-accent);                    /* Accent icons - adapts */
+
+  /* ----- Text on Intent Backgrounds ----- */
+  --intent-text-on-action: var(--text-on-accent);              /* Text on action buttons */
+  --intent-icon-on-action: var(--icon-on-accent);              /* Icons on action buttons */
+}
+
+
+/* =============================================================================
+   4. ACCENT INTENSITY OVERRIDES
+   🎨 Automatic token remapping based on accent intensity level
+   ⚙️ Set via snippet.ts: document.documentElement.setAttribute('data-accent-intensity', 'vibrant')
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   VIBRANT MODE (100% accent presence)
+   Accent color appears everywhere - buttons, nav, links, badges, icons
+   ----------------------------------------------------------------------------- */
+[data-accent-intensity="vibrant"] {
+  /* Secondary actions get accent color too */
+  --intent-action-secondary: var(--surface-accent-subtle);
+  --intent-action-secondary-hover: var(--surface-accent-muted);
+  --intent-action-secondary-active: var(--surface-accent);
+}
+
+/* -----------------------------------------------------------------------------
+   NORMAL MODE (50% accent presence) - DEFAULT
+   Balanced approach - accent on primary actions, neutral on secondary
+   ----------------------------------------------------------------------------- */
+/* No overrides needed - uses default intent token values */
+
+/* -----------------------------------------------------------------------------
+   DISCRETE MODE (25% accent presence)
+   Minimal accent - only on CTAs and focus states
+   ----------------------------------------------------------------------------- */
+[data-accent-intensity="discrete"] {
+  /* Navigation becomes neutral */
+  --intent-nav-item-active-bg: var(--surface-hover);
+  --intent-nav-item-active-text: var(--text-strong);
+  --intent-nav-item-active-icon: var(--icon-strong);
+  --intent-nav-item-active-border: var(--border-emphasis);
+
+  /* Links become neutral */
+  --intent-link: var(--text-default);
+  --intent-link-hover: var(--text-strong);
+
+  /* Badges become neutral */
+  --intent-badge-bg: var(--surface-hover);
+  --intent-badge-text: var(--text-default);
+  --intent-badge-border: var(--border-default);
+
+  /* Icons become neutral */
+  --intent-icon-accent: var(--icon-strong);
+
+  /* Focus ring stays accent (important for accessibility) */
+  --intent-focus-bg: var(--surface-hover);
+}
+
+/* -----------------------------------------------------------------------------
+   MONOCHROME MODE (0% accent presence)
+   Pure neutral/inverse - no accent color anywhere
+   ----------------------------------------------------------------------------- */
+[data-accent-intensity="monochrome"] {
+  /* Primary actions become inverse/dark */
+  --intent-action-primary: var(--interactive-primary);
+  --intent-action-primary-hover: var(--interactive-primary-hover);
+  --intent-action-primary-active: var(--interactive-primary-active);
+  --intent-action-primary-disabled: var(--interactive-primary-disabled);
+
+  /* Navigation becomes neutral */
+  --intent-nav-item-active-bg: var(--surface-inverse);
+  --intent-nav-item-active-text: var(--text-inverse);
+  --intent-nav-item-active-icon: var(--icon-inverse);
+  --intent-nav-item-active-border: var(--border-inverse);
+
+  /* Links become neutral */
+  --intent-link: var(--text-strong);
+  --intent-link-hover: var(--text-default);
+
+  /* Focus becomes neutral */
+  --intent-focus-ring: var(--border-emphasis);
+  --intent-focus-bg: var(--surface-hover);
+
+  /* Badges become neutral */
+  --intent-badge-bg: var(--surface-hover);
+  --intent-badge-text: var(--text-default);
+  --intent-badge-border: var(--border-default);
+
+  /* Icons become neutral */
+  --intent-icon-accent: var(--icon-strong);
+
+  /* Text on actions becomes inverse */
+  --intent-text-on-action: var(--text-inverse);
+  --intent-icon-on-action: var(--icon-inverse);
 }
 
 
@@ -500,27 +669,86 @@
 
 
 /* =============================================================================
-   LEGACY ALIASES
-   For backward compatibility - migrate components away from these
+   LEGACY ALIASES & SHORTCUTS
+   ⚠️  For backward compatibility - migrate components away from these
+   🔄 Consolidates shortcuts.css content here
    ============================================================================= */
 
 :root {
-  /* Old text naming */
+  /* ----- Old text naming ----- */
   --text-primary: var(--text-default);
   --text-secondary: var(--text-muted);
   --text-tertiary: var(--text-subtle);
 
-  /* Old icon naming */
+  /* ----- Old icon naming ----- */
   --icon-primary: var(--icon-strong);
   --icon-secondary: var(--icon-default);
   --icon-tertiary: var(--icon-muted);
 
-  /* Old surface naming */
+  /* ----- Old surface naming ----- */
   --surface-card: var(--surface-base);
   --surface-card-hover: var(--surface-hover);
 
-  /* Old border naming */
+  /* ----- Old border naming ----- */
   --border-light: var(--border-subtle);
   --border-light-hover: var(--border-default);
   --border-light-active: var(--border-strong);
+
+  /* ===== STATUS SHORTCUTS (from shortcuts.css) ===== */
+
+  /* Error shortcuts */
+  --error-bg: var(--surface-error-subtle);
+  --error-bg-hover: var(--surface-error-muted);
+  --error-border: var(--border-error-subtle);
+  --error-text: var(--text-error);
+  --error-text-strong: var(--text-error-strong);
+  --error-icon: var(--icon-error);
+  --error-subtle: var(--surface-error-subtle);
+
+  /* Success shortcuts */
+  --success-bg: var(--surface-success-subtle);
+  --success-bg-hover: var(--surface-success-muted);
+  --success-border: var(--border-success-subtle);
+  --success-text: var(--text-success);
+  --success-text-strong: var(--text-success-strong);
+  --success-icon: var(--icon-success);
+  --success-subtle: var(--surface-success-subtle);
+
+  /* Warning shortcuts */
+  --warning-bg: var(--surface-warning-subtle);
+  --warning-bg-hover: var(--surface-warning-muted);
+  --warning-border: var(--border-warning-subtle);
+  --warning-text: var(--text-warning);
+  --warning-text-strong: var(--text-warning-strong);
+  --warning-icon: var(--icon-warning);
+  --warning-subtle: var(--surface-warning-subtle);
+
+  /* Info shortcuts */
+  --info-bg: var(--surface-info-subtle);
+  --info-bg-hover: var(--surface-info-muted);
+  --info-border: var(--border-info-subtle);
+  --info-text: var(--text-info);
+  --info-text-strong: var(--text-info-strong);
+  --info-icon: var(--icon-info);
+  --info-subtle: var(--surface-info-subtle);
+
+  /* Accent shortcuts */
+  --accent-bg: var(--surface-accent-subtle);
+  --accent-bg-hover: var(--surface-accent-muted);
+  --accent-border: var(--border-accent);
+  --accent-text: var(--text-accent);
+  --accent-text-strong: var(--text-accent-strong);
+  --accent-icon: var(--icon-accent);
+  --accent-subtle: var(--surface-accent-subtle);
+
+  /* Neutral/Surface shortcuts */
+  --surface-subtle: var(--surface-raised);
+
+  /* Text intensity shortcuts */
+  --text-strong: var(--text-strong);
+  --text-medium: var(--text-muted);
+  --text-light: var(--text-subtle);
+
+  /* Border intensity shortcuts */
+  --border-medium: var(--border-default);
 }

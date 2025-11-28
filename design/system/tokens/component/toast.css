@@ -5,32 +5,32 @@
 
 :root {
   /* ===== INFO TOAST ===== */
-  --surface-toast-info: var(--info-bg);
-  --border-toast-info: var(--info-border);
-  --text-toast-info: var(--info-text);
-  --text-toast-info-title: var(--info-text-strong);
-  --icon-toast-info: var(--info-icon);
+  --surface-toast-info: var(--surface-info);
+  --border-toast-info: var(--border-info);
+  --text-toast-info: var(--text-info);
+  --text-toast-info-title: var(--text-info-strong);
+  --icon-toast-info: var(--icon-info);
 
   /* ===== SUCCESS TOAST ===== */
-  --surface-toast-success: var(--success-bg);
-  --border-toast-success: var(--success-border);
-  --text-toast-success: var(--success-text);
-  --text-toast-success-title: var(--success-text-strong);
-  --icon-toast-success: var(--success-icon);
+  --surface-toast-success: var(--surface-success);
+  --border-toast-success: var(--border-success);
+  --text-toast-success: var(--text-success);
+  --text-toast-success-title: var(--text-success-strong);
+  --icon-toast-success: var(--icon-success);
 
   /* ===== WARNING TOAST ===== */
-  --surface-toast-warning: var(--warning-bg);
-  --border-toast-warning: var(--warning-border);
-  --text-toast-warning: var(--warning-text);
-  --text-toast-warning-title: var(--warning-text-strong);
-  --icon-toast-warning: var(--warning-icon);
+  --surface-toast-warning: var(--surface-warning);
+  --border-toast-warning: var(--border-warning);
+  --text-toast-warning: var(--text-warning);
+  --text-toast-warning-title: var(--text-warning-strong);
+  --icon-toast-warning: var(--icon-warning);
 
   /* ===== ERROR TOAST ===== */
-  --surface-toast-error: var(--error-bg);
-  --border-toast-error: var(--error-border);
-  --text-toast-error: var(--error-text);
-  --text-toast-error-title: var(--error-text-strong);
-  --icon-toast-error: var(--error-icon);
+  --surface-toast-error: var(--surface-error);
+  --border-toast-error: var(--border-error);
+  --text-toast-error: var(--text-error);
+  --text-toast-error-title: var(--text-error-strong);
+  --icon-toast-error: var(--icon-error);
 
   /* ===== TOAST LAYOUT TOKENS (add these) ===== */
   --space-toast-padding: var(--foundation-space-4);

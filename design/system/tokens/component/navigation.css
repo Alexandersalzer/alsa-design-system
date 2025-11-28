@@ -1,6 +1,7 @@
 /* ==============================================
    src/design-system/tokens/component/navigation.css
-   NAVIGATION COMPONENT TOKENS - FIXED WITH SHORTCUTS
+   NAVIGATION COMPONENT TOKENS - AUTO-ADAPTIVE
+   🎨 Uses intent tokens - automatically adapts to accent intensity
    ============================================== */
 
 :root {
@@ -8,39 +9,46 @@
   --surface-sidebar: var(--surface-base);
   --surface-sidebar-header: var(--surface-base);
   --surface-sidebar-footer: var(--surface-base);
-  
+
   /* ===== SIDEBAR DIMENSIONS (keep as-is) ===== */
   --size-sidebar-width: 280px;
   --size-sidebar-header-height: 64px;
   --size-sidebar-logo-width: 40.8px;
   --size-sidebar-logo-height: 16.55px;
 
-  /* ===== NAVIGATION SURFACES - USING SHORTCUTS ===== */
+  /* ===== NAVIGATION SURFACES - AUTO-ADAPTIVE ✨ */
   --surface-nav: var(--surface-base);
-  --surface-hover: var(--surface-hover);
-  --surface-nav-item-hover: var(--surface-elevated);
-  --surface-nav-item-selected: var(--surface-hover);
+  --surface-nav-item: transparent;
+  --surface-nav-item-hover: var(--surface-hover);
+  --surface-nav-item-selected: var(--intent-nav-item-active-bg);    /* Adapts to intensity */
   --surface-nav-item-disabled: transparent;
 
-  /* ===== NAVIGATION BORDERS - USING SHORTCUTS ===== */
-  --border-nav: var(--border-light);
-  --border-nav-item-selected: var(--accent-border);
-  
-  /* ===== NAVIGATION TEXT - USING SHORTCUTS ===== */
-  --text-nav-item: var(--text-secondary);
-  --text-nav-item-selected: var(--accent-600);
+  /* ===== NAVIGATION BORDERS - AUTO-ADAPTIVE ✨ */
+  --border-nav: var(--border-subtle);
+  --border-nav-item-selected: var(--intent-nav-item-active-border);  /* Adapts to intensity */
+
+  /* ===== NAVIGATION TEXT - AUTO-ADAPTIVE ✨ */
+  --text-nav-item: var(--text-muted);
+  --text-nav-item-selected: var(--intent-nav-item-active-text);      /* Adapts to intensity */
   --text-nav-item-disabled: var(--text-disabled);
-  --text-nav-item-hover: var(--text-primary);
+  --text-nav-item-hover: var(--text-default);
 
-  /* ===== NAVIGATION ICONS - USING SHORTCUTS ===== */
-  --icon-nav-item: var(--icon-secondary);
-  --icon-nav-item-selected: var(--accent-600);
+  /* ===== NAVIGATION ICONS - AUTO-ADAPTIVE ✨ */
+  --icon-nav-item: var(--icon-default);
+  --icon-nav-item-selected: var(--intent-nav-item-active-icon);      /* Adapts to intensity */
   --icon-nav-item-disabled: var(--icon-disabled);
-  --icon-nav-item-hover: var(--icon-primary);
+  --icon-nav-item-hover: var(--icon-strong);
 
-  /* ===== LINK TOKENS ===== */
-  --text-link: var(--accent-color);
-  --text-link-hover: var(--accent-text);
-  --text-link-visited: var(--accent-text-strong);
-  --text-link-disabled: var(--text-disabled);  
+  /* ===== NAVIGATION SPACING ===== */
+  --space-nav-item-gap: var(--foundation-space-2);
+  --padding-nav-item: var(--foundation-space-2) var(--foundation-space-3);
+
+  /* ===== NAVIGATION TRANSITIONS ===== */
+  --transition-nav: all 0.15s ease;
+
+  /* ===== LINK TOKENS - AUTO-ADAPTIVE ✨ */
+  --text-link: var(--intent-link);                                   /* Adapts to intensity */
+  --text-link-hover: var(--intent-link-hover);                       /* Adapts to intensity */
+  --text-link-visited: var(--text-accent-strong);
+  --text-link-disabled: var(--text-disabled);
 }

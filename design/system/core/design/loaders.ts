@@ -19,6 +19,7 @@ export async function getDesignConfig(): Promise<DesignConfig> {
       globalStyles: {
         radius: "md",
         accentColor: "purple",
+        accentIntensity: "normal",
         isDark: false,
         themeTone: "mono",
         fontPrimary: "Sora",

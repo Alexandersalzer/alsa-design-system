@@ -3,15 +3,17 @@ import type { DesignConfig } from "../types/design";
 
   /**
    * Generates CSS variables from design.json
-   * 
+   *
    * KEY CONCEPT:
    * - For colored accents: override the --accent-* PRIMITIVE scale with chosen color
    * - For inverse mode: override SEMANTIC tokens to use neutral values
    * - Snippet overrides Section 2, components use Section 3
+   * - NEW: accentIntensity controls how much accent appears (vibrant, normal, discrete, monochrome)
    */
   export function buildCssVars(design: DesignConfig): string {
     const radius           = design?.globalStyles?.radius           || "md";
     const accentColor      = design?.globalStyles?.accentColor      || "purple";
+    const accentIntensity  = design?.globalStyles?.accentIntensity  || "normal";
     const isDark           = design?.globalStyles?.isDark           ?? false;
     const themeTone        = design?.globalStyles?.themeTone        || "neutral";
     const fontPrimary      = design?.globalStyles?.fontPrimary      || "Sora";
@@ -32,7 +34,9 @@ import type { DesignConfig } from "../types/design";
       .join('&');
     const fontUrl = `https://fonts.googleapis.com/css2?${fontsToImport}&display=swap`;
 
+    // Determine intensity: inverse accent OR explicit monochrome = "monochrome"
     const isInverseAccent = accentColor === "inverse";
+    const finalIntensity = isInverseAccent ? "monochrome" : accentIntensity;
 
     // Build accent CSS based on mode
     const accentCss = isInverseAccent
@@ -41,6 +45,15 @@ import type { DesignConfig } from "../types/design";
 
     return `
       @import url('${fontUrl}');
+
+      <script>
+        // Set accent intensity attribute immediately for CSS to pick up
+        (function() {
+          document.documentElement.setAttribute('data-accent-intensity', '${finalIntensity}');
+          document.documentElement.setAttribute('data-theme', '${isDark ? 'dark' : 'light'}');
+        })();
+      </script>
+
       :root {
         /* ===== FONTS ===== */
         --font-primary-name: '${fontPrimary}';
@@ -233,4 +246,15 @@ import type { DesignConfig } from "../types/design";
   export async function getThemeTone(): Promise<string> {
     const designConfig = await getDesignConfig();
     return designConfig?.globalStyles?.themeTone || "neutral";
+  }
+
+  /**
+   * Helper to get accentIntensity for setting HTML attribute
+   * Returns "monochrome" if accentColor is "inverse"
+   */
+  export async function getAccentIntensity(): Promise<string> {
+    const designConfig = await getDesignConfig();
+    const accentColor = designConfig?.globalStyles?.accentColor || "purple";
+    const accentIntensity = designConfig?.globalStyles?.accentIntensity || "normal";
+    return accentColor === "inverse" ? "monochrome" : accentIntensity;
   }

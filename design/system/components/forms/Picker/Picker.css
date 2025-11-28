@@ -160,7 +160,7 @@
 }
 
 .picker--success {
-  border-color: var(--success-border);
+  border-color: var(--border-success);
 }
 
 /* ===== PICKER VALUE ===== */
