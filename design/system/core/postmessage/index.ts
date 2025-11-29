@@ -20,15 +20,6 @@ export { ClientToParentMessage, ParentToClientMessage } from './types';
 // CORS
 export { ALLOWED_ORIGINS, isOriginAllowed } from './cors';
 
-// React hooks (modern approach)
-export { 
-  useEditMode, 
-  useDesignCSS, 
-  useIFrameHeight, 
-  useDesignTokenUpdates,
-  useHeightSync 
-} from './hooks';
-
 
 export { EditingHandler } from './EditingHandler';
-export { applyEditingMode } from './hooks/applyEditingMode';
+export { applyEditingMode } from './hooks';

@@ -6,8 +6,4 @@
  * @since 2025-11-25
  */
 
-export { useEditMode } from './useEditingMode';
-export { useDesignCSS } from './useDesignCSS';
-export { useIFrameHeight } from './useIFrameHeight';
-export { useDesignTokenUpdates } from './useDesignTokenUpdates';
-export { useHeightSync } from './useHeightSync';
+export { applyEditingMode } from './applyEditingMode';
