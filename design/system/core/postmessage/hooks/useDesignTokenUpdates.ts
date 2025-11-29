@@ -37,7 +37,7 @@ export function useDesignTokenUpdates(): void {
         const { designTokens } = event.data.payload;
         
         // Generera ny CSS från API design tokens
-        const newCSS = buildCssVars({ globalStyles: designTokens });
+        const newCSS = buildCssVars(designTokens);
         
         // Uppdatera design CSS i DOM
         const designStyle = document.querySelector('head style#design-css') as HTMLStyleElement;
