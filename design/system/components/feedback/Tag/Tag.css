@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Tag/Tag.css
-   TAG COMPONENT STYLES - UPDATED WITH SMART SHORTCUTS
+   TAG COMPONENT STYLES - USING SEMANTIC TOKENS
    ============================================== */
 
 /* ===== BASE TAG STYLES ===== */
@@ -21,53 +21,127 @@
   white-space: nowrap;
   vertical-align: middle;
   
-  /* Default to medium size and info variant */
+  /* Default to medium size */
   height: var(--size-tag-height-medium);
   padding: var(--space-tag-padding-y-medium) var(--space-tag-padding-x-medium);
   font-size: var(--font-tag-size-medium);
   gap: var(--space-tag-icon-gap-medium);
   
-  /* Default to info variant - USING SMART SHORTCUTS */
-  background-color: var(--surface-tag-info);
-  color: var(--text-tag-info);
-  border-color: var(--border-tag-info);
+  /* Default to neutral subtle surface */
+  background-color: var(--surface-hover);
+  color: var(--text-default);
+  border-color: var(--border-default);
 }
 
-/* ===== TAG VARIANTS - USING SMART SHORTCUTS ===== */
+/* ===== TAG VARIANTS - SUBTLE (default surface) ===== */
 .tag--success {
-  background-color: var(--surface-tag-success);
-  color: var(--text-tag-success);
-  border-color: var(--border-tag-success);
+  background-color: var(--surface-success-subtle);
+  color: var(--text-success);
+  border-color: var(--border-success-subtle);
 }
 
 .tag--error {
-  background-color: var(--surface-tag-error);
-  color: var(--text-tag-error);
-  border-color: var(--border-tag-error);
+  background-color: var(--surface-error-subtle);
+  color: var(--text-error);
+  border-color: var(--border-error-subtle);
 }
 
 .tag--warning {
-  background-color: var(--surface-tag-warning);
-  color: var(--text-tag-warning);
-  border-color: var(--border-tag-warning);
+  background-color: var(--surface-warning-subtle);
+  color: var(--text-warning);
+  border-color: var(--border-warning-subtle);
 }
 
 .tag--info {
-  background-color: var(--surface-tag-info);
-  color: var(--text-tag-info);
-  border-color: var(--border-tag-info);
+  background-color: var(--surface-info-subtle);
+  color: var(--text-info);
+  border-color: var(--border-info-subtle);
 }
 
 .tag--accent {
-  background-color: var(--surface-tag-accent);
-  color: var(--text-tag-accent);
-  border-color: var(--border-tag-accent);
+  background-color: var(--surface-accent-subtle);
+  color: var(--text-accent);
+  border-color: var(--border-accent-subtle);
 }
 
 .tag--default {
-  background-color: var(--surface-tag-default);
-  color: var(--text-tag-default);
-  border-color: var(--border-tag-default);
+  background-color: var(--surface-hover);
+  color: var(--text-default);
+  border-color: var(--border-default);
+}
+
+/* ===== MUTED SURFACE VARIANTS ===== */
+.tag--success.tag--muted {
+  background-color: var(--surface-success-muted);
+  color: var(--text-success-strong);
+  border-color: var(--border-success);
+}
+
+.tag--error.tag--muted {
+  background-color: var(--surface-error-muted);
+  color: var(--text-error-strong);
+  border-color: var(--border-error);
+}
+
+.tag--warning.tag--muted {
+  background-color: var(--surface-warning-muted);
+  color: var(--text-warning-strong);
+  border-color: var(--border-warning);
+}
+
+.tag--info.tag--muted {
+  background-color: var(--surface-info-muted);
+  color: var(--text-info-strong);
+  border-color: var(--border-info);
+}
+
+.tag--accent.tag--muted {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent-strong);
+  border-color: var(--border-accent);
+}
+
+.tag--default.tag--muted {
+  background-color: var(--surface-active);
+  color: var(--text-strong);
+  border-color: var(--border-strong);
+}
+
+/* ===== VIBRANT SURFACE VARIANTS ===== */
+.tag--success.tag--vibrant {
+  background-color: var(--surface-success);
+  color: var(--text-on-success);
+  border-color: var(--border-success);
+}
+
+.tag--error.tag--vibrant {
+  background-color: var(--surface-error);
+  color: var(--text-on-error);
+  border-color: var(--border-error);
+}
+
+.tag--warning.tag--vibrant {
+  background-color: var(--surface-warning);
+  color: var(--text-on-warning);
+  border-color: var(--border-warning);
+}
+
+.tag--info.tag--vibrant {
+  background-color: var(--surface-info);
+  color: var(--text-on-info);
+  border-color: var(--border-info);
+}
+
+.tag--accent.tag--vibrant {
+  background-color: var(--surface-accent);
+  color: var(--text-on-accent);
+  border-color: var(--border-accent);
+}
+
+.tag--default.tag--vibrant {
+  background-color: var(--surface-inverse);
+  color: var(--text-inverse);
+  border-color: var(--border-inverse);
 }
 
 /* ===== TAG SIZES ===== */
@@ -92,7 +166,7 @@
 
 .tag--interactive:hover {
   transform: translateY(-1px);
-  box-shadow: var(--foundation-shadow-sm);
+  box-shadow: var(--shadow-subtle);
 }
 
 .tag--interactive:focus-visible {
@@ -104,41 +178,39 @@
   transform: translateY(0);
 }
 
-/* Interactive variant hover states - USING SMART SHORTCUTS */
-.tag--interactive.tag--success:hover {
-  background-color: var(--surface-tag-success-hover);
-  color: var(--text-tag-success-hover);
-  border-color: var(--border-tag-success-hover);
+/* Interactive hover states - just slightly darken */
+.tag--interactive.tag--success:hover,
+.tag--interactive.tag--success.tag--muted:hover {
+  filter: brightness(0.95);
 }
 
-.tag--interactive.tag--error:hover {
-  background-color: var(--surface-tag-error-hover);
-  color: var(--text-tag-error-hover);
-  border-color: var(--border-tag-error-hover);
+.tag--interactive.tag--error:hover,
+.tag--interactive.tag--error.tag--muted:hover {
+  filter: brightness(0.95);
 }
 
-.tag--interactive.tag--warning:hover {
-  background-color: var(--surface-tag-warning-hover);
-  color: var(--text-tag-warning-hover);
-  border-color: var(--border-tag-warning-hover);
+.tag--interactive.tag--warning:hover,
+.tag--interactive.tag--warning.tag--muted:hover {
+  filter: brightness(0.95);
 }
 
-.tag--interactive.tag--info:hover {
-  background-color: var(--surface-tag-info-hover);
-  color: var(--text-tag-info-hover);
-  border-color: var(--border-tag-info-hover);
+.tag--interactive.tag--info:hover,
+.tag--interactive.tag--info.tag--muted:hover {
+  filter: brightness(0.95);
 }
 
-.tag--interactive.tag--accent:hover {
-  background-color: var(--surface-tag-accent-hover);
-  color: var(--text-tag-accent-hover);
-  border-color: var(--border-tag-accent-hover);
+.tag--interactive.tag--accent:hover,
+.tag--interactive.tag--accent.tag--muted:hover {
+  filter: brightness(0.95);
 }
 
-.tag--interactive.tag--default:hover {
-  background-color: var(--surface-tag-default-hover);
-  color: var(--text-tag-default-hover);
-  border-color: var(--border-tag-default-hover);
+.tag--interactive.tag--default:hover,
+.tag--interactive.tag--default.tag--muted:hover {
+  filter: brightness(0.95);
+}
+
+.tag--interactive.tag--vibrant:hover {
+  filter: brightness(0.9);
 }
 
 /* ===== TAG ICON ===== */
@@ -171,29 +243,40 @@
   stroke-width: var(--icon-stroke-medium);
 }
 
-/* Icon colors per variant - USING SMART SHORTCUTS */
+/* Icon colors - inherit from text color */
+.tag__icon {
+  color: currentColor;
+}
+
+/* Subtle variants get stronger icon colors */
 .tag--success .tag__icon {
-  color: var(--icon-tag-success);
+  color: var(--icon-success);
 }
 
 .tag--error .tag__icon {
-  color: var(--icon-tag-error);
+  color: var(--icon-error);
 }
 
 .tag--warning .tag__icon {
-  color: var(--icon-tag-warning);
+  color: var(--icon-warning);
 }
 
 .tag--info .tag__icon {
-  color: var(--icon-tag-info);
+  color: var(--icon-info);
 }
 
 .tag--accent .tag__icon {
-  color: var(--icon-tag-accent);
+  color: var(--icon-accent);
 }
 
 .tag--default .tag__icon {
-  color: var(--icon-tag-default);
+  color: var(--icon-default);
+}
+
+/* Muted and vibrant inherit text color */
+.tag--muted .tag__icon,
+.tag--vibrant .tag__icon {
+  color: currentColor;
 }
 
 /* ===== REMOVABLE TAGS ===== */
