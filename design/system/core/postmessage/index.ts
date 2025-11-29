@@ -26,7 +26,6 @@ export {
   useHeightSync 
 } from './hooks';
 
-// Legacy components (deprecated)
-export { useEditingModeHandler } from './hook';
+
 export { EditingModeHandler } from './EditingModeHandler';
 export { applyEditingMode } from './applyEditingMode';
