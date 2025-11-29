@@ -23,4 +23,5 @@ export * from './content';
 // PostMessage functionality
 export * from './postmessage';
 export * from './utils';
+export type { DesignTokens } from './types';
 
