@@ -15,7 +15,7 @@ export {
 
 export type {
   BannerProps,
-  BannerStatus,
+  BannerVariant,
   BannerSurface,
   AvailabilityBannerProps,
 } from './Banner';
