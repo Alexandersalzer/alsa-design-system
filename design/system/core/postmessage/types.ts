@@ -40,6 +40,10 @@ export interface DesignTokensPayload {
   designTokens: DesignTokens; // Samma struktur som design.json globalStyles
 }
 
+export interface DesignTokenUpdatesPayload {
+  updates: Partial<DesignTokens>; // Partiella uppdateringar
+}
+
 export interface HeightPayload {
   height: number;
   iframeId?: string;
