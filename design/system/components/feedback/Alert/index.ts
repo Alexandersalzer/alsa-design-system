@@ -27,7 +27,7 @@ export type {
   AlertCloseButtonProps,
   AlertClosedProps,
   AlertVariant,
-  AlertStatus,
+  AlertSurface,
   ErrorAlertProps,
   SuccessAlertProps,
   WarningAlertProps,

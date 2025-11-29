@@ -13,7 +13,7 @@ import {
 } from '../../media';
 
 // ===== TYPE DEFINITIONS =====
-export type ToastStatus = 'info' | 'success' | 'warning' | 'error';
+export type ToastVariant = 'info' | 'success' | 'warning' | 'error';
 export type ToastSurface = 'subtle' | 'muted' | 'vibrant';
 export type ToastState = 'entering' | 'visible' | 'exiting' | 'exited';
 
@@ -22,7 +22,7 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Toast message text */
   children: ReactNode;
   /** Toast status/type */
-  status?: ToastStatus;
+  variant?: ToastVariant;
   /** Surface variant */
   surface?: ToastSurface;
   /** Optional left icon (defaults to status icon) */
@@ -44,8 +44,8 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 // ===== ICON MAPPING =====
-const getStatusIcon = (status: ToastStatus): ReactNode => {
-  switch (status) {
+const getStatusIcon = (variant: ToastVariant): ReactNode => {
+  switch (variant) {
     case 'success':
       return <StatusIcons.Success />;
     case 'warning':
@@ -61,7 +61,7 @@ const getStatusIcon = (status: ToastStatus): ReactNode => {
 // ===== MAIN COMPONENT =====
 export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   children,
-  status = 'info',
+  variant = 'info',
   surface = 'subtle',
   leftIcon,
   showClose = true,
@@ -141,7 +141,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
 
   const toastClasses = cn(
     'toast',
-    `toast--${status}`,
+    `toast--${variant}`,
     surface !== 'subtle' && `toast--${surface}`,
     className
   );
@@ -151,7 +151,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
       ref={ref} 
       className={toastClasses}
       data-state={currentState}
-      data-status={status}
+      data-variant={variant}
       data-surface={surface}
       style={style}
       onMouseEnter={handleMouseEnter}
@@ -162,7 +162,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
     >
       {/* Left Icon */}
       <div className="toast__icon-left">
-        {leftIcon || getStatusIcon(status)}
+        {leftIcon || getStatusIcon(variant)}
       </div>
 
       {/* Content */}
@@ -204,26 +204,26 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
 Toast.displayName = 'Toast';
 
 // ===== CONVENIENCE COMPONENTS =====
-export interface ErrorToastProps extends Omit<ToastProps, 'status'> {}
+export interface ErrorToastProps extends Omit<ToastProps, 'variant'> {}
 export const ErrorToast = forwardRef<HTMLDivElement, ErrorToastProps>((props, ref) => (
-  <Toast ref={ref} status="error" {...props} />
+  <Toast ref={ref} variant="error" {...props} />
 ));
 ErrorToast.displayName = 'ErrorToast';
 
-export interface SuccessToastProps extends Omit<ToastProps, 'status'> {}
+export interface SuccessToastProps extends Omit<ToastProps, 'variant'> {}
 export const SuccessToast = forwardRef<HTMLDivElement, SuccessToastProps>((props, ref) => (
-  <Toast ref={ref} status="success" {...props} />
+  <Toast ref={ref} variant="success" {...props} />
 ));
 SuccessToast.displayName = 'SuccessToast';
 
-export interface WarningToastProps extends Omit<ToastProps, 'status'> {}
+export interface WarningToastProps extends Omit<ToastProps, 'variant'> {}
 export const WarningToast = forwardRef<HTMLDivElement, WarningToastProps>((props, ref) => (
-  <Toast ref={ref} status="warning" {...props} />
+  <Toast ref={ref} variant="warning" {...props} />
 ));
 WarningToast.displayName = 'WarningToast';
 
-export interface InfoToastProps extends Omit<ToastProps, 'status'> {}
+export interface InfoToastProps extends Omit<ToastProps, 'variant'> {}
 export const InfoToast = forwardRef<HTMLDivElement, InfoToastProps>((props, ref) => (
-  <Toast ref={ref} status="info" {...props} />
+  <Toast ref={ref} variant="info" {...props} />
 ));
 InfoToast.displayName = 'InfoToast';

@@ -1,15 +1,14 @@
 /* ==============================================
-   src/design-system/tokens/component/toast.css
-   TOAST COMPONENT TOKENS - USING SEMANTIC SPACING
+   src/design-system/tokens/component/alert.css
+   ALERT COMPONENT TOKENS - USING SEMANTIC SPACING
    ============================================== */
 :root {
-  /* ===== TOAST SPACING (using card component spacing) ===== */
-  --space-toast-padding: var(--space-card-padding-sm);  /* 16px all sides */
-  --space-toast-gap: var(--space-card-gap-sm);          /* 12px gap */
+  /* ===== ALERT SPACING (using card component spacing) ===== */
+  --space-alert-padding: var(--space-card-padding-sm);      /* 16px all sides */
+  --space-alert-padding-small: var(--space-card-padding-sm); /* 16px mobile */
+  --space-alert-gap: var(--space-card-gap-sm);            /* 12px gap */
+  --space-alert-gap-small: var(--foundation-space-2);       /* 8px mobile */
 
-  /* ===== TOAST RADIUS ===== */
-  --radius-toast: var(--foundation-radius-lg);
-
-  /* ===== TOAST SHADOW ===== */
-  --shadow-toast: var(--shadow-strong);
+  /* ===== ALERT RADIUS ===== */
+  --radius-alert: var(--foundation-radius-lg);
 }
