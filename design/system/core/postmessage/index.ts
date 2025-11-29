@@ -30,5 +30,5 @@ export {
 } from './hooks';
 
 
-export { EditingModeHandler } from './EditingModeHandler';
+export { EditingHandler } from './EditingHandler';
 export { applyEditingMode } from './applyEditingMode';
