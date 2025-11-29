@@ -10,7 +10,7 @@
 
 import { useEffect } from 'react';
 import { isOriginAllowed } from '../cors';
-import { MESSAGE_TYPES } from '../types';
+import { PARENT_TO_CLIENT_MESSAGES } from '../types';
 import { buildCssVars } from '../../design/snippet';
 import { useHeightSync } from './useHeightSync';
 
@@ -33,7 +33,7 @@ export function useDesignTokenUpdates(): void {
       }
 
       // ✨ Hantera fullständiga design tokens meddelanden
-      if (event.data?.type === MESSAGE_TYPES.UPDATE_DESIGN_TOKENS) {
+      if (event.data?.type ===  PARENT_TO_CLIENT_MESSAGES.UPDATE_DESIGN_TOKENS) {
         const { designTokens } = event.data.payload;
         
         // Generera ny CSS från API design tokens
@@ -60,7 +60,7 @@ export function useDesignTokenUpdates(): void {
       }
       
       // ✨ Hantera partiella design token-uppdateringar (live updates)
-      if (event.data?.type === MESSAGE_TYPES.DESIGN_TOKENS_UPDATE) {
+      if (event.data?.type === PARENT_TO_CLIENT_MESSAGES.DESIGN_TOKENS_UPDATE) {
         const { updates } = event.data.payload;
         
         if (updates) {

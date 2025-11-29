@@ -14,7 +14,7 @@ export type {
   HeightPayload,
   RequestHeightPayload
 } from './types';
-export { MESSAGE_TYPES } from './types';
+export { CLIENT_TO_PARENT_MESSAGES, PARENT_TO_CLIENT_MESSAGES } from './types';
 
 // CORS
 export { ALLOWED_ORIGINS, isOriginAllowed } from './cors';

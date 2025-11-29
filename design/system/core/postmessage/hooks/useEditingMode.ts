@@ -10,7 +10,7 @@
 
 import { useEffect, useState } from 'react';
 import { isOriginAllowed } from '../cors';
-import { MESSAGE_TYPES } from '../types';
+import { PARENT_TO_CLIENT_MESSAGES } from '../types';
 import { useHeightSync } from './useHeightSync';
 
 /**
@@ -42,7 +42,7 @@ export function useEditMode(): boolean {
       }
 
       // Hantera editing mode meddelanden
-      if (event.data?.type === MESSAGE_TYPES.TOGGLE_EDITING_MODE) {
+      if (event.data?.type === PARENT_TO_CLIENT_MESSAGES.TOGGLE_EDITING_MODE) {
         const { isEditing: newEditingState } = event.data.payload;
         const html = document.documentElement;
         
