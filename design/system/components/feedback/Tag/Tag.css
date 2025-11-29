@@ -9,7 +9,7 @@
   align-items: center;
   font-family: var(--font-body-family);
   font-weight: var(--foundation-weight-semibold);
-  line-height: 1;
+  line-height: var(--line-height-tag-medium);
   text-decoration: none;
   border: 1px solid;
   border-radius: var(--radius-tag);
@@ -22,7 +22,7 @@
   vertical-align: middle;
   
   /* Default to medium size */
-  height: var(--size-tag-height-medium);
+  min-height: var(--size-tag-height-medium);
   padding: var(--space-tag-padding-y-medium) var(--space-tag-padding-x-medium);
   font-size: var(--font-tag-size-medium);
   gap: var(--space-tag-icon-gap-medium);
@@ -146,16 +146,18 @@
 
 /* ===== TAG SIZES ===== */
 .tag--small {
-  height: var(--size-tag-height-small);
+  min-height: var(--size-tag-height-small);
   padding: var(--space-tag-padding-y-small) var(--space-tag-padding-x-small);
   font-size: var(--font-tag-size-small);
+  line-height: var(--line-height-tag-small);
   gap: var(--space-tag-icon-gap-small);
 }
 
 .tag--large {
-  height: var(--size-tag-height-large);
+  min-height: var(--size-tag-height-large);
   padding: var(--space-tag-padding-y-large) var(--space-tag-padding-x-large);
   font-size: var(--font-tag-size-large);
+  line-height: var(--line-height-tag-large);
   gap: var(--space-tag-icon-gap-large);
 }
 
