@@ -11,12 +11,12 @@ import { IconButtons } from '../../actions';
 import { Input } from '../../forms';
 
 // ===== TYPE DEFINITIONS =====
-export type BannerStatus = 'default' | 'info' | 'accent' | 'success' | 'warning' | 'error';
+export type BannerVariant = 'default' | 'info' | 'accent' | 'success' | 'warning' | 'error';
 export type BannerSurface = 'subtle' | 'muted' | 'vibrant';
 
 export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
   message: string;
-  status?: BannerStatus;
+  variant?: BannerVariant;
   surface?: BannerSurface;
   icon?: ReactNode;
   actionText?: string;
@@ -32,7 +32,7 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(
   (
     {
       message,
-      status = 'default',
+      variant = 'default',
       surface = 'subtle',
       icon,
       actionText,
@@ -56,7 +56,7 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(
 
     const bannerClasses = cn(
       'banner',
-      `banner--${status}`,
+      `banner--${variant}`,
       surface !== 'subtle' && `banner--${surface}`,
       sticky && 'banner--sticky',
       className
@@ -66,9 +66,9 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(
       <div
         ref={ref}
         className={bannerClasses}
-        role="status"
+        role="variant"
         aria-live="polite"
-        data-status={status}
+        data-variant={variant}
         data-surface={surface}
         {...props}
       >
@@ -111,7 +111,7 @@ Banner.displayName = 'Banner';
 
 // ===== AVAILABILITY BANNER =====
 export interface AvailabilityBannerProps
-  extends Omit<BannerProps, 'status' | 'message'> {
+  extends Omit<BannerProps, 'variant' | 'message'> {
   availableSpots: number;
   totalSpots: number;
   isLoading?: boolean;
@@ -148,26 +148,26 @@ export const AvailabilityBanner = forwardRef<
 
     const isFullyBooked = availableSpots === 0;
 
-    let bannerStatus: BannerStatus = 'default';
+    let bannerVariant: BannerVariant = 'default';
     let message = '';
 
     if (isLoading) {
-      bannerStatus = 'info';
+      bannerVariant = 'info';
       message = 'Kontrollerar tillgänglighet i vår Early Access...';
     } else if (error) {
-      bannerStatus = 'error';
+      bannerVariant = 'error';
       message = 'Kunde inte hämta tillgänglighet just nu. Försök igen om en stund.';
     } else if (isFullyBooked) {
-      bannerStatus = 'accent';
+      bannerVariant = 'accent';
       message = `Early Access är fullt just nu!`;
     } else if (availableSpots === 1) {
-      bannerStatus = 'warning';
+      bannerVariant = 'warning';
       message = `Sista platsen kvar i Early Access – först till kvarn!`;
     } else if (availableSpots <= 3) {
-      bannerStatus = 'warning';
+      bannerVariant = 'warning';
       message = `Endast ${availableSpots} platser kvar i vår Early Access!`;
     } else {
-      bannerStatus = 'default';
+      bannerVariant = 'default';
       message = `${availableSpots} av ${totalSpots} platser tillgängliga i Early Access.`;
     }
 
@@ -192,12 +192,12 @@ export const AvailabilityBanner = forwardRef<
           ref={ref}
           className={cn(
             'banner',
-            `banner--${bannerStatus}`,
+            `banner--${bannerVariant}`,
             surface !== 'subtle' && `banner--${surface}`,
             sticky && 'banner--sticky',
             className
           )}
-          data-status={bannerStatus}
+          data-variant={bannerVariant}
           data-surface={surface}
           {...props}
         >
@@ -263,22 +263,22 @@ export const AvailabilityBanner = forwardRef<
 AvailabilityBanner.displayName = 'AvailabilityBanner';
 
 // ===== CONVENIENCE EXPORTS =====
-export const InfoBanner = (props: Omit<BannerProps, 'status'>) => (
-  <Banner {...props} status="info" />
+export const InfoBanner = (props: Omit<BannerProps, 'variant'>) => (
+  <Banner {...props} variant="info" />
 );
 
-export const AccentBanner = (props: Omit<BannerProps, 'status'>) => (
-  <Banner {...props} status="accent" />
+export const AccentBanner = (props: Omit<BannerProps, 'variant'>) => (
+  <Banner {...props} variant="accent" />
 );
 
-export const SuccessBanner = (props: Omit<BannerProps, 'status'>) => (
-  <Banner {...props} status="success" />
+export const SuccessBanner = (props: Omit<BannerProps, 'variant'>) => (
+  <Banner {...props} variant="success" />
 );
 
-export const WarningBanner = (props: Omit<BannerProps, 'status'>) => (
-  <Banner {...props} status="warning" />
+export const WarningBanner = (props: Omit<BannerProps, 'variant'>) => (
+  <Banner {...props} variant="warning" />
 );
 
-export const ErrorBanner = (props: Omit<BannerProps, 'status'>) => (
-  <Banner {...props} status="error" />
+export const ErrorBanner = (props: Omit<BannerProps, 'variant'>) => (
+  <Banner {...props} variant="error" />
 );
