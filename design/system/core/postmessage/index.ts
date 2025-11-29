@@ -13,7 +13,7 @@ export type {
   DesignTokensPayload,
   RequestedHeightPayload,
   RequestHeightPayload,
-  DesignTokenUpdatesPayload
+  DesignTokenUpdatePayload
 } from './types';
 export { ClientToParentMessage, ParentToClientMessage } from './types';
 

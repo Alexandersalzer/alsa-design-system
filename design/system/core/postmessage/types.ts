@@ -41,7 +41,7 @@ export interface DesignTokensPayload {
   designTokens: DesignTokens; // Samma struktur som design.json globalStyles
 }
 
-export interface DesignTokenUpdatesPayload {
+export interface DesignTokenUpdatePayload {
   updates: Partial<DesignTokens>; // Partiella uppdateringar
 }
 
