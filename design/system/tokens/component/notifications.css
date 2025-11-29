@@ -163,3 +163,17 @@
   --text-banner-action: var(--text-primary);
   --text-banner-action-hover: var(--text-secondary);
 }
+
+/* ==============================================
+   src/design-system/tokens/component/banner.css
+   BANNER COMPONENT TOKENS - USING SEMANTIC SPACING
+   ============================================== */
+:root {
+  /* ===== BANNER SPACING (using navbar component spacing) ===== */
+  --space-banner-padding: var(--space-navbar-md);      /* Vertical + horizontal padding */
+  --space-banner-gap: var(--foundation-space-3);       /* 12px gap between elements */
+
+  /* ===== BANNER SIZING ===== */
+  --size-banner-min-height: 56px;
+  --size-banner-icon: 20px;
+}
