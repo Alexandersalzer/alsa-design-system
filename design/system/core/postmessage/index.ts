@@ -12,7 +12,8 @@ export type {
   EditingModePayload, 
   DesignTokensPayload,
   HeightPayload,
-  RequestHeightPayload
+  RequestHeightPayload,
+  DesignTokenUpdatesPayload
 } from './types';
 export { CLIENT_TO_PARENT_MESSAGES, PARENT_TO_CLIENT_MESSAGES } from './types';
 
