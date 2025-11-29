@@ -126,20 +126,52 @@
   --text-textarea-disabled: var(--text-disabled);
 
 
-  /* ==========================================================
-     SWITCH
-     ========================================================== */
-  --surface-switch-track: var(--surface-hover);
-  --surface-switch-track-hover: var(--surface-active);
+  /* ==============================================
+   src/design-system/tokens/component/switch.css
+   SWITCH COMPONENT TOKENS
+   ============================================== */
+  /* ===== SWITCH SIZES ===== */
+  /* Small */
+  --size-switch-sm-width: 32px;
+  --size-switch-sm-height: 18px;
+  --size-switch-sm-thumb: 14px;
+  
+  /* Medium (default) */
+  --size-switch-md-width: 40px;
+  --size-switch-md-height: 22px;
+  --size-switch-md-thumb: 18px;
+  
+  /* Large */
+  --size-switch-lg-width: 48px;
+  --size-switch-lg-height: 26px;
+  --size-switch-lg-thumb: 22px;
+
+  /* ===== SWITCH COLORS ===== */
+  /* Track */
+  --surface-switch-track: var(--foundation-gray-300);
+  --surface-switch-track-hover: var(--foundation-gray-400);
   --surface-switch-track-checked: var(--interactive-accent);
   --surface-switch-track-checked-hover: var(--interactive-accent-hover);
-  --surface-switch-track-disabled: var(--interactive-secondary-disabled);
-  --surface-switch-track-disabled-checked: var(--interactive-accent-disabled);
-
-  --surface-switch-thumb: var(--surface-base);
-  --surface-switch-thumb-disabled: var(--surface-disabled);
-
+  --surface-switch-track-disabled: var(--foundation-gray-200);
+  --surface-switch-track-disabled-checked: var(--foundation-gray-400);
+  
+  /* Thumb */
+  --surface-switch-thumb: var(--foundation-white);
+  --surface-switch-thumb-disabled: var(--foundation-gray-100);
+  
+  /* Border */
   --border-switch-focus: var(--border-focus);
+
+  /* ===== SWITCH RADIUS ===== */
+  --radius-switch-track: var(--foundation-radius-full);
+  --radius-switch-thumb: var(--foundation-radius-full);
+
+  /* ===== SWITCH TRANSITIONS ===== */
+  --transition-switch-track: background-color var(--foundation-duration-normal) var(--foundation-ease-out);
+  --transition-switch-thumb: transform var(--foundation-duration-normal) var(--foundation-ease-out);
+  --transition-switch-border: border-color var(--foundation-duration-fast) var(--foundation-ease-out);
+  --transition-switch-focus: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
+  --transition-switch-hover: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
 
 
   /* ==========================================================

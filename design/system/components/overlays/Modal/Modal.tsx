@@ -1,13 +1,15 @@
+// ==============================================
 // src/design-system/components/primitives/Modal/Modal.tsx
+// MODAL COMPONENT - WITH FOOTER SUPPORT
+// ==============================================
+
 import React, { forwardRef, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../../../utils/cn';
 import { IconButtons } from '../../actions';
 import { H3 } from '../../Typography';
-import { VStack } from '../../layout/vStack/VStack';
-import { HStack } from '../../layout/hStack/HStack';
 
-export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
+export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
 
 export interface ModalProps {
   children: React.ReactNode;
@@ -15,6 +17,8 @@ export interface ModalProps {
   onClose: () => void;
   size?: ModalSize;
   title?: string;
+  /** Footer content (typically actions/buttons) - will be sticky at bottom */
+  footer?: React.ReactNode;
   showCloseButton?: boolean;
   closeOnBackdropClick?: boolean;
   closeOnEscape?: boolean;
@@ -27,6 +31,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
   onClose,
   size = 'md',
   title,
+  footer,
   showCloseButton = true,
   closeOnBackdropClick = true,
   closeOnEscape = true,
@@ -54,9 +59,11 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
   // Handle escape key
   useEffect(() => {
     if (!isOpen || !closeOnEscape) return;
+
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
+
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, closeOnEscape, onClose]);
@@ -100,38 +107,37 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
       aria-labelledby={title ? 'modal-title' : undefined}
     >
       <div ref={ref} className={modalClasses} {...props}>
-        <VStack spacing="sm" className="modal__layout" style={{ height: '100%' }}>
-          {/* Header with close button */}
-          {(title || showCloseButton) && (
-            <HStack 
-              justify="between" 
-              align="center" 
-              className="modal__header"
-            >
-              {title ? (
-                <H3 id="modal-title" className="modal__title">
-                  {title}
-                </H3>
-              ) : (
-                <div />
-              )}
-              {showCloseButton && (
-                <IconButtons.Close
-                  onClick={onClose}
-                  variant="ghost"
-                  size="md"
-                  aria-label="Stäng modal"
-                  className="modal__close-btn"
-                />
-              )}
-            </HStack>
-          )}
-          
-          {/* Content area - grows to fill space */}
-          <div className="modal__content">
-            {children}
+        {/* Header */}
+        {(title || showCloseButton) && (
+          <div className="modal__header">
+            {title && (
+              <H3 id="modal-title" className="modal__title">
+                {title}
+              </H3>
+            )}
+            {showCloseButton && (
+              <IconButtons.Close
+                onClick={onClose}
+                variant="ghost"
+                size="md"
+                aria-label="Close modal"
+                className="modal__close-btn"
+              />
+            )}
           </div>
-        </VStack>
+        )}
+
+        {/* Content - scrollable area */}
+        <div className="modal__content">
+          {children}
+        </div>
+
+        {/* Footer - sticky at bottom */}
+        {footer && (
+          <div className="modal__footer">
+            {footer}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -140,4 +146,5 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
 });
 
 Modal.displayName = 'Modal';
+
 export default Modal;
