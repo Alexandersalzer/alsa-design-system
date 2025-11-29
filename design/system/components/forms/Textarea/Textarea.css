@@ -155,7 +155,7 @@
 }
 
 .textarea-count--error {
-  color: var(--error-text) !important;
+  color: var(--text-error) !important;
   font-weight: var(--foundation-weight-semibold);
 }
 

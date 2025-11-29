@@ -47,10 +47,11 @@ import type { DesignConfig } from "../types/design";
       @import url('${fontUrl}');
 
       <script>
-        // Set accent intensity attribute immediately for CSS to pick up
+        // Set theme attributes immediately for CSS to pick up
         (function() {
           document.documentElement.setAttribute('data-accent-intensity', '${finalIntensity}');
           document.documentElement.setAttribute('data-theme', '${isDark ? 'dark' : 'light'}');
+          document.documentElement.setAttribute('data-theme-tone', '${themeTone}');
         })();
       </script>
 
