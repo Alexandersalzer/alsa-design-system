@@ -1,41 +1,15 @@
 /* ==============================================
    src/design-system/tokens/component/toast.css
-   TOAST COMPONENT TOKENS - USING SMART SHORTCUTS
+   TOAST COMPONENT TOKENS - USING SEMANTIC SPACING
    ============================================== */
-
 :root {
-  /* ===== INFO TOAST ===== */
-  --surface-toast-info: var(--surface-info);
-  --border-toast-info: var(--border-info);
-  --text-toast-info: var(--text-info);
-  --text-toast-info-title: var(--text-info-strong);
-  --icon-toast-info: var(--icon-info);
+  /* ===== TOAST SPACING (using card component spacing) ===== */
+  --space-toast-padding: var(--space-card-padding-sm);  /* 16px all sides */
+  --space-toast-gap: var(--space-card-gap-sm);          /* 12px gap */
 
-  /* ===== SUCCESS TOAST ===== */
-  --surface-toast-success: var(--surface-success);
-  --border-toast-success: var(--border-success);
-  --text-toast-success: var(--text-success);
-  --text-toast-success-title: var(--text-success-strong);
-  --icon-toast-success: var(--icon-success);
-
-  /* ===== WARNING TOAST ===== */
-  --surface-toast-warning: var(--surface-warning);
-  --border-toast-warning: var(--border-warning);
-  --text-toast-warning: var(--text-warning);
-  --text-toast-warning-title: var(--text-warning-strong);
-  --icon-toast-warning: var(--icon-warning);
-
-  /* ===== ERROR TOAST ===== */
-  --surface-toast-error: var(--surface-error);
-  --border-toast-error: var(--border-error);
-  --text-toast-error: var(--text-error);
-  --text-toast-error-title: var(--text-error-strong);
-  --icon-toast-error: var(--icon-error);
-
-  /* ===== TOAST LAYOUT TOKENS (add these) ===== */
-  --space-toast-padding: var(--foundation-space-4);
-  --space-toast-gap: var(--foundation-space-3);
+  /* ===== TOAST RADIUS ===== */
   --radius-toast: var(--foundation-radius-lg);
-  --shadow-toast: var(--foundation-shadow-lg);
-  --transition-toast: var(--foundation-duration-standard) var(--foundation-easing-enter);
+
+  /* ===== TOAST SHADOW ===== */
+  --shadow-toast: var(--shadow-strong);
 }

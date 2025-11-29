@@ -1,0 +1,15 @@
+/* ==============================================
+   src/design-system/tokens/component/toast.css
+   TOAST COMPONENT TOKENS - USING SEMANTIC SPACING
+   ============================================== */
+:root {
+  /* ===== TOAST SPACING (using card component spacing) ===== */
+  --space-toast-padding: var(--space-card-padding-sm);  /* 16px all sides */
+  --space-toast-gap: var(--space-card-gap-sm);          /* 12px gap */
+
+  /* ===== TOAST RADIUS ===== */
+  --radius-toast: var(--foundation-radius-lg);
+
+  /* ===== TOAST SHADOW ===== */
+  --shadow-toast: var(--shadow-strong);
+}

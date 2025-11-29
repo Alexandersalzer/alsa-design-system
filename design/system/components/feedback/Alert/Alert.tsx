@@ -1,6 +1,6 @@
 // ==============================================
 // src/design-system/components/primitives/Alert/Alert.tsx
-// ALERT COMPONENT - FOLLOWING TOAST STRUCTURE
+// ALERT COMPONENT - WITH SURFACE VARIANTS
 // ==============================================
 
 import React, { forwardRef, ReactNode } from 'react';
@@ -10,14 +10,14 @@ import { StatusIcons } from '../../media';
 import { IconButtons } from '../../actions';
 
 // ===== TYPE DEFINITIONS =====
-export type AlertVariant = 'subtle' | 'solid' | 'outline';
 export type AlertStatus = 'info' | 'success' | 'warning' | 'error';
+export type AlertSurface = 'subtle' | 'muted' | 'vibrant';
 
 export interface AlertRootProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Alert status/type */
   status?: AlertStatus;
-  /** Visual variant */
-  variant?: AlertVariant;
+  /** Surface variant */
+  surface?: AlertSurface;
   /** Additional CSS classes */
   className?: string;
   /** Alert children */
@@ -77,7 +77,7 @@ const getStatusIcon = (status: AlertStatus): ReactNode => {
 // ===== ROOT COMPONENT =====
 export const AlertRoot = forwardRef<HTMLDivElement, AlertRootProps>(({
   status = 'info',
-  variant = 'subtle',
+  surface = 'subtle',
   className,
   children,
   ...props
@@ -85,7 +85,7 @@ export const AlertRoot = forwardRef<HTMLDivElement, AlertRootProps>(({
   const alertClasses = cn(
     'alert',
     `alert--${status}`,
-    `alert--${variant}`,
+    surface !== 'subtle' && `alert--${surface}`,
     className
   );
 
@@ -96,7 +96,7 @@ export const AlertRoot = forwardRef<HTMLDivElement, AlertRootProps>(({
       role="alert"
       aria-live="polite"
       data-status={status}
-      data-variant={variant}
+      data-surface={surface}
       {...props}
     >
       {children}
@@ -247,7 +247,7 @@ export interface AlertClosedProps extends Omit<AlertRootProps, 'children' | 'tit
 
 export const AlertClosed = forwardRef<HTMLDivElement, AlertClosedProps>(({
   status = 'info',
-  variant = 'subtle',
+  surface = 'subtle',
   title,
   children,
   icon,
@@ -262,7 +262,7 @@ export const AlertClosed = forwardRef<HTMLDivElement, AlertClosedProps>(({
     <AlertRoot 
       ref={ref} 
       status={status} 
-      variant={variant}
+      surface={surface}
       className={className}
       {...props}
     >
