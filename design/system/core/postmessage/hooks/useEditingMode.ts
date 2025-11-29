@@ -10,11 +10,11 @@
 
 import { useEffect, useState } from 'react';
 import { isOriginAllowed } from '../cors';
-import { PARENT_TO_CLIENT_MESSAGES } from '../types';
+import { ParentToClientMessage } from '../types';
 import { useHeightSync } from './useHeightSync';
 
 /**
- * Hook som lyssnar på TOGGLE_EDITING_MODE postMessages och uppdaterar HTML class
+ * Hook som lyssnar på SetEditingMode postMessages och uppdaterar HTML class
  * Returnerar aktuell editing mode state
  */
 export function useEditMode(): boolean {
@@ -42,7 +42,7 @@ export function useEditMode(): boolean {
       }
 
       // Hantera editing mode meddelanden
-      if (event.data?.type === PARENT_TO_CLIENT_MESSAGES.TOGGLE_EDITING_MODE) {
+      if (event.data?.type === ParentToClientMessage.SetEditingMode) {
         const { isEditing: newEditingState } = event.data.payload;
         const html = document.documentElement;
         

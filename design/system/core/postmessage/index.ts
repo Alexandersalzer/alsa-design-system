@@ -8,14 +8,14 @@
 
 // Types (shared with IM-dashboard)
 export type { 
-  PostMessage, 
-  EditingModePayload, 
+  BaseMessage, 
+  EditingStatePayload, 
   DesignTokensPayload,
-  HeightPayload,
+  RequestedHeightPayload,
   RequestHeightPayload,
   DesignTokenUpdatesPayload
 } from './types';
-export { CLIENT_TO_PARENT_MESSAGES, PARENT_TO_CLIENT_MESSAGES } from './types';
+export { ClientToParentMessage, ParentToClientMessage } from './types';
 
 // CORS
 export { ALLOWED_ORIGINS, isOriginAllowed } from './cors';

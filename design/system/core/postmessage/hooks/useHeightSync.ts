@@ -9,7 +9,7 @@
 'use client';
 
 import { useEffect, useCallback } from 'react';
-import { CLIENT_TO_PARENT_MESSAGES } from '../types';
+import { ClientToParentMessage } from '../types';
 
 /**
  * Hook som skickar höjduppdateringar till parent efter CSS-ändringar
@@ -26,7 +26,7 @@ export function useHeightSync(): (delay?: number) => void {
       const height = document.documentElement.scrollHeight;
       
       window.parent.postMessage({
-        type: CLIENT_TO_PARENT_MESSAGES.IFRAME_HEIGHT,
+        type: ClientToParentMessage.RequestedIframeHeight,
         payload: { height }
       }, '*');
       

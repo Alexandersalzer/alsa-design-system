@@ -10,7 +10,7 @@
 
 import { useEffect } from 'react';
 import { isOriginAllowed } from '../cors';
-import { CLIENT_TO_PARENT_MESSAGES, PARENT_TO_CLIENT_MESSAGES } from '../types';
+import { ClientToParentMessage, ParentToClientMessage } from '../types';
 
 /**
  * Hook som hanterar höjdkommunikation mellan iframe och parent
@@ -54,7 +54,7 @@ export function useIFrameHeight(): void {
       }
       
       window.parent.postMessage({
-        type: CLIENT_TO_PARENT_MESSAGES.IFRAME_HEIGHT,
+        type: ClientToParentMessage.RequestedIframeHeight,
         payload: { 
           height, 
           iframeId // Inkludera iframe ID i svaret
@@ -71,7 +71,7 @@ export function useIFrameHeight(): void {
       }
 
       // Hantera width-specifika höjdförfrågningar
-      if (event.data?.type === PARENT_TO_CLIENT_MESSAGES.REQUEST_HEIGHT) {
+      if (event.data?.type === ParentToClientMessage.RequestIframeHeight) {
         const { iframeId, width } = event.data.payload || {};
         sendHeight(iframeId, width);
         console.log(`[IFrameHeight] Height requested for width: ${width}px, ID: ${iframeId}`);

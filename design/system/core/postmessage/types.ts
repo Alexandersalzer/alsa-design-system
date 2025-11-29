@@ -8,7 +8,7 @@
 
 import type { DesignTokens } from '../types/design';
 
-export interface PostMessage<T = any> {
+export interface BaseMessage<T = any> {
   type: string;
   payload: T;
 }
@@ -17,22 +17,23 @@ export interface PostMessage<T = any> {
 /**
  * Meddelanden från parent till client iframe
  */
-export const PARENT_TO_CLIENT_MESSAGES = {
-  TOGGLE_EDITING_MODE: 'TOGGLE_EDITING_MODE',
-  UPDATE_DESIGN_TOKENS: 'UPDATE_DESIGN_TOKENS',
-  DESIGN_TOKENS_UPDATE: 'DESIGN_TOKENS_UPDATE',
-  REQUEST_HEIGHT: 'REQUEST_HEIGHT',
+export const ParentToClientMessage = {
+  SetEditingMode: 'SET_EDITING_MODE',
+  SetInitialDesignTokens: 'SET_INITIAL_DESIGN_TOKENS',
+  UpdateDesignToken: 'UPDATE_DESIGN_TOKEN',
+  RequestIframeHeight: 'REQUEST_IFRAME_HEIGHT',
 } as const;
+
 
 /**
  * Meddelanden från client iframe till parent
  */
-export const CLIENT_TO_PARENT_MESSAGES = {
-  IFRAME_HEIGHT: 'IFRAME_HEIGHT',
+export const ClientToParentMessage = {
+  RequestedIframeHeight: 'REQUESTED_IFRAME_HEIGHT',
 } as const;
 
 
-export interface EditingModePayload {
+export interface EditingStatePayload {
   isEditing: boolean;
 }
 
@@ -44,7 +45,7 @@ export interface DesignTokenUpdatesPayload {
   updates: Partial<DesignTokens>; // Partiella uppdateringar
 }
 
-export interface HeightPayload {
+export interface RequestedHeightPayload {
   height: number;
   iframeId?: string;
 }
