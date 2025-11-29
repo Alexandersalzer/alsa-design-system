@@ -10,7 +10,9 @@
 export type { 
   PostMessage, 
   EditingModePayload, 
-  DesignTokensPayload
+  DesignTokensPayload,
+  HeightPayload,
+  RequestHeightPayload
 } from './types';
 export { MESSAGE_TYPES } from './types';
 

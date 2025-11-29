@@ -30,3 +30,13 @@ export interface EditingModePayload {
 export interface DesignTokensPayload {
   designTokens: any; // Samma struktur som design.json globalStyles
 }
+
+export interface HeightPayload {
+  height: number;
+  iframeId?: string;
+}
+
+export interface RequestHeightPayload {
+  iframeId: string;
+  width: number;
+}
