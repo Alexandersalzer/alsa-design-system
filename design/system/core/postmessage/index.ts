@@ -31,4 +31,4 @@ export {
 
 
 export { EditingHandler } from './EditingHandler';
-export { applyEditingMode } from './applyEditingMode';
+export { applyEditingMode } from './hooks/applyEditingMode';

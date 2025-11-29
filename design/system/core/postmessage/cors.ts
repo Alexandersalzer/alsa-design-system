@@ -10,10 +10,9 @@
  * Tillåtna origins för postMessage kommunikation
  */
 export const ALLOWED_ORIGINS = [
-  'http://localhost:3000',
-  'http://localhost:3001', 
-  'https://dashboard.blimpify.com',
-  'https://im-dashboard.blimpify.com'
+  'http://localhost:3000', // För lokal utveckling av IM-dashboard
+  'http://localhost:3001', // För lokal utveckling av IM-dashboard
+  'https://app.blimpify-im.com'
 ];
 
 /**
