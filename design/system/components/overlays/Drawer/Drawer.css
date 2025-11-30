@@ -18,6 +18,14 @@
   z-index: calc(var(--z-navbar, 50) - 1);
 }
 
+/* Absolute positioning variant (for demo/docs pages) */
+.drawer-overlay--absolute {
+  position: absolute;
+  top: 0;
+  inset: 0;
+  z-index: 10;
+}
+
 .drawer-overlay--open {
   opacity: 1;
 }
@@ -39,6 +47,11 @@
   flex-direction: column;
 }
 
+/* Absolute positioning variant */
+.drawer--absolute {
+  position: absolute;
+}
+
 /* TOP / NAVBAR drawer positioning */
 .drawer--top,
 .drawer--navbar {
@@ -46,6 +59,11 @@
   left: 0;
   transform: translateY(-100%);
   z-index: calc(var(--z-navbar, 50) - 1);
+}
+
+.drawer--top.drawer--absolute,
+.drawer--navbar.drawer--absolute {
+  top: 0;
 }
 
 .drawer--open.drawer--top,
@@ -59,6 +77,69 @@
 }
 
 /* ==========================================================
+   LEFT DRAWER
+   ========================================================== */
+.drawer--left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 320px;
+  max-width: 85vw;
+  transform: translateX(-100%);
+  z-index: calc(var(--z-navbar, 50) - 1);
+}
+
+.drawer--open.drawer--left {
+  transform: translateX(0);
+}
+
+.drawer--close.drawer--left {
+  transform: translateX(-100%);
+}
+
+/* ==========================================================
+   RIGHT DRAWER
+   ========================================================== */
+.drawer--right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 320px;
+  max-width: 85vw;
+  transform: translateX(100%);
+  z-index: calc(var(--z-navbar, 50) - 1);
+}
+
+.drawer--open.drawer--right {
+  transform: translateX(0);
+}
+
+.drawer--close.drawer--right {
+  transform: translateX(-100%);
+}
+
+/* ==========================================================
+   BOTTOM DRAWER
+   ========================================================== */
+.drawer--bottom {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: auto;
+  max-height: 85vh;
+  transform: translateY(100%);
+  z-index: calc(var(--z-navbar, 50) - 1);
+}
+
+.drawer--open.drawer--bottom {
+  transform: translateY(0);
+}
+
+.drawer--close.drawer--bottom {
+  transform: translateY(100%);
+}
+
+/* ==========================================================
    DRAWER VARIANTS (fullscreen vs sheet) - FOR NAVBAR BAR
    ========================================================== */
 
@@ -66,6 +147,11 @@
 .drawer.drawer-variant-fullscreen {
   height: calc(100% - var(--navbar-height));
   max-height: calc(100% - var(--navbar-height));
+}
+
+.drawer.drawer-variant-fullscreen.drawer--absolute {
+  height: 100%;
+  max-height: 100%;
 }
 
 /* Sheet variant - shorter top sheet with rounded corners */
@@ -103,6 +189,14 @@
   flex-direction: column;
   justify-content: flex-start;
   text-align: center;
+  overflow-y: auto;
+}
+
+/* For absolute drawers, adjust content width */
+.drawer--absolute .drawer__body {
+  width: 100%;
+  max-width: 100%;
+  padding: 0 var(--foundation-space-4);
 }
 
 /* ==========================================================
@@ -229,16 +323,14 @@
   left: 0;
   width: auto;
   max-width: none;
-  overflow: hidden; /* 👈 CRITICAL - hides content during scale */
+  overflow: hidden;
   
-  /* Override base drawer styles */
   background: var(--surface-nav);
   border: none;
   border-radius: 0 0 var(--radius-navbar-pill) var(--radius-navbar-pill);
   box-shadow: 0 4px 12px var(--shadow-emphasis);
   
-  /* Animation - height grows from 0 */
-  max-height: 0; /* 👈 Start at 0 height */
+  max-height: 0;
   opacity: 0;
   transform: translateY(0);
   transition: max-height 500ms cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -247,41 +339,32 @@
   
   z-index: 40;
   
-  /* Padding to account for starting from middle of pill */
   padding-top: calc(var(--space-navbar) / 2);
 }
 
 .drawer--pill.drawer--open {
-  max-height: 80vh; /* 👈 Expand to full height */
+  max-height: 80vh;
   opacity: 1;
 }
 
 .drawer--pill.drawer--close {
-  max-height: 0; /* 👈 Collapse to 0 */
+  max-height: 0;
   opacity: 0;
   transition: max-height 350ms cubic-bezier(0.4, 0, 0.2, 1),
               opacity 300ms ease-in;
 }
 
 /* Sheet variant (compact) */
-.drawer--pill.drawer-variant-pill-sheet {
-  /* max-height handled by open/close states */
-}
-
 .drawer--pill.drawer-variant-pill-sheet.drawer--open {
-  max-height: 60vh; /* 👈 Sheet is shorter */
+  max-height: 60vh;
 }
 
 /* Fullscreen variant (tall) */
-.drawer--pill.drawer-variant-pill-fullscreen {
-  /* max-height handled by open/close states */
-}
-
 .drawer--pill.drawer-variant-pill-fullscreen.drawer--open {
-  max-height: calc(100vh - var(--navbar-height) - 80px); /* 👈 Fullscreen is taller */
+  max-height: calc(100vh - var(--navbar-height) - 80px);
 }
 
-/* Content styling - MUST fill drawer height */
+/* Content styling */
 .drawer-pill-content {
   padding: var(--foundation-space-6) var(--space-navbar);
   display: flex;
@@ -293,7 +376,6 @@
   min-height: 100%;
 }
 
-/* Links section - stays at top */
 .drawer-pill-links {
   flex-shrink: 0;
   padding-top: var(--foundation-space-6);
@@ -312,7 +394,6 @@
   color: var(--text-nav-item-selected);
 }
 
-/* Actions section - pushed to bottom */
 .drawer-pill-actions {
   margin-top: auto;
   padding-top: var(--foundation-space-6);
@@ -325,7 +406,6 @@
   flex-shrink: 0;
 }
 
-/* In fullscreen, add more space above buttons */
 .drawer--pill.drawer-variant-pill-fullscreen .drawer-pill-actions {
   padding-top: var(--foundation-space-8);
 }
