@@ -9,16 +9,97 @@
   width: 100%;
 }
 
-/* ===== SELECTOR BUTTON ===== */
-.date-picker-selector-button {
-  /* IconButton styles already handle this */
+.date-picker-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-/* ===== POPOVER CONTENT ===== */
-.date-picker-popover-content {
+/* ===== LABEL ===== */
+.date-picker-label {
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--foundation-weight-semibold);
+  line-height: var(--font-body-md-leading);
+  color: var(--text-form-label);
+  margin-bottom: 4px;
+  display: block;
+  user-select: none;
+}
+
+.date-picker-label__required {
+  color: var(--text-form-label-required);
+  margin-left: 2px;
+}
+
+/* ===== DESCRIPTION ===== */
+.date-picker-description {
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--foundation-weight-normal);
+  line-height: var(--font-body-sm-leading);
+  color: var(--text-form-hint);
+  margin-top: -2px;
+  margin-bottom: 6px;
+}
+
+/* ===== INPUT GROUP ===== */
+.date-picker-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+
+.date-picker-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  z-index: 1;
+}
+
+.date-picker-input-group--bordered .date-picker-trigger:first-child {
+  left: 4px;
+}
+
+.date-picker-input-group--bordered .date-picker-trigger:last-child {
+  right: 4px;
+}
+
+.date-picker-field-wrapper {
+  flex: 1;
+}
+
+.date-picker-date-input {
+  width: 100%;
+}
+
+/* ===== HELPER/ERROR ===== */
+.date-picker-help-wrapper {
+  margin-top: 4px;
+}
+
+.date-picker-error {
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--foundation-weight-normal);
+  line-height: var(--font-body-sm-leading);
+  color: var(--text-form-error);
+}
+
+.date-picker-helper {
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--foundation-weight-normal);
+  line-height: var(--font-body-sm-leading);
+  color: var(--text-form-hint);
+}
+
+/* ===== POPOVER ===== */
+.date-picker-popover {
   padding: 0;
-  min-width: 256px;
-  /* Popover already has background and border radius */
 }
 
 /* ===== CALENDAR CONTENT WRAPPER ===== */
@@ -26,14 +107,13 @@
   display: flex;
   flex-direction: column;
   gap: 0;
-  /* Remove any extra gap since calendar has its own padding */
 }
 
 /* ===== CALENDAR IN PICKER ===== */
 .date-picker-calendar {
   /* Remove double background - calendar shouldn't have its own background in popover */
   background-color: transparent !important;
-  /* Remove padding since popover provides it */
+  /* Use padding from popover */
   padding: 16px !important;
   /* Remove border radius since popover has it */
   border-radius: 0 !important;

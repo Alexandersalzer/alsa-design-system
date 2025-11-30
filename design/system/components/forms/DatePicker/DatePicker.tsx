@@ -1,15 +1,18 @@
 // ===============================================
 // blimpify-ui/design/system/components/forms/DatePicker/DatePicker.tsx
-// DATE PICKER - DateInput + Calendar popover
+// DATE PICKER - Using React Aria's useDatePicker hook
 // ===============================================
 
-import React, { forwardRef, useState, useId } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import { cn } from '../../../utils/cn';
 import type { DateValue } from '@internationalized/date';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { Icon } from '../../media';
 import { IconButton } from '../../actions';
-import { Popover } from '../../overlays';
+import { useDatePickerState } from '@react-stately/datepicker';
+import { useDatePicker } from '@react-aria/datepicker';
+import { useButton } from '@react-aria/button';
+import { AriaPopover } from '../../overlays/AriaPopover';
 import { DateInput } from '../DateInput';
 import { TimeInput } from '../TimeInput';
 import { Calendar } from '../Calendar';
@@ -92,10 +95,6 @@ export interface DatePickerProps {
     timeInputLabel: string;
     timeInput: string;
   }>;
-  /** Popover props */
-  popoverProps?: any;
-  /** Selector button props */
-  selectorButtonProps?: any;
   /** Calendar props */
   calendarProps?: any;
   /** Time input props */
@@ -145,31 +144,52 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
   CalendarBottomContent,
   CalendarTopContent,
   classNames = {},
-  popoverProps,
-  selectorButtonProps,
   calendarProps,
   timeInputProps,
   onChange,
   onFocus,
   onBlur,
-  id: providedId,
+  id,
   ...props
 }, ref) => {
-  const generatedId = useId();
-  const id = providedId || generatedId;
-  
-  const [isOpen, setIsOpen] = useState(false);
-  const [internalValue, setInternalValue] = useState<DateValue | null>(defaultValue || null);
-  
-  // Use controlled value if provided, otherwise use internal state
-  const currentValue = value !== undefined ? value : internalValue;
-  
-  const handleChange = (newValue: DateValue | null) => {
-    if (value === undefined) {
-      setInternalValue(newValue);
-    }
-    onChange?.(newValue);
-  };
+  // Create state
+  const state = useDatePickerState({
+    value: value as any,
+    defaultValue: defaultValue as any,
+    placeholderValue: placeholderValue as any,
+    minValue: minValue as any,
+    maxValue: maxValue as any,
+    granularity,
+    hideTimeZone,
+    isDisabled,
+    isReadOnly,
+    isRequired,
+    onChange: onChange as any,
+  });
+
+  const triggerRef = useRef<Element>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
+
+  // Get props from React Aria
+  const { groupProps, labelProps, fieldProps, buttonProps, dialogProps, calendarProps: ariaCalendarProps } = useDatePicker(
+    {
+      ...props,
+      label,
+      minValue: minValue as any,
+      maxValue: maxValue as any,
+      granularity,
+      hideTimeZone,
+      isDisabled,
+      isReadOnly,
+      isRequired,
+      autoFocus,
+      'aria-describedby': description || errorMessage ? `${id}-description` : undefined,
+    },
+    state,
+    triggerRef
+  );
+
+  const { buttonProps: triggerButtonProps } = useButton(buttonProps, triggerRef);
 
   // Determine if we should show time input
   const showTimeField = granularity && ['hour', 'minute', 'second'].includes(granularity);
@@ -181,102 +201,146 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
     </Icon>
   );
 
-  // Build selector button
-  const selectorButton = (
-    <IconButton
-      variant="ghost"
-      size={size}
-      aria-label="Toggle calendar"
-      icon={selectorIcon || defaultSelectorIcon}
-      className={cn('date-picker-selector-button', classNames.selectorButton)}
-      {...selectorButtonProps}
-    />
-  );
-
   return (
     <div ref={ref} className={cn('date-picker', `date-picker--${size}`, classNames.base)}>
-      <Popover
-        open={isOpen}
-        onOpenChange={setIsOpen}
-        size={size}
-        {...popoverProps}
-      >
-        <Popover.Trigger asChild>
-          <div>
+      <div {...groupProps} className="date-picker-group">
+        {/* Label */}
+        {label && labelPlacement !== 'inside' && (
+          <label {...labelProps} className={cn('date-picker-label', `date-picker-label--${size}`)}>
+            {label}
+            {isRequired && <span className="date-picker-label__required">*</span>}
+          </label>
+        )}
+
+        {/* Description */}
+        {description && labelPlacement === 'outside' && (
+          <div id={`${id}-description`} className="date-picker-description">
+            {description}
+          </div>
+        )}
+
+        {/* Date Input Group */}
+        <div className={cn('date-picker-input-group', `date-picker-input-group--${variant}`)}>
+          {/* Selector Button (Start) */}
+          {selectorButtonPlacement === 'start' && (
+            <button
+              ref={triggerRef as any}
+              {...triggerButtonProps}
+              className={cn('date-picker-trigger', classNames.selectorButton)}
+            >
+              <IconButton
+                variant="ghost"
+                size={size}
+                aria-label="Toggle calendar"
+                icon={selectorIcon || defaultSelectorIcon}
+                disabled={isDisabled || isReadOnly}
+              />
+            </button>
+          )}
+
+          {/* Date Field */}
+          <div className="date-picker-field-wrapper">
             <DateInput
-              id={id}
-              label={label}
-              value={currentValue}
-              onChange={handleChange}
+              label={labelPlacement === 'inside' ? label : undefined}
+              value={state.value as any}
+              onChange={(newValue) => state.setValue(newValue as any)}
               size={size}
               variant={variant}
               labelPlacement={labelPlacement}
-              minValue={minValue}
-              maxValue={maxValue}
               granularity={granularity}
               hideTimeZone={hideTimeZone}
-              description={description}
-              errorMessage={errorMessage}
-              helper={helper}
               isDisabled={isDisabled}
               isReadOnly={isReadOnly}
               isRequired={isRequired}
               isInvalid={isInvalid}
-              autoFocus={autoFocus}
-              onFocus={onFocus}
-              onBlur={onBlur}
-              startContent={selectorButtonPlacement === 'start' ? selectorButton : undefined}
-              endContent={selectorButtonPlacement === 'end' ? selectorButton : undefined}
-              {...props}
+              classNames={{
+                base: 'date-picker-date-input',
+              }}
             />
           </div>
-        </Popover.Trigger>
 
-        <Popover.Positioner>
-          <Popover.Content 
-            className={cn('date-picker-popover-content', classNames.popoverContent)}
-            maxHeight={500}
-          >
-            <div className={cn('date-picker-calendar-content', classNames.calendarContent)}>
-              {CalendarTopContent}
-              
-              <Calendar
-                value={currentValue}
-                onChange={handleChange}
+          {/* Selector Button (End) */}
+          {selectorButtonPlacement === 'end' && (
+            <button
+              ref={triggerRef as any}
+              {...triggerButtonProps}
+              className={cn('date-picker-trigger', classNames.selectorButton)}
+            >
+              <IconButton
+                variant="ghost"
                 size={size}
-                minValue={minValue}
-                maxValue={maxValue}
-                visibleMonths={visibleMonths}
-                showMonthAndYearPickers={showMonthAndYearPickers && visibleMonths === 1}
-                firstDayOfWeek={firstDayOfWeek}
-                calendarWidth={calendarWidth}
-                pageBehavior={pageBehavior}
-                isDateUnavailable={isDateUnavailable}
-                isDisabled={isDisabled}
-                isReadOnly={isReadOnly}
-                className={cn('date-picker-calendar', classNames.calendar)}
-                {...calendarProps}
+                aria-label="Toggle calendar"
+                icon={selectorIcon || defaultSelectorIcon}
+                disabled={isDisabled || isReadOnly}
               />
-              
-              {showTimeField && (
-                <div className={cn('date-picker-time-input-wrapper', classNames.timeInputLabel)}>
-                  <TimeInput
-                    value={currentValue as any}
-                    onChange={handleChange as any}
-                    size={size}
-                    granularity={granularity}
-                    hideTimeZone={hideTimeZone}
-                    className={cn('date-picker-time-input', classNames.timeInput)}
-                    {...timeInputProps}
-                  />
-                </div>
-              )}
-              
-              {CalendarBottomContent}
-            </div>
-          </Popover.Content>
-        </Popover.Positioner>
-      </Popover>
+            </button>
+          )}
+        </div>
+
+        {/* Helper/Error Text */}
+        {(helper || errorMessage) && (
+          <div className="date-picker-help-wrapper">
+            {errorMessage && (
+              <div className="date-picker-error" role="alert">
+                {errorMessage}
+              </div>
+            )}
+            {helper && !errorMessage && (
+              <div className="date-picker-helper">{helper}</div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Popover with Calendar */}
+      {state.isOpen && (
+        <AriaPopover
+          {...dialogProps}
+          state={state}
+          triggerRef={triggerRef}
+          maxHeight={500}
+          width={calendarWidth * visibleMonths + (visibleMonths - 1) * 16 + 32}
+          className={cn('date-picker-popover', classNames.popoverContent)}
+        >
+          <div className={cn('date-picker-calendar-content', classNames.calendarContent)}>
+            {CalendarTopContent}
+
+            <Calendar
+              value={state.value as any}
+              onChange={(newValue) => state.setValue(newValue as any)}
+              size={size}
+              minValue={minValue}
+              maxValue={maxValue}
+              visibleMonths={visibleMonths}
+              showMonthAndYearPickers={showMonthAndYearPickers && visibleMonths === 1}
+              firstDayOfWeek={firstDayOfWeek}
+              calendarWidth={calendarWidth}
+              pageBehavior={pageBehavior}
+              isDateUnavailable={isDateUnavailable}
+              isDisabled={isDisabled}
+              isReadOnly={isReadOnly}
+              className={cn('date-picker-calendar', classNames.calendar)}
+              {...calendarProps}
+            />
+
+            {showTimeField && (
+              <div className={cn('date-picker-time-input-wrapper', classNames.timeInputLabel)}>
+                <TimeInput
+                  value={state.value as any}
+                  onChange={(newValue) => state.setValue(newValue as any)}
+                  size={size}
+                  granularity={granularity}
+                  hideTimeZone={hideTimeZone}
+                  className={cn('date-picker-time-input', classNames.timeInput)}
+                  {...timeInputProps}
+                />
+              </div>
+            )}
+
+            {CalendarBottomContent}
+          </div>
+        </AriaPopover>
+      )}
     </div>
   );
 });
