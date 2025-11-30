@@ -468,3 +468,30 @@
       color 0.15s ease !important;
   }
 }
+
+/* ==========================================================
+   PRESS FEEDBACK + ACTIVE FIXES (FINAL VERSION)
+   ========================================================== */
+
+/* 1) Press scale (navigation + tabs) */
+.nav-item:not(.nav-item--disabled):active,
+.tab:not(.tab--disabled):active {
+  transform: scale(0.97);
+}
+
+/* 2) Active tabs/nav NEVER scale */
+.nav-item--selected,
+.nav-item.selected,
+.tab--active,
+.tab.active {
+  transform: none !important;
+}
+
+/* 3) Ensure scaling transition feels good */
+.nav-item,
+.tab {
+  transition:
+    transform 0.12s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
