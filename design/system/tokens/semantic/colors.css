@@ -461,8 +461,8 @@
 
   /* ----- Primary (dark/inverse) ----- */
   --interactive-primary: var(--neutral-1200);
-  --interactive-primary-hover: var(--neutral-1100);
-  --interactive-primary-active: var(--neutral-1000);
+  --interactive-primary-hover: var(--neutral-1000);
+  --interactive-primary-active: var(--neutral-900);
   --interactive-primary-disabled: var(--neutral-400);
 
   /* ----- Secondary (light/subtle) ----- */

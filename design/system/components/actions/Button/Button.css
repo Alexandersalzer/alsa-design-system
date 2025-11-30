@@ -246,3 +246,36 @@
 .form-row .btn-sm {
   min-height: 32px; /* Exactly matches input--sm */
 }
+
+/* =============================================
+   BUTTON MICRO-INTERACTIONS — PRESS ONLY
+   ============================================= */
+
+.btn:not(:disabled):not(.pointer-events-none) {
+  transition:
+    background-color var(--foundation-duration-fast) var(--foundation-easing-ease-out),
+    border-color var(--foundation-duration-fast) var(--foundation-easing-ease-out),
+    transform 120ms var(--foundation-easing-standard),
+    box-shadow var(--foundation-duration-fast) var(--foundation-easing-ease-out);
+}
+
+/* Hover: no movement */
+.btn:not(:disabled):hover {
+  transform: none;
+}
+
+/* Active press: subtle scale */
+.btn:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+/* Hover + active combo */
+.btn:not(:disabled):hover:active {
+  transform: scale(0.97);
+}
+
+/* Disabled buttons never transform */
+.btn:disabled,
+.btn.pointer-events-none {
+  transform: none !important;
+}
