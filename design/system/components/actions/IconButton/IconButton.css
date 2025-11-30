@@ -1,112 +1,105 @@
-/* ==============================================
-   src/design-system/components/primitives/IconButton/IconButton.css
-   DEFINITIVE FIX - Removes all conflicting styles
-============================================== */
+/* ==========================================================
+   ICON BUTTON — EXACT BUTTON BEHAVIOR
+   Matches sizes, variants, hover, active, focus, transitions
+   EXACTLY like Button component.
+========================================================== */
 
-/* ===== BASE ICON BUTTON STYLES ===== */
+/* ----- BASE ----- */
 .icon-btn {
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  
-  /* Reset all inherited styles */
-  border: 1px solid transparent;
-  background: transparent;
-  border-radius: var(--radius-button);
-  color: inherit;
-  cursor: pointer;
-  transition: all var(--foundation-duration-fast, 0.15s) ease;
-  flex-shrink: 0;
-  outline: none;
-  user-select: none;
-  font: inherit;
-  
-  /* Remove any margin/padding that could affect sizing */
-  margin: 0;
+  gap: 0;
+
+  width: auto;
+  height: auto;
+
   padding: 0;
-  
-  /* Ensure exact box-sizing */
-  box-sizing: border-box;
+  margin: 0;
+
+  border: 1px solid transparent;
+  border-radius: var(--radius-button);
+
+  background: transparent;
+  color: inherit;
+
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+
+  transition:
+    background-color var(--foundation-duration-fast) var(--foundation-easing-ease-out),
+    border-color var(--foundation-duration-fast) var(--foundation-easing-ease-out),
+    transform 120ms var(--foundation-easing-standard),
+    box-shadow var(--foundation-duration-fast) var(--foundation-easing-ease-out);
 }
 
-/* ===== SIZE VARIANTS - EXACTLY MATCH BUTTON HEIGHTS ===== */
+/* ----- SIZE VARIANTS ----- */
 .icon-btn--sm {
   width: var(--control-height-sm);
   height: var(--control-height-sm);
-  /* Small padding for icon centering */
   padding: 6px;
 }
 
-.icon-btn--md{
+.icon-btn--md {
   width: var(--control-height-md);
   height: var(--control-height-md);
-  /* Medium padding for icon centering */
   padding: 8px;
 }
 
 .icon-btn--lg {
   width: var(--control-height-lg);
   height: var(--control-height-lg);
-  /* Large padding for icon centering */
   padding: 12px;
 }
 
 .icon-btn--xl {
   width: var(--control-height-xl);
   height: var(--control-height-xl);
-  /* Extra large padding for icon centering */
   padding: 16px;
 }
 
-/* ===== REMOVE OLD CONFLICTING ICON CONTAINER STYLES ===== */
-/* Remove the old .icon-btn__icon fixed sizing that was overriding Icon component */
+/* ----- ICON WRAPPER ----- */
 .icon-btn__icon {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   z-index: 1;
-  
-  /* CRITICAL: Let the Icon component handle its own sizing */
-  width: auto !important;
-  height: auto !important;
-  
-  /* Remove any padding/margin */
-  margin: 0;
-  padding: 0;
 }
 
-/* ===== ENSURE ICON COMPONENT DOESN'T ADD EXTRA SPACE ===== */
 .icon-btn .icon {
-  /* Override Icon component's vertical-align to prevent height issues */
-  vertical-align: unset !important;
-  
-  /* Ensure no extra margins */
   margin: 0 !important;
-  
-  /* Ensure proper display */
-  display: component !important;
-  
-  /* Remove any transform that could affect height */
   transform: none !important;
+  vertical-align: middle !important;
 }
 
-/* ===== VARIANT STYLES ===== */
+/* ==========================================================
+   VARIANTS — MATCH BUTTON EXACTLY
+========================================================== */
+
+/* PRIMARY */
 .icon-btn--primary {
-  background-color: var(--surface-button-primary);
-  color: var(--text-button-primary);
+  background-color: var(--interactive-primary);
   border-color: var(--border-button-primary);
+  color: var(--text-button-primary);
 }
 
 .icon-btn--primary:hover:not(:disabled) {
   background-color: var(--surface-button-primary-hover);
+  border-color: var(--interactive-primary-active);
 }
 
+.icon-btn--primary:active:not(:disabled) {
+  background-color: var(--surface-button-primary-active);
+}
+
+/* SECONDARY */
 .icon-btn--secondary {
   background-color: var(--surface-button-secondary);
-  color: var(--text-button-secondary);
   border-color: var(--border-button-secondary);
+  color: var(--text-button-secondary);
 }
 
 .icon-btn--secondary:hover:not(:disabled) {
@@ -114,170 +107,115 @@
   border-color: var(--border-button-secondary-hover);
 }
 
+.icon-btn--secondary:active:not(:disabled) {
+  background-color: var(--surface-button-secondary-active);
+}
+
+/* ACCENT */
 .icon-btn--accent {
   background-color: var(--surface-button-accent);
-  color: var(--text-button-accent);
   border-color: var(--border-button-accent);
+  color: var(--always-white);
 }
 
 .icon-btn--accent:hover:not(:disabled) {
   background-color: var(--surface-button-accent-hover);
 }
 
+.icon-btn--accent:active:not(:disabled) {
+  background-color: var(--surface-button-accent-active);
+}
+
+/* GHOST */
 .icon-btn--ghost {
   background-color: transparent;
-  color: var(--text-button-ghost);
   border-color: transparent;
+  color: var(--text-button-secondary);
 }
 
 .icon-btn--ghost:hover:not(:disabled) {
   background-color: var(--surface-button-ghost-hover);
 }
 
+.icon-btn--ghost:active:not(:disabled) {
+  background-color: var(--surface-button-ghost-active);
+}
+
+/* DESTRUCTIVE */
 .icon-btn--destructive {
-  background-color: var(--interactive-destructive);
-  color: var(--primary-white);
-  border-color: var(--border-error);
+  background-color: var(--surface-button-destructive);
+  border-color: var(--border-button-destructive);
+  color: var(--always-white);
 }
 
 .icon-btn--destructive:hover:not(:disabled) {
-  background-color: var(--interactive-destructive-hover);
+  background-color: var(--surface-button-destructive-hover);
 }
 
-/* ===== FOCUS STATES ===== */
-.icon-btn:focus-visible {
-  outline: 2px solid var(--border-button-secondary-focus);
-  outline-offset: 2px;
+.icon-btn--destructive:active:not(:disabled) {
+  background-color: var(--interactive-destructive-active);
 }
 
-/* ===== ACTIVE STATE ===== */
+/* ==========================================================
+   INTERACTION — MATCH BUTTON EXACTLY
+========================================================== */
+
+/* Hover: NO SCALE (Button behavior) */
+.icon-btn:not(:disabled):hover {
+  transform: none;
+}
+
+/* Press / Active */
+.icon-btn:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+/* Hover + Active combo */
+.icon-btn:not(:disabled):hover:active {
+  transform: scale(0.97);
+}
+
+/* ==========================================================
+   ACTIVE STATE FOR NAVIGATION
+========================================================== */
+
 .icon-btn--active {
   background-color: var(--surface-nav-item-selected) !important;
   color: var(--text-nav-item-selected) !important;
+  transform: scale(0.97);
 }
 
 .icon-btn--active:hover {
   background-color: var(--surface-nav-item-selected-hover) !important;
 }
 
-/* ===== DISABLED STATE ===== */
+/* ==========================================================
+   DISABLED
+========================================================== */
 .icon-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.6;
   cursor: not-allowed;
-  pointer-events: none;
-  background: transparent !important;
-  color: var(--text-disabled) !important;
+  transform: none !important;
 }
 
-/* ===== LOADING SPINNER ===== */
+/* ==========================================================
+   FOCUS
+========================================================== */
+.icon-btn:focus-visible {
+  outline: 2px solid var(--border-button-secondary-focus);
+  outline-offset: 2px;
+}
+
+/* ==========================================================
+   LOADING
+========================================================== */
 .icon-btn__spinner {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .icon-btn--loading .icon-btn__icon {
   opacity: 0;
-}
-
-/* ===== BADGE STYLES ===== */
-.icon-btn__badge {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  background-color: var(--surface-accent);
-  color: var(--text-on-accent);
-  font-size: 10px;
-  font-weight: 600;
-  padding: 1px 4px;
-  border-radius: var(--radius-full);
-  min-width: 16px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--surface-page);
-  font-family: var(--font-body-family);
-  z-index: 3;
-  line-height: 1;
-  animation: badge-pulse 2s infinite;
-}
-
-/* Badge size adjustments */
-.icon-btn--sm .icon-btn__badge {
-  top: -1px;
-  right: -1px;
-  font-size: 9px;
-  min-width: 14px;
-  height: 14px;
-  border: 1px solid var(--surface-page);
-}
-
-.icon-btn--lg .icon-btn__badge,
-.icon-btn--xl .icon-btn__badge {
-  top: -3px;
-  right: -3px;
-  font-size: 11px;
-  min-width: 16px;
-  height: 16px;
-}
-
-/* ===== ANIMATION KEYFRAMES ===== */
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes badge-pulse {
-  0% {
-    box-shadow: 0 0 0 0 var(--surface-accent-muted);
-  }
-  70% {
-    box-shadow: 0 0 0 4px transparent;
-  }
-  100% {
-    box-shadow: 0 0 0 0 transparent;
-  }
-}
-
-.icon-btn:disabled .animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-/* ===== ACCESSIBILITY ===== */
-@media (prefers-reduced-motion: reduce) {
-  .icon-btn {
-    transition: none;
-  }
-  
-  .icon-btn__badge {
-    animation: none;
-  }
-}
-
-/* ===== PERFECT FORM ALIGNMENT ===== */
-.form-row .icon-btn--sm,
-.clean-auth-form .icon-btn--sm {
-  height: 32px !important;
-  min-height: 32px !important;
-  max-height: 32px !important;
-}
-
-.form-row .icon-btn--md,
-.clean-auth-form .icon-btn--md {
-  height: 40px !important;
-  min-height: 40px !important;
-  max-height: 40px !important;
-}
-
-.form-row .icon-btn--lg,
-.clean-auth-form .icon-btn--lg {
-  height: 48px !important;
-  min-height: 48px !important;
-  max-height: 48px !important;
 }
