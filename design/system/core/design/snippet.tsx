@@ -134,6 +134,12 @@ export async function designSnippet(isEditing: boolean = false): Promise<{ css: 
   }
   
   const designConfig = await getDesignConfig();
+
+    
+  // DEBUG: Lägg till logging
+  console.log('🎨 designSnippet - designConfig:', designConfig);
+  console.log('🎨 designSnippet - globalStyles:', designConfig?.globalStyles);
+  console.log('🎨 designSnippet - isDark value:', designConfig?.globalStyles?.isDark);
   
   if (!designConfig) {
     // No design config found, return defaults
