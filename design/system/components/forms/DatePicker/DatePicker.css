@@ -1,0 +1,43 @@
+/* ===============================================
+   blimpify-ui/design/system/components/forms/DatePicker/DatePicker.css
+   DATE PICKER STYLES - Uses semantic and foundation tokens
+   =============================================== */
+
+/* ===== DATE PICKER BASE ===== */
+.date-picker {
+  position: relative;
+  width: 100%;
+}
+
+/* ===== SELECTOR BUTTON ===== */
+.date-picker-selector-button {
+  /* IconButton styles already handle this */
+}
+
+/* ===== POPOVER CONTENT ===== */
+.date-picker-popover-content {
+  padding: 0;
+  min-width: 256px;
+}
+
+/* ===== CALENDAR CONTENT WRAPPER ===== */
+.date-picker-calendar-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ===== CALENDAR ===== */
+.date-picker-calendar {
+  /* Calendar component handles its own styles */
+}
+
+/* ===== TIME INPUT WRAPPER ===== */
+.date-picker-time-input-wrapper {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-light);
+}
+
+.date-picker-time-input {
+  width: 100%;
+}
