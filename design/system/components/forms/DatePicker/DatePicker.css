@@ -18,18 +18,25 @@
 .date-picker-popover-content {
   padding: 0;
   min-width: 256px;
+  /* Popover already has background and border radius */
 }
 
 /* ===== CALENDAR CONTENT WRAPPER ===== */
 .date-picker-calendar-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0;
+  /* Remove any extra gap since calendar has its own padding */
 }
 
-/* ===== CALENDAR ===== */
+/* ===== CALENDAR IN PICKER ===== */
 .date-picker-calendar {
-  /* Calendar component handles its own styles */
+  /* Remove double background - calendar shouldn't have its own background in popover */
+  background-color: transparent !important;
+  /* Remove padding since popover provides it */
+  padding: 16px !important;
+  /* Remove border radius since popover has it */
+  border-radius: 0 !important;
 }
 
 /* ===== TIME INPUT WRAPPER ===== */

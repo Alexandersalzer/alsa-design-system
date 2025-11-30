@@ -61,6 +61,49 @@
   padding-bottom: 12px;
 }
 
+/* Calendar navigation buttons */
+.calendar-nav-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  border-radius: var(--radius-button);
+  cursor: pointer;
+  outline: none;
+  color: var(--text-secondary);
+  transition: 
+    background-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    color var(--foundation-duration-fast) var(--foundation-ease-out);
+  padding: 6px;
+}
+
+.calendar-nav-button--sm {
+  padding: 4px;
+}
+
+.calendar-nav-button--md {
+  padding: 6px;
+}
+
+.calendar-nav-button--lg {
+  padding: 8px;
+}
+
+.calendar-nav-button:hover:not(:disabled) {
+  background-color: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.calendar-nav-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.calendar-nav-button:focus-visible {
+  box-shadow: 0 0 0 2px var(--border-focus);
+}
+
 .calendar-title {
   flex: 1;
   text-align: center;

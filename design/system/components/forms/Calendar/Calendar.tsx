@@ -187,33 +187,27 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
 
       {/* Calendar Header */}
       <div className={cn('calendar-header', `calendar-header--${size}`, classNames.header)}>
-        <IconButton
+        <button
           {...prevButtonProps}
-          variant="ghost"
-          size={size}
-          aria-label="Previous month"
-          icon={
-            <Icon size="sm" color="secondary">
-              <ChevronLeftIcon />
-            </Icon>
-          }
-        />
+          className={cn('calendar-nav-button', `calendar-nav-button--${size}`)}
+        >
+          <Icon size="sm" color="secondary">
+            <ChevronLeftIcon />
+          </Icon>
+        </button>
         
         <h2 className={cn('calendar-title', `calendar-title--${size}`, classNames.title)}>
           {title}
         </h2>
 
-        <IconButton
+        <button
           {...nextButtonProps}
-          variant="ghost"
-          size={size}
-          aria-label="Next month"
-          icon={
-            <Icon size="sm" color="secondary">
-              <ChevronRightIcon />
-            </Icon>
-          }
-        />
+          className={cn('calendar-nav-button', `calendar-nav-button--${size}`)}
+        >
+          <Icon size="sm" color="secondary">
+            <ChevronRightIcon />
+          </Icon>
+        </button>
       </div>
 
       {/* Calendar Grid(s) */}
