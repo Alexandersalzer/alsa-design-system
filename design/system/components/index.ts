@@ -9,6 +9,8 @@ export * from './feedback'
 export * from './overlays'
 export * from './media'
 export * from './lists'
+export * from './data'
+export * from './navigation'
 
 export * from './Table';
 

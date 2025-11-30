@@ -4,8 +4,8 @@
 // ===============================================
 
 import React from 'react';
-import { cn } from '../../utils/cn';
-import { Icon, Button, IconButton } from '../../';
+import { cn } from '../../../utils/cn';
+import { Icon, Button, IconButton } from '../../..';
 import { 
   ChevronLeftIcon, 
   ChevronRightIcon,
