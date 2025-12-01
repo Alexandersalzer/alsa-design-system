@@ -1,12 +1,11 @@
 // ===============================================
 // blimpify-ui/design/system/components/forms/Calendar/Calendar.tsx
-// CALENDAR - Date selection component
+// CALENDAR - FIXED: Proper month navigation working
 // ===============================================
 
-import React, { forwardRef, useMemo, useCallback, useId } from 'react';
+import React, { forwardRef, useId } from 'react';
 import { cn } from '../../../utils/cn';
 import { Icon } from '../../media';
-import { IconButton } from '../../actions';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import type { 
   CalendarDate, 
@@ -16,15 +15,13 @@ import type {
 import { 
   createCalendar,
   getWeeksInMonth,
-  startOfWeek,
-  endOfWeek,
-  isSameDay,
   isSameMonth,
   isToday as checkIsToday
 } from '@internationalized/date';
 import { useCalendarState } from '@react-stately/calendar';
 import { useCalendar, useCalendarGrid, useCalendarCell } from '@react-aria/calendar';
-import { useDateFormatter, useLocale } from '@react-aria/i18n';
+import { useLocale } from '@react-aria/i18n';
+import { useButton } from '@react-aria/button';
 import './Calendar.css';
 
 // ===============================================
@@ -34,45 +31,25 @@ import './Calendar.css';
 export type CalendarSize = 'sm' | 'md' | 'lg';
 
 export interface CalendarProps {
-  /** Current selected value */
   value?: DateValue | null;
-  /** Default value (uncontrolled) */
   defaultValue?: DateValue | null;
-  /** Focused date value */
   focusedValue?: DateValue;
-  /** Default focused value */
   defaultFocusedValue?: DateValue;
-  /** Size variant */
   size?: CalendarSize;
-  /** Minimum selectable date */
   minValue?: DateValue;
-  /** Maximum selectable date */
   maxValue?: DateValue;
-  /** Number of visible months */
   visibleMonths?: number;
-  /** Disabled state */
   isDisabled?: boolean;
-  /** Read-only state */
   isReadOnly?: boolean;
-  /** Invalid state */
   isInvalid?: boolean;
-  /** Function to check if a date is unavailable */
   isDateUnavailable?: (date: DateValue) => boolean;
-  /** Show month/year pickers */
   showMonthAndYearPickers?: boolean;
-  /** Page behavior */
   pageBehavior?: 'single' | 'visible';
-  /** First day of week */
   firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat';
-  /** Auto focus */
   autoFocus?: boolean;
-  /** Top content */
   topContent?: React.ReactNode;
-  /** Bottom content */
   bottomContent?: React.ReactNode;
-  /** Calendar width */
   calendarWidth?: number;
-  /** Custom class names */
   classNames?: Partial<{
     base: string;
     header: string;
@@ -85,11 +62,8 @@ export interface CalendarProps {
     cell: string;
     cellButton: string;
   }>;
-  /** Change handler */
   onChange?: (value: DateValue) => void;
-  /** Focus change handler */
   onFocusChange?: (date: DateValue) => void;
-  /** ID for accessibility */
   id?: string;
 }
 
@@ -127,7 +101,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
   const generatedId = useId();
   const id = providedId || generatedId;
 
-  // Create calendar state
+  // Create calendar state - CRITICAL FIX: Pass all necessary props
   const state = useCalendarState({
     value: value as any,
     defaultValue: defaultValue as any,
@@ -147,6 +121,10 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
     isDateUnavailable: isDateUnavailable as any,
   });
 
+  const calendarRef = React.useRef<HTMLDivElement>(null);
+  const prevButtonRef = React.useRef<HTMLButtonElement>(null);
+  const nextButtonRef = React.useRef<HTMLButtonElement>(null);
+
   const { calendarProps, prevButtonProps, nextButtonProps, title } = useCalendar(
     {
       ...props,
@@ -159,6 +137,10 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
     },
     state
   );
+
+  // Get button props with proper refs
+  const { buttonProps: prevProps } = useButton(prevButtonProps, prevButtonRef);
+  const { buttonProps: nextProps } = useButton(nextButtonProps, nextButtonRef);
 
   // Build classes
   const baseClasses = cn(
@@ -173,7 +155,11 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
   return (
     <div 
       {...calendarProps} 
-      ref={ref} 
+      ref={(node) => {
+        if (calendarRef) (calendarRef as any).current = node;
+        if (typeof ref === 'function') ref(node);
+        else if (ref) (ref as any).current = node;
+      }}
       id={id}
       className={baseClasses}
       style={{ width: calendarWidth }}
@@ -188,7 +174,8 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
       {/* Calendar Header */}
       <div className={cn('calendar-header', `calendar-header--${size}`, classNames.header)}>
         <button
-          {...prevButtonProps}
+          {...prevProps}
+          ref={prevButtonRef}
           className={cn('calendar-nav-button', `calendar-nav-button--${size}`)}
         >
           <Icon size="sm" color="secondary">
@@ -201,7 +188,8 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
         </h2>
 
         <button
-          {...nextButtonProps}
+          {...nextProps}
+          ref={nextButtonRef}
           className={cn('calendar-nav-button', `calendar-nav-button--${size}`)}
         >
           <Icon size="sm" color="secondary">
@@ -250,19 +238,25 @@ interface CalendarGridProps {
 
 function CalendarGrid({ state, offset, size, isDateUnavailable, classNames }: CalendarGridProps) {
   const { locale } = useLocale();
+  const gridRef = React.useRef<HTMLTableElement>(null);
+  
+  // Calculate the start date for this grid
+  const startDate = offset ? state.visibleRange.start.add(offset) : state.visibleRange.start;
+  
   const { gridProps, headerProps, weekDays } = useCalendarGrid(
     { 
-      ...offset && { startDate: state.visibleRange.start.add(offset) },
-      endDate: offset ? state.visibleRange.start.add(offset).add({ months: 1 }).subtract({ days: 1 }) : undefined,
+      startDate: startDate as any,
+      endDate: startDate.add({ months: 1 }).subtract({ days: 1 }) as any,
     },
     state
   );
 
-  const weeksInMonth = getWeeksInMonth(state.visibleRange.start.add(offset || { months: 0 }), locale);
+  const weeksInMonth = getWeeksInMonth(startDate, locale);
 
   return (
     <table 
       {...gridProps} 
+      ref={gridRef}
       className={cn('calendar-grid', `calendar-grid--${size}`, classNames?.grid)}
     >
       <thead {...headerProps} className={cn('calendar-grid-header', classNames?.gridHeader)}>
@@ -280,7 +274,7 @@ function CalendarGrid({ state, offset, size, isDateUnavailable, classNames }: Ca
       <tbody className={cn('calendar-grid-body', classNames?.gridBody)}>
         {[...new Array(weeksInMonth).keys()].map((weekIndex) => (
           <tr key={weekIndex} className="calendar-grid-body-row">
-            {state.getDatesInWeek(weekIndex, state.visibleRange.start.add(offset || { months: 0 }))
+            {state.getDatesInWeek(weekIndex, startDate)
               .map((date: DateValue | null, i: number) => 
                 date ? (
                   <CalendarCell
@@ -288,7 +282,7 @@ function CalendarGrid({ state, offset, size, isDateUnavailable, classNames }: Ca
                     state={state}
                     date={date}
                     size={size}
-                    currentMonth={state.visibleRange.start.add(offset || { months: 0 })}
+                    currentMonth={startDate}
                     isDateUnavailable={isDateUnavailable}
                     classNames={classNames}
                   />

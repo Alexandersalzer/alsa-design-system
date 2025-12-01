@@ -1,6 +1,6 @@
 // ===============================================
 // blimpify-ui/design/system/components/forms/DatePicker/DatePicker.tsx
-// DATE PICKER - FIXED: Clean styling matching DateRangePicker
+// DATE PICKER - FIXED: Proper trigger styling and calendar navigation
 // ===============================================
 
 import React, { forwardRef, useRef } from 'react';
@@ -125,7 +125,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
     onChange: onChange as any,
   });
 
-  const triggerRef = useRef<Element>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
 
   const { groupProps, labelProps, buttonProps, dialogProps } = useDatePicker(
     {
@@ -142,7 +142,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
     triggerRef
   );
 
-  const { buttonProps: triggerButtonProps } = useButton(buttonProps, triggerRef);
+  const { buttonProps: triggerButtonProps } = useButton(buttonProps, triggerRef as any);
 
   const showTimeField = granularity && ['hour', 'minute', 'second'].includes(granularity);
 
@@ -156,6 +156,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
     'date-picker',
     `date-picker--${size}`,
     `date-picker--${variant}`,
+    state.isOpen && 'date-picker--open',
     isDisabled && 'date-picker--disabled',
     isReadOnly && 'date-picker--readonly',
     isInvalid && 'date-picker--invalid',
@@ -177,20 +178,20 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
         <div className="date-picker-description">{description}</div>
       )}
 
-      {/* Input with Calendar Button */}
+      {/* Input Wrapper - Matches DateRangePicker structure */}
       <div {...groupProps} className={inputWrapperClasses}>
         {selectorButtonPlacement === 'start' && (
           <button
             ref={triggerRef as any}
             {...triggerButtonProps}
-            className="date-picker-selector-button"
+            className={cn('date-picker-selector-button', classNames.selectorButton)}
             disabled={isDisabled || isReadOnly}
           >
             {selectorIcon || defaultSelectorIcon}
           </button>
         )}
 
-        <div className="date-picker-input">
+        <div className="date-picker-input-area">
           <DateInput
             label={labelPlacement === 'inside' ? label : undefined}
             value={state.value as any}
@@ -204,6 +205,10 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
             isReadOnly={isReadOnly}
             isRequired={isRequired}
             isInvalid={isInvalid}
+            classNames={{
+              base: 'date-picker-date-input',
+              inputWrapper: 'date-picker-date-input-wrapper',
+            }}
           />
         </div>
 
@@ -211,7 +216,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
           <button
             ref={triggerRef as any}
             {...triggerButtonProps}
-            className="date-picker-selector-button"
+            className={cn('date-picker-selector-button', classNames.selectorButton)}
             disabled={isDisabled || isReadOnly}
           >
             {selectorIcon || defaultSelectorIcon}
@@ -235,7 +240,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
           triggerRef={triggerRef}
           maxHeight={500}
           width={calendarWidth * visibleMonths + (visibleMonths - 1) * 16 + 32}
-          className="date-picker-popover"
+          className={cn('date-picker-popover', classNames.popoverContent)}
         >
           <div className="date-picker-calendar-content">
             {CalendarTopContent}
@@ -243,6 +248,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
             <Calendar
               value={state.value as any}
               onChange={(newValue) => state.setValue(newValue as any)}
+              focusedValue={state.dateValue as any}
               size={size}
               minValue={minValue}
               maxValue={maxValue}
@@ -261,8 +267,8 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
             {showTimeField && (
               <div className="date-picker-time-input-wrapper">
                 <TimeInput
-                  value={state.value as any}
-                  onChange={(newValue) => state.setValue(newValue as any)}
+                  value={state.timeValue as any}
+                  onChange={(newValue) => state.setTimeValue(newValue as any)}
                   size={size}
                   granularity={granularity}
                   hideTimeZone={hideTimeZone}

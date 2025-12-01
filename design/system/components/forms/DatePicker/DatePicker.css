@@ -1,6 +1,6 @@
 /* ===============================================
    blimpify-ui/design/system/components/forms/DatePicker/DatePicker.css
-   DATE PICKER - FIXED: Clean styling matching DateRangePicker
+   DATE PICKER - FIXED: Proper trigger styling matching DateRangePicker
    =============================================== */
 
 /* ===== WRAPPER ===== */
@@ -112,7 +112,8 @@
   background-color: var(--surface-input-hover);
 }
 
-.date-picker:focus-within:not(.date-picker--disabled):not(.date-picker--readonly) {
+.date-picker:focus-within:not(.date-picker--disabled):not(.date-picker--readonly),
+.date-picker--open:not(.date-picker--disabled):not(.date-picker--readonly) {
   border-color: var(--border-input-focus);
   box-shadow: 0 0 0 3px var(--surface-accent-muted);
 }
@@ -134,11 +135,31 @@
   border-color: var(--border-input-error);
 }
 
-/* ===== INPUT AREA ===== */
-.date-picker-input {
+/* ===== INPUT AREA - Contains DateInput ===== */
+.date-picker-input-area {
   flex: 1;
   display: flex;
   align-items: center;
+  min-width: 0;
+}
+
+/* CRITICAL: Make DateInput transparent and borderless inside DatePicker */
+.date-picker-date-input {
+  width: 100%;
+}
+
+.date-picker-date-input-wrapper {
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+.date-picker-date-input-wrapper:hover,
+.date-picker-date-input-wrapper:focus-within {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 /* ===== SELECTOR BUTTON ===== */
@@ -151,10 +172,13 @@
   color: var(--text-secondary);
   transition: color var(--foundation-duration-fast) var(--foundation-ease-out);
   flex-shrink: 0;
+  padding: 4px;
+  border-radius: 4px;
 }
 
 .date-picker-selector-button:hover:not(:disabled) {
   color: var(--text-primary);
+  background-color: var(--surface-hover);
 }
 
 .date-picker-selector-button:disabled {
@@ -165,7 +189,6 @@
 .date-picker-selector-button:focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
 /* ===== POPOVER ===== */
