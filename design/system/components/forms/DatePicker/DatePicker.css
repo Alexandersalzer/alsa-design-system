@@ -191,16 +191,22 @@
   outline-offset: 2px;
 }
 
-/* ===== POPOVER ===== */
+/* ===== POPOVER - AriaPopover provides background/border/shadow ===== */
 .date-picker-popover {
-  padding: 16px;
+  /* AriaPopover has default padding which we override */
 }
 
-/* ===== CALENDAR CONTENT ===== */
+/* Remove AriaPopover's padding for calendar */
+.aria-popover--no-padding {
+  padding: 0 !important;
+}
+
+/* ===== CALENDAR CONTENT - Now handles its own padding ===== */
 .date-picker-calendar-content {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: 16px;
 }
 
 /* ===== TIME INPUT WRAPPER ===== */

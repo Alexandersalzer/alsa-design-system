@@ -90,7 +90,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
   autoFocus = false,
   topContent,
   bottomContent,
-  calendarWidth = 256,
+  calendarWidth = 286,
   classNames = {},
   onChange,
   onFocusChange,
@@ -162,7 +162,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
       }}
       id={id}
       className={baseClasses}
-      style={{ width: calendarWidth }}
+      style={{ width: calendarWidth ? `${calendarWidth}px` : '100%' }}
     >
       {/* Top Content */}
       {topContent && (

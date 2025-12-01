@@ -101,7 +101,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
   firstDayOfWeek,
   selectorButtonPlacement = 'end',
   selectorIcon,
-  calendarWidth = 256,
+  calendarWidth = 286,
   pageBehavior = 'visible',
   allowsNonContiguousRanges = false,
   isDateUnavailable,

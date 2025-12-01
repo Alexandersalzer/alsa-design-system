@@ -240,7 +240,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
           triggerRef={triggerRef}
           maxHeight={500}
           width={calendarWidth * visibleMonths + (visibleMonths - 1) * 16 + 32}
-          className={cn('date-picker-popover', classNames.popoverContent)}
+          className={cn('date-picker-popover', 'aria-popover--no-padding', classNames.popoverContent)}
         >
           <div className="date-picker-calendar-content">
             {CalendarTopContent}
