@@ -9,11 +9,12 @@ import type { DateValue } from '@internationalized/date';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { Icon } from '../../media';
 import { useDatePickerState } from '@react-stately/datepicker';
-import { useDatePicker } from '@react-aria/datepicker';
+import { useDatePicker, useDateField, useDateSegment } from '@react-aria/datepicker';
 import { useButton } from '@react-aria/button';
+import { useLocale } from '@react-aria/i18n';
+import { useDateFieldState } from '@react-stately/datepicker';
+import { createCalendar } from '@internationalized/date';
 import { AriaPopover } from '../../overlays/AriaPopover';
-import { DateInput } from '../DateInput';
-import { TimeInput } from '../TimeInput';
 import { Calendar } from '../Calendar';
 import './DatePicker.css';
 
@@ -58,12 +59,15 @@ export interface DatePickerProps {
     base: string;
     label: string;
     inputWrapper: string;
+    input: string;
+    segment: string;
     selectorButton: string;
     popoverContent: string;
     calendar: string;
+    description: string;
+    errorMessage: string;
   }>;
   calendarProps?: any;
-  timeInputProps?: any;
   onChange?: (value: DateValue | null) => void;
   onFocus?: (e: React.FocusEvent) => void;
   onBlur?: (e: React.FocusEvent) => void;
@@ -106,11 +110,12 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
   CalendarTopContent,
   classNames = {},
   calendarProps,
-  timeInputProps,
   onChange,
   id,
   ...props
 }, ref) => {
+  const { locale } = useLocale();
+
   const state = useDatePickerState({
     value: value as any,
     defaultValue: defaultValue as any,
@@ -127,7 +132,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
 
   const triggerRef = useRef<HTMLDivElement>(null);
 
-  const { groupProps, labelProps, buttonProps, dialogProps } = useDatePicker(
+  const { groupProps, labelProps, fieldProps, buttonProps, dialogProps } = useDatePicker(
     {
       ...props,
       label,
@@ -143,8 +148,6 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
   );
 
   const { buttonProps: triggerButtonProps } = useButton(buttonProps, triggerRef as any);
-
-  const showTimeField = granularity && ['hour', 'minute', 'second'].includes(granularity);
 
   const defaultSelectorIcon = (
     <Icon size="sm" color="secondary">
@@ -175,7 +178,9 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
 
       {/* Description */}
       {description && labelPlacement === 'outside' && (
-        <div className="date-picker-description">{description}</div>
+        <div className={cn('date-picker-description', classNames.description)}>
+          {description}
+        </div>
       )}
 
       {/* Input Wrapper - Matches DateRangePicker structure */}
@@ -191,24 +196,12 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
           </button>
         )}
 
-        <div className="date-picker-input-area">
-          <DateInput
-            label={labelPlacement === 'inside' ? label : undefined}
-            value={state.value as any}
-            onChange={(newValue) => state.setValue(newValue as any)}
+        <div className={cn('date-picker-input', classNames.input)}>
+          <DatePickerField
+            {...fieldProps}
             size={size}
-            variant="flat"
-            labelPlacement={labelPlacement}
-            granularity={granularity}
-            hideTimeZone={hideTimeZone}
-            isDisabled={isDisabled}
-            isReadOnly={isReadOnly}
-            isRequired={isRequired}
-            isInvalid={isInvalid}
-            classNames={{
-              base: 'date-picker-date-input',
-              inputWrapper: 'date-picker-date-input-wrapper',
-            }}
+            state={state}
+            classNames={classNames}
           />
         </div>
 
@@ -260,22 +253,9 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
               isDateUnavailable={isDateUnavailable}
               isDisabled={isDisabled}
               isReadOnly={isReadOnly}
-              className={classNames.calendar}
+              classNames={{ base: classNames.calendar }}
               {...calendarProps}
             />
-
-            {showTimeField && (
-              <div className="date-picker-time-input-wrapper">
-                <TimeInput
-                  value={state.timeValue as any}
-                  onChange={(newValue) => state.setTimeValue(newValue as any)}
-                  size={size}
-                  granularity={granularity}
-                  hideTimeZone={hideTimeZone}
-                  {...timeInputProps}
-                />
-              </div>
-            )}
 
             {CalendarBottomContent}
           </div>
@@ -286,3 +266,79 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
 });
 
 DatePicker.displayName = 'DatePicker';
+
+// ===============================================
+// DATE PICKER FIELD (Single Date Input)
+// ===============================================
+
+interface DatePickerFieldProps {
+  size: DatePickerSize;
+  state: any;
+  classNames?: DatePickerProps['classNames'];
+  [key: string]: any;
+}
+
+function DatePickerField({ size, state, classNames, ...props }: DatePickerFieldProps) {
+  const { locale } = useLocale();
+  const fieldRef = useRef<HTMLDivElement>(null);
+
+  const fieldState = useDateFieldState({
+    ...props,
+    locale,
+    createCalendar,
+  });
+
+  const { fieldProps } = useDateField(props, fieldState, fieldRef);
+
+  return (
+    <div {...fieldProps} ref={fieldRef} className="date-picker-field">
+      {fieldState.segments.map((segment, i) => (
+        <DatePickerSegment
+          key={i}
+          segment={segment}
+          state={fieldState}
+          size={size}
+          className={classNames?.segment}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ===============================================
+// DATE PICKER SEGMENT
+// ===============================================
+
+interface DatePickerSegmentProps {
+  segment: any;
+  state: any;
+  size: DatePickerSize;
+  className?: string;
+}
+
+function DatePickerSegment({ segment, state, size, className }: DatePickerSegmentProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { segmentProps } = useDateSegment(segment, state, ref);
+
+  const segmentClasses = cn(
+    'date-picker-segment',
+    `date-picker-segment--${size}`,
+    segment.isPlaceholder && 'date-picker-segment--placeholder',
+    !segment.isEditable && 'date-picker-segment--literal',
+    className
+  );
+
+  return (
+    <div
+      {...segmentProps}
+      ref={ref}
+      className={segmentClasses}
+      style={{
+        ...segmentProps.style,
+        minWidth: segment.maxValue != null ? String(segment.maxValue).length + 'ch' : undefined,
+      }}
+    >
+      {segment.text}
+    </div>
+  );
+}

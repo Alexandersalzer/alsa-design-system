@@ -270,8 +270,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
                     state.setValue({ start: startDate, end: newValue } as any);
                   }
                   
-                  // Close popover after selecting end date
-                  state.setOpen(false);
+                  // Keep popover open so user can adjust range
                 }
               }}
               size={size}
