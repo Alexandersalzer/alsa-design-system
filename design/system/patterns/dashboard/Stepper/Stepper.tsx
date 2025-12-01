@@ -8,6 +8,7 @@ import { cn } from '../../../utils/cn';
 import { H3, Body } from '../../../components/Typography';
 import { Button } from '../../../components/actions/Button';
 import { Icon } from '../../../components/media';
+import { HStack } from '../../../components/layout/hStack/HStack';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 // ===== STEP INTERFACE =====
@@ -172,7 +173,13 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
       {...props}
     >
       {/* Navigation row - always horizontal */}
-      <div className="stepper-navigation">
+      <HStack 
+        spacing="sm" 
+        justify="between" 
+        align="center"
+        className="stepper-navigation"
+        style={{ width: '100%', minHeight: '44px' }}
+      >
         {/* Left: Previous button */}
         <Button
           variant="secondary"
@@ -191,7 +198,13 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
         </Button>
 
         {/* Center: Step indicators */}
-        <div className="stepper-numbers">
+        <HStack 
+          spacing="xs" 
+          justify="center" 
+          align="center"
+          className="stepper-numbers"
+          style={{ flex: 1 }}
+        >
           {steps.map((step, index) => (
             <div
               key={index}
@@ -221,7 +234,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
               {index + 1}
             </div>
           ))}
-        </div>
+        </HStack>
 
         {/* Right: Next button with dynamic pricing */}
         <Button
@@ -242,7 +255,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
             {getNextButtonLabel()}
           </span>
         </Button>
-      </div>
+      </HStack>
 
       {/* Content below navigation - conditionally rendered */}
       {showContent && (
