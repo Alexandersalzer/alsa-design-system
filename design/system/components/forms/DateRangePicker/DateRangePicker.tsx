@@ -6,6 +6,7 @@
 import React, { forwardRef, useId, useRef } from 'react';
 import { cn } from '../../../utils/cn';
 import type { DateValue } from '@internationalized/date';
+import { today, getLocalTimeZone } from '@internationalized/date';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { Icon } from '../../media';
 import { AriaPopover } from '../../overlays/AriaPopover';
@@ -251,32 +252,31 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
 
             {/* Show multiple calendars side by side for range selection */}
             <div className="date-range-picker-calendars">
-              {[...Array(visibleMonths)].map((_, index) => (
-                <Calendar
-                  key={index}
-                  value={state.value?.start as any}
-                  onChange={(newValue) => {
-                    // Simple logic: first click sets start, second sets end
-                    if (!state.value?.start || state.value?.end) {
-                      state.setValue({ start: newValue, end: newValue } as any);
-                    } else {
-                      state.setValue({ ...state.value, end: newValue } as any);
-                      state.setOpen(false);
-                    }
-                  }}
-                  size={size}
-                  minValue={minValue}
-                  maxValue={maxValue}
-                  visibleMonths={1}
-                  showMonthAndYearPickers={showMonthAndYearPickers}
-                  firstDayOfWeek={firstDayOfWeek}
-                  calendarWidth={calendarWidth}
-                  pageBehavior={pageBehavior}
-                  isDateUnavailable={isDateUnavailable}
-                  isDisabled={isDisabled}
-                  isReadOnly={isReadOnly}
-                />
-              ))}
+              {[...Array(visibleMonths)].map((_, index) => {
+                // Calculate the month offset for this calendar
+                // Each calendar shows a different month starting from the current focus
+                const baseDate = state.value?.start || state.dateRange?.start || placeholderValue;
+                
+                // Create a calendar that shows the appropriate month
+                // For multiple months, each subsequent calendar is offset by 1 month
+                return (
+                  <DateRangeCalendar
+                    key={index}
+                    state={state}
+                    size={size}
+                    minValue={minValue}
+                    maxValue={maxValue}
+                    isDateUnavailable={isDateUnavailable}
+                    isDisabled={isDisabled}
+                    isReadOnly={isReadOnly}
+                    monthOffset={index}
+                    baseDate={baseDate}
+                    showMonthAndYearPickers={showMonthAndYearPickers}
+                    firstDayOfWeek={firstDayOfWeek}
+                    calendarWidth={calendarWidth}
+                  />
+                );
+              })}
             </div>
 
             {CalendarBottomContent}
@@ -288,6 +288,93 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
 });
 
 DateRangePicker.displayName = 'DateRangePicker';
+
+// ===============================================
+// DATE RANGE CALENDAR (Internal component for rendering offset months)
+// ===============================================
+
+interface DateRangeCalendarProps {
+  state: any;
+  size: DateRangePickerSize;
+  minValue?: DateValue;
+  maxValue?: DateValue;
+  isDateUnavailable?: (date: DateValue) => boolean;
+  isDisabled?: boolean;
+  isReadOnly?: boolean;
+  monthOffset: number;
+  baseDate?: DateValue;
+  showMonthAndYearPickers?: boolean;
+  firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat';
+  calendarWidth?: number;
+}
+
+function DateRangeCalendar({
+  state,
+  size,
+  minValue,
+  maxValue,
+  isDateUnavailable,
+  isDisabled,
+  isReadOnly,
+  monthOffset,
+  baseDate,
+  showMonthAndYearPickers,
+  firstDayOfWeek,
+  calendarWidth,
+}: DateRangeCalendarProps) {
+  const { locale } = useLocale();
+  
+  // Calculate which month this calendar should display
+  const displayDate = React.useMemo(() => {
+    if (!baseDate) {
+      // Use today's date as fallback
+      const todayDate = today(getLocalTimeZone());
+      return todayDate.add({ months: monthOffset });
+    }
+    
+    // Offset the base date by the specified number of months
+    return baseDate.add({ months: monthOffset });
+  }, [baseDate, monthOffset]);
+
+  return (
+    <Calendar
+      value={state.value?.start as any}
+      onChange={(newValue) => {
+        const currentRange = state.value;
+        
+        if (!currentRange || !currentRange.start || currentRange.end) {
+          // No range selected or complete range selected -> start new range
+          state.setValue({ start: newValue, end: newValue } as any);
+        } else {
+          // Start date exists but no end -> complete the range
+          const startDate = currentRange.start;
+          
+          if (newValue.compare(startDate) < 0) {
+            // New date is before start -> make it the new start
+            state.setValue({ start: newValue, end: startDate } as any);
+          } else {
+            // New date is after start -> make it the end
+            state.setValue({ start: startDate, end: newValue } as any);
+          }
+          
+          state.setOpen(false);
+        }
+      }}
+      size={size}
+      minValue={minValue}
+      maxValue={maxValue}
+      visibleMonths={1}
+      showMonthAndYearPickers={showMonthAndYearPickers && monthOffset === 0}
+      firstDayOfWeek={firstDayOfWeek}
+      calendarWidth={calendarWidth}
+      pageBehavior="single"
+      isDateUnavailable={isDateUnavailable}
+      isDisabled={isDisabled}
+      isReadOnly={isReadOnly}
+      defaultFocusedValue={displayDate as any}
+    />
+  );
+}
 
 // ===============================================
 // DATE RANGE FIELD (Start/End Input)
