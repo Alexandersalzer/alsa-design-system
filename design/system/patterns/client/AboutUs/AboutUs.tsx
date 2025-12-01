@@ -72,7 +72,7 @@ export function AboutUs({ content }: AboutUsProps) {
               style={{
                 fontSize: 'clamp(2.25rem, 4vw, 3rem)',
                 lineHeight: 'var(--foundation-typography-line-height-tight)',
-                color: 'var(--primary-white)',
+                color: 'var(--surface-page)',
                 marginBottom: 'var(--foundation-space-4)'
               }}
             >
@@ -100,7 +100,7 @@ export function AboutUs({ content }: AboutUsProps) {
               variant="body-xl" 
               color="inverse"
               style={{
-                color: 'var(--primary-white)',
+                color: 'var(--surface-page)',
                 opacity: 0.9,
                 maxWidth: 'var(--size-page-narrow-max-width)',
                 margin: '0 auto'
@@ -131,14 +131,14 @@ export function AboutUs({ content }: AboutUsProps) {
                 <Typography
                   variant="h3"
                   weight="bold"
-                  style={{ color: 'var(--primary-white)' }}
+                  style={{ color: 'var(--surface-page)' }}
                 >
                   {story.title}
                 </Typography>
                 <Typography
                   variant="body-lg"
                   style={{ 
-                    color: 'var(--primary-white)', 
+                    color: 'var(--surface-page)', 
                     opacity: 0.9,
                     lineHeight: 'var(--foundation-typography-line-height-relaxed)'
                   }}
@@ -202,14 +202,14 @@ export function AboutUs({ content }: AboutUsProps) {
                     <Typography
                       variant="h4"
                       weight="bold"
-                      style={{ color: 'var(--primary-white)' }}
+                      style={{ color: 'var(--surface-page)' }}
                     >
                       {value.title}
                     </Typography>
                     <Typography
                       variant="body-md"
                       style={{ 
-                        color: 'var(--primary-white)', 
+                        color: 'var(--surface-page)', 
                         opacity: 0.9,
                         lineHeight: 'var(--foundation-typography-line-height-relaxed)'
                       }}
@@ -243,7 +243,7 @@ export function AboutUs({ content }: AboutUsProps) {
                 <Typography
                   variant="h3"
                   weight="bold"
-                  style={{ color: 'var(--primary-white)' }}
+                  style={{ color: 'var(--surface-page)' }}
                 >
                   {difference?.title}
                 </Typography>
@@ -271,7 +271,7 @@ export function AboutUs({ content }: AboutUsProps) {
                       <Typography
                         variant="body-md"
                         style={{ 
-                          color: 'var(--primary-white)', 
+                          color: 'var(--surface-page)', 
                           opacity: 0.9,
                           lineHeight: 'var(--foundation-typography-line-height-relaxed)'
                         }}
@@ -351,7 +351,7 @@ export function AboutUs({ content }: AboutUsProps) {
                     <Typography
                       variant="h4"
                       weight="bold"
-                      style={{ color: 'var(--primary-white)' }}
+                      style={{ color: 'var(--surface-page)' }}
                     >
                       {member.name}
                     </Typography>
@@ -368,7 +368,7 @@ export function AboutUs({ content }: AboutUsProps) {
                     <Typography
                       variant="body-sm"
                       style={{ 
-                        color: 'var(--primary-white)', 
+                        color: 'var(--surface-page)', 
                         opacity: 0.9,
                         lineHeight: 'var(--foundation-typography-line-height-relaxed)'
                       }}

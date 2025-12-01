@@ -30,7 +30,7 @@
 
   --icon-button-primary: var(--text-button-primary);
   --icon-button-secondary: var(--text-button-secondary);
-  --icon-button-accent: var(--primary-white);
+  --icon-button-accent: var(--surface-page);
   --icon-button-ghost: var(--text-button-ghost);
   --icon-button-destructive: var(--text-inverse);
   --icon-button-disabled: var(--text-button-primary-disabled);
@@ -43,7 +43,7 @@
   /* ✅ KEEP: These are component-specific and don't exist in semantic */
   --icon-button-primary: var(--text-button-primary);         /* White for primary buttons */
   --icon-button-secondary: var(--text-button-secondary);     /* Dark for secondary buttons */
-  --icon-button-accent: var(--primary-white);           /* White for accent buttons */
+  --icon-button-accent: var(--surface-page);           /* White for accent buttons */
   --icon-button-ghost: var(--text-button-ghost);             /* Gray for ghost buttons */
   --icon-button-destructive: var(--text-inverse);            /* White for destructive buttons */
   --icon-button-disabled: var(--text-button-primary-disabled); /* Gray for disabled buttons */

@@ -31,7 +31,7 @@
   --text-alert-info: var(--info-700);
   --surface-alert-info-solid: var(--info-500);
   --border-alert-info-solid: var(--info-600);
-  --text-alert-info-solid: var(--primary-white);
+  --text-alert-info-solid: var(--surface-page);
   --border-alert-info-outline: var(--info-500);
 
   /* SUCCESS */
@@ -40,7 +40,7 @@
   --text-alert-success: var(--success-700);
   --surface-alert-success-solid: var(--success-500);
   --border-alert-success-solid: var(--success-600);
-  --text-alert-success-solid: var(--primary-white);
+  --text-alert-success-solid: var(--surface-page);
   --border-alert-success-outline: var(--success-500);
 
   /* WARNING */
@@ -58,7 +58,7 @@
   --text-alert-error: var(--error-700);
   --surface-alert-error-solid: var(--error-500);
   --border-alert-error-solid: var(--error-600);
-  --text-alert-error-solid: var(--primary-white);
+  --text-alert-error-solid: var(--surface-page);
   --border-alert-error-outline: var(--error-500);
 
 
