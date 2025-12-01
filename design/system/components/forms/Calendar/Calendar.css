@@ -1,6 +1,7 @@
 /* ===============================================
    blimpify-ui/design/system/components/forms/Calendar/Calendar.css
    CALENDAR STYLES - Uses semantic and foundation tokens
+   FIXED: pointer-events on nav button children
    =============================================== */
 
 /* ===== CALENDAR BASE ===== */
@@ -76,6 +77,11 @@
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
     color var(--foundation-duration-fast) var(--foundation-ease-out);
   padding: 6px;
+}
+
+/* CRITICAL FIX: Icon doesn't block clicks */
+.calendar-nav-button > * {
+  pointer-events: none;
 }
 
 .calendar-nav-button--sm {
