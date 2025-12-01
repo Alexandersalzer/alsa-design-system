@@ -1,6 +1,6 @@
 /* ===============================================
    blimpify-ui/design/system/components/forms/DatePicker/DatePicker.css
-   DATE PICKER STYLES - Uses semantic and foundation tokens
+   DATE PICKER STYLES - FIXED: Clean selector button, proper alignment
    =============================================== */
 
 /* ===== DATE PICKER BASE ===== */
@@ -46,26 +46,105 @@
 /* ===== INPUT GROUP ===== */
 .date-picker-input-group {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 0;
   position: relative;
 }
 
-.date-picker-trigger {
+/* ===== SELECTOR BUTTON - CLEAN SIMPLE ICON ===== */
+.date-picker-selector-button {
+  all: unset;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 1;
+  color: var(--text-secondary);
+  transition: color var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
-.date-picker-input-group--bordered .date-picker-trigger:first-child {
-  left: 4px;
+.date-picker-selector-button:hover:not(:disabled) {
+  color: var(--text-primary);
 }
 
-.date-picker-input-group--bordered .date-picker-trigger:last-child {
-  right: 4px;
+.date-picker-selector-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.date-picker-selector-button:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Size variants */
+.date-picker-selector-button--sm {
+  width: 24px;
+  height: 24px;
+}
+
+.date-picker-selector-button--md {
+  width: 28px;
+  height: 28px;
+}
+
+.date-picker-selector-button--lg {
+  width: 32px;
+  height: 32px;
+}
+
+/* Position based on placement and variant */
+/* Bordered variant */
+.date-picker-input-group--bordered .date-picker-selector-button:first-child {
+  left: 12px;
+}
+
+.date-picker-input-group--bordered .date-picker-selector-button:last-child {
+  right: 12px;
+}
+
+/* Flat variant */
+.date-picker-input-group--flat .date-picker-selector-button:first-child {
+  left: 12px;
+}
+
+.date-picker-input-group--flat .date-picker-selector-button:last-child {
+  right: 12px;
+}
+
+/* Faded variant */
+.date-picker-input-group--faded .date-picker-selector-button:first-child {
+  left: 12px;
+}
+
+.date-picker-input-group--faded .date-picker-selector-button:last-child {
+  right: 12px;
+}
+
+/* Underlined variant */
+.date-picker-input-group--underlined .date-picker-selector-button:first-child {
+  left: 0;
+}
+
+.date-picker-input-group--underlined .date-picker-selector-button:last-child {
+  right: 0;
+}
+
+/* Add padding to DateInput when selector button is present */
+.date-picker-input-group--bordered .date-picker-date-input {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.date-picker-input-group--flat .date-picker-date-input,
+.date-picker-input-group--faded .date-picker-date-input {
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .date-picker-field-wrapper {

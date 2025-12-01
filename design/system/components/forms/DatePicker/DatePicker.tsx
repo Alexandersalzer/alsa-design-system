@@ -1,6 +1,6 @@
 // ===============================================
 // blimpify-ui/design/system/components/forms/DatePicker/DatePicker.tsx
-// DATE PICKER - Using React Aria's useDatePicker hook
+// DATE PICKER - FIXED: showTimeField defined, clean selector button
 // ===============================================
 
 import React, { forwardRef, useRef } from 'react';
@@ -8,7 +8,6 @@ import { cn } from '../../../utils/cn';
 import type { DateValue } from '@internationalized/date';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { Icon } from '../../media';
-import { IconButton } from '../../actions';
 import { useDatePickerState } from '@react-stately/datepicker';
 import { useDatePicker } from '@react-aria/datepicker';
 import { useButton } from '@react-aria/button';
@@ -168,7 +167,6 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
   });
 
   const triggerRef = useRef<Element>(null);
-  const popoverRef = useRef<HTMLDivElement>(null);
 
   // Get props from React Aria
   const { groupProps, labelProps, fieldProps, buttonProps, dialogProps, calendarProps: ariaCalendarProps } = useDatePicker(
@@ -226,15 +224,10 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
             <button
               ref={triggerRef as any}
               {...triggerButtonProps}
-              className={cn('date-picker-trigger', classNames.selectorButton)}
+              className={cn('date-picker-selector-button', `date-picker-selector-button--${size}`, classNames.selectorButton)}
+              disabled={isDisabled || isReadOnly}
             >
-              <IconButton
-                variant="ghost"
-                size={size}
-                aria-label="Toggle calendar"
-                icon={selectorIcon || defaultSelectorIcon}
-                disabled={isDisabled || isReadOnly}
-              />
+              {selectorIcon || defaultSelectorIcon}
             </button>
           )}
 
@@ -264,15 +257,10 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
             <button
               ref={triggerRef as any}
               {...triggerButtonProps}
-              className={cn('date-picker-trigger', classNames.selectorButton)}
+              className={cn('date-picker-selector-button', `date-picker-selector-button--${size}`, classNames.selectorButton)}
+              disabled={isDisabled || isReadOnly}
             >
-              <IconButton
-                variant="ghost"
-                size={size}
-                aria-label="Toggle calendar"
-                icon={selectorIcon || defaultSelectorIcon}
-                disabled={isDisabled || isReadOnly}
-              />
+              {selectorIcon || defaultSelectorIcon}
             </button>
           )}
         </div>
