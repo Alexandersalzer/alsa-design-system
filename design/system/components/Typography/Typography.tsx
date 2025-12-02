@@ -4,7 +4,7 @@
 // ===============================================
 
 import React, { ReactNode, ElementType, forwardRef } from 'react';
-import { cn } from '../../lib/utils';
+import { cn } from '../../utils/cn';
 import { Component } from '../frames/component/Component';
 
 // ===== TYPE DEFINITIONS =====
@@ -21,6 +21,7 @@ export type TypographyWeight =
 // 🎯 ENHANCED: Complete color system integration
 export type TypographyColor =
   // === GLOBAL/LAYOUT COLORS ===
+  | 'brand'
   | 'primary'           // --text-primary (black, main text)
   | 'secondary'         // --text-secondary (gray-600, secondary text)
   | 'tertiary'          // --text-tertiary (gray-500, subtle text)
@@ -41,6 +42,7 @@ export type TypographyColor =
   | 'nav-hover'         // --text-nav-item-hover (gray-900, hover nav)
   
   // === BUTTON COLORS ===
+  | 'button-brand'      // --text-button-brand (white, brand button)
   | 'button-primary'    // --text-button-primary (white, primary button)
   | 'button-secondary'  // --text-button-secondary (black, secondary button)
   | 'button-accent'     // --text-button-accent (white, accent button)
@@ -96,6 +98,7 @@ export type TypographyProps = TypographyOwnProps &
 const getColorValue = (color: TypographyColor): string => {
   const colorMap: Record<TypographyColor, string> = {
     // Global/Layout colors
+    'brand': 'var(--brand-color)',
     'primary': 'var(--text-primary)',
     'secondary': 'var(--text-secondary)',
     'tertiary': 'var(--text-tertiary)',
@@ -116,6 +119,7 @@ const getColorValue = (color: TypographyColor): string => {
     'nav-hover': 'var(--text-nav-item-hover)',
     
     // Button colors
+    'button-brand': 'var(--text-button-brand)',
     'button-primary': 'var(--text-button-primary)',
     'button-secondary': 'var(--text-button-secondary)',
     'button-accent': 'var(--text-button-accent)',

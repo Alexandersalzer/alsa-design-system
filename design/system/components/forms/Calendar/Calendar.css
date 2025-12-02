@@ -1,0 +1,342 @@
+/* ===============================================
+   blimpify-ui/design/system/components/forms/Calendar/Calendar.css
+   CALENDAR - FIXED: No background (AriaPopover provides it)
+   =============================================== */
+
+/* ===== CALENDAR BASE ===== */
+.calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  /* NO background, border, or shadow - AriaPopover handles this */
+}
+
+/* Size variants */
+.calendar--sm {
+  font-size: 13px;
+}
+
+.calendar--md {
+  font-size: 14px;
+}
+
+.calendar--lg {
+  font-size: 15px;
+}
+
+/* States */
+.calendar--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.calendar--readonly {
+  cursor: default;
+}
+
+.calendar--invalid {
+  /* Could add invalid state styling if needed */
+}
+
+/* ===== CALENDAR HEADER ===== */
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  gap: 8px;
+}
+
+.calendar-header--sm {
+  padding-bottom: 6px;
+}
+
+.calendar-header--lg {
+  padding-bottom: 10px;
+}
+
+/* ===== CALENDAR TITLE ===== */
+.calendar-title {
+  font-family: var(--font-body-family);
+  font-weight: var(--foundation-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+  flex: 1;
+  text-align: center;
+  user-select: none;
+}
+
+.calendar-title--sm {
+  font-size: 14px;
+}
+
+.calendar-title--md {
+  font-size: 15px;
+}
+
+.calendar-title--lg {
+  font-size: 16px;
+}
+
+/* ===== NAVIGATION BUTTONS ===== */
+.calendar-nav-button {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-button);
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all var(--foundation-duration-fast) var(--foundation-ease-out);
+  flex-shrink: 0;
+}
+
+.calendar-nav-button--sm {
+  width: 28px;
+  height: 28px;
+}
+
+.calendar-nav-button--lg {
+  width: 36px;
+  height: 36px;
+}
+
+.calendar-nav-button:hover:not(:disabled) {
+  background-color: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.calendar-nav-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.calendar-nav-button:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* ===== GRID WRAPPER ===== */
+.calendar-grid-wrapper {
+  display: flex;
+  gap: 16px;
+}
+
+.calendar-grid-wrapper--sm {
+  gap: 12px;
+}
+
+.calendar-grid-wrapper--lg {
+  gap: 20px;
+}
+
+/* ===== CALENDAR GRID (TABLE) ===== */
+.calendar-grid {
+  width: 100%;
+  border-collapse: collapse;
+  user-select: none;
+}
+
+.calendar-grid--sm {
+  font-size: 12px;
+}
+
+.calendar-grid--md {
+  font-size: 14px;
+}
+
+.calendar-grid--lg {
+  font-size: 15px;
+}
+
+/* ===== GRID HEADER ===== */
+.calendar-grid-header {
+  /* No extra styling needed */
+}
+
+.calendar-grid-header-row {
+  /* No extra styling needed */
+}
+
+.calendar-grid-header-cell {
+  padding: 8px 4px;
+  text-align: center;
+  font-family: var(--font-body-family);
+  font-size: 12px;
+  font-weight: var(--foundation-weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.calendar-grid-header-cell--sm {
+  padding: 6px 2px;
+  font-size: 11px;
+}
+
+.calendar-grid-header-cell--lg {
+  padding: 10px 6px;
+  font-size: 13px;
+}
+
+/* ===== GRID BODY ===== */
+.calendar-grid-body {
+  /* No extra styling needed */
+}
+
+.calendar-grid-body-row {
+  /* No extra styling needed */
+}
+
+/* ===== CALENDAR CELL ===== */
+.calendar-cell {
+  padding: 0; /* No padding = no gaps between range dates */
+  text-align: center;
+}
+
+.calendar-cell--sm {
+  padding: 0;
+}
+
+.calendar-cell--lg {
+  padding: 0;
+}
+
+/* ===== CALENDAR CELL BUTTON ===== */
+.calendar-cell-button {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-button);
+  font-family: var(--font-body-family);
+  font-weight: var(--foundation-weight-normal);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--foundation-duration-fast) var(--foundation-ease-out);
+  position: relative;
+}
+
+.calendar-cell-button--sm {
+  width: 30px;
+  height: 30px;
+  font-size: 13px;
+}
+
+.calendar-cell-button--md {
+  width: 36px;
+  height: 36px;
+  font-size: 14px;
+}
+
+.calendar-cell-button--lg {
+  width: 40px;
+  height: 40px;
+  font-size: 15px;
+}
+
+/* Cell button states */
+.calendar-cell-button:hover:not(:disabled):not(.calendar-cell-button--selected):not(.calendar-cell-button--range-start):not(.calendar-cell-button--range-end):not(.calendar-cell-button--range-middle) {
+  background-color: var(--surface-hover);
+}
+
+.calendar-cell-button:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: -2px;
+}
+
+/* Selected state (single date selection) */
+.calendar-cell-button--selected {
+  background-color: var(--surface-accent);
+  color: var(--text-button-accent);
+  font-weight: var(--foundation-weight-semibold);
+}
+
+/* CRITICAL: Selected state doesn't change background on hover */
+.calendar-cell-button--selected:hover:not(:disabled) {
+  background-color: var(--surface-accent);
+  color: var(--text-button-accent);
+}
+
+/* ===== RANGE SELECTION STYLES ===== */
+
+/* Range start date */
+.calendar-cell-button--range-start {
+  background-color: var(--surface-accent);
+  color: var(--text-button-accent);
+  font-weight: var(--foundation-weight-semibold);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.calendar-cell-button--range-start:hover:not(:disabled) {
+  background-color: var(--surface-accent);
+  color: var(--text-button-accent);
+}
+
+/* Range end date */
+.calendar-cell-button--range-end {
+  background-color: var(--surface-accent);
+  color: var(--text-button-accent);
+  font-weight: var(--foundation-weight-semibold);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.calendar-cell-button--range-end:hover:not(:disabled) {
+  background-color: var(--surface-accent);
+  color: var(--text-button-accent);
+}
+
+/* Range middle dates (between start and end) */
+.calendar-cell-button--range-middle {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-primary);
+  border-radius: 0;
+}
+
+.calendar-cell-button--range-middle:hover:not(:disabled) {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-primary);
+}
+
+/* When start and end are the same date */
+.calendar-cell-button--range-start.calendar-cell-button--range-end {
+  border-radius: var(--radius-button);
+}
+
+/* Today indicator */
+.calendar-cell-button--today {
+  border: 2px solid var(--border-accent);
+}
+
+.calendar-cell-button--today.calendar-cell-button--selected,
+.calendar-cell-button--today.calendar-cell-button--range-start,
+.calendar-cell-button--today.calendar-cell-button--range-end {
+  border-color: transparent;
+}
+
+.calendar-cell-button--outside-month {
+  color: var(--text-tertiary);
+}
+
+.calendar-cell-button--disabled,
+.calendar-cell-button--unavailable {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.calendar-cell-button:disabled {
+  cursor: not-allowed;
+}
+
+/* ===== TOP/BOTTOM CONTENT ===== */
+.calendar-top-content,
+.calendar-bottom-content {
+  /* User-provided content - minimal styling */
+}

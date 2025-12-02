@@ -4,7 +4,7 @@
 // ===============================================
 
 import React, { forwardRef, useId, useState } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 
 export type TextareaSize = 'sm' | 'md' | 'lg';
 export type TextareaResize = 'none' | 'vertical' | 'horizontal' | 'both';

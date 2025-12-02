@@ -62,7 +62,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
                 fontSize: 'clamp(2.25rem, 4vw, 3rem)',
                 lineHeight: 'var(--foundation-typography-line-height-tight)',
                 textAlign: 'center',
-                color: 'var(--primary-white)'
+                color: 'var(--surface-page)'
               }}
             >
               {title}
@@ -76,7 +76,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
                 style={{
                   lineHeight: 'var(--foundation-typography-line-height-relaxed)',
                   textAlign: 'center',
-                  color: 'var(--primary-white)',
+                  color: 'var(--surface-page)',
                   opacity: 0.9
                 }}
               >
@@ -110,7 +110,7 @@ const CTA = ({ id = "cta", content, className }: CTAProps) => {
               <div style={{ maxWidth: '600px', width: '100%' }}>
                 <VStack spacing="sm" align="center">
                   {info.map((item, index) => (
-                    <Typography key={index} variant="body-sm" color="inverse" style={{ textAlign: 'center', color: 'var(--primary-white)', opacity: 0.8 }}>
+                    <Typography key={index} variant="body-sm" color="inverse" style={{ textAlign: 'center', color: 'var(--surface-page)', opacity: 0.8 }}>
                       <strong>{item.label}:</strong> {item.value}
                     </Typography>
                   ))}

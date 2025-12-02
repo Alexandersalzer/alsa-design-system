@@ -5,7 +5,7 @@
 // ===============================================
 
 import React, { forwardRef, ElementType, ReactNode } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import './Box.css';
 
 export interface BoxProps extends React.HTMLAttributes<HTMLElement> {

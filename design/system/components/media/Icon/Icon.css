@@ -70,10 +70,10 @@
 .icon-body { color: var(--text-body); }
 .icon-muted { color: var(--text-disabled); }
 
-.icon-accent { color: var(--accent-500); }
-.icon-success { color: var(--success-600); }
-.icon-warning { color: var(--warning-600); }
-.icon-error { color: var(--error-600); }
+.icon-accent { color: var(--icon-accent); }
+.icon-success { color: var(--icon-success); }
+.icon-warning { color: var(--icon-warning); }
+.icon-error { color: var(--icon-error); }
 .icon-subtle { color: var(--text-subtle); }
 
 .icon-nav-item { color: var(--text-nav-item); }

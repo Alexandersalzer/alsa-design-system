@@ -17,7 +17,7 @@
 
   /* Default visual tokens (semantic-friendly) */
   border-color: var(--spinner-track-color);
-  border-top-color: var(--spinner-color, var(--accent-500));
+  border-top-color: var(--spinner-color, var(--interactive-accent));
   opacity: var(--spinner-opacity, 1);
   transition: opacity 0.2s ease;
 }
@@ -93,8 +93,8 @@
 
 /* Accent variant for brand emphasis */
 .spinner--accent {
-  border-color:  var(--accent-200);
-  border-top-color: var(--accent-600);
+  border-color: var(--surface-accent-muted);
+  border-top-color: var(--interactive-accent);
 }
 
 /* ==========================================================

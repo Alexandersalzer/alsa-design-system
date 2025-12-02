@@ -213,21 +213,21 @@
 
 /* Focus state for accessibility */
 .clickable--interactive:focus-visible {
-  outline: 2px solid var(--accent-500);
+  outline: 2px solid var(--border-focus);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px var(--accent-100);
+  box-shadow: 0 0 0 4px var(--surface-accent-muted);
 }
 
 /* ===== SELECTED STATE ===== */
 .clickable--selected {
   background-color: var(--surface-selected) !important;
   border-color: var(--border-selected) !important;
-  box-shadow: 0 0 0 2px var(--accent-500);
+  box-shadow: 0 0 0 2px var(--border-accent);
 }
 
 .clickable--selected:hover:not(.clickable--disabled) {
   background-color: var(--surface-selected-hover) !important;
-  box-shadow: 0 0 0 2px var(--accent-600);
+  box-shadow: 0 0 0 2px var(--border-accent);
 }
 
 /* ===== DISABLED STATE ===== */
@@ -253,7 +253,7 @@
   width: 20px;
   height: 20px;
   border: 2px solid var(--border-base);
-  border-top-color: var(--accent-500);
+  border-top-color: var(--interactive-accent);
   border-radius: 50%;
   animation: clickable-spin 0.6s linear infinite;
 }

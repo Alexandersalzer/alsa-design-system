@@ -1,20 +1,31 @@
 /* ==============================================
    src/design-system/tokens/component/modal.css
-   MODAL COMPONENT TOKENS - SEMANTIC ONLY
+   MODAL COMPONENT TOKENS
    ============================================== */
-
 :root {
-  /* ===== MODAL SURFACES ===== */
-  --surface-modal-backdrop: var(--surface-overlay);       /* FIXED: was rgba(0, 0, 0, 0.5) */
-  --surface-modal-content: var(--surface-page);  /* FIXED: was --primary-white */
+  /* ===== MODAL SPACING ===== */
+  --space-modal-padding-sm: var(--foundation-space-4);   /* 16px */
+  --space-modal-padding-md: var(--foundation-space-6);   /* 24px */
+  --space-modal-padding-lg: var(--foundation-space-8);   /* 32px */
   
-  /* ===== MODAL BORDERS ===== */
-  --border-modal: var(--border-subtle);                   /* FIXED: was --secondary-100 */
+  --space-modal-gap-sm: var(--foundation-space-3);       /* 12px */
+  --space-modal-gap-md: var(--foundation-space-4);       /* 16px */
+  --space-modal-gap-lg: var(--foundation-space-6);       /* 24px */
   
-  /* ===== MODAL SHADOWS ===== */
-  --shadow-modal: var(--shadow-strong);                   /* FIXED: was --foundation-shadow-xl */
-  
-  /* ===== MODAL TEXT COLORS ===== */
-  --text-modal-title: var(--text-primary);                /* FIXED: was --primary-1000 */
-  --text-modal-body: var(--text-secondary);               /* FIXED: was --secondary-700 */
+  --space-modal-header-padding: var(--foundation-space-6) var(--foundation-space-6) var(--foundation-space-4);
+  --space-modal-content-padding: var(--foundation-space-6);
+  --space-modal-footer-padding: var(--foundation-space-4) var(--foundation-space-6) var(--foundation-space-6);
+
+  /* ===== MODAL COLORS ===== */
+  --surface-modal-backdrop: rgba(0, 0, 0, 0.5);
+  --surface-modal-content: var(--surface-elevated);
+  --border-modal: var(--border-default);
+  --text-modal-title: var(--text-heading);
+
+  /* ===== MODAL SIZING ===== */
+  --radius-modal: var(--foundation-radius-lg);
+  --shadow-modal: var(--foundation-shadow-xl);
+
+  /* ===== MODAL Z-INDEX ===== */
+  --z-modal: 1000;
 }

@@ -283,9 +283,9 @@ p, .text-body {
 .text-body { color: var(--text-body-color); }
 .text-label { color: var(--text-label-color); }
 .text-accent { color: var(--accent-color); }
-.text-success { color: var(--success-600); }
-.text-warning { color: var(--warning-600); }
-.text-error { color: var(--error-600); }
+.text-success { color: var(--text-success); }
+.text-warning { color: var(--text-warning); }
+.text-error { color: var(--text-error); }
 
 /* Semantic color alternatives */
 .text-muted { color: var(--text-secondary); }

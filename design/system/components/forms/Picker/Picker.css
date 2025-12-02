@@ -160,7 +160,7 @@
 }
 
 .picker--success {
-  border-color: var(--success-border);
+  border-color: var(--border-success);
 }
 
 /* ===== PICKER VALUE ===== */
@@ -248,7 +248,7 @@
 
 .picker-search-input:focus {
   border-color: var(--border-input-focus);
-  box-shadow: 0 0 0 3px rgba(var(--accent-500-rgb), 0.1);
+  box-shadow: 0 0 0 3px var(--surface-accent-muted);
 }
 
 .picker-search-input::placeholder {
@@ -287,8 +287,8 @@
 .picker:focus-visible {
   outline: 2px solid transparent;
   outline-offset: 2px;
-  box-shadow: 
-    0 0 0 3px rgba(var(--accent-500-rgb), 0.2),
+  box-shadow:
+    0 0 0 3px var(--surface-accent-muted),
     0 2px 4px rgba(0, 0, 0, 0.04);
 }
 

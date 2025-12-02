@@ -9,13 +9,25 @@
 
 'use client';
 
-import { useEditingModeHandler } from './hook';
+import { 
+  useEditMode, 
+  useDesignCSS, 
+  useIFrameHeight, 
+  useDesignTokenUpdates 
+} from './hooks';
 
 /**
  * Komponent som lyssnar på postMessage från parent för editing mode
  * Placeras i layout.tsx för att aktiveras globalt
+ * 
+ * Använder nu separerade hooks för bättre separation of concerns
  */
 export function EditingModeHandler() {
-  useEditingModeHandler();
+  const isEditing = useEditMode();
+  
+  useDesignCSS(isEditing);
+  useIFrameHeight();
+  useDesignTokenUpdates();
+  
   return null; // Ingen UI, bara logik
 }

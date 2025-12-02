@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { cn } from "../../../lib/utils";
+import { cn } from "../../../utils/cn";
 import { HStack } from "../../layout/hStack/HStack";
 import { VStack } from "../../layout/vStack/VStack";
 import { Button, IconButtons } from "../../../components";
@@ -22,6 +22,10 @@ export interface DrawerProps {
   closeButtonVariant?: "icon" | "text";
   closeButtonLabel?: string;
   preventScroll?: boolean;
+  /** Force absolute positioning (useful for demo/docs pages) */
+  absolute?: boolean;
+  /** Container to portal into (defaults to document.body) */
+  container?: HTMLElement | null;
   style?: React.CSSProperties;
 }
 
@@ -35,6 +39,8 @@ const Drawer = ({
   closeButtonLabel = "Close",
   className,
   preventScroll = true,
+  absolute = false,
+  container,
   style,
 }: DrawerProps) => {
   const [mounted, setMounted] = useState(false);
@@ -48,27 +54,29 @@ const Drawer = ({
   // Handle scroll locking & scrollbar compensation
   useEffect(() => {
     if (isOpen) {
-      setIsClosing(false); // Reset closing state when opening
-      if (preventScroll) {
+      setIsClosing(false);
+      // Only prevent scroll for fixed positioning (not absolute)
+      if (preventScroll && !absolute) {
         const scrollbarWidth = getScrollbarWidth();
         document.body.style.overflow = "hidden";
         document.body.style.paddingRight = `${scrollbarWidth}px`;
       }
     } else {
       if (mounted) {
-        setIsClosing(true); // Start closing animation
+        setIsClosing(true);
         
-        // Wait for animation to complete before cleaning up
         const timeout = setTimeout(() => {
           setIsClosing(false);
-          document.body.style.overflow = "";
-          document.body.style.paddingRight = "";
+          if (!absolute) {
+            document.body.style.overflow = "";
+            document.body.style.paddingRight = "";
+          }
         }, ANIMATION_DURATION);
         
         return () => clearTimeout(timeout);
       }
     }
-  }, [isOpen, preventScroll, mounted, ANIMATION_DURATION]);
+  }, [isOpen, preventScroll, mounted, ANIMATION_DURATION, absolute]);
 
   // Escape key handler
   useEffect(() => {
@@ -79,19 +87,19 @@ const Drawer = ({
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
-  // Don't render until mounted
   if (!mounted) return null;
-  
-  // Don't render if not open and not closing (animation finished)
   if (!isOpen && !isClosing) return null;
 
-  // Pill drawer uses simpler structure (no wrapper divs)
   const isPill = type === "pill";
 
-  return createPortal(
+  // Determine portal target
+  const portalTarget = container || (absolute ? null : document.body);
+
+  const drawerContent = (
     <div
       className={cn(
         "drawer-overlay",
+        absolute && "drawer-overlay--absolute",
         isOpen ? "drawer-overlay--open" : "drawer-overlay--closing"
       )}
       onClick={(e) => e.target === e.currentTarget && onClose()}
@@ -100,6 +108,7 @@ const Drawer = ({
         className={cn(
           "drawer",
           `drawer--${type}`,
+          absolute && "drawer--absolute",
           isOpen ? "drawer--open" : "drawer--close",
           className
         )}
@@ -108,10 +117,8 @@ const Drawer = ({
         aria-modal="true"
       >
         {isPill ? (
-          // Pill drawer: render children directly, no wrappers
           children
         ) : (
-          // Bar/top drawer: use full wrapper structure
           <VStack spacing="lg" align="stretch" fullWidth className="drawer__content">
             {showCloseButton && (
               <HStack justify="end" className="drawer__header">
@@ -133,9 +140,15 @@ const Drawer = ({
           </VStack>
         )}
       </aside>
-    </div>,
-    document.body
+    </div>
   );
+
+  // If absolute mode, render in-place. Otherwise portal to body
+  if (absolute || !portalTarget) {
+    return drawerContent;
+  }
+
+  return createPortal(drawerContent, portalTarget);
 };
 
 export default Drawer;

@@ -244,7 +244,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                   onClick={() => go(ctaButton.href)}
                   style={{
                     background: 'linear-gradient(135deg, #64748b, #475569)',
-                    color: 'var(--primary-white)',
+                    color: 'var(--surface-page)',
                     fontWeight: '600',
                     fontSize: '1.1rem',
                     border: 'none',
@@ -294,7 +294,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
             fontSize: '24px',
             cursor: 'pointer',
             padding: '8px',
-            color: 'var(--primary-white)',
+            color: 'var(--surface-page)',
             zIndex: 1002,
             transform: mobileOpen ? 'scale(1)' : 'scale(0.8)',
             opacity: mobileOpen ? 1 : 0,
@@ -349,7 +349,7 @@ const CleanNavbar: React.FC<CleanNavbarProps> = ({
                 style={{ 
                   width: '100%',
                   background: 'linear-gradient(135deg, #64748b, #475569)',
-                  color: 'var(--primary-white)',
+                  color: 'var(--surface-page)',
                   fontWeight: '600',
                   fontSize: '1.2rem',
                   border: 'none',

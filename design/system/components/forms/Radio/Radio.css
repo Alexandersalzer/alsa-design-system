@@ -76,7 +76,7 @@
 .radio:focus {
   outline: none;
   border-color: var(--border-radio-focus);                 /* ✅ Good - semantic token */
-  box-shadow: 0 0 0 3px var(--accent-subtle);              /* FIXED: was --accent-200, using shortcut */
+  box-shadow: 0 0 0 3px var(--surface-accent-subtle);      /* ✅ Good - semantic token */
 }
 
 .radio--checked {
@@ -85,7 +85,7 @@
 }
 
 .radio--checked:hover:not(:disabled) {
-  border-color: var(--accent-text);                        /* FIXED: was --accent-500, using shortcut */
+  border-color: var(--text-accent);                        /* ✅ Good - semantic token */
 }
 
 .radio:disabled,
@@ -237,14 +237,14 @@
 }
 
 .radio-group--error .radio {
-  border-color: var(--error-border);                       /* FIXED: was --error-500, using shortcut */
+  border-color: var(--border-error);                       /* ✅ Good - semantic token */
 }
 
 /* ===== IMPROVED FOCUS STATES ===== */
 .radio:focus-visible {
   outline: none;
   border-color: var(--border-radio-focus);
-  box-shadow: 0 0 0 3px var(--accent-subtle);
+  box-shadow: 0 0 0 3px var(--surface-accent-subtle);
 }
 
 /* ===== BETTER HOVER BEHAVIOR ===== */

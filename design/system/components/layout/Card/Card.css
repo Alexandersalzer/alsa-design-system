@@ -66,14 +66,14 @@
 /* Elevated cards hover effect */
 .card--elevated.card--clickable:hover {
   box-shadow: var(--foundation-shadow-xl);
-  background-color: var(--secondary-100);
+  background-color: var(--surface-hover);
 }
 
 /* Outlined cards hover effect */
 .card--outlined.card--clickable:hover {
-  border-color: var(--secondary-500);
+  border-color: var(--border-emphasis);
   box-shadow: var(--foundation-shadow-md);
-  background-color: var(--secondary-100);
+  background-color: var(--surface-hover);
 }
 
 /* Solid cards hover effect */
@@ -85,20 +85,20 @@
 .card--clickable:active {
   box-shadow: var(--foundation-shadow-sm);
   transition-duration: 0.1s;
-  background-color: var(--secondary-300);
+  background-color: var(--surface-active);
 }
 
 /* Selected state */
 .card--selected {
-  border-color: var(--accent-500);
-  background-color: var(--surface-selected, var(--accent-50));
-  box-shadow: 0 0 0 2px var(--secondary-500);
+  border-color: var(--border-selected);
+  background-color: var(--surface-selected);
+  box-shadow: 0 0 0 2px var(--border-emphasis);
 }
 
 /* Selected hover state */
 .card--selected.card--clickable:hover {
-  background-color: var(--surface-selected-hover, var(--accent-100));
-  box-shadow: 0 0 0 2px var(--accent-600);
+  background-color: var(--surface-accent-muted);
+  box-shadow: 0 0 0 2px var(--border-accent);
 }
 
 /* Disabled state */
@@ -110,9 +110,9 @@
 
 /* Focus styles for accessibility */
 .card--clickable:focus-visible {
-  outline: 2px solid var(--accent-500);
+  outline: 2px solid var(--border-focus);
   outline-offset: 2px;
-  border-color: var(--accent-500);
+  border-color: var(--border-focus);
 }
 
 /* ===== DOMAIN CARD SPECIFIC STYLES ===== */
@@ -126,13 +126,13 @@
 }
 
 .domain-card--clickable:hover {
-  border-color: var(--secondary-400);
-  background-color: var(--secondary-200);
+  border-color: var(--border-hover);
+  background-color: var(--surface-hover);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .domain-card--clickable:hover .domain-info {
-  color: var(--accent-700);
+  color: var(--text-accent-strong);
 }
 
 /* Status indicator */
@@ -222,7 +222,7 @@
   position: absolute;
   width: 25px;
   height: 25px;
-  background-color: var(--secondary-600);
+  background-color: var(--icon-default);
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='5'%3E%3C/circle%3E%3Cpath d='M20 21c0-4.418-3.582-8-8-8s-8 3.582-8 8'%3E%3C/path%3E%3C/svg%3E") no-repeat center / contain;
 }
 
@@ -254,7 +254,7 @@
 .step-number {
   width: 32px;
   height: 32px;
-  background-color: var(--accent-500);
+  background-color: var(--surface-accent);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -316,18 +316,18 @@
 
 /* Active feature card styling */
 .feature-card--active {
-  border-color: var(--success-300);
-  box-shadow: 0 0 0 1px var(--success-200);
+  border-color: var(--border-success);
+  box-shadow: 0 0 0 1px var(--border-success-subtle);
 }
 
 /* Interactive hover effects */
 .feature-card.card--clickable:hover {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  background-color: var(--secondary-200);
+  background-color: var(--surface-hover);
 }
 
 .feature-card.card--clickable:hover .feature-card__price {
-  color: var(--accent-700);
+  color: var(--text-accent-strong);
 }
 
 /* Active card hover (should be more subtle) */
@@ -357,19 +357,19 @@
 
 /* Pricing highlight for premium features */
 .feature-card__price--premium {
-  background: linear-gradient(135deg, var(--accent-50), var(--accent-100));
-  border: 1px solid var(--accent-200);
+  background: var(--surface-accent-subtle);
+  border: 1px solid var(--border-accent-subtle);
 }
 
 /* Free feature special styling */
 .feature-card__price--free {
-  background: linear-gradient(135deg, var(--success-50), var(--success-100));
-  border: 1px solid var(--success-200);
+  background: var(--surface-success-subtle);
+  border: 1px solid var(--border-success-subtle);
 }
 
 /* Focus states for accessibility */
 .feature-card.card--clickable:focus-visible {
-  outline: 3px solid var(--secondary-500);
+  outline: 3px solid var(--border-focus);
   outline-offset: 2px;
 }
 

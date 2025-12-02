@@ -207,7 +207,7 @@
 }
 
 .nav-item--tabs.nav-item--active {
-  border-bottom-color: var(--accent-500);
+  border-bottom-color: var(--border-accent);
   background-color: transparent;
 }
 
@@ -242,4 +242,26 @@
   .nav-item {
     transition: background-color 0.15s ease, color 0.15s ease !important;
   }
+}
+
+/* ==========================================================
+   PRESS FEEDBACK + ACTIVE FIXES FOR NAVIGATION
+   ========================================================== */
+
+/* 1) Press scale on nav items */
+.nav-item:not(.nav-item--disabled):active {
+  transform: scale(0.97);
+}
+
+/* 2) Active nav items NEVER scale */
+.nav-item--active {
+  transform: none !important;
+}
+
+/* 3) Smooth transition */
+.nav-item {
+  transition:
+    transform 0.12s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
 }

@@ -98,19 +98,19 @@
  * 
  * Types (all use white text on colored background):
  * - --surface-banner-default: var(--accent-600)
- * - --text-banner-default: var(--primary-white)
+ * - --text-banner-default: var(--surface-page)
  * 
  * - --surface-banner-loading: var(--accent-500)
- * - --text-banner-loading: var(--primary-white)
+ * - --text-banner-loading: var(--surface-page)
  * 
  * - --surface-banner-success: var(--success-600)
- * - --text-banner-success: var(--primary-white)
+ * - --text-banner-success: var(--surface-page)
  * 
  * - --surface-banner-warning: var(--warning-600)
- * - --text-banner-warning: var(--primary-white)
+ * - --text-banner-warning: var(--surface-page)
  * 
  * - --surface-banner-error: var(--error-600)
- * - --text-banner-error: var(--primary-white)
+ * - --text-banner-error: var(--surface-page)
  * 
  * COLORS ADAPT TO THEME:
  * Light mode: Bright accent, green, yellow, red

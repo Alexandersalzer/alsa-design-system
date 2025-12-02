@@ -4,7 +4,7 @@
 // ===============================================
 
 import React, { forwardRef, useEffect, useState } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import { H3, Body } from '../../../components/Typography';
 import { Button } from '../../../components/actions/Button';
 import { Icon } from '../../../components/media';

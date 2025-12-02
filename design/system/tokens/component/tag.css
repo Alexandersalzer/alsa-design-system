@@ -1,70 +1,9 @@
 /* ==============================================
    src/design-system/tokens/component/tag.css
-   TAG COMPONENT TOKENS - USING SMART SHORTCUTS
+   TAG COMPONENT TOKENS - USING SEMANTIC TOKENS
    ============================================== */
-
 :root {
-  /* ===== SUCCESS TAG ===== */
-  --surface-tag-success: var(--success-bg);
-  --surface-tag-success-hover: var(--success-bg-hover);
-  --surface-tag-success-active: var(--success-border);
-  --text-tag-success: var(--success-text);
-  --text-tag-success-hover: var(--success-text-strong);
-  --border-tag-success: var(--success-border);
-  --border-tag-success-hover: var(--success-border);
-  --icon-tag-success: var(--success-icon);
-
-  /* ===== ERROR TAG ===== */
-  --surface-tag-error: var(--error-bg);
-  --surface-tag-error-hover: var(--error-bg-hover);
-  --surface-tag-error-active: var(--error-border);
-  --text-tag-error: var(--error-text);
-  --text-tag-error-hover: var(--error-text-strong);
-  --border-tag-error: var(--error-border);
-  --border-tag-error-hover: var(--error-border);
-  --icon-tag-error: var(--error-icon);
-
-  /* ===== WARNING TAG ===== */
-  --surface-tag-warning: var(--warning-bg);
-  --surface-tag-warning-hover: var(--warning-bg-hover);
-  --surface-tag-warning-active: var(--warning-border);
-  --text-tag-warning: var(--warning-text);
-  --text-tag-warning-hover: var(--warning-text-strong);
-  --border-tag-warning: var(--warning-border);
-  --border-tag-warning-hover: var(--warning-border);
-  --icon-tag-warning: var(--warning-icon);
-
-  /* ===== INFO TAG ===== */
-  --surface-tag-info: var(--neutral-bg);
-  --surface-tag-info-hover: var(--neutral-bg-hover);
-  --surface-tag-info-active: var(--neutral-border);
-  --text-tag-info: var(--neutral-text);
-  --text-tag-info-hover: var(--neutral-text-strong);
-  --border-tag-info: var(--neutral-border);
-  --border-tag-info-hover: var(--neutral-border);
-  --icon-tag-info: var(--neutral-icon);
-
-  /* ===== ACCENT TAG ===== */
-  --surface-tag-accent: var(--accent-bg);
-  --surface-tag-accent-hover: var(--accent-bg-hover);
-  --surface-tag-accent-active: var(--accent-border);
-  --text-tag-accent: var(--accent-text);
-  --text-tag-accent-hover: var(--accent-text-strong);
-  --border-tag-accent: var(--accent-border);
-  --border-tag-accent-hover: var(--accent-border);
-  --icon-tag-accent: var(--accent-icon);
-
-  /* ===== DEFAULT TAG ===== */
-  --surface-tag-default: var(--foundation-gray-100);
-  --surface-tag-default-hover: var(--foundation-gray-200);
-  --surface-tag-default-active: var(--foundation-gray-300);
-  --text-tag-default: var(--foundation-gray-700);
-  --text-tag-default-hover: var(--foundation-gray-800);
-  --border-tag-default: var(--foundation-gray-300);
-  --border-tag-default-hover: var(--foundation-gray-400);
-  --icon-tag-default: var(--foundation-gray-600);
-
-  /* ===== TAG SIZES (keep as-is) ===== */
+  /* ===== TAG SIZES ===== */
   --size-tag-height-small: 20px;
   --size-tag-height-medium: 24px;
   --size-tag-height-large: 32px;
@@ -92,9 +31,7 @@
   --size-tag-remove-medium: 16px;
   --size-tag-remove-large: 18px;
 
-  /* ===== TAG RADIUS & TRANSITIONS (keep as-is) ===== */
-  --radius-tag: var(--radius-badge);
-
-  /* ===== TAG TRANSITIONS ===== */
-  --transition-tag: var(--transition-button);
+  /* ===== TAG RADIUS & TRANSITIONS ===== */
+  --radius-tag: var(--foundation-radius-md);
+  --transition-tag: var(--foundation-transition-base);
 }

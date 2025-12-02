@@ -31,7 +31,7 @@
   --text-alert-info: var(--info-700);
   --surface-alert-info-solid: var(--info-500);
   --border-alert-info-solid: var(--info-600);
-  --text-alert-info-solid: var(--primary-white);
+  --text-alert-info-solid: var(--surface-page);
   --border-alert-info-outline: var(--info-500);
 
   /* SUCCESS */
@@ -40,7 +40,7 @@
   --text-alert-success: var(--success-700);
   --surface-alert-success-solid: var(--success-500);
   --border-alert-success-solid: var(--success-600);
-  --text-alert-success-solid: var(--primary-white);
+  --text-alert-success-solid: var(--surface-page);
   --border-alert-success-outline: var(--success-500);
 
   /* WARNING */
@@ -58,7 +58,7 @@
   --text-alert-error: var(--error-700);
   --surface-alert-error-solid: var(--error-500);
   --border-alert-error-solid: var(--error-600);
-  --text-alert-error-solid: var(--primary-white);
+  --text-alert-error-solid: var(--surface-page);
   --border-alert-error-outline: var(--error-500);
 
 
@@ -68,32 +68,32 @@
      ========================================================== */
 
   /* INFO */
-  --surface-toast-info: var(--info-bg);
-  --border-toast-info: var(--info-border);
-  --text-toast-info: var(--info-text);
-  --text-toast-info-title: var(--info-text-strong);
-  --icon-toast-info: var(--info-icon);
+  --surface-toast-info: var(--surface-info);
+  --border-toast-info: var(--border-info);
+  --text-toast-info: var(--text-info);
+  --text-toast-info-title: var(--text-info-strong);
+  --icon-toast-info: var(--icon-info);
 
   /* SUCCESS */
-  --surface-toast-success: var(--success-bg);
-  --border-toast-success: var(--success-border);
-  --text-toast-success: var(--success-text);
-  --text-toast-success-title: var(--success-text-strong);
-  --icon-toast-success: var(--success-icon);
+  --surface-toast-success: var(--surface-success);
+  --border-toast-success: var(--border-success);
+  --text-toast-success: var(--text-success);
+  --text-toast-success-title: var(--text-success-strong);
+  --icon-toast-success: var(--icon-success);
 
   /* WARNING */
-  --surface-toast-warning: var(--warning-bg);
-  --border-toast-warning: var(--warning-border);
-  --text-toast-warning: var(--warning-text);
-  --text-toast-warning-title: var(--warning-text-strong);
-  --icon-toast-warning: var(--warning-icon);
+  --surface-toast-warning: var(--surface-warning);
+  --border-toast-warning: var(--border-warning);
+  --text-toast-warning: var(--text-warning);
+  --text-toast-warning-title: var(--text-warning-strong);
+  --icon-toast-warning: var(--icon-warning);
 
   /* ERROR */
-  --surface-toast-error: var(--error-bg);
-  --border-toast-error: var(--error-border);
-  --text-toast-error: var(--error-text);
-  --text-toast-error-title: var(--error-text-strong);
-  --icon-toast-error: var(--error-icon);
+  --surface-toast-error: var(--surface-error);
+  --border-toast-error: var(--border-error);
+  --text-toast-error: var(--text-error);
+  --text-toast-error-title: var(--text-error-strong);
+  --icon-toast-error: var(--icon-error);
 
   /* Layout */
   --space-toast-padding: var(--foundation-space-4);
@@ -101,98 +101,6 @@
   --radius-toast: var(--foundation-radius-lg);
   --shadow-toast: var(--foundation-shadow-lg);
   --transition-toast: var(--foundation-duration-standard) var(--foundation-easing-enter);
-
-
-  /* ==========================================================
-     🏷️ TAG TOKENS
-     Små etiketter eller statusindikatorer
-     ========================================================== */
-
-  /* SUCCESS */
-  --surface-tag-success: var(--success-bg);
-  --surface-tag-success-hover: var(--success-bg-hover);
-  --surface-tag-success-active: var(--success-border);
-  --text-tag-success: var(--success-text);
-  --text-tag-success-hover: var(--success-text-strong);
-  --border-tag-success: var(--success-border);
-  --icon-tag-success: var(--success-icon);
-
-  /* ERROR */
-  --surface-tag-error: var(--error-bg);
-  --surface-tag-error-hover: var(--error-bg-hover);
-  --surface-tag-error-active: var(--error-border);
-  --text-tag-error: var(--error-text);
-  --text-tag-error-hover: var(--error-text-strong);
-  --border-tag-error: var(--error-border);
-  --icon-tag-error: var(--error-icon);
-
-  /* WARNING */
-  --surface-tag-warning: var(--warning-bg);
-  --surface-tag-warning-hover: var(--warning-bg-hover);
-  --surface-tag-warning-active: var(--warning-border);
-  --text-tag-warning: var(--warning-text);
-  --text-tag-warning-hover: var(--warning-text-strong);
-  --border-tag-warning: var(--warning-border);
-  --icon-tag-warning: var(--warning-icon);
-
-  /* INFO (neutral) */
-  --surface-tag-info: var(--info-100);
-  --surface-tag-info-hover: var(--neutral-bg-hover);
-  --surface-tag-info-active: var(--neutral-border);
-  --text-tag-info: var(--neutral-text);
-  --text-tag-info-hover: var(--neutral-text-strong);
-  --border-tag-info: var(--neutral-border);
-  --icon-tag-info: var(--neutral-icon);
-
-  /* ACCENT */
-  --surface-tag-accent: var(--accent-100);
-  --surface-tag-accent-hover: var(--accent-bg-hover);
-  --surface-tag-accent-active: var(--accent-border);
-  --text-tag-accent: var(--accent-text);
-  --text-tag-accent-hover: var(--accent-text-strong);
-  --border-tag-accent: var(--accent-border);
-  --icon-tag-accent: var(--accent-icon);
-
-  /* DEFAULT */
-  --surface-tag-default: var(--foundation-gray-100);
-  --surface-tag-default-hover: var(--foundation-gray-200);
-  --surface-tag-default-active: var(--foundation-gray-300);
-  --text-tag-default: var(--foundation-gray-700);
-  --text-tag-default-hover: var(--foundation-gray-800);
-  --border-tag-default: var(--foundation-gray-300);
-  --icon-tag-default: var(--foundation-gray-600);
-
-  /* Sizes & spacing */
-  --size-tag-height-small: 20px;
-  --size-tag-height-medium: 24px;
-  --size-tag-height-large: 32px;
-
-  --space-tag-padding-x-small: var(--foundation-space-2);
-  --space-tag-padding-y-small: var(--foundation-space-1);
-  --space-tag-padding-x-medium: var(--foundation-space-3);
-  --space-tag-padding-y-medium: var(--foundation-space-1);
-  --space-tag-padding-x-large: var(--foundation-space-4);
-  --space-tag-padding-y-large: var(--foundation-space-2);
-
-  --font-tag-size-small: var(--font-body-xs-size);
-  --font-tag-size-medium: var(--font-body-sm-size);
-  --font-tag-size-large: var(--font-body-md-size);
-
-  --space-tag-icon-gap-small: var(--foundation-space-1);
-  --space-tag-icon-gap-medium: var(--foundation-space-2);
-  --space-tag-icon-gap-large: var(--foundation-space-2);
-
-  --size-tag-icon-small: 12px;
-  --size-tag-icon-medium: 14px;
-  --size-tag-icon-large: 16px;
-
-  --size-tag-remove-small: 14px;
-  --size-tag-remove-medium: 16px;
-  --size-tag-remove-large: 18px;
-
-  /* Radius & transitions */
-  --radius-tag: var(--radius-badge);
-  --transition-tag: var(--transition-button);
 }
 
 /* ==========================================================
@@ -222,7 +130,7 @@
   --icon-banner-default: var(--icon-primary);
   
   /* LOADING - Primary text, subtle accent background */
-  --surface-banner-loading: color-mix(in srgb, var(--secondary-300) 10%, transparent 90%);
+  --surface-banner-loading: color-mix(in srgb, var(--neutral-300) 10%, transparent 90%);
   --text-banner-loading: var(--text-primary);
   --icon-banner-loading: var(--icon-primary);
 
@@ -254,4 +162,18 @@
   /* ===== BANNER ACTION TOKENS ===== */
   --text-banner-action: var(--text-primary);
   --text-banner-action-hover: var(--text-secondary);
+}
+
+/* ==============================================
+   src/design-system/tokens/component/banner.css
+   BANNER COMPONENT TOKENS - USING SEMANTIC SPACING
+   ============================================== */
+:root {
+  /* ===== BANNER SPACING (using navbar component spacing) ===== */
+  --space-banner-padding: var(--space-navbar-md);      /* Vertical + horizontal padding */
+  --space-banner-gap: var(--foundation-space-3);       /* 12px gap between elements */
+
+  /* ===== BANNER SIZING ===== */
+  --size-banner-min-height: 56px;
+  --size-banner-icon: 20px;
 }

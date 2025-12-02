@@ -1,0 +1,122 @@
+/* ===============================================
+   src/design-system/components/feedback/BulkActionBar/BulkActionBar.css
+   BULK ACTION BAR STYLES
+   =============================================== */
+
+.bulk-action-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: var(--surface-accent);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--foundation-radius-lg);
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+  box-shadow: var(--foundation-shadow-md);
+  animation: slideDown 0.2s ease-out;
+  z-index: 10;
+}
+
+.bulk-action-bar__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--foundation-space-4);
+  width: 100%;
+}
+
+.bulk-action-bar__info {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+  flex: 1;
+}
+
+.bulk-action-bar__count {
+  font-size: var(--typography-body-md-size);
+  font-weight: var(--typography-body-md-weight);
+  color: var(--text-on-accent);
+}
+
+.bulk-action-bar__separator {
+  color: var(--text-on-accent);
+  opacity: 0.5;
+}
+
+.bulk-action-bar__select-all {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: var(--typography-body-sm-size);
+  font-weight: var(--typography-body-sm-weight);
+  color: var(--text-on-accent);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: opacity var(--foundation-duration-fast) var(--foundation-ease-out);
+}
+
+.bulk-action-bar__select-all:hover {
+  opacity: 0.8;
+}
+
+.bulk-action-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+}
+
+.bulk-action-bar__close {
+  flex-shrink: 0;
+}
+
+/* Position variants */
+.bulk-action-bar--top {
+  position: relative;
+  margin-bottom: var(--foundation-space-4);
+}
+
+.bulk-action-bar--bottom {
+  position: relative;
+  margin-top: var(--foundation-space-4);
+}
+
+.bulk-action-bar--sticky {
+  position: sticky;
+  top: var(--foundation-space-4);
+  margin-bottom: var(--foundation-space-4);
+}
+
+/* Animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .bulk-action-bar__content {
+    flex-wrap: wrap;
+  }
+
+  .bulk-action-bar__actions {
+    order: -1;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .bulk-action-bar__info {
+    flex: 1;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .bulk-action-bar {
+    animation: none;
+  }
+}

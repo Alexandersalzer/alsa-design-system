@@ -5,12 +5,12 @@
 :root {
   /* Default spinner base colors (used standalone or outside buttons) */
   --spinner-color: var(--accent-500);
-  --spinner-track-color: var(--secondary-300);
+  --spinner-track-color: var(--border-strong);
 
   /* Button-specific overrides (contrast-tuned) */
-  --spinner-track-on-primary: var(--primary-900);
-  --spinner-track-on-secondary: var(--secondary-400);
+  --spinner-track-on-primary: var(--neutral-900);
+  --spinner-track-on-secondary: var(--neutral-400);
   --spinner-track-on-accent: var(--accent-700);
-  --spinner-track-on-destructive: var(--secondary-700);
-  --spinner-track-on-ghost: var(--secondary-300);
+  --spinner-track-on-destructive: var(--neutral-700);
+  --spinner-track-on-ghost: var(--border-strong);
 }

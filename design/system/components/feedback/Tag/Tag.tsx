@@ -4,11 +4,13 @@ import './Tag.css';
 
 export type TagVariant = 'success' | 'error' | 'warning' | 'info' | 'accent' | 'default';
 export type TagSize = 'small' | 'medium' | 'large';
+export type TagSurface = 'subtle' | 'muted' | 'vibrant';
 
 export interface TagProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'onClick'> {
   children: React.ReactNode;
   variant?: TagVariant;
   size?: TagSize;
+  surface?: TagSurface;
   icon?: React.ReactNode;
   removable?: boolean;
   interactive?: boolean;
@@ -20,8 +22,9 @@ export interface TagProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'o
 
 export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
   children,
-  variant = 'info',
+  variant = 'default',
   size = 'medium',
+  surface = 'subtle',
   icon,
   removable = false,
   interactive = false,
@@ -34,14 +37,16 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
   const baseClasses = 'tag';
   const variantClass = `tag--${variant}`;
   const sizeClass = size !== 'medium' ? `tag--${size}` : '';
+  const surfaceClass = surface !== 'subtle' ? `tag--${surface}` : '';
   const iconClass = icon ? 'tag--with-icon' : '';
   const interactiveClass = (interactive || onClick) && !disabled ? 'tag--interactive' : '';
   const removableClass = removable ? 'tag--removable' : '';
-  
+
   const classes = [
     baseClasses,
     variantClass,
     sizeClass,
+    surfaceClass,
     iconClass,
     interactiveClass,
     removableClass,
@@ -104,4 +109,5 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
 });
 
 Tag.displayName = 'Tag';
+
 export default Tag;

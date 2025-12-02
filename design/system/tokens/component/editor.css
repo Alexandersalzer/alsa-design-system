@@ -63,24 +63,24 @@
   /* ===== EDITOR SHADOW TOKENS - KEEP FOUNDATION (CORRECT) ===== */
   --shadow-editor-panel: var(--foundation-shadow-sm);      /* ✅ Good - foundation shadow */
   --shadow-editor-topbar: var(--foundation-shadow-sm);     /* ✅ Good - foundation shadow */
-  --shadow-editor-focus: 0 0 0 2px var(--accent-subtle);   /* FIXED: was --accent-200, using shortcut */
-  
-  /* ===== EDITOR STATE TOKENS - USING SHORTCUTS ===== */
-  --color-editor-changes: var(--warning-icon);             /* FIXED: was --warning-500, using shortcut */
-  --color-editor-changes-bg: var(--warning-bg);            /* FIXED: was --warning-100, using shortcut */
-  --color-editor-success: var(--success-icon);             /* FIXED: was --success-500, using shortcut */
-  --color-editor-success-bg: var(--success-bg);            /* FIXED: was --success-100, using shortcut */
-  --color-editor-active: var(--accent-icon);               /* FIXED: was --accent-500, using shortcut */
-  --color-editor-active-bg: var(--accent-bg);              /* FIXED: was --accent-100, using shortcut */
-  
-  /* ===== EDITOR TAB TOKENS - USING SEMANTIC & SHORTCUTS ===== */
+  --shadow-editor-focus: 0 0 0 2px var(--surface-accent-subtle);   /* ✅ Good - semantic token */
+
+  /* ===== EDITOR STATE TOKENS - USING SEMANTIC TOKENS ===== */
+  --color-editor-changes: var(--icon-warning);             /* ✅ Good - semantic token */
+  --color-editor-changes-bg: var(--surface-warning);       /* ✅ Good - semantic token */
+  --color-editor-success: var(--icon-success);             /* ✅ Good - semantic token */
+  --color-editor-success-bg: var(--surface-success);       /* ✅ Good - semantic token */
+  --color-editor-active: var(--icon-accent);               /* ✅ Good - semantic token */
+  --color-editor-active-bg: var(--surface-accent);         /* ✅ Good - semantic token */
+
+  /* ===== EDITOR TAB TOKENS - USING SEMANTIC TOKENS ===== */
   --surface-editor-tab: transparent;                       /* ✅ Good - transparent */
-  --surface-editor-tab-hover: var(--surface-hover);        /* FIXED: was --surface-hover, --secondary-100, using shortcut */
-  --surface-editor-tab-active: var(--accent-bg);           /* FIXED: was --accent-100, using shortcut */
+  --surface-editor-tab-hover: var(--surface-hover);        /* ✅ Good - semantic token */
+  --surface-editor-tab-active: var(--surface-accent);      /* ✅ Good - semantic token */
   --text-editor-tab: var(--text-secondary);                /* ✅ Good - semantic token */
   --text-editor-tab-hover: var(--text-primary);            /* ✅ Good - semantic token */
-  --text-editor-tab-active: var(--accent-text);            /* FIXED: was --accent-600, using shortcut */
-  --border-editor-tab-active: var(--accent-icon);          /* FIXED: was --accent-500, using shortcut */
+  --text-editor-tab-active: var(--text-accent);            /* ✅ Good - semantic token */
+  --border-editor-tab-active: var(--icon-accent);          /* ✅ Good - semantic token */
   
   /* ===== EDITOR TYPOGRAPHY TOKENS - KEEP FOUNDATION (CORRECT) ===== */
   --text-editor-topbar-title: var(--foundation-text-lg);   /* ✅ Good - foundation typography */

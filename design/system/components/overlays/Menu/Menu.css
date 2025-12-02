@@ -1,15 +1,16 @@
 /* ===============================================
    src/design-system/components/primitives/Menu/Menu.css
-   SIMPLIFIED - Uses Popover + Listbox primitives - PROPER TOKENS
+   FIXED - No conflicting trigger styles when using asChild
    ============================================== */
 
 /* ===== MENU ROOT ===== */
 .menu-root {
   position: relative;
-  display: inline-component;
+  display: inline-block;
 }
 
-/* ===== MENU TRIGGER ===== */
+/* ===== MENU TRIGGER (ONLY FOR DEFAULT TRIGGER) ===== */
+/* These styles ONLY apply when NOT using asChild */
 .menu-trigger {
   display: inline-flex;
   align-items: center;
@@ -18,7 +19,6 @@
   padding: 8px 16px;
   min-height: 40px;
   border: 2px solid var(--border-picker);
-  /* FIXED: Use proper button radius token */
   border-radius: var(--radius-button);
   background-color: var(--surface-picker);
   color: var(--text-picker);
@@ -49,8 +49,8 @@
 
 .menu-trigger:focus-visible {
   border-color: var(--border-picker-focus);
-  box-shadow: 
-    0 0 0 3px rgba(var(--accent-500-rgb), 0.2),
+  box-shadow:
+    0 0 0 3px var(--surface-accent-muted),
     0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
@@ -122,14 +122,12 @@
 }
 
 /* ===== MENU ITEM ===== */
-/* Menu items should match listbox items */
 .menu-item {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
   margin: 2px 0;
-  /* FIXED: Use responsive button radius token like listbox */
   border-radius: var(--radius-button);
   background-color: transparent;
   color: var(--text-dropdown);

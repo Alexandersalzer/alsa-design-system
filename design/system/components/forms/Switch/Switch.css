@@ -1,5 +1,5 @@
 /* ==============================================
-   Switch Component - Fixed Smooth Animation
+   Switch Component - FIXED DISPLAY VALUES
    ============================================== */
 
 /* Switch motion tokens are now imported from component/motion.css */
@@ -48,10 +48,10 @@
   pointer-events: none;
 }
 
-/* Switch element */
+/* Switch element - FIXED: display: inline-block */
 .switch {
   position: relative;
-  display: inline-component;
+  display: inline-block;
   cursor: pointer;
   outline: none;
   transition: var(--transition-switch-focus);
@@ -67,10 +67,10 @@
   cursor: not-allowed;
 }
 
-/* Track */
+/* Track - FIXED: display: block */
 .switch-track {
   position: relative;
-  display: component;
+  display: block;
   background-color: var(--surface-switch-track);
   border-radius: var(--radius-switch-track);
   border: 1px solid transparent;
@@ -253,7 +253,7 @@
 }
 
 .switch-wrapper--success .switch-track {
-  border-color: var(--success-500);
+  border-color: var(--border-success);
   transition: var(--transition-switch-border);
 }
 

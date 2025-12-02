@@ -7,7 +7,7 @@
 
 import React, { forwardRef, ReactNode } from 'react';
 import Link from 'next/link';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import { Label, TypographyColor, TypographyWeight } from '../../Typography';
 import { Spinner } from '../../feedback';
 import { useLocaleHref } from '../../../hooks/useLocaleHref';
@@ -18,7 +18,7 @@ export interface ButtonProps
   children: ReactNode;
   href?: string;
   target?: string;
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
+  variant?: 'brand' | 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   radius?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   loading?: boolean;
@@ -68,6 +68,8 @@ export const Button = forwardRef<
       const getColor = (): TypographyColor => {
         if (isDisabled) return 'button-disabled';
         switch (variant) {
+          case 'brand':
+            return 'button-brand';
           case 'primary':
             return 'button-primary';
           case 'secondary':

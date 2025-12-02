@@ -6,5 +6,4 @@ export * from './grid';
 export * from './box'
 export * from './divider'
 export * from './Card';
-export * from '../frames';
 export * from './ResizeHandle';

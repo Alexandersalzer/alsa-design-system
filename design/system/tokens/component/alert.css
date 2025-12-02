@@ -1,67 +1,14 @@
 /* ==============================================
-   src/design-system/tokens/components/alert-tokens.css
-   ALERT COMPONENT TOKENS
+   src/design-system/tokens/component/alert.css
+   ALERT COMPONENT TOKENS - USING SEMANTIC SPACING
    ============================================== */
-
 :root {
-  /* ===== ALERT SPACING TOKENS ===== */
-  --space-alert-gap: var(--foundation-space-3);
-  --space-alert-padding: var(--foundation-space-4);
+  /* ===== ALERT SPACING (using card component spacing) ===== */
+  --space-alert-padding: var(--space-card-padding-sm);      /* 16px all sides */
+  --space-alert-padding-small: var(--space-card-padding-sm); /* 16px mobile */
+  --space-alert-gap: var(--space-card-gap-sm);            /* 12px gap */
+  --space-alert-gap-small: var(--foundation-space-2);       /* 8px mobile */
+
+  /* ===== ALERT RADIUS ===== */
   --radius-alert: var(--foundation-radius-lg);
-
-  /* ===== INFO ALERT TOKENS ===== */
-  /* Subtle variant */
-  --surface-alert-info-subtle: color-mix(in srgb, var(--info-500) 10%, white 90%);
-  --border-alert-info-subtle: var(--info-300);
-  --text-alert-info: var(--info-700);
-  
-  /* Solid variant */
-  --surface-alert-info-solid: var(--info-500);
-  --border-alert-info-solid: var(--info-600);
-  --text-alert-info-solid: var(--primary-white);
-  
-  /* Outline variant */
-  --border-alert-info: var(--info-500);
-
-  /* ===== SUCCESS ALERT TOKENS ===== */
-  /* Subtle variant */
-  --surface-alert-success-subtle: color-mix(in srgb, var(--success-500) 10%, white 90%);
-  --border-alert-success-subtle: var(--success-300);
-  --text-alert-success: var(--success-700);
-  
-  /* Solid variant */
-  --surface-alert-success-solid: var(--success-500);
-  --border-alert-success-solid: var(--success-600);
-  --text-alert-success-solid: var(--primary-white);
-  
-  /* Outline variant */
-  --border-alert-success: var(--success-500);
-
-  /* ===== WARNING ALERT TOKENS ===== */
-  /* Subtle variant */
-  --surface-alert-warning-subtle: color-mix(in srgb, var(--warning-500) 10%, white 90%);
-  --border-alert-warning-subtle: var(--warning-300);
-  --text-alert-warning: var(--warning-800);
-  
-  /* Solid variant */
-  --surface-alert-warning-solid: var(--warning-500);
-  --border-alert-warning-solid: var(--warning-600);
-  --text-alert-warning-solid: var(--warning-950);
-  
-  /* Outline variant */
-  --border-alert-warning: var(--warning-500);
-
-  /* ===== ERROR ALERT TOKENS ===== */
-  /* Subtle variant */
-  --surface-alert-error-subtle: color-mix(in srgb, var(--error-500) 10%, white 90%);
-  --border-alert-error-subtle: var(--error-300);
-  --text-alert-error: var(--error-700);
-  
-  /* Solid variant */
-  --surface-alert-error-solid: var(--error-500);
-  --border-alert-error-solid: var(--error-600);
-  --text-alert-error-solid: var(--primary-white);
-  
-  /* Outline variant */
-  --border-alert-error: var(--error-500);
 }

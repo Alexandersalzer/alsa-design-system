@@ -7,7 +7,7 @@ import React, { forwardRef, useId } from 'react';
 import { Card, CardContent } from '../../../components/layout';
 import { Checkbox } from '../../../components';
 import { Icon } from '../../../components/media';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 
 export interface CheckboxCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   checked?: boolean;

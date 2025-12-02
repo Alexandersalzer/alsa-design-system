@@ -14,6 +14,7 @@ export {
 export type { 
   ToastProps, 
   ToastVariant,
+  ToastSurface,
   ErrorToastProps, 
   SuccessToastProps, 
   WarningToastProps, 

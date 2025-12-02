@@ -1,7 +1,7 @@
 'use client';
 
 import { Section } from '../../components/frames/section';
-import { renderShellPattern } from '../../core/render/renderSections';
+import { renderShellPattern } from '../../core/render/shells';
 import { SectionNode } from '../../core/types/nodes';
 
 interface FooterProps {
@@ -32,7 +32,7 @@ const Footer = ({ section }: FooterProps) => {
     <Section 
       as="footer" 
       style={{ 
-        backgroundColor: 'var(--primary-black)',
+        backgroundColor: 'var(--surface-inverse)',
         overflow: 'visible', // Allow dropdown to show outside footer bounds
       }}
     >

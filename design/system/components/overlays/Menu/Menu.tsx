@@ -1,6 +1,6 @@
 // ===============================================
 // src/design-system/components/primitives/Menu/Menu.tsx
-// REFACTORED - Uses Popover + Listbox primitives
+// FIXED - No double trigger background
 // ===============================================
 
 import React, { 
@@ -10,7 +10,7 @@ import React, {
   forwardRef,
   type ReactNode
 } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import { Icon } from '../../media';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import { Popover } from '../Popover';
@@ -96,7 +96,7 @@ export const MenuRoot = ({
 };
 
 // ===============================================
-// MENU TRIGGER
+// MENU TRIGGER - FIXED (NO DOUBLE WRAPPER)
 // ===============================================
 
 export interface MenuTriggerProps {
@@ -106,32 +106,20 @@ export interface MenuTriggerProps {
   disabled?: boolean;
 }
 
-// ===============================================
-// MENU TRIGGER - FIXED ASCHILD CLASS MERGING
-// ===============================================
-
 export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
   ({ children, asChild = false, className, disabled, ...props }, ref) => {
     const { size } = useMenuContext();
     
+    // If asChild, just pass the child through - don't add menu-trigger classes
     if (asChild && React.isValidElement(children)) {
-      // Clone the child and merge our classes with theirs
-      const childElement = children as React.ReactElement<any>;
       return (
         <Popover.Trigger asChild ref={ref}>
-          {React.cloneElement(childElement, {
-            className: cn(
-              'menu-trigger',
-              `menu-trigger--${size}`,
-              className,
-              childElement.props.className // Preserve the child's original className
-            ),
-            disabled: disabled || childElement.props.disabled
-          })}
+          {children}
         </Popover.Trigger>
       );
     }
     
+    // Default: render our own button trigger
     return (
       <Popover.Trigger asChild ref={ref}>
         <button

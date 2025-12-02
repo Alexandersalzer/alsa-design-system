@@ -1,23 +1,23 @@
 // ==============================================
 // src/design-system/components/primitives/Alert/Alert.tsx
-// ALERT COMPONENT - FOLLOWING TOAST STRUCTURE
+// ALERT COMPONENT - WITH SURFACE VARIANTS
 // ==============================================
 
 import React, { forwardRef, ReactNode } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import { Typography } from '../../Typography';
 import { StatusIcons } from '../../media';
 import { IconButtons } from '../../actions';
 
 // ===== TYPE DEFINITIONS =====
-export type AlertVariant = 'subtle' | 'solid' | 'outline';
-export type AlertStatus = 'info' | 'success' | 'warning' | 'error';
+export type AlertVariant = 'info' | 'success' | 'warning' | 'error';
+export type AlertSurface = 'subtle' | 'muted' | 'vibrant';
 
 export interface AlertRootProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Alert status/type */
-  status?: AlertStatus;
-  /** Visual variant */
   variant?: AlertVariant;
+  /** Surface variant */
+  surface?: AlertSurface;
   /** Additional CSS classes */
   className?: string;
   /** Alert children */
@@ -60,7 +60,7 @@ export interface AlertCloseButtonProps extends Omit<React.ButtonHTMLAttributes<H
 }
 
 // ===== ICON MAPPING =====
-const getStatusIcon = (status: AlertStatus): ReactNode => {
+const getStatusIcon = (status: AlertVariant): ReactNode => {
   switch (status) {
     case 'success':
       return <StatusIcons.Success />;
@@ -76,16 +76,16 @@ const getStatusIcon = (status: AlertStatus): ReactNode => {
 
 // ===== ROOT COMPONENT =====
 export const AlertRoot = forwardRef<HTMLDivElement, AlertRootProps>(({
-  status = 'info',
-  variant = 'subtle',
+  variant = 'info',
+  surface = 'subtle',
   className,
   children,
   ...props
 }, ref) => {
   const alertClasses = cn(
     'alert',
-    `alert--${status}`,
     `alert--${variant}`,
+    surface !== 'subtle' && `alert--${surface}`,
     className
   );
 
@@ -95,8 +95,8 @@ export const AlertRoot = forwardRef<HTMLDivElement, AlertRootProps>(({
       className={alertClasses}
       role="alert"
       aria-live="polite"
-      data-status={status}
       data-variant={variant}
+      data-surface={surface}
       {...props}
     >
       {children}
@@ -246,8 +246,8 @@ export interface AlertClosedProps extends Omit<AlertRootProps, 'children' | 'tit
 }
 
 export const AlertClosed = forwardRef<HTMLDivElement, AlertClosedProps>(({
-  status = 'info',
-  variant = 'subtle',
+  variant = 'info',
+  surface = 'subtle',
   title,
   children,
   icon,
@@ -261,14 +261,14 @@ export const AlertClosed = forwardRef<HTMLDivElement, AlertClosedProps>(({
   return (
     <AlertRoot 
       ref={ref} 
-      status={status} 
-      variant={variant}
+      variant={variant} 
+      surface={surface}
       className={className}
       {...props}
     >
       {startElement || (
         <AlertIndicator>
-          {icon || getStatusIcon(status)}
+          {icon || getStatusIcon(variant)}
         </AlertIndicator>
       )}
       
@@ -292,26 +292,26 @@ export const AlertClosed = forwardRef<HTMLDivElement, AlertClosedProps>(({
 AlertClosed.displayName = 'AlertClosed';
 
 // ===== CONVENIENCE COMPONENTS =====
-export interface ErrorAlertProps extends Omit<AlertClosedProps, 'status'> {}
+export interface ErrorAlertProps extends Omit<AlertClosedProps, 'variant'> {}
 export const ErrorAlert = forwardRef<HTMLDivElement, ErrorAlertProps>((props, ref) => (
-  <AlertClosed ref={ref} status="error" {...props} />
+  <AlertClosed ref={ref} variant="error" {...props} />
 ));
 ErrorAlert.displayName = 'ErrorAlert';
 
-export interface SuccessAlertProps extends Omit<AlertClosedProps, 'status'> {}
+export interface SuccessAlertProps extends Omit<AlertClosedProps, 'variant'> {}
 export const SuccessAlert = forwardRef<HTMLDivElement, SuccessAlertProps>((props, ref) => (
-  <AlertClosed ref={ref} status="success" {...props} />
+  <AlertClosed ref={ref} variant="success" {...props} />
 ));
 SuccessAlert.displayName = 'SuccessAlert';
 
-export interface WarningAlertProps extends Omit<AlertClosedProps, 'status'> {}
+export interface WarningAlertProps extends Omit<AlertClosedProps, 'variant'> {}
 export const WarningAlert = forwardRef<HTMLDivElement, WarningAlertProps>((props, ref) => (
-  <AlertClosed ref={ref} status="warning" {...props} />
+  <AlertClosed ref={ref} variant="warning" {...props} />
 ));
 WarningAlert.displayName = 'WarningAlert';
 
-export interface InfoAlertProps extends Omit<AlertClosedProps, 'status'> {}
+export interface InfoAlertProps extends Omit<AlertClosedProps, 'variant'> {}
 export const InfoAlert = forwardRef<HTMLDivElement, InfoAlertProps>((props, ref) => (
-  <AlertClosed ref={ref} status="info" {...props} />
+  <AlertClosed ref={ref} variant="info" {...props} />
 ));
 InfoAlert.displayName = 'InfoAlert';

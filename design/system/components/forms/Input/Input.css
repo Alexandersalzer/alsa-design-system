@@ -69,7 +69,7 @@
 
 .input:focus {
   border-color: var(--border-input-focus);
-  box-shadow: 0 0 0 3px var(--accent-subtle);
+  box-shadow: 0 0 0 3px var(--surface-accent-subtle);
 }
 
 .input::placeholder {
@@ -206,7 +206,7 @@
 }
 
 .input-error:focus {
-  box-shadow: 0 0 0 3px var(--error-subtle);
+  box-shadow: 0 0 0 3px var(--surface-error-subtle);
 }
 
 /* ===== HELPER/ERROR TEXT ===== */
@@ -219,7 +219,7 @@
 }
 
 .input-help-error {
-  color: var(--error-text);
+  color: var(--text-error);
 }
 
 /* ===== SEARCH INPUT STYLES ===== */

@@ -33,6 +33,7 @@
 @import './components/actions/Nav/Nav.css';
 @import './components/actions/NavigationTab/NavigationTab.css';
 @import './components/actions/Clickable/Clickable.css';
+@import './components/actions/BulkActionBar/BulkActionBar.css';
 
 /* Primitives - Forms */
 @import './components/forms/Input/Input.css';
@@ -53,6 +54,12 @@
 @import './components/media/Icon/Icon.css';
 @import './components/media/Avatar/Avatar.css';
 @import './components/media/Image/Image.css';
+
+/* Primitives - Data */
+@import './components/data/IndexTable/IndexTable.css';
+
+/* Primitives - Navigation */
+@import './components/navigation/Pagination/Pagination.css';
 
 /* Primitives - Standalone Components */
 @import './components/layout/Card/Card.css';
@@ -83,8 +90,6 @@
 
 @import './patterns/client/ProcessSteps/processSteps.css';
 
-/* STEP 6: Themes LAST */
-@import './tokens/semantic/themes/index.css';
 
 /* STEP 7: Utilities LAST (so they can override if needed) */
 @import './utils/index.css';

@@ -14,7 +14,7 @@
   --text-tab-hover: var(--text-strong);                    /* FIXED: was --secondary-700 */
   --text-tab-active: var(--text-strong);                   /* FIXED: was --primary-1000 */
   
-  /* ===== TAB BORDERS - USING SHORTCUTS ===== */
+  /* ===== TAB BORDERS - USING SEMANTIC TOKENS ===== */
   --border-tab: var(--border-light);                       /* FIXED: was --secondary-200 */
-  --border-tab-active: var(--accent-icon);                 /* FIXED: was --accent-500, using shortcut */
+  --border-tab-active: var(--icon-accent);                 /* ✅ Good - semantic token */
 }

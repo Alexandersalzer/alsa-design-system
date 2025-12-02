@@ -1,59 +1,51 @@
 /* ==============================================
-   FORM COMPONENT TOKENS
+   FORM COMPONENT TOKENS — CLEAN & SEMANTIC
    src/design-system/tokens/component/form.css
    ============================================== */
-
-/*
-  Här definieras alla färger, ytor, border och radius för
-  formulärkomponenter: checkbox, radio, picker, dropdown, textarea, switch osv.
-  Dessa tokens använder semantiska värden från colors.css.
-*/
 
 :root {
 
   /* ==========================================================
      CHECKBOX
-     - Används för binära val
      ========================================================== */
   --surface-checkbox: var(--surface-base);
-  --surface-checkbox-hover: var(--secondary-100);
+  --surface-checkbox-hover: var(--surface-hover);
   --surface-checkbox-checked: var(--interactive-accent);
-  --surface-checkbox-disabled: var(--secondary-200);
-  --surface-checkbox-disabled-checked: var(--secondary-400);
+  --surface-checkbox-disabled: var(--surface-disabled);
+  --surface-checkbox-disabled-checked: var(--surface-disabled);
 
   --border-checkbox: var(--border-default);
-  --border-checkbox-hover: var(--border-focus);
+  --border-checkbox-hover: var(--border-hover);
   --border-checkbox-focus: var(--border-focus);
-  --border-checkbox-checked: var(--border-focus);
-  --border-checkbox-disabled: var(--secondary-300);
+  --border-checkbox-checked: var(--border-selected);
+  --border-checkbox-disabled: var(--border-disabled);
 
   --icon-checkbox: var(--icon-inverse);
   --icon-checkbox-disabled: var(--icon-disabled);
 
   /* Extra states */
-  --surface-checkbox-checked-hover: var(--accent-600);
-  --border-checkbox-checked-hover: var(--accent-600);
-  --shadow-checkbox-focus: 0 0 0 3px var(--accent-200);
+  --surface-checkbox-checked-hover: var(--interactive-accent-hover);
+  --border-checkbox-checked-hover: var(--border-accent);
+  --shadow-checkbox-focus: 0 0 0 3px var(--border-focus);
 
   /* Error states */
-  --surface-checkbox-error: var(--surface-checkbox);
-  --border-checkbox-error: var(--error-500);
-  --shadow-checkbox-error: 0 0 0 3px var(--error-200);
+  --surface-checkbox-error: var(--surface-base);
+  --border-checkbox-error: var(--border-error);
+  --shadow-checkbox-error: 0 0 0 3px var(--border-error-subtle);
 
 
   /* ==========================================================
      RADIO
-     - Alternativval där bara ett kan vara aktivt
      ========================================================== */
   --surface-radio: var(--surface-base);
-  --surface-radio-hover: var(--accent-subtle);
+  --surface-radio-hover: var(--surface-hover);
   --surface-radio-checked: var(--surface-base);
-  --surface-radio-disabled: var(--surface-subtle);
+  --surface-radio-disabled: var(--surface-disabled);
 
   --border-radio: var(--border-default);
-  --border-radio-hover: var(--border-focus);
+  --border-radio-hover: var(--border-hover);
   --border-radio-focus: var(--border-focus);
-  --border-radio-checked: var(--border-focus);
+  --border-radio-checked: var(--border-selected);
   --border-radio-disabled: var(--border-disabled);
 
   --indicator-radio: var(--interactive-accent);
@@ -62,137 +54,152 @@
 
   /* ==========================================================
      PICKER
-     - Valmenyer, dropdowns eller select-komponenter
      ========================================================== */
-  --surface-picker: var(--surface-subtle);
+  --surface-picker: var(--surface-raised);
   --surface-picker-hover: var(--surface-hover);
-  --surface-picker-disabled: var(--surface-subtle);
+  --surface-picker-disabled: var(--surface-disabled);
+
   --surface-picker-option: transparent;
-  --surface-picker-option-hover: var(--secondary-200);
-  --surface-picker-option-selected: var(--secondary-300);
+  --surface-picker-option-hover: var(--surface-hover);
+  --surface-picker-option-selected: var(--surface-active);
 
   --border-picker: var(--border-default);
   --border-picker-hover: var(--border-hover);
   --border-picker-focus: var(--border-focus);
-  --border-picker-error: var(--error-border);
+  --border-picker-error: var(--border-error);
   --border-picker-disabled: var(--border-disabled);
 
-  --text-picker: var(--text-primary);
+  --text-picker: var(--text-default);
   --text-picker-placeholder: var(--text-placeholder);
   --text-picker-disabled: var(--text-disabled);
-  --text-picker-option: var(--text-primary);
-  --text-picker-option-selected: var(--text-link);
+  --text-picker-option: var(--text-default);
+  --text-picker-option-selected: var(--text-accent);
 
-  --icon-picker: var(--icon-secondary);
+  --icon-picker: var(--icon-default);
   --icon-picker-disabled: var(--icon-disabled);
 
 
   /* ==========================================================
      DROPDOWN
-     - Öppnas vid val, visar alternativ
      ========================================================== */
-  --surface-dropdown: var(--surface-elevated);
+  --surface-dropdown: var(--surface-raised);
   --surface-dropdown-hover: var(--surface-hover);
-  --surface-dropdown-disabled: var(--surface-subtle);
+  --surface-dropdown-disabled: var(--surface-disabled);
+
   --surface-dropdown-option: var(--surface-base);
-  --surface-dropdown-option-hover: var(--secondary-200);
-  --surface-dropdown-option-selected: var(--secondary-300);
-  --surface-dropdown-option-selected-hover: var(--secondary-400);
+  --surface-dropdown-option-hover: var(--surface-hover);
+  --surface-dropdown-option-selected: var(--surface-active);
 
   --border-dropdown: var(--border-default);
   --border-dropdown-hover: var(--border-hover);
   --border-dropdown-focus: var(--border-focus);
-  --border-dropdown-error: var(--error-border);
+  --border-dropdown-error: var(--border-error);
   --border-dropdown-disabled: var(--border-disabled);
 
-  --text-dropdown: var(--text-primary);
+  --text-dropdown: var(--text-default);
   --text-dropdown-placeholder: var(--text-placeholder);
   --text-dropdown-disabled: var(--text-disabled);
-  --text-dropdown-option: var(--text-primary);
-  --text-dropdown-option-selected: var(--text-link);
+  --text-dropdown-option: var(--text-default);
+  --text-dropdown-option-selected: var(--text-accent);
 
-  --icon-dropdown: var(--icon-secondary);
+  --icon-dropdown: var(--icon-default);
   --icon-dropdown-disabled: var(--icon-disabled);
 
-  /* Dropdown elevation */
-  --shadow-dropdown: var(--shadow-emphasis);
+  /* No DS shadows yet — safe fallback */
+  --shadow-dropdown: 0 4px 12px rgba(0,0,0,0.12);
 
 
   /* ==========================================================
      TEXTAREA
-     - Flerradig textinmatning
      ========================================================== */
   --surface-textarea: var(--surface-base);
-  --surface-textarea-disabled: var(--surface-subtle);
+  --surface-textarea-disabled: var(--surface-disabled);
 
   --border-textarea: var(--border-default);
   --border-textarea-hover: var(--border-hover);
   --border-textarea-focus: var(--border-focus);
-  --border-textarea-error: var(--error-border);
+  --border-textarea-error: var(--border-error);
   --border-textarea-disabled: var(--border-disabled);
 
-  --text-textarea: var(--text-primary);
+  --text-textarea: var(--text-default);
   --text-textarea-placeholder: var(--text-placeholder);
   --text-textarea-disabled: var(--text-disabled);
 
 
-  /* ==========================================================
-     SWITCH
-     - På/av-växling
-     ========================================================== */
-  --surface-switch-track: var(--secondary-200);
-  --surface-switch-track-hover: var(--secondary-300);
+  /* ==============================================
+   src/design-system/tokens/component/switch.css
+   SWITCH COMPONENT TOKENS
+   ============================================== */
+  /* ===== SWITCH SIZES ===== */
+  /* Small */
+  --size-switch-sm-width: 32px;
+  --size-switch-sm-height: 18px;
+  --size-switch-sm-thumb: 14px;
+  
+  /* Medium (default) */
+  --size-switch-md-width: 40px;
+  --size-switch-md-height: 22px;
+  --size-switch-md-thumb: 18px;
+  
+  /* Large */
+  --size-switch-lg-width: 48px;
+  --size-switch-lg-height: 26px;
+  --size-switch-lg-thumb: 22px;
+
+  /* ===== SWITCH COLORS ===== */
+  /* Track */
+  --surface-switch-track: var(--foundation-gray-300);
+  --surface-switch-track-hover: var(--foundation-gray-400);
   --surface-switch-track-checked: var(--interactive-accent);
-  --surface-switch-track-checked-hover: var(--interactive-accent);
-  --surface-switch-track-disabled: var(--interactive-secondary-disabled);
-  --surface-switch-track-disabled-checked: var(--interactive-primary-disabled);
-
-  --surface-switch-thumb: var(--surface-base);
-  --surface-switch-thumb-disabled: var(--surface-subtle);
-
+  --surface-switch-track-checked-hover: var(--interactive-accent-hover);
+  --surface-switch-track-disabled: var(--foundation-gray-200);
+  --surface-switch-track-disabled-checked: var(--foundation-gray-400);
+  
+  /* Thumb */
+  --surface-switch-thumb: var(--foundation-white);
+  --surface-switch-thumb-disabled: var(--foundation-gray-100);
+  
+  /* Border */
   --border-switch-focus: var(--border-focus);
+
+  /* ===== SWITCH RADIUS ===== */
+  --radius-switch-track: var(--foundation-radius-full);
+  --radius-switch-thumb: var(--foundation-radius-full);
+
+  /* ===== SWITCH TRANSITIONS ===== */
+  --transition-switch-track: background-color var(--foundation-duration-normal) var(--foundation-ease-out);
+  --transition-switch-thumb: transform var(--foundation-duration-normal) var(--foundation-ease-out);
+  --transition-switch-border: border-color var(--foundation-duration-fast) var(--foundation-ease-out);
+  --transition-switch-focus: box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
+  --transition-switch-hover: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
 
 
   /* ==========================================================
      FORM FIELDS (Labels, Hints, Errors)
      ========================================================== */
-  --text-form-label: var(--text-primary);
+  --text-form-label: var(--text-default);
   --text-form-label-disabled: var(--text-disabled);
-  --text-form-label-required: var(--error-text);
-  --text-form-hint: var(--text-secondary);
-  --text-form-error: var(--error-text);
-  --text-form-success: var(--success-text);
+  --text-form-label-required: var(--text-error);
+  --text-form-hint: var(--text-muted);
+  --text-form-error: var(--text-error);
+  --text-form-success: var(--text-success);
 
 
   /* ==========================================================
      FORM RADIUS
-     - Använder Foundation-radius som bas
      ========================================================== */
   --form-radius-base: var(--foundation-radius-lg);
   --form-radius-small: var(--foundation-radius-md);
   --form-radius-large: var(--foundation-radius-xl);
   --form-radius-round: var(--foundation-radius-full);
 
-  /* Specifika element */
-  --radius-input: var(--radius-button);
-  --radius-input-sm: var(--radius-button);
-  --radius-input-lg: var(--radius-button-lg);
-
   --radius-checkbox: var(--form-radius-small);
-  --radius-checkbox-sm: var(--foundation-radius-sm);
-  --radius-checkbox-lg: var(--form-radius-base);
-
   --radius-radio: var(--form-radius-round);
   --radius-switch-track: var(--form-radius-round);
   --radius-switch-thumb: var(--form-radius-round);
 
-  --radius-picker: var(--radius-button);
-  --radius-picker-sm: var(--radius-button-sm);
-  --radius-picker-lg: var(--radius-button-lg);
-
-  --radius-dropdown: var(--radius-button);
-  --radius-dropdown-sm: var(--radius-button-sm);
-  --radius-dropdown-lg: var(--radius-button-lg);
+  --radius-picker: var(--form-radius-base);
+  --radius-dropdown: var(--form-radius-base);
 
 
   /* ==========================================================
@@ -235,8 +242,9 @@
   --easing-form-transition: var(--foundation-easing-ease-out);
 }
 
+
 /* ==========================================================
-   FORM FOCUS RING (Universal utility)
+   UNIVERSAL FOCUS RING
    ========================================================== */
 .form-focus-ring {
   outline: 2px solid transparent;
