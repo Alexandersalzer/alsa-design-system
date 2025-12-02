@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../components';
 import { Logo } from '../../../components/media/Logo';
 import { MenuIcon, XIcon } from 'lucide-react';
@@ -18,10 +19,14 @@ const NavbarPill = (patternNode: PatternNode) => {
   const getPatternProps = patternProps(patternNode);
   const renderIf = componentPresent(components);
   const mapComponentIndices = useMapComponents(components);
+  const pathname = usePathname();
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [pillMetrics, setPillMetrics] = useState({ top: 0, left: 0, width: 0 });
   const pillRef = useRef<HTMLDivElement>(null);
+  
+  // Extract current locale from pathname
+  const currentLocale = pathname.split('/')[1];
 
   const align = alignMap[getPatternProps().menuAlign] || 'center';
   const mobileAlign = alignMap[getPatternProps().mobileMenuAlign] || align;
@@ -70,7 +75,7 @@ const NavbarPill = (patternNode: PatternNode) => {
     src: renderIf('logo') && getComponent('logo').src ? `${CDN_BASE_URL}${getComponent('logo').src}` : undefined,
     alt: renderIf('logo') ? (getComponent('logo').alt || 'Logo') : undefined,
     text: renderIf('typography-businessName') ? getComponent('typography-businessName').content : undefined,
-    href: '/',
+    href: `/${currentLocale}`,
     width: renderIf('logo') ? (getComponent('logo').width || 40) : undefined,
     height: renderIf('logo') ? (getComponent('logo').height || 40) : undefined,
     color: renderIf('logo') ? (getComponent('logo').color || 'auto') : 'auto' as const,
