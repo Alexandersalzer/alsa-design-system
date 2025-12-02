@@ -59,10 +59,10 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
     return componentOrder
       .reduce<PortfolioNormalizedItem[]>((acc, key) => {
         const component = components[key];
-        if (!component || component.type !== 'portfolio') return acc;
+        if (!component || component.type !== 'portfolio' || !component.props) return acc;
         
-        // Check both props and direct properties for backwards compatibility
-        const data = component.props || component;
+        // Read all data from component.props (ComponentNode structure)
+        const data = component.props;
         const mediaSrc = data.mediaSrc || '';
         if (!mediaSrc) return acc;
 
