@@ -6,7 +6,7 @@ import { SectionType } from '../render/validation/sections';
  */
 export interface BaseNode<T extends string = string> {
   type: T;
-  props?: Record<string, any>; // Optional eftersom alla kanske inte har props
+  props: Record<string, any>; // Optional eftersom alla kanske inte har props
 }
 
 /**
@@ -37,10 +37,9 @@ export interface SectionNode extends BaseNode<SectionType> {
 /**
  * Page - Complete page structure
  */
-export interface PageNode {
+export interface PageNode extends BaseNode {
   name: string;
   language: string;
   sections: Record<string, SectionNode>;
   order: string[];
-  props: Record<string, any>;
 }
