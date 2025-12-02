@@ -63,7 +63,7 @@
 
 /* Primitives - Standalone Components */
 @import './components/layout/Card/Card.css';
-@import './components/Table/Table.css';
+@import './components/data/Table/Table.css';
 @import './components/LineChart/LineChart.css';
 @import './components/lists/Listbox/Listbox.css';
 @import './components/CarouselAnimation/CarouselAnimation.css';

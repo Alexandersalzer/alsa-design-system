@@ -1,0 +1,201 @@
+/* ===============================================
+   src/design-system/components/data/AreaChart/AreaChart.css
+   AREA CHART STYLES - STACKED AREAS
+   Uses ONLY semantic tokens - zero hardcoded colors
+   =============================================== */
+
+/* ==============================================
+   AreaChart.css
+   MODERN AREA CHART - STACKED SUPPORT
+   Uses ONLY semantic tokens
+   ============================================== */
+
+/* ===== BASE ===== */
+.area-chart {
+  background-color: var(--surface-base);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+  padding: var(--foundation-space-6);
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+/* ===== RESPONSIVE ===== */
+.area-chart--responsive {
+  width: 100%;
+  max-width: 100%;
+}
+
+.area-chart--responsive .area-chart__container {
+  width: 100%;
+  height: auto;
+}
+
+.area-chart--responsive .area-chart__svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== HEADER ===== */
+.area-chart__header {
+  margin-bottom: var(--foundation-space-5);
+}
+
+.area-chart__title {
+  font-size: var(--foundation-font-size-lg);
+  font-weight: var(--foundation-font-weight-semibold);
+  color: var(--text-strong);
+  margin: 0 0 var(--foundation-space-1) 0;
+  line-height: var(--foundation-line-height-tight);
+}
+
+.area-chart__subtitle {
+  font-size: var(--foundation-font-size-sm);
+  color: var(--text-muted);
+  margin: 0;
+  line-height: var(--foundation-line-height-normal);
+}
+
+/* ===== LEGEND ===== */
+.area-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--foundation-space-4);
+  margin-bottom: var(--foundation-space-4);
+  padding: var(--foundation-space-3);
+  background-color: var(--surface-raised);
+  border-radius: var(--radius-sm);
+}
+
+.area-chart__legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+}
+
+.area-chart__legend-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-xs);
+}
+
+.area-chart__legend-marker--accent {
+  background-color: var(--surface-accent);
+}
+
+.area-chart__legend-marker--error {
+  background-color: var(--surface-error);
+}
+
+.area-chart__legend-marker--success {
+  background-color: var(--surface-success);
+}
+
+.area-chart__legend-marker--warning {
+  background-color: var(--surface-warning);
+}
+
+.area-chart__legend-marker--info {
+  background-color: var(--surface-info);
+}
+
+.area-chart__legend-label {
+  font-size: var(--foundation-font-size-sm);
+  font-weight: var(--foundation-font-weight-medium);
+  color: var(--text-default);
+}
+
+/* ===== CONTAINER ===== */
+.area-chart__container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.area-chart__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ===== GRID ===== */
+.area-chart__grid-line {
+  stroke: var(--border-subtle);
+  stroke-width: 1;
+  opacity: 0.6;
+}
+
+/* ===== AREAS ===== */
+.area-chart__area {
+  opacity: 0.7;
+  transition: opacity var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+.area-chart__area:hover {
+  opacity: 0.85;
+}
+
+/* ===== GRADIENTS ===== */
+.area-chart__gradient-start--accent {
+  stop-color: var(--surface-accent);
+  stop-opacity: 0.8;
+}
+
+.area-chart__gradient-start--error {
+  stop-color: var(--surface-error);
+  stop-opacity: 0.8;
+}
+
+.area-chart__gradient-start--success {
+  stop-color: var(--surface-success);
+  stop-opacity: 0.8;
+}
+
+.area-chart__gradient-start--warning {
+  stop-color: var(--surface-warning);
+  stop-opacity: 0.8;
+}
+
+.area-chart__gradient-start--info {
+  stop-color: var(--surface-info);
+  stop-opacity: 0.8;
+}
+
+.area-chart__gradient-end {
+  stop-color: var(--surface-base);
+  stop-opacity: 0.1;
+}
+
+/* ===== LABELS ===== */
+.area-chart__label {
+  font-family: var(--foundation-font-family-sans);
+  font-size: var(--foundation-font-size-xs);
+  fill: var(--text-muted);
+  font-weight: var(--foundation-font-weight-medium);
+  user-select: none;
+}
+
+.area-chart__label--x {
+  text-anchor: middle;
+  dominant-baseline: hanging;
+}
+
+.area-chart__label--y {
+  text-anchor: end;
+  dominant-baseline: middle;
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .area-chart__area {
+    transition: none !important;
+  }
+}
+
+/* ===== PRINT ===== */
+@media print {
+  .area-chart {
+    border: 1px solid var(--border-strong);
+    box-shadow: none;
+  }
+}
