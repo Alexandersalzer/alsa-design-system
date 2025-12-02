@@ -120,19 +120,10 @@ export function buildCssVars(tokens: DesignTokens): string {
  * @returns CSS string redo att injectas i <style> tag
  */
 /**
- * Returns both CSS and theme metadata
- * Takes isEditing parameter to avoid duplicate getEditingMode calls
+ * Returns CSS and theme metadata from design.json
+ * Always reads the actual file for consistent behavior
  */
-export async function designSnippet(isEditing: boolean = false): Promise<{ css: string; themeTone: string; isDark: boolean }> {
-  if (isEditing) {
-    // Return minimal data utan att läsa design.json eller generera CSS
-    return {
-      css: "",
-      themeTone: "mono", 
-      isDark: false
-    };
-  }
-  
+export async function designSnippet(): Promise<{ css: string; themeTone: string; isDark: boolean }> {
   const designConfig = await getDesignConfig();
   
   if (!designConfig) {
