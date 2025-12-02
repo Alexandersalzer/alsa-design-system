@@ -87,7 +87,7 @@ async function uploadAllContent(contentPath: string, config: UploadConfig): Prom
     // Read all content files
     const contentData = await readAllContentFiles(contentPath);
     
-    const response = await fetch(`${config.apiUrl}/api/content/upload`, {
+    const response = await fetch(`${config.apiUrl}/api/scripts/upload`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
