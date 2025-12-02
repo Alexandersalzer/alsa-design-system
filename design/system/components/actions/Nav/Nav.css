@@ -86,7 +86,7 @@
 
 /* Active state */
 .nav-item--active {
-  background-color: var(--surface-accent-subtle);
+  background-color: var(--surface-accent-muted);
   color: var(--text-nav-item-selected);
   font-weight: var(--foundation-weight-semibold);
 }

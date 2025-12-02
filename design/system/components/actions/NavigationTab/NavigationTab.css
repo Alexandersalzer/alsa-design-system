@@ -89,7 +89,7 @@
 .nav-item.selected,
 .tab--active,
 .tab.active {
-  background-color: var(--surface-accent-subtle);
+  background-color: var(--surface-accent-muted);
   color: var(--text-nav-item-selected);
 }
 
