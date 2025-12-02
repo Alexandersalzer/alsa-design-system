@@ -4,27 +4,16 @@ import React, { useMemo } from 'react';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
 import { LogoImage } from '../../../components/media/Image';
 import { CDN_BASE_URL } from '../../../core/utils/env';
+import { PatternNode } from '../../../core/types/nodes';
+import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
 
-interface SpinningBannerProps {
-  props?: {
-    speed?: number;
-    direction?: 'left' | 'right';
-    logoSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    logoOpacity?: number;
-    grayscale?: boolean;
-    animated?: boolean;
-  };
-  components?: Record<string, {
-    type: string;
-    props?: any;
-    content?: any;
-  }>;
-}
+export const SpinningBanner: React.FC<PatternNode> = (patternNode) => {
+  const { components = {} } = patternNode;
+  const getComponent = componentProps(components);
+  const getPatternProps = patternProps(patternNode);
+  const mapComponentsOfType = useMapComponents(components);
+  const componentOrder = getPatternOrder(patternNode);
 
-export const SpinningBanner: React.FC<SpinningBannerProps> = ({
-  props: patternProps = {},
-  components = {}
-}) => {
   const {
     speed = 25,
     direction = 'left',
@@ -32,16 +21,19 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({
     logoOpacity = 1,
     grayscale = true,
     animated = true
-  } = patternProps;
+  } = getPatternProps();
 
-  // Extract logo data only
-  const logos = Object.entries(components)
-    .filter(([_, comp]) => comp.type === 'logo')
-    .map(([_, comp]) => ({
-      src: comp.props?.src || comp.content?.src || '',
-      alt: comp.props?.alt || comp.content?.alt || 'Logo',
-    }))
-    .filter((l) => l.src);
+  // Extract logo data using the order from PatternNode
+  const logos = componentOrder
+    .map(key => {
+      const component = components[key];
+      if (!component || component.type !== 'logo') return null;
+      return {
+        src: component.props?.src || '',
+        alt: component.props?.alt || 'Logo',
+      };
+    })
+    .filter((logo): logo is { src: string; alt: string } => logo !== null && logo.src !== '');
 
   // Fallback set (these would also come from JSON in production)
   const fallback = [
