@@ -16,5 +16,3 @@ export * from './Typography';
 export * from './CountUp';
 export * from './CarouselAnimation';
 export * from './LogoIcon';
-
-export * from './LineChart';
