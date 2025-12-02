@@ -150,15 +150,15 @@
 }
 
 .status-indicator--success {
-  background-color: var(--status-success, #10b981);
+  background-color: var(--status-success);
 }
 
 .status-indicator--warning {
-  background-color: var(--status-warning, #f59e0b);
+  background-color: var(--status-warning);
 }
 
 .status-indicator--error {
-  background-color: var(--status-error, #ef4444);
+  background-color: var(--status-error);
 }
 
 /* Hover effect on status indicator */

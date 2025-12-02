@@ -241,8 +241,8 @@
 }
 
 .line-chart__tooltip-content {
-  background-color: var(--surface-elevated, #ffffff);
-  border: 2px solid var(--color-primary, #3b82f6);
+  background-color: var(--surface-elevated);
+  border: 2px solid var(--color-primary);
   border-radius: var(--radius-md, 8px);
   padding: var(--foundation-space-3, 12px) var(--foundation-space-4, 16px);
   box-shadow: var(--foundation-shadow-xl, 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04));
@@ -255,13 +255,13 @@
 }
 
 .line-chart__tooltip-label {
-  color: var(--text-secondary, #6b7280);
+  color: var(--text-secondary);
   font-weight: var(--foundation-font-weight-medium, 500);
   margin-bottom: var(--foundation-space-1, 4px);
 }
 
 .line-chart__tooltip-value {
-  color: var(--text-primary, #111827);
+  color: var(--text-primary);
   font-weight: var(--foundation-font-weight-semibold, 600);
   font-size: var(--foundation-font-size-base, 16px);
 }
@@ -274,26 +274,26 @@
   left: 50%;
   transform: translateX(-50%);
   border: 5px solid transparent;
-  border-top-color: var(--surface-elevated, #ffffff);
+  border-top-color: var(--surface-elevated);
 }
 
 /* Dark theme tooltip */
 @media (prefers-color-scheme: dark) {
   .line-chart__tooltip-content {
-    background-color: var(--surface-elevated-dark, #374151);
-    border-color: var(--border-strong-dark, #4b5563);
+    background-color: var(--surface-elevated-dark);
+    border-color: var(--border-strong-dark);
   }
   
   .line-chart__tooltip-label {
-    color: var(--text-secondary-dark, #9ca3af);
+    color: var(--text-secondary-dark);
   }
   
   .line-chart__tooltip-value {
-    color: var(--text-primary-dark, #f9fafb);
+    color: var(--text-primary-dark);
   }
   
   .line-chart__tooltip-content::after {
-    border-top-color: var(--surface-elevated-dark, #374151);
+    border-top-color: var(--surface-elevated-dark);
   }
 }
 
