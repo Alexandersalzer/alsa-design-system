@@ -1,25 +1,25 @@
-import type { DesignConfig } from "../types/design";
+import type { DesignTokens } from "../types/design";
 import { getDesignConfig } from "./loaders";
 
 /**
  * Generates CSS variables from design.json
  * Injects design tokens dynamically into <head>.
  */
-export function buildCssVars(design: DesignConfig): string {
-  const radius           = design?.globalStyles?.radius           || "md";
-  const accentColor      = design?.globalStyles?.accentColor      || "purple";
-  const isDark           = design?.globalStyles?.isDark           ?? false;
-  const themeTone        = design?.globalStyles?.themeTone        || "neutral";
-  const fontPrimary      = design?.globalStyles?.fontPrimary      || "Sora";
-  const fontSecondary    = design?.globalStyles?.fontSecondary    || fontPrimary;
-  const fontWeightScale  = design?.globalStyles?.fontWeightScale  || "regular";
-  const layoutContent    = design?.globalStyles?.layoutContent    || "md";
-  const layoutMedia      = design?.globalStyles?.layoutMedia      || "xl";
-  const sectionSpacing   = design?.globalStyles?.sectionSpacing   || "md";
-  const containerSpacing = design?.globalStyles?.containerSpacing || "md";
-  const navbarSpacing    = design?.globalStyles?.navbarSpacing    || "md";
-  const formWidth        = design?.globalStyles?.formWidth        || "sm";
-  const typographyScale  = design?.globalStyles?.typographyScale  || "md";
+export function buildCssVars(tokens: DesignTokens): string {
+  const radius           = tokens?.radius           || "md";
+  const accentColor      = tokens?.accentColor      || "purple";
+  const isDark           = tokens?.isDark           ?? false;
+  const themeTone        = tokens?.themeTone        || "neutral";
+  const fontPrimary      = tokens?.fontPrimary      || "Sora";
+  const fontSecondary    = tokens?.fontSecondary    || fontPrimary;
+  const fontWeightScale  = tokens?.fontWeightScale  || "regular";
+  const layoutContent    = tokens?.layoutContent    || "md";
+  const layoutMedia      = tokens?.layoutMedia      || "xl";
+  const sectionSpacing   = tokens?.sectionSpacing   || "md";
+  const containerSpacing = tokens?.containerSpacing || "md";
+  const navbarSpacing    = tokens?.navbarSpacing    || "md";
+  const formWidth        = tokens?.formWidth        || "sm";  // ← NEW
+  const typographyScale  = tokens?.typographyScale  || "md";
 
   const fontWeights = "300;400;500;600;700;800;900";
   const fontsToImport = [fontPrimary, fontSecondary]
@@ -120,21 +120,18 @@ export function buildCssVars(design: DesignConfig): string {
 }
 
 /**
- * Returns both CSS and theme metadata
- * Takes isEditing parameter to avoid duplicate getEditingMode calls
+ * Parent function som kombinerar getDesignConfig + buildCssVars
+ * Detta är den primära funktionen som ska användas i layouts
+ * 
+ * @returns CSS string redo att injectas i <style> tag
  */
-export async function designSnippet(isEditing: boolean = false): Promise<{ css: string; themeTone: string; isDark: boolean }> {
-  if (isEditing) {
-    // Return minimal data utan att läsa design.json eller generera CSS
-    return {
-      css: "",
-      themeTone: "mono",
-      isDark: false
-    };
-  }
-
+/**
+ * Returns CSS and theme metadata from design.json
+ * Always reads the actual file for consistent behavior
+ */
+export async function designSnippet(): Promise<{ css: string; themeTone: string; isDark: boolean }> {
   const designConfig = await getDesignConfig();
-
+  
   if (!designConfig) {
     // No design config found, return defaults
     return {
@@ -143,18 +140,11 @@ export async function designSnippet(isEditing: boolean = false): Promise<{ css: 
       isDark: false
     };
   }
-
-  const themeTone = designConfig.globalStyles?.themeTone || "neutral";
-  const isDark = designConfig.globalStyles?.isDark ?? false;
-  const css = buildCssVars(designConfig);
-
+  
+  const tokens = designConfig.globalStyles || {};
+  const themeTone = tokens.themeTone || "neutral";
+  const isDark = tokens.isDark ?? false;
+  const css = buildCssVars(tokens);
+  
   return { css, themeTone, isDark };
-}
-
-/**
- * Helper to get themeTone for setting HTML attribute
- */
-export async function getThemeTone(): Promise<string> {
-  const designConfig = await getDesignConfig();
-  return designConfig?.globalStyles?.themeTone || "neutral";
 }

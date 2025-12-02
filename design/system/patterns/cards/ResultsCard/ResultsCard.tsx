@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, VStack, Typography } from '../../../components';
 import { Image } from '../../../components/media/Image';
-import { CDN_BASE_URL } from '../../../core/utils/helpers';
+import { CDN_BASE_URL } from '../../../core/utils/env';
 import './ResultsCard.css';
 
 interface ResultsCardProps {

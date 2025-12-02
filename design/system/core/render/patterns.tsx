@@ -1,5 +1,5 @@
 import { Container } from '../../components';
-import { getPatternProps } from '../utils/helpers';
+import { getPatternProps } from '../utils/props';
 import { patternRegistry } from '../../patterns/registry';
 import { PatternNode } from '../types/nodes';
 

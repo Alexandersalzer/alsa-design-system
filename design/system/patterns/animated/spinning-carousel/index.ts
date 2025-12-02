@@ -1,2 +1,2 @@
 export { SpinningCarousel } from './SpinningCarousel';
-export type { SpinningCarouselProps, CarouselImage } from './SpinningCarousel'; 
+export type { CarouselImage } from './SpinningCarousel'; 

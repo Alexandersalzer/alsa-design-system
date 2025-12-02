@@ -7,7 +7,7 @@ import React, { forwardRef, ReactNode } from 'react';
 import Link from 'next/link';
 import { cn } from '../../../utils/cn';
 import { Label, TypographyColor, TypographyWeight } from '../../Typography';
-import { useLocaleHref } from '../../../hooks/useLocaleHref';
+import { useHref } from '../../../hooks/useHref';
 import { Component } from '../../frames/component/Component';
 import './TextLink.css';
 
@@ -36,7 +36,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   ...props
 }, ref) => {
   
-  const { buildHref } = useLocaleHref();
+  const { buildHref } = useHref();
   
   // Build locale-aware href
   const localeAwareHref = href ? buildHref(href) : undefined;

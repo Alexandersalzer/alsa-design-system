@@ -1,5 +1,7 @@
 
 import { SectionNode, PageNode } from '../types/nodes';
+import { loadJsonFile, listDirectory } from '../utils/loaders';
+import { nameToSlug } from '../utils/loaders';
 
 /**
  * Generic shell content loader for navbar, footer, etc.
@@ -7,35 +9,19 @@ import { SectionNode, PageNode } from '../types/nodes';
  */
 export async function getShellContent(
   shellType: 'navbar' | 'footer', 
-  locale: string = 'sv'
-): Promise<Record<string, SectionNode> | null> {
-  if (typeof window !== 'undefined') {
-    throw new Error('getShellContent is only available on server-side');
-  }
-
-  try {
-    const { promises: fs } = await import('fs');
-    const path = await import('path');
-    
-    const shellPath = path.join(process.cwd(), 'public', 'content', locale, `${shellType}.json`);
-    const fileContent = await fs.readFile(shellPath, 'utf8');
-    const shellData: Record<string, SectionNode> = JSON.parse(fileContent);
-    
-    return shellData;
-  } catch (error) {
-    // Fallback to Swedish if locale file doesn't exist
-    if (locale !== 'sv') {
-      return getShellContent(shellType, 'sv');
-    }
-    return null;
-  }
+  locale: string
+): Promise<Record<string, SectionNode>> {
+  const content = await loadJsonFile<Record<string, SectionNode>>(
+    `content/${locale}/${shellType}.json`
+  );
+  return content || {};
 }
 
 /**
  * Load navbar content for a specific locale
  * Convenience wrapper around getShellContent
  */
-export async function getNavbarContent(locale: string = 'sv'): Promise<Record<string, SectionNode> | null> {
+export async function getNavbarContent(locale: string): Promise<Record<string, SectionNode> | null> {
   return getShellContent('navbar', locale);
 }
 
@@ -43,139 +29,34 @@ export async function getNavbarContent(locale: string = 'sv'): Promise<Record<st
  * Load footer content for a specific locale  
  * Convenience wrapper around getShellContent
  */
-export async function getFooterContent(locale: string = 'sv'): Promise<Record<string, SectionNode> | null> {
+export async function getFooterContent(locale: string): Promise<Record<string, SectionNode> | null> {
   return getShellContent('footer', locale);
 }
 
-/**
- * Get the start/home page slug for a specific locale
- * Reads from PageNode structure
- */
-export async function getStartPageSlug(locale: string = 'sv'): Promise<string> {
-  if (typeof window !== 'undefined') {
-    throw new Error('getStartPageSlug is only available on server-side');
-  }
-
-  try {
-    const { promises: fs } = await import('fs');
-    const path = await import('path');
-    
-    const startPagePath = path.join(process.cwd(), 'public', 'content', locale, 'start.json');
-    const fileContent = await fs.readFile(startPagePath, 'utf8');
-    const pageData: PageNode = JSON.parse(fileContent);
-    
-    // Generate slug from name
-    return pageData.name?.toLowerCase().replace(/\s+/g, '-') || 'home';
-  } catch (error) {
-    // Fallback to Swedish if locale file doesn't exist
-    if (locale !== 'sv') {
-      return getStartPageSlug('sv');
-    }
-    return 'home';
-  }
-}
-
-/**
- * Get all page slugs for a specific locale
- * Reads from PageNode structures
- */
-export async function getAllPageSlugs(locale: string = 'sv'): Promise<string[]> {
-  if (typeof window !== 'undefined') {
-    throw new Error('getAllPageSlugs is only available on server-side');
-  }
-
-  try {
-    const { promises: fs } = await import('fs');
-    const path = await import('path');
-    
-    const contentDir = path.join(process.cwd(), 'public', 'content', locale);
-    const entries = await fs.readdir(contentDir, { withFileTypes: true });
-    
-    // Filter for page files (exclude shell files)
-    const pageFiles = entries.filter(entry => 
-      entry.isFile() && 
-      entry.name.endsWith('.json') &&
-      !['navbar.json', 'footer.json'].includes(entry.name)
-    );
-    
-    const slugs = await Promise.all(
-      pageFiles.map(async (file) => {
-        try {
-          const filePath = path.join(contentDir, file.name);
-          const fileContent = await fs.readFile(filePath, 'utf8');
-          const pageData: PageNode = JSON.parse(fileContent);
-          
-          return pageData.name?.toLowerCase().replace(/\s+/g, '-');
-        } catch {
-          return null; // Skip invalid files
-        }
-      })
-    );
-    
-    return slugs.filter((slug): slug is string => slug !== null);
-  } catch (error) {
-    // Fallback to Swedish if locale doesn't exist
-    if (locale !== 'sv') {
-      return getAllPageSlugs('sv');
-    }
-    return [];
-  }
-}
 
 /**
  * Get page content for rendering a specific page
  * Returns complete PageNode structure
  */
-export async function getPageContent(locale: string = 'sv', pageSlug: string): Promise<PageNode> {
-  if (typeof window !== 'undefined') {
-    throw new Error('getPageContent is only available on server-side');
-  }
-
-  try {
-    const { promises: fs } = await import('fs');
-    const path = await import('path');
+export async function getPageContent(locale: string, pageSlug: string): Promise<PageNode> {
+  const contentFiles = await listDirectory(`content/${locale}`);
+  
+  // Excluding navbar and footer files
+  const pageFiles = contentFiles.filter(file => 
+    file.endsWith('.json') &&
+    !['navbar.json', 'footer.json'].includes(file)
+  );
+  
+  // Search for matching page
+  for (const file of pageFiles) {
+    const pageData = await loadJsonFile<PageNode>(`content/${locale}/${file}`);
     
-    const contentDir = path.join(process.cwd(), 'public', 'content', locale);
-    const entries = await fs.readdir(contentDir, { withFileTypes: true });
-    
-    // Filter for page files (exclude shell files)
-    const pageFiles = entries.filter(entry => 
-      entry.isFile() && 
-      entry.name.endsWith('.json') &&
-      !['navbar.json', 'footer.json'].includes(entry.name)
-    );
-    
-    // Search for matching page
-    for (const file of pageFiles) {
-      try {
-        const filePath = path.join(contentDir, file.name);
-        const fileContent = await fs.readFile(filePath, 'utf8');
-        const pageData: PageNode = JSON.parse(fileContent);
-        
-        const slug = pageData.name?.toLowerCase().replace(/\s+/g, '-');
-        
-        if (slug === pageSlug) {
-          return pageData;
-        }
-      } catch {
-        continue; // Skip invalid files
+    if (pageData?.name) {
+      const slug = nameToSlug(pageData.name);
+      if (slug === pageSlug) {
+        return pageData;
       }
     }
-    
-    throw new Error(`No page found with slug "${pageSlug}" in locale "${locale}"`);
-    
-  } catch (error) {
-    // Fallback to Swedish if locale file doesn't exist
-    if (locale !== 'sv') {
-      return getPageContent('sv', pageSlug);
-    }
-    
-    return { 
-      name: 'Not Found',
-      language: locale,
-      sections: {}, 
-      order: [],
-      props: {} 
-    };
   }
+throw new Error(`Page not found: ${locale}/${pageSlug}`);
 }

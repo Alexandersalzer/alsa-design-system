@@ -6,7 +6,7 @@ import { SectionType } from '../render/validation/sections';
  */
 export interface BaseNode<T extends string = string> {
   type: T;
-  props?: Record<string, any>; // Optional eftersom alla kanske inte har props
+  props: Record<string, any>; // Optional eftersom alla kanske inte har props
 }
 
 /**
@@ -14,7 +14,6 @@ export interface BaseNode<T extends string = string> {
  * Atomic UI element som inte innehåller andra noder
  */
 export interface ComponentNode extends BaseNode {
-  role?: string; // Optional role for semantic identification
 }
 
 /**
@@ -23,6 +22,7 @@ export interface ComponentNode extends BaseNode {
  */
 export interface PatternNode extends BaseNode {
   components: Record<string, ComponentNode>; // Required - pattern måste ha components
+  order: string[]; // Required - patterns behöver rendering order för components
 }
 
 
@@ -38,10 +38,9 @@ export interface SectionNode extends BaseNode<SectionType> {
 /**
  * Page - Complete page structure
  */
-export interface PageNode {
+export interface PageNode extends BaseNode {
   name: string;
-  language: string;
+  locale: string;
   sections: Record<string, SectionNode>;
   order: string[];
-  props: Record<string, any>;
 }

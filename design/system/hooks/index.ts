@@ -1,2 +1,2 @@
 // Export all hooks from this directory
-export { useLocaleHref } from './useLocaleHref';
+export { useHref } from './useHref';

@@ -3,7 +3,7 @@
 import React from 'react';
 import { Grid, GridItem } from '../../../components/layout';
 import { Button, Input, Textarea, Icon } from '../../../components';
-import { useComponentProps, componentPresent } from '../../../core/utils/helpers';
+import { componentProps, componentPresent } from '../../../core/utils/props';
 import { PatternNode } from '../../../core/types/nodes';
 import { 
   UserIcon,
@@ -14,7 +14,7 @@ import {
 
 // ===== MAIN KJ FORM COMPONENT =====
 const GridForm = ({ components = {} }: PatternNode) => {
-  const get = useComponentProps(components);
+  const get = componentProps(components);
   const renderIf = componentPresent(components);
   
   // Handle form submission
@@ -29,19 +29,19 @@ const GridForm = ({ components = {} }: PatternNode) => {
       <Grid columns={2} gap="md">
         
         {/* Name Field - colSpan 1 */}
-        {renderIf('input', 'name') && (
-          <GridItem colSpan={get('input', 'name').colSpan || 1}>
+        {renderIf('input-name') && (
+          <GridItem colSpan={get('input-name').colSpan || 1}>
             <Input
-              type={get('input', 'name').variant || 'text'}
-              name={get('input', 'name').name || 'name'}
-              label={get('input', 'name').label || 'Namn'}
-              placeholder={get('input', 'name').placeholder || 'Förnamn'}
+              type={get('input-name').variant || 'text'}
+              name={get('input-name').name || 'name'}
+              label={get('input-name').label || 'Namn'}
+              placeholder={get('input-name').placeholder || 'Förnamn'}
               leftIcon={
                 <Icon size="sm" color="secondary">
                   <UserIcon />
                 </Icon>
               }
-              required={get('input', 'name').required || true}
+              required={get('input-name').required || true}
               size="md"
               radius="md"
               style={{ width: '100%' }}
@@ -50,19 +50,19 @@ const GridForm = ({ components = {} }: PatternNode) => {
         )}
 
         {/* Business Field - colSpan 1 */}
-        {renderIf('input', 'business') && (
-          <GridItem colSpan={get('input', 'business').colSpan || 1}>
+        {renderIf('input-business') && (
+          <GridItem colSpan={get('input-business').colSpan || 1}>
             <Input
-              type={get('input', 'business').variant || 'text'}
-              name={get('input', 'business').name || 'business'}
-              label={get('input', 'business').label || 'Företag'}
-              placeholder={get('input', 'business').placeholder || 'Företagsnamn'}
+              type={get('input-business').variant || 'text'}
+              name={get('input-business').name || 'business'}
+              label={get('input-business').label || 'Företag'}
+              placeholder={get('input-business').placeholder || 'Företagsnamn'}
               leftIcon={
                 <Icon size="sm" color="secondary">
                   <BuildingOfficeIcon />
                 </Icon>
               }
-              required={get('input', 'business').required || true}
+              required={get('input-business').required || true}
               size="md"
               radius="md"
               style={{ width: '100%' }}
@@ -71,19 +71,19 @@ const GridForm = ({ components = {} }: PatternNode) => {
         )}
 
         {/* Email Field - colSpan 2 (full width) */}
-        {renderIf('input', 'email') && (
-          <GridItem colSpan={get('input', 'email').colSpan || 2}>
+        {renderIf('input-email') && (
+          <GridItem colSpan={get('input-email').colSpan || 2}>
             <Input
-              type={get('input', 'email').variant || 'email'}
-              name={get('input', 'email').name || 'email'}
-              label={get('input', 'email').label || 'E-post'}
-              placeholder={get('input', 'email').placeholder || 'din@email.com'}
+              type={get('input-email').variant || 'email'}
+              name={get('input-email').name || 'email'}
+              label={get('input-email').label || 'E-post'}
+              placeholder={get('input-email').placeholder || 'din@email.com'}
               leftIcon={
                 <Icon size="sm" color="secondary">
                   <EnvelopeIcon />
                 </Icon>
               }
-              required={get('input', 'email').required || true}
+              required={get('input-email').required || true}
               size="md"
               radius="md"
               style={{ width: '100%' }}
@@ -92,22 +92,22 @@ const GridForm = ({ components = {} }: PatternNode) => {
         )}
 
         {/* Message Field - colSpan 2 (full width) */}
-        {renderIf('textarea', 'message') && (
-          <GridItem colSpan={get('textarea', 'message').colSpan || 2}>
+        {renderIf('textarea-message') && (
+          <GridItem colSpan={get('textarea-message').colSpan || 2}>
             <Textarea
-              name={get('textarea', 'message').name || 'message'}
-              label={get('textarea', 'message').label || 'Meddelande'}
-              placeholder={get('textarea', 'message').placeholder || 'Skriv ditt meddelande här...'}
-              rows={get('textarea', 'message').rows || 4}
-              required={get('textarea', 'message').required || true}
+              name={get('textarea-message').name || 'message'}
+              label={get('textarea-message').label || 'Meddelande'}
+              placeholder={get('textarea-message').placeholder || 'Skriv ditt meddelande här...'}
+              rows={get('textarea-message').rows || 4}
+              required={get('textarea-message').required || true}
               style={{ width: '100%' }}
             />
           </GridItem>
         )}
 
         {/* Submit Button - colSpan 2 (full width) */}
-        {renderIf('button', 'submit') && (
-          <GridItem colSpan={get('button', 'submit').colSpan || 2}>
+        {renderIf('button-submit') && (
+          <GridItem colSpan={get('button-submit').colSpan || 2}>
             <Button
               type="submit"
               variant="primary"
@@ -120,7 +120,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
               }
               style={{ width: '100%' }}
             >
-              {get('button', 'submit').content || 'Skicka'}
+              {get('button-submit').content || 'Skicka'}
             </Button>
           </GridItem>
         )}

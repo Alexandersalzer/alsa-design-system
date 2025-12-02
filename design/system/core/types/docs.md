@@ -1,0 +1,1 @@
+Naming convention for keys in each level: {type}_{6RandomChars}

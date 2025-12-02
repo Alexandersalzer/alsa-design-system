@@ -2,11 +2,12 @@
 
 import { VideoShowcase } from '../../../components/media/VideoShowcase/VideoShowcase';
 import { Image } from '../../../components/media/Image/Image';
-import { useComponentProps, CDN_BASE_URL } from '../../../core/utils/helpers';
+import { componentProps } from '../../../core/utils/props';
+import { CDN_BASE_URL } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
 
 const MediaPattern = ({ components = {} }: PatternNode) => {
-  const get = useComponentProps(components);
+  const get = componentProps(components);
   
   // Check if we have a video or image component
   const videoComponent = get('video');

@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { CDN_BASE_URL } from '../../../core/utils/helpers';
+import { CDN_BASE_URL } from '../../../core/utils/env';
 import { Grid } from '../../../components';
 import { PortfolioCard } from '../../cards/PortfolioCard/PortfolioCard';
+import { PatternNode } from '../../../core/types/nodes';
+import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
 
 // Tabs
 import { TabGroup } from '../../../components';
@@ -27,44 +29,24 @@ interface PortfolioNormalizedItem {
   countryCode?: string;
 }
 
-export interface PortfolioGridProps {
-  props?: {
-    cardDensity?: 'compact' | 'standard' | 'spacious';
-    gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    default?: string;
-    buttons?: { label: string; value: string }[];
-  };
-
-  components?: Record<
-    string,
-    {
-      type: string;
-      title?: string;
-      description?: string;
-      mediaType?: 'image' | 'video';
-      mediaSrc?: string;
-      mediaAlt?: string;
-      views?: number;
-      category?: string;
-      countryCode?: string;
-    }
-  >;
-}
-
 // =====================================================
 // COMPONENT
 // =====================================================
 
-export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
-  props: patternProps = {},
-  components = {}
-}) => {
+export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
+  const { components = {} } = patternNode;
+  const getComponent = componentProps(components);
+  const getPatternProps = patternProps(patternNode);
+  const mapComponentsOfType = useMapComponents(components);
+  const componentOrder = getPatternOrder(patternNode);
+
+  // Extract pattern props with defaults
   const {
     cardDensity = 'standard',
     gap = 'lg',
     default: defaultValue = 'all',
     buttons = []
-  } = patternProps;
+  } = getPatternProps();
 
   const hasTabs = buttons.length > 0;
   const [active, setActive] = useState(defaultValue);
@@ -74,32 +56,37 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
   // =====================================================
 
   const allItems: PortfolioNormalizedItem[] = useMemo(() => {
-    return Object.entries(components)
-      .filter(([, comp]) => comp.type === 'portfolio' && comp.mediaSrc)
-      .map(([key, comp]): PortfolioNormalizedItem => {
-        let mediaSrc = comp.mediaSrc!;
+    return componentOrder
+      .reduce<PortfolioNormalizedItem[]>((acc, key) => {
+        const component = components[key];
+        if (!component || component.type !== 'portfolio' || !component.props) return acc;
+        
+        // Read all data from component.props (ComponentNode structure)
+        const data = component.props;
+        const mediaSrc = data.mediaSrc || '';
+        if (!mediaSrc) return acc;
 
         // Handle CDN URL transformation
+        let transformedMediaSrc = mediaSrc;
         if (mediaSrc.startsWith('/members/')) {
-          mediaSrc = `${CDN_BASE_URL}${mediaSrc.replace('/members', '')}`;
+          transformedMediaSrc = `${CDN_BASE_URL}${mediaSrc.replace('/members', '')}`;
         }
 
-        return {
+        acc.push({
           key,
-          title: comp.title ?? 'Untitled Project',
-          mediaSrc,
-          mediaAlt: comp.mediaAlt || comp.title || 'Portfolio media',
-
-          // Perfectly typed now
-          mediaType: comp.mediaType === 'video' ? 'video' : 'image',
-
-          description: comp.description,
-          views: comp.views,
-          category: comp.category,
-          countryCode: comp.countryCode
-        };
-      });
-  }, [components]);
+          title: data.title || 'Untitled Project',
+          mediaSrc: transformedMediaSrc,
+          mediaAlt: data.mediaAlt || data.title || 'Portfolio media',
+          mediaType: data.mediaType === 'video' ? 'video' : 'image',
+          description: data.description,
+          views: data.views,
+          category: data.category,
+          countryCode: data.countryCode
+        });
+        
+        return acc;
+      }, []);
+  }, [components, componentOrder]);
 
   // =====================================================
   // FILTER (handles weird Swedish categories)
@@ -136,7 +123,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
       <div className="portfolio-grid-container">
         {hasTabs && (
           <TabGroup variant="navigation" className="mb-6">
-            {buttons.map(btn => (
+            {buttons.map((btn: { label: string; value: string }) => (
               <Tab
                 key={btn.value}
                 isActive={active === btn.value}
@@ -168,7 +155,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
           orientation="horizontal"
           className="mb-6"
         >
-          {buttons.map(btn => (
+          {buttons.map((btn: { label: string; value: string }) => (
             <Tab
               key={btn.value}
               isActive={active === btn.value}

@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { TestimonialCard } from '../../cards/TestimonialCard';
+import { PatternNode } from '../../../core/types/nodes';
+import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
 import './TestimonialGrid.css';
 
 // ===== COMPONENT TYPE DEFINITIONS =====
@@ -14,48 +16,43 @@ export interface TestimonialData {
   rating: number;
 }
 
-// ===== PATTERN PROPS =====
-export interface TestimonialGridProps {
-  props?: {
-    columns?: number; // Number of masonry columns
-    gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  };
-  components?: Record<string, {
-    type: string;
-    content?: {
-      text: string;
-      author: string;
-      authorInitial: string;
-      caseType: string;
-      rating: number;
-    };
-  }>;
-}
-
-// ===== PATTERN PROPS =====
-
 // ===== MAIN TESTIMONIAL GRID PATTERN =====
-export const TestimonialGrid: React.FC<TestimonialGridProps> = ({
-  props: patternProps = {},
-  components = {}
-}) => {
+export const TestimonialGrid: React.FC<PatternNode> = (patternNode) => {
+  const { components = {} } = patternNode;
+  const getComponent = componentProps(components);
+  const getPatternProps = patternProps(patternNode);
+  const mapComponentsOfType = useMapComponents(components);
+  const componentOrder = getPatternOrder(patternNode);
+
+  // Extract pattern props with defaults
   const {
     columns = 3, // Number of masonry columns
     gap = 'md'
-  } = patternProps;
+  } = getPatternProps();
 
-  // Extract testimonial data
-  const testimonials = Object.entries(components)
-    .filter(([_, comp]) => comp.type === 'testimonial' && comp.content)
-    .map(([_, comp]) => ({
-      type: 'testimonial' as const,
-      text: comp.content!.text || '',
-      author: comp.content!.author || '',
-      authorInitial: comp.content!.authorInitial || '',
-      caseType: comp.content!.caseType || '',
-      rating: comp.content!.rating || 5,
-    }))
-    .filter((testimonial) => testimonial.text && testimonial.author);
+  // Extract testimonials using the order from PatternNode
+  const testimonials: TestimonialData[] = componentOrder
+    .reduce<TestimonialData[]>((acc, key) => {
+      const component = components[key];
+      if (!component || component.type !== 'testimonial') return acc;
+      
+      const props = component.props || {};
+      const text = props.text || '';
+      const author = props.author || '';
+      
+      if (!text || !author) return acc;
+      
+      acc.push({
+        type: 'testimonial',
+        text,
+        author,
+        authorInitial: props.authorInitial || '',
+        caseType: props.caseType || '',
+        rating: props.rating || 5,
+      });
+      
+      return acc;
+    }, []);
 
   if (testimonials.length === 0) return null;
 
