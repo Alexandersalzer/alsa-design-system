@@ -23,7 +23,7 @@
   /* Layout */
   --space-alert-gap: var(--foundation-space-3);
   --space-alert-padding: var(--foundation-space-4);
-  --radius-alert: var(--foundation-radius-lg);
+  --radius-alert: var(--radius-md);
 
   /* INFO */
   --surface-alert-info-subtle: var(--surface-info-subtle);
@@ -98,7 +98,7 @@
   /* Layout */
   --space-toast-padding: var(--foundation-space-4);
   --space-toast-gap: var(--foundation-space-3);
-  --radius-toast: var(--foundation-radius-lg);
+  --radius-toast: var(--radius-md);
   --shadow-toast: var(--foundation-shadow-lg);
   --transition-toast: var(--foundation-duration-standard) var(--foundation-easing-enter);
 }

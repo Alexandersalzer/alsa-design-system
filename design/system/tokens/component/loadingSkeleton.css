@@ -24,7 +24,7 @@
   --alpha-skeleton-shine-max: 0;
   --duration-skeleton-pulse: 1.5s;
   --duration-skeleton-shine: 1.2s;
-  --radius-skeleton: var(--foundation-radius-md);
+  --radius-skeleton: var(--radius-md);
   --radius-skeleton-circle: 9999px;
   --easing-skeleton: var(--foundation-easing-standard);
 }

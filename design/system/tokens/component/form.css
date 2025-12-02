@@ -162,10 +162,6 @@
   /* Border */
   --border-switch-focus: var(--border-focus);
 
-  /* ===== SWITCH RADIUS ===== */
-  --radius-switch-track: var(--foundation-radius-full);
-  --radius-switch-thumb: var(--foundation-radius-full);
-
   /* ===== SWITCH TRANSITIONS ===== */
   --transition-switch-track: background-color var(--foundation-duration-normal) var(--foundation-ease-out);
   --transition-switch-thumb: transform var(--foundation-duration-normal) var(--foundation-ease-out);
@@ -186,20 +182,20 @@
 
 
   /* ==========================================================
-     FORM RADIUS
+     FORM RADIUS - Using semantic tokens for dynamic radius
      ========================================================== */
-  --form-radius-base: var(--foundation-radius-lg);
-  --form-radius-small: var(--foundation-radius-md);
-  --form-radius-large: var(--foundation-radius-xl);
-  --form-radius-round: var(--foundation-radius-full);
 
-  --radius-checkbox: var(--form-radius-small);
-  --radius-radio: var(--form-radius-round);
-  --radius-switch-track: var(--form-radius-round);
-  --radius-switch-thumb: var(--form-radius-round);
+  /* Checkbox - responds to radius scale selection */
+  --radius-checkbox-sm: var(--radius-xs);
+  --radius-checkbox: var(--radius-sm);
+  --radius-checkbox-lg: var(--radius-md);
 
-  --radius-picker: var(--form-radius-base);
-  --radius-dropdown: var(--form-radius-base);
+  /* Radio - always circular, ignores radius scale */
+  --radius-radio: var(--radius-full);
+
+  /* Switch - always pill/circular, ignores radius scale */
+  --radius-switch-track: var(--radius-full);
+  --radius-switch-thumb: var(--radius-full);
 
 
   /* ==========================================================

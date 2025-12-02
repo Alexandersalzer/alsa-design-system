@@ -113,7 +113,7 @@
 
 .page-content--bg-card {
   background: var(--surface-card);
-  border-radius: var(--foundation-radius-lg);
+  border-radius: var(--radius-md);
   border: 1px solid var(--border-card);
 }
 

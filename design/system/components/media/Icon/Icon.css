@@ -106,7 +106,7 @@ button:focus-visible .icon,
 a:focus-visible .icon {
   outline: 2px solid var(--focus-ring-color);
   outline-offset: 2px;
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-xs);
 }
 
 /* ===== ANIMATION UTILITIES ===== */

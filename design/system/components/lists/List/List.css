@@ -28,7 +28,7 @@
 /* ===== VARIANT: BORDERED ===== */
 .list--bordered {
   border: 1px solid var(--border-base);
-  border-radius: var(--foundation-radius-md);
+  border-radius: var(--radius-sm);
   overflow: hidden;
   box-shadow: var(--foundation-shadow-sm);
 }
@@ -39,14 +39,14 @@
 
 /* First item in bordered list */
 .list--bordered > *:first-child {
-  border-top-left-radius: var(--foundation-radius-md);
-  border-top-right-radius: var(--foundation-radius-md);
+  border-top-left-radius: var(--radius-sm);
+  border-top-right-radius: var(--radius-sm);
 }
 
 /* Last item in bordered list */
 .list--bordered > *:last-child {
-  border-bottom-left-radius: var(--foundation-radius-md);
-  border-bottom-right-radius: var(--foundation-radius-md);
+  border-bottom-left-radius: var(--radius-sm);
+  border-bottom-right-radius: var(--radius-sm);
 }
 
 /* ===== SPACING VARIANTS ===== */
@@ -102,7 +102,7 @@
 .list:focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-sm);
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */

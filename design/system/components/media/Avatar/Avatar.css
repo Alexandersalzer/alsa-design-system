@@ -83,7 +83,7 @@
   height: 25%;
   min-width: 8px;
   min-height: 8px;
-  border-radius: var(--foundation-radius-full);
+  border-radius: var(--radius-full);
   border: 2px solid var(--surface-card-primary);
   z-index: 3;
 }

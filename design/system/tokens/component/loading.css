@@ -30,7 +30,7 @@
 .loading-card {
   background-color: var(--surface-loading-card);
   border: 1px solid var(--border-loading-card);
-  border-radius: var(--foundation-radius-lg);             /* OK to use foundation for radius */
+  border-radius: var(--radius-lg);             /* OK to use foundation for radius */
   padding: var(--foundation-space-6);                     /* OK to use foundation for spacing */
   animation: pulse 2s infinite;
 }
@@ -44,7 +44,7 @@
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: var(--foundation-radius-sm);             /* OK to use foundation for radius */
+  border-radius: var(--radius-sm);             /* OK to use foundation for radius */
 }
 
 @keyframes shimmer {

@@ -154,7 +154,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
             minWidth: '80px',
             position: 'relative',
             overflow: 'hidden',
-            borderRadius: 'var(--foundation-radius-sm)',
+            borderRadius: 'var(--radius-sm)',
             backgroundColor: 'var(--surface-subtle)',
             flexShrink: 0
           }}>

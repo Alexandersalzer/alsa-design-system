@@ -46,7 +46,7 @@
   width: 80px;
   height: 80px;
   min-width: 80px;
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-sm);
 }
 
 /* ===== CONTENT LAYOUT ===== */
