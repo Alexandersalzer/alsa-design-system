@@ -61,29 +61,21 @@
 }
 
 /* ===== COLOR VARIANTS ===== */
-.icon-primary { color: var(--text-primary); }
-.icon-secondary { color: var(--text-secondary); }
-.icon-tertiary { color: var(--text-tertiary); }
-.icon-disabled { color: var(--text-disabled); }
-.icon-inverse { color: var(--text-inverse); }
-.icon-heading { color: var(--text-heading); }
-.icon-body { color: var(--text-body); }
-.icon-muted { color: var(--text-disabled); }
+.icon-default { color: var(--icon-default); }
+.icon-strong { color: var(--icon-strong); }
+.icon-muted { color: var(--icon-muted); }
+.icon-subtle { color: var(--icon-subtle); }
+.icon-disabled { color: var(--icon-disabled); }
+.icon-inverse { color: var(--icon-inverse); }
 
 .icon-accent { color: var(--icon-accent); }
 .icon-success { color: var(--icon-success); }
 .icon-warning { color: var(--icon-warning); }
 .icon-error { color: var(--icon-error); }
-.icon-subtle { color: var(--text-subtle); }
 
 .icon-nav-item { color: var(--text-nav-item); }
 .icon-nav-item-hover { color: var(--text-nav-item-hover); }
-.icon-nav-item-selected { color: var(--text-nav-item-selected); }
-
-.icon-user-menu { color: var(--text-user-menu); }
-.icon-search { color: var(--text-search); }
-.icon-empty-state { color: var(--text-empty-state); }
-.icon-card-primary { color: var(--text-card-primary); }
+.icon-nav-item-selected { color: var(--intent-nav-item-active-icon); }
 
 /* Button Colors */
 .icon-button-primary { color: var(--text-button-primary); }

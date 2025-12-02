@@ -1,7 +1,0 @@
-:root {
-  /* Indicator tokens */
-  --surface-indicator-success: var(--success-500);
-  --surface-indicator-warning: var(--warning-500);
-  --surface-indicator-error: var(--error-500);
-  --surface-indicator-info: var(--accent-500);
-}

@@ -108,7 +108,7 @@
 }
 
 .logo-text--color-secondary {
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 .logo-text--color-inverse {

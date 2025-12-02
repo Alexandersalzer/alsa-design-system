@@ -5,7 +5,7 @@
 
 /* ===== BASE LINECHART STYLES ===== */
 .line-chart {
-  background-color: var(--surface-card);
+  background-color: var(--surface-base);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-card);
   padding: var(--foundation-space-6);
@@ -41,14 +41,14 @@
 .line-chart__title {
   font-size: var(--foundation-font-size-lg);
   font-weight: var(--foundation-font-weight-semibold);
-  color: var(--text-primary);
+  color: var(--text-default);
   margin: 0 0 var(--foundation-space-2) 0;
   line-height: var(--foundation-line-height-tight);
 }
 
 .line-chart__subtitle {
   font-size: var(--foundation-font-size-sm);
-  color: var(--text-secondary);
+  color: var(--text-muted);
   margin: 0;
   line-height: var(--foundation-line-height-normal);
 }
@@ -69,7 +69,7 @@
 
 /* ===== GRID LINES ===== */
 .line-chart__grid-line {
-  stroke: var(--border-subtle);
+  stroke: var(--border-default);
   stroke-width: 1;
   opacity: 0.5;
 }
@@ -116,7 +116,7 @@
 /* ===== DATA POINTS ===== */
 .line-chart__dot {
   fill: var(--color-primary);
-  stroke: var(--surface-card);
+  stroke: var(--surface-base);
   stroke-width: 2;
   transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
   cursor: pointer;
@@ -133,7 +133,7 @@
 .line-chart__label {
   font-family: var(--foundation-font-family-sans);
   font-size: var(--foundation-font-size-xs);
-  fill: var(--text-secondary);
+  fill: var(--text-muted);
   font-weight: var(--foundation-font-weight-medium);
   white-space: nowrap;
 }
@@ -152,7 +152,7 @@
 .line-chart__axis-label {
   font-family: var(--foundation-font-family-sans);
   font-size: var(--foundation-font-size-sm);
-  fill: var(--text-primary);
+  fill: var(--text-default);
   font-weight: var(--foundation-font-weight-semibold);
 }
 

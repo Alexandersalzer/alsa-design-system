@@ -167,7 +167,7 @@ const StatWithSeparator: React.FC<StatItemComponentProps & { isLast?: boolean }>
         style={{
           width: '1px',
           height: '48px',
-          backgroundColor: 'var(--border-light)'
+          backgroundColor: 'var(--border-subtle)'
         }}
         className="stat-separator"
       />
@@ -190,7 +190,7 @@ const StatWithBottomBorder: React.FC<StatItemComponentProps> = ({
   <Box
     padding="md"
     style={{
-      borderBottom: '2px solid var(--border-light)'
+      borderBottom: '2px solid var(--border-subtle)'
     }}
   >
     <VStack spacing={spacing} align={align}>
@@ -227,7 +227,7 @@ const StatWithTopBorder: React.FC<StatItemComponentProps> = ({
   <Box
     padding="md"
     style={{
-      borderTop: '3px solid var(--accent-color)',
+      borderTop: '3px solid var(--border-accent)',
       paddingTop: 'var(--space-md)'
     }}
   >
@@ -266,7 +266,7 @@ const StatWithLeftBorder: React.FC<StatItemComponentProps> = ({
     padding="md"
     className="stat--left-border-responsive"
     style={{
-      borderLeft: '4px solid var(--accent-color)',
+      borderLeft: '4px solid var(--border-accent)',
       paddingLeft: 'var(--space-md)'
     }}
   >

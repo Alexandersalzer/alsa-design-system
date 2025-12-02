@@ -119,9 +119,9 @@
   /* =========================================================
      10. ADDITIONAL TEXT VARIANTS
      ========================================================= */
-  --text-caption: var(--text-tertiary);
+  --text-caption: var(--text-subtle);
   --text-overline: var(--text-secondary);
   --text-subtitle: var(--text-secondary);
-  --text-muted: var(--text-tertiary);
+  --text-muted: var(--text-subtle);
   --text-emphasis: var(--text-primary);
 }

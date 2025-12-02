@@ -167,7 +167,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
           role="alert"
           style={{
             fontSize: 'var(--foundation-text-sm)',
-            color: 'var(--error-600)',
+            color: 'var(--text-error)',
             marginTop: 'var(--space-form-error-margin)',
             marginLeft: `calc(var(--size-checkbox-${size}) + var(--foundation-space-3))`
           }}
@@ -285,7 +285,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
           role="alert"
           style={{
             fontSize: 'var(--foundation-text-sm)',
-            color: 'var(--error-600)',
+            color: 'var(--text-error)',
             marginTop: 'var(--space-form-error-margin)'
           }}
         >

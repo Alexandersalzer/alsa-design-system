@@ -122,7 +122,7 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
         default:
           // Neutral standalone spinner
           spinnerTrack = trackColor || "var(--border-subtle)";
-          spinnerColor = color || "var(--accent-600)";
+          spinnerColor = color || "var(--icon-accent)";
           break;
       }
     }

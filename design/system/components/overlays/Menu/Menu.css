@@ -190,7 +190,7 @@
 }
 
 .menu-item--variant-solid:hover:not(.menu-item--disabled) {
-  background-color: var(--accent-solid);
+  background-color: var(--surface-accent);
   color: var(--text-on-accent);
 }
 
@@ -218,7 +218,7 @@
   padding: 6px 12px;
   font-size: 12px;
   font-weight: var(--foundation-weight-semibold);
-  color: var(--text-secondary);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   white-space: nowrap;
@@ -237,7 +237,7 @@
 /* ===== MENU SEPARATOR ===== */
 .menu-separator {
   height: 1px;
-  background-color: var(--border-light);
+  background-color: var(--border-subtle);
   margin: 6px 0;
 }
 
@@ -275,7 +275,7 @@
   padding-left: 16px;
   font-size: 12px;
   font-family: var(--font-mono-family, monospace);
-  color: var(--text-tertiary);
+  color: var(--text-subtle);
   opacity: 0.7;
   white-space: nowrap;
 }

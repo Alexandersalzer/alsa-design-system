@@ -13,16 +13,12 @@
   /* ===== INPUT BORDERS ===== */
   --border-input: var(--border-default);
   --border-input-hover: var(--border-hover);
-  --border-input-focus: var(--border-focus);
-  --border-input-error: var(--border-error);
-  --border-input-success: var(--border-success);
   --border-input-disabled: var(--border-disabled);
 
   /* ===== INPUT TEXT ===== */
   --text-input: var(--text-default);
   --text-input-placeholder: var(--text-placeholder);
   --text-input-disabled: var(--text-disabled);
-  --text-input-error: var(--text-error);
 
   /* ===== INPUT ICONS ===== */
   --icon-input: var(--icon-default);

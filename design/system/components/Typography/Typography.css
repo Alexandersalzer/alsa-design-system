@@ -273,23 +273,20 @@ p, .text-body {
 .font-weight-extrabold { font-weight: var(--foundation-weight-extrabold); }
 .font-weight-black { font-weight: var(--foundation-weight-black); }
 
-/* ===== COLOR UTILITIES (Enhanced) ===== */
-.text-primary { color: var(--text-primary); }
-.text-secondary { color: var(--text-secondary); }
-.text-tertiary { color: var(--text-tertiary); }
+/* ===== COLOR UTILITIES ===== */
+.text-default { color: var(--text-default); }
+.text-strong { color: var(--text-strong); }
+.text-muted { color: var(--text-muted); }
+.text-subtle { color: var(--text-subtle); }
 .text-disabled { color: var(--text-disabled); }
 .text-inverse { color: var(--text-inverse); }
 .text-heading { color: var(--text-heading-color); }
 .text-body { color: var(--text-body-color); }
 .text-label { color: var(--text-label-color); }
-.text-accent { color: var(--accent-color); }
+.text-accent { color: var(--text-accent); }
 .text-success { color: var(--text-success); }
 .text-warning { color: var(--text-warning); }
 .text-error { color: var(--text-error); }
-
-/* Semantic color alternatives */
-.text-muted { color: var(--text-secondary); }
-.text-subtle { color: var(--text-tertiary); }
 
 /* ===== LINE HEIGHT UTILITIES ===== */
 .leading-none { line-height: var(--foundation-leading-none); }
@@ -395,7 +392,7 @@ p, .text-body {
   font-size: var(--font-body-sm-size);
   font-weight: var(--font-body-weight);
   line-height: var(--font-body-sm-leading);
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 .card-subtitle {
@@ -403,7 +400,7 @@ p, .text-body {
   font-size: var(--font-label-xs-size);
   font-weight: var(--foundation-weight-medium);
   line-height: var(--font-label-xs-leading);
-  color: var(--text-tertiary);
+  color: var(--text-subtle);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }

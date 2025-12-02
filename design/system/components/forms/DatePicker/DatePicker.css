@@ -114,7 +114,7 @@
 
 .date-picker:focus-within:not(.date-picker--disabled):not(.date-picker--readonly),
 .date-picker--open:not(.date-picker--disabled):not(.date-picker--readonly) {
-  border-color: var(--border-input-focus);
+  border-color: var(--border-focus);
   box-shadow: 0 0 0 3px var(--surface-accent-muted);
 }
 
@@ -132,7 +132,7 @@
 }
 
 .date-picker--invalid {
-  border-color: var(--border-input-error);
+  border-color: var(--border-error);
 }
 
 /* ===== INPUT AREA - Contains segments ===== */

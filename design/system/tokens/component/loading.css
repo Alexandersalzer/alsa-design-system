@@ -5,16 +5,16 @@
 
 :root {
   /* ===== LOADING SURFACES ===== */
-  --surface-loading: var(--surface-subtle);           /* FIXED: was --secondary-50 */
-  --surface-loading-shimmer: var(--surface-hover); /* FIXED: was --secondary-100 */
-  --surface-spinner: var(--interactive-accent);           /* FIXED: was --accent-500 */
+  --surface-loading: var(--surface-subtle);
+  --surface-loading-shimmer: var(--surface-hover);
+  --surface-spinner: var(--interactive-accent);
   
   /* ===== LOADING CARD SURFACES ===== */
   --surface-loading-card: var(--surface-card);            /* FIXED: was --primary-white */
-  --surface-loading-skeleton: var(--surface-card-selected); /* FIXED: was --secondary-100 */
+  --surface-loading-skeleton: var(--surface-card-selected);
   
   /* ===== LOADING BORDERS ===== */
-  --border-loading-card: var(--border-default);           /* FIXED: was --secondary-200 */
+  --border-loading-card: var(--border-default);
   
   /* ===== LOADING DIMENSIONS ===== */
   --space-loading-card-padding: var(--foundation-space-6); /* OK to use foundation for spacing */
@@ -38,9 +38,9 @@
 .loading-skeleton {
   background: linear-gradient(
     90deg,
-    var(--border-default) 25%,                            /* FIXED: was --secondary-200 */
-    var(--surface-card-hover) 50%,                        /* FIXED: was --secondary-100 */
-    var(--border-default) 75%                             /* FIXED: was --secondary-200 */
+    var(--border-default) 25%,
+    var(--surface-card-hover) 50%,
+    var(--border-default) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;

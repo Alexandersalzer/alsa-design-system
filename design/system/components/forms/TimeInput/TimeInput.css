@@ -128,7 +128,7 @@
 }
 
 .time-input:focus-within:not(.time-input--disabled):not(.time-input--readonly) {
-  border-color: var(--border-input-focus);
+  border-color: var(--border-focus);
   box-shadow: 0 0 0 3px var(--surface-accent-muted);
 }
 
@@ -146,7 +146,7 @@
 }
 
 .time-input--invalid {
-  border-color: var(--border-input-error);
+  border-color: var(--border-error);
 }
 
 /* ===== INNER WRAPPER (Segments Container) ===== */

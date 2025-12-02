@@ -86,7 +86,7 @@
 
 /* Ghost variant (subtle) */
 .textlink-ghost {
-  color: var(--text-tertiary);                             /* ✅ Good - semantic token */
+  color: var(--text-subtle);                             /* ✅ Good - semantic token */
 }
 
 .textlink-ghost:hover {

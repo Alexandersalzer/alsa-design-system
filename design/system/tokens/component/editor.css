@@ -5,36 +5,36 @@
 
 :root {
   /* ===== EDITOR SURFACE TOKENS - USING SEMANTIC ===== */
-  --surface-editor-shell: var(--surface-subtle);           /* FIXED: was --surface-secondary */
-  --surface-editor-topbar: var(--surface-nav);             /* ✅ Good - semantic token */
-  --surface-editor-sidebar: var(--surface-base);           /* FIXED: was --surface-page */
-  --surface-editor-panel: var(--surface-base);             /* FIXED: was --surface-page */
-  --surface-editor-panel-header: var(--surface-elevated);  /* FIXED: was --surface-elevated, --surface-page */
-  --surface-editor-section: var(--surface-base);           /* FIXED: was --surface-page */
-  --surface-editor-section-hover: var(--surface-hover);    /* FIXED: was --surface-hover, --secondary-100 */
-  --surface-editor-main: var(--surface-subtle);            /* FIXED: was --surface-secondary */
+  --surface-editor-shell: var(--surface-subtle);           
+  --surface-editor-topbar: var(--surface-nav);             
+  --surface-editor-sidebar: var(--surface-base);           
+  --surface-editor-panel: var(--surface-base);             
+  --surface-editor-panel-header: var(--surface-elevated);
+  --surface-editor-section: var(--surface-base);           
+  --surface-editor-section-hover: var(--surface-hover);
+  --surface-editor-main: var(--surface-subtle);            
   
   /* ===== EDITOR TEXT TOKENS - USING SEMANTIC ===== */
-  --text-editor-primary: var(--text-primary);              /* ✅ Good - semantic token */
-  --text-editor-secondary: var(--text-secondary);          /* ✅ Good - semantic token */
-  --text-editor-inverse: var(--text-inverse);              /* ✅ Good - semantic token */
-  --text-editor-panel-title: var(--text-strong);           /* FIXED: was --primary-1000, using shortcut */
-  --text-editor-panel-subtitle: var(--text-medium);        /* FIXED: was --secondary-600, using shortcut */
-  --text-editor-section-title: var(--text-strong);         /* FIXED: was --primary-1000, using shortcut */
-  --text-editor-section-description: var(--text-medium);   /* FIXED: was --secondary-600, using shortcut */
+  --text-editor-primary: var(--text-primary);              
+  --text-editor-secondary: var(--text-secondary);          
+  --text-editor-inverse: var(--text-inverse);              
+  --text-editor-panel-title: var(--text-strong);        
+  --text-editor-panel-subtitle: var(--text-medium);     
+  --text-editor-section-title: var(--text-strong);      
+  --text-editor-section-description: var(--text-medium);
   
   /* ===== EDITOR BORDER TOKENS - USING SEMANTIC & SHORTCUTS ===== */
-  --border-editor-primary: var(--border-medium);           /* FIXED: was --border-secondary, using shortcut */
-  --border-editor-panel: var(--border-medium);             /* FIXED: was --border-secondary, using shortcut */
-  --border-editor-section: var(--border-medium);           /* FIXED: was --border-secondary, using shortcut */
-  --border-editor-topbar: var(--border-nav);               /* ✅ Good - semantic token */
-  --border-editor-focus: var(--border-focus);              /* FIXED: was --accent-500, using semantic */
+  --border-editor-primary: var(--border-medium);
+  --border-editor-panel: var(--border-medium);  
+  --border-editor-section: var(--border-medium);
+  --border-editor-topbar: var(--border-nav);   
+  --border-editor-focus: var(--border-focus);   
   
   /* ===== EDITOR DIVIDER TOKENS - USING SHORTCUTS ===== */
-  --border-editor-divider: var(--border-strong);           /* FIXED: was --secondary-300, using shortcut */
-  --border-editor-divider-strong: var(--border-hover);     /* FIXED: was --secondary-400, using semantic */
-  --border-editor-tree-line: var(--border-strong);         /* FIXED: was --secondary-250/300, using shortcut */
-  --border-editor-tree-connection: var(--border-light);    /* FIXED: was --secondary-200, using shortcut */
+  --border-editor-divider: var(--border-strong);           
+  --border-editor-divider-strong: var(--border-hover);     
+  --border-editor-tree-line: var(--border-strong);  
+  --border-editor-tree-connection: var(--border-subtle);  
   
   /* ===== EDITOR SPACING TOKENS - KEEP FOUNDATION (CORRECT) ===== */
   --space-editor-topbar-height: 64px;                      /* ✅ Good - fixed size */

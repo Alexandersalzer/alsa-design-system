@@ -9,7 +9,7 @@
   --surface-table-header: var(--surface-raised);
   --surface-table-row: var(--surface-page);
   --surface-table-row-hover: var(--surface-elevated);
-  --surface-table-row-selected: var(--accent-100);
+  --surface-table-row-selected: var(--surface-accent-subtle);
   --surface-table-row-striped: var(--surface-raised);
 
   /* ===== TABLE BORDER TOKENS ===== */
@@ -20,10 +20,10 @@
   --border-table-cell: var(--border-subtle);
 
   /* ===== TABLE TEXT TOKENS ===== */
-  --text-table-header: var(--text-secondary);
-  --text-table-cell: var(--text-primary);
-  --text-table-cell-secondary: var(--text-secondary);
-  --text-table-empty: var(--text-secondary);
+  --text-table-header: var(--text-muted);
+  --text-table-cell: var(--text-default);
+  --text-table-cell-secondary: var(--text-muted);
+  --text-table-empty: var(--text-muted);
 
   /* ===== TABLE LOADING TOKENS ===== */
   --surface-table-loading-base: var(--surface-elevated);
