@@ -1,2 +1,2 @@
 export { TestimonialGrid } from './TestimonialGrid';
-export type { TestimonialGridProps, TestimonialData } from './TestimonialGrid';
+export type { TestimonialData } from './TestimonialGrid';
