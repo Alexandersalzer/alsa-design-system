@@ -40,7 +40,7 @@ export interface SectionNode extends BaseNode<SectionType> {
  */
 export interface PageNode extends BaseNode {
   name: string;
-  language: string;
+  locale: string;
   sections: Record<string, SectionNode>;
   order: string[];
 }
