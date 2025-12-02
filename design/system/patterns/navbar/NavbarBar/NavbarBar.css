@@ -100,12 +100,12 @@
 ----------------------------------------------- */
 .navbar-bar__mobile-toggle {
   display: none;
-  color: var(--icon-primary);
+  color: var(--icon-strong);
   margin-left: auto;
 }
 
 .navbar-bar__mobile-toggle:hover {
-  color: var(--icon-primary);
+  color: var(--icon-strong);
 }
 
 /* Transparent variant */

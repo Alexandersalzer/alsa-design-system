@@ -1,36 +1,31 @@
-
 /* ==============================================
    src/design-system/tokens/component/input.css
-   INPUT COMPONENT TOKENS - UPDATED WITH SMART SHORTCUTS
+   INPUT COMPONENT TOKENS — CLEAN & SEMANTIC
    ============================================== */
 
 :root {
-  /* ===== INPUT SURFACES - USING SHORTCUTS ===== */
-  --surface-input: var(--surface-subtle);                  /* UPDATED: using shortcut instead of --surface-card-hover */
-  --surface-input-disabled: var(--surface-subtle);         /* UPDATED: using shortcut */
-  
-  /* ===== INPUT BORDERS - ALREADY GOOD WITH SEMANTIC ===== */
-  --border-input: var(--border-default);                   /* ✅ Good - semantic token */
-  --border-input-hover: var(--border-hover);               /* ✅ Good - semantic token */
-  --border-input-focus: var(--border-focus);               /* ✅ Good - semantic token */
-  --border-input-error: var(--border-error);               /* ✅ Good - semantic token */
-  --border-input-disabled: var(--border-disabled);         /* ✅ Good - semantic token */
-  
-  /* ===== INPUT SUCCESS STATES - USING SHORTCUTS ===== */
-  --border-input-success: var(--success-border);           /* UPDATED: using shortcut instead of --success-500 */
-  --border-switch-success: var(--success-border);          /* UPDATED: using shortcut */
-  
-  /* ===== INPUT TEXT COLORS - ALREADY GOOD WITH SEMANTIC ===== */
-  --text-input: var(--text-primary);                       /* ✅ Good - semantic token */
-  --text-input-placeholder: var(--text-placeholder);       /* ✅ Good - semantic token */
-  --text-input-disabled: var(--text-disabled);             /* ✅ Good - semantic token */
-  --text-input-error: var(--error-text);                   /* UPDATED: using shortcut instead of --error-600 */
-  
-  /* ===== INPUT ICON COLORS - ALREADY GOOD WITH SEMANTIC ===== */
-  --icon-input: var(--icon-secondary);                     /* ✅ Good - semantic token */
-  --icon-input-disabled: var(--icon-disabled);             /* ✅ Good - semantic token */
-  
-  /* ===== SEARCH INPUT TOKENS - ALREADY GOOD ===== */
-  --text-search-input: var(--text-input);                  /* ✅ Good - references input token */
-  --text-search-placeholder: var(--text-input-placeholder); /* ✅ Good - references input token */
+  /* ===== INPUT SURFACES ===== */
+  --surface-input: var(--surface-raised);             /* neutral elevated background */
+  --surface-input-hover: var(--surface-hover);
+  --surface-input-active: var(--surface-active);
+  --surface-input-disabled: var(--surface-disabled);
+
+  /* ===== INPUT BORDERS ===== */
+  --border-input: var(--border-default);
+  --border-input-hover: var(--border-hover);
+  --border-input-disabled: var(--border-disabled);
+
+  /* ===== INPUT TEXT ===== */
+  --text-input: var(--text-default);
+  --text-input-placeholder: var(--text-placeholder);
+  --text-input-disabled: var(--text-disabled);
+
+  /* ===== INPUT ICONS ===== */
+  --icon-input: var(--icon-default);
+  --icon-input-muted: var(--icon-muted);
+  --icon-input-disabled: var(--icon-disabled);
+
+  /* ===== SEARCH INPUT (aliases to base input) ===== */
+  --text-search-input: var(--text-input);
+  --text-search-placeholder: var(--text-input-placeholder);
 }

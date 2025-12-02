@@ -44,7 +44,7 @@
 }
 
 .listbox--separated .listbox-item:not(:last-child) {
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 /* Dividers variant */
@@ -55,7 +55,7 @@
   left: 16px;
   right: 16px;
   height: 1px;
-  background-color: var(--border-light);
+  background-color: var(--border-subtle);
 }
 
 .listbox--dividers .listbox-item {
@@ -71,7 +71,7 @@
   /* FIXED: Use responsive button radius token (items inside dropdowns match buttons) */
   border-radius: var(--radius-button);
   background-color: transparent;
-  color: var(--text-primary);
+  color: var(--text-default);
   cursor: default;
   outline: none;
   user-select: none;
@@ -223,7 +223,7 @@
   font-size: 0.875em;
   font-weight: var(--foundation-weight-normal);
   line-height: 1.3;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -235,7 +235,7 @@
 }
 
 .listbox::-webkit-scrollbar-track {
-  background: var(--surface-subtle);
+  background: var(--surface-raised);
 }
 
 .listbox::-webkit-scrollbar-thumb {
@@ -250,7 +250,7 @@
 
 .listbox {
   scrollbar-width: thin;
-  scrollbar-color: var(--border-strong) var(--surface-subtle);
+  scrollbar-color: var(--border-strong) var(--surface-raised);
 }
 
 /* ===== REDUCED MOTION ===== */

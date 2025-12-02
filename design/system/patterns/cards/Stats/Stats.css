@@ -9,7 +9,7 @@
 }
 
 .stat-separator {
-  background-color: var(--border-light);
+  background-color: var(--border-subtle);
   flex-shrink: 0;
 }
 
@@ -22,7 +22,7 @@
 @media (max-width: 768px) {
   .stat--left-border-responsive {
     border-left: none !important;
-    border-top: 4px solid var(--accent-color) !important;
+    border-top: 4px solid var(--border-accent) !important;
     padding-left: 0 !important;
     padding-top: var(--space-md) !important;
   }

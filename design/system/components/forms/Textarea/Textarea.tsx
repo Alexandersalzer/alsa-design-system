@@ -203,7 +203,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
             )}
             style={{
               fontSize: 'var(--foundation-text-xs)',
-              color: isOverLimit ? 'var(--error-600)' : 'var(--text-secondary)',
+              color: isOverLimit ? 'var(--text-error)' : 'var(--text-secondary)',
               marginTop: 'var(--foundation-space-1)',
               textAlign: 'right'
             }}
@@ -220,7 +220,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
           role="alert"
           style={{
             fontSize: 'var(--foundation-text-sm)',
-            color: 'var(--error-600)',
+            color: 'var(--text-error)',
             marginTop: 'var(--space-form-error-margin)'
           }}
         >

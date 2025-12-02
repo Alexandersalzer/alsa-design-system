@@ -1,0 +1,249 @@
+/* ===============================================
+   blimpify-ui/design/system/components/forms/TimeInput/TimeInput.css
+   TIME INPUT STYLES - Uses semantic and foundation tokens
+   =============================================== */
+
+/* ===== TIME INPUT WRAPPER ===== */
+.time-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+
+.time-input-wrapper--disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ===== TIME INPUT LABEL ===== */
+.time-input-label {
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--foundation-weight-semibold);
+  line-height: var(--font-body-md-leading);
+  color: var(--text-form-label);
+  margin-bottom: 4px;
+  display: block;
+  cursor: pointer;
+  user-select: none;
+}
+
+.time-input-wrapper--disabled .time-input-label {
+  color: var(--text-form-label-disabled);
+  cursor: not-allowed;
+}
+
+.time-input-label__required {
+  color: var(--text-form-label-required);
+  margin-left: 2px;
+}
+
+/* ===== TIME INPUT DESCRIPTION ===== */
+.time-input-description {
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--foundation-weight-normal);
+  line-height: var(--font-body-sm-leading);
+  color: var(--text-form-hint);
+  margin-top: -2px;
+  margin-bottom: 6px;
+}
+
+.time-input-wrapper--disabled .time-input-description {
+  color: var(--text-form-label-disabled);
+}
+
+/* ===== TIME INPUT CONTAINER ===== */
+.time-input {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 2px solid var(--border-input);
+  border-radius: var(--radius-input);
+  background-color: var(--surface-input);
+  color: var(--text-input);
+  font-family: var(--font-body-family);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  outline: none;
+  transition: 
+    border-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    background-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
+}
+
+/* Size variants */
+.time-input--sm {
+  min-height: 32px;
+  padding: 4px 8px;
+  font-size: 13px;
+  gap: 6px;
+}
+
+.time-input--md {
+  min-height: 40px;
+  padding: 8px 12px;
+  font-size: 14px;
+  gap: 8px;
+}
+
+.time-input--lg {
+  min-height: 48px;
+  padding: 12px 16px;
+  font-size: 16px;
+  gap: 10px;
+}
+
+/* Visual variants */
+.time-input--bordered {
+  border: 2px solid var(--border-input);
+  background-color: var(--surface-input);
+}
+
+.time-input--flat {
+  border: none;
+  background-color: var(--surface-hover);
+}
+
+.time-input--faded {
+  border: 2px solid transparent;
+  background-color: var(--surface-hover);
+}
+
+.time-input--underlined {
+  border: none;
+  border-bottom: 2px solid var(--border-input);
+  border-radius: 0;
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* States */
+.time-input:hover:not(.time-input--disabled):not(.time-input--readonly) {
+  border-color: var(--border-input-hover);
+  background-color: var(--surface-input-hover);
+}
+
+.time-input:focus-within:not(.time-input--disabled):not(.time-input--readonly) {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--surface-accent-muted);
+}
+
+.time-input--disabled {
+  border-color: var(--border-input-disabled);
+  background-color: var(--surface-input-disabled);
+  color: var(--text-input-disabled);
+  cursor: not-allowed;
+}
+
+.time-input--readonly {
+  border-color: var(--border-input);
+  background-color: var(--surface-hover);
+  cursor: default;
+}
+
+.time-input--invalid {
+  border-color: var(--border-error);
+}
+
+/* ===== INNER WRAPPER (Segments Container) ===== */
+.time-input-inner-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 1.5em;
+}
+
+/* ===== START/END CONTENT ===== */
+.time-input-start-content,
+.time-input-end-content {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+/* ===== TIME SEGMENT ===== */
+.time-input-segment {
+  padding: 2px 4px;
+  border-radius: var(--radius-button-sm);
+  font-family: var(--font-mono-family);
+  font-weight: var(--foundation-weight-medium);
+  text-align: center;
+  outline: none;
+  cursor: text;
+  color: var(--text-input);
+  transition: 
+    background-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    color var(--foundation-duration-fast) var(--foundation-ease-out);
+}
+
+.time-input-segment--sm {
+  padding: 1px 3px;
+  font-size: 13px;
+}
+
+.time-input-segment--md {
+  padding: 2px 4px;
+  font-size: 14px;
+}
+
+.time-input-segment--lg {
+  padding: 3px 5px;
+  font-size: 16px;
+}
+
+/* Placeholder state */
+.time-input-segment--placeholder {
+  color: var(--text-input-placeholder);
+  font-style: italic;
+}
+
+/* Literal segments (separators like : or /) */
+.time-input-segment--literal {
+  padding: 0 2px;
+  cursor: default;
+  color: var(--text-secondary);
+}
+
+/* Focus state */
+.time-input-segment:focus {
+  background-color: var(--surface-accent);
+  color: var(--text-button-accent);
+}
+
+/* ===== HELPER/ERROR WRAPPER ===== */
+.time-input-help-wrapper {
+  margin-top: 4px;
+}
+
+.time-input-error {
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--foundation-weight-normal);
+  line-height: var(--font-body-sm-leading);
+  color: var(--text-form-error);
+}
+
+.time-input-helper {
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--foundation-weight-normal);
+  line-height: var(--font-body-sm-leading);
+  color: var(--text-form-hint);
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .time-input,
+  .time-input-segment {
+    transition: 
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease !important;
+  }
+}

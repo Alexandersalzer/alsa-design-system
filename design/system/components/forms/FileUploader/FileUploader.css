@@ -35,7 +35,7 @@
 }
 
 .file-uploader-label__required {
-  color: var(--text-form-label-required);                  /* FIXED: was --text-destructive, --error-500 */
+  color: var(--text-form-label-required);
   margin-left: var(--foundation-space-1);
 }
 
@@ -150,13 +150,13 @@
 
 .file-uploader--dropzone:hover:not(.file-uploader--disabled) {
   background-color: var(--surface-input);                  /* ✅ Good - semantic token */
-  border-color: var(--border-input-focus);                 /* ✅ Good - semantic token */
+  border-color: var(--border-focus);                 /* ✅ Good - semantic token */
 }
 
-/* ACTIVE/DRAG STATES - USING SHORTCUTS */
+/* ACTIVE/DRAG STATES - USING SEMANTIC TOKENS */
 .file-uploader--active:not(.file-uploader--disabled) {
   border-color: var(--border-focus);                       /* ✅ Good - semantic token */
-  background-color: var(--accent-subtle);                  /* FIXED: was --accent-50, rgba(...), using shortcut */
+  background-color: var(--surface-accent-subtle);          /* ✅ Good - semantic token */
 }
 
 .file-uploader--dropzone.file-uploader--active:not(.file-uploader--disabled) {
@@ -173,14 +173,14 @@
   pointer-events: none;
 }
 
-/* ERROR STATE - USING SEMANTIC TOKENS & SHORTCUTS */
+/* ERROR STATE - USING SEMANTIC TOKENS */
 .file-uploader--error {
-  border-color: var(--border-input-error);                 /* ✅ Good - semantic token */
-  background-color: var(--error-subtle);                   /* FIXED: was --surface-error-subtle, rgba(...), using shortcut */
+  border-color: var(--border-error);                 /* ✅ Good - semantic token */
+  background-color: var(--surface-error-subtle);           /* ✅ Good - semantic token */
 }
 
 .file-uploader--error:hover:not(.file-uploader--disabled) {
-  border-color: var(--error-text);                         /* FIXED: was --error-600, using shortcut */
+  border-color: var(--text-error);                         /* ✅ Good - semantic token */
 }
 
 /* ===== FILE UPLOADER CONTENT ===== */
@@ -212,7 +212,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: var(--icon-secondary);                            /* ✅ Good - semantic token */
+  color: var(--icon-default);                            /* ✅ Good - semantic token */
 }
 
 .file-uploader__icon--left {
@@ -226,7 +226,7 @@
 .file-uploader__upload-icon {
   width: 48px;
   height: 48px;
-  color: var(--icon-secondary);                            /* ✅ Good - semantic token */
+  color: var(--icon-default);                            /* ✅ Good - semantic token */
   transition: color var(--foundation-duration-fast) ease;
 }
 
@@ -241,7 +241,7 @@
 }
 
 .file-uploader--active .file-uploader__upload-icon {
-  color: var(--accent-icon);                               /* FIXED: was --accent-500, using shortcut */
+  color: var(--icon-accent);                               /* ✅ Good - semantic token */
 }
 
 .file-uploader--disabled .file-uploader__upload-icon {
@@ -303,7 +303,7 @@
 /* ===== ERROR MESSAGE - USING SEMANTIC TOKENS ===== */
 .file-uploader-error {
   margin-top: var(--foundation-space-1);
-  color: var(--text-form-error);                           /* FIXED: was --text-destructive, --error-600 */
+  color: var(--text-form-error);
   font-family: var(--font-body-family);
   font-size: var(--font-body-sm-size);
   font-weight: var(--foundation-weight-normal);

@@ -212,10 +212,10 @@
 .tab--segment {
   justify-content: center;
   border-radius: var(--foundation-radius-full, 9999px);
-  border: 1px solid var(--border-nav, #e5e7eb);
+  border: 1px solid var(--border-nav);
   padding: var(--foundation-space-1, 4px) var(--foundation-space-3, 12px);
   font-size: var(--font-label-sm-size, 13px);
-  background-color: var(--surface-card, white);
+  background-color: var(--surface-card);
 }
 
 .tab--segment:hover:not(.tab--active):not(.tab--disabled) {
@@ -225,10 +225,10 @@
 
 .tab--segment.tab--active,
 .tab--segment.active {
-  border-color: var(--accent-500);
+  border-color: var(--border-accent);
   background-color: var(--surface-nav-item-selected);
   color: var(--text-nav-item-selected);
-  box-shadow: 0 2px 4px rgba(var(--accent-500), 0.2);
+  box-shadow: 0 2px 4px var(--surface-accent-muted);
 }
 
 /* ===== SIZE VARIANTS ===== */
@@ -310,18 +310,18 @@
 
 /* Page tabs container with proper border */
 .tab-group--page {
-  border-bottom: 1px solid var(--border-nav, #e5e7eb);
+  border-bottom: 1px solid var(--border-nav);
   padding-bottom: var(--space-nav-item-gap, 8px);
   position: relative;
 }
 
 /* Segment tabs container */
 .tab-group--segment {
-  background-color: var(--secondary-50, #f8fafc);
+  background-color: var(--surface-raised);
   border-radius: var(--foundation-radius-full, 9999px);
   padding: var(--foundation-space-1, 4px);
   gap: var(--foundation-space-1, 4px);
-  border: 1px solid var(--border-nav, #e5e7eb);
+  border: 1px solid var(--border-nav);
 }
 
 /* ===== CLEAN ANIMATION SETUP ===== */
@@ -394,7 +394,7 @@
 /* ===== BADGE/NOTIFICATION STYLES ===== */
 .nav-item__badge,
 .tab__badge {
-  background: var(--surface-tag-accent, #ef4444);
+  background: var(--surface-tag-accent);
   color: white;
   font-size: 11px;
   font-weight: 600;
@@ -467,4 +467,31 @@
       background-color 0.15s ease,
       color 0.15s ease !important;
   }
+}
+
+/* ==========================================================
+   PRESS FEEDBACK + ACTIVE FIXES (FINAL VERSION)
+   ========================================================== */
+
+/* 1) Press scale (navigation + tabs) */
+.nav-item:not(.nav-item--disabled):active,
+.tab:not(.tab--disabled):active {
+  transform: scale(0.97);
+}
+
+/* 2) Active tabs/nav NEVER scale */
+.nav-item--selected,
+.nav-item.selected,
+.tab--active,
+.tab.active {
+  transform: none !important;
+}
+
+/* 3) Ensure scaling transition feels good */
+.nav-item,
+.tab {
+  transition:
+    transform 0.12s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
 }

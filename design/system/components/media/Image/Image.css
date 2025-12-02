@@ -51,9 +51,9 @@
   height: 100%;
   background: linear-gradient(
     90deg,
-    var(--surface-subtle) 0%,
+    var(--surface-raised) 0%,
     var(--surface-muted) 50%,
-    var(--surface-subtle) 100%
+    var(--surface-raised) 100%
   );
   background-size: 200% 100%;
   z-index: 1;
@@ -132,7 +132,7 @@
   justify-content: center;
   gap: var(--spacing-2);
   background: var(--surface-muted);
-  color: var(--text-tertiary);
+  color: var(--text-subtle);
   z-index: 2;
 }
 

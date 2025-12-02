@@ -10,12 +10,12 @@
 
 :root {
   /* Grays chosen for soft contrast and accessibility */
-  --surface-skeleton-start: var(--foundation-gray-200);
-  --surface-skeleton-end: var(--foundation-gray-300);
+  --surface-skeleton-start: var(--surface-elevated); /* 200 */
+  --surface-skeleton-end:   var(--surface-deep);   /* 300 */
 
   /* Optional accent tokens if you extend palette support */
-  --surface-skeleton-start-accent: var(--foundation-gray-200);
-  --surface-skeleton-end-accent: var(--foundation-gray-300);
+  --surface-skeleton-start-accent: var(--surface-accent-muted);
+  --surface-skeleton-end-accent: var(--surface-accent-subtle);
 
   --opacity-skeleton-pulse-min: 0.6;
   --opacity-skeleton-pulse-max: 1.0;

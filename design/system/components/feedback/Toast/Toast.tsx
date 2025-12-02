@@ -1,6 +1,6 @@
 // ==============================================
 // src/design-system/components/primitives/Toast/Toast.tsx
-// ENHANCED TOAST COMPONENT - SMOOTH ANIMATIONS
+// TOAST COMPONENT - WITH SURFACE VARIANTS
 // ==============================================
 
 import React, { forwardRef, ReactNode, useEffect, useState, useRef } from 'react';
@@ -14,15 +14,18 @@ import {
 
 // ===== TYPE DEFINITIONS =====
 export type ToastVariant = 'info' | 'success' | 'warning' | 'error';
+export type ToastSurface = 'subtle' | 'muted' | 'vibrant';
 export type ToastState = 'entering' | 'visible' | 'exiting' | 'exited';
 
 export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
   onClose?: () => void;
   /** Toast message text */
   children: ReactNode;
-  /** Toast variant/type */
+  /** Toast status/type */
   variant?: ToastVariant;
-  /** Optional left icon (defaults to variant icon) */
+  /** Surface variant */
+  surface?: ToastSurface;
+  /** Optional left icon (defaults to status icon) */
   leftIcon?: ReactNode;
   /** Show close button */
   showClose?: boolean;
@@ -41,7 +44,7 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 // ===== ICON MAPPING =====
-const getVariantIcon = (variant: ToastVariant): ReactNode => {
+const getStatusIcon = (variant: ToastVariant): ReactNode => {
   switch (variant) {
     case 'success':
       return <StatusIcons.Success />;
@@ -59,6 +62,7 @@ const getVariantIcon = (variant: ToastVariant): ReactNode => {
 export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   children,
   variant = 'info',
+  surface = 'subtle',
   leftIcon,
   showClose = true,
   onClose,
@@ -138,6 +142,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   const toastClasses = cn(
     'toast',
     `toast--${variant}`,
+    surface !== 'subtle' && `toast--${surface}`,
     className
   );
 
@@ -146,6 +151,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
       ref={ref} 
       className={toastClasses}
       data-state={currentState}
+      data-variant={variant}
+      data-surface={surface}
       style={style}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -155,7 +162,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
     >
       {/* Left Icon */}
       <div className="toast__icon-left">
-        {leftIcon || getVariantIcon(variant)}
+        {leftIcon || getStatusIcon(variant)}
       </div>
 
       {/* Content */}
@@ -195,7 +202,6 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
 });
 
 Toast.displayName = 'Toast';
-
 
 // ===== CONVENIENCE COMPONENTS =====
 export interface ErrorToastProps extends Omit<ToastProps, 'variant'> {}

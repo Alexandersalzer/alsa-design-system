@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Toast/Toast.css
-   ENHANCED TOAST COMPONENT - SMOOTH ANIMATIONS
+   TOAST COMPONENT - WITH SURFACE VARIANTS
    ============================================== */
 
 /* ===== BASE TOAST STYLING ===== */
@@ -8,24 +8,23 @@
   /* Layout */
   display: flex;
   align-items: center;
-  gap: var(--space-toast-gap, var(--foundation-space-3));
+  gap: var(--space-toast-gap);
   position: relative;
 
   /* Sizing */
   width: 100%;
   max-width: 400px;
-  padding: var(--space-toast-padding, var(--foundation-space-4));
+  padding: var(--space-toast-padding);
 
   /* Base styling */
   border: 1px solid;
-  border-radius: var(--radius-toast, var(--foundation-radius-lg));
-  box-shadow: var(--shadow-toast, var(--foundation-shadow-lg));
+  border-radius: var(--radius-toast);
+  box-shadow: var(--shadow-toast);
 
   /* Typography base */
-  font-family: var(--foundation-font-secondary);
+  font-family: var(--font-body-family);
 
-  /* 🎯 ENHANCED ANIMATION SYSTEM */
-  /* Initial state - hidden and positioned for entrance */
+  /* Animation system */
   opacity: 0;
   transform: translateX(100%) scale(0.95);
 
@@ -58,29 +57,79 @@
   animation: toastSlideOut var(--foundation-duration-normal) var(--foundation-ease-in) forwards;
 }
 
-/* ===== TOAST VARIANTS ===== */
+/* ===== TOAST STATUS VARIANTS - SUBTLE (default) ===== */
 .toast--info {
-  background-color: var(--surface-toast-info);
-  border-color: var(--border-toast-info);
-  color: var(--text-toast-info);
+  background-color: var(--surface-info-subtle);
+  border-color: var(--border-info-subtle);
+  color: var(--text-info);
 }
 
 .toast--success {
-  background-color: var(--surface-toast-success);
-  border-color: var(--border-toast-success);
-  color: var(--text-toast-success);
+  background-color: var(--surface-success-subtle);
+  border-color: var(--border-success-subtle);
+  color: var(--text-success);
 }
 
 .toast--warning {
-  background-color: var(--surface-toast-warning);
-  border-color: var(--border-toast-warning);
-  color: var(--text-toast-warning);
+  background-color: var(--surface-warning-subtle);
+  border-color: var(--border-warning-subtle);
+  color: var(--text-warning);
 }
 
 .toast--error {
-  background-color: var(--surface-toast-error);
-  border-color: var(--border-toast-error);
-  color: var(--text-toast-error);
+  background-color: var(--surface-error-subtle);
+  border-color: var(--border-error-subtle);
+  color: var(--text-error);
+}
+
+/* ===== MUTED SURFACE VARIANTS ===== */
+.toast--info.toast--muted {
+  background-color: var(--surface-info-muted);
+  border-color: var(--border-info);
+  color: var(--text-info-strong);
+}
+
+.toast--success.toast--muted {
+  background-color: var(--surface-success-muted);
+  border-color: var(--border-success);
+  color: var(--text-success-strong);
+}
+
+.toast--warning.toast--muted {
+  background-color: var(--surface-warning-muted);
+  border-color: var(--border-warning);
+  color: var(--text-warning-strong);
+}
+
+.toast--error.toast--muted {
+  background-color: var(--surface-error-muted);
+  border-color: var(--border-error);
+  color: var(--text-error-strong);
+}
+
+/* ===== VIBRANT SURFACE VARIANTS ===== */
+.toast--info.toast--vibrant {
+  background-color: var(--surface-info);
+  border-color: var(--border-info);
+  color: var(--text-on-info);
+}
+
+.toast--success.toast--vibrant {
+  background-color: var(--surface-success);
+  border-color: var(--border-success);
+  color: var(--text-on-success);
+}
+
+.toast--warning.toast--vibrant {
+  background-color: var(--surface-warning);
+  border-color: var(--border-warning);
+  color: var(--text-on-warning);
+}
+
+.toast--error.toast--vibrant {
+  background-color: var(--surface-error);
+  border-color: var(--border-error);
+  color: var(--text-on-error);
 }
 
 /* ===== TOAST SECTIONS ===== */
@@ -94,6 +143,29 @@
   transform: scale(0.8) rotate(-10deg);
   animation: iconBounceIn var(--foundation-duration-slow) var(--foundation-ease-bounce) forwards;
   animation-delay: calc(var(--toast-delay, 0ms) + 100ms);
+}
+
+/* Icon colors - subtle variants get stronger icon colors */
+.toast--info .toast__icon-left {
+  color: var(--icon-info);
+}
+
+.toast--success .toast__icon-left {
+  color: var(--icon-success);
+}
+
+.toast--warning .toast__icon-left {
+  color: var(--icon-warning);
+}
+
+.toast--error .toast__icon-left {
+  color: var(--icon-error);
+}
+
+/* Muted and vibrant inherit text color */
+.toast--muted .toast__icon-left,
+.toast--vibrant .toast__icon-left {
+  color: currentColor;
 }
 
 .toast__content {
@@ -156,7 +228,7 @@
   outline-offset: 2px;
 }
 
-/* ===== ENHANCED ANIMATIONS ===== */
+/* ===== ANIMATIONS ===== */
 
 /* Main toast entrance with spring effect */
 @keyframes toastSlideIn {
@@ -235,7 +307,7 @@
 
   display: flex;
   flex-direction: column;
-  gap: var(--space-toast-gap, var(--foundation-space-3));
+  gap: var(--space-toast-gap);
 
   pointer-events: none;
 
@@ -247,7 +319,7 @@
   pointer-events: auto;
 }
 
-/* 🎯 STAGGERED ANIMATION SYSTEM */
+/* Staggered animation system */
 .toast-container .toast:nth-child(1) { --toast-delay: 0ms; }
 .toast-container .toast:nth-child(2) { --toast-delay: 100ms; }
 .toast-container .toast:nth-child(3) { --toast-delay: 200ms; }

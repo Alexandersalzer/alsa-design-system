@@ -17,7 +17,7 @@ export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   trackColor?: string;
 
   /** Variant context — matches button variant */
-  variant?: "primary" | "secondary" | "accent" | "ghost" | "destructive";
+  variant?: "brand" | "primary" | "secondary" | "accent" | "ghost" | "destructive";
 
   /** Disabled state (used to pick softer contrasts) */
   disabled?: boolean;
@@ -122,7 +122,7 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
         default:
           // Neutral standalone spinner
           spinnerTrack = trackColor || "var(--border-subtle)";
-          spinnerColor = color || "var(--accent-600)";
+          spinnerColor = color || "var(--icon-accent)";
           break;
       }
     }

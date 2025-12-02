@@ -1,41 +1,15 @@
 /* ==============================================
    src/design-system/tokens/component/toast.css
-   TOAST COMPONENT TOKENS - USING SMART SHORTCUTS
+   TOAST COMPONENT TOKENS - USING SEMANTIC SPACING
    ============================================== */
-
 :root {
-  /* ===== INFO TOAST ===== */
-  --surface-toast-info: var(--info-bg);
-  --border-toast-info: var(--info-border);
-  --text-toast-info: var(--info-text);
-  --text-toast-info-title: var(--info-text-strong);
-  --icon-toast-info: var(--info-icon);
+  /* ===== TOAST SPACING (using card component spacing) ===== */
+  --space-toast-padding: var(--space-card-padding-sm);  /* 16px all sides */
+  --space-toast-gap: var(--space-card-gap-sm);          /* 12px gap */
 
-  /* ===== SUCCESS TOAST ===== */
-  --surface-toast-success: var(--success-bg);
-  --border-toast-success: var(--success-border);
-  --text-toast-success: var(--success-text);
-  --text-toast-success-title: var(--success-text-strong);
-  --icon-toast-success: var(--success-icon);
+  /* ===== TOAST RADIUS ===== */
+  --radius-toast: var(--radius-button);
 
-  /* ===== WARNING TOAST ===== */
-  --surface-toast-warning: var(--warning-bg);
-  --border-toast-warning: var(--warning-border);
-  --text-toast-warning: var(--warning-text);
-  --text-toast-warning-title: var(--warning-text-strong);
-  --icon-toast-warning: var(--warning-icon);
-
-  /* ===== ERROR TOAST ===== */
-  --surface-toast-error: var(--error-bg);
-  --border-toast-error: var(--error-border);
-  --text-toast-error: var(--error-text);
-  --text-toast-error-title: var(--error-text-strong);
-  --icon-toast-error: var(--error-icon);
-
-  /* ===== TOAST LAYOUT TOKENS (add these) ===== */
-  --space-toast-padding: var(--foundation-space-4);
-  --space-toast-gap: var(--foundation-space-3);
-  --radius-toast: var(--foundation-radius-lg);
-  --shadow-toast: var(--foundation-shadow-lg);
-  --transition-toast: var(--foundation-duration-standard) var(--foundation-easing-enter);
+  /* ===== TOAST SHADOW ===== */
+  --shadow-toast: var(--shadow-strong);
 }

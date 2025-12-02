@@ -3,6 +3,7 @@ export interface DesignTokens {
   accentColor?: string;
   isDark?: boolean;
   themeTone?: "mono" | "linen" | "ink" | "clay" | "slate" | "sage" | "frost" | "pearl" | "aqua" | "neutral";
+  accentIntensity?: "vibrant" | "normal" | "discrete" | "monochrome";
   fontPrimary?: string;
   fontSecondary?: string;
   fontWeightScale?: "light" | "regular" | "strong" | "extraStrong";

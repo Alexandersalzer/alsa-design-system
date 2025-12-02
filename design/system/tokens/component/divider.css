@@ -1,25 +1,25 @@
 /* src/design-system/tokens/component/divider.css */
 :root {
-  /* ===== DIVIDER SURFACE TOKENS ===== */
+  /* ===== DIVIDER SURFACE ===== */
   --surface-divider: transparent;
   --surface-divider-container: var(--surface-page);
-  
-  /* ===== DIVIDER BORDER TOKENS - USING SEMANTIC ===== */
-  --border-divider: var(--border-subtle);           /* secondary-100 */
-  --border-divider-strong: var(--border-light-hover); /* secondary-200 */
-  --border-divider-emphasis: var(--border-hover);   /* secondary-300 */
-  
-  /* ===== DIVIDER TEXT TOKENS ===== */
-  --text-divider: var(--text-tertiary);
-  --text-divider-emphasis: var(--text-secondary);
-  
-  /* ===== DIVIDER SPACING TOKENS ===== */
+
+  /* ===== DIVIDER BORDERS (semantic only) ===== */
+  --border-divider: var(--border-subtle);
+  --border-divider-strong: var(--border-default);
+  --border-divider-emphasis: var(--border-strong);
+
+  /* ===== DIVIDER TEXT ===== */
+  --text-divider: var(--text-subtle);
+  --text-divider-emphasis: var(--text-muted);
+
+  /* ===== DIVIDER SPACING ===== */
   --space-divider-margin-sm: var(--foundation-space-2);
   --space-divider-margin-md: var(--foundation-space-4);
   --space-divider-margin-lg: var(--foundation-space-6);
   --space-divider-text-padding: var(--foundation-space-3);
-  
-  /* ===== DIVIDER SIZE TOKENS ===== */
+
+  /* ===== DIVIDER SIZE ===== */
   --size-divider-thickness: 1px;
   --size-divider-thickness-strong: 2px;
 }

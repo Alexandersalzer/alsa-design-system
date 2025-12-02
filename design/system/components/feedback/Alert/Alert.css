@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Alert/Alert.css
-   ALERT COMPONENT - FOLLOWING TOAST STRUCTURE
+   ALERT COMPONENT - WITH SURFACE VARIANTS
    ============================================== */
 
 /* ===== BASE ALERT STYLING ===== */
@@ -8,19 +8,19 @@
   /* Layout */
   display: flex;
   align-items: center;
-  gap: var(--space-alert-gap, var(--foundation-space-3));
+  gap: var(--space-alert-gap);
   position: relative;
 
   /* Sizing */
   width: 100%;
-  padding: var(--space-alert-padding, var(--foundation-space-4));
+  padding: var(--space-alert-padding);
 
   /* Base styling */
   border: 1px solid;
-  border-radius: var(--radius-alert, var(--foundation-radius-lg));
+  border-radius: var(--radius-alert);
 
   /* Typography base */
-  font-family: var(--foundation-font-secondary);
+  font-family: var(--font-body-family);
 
   /* Transitions */
   transition: 
@@ -28,91 +28,110 @@
     border-color var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
-/* ===== ALERT STATUS VARIANTS ===== */
-
-/* Subtle variant (default) */
-.alert--subtle.alert--info {
-  background-color: var(--surface-alert-info-subtle);
-  border-color: var(--border-alert-info-subtle);
-  color: var(--text-alert-info);
+/* ===== ALERT STATUS VARIANTS - SUBTLE (default) ===== */
+.alert--info {
+  background-color: var(--surface-info-subtle);
+  border-color: var(--border-info-subtle);
+  color: var(--text-info);
 }
 
-.alert--subtle.alert--success {
-  background-color: var(--surface-alert-success-subtle);
-  border-color: var(--border-alert-success-subtle);
-  color: var(--text-alert-success);
+.alert--success {
+  background-color: var(--surface-success-subtle);
+  border-color: var(--border-success-subtle);
+  color: var(--text-success);
 }
 
-.alert--subtle.alert--warning {
-  background-color: var(--surface-alert-warning-subtle);
-  border-color: var(--border-alert-warning-subtle);
-  color: var(--text-alert-warning);
+.alert--warning {
+  background-color: var(--surface-warning-subtle);
+  border-color: var(--border-warning-subtle);
+  color: var(--text-warning);
 }
 
-.alert--subtle.alert--error {
-  background-color: var(--surface-alert-error-subtle);
-  border-color: var(--border-alert-error-subtle);
-  color: var(--text-alert-error);
+.alert--error {
+  background-color: var(--surface-error-subtle);
+  border-color: var(--border-error-subtle);
+  color: var(--text-error);
 }
 
-/* Solid variant */
-.alert--solid.alert--info {
-  background-color: var(--surface-alert-info-solid);
-  border-color: var(--border-alert-info-solid);
-  color: var(--text-alert-info-solid);
+/* ===== MUTED SURFACE VARIANTS ===== */
+.alert--info.alert--muted {
+  background-color: var(--surface-info-muted);
+  border-color: var(--border-info);
+  color: var(--text-info-strong);
 }
 
-.alert--solid.alert--success {
-  background-color: var(--surface-alert-success-solid);
-  border-color: var(--border-alert-success-solid);
-  color: var(--text-alert-success-solid);
+.alert--success.alert--muted {
+  background-color: var(--surface-success-muted);
+  border-color: var(--border-success);
+  color: var(--text-success-strong);
 }
 
-.alert--solid.alert--warning {
-  background-color: var(--surface-alert-warning-solid);
-  border-color: var(--border-alert-warning-solid);
-  color: var(--text-alert-warning-solid);
+.alert--warning.alert--muted {
+  background-color: var(--surface-warning-muted);
+  border-color: var(--border-warning);
+  color: var(--text-warning-strong);
 }
 
-.alert--solid.alert--error {
-  background-color: var(--surface-alert-error-solid);
-  border-color: var(--border-alert-error-solid);
-  color: var(--text-alert-error-solid);
+.alert--error.alert--muted {
+  background-color: var(--surface-error-muted);
+  border-color: var(--border-error);
+  color: var(--text-error-strong);
 }
 
-/* Outline variant */
-.alert--outline.alert--info {
-  background-color: transparent;
-  border-color: var(--border-alert-info);
-  color: var(--text-alert-info);
+/* ===== VIBRANT SURFACE VARIANTS ===== */
+.alert--info.alert--vibrant {
+  background-color: var(--surface-info);
+  border-color: var(--border-info);
+  color: var(--text-on-info);
 }
 
-.alert--outline.alert--success {
-  background-color: transparent;
-  border-color: var(--border-alert-success);
-  color: var(--text-alert-success);
+.alert--success.alert--vibrant {
+  background-color: var(--surface-success);
+  border-color: var(--border-success);
+  color: var(--text-on-success);
 }
 
-.alert--outline.alert--warning {
-  background-color: transparent;
-  border-color: var(--border-alert-warning);
-  color: var(--text-alert-warning);
+.alert--warning.alert--vibrant {
+  background-color: var(--surface-warning);
+  border-color: var(--border-warning);
+  color: var(--text-on-warning);
 }
 
-.alert--outline.alert--error {
-  background-color: transparent;
-  border-color: var(--border-alert-error);
-  color: var(--text-alert-error);
+.alert--error.alert--vibrant {
+  background-color: var(--surface-error);
+  border-color: var(--border-error);
+  color: var(--text-on-error);
 }
 
 /* ===== ALERT SECTIONS ===== */
-
 .alert__indicator {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-top: var(--foundation-space-0-5);
+}
+
+/* Icon colors - subtle variants get stronger icon colors */
+.alert--info .alert__indicator {
+  color: var(--icon-info);
+}
+
+.alert--success .alert__indicator {
+  color: var(--icon-success);
+}
+
+.alert--warning .alert__indicator {
+  color: var(--icon-warning);
+}
+
+.alert--error .alert__indicator {
+  color: var(--icon-error);
+}
+
+/* Muted and vibrant inherit text color */
+.alert--muted .alert__indicator,
+.alert--vibrant .alert__indicator {
+  color: currentColor;
 }
 
 .alert__content {
@@ -143,26 +162,11 @@
   margin-right: calc(-1 * var(--foundation-space-1));
 }
 
-/* ===== SPACING VARIATIONS ===== */
-
-/* Compact alert */
-.alert--compact {
-  padding: var(--foundation-space-3);
-  gap: var(--foundation-space-2);
-}
-
-/* Large alert */
-.alert--large {
-  padding: var(--foundation-space-5);
-  gap: var(--foundation-space-4);
-}
-
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
-
 @media (max-width: 640px) {
   .alert {
-    padding: var(--foundation-space-3);
-    gap: var(--foundation-space-2);
+    padding: var(--space-alert-padding-small);
+    gap: var(--space-alert-gap-small);
   }
 
   .alert__title {

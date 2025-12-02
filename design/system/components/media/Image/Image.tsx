@@ -68,7 +68,7 @@ export const Image: React.FC<ImageProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
-  const [isIntersecting, setIsIntersecting] = useState(priority);
+  const [isIntersecting, setIsIntersecting] = useState(priority || loading === 'eager');
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isCached, setIsCached] = useState(false);
@@ -104,7 +104,7 @@ export const Image: React.FC<ImageProps> = ({
     }
   }, [src, priority, loading]);
 
-  // Intersection Observer for lazy loading (skip if cached)
+  // Intersection Observer for lazy loading (skip if cached or priority)
   useEffect(() => {
     if (priority || loading === 'eager' || isCached) {
       setIsIntersecting(true);
@@ -178,19 +178,21 @@ export const Image: React.FC<ImageProps> = ({
     ...style
   };
 
-  // ✅ OPTIMIZATION 2: Image appears instantly (no fade animation)
+  // ✅ FIX: Priority/eager images should ALWAYS be visible, even before onLoad fires
+  const shouldBeVisible = isLoaded || priority || loading === 'eager' || isCached;
+  
   const imageStyles: React.CSSProperties = {
     width: '100%',
     height: '100%',
     display: 'block',
-    opacity: isLoaded ? 1 : 0,  // Instant switch when loaded
-    transition: 'none'           // No fade animation
+    opacity: shouldBeVisible ? 1 : 0,  // Show immediately for priority/eager
+    transition: 'none'
   };
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* ✅ OPTIMIZATION 3: Delayed skeleton - DON'T show for cached images */}
-      {showSkeleton && !isLoaded && !hasError && !priority && !isCached && loading !== 'eager' && (
+      {/* ✅ OPTIMIZATION 3: Delayed skeleton - DON'T show for cached/priority/eager images */}
+      {showSkeleton && !shouldBeVisible && !hasError && (
         <div className="image-skeleton image-skeleton--delayed" />
       )}
 
@@ -226,7 +228,7 @@ export const Image: React.FC<ImageProps> = ({
             <circle cx="8.5" cy="8.5" r="1.5" />
             <polyline points="21 15 16 10 5 21" />
           </svg>
-          <span className="image-error-text">Failed to load image</span>
+          <span className="image-error-text"></span>
         </div>
       )}
     </div>

@@ -1,7 +1,6 @@
 // ==============================================
 // src/design-system/components/primitives/Banner/Banner.tsx
-// SIMPLE DISCRETE BANNER - Full width, token-based
-// Sticky, with close button support + waitlist inline
+// BANNER COMPONENT - WITH SURFACE VARIANTS
 // ==============================================
 
 import React, { forwardRef, ReactNode, useState } from 'react';
@@ -12,18 +11,13 @@ import { IconButtons } from '../../actions';
 import { Input } from '../../forms';
 
 // ===== TYPE DEFINITIONS =====
-export type BannerType =
-  | 'default'
-  | 'info'
-  | 'accent'
-  | 'success'
-  | 'warning'
-  | 'error'
-  | 'loading';
+export type BannerVariant = 'default' | 'info' | 'accent' | 'success' | 'warning' | 'error';
+export type BannerSurface = 'subtle' | 'muted' | 'vibrant';
 
 export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
   message: string;
-  type?: BannerType;
+  variant?: BannerVariant;
+  surface?: BannerSurface;
   icon?: ReactNode;
   actionText?: string;
   onAction?: () => void;
@@ -38,7 +32,8 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(
   (
     {
       message,
-      type = 'default',
+      variant = 'default',
+      surface = 'subtle',
       icon,
       actionText,
       onAction,
@@ -61,7 +56,8 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(
 
     const bannerClasses = cn(
       'banner',
-      `banner--${type}`,
+      `banner--${variant}`,
+      surface !== 'subtle' && `banner--${surface}`,
       sticky && 'banner--sticky',
       className
     );
@@ -70,13 +66,14 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(
       <div
         ref={ref}
         className={bannerClasses}
-        role="status"
+        role="variant"
         aria-live="polite"
-        data-type={type}
+        data-variant={variant}
+        data-surface={surface}
         {...props}
       >
         {/* Icon + Message container */}
-        <div className="banner__content flex items-center gap-2 flex-1">
+        <div className="banner__content">
           {icon && <div className="banner__icon">{icon}</div>}
           <Typography variant="body-md" className="banner__message" as="p">
             {message}
@@ -84,7 +81,7 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(
         </div>
 
         {/* Action and Close buttons */}
-        <div className="banner__actions flex items-center gap-2">
+        <div className="banner__actions">
           {actionText && (
             <Button
               variant="ghost"
@@ -114,7 +111,7 @@ Banner.displayName = 'Banner';
 
 // ===== AVAILABILITY BANNER =====
 export interface AvailabilityBannerProps
-  extends Omit<BannerProps, 'type' | 'message'> {
+  extends Omit<BannerProps, 'variant' | 'message'> {
   availableSpots: number;
   totalSpots: number;
   isLoading?: boolean;
@@ -133,6 +130,7 @@ export const AvailabilityBanner = forwardRef<
       totalSpots,
       isLoading = false,
       error = null,
+      surface = 'subtle',
       showAction = false,
       onAction,
       onWaitlistSubmit,
@@ -150,26 +148,26 @@ export const AvailabilityBanner = forwardRef<
 
     const isFullyBooked = availableSpots === 0;
 
-    let bannerType: BannerType = 'default';
+    let bannerVariant: BannerVariant = 'default';
     let message = '';
 
     if (isLoading) {
-      bannerType = 'loading';
+      bannerVariant = 'info';
       message = 'Kontrollerar tillgänglighet i vår Early Access...';
     } else if (error) {
-      bannerType = 'error';
+      bannerVariant = 'error';
       message = 'Kunde inte hämta tillgänglighet just nu. Försök igen om en stund.';
     } else if (isFullyBooked) {
-      bannerType = 'accent';
+      bannerVariant = 'accent';
       message = `Early Access är fullt just nu!`;
     } else if (availableSpots === 1) {
-      bannerType = 'warning';
+      bannerVariant = 'warning';
       message = `Sista platsen kvar i Early Access – först till kvarn!`;
     } else if (availableSpots <= 3) {
-      bannerType = 'warning';
+      bannerVariant = 'warning';
       message = `Endast ${availableSpots} platser kvar i vår Early Access!`;
     } else {
-      bannerType = 'default';
+      bannerVariant = 'default';
       message = `${availableSpots} av ${totalSpots} platser tillgängliga i Early Access.`;
     }
 
@@ -194,27 +192,31 @@ export const AvailabilityBanner = forwardRef<
           ref={ref}
           className={cn(
             'banner',
-            `banner--${bannerType}`,
+            `banner--${bannerVariant}`,
+            surface !== 'subtle' && `banner--${surface}`,
             sticky && 'banner--sticky',
-            'flex items-center justify-center gap-3 px-4 py-2',
             className
           )}
+          data-variant={bannerVariant}
+          data-surface={surface}
           {...props}
         >
-          {icon && <div className="banner__icon">{icon}</div>}
+          <div className="banner__content">
+            {icon && <div className="banner__icon">{icon}</div>}
 
-          {/* Message */}
-          <Typography
-            variant="body-md"
-            className="banner__message text-center"
-            as="p"
-          >
-            {message}
-          </Typography>
+            {/* Message */}
+            <Typography
+              variant="body-md"
+              className="banner__message"
+              as="p"
+            >
+              {message}
+            </Typography>
+          </div>
 
           {/* Inline waitlist (if fully booked) */}
           {isFullyBooked && !submitted && (
-            <div className="flex items-center gap-2 ml-4 flex-wrap justify-center sm:flex-nowrap">
+            <div className="banner__waitlist">
               <Input
                 type="email"
                 placeholder="Fyll i din e-post"
@@ -222,13 +224,13 @@ export const AvailabilityBanner = forwardRef<
                 onChange={(e) => setEmail(e.target.value)}
                 radius="sm"
                 size="sm"
-                className="w-44 min-w-[160px] sm:w-44"
+                className="banner__waitlist-input"
               />
               <Button
                 size="sm"
                 onClick={handleEmailSubmit}
                 disabled={submitting || !email}
-                className="whitespace-nowrap"
+                className="banner__waitlist-button"
               >
                 {submitting ? 'Skickar...' : 'Bli prioriterad'}
               </Button>
@@ -236,14 +238,14 @@ export const AvailabilityBanner = forwardRef<
           )}
 
           {isFullyBooked && submitted && (
-            <Typography variant="body-sm" className="ml-4 text-[var(--text-banner-success)] text-center">
+            <Typography variant="body-sm" className="banner__success-message">
               Tack! Du får ett mejl när vi öppnar igen.
             </Typography>
           )}
 
           {/* Optional close */}
           {showClose && (
-            <div className="ml-auto">
+            <div className="banner__actions">
               <IconButtons.Close
                 onClick={onAction}
                 aria-label="Stäng banner"
@@ -261,26 +263,22 @@ export const AvailabilityBanner = forwardRef<
 AvailabilityBanner.displayName = 'AvailabilityBanner';
 
 // ===== CONVENIENCE EXPORTS =====
-export const InfoBanner = (props: Omit<BannerProps, 'type'>) => (
-  <Banner {...props} type="info" />
+export const InfoBanner = (props: Omit<BannerProps, 'variant'>) => (
+  <Banner {...props} variant="info" />
 );
 
-export const AccentBanner = (props: Omit<BannerProps, 'type'>) => (
-  <Banner {...props} type="accent" />
+export const AccentBanner = (props: Omit<BannerProps, 'variant'>) => (
+  <Banner {...props} variant="accent" />
 );
 
-export const SuccessBanner = (props: Omit<BannerProps, 'type'>) => (
-  <Banner {...props} type="success" />
+export const SuccessBanner = (props: Omit<BannerProps, 'variant'>) => (
+  <Banner {...props} variant="success" />
 );
 
-export const WarningBanner = (props: Omit<BannerProps, 'type'>) => (
-  <Banner {...props} type="warning" />
+export const WarningBanner = (props: Omit<BannerProps, 'variant'>) => (
+  <Banner {...props} variant="warning" />
 );
 
-export const ErrorBanner = (props: Omit<BannerProps, 'type'>) => (
-  <Banner {...props} type="error" />
-);
-
-export const LoadingBanner = (props: Omit<BannerProps, 'type'>) => (
-  <Banner {...props} type="loading" />
+export const ErrorBanner = (props: Omit<BannerProps, 'variant'>) => (
+  <Banner {...props} variant="error" />
 );

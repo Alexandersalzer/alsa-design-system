@@ -47,22 +47,22 @@
 
 /* Color variants */
 .progress--color-accent .progress__indicator {
-  background-color: var(--accent-500);
+  background-color: var(--interactive-accent);
 }
 
 .progress--color-success .progress__indicator {
-  background-color: var(--success-500);
+  background-color: var(--interactive-success);
 }
 
 .progress--color-warning .progress__indicator {
-  background-color: var(--warning-500);
+  background-color: var(--interactive-warning);
 }
 
 .progress--color-error .progress__indicator {
-  background-color: var(--error-500);
+  background-color: var(--interactive-error);
 }
 
 .progress--color-info .progress__indicator {
-  background-color: var(--info-500);
+  background-color: var(--interactive-info);
 }
 
