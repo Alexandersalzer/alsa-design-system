@@ -1,0 +1,164 @@
+/* ==============================================
+   src/design-system/components/forms/ImageCropper/ImageCropper.css
+   IMAGE CROPPER COMPONENT STYLES - Using Design System Tokens
+   ============================================== */
+
+.image-cropper {
+  width: 100%;
+  max-width: 100%;
+}
+
+.image-cropper__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 300px;
+  background: var(--surface-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--foundation-space-4);
+  margin-bottom: var(--foundation-space-4);
+}
+
+/* ReactCrop overrides - using design tokens */
+.image-cropper__crop {
+  width: 100%;
+  max-width: 100%;
+}
+
+.ReactCrop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.ReactCrop__image {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+}
+
+.ReactCrop__crop-selection {
+  border: 2px solid var(--accent-500);
+  box-shadow: 0 0 0 9999em rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+}
+
+.ReactCrop__drag-handle {
+  width: 12px;
+  height: 12px;
+  background: var(--accent-500);
+  border: 2px solid var(--surface-page);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.ReactCrop__drag-handle::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Slider controls */
+.image-cropper__slider {
+  width: 100%;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--surface-subtle);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.image-cropper__slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent-500);
+  cursor: pointer;
+  border: 2px solid var(--surface-page);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all var(--foundation-duration-fast) ease;
+}
+
+.image-cropper__slider::-webkit-slider-thumb:hover {
+  background: var(--accent-600);
+  transform: scale(1.1);
+}
+
+.image-cropper__slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent-500);
+  cursor: pointer;
+  border: 2px solid var(--surface-page);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all var(--foundation-duration-fast) ease;
+}
+
+.image-cropper__slider::-moz-range-thumb:hover {
+  background: var(--accent-600);
+  transform: scale(1.1);
+}
+
+/* Circular crop styling */
+.ReactCrop--circular-crop .ReactCrop__crop-selection {
+  border-radius: 50%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .image-cropper__container {
+    min-height: 200px;
+    padding: var(--foundation-space-2);
+  }
+  
+  .ReactCrop__image {
+    max-height: 50vh;
+  }
+}
+
+/* Dark mode support */
+[data-theme="dark"] .ReactCrop__crop-selection {
+  border-color: var(--accent-400);
+}
+
+[data-theme="dark"] .ReactCrop__drag-handle {
+  background: var(--accent-400);
+  border-color: var(--surface-card);
+}
+
+[data-theme="dark"] .image-cropper__slider {
+  background: var(--surface-card);
+}
+
+[data-theme="dark"] .image-cropper__slider::-webkit-slider-thumb,
+[data-theme="dark"] .image-cropper__slider::-moz-range-thumb {
+  background: var(--accent-400);
+  border-color: var(--surface-card);
+}
+
+/* Accessibility */
+.image-cropper__slider:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 4px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ReactCrop__drag-handle,
+  .image-cropper__slider::-webkit-slider-thumb,
+  .image-cropper__slider::-moz-range-thumb {
+    transition: none;
+  }
+}
+
