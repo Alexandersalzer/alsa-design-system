@@ -61,8 +61,9 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
         const component = components[key];
         if (!component || component.type !== 'portfolio') return acc;
         
-        const props = component.props || {};
-        const mediaSrc = props.mediaSrc || '';
+        // Check both props and direct properties for backwards compatibility
+        const data = component.props || component;
+        const mediaSrc = data.mediaSrc || '';
         if (!mediaSrc) return acc;
 
         // Handle CDN URL transformation
@@ -73,14 +74,14 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
 
         acc.push({
           key,
-          title: props.title || 'Untitled Project',
+          title: data.title || 'Untitled Project',
           mediaSrc: transformedMediaSrc,
-          mediaAlt: props.mediaAlt || props.title || 'Portfolio media',
-          mediaType: props.mediaType === 'video' ? 'video' : 'image',
-          description: props.description,
-          views: props.views,
-          category: props.category,
-          countryCode: props.countryCode
+          mediaAlt: data.mediaAlt || data.title || 'Portfolio media',
+          mediaType: data.mediaType === 'video' ? 'video' : 'image',
+          description: data.description,
+          views: data.views,
+          category: data.category,
+          countryCode: data.countryCode
         });
         
         return acc;
