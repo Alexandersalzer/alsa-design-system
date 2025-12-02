@@ -13,8 +13,7 @@ export type {
   DesignTokensPayload,
   RequestedHeightPayload,
   RequestHeightPayload,
-  DesignTokenUpdatePayload,
-  WebsiteContentPayload
+  DesignTokenUpdatePayload
 } from './types';
 export { ClientToParentMessage, ParentToClientMessage } from './types';
 
@@ -24,4 +23,3 @@ export { ALLOWED_ORIGINS, isOriginAllowed } from './cors';
 
 export { EditingHandler } from './EditingHandler';
 export { applyEditingMode } from './hooks';
-export { useWebsiteContent, usePageContent, usePagesByLocale, useGlobalSections } from './hooks/useWebsiteContent';

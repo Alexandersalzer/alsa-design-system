@@ -96,29 +96,3 @@ export const handleHeightRequest = (iframeId: string, width: number) => {
     }, '*');
   }, 100);
 };
-
-// 📄 Website Content Handler
-export const handleWebsiteContent = (
-  content: { pages: Record<string, any>, globalSections: Record<string, any> },
-  setWebsiteContent: (content: any) => void
-) => {
-  if (!content) return;
-  
-  console.log('[EditingHandler] 📄 Received website content:', content);
-  
-  // Spara content i state
-  setWebsiteContent(content);
-  
-  // Gör content tillgängligt globalt för andra delar av applikationen
-  if (typeof window !== 'undefined') {
-    (window as any).__WEBSITE_CONTENT__ = content;
-    
-    // Dispatcha custom event för att notifiera andra komponenter
-    const event = new CustomEvent('websiteContentUpdated', {
-      detail: content
-    });
-    window.dispatchEvent(event);
-  }
-  
-  console.log('[EditingHandler] ✅ Website content processed and stored');
-};
