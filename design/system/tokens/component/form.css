@@ -148,16 +148,16 @@
 
   /* ===== SWITCH COLORS ===== */
   /* Track */
-  --surface-switch-track: var(--foundation-gray-300);
-  --surface-switch-track-hover: var(--foundation-gray-400);
+  --surface-switch-track: var(--surface-sunken);
+  --surface-switch-track-hover: var(--surface-deep);
   --surface-switch-track-checked: var(--interactive-accent);
   --surface-switch-track-checked-hover: var(--interactive-accent-hover);
-  --surface-switch-track-disabled: var(--foundation-gray-200);
-  --surface-switch-track-disabled-checked: var(--foundation-gray-400);
+  --surface-switch-track-disabled: var(--surface-disabled);
+  --surface-switch-track-disabled-checked: var(--surface-disabled);
   
   /* Thumb */
-  --surface-switch-thumb: var(--foundation-white);
-  --surface-switch-thumb-disabled: var(--foundation-gray-100);
+  --surface-switch-thumb: var(--surface-base);
+  --surface-switch-thumb-disabled: var(--surface-inverse);
   
   /* Border */
   --border-switch-focus: var(--border-focus);

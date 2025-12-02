@@ -248,10 +248,10 @@
 }
 
 .modal__content::-webkit-scrollbar-thumb {
-  background: var(--foundation-gray-300);
+  background: var(--surface-sunken);
   border-radius: var(--foundation-radius-full);
 }
 
 .modal__content::-webkit-scrollbar-thumb:hover {
-  background: var(--foundation-gray-400);
+  background: var(--surface-deep);
 }
