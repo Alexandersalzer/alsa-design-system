@@ -14,7 +14,7 @@
 
 .pagination__info {
   font-size: var(--typography-body-sm-size);
-  color: var(--text-secondary);
+  color: var(--text-muted);
   white-space: nowrap;
 }
 
@@ -27,7 +27,7 @@
 .pagination__page-info {
   font-size: var(--typography-body-sm-size);
   font-weight: var(--typography-body-sm-weight);
-  color: var(--text-primary);
+  color: var(--text-default);
   padding: 0 var(--foundation-space-3);
   white-space: nowrap;
 }

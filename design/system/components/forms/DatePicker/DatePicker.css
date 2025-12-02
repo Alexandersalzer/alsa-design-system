@@ -114,7 +114,7 @@
 
 .date-picker:focus-within:not(.date-picker--disabled):not(.date-picker--readonly),
 .date-picker--open:not(.date-picker--disabled):not(.date-picker--readonly) {
-  border-color: var(--border-input-focus);
+  border-color: var(--border-focus);
   box-shadow: 0 0 0 3px var(--surface-accent-muted);
 }
 
@@ -132,34 +132,67 @@
 }
 
 .date-picker--invalid {
-  border-color: var(--border-input-error);
+  border-color: var(--border-error);
 }
 
-/* ===== INPUT AREA - Contains DateInput ===== */
-.date-picker-input-area {
+/* ===== INPUT AREA - Contains segments ===== */
+.date-picker-input {
   flex: 1;
   display: flex;
   align-items: center;
   min-width: 0;
 }
 
-/* CRITICAL: Make DateInput transparent and borderless inside DatePicker */
-.date-picker-date-input {
-  width: 100%;
+.date-picker-field {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
-.date-picker-date-input-wrapper {
-  border: none !important;
-  background: transparent !important;
-  padding: 0 !important;
-  box-shadow: none !important;
+/* ===== SEGMENTS - Same as DateRangePicker ===== */
+.date-picker-segment {
+  padding: 2px 4px;
+  border-radius: var(--radius-button-sm);
+  font-family: var(--font-mono-family);
+  font-weight: var(--foundation-weight-medium);
+  text-align: center;
+  outline: none;
+  cursor: text;
+  color: var(--text-input);
+  transition: 
+    background-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    color var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
-.date-picker-date-input-wrapper:hover,
-.date-picker-date-input-wrapper:focus-within {
-  border: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
+.date-picker-segment--sm {
+  padding: 1px 3px;
+  font-size: 13px;
+}
+
+.date-picker-segment--md {
+  padding: 2px 4px;
+  font-size: 14px;
+}
+
+.date-picker-segment--lg {
+  padding: 3px 5px;
+  font-size: 16px;
+}
+
+.date-picker-segment--placeholder {
+  color: var(--text-input-placeholder);
+  font-style: italic;
+}
+
+.date-picker-segment--literal {
+  padding: 0 2px;
+  cursor: default;
+  color: var(--text-secondary);
+}
+
+.date-picker-segment:focus {
+  background-color: var(--surface-accent);
+  color: var(--text-button-accent);
 }
 
 /* ===== SELECTOR BUTTON ===== */
@@ -191,22 +224,22 @@
   outline-offset: 2px;
 }
 
-/* ===== POPOVER ===== */
+/* ===== POPOVER - AriaPopover provides background/border/shadow ===== */
 .date-picker-popover {
-  padding: 16px;
+  /* AriaPopover has default padding which we override */
 }
 
-/* ===== CALENDAR CONTENT ===== */
+/* Remove AriaPopover's padding for calendar */
+.aria-popover--no-padding {
+  padding: 0 !important;
+}
+
+/* ===== CALENDAR CONTENT - Now handles its own padding ===== */
 .date-picker-calendar-content {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-/* ===== TIME INPUT WRAPPER ===== */
-.date-picker-time-input-wrapper {
-  padding-top: 12px;
-  border-top: 1px solid var(--border-light);
+  padding: 16px;
 }
 
 /* ===== HELPER/ERROR ===== */
@@ -228,4 +261,15 @@
   font-weight: var(--foundation-weight-normal);
   line-height: var(--font-body-sm-leading);
   color: var(--text-form-hint);
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .date-picker,
+  .date-picker-segment {
+    transition: 
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease !important;
+  }
 }

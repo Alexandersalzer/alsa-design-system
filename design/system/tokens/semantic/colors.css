@@ -10,11 +10,9 @@
    │    - Accent (auto-inverts, set by snippet)  │
    │    - Status (error, success, warning, info) │
    │ 3. SEMANTIC TOKENS (use these!)             │
-   │    - Surfaces                               │
-   │    - Text                                   │
-   │    - Borders                                │
-   │    - Icons                                  │
-   │    - Interactive                            │
+   │    - Grouped by STATUS (not by type)        │
+   │    - Neutral → Accent → Error → Success →   │
+   │      Warning → Info → Interactive           │
    └─────────────────────────────────────────────┘
 
    RULES:
@@ -245,20 +243,25 @@
 /* =============================================================================
    3. SEMANTIC TOKENS
    ✅ USE THESE IN COMPONENTS
+   
+   ORGANIZATION: Tokens are grouped by STATUS/PURPOSE
+   - 3.1  Neutral (layout, general UI)
+   - 3.2  Inverse (high contrast)
+   - 3.3  Overlays (backdrops, scrims)
+   - 3.4  Accent (brand color)
+   - 3.5  Error (destructive, validation)
+   - 3.6  Success (positive feedback)
+   - 3.7  Warning (caution)
+   - 3.8  Info (informational)
+   - 3.9  Interactive (button variants)
+   - 3.10 Shadows (elevation)
+   - 3.11 Intent (auto-adaptive tokens)
    ============================================================================= */
 
 :root {
   /* =========================================================================
-     3.1 SURFACES
-
-     Naming: --surface-[context]
-     Variants: [base], -subtle, -muted
-
-     | Variant | Intensity | Use Case                    |
-     |---------|-----------|------------------------------|
-     | base    | solid     | buttons, solid badges        |
-     | subtle  | light     | toasts, alerts, backgrounds  |
-     | muted   | medium    | badges on subtle, hover      |
+     3.1 NEUTRAL (Layout & General UI)
+     Base surfaces, text, borders, icons for everyday UI elements
      ========================================================================= */
 
   /* ----- Page & Layout ----- */
@@ -269,63 +272,27 @@
   --surface-base: var(--neutral-0);
   --surface-raised: var(--neutral-50);
   --surface-elevated: var(--neutral-100);
+
+  /* NEW: depth surfaces */
+  --surface-sunken: var(--neutral-200); /* subtle inset / muted content blocks */
+  --surface-deep: var(--neutral-300);   /* strong inset / structural elements */
+
+  /* optional */
   --surface-floating: var(--neutral-0);
 
   /* ----- Interactive States ----- */
   --surface-hover: var(--neutral-100);
   --surface-active: var(--neutral-200);
   --surface-selected: var(--neutral-200);
+  --surface-pressed: var(--neutral-300);
   --surface-disabled: var(--neutral-100);
 
-  /* ----- Inverse ----- */
-  --surface-inverse: var(--neutral-1200);
-  --surface-inverse-hover: var(--neutral-1100);
-  --surface-inverse-active: var(--neutral-1000);
-
-  /* ----- Overlays ----- */
-  --surface-backdrop: rgba(0, 0, 0, 0.4);
-  --surface-scrim: rgba(0, 0, 0, 0.6);
-  --surface-overlay: rgba(0, 0, 0, 0.5);
-
-  /* ----- Accent (3 variants) ----- */
-  --surface-accent: var(--accent-600);           /* solid: buttons */
-  --surface-accent-subtle: var(--accent-100);    /* light: toast bg, alert bg */
-  --surface-accent-muted: var(--accent-200);     /* medium: badge, tag */
-
-  /* ----- Error (3 variants) ----- */
-  --surface-error: var(--error-600);             /* solid: destructive button */
-  --surface-error-subtle: var(--error-100);      /* light: error toast, alert */
-  --surface-error-muted: var(--error-200);       /* medium: error badge */
-
-  /* ----- Success (3 variants) ----- */
-  --surface-success: var(--success-600);         /* solid: success button */
-  --surface-success-subtle: var(--success-100);  /* light: success toast */
-  --surface-success-muted: var(--success-200);   /* medium: success badge */
-
-  /* ----- Warning (3 variants) ----- */
-  --surface-warning: var(--warning-600);         /* solid: warning button */
-  --surface-warning-subtle: var(--warning-100);  /* light: warning toast */
-  --surface-warning-muted: var(--warning-200);   /* medium: warning badge */
-
-  /* ----- Info (3 variants) ----- */
-  --surface-info: var(--info-600);               /* solid: info button */
-  --surface-info-subtle: var(--info-100);        /* light: info toast */
-  --surface-info-muted: var(--info-200);         /* medium: info badge */
-
-  /* ----- Input Surfaces (ADDED) ----- */
+  /* ----- Input Surfaces ----- */
   --surface-input: var(--surface-base);
   --surface-input-hover: var(--surface-hover);
   --surface-input-disabled: var(--surface-disabled);
 
-
-  /* =========================================================================
-     3.2 TEXT
-
-     Naming: --text-[hierarchy] or --text-[status]
-     Variants: [base], -strong
-     ========================================================================= */
-
-  /* ----- Hierarchy ----- */
+  /* ----- Text Hierarchy ----- */
   --text-default: var(--neutral-1000);
   --text-strong: var(--neutral-1200);
   --text-muted: var(--neutral-700);
@@ -333,130 +300,243 @@
   --text-disabled: var(--neutral-400);
   --text-placeholder: var(--neutral-400);
 
-  /* ----- Inverse (on dark backgrounds) ----- */
-  --text-inverse: var(--neutral-0);
-  --text-inverse-muted: var(--neutral-400);
-
-  /* ----- On Colored Surfaces ----- */
-  --text-on-accent: var(--always-white);
-  --text-on-error: var(--always-white);
-  --text-on-success: var(--always-white);
-  --text-on-warning: var(--neutral-1200);        /* dark text on yellow! */
-  --text-on-info: var(--always-white);
-
-  /* ----- Accent ----- */
-  --text-accent: var(--accent-700);
-  --text-accent-strong: var(--accent-800);
-
-  /* ----- Error ----- */
-  --text-error: var(--error-700);
-  --text-error-strong: var(--error-800);
-
-  /* ----- Success ----- */
-  --text-success: var(--success-700);
-  --text-success-strong: var(--success-800);
-
-  /* ----- Warning ----- */
-  --text-warning: var(--warning-700);
-  --text-warning-strong: var(--warning-800);
-
-  /* ----- Info ----- */
-  --text-info: var(--info-700);
-  --text-info-strong: var(--info-800);
-
-  /* ----- Links ----- */
-  --text-link: var(--accent-600);
-  --text-link-hover: var(--accent-700);
-
-
-  /* =========================================================================
-     3.3 BORDERS
-
-     Naming: --border-[intensity] or --border-[status]
-     Variants: [base], -subtle
-     ========================================================================= */
-
-  /* ----- Intensity ----- */
+  /* ----- Borders ----- */
   --border-default: var(--neutral-200);
   --border-subtle: var(--neutral-100);
   --border-strong: var(--neutral-300);
   --border-emphasis: var(--neutral-400);
-
-  /* ----- States ----- */
   --border-hover: var(--neutral-300);
-  --border-focus: var(--accent-500);
   --border-active: var(--neutral-400);
-  --border-selected: var(--accent-500);
   --border-disabled: var(--neutral-200);
 
-  /* ----- Inverse ----- */
-  --border-inverse: var(--neutral-1200);
-
-  /* ----- Accent ----- */
-  --border-accent: var(--accent-500);
-  --border-accent-subtle: var(--accent-300);
-
-  /* ----- Error ----- */
-  --border-error: var(--error-500);
-  --border-error-subtle: var(--error-300);
-
-  /* ----- Success ----- */
-  --border-success: var(--success-500);
-  --border-success-subtle: var(--success-300);
-
-  /* ----- Warning ----- */
-  --border-warning: var(--warning-500);
-  --border-warning-subtle: var(--warning-300);
-
-  /* ----- Info ----- */
-  --border-info: var(--info-500);
-  --border-info-subtle: var(--info-300);
-
-  /* ----- Input Borders (ADDED) ----- */
+  /* ----- Input Borders ----- */
   --border-input: var(--border-default);
   --border-input-hover: var(--border-hover);
-  --border-input-focus: var(--border-focus);
   --border-input-active: var(--border-active);
   --border-input-disabled: var(--border-disabled);
-  --border-input-error: var(--border-error);
 
-
-  /* =========================================================================
-     3.4 ICONS
-
-     Naming: --icon-[hierarchy] or --icon-[status]
-     ========================================================================= */
-
-  /* ----- Hierarchy ----- */
+  /* ----- Icons ----- */
   --icon-default: var(--neutral-700);
   --icon-strong: var(--neutral-1000);
   --icon-muted: var(--neutral-500);
   --icon-subtle: var(--neutral-400);
   --icon-disabled: var(--neutral-300);
 
-  /* ----- Inverse ----- */
+
+  /* =========================================================================
+     3.2 INVERSE (High Contrast)
+     For dark-on-light or light-on-dark elements
+     ========================================================================= */
+
+  --surface-inverse: var(--neutral-1200);
+  --surface-inverse-hover: var(--neutral-1100);
+  --surface-inverse-active: var(--neutral-1000);
+
+  --text-inverse: var(--neutral-0);
+  --text-inverse-muted: var(--neutral-400);
+
+  --border-inverse: var(--neutral-1200);
+
   --icon-inverse: var(--neutral-0);
-
-  /* ----- On Colored Surfaces ----- */
-  --icon-on-accent: var(--always-white);
-  --icon-on-error: var(--always-white);
-  --icon-on-success: var(--always-white);
-  --icon-on-warning: var(--neutral-1200);
-  --icon-on-info: var(--always-white);
-
-  /* ----- Status ----- */
-  --icon-accent: var(--accent-600);
-  --icon-error: var(--error-600);
-  --icon-success: var(--success-600);
-  --icon-warning: var(--warning-600);
-  --icon-info: var(--info-600);
 
 
   /* =========================================================================
-     3.5 INTERACTIVE
+     3.3 OVERLAYS
+     Backdrops, scrims, and overlay surfaces
+     ========================================================================= */
 
-     Button and control states
-     Naming: --interactive-[variant]-[state]
+  --surface-backdrop: rgba(0, 0, 0, 0.4);
+  --surface-scrim: rgba(0, 0, 0, 0.6);
+  --surface-overlay: rgba(0, 0, 0, 0.5);
+
+
+  /* =========================================================================
+     3.4 ACCENT
+     Primary brand color - buttons, links, focus, active states
+     
+     Variants:
+     - base:   Solid backgrounds (buttons)
+     - subtle: Light backgrounds (alerts, toasts)
+     - muted:  Medium backgrounds (badges, tags, hover states)
+     ========================================================================= */
+
+  /* ----- Surfaces ----- */
+  --surface-accent: var(--accent-600);
+  --surface-accent-subtle: var(--accent-100);
+  --surface-accent-muted: var(--accent-200);
+
+  /* ----- Text ----- */
+  --text-accent: var(--accent-700);
+  --text-accent-strong: var(--accent-800);
+  --text-accent-subtle: var(--accent-600);
+  --text-on-accent: var(--always-white);
+
+  /* ----- Borders ----- */
+  --border-accent: var(--accent-500);
+  --border-accent-subtle: var(--accent-300);
+  --border-accent-strong: var(--accent-700);
+  --border-focus: var(--accent-500);
+  --border-selected: var(--accent-500);
+
+  /* ----- Icons ----- */
+  --icon-accent: var(--accent-600);
+  --icon-on-accent: var(--always-white);
+
+  /* ----- Links ----- */
+  --text-link: var(--accent-600);
+  --text-link-hover: var(--accent-700);
+
+  /* ----- Interactive (Buttons) ----- */
+  --interactive-accent: var(--accent-600);
+  --interactive-accent-hover: var(--accent-700);
+  --interactive-accent-active: var(--accent-800);
+  --interactive-accent-disabled: var(--accent-400);
+
+
+  /* =========================================================================
+     3.5 ERROR
+     Destructive actions, validation errors, critical alerts
+     
+     Variants:
+     - base:   Solid backgrounds (destructive buttons)
+     - subtle: Light backgrounds (error alerts, toasts)
+     - muted:  Medium backgrounds (error badges, hover states)
+     ========================================================================= */
+
+  /* ----- Surfaces ----- */
+  --surface-error: var(--error-600);
+  --surface-error-subtle: var(--error-100);
+  --surface-error-muted: var(--error-200);
+
+  /* ----- Text ----- */
+  --text-error: var(--error-700);
+  --text-error-strong: var(--error-800);
+  --text-error-subtle: var(--error-600);
+  --text-on-error: var(--always-white);
+
+  /* ----- Borders ----- */
+  --border-error: var(--error-500);
+  --border-error-subtle: var(--error-300);
+  --border-error-strong: var(--error-700);
+
+  /* ----- Icons ----- */
+  --icon-error: var(--error-600);
+  --icon-on-error: var(--always-white);
+
+  /* ----- Interactive (Buttons) ----- */
+  --interactive-destructive: var(--error-600);
+  --interactive-destructive-hover: var(--error-700);
+  --interactive-destructive-active: var(--error-800);
+  --interactive-destructive-disabled: var(--error-400);
+
+
+  /* =========================================================================
+     3.6 SUCCESS
+     Success states, confirmations, positive feedback
+     
+     Variants:
+     - base:   Solid backgrounds (success buttons)
+     - subtle: Light backgrounds (success alerts, toasts)
+     - muted:  Medium backgrounds (success badges, hover states)
+     ========================================================================= */
+
+  /* ----- Surfaces ----- */
+  --surface-success: var(--success-600);
+  --surface-success-subtle: var(--success-100);
+  --surface-success-muted: var(--success-200);
+
+  /* ----- Text ----- */
+  --text-success: var(--success-700);
+  --text-success-strong: var(--success-800);
+  --text-success-subtle: var(--success-600);
+  --text-on-success: var(--always-white);
+
+  /* ----- Borders ----- */
+  --border-success: var(--success-500);
+  --border-success-subtle: var(--success-300);
+  --border-success-strong: var(--success-700);
+
+  /* ----- Icons ----- */
+  --icon-success: var(--success-600);
+  --icon-on-success: var(--always-white);
+
+  /* ----- Interactive (Buttons) ----- */
+  --interactive-success: var(--success-600);
+  --interactive-success-hover: var(--success-700);
+  --interactive-success-active: var(--success-800);
+  --interactive-success-disabled: var(--success-400);
+
+
+  /* =========================================================================
+     3.7 WARNING
+     Warnings, cautions, attention needed
+     
+     Variants:
+     - base:   Solid backgrounds (warning buttons)
+     - subtle: Light backgrounds (warning alerts, toasts)
+     - muted:  Medium backgrounds (warning badges, hover states)
+     
+     Note: Warning uses dark text on solid backgrounds (yellow!)
+     ========================================================================= */
+
+  /* ----- Surfaces ----- */
+  --surface-warning: var(--warning-600);
+  --surface-warning-subtle: var(--warning-100);
+  --surface-warning-muted: var(--warning-200);
+
+  /* ----- Text ----- */
+  --text-warning: var(--warning-700);
+  --text-warning-strong: var(--warning-800);
+  --text-on-warning: var(--neutral-1200);        /* dark text on yellow! */
+
+  /* ----- Borders ----- */
+  --border-warning: var(--warning-500);
+  --border-warning-subtle: var(--warning-300);
+
+  /* ----- Icons ----- */
+  --icon-warning: var(--warning-600);
+  --icon-on-warning: var(--neutral-1200);
+
+  /* ----- Interactive (Buttons) ----- */
+  --interactive-warning: var(--warning-600);
+  --interactive-warning-hover: var(--warning-700);
+  --interactive-warning-active: var(--warning-800);
+  --interactive-warning-disabled: var(--warning-400);
+
+
+  /* =========================================================================
+     3.8 INFO
+     Informational messages, tips, helpful content
+     
+     Variants:
+     - base:   Solid backgrounds (info buttons)
+     - subtle: Light backgrounds (info alerts, toasts)
+     - muted:  Medium backgrounds (info badges, hover states)
+     ========================================================================= */
+
+  /* ----- Surfaces ----- */
+  --surface-info: var(--info-600);
+  --surface-info-subtle: var(--info-100);
+  --surface-info-muted: var(--info-200);
+
+  /* ----- Text ----- */
+  --text-info: var(--info-700);
+  --text-info-strong: var(--info-800);
+  --text-info-subtle: var(--info-600);
+  --text-on-info: var(--always-white);
+
+  /* ----- Borders ----- */
+  --border-info: var(--info-500);
+  --border-info-subtle: var(--info-300);
+
+  /* ----- Icons ----- */
+  --icon-info: var(--info-600);
+  --icon-on-info: var(--always-white);
+
+
+  /* =========================================================================
+     3.9 INTERACTIVE (Primary/Secondary/Tertiary Buttons)
+     General button variants independent of status
      ========================================================================= */
 
   /* ----- Primary (dark/inverse) ----- */
@@ -476,38 +556,12 @@
   --interactive-tertiary-hover: var(--neutral-100);
   --interactive-tertiary-active: var(--neutral-200);
 
-  /* ----- Accent (snippet.ts overrides for inverse mode) ----- */
-  --interactive-accent: var(--accent-600);
-  --interactive-accent-hover: var(--accent-700);
-  --interactive-accent-active: var(--accent-800);
-  --interactive-accent-disabled: var(--accent-400);
-
-  /* ----- Destructive ----- */
-  --interactive-destructive: var(--error-600);
-  --interactive-destructive-hover: var(--error-700);
-  --interactive-destructive-active: var(--error-800);
-  --interactive-destructive-disabled: var(--error-400);
-
-  /* ----- Success ----- */
-  --interactive-success: var(--success-600);
-  --interactive-success-hover: var(--success-700);
-  --interactive-success-active: var(--success-800);
-  --interactive-success-disabled: var(--success-400);
-
-  /* ----- Warning ----- */
-  --interactive-warning: var(--warning-600);
-  --interactive-warning-hover: var(--warning-700);
-  --interactive-warning-active: var(--warning-800);
-  --interactive-warning-disabled: var(--warning-400);
-
 
   /* =========================================================================
-     3.6 SHADOWS
-
+     3.10 SHADOWS
      Semantic shadow tokens for elevation
      ========================================================================= */
 
-  /* ----- Elevation Shadows ----- */
   --shadow-subtle: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-default: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
   --shadow-emphasis: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
@@ -516,8 +570,8 @@
 
 
   /* =========================================================================
-     3.7 INTENT TOKENS (AUTO-ADAPTIVE)
-
+     3.11 INTENT TOKENS (AUTO-ADAPTIVE)
+     
      🎯 These tokens automatically adapt based on accent intensity
      🎨 Components should use THESE instead of direct semantic tokens
      ⚙️ snippet.ts sets [data-accent-intensity] attribute
@@ -530,41 +584,41 @@
      ========================================================================= */
 
   /* ----- Action Intents (Buttons, CTAs) ----- */
-  --intent-action-primary: var(--interactive-accent);           /* Main CTA - adapts */
+  --intent-action-primary: var(--interactive-accent);
   --intent-action-primary-hover: var(--interactive-accent-hover);
   --intent-action-primary-active: var(--interactive-accent-active);
   --intent-action-primary-disabled: var(--interactive-accent-disabled);
 
-  --intent-action-secondary: var(--interactive-secondary);      /* Secondary action - adapts */
+  --intent-action-secondary: var(--interactive-secondary);
   --intent-action-secondary-hover: var(--interactive-secondary-hover);
   --intent-action-secondary-active: var(--interactive-secondary-active);
   --intent-action-secondary-disabled: var(--interactive-secondary-disabled);
 
   /* ----- Navigation Intents ----- */
-  --intent-nav-item-active-bg: var(--surface-accent-muted);    /* Active nav background - adapts */
-  --intent-nav-item-active-text: var(--text-accent);           /* Active nav text - adapts */
-  --intent-nav-item-active-icon: var(--icon-accent);           /* Active nav icon - adapts */
-  --intent-nav-item-active-border: var(--border-accent);       /* Active nav border - adapts */
+  --intent-nav-item-active-bg: var(--surface-accent-muted);
+  --intent-nav-item-active-text: var(--text-accent);
+  --intent-nav-item-active-icon: var(--icon-accent);
+  --intent-nav-item-active-border: var(--border-accent);
 
   /* ----- Link Intents ----- */
-  --intent-link: var(--text-link);                             /* Link color - adapts */
-  --intent-link-hover: var(--text-link-hover);                 /* Link hover - adapts */
+  --intent-link: var(--text-link);
+  --intent-link-hover: var(--text-link-hover);
 
   /* ----- Focus Intents ----- */
-  --intent-focus-ring: var(--border-focus);                    /* Focus ring - adapts */
-  --intent-focus-bg: var(--surface-accent-subtle);             /* Focus background - adapts */
+  --intent-focus-ring: var(--border-focus);
+  --intent-focus-bg: var(--surface-accent-subtle);
 
   /* ----- Badge/Tag Intents ----- */
-  --intent-badge-bg: var(--surface-accent-muted);              /* Badge background - adapts */
-  --intent-badge-text: var(--text-accent);                     /* Badge text - adapts */
-  --intent-badge-border: var(--border-accent-subtle);          /* Badge border - adapts */
+  --intent-badge-bg: var(--surface-accent-muted);
+  --intent-badge-text: var(--text-accent);
+  --intent-badge-border: var(--border-accent-subtle);
 
   /* ----- Icon Intents ----- */
-  --intent-icon-accent: var(--icon-accent);                    /* Accent icons - adapts */
+  --intent-icon-accent: var(--icon-accent);
 
   /* ----- Text on Intent Backgrounds ----- */
-  --intent-text-on-action: var(--text-on-accent);              /* Text on action buttons */
-  --intent-icon-on-action: var(--icon-on-accent);              /* Icons on action buttons */
+  --intent-text-on-action: var(--text-on-accent);
+  --intent-icon-on-action: var(--icon-on-accent);
 }
 
 
@@ -680,19 +734,12 @@
   --text-secondary: var(--text-muted);
   --text-tertiary: var(--text-subtle);
 
+  /* ----- OVANFÖR ÄR CLARO I UI  ----- */
+
   /* ----- Old icon naming ----- */
   --icon-primary: var(--icon-strong);
   --icon-secondary: var(--icon-default);
   --icon-tertiary: var(--icon-muted);
-
-  /* ----- Old surface naming ----- */
-  --surface-card: var(--surface-base);
-  --surface-card-hover: var(--surface-hover);
-
-  /* ----- Old border naming ----- */
-  --border-light: var(--border-subtle);
-  --border-light-hover: var(--border-default);
-  --border-light-active: var(--border-strong);
 
   /* ===== STATUS SHORTCUTS (from shortcuts.css) ===== */
 

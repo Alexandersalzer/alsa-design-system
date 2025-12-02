@@ -149,7 +149,7 @@
   padding: var(--foundation-space-2) var(--foundation-space-3);
   font-size: var(--font-label-xs-size);
   font-weight: var(--foundation-weight-semibold);
-  color: var(--text-secondary);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }

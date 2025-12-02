@@ -7,7 +7,7 @@
     /* ===== CARD SURFACES ===== */
     --surface-card: var(--surface-page);                  /* Already defined in semantic */
     --surface-card-solid: var(--surface-elevated);              /* Darker/solid card surface */
-    --surface-card-hover: var(--surface-elevated);        /* Already defined in semantic */
+    --surface-card-hover: var(--surface-hover);        /* Already defined in semantic */
     --surface-card-selected: var(--surface-elevated);
     
     /* ===== CARD BORDERS ===== */
@@ -18,13 +18,13 @@
     /* ===== CARD TEXT COLORS ===== */
     --text-card-primary: var(--text-primary);               /* Using semantic text tokens */
     --text-card-secondary: var(--text-secondary);           /* Using semantic text tokens */
-    --text-card-tertiary: var(--text-tertiary);             /* Using semantic text tokens */
+    --text-card-tertiary: var(--text-subtle);             /* Using semantic text tokens */
     --text-card-heading: var(--text-primary);
     --text-card-body: var(--text-secondary);
     
     /* ===== CARD ICON COLORS ===== */
-    --icon-card-primary: var(--icon-primary);               /* Using semantic icon tokens */
-    --icon-card-secondary: var(--icon-secondary);           /* Using semantic icon tokens */
+    --icon-card-primary: var(--icon-strong);               /* Using semantic icon tokens */
+    --icon-card-secondary: var(--icon-default);           /* Using semantic icon tokens */
     
     /* ===== CARD SHADOWS ===== */
     --shadow-card: var(--shadow-subtle);                    /* Using semantic shadow tokens */

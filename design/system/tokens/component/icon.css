@@ -20,13 +20,11 @@
   --icon-stroke-medium: 2;
   --icon-stroke-bold: 3;
 
-  /* ===== ICON COLORS - Reference semantic tokens ===== */
-  /* ✅ KEEP: These reference semantic tokens but provide component-specific context */
   /* ===== ICON COLORS - Component-specific only ===== */
-  --icon-heading: var(--icon-primary);        /* Component context */
-  --icon-body: var(--icon-secondary);         /* Component context */
-  --icon-muted: var(--icon-secondary);        /* Alias for consistency */
-  --icon-subtle: var(--icon-tertiary);   
+  --icon-heading: var(--icon-strong);         /* Component context */
+  --icon-body: var(--icon-default);           /* Component context */
+  --icon-card-primary: var(--icon-strong);
+  --icon-card-secondary: var(--icon-default);   
 
   --icon-button-primary: var(--text-button-primary);
   --icon-button-secondary: var(--text-button-secondary);
@@ -35,9 +33,9 @@
   --icon-button-destructive: var(--text-inverse);
   --icon-button-disabled: var(--text-button-primary-disabled);
 
-  --icon-user-menu: var(--icon-primary);
-  --icon-search: var(--icon-secondary);
-  --icon-empty-state: var(--icon-secondary);
+  --icon-user-menu: var(--icon-strong);
+  --icon-search: var(--icon-default);
+  --icon-empty-state: var(--icon-default);
 
   /* ===== SMART BUTTON ICON COLORS ===== */
   /* ✅ KEEP: These are component-specific and don't exist in semantic */
@@ -56,12 +54,7 @@
   --icon-nav-item-disabled: var(--icon-nav-item-disabled);   /* Uses semantic token */
 
   /* ===== CONTEXT-SPECIFIC ICON COLORS ===== */
-  /* ✅ KEEP: Component-specific contexts not covered by semantic */
-  --icon-user-menu: var(--text-primary);
-  --icon-search: var(--icon-secondary);
-  --icon-empty-state: var(--icon-secondary);
-  --icon-card-primary: var(--text-primary);
-  --icon-card-secondary: var(--icon-secondary);
+  /* Component-specific contexts */
 }
 
 /* ==============================================
@@ -118,13 +111,12 @@
 .icon-weight-bold { stroke-width: var(--icon-stroke-bold); }
 
 /* ===== BASIC ICON COLORS ===== */
-/* ✅ KEEP: These provide utility classes for semantic tokens */
-.icon-primary { color: var(--icon-primary); }
-.icon-secondary { color: var(--icon-secondary); }
-.icon-tertiary { color: var(--icon-tertiary); }
+.icon-default { color: var(--icon-default); }
+.icon-strong { color: var(--icon-strong); }
+.icon-muted { color: var(--icon-muted); }
+.icon-subtle { color: var(--icon-subtle); }
 .icon-disabled { color: var(--icon-disabled); }
 .icon-inverse { color: var(--icon-inverse); }
-.icon-brand { color: var(--icon-brand); }
 
 /* ===== COMPONENT-SPECIFIC ICON COLORS ===== */
 .icon-heading { color: var(--icon-heading); }
@@ -133,8 +125,6 @@
 .icon-success { color: var(--icon-success); }
 .icon-warning { color: var(--icon-warning); }
 .icon-error { color: var(--icon-error); }
-.icon-muted { color: var(--icon-muted); }
-.icon-subtle { color: var(--icon-subtle); }
 
 /* ===== SMART BUTTON ICON COLORS ===== */
 /* ✅ KEEP: These are the magic classes for button icons! */
@@ -266,7 +256,7 @@
   right: -2px;
   width: 8px;
   height: 8px;
-  background: var(--error-500);
+  background: var(--surface-error);
   border: 2px solid var(--surface-page);
   border-radius: 50%;
 }

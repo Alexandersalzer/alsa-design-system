@@ -121,7 +121,7 @@
 }
 
 .textarea--error {
-  border-color: var(--border-input-error);
+  border-color: var(--border-error);
 }
 
 .textarea--error:focus {
@@ -218,7 +218,7 @@
 
 /* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION) ===== */
 .textarea:focus-visible {
-  outline: 2px solid var(--border-input-focus);
+  outline: 2px solid var(--border-focus);
   outline-offset: 2px;
 }
 

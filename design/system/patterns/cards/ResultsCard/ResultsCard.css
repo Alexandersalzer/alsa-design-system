@@ -9,7 +9,7 @@
 
 /* ===== IMAGE CARD CONTAINER ===== */
 .results-card-image-container {
-  background-color: var(--secondary-100);
+  background-color: var(--surface-raised);
   /* Image component handles: radius, aspect-ratio, loading, skeleton */
   display: flex;
   align-items: center;

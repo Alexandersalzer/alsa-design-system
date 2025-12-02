@@ -185,8 +185,8 @@ export const DesignRadioCardItem = forwardRef<HTMLDivElement, DesignRadioCardIte
         // ✅ FIXED: Ensure proper styling for interaction
         position: 'relative',
         transition: 'all 0.15s ease',
-        border: `2px solid ${checked ? 'var(--accent-500)' : 'var(--border-input)'}`,
-        backgroundColor: checked ? 'var(--secondary-100)' : 'var(--surface-card, white)',
+        border: `2px solid ${checked ? 'var(--border-accent)' : 'var(--border-input)'}`,
+        backgroundColor: checked ? 'var(--surface-base)' : 'var(--surface-elevated)',
         ...props.style
       }}
       {...props}

@@ -68,7 +68,7 @@
 }
 
 .input:focus {
-  border-color: var(--border-input-focus);
+  border-color: var(--border-focus);
   box-shadow: 0 0 0 3px var(--surface-accent-subtle);
 }
 
@@ -202,7 +202,7 @@
 
 /* ===== INPUT ERROR STATE ===== */
 .input-error {
-  border-color: var(--border-input-error) !important;
+  border-color: var(--border-error) !important;
 }
 
 .input-error:focus {
@@ -215,7 +215,7 @@
   font-size: var(--font-body-xs-size);
   font-weight: var(--font-body-weight);
   line-height: var(--font-body-xs-leading);
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 .input-help-error {
@@ -293,8 +293,8 @@
 }
 
 .input-clear-button:hover {
-  background-color: var(--surface-subtle);
-  color: var(--icon-primary);
+  background-color: var(--surface-hover);
+  color: var(--icon-strong);
 }
 
 .input-clear-button:focus-visible {

@@ -1,4 +1,4 @@
-export * from './client';
+/* Deprecated now export * from './client'; */
 export * from './dashboard';
 export * from './shared/sectionBody'
 export * from './forms';

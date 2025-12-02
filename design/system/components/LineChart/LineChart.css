@@ -5,7 +5,7 @@
 
 /* ===== BASE LINECHART STYLES ===== */
 .line-chart {
-  background-color: var(--surface-card);
+  background-color: var(--surface-base);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-card);
   padding: var(--foundation-space-6);
@@ -41,14 +41,14 @@
 .line-chart__title {
   font-size: var(--foundation-font-size-lg);
   font-weight: var(--foundation-font-weight-semibold);
-  color: var(--text-primary);
+  color: var(--text-default);
   margin: 0 0 var(--foundation-space-2) 0;
   line-height: var(--foundation-line-height-tight);
 }
 
 .line-chart__subtitle {
   font-size: var(--foundation-font-size-sm);
-  color: var(--text-secondary);
+  color: var(--text-muted);
   margin: 0;
   line-height: var(--foundation-line-height-normal);
 }
@@ -69,7 +69,7 @@
 
 /* ===== GRID LINES ===== */
 .line-chart__grid-line {
-  stroke: var(--border-subtle);
+  stroke: var(--border-default);
   stroke-width: 1;
   opacity: 0.5;
 }
@@ -116,7 +116,7 @@
 /* ===== DATA POINTS ===== */
 .line-chart__dot {
   fill: var(--color-primary);
-  stroke: var(--surface-card);
+  stroke: var(--surface-base);
   stroke-width: 2;
   transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
   cursor: pointer;
@@ -133,7 +133,7 @@
 .line-chart__label {
   font-family: var(--foundation-font-family-sans);
   font-size: var(--foundation-font-size-xs);
-  fill: var(--text-secondary);
+  fill: var(--text-muted);
   font-weight: var(--foundation-font-weight-medium);
   white-space: nowrap;
 }
@@ -152,7 +152,7 @@
 .line-chart__axis-label {
   font-family: var(--foundation-font-family-sans);
   font-size: var(--foundation-font-size-sm);
-  fill: var(--text-primary);
+  fill: var(--text-default);
   font-weight: var(--foundation-font-weight-semibold);
 }
 
@@ -241,8 +241,8 @@
 }
 
 .line-chart__tooltip-content {
-  background-color: var(--surface-elevated, #ffffff);
-  border: 2px solid var(--color-primary, #3b82f6);
+  background-color: var(--surface-elevated);
+  border: 2px solid var(--color-primary);
   border-radius: var(--radius-md, 8px);
   padding: var(--foundation-space-3, 12px) var(--foundation-space-4, 16px);
   box-shadow: var(--foundation-shadow-xl, 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04));
@@ -255,13 +255,13 @@
 }
 
 .line-chart__tooltip-label {
-  color: var(--text-secondary, #6b7280);
+  color: var(--text-secondary);
   font-weight: var(--foundation-font-weight-medium, 500);
   margin-bottom: var(--foundation-space-1, 4px);
 }
 
 .line-chart__tooltip-value {
-  color: var(--text-primary, #111827);
+  color: var(--text-primary);
   font-weight: var(--foundation-font-weight-semibold, 600);
   font-size: var(--foundation-font-size-base, 16px);
 }
@@ -274,26 +274,26 @@
   left: 50%;
   transform: translateX(-50%);
   border: 5px solid transparent;
-  border-top-color: var(--surface-elevated, #ffffff);
+  border-top-color: var(--surface-elevated);
 }
 
 /* Dark theme tooltip */
 @media (prefers-color-scheme: dark) {
   .line-chart__tooltip-content {
-    background-color: var(--surface-elevated-dark, #374151);
-    border-color: var(--border-strong-dark, #4b5563);
+    background-color: var(--surface-elevated-dark);
+    border-color: var(--border-strong-dark);
   }
   
   .line-chart__tooltip-label {
-    color: var(--text-secondary-dark, #9ca3af);
+    color: var(--text-secondary-dark);
   }
   
   .line-chart__tooltip-value {
-    color: var(--text-primary-dark, #f9fafb);
+    color: var(--text-primary-dark);
   }
   
   .line-chart__tooltip-content::after {
-    border-top-color: var(--surface-elevated-dark, #374151);
+    border-top-color: var(--surface-elevated-dark);
   }
 }
 

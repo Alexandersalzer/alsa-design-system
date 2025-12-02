@@ -108,7 +108,7 @@
   justify-content: center;
   border-radius: var(--foundation-radius-sm);
   cursor: pointer;
-  color: var(--icon-secondary);
+  color: var(--icon-default);
   font-size: 20px;
   line-height: 1;
   transition: all var(--foundation-duration-fast) var(--foundation-ease-out);
@@ -116,13 +116,13 @@
 
 .popover-close-trigger:hover {
   background-color: var(--surface-hover);
-  color: var(--icon-primary);
+  color: var(--icon-strong);
 }
 
 /* ===== POPOVER SECTIONS ===== */
 .popover-header {
   padding: 16px;
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .popover-header--sm {
@@ -148,7 +148,7 @@
 
 .popover-footer {
   padding: 16px;
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .popover-footer--sm {
@@ -166,7 +166,7 @@
   font-size: var(--font-body-lg-size);
   font-weight: var(--foundation-weight-semibold);
   line-height: var(--font-body-lg-leading);
-  color: var(--text-primary);
+  color: var(--text-default);
 }
 
 .popover-description {
@@ -175,7 +175,7 @@
   font-size: var(--font-body-sm-size);
   font-weight: var(--foundation-weight-normal);
   line-height: var(--font-body-sm-leading);
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 /* ===== SCROLLBAR STYLING ===== */
@@ -184,7 +184,7 @@
 }
 
 .popover-body::-webkit-scrollbar-track {
-  background: var(--surface-subtle);
+  background: var(--surface-raised);
 }
 
 .popover-body::-webkit-scrollbar-thumb {

@@ -8,7 +8,7 @@
   --space-toast-gap: var(--space-card-gap-sm);          /* 12px gap */
 
   /* ===== TOAST RADIUS ===== */
-  --radius-toast: var(--foundation-radius-lg);
+  --radius-toast: var(--radius-button);
 
   /* ===== TOAST SHADOW ===== */
   --shadow-toast: var(--shadow-strong);

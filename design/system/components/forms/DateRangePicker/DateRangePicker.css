@@ -1,6 +1,6 @@
 /* ===============================================
    blimpify-ui/design/system/components/forms/DateRangePicker/DateRangePicker.css
-   DATE RANGE PICKER STYLES - Uses semantic and foundation tokens
+   DATE RANGE PICKER - FIXED: Single calendar with range selection
    =============================================== */
 
 /* ===== DATE RANGE PICKER WRAPPER ===== */
@@ -9,11 +9,6 @@
   flex-direction: column;
   gap: 6px;
   position: relative;
-}
-
-.date-range-picker-wrapper--disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
 }
 
 /* ===== LABEL ===== */
@@ -25,13 +20,7 @@
   color: var(--text-form-label);
   margin-bottom: 4px;
   display: block;
-  cursor: pointer;
   user-select: none;
-}
-
-.date-range-picker-wrapper--disabled .date-range-picker-label {
-  color: var(--text-form-label-disabled);
-  cursor: not-allowed;
 }
 
 .date-range-picker-label__required {
@@ -123,8 +112,9 @@
   background-color: var(--surface-input-hover);
 }
 
-.date-range-picker:focus-within:not(.date-range-picker--disabled):not(.date-range-picker--readonly) {
-  border-color: var(--border-input-focus);
+.date-range-picker:focus-within:not(.date-range-picker--disabled):not(.date-range-picker--readonly),
+.date-range-picker--open:not(.date-range-picker--disabled):not(.date-range-picker--readonly) {
+  border-color: var(--border-focus);
   box-shadow: 0 0 0 3px var(--surface-accent-muted);
 }
 
@@ -142,7 +132,7 @@
 }
 
 .date-range-picker--invalid {
-  border-color: var(--border-input-error);
+  border-color: var(--border-error);
 }
 
 /* ===== INPUT FIELDS ===== */
@@ -215,38 +205,49 @@
 
 /* ===== SELECTOR BUTTON ===== */
 .date-range-picker-selector-button {
-  /* IconButton styles handle this */
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: color var(--foundation-duration-fast) var(--foundation-ease-out);
+  flex-shrink: 0;
+  padding: 4px;
+  border-radius: 4px;
 }
 
-/* ===== POPOVER CONTENT ===== */
-.date-range-picker-popover-content {
-  padding: 16px;
+.date-range-picker-selector-button:hover:not(:disabled) {
+  color: var(--text-primary);
+  background-color: var(--surface-hover);
 }
 
-/* ===== CALENDAR WRAPPER ===== */
-.date-range-picker-calendar-wrapper {
+.date-range-picker-selector-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.date-range-picker-selector-button:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* ===== POPOVER ===== */
+.date-range-picker-popover {
+  /* AriaPopover provides background, we override padding */
+}
+
+/* Remove AriaPopover's padding */
+.aria-popover--no-padding {
+  padding: 0 !important;
+}
+
+/* ===== CALENDAR CONTENT ===== */
+.date-range-picker-calendar-content {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.date-range-picker-calendar {
-  /* Range calendar styles */
-}
-
-/* ===== RANGE CALENDAR PLACEHOLDER ===== */
-.range-calendar {
-  display: flex;
-  gap: 16px;
-}
-
-.range-calendar-placeholder {
-  padding: 40px;
-  text-align: center;
-  color: var(--text-secondary);
-  border: 2px dashed var(--border-light);
-  border-radius: var(--radius-card);
-  background-color: var(--surface-hover);
+  padding: 16px;
 }
 
 /* ===== HELPER/ERROR ===== */

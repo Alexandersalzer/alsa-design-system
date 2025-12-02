@@ -26,40 +26,40 @@
   --radius-alert: var(--foundation-radius-lg);
 
   /* INFO */
-  --surface-alert-info-subtle: color-mix(in srgb, var(--info-500) 10%, white 90%);
-  --border-alert-info-subtle: var(--info-300);
-  --text-alert-info: var(--info-700);
-  --surface-alert-info-solid: var(--info-500);
-  --border-alert-info-solid: var(--info-600);
-  --text-alert-info-solid: var(--surface-page);
-  --border-alert-info-outline: var(--info-500);
+  --surface-alert-info-subtle: var(--surface-info-subtle);
+  --border-alert-info-subtle: var(--border-info-subtle);
+  --text-alert-info: var(--text-info);
+  --surface-alert-info-solid: var(--surface-info);
+  --border-alert-info-solid: var(--border-info);
+  --text-alert-info-solid: var(--text-on-info);
+  --border-alert-info-outline: var(--border-info);
 
   /* SUCCESS */
-  --surface-alert-success-subtle: color-mix(in srgb, var(--success-500) 10%, white 90%);
-  --border-alert-success-subtle: var(--success-300);
-  --text-alert-success: var(--success-700);
-  --surface-alert-success-solid: var(--success-500);
-  --border-alert-success-solid: var(--success-600);
-  --text-alert-success-solid: var(--surface-page);
-  --border-alert-success-outline: var(--success-500);
+  --surface-alert-success-subtle: var(--surface-success-subtle);
+  --border-alert-success-subtle: var(--border-success-subtle);
+  --text-alert-success: var(--text-success);
+  --surface-alert-success-solid: var(--surface-success);
+  --border-alert-success-solid: var(--border-success);
+  --text-alert-success-solid: var(--text-on-success);
+  --border-alert-success-outline: var(--border-success);
 
   /* WARNING */
-  --surface-alert-warning-subtle: color-mix(in srgb, var(--warning-500) 10%, white 90%);
-  --border-alert-warning-subtle: var(--warning-300);
-  --text-alert-warning: var(--warning-800);
-  --surface-alert-warning-solid: var(--warning-500);
-  --border-alert-warning-solid: var(--warning-600);
-  --text-alert-warning-solid: var(--warning-950);
-  --border-alert-warning-outline: var(--warning-500);
+  --surface-alert-warning-subtle: var(--surface-warning-subtle);
+  --border-alert-warning-subtle: var(--border-warning-subtle);
+  --text-alert-warning: var(--text-warning-strong);
+  --surface-alert-warning-solid: var(--surface-warning);
+  --border-alert-warning-solid: var(--border-warning);
+  --text-alert-warning-solid: var(--text-on-warning);
+  --border-alert-warning-outline: var(--border-warning);
 
   /* ERROR */
-  --surface-alert-error-subtle: color-mix(in srgb, var(--error-500) 10%, white 90%);
-  --border-alert-error-subtle: var(--error-300);
-  --text-alert-error: var(--error-700);
-  --surface-alert-error-solid: var(--error-500);
-  --border-alert-error-solid: var(--error-600);
-  --text-alert-error-solid: var(--surface-page);
-  --border-alert-error-outline: var(--error-500);
+  --surface-alert-error-subtle: var(--surface-error-subtle);
+  --border-alert-error-subtle: var(--border-error-subtle);
+  --text-alert-error: var(--text-error);
+  --surface-alert-error-solid: var(--surface-error);
+  --border-alert-error-solid: var(--border-error);
+  --text-alert-error-solid: var(--text-on-error);
+  --border-alert-error-outline: var(--border-error);
 
 
   /* ==========================================================
@@ -126,42 +126,42 @@
   
   /* DEFAULT - Primary text, subtle accent background */
   --surface-banner-default: var(--surface-page);
-  --text-banner-default: var(--text-primary);
-  --icon-banner-default: var(--icon-primary);
-  
-  /* LOADING - Primary text, subtle accent background */
-  --surface-banner-loading: color-mix(in srgb, var(--neutral-300) 10%, transparent 90%);
-  --text-banner-loading: var(--text-primary);
-  --icon-banner-loading: var(--icon-primary);
+  --text-banner-default: var(--text-default);
+  --icon-banner-default: var(--icon-default);
 
-  /* INFO - Primary text, subtle accent background */
-  --surface-banner-accent: color-mix(in srgb, var(--accent-300) 10%, transparent 90%);
-  --text-banner-accent: var(--text-primary);
-  --icon-banner-accent: var(--icon-primary);
-  
-  /* INFO - Primary text, subtle accent background */
-  --surface-banner-info: color-mix(in srgb, var(--info-300) 10%, transparent 90%);
-  --text-banner-info: var(--text-primary);
-  --icon-banner-info: var(--icon-primary);
-  
-  /* SUCCESS - NOT USED FOR AVAILABILITY */
-  --surface-banner-success: color-mix(in srgb, var(--success-300) 10%, transparent 90%);
-  --text-banner-success: var(--text-primary);
-  --icon-banner-success: var(--icon-primary);
-  
-  /* WARNING - Subtle error background for 3 spots left */
-  --surface-banner-warning: color-mix(in srgb, var(--warning-300) 10%, transparent 90%);
-  --text-banner-warning: var(--text-primary);
-  --icon-banner-warning: var(--icon-primary);
-  
-  /* ERROR - Subtle error background for 1 spot left */
-  --surface-banner-error: color-mix(in srgb, var(--error-300) 10%, transparent 90%);
-  --text-banner-error: var(--text-primary);
-  --icon-banner-error: var(--icon-primary);
-  
+  /* LOADING - Default text on subtle background */
+  --surface-banner-loading: var(--surface-raised);
+  --text-banner-loading: var(--text-default);
+  --icon-banner-loading: var(--icon-default);
+
+  /* ACCENT */
+  --surface-banner-accent: var(--surface-accent-subtle);
+  --text-banner-accent: var(--text-default);
+  --icon-banner-accent: var(--icon-accent);
+
+  /* INFO */
+  --surface-banner-info: var(--surface-info-subtle);
+  --text-banner-info: var(--text-default);
+  --icon-banner-info: var(--icon-info);
+
+  /* SUCCESS */
+  --surface-banner-success: var(--surface-success-subtle);
+  --text-banner-success: var(--text-default);
+  --icon-banner-success: var(--icon-success);
+
+  /* WARNING */
+  --surface-banner-warning: var(--surface-warning-subtle);
+  --text-banner-warning: var(--text-default);
+  --icon-banner-warning: var(--icon-warning);
+
+  /* ERROR */
+  --surface-banner-error: var(--surface-error-subtle);
+  --text-banner-error: var(--text-default);
+  --icon-banner-error: var(--icon-error);
+
   /* ===== BANNER ACTION TOKENS ===== */
-  --text-banner-action: var(--text-primary);
-  --text-banner-action-hover: var(--text-secondary);
+  --text-banner-action: var(--text-default);
+  --text-banner-action-hover: var(--text-muted);
 }
 
 /* ==============================================

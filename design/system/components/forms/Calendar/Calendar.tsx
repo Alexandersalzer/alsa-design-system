@@ -65,6 +65,9 @@ export interface CalendarProps {
   onChange?: (value: DateValue) => void;
   onFocusChange?: (date: DateValue) => void;
   id?: string;
+  // Range picker props
+  isRangePicker?: boolean;
+  rangeValue?: { start: DateValue | null; end: DateValue | null } | null;
 }
 
 // ===============================================
@@ -95,6 +98,8 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
   onChange,
   onFocusChange,
   id: providedId,
+  isRangePicker = false,
+  rangeValue = null,
   ...props
 }, ref) => {
   const { locale } = useLocale();
@@ -162,7 +167,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
       }}
       id={id}
       className={baseClasses}
-      style={{ width: calendarWidth }}
+      style={{ width: calendarWidth ? `${calendarWidth}px` : '100%' }}
     >
       {/* Top Content */}
       {topContent && (
@@ -208,6 +213,8 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
             size={size}
             isDateUnavailable={isDateUnavailable}
             classNames={classNames}
+            isRangePicker={isRangePicker}
+            rangeValue={rangeValue}
           />
         ))}
       </div>
@@ -234,9 +241,11 @@ interface CalendarGridProps {
   size: CalendarSize;
   isDateUnavailable?: (date: DateValue) => boolean;
   classNames?: CalendarProps['classNames'];
+  isRangePicker?: boolean;
+  rangeValue?: { start: DateValue | null; end: DateValue | null } | null;
 }
 
-function CalendarGrid({ state, offset, size, isDateUnavailable, classNames }: CalendarGridProps) {
+function CalendarGrid({ state, offset, size, isDateUnavailable, classNames, isRangePicker, rangeValue }: CalendarGridProps) {
   const { locale } = useLocale();
   const gridRef = React.useRef<HTMLTableElement>(null);
   
@@ -285,6 +294,8 @@ function CalendarGrid({ state, offset, size, isDateUnavailable, classNames }: Ca
                     currentMonth={startDate}
                     isDateUnavailable={isDateUnavailable}
                     classNames={classNames}
+                    isRangePicker={isRangePicker}
+                    rangeValue={rangeValue}
                   />
                 ) : <td key={i} />
               )}
@@ -306,9 +317,11 @@ interface CalendarCellProps {
   currentMonth: DateValue;
   isDateUnavailable?: (date: DateValue) => boolean;
   classNames?: CalendarProps['classNames'];
+  isRangePicker?: boolean;
+  rangeValue?: { start: DateValue | null; end: DateValue | null } | null;
 }
 
-function CalendarCell({ state, date, size, currentMonth, isDateUnavailable, classNames }: CalendarCellProps) {
+function CalendarCell({ state, date, size, currentMonth, isDateUnavailable, classNames, isRangePicker, rangeValue }: CalendarCellProps) {
   const ref = React.useRef<HTMLButtonElement>(null);
   const { cellProps, buttonProps, isSelected, isDisabled, isUnavailable, formattedDate } = useCalendarCell(
     { date: date as any },
@@ -318,6 +331,20 @@ function CalendarCell({ state, date, size, currentMonth, isDateUnavailable, clas
 
   const isOutsideMonth = !isSameMonth(currentMonth, date);
   const isToday = checkIsToday(date, state.timeZone);
+  
+  // Range selection logic
+  let isRangeStart = false;
+  let isRangeEnd = false;
+  let isRangeMiddle = false;
+  
+  if (isRangePicker && rangeValue?.start && rangeValue?.end) {
+    const dateCompare = date.compare(rangeValue.start);
+    const endCompare = date.compare(rangeValue.end);
+    
+    isRangeStart = dateCompare === 0;
+    isRangeEnd = endCompare === 0;
+    isRangeMiddle = dateCompare > 0 && endCompare < 0;
+  }
 
   const cellClasses = cn(
     'calendar-cell',
@@ -328,7 +355,10 @@ function CalendarCell({ state, date, size, currentMonth, isDateUnavailable, clas
   const buttonClasses = cn(
     'calendar-cell-button',
     `calendar-cell-button--${size}`,
-    isSelected && 'calendar-cell-button--selected',
+    isSelected && !isRangePicker && 'calendar-cell-button--selected',
+    isRangeStart && 'calendar-cell-button--range-start',
+    isRangeEnd && 'calendar-cell-button--range-end',
+    isRangeMiddle && 'calendar-cell-button--range-middle',
     isDisabled && 'calendar-cell-button--disabled',
     isUnavailable && 'calendar-cell-button--unavailable',
     isOutsideMonth && 'calendar-cell-button--outside-month',

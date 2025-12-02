@@ -20,12 +20,10 @@
 @import './layout.css';
 @import './motion.css';
 @import './zindex.css';
-@import './indicator.css';
 @import './icon.css';
 @import './form.css';
 @import './editor.css';
 @import './tabs.css';
-@import './menu.css';
 @import './spinner.css';
 @import './loadingSkeleton.css';
 @import './tag.css';

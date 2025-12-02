@@ -44,7 +44,7 @@
 
 /* ===== BORDER ===== */
 .box-border-light {
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-subtle);
 }
 
 .box-border-default {
