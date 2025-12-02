@@ -71,6 +71,7 @@ const SectionBody = ({ components = {} }: PatternNode) => {
         {renderIf('button-primary') && get('button-primary').content && (
           <Button
             size="lg"
+            href={get('button-primary').href}
           >
             {get('button-primary').content}
           </Button>
