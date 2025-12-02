@@ -111,17 +111,17 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           weight="semibold"
         >
           {get('typography-attribute').content}{' '}
-        <a 
-          href="https://blimpify-im.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ 
-            color: 'var(--text-placeholder)', 
-            textDecoration: 'underline',
-            textUnderlineOffset: '6px',
-            fontWeight: 'bold'
-          }}
-        >}
+          <a 
+            href="https://blimpify-im.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ 
+              color: 'var(--text-placeholder)', 
+              textDecoration: 'underline',
+              textUnderlineOffset: '6px',
+              fontWeight: 'bold'
+            }}
+          >
             Blimpify
           </a>
         </Typography>
