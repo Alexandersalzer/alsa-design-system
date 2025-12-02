@@ -14,7 +14,6 @@ export interface BaseNode<T extends string = string> {
  * Atomic UI element som inte innehåller andra noder
  */
 export interface ComponentNode extends BaseNode {
-  role?: string; // Optional role for semantic identification
 }
 
 /**

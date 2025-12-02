@@ -69,17 +69,17 @@ const NavbarPill = (patternNode: PatternNode) => {
   const logoProps = {
     src: renderIf('logo') ? `${CDN_BASE_URL}${getComponent('logo').src}` : undefined,
     alt: renderIf('logo') ? (getComponent('logo').alt || 'Logo') : undefined,
-    text: renderIf('typography', 'businessName') ? getComponent('typography', 'businessName').content : undefined,
+    text: renderIf('typography-businessName') ? getComponent('typography-businessName').content : undefined,
     href: '/',
     width: renderIf('logo') ? (getComponent('logo').width || 40) : undefined,
     height: renderIf('logo') ? (getComponent('logo').height || 40) : undefined,
     color: renderIf('logo') ? (getComponent('logo').color || 'auto') : 'auto' as const,
-    textSize: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').size || 'lg') : 'lg' as const,
-    textWeight: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').weight || 'extrabold') : 'extrabold' as const,
-    textTransform: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').transform || 'none') : 'none' as const,
-    textSpacing: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').spacing || 'normal') : 'normal' as const,
-    textGradient: renderIf('typography', 'businessName') ? (getComponent('typography', 'businessName').gradient || false) : false,
-    gap: renderIf('logo') && renderIf('typography', 'businessName') ? (getPatternProps().logoGap || 'sm') : 'sm' as const,
+    textSize: renderIf('typography-businessName') ? (getComponent('typography-businessName').size || 'lg') : 'lg' as const,
+    textWeight: renderIf('typography-businessName') ? (getComponent('typography-businessName').weight || 'extrabold') : 'extrabold' as const,
+    textTransform: renderIf('typography-businessName') ? (getComponent('typography-businessName').transform || 'none') : 'none' as const,
+    textSpacing: renderIf('typography-businessName') ? (getComponent('typography-businessName').spacing || 'normal') : 'normal' as const,
+    textGradient: renderIf('typography-businessName') ? (getComponent('typography-businessName').gradient || false) : false,
+    gap: renderIf('logo') && renderIf('typography-businessName') ? (getPatternProps().logoGap || 'sm') : 'sm' as const,
     hideTextOnMobile: getPatternProps().hideLogoTextOnMobile || false,
   };
 
@@ -93,12 +93,12 @@ const NavbarPill = (patternNode: PatternNode) => {
           </div>
 
           {/* MIDDLE - Desktop only */}
-          {renderIf('textlink', 'menuItem') && (
+          {renderIf('textlink-menuItem') && (
             <HStack
               className={`navbar-pill__middle navbar-pill__middle--${align}`}
               spacing="lg"
             >
-              {mapComponentIndices('textlink', 'menuItem')
+              {mapComponentIndices('textlink-menuItem')
                 .slice(0, getPatternProps().maxMenuItems)
                 .map((props, i) => (
                 <TextLink
@@ -115,14 +115,14 @@ const NavbarPill = (patternNode: PatternNode) => {
 
           {/* RIGHT - Desktop only */}
           <HStack spacing="sm" className="navbar-pill__right">
-            {renderIf('button', 'secondaryAction') && (
-              <Button variant="ghost" href={getComponent('button', 'secondaryAction').href}>
-                {getComponent('button', 'secondaryAction').content}
+            {renderIf('button-secondaryAction') && (
+              <Button variant="ghost" href={getComponent('button-secondaryAction').href}>
+                {getComponent('button-secondaryAction').content}
               </Button>
             )}
-            {renderIf('button', 'primaryAction') && (
-              <Button variant="primary" href={getComponent('button', 'primaryAction').href}>
-                {getComponent('button', 'primaryAction').content}
+            {renderIf('button-primaryAction') && (
+              <Button variant="primary" href={getComponent('button-primaryAction').href}>
+                {getComponent('button-primaryAction').content}
               </Button>
             )}
           </HStack>
@@ -163,7 +163,7 @@ const NavbarPill = (patternNode: PatternNode) => {
         >
           {/* Links section */}
           <VStack spacing="md" align="stretch" className="drawer-pill-links">
-            {renderIf('textlink', 'menuItem') && mapComponentIndices('textlink', 'menuItem')
+            {renderIf('textlink-menuItem') && mapComponentIndices('textlink-menuItem')
               .map((props, i) => (
               <TextLink
                 key={i}
@@ -178,24 +178,24 @@ const NavbarPill = (patternNode: PatternNode) => {
 
           {/* Actions section */}
           <VStack spacing="sm" className="drawer-pill-actions">
-            {renderIf('button', 'secondaryAction') && (
+            {renderIf('button-secondaryAction') && (
               <Button
                 variant="ghost"
-                href={getComponent('button', 'secondaryAction').href}
+                href={getComponent('button-secondaryAction').href}
                 onClick={() => setMobileOpen(false)}
                 className="drawer-pill-button"
               >
-                {getComponent('button', 'secondaryAction').content}
+                {getComponent('button-secondaryAction').content}
               </Button>
             )}
-            {renderIf('button', 'primaryAction') && (
+            {renderIf('button-primaryAction') && (
               <Button
                 variant="primary"
-                href={getComponent('button', 'primaryAction').href}
+                href={getComponent('button-primaryAction').href}
                 onClick={() => setMobileOpen(false)}
                 className="drawer-pill-button"
               >
-                {getComponent('button', 'primaryAction').content}
+                {getComponent('button-primaryAction').content}
               </Button>
             )}
           </VStack>

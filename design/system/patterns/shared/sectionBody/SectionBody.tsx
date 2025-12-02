@@ -36,13 +36,13 @@ const SectionBody = ({ components = {} }: PatternNode) => {
               size="medium"
               icon={null}
             >
-              {get('tag', 'tag').content}
+              {get('tag').content}
             </Tag>
           </Box>
         )}
 
         {/* Heading - only render if exists */}
-        {renderIf('typography', 'heading') && (
+        {renderIf('typography-heading') && (
           <Typography
             as="h2"
             variant="display-lg"
@@ -50,12 +50,12 @@ const SectionBody = ({ components = {} }: PatternNode) => {
             weight="bold"
             align="center"
           >
-            {get('typography', 'heading').content}
+            {get('typography-heading').content}
           </Typography>
         )}
 
         {/* Body Text - only render if exists */}
-        {renderIf('typography', 'body') && (
+        {renderIf('typography-body') && (
           <Typography
             as="p"
             variant="body-lg"
@@ -63,16 +63,16 @@ const SectionBody = ({ components = {} }: PatternNode) => {
             weight="regular"
             align="center"
           >
-            {get('typography', 'body').content}
+            {get('typography-body').content}
           </Typography>
         )}
 
         {/* Button - only render if exists */}
-        {renderIf('button') && (
+        {renderIf('button-primary') && (
           <Button
             size="lg"
           >
-            {get('button', 'primary').content}
+            {get('button-primary').content}
           </Button>
         )}
       </VStack>

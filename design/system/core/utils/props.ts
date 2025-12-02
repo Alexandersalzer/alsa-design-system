@@ -17,20 +17,18 @@ import { ComponentNode, PatternNode } from '../types/nodes';
 export const getComponentProps = (
   components: Record<string, ComponentNode>,
   type: string,
-  role?: string,
   fallback: Record<string, any> = {}
 ): Record<string, any> => {
   const component = Object.values(components).find(c => {
     const matchesType = c.type === type;
-    const matchesRole = role ? c.role === role : true;
-    return matchesType && matchesRole;
+    return matchesType;
   });
   return component?.props || fallback;
 };
 
 export const componentProps = (components: Record<string, ComponentNode>) => {
-  return (type: string, role?: string, fallback: Record<string, any> = {}) => {
-    return getComponentProps(components, type, role, fallback);
+  return (type: string, fallback: Record<string, any> = {}) => {
+    return getComponentProps(components, type, fallback);
   };
 };
 
@@ -56,11 +54,10 @@ export const patternProps = (pattern: PatternNode) => {
  * Returns a function that checks for component existence and visibility
  */
 export const componentPresent = (components: Record<string, ComponentNode>) => {
-  return (type: string, role?: string) => {
+  return (type: string) => {
     const component = Object.values(components).find(c => {
       const matchesType = c.type === type;
-      const matchesRole = role ? c.role === role : true;
-      return matchesType && matchesRole;
+      return matchesType;
     });
     
     if (!component) return false;
@@ -79,20 +76,18 @@ export const componentPresent = (components: Record<string, ComponentNode>) => {
  */
 export const mapComponents = (
   components: Record<string, ComponentNode>,
-  type: string,
-  role?: string
+  type: string
 ): Record<string, any>[] => {
   const matchingComponents = Object.values(components).filter(c => {
     const matchesType = c.type === type;
-    const matchesRole = role ? c.role === role : true;
-    return matchesType && matchesRole;
+    return matchesType;
   });
   
   return matchingComponents.map(c => c.props || {});
 };
 
 export const useMapComponents = (components: Record<string, ComponentNode>) => {
-  return (type: string, role?: string) => {
-    return mapComponents(components, type, role);
+  return (type: string) => {
+    return mapComponents(components, type);
   };
 };

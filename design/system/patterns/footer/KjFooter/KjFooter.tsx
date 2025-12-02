@@ -14,7 +14,7 @@ const KjFooter = ({ components = {} }: PatternNode) => {
   const router = useRouter();
 
   // Get current locale and menu options
-  const menuOptions = get('menu', 'languageSelector').options || [];
+  const menuOptions = get('menu-languageSelector').options || [];
   const currentLocale = getPickerLocale(pathname);
   const currentOption = menuOptions.find((opt: any) => opt.value === currentLocale);
 
@@ -22,15 +22,15 @@ const KjFooter = ({ components = {} }: PatternNode) => {
   const logoProps = {
     src: renderIf('logo') ? `${CDN_BASE_URL}${get('logo').src}` : undefined,
     alt: renderIf('logo') ? (get('logo').alt || 'Logo') : undefined,
-    text: renderIf('typography', 'title') ? get('typography', 'title').content : undefined,
+    text: renderIf('typography-title') ? get('typography-title').content : undefined,
     href: '/',
     width: renderIf('logo') ? (get('logo').width || 40) : undefined,
     height: renderIf('logo') ? (get('logo').height || 40) : undefined,
     color: renderIf('logo') ? (get('logo').color || 'light') : 'light' as const,
-    textSize: renderIf('typography', 'title') ? (get('typography', 'title').size || 'md') : 'md' as const,
-    textWeight: renderIf('typography', 'title') ? (get('typography', 'title').weight || 'semibold') : 'semibold' as const,
-    textTransform: renderIf('typography', 'title') ? (get('typography', 'title').transform || 'uppercase') : 'uppercase' as const,
-    textSpacing: renderIf('typography', 'title') ? (get('typography', 'title').spacing || 'wide') : 'wide' as const,
+    textSize: renderIf('typography-title') ? (get('typography-title').size || 'md') : 'md' as const,
+    textWeight: renderIf('typography-title') ? (get('typography-title').weight || 'semibold') : 'semibold' as const,
+    textTransform: renderIf('typography-title') ? (get('typography-title').transform || 'uppercase') : 'uppercase' as const,
+    textSpacing: renderIf('typography-title') ? (get('typography-title').spacing || 'wide') : 'wide' as const,
     gap: 'md' as const,
     loading: 'lazy' as const,
     className: 'footer-logo',
@@ -42,14 +42,14 @@ const KjFooter = ({ components = {} }: PatternNode) => {
       <Logo {...logoProps} />
 
       {/* Language Menu */}
-      {renderIf('menu', 'languageSelector') && (
+      {renderIf('menu-languageSelector') && (
         <Menu 
-          size={get('menu', 'languageSelector').size || 'sm'}
-          variant={get('menu', 'languageSelector').variant || 'subtle'}
+          size={get('menu-languageSelector').size || 'sm'}
+          variant={get('menu-languageSelector').variant || 'subtle'}
           closeOnSelect={true}
         >
           <Menu.Trigger>
-            {currentOption?.label || get('menu', 'languageSelector').placeholder || 'Select Language'}
+            {currentOption?.label || get('menu-languageSelector').placeholder || 'Select Language'}
           </Menu.Trigger>
           
           <Menu.Content>
@@ -76,14 +76,14 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           weight="semibold"
         >
           <a 
-            href={`mailto:${get('typography', 'email').content}`}
+            href={`mailto:${get('typography-email').content}`}
             style={{ 
               color: 'inherit', 
               textDecoration: 'underline',
               textUnderlineOffset: '2px'
             }}
           >
-            {get('typography', 'email').content}
+            {get('typography-email').content}
           </a>
         </Typography>
 
@@ -94,7 +94,7 @@ const KjFooter = ({ components = {} }: PatternNode) => {
           align="center"
           weight="semibold"
         >
-          {get('typography', 'legal').content}
+          {get('typography-legal').content}
         </Typography>
       </VStack>
 
@@ -105,7 +105,7 @@ const KjFooter = ({ components = {} }: PatternNode) => {
         align="center"
         weight="semibold"
       >
-        {get('typography', 'attribute').content}{' '}
+        {get('typography-attribute').content}{' '}
         <a 
           href="https://blimpify-im.com"
           target="_blank"
