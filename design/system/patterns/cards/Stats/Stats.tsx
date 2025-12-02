@@ -16,6 +16,8 @@ import {
     Card,
 } from '../../../components/layout';
 import { Icon, IconColor } from '../../../components/media/Icon';
+import { PatternNode } from '../../../core/types/nodes';
+import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
 
 import './Stats.css';
 
@@ -451,9 +453,14 @@ const StatWithLogo: React.FC<StatItemComponentProps> = ({
 
 // ===== MAIN STATS COMPONENT =====
 
-export const Stats: React.FC<any> = (rawProps) => {
-  // Support both direct and CMS-wrapped props
-  const props = rawProps?.props ? rawProps.props : rawProps;
+export const Stats: React.FC<PatternNode> = (patternNode) => {
+  const { components = {} } = patternNode;
+  const getComponent = componentProps(components);
+  const getPatternProps = patternProps(patternNode);
+  const mapComponentsOfType = useMapComponents(components);
+  const componentOrder = getPatternOrder(patternNode);
+
+  // Extract pattern props with defaults
   const {
     className,
     stats = [],
@@ -472,7 +479,7 @@ export const Stats: React.FC<any> = (rawProps) => {
     cardPadding = 'lg',
     iconSize = 'lg',
     iconColor = 'accent',
-  } = props;
+  } = getPatternProps();
   
   const commonProps = {
     valueVariant,
