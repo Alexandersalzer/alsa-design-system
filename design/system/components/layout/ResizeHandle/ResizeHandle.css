@@ -122,21 +122,13 @@
 /* ===== INDICATOR - HOVER STATE ===== */
 .resize-handle:hover .resize-handle__indicator,
 .resize-handle--hover .resize-handle__indicator {
-<<<<<<< HEAD
-  background-color: var(--accent-600, #2563eb);
-=======
   background-color: var(--interactive-accent);
->>>>>>> alex
   opacity: 0.6;
 }
 
 /* ===== INDICATOR - ACTIVE STATE ===== */
 .resize-handle--active .resize-handle__indicator {
-<<<<<<< HEAD
-  background-color: var(--accent-600, #2563eb);
-=======
   background-color: var(--interactive-accent);
->>>>>>> alex
   opacity: 0.8;
 }
 
@@ -150,11 +142,7 @@
 
 /* ===== INDICATOR - COLLAPSED STATE ===== */
 .resize-handle--collapsed .resize-handle__indicator {
-<<<<<<< HEAD
-  background-color: var(--accent-700, #1d4ed8);
-=======
   background-color: var(--interactive-accent);
->>>>>>> alex
   opacity: 0.4;
 }
 
@@ -169,11 +157,7 @@
 /* Collapsed + Hover */
 .resize-handle--collapsed:hover .resize-handle__indicator,
 .resize-handle--collapsed.resize-handle--hover .resize-handle__indicator {
-<<<<<<< HEAD
-  background-color: var(--accent-600, #2563eb);
-=======
   background-color: var(--interactive-accent);
->>>>>>> alex
   opacity: 0.7;
 }
 
@@ -189,11 +173,7 @@
 
 /* Collapsed + Active */
 .resize-handle--collapsed.resize-handle--active .resize-handle__indicator {
-<<<<<<< HEAD
-  background-color: var(--accent-600, #2563eb);
-=======
   background-color: var(--interactive-accent);
->>>>>>> alex
   opacity: 0.9;
 }
 
@@ -211,11 +191,7 @@
 }
 
 .resize-handle:focus-visible .resize-handle__indicator {
-<<<<<<< HEAD
-  background-color: var(--accent-600, #2563eb);
-=======
   background-color: var(--interactive-accent);
->>>>>>> alex
   opacity: 0.8;
 }
 
