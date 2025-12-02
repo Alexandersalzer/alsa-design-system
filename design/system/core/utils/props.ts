@@ -43,6 +43,14 @@ export const getPatternProps = (
   return pattern?.props || fallback;
 };
 
+/**
+ * Get component order from a pattern
+ * Returns the order array or Object.keys(components) as fallback
+ */
+export const getPatternOrder = (pattern: PatternNode): string[] => {
+  return pattern?.order || Object.keys(pattern?.components || {});
+};
+
 export const patternProps = (pattern: PatternNode) => {
   return (fallback: Record<string, any> = {}) => {
     return getPatternProps(pattern, fallback);

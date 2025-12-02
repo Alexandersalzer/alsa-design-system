@@ -22,6 +22,7 @@ export interface ComponentNode extends BaseNode {
  */
 export interface PatternNode extends BaseNode {
   components: Record<string, ComponentNode>; // Required - pattern måste ha components
+  order: string[]; // Required - patterns behöver rendering order för components
 }
 
 
