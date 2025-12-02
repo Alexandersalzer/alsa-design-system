@@ -47,11 +47,11 @@ export const ResultsGrid: React.FC<ResultsGridProps> = ({
     .filter(([_, comp]) => comp.type === 'resultsCard')
     .map(([_, comp]) => ({
       type: 'resultsCard' as const,
-      heading: comp.heading || '',
-      subheading: comp.subheading || '',
-      description: comp.description || '',
-      imageSrc: comp.imageSrc || '',
-      imageAlt: comp.imageAlt || 'Result image',
+      heading: comp.props?.heading || '',
+      subheading: comp.props?.subheading || '',
+      description: comp.props?.description || '',
+      imageSrc: comp.props?.imageSrc || '',
+      imageAlt: comp.props?.imageAlt || 'Result image',
     }))
     .filter((card) => card.heading && card.imageSrc);
 

@@ -98,9 +98,9 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
     ? Object.values(components)
         .filter(comp => comp.type === 'image' || comp.type === 'logo')
         .map(comp => ({
-          src: comp.content.src,
-          alt: comp.content.alt,
-          title: comp.content.title
+          src: comp.props?.src || '',
+          alt: comp.props?.alt || '',
+          title: comp.props?.title || ''
         }))
     : imagesProp || [];
 
