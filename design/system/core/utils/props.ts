@@ -23,7 +23,7 @@ export const getComponentProps = (
     const matchesType = c.type === type;
     return matchesType;
   });
-  return component?.props || fallback;
+  return component?.props ?? fallback;
 };
 
 export const componentProps = (components: Record<string, ComponentNode>) => {

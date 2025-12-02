@@ -48,7 +48,7 @@ const NavbarBar = ( patternNode: PatternNode) => {
 
   // Build logo props
   const logoProps = {
-    src: renderIf('logo') ? `${CDN_BASE_URL}${getComponent('logo').src}` : undefined,
+    src: renderIf('logo') && getComponent('logo').src ? `${CDN_BASE_URL}${getComponent('logo').src}` : undefined,
     alt: renderIf('logo') ? (getComponent('logo').alt || 'Logo') : undefined,
     text: renderIf('typography-businessName') ? getComponent('typography-businessName').content : undefined,
     href: '/',

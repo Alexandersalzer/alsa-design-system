@@ -20,7 +20,7 @@ const KjFooter = ({ components = {} }: PatternNode) => {
 
   // Build logo props
   const logoProps = {
-    src: renderIf('logo') ? `${CDN_BASE_URL}${get('logo').src}` : undefined,
+    src: renderIf('logo') && get('logo').src ? `${CDN_BASE_URL}${get('logo').src}` : undefined,
     alt: renderIf('logo') ? (get('logo').alt || 'Logo') : undefined,
     text: renderIf('typography-title') ? get('typography-title').content : undefined,
     href: '/',
@@ -69,43 +69,48 @@ const KjFooter = ({ components = {} }: PatternNode) => {
       {/* Body Content */}
       <VStack spacing="xs" align="center">
         {/* Email */}
-        <Typography 
-          variant="body-md"
-          color="tertiary" 
-          align="center"
-          weight="semibold"
-        >
-          <a 
-            href={`mailto:${get('typography-email').content}`}
-            style={{ 
-              color: 'inherit', 
-              textDecoration: 'underline',
-              textUnderlineOffset: '2px'
-            }}
+        {renderIf('typography-email') && get('typography-email').content && (
+          <Typography 
+            variant="body-md"
+            color="tertiary" 
+            align="center"
+            weight="semibold"
           >
-            {get('typography-email').content}
-          </a>
-        </Typography>
+            <a 
+              href={`mailto:${get('typography-email').content}`}
+              style={{ 
+                color: 'inherit', 
+                textDecoration: 'underline',
+                textUnderlineOffset: '2px'
+              }}
+            >
+              {get('typography-email').content}
+            </a>
+          </Typography>
+        )}
 
         {/* Legal */}
+        {renderIf('typography-legal') && get('typography-legal').content && (
+          <Typography 
+            variant="body-sm"
+            color="tertiary" 
+            align="center"
+            weight="semibold"
+          >
+            {get('typography-legal').content}
+          </Typography>
+        )}
+      </VStack>
+
+      {/* Attribution */}
+      {renderIf('typography-attribute') && get('typography-attribute').content && (
         <Typography 
           variant="body-sm"
           color="tertiary" 
           align="center"
           weight="semibold"
         >
-          {get('typography-legal').content}
-        </Typography>
-      </VStack>
-
-      {/* Attribution */}
-      <Typography 
-        variant="body-sm"
-        color="tertiary" 
-        align="center"
-        weight="semibold"
-      >
-        {get('typography-attribute').content}{' '}
+          {get('typography-attribute').content}{' '}
         <a 
           href="https://blimpify-im.com"
           target="_blank"
@@ -116,10 +121,11 @@ const KjFooter = ({ components = {} }: PatternNode) => {
             textUnderlineOffset: '6px',
             fontWeight: 'bold'
           }}
-        >
-          Blimpify
-        </a>
-      </Typography>
+        >}
+            Blimpify
+          </a>
+        </Typography>
+      )}
     </VStack>
   );
 };
