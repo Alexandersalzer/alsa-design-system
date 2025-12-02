@@ -463,7 +463,6 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
   // Extract pattern props with defaults
   const {
     className,
-    stats = [],
     variant = 'centered',
     valueVariant = 'display-md',
     valueWeight = 'bold',
@@ -496,6 +495,21 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
     iconColor
   };
 
+  // Get stat items from components
+  const statItems: StatItem[] = componentOrder.map(key => {
+    const component = components[key];
+    if (!component || component.type !== 'stat' || !component.props) return null;
+    return {
+      id: component.props.id || key,
+      value: component.props.value || '',
+      label: component.props.label || '',
+      description: component.props.description,
+      icon: component.props.icon,
+      logo: component.props.logo,
+      trend: component.props.trend
+    };
+  }).filter(Boolean) as StatItem[];
+
   // Render based on variant
   const renderStat = (stat: StatItem, index: number) => {
     const key = stat.id || `stat-${index}`;
@@ -510,7 +524,7 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
             key={key}
             stat={stat}
             {...commonProps}
-            isLast={index === stats.length - 1}
+            isLast={index === statItems.length - 1}
           />
         );
         
@@ -555,7 +569,7 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
         wrap={true}
         className={className}
       >
-  {stats.map((stat: StatItem, index: number) => renderStat(stat, index))}
+        {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
       </HStack>
     );
   }
@@ -569,7 +583,7 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
       wrap={true}
       className={className}
     >
-  {stats.map((stat: StatItem, index: number) => renderStat(stat, index))}
+      {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
     </HStack>
   );
 };
