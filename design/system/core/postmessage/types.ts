@@ -22,6 +22,7 @@ export const ParentToClientMessage = {
   SetInitialDesignTokens: 'SET_INITIAL_DESIGN_TOKENS',
   UpdateDesignToken: 'UPDATE_DESIGN_TOKEN',
   RequestIframeHeight: 'REQUEST_IFRAME_HEIGHT',
+  SetWebsiteContent: 'SET_WEBSITE_CONTENT',
 } as const;
 
 
@@ -53,4 +54,11 @@ export interface RequestedHeightPayload {
 export interface RequestHeightPayload {
   iframeId: string;
   width: number;
+}
+
+export interface WebsiteContentPayload {
+  content: {
+    pages: Record<string, any>;
+    globalSections: Record<string, any>;
+  };
 }
