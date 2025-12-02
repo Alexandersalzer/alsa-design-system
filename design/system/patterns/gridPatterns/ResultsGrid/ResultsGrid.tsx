@@ -45,14 +45,17 @@ export const ResultsGrid: React.FC<ResultsGridProps> = ({
   // Extract resultsCard data
   const cards = Object.entries(components)
     .filter(([_, comp]) => comp.type === 'resultsCard')
-    .map(([_, comp]) => ({
-      type: 'resultsCard' as const,
-      heading: comp.props?.heading || '',
-      subheading: comp.props?.subheading || '',
-      description: comp.props?.description || '',
-      imageSrc: comp.props?.imageSrc || '',
-      imageAlt: comp.props?.imageAlt || 'Result image',
-    }))
+    .map(([_, comp]) => {
+      const componentNode = comp as any;
+      return {
+        type: 'resultsCard' as const,
+        heading: componentNode.props?.heading || componentNode.heading || '',
+        subheading: componentNode.props?.subheading || componentNode.subheading || '',
+        description: componentNode.props?.description || componentNode.description || '',
+        imageSrc: componentNode.props?.imageSrc || componentNode.imageSrc || '',
+        imageAlt: componentNode.props?.imageAlt || componentNode.imageAlt || 'Result image',
+      };
+    })
     .filter((card) => card.heading && card.imageSrc);
 
   if (cards.length === 0) return null;

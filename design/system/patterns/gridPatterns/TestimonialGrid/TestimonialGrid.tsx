@@ -46,15 +46,22 @@ export const TestimonialGrid: React.FC<TestimonialGridProps> = ({
 
   // Extract testimonial data
   const testimonials = Object.entries(components)
-    .filter(([_, comp]) => comp.type === 'testimonial' && comp.props)
-    .map(([_, comp]) => ({
-      type: 'testimonial' as const,
-      text: comp.props?.text || '',
-      author: comp.props?.author || '',
-      authorInitial: comp.props?.authorInitial || '',
-      caseType: comp.props?.caseType || '',
-      rating: comp.props?.rating || 5,
-    }))
+    .filter(([_, comp]) => {
+      const componentNode = comp as any;
+      return comp.type === 'testimonial' && (componentNode.props || componentNode.content);
+    })
+    .map(([_, comp]) => {
+      const componentNode = comp as any;
+      const data = componentNode.props || componentNode.content || {};
+      return {
+        type: 'testimonial' as const,
+        text: data.text || '',
+        author: data.author || '',
+        authorInitial: data.authorInitial || '',
+        caseType: data.caseType || '',
+        rating: data.rating || 5,
+      };
+    })
     .filter((testimonial) => testimonial.text && testimonial.author);
 
   if (testimonials.length === 0) return null;

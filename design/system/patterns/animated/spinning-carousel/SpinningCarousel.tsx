@@ -97,11 +97,14 @@ export const SpinningCarousel: React.FC<SpinningCarouselProps> = ({
   const images: CarouselImage[] = components
     ? Object.values(components)
         .filter(comp => comp.type === 'image' || comp.type === 'logo')
-        .map(comp => ({
-          src: comp.props?.src || '',
-          alt: comp.props?.alt || '',
-          title: comp.props?.title || ''
-        }))
+        .map(comp => {
+          const componentNode = comp as any;
+          return {
+            src: componentNode.props?.src || componentNode.content?.src || '',
+            alt: componentNode.props?.alt || componentNode.content?.alt || '',
+            title: componentNode.props?.title || componentNode.content?.title || ''
+          };
+        })
     : imagesProp || [];
 
   // Map radius string to Image component radius
