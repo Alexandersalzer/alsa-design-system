@@ -123,6 +123,30 @@ async function uploadAllContent(contentPath: string, config: UploadConfig): Prom
 async function readAllContentFiles(contentPath: string) {
   const contentData: any = {};
   
+  // First, try to read config and design files from parent directories
+  const baseDir = path.dirname(contentPath);
+  
+  // Read config.json from config/ folder
+  try {
+    const configPath = path.join(baseDir, 'config', 'config.json');
+    const configContent = await fs.readFile(configPath, 'utf8');
+    contentData.config = JSON.parse(configContent);
+    console.log('✅ Found and loaded config.json');
+  } catch (error) {
+    console.log('ℹ️  No config.json found, skipping...');
+  }
+  
+  // Read design.json from design/ folder
+  try {
+    const designPath = path.join(baseDir, 'design', 'design.json');
+    const designContent = await fs.readFile(designPath, 'utf8');
+    contentData.design = JSON.parse(designContent);
+    console.log('✅ Found and loaded design.json');
+  } catch (error) {
+    console.log('ℹ️  No design.json found, skipping...');
+  }
+  
+  // Read locale-based content files
   const locales = await fs.readdir(contentPath);
   
   for (const locale of locales) {
