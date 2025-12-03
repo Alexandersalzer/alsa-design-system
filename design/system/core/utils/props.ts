@@ -33,6 +33,39 @@ export const componentProps = (components: Record<string, ComponentNode>) => {
 };
 
 /**
+ * Get component props along with the component key for live editing
+ * Returns both props and the key for data-component-key attribute
+ */
+export const getComponentWithKey = (
+  components: Record<string, ComponentNode>,
+  type: string,
+  fallback: Record<string, any> = {}
+): { props: Record<string, any>; key: string | undefined } => {
+  const entry = Object.entries(components).find(([key, component]) => {
+    return component.type === type;
+  });
+  
+  if (entry) {
+    const [key, component] = entry;
+    return {
+      props: component.props ?? fallback,
+      key: key
+    };
+  }
+  
+  return {
+    props: fallback,
+    key: undefined
+  };
+};
+
+export const componentPropsWithKey = (components: Record<string, ComponentNode>) => {
+  return (type: string, fallback: Record<string, any> = {}) => {
+    return getComponentWithKey(components, type, fallback);
+  };
+};
+
+/**
  * Get props from a pattern
  * Returns the props object or a fallback value
  */

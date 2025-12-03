@@ -18,6 +18,7 @@ export interface TagProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'o
   onRemove?: () => void;
   className?: string;
   disabled?: boolean;
+  componentKey?: string; // För live editing identification
 }
 
 export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
@@ -32,6 +33,7 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
   onRemove,
   className = '',
   disabled = false,
+  componentKey,
   ...props
 }, ref) => {
   const baseClasses = 'tag';
@@ -82,6 +84,7 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
       role={onClick && !disabled ? 'button' : undefined}
       tabIndex={onClick && !disabled ? 0 : undefined}
       aria-disabled={disabled}
+      data-component-key={componentKey}
       {...props}
     >
       {icon && (

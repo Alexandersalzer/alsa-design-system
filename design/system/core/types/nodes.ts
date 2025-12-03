@@ -14,6 +14,8 @@ export interface BaseNode<T extends string = string> {
  * Atomic UI element som inte innehåller andra noder
  */
 export interface ComponentNode extends BaseNode {
+  props: Record<string, any>; // Required - component måste ha props
+  componentKey?: string; // För live editing identification
 }
 
 /**
@@ -23,6 +25,7 @@ export interface ComponentNode extends BaseNode {
 export interface PatternNode extends BaseNode {
   components: Record<string, ComponentNode>; // Required - pattern måste ha components
   order: string[]; // Required - patterns behöver rendering order för components
+  patternKey?: string; // För live editing identification
 }
 
 
@@ -33,6 +36,7 @@ export interface PatternNode extends BaseNode {
 export interface SectionNode extends BaseNode<SectionType> {
   patterns: Record<string, PatternNode>; // Required - section måste ha patterns
   order: string[]; // Required - sections behöver rendering order
+  sectionKey?: string; // För live editing identification
 }
 
 /**

@@ -11,7 +11,7 @@
 
 import { useEffect, useState } from 'react';
 import { ParentToClientMessage } from './types';
-import { handleEditingMode, handleDesignTokens, handleDesignTokenUpdates, handleHeightRequest 
+import { handleEditingMode, handleDesignTokens, handleDesignTokenUpdates, handleHeightRequest, handleComponentContentUpdate
 } from './handlers/editingHandlers';
 
 /**
@@ -43,6 +43,10 @@ export function EditingHandler() {
 
         case ParentToClientMessage.RequestIframeHeight:
           handleHeightRequest(payload?.iframeId, payload?.width);
+          break;
+
+        case ParentToClientMessage.UpdateComponentContent:
+          handleComponentContentUpdate(payload);
           break;
 
         default:
