@@ -126,7 +126,7 @@ const NavbarPill = (patternNode: PatternNode) => {
               </Button>
             )}
             {renderIf('button-primaryAction') && (
-              <Button variant="primary" href={getComponent('button-primaryAction').href}>
+              <Button variant="accent" href={getComponent('button-primaryAction').href}>
                 {getComponent('button-primaryAction').content}
               </Button>
             )}
@@ -195,7 +195,7 @@ const NavbarPill = (patternNode: PatternNode) => {
             )}
             {renderIf('button-primaryAction') && (
               <Button
-                variant="primary"
+                variant="accent"
                 href={getComponent('button-primaryAction').href}
                 onClick={() => setMobileOpen(false)}
                 className="drawer-pill-button"

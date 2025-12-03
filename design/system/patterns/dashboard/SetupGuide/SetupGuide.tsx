@@ -169,7 +169,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                 </Body>
               </VStack>
               <Button 
-                variant="primary" 
+                variant="accent" 
                 size="lg"
                 onClick={() => {
                   if (onDismissCongratulations) {

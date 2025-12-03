@@ -110,7 +110,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
           <GridItem colSpan={get('button-submit').colSpan || 2}>
             <Button
               type="submit"
-              variant="primary"
+              variant="accent"
               size="lg"
               radius="md"
               rightIcon={
