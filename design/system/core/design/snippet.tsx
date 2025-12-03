@@ -59,33 +59,34 @@ export function buildCssVars(tokens: DesignTokens): string {
       --selected-container-spacing: var(--foundation-container-spacing-${containerSpacing});
       --selected-navbar-spacing:    var(--foundation-navbar-spacing-${navbarSpacing});
 
-      /* ===== Accent ===== */
+      /* ===== Accent Color Selection ===== */
+      /* Set foundation colors - these will be used by color-mix() in colors.css for auto-inversion */
       ${isInverseAccent ? `
-        --accent-100: var(--neutral-100);
-        --accent-200: var(--neutral-200);
-        --accent-300: var(--neutral-300);
-        --accent-400: var(--neutral-400);
-        --accent-500: var(--neutral-500);
-        --accent-600: var(--neutral-1200);
-        --accent-700: var(--neutral-1100);
-        --accent-800: var(--neutral-1000);
-        --accent-900: var(--neutral-900);
-        --accent-1000: var(--neutral-1000);
-        --accent-1100: var(--neutral-1100);
-        --accent-1200: var(--neutral-1200);
+        --foundation-accent-100: var(--foundation-gray-100);
+        --foundation-accent-200: var(--foundation-gray-200);
+        --foundation-accent-300: var(--foundation-gray-300);
+        --foundation-accent-400: var(--foundation-gray-400);
+        --foundation-accent-500: var(--foundation-gray-500);
+        --foundation-accent-600: var(--foundation-gray-1200);
+        --foundation-accent-700: var(--foundation-gray-1100);
+        --foundation-accent-800: var(--foundation-gray-1000);
+        --foundation-accent-900: var(--foundation-gray-900);
+        --foundation-accent-1000: var(--foundation-gray-1000);
+        --foundation-accent-1100: var(--foundation-gray-1100);
+        --foundation-accent-1200: var(--foundation-gray-1200);
       ` : `
-        --accent-100: var(--foundation-${accentColor}-100);
-        --accent-200: var(--foundation-${accentColor}-200);
-        --accent-300: var(--foundation-${accentColor}-300);
-        --accent-400: var(--foundation-${accentColor}-400);
-        --accent-500: var(--foundation-${accentColor}-500);
-        --accent-600: var(--foundation-${accentColor}-600);
-        --accent-700: var(--foundation-${accentColor}-700);
-        --accent-800: var(--foundation-${accentColor}-800);
-        --accent-900: var(--foundation-${accentColor}-900);
-        --accent-1000: var(--foundation-${accentColor}-1000);
-        --accent-1100: var(--foundation-${accentColor}-1100);
-        --accent-1200: var(--foundation-${accentColor}-1200);
+        --foundation-accent-100: var(--foundation-${accentColor}-100);
+        --foundation-accent-200: var(--foundation-${accentColor}-200);
+        --foundation-accent-300: var(--foundation-${accentColor}-300);
+        --foundation-accent-400: var(--foundation-${accentColor}-400);
+        --foundation-accent-500: var(--foundation-${accentColor}-500);
+        --foundation-accent-600: var(--foundation-${accentColor}-600);
+        --foundation-accent-700: var(--foundation-${accentColor}-700);
+        --foundation-accent-800: var(--foundation-${accentColor}-800);
+        --foundation-accent-900: var(--foundation-${accentColor}-900);
+        --foundation-accent-1000: var(--foundation-${accentColor}-1000);
+        --foundation-accent-1100: var(--foundation-${accentColor}-1100);
+        --foundation-accent-1200: var(--foundation-${accentColor}-1200);
       `}
 
       /* ===== Typography scale ===== */

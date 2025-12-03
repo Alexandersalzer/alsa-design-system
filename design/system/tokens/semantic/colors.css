@@ -122,68 +122,69 @@
   );
 
   /* -------------------------------------------------------------------------
-     2.3 ACCENT SCALE (auto-inverts, overridden by snippet.ts)
-     Default: purple - snippet.ts replaces with user's chosen color
+     2.3 ACCENT SCALE (auto-inverts based on --is-dark)
+     Uses --foundation-accent-XXX (set by snippet.ts from design.json accentColor)
+     Automatically inverts light↔dark for proper contrast in both themes
      ------------------------------------------------------------------------- */
   --accent-100: color-mix(
     in srgb,
-    var(--foundation-purple-100) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-1200) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-100) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-1200) calc(var(--is-dark) * 100%)
   );
   --accent-200: color-mix(
     in srgb,
-    var(--foundation-purple-200) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-1100) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-200) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-1100) calc(var(--is-dark) * 100%)
   );
   --accent-300: color-mix(
     in srgb,
-    var(--foundation-purple-300) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-1000) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-300) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-1000) calc(var(--is-dark) * 100%)
   );
   --accent-400: color-mix(
     in srgb,
-    var(--foundation-purple-400) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-900) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-400) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-900) calc(var(--is-dark) * 100%)
   );
   --accent-500: color-mix(
     in srgb,
-    var(--foundation-purple-500) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-800) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-500) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-800) calc(var(--is-dark) * 100%)
   );
   --accent-600: color-mix(
     in srgb,
-    var(--foundation-purple-600) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-700) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-600) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-700) calc(var(--is-dark) * 100%)
   );
   --accent-700: color-mix(
     in srgb,
-    var(--foundation-purple-700) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-600) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-700) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-600) calc(var(--is-dark) * 100%)
   );
   --accent-800: color-mix(
     in srgb,
-    var(--foundation-purple-800) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-500) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-800) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-500) calc(var(--is-dark) * 100%)
   );
   --accent-900: color-mix(
     in srgb,
-    var(--foundation-purple-900) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-400) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-900) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-400) calc(var(--is-dark) * 100%)
   );
   --accent-1000: color-mix(
     in srgb,
-    var(--foundation-purple-1000) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-300) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-1000) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-300) calc(var(--is-dark) * 100%)
   );
   --accent-1100: color-mix(
     in srgb,
-    var(--foundation-purple-1100) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-200) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-1100) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-200) calc(var(--is-dark) * 100%)
   );
   --accent-1200: color-mix(
     in srgb,
-    var(--foundation-purple-1200) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-100) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-1200) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-100) calc(var(--is-dark) * 100%)
   );
 
   /* -------------------------------------------------------------------------
