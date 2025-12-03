@@ -24,6 +24,7 @@ export interface ButtonProps
   loading?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  componentKey?: string; // För live editing identification
 }
 
 export const Button = forwardRef<
@@ -43,6 +44,7 @@ export const Button = forwardRef<
       leftIcon,
       rightIcon,
       disabled,
+      componentKey,
       ...props
     },
     ref
@@ -140,7 +142,7 @@ export const Button = forwardRef<
 
       if (isInternal) {
         return (
-          <Component>
+          <Component componentKey={componentKey}>
             <Link href={localeAwareHref} {...linkProps}>
               {content}
             </Link>
@@ -149,7 +151,7 @@ export const Button = forwardRef<
       }
 
       return (
-        <Component>
+        <Component componentKey={componentKey}>
           <a href={localeAwareHref} {...linkProps}>
             {content}
           </a>
@@ -159,7 +161,7 @@ export const Button = forwardRef<
 
     // 🧠 Render as <button>
     return (
-      <Component>
+      <Component componentKey={componentKey}>
         <button
           ref={ref as React.Ref<HTMLButtonElement>}
           className={buttonClasses}

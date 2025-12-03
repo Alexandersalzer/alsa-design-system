@@ -9,14 +9,23 @@ import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import { Tag } from '../../../components/feedback/Tag/Tag';
 import { Button } from '../../../components/actions/Button/Button';
-import { componentProps, componentPresent } from '../../../core/utils/props';
-import { PatternNode } from '../../../core/types/nodes';
+import { componentProps, componentPresent, componentPropsWithKey } from '../../../core/utils/props';
+import { ComponentNode } from '../../../core/types/nodes';
 
 
 // ===== MAIN SECTION BODY COMPONENT =====
 
-const SectionBody = ({ components = {} }: PatternNode) => {
+interface SectionBodyProps {
+  components?: Record<string, ComponentNode>;
+  sectionKey?: string;
+  patternKey?: string;
+  type?: string;
+  props?: Record<string, any>;
+}
+
+const SectionBody = ({ components = {}, sectionKey, patternKey }: SectionBodyProps) => {
   const get = componentProps(components);
+  const getWithKey = componentPropsWithKey(components);
   const renderIf = componentPresent(components);
   
   return (
@@ -35,6 +44,7 @@ const SectionBody = ({ components = {} }: PatternNode) => {
             <Tag
               size="medium"
               icon={null}
+              componentKey={getWithKey('tag').key}
             >
               {get('tag').content}
             </Tag>
@@ -49,6 +59,7 @@ const SectionBody = ({ components = {} }: PatternNode) => {
             color="heading"
             weight="bold"
             align="center"
+            componentKey={getWithKey('typography-heading').key}
           >
             {get('typography-heading').content}
           </Typography>
@@ -62,6 +73,7 @@ const SectionBody = ({ components = {} }: PatternNode) => {
             color="body"
             weight="regular"
             align="center"
+            componentKey={getWithKey('typography-body').key}
           >
             {get('typography-body').content}
           </Typography>
@@ -72,6 +84,7 @@ const SectionBody = ({ components = {} }: PatternNode) => {
           <Button
             size="lg"
             href={get('button-primary').href}
+            componentKey={getWithKey('button-primary').key}
           >
             {get('button-primary').content}
           </Button>

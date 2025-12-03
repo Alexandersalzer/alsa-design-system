@@ -89,6 +89,7 @@ export interface TypographyOwnProps {
   uppercase?: boolean;
   italic?: boolean;
   as?: ElementType;
+  componentKey?: string; // För live editing identification
 }
 
 export type TypographyProps = TypographyOwnProps & 
@@ -214,6 +215,7 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   className,
   children,
   style = {},
+  componentKey,
   ...rest
 }, ref) => {
   const Element = as || getDefaultElement(variant);
@@ -238,7 +240,7 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   };
 
   return (
-    <Component as={Element} ref={ref} className={classes} style={combinedStyle} {...rest}>
+    <Component as={Element} ref={ref} className={classes} style={combinedStyle} componentKey={componentKey} {...rest}>
       {children}
     </Component>
   );

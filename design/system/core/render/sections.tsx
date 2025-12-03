@@ -26,7 +26,7 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
       const pattern = patterns[patternKey];
       if (!pattern) return null;
       
-      return renderPattern(pattern, patternKey);
+      return renderPattern(pattern, patternKey, sectionKey);
     })
     .filter(Boolean);
   
@@ -37,6 +37,7 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
       key={sectionKey}
       id={`${type}-section`}
       height="auto"
+      sectionKey={sectionKey}
     >
       {renderedPatterns}
     </Section>

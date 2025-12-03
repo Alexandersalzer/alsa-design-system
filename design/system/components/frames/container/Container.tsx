@@ -19,6 +19,7 @@ interface ContainerProps {
   spacing?: SpacingScale;
   noPadding?: boolean;
   style?: React.CSSProperties;
+  patternKey?: string; // För live editing identification
 }
 
 const getAlignmentClass = (align: Alignment): string => {
@@ -61,6 +62,7 @@ export const Container = ({
   spacing,
   noPadding = false,
   style,
+  patternKey,
 }: ContainerProps) => {
   const isEditing = applyEditingMode();
   const alignmentClass = getAlignmentClass(align);
@@ -88,7 +90,12 @@ export const Container = ({
   ].join(' ').trim();
 
   return (
-    <Component id={id} className={combinedClassName} style={style}>
+    <Component 
+      id={id} 
+      className={combinedClassName} 
+      style={style}
+      data-pattern-key={patternKey}
+    >
       {children}
     </Component>
   );
