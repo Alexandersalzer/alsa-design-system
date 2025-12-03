@@ -114,9 +114,49 @@ export function buildCssVars(tokens: DesignTokens): string {
       --selected-font-weight-body:    var(--foundation-weightscale-${fontWeightScale}-body);
       --selected-font-weight-label:   var(--foundation-weightscale-${fontWeightScale}-label);
 
-      /* ===== Theme ===== */
+      /* ===== Theme Control (replaces data-theme attribute) ===== */
       --is-dark: ${isDark ? 1 : 0};
     }
+
+    ${isInverseAccent ? `
+    /* ===== INVERSE ACCENT MODE (replaces data-accent-mode attribute) ===== */
+    /* Override accent semantic tokens for high-contrast monochrome */
+    :root {
+      --surface-accent: var(--surface-inverse);
+      --surface-accent-subtle: var(--surface-hover);
+      --surface-accent-muted: var(--surface-active);
+
+      --text-accent: var(--text-strong);
+      --text-accent-strong: var(--text-strong);
+      --text-accent-subtle: var(--text-default);
+      --text-on-accent: var(--text-inverse);
+
+      --border-accent: var(--border-emphasis);
+      --border-accent-subtle: var(--border-default);
+      --border-accent-strong: var(--border-emphasis);
+      --border-focus: var(--border-emphasis);
+      --border-selected: var(--border-emphasis);
+
+      --icon-accent: var(--icon-strong);
+      --icon-on-accent: var(--icon-inverse);
+
+      --text-link: var(--text-strong);
+      --text-link-hover: var(--text-default);
+
+      --interactive-accent: var(--interactive-primary);
+      --interactive-accent-hover: var(--interactive-primary-hover);
+      --interactive-accent-active: var(--interactive-primary-active);
+      --interactive-accent-disabled: var(--interactive-primary-disabled);
+    }
+    ` : ''}
+
+    ${isDark ? `
+    /* ===== DARK MODE ADJUSTMENTS (replaces data-theme attribute) ===== */
+    :root {
+      --surface-backdrop: rgba(0, 0, 0, 0.7);
+      --surface-scrim: rgba(0, 0, 0, 0.85);
+    }
+    ` : ''}
   `.trim();
 }
 
