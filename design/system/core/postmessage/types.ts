@@ -22,6 +22,7 @@ export const ParentToClientMessage = {
   SetInitialDesignTokens: 'SET_INITIAL_DESIGN_TOKENS',
   UpdateDesignToken: 'UPDATE_DESIGN_TOKEN',
   RequestIframeHeight: 'REQUEST_IFRAME_HEIGHT',
+  UpdateComponentContent: 'UPDATE_COMPONENT_CONTENT',
 } as const;
 
 
@@ -48,6 +49,11 @@ export interface DesignTokenUpdatePayload {
 export interface RequestedHeightPayload {
   height: number;
   iframeId?: string;
+}
+
+export interface ComponentContentUpdatePayload {
+  componentKey: string;
+  content: string;
 }
 
 export interface RequestHeightPayload {

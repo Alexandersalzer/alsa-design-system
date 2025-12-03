@@ -96,3 +96,24 @@ export const handleHeightRequest = (iframeId: string, width: number) => {
     }, '*');
   }, 100);
 };
+
+// 📝 Component Content Update Handler
+export const handleComponentContentUpdate = (payload: any) => {
+  const { componentKey, content } = payload;
+  
+  if (!componentKey || content === undefined) {
+    console.warn('[EditingHandler] Invalid component update payload:', payload);
+    return;
+  }
+  
+  // Hitta component i DOM med data-component-key
+  const componentElement = document.querySelector(`[data-component-key="${componentKey}"]`);
+  
+  if (componentElement) {
+    // Uppdatera text content
+    componentElement.textContent = content;
+    console.log(`[EditingHandler] Updated component ${componentKey} with new content:`, content);
+  } else {
+    console.warn(`[EditingHandler] Component not found: ${componentKey}`);
+  }
+};
