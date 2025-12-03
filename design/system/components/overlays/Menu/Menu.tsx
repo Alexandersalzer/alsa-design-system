@@ -56,6 +56,7 @@ export interface MenuRootProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   className?: string;
+  componentKey?: string;
 }
 
 export const MenuRoot = ({
@@ -67,7 +68,8 @@ export const MenuRoot = ({
   defaultOpen = false,
   open,
   onOpenChange,
-  className
+  className,
+  componentKey
 }: MenuRootProps) => {
   const value: MenuContextValue = {
     closeOnSelect,

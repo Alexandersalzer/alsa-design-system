@@ -20,6 +20,7 @@ export interface TextLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElem
   rightIcon?: ReactNode;
   underline?: 'none' | 'hover' | 'always';
   disabled?: boolean;
+  componentKey?: string;
 }
 
 export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
@@ -33,6 +34,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   underline = 'hover',
   disabled = false,
   href,
+  componentKey,
   ...props
 }, ref) => {
   
@@ -133,7 +135,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   // If it's a .html file (edit mode), use regular anchor tag
   if (isHtmlFile) {
     return (
-      <Component>
+      <Component componentKey={componentKey}>
         <a
           ref={ref}
           href={localeAwareHref}
@@ -150,7 +152,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
 
   // Otherwise, use Next.js Link for internal routing
   return (
-    <Component>
+    <Component componentKey={componentKey}>
       <Link
         href={localeAwareHref || '#'}
         className={textLinkClasses}
