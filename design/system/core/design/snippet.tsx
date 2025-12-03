@@ -123,29 +123,32 @@ export function buildCssVars(tokens: DesignTokens): string {
 /**
  * Parent function som kombinerar getDesignConfig + buildCssVars
  * Detta är den primära funktionen som ska användas i layouts
- * 
+ *
+ * @param isEditing - Optional parameter for backward compatibility (not used)
  * @returns CSS string redo att injectas i <style> tag
  */
 /**
  * Returns CSS and theme metadata from design.json
  * Always reads the actual file for consistent behavior
  */
-export async function designSnippet(): Promise<{ css: string; themeTone: string; isDark: boolean }> {
+export async function designSnippet(isEditing?: boolean): Promise<{ css: string; themeTone: string; isDark: boolean; accentColor: string }> {
   const designConfig = await getDesignConfig();
-  
+
   if (!designConfig) {
     // No design config found, return defaults
     return {
       css: "",
       themeTone: "neutral",
-      isDark: false
+      isDark: false,
+      accentColor: "purple"
     };
   }
-  
+
   const tokens = designConfig.globalStyles || {};
   const themeTone = tokens.themeTone || "neutral";
   const isDark = tokens.isDark ?? false;
+  const accentColor = tokens.accentColor || "purple";
   const css = buildCssVars(tokens);
-  
-  return { css, themeTone, isDark };
+
+  return { css, themeTone, isDark, accentColor };
 }

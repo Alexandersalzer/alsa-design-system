@@ -713,6 +713,52 @@
 
 
 /* =============================================================================
+   5. INVERSE ACCENT MODE
+   🎯 When accentColor === "inverse", override all accent semantic tokens
+   to use neutral/inverse values for maximum contrast monochrome palette
+   ============================================================================= */
+
+[data-accent-mode="inverse"] {
+  /* =========================================================================
+     Override Section 3.4 ACCENT tokens to use neutral/inverse values
+     This creates a high-contrast monochrome palette
+     ========================================================================= */
+
+  /* ----- Surfaces ----- */
+  --surface-accent: var(--surface-inverse);
+  --surface-accent-subtle: var(--surface-hover);
+  --surface-accent-muted: var(--surface-active);
+
+  /* ----- Text ----- */
+  --text-accent: var(--text-strong);
+  --text-accent-strong: var(--text-strong);
+  --text-accent-subtle: var(--text-default);
+  --text-on-accent: var(--text-inverse);
+
+  /* ----- Borders ----- */
+  --border-accent: var(--border-emphasis);
+  --border-accent-subtle: var(--border-default);
+  --border-accent-strong: var(--border-emphasis);
+  --border-focus: var(--border-emphasis);
+  --border-selected: var(--border-emphasis);
+
+  /* ----- Icons ----- */
+  --icon-accent: var(--icon-strong);
+  --icon-on-accent: var(--icon-inverse);
+
+  /* ----- Links ----- */
+  --text-link: var(--text-strong);
+  --text-link-hover: var(--text-default);
+
+  /* ----- Interactive (Buttons) ----- */
+  --interactive-accent: var(--interactive-primary);
+  --interactive-accent-hover: var(--interactive-primary-hover);
+  --interactive-accent-active: var(--interactive-primary-active);
+  --interactive-accent-disabled: var(--interactive-primary-disabled);
+}
+
+
+/* =============================================================================
    DARK MODE ADJUSTMENTS
    Fine-tune specific tokens for dark mode
    ============================================================================= */
