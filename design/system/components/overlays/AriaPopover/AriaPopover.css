@@ -12,6 +12,22 @@
 
 [data-react-aria-overlay] > * {
   pointer-events: auto !important;
+  position: relative;
+  z-index: 1;
+}
+
+/* Se till att alla interaktiva element i popover är klickbara */
+[data-react-aria-overlay] button,
+[data-react-aria-overlay] [role="button"],
+[data-react-aria-overlay] [role="gridcell"],
+[data-react-aria-overlay] [role="grid"],
+[data-react-aria-overlay] .calendar,
+[data-react-aria-overlay] .calendar-grid,
+[data-react-aria-overlay] .calendar-cell,
+[data-react-aria-overlay] .calendar-cell-button {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 10;
 }
 
 /* ===== POPOVER ===== */
