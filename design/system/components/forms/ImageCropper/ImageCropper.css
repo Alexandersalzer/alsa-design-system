@@ -1,164 +1,95 @@
-/* ==============================================
-   src/design-system/components/forms/ImageCropper/ImageCropper.css
-   IMAGE CROPPER COMPONENT STYLES - Using Design System Tokens
-   ============================================== */
-
+/* ImageCropper Styles */
 .image-cropper {
+  position: relative;
   width: 100%;
-  max-width: 100%;
+  z-index: 1;
 }
 
 .image-cropper__container {
+  position: relative;
+  width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  min-height: 300px;
-  background: var(--surface-subtle);
-  border-radius: var(--radius-md);
-  padding: var(--foundation-space-4);
-  margin-bottom: var(--foundation-space-4);
+  background-color: var(--surface-secondary, #f5f5f5);
+  border-radius: var(--radius-md, 8px);
+  padding: var(--foundation-space-md, 16px);
+  margin-bottom: var(--foundation-space-lg, 24px);
 }
 
-/* ReactCrop overrides - using design tokens */
+/* ReactCrop overlay - bara bilden ska vara mörklagd */
 .image-cropper__crop {
-  width: 100%;
-  max-width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
-.ReactCrop {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 100%;
+/* Kontrollerna ska inte vara mörklagda - de ska vara ovanför ReactCrop overlay */
+.image-cropper > *:not(.image-cropper__container) {
+  position: relative;
+  z-index: 10;
 }
 
-.ReactCrop__image {
-  max-width: 100%;
-  max-height: 70vh;
-  object-fit: contain;
+/* Kontrollerna i VStack ska också vara ovanför */
+.image-cropper .vstack,
+.image-cropper .hstack {
+  position: relative;
+  z-index: 10;
 }
 
-.ReactCrop__crop-selection {
-  border: 2px solid var(--accent-500);
-  box-shadow: 0 0 0 9999em rgba(0, 0, 0, 0.5);
-  box-sizing: border-box;
-}
-
-.ReactCrop__drag-handle {
-  width: 12px;
-  height: 12px;
-  background: var(--accent-500);
-  border: 2px solid var(--surface-page);
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.ReactCrop__drag-handle::after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* Slider controls */
+/* Slider styles */
 .image-cropper__slider {
   width: 100%;
   height: 6px;
-  border-radius: var(--radius-full);
-  background: var(--surface-subtle);
+  border-radius: 3px;
+  background: var(--border-default, #e0e0e0);
   outline: none;
   -webkit-appearance: none;
   appearance: none;
+  position: relative;
+  z-index: 10;
 }
 
 .image-cropper__slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: var(--accent-500);
+  background: var(--accent-600, #3b82f6);
   cursor: pointer;
-  border: 2px solid var(--surface-page);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: all var(--foundation-duration-fast) ease;
-}
-
-.image-cropper__slider::-webkit-slider-thumb:hover {
-  background: var(--accent-600);
-  transform: scale(1.1);
+  position: relative;
+  z-index: 10;
 }
 
 .image-cropper__slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: var(--accent-500);
+  background: var(--accent-600, #3b82f6);
   cursor: pointer;
-  border: 2px solid var(--surface-page);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: all var(--foundation-duration-fast) ease;
+  border: none;
+  position: relative;
+  z-index: 10;
 }
 
-.image-cropper__slider::-moz-range-thumb:hover {
-  background: var(--accent-600);
-  transform: scale(1.1);
+/* Överstyr ReactCrop overlay så att den bara täcker bilden, inte kontrollerna */
+.image-cropper__crop .ReactCrop {
+  position: relative;
+  z-index: 1;
 }
 
-/* Circular crop styling */
-.ReactCrop--circular-crop .ReactCrop__crop-selection {
-  border-radius: 50%;
+.image-cropper__crop .ReactCrop__crop-selection {
+  z-index: 2;
 }
 
-/* Responsive adjustments */
-@media (max-width: 640px) {
-  .image-cropper__container {
-    min-height: 200px;
-    padding: var(--foundation-space-2);
-  }
-  
-  .ReactCrop__image {
-    max-height: 50vh;
-  }
+/* Bilden ska vara ovanför overlay */
+.image-cropper__crop .ReactCrop img {
+  position: relative;
+  z-index: 2;
 }
 
-/* Dark mode support */
-[data-theme="dark"] .ReactCrop__crop-selection {
-  border-color: var(--accent-400);
+/* Överstyr ReactCrop's overlay så att den inte täcker kontrollerna */
+.image-cropper__container .ReactCrop::after {
+  display: none; /* Ta bort ReactCrop's default overlay */
 }
-
-[data-theme="dark"] .ReactCrop__drag-handle {
-  background: var(--accent-400);
-  border-color: var(--surface-card);
-}
-
-[data-theme="dark"] .image-cropper__slider {
-  background: var(--surface-card);
-}
-
-[data-theme="dark"] .image-cropper__slider::-webkit-slider-thumb,
-[data-theme="dark"] .image-cropper__slider::-moz-range-thumb {
-  background: var(--accent-400);
-  border-color: var(--surface-card);
-}
-
-/* Accessibility */
-.image-cropper__slider:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 4px;
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .ReactCrop__drag-handle,
-  .image-cropper__slider::-webkit-slider-thumb,
-  .image-cropper__slider::-moz-range-thumb {
-    transition: none;
-  }
-}
-
