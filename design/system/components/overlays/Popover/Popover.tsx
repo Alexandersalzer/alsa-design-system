@@ -15,6 +15,7 @@ import React, {
   type RefObject
 } from 'react';
 import { cn } from '../../../utils/cn';
+import { Component } from '../../frames/component/Component';
 import './Popover.css';
 
 // ===============================================
@@ -121,6 +122,7 @@ export interface PopoverRootProps {
   lazyMount?: boolean;
   unmountOnExit?: boolean;
   className?: string;
+  componentKey?: string;
 }
 
 export const PopoverRoot = ({
@@ -133,7 +135,8 @@ export const PopoverRoot = ({
   closeOnEscape = true,
   closeOnInteractOutside = true,
   modal = false,
-  className
+  className,
+  componentKey
 }: PopoverRootProps) => {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
   
@@ -209,9 +212,11 @@ export const PopoverRoot = ({
   
   return (
     <PopoverContext.Provider value={value}>
-      <div className={cn('popover-root', className)}>
-        {children}
-      </div>
+      <Component componentKey={componentKey}>
+        <div className={cn('popover-root', className)}>
+          {children}
+        </div>
+      </Component>
     </PopoverContext.Provider>
   );
 };

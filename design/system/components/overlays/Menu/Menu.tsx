@@ -85,6 +85,7 @@ export const MenuRoot = ({
         defaultOpen={defaultOpen}
         onOpenChange={onOpenChange}
         size={size}
+        componentKey={componentKey}
       >
         <div 
           className={cn('menu-root', className)}
