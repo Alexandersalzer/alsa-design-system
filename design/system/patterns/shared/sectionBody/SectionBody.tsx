@@ -81,13 +81,14 @@ const SectionBody = ({ components = {}, sectionKey, patternKey }: SectionBodyPro
         )}
 
         {/* Button - only render if exists */}
-        {renderIf('button-accent') && get('button-accent').content && (
+        {renderIf('button-primary') && get('button-primary').content && (
           <Button
             size="lg"
-            href={get('button-accent').href}
-            componentKey={getWithKey('button-accent').key}
+            variant='accent'
+            href={get('button-primary').href}
+            componentKey={getWithKey('button-primary').key}
           >
-            {get('button-accent').content}
+            {get('button-primary').content}
           </Button>
         )}
       </VStack>
