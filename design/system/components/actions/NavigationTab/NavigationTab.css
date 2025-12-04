@@ -226,7 +226,7 @@
 .tab--segment.tab--active,
 .tab--segment.active {
   border-color: var(--border-accent);
-  background-color: var(--surface-nav-item-selected);
+  background-color: var(--surface-accent-muted);
   color: var(--text-nav-item-selected);
   box-shadow: 0 2px 4px var(--surface-accent-muted);
 }
