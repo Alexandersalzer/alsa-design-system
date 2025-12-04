@@ -1,0 +1,316 @@
+/* ===============================================
+   src/design-system/components/data/LineChart/LineChart.css
+   LINE CHART STYLES - STRIPE-INSPIRED
+   Uses ONLY semantic tokens - zero hardcoded colors
+   =============================================== */
+
+/* ==============================================
+   LineChart.css
+   MODERN LINE CHART - STRIPE-INSPIRED DESIGN
+   Uses ONLY semantic tokens
+   ============================================== */
+
+/* ===== BASE CHART CONTAINER ===== */
+.line-chart {
+  background-color: var(--surface-base);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+  padding: var(--foundation-space-6);
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===== RESPONSIVE BEHAVIOR ===== */
+.line-chart--responsive {
+  width: 100%;
+  max-width: 100%;
+}
+
+.line-chart--responsive .line-chart__container {
+  width: 100%;
+  height: auto;
+}
+
+.line-chart--responsive .line-chart__svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== CHART HEADER ===== */
+.line-chart__header {
+  margin-bottom: var(--foundation-space-5);
+}
+
+.line-chart__title {
+  font-size: var(--foundation-font-size-lg);
+  font-weight: var(--foundation-font-weight-semibold);
+  color: var(--text-strong);
+  margin: 0 0 var(--foundation-space-1) 0;
+  line-height: var(--foundation-line-height-tight);
+}
+
+.line-chart__subtitle {
+  font-size: var(--foundation-font-size-sm);
+  color: var(--text-muted);
+  margin: 0;
+  line-height: var(--foundation-line-height-normal);
+}
+
+/* ===== LEGEND ===== */
+.line-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--foundation-space-4);
+  margin-bottom: var(--foundation-space-4);
+  padding: var(--foundation-space-3);
+  background-color: var(--surface-raised);
+  border-radius: var(--radius-sm);
+}
+
+.line-chart__legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+}
+
+.line-chart__legend-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+}
+
+.line-chart__legend-marker--accent {
+  background-color: var(--surface-accent);
+}
+
+.line-chart__legend-marker--error {
+  background-color: var(--surface-error);
+}
+
+.line-chart__legend-marker--success {
+  background-color: var(--surface-success);
+}
+
+.line-chart__legend-marker--warning {
+  background-color: var(--surface-warning);
+}
+
+.line-chart__legend-marker--info {
+  background-color: var(--surface-info);
+}
+
+.line-chart__legend-label {
+  font-size: var(--foundation-font-size-sm);
+  font-weight: var(--foundation-font-weight-medium);
+  color: var(--text-default);
+}
+
+/* ===== CHART CONTAINER ===== */
+.line-chart__container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.line-chart__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ===== GRID LINES ===== */
+.line-chart__grid-line {
+  stroke: var(--border-subtle);
+  stroke-width: 1;
+  opacity: 0.6;
+}
+
+.line-chart__grid-line--vertical {
+  stroke-dasharray: 2, 4;
+  opacity: 0.4;
+}
+
+.line-chart__grid-line--horizontal {
+  stroke-dasharray: none;
+}
+
+/* ===== LINES ===== */
+.line-chart__line {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke-width var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+.line-chart__line--accent {
+  stroke: var(--surface-accent);
+}
+
+.line-chart__line--error {
+  stroke: var(--surface-error);
+}
+
+.line-chart__line--success {
+  stroke: var(--surface-success);
+}
+
+.line-chart__line--warning {
+  stroke: var(--surface-warning);
+}
+
+.line-chart__line--info {
+  stroke: var(--surface-info);
+}
+
+.line-chart__line--dashed {
+  stroke-dasharray: 6, 4;
+}
+
+.line-chart:hover .line-chart__line {
+  stroke-width: 3;
+}
+
+/* ===== AREA FILLS ===== */
+.line-chart__area {
+  opacity: 0.1;
+  transition: opacity var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+.line-chart__area--accent {
+  fill: var(--surface-accent);
+}
+
+.line-chart__area--error {
+  fill: var(--surface-error);
+}
+
+.line-chart__area--success {
+  fill: var(--surface-success);
+}
+
+.line-chart__area--warning {
+  fill: var(--surface-warning);
+}
+
+.line-chart__area--info {
+  fill: var(--surface-info);
+}
+
+.line-chart:hover .line-chart__area {
+  opacity: 0.15;
+}
+
+/* ===== GRADIENT FILLS ===== */
+.line-chart__gradient-start--accent {
+  stop-color: var(--surface-accent);
+  stop-opacity: 0.2;
+}
+
+.line-chart__gradient-start--error {
+  stop-color: var(--surface-error);
+  stop-opacity: 0.2;
+}
+
+.line-chart__gradient-start--success {
+  stop-color: var(--surface-success);
+  stop-opacity: 0.2;
+}
+
+.line-chart__gradient-start--warning {
+  stop-color: var(--surface-warning);
+  stop-opacity: 0.2;
+}
+
+.line-chart__gradient-start--info {
+  stop-color: var(--surface-info);
+  stop-opacity: 0.2;
+}
+
+.line-chart__gradient-end {
+  stop-color: var(--surface-base);
+  stop-opacity: 0;
+}
+
+/* ===== DATA POINTS ===== */
+.line-chart__dot {
+  stroke-width: 2;
+  cursor: pointer;
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+.line-chart__dot--accent {
+  fill: var(--surface-accent);
+  stroke: var(--surface-base);
+}
+
+.line-chart__dot--error {
+  fill: var(--surface-error);
+  stroke: var(--surface-base);
+}
+
+.line-chart__dot--success {
+  fill: var(--surface-success);
+  stroke: var(--surface-base);
+}
+
+.line-chart__dot--warning {
+  fill: var(--surface-warning);
+  stroke: var(--surface-base);
+}
+
+.line-chart__dot--info {
+  fill: var(--surface-info);
+  stroke: var(--surface-base);
+}
+
+.line-chart__dot:hover {
+  stroke-width: 3;
+  r: 6;
+}
+
+/* ===== AXIS LABELS ===== */
+.line-chart__label {
+  font-family: var(--foundation-font-family-sans);
+  font-size: var(--foundation-font-size-xs);
+  fill: var(--text-muted);
+  font-weight: var(--foundation-font-weight-medium);
+  user-select: none;
+}
+
+.line-chart__label--x {
+  text-anchor: middle;
+  dominant-baseline: hanging;
+}
+
+.line-chart__label--y {
+  text-anchor: end;
+  dominant-baseline: middle;
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .line-chart__line,
+  .line-chart__dot,
+  .line-chart__area {
+    transition: none !important;
+  }
+  
+  .line-chart__dot:hover {
+    transform: none;
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  .line-chart {
+    border: 1px solid var(--border-strong);
+    box-shadow: none;
+  }
+  
+  .line-chart__line {
+    stroke-width: 2;
+  }
+}

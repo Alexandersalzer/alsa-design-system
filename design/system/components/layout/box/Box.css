@@ -28,12 +28,11 @@
 
 /* ===== BORDER RADIUS ===== */
 .box-radius-none { border-radius: 0; }
-.box-radius-sm { border-radius: var(--foundation-radius-sm); }
-.box-radius-md { border-radius: var(--foundation-radius-md); }
-.box-radius-lg { border-radius: var(--foundation-radius-lg); }
-.box-radius-xl { border-radius: var(--foundation-radius-xl); }
-.box-radius-full { border-radius: var(--foundation-radius-full); }
-
+.box-radius-sm { border-radius: var(--radius-xs); }
+.box-radius-md { border-radius: var(--radius-sm); }
+.box-radius-lg { border-radius: var(--radius-md); }
+.box-radius-xl { border-radius: var(--radius-lg); }
+.box-radius-full { border-radius: var(--radius-xl); }
 /* ===== BACKGROUND ===== */
 .box-bg-base { background-color: var(--surface-base); }
 .box-bg-card { background-color: var(--surface-card); }

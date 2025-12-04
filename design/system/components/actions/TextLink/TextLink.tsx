@@ -181,7 +181,7 @@ export default TextLink;
 <TextLink variant="brand" size="lg" weight="bold">Brand Name</TextLink>
 
 // ✅ PRIMARY TEXTLINK
-<TextLink variant="primary" href="/about">About Us</TextLink>
+<TextLink variant="accent" href="/about">About Us</TextLink>
 
 // ✅ SECONDARY TEXTLINK
 <TextLink variant="secondary" href="/contact">Contact</TextLink>
@@ -193,7 +193,7 @@ export default TextLink;
 <TextLink variant="ghost" href="/terms">Terms of Service</TextLink>
 
 // ✅ WITH ICONS
-<TextLink variant="primary" leftIcon={<LogoIcon />} rightIcon={<ArrowIcon />}>
+<TextLink variant="accent" leftIcon={<LogoIcon />} rightIcon={<ArrowIcon />}>
   Brand with Icons
 </TextLink>
 

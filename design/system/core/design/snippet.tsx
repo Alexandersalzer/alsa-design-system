@@ -59,33 +59,34 @@ export function buildCssVars(tokens: DesignTokens): string {
       --selected-container-spacing: var(--foundation-container-spacing-${containerSpacing});
       --selected-navbar-spacing:    var(--foundation-navbar-spacing-${navbarSpacing});
 
-      /* ===== Accent ===== */
+      /* ===== Accent Color Selection ===== */
+      /* Set foundation colors - these will be used by color-mix() in colors.css for auto-inversion */
       ${isInverseAccent ? `
-        --accent-100: var(--neutral-100);
-        --accent-200: var(--neutral-200);
-        --accent-300: var(--neutral-300);
-        --accent-400: var(--neutral-400);
-        --accent-500: var(--neutral-500);
-        --accent-600: var(--neutral-1200);
-        --accent-700: var(--neutral-1100);
-        --accent-800: var(--neutral-1000);
-        --accent-900: var(--neutral-900);
-        --accent-1000: var(--neutral-1000);
-        --accent-1100: var(--neutral-1100);
-        --accent-1200: var(--neutral-1200);
+        --foundation-accent-100: var(--foundation-gray-100);
+        --foundation-accent-200: var(--foundation-gray-200);
+        --foundation-accent-300: var(--foundation-gray-300);
+        --foundation-accent-400: var(--foundation-gray-400);
+        --foundation-accent-500: var(--foundation-gray-500);
+        --foundation-accent-600: var(--foundation-gray-1200);
+        --foundation-accent-700: var(--foundation-gray-1100);
+        --foundation-accent-800: var(--foundation-gray-1000);
+        --foundation-accent-900: var(--foundation-gray-900);
+        --foundation-accent-1000: var(--foundation-gray-1000);
+        --foundation-accent-1100: var(--foundation-gray-1100);
+        --foundation-accent-1200: var(--foundation-gray-1200);
       ` : `
-        --accent-100: var(--foundation-${accentColor}-100);
-        --accent-200: var(--foundation-${accentColor}-200);
-        --accent-300: var(--foundation-${accentColor}-300);
-        --accent-400: var(--foundation-${accentColor}-400);
-        --accent-500: var(--foundation-${accentColor}-500);
-        --accent-600: var(--foundation-${accentColor}-600);
-        --accent-700: var(--foundation-${accentColor}-700);
-        --accent-800: var(--foundation-${accentColor}-800);
-        --accent-900: var(--foundation-${accentColor}-900);
-        --accent-1000: var(--foundation-${accentColor}-1000);
-        --accent-1100: var(--foundation-${accentColor}-1100);
-        --accent-1200: var(--foundation-${accentColor}-1200);
+        --foundation-accent-100: var(--foundation-${accentColor}-100);
+        --foundation-accent-200: var(--foundation-${accentColor}-200);
+        --foundation-accent-300: var(--foundation-${accentColor}-300);
+        --foundation-accent-400: var(--foundation-${accentColor}-400);
+        --foundation-accent-500: var(--foundation-${accentColor}-500);
+        --foundation-accent-600: var(--foundation-${accentColor}-600);
+        --foundation-accent-700: var(--foundation-${accentColor}-700);
+        --foundation-accent-800: var(--foundation-${accentColor}-800);
+        --foundation-accent-900: var(--foundation-${accentColor}-900);
+        --foundation-accent-1000: var(--foundation-${accentColor}-1000);
+        --foundation-accent-1100: var(--foundation-${accentColor}-1100);
+        --foundation-accent-1200: var(--foundation-${accentColor}-1200);
       `}
 
       /* ===== Typography scale ===== */
@@ -113,38 +114,81 @@ export function buildCssVars(tokens: DesignTokens): string {
       --selected-font-weight-body:    var(--foundation-weightscale-${fontWeightScale}-body);
       --selected-font-weight-label:   var(--foundation-weightscale-${fontWeightScale}-label);
 
-      /* ===== Theme ===== */
+      /* ===== Theme Control (replaces data-theme attribute) ===== */
       --is-dark: ${isDark ? 1 : 0};
     }
+
+    ${isInverseAccent ? `
+    /* ===== INVERSE ACCENT MODE (replaces data-accent-mode attribute) ===== */
+    /* Override accent semantic tokens for high-contrast monochrome */
+    :root {
+      --surface-accent: var(--surface-inverse);
+      --surface-accent-subtle: var(--surface-hover);
+      --surface-accent-muted: var(--surface-active);
+
+      --text-accent: var(--text-strong);
+      --text-accent-strong: var(--text-strong);
+      --text-accent-subtle: var(--text-default);
+      --text-on-accent: var(--text-inverse);
+
+      --border-accent: var(--border-emphasis);
+      --border-accent-subtle: var(--border-default);
+      --border-accent-strong: var(--border-emphasis);
+      --border-focus: var(--border-emphasis);
+      --border-selected: var(--border-emphasis);
+
+      --icon-accent: var(--icon-strong);
+      --icon-on-accent: var(--icon-inverse);
+
+      --text-link: var(--text-strong);
+      --text-link-hover: var(--text-default);
+
+      --interactive-accent: var(--interactive-primary);
+      --interactive-accent-hover: var(--interactive-primary-hover);
+      --interactive-accent-active: var(--interactive-primary-active);
+      --interactive-accent-disabled: var(--interactive-primary-disabled);
+    }
+    ` : ''}
+
+    ${isDark ? `
+    /* ===== DARK MODE ADJUSTMENTS (replaces data-theme attribute) ===== */
+    :root {
+      --surface-backdrop: rgba(0, 0, 0, 0.7);
+      --surface-scrim: rgba(0, 0, 0, 0.85);
+    }
+    ` : ''}
   `.trim();
 }
 
 /**
  * Parent function som kombinerar getDesignConfig + buildCssVars
  * Detta är den primära funktionen som ska användas i layouts
- * 
+ *
+ * @param isEditing - Optional parameter for backward compatibility (not used)
  * @returns CSS string redo att injectas i <style> tag
  */
 /**
  * Returns CSS and theme metadata from design.json
  * Always reads the actual file for consistent behavior
  */
-export async function designSnippet(): Promise<{ css: string; themeTone: string; isDark: boolean }> {
+export async function designSnippet(isEditing?: boolean): Promise<{ css: string; themeTone: string; isDark: boolean; accentColor: string }> {
   const designConfig = await getDesignConfig();
-  
+
   if (!designConfig) {
     // No design config found, return defaults
     return {
       css: "",
       themeTone: "neutral",
-      isDark: false
+      isDark: false,
+      accentColor: "purple"
     };
   }
-  
+
   const tokens = designConfig.globalStyles || {};
   const themeTone = tokens.themeTone || "neutral";
   const isDark = tokens.isDark ?? false;
+  const accentColor = tokens.accentColor || "purple";
   const css = buildCssVars(tokens);
-  
-  return { css, themeTone, isDark };
+
+  return { css, themeTone, isDark, accentColor };
 }

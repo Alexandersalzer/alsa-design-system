@@ -89,7 +89,7 @@
 .nav-item.selected,
 .tab--active,
 .tab.active {
-  background-color: var(--surface-nav-item-selected);
+  background-color: var(--surface-accent-muted);
   color: var(--text-nav-item-selected);
 }
 
@@ -211,7 +211,7 @@
 /* Segment variant (compact pills) */
 .tab--segment {
   justify-content: center;
-  border-radius: var(--foundation-radius-full, 9999px);
+  border-radius: var(--radius-xl);
   border: 1px solid var(--border-nav);
   padding: var(--foundation-space-1, 4px) var(--foundation-space-3, 12px);
   font-size: var(--font-label-sm-size, 13px);
@@ -318,7 +318,7 @@
 /* Segment tabs container */
 .tab-group--segment {
   background-color: var(--surface-raised);
-  border-radius: var(--foundation-radius-full, 9999px);
+  border-radius: var(--radius-xl);
   padding: var(--foundation-space-1, 4px);
   gap: var(--foundation-space-1, 4px);
   border: 1px solid var(--border-nav);
@@ -341,7 +341,7 @@
   bottom: 0;
   height: 2px;
   background: var(--text-nav-item-selected);
-  border-radius: var(--foundation-radius-full, 9999px);
+  border-radius: var(--radius-xl);
   
   transition: 
     left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
@@ -355,7 +355,7 @@
 .tab-group__indicator--segment {
   position: absolute;
   background: var(--text-nav-item-selected);
-  border-radius: var(--foundation-radius-full, 9999px);
+  border-radius: var(--radius-xl);
   
   transition: 
     left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
@@ -395,11 +395,11 @@
 .nav-item__badge,
 .tab__badge {
   background: var(--surface-tag-accent);
-  color: white;
+  color: var(--text-strong);
   font-size: 11px;
   font-weight: 600;
   padding: 2px 6px;
-  border-radius: var(--foundation-radius-full, 9999px);
+  border-radius: var(--radius-xl);
   min-width: 18px;
   height: 18px;
   display: flex;

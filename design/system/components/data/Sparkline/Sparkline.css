@@ -1,0 +1,201 @@
+/* ===============================================
+   src/design-system/components/data/Sparkline/Sparkline.css
+   SPARKLINE STYLES - COMPACT MINI-CHART
+   Uses ONLY semantic tokens - zero hardcoded colors
+   =============================================== */
+
+/* ==============================================
+   Sparkline.css
+   MODERN SPARKLINE CHART - STRIPE-INSPIRED
+   Uses ONLY semantic tokens
+   ============================================== */
+
+/* ===== BASE SPARKLINE ===== */
+.sparkline {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--foundation-space-2);
+}
+
+.sparkline--empty {
+  color: var(--text-muted);
+  font-size: var(--foundation-font-size-sm);
+}
+
+/* ===== HEADER (VALUE + TREND) ===== */
+.sparkline__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--foundation-space-3);
+}
+
+.sparkline__value-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-1);
+}
+
+.sparkline__value-label {
+  font-size: var(--foundation-font-size-xs);
+  font-weight: var(--foundation-font-weight-medium);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sparkline__value {
+  font-size: var(--foundation-font-size-2xl);
+  font-weight: var(--foundation-font-weight-semibold);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.sparkline__value--accent {
+  color: var(--text-accent-strong);
+}
+
+.sparkline__value--error {
+  color: var(--text-error-strong);
+}
+
+.sparkline__value--success {
+  color: var(--text-success-strong);
+}
+
+.sparkline__value--warning {
+  color: var(--text-warning-strong);
+}
+
+.sparkline__value--info {
+  color: var(--text-info-strong);
+}
+
+/* ===== TREND INDICATOR ===== */
+.sparkline__trend {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-1);
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--foundation-font-size-xs);
+  font-weight: var(--foundation-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.sparkline__trend--positive {
+  background-color: var(--surface-success-subtle);
+  color: var(--text-success-strong);
+}
+
+.sparkline__trend--negative {
+  background-color: var(--surface-error-subtle);
+  color: var(--text-error-strong);
+}
+
+.sparkline__trend-icon {
+  fill: currentColor;
+}
+
+.sparkline__trend-value {
+  line-height: 1;
+}
+
+/* ===== SVG CHART ===== */
+.sparkline__svg {
+  display: block;
+  overflow: visible;
+}
+
+/* ===== LINE ===== */
+.sparkline__line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.sparkline__line--accent {
+  stroke: var(--surface-accent);
+}
+
+.sparkline__line--error {
+  stroke: var(--surface-error);
+}
+
+.sparkline__line--success {
+  stroke: var(--surface-success);
+}
+
+.sparkline__line--warning {
+  stroke: var(--surface-warning);
+}
+
+.sparkline__line--info {
+  stroke: var(--surface-info);
+}
+
+/* ===== AREA FILL ===== */
+.sparkline__area {
+  opacity: 1;
+}
+
+.sparkline__area--accent {
+  /* Uses gradient */
+}
+
+.sparkline__area--error {
+  /* Uses gradient */
+}
+
+.sparkline__area--success {
+  /* Uses gradient */
+}
+
+.sparkline__area--warning {
+  /* Uses gradient */
+}
+
+.sparkline__area--info {
+  /* Uses gradient */
+}
+
+/* ===== GRADIENT FILLS ===== */
+.sparkline__gradient-start--accent {
+  stop-color: var(--surface-accent);
+  stop-opacity: 0.3;
+}
+
+.sparkline__gradient-start--error {
+  stop-color: var(--surface-error);
+  stop-opacity: 0.3;
+}
+
+.sparkline__gradient-start--success {
+  stop-color: var(--surface-success);
+  stop-opacity: 0.3;
+}
+
+.sparkline__gradient-start--warning {
+  stop-color: var(--surface-warning);
+  stop-opacity: 0.3;
+}
+
+.sparkline__gradient-start--info {
+  stop-color: var(--surface-info);
+  stop-opacity: 0.3;
+}
+
+.sparkline__gradient-end {
+  stop-color: var(--surface-base);
+  stop-opacity: 0;
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .sparkline__line,
+  .sparkline__area {
+    transition: none !important;
+  }
+}

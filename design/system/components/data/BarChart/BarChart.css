@@ -1,0 +1,183 @@
+/* ===============================================
+   src/design-system/components/data/BarChart/BarChart.css
+   BAR CHART STYLES - VERTICAL/HORIZONTAL
+   Uses ONLY semantic tokens - zero hardcoded colors
+   =============================================== */
+
+/* ==============================================
+   BarChart.css
+   MODERN BAR CHART - STRIPE-INSPIRED
+   Uses ONLY semantic tokens
+   ============================================== */
+
+/* ===== BASE CHART CONTAINER ===== */
+.bar-chart {
+  background-color: var(--surface-base);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+  padding: var(--foundation-space-6);
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===== RESPONSIVE ===== */
+.bar-chart--responsive {
+  width: 100%;
+  max-width: 100%;
+}
+
+.bar-chart--responsive .bar-chart__container {
+  width: 100%;
+  height: auto;
+}
+
+.bar-chart--responsive .bar-chart__svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== HEADER ===== */
+.bar-chart__header {
+  margin-bottom: var(--foundation-space-5);
+}
+
+.bar-chart__title {
+  font-size: var(--foundation-font-size-lg);
+  font-weight: var(--foundation-font-weight-semibold);
+  color: var(--text-strong);
+  margin: 0 0 var(--foundation-space-1) 0;
+  line-height: var(--foundation-line-height-tight);
+}
+
+.bar-chart__subtitle {
+  font-size: var(--foundation-font-size-sm);
+  color: var(--text-muted);
+  margin: 0;
+  line-height: var(--foundation-line-height-normal);
+}
+
+/* ===== LEGEND ===== */
+.bar-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--foundation-space-4);
+  margin-bottom: var(--foundation-space-4);
+  padding: var(--foundation-space-3);
+  background-color: var(--surface-raised);
+  border-radius: var(--radius-sm);
+}
+
+.bar-chart__legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+}
+
+.bar-chart__legend-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-xs);
+}
+
+.bar-chart__legend-marker--accent {
+  background-color: var(--surface-accent);
+}
+
+.bar-chart__legend-marker--error {
+  background-color: var(--surface-error);
+}
+
+.bar-chart__legend-marker--success {
+  background-color: var(--surface-success);
+}
+
+.bar-chart__legend-marker--warning {
+  background-color: var(--surface-warning);
+}
+
+.bar-chart__legend-marker--info {
+  background-color: var(--surface-info);
+}
+
+.bar-chart__legend-label {
+  font-size: var(--foundation-font-size-sm);
+  font-weight: var(--foundation-font-weight-medium);
+  color: var(--text-default);
+}
+
+/* ===== CONTAINER ===== */
+.bar-chart__container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.bar-chart__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ===== GRID ===== */
+.bar-chart__grid-line {
+  stroke: var(--border-subtle);
+  stroke-width: 1;
+  opacity: 0.6;
+}
+
+/* ===== BARS ===== */
+.bar-chart__bar {
+  cursor: pointer;
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+.bar-chart__bar--accent {
+  fill: var(--surface-accent);
+}
+
+.bar-chart__bar--error {
+  fill: var(--surface-error);
+}
+
+.bar-chart__bar--success {
+  fill: var(--surface-success);
+}
+
+.bar-chart__bar--warning {
+  fill: var(--surface-warning);
+}
+
+.bar-chart__bar--info {
+  fill: var(--surface-info);
+}
+
+.bar-chart__bar:hover {
+  opacity: 0.8;
+  filter: brightness(1.1);
+}
+
+/* ===== LABELS ===== */
+.bar-chart__label {
+  font-family: var(--foundation-font-family-sans);
+  font-size: var(--foundation-font-size-sm);
+  fill: var(--text-default);
+  font-weight: var(--foundation-font-weight-medium);
+  user-select: none;
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .bar-chart__bar {
+    transition: none !important;
+  }
+}
+
+/* ===== PRINT ===== */
+@media print {
+  .bar-chart {
+    border: 1px solid var(--border-strong);
+    box-shadow: none;
+  }
+}

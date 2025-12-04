@@ -249,7 +249,7 @@
 
 .modal__content::-webkit-scrollbar-thumb {
   background: var(--surface-sunken);
-  border-radius: var(--foundation-radius-full);
+  border-radius: var(--radius-lg);
 }
 
 .modal__content::-webkit-scrollbar-thumb:hover {

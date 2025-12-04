@@ -50,6 +50,12 @@ export const handleDesignTokens = (
   if (typeof tokens.isDark === 'boolean') {
     html.setAttribute('data-theme', tokens.isDark ? 'dark' : 'light');
   }
+  // Set accent mode for inverse colors
+  if (tokens.accentColor === 'inverse') {
+    html.setAttribute('data-accent-mode', 'inverse');
+  } else {
+    html.removeAttribute('data-accent-mode');
+  }
 };
 
 // 🎨 Design Token Updates Handler

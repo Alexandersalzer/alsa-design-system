@@ -327,7 +327,7 @@ export const EnhancedTextarea: React.FC<EnhancedTextareaProps> = ({
                   padding: 'var(--foundation-space-1) var(--foundation-space-2)',
                   fontSize: 'var(--foundation-text-xs)',
                   border: '1px solid var(--border-secondary)',
-                  borderRadius: 'var(--foundation-radius-sm)',
+                  borderRadius: 'var(--radius-sm)',
                   background: 'var(--surface-input)',
                   color: 'var(--text-primary)',
                   cursor: 'pointer'

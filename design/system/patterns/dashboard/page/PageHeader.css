@@ -35,14 +35,14 @@
 /* ===== BACKGROUND VARIANTS ===== */
 .page-header--bg-subtle {
   background: var(--surface-page);
-  border-radius: var(--foundation-radius-lg);
+  border-radius: var(--radius-md);
   padding: var(--foundation-space-6) var(--foundation-space-8);
   border: 1px solid var(--border-card);
 }
 
 .page-header--bg-card {
   background: var(--surface-card);
-  border-radius: var(--foundation-radius-lg);
+  border-radius: var(--radius-md);
   padding: var(--foundation-space-8);
   border: 1px solid var(--border-card);
   box-shadow: var(--shadow-card);
@@ -86,7 +86,7 @@
   display: inline-flex;
   align-items: center;
   padding: var(--foundation-space-1) var(--foundation-space-3);
-  border-radius: var(--foundation-radius-full);
+  border-radius: var(--radius-full);
   font-size: var(--font-label-xs-size);
   font-weight: var(--font-label-weight);
   line-height: 1;

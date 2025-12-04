@@ -107,7 +107,7 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
               </Button>
             )}
             {renderIf('button-primaryAction') && (
-              <Button variant="primary" href={getWithKey('button-primaryAction').props.href} componentKey={getWithKey('button-primaryAction').key}>
+              <Button variant="accent" href={getWithKey('button-primaryAction').props.href} componentKey={getWithKey('button-primaryAction').key}>
                 {getWithKey('button-primaryAction').props.content}
               </Button>
             )}
@@ -176,7 +176,7 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
             )}
             {renderIf('button-primaryAction') && (
               <Button
-                variant="primary"
+                variant="accent"
                 href={getWithKey('button-primaryAction').props.href}
                 onClick={() => setMobileOpen(false)}
                 className="drawer-navbar-button"

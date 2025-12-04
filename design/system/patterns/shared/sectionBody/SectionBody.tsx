@@ -43,6 +43,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey }: SectionBodyPro
           <Box>
             <Tag
               size="medium"
+              variant='accent'
               icon={null}
               componentKey={getWithKey('tag').key}
             >
@@ -83,6 +84,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey }: SectionBodyPro
         {renderIf('button-primary') && get('button-primary').content && (
           <Button
             size="lg"
+            variant='accent'
             href={get('button-primary').href}
             componentKey={getWithKey('button-primary').key}
           >

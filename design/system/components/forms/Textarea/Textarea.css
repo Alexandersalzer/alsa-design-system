@@ -229,12 +229,12 @@
 
 .textarea::-webkit-scrollbar-track {
   background: var(--surface-elevated);
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-sm);
 }
 
 .textarea::-webkit-scrollbar-thumb {
   background: var(--border-strong);
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-sm);
 }
 
 .textarea::-webkit-scrollbar-thumb:hover {

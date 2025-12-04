@@ -122,68 +122,69 @@
   );
 
   /* -------------------------------------------------------------------------
-     2.3 ACCENT SCALE (auto-inverts, overridden by snippet.ts)
-     Default: purple - snippet.ts replaces with user's chosen color
+     2.3 ACCENT SCALE (auto-inverts based on --is-dark)
+     Uses --foundation-accent-XXX (set by snippet.ts from design.json accentColor)
+     Automatically inverts light↔dark for proper contrast in both themes
      ------------------------------------------------------------------------- */
   --accent-100: color-mix(
     in srgb,
-    var(--foundation-purple-100) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-1200) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-100) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-1200) calc(var(--is-dark) * 100%)
   );
   --accent-200: color-mix(
     in srgb,
-    var(--foundation-purple-200) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-1100) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-200) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-1100) calc(var(--is-dark) * 100%)
   );
   --accent-300: color-mix(
     in srgb,
-    var(--foundation-purple-300) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-1000) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-300) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-1000) calc(var(--is-dark) * 100%)
   );
   --accent-400: color-mix(
     in srgb,
-    var(--foundation-purple-400) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-900) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-400) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-900) calc(var(--is-dark) * 100%)
   );
   --accent-500: color-mix(
     in srgb,
-    var(--foundation-purple-500) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-800) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-500) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-800) calc(var(--is-dark) * 100%)
   );
   --accent-600: color-mix(
     in srgb,
-    var(--foundation-purple-600) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-700) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-600) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-700) calc(var(--is-dark) * 100%)
   );
   --accent-700: color-mix(
     in srgb,
-    var(--foundation-purple-700) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-600) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-700) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-600) calc(var(--is-dark) * 100%)
   );
   --accent-800: color-mix(
     in srgb,
-    var(--foundation-purple-800) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-500) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-800) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-500) calc(var(--is-dark) * 100%)
   );
   --accent-900: color-mix(
     in srgb,
-    var(--foundation-purple-900) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-400) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-900) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-400) calc(var(--is-dark) * 100%)
   );
   --accent-1000: color-mix(
     in srgb,
-    var(--foundation-purple-1000) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-300) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-1000) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-300) calc(var(--is-dark) * 100%)
   );
   --accent-1100: color-mix(
     in srgb,
-    var(--foundation-purple-1100) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-200) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-1100) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-200) calc(var(--is-dark) * 100%)
   );
   --accent-1200: color-mix(
     in srgb,
-    var(--foundation-purple-1200) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-purple-100) calc(var(--is-dark) * 100%)
+    var(--foundation-accent-1200) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-accent-100) calc(var(--is-dark) * 100%)
   );
 
   /* -------------------------------------------------------------------------
@@ -708,6 +709,52 @@
   /* Text on actions becomes inverse */
   --intent-text-on-action: var(--text-inverse);
   --intent-icon-on-action: var(--icon-inverse);
+}
+
+
+/* =============================================================================
+   5. INVERSE ACCENT MODE
+   🎯 When accentColor === "inverse", override all accent semantic tokens
+   to use neutral/inverse values for maximum contrast monochrome palette
+   ============================================================================= */
+
+[data-accent-mode="inverse"] {
+  /* =========================================================================
+     Override Section 3.4 ACCENT tokens to use neutral/inverse values
+     This creates a high-contrast monochrome palette
+     ========================================================================= */
+
+  /* ----- Surfaces ----- */
+  --surface-accent: var(--surface-inverse);
+  --surface-accent-subtle: var(--surface-hover);
+  --surface-accent-muted: var(--surface-active);
+
+  /* ----- Text ----- */
+  --text-accent: var(--text-strong);
+  --text-accent-strong: var(--text-strong);
+  --text-accent-subtle: var(--text-default);
+  --text-on-accent: var(--text-inverse);
+
+  /* ----- Borders ----- */
+  --border-accent: var(--border-emphasis);
+  --border-accent-subtle: var(--border-default);
+  --border-accent-strong: var(--border-emphasis);
+  --border-focus: var(--border-emphasis);
+  --border-selected: var(--border-emphasis);
+
+  /* ----- Icons ----- */
+  --icon-accent: var(--icon-strong);
+  --icon-on-accent: var(--icon-inverse);
+
+  /* ----- Links ----- */
+  --text-link: var(--text-strong);
+  --text-link-hover: var(--text-default);
+
+  /* ----- Interactive (Buttons) ----- */
+  --interactive-accent: var(--interactive-primary);
+  --interactive-accent-hover: var(--interactive-primary-hover);
+  --interactive-accent-active: var(--interactive-primary-active);
+  --interactive-accent-disabled: var(--interactive-primary-disabled);
 }
 
 

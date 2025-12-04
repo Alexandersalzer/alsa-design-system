@@ -1,0 +1,185 @@
+/* ===============================================
+   src/design-system/components/data/DonutChart/DonutChart.css
+   DONUT CHART STYLES - PIE/DONUT CHARTS
+   Uses ONLY semantic tokens - zero hardcoded colors
+   =============================================== */
+
+/* ==============================================
+   DonutChart.css
+   MODERN DONUT/PIE CHART
+   Uses ONLY semantic tokens
+   ============================================== */
+
+/* ===== BASE ===== */
+.donut-chart {
+  background-color: var(--surface-base);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+  padding: var(--foundation-space-6);
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+/* ===== HEADER ===== */
+.donut-chart__header {
+  margin-bottom: var(--foundation-space-5);
+  text-align: center;
+}
+
+.donut-chart__title {
+  font-size: var(--foundation-font-size-lg);
+  font-weight: var(--foundation-font-weight-semibold);
+  color: var(--text-strong);
+  margin: 0 0 var(--foundation-space-1) 0;
+  line-height: var(--foundation-line-height-tight);
+}
+
+.donut-chart__subtitle {
+  font-size: var(--foundation-font-size-sm);
+  color: var(--text-muted);
+  margin: 0;
+  line-height: var(--foundation-line-height-normal);
+}
+
+/* ===== CONTAINER ===== */
+.donut-chart__container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--foundation-space-4);
+}
+
+.donut-chart__svg {
+  display: block;
+}
+
+/* ===== SLICES ===== */
+.donut-chart__slice {
+  cursor: pointer;
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+.donut-chart__slice--accent {
+  fill: var(--surface-accent);
+}
+
+.donut-chart__slice--error {
+  fill: var(--surface-error);
+}
+
+.donut-chart__slice--success {
+  fill: var(--surface-success);
+}
+
+.donut-chart__slice--warning {
+  fill: var(--surface-warning);
+}
+
+.donut-chart__slice--info {
+  fill: var(--surface-info);
+}
+
+.donut-chart__slice:hover {
+  opacity: 0.8;
+  filter: brightness(1.1);
+}
+
+/* ===== LABELS ===== */
+.donut-chart__label {
+  font-family: var(--foundation-font-family-sans);
+  font-size: var(--foundation-font-size-xs);
+  fill: var(--text-default);
+  font-weight: var(--foundation-font-weight-semibold);
+  user-select: none;
+}
+
+/* ===== CENTER TEXT ===== */
+.donut-chart__center-text {
+  font-family: var(--foundation-font-family-sans);
+  font-size: var(--foundation-font-size-2xl);
+  fill: var(--text-strong);
+  font-weight: var(--foundation-font-weight-bold);
+  user-select: none;
+}
+
+.donut-chart__center-subtext {
+  font-family: var(--foundation-font-family-sans);
+  font-size: var(--foundation-font-size-sm);
+  fill: var(--text-muted);
+  font-weight: var(--foundation-font-weight-medium);
+  user-select: none;
+}
+
+/* ===== LEGEND ===== */
+.donut-chart__legend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-2);
+}
+
+.donut-chart__legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+  padding: var(--foundation-space-2);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+.donut-chart__legend-item:hover {
+  background-color: var(--surface-hover);
+}
+
+.donut-chart__legend-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.donut-chart__legend-marker--accent {
+  background-color: var(--surface-accent);
+}
+
+.donut-chart__legend-marker--error {
+  background-color: var(--surface-error);
+}
+
+.donut-chart__legend-marker--success {
+  background-color: var(--surface-success);
+}
+
+.donut-chart__legend-marker--warning {
+  background-color: var(--surface-warning);
+}
+
+.donut-chart__legend-marker--info {
+  background-color: var(--surface-info);
+}
+
+.donut-chart__legend-label {
+  font-size: var(--foundation-font-size-sm);
+  font-weight: var(--foundation-font-weight-medium);
+  color: var(--text-default);
+  flex: 1;
+}
+
+.donut-chart__legend-value {
+  font-size: var(--foundation-font-size-sm);
+  font-weight: var(--foundation-font-weight-semibold);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .donut-chart__slice {
+    transition: none !important;
+  }
+}
+
+/* ===== PRINT ===== */
+@media print {
+  .donut-chart {
+    border: 1px solid var(--border-strong);
+    box-shadow: none;
+  }
+}

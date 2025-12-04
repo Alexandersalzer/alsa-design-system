@@ -106,7 +106,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   color: var(--icon-default);
   font-size: 20px;

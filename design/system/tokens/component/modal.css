@@ -23,7 +23,7 @@
   --text-modal-title: var(--text-heading);
 
   /* ===== MODAL SIZING ===== */
-  --radius-modal: var(--foundation-radius-lg);
+  --radius-modal: var(--radius-lg);
   --shadow-modal: var(--foundation-shadow-xl);
 
   /* ===== MODAL Z-INDEX ===== */

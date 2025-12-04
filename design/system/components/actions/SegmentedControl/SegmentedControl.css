@@ -69,7 +69,7 @@
   top: 50%;
   transform: translateY(-50%);
   height: 60%;
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-sm);
   width: 2px;
   background: var(--border-default);
   opacity: 0.5;
@@ -207,16 +207,16 @@
 
 /* PILL VARIANT */
 .segmented-control--pill {
-  border-radius: var(--foundation-radius-full); /* ✅ Dynamic full radius */
+  border-radius: var(--radius-xl); /* ✅ Dynamic full radius */
   background: var(--surface-elevated);
 }
 
 .segmented-control--pill .segmented-control__indicator {
-  border-radius: var(--foundation-radius-full); /* ✅ Dynamic full radius */
+  border-radius: var(--radius-xl); /* ✅ Dynamic full radius */
 }
 
 .segmented-control--pill .segmented-control__option {
-  border-radius: var(--foundation-radius-full); /* ✅ Dynamic full radius */
+  border-radius: var(--radius-xl); /* ✅ Dynamic full radius */
 }
 
 /* GHOST VARIANT */

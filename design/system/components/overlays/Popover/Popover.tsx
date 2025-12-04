@@ -471,7 +471,7 @@ export const PopoverContent = ({
         ...(position.shouldOpenUpward ? {
           bottom: '100%',
           top: 'auto',
-          marginBottom: '8px'
+          marginBottom: 'calc( var(--control-height-md) + 8px)'
         } : {
           top: '100%',
           bottom: 'auto',
