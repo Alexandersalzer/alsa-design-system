@@ -5,6 +5,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { cn } from '../../../utils/cn';
+import { Component } from '../../frames/component/Component';
 import './Image.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -42,6 +43,8 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   rootMargin?: string;
   /** Custom className */
   className?: string;
+  /** Component key for live editing */
+  componentKey?: string;
 }
 
 // ===== MAIN IMAGE COMPONENT =====
@@ -64,6 +67,7 @@ export const Image: React.FC<ImageProps> = ({
   rootMargin = '200px',
   className,
   style,
+  componentKey,
   ...props
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -190,48 +194,50 @@ export const Image: React.FC<ImageProps> = ({
   };
 
   return (
-    <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* ✅ OPTIMIZATION 3: Delayed skeleton - DON'T show for cached/priority/eager images */}
-      {showSkeleton && !shouldBeVisible && !hasError && (
-        <div className="image-skeleton image-skeleton--delayed" />
-      )}
+    <Component componentKey={componentKey}>
+      <div ref={containerRef} className={containerClasses} style={containerStyles}>
+        {/* ✅ OPTIMIZATION 3: Delayed skeleton - DON'T show for cached/priority/eager images */}
+        {showSkeleton && !shouldBeVisible && !hasError && (
+          <div className="image-skeleton image-skeleton--delayed" />
+        )}
 
-      {/* Actual image */}
-      {shouldLoad && (
-        <img
-          ref={imgRef}
-          src={currentSrc}
-          alt={alt}
-          className={imageClasses}
-          style={imageStyles}
-          onLoad={handleLoad}
-          onError={handleError}
-          loading={priority || isCached ? 'eager' : 'lazy'}
-          {...props}
-        />
-      )}
+        {/* Actual image */}
+        {shouldLoad && (
+          <img
+            ref={imgRef}
+            src={currentSrc}
+            alt={alt}
+            className={imageClasses}
+            style={imageStyles}
+            onLoad={handleLoad}
+            onError={handleError}
+            loading={priority || isCached ? 'eager' : 'lazy'}
+            {...props}
+          />
+        )}
 
-      {/* Error state */}
-      {hasError && !fallbackSrc && (
-        <div className="image-error">
-          <svg
-            width="40"
-            height="40"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-            <circle cx="8.5" cy="8.5" r="1.5" />
-            <polyline points="21 15 16 10 5 21" />
-          </svg>
-          <span className="image-error-text"></span>
-        </div>
-      )}
-    </div>
+        {/* Error state */}
+        {hasError && !fallbackSrc && (
+          <div className="image-error">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
+            </svg>
+            <span className="image-error-text"></span>
+          </div>
+        )}
+      </div>
+    </Component>
   );
 };
 
