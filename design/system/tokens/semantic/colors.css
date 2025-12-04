@@ -755,6 +755,10 @@
   --interactive-accent-hover: var(--interactive-primary-hover);
   --interactive-accent-active: var(--interactive-primary-active);
   --interactive-accent-disabled: var(--interactive-primary-disabled);
+
+  /* ----- Navigation Intents (override for inverse) ----- */
+  --intent-nav-item-active-text: var(--text-inverse);
+  --intent-nav-item-active-icon: var(--icon-inverse);
 }
 
 
