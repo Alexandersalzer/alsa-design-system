@@ -93,6 +93,7 @@ export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
             key={`${item.id}-${index}`} 
             className="Carousel-animation-item"
             style={itemStyle}
+            {...(item.componentKey && { 'data-component-key': item.componentKey })}
           >
             {item.content}
           </div>
