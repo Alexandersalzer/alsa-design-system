@@ -100,7 +100,7 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  padding: 0 calc(1.25rem / 2); /* Add horizontal padding to contain thumb at edges */
+  padding: 0 1rem; /* Add horizontal padding to contain thumb and marks at edges */
 }
 
 .slider--vertical .slider-track-wrapper {
