@@ -2,7 +2,7 @@
 
 import { VideoShowcase } from '../../../components/media/VideoShowcase/VideoShowcase';
 import { Image } from '../../../components/media/Image/Image';
-import { componentPropsWithKey, componentPresent } from '../../../core/utils/props';
+import { componentProps, componentPresent } from '../../../core/utils/props';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
 
@@ -12,14 +12,14 @@ interface MediaPatternProps extends PatternNode {
 }
 
 const MediaPattern = ({ components = {}, sectionKey, patternKey }: MediaPatternProps) => {
-  const getWithKey = componentPropsWithKey(components);
+  const get = componentProps(components);
   const renderIf = componentPresent(components);
   
   // If we have a video, render VideoShowcase
-  if (renderIf('video') && getWithKey('video').props.src) {
+  if (renderIf('video') && get('video').props.src) {
     return (
       <VideoShowcase
-        src={`${CDN_BASE_URL}${getWithKey('video').props.src}`}
+        src={`${CDN_BASE_URL}${get('video').props.src}`}
         autoPlay={false}
         muted={true}
         loop={true}
@@ -29,17 +29,17 @@ const MediaPattern = ({ components = {}, sectionKey, patternKey }: MediaPatternP
         size="full"
         aspectRatio="16-9"
         radius="md"
-        componentKey={getWithKey('video').key}
+        componentKey={get('video').key}
       />
     );
   }
   
   // If we have an image, render Image
-  if (renderIf('image') && getWithKey('image').props.imageSrc) {
+  if (renderIf('image') && get('image').props.imageSrc) {
     return (
       <Image
-        src={`${CDN_BASE_URL}${getWithKey('image').props.imageSrc}`}
-        alt={getWithKey('image').props.alt || 'Media image'}
+        src={`${CDN_BASE_URL}${get('image').props.imageSrc}`}
+        alt={get('image').props.alt || 'Media image'}
         width="100%"
         height="auto"
         objectFit="cover"
@@ -48,7 +48,7 @@ const MediaPattern = ({ components = {}, sectionKey, patternKey }: MediaPatternP
         priority={true}
         aspectRatio="16/9"
         className="media-pattern-image"
-        componentKey={getWithKey('image').key}
+        componentKey={get('image').key}
       />
     );
   }

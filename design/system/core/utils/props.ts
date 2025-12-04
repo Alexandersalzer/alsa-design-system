@@ -10,21 +10,6 @@ import { ComponentNode, PatternNode } from '../types/nodes';
  * Get content from the first component with a specific type and optional role
  * Returns the content string or a fallback value
  */
-/**
- * Get props from the first component with a specific type and optional role
- * Returns the props object or a fallback value
- */
-export const getComponentProps = (
-  components: Record<string, ComponentNode>,
-  type: string,
-  fallback: Record<string, any> = {}
-): Record<string, any> => {
-  const component = Object.values(components).find(c => {
-    const matchesType = c.type === type;
-    return matchesType;
-  });
-  return component?.props ?? fallback;
-};
 
 export const componentProps = (components: Record<string, ComponentNode>) => {
   return (type: string, fallback: Record<string, any> = {}) => {
@@ -36,7 +21,7 @@ export const componentProps = (components: Record<string, ComponentNode>) => {
  * Get component props along with the component key for live editing
  * Returns both props and the key for data-component-key attribute
  */
-export const getComponentWithKey = (
+export const getComponentProps = (
   components: Record<string, ComponentNode>,
   type: string,
   fallback: Record<string, any> = {}
@@ -59,11 +44,7 @@ export const getComponentWithKey = (
   };
 };
 
-export const componentPropsWithKey = (components: Record<string, ComponentNode>) => {
-  return (type: string, fallback: Record<string, any> = {}) => {
-    return getComponentWithKey(components, type, fallback);
-  };
-};
+
 
 /**
  * Get props from a pattern

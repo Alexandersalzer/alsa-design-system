@@ -5,7 +5,7 @@ import { CarouselAnimation, CarouselAnimationItem } from '../../../components/Ca
 import { LogoImage } from '../../../components/media/Image';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
-import { componentPropsWithKey, componentPresent, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
+import { componentProps, componentPresent, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
 
 interface SpinningBannerProps extends PatternNode {
   sectionKey?: string;
@@ -13,7 +13,7 @@ interface SpinningBannerProps extends PatternNode {
 }
 
 export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {}, sectionKey, patternKey, ...patternNode }) => {
-  const getWithKey = componentPropsWithKey(components);
+  const get = componentProps(components);
   const renderIf = componentPresent(components);
   const getPatternProps = patternProps({ components, ...patternNode });
   const mapComponentsOfType = useMapComponents(components);

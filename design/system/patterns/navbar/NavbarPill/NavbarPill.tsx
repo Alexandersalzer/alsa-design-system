@@ -6,7 +6,7 @@ import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../comp
 import { Logo } from '../../../components/media/Logo';
 import { MenuIcon, XIcon } from 'lucide-react';
 import Drawer from '../../../components/overlays/Drawer/Drawer';
-import { componentPropsWithKey, componentPresent, patternProps, useMapComponents } from '../../../core/utils/props';
+import { componentProps, componentPresent, patternProps, useMapComponents } from '../../../core/utils/props';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { alignMap } from '../utils';
 import './NavbarPill.css';
@@ -19,7 +19,7 @@ interface NavbarPillProps extends PatternNode {
 }
 
 const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }: NavbarPillProps) => {
-  const getWithKey = componentPropsWithKey(components);
+  const get = componentProps(components);
   const getPatternProps = patternProps({ components, ...patternNode });
   const renderIf = componentPresent(components);
   const mapComponentIndices = useMapComponents(components);
@@ -76,22 +76,22 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
 
   // Build logo props with componentKey
   const logoProps = {
-    src: renderIf('logo') && getWithKey('logo').props.src ? `${CDN_BASE_URL}${getWithKey('logo').props.src}` : undefined,
-    alt: renderIf('logo') ? (getWithKey('logo').props.alt || 'Logo') : undefined,
-    text: renderIf('typography-businessName') ? getWithKey('typography-businessName').props.content : undefined,
+    src: renderIf('logo') && get('logo').props.src ? `${CDN_BASE_URL}${get('logo').props.src}` : undefined,
+    alt: renderIf('logo') ? (get('logo').props.alt || 'Logo') : undefined,
+    text: renderIf('typography-businessName') ? get('typography-businessName').props.content : undefined,
     href: `/${currentLocale}`,
-    width: renderIf('logo') ? (getWithKey('logo').props.width || 40) : undefined,
-    height: renderIf('logo') ? (getWithKey('logo').props.height || 40) : undefined,
-    color: renderIf('logo') ? (getWithKey('logo').props.color || 'auto') : 'auto' as const,
-    textSize: renderIf('typography-businessName') ? (getWithKey('typography-businessName').props.size || 'lg') : 'lg' as const,
-    textWeight: renderIf('typography-businessName') ? (getWithKey('typography-businessName').props.weight || 'extrabold') : 'extrabold' as const,
-    textTransform: renderIf('typography-businessName') ? (getWithKey('typography-businessName').props.transform || 'none') : 'none' as const,
-    textSpacing: renderIf('typography-businessName') ? (getWithKey('typography-businessName').props.spacing || 'normal') : 'normal' as const,
-    textGradient: renderIf('typography-businessName') ? (getWithKey('typography-businessName').props.gradient || false) : false,
+    width: renderIf('logo') ? (get('logo').props.width || 40) : undefined,
+    height: renderIf('logo') ? (get('logo').props.height || 40) : undefined,
+    color: renderIf('logo') ? (get('logo').props.color || 'auto') : 'auto' as const,
+    textSize: renderIf('typography-businessName') ? (get('typography-businessName').props.size || 'lg') : 'lg' as const,
+    textWeight: renderIf('typography-businessName') ? (get('typography-businessName').props.weight || 'extrabold') : 'extrabold' as const,
+    textTransform: renderIf('typography-businessName') ? (get('typography-businessName').props.transform || 'none') : 'none' as const,
+    textSpacing: renderIf('typography-businessName') ? (get('typography-businessName').props.spacing || 'normal') : 'normal' as const,
+    textGradient: renderIf('typography-businessName') ? (get('typography-businessName').props.gradient || false) : false,
     gap: renderIf('logo') && renderIf('typography-businessName') ? (getPatternProps().logoGap || 'sm') : 'sm' as const,
     hideTextOnMobile: getPatternProps().hideLogoTextOnMobile || false,
-    componentKey: renderIf('logo') ? getWithKey('logo').key : undefined,
-    textComponentKey: renderIf('typography-businessName') ? getWithKey('typography-businessName').key : undefined,
+    componentKey: renderIf('logo') ? get('logo').key : undefined,
+    textComponentKey: renderIf('typography-businessName') ? get('typography-businessName').key : undefined,
   };
 
   return (
@@ -131,13 +131,13 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
           {/* RIGHT - Desktop only */}
           <HStack spacing="sm" className="navbar-pill__right">
             {renderIf('button-secondaryAction') && (
-              <Button variant="ghost" href={getWithKey('button-secondaryAction').props.href} componentKey={getWithKey('button-secondaryAction').key}>
-                {getWithKey('button-secondaryAction').props.content}
+              <Button variant="ghost" href={get('button-secondaryAction').props.href} componentKey={get('button-secondaryAction').key}>
+                {get('button-secondaryAction').props.content}
               </Button>
             )}
             {renderIf('button-primaryAction') && (
-              <Button variant="accent" href={getWithKey('button-primaryAction').props.href} componentKey={getWithKey('button-primaryAction').key}>
-                {getWithKey('button-primaryAction').props.content}
+              <Button variant="accent" href={get('button-primaryAction').props.href} componentKey={get('button-primaryAction').key}>
+                {get('button-primaryAction').props.content}
               </Button>
             )}
           </HStack>
@@ -200,23 +200,23 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
             {renderIf('button-secondaryAction') && (
               <Button
                 variant="ghost"
-                href={getWithKey('button-secondaryAction').props.href}
+                href={get('button-secondaryAction').props.href}
                 onClick={() => setMobileOpen(false)}
                 className="drawer-pill-button"
-                componentKey={getWithKey('button-secondaryAction').key}
+                componentKey={get('button-secondaryAction').key}
               >
-                {getWithKey('button-secondaryAction').props.content}
+                {get('button-secondaryAction').props.content}
               </Button>
             )}
             {renderIf('button-primaryAction') && (
               <Button
                 variant="accent"
-                href={getWithKey('button-primaryAction').props.href}
+                href={get('button-primaryAction').props.href}
                 onClick={() => setMobileOpen(false)}
                 className="drawer-pill-button"
-                componentKey={getWithKey('button-primaryAction').key}
+                componentKey={get('button-primaryAction').key}
               >
-                {getWithKey('button-primaryAction').props.content}
+                {get('button-primaryAction').props.content}
               </Button>
             )}
           </VStack>
