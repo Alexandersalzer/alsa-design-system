@@ -30,18 +30,18 @@ const GridForm = ({ components = {} }: PatternNode) => {
         
         {/* Name Field - colSpan 1 */}
         {renderIf('input-name') && (
-          <GridItem colSpan={get('input-name').colSpan || 1}>
+          <GridItem colSpan={get('input-name').props.colSpan || 1} data-component-key={get('input-name').key}>
             <Input
-              type={get('input-name').variant || 'text'}
-              name={get('input-name').name || 'name'}
-              label={get('input-name').label || 'Namn'}
-              placeholder={get('input-name').placeholder || 'Förnamn'}
+              type={get('input-name').props.variant || 'text'}
+              name={get('input-name').props.name || 'name'}
+              label={get('input-name').props.label || 'Namn'}
+              placeholder={get('input-name').props.placeholder || 'Förnamn'}
               leftIcon={
                 <Icon size="sm" color="secondary">
                   <UserIcon />
                 </Icon>
               }
-              required={get('input-name').required || true}
+              required={get('input-name').props.required || true}
               size="md"
               radius="md"
               style={{ width: '100%' }}
@@ -51,18 +51,18 @@ const GridForm = ({ components = {} }: PatternNode) => {
 
         {/* Business Field - colSpan 1 */}
         {renderIf('input-business') && (
-          <GridItem colSpan={get('input-business').colSpan || 1}>
+          <GridItem colSpan={get('input-business').props.colSpan || 1} data-component-key={get('input-business').key}>
             <Input
-              type={get('input-business').variant || 'text'}
-              name={get('input-business').name || 'business'}
-              label={get('input-business').label || 'Företag'}
-              placeholder={get('input-business').placeholder || 'Företagsnamn'}
+              type={get('input-business').props.variant || 'text'}
+              name={get('input-business').props.name || 'business'}
+              label={get('input-business').props.label || 'Företag'}
+              placeholder={get('input-business').props.placeholder || 'Företagsnamn'}
               leftIcon={
                 <Icon size="sm" color="secondary">
                   <BuildingOfficeIcon />
                 </Icon>
               }
-              required={get('input-business').required || true}
+              required={get('input-business').props.required || true}
               size="md"
               radius="md"
               style={{ width: '100%' }}
@@ -72,18 +72,18 @@ const GridForm = ({ components = {} }: PatternNode) => {
 
         {/* Email Field - colSpan 2 (full width) */}
         {renderIf('input-email') && (
-          <GridItem colSpan={get('input-email').colSpan || 2}>
+          <GridItem colSpan={get('input-email').props.colSpan || 2} data-component-key={get('input-email').key}>
             <Input
-              type={get('input-email').variant || 'email'}
-              name={get('input-email').name || 'email'}
-              label={get('input-email').label || 'E-post'}
-              placeholder={get('input-email').placeholder || 'din@email.com'}
+              type={get('input-email').props.variant || 'email'}
+              name={get('input-email').props.name || 'email'}
+              label={get('input-email').props.label || 'E-post'}
+              placeholder={get('input-email').props.placeholder || 'din@email.com'}
               leftIcon={
                 <Icon size="sm" color="secondary">
                   <EnvelopeIcon />
                 </Icon>
               }
-              required={get('input-email').required || true}
+              required={get('input-email').props.required || true}
               size="md"
               radius="md"
               style={{ width: '100%' }}
@@ -93,21 +93,20 @@ const GridForm = ({ components = {} }: PatternNode) => {
 
         {/* Message Field - colSpan 2 (full width) */}
         {renderIf('textarea-message') && (
-          <GridItem colSpan={get('textarea-message').colSpan || 2}>
+          <GridItem colSpan={get('textarea-message').props.colSpan || 2} data-component-key={get('textarea-message').key}>
             <Textarea
-              name={get('textarea-message').name || 'message'}
-              label={get('textarea-message').label || 'Meddelande'}
-              placeholder={get('textarea-message').placeholder || 'Skriv ditt meddelande här...'}
-              rows={get('textarea-message').rows || 4}
-              required={get('textarea-message').required || true}
-              style={{ width: '100%' }}
+              name={get('textarea-message').props.name || 'message'}
+              label={get('textarea-message').props.label || 'Meddelande'}
+              placeholder={get('textarea-message').props.placeholder || 'Skriv ditt meddelande här...'}
+              rows={get('textarea-message').props.rows || 4}
+              required={get('textarea-message').props.required || true}
             />
           </GridItem>
         )}
 
         {/* Submit Button - colSpan 2 (full width) */}
         {renderIf('button-submit') && (
-          <GridItem colSpan={get('button-submit').colSpan || 2}>
+          <GridItem colSpan={get('button-submit').props.colSpan || 2} data-component-key={get('button-submit').key}>
             <Button
               type="submit"
               variant="accent"
@@ -120,7 +119,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
               }
               style={{ width: '100%' }}
             >
-              {get('button-submit').content || 'Skicka'}
+              {get('button-submit').props.content || 'Skicka'}
             </Button>
           </GridItem>
         )}

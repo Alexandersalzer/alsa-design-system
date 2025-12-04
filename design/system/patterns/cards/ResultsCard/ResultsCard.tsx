@@ -5,6 +5,7 @@ import { CDN_BASE_URL } from '../../../core/utils/env';
 import './ResultsCard.css';
 
 interface ResultsCardProps {
+  componentKey?: string;
   heading: string;
   subheading: string;
   description: string;
@@ -24,6 +25,7 @@ interface ResultsCardProps {
 export type { ResultsCardProps };
 
 export function ResultsCard({ 
+  componentKey,
   heading, 
   subheading, 
   description, 
@@ -38,7 +40,7 @@ export function ResultsCard({
   spacing = 'sm'
 }: ResultsCardProps) {
   return (
-    <div className="results-card">
+    <div className="results-card" data-component-key={componentKey}>
       {/* Image Card - separate container with background */}
       <Card 
         variant={cardVariant} 

@@ -8,6 +8,7 @@ import { cn } from '../../../utils/cn';
 import { HStack } from '../../layout';
 import { LogoImage, LogoImageProps } from '../Image/Image';
 import { BrandName } from './LogoText';
+import { Component } from '../../frames/component/Component';
 import './Logo.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -53,6 +54,10 @@ export interface LogoProps {
   onClick?: () => void;
   /** Custom className */
   className?: string;
+  /** Component key for live editing */
+  componentKey?: string;
+  /** Text component key for live editing */
+  textComponentKey?: string;
 }
 
 // ===== MAIN LOGO COMPONENT =====
@@ -78,6 +83,8 @@ export const Logo: React.FC<LogoProps> = ({
   priority = false,
   onClick,
   className,
+  componentKey,
+  textComponentKey,
 }) => {
   // Map unified color to image variant and text color
   const getImageVariant = (color: 'auto' | 'light' | 'dark' | 'brand'): 'auto' | 'light' | 'dark' | 'color' => {
@@ -131,17 +138,19 @@ export const Logo: React.FC<LogoProps> = ({
   if (hasImage && !hasText) {
     return (
       <Wrapper {...wrapperProps}>
-        <LogoImage
-          src={src!}
-          alt={alt}
-          width={width}
-          height={height}
-          radius={radius}
-          variant={imageVariant}
-          loading={loading}
-          priority={priority}
-          className="logo__image-only"
-        />
+        <Component componentKey={componentKey}>
+          <LogoImage
+            src={src!}
+            alt={alt}
+            width={width}
+            height={height}
+            radius={radius}
+            variant={imageVariant}
+            loading={loading}
+            priority={priority}
+            className="logo__image-only"
+          />
+        </Component>
       </Wrapper>
     );
   }
@@ -150,18 +159,20 @@ export const Logo: React.FC<LogoProps> = ({
   if (!hasImage && hasText) {
     return (
       <Wrapper {...wrapperProps}>
-        <BrandName
-          href={undefined}
-          size={textSize}
-          weight={textWeight}
-          transform={textTransform}
-          spacing={textSpacing}
-          color={textColor}
-          gradient={textGradient}
-          className="logo__text-only"
-        >
-          {text}
-        </BrandName>
+        <Component componentKey={textComponentKey}>
+          <BrandName
+            href={undefined}
+            size={textSize}
+            weight={textWeight}
+            transform={textTransform}
+            spacing={textSpacing}
+            color={textColor}
+            gradient={textGradient}
+            className="logo__text-only"
+          >
+            {text}
+          </BrandName>
+        </Component>
       </Wrapper>
     );
   }
@@ -174,32 +185,36 @@ export const Logo: React.FC<LogoProps> = ({
         spacing={gap === 'xl' ? 'lg' : gap}
         className="logo__combined-container"
       >
-        <LogoImage
-          src={src!}
-          alt={alt}
-          width={width}
-          height={height}
-          radius={radius}
-          variant={imageVariant}
-          loading={loading}
-          priority={priority}
-          className="logo__image"
-        />
-        <BrandName
-          href={undefined}
-          size={textSize}
-          weight={textWeight}
-          transform={textTransform}
-          spacing={textSpacing}
-          color={textColor}
-          gradient={textGradient}
-          className={cn(
-            'logo__text',
-            hideTextOnMobile && 'logo__text--hide-mobile'
-          )}
-        >
-          {text}
-        </BrandName>
+        <Component componentKey={componentKey}>
+          <LogoImage
+            src={src!}
+            alt={alt}
+            width={width}
+            height={height}
+            radius={radius}
+            variant={imageVariant}
+            loading={loading}
+            priority={priority}
+            className="logo__image"
+          />
+        </Component>
+        <Component componentKey={textComponentKey}>
+          <BrandName
+            href={undefined}
+            size={textSize}
+            weight={textWeight}
+            transform={textTransform}
+            spacing={textSpacing}
+            color={textColor}
+            gradient={textGradient}
+            className={cn(
+              'logo__text',
+              hideTextOnMobile && 'logo__text--hide-mobile'
+            )}
+          >
+            {text}
+          </BrandName>
+        </Component>
       </HStack>
     </Wrapper>
   );

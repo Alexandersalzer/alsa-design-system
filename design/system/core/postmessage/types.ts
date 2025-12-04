@@ -23,6 +23,7 @@ export const ParentToClientMessage = {
   UpdateDesignToken: 'UPDATE_DESIGN_TOKEN',
   RequestIframeHeight: 'REQUEST_IFRAME_HEIGHT',
   UpdateComponentContent: 'UPDATE_COMPONENT_CONTENT',
+  UpdateHtmlAttributes: 'UPDATE_HTML_ATTRIBUTES',
 } as const;
 
 
@@ -59,4 +60,8 @@ export interface ComponentContentUpdatePayload {
 export interface RequestHeightPayload {
   iframeId: string;
   width: number;
+}
+
+export interface HtmlAttributesPayload {
+  attributes: Record<string, string | null>; // null = remove attribute
 }

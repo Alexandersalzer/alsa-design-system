@@ -123,3 +123,25 @@ export const handleComponentContentUpdate = (payload: any) => {
     console.warn(`[EditingHandler] Component not found: ${componentKey}`);
   }
 };
+
+// 🏷️ HTML Attributes Handler
+export const handleHtmlAttributes = (payload: any) => {
+  const { attributes } = payload;
+  
+  if (!attributes || typeof attributes !== 'object') {
+    console.warn('[EditingHandler] Invalid HTML attributes payload:', payload);
+    return;
+  }
+  
+  const html = document.documentElement;
+  
+  Object.entries(attributes).forEach(([attr, value]) => {
+    if (value === null) {
+      html.removeAttribute(attr);
+      console.log(`[EditingHandler] Removed HTML attribute: ${attr}`);
+    } else {
+      html.setAttribute(attr, value as string);
+      console.log(`[EditingHandler] Set HTML attribute: ${attr}="${value}"`);
+    }
+  });
+};
