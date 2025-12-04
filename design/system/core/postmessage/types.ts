@@ -54,7 +54,6 @@ export interface RequestedHeightPayload {
 
 export interface ComponentContentUpdatePayload {
   componentKey: string;
-  fieldKey: string;
   content: string;
 }
 

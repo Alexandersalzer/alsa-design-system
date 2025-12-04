@@ -105,9 +105,9 @@ export const handleHeightRequest = (iframeId: string, width: number) => {
 
 // 📝 Component Content Update Handler
 export const handleComponentContentUpdate = (payload: any) => {
-  const { componentKey, fieldKey, content } = payload;
+  const { componentKey, content } = payload;
   
-  if (!componentKey || !fieldKey || content === undefined) {
+  if (!componentKey || content === undefined) {
     console.warn('[EditingHandler] Invalid component update payload:', payload);
     return;
   }
@@ -116,80 +116,17 @@ export const handleComponentContentUpdate = (payload: any) => {
   const componentElement = document.querySelector(`[data-component-key="${componentKey}"]`);
   
   if (componentElement) {
-    // 🎯 Field-specific selectors baserat på fieldKey
-    let targetElement: Element | null = null;
+    // Leta efter första text-element inuti komponenten
+    const textElement = componentElement.querySelector('.btn-text, .text-label-md, [class*="text-"], span, p, h1, h2, h3, h4, h5, h6');
     
-    switch (fieldKey) {
-      case 'content':
-        // Standard content - leta efter text-element
-        targetElement = componentElement.querySelector('.btn-text, .text-label-md, [class*="text-"], span, p, h1, h2, h3, h4, h5, h6');
-        break;
-        
-      case 'heading':
-        // Leta efter heading-element (h1, h2, etc. eller .heading)
-        targetElement = componentElement.querySelector('h1, h2, h3, .heading, [class*="heading"]');
-        break;
-        
-      case 'subheading':
-        // Leta efter subheading-element
-        targetElement = componentElement.querySelector('.subheading, [class*="subheading"], .subtitle');
-        break;
-        
-      case 'description':
-        // Leta efter description/body text
-        targetElement = componentElement.querySelector('.description, [class*="description"], .body-text, p');
-        break;
-        
-      case 'author':
-        // Leta efter author-element
-        targetElement = componentElement.querySelector('.author, [class*="author"]');
-        break;
-        
-      case 'text':
-        // För testimonials - leta efter main text
-        targetElement = componentElement.querySelector('.testimonial-text, .text, blockquote, p');
-        break;
-        
-      case 'href':
-        // För länkar - uppdatera href attribut
-        if (componentElement.tagName === 'A' || componentElement.querySelector('a')) {
-          const linkElement = componentElement.tagName === 'A' ? componentElement : componentElement.querySelector('a');
-          if (linkElement) {
-            (linkElement as HTMLAnchorElement).href = content;
-            console.log(`[EditingHandler] Updated href in ${componentKey} to:`, content);
-            return;
-          }
-        }
-        break;
-        
-      case 'label':
-        // För form labels
-        targetElement = componentElement.querySelector('label, .label, [class*="label"]');
-        break;
-        
-      case 'placeholder':
-        // För form placeholders - uppdatera placeholder attribut
-        const inputElement = componentElement.querySelector('input, textarea');
-        if (inputElement) {
-          (inputElement as HTMLInputElement | HTMLTextAreaElement).placeholder = content;
-          console.log(`[EditingHandler] Updated placeholder in ${componentKey} to:`, content);
-          return;
-        }
-        break;
-        
-      default:
-        // Fallback - leta efter första text-element
-        targetElement = componentElement.querySelector('.btn-text, .text-label-md, [class*="text-"], span, p, h1, h2, h3, h4, h5, h6');
-        break;
-    }
-    
-    if (targetElement) {
-      targetElement.textContent = content;
-      console.log(`[EditingHandler] Updated ${fieldKey} in component ${componentKey} with:`, content);
+    if (textElement) {
+      // Uppdatera text i text-elementet
+      textElement.textContent = content;
+      console.log(`[EditingHandler] Updated text in component ${componentKey} with new content:`, content);
     } else {
-      // Fallback: uppdatera hela komponenten
+      // Fallback: uppdatera hela komponenten om ingen text-element hittas
       componentElement.textContent = content;
-      console.log(`[EditingHandler] Updated entire component ${componentKey} with:`, content);
+      console.log(`[EditingHandler] Updated entire component ${componentKey} with new content:`, content);
     }
   } else {
     console.warn(`[EditingHandler] Component not found: ${componentKey}`);
