@@ -11,6 +11,7 @@ import './CarouselAnimation.css';
 export interface CarouselAnimationItem {
   id: string | number;
   content: ReactNode;
+  componentKey?: string;
 }
 
 export interface CarouselAnimationProps {
