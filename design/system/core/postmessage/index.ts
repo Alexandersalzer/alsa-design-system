@@ -14,7 +14,8 @@ export type {
   RequestedHeightPayload,
   RequestHeightPayload,
   DesignTokenUpdatePayload,
-  ComponentContentUpdatePayload
+  ComponentContentUpdatePayload,
+  HtmlAttributesPayload
 } from './types';
 export { ClientToParentMessage, ParentToClientMessage } from './types';
 
