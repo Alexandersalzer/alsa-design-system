@@ -100,6 +100,7 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  padding: 0 calc(1.25rem / 2); /* Add horizontal padding to contain thumb at edges */
 }
 
 .slider--vertical .slider-track-wrapper {
@@ -137,9 +138,6 @@
   height: 0.25rem;
   margin-top: calc((1.25rem - 0.25rem) / 2);
   margin-bottom: calc((1.25rem - 0.25rem) / 2);
-  border-left-width: calc(1.25rem / 2);
-  border-right-width: calc(1.25rem / 2);
-  border-color: transparent;
 }
 
 .slider--sm.slider--vertical .slider-track {
@@ -147,19 +145,12 @@
   height: auto;
   margin-left: calc((1.25rem - 0.25rem) / 2);
   margin-right: calc((1.25rem - 0.25rem) / 2);
-  border-top-width: calc(1.25rem / 2);
-  border-bottom-width: calc(1.25rem / 2);
-  border-left-width: 0;
-  border-right-width: 0;
 }
 
 .slider--md .slider-track {
   height: 0.75rem;
   margin-top: calc((1.5rem - 0.75rem) / 2);
   margin-bottom: calc((1.5rem - 0.75rem) / 2);
-  border-left-width: calc(1.5rem / 2);
-  border-right-width: calc(1.5rem / 2);
-  border-color: transparent;
 }
 
 .slider--md.slider--vertical .slider-track {
@@ -167,19 +158,12 @@
   height: auto;
   margin-left: calc((1.5rem - 0.75rem) / 2);
   margin-right: calc((1.5rem - 0.75rem) / 2);
-  border-top-width: calc(1.5rem / 2);
-  border-bottom-width: calc(1.5rem / 2);
-  border-left-width: 0;
-  border-right-width: 0;
 }
 
 .slider--lg .slider-track {
   height: 1.75rem;
   margin-top: calc((1.75rem - 1.25rem) / 2);
   margin-bottom: calc((1.75rem - 1.25rem) / 2);
-  border-left-width: calc(1.75rem / 2);
-  border-right-width: calc(1.75rem / 2);
-  border-color: transparent;
 }
 
 .slider--lg.slider--vertical .slider-track {
@@ -187,10 +171,6 @@
   height: auto;
   margin-left: calc((1.75rem - 1.25rem) / 2);
   margin-right: calc((1.75rem - 1.25rem) / 2);
-  border-top-width: calc(1.75rem / 2);
-  border-bottom-width: calc(1.75rem / 2);
-  border-left-width: 0;
-  border-right-width: 0;
 }
 
 /* -----------------------------------------------------------------------------
