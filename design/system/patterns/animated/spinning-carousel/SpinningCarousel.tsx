@@ -45,9 +45,9 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
     onImageClick
   } = getPatternProps();
 
-  // Extract images using the order from PatternNode
-  const images: CarouselImage[] = componentOrder
-    .reduce<CarouselImage[]>((acc, key) => {
+  // Extract images using the order from PatternNode, including component keys
+  const images: (CarouselImage & { componentKey: string })[] = componentOrder
+    .reduce<(CarouselImage & { componentKey: string })[]>((acc, key) => {
       const component = components[key];
       if (!component || (component.type !== 'image' && component.type !== 'logo')) return acc;
       
@@ -57,7 +57,8 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
       acc.push({
         src,
         alt: component.props?.alt || 'Image',
-        title: component.props?.title
+        title: component.props?.title,
+        componentKey: key
       });
       
       return acc;
@@ -77,6 +78,7 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
   // Transform images into CarouselAnimationItem format using Image component
   const carouselItems: CarouselAnimationItem[] = images.map((image, index) => ({
     id: `${image.src}-${index}`,
+    componentKey: image.componentKey,
     content: (
       <div
         className="carousel-image-wrapper"
