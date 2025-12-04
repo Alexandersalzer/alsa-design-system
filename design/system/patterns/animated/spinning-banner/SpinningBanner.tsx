@@ -33,11 +33,11 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
     .map(key => {
       const component = components[key];
       if (!component || component.type !== 'logo') return null;
-      const logoData = getWithKey(key);
+      const logoData = getWithKey('logo'); // Get by type, not key
       return {
-        src: logoData.props?.src || '',
-        alt: logoData.props?.alt || 'Logo',
-        componentKey: logoData.key,
+        src: component.props?.src || '',
+        alt: component.props?.alt || 'Logo',
+        componentKey: key, // Use the actual component key
       };
     })
     .filter((logo): logo is { src: string; alt: string; componentKey: string | undefined } => logo !== null && logo.src !== '');
