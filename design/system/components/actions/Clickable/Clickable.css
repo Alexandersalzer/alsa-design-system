@@ -120,27 +120,27 @@
 }
 
 .clickable--radius-sm { 
-  border-radius: var(--radius-sm); 
+  border-radius: var(--radius-xs); 
 }
 
 .clickable--radius-md { 
-  border-radius: var(--radius-md); 
+  border-radius: var(--radius-sm); 
 }
 
 .clickable--radius-lg { 
-  border-radius: var(--radius-lg); 
+  border-radius: var(--radius-md); 
 }
 
 .clickable--radius-xl { 
-  border-radius: var(--radius-xl); 
+  border-radius: var(--radius-lg); 
 }
 
 .clickable--radius-2xl { 
-  border-radius: var(--radius-2xl); 
+  border-radius: var(--radius-xl); 
 }
 
 .clickable--radius-full { 
-  border-radius: var(--radius-full); 
+  border-radius: var(--radius-2xl); 
 }
 
 /* ===== BACKGROUND VARIANTS ===== */
@@ -218,7 +218,7 @@
   box-shadow: 0 0 0 4px var(--surface-accent-muted);
 }
 
-/* ===== SELECTED STATE ===== */
+/* ===== SELECTED STATE (DEFAULT VARIANT) ===== */
 .clickable--selected {
   background-color: var(--surface-selected) !important;
   border-color: var(--border-selected) !important;
@@ -228,6 +228,35 @@
 .clickable--selected:hover:not(.clickable--disabled) {
   background-color: var(--surface-selected-hover) !important;
   box-shadow: 0 0 0 2px var(--border-accent);
+}
+
+/* ===== BORDERED VARIANT - BORDER-ONLY CHANGES ===== */
+/* Bordered variant: Only change borders on hover/selection, keep background transparent/minimal */
+
+/* Hover: Only border changes, no background change */
+.clickable--variant-bordered.clickable--interactive:hover:not(.clickable--disabled):not(.clickable--loading) {
+  background-color: transparent !important;
+  border-color: var(--border-emphasis);
+}
+
+/* Active: Only border changes */
+.clickable--variant-bordered.clickable--interactive:active:not(.clickable--disabled):not(.clickable--loading) {
+  background-color: transparent !important;
+  border-color: var(--border-strong);
+}
+
+/* Selected: Only border changes, no background */
+.clickable--variant-bordered.clickable--selected {
+  background-color: transparent !important;
+  border-color: var(--border-accent) !important;
+  border-width: 2px;
+  box-shadow: none !important;
+}
+
+.clickable--variant-bordered.clickable--selected:hover:not(.clickable--disabled) {
+  background-color: transparent !important;
+  border-color: var(--border-accent) !important;
+  box-shadow: none !important;
 }
 
 /* ===== DISABLED STATE ===== */

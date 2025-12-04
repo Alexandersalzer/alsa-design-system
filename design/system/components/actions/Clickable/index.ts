@@ -3,11 +3,12 @@
 // ===============================================
 
 export { Clickable } from './Clickable';
-export type { 
+export type {
   ClickableProps,
   ClickableAs,
   ClickablePadding,
   ClickableRadius,
   ClickableBackground,
-  ClickableBorder
+  ClickableBorder,
+  ClickableVariant
 } from './Clickable';
