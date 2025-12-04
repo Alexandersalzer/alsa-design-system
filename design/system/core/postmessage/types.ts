@@ -24,6 +24,7 @@ export const ParentToClientMessage = {
   RequestIframeHeight: 'REQUEST_IFRAME_HEIGHT',
   UpdateComponentContent: 'UPDATE_COMPONENT_CONTENT',
   UpdateHtmlAttributes: 'UPDATE_HTML_ATTRIBUTES',
+  UpdateComponentVisibility: 'UPDATE_COMPONENT_VISIBILITY',
 } as const;
 
 
@@ -64,4 +65,9 @@ export interface RequestHeightPayload {
 
 export interface HtmlAttributesPayload {
   attributes: Record<string, string | null>; // null = remove attribute
+}
+
+export interface ComponentVisibilityPayload {
+  componentKey: string;
+  hidden: boolean;
 }

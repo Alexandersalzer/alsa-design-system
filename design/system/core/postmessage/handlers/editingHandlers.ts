@@ -154,3 +154,26 @@ export const handleHtmlAttributes = (payload: any) => {
     }
   });
 };
+
+// 👁️ Component Visibility Handler
+export const handleComponentVisibility = (payload: any, setHiddenComponents: (updater: (prev: Set<string>) => Set<string>) => void) => {
+  const { componentKey, hidden } = payload;
+  
+  if (!componentKey || typeof hidden !== 'boolean') {
+    console.warn('[EditingHandler] Invalid component visibility payload:', payload);
+    return;
+  }
+  
+  // Uppdatera hidden components state
+  setHiddenComponents(prev => {
+    const newSet = new Set(prev);
+    if (hidden) {
+      newSet.add(componentKey);
+    } else {
+      newSet.delete(componentKey);
+    }
+    return newSet;
+  });
+  
+  console.log(`[EditingHandler] Component ${componentKey} visibility set to: ${hidden ? 'hidden' : 'visible'}`);
+};

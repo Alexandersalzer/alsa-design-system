@@ -5,6 +5,14 @@
 
 import { ComponentNode, PatternNode } from '../types/nodes';
 
+/**
+ * Hidden components context
+ */
+let hiddenComponentsSet: Set<string> = new Set();
+
+export const setHiddenComponentsContext = (hiddenComponents: Set<string>) => {
+  hiddenComponentsSet = hiddenComponents;
+};
 
 /**
  * Get content from the first component with a specific type and optional role
@@ -77,16 +85,19 @@ export const patternProps = (pattern: PatternNode) => {
  */
 export const componentPresent = (components: Record<string, ComponentNode>) => {
   return (type: string) => {
-    const component = Object.values(components).find(c => {
-      const matchesType = c.type === type;
-      return matchesType;
+    const entry = Object.entries(components).find(([key, component]) => {
+      return component.type === type;
     });
     
-    if (!component) return false;
+    if (!entry) return false;
     
-    // Check if component is hidden
+    const [componentKey, component] = entry;
+    
+    // Check if component is hidden via props or context
     const props = component.props || {};
-    if (props.hidden === true) return false;
+    if (props.hidden === true || hiddenComponentsSet.has(componentKey)) {
+      return false;
+    }
     
     return true;
   };

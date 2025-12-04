@@ -11,7 +11,7 @@
 
 import { useEffect, useState } from 'react';
 import { ParentToClientMessage } from './types';
-import { handleEditingMode, handleDesignTokens, handleDesignTokenUpdates, handleHeightRequest, handleComponentContentUpdate, handleHtmlAttributes
+import { handleEditingMode, handleDesignTokens, handleDesignTokenUpdates, handleHeightRequest, handleComponentContentUpdate, handleHtmlAttributes, handleComponentVisibility
 } from './handlers/editingHandlers';
 
 /**
@@ -51,6 +51,10 @@ export function EditingHandler() {
 
         case ParentToClientMessage.UpdateHtmlAttributes:
           handleHtmlAttributes(payload);
+          break;
+
+        case ParentToClientMessage.UpdateComponentVisibility:
+          handleComponentVisibility(payload);
           break;
 
         default:
