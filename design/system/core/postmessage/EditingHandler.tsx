@@ -19,6 +19,7 @@ import { handleEditingMode, handleDesignTokens, handleDesignTokenUpdates, handle
  */
 export function EditingHandler() {
   const [designTokens, setDesignTokens] = useState<any>(null);
+  const [hiddenComponents, setHiddenComponents] = useState<Set<string>>(new Set());
   
   // 🎯 Centraliserad message routing
   useEffect(() => {
@@ -54,7 +55,7 @@ export function EditingHandler() {
           break;
 
         case ParentToClientMessage.UpdateComponentVisibility:
-          handleComponentVisibility(payload);
+          handleComponentVisibility(payload, setHiddenComponents);
           break;
 
         default:

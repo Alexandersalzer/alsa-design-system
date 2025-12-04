@@ -164,15 +164,22 @@ export const handleComponentVisibility = (payload: any, setHiddenComponents: (up
     return;
   }
   
-  // Uppdatera hidden components state
-  setHiddenComponents(prev => {
-    const newSet = new Set(prev);
-    if (hidden) {
-      newSet.add(componentKey);
-    } else {
-      newSet.delete(componentKey);
-    }
-    return newSet;
+  // Import utils to update global context
+  import('../../utils/props').then(({ setHiddenComponentsContext }) => {
+    // Uppdatera hidden components state
+    setHiddenComponents(prev => {
+      const newSet = new Set(prev);
+      if (hidden) {
+        newSet.add(componentKey);
+      } else {
+        newSet.delete(componentKey);
+      }
+      
+      // Update global context for componentPresent function
+      setHiddenComponentsContext(newSet);
+      
+      return newSet;
+    });
   });
   
   console.log(`[EditingHandler] Component ${componentKey} visibility set to: ${hidden ? 'hidden' : 'visible'}`);
