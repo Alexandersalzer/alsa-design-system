@@ -96,7 +96,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
           objectFit="contain"
           loading="lazy"
           showSkeleton={true}
-          componentKey={logo.componentKey}
+          {...(logo.componentKey && { componentKey: logo.componentKey })}
           style={{
             transition: 'filter 0.3s ease'
           }}
@@ -137,7 +137,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
               objectFit="contain"
               loading="lazy"
               showSkeleton={true}
-              componentKey={logo.componentKey}
+              {...(logo.componentKey && { componentKey: logo.componentKey })}
               style={{
                 opacity: logoOpacity,
                 transition: 'filter 0.3s ease'
