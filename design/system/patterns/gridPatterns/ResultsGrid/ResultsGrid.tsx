@@ -10,6 +10,7 @@ import './ResultsGrid.css';
 // ===== COMPONENT TYPE DEFINITIONS =====
 export interface ResultsCardData {
   type: 'resultsCard';
+  componentKey: string;
   heading: string;
   subheading: string;
   description: string;
@@ -45,6 +46,7 @@ export const ResultsGrid: React.FC<PatternNode> = (patternNode) => {
       
       acc.push({
         type: 'resultsCard',
+        componentKey: key,
         heading,
         subheading: props.subheading || '',
         description: props.description || '',
@@ -67,6 +69,7 @@ export const ResultsGrid: React.FC<PatternNode> = (patternNode) => {
         {cards.map((card, index) => (
           <ResultsCard
             key={`results-card-${index}`}
+            componentKey={card.componentKey}
             heading={card.heading}
             subheading={card.subheading}
             description={card.description}

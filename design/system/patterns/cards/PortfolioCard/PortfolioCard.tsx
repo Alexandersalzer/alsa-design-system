@@ -17,6 +17,7 @@ import './PortfolioCard.css';
 
 export interface PortfolioCardProps {
   className?: string;
+  componentKey?: string;
   
   // Content
   category?: string | string[]; // Array or single string
@@ -59,6 +60,7 @@ export interface PortfolioCardProps {
 
 export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   className,
+  componentKey,
   category,
   title,
   description,
@@ -101,6 +103,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
       variant={variant}
       padding="sm"
       radius={radius}
+      data-component-key={componentKey}
     >
       <VStack spacing={spacing}>
         <div className="portfolio-media-container">
