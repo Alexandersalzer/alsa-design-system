@@ -34,7 +34,8 @@
 
 /* ===== NAVIGATION BAR ===== */
 .stepper-navigation {
-  display: flex;
+  display: flex !important;
+  flex-direction: row !important;
   align-items: center;
   justify-content: space-between;
   gap: var(--foundation-space-3);
@@ -51,6 +52,7 @@
 /* ===== STEP NUMBERS ===== */
 .stepper-numbers {
   display: flex;
+  flex-direction: row;
   gap: var(--foundation-space-2);
   flex: 1;
   justify-content: center;
@@ -119,6 +121,8 @@
 .stepper-navigation .stepper-button {
   flex-shrink: 0;
   min-width: 100px;
+  display: inline-flex !important;
+  flex-direction: row !important;
 }
 
 /* ===== STEP CONTENT ===== */
