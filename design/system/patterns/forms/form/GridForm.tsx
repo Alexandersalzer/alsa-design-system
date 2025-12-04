@@ -30,7 +30,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
         
         {/* Name Field - colSpan 1 */}
         {renderIf('input-name') && (
-          <GridItem colSpan={get('input-name').props.colSpan || 1}>
+          <GridItem colSpan={get('input-name').props.colSpan || 1} data-component-key={get('input-name').key}>
             <Input
               type={get('input-name').props.variant || 'text'}
               name={get('input-name').props.name || 'name'}
@@ -51,7 +51,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
 
         {/* Business Field - colSpan 1 */}
         {renderIf('input-business') && (
-          <GridItem colSpan={get('input-business').props.colSpan || 1}>
+          <GridItem colSpan={get('input-business').props.colSpan || 1} data-component-key={get('input-business').key}>
             <Input
               type={get('input-business').props.variant || 'text'}
               name={get('input-business').props.name || 'business'}
@@ -72,7 +72,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
 
         {/* Email Field - colSpan 2 (full width) */}
         {renderIf('input-email') && (
-          <GridItem colSpan={get('input-email').props.colSpan || 2}>
+          <GridItem colSpan={get('input-email').props.colSpan || 2} data-component-key={get('input-email').key}>
             <Input
               type={get('input-email').props.variant || 'email'}
               name={get('input-email').props.name || 'email'}
@@ -93,7 +93,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
 
         {/* Message Field - colSpan 2 (full width) */}
         {renderIf('textarea-message') && (
-          <GridItem colSpan={get('textarea-message').props.colSpan || 2}>
+          <GridItem colSpan={get('textarea-message').props.colSpan || 2} data-component-key={get('textarea-message').key}>
             <Textarea
               name={get('textarea-message').props.name || 'message'}
               label={get('textarea-message').props.label || 'Meddelande'}
@@ -106,7 +106,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
 
         {/* Submit Button - colSpan 2 (full width) */}
         {renderIf('button-submit') && (
-          <GridItem colSpan={get('button-submit').props.colSpan || 2}>
+          <GridItem colSpan={get('button-submit').props.colSpan || 2} data-component-key={get('button-submit').key}>
             <Button
               type="submit"
               variant="accent"
