@@ -294,6 +294,7 @@ export const LogoImage: React.FC<LogoImageProps> = ({
   variant = 'auto',
   objectFit = 'contain',
   className,
+  componentKey,
   ...props
 }) => {
   return (
@@ -301,6 +302,7 @@ export const LogoImage: React.FC<LogoImageProps> = ({
       {...props}
       objectFit={objectFit}
       className={cn('logo-image', `logo-image--${variant}`, className)}
+      componentKey={componentKey}
     />
   );
 };
