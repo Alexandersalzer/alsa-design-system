@@ -76,6 +76,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
 
   const animationItems: CarouselAnimationItem[] = allLogos.map((logo, index) => ({
     id: `${logo.src}-${index}`,
+    componentKey: logo.componentKey,
     content: (
       <div
         style={{
