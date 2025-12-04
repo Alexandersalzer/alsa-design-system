@@ -151,14 +151,14 @@
 /* ===== ACCENT ===== */
 .btn-accent {
   background-color: var(--surface-button-accent);
-  color: var(--always-white); /* ✅ now permanent white text */
+  color: var(--text-button-accent); /* ✅ uses semantic token that adapts */
   border-color: var(--border-button-accent);
 }
 
-/* Ensure icons inside accent buttons are white */
+/* Ensure icons inside accent buttons match text color */
 .btn-accent .icon,
 .btn-accent [class*="icon-"] {
-  color: var(--always-white) !important;
+  color: var(--text-button-accent) !important;
 }
 
 .btn-accent:hover:not(:disabled) {
