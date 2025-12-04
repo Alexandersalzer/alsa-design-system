@@ -33,14 +33,13 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
     .map(key => {
       const component = components[key];
       if (!component || component.type !== 'logo') return null;
-      const logoData = getWithKey('logo'); // Get by type, not key
       return {
         src: component.props?.src || '',
         alt: component.props?.alt || 'Logo',
         componentKey: key, // Use the actual component key
       };
     })
-    .filter((logo): logo is { src: string; alt: string; componentKey: string | undefined } => logo !== null && logo.src !== '');
+    .filter((logo): logo is { src: string; alt: string; componentKey: string } => logo !== null && logo.src !== '' && logo.componentKey !== undefined);
 
   // Fallback set (these would also come from JSON in production)
   const fallback = [
@@ -54,7 +53,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
     { src: '/2194716412/images/logos/mindlerLogo.png', alt: 'Mindler', componentKey: undefined },
   ];
 
-  const allLogos = logos.length ? logos : fallback;
+  const allLogos: Array<{ src: string; alt: string; componentKey: string | undefined }> = logos.length ? logos : fallback;
 
   // ✅ Proportional sizing using design tokens
   const sizeMap = useMemo(() => {
