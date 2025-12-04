@@ -147,7 +147,7 @@
 
 /* ===== BACKGROUND VARIANTS ===== */
 .clickable--bg-transparent {
-  background-color: var(--surface-elevated);
+  background-color: transparent;
 }
 
 .clickable--bg-subdued {
