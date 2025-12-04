@@ -305,11 +305,11 @@
 
 /* ===== DARK MODE ADJUSTMENTS ===== */
 [data-theme="dark"] .clickable--interactive:hover:not(.clickable--disabled):not(.clickable--loading) {
-  background-color: var(--surface-hover-dark, rgba(255, 255, 255, 0.05));
+  background-color: var(--surface-hover-dark);
 }
 
 [data-theme="dark"] .clickable--interactive:active:not(.clickable--disabled):not(.clickable--loading) {
-  background-color: var(--surface-pressed-dark, rgba(255, 255, 255, 0.1));
+  background-color: var(--surface-pressed-dark);
 }
 
 /* ===== REDUCED MOTION SUPPORT ===== */

@@ -115,10 +115,16 @@
 .segmented-control__icon {
   display: flex;
   align-items: center;
-  color: inherit;
+  color: var(--text-muted); /* Default: unselected state */
   flex-shrink: 0;
   /* Don't block clicks */
   pointer-events: none;
+  transition: color 0.15s ease;
+}
+
+/* Selected state - match text color */
+.segmented-control__option[data-selected="true"] .segmented-control__icon {
+  color: var(--text-strong);
 }
 
 .segmented-control__icon svg {
