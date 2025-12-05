@@ -9,7 +9,8 @@ import React, {
   useState,
   useCallback,
 } from 'react';
-import { Label } from '../../Typography/Typography'; // ← ONLY CHANGE: Added /Typography
+import { Label } from '../../Typography/Typography';
+import { Tooltip } from '../../overlays/Tooltip/Tooltip';
 import { cn } from '../../../utils/cn';
 
 export interface SegmentedControlOption {
@@ -240,7 +241,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
         const tooltipText = option.tooltip || option.label;
         const showTooltip = iconOnly && tooltipText;
 
-        return (
+        const buttonElement = (
           <button
             key={option.value}
             className={cn(
@@ -261,7 +262,6 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
             aria-checked={isSelected}
             aria-disabled={isDisabled || undefined}
             aria-label={iconOnly ? option.label : undefined}
-            title={showTooltip ? tooltipText : undefined}
             tabIndex={isSelected ? 0 : -1}
             data-value={option.value}
             data-selected={isSelected}
@@ -279,13 +279,25 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
                 {option.label}
               </Label>
             )}
-            {showTooltip && (
-              <span className="segmented-control__tooltip" role="tooltip">
-                {tooltipText}
-              </span>
-            )}
           </button>
         );
+
+        // Wrap with Tooltip if iconOnly mode
+        if (showTooltip) {
+          return (
+            <Tooltip
+              key={option.value}
+              content={tooltipText}
+              placement="bottom"
+              delay={500}
+              showArrow
+            >
+              {buttonElement}
+            </Tooltip>
+          );
+        }
+
+        return buttonElement;
       })}
     </div>
   );
