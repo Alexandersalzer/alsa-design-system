@@ -41,26 +41,28 @@ class ApiClient {
     };
   }
 
-  async get<T = any>(url: string): Promise<ApiResponse<T>> {
-    return this.request<T>(url, { method: 'GET' });
+  async get<T = any>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
+    return this.request<T>(url, { method: 'GET', ...options });
   }
 
-  async post<T = any>(url: string, data?: any): Promise<ApiResponse<T>> {
+  async post<T = any>(url: string, data?: any, options?: RequestInit): Promise<ApiResponse<T>> {
     return this.request<T>(url, {
       method: 'POST',
       body: data ? JSON.stringify(data) : undefined,
+      ...options,
     });
   }
 
-  async put<T = any>(url: string, data?: any): Promise<ApiResponse<T>> {
+  async put<T = any>(url: string, data?: any, options?: RequestInit): Promise<ApiResponse<T>> {
     return this.request<T>(url, {
       method: 'PUT',
       body: data ? JSON.stringify(data) : undefined,
+      ...options,
     });
   }
 
-  async delete<T = any>(url: string): Promise<ApiResponse<T>> {
-    return this.request<T>(url, { method: 'DELETE' });
+  async delete<T = any>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
+    return this.request<T>(url, { method: 'DELETE', ...options });
   }
 }
 
