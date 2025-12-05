@@ -15,6 +15,7 @@
   isolation: isolate;
   gap: var(--foundation-space-1);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  height: var(--control-height-md); /* ✅ Track matches control height */
 }
 
 /* ===== SLIDING INDICATOR ===== */
@@ -54,11 +55,12 @@
   pointer-events: auto;
   min-width: 0;
   flex: 1;
-  padding: var(--foundation-space-2) var(--foundation-space-4); /* ✅ Better padding */
+  padding: 0 var(--foundation-space-4); /* ✅ Vertical padding removed, height controlled by track */
   border-radius: calc(var(--radius-button) - 2px); /* ✅ Dynamic radius */
   box-sizing: border-box;
   text-align: center;
   white-space: nowrap;
+  height: 100%; /* ✅ Fill track height */
 }
 
 /* ===== OPTION DIVIDERS ===== */
@@ -69,7 +71,7 @@
   top: 50%;
   transform: translateY(-50%);
   height: 60%;
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-sm);
   width: 2px;
   background: var(--border-default);
   opacity: 0.5;
@@ -113,10 +115,16 @@
 .segmented-control__icon {
   display: flex;
   align-items: center;
-  color: inherit;
+  color: var(--text-muted); /* Default: unselected state */
   flex-shrink: 0;
   /* Don't block clicks */
   pointer-events: none;
+  transition: color 0.15s ease;
+}
+
+/* Selected state - match text color */
+.segmented-control__option[data-selected="true"] .segmented-control__icon {
+  color: var(--text-strong);
 }
 
 .segmented-control__icon svg {
@@ -131,6 +139,7 @@
   padding: var(--foundation-space-1);
   border-radius: var(--radius-button); /* ✅ Dynamic */
   gap: var(--foundation-space-1);
+  height: var(--control-height-sm); /* ✅ Track matches control height */
 }
 
 .segmented-control--sm .segmented-control__indicator {
@@ -141,10 +150,10 @@
 }
 
 .segmented-control--sm .segmented-control__option {
-  padding: var(--foundation-space-1) var(--foundation-space-3); /* ✅ Better padding */
+  padding: 0 var(--foundation-space-3); /* ✅ Horizontal padding only */
   gap: var(--foundation-space-1);
   border-radius: calc(var(--radius-button) - 2px); /* ✅ Dynamic */
-  min-height: var(--control-height-sm); /* ✅ Match button/input height */
+  height: 100%; /* ✅ Fill track height */
 }
 
 .segmented-control--sm .segmented-control__option::after {
@@ -160,6 +169,7 @@
 .segmented-control--md {
   padding: var(--foundation-space-1);
   border-radius: var(--radius-button); /* ✅ Dynamic */
+  height: var(--control-height-md); /* ✅ Track matches control height */
 }
 
 .segmented-control--md .segmented-control__indicator {
@@ -167,10 +177,10 @@
 }
 
 .segmented-control--md .segmented-control__option {
-  padding: var(--foundation-space-2) var(--foundation-space-4); /* ✅ Better padding */
+  padding: 0 var(--foundation-space-4); /* ✅ Horizontal padding only */
   gap: var(--foundation-space-2);
   border-radius: calc(var(--radius-button) - 2px); /* ✅ Dynamic */
-  min-height: var(--control-height-md); /* ✅ Match button/input height */
+  height: 100%; /* ✅ Fill track height */
 }
 
 /* Large */
@@ -178,6 +188,7 @@
   padding: var(--foundation-space-2);
   border-radius: var(--radius-button); /* ✅ Dynamic */
   gap: var(--foundation-space-2);
+  height: var(--control-height-lg); /* ✅ Track matches control height */
 }
 
 .segmented-control--lg .segmented-control__indicator {
@@ -188,10 +199,10 @@
 }
 
 .segmented-control--lg .segmented-control__option {
-  padding: var(--foundation-space-3) var(--foundation-space-5); /* ✅ Better padding */
+  padding: 0 var(--foundation-space-5); /* ✅ Horizontal padding only */
   gap: var(--foundation-space-2);
   border-radius: calc(var(--radius-button) - 2px); /* ✅ Dynamic */
-  min-height: var(--control-height-lg); /* ✅ Match button/input height */
+  height: 100%; /* ✅ Fill track height */
 }
 
 .segmented-control--lg .segmented-control__option::after {
@@ -207,16 +218,16 @@
 
 /* PILL VARIANT */
 .segmented-control--pill {
-  border-radius: var(--foundation-radius-full); /* ✅ Dynamic full radius */
+  border-radius: var(--radius-xl); /* ✅ Dynamic full radius */
   background: var(--surface-elevated);
 }
 
 .segmented-control--pill .segmented-control__indicator {
-  border-radius: var(--foundation-radius-full); /* ✅ Dynamic full radius */
+  border-radius: var(--radius-xl); /* ✅ Dynamic full radius */
 }
 
 .segmented-control--pill .segmented-control__option {
-  border-radius: var(--foundation-radius-full); /* ✅ Dynamic full radius */
+  border-radius: var(--radius-xl); /* ✅ Dynamic full radius */
 }
 
 /* GHOST VARIANT */
@@ -226,6 +237,7 @@
   padding: 0;
   box-shadow: none;
   gap: var(--foundation-space-2); /* ✅ Better spacing between ghost buttons */
+  height: var(--control-height-md); /* ✅ Track matches control height */
 }
 
 .segmented-control--ghost .segmented-control__indicator {
@@ -241,9 +253,9 @@
 }
 
 .segmented-control--ghost .segmented-control__option {
-  padding: var(--foundation-space-2) var(--foundation-space-4); /* ✅ Better padding */
+  padding: 0 var(--foundation-space-4); /* ✅ Horizontal padding only */
   border-radius: var(--radius-button); /* ✅ Dynamic */
-  min-height: var(--control-height-md); /* ✅ Match button/input height */
+  height: 100%; /* ✅ Fill track height */
 }
 
 /* ===== FULL WIDTH ===== */
@@ -271,10 +283,10 @@
   }
   
   .segmented-control__option {
-    padding: var(--foundation-space-2) var(--foundation-space-3);
+    padding: 0 var(--foundation-space-3); /* ✅ Horizontal padding only */
     gap: var(--foundation-space-1);
     min-width: 44px; /* Touch target */
-    min-height: 44px; /* Touch target */
+    height: 100%; /* ✅ Fill track height */
   }
   
   .segmented-control__icon svg {

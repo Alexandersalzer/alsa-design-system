@@ -267,15 +267,15 @@
 
 /* ===== ERROR AND SUCCESS CARD VARIANTS ===== */
 .error-card {
-  background-color: var(--surface-error, #fef2f2);
-  border-color: var(--border-error, #fecaca);
-  color: var(--text-error, #dc2626);
+  background-color: var(--surface-error);
+  border-color: var(--border-error);
+  color: var(--text-error);
 }
 
 .success-card {
-  background-color: var(--surface-success, #f0fdf4);
-  border-color: var(--border-success, #bbf7d0);
-  color: var(--text-success, #16a34a);
+  background-color: var(--surface-success);
+  border-color: var(--border-success);
+  color: var(--text-success);
 }
 
 /* ===== NESTED COMPONENT RADIUS ADJUSTMENT ===== */

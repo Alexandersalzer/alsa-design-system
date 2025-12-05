@@ -12,11 +12,7 @@ export * from './lists'
 export * from './data'
 export * from './navigation'
 
-export * from './Table';
-
 export * from './Typography';
 export * from './CountUp';
 export * from './CarouselAnimation';
 export * from './LogoIcon';
-
-export * from './LineChart';

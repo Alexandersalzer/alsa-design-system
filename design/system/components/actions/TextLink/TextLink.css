@@ -19,7 +19,7 @@
   
   /* Focus states */
   outline: none;
-  border-radius: var(--foundation-radius-sm);              /* FIXED: was --radius-sm */
+  border-radius: var(--radius-xs);              /* FIXED: was --radius-sm */
 }
 
 .textlink:focus-visible {

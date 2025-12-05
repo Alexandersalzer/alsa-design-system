@@ -85,6 +85,13 @@
 .icon-button-destructive { color: var(--text-button-destructive); }
 .icon-button-disabled { color: var(--text-button-disabled); }
 
+/* CRITICAL: Icons inside buttons should inherit button text color */
+button .icon,
+.button .icon,
+.btn .icon {
+  color: currentColor !important;
+}
+
 /* ===== WEIGHT VARIANTS ===== */
 .icon-weight-thin { stroke-width: var(--icon-stroke-thin, 1); }
 .icon-weight-light { stroke-width: var(--icon-stroke-light, 1.5); }
@@ -106,7 +113,7 @@ button:focus-visible .icon,
 a:focus-visible .icon {
   outline: 2px solid var(--focus-ring-color);
   outline-offset: 2px;
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-xs);
 }
 
 /* ===== ANIMATION UTILITIES ===== */

@@ -18,6 +18,7 @@ interface SectionProps {
   zIndex?: number;
   spacing?: SpacingScale; // ✅ optional per-section override (uses .spacingMd etc.)
   style?: React.CSSProperties;
+  sectionKey?: string; // För live editing identification
 }
 
 const getHeightClass = (height: Height): string => {
@@ -61,6 +62,7 @@ export const Section = ({
   zIndex,
   spacing, // optional override
   style,
+  sectionKey,
 }: SectionProps) => {
   const isEditing = applyEditingMode();
   const heightClass = getHeightClass(height);
@@ -83,7 +85,12 @@ export const Section = ({
   const finalStyles = { ...inlineStyles, ...style };
 
   return (
-    <Component id={id} className={combinedClassName} style={finalStyles}>
+    <Component 
+      id={id} 
+      className={combinedClassName} 
+      style={finalStyles}
+      data-section-key={sectionKey}
+    >
       {children}
     </Component>
   );

@@ -1,25 +1,25 @@
-import type { DesignConfig } from "../types/design";
+import type { DesignTokens } from "../types/design";
 import { getDesignConfig } from "./loaders";
 
 /**
  * Generates CSS variables from design.json
  * Injects design tokens dynamically into <head>.
  */
-export function buildCssVars(design: DesignConfig): string {
-  const radius           = design?.globalStyles?.radius           || "md";
-  const accentColor      = design?.globalStyles?.accentColor      || "purple";
-  const isDark           = design?.globalStyles?.isDark           ?? false;
-  const themeTone        = design?.globalStyles?.themeTone        || "neutral";
-  const fontPrimary      = design?.globalStyles?.fontPrimary      || "Sora";
-  const fontSecondary    = design?.globalStyles?.fontSecondary    || fontPrimary;
-  const fontWeightScale  = design?.globalStyles?.fontWeightScale  || "regular";
-  const layoutContent    = design?.globalStyles?.layoutContent    || "md";
-  const layoutMedia      = design?.globalStyles?.layoutMedia      || "xl";
-  const sectionSpacing   = design?.globalStyles?.sectionSpacing   || "md";
-  const containerSpacing = design?.globalStyles?.containerSpacing || "md";
-  const navbarSpacing    = design?.globalStyles?.navbarSpacing    || "md";
-  const formWidth        = design?.globalStyles?.formWidth        || "sm";
-  const typographyScale  = design?.globalStyles?.typographyScale  || "md";
+export function buildCssVars(tokens: DesignTokens): string {
+  const radius           = tokens?.radius           || "md";
+  const accentColor      = tokens?.accentColor      || "purple";
+  const isDark           = tokens?.isDark           ?? false;
+  const themeTone        = tokens?.themeTone        || "neutral";
+  const fontPrimary      = tokens?.fontPrimary      || "Sora";
+  const fontSecondary    = tokens?.fontSecondary    || fontPrimary;
+  const fontWeightScale  = tokens?.fontWeightScale  || "regular";
+  const layoutContent    = tokens?.layoutContent    || "md";
+  const layoutMedia      = tokens?.layoutMedia      || "xl";
+  const sectionSpacing   = tokens?.sectionSpacing   || "md";
+  const containerSpacing = tokens?.containerSpacing || "md";
+  const navbarSpacing    = tokens?.navbarSpacing    || "md";
+  const formWidth        = tokens?.formWidth        || "sm";  // ← NEW
+  const typographyScale  = tokens?.typographyScale  || "md";
 
   const fontWeights = "300;400;500;600;700;800;900";
   const fontsToImport = [fontPrimary, fontSecondary]
@@ -59,33 +59,34 @@ export function buildCssVars(design: DesignConfig): string {
       --selected-container-spacing: var(--foundation-container-spacing-${containerSpacing});
       --selected-navbar-spacing:    var(--foundation-navbar-spacing-${navbarSpacing});
 
-      /* ===== Accent ===== */
+      /* ===== Accent Color Selection ===== */
+      /* Set foundation colors - these will be used by color-mix() in colors.css for auto-inversion */
       ${isInverseAccent ? `
-        --accent-100: var(--neutral-100);
-        --accent-200: var(--neutral-200);
-        --accent-300: var(--neutral-300);
-        --accent-400: var(--neutral-400);
-        --accent-500: var(--neutral-500);
-        --accent-600: var(--neutral-1200);
-        --accent-700: var(--neutral-1100);
-        --accent-800: var(--neutral-1000);
-        --accent-900: var(--neutral-900);
-        --accent-1000: var(--neutral-1000);
-        --accent-1100: var(--neutral-1100);
-        --accent-1200: var(--neutral-1200);
+        --foundation-accent-100: var(--foundation-gray-100);
+        --foundation-accent-200: var(--foundation-gray-200);
+        --foundation-accent-300: var(--foundation-gray-300);
+        --foundation-accent-400: var(--foundation-gray-400);
+        --foundation-accent-500: var(--foundation-gray-500);
+        --foundation-accent-600: var(--foundation-gray-1200);
+        --foundation-accent-700: var(--foundation-gray-1100);
+        --foundation-accent-800: var(--foundation-gray-1000);
+        --foundation-accent-900: var(--foundation-gray-900);
+        --foundation-accent-1000: var(--foundation-gray-1000);
+        --foundation-accent-1100: var(--foundation-gray-1100);
+        --foundation-accent-1200: var(--foundation-gray-1200);
       ` : `
-        --accent-100: var(--foundation-${accentColor}-100);
-        --accent-200: var(--foundation-${accentColor}-200);
-        --accent-300: var(--foundation-${accentColor}-300);
-        --accent-400: var(--foundation-${accentColor}-400);
-        --accent-500: var(--foundation-${accentColor}-500);
-        --accent-600: var(--foundation-${accentColor}-600);
-        --accent-700: var(--foundation-${accentColor}-700);
-        --accent-800: var(--foundation-${accentColor}-800);
-        --accent-900: var(--foundation-${accentColor}-900);
-        --accent-1000: var(--foundation-${accentColor}-1000);
-        --accent-1100: var(--foundation-${accentColor}-1100);
-        --accent-1200: var(--foundation-${accentColor}-1200);
+        --foundation-accent-100: var(--foundation-${accentColor}-100);
+        --foundation-accent-200: var(--foundation-${accentColor}-200);
+        --foundation-accent-300: var(--foundation-${accentColor}-300);
+        --foundation-accent-400: var(--foundation-${accentColor}-400);
+        --foundation-accent-500: var(--foundation-${accentColor}-500);
+        --foundation-accent-600: var(--foundation-${accentColor}-600);
+        --foundation-accent-700: var(--foundation-${accentColor}-700);
+        --foundation-accent-800: var(--foundation-${accentColor}-800);
+        --foundation-accent-900: var(--foundation-${accentColor}-900);
+        --foundation-accent-1000: var(--foundation-${accentColor}-1000);
+        --foundation-accent-1100: var(--foundation-${accentColor}-1100);
+        --foundation-accent-1200: var(--foundation-${accentColor}-1200);
       `}
 
       /* ===== Typography scale ===== */
@@ -113,26 +114,64 @@ export function buildCssVars(design: DesignConfig): string {
       --selected-font-weight-body:    var(--foundation-weightscale-${fontWeightScale}-body);
       --selected-font-weight-label:   var(--foundation-weightscale-${fontWeightScale}-label);
 
-      /* ===== Theme ===== */
+      /* ===== Theme Control (replaces data-theme attribute) ===== */
       --is-dark: ${isDark ? 1 : 0};
     }
+
+    ${isInverseAccent ? `
+    /* ===== INVERSE ACCENT MODE (replaces data-accent-mode attribute) ===== */
+    /* Override accent semantic tokens for high-contrast monochrome */
+    :root {
+      --surface-accent: var(--surface-inverse);
+      --surface-accent-subtle: var(--surface-hover);
+      --surface-accent-muted: var(--surface-active);
+
+      --text-accent: var(--text-strong);
+      --text-accent-strong: var(--text-strong);
+      --text-accent-subtle: var(--text-default);
+      --text-on-accent: var(--text-inverse);
+
+      --border-accent: var(--border-emphasis);
+      --border-accent-subtle: var(--border-default);
+      --border-accent-strong: var(--border-emphasis);
+      --border-focus: var(--border-emphasis);
+      --border-selected: var(--border-emphasis);
+
+      --icon-accent: var(--icon-strong);
+      --icon-on-accent: var(--icon-inverse);
+
+      --text-link: var(--text-strong);
+      --text-link-hover: var(--text-default);
+
+      --interactive-accent: var(--interactive-primary);
+      --interactive-accent-hover: var(--interactive-primary-hover);
+      --interactive-accent-active: var(--interactive-primary-active);
+      --interactive-accent-disabled: var(--interactive-primary-disabled);
+    }
+    ` : ''}
+
+    ${isDark ? `
+    /* ===== DARK MODE ADJUSTMENTS (replaces data-theme attribute) ===== */
+    :root {
+      --surface-backdrop: rgba(0, 0, 0, 0.7);
+      --surface-scrim: rgba(0, 0, 0, 0.85);
+    }
+    ` : ''}
   `.trim();
 }
 
 /**
- * Returns both CSS and theme metadata
- * Takes isEditing parameter to avoid duplicate getEditingMode calls
+ * Parent function som kombinerar getDesignConfig + buildCssVars
+ * Detta är den primära funktionen som ska användas i layouts
+ *
+ * @param isEditing - Optional parameter for backward compatibility (not used)
+ * @returns CSS string redo att injectas i <style> tag
  */
-export async function designSnippet(isEditing: boolean = false): Promise<{ css: string; themeTone: string; isDark: boolean }> {
-  if (isEditing) {
-    // Return minimal data utan att läsa design.json eller generera CSS
-    return {
-      css: "",
-      themeTone: "mono",
-      isDark: false
-    };
-  }
-
+/**
+ * Returns CSS and theme metadata from design.json
+ * Always reads the actual file for consistent behavior
+ */
+export async function designSnippet(isEditing?: boolean): Promise<{ css: string; themeTone: string; isDark: boolean; accentColor: string }> {
   const designConfig = await getDesignConfig();
 
   if (!designConfig) {
@@ -140,21 +179,16 @@ export async function designSnippet(isEditing: boolean = false): Promise<{ css: 
     return {
       css: "",
       themeTone: "neutral",
-      isDark: false
+      isDark: false,
+      accentColor: "purple"
     };
   }
 
-  const themeTone = designConfig.globalStyles?.themeTone || "neutral";
-  const isDark = designConfig.globalStyles?.isDark ?? false;
-  const css = buildCssVars(designConfig);
+  const tokens = designConfig.globalStyles || {};
+  const themeTone = tokens.themeTone || "neutral";
+  const isDark = tokens.isDark ?? false;
+  const accentColor = tokens.accentColor || "purple";
+  const css = buildCssVars(tokens);
 
-  return { css, themeTone, isDark };
-}
-
-/**
- * Helper to get themeTone for setting HTML attribute
- */
-export async function getThemeTone(): Promise<string> {
-  const designConfig = await getDesignConfig();
-  return designConfig?.globalStyles?.themeTone || "neutral";
+  return { css, themeTone, isDark, accentColor };
 }

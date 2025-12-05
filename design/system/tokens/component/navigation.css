@@ -20,7 +20,7 @@
   --surface-nav: var(--surface-base);
   --surface-nav-item: transparent;
   --surface-nav-item-hover: var(--surface-hover);
-  --surface-nav-item-selected: var(--intent-nav-item-active-bg);    /* Adapts to intensity */
+  --surface-nav-item-selected: var(--surface-accent-subtle);    /* Adapts to intensity */
   --surface-nav-item-disabled: transparent;
 
   /* ===== NAVIGATION BORDERS - AUTO-ADAPTIVE ✨ */

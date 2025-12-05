@@ -1,0 +1,84 @@
+/* ===============================================
+   design/system/patterns/cards/NewsCard/NewsCard.css
+   NEWS CARD PATTERN STYLES
+   =============================================== */
+
+/* ===== BASE CARD STYLES ===== */
+.news-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* Card component handles interactive states */
+}
+
+/* ===== FEATURED VARIANT (LARGE CARD) ===== */
+.news-card--featured {
+  padding: 0; /* Remove padding to allow image to span full width */
+}
+
+.news-card--featured .card-content {
+  padding: var(--foundation-space-6);
+}
+
+/* ===== COMPACT VARIANT (LIST ITEM) ===== */
+.news-card--compact {
+  /* Card component handles padding via padding prop */
+}
+
+/* ===== IMAGE CONTAINERS ===== */
+.news-card__image-container {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--surface-subtle);
+  flex-shrink: 0;
+}
+
+/* Featured image - full width on top */
+.news-card__image-container--featured {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+}
+
+/* Compact image - small thumbnail on right */
+.news-card__image-container--compact {
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  border-radius: var(--radius-sm);
+}
+
+/* ===== CONTENT LAYOUT ===== */
+.news-card__content {
+  /* HStack handles spacing and alignment */
+  width: 100%;
+}
+
+.news-card__text {
+  /* VStack handles spacing */
+  flex: 1;
+}
+
+/* ===== EXCERPT TRUNCATION ===== */
+.news-card__excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .news-card__image-container--featured {
+    aspect-ratio: 4 / 3;
+  }
+  
+  .news-card__image-container--compact {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+  }
+}

@@ -11,20 +11,20 @@
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./i18n": {
-      "import": "./dist/design/system/core/routing/i18n.js",
-      "require": "./dist/design/system/core/routing/i18n.js",
-      "types": "./dist/design/system/core/routing/i18n.d.ts"
+    "./config": {
+      "import": "./dist/design/system/core/config/index.js",
+      "require": "./dist/design/system/core/config/index.js",
+      "types": "./dist/design/system/core/config/index.d.ts"
     },
     "./content": {
-      "import": "./dist/design/system/core/render/contentLoader.js",
-      "require": "./dist/design/system/core/render/contentLoader.js",
-      "types": "./dist/design/system/core/render/contentLoader.d.ts"
+      "import": "./dist/design/system/core/content/index.js",
+      "require": "./dist/design/system/core/content/index.js",
+      "types": "./dist/design/system/core/content/index.d.ts"
     },
-    "./client": {
-      "import": "./dist/design/system/templates/index.js",
-      "require": "./dist/design/system/templates/index.js",
-      "types": "./dist/design/system/templates/index.d.ts"
+    "./shells": {
+      "import": "./dist/design/system/shells/index.js",
+      "require": "./dist/design/system/shells/index.js",
+      "types": "./dist/design/system/shells/index.d.ts"
     },
     "./design": {
       "import": "./dist/design/system/core/design/index.js",
@@ -36,6 +36,11 @@
       "require": "./dist/design/system/core/postmessage/index.js",
       "types": "./dist/design/system/core/postmessage/index.d.ts"
     },
+    "./routing": {
+      "import": "./dist/design/system/core/routing/index.js",
+      "require": "./dist/design/system/core/routing/index.js",
+      "types": "./dist/design/system/core/routing/index.d.ts"
+    },
     "./dist/index.css": "./dist/design/index.css"
   },
   "files": [
@@ -43,6 +48,7 @@
   ],
   "scripts": {
     "validate:css": "node validate-css.js",
+    "validate:content": "tsx design/system/core/scripts/validateContent.ts",
     "prebuild": "npm run validate:css",
     "build": "npm run build:ts && npm run build:css",
     "build:ts": "tsc",
@@ -78,15 +84,22 @@
     }
   },
   "dependencies": {
+    "@blimpify-im/ui": "^3.1.549",
     "@heroicons/react": "^2.2.0",
     "@internationalized/date": "^3.10.0",
     "@react-aria/button": "^3.14.2",
     "@react-aria/calendar": "^3.9.2",
     "@react-aria/datepicker": "^3.15.2",
+    "@react-aria/focus": "^3.21.2",
     "@react-aria/i18n": "^3.12.13",
+    "@react-aria/interactions": "^3.25.6",
     "@react-aria/overlays": "^3.30.0",
+    "@react-aria/slider": "^3.8.2",
+    "@react-aria/utils": "^3.31.0",
+    "@react-aria/visually-hidden": "^3.8.28",
     "@react-stately/calendar": "^3.9.0",
     "@react-stately/datepicker": "^3.15.2",
+    "@react-stately/slider": "^3.7.2",
     "@studio-freight/lenis": "^1.0.42",
     "country-flag-icons": "^1.5.21",
     "lenis": "^1.3.11",
@@ -102,6 +115,7 @@
     "@typescript-eslint/parser": "^8",
     "eslint": "^9",
     "next": "^15.0.0",
+    "tsx": "^4.0.0",
     "typescript": "^5.9.3"
   }
 }

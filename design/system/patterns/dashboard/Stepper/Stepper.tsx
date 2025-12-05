@@ -9,6 +9,8 @@ import { H3, Body } from '../../../components/Typography';
 import { Button } from '../../../components/actions/Button';
 import { Icon } from '../../../components/media';
 import { HStack } from '../../../components/layout/hStack/HStack';
+import { VStack } from '../../../components/layout/vStack/VStack';
+import { Box } from '../../../components/layout/box/Box';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 // ===== STEP INTERFACE =====
@@ -166,19 +168,19 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
   };
 
   return (
-    <div
+    <VStack
       ref={ref}
       className={stepperClasses}
       style={stepperStyles}
+      spacing="lg"
       {...props}
     >
       {/* Navigation row - always horizontal */}
-      <HStack 
-        spacing="sm" 
-        justify="between" 
-        align="center"
+      <HStack
         className="stepper-navigation"
-        style={{ width: '100%', minHeight: '44px' }}
+        justify="between"
+        align="center"
+        spacing="md"
       >
         {/* Left: Previous button */}
         <Button
@@ -198,15 +200,9 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
         </Button>
 
         {/* Center: Step indicators */}
-        <HStack 
-          spacing="xs" 
-          justify="center" 
-          align="center"
-          className="stepper-numbers"
-          style={{ flex: 1 }}
-        >
+        <HStack className="stepper-numbers" justify="center" align="center" spacing="sm">
           {steps.map((step, index) => (
-            <div
+            <Box
               key={index}
               className={cn(
                 'step-number',
@@ -232,7 +228,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
               aria-disabled={step.disabled}
             >
               {index + 1}
-            </div>
+            </Box>
           ))}
         </HStack>
 
@@ -259,14 +255,14 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
 
       {/* Content below navigation - conditionally rendered */}
       {showContent && (
-        <div className="step-content">
+        <VStack className="step-content" align="center" spacing="sm">
           <H3 className="step-title">{currentStepData.label}</H3>
           <Body size="md" color="secondary" className="step-description">
             {currentStepData.description}
           </Body>
-        </div>
+        </VStack>
       )}
-    </div>
+    </VStack>
   );
 });
 

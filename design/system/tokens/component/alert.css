@@ -10,5 +10,5 @@
   --space-alert-gap-small: var(--foundation-space-2);       /* 8px mobile */
 
   /* ===== ALERT RADIUS ===== */
-  --radius-alert: var(--foundation-radius-lg);
+  --radius-alert: var(--radius-md);
 }

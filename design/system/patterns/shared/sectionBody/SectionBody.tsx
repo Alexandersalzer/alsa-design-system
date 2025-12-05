@@ -9,14 +9,23 @@ import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import { Tag } from '../../../components/feedback/Tag/Tag';
 import { Button } from '../../../components/actions/Button/Button';
-import { useComponentProps, componentPresent } from '../../../core/utils/helpers';
-import { PatternNode } from '../../../core/types/nodes';
+import { componentProps, componentPresent, componentPropsWithKey } from '../../../core/utils/props';
+import { ComponentNode } from '../../../core/types/nodes';
 
 
 // ===== MAIN SECTION BODY COMPONENT =====
 
-const SectionBody = ({ components = {} }: PatternNode) => {
-  const get = useComponentProps(components);
+interface SectionBodyProps {
+  components?: Record<string, ComponentNode>;
+  sectionKey?: string;
+  patternKey?: string;
+  type?: string;
+  props?: Record<string, any>;
+}
+
+const SectionBody = ({ components = {}, sectionKey, patternKey }: SectionBodyProps) => {
+  const get = componentProps(components);
+  const getWithKey = componentPropsWithKey(components);
   const renderIf = componentPresent(components);
   
   return (
@@ -30,49 +39,56 @@ const SectionBody = ({ components = {} }: PatternNode) => {
       <VStack spacing="md" align="center">
         
         {/* Tag - only render if exists */}
-        {renderIf('tag') && (
+        {renderIf('tag') && get('tag').content && (
           <Box>
             <Tag
               size="medium"
+              variant='accent'
               icon={null}
+              componentKey={getWithKey('tag').key}
             >
-              {get('tag', 'tag').content}
+              {get('tag').content}
             </Tag>
           </Box>
         )}
 
         {/* Heading - only render if exists */}
-        {renderIf('typography', 'heading') && (
+        {renderIf('typography-heading') && get('typography-heading').content && (
           <Typography
             as="h2"
             variant="display-lg"
             color="heading"
             weight="bold"
             align="center"
+            componentKey={getWithKey('typography-heading').key}
           >
-            {get('typography', 'heading').content}
+            {get('typography-heading').content}
           </Typography>
         )}
 
         {/* Body Text - only render if exists */}
-        {renderIf('typography', 'body') && (
+        {renderIf('typography-body') && get('typography-body').content && (
           <Typography
             as="p"
             variant="body-lg"
             color="body"
             weight="regular"
             align="center"
+            componentKey={getWithKey('typography-body').key}
           >
-            {get('typography', 'body').content}
+            {get('typography-body').content}
           </Typography>
         )}
 
         {/* Button - only render if exists */}
-        {renderIf('button') && (
+        {renderIf('button-primary') && get('button-primary').content && (
           <Button
             size="lg"
+            variant='accent'
+            href={get('button-primary').href}
+            componentKey={getWithKey('button-primary').key}
           >
-            {get('button', 'primary').content}
+            {get('button-primary').content}
           </Button>
         )}
       </VStack>

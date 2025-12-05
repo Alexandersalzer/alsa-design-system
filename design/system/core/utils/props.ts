@@ -5,8 +5,6 @@
 
 import { ComponentNode, PatternNode } from '../types/nodes';
 
-// ===== CONSTANTS =====
-export const CDN_BASE_URL = 'https://cdn.blimpify-im.com/members';
 
 /**
  * Get content from the first component with a specific type and optional role
@@ -19,20 +17,51 @@ export const CDN_BASE_URL = 'https://cdn.blimpify-im.com/members';
 export const getComponentProps = (
   components: Record<string, ComponentNode>,
   type: string,
-  role?: string,
   fallback: Record<string, any> = {}
 ): Record<string, any> => {
   const component = Object.values(components).find(c => {
     const matchesType = c.type === type;
-    const matchesRole = role ? c.role === role : true;
-    return matchesType && matchesRole;
+    return matchesType;
   });
-  return component?.props || fallback;
+  return component?.props ?? fallback;
 };
 
-export const useComponentProps = (components: Record<string, ComponentNode>) => {
-  return (type: string, role?: string, fallback: Record<string, any> = {}) => {
-    return getComponentProps(components, type, role, fallback);
+export const componentProps = (components: Record<string, ComponentNode>) => {
+  return (type: string, fallback: Record<string, any> = {}) => {
+    return getComponentProps(components, type, fallback);
+  };
+};
+
+/**
+ * Get component props along with the component key for live editing
+ * Returns both props and the key for data-component-key attribute
+ */
+export const getComponentWithKey = (
+  components: Record<string, ComponentNode>,
+  type: string,
+  fallback: Record<string, any> = {}
+): { props: Record<string, any>; key: string | undefined } => {
+  const entry = Object.entries(components).find(([key, component]) => {
+    return component.type === type;
+  });
+  
+  if (entry) {
+    const [key, component] = entry;
+    return {
+      props: component.props ?? fallback,
+      key: key
+    };
+  }
+  
+  return {
+    props: fallback,
+    key: undefined
+  };
+};
+
+export const componentPropsWithKey = (components: Record<string, ComponentNode>) => {
+  return (type: string, fallback: Record<string, any> = {}) => {
+    return getComponentWithKey(components, type, fallback);
   };
 };
 
@@ -47,7 +76,15 @@ export const getPatternProps = (
   return pattern?.props || fallback;
 };
 
-export const usePatternProps = (pattern: PatternNode) => {
+/**
+ * Get component order from a pattern
+ * Returns the order array or Object.keys(components) as fallback
+ */
+export const getPatternOrder = (pattern: PatternNode): string[] => {
+  return pattern?.order || Object.keys(pattern?.components || {});
+};
+
+export const patternProps = (pattern: PatternNode) => {
   return (fallback: Record<string, any> = {}) => {
     return getPatternProps(pattern, fallback);
   };
@@ -58,11 +95,10 @@ export const usePatternProps = (pattern: PatternNode) => {
  * Returns a function that checks for component existence and visibility
  */
 export const componentPresent = (components: Record<string, ComponentNode>) => {
-  return (type: string, role?: string) => {
+  return (type: string) => {
     const component = Object.values(components).find(c => {
       const matchesType = c.type === type;
-      const matchesRole = role ? c.role === role : true;
-      return matchesType && matchesRole;
+      return matchesType;
     });
     
     if (!component) return false;
@@ -81,20 +117,18 @@ export const componentPresent = (components: Record<string, ComponentNode>) => {
  */
 export const mapComponents = (
   components: Record<string, ComponentNode>,
-  type: string,
-  role?: string
+  type: string
 ): Record<string, any>[] => {
   const matchingComponents = Object.values(components).filter(c => {
     const matchesType = c.type === type;
-    const matchesRole = role ? c.role === role : true;
-    return matchesType && matchesRole;
+    return matchesType;
   });
   
   return matchingComponents.map(c => c.props || {});
 };
 
 export const useMapComponents = (components: Record<string, ComponentNode>) => {
-  return (type: string, role?: string) => {
-    return mapComponents(components, type, role);
+  return (type: string) => {
+    return mapComponents(components, type);
   };
 };

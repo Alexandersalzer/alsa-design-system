@@ -3,4 +3,4 @@ export * from './system';
 
 
 // Export PostMessage functionality
-export { EditingModeHandler } from './system/core/postmessage'; 
+export { EditingHandler } from './system/core/postmessage'; 

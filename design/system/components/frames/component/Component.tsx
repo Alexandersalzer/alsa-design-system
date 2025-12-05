@@ -7,6 +7,7 @@ interface ComponentProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
   id?: string;
   as?: React.ElementType;
+  componentKey?: string; // För live editing identification
 }
 
 export const Component = forwardRef<HTMLElement, ComponentProps>(({ 
@@ -14,6 +15,7 @@ export const Component = forwardRef<HTMLElement, ComponentProps>(({
   className = '', 
   id,
   as: Element = 'div',
+  componentKey,
   ...rest
 }, ref) => {
   const isEditing = applyEditingMode();
@@ -27,6 +29,7 @@ export const Component = forwardRef<HTMLElement, ComponentProps>(({
       ref={ref}
       id={id}
       className={combinedClassName}
+      data-component-key={componentKey}
       {...rest}
     >
       {children}

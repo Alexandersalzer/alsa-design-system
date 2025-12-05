@@ -16,6 +16,8 @@ import {
     Card,
 } from '../../../components/layout';
 import { Icon, IconColor } from '../../../components/media/Icon';
+import { PatternNode } from '../../../core/types/nodes';
+import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
 
 import './Stats.css';
 
@@ -451,12 +453,16 @@ const StatWithLogo: React.FC<StatItemComponentProps> = ({
 
 // ===== MAIN STATS COMPONENT =====
 
-export const Stats: React.FC<any> = (rawProps) => {
-  // Support both direct and CMS-wrapped props
-  const props = rawProps?.props ? rawProps.props : rawProps;
+export const Stats: React.FC<PatternNode> = (patternNode) => {
+  const { components = {} } = patternNode;
+  const getComponent = componentProps(components);
+  const getPatternProps = patternProps(patternNode);
+  const mapComponentsOfType = useMapComponents(components);
+  const componentOrder = getPatternOrder(patternNode);
+
+  // Extract pattern props with defaults
   const {
     className,
-    stats = [],
     variant = 'centered',
     valueVariant = 'display-md',
     valueWeight = 'bold',
@@ -472,7 +478,7 @@ export const Stats: React.FC<any> = (rawProps) => {
     cardPadding = 'lg',
     iconSize = 'lg',
     iconColor = 'accent',
-  } = props;
+  } = getPatternProps();
   
   const commonProps = {
     valueVariant,
@@ -489,6 +495,21 @@ export const Stats: React.FC<any> = (rawProps) => {
     iconColor
   };
 
+  // Get stat items from components
+  const statItems: StatItem[] = componentOrder.map(key => {
+    const component = components[key];
+    if (!component || component.type !== 'stat' || !component.props) return null;
+    return {
+      id: component.props.id || key,
+      value: component.props.value || '',
+      label: component.props.label || '',
+      description: component.props.description,
+      icon: component.props.icon,
+      logo: component.props.logo,
+      trend: component.props.trend
+    };
+  }).filter(Boolean) as StatItem[];
+
   // Render based on variant
   const renderStat = (stat: StatItem, index: number) => {
     const key = stat.id || `stat-${index}`;
@@ -503,7 +524,7 @@ export const Stats: React.FC<any> = (rawProps) => {
             key={key}
             stat={stat}
             {...commonProps}
-            isLast={index === stats.length - 1}
+            isLast={index === statItems.length - 1}
           />
         );
         
@@ -548,7 +569,7 @@ export const Stats: React.FC<any> = (rawProps) => {
         wrap={true}
         className={className}
       >
-  {stats.map((stat: StatItem, index: number) => renderStat(stat, index))}
+        {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
       </HStack>
     );
   }
@@ -562,7 +583,7 @@ export const Stats: React.FC<any> = (rawProps) => {
       wrap={true}
       className={className}
     >
-  {stats.map((stat: StatItem, index: number) => renderStat(stat, index))}
+      {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
     </HStack>
   );
 };

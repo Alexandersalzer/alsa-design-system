@@ -38,7 +38,7 @@
   --padding-table-header-lg: 16px 20px;
   
   /* ===== TABLE RADIUS TOKENS ===== */
-  --radius-table: var(--foundation-radius-lg);
+  --radius-table: var(--radius-md);
   
   /* ===== TABLE SHADOW TOKENS ===== */
   --shadow-table-empty: 0 1px 3px 0 var(--shadow-subtle);

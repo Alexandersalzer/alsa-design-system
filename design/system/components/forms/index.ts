@@ -10,3 +10,5 @@ export * from './DateInput';
 export * from './TimeInput';
 export * from './Calendar';
 export * from './DateRangePicker';
+export * from './DatePicker';
+export * from './Slider';

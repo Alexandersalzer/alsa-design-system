@@ -32,6 +32,6 @@
   --size-tag-remove-large: 18px;
 
   /* ===== TAG RADIUS & TRANSITIONS ===== */
-  --radius-tag: var(--foundation-radius-md);
+  --radius-tag: var(--radius-sm);
   --transition-tag: var(--foundation-transition-base);
 }
