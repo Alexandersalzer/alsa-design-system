@@ -3,7 +3,7 @@
  * Native fetch-based API client
  */
 
-const baseURL = 'https://devapi.blimpify-im.com';
+const baseURL = 'https://devapi.blimpify-im.com/api';
 
 interface ApiResponse<T = any> {
   data: T;
