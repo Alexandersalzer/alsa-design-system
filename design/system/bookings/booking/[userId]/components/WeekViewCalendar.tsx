@@ -16,7 +16,7 @@ import {
   Spinner
 } from '@blimpify-im/ui';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import apiClient from '@/lib/api/client';
+import { apiClient } from '../../../../../lib/api/client';
 
 const WEEKDAYS = ['Mån', 'Tis', 'Ons', 'Tors', 'Fre', 'Lör', 'Sön'];
 const MONTHS = [

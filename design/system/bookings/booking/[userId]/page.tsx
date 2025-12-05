@@ -13,7 +13,7 @@ import {
   Body,
   Button
 } from '@blimpify-im/ui';
-import apiClient from '@/lib/api/client';
+import { apiClient } from '../../../lib/api/client';
 import BookingWizard from './components/BookingWizard';
 import type { Service, BookingFormData } from './types';
 
