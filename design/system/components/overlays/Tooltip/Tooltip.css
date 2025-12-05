@@ -53,34 +53,34 @@
 
 /* ===== COLOR VARIANTS ===== */
 .tooltip--default .tooltip__content {
-  background-color: var(--surface-tooltip, var(--gray-900));
-  color: var(--text-tooltip, var(--white));
+  background-color: var(--surface-inverse);
+  color: var(--text-inverse);
 }
 
 .tooltip--primary .tooltip__content {
-  background-color: var(--accent-solid);
+  background-color: var(--surface-accent);
   color: var(--text-on-accent);
 }
 
 .tooltip--secondary .tooltip__content {
-  background-color: var(--surface-secondary);
-  color: var(--text-primary);
+  background-color: var(--surface-raised);
+  color: var(--text-default);
   border: 1px solid var(--border-default);
 }
 
 .tooltip--success .tooltip__content {
-  background-color: var(--success-solid);
-  color: var(--white);
+  background-color: var(--surface-success);
+  color: var(--text-on-success);
 }
 
 .tooltip--warning .tooltip__content {
-  background-color: var(--warning-solid);
-  color: var(--gray-900);
+  background-color: var(--surface-warning);
+  color: var(--text-on-warning);
 }
 
 .tooltip--danger .tooltip__content {
-  background-color: var(--danger-solid);
-  color: var(--white);
+  background-color: var(--surface-error);
+  color: var(--text-on-error);
 }
 
 /* ===== ARROW ===== */
@@ -93,28 +93,28 @@
 
 /* Arrow color variants */
 .tooltip--default .tooltip__arrow {
-  background-color: var(--surface-tooltip, var(--gray-900));
+  background-color: var(--surface-inverse);
 }
 
 .tooltip--primary .tooltip__arrow {
-  background-color: var(--accent-solid);
+  background-color: var(--surface-accent);
 }
 
 .tooltip--secondary .tooltip__arrow {
-  background-color: var(--surface-secondary);
+  background-color: var(--surface-raised);
   border: 1px solid var(--border-default);
 }
 
 .tooltip--success .tooltip__arrow {
-  background-color: var(--success-solid);
+  background-color: var(--surface-success);
 }
 
 .tooltip--warning .tooltip__arrow {
-  background-color: var(--warning-solid);
+  background-color: var(--surface-warning);
 }
 
 .tooltip--danger .tooltip__arrow {
-  background-color: var(--danger-solid);
+  background-color: var(--surface-error);
 }
 
 /* ===== ARROW POSITIONING BY PLACEMENT ===== */
@@ -281,16 +281,7 @@
 }
 
 /* ===== DARK MODE SUPPORT ===== */
-[data-theme-tone="ink"] .tooltip--default .tooltip__content,
-[data-theme-tone="mono"][data-theme-mode="dark"] .tooltip--default .tooltip__content {
-  background-color: var(--surface-tooltip, var(--gray-800));
-  color: var(--text-tooltip, var(--white));
-}
-
-[data-theme-tone="ink"] .tooltip--default .tooltip__arrow,
-[data-theme-tone="mono"][data-theme-mode="dark"] .tooltip--default .tooltip__arrow {
-  background-color: var(--surface-tooltip, var(--gray-800));
-}
+/* No dark mode overrides needed - semantic tokens handle theme switching automatically */
 
 /* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
