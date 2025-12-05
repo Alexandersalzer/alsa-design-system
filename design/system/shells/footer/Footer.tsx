@@ -18,11 +18,14 @@ const Footer = ({ section }: FooterProps) => {
   const { patterns, order, props: sectionProps } = footerSection;
   const patternOrder = order || Object.keys(patterns);
   
+  // Get sectionKey from the first section
+  const sectionKey = Object.keys(section)[0];
+  
   // Render patterns using shared renderShellPattern function
   const renderedPatterns = patternOrder
-    .map((patternKey, patternIndex) => {
+    .map((patternKey) => {
       const pattern = patterns[patternKey];
-      return pattern ? renderShellPattern(pattern, patternKey, patternIndex) : null;
+      return pattern ? renderShellPattern(pattern, patternKey, sectionKey) : null;
     })
     .filter(Boolean);
   
@@ -31,6 +34,7 @@ const Footer = ({ section }: FooterProps) => {
   return (
     <Section 
       as="footer" 
+      sectionKey={sectionKey}
       style={{ 
         backgroundColor: 'var(--surface-inverse)',
         overflow: 'visible', // Allow dropdown to show outside footer bounds

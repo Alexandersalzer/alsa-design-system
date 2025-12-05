@@ -7,7 +7,7 @@ import { PatternNode } from '../types/nodes';
  * Shell Pattern Renderer - För navbar/footer patterns
  * Använder Container för layout men utan spacing
  */
-export const renderShellPattern = (pattern: PatternNode, patternKey: string, index: number) => {
+export const renderShellPattern = (pattern: PatternNode, patternKey: string, sectionKey: string) => {
 
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
@@ -21,16 +21,19 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, ind
   // Container utan padding, full width för navbar/footer
   return (
     <Container 
-      key={`${patternKey}-${index}`}
+      key={`${patternKey}`}
       align="center"
       height="auto"
       useNavbarWidth={patternProps.useNavbarWidth || false}
       noPadding={true}
+      patternKey={patternKey}
     >
       <PatternComponent 
         type={pattern.type}
         props={pattern.props}
         components={pattern.components}
+        sectionKey={sectionKey}
+        patternKey={patternKey}
       />
     </Container>
   );

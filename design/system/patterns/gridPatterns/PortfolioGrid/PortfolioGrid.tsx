@@ -19,6 +19,7 @@ import './PortfolioGrid.css';
 
 interface PortfolioNormalizedItem {
   key: string;
+  componentKey: string;
   title: string;
   mediaSrc: string;
   mediaAlt: string;
@@ -74,6 +75,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
 
         acc.push({
           key,
+          componentKey: key,
           title: data.title || 'Untitled Project',
           mediaSrc: transformedMediaSrc,
           mediaAlt: data.mediaAlt || data.title || 'Portfolio media',
@@ -171,6 +173,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
         {visibleItems.map((item) => (
           <PortfolioCard
             key={item.key}
+            componentKey={item.componentKey}
             title={item.title}
             mediaSrc={item.mediaSrc}
             mediaAlt={item.mediaAlt}

@@ -5,14 +5,19 @@ import { CarouselAnimation, CarouselAnimationItem } from '../../../components/Ca
 import { LogoImage } from '../../../components/media/Image';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
-import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
+import { componentProps, componentPresent, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
 
-export const SpinningBanner: React.FC<PatternNode> = (patternNode) => {
-  const { components = {} } = patternNode;
-  const getComponent = componentProps(components);
-  const getPatternProps = patternProps(patternNode);
+interface SpinningBannerProps extends PatternNode {
+  sectionKey?: string;
+  patternKey?: string;
+}
+
+export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {}, sectionKey, patternKey, ...patternNode }) => {
+  const get = componentProps(components);
+  const renderIf = componentPresent(components);
+  const getPatternProps = patternProps({ components, ...patternNode });
   const mapComponentsOfType = useMapComponents(components);
-  const componentOrder = getPatternOrder(patternNode);
+  const componentOrder = getPatternOrder({ components, ...patternNode });
 
   const {
     speed = 25,
@@ -31,23 +36,24 @@ export const SpinningBanner: React.FC<PatternNode> = (patternNode) => {
       return {
         src: component.props?.src || '',
         alt: component.props?.alt || 'Logo',
+        componentKey: key, // Use the actual component key
       };
     })
-    .filter((logo): logo is { src: string; alt: string } => logo !== null && logo.src !== '');
+    .filter((logo): logo is { src: string; alt: string; componentKey: string } => logo !== null && logo.src !== '' && logo.componentKey !== undefined);
 
   // Fallback set (these would also come from JSON in production)
   const fallback = [
-    { src: '/2194716412/images/logos/huellogo.png', alt: 'Huel' },
-    { src: '/2194716412/images/logos/logoFazer.png', alt: 'Fazer' },
-    { src: '/2194716412/images/logos/wolt.png', alt: 'Wolt' },
-    { src: '/2194716412/images/logos/tradera.png', alt: 'Tradera' },
-    { src: '/2194716412/images/logos/philips.png', alt: 'Philips' },
-    { src: '/2194716412/images/logos/skyshowtime.png', alt: 'SkyShowtime' },
-    { src: '/2194716412/images/logos/aftonbladet.png', alt: 'Aftonbladet' },
-    { src: '/2194716412/images/logos/mindlerLogo.png', alt: 'Mindler' },
+    { src: '/2194716412/images/logos/huellogo.png', alt: 'Huel', componentKey: undefined },
+    { src: '/2194716412/images/logos/logoFazer.png', alt: 'Fazer', componentKey: undefined },
+    { src: '/2194716412/images/logos/wolt.png', alt: 'Wolt', componentKey: undefined },
+    { src: '/2194716412/images/logos/tradera.png', alt: 'Tradera', componentKey: undefined },
+    { src: '/2194716412/images/logos/philips.png', alt: 'Philips', componentKey: undefined },
+    { src: '/2194716412/images/logos/skyshowtime.png', alt: 'SkyShowtime', componentKey: undefined },
+    { src: '/2194716412/images/logos/aftonbladet.png', alt: 'Aftonbladet', componentKey: undefined },
+    { src: '/2194716412/images/logos/mindlerLogo.png', alt: 'Mindler', componentKey: undefined },
   ];
 
-  const allLogos = logos.length ? logos : fallback;
+  const allLogos: Array<{ src: string; alt: string; componentKey: string | undefined }> = logos.length ? logos : fallback;
 
   // ✅ Proportional sizing using design tokens
   const sizeMap = useMemo(() => {
@@ -69,6 +75,7 @@ export const SpinningBanner: React.FC<PatternNode> = (patternNode) => {
 
   const animationItems: CarouselAnimationItem[] = allLogos.map((logo, index) => ({
     id: `${logo.src}-${index}`,
+    componentKey: logo.componentKey,
     content: (
       <div
         style={{
@@ -89,6 +96,7 @@ export const SpinningBanner: React.FC<PatternNode> = (patternNode) => {
           objectFit="contain"
           loading="lazy"
           showSkeleton={true}
+          {...(logo.componentKey && { componentKey: logo.componentKey })}
           style={{
             transition: 'filter 0.3s ease'
           }}
@@ -112,16 +120,29 @@ export const SpinningBanner: React.FC<PatternNode> = (patternNode) => {
           padding: '10px 0'
         }}
       >
-        {animationItems.map((item) => (
+        {allLogos.map((logo, index) => (
           <div
-            key={item.id}
+            key={`${logo.src}-${index}`}
             style={{
               width: `${sizeMap.width}px`,
               height: `${sizeMap.height}px`,
               padding: `${sizeMap.padding}px`
             }}
           >
-            {item.content}
+            <LogoImage
+              src={`${CDN_BASE_URL}${logo.src}`}
+              alt={logo.alt}
+              width={sizeMap.width}
+              height={sizeMap.height}
+              objectFit="contain"
+              loading="lazy"
+              showSkeleton={true}
+              {...(logo.componentKey && { componentKey: logo.componentKey })}
+              style={{
+                opacity: logoOpacity,
+                transition: 'filter 0.3s ease'
+              }}
+            />
           </div>
         ))}
       </div>

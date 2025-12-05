@@ -25,6 +25,7 @@ import './Stats.css';
 
 export interface StatItem {
   id: string;
+  componentKey: string;
   value: string;
   label: string;
   description?: string;
@@ -113,6 +114,7 @@ const StatCentered: React.FC<StatItemComponentProps> = ({
       variant={valueVariant}
       weight={valueWeight}
       color={valueColor}
+      data-component-key={stat.componentKey}
     >
       {stat.value}
     </Typography>
@@ -120,6 +122,7 @@ const StatCentered: React.FC<StatItemComponentProps> = ({
       variant={labelVariant}
       weight={labelWeight}
       color={labelColor}
+      data-component-key={stat.componentKey}
     >
       {stat.label}
     </Typography>
@@ -127,6 +130,7 @@ const StatCentered: React.FC<StatItemComponentProps> = ({
       <Typography
         variant={descriptionVariant}
         color={descriptionColor || 'tertiary'}
+        data-component-key={stat.componentKey}
       >
         {stat.description}
       </Typography>
@@ -153,6 +157,7 @@ const StatWithSeparator: React.FC<StatItemComponentProps & { isLast?: boolean }>
         variant={valueVariant}
         weight={valueWeight}
         color={valueColor}
+        data-component-key={stat.componentKey}
       >
         {stat.value}
       </Typography>
@@ -160,6 +165,7 @@ const StatWithSeparator: React.FC<StatItemComponentProps & { isLast?: boolean }>
         variant={labelVariant}
         weight={labelWeight}
         color={labelColor}
+        data-component-key={stat.componentKey}
       >
         {stat.label}
       </Typography>
@@ -381,6 +387,7 @@ const StatWithIcon: React.FC<StatItemComponentProps> = ({
       variant={valueVariant}
       weight={valueWeight}
       color={valueColor}
+      data-component-key={stat.componentKey}
     >
       {stat.value}
     </Typography>
@@ -388,6 +395,7 @@ const StatWithIcon: React.FC<StatItemComponentProps> = ({
       variant={labelVariant}
       weight={labelWeight}
       color={labelColor}
+      data-component-key={stat.componentKey}
     >
       {stat.label}
     </Typography>
@@ -395,6 +403,7 @@ const StatWithIcon: React.FC<StatItemComponentProps> = ({
       <Typography
         variant={descriptionVariant}
         color={descriptionColor || 'tertiary'}
+        data-component-key={stat.componentKey}
       >
         {stat.description}
       </Typography>
@@ -438,6 +447,7 @@ const StatWithLogo: React.FC<StatItemComponentProps> = ({
       variant={valueVariant}
       weight={valueWeight}
       color={valueColor}
+      data-component-key={stat.componentKey}
     >
       {stat.value}
     </Typography>
@@ -445,6 +455,7 @@ const StatWithLogo: React.FC<StatItemComponentProps> = ({
       variant={labelVariant}
       weight={labelWeight}
       color={labelColor}
+      data-component-key={stat.componentKey}
     >
       {stat.label}
     </Typography>
@@ -501,6 +512,7 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
     if (!component || component.type !== 'stat' || !component.props) return null;
     return {
       id: component.props.id || key,
+      componentKey: key,
       value: component.props.value || '',
       label: component.props.label || '',
       description: component.props.description,

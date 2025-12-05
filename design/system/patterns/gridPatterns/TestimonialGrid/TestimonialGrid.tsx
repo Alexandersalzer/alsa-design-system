@@ -9,6 +9,7 @@ import './TestimonialGrid.css';
 // ===== COMPONENT TYPE DEFINITIONS =====
 export interface TestimonialData {
   type: 'testimonial';
+  componentKey: string;
   text: string;
   author: string;
   authorInitial: string;
@@ -44,6 +45,7 @@ export const TestimonialGrid: React.FC<PatternNode> = (patternNode) => {
       
       acc.push({
         type: 'testimonial',
+        componentKey: key,
         text,
         author,
         authorInitial: props.authorInitial || '',
@@ -63,6 +65,7 @@ export const TestimonialGrid: React.FC<PatternNode> = (patternNode) => {
       {testimonials.map((testimonial, index) => (
         <TestimonialCard
           key={`testimonial-${index}`}
+          componentKey={testimonial.componentKey}
           text={testimonial.text}
           author={testimonial.author}
           authorInitial={testimonial.authorInitial}
