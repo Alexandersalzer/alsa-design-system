@@ -225,12 +225,12 @@
 
 /* ===== SELECTED STATE (DEFAULT VARIANT) ===== */
 .clickable--selected {
-  background-color: var(--surface-accent-muted);
+  background-color: var(--surface-elevated);
   border-color: var(--border-accent-subtle);
 }
 
 .clickable--selected:hover:not(.clickable--disabled) {
-  background-color: var(--surface-accent-muted);
+  background-color: var(--surface-elevated);
   border-color: var(--border-accent-subtle);
 }
 
