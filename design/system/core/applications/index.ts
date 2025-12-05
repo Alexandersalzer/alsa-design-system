@@ -1,10 +1,8 @@
 /**
  * Applications Module
- * Export all application-related functionality
+ * Export server-side functionality only
  */
 
-'use client';
-
-export * from './registry';
 export * from './loader';
+export * from './registry';
 export * from './types';
