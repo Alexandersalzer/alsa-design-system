@@ -14,6 +14,7 @@ export type ClickablePadding = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 export type ClickableRadius = 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'; // ✅ Added 2xl and full
 export type ClickableBackground = 'transparent' | 'subdued' | 'card' | 'hover' | 'selected';
 export type ClickableBorder = 'none' | 'base' | 'strong' | 'subtle';
+export type ClickableVariant = 'default' | 'bordered'; // ✅ Controls hover/selection behavior
 
 export interface ClickableProps extends Omit<HTMLAttributes<HTMLElement>, 'onClick'> {
   children: ReactNode;
@@ -28,9 +29,10 @@ export interface ClickableProps extends Omit<HTMLAttributes<HTMLElement>, 'onCli
   // Visual states
   interactive?: boolean;
   selected?: boolean;
-  
+
   // Layout & Styling
   as?: ClickableAs;
+  variant?: ClickableVariant; // ✅ NEW: 'default' = bg+border change, 'bordered' = border-only change
   padding?: ClickablePadding;
   paddingBlock?: ClickablePadding;
   paddingInline?: ClickablePadding;
@@ -67,6 +69,7 @@ export const Clickable = forwardRef<HTMLElement, ClickableProps>(({
   interactive = true,
   selected = false,
   as = 'div',
+  variant = 'default',
   padding = 'md',
   paddingBlock,
   paddingInline,
@@ -131,6 +134,7 @@ export const Clickable = forwardRef<HTMLElement, ClickableProps>(({
       ref={ref as any}
       className={cn(
         'clickable',
+        `clickable--variant-${variant}`,
         `clickable--padding-${padding}`,
         paddingBlock && `clickable--padding-block-${paddingBlock}`,
         paddingInline && `clickable--padding-inline-${paddingInline}`,
