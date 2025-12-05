@@ -15,7 +15,8 @@ interface DynamicApplicationPageProps {
 export function DynamicApplicationPage({ route }: DynamicApplicationPageProps) {
   // For now, we only have booking - in the future this could be dynamic
   if (route.app === 'booking') {
-    return <PublicBookingPage {...route.props} />;
+    // Type assertion since we know booking requires userId and loader provides it
+    return <PublicBookingPage {...(route.props as { userId: number })} />;
   }
   
   // Fallback for unknown applications
