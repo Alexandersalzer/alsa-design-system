@@ -5,8 +5,8 @@
 'use client';
 
 import React from 'react';
-import type { ApplicationRoute } from './loader';
-import PublicBookingPage from '../../bookings/booking/[userId]/page';
+import type { ApplicationRoute } from './applications/loader';
+import PublicBookingPage from '../bookings/booking/[userId]/page';
 
 interface DynamicApplicationPageProps {
   route: ApplicationRoute;
