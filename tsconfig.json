@@ -17,7 +17,8 @@
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
-      "@/design/*": ["./design/*"]
+      "@/design/*": ["./design/*"],
+      "@/lib/*": ["./design/lib/*"]
     }
   },
   "include": ["design/**/*.ts", "design/**/*.tsx", "design/types/css-modules.d.ts", "api/**/*.ts", "index.ts"],
