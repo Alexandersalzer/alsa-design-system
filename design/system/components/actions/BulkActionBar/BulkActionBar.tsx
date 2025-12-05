@@ -71,13 +71,14 @@ export const BulkActionBar: React.FC<BulkActionBarProps> = ({
           {showSelectAllPrompt && hasMoreToSelect && onSelectAll && (
             <>
               <span className="bulk-action-bar__separator">·</span>
-              <button
-                type="button"
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={onSelectAll}
                 className="bulk-action-bar__select-all"
               >
                 {selectAllText || defaultSelectAllText}
-              </button>
+              </Button>
             </>
           )}
         </div>

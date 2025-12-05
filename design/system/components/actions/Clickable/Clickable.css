@@ -225,40 +225,38 @@
 
 /* ===== SELECTED STATE (DEFAULT VARIANT) ===== */
 .clickable--selected {
-  background-color: var(--surface-selected);
-  border-color: var(--border-selected);
-  box-shadow: 0 0 0 2px var(--border-accent);
+  background-color: var(--surface-accent-muted);
+  border-color: var(--border-accent-subtle);
 }
 
 .clickable--selected:hover:not(.clickable--disabled) {
-  background-color: var(--surface-selected-hover);
-  box-shadow: 0 0 0 2px var(--border-accent);
+  background-color: var(--surface-accent-muted);
+  border-color: var(--border-accent-subtle);
 }
 
 /* ===== BORDERED VARIANT - BORDER-ONLY CHANGES ===== */
 /* Bordered variant: Only change borders on hover/selection, keep background transparent */
 
-/* Hover: Border + subtle lift + tiny shadow for depth */
+/* Hover: Border + subtle lift */
 .clickable--variant-bordered.clickable--interactive:hover:not(.clickable--disabled):not(.clickable--loading):not(.clickable--selected) {
   background-color: transparent;
-  border-color: var(--border-emphasis);
+  border-color: var(--border-default);
   transform: scale(1.02);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  box-shadow: none;
 }
 
-/* Active: Border + push down + remove shadow */
+/* Active: Border + push down */
 .clickable--variant-bordered.clickable--interactive:active:not(.clickable--disabled):not(.clickable--loading) {
   background-color: transparent;
-  border-color: var(--border-strong);
+  border-color: var(--border-default);
   transform: scale(0.96);
   box-shadow: none;
 }
 
-/* Selected: Strong border, no scale on hover since it's already selected */
+/* Selected: Subtle border, no scale on hover since it's already selected */
 .clickable--variant-bordered.clickable--selected {
   background-color: transparent;
-  border-color: var(--border-accent);
-  border-width: 2px;
+  border-color: var(--border-default);
   box-shadow: none;
   transform: none;
 }
@@ -266,7 +264,7 @@
 /* Selected items don't scale on hover - they're already chosen */
 .clickable--variant-bordered.clickable--selected:hover:not(.clickable--disabled) {
   background-color: transparent;
-  border-color: var(--border-accent);
+  border-color: var(--border-default);
   box-shadow: none;
   transform: none;
 }

@@ -53,6 +53,7 @@ const getStatusIcon = (variant: ToastVariant): ReactNode => {
     case 'error':
       return <StatusIcons.Error />;
     case 'info':
+      return <StatusIcons.Info />;
     default:
       return <StatusIcons.Info />;
   }

@@ -115,9 +115,18 @@ export const createActionIcon = (iconComponent: React.ComponentType, props?: any
 
 export const createStatusIcon = (iconComponent: React.ComponentType, status: 'success' | 'warning' | 'error' | 'info' = 'info', props?: any) => {
   const { Icon } = require('./Icon');
+
+  // Map status to semantic color tokens
+  const colorMap = {
+    success: 'success',
+    warning: 'warning',
+    error: 'error',
+    info: 'info'
+  };
+
   return React.createElement(Icon, {
     size: 'sm',
-    color: status === 'info' ? 'accent' : status,
+    color: colorMap[status],
     weight: 'medium',
     ...props
   }, React.createElement(iconComponent));

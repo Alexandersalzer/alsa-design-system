@@ -61,6 +61,10 @@
   text-align: center;
   white-space: nowrap;
   height: 100%; /* ✅ Fill track height */
+  /* CRITICAL: Override browser default button color */
+  color: inherit;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 /* ===== OPTION DIVIDERS ===== */
@@ -115,16 +119,21 @@
 .segmented-control__icon {
   display: flex;
   align-items: center;
-  color: var(--text-muted); /* Default: unselected state */
+  color: var(--icon-secondary); /* Default: unselected state */
   flex-shrink: 0;
   /* Don't block clicks */
   pointer-events: none;
   transition: color 0.15s ease;
 }
 
-/* Selected state - match text color */
+/* Hover state - brighten icon */
+.segmented-control__option:hover:not(:disabled):not(.segmented-control__option--disabled) .segmented-control__icon {
+  color: var(--icon-primary);
+}
+
+/* Selected state - use icon-strong for emphasis */
 .segmented-control__option[data-selected="true"] .segmented-control__icon {
-  color: var(--text-strong);
+  color: var(--icon-strong);
 }
 
 .segmented-control__icon svg {

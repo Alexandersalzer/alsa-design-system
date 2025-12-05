@@ -59,7 +59,7 @@
 /* Ensure icons inside brand buttons match text color */
 .btn-brand .icon,
 .btn-brand [class*="icon-"] {
-  color: var(--text-button-brand) !important;
+  color: var(--text-button-brand);
 }
 
 .btn-brand:hover:not(:disabled) {
@@ -94,7 +94,7 @@
 /* Ensure icons inside primary buttons match text color */
 .btn-primary .icon,
 .btn-primary [class*="icon-"] {
-  color: var(--text-button-primary) !important;
+  color: var(--text-button-primary);
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -158,7 +158,7 @@
 /* Ensure icons inside accent buttons match text color */
 .btn-accent .icon,
 .btn-accent [class*="icon-"] {
-  color: var(--text-button-accent) !important;
+  color: var(--text-button-accent) ;
 }
 
 .btn-accent:hover:not(:disabled) {
