@@ -30,6 +30,7 @@ export interface SegmentedControlProps {
   fullWidth?: boolean;
   disabled?: boolean;
   iconOnly?: boolean; // Hide labels, show only icons with tooltips
+  tooltipPlacement?: 'top' | 'bottom' | 'left' | 'right'; // Control tooltip position (default: 'bottom')
   className?: string;
   'aria-label'?: string;
 }
@@ -46,6 +47,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
   fullWidth = false,
   disabled = false,
   iconOnly = false,
+  tooltipPlacement = 'bottom',
   className,
   'aria-label': ariaLabel,
 }) => {
@@ -289,7 +291,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
               size="sm"
               key={option.value}
               content={tooltipText}
-              placement="bottom"
+              placement={tooltipPlacement}
               delay={1000}
             >
               {buttonElement}
