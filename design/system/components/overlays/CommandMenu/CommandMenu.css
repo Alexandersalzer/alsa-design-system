@@ -1,0 +1,284 @@
+/* ===============================================
+   CommandMenu.css - Command Palette Styles
+   =============================================== */
+
+/* ===== BACKDROP ===== */
+.command-menu__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: var(--surface-backdrop);
+  backdrop-filter: blur(4px);
+  z-index: var(--z-modal, 3300);
+  animation: fadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
+}
+
+/* ===== COMMAND MENU CONTAINER ===== */
+.command-menu {
+  position: fixed;
+  top: 16%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-modal, 3300);
+
+  width: 90%;
+  max-width: 640px;
+  max-height: 480px;
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-emphasis);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-modal);
+
+  overflow: hidden;
+
+  animation: slideInScale var(--foundation-duration-gentle) var(--foundation-ease-smooth);
+}
+
+/* ===== HEADER (Search Input) ===== */
+.command-menu__header {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-3);
+  padding: var(--foundation-space-4);
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+}
+
+.command-menu__input {
+  flex: 1;
+  min-width: 0;
+
+  background: transparent;
+  border: none;
+  outline: none;
+
+  font-family: var(--font-body-family);
+  font-size: var(--foundation-size-text-md);
+  line-height: var(--foundation-leading-normal);
+  color: var(--text-default);
+
+  /* CRITICAL: Override browser default button color */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.command-menu__input::placeholder {
+  color: var(--text-placeholder);
+}
+
+.command-menu__breadcrumb {
+  flex-shrink: 0;
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+  background: var(--surface-muted);
+  border-radius: var(--radius-sm);
+}
+
+/* ===== COMMAND LIST ===== */
+.command-menu__list {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--foundation-space-2);
+
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
+
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-default) transparent;
+}
+
+.command-menu__list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.command-menu__list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.command-menu__list::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: var(--radius-full);
+}
+
+.command-menu__list::-webkit-scrollbar-thumb:hover {
+  background: var(--border-emphasis);
+}
+
+/* ===== EMPTY STATE ===== */
+.command-menu__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--foundation-space-2);
+  padding: var(--foundation-space-8);
+  text-align: center;
+}
+
+/* ===== COMMAND GROUP ===== */
+.command-menu__group {
+  margin-bottom: var(--foundation-space-3);
+}
+
+.command-menu__group:last-child {
+  margin-bottom: 0;
+}
+
+.command-menu__group-heading {
+  display: block;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ===== COMMAND ITEM ===== */
+.command-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-3);
+  width: 100%;
+
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  border: none;
+  border-radius: var(--radius-md);
+
+  background: transparent;
+  cursor: pointer;
+
+  transition: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
+
+  /* CRITICAL: Override browser default button color */
+  color: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+
+  text-align: left;
+}
+
+.command-menu__item:hover {
+  background: var(--surface-hover);
+}
+
+.command-menu__item--selected {
+  background: var(--surface-selected);
+}
+
+.command-menu__item:active {
+  background: var(--surface-active);
+}
+
+/* ===== ITEM CONTENT ===== */
+.command-menu__item-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--icon-secondary);
+}
+
+.command-menu__item--selected .command-menu__item-icon {
+  color: var(--icon-primary);
+}
+
+.command-menu__item-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.command-menu__item-arrow {
+  flex-shrink: 0;
+}
+
+.command-menu__item-shortcut {
+  flex-shrink: 0;
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+
+  font-family: var(--font-body-family);
+  font-size: var(--foundation-size-text-xs);
+  line-height: 1;
+  color: var(--text-tertiary);
+
+  background: var(--surface-muted);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.command-menu__item--selected .command-menu__item-shortcut {
+  color: var(--text-secondary);
+  background: var(--surface-elevated);
+  border-color: var(--border-default);
+}
+
+/* ===== FOOTER ===== */
+.command-menu__footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--foundation-space-2);
+
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+  border-top: 1px solid var(--border-default);
+
+  flex-shrink: 0;
+}
+
+.command-menu__footer kbd {
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+
+  font-family: var(--font-body-family);
+  font-size: var(--foundation-size-text-xs);
+  line-height: 1;
+
+  background: var(--surface-muted);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInScale {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .command-menu {
+    top: 10%;
+    width: 95%;
+    max-height: 70vh;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .command-menu__backdrop,
+  .command-menu,
+  .command-menu__item {
+    animation: none;
+    transition: none;
+  }
+
+  .command-menu__list {
+    scroll-behavior: auto;
+  }
+}
