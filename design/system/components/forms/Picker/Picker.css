@@ -56,6 +56,11 @@
 
 /* ===== PICKER BUTTON ===== */
 .picker {
+  /* Reset browser default button styles */
+  all: unset;
+  box-sizing: border-box;
+
+  /* Picker styles */
   width: 100%;
   min-height: 40px;
   padding: 8px 12px;
@@ -75,8 +80,8 @@
   justify-content: space-between;
   gap: 8px;
   outline: none;
-  
-  transition: 
+
+  transition:
     border-color var(--foundation-duration-fast) var(--foundation-ease-out),
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
     box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
