@@ -290,7 +290,6 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
               content={tooltipText}
               placement="bottom"
               delay={500}
-              showArrow
             >
               {buttonElement}
             </Tooltip>
