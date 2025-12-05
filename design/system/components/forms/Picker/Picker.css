@@ -211,6 +211,8 @@
 .picker-content {
   padding: 4px;
   min-width: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* FIXED: Use responsive dropdown radius tokens */
