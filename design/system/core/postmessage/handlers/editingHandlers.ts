@@ -116,9 +116,18 @@ export const handleComponentContentUpdate = (payload: any) => {
   const componentElement = document.querySelector(`[data-component-key="${componentKey}"]`);
   
   if (componentElement) {
-    // Uppdatera text content
-    componentElement.textContent = content;
-    console.log(`[EditingHandler] Updated component ${componentKey} with new content:`, content);
+    // Leta efter första text-element inuti komponenten
+    const textElement = componentElement.querySelector('.btn-text, .text-label-md, [class*="text-"], span, p, h1, h2, h3, h4, h5, h6');
+    
+    if (textElement) {
+      // Uppdatera text i text-elementet
+      textElement.textContent = content;
+      console.log(`[EditingHandler] Updated text in component ${componentKey} with new content:`, content);
+    } else {
+      // Fallback: uppdatera hela komponenten om ingen text-element hittas
+      componentElement.textContent = content;
+      console.log(`[EditingHandler] Updated entire component ${componentKey} with new content:`, content);
+    }
   } else {
     console.warn(`[EditingHandler] Component not found: ${componentKey}`);
   }
@@ -144,4 +153,34 @@ export const handleHtmlAttributes = (payload: any) => {
       console.log(`[EditingHandler] Set HTML attribute: ${attr}="${value}"`);
     }
   });
+};
+
+// 👁️ Component Visibility Handler
+export const handleComponentVisibility = (payload: any, setHiddenComponents: (updater: (prev: Set<string>) => Set<string>) => void) => {
+  const { componentKey, hidden } = payload;
+  
+  if (!componentKey || typeof hidden !== 'boolean') {
+    console.warn('[EditingHandler] Invalid component visibility payload:', payload);
+    return;
+  }
+  
+  // Import utils to update global context
+  import('../../utils/props').then(({ setHiddenComponentsContext }) => {
+    // Uppdatera hidden components state
+    setHiddenComponents(prev => {
+      const newSet = new Set(prev);
+      if (hidden) {
+        newSet.add(componentKey);
+      } else {
+        newSet.delete(componentKey);
+      }
+      
+      // Update global context for componentPresent function
+      setHiddenComponentsContext(newSet);
+      
+      return newSet;
+    });
+  });
+  
+  console.log(`[EditingHandler] Component ${componentKey} visibility set to: ${hidden ? 'hidden' : 'visible'}`);
 };

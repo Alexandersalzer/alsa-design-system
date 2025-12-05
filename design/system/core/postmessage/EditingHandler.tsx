@@ -11,7 +11,7 @@
 
 import { useEffect, useState } from 'react';
 import { ParentToClientMessage } from './types';
-import { handleEditingMode, handleDesignTokens, handleDesignTokenUpdates, handleHeightRequest, handleComponentContentUpdate, handleHtmlAttributes
+import { handleEditingMode, handleDesignTokens, handleDesignTokenUpdates, handleHeightRequest, handleComponentContentUpdate, handleHtmlAttributes, handleComponentVisibility
 } from './handlers/editingHandlers';
 
 /**
@@ -19,6 +19,7 @@ import { handleEditingMode, handleDesignTokens, handleDesignTokenUpdates, handle
  */
 export function EditingHandler() {
   const [designTokens, setDesignTokens] = useState<any>(null);
+  const [hiddenComponents, setHiddenComponents] = useState<Set<string>>(new Set());
   
   // 🎯 Centraliserad message routing
   useEffect(() => {
@@ -51,6 +52,10 @@ export function EditingHandler() {
 
         case ParentToClientMessage.UpdateHtmlAttributes:
           handleHtmlAttributes(payload);
+          break;
+
+        case ParentToClientMessage.UpdateComponentVisibility:
+          handleComponentVisibility(payload, setHiddenComponents);
           break;
 
         default:
