@@ -3,7 +3,7 @@
  * Native fetch-based API client
  */
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const baseURL = 'https://devapi.blimpify-im.com';
 
 interface ApiResponse<T = any> {
   data: T;
