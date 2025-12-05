@@ -286,10 +286,11 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
         if (showTooltip) {
           return (
             <Tooltip
+              size="sm"
               key={option.value}
               content={tooltipText}
               placement="bottom"
-              delay={500}
+              delay={1000}
             >
               {buttonElement}
             </Tooltip>
