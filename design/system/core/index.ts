@@ -19,7 +19,6 @@ export * from './render';
 
 
 export * from './content';
-export { DynamicApplicationPage } from './DynamicApplicationPage';
 
 // PostMessage functionality
 export * from './postmessage';
