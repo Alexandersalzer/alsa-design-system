@@ -17,6 +17,7 @@ export interface SegmentedControlOption {
   label: string;
   icon?: React.ReactNode;
   disabled?: boolean;
+  tooltip?: string; // Optional tooltip text (defaults to label if iconOnly is true)
 }
 
 export interface SegmentedControlProps {
@@ -27,6 +28,7 @@ export interface SegmentedControlProps {
   variant?: 'default' | 'pill' | 'ghost';
   fullWidth?: boolean;
   disabled?: boolean;
+  iconOnly?: boolean; // Hide labels, show only icons with tooltips
   className?: string;
   'aria-label'?: string;
 }
@@ -42,6 +44,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
   variant = 'default',
   fullWidth = false,
   disabled = false,
+  iconOnly = false,
   className,
   'aria-label': ariaLabel,
 }) => {
@@ -234,12 +237,15 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
         const isDisabled = disabled || option.disabled;
         const isBeforeSelected = index === selectedIndex - 1;
         const isAfterSelected = index === selectedIndex + 1;
+        const tooltipText = option.tooltip || option.label;
+        const showTooltip = iconOnly && tooltipText;
 
         return (
           <button
             key={option.value}
             className={cn(
               'segmented-control__option',
+              iconOnly && 'segmented-control__option--icon-only',
               isDisabled && 'segmented-control__option--disabled'
             )}
             onClick={(e) => {
@@ -254,6 +260,8 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
             role="radio"
             aria-checked={isSelected}
             aria-disabled={isDisabled || undefined}
+            aria-label={iconOnly ? option.label : undefined}
+            title={showTooltip ? tooltipText : undefined}
             tabIndex={isSelected ? 0 : -1}
             data-value={option.value}
             data-selected={isSelected}
@@ -262,13 +270,20 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
             type="button"
           >
             {option.icon && <span className="segmented-control__icon">{option.icon}</span>}
-            <Label
-              size={size === 'sm' ? 'xs' : size === 'lg' ? 'md' : 'sm'}
-              weight={isSelected ? 'semibold' : 'medium'}
-              color={isSelected ? 'primary' : 'secondary'}
-            >
-              {option.label}
-            </Label>
+            {!iconOnly && (
+              <Label
+                size={size === 'sm' ? 'xs' : size === 'lg' ? 'md' : 'sm'}
+                weight={isSelected ? 'semibold' : 'medium'}
+                color={isSelected ? 'primary' : 'secondary'}
+              >
+                {option.label}
+              </Label>
+            )}
+            {showTooltip && (
+              <span className="segmented-control__tooltip" role="tooltip">
+                {tooltipText}
+              </span>
+            )}
           </button>
         );
       })}

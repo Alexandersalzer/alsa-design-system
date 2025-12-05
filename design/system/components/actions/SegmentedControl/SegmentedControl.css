@@ -119,7 +119,7 @@
 .segmented-control__icon {
   display: flex;
   align-items: center;
-  color: var(--icon-secondary); /* Default: unselected state */
+  color: var(--icon-default); /* Default: unselected state */
   flex-shrink: 0;
   /* Don't block clicks */
   pointer-events: none;
@@ -128,7 +128,7 @@
 
 /* Hover state - brighten icon */
 .segmented-control__option:hover:not(:disabled):not(.segmented-control__option--disabled) .segmented-control__icon {
-  color: var(--icon-primary);
+  color: var(--icon-strong);
 }
 
 /* Selected state - use icon-strong for emphasis */
@@ -343,4 +343,72 @@
 /* ===== NO TRANSITION ON FIRST PAINT ===== */
 .segmented-control[data-mounted="false"] .segmented-control__indicator {
   transition: none !important;
+}
+
+/* ===== ICON-ONLY MODE ===== */
+.segmented-control__option--icon-only {
+  padding: 0 var(--foundation-space-3);
+  min-width: var(--control-height-md);
+  position: relative;
+}
+
+.segmented-control--sm .segmented-control__option--icon-only {
+  min-width: var(--control-height-sm);
+  padding: 0 var(--foundation-space-2);
+}
+
+.segmented-control--lg .segmented-control__option--icon-only {
+  min-width: var(--control-height-lg);
+  padding: 0 var(--foundation-space-3);
+}
+
+/* ===== TOOLTIP ===== */
+.segmented-control__tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  background: var(--surface-tooltip, #1f2937);
+  color: var(--text-tooltip, #ffffff);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: var(--foundation-weight-medium);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity var(--foundation-duration-fast) var(--foundation-ease-out),
+    transform var(--foundation-duration-fast) var(--foundation-ease-out);
+  z-index: 1000;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Tooltip arrow */
+.segmented-control__tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--surface-tooltip, #1f2937);
+}
+
+/* Show tooltip on hover with delay */
+.segmented-control__option:hover .segmented-control__tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  transition-delay: 0.5s; /* 500ms delay before showing */
+}
+
+/* Hide tooltip on active/click */
+.segmented-control__option:active .segmented-control__tooltip {
+  opacity: 0;
+  transition-delay: 0s;
 }
