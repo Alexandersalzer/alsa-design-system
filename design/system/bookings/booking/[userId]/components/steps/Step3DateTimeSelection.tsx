@@ -21,7 +21,7 @@ import {
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { parseDate, CalendarDate, Time, parseTime, getLocalTimeZone } from '@internationalized/date';
 import WeekViewCalendar from '../WeekViewCalendar';
-import apiClient from '@/lib/api/client';
+import apiClient from '../../../../../../lib/api/client';
 import type { AvailabilityResponse, RentalAvailability, Resource } from '../../types';
 
 interface Step3DateTimeSelectionProps {

@@ -17,7 +17,7 @@ import {
   Tag
 } from '@blimpify-im/ui';
 import { UserIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
-import apiClient from '@/lib/api/client';
+import apiClient from '../../../../../../lib/api/client';
 import type { Resource, AvailabilityResponse } from '../../types';
 
 interface Step2ResourceSelectionProps {
