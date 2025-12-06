@@ -17,6 +17,9 @@ export interface ResizeHandleProps {
   /** Position relative to parent (affects which direction expands) */
   position?: 'start' | 'end';
   
+  /** Visual style of the handle */
+  handleStyle?: 'compact' | 'full';
+  
   /** Whether the associated panel is collapsed */
   collapsed?: boolean;
   
@@ -61,6 +64,7 @@ export interface ResizeHandleProps {
 export const ResizeHandle = forwardRef<HTMLDivElement, ResizeHandleProps>(({
   orientation = 'vertical',
   position = 'end',
+  handleStyle = 'compact',
   collapsed = false,
   currentValue,
   minValue = 0,
@@ -129,6 +133,7 @@ export const ResizeHandle = forwardRef<HTMLDivElement, ResizeHandleProps>(({
     'resize-handle',
     `resize-handle--${orientation}`,
     `resize-handle--${position}`,
+    `resize-handle--${handleStyle}`,
     collapsed && 'resize-handle--collapsed',
     isHovering && 'resize-handle--hover',
     isDragging && 'resize-handle--active',
