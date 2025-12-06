@@ -7,5 +7,3 @@ export * from './system/core/applications';
 // Export Applications client components
 export * from './system/core/ApplicationComponent';
 
-// Export PostMessage functionality
-export { EditingHandler } from './system/core/postmessage'; 
