@@ -220,23 +220,58 @@
   opacity: 1;
 }
 
-/* Full - Collapsed state */
+/* Full - Collapsed state (small handle, not full height) */
 .resize-handle--full.resize-handle--collapsed .resize-handle__indicator {
   background-color: var(--interactive-accent);
   opacity: 0.5;
+  border-radius: 2px;
 }
 
-/* Full - Collapsed + Hover */
+.resize-handle--full.resize-handle--collapsed.resize-handle--vertical .resize-handle__indicator {
+  height: 56px;
+  width: 3px;
+}
+
+.resize-handle--full.resize-handle--collapsed.resize-handle--horizontal .resize-handle__indicator {
+  width: 56px;
+  height: 3px;
+}
+
+/* Full - Collapsed + Hover (expand to full height) */
 .resize-handle--full.resize-handle--collapsed:hover .resize-handle__indicator,
 .resize-handle--full.resize-handle--collapsed.resize-handle--hover .resize-handle__indicator {
   background-color: var(--surface-accent);
   opacity: 0.8;
+  border-radius: 0;
 }
 
-/* Full - Collapsed + Active */
+.resize-handle--full.resize-handle--collapsed.resize-handle--vertical:hover .resize-handle__indicator,
+.resize-handle--full.resize-handle--collapsed.resize-handle--vertical.resize-handle--hover .resize-handle__indicator {
+  height: 100%;
+  width: 2px;
+}
+
+.resize-handle--full.resize-handle--collapsed.resize-handle--horizontal:hover .resize-handle__indicator,
+.resize-handle--full.resize-handle--collapsed.resize-handle--horizontal.resize-handle--hover .resize-handle__indicator {
+  width: 100%;
+  height: 2px;
+}
+
+/* Full - Collapsed + Active (full height) */
 .resize-handle--full.resize-handle--collapsed.resize-handle--active .resize-handle__indicator {
   background-color: var(--surface-accent);
   opacity: 1;
+  border-radius: 0;
+}
+
+.resize-handle--full.resize-handle--collapsed.resize-handle--active.resize-handle--vertical .resize-handle__indicator {
+  height: 100%;
+  width: 2px;
+}
+
+.resize-handle--full.resize-handle--collapsed.resize-handle--active.resize-handle--horizontal .resize-handle__indicator {
+  width: 100%;
+  height: 2px;
 }
 
 /* ===== FOCUS STATE (keyboard accessibility) ===== */
