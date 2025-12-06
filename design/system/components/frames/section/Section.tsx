@@ -72,7 +72,6 @@ export const Section = ({
     heightClass,
     positionClass,
     spacingClass,
-    styles.editingMode,
     className,
   ].join(' ').trim();
 

@@ -18,7 +18,6 @@ export const Component = forwardRef<HTMLElement, ComponentProps>(({
   ...rest
 }, ref) => {
   const combinedClassName = [
-    styles.editingMode,
     className
   ].filter(Boolean).join(' ').trim();
   

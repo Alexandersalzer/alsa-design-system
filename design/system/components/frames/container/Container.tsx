@@ -83,7 +83,6 @@ export const Container = ({
     widthClass,
     spacingClass,
     paddingClass,
-    styles.editingMode,
     className,
   ].join(' ').trim();
 
