@@ -1,3 +1,8 @@
+// Font weight tiers (strict 400-800 range)
+export type BodyWeightTier = "regular" | "medium";
+export type HeadingWeightTier = "semibold" | "bold" | "extrabold";
+export type WeightTier = BodyWeightTier | HeadingWeightTier;
+
 export interface DesignTokens {
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   accentColor?: string;
@@ -6,7 +11,8 @@ export interface DesignTokens {
   accentIntensity?: "vibrant" | "normal" | "discrete" | "monochrome";
   fontPrimary?: string;
   fontSecondary?: string;
-  fontWeightScale?: "light" | "regular" | "strong" | "extraStrong";
+  fontWeightHeading?: HeadingWeightTier;
+  fontWeightBody?: BodyWeightTier;
   layoutContent?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   layoutMedia?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   sectionSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';

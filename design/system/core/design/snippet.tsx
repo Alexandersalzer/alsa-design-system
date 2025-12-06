@@ -1,5 +1,6 @@
 import type { DesignTokens } from "../types/design";
 import { getDesignConfig } from "./loaders";
+import { normalizeWeights, getWeightValue } from "./weights";
 
 /**
  * Generates CSS variables from design.json
@@ -12,14 +13,22 @@ export function buildCssVars(tokens: DesignTokens): string {
   const themeTone        = tokens?.themeTone        || "neutral";
   const fontPrimary      = tokens?.fontPrimary      || "Sora";
   const fontSecondary    = tokens?.fontSecondary    || fontPrimary;
-  const fontWeightScale  = tokens?.fontWeightScale  || "regular";
   const layoutContent    = tokens?.layoutContent    || "md";
   const layoutMedia      = tokens?.layoutMedia      || "xl";
   const sectionSpacing   = tokens?.sectionSpacing   || "md";
   const containerSpacing = tokens?.containerSpacing || "md";
   const navbarSpacing    = tokens?.navbarSpacing    || "md";
-  const formWidth        = tokens?.formWidth        || "sm";  // ← NEW
+  const formWidth        = tokens?.formWidth        || "sm";
   const typographyScale  = tokens?.typographyScale  || "md";
+
+  // 🎯 NEW: Tier-based weight system (400-800 range with validation)
+  const weights = normalizeWeights(
+    tokens?.fontWeightHeading,
+    tokens?.fontWeightBody
+  );
+  const fontWeightHeading = getWeightValue(weights.heading); // e.g., 700
+  const fontWeightBody = getWeightValue(weights.body);       // e.g., 400
+  const fontWeightLabel = getWeightValue(weights.label);     // e.g., 500 (auto-calculated)
 
   const fontWeights = "300;400;500;600;700;800;900";
   const fontsToImport = [fontPrimary, fontSecondary]
@@ -109,10 +118,10 @@ export function buildCssVars(tokens: DesignTokens): string {
       --selected-leading-relaxed: var(--foundation-typography-${typographyScale}-leading-relaxed);
       --selected-leading-loose:   var(--foundation-typography-${typographyScale}-leading-loose);
 
-      /* ===== Font weight scale ===== */
-      --selected-font-weight-heading: var(--foundation-weightscale-${fontWeightScale}-heading);
-      --selected-font-weight-body:    var(--foundation-weightscale-${fontWeightScale}-body);
-      --selected-font-weight-label:   var(--foundation-weightscale-${fontWeightScale}-label);
+      /* ===== Font weights (tier-based, 400-800 range) ===== */
+      --selected-font-weight-heading: ${fontWeightHeading};
+      --selected-font-weight-body:    ${fontWeightBody};
+      --selected-font-weight-label:   ${fontWeightLabel};
 
       /* ===== Theme Control (replaces data-theme attribute) ===== */
       --is-dark: ${isDark ? 1 : 0};
