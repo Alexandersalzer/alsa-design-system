@@ -210,6 +210,126 @@
   --foundation-gray-1200: #15100f;
 }
 
+/* ========== AQUA-V2 (IMPROVED COOL BLUE-GRAY) ========== */
+:root[data-theme-tone="aqua-v2"] {
+  --foundation-white: #f0f7fb;   /* H: 203, S: 42%, L: 97% - subtle blue tint */
+  --foundation-black: #0b0d0f;   /* H: 203, S: 18%, L: 6% - "infected" near-black with aqua tone */
+
+  --foundation-gray-50:  #f5f9fc;  /* Very light aqua wash */
+  --foundation-gray-100: #e8f1f7;  /* Subtle aqua highlight */
+  --foundation-gray-200: #d4e5f0;  /* Light aqua gray */
+  --foundation-gray-300: #b8d3e5;  /* Soft aqua */
+  --foundation-gray-400: #96bdd6;  /* Medium-light aqua - peak saturation area */
+  --foundation-gray-500: #75a7c5;  /* Medium aqua */
+  --foundation-gray-600: #5a8fb0;  /* Medium-dark aqua - still vibrant */
+  --foundation-gray-700: #447392;  /* Darker aqua - saturation starts dropping */
+  --foundation-gray-800: #325770;  /* Dark aqua gray - low saturation */
+  --foundation-gray-900: #233f52;  /* Very dark - minimal color */
+  --foundation-gray-1000: #182d3a;  /* Almost black - barely perceptible aqua */
+  --foundation-gray-1100: #0f1b24;  /* Near black - subtle aqua infection */
+  --foundation-gray-1200: #0b0d0f;  /* Infected black - matches foundation-black */
+}
+
+/* ========== VIOLET-V2 (IMPROVED PURPLE-SLATE) ========== */
+:root[data-theme-tone="violet-v2"] {
+  --foundation-white: #f7f6f9;   /* H: 260, S: 30%, L: 97% - gentle violet tint */
+  --foundation-black: #0d0b0f;   /* H: 260, S: 18%, L: 6% - infected violet black */
+
+  --foundation-gray-50:  #faf9fc;
+  --foundation-gray-100: #f0ecf6;
+  --foundation-gray-200: #e2daea;
+  --foundation-gray-300: #cec3d8;
+  --foundation-gray-400: #b3a3c2;  /* Peak saturation around 400-600 */
+  --foundation-gray-500: #9685a8;
+  --foundation-gray-600: #7d6b8f;
+  --foundation-gray-700: #655575;  /* Saturation dropping */
+  --foundation-gray-800: #4e4159;  /* Low saturation */
+  --foundation-gray-900: #38303f;  /* Very low saturation */
+  --foundation-gray-1000: #26212b;  /* Minimal violet tone */
+  --foundation-gray-1100: #18141c;  /* Near-black with violet infection */
+  --foundation-gray-1200: #0d0b0f;  /* Infected black */
+}
+
+/* ========== CLAY-V2 (IMPROVED EARTH-WARM GRAY) ========== */
+:root[data-theme-tone="clay-v2"] {
+  --foundation-white: #f6f4f2;   /* H: 30, S: 25%, L: 96% - warm clay white */
+  --foundation-black: #0e0c0b;   /* H: 30, S: 15%, L: 6% - infected clay black */
+
+  --foundation-gray-50:  #f9f7f5;
+  --foundation-gray-100: #f0ebe6;
+  --foundation-gray-200: #e3d9d1;
+  --foundation-gray-300: #d1c3b8;
+  --foundation-gray-400: #baa89a;  /* Peak warmth */
+  --foundation-gray-500: #a08e7f;
+  --foundation-gray-600: #877668;
+  --foundation-gray-700: #6d5e52;  /* Saturation dropping */
+  --foundation-gray-800: #54473e;  /* Low saturation */
+  --foundation-gray-900: #3c332c;  /* Minimal warmth */
+  --foundation-gray-1000: #28221d;  /* Very dark */
+  --foundation-gray-1100: #191512;  /* Near-black */
+  --foundation-gray-1200: #0e0c0b;  /* Infected clay black */
+}
+
+/* ========== LINEN-V2 (IMPROVED SOFT BEIGE) ========== */
+:root[data-theme-tone="linen-v2"] {
+  --foundation-white: #f8f6f3;   /* H: 35, S: 30%, L: 96% - soft beige */
+  --foundation-black: #0e0d0b;   /* H: 35, S: 15%, L: 6% - infected linen black */
+
+  --foundation-gray-50:  #faf9f6;
+  --foundation-gray-100: #f3f0ea;
+  --foundation-gray-200: #e6e0d8;
+  --foundation-gray-300: #d4cbc0;
+  --foundation-gray-400: #bdb1a3;  /* Peak beige warmth */
+  --foundation-gray-500: #a39588;
+  --foundation-gray-600: #897b6f;
+  --foundation-gray-700: #6f6258;  /* Dropping saturation */
+  --foundation-gray-800: #564b43;  /* Low saturation */
+  --foundation-gray-900: #3e3630;  /* Minimal beige */
+  --foundation-gray-1000: #292520;  /* Very dark */
+  --foundation-gray-1100: #1a1714;  /* Near-black */
+  --foundation-gray-1200: #0e0d0b;  /* Infected linen black */
+}
+
+/* ========== INK-V2 (IMPROVED COOL GRAY - ENHANCED CONTRAST) ========== */
+:root[data-theme-tone="ink-v2"] {
+  --foundation-white: #f0f2f5;   /* H: 215, S: 28%, L: 96% - cool white */
+  --foundation-black: #0a0c0e;   /* H: 215, S: 18%, L: 6% - infected ink black */
+
+  --foundation-gray-50:  #f5f6f9;
+  --foundation-gray-100: #e9ecf0;  /* Better contrast vs 50 */
+  --foundation-gray-200: #d7dce3;  /* Improved step */
+  --foundation-gray-300: #bfc7d2;  /* Enhanced mid-light */
+  --foundation-gray-400: #a1adb9;  /* Better definition - peak saturation */
+  --foundation-gray-500: #8390a0;  /* Improved mid-tone contrast */
+  --foundation-gray-600: #677585;  /* Clear step down */
+  --foundation-gray-700: #505c6a;  /* Enhanced contrast */
+  --foundation-gray-800: #3a444f;  /* Darker, more distinct */
+  --foundation-gray-900: #272f37;  /* Low saturation */
+  --foundation-gray-1000: #1a2026;  /* Very dark */
+  --foundation-gray-1100: #111418;  /* Near-black */
+  --foundation-gray-1200: #0a0c0e;  /* Infected ink black */
+}
+
+/* ========== PEARL-V2 (IMPROVED CREAMY MINIMAL) ========== */
+:root[data-theme-tone="pearl-v2"] {
+  --foundation-white: #f9f7f5;   /* H: 25, S: 35%, L: 97% - creamy white */
+  --foundation-black: #0e0c0b;   /* H: 25, S: 15%, L: 6% - infected pearl black */
+
+  --foundation-gray-50:  #faf9f7;
+  --foundation-gray-100: #f4f0ed;  /* Keeps beautiful light pearl quality */
+  --foundation-gray-200: #e8dfda;  /* Maintains creamy mid-lights */
+  --foundation-gray-300: #d8cac3;  /* Still beautiful at 300 */
+  --foundation-gray-400: #c3b0a6;  /* Peak warmth/saturation */
+  --foundation-gray-500: #aa938a;
+  --foundation-gray-600: #907970;
+  --foundation-gray-700: #756159;  /* Saturation dropping */
+  --foundation-gray-800: #5b4a44;  /* Low saturation */
+  --foundation-gray-900: #423530;  /* Minimal warmth */
+  --foundation-gray-1000: #2c2320;  /* Very dark */
+  --foundation-gray-1100: #1c1613;  /* Near-black */
+  --foundation-gray-1200: #0e0c0b;  /* Infected pearl black */
+}
+
 /* ==============================================
    ALL OTHER COLOR SCALES (STATIC)
    ============================================== */
