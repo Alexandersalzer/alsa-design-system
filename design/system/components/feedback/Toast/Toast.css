@@ -203,7 +203,12 @@
   cursor: pointer;
   border-radius: var(--radius-xs);
 
-  transition: 
+  /* CRITICAL: Override browser default button color */
+  color: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+
+  transition:
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
     transform var(--foundation-duration-fast) var(--foundation-ease-out);
 
