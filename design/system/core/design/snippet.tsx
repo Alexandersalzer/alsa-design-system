@@ -135,10 +135,10 @@ export function buildCssVars(tokens: DesignTokens): string {
       --selected-leading-relaxed: var(--foundation-typography-${typographyScale}-leading-relaxed);
       --selected-leading-loose:   var(--foundation-typography-${typographyScale}-leading-loose);
 
-      /* ===== Font weights (tier-based, 400-800 range) ===== */
-      --selected-font-weight-heading: ${fontWeightHeading};
-      --selected-font-weight-body:    ${fontWeightBody};
-      --selected-font-weight-label:   ${fontWeightLabel};
+      /* ===== Font weights (DYNAMIC - numeric 100-900 range from design.json) ===== */
+      --dynamic-font-weight-heading: ${fontWeightHeading};
+      --dynamic-font-weight-body:    ${fontWeightBody};
+      --dynamic-font-weight-label:   ${fontWeightLabel};
 
       /* ===== Theme Control (replaces data-theme attribute) ===== */
       --is-dark: ${isDark ? 1 : 0};

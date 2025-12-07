@@ -5,13 +5,14 @@
 ============================================== */
    
 /* ===== FONT WEIGHT UTILITIES ===== */
-.font-weight-light { font-weight: var(--foundation-weight-light); }
-.font-weight-regular { font-weight: var(--foundation-weight-regular); }
-.font-weight-medium { font-weight: var(--foundation-weight-medium); }
-.font-weight-semibold { font-weight: var(--foundation-weight-semibold); }
-.font-weight-bold { font-weight: var(--foundation-weight-bold); }
-.font-weight-extrabold { font-weight: var(--foundation-weight-extrabold); }
-.font-weight-black { font-weight: var(--foundation-weight-black); }
+/* 🎯 Map semantic weight names to dynamic design system tokens */
+.font-weight-light { font-weight: var(--selected-font-weight-body); } /* Use body weight for light text */
+.font-weight-regular { font-weight: var(--selected-font-weight-body); } /* Body weight */
+.font-weight-medium { font-weight: var(--selected-font-weight-label); } /* Label weight */
+.font-weight-semibold { font-weight: var(--selected-font-weight-heading); } /* Heading weight */
+.font-weight-bold { font-weight: var(--selected-font-weight-heading); } /* Heading weight */
+.font-weight-extrabold { font-weight: var(--selected-font-weight-heading); } /* Heading weight */
+.font-weight-black { font-weight: var(--selected-font-weight-heading); } /* Heading weight */
 
 /* ===== HTML ELEMENT DEFAULTS (from globals.css) ===== */
 h1, .h1 {

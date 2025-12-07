@@ -119,10 +119,10 @@
 :root {
   --selected-font-size-base: var(--foundation-typography-md-base);
 
-  /* 🎯 NEW: Tier-based weight defaults (400-800 range)
-     These will be overridden by snippet.tsx based on design.json
-     Default: heading=700 (bold), body=400 (regular), label=500 (medium) */
-  --selected-font-weight-heading: 700;
-  --selected-font-weight-body: 400;
-  --selected-font-weight-label: 500;
+  /* 🎯 DYNAMIC WEIGHT TOKENS (overridden by snippet.tsx based on design.json)
+     These use CSS custom properties that get injected dynamically
+     Default fallbacks: heading=700 (bold), body=400 (regular), label=500 (medium) */
+  --selected-font-weight-heading: var(--dynamic-font-weight-heading, 700);
+  --selected-font-weight-body: var(--dynamic-font-weight-body, 400);
+  --selected-font-weight-label: var(--dynamic-font-weight-label, 500);
 }
