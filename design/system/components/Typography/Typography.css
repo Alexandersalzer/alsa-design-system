@@ -14,6 +14,15 @@
 .font-weight-extrabold { font-weight: var(--selected-font-weight-heading); } /* Heading weight */
 .font-weight-black { font-weight: var(--selected-font-weight-heading); } /* Heading weight */
 
+/* Alternative naming (without 'weight' prefix) */
+.font-light { font-weight: var(--selected-font-weight-body); }
+.font-regular { font-weight: var(--selected-font-weight-body); }
+.font-medium { font-weight: var(--selected-font-weight-label); }
+.font-semibold { font-weight: var(--selected-font-weight-heading); }
+.font-bold { font-weight: var(--selected-font-weight-heading); }
+.font-extrabold { font-weight: var(--selected-font-weight-heading); }
+.font-black { font-weight: var(--selected-font-weight-heading); }
+
 /* ===== HTML ELEMENT DEFAULTS (from globals.css) ===== */
 h1, .h1 {
   font-family: var(--font-heading-family);
@@ -256,23 +265,6 @@ p, .text-body {
   border-radius: var(--radius-sm);
 }
 
-/* ===== FONT WEIGHT UTILITIES ===== */
-.font-light { font-weight: var(--foundation-weight-light); }
-.font-regular { font-weight: var(--foundation-weight-regular); }
-.font-medium { font-weight: var(--foundation-weight-medium); }
-.font-semibold { font-weight: var(--foundation-weight-semibold); }
-.font-bold { font-weight: var(--foundation-weight-bold); }
-.font-extrabold { font-weight: var(--foundation-weight-extrabold); }
-.font-black { font-weight: var(--foundation-weight-black); }
-
-/* Alternative naming for consistency with React components */
-.font-weight-light { font-weight: var(--foundation-weight-light); }
-.font-weight-regular { font-weight: var(--foundation-weight-regular); }
-.font-weight-medium { font-weight: var(--foundation-weight-medium); }
-.font-weight-semibold { font-weight: var(--foundation-weight-semibold); }
-.font-weight-bold { font-weight: var(--foundation-weight-bold); }
-.font-weight-extrabold { font-weight: var(--foundation-weight-extrabold); }
-.font-weight-black { font-weight: var(--foundation-weight-black); }
 
 /* ===== COLOR UTILITIES ===== */
 .text-default { color: var(--text-default); }
@@ -355,24 +347,24 @@ p, .text-body {
 /* Better Button Typography */
 .btn {
   font-family: var(--font-label-family);
-  font-weight: var(--foundation-weight-semibold);
+  font-weight: var(--font-label-weight);
   line-height: var(--foundation-leading-none);
   letter-spacing: 0.01em;
 }
 
 .btn--sm {
   font-size: var(--font-label-sm-size);
-  font-weight: var(--foundation-weight-medium);
+  font-weight: var(--font-label-weight);
 }
 
 .btn--md {
   font-size: var(--font-label-md-size);
-  font-weight: var(--foundation-weight-semibold);
+  font-weight: var(--font-label-weight);
 }
 
 .btn--lg {
   font-size: var(--font-label-lg-size);
-  font-weight: var(--foundation-weight-semibold);
+  font-weight: var(--font-label-weight);
   letter-spacing: 0.005em;
 }
 
@@ -382,7 +374,7 @@ p, .text-body {
 .card-title {
   font-family: var(--font-heading-family);
   font-size: var(--font-h5-size);
-  font-weight: var(--foundation-weight-semibold);
+  font-weight: var(--font-heading-weight);
   line-height: var(--font-h5-leading);
   color: var(--text-heading-color);
   letter-spacing: -0.005em;
@@ -399,7 +391,7 @@ p, .text-body {
 .card-subtitle {
   font-family: var(--font-label-family);
   font-size: var(--font-label-xs-size);
-  font-weight: var(--foundation-weight-medium);
+  font-weight: var(--font-label-weight);
   line-height: var(--font-label-xs-leading);
   color: var(--text-subtle);
   text-transform: uppercase;
@@ -407,8 +399,8 @@ p, .text-body {
 }
 
 /* ===== UTILITY COMBINATIONS ===== */
-.text-emphasis { font-weight: var(--foundation-weight-semibold); }
-.text-strong { font-weight: var(--foundation-weight-bold); }
+.text-emphasis { font-weight: var(--selected-font-weight-heading); }
+.text-strong { font-weight: var(--selected-font-weight-heading); }
 
 /* ===== RESPONSIVE TYPOGRAPHY ===== */
 @media (max-width: 768px) {
