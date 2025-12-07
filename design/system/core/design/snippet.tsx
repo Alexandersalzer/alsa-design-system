@@ -1,5 +1,6 @@
 import type { DesignTokens } from "../types/design";
 import { getDesignConfig } from "./loaders";
+import { normalizeWeights, getWeightValue, normalizeNumericWeights } from "./weights";
 
 /**
  * Generates CSS variables from design.json
@@ -12,14 +13,39 @@ export function buildCssVars(tokens: DesignTokens): string {
   const themeTone        = tokens?.themeTone        || "neutral";
   const fontPrimary      = tokens?.fontPrimary      || "Sora";
   const fontSecondary    = tokens?.fontSecondary    || fontPrimary;
-  const fontWeightScale  = tokens?.fontWeightScale  || "regular";
   const layoutContent    = tokens?.layoutContent    || "md";
   const layoutMedia      = tokens?.layoutMedia      || "xl";
   const sectionSpacing   = tokens?.sectionSpacing   || "md";
   const containerSpacing = tokens?.containerSpacing || "md";
   const navbarSpacing    = tokens?.navbarSpacing    || "md";
-  const formWidth        = tokens?.formWidth        || "sm";  // ← NEW
+  const formWidth        = tokens?.formWidth        || "sm";
   const typographyScale  = tokens?.typographyScale  || "md";
+
+  // 🎯 WEIGHT SYSTEM: Supports both numeric (preferred) and tier-based (legacy)
+  let fontWeightHeading: number;
+  let fontWeightBody: number;
+  let fontWeightLabel: number;
+
+  // Prefer numeric weights if provided
+  if (tokens?.fontWeightHeadingNumeric || tokens?.fontWeightBodyNumeric) {
+    const numericWeights = normalizeNumericWeights(
+      tokens?.fontWeightHeadingNumeric,
+      tokens?.fontWeightBodyNumeric,
+      tokens?.fontWeightLabelNumeric
+    );
+    fontWeightHeading = numericWeights.heading;
+    fontWeightBody = numericWeights.body;
+    fontWeightLabel = numericWeights.label;
+  } else {
+    // Fall back to tier-based weights
+    const weights = normalizeWeights(
+      tokens?.fontWeightHeading,
+      tokens?.fontWeightBody
+    );
+    fontWeightHeading = getWeightValue(weights.heading);
+    fontWeightBody = getWeightValue(weights.body);
+    fontWeightLabel = getWeightValue(weights.label);
+  }
 
   const fontWeights = "300;400;500;600;700;800;900";
   const fontsToImport = [fontPrimary, fontSecondary]
@@ -109,10 +135,10 @@ export function buildCssVars(tokens: DesignTokens): string {
       --selected-leading-relaxed: var(--foundation-typography-${typographyScale}-leading-relaxed);
       --selected-leading-loose:   var(--foundation-typography-${typographyScale}-leading-loose);
 
-      /* ===== Font weight scale ===== */
-      --selected-font-weight-heading: var(--foundation-weightscale-${fontWeightScale}-heading);
-      --selected-font-weight-body:    var(--foundation-weightscale-${fontWeightScale}-body);
-      --selected-font-weight-label:   var(--foundation-weightscale-${fontWeightScale}-label);
+      /* ===== Font weights (DYNAMIC - numeric 100-900 range from design.json) ===== */
+      --dynamic-font-weight-heading: ${fontWeightHeading};
+      --dynamic-font-weight-body:    ${fontWeightBody};
+      --dynamic-font-weight-label:   ${fontWeightLabel};
 
       /* ===== Theme Control (replaces data-theme attribute) ===== */
       --is-dark: ${isDark ? 1 : 0};

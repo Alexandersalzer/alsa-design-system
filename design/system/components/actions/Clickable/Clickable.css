@@ -306,15 +306,6 @@
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* ===== DARK MODE ADJUSTMENTS ===== */
-[data-theme="dark"] .clickable--interactive:hover:not(.clickable--disabled):not(.clickable--loading) {
-  background-color: var(--surface-hover-dark);
-}
-
-[data-theme="dark"] .clickable--interactive:active:not(.clickable--disabled):not(.clickable--loading) {
-  background-color: var(--surface-pressed-dark);
-}
-
 /* ===== REDUCED MOTION SUPPORT ===== */
 /* Respect user's motion preferences for accessibility */
 @media (prefers-reduced-motion: reduce) {
