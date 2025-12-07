@@ -88,14 +88,20 @@ export const ResizeHandle = forwardRef<HTMLDivElement, ResizeHandleProps>(({
   // ===== DRAG HANDLERS =====
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if (disabled) return;
-    
+
     e.preventDefault();
     e.stopPropagation();
-    
+
     setIsDragging(true);
     document.body.style.cursor = orientation === 'vertical' ? 'col-resize' : 'row-resize';
     document.body.style.userSelect = 'none';
-    
+
+    // Disable pointer events on all iframes to prevent them from stealing mouse events
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach(iframe => {
+      (iframe as HTMLIFrameElement).style.pointerEvents = 'none';
+    });
+
     onDragStart?.(e);
   }, [disabled, orientation, onDragStart]);
 
@@ -106,24 +112,34 @@ export const ResizeHandle = forwardRef<HTMLDivElement, ResizeHandleProps>(({
 
   const handleMouseUp = useCallback((e: MouseEvent) => {
     if (!isDragging) return;
-    
+
     setIsDragging(false);
     setIsHovering(false); // Reset hover to prevent stuck state
     document.body.style.cursor = '';
     document.body.style.userSelect = '';
-    
+
+    // Re-enable pointer events on all iframes
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach(iframe => {
+      (iframe as HTMLIFrameElement).style.pointerEvents = '';
+    });
+
     onDragEnd?.(e);
   }, [isDragging, onDragEnd]);
 
   // ===== GLOBAL EVENT LISTENERS =====
   useEffect(() => {
     if (isDragging) {
+      // Listen on both window and document to ensure we catch mouseup everywhere
+      // Use capture phase (true) to ensure we get the event before anything else
       window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
-      
+      window.addEventListener('mouseup', handleMouseUp, true);
+      document.addEventListener('mouseup', handleMouseUp, true);
+
       return () => {
         window.removeEventListener('mousemove', handleMouseMove);
-        window.removeEventListener('mouseup', handleMouseUp);
+        window.removeEventListener('mouseup', handleMouseUp, true);
+        document.removeEventListener('mouseup', handleMouseUp, true);
       };
     }
   }, [isDragging, handleMouseMove, handleMouseUp]);
