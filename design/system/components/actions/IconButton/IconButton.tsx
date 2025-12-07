@@ -35,14 +35,14 @@ export interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
   /** Badge for notifications */
   badge?: number | string;
   /** Required accessibility label */
-  'tooltip-label': string;
+  'aria-label': string;
   /** Active state (for navigation) */
   active?: boolean;
   /** Loading state */
   loading?: boolean;
-  /** Enable automatic tooltip using tooltip-label as content (default: true) */
+  /** Enable automatic tooltip using aria-label as content (default: true) */
   tooltip?: boolean;
-  /** Custom tooltip content (overrides tooltip-label) */
+  /** Custom tooltip content (overrides aria-label) */
   tooltipContent?: React.ReactNode;
   /** Tooltip placement */
   tooltipPlacement?: TooltipPlacement;
@@ -63,7 +63,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
   loading = false,
   className,
   disabled,
-  'tooltip-label': tooltipLabel,
+  'aria-label': ariaLabel,
   tooltip = true,
   tooltipContent,
   tooltipPlacement = 'top',
@@ -89,7 +89,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
       ref={ref}
       className={buttonClasses}
       disabled={isDisabled}
-      tooltip-label={tooltipLabel}
+      aria-label={ariaLabel}
       type="button"
       {...props}
     >
@@ -137,7 +137,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
   if (tooltip && !isDisabled) {
     return (
       <Tooltip
-        content={tooltipContent || tooltipLabel}
+        content={tooltipContent || ariaLabel}
         placement={tooltipPlacement}
         color={tooltipColor}
         size={tooltipSize}
@@ -154,8 +154,8 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
 IconButton.displayName = 'IconButton';
 
 // ===== SMART ICON BUTTON COMPONENTS - FIXED =====
-interface SmartIconButtonProps extends Omit<IconButtonProps, 'icon' | 'tooltip-label'> {
-  'tooltip-label'?: string;
+interface SmartIconButtonProps extends Omit<IconButtonProps, 'icon' | 'aria-label'> {
+  'aria-label'?: string;
   tooltip?: boolean;
   tooltipContent?: React.ReactNode;
   tooltipPlacement?: TooltipPlacement;
@@ -208,89 +208,89 @@ const createActionIcon = (
 };
 
 export const IconButtons = {
-  More: ({ 'tooltip-label': label = 'More options', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
+  More: ({ 'aria-label': label = 'More options', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
       icon={createActionIcon(EllipsisHorizontalIcon, variant, size)}
       variant={variant}
       size={size}
-      tooltip-label={label}
+      aria-label={label}
       {...props}
     />
   ),
 
-  Edit: ({ 'tooltip-label': label = 'Edit', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
+  Edit: ({ 'aria-label': label = 'Edit', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
       icon={createActionIcon(PencilIcon, variant, size)}
       variant={variant}
       size={size}
-      tooltip-label={label}
+      aria-label={label}
       {...props}
     />
   ),
 
-  Delete: ({ 'tooltip-label': label = 'Delete', variant = 'destructive', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
+  Delete: ({ 'aria-label': label = 'Delete', variant = 'destructive', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
       icon={createActionIcon(TrashIcon, variant, size)}
       variant={variant}
       size={size}
-      tooltip-label={label}
+      aria-label={label}
       {...props}
     />
   ),
 
-  Close: ({ 'tooltip-label': label = 'Close', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
+  Close: ({ 'aria-label': label = 'Close', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
       icon={createActionIcon(XMarkIcon, variant, size)}
       variant={variant}
       size={size}
-      tooltip-label={label}
+      aria-label={label}
       {...props}
     />
   ),
 
-  Add: ({ 'tooltip-label': label = 'Add', variant = 'accent', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
+  Add: ({ 'aria-label': label = 'Add', variant = 'accent', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
       icon={createActionIcon(PlusIcon, variant, size)}
       variant={variant}
       size={size}
-      tooltip-label={label}
+      aria-label={label}
       {...props}
     />
   ),
 
-  Search: ({ 'tooltip-label': label = 'Search', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
+  Search: ({ 'aria-label': label = 'Search', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
       icon={createActionIcon(MagnifyingGlassIcon, variant, size)}
       variant={variant}
       size={size}
-      tooltip-label={label}
+      aria-label={label}
       {...props}
     />
   ),
 
-  Bell: ({ 'tooltip-label': label = 'Notifications', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
+  Bell: ({ 'aria-label': label = 'Notifications', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
       icon={createActionIcon(BellIcon, variant, size)}
       variant={variant}
       size={size}
-      tooltip-label={label}
+      aria-label={label}
       {...props}
     />
   ),
 
-  Help: ({ 'tooltip-label': label = 'Help', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
+  Help: ({ 'aria-label': label = 'Help', variant = 'ghost', size = 'lg', ...props }: SmartIconButtonProps = {}) => (
     <IconButton
       icon={createActionIcon(QuestionMarkCircleIcon, variant, size)}
       variant={variant}
       size={size}
-      tooltip-label={label}
+      aria-label={label}
       {...props}
     />
   ),
 
   // Navigation helpers - special case with navigation colors
   Navigation: {
-    Home: ({ active = false, size = 'lg', ...additionalProps }: { active?: boolean; size?: IconButtonProps['size'] } & Omit<SmartIconButtonProps, 'tooltip-label'> = {}) => (
+    Home: ({ active = false, size = 'lg', ...additionalProps }: { active?: boolean; size?: IconButtonProps['size'] } & Omit<SmartIconButtonProps, 'aria-label'> = {}) => (
       <IconButton
         icon={
           <Icon 
@@ -304,12 +304,12 @@ export const IconButtons = {
         variant="ghost"
         size={size}
         active={active}
-        tooltip-label="Home"
+        aria-label="Home"
         {...additionalProps}
       />
     ),
     
-    Website: ({ active = false, size = 'lg', ...additionalProps }: { active?: boolean; size?: IconButtonProps['size'] } & Omit<SmartIconButtonProps, 'tooltip-label'> = {}) => (
+    Website: ({ active = false, size = 'lg', ...additionalProps }: { active?: boolean; size?: IconButtonProps['size'] } & Omit<SmartIconButtonProps, 'aria-label'> = {}) => (
       <IconButton
         icon={
           <Icon 
@@ -323,12 +323,12 @@ export const IconButtons = {
         variant="ghost"
         size={size}
         active={active}
-        tooltip-label="Website"
+        aria-label="Website"
         {...additionalProps}
       />
     ),
     
-    Chat: ({ active = false, size = 'lg', ...additionalProps }: { active?: boolean; size?: IconButtonProps['size'] } & Omit<SmartIconButtonProps, 'tooltip-label'> = {}) => (
+    Chat: ({ active = false, size = 'lg', ...additionalProps }: { active?: boolean; size?: IconButtonProps['size'] } & Omit<SmartIconButtonProps, 'aria-label'> = {}) => (
       <IconButton
         icon={
           <Icon 
@@ -342,12 +342,12 @@ export const IconButtons = {
         variant="ghost"
         size={size}
         active={active}
-        tooltip-label="Chat"
+        aria-label="Chat"
         {...additionalProps}
       />
     ),
     
-    Features: ({ active = false, size = 'lg', ...additionalProps }: { active?: boolean; size?: IconButtonProps['size'] } & Omit<SmartIconButtonProps, 'tooltip-label'> = {}) => (
+    Features: ({ active = false, size = 'lg', ...additionalProps }: { active?: boolean; size?: IconButtonProps['size'] } & Omit<SmartIconButtonProps, 'aria-label'> = {}) => (
       <IconButton
         icon={
           <Icon 
@@ -361,12 +361,12 @@ export const IconButtons = {
         variant="ghost"
         size={size}
         active={active}
-        tooltip-label="Features"
+        aria-label="Features"
         {...additionalProps}
       />
     ),
     
-    Domain: ({ active = false, size = 'lg', ...additionalProps }: { active?: boolean; size?: IconButtonProps['size'] } & Omit<SmartIconButtonProps, 'tooltip-label'> = {}) => (
+    Domain: ({ active = false, size = 'lg', ...additionalProps }: { active?: boolean; size?: IconButtonProps['size'] } & Omit<SmartIconButtonProps, 'aria-label'> = {}) => (
       <IconButton
         icon={
           <Icon 
@@ -380,12 +380,12 @@ export const IconButtons = {
         variant="ghost"
         size={size}
         active={active}
-        tooltip-label="Domain"
+        aria-label="Domain"
         {...additionalProps}
       />
     ),
     
-    History: ({ active = false, size = 'lg', ...additionalProps }: { active?: boolean; size?: IconButtonProps['size'] } & Omit<SmartIconButtonProps, 'tooltip-label'> = {}) => (
+    History: ({ active = false, size = 'lg', ...additionalProps }: { active?: boolean; size?: IconButtonProps['size'] } & Omit<SmartIconButtonProps, 'aria-label'> = {}) => (
       <IconButton
         icon={
           <Icon 
@@ -399,7 +399,7 @@ export const IconButtons = {
         variant="ghost"
         size={size}
         active={active}
-        tooltip-label="History"
+        aria-label="History"
         {...additionalProps}
       />
     )
