@@ -1,6 +1,6 @@
 import type { DesignTokens } from "../types/design";
 import { getDesignConfig } from "./loaders";
-import { normalizeWeights, getWeightValue } from "./weights";
+import { normalizeWeights, getWeightValue, normalizeNumericWeights } from "./weights";
 
 /**
  * Generates CSS variables from design.json
@@ -21,14 +21,31 @@ export function buildCssVars(tokens: DesignTokens): string {
   const formWidth        = tokens?.formWidth        || "sm";
   const typographyScale  = tokens?.typographyScale  || "md";
 
-  // 🎯 NEW: Tier-based weight system (400-800 range with validation)
-  const weights = normalizeWeights(
-    tokens?.fontWeightHeading,
-    tokens?.fontWeightBody
-  );
-  const fontWeightHeading = getWeightValue(weights.heading); // e.g., 700
-  const fontWeightBody = getWeightValue(weights.body);       // e.g., 400
-  const fontWeightLabel = getWeightValue(weights.label);     // e.g., 500 (auto-calculated)
+  // 🎯 WEIGHT SYSTEM: Supports both numeric (preferred) and tier-based (legacy)
+  let fontWeightHeading: number;
+  let fontWeightBody: number;
+  let fontWeightLabel: number;
+
+  // Prefer numeric weights if provided
+  if (tokens?.fontWeightHeadingNumeric || tokens?.fontWeightBodyNumeric) {
+    const numericWeights = normalizeNumericWeights(
+      tokens?.fontWeightHeadingNumeric,
+      tokens?.fontWeightBodyNumeric,
+      tokens?.fontWeightLabelNumeric
+    );
+    fontWeightHeading = numericWeights.heading;
+    fontWeightBody = numericWeights.body;
+    fontWeightLabel = numericWeights.label;
+  } else {
+    // Fall back to tier-based weights
+    const weights = normalizeWeights(
+      tokens?.fontWeightHeading,
+      tokens?.fontWeightBody
+    );
+    fontWeightHeading = getWeightValue(weights.heading);
+    fontWeightBody = getWeightValue(weights.body);
+    fontWeightLabel = getWeightValue(weights.label);
+  }
 
   const fontWeights = "300;400;500;600;700;800;900";
   const fontsToImport = [fontPrimary, fontSecondary]

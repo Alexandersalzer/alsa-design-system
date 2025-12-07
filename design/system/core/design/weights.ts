@@ -1,8 +1,8 @@
-import type { BodyWeightTier, HeadingWeightTier, WeightTier } from "../types/design";
+import type { BodyWeightTier, HeadingWeightTier, WeightTier, FontWeight } from "../types/design";
 
 /**
- * Font Weight Tier System
- * Strict 400-800 range with validation
+ * Font Weight System
+ * Supports both legacy tier-based weights (400-800) and new numeric weights (100-900)
  * Ensures headings are always bolder than body text
  */
 
@@ -145,3 +145,111 @@ export const WEIGHT_DESCRIPTIONS: Record<WeightTier, string> = {
   bold: 'Bold (700) - Strong headings',
   extrabold: 'Extra Bold (800) - Maximum impact headings',
 } as const;
+
+// ===== NEW: NUMERIC WEIGHT SYSTEM (100-900) =====
+
+/**
+ * Validate numeric weight hierarchy
+ */
+export function validateNumericWeightHierarchy(
+  headingWeight: number,
+  bodyWeight: number
+): { isValid: boolean; message?: string } {
+  if (headingWeight <= bodyWeight) {
+    return {
+      isValid: false,
+      message: `Heading weight (${headingWeight}) must be greater than body weight (${bodyWeight})`,
+    };
+  }
+
+  return { isValid: true };
+}
+
+/**
+ * Auto-calculate label weight from numeric values
+ */
+export function calculateNumericLabelWeight(
+  headingWeight: number,
+  bodyWeight: number
+): number {
+  const midpoint = Math.floor((headingWeight + bodyWeight) / 2);
+
+  // Round to nearest valid weight (100, 200, ..., 900)
+  const roundedWeight = Math.round(midpoint / 100) * 100;
+
+  // Clamp between 300 and 900
+  return Math.max(300, Math.min(900, roundedWeight)) as FontWeight;
+}
+
+/**
+ * Get safe numeric weight defaults
+ */
+export function getSafeNumericWeightDefaults(): {
+  heading: number;
+  body: number;
+  label: number;
+} {
+  const heading = 700; // Bold
+  const body = 400;    // Regular
+  const label = calculateNumericLabelWeight(heading, body); // 500 (Medium)
+
+  return { heading, body, label };
+}
+
+/**
+ * Normalize and validate numeric weights
+ */
+export function normalizeNumericWeights(
+  heading?: number,
+  body?: number,
+  label?: number
+): {
+  heading: number;
+  body: number;
+  label: number;
+  isValid: boolean;
+} {
+  const defaults = getSafeNumericWeightDefaults();
+  const finalHeading = heading || defaults.heading;
+  const finalBody = body || defaults.body;
+
+  // Validate hierarchy
+  const validation = validateNumericWeightHierarchy(finalHeading, finalBody);
+
+  if (!validation.isValid) {
+    console.warn(`[Font Weights] ${validation.message}. Using defaults.`);
+    return {
+      ...defaults,
+      isValid: false
+    };
+  }
+
+  // Calculate or use provided label weight
+  const finalLabel = label || calculateNumericLabelWeight(finalHeading, finalBody);
+
+  return {
+    heading: finalHeading,
+    body: finalBody,
+    label: finalLabel,
+    isValid: true
+  };
+}
+
+/**
+ * Get user-friendly label for numeric weight
+ */
+export function getNumericWeightLabel(weight: number): string {
+  const labels: Record<number, string> = {
+    100: 'Thin (100)',
+    200: 'Extra Light (200)',
+    300: 'Light (300)',
+    400: 'Regular (400)',
+    500: 'Medium (500)',
+    600: 'Semibold (600)',
+    700: 'Bold (700)',
+    800: 'Extra Bold (800)',
+    900: 'Black (900)',
+  };
+
+  return labels[weight] || `Weight ${weight}`;
+}
