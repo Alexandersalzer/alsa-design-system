@@ -5,7 +5,7 @@ import { getDesignConfig } from "./loaders";
  * Generates CSS variables from design.json
  * Injects design tokens dynamically into <head>.
  */
-export function buildCssVars(tokens: DesignTokens, selector: string = ':root'): string {
+export function buildCssVars(tokens: DesignTokens): string {
   const radius           = tokens?.radius           || "md";
   const accentColor      = tokens?.accentColor      || "purple";
   const isDark           = tokens?.isDark           ?? false;
@@ -32,7 +32,7 @@ export function buildCssVars(tokens: DesignTokens, selector: string = ':root'): 
 
   return `
     @import url('${fontUrl}');
-    ${selector} {
+    :root {
       /* ===== FONTS ===== */
       --font-primary-name: '${fontPrimary}';
       --font-secondary-name: '${fontSecondary}';
@@ -121,7 +121,7 @@ export function buildCssVars(tokens: DesignTokens, selector: string = ':root'): 
     ${isInverseAccent ? `
     /* ===== INVERSE ACCENT MODE (replaces data-accent-mode attribute) ===== */
     /* Override accent semantic tokens for high-contrast monochrome */
-    ${selector} {
+    :root {
       --surface-accent: var(--surface-inverse);
       --surface-accent-subtle: var(--surface-hover);
       --surface-accent-muted: var(--surface-active);
@@ -152,7 +152,7 @@ export function buildCssVars(tokens: DesignTokens, selector: string = ':root'): 
 
     ${isDark ? `
     /* ===== DARK MODE ADJUSTMENTS (replaces data-theme attribute) ===== */
-    ${selector} {
+    :root {
       --surface-backdrop: rgba(0, 0, 0, 0.7);
       --surface-scrim: rgba(0, 0, 0, 0.85);
     }
