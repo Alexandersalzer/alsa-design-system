@@ -192,7 +192,10 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
               style={{
                 transform: `scale(${scale}) rotate(${rotate}deg)`,
                 maxWidth: '100%',
-                maxHeight: '70vh'
+                maxHeight: '70vh',
+                width: 'auto',
+                height: 'auto',
+                display: 'block'
               }}
               onLoad={onImageLoad}
             />
