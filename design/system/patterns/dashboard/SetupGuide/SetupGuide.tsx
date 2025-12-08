@@ -37,6 +37,7 @@ interface SetupStep {
   href: string;
   completed: boolean;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  optional?: boolean; // Om steget är valfritt
 }
 
 type SetupPhase = 'building' | 'launch' | 'done';
@@ -239,7 +240,14 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
 
                         {/* Content */}
                         <VStack spacing="xs" align="start">
-                          <H3>{step.title}</H3>
+                          <HStack spacing="xs" align="center">
+                            <H3>{step.title}</H3>
+                            {step.optional && (
+                              <Body size="xs" color="secondary" weight="medium">
+                                (Valfritt)
+                              </Body>
+                            )}
+                          </HStack>
                           <Body size="sm" color="secondary">
                             {step.description}
                           </Body>
