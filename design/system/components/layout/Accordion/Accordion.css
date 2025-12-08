@@ -1,0 +1,152 @@
+/* ===============================================
+   Accordion Component Styles
+   Clean, accessible collapsible sections
+   =============================================== */
+
+.accordion {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-1);
+}
+
+/* ===== ACCORDION ITEM ===== */
+.accordion-item {
+  width: 100%;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.accordion-item:hover:not(.accordion-item--disabled) {
+  background: var(--surface-raised);
+  border-color: var(--border-default);
+}
+
+.accordion-item--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== TRIGGER (HEADER) ===== */
+.accordion-item__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-3);
+  padding: var(--foundation-space-4);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease;
+}
+
+.accordion-item__trigger:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.accordion-item__trigger:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.accordion-item__trigger:disabled {
+  cursor: not-allowed;
+}
+
+.accordion-item__trigger:focus-visible {
+  outline: 2px solid var(--border-accent);
+  outline-offset: -2px;
+}
+
+/* ===== START CONTENT ===== */
+.accordion-item__start-content {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== TITLE WRAPPER ===== */
+.accordion-item__title-wrapper {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-1);
+}
+
+.accordion-item__title {
+  font-family: var(--font-body-family);
+  font-size: var(--font-label-md-size);
+  font-weight: var(--font-label-weight);
+  line-height: var(--font-body-line-height);
+  color: var(--text-primary);
+}
+
+.accordion-item__subtitle {
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-sm-size);
+  line-height: var(--font-body-line-height);
+  color: var(--text-secondary);
+}
+
+/* ===== INDICATOR (CHEVRON) ===== */
+.accordion-item__indicator {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--icon-secondary);
+  transition: transform 0.2s ease;
+}
+
+.accordion-item__indicator svg {
+  width: 100%;
+  height: 100%;
+}
+
+.accordion-item__indicator--expanded {
+  transform: rotate(180deg);
+}
+
+/* ===== CONTENT ===== */
+.accordion-item__content {
+  padding: 0 var(--foundation-space-4) var(--foundation-space-4);
+  animation: accordion-slide-down 0.2s ease;
+}
+
+@keyframes accordion-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .accordion-item,
+  .accordion-item__trigger,
+  .accordion-item__indicator {
+    transition: none;
+  }
+
+  .accordion-item__content {
+    animation: none;
+  }
+}
+
+/* ===== DARK MODE ===== */
+@media (prefers-color-scheme: dark) {
+  .accordion-item__trigger:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}

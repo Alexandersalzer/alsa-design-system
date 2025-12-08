@@ -7,3 +7,4 @@ export * from './box'
 export * from './divider'
 export * from './Card';
 export * from './ResizeHandle';
+export * from './Accordion';
