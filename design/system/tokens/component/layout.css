@@ -71,7 +71,7 @@
   --radius-card-sm: var(--radius-sm);                   /* Uses your semantic token */
   --radius-card: var(--radius-md);                      /* Uses your semantic token */
   --radius-card-lg: var(--radius-lg);                   /* Uses your semantic token */
-  --radius-modal: var(--radius-xl);                     /* Uses your semantic token */
+  --radius-modal: var(--radius-lg);                     /* Uses your semantic token */
   --radius-sheet: var(--radius-lg);                     /* Uses your semantic token */
   --radius-popover: var(--radius-md);                   /* Uses your semantic token */
   --radius-section: var(--radius-md);                   /* Uses your semantic token */
