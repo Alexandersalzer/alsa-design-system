@@ -1,6 +1,9 @@
 // Export all design system components, utilities, and types
 export * from './system';
 
+// Export Applications server functionality  
+export * from './system/core/applications';
 
-// Export PostMessage functionality
-export { EditingHandler } from './system/core/postmessage'; 
+// Export Applications client components
+export * from './system/core/ApplicationComponent';
+

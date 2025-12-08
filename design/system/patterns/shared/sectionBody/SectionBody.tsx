@@ -57,7 +57,6 @@ const SectionBody = ({ components = {}, sectionKey, patternKey }: SectionBodyPro
             as="h2"
             variant="display-lg"
             color="heading"
-            weight="bold"
             align="center"
             componentKey={get('typography-heading').key}
           >

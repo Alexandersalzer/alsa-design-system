@@ -112,39 +112,17 @@
 }
 
 /* =========================================================
-   6. FONT WEIGHT SCALES (baked step-up system)
-   ========================================================= */
-
-:root {
-  /* --- Light (acts like old regular) --- */
-  --foundation-weightscale-light-heading: var(--foundation-weight-semibold);
-  --foundation-weightscale-light-body:    var(--foundation-weight-regular);
-  --foundation-weightscale-light-label:   var(--foundation-weight-semibold);
-
-  /* --- Regular (acts like old strong) --- */
-  --foundation-weightscale-regular-heading: var(--foundation-weight-bold);
-  --foundation-weightscale-regular-body:    var(--foundation-weight-medium);
-  --foundation-weightscale-regular-label:   var(--foundation-weight-bold);
-
-  /* --- Strong (acts like old extraStrong) --- */
-  --foundation-weightscale-strong-heading: var(--foundation-weight-extrabold);
-  --foundation-weightscale-strong-body:    var(--foundation-weight-semibold);
-  --foundation-weightscale-strong-label:   var(--foundation-weight-extrabold);
-
-  /* --- ExtraStrong (kept for flexibility but not scaled up further) --- */
-  --foundation-weightscale-extraStrong-heading: var(--foundation-weight-black);
-  --foundation-weightscale-extraStrong-body:    var(--foundation-weight-bold);
-  --foundation-weightscale-extraStrong-label:   var(--foundation-weight-black);
-}
-
-/* =========================================================
-   7. DEFAULT SELECTED FALLBACKS
-   Safe defaults before selectors override dynamically.
+   6. DEFAULT SELECTED FALLBACKS
+   Safe defaults before snippet.tsx overrides dynamically.
    ========================================================= */
 
 :root {
   --selected-font-size-base: var(--foundation-typography-md-base);
-  --selected-font-weight-heading: var(--foundation-weightscale-regular-heading);
-  --selected-font-weight-body: var(--foundation-weightscale-regular-body);
-  --selected-font-weight-label: var(--foundation-weightscale-regular-label);
+
+  /* 🎯 DYNAMIC WEIGHT TOKENS (overridden by snippet.tsx based on design.json)
+     These use CSS custom properties that get injected dynamically
+     Default fallbacks: heading=700 (bold), body=400 (regular), label=500 (medium) */
+  --selected-font-weight-heading: var(--dynamic-font-weight-heading, 700);
+  --selected-font-weight-body: var(--dynamic-font-weight-body, 400);
+  --selected-font-weight-label: var(--dynamic-font-weight-label, 500);
 }

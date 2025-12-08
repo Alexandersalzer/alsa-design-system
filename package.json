@@ -16,6 +16,16 @@
       "require": "./dist/design/system/core/config/index.js",
       "types": "./dist/design/system/core/config/index.d.ts"
     },
+    "./apps": {
+      "import": "./dist/design/system/core/ApplicationComponent/index.js",
+      "require": "./dist/design/system/core/ApplicationComponent/index.js",
+      "types": "./dist/design/system/core/ApplicationComponent/index.d.ts"
+    },
+    "./apps/server": {
+      "import": "./dist/design/system/core/applications/index.js",
+      "require": "./dist/design/system/core/applications/index.js",
+      "types": "./dist/design/system/core/applications/index.d.ts"
+    },
     "./content": {
       "import": "./dist/design/system/core/content/index.js",
       "require": "./dist/design/system/core/content/index.js",
@@ -30,11 +40,6 @@
       "import": "./dist/design/system/core/design/index.js",
       "require": "./dist/design/system/core/design/index.js",
       "types": "./dist/design/system/core/design/index.d.ts"
-    },
-    "./postmessage": {
-      "import": "./dist/design/system/core/postmessage/index.js",
-      "require": "./dist/design/system/core/postmessage/index.js",
-      "types": "./dist/design/system/core/postmessage/index.d.ts"
     },
     "./routing": {
       "import": "./dist/design/system/core/routing/index.js",
