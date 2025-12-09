@@ -303,7 +303,8 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
     }
 
     // IMPORTANT: pixelCrop coordinates are in the ORIGINAL (non-rotated) image space (512x512)
-    // We need to extract the crop area from the original image, then rotate if needed
+    // The image is already normalized to 512x512 with fit: "contain", so it has transparent padding
+    // But the coordinates from react-easy-crop are already in the 512x512 space, so we can use them directly
     
     // Set canvas size to crop size
     canvas.width = pixelCrop.width;
