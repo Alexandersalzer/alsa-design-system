@@ -128,7 +128,7 @@ const getPhaseText = (phase?: string) => {
 };
 
 // ===== MAIN COMPONENT =====
-export const SetupGuide: React.FC<SetupGuideProps> = ({ 
+export const SetupGuide: React.FC<SetupGuideProps> = React.memo(({ 
   phase = 'building', 
   className,
   onNavigate,
@@ -137,15 +137,17 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
   showCongratulations = true,
   onDismissCongratulations
 }) => {
-  const steps = customSteps || getSteps(phase);
+  // ⚡ PERFORMANCE: Memoize steps för att undvika onödiga re-beräkningar
+  const steps = React.useMemo(() => customSteps || getSteps(phase), [customSteps, phase]);
   
-  // Beräkna progress (använd custom om tillgängligt)
-  const completedSteps = steps.filter(s => s.completed).length;
-  const progress = customProgress !== undefined 
-    ? customProgress
-    : (steps.length > 0 
-        ? Math.round((completedSteps / steps.length) * 100) 
-        : 0);
+  // ⚡ PERFORMANCE: Memoize progress-beräkning
+  const completedSteps = React.useMemo(() => steps.filter(s => s.completed).length, [steps]);
+  const progress = React.useMemo(() => {
+    if (customProgress !== undefined) return customProgress;
+    return steps.length > 0 
+      ? Math.round((completedSteps / steps.length) * 100) 
+      : 0;
+  }, [customProgress, steps.length, completedSteps]);
 
   const handleNavigate = (href: string) => {
     if (onNavigate) {
@@ -299,10 +301,10 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                 {/* Progress Text */}
                 <HStack justify="between" align="center">
                   <Body size="sm" weight="medium" color="secondary">
-                    {getPhaseText(phase)} • {completedSteps}/{steps.length} steg i denna fas
+                    {getPhaseText(phase)} • {completedSteps}/{steps.length} steg klara
                   </Body>
                   <Body size="sm" weight="bold" color="accent">
-                    {progress}% totalt klart
+                    {progress}% klart
                   </Body>
                 </HStack>
               </VStack>
@@ -312,5 +314,16 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
       </VStack>
     </PageSection>
   );
-};
+}, (prevProps, nextProps) => {
+  // ⚡ PERFORMANCE: Custom comparison för att undvika onödiga re-renders
+  return (
+    prevProps.phase === nextProps.phase &&
+    prevProps.customProgress === nextProps.customProgress &&
+    prevProps.showCongratulations === nextProps.showCongratulations &&
+    prevProps.className === nextProps.className &&
+    JSON.stringify(prevProps.customSteps) === JSON.stringify(nextProps.customSteps)
+  );
+});
+
+SetupGuide.displayName = 'SetupGuide';
 
