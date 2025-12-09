@@ -373,11 +373,14 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
       // regardless of zoom, so we can use them directly
       
       // The image is already normalized to 512x512, so croppedAreaPixels should already be correct
-      // But we need to clamp them to ensure they're within bounds (0-512)
+      // But we need to ensure they're valid and within bounds (0-512)
+      // Also ensure width/height don't exceed image bounds
       const cropX = Math.max(0, Math.min(511, Math.round(finalCropArea.x)));
       const cropY = Math.max(0, Math.min(511, Math.round(finalCropArea.y)));
-      const cropWidth = Math.max(1, Math.min(512 - cropX, Math.round(finalCropArea.width)));
-      const cropHeight = Math.max(1, Math.min(512 - cropY, Math.round(finalCropArea.height)));
+      const maxWidth = 512 - cropX;
+      const maxHeight = 512 - cropY;
+      const cropWidth = Math.max(1, Math.min(maxWidth, Math.round(finalCropArea.width)));
+      const cropHeight = Math.max(1, Math.min(maxHeight, Math.round(finalCropArea.height)));
       
       const normalizedCropArea = {
         x: cropX,
