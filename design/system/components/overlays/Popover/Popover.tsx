@@ -392,11 +392,13 @@ export const PopoverContent = ({
     // Get CSS min-width for this size
     const cssMinWidth = MIN_WIDTHS[size];
 
-    // Determine actual content width (respecting CSS min-width)
-    const actualContentWidth = Math.max(
-      contentRect.width > 0 ? contentRect.width : cssMinWidth,
-      cssMinWidth
-    );
+    // Determine content width - use explicit width prop if provided, otherwise calculate
+    const actualContentWidth = typeof width === 'number'
+      ? width
+      : Math.max(
+          contentRect.width > 0 ? contentRect.width : cssMinWidth,
+          cssMinWidth
+        );
 
     // Vertical positioning
     const shouldOpenUpward = spaceBelow < Math.min(maxHeight, contentRect.height) && spaceAbove > spaceBelow;
