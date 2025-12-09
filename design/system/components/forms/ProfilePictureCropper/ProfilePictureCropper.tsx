@@ -75,6 +75,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
   const [imageSize, setImageSize] = useState<{ width: number; height: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [minZoom, setMinZoom] = useState(1);
+  const [initialZoom, setInitialZoom] = useState(1);
   const [isInitialized, setIsInitialized] = useState(false);
 
   // Reset state when image changes
@@ -82,6 +83,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
     setCrop({ x: 0, y: 0 });
     setZoom(1);
     setMinZoom(1);
+    setInitialZoom(1);
     setIsInitialized(false);
     setImageSize(null);
     setCroppedAreaPixels(null);
@@ -127,6 +129,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
             );
             // Set minZoom to allow zooming out (but not too much - minimum 10%)
             setMinZoom(Math.max(0.1, initialZoom * 0.5));
+            setInitialZoom(initialZoom);
             setZoom(initialZoom);
             setCrop({ x, y });
             setIsInitialized(true);
@@ -152,6 +155,9 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
       // Set minZoom to allow zooming out (but not too much - minimum 10%)
       // This allows users to zoom out if they want to see more of the image
       setMinZoom(Math.max(0.1, initialZoom * 0.5)); // Allow zooming out to 50% of initial zoom, but not less than 10%
+      
+      // Store initial zoom for position restriction logic
+      setInitialZoom(initialZoom);
 
       // Set initial zoom and position
       setZoom(initialZoom);
@@ -336,7 +342,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
             objectFit="contain" // Show entire image (not cover)
             minZoom={0.1} // Allow zooming out to 10% (slider controls the actual min)
             maxZoom={8} // Max zoom 8x
-            restrictPosition={true} // Restrict position
+            restrictPosition={zoom >= initialZoom} // Only restrict position when zoomed in (allow free movement when zoomed out)
             showGrid={false} // No grid
             style={{
               containerStyle: {
