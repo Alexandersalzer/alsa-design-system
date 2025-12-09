@@ -87,7 +87,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
             />
           </div>
         )}
-        <CardContent>
+        <CardContent style={{ paddingTop: 'var(--foundation-space-4)' }}>
           <VStack spacing="sm" align="start">
             <HStack spacing="xs" align="center">
               <H3>{title}</H3>
