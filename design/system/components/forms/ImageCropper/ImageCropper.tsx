@@ -49,12 +49,17 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
   const onImageLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
     const { naturalWidth, naturalHeight } = e.currentTarget;
     
+    // För normaliserade 512x512 bilder: starta med 100% crop (ingen auto-zoom)
+    // För andra bilder: använd 90% som default
+    const isNormalized = naturalWidth === 512 && naturalHeight === 512;
+    const initialWidth = isNormalized ? 100 : 90;
+    
     // Create initial centered crop
     const initialCrop = centerCrop(
       makeAspectCrop(
         {
           unit: '%',
-          width: 90,
+          width: initialWidth,
         },
         aspect,
         naturalWidth,
@@ -205,7 +210,8 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
                 maxHeight: '70vh',
                 width: 'auto',
                 height: 'auto',
-                display: 'block'
+                display: 'block',
+                objectFit: 'contain' // Behåll aspect ratio, ingen stretching
               }}
               onLoad={onImageLoad}
             />
