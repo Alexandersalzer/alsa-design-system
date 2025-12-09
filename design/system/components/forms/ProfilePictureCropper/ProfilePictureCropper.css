@@ -29,10 +29,14 @@
   height: 100% !important;
 }
 
-/* Förhindra auto-sizing av bilden */
+/* Förhindra auto-sizing av bilden - Instagram-metod */
 .profile-picture-cropper__container img {
   object-fit: contain !important; /* Viktigt: contain, inte cover */
   object-position: center !important;
+  max-width: none !important; /* Disable contain shrinking */
+  max-height: none !important; /* Disable contain shrinking */
+  width: auto !important; /* Ingen width: 100% */
+  height: auto !important; /* Ingen height: 100% */
 }
 
 /* Slider styles */

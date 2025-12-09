@@ -41,19 +41,20 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [minZoom, setMinZoom] = useState(1);
 
-  // Beräkna minZoom dynamiskt baserat på bildstorlek och container
+  // Beräkna minZoom dynamiskt baserat på bildstorlek och container (Instagram-metod)
   const calculateMinZoom = useCallback((imageWidth: number, imageHeight: number, containerSize: number): number => {
-    // Beräkna minZoom så att hela bilden passar inuti crop-området
-    const calculatedMinZoom = Math.min(
-      containerSize / imageWidth,
-      containerSize / imageHeight
+    // Instagram-metod: Använd Math.max för att säkerställa att bilden fyller minst en dimension
+    // Detta gör att små bilder upscalas och långa/smala bilder fyller containern korrekt
+    const calculatedMinZoom = Math.max(
+      containerSize / imageWidth,   // Så breda smala loggor fyller containern
+      containerSize / imageHeight   // Så små vertikala bilder fyller containern
     );
     
-    // Säkerställ att minZoom är minst 0.1 (10%) och max 1 (100%)
-    return Math.max(0.1, Math.min(1, calculatedMinZoom));
+    // Säkerställ att minZoom är minst 0.1 (10%) och max 10 (1000% för extremt små bilder)
+    return Math.max(0.1, Math.min(10, calculatedMinZoom));
   }, []);
 
-  // När bilden laddas - sätt minZoom och initial zoom
+  // När bilden laddas - sätt minZoom och initial zoom (Instagram-metod)
   const onMediaLoaded = useCallback((mediaSize: { width: number; height: number }) => {
     const { width, height } = mediaSize;
     setImageSize({ width, height });
@@ -61,14 +62,14 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
     // Hämta container-storlek
     if (containerRef.current) {
       const containerRect = containerRef.current.getBoundingClientRect();
-      // Container är kvadratisk, använd minsta dimensionen
+      // Container är kvadratisk, använd minsta dimensionen (crop-området)
       const containerSize = Math.min(containerRect.width, containerRect.height);
       
-      // Beräkna minZoom så att hela bilden syns
+      // Instagram-metod: Beräkna minZoom med Math.max för att fyller minst en dimension
       const calculatedMinZoom = calculateMinZoom(width, height, containerSize);
       setMinZoom(calculatedMinZoom);
       
-      // Sätt initial zoom till minZoom (så hela bilden syns)
+      // Sätt initial zoom till minZoom (så bilden fyller minst en sida av cirkeln)
       setZoom(calculatedMinZoom);
       
       // Centrera bilden
@@ -251,6 +252,8 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
               },
               mediaStyle: {
                 objectFit: 'contain', // Viktigt: contain, inte cover
+                maxWidth: 'none', // Disable contain shrinking
+                maxHeight: 'none', // Disable contain shrinking
               },
             }}
           />
