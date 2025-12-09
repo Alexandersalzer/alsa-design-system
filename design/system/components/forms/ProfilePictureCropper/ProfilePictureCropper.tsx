@@ -31,22 +31,11 @@ function getInitialZoomAndPosition(
   imageHeight: number,
   cropSizePx: number
 ): { zoom: number; x: number; y: number } {
-  // Calculate the minimum zoom required to fit the ENTIRE image inside the crop area
-  // Using Math.min ensures the entire image is visible (contain behavior)
-  // This means:
-  // - Wide images: scale to fit height (may have padding on sides)
-  // - Tall images: scale to fit width (may have padding on top/bottom)
-  // - Small images: scale up to fill at least one dimension
-  const zoom = Math.min(
-    cropSizePx / imageWidth,   // Scale to fit width
-    cropSizePx / imageHeight   // Scale to fit height
-  );
-
-  // For react-easy-crop with objectFit="contain", centered position is always (0, 0)
-  // The library handles centering automatically when the image is smaller than the container
-  // or when zoomed to fit
+  // Since the image is already normalized to 512x512, we want to show it at 100% zoom initially
+  // The image is already square (512x512), so we just need to center it
+  // Start with zoom = 1 (100%) and centered position
   return {
-    zoom: Math.max(0.1, Math.min(10, zoom)), // Clamp between 0.1 and 10
+    zoom: 1, // Start at 100% zoom (image is already 512x512)
     x: 0,
     y: 0
   };
@@ -206,15 +195,11 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
 
   // When crop area changes (react-easy-crop callback)
   const onCropAreaComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
-    // IMPORTANT: react-easy-crop returns croppedAreaPixels in the ORIGINAL image's coordinate space
-    // (512x512 in our case). These coordinates are ALWAYS in original image space, regardless of zoom.
-    //
-    // When using objectFit="contain", the coordinates can be outside the image bounds
-    // when the crop area extends beyond the visible image. We need to clamp them to the image bounds.
+    // IMPORTANT: With objectFit="cover", react-easy-crop returns croppedAreaPixels
+    // in the ORIGINAL image's coordinate space (512x512 in our case).
+    // Since the image is already normalized to 512x512, these coordinates are correct.
     
     if (!imageSize) {
-      // If imageSize is not available yet, store croppedAreaPixels as-is
-      // It will be clamped later in handleCropComplete
       setCroppedAreaPixels(croppedAreaPixels);
       return;
     }
@@ -222,8 +207,8 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
     const imageWidth = imageSize.width; // Should be 512
     const imageHeight = imageSize.height; // Should be 512
     
-    // Use croppedAreaPixels directly (already in original image space)
-    // But clamp to image bounds
+    // Use croppedAreaPixels directly - they're already correct with objectFit="none"
+    // Just clamp to image bounds and ensure square crop
     let clampedArea: Area = {
       x: Math.max(0, Math.min(imageWidth - 1, Math.round(croppedAreaPixels.x))),
       y: Math.max(0, Math.min(imageHeight - 1, Math.round(croppedAreaPixels.y))),
@@ -231,21 +216,12 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
       height: Math.max(1, Math.min(imageHeight, Math.round(croppedAreaPixels.height)))
     };
     
-    // Adjust width/height if they extend beyond image bounds
-    if (clampedArea.x + clampedArea.width > imageWidth) {
-      clampedArea.width = imageWidth - clampedArea.x;
-    }
-    if (clampedArea.y + clampedArea.height > imageHeight) {
-      clampedArea.height = imageHeight - clampedArea.y;
-    }
-    
-    // Ensure we have a square crop (1:1 aspect ratio)
-    // Take the smaller dimension to ensure it fits
+    // Ensure square crop (1:1 aspect ratio)
     const minDimension = Math.min(clampedArea.width, clampedArea.height);
     clampedArea.width = minDimension;
     clampedArea.height = minDimension;
     
-    // Adjust x/y if needed to keep within bounds
+    // Adjust x/y to keep within bounds
     if (clampedArea.x + clampedArea.width > imageWidth) {
       clampedArea.x = imageWidth - clampedArea.width;
     }
@@ -253,13 +229,6 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
       clampedArea.y = imageHeight - clampedArea.height;
     }
     
-    console.log('[ProfilePictureCropper] onCropAreaComplete called:', {
-      croppedArea, // Relative coordinates (0-1)
-      croppedAreaPixels, // Absolute pixel coordinates from react-easy-crop (in original image space)
-      clampedArea, // Clamped and squared to image bounds
-      imageSize,
-      zoom
-    });
     setCroppedAreaPixels(clampedArea);
   }, [imageSize, zoom]);
 
@@ -545,10 +514,10 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
             onRotationChange={setRotation}
             onMediaLoaded={onMediaLoaded}
             cropShape="round" // Circular crop mask
-            objectFit="contain" // Show entire image (not cover)
-            minZoom={0.1} // Allow zooming out to 10% (slider controls the actual min)
+            objectFit="cover" // Image is already 512x512 normalized, cover will show it at actual size
+            minZoom={0.1} // Allow zooming out to 10%
             maxZoom={8} // Max zoom 8x
-            restrictPosition={zoom >= initialZoom} // Only restrict position when zoomed in (allow free movement when zoomed out)
+            restrictPosition={false} // Allow free movement
             showGrid={false} // No grid
             style={{
               containerStyle: {
@@ -562,9 +531,9 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
                 border: '2px solid var(--accent-600, #3b82f6)',
               },
               mediaStyle: {
-                objectFit: 'contain', // Important: contain, not cover
-                maxWidth: 'none', // Disable contain shrinking
-                maxHeight: 'none', // Disable contain shrinking
+                objectFit: 'cover', // Image is already 512x512, cover will show it at actual size
+                maxWidth: 'none',
+                maxHeight: 'none',
               },
             }}
           />
