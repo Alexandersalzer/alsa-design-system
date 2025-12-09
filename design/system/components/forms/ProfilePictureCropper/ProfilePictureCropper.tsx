@@ -190,6 +190,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
 
   // When crop area changes (react-easy-crop callback)
   const onCropAreaComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
+    console.log('[ProfilePictureCropper] Crop area complete:', croppedAreaPixels);
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
@@ -284,39 +285,78 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
 
   // Handle crop confirmation
   const handleCropComplete = useCallback(async () => {
-    if (!croppedAreaPixels || !imageSize) {
+    if (!imageSize) {
+      console.error('[ProfilePictureCropper] No image size available');
       return;
+    }
+
+    if (!croppedAreaPixels) {
+      console.warn('[ProfilePictureCropper] No crop area pixels, but proceeding anyway...');
+      // Don't return - let the function try to calculate it
     }
 
     setIsProcessing(true);
 
     try {
+      // If croppedAreaPixels is not available, we need to calculate it
+      // This can happen if onCropAreaComplete hasn't fired yet
+      let finalCropArea = croppedAreaPixels;
+      
+      if (!finalCropArea) {
+        console.log('[ProfilePictureCropper] Calculating crop area manually...');
+        // We need to get the crop area from react-easy-crop
+        // For now, we'll use a workaround: trigger a manual calculation
+        // by getting the current crop state and calculating the area
+        
+        // Get the crop size
+        const cropSize = getCropSize();
+        
+        // Calculate the displayed image size at current zoom
+        const displayedWidth = imageSize.width * zoom;
+        const displayedHeight = imageSize.height * zoom;
+        
+        // Calculate crop area in pixels (centered crop)
+        // The crop area is a square of size cropSize, centered in the displayed image
+        const cropX = (displayedWidth - cropSize) / 2 + crop.x;
+        const cropY = (displayedHeight - cropSize) / 2 + crop.y;
+        
+        finalCropArea = {
+          x: Math.max(0, Math.round(cropX)),
+          y: Math.max(0, Math.round(cropY)),
+          width: Math.min(cropSize, Math.round(displayedWidth)),
+          height: Math.min(cropSize, Math.round(displayedHeight))
+        };
+        
+        console.log('[ProfilePictureCropper] Calculated crop area:', finalCropArea);
+      }
+
       // Create cropped image
       const { blob } = await getCroppedImg(
         imageSrc,
-        croppedAreaPixels,
+        finalCropArea,
         rotation
       );
 
       // Return crop data for backend
       const cropData = {
-        x: Math.round(croppedAreaPixels.x),
-        y: Math.round(croppedAreaPixels.y),
-        width: Math.round(croppedAreaPixels.width),
-        height: Math.round(croppedAreaPixels.height),
+        x: Math.round(finalCropArea.x),
+        y: Math.round(finalCropArea.y),
+        width: Math.round(finalCropArea.width),
+        height: Math.round(finalCropArea.height),
         zoom: zoom,
         rotation: rotation,
         imageWidth: imageSize.width,
         imageHeight: imageSize.height
       };
 
+      console.log('[ProfilePictureCropper] Crop complete, calling onCropComplete with:', cropData);
       onCropComplete(blob, cropData);
     } catch (error) {
-      console.error('Error cropping image:', error);
+      console.error('[ProfilePictureCropper] Error cropping image:', error);
     } finally {
       setIsProcessing(false);
     }
-  }, [croppedAreaPixels, imageSrc, rotation, zoom, imageSize, onCropComplete]);
+  }, [croppedAreaPixels, imageSrc, rotation, zoom, imageSize, onCropComplete, crop, getCropSize]);
 
   return (
     <div className={cn('profile-picture-cropper', className)}>
@@ -409,7 +449,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
               variant="primary"
               onClick={handleCropComplete}
               loading={isProcessing}
-              disabled={!croppedAreaPixels || isProcessing}
+              disabled={!imageSize || isProcessing}
             >
               Bekräfta beskärning
             </Button>
