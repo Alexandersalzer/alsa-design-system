@@ -501,7 +501,7 @@ export const PopoverContent = ({
         }),
         left: `${position.left}px`,
         maxHeight: `${position.maxHeight}px`,
-        minWidth: width || position.minWidth,
+        ...(width ? { width, minWidth: width } : { minWidth: position.minWidth }),
         zIndex: 'var(--z-popover)'
       }}
     >
