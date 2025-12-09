@@ -206,13 +206,11 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
 
   // When crop area changes (react-easy-crop callback)
   const onCropAreaComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
-    // IMPORTANT: When using objectFit="contain", react-easy-crop returns croppedAreaPixels
-    // in the ORIGINAL image's coordinate space (512x512 in our case).
-    // However, these coordinates can be outside the image bounds when the image is zoomed out
-    // or positioned outside the crop area.
+    // IMPORTANT: react-easy-crop returns croppedAreaPixels in the ORIGINAL image's coordinate space
+    // (512x512 in our case). These coordinates are ALWAYS in original image space, regardless of zoom.
     //
-    // Since our image is normalized to 512x512, we need to ensure the crop area is within bounds.
-    // We'll use croppedAreaPixels directly but clamp it to the image bounds.
+    // However, when using objectFit="contain", the coordinates can be outside the image bounds
+    // when the crop area extends beyond the visible image. We need to clamp them to the image bounds.
     
     if (!imageSize) {
       // If imageSize is not available yet, store croppedAreaPixels as-is
@@ -221,25 +219,16 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
       return;
     }
     
-    // Convert relative coordinates (croppedArea) to absolute pixels in original image space
-    // This is more reliable than using croppedAreaPixels directly when objectFit="contain"
     const imageWidth = imageSize.width; // Should be 512
     const imageHeight = imageSize.height; // Should be 512
     
-    // croppedArea is in relative coordinates (0-1), convert to pixels
-    const absoluteArea: Area = {
-      x: croppedArea.x * imageWidth,
-      y: croppedArea.y * imageHeight,
-      width: croppedArea.width * imageWidth,
-      height: croppedArea.height * imageHeight
-    };
-    
-    // Clamp to image bounds (512x512)
+    // Use croppedAreaPixels directly (already in original image space)
+    // But clamp to image bounds
     let clampedArea: Area = {
-      x: Math.max(0, Math.min(imageWidth - 1, Math.round(absoluteArea.x))),
-      y: Math.max(0, Math.min(imageHeight - 1, Math.round(absoluteArea.y))),
-      width: Math.max(1, Math.min(imageWidth, Math.round(absoluteArea.width))),
-      height: Math.max(1, Math.min(imageHeight, Math.round(absoluteArea.height)))
+      x: Math.max(0, Math.min(imageWidth - 1, Math.round(croppedAreaPixels.x))),
+      y: Math.max(0, Math.min(imageHeight - 1, Math.round(croppedAreaPixels.y))),
+      width: Math.max(1, Math.min(imageWidth, Math.round(croppedAreaPixels.width))),
+      height: Math.max(1, Math.min(imageHeight, Math.round(croppedAreaPixels.height)))
     };
     
     // Adjust width/height if they extend beyond image bounds
@@ -266,8 +255,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
     
     console.log('[ProfilePictureCropper] onCropAreaComplete called:', {
       croppedArea, // Relative coordinates (0-1)
-      croppedAreaPixels, // Absolute pixel coordinates from react-easy-crop (may be outside bounds)
-      absoluteArea, // Converted from relative coordinates
+      croppedAreaPixels, // Absolute pixel coordinates from react-easy-crop (in original image space)
       clampedArea, // Clamped and squared to image bounds
       imageSize,
       zoom
@@ -314,47 +302,66 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
       throw new Error('No 2d context');
     }
 
-    const rotRad = getRadianAngle(rotation);
-
-    // Calculate rotated image size
-    const { width: bBoxWidth, height: bBoxHeight } = rotateSize(
-      image.width,
-      image.height,
-      rotation
-    );
-
-    // Set canvas size to rotated image size
-    canvas.width = bBoxWidth;
-    canvas.height = bBoxHeight;
-
-    // Move canvas center to image center
-    ctx.translate(bBoxWidth / 2, bBoxHeight / 2);
-    ctx.rotate(rotRad);
-    ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1);
-    ctx.translate(-image.width / 2, -image.height / 2);
-
-    // Draw image
-    ctx.drawImage(image, 0, 0);
-
-    // IMPORTANT: pixelCrop coordinates are in the rotated image space
-    // We need to extract the correct area from the rotated canvas
-    // The coordinates are already in the rotated image coordinate system
-    const data = ctx.getImageData(
-      Math.max(0, Math.min(bBoxWidth - 1, pixelCrop.x)),
-      Math.max(0, Math.min(bBoxHeight - 1, pixelCrop.y)),
-      Math.min(pixelCrop.width, bBoxWidth - pixelCrop.x),
-      Math.min(pixelCrop.height, bBoxHeight - pixelCrop.y)
-    );
-
-    // Create new canvas for cropped image
+    // IMPORTANT: pixelCrop coordinates are in the ORIGINAL (non-rotated) image space (512x512)
+    // We need to extract the crop area from the original image, then rotate if needed
+    
+    // Set canvas size to crop size
     canvas.width = pixelCrop.width;
     canvas.height = pixelCrop.height;
-    ctx.putImageData(
-      data,
-      0,
-      0
+
+    // Draw the cropped area from the original image
+    // pixelCrop coordinates are already in original image space (512x512)
+    ctx.drawImage(
+      image,
+      pixelCrop.x,      // Source x
+      pixelCrop.y,      // Source y
+      pixelCrop.width,  // Source width
+      pixelCrop.height, // Source height
+      0,                // Destination x
+      0,                // Destination y
+      pixelCrop.width,  // Destination width
+      pixelCrop.height  // Destination height
     );
 
+    // Apply rotation if needed (rotate the cropped canvas)
+    if (rotation !== 0 && Math.abs(rotation) > 0.1) {
+      const rotRad = getRadianAngle(rotation);
+      const rotatedCanvas = document.createElement('canvas');
+      const rotatedCtx = rotatedCanvas.getContext('2d');
+      
+      if (!rotatedCtx) {
+        throw new Error('No 2d context for rotation');
+      }
+
+      // Calculate rotated size
+      const { width: rotatedWidth, height: rotatedHeight } = rotateSize(
+        pixelCrop.width,
+        pixelCrop.height,
+        rotation
+      );
+
+      rotatedCanvas.width = rotatedWidth;
+      rotatedCanvas.height = rotatedHeight;
+
+      // Rotate and draw
+      rotatedCtx.translate(rotatedWidth / 2, rotatedHeight / 2);
+      rotatedCtx.rotate(rotRad);
+      rotatedCtx.drawImage(canvas, -pixelCrop.width / 2, -pixelCrop.height / 2);
+
+      // Use rotated canvas
+      return new Promise((resolve, reject) => {
+        rotatedCanvas.toBlob((blob) => {
+          if (!blob) {
+            reject(new Error('Canvas is empty'));
+            return;
+          }
+          const url = URL.createObjectURL(blob);
+          resolve({ blob, url });
+        }, 'image/png');
+      });
+    }
+
+    // No rotation, return cropped canvas
     return new Promise((resolve, reject) => {
       canvas.toBlob((blob) => {
         if (!blob) {
@@ -478,11 +485,22 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
 
       // Create cropped image (this creates a preview blob for frontend)
       // Use the same coordinates that we send to backend for consistency
+      console.log('[ProfilePictureCropper] Calling getCroppedImg with:', {
+        imageSrc: imageSrc.substring(0, 50) + '...',
+        normalizedCropArea,
+        rotation
+      });
+      
       const { blob } = await getCroppedImg(
         imageSrc,
         normalizedCropArea, // Use normalized coordinates for canvas cropping (same as backend)
         rotation
       );
+      
+      console.log('[ProfilePictureCropper] getCroppedImg returned blob:', {
+        size: blob.size,
+        type: blob.type
+      });
 
       // Return crop data for backend (use normalized coordinates for 512x512 image)
       const cropData = {
