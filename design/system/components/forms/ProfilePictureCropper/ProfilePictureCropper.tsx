@@ -1,13 +1,12 @@
 // ===============================================
 // design/system/components/forms/ProfilePictureCropper/ProfilePictureCropper.tsx
-// PROFILE PICTURE CROPPER - Instagram-style, no auto-zoom
+// PROFILE PICTURE CROPPER - Instagram-style with react-easy-crop
 // ===============================================
 
 'use client';
 
 import React, { useState, useCallback, useRef } from 'react';
-import ReactCrop, { type Crop, type PixelCrop, makeAspectCrop, centerCrop } from 'react-image-crop';
-import 'react-image-crop/dist/ReactCrop.css';
+import Cropper, { Area, Point } from 'react-easy-crop';
 import { cn } from '../../../utils/cn';
 import { Button, VStack, HStack, Body, Label } from '../..';
 import './ProfilePictureCropper.css';
@@ -22,10 +21,10 @@ export interface ProfilePictureCropperProps {
 /**
  * ProfilePictureCropper - Instagram-style profile picture cropper
  * 
- * - Visar originalbilden i true 100% scale (ingen auto-zoom)
- * - Användaren zoomar/roterar manuellt
- * - Container är alltid kvadratisk
- * - object-fit: contain för att undvika stretching
+ * - Visar hela bilden från början (dynamisk minZoom)
+ * - Cirkulär crop mask
+ * - objectFit="contain" (inte cover)
+ * - Zoom och rotation
  */
 export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
   imageSrc,
@@ -33,224 +32,186 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
   onCancel,
   className
 }) => {
-  const [crop, setCrop] = useState<Crop>();
-  const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
-  const [scale, setScale] = useState(1);
-  const [rotate, setRotate] = useState(0);
-  const imgRef = useRef<HTMLImageElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [rotation, setRotation] = useState(0);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [imageNaturalSize, setImageNaturalSize] = useState<{ width: number; height: number } | null>(null);
-  const [cropContainerSize, setCropContainerSize] = useState<{ width: number; height: number } | null>(null);
+  const [imageSize, setImageSize] = useState<{ width: number; height: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [minZoom, setMinZoom] = useState(1);
 
-  // Beräkna minZoom dynamiskt baserat på bildstorlek och crop-container
-  const calculateMinZoom = useCallback((imageWidth: number, imageHeight: number, containerWidth: number, containerHeight: number): number => {
-    // Crop-området är kvadratiskt (1:1), så vi använder minsta dimensionen
-    const cropSize = Math.min(containerWidth, containerHeight);
-    
+  // Beräkna minZoom dynamiskt baserat på bildstorlek och container
+  const calculateMinZoom = useCallback((imageWidth: number, imageHeight: number, containerSize: number): number => {
     // Beräkna minZoom så att hela bilden passar inuti crop-området
-    const minZoom = Math.min(
-      cropSize / imageWidth,
-      cropSize / imageHeight
+    const calculatedMinZoom = Math.min(
+      containerSize / imageWidth,
+      containerSize / imageHeight
     );
     
     // Säkerställ att minZoom är minst 0.1 (10%) och max 1 (100%)
-    return Math.max(0.1, Math.min(1, minZoom));
+    return Math.max(0.1, Math.min(1, calculatedMinZoom));
   }, []);
 
-  // Initialize crop when image loads - Instagram-style: visa hela bilden från början
-  const onImageLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
-    const { naturalWidth, naturalHeight } = e.currentTarget;
-    
-    // Spara naturlig storlek för crop-beräkningar
-    setImageNaturalSize({ width: naturalWidth, height: naturalHeight });
-    
-    // Använd requestAnimationFrame för att säkerställa att container är renderad
-    requestAnimationFrame(() => {
-      if (containerRef.current) {
-        const containerRect = containerRef.current.getBoundingClientRect();
-        // Container är kvadratisk, använd minsta dimensionen för crop-området
-        const containerSize = Math.min(containerRect.width, containerRect.height) - 32; // Minus padding
-        setCropContainerSize({ width: containerSize, height: containerSize });
-        
-        // Beräkna minZoom så att hela bilden syns inuti crop-området
-        const minZoom = calculateMinZoom(naturalWidth, naturalHeight, containerSize, containerSize);
-        
-        // Sätt initial zoom till minZoom (så hela bilden syns)
-        setScale(minZoom);
-        
-        // Skapa initial crop som är centrerad och visar hela bilden
-        const initialCrop = centerCrop(
-          makeAspectCrop(
-            {
-              unit: '%',
-              width: 100, // 100% av bilden syns
-            },
-            1, // Kvadratisk (1:1)
-            naturalWidth,
-            naturalHeight
-          ),
-          naturalWidth,
-          naturalHeight
-        );
-        
-        setCrop(initialCrop);
-      } else {
-        // Fallback om container inte finns ännu - använd enkel beräkning
-        const estimatedContainerSize = 400; // Uppskattad storlek
-        const minZoom = calculateMinZoom(naturalWidth, naturalHeight, estimatedContainerSize, estimatedContainerSize);
-        setScale(minZoom);
-        setCropContainerSize({ width: estimatedContainerSize, height: estimatedContainerSize });
-        
-        const initialCrop = centerCrop(
-          makeAspectCrop(
-            {
-              unit: '%',
-              width: 100,
-            },
-            1,
-            naturalWidth,
-            naturalHeight
-          ),
-          naturalWidth,
-          naturalHeight
-        );
-        setCrop(initialCrop);
-      }
-    });
+  // När bilden laddas - sätt minZoom och initial zoom
+  const onMediaLoaded = useCallback((mediaSize: { width: number; height: number }) => {
+    const { width, height } = mediaSize;
+    setImageSize({ width, height });
+
+    // Hämta container-storlek
+    if (containerRef.current) {
+      const containerRect = containerRef.current.getBoundingClientRect();
+      // Container är kvadratisk, använd minsta dimensionen
+      const containerSize = Math.min(containerRect.width, containerRect.height);
+      
+      // Beräkna minZoom så att hela bilden syns
+      const calculatedMinZoom = calculateMinZoom(width, height, containerSize);
+      setMinZoom(calculatedMinZoom);
+      
+      // Sätt initial zoom till minZoom (så hela bilden syns)
+      setZoom(calculatedMinZoom);
+      
+      // Centrera bilden
+      setCrop({ x: 0, y: 0 });
+    } else {
+      // Fallback om container inte finns ännu
+      const estimatedContainerSize = 400;
+      const calculatedMinZoom = calculateMinZoom(width, height, estimatedContainerSize);
+      setMinZoom(calculatedMinZoom);
+      setZoom(calculatedMinZoom);
+      setCrop({ x: 0, y: 0 });
+    }
   }, [calculateMinZoom]);
 
-  // Convert crop to blob with crop data
-  const getCroppedImage = useCallback(async () => {
-    if (!completedCrop || !imgRef.current || !canvasRef.current || !imageNaturalSize) {
-      return null;
+  // När crop-området ändras (react-easy-crop callback)
+  const onCropAreaComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  }, []);
+
+  // Skapa cropped bild
+  const createImage = (url: string): Promise<HTMLImageElement> =>
+    new Promise((resolve, reject) => {
+      const image = new Image();
+      image.addEventListener('load', () => resolve(image));
+      image.addEventListener('error', (error) => reject(error));
+      image.src = url;
+      image.crossOrigin = 'anonymous';
+    });
+
+  // Konvertera radianer till grader
+  const getRadianAngle = (degreeValue: number) => {
+    return (degreeValue * Math.PI) / 180;
+  };
+
+  // Rotera bild
+  const rotateSize = (width: number, height: number, rotation: number) => {
+    const rotRad = getRadianAngle(rotation);
+    return {
+      width: Math.abs(Math.cos(rotRad) * width) + Math.abs(Math.sin(rotRad) * height),
+      height: Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height),
+    };
+  };
+
+  // Generera cropped bild som blob
+  const getCroppedImg = async (
+    imageSrc: string,
+    pixelCrop: Area,
+    rotation = 0,
+    flip = { horizontal: false, vertical: false }
+  ): Promise<{ blob: Blob; url: string }> => {
+    const image = await createImage(imageSrc);
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    if (!ctx) {
+      throw new Error('No 2d context');
+    }
+
+    const rotRad = getRadianAngle(rotation);
+
+    // Beräkna roterad bildstorlek
+    const { width: bBoxWidth, height: bBoxHeight } = rotateSize(
+      image.width,
+      image.height,
+      rotation
+    );
+
+    // Sätt canvas-storlek till roterad bildstorlek
+    canvas.width = bBoxWidth;
+    canvas.height = bBoxHeight;
+
+    // Flytta canvas center till bildens center
+    ctx.translate(bBoxWidth / 2, bBoxHeight / 2);
+    ctx.rotate(rotRad);
+    ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1);
+    ctx.translate(-image.width / 2, -image.height / 2);
+
+    // Rita bilden
+    ctx.drawImage(image, 0, 0);
+
+    const data = ctx.getImageData(
+      pixelCrop.x,
+      pixelCrop.y,
+      pixelCrop.width,
+      pixelCrop.height
+    );
+
+    // Skapa ny canvas för cropped bild
+    canvas.width = pixelCrop.width;
+    canvas.height = pixelCrop.height;
+    ctx.putImageData(
+      data,
+      0,
+      0
+    );
+
+    return new Promise((resolve, reject) => {
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          reject(new Error('Canvas is empty'));
+          return;
+        }
+        const url = URL.createObjectURL(blob);
+        resolve({ blob, url });
+      }, 'image/png');
+    });
+  };
+
+  // Hantera bekräfta beskärning
+  const handleCropComplete = useCallback(async () => {
+    if (!croppedAreaPixels || !imageSize) {
+      return;
     }
 
     setIsProcessing(true);
 
     try {
-      const image = imgRef.current;
-      const canvas = canvasRef.current;
-      const crop = completedCrop;
-
-      // Beräkna scale faktorer från visad bild till naturlig storlek
-      // Vi behöver ta hänsyn till både CSS transform (scale) och faktisk bildstorlek
-      const displayedWidth = image.width; // Visad bredd (efter CSS transform)
-      const displayedHeight = image.height; // Visad höjd (efter CSS transform)
-      
-      // Scale faktorer för att konvertera från visad storlek till naturlig storlek
-      const scaleX = imageNaturalSize.width / displayedWidth;
-      const scaleY = imageNaturalSize.height / displayedHeight;
-
-      const ctx = canvas.getContext('2d');
-
-      if (!ctx) {
-        throw new Error('No 2d context');
-      }
-
-      // Canvas storlek baserat på crop-området i naturlig storlek
-      const pixelRatio = window.devicePixelRatio;
-      const cropWidthNatural = crop.width * scaleX;
-      const cropHeightNatural = crop.height * scaleY;
-      
-      canvas.width = cropWidthNatural * pixelRatio;
-      canvas.height = cropHeightNatural * pixelRatio;
-
-      ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-      ctx.imageSmoothingQuality = 'high';
-
-      // Konvertera crop-koordinater från visad bild till naturlig storlek
-      // Crop-koordinaterna är i visad bild-space, vi behöver konvertera till naturlig storlek
-      const cropXNatural = crop.x * scaleX;
-      const cropYNatural = crop.y * scaleY;
-
-      // För rotation och zoom: vi behöver räkna med att bilden är transformerad
-      const rotateRads = (rotate * Math.PI) / 180;
-      const centerX = imageNaturalSize.width / 2;
-      const centerY = imageNaturalSize.height / 2;
-
-      ctx.save();
-
-      // Flytta canvas origin till crop-områdets övre vänstra hörn
-      ctx.translate(-cropXNatural, -cropYNatural);
-      
-      // Applicera rotation och zoom från bildens centrum
-      ctx.translate(centerX, centerY);
-      ctx.rotate(rotateRads);
-      ctx.scale(scale, scale); // Applicera zoom
-      ctx.translate(-centerX, -centerY);
-
-      // Draw circular crop mask
-      ctx.beginPath();
-      ctx.arc(
-        cropWidthNatural / 2,
-        cropHeightNatural / 2,
-        Math.min(cropWidthNatural, cropHeightNatural) / 2,
-        0,
-        2 * Math.PI
-      );
-      ctx.clip();
-
-      // Rita bilden i sin naturliga storlek
-      ctx.drawImage(
-        image,
-        0,
-        0,
-        imageNaturalSize.width,
-        imageNaturalSize.height,
-        0,
-        0,
-        imageNaturalSize.width,
-        imageNaturalSize.height
+      // Skapa cropped bild
+      const { blob } = await getCroppedImg(
+        imageSrc,
+        croppedAreaPixels,
+        rotation
       );
 
-      ctx.restore();
-
-      // Convert to blob
-      const blob = await new Promise<Blob>((resolve, reject) => {
-        canvas.toBlob(
-          (blob) => {
-            if (!blob) {
-              reject(new Error('Canvas is empty'));
-              return;
-            }
-            resolve(blob);
-          },
-          'image/png',
-          0.95
-        );
-      });
-
-      // Returnera crop data för backend (i naturlig bildstorlek)
-      // Backend behöver veta var crop-området är i originalbilden
+      // Returnera crop data för backend
       const cropData = {
-        x: Math.round(cropXNatural),
-        y: Math.round(cropYNatural),
-        width: Math.round(cropWidthNatural),
-        height: Math.round(cropHeightNatural),
-        zoom: scale,
-        rotation: rotate,
-        imageWidth: imageNaturalSize.width,
-        imageHeight: imageNaturalSize.height
+        x: Math.round(croppedAreaPixels.x),
+        y: Math.round(croppedAreaPixels.y),
+        width: Math.round(croppedAreaPixels.width),
+        height: Math.round(croppedAreaPixels.height),
+        zoom: zoom,
+        rotation: rotation,
+        imageWidth: imageSize.width,
+        imageHeight: imageSize.height
       };
 
-      return { blob, cropData };
+      onCropComplete(blob, cropData);
+    } catch (error) {
+      console.error('Error cropping image:', error);
     } finally {
       setIsProcessing(false);
     }
-  }, [completedCrop, scale, rotate, imageNaturalSize]);
-
-  const handleCropComplete = useCallback(async () => {
-    try {
-      const result = await getCroppedImage();
-      if (result) {
-        onCropComplete(result.blob, result.cropData);
-      }
-    } catch (error) {
-      console.error('Error cropping image:', error);
-    }
-  }, [getCroppedImage, onCropComplete]);
+  }, [croppedAreaPixels, imageSrc, rotation, zoom, imageSize, onCropComplete]);
 
   return (
     <div className={cn('profile-picture-cropper', className)}>
@@ -260,40 +221,40 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
           ref={containerRef}
           className="profile-picture-cropper__container"
         >
-          <ReactCrop
+          <Cropper
+            image={imageSrc}
             crop={crop}
-            onChange={(percentCrop: Crop) => setCrop(percentCrop)}
-            onComplete={(c: PixelCrop) => setCompletedCrop(c)}
-            aspect={1} // Kvadratisk
-            minWidth={50}
-            minHeight={50}
-            circularCrop={true}
-            className="profile-picture-cropper__crop"
-          >
-            <img
-              ref={imgRef}
-              alt="Crop me"
-              src={imageSrc}
-              crossOrigin="anonymous"
-              style={{
-                transform: `scale(${scale}) rotate(${rotate}deg)`,
-                maxWidth: 'none', // Ingen max-width - visa true size
-                maxHeight: 'none',
-                width: 'auto',
-                height: 'auto',
-                display: 'block',
-                objectFit: 'contain' // Behåll aspect ratio, visa hela bilden
-              }}
-              onLoad={onImageLoad}
-            />
-          </ReactCrop>
+            zoom={zoom}
+            rotation={rotation}
+            aspect={1} // Kvadratisk (1:1)
+            onCropChange={setCrop}
+            onCropComplete={onCropAreaComplete}
+            onZoomChange={setZoom}
+            onRotationChange={setRotation}
+            onMediaLoaded={onMediaLoaded}
+            cropShape="round" // Cirkulär crop mask
+            objectFit="contain" // Visa hela bilden (inte cover)
+            minZoom={minZoom} // Dynamisk minZoom
+            maxZoom={8} // Max zoom 8x
+            restrictPosition={true} // Begränsa position
+            showGrid={false} // Ingen grid
+            style={{
+              containerStyle: {
+                width: '100%',
+                height: '100%',
+                position: 'relative',
+                background: 'var(--surface-secondary, #f5f5f5)',
+                borderRadius: 'var(--radius-md, 8px)',
+              },
+              cropAreaStyle: {
+                border: '2px solid var(--accent-600, #3b82f6)',
+              },
+              mediaStyle: {
+                objectFit: 'contain', // Viktigt: contain, inte cover
+              },
+            }}
+          />
         </div>
-
-        {/* Hidden canvas for processing */}
-        <canvas
-          ref={canvasRef}
-          style={{ display: 'none' }}
-        />
 
         {/* Controls */}
         <VStack spacing="md">
@@ -302,14 +263,14 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
             <Label size="sm" weight="medium">Zoom</Label>
             <input
               type="range"
-              min={imageNaturalSize && cropContainerSize ? calculateMinZoom(imageNaturalSize.width, imageNaturalSize.height, cropContainerSize.width, cropContainerSize.height) : 0.1}
-              max="8"
-              step="0.1"
-              value={scale}
-              onChange={(e) => setScale(Number(e.target.value))}
+              min={minZoom}
+              max={8}
+              step={0.1}
+              value={zoom}
+              onChange={(e) => setZoom(Number(e.target.value))}
               className="profile-picture-cropper__slider"
             />
-            <Body size="xs" color="secondary">{Math.round(scale * 100)}%</Body>
+            <Body size="xs" color="secondary">{Math.round(zoom * 100)}%</Body>
           </VStack>
 
           {/* Rotate control */}
@@ -317,14 +278,14 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
             <Label size="sm" weight="medium">Rotera</Label>
             <input
               type="range"
-              min="-180"
-              max="180"
-              step="1"
-              value={rotate}
-              onChange={(e) => setRotate(Number(e.target.value))}
+              min={-180}
+              max={180}
+              step={1}
+              value={rotation}
+              onChange={(e) => setRotation(Number(e.target.value))}
               className="profile-picture-cropper__slider"
             />
-            <Body size="xs" color="secondary">{rotate}°</Body>
+            <Body size="xs" color="secondary">{rotation}°</Body>
           </VStack>
 
           {/* Actions */}
@@ -340,7 +301,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
               variant="primary"
               onClick={handleCropComplete}
               loading={isProcessing}
-              disabled={!completedCrop || isProcessing}
+              disabled={!croppedAreaPixels || isProcessing}
             >
               Bekräfta beskärning
             </Button>
