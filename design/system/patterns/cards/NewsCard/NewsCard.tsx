@@ -11,6 +11,7 @@ import { Icon } from '../../../components/media';
 import { Image } from '../../../components/media/Image';
 import { Clickable } from '../../../components/actions/Clickable';
 import { SparklesIcon } from '@heroicons/react/24/outline';
+import './NewsCard.css';
 
 // ===== TYPE DEFINITIONS =====
 
@@ -72,14 +73,12 @@ export const NewsCard: React.FC<NewsCardProps> = ({
       >
         <Box>
           {imageUrl && (
-            <Box style={{
-              width: '100%',
-              aspectRatio: '16/9',
-              position: 'relative',
-              overflow: 'hidden',
-              backgroundColor: 'var(--surface-subtle)',
-              borderRadius: 'var(--foundation-radius-lg) var(--foundation-radius-lg) 0 0'
-            }}>
+            <Box
+              className="news-card__image-container news-card__image-container--featured"
+              style={{
+                borderRadius: 'var(--foundation-radius-lg) var(--foundation-radius-lg) 0 0'
+              }}
+            >
               <Image
                 src={imageUrl}
                 alt={title}
@@ -131,9 +130,14 @@ export const NewsCard: React.FC<NewsCardProps> = ({
       className={className}
     >
       <HStack spacing="md" align="center">
-        <VStack spacing="sm" align="start" style={{ flex: 1 }}>
+        <VStack spacing="sm" align="start" style={{ flex: 1, minWidth: 0 }}>
           <HStack spacing="xs" align="center">
-            <Body weight="semibold" color="primary">
+            <Body weight="semibold" color="primary" style={{
+              flex: 1,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}>
               {title}
             </Body>
             {featured && (
@@ -145,7 +149,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
             )}
           </HStack>
           {excerpt && (
-            <Body size="sm" color="secondary">
+            <Body size="sm" color="secondary" className="news-card__excerpt">
               {excerpt}
             </Body>
           )}
@@ -155,16 +159,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
           </Body>
         </VStack>
         {imageUrl && (
-          <Box style={{
-            width: '80px',
-            height: '80px',
-            minWidth: '80px',
-            position: 'relative',
-            overflow: 'hidden',
-            borderRadius: 'var(--foundation-radius-sm)',
-            backgroundColor: 'var(--surface-subtle)',
-            flexShrink: 0
-          }}>
+          <Box className="news-card__image-container news-card__image-container--compact">
             <Image
               src={imageUrl}
               alt={title}
