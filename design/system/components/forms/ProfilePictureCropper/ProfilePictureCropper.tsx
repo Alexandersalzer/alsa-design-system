@@ -105,8 +105,24 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
   // Store media size when image loads
   const onMediaLoaded = useCallback((mediaSize: { width: number; height: number }) => {
     const { width, height } = mediaSize;
+    console.log('[ProfilePictureCropper] onMediaLoaded:', { width, height });
     setImageSize({ width, height });
   }, []);
+
+  // Fallback: Try to get image size from imageSrc if onMediaLoaded hasn't fired
+  useEffect(() => {
+    if (!imageSize && imageSrc) {
+      const img = new Image();
+      img.onload = () => {
+        console.log('[ProfilePictureCropper] Fallback image load:', { width: img.width, height: img.height });
+        setImageSize({ width: img.width, height: img.height });
+      };
+      img.onerror = () => {
+        console.error('[ProfilePictureCropper] Failed to load image for size detection');
+      };
+      img.src = imageSrc;
+    }
+  }, [imageSize, imageSrc]);
 
   // Initialize zoom and position after image size is set
   useEffect(() => {
@@ -294,10 +310,11 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
       isProcessing
     });
 
-    if (!imageSize) {
-      console.error('[ProfilePictureCropper] No image size available');
-      alert('Bildstorlek saknas. Försök ladda om bilden.');
-      return;
+    // If imageSize is not available, use default 512x512 (normalized image)
+    let finalImageSize = imageSize;
+    if (!finalImageSize) {
+      console.warn('[ProfilePictureCropper] No image size, using default 512x512');
+      finalImageSize = { width: 512, height: 512 };
     }
 
     if (isProcessing) {
@@ -327,8 +344,8 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
         const cropSize = getCropSize();
         
         // Calculate the displayed image size at current zoom
-        const displayedWidth = imageSize.width * zoom;
-        const displayedHeight = imageSize.height * zoom;
+        const displayedWidth = finalImageSize.width * zoom;
+        const displayedHeight = finalImageSize.height * zoom;
         
         // Calculate crop area in pixels (centered crop)
         // The crop area is a square of size cropSize, centered in the displayed image
@@ -386,8 +403,8 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
         height: normalizedCropArea.height,
         zoom: 1, // Not used by backend since image is already normalized to 512x512
         rotation: rotation,
-        imageWidth: 512, // Image is always 512x512 after normalization
-        imageHeight: 512
+        imageWidth: finalImageSize.width,
+        imageHeight: finalImageSize.height
       };
 
       console.log('[ProfilePictureCropper] Crop complete, calling onCropComplete with:', cropData);
