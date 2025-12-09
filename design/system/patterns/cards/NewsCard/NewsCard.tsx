@@ -77,6 +77,8 @@ export const NewsCard: React.FC<NewsCardProps> = ({
               <Image
                 src={imageUrl}
                 alt={title}
+                aspectRatio="16/9"
+                objectFit="cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </Box>
@@ -154,6 +156,10 @@ export const NewsCard: React.FC<NewsCardProps> = ({
             <Image
               src={imageUrl}
               alt={title}
+              width="72px"
+              height="72px"
+              aspectRatio="1/1"
+              objectFit="cover"
               sizes="72px"
             />
           </Box>
