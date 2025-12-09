@@ -31,9 +31,13 @@ function getInitialZoomAndPosition(
   imageHeight: number,
   cropSizePx: number
 ): { zoom: number; x: number; y: number } {
-  // Calculate the minimum zoom required to fit the entire image inside the crop area
-  // Using Math.max ensures the image fills at least one dimension (Instagram method)
-  const zoom = Math.max(
+  // Calculate the minimum zoom required to fit the ENTIRE image inside the crop area
+  // Using Math.min ensures the entire image is visible (contain behavior)
+  // This means:
+  // - Wide images: scale to fit height (may have padding on sides)
+  // - Tall images: scale to fit width (may have padding on top/bottom)
+  // - Small images: scale up to fill at least one dimension
+  const zoom = Math.min(
     cropSizePx / imageWidth,   // Scale to fit width
     cropSizePx / imageHeight   // Scale to fit height
   );
@@ -176,10 +180,57 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, [isInitialized, imageSize, getCropSize]);
 
+  // Calculate crop area pixels manually (fallback if onCropAreaComplete doesn't fire)
+  const calculateCropAreaPixels = useCallback((
+    imageWidth: number,
+    imageHeight: number,
+    cropSize: number,
+    currentZoom: number,
+    currentCrop: Point
+  ): Area => {
+    // Calculate the displayed image size at current zoom
+    const displayedWidth = imageWidth * currentZoom;
+    const displayedHeight = imageHeight * currentZoom;
+
+    // Calculate crop area in pixels
+    // The crop area is centered in the displayed image
+    const cropX = (displayedWidth - cropSize) / 2 + currentCrop.x;
+    const cropY = (displayedHeight - cropSize) / 2 + currentCrop.y;
+
+    return {
+      x: Math.max(0, cropX),
+      y: Math.max(0, cropY),
+      width: Math.min(cropSize, displayedWidth),
+      height: Math.min(cropSize, displayedHeight)
+    };
+  }, []);
+
   // When crop area changes (react-easy-crop callback)
   const onCropAreaComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
+    console.log('[ProfilePictureCropper] Crop area complete:', croppedAreaPixels);
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
+
+  // Calculate initial crop area after initialization
+  useEffect(() => {
+    if (isInitialized && imageSize && !croppedAreaPixels) {
+      const timer = setTimeout(() => {
+        const cropSize = getCropSize();
+        if (cropSize > 0) {
+          const calculatedArea = calculateCropAreaPixels(
+            imageSize.width,
+            imageSize.height,
+            cropSize,
+            zoom,
+            crop
+          );
+          console.log('[ProfilePictureCropper] Calculated initial crop area:', calculatedArea);
+          setCroppedAreaPixels(calculatedArea);
+        }
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isInitialized, imageSize, croppedAreaPixels, zoom, crop, getCropSize, calculateCropAreaPixels]);
 
   // Create image element from URL
   const createImage = (url: string): Promise<HTMLImageElement> =>
@@ -272,8 +323,24 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
 
   // Handle crop confirmation
   const handleCropComplete = useCallback(async () => {
-    if (!croppedAreaPixels || !imageSize) {
+    if (!imageSize) {
+      console.error('[ProfilePictureCropper] No image size available');
       return;
+    }
+
+    // Use croppedAreaPixels if available, otherwise calculate it
+    let finalCropArea = croppedAreaPixels;
+    
+    if (!finalCropArea) {
+      console.log('[ProfilePictureCropper] Calculating crop area manually');
+      const cropSize = getCropSize();
+      finalCropArea = calculateCropAreaPixels(
+        imageSize.width,
+        imageSize.height,
+        cropSize,
+        zoom,
+        crop
+      );
     }
 
     setIsProcessing(true);
@@ -282,16 +349,16 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
       // Create cropped image
       const { blob } = await getCroppedImg(
         imageSrc,
-        croppedAreaPixels,
+        finalCropArea,
         rotation
       );
 
       // Return crop data for backend
       const cropData = {
-        x: Math.round(croppedAreaPixels.x),
-        y: Math.round(croppedAreaPixels.y),
-        width: Math.round(croppedAreaPixels.width),
-        height: Math.round(croppedAreaPixels.height),
+        x: Math.round(finalCropArea.x),
+        y: Math.round(finalCropArea.y),
+        width: Math.round(finalCropArea.width),
+        height: Math.round(finalCropArea.height),
         zoom: zoom,
         rotation: rotation,
         imageWidth: imageSize.width,
@@ -304,7 +371,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
     } finally {
       setIsProcessing(false);
     }
-  }, [croppedAreaPixels, imageSrc, rotation, zoom, imageSize, onCropComplete]);
+  }, [croppedAreaPixels, imageSrc, rotation, zoom, imageSize, onCropComplete, getCropSize, calculateCropAreaPixels, crop]);
 
   return (
     <div className={cn('profile-picture-cropper', className)}>
@@ -397,7 +464,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
               variant="primary"
               onClick={handleCropComplete}
               loading={isProcessing}
-              disabled={!croppedAreaPixels || isProcessing}
+              disabled={!imageSize || isProcessing}
             >
               Bekräfta beskärning
             </Button>
