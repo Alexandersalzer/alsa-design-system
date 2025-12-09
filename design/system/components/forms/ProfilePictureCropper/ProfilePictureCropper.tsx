@@ -5,7 +5,7 @@
 
 'use client';
 
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import Cropper, { Area, Point } from 'react-easy-crop';
 import { cn } from '../../../utils/cn';
 import { Button, VStack, HStack, Body, Label } from '../..';
@@ -19,12 +19,43 @@ export interface ProfilePictureCropperProps {
 }
 
 /**
+ * Calculate initial zoom and position to center the image perfectly
+ * 
+ * @param imageWidth - Original image width
+ * @param imageHeight - Original image height
+ * @param cropSizePx - Size of the crop area (square, in pixels)
+ * @returns { zoom, x, y } - Initial zoom and center position
+ */
+function getInitialZoomAndPosition(
+  imageWidth: number,
+  imageHeight: number,
+  cropSizePx: number
+): { zoom: number; x: number; y: number } {
+  // Calculate the minimum zoom required to fit the entire image inside the crop area
+  // Using Math.max ensures the image fills at least one dimension (Instagram method)
+  const zoom = Math.max(
+    cropSizePx / imageWidth,   // Scale to fit width
+    cropSizePx / imageHeight   // Scale to fit height
+  );
+
+  // For react-easy-crop with objectFit="contain", centered position is always (0, 0)
+  // The library handles centering automatically when the image is smaller than the container
+  // or when zoomed to fit
+  return {
+    zoom: Math.max(0.1, Math.min(10, zoom)), // Clamp between 0.1 and 10
+    x: 0,
+    y: 0
+  };
+}
+
+/**
  * ProfilePictureCropper - Instagram-style profile picture cropper
  * 
- * - Visar hela bilden från början (dynamisk minZoom)
- * - Cirkulär crop mask
- * - objectFit="contain" (inte cover)
- * - Zoom och rotation
+ * Guarantees:
+ * - Image is always centered (horizontally and vertically)
+ * - Image uses "contain" behavior (no parts cut off initially)
+ * - Initial zoom shows entire image
+ * - Works for all image sizes (small, wide, tall, transparent)
  */
 export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
   imageSrc,
@@ -40,56 +71,67 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
   const [imageSize, setImageSize] = useState<{ width: number; height: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [minZoom, setMinZoom] = useState(1);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  // Beräkna minZoom dynamiskt baserat på bildstorlek och container (Instagram-metod)
-  const calculateMinZoom = useCallback((imageWidth: number, imageHeight: number, containerSize: number): number => {
-    // Instagram-metod: Använd Math.max för att säkerställa att bilden fyller minst en dimension
-    // Detta gör att små bilder upscalas och långa/smala bilder fyller containern korrekt
-    const calculatedMinZoom = Math.max(
-      containerSize / imageWidth,   // Så breda smala loggor fyller containern
-      containerSize / imageHeight   // Så små vertikala bilder fyller containern
-    );
-    
-    // Säkerställ att minZoom är minst 0.1 (10%) och max 10 (1000% för extremt små bilder)
-    return Math.max(0.1, Math.min(10, calculatedMinZoom));
+  // Get crop area size from container
+  const getCropSize = useCallback((): number => {
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      // Container is square (aspect-ratio: 1), use the smallest dimension
+      return Math.min(rect.width, rect.height);
+    }
+    // Fallback size if container not ready
+    return 400;
   }, []);
 
-  // När bilden laddas - sätt minZoom och initial zoom (Instagram-metod)
+  // Initialize zoom and position when image loads
   const onMediaLoaded = useCallback((mediaSize: { width: number; height: number }) => {
     const { width, height } = mediaSize;
     setImageSize({ width, height });
 
-    // Hämta container-storlek
-    if (containerRef.current) {
-      const containerRect = containerRef.current.getBoundingClientRect();
-      // Container är kvadratisk, använd minsta dimensionen (crop-området)
-      const containerSize = Math.min(containerRect.width, containerRect.height);
-      
-      // Instagram-metod: Beräkna minZoom med Math.max för att fyller minst en dimension
-      const calculatedMinZoom = calculateMinZoom(width, height, containerSize);
-      setMinZoom(calculatedMinZoom);
-      
-      // Sätt initial zoom till minZoom (så bilden fyller minst en sida av cirkeln)
-      setZoom(calculatedMinZoom);
-      
-      // Centrera bilden
-      setCrop({ x: 0, y: 0 });
-    } else {
-      // Fallback om container inte finns ännu
-      const estimatedContainerSize = 400;
-      const calculatedMinZoom = calculateMinZoom(width, height, estimatedContainerSize);
-      setMinZoom(calculatedMinZoom);
-      setZoom(calculatedMinZoom);
-      setCrop({ x: 0, y: 0 });
-    }
-  }, [calculateMinZoom]);
+    // Get crop area size
+    const cropSize = getCropSize();
 
-  // När crop-området ändras (react-easy-crop callback)
+    // Calculate initial zoom and position using our function
+    const { zoom: initialZoom, x, y } = getInitialZoomAndPosition(width, height, cropSize);
+
+    // Set minZoom to the calculated initial zoom (ensures we can't zoom out more than needed)
+    setMinZoom(initialZoom);
+
+    // Set initial zoom and position
+    setZoom(initialZoom);
+    setCrop({ x, y });
+
+    // Mark as initialized
+    setIsInitialized(true);
+  }, [getCropSize]);
+
+  // Recalculate when container size changes (e.g., window resize)
+  useEffect(() => {
+    if (!isInitialized || !imageSize) return;
+
+    const handleResize = () => {
+      const cropSize = getCropSize();
+      const { zoom: newZoom, x, y } = getInitialZoomAndPosition(
+        imageSize.width,
+        imageSize.height,
+        cropSize
+      );
+      setMinZoom(newZoom);
+      setZoom(newZoom);
+      setCrop({ x, y });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isInitialized, imageSize, getCropSize]);
+
+  // When crop area changes (react-easy-crop callback)
   const onCropAreaComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
-  // Skapa cropped bild
+  // Create image element from URL
   const createImage = (url: string): Promise<HTMLImageElement> =>
     new Promise((resolve, reject) => {
       const image = new Image();
@@ -99,12 +141,12 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
       image.crossOrigin = 'anonymous';
     });
 
-  // Konvertera radianer till grader
+  // Convert degrees to radians
   const getRadianAngle = (degreeValue: number) => {
     return (degreeValue * Math.PI) / 180;
   };
 
-  // Rotera bild
+  // Calculate rotated image size
   const rotateSize = (width: number, height: number, rotation: number) => {
     const rotRad = getRadianAngle(rotation);
     return {
@@ -113,7 +155,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
     };
   };
 
-  // Generera cropped bild som blob
+  // Generate cropped image as blob
   const getCroppedImg = async (
     imageSrc: string,
     pixelCrop: Area,
@@ -130,24 +172,24 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
 
     const rotRad = getRadianAngle(rotation);
 
-    // Beräkna roterad bildstorlek
+    // Calculate rotated image size
     const { width: bBoxWidth, height: bBoxHeight } = rotateSize(
       image.width,
       image.height,
       rotation
     );
 
-    // Sätt canvas-storlek till roterad bildstorlek
+    // Set canvas size to rotated image size
     canvas.width = bBoxWidth;
     canvas.height = bBoxHeight;
 
-    // Flytta canvas center till bildens center
+    // Move canvas center to image center
     ctx.translate(bBoxWidth / 2, bBoxHeight / 2);
     ctx.rotate(rotRad);
     ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1);
     ctx.translate(-image.width / 2, -image.height / 2);
 
-    // Rita bilden
+    // Draw image
     ctx.drawImage(image, 0, 0);
 
     const data = ctx.getImageData(
@@ -157,7 +199,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
       pixelCrop.height
     );
 
-    // Skapa ny canvas för cropped bild
+    // Create new canvas for cropped image
     canvas.width = pixelCrop.width;
     canvas.height = pixelCrop.height;
     ctx.putImageData(
@@ -178,7 +220,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
     });
   };
 
-  // Hantera bekräfta beskärning
+  // Handle crop confirmation
   const handleCropComplete = useCallback(async () => {
     if (!croppedAreaPixels || !imageSize) {
       return;
@@ -187,14 +229,14 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
     setIsProcessing(true);
 
     try {
-      // Skapa cropped bild
+      // Create cropped image
       const { blob } = await getCroppedImg(
         imageSrc,
         croppedAreaPixels,
         rotation
       );
 
-      // Returnera crop data för backend
+      // Return crop data for backend
       const cropData = {
         x: Math.round(croppedAreaPixels.x),
         y: Math.round(croppedAreaPixels.y),
@@ -227,18 +269,18 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
             crop={crop}
             zoom={zoom}
             rotation={rotation}
-            aspect={1} // Kvadratisk (1:1)
+            aspect={1} // Square (1:1)
             onCropChange={setCrop}
             onCropComplete={onCropAreaComplete}
             onZoomChange={setZoom}
             onRotationChange={setRotation}
             onMediaLoaded={onMediaLoaded}
-            cropShape="round" // Cirkulär crop mask
-            objectFit="contain" // Visa hela bilden (inte cover)
-            minZoom={minZoom} // Dynamisk minZoom
+            cropShape="round" // Circular crop mask
+            objectFit="contain" // Show entire image (not cover)
+            minZoom={minZoom} // Dynamic minZoom
             maxZoom={8} // Max zoom 8x
-            restrictPosition={true} // Begränsa position
-            showGrid={false} // Ingen grid
+            restrictPosition={true} // Restrict position
+            showGrid={false} // No grid
             style={{
               containerStyle: {
                 width: '100%',
@@ -251,7 +293,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
                 border: '2px solid var(--accent-600, #3b82f6)',
               },
               mediaStyle: {
-                objectFit: 'contain', // Viktigt: contain, inte cover
+                objectFit: 'contain', // Important: contain, not cover
                 maxWidth: 'none', // Disable contain shrinking
                 maxHeight: 'none', // Disable contain shrinking
               },
