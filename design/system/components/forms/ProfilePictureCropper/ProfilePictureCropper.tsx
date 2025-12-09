@@ -206,9 +206,14 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
 
   // When crop area changes (react-easy-crop callback)
   const onCropAreaComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
-    console.log('[ProfilePictureCropper] Crop area complete:', croppedAreaPixels);
+    console.log('[ProfilePictureCropper] onCropAreaComplete called:', {
+      croppedArea, // Relative coordinates (0-1)
+      croppedAreaPixels, // Absolute pixel coordinates in original image space
+      imageSize,
+      zoom
+    });
     setCroppedAreaPixels(croppedAreaPixels);
-  }, []);
+  }, [imageSize, zoom]);
 
   // Create image element from URL
   const createImage = (url: string): Promise<HTMLImageElement> =>
@@ -362,36 +367,39 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
         console.log('[ProfilePictureCropper] Calculated crop area:', finalCropArea);
       }
 
-      // IMPORTANT: croppedAreaPixels from react-easy-crop is in the displayed (zoomed) image space
-      // But the image sent to backend is the normalized 512x512 image
-      // We need to convert coordinates from zoomed space to original image space
+      // IMPORTANT: react-easy-crop with objectFit="contain" returns croppedAreaPixels
+      // in the ORIGINAL image's coordinate space (512x512 in our case)
+      // According to react-easy-crop docs, croppedAreaPixels is ALWAYS in original image space
+      // regardless of zoom, so we can use them directly
       
-      // The image is already normalized to 512x512, so we need to convert
-      // croppedAreaPixels (which is in zoomed/displayed space) to original 512x512 space
+      // The image is already normalized to 512x512, so croppedAreaPixels should already be correct
+      // But we need to clamp them to ensure they're within bounds (0-512)
+      const cropX = Math.max(0, Math.min(511, Math.round(finalCropArea.x)));
+      const cropY = Math.max(0, Math.min(511, Math.round(finalCropArea.y)));
+      const cropWidth = Math.max(1, Math.min(512 - cropX, Math.round(finalCropArea.width)));
+      const cropHeight = Math.max(1, Math.min(512 - cropY, Math.round(finalCropArea.height)));
       
-      // Calculate the scale factor: displayed size / original size = zoom
-      // But wait - react-easy-crop's croppedAreaPixels is already in the original image's pixel space
-      // when using objectFit="contain", it returns coordinates in the original image space
-      
-      // Actually, let me check: react-easy-crop with objectFit="contain" returns croppedAreaPixels
-      // in the coordinate space of the ORIGINAL image (not the displayed/zoomed image)
-      // So we can use them directly!
-      
-      // But we need to make sure the coordinates are valid for a 512x512 image
       const normalizedCropArea = {
-        x: Math.max(0, Math.min(512, Math.round(finalCropArea.x))),
-        y: Math.max(0, Math.min(512, Math.round(finalCropArea.y))),
-        width: Math.max(1, Math.min(512 - finalCropArea.x, Math.round(finalCropArea.width))),
-        height: Math.max(1, Math.min(512 - finalCropArea.y, Math.round(finalCropArea.height)))
+        x: cropX,
+        y: cropY,
+        width: cropWidth,
+        height: cropHeight
       };
 
-      console.log('[ProfilePictureCropper] Original crop area:', finalCropArea);
-      console.log('[ProfilePictureCropper] Normalized crop area:', normalizedCropArea);
+      console.log('[ProfilePictureCropper] ===== CROP DATA =====');
+      console.log('[ProfilePictureCropper] Original crop area from react-easy-crop:', finalCropArea);
+      console.log('[ProfilePictureCropper] Normalized crop area (clamped to 512x512):', normalizedCropArea);
+      console.log('[ProfilePictureCropper] Image size:', finalImageSize);
+      console.log('[ProfilePictureCropper] Current zoom:', zoom);
+      console.log('[ProfilePictureCropper] Current crop position:', crop);
+      console.log('[ProfilePictureCropper] Current rotation:', rotation);
+      console.log('[ProfilePictureCropper] ====================');
 
       // Create cropped image (this creates a preview blob for frontend)
+      // Use the same coordinates that we send to backend for consistency
       const { blob } = await getCroppedImg(
         imageSrc,
-        finalCropArea, // Use original coordinates for canvas cropping
+        normalizedCropArea, // Use normalized coordinates for canvas cropping (same as backend)
         rotation
       );
 
