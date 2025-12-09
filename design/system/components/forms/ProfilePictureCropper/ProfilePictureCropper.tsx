@@ -35,39 +35,91 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
 }) => {
   const [crop, setCrop] = useState<Crop>();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
-  const [scale, setScale] = useState(1); // Start på 100% (true scale)
+  const [scale, setScale] = useState(1);
   const [rotate, setRotate] = useState(0);
   const imgRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [imageNaturalSize, setImageNaturalSize] = useState<{ width: number; height: number } | null>(null);
+  const [cropContainerSize, setCropContainerSize] = useState<{ width: number; height: number } | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Initialize crop when image loads - Instagram-style: 100% crop, no auto-zoom
+  // Beräkna minZoom dynamiskt baserat på bildstorlek och crop-container
+  const calculateMinZoom = useCallback((imageWidth: number, imageHeight: number, containerWidth: number, containerHeight: number): number => {
+    // Crop-området är kvadratiskt (1:1), så vi använder minsta dimensionen
+    const cropSize = Math.min(containerWidth, containerHeight);
+    
+    // Beräkna minZoom så att hela bilden passar inuti crop-området
+    const minZoom = Math.min(
+      cropSize / imageWidth,
+      cropSize / imageHeight
+    );
+    
+    // Säkerställ att minZoom är minst 0.1 (10%) och max 1 (100%)
+    return Math.max(0.1, Math.min(1, minZoom));
+  }, []);
+
+  // Initialize crop when image loads - Instagram-style: visa hela bilden från början
   const onImageLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
     const { naturalWidth, naturalHeight } = e.currentTarget;
     
     // Spara naturlig storlek för crop-beräkningar
     setImageNaturalSize({ width: naturalWidth, height: naturalHeight });
     
-    // Instagram-style: Starta alltid med 100% crop (ingen auto-zoom)
-    // Bilden visas i sin naturliga storlek, användaren zoomar manuellt
-    const initialCrop = centerCrop(
-      makeAspectCrop(
-        {
-          unit: '%',
-          width: 100, // Alltid 100% - ingen auto-zoom
-        },
-        1, // Kvadratisk (1:1)
-        naturalWidth,
-        naturalHeight
-      ),
-      naturalWidth,
-      naturalHeight
-    );
-    
-    setCrop(initialCrop);
-    setScale(1); // Start på 100% zoom (true scale)
-  }, []);
+    // Använd requestAnimationFrame för att säkerställa att container är renderad
+    requestAnimationFrame(() => {
+      if (containerRef.current) {
+        const containerRect = containerRef.current.getBoundingClientRect();
+        // Container är kvadratisk, använd minsta dimensionen för crop-området
+        const containerSize = Math.min(containerRect.width, containerRect.height) - 32; // Minus padding
+        setCropContainerSize({ width: containerSize, height: containerSize });
+        
+        // Beräkna minZoom så att hela bilden syns inuti crop-området
+        const minZoom = calculateMinZoom(naturalWidth, naturalHeight, containerSize, containerSize);
+        
+        // Sätt initial zoom till minZoom (så hela bilden syns)
+        setScale(minZoom);
+        
+        // Skapa initial crop som är centrerad och visar hela bilden
+        const initialCrop = centerCrop(
+          makeAspectCrop(
+            {
+              unit: '%',
+              width: 100, // 100% av bilden syns
+            },
+            1, // Kvadratisk (1:1)
+            naturalWidth,
+            naturalHeight
+          ),
+          naturalWidth,
+          naturalHeight
+        );
+        
+        setCrop(initialCrop);
+      } else {
+        // Fallback om container inte finns ännu - använd enkel beräkning
+        const estimatedContainerSize = 400; // Uppskattad storlek
+        const minZoom = calculateMinZoom(naturalWidth, naturalHeight, estimatedContainerSize, estimatedContainerSize);
+        setScale(minZoom);
+        setCropContainerSize({ width: estimatedContainerSize, height: estimatedContainerSize });
+        
+        const initialCrop = centerCrop(
+          makeAspectCrop(
+            {
+              unit: '%',
+              width: 100,
+            },
+            1,
+            naturalWidth,
+            naturalHeight
+          ),
+          naturalWidth,
+          naturalHeight
+        );
+        setCrop(initialCrop);
+      }
+    });
+  }, [calculateMinZoom]);
 
   // Convert crop to blob with crop data
   const getCroppedImage = useCallback(async () => {
@@ -204,7 +256,10 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
     <div className={cn('profile-picture-cropper', className)}>
       <VStack spacing="lg">
         {/* Image with crop overlay */}
-        <div className="profile-picture-cropper__container">
+        <div 
+          ref={containerRef}
+          className="profile-picture-cropper__container"
+        >
           <ReactCrop
             crop={crop}
             onChange={(percentCrop: Crop) => setCrop(percentCrop)}
@@ -227,7 +282,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
                 width: 'auto',
                 height: 'auto',
                 display: 'block',
-                objectFit: 'contain' // Behåll aspect ratio
+                objectFit: 'contain' // Behåll aspect ratio, visa hela bilden
               }}
               onLoad={onImageLoad}
             />
@@ -247,8 +302,8 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
             <Label size="sm" weight="medium">Zoom</Label>
             <input
               type="range"
-              min="1"
-              max="5"
+              min={imageNaturalSize && cropContainerSize ? calculateMinZoom(imageNaturalSize.width, imageNaturalSize.height, cropContainerSize.width, cropContainerSize.height) : 0.1}
+              max="8"
               step="0.1"
               value={scale}
               onChange={(e) => setScale(Number(e.target.value))}
