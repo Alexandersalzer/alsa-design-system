@@ -1,0 +1,82 @@
+/* ProfilePictureCropper Styles - Instagram-style with react-easy-crop */
+.profile-picture-cropper {
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.profile-picture-cropper__container {
+  position: relative;
+  width: 100%;
+  max-width: 512px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--surface-secondary, #f5f5f5);
+  border-radius: var(--radius-md, 8px);
+  padding: var(--foundation-space-md, 16px);
+  margin-bottom: var(--foundation-space-lg, 24px);
+  min-height: 400px;
+  aspect-ratio: 1; /* Tvinga kvadratisk container */
+  overflow: hidden;
+}
+
+/* react-easy-crop container */
+.profile-picture-cropper__container > div {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Förhindra auto-sizing av bilden - Instagram-metod */
+.profile-picture-cropper__container img {
+  object-fit: contain !important; /* Viktigt: contain, inte cover */
+  object-position: center !important;
+  max-width: none !important; /* Disable contain shrinking */
+  max-height: none !important; /* Disable contain shrinking */
+  width: auto !important; /* Ingen width: 100% */
+  height: auto !important; /* Ingen height: 100% */
+}
+
+/* Slider styles */
+.profile-picture-cropper__slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border-default, #e0e0e0);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  z-index: 10;
+}
+
+.profile-picture-cropper__slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent-600, #3b82f6);
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+}
+
+.profile-picture-cropper__slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent-600, #3b82f6);
+  cursor: pointer;
+  border: none;
+  position: relative;
+  z-index: 10;
+}
+
+/* Överstyr ReactCrop's overlay */
+.profile-picture-cropper__crop .ReactCrop::after {
+  display: none;
+}
+

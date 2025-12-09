@@ -39,6 +39,7 @@ interface SetupStep {
   href: string;
   completed: boolean;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  optional?: boolean; // Om steget är valfritt
 }
 
 type SetupPhase = 'building' | 'launch' | 'done';
@@ -304,10 +305,10 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                 {/* Progress Text */}
                 <HStack justify="between" align="center">
                   <Body size="sm" weight="medium" color="secondary">
-                    {getPhaseText(phase)} • {completedSteps}/{steps.length} steg i denna fas
+                    {getPhaseText(phase)} • {completedSteps}/{steps.length} steg klara
                   </Body>
                   <Body size="sm" weight="bold" color="accent">
-                    {progress}% totalt klart
+                    {progress}% klart
                   </Body>
                 </HStack>
               </VStack>
@@ -317,5 +318,16 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
       </VStack>
     </div>
   );
-};
+}/*, (prevProps, nextProps) => {
+  // ⚡ PERFORMANCE: Custom comparison för att undvika onödiga re-renders
+  return (
+    prevProps.phase === nextProps.phase &&
+    prevProps.customProgress === nextProps.customProgress &&
+    prevProps.showCongratulations === nextProps.showCongratulations &&
+    prevProps.className === nextProps.className &&
+    JSON.stringify(prevProps.customSteps) === JSON.stringify(nextProps.customSteps)
+  );
+});*/
+
+SetupGuide.displayName = 'SetupGuide';
 
