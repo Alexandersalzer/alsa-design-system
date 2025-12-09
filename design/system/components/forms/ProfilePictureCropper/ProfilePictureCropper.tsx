@@ -73,38 +73,88 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
   const [minZoom, setMinZoom] = useState(1);
   const [isInitialized, setIsInitialized] = useState(false);
 
+  // Reset state when image changes
+  useEffect(() => {
+    setCrop({ x: 0, y: 0 });
+    setZoom(1);
+    setMinZoom(1);
+    setIsInitialized(false);
+    setImageSize(null);
+    setCroppedAreaPixels(null);
+  }, [imageSrc]);
+
   // Get crop area size from container
   const getCropSize = useCallback((): number => {
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
       // Container is square (aspect-ratio: 1), use the smallest dimension
-      return Math.min(rect.width, rect.height);
+      // Subtract padding (16px on each side = 32px total)
+      const padding = 32;
+      return Math.min(rect.width, rect.height) - padding;
     }
     // Fallback size if container not ready
     return 400;
   }, []);
 
-  // Initialize zoom and position when image loads
+  // Store media size when image loads
   const onMediaLoaded = useCallback((mediaSize: { width: number; height: number }) => {
     const { width, height } = mediaSize;
     setImageSize({ width, height });
+  }, []);
 
-    // Get crop area size
-    const cropSize = getCropSize();
+  // Initialize zoom and position after image size is set
+  useEffect(() => {
+    if (!imageSize || isInitialized) return;
 
-    // Calculate initial zoom and position using our function
-    const { zoom: initialZoom, x, y } = getInitialZoomAndPosition(width, height, cropSize);
+    // Use requestAnimationFrame to ensure container is fully rendered
+    requestAnimationFrame(() => {
+      // Get crop area size
+      const cropSize = getCropSize();
 
-    // Set minZoom to the calculated initial zoom (ensures we can't zoom out more than needed)
-    setMinZoom(initialZoom);
+      if (cropSize <= 0) {
+        // Container not ready, try again
+        setTimeout(() => {
+          const retrySize = getCropSize();
+          if (retrySize > 0) {
+            const { zoom: initialZoom, x, y } = getInitialZoomAndPosition(
+              imageSize.width,
+              imageSize.height,
+              retrySize
+            );
+            setMinZoom(initialZoom);
+            setZoom(initialZoom);
+            setCrop({ x, y });
+            setIsInitialized(true);
+          }
+        }, 200);
+        return;
+      }
 
-    // Set initial zoom and position
-    setZoom(initialZoom);
-    setCrop({ x, y });
+      // Calculate initial zoom and position using our function
+      const { zoom: initialZoom, x, y } = getInitialZoomAndPosition(
+        imageSize.width,
+        imageSize.height,
+        cropSize
+      );
 
-    // Mark as initialized
-    setIsInitialized(true);
-  }, [getCropSize]);
+      console.log('[ProfilePictureCropper] Initializing:', {
+        imageSize,
+        cropSize,
+        initialZoom,
+        position: { x, y }
+      });
+
+      // Set minZoom to the calculated initial zoom (ensures we can't zoom out more than needed)
+      setMinZoom(initialZoom);
+
+      // Set initial zoom and position
+      setZoom(initialZoom);
+      setCrop({ x, y });
+
+      // Mark as initialized
+      setIsInitialized(true);
+    });
+  }, [imageSize, isInitialized, getCropSize]);
 
   // Recalculate when container size changes (e.g., window resize)
   useEffect(() => {
@@ -265,6 +315,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
           className="profile-picture-cropper__container"
         >
           <Cropper
+            key={imageSrc} // Force re-render when image changes
             image={imageSrc}
             crop={crop}
             zoom={zoom}
