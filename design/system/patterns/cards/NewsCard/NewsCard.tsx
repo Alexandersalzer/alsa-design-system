@@ -73,19 +73,10 @@ export const NewsCard: React.FC<NewsCardProps> = ({
       >
         <Box>
           {imageUrl && (
-            <Box
-              className="news-card__image-container news-card__image-container--featured"
-              style={{
-                borderRadius: 'var(--foundation-radius-lg) var(--foundation-radius-lg) 0 0'
-              }}
-            >
+            <Box className="news-card__image-container news-card__image-container--featured">
               <Image
                 src={imageUrl}
                 alt={title}
-                style={{
-                  objectFit: 'cover',
-                  objectPosition: 'center'
-                }}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </Box>
@@ -163,11 +154,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
             <Image
               src={imageUrl}
               alt={title}
-              style={{
-                objectFit: 'cover',
-                objectPosition: 'center'
-              }}
-              sizes="80px"
+              sizes="72px"
             />
           </Box>
         )}
