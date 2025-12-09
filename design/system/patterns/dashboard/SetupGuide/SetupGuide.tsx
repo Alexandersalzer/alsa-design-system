@@ -5,7 +5,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import './SetupGuide.css';
 import {
   VStack,
@@ -18,14 +18,17 @@ import {
   Button,
   Icon,
   Box,
-  Divider
+  Divider,
+  Tag
 } from '../../../components';
+import { Listbox, ListboxItem } from '../../../components/lists/Listbox';
 import {
   CheckCircleIcon,
   CircleStackIcon,
   GlobeAltIcon,
   ChatBubbleLeftRightIcon,
-  EyeIcon
+  EyeIcon,
+  ClockIcon
 } from '@heroicons/react/24/outline';
 
 // ===== TYPES =====
@@ -126,8 +129,8 @@ const getPhaseText = (phase?: string) => {
 };
 
 // ===== MAIN COMPONENT =====
-export const SetupGuide: React.FC<SetupGuideProps> = ({ 
-  phase = 'building', 
+export const SetupGuide: React.FC<SetupGuideProps> = ({
+  phase = 'building',
   className,
   onNavigate,
   customSteps,
@@ -136,13 +139,23 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
   onDismissCongratulations
 }) => {
   const steps = customSteps || getSteps(phase);
-  
+
+  // Sort steps: incomplete first, completed last
+  const sortedSteps = useMemo(() => {
+    if (!steps) return [];
+
+    const incomplete = steps.filter(s => !s.completed);
+    const complete = steps.filter(s => s.completed);
+
+    return [...incomplete, ...complete];
+  }, [steps]);
+
   // Beräkna progress (använd custom om tillgängligt)
-  const completedSteps = steps.filter(s => s.completed).length;
-  const progress = customProgress !== undefined 
+  const completedSteps = sortedSteps.filter(s => s.completed).length;
+  const progress = customProgress !== undefined
     ? customProgress
-    : (steps.length > 0 
-        ? Math.round((completedSteps / steps.length) * 100) 
+    : (sortedSteps.length > 0
+        ? Math.round((completedSteps / sortedSteps.length) * 100)
         : 0);
 
   const handleNavigate = (href: string) => {
@@ -207,67 +220,70 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
           </Body>
         </VStack>
 
-        {/* Steps - Vertikal Stack */}
-        <VStack spacing="lg">
-          {steps.map((step) => {
+        {/* Steps - Using Listbox for better accessibility */}
+        <Listbox
+          variant="separated"
+          size="md"
+          spacing="md"
+          role="list"
+        >
+          {sortedSteps.map((step) => {
             const IconComponent = step.icon;
-            
+
             return (
-              <Card 
-                key={step.key} 
-                variant="outlined"
+              <ListboxItem
+                key={step.key}
+                role="listitem"
                 interactive={!step.completed}
-                onCardClick={!step.completed ? () => handleNavigate(step.href) : undefined}
-                className={step.completed ? 'setup-guide__step-card setup-guide__step-card--completed' : 'setup-guide__step-card'}
-                style={{ minHeight: '120px', width: '100%' }}
+                onClick={!step.completed ? () => handleNavigate(step.href) : undefined}
+                aria-label={`${step.title}: ${step.description}`}
+                className={step.completed ? 'setup-guide__step-item setup-guide__step-item--completed' : 'setup-guide__step-item'}
               >
-                <CardContent>
-                  <HStack spacing="md" align="center" justify="between">
-                    {/* Vänster: Ikon + Text */}
-                    <Box className="setup-guide__step-content">
-                      <HStack spacing="md" align="center">
-                        {/* Icon */}
-                        <Icon 
-                          size="xl" 
-                          color={step.completed ? 'success' : 'accent'}
-                        >
-                          {step.completed ? <CheckCircleIcon /> : <IconComponent />}
-                        </Icon>
+                <HStack spacing="md" align="center" justify="between" style={{ width: '100%' }}>
+                  {/* Left: Icon + Content */}
+                  <HStack spacing="md" align="center" style={{ flex: 1 }}>
+                    {/* Icon */}
+                    <Icon
+                      size="lg"
+                      color={step.completed ? 'success' : 'accent'}
+                    >
+                      {step.completed ? <CheckCircleIcon /> : <IconComponent />}
+                    </Icon>
 
-                        {/* Content */}
-                        <VStack spacing="xs" align="start">
-                          <H3>{step.title}</H3>
-                          <Body size="sm" color="secondary">
-                            {step.description}
-                          </Body>
-                          {step.completed && (
-                            <Body size="xs" color="success" weight="medium">
-                              ✓ Klart
-                            </Body>
-                          )}
-                        </VStack>
+                    {/* Content */}
+                    <VStack spacing="xs" align="start" style={{ flex: 1 }}>
+                      <HStack justify="between" align="start" style={{ width: '100%' }}>
+                        <H3>{step.title}</H3>
+                        {step.completed && (
+                          <Tag variant="success" size="small">
+                            Klar
+                          </Tag>
+                        )}
                       </HStack>
-                    </Box>
-
-                    {/* Höger: Knapp */}
-                    {!step.completed && (
-                      <Button 
-                        variant="accent" 
-                        size="sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleNavigate(step.href);
-                        }}
-                      >
-                        Gå till
-                      </Button>
-                    )}
+                      <Body size="sm" color="secondary">
+                        {step.description}
+                      </Body>
+                    </VStack>
                   </HStack>
-                </CardContent>
-              </Card>
+
+                  {/* Right: Button */}
+                  {!step.completed && (
+                    <Button
+                      variant="accent"
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleNavigate(step.href);
+                      }}
+                    >
+                      Gå till
+                    </Button>
+                  )}
+                </HStack>
+              </ListboxItem>
             );
           })}
-        </VStack>
+        </Listbox>
 
         {/* Progress Card */}
         {progress < 100 && (
