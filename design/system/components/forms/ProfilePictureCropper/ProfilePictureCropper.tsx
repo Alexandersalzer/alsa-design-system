@@ -288,8 +288,20 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
 
   // Handle crop confirmation
   const handleCropComplete = useCallback(async () => {
+    console.log('[ProfilePictureCropper] handleCropComplete called', {
+      imageSize,
+      croppedAreaPixels,
+      isProcessing
+    });
+
     if (!imageSize) {
       console.error('[ProfilePictureCropper] No image size available');
+      alert('Bildstorlek saknas. Försök ladda om bilden.');
+      return;
+    }
+
+    if (isProcessing) {
+      console.warn('[ProfilePictureCropper] Already processing');
       return;
     }
 
@@ -478,7 +490,7 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
               variant="primary"
               onClick={handleCropComplete}
               loading={isProcessing}
-              disabled={!imageSize || isProcessing}
+              disabled={isProcessing}
             >
               Bekräfta beskärning
             </Button>
