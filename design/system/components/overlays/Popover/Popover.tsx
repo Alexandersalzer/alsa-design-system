@@ -420,7 +420,7 @@ export const PopoverContent = ({
 
     // Vertical position (fixed positioning from viewport)
     const top = shouldOpenUpward
-      ? triggerRect.top - calculatedMaxHeight - 8
+      ? triggerRect.top - 8  // Position bottom edge 8px above trigger
       : triggerRect.bottom + 8;
 
     setPosition({
@@ -490,7 +490,13 @@ export const PopoverContent = ({
       )}
       style={{
         position: 'fixed',
-        top: `${position.top}px`,
+        ...(position.shouldOpenUpward ? {
+          bottom: `${window.innerHeight - position.top}px`,
+          top: 'auto'
+        } : {
+          top: `${position.top}px`,
+          bottom: 'auto'
+        }),
         left: `${position.left}px`,
         maxHeight: `${position.maxHeight}px`,
         minWidth: width || position.minWidth,
