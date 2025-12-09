@@ -17,12 +17,11 @@
   --z-picker-open: 2000;        /* When picker is open - VERY HIGH */
   
   /* ===== OVERLAY LAYERS ===== */
-
+  --z-modal-backdrop: 3000;
+  --z-modal: 3100;
   --z-popover: 3200;
   --z-tooltip: 3300;
   --z-toast: 3400;
-  --z-modal-backdrop: 3100;
-  --z-modal: 3500;
   
   /* ===== MAXIMUM ===== */
   --z-maximum: 9999;
