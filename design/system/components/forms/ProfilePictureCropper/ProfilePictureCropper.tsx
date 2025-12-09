@@ -206,27 +206,69 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
 
   // When crop area changes (react-easy-crop callback)
   const onCropAreaComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
-    // IMPORTANT: When using objectFit="contain", croppedAreaPixels can be outside image bounds
-    // We need to clamp it to the actual image bounds (512x512)
-    const clampedArea: Area = {
-      x: Math.max(0, Math.min(512, croppedAreaPixels.x)),
-      y: Math.max(0, Math.min(512, croppedAreaPixels.y)),
-      width: Math.max(1, Math.min(512, croppedAreaPixels.width)),
-      height: Math.max(1, Math.min(512, croppedAreaPixels.height))
+    // IMPORTANT: When using objectFit="contain", react-easy-crop returns croppedAreaPixels
+    // in the ORIGINAL image's coordinate space (512x512 in our case).
+    // However, these coordinates can be outside the image bounds when the image is zoomed out
+    // or positioned outside the crop area.
+    //
+    // Since our image is normalized to 512x512, we need to ensure the crop area is within bounds.
+    // We'll use croppedAreaPixels directly but clamp it to the image bounds.
+    
+    if (!imageSize) {
+      // If imageSize is not available yet, store croppedAreaPixels as-is
+      // It will be clamped later in handleCropComplete
+      setCroppedAreaPixels(croppedAreaPixels);
+      return;
+    }
+    
+    // Convert relative coordinates (croppedArea) to absolute pixels in original image space
+    // This is more reliable than using croppedAreaPixels directly when objectFit="contain"
+    const imageWidth = imageSize.width; // Should be 512
+    const imageHeight = imageSize.height; // Should be 512
+    
+    // croppedArea is in relative coordinates (0-1), convert to pixels
+    const absoluteArea: Area = {
+      x: croppedArea.x * imageWidth,
+      y: croppedArea.y * imageHeight,
+      width: croppedArea.width * imageWidth,
+      height: croppedArea.height * imageHeight
+    };
+    
+    // Clamp to image bounds (512x512)
+    let clampedArea: Area = {
+      x: Math.max(0, Math.min(imageWidth - 1, Math.round(absoluteArea.x))),
+      y: Math.max(0, Math.min(imageHeight - 1, Math.round(absoluteArea.y))),
+      width: Math.max(1, Math.min(imageWidth, Math.round(absoluteArea.width))),
+      height: Math.max(1, Math.min(imageHeight, Math.round(absoluteArea.height)))
     };
     
     // Adjust width/height if they extend beyond image bounds
-    if (clampedArea.x + clampedArea.width > 512) {
-      clampedArea.width = 512 - clampedArea.x;
+    if (clampedArea.x + clampedArea.width > imageWidth) {
+      clampedArea.width = imageWidth - clampedArea.x;
     }
-    if (clampedArea.y + clampedArea.height > 512) {
-      clampedArea.height = 512 - clampedArea.y;
+    if (clampedArea.y + clampedArea.height > imageHeight) {
+      clampedArea.height = imageHeight - clampedArea.y;
+    }
+    
+    // Ensure we have a square crop (1:1 aspect ratio)
+    // Take the smaller dimension to ensure it fits
+    const minDimension = Math.min(clampedArea.width, clampedArea.height);
+    clampedArea.width = minDimension;
+    clampedArea.height = minDimension;
+    
+    // Adjust x/y if needed to keep within bounds
+    if (clampedArea.x + clampedArea.width > imageWidth) {
+      clampedArea.x = imageWidth - clampedArea.width;
+    }
+    if (clampedArea.y + clampedArea.height > imageHeight) {
+      clampedArea.y = imageHeight - clampedArea.height;
     }
     
     console.log('[ProfilePictureCropper] onCropAreaComplete called:', {
       croppedArea, // Relative coordinates (0-1)
-      croppedAreaPixels, // Absolute pixel coordinates (may be outside bounds)
-      clampedArea, // Clamped to image bounds
+      croppedAreaPixels, // Absolute pixel coordinates from react-easy-crop (may be outside bounds)
+      absoluteArea, // Converted from relative coordinates
+      clampedArea, // Clamped and squared to image bounds
       imageSize,
       zoom
     });
