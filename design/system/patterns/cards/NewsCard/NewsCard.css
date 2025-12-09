@@ -76,11 +76,19 @@
 
 /* ===== IMAGE STYLING ===== */
 .news-card__image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
+}
+
+/* Alternative: use contain to show full image */
+.news-card__image-container--contain img {
+  object-fit: contain;
 }
 
 /* Ensure Clickable has overflow hidden for featured variant */
