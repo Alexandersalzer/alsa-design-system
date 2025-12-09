@@ -40,7 +40,7 @@ export interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
   active?: boolean;
   /** Loading state */
   loading?: boolean;
-  /** Enable automatic tooltip using aria-label as content (default: true) */
+  /** Enable tooltip - if true, uses aria-label as content, or use tooltipContent for custom text (default: false) */
   tooltip?: boolean;
   /** Custom tooltip content (overrides aria-label) */
   tooltipContent?: React.ReactNode;
@@ -64,7 +64,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
   className,
   disabled,
   'aria-label': ariaLabel,
-  tooltip = true,
+  tooltip = false,
   tooltipContent,
   tooltipPlacement = 'top',
   tooltipColor = 'default',
