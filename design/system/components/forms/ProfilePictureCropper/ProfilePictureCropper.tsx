@@ -206,13 +206,31 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
 
   // When crop area changes (react-easy-crop callback)
   const onCropAreaComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
+    // IMPORTANT: When using objectFit="contain", croppedAreaPixels can be outside image bounds
+    // We need to clamp it to the actual image bounds (512x512)
+    const clampedArea: Area = {
+      x: Math.max(0, Math.min(512, croppedAreaPixels.x)),
+      y: Math.max(0, Math.min(512, croppedAreaPixels.y)),
+      width: Math.max(1, Math.min(512, croppedAreaPixels.width)),
+      height: Math.max(1, Math.min(512, croppedAreaPixels.height))
+    };
+    
+    // Adjust width/height if they extend beyond image bounds
+    if (clampedArea.x + clampedArea.width > 512) {
+      clampedArea.width = 512 - clampedArea.x;
+    }
+    if (clampedArea.y + clampedArea.height > 512) {
+      clampedArea.height = 512 - clampedArea.y;
+    }
+    
     console.log('[ProfilePictureCropper] onCropAreaComplete called:', {
       croppedArea, // Relative coordinates (0-1)
-      croppedAreaPixels, // Absolute pixel coordinates in original image space
+      croppedAreaPixels, // Absolute pixel coordinates (may be outside bounds)
+      clampedArea, // Clamped to image bounds
       imageSize,
       zoom
     });
-    setCroppedAreaPixels(croppedAreaPixels);
+    setCroppedAreaPixels(clampedArea);
   }, [imageSize, zoom]);
 
   // Create image element from URL
@@ -367,20 +385,38 @@ export const ProfilePictureCropper: React.FC<ProfilePictureCropperProps> = ({
         console.log('[ProfilePictureCropper] Calculated crop area:', finalCropArea);
       }
 
-      // IMPORTANT: react-easy-crop with objectFit="contain" returns croppedAreaPixels
-      // in the ORIGINAL image's coordinate space (512x512 in our case)
-      // According to react-easy-crop docs, croppedAreaPixels is ALWAYS in original image space
-      // regardless of zoom, so we can use them directly
+      // IMPORTANT: react-easy-crop with objectFit="contain" can return croppedAreaPixels
+      // that are OUTSIDE the image bounds when the image is zoomed out or positioned outside
+      // We need to clamp the crop area to the actual image bounds (512x512)
       
-      // The image is already normalized to 512x512, so croppedAreaPixels should already be correct
-      // But we need to ensure they're valid and within bounds (0-512)
-      // Also ensure width/height don't exceed image bounds
-      const cropX = Math.max(0, Math.min(511, Math.round(finalCropArea.x)));
-      const cropY = Math.max(0, Math.min(511, Math.round(finalCropArea.y)));
+      // The image is 512x512, so we need to ensure crop area is within [0, 512] for both x/y and width/height
+      // If crop area extends outside, we need to adjust it to fit within bounds
+      
+      // Calculate the actual crop area within image bounds
+      // If x/y is negative, start from 0 and reduce width/height accordingly
+      // If width/height extends beyond 512, clamp it
+      let cropX = Math.round(finalCropArea.x);
+      let cropY = Math.round(finalCropArea.y);
+      let cropWidth = Math.round(finalCropArea.width);
+      let cropHeight = Math.round(finalCropArea.height);
+      
+      // Adjust if crop starts outside image bounds (negative coordinates)
+      if (cropX < 0) {
+        cropWidth += cropX; // Reduce width by the negative offset
+        cropX = 0;
+      }
+      if (cropY < 0) {
+        cropHeight += cropY; // Reduce height by the negative offset
+        cropY = 0;
+      }
+      
+      // Clamp to image bounds (512x512)
+      cropX = Math.max(0, Math.min(511, cropX));
+      cropY = Math.max(0, Math.min(511, cropY));
       const maxWidth = 512 - cropX;
       const maxHeight = 512 - cropY;
-      const cropWidth = Math.max(1, Math.min(maxWidth, Math.round(finalCropArea.width)));
-      const cropHeight = Math.max(1, Math.min(maxHeight, Math.round(finalCropArea.height)));
+      cropWidth = Math.max(1, Math.min(maxWidth, cropWidth));
+      cropHeight = Math.max(1, Math.min(maxHeight, cropHeight));
       
       const normalizedCropArea = {
         x: cropX,
