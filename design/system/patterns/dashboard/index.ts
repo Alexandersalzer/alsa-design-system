@@ -12,4 +12,5 @@ export * from './GitHubInfo';
 
 // ===== SETUP & ONBOARDING =====
 export * from './SetupGuide';
+export type { SetupStep } from './SetupGuide';
 export * from './ProgressButton';

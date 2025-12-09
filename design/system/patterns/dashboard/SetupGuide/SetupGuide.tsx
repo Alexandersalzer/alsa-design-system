@@ -32,7 +32,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 // ===== TYPES =====
-interface SetupStep {
+export interface SetupStep {
   key: string;
   title: string;
   description: string;
