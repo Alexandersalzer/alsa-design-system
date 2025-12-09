@@ -3,9 +3,6 @@
 // MAIN PATTERN EXPORTS - All pattern components
 // ===============================================
 
-// ===== PAGE PATTERNS =====
-export * from './page';
-
 export * from './ConfirmationDialog';
 export * from './selection';
 

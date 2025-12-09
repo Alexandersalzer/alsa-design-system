@@ -36,6 +36,15 @@
   --border-code-component: var(--border-default);
 
   /* =========================================================
+     4.5 NUMERIC / OTP INPUT TOKENS
+     For verification codes, PIN inputs, numeric displays
+     ========================================================= */
+  --font-numeric-family: var(--foundation-font-numeric);
+  --font-numeric-weight: var(--foundation-weight-medium);
+  --font-numeric-features: var(--foundation-font-numeric-features);
+  --text-numeric-color: var(--text-primary);
+
+  /* =========================================================
      5. DISPLAY SIZES
      ========================================================= */
   --font-display-xl-size: var(--selected-font-size-6xl);

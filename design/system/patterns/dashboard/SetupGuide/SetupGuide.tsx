@@ -20,7 +20,6 @@ import {
   Box,
   Divider
 } from '../../../components';
-import { PageSection } from '../page';
 import {
   CheckCircleIcon,
   CircleStackIcon,
@@ -155,35 +154,33 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
   // Om done - visa gratulationskort (om inte redan sett)
   if (phase === 'done' && showCongratulations) {
     return (
-      <PageSection>
-        <Card variant="elevated">
-          <CardContent>
-            <VStack spacing="lg" align="center" className="setup-guide__celebration">
-              <Box className="setup-guide__celebration-emoji">
-                🎉
-              </Box>
-              <VStack spacing="sm" align="center">
-                <H2>Grattis, din webbplats är nu live!</H2>
-                <Body size="lg" color="secondary" align="center">
-                  Din webbplats är publicerad och tillgänglig för alla besökare
-                </Body>
-              </VStack>
-              <Button 
-                variant="accent" 
-                size="lg"
-                onClick={() => {
-                  if (onDismissCongratulations) {
-                    onDismissCongratulations();
-                  }
-                  handleNavigate('/website');
-                }}
-              >
-                Visa min webbplats
-              </Button>
+      <Card variant="elevated">
+        <CardContent>
+          <VStack spacing="lg" align="center" className="setup-guide__celebration">
+            <Box className="setup-guide__celebration-emoji">
+              🎉
+            </Box>
+            <VStack spacing="sm" align="center">
+              <H2>Grattis, din webbplats är nu live!</H2>
+              <Body size="lg" color="secondary" align="center">
+                Din webbplats är publicerad och tillgänglig för alla besökare
+              </Body>
             </VStack>
-          </CardContent>
-        </Card>
-      </PageSection>
+            <Button
+              variant="accent"
+              size="lg"
+              onClick={() => {
+                if (onDismissCongratulations) {
+                  onDismissCongratulations();
+                }
+                handleNavigate('/website');
+              }}
+            >
+              Visa min webbplats
+            </Button>
+          </VStack>
+        </CardContent>
+      </Card>
     );
   }
   
@@ -194,10 +191,10 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
 
   // Visa setup-guide
   return (
-    <PageSection className={className}>
+    <div className={className}>
       {/* Visuell separator */}
       <Divider className="setup-guide__divider" />
-      
+
       <VStack spacing="xl">
         {/* Header */}
         <VStack spacing="sm">
@@ -302,7 +299,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
           </Card>
         )}
       </VStack>
-    </PageSection>
+    </div>
   );
 };
 
