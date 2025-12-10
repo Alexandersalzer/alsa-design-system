@@ -72,25 +72,48 @@
 }
 
 /* ==========================================================
-   ACCENT BUTTON (AUTO-ADAPTIVE) ✨ UPDATED
-   Now uses intent tokens - respects accent intensity
-   Same as "brand" variant
+   ACCENT BUTTON ✨ UPDATED
+   ⚠️ VIKTIGT: Accent-knappar ska ALLTID visa accent-färg
+   Använder direkt accent-tokens (inte intent tokens) så att de 
+   alltid visar accent-färgen oavsett accent intensity setting
    ========================================================== */
 
 :root {
-  --surface-button-accent: var(--intent-action-primary);
-  --surface-button-accent-hover: var(--intent-action-primary-hover);
-  --surface-button-accent-active: var(--intent-action-primary-active);
-  --surface-button-accent-disabled: var(--intent-action-primary-disabled);
+  /* Använd direkt accent-färger istället för intent tokens
+     så att knappar alltid är accent-färgade, även i monochrome mode */
+  --surface-button-accent: var(--accent-600);
+  --surface-button-accent-hover: var(--accent-700);
+  --surface-button-accent-active: var(--accent-800);
+  --surface-button-accent-disabled: var(--accent-400);
 
-  --text-button-accent: var(--intent-text-on-action);
+  --text-button-accent: var(--text-on-accent);
   --text-button-accent-disabled: var(--text-disabled);
 
-  --border-button-accent: var(--intent-action-primary);
-  --border-button-accent-hover: var(--intent-action-primary-hover);
-  --border-button-accent-focus: var(--intent-focus-ring);
-  --border-button-accent-active: var(--intent-action-primary-active);
+  --border-button-accent: var(--accent-600);
+  --border-button-accent-hover: var(--accent-700);
+  --border-button-accent-focus: var(--border-focus);
+  --border-button-accent-active: var(--accent-800);
   --border-button-accent-disabled: var(--border-disabled);
+}
+
+/* ⚠️ FIX: Override accent intensity för accent-knappar
+   Accent-knappar ska ALLTID vara accent-färgade, även i monochrome/discrete mode */
+[data-accent-intensity="monochrome"],
+[data-accent-intensity="discrete"],
+[data-accent-intensity="normal"],
+[data-accent-intensity="vibrant"] {
+  /* Tvinga accent-knappar att alltid använda accent-färger direkt */
+  --surface-button-accent: var(--accent-600) !important;
+  --surface-button-accent-hover: var(--accent-700) !important;
+  --surface-button-accent-active: var(--accent-800) !important;
+  --surface-button-accent-disabled: var(--accent-400) !important;
+
+  --text-button-accent: var(--always-white) !important;
+  --text-button-accent-disabled: var(--text-disabled) !important;
+
+  --border-button-accent: var(--accent-600) !important;
+  --border-button-accent-hover: var(--accent-700) !important;
+  --border-button-accent-active: var(--accent-800) !important;
 }
 
 /* ==========================================================
