@@ -106,9 +106,9 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
     setPriceLoading(false);
   }, [showPriceInButton, showBasePriceAlways, basePackagePrice]);
 
-  const isFirstStep = currentStep === 0;
+  const isFirstStep = currentStep <= 0;
   const isLastStep = currentStep === steps.length - 1;
-  const currentStepData = steps[currentStep];
+  const currentStepData = currentStep >= 0 ? steps[currentStep] : null;
 
   // Determine if we should show content
   const showContent = !hideContent && !navigationOnly && !!currentStepData;
