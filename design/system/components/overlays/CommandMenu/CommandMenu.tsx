@@ -8,6 +8,8 @@ import { cn } from '../../../utils/cn';
 import { Icon } from '../../media';
 import { MagnifyingGlassIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { Typography } from '../../Typography';
+import { Listbox, ListboxItem } from '../../lists/Listbox';
+import { Body } from '../../Typography';
 
 // ===== TYPES =====
 export interface CommandItem {
@@ -259,52 +261,39 @@ export const CommandMenu = forwardRef<HTMLDivElement, CommandMenuProps>(({
                 >
                   {section}
                 </Typography>
+                <Listbox size="sm">
                 {items.map((command) => {
                   const index = currentIndex++;
                   const isSelected = index === selectedIndex;
                   const hasChildren = commands.some(cmd => cmd.parent === command.id);
 
                   return (
-                    <button
+                    <ListboxItem
                       key={command.id}
-                      type="button"
-                      className={cn(
-                        'command-menu__item',
-                        isSelected && 'command-menu__item--selected'
-                      )}
+                      size="sm"
+                      selected={isSelected}
                       onClick={() => handleSelect(command)}
+                      leading={command.icon ? <span style={{ display: 'flex' }}>{command.icon}</span> : undefined}
+                      trailing={
+                        hasChildren ? (
+                          <Icon size="xs" color="tertiary">
+                            <ChevronRightIcon />
+                          </Icon>
+                        ) : command.shortcut ? (
+                          <kbd className="command-menu__item-shortcut">
+                            {command.shortcut.replace('$mod', navigator.platform.includes('Mac') ? '⌘' : 'Ctrl')}
+                          </kbd>
+                        ) : undefined
+                      }
                       data-selected={isSelected}
                       role="option"
                       aria-selected={isSelected}
                     >
-                      {/* Icon */}
-                      {command.icon && (
-                        <span className="command-menu__item-icon">
-                          {command.icon}
-                        </span>
-                      )}
-
-                      {/* Title */}
-                      <Typography
-                        variant="body-sm"
-                        className="command-menu__item-title"
-                      >
-                        {command.title}
-                      </Typography>
-
-                      {/* Shortcut or Arrow */}
-                      {hasChildren ? (
-                        <Icon size="xs" color="tertiary" className="command-menu__item-arrow">
-                          <ChevronRightIcon />
-                        </Icon>
-                      ) : command.shortcut && (
-                        <kbd className="command-menu__item-shortcut">
-                          {command.shortcut.replace('$mod', navigator.platform.includes('Mac') ? '⌘' : 'Ctrl')}
-                        </kbd>
-                      )}
-                    </button>
+                      <Body size="sm">{command.title}</Body>
+                    </ListboxItem>
                   );
                 })}
+                </Listbox>
               </div>
             ))
           )}
