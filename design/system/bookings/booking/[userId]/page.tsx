@@ -24,8 +24,18 @@ interface PublicBookingPageProps {
 }
 
 export default function PublicBookingPage({ externalId, userId: propUserId, params }: PublicBookingPageProps) {
+  // ✅ ALL HOOKS MUST BE DECLARED FIRST (before any conditional returns)
   const [userId, setUserId] = useState<number | null>(null);
   const [fetchingUserId, setFetchingUserId] = useState(false);
+  const [services, setServices] = useState<Service[]>([]);
+  const [resourceTypes, setResourceTypes] = useState<Service[]>([]); // Categories för rentals
+  const [businessType, setBusinessType] = useState<'services' | 'rentals' | 'both'>('services');
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [createdAppointment, setCreatedAppointment] = useState<any>(null);
   
   // Fetch userId from external_id if needed
   useEffect(() => {
@@ -48,7 +58,9 @@ export default function PublicBookingPage({ externalId, userId: propUserId, para
       const resolvedParams = use(params);
       setUserId(parseInt(resolvedParams.userId));
     }
-  }, [externalId, propUserId, params]);
+  }, [externalId, propUserId, params, userId]);
+  
+  // ✅ NOW conditional returns can happen AFTER all hooks are declared
   
   // Show loading while fetching userId
   if (externalId && fetchingUserId) {
@@ -66,15 +78,6 @@ export default function PublicBookingPage({ externalId, userId: propUserId, para
       </div>
     );
   }
-  const [services, setServices] = useState<Service[]>([]);
-  const [resourceTypes, setResourceTypes] = useState<Service[]>([]); // Categories för rentals
-  const [businessType, setBusinessType] = useState<'services' | 'rentals' | 'both'>('services');
-  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [createdAppointment, setCreatedAppointment] = useState<any>(null);
 
   // Helper function för användarvänliga felmeddelanden
   const getErrorMessage = (error: any, defaultMessage: string): string => {
