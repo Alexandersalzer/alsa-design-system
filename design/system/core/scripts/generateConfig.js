@@ -16,7 +16,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const API_BASE_URL = process.env.API_URL || 'https://devapi.blimpify.com';
+const API_BASE_URL = process.env.API_URL || 'https://devapi.blimpify-im.com';
 const EXTERNAL_ID = process.env.NEXT_PUBLIC_EXTERNAL_ID;
 
 /**
