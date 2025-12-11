@@ -4,19 +4,13 @@
  */
 
 export interface ApplicationConfig {
-  routes: Record<string, string>; // locale -> path mapping
+  routes: string[];
   requiresUserId: boolean;
 }
 
 export const APPLICATION_REGISTRY = {
   bookings: {
-    routes: {
-      sv: '/boka',
-      en: '/booking',
-      es: '/reservar',
-      de: '/buchen',
-      fr: '/reserver'
-    },
+    routes: ['/booking'],
     requiresUserId: true
   }
 } as const;
