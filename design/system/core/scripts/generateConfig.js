@@ -102,7 +102,7 @@ async function generateConfig() {
   if (activeApplications.length > 0) {
     console.log(`   ✅ Found ${activeApplications.length} active application(s):`);
     activeApplications.forEach(app => {
-      console.log(`      • ${app.name} (${app.key})`);
+      console.log(`      • ${app}`);
     });
   } else {
     console.log('   ℹ️  No active applications found (only content pages will be generated)');
