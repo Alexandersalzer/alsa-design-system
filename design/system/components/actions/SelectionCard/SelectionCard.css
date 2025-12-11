@@ -8,8 +8,8 @@
   position: relative;
   display: flex;
   padding: var(--foundation-space-4);
-  border-radius: var(--radius-card);
-  border: 2px solid var(--border-subtle);
+  border-radius: var(--radius-button);
+  border: 1px solid var(--border-subtle);
   background-color: var(--surface-card);
   cursor: pointer;
   outline: none;
@@ -17,8 +17,7 @@
   transition:
     border-color var(--foundation-duration-fast) var(--foundation-ease-out),
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
-    box-shadow var(--foundation-duration-fast) var(--foundation-ease-out),
-    transform var(--foundation-duration-fast) var(--foundation-ease-out);
+    box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
 /* ===== ORIENTATION VARIANTS ===== */
@@ -71,12 +70,11 @@
 
 /* ===== INTERACTIVE STATES ===== */
 
-/* Hover */
+/* Hover - Only for unselected cards */
 .selection-card:hover:not(.selection-card--disabled):not(.selection-card--selected) {
   border-color: var(--border-default);
   background-color: var(--surface-card-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Focus (keyboard navigation) */
@@ -86,17 +84,16 @@
   box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
-/* Selected state */
+/* Selected state - NO hover effects for radio/color pickers */
 .selection-card--selected {
   border-color: var(--accent-500);
   background-color: var(--surface-accent-subtle);
 }
 
+/* Selected state stays the same on hover - no visual feedback that you can "unselect" */
 .selection-card--selected:hover:not(.selection-card--disabled) {
-  border-color: var(--accent-600);
-  background-color: var(--surface-accent-subtle-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  /* Intentionally empty - selected cards don't change on hover */
+  /* This prevents users from thinking they can toggle off a radio selection */
 }
 
 /* Disabled state */
