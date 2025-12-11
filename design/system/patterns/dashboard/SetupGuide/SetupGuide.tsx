@@ -235,6 +235,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
             return (
               <ListboxItem
                 key={step.key}
+                size="lg"
                 onClick={!step.completed ? () => handleNavigate(step.href) : undefined}
                 disabled={step.completed}
                 aria-label={`${step.title}: ${step.description}`}

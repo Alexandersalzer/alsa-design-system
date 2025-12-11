@@ -103,20 +103,20 @@
 
 /* Size variants */
 .listbox-item--sm {
-  padding: 6px 10px;
-  gap: 8px;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  gap: var(--foundation-space-2);
   font-size: 13px;
 }
 
 .listbox-item--md {
-  padding: 8px 12px;
-  gap: 12px;
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+  gap: var(--foundation-space-3);
   font-size: 14px;
 }
 
 .listbox-item--lg {
-  padding: 12px 16px;
-  gap: 16px;
+  padding: var(--foundation-space-4) var(--foundation-space-5);
+  gap: var(--foundation-space-4);
   font-size: 15px;
 }
 
