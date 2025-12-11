@@ -28,7 +28,7 @@ export function getActiveApplicationRoutes(config: Config): ApplicationRoute[] {
         routes.push({
           path: route,
           app: appName,
-          props: appConfig.requiresUserId ? { userId: config.user.user_id } : {}
+          props: appConfig.requiresUserId ? { externalId: config.user.external_id } : {}
         });
       }
     }

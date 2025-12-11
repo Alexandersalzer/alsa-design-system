@@ -18,23 +18,53 @@ import BookingWizard from './components/BookingWizard';
 import type { Service, BookingFormData } from './types';
 
 interface PublicBookingPageProps {
-  userId: number;
+  externalId?: string;
+  userId?: number; // Deprecated: for backward compatibility
   params?: Promise<{ userId: string }>; // Optional for backward compatibility
 }
 
-export default function PublicBookingPage({ userId: propUserId, params }: PublicBookingPageProps) {
-  // Support both prop-based userId (new) and params-based userId (backward compatibility)
-  let userId: number;
+export default function PublicBookingPage({ externalId, userId: propUserId, params }: PublicBookingPageProps) {
+  const [userId, setUserId] = useState<number | null>(null);
+  const [fetchingUserId, setFetchingUserId] = useState(false);
   
-  if (propUserId) {
-    userId = propUserId;
-  } else if (params) {
-    // Fallback to params for backward compatibility - but this requires React.use()
-    const { use } = React;
-    const resolvedParams = use(params);
-    userId = parseInt(resolvedParams.userId);
-  } else {
-    throw new Error('PublicBookingPage requires either userId prop or params');
+  // Fetch userId from external_id if needed
+  useEffect(() => {
+    if (externalId && !userId) {
+      setFetchingUserId(true);
+      // Extract userId from API - we need to add this endpoint or use existing user lookup
+      // For now, we'll use the booking endpoint which includes user_id in response
+      apiClient.get(`/labs/bookings/public/services?external_id=${externalId}`)
+        .then(response => {
+          if (response.data.success && response.data.user_id) {
+            setUserId(response.data.user_id);
+          }
+        })
+        .catch(err => console.error('Error fetching user_id:', err))
+        .finally(() => setFetchingUserId(false));
+    } else if (propUserId) {
+      setUserId(propUserId);
+    } else if (params) {
+      const { use } = React;
+      const resolvedParams = use(params);
+      setUserId(parseInt(resolvedParams.userId));
+    }
+  }, [externalId, propUserId, params]);
+  
+  // Show loading while fetching userId
+  if (externalId && fetchingUserId) {
+    return (
+      <div style={{ padding: 'var(--foundation-space-xl)', textAlign: 'center' }}>
+        <Body>Laddar bokningssystem...</Body>
+      </div>
+    );
+  }
+  
+  if (!userId) {
+    return (
+      <div style={{ padding: 'var(--foundation-space-xl)', textAlign: 'center' }}>
+        <Body>Kunde inte ladda bokningssystem.</Body>
+      </div>
+    );
   }
   const [services, setServices] = useState<Service[]>([]);
   const [resourceTypes, setResourceTypes] = useState<Service[]>([]); // Categories för rentals
