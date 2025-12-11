@@ -2,7 +2,6 @@
  * Dynamic Application Page
  * Universal renderer for applications
  */
-'use client';
 
 import React from 'react';
 import type { ApplicationRoute } from '../applications/loader';
