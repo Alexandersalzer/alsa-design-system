@@ -1,0 +1,179 @@
+/* ===============================================
+   design/system/components/actions/SelectionCard/SelectionCard.css
+   UNIFIED SELECTION CARD STYLES
+   ============================================== */
+
+/* ===== BASE CARD ===== */
+.selection-card {
+  position: relative;
+  display: flex;
+  padding: var(--foundation-space-4);
+  border-radius: var(--radius-card);
+  border: 2px solid var(--border-subtle);
+  background-color: var(--surface-card);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  transition:
+    border-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    background-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    box-shadow var(--foundation-duration-fast) var(--foundation-ease-out),
+    transform var(--foundation-duration-fast) var(--foundation-ease-out);
+}
+
+/* ===== ORIENTATION VARIANTS ===== */
+
+/* Vertical: Icon/image above text (default for grid cards) */
+.selection-card--vertical {
+  flex-direction: column;
+}
+
+.selection-card--vertical .selection-card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--foundation-space-2);
+  flex: 1;
+}
+
+/* Horizontal: Icon/image beside text (list-like) */
+.selection-card--horizontal {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--foundation-space-3);
+}
+
+.selection-card--horizontal .selection-card__content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--foundation-space-3);
+  flex: 1;
+}
+
+/* ===== SIZE VARIANTS ===== */
+
+.selection-card--sm {
+  padding: var(--foundation-space-3);
+  gap: var(--foundation-space-2);
+}
+
+.selection-card--md {
+  padding: var(--foundation-space-4);
+  gap: var(--foundation-space-3);
+}
+
+.selection-card--lg {
+  padding: var(--foundation-space-5);
+  gap: var(--foundation-space-4);
+}
+
+/* ===== INTERACTIVE STATES ===== */
+
+/* Hover */
+.selection-card:hover:not(.selection-card--disabled):not(.selection-card--selected) {
+  border-color: var(--border-default);
+  background-color: var(--surface-card-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Focus (keyboard navigation) */
+.selection-card:focus-visible:not(.selection-card--disabled) {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+/* Selected state */
+.selection-card--selected {
+  border-color: var(--accent-500);
+  background-color: var(--surface-accent-subtle);
+}
+
+.selection-card--selected:hover:not(.selection-card--disabled) {
+  border-color: var(--accent-600);
+  background-color: var(--surface-accent-subtle-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Disabled state */
+.selection-card--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ===== INDICATOR POSITIONING ===== */
+
+.selection-card--indicator-checkbox,
+.selection-card--indicator-radio {
+  /* Make room for indicator */
+  padding-right: var(--foundation-space-10);
+}
+
+.selection-card__indicator {
+  position: absolute;
+  top: var(--foundation-space-3);
+  right: var(--foundation-space-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* ===== NATIVE INPUT STYLING ===== */
+
+.selection-card__input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  pointer-events: auto;
+  margin: 0;
+  accent-color: var(--accent-500);
+}
+
+.selection-card__input[type="checkbox"] {
+  border-radius: var(--radius-sm);
+}
+
+.selection-card__input[type="radio"] {
+  border-radius: 50%;
+}
+
+/* ===== CONTENT AREA ===== */
+
+.selection-card__content {
+  width: 100%;
+  min-width: 0; /* Allow flex children to shrink */
+}
+
+/* Text wrapping */
+.selection-card__content > * {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* ===== REDUCED MOTION ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .selection-card {
+    transition: none;
+  }
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+
+/* Small screens: Force vertical for better mobile UX */
+@media (max-width: 640px) {
+  .selection-card--horizontal {
+    flex-direction: column;
+  }
+
+  .selection-card--horizontal .selection-card__content {
+    flex-direction: column;
+    text-align: center;
+  }
+}
