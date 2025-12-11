@@ -81,7 +81,8 @@
   transition:
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
     color var(--foundation-duration-fast) var(--foundation-ease-out),
-    border-color var(--foundation-duration-fast) var(--foundation-ease-out);
+    border-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    transform var(--foundation-duration-fast) var(--foundation-ease-out);
 }
 
 /* Variant: Card - Subtle border + elevated background */
@@ -136,6 +137,7 @@
 
 .listbox-item--interactive:active:not(.listbox-item--disabled) {
   background-color: var(--surface-pressed);
+  transform: scale(0.98);
 }
 
 /* Focus state */

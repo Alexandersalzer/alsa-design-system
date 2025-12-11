@@ -235,41 +235,24 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
             return (
               <ListboxItem
                 key={step.key}
-                role="listitem"
-                interactive={!step.completed}
                 onClick={!step.completed ? () => handleNavigate(step.href) : undefined}
+                disabled={step.completed}
                 aria-label={`${step.title}: ${step.description}`}
                 className={step.completed ? 'setup-guide__step-item setup-guide__step-item--completed' : 'setup-guide__step-item'}
-              >
-                <HStack spacing="md" align="center" justify="between" style={{ width: '100%' }}>
-                  {/* Left: Icon + Content */}
-                  <HStack spacing="md" align="center" style={{ flex: 1 }}>
-                    {/* Icon */}
-                    <Icon
-                      size="lg"
-                      color={step.completed ? 'success' : 'accent'}
-                    >
-                      {step.completed ? <CheckCircleIcon /> : <IconComponent />}
-                    </Icon>
-
-                    {/* Content */}
-                    <VStack spacing="xs" align="start" style={{ flex: 1 }}>
-                      <HStack justify="between" align="start" style={{ width: '100%' }}>
-                        <H3>{step.title}</H3>
-                        {step.completed && (
-                          <Tag variant="success" size="small">
-                            Klar
-                          </Tag>
-                        )}
-                      </HStack>
-                      <Body size="sm" color="secondary">
-                        {step.description}
-                      </Body>
-                    </VStack>
-                  </HStack>
-
-                  {/* Right: Button */}
-                  {!step.completed && (
+                leading={
+                  <Icon
+                    size="lg"
+                    color={step.completed ? 'success' : 'accent'}
+                  >
+                    {step.completed ? <CheckCircleIcon /> : <IconComponent />}
+                  </Icon>
+                }
+                trailing={
+                  step.completed ? (
+                    <Tag variant="success" size="small">
+                      Klar
+                    </Tag>
+                  ) : (
                     <Button
                       variant="accent"
                       size="sm"
@@ -280,8 +263,15 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                     >
                       Gå till
                     </Button>
-                  )}
-                </HStack>
+                  )
+                }
+              >
+                <VStack spacing="xs" align="start">
+                  <H3>{step.title}</H3>
+                  <Body size="sm" color="secondary">
+                    {step.description}
+                  </Body>
+                </VStack>
               </ListboxItem>
             );
           })}
