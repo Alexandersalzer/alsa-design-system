@@ -161,7 +161,8 @@
   bottom: 0;
   display: flex;
   align-items: center;
-  padding: 0 var(--foundation-space-3);
+  padding-left: var(--foundation-space-3);
+  padding-right: var(--foundation-space-2);
   color: var(--text-muted);
   font-family: var(--font-body-family);
   font-weight: var(--font-body-weight);
@@ -180,7 +181,8 @@
   bottom: 0;
   display: flex;
   align-items: center;
-  padding: 0 var(--foundation-space-3);
+  padding-left: var(--foundation-space-2);
+  padding-right: var(--foundation-space-3);
   color: var(--text-muted);
   font-family: var(--font-body-family);
   font-weight: var(--font-body-weight);
@@ -193,22 +195,40 @@
 }
 
 /* Size variants for start/end content */
-.input-start-content--sm,
+.input-start-content--sm {
+  font-size: var(--font-body-sm-size);
+  padding-left: var(--foundation-space-2);
+  padding-right: var(--foundation-space-1);
+}
+
 .input-end-content--sm {
   font-size: var(--font-body-sm-size);
-  padding: 0 var(--foundation-space-2);
+  padding-left: var(--foundation-space-1);
+  padding-right: var(--foundation-space-2);
 }
 
-.input-start-content--md,
+.input-start-content--md {
+  font-size: var(--font-body-md-size);
+  padding-left: var(--foundation-space-3);
+  padding-right: var(--foundation-space-2);
+}
+
 .input-end-content--md {
   font-size: var(--font-body-md-size);
-  padding: 0 var(--foundation-space-3);
+  padding-left: var(--foundation-space-2);
+  padding-right: var(--foundation-space-3);
 }
 
-.input-start-content--lg,
+.input-start-content--lg {
+  font-size: var(--font-body-lg-size);
+  padding-left: var(--foundation-space-4);
+  padding-right: var(--foundation-space-2);
+}
+
 .input-end-content--lg {
   font-size: var(--font-body-lg-size);
-  padding: 0 var(--foundation-space-4);
+  padding-left: var(--foundation-space-2);
+  padding-right: var(--foundation-space-4);
 }
 
 /* ===== INPUT ICON STYLES ===== */

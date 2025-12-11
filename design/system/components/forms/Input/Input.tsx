@@ -66,12 +66,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const actualType = isPassword && showPassword ? 'text' : type;
 
     // Calculate input padding dynamically
+    // Add extra spacing after the divider for better visual separation
     const inputStyle: React.CSSProperties = {};
     if (startContentWidth > 0) {
-      inputStyle.paddingLeft = `${startContentWidth}px`;
+      inputStyle.paddingLeft = `${startContentWidth + 8}px`;
     }
     if (endContentWidth > 0) {
-      inputStyle.paddingRight = `${endContentWidth}px`;
+      inputStyle.paddingRight = `${endContentWidth + 8}px`;
     }
 
     // Build class names explicitly to avoid type issues
