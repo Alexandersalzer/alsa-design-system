@@ -13,12 +13,14 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   helper?: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  startContent?: ReactNode;
+  endContent?: ReactNode;
   variant?: 'default' | 'search';
   size?: 'sm' | 'md' | 'lg';
   radius?: 'sm' | 'md' | 'lg';
   type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search';
   showPasswordToggle?: boolean;
-  fullWidth?: boolean; // 👈 NEW PROP
+  fullWidth?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -29,12 +31,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     helper,
     leftIcon,
     rightIcon,
+    startContent,
+    endContent,
     variant = 'default',
     size = 'md',
     radius = 'md',
     type = 'text',
     showPasswordToggle = true,
-    fullWidth = false, // 👈 NEW PROP WITH DEFAULT
+    fullWidth = false,
     id,
     ...props
   }, ref) => {
@@ -56,8 +60,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       error ? 'input-error' : null,
       leftIcon ? 'input-with-left-icon' : null,
       rightIcon ? 'input-with-right-icon' : null,
+      startContent ? 'input-with-start-content' : null,
+      endContent ? 'input-with-end-content' : null,
       variant === 'search' ? 'search-input' : null,
-      fullWidth ? 'input--full-width' : null, // 👈 NEW CLASS
+      fullWidth ? 'input--full-width' : null,
       className
     ].filter(Boolean);
 
@@ -72,6 +78,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
         {/* Input wrapper */}
         <div className={cn('input-wrapper', `input-wrapper--${size}`)} style={{ position: 'relative' }}>
+          {/* Start Content (Prefix) */}
+          {startContent && (
+            <div className={cn('input-start-content', `input-start-content--${size}`)}>
+              {startContent}
+            </div>
+          )}
+
           {/* Left Icon */}
           {leftIcon && (
             <div className={cn('input-icon input-icon-left', `input-icon--${size}`)}>
@@ -92,6 +105,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {rightIcon && (
             <div className={cn('input-icon input-icon-right', `input-icon--${size}`)}>
               {rightIcon}
+            </div>
+          )}
+
+          {/* End Content (Suffix) */}
+          {endContent && !shouldShowToggle && (
+            <div className={cn('input-end-content', `input-end-content--${size}`)}>
+              {endContent}
             </div>
           )}
 

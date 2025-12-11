@@ -12,6 +12,7 @@ import { HStack } from '../../../components/layout/hStack/HStack';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { Box } from '../../../components/layout/box/Box';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import './Stepper.css';
 
 // ===== STEP INTERFACE =====
 export interface Step {
