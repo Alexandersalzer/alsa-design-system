@@ -239,7 +239,6 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                 onClick={!step.completed ? () => handleNavigate(step.href) : undefined}
                 disabled={step.completed}
                 aria-label={`${step.title}: ${step.description}`}
-                className={step.completed ? 'setup-guide__step-item setup-guide__step-item--completed' : 'setup-guide__step-item'}
                 leading={
                   <Icon
                     size="lg"
