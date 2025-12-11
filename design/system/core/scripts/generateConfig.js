@@ -24,10 +24,10 @@ const EXTERNAL_ID = process.env.NEXT_PUBLIC_EXTERNAL_ID;
  */
 async function fetchActiveApplications(externalId) {
   try {
-    console.log(`   Fetching from: ${API_BASE_URL}/api/dashboard/public/user/${externalId}/active-applications`);
+    console.log(`   Fetching from: ${API_BASE_URL}/api/public/user/${externalId}/active-applications`);
     
     const response = await fetch(
-      `${API_BASE_URL}/api/dashboard/public/user/${externalId}/active-applications`,
+      `${API_BASE_URL}/api/public/user/${externalId}/active-applications`,
       {
         headers: {
           'Content-Type': 'application/json',
