@@ -68,6 +68,20 @@
   gap: var(--foundation-space-4);
 }
 
+/* ===== VARIANT STYLES ===== */
+
+/* Neutral variant (default) - Subtle, professional styling */
+.selection-card--neutral.selection-card--selected {
+  border-color: var(--border-strong);
+  background-color: var(--surface-subtle);
+}
+
+/* Accent variant - Bold, attention-grabbing styling */
+.selection-card--accent.selection-card--selected {
+  border-color: var(--accent-500);
+  background-color: var(--surface-accent-subtle);
+}
+
 /* ===== INTERACTIVE STATES ===== */
 
 /* Hover - Only for unselected cards */
@@ -82,12 +96,6 @@
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: 0 0 0 3px var(--focus-ring);
-}
-
-/* Selected state - NO hover effects for radio/color pickers */
-.selection-card--selected {
-  border-color: var(--accent-500);
-  background-color: var(--surface-accent-subtle);
 }
 
 /* Selected state stays the same on hover - no visual feedback that you can "unselect" */

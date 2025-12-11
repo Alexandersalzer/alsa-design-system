@@ -12,6 +12,7 @@ import './SelectionCard.css';
 export type SelectionCardOrientation = 'horizontal' | 'vertical';
 export type SelectionCardSize = 'sm' | 'md' | 'lg';
 export type SelectionCardIndicator = 'none' | 'checkbox' | 'radio';
+export type SelectionCardVariant = 'neutral' | 'accent';
 
 export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   children: React.ReactNode;
@@ -27,6 +28,7 @@ export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivEle
   // Layout
   orientation?: SelectionCardOrientation;
   size?: SelectionCardSize;
+  variant?: SelectionCardVariant;
 
   // Radio-specific (for form groups)
   name?: string;
@@ -109,6 +111,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   indicator = 'none',
   orientation = 'vertical',
   size = 'md',
+  variant = 'neutral',
   name,
   value,
   className,
@@ -190,6 +193,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
         'selection-card',
         `selection-card--${size}`,
         `selection-card--${orientation}`,
+        `selection-card--${variant}`,
         `selection-card--indicator-${indicator}`,
         selected && 'selection-card--selected',
         disabled && 'selection-card--disabled',
