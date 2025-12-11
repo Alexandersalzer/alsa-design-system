@@ -145,7 +145,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = React.memo(({
   const progress = React.useMemo(() => {
     if (customProgress !== undefined) return customProgress;
     return steps.length > 0 
-      ? Math.round((completedSteps / steps.length) * 100) 
+        ? Math.round((completedSteps / steps.length) * 100) 
       : 0;
   }, [customProgress, steps.length, completedSteps]);
 
@@ -243,7 +243,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = React.memo(({
                         {/* Content */}
                         <VStack spacing="xs" align="start">
                           <HStack spacing="xs" align="center">
-                            <H3>{step.title}</H3>
+                          <H3>{step.title}</H3>
                             {step.optional && (
                               <Body size="xs" color="secondary" weight="medium">
                                 (Valfritt)
