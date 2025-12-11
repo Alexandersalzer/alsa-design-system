@@ -49,7 +49,8 @@
     "./dist/index.css": "./dist/design/index.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "design/system/core/scripts/generateConfig.js"
   ],
   "scripts": {
     "generate:config": "tsx node_modules/@blimpify-im/ui/dist/design/system/core/scripts/generateConfig.js",
