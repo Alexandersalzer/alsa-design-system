@@ -17,6 +17,7 @@ export interface ApplicationRoute {
  */
 export function getActiveApplicationRoutes(config: Config): ApplicationRoute[] {
   const activeApps = config.applications.active;
+  const locale = config.localization.iso_code;
   const routes: ApplicationRoute[] = [];
   
   for (const app of activeApps) {
@@ -24,13 +25,16 @@ export function getActiveApplicationRoutes(config: Config): ApplicationRoute[] {
       const appName = app as ApplicationName;
       const appConfig = APPLICATION_REGISTRY[appName];
       
-      for (const route of appConfig.routes) {
-        routes.push({
-          path: route,
-          app: appName,
-          props: appConfig.requiresUserId ? { externalId: config.user.external_id } : {}
-        });
-      }
+      // Get locale-specific route or fallback to 'en' or app name
+      const localeRoute = appConfig.routes[locale as keyof typeof appConfig.routes];
+      const fallbackRoute = appConfig.routes['en' as keyof typeof appConfig.routes];
+      const route = localeRoute || fallbackRoute || `/${app}`;
+      
+      routes.push({
+        path: route,
+        app: appName,
+        props: appConfig.requiresUserId ? { externalId: config.user.external_id } : {}
+      });
     }
   }
   
