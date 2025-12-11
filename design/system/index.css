@@ -77,8 +77,6 @@
 @import './components/layout/grid/Grid.css';
 
 /* STEP 5: Pattern components */
-@import './patterns/dashboard/page/PageContent.css';
-@import './patterns/dashboard/page/PageHeader.css';
 @import './patterns/dashboard/selection/CheckboxCard.css';
 @import './patterns/dashboard/selection/DesignRadioCard.css';
 @import './patterns/dashboard/selection/RadioCard.css';

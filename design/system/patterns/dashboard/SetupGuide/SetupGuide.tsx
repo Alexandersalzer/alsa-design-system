@@ -5,7 +5,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import './SetupGuide.css';
 import {
   VStack,
@@ -18,19 +18,21 @@ import {
   Button,
   Icon,
   Box,
-  Divider
+  Divider,
+  Tag
 } from '../../../components';
-import { PageSection } from '../page';
+import { Listbox, ListboxItem } from '../../../components/lists/Listbox';
 import {
   CheckCircleIcon,
   CircleStackIcon,
   GlobeAltIcon,
   ChatBubbleLeftRightIcon,
-  EyeIcon
+  EyeIcon,
+  ClockIcon
 } from '@heroicons/react/24/outline';
 
 // ===== TYPES =====
-interface SetupStep {
+export interface SetupStep {
   key: string;
   title: string;
   description: string;
@@ -128,8 +130,8 @@ const getPhaseText = (phase?: string) => {
 };
 
 // ===== MAIN COMPONENT =====
-export const SetupGuide: React.FC<SetupGuideProps> = React.memo(({ 
-  phase = 'building', 
+export const SetupGuide: React.FC<SetupGuideProps> = ({
+  phase = 'building',
   className,
   onNavigate,
   customSteps,
@@ -137,17 +139,25 @@ export const SetupGuide: React.FC<SetupGuideProps> = React.memo(({
   showCongratulations = true,
   onDismissCongratulations
 }) => {
-  // ⚡ PERFORMANCE: Memoize steps för att undvika onödiga re-beräkningar
-  const steps = React.useMemo(() => customSteps || getSteps(phase), [customSteps, phase]);
-  
-  // ⚡ PERFORMANCE: Memoize progress-beräkning
-  const completedSteps = React.useMemo(() => steps.filter(s => s.completed).length, [steps]);
-  const progress = React.useMemo(() => {
-    if (customProgress !== undefined) return customProgress;
-    return steps.length > 0 
-        ? Math.round((completedSteps / steps.length) * 100) 
-      : 0;
-  }, [customProgress, steps.length, completedSteps]);
+  const steps = customSteps || getSteps(phase);
+
+  // Sort steps: incomplete first, completed last
+  const sortedSteps = useMemo(() => {
+    if (!steps) return [];
+
+    const incomplete = steps.filter(s => !s.completed);
+    const complete = steps.filter(s => s.completed);
+
+    return [...incomplete, ...complete];
+  }, [steps]);
+
+  // Beräkna progress (använd custom om tillgängligt)
+  const completedSteps = sortedSteps.filter(s => s.completed).length;
+  const progress = customProgress !== undefined
+    ? customProgress
+    : (sortedSteps.length > 0
+        ? Math.round((completedSteps / sortedSteps.length) * 100)
+        : 0);
 
   const handleNavigate = (href: string) => {
     if (onNavigate) {
@@ -158,35 +168,33 @@ export const SetupGuide: React.FC<SetupGuideProps> = React.memo(({
   // Om done - visa gratulationskort (om inte redan sett)
   if (phase === 'done' && showCongratulations) {
     return (
-      <PageSection>
-        <Card variant="elevated">
-          <CardContent>
-            <VStack spacing="lg" align="center" className="setup-guide__celebration">
-              <Box className="setup-guide__celebration-emoji">
-                🎉
-              </Box>
-              <VStack spacing="sm" align="center">
-                <H2>Grattis, din webbplats är nu live!</H2>
-                <Body size="lg" color="secondary" align="center">
-                  Din webbplats är publicerad och tillgänglig för alla besökare
-                </Body>
-              </VStack>
-              <Button 
-                variant="accent" 
-                size="lg"
-                onClick={() => {
-                  if (onDismissCongratulations) {
-                    onDismissCongratulations();
-                  }
-                  handleNavigate('/website');
-                }}
-              >
-                Visa min webbplats
-              </Button>
+      <Card variant="elevated">
+        <CardContent>
+          <VStack spacing="lg" align="center" className="setup-guide__celebration">
+            <Box className="setup-guide__celebration-emoji">
+              🎉
+            </Box>
+            <VStack spacing="sm" align="center">
+              <H2>Grattis, din webbplats är nu live!</H2>
+              <Body size="lg" color="secondary" align="center">
+                Din webbplats är publicerad och tillgänglig för alla besökare
+              </Body>
             </VStack>
-          </CardContent>
-        </Card>
-      </PageSection>
+            <Button
+              variant="accent"
+              size="lg"
+              onClick={() => {
+                if (onDismissCongratulations) {
+                  onDismissCongratulations();
+                }
+                handleNavigate('/website');
+              }}
+            >
+              Visa min webbplats
+            </Button>
+          </VStack>
+        </CardContent>
+      </Card>
     );
   }
   
@@ -197,10 +205,10 @@ export const SetupGuide: React.FC<SetupGuideProps> = React.memo(({
 
   // Visa setup-guide
   return (
-    <PageSection className={className}>
+    <div className={className}>
       {/* Visuell separator */}
       <Divider className="setup-guide__divider" />
-      
+
       <VStack spacing="xl">
         {/* Header */}
         <VStack spacing="sm">
@@ -213,74 +221,70 @@ export const SetupGuide: React.FC<SetupGuideProps> = React.memo(({
           </Body>
         </VStack>
 
-        {/* Steps - Vertikal Stack */}
-        <VStack spacing="lg">
-          {steps.map((step) => {
+        {/* Steps - Using Listbox for better accessibility */}
+        <Listbox
+          variant="separated"
+          size="md"
+          spacing="md"
+          role="list"
+        >
+          {sortedSteps.map((step) => {
             const IconComponent = step.icon;
-            
+
             return (
-              <Card 
-                key={step.key} 
-                variant="outlined"
+              <ListboxItem
+                key={step.key}
+                role="listitem"
                 interactive={!step.completed}
-                onCardClick={!step.completed ? () => handleNavigate(step.href) : undefined}
-                className={step.completed ? 'setup-guide__step-card setup-guide__step-card--completed' : 'setup-guide__step-card'}
-                style={{ minHeight: '120px', width: '100%' }}
+                onClick={!step.completed ? () => handleNavigate(step.href) : undefined}
+                aria-label={`${step.title}: ${step.description}`}
+                className={step.completed ? 'setup-guide__step-item setup-guide__step-item--completed' : 'setup-guide__step-item'}
               >
-                <CardContent>
-                  <HStack spacing="md" align="center" justify="between">
-                    {/* Vänster: Ikon + Text */}
-                    <Box className="setup-guide__step-content">
-                      <HStack spacing="md" align="center">
-                        {/* Icon */}
-                        <Icon 
-                          size="xl" 
-                          color={step.completed ? 'success' : 'accent'}
-                        >
-                          {step.completed ? <CheckCircleIcon /> : <IconComponent />}
-                        </Icon>
+                <HStack spacing="md" align="center" justify="between" style={{ width: '100%' }}>
+                  {/* Left: Icon + Content */}
+                  <HStack spacing="md" align="center" style={{ flex: 1 }}>
+                    {/* Icon */}
+                    <Icon
+                      size="lg"
+                      color={step.completed ? 'success' : 'accent'}
+                    >
+                      {step.completed ? <CheckCircleIcon /> : <IconComponent />}
+                    </Icon>
 
-                        {/* Content */}
-                        <VStack spacing="xs" align="start">
-                          <HStack spacing="xs" align="center">
-                          <H3>{step.title}</H3>
-                            {step.optional && (
-                              <Body size="xs" color="secondary" weight="medium">
-                                (Valfritt)
-                              </Body>
-                            )}
-                          </HStack>
-                          <Body size="sm" color="secondary">
-                            {step.description}
-                          </Body>
-                          {step.completed && (
-                            <Body size="xs" color="success" weight="medium">
-                              ✓ Klart
-                            </Body>
-                          )}
-                        </VStack>
+                    {/* Content */}
+                    <VStack spacing="xs" align="start" style={{ flex: 1 }}>
+                      <HStack justify="between" align="start" style={{ width: '100%' }}>
+                        <H3>{step.title}</H3>
+                        {step.completed && (
+                          <Tag variant="success" size="small">
+                            Klar
+                          </Tag>
+                        )}
                       </HStack>
-                    </Box>
-
-                    {/* Höger: Knapp */}
-                    {!step.completed && (
-                      <Button 
-                        variant="accent" 
-                        size="sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleNavigate(step.href);
-                        }}
-                      >
-                        Gå till
-                      </Button>
-                    )}
+                      <Body size="sm" color="secondary">
+                        {step.description}
+                      </Body>
+                    </VStack>
                   </HStack>
-                </CardContent>
-              </Card>
+
+                  {/* Right: Button */}
+                  {!step.completed && (
+                    <Button
+                      variant="accent"
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleNavigate(step.href);
+                      }}
+                    >
+                      Gå till
+                    </Button>
+                  )}
+                </HStack>
+              </ListboxItem>
             );
           })}
-        </VStack>
+        </Listbox>
 
         {/* Progress Card */}
         {progress < 100 && (
@@ -312,9 +316,9 @@ export const SetupGuide: React.FC<SetupGuideProps> = React.memo(({
           </Card>
         )}
       </VStack>
-    </PageSection>
+    </div>
   );
-}, (prevProps, nextProps) => {
+}/*, (prevProps, nextProps) => {
   // ⚡ PERFORMANCE: Custom comparison för att undvika onödiga re-renders
   return (
     prevProps.phase === nextProps.phase &&
@@ -323,7 +327,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = React.memo(({
     prevProps.className === nextProps.className &&
     JSON.stringify(prevProps.customSteps) === JSON.stringify(nextProps.customSteps)
   );
-});
+});*/
 
 SetupGuide.displayName = 'SetupGuide';
 

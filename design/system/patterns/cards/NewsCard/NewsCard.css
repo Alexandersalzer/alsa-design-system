@@ -31,22 +31,26 @@
   overflow: hidden;
   background-color: var(--surface-subtle);
   flex-shrink: 0;
+  display: block;
 }
 
 /* Featured image - full width on top */
 .news-card__image-container--featured {
   width: 100%;
   aspect-ratio: 16 / 9;
-  border-top-left-radius: var(--radius-md);
-  border-top-right-radius: var(--radius-md);
+  border-top-left-radius: var(--foundation-radius-lg);
+  border-top-right-radius: var(--foundation-radius-lg);
 }
 
-/* Compact image - small thumbnail on right */
+/* Compact image - square thumbnail on right */
 .news-card__image-container--compact {
-  width: 80px;
-  height: 80px;
-  min-width: 80px;
-  border-radius: var(--radius-sm);
+  width: 72px;
+  height: 72px;
+  min-width: 72px;
+  max-width: 72px;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--foundation-radius-md);
+  display: block;
 }
 
 /* ===== CONTENT LAYOUT ===== */
@@ -70,15 +74,37 @@
   line-height: 1.5;
 }
 
+/* ===== IMAGE STYLING ===== */
+.news-card__image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* Alternative: use contain to show full image */
+.news-card__image-container--contain img {
+  object-fit: contain;
+}
+
+/* Ensure Clickable has overflow hidden for featured variant */
+.clickable {
+  overflow: hidden;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .news-card__image-container--featured {
     aspect-ratio: 4 / 3;
   }
-  
+
   .news-card__image-container--compact {
-    width: 60px;
-    height: 60px;
-    min-width: 60px;
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
   }
 }

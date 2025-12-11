@@ -12,6 +12,10 @@
   --foundation-font-secondary: var(--font-secondary-name), system-ui, -apple-system, sans-serif;
   --foundation-font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
 
+  /* Numeric/Tabular font for verification codes, OTP inputs, etc. */
+  --foundation-font-numeric: var(--foundation-font-mono);
+  --foundation-font-numeric-features: 'tnum' 1; /* Enable tabular figures */
+
   /* =========================================================
      2. FONT WEIGHTS
      ========================================================= */

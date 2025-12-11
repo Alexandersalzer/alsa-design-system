@@ -280,9 +280,6 @@
   }
 }
 
-/* ===== DARK MODE SUPPORT ===== */
-/* No dark mode overrides needed - semantic tokens handle theme switching automatically */
-
 /* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
   .tooltip {

@@ -159,22 +159,26 @@
   flex-shrink: 0;
 }
 
-.listbox-item-leading--sm,
-.listbox-item-trailing--sm {
+/* Only constrain icons/svgs, not text content */
+.listbox-item-leading--sm > svg,
+.listbox-item-trailing--sm > svg {
   width: 16px;
   height: 16px;
+  flex-shrink: 0;
 }
 
-.listbox-item-leading--md,
-.listbox-item-trailing--md {
+.listbox-item-leading--md > svg,
+.listbox-item-trailing--md > svg {
   width: 20px;
   height: 20px;
+  flex-shrink: 0;
 }
 
-.listbox-item-leading--lg,
-.listbox-item-trailing--lg {
+.listbox-item-leading--lg > svg,
+.listbox-item-trailing--lg > svg {
   width: 24px;
   height: 24px;
+  flex-shrink: 0;
 }
 
 /* ===== LISTBOX ITEM CONTENT ===== */
