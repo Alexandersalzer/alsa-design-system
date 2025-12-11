@@ -3,7 +3,7 @@
 // UPDATED - Added fullWidth prop support
 // ===============================================
 
-import React, { forwardRef, ReactNode, useId, useState } from 'react';
+import React, { forwardRef, ReactNode, useId, useState, useRef, useEffect } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { cn } from '../../../utils/cn';
 
@@ -45,11 +45,34 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const generatedId = useId();
     const inputId = id || `input-${generatedId}`;
     const [showPassword, setShowPassword] = useState(false);
+    const startContentRef = useRef<HTMLDivElement>(null);
+    const endContentRef = useRef<HTMLDivElement>(null);
+    const [startContentWidth, setStartContentWidth] = useState(0);
+    const [endContentWidth, setEndContentWidth] = useState(0);
+
+    // Measure start/end content width
+    useEffect(() => {
+      if (startContentRef.current) {
+        setStartContentWidth(startContentRef.current.offsetWidth);
+      }
+      if (endContentRef.current) {
+        setEndContentWidth(endContentRef.current.offsetWidth);
+      }
+    }, [startContent, endContent]);
 
     // Handle password toggle
     const isPassword = type === 'password';
     const shouldShowToggle = isPassword && showPasswordToggle;
     const actualType = isPassword && showPassword ? 'text' : type;
+
+    // Calculate input padding dynamically
+    const inputStyle: React.CSSProperties = {};
+    if (startContentWidth > 0) {
+      inputStyle.paddingLeft = `${startContentWidth}px`;
+    }
+    if (endContentWidth > 0) {
+      inputStyle.paddingRight = `${endContentWidth}px`;
+    }
 
     // Build class names explicitly to avoid type issues
     const inputClasses = [
@@ -80,7 +103,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <div className={cn('input-wrapper', `input-wrapper--${size}`)} style={{ position: 'relative' }}>
           {/* Start Content (Prefix) */}
           {startContent && (
-            <div className={cn('input-start-content', `input-start-content--${size}`)}>
+            <div ref={startContentRef} className={cn('input-start-content', `input-start-content--${size}`)}>
               {startContent}
             </div>
           )}
@@ -98,6 +121,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             type={actualType}
             className={inputClasses.join(' ')}
+            style={inputStyle}
             {...props}
           />
 
@@ -110,7 +134,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
           {/* End Content (Suffix) */}
           {endContent && !shouldShowToggle && (
-            <div className={cn('input-end-content', `input-end-content--${size}`)}>
+            <div ref={endContentRef} className={cn('input-end-content', `input-end-content--${size}`)}>
               {endContent}
             </div>
           )}

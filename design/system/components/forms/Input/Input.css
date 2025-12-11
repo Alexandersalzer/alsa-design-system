@@ -151,29 +151,7 @@
 }
 
 /* ===== INPUT WITH START/END CONTENT (PREFIX/SUFFIX) ===== */
-.input-with-start-content.input--sm {
-  padding-left: var(--foundation-space-2);
-}
-
-.input-with-start-content.input--md {
-  padding-left: var(--foundation-space-3);
-}
-
-.input-with-start-content.input--lg {
-  padding-left: var(--foundation-space-4);
-}
-
-.input-with-end-content.input--sm {
-  padding-right: var(--foundation-space-2);
-}
-
-.input-with-end-content.input--md {
-  padding-right: var(--foundation-space-3);
-}
-
-.input-with-end-content.input--lg {
-  padding-right: var(--foundation-space-4);
-}
+/* Padding is handled dynamically via inline styles in the component to match content width */
 
 /* ===== INPUT START/END CONTENT STYLES ===== */
 .input-start-content {
