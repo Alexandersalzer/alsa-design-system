@@ -59,25 +59,6 @@ export default function PublicBookingPage({ externalId, userId: propUserId, para
       setUserId(parseInt(resolvedParams.userId));
     }
   }, [externalId, propUserId, params, userId]);
-  
-  // ✅ NOW conditional returns can happen AFTER all hooks are declared
-  
-  // Show loading while fetching userId
-  if (externalId && fetchingUserId) {
-    return (
-      <div style={{ padding: 'var(--foundation-space-xl)', textAlign: 'center' }}>
-        <Body>Laddar bokningssystem...</Body>
-      </div>
-    );
-  }
-  
-  if (!userId) {
-    return (
-      <div style={{ padding: 'var(--foundation-space-xl)', textAlign: 'center' }}>
-        <Body>Kunde inte ladda bokningssystem.</Body>
-      </div>
-    );
-  }
 
   // Helper function för användarvänliga felmeddelanden
   const getErrorMessage = (error: any, defaultMessage: string): string => {
@@ -126,9 +107,18 @@ export default function PublicBookingPage({ externalId, userId: propUserId, para
     return defaultMessage;
   };
 
-  // Hämta services och resource_types (kategorier)
+  // Hämta services och resource_types (kategorier) - MÅSTE VARA PÅ TOP LEVEL
   useEffect(() => {
     const fetchServices = async () => {
+      // Skip if no userId yet
+      if (!userId || isNaN(userId)) {
+        if (userId === null && !externalId && !propUserId && !params) {
+          setError('Vi kunde inte hitta bokningssystemet. Kontrollera länken eller kontakta oss så hjälper vi dig.');
+          setLoading(false);
+        }
+        return;
+      }
+
       try {
         setLoading(true);
         const response = await apiClient.get(`/labs/bookings/public/services?user_id=${userId}`);
@@ -214,13 +204,8 @@ export default function PublicBookingPage({ externalId, userId: propUserId, para
       }
     };
 
-    if (userId && !isNaN(userId)) {
-      fetchServices();
-    } else {
-      setError('Vi kunde inte hitta bokningssystemet. Kontrollera länken eller kontakta oss så hjälper vi dig.');
-      setLoading(false);
-    }
-  }, [userId]);
+    fetchServices();
+  }, [userId]); // Run whenever userId changes
 
   const handleImageError = (serviceId: number) => {
     setImageErrors(prev => new Set(prev).add(serviceId));
@@ -282,6 +267,24 @@ export default function PublicBookingPage({ externalId, userId: propUserId, para
       setSubmitting(false);
     }
   };
+
+  // ✅ Show loading while fetching userId (AFTER all hooks)
+  if (externalId && fetchingUserId) {
+    return (
+      <div style={{ padding: 'var(--foundation-space-xl)', textAlign: 'center' }}>
+        <Body>Laddar bokningssystem...</Body>
+      </div>
+    );
+  }
+  
+  // ✅ Show error if no userId could be resolved (AFTER all hooks)
+  if (!userId) {
+    return (
+      <div style={{ padding: 'var(--foundation-space-xl)', textAlign: 'center' }}>
+        <Body>Kunde inte ladda bokningssystem.</Body>
+      </div>
+    );
+  }
 
   return (
     <div style={{ 
