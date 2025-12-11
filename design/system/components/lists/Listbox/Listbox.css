@@ -137,7 +137,7 @@
 
 .listbox-item--interactive:active:not(.listbox-item--disabled) {
   background-color: var(--surface-pressed);
-  transform: scale(0.98);
+  transform: scale(0.995);
 }
 
 /* Focus state */
