@@ -76,14 +76,14 @@
   user-select: none;
 }
 
-/* Completed step */
-.step-number--completed {
+/* Completed step - Lower priority */
+.step-number.step-number--completed {
   background: var(--surface-hover);
   color: var(--text-secondary);
 }
 
-/* Current step */
-.step-number--current {
+/* Current step - Highest priority, always wins */
+.step-number.step-number--current {
   background: var(--surface-accent);
   color: var(--text-inverse);
   font-weight: var(--foundation-weight-semibold);
@@ -91,28 +91,31 @@
 }
 
 /* Disabled step */
-.step-number--disabled {
+.step-number.step-number--disabled {
   background: var(--surface-disabled);
   color: var(--text-disabled);
   cursor: not-allowed;
 }
 
 /* Clickable step */
-.step-number--clickable {
+.step-number.step-number--clickable {
   cursor: pointer;
 }
 
-.step-number--clickable:hover:not(.step-number--disabled):not(.step-number--current) {
+/* Hover state - only when NOT current and NOT disabled */
+.step-number.step-number--clickable:hover:not(.step-number--disabled):not(.step-number--current) {
   background: var(--surface-hover);
   color: var(--text-primary);
   transform: scale(1.05);
 }
 
-.step-number--clickable:active:not(.step-number--disabled):not(.step-number--current) {
+/* Active state - only when NOT current and NOT disabled */
+.step-number.step-number--clickable:active:not(.step-number--disabled):not(.step-number--current) {
   transform: scale(0.98);
 }
 
-.step-number--clickable:focus-visible {
+/* Focus state - for accessibility */
+.step-number.step-number--clickable:focus-visible {
   outline: 2px solid var(--border-accent);
   outline-offset: 2px;
 }
@@ -182,7 +185,7 @@
     font-size: var(--font-body-xs-size);
   }
 
-  .step-number--current {
+  .step-number.step-number--current {
     box-shadow: 0 0 0 3px var(--surface-accent-muted);
   }
 
@@ -216,7 +219,7 @@
     font-size: 11px;
   }
 
-  .step-number--current {
+  .step-number.step-number--current {
     box-shadow: 0 0 0 2px var(--surface-accent-muted);
   }
 
@@ -247,11 +250,11 @@
                 color var(--foundation-duration-normal) ease;
   }
 
-  .step-number--clickable:hover:not(.step-number--disabled):not(.step-number--current) {
+  .step-number.step-number--clickable:hover:not(.step-number--disabled):not(.step-number--current) {
     transform: none;
   }
 
-  .step-number--clickable:active:not(.step-number--disabled):not(.step-number--current) {
+  .step-number.step-number--clickable:active:not(.step-number--disabled):not(.step-number--current) {
     transform: none;
   }
 }

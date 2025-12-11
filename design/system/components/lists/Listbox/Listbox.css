@@ -76,10 +76,28 @@
   outline: none;
   user-select: none;
   position: relative;
-  
-  transition: 
+  border: 1px solid transparent;
+
+  transition:
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
-    color var(--foundation-duration-fast) var(--foundation-ease-out);
+    color var(--foundation-duration-fast) var(--foundation-ease-out),
+    border-color var(--foundation-duration-fast) var(--foundation-ease-out);
+}
+
+/* Variant: Card - Subtle border + elevated background */
+.listbox-item--variant-card {
+  background-color: var(--surface-card);
+  border-color: var(--border-subtle);
+}
+
+.listbox-item--variant-card.listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  border-color: var(--border-default);
+  background-color: var(--surface-card-hover);
+}
+
+.listbox-item--variant-card.listbox-item--selected {
+  border-color: var(--border-accent);
+  background-color: var(--surface-picker-option-selected);
 }
 
 /* Size variants */

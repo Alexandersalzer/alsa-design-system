@@ -54,23 +54,4 @@
   color: var(--text-default);
 }
 
-/* Progress card */
-.setup-guide__progress-card {
-  background: linear-gradient(135deg, var(--surface-accent-muted) 0%, var(--surface-accent-subtle) 100%);
-}
-
-.setup-guide__progress-track {
-  width: 100%;
-  background-color: var(--surface-elevated);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-  height: 8px;
-}
-
-.setup-guide__progress-bar {
-  height: 100%;
-  background-color: var(--surface-accent);
-  border-radius: var(--radius-full);
-  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
 

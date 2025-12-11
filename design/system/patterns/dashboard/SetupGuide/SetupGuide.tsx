@@ -19,7 +19,8 @@ import {
   Icon,
   Box,
   Divider,
-  Tag
+  Tag,
+  Progress
 } from '../../../components';
 import { Listbox, ListboxItem } from '../../../components/lists/Listbox';
 import {
@@ -288,19 +289,17 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
 
         {/* Progress Card */}
         {progress < 100 && (
-          <Card 
-            variant="outlined"
-            className="setup-guide__progress-card"
-          >
+          <Card variant="outlined">
             <CardContent>
               <VStack spacing="md">
                 {/* Progress Bar */}
-                <div className="setup-guide__progress-track">
-                  <div
-                    className="setup-guide__progress-bar"
-                    style={{ width: `${progress}%` }}
-                  />
-                </div>
+                <Progress
+                  value={progress}
+                  size="md"
+                  color="accent"
+                  rounded
+                  animated
+                />
 
                 {/* Progress Text */}
                 <HStack justify="between" align="center">
