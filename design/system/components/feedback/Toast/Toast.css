@@ -374,62 +374,47 @@
   position: absolute;
   top: 0;
   left: 50%;
-  transform: translateX(-50%);
   width: 400px;
   height: 64px;
   border-radius: var(--radius-toast);
-  background-color: var(--surface-card);
-  border: 1px solid var(--border-default);
+  border: 1px solid;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   pointer-events: none;
-  display: flex;
-  align-items: center;
-  padding: 0 var(--foundation-space-3);
-}
-
-/* Colored left border showing variant type */
-.toast-stack-card::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  border-top-left-radius: var(--radius-toast);
-  border-bottom-left-radius: var(--radius-toast);
 }
 
 .toast-stack-card--1 {
   transform: translateX(-50%) translateY(8px) scale(0.96);
   z-index: 2;
-  opacity: 0.85;
-  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.9;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .toast-stack-card--2 {
   transform: translateX(-50%) translateY(16px) scale(0.92);
   z-index: 1;
-  opacity: 0.7;
-  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.75;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Variant-specific border colors for queue cards */
-.toast-stack-card--info::before {
-  background-color: var(--border-info);
+/* Variant-specific surfaces for queue cards - look like actual toasts */
+.toast-stack-card--info {
+  background-color: var(--surface-info-subtle);
+  border-color: var(--border-info-subtle);
 }
 
-.toast-stack-card--success::before {
-  background-color: var(--border-success);
+.toast-stack-card--success {
+  background-color: var(--surface-success-subtle);
+  border-color: var(--border-success-subtle);
 }
 
-.toast-stack-card--warning::before {
-  background-color: var(--border-warning);
+.toast-stack-card--warning {
+  background-color: var(--surface-warning-subtle);
+  border-color: var(--border-warning-subtle);
 }
 
-.toast-stack-card--error::before {
-  background-color: var(--border-error);
+.toast-stack-card--error {
+  background-color: var(--surface-error-subtle);
+  border-color: var(--border-error-subtle);
 }
 
 @media (max-width: 640px) {
