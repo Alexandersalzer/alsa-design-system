@@ -23,7 +23,7 @@ import type { Service } from '../types';
 interface BookingSuccessProps {
   appointment: any;
   service: Service | null;
-  userId: number;
+  externalId: string;
 }
 
 function formatDate(dateString: string | null | undefined): string {
@@ -53,7 +53,7 @@ function formatDate(dateString: string | null | undefined): string {
 export default function BookingSuccess({
   appointment,
   service,
-  userId
+  externalId
 }: BookingSuccessProps) {
   const [copied, setCopied] = useState(false);
 
@@ -368,7 +368,7 @@ export default function BookingSuccess({
 
           <Body size="sm" color="secondary" style={{ textAlign: 'center' }}>
             <a
-              href={`/bookings/customer/${userId}`}
+              href={`/bookings/customer?external_id=${externalId}`}
               style={{ color: 'var(--accent-500)', textDecoration: 'underline', cursor: 'pointer' }}
             >
               Eller gå till kundportalen för att se och avboka dina bokningar

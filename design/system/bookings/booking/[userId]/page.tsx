@@ -18,15 +18,11 @@ import BookingWizard from './components/BookingWizard';
 import type { Service, BookingFormData } from './types';
 
 interface PublicBookingPageProps {
-  externalId?: string;
-  userId?: number; // Deprecated: for backward compatibility
-  params?: Promise<{ userId: string }>; // Optional for backward compatibility
+  externalId: string; // Required - the only identifier we use now
 }
 
-export default function PublicBookingPage({ externalId, userId: propUserId, params }: PublicBookingPageProps) {
+export default function PublicBookingPage({ externalId }: PublicBookingPageProps) {
   // ✅ ALL HOOKS MUST BE DECLARED FIRST (before any conditional returns)
-  const [userId, setUserId] = useState<number | null>(null);
-  const [fetchingUserId, setFetchingUserId] = useState(false);
   const [services, setServices] = useState<Service[]>([]);
   const [resourceTypes, setResourceTypes] = useState<Service[]>([]); // Categories för rentals
   const [businessType, setBusinessType] = useState<'services' | 'rentals' | 'both'>('services');
@@ -36,29 +32,6 @@ export default function PublicBookingPage({ externalId, userId: propUserId, para
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [createdAppointment, setCreatedAppointment] = useState<any>(null);
-  
-  // Fetch userId from external_id if needed
-  useEffect(() => {
-    if (externalId && !userId) {
-      setFetchingUserId(true);
-      // Extract userId from API - we need to add this endpoint or use existing user lookup
-      // For now, we'll use the booking endpoint which includes user_id in response
-      apiClient.get(`/labs/bookings/public/services?external_id=${externalId}`)
-        .then(response => {
-          if (response.data.success && response.data.user_id) {
-            setUserId(response.data.user_id);
-          }
-        })
-        .catch(err => console.error('Error fetching user_id:', err))
-        .finally(() => setFetchingUserId(false));
-    } else if (propUserId) {
-      setUserId(propUserId);
-    } else if (params) {
-      const { use } = React;
-      const resolvedParams = use(params);
-      setUserId(parseInt(resolvedParams.userId));
-    }
-  }, [externalId, propUserId, params, userId]);
 
   // Helper function för användarvänliga felmeddelanden
   const getErrorMessage = (error: any, defaultMessage: string): string => {
@@ -110,18 +83,15 @@ export default function PublicBookingPage({ externalId, userId: propUserId, para
   // Hämta services och resource_types (kategorier) - MÅSTE VARA PÅ TOP LEVEL
   useEffect(() => {
     const fetchServices = async () => {
-      // Skip if no userId yet
-      if (!userId || isNaN(userId)) {
-        if (userId === null && !externalId && !propUserId && !params) {
-          setError('Vi kunde inte hitta bokningssystemet. Kontrollera länken eller kontakta oss så hjälper vi dig.');
-          setLoading(false);
-        }
+      if (!externalId) {
+        setError('Vi kunde inte hitta bokningssystemet. Kontrollera länken eller kontakta oss så hjälper vi dig.');
+        setLoading(false);
         return;
       }
 
       try {
         setLoading(true);
-        const response = await apiClient.get(`/labs/bookings/public/services?user_id=${userId}`);
+        const response = await apiClient.get(`/labs/bookings/public/services?external_id=${externalId}`);
         if (response.data.success) {
           const servicesData = response.data.services || [];
           const resourceTypesData = response.data.resource_types || [];
@@ -205,7 +175,7 @@ export default function PublicBookingPage({ externalId, userId: propUserId, para
     };
 
     fetchServices();
-  }, [userId]); // Run whenever userId changes
+  }, [externalId]); // Run whenever externalId changes
 
   const handleImageError = (serviceId: number) => {
     setImageErrors(prev => new Set(prev).add(serviceId));
@@ -219,7 +189,7 @@ export default function PublicBookingPage({ externalId, userId: propUserId, para
       setSubmitting(true);
       
       const payload: any = {
-        user_id: userId,
+        external_id: externalId,
         booking_type: bookingData.booking_type,
         service_id: bookingData.service_id,
         customer_name: bookingData.customer_name.trim(),
@@ -268,24 +238,6 @@ export default function PublicBookingPage({ externalId, userId: propUserId, para
     }
   };
 
-  // ✅ Show loading while fetching userId (AFTER all hooks)
-  if (externalId && fetchingUserId) {
-    return (
-      <div style={{ padding: 'var(--foundation-space-xl)', textAlign: 'center' }}>
-        <Body>Laddar bokningssystem...</Body>
-      </div>
-    );
-  }
-  
-  // ✅ Show error if no userId could be resolved (AFTER all hooks)
-  if (!userId) {
-    return (
-      <div style={{ padding: 'var(--foundation-space-xl)', textAlign: 'center' }}>
-        <Body>Kunde inte ladda bokningssystem.</Body>
-      </div>
-    );
-  }
-
   return (
     <div style={{ 
       maxWidth: '900px', 
@@ -301,7 +253,7 @@ export default function PublicBookingPage({ externalId, userId: propUserId, para
                 variant="ghost"
                 size="sm"
                 onClick={() => {
-                  window.location.href = `/bookings/customer/${userId}`;
+                  window.location.href = `/bookings/customer?external_id=${externalId}`;
                 }}
               >
                 Mina bokningar
@@ -311,7 +263,7 @@ export default function PublicBookingPage({ externalId, userId: propUserId, para
         </VStack>
 
         <BookingWizard
-          userId={userId}
+          externalId={externalId}
           services={services}
           resourceTypes={resourceTypes}
           businessType={businessType}
@@ -329,4 +281,3 @@ export default function PublicBookingPage({ externalId, userId: propUserId, para
     </div>
   );
 }
-
