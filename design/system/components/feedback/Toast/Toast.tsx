@@ -106,13 +106,11 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
 }, ref) => {
   const [animationState, setAnimationState] = useState<ToastState>('entering');
   const [isPaused, setIsPaused] = useState(false);
-  const [progress, setProgress] = useState(100);
   const [promiseState, setPromiseState] = useState<'pending' | 'resolved' | 'rejected' | null>(
     promise ? 'pending' : null
   );
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Get effective duration (use prop or variant-specific default)
   const effectiveDuration = duration ?? getDefaultDuration(variant);
@@ -148,7 +146,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
     return () => clearTimeout(enterTimer);
   }, [forceState, onAnimationComplete]);
 
-  // Handle auto-dismiss with progress bar
+  // Handle auto-dismiss
   useEffect(() => {
     if (
       autoDismiss &&
@@ -157,18 +155,6 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
       !isPaused &&
       promiseState !== 'pending' // Don't auto-dismiss while promise is pending
     ) {
-      const startTime = Date.now();
-
-      // Progress bar update
-      if (showProgress) {
-        setProgress(100);
-        progressIntervalRef.current = setInterval(() => {
-          const elapsed = Date.now() - startTime;
-          const remaining = Math.max(0, 100 - (elapsed / effectiveDuration) * 100);
-          setProgress(remaining);
-        }, 16); // ~60fps
-      }
-
       // Auto-dismiss timeout
       timeoutRef.current = setTimeout(() => {
         handleClose();
@@ -179,11 +165,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
-      if (progressIntervalRef.current) {
-        clearInterval(progressIntervalRef.current);
-      }
     };
-  }, [autoDismiss, effectiveDuration, currentState, isPaused, showProgress, promiseState]);
+  }, [autoDismiss, effectiveDuration, currentState, isPaused, promiseState]);
 
   // Handle close with exit animation
   const handleClose = () => {
@@ -282,18 +265,6 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
             <XMarkIcon />
           </Icon>
         </button>
-      )}
-
-      {/* Progress Bar */}
-      {showProgress && autoDismiss && !showLoading && (
-        <div className="toast__progress">
-          <div
-            className="toast__progress-bar"
-            style={{
-              transform: `scaleX(${progress / 100})`,
-            }}
-          />
-        </div>
       )}
     </div>
   );

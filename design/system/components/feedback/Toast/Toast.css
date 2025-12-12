@@ -11,9 +11,9 @@
   gap: var(--space-toast-gap);
   position: relative;
 
-  /* Sizing - FIXED WIDTH for consistency */
+  /* Sizing - FIXED for consistency */
   width: 400px;
-  min-height: 60px;
+  height: 64px;
   padding: var(--space-toast-padding);
 
   /* Base styling */
@@ -376,23 +376,60 @@
   left: 50%;
   transform: translateX(-50%);
   width: 400px;
-  min-height: 60px;
+  height: 64px;
   border-radius: var(--radius-toast);
-  background-color: var(--surface-default);
-  border: 1px solid var(--border-subtle);
-  opacity: 0.6;
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-default);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   pointer-events: none;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--foundation-space-3);
+}
+
+/* Colored left border showing variant type */
+.toast-stack-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-top-left-radius: var(--radius-toast);
+  border-bottom-left-radius: var(--radius-toast);
 }
 
 .toast-stack-card--1 {
-  transform: translateX(-50%) translateY(6px) scale(0.97);
+  transform: translateX(-50%) translateY(8px) scale(0.96);
   z-index: 2;
+  opacity: 0.85;
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .toast-stack-card--2 {
-  transform: translateX(-50%) translateY(12px) scale(0.94);
+  transform: translateX(-50%) translateY(16px) scale(0.92);
   z-index: 1;
-  opacity: 0.4;
+  opacity: 0.7;
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Variant-specific border colors for queue cards */
+.toast-stack-card--info::before {
+  background-color: var(--border-info);
+}
+
+.toast-stack-card--success::before {
+  background-color: var(--border-success);
+}
+
+.toast-stack-card--warning::before {
+  background-color: var(--border-warning);
+}
+
+.toast-stack-card--error::before {
+  background-color: var(--border-error);
 }
 
 @media (max-width: 640px) {
