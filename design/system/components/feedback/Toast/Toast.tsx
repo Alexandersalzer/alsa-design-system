@@ -1,6 +1,6 @@
 // ==============================================
 // src/design-system/components/primitives/Toast/Toast.tsx
-// TOAST COMPONENT - WITH SURFACE VARIANTS, PROGRESS BAR, DRAG TO DISMISS
+// TOAST COMPONENT - WITH SURFACE VARIANTS AND PROGRESS BAR
 // ==============================================
 
 import React, { forwardRef, ReactNode, useEffect, useState, useRef } from 'react';
@@ -107,16 +107,12 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   const [animationState, setAnimationState] = useState<ToastState>('entering');
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(100);
-  const [dragOffset, setDragOffset] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
   const [promiseState, setPromiseState] = useState<'pending' | 'resolved' | 'rejected' | null>(
     promise ? 'pending' : null
   );
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const dragStartXRef = useRef(0);
-  const toastRef = useRef<HTMLDivElement>(null);
 
   // Get effective duration (use prop or variant-specific default)
   const effectiveDuration = duration ?? getDefaultDuration(variant);
@@ -201,7 +197,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
       setAnimationState('exited');
       onAnimationComplete?.('exited');
       onClose?.();
-    }, 200); // Match CSS animation duration (toastSlideOut)
+    }, 300); // Match CSS animation duration (toastSlideOut)
   };
 
   // Pause/resume auto-dismiss on hover
@@ -211,37 +207,6 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
 
   const handleMouseLeave = () => {
     setIsPaused(false);
-  };
-
-  // Drag to dismiss handlers
-  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    setIsDragging(true);
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    dragStartXRef.current = clientX;
-    setIsPaused(true); // Pause auto-dismiss while dragging
-  };
-
-  const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!isDragging) return;
-
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const offset = clientX - dragStartXRef.current;
-    setDragOffset(offset);
-  };
-
-  const handleDragEnd = () => {
-    if (!isDragging) return;
-
-    setIsDragging(false);
-    setIsPaused(false);
-
-    // If dragged more than 100px, dismiss the toast
-    if (Math.abs(dragOffset) > 100) {
-      handleClose();
-    } else {
-      // Snap back to original position
-      setDragOffset(0);
-    }
   };
 
   // Don't render if exited
@@ -260,35 +225,16 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
     className
   );
 
-  const toastStyle = {
-    ...style,
-    transform: dragOffset !== 0 ? `translateX(${dragOffset}px)` : undefined,
-    transition: isDragging ? 'none' : 'transform 200ms cubic-bezier(0.4, 0, 0.2, 1)',
-  };
-
   return (
     <div
-      ref={(node) => {
-        toastRef.current = node;
-        if (typeof ref === 'function') {
-          ref(node);
-        } else if (ref) {
-          ref.current = node;
-        }
-      }}
+      ref={ref}
       className={toastClasses}
       data-state={currentState}
       data-variant={variant}
       data-surface={surface}
-      style={toastStyle}
+      style={style}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onMouseDown={handleDragStart}
-      onMouseMove={handleDragMove}
-      onMouseUp={handleDragEnd}
-      onTouchStart={handleDragStart}
-      onTouchMove={handleDragMove}
-      onTouchEnd={handleDragEnd}
       role="alert"
       aria-live="polite"
       {...props}

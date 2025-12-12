@@ -7,13 +7,13 @@
 .toast {
   /* Layout */
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-toast-gap);
   position: relative;
 
-  /* Sizing */
-  width: 100%;
-  max-width: 400px;
+  /* Sizing - FIXED WIDTH for consistency */
+  width: 400px;
+  min-height: 60px;
   padding: var(--space-toast-padding);
 
   /* Base styling */
@@ -58,26 +58,26 @@
 .toast-container--top-right .toast[data-state="entering"],
 .toast-container--top-left .toast[data-state="entering"],
 .toast-container--top-center .toast[data-state="entering"] {
-  animation: toastSlideInFromTop 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: toastSlideInFromTop 400ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .toast-container--top-right .toast[data-state="exiting"],
 .toast-container--top-left .toast[data-state="exiting"],
 .toast-container--top-center .toast[data-state="exiting"] {
-  animation: toastSlideOutToTop 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  animation: toastSlideOutToTop 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 /* Position-specific entrance animations - BOTTOM positions slide UP */
 .toast-container--bottom-right .toast[data-state="entering"],
 .toast-container--bottom-left .toast[data-state="entering"],
 .toast-container--bottom-center .toast[data-state="entering"] {
-  animation: toastSlideInFromBottom 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: toastSlideInFromBottom 400ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .toast-container--bottom-right .toast[data-state="exiting"],
 .toast-container--bottom-left .toast[data-state="exiting"],
 .toast-container--bottom-center .toast[data-state="exiting"] {
-  animation: toastSlideOutToBottom 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  animation: toastSlideOutToBottom 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 /* ===== TOAST STATUS VARIANTS - SUBTLE (default) ===== */
@@ -290,11 +290,11 @@
 
 /* ===== ANIMATIONS ===== */
 
-/* TOP POSITIONS - Slide down from above */
+/* TOP POSITIONS - Slide down from above with bounce */
 @keyframes toastSlideInFromTop {
   0% {
     opacity: 0;
-    transform: translateY(-100%) scale(0.95);
+    transform: translateY(-20px) scale(0.98);
   }
   100% {
     opacity: 1;
@@ -309,15 +309,15 @@
   }
   100% {
     opacity: 0;
-    transform: translateY(-120%) scale(0.95);
+    transform: translateY(-20px) scale(0.98);
   }
 }
 
-/* BOTTOM POSITIONS - Slide up from below */
+/* BOTTOM POSITIONS - Slide up from below with bounce */
 @keyframes toastSlideInFromBottom {
   0% {
     opacity: 0;
-    transform: translateY(100%) scale(0.95);
+    transform: translateY(20px) scale(0.98);
   }
   100% {
     opacity: 1;
@@ -332,7 +332,7 @@
   }
   100% {
     opacity: 0;
-    transform: translateY(120%) scale(0.95);
+    transform: translateY(20px) scale(0.98);
   }
 }
 
@@ -401,26 +401,7 @@
   align-items: center;
 }
 
-/* Staggered entrance for multiple toasts */
-.toast-container .toast:nth-child(1) {
-  animation-delay: 0ms;
-}
-
-.toast-container .toast:nth-child(2) {
-  animation-delay: 50ms;
-}
-
-.toast-container .toast:nth-child(3) {
-  animation-delay: 100ms;
-}
-
-.toast-container .toast:nth-child(4) {
-  animation-delay: 150ms;
-}
-
-.toast-container .toast:nth-child(5) {
-  animation-delay: 200ms;
-}
+/* Staggered entrance for multiple toasts - removed to prevent overlapping animations */
 
 /* ===== RESPONSIVE PLACEMENT ===== */
 @media (max-width: 640px) {
@@ -455,7 +436,7 @@
   }
 
   .toast {
-    max-width: 100%;
+    width: calc(100vw - var(--foundation-space-4) * 2);
   }
 }
 
