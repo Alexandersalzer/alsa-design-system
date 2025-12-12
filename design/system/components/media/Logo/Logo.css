@@ -49,7 +49,6 @@
   flex-shrink: 0;
   white-space: nowrap;
   line-height: 1 !important;  /* Override any inherited line-height (including .leading-loose) for perfect vertical alignment */
-  display: flex;
   align-items: center;
 }
 
