@@ -123,7 +123,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
       setAnimationState('exited');
       onAnimationComplete?.('exited');
       onClose?.();
-    }, 250); // Match animation duration
+    }, 200); // Match CSS animation duration (toastSlideOut)
   };
 
   // Pause/resume auto-dismiss on hover

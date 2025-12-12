@@ -24,37 +24,46 @@
   /* Typography base */
   font-family: var(--font-body-family);
 
-  /* Animation system */
+  /* Initial hidden state */
   opacity: 0;
-  transform: translateX(100%) scale(0.95);
-
-  /* Base transitions for interactions */
-  transition: 
-    transform var(--foundation-duration-fast) var(--foundation-ease-out),
-    box-shadow var(--foundation-duration-fast) var(--foundation-ease-out),
-    opacity var(--foundation-duration-fast) var(--foundation-ease-out);
-
-  /* Animation delay for staggered effect */
-  animation-delay: var(--toast-delay, 0ms);
-  animation-fill-mode: forwards;
 
   /* Performance optimizations */
   will-change: transform, opacity;
   backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ===== TOAST STATES ===== */
-.toast[data-state="entering"] {
-  animation: toastSlideIn var(--foundation-duration-gentle) var(--foundation-ease-smooth) forwards;
-}
-
+/* Default state for data-state="visible" */
 .toast[data-state="visible"] {
   opacity: 1;
-  transform: translateX(0) scale(1);
+  transform: translate(0, 0);
 }
 
-.toast[data-state="exiting"] {
-  animation: toastSlideOut var(--foundation-duration-normal) var(--foundation-ease-in) forwards;
+/* Position-specific entrance animations - TOP positions slide DOWN */
+.toast-container--top-right .toast[data-state="entering"],
+.toast-container--top-left .toast[data-state="entering"],
+.toast-container--top-center .toast[data-state="entering"] {
+  animation: toastSlideInFromTop 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast-container--top-right .toast[data-state="exiting"],
+.toast-container--top-left .toast[data-state="exiting"],
+.toast-container--top-center .toast[data-state="exiting"] {
+  animation: toastSlideOutToTop 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* Position-specific entrance animations - BOTTOM positions slide UP */
+.toast-container--bottom-right .toast[data-state="entering"],
+.toast-container--bottom-left .toast[data-state="entering"],
+.toast-container--bottom-center .toast[data-state="entering"] {
+  animation: toastSlideInFromBottom 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast-container--bottom-right .toast[data-state="exiting"],
+.toast-container--bottom-left .toast[data-state="exiting"],
+.toast-container--bottom-center .toast[data-state="exiting"] {
+  animation: toastSlideOutToBottom 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
 }
 
 /* ===== TOAST STATUS VARIANTS - SUBTLE (default) ===== */
@@ -139,10 +148,7 @@
   justify-content: center;
   flex-shrink: 0;
 
-  opacity: 0;
-  transform: scale(0.8) rotate(-10deg);
-  animation: iconBounceIn var(--foundation-duration-slow) var(--foundation-ease-bounce) forwards;
-  animation-delay: calc(var(--toast-delay, 0ms) + 100ms);
+  /* No separate animation - animates with parent */
 }
 
 /* Icon colors - subtle variants get stronger icon colors */
@@ -174,11 +180,8 @@
   flex-direction: column;
   gap: var(--foundation-space-1);
   min-width: 0;
-  
-  opacity: 0;
-  transform: translateY(8px);
-  animation: contentSlideUp var(--foundation-duration-normal) var(--foundation-ease-out) forwards;
-  animation-delay: calc(var(--toast-delay, 0ms) + 150ms);
+
+  /* No separate animation - animates with parent */
 }
 
 .toast__title {
@@ -209,13 +212,10 @@
   appearance: none;
 
   transition:
-    background-color var(--foundation-duration-fast) var(--foundation-ease-out),
-    transform var(--foundation-duration-fast) var(--foundation-ease-out);
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  opacity: 0;
-  transform: scale(0.8);
-  animation: buttonFadeIn var(--foundation-duration-normal) var(--foundation-ease-out) forwards;
-  animation-delay: calc(var(--toast-delay, 0ms) + 200ms);
+  /* No separate animation - animates with parent */
 }
 
 .toast__close:hover {
@@ -225,7 +225,7 @@
 
 .toast__close:active {
   transform: scale(0.95);
-  transition-duration: var(--foundation-duration-micro);
+  transition-duration: 100ms;
 }
 
 .toast__close:focus-visible {
@@ -235,98 +235,211 @@
 
 /* ===== ANIMATIONS ===== */
 
-/* Main toast entrance with spring effect */
-@keyframes toastSlideIn {
+/* TOP POSITIONS - Slide down from above */
+@keyframes toastSlideInFromTop {
   0% {
     opacity: 0;
-    transform: translateX(100%) scale(0.95);
-  }
-  60% {
-    opacity: 0.8;
-    transform: translateX(-8px) scale(1.02);
+    transform: translateY(-100%) scale(0.95);
   }
   100% {
     opacity: 1;
-    transform: translateX(0) scale(1);
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Exit animation */
-@keyframes toastSlideOut {
+@keyframes toastSlideOutToTop {
   0% {
     opacity: 1;
-    transform: translateX(0) scale(1);
+    transform: translateY(0) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateX(120%) scale(0.9);
+    transform: translateY(-120%) scale(0.95);
   }
 }
 
-/* Icon bounce animation */
-@keyframes iconBounceIn {
+/* BOTTOM POSITIONS - Slide up from below */
+@keyframes toastSlideInFromBottom {
   0% {
     opacity: 0;
-    transform: scale(0.3) rotate(-45deg);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.1) rotate(5deg);
+    transform: translateY(100%) scale(0.95);
   }
   100% {
     opacity: 1;
-    transform: scale(1) rotate(0deg);
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Content slide up */
-@keyframes contentSlideUp {
+@keyframes toastSlideOutToBottom {
   0% {
-    opacity: 0;
-    transform: translateY(12px);
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
   100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Close button fade in */
-@keyframes buttonFadeIn {
-  0% {
     opacity: 0;
-    transform: scale(0.8);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
+    transform: translateY(120%) scale(0.95);
   }
 }
 
 /* ===== TOAST CONTAINER WITH STACKING ===== */
 .toast-container {
   position: fixed;
-  top: var(--foundation-space-6);
-  right: var(--foundation-space-6);
   z-index: var(--z-toast, 3400);
 
   display: flex;
-  flex-direction: column;
   gap: var(--space-toast-gap);
+  max-height: calc(100vh - var(--foundation-space-6) * 2);
+  overflow: hidden;
 
   pointer-events: none;
-
-  /* Smooth container transitions */
-  transition: transform var(--foundation-duration-normal) var(--foundation-ease-out);
 }
 
 .toast-container .toast {
   pointer-events: auto;
 }
 
-/* Staggered animation system */
-.toast-container .toast:nth-child(1) { --toast-delay: 0ms; }
-.toast-container .toast:nth-child(2) { --toast-delay: 100ms; }
-.toast-container .toast:nth-child(3) { --toast-delay: 200ms; }
-.toast-container .toast:nth-child(4) { --toast-delay: 300ms; }
-.toast-container .toast:nth-child(5) { --toast-delay: 400ms; }
+/* ===== POSITIONING VARIANTS ===== */
+
+/* Top Right (default - slides down from top) */
+.toast-container--top-right {
+  top: var(--foundation-space-6);
+  right: var(--foundation-space-6);
+  flex-direction: column; /* Stack downward */
+}
+
+/* Top Left */
+.toast-container--top-left {
+  top: var(--foundation-space-6);
+  left: var(--foundation-space-6);
+  flex-direction: column;
+}
+
+/* Top Center */
+.toast-container--top-center {
+  top: var(--foundation-space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Bottom Right */
+.toast-container--bottom-right {
+  bottom: var(--foundation-space-6);
+  right: var(--foundation-space-6);
+  flex-direction: column-reverse; /* Stack upward */
+}
+
+/* Bottom Left */
+.toast-container--bottom-left {
+  bottom: var(--foundation-space-6);
+  left: var(--foundation-space-6);
+  flex-direction: column-reverse;
+}
+
+/* Bottom Center */
+.toast-container--bottom-center {
+  bottom: var(--foundation-space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+/* Staggered entrance for multiple toasts */
+.toast-container .toast:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.toast-container .toast:nth-child(2) {
+  animation-delay: 50ms;
+}
+
+.toast-container .toast:nth-child(3) {
+  animation-delay: 100ms;
+}
+
+.toast-container .toast:nth-child(4) {
+  animation-delay: 150ms;
+}
+
+.toast-container .toast:nth-child(5) {
+  animation-delay: 200ms;
+}
+
+/* ===== RESPONSIVE PLACEMENT ===== */
+@media (max-width: 640px) {
+  /* Mobile: Full width at bottom, centered */
+  .toast-container--top-right,
+  .toast-container--top-left,
+  .toast-container--bottom-right,
+  .toast-container--bottom-left {
+    left: var(--foundation-space-4);
+    right: var(--foundation-space-4);
+    transform: none;
+  }
+
+  .toast-container--top-center,
+  .toast-container--bottom-center {
+    left: var(--foundation-space-4);
+    right: var(--foundation-space-4);
+    transform: none;
+  }
+
+  /* Adjust top/bottom spacing on mobile */
+  .toast-container--top-right,
+  .toast-container--top-left,
+  .toast-container--top-center {
+    top: var(--foundation-space-4);
+  }
+
+  .toast-container--bottom-right,
+  .toast-container--bottom-left,
+  .toast-container--bottom-center {
+    bottom: var(--foundation-space-4);
+  }
+
+  .toast {
+    max-width: 100%;
+  }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  /* Simple fade for all positions */
+  .toast-container--top-right .toast[data-state="entering"],
+  .toast-container--top-left .toast[data-state="entering"],
+  .toast-container--top-center .toast[data-state="entering"],
+  .toast-container--bottom-right .toast[data-state="entering"],
+  .toast-container--bottom-left .toast[data-state="entering"],
+  .toast-container--bottom-center .toast[data-state="entering"] {
+    animation: toastFadeIn 200ms ease forwards;
+  }
+
+  .toast-container--top-right .toast[data-state="exiting"],
+  .toast-container--top-left .toast[data-state="exiting"],
+  .toast-container--top-center .toast[data-state="exiting"],
+  .toast-container--bottom-right .toast[data-state="exiting"],
+  .toast-container--bottom-left .toast[data-state="exiting"],
+  .toast-container--bottom-center .toast[data-state="exiting"] {
+    animation: toastFadeOut 150ms ease forwards;
+  }
+
+  @keyframes toastFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes toastFadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+}
