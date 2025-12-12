@@ -7,7 +7,7 @@
 .toast {
   /* Layout */
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--space-toast-gap);
   position: relative;
 
@@ -273,8 +273,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background-color: rgba(0, 0, 0, 0.1);
+  height: 4px;
+  background-color: transparent;
   border-bottom-left-radius: var(--radius-toast);
   border-bottom-right-radius: var(--radius-toast);
   overflow: hidden;
@@ -283,9 +283,10 @@
 .toast__progress-bar {
   height: 100%;
   background-color: currentColor;
-  opacity: 0.6;
+  opacity: 0.3;
   transform-origin: left;
   transition: transform 100ms linear;
+  border-radius: inherit;
 }
 
 /* ===== ANIMATIONS ===== */
@@ -342,31 +343,78 @@
   z-index: var(--z-toast, 3400);
 
   display: flex;
-  gap: var(--space-toast-gap);
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
   max-height: calc(100vh - var(--foundation-space-6) * 2);
-  overflow: hidden;
+  overflow: visible;
 
   pointer-events: none;
 }
 
 .toast-container .toast {
   pointer-events: auto;
+  position: relative;
+  z-index: 3;
+}
+
+/* Stack indicator - shows cards behind the main toast */
+.toast-stack-indicator {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.toast-stack-card {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  min-height: 60px;
+  border-radius: var(--radius-toast);
+  background-color: var(--surface-default);
+  border: 1px solid var(--border-subtle);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.toast-stack-card--1 {
+  transform: translateX(-50%) translateY(6px) scale(0.97);
+  z-index: 2;
+}
+
+.toast-stack-card--2 {
+  transform: translateX(-50%) translateY(12px) scale(0.94);
+  z-index: 1;
+  opacity: 0.4;
+}
+
+@media (max-width: 640px) {
+  .toast-stack-card {
+    width: calc(100vw - var(--foundation-space-4) * 2);
+  }
 }
 
 /* ===== POSITIONING VARIANTS ===== */
 
-/* Top Right (default - slides down from top) */
+/* Top Right */
 .toast-container--top-right {
   top: var(--foundation-space-6);
   right: var(--foundation-space-6);
-  flex-direction: column; /* Stack downward */
+  align-items: flex-end;
 }
 
 /* Top Left */
 .toast-container--top-left {
   top: var(--foundation-space-6);
   left: var(--foundation-space-6);
-  flex-direction: column;
+  align-items: flex-start;
 }
 
 /* Top Center */
@@ -374,7 +422,6 @@
   top: var(--foundation-space-6);
   left: 50%;
   transform: translateX(-50%);
-  flex-direction: column;
   align-items: center;
 }
 
@@ -382,14 +429,14 @@
 .toast-container--bottom-right {
   bottom: var(--foundation-space-6);
   right: var(--foundation-space-6);
-  flex-direction: column-reverse; /* Stack upward */
+  align-items: flex-end;
 }
 
 /* Bottom Left */
 .toast-container--bottom-left {
   bottom: var(--foundation-space-6);
   left: var(--foundation-space-6);
-  flex-direction: column-reverse;
+  align-items: flex-start;
 }
 
 /* Bottom Center */
@@ -397,7 +444,6 @@
   bottom: var(--foundation-space-6);
   left: 50%;
   transform: translateX(-50%);
-  flex-direction: column-reverse;
   align-items: center;
 }
 
