@@ -1,12 +1,12 @@
 // ==============================================
 // src/design-system/components/primitives/Toast/Toast.tsx
-// TOAST COMPONENT - WITH SURFACE VARIANTS
+// TOAST COMPONENT - WITH SURFACE VARIANTS, PROGRESS BAR, DRAG TO DISMISS
 // ==============================================
 
 import React, { forwardRef, ReactNode, useEffect, useState, useRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { Typography } from '../../Typography';
-import { 
+import {
   Icon,
   StatusIcons,
   XMarkIcon
@@ -27,21 +27,45 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
   surface?: ToastSurface;
   /** Optional left icon (defaults to status icon) */
   leftIcon?: ReactNode;
-  /** Show close button */
+  /** Show close button (shows on hover by default) */
   showClose?: boolean;
   /** Additional CSS classes */
   className?: string;
   /** Toast title (optional) */
   title?: string;
-  /** Auto-dismiss duration in milliseconds (0 = no auto-dismiss) */
+  /** Auto-dismiss duration in milliseconds (0 = no auto-dismiss, defaults vary by variant) */
   duration?: number;
   /** Whether the toast should disappear automatically or not */
   autoDismiss?: boolean;
+  /** Show timeout progress bar */
+  showProgress?: boolean;
+  /** Custom end content (e.g., action buttons) */
+  endContent?: ReactNode;
+  /** Promise to track (shows loading state until resolved/rejected) */
+  promise?: Promise<any>;
+  /** Loading component to show while promise is pending */
+  loadingComponent?: ReactNode;
   /** Called when animation completes */
   onAnimationComplete?: (state: ToastState) => void;
   /** Force animation state (for external control) */
   forceState?: ToastState;
 }
+
+// ===== VARIANT-SPECIFIC DURATIONS =====
+const getDefaultDuration = (variant: ToastVariant): number => {
+  switch (variant) {
+    case 'success':
+      return 4000; // Quick confirmation
+    case 'info':
+      return 5000; // Default
+    case 'warning':
+      return 6000; // More time to read
+    case 'error':
+      return 8000; // Critical, needs attention
+    default:
+      return 5000;
+  }
+};
 
 // ===== ICON MAPPING =====
 const getStatusIcon = (variant: ToastVariant): ReactNode => {
@@ -69,8 +93,12 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   onClose,
   title,
   className,
-  duration = 5000,
+  duration,
   autoDismiss = false,
+  showProgress = false,
+  endContent,
+  promise,
+  loadingComponent,
   onAnimationComplete,
   forceState,
   style,
@@ -78,10 +106,38 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
 }, ref) => {
   const [animationState, setAnimationState] = useState<ToastState>('entering');
   const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(100);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [promiseState, setPromiseState] = useState<'pending' | 'resolved' | 'rejected' | null>(
+    promise ? 'pending' : null
+  );
+
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const dragStartXRef = useRef(0);
+  const toastRef = useRef<HTMLDivElement>(null);
+
+  // Get effective duration (use prop or variant-specific default)
+  const effectiveDuration = duration ?? getDefaultDuration(variant);
 
   // Use forced state if provided, otherwise use internal state
   const currentState = forceState || animationState;
+
+  // Handle promise tracking
+  useEffect(() => {
+    if (!promise) return;
+
+    setPromiseState('pending');
+
+    promise
+      .then(() => {
+        setPromiseState('resolved');
+      })
+      .catch(() => {
+        setPromiseState('rejected');
+      });
+  }, [promise]);
 
   // Handle animation lifecycle
   useEffect(() => {
@@ -96,20 +152,42 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
     return () => clearTimeout(enterTimer);
   }, [forceState, onAnimationComplete]);
 
-  // Handle auto-dismiss (if autoDismiss is true)
+  // Handle auto-dismiss with progress bar
   useEffect(() => {
-    if (autoDismiss && duration > 0 && currentState === 'visible' && !isPaused) {
+    if (
+      autoDismiss &&
+      effectiveDuration > 0 &&
+      currentState === 'visible' &&
+      !isPaused &&
+      promiseState !== 'pending' // Don't auto-dismiss while promise is pending
+    ) {
+      const startTime = Date.now();
+
+      // Progress bar update
+      if (showProgress) {
+        setProgress(100);
+        progressIntervalRef.current = setInterval(() => {
+          const elapsed = Date.now() - startTime;
+          const remaining = Math.max(0, 100 - (elapsed / effectiveDuration) * 100);
+          setProgress(remaining);
+        }, 16); // ~60fps
+      }
+
+      // Auto-dismiss timeout
       timeoutRef.current = setTimeout(() => {
         handleClose();
-      }, duration);
+      }, effectiveDuration);
     }
 
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
     };
-  }, [autoDismiss, duration, currentState, isPaused]);
+  }, [autoDismiss, effectiveDuration, currentState, isPaused, showProgress, promiseState]);
 
   // Handle close with exit animation
   const handleClose = () => {
@@ -135,10 +213,45 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
     setIsPaused(false);
   };
 
+  // Drag to dismiss handlers
+  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    setIsDragging(true);
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    dragStartXRef.current = clientX;
+    setIsPaused(true); // Pause auto-dismiss while dragging
+  };
+
+  const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isDragging) return;
+
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const offset = clientX - dragStartXRef.current;
+    setDragOffset(offset);
+  };
+
+  const handleDragEnd = () => {
+    if (!isDragging) return;
+
+    setIsDragging(false);
+    setIsPaused(false);
+
+    // If dragged more than 100px, dismiss the toast
+    if (Math.abs(dragOffset) > 100) {
+      handleClose();
+    } else {
+      // Snap back to original position
+      setDragOffset(0);
+    }
+  };
+
   // Don't render if exited
   if (currentState === 'exited') {
     return null;
   }
+
+  // Show loading state if promise is pending
+  const showLoading = promiseState === 'pending';
+  const displayIcon = showLoading && loadingComponent ? loadingComponent : (leftIcon || getStatusIcon(variant));
 
   const toastClasses = cn(
     'toast',
@@ -147,23 +260,42 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
     className
   );
 
+  const toastStyle = {
+    ...style,
+    transform: dragOffset !== 0 ? `translateX(${dragOffset}px)` : undefined,
+    transition: isDragging ? 'none' : 'transform 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+  };
+
   return (
-    <div 
-      ref={ref} 
+    <div
+      ref={(node) => {
+        toastRef.current = node;
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+      }}
       className={toastClasses}
       data-state={currentState}
       data-variant={variant}
       data-surface={surface}
-      style={style}
+      style={toastStyle}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onMouseDown={handleDragStart}
+      onMouseMove={handleDragMove}
+      onMouseUp={handleDragEnd}
+      onTouchStart={handleDragStart}
+      onTouchMove={handleDragMove}
+      onTouchEnd={handleDragEnd}
       role="alert"
       aria-live="polite"
       {...props}
     >
       {/* Left Icon */}
       <div className="toast__icon-left">
-        {leftIcon || getStatusIcon(variant)}
+        {displayIcon}
       </div>
 
       {/* Content */}
@@ -185,7 +317,14 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
         </Typography>
       </div>
 
-      {/* Close Button */}
+      {/* End Content (action buttons, etc.) */}
+      {endContent && (
+        <div className="toast__end-content">
+          {endContent}
+        </div>
+      )}
+
+      {/* Close Button (shows on hover) */}
       {showClose && (
         <button
           onClick={handleClose}
@@ -197,6 +336,18 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
             <XMarkIcon />
           </Icon>
         </button>
+      )}
+
+      {/* Progress Bar */}
+      {showProgress && autoDismiss && !showLoading && (
+        <div className="toast__progress">
+          <div
+            className="toast__progress-bar"
+            style={{
+              transform: `scaleX(${progress / 100})`,
+            }}
+          />
+        </div>
       )}
     </div>
   );
