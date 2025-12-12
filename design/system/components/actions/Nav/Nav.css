@@ -284,16 +284,16 @@
   justify-content: center !important;
   align-items: center !important;
   gap: 0 !important;
+  position: relative; /* For absolute positioning of label */
 }
 
-/* Hide label and badge in collapsed mode */
+/* Hide label and badge in collapsed mode - use absolute positioning */
 .nav-item--collapsed .nav-item__label,
 .nav-item--collapsed .nav-item__badge {
-  display: none; /* Completely remove from layout */
+  position: absolute;
   opacity: 0;
-  width: 0;
-  overflow: hidden;
   pointer-events: none;
+  visibility: hidden;
   transition: opacity 0.15s ease;
 }
 
@@ -304,14 +304,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative; /* Ensure icon stays in normal flow */
 }
 
-/* Section labels in collapsed mode */
+/* Section labels in collapsed mode - PRESERVE SPACE */
 .nav-root--collapsed .nav-section__label {
   opacity: 0;
-  height: 0;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-  transition: opacity 0.15s ease, height 0.15s ease;
+  color: transparent;
+  pointer-events: none;
+  visibility: hidden;
+  /* Keep padding, height, and margin - just make it invisible */
+  transition: opacity 0.15s ease;
 }
