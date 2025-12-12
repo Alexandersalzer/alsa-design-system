@@ -14,7 +14,7 @@ import { useButton } from '@react-aria/button';
 import { useLocale } from '@react-aria/i18n';
 import { useDateFieldState } from '@react-stately/datepicker';
 import { createCalendar } from '@internationalized/date';
-import { AriaPopover } from '../../overlays/AriaPopover';
+import { Popover } from '../../overlays';
 import { Calendar } from '../Calendar';
 import './DatePicker.css';
 
@@ -184,38 +184,83 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
       )}
 
       {/* Input Wrapper - Matches DateRangePicker structure */}
-      <div {...groupProps} className={inputWrapperClasses}>
-        {selectorButtonPlacement === 'start' && (
-          <button
-            ref={triggerRef as any}
-            {...triggerButtonProps}
-            className={cn('date-picker-selector-button', classNames.selectorButton)}
-            disabled={isDisabled || isReadOnly}
-          >
-            {selectorIcon || defaultSelectorIcon}
-          </button>
-        )}
+      <Popover
+        open={state.isOpen}
+        onOpenChange={state.setOpen}
+        size="md"
+        closeOnInteractOutside={true}
+        closeOnEscape={true}
+      >
+        <div {...groupProps} className={inputWrapperClasses}>
+          {selectorButtonPlacement === 'start' && (
+            <Popover.Trigger asChild>
+              <button
+                ref={triggerRef as any}
+                {...triggerButtonProps}
+                className={cn('date-picker-selector-button', classNames.selectorButton)}
+                disabled={isDisabled || isReadOnly}
+              >
+                {selectorIcon || defaultSelectorIcon}
+              </button>
+            </Popover.Trigger>
+          )}
 
-        <div className={cn('date-picker-input', classNames.input)}>
-          <DatePickerField
-            {...fieldProps}
-            size={size}
-            state={state}
-            classNames={classNames}
-          />
+          <div className={cn('date-picker-input', classNames.input)}>
+            <DatePickerField
+              {...fieldProps}
+              size={size}
+              state={state}
+              classNames={classNames}
+            />
+          </div>
+
+          {selectorButtonPlacement === 'end' && (
+            <Popover.Trigger asChild>
+              <button
+                ref={triggerRef as any}
+                {...triggerButtonProps}
+                className={cn('date-picker-selector-button', classNames.selectorButton)}
+                disabled={isDisabled || isReadOnly}
+              >
+                {selectorIcon || defaultSelectorIcon}
+              </button>
+            </Popover.Trigger>
+          )}
         </div>
 
-        {selectorButtonPlacement === 'end' && (
-          <button
-            ref={triggerRef as any}
-            {...triggerButtonProps}
-            className={cn('date-picker-selector-button', classNames.selectorButton)}
-            disabled={isDisabled || isReadOnly}
+        <Popover.Positioner>
+          <Popover.Content
+            maxHeight={500}
+            width={calendarWidth * visibleMonths + (visibleMonths - 1) * 16 + 32}
+            className={cn('date-picker-popover', classNames.popoverContent)}
           >
-            {selectorIcon || defaultSelectorIcon}
-          </button>
-        )}
-      </div>
+            <div className="date-picker-calendar-content">
+              {CalendarTopContent}
+
+              <Calendar
+                value={state.value as any}
+                onChange={(newValue) => state.setValue(newValue as any)}
+                focusedValue={state.dateValue as any}
+                size={size}
+                minValue={minValue}
+                maxValue={maxValue}
+                visibleMonths={visibleMonths}
+                showMonthAndYearPickers={showMonthAndYearPickers && visibleMonths === 1}
+                firstDayOfWeek={firstDayOfWeek}
+                calendarWidth={calendarWidth}
+                pageBehavior={pageBehavior}
+                isDateUnavailable={isDateUnavailable}
+                isDisabled={isDisabled}
+                isReadOnly={isReadOnly}
+                classNames={{ base: classNames.calendar }}
+                {...calendarProps}
+              />
+
+              {CalendarBottomContent}
+            </div>
+          </Popover.Content>
+        </Popover.Positioner>
+      </Popover>
 
       {/* Helper/Error */}
       {(helper || errorMessage) && (
@@ -223,43 +268,6 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
           {errorMessage && <div className="date-picker-error" role="alert">{errorMessage}</div>}
           {helper && !errorMessage && <div className="date-picker-helper">{helper}</div>}
         </div>
-      )}
-
-      {/* Popover with Calendar */}
-      {state.isOpen && (
-        <AriaPopover
-          {...dialogProps}
-          state={state}
-          triggerRef={triggerRef}
-          maxHeight={500}
-          width={calendarWidth * visibleMonths + (visibleMonths - 1) * 16 + 32}
-          className={cn('date-picker-popover', 'aria-popover--no-padding', classNames.popoverContent)}
-        >
-          <div className="date-picker-calendar-content">
-            {CalendarTopContent}
-
-            <Calendar
-              value={state.value as any}
-              onChange={(newValue) => state.setValue(newValue as any)}
-              focusedValue={state.dateValue as any}
-              size={size}
-              minValue={minValue}
-              maxValue={maxValue}
-              visibleMonths={visibleMonths}
-              showMonthAndYearPickers={showMonthAndYearPickers && visibleMonths === 1}
-              firstDayOfWeek={firstDayOfWeek}
-              calendarWidth={calendarWidth}
-              pageBehavior={pageBehavior}
-              isDateUnavailable={isDateUnavailable}
-              isDisabled={isDisabled}
-              isReadOnly={isReadOnly}
-              classNames={{ base: classNames.calendar }}
-              {...calendarProps}
-            />
-
-            {CalendarBottomContent}
-          </div>
-        </AriaPopover>
       )}
     </div>
   );

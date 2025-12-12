@@ -7,6 +7,7 @@ import React, {
   useState,
   useRef,
   useEffect,
+  useLayoutEffect,
   createContext,
   useContext,
   forwardRef,
@@ -363,6 +364,7 @@ export const PopoverContent = ({
   positioning = {}
 }: PopoverContentProps) => {
   const { contentId, size, contentRef, triggerRef, autoFocus, isOpen } = usePopoverContext();
+  const [isPositioned, setIsPositioned] = useState(false);
   const [position, setPosition] = useState<{
     top: number;
     left: number;
@@ -434,17 +436,16 @@ export const PopoverContent = ({
     });
   };
   
-  // Position immediately when opened, then fine-tune after render
-  useEffect(() => {
-    if (!isOpen) return;
-    
-    // Immediate calculation
+  // Position synchronously before paint to prevent flash
+  useLayoutEffect(() => {
+    if (!isOpen) {
+      setIsPositioned(false);
+      return;
+    }
+
+    // Calculate position synchronously before paint
     updatePosition();
-    
-    // Fine-tune after one frame
-    const timer = setTimeout(updatePosition, 16);
-    
-    return () => clearTimeout(timer);
+    setIsPositioned(true);
   }, [isOpen]);
   
   // Recalculate on scroll/resize
@@ -488,6 +489,7 @@ export const PopoverContent = ({
         'popover-content',
         `popover-content--${size}`,
         'popover-content--portal',
+        isPositioned && 'popover-content--positioned',
         className
       )}
       style={{
