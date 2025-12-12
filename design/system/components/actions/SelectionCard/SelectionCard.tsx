@@ -5,6 +5,8 @@
 
 import React, { forwardRef, useId } from 'react';
 import { cn } from '../../../utils/cn';
+import { Checkbox } from '../../forms/Checkbox/Checkbox';
+import { Radio } from '../../forms/Radio/Radio';
 import './SelectionCard.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -207,19 +209,32 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
       </div>
 
       {/* Indicator (checkbox or radio) */}
-      {indicator !== 'none' && (
+      {indicator === 'checkbox' && (
         <div className="selection-card__indicator">
-          <input
+          <Checkbox
             id={inputId}
-            type={indicator}
+            checked={selected}
+            onChange={handleInputChange}
+            disabled={disabled}
+            tabIndex={-1}
+            aria-hidden="true"
+            wrapperClassName="selection-card__checkbox-wrapper"
+          />
+        </div>
+      )}
+
+      {indicator === 'radio' && (
+        <div className="selection-card__indicator">
+          <Radio
+            id={inputId}
             name={name}
             value={value}
             checked={selected}
             onChange={handleInputChange}
             disabled={disabled}
-            tabIndex={-1} // Remove from tab order since card is focusable
-            className="selection-card__input"
+            tabIndex={-1}
             aria-hidden="true"
+            wrapperClassName="selection-card__radio-wrapper"
           />
         </div>
       )}
