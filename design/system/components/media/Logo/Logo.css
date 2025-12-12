@@ -48,9 +48,14 @@
 .logo__text {
   flex-shrink: 0;
   white-space: nowrap;
-  line-height: 1;  /* Override LogoText's line-height for better vertical alignment with images */
+  line-height: 1 !important;  /* Override any inherited line-height (including .leading-loose) for perfect vertical alignment */
   display: flex;
   align-items: center;
+}
+
+/* Ensure child elements also have tight line-height */
+.logo__text * {
+  line-height: 1 !important;
 }
 
 /* ===== MOBILE TEXT HIDING ===== */
