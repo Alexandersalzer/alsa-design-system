@@ -280,15 +280,16 @@
   width: 40px;
   min-width: 40px;
   height: 40px;
-  padding: 0;
-  justify-content: center;
-  align-items: center;
-  gap: 0;
+  padding: 0 !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0 !important;
 }
 
 /* Hide label and badge in collapsed mode */
 .nav-item--collapsed .nav-item__label,
 .nav-item--collapsed .nav-item__badge {
+  display: none; /* Completely remove from layout */
   opacity: 0;
   width: 0;
   overflow: hidden;
@@ -296,9 +297,13 @@
   transition: opacity 0.15s ease;
 }
 
-/* Center icon in collapsed mode */
+/* Center icon in collapsed mode - remove all margins/padding */
 .nav-item--collapsed .nav-item__icon {
-  margin: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Section labels in collapsed mode */
