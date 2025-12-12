@@ -43,6 +43,8 @@
 
 .logo__image {
   flex-shrink: 0;
+  display: block;  /* Remove inline spacing that adds extra height */
+  line-height: 0;  /* Collapse any line-height spacing */
 }
 
 .logo__text {
