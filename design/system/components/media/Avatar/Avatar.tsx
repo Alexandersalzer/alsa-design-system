@@ -231,6 +231,8 @@ AvatarGroup.displayName = 'AvatarGroup';
 export interface AvatarProps extends AvatarRootProps {
   name?: string;
   src?: string;
+  /** Alt text for avatar image (required for SEO when src is provided) */
+  alt?: string;
   loading?: 'eager' | 'lazy';
   icon?: ReactElement;
   fallback?: React.ReactNode;
@@ -241,6 +243,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     const {
       name,
       src,
+      alt,
       loading = 'lazy',
       icon,
       fallback,
@@ -256,6 +259,10 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
 
     const isFullSize = size === 'full';
     const boxSize = !isFullSize ? SIZE_MAP[size] : undefined;
+
+    // Generate accessible alt text
+    // Priority: explicit alt > name > generic fallback
+    const imageAlt = alt || (name ? `${name}'s avatar` : 'User avatar');
 
     return (
       <AvatarRoot
@@ -274,7 +281,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
         {src && (
           <Image
             src={src}
-            alt={name || 'Avatar'}
+            alt={imageAlt}
             width={isFullSize ? '100%' : boxSize?.width}
             height={isFullSize ? '100%' : boxSize?.height}
             radius={shape === 'full' ? 'full' : shape === 'rounded' ? 'md' : 'sm'}
