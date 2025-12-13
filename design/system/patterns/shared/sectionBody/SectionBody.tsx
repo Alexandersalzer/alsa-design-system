@@ -24,9 +24,12 @@ interface SectionBodyProps {
   props?: Record<string, any>;
 }
 
-const SectionBody = ({ components = {}, sectionKey, patternKey }: SectionBodyProps) => {
+const SectionBody = ({ components = {}, sectionKey, patternKey, props }: SectionBodyProps) => {
   const get = componentProps(components);
   const renderIf = componentPresent(components);
+  
+  // Get spacing from props with fallback to 'md'
+  const spacing = props?.spacing || 'md';
   
   return (
     <Box
@@ -36,7 +39,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey }: SectionBodyPro
         width: '100%',
       }}
     >
-      <VStack spacing="md" align="center">
+      <VStack spacing={spacing} align="center">
         
         {/* Tag - only render if exists */}
         {renderIf('tag') && get('tag').props.content && (
