@@ -35,6 +35,7 @@
 
 /* ===== CARD VARIANT STYLES ===== */
 .card--elevated {
+  background-color: var(--surface-elevated);
   box-shadow: var(--foundation-shadow-md);
   border: none;
 }
