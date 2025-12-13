@@ -27,22 +27,25 @@ const Placeholder = ({ components = {}, sectionKey, patternKey }: PlaceholderPro
         <Typography
           as="p"
           variant="body-sm"
-          color="body"
-          weight="regular"
+          color="tertiary"
+          weight="semibold"
           align="center"
           componentKey={get('typography-text').key}
         >
           {get('typography-text').props.content}{' '}
-          {renderIf('typography-link') && get('typography-link').props.content && (
-            <a
-              href={get('typography-link').props.href || 'https://blimpify.com'}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-component-key={get('typography-link').key}
-            >
-              {get('typography-link').props.content}
-            </a>
-          )}
+          <a 
+            href={get('typography-link')?.props?.href || 'https://blimpify-im.com'}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ 
+              color: 'var(--text-placeholder)', 
+              textDecoration: 'underline',
+              textUnderlineOffset: '6px',
+              fontWeight: 'bold'
+            }}
+          >
+            Blimpify
+          </a>
         </Typography>
       )}
     </HStack>
