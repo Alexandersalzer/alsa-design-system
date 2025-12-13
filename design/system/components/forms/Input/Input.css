@@ -150,6 +150,87 @@
   padding-right: 48px;
 }
 
+/* ===== INPUT WITH START/END CONTENT (PREFIX/SUFFIX) ===== */
+/* Padding is handled dynamically via inline styles in the component to match content width */
+
+/* ===== INPUT START/END CONTENT STYLES ===== */
+.input-start-content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding-left: var(--foundation-space-3);
+  padding-right: var(--foundation-space-2);
+  color: var(--text-muted);
+  font-family: var(--font-body-family);
+  font-weight: var(--font-body-weight);
+  background-color: transparent;
+  border-right: 1px solid var(--border-input);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.input-end-content {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding-left: var(--foundation-space-2);
+  padding-right: var(--foundation-space-3);
+  color: var(--text-muted);
+  font-family: var(--font-body-family);
+  font-weight: var(--font-body-weight);
+  background-color: transparent;
+  border-left: 1px solid var(--border-input);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+/* Size variants for start/end content */
+.input-start-content--sm {
+  font-size: var(--font-body-sm-size);
+  padding-left: var(--foundation-space-2);
+  padding-right: var(--foundation-space-1);
+}
+
+.input-end-content--sm {
+  font-size: var(--font-body-sm-size);
+  padding-left: var(--foundation-space-1);
+  padding-right: var(--foundation-space-2);
+}
+
+.input-start-content--md {
+  font-size: var(--font-body-md-size);
+  padding-left: var(--foundation-space-3);
+  padding-right: var(--foundation-space-2);
+}
+
+.input-end-content--md {
+  font-size: var(--font-body-md-size);
+  padding-left: var(--foundation-space-2);
+  padding-right: var(--foundation-space-3);
+}
+
+.input-start-content--lg {
+  font-size: var(--font-body-lg-size);
+  padding-left: var(--foundation-space-4);
+  padding-right: var(--foundation-space-2);
+}
+
+.input-end-content--lg {
+  font-size: var(--font-body-lg-size);
+  padding-left: var(--foundation-space-2);
+  padding-right: var(--foundation-space-4);
+}
+
 /* ===== INPUT ICON STYLES ===== */
 .input-icon {
   position: absolute;

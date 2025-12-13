@@ -3,7 +3,7 @@
 // Tooltip component with placement, delay, and arrow support
 // ===============================================
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
 import { cn } from '../../../utils/cn';
 import './Tooltip.css';
 
@@ -118,6 +118,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [mounted, setMounted] = useState(false);
+  const [isPositioned, setIsPositioned] = useState(false);
 
   const updatePosition = useCallback(() => {
     if (!triggerRef.current || !tooltipRef.current || !isOpen) return;
@@ -227,10 +228,16 @@ export const Tooltip: React.FC<TooltipProps> = ({
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (isOpen) {
-      updatePosition();
+  // Position synchronously before paint to prevent flash
+  useLayoutEffect(() => {
+    if (!isOpen) {
+      setIsPositioned(false);
+      return;
     }
+
+    // Calculate position synchronously before paint
+    updatePosition();
+    setIsPositioned(true);
   }, [isOpen, updatePosition]);
 
   useEffect(() => {
@@ -287,6 +294,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
             `tooltip--${placement}`,
             `tooltip--${color}`,
             `tooltip--${size}`,
+            isPositioned && 'tooltip--positioned',
             className
           )}
           style={{

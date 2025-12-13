@@ -2,6 +2,7 @@
 // src/design-system/components/layout/utilities/vStack/VStack.tsx
 // ===============================================
 import React, { ReactNode, CSSProperties } from 'react';
+import './VStack.css';
 
 export interface StackProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;

@@ -8,6 +8,8 @@
 .image-cropper__container {
   position: relative;
   width: 100%;
+  max-width: 512px; /* Matcha normaliserad bildstorlek */
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,6 +19,7 @@
   padding: var(--foundation-space-md, 16px);
   margin-bottom: var(--foundation-space-lg, 24px);
   min-height: 200px;
+  aspect-ratio: 1; /* Tvinga kvadratisk container */
   overflow: hidden;
 }
 

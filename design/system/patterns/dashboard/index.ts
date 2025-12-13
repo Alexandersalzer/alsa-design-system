@@ -3,9 +3,6 @@
 // MAIN PATTERN EXPORTS - All pattern components
 // ===============================================
 
-// ===== PAGE PATTERNS =====
-export * from './page';
-
 export * from './ConfirmationDialog';
 export * from './selection';
 
@@ -15,4 +12,5 @@ export * from './GitHubInfo';
 
 // ===== SETUP & ONBOARDING =====
 export * from './SetupGuide';
+export type { SetupStep } from './SetupGuide';
 export * from './ProgressButton';

@@ -121,92 +121,19 @@
   padding: 8px;
 }
 
-/* ===== MENU ITEM ===== */
-.menu-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  margin: 2px 0;
-  border-radius: var(--radius-button);
-  background-color: transparent;
-  color: var(--text-dropdown);
-  font-family: var(--font-body-family);
-  font-size: 14px;
-  font-weight: var(--foundation-weight-normal);
-  line-height: 1.5;
-  cursor: pointer;
-  user-select: none;
-  outline: none;
-  white-space: nowrap;
-  transition: 
-    background-color var(--foundation-duration-fast) var(--foundation-ease-out),
-    color var(--foundation-duration-fast) var(--foundation-ease-out);
-}
-
-.menu-item:hover:not(.menu-item--disabled) {
-  background-color: var(--surface-dropdown-option-hover);
-}
-
-.menu-item:focus-visible:not(.menu-item--disabled) {
-  background-color: var(--surface-dropdown-option-hover);
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  box-shadow: inset 0 0 0 2px var(--border-focus);
-}
-
-.menu-item--disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-  color: var(--text-dropdown-disabled);
-}
-
-.menu-item--disabled:hover {
-  background-color: transparent;
-}
-
-/* Size variants */
-.menu-item--sm {
-  padding: 6px 10px;
-  font-size: 13px;
-  gap: 6px;
-}
-
-.menu-item--md {
-  padding: 8px 12px;
-  font-size: 14px;
-  gap: 8px;
-}
-
-.menu-item--lg {
-  padding: 10px 14px;
-  font-size: 15px;
-  gap: 10px;
-}
-
-/* Variant styles */
-.menu-item--variant-subtle:hover:not(.menu-item--disabled) {
-  background-color: var(--surface-hover);
-}
-
-.menu-item--variant-solid:hover:not(.menu-item--disabled) {
-  background-color: var(--surface-accent);
-  color: var(--text-on-accent);
-}
+/* ===== MENU ITEMS - Now use ListboxItem internally ===== */
+/* All item styling is handled by ListboxItem component */
+/* Only menu-specific overrides remain below */
 
 /* ===== MENU CHECKBOX ITEM ===== */
 .menu-checkbox-item {
-  /* Inherits all menu-item styles */
+  /* All styling from ListboxItem */
 }
 
 /* ===== MENU RADIO ITEM ===== */
 .menu-radio-item {
-  /* Inherits all menu-item styles */
-}
-
-.menu-radio-item--selected {
-  background-color: var(--surface-dropdown-option-selected);
-  font-weight: var(--foundation-weight-medium);
+  /* All styling from ListboxItem */
+  /* Selected state is handled by ListboxItem's selected prop */
 }
 
 /* ===== MENU ITEM GROUP ===== */
@@ -296,12 +223,12 @@
 /* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
   .menu-trigger,
-  .menu-trigger-icon,
-  .menu-item {
-    transition: 
+  .menu-trigger-icon {
+    transition:
       background-color 0.15s ease,
       border-color 0.15s ease,
       color 0.15s ease !important;
     animation: none !important;
   }
+  /* Menu items inherit reduced motion from ListboxItem */
 }

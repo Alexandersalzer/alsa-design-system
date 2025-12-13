@@ -296,10 +296,10 @@
   /* ----- Text Hierarchy ----- */
   --text-default: var(--neutral-1000);
   --text-strong: var(--neutral-1200);
-  --text-muted: var(--neutral-700);
-  --text-subtle: var(--neutral-500);
-  --text-disabled: var(--neutral-400);
-  --text-placeholder: var(--neutral-400);
+  --text-muted: var(--neutral-900);
+  --text-subtle: var(--neutral-700);
+  --text-disabled: var(--neutral-600);
+  --text-placeholder: var(--neutral-600);
 
   /* ----- Borders ----- */
   --border-default: var(--neutral-200);

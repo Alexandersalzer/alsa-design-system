@@ -12,6 +12,7 @@ import { HStack } from '../../../components/layout/hStack/HStack';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { Box } from '../../../components/layout/box/Box';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import './Stepper.css';
 
 // ===== STEP INTERFACE =====
 export interface Step {
@@ -106,9 +107,9 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
     setPriceLoading(false);
   }, [showPriceInButton, showBasePriceAlways, basePackagePrice]);
 
-  const isFirstStep = currentStep === 0;
+  const isFirstStep = currentStep <= 0;
   const isLastStep = currentStep === steps.length - 1;
-  const currentStepData = steps[currentStep];
+  const currentStepData = currentStep >= 0 ? steps[currentStep] : null;
 
   // Determine if we should show content
   const showContent = !hideContent && !navigationOnly && !!currentStepData;
@@ -201,35 +202,45 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
 
         {/* Center: Step indicators */}
         <HStack className="stepper-numbers" justify="center" align="center" spacing="sm">
-          {steps.map((step, index) => (
-            <Box
-              key={index}
-              className={cn(
-                'step-number',
-                index === currentStep && 'step-number--current',
-                index < currentStep && 'step-number--completed',
-                step.disabled && 'step-number--disabled',
-                !!onStepClick && !step.disabled && 'step-number--clickable'
-              )}
-              onClick={() => !step.disabled && handleStepClick(index)}
-              role={onStepClick && !step.disabled ? 'button' : undefined}
-              tabIndex={onStepClick && !step.disabled ? 0 : undefined}
-              onKeyDown={
-                onStepClick && !step.disabled
-                  ? (e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        handleStepClick(index);
+          {steps.map((step, index) => {
+            // Determine the state - only ONE state at a time
+            const isCurrent = index === currentStep;
+            const isCompleted = index < currentStep;
+            const isDisabled = step.disabled;
+            const isClickable = !!onStepClick && !step.disabled;
+
+            return (
+              <Box
+                key={index}
+                className={cn(
+                  'step-number',
+                  // Apply state classes in order of priority (only one should be true)
+                  isCurrent && 'step-number--current',
+                  !isCurrent && isCompleted && 'step-number--completed',
+                  !isCurrent && !isCompleted && isDisabled && 'step-number--disabled',
+                  isClickable && 'step-number--clickable'
+                )}
+                onClick={() => !step.disabled && handleStepClick(index)}
+                role={isClickable ? 'button' : undefined}
+                tabIndex={isClickable ? 0 : undefined}
+                onKeyDown={
+                  isClickable
+                    ? (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handleStepClick(index);
+                        }
                       }
-                    }
-                  : undefined
-              }
-              aria-label={onStepClick && !step.disabled ? `Gå till ${step.label}` : undefined}
-              aria-disabled={step.disabled}
-            >
-              {index + 1}
-            </Box>
-          ))}
+                    : undefined
+                }
+                aria-label={isClickable ? `Gå till ${step.label}` : undefined}
+                aria-disabled={step.disabled}
+                aria-current={isCurrent ? 'step' : undefined}
+              >
+                {index + 1}
+              </Box>
+            );
+          })}
         </HStack>
 
         {/* Right: Next button with dynamic pricing */}

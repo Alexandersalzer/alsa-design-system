@@ -1,0 +1,199 @@
+/* ===============================================
+   design/system/components/actions/SelectionCard/SelectionCard.css
+   UNIFIED SELECTION CARD STYLES
+   ============================================== */
+
+/* ===== BASE CARD ===== */
+.selection-card {
+  position: relative;
+  display: flex;
+  padding: var(--foundation-space-4);
+  border-radius: var(--radius-button);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-card);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  transition:
+    border-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    background-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
+}
+
+/* ===== ORIENTATION VARIANTS ===== */
+
+/* Vertical: Icon/image above text (default for grid cards) */
+.selection-card--vertical {
+  flex-direction: column;
+}
+
+.selection-card--vertical .selection-card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--foundation-space-2);
+  flex: 1;
+}
+
+/* Horizontal: Icon/image beside text (list-like) */
+.selection-card--horizontal {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--foundation-space-3);
+}
+
+.selection-card--horizontal .selection-card__content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--foundation-space-3);
+  flex: 1;
+}
+
+/* ===== SIZE VARIANTS ===== */
+
+.selection-card--sm {
+  padding: var(--foundation-space-3);
+  gap: var(--foundation-space-2);
+  border: 1px solid var(--border-subtle);
+}
+
+.selection-card--md {
+  padding: var(--foundation-space-4);
+  gap: var(--foundation-space-3);
+  border: 2px solid var(--border-subtle);
+}
+
+.selection-card--lg {
+  padding: var(--foundation-space-5);
+  gap: var(--foundation-space-4);
+  border: 2px solid var(--border-subtle);
+}
+
+/* ===== VARIANT STYLES ===== */
+
+/* Neutral variant (default) - Subtle, professional styling */
+.selection-card--neutral.selection-card--selected {
+  border-color: var(--border-strong);
+  background-color: var(--surface-elevated);
+}
+
+/* Accent variant - Bold, attention-grabbing styling */
+.selection-card--accent.selection-card--selected {
+  border-color: var(--border-accent);
+  background-color: var(--surface-accent-subtle);
+}
+
+/* ===== INTERACTIVE STATES ===== */
+
+/* Hover - Only for unselected cards - only border change to clearly differentiate from selected state */
+.selection-card:hover:not(.selection-card--disabled):not(.selection-card--selected) {
+  border-color: var(--border-default);
+}
+
+/* Focus (keyboard navigation) */
+.selection-card:focus-visible:not(.selection-card--disabled) {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+/* Selected state stays the same on hover - no visual feedback that you can "unselect" */
+.selection-card--selected:hover:not(.selection-card--disabled) {
+  /* Intentionally empty - selected cards don't change on hover */
+  /* This prevents users from thinking they can toggle off a radio selection */
+}
+
+/* Disabled state */
+.selection-card--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ===== INDICATOR POSITIONING ===== */
+
+.selection-card--indicator-checkbox,
+.selection-card--indicator-radio {
+  /* Make room for indicator */
+  padding-right: var(--foundation-space-10);
+}
+
+.selection-card__indicator {
+  position: absolute;
+  top: var(--foundation-space-3);
+  right: var(--foundation-space-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* ===== CHECKBOX/RADIO WRAPPER OVERRIDES ===== */
+
+/* Override the default wrapper styling from Checkbox/Radio components */
+.selection-card__checkbox-wrapper,
+.selection-card__radio-wrapper {
+  /* Remove all default spacing from the wrapper */
+  gap: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Hide the label and description from Checkbox/Radio since we only want the input */
+.selection-card__checkbox-wrapper .checkbox-label,
+.selection-card__checkbox-wrapper .checkbox-description,
+.selection-card__radio-wrapper .radio-label,
+.selection-card__radio-wrapper .radio-description {
+  display: none;
+}
+
+/* Ensure the checkbox/radio field takes no extra space */
+.selection-card__checkbox-wrapper .checkbox-field,
+.selection-card__radio-wrapper .radio-field {
+  gap: 0;
+  margin: 0;
+}
+
+/* Allow pointer events on the actual input */
+.selection-card__checkbox-wrapper .checkbox,
+.selection-card__radio-wrapper .radio {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* ===== CONTENT AREA ===== */
+
+.selection-card__content {
+  width: 100%;
+  min-width: 0; /* Allow flex children to shrink */
+}
+
+/* Text wrapping */
+.selection-card__content > * {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* ===== REDUCED MOTION ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .selection-card {
+    transition: none;
+  }
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+
+/* Small screens: Force vertical for better mobile UX */
+@media (max-width: 640px) {
+  .selection-card--horizontal {
+    flex-direction: column;
+  }
+
+  .selection-card--horizontal .selection-card__content {
+    flex-direction: column;
+    text-align: center;
+  }
+}

@@ -15,7 +15,7 @@ import './ImageCropper.css';
 export interface ImageCropperProps {
   imageSrc: string;
   aspect?: number; // Aspect ratio (width/height), e.g., 1 for square, 16/9 for widescreen
-  onCropComplete: (croppedImageBlob: Blob) => void;
+  onCropComplete: (croppedImageBlob: Blob, cropData?: { x: number; y: number; width: number; height: number; zoom: number; rotation: number }) => void;
   onCancel: () => void;
   minWidth?: number;
   minHeight?: number;
@@ -49,12 +49,17 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
   const onImageLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
     const { naturalWidth, naturalHeight } = e.currentTarget;
     
+    // För normaliserade 512x512 bilder: starta med 100% crop (ingen auto-zoom)
+    // För andra bilder: använd 90% som default
+    const isNormalized = naturalWidth === 512 && naturalHeight === 512;
+    const initialWidth = isNormalized ? 100 : 90;
+    
     // Create initial centered crop
     const initialCrop = centerCrop(
       makeAspectCrop(
         {
           unit: '%',
-          width: 90,
+          width: initialWidth,
         },
         aspect,
         naturalWidth,
@@ -160,13 +165,22 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
   const handleCropComplete = useCallback(async () => {
     try {
       const blob = await getCroppedImage();
-      if (blob) {
-        onCropComplete(blob);
+      if (blob && completedCrop) {
+        // Returnera crop data tillsammans med blob
+        const cropData = {
+          x: completedCrop.x,
+          y: completedCrop.y,
+          width: completedCrop.width,
+          height: completedCrop.height,
+          zoom: scale,
+          rotation: rotate
+        };
+        onCropComplete(blob, cropData);
       }
     } catch (error) {
       console.error('Error cropping image:', error);
     }
-  }, [getCroppedImage, onCropComplete]);
+  }, [getCroppedImage, onCropComplete, completedCrop, scale, rotate]);
 
   return (
     <div className={cn('image-cropper', className)}>
@@ -189,13 +203,15 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
               ref={imgRef}
               alt="Crop me"
               src={imageSrc}
+              crossOrigin="anonymous" // Tillåt CORS för canvas export
               style={{
                 transform: `scale(${scale}) rotate(${rotate}deg)`,
                 maxWidth: '100%',
                 maxHeight: '70vh',
                 width: 'auto',
                 height: 'auto',
-                display: 'block'
+                display: 'block',
+                objectFit: 'contain' // Behåll aspect ratio, ingen stretching
               }}
               onLoad={onImageLoad}
             />

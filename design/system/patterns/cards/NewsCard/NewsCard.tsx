@@ -1,15 +1,15 @@
 // ===============================================
 // design/system/patterns/cards/NewsCard/NewsCard.tsx
-// NEWS CARD PATTERN - Uses only design system, no custom CSS
+// NEWS CARD PATTERN - Uses Clickable for interactive items
 // ===============================================
 
 import React from 'react';
-import { Card, CardContent } from '../../../components/layout';
-import { VStack, HStack } from '../../../components/layout';
+import { VStack, HStack, Box } from '../../../components/layout';
 import { H3, Body } from '../../../components/Typography';
 import { Tag } from '../../../components/feedback';
 import { Icon } from '../../../components/media';
 import { Image } from '../../../components/media/Image';
+import { Clickable } from '../../../components/actions/Clickable';
 import { SparklesIcon } from '@heroicons/react/24/outline';
 import './NewsCard.css';
 
@@ -62,71 +62,75 @@ export const NewsCard: React.FC<NewsCardProps> = ({
   // Featured card - large with image on top
   if (variant === 'featured') {
     return (
-      <Card
+      <Clickable
+        onClick={onClick}
+        padding="none"
+        borderRadius="lg"
+        border="subtle"
+        background="card"
         interactive
-        onCardClick={onClick}
-        variant="outlined"
         className={className}
       >
-        {imageUrl && (
-          <div style={{ 
-            width: '100%', 
-            aspectRatio: '16/9', 
-            position: 'relative',
-            overflow: 'hidden',
-            backgroundColor: 'var(--surface-subtle)'
-          }}>
-            <Image
-              src={imageUrl}
-              alt={title}
-              style={{
-                objectFit: 'cover',
-                objectPosition: 'center'
-              }}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          </div>
-        )}
-        <CardContent>
-          <VStack spacing="sm" align="start">
-            <HStack spacing="xs" align="center">
-              <H3>{title}</H3>
-              {featured && (
-                <Tag variant="accent">
-                  <Icon size="xs">
-                    <SparklesIcon />
-                  </Icon>
-                </Tag>
+        <Box>
+          {imageUrl && (
+            <Box className="news-card__image-container news-card__image-container--featured">
+              <Image
+                src={imageUrl}
+                alt={title}
+                aspectRatio="16/9"
+                objectFit="cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </Box>
+          )}
+          <Box style={{ padding: 'var(--foundation-space-4)' }}>
+            <VStack spacing="sm" align="start">
+              <HStack spacing="xs" align="center">
+                <H3>{title}</H3>
+                {featured && (
+                  <Tag variant="accent">
+                    <Icon size="xs">
+                      <SparklesIcon />
+                    </Icon>
+                  </Tag>
+                )}
+              </HStack>
+              {excerpt && (
+                <Body size="sm" color="secondary">
+                  {excerpt}
+                </Body>
               )}
-            </HStack>
-            {excerpt && (
-              <Body size="sm" color="secondary">
-                {excerpt}
+              <Body size="xs" color="tertiary">
+                {formatDate(publishedAt)}
+                {authorUsername && ` • ${authorUsername}`}
               </Body>
-            )}
-            <Body size="xs" color="tertiary">
-              {formatDate(publishedAt)}
-              {authorUsername && ` • ${authorUsername}`}
-            </Body>
-          </VStack>
-        </CardContent>
-      </Card>
+            </VStack>
+          </Box>
+        </Box>
+      </Clickable>
     );
   }
   
   // Compact card - horizontal layout with small image on right
   return (
-    <Card
-      interactive
-      onCardClick={onClick}
-      variant="outlined"
+    <Clickable
+      onClick={onClick}
       padding="md"
+      borderRadius="md"
+      border="subtle"
+      background="card"
+      interactive
       className={className}
     >
       <HStack spacing="md" align="center">
-        <VStack spacing="sm" align="start" style={{ flex: 1 }}>
+        <VStack spacing="sm" align="start" style={{ flex: 1, minWidth: 0 }}>
           <HStack spacing="xs" align="center">
-            <Body weight="semibold" color="primary">
+            <Body weight="semibold" color="primary" style={{
+              flex: 1,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}>
               {title}
             </Body>
             {featured && (
@@ -138,7 +142,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
             )}
           </HStack>
           {excerpt && (
-            <Body size="sm" color="secondary">
+            <Body size="sm" color="secondary" className="news-card__excerpt">
               {excerpt}
             </Body>
           )}
@@ -148,28 +152,19 @@ export const NewsCard: React.FC<NewsCardProps> = ({
           </Body>
         </VStack>
         {imageUrl && (
-          <div style={{
-            width: '80px',
-            height: '80px',
-            minWidth: '80px',
-            position: 'relative',
-            overflow: 'hidden',
-            borderRadius: 'var(--radius-sm)',
-            backgroundColor: 'var(--surface-subtle)',
-            flexShrink: 0
-          }}>
+          <Box className="news-card__image-container news-card__image-container--compact">
             <Image
               src={imageUrl}
               alt={title}
-              style={{
-                objectFit: 'cover',
-                objectPosition: 'center'
-              }}
-              sizes="80px"
+              width="72px"
+              height="72px"
+              aspectRatio="1/1"
+              objectFit="cover"
+              sizes="72px"
             />
-          </div>
+          </Box>
         )}
       </HStack>
-    </Card>
+    </Clickable>
   );
 };
