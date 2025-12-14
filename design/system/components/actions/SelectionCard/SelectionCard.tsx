@@ -5,6 +5,8 @@
 
 import React, { forwardRef, useId } from 'react';
 import { cn } from '../../../utils/cn';
+import { Checkbox } from '../../forms/Checkbox/Checkbox';
+import { Radio } from '../../forms/Radio/Radio';
 import './SelectionCard.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -12,6 +14,7 @@ import './SelectionCard.css';
 export type SelectionCardOrientation = 'horizontal' | 'vertical';
 export type SelectionCardSize = 'sm' | 'md' | 'lg';
 export type SelectionCardIndicator = 'none' | 'checkbox' | 'radio';
+export type SelectionCardVariant = 'neutral' | 'accent';
 
 export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   children: React.ReactNode;
@@ -27,6 +30,7 @@ export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivEle
   // Layout
   orientation?: SelectionCardOrientation;
   size?: SelectionCardSize;
+  variant?: SelectionCardVariant;
 
   // Radio-specific (for form groups)
   name?: string;
@@ -109,6 +113,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   indicator = 'none',
   orientation = 'vertical',
   size = 'md',
+  variant = 'neutral',
   name,
   value,
   className,
@@ -190,6 +195,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
         'selection-card',
         `selection-card--${size}`,
         `selection-card--${orientation}`,
+        `selection-card--${variant}`,
         `selection-card--indicator-${indicator}`,
         selected && 'selection-card--selected',
         disabled && 'selection-card--disabled',
@@ -203,19 +209,32 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
       </div>
 
       {/* Indicator (checkbox or radio) */}
-      {indicator !== 'none' && (
+      {indicator === 'checkbox' && (
         <div className="selection-card__indicator">
-          <input
+          <Checkbox
             id={inputId}
-            type={indicator}
+            checked={selected}
+            onChange={handleInputChange}
+            disabled={disabled}
+            tabIndex={-1}
+            aria-hidden="true"
+            wrapperClassName="selection-card__checkbox-wrapper"
+          />
+        </div>
+      )}
+
+      {indicator === 'radio' && (
+        <div className="selection-card__indicator">
+          <Radio
+            id={inputId}
             name={name}
             value={value}
             checked={selected}
             onChange={handleInputChange}
             disabled={disabled}
-            tabIndex={-1} // Remove from tab order since card is focusable
-            className="selection-card__input"
+            tabIndex={-1}
             aria-hidden="true"
+            wrapperClassName="selection-card__radio-wrapper"
           />
         </div>
       )}

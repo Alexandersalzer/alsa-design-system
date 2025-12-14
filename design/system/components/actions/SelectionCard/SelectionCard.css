@@ -56,25 +56,40 @@
 .selection-card--sm {
   padding: var(--foundation-space-3);
   gap: var(--foundation-space-2);
+  border: 1px solid var(--border-subtle);
 }
 
 .selection-card--md {
   padding: var(--foundation-space-4);
   gap: var(--foundation-space-3);
+  border: 2px solid var(--border-subtle);
 }
 
 .selection-card--lg {
   padding: var(--foundation-space-5);
   gap: var(--foundation-space-4);
+  border: 2px solid var(--border-subtle);
+}
+
+/* ===== VARIANT STYLES ===== */
+
+/* Neutral variant (default) - Subtle, professional styling */
+.selection-card--neutral.selection-card--selected {
+  border-color: var(--border-strong);
+  background-color: var(--surface-elevated);
+}
+
+/* Accent variant - Bold, attention-grabbing styling */
+.selection-card--accent.selection-card--selected {
+  border-color: var(--border-accent);
+  background-color: var(--surface-accent-subtle);
 }
 
 /* ===== INTERACTIVE STATES ===== */
 
-/* Hover - Only for unselected cards */
+/* Hover - Only for unselected cards - only border change to clearly differentiate from selected state */
 .selection-card:hover:not(.selection-card--disabled):not(.selection-card--selected) {
   border-color: var(--border-default);
-  background-color: var(--surface-card-hover);
-  box-shadow: var(--shadow-sm);
 }
 
 /* Focus (keyboard navigation) */
@@ -82,12 +97,6 @@
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: 0 0 0 3px var(--focus-ring);
-}
-
-/* Selected state - NO hover effects for radio/color pickers */
-.selection-card--selected {
-  border-color: var(--accent-500);
-  background-color: var(--surface-accent-subtle);
 }
 
 /* Selected state stays the same on hover - no visual feedback that you can "unselect" */
@@ -121,23 +130,37 @@
   pointer-events: none;
 }
 
-/* ===== NATIVE INPUT STYLING ===== */
+/* ===== CHECKBOX/RADIO WRAPPER OVERRIDES ===== */
 
-.selection-card__input {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  pointer-events: auto;
+/* Override the default wrapper styling from Checkbox/Radio components */
+.selection-card__checkbox-wrapper,
+.selection-card__radio-wrapper {
+  /* Remove all default spacing from the wrapper */
+  gap: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Hide the label and description from Checkbox/Radio since we only want the input */
+.selection-card__checkbox-wrapper .checkbox-label,
+.selection-card__checkbox-wrapper .checkbox-description,
+.selection-card__radio-wrapper .radio-label,
+.selection-card__radio-wrapper .radio-description {
+  display: none;
+}
+
+/* Ensure the checkbox/radio field takes no extra space */
+.selection-card__checkbox-wrapper .checkbox-field,
+.selection-card__radio-wrapper .radio-field {
+  gap: 0;
   margin: 0;
-  accent-color: var(--accent-500);
 }
 
-.selection-card__input[type="checkbox"] {
-  border-radius: var(--radius-sm);
-}
-
-.selection-card__input[type="radio"] {
-  border-radius: 50%;
+/* Allow pointer events on the actual input */
+.selection-card__checkbox-wrapper .checkbox,
+.selection-card__radio-wrapper .radio {
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 /* ===== CONTENT AREA ===== */

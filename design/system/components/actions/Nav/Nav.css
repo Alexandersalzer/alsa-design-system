@@ -42,10 +42,10 @@
   /* Layout */
   display: inline-flex;
   align-items: center;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   gap: var(--space-nav-item-gap);
   border-radius: var(--radius-button);
-  
+
   /* Typography */
   font-family: var(--font-body-family);
   font-size: var(--font-label-md-size);
@@ -53,14 +53,19 @@
   line-height: var(--font-label-md-leading);
   text-decoration: none;
   text-align: left;
-  
+
   /* Colors */
   color: var(--text-nav-item);
   background-color: var(--surface-nav-item);
-  
+
   /* Interaction */
   cursor: pointer;
-  transition: var(--transition-nav);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.12s ease,
+    width 0.25s ease,
+    padding 0.25s ease;
   border: none;
   position: relative;
   outline: none;
@@ -264,4 +269,50 @@
     transform 0.12s ease,
     background-color 0.15s ease,
     color 0.15s ease;
+}
+
+/* ==========================================================
+   COLLAPSED MODE - Icon-only state
+   ========================================================== */
+
+.nav-item--collapsed {
+  /* Square icon-button appearance */
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0 !important;
+  position: relative; /* For absolute positioning of label */
+}
+
+/* Hide label and badge in collapsed mode - use absolute positioning */
+.nav-item--collapsed .nav-item__label,
+.nav-item--collapsed .nav-item__badge {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.15s ease;
+}
+
+/* Center icon in collapsed mode - remove all margins/padding */
+.nav-item--collapsed .nav-item__icon {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* Ensure icon stays in normal flow */
+}
+
+/* Section labels in collapsed mode - PRESERVE SPACE */
+.nav-root--collapsed .nav-section__label {
+  opacity: 0;
+  color: transparent;
+  pointer-events: none;
+  visibility: hidden;
+  /* Keep padding, height, and margin - just make it invisible */
+  transition: opacity 0.15s ease;
 }
