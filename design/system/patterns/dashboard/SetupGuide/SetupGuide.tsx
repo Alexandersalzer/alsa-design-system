@@ -216,7 +216,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
           <H2>Kom igång med Blimpify</H2>
           <Body size="md" color="secondary">
             {phase === 'building' 
-              ? 'Din webbplats byggs just nu. Följ stegen nedan för att förbereda lanseringen.'
+              ? 'Följ stegen nedan för att förbereda lanseringen av din webbplats.'
               : 'Din webbplats är nästan klar! Slutför dessa steg för att gå live.'
             }
           </Body>
