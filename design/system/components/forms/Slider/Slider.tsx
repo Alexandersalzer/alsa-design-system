@@ -389,17 +389,22 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       .filter(Boolean)
       .join(' ');
 
+    // Get edge padding based on size
+    const edgePadding =
+      size === 'sm' ? 'var(--foundation-space-2)' :
+      size === 'lg' ? 'var(--foundation-space-4)' :
+      'var(--foundation-space-3)';
+
     const fillWidth = (endOffset - startOffset) * 100;
-    const fillStyle: React.CSSProperties = {
-      [isVertical ? 'bottom' : direction === 'rtl' ? 'right' : 'left']: `${startOffset * 100}%`,
-      ...(isVertical
-        ? {
-            height: `${fillWidth}%`,
-          }
-        : {
-            width: `${fillWidth}%`,
-          }),
-    };
+    const fillStyle: React.CSSProperties = isVertical
+      ? {
+          bottom: `calc(${edgePadding} + ${startOffset * 100}%)`,
+          height: `${fillWidth}%`,
+        }
+      : {
+          [direction === 'rtl' ? 'right' : 'left']: `calc(${edgePadding} + ${startOffset * 100}%)`,
+          width: `${fillWidth}%`,
+        };
 
     return (
       <div
@@ -446,9 +451,13 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             {Number.isFinite(steps) &&
               Array.from({ length: steps }, (_, index) => {
                 const percent = state.getValuePercent(index * step + minValue);
-                const stepStyle: React.CSSProperties = {
-                  [isVertical ? 'bottom' : direction === 'rtl' ? 'right' : 'left']: `${percent * 100}%`,
-                };
+                const stepStyle: React.CSSProperties = isVertical
+                  ? {
+                      bottom: `calc(${edgePadding} + ${percent * 100}%)`,
+                    }
+                  : {
+                      [direction === 'rtl' ? 'right' : 'left']: `calc(${edgePadding} + ${percent * 100}%)`,
+                    };
                 const inRange = percent <= endOffset && percent >= startOffset;
 
                 return (
@@ -479,9 +488,13 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             {marks?.length > 0 &&
               marks.map((mark, index) => {
                 const percent = state.getValuePercent(mark.value);
-                const markStyle: React.CSSProperties = {
-                  [isVertical ? 'bottom' : direction === 'rtl' ? 'right' : 'left']: `${percent * 100}%`,
-                };
+                const markStyle: React.CSSProperties = isVertical
+                  ? {
+                      bottom: `calc(${edgePadding} + ${percent * 100}%)`,
+                    }
+                  : {
+                      [direction === 'rtl' ? 'right' : 'left']: `calc(${edgePadding} + ${percent * 100}%)`,
+                    };
                 const inRange = percent <= endOffset && percent >= startOffset;
 
                 return (
