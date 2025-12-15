@@ -100,7 +100,8 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  /* Removed padding from wrapper - will be applied directly to track instead */
+  /* Horizontal padding creates safe zone - thumbs won't overflow at edges */
+  padding-inline: var(--foundation-space-3); /* 0.75rem / 12px */
 }
 
 .slider--vertical .slider-track-wrapper {
@@ -108,6 +109,8 @@
   height: 100%;
   justify-content: center;
   align-items: center;
+  padding-inline: 0;
+  padding-block: var(--foundation-space-3); /* 0.75rem / 12px */
 }
 
 .slider-track {
@@ -117,16 +120,11 @@
   border-radius: 9999px;
   background-color: var(--surface-sunken);
   cursor: pointer;
-  box-sizing: border-box;
-  /* Add horizontal padding to create safe zone for thumbs/steps/marks */
-  padding-inline: var(--foundation-space-3); /* 0.75rem / 12px */
 }
 
 .slider--vertical .slider-track {
   height: 100%;
   width: auto;
-  padding-inline: 0;
-  padding-block: var(--foundation-space-3); /* 0.75rem / 12px */
 }
 
 .slider--disabled .slider-track {
@@ -138,12 +136,39 @@
   cursor: pointer;
 }
 
+/* Track Wrapper Sizes - Padding creates safe zone for thumbs */
+.slider--sm .slider-track-wrapper {
+  padding-inline: var(--foundation-space-2); /* 0.5rem / 8px */
+}
+
+.slider--sm.slider--vertical .slider-track-wrapper {
+  padding-inline: 0;
+  padding-block: var(--foundation-space-2); /* 0.5rem / 8px */
+}
+
+.slider--md .slider-track-wrapper {
+  padding-inline: var(--foundation-space-3); /* 0.75rem / 12px */
+}
+
+.slider--md.slider--vertical .slider-track-wrapper {
+  padding-inline: 0;
+  padding-block: var(--foundation-space-3); /* 0.75rem / 12px */
+}
+
+.slider--lg .slider-track-wrapper {
+  padding-inline: var(--foundation-space-4); /* 1rem / 16px */
+}
+
+.slider--lg.slider--vertical .slider-track-wrapper {
+  padding-inline: 0;
+  padding-block: var(--foundation-space-4); /* 1rem / 16px */
+}
+
 /* Track Sizes */
 .slider--sm .slider-track {
   height: 0.25rem;
   margin-top: calc((1.25rem - 0.25rem) / 2);
   margin-bottom: calc((1.25rem - 0.25rem) / 2);
-  padding-inline: var(--foundation-space-2); /* 0.5rem / 8px */
 }
 
 .slider--sm.slider--vertical .slider-track {
@@ -151,15 +176,12 @@
   height: auto;
   margin-left: calc((1.25rem - 0.25rem) / 2);
   margin-right: calc((1.25rem - 0.25rem) / 2);
-  padding-inline: 0;
-  padding-block: var(--foundation-space-2); /* 0.5rem / 8px */
 }
 
 .slider--md .slider-track {
   height: 0.75rem;
   margin-top: calc((1.5rem - 0.75rem) / 2);
   margin-bottom: calc((1.5rem - 0.75rem) / 2);
-  padding-inline: var(--foundation-space-3); /* 0.75rem / 12px */
 }
 
 .slider--md.slider--vertical .slider-track {
@@ -167,15 +189,12 @@
   height: auto;
   margin-left: calc((1.5rem - 0.75rem) / 2);
   margin-right: calc((1.5rem - 0.75rem) / 2);
-  padding-inline: 0;
-  padding-block: var(--foundation-space-3); /* 0.75rem / 12px */
 }
 
 .slider--lg .slider-track {
   height: 1.75rem;
   margin-top: calc((1.75rem - 1.25rem) / 2);
   margin-bottom: calc((1.75rem - 1.25rem) / 2);
-  padding-inline: var(--foundation-space-4); /* 1rem / 16px */
 }
 
 .slider--lg.slider--vertical .slider-track {
@@ -183,8 +202,6 @@
   height: auto;
   margin-left: calc((1.75rem - 1.25rem) / 2);
   margin-right: calc((1.75rem - 1.25rem) / 2);
-  padding-inline: 0;
-  padding-block: var(--foundation-space-4); /* 1rem / 16px */
 }
 
 /* -----------------------------------------------------------------------------
