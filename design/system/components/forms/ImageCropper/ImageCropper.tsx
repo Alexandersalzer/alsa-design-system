@@ -231,7 +231,7 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
             <Label size="sm" weight="medium">Zoom</Label>
             <input
               type="range"
-              min="1"
+              min="0.1"
               max="3"
               step="0.1"
               value={scale}

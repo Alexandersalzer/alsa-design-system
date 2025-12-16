@@ -263,7 +263,10 @@
 .sidebar__nav {
   display: flex;
   align-items: center;
-  overflow: auto; /* Prevent focus outline clipping */
+  overflow: auto; /* Allow horizontal scrolling on small screens */
+  /* Add padding to prevent focus outline clipping */
+  padding: var(--foundation-space-1);
+  margin: calc(-1 * var(--foundation-space-1)); /* Negative margin to maintain original spacing */
 }
 
 /* ===== NEW: JUSTIFY VARIANTS ===== */

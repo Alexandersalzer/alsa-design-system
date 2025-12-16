@@ -114,12 +114,6 @@
 
 /* ===== INDICATOR POSITIONING ===== */
 
-.selection-card--indicator-checkbox,
-.selection-card--indicator-radio {
-  /* Make room for indicator */
-  padding-right: var(--foundation-space-10);
-}
-
 .selection-card__indicator {
   position: absolute;
   top: var(--foundation-space-3);

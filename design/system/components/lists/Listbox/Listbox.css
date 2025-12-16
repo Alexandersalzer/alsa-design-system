@@ -132,7 +132,7 @@
 
 /* Hover for selected items - slightly different shade */
 .listbox-item--interactive.listbox-item--selected:hover:not(.listbox-item--disabled) {
-  background-color: var(--surface-dropdown-option-selected-hover);
+  background-color: var(--surface-hover);
 }
 
 .listbox-item--interactive:active:not(.listbox-item--disabled) {
