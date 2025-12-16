@@ -1,0 +1,119 @@
+/* ===============================================
+   src/design-system/components/navigation/BackButton/BackButton.css
+   BACK BUTTON COMPONENT STYLES
+   =============================================== */
+
+/* ===================================
+   BASE BUTTON
+   =================================== */
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--foundation-space-1-5);
+  font-family: var(--typography-sans);
+  font-weight: var(--typography-body-sm-weight-medium);
+  line-height: var(--typography-body-sm-line-height);
+  border: none;
+  border-radius: var(--foundation-radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  outline: none;
+}
+
+.back-button:focus-visible {
+  outline: 2px solid var(--intent-focus-ring);
+  outline-offset: 2px;
+}
+
+.back-button__text {
+  display: inline-block;
+}
+
+/* ===================================
+   SIZES
+   =================================== */
+
+.back-button--sm {
+  font-size: var(--typography-body-xs-size);
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+  gap: var(--foundation-space-1);
+}
+
+.back-button--md {
+  font-size: var(--typography-body-sm-size);
+  padding: var(--foundation-space-1-5) var(--foundation-space-3);
+  gap: var(--foundation-space-1-5);
+}
+
+.back-button--lg {
+  font-size: var(--typography-body-md-size);
+  padding: var(--foundation-space-2) var(--foundation-space-4);
+  gap: var(--foundation-space-2);
+}
+
+/* ===================================
+   VARIANTS
+   =================================== */
+
+/* Ghost variant - transparent with hover */
+.back-button--ghost {
+  background: transparent;
+  color: var(--text-default);
+}
+
+.back-button--ghost:hover:not(:disabled) {
+  background: var(--surface-hover);
+  color: var(--text-strong);
+}
+
+.back-button--ghost:active:not(:disabled) {
+  background: var(--surface-active);
+}
+
+/* Subtle variant - subtle background */
+.back-button--subtle {
+  background: var(--surface-subtle);
+  color: var(--text-default);
+}
+
+.back-button--subtle:hover:not(:disabled) {
+  background: var(--surface-hover);
+  color: var(--text-strong);
+}
+
+.back-button--subtle:active:not(:disabled) {
+  background: var(--surface-active);
+}
+
+/* Bordered variant - with border and background */
+.back-button--bordered {
+  background: var(--surface-base);
+  color: var(--text-default);
+  border: 1px solid var(--border-default);
+}
+
+.back-button--bordered:hover:not(:disabled) {
+  background: var(--surface-subtle);
+  border-color: var(--border-strong);
+  color: var(--text-strong);
+}
+
+.back-button--bordered:active:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: var(--border-emphasis);
+}
+
+/* ===================================
+   DISABLED STATE
+   =================================== */
+
+.back-button--disabled,
+.back-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

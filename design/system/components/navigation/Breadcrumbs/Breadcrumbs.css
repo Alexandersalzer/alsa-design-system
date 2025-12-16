@@ -193,15 +193,15 @@
   color: var(--text-strong);
 }
 
-/* Primary */
+/* Primary - uses accent color */
 .breadcrumbs--primary .breadcrumb-item__content--link,
 .breadcrumb-item--primary .breadcrumb-item__content--link {
-  color: var(--accent-500);
+  color: var(--text-accent);
 }
 
 .breadcrumbs--primary .breadcrumb-item__content--link:hover,
 .breadcrumb-item--primary .breadcrumb-item__content--link:hover {
-  color: var(--accent-600);
+  color: var(--text-accent-strong);
 }
 
 /* Secondary */
@@ -218,34 +218,45 @@
 /* Success */
 .breadcrumbs--success .breadcrumb-item__content--link,
 .breadcrumb-item--success .breadcrumb-item__content--link {
-  color: var(--success-500);
+  color: var(--text-success);
 }
 
 .breadcrumbs--success .breadcrumb-item__content--link:hover,
 .breadcrumb-item--success .breadcrumb-item__content--link:hover {
-  color: var(--success-600);
+  color: var(--text-success-strong);
 }
 
 /* Warning */
 .breadcrumbs--warning .breadcrumb-item__content--link,
 .breadcrumb-item--warning .breadcrumb-item__content--link {
-  color: var(--warning-500);
+  color: var(--text-warning);
 }
 
 .breadcrumbs--warning .breadcrumb-item__content--link:hover,
 .breadcrumb-item--warning .breadcrumb-item__content--link:hover {
-  color: var(--warning-600);
+  color: var(--text-warning-strong);
 }
 
 /* Danger */
 .breadcrumbs--danger .breadcrumb-item__content--link,
 .breadcrumb-item--danger .breadcrumb-item__content--link {
-  color: var(--error-500);
+  color: var(--text-error);
 }
 
 .breadcrumbs--danger .breadcrumb-item__content--link:hover,
 .breadcrumb-item--danger .breadcrumb-item__content--link:hover {
-  color: var(--error-600);
+  color: var(--text-error-strong);
+}
+
+/* Accent */
+.breadcrumbs--accent .breadcrumb-item__content--link,
+.breadcrumb-item--accent .breadcrumb-item__content--link {
+  color: var(--text-accent);
+}
+
+.breadcrumbs--accent .breadcrumb-item__content--link:hover,
+.breadcrumb-item--accent .breadcrumb-item__content--link:hover {
+  color: var(--text-accent-strong);
 }
 
 /* ===================================
@@ -265,18 +276,21 @@
   background: var(--surface-card);
 }
 
-/* Bordered variant - with border */
+/* Bordered variant - pill buttons with border and subtle background */
 .breadcrumbs--bordered .breadcrumb-item__content {
   border: 1px solid var(--border-default);
+  background: var(--surface-base);
 }
 
 .breadcrumbs--bordered .breadcrumb-item__content--link:hover {
   border-color: var(--border-strong);
+  background: var(--surface-subtle);
 }
 
 .breadcrumbs--bordered .breadcrumb-item__content--current {
-  border-color: var(--border-strong);
-  background: var(--surface-subtle);
+  border-color: var(--border-emphasis);
+  background: var(--surface-hover);
+  color: var(--text-strong);
 }
 
 /* Light variant - minimal styling */

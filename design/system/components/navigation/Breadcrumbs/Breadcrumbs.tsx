@@ -11,7 +11,7 @@ import { Icon } from '../../..';
 // Breadcrumbs context for sharing props with BreadcrumbItem
 interface BreadcrumbsContextValue {
   variant: 'solid' | 'bordered' | 'light';
-  color: 'foreground' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+  color: 'foreground' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'accent';
   size: 'sm' | 'md' | 'lg';
   underline: 'none' | 'active' | 'hover' | 'focus' | 'always';
   separator: React.ReactNode;
@@ -38,7 +38,7 @@ export interface BreadcrumbsProps {
   /** Visual variant */
   variant?: 'solid' | 'bordered' | 'light';
   /** Color scheme */
-  color?: 'foreground' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+  color?: 'foreground' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'accent';
   /** Size variant */
   size?: 'sm' | 'md' | 'lg';
   /** Border radius */

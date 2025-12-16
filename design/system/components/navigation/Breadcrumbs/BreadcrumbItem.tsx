@@ -11,7 +11,7 @@ export interface BreadcrumbItemProps {
   /** Item content */
   children: React.ReactNode;
   /** Color override for this item */
-  color?: 'foreground' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+  color?: 'foreground' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'accent';
   /** Size override for this item */
   size?: 'sm' | 'md' | 'lg';
   /** Underline override for this item */
