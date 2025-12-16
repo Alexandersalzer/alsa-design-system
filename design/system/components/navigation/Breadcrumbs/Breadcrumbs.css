@@ -1,0 +1,349 @@
+/* ===============================================
+   src/design-system/components/navigation/Breadcrumbs/Breadcrumbs.css
+   BREADCRUMBS COMPONENT STYLES
+   =============================================== */
+
+/* ===================================
+   BASE BREADCRUMBS
+   =================================== */
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.breadcrumbs__list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: var(--foundation-space-2);
+}
+
+.breadcrumbs__ellipsis {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+}
+
+.breadcrumbs__ellipsis-content {
+  color: var(--text-muted);
+  font-size: var(--typography-body-sm-size);
+  padding: 0 var(--foundation-space-1);
+}
+
+.breadcrumbs__separator {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+}
+
+/* ===================================
+   BREADCRUMB ITEM
+   =================================== */
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+}
+
+.breadcrumb-item__content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+  color: var(--text-default);
+  font-size: var(--typography-body-sm-size);
+  font-weight: var(--typography-body-sm-weight);
+  line-height: var(--typography-body-sm-line-height);
+  text-decoration: none;
+  border-radius: var(--foundation-radius-sm);
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+  transition: all 0.2s ease;
+  cursor: default;
+  position: relative;
+}
+
+.breadcrumb-item__content--link {
+  cursor: pointer;
+  color: var(--text-default);
+}
+
+.breadcrumb-item__content--link:hover {
+  color: var(--text-strong);
+  background: var(--surface-hover);
+}
+
+.breadcrumb-item__content--link:active {
+  background: var(--surface-active);
+}
+
+.breadcrumb-item__content--link:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.breadcrumb-item__content--current {
+  color: var(--text-strong);
+  font-weight: var(--typography-body-sm-weight-semibold);
+  cursor: default;
+}
+
+.breadcrumb-item__content--disabled {
+  color: var(--text-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.breadcrumb-item__text {
+  white-space: nowrap;
+}
+
+.breadcrumb-item__start-content,
+.breadcrumb-item__end-content {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-item__separator {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  font-size: var(--typography-body-sm-size);
+}
+
+/* ===================================
+   UNDERLINE VARIANTS
+   =================================== */
+
+.breadcrumb-item__content--underline-always {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.breadcrumb-item__content--underline-hover:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.breadcrumb-item__content--underline-focus:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.breadcrumb-item__content--underline-active.breadcrumb-item__content--current {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ===================================
+   SIZES
+   =================================== */
+
+.breadcrumbs--sm .breadcrumb-item__content,
+.breadcrumb-item--sm .breadcrumb-item__content {
+  font-size: var(--typography-body-xs-size);
+  padding: var(--foundation-space-0-5) var(--foundation-space-1-5);
+  gap: var(--foundation-space-1);
+}
+
+.breadcrumbs--sm .breadcrumb-item__separator,
+.breadcrumb-item--sm .breadcrumb-item__separator {
+  font-size: var(--typography-body-xs-size);
+}
+
+.breadcrumbs--md .breadcrumb-item__content,
+.breadcrumb-item--md .breadcrumb-item__content {
+  font-size: var(--typography-body-sm-size);
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+  gap: var(--foundation-space-2);
+}
+
+.breadcrumbs--md .breadcrumb-item__separator,
+.breadcrumb-item--md .breadcrumb-item__separator {
+  font-size: var(--typography-body-sm-size);
+}
+
+.breadcrumbs--lg .breadcrumb-item__content,
+.breadcrumb-item--lg .breadcrumb-item__content {
+  font-size: var(--typography-body-md-size);
+  padding: var(--foundation-space-1-5) var(--foundation-space-3);
+  gap: var(--foundation-space-2);
+}
+
+.breadcrumbs--lg .breadcrumb-item__separator,
+.breadcrumb-item--lg .breadcrumb-item__separator {
+  font-size: var(--typography-body-md-size);
+}
+
+/* ===================================
+   COLORS
+   =================================== */
+
+/* Foreground (default) */
+.breadcrumbs--foreground .breadcrumb-item__content--link,
+.breadcrumb-item--foreground .breadcrumb-item__content--link {
+  color: var(--text-default);
+}
+
+.breadcrumbs--foreground .breadcrumb-item__content--link:hover,
+.breadcrumb-item--foreground .breadcrumb-item__content--link:hover {
+  color: var(--text-strong);
+}
+
+/* Primary */
+.breadcrumbs--primary .breadcrumb-item__content--link,
+.breadcrumb-item--primary .breadcrumb-item__content--link {
+  color: var(--accent-500);
+}
+
+.breadcrumbs--primary .breadcrumb-item__content--link:hover,
+.breadcrumb-item--primary .breadcrumb-item__content--link:hover {
+  color: var(--accent-600);
+}
+
+/* Secondary */
+.breadcrumbs--secondary .breadcrumb-item__content--link,
+.breadcrumb-item--secondary .breadcrumb-item__content--link {
+  color: var(--text-muted);
+}
+
+.breadcrumbs--secondary .breadcrumb-item__content--link:hover,
+.breadcrumb-item--secondary .breadcrumb-item__content--link:hover {
+  color: var(--text-default);
+}
+
+/* Success */
+.breadcrumbs--success .breadcrumb-item__content--link,
+.breadcrumb-item--success .breadcrumb-item__content--link {
+  color: var(--success-500);
+}
+
+.breadcrumbs--success .breadcrumb-item__content--link:hover,
+.breadcrumb-item--success .breadcrumb-item__content--link:hover {
+  color: var(--success-600);
+}
+
+/* Warning */
+.breadcrumbs--warning .breadcrumb-item__content--link,
+.breadcrumb-item--warning .breadcrumb-item__content--link {
+  color: var(--warning-500);
+}
+
+.breadcrumbs--warning .breadcrumb-item__content--link:hover,
+.breadcrumb-item--warning .breadcrumb-item__content--link:hover {
+  color: var(--warning-600);
+}
+
+/* Danger */
+.breadcrumbs--danger .breadcrumb-item__content--link,
+.breadcrumb-item--danger .breadcrumb-item__content--link {
+  color: var(--error-500);
+}
+
+.breadcrumbs--danger .breadcrumb-item__content--link:hover,
+.breadcrumb-item--danger .breadcrumb-item__content--link:hover {
+  color: var(--error-600);
+}
+
+/* ===================================
+   VARIANTS
+   =================================== */
+
+/* Solid variant - with background */
+.breadcrumbs--solid .breadcrumb-item__content--link {
+  background: var(--surface-subtle);
+}
+
+.breadcrumbs--solid .breadcrumb-item__content--link:hover {
+  background: var(--surface-hover);
+}
+
+.breadcrumbs--solid .breadcrumb-item__content--current {
+  background: var(--surface-card);
+}
+
+/* Bordered variant - with border */
+.breadcrumbs--bordered .breadcrumb-item__content {
+  border: 1px solid var(--border-default);
+}
+
+.breadcrumbs--bordered .breadcrumb-item__content--link:hover {
+  border-color: var(--border-strong);
+}
+
+.breadcrumbs--bordered .breadcrumb-item__content--current {
+  border-color: var(--border-strong);
+  background: var(--surface-subtle);
+}
+
+/* Light variant - minimal styling */
+.breadcrumbs--light .breadcrumb-item__content {
+  background: transparent;
+  padding: var(--foundation-space-1) var(--foundation-space-1);
+}
+
+.breadcrumbs--light .breadcrumb-item__content--link:hover {
+  background: transparent;
+}
+
+/* ===================================
+   RADIUS
+   =================================== */
+
+.breadcrumbs--radius-none .breadcrumb-item__content {
+  border-radius: 0;
+}
+
+.breadcrumbs--radius-sm .breadcrumb-item__content {
+  border-radius: var(--foundation-radius-sm);
+}
+
+.breadcrumbs--radius-md .breadcrumb-item__content {
+  border-radius: var(--foundation-radius-md);
+}
+
+.breadcrumbs--radius-lg .breadcrumb-item__content {
+  border-radius: var(--foundation-radius-lg);
+}
+
+.breadcrumbs--radius-full .breadcrumb-item__content {
+  border-radius: var(--foundation-radius-full);
+}
+
+/* ===================================
+   STATES
+   =================================== */
+
+.breadcrumbs--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.breadcrumbs--no-animation *,
+.breadcrumb-item--no-animation * {
+  transition: none !important;
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+
+@media (max-width: 640px) {
+  .breadcrumbs {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .breadcrumbs__list {
+    flex-wrap: nowrap;
+  }
+
+  .breadcrumb-item__text {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
