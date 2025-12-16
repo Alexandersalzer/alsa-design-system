@@ -264,8 +264,9 @@
    =================================== */
 
 /* Solid variant - with background */
-.breadcrumbs--solid .breadcrumb-item__content--link {
+.breadcrumbs--solid .breadcrumb-item__content {
   background: var(--surface-subtle);
+  padding: var(--foundation-space-1) var(--foundation-space-2);
 }
 
 .breadcrumbs--solid .breadcrumb-item__content--link:hover {
@@ -273,13 +274,15 @@
 }
 
 .breadcrumbs--solid .breadcrumb-item__content--current {
-  background: var(--surface-card);
+  background: var(--surface-hover);
+  color: var(--text-strong);
 }
 
 /* Bordered variant - pill buttons with border and subtle background */
 .breadcrumbs--bordered .breadcrumb-item__content {
   border: 1px solid var(--border-default);
   background: var(--surface-base);
+  padding: var(--foundation-space-1) var(--foundation-space-2);
 }
 
 .breadcrumbs--bordered .breadcrumb-item__content--link:hover {
@@ -296,11 +299,12 @@
 /* Light variant - minimal styling */
 .breadcrumbs--light .breadcrumb-item__content {
   background: transparent;
-  padding: var(--foundation-space-1) var(--foundation-space-1);
+  padding: var(--foundation-space-0-5) var(--foundation-space-1);
 }
 
 .breadcrumbs--light .breadcrumb-item__content--link:hover {
   background: transparent;
+  color: var(--text-strong);
 }
 
 /* ===================================
@@ -312,19 +316,19 @@
 }
 
 .breadcrumbs--radius-sm .breadcrumb-item__content {
-  border-radius: var(--foundation-radius-sm);
+  border-radius: var(--radius-xs);
 }
 
 .breadcrumbs--radius-md .breadcrumb-item__content {
-  border-radius: var(--foundation-radius-md);
+  border-radius: var(--radius-sm);
 }
 
 .breadcrumbs--radius-lg .breadcrumb-item__content {
-  border-radius: var(--foundation-radius-lg);
+  border-radius: var(--radius-md);
 }
 
 .breadcrumbs--radius-full .breadcrumb-item__content {
-  border-radius: var(--foundation-radius-full);
+  border-radius: var(--radius-full);
 }
 
 /* ===================================
