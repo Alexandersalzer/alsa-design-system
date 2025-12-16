@@ -64,7 +64,7 @@
 /* Single character - make it perfectly circular */
 .badge--one-char {
   padding: 0;
-  min-width: auto;
+  max-width: 0;
   aspect-ratio: 1;
 }
 
