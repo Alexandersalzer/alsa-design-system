@@ -120,6 +120,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               aspectRatio="2/3"
               radius="sm"
               loading="lazy"
+              rootMargin="800px"
               controls
               playsInline
               preload="metadata"
@@ -137,6 +138,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               objectFit="cover"
               radius="sm"
               loading="lazy"
+              rootMargin="800px"
               showSkeleton={true}
               priority={false}
               className="portfolio-image"

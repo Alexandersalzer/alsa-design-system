@@ -43,7 +43,7 @@ export const Video: React.FC<VideoProps> = ({
   loading = 'lazy',
   priority = false,
   onVideoError,
-  rootMargin = '100px',
+  rootMargin = '800px',
   className,
   style,
   controls = true,
