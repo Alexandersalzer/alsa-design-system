@@ -24,14 +24,26 @@
   border-radius: var(--radius-card-lg);
 }
 
+.card--padding-none {
+  padding: 0;
+}
+.card--padding-xs {
+  padding: var(--foundation-space-2);
+}
+
 /* ===== CARD PADDING SIZE VARIANTS ===== */
 .card--padding-sm {
   padding: var(--foundation-space-4);
 }
 
+.card--padding-md {
+  padding: var(--foundation-space-6);
+}
+
 .card--padding-lg {
   padding: var(--foundation-space-8);
 }
+
 
 /* ===== CARD VARIANT STYLES ===== */
 .card--elevated {

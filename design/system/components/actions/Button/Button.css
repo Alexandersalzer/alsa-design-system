@@ -288,12 +288,12 @@
 
 /* Active press: subtle scale */
 .btn:not(:disabled):active {
-  transform: scale(0.97);
+  transform: scale(0.99);
 }
 
 /* Hover + active combo */
 .btn:not(:disabled):hover:active {
-  transform: scale(0.97);
+  transform: scale(0.99);
 }
 
 /* Disabled buttons never transform */
