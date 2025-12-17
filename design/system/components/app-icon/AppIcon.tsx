@@ -4,7 +4,7 @@
 // ===============================================
 
 import React, { forwardRef } from 'react';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/design/system/utils/cn';
 import { Tag } from '../feedback/Tag/Tag';
 import { Body } from '../Typography/Typography';
 import { getAppIcon } from './appIcons';
