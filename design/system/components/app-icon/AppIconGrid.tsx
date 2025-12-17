@@ -5,7 +5,7 @@
 
 import React, { forwardRef } from 'react';
 import { Grid, GridProps } from '../layout/grid/Grid';
-import { cn } from '@/design/system/utils/cn';
+import { cn } from '../../utils/cn';
 import './AppIconGrid.css';
 
 export interface AppIconGridProps extends Omit<GridProps, 'cardDensity' | 'minItemWidth'> {
