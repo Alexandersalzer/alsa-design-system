@@ -30,7 +30,6 @@
 }
 
 /* ===== POPOVER CONTENT ===== */
-/* ===== POPOVER CONTENT ===== */
 .popover-content {
   position: absolute;
   /* Removed: top: calc(100% + 8px); and left: 0; - now controlled by inline styles */
@@ -39,11 +38,22 @@
   border-radius: var(--radius-dropdown);
   background-color: var(--surface-dropdown);
   box-shadow: var(--foundation-shadow-lg);
-  overflow: hidden;
-  
-  animation: popoverFadeIn var(--foundation-duration-normal) var(--foundation-ease-out);
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Hide initially until positioned to prevent flash */
+  opacity: 0;
+  visibility: hidden;
+
   transform: translateZ(0);
-  will-change: transform;
+  will-change: transform, opacity;
+}
+
+/* Show with smooth fade when positioned */
+.popover-content--positioned {
+  opacity: 1;
+  visibility: visible;
+  animation: popoverFadeIn 150ms var(--foundation-ease-out);
 }
 
 /* Size variants */
@@ -70,11 +80,9 @@
 @keyframes popoverFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-4px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 

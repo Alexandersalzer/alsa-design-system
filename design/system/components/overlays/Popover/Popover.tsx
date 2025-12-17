@@ -3,18 +3,21 @@
 // LOW-LEVEL POSITIONING PRIMITIVE - Chakra-inspired structure
 // ===============================================
 
-import React, { 
-  useState, 
-  useRef, 
-  useEffect, 
-  createContext, 
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+  createContext,
   useContext,
   forwardRef,
   useId,
   type ReactNode,
   type RefObject
 } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '../../../utils/cn';
+import { Component } from '../../frames/component/Component';
 import './Popover.css';
 
 // ===============================================
@@ -121,6 +124,7 @@ export interface PopoverRootProps {
   lazyMount?: boolean;
   unmountOnExit?: boolean;
   className?: string;
+  componentKey?: string;
 }
 
 export const PopoverRoot = ({
@@ -133,7 +137,8 @@ export const PopoverRoot = ({
   closeOnEscape = true,
   closeOnInteractOutside = true,
   modal = false,
-  className
+  className,
+  componentKey
 }: PopoverRootProps) => {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
   
@@ -209,9 +214,11 @@ export const PopoverRoot = ({
   
   return (
     <PopoverContext.Provider value={value}>
-      <div className={cn('popover-root', className)}>
-        {children}
-      </div>
+      <Component componentKey={componentKey}>
+        <div className={cn('popover-root', className)}>
+          {children}
+        </div>
+      </Component>
     </PopoverContext.Provider>
   );
 };
@@ -309,18 +316,32 @@ PopoverTrigger.displayName = 'Popover.Trigger';
 export interface PopoverPositionerProps {
   children: ReactNode;
   positioning?: PositioningOptions;
+  /** Use portal rendering to escape parent overflow constraints (e.g., inside modals) */
+  portal?: boolean;
 }
 
-export const PopoverPositioner = ({ children, positioning }: PopoverPositionerProps) => {
+export const PopoverPositioner = ({ children, positioning, portal = true }: PopoverPositionerProps) => {
   const { isOpen } = usePopoverContext();
-  
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   if (!isOpen) return null;
-  
-  return (
+
+  const content = (
     <div className="popover-positioner">
       {children}
     </div>
   );
+
+  // Render via portal to escape modal overflow constraints
+  if (portal && isMounted && typeof document !== 'undefined') {
+    return createPortal(content, document.body);
+  }
+
+  return content;
 };
 
 // ===============================================
@@ -335,68 +356,79 @@ export interface PopoverContentProps {
   positioning?: PositioningOptions;
 }
 
-export const PopoverContent = ({ 
-  children, 
-  className, 
+export const PopoverContent = ({
+  children,
+  className,
   maxHeight = 600,
   width,
   positioning = {}
 }: PopoverContentProps) => {
   const { contentId, size, contentRef, triggerRef, autoFocus, isOpen } = usePopoverContext();
+  const [isPositioned, setIsPositioned] = useState(false);
   const [position, setPosition] = useState<{
+    top: number;
     left: number;
     shouldOpenUpward: boolean;
     maxHeight: number;
     minWidth: number;
   }>({
+    top: 0,
     left: 0,
     shouldOpenUpward: false,
     maxHeight: maxHeight,
     minWidth: MIN_WIDTHS[size]
   });
-  
+
   // Calculate positioning
   const updatePosition = () => {
     if (!contentRef.current || !triggerRef.current) return;
-    
+
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const contentRect = contentRef.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
     const viewportWidth = window.innerWidth;
-    
+
     const spaceAbove = triggerRect.top;
     const spaceBelow = viewportHeight - triggerRect.bottom;
-    
+
     // Get CSS min-width for this size
     const cssMinWidth = MIN_WIDTHS[size];
-    
-    // Determine actual content width (respecting CSS min-width)
-    const actualContentWidth = Math.max(
-      contentRect.width > 0 ? contentRect.width : cssMinWidth,
-      cssMinWidth
-    );
-    
+
+    // Determine content width - use explicit width prop if provided, otherwise calculate
+    const actualContentWidth = typeof width === 'number'
+      ? width
+      : Math.max(
+          contentRect.width > 0 ? contentRect.width : cssMinWidth,
+          cssMinWidth
+        );
+
     // Vertical positioning
     const shouldOpenUpward = spaceBelow < Math.min(maxHeight, contentRect.height) && spaceAbove > spaceBelow;
-    const calculatedMaxHeight = shouldOpenUpward 
+    const calculatedMaxHeight = shouldOpenUpward
       ? Math.min(maxHeight, spaceAbove - 16)
       : Math.min(maxHeight, spaceBelow - 16);
-    
+
     // Horizontal positioning - prevent overflow
-    let left = 0;
-    
+    let left = triggerRect.left;
+
     // Check if content would overflow on the right
-    if (triggerRect.left + actualContentWidth > viewportWidth - 16) {
+    if (left + actualContentWidth > viewportWidth - 16) {
       // Align to right edge of trigger
-      left = triggerRect.width - actualContentWidth;
+      left = triggerRect.right - actualContentWidth;
     }
-    
+
     // Check if it would overflow on the left
-    if (triggerRect.left + left < 16) {
-      left = -triggerRect.left + 16;
+    if (left < 16) {
+      left = 16;
     }
-    
+
+    // Vertical position (fixed positioning from viewport)
+    const top = shouldOpenUpward
+      ? triggerRect.top - 8  // Position bottom edge 8px above trigger
+      : triggerRect.bottom + 8;
+
     setPosition({
+      top,
       left,
       shouldOpenUpward,
       maxHeight: calculatedMaxHeight,
@@ -404,17 +436,16 @@ export const PopoverContent = ({
     });
   };
   
-  // Position immediately when opened, then fine-tune after render
-  useEffect(() => {
-    if (!isOpen) return;
-    
-    // Immediate calculation
+  // Position synchronously before paint to prevent flash
+  useLayoutEffect(() => {
+    if (!isOpen) {
+      setIsPositioned(false);
+      return;
+    }
+
+    // Calculate position synchronously before paint
     updatePosition();
-    
-    // Fine-tune after one frame
-    const timer = setTimeout(updatePosition, 16);
-    
-    return () => clearTimeout(timer);
+    setIsPositioned(true);
   }, [isOpen]);
   
   // Recalculate on scroll/resize
@@ -446,7 +477,7 @@ export const PopoverContent = ({
   }, [autoFocus, isOpen, triggerRef]);
   
   if (!isOpen) return null;
-  
+
   return (
     <div
       ref={contentRef}
@@ -457,21 +488,23 @@ export const PopoverContent = ({
       className={cn(
         'popover-content',
         `popover-content--${size}`,
+        'popover-content--portal',
+        isPositioned && 'popover-content--positioned',
         className
       )}
       style={{
-        maxHeight: `${position.maxHeight}px`,
-        minWidth: width || position.minWidth,
-        left: `${position.left}px`,
+        position: 'fixed',
         ...(position.shouldOpenUpward ? {
-          bottom: '100%',
-          top: 'auto',
-          marginBottom: 'calc( var(--control-height-md) + 8px)'
+          bottom: `${window.innerHeight - position.top}px`,
+          top: 'auto'
         } : {
-          top: '100%',
-          bottom: 'auto',
-          marginTop: '8px'
-        })
+          top: `${position.top}px`,
+          bottom: 'auto'
+        }),
+        left: `${position.left}px`,
+        maxHeight: `${position.maxHeight}px`,
+        ...(width ? { width, minWidth: width } : { minWidth: position.minWidth }),
+        zIndex: 'var(--z-popover)'
       }}
     >
       {children}

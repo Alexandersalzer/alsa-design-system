@@ -3,9 +3,9 @@
 // FIXED - No double trigger background
 // ===============================================
 
-import React, { 
-  useState, 
-  createContext, 
+import React, {
+  useState,
+  createContext,
   useContext,
   forwardRef,
   type ReactNode
@@ -14,7 +14,7 @@ import { cn } from '../../../utils/cn';
 import { Icon } from '../../media';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import { Popover } from '../Popover';
-import { Listbox } from '../../lists';
+import { Listbox, ListboxItem } from '../../lists';
 import './Menu.css';
 
 // ===============================================
@@ -56,6 +56,7 @@ export interface MenuRootProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   className?: string;
+  componentKey?: string;
 }
 
 export const MenuRoot = ({
@@ -67,7 +68,8 @@ export const MenuRoot = ({
   defaultOpen = false,
   open,
   onOpenChange,
-  className
+  className,
+  componentKey
 }: MenuRootProps) => {
   const value: MenuContextValue = {
     closeOnSelect,
@@ -83,6 +85,7 @@ export const MenuRoot = ({
         defaultOpen={defaultOpen}
         onOpenChange={onOpenChange}
         size={size}
+        componentKey={componentKey}
       >
         <div 
           className={cn('menu-root', className)}
@@ -174,7 +177,7 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
 };
 
 // ===============================================
-// MENU ITEM
+// MENU ITEM - Uses ListboxItem internally
 // ===============================================
 
 export interface MenuItemProps {
@@ -186,39 +189,34 @@ export interface MenuItemProps {
   className?: string;
 }
 
-export const MenuItem = ({ 
-  children, 
-  value = '', 
-  disabled = false, 
+export const MenuItem = ({
+  children,
+  value = '',
+  disabled = false,
   closeOnSelect: itemCloseOnSelect,
   onClick,
   className
 }: MenuItemProps) => {
-  const { closeOnSelect: rootCloseOnSelect, size, variant } = useMenuContext();
-  
+  const { closeOnSelect: rootCloseOnSelect, size } = useMenuContext();
+
   const shouldClose = itemCloseOnSelect ?? rootCloseOnSelect;
-  
+
   const handleClick = () => {
     if (disabled) return;
     onClick?.();
   };
-  
+
   return (
-    <div
-      role="menuitem"
-      tabIndex={disabled ? -1 : 0}
+    <ListboxItem
+      size={size}
+      disabled={disabled}
       onClick={handleClick}
-      className={cn(
-        'menu-item',
-        `menu-item--${size}`,
-        `menu-item--variant-${variant}`,
-        disabled && 'menu-item--disabled',
-        className
-      )}
+      className={cn('menu-item', className)}
+      role="menuitem"
       aria-disabled={disabled}
     >
       {children}
-    </div>
+    </ListboxItem>
   );
 };
 
@@ -263,7 +261,7 @@ export const MenuSeparator = ({ className }: MenuSeparatorProps) => {
 };
 
 // ===============================================
-// MENU CHECKBOX ITEM
+// MENU CHECKBOX ITEM - Uses ListboxItem internally
 // ===============================================
 
 export interface MenuCheckboxItemProps {
@@ -274,40 +272,38 @@ export interface MenuCheckboxItemProps {
   className?: string;
 }
 
-export const MenuCheckboxItem = ({ 
-  children, 
+export const MenuCheckboxItem = ({
+  children,
   value,
   checked = false,
   onChange,
   className
 }: MenuCheckboxItemProps) => {
   const { size } = useMenuContext();
-  
+
   const handleClick = () => {
     onChange?.(!checked);
   };
-  
+
   return (
-    <div
+    <ListboxItem
+      size={size}
+      onClick={handleClick}
+      className={cn('menu-checkbox-item', className)}
       role="menuitemcheckbox"
       aria-checked={checked}
-      onClick={handleClick}
-      className={cn(
-        'menu-item',
-        'menu-checkbox-item',
-        `menu-item--${size}`,
-        className
-      )}
+      leading={
+        <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`)}>
+          {checked && (
+            <Icon color='primary' size='sm'>
+              <CheckIcon />
+            </Icon>
+          )}
+        </div>
+      }
     >
-      <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`)}>
-        {checked && (
-          <Icon color='primary' size='sm'>
-            <CheckIcon />
-          </Icon>
-        )}
-      </div>
       {children}
-    </div>
+    </ListboxItem>
   );
 };
 
@@ -362,7 +358,7 @@ export const MenuRadioItemGroup = ({
 };
 
 // ===============================================
-// MENU RADIO ITEM
+// MENU RADIO ITEM - Uses ListboxItem internally
 // ===============================================
 
 export interface MenuRadioItemProps {
@@ -373,37 +369,35 @@ export interface MenuRadioItemProps {
   className?: string;
 }
 
-export const MenuRadioItem = ({ 
-  children, 
+export const MenuRadioItem = ({
+  children,
   value,
   checked = false,
   onSelect,
   className
 }: MenuRadioItemProps) => {
   const { size } = useMenuContext();
-  
+
   return (
-    <div
+    <ListboxItem
+      size={size}
+      onClick={onSelect}
+      selected={checked}
+      className={cn('menu-radio-item', className)}
       role="menuitemradio"
       aria-checked={checked}
-      onClick={onSelect}
-      className={cn(
-        'menu-item',
-        'menu-radio-item',
-        `menu-item--${size}`,
-        checked && 'menu-radio-item--selected',
-        className
-      )}
+      leading={
+        <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`)}>
+          {checked && (
+            <Icon color='primary' size='sm'>
+              <CheckIcon />
+            </Icon>
+          )}
+        </div>
+      }
     >
-      <div className={cn('menu-item-indicator', `menu-item-indicator--${size}`)}>
-        {checked && (
-          <Icon color='primary' size='sm'>
-            <CheckIcon />
-          </Icon>
-        )}
-      </div>
       {children}
-    </div>
+    </ListboxItem>
   );
 };
 

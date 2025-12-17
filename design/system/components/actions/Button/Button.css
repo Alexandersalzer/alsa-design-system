@@ -45,6 +45,11 @@
   height: var(--control-height-xl);
 }
 
+/* Full width button */
+.btn-full-width {
+  width: 100%;
+}
+
 /* ==========================================================
    BUTTON VARIANTS
    ========================================================== */
@@ -59,7 +64,7 @@
 /* Ensure icons inside brand buttons match text color */
 .btn-brand .icon,
 .btn-brand [class*="icon-"] {
-  color: var(--text-button-brand) !important;
+  color: var(--text-button-brand);
 }
 
 .btn-brand:hover:not(:disabled) {
@@ -77,11 +82,11 @@
 }
 
 .btn-brand:disabled {
-  background-color: var(--surface-button-brand-disabled);
-  border-color: var(--surface-button-brand-disabled);
-  color: var(--text-button-brand-disabled);
+  background-color: var(--surface-disabled);
+  border-color: var(--border-disabled);
+  color: var(--text-disabled);
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 1;
 }
 
 /* ===== PRIMARY (ALWAYS INVERSE/DARK) ===== */
@@ -94,7 +99,7 @@
 /* Ensure icons inside primary buttons match text color */
 .btn-primary .icon,
 .btn-primary [class*="icon-"] {
-  color: var(--text-button-primary) !important;
+  color: var(--text-button-primary);
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -112,11 +117,11 @@
 }
 
 .btn-primary:disabled {
-  background-color: var(--surface-button-primary-disabled);
-  border-color: var(--surface-button-primary-disabled);
-  color: var(--text-button-primary-disabled);
+  background-color: var(--surface-disabled);
+  border-color: var(--border-disabled);
+  color: var(--text-disabled);
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 1;
 }
 
 /* ===== SECONDARY ===== */
@@ -141,24 +146,24 @@
 }
 
 .btn-secondary:disabled {
-  background-color: var(--surface-button-secondary-disabled);
-  color: var(--text-button-secondary-disabled);
-  border-color: var(--border-button-secondary-disabled);
+  background-color: var(--surface-disabled);
+  border-color: var(--border-disabled);
+  color: var(--text-disabled);
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 1;
 }
 
 /* ===== ACCENT ===== */
 .btn-accent {
   background-color: var(--surface-button-accent);
-  color: var(--always-white); /* ✅ now permanent white text */
+  color: var(--text-button-accent); /* ✅ uses semantic token that adapts */
   border-color: var(--border-button-accent);
 }
 
-/* Ensure icons inside accent buttons are white */
+/* Ensure icons inside accent buttons match text color */
 .btn-accent .icon,
 .btn-accent [class*="icon-"] {
-  color: var(--always-white) !important;
+  color: var(--text-button-accent) ;
 }
 
 .btn-accent:hover:not(:disabled) {
@@ -175,10 +180,11 @@
 }
 
 .btn-accent:disabled {
-  background-color: var(--surface-button-accent-disabled);
-  color: var(--always-white);
-  opacity: 0.6;
+  background-color: var(--surface-disabled);
+  border-color: var(--border-disabled);
+  color: var(--text-disabled);
   cursor: not-allowed;
+  opacity: 1;
 }
 
 /* ===== GHOST ===== */
@@ -196,6 +202,14 @@
   background-color: var(--surface-button-ghost-active);
 }
 
+.btn-ghost:disabled {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--text-disabled);
+  cursor: not-allowed;
+  opacity: 1;
+}
+
 /* ===== DESTRUCTIVE ===== */
 .btn-destructive {
   background-color: var(--surface-button-destructive);
@@ -211,6 +225,14 @@
 
 .btn-destructive:hover:not(:disabled) {
   background-color: var(--surface-button-destructive-hover);
+}
+
+.btn-destructive:disabled {
+  background-color: var(--surface-disabled);
+  border-color: var(--border-disabled);
+  color: var(--text-disabled);
+  cursor: not-allowed;
+  opacity: 1;
 }
 
 /* ==========================================================
@@ -266,12 +288,12 @@
 
 /* Active press: subtle scale */
 .btn:not(:disabled):active {
-  transform: scale(0.97);
+  transform: scale(0.99);
 }
 
 /* Hover + active combo */
 .btn:not(:disabled):hover:active {
-  transform: scale(0.97);
+  transform: scale(0.99);
 }
 
 /* Disabled buttons never transform */

@@ -20,6 +20,7 @@ export interface TextLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElem
   rightIcon?: ReactNode;
   underline?: 'none' | 'hover' | 'always';
   disabled?: boolean;
+  componentKey?: string;
 }
 
 export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
@@ -33,6 +34,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   underline = 'hover',
   disabled = false,
   href,
+  componentKey,
   ...props
 }, ref) => {
   
@@ -133,7 +135,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   // If it's a .html file (edit mode), use regular anchor tag
   if (isHtmlFile) {
     return (
-      <Component>
+      <Component componentKey={componentKey}>
         <a
           ref={ref}
           href={localeAwareHref}
@@ -150,7 +152,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
 
   // Otherwise, use Next.js Link for internal routing
   return (
-    <Component>
+    <Component componentKey={componentKey}>
       <Link
         href={localeAwareHref || '#'}
         className={textLinkClasses}
@@ -179,7 +181,7 @@ export default TextLink;
 <TextLink variant="brand" size="lg" weight="bold">Brand Name</TextLink>
 
 // ✅ PRIMARY TEXTLINK
-<TextLink variant="primary" href="/about">About Us</TextLink>
+<TextLink variant="accent" href="/about">About Us</TextLink>
 
 // ✅ SECONDARY TEXTLINK
 <TextLink variant="secondary" href="/contact">Contact</TextLink>
@@ -191,7 +193,7 @@ export default TextLink;
 <TextLink variant="ghost" href="/terms">Terms of Service</TextLink>
 
 // ✅ WITH ICONS
-<TextLink variant="primary" leftIcon={<LogoIcon />} rightIcon={<ArrowIcon />}>
+<TextLink variant="accent" leftIcon={<LogoIcon />} rightIcon={<ArrowIcon />}>
   Brand with Icons
 </TextLink>
 

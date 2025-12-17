@@ -3,6 +3,7 @@
 // UPDATED TO ACCEPT ALL DIV PROPS
 // ===============================================
 import React, { ReactNode, HTMLAttributes } from 'react';
+import './HStack.css';
 
 // ===== TYPE DEFINITIONS =====
 export interface HStackProps extends HTMLAttributes<HTMLDivElement> { // ✅ Extend HTMLAttributes

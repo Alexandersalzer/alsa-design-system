@@ -1,5 +1,6 @@
 import type { DesignTokens } from "../types/design";
 import { getDesignConfig } from "./loaders";
+import { normalizeWeights, getWeightValue, normalizeNumericWeights } from "./weights";
 
 /**
  * Generates CSS variables from design.json
@@ -12,14 +13,39 @@ export function buildCssVars(tokens: DesignTokens): string {
   const themeTone        = tokens?.themeTone        || "neutral";
   const fontPrimary      = tokens?.fontPrimary      || "Sora";
   const fontSecondary    = tokens?.fontSecondary    || fontPrimary;
-  const fontWeightScale  = tokens?.fontWeightScale  || "regular";
   const layoutContent    = tokens?.layoutContent    || "md";
   const layoutMedia      = tokens?.layoutMedia      || "xl";
   const sectionSpacing   = tokens?.sectionSpacing   || "md";
   const containerSpacing = tokens?.containerSpacing || "md";
   const navbarSpacing    = tokens?.navbarSpacing    || "md";
-  const formWidth        = tokens?.formWidth        || "sm";  // ← NEW
+  const formWidth        = tokens?.formWidth        || "sm";
   const typographyScale  = tokens?.typographyScale  || "md";
+
+  // 🎯 WEIGHT SYSTEM: Supports both numeric (preferred) and tier-based (legacy)
+  let fontWeightHeading: number;
+  let fontWeightBody: number;
+  let fontWeightLabel: number;
+
+  // Prefer numeric weights if provided
+  if (tokens?.fontWeightHeadingNumeric || tokens?.fontWeightBodyNumeric) {
+    const numericWeights = normalizeNumericWeights(
+      tokens?.fontWeightHeadingNumeric,
+      tokens?.fontWeightBodyNumeric,
+      tokens?.fontWeightLabelNumeric
+    );
+    fontWeightHeading = numericWeights.heading;
+    fontWeightBody = numericWeights.body;
+    fontWeightLabel = numericWeights.label;
+  } else {
+    // Fall back to tier-based weights
+    const weights = normalizeWeights(
+      tokens?.fontWeightHeading,
+      tokens?.fontWeightBody
+    );
+    fontWeightHeading = getWeightValue(weights.heading);
+    fontWeightBody = getWeightValue(weights.body);
+    fontWeightLabel = getWeightValue(weights.label);
+  }
 
   const fontWeights = "300;400;500;600;700;800;900";
   const fontsToImport = [fontPrimary, fontSecondary]
@@ -109,43 +135,86 @@ export function buildCssVars(tokens: DesignTokens): string {
       --selected-leading-relaxed: var(--foundation-typography-${typographyScale}-leading-relaxed);
       --selected-leading-loose:   var(--foundation-typography-${typographyScale}-leading-loose);
 
-      /* ===== Font weight scale ===== */
-      --selected-font-weight-heading: var(--foundation-weightscale-${fontWeightScale}-heading);
-      --selected-font-weight-body:    var(--foundation-weightscale-${fontWeightScale}-body);
-      --selected-font-weight-label:   var(--foundation-weightscale-${fontWeightScale}-label);
+      /* ===== Font weights (DYNAMIC - numeric 100-900 range from design.json) ===== */
+      --dynamic-font-weight-heading: ${fontWeightHeading};
+      --dynamic-font-weight-body:    ${fontWeightBody};
+      --dynamic-font-weight-label:   ${fontWeightLabel};
 
-      /* ===== Theme ===== */
+      /* ===== Theme Control (replaces data-theme attribute) ===== */
       --is-dark: ${isDark ? 1 : 0};
     }
+
+    ${isInverseAccent ? `
+    /* ===== INVERSE ACCENT MODE (replaces data-accent-mode attribute) ===== */
+    /* Override accent semantic tokens for high-contrast monochrome */
+    :root {
+      --surface-accent: var(--surface-inverse);
+      --surface-accent-subtle: var(--surface-hover);
+      --surface-accent-muted: var(--surface-active);
+
+      --text-accent: var(--text-strong);
+      --text-accent-strong: var(--text-strong);
+      --text-accent-subtle: var(--text-default);
+      --text-on-accent: var(--text-inverse);
+
+      --border-accent: var(--border-emphasis);
+      --border-accent-subtle: var(--border-default);
+      --border-accent-strong: var(--border-emphasis);
+      --border-focus: var(--border-emphasis);
+      --border-selected: var(--border-emphasis);
+
+      --icon-accent: var(--icon-strong);
+      --icon-on-accent: var(--icon-inverse);
+
+      --text-link: var(--text-strong);
+      --text-link-hover: var(--text-default);
+
+      --interactive-accent: var(--interactive-primary);
+      --interactive-accent-hover: var(--interactive-primary-hover);
+      --interactive-accent-active: var(--interactive-primary-active);
+      --interactive-accent-disabled: var(--interactive-primary-disabled);
+    }
+    ` : ''}
+
+    ${isDark ? `
+    /* ===== DARK MODE ADJUSTMENTS (replaces data-theme attribute) ===== */
+    :root {
+      --surface-backdrop: rgba(0, 0, 0, 0.7);
+      --surface-scrim: rgba(0, 0, 0, 0.85);
+    }
+    ` : ''}
   `.trim();
 }
 
 /**
  * Parent function som kombinerar getDesignConfig + buildCssVars
  * Detta är den primära funktionen som ska användas i layouts
- * 
+ *
+ * @param isEditing - Optional parameter for backward compatibility (not used)
  * @returns CSS string redo att injectas i <style> tag
  */
 /**
  * Returns CSS and theme metadata from design.json
  * Always reads the actual file for consistent behavior
  */
-export async function designSnippet(): Promise<{ css: string; themeTone: string; isDark: boolean }> {
+export async function designSnippet(isEditing?: boolean): Promise<{ css: string; themeTone: string; isDark: boolean; accentColor: string }> {
   const designConfig = await getDesignConfig();
-  
+
   if (!designConfig) {
     // No design config found, return defaults
     return {
       css: "",
       themeTone: "neutral",
-      isDark: false
+      isDark: false,
+      accentColor: "purple"
     };
   }
-  
+
   const tokens = designConfig.globalStyles || {};
   const themeTone = tokens.themeTone || "neutral";
   const isDark = tokens.isDark ?? false;
+  const accentColor = tokens.accentColor || "purple";
   const css = buildCssVars(tokens);
-  
-  return { css, themeTone, isDark };
+
+  return { css, themeTone, isDark, accentColor };
 }

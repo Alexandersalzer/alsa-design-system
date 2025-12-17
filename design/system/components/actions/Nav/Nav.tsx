@@ -13,10 +13,12 @@ export type NavVariant = 'sidebar' | 'horizontal' | 'tabs';
 interface NavContextValue {
   variant: NavVariant;
   currentPath?: string;
+  collapsed?: boolean;
 }
 
 const NavContext = createContext<NavContextValue>({
-  variant: 'sidebar'
+  variant: 'sidebar',
+  collapsed: false
 });
 
 // ===== NAV ROOT =====
@@ -26,6 +28,7 @@ export interface NavRootProps extends React.HTMLAttributes<HTMLElement> {
   currentPath?: string;
   className?: string;
   gap?: 'sm' | 'md' | 'lg' | 'xl'; // Add gap prop
+  collapsed?: boolean; // Add collapsed prop
 }
 
 const NavRoot = forwardRef<HTMLElement, NavRootProps>(({
@@ -34,15 +37,21 @@ const NavRoot = forwardRef<HTMLElement, NavRootProps>(({
   currentPath,
   className,
   gap = 'md', // Default gap
+  collapsed = false, // Default collapsed
   ...props
 }, ref) => {
   return (
-    <NavContext.Provider value={{ variant, currentPath }}>
+    <NavContext.Provider value={{ variant, currentPath, collapsed }}>
       <nav
         ref={ref}
-        className={cn('nav-root', `nav-root--${variant}`, className)}
+        className={cn(
+          'nav-root',
+          `nav-root--${variant}`,
+          collapsed && 'nav-root--collapsed',
+          className
+        )}
         role="navigation"
-        style={{ 
+        style={{
           display: 'flex',
           flexDirection: 'column',
           gap: `var(--foundation-space-${gap === 'sm' ? '2' : gap === 'md' ? '3' : gap === 'lg' ? '4' : '5'})`
@@ -111,7 +120,7 @@ const NavItem = forwardRef<HTMLButtonElement, NavPrimitiveItemProps>(({
   as = 'button',
   ...props
 }, ref) => {
-  const { variant, currentPath } = useContext(NavContext);
+  const { variant, currentPath, collapsed } = useContext(NavContext);
   const active = isActive ?? (href && currentPath === href);
 
   const classes = cn(
@@ -119,6 +128,7 @@ const NavItem = forwardRef<HTMLButtonElement, NavPrimitiveItemProps>(({
     `nav-item--${variant}`,
     active && 'nav-item--active',
     isDisabled && 'nav-item--disabled',
+    collapsed && 'nav-item--collapsed',
     className
   );
 
@@ -132,9 +142,9 @@ const NavItem = forwardRef<HTMLButtonElement, NavPrimitiveItemProps>(({
     <>
       {icon && (
         <span className="nav-item__icon">
-          <Icon 
-            size="lg" 
-            color={getIconColor()} 
+          <Icon
+            size="lg"
+            color={getIconColor()}
             weight="medium"
           >
             {icon}
@@ -152,6 +162,7 @@ const NavItem = forwardRef<HTMLButtonElement, NavPrimitiveItemProps>(({
     className: classes,
     'aria-current': active ? 'page' : undefined,
     'aria-disabled': isDisabled,
+    'aria-label': collapsed ? String(children) : undefined, // Add aria-label when collapsed
     role: 'listitem',
   };
 

@@ -5,3 +5,4 @@ export * from './patterns/index';
 export * from './components/layout';
 export * from './hooks';
 export * from './core';
+export * from './bookings';

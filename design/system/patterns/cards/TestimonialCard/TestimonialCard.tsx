@@ -4,6 +4,7 @@ import { Avatar } from '../../../components/media/Avatar';
 import './TestimonialCard.css';
 
 interface TestimonialCardProps {
+  componentKey?: string;
   text: string;
   author: string;
   authorInitial: string;
@@ -14,6 +15,7 @@ interface TestimonialCardProps {
 export type { TestimonialCardProps };
 
 export function TestimonialCard({ 
+  componentKey,
   text, 
   author, 
   authorInitial, 
@@ -21,7 +23,7 @@ export function TestimonialCard({
   rating 
 }: TestimonialCardProps) {
   return (
-    <Card variant="outlined" className="testimonial-card">
+    <Card variant="outlined" className="testimonial-card" data-component-key={componentKey}>
       <VStack spacing="md" className="testimonial-card-content">
         {/* Author Info at top */}
         <div className="testimonial-author">

@@ -187,8 +187,8 @@
 
   /* Checkbox - responds to radius scale selection */
   --radius-checkbox-sm: var(--radius-xs);
-  --radius-checkbox: var(--radius-sm);
-  --radius-checkbox-lg: var(--radius-md);
+  --radius-checkbox: var(--radius-xs);
+  --radius-checkbox-lg: var(--radius-sm);
 
   /* Radio - always circular, ignores radius scale */
   --radius-radio: var(--radius-full);

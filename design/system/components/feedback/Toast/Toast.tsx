@@ -1,12 +1,12 @@
 // ==============================================
 // src/design-system/components/primitives/Toast/Toast.tsx
-// TOAST COMPONENT - WITH SURFACE VARIANTS
+// TOAST COMPONENT - WITH SURFACE VARIANTS AND PROGRESS BAR
 // ==============================================
 
 import React, { forwardRef, ReactNode, useEffect, useState, useRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { Typography } from '../../Typography';
-import { 
+import {
   Icon,
   StatusIcons,
   XMarkIcon
@@ -27,21 +27,45 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
   surface?: ToastSurface;
   /** Optional left icon (defaults to status icon) */
   leftIcon?: ReactNode;
-  /** Show close button */
+  /** Show close button (shows on hover by default) */
   showClose?: boolean;
   /** Additional CSS classes */
   className?: string;
   /** Toast title (optional) */
   title?: string;
-  /** Auto-dismiss duration in milliseconds (0 = no auto-dismiss) */
+  /** Auto-dismiss duration in milliseconds (0 = no auto-dismiss, defaults vary by variant) */
   duration?: number;
   /** Whether the toast should disappear automatically or not */
   autoDismiss?: boolean;
+  /** Show timeout progress bar */
+  showProgress?: boolean;
+  /** Custom end content (e.g., action buttons) */
+  endContent?: ReactNode;
+  /** Promise to track (shows loading state until resolved/rejected) */
+  promise?: Promise<any>;
+  /** Loading component to show while promise is pending */
+  loadingComponent?: ReactNode;
   /** Called when animation completes */
   onAnimationComplete?: (state: ToastState) => void;
   /** Force animation state (for external control) */
   forceState?: ToastState;
 }
+
+// ===== VARIANT-SPECIFIC DURATIONS =====
+const getDefaultDuration = (variant: ToastVariant): number => {
+  switch (variant) {
+    case 'success':
+      return 4000; // Quick confirmation
+    case 'info':
+      return 5000; // Default
+    case 'warning':
+      return 6000; // More time to read
+    case 'error':
+      return 8000; // Critical, needs attention
+    default:
+      return 5000;
+  }
+};
 
 // ===== ICON MAPPING =====
 const getStatusIcon = (variant: ToastVariant): ReactNode => {
@@ -53,6 +77,7 @@ const getStatusIcon = (variant: ToastVariant): ReactNode => {
     case 'error':
       return <StatusIcons.Error />;
     case 'info':
+      return <StatusIcons.Info />;
     default:
       return <StatusIcons.Info />;
   }
@@ -68,8 +93,12 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   onClose,
   title,
   className,
-  duration = 5000,
+  duration,
   autoDismiss = false,
+  showProgress = false,
+  endContent,
+  promise,
+  loadingComponent,
   onAnimationComplete,
   forceState,
   style,
@@ -77,10 +106,32 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
 }, ref) => {
   const [animationState, setAnimationState] = useState<ToastState>('entering');
   const [isPaused, setIsPaused] = useState(false);
+  const [promiseState, setPromiseState] = useState<'pending' | 'resolved' | 'rejected' | null>(
+    promise ? 'pending' : null
+  );
+
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Get effective duration (use prop or variant-specific default)
+  const effectiveDuration = duration ?? getDefaultDuration(variant);
 
   // Use forced state if provided, otherwise use internal state
   const currentState = forceState || animationState;
+
+  // Handle promise tracking
+  useEffect(() => {
+    if (!promise) return;
+
+    setPromiseState('pending');
+
+    promise
+      .then(() => {
+        setPromiseState('resolved');
+      })
+      .catch(() => {
+        setPromiseState('rejected');
+      });
+  }, [promise]);
 
   // Handle animation lifecycle
   useEffect(() => {
@@ -95,12 +146,19 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
     return () => clearTimeout(enterTimer);
   }, [forceState, onAnimationComplete]);
 
-  // Handle auto-dismiss (if autoDismiss is true)
+  // Handle auto-dismiss
   useEffect(() => {
-    if (autoDismiss && duration > 0 && currentState === 'visible' && !isPaused) {
+    if (
+      autoDismiss &&
+      effectiveDuration > 0 &&
+      currentState === 'visible' &&
+      !isPaused &&
+      promiseState !== 'pending' // Don't auto-dismiss while promise is pending
+    ) {
+      // Auto-dismiss timeout
       timeoutRef.current = setTimeout(() => {
         handleClose();
-      }, duration);
+      }, effectiveDuration);
     }
 
     return () => {
@@ -108,7 +166,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [autoDismiss, duration, currentState, isPaused]);
+  }, [autoDismiss, effectiveDuration, currentState, isPaused, promiseState]);
 
   // Handle close with exit animation
   const handleClose = () => {
@@ -122,7 +180,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
       setAnimationState('exited');
       onAnimationComplete?.('exited');
       onClose?.();
-    }, 250); // Match animation duration
+    }, 300); // Match CSS animation duration (toastSlideOut)
   };
 
   // Pause/resume auto-dismiss on hover
@@ -139,6 +197,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
     return null;
   }
 
+  // Show loading state if promise is pending
+  const showLoading = promiseState === 'pending';
+  const displayIcon = showLoading && loadingComponent ? loadingComponent : (leftIcon || getStatusIcon(variant));
+
   const toastClasses = cn(
     'toast',
     `toast--${variant}`,
@@ -147,8 +209,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
   );
 
   return (
-    <div 
-      ref={ref} 
+    <div
+      ref={ref}
       className={toastClasses}
       data-state={currentState}
       data-variant={variant}
@@ -162,7 +224,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
     >
       {/* Left Icon */}
       <div className="toast__icon-left">
-        {leftIcon || getStatusIcon(variant)}
+        {displayIcon}
       </div>
 
       {/* Content */}
@@ -184,7 +246,14 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
         </Typography>
       </div>
 
-      {/* Close Button */}
+      {/* End Content (action buttons, etc.) */}
+      {endContent && (
+        <div className="toast__end-content">
+          {endContent}
+        </div>
+      )}
+
+      {/* Close Button (shows on hover) */}
       {showClose && (
         <button
           onClick={handleClose}

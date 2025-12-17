@@ -5,26 +5,19 @@
 
 import { ComponentNode, PatternNode } from '../types/nodes';
 
+/**
+ * Hidden components context
+ */
+let hiddenComponentsSet: Set<string> = new Set();
+
+export const setHiddenComponentsContext = (hiddenComponents: Set<string>) => {
+  hiddenComponentsSet = hiddenComponents;
+};
 
 /**
  * Get content from the first component with a specific type and optional role
  * Returns the content string or a fallback value
  */
-/**
- * Get props from the first component with a specific type and optional role
- * Returns the props object or a fallback value
- */
-export const getComponentProps = (
-  components: Record<string, ComponentNode>,
-  type: string,
-  fallback: Record<string, any> = {}
-): Record<string, any> => {
-  const component = Object.values(components).find(c => {
-    const matchesType = c.type === type;
-    return matchesType;
-  });
-  return component?.props ?? fallback;
-};
 
 export const componentProps = (components: Record<string, ComponentNode>) => {
   return (type: string, fallback: Record<string, any> = {}) => {
@@ -36,7 +29,7 @@ export const componentProps = (components: Record<string, ComponentNode>) => {
  * Get component props along with the component key for live editing
  * Returns both props and the key for data-component-key attribute
  */
-export const getComponentWithKey = (
+export const getComponentProps = (
   components: Record<string, ComponentNode>,
   type: string,
   fallback: Record<string, any> = {}
@@ -59,11 +52,7 @@ export const getComponentWithKey = (
   };
 };
 
-export const componentPropsWithKey = (components: Record<string, ComponentNode>) => {
-  return (type: string, fallback: Record<string, any> = {}) => {
-    return getComponentWithKey(components, type, fallback);
-  };
-};
+
 
 /**
  * Get props from a pattern
@@ -96,16 +85,19 @@ export const patternProps = (pattern: PatternNode) => {
  */
 export const componentPresent = (components: Record<string, ComponentNode>) => {
   return (type: string) => {
-    const component = Object.values(components).find(c => {
-      const matchesType = c.type === type;
-      return matchesType;
+    const entry = Object.entries(components).find(([key, component]) => {
+      return component.type === type;
     });
     
-    if (!component) return false;
+    if (!entry) return false;
     
-    // Check if component is hidden
+    const [componentKey, component] = entry;
+    
+    // Check if component is hidden via props or context
     const props = component.props || {};
-    if (props.hidden === true) return false;
+    if (props.hidden === true || hiddenComponentsSet.has(componentKey)) {
+      return false;
+    }
     
     return true;
   };

@@ -76,28 +76,47 @@
   outline: none;
   user-select: none;
   position: relative;
-  
-  transition: 
+  border: 1px solid transparent;
+
+  transition:
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
-    color var(--foundation-duration-fast) var(--foundation-ease-out);
+    color var(--foundation-duration-fast) var(--foundation-ease-out),
+    border-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    transform var(--foundation-duration-fast) var(--foundation-ease-out);
+}
+
+/* Variant: Card - Subtle border + elevated background */
+.listbox-item--variant-card {
+  background-color: var(--surface-card);
+  border-color: var(--border-subtle);
+}
+
+.listbox-item--variant-card.listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  border-color: var(--border-default);
+  background-color: var(--surface-card-hover);
+}
+
+.listbox-item--variant-card.listbox-item--selected {
+  border-color: var(--border-accent);
+  background-color: var(--surface-picker-option-selected);
 }
 
 /* Size variants */
 .listbox-item--sm {
-  padding: 6px 10px;
-  gap: 8px;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  gap: var(--foundation-space-2);
   font-size: 13px;
 }
 
 .listbox-item--md {
-  padding: 8px 12px;
-  gap: 12px;
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+  gap: var(--foundation-space-3);
   font-size: 14px;
 }
 
 .listbox-item--lg {
-  padding: 12px 16px;
-  gap: 16px;
+  padding: var(--foundation-space-4) var(--foundation-space-5);
+  gap: var(--foundation-space-4);
   font-size: 15px;
 }
 
@@ -113,11 +132,12 @@
 
 /* Hover for selected items - slightly different shade */
 .listbox-item--interactive.listbox-item--selected:hover:not(.listbox-item--disabled) {
-  background-color: var(--surface-dropdown-option-selected-hover);
+  background-color: var(--surface-hover);
 }
 
 .listbox-item--interactive:active:not(.listbox-item--disabled) {
   background-color: var(--surface-pressed);
+  transform: scale(0.995);
 }
 
 /* Focus state */
@@ -159,22 +179,26 @@
   flex-shrink: 0;
 }
 
-.listbox-item-leading--sm,
-.listbox-item-trailing--sm {
+/* Only constrain icons/svgs, not text content */
+.listbox-item-leading--sm > svg,
+.listbox-item-trailing--sm > svg {
   width: 16px;
   height: 16px;
+  flex-shrink: 0;
 }
 
-.listbox-item-leading--md,
-.listbox-item-trailing--md {
+.listbox-item-leading--md > svg,
+.listbox-item-trailing--md > svg {
   width: 20px;
   height: 20px;
+  flex-shrink: 0;
 }
 
-.listbox-item-leading--lg,
-.listbox-item-trailing--lg {
+.listbox-item-leading--lg > svg,
+.listbox-item-trailing--lg > svg {
   width: 24px;
   height: 24px;
+  flex-shrink: 0;
 }
 
 /* ===== LISTBOX ITEM CONTENT ===== */

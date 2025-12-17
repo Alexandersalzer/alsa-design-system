@@ -1,0 +1,227 @@
+/* ===============================================
+   Tooltip.css
+   Tooltip component styles with placements and animations
+   =============================================== */
+
+/* ===== TOOLTIP TRIGGER ===== */
+.tooltip-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== TOOLTIP CONTENT ===== */
+.tooltip {
+  position: fixed;
+  z-index: var(--z-tooltip, 9999);
+  pointer-events: none;
+
+  /* Hide initially until positioned to prevent flash */
+  opacity: 0;
+  visibility: hidden;
+
+  will-change: transform, opacity;
+}
+
+/* Show with smooth fade when positioned */
+.tooltip--positioned {
+  opacity: 1;
+  visibility: visible;
+  animation: tooltipFadeIn 150ms var(--foundation-ease-out);
+}
+
+.tooltip__content {
+  position: relative;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--foundation-weight-medium);
+  line-height: var(--font-body-sm-leading);
+  white-space: nowrap;
+  box-shadow: var(--foundation-shadow-md);
+}
+
+/* ===== SIZE VARIANTS ===== */
+.tooltip--sm .tooltip__content {
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+  font-size: var(--font-body-xs-size);
+  line-height: var(--font-body-xs-leading);
+}
+
+.tooltip--md .tooltip__content {
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  font-size: var(--font-body-sm-size);
+  line-height: var(--font-body-sm-leading);
+}
+
+.tooltip--lg .tooltip__content {
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+  font-size: var(--font-body-md-size);
+  line-height: var(--font-body-md-leading);
+}
+
+/* ===== COLOR VARIANTS ===== */
+.tooltip--default .tooltip__content {
+  background-color: var(--surface-inverse);
+  color: var(--text-inverse);
+}
+
+.tooltip--primary .tooltip__content {
+  background-color: var(--surface-accent);
+  color: var(--text-on-accent);
+}
+
+.tooltip--secondary .tooltip__content {
+  background-color: var(--surface-raised);
+  color: var(--text-default);
+  border: 1px solid var(--border-default);
+}
+
+.tooltip--success .tooltip__content {
+  background-color: var(--surface-success);
+  color: var(--text-on-success);
+}
+
+.tooltip--warning .tooltip__content {
+  background-color: var(--surface-warning);
+  color: var(--text-on-warning);
+}
+
+.tooltip--danger .tooltip__content {
+  background-color: var(--surface-error);
+  color: var(--text-on-error);
+}
+
+/* ===== ARROW ===== */
+.tooltip__arrow {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+}
+
+/* Arrow color variants */
+.tooltip--default .tooltip__arrow {
+  background-color: var(--surface-inverse);
+}
+
+.tooltip--primary .tooltip__arrow {
+  background-color: var(--surface-accent);
+}
+
+.tooltip--secondary .tooltip__arrow {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-default);
+}
+
+.tooltip--success .tooltip__arrow {
+  background-color: var(--surface-success);
+}
+
+.tooltip--warning .tooltip__arrow {
+  background-color: var(--surface-warning);
+}
+
+.tooltip--danger .tooltip__arrow {
+  background-color: var(--surface-error);
+}
+
+/* ===== ARROW POSITIONING BY PLACEMENT ===== */
+
+/* Top placements - arrow points down */
+.tooltip--top .tooltip__arrow,
+.tooltip--top-start .tooltip__arrow,
+.tooltip--top-end .tooltip__arrow {
+  bottom: -4px;
+}
+
+.tooltip--top .tooltip__arrow {
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.tooltip--top-start .tooltip__arrow {
+  left: 12px;
+}
+
+.tooltip--top-end .tooltip__arrow {
+  right: 12px;
+}
+
+/* Bottom placements - arrow points up */
+.tooltip--bottom .tooltip__arrow,
+.tooltip--bottom-start .tooltip__arrow,
+.tooltip--bottom-end .tooltip__arrow {
+  top: -4px;
+}
+
+.tooltip--bottom .tooltip__arrow {
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.tooltip--bottom-start .tooltip__arrow {
+  left: 12px;
+}
+
+.tooltip--bottom-end .tooltip__arrow {
+  right: 12px;
+}
+
+/* Left placements - arrow points right */
+.tooltip--left .tooltip__arrow,
+.tooltip--left-start .tooltip__arrow,
+.tooltip--left-end .tooltip__arrow {
+  right: -4px;
+}
+
+.tooltip--left .tooltip__arrow {
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.tooltip--left-start .tooltip__arrow {
+  top: 12px;
+}
+
+.tooltip--left-end .tooltip__arrow {
+  bottom: 12px;
+}
+
+/* Right placements - arrow points left */
+.tooltip--right .tooltip__arrow,
+.tooltip--right-start .tooltip__arrow,
+.tooltip--right-end .tooltip__arrow {
+  left: -4px;
+}
+
+.tooltip--right .tooltip__arrow {
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.tooltip--right-start .tooltip__arrow {
+  top: 12px;
+}
+
+.tooltip--right-end .tooltip__arrow {
+  bottom: 12px;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .tooltip--positioned {
+    animation: tooltipFadeIn 100ms ease;
+  }
+}

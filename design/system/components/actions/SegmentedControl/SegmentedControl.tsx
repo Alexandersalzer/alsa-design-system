@@ -9,7 +9,8 @@ import React, {
   useState,
   useCallback,
 } from 'react';
-import { Label } from '../../Typography/Typography'; // ← ONLY CHANGE: Added /Typography
+import { Label } from '../../Typography/Typography';
+import { Tooltip } from '../../overlays/Tooltip/Tooltip';
 import { cn } from '../../../utils/cn';
 
 export interface SegmentedControlOption {
@@ -17,6 +18,7 @@ export interface SegmentedControlOption {
   label: string;
   icon?: React.ReactNode;
   disabled?: boolean;
+  tooltip?: string; // Optional tooltip text (defaults to label if iconOnly is true)
 }
 
 export interface SegmentedControlProps {
@@ -27,6 +29,8 @@ export interface SegmentedControlProps {
   variant?: 'default' | 'pill' | 'ghost';
   fullWidth?: boolean;
   disabled?: boolean;
+  iconOnly?: boolean; // Hide labels, show only icons with tooltips
+  tooltipPlacement?: 'top' | 'bottom' | 'left' | 'right'; // Control tooltip position (default: 'bottom')
   className?: string;
   'aria-label'?: string;
 }
@@ -42,6 +46,8 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
   variant = 'default',
   fullWidth = false,
   disabled = false,
+  iconOnly = false,
+  tooltipPlacement = 'bottom',
   className,
   'aria-label': ariaLabel,
 }) => {
@@ -234,12 +240,15 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
         const isDisabled = disabled || option.disabled;
         const isBeforeSelected = index === selectedIndex - 1;
         const isAfterSelected = index === selectedIndex + 1;
+        const tooltipText = option.tooltip || option.label;
+        const showTooltip = iconOnly && tooltipText;
 
-        return (
+        const buttonElement = (
           <button
             key={option.value}
             className={cn(
               'segmented-control__option',
+              iconOnly && 'segmented-control__option--icon-only',
               isDisabled && 'segmented-control__option--disabled'
             )}
             onClick={(e) => {
@@ -254,6 +263,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
             role="radio"
             aria-checked={isSelected}
             aria-disabled={isDisabled || undefined}
+            aria-label={iconOnly ? option.label : undefined}
             tabIndex={isSelected ? 0 : -1}
             data-value={option.value}
             data-selected={isSelected}
@@ -262,15 +272,34 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
             type="button"
           >
             {option.icon && <span className="segmented-control__icon">{option.icon}</span>}
-            <Label
-              size={size === 'sm' ? 'xs' : size === 'lg' ? 'md' : 'sm'}
-              weight={isSelected ? 'semibold' : 'medium'}
-              color={isSelected ? 'primary' : 'secondary'}
-            >
-              {option.label}
-            </Label>
+            {!iconOnly && (
+              <Label
+                size={size === 'sm' ? 'xs' : size === 'lg' ? 'md' : 'sm'}
+                weight={isSelected ? 'semibold' : 'medium'}
+                color={isSelected ? 'primary' : 'secondary'}
+              >
+                {option.label}
+              </Label>
+            )}
           </button>
         );
+
+        // Wrap with Tooltip if iconOnly mode
+        if (showTooltip) {
+          return (
+            <Tooltip
+              size="sm"
+              key={option.value}
+              content={tooltipText}
+              placement={tooltipPlacement}
+              delay={500}
+            >
+              {buttonElement}
+            </Tooltip>
+          );
+        }
+
+        return buttonElement;
       })}
     </div>
   );

@@ -8,7 +8,7 @@ import { cn } from '../../../utils/cn';
 import type { DateValue } from '@internationalized/date';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { Icon } from '../../media';
-import { AriaPopover } from '../../overlays/AriaPopover';
+import { Popover } from '../../overlays';
 import { useDateRangePickerState } from '@react-stately/datepicker';
 import { useDateRangePicker } from '@react-aria/datepicker';
 import { useDateField, useDateSegment } from '@react-aria/datepicker';
@@ -185,49 +185,114 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       )}
 
       {/* Input */}
-      <div {...groupProps} className={inputWrapperClasses}>
-        {selectorButtonPlacement === 'start' && (
-          <button
-            ref={triggerRef as any}
-            {...triggerButtonProps}
-            className={cn('date-range-picker-selector-button', classNames.selectorButton)}
-            disabled={isDisabled || isReadOnly}
-          >
-            {selectorIcon || defaultSelectorIcon}
-          </button>
-        )}
+      <Popover
+        open={state.isOpen}
+        onOpenChange={state.setOpen}
+        size="md"
+        closeOnInteractOutside={true}
+        closeOnEscape={true}
+      >
+        <div {...groupProps} className={inputWrapperClasses}>
+          {selectorButtonPlacement === 'start' && (
+            <Popover.Trigger asChild>
+              <button
+                ref={triggerRef as any}
+                {...triggerButtonProps}
+                className={cn('date-range-picker-selector-button', classNames.selectorButton)}
+                disabled={isDisabled || isReadOnly}
+              >
+                {selectorIcon || defaultSelectorIcon}
+              </button>
+            </Popover.Trigger>
+          )}
 
-        <div className={cn('date-range-picker-input', classNames.input)}>
-          <DateRangeField
-            {...startFieldProps}
-            size={size}
-            state={state}
-            isStart
-            classNames={classNames}
-          />
+          <div className={cn('date-range-picker-input', classNames.input)}>
+            <DateRangeField
+              {...startFieldProps}
+              size={size}
+              state={state}
+              isStart
+              classNames={classNames}
+            />
 
-          <span className={cn('date-range-picker-separator', classNames.separator)}>–</span>
+            <span className={cn('date-range-picker-separator', classNames.separator)}>–</span>
 
-          <DateRangeField
-            {...endFieldProps}
-            size={size}
-            state={state}
-            isStart={false}
-            classNames={classNames}
-          />
+            <DateRangeField
+              {...endFieldProps}
+              size={size}
+              state={state}
+              isStart={false}
+              classNames={classNames}
+            />
+          </div>
+
+          {selectorButtonPlacement === 'end' && (
+            <Popover.Trigger asChild>
+              <button
+                ref={triggerRef as any}
+                {...triggerButtonProps}
+                className={cn('date-range-picker-selector-button', classNames.selectorButton)}
+                disabled={isDisabled || isReadOnly}
+              >
+                {selectorIcon || defaultSelectorIcon}
+              </button>
+            </Popover.Trigger>
+          )}
         </div>
 
-        {selectorButtonPlacement === 'end' && (
-          <button
-            ref={triggerRef as any}
-            {...triggerButtonProps}
-            className={cn('date-range-picker-selector-button', classNames.selectorButton)}
-            disabled={isDisabled || isReadOnly}
+        <Popover.Positioner>
+          <Popover.Content
+            maxHeight={500}
+            width={visibleMonths * calendarWidth + (visibleMonths - 1) * 16 + 32}
+            className={cn('date-range-picker-popover', classNames.popoverContent)}
           >
-            {selectorIcon || defaultSelectorIcon}
-          </button>
-        )}
-      </div>
+            <div className="date-range-picker-calendar-content">
+              {CalendarTopContent}
+
+              <Calendar
+                value={state.value?.start as any}
+                onChange={(newValue) => {
+                  const currentRange = state.value;
+
+                  if (!currentRange || !currentRange.start || currentRange.end) {
+                    // No range or complete range -> start new range
+                    state.setValue({ start: newValue, end: null } as any);
+                  } else {
+                    // Start exists but no end -> complete the range
+                    const startDate = currentRange.start;
+
+                    if (newValue.compare(startDate) < 0) {
+                      // New date is before start -> make it the new start
+                      state.setValue({ start: newValue, end: startDate } as any);
+                    } else {
+                      // New date is after start -> make it the end
+                      state.setValue({ start: startDate, end: newValue } as any);
+                    }
+
+                    // Keep popover open so user can adjust range
+                  }
+                }}
+                size={size}
+                minValue={minValue}
+                maxValue={maxValue}
+                visibleMonths={visibleMonths}
+                showMonthAndYearPickers={showMonthAndYearPickers && visibleMonths === 1}
+                firstDayOfWeek={firstDayOfWeek}
+                calendarWidth={calendarWidth}
+                pageBehavior={pageBehavior}
+                isDateUnavailable={isDateUnavailable}
+                isDisabled={isDisabled}
+                isReadOnly={isReadOnly}
+                classNames={{ base: classNames.calendar }}
+                isRangePicker={true}
+                rangeValue={state.value}
+              />
+
+              {CalendarBottomContent}
+            </div>
+          </Popover.Content>
+        </Popover.Positioner>
+      </Popover>
 
       {/* Helper/Error */}
       {(helper || errorMessage) && (
@@ -235,63 +300,6 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
           {errorMessage && <div className="date-range-picker-error" role="alert">{errorMessage}</div>}
           {helper && !errorMessage && <div className="date-range-picker-helper">{helper}</div>}
         </div>
-      )}
-
-      {/* Popover with Single Calendar */}
-      {state.isOpen && (
-        <AriaPopover
-          {...dialogProps}
-          state={state}
-          triggerRef={triggerRef}
-          maxHeight={500}
-          width={visibleMonths * calendarWidth + (visibleMonths - 1) * 16 + 32}
-          className={cn('date-range-picker-popover', 'aria-popover--no-padding', classNames.popoverContent)}
-        >
-          <div className="date-range-picker-calendar-content">
-            {CalendarTopContent}
-
-            <Calendar
-              value={state.value?.start as any}
-              onChange={(newValue) => {
-                const currentRange = state.value;
-                
-                if (!currentRange || !currentRange.start || currentRange.end) {
-                  // No range or complete range -> start new range
-                  state.setValue({ start: newValue, end: null } as any);
-                } else {
-                  // Start exists but no end -> complete the range
-                  const startDate = currentRange.start;
-                  
-                  if (newValue.compare(startDate) < 0) {
-                    // New date is before start -> make it the new start
-                    state.setValue({ start: newValue, end: startDate } as any);
-                  } else {
-                    // New date is after start -> make it the end
-                    state.setValue({ start: startDate, end: newValue } as any);
-                  }
-                  
-                  // Keep popover open so user can adjust range
-                }
-              }}
-              size={size}
-              minValue={minValue}
-              maxValue={maxValue}
-              visibleMonths={visibleMonths}
-              showMonthAndYearPickers={showMonthAndYearPickers && visibleMonths === 1}
-              firstDayOfWeek={firstDayOfWeek}
-              calendarWidth={calendarWidth}
-              pageBehavior={pageBehavior}
-              isDateUnavailable={isDateUnavailable}
-              isDisabled={isDisabled}
-              isReadOnly={isReadOnly}
-              classNames={{ base: classNames.calendar }}
-              isRangePicker={true}
-              rangeValue={state.value}
-            />
-
-            {CalendarBottomContent}
-          </div>
-        </AriaPopover>
       )}
     </div>
   );

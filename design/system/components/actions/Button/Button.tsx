@@ -24,6 +24,7 @@ export interface ButtonProps
   loading?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  fullWidth?: boolean;
   componentKey?: string; // För live editing identification
 }
 
@@ -43,6 +44,7 @@ export const Button = forwardRef<
       loading = false,
       leftIcon,
       rightIcon,
+      fullWidth = false,
       disabled,
       componentKey,
       ...props
@@ -101,6 +103,7 @@ export const Button = forwardRef<
       `btn-${variant}`,
       `btn-${size}`,
       `btn-radius-${radius}`,
+      fullWidth && 'btn-full-width',
       className,
       isDisabled && 'pointer-events-none opacity-60'
     );

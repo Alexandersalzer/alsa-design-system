@@ -13,11 +13,14 @@ import { alignMap } from '../utils';
 import './NavbarBar.css';
 import { PatternNode } from '../../../core/types/nodes';
 
+interface NavbarBarProps extends PatternNode {
+  sectionKey?: string;
+  patternKey?: string;
+}
 
-const NavbarBar = ( patternNode: PatternNode) => {
-    const { components = {} } = patternNode;
-    const getComponent = componentProps(components);
-    const getPatternProps = patternProps(patternNode);
+const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: NavbarBarProps) => {
+    const get = componentProps(components);
+    const getPatternProps = patternProps({ components, ...patternNode });
     const renderIf = componentPresent(components);
     const mapComponentIndices = useMapComponents(components);
     const pathname = usePathname();
@@ -50,24 +53,26 @@ const NavbarBar = ( patternNode: PatternNode) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Build logo props
+  // Build logo props with componentKey
   const logoProps = {
-    src: renderIf('logo') && getComponent('logo').src ? `${CDN_BASE_URL}${getComponent('logo').src}` : undefined,
-    alt: renderIf('logo') ? (getComponent('logo').alt || 'Logo') : undefined,
-    text: renderIf('typography-businessName') ? getComponent('typography-businessName').content : undefined,
+    src: renderIf('logo') && get('logo').props.src ? `${CDN_BASE_URL}${get('logo').props.src}` : undefined,
+    alt: renderIf('logo') ? (get('logo').props.alt || 'Logo') : undefined,
+    text: renderIf('typography-businessName') ? get('typography-businessName').props.content : undefined,
     href: `/${currentLocale}`,
-    width: renderIf('logo') ? (getComponent('logo').width || 40) : undefined,
-    height: renderIf('logo') ? (getComponent('logo').height || 40) : undefined,
-    color: renderIf('logo') ? (getComponent('logo').color || 'auto') : 'auto' as const,
-    textSize: renderIf('typography-businessName') ? (getComponent('typography-businessName').size || 'lg') : 'lg' as const,
-    textWeight: renderIf('typography-businessName') ? (getComponent('typography-businessName').weight || 'extrabold') : 'extrabold' as const,
-    textTransform: renderIf('typography-businessName') ? (getComponent('typography-businessName').transform || 'none') : 'none' as const,
-    textSpacing: renderIf('typography-businessName') ? (getComponent('typography-businessName').spacing || 'normal') : 'normal' as const,
-    textGradient: renderIf('typography-businessName') ? (getComponent('typography-businessName').gradient || false) : false,
+    width: renderIf('logo') ? (get('logo').props.width || 40) : undefined,
+    height: renderIf('logo') ? (get('logo').props.height || 40) : undefined,
+    color: renderIf('logo') ? (get('logo').props.color || 'auto') : 'auto' as const,
+    textSize: renderIf('typography-businessName') ? (get('typography-businessName').props.size || 'lg') : 'lg' as const,
+    textWeight: renderIf('typography-businessName') ? (get('typography-businessName').props.weight || 'extrabold') : 'extrabold' as const,
+    textTransform: renderIf('typography-businessName') ? (get('typography-businessName').props.transform || 'none') : 'none' as const,
+    textSpacing: renderIf('typography-businessName') ? (get('typography-businessName').props.spacing || 'normal') : 'normal' as const,
+    textGradient: renderIf('typography-businessName') ? (get('typography-businessName').props.gradient || false) : false,
     gap: renderIf('logo') && renderIf('typography-businessName') ? (getPatternProps().logoGap || 'sm') : 'sm' as const,
     hideTextOnMobile: getPatternProps().hideLogoTextOnMobile || false,
     loading: 'eager' as const,
     priority: true,
+    componentKey: renderIf('logo') ? get('logo').key : undefined,
+    textComponentKey: renderIf('typography-businessName') ? get('typography-businessName').key : undefined,
   };
 
   return (
@@ -84,23 +89,26 @@ const NavbarBar = ( patternNode: PatternNode) => {
             <HStack className={`navbar-bar__middle navbar-bar__middle--${desktopAlign}`} spacing="lg">
               {mapComponentIndices('textlink-menuItem')
               .slice(0, getPatternProps().maxMenuItems)
-              .map((props, i) => (
-                <TextLink key={i} href={props.href} size="md" underline="hover">
-                  {props.content}
-                </TextLink>
-              ))}
+              .map((props, i) => {
+                const componentKey = `textlink-menuItem_${i}`;
+                return (
+                  <TextLink key={i} href={props.href} size="md" underline="hover" componentKey={componentKey}>
+                    {props.content}
+                  </TextLink>
+                );
+              })}
             </HStack>
           )}
 
           <HStack spacing="sm" className="navbar-bar__right">
             {renderIf('button-secondaryAction') && (
-              <Button variant="ghost" href={getComponent('button-secondaryAction').href}>
-                {getComponent('button-secondaryAction').content}
+              <Button variant="ghost" href={get('button-secondaryAction').props.href} componentKey={get('button-secondaryAction').key}>
+                {get('button-secondaryAction').props.content}
               </Button>
             )}
             {renderIf('button-primaryAction') && (
-              <Button variant="primary" href={getComponent('button-primaryAction').href}>
-                {getComponent('button-primaryAction').content}
+              <Button variant="accent" href={get('button-primaryAction').props.href} componentKey={get('button-primaryAction').key}>
+                {get('button-primaryAction').props.content}
               </Button>
             )}
           </HStack>
@@ -139,36 +147,42 @@ const NavbarBar = ( patternNode: PatternNode) => {
           )}
         >
           {renderIf('textlink-menuItem') && mapComponentIndices('textlink-menuItem')
-            .map((props, i) => (
-              <TextLink
-                key={i}
-                href={props.href}
-                onClick={() => setMobileOpen(false)}
-                className="drawer-navbar-link"
-              >
-                {props.content}
-              </TextLink>
-            ))}
+            .map((props, i) => {
+              const componentKey = `textlink-menuItem_${i}`;
+              return (
+                <TextLink
+                  key={i}
+                  href={props.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="drawer-navbar-link"
+                  componentKey={componentKey}
+                >
+                  {props.content}
+                </TextLink>
+              );
+            })}
 
           <VStack spacing="sm" className="drawer-navbar-actions">
             {renderIf('button-secondaryAction') && (
               <Button
                 variant="ghost"
-                href={getComponent('button-secondaryAction').href}
+                href={get('button-secondaryAction').props.href}
                 onClick={() => setMobileOpen(false)}
                 className="drawer-navbar-button"
+                componentKey={get('button-secondaryAction').key}
               >
-                {getComponent('button-secondaryAction').content}
+                {get('button-secondaryAction').props.content}
               </Button>
             )}
             {renderIf('button-primaryAction') && (
               <Button
-                variant="primary"
-                href={getComponent('button-primaryAction').href}
+                variant="accent"
+                href={get('button-primaryAction').props.href}
                 onClick={() => setMobileOpen(false)}
                 className="drawer-navbar-button"
+                componentKey={get('button-primaryAction').key}
               >
-                {getComponent('button-primaryAction').content}
+                {get('button-primaryAction').props.content}
               </Button>
             )}
           </VStack>

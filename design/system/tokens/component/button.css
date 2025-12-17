@@ -102,8 +102,8 @@
   --surface-button-ghost-hover: var(--interactive-tertiary-hover);
   --surface-button-ghost-active: var(--interactive-tertiary-active);
 
-  --text-button-ghost: var(--text-muted);
-  --text-button-ghost-hover: var(--text-default);
+  --text-button-ghost: var(--text-default);
+  --text-button-ghost-hover: var(--text-strong);
   --text-button-ghost-active: var(--text-strong);
 
   --border-button-ghost: transparent;

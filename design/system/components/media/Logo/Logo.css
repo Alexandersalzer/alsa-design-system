@@ -43,11 +43,20 @@
 
 .logo__image {
   flex-shrink: 0;
+  display: block;  /* Remove inline spacing that adds extra height */
+  line-height: 0;  /* Collapse any line-height spacing */
 }
 
 .logo__text {
   flex-shrink: 0;
   white-space: nowrap;
+  line-height: 1 !important;  /* Override any inherited line-height (including .leading-loose) for perfect vertical alignment */
+  align-items: center;
+}
+
+/* Ensure child elements also have tight line-height */
+.logo__text * {
+  line-height: 1 !important;
 }
 
 /* ===== MOBILE TEXT HIDING ===== */

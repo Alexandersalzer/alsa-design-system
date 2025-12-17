@@ -16,6 +16,16 @@
       "require": "./dist/design/system/core/config/index.js",
       "types": "./dist/design/system/core/config/index.d.ts"
     },
+    "./apps": {
+      "import": "./dist/design/system/core/ApplicationComponent/index.js",
+      "require": "./dist/design/system/core/ApplicationComponent/index.js",
+      "types": "./dist/design/system/core/ApplicationComponent/index.d.ts"
+    },
+    "./apps/server": {
+      "import": "./dist/design/system/core/applications/index.js",
+      "require": "./dist/design/system/core/applications/index.js",
+      "types": "./dist/design/system/core/applications/index.d.ts"
+    },
     "./content": {
       "import": "./dist/design/system/core/content/index.js",
       "require": "./dist/design/system/core/content/index.js",
@@ -30,11 +40,6 @@
       "import": "./dist/design/system/core/design/index.js",
       "require": "./dist/design/system/core/design/index.js",
       "types": "./dist/design/system/core/design/index.d.ts"
-    },
-    "./postmessage": {
-      "import": "./dist/design/system/core/postmessage/index.js",
-      "require": "./dist/design/system/core/postmessage/index.js",
-      "types": "./dist/design/system/core/postmessage/index.d.ts"
     },
     "./routing": {
       "import": "./dist/design/system/core/routing/index.js",
@@ -90,19 +95,29 @@
     "@react-aria/button": "^3.14.2",
     "@react-aria/calendar": "^3.9.2",
     "@react-aria/datepicker": "^3.15.2",
+    "@react-aria/focus": "^3.21.2",
     "@react-aria/i18n": "^3.12.13",
+    "@react-aria/interactions": "^3.25.6",
     "@react-aria/overlays": "^3.30.0",
+    "@react-aria/slider": "^3.8.2",
+    "@react-aria/utils": "^3.31.0",
+    "@react-aria/visually-hidden": "^3.8.28",
     "@react-stately/calendar": "^3.9.0",
     "@react-stately/datepicker": "^3.15.2",
+    "@react-stately/slider": "^3.7.2",
     "@studio-freight/lenis": "^1.0.42",
     "country-flag-icons": "^1.5.21",
     "lenis": "^1.3.11",
-    "lucide-react": "^0.525.0"
+    "lucide-react": "^0.525.0",
+    "react-easy-crop": "^5.5.6",
+    "react-image-crop": "^11.0.10",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-easy-crop": "^1.16.0",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
     "eslint": "^9",

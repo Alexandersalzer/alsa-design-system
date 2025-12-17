@@ -10,6 +10,9 @@
   gap: 12px;
   width: 100%;
   /* NO background, border, or shadow - AriaPopover handles this */
+  position: relative;
+  z-index: 1;
+  pointer-events: auto; /* Se till att kalendern är klickbar */
 }
 
 /* Size variants */
@@ -138,6 +141,9 @@
   width: 100%;
   border-collapse: collapse;
   user-select: none;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto; /* Se till att grid är klickbar */
 }
 
 .calendar-grid--sm {
@@ -195,6 +201,9 @@
 .calendar-cell {
   padding: 0; /* No padding = no gaps between range dates */
   text-align: center;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto; /* Se till att celler är klickbara */
 }
 
 .calendar-cell--sm {
@@ -220,6 +229,8 @@
   cursor: pointer;
   transition: all var(--foundation-duration-fast) var(--foundation-ease-out);
   position: relative;
+  z-index: 10; /* Se till att knappar är ovanför allt */
+  pointer-events: auto; /* Se till att knappar är klickbara */
 }
 
 .calendar-cell-button--sm {

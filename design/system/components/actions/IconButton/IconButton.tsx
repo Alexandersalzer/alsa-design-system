@@ -6,6 +6,7 @@
 import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { Icon } from '../../media';
+import { Tooltip, TooltipPlacement, TooltipColor } from '../../overlays/Tooltip/Tooltip';
 
 // Import heroicons properly
 import {
@@ -39,6 +40,18 @@ export interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
   active?: boolean;
   /** Loading state */
   loading?: boolean;
+  /** Enable tooltip - if true, uses aria-label as content, or use tooltipContent for custom text (default: false) */
+  tooltip?: boolean;
+  /** Custom tooltip content (overrides aria-label) */
+  tooltipContent?: React.ReactNode;
+  /** Tooltip placement */
+  tooltipPlacement?: TooltipPlacement;
+  /** Tooltip color variant */
+  tooltipColor?: TooltipColor;
+  /** Tooltip size (default: 'sm') */
+  tooltipSize?: 'sm' | 'md' | 'lg';
+  /** Tooltip delay in ms (default: 300) */
+  tooltipDelay?: number;
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
@@ -51,6 +64,12 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
   className,
   disabled,
   'aria-label': ariaLabel,
+  tooltip = false,
+  tooltipContent,
+  tooltipPlacement = 'top',
+  tooltipColor = 'default',
+  tooltipSize = 'sm',
+  tooltipDelay = 300,
   ...props
 }, ref) => {
   const isDisabled = disabled || loading;
@@ -65,7 +84,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
     className
   );
 
-  return (
+  const button = (
     <button
       ref={ref}
       className={buttonClasses}
@@ -113,6 +132,23 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
       )}
     </button>
   );
+
+  // Wrap with tooltip if enabled and not disabled
+  if (tooltip && !isDisabled) {
+    return (
+      <Tooltip
+        content={tooltipContent || ariaLabel}
+        placement={tooltipPlacement}
+        color={tooltipColor}
+        size={tooltipSize}
+        delay={tooltipDelay}
+      >
+        {button}
+      </Tooltip>
+    );
+  }
+
+  return button;
 });
 
 IconButton.displayName = 'IconButton';
@@ -120,6 +156,12 @@ IconButton.displayName = 'IconButton';
 // ===== SMART ICON BUTTON COMPONENTS - FIXED =====
 interface SmartIconButtonProps extends Omit<IconButtonProps, 'icon' | 'aria-label'> {
   'aria-label'?: string;
+  tooltip?: boolean;
+  tooltipContent?: React.ReactNode;
+  tooltipPlacement?: TooltipPlacement;
+  tooltipColor?: TooltipColor;
+  tooltipSize?: 'sm' | 'md' | 'lg';
+  tooltipDelay?: number;
 }
 
 // 🎯 FIXED: Helper function that uses appropriate icon color based on button variant
