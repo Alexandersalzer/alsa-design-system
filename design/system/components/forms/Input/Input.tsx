@@ -6,6 +6,7 @@
 import React, { forwardRef, ReactNode, useId, useState, useRef, useEffect } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { cn } from '../../../utils/cn';
+import { Component } from '../../frames/component/Component';
 
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
   label?: string;
@@ -21,6 +22,7 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search';
   showPasswordToggle?: boolean;
   fullWidth?: boolean;
+  componentKey?: string; // För live editing identification
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -39,6 +41,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     type = 'text',
     showPasswordToggle = true,
     fullWidth = false,
+    componentKey,
     id,
     ...props
   }, ref) => {
@@ -92,13 +95,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     ].filter(Boolean);
 
     return (
-      <div className={cn('input-group', fullWidth ? 'input-group--full-width' : null)}> {/* 👈 UPDATED */}
-        {/* Label */}
-        {label && (
-          <label htmlFor={inputId} className="input-label">
-            {label}
-          </label>
-        )}
+      <Component componentKey={componentKey}>
+        <div className={cn('input-group', fullWidth ? 'input-group--full-width' : null)}>
+          {/* Label */}
+          {label && (
+            <label htmlFor={inputId} className="input-label">
+              {label}
+            </label>
+          )}
 
         {/* Input wrapper */}
         <div className={cn('input-wrapper', `input-wrapper--${size}`)} style={{ position: 'relative' }}>
@@ -181,20 +185,21 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {error || helper}
           </div>
         )}
-      </div>
+        </div>
+      </Component>
     );
   }
 );
 
 Input.displayName = 'Input';
 
-// Search Input Component - Updated with fullWidth support
+// Search Input Component - Updated with fullWidth and componentKey support
 export interface SearchInputProps extends Omit<InputProps, 'variant'> {
   onClear?: () => void;
 }
 
 export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ onClear, value, size = 'md', radius = 'md', fullWidth = false, ...props }, ref) => {
+  ({ onClear, value, size = 'md', radius = 'md', fullWidth = false, componentKey, ...props }, ref) => {
     const searchIcon = (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
         <path
@@ -233,7 +238,8 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         leftIcon={searchIcon}
         rightIcon={clearIcon}
         value={value}
-        fullWidth={fullWidth} // 👈 PASS THROUGH
+        fullWidth={fullWidth}
+        componentKey={componentKey}
         {...props}
       />
     );

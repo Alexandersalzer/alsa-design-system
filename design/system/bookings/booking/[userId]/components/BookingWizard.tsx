@@ -15,7 +15,7 @@ import BookingSuccess from './BookingSuccess';
 import type { Service, Resource, AvailabilityResponse, BookingFormData } from '../types';
 
 interface BookingWizardProps {
-  userId: number;
+  externalId: string;
   services: Service[];
   resourceTypes: Service[]; // Categories för rentals
   businessType: 'services' | 'rentals' | 'both';
@@ -31,7 +31,7 @@ interface BookingWizardProps {
 }
 
 export default function BookingWizard({
-  userId,
+  externalId,
   services,
   resourceTypes,
   businessType,
@@ -607,7 +607,7 @@ export default function BookingWizard({
       <BookingSuccess
         appointment={createdAppointment}
         service={selectedServiceData}
-        userId={userId}
+        externalId={externalId}
       />
     );
   }
@@ -752,7 +752,7 @@ export default function BookingWizard({
               <>
                 {currentStep === resourceStepIndex && requiresResource && selectedService && (
                   <Step2ResourceSelection
-                    userId={userId}
+                    externalId={externalId}
                     serviceId={selectedService}
                     selectedResource={selectedResource}
                     onResourceSelect={setSelectedResource}
@@ -777,7 +777,7 @@ export default function BookingWizard({
 
                 {currentStep === dateTimeStepIndex && selectedService && (
                   <Step3DateTimeSelection
-                    userId={userId}
+                    externalId={externalId}
                     serviceId={selectedService}
                     resourceId={isRental ? (selectedResource || undefined) : (selectedResource || undefined)}
                     isRental={isRental}

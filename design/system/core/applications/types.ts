@@ -4,6 +4,7 @@
  */
 
 export interface Config {
+  version?: string;
   localization: {
     endonym_name: string;
     iso_code: string;
@@ -11,7 +12,7 @@ export interface Config {
     primary: boolean;
   };
   user: {
-    user_id: number;
+    external_id: string;
   };
   applications: {
     active: string[];

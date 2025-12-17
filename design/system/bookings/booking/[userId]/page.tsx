@@ -18,24 +18,11 @@ import BookingWizard from './components/BookingWizard';
 import type { Service, BookingFormData } from './types';
 
 interface PublicBookingPageProps {
-  userId: number;
-  params?: Promise<{ userId: string }>; // Optional for backward compatibility
+  externalId: string; // Required - the only identifier we use now
 }
 
-export default function PublicBookingPage({ userId: propUserId, params }: PublicBookingPageProps) {
-  // Support both prop-based userId (new) and params-based userId (backward compatibility)
-  let userId: number;
-  
-  if (propUserId) {
-    userId = propUserId;
-  } else if (params) {
-    // Fallback to params for backward compatibility - but this requires React.use()
-    const { use } = React;
-    const resolvedParams = use(params);
-    userId = parseInt(resolvedParams.userId);
-  } else {
-    throw new Error('PublicBookingPage requires either userId prop or params');
-  }
+export default function PublicBookingPage({ externalId }: PublicBookingPageProps) {
+  // ✅ ALL HOOKS MUST BE DECLARED FIRST (before any conditional returns)
   const [services, setServices] = useState<Service[]>([]);
   const [resourceTypes, setResourceTypes] = useState<Service[]>([]); // Categories för rentals
   const [businessType, setBusinessType] = useState<'services' | 'rentals' | 'both'>('services');
@@ -93,12 +80,18 @@ export default function PublicBookingPage({ userId: propUserId, params }: Public
     return defaultMessage;
   };
 
-  // Hämta services och resource_types (kategorier)
+  // Hämta services och resource_types (kategorier) - MÅSTE VARA PÅ TOP LEVEL
   useEffect(() => {
     const fetchServices = async () => {
+      if (!externalId) {
+        setError('Vi kunde inte hitta bokningssystemet. Kontrollera länken eller kontakta oss så hjälper vi dig.');
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
-        const response = await apiClient.get(`/labs/bookings/public/services?user_id=${userId}`);
+        const response = await apiClient.get(`/labs/bookings/public/services?external_id=${externalId}`);
         if (response.data.success) {
           const servicesData = response.data.services || [];
           const resourceTypesData = response.data.resource_types || [];
@@ -181,13 +174,8 @@ export default function PublicBookingPage({ userId: propUserId, params }: Public
       }
     };
 
-    if (userId && !isNaN(userId)) {
-      fetchServices();
-    } else {
-      setError('Vi kunde inte hitta bokningssystemet. Kontrollera länken eller kontakta oss så hjälper vi dig.');
-      setLoading(false);
-    }
-  }, [userId]);
+    fetchServices();
+  }, [externalId]); // Run whenever externalId changes
 
   const handleImageError = (serviceId: number) => {
     setImageErrors(prev => new Set(prev).add(serviceId));
@@ -201,7 +189,7 @@ export default function PublicBookingPage({ userId: propUserId, params }: Public
       setSubmitting(true);
       
       const payload: any = {
-        user_id: userId,
+        external_id: externalId,
         booking_type: bookingData.booking_type,
         service_id: bookingData.service_id,
         customer_name: bookingData.customer_name.trim(),
@@ -265,7 +253,7 @@ export default function PublicBookingPage({ userId: propUserId, params }: Public
                 variant="ghost"
                 size="sm"
                 onClick={() => {
-                  window.location.href = `/bookings/customer/${userId}`;
+                  window.location.href = `/bookings/customer?external_id=${externalId}`;
                 }}
               >
                 Mina bokningar
@@ -275,7 +263,7 @@ export default function PublicBookingPage({ userId: propUserId, params }: Public
         </VStack>
 
         <BookingWizard
-          userId={userId}
+          externalId={externalId}
           services={services}
           resourceTypes={resourceTypes}
           businessType={businessType}
@@ -293,4 +281,3 @@ export default function PublicBookingPage({ userId: propUserId, params }: Public
     </div>
   );
 }
-

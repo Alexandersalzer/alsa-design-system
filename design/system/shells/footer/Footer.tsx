@@ -21,6 +21,10 @@ const Footer = ({ section }: FooterProps) => {
   // Get sectionKey from the first section
   const sectionKey = Object.keys(section)[0];
   
+  // Get the first pattern to check for backgroundColor override
+  const firstPattern = patterns[patternOrder[0]];
+  const backgroundColor = firstPattern?.props?.backgroundColor || 'var(--surface-inverse)';
+  
   // Render patterns using shared renderShellPattern function
   const renderedPatterns = patternOrder
     .map((patternKey) => {
@@ -36,7 +40,7 @@ const Footer = ({ section }: FooterProps) => {
       as="footer" 
       sectionKey={sectionKey}
       style={{ 
-        backgroundColor: 'var(--surface-inverse)',
+        backgroundColor,
         overflow: 'visible', // Allow dropdown to show outside footer bounds
       }}
     >
@@ -45,4 +49,4 @@ const Footer = ({ section }: FooterProps) => {
   );
 };
 
-export default Footer; 
+export default Footer;

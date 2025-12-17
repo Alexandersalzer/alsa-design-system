@@ -2,7 +2,6 @@
  * Dynamic Application Page
  * Universal renderer for applications
  */
-'use client';
 
 import React from 'react';
 import type { ApplicationRoute } from '../applications/loader';
@@ -13,12 +12,23 @@ interface DynamicApplicationPageProps {
 }
 
 export function DynamicApplicationPage({ route }: DynamicApplicationPageProps) {
+  console.log('');
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.log('[DYNAMIC APP] 🎨 DynamicApplicationPage rendering');
+  console.log(`[DYNAMIC APP] App: ${route.app}`);
+  console.log(`[DYNAMIC APP] Path: ${route.path}`);
+  console.log(`[DYNAMIC APP] Props:`, route.props);
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.log('');
+  
   // For now, we only have booking - in the future this could be dynamic
-  if (route.app === 'booking') {
-    // Type assertion since we know booking requires userId and loader provides it
-    return <PublicBookingPage {...(route.props as { userId: number })} />;
+  if (route.app === 'bookings') {
+    console.log('[DYNAMIC APP] ✅ Rendering PublicBookingPage component');
+    // Type assertion since we know booking requires externalId and loader provides it
+    return <PublicBookingPage {...(route.props as { externalId: string })} />;
   }
   
+  console.log('[DYNAMIC APP] ❌ Unknown application, showing fallback');
   // Fallback for unknown applications
   return (
     <div style={{ padding: 'var(--foundation-space-xl)', textAlign: 'center' }}>
