@@ -15,10 +15,10 @@
 
   /* ===== ICON STROKE WEIGHTS ===== */
   /* Thicker/bolder strokes */
-  --icon-stroke-thin: 1.5;
-  --icon-stroke-light: 1.75;
-  --icon-stroke-regular: 2;
-  --icon-stroke-medium: 2.25;   /* ← Nav would become thicker */
+  --icon-stroke-thin: 3.5;
+  --icon-stroke-light: 3.75;
+  --icon-stroke-regular: 3;
+  --icon-stroke-medium: 3.25;   /* ← Nav would become thicker */
   --icon-stroke-bold: 3.5;
 
 
