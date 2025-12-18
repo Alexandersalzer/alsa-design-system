@@ -71,6 +71,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({
     ref, className: iconClasses, 'aria-label': ariaLabel,
     'aria-hidden': ariaLabel ? undefined : 'true', focusable: 'false',
     role: ariaLabel ? 'img' : 'presentation',
+    strokeWidth: undefined, // Remove the hardcoded stroke-width attribute from Heroicons
     style: { strokeWidth: strokeWidthMap[weight], ...cleanProps.style }, ...cleanProps
   });
 
