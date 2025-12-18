@@ -173,6 +173,6 @@
   --space-banner-gap: var(--foundation-space-3);       /* 12px gap between elements */
 
   /* ===== BANNER SIZING ===== */
-  --size-banner-min-height: 56px;
-  --size-banner-icon: 20px;
+  --size-banner-min-height: 40px;
+  --size-banner-icon: 16px;
 }
