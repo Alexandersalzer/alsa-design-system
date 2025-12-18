@@ -59,19 +59,14 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({
   children, size = 'md', color = 'primary', weight = 'regular', className, 'aria-label': ariaLabel, ...props
 }, ref) => {
   const iconClasses = cn('icon', sizeMap[size], colorMap[color], weightMap[weight], className);
-  
-  const strokeWidthMap = {
-    'thin': 'var(--icon-stroke-thin)', 'light': 'var(--icon-stroke-light)', 
-    'regular': 'var(--icon-stroke-regular)', 'medium': 'var(--icon-stroke-medium)', 'bold': 'var(--icon-stroke-bold)'
-  };
 
   const { ref: _, ...cleanProps } = props as any;
 
   const iconElement = cloneElement(children, {
     ref, className: iconClasses, 'aria-label': ariaLabel,
     'aria-hidden': ariaLabel ? undefined : 'true', focusable: 'false',
-    role: ariaLabel ? 'img' : 'presentation', strokeWidth: strokeWidthMap[weight],
-    style: { strokeWidth: strokeWidthMap[weight], ...cleanProps.style }, ...cleanProps
+    role: ariaLabel ? 'img' : 'presentation',
+    style: { ...cleanProps.style }, ...cleanProps
   });
 
   return iconElement;
