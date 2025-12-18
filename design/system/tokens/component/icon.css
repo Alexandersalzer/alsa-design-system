@@ -14,11 +14,11 @@
   --icon-size-2xl: 32px;
 
   /* ===== ICON STROKE WEIGHTS ===== */
-  /* Thicker/bolder strokes */
-  --icon-stroke-thin: 3.5;
-  --icon-stroke-light: 3.75;
-  --icon-stroke-regular: 3;
-  --icon-stroke-medium: 3.25;   /* ← Nav would become thicker */
+  /* Balanced strokes - works well for nav, buttons, cards, and stats */
+  --icon-stroke-thin: 1.75;
+  --icon-stroke-light: 2;
+  --icon-stroke-regular: 2.25;
+  --icon-stroke-medium: 2.75;      /* ← Nav items use this */
   --icon-stroke-bold: 3.5;
 
 
