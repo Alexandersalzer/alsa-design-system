@@ -109,7 +109,7 @@
   height: var(--foundation-size-icon-sm) !important;
   flex-shrink: 0;
   color: var(--icon-nav-item);
-  stroke-width: var(--icon-stroke-light) !important;
+  stroke-width: var(--icon-stroke-regular) !important;
   transition: color 0.15s ease;
 }
 

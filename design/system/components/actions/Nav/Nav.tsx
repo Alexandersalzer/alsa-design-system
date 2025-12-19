@@ -155,7 +155,7 @@ const NavItem = forwardRef<HTMLButtonElement, NavPrimitiveItemProps>(({
             <Icon
               size="lg"
               color={getIconColor()}
-              weight="light"
+              weight="regular"
             >
               {icon}
             </Icon>
@@ -164,7 +164,7 @@ const NavItem = forwardRef<HTMLButtonElement, NavPrimitiveItemProps>(({
       )}
       <Label
         size="md"
-        weight={active ? 'semibold' : 'medium'}
+        weight={active ? 'bold' : 'semibold'}
         color={isDisabled ? 'nav-disabled' : active ? 'nav-selected' : 'nav-default'}
         className="nav-item__label"
       >
