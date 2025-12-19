@@ -155,7 +155,7 @@ const NavItem = forwardRef<HTMLButtonElement, NavPrimitiveItemProps>(({
             <Icon
               size="lg"
               color={getIconColor()}
-              weight="regular"
+              weight="light"
             >
               {icon}
             </Icon>
