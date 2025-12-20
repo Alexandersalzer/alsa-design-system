@@ -215,12 +215,27 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
         <VStack spacing="sm">
           <H2>Kom igång med Blimpify</H2>
           <Body size="md" color="secondary">
-            {phase === 'building' 
+            {phase === 'building'
               ? 'Följ stegen nedan för att förbereda lanseringen av din webbplats.'
               : 'Din webbplats är nästan klar! Slutför dessa steg för att gå live.'
             }
           </Body>
         </VStack>
+
+        {/* Progress Section */}
+        {progress < 100 && (
+          <VStack spacing="sm">
+            <Progress
+              value={progress}
+              label={`${getPhaseText(phase)} • ${completedSteps}/${steps.length} steg klara`}
+              showValue={true}
+              size="md"
+              color="accent"
+              rounded
+              animated
+            />
+          </VStack>
+        )}
 
         {/* Steps - Using Listbox for better accessibility */}
         <Listbox
@@ -276,34 +291,6 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
             );
           })}
         </Listbox>
-
-        {/* Progress Card */}
-        {progress < 100 && (
-          <Card variant="outlined">
-            <CardContent>
-              <VStack spacing="md">
-                {/* Progress Bar */}
-                <Progress
-                  value={progress}
-                  size="md"
-                  color="accent"
-                  rounded
-                  animated
-                />
-
-                {/* Progress Text */}
-                <HStack justify="between" align="center">
-                  <Body size="sm" weight="medium" color="secondary">
-                    {getPhaseText(phase)} • {completedSteps}/{steps.length} steg klara
-                  </Body>
-                  <Body size="sm" weight="bold" color="accent">
-                    {progress}% klart
-                  </Body>
-                </HStack>
-              </VStack>
-            </CardContent>
-          </Card>
-        )}
       </VStack>
     </div>
   );
