@@ -213,13 +213,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
       <VStack spacing="xl">
         {/* Header */}
         <VStack spacing="sm">
-          <H2>Kom igång med Blimpify</H2>
-          <Body size="md" color="secondary">
-            {phase === 'building'
-              ? 'Följ stegen nedan för att förbereda lanseringen av din webbplats.'
-              : 'Din webbplats är nästan klar! Slutför dessa steg för att gå live.'
-            }
-          </Body>
+          <H3>Kom igång med Blimpify</H3>
         </VStack>
 
         {/* Progress Section */}
