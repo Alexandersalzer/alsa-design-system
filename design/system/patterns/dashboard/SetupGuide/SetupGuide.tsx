@@ -224,7 +224,6 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
               label={`${getPhaseText(phase)} • ${completedSteps}/${steps.length} steg klara`}
               showValue={true}
               size="md"
-              color="accent"
               rounded
               animated
             />

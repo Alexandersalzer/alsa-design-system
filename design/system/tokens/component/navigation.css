@@ -52,3 +52,49 @@
   --text-link-visited: var(--text-accent-strong);
   --text-link-disabled: var(--text-disabled);
 }
+
+
+/* =============================================================================
+   SIDEBAR SURFACE LEVEL OVERRIDES
+   🎯 Adjusts nav item states based on sidebar background surface level
+   ⚙️ Set via data-surface-level attribute on sidebar container
+
+   Surface Hierarchy:
+   - page (neutral-0):     Base level - white background
+   - elevated (neutral-100): One step up - light gray background
+   - sunken (neutral-200):  Two steps up - medium gray background
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   SURFACE LEVEL: PAGE (default)
+   Sidebar on neutral-0 (white) - nav items elevate to neutral-100
+   ----------------------------------------------------------------------------- */
+/* Default - no overrides needed, uses base tokens above */
+
+/* -----------------------------------------------------------------------------
+   SURFACE LEVEL: ELEVATED
+   Sidebar on neutral-100 - nav items need to elevate to neutral-200
+   ----------------------------------------------------------------------------- */
+[data-surface-level="elevated"] {
+  --surface-sidebar: var(--surface-elevated);
+  --surface-sidebar-header: var(--surface-elevated);
+  --surface-sidebar-footer: var(--surface-elevated);
+
+  /* Nav items elevate one step ABOVE the sidebar background */
+  --surface-nav-item-hover: var(--surface-sunken);        /* neutral-200 instead of neutral-100 */
+  --surface-nav-item-selected: var(--surface-sunken);     /* neutral-200 instead of neutral-100 */
+}
+
+/* -----------------------------------------------------------------------------
+   SURFACE LEVEL: SUNKEN
+   Sidebar on neutral-200 - nav items need to elevate to neutral-300
+   ----------------------------------------------------------------------------- */
+[data-surface-level="sunken"] {
+  --surface-sidebar: var(--surface-sunken);
+  --surface-sidebar-header: var(--surface-sunken);
+  --surface-sidebar-footer: var(--surface-sunken);
+
+  /* Nav items elevate one step ABOVE the sidebar background */
+  --surface-nav-item-hover: var(--surface-deep);          /* neutral-300 instead of neutral-100 */
+  --surface-nav-item-selected: var(--surface-deep);       /* neutral-300 instead of neutral-100 */
+}
