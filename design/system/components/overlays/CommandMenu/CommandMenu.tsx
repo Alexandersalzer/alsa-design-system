@@ -10,6 +10,7 @@ import { MagnifyingGlassIcon, ChevronRightIcon } from '@heroicons/react/24/outli
 import { Typography } from '../../Typography';
 import { Listbox, ListboxItem } from '../../lists/Listbox';
 import { Body } from '../../Typography';
+import { Kbd } from '../../actions/Kbd';
 
 // ===== TYPES =====
 export interface CommandItem {
