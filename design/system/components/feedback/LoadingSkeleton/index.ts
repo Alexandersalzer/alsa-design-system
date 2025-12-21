@@ -1,5 +1,7 @@
 // design/system/components/primitives/LoadingSkeleton/index.ts
 
+import "./LoadingSkeleton.css";
+
 export {
   Skeleton,
   SkeletonCircle,
