@@ -3,6 +3,8 @@
 // InlineLoading - Inline loading spinner for buttons and sections
 // ===============================================
 
+"use client";
+
 import React from "react";
 import { Spinner, SpinnerProps } from "../Spinner/Spinner";
 import { Body } from "../../Typography";

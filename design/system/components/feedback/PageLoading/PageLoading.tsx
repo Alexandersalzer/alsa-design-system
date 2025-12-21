@@ -3,6 +3,8 @@
 // PageLoading - Full page loading state with spinner and optional text
 // ===============================================
 
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { Spinner, SpinnerProps } from "../Spinner/Spinner";
 import { Body } from "../../Typography";
