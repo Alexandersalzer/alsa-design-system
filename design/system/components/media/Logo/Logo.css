@@ -26,6 +26,27 @@
   display: block;
 }
 
+/* ===== BORDER VARIANTS ===== */
+.logo__image--border-subtle,
+.logo__image-only.logo__image--border-subtle {
+  border: 1px solid var(--border-subtle);
+}
+
+.logo__image--border-default,
+.logo__image-only.logo__image--border-default {
+  border: 1px solid var(--border-default);
+}
+
+.logo__image--border-strong,
+.logo__image-only.logo__image--border-strong {
+  border: 1px solid var(--border-strong);
+}
+
+.logo__image--border-emphasis,
+.logo__image-only.logo__image--border-emphasis {
+  border: 1px solid var(--border-emphasis);
+}
+
 /* ===== SINGLE TEXT ONLY ===== */
 .logo__text-only {
   display: inline-block;

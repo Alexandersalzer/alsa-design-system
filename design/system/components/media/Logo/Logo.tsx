@@ -128,6 +128,7 @@ export const Logo: React.FC<LogoProps> = ({
     'logo',
     hasBoth && 'logo--combined',
     hideTextOnMobile && hasText && 'logo--hide-text-mobile',
+    border !== 'none' && `logo--border-${border}`,
     className
   );
 
@@ -151,7 +152,7 @@ export const Logo: React.FC<LogoProps> = ({
             variant={imageVariant}
             loading={loading}
             priority={priority}
-            className="logo__image-only"
+            className={cn('logo__image-only', border !== 'none' && `logo__image--border-${border}`)}
           />
         </Component>
       </Wrapper>
@@ -198,7 +199,7 @@ export const Logo: React.FC<LogoProps> = ({
             variant={imageVariant}
             loading={loading}
             priority={priority}
-            className="logo__image"
+            className={cn('logo__image', border !== 'none' && `logo__image--border-${border}`)}
           />
         </Component>
         <Component componentKey={textComponentKey}>
