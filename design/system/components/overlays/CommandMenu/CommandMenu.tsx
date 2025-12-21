@@ -281,9 +281,9 @@ export const CommandMenu = forwardRef<HTMLDivElement, CommandMenuProps>(({
                             <ChevronRightIcon />
                           </Icon>
                         ) : command.shortcut ? (
-                          <kbd className="command-menu__item-shortcut">
+                          <Kbd variant="ghost">
                             {command.shortcut.replace('$mod', navigator.platform.includes('Mac') ? '⌘' : 'Ctrl')}
-                          </kbd>
+                          </Kbd>
                         ) : undefined
                       }
                       data-selected={isSelected}
@@ -304,8 +304,8 @@ export const CommandMenu = forwardRef<HTMLDivElement, CommandMenuProps>(({
         {footer || (
           <div className="command-menu__footer">
             <Typography variant="body-xs" color="tertiary">
-              <kbd>↑↓</kbd> Navigate · <kbd>↵</kbd> Select · <kbd>Esc</kbd> Close
-              {currentParent && <> · <kbd>⌫</kbd> Back</>}
+              <Kbd variant="ghost">↑↓</Kbd> Navigate · <Kbd variant="ghost">↵</Kbd> Select · <Kbd variant="ghost">Esc</Kbd> Close
+              {currentParent && <> · <Kbd variant="ghost">⌫</Kbd> Back</>}
             </Typography>
           </div>
         )}
