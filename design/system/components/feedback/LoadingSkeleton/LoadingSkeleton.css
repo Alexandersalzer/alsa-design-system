@@ -7,7 +7,7 @@
 .skeleton {
   display: inline-block;
   position: relative;
-  background-color: var(--start-color, var(--surface-skeleton-start));
+  background-color: var(--surface-skeleton-start);
   border-radius: var(--radius-skeleton);
   overflow: hidden;
 }
@@ -48,7 +48,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    var(--end-color, var(--surface-skeleton-end)),
+    var(--surface-skeleton-end),
     transparent
   );
   animation: skeleton-shine var(--duration-skeleton-shine) infinite;
@@ -68,7 +68,7 @@
 
 .skeleton-line {
   height: var(--line-height, 1rem);
-  background-color: var(--start-color, var(--surface-skeleton-start));
+  background-color:  var(--surface-skeleton-start);
   border-radius: calc(var(--radius-skeleton) / 2);
   position: relative;
   overflow: hidden;
@@ -86,7 +86,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    var(--end-color, var(--surface-skeleton-end)),
+    var(--surface-skeleton-end),
     transparent
   );
   animation: skeleton-shine var(--duration-skeleton-shine) infinite;
