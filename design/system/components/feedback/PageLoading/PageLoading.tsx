@@ -5,8 +5,8 @@
 
 import React, { useState, useEffect } from "react";
 import { Spinner, SpinnerProps } from "../Spinner/Spinner";
-import { Body } from "../../typography/Body/Body";
-import { VStack } from "../../layout/Stack/Stack";
+import { Body } from "../../Typography";
+import { VStack } from "../../layout";
 import "./PageLoading.css";
 
 export interface PageLoadingProps {

@@ -5,8 +5,8 @@
 
 import React from "react";
 import { Spinner, SpinnerProps } from "../Spinner/Spinner";
-import { Body } from "../../typography/Body/Body";
-import { HStack } from "../../layout/Stack/Stack";
+import { Body } from "../../Typography";
+import { HStack } from "../../layout";
 import { cn } from "../../../utils/cn";
 
 export interface InlineLoadingProps {
