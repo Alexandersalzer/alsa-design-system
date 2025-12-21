@@ -28,6 +28,8 @@ export interface LogoProps {
   height?: number;
   /** Border radius for image */
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  /** Border style using semantic tokens */
+  border?: 'none' | 'default' | 'subtle' | 'strong' | 'emphasis';
   /** Unified color for both image and text - adapts to theme */
   color?: 'auto' | 'light' | 'dark' | 'brand';
   /** Text size */
@@ -70,6 +72,7 @@ export const Logo: React.FC<LogoProps> = ({
   width = 40,
   height = 40,
   radius = 'none',
+  border = 'none',
   color = 'auto',
   textSize = 'lg',
   textWeight = 'extrabold',
