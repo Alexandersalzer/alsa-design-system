@@ -1,0 +1,1 @@
+export { default as NavbarPill } from './NavbarPill';
