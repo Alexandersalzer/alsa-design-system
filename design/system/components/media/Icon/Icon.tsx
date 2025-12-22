@@ -59,9 +59,9 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({
   children, size = 'md', color = 'primary', weight = 'regular', className, 'aria-label': ariaLabel, ...props
 }, ref) => {
   const iconClasses = cn('icon', sizeMap[size], colorMap[color], weightMap[weight], className);
-  
+
   const strokeWidthMap = {
-    'thin': 'var(--icon-stroke-thin)', 'light': 'var(--icon-stroke-light)', 
+    'thin': 'var(--icon-stroke-thin)', 'light': 'var(--icon-stroke-light)',
     'regular': 'var(--icon-stroke-regular)', 'medium': 'var(--icon-stroke-medium)', 'bold': 'var(--icon-stroke-bold)'
   };
 
@@ -70,7 +70,8 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({
   const iconElement = cloneElement(children, {
     ref, className: iconClasses, 'aria-label': ariaLabel,
     'aria-hidden': ariaLabel ? undefined : 'true', focusable: 'false',
-    role: ariaLabel ? 'img' : 'presentation', strokeWidth: strokeWidthMap[weight],
+    role: ariaLabel ? 'img' : 'presentation',
+    strokeWidth: undefined, // Remove the hardcoded stroke-width attribute from Heroicons
     style: { strokeWidth: strokeWidthMap[weight], ...cleanProps.style }, ...cleanProps
   });
 

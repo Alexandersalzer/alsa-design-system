@@ -115,8 +115,8 @@
   
   /* Layout - minimal padding, no border-radius */
   --radius-banner: 0;
-  --space-banner-padding-y: var(--foundation-space-2);
-  --space-banner-padding-x: var(--foundation-space-3);
+  --space-banner-padding-y: var(--foundation-space-1);
+  --space-banner-padding-x: var(--foundation-space-2);
   --space-banner-gap: var(--foundation-space-2);
   
   /* Base styling */
@@ -170,10 +170,9 @@
    ============================================== */
 :root {
   /* ===== BANNER SPACING (using navbar component spacing) ===== */
-  --space-banner-padding: var(--space-navbar-md);      /* Vertical + horizontal padding */
   --space-banner-gap: var(--foundation-space-3);       /* 12px gap between elements */
 
   /* ===== BANNER SIZING ===== */
-  --size-banner-min-height: 56px;
-  --size-banner-icon: 20px;
+  --size-banner-min-height: 40px;
+  --size-banner-icon: 16px;
 }

@@ -66,7 +66,7 @@ export const Logo: React.FC<LogoProps> = ({
   src,
   alt = 'Logo',
   text,
-  href = '/',
+  href,
   width = 40,
   height = 40,
   radius = 'none',

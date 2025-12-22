@@ -11,7 +11,7 @@
   stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 2;
+  stroke-width: var(--icon-stroke-regular);
   transition: all 0.2s ease;
 }
 
@@ -19,37 +19,31 @@
 .icon-xs {
   width: var(--icon-size-xs, 12px);
   height: var(--icon-size-xs, 12px);
-  stroke-width: 1.5;
 }
 
 .icon-sm {
   width: var(--icon-size-sm, 14px);
   height: var(--icon-size-sm, 14px);
-  stroke-width: 2;
 }
 
 .icon-md {
   width: var(--icon-size-md, 16px);
   height: var(--icon-size-md, 16px);
-  stroke-width: 2;
 }
 
 .icon-lg {
   width: var(--icon-size-lg, 20px);
   height: var(--icon-size-lg, 20px);
-  stroke-width: 2;
 }
 
 .icon-xl {
   width: var(--icon-size-xl, 24px);
   height: var(--icon-size-xl, 24px);
-  stroke-width: 2;
 }
 
 .icon-2xl {
   width: var(--icon-size-2xl, 32px);
   height: var(--icon-size-2xl, 32px);
-  stroke-width: 1.5;
 }
 
 /* ===== CRITICAL FIX FOR ICONBUTTON ALIGNMENT ===== */
@@ -93,11 +87,11 @@ button .icon,
 }
 
 /* ===== WEIGHT VARIANTS ===== */
-.icon-weight-thin { stroke-width: var(--icon-stroke-thin, 1); }
-.icon-weight-light { stroke-width: var(--icon-stroke-light, 1.5); }
-.icon-weight-regular { stroke-width: var(--icon-stroke-regular, 1.75); }
-.icon-weight-medium { stroke-width: var(--icon-stroke-medium, 2); }
-.icon-weight-bold { stroke-width: var(--icon-stroke-bold, 3); }
+.icon-weight-thin { stroke-width: var(--icon-stroke-thin); }
+.icon-weight-light { stroke-width: var(--icon-stroke-light); }
+.icon-weight-regular { stroke-width: var(--icon-stroke-regular); }
+.icon-weight-medium { stroke-width: var(--icon-stroke-medium); }
+.icon-weight-bold { stroke-width: var(--icon-stroke-bold); }
 
 /* Disabled state */
 .icon-button-disabled,
@@ -193,10 +187,12 @@ a:focus-visible .icon {
 
 /* ===== HIGH CONTRAST MODE ===== */
 @media (prefers-contrast: high) {
-  .icon { stroke-width: 2.5; }
-  .icon-weight-thin { stroke-width: 2; }
-  .icon-weight-light { stroke-width: 2.5; }
-  .icon-weight-bold { stroke-width: 3.5; }
+  /* Increase stroke widths slightly for better visibility */
+  .icon-weight-thin { stroke-width: calc(var(--icon-stroke-thin) + 0.5); }
+  .icon-weight-light { stroke-width: calc(var(--icon-stroke-light) + 0.5); }
+  .icon-weight-regular { stroke-width: calc(var(--icon-stroke-regular) + 0.5); }
+  .icon-weight-medium { stroke-width: calc(var(--icon-stroke-medium) + 0.5); }
+  .icon-weight-bold { stroke-width: calc(var(--icon-stroke-bold) + 0.5); }
 }
 
 /* ===== REDUCED MOTION ===== */
@@ -224,11 +220,4 @@ a:focus-visible .icon {
 }
 
 /* ===== DARK MODE ===== */
-[data-theme="dark"] .icon,
-.dark .icon { stroke-width: 1.8; }
-
-[data-theme="dark"] .icon-weight-medium,
-.dark .icon-weight-medium { stroke-width: 2.2; }
-
-[data-theme="dark"] .icon-weight-bold,
-.dark .icon-weight-bold { stroke-width: 2.8; }
+/* Dark mode respects the same stroke widths from CSS variables */

@@ -46,16 +46,11 @@
   gap: var(--space-nav-item-gap);
   border-radius: var(--radius-button);
 
-  /* Typography */
-  font-family: var(--font-body-family);
-  font-size: var(--font-label-md-size);
-  font-weight: var(--font-label-weight);
-  line-height: var(--font-label-md-leading);
+  /* Typography - removed, now using Label component */
   text-decoration: none;
   text-align: left;
 
   /* Colors */
-  color: var(--text-nav-item);
   background-color: var(--surface-nav-item);
 
   /* Interaction */
@@ -92,14 +87,11 @@
 /* Active state */
 .nav-item--active {
   background-color: var(--surface-accent-muted);
-  color: var(--text-nav-item-selected);
-  font-weight: var(--foundation-weight-semibold);
 }
 
 /* Disabled state */
 .nav-item--disabled {
   background-color: var(--surface-nav-item-disabled);
-  color: var(--text-nav-item-disabled);
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.6;
@@ -117,6 +109,7 @@
   height: var(--foundation-size-icon-sm) !important;
   flex-shrink: 0;
   color: var(--icon-nav-item);
+  stroke-width: var(--icon-stroke-regular) !important;
   transition: color 0.15s ease;
 }
 
@@ -135,6 +128,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  /* Color and weight now handled by Label component */
 }
 
 .nav-item__badge {
