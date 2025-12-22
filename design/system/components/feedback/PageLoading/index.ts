@@ -1,2 +1,2 @@
-export { PageLoading } from './PageLoading';
-export type { PageLoadingProps } from './PageLoading';
+export { PageLoading } from "./PageLoading";
+export type { PageLoadingProps } from "./PageLoading";

@@ -3,6 +3,8 @@
 // Shared context for Accordion and AccordionItem
 // ===============================================
 
+"use client";
+
 import { createContext, useContext } from 'react';
 
 export interface AccordionContextValue {

@@ -7,9 +7,10 @@
 .skeleton {
   display: inline-block;
   position: relative;
-  background-color: var(--start-color, var(--surface-skeleton-start));
+  background-color: var(--surface-skeleton-start);
   border-radius: var(--radius-skeleton);
   overflow: hidden;
+  opacity: 1;
 }
 
 /* Shape modifiers */
@@ -24,39 +25,83 @@
 
 /* Animations */
 @keyframes skeleton-pulse {
-  0% { opacity: var(--opacity-skeleton-pulse-max); }
-  50% { opacity: var(--opacity-skeleton-pulse-min); }
-  100% { opacity: var(--opacity-skeleton-pulse-max); }
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }
 
 @keyframes skeleton-shine {
-  0% { transform: translateX(-150%); }
-  100% { transform: translateX(150%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
 }
 
-/* Pulse */
+/* Pulse variant */
 .skeleton.pulse {
-  animation: skeleton-pulse var(--duration-skeleton-pulse) var(--easing-skeleton) infinite;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
 }
 
-/* Shine */
+/* Shine variant */
+.skeleton.shine {
+  background: linear-gradient(
+    90deg,
+    var(--surface-skeleton-start) 0%,
+    var(--surface-skeleton-start) 40%,
+    var(--surface-skeleton-end) 50%,
+    var(--surface-skeleton-start) 60%,
+    var(--surface-skeleton-start) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shine 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-shine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Alternative shine with ::after pseudo-element for better effect */
 .skeleton.shine::after {
   content: "";
   position: absolute;
   inset: 0;
-  transform: translateX(-150%);
+  transform: translateX(-100%);
   background: linear-gradient(
     90deg,
-    transparent,
-    var(--end-color, var(--surface-skeleton-end)),
-    transparent
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0) 100%
   );
-  animation: skeleton-shine var(--duration-skeleton-shine) infinite;
+  animation: skeleton-shine-sweep 1.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes skeleton-shine-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
 }
 
 /* None */
 .skeleton.none {
   animation: none;
+}
+
+.skeleton.none::after {
+  display: none;
 }
 
 /* SkeletonText */
@@ -67,29 +112,97 @@
 }
 
 .skeleton-line {
+  display: block;
   height: var(--line-height, 1rem);
-  background-color: var(--start-color, var(--surface-skeleton-start));
+  background-color: var(--surface-skeleton-start);
   border-radius: calc(var(--radius-skeleton) / 2);
   position: relative;
   overflow: hidden;
+  opacity: 1;
 }
 
+/* Pulse for text lines */
 .skeleton-text.pulse .skeleton-line {
-  animation: skeleton-pulse var(--duration-skeleton-pulse) var(--easing-skeleton) infinite;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+/* Add stagger effect for multiple lines */
+.skeleton-text.pulse .skeleton-line:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.skeleton-text.pulse .skeleton-line:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.skeleton-text.pulse .skeleton-line:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.skeleton-text.pulse .skeleton-line:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+/* Shine for text lines */
+.skeleton-text.shine .skeleton-line {
+  background: linear-gradient(
+    90deg,
+    var(--surface-skeleton-start) 0%,
+    var(--surface-skeleton-start) 40%,
+    var(--surface-skeleton-end) 50%,
+    var(--surface-skeleton-start) 60%,
+    var(--surface-skeleton-start) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shine 1.5s ease-in-out infinite;
 }
 
 .skeleton-text.shine .skeleton-line::after {
   content: "";
   position: absolute;
   inset: 0;
-  transform: translateX(-150%);
+  transform: translateX(-100%);
   background: linear-gradient(
     90deg,
-    transparent,
-    var(--end-color, var(--surface-skeleton-end)),
-    transparent
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0) 100%
   );
-  animation: skeleton-shine var(--duration-skeleton-shine) infinite;
+  animation: skeleton-shine-sweep 1.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Add stagger effect for shine */
+.skeleton-text.shine .skeleton-line:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.skeleton-text.shine .skeleton-line:nth-child(2)::after {
+  animation-delay: 0.1s;
+}
+
+.skeleton-text.shine .skeleton-line:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.skeleton-text.shine .skeleton-line:nth-child(3)::after {
+  animation-delay: 0.2s;
+}
+
+.skeleton-text.shine .skeleton-line:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.skeleton-text.shine .skeleton-line:nth-child(4)::after {
+  animation-delay: 0.3s;
+}
+
+.skeleton-text.shine .skeleton-line:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+.skeleton-text.shine .skeleton-line:nth-child(5)::after {
+  animation-delay: 0.4s;
 }
 
 /* Utility */
@@ -100,4 +213,19 @@
 .skeleton-content {
   opacity: 0;
   transition: opacity 0.2s ease;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton.pulse,
+  .skeleton.shine,
+  .skeleton-text.pulse .skeleton-line,
+  .skeleton-text.shine .skeleton-line {
+    animation: none;
+  }
+
+  .skeleton.shine::after,
+  .skeleton-text.shine .skeleton-line::after {
+    display: none;
+  }
 }

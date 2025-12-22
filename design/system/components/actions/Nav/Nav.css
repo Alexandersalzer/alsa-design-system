@@ -86,7 +86,7 @@
 
 /* Active state */
 .nav-item--active {
-  background-color: var(--surface-accent-muted);
+  background-color: var(--surface-nav-item-selected);
 }
 
 /* Disabled state */

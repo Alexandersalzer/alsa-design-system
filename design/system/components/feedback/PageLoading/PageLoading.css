@@ -1,31 +1,59 @@
 /* ===============================================
-   PageLoading CSS
+   PageLoading.css
+   Styling for PageLoading component
    =============================================== */
 
 .page-loading {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  animation: page-loading-fade-in 0.3s ease-out;
+  animation: page-loading-fade-in 0.3s ease-in;
 }
 
+/* Full height mode */
 .page-loading--full-height {
-  min-height: 100vh;
-}
-
-.page-loading--overlay {
   position: fixed;
-  inset: 0;
-  background: var(--surface-overlay, rgba(0, 0, 0, 0.5));
-  z-index: var(--z-modal, 1000);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background-color: var(--surface-page);
+  z-index: 9999;
 }
 
+/* Overlay mode */
+.page-loading--overlay {
+  background-color: color-mix(in srgb, var(--surface-overlay) 80%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+/* Fade in animation */
 @keyframes page-loading-fade-in {
   from {
     opacity: 0;
+    transform: translateY(-8px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .page-loading {
+    animation: none;
+  }
+
+  @keyframes page-loading-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 }

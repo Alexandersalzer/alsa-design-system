@@ -3,30 +3,37 @@
 // PageLoading - Full page loading state with spinner and optional text
 // ===============================================
 
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { Spinner } from '../Spinner/Spinner';
-import { Body } from '../../Typography';
-import { VStack } from '../../layout';
-import './PageLoading.css';
+import React, { useState, useEffect } from "react";
+import { Spinner, SpinnerProps } from "../Spinner/Spinner";
+import { Body } from "../../Typography";
+import { VStack } from "../../layout";
+import "./PageLoading.css";
 
 export interface PageLoadingProps {
-  /** Static text to display */
+  /** Loading message text */
   text?: string;
-  /** Array of texts to cycle through with animation */
+
+  /** Array of texts to cycle through (optional) */
   animatedTexts?: string[];
-  /** Interval between text changes in ms */
+
+  /** Interval in ms between text changes (default 3000) */
   textInterval?: number;
+
   /** Spinner size */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  size?: SpinnerProps["size"];
+
   /** Spinner variant */
-  variant?: 'brand' | 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
-  /** Whether to take full viewport height */
+  variant?: SpinnerProps["variant"];
+
+  /** Whether to fill full viewport height (default true) */
   fullHeight?: boolean;
-  /** Whether to show overlay backdrop */
+
+  /** Whether to show backdrop overlay (default false) */
   overlay?: boolean;
-  /** Additional CSS class */
+
+  /** Custom className */
   className?: string;
 }
 
@@ -53,17 +60,17 @@ export interface PageLoadingProps {
  * ```
  */
 export const PageLoading: React.FC<PageLoadingProps> = ({
-  text = 'Laddar...',
+  text = "Laddar...",
   animatedTexts,
   textInterval = 3000,
-  size = 'lg',
-  variant = 'accent',
+  size = "lg",
+  variant = "accent",
   fullHeight = true,
   overlay = false,
   className,
 }) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const [fadeState, setFadeState] = useState<'in' | 'out'>('in');
+  const [fadeState, setFadeState] = useState<"in" | "out">("in");
 
   // Cycle through animated texts if provided
   useEffect(() => {
@@ -71,11 +78,12 @@ export const PageLoading: React.FC<PageLoadingProps> = ({
 
     const cycleInterval = setInterval(() => {
       // Fade out
-      setFadeState('out');
+      setFadeState("out");
+
       // After fade out, change text and fade in
       setTimeout(() => {
         setCurrentTextIndex((prev) => (prev + 1) % animatedTexts.length);
-        setFadeState('in');
+        setFadeState("in");
       }, 300); // Fade out duration
     }, textInterval);
 
@@ -89,19 +97,20 @@ export const PageLoading: React.FC<PageLoadingProps> = ({
 
   return (
     <div
-      className={`page-loading ${fullHeight ? 'page-loading--full-height' : ''} ${overlay ? 'page-loading--overlay' : ''} ${className || ''}`}
+      className={`page-loading ${fullHeight ? "page-loading--full-height" : ""} ${overlay ? "page-loading--overlay" : ""} ${className || ""}`}
     >
       <VStack spacing="md" align="center">
         <Spinner size={size} variant={variant} />
+
         {displayText && (
           <Body
             size="md"
             color="secondary"
             weight="medium"
             style={{
-              opacity: fadeState === 'in' ? 1 : 0,
-              transition: 'opacity 0.3s ease-in-out',
-              minHeight: '1.5em',
+              opacity: fadeState === "in" ? 1 : 0,
+              transition: "opacity 0.3s ease-in-out",
+              minHeight: "1.5em",
             }}
           >
             {displayText}
@@ -112,4 +121,4 @@ export const PageLoading: React.FC<PageLoadingProps> = ({
   );
 };
 
-PageLoading.displayName = 'PageLoading';
+PageLoading.displayName = "PageLoading";
