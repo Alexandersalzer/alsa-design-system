@@ -1,0 +1,31 @@
+/* ===============================================
+   PageLoading CSS
+   =============================================== */
+
+.page-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  animation: page-loading-fade-in 0.3s ease-out;
+}
+
+.page-loading--full-height {
+  min-height: 100vh;
+}
+
+.page-loading--overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--surface-overlay, rgba(0, 0, 0, 0.5));
+  z-index: var(--z-modal, 1000);
+}
+
+@keyframes page-loading-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

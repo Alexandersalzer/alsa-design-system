@@ -6,3 +6,4 @@ export * from './Toast';
 export * from './Spinner'
 export * from './LoadingSkeleton'
 export * from './Progress'
+export * from './PageLoading'
