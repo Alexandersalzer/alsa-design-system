@@ -139,9 +139,11 @@ export function CookieConsent({
               </label>
 
               {/* Integritetspolicy länk */}
-              <a href={privacyPolicyUrl} className={styles.link}>
-                {privacyPolicyText}
-              </a>
+              <Body size="sm" color="secondary">
+                <a href={privacyPolicyUrl} className={styles.link}>
+                  {privacyPolicyText}
+                </a>
+              </Body>
             </VStack>
           )}
 
