@@ -46,6 +46,11 @@
       "require": "./dist/design/system/core/routing/index.js",
       "types": "./dist/design/system/core/routing/index.d.ts"
     },
+    "./consent": {
+      "import": "./dist/design/system/patterns/cookieConsent/index.js",
+      "require": "./dist/design/system/patterns/cookieConsent/index.js",
+      "types": "./dist/design/system/patterns/cookieConsent/index.d.ts"
+    },
     "./dist/index.css": "./dist/design/index.css"
   },
   "files": [
