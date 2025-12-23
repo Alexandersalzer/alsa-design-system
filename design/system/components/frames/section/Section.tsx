@@ -4,6 +4,7 @@ import styles from './Section.module.css';
 type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
 type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+type Overflow = 'visible' | 'hidden' | 'auto' | 'scroll' | 'clip';
 
 interface SectionProps {
   children: ReactNode;
@@ -16,6 +17,9 @@ interface SectionProps {
   top?: string | number;
   zIndex?: number;
   spacing?: SpacingScale; // ✅ optional per-section override (uses .spacingMd etc.)
+  overflow?: Overflow; // ✅ Control overflow behavior (default: 'hidden')
+  overflowX?: Overflow; // ✅ Control horizontal overflow separately
+  overflowY?: Overflow; // ✅ Control vertical overflow separately
   style?: React.CSSProperties;
   sectionKey?: string; // För live editing identification
 }
@@ -49,6 +53,11 @@ const getSpacingClass = (spacing?: SpacingScale): string => {
   return styles[`spacing${spacing.charAt(0).toUpperCase() + spacing.slice(1)}`] || '';
 };
 
+const getOverflowClass = (overflow?: Overflow): string => {
+  if (!overflow) return '';
+  return styles[`overflow${overflow.charAt(0).toUpperCase() + overflow.slice(1)}`] || '';
+};
+
 export const Section = ({
   children,
   className = '',
@@ -60,24 +69,31 @@ export const Section = ({
   top,
   zIndex,
   spacing, // optional override
+  overflow,
+  overflowX,
+  overflowY,
   style,
   sectionKey,
 }: SectionProps) => {
   const heightClass = getHeightClass(height);
   const positionClass = getPositionClass(position, sticky);
   const spacingClass = getSpacingClass(spacing);
+  const overflowClass = getOverflowClass(overflow);
 
   const combinedClassName = [
     styles.section,
     heightClass,
     positionClass,
     spacingClass,
+    overflowClass,
     className,
   ].join(' ').trim();
 
   const inlineStyles: React.CSSProperties = {};
   if (top !== undefined) inlineStyles.top = typeof top === 'number' ? `${top}px` : top;
   if (zIndex !== undefined) inlineStyles.zIndex = zIndex;
+  if (overflowX !== undefined) inlineStyles.overflowX = overflowX;
+  if (overflowY !== undefined) inlineStyles.overflowY = overflowY;
 
   const finalStyles = { ...inlineStyles, ...style };
 
