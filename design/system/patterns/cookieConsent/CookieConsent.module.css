@@ -38,7 +38,7 @@
 
 /* Card wrapper */
 .consent :global(.card) {
-  width: 420px;
+  width: var(--selected-layout-scale-content);
   max-width: 100%;
   display: flex;
   flex-direction: column;
