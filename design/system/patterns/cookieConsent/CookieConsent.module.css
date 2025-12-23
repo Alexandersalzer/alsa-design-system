@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  padding: var(--space-xl);
+  padding: var(--space-banner-gap);
 }
 
 /* Positioner */
