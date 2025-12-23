@@ -3,11 +3,32 @@
    Clean, accessible collapsible sections
    =============================================== */
 
+/* ===== BASE ACCORDION ===== */
 .accordion {
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+
+/* ===== GAP VARIANTS ===== */
+.accordion--gap-none {
+  gap: 0;
+}
+
+.accordion--gap-xs {
   gap: var(--foundation-space-1);
+}
+
+.accordion--gap-sm {
+  gap: var(--foundation-space-2);
+}
+
+.accordion--gap-md {
+  gap: var(--foundation-space-3);
+}
+
+.accordion--gap-lg {
+  gap: var(--foundation-space-4);
 }
 
 /* ===== ACCORDION ITEM ===== */
@@ -15,7 +36,6 @@
   width: 100%;
   background: var(--surface-subtle);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
   overflow: hidden;
   transition: all 0.2s ease;
 }
@@ -28,6 +48,105 @@
 .accordion-item--disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* ===== VARIANT: DEFAULT ===== */
+.accordion--default .accordion-item {
+  background: var(--surface-subtle);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ===== VARIANT: SEPARATED ===== */
+.accordion--separated .accordion-item {
+  background: var(--surface-base);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-subtle);
+}
+
+/* ===== VARIANT: BORDERED ===== */
+.accordion--bordered {
+  border: 1px solid var(--border-default);
+  border-radius: var(--accordion-radius, var(--radius-md));
+  overflow: hidden;
+}
+
+.accordion--bordered .accordion-item {
+  border: none;
+  border-radius: 0;
+}
+
+.accordion--bordered .accordion-item + .accordion-item {
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ===== VARIANT: SUNKEN ===== */
+.accordion--sunken .accordion-item {
+  background: var(--surface-base);
+  border: 1px solid var(--border-subtle);
+}
+
+.accordion--sunken .accordion-item__trigger {
+  background: var(--surface-sunken);
+}
+
+.accordion--sunken .accordion-item__trigger:hover:not(:disabled) {
+  background: var(--surface-raised);
+}
+
+.accordion--sunken .accordion-item__content {
+  background: var(--surface-base);
+}
+
+/* ===== RADIUS MODE: EDGES (default) ===== */
+/* First item gets top radius */
+.accordion--radius-mode-edges .accordion-item:first-child {
+  border-top-left-radius: var(--accordion-radius);
+  border-top-right-radius: var(--accordion-radius);
+}
+
+/* Last item gets bottom radius */
+.accordion--radius-mode-edges .accordion-item:last-child {
+  border-bottom-left-radius: var(--accordion-radius);
+  border-bottom-right-radius: var(--accordion-radius);
+}
+
+/* ===== RADIUS MODE: ALL ===== */
+.accordion--radius-mode-all .accordion-item {
+  border-radius: var(--accordion-radius);
+}
+
+/* ===== RADIUS MODE: NONE ===== */
+.accordion--radius-mode-none .accordion-item {
+  border-radius: 0;
+}
+
+/* ===== RADIUS SIZE TOKENS ===== */
+.accordion--radius-none {
+  --accordion-radius: var(--radius-none);
+}
+
+.accordion--radius-xs {
+  --accordion-radius: var(--radius-xs);
+}
+
+.accordion--radius-sm {
+  --accordion-radius: var(--radius-sm);
+}
+
+.accordion--radius-md {
+  --accordion-radius: var(--radius-md);
+}
+
+.accordion--radius-lg {
+  --accordion-radius: var(--radius-lg);
+}
+
+.accordion--radius-xl {
+  --accordion-radius: var(--radius-xl);
+}
+
+.accordion--radius-2xl {
+  --accordion-radius: var(--radius-2xl);
 }
 
 /* ===== TRIGGER (HEADER) ===== */

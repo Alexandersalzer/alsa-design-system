@@ -22,6 +22,8 @@ export interface AccordionItemProps {
   startContent?: React.ReactNode;
   /** Disabled state */
   disabled?: boolean;
+  /** Override indicator visibility for this item */
+  disableIndicator?: boolean;
   /** Optional className */
   className?: string;
 }
@@ -34,10 +36,12 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   children,
   startContent,
   disabled = false,
+  disableIndicator = false,
   className
 }) => {
-  const { expandedKeys, toggleKey } = useAccordionContext();
+  const { expandedKeys, toggleKey, showIndicator } = useAccordionContext();
   const isExpanded = expandedKeys.has(itemKey);
+  const shouldShowIndicator = showIndicator && !disableIndicator;
 
   const handleToggle = () => {
     if (!disabled) {
@@ -79,14 +83,16 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
         </div>
 
         {/* Chevron indicator */}
-        <div
-          className={cn(
-            'accordion-item__indicator',
-            isExpanded && 'accordion-item__indicator--expanded'
-          )}
-        >
-          <ChevronDownIcon />
-        </div>
+        {shouldShowIndicator && (
+          <div
+            className={cn(
+              'accordion-item__indicator',
+              isExpanded && 'accordion-item__indicator--expanded'
+            )}
+          >
+            <ChevronDownIcon />
+          </div>
+        )}
       </button>
 
       {/* Content */}
