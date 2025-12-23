@@ -166,7 +166,7 @@ export function CookieConsent({
                   Endast nödvändiga
                 </Button>
                 <Button
-                  variant="primary"
+                  variant="accent"
                   size="sm"
                   onClick={acceptAll}
                 >
