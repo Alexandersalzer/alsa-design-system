@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useConsent, type ConsentState } from './ConsentProvider';
 import { Button } from '../../components/actions/Button';
 import { Label, Body } from '../../components/Typography';
@@ -14,8 +15,8 @@ export interface CookieConsentProps {
   title?: string;
   /** Beskrivning */
   description?: string;
-  /** Länk till integritetspolicy */
-  privacyPolicyUrl?: string;
+  /** Slug för integritetspolicy-sidan (utan locale) */
+  privacyPolicySlug?: string;
   /** Text för "Läs mer" länk */
   privacyPolicyText?: string;
   /** Position */
@@ -27,7 +28,7 @@ export interface CookieConsentProps {
 export function CookieConsent({
   title = 'Vi använder cookies',
   description = 'Vi använder cookies för att förbättra din upplevelse på vår webbplats. Vissa cookies är nödvändiga för att webbplatsen ska fungera, medan andra hjälper oss att förstå hur du använder sidan och möjliggör marknadsföring.',
-  privacyPolicyUrl = '/integritetspolicy',
+  privacyPolicySlug = 'integritetspolicy',
   privacyPolicyText = 'Läs vår integritetspolicy',
   position = 'bottom-left',
   showDetailsInitially = false,
@@ -39,6 +40,11 @@ export function CookieConsent({
     marketing: false,
     preferences: false,
   });
+
+  // Hämta locale från URL (e.g. /sv/hem -> sv)
+  const pathname = usePathname();
+  const locale = pathname?.split('/')[1] || 'sv';
+  const privacyPolicyUrl = `/${locale}/${privacyPolicySlug}`;
 
   // Visa inte om redan svarat eller laddar
   if (isLoading || hasResponded) {
@@ -73,10 +79,7 @@ export function CookieConsent({
 
           {/* Description */}
           <Body size="sm" color="secondary">
-            {description}{' '}
-            <a href={privacyPolicyUrl} className={styles.link}>
-              {privacyPolicyText}
-            </a>
+            {description}
           </Body>
 
           {/* Detaljerade inställningar */}
@@ -86,9 +89,9 @@ export function CookieConsent({
               <label className={`${styles.category} ${styles.categoryDisabled}`}>
                 <input type="checkbox" checked disabled className={styles.checkbox} />
                 <VStack spacing="xs" align="start">
-                  <Label size="sm" weight="semibold">Nödvändiga</Label>
+                  <Label size="sm" weight="semibold">Essentiella</Label>
                   <Body size="xs" color="tertiary">
-                    Krävs för att webbplatsen ska fungera. Kan inte stängas av.
+                    Essentiella cookies och tjänster används för att aktivera webbplatsens centrala funktioner, såsom att säkerställa webbplatsens säkerhet.
                   </Body>
                 </VStack>
               </label>
@@ -104,7 +107,7 @@ export function CookieConsent({
                 <VStack spacing="xs" align="start">
                   <Label size="sm" weight="semibold">Analys</Label>
                   <Body size="xs" color="tertiary">
-                    Hjälper oss förstå hur besökare använder webbplatsen.
+                    Analyscookies och -tjänster används för att samla in statistisk information om hur besökare interagerar med en webbplats. Dessa tekniker ger insikter i webbplatsanvändning, besökarnas beteende och webbplatsens prestanda för att förstå och förbättra webbplatsen och förbättra användarupplevelsen.
                   </Body>
                 </VStack>
               </label>
@@ -120,7 +123,7 @@ export function CookieConsent({
                 <VStack spacing="xs" align="start">
                   <Label size="sm" weight="semibold">Marknadsföring</Label>
                   <Body size="xs" color="tertiary">
-                    Används för att visa relevanta annonser.
+                    Marknadsförings cookies och -tjänster används för att leverera personliga annonser, kampanjer och erbjudanden. Dessa tekniker möjliggör riktade annonser och marknadsföringskampanjer genom att samla in information om användarnas intressen, preferenser och onlineaktiviteter.
                   </Body>
                 </VStack>
               </label>
@@ -136,10 +139,15 @@ export function CookieConsent({
                 <VStack spacing="xs" align="start">
                   <Label size="sm" weight="semibold">Preferenser</Label>
                   <Body size="xs" color="tertiary">
-                    Sparar dina inställningar som språkval.
+                    Funktionella cookies och tjänster används för att erbjuda förbättrade och personliga funktioner. Dessa tekniker ger ytterligare funktioner och förbättrade användarupplevelser, till exempel att komma ihåg dina språkinställningar, teckenstorlekar, regionsval och anpassade layouter. Om du väljer bort dessa cookies kan vissa tjänster eller funktioner på webbplatsen bli otillgängliga.
                   </Body>
                 </VStack>
               </label>
+
+              {/* Integritetspolicy länk */}
+              <a href={privacyPolicyUrl} className={styles.link}>
+                {privacyPolicyText}
+              </a>
             </VStack>
           )}
 
