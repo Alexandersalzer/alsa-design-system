@@ -63,7 +63,7 @@ function easeInOutSine(t: number): number {
  * Uses RAF for smooth 60fps animations tied to scroll position
  */
 export function useScrollAnimation(
-  elementRefs: RefObject<HTMLElement>[],
+  elementRefs: RefObject<HTMLElement | null>[],
   config: ScrollAnimationConfig = {}
 ) {
   const fullConfig = { ...DEFAULT_CONFIG, ...config };
