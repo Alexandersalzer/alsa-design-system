@@ -35,7 +35,7 @@
 .accordion-item {
   width: 100%;
   overflow: hidden;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .accordion-item--disabled {
@@ -121,6 +121,22 @@
   margin-top: -1px;
 }
 
+/* ===== VARIANT: BORDERLESS ===== */
+.accordion--borderless .accordion-item {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+.accordion--borderless .accordion-item:hover:not(.accordion-item--disabled) {
+  background: var(--surface-subtle);
+}
+
+/* Add divider between items when gap is none */
+.accordion--borderless.accordion--gap-none .accordion-item + .accordion-item {
+  border-top: 1px solid var(--border-subtle);
+}
+
 /* ===== RADIUS MODE: EDGES (default) ===== */
 /* First item gets ONLY top-left and top-right radius */
 .accordion--radius-mode-edges .accordion-item:first-child {
@@ -193,7 +209,7 @@
   border: none;
   cursor: pointer;
   text-align: left;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .accordion-item__trigger:hover:not(:disabled) {
@@ -202,6 +218,7 @@
 
 .accordion-item__trigger:active:not(:disabled) {
   transform: scale(0.99);
+  transition: transform 0.1s ease;
 }
 
 .accordion-item__trigger:disabled {
@@ -254,7 +271,7 @@
   align-items: center;
   justify-content: center;
   color: var(--icon-secondary);
-  transition: transform 0.2s ease;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .accordion-item__indicator svg {
@@ -269,13 +286,13 @@
 /* ===== CONTENT ===== */
 .accordion-item__content {
   padding: 0 var(--foundation-space-4) var(--foundation-space-4);
-  animation: accordion-slide-down 0.2s ease;
+  animation: accordion-slide-down 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes accordion-slide-down {
   from {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateY(-10px);
   }
   to {
     opacity: 1;
