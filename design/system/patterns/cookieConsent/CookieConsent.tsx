@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useConsent, type ConsentState } from './ConsentProvider';
 import { Button } from '../../components/actions/Button';
 import { Label, Body } from '../../components/Typography';
+import { Card } from '../../components/layout/Card';
 import styles from './CookieConsent.module.css';
 
 export interface CookieConsentProps {
@@ -26,7 +27,7 @@ export function CookieConsent({
   description = 'Vi använder cookies för att förbättra din upplevelse på vår webbplats. Vissa cookies är nödvändiga för att webbplatsen ska fungera, medan andra hjälper oss att förstå hur du använder sidan och möjliggör marknadsföring.',
   privacyPolicyUrl = '/integritetspolicy',
   privacyPolicyText = 'Läs vår integritetspolicy',
-  position = 'bottom',
+  position = 'bottom-left',
   showDetailsInitially = false,
 }: CookieConsentProps) {
   const { hasResponded, isLoading, acceptAll, rejectAll, acceptSelected } = useConsent();
@@ -61,7 +62,7 @@ export function CookieConsent({
       role="dialog" 
       aria-label="Cookie consent"
     >
-      <div className={styles.container}>
+      <Card variant="elevated" padding="lg" radius="lg">
         {/* Header */}
         <div className={styles.header}>
           <Label size="lg" weight="bold" color="primary">
@@ -197,7 +198,7 @@ export function CookieConsent({
             </div>
           )}
         </div>
-      </div>
+      </Card>
     </div>
   );
 }
