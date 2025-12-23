@@ -31,18 +31,11 @@
   gap: var(--foundation-space-4);
 }
 
-/* ===== ACCORDION ITEM ===== */
+/* ===== ACCORDION ITEM BASE ===== */
 .accordion-item {
   width: 100%;
-  background: var(--surface-subtle);
-  border: 1px solid var(--border-subtle);
   overflow: hidden;
   transition: all 0.2s ease;
-}
-
-.accordion-item:hover:not(.accordion-item--disabled) {
-  background: var(--surface-raised);
-  border-color: var(--border-default);
 }
 
 .accordion-item--disabled {
@@ -56,11 +49,27 @@
   border: 1px solid var(--border-subtle);
 }
 
+.accordion--default .accordion-item:hover:not(.accordion-item--disabled) {
+  background: var(--surface-raised);
+  border-color: var(--border-default);
+}
+
+/* Remove top border for connected items when gap is none */
+.accordion--default.accordion--gap-none .accordion-item + .accordion-item {
+  border-top: none;
+  margin-top: -1px;
+}
+
 /* ===== VARIANT: SEPARATED ===== */
 .accordion--separated .accordion-item {
   background: var(--surface-base);
   border: 1px solid var(--border-default);
   box-shadow: var(--shadow-subtle);
+}
+
+.accordion--separated .accordion-item:hover:not(.accordion-item--disabled) {
+  background: var(--surface-raised);
+  border-color: var(--border-emphasis);
 }
 
 /* ===== VARIANT: BORDERED ===== */
@@ -71,8 +80,13 @@
 }
 
 .accordion--bordered .accordion-item {
+  background: var(--surface-subtle);
   border: none;
   border-radius: 0;
+}
+
+.accordion--bordered .accordion-item:hover:not(.accordion-item--disabled) {
+  background: var(--surface-raised);
 }
 
 .accordion--bordered .accordion-item + .accordion-item {
@@ -85,6 +99,10 @@
   border: 1px solid var(--border-subtle);
 }
 
+.accordion--sunken .accordion-item:hover:not(.accordion-item--disabled) {
+  border-color: var(--border-default);
+}
+
 .accordion--sunken .accordion-item__trigger {
   background: var(--surface-sunken);
 }
@@ -95,6 +113,12 @@
 
 .accordion--sunken .accordion-item__content {
   background: var(--surface-base);
+}
+
+/* Remove borders between connected sunken items */
+.accordion--sunken.accordion--gap-none .accordion-item + .accordion-item {
+  border-top: none;
+  margin-top: -1px;
 }
 
 /* ===== RADIUS MODE: EDGES (default) ===== */
