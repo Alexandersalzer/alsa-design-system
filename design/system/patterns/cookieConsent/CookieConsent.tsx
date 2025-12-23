@@ -150,23 +150,25 @@ export function CookieConsent({
           )}
 
           {/* Knappar */}
-          <HStack spacing="sm" justify="start" wrap className={styles.actions}>
+          <HStack spacing="sm" justify="between" wrap className={styles.actions}>
             {!showDetails ? (
               <>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowDetails(true)}
-                >
-                  Anpassa
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={rejectAll}
-                >
-                  Endast nödvändiga
-                </Button>
+                <HStack spacing="sm" wrap>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowDetails(true)}
+                  >
+                    Anpassa
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={rejectAll}
+                  >
+                    Endast nödvändiga
+                  </Button>
+                </HStack>
                 <Button
                   variant="accent"
                   size="sm"
@@ -177,22 +179,24 @@ export function CookieConsent({
               </>
             ) : (
               <>
+                <HStack spacing="sm" wrap>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowDetails(false)}
+                  >
+                    Tillbaka
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={rejectAll}
+                  >
+                    Neka alla
+                  </Button>
+                </HStack>
                 <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowDetails(false)}
-                >
-                  Tillbaka
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={rejectAll}
-                >
-                  Neka alla
-                </Button>
-                <Button
-                  variant="primary"
+                  variant="accent"
                   size="sm"
                   onClick={handleAcceptSelected}
                 >
