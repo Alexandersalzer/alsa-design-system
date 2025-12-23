@@ -9,6 +9,13 @@
   left: 0;
   right: 0;
   padding: var(--space-md);
+  display: flex;
+  justify-content: center;
+}
+
+.consent--bottom :global(.card) {
+  width: 100%;
+  max-width: 800px;
 }
 
 .consent--bottom-left {

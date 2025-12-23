@@ -15,7 +15,7 @@ export interface CookieConsentProps {
   title?: string;
   /** Beskrivning */
   description?: string;
-  /** Slug för integritetspolicy (läggs till efter locale) */
+  /** Slug för integritetspolicy-sidan (utan locale) */
   privacyPolicySlug?: string;
   /** Text för "Läs mer" länk */
   privacyPolicyText?: string;
@@ -41,7 +41,7 @@ export function CookieConsent({
     preferences: false,
   });
 
-  // Hämta locale från pathname (e.g., /sv/hem -> sv)
+  // Hämta locale från URL (e.g. /sv/hem -> sv)
   const pathname = usePathname();
   const locale = pathname?.split('/')[1] || 'sv';
   const privacyPolicyUrl = `/${locale}/${privacyPolicySlug}`;
