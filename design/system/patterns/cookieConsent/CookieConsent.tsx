@@ -62,7 +62,14 @@ export function CookieConsent({
     acceptSelected(selectedCategories);
   };
 
-  const positionClass = styles[`consent--${position}`] || styles['consent--bottom'];
+  // Mappa position till CSS-klassnamn
+  const positionClassMap: Record<string, string> = {
+    'bottom': styles.consentBottom,
+    'bottom-left': styles.consentBottomLeft,
+    'bottom-right': styles.consentBottomRight,
+    'center': styles.consentCenter,
+  };
+  const positionClass = positionClassMap[position] || styles.consentBottomLeft;
 
   return (
     <div 
