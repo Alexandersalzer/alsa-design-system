@@ -5,6 +5,8 @@ import { useConsent, type ConsentState } from './ConsentProvider';
 import { Button } from '../../components/actions/Button';
 import { Label, Body } from '../../components/Typography';
 import { Card } from '../../components/layout/Card';
+import { VStack } from '../../components/layout/vStack';
+import { HStack } from '../../components/layout/hStack';
 import styles from './CookieConsent.module.css';
 
 export interface CookieConsentProps {
@@ -63,141 +65,137 @@ export function CookieConsent({
       aria-label="Cookie consent"
     >
       <Card variant="elevated" padding="lg" radius="lg">
-        {/* Header */}
-        <div className={styles.header}>
+        <VStack spacing="md" align="start">
+          {/* Header */}
           <Label size="lg" weight="bold" color="primary">
             {title}
           </Label>
-        </div>
 
-        {/* Description */}
-        <div className={styles.description}>
+          {/* Description */}
           <Body size="sm" color="secondary">
             {description}{' '}
             <a href={privacyPolicyUrl} className={styles.link}>
               {privacyPolicyText}
             </a>
           </Body>
-        </div>
 
-        {/* Detaljerade inställningar */}
-        {showDetails && (
-          <div className={styles.details}>
-            {/* Nödvändiga - alltid på */}
-            <label className={`${styles.category} ${styles.categoryDisabled}`}>
-              <input type="checkbox" checked disabled className={styles.checkbox} />
-              <div className={styles.categoryInfo}>
-                <Label size="sm" weight="semibold">Nödvändiga</Label>
-                <Body size="xs" color="tertiary">
-                  Krävs för att webbplatsen ska fungera. Kan inte stängas av.
-                </Body>
-              </div>
-            </label>
+          {/* Detaljerade inställningar */}
+          {showDetails && (
+            <VStack spacing="sm" align="stretch" className={styles.details}>
+              {/* Nödvändiga - alltid på */}
+              <label className={`${styles.category} ${styles.categoryDisabled}`}>
+                <input type="checkbox" checked disabled className={styles.checkbox} />
+                <VStack spacing="xs" align="start">
+                  <Label size="sm" weight="semibold">Nödvändiga</Label>
+                  <Body size="xs" color="tertiary">
+                    Krävs för att webbplatsen ska fungera. Kan inte stängas av.
+                  </Body>
+                </VStack>
+              </label>
 
-            {/* Analytics */}
-            <label className={styles.category}>
-              <input
-                type="checkbox"
-                checked={selectedCategories.analytics}
-                onChange={() => handleToggleCategory('analytics')}
-                className={styles.checkbox}
-              />
-              <div className={styles.categoryInfo}>
-                <Label size="sm" weight="semibold">Analys</Label>
-                <Body size="xs" color="tertiary">
-                  Hjälper oss förstå hur besökare använder webbplatsen.
-                </Body>
-              </div>
-            </label>
+              {/* Analytics */}
+              <label className={styles.category}>
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.analytics}
+                  onChange={() => handleToggleCategory('analytics')}
+                  className={styles.checkbox}
+                />
+                <VStack spacing="xs" align="start">
+                  <Label size="sm" weight="semibold">Analys</Label>
+                  <Body size="xs" color="tertiary">
+                    Hjälper oss förstå hur besökare använder webbplatsen.
+                  </Body>
+                </VStack>
+              </label>
 
-            {/* Marketing */}
-            <label className={styles.category}>
-              <input
-                type="checkbox"
-                checked={selectedCategories.marketing}
-                onChange={() => handleToggleCategory('marketing')}
-                className={styles.checkbox}
-              />
-              <div className={styles.categoryInfo}>
-                <Label size="sm" weight="semibold">Marknadsföring</Label>
-                <Body size="xs" color="tertiary">
-                  Används för att visa relevanta annonser.
-                </Body>
-              </div>
-            </label>
+              {/* Marketing */}
+              <label className={styles.category}>
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.marketing}
+                  onChange={() => handleToggleCategory('marketing')}
+                  className={styles.checkbox}
+                />
+                <VStack spacing="xs" align="start">
+                  <Label size="sm" weight="semibold">Marknadsföring</Label>
+                  <Body size="xs" color="tertiary">
+                    Används för att visa relevanta annonser.
+                  </Body>
+                </VStack>
+              </label>
 
-            {/* Preferences */}
-            <label className={styles.category}>
-              <input
-                type="checkbox"
-                checked={selectedCategories.preferences}
-                onChange={() => handleToggleCategory('preferences')}
-                className={styles.checkbox}
-              />
-              <div className={styles.categoryInfo}>
-                <Label size="sm" weight="semibold">Preferenser</Label>
-                <Body size="xs" color="tertiary">
-                  Sparar dina inställningar som språkval.
-                </Body>
-              </div>
-            </label>
-          </div>
-        )}
-
-        {/* Knappar */}
-        <div className={styles.actions}>
-          {!showDetails ? (
-            // Enkel vy
-            <div className={styles.buttonGroup}>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowDetails(true)}
-              >
-                Anpassa
-              </Button>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={rejectAll}
-              >
-                Endast nödvändiga
-              </Button>
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={acceptAll}
-              >
-                Acceptera alla
-              </Button>
-            </div>
-          ) : (
-            // Detaljerad vy
-            <div className={styles.buttonGroup}>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowDetails(false)}
-              >
-                Tillbaka
-              </Button>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={rejectAll}
-              >
-                Neka alla
-              </Button>
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={handleAcceptSelected}
-              >
-                Spara val
-              </Button>
-            </div>
+              {/* Preferences */}
+              <label className={styles.category}>
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.preferences}
+                  onChange={() => handleToggleCategory('preferences')}
+                  className={styles.checkbox}
+                />
+                <VStack spacing="xs" align="start">
+                  <Label size="sm" weight="semibold">Preferenser</Label>
+                  <Body size="xs" color="tertiary">
+                    Sparar dina inställningar som språkval.
+                  </Body>
+                </VStack>
+              </label>
+            </VStack>
           )}
-        </div>
+
+          {/* Knappar */}
+          <HStack spacing="sm" justify="start" wrap className={styles.actions}>
+            {!showDetails ? (
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowDetails(true)}
+                >
+                  Anpassa
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={rejectAll}
+                >
+                  Endast nödvändiga
+                </Button>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={acceptAll}
+                >
+                  Acceptera alla
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowDetails(false)}
+                >
+                  Tillbaka
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={rejectAll}
+                >
+                  Neka alla
+                </Button>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={handleAcceptSelected}
+                >
+                  Spara val
+                </Button>
+              </>
+            )}
+          </HStack>
+        </VStack>
       </Card>
     </div>
   );
