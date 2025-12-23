@@ -9,17 +9,9 @@
   left: 0;
   right: 0;
   padding: var(--space-md);
-  display: flex;
-  justify-content: center;
-}
-
-.consent--bottom :global(.card) {
-  width: 100%;
-  max-width: 800px;
 }
 
 .consent--bottom-left {
-  position: fixed;
   bottom: var(--space-md);
   left: var(--space-md);
   width: 420px;
@@ -27,7 +19,6 @@
 }
 
 .consent--bottom-right {
-  position: fixed;
   bottom: var(--space-md);
   right: var(--space-md);
   width: 420px;
@@ -35,7 +26,6 @@
 }
 
 .consent--center {
-  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

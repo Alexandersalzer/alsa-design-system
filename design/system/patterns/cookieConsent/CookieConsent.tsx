@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { useConsent, type ConsentState } from './ConsentProvider';
 import { Button } from '../../components/actions/Button';
 import { Label, Body } from '../../components/Typography';
@@ -15,8 +14,8 @@ export interface CookieConsentProps {
   title?: string;
   /** Beskrivning */
   description?: string;
-  /** Slug för integritetspolicy-sidan (utan locale) */
-  privacyPolicySlug?: string;
+  /** Länk till integritetspolicy */
+  privacyPolicyUrl?: string;
   /** Text för "Läs mer" länk */
   privacyPolicyText?: string;
   /** Position */
@@ -28,7 +27,7 @@ export interface CookieConsentProps {
 export function CookieConsent({
   title = 'Vi använder cookies',
   description = 'Vi använder cookies för att förbättra din upplevelse på vår webbplats. Vissa cookies är nödvändiga för att webbplatsen ska fungera, medan andra hjälper oss att förstå hur du använder sidan och möjliggör marknadsföring.',
-  privacyPolicySlug = 'integritetspolicy',
+  privacyPolicyUrl = '/integritetspolicy',
   privacyPolicyText = 'Läs vår integritetspolicy',
   position = 'bottom-left',
   showDetailsInitially = false,
@@ -40,11 +39,6 @@ export function CookieConsent({
     marketing: false,
     preferences: false,
   });
-
-  // Hämta locale från URL (e.g. /sv/hem -> sv)
-  const pathname = usePathname();
-  const locale = pathname?.split('/')[1] || 'sv';
-  const privacyPolicyUrl = `/${locale}/${privacyPolicySlug}`;
 
   // Visa inte om redan svarat eller laddar
   if (isLoading || hasResponded) {
