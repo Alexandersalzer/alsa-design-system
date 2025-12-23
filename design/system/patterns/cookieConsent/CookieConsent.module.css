@@ -1,6 +1,7 @@
 .consent {
   position: fixed;
   z-index: 9999;
+  pointer-events: auto;
 }
 
 /* Positioner */
@@ -11,9 +12,10 @@
   padding: var(--space-md);
   display: flex;
   justify-content: center;
+  align-items: flex-end;
 }
 
-.consent--bottom :global(.card) {
+.consent--bottom > :global(*) {
   width: 100%;
   max-width: 800px;
 }
