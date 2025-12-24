@@ -217,7 +217,7 @@
 }
 
 .accordion-item__trigger:active:not(:disabled) {
-  transform: scale(0.99);
+  transform: scale(0.995);
   transition: transform 0.1s ease;
 }
 
@@ -253,11 +253,6 @@
   font-weight: var(--font-label-weight);
   line-height: var(--font-body-line-height);
   color: var(--text-strong);
-  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.accordion-item__trigger:hover:not(:disabled) .accordion-item__title {
-  color: var(--text-default);
 }
 
 .accordion-item__subtitle {
@@ -265,11 +260,6 @@
   font-size: var(--font-body-sm-size);
   line-height: var(--font-body-line-height);
   color: var(--text-muted);
-  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.accordion-item__trigger:hover:not(:disabled) .accordion-item__subtitle {
-  color: var(--text-subtle);
 }
 
 /* ===== INDICATOR (CHEVRON) ===== */
@@ -281,11 +271,7 @@
   align-items: center;
   justify-content: center;
   color: var(--icon-strong);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.accordion-item__trigger:hover:not(:disabled) .accordion-item__indicator {
-  color: var(--icon-default);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .accordion-item__indicator svg {
