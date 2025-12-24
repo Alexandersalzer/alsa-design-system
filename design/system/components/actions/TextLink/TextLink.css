@@ -45,26 +45,26 @@
 }
 
 /* ===== VARIANT STYLES - USING SEMANTIC TOKENS ===== */
-/* Primary variant - High contrast by default, accent on hover */
+/* Primary variant - High contrast by default, less on hover */
 .textlink-primary {
-  color: var(--text-heading-primary) !important;           /* Highest contrast for default */
+  color: var(--text-strong) !important;                    /* Highest contrast (neutral-1200) */
 }
 
 .textlink-primary:hover {
-  color: var(--text-accent) !important;                    /* Accent color on hover */
+  color: var(--text-default) !important;                   /* Less contrast on hover (neutral-1000) */
 }
 
 .textlink-primary:active {
-  color: var(--text-accent-strong) !important;             /* Stronger accent on active */
+  color: var(--text-accent) !important;                    /* Accent on active */
 }
 
 /* Secondary variant - Medium contrast by default, higher on hover */
 .textlink-secondary {
-  color: var(--text-secondary) !important;                 /* Medium contrast */
+  color: var(--text-secondary) !important;                 /* Medium contrast (text-muted) */
 }
 
 .textlink-secondary:hover {
-  color: var(--text-heading-primary) !important;           /* High contrast on hover */
+  color: var(--text-strong) !important;                    /* High contrast on hover */
 }
 
 .textlink-secondary:active {
@@ -99,7 +99,7 @@
 
 /* Brand variant (for brand names) - Highest contrast */
 .textlink-brand {
-  color: var(--text-heading-primary) !important;           /* Highest contrast */
+  color: var(--text-strong) !important;                    /* Highest contrast */
 }
 
 .textlink-brand:hover {

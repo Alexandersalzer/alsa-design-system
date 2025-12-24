@@ -45,12 +45,12 @@
 
 /* ===== VARIANT: DEFAULT ===== */
 .accordion--default .accordion-item {
-  background: var(--surface-subtle);
+  background: transparent;
   border: 1px solid var(--border-subtle);
 }
 
 .accordion--default .accordion-item:hover:not(.accordion-item--disabled) {
-  background: var(--surface-raised);
+  background: var(--surface-hover);
   border-color: var(--border-default);
 }
 
@@ -213,7 +213,7 @@
 }
 
 .accordion-item__trigger:hover:not(:disabled) {
-  background: rgba(0, 0, 0, 0.02);
+  background: transparent;
 }
 
 .accordion-item__trigger:active:not(:disabled) {
@@ -252,24 +252,24 @@
   font-size: var(--font-label-md-size);
   font-weight: var(--font-label-weight);
   line-height: var(--font-body-line-height);
-  color: var(--text-heading-primary);
+  color: var(--text-strong);
   transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .accordion-item__trigger:hover:not(:disabled) .accordion-item__title {
-  color: var(--text-primary);
+  color: var(--text-default);
 }
 
 .accordion-item__subtitle {
   font-family: var(--font-body-family);
   font-size: var(--font-body-sm-size);
   line-height: var(--font-body-line-height);
-  color: var(--text-secondary);
+  color: var(--text-muted);
   transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .accordion-item__trigger:hover:not(:disabled) .accordion-item__subtitle {
-  color: var(--text-tertiary);
+  color: var(--text-subtle);
 }
 
 /* ===== INDICATOR (CHEVRON) ===== */
@@ -280,12 +280,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--icon-primary);
+  color: var(--icon-strong);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .accordion-item__trigger:hover:not(:disabled) .accordion-item__indicator {
-  color: var(--icon-secondary);
+  color: var(--icon-default);
 }
 
 .accordion-item__indicator svg {
