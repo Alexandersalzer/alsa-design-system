@@ -108,6 +108,50 @@ async function fetchMarketingPixels(externalId) {
 }
 
 /**
+ * Fetch localization settings from API
+ */
+async function fetchLocalization(externalId) {
+  try {
+    console.log(`   Fetching from: ${API_BASE_URL}/api/public/user/${externalId}/localization`);
+    
+    const response = await fetch(
+      `${API_BASE_URL}/api/public/user/${externalId}/localization`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': 'Blimpify-Config-Generator/1.0'
+        }
+      }
+    );
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        console.warn('   ⚠️  User not found in API');
+      } else if (response.status === 429) {
+        console.warn('   ⚠️  Rate limit exceeded');
+      } else {
+        console.warn(`   ⚠️  API responded with status ${response.status}`);
+      }
+      return { default_iso_code: 'sv' };
+    }
+    
+    const data = await response.json();
+    
+    if (!data.success) {
+      console.warn('   ⚠️  API returned unsuccessful response');
+      return { default_iso_code: 'sv' };
+    }
+    
+    return data.localization || { default_iso_code: 'sv' };
+    
+  } catch (error) {
+    console.error(`   ❌ Error fetching localization: ${error.message}`);
+    console.warn('   ⚠️  Continuing with default locale (sv)');
+    return { default_iso_code: 'sv' };
+  }
+}
+
+/**
  * Main config generation function
  */
 async function generateConfig() {
@@ -138,10 +182,11 @@ async function generateConfig() {
   console.log(`   API URL: ${API_BASE_URL}`);
   console.log('');
   
-  // Fetch active applications from API
+  // Fetch data from API
   console.log('🌐 Fetching data from API...');
   const activeApplications = await fetchActiveApplications(EXTERNAL_ID);
   const marketingPixels = await fetchMarketingPixels(EXTERNAL_ID);
+  const localization = await fetchLocalization(EXTERNAL_ID);
   
   console.log('');
   if (activeApplications.length > 0) {
@@ -161,6 +206,8 @@ async function generateConfig() {
   } else {
     console.log('   ℹ️  No marketing pixels configured');
   }
+  
+  console.log(`   ✅ Default locale: ${localization.default_iso_code}`);
   console.log('');
   
   // Build config object
@@ -170,10 +217,7 @@ async function generateConfig() {
       external_id: EXTERNAL_ID
     },
     localization: {
-      endonym_name: 'Svenska',
-      iso_code: 'sv',
-      name: 'Svenska',
-      primary: true
+      default_iso_code: localization.default_iso_code
     },
     applications: {
       active: activeApplications
