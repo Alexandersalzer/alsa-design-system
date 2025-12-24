@@ -1,0 +1,33 @@
+{
+  "title": "Vi använder cookies",
+  "description": "Vi använder cookies för att förbättra din upplevelse på vår webbplats. Vissa cookies är nödvändiga för att webbplatsen ska fungera, medan andra hjälper oss att förstå hur du använder sidan och möjliggör marknadsföring.",
+  "buttons": {
+    "customize": "Anpassa",
+    "rejectAll": "Endast nödvändiga",
+    "acceptAll": "Acceptera alla",
+    "back": "Tillbaka",
+    "denyAll": "Neka alla",
+    "saveSelection": "Spara val"
+  },
+  "categories": {
+    "essential": {
+      "title": "Essentiella",
+      "description": "Essentiella cookies och tjänster används för att aktivera webbplatsens centrala funktioner, såsom att säkerställa webbplatsens säkerhet."
+    },
+    "analytics": {
+      "title": "Analys",
+      "description": "Analyscookies och -tjänster används för att samla in statistisk information om hur besökare interagerar med en webbplats. Dessa tekniker ger insikter i webbplatsanvändning, besökarnas beteende och webbplatsens prestanda för att förstå och förbättra webbplatsen och förbättra användarupplevelsen."
+    },
+    "marketing": {
+      "title": "Marknadsföring",
+      "description": "Marknadsförings cookies och -tjänster används för att leverera personliga annonser, kampanjer och erbjudanden. Dessa tekniker möjliggör riktade annonser och marknadsföringskampanjer genom att samla in information om användarnas intressen, preferenser och onlineaktiviteter."
+    },
+    "preferences": {
+      "title": "Preferenser",
+      "description": "Funktionella cookies och tjänster används för att erbjuda förbättrade och personliga funktioner. Dessa tekniker ger ytterligare funktioner och förbättrade användarupplevelser, till exempel att komma ihåg dina språkinställningar, teckenstorlekar, regionsval och anpassade layouter. Om du väljer bort dessa cookies kan vissa tjänster eller funktioner på webbplatsen bli otillgängliga."
+    }
+  },
+  "privacyPolicy": {
+    "text": "Läs vår integritetspolicy"
+  }
+}

@@ -9,15 +9,20 @@ import { VStack } from '../../components/layout/vStack';
 import { HStack } from '../../components/layout/hStack';
 import styles from './CookieConsent.module.css';
 
+// Import content
+import svContent from './content/sv.json';
+import enContent from './content/en.json';
+
+const contentByLocale: Record<string, typeof svContent> = {
+  sv: svContent,
+  en: enContent,
+};
+
 export interface CookieConsentProps {
-  /** Titel på bannern */
-  title?: string;
-  /** Beskrivning */
-  description?: string;
+  /** Locale for translations */
+  locale?: string;
   /** Länk till integritetspolicy */
   privacyPolicyUrl?: string;
-  /** Text för "Läs mer" länk */
-  privacyPolicyText?: string;
   /** Position */
   position?: 'bottom' | 'bottom-left' | 'bottom-right' | 'center';
   /** Visa detaljerade inställningar direkt */
@@ -25,10 +30,8 @@ export interface CookieConsentProps {
 }
 
 export function CookieConsent({
-  title = 'Vi använder cookies',
-  description = 'Vi använder cookies för att förbättra din upplevelse på vår webbplats. Vissa cookies är nödvändiga för att webbplatsen ska fungera, medan andra hjälper oss att förstå hur du använder sidan och möjliggör marknadsföring.',
-  privacyPolicyUrl = '/integritetspolicy',
-  privacyPolicyText = 'Läs vår integritetspolicy',
+  locale = 'sv',
+  privacyPolicyUrl,
   position = 'bottom-left',
   showDetailsInitially = false,
 }: CookieConsentProps) {
@@ -39,6 +42,9 @@ export function CookieConsent({
     marketing: false,
     preferences: false,
   });
+
+  // Get content for locale (fallback to Swedish)
+  const t = contentByLocale[locale] || contentByLocale['sv'];
 
   // Visa inte om redan svarat eller laddar
   if (isLoading || hasResponded) {
@@ -68,12 +74,12 @@ export function CookieConsent({
         <VStack spacing="md" align="start">
           {/* Header */}
           <Label size="lg" weight="bold" color="primary">
-            {title}
+            {t.title}
           </Label>
 
           {/* Description */}
           <Body size="sm" color="secondary">
-            {description}
+            {t.description}
           </Body>
 
           {/* Detaljerade inställningar */}
@@ -83,9 +89,9 @@ export function CookieConsent({
               <label className={`${styles.category} ${styles.categoryDisabled}`}>
                 <input type="checkbox" checked disabled className={styles.checkbox} />
                 <VStack spacing="xs" align="start">
-                  <Label size="sm" weight="semibold">Essentiella</Label>
+                  <Label size="sm" weight="semibold">{t.categories.essential.title}</Label>
                   <Body size="xs" color="tertiary">
-                    Essentiella cookies och tjänster används för att aktivera webbplatsens centrala funktioner, såsom att säkerställa webbplatsens säkerhet.
+                    {t.categories.essential.description}
                   </Body>
                 </VStack>
               </label>
@@ -99,9 +105,9 @@ export function CookieConsent({
                   className={styles.checkbox}
                 />
                 <VStack spacing="xs" align="start">
-                  <Label size="sm" weight="semibold">Analys</Label>
+                  <Label size="sm" weight="semibold">{t.categories.analytics.title}</Label>
                   <Body size="xs" color="tertiary">
-                    Analyscookies och -tjänster används för att samla in statistisk information om hur besökare interagerar med en webbplats. Dessa tekniker ger insikter i webbplatsanvändning, besökarnas beteende och webbplatsens prestanda för att förstå och förbättra webbplatsen och förbättra användarupplevelsen.
+                    {t.categories.analytics.description}
                   </Body>
                 </VStack>
               </label>
@@ -115,9 +121,9 @@ export function CookieConsent({
                   className={styles.checkbox}
                 />
                 <VStack spacing="xs" align="start">
-                  <Label size="sm" weight="semibold">Marknadsföring</Label>
+                  <Label size="sm" weight="semibold">{t.categories.marketing.title}</Label>
                   <Body size="xs" color="tertiary">
-                    Marknadsförings cookies och -tjänster används för att leverera personliga annonser, kampanjer och erbjudanden. Dessa tekniker möjliggör riktade annonser och marknadsföringskampanjer genom att samla in information om användarnas intressen, preferenser och onlineaktiviteter.
+                    {t.categories.marketing.description}
                   </Body>
                 </VStack>
               </label>
@@ -131,9 +137,9 @@ export function CookieConsent({
                   className={styles.checkbox}
                 />
                 <VStack spacing="xs" align="start">
-                  <Label size="sm" weight="semibold">Preferenser</Label>
+                  <Label size="sm" weight="semibold">{t.categories.preferences.title}</Label>
                   <Body size="xs" color="tertiary">
-                    Funktionella cookies och tjänster används för att erbjuda förbättrade och personliga funktioner. Dessa tekniker ger ytterligare funktioner och förbättrade användarupplevelser, till exempel att komma ihåg dina språkinställningar, teckenstorlekar, regionsval och anpassade layouter. Om du väljer bort dessa cookies kan vissa tjänster eller funktioner på webbplatsen bli otillgängliga.
+                    {t.categories.preferences.description}
                   </Body>
                 </VStack>
               </label>
@@ -142,7 +148,7 @@ export function CookieConsent({
               {privacyPolicyUrl && (
                 <Body size="sm" color="secondary">
                   <a href={privacyPolicyUrl} className={styles.link}>
-                    {privacyPolicyText}
+                    {t.privacyPolicy.text}
                   </a>
                 </Body>
               )}
@@ -159,14 +165,14 @@ export function CookieConsent({
                     size="sm"
                     onClick={() => setShowDetails(true)}
                   >
-                    Anpassa
+                    {t.buttons.customize}
                   </Button>
                   <Button
                     variant="secondary"
                     size="sm"
                     onClick={rejectAll}
                   >
-                    Endast nödvändiga
+                    {t.buttons.rejectAll}
                   </Button>
                 </HStack>
                 <Button
@@ -174,7 +180,7 @@ export function CookieConsent({
                   size="sm"
                   onClick={acceptAll}
                 >
-                  Acceptera alla
+                  {t.buttons.acceptAll}
                 </Button>
               </>
             ) : (
@@ -185,14 +191,14 @@ export function CookieConsent({
                     size="sm"
                     onClick={() => setShowDetails(false)}
                   >
-                    Tillbaka
+                    {t.buttons.back}
                   </Button>
                   <Button
                     variant="secondary"
                     size="sm"
                     onClick={rejectAll}
                   >
-                    Neka alla
+                    {t.buttons.denyAll}
                   </Button>
                 </HStack>
                 <Button
@@ -200,7 +206,7 @@ export function CookieConsent({
                   size="sm"
                   onClick={handleAcceptSelected}
                 >
-                  Spara val
+                  {t.buttons.saveSelection}
                 </Button>
               </>
             )}
