@@ -6,37 +6,57 @@
  */
 
 // Re-export individual pages
-export { BlockedPage, blockedMetadata } from './blocked';
+export { BlockedPage } from './blocked';
 export type { BlockedPageProps } from './blocked';
 
 // Re-export dynamic renderer
 export { SystemPage } from './SystemPage';
 
-// ===== SYSTEM PAGE REGISTRY =====
+// Import content for registry
+import { blockedSvContent, blockedEnContent } from './blocked';
 
-/**
- * Registry of all system pages
- * Used by generateStaticParams to auto-generate these pages
- */
-export const SYSTEM_PAGES = [
-  'blocked',
+// ===== SYSTEM PAGES REGISTRY =====
+
+export interface SystemPageConfig {
+  id: string;
+  slugs: Record<string, string>;  // locale -> slug mapping
+}
+
+export const SYSTEM_PAGES: SystemPageConfig[] = [
+  {
+    id: 'blocked',
+    slugs: {
+      sv: blockedSvContent.slug,  // 'blockerad'
+      en: blockedEnContent.slug,  // 'blocked'
+    },
+  },
   // Add more system pages here as needed:
-  // 'maintenance',
-  // 'error',
-] as const;
-
-export type SystemPageSlug = typeof SYSTEM_PAGES[number];
+  // {
+  //   id: 'maintenance',
+  //   slugs: { sv: 'underhall', en: 'maintenance' },
+  // },
+];
 
 /**
- * Get all system page paths for generateStaticParams
+ * Get all system page slugs for a locale
  */
-export function getSystemPageParams() {
-  return SYSTEM_PAGES.map(page => ({ systemPage: page }));
+export function getSystemPageSlugs(locale: string): string[] {
+  return SYSTEM_PAGES.map(page => page.slugs[locale] || page.slugs['en']);
 }
 
 /**
- * Check if a slug is a valid system page
+ * Find system page by slug and locale
  */
-export function isSystemPage(slug: string): slug is SystemPageSlug {
-  return SYSTEM_PAGES.includes(slug as SystemPageSlug);
+export function findSystemPage(slug: string, locale: string): SystemPageConfig | null {
+  return SYSTEM_PAGES.find(page => 
+    page.slugs[locale] === slug || 
+    Object.values(page.slugs).includes(slug)
+  ) || null;
+}
+
+/**
+ * Check if a slug is a system page
+ */
+export function isSystemPage(slug: string, locale: string): boolean {
+  return findSystemPage(slug, locale) !== null;
 }

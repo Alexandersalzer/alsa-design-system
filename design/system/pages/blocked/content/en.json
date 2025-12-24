@@ -1,0 +1,12 @@
+{
+  "slug": "blocked",
+  "metadata": {
+    "title": "Website Unavailable",
+    "robots": "noindex, nofollow"
+  },
+  "content": {
+    "tag": "Temporarily Unavailable",
+    "heading": "Website Unavailable",
+    "description": "This website is currently unavailable. If you are the owner of this website, please contact support for more information."
+  }
+}
