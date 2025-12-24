@@ -3,6 +3,11 @@
  * TypeScript types for config.json structure
  */
 
+export interface PixelConfig {
+  platform: 'meta' | 'tiktok' | 'snapchat' | 'google';
+  pixel_id: string;
+}
+
 export interface Config {
   version?: string;
   localization: {
@@ -16,5 +21,8 @@ export interface Config {
   };
   applications: {
     active: string[];
+  };
+  marketing?: {
+    pixels: PixelConfig[];
   };
 }

@@ -5,7 +5,7 @@ import { useConsent } from './ConsentProvider';
 
 // ===== TYPES =====
 
-interface PixelConfig {
+export interface PixelConfig {
   platform: 'meta' | 'tiktok' | 'snapchat' | 'google';
   pixel_id: string;
 }
