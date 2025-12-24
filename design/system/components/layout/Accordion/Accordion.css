@@ -247,20 +247,7 @@
   gap: var(--foundation-space-1);
 }
 
-.accordion-item__title {
-  font-family: var(--font-body-family);
-  font-size: var(--font-label-md-size);
-  font-weight: var(--font-label-weight);
-  line-height: var(--font-body-line-height);
-  color: var(--text-strong);
-}
-
-.accordion-item__subtitle {
-  font-family: var(--font-body-family);
-  font-size: var(--font-body-sm-size);
-  line-height: var(--font-body-line-height);
-  color: var(--text-muted);
-}
+/* Title and subtitle typography now handled by Typography components in AccordionItem.tsx */
 
 /* ===== INDICATOR (CHEVRON) ===== */
 .accordion-item__indicator {

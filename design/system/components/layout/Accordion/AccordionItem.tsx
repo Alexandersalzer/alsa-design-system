@@ -5,8 +5,9 @@
 
 import React from 'react';
 import { cn } from '../../../utils/cn';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { useAccordionContext } from './AccordionContext';
+import { Label, Body } from '../../Typography';
 
 // ===== TYPES =====
 export interface AccordionItemProps {
@@ -24,6 +25,8 @@ export interface AccordionItemProps {
   disabled?: boolean;
   /** Override indicator visibility for this item */
   disableIndicator?: boolean;
+  /** Custom indicator icon (replaces default chevron/plus) */
+  indicatorIcon?: React.ReactNode;
   /** Optional className */
   className?: string;
 }
@@ -37,6 +40,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   startContent,
   disabled = false,
   disableIndicator = false,
+  indicatorIcon,
   className
 }) => {
   const { expandedKeys, toggleKey, showIndicator } = useAccordionContext();
@@ -48,6 +52,10 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
       toggleKey(itemKey);
     }
   };
+
+  // Default indicator icon (chevron)
+  const defaultIndicator = <ChevronDownIcon />;
+  const indicatorElement = indicatorIcon || defaultIndicator;
 
   return (
     <div
@@ -74,15 +82,19 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
           </div>
         )}
 
-        {/* Title and subtitle */}
+        {/* Title and subtitle using Typography */}
         <div className="accordion-item__title-wrapper">
-          <div className="accordion-item__title">{title}</div>
+          <Label size="md" weight="semibold" color="primary" as="div">
+            {title}
+          </Label>
           {subtitle && (
-            <div className="accordion-item__subtitle">{subtitle}</div>
+            <Body size="sm" color="secondary" as="div">
+              {subtitle}
+            </Body>
           )}
         </div>
 
-        {/* Chevron indicator */}
+        {/* Indicator icon */}
         {shouldShowIndicator && (
           <div
             className={cn(
@@ -90,7 +102,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
               isExpanded && 'accordion-item__indicator--expanded'
             )}
           >
-            <ChevronDownIcon />
+            {indicatorElement}
           </div>
         )}
       </button>

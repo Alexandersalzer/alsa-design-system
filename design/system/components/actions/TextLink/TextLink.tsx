@@ -6,7 +6,7 @@
 import React, { forwardRef, ReactNode } from 'react';
 import Link from 'next/link';
 import { cn } from '../../../utils/cn';
-import { Label, TypographyColor, TypographyWeight } from '../../Typography';
+import { Label, TypographyWeight } from '../../Typography';
 import { useHref } from '../../../hooks/useHref';
 import { Component } from '../../frames/component/Component';
 import './TextLink.css';
@@ -43,51 +43,18 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   // Build locale-aware href
   const localeAwareHref = href ? buildHref(href) : undefined;
   
-  // Map textlink variant + state to typography properties
-  const getTypographyProps = (
-    variant: string, 
-    size: string, 
-    disabled: boolean
-  ): { size: 'sm' | 'md' | 'lg'; weight: TypographyWeight; color: TypographyColor } => {
-    
-    // Size mapping
+  // Map textlink size to typography size
+  const getTypographySize = (size: string): 'sm' | 'md' | 'lg' => {
     const sizeMap = {
       sm: 'sm' as const,
-      md: 'md' as const, 
+      md: 'md' as const,
       lg: 'lg' as const,
       xl: 'lg' as const, // xl uses lg typography
     };
-
-    // Color mapping based on variant and state
-    const getColor = (): TypographyColor => {
-      if (disabled) {
-        return 'disabled';
-      }
-
-      switch (variant) {
-        case 'primary':
-          return 'primary';
-        case 'secondary':
-          return 'secondary';
-        case 'accent':
-          return 'accent';
-        case 'ghost':
-          return 'tertiary';
-        case 'brand':
-          return 'heading'; // Strong color for brand text
-        default:
-          return 'primary';
-      }
-    };
-
-    return {
-      size: sizeMap[size as keyof typeof sizeMap] || sizeMap.md,
-      weight: weight as TypographyWeight,
-      color: getColor()
-    };
+    return sizeMap[size as keyof typeof sizeMap] || sizeMap.md;
   };
 
-  const typographyProps = getTypographyProps(variant, size, disabled);
+  const typographySize = getTypographySize(size);
 
   // Build textlink classes
   const textLinkClasses = cn(
@@ -112,13 +79,13 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
         </span>
       )}
 
-      {/* Text content with Typography system */}
+      {/* Text content with Typography system - color inherited from CSS */}
       <Label
-        size={typographyProps.size}
-        weight={typographyProps.weight}
-        color={typographyProps.color}
+        size={typographySize}
+        weight={weight as TypographyWeight}
         as="span"
         className="textlink-text"
+        style={{ color: 'inherit' }}
       >
         {children}
       </Label>
