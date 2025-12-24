@@ -57,6 +57,12 @@ export function ConsentProvider({ children }: ConsentProviderProps) {
 
   // Läs från localStorage vid mount
   useEffect(() => {
+    // 🛡️ SSR Safety: Only run in browser
+    if (typeof window === 'undefined') {
+      setIsLoading(false);
+      return;
+    }
+    
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
@@ -77,6 +83,9 @@ export function ConsentProvider({ children }: ConsentProviderProps) {
 
   // Spara till localStorage
   const saveConsent = useCallback((newConsent: ConsentState) => {
+    // 🛡️ SSR Safety: Only run in browser
+    if (typeof window === 'undefined') return;
+    
     const toStore: StoredConsent = {
       version: CONSENT_VERSION,
       consent: newConsent,
@@ -126,6 +135,9 @@ export function ConsentProvider({ children }: ConsentProviderProps) {
   }, [saveConsent]);
 
   const resetConsent = useCallback(() => {
+    // 🛡️ SSR Safety: Only run in browser
+    if (typeof window === 'undefined') return;
+    
     localStorage.removeItem(STORAGE_KEY);
     setConsent(defaultConsent);
     setHasResponded(false);
