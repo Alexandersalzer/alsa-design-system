@@ -64,6 +64,50 @@ async function fetchActiveApplications(externalId) {
 }
 
 /**
+ * Fetch marketing pixels from API
+ */
+async function fetchMarketingPixels(externalId) {
+  try {
+    console.log(`   Fetching from: ${API_BASE_URL}/api/public/user/${externalId}/marketing-pixels`);
+    
+    const response = await fetch(
+      `${API_BASE_URL}/api/public/user/${externalId}/marketing-pixels`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': 'Blimpify-Config-Generator/1.0'
+        }
+      }
+    );
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        console.warn('   ⚠️  User not found in API');
+      } else if (response.status === 429) {
+        console.warn('   ⚠️  Rate limit exceeded');
+      } else {
+        console.warn(`   ⚠️  API responded with status ${response.status}`);
+      }
+      return [];
+    }
+    
+    const data = await response.json();
+    
+    if (!data.success) {
+      console.warn('   ⚠️  API returned unsuccessful response');
+      return [];
+    }
+    
+    return data.pixels || [];
+    
+  } catch (error) {
+    console.error(`   ❌ Error fetching marketing pixels: ${error.message}`);
+    console.warn('   ⚠️  Continuing with empty pixels array');
+    return [];
+  }
+}
+
+/**
  * Main config generation function
  */
 async function generateConfig() {
@@ -95,8 +139,9 @@ async function generateConfig() {
   console.log('');
   
   // Fetch active applications from API
-  console.log('🌐 Fetching active applications from API...');
+  console.log('🌐 Fetching data from API...');
   const activeApplications = await fetchActiveApplications(EXTERNAL_ID);
+  const marketingPixels = await fetchMarketingPixels(EXTERNAL_ID);
   
   console.log('');
   if (activeApplications.length > 0) {
@@ -106,6 +151,15 @@ async function generateConfig() {
     });
   } else {
     console.log('   ℹ️  No active applications found (only content pages will be generated)');
+  }
+  
+  if (marketingPixels.length > 0) {
+    console.log(`   ✅ Found ${marketingPixels.length} marketing pixel(s):`);
+    marketingPixels.forEach(pixel => {
+      console.log(`      • ${pixel.platform}: ${pixel.pixel_id}`);
+    });
+  } else {
+    console.log('   ℹ️  No marketing pixels configured');
   }
   console.log('');
   
@@ -123,6 +177,9 @@ async function generateConfig() {
     },
     applications: {
       active: activeApplications
+    },
+    marketing: {
+      pixels: marketingPixels
     }
   };
   
@@ -158,6 +215,7 @@ async function generateConfig() {
     console.log('📊 Build Summary:');
     console.log(hasContent ? '   ✅ Content pages: Available' : '   ℹ️  Content pages: None');
     console.log(activeApplications.length > 0 ? `   ✅ Application pages: ${activeApplications.length}` : '   ℹ️  Application pages: None');
+    console.log(marketingPixels.length > 0 ? `   ✅ Marketing pixels: ${marketingPixels.length}` : '   ℹ️  Marketing pixels: None');
     console.log('');
   }
   
