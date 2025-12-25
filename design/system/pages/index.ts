@@ -6,14 +6,14 @@
  */
 
 // Re-export individual pages
-export { BlockedPage } from './blocked';
-export type { BlockedPageProps } from './blocked';
+export { BlockedPage } from './suspended';
+export type { BlockedPageProps } from './suspended';
 
 // Re-export dynamic renderer
 export { SystemPage } from './SystemPage';
 
 // Import content for registry
-import { blockedSvContent, blockedEnContent } from './blocked';
+import { blockedSvContent, blockedEnContent } from './suspended';
 
 // ===== SYSTEM PAGES REGISTRY =====
 

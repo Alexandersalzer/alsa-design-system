@@ -6,7 +6,7 @@
  */
 'use client';
 
-import { BlockedPage } from './blocked';
+import { BlockedPage } from './suspended';
 import { findSystemPage } from './index';
 
 interface SystemPageProps {
