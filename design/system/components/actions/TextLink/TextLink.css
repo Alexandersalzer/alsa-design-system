@@ -51,7 +51,7 @@
 }
 
 .textlink-primary:hover {
-  color: var(--text-default) ;                   /* Less contrast on hover (neutral-1000) */
+  color: var(--text-disabled) ;                   /* Less contrast on hover (neutral-1000) */
 }
 
 .textlink-primary:active {
@@ -90,7 +90,7 @@
 }
 
 .textlink-ghost:hover {
-  color: var(--text-secondary) ;                 /* Medium contrast on hover */
+  color: var(--text-strong) ;                 /* Medium contrast on hover */
 }
 
 .textlink-ghost:active {
