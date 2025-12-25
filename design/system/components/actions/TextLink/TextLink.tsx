@@ -85,7 +85,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
         weight={weight as TypographyWeight}
         as="span"
         className="textlink-text"
-        style={{ color: 'inherit' }}
+        color={undefined}
       >
         {children}
       </Label>
