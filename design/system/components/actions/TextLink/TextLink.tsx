@@ -31,7 +31,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   children,
   leftIcon,
   rightIcon,
-  underline = 'hover',
+  underline = 'none',
   disabled = false,
   href,
   componentKey,
