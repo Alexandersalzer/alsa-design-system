@@ -196,6 +196,7 @@
 .textlink-text {
   /* Typography handled by Typography component */
   line-height: inherit;
+  color: inherit !important; /* Force inherit color from parent textlink */
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
