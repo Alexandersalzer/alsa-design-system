@@ -39,9 +39,12 @@ export const SYSTEM_PAGES: SystemPageConfig[] = [
 
 /**
  * Get all system page slugs for a locale
+ * Only returns slugs if the locale has corresponding content available
  */
 export function getSystemPageSlugs(locale: string): string[] {
-  return SYSTEM_PAGES.map(page => page.slugs[locale] || page.slugs['en']);
+  return SYSTEM_PAGES
+    .filter(page => page.slugs[locale]) // Only include if locale exists in config
+    .map(page => page.slugs[locale]);
 }
 
 /**

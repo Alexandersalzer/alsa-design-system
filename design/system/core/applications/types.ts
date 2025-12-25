@@ -11,10 +11,8 @@ export interface PixelConfig {
 export interface Config {
   version?: string;
   localization: {
-    endonym_name: string;
-    iso_code: string;
-    name: string;
-    primary: boolean;
+    default_iso_code: string;
+    available_locales: string[];
   };
   user: {
     external_id: string;

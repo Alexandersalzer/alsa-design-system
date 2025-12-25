@@ -152,6 +152,38 @@ async function fetchLocalization(externalId) {
 }
 
 /**
+ * Detect available locales from public/content directory
+ */
+function detectAvailableLocales() {
+  try {
+    const projectRoot = process.cwd();
+    const contentDir = path.join(projectRoot, 'public', 'content');
+    
+    if (!fs.existsSync(contentDir)) {
+      console.warn('   ⚠️  No content directory found');
+      return ['sv']; // Default fallback
+    }
+    
+    const entries = fs.readdirSync(contentDir, { withFileTypes: true });
+    const locales = entries
+      .filter(entry => entry.isDirectory())
+      .map(entry => entry.name)
+      .filter(name => /^[a-z]{2}(-[A-Z]{2})?$/.test(name)); // Only valid locale codes (sv, en, en-US, etc.)
+    
+    if (locales.length === 0) {
+      console.warn('   ⚠️  No valid locale directories found');
+      return ['sv']; // Default fallback
+    }
+    
+    return locales;
+    
+  } catch (error) {
+    console.error(`   ❌ Error detecting locales: ${error.message}`);
+    return ['sv']; // Default fallback
+  }
+}
+
+/**
  * Main config generation function
  */
 async function generateConfig() {
@@ -188,6 +220,9 @@ async function generateConfig() {
   const marketingPixels = await fetchMarketingPixels(EXTERNAL_ID);
   const localization = await fetchLocalization(EXTERNAL_ID);
   
+  // Detect available locales from content directory
+  const availableLocales = detectAvailableLocales();
+  
   console.log('');
   if (activeApplications.length > 0) {
     console.log(`   ✅ Found ${activeApplications.length} active application(s):`);
@@ -208,6 +243,7 @@ async function generateConfig() {
   }
   
   console.log(`   ✅ Default locale: ${localization.default_iso_code}`);
+  console.log(`   ✅ Available locales: ${availableLocales.join(', ')}`);
   console.log('');
   
   // Build config object
@@ -217,7 +253,8 @@ async function generateConfig() {
       external_id: EXTERNAL_ID
     },
     localization: {
-      default_iso_code: localization.default_iso_code
+      default_iso_code: localization.default_iso_code,
+      available_locales: availableLocales
     },
     applications: {
       active: activeApplications
