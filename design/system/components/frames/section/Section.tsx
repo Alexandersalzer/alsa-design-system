@@ -5,6 +5,7 @@ type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
 type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type Overflow = 'visible' | 'hidden' | 'auto' | 'scroll' | 'clip';
+type PaddingTopMultiplier = 1 | 1.25 | 1.5 | 1.75 | 2;
 
 interface SectionProps {
   children: ReactNode;
@@ -17,6 +18,7 @@ interface SectionProps {
   top?: string | number;
   zIndex?: number;
   spacing?: SpacingScale; // ✅ optional per-section override (uses .spacingMd etc.)
+  paddingTopMultiplier?: PaddingTopMultiplier; // ✅ Multiplier for top padding (1, 1.25, 1.5, 1.75, 2)
   overflow?: Overflow; // ✅ Control overflow behavior (default: 'hidden')
   overflowX?: Overflow; // ✅ Control horizontal overflow separately
   overflowY?: Overflow; // ✅ Control vertical overflow separately
@@ -69,6 +71,7 @@ export const Section = ({
   top,
   zIndex,
   spacing, // optional override
+  paddingTopMultiplier,
   overflow,
   overflowX,
   overflowY,
@@ -89,20 +92,26 @@ export const Section = ({
     className,
   ].join(' ').trim();
 
-  const inlineStyles: React.CSSProperties = {};
+  const inlineStyles: Record<string, any> = {};
   if (top !== undefined) inlineStyles.top = typeof top === 'number' ? `${top}px` : top;
   if (zIndex !== undefined) inlineStyles.zIndex = zIndex;
   if (overflowX !== undefined) inlineStyles.overflowX = overflowX;
   if (overflowY !== undefined) inlineStyles.overflowY = overflowY;
 
-  const finalStyles = { ...inlineStyles, ...style };
+  // Apply padding top multiplier using CSS custom property
+  if (paddingTopMultiplier !== undefined) {
+    inlineStyles['--section-padding-top-multiplier'] = paddingTopMultiplier;
+  }
+
+  const finalStyles: React.CSSProperties = { ...inlineStyles, ...style };
 
   return (
-    <Component 
-      id={id} 
-      className={combinedClassName} 
+    <Component
+      id={id}
+      className={combinedClassName}
       style={finalStyles}
       data-section-key={sectionKey}
+      data-padding-multiplier={paddingTopMultiplier}
     >
       {children}
     </Component>

@@ -8,7 +8,8 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding-top: var(--space-section);
+  --section-padding-top-multiplier: 1;
+  padding-top: calc(var(--space-section) * var(--section-padding-top-multiplier));
   padding-bottom: var(--space-section);
   overflow: hidden;
 }
@@ -16,27 +17,27 @@
 
 /* ===== SPACING VARIANTS ===== */
 .spacingXs  {
-  padding-top: var(--foundation-section-spacing-xs);
+  padding-top: calc(var(--foundation-section-spacing-xs) * var(--section-padding-top-multiplier));
   padding-bottom: var(--foundation-section-spacing-xs);
 }
 .spacingSm  {
-  padding-top: var(--foundation-section-spacing-sm);
+  padding-top: calc(var(--foundation-section-spacing-sm) * var(--section-padding-top-multiplier));
   padding-bottom: var(--foundation-section-spacing-sm);
 }
 .spacingMd  {
-  padding-top: var(--foundation-section-spacing-md);
+  padding-top: calc(var(--foundation-section-spacing-md) * var(--section-padding-top-multiplier));
   padding-bottom: var(--foundation-section-spacing-md);
 }
 .spacingLg  {
-  padding-top: var(--foundation-section-spacing-lg);
+  padding-top: calc(var(--foundation-section-spacing-lg) * var(--section-padding-top-multiplier));
   padding-bottom: var(--foundation-section-spacing-lg);
 }
 .spacingXl  {
-  padding-top: var(--foundation-section-spacing-xl);
+  padding-top: calc(var(--foundation-section-spacing-xl) * var(--section-padding-top-multiplier));
   padding-bottom: var(--foundation-section-spacing-xl);
 }
 .spacing2xl {
-  padding-top: var(--foundation-section-spacing-2xl);
+  padding-top: calc(var(--foundation-section-spacing-2xl) * var(--section-padding-top-multiplier));
   padding-bottom: var(--foundation-section-spacing-2xl);
 }
 
