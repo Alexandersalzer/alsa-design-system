@@ -1,0 +1,23 @@
+/* ===============================================
+   Spacer Component Styles
+   Responsive vertical spacing with multipliers
+   =============================================== */
+
+.spacer {
+  width: 100%;
+  flex-shrink: 0;
+
+  /* Default multipliers */
+  --spacer-desktop-multiplier: 1.5;
+  --spacer-mobile-multiplier: 2.5;
+
+  /* Mobile-first: Use mobile multiplier by default */
+  height: calc(var(--space-section) * var(--spacer-mobile-multiplier));
+}
+
+/* Desktop: Use desktop multiplier */
+@media (min-width: 768px) {
+  .spacer {
+    height: calc(var(--space-section) * var(--spacer-desktop-multiplier));
+  }
+}
