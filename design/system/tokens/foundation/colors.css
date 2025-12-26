@@ -1,254 +1,34 @@
-/* ===== COLOR FOUNDATION - CLEAN STRUCTURE ===== */
-
 /* ==============================================
-   FOUNDATION GRAY VARIANTS — 3 BASE TONES
-   Each tone auto-inverts through --is-dark
+   FOUNDATION COLORS - BLIMPIFY DESIGN SYSTEM
+   Organized collection of all color scales
    ============================================== */
 
-/* ========== NEUTRAL (DEFAULT) ========== */
-:root,
-/* ===== FOUNDATION GRAYS — BLIMPIFY CORE FAMILY ===== */
+/* ===== THEME TONES - MONOCHROME ===== */
+/* Pure neutral grays with minimal to no color tint */
+/* Includes: Pure, Graphite, Mono, Charcoal, Steel, Slate */
+@import './theme-tone-monochrome.css';
 
-/* ========== MONO (WARM BALANCED GRAY) ========== */
-:root[data-theme-tone="mono"] {
-  --foundation-white: #f8f7f7;
-  --foundation-black: #080505;
+/* ===== THEME TONES - SUBTLE ===== */
+/* Modern subtle grays with gentle color undertones */
+/* Perfect for sophisticated, professional interfaces */
+/* Includes: Aqua, Ink, Frost, Violet, Sage, Pearl, Ember */
+@import './theme-tone-subtle.css';
 
-  /* HSL: H=0°, S=2%, L: 97% → 3% (6.714% steps) */
-  --foundation-gray-0:    #f8f7f7;  /* L=97% */
-  --foundation-gray-100:  #e7e6e6;  /* L=90.286% */
-  --foundation-gray-200:  #d6d5d5;  /* L=83.571% */
-  --foundation-gray-300:  #c5c3c3;  /* L=76.857% */
-  --foundation-gray-400:  #b4b2b2;  /* L=70.143% */
-  --foundation-gray-500:  #a29f9f;  /* L=63.429% */
-  --foundation-gray-600:  #918d8d;  /* L=56.714% */
-  --foundation-gray-700:  #7f7b7b;  /* L=50% - Middle */
-  --foundation-gray-800:  #6e6969;  /* L=43.286% */
-  --foundation-gray-900:  #5c5757;  /* L=36.571% */
-  --foundation-gray-1000: #4b4646;  /* L=29.857% */
-  --foundation-gray-1100: #3a3434;  /* L=23.143% */
-  --foundation-gray-1200: #292323;  /* L=16.429% */
-  --foundation-gray-1300: #191313;  /* L=9.714% */
-  --foundation-gray-1400: #080505;  /* L=3% - Warm black */
-}
-
-/* ========== AQUA (SUBTLE BLUE-GRAY) ========== */
-:root[data-theme-tone="aqua"] {
-  --foundation-white: #f6f7f8;
-  --foundation-black: #06080a;
-
-  /* HSL: H=200°, S=6%, L: 97% → 3% (6.714% steps) - MODERN SUBTLE */
-  --foundation-gray-0:    #f6f7f8;  /* L=97% */
-  --foundation-gray-100:  #e4e6e7;  /* L=90.286% */
-  --foundation-gray-200:  #d3d5d6;  /* L=83.571% */
-  --foundation-gray-300:  #c1c3c5;  /* L=76.857% */
-  --foundation-gray-400:  #afb2b4;  /* L=70.143% */
-  --foundation-gray-500:  #9ea0a3;  /* L=63.429% */
-  --foundation-gray-600:  #8c8f92;  /* L=56.714% */
-  --foundation-gray-700:  #7a7d81;  /* L=50% - Middle */
-  --foundation-gray-800:  #696c70;  /* L=43.286% */
-  --foundation-gray-900:  #575a5f;  /* L=36.571% */
-  --foundation-gray-1000: #46494e;  /* L=29.857% */
-  --foundation-gray-1100: #34373d;  /* L=23.143% */
-  --foundation-gray-1200: #23262c;  /* L=16.429% */
-  --foundation-gray-1300: #12141b;  /* L=9.714% */
-  --foundation-gray-1400: #06080a;  /* L=3% - Subtle blue-black */
-}
-
-
-/* ========== INK (SUBTLE COOL GRAY) ========== */
-:root[data-theme-tone="ink"] {
-  --foundation-white: #f6f7f8;
-  --foundation-black: #06070a;
-
-  /* HSL: H=220°, S=6%, L: 97% → 3% (6.714% steps) - MODERN SUBTLE */
-  --foundation-gray-0:    #f6f7f8;  /* L=97% */
-  --foundation-gray-100:  #e4e6e7;  /* L=90.286% */
-  --foundation-gray-200:  #d3d4d6;  /* L=83.571% */
-  --foundation-gray-300:  #c1c3c5;  /* L=76.857% */
-  --foundation-gray-400:  #afb1b4;  /* L=70.143% */
-  --foundation-gray-500:  #9ea0a3;  /* L=63.429% */
-  --foundation-gray-600:  #8c8e92;  /* L=56.714% */
-  --foundation-gray-700:  #7a7d81;  /* L=50% - Middle */
-  --foundation-gray-800:  #696b70;  /* L=43.286% */
-  --foundation-gray-900:  #575a5f;  /* L=36.571% */
-  --foundation-gray-1000: #46484e;  /* L=29.857% */
-  --foundation-gray-1100: #34373d;  /* L=23.143% */
-  --foundation-gray-1200: #23252c;  /* L=16.429% */
-  --foundation-gray-1300: #12141b;  /* L=9.714% */
-  --foundation-gray-1400: #06070a;  /* L=3% - Subtle cool-black */
-}
-
-/* ========== VIOLET (SUBTLE PURPLE-GRAY) ========== */
-:root[data-theme-tone="violet"] {
-  --foundation-white: #f7f7f7;
-  --foundation-black: #070707;
-
-  /* HSL: H=270°, S=4%, L: 97% → 3% (6.714% steps) - MODERN SUBTLE */
-  --foundation-gray-0:    #f7f7f7;  /* L=97% */
-  --foundation-gray-100:  #e5e5e6;  /* L=90.286% */
-  --foundation-gray-200:  #d4d4d5;  /* L=83.571% */
-  --foundation-gray-300:  #c2c2c4;  /* L=76.857% */
-  --foundation-gray-400:  #b1b1b2;  /* L=70.143% */
-  --foundation-gray-500:  #9f9fa1;  /* L=63.429% */
-  --foundation-gray-600:  #8e8e8f;  /* L=56.714% */
-  --foundation-gray-700:  #7c7c7e;  /* L=50% - Middle */
-  --foundation-gray-800:  #6b6b6d;  /* L=43.286% */
-  --foundation-gray-900:  #59595c;  /* L=36.571% */
-  --foundation-gray-1000: #48484a;  /* L=29.857% */
-  --foundation-gray-1100: #363638;  /* L=23.143% */
-  --foundation-gray-1200: #252526;  /* L=16.429% */
-  --foundation-gray-1300: #141415;  /* L=9.714% */
-  --foundation-gray-1400: #070707;  /* L=3% - Subtle purple-black */
-}
-
-
-/* ========== SLATE (COOL GRAY-BLUE) ========== */
-:root[data-theme-tone="slate"] {
-  --foundation-white: #f6f6f7;
-  --foundation-black: #060607;
-
-  /* HSL: H=210°, S=6%, L: 97% → 3% (6.714% steps) */
-  --foundation-gray-0:    #f6f6f7;  /* L=97% */
-  --foundation-gray-100:  #e4e4e6;  /* L=90.286% */
-  --foundation-gray-200:  #d3d3d5;  /* L=83.571% */
-  --foundation-gray-300:  #c1c1c4;  /* L=76.857% */
-  --foundation-gray-400:  #afafb2;  /* L=70.143% */
-  --foundation-gray-500:  #9e9ea1;  /* L=63.429% */
-  --foundation-gray-600:  #8c8c8f;  /* L=56.714% */
-  --foundation-gray-700:  #7a7a7e;  /* L=50% - Middle */
-  --foundation-gray-800:  #69696d;  /* L=43.286% */
-  --foundation-gray-900:  #57575c;  /* L=36.571% */
-  --foundation-gray-1000: #46464a;  /* L=29.857% */
-  --foundation-gray-1100: #343438;  /* L=23.143% */
-  --foundation-gray-1200: #232326;  /* L=16.429% */
-  --foundation-gray-1300: #121215;  /* L=9.714% */
-  --foundation-gray-1400: #060607;  /* L=3% - Slate-black */
-}
-
-/* ========== SAGE (SUBTLE GREEN-GRAY) ========== */
-:root[data-theme-tone="sage"] {
-  --foundation-white: #f7f7f6;
-  --foundation-black: #070706;
-
-  /* HSL: H=120°, S=4%, L: 97% → 3% (6.714% steps) - MODERN SUBTLE */
-  --foundation-gray-0:    #f7f7f6;  /* L=97% */
-  --foundation-gray-100:  #e5e6e4;  /* L=90.286% */
-  --foundation-gray-200:  #d4d5d3;  /* L=83.571% */
-  --foundation-gray-300:  #c2c4c1;  /* L=76.857% */
-  --foundation-gray-400:  #b1b2af;  /* L=70.143% */
-  --foundation-gray-500:  #9fa19e;  /* L=63.429% */
-  --foundation-gray-600:  #8e8f8c;  /* L=56.714% */
-  --foundation-gray-700:  #7c7e7a;  /* L=50% - Middle */
-  --foundation-gray-800:  #6b6c69;  /* L=43.286% */
-  --foundation-gray-900:  #595b57;  /* L=36.571% */
-  --foundation-gray-1000: #484946;  /* L=29.857% */
-  --foundation-gray-1100: #363834;  /* L=23.143% */
-  --foundation-gray-1200: #252623;  /* L=16.429% */
-  --foundation-gray-1300: #141512;  /* L=9.714% */
-  --foundation-gray-1400: #070706;  /* L=3% - Subtle green-black */
-}
-
-/* ========== FROST (SUBTLE COOL GRAY) ========== */
-:root[data-theme-tone="frost"] {
-  --foundation-white: #f6f7f8;
-  --foundation-black: #06080a;
-
-  /* HSL: H=190°, S=6%, L: 97% → 3% (6.714% steps) - MODERN SUBTLE */
-  --foundation-gray-0:    #f6f7f8;  /* L=97% */
-  --foundation-gray-100:  #e4e6e7;  /* L=90.286% */
-  --foundation-gray-200:  #d3d5d6;  /* L=83.571% */
-  --foundation-gray-300:  #c1c4c5;  /* L=76.857% */
-  --foundation-gray-400:  #afb2b4;  /* L=70.143% */
-  --foundation-gray-500:  #9da0a3;  /* L=63.429% */
-  --foundation-gray-600:  #8c8f92;  /* L=56.714% */
-  --foundation-gray-700:  #7a7e81;  /* L=50% - Middle */
-  --foundation-gray-800:  #696c70;  /* L=43.286% */
-  --foundation-gray-900:  #575b5f;  /* L=36.571% */
-  --foundation-gray-1000: #46494e;  /* L=29.857% */
-  --foundation-gray-1100: #34383d;  /* L=23.143% */
-  --foundation-gray-1200: #23262c;  /* L=16.429% */
-  --foundation-gray-1300: #12151b;  /* L=9.714% */
-  --foundation-gray-1400: #06080a;  /* L=3% - Subtle cyan-black */
-}
-
-/* ========== PEARL (WARM LIGHT GRAY) ========== */
-:root[data-theme-tone="pearl"] {
-  --foundation-white: #f8f7f6;
-  --foundation-black: #0a0504;
-
-  /* HSL: H=40°, S=5%, L: 97% → 3% (6.714% steps) */
-  --foundation-gray-0:    #f8f7f6;  /* L=97% */
-  --foundation-gray-100:  #e7e5e3;  /* L=90.286% */
-  --foundation-gray-200:  #d6d3d1;  /* L=83.571% */
-  --foundation-gray-300:  #c5c1be;  /* L=76.857% */
-  --foundation-gray-400:  #b4afab;  /* L=70.143% */
-  --foundation-gray-500:  #a39d98;  /* L=63.429% */
-  --foundation-gray-600:  #928b85;  /* L=56.714% */
-  --foundation-gray-700:  #817972;  /* L=50% - Middle */
-  --foundation-gray-800:  #70675f;  /* L=43.286% */
-  --foundation-gray-900:  #5f554c;  /* L=36.571% */
-  --foundation-gray-1000: #4e4339;  /* L=29.857% */
-  --foundation-gray-1100: #3d3127;  /* L=23.143% */
-  --foundation-gray-1200: #2c2016;  /* L=16.429% */
-  --foundation-gray-1300: #1b1109;  /* L=9.714% */
-  --foundation-gray-1400: #0a0504;  /* L=3% - Warm pearl-black */
-}
-
-/* ========== PURE (TRUE BLACK & WHITE) ========== */
-:root[data-theme-tone="pure"] {
-  --foundation-white: #ffffff;
-  --foundation-black: #000000;
-
-  /* HSL: H=0°, S=0%, L: 100% → 0% (7.143% steps) */
-  --foundation-gray-0:    #ffffff;  /* L=100% - Pure white */
-  --foundation-gray-100:  #ededed;  /* L=92.857% */
-  --foundation-gray-200:  #dbdbdb;  /* L=85.714% */
-  --foundation-gray-300:  #c9c9c9;  /* L=78.571% */
-  --foundation-gray-400:  #b6b6b6;  /* L=71.428% */
-  --foundation-gray-500:  #a4a4a4;  /* L=64.285% */
-  --foundation-gray-600:  #929292;  /* L=57.142% */
-  --foundation-gray-700:  #808080;  /* L=50% - TRUE MIDDLE - stays same in both modes */
-  --foundation-gray-800:  #6d6d6d;  /* L=42.857% */
-  --foundation-gray-900:  #5b5b5b;  /* L=35.714% */
-  --foundation-gray-1000: #494949;  /* L=28.571% */
-  --foundation-gray-1100: #373737;  /* L=21.428% */
-  --foundation-gray-1200: #252525;  /* L=14.285% */
-  --foundation-gray-1300: #121212;  /* L=7.142% */
-  --foundation-gray-1400: #000000;  /* L=0% - Pure black */
-}
-
-/* ========== EMBER (WARM ORANGE-GRAY) ========== */
-:root[data-theme-tone="ember"] {
-  --foundation-white: #f7f5f3;
-  --foundation-black: #090403;
-
-  /* HSL: H=20°, S=8%, L: 97% → 3% (6.714% steps) - MODERN SUBTLE */
-  --foundation-gray-0:    #f7f5f3;  /* L=97% */
-  --foundation-gray-100:  #e6e2de;  /* L=90.286% */
-  --foundation-gray-200:  #d5d0ca;  /* L=83.571% */
-  --foundation-gray-300:  #c4bdb6;  /* L=76.857% */
-  --foundation-gray-400:  #b3aba2;  /* L=70.143% */
-  --foundation-gray-500:  #a2988e;  /* L=63.429% */
-  --foundation-gray-600:  #91867a;  /* L=56.714% */
-  --foundation-gray-700:  #807366;  /* L=50% - Middle */
-  --foundation-gray-800:  #6f6152;  /* L=43.286% */
-  --foundation-gray-900:  #5e4e3e;  /* L=36.571% */
-  --foundation-gray-1000: #4d3c2a;  /* L=29.857% */
-  --foundation-gray-1100: #3c2a19;  /* L=23.143% */
-  --foundation-gray-1200: #2b180f;  /* L=16.429% */
-  --foundation-gray-1300: #1a0a06;  /* L=9.714% */
-  --foundation-gray-1400: #090403;  /* L=3% - Warm orange-black */
-}
+/* ===== THEME TONES - VIBRANT ===== */
+/* High-saturation grays with bold color undertones */
+/* Perfect for colorful, expressive interfaces */
+/* Includes: Aqua Vibrant, Ink Vibrant, Frost Vibrant, Violet Vibrant, Sage Vibrant, Ember Vibrant */
+@import './theme-tone-vibrant.css';
 
 /* ==============================================
-   ALL OTHER COLOR SCALES (STATIC)
+   SEMANTIC & ACCENT COLOR SCALES (STATIC)
+   All other color families (red, orange, yellow, etc.)
    ============================================== */
 
 :root {
 
   /* ===== RED FAMILY ===== */
-  
+
   /* Red-Light Scale */
   --foundation-red-light-100: #FFF7F7;
   --foundation-red-light-200: #FFEAEA;
@@ -355,7 +135,7 @@
   --foundation-tangerine-1000: #5F240A;
   --foundation-tangerine-1100: #401807;
   --foundation-tangerine-1200: #210C04;
-  
+
   /* ===== YELLOW FAMILY ===== */
 
   /* Yellow-Light Scale */
@@ -590,7 +370,7 @@
   --foundation-blue-dark-1200: #0A0B1F;
 
   /* ===== INDIGO FAMILY ===== */
-  
+
   /* Indigo-Light Scale */
   --foundation-indigo-light-100: #EDE9FE;
   --foundation-indigo-light-200: #DDD6FE;

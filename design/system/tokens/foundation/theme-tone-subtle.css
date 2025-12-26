@@ -1,0 +1,181 @@
+/* ==============================================
+   THEME TONES - SUBTLE
+   Modern subtle grays with gentle color undertones
+   Perfect for sophisticated, professional interfaces
+   ============================================== */
+   8 tones: Aqua, Ink, Frost, Violet, Sage, Pearl, Ember
+
+/* ========== AQUA (SUBTLE BLUE-GRAY) ========== */
+:root[data-theme-tone="aqua"] {
+  --foundation-white: #f7f8f8;
+  --foundation-black: #181a1b;
+
+  /* Exponent 1.8 perceptual curve - MODERN SUBTLE */
+  /* HSL: H=200°, S=6%, L: 97% → 10% */
+  /* Character: Cool, professional, tech-oriented */
+  --foundation-gray-0:    #f7f8f8;  /* L=97.000% */
+  --foundation-gray-100:  #f5f6f6;  /* L=96.248% */
+  --foundation-gray-200:  #f0f1f2;  /* L=94.380% */
+  --foundation-gray-300:  #e8eaeb;  /* L=91.564% */
+  --foundation-gray-400:  #dee1e2;  /* L=87.876% */
+  --foundation-gray-500:  #d2d5d7;  /* L=83.366% */
+  --foundation-gray-600:  #c4c8ca;  /* L=78.070% */
+  --foundation-gray-700:  #b3b9bc;  /* L=72.016% */
+  --foundation-gray-800:  #a1a8ac;  /* L=65.228% */
+  --foundation-gray-900:  #8d959a;  /* L=57.724% */
+  --foundation-gray-1000: #778186;  /* L=49.522% */
+  --foundation-gray-1100: #616a6e;  /* L=40.637% */
+  --foundation-gray-1200: #4a5154;  /* L=31.080% */
+  --foundation-gray-1300: #323638;  /* L=20.865% */
+  --foundation-gray-1400: #181a1b;  /* L=10.000% */
+}
+
+/* ========== INK (SUBTLE COOL GRAY) ========== */
+:root[data-theme-tone="ink"] {
+  --foundation-white: #f7f7f8;
+  --foundation-black: #18191b;
+
+  /* Exponent 1.8 perceptual curve - MODERN SUBTLE */
+  /* HSL: H=220°, S=6%, L: 97% → 10% */
+  /* Character: Professional, corporate, trustworthy */
+  --foundation-gray-0:    #f7f7f8;  /* L=97.000% */
+  --foundation-gray-100:  #f5f5f6;  /* L=96.248% */
+  --foundation-gray-200:  #f0f0f2;  /* L=94.380% */
+  --foundation-gray-300:  #e8e9eb;  /* L=91.564% */
+  --foundation-gray-400:  #dedfe2;  /* L=87.876% */
+  --foundation-gray-500:  #d2d4d7;  /* L=83.366% */
+  --foundation-gray-600:  #c4c6ca;  /* L=78.070% */
+  --foundation-gray-700:  #b3b6bc;  /* L=72.016% */
+  --foundation-gray-800:  #a1a5ac;  /* L=65.228% */
+  --foundation-gray-900:  #8d919a;  /* L=57.724% */
+  --foundation-gray-1000: #777c86;  /* L=49.522% */
+  --foundation-gray-1100: #61666e;  /* L=40.637% */
+  --foundation-gray-1200: #4a4e54;  /* L=31.080% */
+  --foundation-gray-1300: #323438;  /* L=20.865% */
+  --foundation-gray-1400: #18191b;  /* L=10.000% */
+}
+
+/* ========== FROST (SUBTLE COOL GRAY) ========== */
+:root[data-theme-tone="frost"] {
+  --foundation-white: #f7f8f8;
+  --foundation-black: #181b1b;
+
+  /* Exponent 1.8 perceptual curve - MODERN SUBTLE */
+  /* HSL: H=190°, S=6%, L: 97% → 10% */
+  /* Character: Fresh, clean, minimalist */
+  --foundation-gray-0:    #f7f8f8;  /* L=97.000% */
+  --foundation-gray-100:  #f5f6f6;  /* L=96.248% */
+  --foundation-gray-200:  #f0f1f2;  /* L=94.380% */
+  --foundation-gray-300:  #e8eaeb;  /* L=91.564% */
+  --foundation-gray-400:  #dee1e2;  /* L=87.876% */
+  --foundation-gray-500:  #d2d6d7;  /* L=83.366% */
+  --foundation-gray-600:  #c4c9ca;  /* L=78.070% */
+  --foundation-gray-700:  #b3babc;  /* L=72.016% */
+  --foundation-gray-800:  #a1aaac;  /* L=65.228% */
+  --foundation-gray-900:  #8d989a;  /* L=57.724% */
+  --foundation-gray-1000: #778386;  /* L=49.522% */
+  --foundation-gray-1100: #616c6e;  /* L=40.637% */
+  --foundation-gray-1200: #4a5254;  /* L=31.080% */
+  --foundation-gray-1300: #323738;  /* L=20.865% */
+  --foundation-gray-1400: #181b1b;  /* L=10.000% */
+}
+
+/* ========== VIOLET (SUBTLE PURPLE-GRAY) ========== */
+:root[data-theme-tone="violet"] {
+  --foundation-white: #f7f7f8;
+  --foundation-black: #1a181b;
+
+  /* Exponent 1.8 perceptual curve - MODERN SUBTLE */
+  /* HSL: H=270°, S=4%, L: 97% → 10% */
+  /* Character: Creative, modern, sophisticated */
+  --foundation-gray-0:    #f7f7f8;  /* L=97.000% */
+  --foundation-gray-100:  #f5f5f6;  /* L=96.248% */
+  --foundation-gray-200:  #f1f0f1;  /* L=94.380% */
+  --foundation-gray-300:  #e9e9ea;  /* L=91.564% */
+  --foundation-gray-400:  #e0dfe1;  /* L=87.876% */
+  --foundation-gray-500:  #d5d3d6;  /* L=83.366% */
+  --foundation-gray-600:  #c7c5c9;  /* L=78.070% */
+  --foundation-gray-700:  #b8b5ba;  /* L=72.016% */
+  --foundation-gray-800:  #a6a3aa;  /* L=65.228% */
+  --foundation-gray-900:  #938f98;  /* L=57.724% */
+  --foundation-gray-1000: #7e7983;  /* L=49.522% */
+  --foundation-gray-1100: #68636c;  /* L=40.637% */
+  --foundation-gray-1200: #4f4c52;  /* L=31.080% */
+  --foundation-gray-1300: #353337;  /* L=20.865% */
+  --foundation-gray-1400: #1a181b;  /* L=10.000% */
+}
+
+/* ========== SAGE (SUBTLE GREEN-GRAY) ========== */
+:root[data-theme-tone="sage"] {
+  --foundation-white: #f7f8f7;
+  --foundation-black: #181b18;
+
+  /* Exponent 1.8 perceptual curve - MODERN SUBTLE */
+  /* HSL: H=120°, S=4%, L: 97% → 10% */
+  /* Character: Natural, calm, balanced */
+  --foundation-gray-0:    #f7f8f7;  /* L=97.000% */
+  --foundation-gray-100:  #f5f6f5;  /* L=96.248% */
+  --foundation-gray-200:  #f0f1f0;  /* L=94.380% */
+  --foundation-gray-300:  #e9eae9;  /* L=91.564% */
+  --foundation-gray-400:  #dfe1df;  /* L=87.876% */
+  --foundation-gray-500:  #d3d6d3;  /* L=83.366% */
+  --foundation-gray-600:  #c5c9c5;  /* L=78.070% */
+  --foundation-gray-700:  #b5bab5;  /* L=72.016% */
+  --foundation-gray-800:  #a3aaa3;  /* L=65.228% */
+  --foundation-gray-900:  #8f988f;  /* L=57.724% */
+  --foundation-gray-1000: #798379;  /* L=49.522% */
+  --foundation-gray-1100: #636c63;  /* L=40.637% */
+  --foundation-gray-1200: #4c524c;  /* L=31.080% */
+  --foundation-gray-1300: #333733;  /* L=20.865% */
+  --foundation-gray-1400: #181b18;  /* L=10.000% */
+}
+
+/* ========== PEARL (WARM LIGHT GRAY) ========== */
+:root[data-theme-tone="pearl"] {
+  --foundation-white: #f8f7f7;
+  --foundation-black: #1b1a18;
+
+  /* Exponent 1.8 perceptual curve */
+  /* HSL: H=40°, S=5%, L: 97% → 10% */
+  /* Character: Soft, elegant, refined */
+  --foundation-gray-0:    #f8f7f7;  /* L=97.000% */
+  --foundation-gray-100:  #f6f6f5;  /* L=96.248% */
+  --foundation-gray-200:  #f1f1f0;  /* L=94.380% */
+  --foundation-gray-300:  #ebeae8;  /* L=91.564% */
+  --foundation-gray-400:  #e2e1df;  /* L=87.876% */
+  --foundation-gray-500:  #d7d5d2;  /* L=83.366% */
+  --foundation-gray-600:  #cac8c4;  /* L=78.070% */
+  --foundation-gray-700:  #bbb9b4;  /* L=72.016% */
+  --foundation-gray-800:  #aba8a2;  /* L=65.228% */
+  --foundation-gray-900:  #99958e;  /* L=57.724% */
+  --foundation-gray-1000: #858078;  /* L=49.522% */
+  --foundation-gray-1100: #6d6962;  /* L=40.637% */
+  --foundation-gray-1200: #53514b;  /* L=31.080% */
+  --foundation-gray-1300: #383633;  /* L=20.865% */
+  --foundation-gray-1400: #1b1a18;  /* L=10.000% */
+}
+
+/* ========== EMBER (WARM ORANGE-GRAY) ========== */
+:root[data-theme-tone="ember"] {
+  --foundation-white: #f8f7f7;
+  --foundation-black: #1c1917;
+
+  /* Exponent 1.8 perceptual curve - MODERN SUBTLE */
+  /* HSL: H=20°, S=8%, L: 97% → 10% */
+  /* Character: Warm, inviting, energetic */
+  --foundation-gray-0:    #f8f7f7;  /* L=97.000% */
+  --foundation-gray-100:  #f6f5f5;  /* L=96.248% */
+  --foundation-gray-200:  #f2f0f0;  /* L=94.380% */
+  --foundation-gray-300:  #ebe9e8;  /* L=91.564% */
+  --foundation-gray-400:  #e3dfde;  /* L=87.876% */
+  --foundation-gray-500:  #d8d3d1;  /* L=83.366% */
+  --foundation-gray-600:  #ccc6c3;  /* L=78.070% */
+  --foundation-gray-700:  #bdb6b2;  /* L=72.016% */
+  --foundation-gray-800:  #ada49f;  /* L=65.228% */
+  --foundation-gray-900:  #9c908b;  /* L=57.724% */
+  --foundation-gray-1000: #887b74;  /* L=49.522% */
+  --foundation-gray-1100: #70655f;  /* L=40.637% */
+  --foundation-gray-1200: #564d49;  /* L=31.080% */
+  --foundation-gray-1300: #393431;  /* L=20.865% */
+  --foundation-gray-1400: #1c1917;  /* L=10.000% */
+}
