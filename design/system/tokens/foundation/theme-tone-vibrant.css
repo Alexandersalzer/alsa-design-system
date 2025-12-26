@@ -2,8 +2,8 @@
    THEME TONES - VIBRANT
    High-saturation grays with bold color undertones
    Perfect for colorful, expressive interfaces
-   ============================================== */
    6 tones: Aqua Vibrant, Ink Vibrant, Frost Vibrant, Violet Vibrant, Sage Vibrant, Ember Vibrant
+   ============================================== */
 
 /* ========== AQUA VIBRANT (BOLD BLUE-GRAY) ========== */
 :root[data-theme-tone="aqua-vibrant"] {

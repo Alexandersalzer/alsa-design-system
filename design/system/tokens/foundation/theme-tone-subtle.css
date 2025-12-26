@@ -2,207 +2,207 @@
    THEME TONES - SUBTLE
    Modern subtle grays with gentle color undertones
    Perfect for sophisticated, professional interfaces
-   8 tones: Aqua, Ink, Frost, Violet, Sage, Pearl, Linen, Ember
+   9 tones: Aqua, Ink, Frost, Violet, Sage, Pearl, Linen, Ember
    ============================================== */
 
 /* ========== AQUA (BLUE-TINTED GRAY) ========== */
 :root[data-theme-tone="aqua"] {
   --foundation-white: #f5f8f9;
-  --foundation-black: #0a0e0f;
+  --foundation-black: #0a0e10;
 
-  /* Exponent 1.3 balanced curve with HIGHER saturation for distinction */
+  /* Exponent 1.2 optimized curve - TIGHTER dark end for backgrounds/cards */
   /* HSL: H=200°, S=25%, L: 97% → 5% */
   /* Character: Cool, professional, tech-oriented with visible blue tint */
   --foundation-gray-0:    #f5f8f9;  /* L=97.000% */
-  --foundation-gray-100:  #ebf0f3;  /* L=94.023% */
-  --foundation-gray-200:  #dde6eb;  /* L=89.669% */
-  --foundation-gray-300:  #ccd9e1;  /* L=84.581% */
-  --foundation-gray-400:  #b8cad5;  /* L=78.949% */
-  --foundation-gray-500:  #a3bac8;  /* L=72.874% */
-  --foundation-gray-600:  #8da9ba;  /* L=66.421% */
-  --foundation-gray-700:  #7597ab;  /* L=59.636% */
-  --foundation-gray-800:  #5c849a;  /* L=52.553% */
-  --foundation-gray-900:  #467085;  /* L=45.199% */
-  --foundation-gray-1000: #325b6e;  /* L=37.595% */
-  --foundation-gray-1100: #244657;  /* L=29.759% */
-  --foundation-gray-1200: #173140;  /* L=21.707% */
-  --foundation-gray-1300: #0d1c27;  /* L=13.450% */
-  --foundation-gray-1400: #0a0e0f;  /* L=5.000% */
+  --foundation-gray-100:  #e9eff2;  /* L=93.124% */
+  --foundation-gray-200:  #d9e3e8;  /* L=88.094% */
+  --foundation-gray-300:  #c7d6de;  /* L=82.513% */
+  --foundation-gray-400:  #b4c8d2;  /* L=76.540% */
+  --foundation-gray-500:  #a0b9c6;  /* L=70.258% */
+  --foundation-gray-600:  #8baaba;  /* L=63.718% */
+  --foundation-gray-700:  #769aad;  /* L=56.955% */
+  --foundation-gray-800:  #608a9f;  /* L=49.995% */
+  --foundation-gray-900:  #527689;  /* L=42.859% */
+  --foundation-gray-1000: #446271;  /* L=35.562% */
+  --foundation-gray-1100: #364e5a;  /* L=28.118% */
+  --foundation-gray-1200: #273941;  /* L=20.537% */
+  --foundation-gray-1300: #192329;  /* L=12.828% */
+  --foundation-gray-1400: #0a0e10;  /* L=5.000% */
 }
 
 /* ========== INK (NAVY-TINTED GRAY) ========== */
 :root[data-theme-tone="ink"] {
   --foundation-white: #f6f7f9;
-  --foundation-black: #0a0b0e;
+  --foundation-black: #0a0c10;
 
-  /* Exponent 1.3 balanced curve with HIGHER saturation for distinction */
+  /* Exponent 1.2 optimized curve - TIGHTER dark end for backgrounds/cards */
   /* HSL: H=220°, S=22%, L: 97% → 5% */
   /* Character: Professional, corporate, trustworthy with visible navy tint */
   --foundation-gray-0:    #f6f7f9;  /* L=97.000% */
-  --foundation-gray-100:  #eceff3;  /* L=94.023% */
-  --foundation-gray-200:  #dfe4eb;  /* L=89.669% */
-  --foundation-gray-300:  #d0d7e1;  /* L=84.581% */
-  --foundation-gray-400:  #bec8d5;  /* L=78.949% */
-  --foundation-gray-500:  #abb7c8;  /* L=72.874% */
-  --foundation-gray-600:  #96a6ba;  /* L=66.421% */
-  --foundation-gray-700:  #8094ab;  /* L=59.636% */
-  --foundation-gray-800:  #68819a;  /* L=52.553% */
-  --foundation-gray-900:  #536d85;  /* L=45.199% */
-  --foundation-gray-1000: #3f586e;  /* L=37.595% */
-  --foundation-gray-1100: #2e4357;  /* L=29.759% */
-  --foundation-gray-1200: #1e2e40;  /* L=21.707% */
-  --foundation-gray-1300: #101a27;  /* L=13.450% */
-  --foundation-gray-1400: #0a0b0e;  /* L=5.000% */
+  --foundation-gray-100:  #eaecf1;  /* L=93.124% */
+  --foundation-gray-200:  #dadee7;  /* L=88.094% */
+  --foundation-gray-300:  #c9cfdc;  /* L=82.513% */
+  --foundation-gray-400:  #b6bfd0;  /* L=76.540% */
+  --foundation-gray-500:  #a2aec4;  /* L=70.258% */
+  --foundation-gray-600:  #8e9cb7;  /* L=63.718% */
+  --foundation-gray-700:  #7989a9;  /* L=56.955% */
+  --foundation-gray-800:  #63769c;  /* L=49.995% */
+  --foundation-gray-900:  #556585;  /* L=42.859% */
+  --foundation-gray-1000: #47546f;  /* L=35.562% */
+  --foundation-gray-1100: #384257;  /* L=28.118% */
+  --foundation-gray-1200: #293140;  /* L=20.537% */
+  --foundation-gray-1300: #1a1e28;  /* L=12.828% */
+  --foundation-gray-1400: #0a0c10;  /* L=5.000% */
 }
 
 /* ========== FROST (CYAN-TINTED GRAY) ========== */
 :root[data-theme-tone="frost"] {
-  --foundation-white: #f6f9f9;
-  --foundation-black: #0a0e0e;
+  --foundation-white: #f6f8f9;
+  --foundation-black: #0a0e0f;
 
-  /* Exponent 1.3 balanced curve with HIGHER saturation for distinction */
+  /* Exponent 1.2 optimized curve - TIGHTER dark end for backgrounds/cards */
   /* HSL: H=190°, S=20%, L: 97% → 5% */
   /* Character: Fresh, clean, minimalist with visible cyan tint */
-  --foundation-gray-0:    #f6f9f9;  /* L=97.000% */
-  --foundation-gray-100:  #edf2f2;  /* L=94.023% */
-  --foundation-gray-200:  #e0e8e9;  /* L=89.669% */
-  --foundation-gray-300:  #d1dcde;  /* L=84.581% */
-  --foundation-gray-400:  #bfced1;  /* L=78.949% */
-  --foundation-gray-500:  #acbec2;  /* L=72.874% */
-  --foundation-gray-600:  #98adb3;  /* L=66.421% */
-  --foundation-gray-700:  #829ba3;  /* L=59.636% */
-  --foundation-gray-800:  #6b8891;  /* L=52.553% */
-  --foundation-gray-900:  #57747d;  /* L=45.199% */
-  --foundation-gray-1000: #445f67;  /* L=37.595% */
-  --foundation-gray-1100: #334a51;  /* L=29.759% */
-  --foundation-gray-1200: #22353b;  /* L=21.707% */
-  --foundation-gray-1300: #121f23;  /* L=13.450% */
-  --foundation-gray-1400: #0a0e0e;  /* L=5.000% */
+  --foundation-gray-0:    #f6f8f9;  /* L=97.000% */
+  --foundation-gray-100:  #eaf0f1;  /* L=93.124% */
+  --foundation-gray-200:  #dbe5e7;  /* L=88.094% */
+  --foundation-gray-300:  #c9d8db;  /* L=82.513% */
+  --foundation-gray-400:  #b7cbcf;  /* L=76.540% */
+  --foundation-gray-500:  #a4bdc2;  /* L=70.258% */
+  --foundation-gray-600:  #90afb5;  /* L=63.718% */
+  --foundation-gray-700:  #7ba0a7;  /* L=56.955% */
+  --foundation-gray-800:  #669099;  /* L=49.995% */
+  --foundation-gray-900:  #577c83;  /* L=42.859% */
+  --foundation-gray-1000: #49676d;  /* L=35.562% */
+  --foundation-gray-1100: #395156;  /* L=28.118% */
+  --foundation-gray-1200: #2a3b3f;  /* L=20.537% */
+  --foundation-gray-1300: #1a2527;  /* L=12.828% */
+  --foundation-gray-1400: #0a0e0f;  /* L=5.000% */
 }
 
 /* ========== VIOLET (PURPLE-TINTED GRAY) ========== */
 :root[data-theme-tone="violet"] {
-  --foundation-white: #f8f7f9;
-  --foundation-black: #0e0b0f;
+  --foundation-white: #f7f6f9;
+  --foundation-black: #0d0a0f;
 
-  /* Exponent 1.3 balanced curve with HIGHER saturation for distinction */
+  /* Exponent 1.2 optimized curve - TIGHTER dark end for backgrounds/cards */
   /* HSL: H=270°, S=18%, L: 97% → 5% */
   /* Character: Creative, modern, sophisticated with visible purple tint */
-  --foundation-gray-0:    #f8f7f9;  /* L=97.000% */
-  --foundation-gray-100:  #f1eef3;  /* L=94.023% */
-  --foundation-gray-200:  #e6e1eb;  /* L=89.669% */
-  --foundation-gray-300:  #d9d2e1;  /* L=84.581% */
-  --foundation-gray-400:  #cac1d5;  /* L=78.949% */
-  --foundation-gray-500:  #baAFC8;  /* L=72.874% */
-  --foundation-gray-600:  #a99cba;  /* L=66.421% */
-  --foundation-gray-700:  #9788ab;  /* L=59.636% */
-  --foundation-gray-800:  #83739a;  /* L=52.553% */
-  --foundation-gray-900:  #6e5f85;  /* L=45.199% */
-  --foundation-gray-1000: #594b6e;  /* L=37.595% */
-  --foundation-gray-1100: #443957;  /* L=29.759% */
-  --foundation-gray-1200: #2f2740;  /* L=21.707% */
-  --foundation-gray-1300: #1a1627;  /* L=13.450% */
-  --foundation-gray-1400: #0e0b0f;  /* L=5.000% */
+  --foundation-gray-0:    #f7f6f9;  /* L=97.000% */
+  --foundation-gray-100:  #edeaf1;  /* L=93.124% */
+  --foundation-gray-200:  #e1dbe6;  /* L=88.094% */
+  --foundation-gray-300:  #d2cada;  /* L=82.513% */
+  --foundation-gray-400:  #c3b8ce;  /* L=76.540% */
+  --foundation-gray-500:  #b3a6c1;  /* L=70.258% */
+  --foundation-gray-600:  #a292b3;  /* L=63.718% */
+  --foundation-gray-700:  #917da5;  /* L=56.955% */
+  --foundation-gray-800:  #7f6996;  /* L=49.995% */
+  --foundation-gray-900:  #6d5a81;  /* L=42.859% */
+  --foundation-gray-1000: #5b4a6b;  /* L=35.562% */
+  --foundation-gray-1100: #483b55;  /* L=28.118% */
+  --foundation-gray-1200: #342b3e;  /* L=20.537% */
+  --foundation-gray-1300: #211b27;  /* L=12.828% */
+  --foundation-gray-1400: #0d0a0f;  /* L=5.000% */
 }
 
 /* ========== SAGE (GREEN-TINTED GRAY) ========== */
 :root[data-theme-tone="sage"] {
-  --foundation-white: #f7f9f7;
-  --foundation-black: #0c0e0c;
+  --foundation-white: #f6f9f6;
+  --foundation-black: #0b0f0b;
 
-  /* Exponent 1.3 balanced curve with HIGHER saturation for distinction */
+  /* Exponent 1.2 optimized curve - TIGHTER dark end for backgrounds/cards */
   /* HSL: H=120°, S=16%, L: 97% → 5% */
   /* Character: Natural, calm, balanced with visible green tint */
-  --foundation-gray-0:    #f7f9f7;  /* L=97.000% */
-  --foundation-gray-100:  #eff2ef;  /* L=94.023% */
-  --foundation-gray-200:  #e3e9e3;  /* L=89.669% */
-  --foundation-gray-300:  #d5ddd5;  /* L=84.581% */
-  --foundation-gray-400:  #c4d0c4;  /* L=78.949% */
-  --foundation-gray-500:  #b2c1b2;  /* L=72.874% */
-  --foundation-gray-600:  #9fb19f;  /* L=66.421% */
-  --foundation-gray-700:  #8aa08a;  /* L=59.636% */
-  --foundation-gray-800:  #748e74;  /* L=52.553% */
-  --foundation-gray-900:  #607a60;  /* L=45.199% */
-  --foundation-gray-1000: #4d654d;  /* L=37.595% */
-  --foundation-gray-1100: #3a503a;  /* L=29.759% */
-  --foundation-gray-1200: #283a28;  /* L=21.707% */
-  --foundation-gray-1300: #162416;  /* L=13.450% */
-  --foundation-gray-1400: #0c0e0c;  /* L=5.000% */
+  --foundation-gray-0:    #f6f9f6;  /* L=97.000% */
+  --foundation-gray-100:  #ebf0eb;  /* L=93.124% */
+  --foundation-gray-200:  #dce5dc;  /* L=88.094% */
+  --foundation-gray-300:  #cbdacb;  /* L=82.513% */
+  --foundation-gray-400:  #bacdba;  /* L=76.540% */
+  --foundation-gray-500:  #a7bfa7;  /* L=70.258% */
+  --foundation-gray-600:  #94b194;  /* L=63.718% */
+  --foundation-gray-700:  #80a380;  /* L=56.955% */
+  --foundation-gray-800:  #6b946b;  /* L=49.995% */
+  --foundation-gray-900:  #5c7f5c;  /* L=42.859% */
+  --foundation-gray-1000: #4c694c;  /* L=35.562% */
+  --foundation-gray-1100: #3c533c;  /* L=28.118% */
+  --foundation-gray-1200: #2c3d2c;  /* L=20.537% */
+  --foundation-gray-1300: #1b261b;  /* L=12.828% */
+  --foundation-gray-1400: #0b0f0b;  /* L=5.000% */
 }
 
 /* ========== PEARL (WARM BEIGE-GRAY) ========== */
 :root[data-theme-tone="pearl"] {
-  --foundation-white: #f9f8f7;
-  --foundation-black: #0e0d0c;
+  --foundation-white: #f8f8f6;
+  --foundation-black: #0e0d0b;
 
-  /* Exponent 1.3 balanced curve with HIGHER saturation for distinction */
+  /* Exponent 1.2 optimized curve - TIGHTER dark end for backgrounds/cards */
   /* HSL: H=40°, S=12%, L: 97% → 5% */
   /* Character: Soft, elegant, refined with visible warm beige tint */
-  --foundation-gray-0:    #f9f8f7;  /* L=97.000% */
-  --foundation-gray-100:  #f2f1ee;  /* L=94.023% */
-  --foundation-gray-200:  #e8e6e1;  /* L=89.669% */
-  --foundation-gray-300:  #dcd9d2;  /* L=84.581% */
-  --foundation-gray-400:  #cecac1;  /* L=78.949% */
-  --foundation-gray-500:  #bfbaaf;  /* L=72.874% */
-  --foundation-gray-600:  #afa99c;  /* L=66.421% */
-  --foundation-gray-700:  #9d9788;  /* L=59.636% */
-  --foundation-gray-800:  #8b8473;  /* L=52.553% */
-  --foundation-gray-900:  #77705f;  /* L=45.199% */
-  --foundation-gray-1000: #625b4c;  /* L=37.595% */
-  --foundation-gray-1100: #4d473a;  /* L=29.759% */
-  --foundation-gray-1200: #373329;  /* L=21.707% */
-  --foundation-gray-1300: #211e18;  /* L=13.450% */
-  --foundation-gray-1400: #0e0d0c;  /* L=5.000% */
+  --foundation-gray-0:    #f8f8f6;  /* L=97.000% */
+  --foundation-gray-100:  #f0eeeb;  /* L=93.124% */
+  --foundation-gray-200:  #e4e2dd;  /* L=88.094% */
+  --foundation-gray-300:  #d8d4cd;  /* L=82.513% */
+  --foundation-gray-400:  #cac6bc;  /* L=76.540% */
+  --foundation-gray-500:  #bcb6aa;  /* L=70.258% */
+  --foundation-gray-600:  #aea697;  /* L=63.718% */
+  --foundation-gray-700:  #9e9684;  /* L=56.955% */
+  --foundation-gray-800:  #8f8570;  /* L=49.995% */
+  --foundation-gray-900:  #7a7260;  /* L=42.859% */
+  --foundation-gray-1000: #665e50;  /* L=35.562% */
+  --foundation-gray-1100: #504b3f;  /* L=28.118% */
+  --foundation-gray-1200: #3b362e;  /* L=20.537% */
+  --foundation-gray-1300: #25221d;  /* L=12.828% */
+  --foundation-gray-1400: #0e0d0b;  /* L=5.000% */
 }
 
 /* ========== LINEN (WARM TAN-GRAY) ========== */
 :root[data-theme-tone="linen"] {
   --foundation-white: #f9f8f6;
-  --foundation-black: #0f0d0b;
+  --foundation-black: #0f0d0a;
 
-  /* Exponent 1.3 balanced curve with HIGHER saturation for distinction */
+  /* Exponent 1.2 optimized curve - TIGHTER dark end for backgrounds/cards */
   /* HSL: H=35°, S=20%, L: 97% → 5% */
   /* Character: Warm, organic, approachable with visible tan/beige tint */
   --foundation-gray-0:    #f9f8f6;  /* L=97.000% */
-  --foundation-gray-100:  #f3f0ed;  /* L=94.023% */
-  --foundation-gray-200:  #e9e4df;  /* L=89.669% */
-  --foundation-gray-300:  #ddd6cf;  /* L=84.581% */
-  --foundation-gray-400:  #d0c6bc;  /* L=78.949% */
-  --foundation-gray-500:  #c2b5a8;  /* L=72.874% */
-  --foundation-gray-600:  #b3a393;  /* L=66.421% */
-  --foundation-gray-700:  #a3907d;  /* L=59.636% */
-  --foundation-gray-800:  #917c66;  /* L=52.553% */
-  --foundation-gray-900:  #7d6751;  /* L=45.199% */
-  --foundation-gray-1000: #67523d;  /* L=37.595% */
-  --foundation-gray-1100: #513e2c;  /* L=29.759% */
-  --foundation-gray-1200: #3a2b1d;  /* L=21.707% */
-  --foundation-gray-1300: #231910;  /* L=13.450% */
-  --foundation-gray-1400: #0f0d0b;  /* L=5.000% */
+  --foundation-gray-100:  #f1eeea;  /* L=93.124% */
+  --foundation-gray-200:  #e7e2db;  /* L=88.094% */
+  --foundation-gray-300:  #dbd4c9;  /* L=82.513% */
+  --foundation-gray-400:  #cfc5b7;  /* L=76.540% */
+  --foundation-gray-500:  #c2b6a4;  /* L=70.258% */
+  --foundation-gray-600:  #b5a690;  /* L=63.718% */
+  --foundation-gray-700:  #a7957b;  /* L=56.955% */
+  --foundation-gray-800:  #998466;  /* L=49.995% */
+  --foundation-gray-900:  #837157;  /* L=42.859% */
+  --foundation-gray-1000: #6d5e49;  /* L=35.562% */
+  --foundation-gray-1100: #564a39;  /* L=28.118% */
+  --foundation-gray-1200: #3f362a;  /* L=20.537% */
+  --foundation-gray-1300: #27221a;  /* L=12.828% */
+  --foundation-gray-1400: #0f0d0a;  /* L=5.000% */
 }
 
 /* ========== EMBER (WARM ORANGE-GRAY) ========== */
 :root[data-theme-tone="ember"] {
-  --foundation-white: #f9f7f6;
-  --foundation-black: #0f0c0b;
+  --foundation-white: #f9f7f5;
+  --foundation-black: #100c0a;
 
-  /* Exponent 1.3 balanced curve with HIGHER saturation for distinction */
+  /* Exponent 1.2 optimized curve - TIGHTER dark end for backgrounds/cards */
   /* HSL: H=20°, S=25%, L: 97% → 5% */
   /* Character: Warm, inviting, energetic with visible orange tint */
-  --foundation-gray-0:    #f9f7f6;  /* L=97.000% */
-  --foundation-gray-100:  #f4efec;  /* L=94.023% */
-  --foundation-gray-200:  #ebe3dd;  /* L=89.669% */
-  --foundation-gray-300:  #dfd5cc;  /* L=84.581% */
-  --foundation-gray-400:  #d3c4b7;  /* L=78.949% */
-  --foundation-gray-500:  #c5b2a1;  /* L=72.874% */
-  --foundation-gray-600:  #b69f8a;  /* L=66.421% */
-  --foundation-gray-700:  #a68b72;  /* L=59.636% */
-  --foundation-gray-800:  #957659;  /* L=52.553% */
-  --foundation-gray-900:  #806143;  /* L=45.199% */
-  --foundation-gray-1000: #6a4c30;  /* L=37.595% */
-  --foundation-gray-1100: #533921;  /* L=29.759% */
-  --foundation-gray-1200: #3c2714;  /* L=21.707% */
-  --foundation-gray-1300: #24160a;  /* L=13.450% */
-  --foundation-gray-1400: #0f0c0b;  /* L=5.000% */
+  --foundation-gray-0:    #f9f7f5;  /* L=97.000% */
+  --foundation-gray-100:  #f2ece9;  /* L=93.124% */
+  --foundation-gray-200:  #e8ded9;  /* L=88.094% */
+  --foundation-gray-300:  #decfc7;  /* L=82.513% */
+  --foundation-gray-400:  #d2beb4;  /* L=76.540% */
+  --foundation-gray-500:  #c6ada0;  /* L=70.258% */
+  --foundation-gray-600:  #ba9b8b;  /* L=63.718% */
+  --foundation-gray-700:  #ad8876;  /* L=56.955% */
+  --foundation-gray-800:  #9f7560;  /* L=49.995% */
+  --foundation-gray-900:  #896452;  /* L=42.859% */
+  --foundation-gray-1000: #715344;  /* L=35.562% */
+  --foundation-gray-1100: #5a4236;  /* L=29.118% */
+  --foundation-gray-1200: #413027;  /* L=20.537% */
+  --foundation-gray-1300: #291e19;  /* L=12.828% */
+  --foundation-gray-1400: #100c0a;  /* L=5.000% */
 }
 
 /* ========== NEUTRAL (ALIAS FOR PURE) ========== */
