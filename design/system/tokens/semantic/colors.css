@@ -840,9 +840,6 @@
 
   /* Neutral/Surface shortcuts */
   --surface-subtle: var(--surface-raised);
-
-  /* Text intensity shortcuts */
-  --text-strong: var(--text-strong);
   --text-medium: var(--text-muted);
   --text-light: var(--text-subtle);
 
