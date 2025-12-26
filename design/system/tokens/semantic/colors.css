@@ -268,7 +268,7 @@
 
   /* ----- Page & Layout ----- */
   --surface-page: var(--neutral-0);
-  --surface-page-alt: var(--neutral-50);
+  --surface-page-alt: var(--neutral-100);
 
   /* ----- Elevation Layers ----- */
   --surface-base: var(--neutral-0);
@@ -294,7 +294,7 @@
 
   /* ----- Text Hierarchy ----- */
   --text-default: var(--neutral-1000);
-  --text-strong: var(--neutral-1200);
+  --text-strong: var(--neutral-1300);  /* Pure black in light mode for maximum contrast */
   --text-muted: var(--neutral-900);
   --text-subtle: var(--neutral-700);
   --text-disabled: var(--neutral-600);
@@ -549,7 +549,7 @@
   --interactive-secondary: var(--neutral-100);
   --interactive-secondary-hover: var(--neutral-200);
   --interactive-secondary-active: var(--neutral-300);
-  --interactive-secondary-disabled: var(--neutral-50);
+  --interactive-secondary-disabled: var(--neutral-100);
 
   /* ----- Tertiary (ghost/transparent) ----- */
   --interactive-tertiary: transparent;

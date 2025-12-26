@@ -15,18 +15,18 @@
   --foundation-black: #171717;
 
   --foundation-gray-0:    #f7f7f7;
-  --foundation-gray-100: #f3f3f3;
-  --foundation-gray-200: #e7e7e7;
-  --foundation-gray-300: #d4d4d4;
-  --foundation-gray-400: #bdbdbd;
-  --foundation-gray-500: #999999;
-  --foundation-gray-600: #7a7a7a;
-  --foundation-gray-700: #5c5c5c;
-  --foundation-gray-800: #404040;
-  --foundation-gray-900: #2a2a2a;
-  --foundation-gray-1000: #1b1b1b;
-  --foundation-gray-1100: #191919;
-  --foundation-gray-1200: #1a1a1a;
+  --foundation-gray-100: #e9e9e9;
+  --foundation-gray-200: #d4d4d4;
+  --foundation-gray-300: #bebebe;
+  --foundation-gray-400: #9e9e9e;
+  --foundation-gray-500: #6e6e6e;
+  --foundation-gray-600: #585858;
+  --foundation-gray-700: #484848;
+  --foundation-gray-800: #363636;
+  --foundation-gray-900: #282828;
+  --foundation-gray-1000: #1d1d1d;
+  --foundation-gray-1100: #141414;
+  --foundation-gray-1200: #0c0c0c;
   --foundation-gray-1300: #171717;
 }
 
@@ -35,18 +35,18 @@
   --foundation-black: #0a0e12;
 
   --foundation-gray-0:    #eef6fb;
-  --foundation-gray-100: #e4eff9;
-  --foundation-gray-200: #d1e3f3;
-  --foundation-gray-300: #b7d0eb;
-  --foundation-gray-400: #95b7de;
-  --foundation-gray-500: #769dcd;
-  --foundation-gray-600: #5b83b6;
-  --foundation-gray-700: #446a98;
-  --foundation-gray-800: #305078;
-  --foundation-gray-900: #1f3756;
-  --foundation-gray-1000: #14263b;
-  --foundation-gray-1100: #0d1825;
-  --foundation-gray-1200: #0b0f13;
+  --foundation-gray-100: #e3ecf0;
+  --foundation-gray-200: #cfdde5;
+  --foundation-gray-300: #b8cbd9;
+  --foundation-gray-400: #96b4c7;
+  --foundation-gray-500: #628ca1;
+  --foundation-gray-600: #4e7489;
+  --foundation-gray-700: #3e5d6f;
+  --foundation-gray-800: #2e454f;
+  --foundation-gray-900: #213139;
+  --foundation-gray-1000: #172229;
+  --foundation-gray-1100: #0f171c;
+  --foundation-gray-1200: #0a0f11;
   --foundation-gray-1300: #0a0e12;
 }
 
@@ -57,18 +57,18 @@
   --foundation-black: #0e0d0b;   /* H: 35, S: 15%, L: 6% - infected linen black */
 
   --foundation-gray-0:    #f8f6f3;
-  --foundation-gray-100: #f3f0ea;
-  --foundation-gray-200: #e6e0d8;
-  --foundation-gray-300: #d4cbc0;
-  --foundation-gray-400: #bdb1a3;  /* Peak beige warmth */
-  --foundation-gray-500: #a39588;
-  --foundation-gray-600: #897b6f;
-  --foundation-gray-700: #6f6258;  /* Dropping saturation */
-  --foundation-gray-800: #564b43;  /* Low saturation */
-  --foundation-gray-900: #3e3630;  /* Minimal beige */
-  --foundation-gray-1000: #292520;  /* Very dark */
-  --foundation-gray-1100: #1a1714;  /* Near-black */
-  --foundation-gray-1200: #100f0d;
+  --foundation-gray-100: #eae8e4;
+  --foundation-gray-200: #d5d0cb;
+  --foundation-gray-300: #bfb8b1;
+  --foundation-gray-400: #9f968d;
+  --foundation-gray-500: #6f6862;
+  --foundation-gray-600: #59534e;
+  --foundation-gray-700: #494441;
+  --foundation-gray-800: #373330;
+  --foundation-gray-900: #292623;
+  --foundation-gray-1000: #1e1c1a;
+  --foundation-gray-1100: #151413;
+  --foundation-gray-1200: #0d0d0c;
   --foundation-gray-1300: #0e0d0b;  /* Infected linen black */
 }
 
@@ -78,18 +78,18 @@
   --foundation-black: #0a0c10;   /* darker than 1200 */
 
   --foundation-gray-0:    #eef0f3;
-  --foundation-gray-100: #e7e9ed;
-  --foundation-gray-200: #d5d8de;
-  --foundation-gray-300: #b4bac5;
-  --foundation-gray-400: #8f97a3;
-  --foundation-gray-500: #6b7483;
-  --foundation-gray-600: #4e5665;
-  --foundation-gray-700: #343c47;
-  --foundation-gray-800: #1f252d;
-  --foundation-gray-900: #14181f;
-  --foundation-gray-1000: #0f1318;
-  --foundation-gray-1100: #0c0f13;
-  --foundation-gray-1200: #0b0d11;
+  --foundation-gray-100: #e3e6ea;
+  --foundation-gray-200: #cfd3d9;
+  --foundation-gray-300: #b8bec7;
+  --foundation-gray-400: #969daa;
+  --foundation-gray-500: #626976;
+  --foundation-gray-600: #4d5460;
+  --foundation-gray-700: #3d444d;
+  --foundation-gray-800: #2d323a;
+  --foundation-gray-900: #20242a;
+  --foundation-gray-1000: #16191e;
+  --foundation-gray-1100: #0e1114;
+  --foundation-gray-1200: #090b0e;
   --foundation-gray-1300: #0a0c10;
 }
 
@@ -99,18 +99,18 @@
   --foundation-black: #0d0b0f;   /* H: 260, S: 18%, L: 6% - infected violet black */
 
   --foundation-gray-0:    #f7f6f9;
-  --foundation-gray-100: #f0ecf6;
-  --foundation-gray-200: #e2daea;
-  --foundation-gray-300: #cec3d8;
-  --foundation-gray-400: #b3a3c2;  /* Peak saturation around 400-600 */
-  --foundation-gray-500: #9685a8;
-  --foundation-gray-600: #7d6b8f;
-  --foundation-gray-700: #655575;  /* Saturation dropping */
-  --foundation-gray-800: #4e4159;  /* Low saturation */
-  --foundation-gray-900: #38303f;  /* Very low saturation */
-  --foundation-gray-1000: #26212b;  /* Minimal violet tone */
-  --foundation-gray-1100: #18141c;  /* Near-black with violet infection */
-  --foundation-gray-1200: #0f0d11;
+  --foundation-gray-100: #eae8ed;
+  --foundation-gray-200: #d5d1dc;
+  --foundation-gray-300: #bfb8ca;
+  --foundation-gray-400: #9f96ad;
+  --foundation-gray-500: #6f6679;
+  --foundation-gray-600: #595062;
+  --foundation-gray-700: #49424f;
+  --foundation-gray-800: #37313d;
+  --foundation-gray-900: #29242d;
+  --foundation-gray-1000: #1e1a21;
+  --foundation-gray-1100: #151318;
+  --foundation-gray-1200: #0d0c0f;
   --foundation-gray-1300: #0d0b0f;  /* Infected black */
 }
 
@@ -121,18 +121,18 @@
   --foundation-black: #0f0b0b;   /* H: 0, S: 15%, L: 6% - infected crimson black */
 
   --foundation-gray-0:    #f8f5f5;
-  --foundation-gray-100: #f3eded;
-  --foundation-gray-200: #e6dada;
-  --foundation-gray-300: #d4c3c3;
-  --foundation-gray-400: #bda7a7;  /* Peak red warmth */
-  --foundation-gray-500: #a38b8b;
-  --foundation-gray-600: #897171;
-  --foundation-gray-700: #6f5959;  /* Saturation dropping */
-  --foundation-gray-800: #564343;  /* Low saturation */
-  --foundation-gray-900: #3e3030;  /* Minimal red */
-  --foundation-gray-1000: #292020;  /* Very dark */
-  --foundation-gray-1100: #1a1414;  /* Near-black */
-  --foundation-gray-1200: #110d0d;
+  --foundation-gray-100: #eae7e7;
+  --foundation-gray-200: #d5cfcf;
+  --foundation-gray-300: #bfb6b6;
+  --foundation-gray-400: #9f9393;
+  --foundation-gray-500: #6f6565;
+  --foundation-gray-600: #594f4f;
+  --foundation-gray-700: #493f3f;
+  --foundation-gray-800: #372f2f;
+  --foundation-gray-900: #292222;
+  --foundation-gray-1000: #1e1919;
+  --foundation-gray-1100: #151212;
+  --foundation-gray-1200: #0d0b0b;
   --foundation-gray-1300: #0f0b0b;  /* Infected crimson black */
 }
 
@@ -142,18 +142,18 @@
   --foundation-black: #0f0f10;
 
   --foundation-gray-0:    #f6f7f8;
-  --foundation-gray-100: #eceef0;
-  --foundation-gray-200: #dee1e4;
-  --foundation-gray-300: #cdd1d5;
-  --foundation-gray-400: #b6bbc0;
-  --foundation-gray-500: #9aa0a6;
-  --foundation-gray-600: #7f8489;
-  --foundation-gray-700: #65696e;
-  --foundation-gray-800: #4d5054;
-  --foundation-gray-900: #36383b;
-  --foundation-gray-1000: #242526;
-  --foundation-gray-1100: #171819;
-  --foundation-gray-1200: #121212;
+  --foundation-gray-100: #e9ebec;
+  --foundation-gray-200: #d4d7d9;
+  --foundation-gray-300: #bec2c5;
+  --foundation-gray-400: #9ea3a7;
+  --foundation-gray-500: #6e7276;
+  --foundation-gray-600: #585c60;
+  --foundation-gray-700: #484b4e;
+  --foundation-gray-800: #36393b;
+  --foundation-gray-900: #28292b;
+  --foundation-gray-1000: #1d1e1f;
+  --foundation-gray-1100: #141516;
+  --foundation-gray-1200: #0d0d0e;
   --foundation-gray-1300: #0f0f10;
 }
 
@@ -163,18 +163,18 @@
   --foundation-black: #0e0f0e;
 
   --foundation-gray-0:    #f5f7f5;
-  --foundation-gray-100: #edf1ed;
-  --foundation-gray-200: #e2e7e2;
-  --foundation-gray-300: #d1d8d1;
-  --foundation-gray-400: #bcc4bc;
-  --foundation-gray-500: #a4aca4;
-  --foundation-gray-600: #8b938b;
-  --foundation-gray-700: #727972;
-  --foundation-gray-800: #595f59;
-  --foundation-gray-900: #404440;
-  --foundation-gray-1000: #2b2e2b;
-  --foundation-gray-1100: #1b1d1b;
-  --foundation-gray-1200: #101110;
+  --foundation-gray-100: #e9ebe9;
+  --foundation-gray-200: #d4d7d4;
+  --foundation-gray-300: #bec2be;
+  --foundation-gray-400: #9ea39e;
+  --foundation-gray-500: #6e726e;
+  --foundation-gray-600: #585c58;
+  --foundation-gray-700: #484b48;
+  --foundation-gray-800: #363936;
+  --foundation-gray-900: #282a28;
+  --foundation-gray-1000: #1d1f1d;
+  --foundation-gray-1100: #141514;
+  --foundation-gray-1200: #0d0e0d;
   --foundation-gray-1300: #0e0f0e;
 }
 
@@ -184,18 +184,18 @@
   --foundation-black: #101214;
 
   --foundation-gray-0:    #f6f8fb;
-  --foundation-gray-100: #ecf1f6;
-  --foundation-gray-200: #dfe6ed;
-  --foundation-gray-300: #cdd6df;
-  --foundation-gray-400: #b6c2cc;
-  --foundation-gray-500: #9caab7;
-  --foundation-gray-600: #828f9b;
-  --foundation-gray-700: #6a7681;
-  --foundation-gray-800: #515c65;
-  --foundation-gray-900: #3b454c;
-  --foundation-gray-1000: #272f34;
-  --foundation-gray-1100: #191f23;
-  --foundation-gray-1200: #121416;
+  --foundation-gray-100: #e9ecf0;
+  --foundation-gray-200: #d4d9de;
+  --foundation-gray-300: #bec4ca;
+  --foundation-gray-400: #9ea6ad;
+  --foundation-gray-500: #6e7479;
+  --foundation-gray-600: #585e63;
+  --foundation-gray-700: #484d51;
+  --foundation-gray-800: #363a3d;
+  --foundation-gray-900: #282b2e;
+  --foundation-gray-1000: #1d2022;
+  --foundation-gray-1100: #141618;
+  --foundation-gray-1200: #0d0e10;
   --foundation-gray-1300: #101214;
 }
 
@@ -205,18 +205,18 @@
   --foundation-black: #0e0c0b;   /* H: 25, S: 15%, L: 6% - infected pearl black */
 
   --foundation-gray-0:    #f9f7f5;
-  --foundation-gray-100: #f4f0ed;  /* Keeps beautiful light pearl quality */
-  --foundation-gray-200: #e8dfda;  /* Maintains creamy mid-lights */
-  --foundation-gray-300: #d8cac3;  /* Still beautiful at 300 */
-  --foundation-gray-400: #c3b0a6;  /* Peak warmth/saturation */
-  --foundation-gray-500: #aa938a;
-  --foundation-gray-600: #907970;
-  --foundation-gray-700: #756159;  /* Saturation dropping */
-  --foundation-gray-800: #5b4a44;  /* Low saturation */
-  --foundation-gray-900: #423530;  /* Minimal warmth */
-  --foundation-gray-1000: #2c2320;  /* Very dark */
-  --foundation-gray-1100: #1c1613;  /* Near-black */
-  --foundation-gray-1200: #100e0d;
+  --foundation-gray-100: #eae7e4;
+  --foundation-gray-200: #d5cfcb;
+  --foundation-gray-300: #bfb6b1;
+  --foundation-gray-400: #9f938d;
+  --foundation-gray-500: #6f6562;
+  --foundation-gray-600: #594f4e;
+  --foundation-gray-700: #494241;
+  --foundation-gray-800: #373130;
+  --foundation-gray-900: #292423;
+  --foundation-gray-1000: #1e1a1a;
+  --foundation-gray-1100: #151313;
+  --foundation-gray-1200: #0d0c0b;
   --foundation-gray-1300: #0e0c0b;  /* Infected pearl black */
 }
 
@@ -226,18 +226,18 @@
   --foundation-black: #0b0d0f;   /* H: 203, S: 18%, L: 6% - "infected" near-black with aqua tone */
 
   --foundation-gray-0:    #f4f7f9;
-  --foundation-gray-100: #edf2f5;  /* Reduced saturation */
-  --foundation-gray-200: #dde6ec;  /* Less blue */
-  --foundation-gray-300: #c8d7e0;  /* Softer aqua */
-  --foundation-gray-400: #abc4d2;  /* Medium-light - peak saturation area */
-  --foundation-gray-500: #8dafc2;  /* Medium aqua */
-  --foundation-gray-600: #7098ad;  /* Medium-dark aqua */
-  --foundation-gray-700: #567e94;  /* Darker aqua - saturation starts dropping */
-  --foundation-gray-800: #3f6376;  /* Dark aqua gray - low saturation */
-  --foundation-gray-900: #2d4856;  /* Very dark - minimal color */
-  --foundation-gray-1000: #1f323d;  /* Almost black */
-  --foundation-gray-1100: #141f26;  /* Near black - subtle aqua infection */
-  --foundation-gray-1200: #0d0f11;
+  --foundation-gray-100: #e3e9ee;
+  --foundation-gray-200: #cfd8df;
+  --foundation-gray-300: #b8c4cd;
+  --foundation-gray-400: #96a6b2;
+  --foundation-gray-500: #62707b;
+  --foundation-gray-600: #4e5a64;
+  --foundation-gray-700: #3e4851;
+  --foundation-gray-800: #2e363d;
+  --foundation-gray-900: #20262b;
+  --foundation-gray-1000: #161b1f;
+  --foundation-gray-1100: #0f1316;
+  --foundation-gray-1200: #0a0c0e;
   --foundation-gray-1300: #0b0d0f;  /* Infected black */
 }
 
@@ -246,20 +246,20 @@
   --foundation-white: #ffffff;   /* Pure white */
   --foundation-black: #000000;   /* Pure black */
 
-  --foundation-gray-0:    #ffffff;  /* Step 0 - pure white */
-  --foundation-gray-100:  #f5f5f5;  /* Step 1 */
-  --foundation-gray-200:  #e5e5e5;  /* Step 2 */
-  --foundation-gray-300:  #d4d4d4;  /* Step 3 */
-  --foundation-gray-400:  #a3a3a3;  /* Step 4 - mid-light */
-  --foundation-gray-500:  #737373;  /* Step 5 - true middle gray */
-  --foundation-gray-600:  #525252;  /* Step 6 - mid-dark */
-  --foundation-gray-700:  #404040;  /* Step 7 */
-  --foundation-gray-800:  #262626;  /* Step 8 */
-  --foundation-gray-900:  #171717;  /* Step 9 */
-  --foundation-gray-1000: #0f0f0f;  /* Step 10 - very dark */
-  --foundation-gray-1100: #0a0a0a;  /* Step 11 - near black */
-  --foundation-gray-1200: #050505;  /* Step 12 - almost black */
-  --foundation-gray-1300: #000000;  /* Step 13 - pure black */
+  --foundation-gray-0:    #ffffff;  /* Step 0 - pure white | L=1.00000 */
+  --foundation-gray-100:  #ebebeb;  /* Step 1 | L=0.82000 */
+  --foundation-gray-200:  #d6d6d6;  /* Step 2 | L=0.68000 */
+  --foundation-gray-300:  #c0c0c0;  /* Step 3 | L=0.55000 */
+  --foundation-gray-400:  #a0a0a0;  /* Step 4 - mid-light | L=0.35500 */
+  --foundation-gray-500:  #707070;  /* Step 5 - true middle gray | L=0.16000 */
+  --foundation-gray-600:  #5a5a5a;  /* Step 6 - mid-dark | L=0.10500 */
+  --foundation-gray-700:  #4a4a4a;  /* Step 7 | L=0.07000 */
+  --foundation-gray-800:  #383838;  /* Step 8 | L=0.04000 */
+  --foundation-gray-900:  #2a2a2a;  /* Step 9 | L=0.02200 */
+  --foundation-gray-1000: #1f1f1f;  /* Step 10 - very dark | L=0.01250 */
+  --foundation-gray-1100: #161616;  /* Step 11 - near black | L=0.00750 */
+  --foundation-gray-1200: #0e0e0e;  /* Step 12 - almost black | L=0.00400 */
+  --foundation-gray-1300: #000000;  /* Step 13 - pure black | L=0.00000 */
 }
 
 /* ========== EMBER (BOLD WARM ORANGE-RED) ========== */
@@ -268,18 +268,18 @@
   --foundation-black: #0f0b0a;   /* H: 20, S: 20%, L: 6% - infected ember black */
 
   --foundation-gray-0:    #faf6f4;
-  --foundation-gray-100: #f7ede7;  /* Warm highlight */
-  --foundation-gray-200: #edddd3;  /* Light ember */
-  --foundation-gray-300: #dfc8b9;  /* Soft warm */
-  --foundation-gray-400: #ccac97;  /* Peak ember warmth - bold */
-  --foundation-gray-500: #b58f79;  /* Medium ember */
-  --foundation-gray-600: #9b745e;  /* Medium-dark ember */
-  --foundation-gray-700: #7f5c48;  /* Darker ember - saturation dropping */
-  --foundation-gray-800: #634635;  /* Dark warm - low saturation */
-  --foundation-gray-900: #473226;  /* Very dark ember */
-  --foundation-gray-1000: #2e211a;  /* Almost black */
-  --foundation-gray-1100: #1d1410;  /* Near-black ember infection */
-  --foundation-gray-1200: #110d0c;
+  --foundation-gray-100: #eae5e2;
+  --foundation-gray-200: #d5ccc7;
+  --foundation-gray-300: #bfb3ad;
+  --foundation-gray-400: #9f8f89;
+  --foundation-gray-500: #6f615b;
+  --foundation-gray-600: #594c48;
+  --foundation-gray-700: #493d3a;
+  --foundation-gray-800: #372d2a;
+  --foundation-gray-900: #29211e;
+  --foundation-gray-1000: #1e1816;
+  --foundation-gray-1100: #151110;
+  --foundation-gray-1200: #0d0b0a;
   --foundation-gray-1300: #0f0b0a;  /* Infected black */
 }
 
