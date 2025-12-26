@@ -12,275 +12,288 @@
 /* ========== NEUTRAL (BALANCED GRAY) ========== */
 :root[data-theme-tone="mono"] {
   --foundation-white: #f7f7f7;
-  --foundation-black: #171717;
+  --foundation-black: #0a0a0a;
 
   --foundation-gray-0:    #f7f7f7;
-  --foundation-gray-100: #f0f0f0;
+  --foundation-gray-100: #f2f2f2;
   --foundation-gray-200: #e8e8e8;
-  --foundation-gray-300: #dadada;
-  --foundation-gray-400: #c1c1c1;
-  --foundation-gray-500: #989898;
-  --foundation-gray-600: #6f6f6f;
-  --foundation-gray-700: #565656;
-  --foundation-gray-800: #3c3c3c;
-  --foundation-gray-900: #252525;
-  --foundation-gray-1000: #1a1a1a;
-  --foundation-gray-1100: #131313;
-  --foundation-gray-1200: #0c0c0c;
-  --foundation-gray-1300: #000000;
+  --foundation-gray-300: #dddddd;
+  --foundation-gray-400: #cdcdcd;
+  --foundation-gray-500: #b5b5b5;
+  --foundation-gray-600: #969696;
+  --foundation-gray-700: #727272;  /* Middle */
+  --foundation-gray-800: #595959;
+  --foundation-gray-900: #444444;
+  --foundation-gray-1000: #2c2c2c;
+  --foundation-gray-1100: #1c1c1c;
+  --foundation-gray-1200: #111111;
+  --foundation-gray-1300: #070707;
+  --foundation-gray-1400: #0a0a0a;  /* Warm black */
 }
 
 :root[data-theme-tone="aqua"] {
   --foundation-white: #eef6fb;
-  --foundation-black: #0a0e12;
+  --foundation-black: #070c0f;
 
   --foundation-gray-0:    #eef6fb;
-  --foundation-gray-100: #e7f1f7;
-  --foundation-gray-200: #deeaf2;
-  --foundation-gray-300: #d0dfe8;
-  --foundation-gray-400: #b7ccd9;
-  --foundation-gray-500: #8ea8b8;
-  --foundation-gray-600: #658491;
-  --foundation-gray-700: #4c6672;
-  --foundation-gray-800: #32464f;
-  --foundation-gray-900: #1d2e35;
-  --foundation-gray-1000: #131f24;
-  --foundation-gray-1100: #0b1519;
-  --foundation-gray-1200: #060c0f;
-  --foundation-gray-1300: #000000;
+  --foundation-gray-100: #e4eff5;
+  --foundation-gray-200: #dae8f0;
+  --foundation-gray-300: #cfe0ea;
+  --foundation-gray-400: #bfd3df;
+  --foundation-gray-500: #a7bfcd;
+  --foundation-gray-600: #88a1b1;
+  --foundation-gray-700: #688090;  /* Middle - cool gray */
+  --foundation-gray-800: #506570;
+  --foundation-gray-900: #3b4e57;
+  --foundation-gray-1000: #283640;
+  --foundation-gray-1100: #19242b;
+  --foundation-gray-1200: #0e171c;
+  --foundation-gray-1300: #060a0d;
+  --foundation-gray-1400: #070c0f;  /* Cool black */
 }
 
 
-/* ========== LINEN (SOFT BEIGE) - IMPROVED ========== */
+/* ========== LINEN (SOFT BEIGE) ========== */
 :root[data-theme-tone="linen"] {
-  --foundation-white: #f8f6f3;   /* H: 35, S: 30%, L: 96% - soft beige */
-  --foundation-black: #0e0d0b;   /* H: 35, S: 15%, L: 6% - infected linen black */
+  --foundation-white: #f8f6f3;
+  --foundation-black: #0a0908;
 
-  --foundation-gray-0:    #f8f6f3;  /* Step 0 - soft beige */
-  --foundation-gray-100: #f1eeea;  /* Step 1 - very subtle */
-  --foundation-gray-200: #e9e5e0;  /* Step 2 */
-  --foundation-gray-300: #dcd8d2;  /* Step 3 */
-  --foundation-gray-400: #c3beb6;  /* Step 4 - mid-light */
-  --foundation-gray-500: #9a9389;  /* Step 5 - middle */
-  --foundation-gray-600: #716963;  /* Step 6 - mid-dark */
-  --foundation-gray-700: #58524d;  /* Step 7 */
-  --foundation-gray-800: #3e3936;  /* Step 8 */
-  --foundation-gray-900: #282522;  /* Step 9 */
-  --foundation-gray-1000: #1b1916;  /* Step 10 - very dark */
-  --foundation-gray-1100: #121110;  /* Step 11 - near black */
-  --foundation-gray-1200: #0a0908;  /* Step 12 - almost black */
-  --foundation-gray-1300: #000000;  /* Step 13 - pure black */
+  --foundation-gray-0:    #f8f6f3;
+  --foundation-gray-100: #f3f0ed;
+  --foundation-gray-200: #eae6e2;
+  --foundation-gray-300: #dfdbd5;
+  --foundation-gray-400: #cfcac2;
+  --foundation-gray-500: #b7b1a8;
+  --foundation-gray-600: #989189;
+  --foundation-gray-700: #746e68;  /* Middle - warm gray */
+  --foundation-gray-800: #5b5550;
+  --foundation-gray-900: #46413c;
+  --foundation-gray-1000: #2e2a27;
+  --foundation-gray-1100: #1e1b19;
+  --foundation-gray-1200: #131110;
+  --foundation-gray-1300: #080706;
+  --foundation-gray-1400: #0a0908;  /* Warm beige-black */
 }
 
-/* ========== COOL (MUTED GRAY) — FIXED / EVENED ========== */
+/* ========== INK (COOL MUTED GRAY) ========== */
 :root[data-theme-tone="ink"] {
-  --foundation-white: #eef0f3;   /* lighter than old white */
-  --foundation-black: #0a0c10;   /* darker than 1200 */
+  --foundation-white: #eef0f3;
+  --foundation-black: #060709;
 
-  --foundation-gray-0:    #eef0f3;  /* Step 0 - cool white */
-  --foundation-gray-100: #e7eaee;  /* Step 1 - very subtle */
-  --foundation-gray-200: #dee2e7;  /* Step 2 */
-  --foundation-gray-300: #d0d5db;  /* Step 3 */
-  --foundation-gray-400: #b7bdc7;  /* Step 4 - mid-light */
-  --foundation-gray-500: #8e95a2;  /* Step 5 - middle */
-  --foundation-gray-600: #656c7a;  /* Step 6 - mid-dark */
-  --foundation-gray-700: #4c535f;  /* Step 7 */
-  --foundation-gray-800: #323841;  /* Step 8 */
-  --foundation-gray-900: #1d2329;  /* Step 9 */
-  --foundation-gray-1000: #13171c;  /* Step 10 - very dark */
-  --foundation-gray-1100: #0b0e11;  /* Step 11 - near black */
-  --foundation-gray-1200: #050708;  /* Step 12 - almost black */
-  --foundation-gray-1300: #000000;  /* Step 13 - pure black */
+  --foundation-gray-0:    #eef0f3;
+  --foundation-gray-100: #e4e7ec;
+  --foundation-gray-200: #dadee4;
+  --foundation-gray-300: #cfd4db;
+  --foundation-gray-400: #bfc5cf;
+  --foundation-gray-500: #a7afbb;
+  --foundation-gray-600: #8890a0;
+  --foundation-gray-700: #68707e;  /* Middle - cool gray */
+  --foundation-gray-800: #50575f;
+  --foundation-gray-900: #3b4148;
+  --foundation-gray-1000: #282d33;
+  --foundation-gray-1100: #191d22;
+  --foundation-gray-1200: #0e1114;
+  --foundation-gray-1300: #060708;
+  --foundation-gray-1400: #060709;  /* Cool blue-black */
 }
 
-/* ========== VIOLET (PURPLE-SLATE) - IMPROVED ========== */
+/* ========== VIOLET (PURPLE-SLATE) ========== */
 :root[data-theme-tone="violet"] {
-  --foundation-white: #f7f6f9;   /* H: 260, S: 30%, L: 97% - gentle violet tint */
-  --foundation-black: #0d0b0f;   /* H: 260, S: 18%, L: 6% - infected violet black */
+  --foundation-white: #f7f6f9;
+  --foundation-black: #09080b;
 
-  --foundation-gray-0:    #f7f6f9;  /* Step 0 - violet white */
-  --foundation-gray-100: #f0eef3;  /* Step 1 - very subtle */
-  --foundation-gray-200: #e8e5ed;  /* Step 2 */
-  --foundation-gray-300: #dbd7e2;  /* Step 3 */
-  --foundation-gray-400: #c2bdcb;  /* Step 4 - mid-light */
-  --foundation-gray-500: #99929f;  /* Step 5 - middle */
-  --foundation-gray-600: #706875;  /* Step 6 - mid-dark */
-  --foundation-gray-700: #57505c;  /* Step 7 */
-  --foundation-gray-800: #3d3741;  /* Step 8 */
-  --foundation-gray-900: #27232c;  /* Step 9 */
-  --foundation-gray-1000: #1a171e;  /* Step 10 - very dark */
-  --foundation-gray-1100: #110f13;  /* Step 11 - near black */
-  --foundation-gray-1200: #09080a;  /* Step 12 - almost black */
-  --foundation-gray-1300: #000000;  /* Step 13 - pure black */
+  --foundation-gray-0:    #f7f6f9;
+  --foundation-gray-100: #f2f0f5;
+  --foundation-gray-200: #e8e5ee;
+  --foundation-gray-300: #dddae5;
+  --foundation-gray-400: #cdcad8;
+  --foundation-gray-500: #b5b1c1;
+  --foundation-gray-600: #9692a4;
+  --foundation-gray-700: #727082;  /* Middle - violet gray */
+  --foundation-gray-800: #595664;
+  --foundation-gray-900: #44414d;
+  --foundation-gray-1000: #2c2a33;
+  --foundation-gray-1100: #1c1a21;
+  --foundation-gray-1200: #111015;
+  --foundation-gray-1300: #07060a;
+  --foundation-gray-1400: #09080b;  /* Violet-black */
 }
 
 
 /* ========== CRIMSON (RED-TONED NEUTRAL) ========== */
 :root[data-theme-tone="crimson"] {
-  --foundation-white: #f8f5f5;   /* H: 0, S: 25%, L: 97% - soft red-tinted white */
-  --foundation-black: #0f0b0b;   /* H: 0, S: 15%, L: 6% - infected crimson black */
+  --foundation-white: #f8f5f5;
+  --foundation-black: #0a0707;
 
-  --foundation-gray-0:    #f8f5f5;  /* Step 0 - crimson white */
-  --foundation-gray-100: #f1eded;  /* Step 1 - very subtle */
-  --foundation-gray-200: #e9e4e4;  /* Step 2 */
-  --foundation-gray-300: #dcd6d6;  /* Step 3 */
-  --foundation-gray-400: #c3bcbc;  /* Step 4 - mid-light */
-  --foundation-gray-500: #9a9090;  /* Step 5 - middle */
-  --foundation-gray-600: #716666;  /* Step 6 - mid-dark */
-  --foundation-gray-700: #584e4e;  /* Step 7 */
-  --foundation-gray-800: #3e3535;  /* Step 8 */
-  --foundation-gray-900: #282020;  /* Step 9 */
-  --foundation-gray-1000: #1b1515;  /* Step 10 - very dark */
-  --foundation-gray-1100: #120e0e;  /* Step 11 - near black */
-  --foundation-gray-1200: #090707;  /* Step 12 - almost black */
-  --foundation-gray-1300: #000000;  /* Step 13 - pure black */
+  --foundation-gray-0:    #f8f5f5;
+  --foundation-gray-100: #f3efef;
+  --foundation-gray-200: #eae5e5;
+  --foundation-gray-300: #dfdada;
+  --foundation-gray-400: #cfcaca;
+  --foundation-gray-500: #b7b1b1;
+  --foundation-gray-600: #989191;
+  --foundation-gray-700: #746e6e;  /* Middle - crimson gray */
+  --foundation-gray-800: #5b5555;
+  --foundation-gray-900: #464040;
+  --foundation-gray-1000: #2e2929;
+  --foundation-gray-1100: #1e1a1a;
+  --foundation-gray-1200: #131010;
+  --foundation-gray-1300: #080606;
+  --foundation-gray-1400: #0a0707;  /* Crimson-black */
 }
 
 /* ========== SLATE (CINEMATIC NEUTRAL) ========== */
 :root[data-theme-tone="slate"] {
   --foundation-white: #f6f7f8;
-  --foundation-black: #0f0f10;
+  --foundation-black: #080909;
 
-  --foundation-gray-0:    #f6f7f8;  /* Step 0 - slate white */
-  --foundation-gray-100: #eff0f1;  /* Step 1 - very subtle */
-  --foundation-gray-200: #e7e8ea;  /* Step 2 */
-  --foundation-gray-300: #dadcde;  /* Step 3 */
-  --foundation-gray-400: #c1c4c7;  /* Step 4 - mid-light */
-  --foundation-gray-500: #98999e;  /* Step 5 - middle */
-  --foundation-gray-600: #6f7074;  /* Step 6 - mid-dark */
-  --foundation-gray-700: #56585b;  /* Step 7 */
-  --foundation-gray-800: #3c3e40;  /* Step 8 */
-  --foundation-gray-900: #26272a;  /* Step 9 */
-  --foundation-gray-1000: #191a1c;  /* Step 10 - very dark */
-  --foundation-gray-1100: #101112;  /* Step 11 - near black */
-  --foundation-gray-1200: #080909;  /* Step 12 - almost black */
-  --foundation-gray-1300: #000000;  /* Step 13 - pure black */
+  --foundation-gray-0:    #f6f7f8;
+  --foundation-gray-100: #eff1f2;
+  --foundation-gray-200: #e6e8ea;
+  --foundation-gray-300: #dbdddf;
+  --foundation-gray-400: #cbced1;
+  --foundation-gray-500: #b3b6ba;
+  --foundation-gray-600: #94979c;
+  --foundation-gray-700: #71747a;  /* Middle - slate gray */
+  --foundation-gray-800: #585b61;
+  --foundation-gray-900: #43464b;
+  --foundation-gray-1000: #2b2e31;
+  --foundation-gray-1100: #1c1e20;
+  --foundation-gray-1200: #111213;
+  --foundation-gray-1300: #070808;
+  --foundation-gray-1400: #080909;  /* Slate-black */
 }
 
 /* ========== SAGE (GREEN-GRAY NATURAL) ========== */
 :root[data-theme-tone="sage"] {
   --foundation-white: #f5f7f5;
-  --foundation-black: #0e0f0e;
+  --foundation-black: #080908;
 
-  --foundation-gray-0:    #f5f7f5;  /* Step 0 - sage white */
-  --foundation-gray-100: #eef0ee;  /* Step 1 - very subtle */
-  --foundation-gray-200: #e6e9e6;  /* Step 2 */
-  --foundation-gray-300: #d9ddd9;  /* Step 3 */
-  --foundation-gray-400: #c0c4c0;  /* Step 4 - mid-light */
-  --foundation-gray-500: #979b97;  /* Step 5 - middle */
-  --foundation-gray-600: #6e726e;  /* Step 6 - mid-dark */
-  --foundation-gray-700: #555855;  /* Step 7 */
-  --foundation-gray-800: #3b3e3b;  /* Step 8 */
-  --foundation-gray-900: #252725;  /* Step 9 */
-  --foundation-gray-1000: #181a18;  /* Step 10 - very dark */
-  --foundation-gray-1100: #101110;  /* Step 11 - near black */
-  --foundation-gray-1200: #080908;  /* Step 12 - almost black */
-  --foundation-gray-1300: #000000;  /* Step 13 - pure black */
+  --foundation-gray-0:    #f5f7f5;
+  --foundation-gray-100: #eff1ef;
+  --foundation-gray-200: #e6e9e6;
+  --foundation-gray-300: #dbdeda;
+  --foundation-gray-400: #cbcfcb;
+  --foundation-gray-500: #b3b7b3;
+  --foundation-gray-600: #949996;
+  --foundation-gray-700: #717573;  /* Middle - sage gray */
+  --foundation-gray-800: #585b59;
+  --foundation-gray-900: #434544;
+  --foundation-gray-1000: #2b2d2c;
+  --foundation-gray-1100: #1c1e1c;
+  --foundation-gray-1200: #111211;
+  --foundation-gray-1300: #070807;
+  --foundation-gray-1400: #080908;  /* Sage-black */
 }
 
 /* ========== FROST (COOL SILVER-BLUE) ========== */
 :root[data-theme-tone="frost"] {
   --foundation-white: #f6f8fb;
-  --foundation-black: #101214;
+  --foundation-black: #07090b;
 
-  --foundation-gray-0:    #f6f8fb;  /* Step 0 - frost white */
-  --foundation-gray-100: #eff1f5;  /* Step 1 - very subtle */
-  --foundation-gray-200: #e7eaef;  /* Step 2 */
-  --foundation-gray-300: #dadee4;  /* Step 3 */
-  --foundation-gray-400: #c1c6cd;  /* Step 4 - mid-light */
-  --foundation-gray-500: #989ea5;  /* Step 5 - middle */
-  --foundation-gray-600: #6f757d;  /* Step 6 - mid-dark */
-  --foundation-gray-700: #565c63;  /* Step 7 */
-  --foundation-gray-800: #3c4146;  /* Step 8 */
-  --foundation-gray-900: #26292e;  /* Step 9 */
-  --foundation-gray-1000: #191c1f;  /* Step 10 - very dark */
-  --foundation-gray-1100: #101214;  /* Step 11 - near black */
-  --foundation-gray-1200: #08090b;  /* Step 12 - almost black */
-  --foundation-gray-1300: #000000;  /* Step 13 - pure black */
+  --foundation-gray-0:    #f6f8fb;
+  --foundation-gray-100: #eff2f6;
+  --foundation-gray-200: #e6eaf0;
+  --foundation-gray-300: #dbe0e8;
+  --foundation-gray-400: #cbd1dc;
+  --foundation-gray-500: #b3bac8;
+  --foundation-gray-600: #949cac;
+  --foundation-gray-700: #717a8a;  /* Middle - frost gray */
+  --foundation-gray-800: #58606e;
+  --foundation-gray-900: #434a56;
+  --foundation-gray-1000: #2b3038;
+  --foundation-gray-1100: #1c2027;
+  --foundation-gray-1200: #11141a;
+  --foundation-gray-1300: #070809;
+  --foundation-gray-1400: #07090b;  /* Frost-black */
 }
 
-/* ========== PEARL (CREAMY MINIMAL) - IMPROVED ========== */
+/* ========== PEARL (CREAMY MINIMAL) ========== */
 :root[data-theme-tone="pearl"] {
-  --foundation-white: #f9f7f5;   /* H: 25, S: 35%, L: 97% - creamy white */
-  --foundation-black: #0e0c0b;   /* H: 25, S: 15%, L: 6% - infected pearl black */
+  --foundation-white: #f9f7f5;
+  --foundation-black: #0a0908;
 
-  --foundation-gray-0:    #f9f7f5;  /* Step 0 - pearl white */
-  --foundation-gray-100: #f2efec;  /* Step 1 - very subtle */
-  --foundation-gray-200: #eae6e2;  /* Step 2 */
-  --foundation-gray-300: #ddd8d3;  /* Step 3 */
-  --foundation-gray-400: #c4bdb8;  /* Step 4 - mid-light */
-  --foundation-gray-500: #9b928c;  /* Step 5 - middle */
-  --foundation-gray-600: #726965;  /* Step 6 - mid-dark */
-  --foundation-gray-700: #59514d;  /* Step 7 */
-  --foundation-gray-800: #3f3734;  /* Step 8 */
-  --foundation-gray-900: #282421;  /* Step 9 */
-  --foundation-gray-1000: #1b1815;  /* Step 10 - very dark */
-  --foundation-gray-1100: #12100e;  /* Step 11 - near black */
-  --foundation-gray-1200: #0a0908;  /* Step 12 - almost black */
-  --foundation-gray-1300: #000000;  /* Step 13 - pure black */
+  --foundation-gray-0:    #f9f7f5;
+  --foundation-gray-100: #f4f1ee;
+  --foundation-gray-200: #ebe7e3;
+  --foundation-gray-300: #e0dbd6;
+  --foundation-gray-400: #d0cac4;
+  --foundation-gray-500: #b8b1aa;
+  --foundation-gray-600: #99918a;
+  --foundation-gray-700: #756d67;  /* Middle - pearl gray */
+  --foundation-gray-800: #5c544f;
+  --foundation-gray-900: #473f3b;
+  --foundation-gray-1000: #2f2925;
+  --foundation-gray-1100: #1f1a18;
+  --foundation-gray-1200: #131010;
+  --foundation-gray-1300: #080706;
+  --foundation-gray-1400: #0a0908;  /* Pearl-black */
 }
 
-/* ========== AQUA (COOL BLUE-GRAY) - IMPROVED ========== */
+/* ========== AQUA (COOL BLUE-GRAY) - SECOND DEFINITION ========== */
 :root[data-theme-tone="aqua"] {
-  --foundation-white: #f4f7f9;   /* H: 203, S: 22%, L: 97% - reduced blue tint */
-  --foundation-black: #0b0d0f;   /* H: 203, S: 18%, L: 6% - "infected" near-black with aqua tone */
+  --foundation-white: #f4f7f9;
+  --foundation-black: #070c0f;
 
-  --foundation-gray-0:    #f4f7f9;  /* Step 0 - aqua white */
-  --foundation-gray-100: #edf0f3;  /* Step 1 - very subtle */
-  --foundation-gray-200: #e4e8ed;  /* Step 2 */
-  --foundation-gray-300: #d7dce2;  /* Step 3 */
-  --foundation-gray-400: #bec4cb;  /* Step 4 - mid-light */
-  --foundation-gray-500: #959ca4;  /* Step 5 - middle */
-  --foundation-gray-600: #6c737c;  /* Step 6 - mid-dark */
-  --foundation-gray-700: #535a62;  /* Step 7 */
-  --foundation-gray-800: #393f46;  /* Step 8 */
-  --foundation-gray-900: #24292f;  /* Step 9 */
-  --foundation-gray-1000: #171b1f;  /* Step 10 - very dark */
-  --foundation-gray-1100: #0f1214;  /* Step 11 - near black */
-  --foundation-gray-1200: #07090a;  /* Step 12 - almost black */
-  --foundation-gray-1300: #000000;  /* Step 13 - pure black */
+  --foundation-gray-0:    #f4f7f9;
+  --foundation-gray-100: #eaeff3;
+  --foundation-gray-200: #dfe7ec;
+  --foundation-gray-300: #d4dde4;
+  --foundation-gray-400: #c4cfd9;
+  --foundation-gray-500: #acb9c5;
+  --foundation-gray-600: #8d9caa;
+  --foundation-gray-700: #6b7c8a;  /* Middle - aqua gray */
+  --foundation-gray-800: #53626f;
+  --foundation-gray-900: #3e4c57;
+  --foundation-gray-1000: #293339;
+  --foundation-gray-1100: #1a2227;
+  --foundation-gray-1200: #10151a;
+  --foundation-gray-1300: #06090c;
+  --foundation-gray-1400: #070c0f;  /* Aqua-black */
 }
 
 /* ========== PURE (TRUE BLACK & WHITE) ========== */
 :root[data-theme-tone="pure"] {
-  --foundation-white: #ffffff;   /* Pure white */
-  --foundation-black: #000000;   /* Pure black */
+  --foundation-white: #ffffff;
+  --foundation-black: #000000;
 
-  --foundation-gray-0:    #ffffff;  /* Step 0 - pure white */
-  --foundation-gray-100:  #f7f7f7;  /* Step 1 - very subtle */
-  --foundation-gray-200:  #eeeeee;  /* Step 2 */
-  --foundation-gray-300:  #e0e0e0;  /* Step 3 */
-  --foundation-gray-400:  #c7c7c7;  /* Step 4 - mid-light */
-  --foundation-gray-500:  #9e9e9e;  /* Step 5 - middle */
-  --foundation-gray-600:  #757575;  /* Step 6 - mid-dark */
-  --foundation-gray-700:  #5c5c5c;  /* Step 7 */
-  --foundation-gray-800:  #424242;  /* Step 8 */
-  --foundation-gray-900:  #2b2b2b;  /* Step 9 */
-  --foundation-gray-1000: #1c1c1c;  /* Step 10 - very dark */
-  --foundation-gray-1100: #121212;  /* Step 11 - near black */
-  --foundation-gray-1200: #0a0a0a;  /* Step 12 - almost black */
-  --foundation-gray-1300: #000000;  /* Step 13 - pure black */
+  --foundation-gray-0:    #ffffff;  /* Pure white */
+  --foundation-gray-100:  #f5f5f5;  /* Very light - clear step for dark mode surfaces */
+  --foundation-gray-200:  #ebebeb;
+  --foundation-gray-300:  #e0e0e0;
+  --foundation-gray-400:  #d0d0d0;
+  --foundation-gray-500:  #b8b8b8;
+  --foundation-gray-600:  #999999;
+  --foundation-gray-700:  #757575;  /* TRUE MIDDLE - stays same in both modes */
+  --foundation-gray-800:  #5c5c5c;
+  --foundation-gray-900:  #474747;
+  --foundation-gray-1000: #2f2f2f;
+  --foundation-gray-1100: #1f1f1f;
+  --foundation-gray-1200: #141414;  /* Very dark - clear step for light mode text */
+  --foundation-gray-1300: #0a0a0a;
+  --foundation-gray-1400: #000000;  /* Pure black */
 }
 
 /* ========== EMBER (BOLD WARM ORANGE-RED) ========== */
 :root[data-theme-tone="ember"] {
-  --foundation-white: #faf6f4;   /* H: 20, S: 40%, L: 97% - warm ember glow */
-  --foundation-black: #0f0b0a;   /* H: 20, S: 20%, L: 6% - infected ember black */
+  --foundation-white: #faf6f4;
+  --foundation-black: #0b0807;
 
-  --foundation-gray-0:    #faf6f4;  /* Step 0 - ember white */
-  --foundation-gray-100: #f3eeeb;  /* Step 1 - very subtle */
-  --foundation-gray-200: #ebe5e1;  /* Step 2 */
-  --foundation-gray-300: #ded7d1;  /* Step 3 */
-  --foundation-gray-400: #c5bcb6;  /* Step 4 - mid-light */
-  --foundation-gray-500: #9c9088;  /* Step 5 - middle */
-  --foundation-gray-600: #73665e;  /* Step 6 - mid-dark */
-  --foundation-gray-700: #5a4e47;  /* Step 7 */
-  --foundation-gray-800: #40352f;  /* Step 8 */
-  --foundation-gray-900: #29221d;  /* Step 9 */
-  --foundation-gray-1000: #1c1613;  /* Step 10 - very dark */
-  --foundation-gray-1100: #120f0c;  /* Step 11 - near black */
-  --foundation-gray-1200: #0a0807;  /* Step 12 - almost black */
-  --foundation-gray-1300: #000000;  /* Step 13 - pure black */
+  --foundation-gray-0:    #faf6f4;
+  --foundation-gray-100: #f5f0ed;
+  --foundation-gray-200: #ece6e2;
+  --foundation-gray-300: #e1dad5;
+  --foundation-gray-400: #d1c9c2;
+  --foundation-gray-500: #b9afa7;
+  --foundation-gray-600: #9a8f86;
+  --foundation-gray-700: #766a63;  /* Middle - ember gray */
+  --foundation-gray-800: #5d524b;
+  --foundation-gray-900: #483e38;
+  --foundation-gray-1000: #302826;
+  --foundation-gray-1100: #201a18;
+  --foundation-gray-1200: #141010;
+  --foundation-gray-1300: #080706;
+  --foundation-gray-1400: #0b0807;  /* Ember-black */
 }
 
 /* ==============================================
