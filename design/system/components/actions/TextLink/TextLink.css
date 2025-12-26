@@ -47,11 +47,11 @@
 /* ===== VARIANT STYLES - USING SEMANTIC TOKENS ===== */
 /* Primary variant - High contrast by default, less on hover */
 .textlink-primary {
-  color: var(--text-strong) ;                    /* Highest contrast (neutral-1200) */
+  color: var(--text-default);                      /* Highest contrast (neutral-1200) */
 }
 
 .textlink-primary:hover {
-  color: var(--text-disabled) ;                   /* Less contrast on hover (neutral-1000) */
+  color: var(--text-strong);               /* Less contrast on hover (neutral-1000) */
 }
 
 .textlink-primary:active {
