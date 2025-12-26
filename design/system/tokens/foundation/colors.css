@@ -15,18 +15,18 @@
   --foundation-black: #171717;
 
   --foundation-gray-0:    #f7f7f7;
-  --foundation-gray-100: #e9e9e9;
-  --foundation-gray-200: #d4d4d4;
-  --foundation-gray-300: #bebebe;
-  --foundation-gray-400: #9e9e9e;
-  --foundation-gray-500: #6e6e6e;
-  --foundation-gray-600: #585858;
-  --foundation-gray-700: #484848;
-  --foundation-gray-800: #363636;
-  --foundation-gray-900: #282828;
-  --foundation-gray-1000: #1d1d1d;
-  --foundation-gray-1100: #141414;
-  --foundation-gray-1200: #0c0c0c;
+  --foundation-gray-100: #f0f0f0;
+  --foundation-gray-200: #e8e8e8;
+  --foundation-gray-300: #dadada;
+  --foundation-gray-400: #c1c1c1;
+  --foundation-gray-500: #989898;
+  --foundation-gray-600: #6f6f6f;
+  --foundation-gray-700: #565656;
+  --foundation-gray-800: #3c3c3c;
+  --foundation-gray-900: #252525;
+  --foundation-gray-1000: #1a1a1a;
+  --foundation-gray-1100: #111111;
+  --foundation-gray-1200: #090909;
   --foundation-gray-1300: #171717;
 }
 
@@ -35,18 +35,18 @@
   --foundation-black: #0a0e12;
 
   --foundation-gray-0:    #eef6fb;
-  --foundation-gray-100: #e3ecf0;
-  --foundation-gray-200: #cfdde5;
-  --foundation-gray-300: #b8cbd9;
-  --foundation-gray-400: #96b4c7;
-  --foundation-gray-500: #628ca1;
-  --foundation-gray-600: #4e7489;
-  --foundation-gray-700: #3e5d6f;
-  --foundation-gray-800: #2e454f;
-  --foundation-gray-900: #213139;
-  --foundation-gray-1000: #172229;
-  --foundation-gray-1100: #0f171c;
-  --foundation-gray-1200: #0a0f11;
+  --foundation-gray-100: #e7f1f7;
+  --foundation-gray-200: #deeaf2;
+  --foundation-gray-300: #d0dfe8;
+  --foundation-gray-400: #b7ccd9;
+  --foundation-gray-500: #8ea8b8;
+  --foundation-gray-600: #658491;
+  --foundation-gray-700: #4c6672;
+  --foundation-gray-800: #32464f;
+  --foundation-gray-900: #1d2e35;
+  --foundation-gray-1000: #131f24;
+  --foundation-gray-1100: #0c1418;
+  --foundation-gray-1200: #060b0d;
   --foundation-gray-1300: #0a0e12;
 }
 
@@ -56,20 +56,20 @@
   --foundation-white: #f8f6f3;   /* H: 35, S: 30%, L: 96% - soft beige */
   --foundation-black: #0e0d0b;   /* H: 35, S: 15%, L: 6% - infected linen black */
 
-  --foundation-gray-0:    #f8f6f3;
-  --foundation-gray-100: #eae8e4;
-  --foundation-gray-200: #d5d0cb;
-  --foundation-gray-300: #bfb8b1;
-  --foundation-gray-400: #9f968d;
-  --foundation-gray-500: #6f6862;
-  --foundation-gray-600: #59534e;
-  --foundation-gray-700: #494441;
-  --foundation-gray-800: #373330;
-  --foundation-gray-900: #292623;
-  --foundation-gray-1000: #1e1c1a;
-  --foundation-gray-1100: #151413;
-  --foundation-gray-1200: #0d0d0c;
-  --foundation-gray-1300: #0e0d0b;  /* Infected linen black */
+  --foundation-gray-0:    #f8f6f3;  /* Step 0 - soft beige */
+  --foundation-gray-100: #f1eeea;  /* Step 1 - very subtle */
+  --foundation-gray-200: #e9e5e0;  /* Step 2 */
+  --foundation-gray-300: #dcd8d2;  /* Step 3 */
+  --foundation-gray-400: #c3beb6;  /* Step 4 - mid-light */
+  --foundation-gray-500: #9a9389;  /* Step 5 - middle */
+  --foundation-gray-600: #716963;  /* Step 6 - mid-dark */
+  --foundation-gray-700: #58524d;  /* Step 7 */
+  --foundation-gray-800: #3e3936;  /* Step 8 */
+  --foundation-gray-900: #282522;  /* Step 9 */
+  --foundation-gray-1000: #1b1916;  /* Step 10 - very dark */
+  --foundation-gray-1100: #110f0e;  /* Step 11 - near black */
+  --foundation-gray-1200: #090807;  /* Step 12 - almost black */
+  --foundation-gray-1300: #0e0d0b;  /* Step 13 - infected linen black */
 }
 
 /* ========== COOL (MUTED GRAY) — FIXED / EVENED ========== */
@@ -77,20 +77,20 @@
   --foundation-white: #eef0f3;   /* lighter than old white */
   --foundation-black: #0a0c10;   /* darker than 1200 */
 
-  --foundation-gray-0:    #eef0f3;
-  --foundation-gray-100: #e3e6ea;
-  --foundation-gray-200: #cfd3d9;
-  --foundation-gray-300: #b8bec7;
-  --foundation-gray-400: #969daa;
-  --foundation-gray-500: #626976;
-  --foundation-gray-600: #4d5460;
-  --foundation-gray-700: #3d444d;
-  --foundation-gray-800: #2d323a;
-  --foundation-gray-900: #20242a;
-  --foundation-gray-1000: #16191e;
-  --foundation-gray-1100: #0e1114;
-  --foundation-gray-1200: #090b0e;
-  --foundation-gray-1300: #0a0c10;
+  --foundation-gray-0:    #eef0f3;  /* Step 0 - cool white */
+  --foundation-gray-100: #e7eaee;  /* Step 1 - very subtle */
+  --foundation-gray-200: #dee2e7;  /* Step 2 */
+  --foundation-gray-300: #d0d5db;  /* Step 3 */
+  --foundation-gray-400: #b7bdc7;  /* Step 4 - mid-light */
+  --foundation-gray-500: #8e95a2;  /* Step 5 - middle */
+  --foundation-gray-600: #656c7a;  /* Step 6 - mid-dark */
+  --foundation-gray-700: #4c535f;  /* Step 7 */
+  --foundation-gray-800: #323841;  /* Step 8 */
+  --foundation-gray-900: #1d2329;  /* Step 9 */
+  --foundation-gray-1000: #13171c;  /* Step 10 - very dark */
+  --foundation-gray-1100: #0c0f12;  /* Step 11 - near black */
+  --foundation-gray-1200: #060709;  /* Step 12 - almost black */
+  --foundation-gray-1300: #0a0c10;  /* Step 13 - ink black */
 }
 
 /* ========== VIOLET (PURPLE-SLATE) - IMPROVED ========== */
@@ -98,20 +98,20 @@
   --foundation-white: #f7f6f9;   /* H: 260, S: 30%, L: 97% - gentle violet tint */
   --foundation-black: #0d0b0f;   /* H: 260, S: 18%, L: 6% - infected violet black */
 
-  --foundation-gray-0:    #f7f6f9;
-  --foundation-gray-100: #eae8ed;
-  --foundation-gray-200: #d5d1dc;
-  --foundation-gray-300: #bfb8ca;
-  --foundation-gray-400: #9f96ad;
-  --foundation-gray-500: #6f6679;
-  --foundation-gray-600: #595062;
-  --foundation-gray-700: #49424f;
-  --foundation-gray-800: #37313d;
-  --foundation-gray-900: #29242d;
-  --foundation-gray-1000: #1e1a21;
-  --foundation-gray-1100: #151318;
-  --foundation-gray-1200: #0d0c0f;
-  --foundation-gray-1300: #0d0b0f;  /* Infected black */
+  --foundation-gray-0:    #f7f6f9;  /* Step 0 - violet white */
+  --foundation-gray-100: #f0eef3;  /* Step 1 - very subtle */
+  --foundation-gray-200: #e8e5ed;  /* Step 2 */
+  --foundation-gray-300: #dbd7e2;  /* Step 3 */
+  --foundation-gray-400: #c2bdcb;  /* Step 4 - mid-light */
+  --foundation-gray-500: #99929f;  /* Step 5 - middle */
+  --foundation-gray-600: #706875;  /* Step 6 - mid-dark */
+  --foundation-gray-700: #57505c;  /* Step 7 */
+  --foundation-gray-800: #3d3741;  /* Step 8 */
+  --foundation-gray-900: #27232c;  /* Step 9 */
+  --foundation-gray-1000: #1a171e;  /* Step 10 - very dark */
+  --foundation-gray-1100: #100e13;  /* Step 11 - near black */
+  --foundation-gray-1200: #080709;  /* Step 12 - almost black */
+  --foundation-gray-1300: #0d0b0f;  /* Step 13 - infected violet black */
 }
 
 
@@ -120,20 +120,20 @@
   --foundation-white: #f8f5f5;   /* H: 0, S: 25%, L: 97% - soft red-tinted white */
   --foundation-black: #0f0b0b;   /* H: 0, S: 15%, L: 6% - infected crimson black */
 
-  --foundation-gray-0:    #f8f5f5;
-  --foundation-gray-100: #eae7e7;
-  --foundation-gray-200: #d5cfcf;
-  --foundation-gray-300: #bfb6b6;
-  --foundation-gray-400: #9f9393;
-  --foundation-gray-500: #6f6565;
-  --foundation-gray-600: #594f4f;
-  --foundation-gray-700: #493f3f;
-  --foundation-gray-800: #372f2f;
-  --foundation-gray-900: #292222;
-  --foundation-gray-1000: #1e1919;
-  --foundation-gray-1100: #151212;
-  --foundation-gray-1200: #0d0b0b;
-  --foundation-gray-1300: #0f0b0b;  /* Infected crimson black */
+  --foundation-gray-0:    #f8f5f5;  /* Step 0 - crimson white */
+  --foundation-gray-100: #f1eded;  /* Step 1 - very subtle */
+  --foundation-gray-200: #e9e4e4;  /* Step 2 */
+  --foundation-gray-300: #dcd6d6;  /* Step 3 */
+  --foundation-gray-400: #c3bcbc;  /* Step 4 - mid-light */
+  --foundation-gray-500: #9a9090;  /* Step 5 - middle */
+  --foundation-gray-600: #716666;  /* Step 6 - mid-dark */
+  --foundation-gray-700: #584e4e;  /* Step 7 */
+  --foundation-gray-800: #3e3535;  /* Step 8 */
+  --foundation-gray-900: #282020;  /* Step 9 */
+  --foundation-gray-1000: #1b1515;  /* Step 10 - very dark */
+  --foundation-gray-1100: #110d0d;  /* Step 11 - near black */
+  --foundation-gray-1200: #090707;  /* Step 12 - almost black */
+  --foundation-gray-1300: #0f0b0b;  /* Step 13 - infected crimson black */
 }
 
 /* ========== SLATE (CINEMATIC NEUTRAL) ========== */
@@ -141,20 +141,20 @@
   --foundation-white: #f6f7f8;
   --foundation-black: #0f0f10;
 
-  --foundation-gray-0:    #f6f7f8;
-  --foundation-gray-100: #e9ebec;
-  --foundation-gray-200: #d4d7d9;
-  --foundation-gray-300: #bec2c5;
-  --foundation-gray-400: #9ea3a7;
-  --foundation-gray-500: #6e7276;
-  --foundation-gray-600: #585c60;
-  --foundation-gray-700: #484b4e;
-  --foundation-gray-800: #36393b;
-  --foundation-gray-900: #28292b;
-  --foundation-gray-1000: #1d1e1f;
-  --foundation-gray-1100: #141516;
-  --foundation-gray-1200: #0d0d0e;
-  --foundation-gray-1300: #0f0f10;
+  --foundation-gray-0:    #f6f7f8;  /* Step 0 - slate white */
+  --foundation-gray-100: #eff0f1;  /* Step 1 - very subtle */
+  --foundation-gray-200: #e7e8ea;  /* Step 2 */
+  --foundation-gray-300: #dadcde;  /* Step 3 */
+  --foundation-gray-400: #c1c4c7;  /* Step 4 - mid-light */
+  --foundation-gray-500: #98999e;  /* Step 5 - middle */
+  --foundation-gray-600: #6f7074;  /* Step 6 - mid-dark */
+  --foundation-gray-700: #56585b;  /* Step 7 */
+  --foundation-gray-800: #3c3e40;  /* Step 8 */
+  --foundation-gray-900: #26272a;  /* Step 9 */
+  --foundation-gray-1000: #191a1c;  /* Step 10 - very dark */
+  --foundation-gray-1100: #0f1011;  /* Step 11 - near black */
+  --foundation-gray-1200: #080808;  /* Step 12 - almost black */
+  --foundation-gray-1300: #0f0f10;  /* Step 13 - slate black */
 }
 
 /* ========== SAGE (GREEN-GRAY NATURAL) ========== */
@@ -162,20 +162,20 @@
   --foundation-white: #f5f7f5;
   --foundation-black: #0e0f0e;
 
-  --foundation-gray-0:    #f5f7f5;
-  --foundation-gray-100: #e9ebe9;
-  --foundation-gray-200: #d4d7d4;
-  --foundation-gray-300: #bec2be;
-  --foundation-gray-400: #9ea39e;
-  --foundation-gray-500: #6e726e;
-  --foundation-gray-600: #585c58;
-  --foundation-gray-700: #484b48;
-  --foundation-gray-800: #363936;
-  --foundation-gray-900: #282a28;
-  --foundation-gray-1000: #1d1f1d;
-  --foundation-gray-1100: #141514;
-  --foundation-gray-1200: #0d0e0d;
-  --foundation-gray-1300: #0e0f0e;
+  --foundation-gray-0:    #f5f7f5;  /* Step 0 - sage white */
+  --foundation-gray-100: #eef0ee;  /* Step 1 - very subtle */
+  --foundation-gray-200: #e6e9e6;  /* Step 2 */
+  --foundation-gray-300: #d9ddd9;  /* Step 3 */
+  --foundation-gray-400: #c0c4c0;  /* Step 4 - mid-light */
+  --foundation-gray-500: #979b97;  /* Step 5 - middle */
+  --foundation-gray-600: #6e726e;  /* Step 6 - mid-dark */
+  --foundation-gray-700: #555855;  /* Step 7 */
+  --foundation-gray-800: #3b3e3b;  /* Step 8 */
+  --foundation-gray-900: #252725;  /* Step 9 */
+  --foundation-gray-1000: #181a18;  /* Step 10 - very dark */
+  --foundation-gray-1100: #0f1010;  /* Step 11 - near black */
+  --foundation-gray-1200: #070807;  /* Step 12 - almost black */
+  --foundation-gray-1300: #0e0f0e;  /* Step 13 - sage black */
 }
 
 /* ========== FROST (COOL SILVER-BLUE) ========== */
@@ -183,20 +183,20 @@
   --foundation-white: #f6f8fb;
   --foundation-black: #101214;
 
-  --foundation-gray-0:    #f6f8fb;
-  --foundation-gray-100: #e9ecf0;
-  --foundation-gray-200: #d4d9de;
-  --foundation-gray-300: #bec4ca;
-  --foundation-gray-400: #9ea6ad;
-  --foundation-gray-500: #6e7479;
-  --foundation-gray-600: #585e63;
-  --foundation-gray-700: #484d51;
-  --foundation-gray-800: #363a3d;
-  --foundation-gray-900: #282b2e;
-  --foundation-gray-1000: #1d2022;
-  --foundation-gray-1100: #141618;
-  --foundation-gray-1200: #0d0e10;
-  --foundation-gray-1300: #101214;
+  --foundation-gray-0:    #f6f8fb;  /* Step 0 - frost white */
+  --foundation-gray-100: #eff1f5;  /* Step 1 - very subtle */
+  --foundation-gray-200: #e7eaef;  /* Step 2 */
+  --foundation-gray-300: #dadee4;  /* Step 3 */
+  --foundation-gray-400: #c1c6cd;  /* Step 4 - mid-light */
+  --foundation-gray-500: #989ea5;  /* Step 5 - middle */
+  --foundation-gray-600: #6f757d;  /* Step 6 - mid-dark */
+  --foundation-gray-700: #565c63;  /* Step 7 */
+  --foundation-gray-800: #3c4146;  /* Step 8 */
+  --foundation-gray-900: #26292e;  /* Step 9 */
+  --foundation-gray-1000: #191c1f;  /* Step 10 - very dark */
+  --foundation-gray-1100: #0f1113;  /* Step 11 - near black */
+  --foundation-gray-1200: #08090a;  /* Step 12 - almost black */
+  --foundation-gray-1300: #101214;  /* Step 13 - frost black */
 }
 
 /* ========== PEARL (CREAMY MINIMAL) - IMPROVED ========== */
@@ -204,20 +204,20 @@
   --foundation-white: #f9f7f5;   /* H: 25, S: 35%, L: 97% - creamy white */
   --foundation-black: #0e0c0b;   /* H: 25, S: 15%, L: 6% - infected pearl black */
 
-  --foundation-gray-0:    #f9f7f5;
-  --foundation-gray-100: #eae7e4;
-  --foundation-gray-200: #d5cfcb;
-  --foundation-gray-300: #bfb6b1;
-  --foundation-gray-400: #9f938d;
-  --foundation-gray-500: #6f6562;
-  --foundation-gray-600: #594f4e;
-  --foundation-gray-700: #494241;
-  --foundation-gray-800: #373130;
-  --foundation-gray-900: #292423;
-  --foundation-gray-1000: #1e1a1a;
-  --foundation-gray-1100: #151313;
-  --foundation-gray-1200: #0d0c0b;
-  --foundation-gray-1300: #0e0c0b;  /* Infected pearl black */
+  --foundation-gray-0:    #f9f7f5;  /* Step 0 - pearl white */
+  --foundation-gray-100: #f2efec;  /* Step 1 - very subtle */
+  --foundation-gray-200: #eae6e2;  /* Step 2 */
+  --foundation-gray-300: #ddd8d3;  /* Step 3 */
+  --foundation-gray-400: #c4bdb8;  /* Step 4 - mid-light */
+  --foundation-gray-500: #9b928c;  /* Step 5 - middle */
+  --foundation-gray-600: #726965;  /* Step 6 - mid-dark */
+  --foundation-gray-700: #59514d;  /* Step 7 */
+  --foundation-gray-800: #3f3734;  /* Step 8 */
+  --foundation-gray-900: #282421;  /* Step 9 */
+  --foundation-gray-1000: #1b1815;  /* Step 10 - very dark */
+  --foundation-gray-1100: #110f0d;  /* Step 11 - near black */
+  --foundation-gray-1200: #090807;  /* Step 12 - almost black */
+  --foundation-gray-1300: #0e0c0b;  /* Step 13 - infected pearl black */
 }
 
 /* ========== AQUA (COOL BLUE-GRAY) - IMPROVED ========== */
@@ -225,20 +225,20 @@
   --foundation-white: #f4f7f9;   /* H: 203, S: 22%, L: 97% - reduced blue tint */
   --foundation-black: #0b0d0f;   /* H: 203, S: 18%, L: 6% - "infected" near-black with aqua tone */
 
-  --foundation-gray-0:    #f4f7f9;
-  --foundation-gray-100: #e3e9ee;
-  --foundation-gray-200: #cfd8df;
-  --foundation-gray-300: #b8c4cd;
-  --foundation-gray-400: #96a6b2;
-  --foundation-gray-500: #62707b;
-  --foundation-gray-600: #4e5a64;
-  --foundation-gray-700: #3e4851;
-  --foundation-gray-800: #2e363d;
-  --foundation-gray-900: #20262b;
-  --foundation-gray-1000: #161b1f;
-  --foundation-gray-1100: #0f1316;
-  --foundation-gray-1200: #0a0c0e;
-  --foundation-gray-1300: #0b0d0f;  /* Infected black */
+  --foundation-gray-0:    #f4f7f9;  /* Step 0 - aqua white */
+  --foundation-gray-100: #edf0f3;  /* Step 1 - very subtle */
+  --foundation-gray-200: #e4e8ed;  /* Step 2 */
+  --foundation-gray-300: #d7dce2;  /* Step 3 */
+  --foundation-gray-400: #bec4cb;  /* Step 4 - mid-light */
+  --foundation-gray-500: #959ca4;  /* Step 5 - middle */
+  --foundation-gray-600: #6c737c;  /* Step 6 - mid-dark */
+  --foundation-gray-700: #535a62;  /* Step 7 */
+  --foundation-gray-800: #393f46;  /* Step 8 */
+  --foundation-gray-900: #24292f;  /* Step 9 */
+  --foundation-gray-1000: #171b1f;  /* Step 10 - very dark */
+  --foundation-gray-1100: #0e1113;  /* Step 11 - near black */
+  --foundation-gray-1200: #070809;  /* Step 12 - almost black */
+  --foundation-gray-1300: #0b0d0f;  /* Step 13 - infected aqua black */
 }
 
 /* ========== PURE (TRUE BLACK & WHITE) ========== */
@@ -246,20 +246,20 @@
   --foundation-white: #ffffff;   /* Pure white */
   --foundation-black: #000000;   /* Pure black */
 
-  --foundation-gray-0:    #ffffff;  /* Step 0 - pure white | L=1.00000 */
-  --foundation-gray-100:  #ebebeb;  /* Step 1 | L=0.82000 */
-  --foundation-gray-200:  #d6d6d6;  /* Step 2 | L=0.68000 */
-  --foundation-gray-300:  #c0c0c0;  /* Step 3 | L=0.55000 */
-  --foundation-gray-400:  #a0a0a0;  /* Step 4 - mid-light | L=0.35500 */
-  --foundation-gray-500:  #707070;  /* Step 5 - true middle gray | L=0.16000 */
-  --foundation-gray-600:  #5a5a5a;  /* Step 6 - mid-dark | L=0.10500 */
-  --foundation-gray-700:  #4a4a4a;  /* Step 7 | L=0.07000 */
-  --foundation-gray-800:  #383838;  /* Step 8 | L=0.04000 */
-  --foundation-gray-900:  #2a2a2a;  /* Step 9 | L=0.02200 */
-  --foundation-gray-1000: #1f1f1f;  /* Step 10 - very dark | L=0.01250 */
-  --foundation-gray-1100: #161616;  /* Step 11 - near black | L=0.00750 */
-  --foundation-gray-1200: #0e0e0e;  /* Step 12 - almost black | L=0.00400 */
-  --foundation-gray-1300: #000000;  /* Step 13 - pure black | L=0.00000 */
+  --foundation-gray-0:    #ffffff;  /* Step 0 - pure white */
+  --foundation-gray-100:  #f7f7f7;  /* Step 1 - very subtle */
+  --foundation-gray-200:  #eeeeee;  /* Step 2 */
+  --foundation-gray-300:  #e0e0e0;  /* Step 3 */
+  --foundation-gray-400:  #c7c7c7;  /* Step 4 - mid-light */
+  --foundation-gray-500:  #9e9e9e;  /* Step 5 - middle */
+  --foundation-gray-600:  #757575;  /* Step 6 - mid-dark */
+  --foundation-gray-700:  #5c5c5c;  /* Step 7 */
+  --foundation-gray-800:  #424242;  /* Step 8 */
+  --foundation-gray-900:  #2b2b2b;  /* Step 9 */
+  --foundation-gray-1000: #1c1c1c;  /* Step 10 - very dark */
+  --foundation-gray-1100: #121212;  /* Step 11 - near black */
+  --foundation-gray-1200: #0a0a0a;  /* Step 12 - almost black */
+  --foundation-gray-1300: #000000;  /* Step 13 - pure black */
 }
 
 /* ========== EMBER (BOLD WARM ORANGE-RED) ========== */
@@ -267,20 +267,20 @@
   --foundation-white: #faf6f4;   /* H: 20, S: 40%, L: 97% - warm ember glow */
   --foundation-black: #0f0b0a;   /* H: 20, S: 20%, L: 6% - infected ember black */
 
-  --foundation-gray-0:    #faf6f4;
-  --foundation-gray-100: #eae5e2;
-  --foundation-gray-200: #d5ccc7;
-  --foundation-gray-300: #bfb3ad;
-  --foundation-gray-400: #9f8f89;
-  --foundation-gray-500: #6f615b;
-  --foundation-gray-600: #594c48;
-  --foundation-gray-700: #493d3a;
-  --foundation-gray-800: #372d2a;
-  --foundation-gray-900: #29211e;
-  --foundation-gray-1000: #1e1816;
-  --foundation-gray-1100: #151110;
-  --foundation-gray-1200: #0d0b0a;
-  --foundation-gray-1300: #0f0b0a;  /* Infected black */
+  --foundation-gray-0:    #faf6f4;  /* Step 0 - ember white */
+  --foundation-gray-100: #f3eeeb;  /* Step 1 - very subtle */
+  --foundation-gray-200: #ebe5e1;  /* Step 2 */
+  --foundation-gray-300: #ded7d1;  /* Step 3 */
+  --foundation-gray-400: #c5bcb6;  /* Step 4 - mid-light */
+  --foundation-gray-500: #9c9088;  /* Step 5 - middle */
+  --foundation-gray-600: #73665e;  /* Step 6 - mid-dark */
+  --foundation-gray-700: #5a4e47;  /* Step 7 */
+  --foundation-gray-800: #40352f;  /* Step 8 */
+  --foundation-gray-900: #29221d;  /* Step 9 */
+  --foundation-gray-1000: #1c1613;  /* Step 10 - very dark */
+  --foundation-gray-1100: #110d0b;  /* Step 11 - near black */
+  --foundation-gray-1200: #090706;  /* Step 12 - almost black */
+  --foundation-gray-1300: #0f0b0a;  /* Step 13 - infected ember black */
 }
 
 /* ==============================================
