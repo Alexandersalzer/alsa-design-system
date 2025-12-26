@@ -32,122 +32,76 @@
   --foundation-gray-1400: #080505;  /* L=3% - Warm black */
 }
 
-/* ========== AQUA (COOL BLUE-GRAY) ========== */
+/* ========== AQUA (SUBTLE BLUE-GRAY) ========== */
 :root[data-theme-tone="aqua"] {
-  --foundation-white: #ebf3f8;
-  --foundation-black: #052b3a;
+  --foundation-white: #f6f7f8;
+  --foundation-black: #06080a;
 
-  /* HSL: H=200°, S=15%, L: 97% → 3% (6.714% steps) */
-  --foundation-gray-0:    #ebf3f8;  /* L=97% */
-  --foundation-gray-100:  #d6eaf3;  /* L=90.286% */
-  --foundation-gray-200:  #c2e0ed;  /* L=83.571% */
-  --foundation-gray-300:  #add7e8;  /* L=76.857% */
-  --foundation-gray-400:  #98cde2;  /* L=70.143% */
-  --foundation-gray-500:  #83c4dd;  /* L=63.429% */
-  --foundation-gray-600:  #6ebad7;  /* L=56.714% */
-  --foundation-gray-700:  #59b1d2;  /* L=50% - Middle */
-  --foundation-gray-800:  #44a7cc;  /* L=43.286% */
-  --foundation-gray-900:  #309ec7;  /* L=36.571% */
-  --foundation-gray-1000: #248da8;  /* L=29.857% */
-  --foundation-gray-1100: #1a748c;  /* L=23.143% */
-  --foundation-gray-1200: #125c70;  /* L=16.429% */
-  --foundation-gray-1300: #0a4355;  /* L=9.714% */
-  --foundation-gray-1400: #052b3a;  /* L=3% - Cool black */
+  /* HSL: H=200°, S=6%, L: 97% → 3% (6.714% steps) - MODERN SUBTLE */
+  --foundation-gray-0:    #f6f7f8;  /* L=97% */
+  --foundation-gray-100:  #e4e6e7;  /* L=90.286% */
+  --foundation-gray-200:  #d3d5d6;  /* L=83.571% */
+  --foundation-gray-300:  #c1c3c5;  /* L=76.857% */
+  --foundation-gray-400:  #afb2b4;  /* L=70.143% */
+  --foundation-gray-500:  #9ea0a3;  /* L=63.429% */
+  --foundation-gray-600:  #8c8f92;  /* L=56.714% */
+  --foundation-gray-700:  #7a7d81;  /* L=50% - Middle */
+  --foundation-gray-800:  #696c70;  /* L=43.286% */
+  --foundation-gray-900:  #575a5f;  /* L=36.571% */
+  --foundation-gray-1000: #46494e;  /* L=29.857% */
+  --foundation-gray-1100: #34373d;  /* L=23.143% */
+  --foundation-gray-1200: #23262c;  /* L=16.429% */
+  --foundation-gray-1300: #12141b;  /* L=9.714% */
+  --foundation-gray-1400: #06080a;  /* L=3% - Subtle blue-black */
 }
 
 
-/* ========== LINEN (WARM BEIGE-GRAY) ========== */
-:root[data-theme-tone="linen"] {
-  --foundation-white: #f7f5f2;
-  --foundation-black: #090404;
-
-  /* HSL: H=30°, S=8%, L: 97% → 3% (6.714% steps) */
-  --foundation-gray-0:    #f7f5f2;  /* L=97% */
-  --foundation-gray-100:  #e6e2dd;  /* L=90.286% */
-  --foundation-gray-200:  #d5cfc8;  /* L=83.571% */
-  --foundation-gray-300:  #c4bcb3;  /* L=76.857% */
-  --foundation-gray-400:  #b3a89d;  /* L=70.143% */
-  --foundation-gray-500:  #a29588;  /* L=63.429% */
-  --foundation-gray-600:  #918272;  /* L=56.714% */
-  --foundation-gray-700:  #806e5d;  /* L=50% - Middle */
-  --foundation-gray-800:  #6f5b48;  /* L=43.286% */
-  --foundation-gray-900:  #5e4833;  /* L=36.571% */
-  --foundation-gray-1000: #4d351e;  /* L=29.857% */
-  --foundation-gray-1100: #3c231f;  /* L=23.143% */
-  --foundation-gray-1200: #2b1715;  /* L=16.429% */
-  --foundation-gray-1300: #1a0c0c;  /* L=9.714% */
-  --foundation-gray-1400: #090404;  /* L=3% - Warm beige-black */
-}
-
-/* ========== INK (COOL NAVY-GRAY) ========== */
+/* ========== INK (SUBTLE COOL GRAY) ========== */
 :root[data-theme-tone="ink"] {
-  --foundation-white: #edf0f5;
-  --foundation-black: #06152f;
+  --foundation-white: #f6f7f8;
+  --foundation-black: #06070a;
 
-  /* HSL: H=220°, S=12%, L: 97% → 3% (6.714% steps) */
-  --foundation-gray-0:    #edf0f5;  /* L=97% */
-  --foundation-gray-100:  #d9e0e9;  /* L=90.286% */
-  --foundation-gray-200:  #c5cfdd;  /* L=83.571% */
-  --foundation-gray-300:  #b1bfd1;  /* L=76.857% */
-  --foundation-gray-400:  #9dafc5;  /* L=70.143% */
-  --foundation-gray-500:  #899fb9;  /* L=63.429% */
-  --foundation-gray-600:  #758fad;  /* L=56.714% */
-  --foundation-gray-700:  #617fa1;  /* L=50% - Middle */
-  --foundation-gray-800:  #4d6f95;  /* L=43.286% */
-  --foundation-gray-900:  #395f89;  /* L=36.571% */
-  --foundation-gray-1000: #2a4f77;  /* L=29.857% */
-  --foundation-gray-1100: #1e4065;  /* L=23.143% */
-  --foundation-gray-1200: #143153;  /* L=16.429% */
-  --foundation-gray-1300: #0c2341;  /* L=9.714% */
-  --foundation-gray-1400: #06152f;  /* L=3% - Navy-black */
+  /* HSL: H=220°, S=6%, L: 97% → 3% (6.714% steps) - MODERN SUBTLE */
+  --foundation-gray-0:    #f6f7f8;  /* L=97% */
+  --foundation-gray-100:  #e4e6e7;  /* L=90.286% */
+  --foundation-gray-200:  #d3d4d6;  /* L=83.571% */
+  --foundation-gray-300:  #c1c3c5;  /* L=76.857% */
+  --foundation-gray-400:  #afb1b4;  /* L=70.143% */
+  --foundation-gray-500:  #9ea0a3;  /* L=63.429% */
+  --foundation-gray-600:  #8c8e92;  /* L=56.714% */
+  --foundation-gray-700:  #7a7d81;  /* L=50% - Middle */
+  --foundation-gray-800:  #696b70;  /* L=43.286% */
+  --foundation-gray-900:  #575a5f;  /* L=36.571% */
+  --foundation-gray-1000: #46484e;  /* L=29.857% */
+  --foundation-gray-1100: #34373d;  /* L=23.143% */
+  --foundation-gray-1200: #23252c;  /* L=16.429% */
+  --foundation-gray-1300: #12141b;  /* L=9.714% */
+  --foundation-gray-1400: #06070a;  /* L=3% - Subtle cool-black */
 }
 
-/* ========== VIOLET (PURPLE-GRAY) ========== */
+/* ========== VIOLET (SUBTLE PURPLE-GRAY) ========== */
 :root[data-theme-tone="violet"] {
-  --foundation-white: #f6f5f8;
-  --foundation-black: #090533;
+  --foundation-white: #f7f7f7;
+  --foundation-black: #070707;
 
-  /* HSL: H=270°, S=10%, L: 97% → 3% (6.714% steps) */
-  --foundation-gray-0:    #f6f5f8;  /* L=97% */
-  --foundation-gray-100:  #e5e2e9;  /* L=90.286% */
-  --foundation-gray-200:  #d4cfdb;  /* L=83.571% */
-  --foundation-gray-300:  #c3bccd;  /* L=76.857% */
-  --foundation-gray-400:  #b2a9bf;  /* L=70.143% */
-  --foundation-gray-500:  #a196b1;  /* L=63.429% */
-  --foundation-gray-600:  #9083a3;  /* L=56.714% */
-  --foundation-gray-700:  #7f7095;  /* L=50% - Middle */
-  --foundation-gray-800:  #6e5d87;  /* L=43.286% */
-  --foundation-gray-900:  #5d4a79;  /* L=36.571% */
-  --foundation-gray-1000: #4c376b;  /* L=29.857% */
-  --foundation-gray-1100: #3b275d;  /* L=23.143% */
-  --foundation-gray-1200: #2a184f;  /* L=16.429% */
-  --foundation-gray-1300: #190d41;  /* L=9.714% */
-  --foundation-gray-1400: #090533;  /* L=3% - Purple-black */
+  /* HSL: H=270°, S=4%, L: 97% → 3% (6.714% steps) - MODERN SUBTLE */
+  --foundation-gray-0:    #f7f7f7;  /* L=97% */
+  --foundation-gray-100:  #e5e5e6;  /* L=90.286% */
+  --foundation-gray-200:  #d4d4d5;  /* L=83.571% */
+  --foundation-gray-300:  #c2c2c4;  /* L=76.857% */
+  --foundation-gray-400:  #b1b1b2;  /* L=70.143% */
+  --foundation-gray-500:  #9f9fa1;  /* L=63.429% */
+  --foundation-gray-600:  #8e8e8f;  /* L=56.714% */
+  --foundation-gray-700:  #7c7c7e;  /* L=50% - Middle */
+  --foundation-gray-800:  #6b6b6d;  /* L=43.286% */
+  --foundation-gray-900:  #59595c;  /* L=36.571% */
+  --foundation-gray-1000: #48484a;  /* L=29.857% */
+  --foundation-gray-1100: #363638;  /* L=23.143% */
+  --foundation-gray-1200: #252526;  /* L=16.429% */
+  --foundation-gray-1300: #141415;  /* L=9.714% */
+  --foundation-gray-1400: #070707;  /* L=3% - Subtle purple-black */
 }
 
-
-/* ========== CRIMSON (RED-GRAY) ========== */
-:root[data-theme-tone="crimson"] {
-  --foundation-white: #f7f5f6;
-  --foundation-black: #090404;
-
-  /* HSL: H=350°, S=8%, L: 97% → 3% (6.714% steps) */
-  --foundation-gray-0:    #f7f5f6;  /* L=97% */
-  --foundation-gray-100:  #e6e2e4;  /* L=90.286% */
-  --foundation-gray-200:  #d5cfd2;  /* L=83.571% */
-  --foundation-gray-300:  #c4bcbf;  /* L=76.857% */
-  --foundation-gray-400:  #b3a8ac;  /* L=70.143% */
-  --foundation-gray-500:  #a29599;  /* L=63.429% */
-  --foundation-gray-600:  #918286;  /* L=56.714% */
-  --foundation-gray-700:  #806e73;  /* L=50% - Middle */
-  --foundation-gray-800:  #6f5b60;  /* L=43.286% */
-  --foundation-gray-900:  #5e484d;  /* L=36.571% */
-  --foundation-gray-1000: #4d353a;  /* L=29.857% */
-  --foundation-gray-1100: #3c2328;  /* L=23.143% */
-  --foundation-gray-1200: #2b1717;  /* L=16.429% */
-  --foundation-gray-1300: #1a0c0c;  /* L=9.714% */
-  --foundation-gray-1400: #090404;  /* L=3% - Red-black */
-}
 
 /* ========== SLATE (COOL GRAY-BLUE) ========== */
 :root[data-theme-tone="slate"] {
@@ -172,50 +126,50 @@
   --foundation-gray-1400: #060607;  /* L=3% - Slate-black */
 }
 
-/* ========== SAGE (GREEN-GRAY) ========== */
+/* ========== SAGE (SUBTLE GREEN-GRAY) ========== */
 :root[data-theme-tone="sage"] {
-  --foundation-white: #f5f7f5;
-  --foundation-black: #040904;
+  --foundation-white: #f7f7f6;
+  --foundation-black: #070706;
 
-  /* HSL: H=120°, S=8%, L: 97% → 3% (6.714% steps) */
-  --foundation-gray-0:    #f5f7f5;  /* L=97% */
-  --foundation-gray-100:  #e2e6e2;  /* L=90.286% */
-  --foundation-gray-200:  #cfd5cf;  /* L=83.571% */
-  --foundation-gray-300:  #bcc4bc;  /* L=76.857% */
-  --foundation-gray-400:  #a9b3a9;  /* L=70.143% */
-  --foundation-gray-500:  #96a296;  /* L=63.429% */
-  --foundation-gray-600:  #839183;  /* L=56.714% */
-  --foundation-gray-700:  #708070;  /* L=50% - Middle */
-  --foundation-gray-800:  #5d6f5d;  /* L=43.286% */
-  --foundation-gray-900:  #4a5e4a;  /* L=36.571% */
-  --foundation-gray-1000: #374d37;  /* L=29.857% */
-  --foundation-gray-1100: #253d25;  /* L=23.143% */
-  --foundation-gray-1200: #182c18;  /* L=16.429% */
-  --foundation-gray-1300: #0c1c0c;  /* L=9.714% */
-  --foundation-gray-1400: #040904;  /* L=3% - Green-black */
+  /* HSL: H=120°, S=4%, L: 97% → 3% (6.714% steps) - MODERN SUBTLE */
+  --foundation-gray-0:    #f7f7f6;  /* L=97% */
+  --foundation-gray-100:  #e5e6e4;  /* L=90.286% */
+  --foundation-gray-200:  #d4d5d3;  /* L=83.571% */
+  --foundation-gray-300:  #c2c4c1;  /* L=76.857% */
+  --foundation-gray-400:  #b1b2af;  /* L=70.143% */
+  --foundation-gray-500:  #9fa19e;  /* L=63.429% */
+  --foundation-gray-600:  #8e8f8c;  /* L=56.714% */
+  --foundation-gray-700:  #7c7e7a;  /* L=50% - Middle */
+  --foundation-gray-800:  #6b6c69;  /* L=43.286% */
+  --foundation-gray-900:  #595b57;  /* L=36.571% */
+  --foundation-gray-1000: #484946;  /* L=29.857% */
+  --foundation-gray-1100: #363834;  /* L=23.143% */
+  --foundation-gray-1200: #252623;  /* L=16.429% */
+  --foundation-gray-1300: #141512;  /* L=9.714% */
+  --foundation-gray-1400: #070706;  /* L=3% - Subtle green-black */
 }
 
-/* ========== FROST (BRIGHT COOL GRAY) ========== */
+/* ========== FROST (SUBTLE COOL GRAY) ========== */
 :root[data-theme-tone="frost"] {
-  --foundation-white: #f5f7f8;
-  --foundation-black: #060d26;
+  --foundation-white: #f6f7f8;
+  --foundation-black: #06080a;
 
-  /* HSL: H=190°, S=10%, L: 97% → 3% (6.714% steps) */
-  --foundation-gray-0:    #f5f7f8;  /* L=97% */
-  --foundation-gray-100:  #e2e6e9;  /* L=90.286% */
-  --foundation-gray-200:  #cfd5d9;  /* L=83.571% */
-  --foundation-gray-300:  #bcc4ca;  /* L=76.857% */
-  --foundation-gray-400:  #a9b3bb;  /* L=70.143% */
-  --foundation-gray-500:  #96a2ac;  /* L=63.429% */
-  --foundation-gray-600:  #83919d;  /* L=56.714% */
-  --foundation-gray-700:  #70808e;  /* L=50% - Middle */
-  --foundation-gray-800:  #5d6f7f;  /* L=43.286% */
-  --foundation-gray-900:  #4a5e70;  /* L=36.571% */
-  --foundation-gray-1000: #374d61;  /* L=29.857% */
-  --foundation-gray-1100: #253d53;  /* L=23.143% */
-  --foundation-gray-1200: #182c44;  /* L=16.429% */
-  --foundation-gray-1300: #0c1c35;  /* L=9.714% */
-  --foundation-gray-1400: #060d26;  /* L=3% - Cyan-black */
+  /* HSL: H=190°, S=6%, L: 97% → 3% (6.714% steps) - MODERN SUBTLE */
+  --foundation-gray-0:    #f6f7f8;  /* L=97% */
+  --foundation-gray-100:  #e4e6e7;  /* L=90.286% */
+  --foundation-gray-200:  #d3d5d6;  /* L=83.571% */
+  --foundation-gray-300:  #c1c4c5;  /* L=76.857% */
+  --foundation-gray-400:  #afb2b4;  /* L=70.143% */
+  --foundation-gray-500:  #9da0a3;  /* L=63.429% */
+  --foundation-gray-600:  #8c8f92;  /* L=56.714% */
+  --foundation-gray-700:  #7a7e81;  /* L=50% - Middle */
+  --foundation-gray-800:  #696c70;  /* L=43.286% */
+  --foundation-gray-900:  #575b5f;  /* L=36.571% */
+  --foundation-gray-1000: #46494e;  /* L=29.857% */
+  --foundation-gray-1100: #34383d;  /* L=23.143% */
+  --foundation-gray-1200: #23262c;  /* L=16.429% */
+  --foundation-gray-1300: #12151b;  /* L=9.714% */
+  --foundation-gray-1400: #06080a;  /* L=3% - Subtle cyan-black */
 }
 
 /* ========== PEARL (WARM LIGHT GRAY) ========== */
@@ -266,25 +220,25 @@
 
 /* ========== EMBER (WARM ORANGE-GRAY) ========== */
 :root[data-theme-tone="ember"] {
-  --foundation-white: #f7f4f2;
+  --foundation-white: #f7f5f3;
   --foundation-black: #090403;
 
-  /* HSL: H=20°, S=12%, L: 97% → 3% (6.714% steps) */
-  --foundation-gray-0:    #f7f4f2;  /* L=97% */
-  --foundation-gray-100:  #e6e0dc;  /* L=90.286% */
-  --foundation-gray-200:  #d5ccc6;  /* L=83.571% */
-  --foundation-gray-300:  #c4b8b0;  /* L=76.857% */
-  --foundation-gray-400:  #b3a49a;  /* L=70.143% */
-  --foundation-gray-500:  #a29084;  /* L=63.429% */
-  --foundation-gray-600:  #917c6e;  /* L=56.714% */
-  --foundation-gray-700:  #806858;  /* L=50% - Middle */
-  --foundation-gray-800:  #6f5442;  /* L=43.286% */
-  --foundation-gray-900:  #5e402c;  /* L=36.571% */
-  --foundation-gray-1000: #4d2c1e;  /* L=29.857% */
-  --foundation-gray-1100: #3c1c14;  /* L=23.143% */
-  --foundation-gray-1200: #2b120c;  /* L=16.429% */
-  --foundation-gray-1300: #1a0a07;  /* L=9.714% */
-  --foundation-gray-1400: #090403;  /* L=3% - Orange-black */
+  /* HSL: H=20°, S=8%, L: 97% → 3% (6.714% steps) - MODERN SUBTLE */
+  --foundation-gray-0:    #f7f5f3;  /* L=97% */
+  --foundation-gray-100:  #e6e2de;  /* L=90.286% */
+  --foundation-gray-200:  #d5d0ca;  /* L=83.571% */
+  --foundation-gray-300:  #c4bdb6;  /* L=76.857% */
+  --foundation-gray-400:  #b3aba2;  /* L=70.143% */
+  --foundation-gray-500:  #a2988e;  /* L=63.429% */
+  --foundation-gray-600:  #91867a;  /* L=56.714% */
+  --foundation-gray-700:  #807366;  /* L=50% - Middle */
+  --foundation-gray-800:  #6f6152;  /* L=43.286% */
+  --foundation-gray-900:  #5e4e3e;  /* L=36.571% */
+  --foundation-gray-1000: #4d3c2a;  /* L=29.857% */
+  --foundation-gray-1100: #3c2a19;  /* L=23.143% */
+  --foundation-gray-1200: #2b180f;  /* L=16.429% */
+  --foundation-gray-1300: #1a0a06;  /* L=9.714% */
+  --foundation-gray-1400: #090403;  /* L=3% - Warm orange-black */
 }
 
 /* ==============================================
