@@ -61,8 +61,8 @@
 
    Surface Hierarchy:
    - page (neutral-0):     Base level - white background
-   - elevated (neutral-100): One step up - light gray background
-   - sunken (neutral-200):  Two steps up - medium gray background
+   - raised (neutral-100): One step up - light gray background
+   - elevated (neutral-200): Two steps up - card/panel background
    ============================================================================= */
 
 /* -----------------------------------------------------------------------------
@@ -72,8 +72,22 @@
 /* Default - no overrides needed, uses base tokens above */
 
 /* -----------------------------------------------------------------------------
-   SURFACE LEVEL: ELEVATED
+   SURFACE LEVEL: RAISED
    Sidebar on neutral-100 - nav items need to elevate to neutral-200
+   ----------------------------------------------------------------------------- */
+[data-surface-level="raised"] {
+  --surface-sidebar: var(--surface-raised);
+  --surface-sidebar-header: var(--surface-raised);
+  --surface-sidebar-footer: var(--surface-raised);
+
+  /* Nav items elevate one step ABOVE the sidebar background */
+  --surface-nav-item-hover: var(--surface-elevated);      /* neutral-200 instead of neutral-100 */
+  --surface-nav-item-selected: var(--surface-elevated);   /* neutral-200 instead of neutral-100 */
+}
+
+/* -----------------------------------------------------------------------------
+   SURFACE LEVEL: ELEVATED
+   Sidebar on neutral-200 - nav items need to elevate to neutral-300
    ----------------------------------------------------------------------------- */
 [data-surface-level="elevated"] {
   --surface-sidebar: var(--surface-elevated);
@@ -81,22 +95,8 @@
   --surface-sidebar-footer: var(--surface-elevated);
 
   /* Nav items elevate one step ABOVE the sidebar background */
-  --surface-nav-item-hover: var(--surface-sunken);        /* neutral-200 instead of neutral-100 */
-  --surface-nav-item-selected: var(--surface-sunken);     /* neutral-200 instead of neutral-100 */
-}
-
-/* -----------------------------------------------------------------------------
-   SURFACE LEVEL: SUNKEN
-   Sidebar on neutral-200 - nav items need to elevate to neutral-300
-   ----------------------------------------------------------------------------- */
-[data-surface-level="sunken"] {
-  --surface-sidebar: var(--surface-sunken);
-  --surface-sidebar-header: var(--surface-sunken);
-  --surface-sidebar-footer: var(--surface-sunken);
-
-  /* Nav items elevate one step ABOVE the sidebar background */
-  --surface-nav-item-hover: var(--surface-deep);          /* neutral-300 instead of neutral-100 */
-  --surface-nav-item-selected: var(--surface-deep);       /* neutral-300 instead of neutral-100 */
+  --surface-nav-item-hover: var(--surface-sunken);        /* neutral-300 instead of neutral-100 */
+  --surface-nav-item-selected: var(--surface-sunken);     /* neutral-300 instead of neutral-100 */
 }
 
 /*
@@ -115,14 +115,14 @@ The `DashboardSidebar` component now accepts a `surfaceLevel` prop that automati
 ```tsx
 import { DashboardSidebar } from '@/components/layouts/DashboardSidebar';
 
-// Default: elevated background (neutral-100)
+// Default: page level (neutral-0 / white background)
 <DashboardSidebar
   navItems={items}
   isActive={isActive}
   user={user}
 />
 
-// Explicit: page level (white background)
+// Explicit: page level (neutral-0 / white background)
 <DashboardSidebar
   navItems={items}
   isActive={isActive}
@@ -130,20 +130,20 @@ import { DashboardSidebar } from '@/components/layouts/DashboardSidebar';
   surfaceLevel="page"
 />
 
-// Explicit: elevated level (light gray background)
+// Raised level (neutral-100 / light gray background)
+<DashboardSidebar
+  navItems={items}
+  isActive={isActive}
+  user={user}
+  surfaceLevel="raised"
+/>
+
+// Elevated level (neutral-200 / card gray background)
 <DashboardSidebar
   navItems={items}
   isActive={isActive}
   user={user}
   surfaceLevel="elevated"
-/>
-
-// Explicit: sunken level (medium gray background)
-<DashboardSidebar
-  navItems={items}
-  isActive={isActive}
-  user={user}
-  surfaceLevel="sunken"
 />
 ```
 
@@ -156,8 +156,8 @@ The solution uses **contextual CSS custom properties** that cascade based on the
 | Surface Level | Sidebar BG | Nav Hover | Nav Active |
 |--------------|------------|-----------|------------|
 | `page` (default) | `neutral-0` (white) | `neutral-100` | `neutral-100` |
-| `elevated` | `neutral-100` (light gray) | `neutral-200` | `neutral-200` |
-| `sunken` | `neutral-200` (medium gray) | `neutral-300` | `neutral-300` |
+| `raised` | `neutral-100` (light gray) | `neutral-200` | `neutral-200` |
+| `elevated` | `neutral-200` (card gray) | `neutral-300` | `neutral-300` |
 
 ### Architecture
 
@@ -167,8 +167,8 @@ The solution uses **contextual CSS custom properties** that cascade based on the
 
 2. **Token Level** ([navigation.css](./navigation.css))
    - Defines base navigation tokens (default = `page` level)
+   - Provides `[data-surface-level="raised"]` overrides
    - Provides `[data-surface-level="elevated"]` overrides
-   - Provides `[data-surface-level="sunken"]` overrides
 
 3. **Component CSS** ([Nav.css](../components/actions/Nav/Nav.css))
    - Uses `--surface-nav-item-hover` and `--surface-nav-item-selected` tokens
@@ -176,25 +176,13 @@ The solution uses **contextual CSS custom properties** that cascade based on the
 
 ## Design Token Reference
 
-All tokens defined in [navigation.css](./navigation.css):
+Navigation hover and active colors automatically adjust based on sidebar surface level:
 
-```css
+- **Page level (default)**: Nav items use neutral-100 for hover/active
+- **Raised level**: Nav items elevate to neutral-200 for hover/active
+- **Elevated level**: Nav items elevate to neutral-300 for hover/active
 
---surface-nav-item-hover: var(--surface-hover);     
---surface-nav-item-selected: var(--surface-elevated); 
-
-
-[data-surface-level="elevated"] {
-  --surface-nav-item-hover: var(--surface-sunken);    
-  --surface-nav-item-selected: var(--surface-sunken); 
-}
-
-
-[data-surface-level="sunken"] {
-  --surface-nav-item-hover: var(--surface-deep);     
-  --surface-nav-item-selected: var(--surface-deep);  
-}
-```
+The surfaceLevel prop accepts: 'page' | 'raised' | 'elevated'
 
 ## Benefits
 

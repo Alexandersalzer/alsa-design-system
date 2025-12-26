@@ -275,7 +275,7 @@
   --surface-raised: var(--neutral-100);
   --surface-elevated: var(--neutral-200);
   --surface-sunken: var(--neutral-300); /* subtle inset / muted content blocks */
-  --surface-deep: var(--neutral-300);   /* strong inset / structural elements */
+  --surface-deep: var(--neutral-400);   /* strong inset / structural elements */
 
   /* optional */
   --surface-floating: var(--neutral-0);
