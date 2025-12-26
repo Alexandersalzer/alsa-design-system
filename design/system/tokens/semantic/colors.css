@@ -281,9 +281,9 @@
   --surface-floating: var(--neutral-0);
 
   /* ----- Interactive States ----- */
-  --surface-hover: var(--neutral-100);
-  --surface-active: var(--neutral-200);
-  --surface-selected: var(--neutral-200);
+  --surface-hover: var(--neutral-200);
+  --surface-active: var(--neutral-300);
+  --surface-selected: var(--neutral-300);
   --surface-pressed: var(--neutral-300);
   --surface-disabled: var(--neutral-100);
 
