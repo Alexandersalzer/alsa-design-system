@@ -9,23 +9,23 @@
   --foundation-white: #ffffff;
   --foundation-black: #000000;
 
-  /* Exponent 1.2 optimized curve - TIGHTER dark end for backgrounds/cards */
+  /* SYMMETRIC SCALE - Same gaps on both ends (4%, 5%, 6%, 7%, 8%, 9%, 10%) */
   /* HSL: H=0°, S=0%, L: 100% → 0% */
-  --foundation-gray-0:    #ffffff;  /* L=100.000% */
-  --foundation-gray-100:  #f4f4f4;  /* L=93.124% */
-  --foundation-gray-200:  #e6e6e6;  /* L=88.094% */
-  --foundation-gray-300:  #d7d7d7;  /* L=82.513% */
-  --foundation-gray-400:  #c6c6c6;  /* L=76.540% */
-  --foundation-gray-500:  #b5b5b5;  /* L=70.258% */
-  --foundation-gray-600:  #a3a3a3;  /* L=63.718% */
-  --foundation-gray-700:  #909090;  /* L=56.955% */
-  --foundation-gray-800:  #7d7d7d;  /* L=49.995% */
-  --foundation-gray-900:  #696969;  /* L=42.859% */
-  --foundation-gray-1000: #555555;  /* L=35.562% */
-  --foundation-gray-1100: #404040;  /* L=28.118% */
-  --foundation-gray-1200: #2b2b2b;  /* L=20.537% */
-  --foundation-gray-1300: #161616;  /* L=12.828% */
-  --foundation-gray-1400: #000000;  /* L=0.000% */
+  --foundation-gray-0:    #ffffff;  /* L=100.0% */
+  --foundation-gray-100:  #f5f5f5;  /* L=96.0% */
+  --foundation-gray-200:  #e8e8e8;  /* L=91.0% */
+  --foundation-gray-300:  #d9d9d9;  /* L=85.0% */
+  --foundation-gray-400:  #c7c7c7;  /* L=78.0% */
+  --foundation-gray-500:  #b3b3b3;  /* L=70.0% */
+  --foundation-gray-600:  #9c9c9c;  /* L=61.0% */
+  --foundation-gray-700:  #7d7d7d;  /* L=49.0% */
+  --foundation-gray-800:  #636363;  /* L=39.0% */
+  --foundation-gray-900:  #4d4d4d;  /* L=30.0% */
+  --foundation-gray-1000: #383838;  /* L=22.0% */
+  --foundation-gray-1100: #262626;  /* L=15.0% */
+  --foundation-gray-1200: #171717;  /* L=9.0% */
+  --foundation-gray-1300: #0a0a0a;  /* L=4.0% */
+  --foundation-gray-1400: #000000;  /* L=0.0% */
 }
 
 /* ========== GRAPHITE (TRUE NEUTRAL GRAY) ========== */
@@ -33,24 +33,24 @@
   --foundation-white: #fdfdfd;
   --foundation-black: #070707;
 
-  /* Exponent 1.2 optimized curve - TIGHTER dark end for backgrounds/cards */
+  /* SYMMETRIC SCALE - Same gaps on both ends (4%, 5%, 6%, 7%, 8%, 9%, 10%) */
   /* HSL: H=0°, S=1%, L: 97% → 5% */
   /* Character: True neutral with minimal warmth, between Pure and Mono */
-  --foundation-gray-0:    #f7f7f7;  /* L=97.000% */
-  --foundation-gray-100:  #eeeded;  /* L=93.124% */
-  --foundation-gray-200:  #e1e0e0;  /* L=88.094% */
-  --foundation-gray-300:  #d3d2d2;  /* L=82.513% */
-  --foundation-gray-400:  #c4c3c3;  /* L=76.540% */
-  --foundation-gray-500:  #b4b2b2;  /* L=70.258% */
-  --foundation-gray-600:  #a3a2a2;  /* L=63.718% */
-  --foundation-gray-700:  #929090;  /* L=56.955% */
-  --foundation-gray-800:  #817e7e;  /* L=49.995% */
-  --foundation-gray-900:  #6e6c6c;  /* L=42.859% */
-  --foundation-gray-1000: #5c5a5a;  /* L=35.562% */
-  --foundation-gray-1100: #484747;  /* L=28.118% */
-  --foundation-gray-1200: #353434;  /* L=20.537% */
-  --foundation-gray-1300: #212020;  /* L=12.828% */
-  --foundation-gray-1400: #0d0d0d;  /* L=5.000% */
+  --foundation-gray-0:    #f7f7f7;  /* L=97.0% */
+  --foundation-gray-100:  #ededed;  /* L=93.0% */
+  --foundation-gray-200:  #e1e0e0;  /* L=88.0% */
+  --foundation-gray-300:  #d2d1d1;  /* L=82.0% */
+  --foundation-gray-400:  #c0bfbf;  /* L=75.0% */
+  --foundation-gray-500:  #acaaaa;  /* L=67.0% */
+  --foundation-gray-600:  #959393;  /* L=58.0% */
+  --foundation-gray-700:  #8b8989;  /* L=54.0% */
+  --foundation-gray-800:  #716f6f;  /* L=44.0% */
+  --foundation-gray-900:  #5a5858;  /* L=35.0% */
+  --foundation-gray-1000: #464444;  /* L=27.0% */
+  --foundation-gray-1100: #343232;  /* L=20.0% */
+  --foundation-gray-1200: #242323;  /* L=14.0% */
+  --foundation-gray-1300: #171717;  /* L=9.0% */
+  --foundation-gray-1400: #0d0d0d;  /* L=5.0% */
 }
 
 /* ========== MONO (WARM BALANCED GRAY) ========== */
@@ -58,24 +58,24 @@
   --foundation-white: #f8f7f7;
   --foundation-black: #0d0c0c;
 
-  /* Exponent 1.2 optimized curve - TIGHTER dark end for backgrounds/cards */
+  /* SYMMETRIC SCALE - Same gaps on both ends (4%, 5%, 6%, 7%, 8%, 9%, 10%) */
   /* HSL: H=0°, S=2%, L: 97% → 5% */
   /* Character: Slightly warm, balanced for most UI contexts */
-  --foundation-gray-0:    #f8f7f7;  /* L=97.000% */
-  --foundation-gray-100:  #eeeded;  /* L=93.124% */
-  --foundation-gray-200:  #e1e0e0;  /* L=88.094% */
-  --foundation-gray-300:  #d3d2d2;  /* L=82.513% */
-  --foundation-gray-400:  #c4c2c2;  /* L=76.540% */
-  --foundation-gray-500:  #b5b2b2;  /* L=70.258% */
-  --foundation-gray-600:  #a4a1a1;  /* L=63.718% */
-  --foundation-gray-700:  #938f8f;  /* L=56.955% */
-  --foundation-gray-800:  #827d7d;  /* L=49.995% */
-  --foundation-gray-900:  #6f6b6b;  /* L=42.859% */
-  --foundation-gray-1000: #5c5959;  /* L=35.562% */
-  --foundation-gray-1100: #494646;  /* L=28.118% */
-  --foundation-gray-1200: #353333;  /* L=20.537% */
-  --foundation-gray-1300: #212020;  /* L=12.828% */
-  --foundation-gray-1400: #0d0c0c;  /* L=5.000% */
+  --foundation-gray-0:    #f8f7f7;  /* L=97.0% */
+  --foundation-gray-100:  #eeeded;  /* L=93.0% */
+  --foundation-gray-200:  #e1e0e0;  /* L=88.0% */
+  --foundation-gray-300:  #d2d0d0;  /* L=82.0% */
+  --foundation-gray-400:  #c1bebe;  /* L=75.0% */
+  --foundation-gray-500:  #ada9a9;  /* L=67.0% */
+  --foundation-gray-600:  #969292;  /* L=58.0% */
+  --foundation-gray-700:  #8c8787;  /* L=54.0% */
+  --foundation-gray-800:  #726e6e;  /* L=44.0% */
+  --foundation-gray-900:  #5b5757;  /* L=35.0% */
+  --foundation-gray-1000: #464343;  /* L=27.0% */
+  --foundation-gray-1100: #343232;  /* L=20.0% */
+  --foundation-gray-1200: #242323;  /* L=14.0% */
+  --foundation-gray-1300: #171616;  /* L=9.0% */
+  --foundation-gray-1400: #0d0c0c;  /* L=5.0% */
 }
 
 /* ========== CHARCOAL (WARM NEUTRAL GRAY) ========== */
@@ -83,24 +83,24 @@
   --foundation-white: #f8f7f6;
   --foundation-black: #0d0c0b;
 
-  /* Exponent 1.2 optimized curve - TIGHTER dark end for backgrounds/cards */
+  /* SYMMETRIC SCALE - Same gaps on both ends (4%, 5%, 6%, 7%, 8%, 9%, 10%) */
   /* HSL: H=30°, S=2%, L: 97% → 5% */
   /* Character: Warm-neutral with subtle beige undertone */
-  --foundation-gray-0:    #f8f7f7;  /* L=97.000% */
-  --foundation-gray-100:  #eeeded;  /* L=93.124% */
-  --foundation-gray-200:  #e1e1e0;  /* L=88.094% */
-  --foundation-gray-300:  #d3d2d2;  /* L=82.513% */
-  --foundation-gray-400:  #c4c3c2;  /* L=76.540% */
-  --foundation-gray-500:  #b5b3b2;  /* L=70.258% */
-  --foundation-gray-600:  #a4a2a1;  /* L=63.718% */
-  --foundation-gray-700:  #93918f;  /* L=56.955% */
-  --foundation-gray-800:  #827f7d;  /* L=49.995% */
-  --foundation-gray-900:  #6f6d6b;  /* L=42.859% */
-  --foundation-gray-1000: #5c5b59;  /* L=35.562% */
-  --foundation-gray-1100: #494846;  /* L=28.118% */
-  --foundation-gray-1200: #353433;  /* L=20.537% */
-  --foundation-gray-1300: #212120;  /* L=12.828% */
-  --foundation-gray-1400: #0d0d0c;  /* L=5.000% */
+  --foundation-gray-0:    #f8f7f7;  /* L=97.0% */
+  --foundation-gray-100:  #eeeded;  /* L=93.0% */
+  --foundation-gray-200:  #e1e0e0;  /* L=88.0% */
+  --foundation-gray-300:  #d2d1d0;  /* L=82.0% */
+  --foundation-gray-400:  #c1bfbe;  /* L=75.0% */
+  --foundation-gray-500:  #adaba9;  /* L=67.0% */
+  --foundation-gray-600:  #969492;  /* L=58.0% */
+  --foundation-gray-700:  #8c8a87;  /* L=54.0% */
+  --foundation-gray-800:  #72706e;  /* L=44.0% */
+  --foundation-gray-900:  #5b5957;  /* L=35.0% */
+  --foundation-gray-1000: #464543;  /* L=27.0% */
+  --foundation-gray-1100: #343332;  /* L=20.0% */
+  --foundation-gray-1200: #242423;  /* L=14.0% */
+  --foundation-gray-1300: #171716;  /* L=9.0% */
+  --foundation-gray-1400: #0d0d0c;  /* L=5.0% */
 }
 
 /* ========== STEEL (COOL NEUTRAL GRAY) ========== */
@@ -108,24 +108,24 @@
   --foundation-white: #f7f7f8;
   --foundation-black: #0c0c0d;
 
-  /* Exponent 1.2 optimized curve - TIGHTER dark end for backgrounds/cards */
+  /* SYMMETRIC SCALE - Same gaps on both ends (4%, 5%, 6%, 7%, 8%, 9%, 10%) */
   /* HSL: H=210°, S=3%, L: 97% → 5% */
   /* Character: Cool-neutral with subtle blue undertone, between Pure and Slate */
-  --foundation-gray-0:    #f7f7f8;  /* L=97.000% */
-  --foundation-gray-100:  #ededee;  /* L=93.124% */
-  --foundation-gray-200:  #e0e1e2;  /* L=88.094% */
-  --foundation-gray-300:  #d1d2d4;  /* L=82.513% */
-  --foundation-gray-400:  #c1c3c5;  /* L=76.540% */
-  --foundation-gray-500:  #b1b3b5;  /* L=70.258% */
-  --foundation-gray-600:  #a0a2a5;  /* L=63.718% */
-  --foundation-gray-700:  #8e9195;  /* L=56.955% */
-  --foundation-gray-800:  #7c7f83;  /* L=49.995% */
-  --foundation-gray-900:  #6a6d71;  /* L=42.859% */
-  --foundation-gray-1000: #585b5d;  /* L=35.562% */
-  --foundation-gray-1100: #46484a;  /* L=28.118% */
-  --foundation-gray-1200: #333436;  /* L=20.537% */
-  --foundation-gray-1300: #202122;  /* L=12.828% */
-  --foundation-gray-1400: #0c0d0d;  /* L=5.000% */
+  --foundation-gray-0:    #f7f7f8;  /* L=97.0% */
+  --foundation-gray-100:  #ededee;  /* L=93.0% */
+  --foundation-gray-200:  #dfe0e1;  /* L=88.0% */
+  --foundation-gray-300:  #d0d1d2;  /* L=82.0% */
+  --foundation-gray-400:  #bdbfc1;  /* L=75.0% */
+  --foundation-gray-500:  #a8abad;  /* L=67.0% */
+  --foundation-gray-600:  #919497;  /* L=58.0% */
+  --foundation-gray-700:  #868a8d;  /* L=54.0% */
+  --foundation-gray-800:  #6d7074;  /* L=44.0% */
+  --foundation-gray-900:  #57595c;  /* L=35.0% */
+  --foundation-gray-1000: #434547;  /* L=27.0% */
+  --foundation-gray-1100: #313335;  /* L=20.0% */
+  --foundation-gray-1200: #232425;  /* L=14.0% */
+  --foundation-gray-1300: #161718;  /* L=9.0% */
+  --foundation-gray-1400: #0c0d0d;  /* L=5.0% */
 }
 
 /* ========== SLATE (COOL GRAY-BLUE) ========== */
@@ -133,22 +133,22 @@
   --foundation-white: #f7f7f8;
   --foundation-black: #0c0d0e;
 
-  /* Exponent 1.2 optimized curve - TIGHTER dark end for backgrounds/cards */
+  /* SYMMETRIC SCALE - Same gaps on both ends (4%, 5%, 6%, 7%, 8%, 9%, 10%) */
   /* HSL: H=210°, S=6%, L: 97% → 5% */
   /* Character: Minimal, clean, modern with noticeable blue tint */
-  --foundation-gray-0:    #f7f7f8;  /* L=97.000% */
-  --foundation-gray-100:  #ecedef;  /* L=93.124% */
-  --foundation-gray-200:  #dfe1e2;  /* L=88.094% */
-  --foundation-gray-300:  #d0d2d5;  /* L=82.513% */
-  --foundation-gray-400:  #c0c3c7;  /* L=76.540% */
-  --foundation-gray-500:  #afb3b8;  /* L=70.258% */
-  --foundation-gray-600:  #9da2a8;  /* L=63.718% */
-  --foundation-gray-700:  #8b9198;  /* L=56.955% */
-  --foundation-gray-800:  #787f87;  /* L=49.995% */
-  --foundation-gray-900:  #676d74;  /* L=42.859% */
-  --foundation-gray-1000: #555b60;  /* L=35.562% */
-  --foundation-gray-1100: #43484c;  /* L=28.118% */
-  --foundation-gray-1200: #313438;  /* L=20.537% */
-  --foundation-gray-1300: #1f2123;  /* L=12.828% */
-  --foundation-gray-1400: #0c0d0e;  /* L=5.000% */
+  --foundation-gray-0:    #f7f7f8;  /* L=97.0% */
+  --foundation-gray-100:  #ecedee;  /* L=93.0% */
+  --foundation-gray-200:  #dfe0e2;  /* L=88.0% */
+  --foundation-gray-300:  #ced1d4;  /* L=82.0% */
+  --foundation-gray-400:  #bbbfc3;  /* L=75.0% */
+  --foundation-gray-500:  #a6abb0;  /* L=67.0% */
+  --foundation-gray-600:  #8d949a;  /* L=58.0% */
+  --foundation-gray-700:  #838a91;  /* L=54.0% */
+  --foundation-gray-800:  #697077;  /* L=44.0% */
+  --foundation-gray-900:  #54595f;  /* L=35.0% */
+  --foundation-gray-1000: #414549;  /* L=27.0% */
+  --foundation-gray-1100: #303336;  /* L=20.0% */
+  --foundation-gray-1200: #222426;  /* L=14.0% */
+  --foundation-gray-1300: #161718;  /* L=9.0% */
+  --foundation-gray-1400: #0c0d0e;  /* L=5.0% */
 }
