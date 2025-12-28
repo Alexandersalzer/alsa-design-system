@@ -46,6 +46,12 @@
 
 
 /* ===== CARD VARIANT STYLES ===== */
+.card--raised {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--foundation-shadow-sm);
+}
+
 .card--elevated {
   background-color: var(--surface-elevated);
   box-shadow: var(--foundation-shadow-md);
@@ -79,6 +85,13 @@
 /* Default card hover effect (when no variant specified) */
 .card--clickable:hover {
   background-color: var(--surface-elevated);
+}
+
+/* Raised cards hover effect */
+.card--raised.card--clickable:hover {
+  background-color: var(--surface-elevated);
+  box-shadow: var(--foundation-shadow-md);
+  border-color: var(--border-default);
 }
 
 /* Elevated cards hover effect */
