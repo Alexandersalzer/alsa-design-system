@@ -60,12 +60,17 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
     if (!contentEl) return;
 
     if (isExpanded) {
+      // Get computed style to read CSS variables from root
+      const rootStyle = getComputedStyle(document.documentElement);
+      const paddingTopValue = rootStyle.getPropertyValue('--foundation-space-2').trim() || '8px';
+      const paddingBottomValue = rootStyle.getPropertyValue('--foundation-space-4').trim() || '16px';
+
       // Temporarily remove transitions and set expanded state to measure true height
       contentEl.style.transition = 'none';
       contentEl.style.opacity = '1';
       contentEl.style.transform = 'translateY(0)';
-      contentEl.style.paddingTop = 'var(--foundation-space-2)';
-      contentEl.style.paddingBottom = 'var(--foundation-space-4)';
+      contentEl.style.paddingTop = paddingTopValue;
+      contentEl.style.paddingBottom = paddingBottomValue;
       contentEl.style.maxHeight = 'none';
 
       // Force reflow to get accurate measurement
@@ -92,8 +97,8 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
         contentEl.style.maxHeight = height + 'px';
         contentEl.style.opacity = '1';
         contentEl.style.transform = 'translateY(0)';
-        contentEl.style.paddingTop = 'var(--foundation-space-2)';
-        contentEl.style.paddingBottom = 'var(--foundation-space-4)';
+        contentEl.style.paddingTop = paddingTopValue;
+        contentEl.style.paddingBottom = paddingBottomValue;
       });
     } else {
       contentEl.style.maxHeight = '0';
