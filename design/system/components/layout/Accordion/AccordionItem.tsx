@@ -60,8 +60,10 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
     if (!contentEl) return;
 
     if (isExpanded) {
-      // Calculate actual content height and add padding
-      contentEl.style.maxHeight = contentEl.scrollHeight + 50 + 'px';
+      // Small delay to ensure DOM is ready, then calculate height
+      requestAnimationFrame(() => {
+        contentEl.style.maxHeight = contentEl.scrollHeight + 50 + 'px';
+      });
     } else {
       contentEl.style.maxHeight = '0';
     }
@@ -125,7 +127,6 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
       <div
         ref={contentRef}
         className="accordion-item__content"
-        style={{ maxHeight: isExpanded ? undefined : '0' }}
       >
         {children}
       </div>
