@@ -60,12 +60,17 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
     if (!contentEl) return;
 
     if (isExpanded) {
-      // First set to auto to measure full content height
-      contentEl.style.maxHeight = 'none';
+      // Temporarily remove overflow to measure full height
+      const originalOverflow = contentEl.style.overflow;
+      contentEl.style.overflow = 'visible';
+      const height = contentEl.scrollHeight;
+      contentEl.style.overflow = originalOverflow;
 
-      // Then calculate and set the actual height in next frame
+      // Start from 0
+      contentEl.style.maxHeight = '0';
+
+      // Animate to full height in next frame
       requestAnimationFrame(() => {
-        const height = contentEl.scrollHeight;
         contentEl.style.maxHeight = height + 'px';
       });
     } else {
