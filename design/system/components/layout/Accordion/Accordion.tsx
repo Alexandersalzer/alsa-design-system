@@ -12,6 +12,7 @@ export type AccordionRadius = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 export type AccordionRadiusMode = 'edges' | 'all' | 'none';
 export type AccordionVariant = 'default' | 'separated' | 'bordered' | 'sunken' | 'borderless';
 export type AccordionGap = 'none' | 'xs' | 'sm' | 'md' | 'lg';
+export type AccordionSize = 'sm' | 'md' | 'lg';
 
 export interface AccordionProps {
   children: React.ReactNode;
@@ -40,6 +41,9 @@ export interface AccordionProps {
   /** Gap between items (only applies to 'separated' variant) */
   gap?: AccordionGap;
 
+  /** Size variant - controls padding and spacing */
+  size?: AccordionSize;
+
   /** Show/hide chevron indicators on all items */
   showIndicator?: boolean;
 
@@ -58,6 +62,7 @@ export const Accordion: React.FC<AccordionProps> = ({
   radiusMode = 'edges',
   variant = 'default',
   gap = 'xs',
+  size = 'md',
   showIndicator = true,
   className
 }) => {
@@ -108,6 +113,7 @@ export const Accordion: React.FC<AccordionProps> = ({
           'accordion',
           `accordion--${variant}`,
           `accordion--gap-${gap}`,
+          `accordion--size-${size}`,
           `accordion--radius-${radius}`,
           `accordion--radius-mode-${radiusMode}`,
           className
