@@ -65,26 +65,22 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
       const paddingTopValue = rootStyle.getPropertyValue('--foundation-space-2').trim() || '8px';
       const paddingBottomValue = rootStyle.getPropertyValue('--foundation-space-4').trim() || '16px';
 
-      // Temporarily remove transitions and set expanded state to measure true height
+      // Set expanded state immediately without measuring first
       contentEl.style.transition = 'none';
-      contentEl.style.opacity = '1';
-      contentEl.style.transform = 'translateY(0)';
       contentEl.style.paddingTop = paddingTopValue;
       contentEl.style.paddingBottom = paddingBottomValue;
       contentEl.style.maxHeight = 'none';
+      contentEl.style.overflow = 'visible';
 
-      // Force reflow to get accurate measurement
+      // Force reflow and measure
       void contentEl.offsetHeight;
-
-      // Get the actual scrollHeight including padding
       const height = contentEl.scrollHeight;
 
-      // Reset to collapsed state
+      // Reset overflow back to hidden for animation
+      contentEl.style.overflow = 'hidden';
       contentEl.style.maxHeight = '0';
       contentEl.style.opacity = '0';
       contentEl.style.transform = 'translateY(-10px)';
-      contentEl.style.paddingTop = '0';
-      contentEl.style.paddingBottom = '0';
 
       // Force reflow
       void contentEl.offsetHeight;
@@ -92,13 +88,13 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
       // Re-enable transitions
       contentEl.style.transition = '';
 
-      // Animate to full height
+      // Animate to full height with a small delay
       requestAnimationFrame(() => {
-        contentEl.style.maxHeight = height + 'px';
-        contentEl.style.opacity = '1';
-        contentEl.style.transform = 'translateY(0)';
-        contentEl.style.paddingTop = paddingTopValue;
-        contentEl.style.paddingBottom = paddingBottomValue;
+        requestAnimationFrame(() => {
+          contentEl.style.maxHeight = height + 'px';
+          contentEl.style.opacity = '1';
+          contentEl.style.transform = 'translateY(0)';
+        });
       });
     } else {
       contentEl.style.maxHeight = '0';
@@ -106,6 +102,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
       contentEl.style.transform = 'translateY(-10px)';
       contentEl.style.paddingTop = '0';
       contentEl.style.paddingBottom = '0';
+      contentEl.style.overflow = 'hidden';
     }
   }, [isExpanded, children]);
 
