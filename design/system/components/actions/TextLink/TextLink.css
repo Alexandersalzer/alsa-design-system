@@ -97,6 +97,26 @@
   color: var(--text-primary) ;                   /* High contrast on active */
 }
 
+/* Button-ghost variant - Like ghost button, text only with elevated surface on hover */
+.textlink-button-ghost {
+  color: var(--text-secondary);
+  background: transparent;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  border-radius: var(--radius-md);
+  transition: background var(--foundation-duration-fast) var(--foundation-easing-standard),
+              color var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+.textlink-button-ghost:hover {
+  color: var(--text-strong);
+  background: var(--surface-elevated);
+}
+
+.textlink-button-ghost:active {
+  color: var(--text-primary);
+  background: var(--surface-raised);
+}
+
 /* Brand variant (for brand names) - Highest contrast */
 .textlink-brand {
   color: var(--text-strong) ;                    /* Highest contrast */
