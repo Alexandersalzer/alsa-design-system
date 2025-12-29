@@ -60,20 +60,47 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
     if (!contentEl) return;
 
     if (isExpanded) {
-      // Measure with max-height auto to get true content height
-      contentEl.style.maxHeight = 'auto';
+      // Temporarily remove transitions and set expanded state to measure true height
+      contentEl.style.transition = 'none';
+      contentEl.style.opacity = '1';
+      contentEl.style.transform = 'translateY(0)';
+      contentEl.style.paddingTop = 'var(--foundation-space-2)';
+      contentEl.style.paddingBottom = 'var(--foundation-space-4)';
+      contentEl.style.maxHeight = 'none';
+
+      // Force reflow to get accurate measurement
+      void contentEl.offsetHeight;
+
+      // Get the actual scrollHeight including padding
       const height = contentEl.scrollHeight;
 
-      // Reset to 0 for animation start
+      // Reset to collapsed state
       contentEl.style.maxHeight = '0';
+      contentEl.style.opacity = '0';
+      contentEl.style.transform = 'translateY(-10px)';
+      contentEl.style.paddingTop = '0';
+      contentEl.style.paddingBottom = '0';
 
       // Force reflow
       void contentEl.offsetHeight;
 
+      // Re-enable transitions
+      contentEl.style.transition = '';
+
       // Animate to full height
-      contentEl.style.maxHeight = height + 'px';
+      requestAnimationFrame(() => {
+        contentEl.style.maxHeight = height + 'px';
+        contentEl.style.opacity = '1';
+        contentEl.style.transform = 'translateY(0)';
+        contentEl.style.paddingTop = 'var(--foundation-space-2)';
+        contentEl.style.paddingBottom = 'var(--foundation-space-4)';
+      });
     } else {
       contentEl.style.maxHeight = '0';
+      contentEl.style.opacity = '0';
+      contentEl.style.transform = 'translateY(-10px)';
+      contentEl.style.paddingTop = '0';
+      contentEl.style.paddingBottom = '0';
     }
   }, [isExpanded, children]);
 
