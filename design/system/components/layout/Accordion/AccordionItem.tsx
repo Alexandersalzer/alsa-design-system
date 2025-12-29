@@ -3,7 +3,7 @@
 // Individual collapsible item within Accordion
 // ===============================================
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { cn } from '../../../utils/cn';
 import { ChevronDownIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { useAccordionContext } from './AccordionContext';
@@ -46,12 +46,26 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   const { expandedKeys, toggleKey, showIndicator } = useAccordionContext();
   const isExpanded = expandedKeys.has(itemKey);
   const shouldShowIndicator = showIndicator && !disableIndicator;
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const handleToggle = () => {
     if (!disabled) {
       toggleKey(itemKey);
     }
   };
+
+  // Dynamic maxHeight calculation based on content - like the HTML/CSS version
+  useEffect(() => {
+    const contentEl = contentRef.current;
+    if (!contentEl) return;
+
+    if (isExpanded) {
+      // Calculate actual content height and add padding
+      contentEl.style.maxHeight = contentEl.scrollHeight + 50 + 'px';
+    } else {
+      contentEl.style.maxHeight = '0';
+    }
+  }, [isExpanded, children]);
 
   // Default indicator icon (chevron)
   const defaultIndicator = <ChevronDownIcon />;
@@ -107,12 +121,14 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
         )}
       </button>
 
-      {/* Content */}
-      {isExpanded && (
-        <div className="accordion-item__content">
-          {children}
-        </div>
-      )}
+      {/* Content - always rendered for smooth height transitions */}
+      <div
+        ref={contentRef}
+        className="accordion-item__content"
+        style={{ maxHeight: isExpanded ? undefined : '0' }}
+      >
+        {children}
+      </div>
     </div>
   );
 };

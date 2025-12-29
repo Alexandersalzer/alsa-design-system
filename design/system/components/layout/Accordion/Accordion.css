@@ -291,19 +291,22 @@
 
 /* ===== CONTENT ===== */
 .accordion-item__content {
-  padding: var(--foundation-space-2) var(--accordion-content-padding, var(--foundation-space-4)) var(--accordion-content-padding, var(--foundation-space-4));
-  animation: accordion-slide-down 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 var(--accordion-content-padding, var(--foundation-space-4));
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: max-height 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              padding 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@keyframes accordion-slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.accordion-item--expanded .accordion-item__content {
+  padding-top: var(--foundation-space-2);
+  padding-bottom: var(--accordion-content-padding, var(--foundation-space-4));
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ===== REDUCED MOTION ===== */
