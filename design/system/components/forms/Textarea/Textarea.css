@@ -106,6 +106,83 @@
   transition: height var(--duration-form-transition) var(--easing-form-transition);
 }
 
+/* ===== HERO UI VARIANTS ===== */
+.textarea--variant-flat {
+  background-color: var(--surface-subtle);
+  border-color: transparent;
+}
+
+.textarea--variant-flat:hover:not(:disabled) {
+  background-color: var(--surface-raised);
+}
+
+.textarea--variant-bordered {
+  background-color: transparent;
+  border-color: var(--border-default);
+  border-width: 2px;
+}
+
+.textarea--variant-bordered:hover:not(:disabled) {
+  border-color: var(--border-strong);
+}
+
+.textarea--variant-faded {
+  background-color: var(--surface-sunken);
+  border-color: var(--border-subtle);
+}
+
+.textarea--variant-faded:hover:not(:disabled) {
+  background-color: var(--surface-base);
+  border-color: var(--border-default);
+}
+
+.textarea--variant-underlined {
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid var(--border-default);
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.textarea--variant-underlined:hover:not(:disabled) {
+  border-bottom-color: var(--border-strong);
+}
+
+.textarea--variant-underlined:focus {
+  border-bottom-color: var(--border-accent);
+}
+
+/* ===== HERO UI COLOR VARIANTS ===== */
+.textarea--color-default:focus {
+  border-color: var(--border-accent);
+}
+
+.textarea--color-primary:focus {
+  border-color: var(--color-primary);
+}
+
+.textarea--color-secondary:focus {
+  border-color: var(--color-secondary);
+}
+
+.textarea--color-success:focus {
+  border-color: var(--color-success);
+}
+
+.textarea--color-warning:focus {
+  border-color: var(--color-warning);
+}
+
+.textarea--color-danger:focus {
+  border-color: var(--color-danger);
+}
+
+/* ===== HERO UI NO ANIMATION ===== */
+.textarea--no-animation {
+  transition: none !important;
+}
+
 /* ===== TEXTAREA STATES - FIXED: Single clean focus ===== */
 .textarea:hover:not(:disabled) {
   border-color: var(--border-textarea-hover);
@@ -173,6 +250,103 @@
 
 .textarea-templates {
   /* Template styles handled inline */
+}
+
+/* ===== HERO UI CLEAR BUTTON ===== */
+.textarea-clear-button {
+  position: absolute;
+  right: var(--foundation-space-2);
+  top: var(--foundation-space-2);
+  padding: var(--foundation-space-1);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textarea-clear-button:hover {
+  color: var(--text-primary);
+  background: var(--surface-subtle);
+}
+
+.textarea-clear-button:active {
+  color: var(--text-strong);
+  background: var(--surface-raised);
+}
+
+/* ===== HERO UI FULL WIDTH ===== */
+.textarea-wrapper {
+  width: 100%;
+}
+
+.textarea-wrapper--not-full-width {
+  width: auto;
+  max-width: 100%;
+}
+
+/* ===== HERO UI LABEL PLACEMENT ===== */
+/* outside: label above textarea (default - current behavior) */
+.textarea-wrapper--label-outside {
+  display: flex;
+  flex-direction: column;
+}
+
+/* outside-left: label to the left of textarea */
+.textarea-wrapper--label-outside-left {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--foundation-space-3);
+  align-items: start;
+}
+
+.textarea-wrapper--label-outside-left .textarea-label {
+  margin-bottom: 0;
+  padding-top: var(--foundation-space-3);
+  white-space: nowrap;
+}
+
+.textarea-wrapper--label-outside-left .textarea-description,
+.textarea-wrapper--label-outside-left .textarea-container,
+.textarea-wrapper--label-outside-left .textarea-error,
+.textarea-wrapper--label-outside-left .textarea-success {
+  grid-column: 2;
+}
+
+/* inside: floating label inside textarea */
+.textarea-wrapper--label-inside {
+  position: relative;
+}
+
+.textarea-wrapper--label-inside .textarea-label {
+  position: absolute;
+  left: var(--foundation-space-3);
+  top: var(--foundation-space-3);
+  font-size: var(--foundation-text-sm);
+  color: var(--text-secondary);
+  pointer-events: none;
+  transition: all 0.2s;
+  background: transparent;
+  padding: 0 var(--foundation-space-1);
+  z-index: 1;
+}
+
+/* Float label up when focused or has value */
+.textarea-wrapper--label-inside[data-focus="true"] .textarea-label,
+.textarea-wrapper--label-inside .textarea:not(:placeholder-shown) + .textarea-label {
+  top: calc(var(--foundation-space-1) * -1);
+  left: var(--foundation-space-2);
+  font-size: var(--foundation-text-xs);
+  background: var(--surface-base);
+  color: var(--text-primary);
+}
+
+.textarea-wrapper--label-inside .textarea {
+  padding-top: calc(var(--foundation-space-4) + var(--foundation-space-2));
 }
 
 /* ===== RESPONSIVE DESIGN ===== */

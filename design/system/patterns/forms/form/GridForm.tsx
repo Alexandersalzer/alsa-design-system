@@ -164,7 +164,7 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
               label={get('textarea-message').props.label || 'Meddelande'}
               placeholder={get('textarea-message').props.placeholder || 'Skriv ditt meddelande här...'}
               rows={get('textarea-message').props.rows || 4}
-              required={get('textarea-message').props.required || true}
+              required={get('textarea-message').props.required || false}
             />
           </GridItem>
         )}
