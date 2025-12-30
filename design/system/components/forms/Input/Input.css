@@ -28,6 +28,11 @@
   width: 100%;           /* ← Added this line */
 }
 
+.input-label__required {
+  color: var(--text-form-label-required);
+  margin-left: 2px;
+}
+
 /* ===== INPUT WRAPPER ===== */
 .input-wrapper {
   position: relative;
@@ -60,6 +65,99 @@
 
 .input--radius-lg {
   border-radius: var(--radius-input-lg);                   /* 12px - More rounded */
+}
+
+/* ===== HERO UI VARIANTS ===== */
+.input--variant-flat {
+  background-color: var(--surface-raised);
+  border-color: transparent;
+}
+
+.input--variant-flat:hover:not(:disabled) {
+  background-color: var(--surface-elevated);
+}
+
+.input--variant-bordered {
+  background-color: transparent;
+  border-color: var(--border-default);
+  border-width: 2px;
+}
+
+.input--variant-bordered:hover:not(:disabled) {
+  border-color: var(--border-strong);
+}
+
+.input--variant-faded {
+  background-color: var(--surface-elevated);
+  border-color: var(--border-subtle);
+}
+
+.input--variant-faded:hover:not(:disabled) {
+  background-color: var(--surface-raised);
+  border-color: var(--border-default);
+}
+
+.input--variant-underlined {
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid var(--border-default);
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.input--variant-underlined:hover:not(:disabled) {
+  border-bottom-color: var(--border-strong);
+}
+
+.input--variant-underlined:focus {
+  border-bottom-color: var(--border-accent);
+}
+
+/* Page variant - uses page background for seamless integration */
+.input--variant-page {
+  background-color: var(--surface-page);
+  border-color: var(--border-subtle);
+}
+
+.input--variant-page:hover:not(:disabled) {
+  background-color: var(--surface-subtle);
+  border-color: var(--border-default);
+}
+
+.input--variant-page:focus {
+  background-color: var(--surface-base);
+  border-color: var(--border-accent);
+}
+
+/* ===== HERO UI COLOR VARIANTS ===== */
+.input--color-default:focus {
+  border-color: var(--border-accent);
+}
+
+.input--color-primary:focus {
+  border-color: var(--color-primary);
+}
+
+.input--color-secondary:focus {
+  border-color: var(--color-secondary);
+}
+
+.input--color-success:focus {
+  border-color: var(--border-success);
+}
+
+.input--color-warning:focus {
+  border-color: var(--border-warning);
+}
+
+.input--color-danger:focus {
+  border-color: var(--border-error);
+}
+
+/* ===== HERO UI NO ANIMATION ===== */
+.input--no-animation {
+  transition: none !important;
 }
 
 /* ===== INPUT STATES ===== */
@@ -303,10 +401,117 @@
   color: var(--text-error);
 }
 
-/* ===== SEARCH INPUT STYLES ===== */
-.input.search-input {
-  /* Search inputs behave exactly like regular inputs with icons */
+/* ===== HERO UI LABEL PLACEMENT ===== */
+/* outside: label above input (default - current behavior) */
+.input-group--label-outside {
+  display: flex;
+  flex-direction: column;
 }
+
+/* outside-left: label to the left of input */
+.input-group--label-outside-left {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--foundation-space-3);
+  align-items: center;
+}
+
+.input-group--label-outside-left .input-label {
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
+.input-group--label-outside-left .input-wrapper,
+.input-group--label-outside-left .input-help {
+  grid-column: 2;
+}
+
+/* inside: floating label inside input */
+.input-group--label-inside {
+  position: relative;
+}
+
+.input-group--label-inside .input-wrapper {
+  position: relative;
+}
+
+.input-label--floating {
+  position: absolute;
+  left: var(--foundation-space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--foundation-text-sm);
+  color: var(--text-secondary);
+  pointer-events: none;
+  transition: all 0.2s;
+  background: transparent;
+  padding: 0 var(--foundation-space-1);
+  z-index: 10;
+  margin-bottom: 0;
+}
+
+/* Float label up when focused or has value */
+.input-group--label-inside[data-focus="true"] .input-label--floating,
+.input-group--label-inside .input:not(:placeholder-shown) + .input-label--floating {
+  top: 0;
+  transform: translateY(-50%);
+  font-size: var(--foundation-text-xs);
+  color: var(--text-primary);
+}
+
+/* Variant-specific label backgrounds for floating labels */
+.input-group--label-inside[data-focus="true"] .input-label--floating,
+.input-group--label-inside .input:not(:placeholder-shown) + .input-label--floating {
+  background: var(--surface-raised);
+}
+
+.input-group--label-inside .input--variant-flat ~ .input-label--floating {
+  background: transparent;
+}
+
+.input-group--label-inside[data-focus="true"] .input--variant-flat ~ .input-label--floating,
+.input-group--label-inside .input--variant-flat:not(:placeholder-shown) ~ .input-label--floating {
+  background: var(--surface-raised);
+}
+
+.input-group--label-inside .input--variant-bordered ~ .input-label--floating {
+  background: transparent;
+}
+
+.input-group--label-inside[data-focus="true"] .input--variant-bordered ~ .input-label--floating,
+.input-group--label-inside .input--variant-bordered:not(:placeholder-shown) ~ .input-label--floating {
+  background: var(--surface-page);
+}
+
+.input-group--label-inside .input--variant-faded ~ .input-label--floating {
+  background: transparent;
+}
+
+.input-group--label-inside[data-focus="true"] .input--variant-faded ~ .input-label--floating,
+.input-group--label-inside .input--variant-faded:not(:placeholder-shown) ~ .input-label--floating {
+  background: var(--surface-elevated);
+}
+
+.input-group--label-inside .input--variant-underlined ~ .input-label--floating {
+  background: transparent;
+}
+
+.input-group--label-inside[data-focus="true"] .input--variant-underlined ~ .input-label--floating,
+.input-group--label-inside .input--variant-underlined:not(:placeholder-shown) ~ .input-label--floating {
+  background: var(--surface-page);
+}
+
+.input-group--label-inside .input--variant-page ~ .input-label--floating {
+  background: transparent;
+}
+
+.input-group--label-inside[data-focus="true"] .input--variant-page ~ .input-label--floating,
+.input-group--label-inside .input--variant-page:not(:placeholder-shown) ~ .input-label--floating {
+  background: var(--surface-page);
+}
+
+/* ===== SEARCH INPUT STYLES ===== */
+/* Deprecated - use variant="flat" with type="search" instead */
 
 /* ===== HEADER SEARCH SPECIFIC STYLES ===== */
 .header-search {
@@ -361,21 +566,31 @@
 
 /* ===== CLEAR BUTTON ===== */
 .input-clear-button {
+  position: absolute;
+  right: var(--foundation-space-2);
+  top: 50%;
+  transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
   padding: var(--foundation-space-1);
   border-radius: var(--radius-sm);
-  color: var(--icon-input);
-  transition: var(--foundation-duration-fast) var(--foundation-easing-standard);
+  color: var(--text-secondary);
+  transition: color 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 10;
 }
 
 .input-clear-button:hover {
-  background-color: var(--surface-hover);
-  color: var(--icon-strong);
+  background-color: var(--surface-subtle);
+  color: var(--text-primary);
+}
+
+.input-clear-button:active {
+  background-color: var(--surface-raised);
+  color: var(--text-strong);
 }
 
 .input-clear-button:focus-visible {
