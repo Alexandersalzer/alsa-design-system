@@ -23,9 +23,9 @@
   line-height: var(--font-label-md-leading);
   color: var(--text-form-label);
   margin-bottom: var(--foundation-space-1);
-  display: block;        /* ← Changed from 'component' to 'block' */
-  text-align: left;      /* ← Added this line */
-  width: 100%;           /* ← Added this line */
+  display: block;
+  text-align: left;
+  width: 100%;
 }
 
 .input-label__required {
