@@ -134,11 +134,11 @@
 }
 
 .icon-btn--ghost:hover:not(:disabled) {
-  background-color: var(--surface-button-ghost-hover);
+  background-color: var(--surface-elevated);
 }
 
 .icon-btn--ghost:active:not(:disabled) {
-  background-color: var(--surface-button-ghost-active);
+  background-color: var(--surface-sunken);
 }
 
 /* DESTRUCTIVE */

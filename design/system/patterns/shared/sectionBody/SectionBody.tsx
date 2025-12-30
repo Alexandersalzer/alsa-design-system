@@ -27,18 +27,40 @@ interface SectionBodyProps {
 const SectionBody = ({ components = {}, sectionKey, patternKey, props }: SectionBodyProps) => {
   const get = componentProps(components);
   const renderIf = componentPresent(components);
-  
+
   // Get spacing from props with fallback to 'md'
   const spacing = props?.spacing || 'md';
-  
+
+  // Get hero spacing configuration
+  // Auto-detect hero sections by sectionKey prefix, or use manual isHero prop
+  const isHero = sectionKey?.startsWith('hero_') || props?.isHero || false;
+  const heroSpacingMobile = props?.heroSpacingMobile || 1.5;
+  const heroSpacingDesktop = props?.heroSpacingDesktop || 1;
+
   return (
-    <Box
-      style={{
-        maxWidth: '650px',
-        margin: '0 auto',
-        width: '100%',
-      }}
-    >
+    <>
+      {isHero && (
+        <style>{`
+          @media (max-width: 767px) {
+            .section-body--hero-${patternKey} {
+              padding-top: calc(var(--space-section) * ${heroSpacingMobile});
+            }
+          }
+          @media (min-width: 768px) {
+            .section-body--hero-${patternKey} {
+              padding-top: calc(var(--space-section) * ${heroSpacingDesktop});
+            }
+          }
+        `}</style>
+      )}
+      <Box
+        style={{
+          maxWidth: '650px',
+          margin: '0 auto',
+          width: '100%',
+        }}
+        className={isHero ? `section-body--hero-${patternKey}` : ''}
+      >
       <VStack spacing={spacing} align="center">
         
         {/* Tag - only render if exists */}
@@ -120,6 +142,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
         )}
       </VStack>
     </Box>
+    </>
   );
 };
 
