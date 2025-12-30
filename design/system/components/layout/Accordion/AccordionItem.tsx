@@ -106,7 +106,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
       contentEl.style.paddingBottom = '0';
       contentEl.style.overflow = 'hidden';
     }
-  }, [isExpanded, children]);
+  }, [isExpanded]);
 
   // Default indicator icon (chevron)
   const defaultIndicator = <ChevronDownIcon />;
