@@ -432,24 +432,14 @@
 }
 
 /* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
-/* CRITICAL: Remove ALL outlines by default */
-.textarea {
-  outline: none !important;
-}
-
 .textarea:focus {
-  outline: none !important;
+  outline: none;
 }
 
-/* ONLY show outline for keyboard navigation (Tab key) - NOT mouse clicks */
+/* Show outline ONLY when using keyboard navigation (Tab key) */
 .textarea:focus-visible {
-  outline: 2px solid var(--border-focus) !important;
-  outline-offset: 2px !important;
-}
-
-/* Force remove outline on mouse clicks */
-.textarea:focus:not(:focus-visible) {
-  outline: none !important;
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
 }
 
 /* ===== SCROLLBAR STYLING ===== */

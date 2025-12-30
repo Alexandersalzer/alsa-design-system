@@ -49,7 +49,8 @@
   font-family: var(--font-body-family);
   font-weight: var(--font-body-weight);
   color: var(--text-input);
-  transition: var(--foundation-duration-fast) var(--foundation-easing-standard);
+  transition: border-color var(--foundation-duration-fast) var(--foundation-easing-standard),
+              background-color var(--foundation-duration-fast) var(--foundation-easing-standard);
   outline: none;
 }
 
@@ -598,24 +599,14 @@
 }
 
 /* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
-/* CRITICAL: Remove ALL outlines by default */
-.input {
-  outline: none !important;
-}
-
 .input:focus {
-  outline: none !important;
+  outline: none;
 }
 
-/* ONLY show outline for keyboard navigation (Tab key) - NOT mouse clicks */
+/* Show outline ONLY when using keyboard navigation (Tab key) */
 .input:focus-visible {
-  outline: 2px solid var(--border-focus) !important;
-  outline-offset: 2px !important;
-}
-
-/* Force remove outline on mouse clicks */
-.input:focus:not(:focus-visible) {
-  outline: none !important;
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
 }
 
 /* ===== ACCESSIBILITY ===== */
