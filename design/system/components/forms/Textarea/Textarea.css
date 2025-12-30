@@ -432,20 +432,24 @@
 }
 
 /* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
-/* Always remove outline - browser handles focus-visible automatically */
+/* CRITICAL: Remove ALL outlines by default */
+.textarea {
+  outline: none !important;
+}
+
 .textarea:focus {
-  outline: none;
+  outline: none !important;
 }
 
-/* Only show outline for keyboard navigation (Tab key) */
+/* ONLY show outline for keyboard navigation (Tab key) - NOT mouse clicks */
 .textarea:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
+  outline: 2px solid var(--border-focus) !important;
+  outline-offset: 2px !important;
 }
 
-/* Explicitly remove outline on mouse/touch focus for browsers that don't support focus-visible */
+/* Force remove outline on mouse clicks */
 .textarea:focus:not(:focus-visible) {
-  outline: none;
+  outline: none !important;
 }
 
 /* ===== SCROLLBAR STYLING ===== */

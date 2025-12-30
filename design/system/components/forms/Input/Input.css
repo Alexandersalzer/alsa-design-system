@@ -598,20 +598,24 @@
 }
 
 /* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
-/* Always remove outline - browser handles focus-visible automatically */
+/* CRITICAL: Remove ALL outlines by default */
+.input {
+  outline: none !important;
+}
+
 .input:focus {
-  outline: none;
+  outline: none !important;
 }
 
-/* Only show outline for keyboard navigation (Tab key) */
+/* ONLY show outline for keyboard navigation (Tab key) - NOT mouse clicks */
 .input:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
+  outline: 2px solid var(--border-focus) !important;
+  outline-offset: 2px !important;
 }
 
-/* Explicitly remove outline on mouse/touch focus for browsers that don't support focus-visible */
+/* Force remove outline on mouse clicks */
 .input:focus:not(:focus-visible) {
-  outline: none;
+  outline: none !important;
 }
 
 /* ===== ACCESSIBILITY ===== */
