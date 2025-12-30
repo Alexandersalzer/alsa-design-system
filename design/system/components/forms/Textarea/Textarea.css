@@ -432,14 +432,20 @@
 }
 
 /* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
-/* Remove outline on mouse click, but show it for keyboard navigation */
+/* Always remove outline - browser handles focus-visible automatically */
 .textarea:focus {
   outline: none;
 }
 
+/* Only show outline for keyboard navigation (Tab key) */
 .textarea:focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
+}
+
+/* Explicitly remove outline on mouse/touch focus for browsers that don't support focus-visible */
+.textarea:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* ===== SCROLLBAR STYLING ===== */
