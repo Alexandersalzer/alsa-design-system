@@ -443,7 +443,7 @@
   font-size: var(--foundation-text-sm);
   color: var(--text-secondary);
   pointer-events: none;
-  transition: all 0.2s;
+  transition: top 0.2s, transform 0.2s, font-size 0.2s, color 0.2s, background-color 0.2s;
   background: transparent;
   padding: 0 var(--foundation-space-1);
   z-index: 10;
