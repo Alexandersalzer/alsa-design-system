@@ -184,7 +184,7 @@
 }
 
 /* ===== TEXTAREA STATES - FIXED: Single clean focus ===== */
-.textarea:hover:not(:disabled) {
+.textarea:hover:not(:disabled):not(:focus) {
   border-color: var(--border-textarea-hover);
 }
 
@@ -431,14 +431,15 @@
   }
 }
 
-/* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION) ===== */
-/* Remove the extra outline - border color change on focus is sufficient */
+/* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
+/* Remove outline on mouse click, but show it for keyboard navigation */
 .textarea:focus {
   outline: none;
 }
 
 .textarea:focus-visible {
-  outline: none;
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
 }
 
 /* ===== SCROLLBAR STYLING ===== */

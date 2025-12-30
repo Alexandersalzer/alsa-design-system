@@ -161,7 +161,7 @@
 }
 
 /* ===== INPUT STATES ===== */
-.input:hover {
+.input:hover:not(:focus) {
   border-color: var(--border-input-hover);
 }
 
@@ -598,13 +598,14 @@
 }
 
 /* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
-/* Remove the box-shadow on normal focus - only show outline for keyboard navigation */
+/* Remove outline on mouse click, but show it for keyboard navigation */
 .input:focus {
   outline: none;
 }
 
 .input:focus-visible {
-  outline: none;
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
 }
 
 /* ===== ACCESSIBILITY ===== */
