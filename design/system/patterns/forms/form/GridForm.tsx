@@ -1,27 +1,71 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, GridItem } from '../../../components/layout';
 import { Button, Input, Textarea, Icon } from '../../../components';
+import { Body } from '../../../components/Typography';
 import { componentProps, componentPresent } from '../../../core/utils/props';
 import { PatternNode } from '../../../core/types/nodes';
-import { 
+import {
   UserIcon,
   BuildingOfficeIcon,
   EnvelopeIcon,
+  PhoneIcon,
   ArrowRightIcon
 } from '@heroicons/react/24/outline';
 
+// ===== TYPES =====
+interface GridFormProps extends PatternNode {
+  websiteId?: string;
+}
+
 // ===== MAIN KJ FORM COMPONENT =====
-const GridForm = ({ components = {} }: PatternNode) => {
+const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
   const get = componentProps(components);
   const renderIf = componentPresent(components);
-  
+
+  // Form state
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
   // Handle form submission
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setErrorMessage('');
+
     const formData = new FormData(e.currentTarget);
-    console.log('Form submitted:', Object.fromEntries(formData));
+    const data = Object.fromEntries(formData);
+
+    try {
+      const response = await fetch('/api/contact/send-email-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...data,
+          websiteId: websiteId || '1',
+          sendConfirmation: true
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitStatus('success');
+        e.currentTarget.reset();
+      } else {
+        setSubmitStatus('error');
+        setErrorMessage(result.message || 'Failed to send message');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      setErrorMessage('Network error. Please try again.');
+      console.error('Form submission error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -63,6 +107,27 @@ const GridForm = ({ components = {} }: PatternNode) => {
                 </Icon>
               }
               required={get('input-business').props.required || true}
+              size="md"
+              radius="md"
+              style={{ width: '100%' }}
+            />
+          </GridItem>
+        )}
+
+        {/* Phone Field - colSpan 2 (or configurable) */}
+        {renderIf('input-phone') && (
+          <GridItem colSpan={get('input-phone').props.colSpan || 2} data-component-key={get('input-phone').key}>
+            <Input
+              type={get('input-phone').props.variant || 'tel'}
+              name={get('input-phone').props.name || 'phone'}
+              label={get('input-phone').props.label || 'Telefon'}
+              placeholder={get('input-phone').props.placeholder || '+46 70 123 45 67'}
+              leftIcon={
+                <Icon size="sm" color="secondary">
+                  <PhoneIcon />
+                </Icon>
+              }
+              required={get('input-phone').props.required || false}
               size="md"
               radius="md"
               style={{ width: '100%' }}
@@ -112,6 +177,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
               variant="accent"
               size="lg"
               radius="md"
+              disabled={isSubmitting}
               rightIcon={
                 <Icon size="sm" color="button-primary">
                   <ArrowRightIcon />
@@ -119,8 +185,20 @@ const GridForm = ({ components = {} }: PatternNode) => {
               }
               style={{ width: '100%' }}
             >
-              {get('button-submit').props.content || 'Skicka'}
+              {isSubmitting ? 'Skickar...' : (get('button-submit').props.content || 'Skicka')}
             </Button>
+
+            {/* Success/Error messages */}
+            {submitStatus === 'success' && (
+              <Body size="sm" color="success" style={{ marginTop: '8px' }}>
+                Tack! Vi har tagit emot ditt meddelande.
+              </Body>
+            )}
+            {submitStatus === 'error' && (
+              <Body size="sm" color="error" style={{ marginTop: '8px' }}>
+                {errorMessage}
+              </Body>
+            )}
           </GridItem>
         )}
 
