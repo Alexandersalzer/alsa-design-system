@@ -167,7 +167,6 @@
 
 .input:focus {
   border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px var(--surface-accent-subtle);
 }
 
 .input::placeholder {
@@ -385,7 +384,7 @@
 }
 
 .input-error:focus {
-  box-shadow: 0 0 0 3px var(--surface-error-subtle);
+  border-color: var(--border-error);
 }
 
 /* ===== HELPER/ERROR TEXT ===== */
@@ -596,6 +595,16 @@
 .input-clear-button:focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 1px;
+}
+
+/* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
+/* Remove the box-shadow on normal focus - only show outline for keyboard navigation */
+.input:focus {
+  outline: none;
+}
+
+.input:focus-visible {
+  outline: none;
 }
 
 /* ===== ACCESSIBILITY ===== */
