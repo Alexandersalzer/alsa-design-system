@@ -94,6 +94,8 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
           contentEl.style.maxHeight = height + 'px';
           contentEl.style.opacity = '1';
           contentEl.style.transform = 'translateY(0)';
+          contentEl.style.paddingTop = paddingTopValue;
+          contentEl.style.paddingBottom = paddingBottomValue;
         });
       });
     } else {
