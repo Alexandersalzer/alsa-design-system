@@ -148,9 +148,8 @@
   border-bottom-color: var(--border-strong);
 }
 
-.textarea--variant-underlined:focus {
-  border-bottom-color: var(--border-accent);
-}
+/* ⚠️ REMOVED: Variant-specific :focus rule moved to end of file for proper cascade */
+/* See line 470+ for variant focus rules that come AFTER :focus-visible section */
 
 /* ===== HERO UI NO ANIMATION ===== */
 .textarea--no-animation {
@@ -406,6 +405,22 @@
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
   border-radius: var(--radius-button, 6px);
+}
+
+/* ===== VARIANT-SPECIFIC FOCUS RULES (MUST COME AFTER :focus-visible) ===== */
+/*
+ * These variant-specific :focus rules MUST come AFTER the generic :focus-visible section
+ * to ensure they don't override the outline removal for mouse clicks
+ */
+
+/* Underlined variant focus - with keyboard outline support */
+.textarea--variant-underlined:focus {
+  border-bottom-color: var(--border-accent);
+}
+
+/* Remove outline on mouse click for underlined variant */
+.textarea--variant-underlined:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* ===== HIGH CONTRAST MODE ===== */

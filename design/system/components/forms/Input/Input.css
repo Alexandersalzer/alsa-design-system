@@ -109,9 +109,8 @@
   border-bottom-color: var(--border-strong);
 }
 
-.input--variant-underlined:focus {
-  border-bottom-color: var(--border-accent);
-}
+/* ⚠️ REMOVED: Variant-specific :focus rules moved to end of file for proper cascade */
+/* See lines 580+ for variant focus rules that come AFTER :focus-visible section */
 
 /* Page variant - uses page background for seamless integration */
 .input--variant-page {
@@ -122,11 +121,6 @@
 .input--variant-page:hover:not(:disabled) {
   background-color: var(--surface-subtle);
   border-color: var(--border-default);
-}
-
-.input--variant-page:focus {
-  background-color: var(--surface-base);
-  border-color: var(--border-accent);
 }
 
 /* ===== INPUT STATES ===== */
@@ -562,4 +556,31 @@
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
   border-radius: var(--radius-button, 6px);
+}
+
+/* ===== VARIANT-SPECIFIC FOCUS RULES (MUST COME AFTER :focus-visible) ===== */
+/*
+ * These variant-specific :focus rules MUST come AFTER the generic :focus-visible section
+ * to ensure they don't override the outline removal for mouse clicks
+ */
+
+/* Underlined variant focus - with keyboard outline support */
+.input--variant-underlined:focus {
+  border-bottom-color: var(--border-accent);
+}
+
+/* Remove outline on mouse click for underlined variant */
+.input--variant-underlined:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Page variant focus - with keyboard outline support */
+.input--variant-page:focus {
+  background-color: var(--surface-base);
+  border-color: var(--border-accent);
+}
+
+/* Remove outline on mouse click for page variant */
+.input--variant-page:focus:not(:focus-visible) {
+  outline: none;
 }
