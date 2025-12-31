@@ -5,6 +5,10 @@ export * from './system';
 export { HostProvider, useHost } from './system/patterns/host';
 export type { HostContextType } from './system/patterns/host';
 
+// Export toast provider explicitly
+export { ToastProvider, useToast } from './system/patterns/toast';
+export type { ToastContextType, Toast, ToastType } from './system/patterns/toast';
+
 // Export Applications server functionality  
 export * from './system/core/applications';
 

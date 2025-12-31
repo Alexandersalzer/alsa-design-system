@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { useConsent } from '../../patterns/cookieConsent/ConsentProvider';
+import { useToast } from '../../patterns/toast/ToastProvider';
 import { executeAction } from './actionHandlers';
 import { ActionType, ActionConfig, PixelEvent } from './types';
 
@@ -12,6 +13,7 @@ export function useAction(config: ActionConfig) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { consent } = useConsent();
+  const { showToast } = useToast();
 
   const execute = async (data: Record<string, any>) => {
     setLoading(true);
@@ -73,22 +75,6 @@ function triggerPixelEvents(events: PixelEvent[]) {
       console.error(`[Pixel] Failed to track ${provider} ${event}:`, error);
     }
   });
-}
-
-/**
- * Show toast notification
- * TODO: Replace with your actual toast component
- */
-function showToast(message: string, type: 'success' | 'error' = 'success') {
-  // Placeholder - implement with your toast library
-  console.log(`[Toast] ${type}:`, message);
-  
-  // Example with native alert (replace this)
-  if (type === 'success') {
-    alert(`✓ ${message}`);
-  } else {
-    alert(`✗ ${message}`);
-  }
 }
 
 // TypeScript declarations
