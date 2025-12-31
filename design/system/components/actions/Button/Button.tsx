@@ -5,13 +5,15 @@
 
 'use client';
 
-import React, { forwardRef, ReactNode } from 'react';
+import React, { forwardRef, ReactNode, useState } from 'react';
 import Link from 'next/link';
 import { cn } from '../../../utils/cn';
 import { Label, TypographyColor, TypographyWeight } from '../../Typography';
 import { Spinner } from '../../feedback';
 import { useHref } from '../../../hooks/useHref';
 import { Component } from '../../frames/component/Component';
+import { useAction } from '../../../core/actions/useAction';
+import type { ActionConfig } from '../../../core/actions/types';
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -26,6 +28,8 @@ export interface ButtonProps
   rightIcon?: ReactNode;
   fullWidth?: boolean;
   componentKey?: string; // För live editing identification
+  action?: ActionConfig; // För actions: contact, newsletter, booking
+  formData?: Record<string, any>; // Data to submit with action
 }
 
 export const Button = forwardRef<
@@ -47,14 +51,21 @@ export const Button = forwardRef<
       fullWidth = false,
       disabled,
       componentKey,
+      action,
+      formData,
+      onClick,
       ...props
     },
     ref
   ) => {
     const { buildHref } = useHref();
-    const isDisabled = disabled || loading;
+    const [internalLoading, setInternalLoading] = useState(false);
     
-    // Build locale-aware href
+    // Use action hook if action is provided
+    const actionHook = action ? useAction(action) : null;
+    const isDisabled = disabled || loading || internalLoading;
+    
+    // Build locale-aware href (for navigation action or direct href)
     const localeAwareHref = href ? buildHref(href) : undefined;
 
     const getTypographyProps = (
@@ -108,9 +119,26 @@ export const Button = forwardRef<
       isDisabled && 'pointer-events-none opacity-60'
     );
 
+    // Handle action execution
+    const handleActionClick = async (e: React.MouseEvent) => {
+      if (!action || !actionHook) {
+        onClick?.(e as any);
+        return;
+      }
+
+      e.preventDefault();
+      setInternalLoading(true);
+      
+      try {
+        await actionHook.execute(formData || {});
+      } finally {
+        setInternalLoading(false);
+      }
+    };
+
     const content = (
       <>
-        {loading && (
+        {(loading || internalLoading) && (
           <span className="btn-spinner" aria-hidden="true">
             <Spinner
               size={size === 'sm' ? 'xs' : 'sm'}
@@ -120,7 +148,7 @@ export const Button = forwardRef<
             />
           </span>
         )}
-        {!loading && leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
+        {!loading && !internalLoading && leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
         <Label
           size={typographyProps.size}
           weight={typographyProps.weight}
@@ -130,12 +158,12 @@ export const Button = forwardRef<
         >
           {children}
         </Label>
-        {!loading && rightIcon && <span className="flex-shrink-0">{rightIcon}</span>}
+        {!loading && !internalLoading && rightIcon && <span className="flex-shrink-0">{rightIcon}</span>}
       </>
     );
 
     // 🔗 Render as Link or <a>
-    if (localeAwareHref) {
+    if (localeAwareHref && !action) {
       const isInternal = localeAwareHref.startsWith('/');
       const linkProps = {
         className: buttonClasses,
@@ -169,7 +197,8 @@ export const Button = forwardRef<
           ref={ref as React.Ref<HTMLButtonElement>}
           className={buttonClasses}
           disabled={isDisabled}
-          aria-busy={loading}
+          aria-busy={loading || internalLoading}
+          onClick={handleActionClick}
           {...props}
         >
           {content}

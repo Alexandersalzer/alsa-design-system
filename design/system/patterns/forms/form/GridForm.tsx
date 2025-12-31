@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, GridItem } from '../../../components/layout';
 import { Button, Input, Textarea, Icon } from '../../../components';
 import { componentProps, componentPresent } from '../../../core/utils/props';
@@ -16,12 +16,21 @@ import {
 const GridForm = ({ components = {} }: PatternNode) => {
   const get = componentProps(components);
   const renderIf = componentPresent(components);
+  const [formData, setFormData] = useState<Record<string, string>>({});
   
-  // Handle form submission
+  // Handle form submission (for non-action buttons)
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    console.log('Form submitted:', Object.fromEntries(formData));
+    const data = new FormData(e.currentTarget);
+    console.log('Form submitted:', Object.fromEntries(data));
+  };
+
+  // Handle input changes to collect form data for action system
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
   return (
@@ -45,6 +54,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
               size="md"
               radius="md"
               style={{ width: '100%' }}
+              onChange={handleChange}
             />
           </GridItem>
         )}
@@ -66,6 +76,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
               size="md"
               radius="md"
               style={{ width: '100%' }}
+              onChange={handleChange}
             />
           </GridItem>
         )}
@@ -87,6 +98,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
               size="md"
               radius="md"
               style={{ width: '100%' }}
+              onChange={handleChange}
             />
           </GridItem>
         )}
@@ -100,6 +112,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
               placeholder={get('textarea-message').props.placeholder || 'Skriv ditt meddelande här...'}
               rows={get('textarea-message').props.rows || 4}
               required={get('textarea-message').props.required || true}
+              onChange={handleChange}
             />
           </GridItem>
         )}
@@ -118,6 +131,8 @@ const GridForm = ({ components = {} }: PatternNode) => {
                 </Icon>
               }
               style={{ width: '100%' }}
+              action={get('button-submit').props.action}
+              formData={formData}
             >
               {get('button-submit').props.content || 'Skicka'}
             </Button>
