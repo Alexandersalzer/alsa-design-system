@@ -351,6 +351,10 @@
  * ✅ SPOTIFY-STYLE FOCUS - Only show on keyboard navigation
  * Identical implementation to NavigationTab.css (lines 39-52)
  *
+ * CRITICAL: Order matters for CSS specificity!
+ * 1. First remove outline for mouse clicks
+ * 2. Then add it back for keyboard navigation
+ *
  * Result:
  * - Mouse click: border changes to accent, NO outline ✅
  * - Keyboard Tab: border changes to accent, SHOWS outline ✅
@@ -361,16 +365,16 @@
   border-color: var(--border-focus);
 }
 
-/* Show outline ONLY when using keyboard navigation (Tab key) */
+/* REMOVE focus outline on mouse click */
+.textarea:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Show outline ONLY when using keyboard navigation (Tab key) - must come AFTER :not() rule */
 .textarea:focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
   border-radius: var(--radius-button, 6px);
-}
-
-/* REMOVE focus outline on mouse click */
-.textarea:focus:not(:focus-visible) {
-  outline: none !important;
 }
 
 /* ===== HIGH CONTRAST MODE ===== */
