@@ -18,13 +18,6 @@ const GridForm = ({ components = {} }: PatternNode) => {
   const renderIf = componentPresent(components);
   const [formData, setFormData] = useState<Record<string, string>>({});
   
-  // Handle form submission (for non-action buttons)
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    console.log('Form submitted:', Object.fromEntries(data));
-  };
-
   // Handle input changes to collect form data for action system
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -34,7 +27,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="kj-contact-form">
+    <form className="kj-contact-form">
       <Grid columns={2} gap="md">
         
         {/* Name Field - colSpan 1 */}

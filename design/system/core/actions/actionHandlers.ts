@@ -8,12 +8,15 @@ const API_BASE_URL = 'https://devapi.blimpify-im.com/api/v1';
 
 /**
  * Execute an action (contact, newsletter, etc.)
+ * @param actionType - Type of action to execute
+ * @param data - Form data to submit
+ * @param originHost - Host header (passed from useHost hook)
  */
 export async function executeAction(
   actionType: ActionType,
-  data: Record<string, any>
+  data: Record<string, any>,
+  originHost: string
 ): Promise<ActionResponse> {
-  const originHost = typeof window !== 'undefined' ? window.location.host : '';
 
   try {
     const response = await fetch(`${API_BASE_URL}/actions/${actionType}`, {

@@ -195,6 +195,7 @@ export const Button = forwardRef<
       <Component componentKey={componentKey}>
         <button
           ref={ref as React.Ref<HTMLButtonElement>}
+          type={action ? 'button' : (props.type as any)}
           className={buttonClasses}
           disabled={isDisabled}
           aria-busy={loading || internalLoading}

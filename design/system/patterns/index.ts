@@ -5,3 +5,4 @@ export * from './forms';
 export * from './gridPatterns';
 export * from './cards';
 export * from './cookieConsent';
+export * from './host';

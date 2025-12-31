@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { useConsent } from '../../patterns/cookieConsent/ConsentProvider';
+import { useHost } from '../../patterns/host/HostProvider';
 import { executeAction } from './actionHandlers';
 import { ActionType, ActionConfig, PixelEvent } from './types';
 
@@ -12,13 +13,14 @@ export function useAction(config: ActionConfig) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { consent } = useConsent();
+  const { host } = useHost();
 
   const execute = async (data: Record<string, any>) => {
     setLoading(true);
     setError(null);
 
     try {
-      const result = await executeAction(config.type, data);
+      const result = await executeAction(config.type, data, host);
 
       if (result.success) {
         // Trigger pixel events (endast om marketing consent finns)
