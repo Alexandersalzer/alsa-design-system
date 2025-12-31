@@ -7,7 +7,7 @@ export type { HostContextType } from './system/patterns/host';
 
 // Export toast provider explicitly
 export { ToastProvider, useToast } from './system/patterns/toast';
-export type { ToastContextType, Toast, ToastType } from './system/patterns/toast';
+export type { ToastContextType, ToastNotification, ToastType } from './system/patterns/toast';
 
 // Export Applications server functionality  
 export * from './system/core/applications';
