@@ -301,7 +301,7 @@ p, .text-body {
 .text-left { text-align: left; }
 .text-center { text-align: center; }
 .text-right { text-align: right; }
-.text-justify { text-align: justify; }
+/* REMOVED: .text-justify - text-align: justify causes continuous browser layout recalculations and inspector flickering */
 
 /* ===== TEXT DECORATION ===== */
 .underline { text-decoration: underline; }
