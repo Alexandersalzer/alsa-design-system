@@ -129,43 +129,9 @@
   border-color: var(--border-accent);
 }
 
-/* ===== HERO UI COLOR VARIANTS ===== */
-.input--color-default:focus {
-  border-color: var(--border-accent);
-}
-
-.input--color-primary:focus {
-  border-color: var(--color-primary);
-}
-
-.input--color-secondary:focus {
-  border-color: var(--color-secondary);
-}
-
-.input--color-success:focus {
-  border-color: var(--border-success);
-}
-
-.input--color-warning:focus {
-  border-color: var(--border-warning);
-}
-
-.input--color-danger:focus {
-  border-color: var(--border-error);
-}
-
-/* ===== HERO UI NO ANIMATION ===== */
-.input--no-animation {
-  transition: none !important;
-}
-
 /* ===== INPUT STATES ===== */
 .input:hover:not(:focus) {
   border-color: var(--border-input-hover);
-}
-
-.input:focus {
-  border-color: var(--border-focus);
 }
 
 .input::placeholder {
@@ -512,32 +478,6 @@
   outline-offset: 1px;
 }
 
-/* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
-/*
- * ✅ SPOTIFY-STYLE FOCUS - Only show on keyboard navigation
- * Identical implementation to NavigationTab.css (lines 39-52)
- *
- * CRITICAL: Order matters for CSS specificity!
- * 1. First remove outline for mouse clicks
- * 2. Then add it back for keyboard navigation
- *
- * Result:
- * - Mouse click: border changes (line 167), NO outline ✅
- * - Keyboard Tab: border changes (line 167), SHOWS outline ✅
- */
-
-/* REMOVE focus outline on mouse click */
-.input:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* Show outline ONLY when using keyboard navigation (Tab key) - must come AFTER :not() rule */
-.input:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
-  border-radius: var(--radius-button, 6px);
-}
-
 /* ===== ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
   .input,
@@ -555,4 +495,71 @@
   .input-label {
     font-weight: var(--foundation-weight-bold);
   }
+}
+
+/* ===== HERO UI COLOR VARIANTS + FOCUS STATES ===== */
+/* 
+ * ⚠️ CRITICAL: All :focus rules MUST come before :focus-visible rules
+ * This ensures proper CSS cascade order for keyboard navigation outline
+ */
+
+/* Default focus border color */
+.input:focus {
+  border-color: var(--border-focus);
+}
+
+/* Color-specific focus borders */
+.input--color-default:focus {
+  border-color: var(--border-accent);
+}
+
+.input--color-primary:focus {
+  border-color: var(--color-primary);
+}
+
+.input--color-secondary:focus {
+  border-color: var(--color-secondary);
+}
+
+.input--color-success:focus {
+  border-color: var(--border-success);
+}
+
+.input--color-warning:focus {
+  border-color: var(--border-warning);
+}
+
+.input--color-danger:focus {
+  border-color: var(--border-error);
+}
+
+/* ===== HERO UI NO ANIMATION ===== */
+.input--no-animation {
+  transition: none !important;
+}
+
+/* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
+/*
+ * ✅ SPOTIFY-STYLE FOCUS - Only show on keyboard navigation
+ * Identical implementation to NavigationTab.css (lines 39-52)
+ *
+ * CRITICAL: These rules MUST come AFTER all :focus rules above!
+ * 1. First remove outline for mouse clicks
+ * 2. Then add it back for keyboard navigation
+ *
+ * Result:
+ * - Mouse click: border changes (lines 565-585), NO outline ✅
+ * - Keyboard Tab: border changes (lines 565-585), SHOWS outline ✅
+ */
+
+/* REMOVE focus outline on mouse click */
+.input:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Show outline ONLY when using keyboard navigation (Tab key) - must come AFTER :not() rule */
+.input:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-button, 6px);
 }

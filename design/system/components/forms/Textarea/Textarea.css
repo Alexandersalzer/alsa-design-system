@@ -152,31 +152,6 @@
   border-bottom-color: var(--border-accent);
 }
 
-/* ===== HERO UI COLOR VARIANTS ===== */
-.textarea--color-default:focus {
-  border-color: var(--border-accent);
-}
-
-.textarea--color-primary:focus {
-  border-color: var(--color-primary);
-}
-
-.textarea--color-secondary:focus {
-  border-color: var(--color-secondary);
-}
-
-.textarea--color-success:focus {
-  border-color: var(--border-success);
-}
-
-.textarea--color-warning:focus {
-  border-color: var(--border-warning);
-}
-
-.textarea--color-danger:focus {
-  border-color: var(--border-error);
-}
-
 /* ===== HERO UI NO ANIMATION ===== */
 .textarea--no-animation {
   transition: none !important;
@@ -346,49 +321,6 @@
   }
 }
 
-/* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
-/*
- * ✅ SPOTIFY-STYLE FOCUS - Only show on keyboard navigation
- * Identical implementation to NavigationTab.css (lines 39-52)
- *
- * CRITICAL: Order matters for CSS specificity!
- * 1. First remove outline for mouse clicks
- * 2. Then add it back for keyboard navigation
- *
- * Result:
- * - Mouse click: border changes to accent, NO outline ✅
- * - Keyboard Tab: border changes to accent, SHOWS outline ✅
- */
-
-/* Border color change for all focus types */
-.textarea:focus {
-  border-color: var(--border-focus);
-}
-
-/* REMOVE focus outline on mouse click */
-.textarea:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* Show outline ONLY when using keyboard navigation (Tab key) - must come AFTER :not() rule */
-.textarea:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
-  border-radius: var(--radius-button, 6px);
-}
-
-/* ===== HIGH CONTRAST MODE ===== */
-@media (prefers-contrast: high) {
-  .textarea {
-    border-width: 3px;
-  }
-
-  /* Only add outline for keyboard navigation in high contrast mode */
-  .textarea:focus-visible {
-    outline-width: 3px;
-  }
-}
-
 /* ===== SCROLLBAR STYLING ===== */
 .textarea::-webkit-scrollbar {
   width: 8px;
@@ -412,4 +344,78 @@
 .textarea {
   scrollbar-width: thin;
   scrollbar-color: var(--border-strong) var(--surface-elevated);
+}
+
+/* ===== HERO UI COLOR VARIANTS + FOCUS STATES ===== */
+/* 
+ * ⚠️ CRITICAL: All :focus rules MUST come before :focus-visible rules
+ * This ensures proper CSS cascade order for keyboard navigation outline
+ */
+
+/* Default focus border color */
+.textarea:focus {
+  border-color: var(--border-focus);
+}
+
+/* Color-specific focus borders */
+.textarea--color-default:focus {
+  border-color: var(--border-accent);
+}
+
+.textarea--color-primary:focus {
+  border-color: var(--color-primary);
+}
+
+.textarea--color-secondary:focus {
+  border-color: var(--color-secondary);
+}
+
+.textarea--color-success:focus {
+  border-color: var(--border-success);
+}
+
+.textarea--color-warning:focus {
+  border-color: var(--border-warning);
+}
+
+.textarea--color-danger:focus {
+  border-color: var(--border-error);
+}
+
+/* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
+/*
+ * ✅ SPOTIFY-STYLE FOCUS - Only show on keyboard navigation
+ * Identical implementation to NavigationTab.css (lines 39-52)
+ *
+ * CRITICAL: These rules MUST come AFTER all :focus rules above!
+ * 1. First remove outline for mouse clicks
+ * 2. Then add it back for keyboard navigation
+ *
+ * Result:
+ * - Mouse click: border changes to accent, NO outline ✅
+ * - Keyboard Tab: border changes to accent, SHOWS outline ✅
+ */
+
+/* REMOVE focus outline on mouse click */
+.textarea:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Show outline ONLY when using keyboard navigation (Tab key) - must come AFTER :not() rule */
+.textarea:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-button, 6px);
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+  .textarea {
+    border-width: 3px;
+  }
+
+  /* Only add outline for keyboard navigation in high contrast mode */
+  .textarea:focus-visible {
+    outline-width: 3px;
+  }
 }
