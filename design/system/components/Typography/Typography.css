@@ -297,11 +297,6 @@ p, .text-body {
 .font-body { font-family: var(--font-body-family); }
 .font-label { font-family: var(--font-label-family); }
 
-/* ===== TEXT ALIGNMENT ===== */
-.text-left { text-align: left; }
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-/* REMOVED: .text-justify - text-align: justify causes continuous browser layout recalculations and inspector flickering */
 
 /* ===== TEXT DECORATION ===== */
 .underline { text-decoration: underline; }
