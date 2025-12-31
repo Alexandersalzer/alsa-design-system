@@ -346,27 +346,34 @@
   }
 }
 
+/* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
+/*
+ * ✅ OPTIMIZED: Proper focus state management
+ * - :focus changes border color (all focus types) - defined in color variants above
+ * - :focus-visible adds outline ring (keyboard navigation only)
+ * This prevents "double border" effect on mouse/click focus
+ */
+.textarea:focus {
+  outline: none;
+  border-color: var(--border-focus); /* Border color change for all focus types */
+}
+
+/* Show outline ring ONLY when using keyboard navigation (Tab key) */
+.textarea:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
 /* ===== HIGH CONTRAST MODE ===== */
 @media (prefers-contrast: high) {
   .textarea {
     border-width: 3px;
   }
-  
-  .textarea:focus {
-    outline: 3px solid;
-    outline-offset: 2px;
+
+  /* Only add outline for keyboard navigation in high contrast mode */
+  .textarea:focus-visible {
+    outline-width: 3px;
   }
-}
-
-/* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
-.textarea:focus {
-  outline: none;
-}
-
-/* Show outline ONLY when using keyboard navigation (Tab key) */
-.textarea:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
 }
 
 /* ===== SCROLLBAR STYLING ===== */

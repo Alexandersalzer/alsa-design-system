@@ -513,11 +513,18 @@
 }
 
 /* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
-.input:focus {
-  outline: none;
-}
+/*
+ * ✅ FOCUS STATE MANAGEMENT:
+ * - :focus (line 167) changes border color on ALL focus types (mouse + keyboard)
+ * - :focus-visible adds outline ring ONLY for keyboard navigation (Tab key)
+ * - This prevents "double border" effect when clicking with mouse
+ *
+ * Result:
+ * - Mouse click: border changes to accent, NO outline
+ * - Keyboard Tab: border changes to accent, SHOWS outline
+ */
 
-/* Show outline ONLY when using keyboard navigation (Tab key) */
+/* Show outline ring ONLY when using keyboard navigation (Tab key) */
 .input:focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
