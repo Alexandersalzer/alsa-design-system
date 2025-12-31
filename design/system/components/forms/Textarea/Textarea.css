@@ -348,17 +348,27 @@
 
 /* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
 /*
- * ✅ OPTIMIZED: Proper focus state management
- * - :focus changes border color (all focus types) - defined in color variants above
- * - :focus-visible adds outline ring (keyboard navigation only)
- * This prevents "double border" effect on mouse/click focus
+ * ✅ CORRECT IMPLEMENTATION using :not(:focus-visible) pattern
+ *
+ * This explicitly hides the outline when NOT using keyboard navigation
+ * Works around browser inconsistencies with :focus-visible support
+ *
+ * Result:
+ * - Mouse click: border changes to accent, NO outline ✅
+ * - Keyboard Tab: border changes to accent, SHOWS outline ✅
  */
+
+/* Border color change for all focus types */
 .textarea:focus {
-  outline: none;
-  border-color: var(--border-focus); /* Border color change for all focus types */
+  border-color: var(--border-focus);
 }
 
-/* Show outline ring ONLY when using keyboard navigation (Tab key) */
+/* Hide outline when NOT using keyboard navigation (mouse clicks) */
+.textarea:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Show outline ONLY when using keyboard navigation (Tab key) */
 .textarea:focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
