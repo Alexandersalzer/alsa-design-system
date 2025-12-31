@@ -88,28 +88,60 @@ export const TabGroup: React.FC<TabGroupProps> = ({
 
   useEffect(() => {
     if (!animated || variant === 'navigation' || orientation === 'vertical') return;
-    
+
+    let rafId: number | null = null;
+    let lastWidth = 0;
+    let lastLeft = 0;
+
     const updateIndicator = () => {
-      const container = containerRef.current;
-      if (!container) return;
-      
-      const activeTab = container.querySelector(
-        '.tab--active, .active, [aria-selected="true"]'
-      ) as HTMLElement;
-      
-      if (activeTab) {
-        const containerRect = container.getBoundingClientRect();
-        const tabRect = activeTab.getBoundingClientRect();
-        setIndicatorStyle({
-          width: tabRect.width,
-          left: tabRect.left - containerRect.left
-        });
+      // Cancel any pending animation frame to debounce updates
+      if (rafId) {
+        cancelAnimationFrame(rafId);
       }
+
+      rafId = requestAnimationFrame(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const activeTab = container.querySelector(
+          '.tab--active, .active, [aria-selected="true"]'
+        ) as HTMLElement;
+
+        if (activeTab) {
+          const containerRect = container.getBoundingClientRect();
+          const tabRect = activeTab.getBoundingClientRect();
+          const newWidth = tabRect.width;
+          const newLeft = tabRect.left - containerRect.left;
+
+          // Only update state if values actually changed (prevents unnecessary re-renders)
+          if (newWidth !== lastWidth || newLeft !== lastLeft) {
+            lastWidth = newWidth;
+            lastLeft = newLeft;
+            setIndicatorStyle({
+              width: newWidth,
+              left: newLeft
+            });
+          }
+        }
+      });
     };
-    
+
     updateIndicator();
-    
-    const observer = new MutationObserver(updateIndicator);
+
+    // Use throttled MutationObserver - only observe critical changes
+    const observer = new MutationObserver((mutations) => {
+      // Only update if there's a meaningful change (class or aria-selected attribute)
+      const hasRelevantChange = mutations.some(mutation =>
+        (mutation.type === 'attributes' &&
+         (mutation.attributeName === 'class' || mutation.attributeName === 'aria-selected')) ||
+        mutation.type === 'childList'
+      );
+
+      if (hasRelevantChange) {
+        updateIndicator();
+      }
+    });
+
     if (containerRef.current) {
       observer.observe(containerRef.current, {
         childList: true,
@@ -118,8 +150,13 @@ export const TabGroup: React.FC<TabGroupProps> = ({
         attributeFilter: ['class', 'aria-selected']
       });
     }
-    
-    return () => observer.disconnect();
+
+    return () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      observer.disconnect();
+    };
   }, [animated, variant, orientation]);
 
   const enhancedChildren = React.Children.map(children, (child, index) => {
