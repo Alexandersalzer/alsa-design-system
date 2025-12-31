@@ -49,8 +49,6 @@
   font-family: var(--font-body-family);
   font-weight: var(--font-body-weight);
   color: var(--text-input);
-  transition: border-color var(--foundation-duration-fast) var(--foundation-easing-standard),
-              background-color var(--foundation-duration-fast) var(--foundation-easing-standard);
   outline: none;
 }
 
@@ -451,59 +449,59 @@
 
 /* Float label up when focused or has value */
 .input-group--label-inside[data-focus="true"] .input-label--floating,
-.input-group--label-inside .input:not(:placeholder-shown) + .input-label--floating {
+.input-group--label-inside .input:not(:placeholder-shown) ~ .input-label--floating {
   top: 0;
   transform: translateY(-50%);
   font-size: var(--foundation-text-xs);
   color: var(--text-primary);
 }
 
-/* Variant-specific label backgrounds for floating labels */
+/* Default variant background */
 .input-group--label-inside[data-focus="true"] .input-label--floating,
-.input-group--label-inside .input:not(:placeholder-shown) + .input-label--floating {
+.input-group--label-inside .input:not(:placeholder-shown) ~ .input-label--floating {
   background: var(--surface-raised);
 }
 
+/* Flat variant */
 .input-group--label-inside .input--variant-flat ~ .input-label--floating {
   background: transparent;
 }
-
 .input-group--label-inside[data-focus="true"] .input--variant-flat ~ .input-label--floating,
 .input-group--label-inside .input--variant-flat:not(:placeholder-shown) ~ .input-label--floating {
   background: var(--surface-raised);
 }
 
+/* Bordered variant */
 .input-group--label-inside .input--variant-bordered ~ .input-label--floating {
   background: transparent;
 }
-
 .input-group--label-inside[data-focus="true"] .input--variant-bordered ~ .input-label--floating,
 .input-group--label-inside .input--variant-bordered:not(:placeholder-shown) ~ .input-label--floating {
   background: var(--surface-page);
 }
 
+/* Faded variant */
 .input-group--label-inside .input--variant-faded ~ .input-label--floating {
   background: transparent;
 }
-
 .input-group--label-inside[data-focus="true"] .input--variant-faded ~ .input-label--floating,
 .input-group--label-inside .input--variant-faded:not(:placeholder-shown) ~ .input-label--floating {
   background: var(--surface-elevated);
 }
 
+/* Underlined variant */
 .input-group--label-inside .input--variant-underlined ~ .input-label--floating {
   background: transparent;
 }
-
 .input-group--label-inside[data-focus="true"] .input--variant-underlined ~ .input-label--floating,
 .input-group--label-inside .input--variant-underlined:not(:placeholder-shown) ~ .input-label--floating {
   background: var(--surface-page);
 }
 
+/* Page variant */
 .input-group--label-inside .input--variant-page ~ .input-label--floating {
   background: transparent;
 }
-
 .input-group--label-inside[data-focus="true"] .input--variant-page ~ .input-label--floating,
 .input-group--label-inside .input--variant-page:not(:placeholder-shown) ~ .input-label--floating {
   background: var(--surface-page);
@@ -575,7 +573,6 @@
   padding: var(--foundation-space-1);
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
-  transition: color 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;

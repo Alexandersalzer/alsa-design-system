@@ -62,7 +62,6 @@
   font-family: var(--font-body-family);
   font-size: var(--foundation-text-md);
   line-height: var(--foundation-leading-relaxed);
-  transition: border-color var(--duration-form-transition) var(--easing-form-transition); /* FIXED: Only border transition */
   resize: vertical;
   outline: none;
 }
@@ -336,7 +335,7 @@
 
 /* Float label up when focused or has value */
 .textarea-wrapper--label-inside[data-focus="true"] .textarea-label,
-.textarea-wrapper--label-inside .textarea:not(:placeholder-shown) + .textarea-label {
+.textarea-wrapper--label-inside .textarea:not(:placeholder-shown) ~ .textarea-label {
   top: calc(var(--foundation-space-1) * -1);
   left: var(--foundation-space-2);
   font-size: var(--foundation-text-xs);
@@ -347,45 +346,45 @@
   padding-top: calc(var(--foundation-space-5) + var(--foundation-space-2));
 }
 
-/* Variant-specific label backgrounds for floating labels */
+/* Default variant background */
 .textarea-wrapper--label-inside[data-focus="true"] .textarea-label,
-.textarea-wrapper--label-inside .textarea:not(:placeholder-shown) + .textarea-label {
+.textarea-wrapper--label-inside .textarea:not(:placeholder-shown) ~ .textarea-label {
   background: var(--surface-raised);
 }
 
-.textarea-wrapper--label-inside .textarea--variant-flat + .textarea-label {
+/* Flat variant */
+.textarea-wrapper--label-inside .textarea--variant-flat ~ .textarea-label {
   background: transparent;
 }
-
-.textarea-wrapper--label-inside[data-focus="true"] .textarea--variant-flat + .textarea-label,
-.textarea-wrapper--label-inside .textarea--variant-flat:not(:placeholder-shown) + .textarea-label {
+.textarea-wrapper--label-inside[data-focus="true"] .textarea--variant-flat ~ .textarea-label,
+.textarea-wrapper--label-inside .textarea--variant-flat:not(:placeholder-shown) ~ .textarea-label {
   background: var(--surface-raised);
 }
 
-.textarea-wrapper--label-inside .textarea--variant-bordered + .textarea-label {
+/* Bordered variant */
+.textarea-wrapper--label-inside .textarea--variant-bordered ~ .textarea-label {
   background: transparent;
 }
-
-.textarea-wrapper--label-inside[data-focus="true"] .textarea--variant-bordered + .textarea-label,
-.textarea-wrapper--label-inside .textarea--variant-bordered:not(:placeholder-shown) + .textarea-label {
+.textarea-wrapper--label-inside[data-focus="true"] .textarea--variant-bordered ~ .textarea-label,
+.textarea-wrapper--label-inside .textarea--variant-bordered:not(:placeholder-shown) ~ .textarea-label {
   background: var(--surface-page);
 }
 
-.textarea-wrapper--label-inside .textarea--variant-faded + .textarea-label {
+/* Faded variant */
+.textarea-wrapper--label-inside .textarea--variant-faded ~ .textarea-label {
   background: transparent;
 }
-
-.textarea-wrapper--label-inside[data-focus="true"] .textarea--variant-faded + .textarea-label,
-.textarea-wrapper--label-inside .textarea--variant-faded:not(:placeholder-shown) + .textarea-label {
+.textarea-wrapper--label-inside[data-focus="true"] .textarea--variant-faded ~ .textarea-label,
+.textarea-wrapper--label-inside .textarea--variant-faded:not(:placeholder-shown) ~ .textarea-label {
   background: var(--surface-elevated);
 }
 
-.textarea-wrapper--label-inside .textarea--variant-underlined + .textarea-label {
+/* Underlined variant */
+.textarea-wrapper--label-inside .textarea--variant-underlined ~ .textarea-label {
   background: transparent;
 }
-
-.textarea-wrapper--label-inside[data-focus="true"] .textarea--variant-underlined + .textarea-label,
-.textarea-wrapper--label-inside .textarea--variant-underlined:not(:placeholder-shown) + .textarea-label {
+.textarea-wrapper--label-inside[data-focus="true"] .textarea--variant-underlined ~ .textarea-label,
+.textarea-wrapper--label-inside .textarea--variant-underlined:not(:placeholder-shown) ~ .textarea-label {
   background: var(--surface-page);
 }
 
