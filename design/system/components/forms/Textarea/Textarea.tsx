@@ -11,7 +11,7 @@ export type TextareaSize = 'sm' | 'md' | 'lg';
 export type TextareaResize = 'none' | 'vertical' | 'horizontal' | 'both';
 export type TextareaVariant = 'flat' | 'bordered' | 'faded' | 'underlined';
 export type TextareaColor = 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
-export type TextareaLabelPlacement = 'inside' | 'outside' | 'outside-left';
+export type TextareaLabelPlacement = 'outside' | 'outside-left';
 
 export interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> {
   /** The label text for the textarea */

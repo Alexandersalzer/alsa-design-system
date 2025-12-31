@@ -11,7 +11,7 @@ import { Component } from '../../frames/component/Component';
 // ===== TYPES =====
 export type InputVariant = 'flat' | 'bordered' | 'faded' | 'underlined' | 'page';
 export type InputColor = 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
-export type InputLabelPlacement = 'inside' | 'outside' | 'outside-left';
+export type InputLabelPlacement = 'outside' | 'outside-left';
 
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
   label?: string;
@@ -160,8 +160,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           data-disabled={(props.disabled || false).toString()}
           data-focus={isFocused.toString()}
         >
-          {/* Label - outside placement */}
-          {label && labelPlacement !== 'inside' && (
+          {/* Label */}
+          {label && (
             <label htmlFor={inputId} className="input-label">
               {label}
               {props.required && <span className="input-label__required"> *</span>}
@@ -170,13 +170,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
         {/* Input wrapper */}
         <div className={cn('input-wrapper', `input-wrapper--${size}`)} style={{ position: 'relative' }}>
-          {/* Label - inside placement (floating) */}
-          {label && labelPlacement === 'inside' && (
-            <label htmlFor={inputId} className="input-label input-label--floating">
-              {label}
-              {props.required && <span className="input-label__required"> *</span>}
-            </label>
-          )}
 
           {/* Start Content (Prefix) */}
           {startContent && (
