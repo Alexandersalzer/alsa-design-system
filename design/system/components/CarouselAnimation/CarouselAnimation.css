@@ -81,6 +81,8 @@
   align-items: center;
   animation: CarouselScroll var(--animation-duration, 30s) linear infinite var(--animation-direction, normal);
   width: fit-content;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .Carousel-animation-item {
