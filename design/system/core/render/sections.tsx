@@ -35,7 +35,7 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
   return (
     <Section 
       key={sectionKey}
-      id={`${type}-section`}
+      id={sectionKey}
       height="auto"
       sectionKey={sectionKey}
     >
