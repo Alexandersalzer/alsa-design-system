@@ -6,6 +6,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
 import { Image } from '../../../components/media/Image';
 import { CDN_BASE_URL } from '../../../core/utils/env';
@@ -42,6 +43,7 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
     enableFadeEdges = true,
     fadeWidth = '200px',
     duplicateCount = 6,
+    href,
     onImageClick
   } = getPatternProps();
 
@@ -76,17 +78,15 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
   };
 
   // Transform images into CarouselAnimationItem format using Image component
-  const carouselItems: CarouselAnimationItem[] = images.map((image, index) => ({
-    id: `${image.src}-${index}`,
-    componentKey: image.componentKey,
-    content: (
+  const carouselItems: CarouselAnimationItem[] = images.map((image, index) => {
+    const imageContent = (
       <div
         className="carousel-image-wrapper"
         onClick={() => onImageClick?.(image)}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
         style={{
-          cursor: onImageClick ? 'pointer' : 'default',
+          cursor: href || onImageClick ? 'pointer' : 'default',
           width: '100%',
           height: '100%',
           position: 'relative',
@@ -104,11 +104,23 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
           radius={getRadiusVariant(imageBorderRadius)}
           loading={index < 3 ? "eager" : "lazy"}
           showSkeleton={true}
-          hoverZoom={!!onImageClick}
+          hoverZoom={!!(href || onImageClick)}
         />
       </div>
-    )
-  }));
+    );
+
+    return {
+      id: `${image.src}-${index}`,
+      componentKey: image.componentKey,
+      content: href ? (
+        <Link href={href} style={{ display: 'block', width: '100%', height: '100%' }}>
+          {imageContent}
+        </Link>
+      ) : (
+        imageContent
+      )
+    };
+  });
 
   return (
     <CarouselAnimation
