@@ -233,11 +233,17 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
     children
   });
 
-  // 🎯 ENHANCED: Apply color through inline style for maximum compatibility
-  const combinedStyle = {
-    ...(color && { color: getColorValue(color) }),
-    ...style
-  };
+  // 🎯 OPTIMIZED: Memoize style object to prevent unnecessary re-renders and inspector flickering
+  // Only create inline style when color is provided, otherwise use undefined to avoid React diffing
+  const combinedStyle = React.useMemo(() => {
+    if (!color && (!style || Object.keys(style).length === 0)) {
+      return undefined; // No inline styles needed - prevents inspector flickering
+    }
+    return {
+      ...(color && { color: getColorValue(color) }),
+      ...style
+    };
+  }, [color, style]);
 
   return (
     <Component as={Element} ref={ref} className={classes} style={combinedStyle} componentKey={componentKey} {...rest}>

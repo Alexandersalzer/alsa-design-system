@@ -30,7 +30,7 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
 
   // Extract pattern props with defaults
   const {
-    speed = 40,
+    speed = 30,
     direction = 'left',
     imageWidth = '280px',
     imageHeight = '450px',
@@ -39,9 +39,9 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
     backgroundColor = 'transparent',
     padding = '20px 0',
     gap = '20px',
-    enableFadeEdges = false,
-    fadeWidth = '150px',
-    duplicateCount = 4,
+    enableFadeEdges = true,
+    fadeWidth = '200px',
+    duplicateCount = 6,
     onImageClick
   } = getPatternProps();
 

@@ -46,7 +46,8 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
     cardDensity = 'standard',
     gap = 'lg',
     default: defaultValue = 'all',
-    buttons = []
+    buttons = [],
+    showFlags = true
   } = getPatternProps();
 
   const hasTabs = buttons.length > 0;
@@ -183,6 +184,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
             views={item.views}
             category={item.category}
             countryCode={item.countryCode}
+            showFlags={showFlags}
           />
         ))}
       </Grid>

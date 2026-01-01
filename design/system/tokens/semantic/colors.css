@@ -49,76 +49,79 @@
 
   /* -------------------------------------------------------------------------
      2.2 NEUTRAL SCALE (auto-inverts based on --is-dark)
+     Perfect mirror symmetry: 0↔1400, 100↔1300, ..., 700↔700 (middle)
+     15 steps total for even perceptual distribution
      ------------------------------------------------------------------------- */
   --neutral-0: color-mix(
     in srgb,
-    var(--foundation-white) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-black) calc(var(--is-dark) * 100%)
-  );
-  --neutral-50: color-mix(
-    in srgb,
-    var(--foundation-gray-50) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-gray-1200) calc(var(--is-dark) * 100%)
+    var(--foundation-gray-0) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-gray-1400) calc(var(--is-dark) * 100%)
   );
   --neutral-100: color-mix(
     in srgb,
     var(--foundation-gray-100) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-gray-1100) calc(var(--is-dark) * 100%)
+    var(--foundation-gray-1300) calc(var(--is-dark) * 100%)
   );
   --neutral-200: color-mix(
     in srgb,
     var(--foundation-gray-200) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-gray-1000) calc(var(--is-dark) * 100%)
+    var(--foundation-gray-1200) calc(var(--is-dark) * 100%)
   );
   --neutral-300: color-mix(
     in srgb,
     var(--foundation-gray-300) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-gray-900) calc(var(--is-dark) * 100%)
+    var(--foundation-gray-1100) calc(var(--is-dark) * 100%)
   );
   --neutral-400: color-mix(
     in srgb,
     var(--foundation-gray-400) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-gray-800) calc(var(--is-dark) * 100%)
+    var(--foundation-gray-1000) calc(var(--is-dark) * 100%)
   );
   --neutral-500: color-mix(
     in srgb,
     var(--foundation-gray-500) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-gray-700) calc(var(--is-dark) * 100%)
+    var(--foundation-gray-900) calc(var(--is-dark) * 100%)
   );
   --neutral-600: color-mix(
     in srgb,
     var(--foundation-gray-600) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-gray-600) calc(var(--is-dark) * 100%)
+    var(--foundation-gray-800) calc(var(--is-dark) * 100%)
   );
-  --neutral-700: color-mix(
-    in srgb,
-    var(--foundation-gray-700) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-gray-500) calc(var(--is-dark) * 100%)
-  );
+  --neutral-700: var(--foundation-gray-700);  /* TRUE MIDDLE - stays same in both modes */
   --neutral-800: color-mix(
     in srgb,
     var(--foundation-gray-800) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-gray-400) calc(var(--is-dark) * 100%)
+    var(--foundation-gray-600) calc(var(--is-dark) * 100%)
   );
   --neutral-900: color-mix(
     in srgb,
     var(--foundation-gray-900) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-gray-300) calc(var(--is-dark) * 100%)
+    var(--foundation-gray-500) calc(var(--is-dark) * 100%)
   );
   --neutral-1000: color-mix(
     in srgb,
     var(--foundation-gray-1000) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-gray-200) calc(var(--is-dark) * 100%)
+    var(--foundation-gray-400) calc(var(--is-dark) * 100%)
   );
   --neutral-1100: color-mix(
     in srgb,
     var(--foundation-gray-1100) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-gray-100) calc(var(--is-dark) * 100%)
+    var(--foundation-gray-300) calc(var(--is-dark) * 100%)
   );
   --neutral-1200: color-mix(
     in srgb,
     var(--foundation-gray-1200) calc((1 - var(--is-dark)) * 100%),
-    var(--foundation-gray-50) calc(var(--is-dark) * 100%)
+    var(--foundation-gray-200) calc(var(--is-dark) * 100%)
+  );
+  --neutral-1300: color-mix(
+    in srgb,
+    var(--foundation-gray-1300) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-gray-100) calc(var(--is-dark) * 100%)
+  );
+  --neutral-1400: color-mix(
+    in srgb,
+    var(--foundation-gray-1400) calc((1 - var(--is-dark)) * 100%),
+    var(--foundation-gray-0) calc(var(--is-dark) * 100%)
   );
 
   /* -------------------------------------------------------------------------
@@ -267,24 +270,22 @@
 
   /* ----- Page & Layout ----- */
   --surface-page: var(--neutral-0);
-  --surface-page-alt: var(--neutral-50);
+  --surface-page-alt: var(--neutral-100);
 
   /* ----- Elevation Layers ----- */
   --surface-base: var(--neutral-0);
-  --surface-raised: var(--neutral-50);
-  --surface-elevated: var(--neutral-100);
-
-  /* NEW: depth surfaces */
-  --surface-sunken: var(--neutral-200); /* subtle inset / muted content blocks */
-  --surface-deep: var(--neutral-300);   /* strong inset / structural elements */
+  --surface-raised: var(--neutral-100);
+  --surface-elevated: var(--neutral-200);
+  --surface-sunken: var(--neutral-300); /* subtle inset / muted content blocks */
+  --surface-deep: var(--neutral-400);   /* strong inset / structural elements */
 
   /* optional */
   --surface-floating: var(--neutral-0);
 
   /* ----- Interactive States ----- */
-  --surface-hover: var(--neutral-100);
-  --surface-active: var(--neutral-200);
-  --surface-selected: var(--neutral-200);
+  --surface-hover: var(--neutral-200);
+  --surface-active: var(--neutral-300);
+  --surface-selected: var(--neutral-300);
   --surface-pressed: var(--neutral-300);
   --surface-disabled: var(--neutral-100);
 
@@ -295,7 +296,7 @@
 
   /* ----- Text Hierarchy ----- */
   --text-default: var(--neutral-1000);
-  --text-strong: var(--neutral-1200);
+  --text-strong: var(--neutral-1400);  /* Darkest value for maximum contrast */
   --text-muted: var(--neutral-900);
   --text-subtle: var(--neutral-700);
   --text-disabled: var(--neutral-600);
@@ -550,7 +551,7 @@
   --interactive-secondary: var(--neutral-100);
   --interactive-secondary-hover: var(--neutral-200);
   --interactive-secondary-active: var(--neutral-300);
-  --interactive-secondary-disabled: var(--neutral-50);
+  --interactive-secondary-disabled: var(--neutral-100);
 
   /* ----- Tertiary (ghost/transparent) ----- */
   --interactive-tertiary: transparent;
@@ -841,9 +842,6 @@
 
   /* Neutral/Surface shortcuts */
   --surface-subtle: var(--surface-raised);
-
-  /* Text intensity shortcuts */
-  --text-strong: var(--text-strong);
   --text-medium: var(--text-muted);
   --text-light: var(--text-subtle);
 

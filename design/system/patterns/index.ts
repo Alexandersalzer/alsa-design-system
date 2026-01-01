@@ -7,3 +7,4 @@ export * from './cards';
 export * from './cookieConsent';
 export * from './host';
 export * from './toast';
+export * from './navbar';

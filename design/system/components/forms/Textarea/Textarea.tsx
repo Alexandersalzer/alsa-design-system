@@ -5,9 +5,13 @@
 
 import React, { forwardRef, useId, useState } from 'react';
 import { cn } from '../../../utils/cn';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 export type TextareaSize = 'sm' | 'md' | 'lg';
 export type TextareaResize = 'none' | 'vertical' | 'horizontal' | 'both';
+export type TextareaVariant = 'flat' | 'bordered' | 'faded' | 'underlined';
+export type TextareaColor = 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+export type TextareaLabelPlacement = 'outside' | 'outside-left';
 
 export interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> {
   /** The label text for the textarea */
@@ -38,6 +42,24 @@ export interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTex
   wrapperClassName?: string;
   /** Additional CSS classes for the textarea */
   textareaClassName?: string;
+  /** Variant style (HeroUI) */
+  variant?: TextareaVariant;
+  /** Color theme (HeroUI) */
+  color?: TextareaColor;
+  /** Label placement (HeroUI) */
+  labelPlacement?: TextareaLabelPlacement;
+  /** Show clear button when has value (HeroUI) */
+  isClearable?: boolean;
+  /** Invalid state (HeroUI) */
+  isInvalid?: boolean;
+  /** Disable animation (HeroUI) */
+  disableAnimation?: boolean;
+  /** Callback when clear button clicked (HeroUI) */
+  onClear?: () => void;
+  /** Full width (HeroUI) */
+  fullWidth?: boolean;
+  /** Callback when value changes (HeroUI) */
+  onValueChange?: (value: string) => void;
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
@@ -61,6 +83,16 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   value,
   defaultValue,
   onChange,
+  // HeroUI props
+  variant = 'flat',
+  color = 'default',
+  labelPlacement = 'outside',
+  isClearable = false,
+  isInvalid = false,
+  disableAnimation = false,
+  onClear,
+  fullWidth = true,
+  onValueChange,
   ...props
 }, ref) => {
   const generatedId = useId();
@@ -73,6 +105,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   const [characterCount, setCharacterCount] = useState(
     value?.toString().length || defaultValue?.toString().length || 0
   );
+
+  // Focus state for data attributes
+  const [isFocused, setIsFocused] = useState(false);
 
   // Auto-resize functionality
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
@@ -99,18 +134,37 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   // Handle input changes
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
-    
+
     // Update character count
     setCharacterCount(newValue.length);
-    
+
     // Auto-resize if enabled
     if (autoResize) {
       adjustHeight();
     }
-    
+
     // Call parent onChange
     if (onChange) {
       onChange(event);
+    }
+
+    // Call HeroUI onValueChange
+    if (onValueChange) {
+      onValueChange(newValue);
+    }
+  };
+
+  // Handle clear button
+  const handleClear = () => {
+    setCharacterCount(0);
+
+    if (onClear) {
+      onClear();
+    }
+
+    // If using controlled component, call onValueChange
+    if (onValueChange) {
+      onValueChange('');
     }
   };
 
@@ -125,20 +179,26 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   const wrapperClasses = cn(
     'textarea-wrapper',
     `textarea-wrapper--${size}`,
+    `textarea-wrapper--variant-${variant}`,
+    `textarea-wrapper--label-${labelPlacement}`,
     disabled && 'textarea-wrapper--disabled',
-    error && 'textarea-wrapper--error',
+    (error || isInvalid) && 'textarea-wrapper--error',
     success && 'textarea-wrapper--success',
+    !fullWidth && 'textarea-wrapper--not-full-width',
     wrapperClassName
   );
 
   const textareaClasses = cn(
     'textarea',
     `textarea--${size}`,
+    `textarea--variant-${variant}`,
+    `textarea--color-${color}`,
     `textarea--resize-${resize}`,
-    error && 'textarea--error',
+    (error || isInvalid) && 'textarea--error',
     success && 'textarea--success',
     disabled && 'textarea--disabled',
     autoResize && 'textarea--auto-resize',
+    disableAnimation && 'textarea--no-animation',
     textareaClassName,
     className
   );
@@ -148,7 +208,14 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   const showCount = showCharacterCount || maxLength;
 
   return (
-    <div className={wrapperClasses}>
+    <div
+      className={wrapperClasses}
+      data-invalid={(isInvalid || !!error).toString()}
+      data-required={required.toString()}
+      data-readonly={(props.readOnly || false).toString()}
+      data-disabled={disabled.toString()}
+      data-focus={isFocused.toString()}
+    >
       {label && (
         <label
           htmlFor={id}
@@ -184,8 +251,16 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
           rows={autoResize ? minRows : props.rows || minRows}
           className={textareaClasses}
           aria-describedby={cn(descriptionId, errorId, successId)}
-          aria-invalid={error ? 'true' : 'false'}
+          aria-invalid={(isInvalid || !!error) ? 'true' : 'false'}
           onChange={handleChange}
+          onFocus={(e) => {
+            setIsFocused(true);
+            if (props.onFocus) props.onFocus(e);
+          }}
+          onBlur={(e) => {
+            setIsFocused(false);
+            if (props.onBlur) props.onBlur(e);
+          }}
           style={{
             resize: autoResize ? 'none' : resize,
             minHeight: autoResize ? `${minRows * 1.5}em` : undefined,
@@ -194,6 +269,19 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
           }}
           {...props}
         />
+
+        {/* Clear button */}
+        {isClearable && (value || defaultValue) && (
+          <button
+            type="button"
+            className="textarea-clear-button"
+            onClick={handleClear}
+            aria-label="Clear textarea"
+            tabIndex={-1}
+          >
+            <XMarkIcon style={{ width: '16px', height: '16px' }} />
+          </button>
+        )}
 
         {showCount && (
           <div 

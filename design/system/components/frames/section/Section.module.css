@@ -52,6 +52,13 @@
 .heightFull   { min-height: 100vh; justify-content: center; }
 .heightScreen { height: 100vh; justify-content: center; }
 
+/* ===== OVERFLOW VARIANTS ===== */
+.overflowVisible { overflow: visible; }
+.overflowHidden  { overflow: hidden; }
+.overflowAuto    { overflow: auto; }
+.overflowScroll  { overflow: scroll; }
+.overflowClip    { overflow: clip; }
+
 /* ===== EDITING MODE HOVER EFFECT ===== */
 .editingMode {
   transition: border 0.2s ease-in-out;

@@ -1,0 +1,156 @@
+/* ==============================================
+   THEME TONES - VIBRANT
+   High-saturation grays with bold color undertones
+   Perfect for colorful, expressive interfaces
+   6 tones: Aqua Vibrant, Ink Vibrant, Frost Vibrant, Violet Vibrant, Sage Vibrant, Ember Vibrant
+   ============================================== */
+
+/* ========== AQUA VIBRANT (BOLD BLUE-GRAY) ========== */
+:root[data-theme-tone="aqua-vibrant"] {
+  --foundation-white: #f6f8f8;
+  --foundation-black: #111517;
+
+  /* Exponent 1.8 perceptual curve */
+  /* HSL: H=200°, S=15%, L: 97% → 8% */
+  /* Character: Bold, tech-forward, dynamic */
+  --foundation-gray-0:    #f6f8f8;  /* L=97.000% */
+  --foundation-gray-100:  #f4f6f7;  /* L=96.230% */
+  --foundation-gray-200:  #eef1f3;  /* L=94.324% */
+  --foundation-gray-300:  #e5e9ec;  /* L=91.435% */
+  --foundation-gray-400:  #d9dfe3;  /* L=87.635% */
+  --foundation-gray-500:  #cbd3d9;  /* L=82.980% */
+  --foundation-gray-600:  #bac5cc;  /* L=77.508% */
+  --foundation-gray-700:  #a7b5be;  /* L=71.254% */
+  --foundation-gray-800:  #92a3ae;  /* L=64.246% */
+  --foundation-gray-900:  #7b8f9c;  /* L=56.509% */
+  --foundation-gray-1000: #637986;  /* L=48.065% */
+  --foundation-gray-1100: #4a616c;  /* L=38.935% */
+  --foundation-gray-1200: #30474f;  /* L=29.138% */
+  --foundation-gray-1300: #1e2c31;  /* L=18.692% */
+  --foundation-gray-1400: #111517;  /* L=8.000% */
+}
+
+/* ========== INK VIBRANT (BOLD NAVY-GRAY) ========== */
+:root[data-theme-tone="ink-vibrant"] {
+  --foundation-white: #f6f7f8;
+  --foundation-black: #111315;
+
+  /* Exponent 1.8 perceptual curve */
+  /* HSL: H=220°, S=12%, L: 97% → 8% */
+  /* Character: Corporate authority, deep professionalism */
+  --foundation-gray-0:    #f6f7f8;  /* L=97.000% */
+  --foundation-gray-100:  #f4f5f6;  /* L=96.230% */
+  --foundation-gray-200:  #eef0f2;  /* L=94.324% */
+  --foundation-gray-300:  #e5e7eb;  /* L=91.435% */
+  --foundation-gray-400:  #d9dce2;  /* L=87.635% */
+  --foundation-gray-500:  #cbcfd6;  /* L=82.980% */
+  --foundation-gray-600:  #bac0c9;  /* L=77.508% */
+  --foundation-gray-700:  #a7afba;  /* L=71.254% */
+  --foundation-gray-800:  #929ca9;  /* L=64.246% */
+  --foundation-gray-900:  #7b8796;  /* L=56.509% */
+  --foundation-gray-1000: #637080;  /* L=48.065% */
+  --foundation-gray-1100: #4a5766;  /* L=38.935% */
+  --foundation-gray-1200: #303d49;  /* L=29.138% */
+  --foundation-gray-1300: #1e262e;  /* L=18.692% */
+  --foundation-gray-1400: #111315;  /* L=8.000% */
+}
+
+/* ========== FROST VIBRANT (BOLD CYAN-GRAY) ========== */
+:root[data-theme-tone="frost-vibrant"] {
+  --foundation-white: #f6f8f8;
+  --foundation-black: #111617;
+
+  /* Exponent 1.8 perceptual curve */
+  /* HSL: H=190°, S=10%, L: 97% → 8% */
+  /* Character: Crisp, ultra-modern, energetic */
+  --foundation-gray-0:    #f6f8f8;  /* L=97.000% */
+  --foundation-gray-100:  #f4f6f6;  /* L=96.230% */
+  --foundation-gray-200:  #eef1f2;  /* L=94.324% */
+  --foundation-gray-300:  #e5eaeb;  /* L=91.435% */
+  --foundation-gray-400:  #d9e0e2;  /* L=87.635% */
+  --foundation-gray-500:  #cbd4d7;  /* L=82.980% */
+  --foundation-gray-600:  #bac6ca;  /* L=77.508% */
+  --foundation-gray-700:  #a7b6bb;  /* L=71.254% */
+  --foundation-gray-800:  #92a4aa;  /* L=64.246% */
+  --foundation-gray-900:  #7b9099;  /* L=56.509% */
+  --foundation-gray-1000: #637a83;  /* L=48.065% */
+  --foundation-gray-1100: #4a6269;  /* L=38.935% */
+  --foundation-gray-1200: #30474d;  /* L=29.138% */
+  --foundation-gray-1300: #1e2c2f;  /* L=18.692% */
+  --foundation-gray-1400: #111617;  /* L=8.000% */
+}
+
+/* ========== VIOLET VIBRANT (BOLD PURPLE-GRAY) ========== */
+:root[data-theme-tone="violet-vibrant"] {
+  --foundation-white: #f7f7f8;
+  --foundation-black: #141317;
+
+  /* Exponent 1.8 perceptual curve */
+  /* HSL: H=270°, S=10%, L: 97% → 8% */
+  /* Character: Creative power, artistic sophistication */
+  --foundation-gray-0:    #f7f7f8;  /* L=97.000% */
+  --foundation-gray-100:  #f5f5f6;  /* L=96.230% */
+  --foundation-gray-200:  #eff0f1;  /* L=94.324% */
+  --foundation-gray-300:  #e7e7ea;  /* L=91.435% */
+  --foundation-gray-400:  #dddce1;  /* L=87.635% */
+  --foundation-gray-500:  #d0cfd5;  /* L=82.980% */
+  --foundation-gray-600:  #c0c0c7;  /* L=77.508% */
+  --foundation-gray-700:  #afaeb7;  /* L=71.254% */
+  --foundation-gray-800:  #9c9ba6;  /* L=64.246% */
+  --foundation-gray-900:  #878693;  /* L=56.509% */
+  --foundation-gray-1000: #706f7c;  /* L=48.065% */
+  --foundation-gray-1100: #575662;  /* L=38.935% */
+  --function-gray-1200: #3d3c46;  /* L=29.138% */
+  --foundation-gray-1300: #26252b;  /* L=18.692% */
+  --foundation-gray-1400: #141317;  /* L=8.000% */
+}
+
+/* ========== SAGE VIBRANT (BOLD GREEN-GRAY) ========== */
+:root[data-theme-tone="sage-vibrant"] {
+  --foundation-white: #f7f8f7;
+  --foundation-black: #131713;
+
+  /* Exponent 1.8 perceptual curve */
+  /* HSL: H=120°, S=8%, L: 97% → 8% */
+  /* Character: Natural vitality, organic energy */
+  --foundation-gray-0:    #f7f8f7;  /* L=97.000% */
+  --foundation-gray-100:  #f5f6f5;  /* L=96.230% */
+  --foundation-gray-200:  #eff1ef;  /* L=94.324% */
+  --foundation-gray-300:  #e7eae7;  /* L=91.435% */
+  --foundation-gray-400:  #dde0dd;  /* L=87.635% */
+  --foundation-gray-500:  #d0d4d0;  /* L=82.980% */
+  --foundation-gray-600:  #c0c6c0;  /* L=77.508% */
+  --foundation-gray-700:  #aeb6ae;  /* L=71.254% */
+  --foundation-gray-800:  #9ba49b;  /* L=64.246% */
+  --foundation-gray-900:  #869086;  /* L=56.509% */
+  --foundation-gray-1000: #6f7a6f;  /* L=48.065% */
+  --foundation-gray-1100: #566256;  /* L=38.935% */
+  --foundation-gray-1200: #3c473c;  /* L=29.138% */
+  --foundation-gray-1300: #252c25;  /* L=18.692% */
+  --foundation-gray-1400: #131713;  /* L=8.000% */
+}
+
+/* ========== EMBER VIBRANT (BOLD WARM GRAY) ========== */
+:root[data-theme-tone="ember-vibrant"] {
+  --foundation-white: #f8f7f6;
+  --foundation-black: #171511;
+
+  /* Exponent 1.8 perceptual curve */
+  /* HSL: H=20°, S=12%, L: 97% → 8% */
+  /* Character: Energetic warmth, bold invitation */
+  --foundation-gray-0:    #f8f7f6;  /* L=97.000% */
+  --foundation-gray-100:  #f6f5f4;  /* L=96.230% */
+  --foundation-gray-200:  #f1efee;  /* L=94.324% */
+  --foundation-gray-300:  #eae7e5;  /* L=91.435% */
+  --foundation-gray-400:  #e1dcd9;  /* L=87.635% */
+  --foundation-gray-500:  #d5cfcb;  /* L=82.980% */
+  --foundation-gray-600:  #c7bfba;  /* L=77.508% */
+  --foundation-gray-700:  #b7ada7;  /* L=71.254% */
+  --foundation-gray-800:  #a59992;  /* L=64.246% */
+  --foundation-gray-900:  #91837b;  /* L=56.509% */
+  --foundation-gray-1000: #7a6d63;  /* L=48.065% */
+  --foundation-gray-1100: #61544a;  /* L=38.935% */
+  --foundation-gray-1200: #463a30;  /* L=29.138% */
+  --foundation-gray-1300: #2b241e;  /* L=18.692% */
+  --foundation-gray-1400: #171511;  /* L=8.000% */
+}
