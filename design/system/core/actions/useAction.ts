@@ -10,6 +10,7 @@ import { useToast } from '../../patterns/toast/ToastProvider';
 import { useHref } from '../../hooks/useHref';
 import { executeAction } from './actionHandlers';
 import { ActionType, ActionConfig, PixelEvent, NavigationActionConfig } from './types';
+import { mapUniversalEvents } from './pixelEventMapping';
 
 export function useAction(config: ActionConfig) {
   const [loading, setLoading] = useState(false);
@@ -46,6 +47,12 @@ export function useAction(config: ActionConfig) {
         } else {
           router.push(localeAwareHref);
         }
+        
+        // Trigger pixel events from settings (if any)
+        if (navConfig.settings.pixelEvents && consent.marketing) {
+          triggerPixelEvents(navConfig.settings.pixelEvents);
+        }
+        
         return { success: true };
       }
       
@@ -55,6 +62,12 @@ export function useAction(config: ActionConfig) {
       } else {
         window.location.href = localeAwareHref;
       }
+      
+      // Trigger pixel events from settings (if any)
+      if (navConfig.settings.pixelEvents && consent.marketing) {
+        triggerPixelEvents(navConfig.settings.pixelEvents);
+      }
+      
       return { success: true };
     }
 
@@ -66,10 +79,16 @@ export function useAction(config: ActionConfig) {
       const result = await executeAction(config.type, data);
 
       if (result.success) {
+        // Merge pixel events from settings and backend response
+        const allPixelEvents = [
+          ...(config.settings?.pixelEvents || []),
+          ...(result.pixelEvents || [])
+        ];
+        
         // Trigger pixel events (endast om marketing consent finns)
-        if (result.pixelEvents && consent.marketing) {
-          triggerPixelEvents(result.pixelEvents);
-        } else if (result.pixelEvents && !consent.marketing) {
+        if (allPixelEvents.length > 0 && consent.marketing) {
+          triggerPixelEvents(allPixelEvents);
+        } else if (allPixelEvents.length > 0 && !consent.marketing) {
           console.log('[Action] Pixel events skipped - no marketing consent');
         }
 
@@ -100,24 +119,45 @@ export function useAction(config: ActionConfig) {
 
 /**
  * Trigger pixel events (Meta, Google, etc.)
+ * Supports both universal events and provider-specific events
  */
 function triggerPixelEvents(events: PixelEvent[]) {
-  events.forEach(({ provider, event }) => {
+  events.forEach(({ provider, event, parameters }) => {
     try {
-      if (provider === 'meta' && typeof window.fbq !== 'undefined') {
-        window.fbq('track', event);
-        console.log(`[Pixel] Meta: ${event}`);
-      } else if (provider === 'google' && typeof window.gtag !== 'undefined') {
-        window.gtag('event', event);
-        console.log(`[Pixel] Google: ${event}`);
-      } else if (provider === 'tiktok' && typeof window.ttq !== 'undefined') {
-        window.ttq.track(event);
-        console.log(`[Pixel] TikTok: ${event}`);
+      // If provider is specified, track for that provider only
+      if (provider) {
+        trackProviderEvent(provider, event, parameters);
+      } else {
+        // Universal event - map to all providers
+        const mapped = mapUniversalEvents([{ event, parameters }]);
+        mapped.forEach(({ provider, event, parameters }) => {
+          trackProviderEvent(provider, event, parameters);
+        });
       }
     } catch (error) {
-      console.error(`[Pixel] Failed to track ${provider} ${event}:`, error);
+      console.error(`[Pixel] Failed to track event ${event}:`, error);
     }
   });
+}
+
+/**
+ * Track event for a specific provider
+ */
+function trackProviderEvent(
+  provider: 'meta' | 'google' | 'tiktok',
+  event: string,
+  parameters?: Record<string, any>
+) {
+  if (provider === 'meta' && typeof window.fbq !== 'undefined') {
+    window.fbq('track', event, parameters);
+    console.log(`[Pixel] Meta: ${event}`, parameters || '');
+  } else if (provider === 'google' && typeof window.gtag !== 'undefined') {
+    window.gtag('event', event, parameters);
+    console.log(`[Pixel] Google: ${event}`, parameters || '');
+  } else if (provider === 'tiktok' && typeof window.ttq !== 'undefined') {
+    window.ttq.track(event, parameters);
+    console.log(`[Pixel] TikTok: ${event}`, parameters || '');
+  }
 }
 
 // TypeScript declarations

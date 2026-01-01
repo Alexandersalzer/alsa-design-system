@@ -11,8 +11,9 @@ export type ActionType =
   | 'external-link';
 
 export interface PixelEvent {
-  provider: 'meta' | 'google' | 'tiktok';
-  event: string;
+  provider?: 'meta' | 'google' | 'tiktok'; // Optional för universal events
+  event: string; // Universal event name (e.g., 'lead') eller provider-specific
+  parameters?: Record<string, any>;
 }
 
 export interface ActionResponse {
@@ -35,6 +36,7 @@ export interface NavigationActionConfig extends BaseActionConfig {
     href: string;
     openInNewTab?: boolean;
     scrollToTop?: boolean;
+    pixelEvents?: PixelEvent[];
   };
 }
 
@@ -43,6 +45,7 @@ export interface ContactActionConfig extends BaseActionConfig {
   settings?: {
     redirectAfterSubmit?: string;
     clearFormOnSuccess?: boolean;
+    pixelEvents?: PixelEvent[];
   };
 }
 
@@ -52,6 +55,7 @@ export interface NewsletterActionConfig extends BaseActionConfig {
     listId?: string;
     doubleOptIn?: boolean;
     tags?: string[];
+    pixelEvents?: PixelEvent[];
   };
 }
 
@@ -61,6 +65,7 @@ export interface BookingActionConfig extends BaseActionConfig {
     serviceId?: string;
     duration?: number;
     redirectToCalendar?: boolean;
+    pixelEvents?: PixelEvent[];
   };
 }
 
@@ -69,6 +74,7 @@ export interface DownloadActionConfig extends BaseActionConfig {
   settings: {
     fileUrl: string;
     trackConversion?: boolean;
+    pixelEvents?: PixelEvent[];
   };
 }
 
@@ -77,7 +83,7 @@ export interface ExternalLinkActionConfig extends BaseActionConfig {
   settings: {
     url: string;
     trackClick?: boolean;
-    pixelEvent?: string;
+    pixelEvents?: PixelEvent[];
   };
 }
 
