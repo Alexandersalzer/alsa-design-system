@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { Toast as ToastComponent } from '../../components/feedback/Toast';
 
 export type ToastType = 'success' | 'error' | 'info' | 'warning';
 
@@ -74,114 +75,19 @@ function ToastContainer({ toasts, onClose }: ToastContainerProps) {
       display: 'flex',
       flexDirection: 'column',
       gap: '12px',
-      pointerEvents: 'none',
     }}>
       {toasts.map((toast) => (
-        <ToastItem key={toast.id} toast={toast} onClose={onClose} />
+        <ToastComponent
+          key={toast.id}
+          variant={toast.type}
+          surface="vibrant"
+          onClose={() => onClose(toast.id)}
+          autoDismiss={false}
+          showClose={true}
+        >
+          {toast.message}
+        </ToastComponent>
       ))}
-    </div>
-  );
-}
-
-interface ToastItemProps {
-  toast: Toast;
-  onClose: (id: string) => void;
-}
-
-function ToastItem({ toast, onClose }: ToastItemProps) {
-  const [isExiting, setIsExiting] = React.useState(false);
-  const [translateX, setTranslateX] = React.useState(400);
-  const [opacity, setOpacity] = React.useState(0);
-
-  React.useEffect(() => {
-    // Slide in animation
-    requestAnimationFrame(() => {
-      setTranslateX(0);
-      setOpacity(1);
-    });
-  }, []);
-
-  const handleClose = () => {
-    setIsExiting(true);
-    setTranslateX(400);
-    setOpacity(0);
-    setTimeout(() => onClose(toast.id), 300);
-  };
-
-  const getIcon = () => {
-    switch (toast.type) {
-      case 'success': return '✓';
-      case 'error': return '✗';
-      case 'warning': return '⚠';
-      case 'info': return 'ⓘ';
-      default: return '✓';
-    }
-  };
-
-  const getColors = () => {
-    switch (toast.type) {
-      case 'success': return { bg: '#10b981', border: '#059669' };
-      case 'error': return { bg: '#ef4444', border: '#dc2626' };
-      case 'warning': return { bg: '#f59e0b', border: '#d97706' };
-      case 'info': return { bg: '#3b82f6', border: '#2563eb' };
-      default: return { bg: '#10b981', border: '#059669' };
-    }
-  };
-
-  const colors = getColors();
-
-  return (
-    <div 
-      style={{
-        background: colors.bg,
-        color: 'white',
-        padding: '16px 20px',
-        borderRadius: '8px',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '12px',
-        minWidth: '300px',
-        maxWidth: '500px',
-        pointerEvents: 'auto',
-        cursor: 'pointer',
-        border: `1px solid ${colors.border}`,
-        transform: `translateX(${translateX}px)`,
-        opacity,
-        transition: 'all 0.3s ease-out',
-      }}
-      onClick={handleClose}
-    >
-      <div style={{ fontSize: '20px', fontWeight: 'bold', flexShrink: 0 }}>
-        {getIcon()}
-      </div>
-      <div style={{ flex: 1, fontSize: '14px', lineHeight: '1.4', fontWeight: 500 }}>
-        {toast.message}
-      </div>
-      <button 
-        style={{
-          background: 'transparent',
-          border: 'none',
-          color: 'white',
-          fontSize: '24px',
-          lineHeight: 1,
-          cursor: 'pointer',
-          padding: 0,
-          width: '24px',
-          height: '24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          opacity: 0.8,
-          flexShrink: 0,
-        }}
-        onClick={handleClose}
-        aria-label="Close"
-        onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
-        onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
-      >
-        ×
-      </button>
     </div>
   );
 }
