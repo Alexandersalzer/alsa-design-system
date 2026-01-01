@@ -102,7 +102,7 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
           height="100%"
           objectFit="cover"
           radius={getRadiusVariant(imageBorderRadius)}
-          loading="lazy"
+          loading={index < 3 ? "eager" : "lazy"}
           showSkeleton={true}
           hoverZoom={!!onImageClick}
         />

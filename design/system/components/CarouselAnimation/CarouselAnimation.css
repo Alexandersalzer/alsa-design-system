@@ -119,7 +119,20 @@
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
 
+  /* ===== PREVENT FIRST ITEM FLASH ===== */
+  /* Force all items to stay visible during animation loop */
+  opacity: 1;
+  visibility: visible;
+  will-change: transform;
+
   /*filter: invert(var(--is-dark, 0));*/
+}
+
+/* Ensure first item never flashes */
+.Carousel-animation-item:first-child {
+  /* Keep first item always rendered */
+  contain: layout style paint;
+  content-visibility: auto;
 }
 
 /* Special styling for Carousel images */
