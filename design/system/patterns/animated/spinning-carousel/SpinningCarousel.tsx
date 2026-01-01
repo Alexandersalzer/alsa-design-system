@@ -80,7 +80,7 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
     const imageContent = (
       <div
         className="carousel-image-wrapper"
-        onClick={() => onImageClick?.(image)}
+        {...(!href && onImageClick ? { onClick: () => onImageClick(image) } : {})}
         style={{
           cursor: href || onImageClick ? 'pointer' : 'default',
           width: '100%',
@@ -107,7 +107,7 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
       id: `${image.src}-${index}`,
       componentKey: image.componentKey,
       content: href ? (
-        <Link href={href} style={{ display: 'block', width: '100%', height: '100%' }}>
+        <Link href={href} style={{ display: 'block', width: '100%', height: '100%', textDecoration: 'none' }}>
           {imageContent}
         </Link>
       ) : (

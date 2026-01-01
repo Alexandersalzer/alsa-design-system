@@ -106,6 +106,11 @@
   image-rendering: crisp-edges;
 }
 
+/* Pause animation on hover */
+.Carousel-animation-track:hover {
+  animation-play-state: paused;
+}
+
 .Carousel-animation-item {
   flex-shrink: 0;
   display: flex;
