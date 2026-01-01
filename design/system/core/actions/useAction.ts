@@ -4,18 +4,61 @@
  */
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useConsent } from '../../patterns/cookieConsent/ConsentProvider';
 import { useToast } from '../../patterns/toast/ToastProvider';
+import { useHref } from '../../hooks/useHref';
 import { executeAction } from './actionHandlers';
-import { ActionType, ActionConfig, PixelEvent } from './types';
+import { ActionType, ActionConfig, PixelEvent, NavigationActionConfig } from './types';
 
 export function useAction(config: ActionConfig) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { consent } = useConsent();
   const { showToast } = useToast();
+  const router = useRouter();
+  const { buildHref } = useHref();
 
   const execute = async (data: Record<string, any>) => {
+    // Handle navigation action (client-side only, no API call)
+    if (config.type === 'navigation') {
+      const navConfig = config as NavigationActionConfig;
+      const href = navConfig.settings.href;
+      
+      if (!href) {
+        console.error('[Action] Navigation action missing href');
+        return { success: false, error: 'Navigation href missing' };
+      }
+
+      const localeAwareHref = buildHref(href);
+      
+      // Scroll to top if specified
+      if (navConfig.settings.scrollToTop !== false) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Internal navigation (Next.js)
+      if (localeAwareHref.startsWith('/') || localeAwareHref.startsWith('#')) {
+        if (localeAwareHref.startsWith('#')) {
+          // Anchor link
+          const element = document.querySelector(localeAwareHref);
+          element?.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          router.push(localeAwareHref);
+        }
+        return { success: true };
+      }
+      
+      // External navigation
+      if (navConfig.settings.openInNewTab) {
+        window.open(localeAwareHref, '_blank', 'noopener,noreferrer');
+      } else {
+        window.location.href = localeAwareHref;
+      }
+      return { success: true };
+    }
+
+    // Handle other actions (contact, newsletter, booking) via API
     setLoading(true);
     setError(null);
 
