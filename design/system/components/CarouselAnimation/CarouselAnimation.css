@@ -91,6 +91,7 @@
   align-items: center;
   animation: CarouselScroll var(--animation-duration, 30s) linear infinite var(--animation-direction, normal);
   width: fit-content;
+  transition: opacity 0.3s ease;
 
   /* ===== GPU ACCELERATION & SMOOTH RENDERING ===== */
   transform: translateZ(0);
@@ -106,9 +107,9 @@
   image-rendering: crisp-edges;
 }
 
-/* Pause animation on hover */
+/* Opacity change on hover */
 .Carousel-animation-track:hover {
-  animation-play-state: paused;
+  opacity: 0.7;
 }
 
 .Carousel-animation-item {
