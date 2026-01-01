@@ -67,20 +67,11 @@ function ToastContainer({ toasts, onClose }: ToastContainerProps) {
   if (toasts.length === 0) return null;
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: '20px',
-      right: '20px',
-      zIndex: 9999,
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '12px',
-    }}>
+    <div className="toast-container toast-container--top-right">
       {toasts.map((toast) => (
         <ToastComponent
           key={toast.id}
           variant={toast.type}
-          surface="vibrant"
           onClose={() => onClose(toast.id)}
           autoDismiss={false}
           showClose={true}
