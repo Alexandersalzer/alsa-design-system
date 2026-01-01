@@ -5,7 +5,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
 import { Image } from '../../../components/media/Image';
@@ -26,8 +26,6 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
   const getPatternProps = patternProps(patternNode);
   const mapComponentsOfType = useMapComponents(components);
   const componentOrder = getPatternOrder(patternNode);
-
-  const [isHovering, setIsHovering] = useState(false);
 
   // Extract pattern props with defaults
   const {
@@ -83,15 +81,11 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
       <div
         className="carousel-image-wrapper"
         onClick={() => onImageClick?.(image)}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
         style={{
           cursor: href || onImageClick ? 'pointer' : 'default',
           width: '100%',
           height: '100%',
-          position: 'relative',
-          opacity: isHovering ? 0.7 : 1,
-          transition: 'opacity 0.3s ease'
+          position: 'relative'
         }}
       >
         <Image
@@ -104,7 +98,7 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
           radius={getRadiusVariant(imageBorderRadius)}
           loading={index < 3 ? "eager" : "lazy"}
           showSkeleton={true}
-          hoverZoom={!!(href || onImageClick)}
+          hoverZoom={false}
         />
       </div>
     );
