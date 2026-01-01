@@ -10,15 +10,58 @@ import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Video } from '../../../components/media/Video';
 import { Image } from '../../../components/media/Image';
-import { GB, SE } from 'country-flag-icons/react/3x2';
+import {
+  GB, SE, DE, DK, US, NO, FI, FR, ES, IT, NL, BE, AT, CH, PL,
+  CZ, RO, GR, PT, IE, HR, LT, LV, EE, SK, SI, BG, HU, LU, MT, CY
+} from 'country-flag-icons/react/3x2';
 import './PortfolioCard.css';
+
+// ===== FLAG MAPPING =====
+const FLAG_COMPONENTS: Record<string, any> = {
+  // Nordic countries
+  'se': SE, 'sweden': SE, 'sv': SE,
+  'no': NO, 'norway': NO,
+  'dk': DK, 'denmark': DK, 'da': DK,
+  'fi': FI, 'finland': FI,
+
+  // Major European countries
+  'de': DE, 'germany': DE, 'german': DE,
+  'gb': GB, 'uk': GB, 'united-kingdom': GB, 'england': GB, 'en': GB,
+  'us': US, 'usa': US, 'america': US, 'united-states': US,
+  'fr': FR, 'france': FR, 'french': FR,
+  'es': ES, 'spain': ES, 'spanish': ES,
+  'it': IT, 'italy': IT, 'italian': IT,
+  'nl': NL, 'netherlands': NL, 'dutch': NL,
+  'be': BE, 'belgium': BE,
+  'at': AT, 'austria': AT,
+  'ch': CH, 'switzerland': CH,
+  'pl': PL, 'poland': PL, 'polish': PL,
+
+  // Other European countries
+  'cz': CZ, 'czech': CZ, 'czech-republic': CZ,
+  'ro': RO, 'romania': RO, 'romanian': RO,
+  'gr': GR, 'greece': GR, 'greek': GR,
+  'pt': PT, 'portugal': PT, 'portuguese': PT,
+  'ie': IE, 'ireland': IE, 'irish': IE,
+  'hr': HR, 'croatia': HR, 'croatian': HR,
+  'lt': LT, 'lithuania': LT, 'lithuanian': LT,
+  'lv': LV, 'latvia': LV, 'latvian': LV,
+  'ee': EE, 'estonia': EE, 'estonian': EE,
+  'sk': SK, 'slovakia': SK, 'slovak': SK,
+  'si': SI, 'slovenia': SI, 'slovenian': SI,
+  'bg': BG, 'bulgaria': BG, 'bulgarian': BG,
+  'hu': HU, 'hungary': HU, 'hungarian': HU,
+  'lu': LU, 'luxembourg': LU,
+  'mt': MT, 'malta': MT, 'maltese': MT,
+  'cy': CY, 'cyprus': CY,
+};
 
 // ===== TYPE DEFINITIONS =====
 
 export interface PortfolioCardProps {
   className?: string;
   componentKey?: string;
-  
+
   // Content
   category?: string | string[]; // Array or single string
   title: string;
@@ -27,7 +70,8 @@ export interface PortfolioCardProps {
   mediaType: 'image' | 'video'; // Required - determines media type
   mediaSrc: string; // Required - single source for either video or image
   mediaAlt?: string; // Alt text for accessibility
-  countryCode?: string; // Country code for flag (e.g., 'uk', 'sv')
+  countryCode?: string; // Country code for flag (e.g., 'se', 'us', 'de', 'dk', 'no', etc.)
+  showFlags?: boolean; // Toggle flag visibility (default: true)
   
   // Styling options
   variant?: 'default' | 'elevated' | 'outlined';
@@ -69,7 +113,8 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   mediaSrc,
   mediaAlt,
   countryCode,
-  
+  showFlags = true,
+
   // Card styling defaults
   variant = 'default',
   padding = 'md',
@@ -97,6 +142,9 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   const isVideo = mediaType === 'video';
   const isImage = mediaType === 'image';
 
+  // Get the flag component dynamically
+  const FlagComponent = countryCode ? FLAG_COMPONENTS[countryCode.toLowerCase()] : null;
+
   return (
     <Card
       className={`portfolio-card ${className || ''}`}
@@ -107,13 +155,12 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
     >
       <VStack spacing={spacing}>
         <div className="portfolio-media-container">
-          {countryCode && (
+          {showFlags && countryCode && FlagComponent && (
             <div className="portfolio-flag">
-              {countryCode.toLowerCase() === 'uk' && <GB />}
-              {countryCode.toLowerCase() === 'sv' && <SE />}
+              <FlagComponent />
             </div>
           )}
-          
+
           {isVideo && (
             <Video
               src={mediaSrc}
