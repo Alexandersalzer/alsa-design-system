@@ -41,7 +41,7 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
     gap = '20px',
     enableFadeEdges = false,
     fadeWidth = '150px',
-    duplicateCount = 4,
+    duplicateCount = 6,
     onImageClick
   } = getPatternProps();
 
