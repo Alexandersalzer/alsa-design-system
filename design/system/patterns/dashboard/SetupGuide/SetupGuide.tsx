@@ -230,6 +230,28 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
           </VStack>
         )}
 
+        {/* Kom igång-knapp för första steget */}
+        {sortedSteps.length > 0 && !sortedSteps[0].completed && (
+          <Box className="setup-guide__cta-container">
+            <Button
+              variant="accent"
+              size="xl"
+              onClick={() => handleNavigate(sortedSteps[0].href)}
+              className="setup-guide__cta-button"
+            >
+              <HStack spacing="sm" align="center">
+                <Icon size="lg">
+                  {(() => {
+                    const FirstStepIcon = sortedSteps[0].icon;
+                    return <FirstStepIcon />;
+                  })()}
+                </Icon>
+                <span>Kom igång: {sortedSteps[0].title}</span>
+              </HStack>
+            </Button>
+          </Box>
+        )}
+
         {/* Steps - Using Listbox for better accessibility */}
         <Listbox
           variant="separated"
@@ -237,8 +259,9 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
           spacing="md"
           role="list"
         >
-          {sortedSteps.map((step) => {
+          {sortedSteps.map((step, index) => {
             const IconComponent = step.icon;
+            const isFirstIncomplete = index === 0 && !step.completed;
 
             return (
               <ListboxItem
@@ -247,6 +270,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                 onClick={!step.completed ? () => handleNavigate(step.href) : undefined}
                 disabled={step.completed}
                 aria-label={`${step.title}: ${step.description}`}
+                className={isFirstIncomplete ? 'setup-guide__first-step' : ''}
                 leading={
                   <Icon
                     size="lg"
@@ -262,14 +286,14 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                     </Tag>
                   ) : (
                     <Button
-                      variant="accent"
-                      size="sm"
+                      variant={isFirstIncomplete ? 'accent' : 'secondary'}
+                      size={isFirstIncomplete ? 'md' : 'sm'}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleNavigate(step.href);
                       }}
                     >
-                      Gå till
+                      {isFirstIncomplete ? 'Kom igång' : 'Gå till'}
                     </Button>
                   )
                 }
