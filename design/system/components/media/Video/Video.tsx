@@ -58,22 +58,27 @@ export const Video: React.FC<VideoProps> = ({
   const [hasError, setHasError] = useState(false);
   const [clientPosterUrl, setClientPosterUrl] = useState<string>(''); // Client-side fallback
   const [isMetadataLoaded, setIsMetadataLoaded] = useState(false);
+  const [posterLoadFailed, setPosterLoadFailed] = useState(false); // Track if server poster 404'd
 
-  // Determine which poster to use (server thumbnail takes priority)
-  const effectivePosterUrl = poster || clientPosterUrl;
+  // Determine which poster to use (server thumbnail takes priority, unless it failed to load)
+  const effectivePosterUrl = (poster && !posterLoadFailed) ? poster : clientPosterUrl;
 
-  // Debug logging
+  // Check if server-provided poster actually exists
   useEffect(() => {
-    console.log('[Video Debug]', {
-      src,
-      poster,
-      clientPosterUrl,
-      effectivePosterUrl,
-      isIntersecting,
-      isMetadataLoaded,
-      hasError
-    });
-  }, [src, poster, clientPosterUrl, effectivePosterUrl, isIntersecting, isMetadataLoaded, hasError]);
+    if (!poster || !isIntersecting) return;
+
+    const img = new Image();
+    img.onload = () => {
+      // Poster loaded successfully
+      setIsMetadataLoaded(true);
+      setPosterLoadFailed(false);
+    };
+    img.onerror = () => {
+      // Poster failed to load (404) - trigger client-side extraction
+      setPosterLoadFailed(true);
+    };
+    img.src = poster;
+  }, [poster, isIntersecting]);
 
   // Lazy loading with IntersectionObserver
   useEffect(() => {
@@ -105,35 +110,27 @@ export const Video: React.FC<VideoProps> = ({
     };
   }, [priority, loading, rootMargin]);
 
-  // Extract first frame as thumbnail when metadata loads (ONLY if no server thumbnail provided)
+  // Extract first frame as thumbnail when metadata loads (fallback when no server thumbnail or it failed)
   useEffect(() => {
-    console.log('[Video Extraction] useEffect triggered', { poster, isIntersecting, hasVideoRef: !!videoRef.current, clientPosterUrl });
-
-    // Skip client-side extraction if we have a server thumbnail
-    if (poster) {
-      console.log('[Video Extraction] Skipping - server thumbnail exists');
-      setIsMetadataLoaded(true);
+    // Skip client-side extraction if we have a working server thumbnail
+    if (poster && !posterLoadFailed) {
       return;
     }
 
+    // Only extract if intersecting, have video ref, and haven't already extracted
     if (!isIntersecting || !videoRef.current || clientPosterUrl) {
-      console.log('[Video Extraction] Skipping - conditions not met', { isIntersecting, hasVideoRef: !!videoRef.current, clientPosterUrl });
       return;
     }
 
-    console.log('[Video Extraction] Setting up extraction listeners');
     const video = videoRef.current;
 
     const handleLoadedMetadata = () => {
-      console.log('[Video Extraction] Metadata loaded, seeking to 0.1s');
       setIsMetadataLoaded(true);
-
       // Seek to first frame to ensure it's visible
       video.currentTime = 0.1;
     };
 
     const handleSeeked = () => {
-      console.log('[Video Extraction] Seeked, extracting frame');
       // Create canvas to extract first frame
       const canvas = document.createElement('canvas');
       canvas.width = video.videoWidth;
@@ -143,10 +140,7 @@ export const Video: React.FC<VideoProps> = ({
       if (ctx) {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-        console.log('[Video Extraction] Thumbnail extracted successfully');
         setClientPosterUrl(dataUrl);
-      } else {
-        console.error('[Video Extraction] Failed to get canvas context');
       }
     };
 
@@ -157,7 +151,7 @@ export const Video: React.FC<VideoProps> = ({
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
       video.removeEventListener('seeked', handleSeeked);
     };
-  }, [isIntersecting, clientPosterUrl, poster]);
+  }, [isIntersecting, clientPosterUrl, poster, posterLoadFailed]);
 
   // Handle video error
   const handleVideoError = () => {
