@@ -152,6 +152,50 @@ async function fetchLocalization(externalId) {
 }
 
 /**
+ * Fetch SEO and business configuration from API
+ */
+async function fetchSEOConfig(externalId) {
+  try {
+    console.log(`   Fetching from: ${API_BASE_URL}/api/public/user/${externalId}/seo-config`);
+    
+    const response = await fetch(
+      `${API_BASE_URL}/api/public/user/${externalId}/seo-config`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': 'Blimpify-Config-Generator/1.0'
+        }
+      }
+    );
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        console.warn('   ⚠️  User not found in API');
+      } else if (response.status === 429) {
+        console.warn('   ⚠️  Rate limit exceeded');
+      } else {
+        console.warn(`   ⚠️  API responded with status ${response.status}`);
+      }
+      return { seo: null, business: null };
+    }
+    
+    const data = await response.json();
+    
+    if (!data.success) {
+      console.warn('   ⚠️  API returned unsuccessful response');
+      return { seo: null, business: null };
+    }
+    
+    return { seo: data.seo, business: data.business };
+    
+  } catch (error) {
+    console.error(`   ❌ Error fetching SEO config: ${error.message}`);
+    console.warn('   ⚠️  Continuing without SEO configuration');
+    return { seo: null, business: null };
+  }
+}
+
+/**
  * Detect available locales from public/content directory
  */
 function detectAvailableLocales() {
@@ -219,6 +263,7 @@ async function generateConfig() {
   const activeApplications = await fetchActiveApplications(EXTERNAL_ID);
   const marketingPixels = await fetchMarketingPixels(EXTERNAL_ID);
   const localization = await fetchLocalization(EXTERNAL_ID);
+  const seoConfig = await fetchSEOConfig(EXTERNAL_ID);
   
   // Detect available locales from content directory
   const availableLocales = detectAvailableLocales();
@@ -244,6 +289,18 @@ async function generateConfig() {
   
   console.log(`   ✅ Default locale: ${localization.default_iso_code}`);
   console.log(`   ✅ Available locales: ${availableLocales.join(', ')}`);
+  
+  if (seoConfig.seo) {
+    console.log(`   ✅ SEO configured: ${seoConfig.seo.siteName || 'No site name'}`);
+  } else {
+    console.log('   ℹ️  No SEO configuration found');
+  }
+  
+  if (seoConfig.business) {
+    console.log(`   ✅ Business info: ${seoConfig.business.legalName || 'No legal name'}`);
+  } else {
+    console.log('   ℹ️  No business information found');
+  }
   console.log('');
   
   // Build config object
@@ -263,6 +320,15 @@ async function generateConfig() {
       pixels: marketingPixels
     }
   };
+  
+  // Add SEO and business config if available
+  if (seoConfig.seo) {
+    config.seo = seoConfig.seo;
+  }
+  
+  if (seoConfig.business) {
+    config.business = seoConfig.business;
+  }
   
   // Write config.json
   const projectRoot = process.cwd();
@@ -297,6 +363,8 @@ async function generateConfig() {
     console.log(hasContent ? '   ✅ Content pages: Available' : '   ℹ️  Content pages: None');
     console.log(activeApplications.length > 0 ? `   ✅ Application pages: ${activeApplications.length}` : '   ℹ️  Application pages: None');
     console.log(marketingPixels.length > 0 ? `   ✅ Marketing pixels: ${marketingPixels.length}` : '   ℹ️  Marketing pixels: None');
+    console.log(seoConfig.seo ? '   ✅ SEO configuration: Yes' : '   ℹ️  SEO configuration: None');
+    console.log(seoConfig.business ? '   ✅ Business info: Yes' : '   ℹ️  Business info: None');
     console.log('');
   }
   

@@ -23,5 +23,6 @@ export * from './content';
 
 export * from './utils';
 export * from './design';
+export * from './localization';
 export type { DesignTokens } from './types';
 
