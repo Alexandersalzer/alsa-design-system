@@ -52,6 +52,7 @@ const CONTEXT_PRESETS = {
   'hero': {
     preload: 'metadata' as const,
     loading: 'eager' as const,
+    rootMargin: '0px',
     controls: false,
     autoPlay: false,
     muted: true,
@@ -71,6 +72,7 @@ const CONTEXT_PRESETS = {
   'modal': {
     preload: 'auto' as const,
     loading: 'eager' as const,
+    rootMargin: '0px',
     controls: true,
     autoPlay: true,
     muted: false,
@@ -119,16 +121,16 @@ export const Video: React.FC<VideoProps> = ({
   const [isMetadataLoaded, setIsMetadataLoaded] = useState(false);
 
   // Merge context preset with manual overrides
-  const preset = context ? CONTEXT_PRESETS[context] : {};
+  const preset = context ? CONTEXT_PRESETS[context] : undefined;
 
-  const finalLoading = loading ?? preset.loading ?? 'lazy';
-  const finalRootMargin = rootMargin ?? preset.rootMargin ?? '800px';
-  const finalPreload = preload ?? preset.preload ?? 'metadata';
-  const finalControls = controls ?? preset.controls ?? true;
-  const finalPlaysInline = playsInline ?? preset.playsInline ?? true;
-  const finalAutoPlay = autoPlay ?? preset.autoPlay ?? false;
-  const finalMuted = muted ?? preset.muted ?? false;
-  const finalLoop = loop ?? preset.loop ?? false;
+  const finalLoading = loading ?? preset?.loading ?? 'lazy';
+  const finalRootMargin = rootMargin ?? preset?.rootMargin ?? '800px';
+  const finalPreload = preload ?? preset?.preload ?? 'metadata';
+  const finalControls = controls ?? preset?.controls ?? true;
+  const finalPlaysInline = playsInline ?? preset?.playsInline ?? true;
+  const finalAutoPlay = autoPlay ?? preset?.autoPlay ?? false;
+  const finalMuted = muted ?? preset?.muted ?? false;
+  const finalLoop = loop ?? preset?.loop ?? false;
 
   const [isIntersecting, setIsIntersecting] = useState(priority);
 
