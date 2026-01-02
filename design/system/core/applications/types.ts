@@ -8,6 +8,21 @@ export interface PixelConfig {
   pixel_id: string;
 }
 
+export interface FaviconFiles {
+  ico: string;
+  png16: string;
+  png32: string;
+  appleTouchIcon: string;
+  androidChrome192: string;
+  androidChrome512: string;
+  webmanifest: string;
+}
+
+export interface FaviconConfig {
+  basePath: string;
+  files: FaviconFiles;
+}
+
 export interface SEOConfig {
   siteUrl?: string;
   siteName?: string;
@@ -16,7 +31,7 @@ export interface SEOConfig {
   defaultDescription?: string;
   defaultOgImage?: string;
   twitterHandle?: string;
-  favicon?: string;
+  favicon?: FaviconConfig;
 }
 
 export interface BusinessAddress {
