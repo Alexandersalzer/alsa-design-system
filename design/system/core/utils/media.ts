@@ -158,3 +158,46 @@ export function getFileExtension(url: string | undefined): string | undefined {
 
   return parts.pop()?.toLowerCase();
 }
+
+/**
+ * Check if a thumbnail exists in S3 using a lightweight HEAD request
+ * Uses in-memory cache to avoid repeated checks
+ *
+ * @param thumbnailUrl - Full URL to thumbnail
+ * @returns Promise that resolves to true if thumbnail exists, false otherwise
+ *
+ * @example
+ * ```ts
+ * const exists = await checkThumbnailExists('https://cdn.com/user-123/thumbnails/video.jpg');
+ * if (exists) {
+ *   // Use server thumbnail
+ * } else {
+ *   // Fall back to client-side extraction
+ * }
+ * ```
+ */
+const thumbnailExistenceCache = new Map<string, boolean>();
+
+export async function checkThumbnailExists(thumbnailUrl: string | undefined): Promise<boolean> {
+  if (!thumbnailUrl) return false;
+
+  // Check cache first (instant!)
+  if (thumbnailExistenceCache.has(thumbnailUrl)) {
+    return thumbnailExistenceCache.get(thumbnailUrl)!;
+  }
+
+  try {
+    // Use HEAD request (fetches only headers, not full file - very fast!)
+    const response = await fetch(thumbnailUrl, { method: 'HEAD' });
+    const exists = response.ok;
+
+    // Cache result forever (thumbnails are immutable due to cache headers)
+    thumbnailExistenceCache.set(thumbnailUrl, exists);
+
+    return exists;
+  } catch (error) {
+    // Network error or CORS issue - assume doesn't exist
+    thumbnailExistenceCache.set(thumbnailUrl, false);
+    return false;
+  }
+}

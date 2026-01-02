@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { Grid } from '../../../components';
 import { PortfolioCard } from '../../cards/PortfolioCard/PortfolioCard';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
-import { getVideoThumbnailUrl } from '../../../core/utils/media';
+import { getVideoThumbnailUrl, checkThumbnailExists } from '../../../core/utils/media';
 
 // Tabs
 import { TabGroup } from '../../../components';
@@ -54,6 +54,9 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
 
   const hasTabs = buttons.length > 0;
   const [active, setActive] = useState(defaultValue);
+
+  // Track verified thumbnail URLs (only includes URLs that exist in S3)
+  const [verifiedThumbnails, setVerifiedThumbnails] = useState<Record<string, string | undefined>>({});
 
   // =====================================================
   // NORMALIZE PORTFOLIO ITEMS (FULLY TYPED)
@@ -125,6 +128,37 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
   }, [active, allItems, hasTabs]);
 
   // =====================================================
+  // CHECK THUMBNAIL EXISTENCE (Avoid 404s!)
+  // =====================================================
+
+  useEffect(() => {
+    const checkThumbnails = async () => {
+      const checks: Promise<void>[] = [];
+
+      for (const item of allItems) {
+        // Only check videos that have a derived posterSrc
+        if (item.mediaType === 'video' && item.posterSrc) {
+          // Skip if already checked
+          if (verifiedThumbnails[item.key] !== undefined) continue;
+
+          const checkPromise = checkThumbnailExists(item.posterSrc).then(exists => {
+            setVerifiedThumbnails(prev => ({
+              ...prev,
+              [item.key]: exists ? item.posterSrc : undefined
+            }));
+          });
+
+          checks.push(checkPromise);
+        }
+      }
+
+      await Promise.all(checks);
+    };
+
+    checkThumbnails();
+  }, [allItems, verifiedThumbnails]);
+
+  // =====================================================
   // EMPTY STATE — KEEP TABS VISIBLE
   // =====================================================
 
@@ -179,22 +213,29 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
       )}
 
       <Grid cardDensity={cardDensity} gap={gap} className="portfolio-grid">
-        {visibleItems.map((item) => (
-          <PortfolioCard
-            key={item.key}
-            componentKey={item.componentKey}
-            title={item.title}
-            mediaSrc={item.mediaSrc}
-            mediaAlt={item.mediaAlt}
-            mediaType={item.mediaType}
-            posterSrc={item.posterSrc}
-            description={item.description}
-            views={item.views}
-            category={item.category}
-            countryCode={item.countryCode}
-            showFlags={showFlags}
-          />
-        ))}
+        {visibleItems.map((item) => {
+          // Use verified thumbnail if available, otherwise undefined (triggers client-side fallback)
+          const effectivePosterSrc = item.mediaType === 'video'
+            ? verifiedThumbnails[item.key]
+            : undefined;
+
+          return (
+            <PortfolioCard
+              key={item.key}
+              componentKey={item.componentKey}
+              title={item.title}
+              mediaSrc={item.mediaSrc}
+              mediaAlt={item.mediaAlt}
+              mediaType={item.mediaType}
+              posterSrc={effectivePosterSrc}
+              description={item.description}
+              views={item.views}
+              category={item.category}
+              countryCode={item.countryCode}
+              showFlags={showFlags}
+            />
+          );
+        })}
       </Grid>
     </div>
   );
