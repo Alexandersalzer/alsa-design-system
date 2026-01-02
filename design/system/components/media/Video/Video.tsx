@@ -46,15 +46,17 @@ export const Video: React.FC<VideoProps> = ({
   rootMargin = '800px',
   className,
   style,
+  controls = true,
+  playsInline = true,
+  preload = 'metadata',
   ...props
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isIntersecting, setIsIntersecting] = useState(priority);
   const [hasError, setHasError] = useState(false);
   const [posterUrl, setPosterUrl] = useState<string>('');
   const [isMetadataLoaded, setIsMetadataLoaded] = useState(false);
-
-  const [isIntersecting, setIsIntersecting] = useState(priority);
 
   // Lazy loading with IntersectionObserver
   useEffect(() => {
@@ -74,7 +76,7 @@ export const Video: React.FC<VideoProps> = ({
         });
       },
       {
-        rootMargin: rootMargin,
+        rootMargin,
         threshold: 0.01
       }
     );
@@ -86,7 +88,7 @@ export const Video: React.FC<VideoProps> = ({
     };
   }, [priority, loading, rootMargin]);
 
-  // Extract first frame as poster when video metadata loads
+  // Extract first frame as thumbnail when metadata loads
   useEffect(() => {
     if (!isIntersecting || !videoRef.current || posterUrl) return;
 
@@ -94,10 +96,13 @@ export const Video: React.FC<VideoProps> = ({
 
     const handleLoadedMetadata = () => {
       setIsMetadataLoaded(true);
+
+      // Seek to first frame to ensure it's visible
       video.currentTime = 0.1;
     };
 
     const handleSeeked = () => {
+      // Create canvas to extract first frame
       const canvas = document.createElement('canvas');
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
@@ -153,14 +158,14 @@ export const Video: React.FC<VideoProps> = ({
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* Show placeholder until poster loads */}
-      {shouldLoad && !posterUrl && !hasError && (
+      {/* Show placeholder until metadata loads */}
+      {shouldLoad && !isMetadataLoaded && !hasError && (
         <div className="video-placeholder">
           <div className="video-placeholder-spinner" />
         </div>
       )}
 
-      {/* Video element */}
+      {/* Video element - paused by default, loads first frame */}
       {shouldLoad && !hasError && (
         <video
           ref={videoRef}
@@ -168,10 +173,13 @@ export const Video: React.FC<VideoProps> = ({
           src={src}
           poster={posterUrl || undefined}
           onError={handleVideoError}
-          controls
-          playsInline
-          preload="metadata"
-          style={{ opacity: posterUrl ? 1 : 0 }}
+          controls={controls}
+          playsInline={playsInline}
+          preload={preload}
+          autoPlay={false}
+          muted={false}
+          loop={false}
+          style={{ opacity: isMetadataLoaded ? 1 : 0 }}
           {...(typeof window !== 'undefined' && !window.location.hostname.includes('localhost')
             ? { crossOrigin: 'anonymous' as const }
             : {})}
