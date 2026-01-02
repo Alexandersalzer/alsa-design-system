@@ -70,7 +70,6 @@ export interface PortfolioCardProps {
   mediaType: 'image' | 'video'; // Required - determines media type
   mediaSrc: string; // Required - single source for either video or image
   mediaAlt?: string; // Alt text for accessibility
-  posterSrc?: string; // Poster/thumbnail image for videos
   countryCode?: string; // Country code for flag (e.g., 'se', 'us', 'de', 'dk', 'no', etc.)
   showFlags?: boolean; // Toggle flag visibility (default: true)
   
@@ -113,7 +112,6 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   mediaType,
   mediaSrc,
   mediaAlt,
-  posterSrc,
   countryCode,
   showFlags = true,
 

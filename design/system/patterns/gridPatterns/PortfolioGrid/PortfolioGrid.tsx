@@ -24,7 +24,6 @@ interface PortfolioNormalizedItem {
   mediaSrc: string;
   mediaAlt: string;
   mediaType: 'image' | 'video';
-  posterSrc?: string;
   description?: string;
   views?: number;
   category?: string | string[];
@@ -82,7 +81,6 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
           mediaSrc: transformedMediaSrc,
           mediaAlt: data.mediaAlt || data.title || 'Portfolio media',
           mediaType: data.mediaType === 'video' ? 'video' : 'image',
-          posterSrc: data.posterSrc,
           description: data.description,
           views: data.views,
           category: data.category,
@@ -182,7 +180,6 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
             mediaSrc={item.mediaSrc}
             mediaAlt={item.mediaAlt}
             mediaType={item.mediaType}
-            posterSrc={item.posterSrc}
             description={item.description}
             views={item.views}
             category={item.category}
