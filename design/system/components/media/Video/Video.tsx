@@ -164,20 +164,21 @@ export const Video: React.FC<VideoProps> = ({
     };
   }, [priority, finalLoading, finalRootMargin]);
 
-  // Track when metadata is loaded to show video
+  // Track when video can play to show it
   useEffect(() => {
     if (!isIntersecting || !videoRef.current) return;
 
     const video = videoRef.current;
 
-    const handleLoadedMetadata = () => {
+    const handleCanPlay = () => {
       setIsMetadataLoaded(true);
     };
 
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    // Use 'loadeddata' which fires when first frame is available
+    video.addEventListener('loadeddata', handleCanPlay);
 
     return () => {
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('loadeddata', handleCanPlay);
     };
   }, [isIntersecting]);
 
