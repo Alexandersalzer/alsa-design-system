@@ -40,11 +40,28 @@ export interface SectionNode extends BaseNode<SectionType> {
 }
 
 /**
+ * SEO metadata for a page
+ */
+export interface PageSEO {
+  title?: string;
+  description?: string;
+  keywords?: string[];
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  twitterImage?: string;
+  structuredData?: Record<string, any>;
+}
+
+/**
  * Page - Complete page structure
  */
 export interface PageNode extends BaseNode {
   name: string;
   locale: string;
+  seo?: PageSEO;
   sections: Record<string, SectionNode>;
   order: string[];
 }

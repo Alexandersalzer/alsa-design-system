@@ -11,7 +11,8 @@ export type {
   ComponentNode,
   PatternNode,
   SectionNode,
-  PageNode
+  PageNode,
+  PageSEO
 } from './types/nodes';
 
 // Render utilities and components
