@@ -230,8 +230,10 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
           </VStack>
         )}
 
-        {/* Kom igång-knapp för första steget */}
-        {sortedSteps.length > 0 && !sortedSteps[0].completed && (
+        {/* Kom igång-knapp - visas endast när "Kom igång"-steget (overview) inte är avklarat */}
+        {sortedSteps.length > 0 && 
+         sortedSteps[0].key === 'overview' && 
+         !sortedSteps[0].completed && (
           <Box className="setup-guide__cta-container">
             <Button
               variant="accent"
