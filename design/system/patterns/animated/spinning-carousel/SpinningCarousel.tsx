@@ -132,6 +132,7 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
       enableFadeEdges={enableFadeEdges}
       fadeWidth={fadeWidth}
       duplicateCount={duplicateCount}
+      enableHover={true}
     />
   );
 };
