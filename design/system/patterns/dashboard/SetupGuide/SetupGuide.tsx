@@ -248,7 +248,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                     return <FirstStepIcon />;
                   })()}
                 </Icon>
-                <span>Kom igång: {sortedSteps[0].title}</span>
+                <span>Kom igång</span>
               </HStack>
             </Button>
           </Box>
