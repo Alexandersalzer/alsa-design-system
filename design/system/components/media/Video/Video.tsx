@@ -79,17 +79,18 @@ export const Video: React.FC<VideoProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority);
   const [hasError, setHasError] = useState(false);
-  const [clientPosterUrl, setClientPosterUrl] = useState<string>(() => {
-    // Try to load cached thumbnail on mount
-    return poster ? '' : (getCachedThumbnail(src) || '');
-  });
+
+  // Initialize with cached thumbnail if no poster provided
+  const cachedThumbnail = !poster ? getCachedThumbnail(src) : null;
+  const [clientPosterUrl, setClientPosterUrl] = useState<string>(cachedThumbnail || '');
   const [isMetadataLoaded, setIsMetadataLoaded] = useState(() => {
-    // If we have a poster or cached thumbnail, mark as loaded immediately
-    return !!(poster || getCachedThumbnail(src));
+    // Mark as loaded if we have poster OR cached thumbnail
+    return !!(poster || cachedThumbnail);
   });
 
   // Determine which poster to use (server thumbnail first, then client-side extraction)
   const effectivePosterUrl = poster || clientPosterUrl;
+
 
   // Lazy loading with IntersectionObserver
   useEffect(() => {
