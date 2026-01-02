@@ -166,7 +166,13 @@ export const Video: React.FC<VideoProps> = ({
 
   // Track when video can play to show it
   useEffect(() => {
-    if (!isIntersecting || !videoRef.current) return;
+    if (!videoRef.current) return;
+
+    // If preload="none", show immediately (browser will show native controls/poster)
+    if (finalPreload === 'none') {
+      setIsMetadataLoaded(true);
+      return;
+    }
 
     const video = videoRef.current;
 
@@ -180,7 +186,7 @@ export const Video: React.FC<VideoProps> = ({
     return () => {
       video.removeEventListener('loadeddata', handleCanPlay);
     };
-  }, [isIntersecting]);
+  }, [finalPreload]);
 
   // Handle video error
   const handleVideoError = () => {
