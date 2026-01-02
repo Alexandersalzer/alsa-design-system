@@ -286,14 +286,14 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                     </Tag>
                   ) : (
                     <Button
-                      variant={isFirstIncomplete ? 'accent' : 'secondary'}
-                      size={isFirstIncomplete ? 'md' : 'sm'}
+                      variant="accent"
+                      size="sm"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleNavigate(step.href);
                       }}
                     >
-                      {isFirstIncomplete ? 'Kom igång' : 'Gå till'}
+                      Gå till
                     </Button>
                   )
                 }

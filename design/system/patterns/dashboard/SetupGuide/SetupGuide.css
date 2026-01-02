@@ -85,42 +85,12 @@
   background-color: var(--surface-accent-muted);
   border: 2px solid var(--border-accent);
   box-shadow: 0 0 0 3px rgba(var(--accent-500-rgb, 59, 130, 246), 0.1);
-  position: relative;
-}
-
-.setup-guide__first-step::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border: 2px solid var(--border-accent);
-  border-radius: inherit;
-  opacity: 0;
-  animation: pulse-border 2s ease-in-out infinite;
 }
 
 .setup-guide__first-step:hover {
   background-color: var(--surface-accent-muted);
   border-color: var(--border-accent);
-  box-shadow: 0 0 0 3px rgba(var(--accent-500-rgb, 59, 130, 246), 0.2);
-  transform: translateY(-1px);
-}
-
-.setup-guide__first-step:hover::before {
-  opacity: 0.3;
-}
-
-@keyframes pulse-border {
-  0%, 100% {
-    opacity: 0;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.4;
-    transform: scale(1.02);
-  }
+  box-shadow: 0 0 0 3px rgba(var(--accent-500-rgb, 59, 130, 246), 0.15);
 }
 
 
