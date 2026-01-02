@@ -34,6 +34,29 @@ export interface VideoProps extends Omit<React.VideoHTMLAttributes<HTMLVideoElem
 
 // ===== MAIN VIDEO COMPONENT =====
 
+// Thumbnail cache using localStorage for persistence across page reloads
+const THUMBNAIL_CACHE_PREFIX = 'video-thumbnail-';
+const THUMBNAIL_CACHE_VERSION = '1'; // Increment to invalidate old thumbnails
+
+const getCachedThumbnail = (videoSrc: string): string | null => {
+  try {
+    const cacheKey = `${THUMBNAIL_CACHE_PREFIX}${THUMBNAIL_CACHE_VERSION}-${videoSrc}`;
+    return localStorage.getItem(cacheKey);
+  } catch {
+    return null; // localStorage might be disabled
+  }
+};
+
+const setCachedThumbnail = (videoSrc: string, dataUrl: string): void => {
+  try {
+    const cacheKey = `${THUMBNAIL_CACHE_PREFIX}${THUMBNAIL_CACHE_VERSION}-${videoSrc}`;
+    localStorage.setItem(cacheKey, dataUrl);
+  } catch (e) {
+    // localStorage might be full or disabled - fail silently
+    console.warn('Failed to cache video thumbnail:', e);
+  }
+};
+
 export const Video: React.FC<VideoProps> = ({
   src,
   width,
@@ -56,29 +79,17 @@ export const Video: React.FC<VideoProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority);
   const [hasError, setHasError] = useState(false);
-  const [clientPosterUrl, setClientPosterUrl] = useState<string>(''); // Client-side fallback
-  const [isMetadataLoaded, setIsMetadataLoaded] = useState(false);
-  const [posterLoadFailed, setPosterLoadFailed] = useState(false); // Track if server poster 404'd
+  const [clientPosterUrl, setClientPosterUrl] = useState<string>(() => {
+    // Try to load cached thumbnail on mount
+    return poster ? '' : (getCachedThumbnail(src) || '');
+  });
+  const [isMetadataLoaded, setIsMetadataLoaded] = useState(() => {
+    // If we have a poster or cached thumbnail, mark as loaded immediately
+    return !!(poster || getCachedThumbnail(src));
+  });
 
-  // Determine which poster to use (server thumbnail takes priority, unless it failed to load)
-  const effectivePosterUrl = (poster && !posterLoadFailed) ? poster : clientPosterUrl;
-
-  // Check if server-provided poster actually exists
-  useEffect(() => {
-    if (!poster || !isIntersecting) return;
-
-    const img = new Image();
-    img.onload = () => {
-      // Poster loaded successfully
-      setIsMetadataLoaded(true);
-      setPosterLoadFailed(false);
-    };
-    img.onerror = () => {
-      // Poster failed to load (404) - trigger client-side extraction
-      setPosterLoadFailed(true);
-    };
-    img.src = poster;
-  }, [poster, isIntersecting]);
+  // Determine which poster to use (server thumbnail first, then client-side extraction)
+  const effectivePosterUrl = poster || clientPosterUrl;
 
   // Lazy loading with IntersectionObserver
   useEffect(() => {
@@ -110,10 +121,11 @@ export const Video: React.FC<VideoProps> = ({
     };
   }, [priority, loading, rootMargin]);
 
-  // Extract first frame as thumbnail when metadata loads (fallback when no server thumbnail or it failed)
+  // Extract first frame as thumbnail when metadata loads (ONLY if no server thumbnail)
   useEffect(() => {
-    // Skip client-side extraction if we have a working server thumbnail
-    if (poster && !posterLoadFailed) {
+    // Skip client-side extraction if we have a server thumbnail
+    if (poster) {
+      setIsMetadataLoaded(true); // Server thumbnail exists, no need to wait for metadata
       return;
     }
 
@@ -141,7 +153,10 @@ export const Video: React.FC<VideoProps> = ({
         if (ctx) {
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
           const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+
+          // Save to state and localStorage for persistence
           setClientPosterUrl(dataUrl);
+          setCachedThumbnail(src, dataUrl);
         }
       } catch (error) {
         // CORS error or other canvas extraction error - fail silently
@@ -158,7 +173,7 @@ export const Video: React.FC<VideoProps> = ({
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
       video.removeEventListener('seeked', handleSeeked);
     };
-  }, [isIntersecting, clientPosterUrl, poster, posterLoadFailed]);
+  }, [isIntersecting, clientPosterUrl, poster]);
 
   // Handle video error
   const handleVideoError = () => {
