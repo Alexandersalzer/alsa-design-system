@@ -165,11 +165,11 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
 
           {isVideo && (
             <Video
-              context="portfolio-card"
               src={mediaSrc}
-              poster={posterSrc}
               aspectRatio="2/3"
               radius="sm"
+              loading="lazy"
+              rootMargin="800px"
               controlsList="nodownload"
               disablePictureInPicture
               className="portfolio-video"
