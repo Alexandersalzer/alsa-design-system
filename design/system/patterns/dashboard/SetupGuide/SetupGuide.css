@@ -80,17 +80,5 @@
   }
 }
 
-/* Highlight första inkompletta steget */
-.setup-guide__first-step {
-  background-color: var(--surface-accent-muted);
-  border: 2px solid var(--border-accent);
-  box-shadow: 0 0 0 3px rgba(var(--accent-500-rgb, 59, 130, 246), 0.1);
-}
-
-.setup-guide__first-step:hover {
-  background-color: var(--surface-accent-muted);
-  border-color: var(--border-accent);
-  box-shadow: 0 0 0 3px rgba(var(--accent-500-rgb, 59, 130, 246), 0.15);
-}
 
 
