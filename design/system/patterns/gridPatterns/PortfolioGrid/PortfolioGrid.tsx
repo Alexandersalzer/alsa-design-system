@@ -6,6 +6,7 @@ import { Grid } from '../../../components';
 import { PortfolioCard } from '../../cards/PortfolioCard/PortfolioCard';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
+import { getVideoThumbnailUrl } from '../../../core/utils/media';
 
 // Tabs
 import { TabGroup } from '../../../components';
@@ -24,6 +25,7 @@ interface PortfolioNormalizedItem {
   mediaSrc: string;
   mediaAlt: string;
   mediaType: 'image' | 'video';
+  posterSrc?: string; // Thumbnail URL for videos
   description?: string;
   views?: number;
   category?: string | string[];
@@ -74,13 +76,18 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
           transformedMediaSrc = `${CDN_BASE_URL}${mediaSrc.replace('/members', '')}`;
         }
 
+        // Derive thumbnail URL for videos
+        const mediaType = data.mediaType === 'video' ? 'video' : 'image';
+        const posterSrc = mediaType === 'video' ? getVideoThumbnailUrl(transformedMediaSrc) : undefined;
+
         acc.push({
           key,
           componentKey: key,
           title: data.title || 'Untitled Project',
           mediaSrc: transformedMediaSrc,
           mediaAlt: data.mediaAlt || data.title || 'Portfolio media',
-          mediaType: data.mediaType === 'video' ? 'video' : 'image',
+          mediaType,
+          posterSrc, // Derived thumbnail URL for videos
           description: data.description,
           views: data.views,
           category: data.category,
@@ -180,6 +187,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
             mediaSrc={item.mediaSrc}
             mediaAlt={item.mediaAlt}
             mediaType={item.mediaType}
+            posterSrc={item.posterSrc}
             description={item.description}
             views={item.views}
             category={item.category}
