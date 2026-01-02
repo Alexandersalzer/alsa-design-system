@@ -62,6 +62,19 @@ export const Video: React.FC<VideoProps> = ({
   // Determine which poster to use (server thumbnail takes priority)
   const effectivePosterUrl = poster || clientPosterUrl;
 
+  // Debug logging
+  useEffect(() => {
+    console.log('[Video Debug]', {
+      src,
+      poster,
+      clientPosterUrl,
+      effectivePosterUrl,
+      isIntersecting,
+      isMetadataLoaded,
+      hasError
+    });
+  }, [src, poster, clientPosterUrl, effectivePosterUrl, isIntersecting, isMetadataLoaded, hasError]);
+
   // Lazy loading with IntersectionObserver
   useEffect(() => {
     if (priority || loading === 'eager') {
@@ -94,17 +107,25 @@ export const Video: React.FC<VideoProps> = ({
 
   // Extract first frame as thumbnail when metadata loads (ONLY if no server thumbnail provided)
   useEffect(() => {
+    console.log('[Video Extraction] useEffect triggered', { poster, isIntersecting, hasVideoRef: !!videoRef.current, clientPosterUrl });
+
     // Skip client-side extraction if we have a server thumbnail
     if (poster) {
+      console.log('[Video Extraction] Skipping - server thumbnail exists');
       setIsMetadataLoaded(true);
       return;
     }
 
-    if (!isIntersecting || !videoRef.current || clientPosterUrl) return;
+    if (!isIntersecting || !videoRef.current || clientPosterUrl) {
+      console.log('[Video Extraction] Skipping - conditions not met', { isIntersecting, hasVideoRef: !!videoRef.current, clientPosterUrl });
+      return;
+    }
 
+    console.log('[Video Extraction] Setting up extraction listeners');
     const video = videoRef.current;
 
     const handleLoadedMetadata = () => {
+      console.log('[Video Extraction] Metadata loaded, seeking to 0.1s');
       setIsMetadataLoaded(true);
 
       // Seek to first frame to ensure it's visible
@@ -112,6 +133,7 @@ export const Video: React.FC<VideoProps> = ({
     };
 
     const handleSeeked = () => {
+      console.log('[Video Extraction] Seeked, extracting frame');
       // Create canvas to extract first frame
       const canvas = document.createElement('canvas');
       canvas.width = video.videoWidth;
@@ -121,7 +143,10 @@ export const Video: React.FC<VideoProps> = ({
       if (ctx) {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        console.log('[Video Extraction] Thumbnail extracted successfully');
         setClientPosterUrl(dataUrl);
+      } else {
+        console.error('[Video Extraction] Failed to get canvas context');
       }
     };
 
