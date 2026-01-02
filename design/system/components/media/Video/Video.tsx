@@ -49,14 +49,18 @@ export const Video: React.FC<VideoProps> = ({
   controls = true,
   playsInline = true,
   preload = 'metadata',
+  poster, // Server-provided thumbnail URL (prioritized)
   ...props
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority);
   const [hasError, setHasError] = useState(false);
-  const [posterUrl, setPosterUrl] = useState<string>('');
+  const [clientPosterUrl, setClientPosterUrl] = useState<string>(''); // Client-side fallback
   const [isMetadataLoaded, setIsMetadataLoaded] = useState(false);
+
+  // Determine which poster to use (server thumbnail takes priority)
+  const effectivePosterUrl = poster || clientPosterUrl;
 
   // Lazy loading with IntersectionObserver
   useEffect(() => {
@@ -88,9 +92,15 @@ export const Video: React.FC<VideoProps> = ({
     };
   }, [priority, loading, rootMargin]);
 
-  // Extract first frame as thumbnail when metadata loads
+  // Extract first frame as thumbnail when metadata loads (ONLY if no server thumbnail provided)
   useEffect(() => {
-    if (!isIntersecting || !videoRef.current || posterUrl) return;
+    // Skip client-side extraction if we have a server thumbnail
+    if (poster) {
+      setIsMetadataLoaded(true);
+      return;
+    }
+
+    if (!isIntersecting || !videoRef.current || clientPosterUrl) return;
 
     const video = videoRef.current;
 
@@ -111,7 +121,7 @@ export const Video: React.FC<VideoProps> = ({
       if (ctx) {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-        setPosterUrl(dataUrl);
+        setClientPosterUrl(dataUrl);
       }
     };
 
@@ -122,7 +132,7 @@ export const Video: React.FC<VideoProps> = ({
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
       video.removeEventListener('seeked', handleSeeked);
     };
-  }, [isIntersecting, posterUrl]);
+  }, [isIntersecting, clientPosterUrl, poster]);
 
   // Handle video error
   const handleVideoError = () => {
@@ -171,7 +181,7 @@ export const Video: React.FC<VideoProps> = ({
           ref={videoRef}
           className={videoClasses}
           src={src}
-          poster={posterUrl || undefined}
+          poster={effectivePosterUrl || undefined}
           onError={handleVideoError}
           controls={controls}
           playsInline={playsInline}
