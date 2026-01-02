@@ -210,8 +210,8 @@ export const Video: React.FC<VideoProps> = ({
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* Show placeholder until metadata loads */}
-      {shouldLoad && !isMetadataLoaded && !hasError && (
+      {/* Show placeholder until metadata loads (but not if we have a poster) */}
+      {shouldLoad && !poster && !isMetadataLoaded && !hasError && (
         <div className="video-placeholder">
           <div className="video-placeholder-spinner" />
         </div>
@@ -232,7 +232,7 @@ export const Video: React.FC<VideoProps> = ({
           muted={false}
           loop={false}
           crossOrigin="anonymous"
-          style={{ opacity: isMetadataLoaded ? 1 : 0 }}
+          style={{ opacity: (poster || isMetadataLoaded) ? 1 : 0 }}
           {...props}
         >
           Your browser does not support the video tag.
