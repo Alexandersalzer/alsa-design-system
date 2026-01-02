@@ -23,53 +23,24 @@ interface GridFormProps extends PatternNode {
 const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
   const get = componentProps(components);
   const renderIf = componentPresent(components);
-
-  // Form state
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState('');
-
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-    setErrorMessage('');
-
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
-
-    try {
-      const response = await fetch('/api/contact/send-email-form', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...data,
-          websiteId: websiteId || '1',
-          sendConfirmation: true
-        })
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        setSubmitStatus('success');
-        e.currentTarget.reset();
-      } else {
-        setSubmitStatus('error');
-        setErrorMessage(result.message || 'Failed to send message');
-      }
-    } catch (error) {
-      setSubmitStatus('error');
-      setErrorMessage('Network error. Please try again.');
-      console.error('Form submission error:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
+  const [formData, setFormData] = useState<Record<string, string>>({});
+  
+  // Handle input changes to collect form data for action system
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
+  // Form state
+  const [isSubmitting] = useState(false);
+  const [submitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage] = useState('');
+
+
   return (
-    <form onSubmit={handleSubmit} className="kj-contact-form">
+    <form className="kj-contact-form">
       <Grid columns={2} gap="md">
         
         {/* Name Field - colSpan 1 */}
@@ -89,6 +60,7 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
               size="md"
               radius="md"
               style={{ width: '100%' }}
+              onChange={handleChange}
             />
           </GridItem>
         )}
@@ -110,6 +82,7 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
               size="md"
               radius="md"
               style={{ width: '100%' }}
+              onChange={handleChange}
             />
           </GridItem>
         )}
@@ -152,6 +125,7 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
               size="md"
               radius="md"
               style={{ width: '100%' }}
+              onChange={handleChange}
             />
           </GridItem>
         )}
@@ -164,7 +138,8 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
               label={get('textarea-message').props.label || 'Meddelande'}
               placeholder={get('textarea-message').props.placeholder || 'Skriv ditt meddelande här...'}
               rows={get('textarea-message').props.rows || 4}
-              required={get('textarea-message').props.required || false}
+              required={get('textarea-message').props.required || true}
+              onChange={handleChange}
             />
           </GridItem>
         )}
@@ -184,6 +159,8 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
                 </Icon>
               }
               style={{ width: '100%' }}
+              action={get('button-submit').props.action}
+              formData={formData}
             >
               {isSubmitting ? 'Skickar...' : (get('button-submit').props.content || 'Skicka')}
             </Button>

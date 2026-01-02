@@ -135,6 +135,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
             size="lg"
             variant='accent'
             href={get('button-primary').props.href}
+            action={get('button-primary').props.action}
             componentKey={get('button-primary').key}
           >
             {get('button-primary').props.content}
