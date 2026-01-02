@@ -131,16 +131,23 @@ export const Video: React.FC<VideoProps> = ({
     };
 
     const handleSeeked = () => {
-      // Create canvas to extract first frame
-      const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+      try {
+        // Create canvas to extract first frame
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
 
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-        setClientPosterUrl(dataUrl);
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+          setClientPosterUrl(dataUrl);
+        }
+      } catch (error) {
+        // CORS error or other canvas extraction error - fail silently
+        // Video will still be playable, just without a thumbnail
+        console.warn('Failed to extract video thumbnail (likely CORS issue):', error);
+        setIsMetadataLoaded(true); // Still mark as loaded so placeholder disappears
       }
     };
 
@@ -208,10 +215,8 @@ export const Video: React.FC<VideoProps> = ({
           autoPlay={false}
           muted={false}
           loop={false}
+          crossOrigin="anonymous"
           style={{ opacity: isMetadataLoaded ? 1 : 0 }}
-          {...(typeof window !== 'undefined' && !window.location.hostname.includes('localhost')
-            ? { crossOrigin: 'anonymous' as const }
-            : {})}
           {...props}
         >
           Your browser does not support the video tag.
