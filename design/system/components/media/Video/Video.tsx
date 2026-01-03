@@ -1,6 +1,6 @@
 // ===============================================
 // design/system/components/media/Video/Video.tsx
-// VIDEO COMPONENT - Lazy loaded, paused by default
+// VIDEO COMPONENT - Lazy loaded, paused by default, with first-frame thumbnails
 // ===============================================
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -49,13 +49,14 @@ export const Video: React.FC<VideoProps> = ({
   controls = true,
   playsInline = true,
   preload = 'metadata',
-  poster,
   ...props
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority);
   const [hasError, setHasError] = useState(false);
+  const [posterUrl, setPosterUrl] = useState<string>('');
+  const [isMetadataLoaded, setIsMetadataLoaded] = useState(false);
 
   // Lazy loading with IntersectionObserver
   useEffect(() => {
@@ -86,6 +87,42 @@ export const Video: React.FC<VideoProps> = ({
       observer.disconnect();
     };
   }, [priority, loading, rootMargin]);
+
+  // Extract first frame as thumbnail when metadata loads
+  useEffect(() => {
+    if (!isIntersecting || !videoRef.current || posterUrl) return;
+
+    const video = videoRef.current;
+
+    const handleLoadedMetadata = () => {
+      setIsMetadataLoaded(true);
+
+      // Seek to first frame to ensure it's visible
+      video.currentTime = 0.1;
+    };
+
+    const handleSeeked = () => {
+      // Create canvas to extract first frame
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        setPosterUrl(dataUrl);
+      }
+    };
+
+    video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    video.addEventListener('seeked', handleSeeked);
+
+    return () => {
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('seeked', handleSeeked);
+    };
+  }, [isIntersecting, posterUrl]);
 
   // Handle video error
   const handleVideoError = () => {
@@ -121,13 +158,20 @@ export const Video: React.FC<VideoProps> = ({
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* Video element */}
-      {shouldLoad && (
+      {/* Show placeholder until metadata loads */}
+      {shouldLoad && !isMetadataLoaded && !hasError && (
+        <div className="video-placeholder">
+          <div className="video-placeholder-spinner" />
+        </div>
+      )}
+
+      {/* Video element - paused by default, loads first frame */}
+      {shouldLoad && !hasError && (
         <video
           ref={videoRef}
           className={videoClasses}
           src={src}
-          poster={poster}
+          poster={posterUrl || undefined}
           onError={handleVideoError}
           controls={controls}
           playsInline={playsInline}
@@ -135,7 +179,10 @@ export const Video: React.FC<VideoProps> = ({
           autoPlay={false}
           muted={false}
           loop={false}
-          crossOrigin="anonymous"
+          style={{ opacity: isMetadataLoaded ? 1 : 0 }}
+          {...(typeof window !== 'undefined' && !window.location.hostname.includes('localhost')
+            ? { crossOrigin: 'anonymous' as const }
+            : {})}
           {...props}
         >
           Your browser does not support the video tag.
