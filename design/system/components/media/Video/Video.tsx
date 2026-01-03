@@ -80,15 +80,15 @@ export const Video: React.FC<VideoProps> = ({
   const [isIntersecting, setIsIntersecting] = useState(priority);
   const [hasError, setHasError] = useState(false);
 
-  // Initialize with cached thumbnail if no poster provided
-  const cachedThumbnail = !poster ? getCachedThumbnail(src) : null;
-  const [clientPosterUrl, setClientPosterUrl] = useState<string>(cachedThumbnail || '');
-  const [isMetadataLoaded, setIsMetadataLoaded] = useState(() => {
-    // Mark as loaded if we have poster OR cached thumbnail
-    return !!(poster || cachedThumbnail);
+  // Try to get cached thumbnail on mount
+  const [clientPosterUrl, setClientPosterUrl] = useState<string>(() => {
+    if (poster) return ''; // Don't load cache if we have S3 thumbnail
+    return getCachedThumbnail(src) || '';
   });
 
-  // Determine which poster to use (server thumbnail first, then client-side extraction)
+  const [isMetadataLoaded, setIsMetadataLoaded] = useState(false);
+
+  // Server thumbnail always takes priority, then cached, then will extract
   const effectivePosterUrl = poster || clientPosterUrl;
 
 
@@ -122,48 +122,40 @@ export const Video: React.FC<VideoProps> = ({
     };
   }, [priority, loading, rootMargin]);
 
-  // Extract first frame as thumbnail when metadata loads (ONLY if no server thumbnail)
+  // Extract first frame as thumbnail (only if no poster AND no cached thumbnail)
   useEffect(() => {
-    // Skip client-side extraction if we have a server thumbnail
-    if (poster) {
-      setIsMetadataLoaded(true); // Server thumbnail exists, no need to wait for metadata
+    // Don't extract if we already have a thumbnail
+    if (effectivePosterUrl) {
+      setIsMetadataLoaded(true);
       return;
     }
 
-    // Only extract if intersecting, have video ref, and haven't already extracted
-    if (!isIntersecting || !videoRef.current || clientPosterUrl) {
-      return;
-    }
+    // Wait for intersection and video element
+    if (!isIntersecting || !videoRef.current) return;
 
     const video = videoRef.current;
 
     const handleLoadedMetadata = () => {
       setIsMetadataLoaded(true);
-      // Seek to first frame to ensure it's visible
-      video.currentTime = 0.1;
+      video.currentTime = 0.1; // Seek to extract frame
     };
 
     const handleSeeked = () => {
       try {
-        // Create canvas to extract first frame
         const canvas = document.createElement('canvas');
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-
         const ctx = canvas.getContext('2d');
+
         if (ctx) {
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
           const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-
-          // Save to state and localStorage for persistence
           setClientPosterUrl(dataUrl);
-          setCachedThumbnail(src, dataUrl);
+          setCachedThumbnail(src, dataUrl); // Cache it
         }
       } catch (error) {
-        // CORS error or other canvas extraction error - fail silently
-        // Video will still be playable, just without a thumbnail
-        console.warn('Failed to extract video thumbnail (likely CORS issue):', error);
-        setIsMetadataLoaded(true); // Still mark as loaded so placeholder disappears
+        console.warn('Failed to extract thumbnail:', error);
+        setIsMetadataLoaded(true);
       }
     };
 
@@ -174,7 +166,7 @@ export const Video: React.FC<VideoProps> = ({
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
       video.removeEventListener('seeked', handleSeeked);
     };
-  }, [isIntersecting, clientPosterUrl, poster]);
+  }, [isIntersecting, effectivePosterUrl, src]);
 
   // Handle video error
   const handleVideoError = () => {
@@ -210,14 +202,14 @@ export const Video: React.FC<VideoProps> = ({
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* Show placeholder until metadata loads (but not if we have a poster) */}
-      {shouldLoad && !poster && !isMetadataLoaded && !hasError && (
+      {/* Placeholder - only show if no thumbnail and still loading */}
+      {shouldLoad && !effectivePosterUrl && !isMetadataLoaded && (
         <div className="video-placeholder">
           <div className="video-placeholder-spinner" />
         </div>
       )}
 
-      {/* Video element - paused by default, loads first frame */}
+      {/* Video element */}
       {shouldLoad && (
         <video
           ref={videoRef}
@@ -232,14 +224,14 @@ export const Video: React.FC<VideoProps> = ({
           muted={false}
           loop={false}
           crossOrigin="anonymous"
-          style={{ opacity: (poster || isMetadataLoaded) ? 1 : 0 }}
+          style={{ opacity: (effectivePosterUrl || isMetadataLoaded) ? 1 : 0 }}
           {...props}
         >
           Your browser does not support the video tag.
         </video>
       )}
 
-      {/* Error state - only show if no poster/thumbnail available */}
+      {/* Error - only if no thumbnail at all */}
       {hasError && !effectivePosterUrl && (
         <div className="video-error">
           <svg
