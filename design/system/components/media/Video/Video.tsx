@@ -1,6 +1,6 @@
 // ===============================================
 // design/system/components/media/Video/Video.tsx
-// VIDEO COMPONENT - Lazy loaded, paused by default, with first-frame thumbnails
+// VIDEO COMPONENT - Lazy loaded, paused by default
 // ===============================================
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -34,29 +34,6 @@ export interface VideoProps extends Omit<React.VideoHTMLAttributes<HTMLVideoElem
 
 // ===== MAIN VIDEO COMPONENT =====
 
-// Thumbnail cache using localStorage for persistence across page reloads
-const THUMBNAIL_CACHE_PREFIX = 'video-thumbnail-';
-const THUMBNAIL_CACHE_VERSION = '1'; // Increment to invalidate old thumbnails
-
-const getCachedThumbnail = (videoSrc: string): string | null => {
-  try {
-    const cacheKey = `${THUMBNAIL_CACHE_PREFIX}${THUMBNAIL_CACHE_VERSION}-${videoSrc}`;
-    return localStorage.getItem(cacheKey);
-  } catch {
-    return null; // localStorage might be disabled
-  }
-};
-
-const setCachedThumbnail = (videoSrc: string, dataUrl: string): void => {
-  try {
-    const cacheKey = `${THUMBNAIL_CACHE_PREFIX}${THUMBNAIL_CACHE_VERSION}-${videoSrc}`;
-    localStorage.setItem(cacheKey, dataUrl);
-  } catch (e) {
-    // localStorage might be full or disabled - fail silently
-    console.warn('Failed to cache video thumbnail:', e);
-  }
-};
-
 export const Video: React.FC<VideoProps> = ({
   src,
   width,
@@ -72,25 +49,13 @@ export const Video: React.FC<VideoProps> = ({
   controls = true,
   playsInline = true,
   preload = 'metadata',
-  poster, // Server-provided thumbnail URL (prioritized)
+  poster,
   ...props
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority);
   const [hasError, setHasError] = useState(false);
-
-  // Try to get cached thumbnail on mount
-  const [clientPosterUrl, setClientPosterUrl] = useState<string>(() => {
-    if (poster) return ''; // Don't load cache if we have S3 thumbnail
-    return getCachedThumbnail(src) || '';
-  });
-
-  const [isMetadataLoaded, setIsMetadataLoaded] = useState(false);
-
-  // Server thumbnail always takes priority, then cached, then will extract
-  const effectivePosterUrl = poster || clientPosterUrl;
-
 
   // Lazy loading with IntersectionObserver
   useEffect(() => {
@@ -121,52 +86,6 @@ export const Video: React.FC<VideoProps> = ({
       observer.disconnect();
     };
   }, [priority, loading, rootMargin]);
-
-  // Extract first frame as thumbnail (only if no poster AND no cached thumbnail)
-  useEffect(() => {
-    // Don't extract if we already have a thumbnail
-    if (effectivePosterUrl) {
-      setIsMetadataLoaded(true);
-      return;
-    }
-
-    // Wait for intersection and video element
-    if (!isIntersecting || !videoRef.current) return;
-
-    const video = videoRef.current;
-
-    const handleLoadedMetadata = () => {
-      setIsMetadataLoaded(true);
-      video.currentTime = 0.1; // Seek to extract frame
-    };
-
-    const handleSeeked = () => {
-      try {
-        const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        const ctx = canvas.getContext('2d');
-
-        if (ctx) {
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-          setClientPosterUrl(dataUrl);
-          setCachedThumbnail(src, dataUrl); // Cache it
-        }
-      } catch (error) {
-        console.warn('Failed to extract thumbnail:', error);
-        setIsMetadataLoaded(true);
-      }
-    };
-
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
-    video.addEventListener('seeked', handleSeeked);
-
-    return () => {
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      video.removeEventListener('seeked', handleSeeked);
-    };
-  }, [isIntersecting, effectivePosterUrl, src]);
 
   // Handle video error
   const handleVideoError = () => {
@@ -202,20 +121,13 @@ export const Video: React.FC<VideoProps> = ({
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* Placeholder - only show if no thumbnail and still loading */}
-      {shouldLoad && !effectivePosterUrl && !isMetadataLoaded && (
-        <div className="video-placeholder">
-          <div className="video-placeholder-spinner" />
-        </div>
-      )}
-
       {/* Video element */}
       {shouldLoad && (
         <video
           ref={videoRef}
           className={videoClasses}
           src={src}
-          poster={effectivePosterUrl || undefined}
+          poster={poster}
           onError={handleVideoError}
           controls={controls}
           playsInline={playsInline}
@@ -224,15 +136,14 @@ export const Video: React.FC<VideoProps> = ({
           muted={false}
           loop={false}
           crossOrigin="anonymous"
-          style={{ opacity: (effectivePosterUrl || isMetadataLoaded) ? 1 : 0 }}
           {...props}
         >
           Your browser does not support the video tag.
         </video>
       )}
 
-      {/* Error - only if no thumbnail at all */}
-      {hasError && !effectivePosterUrl && (
+      {/* Error state */}
+      {hasError && (
         <div className="video-error">
           <svg
             width="48"
