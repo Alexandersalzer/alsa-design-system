@@ -1,6 +1,6 @@
 // ===============================================
 // design/system/components/media/Video/Video.tsx
-// VIDEO COMPONENT - Lazy loaded, paused by default, with first-frame thumbnails
+// VIDEO COMPONENT - Lazy loaded, paused by default
 // ===============================================
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -49,36 +49,13 @@ export const Video: React.FC<VideoProps> = ({
   controls = true,
   playsInline = true,
   preload = 'metadata',
-  poster, // Server-provided thumbnail URL (prioritized)
+  poster,
   ...props
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority);
   const [hasError, setHasError] = useState(false);
-  const [clientPosterUrl, setClientPosterUrl] = useState<string>(''); // Client-side fallback
-  const [isMetadataLoaded, setIsMetadataLoaded] = useState(false);
-  const [posterLoadFailed, setPosterLoadFailed] = useState(false); // Track if server poster 404'd
-
-  // Determine which poster to use (server thumbnail takes priority, unless it failed to load)
-  const effectivePosterUrl = (poster && !posterLoadFailed) ? poster : clientPosterUrl;
-
-  // Check if server-provided poster actually exists
-  useEffect(() => {
-    if (!poster || !isIntersecting) return;
-
-    const img = new Image();
-    img.onload = () => {
-      // Poster loaded successfully
-      setIsMetadataLoaded(true);
-      setPosterLoadFailed(false);
-    };
-    img.onerror = () => {
-      // Poster failed to load (404) - trigger client-side extraction
-      setPosterLoadFailed(true);
-    };
-    img.src = poster;
-  }, [poster, isIntersecting]);
 
   // Lazy loading with IntersectionObserver
   useEffect(() => {
@@ -109,56 +86,6 @@ export const Video: React.FC<VideoProps> = ({
       observer.disconnect();
     };
   }, [priority, loading, rootMargin]);
-
-  // Extract first frame as thumbnail when metadata loads (fallback when no server thumbnail or it failed)
-  useEffect(() => {
-    // Skip client-side extraction if we have a working server thumbnail
-    if (poster && !posterLoadFailed) {
-      return;
-    }
-
-    // Only extract if intersecting, have video ref, and haven't already extracted
-    if (!isIntersecting || !videoRef.current || clientPosterUrl) {
-      return;
-    }
-
-    const video = videoRef.current;
-
-    const handleLoadedMetadata = () => {
-      setIsMetadataLoaded(true);
-      // Seek to first frame to ensure it's visible
-      video.currentTime = 0.1;
-    };
-
-    const handleSeeked = () => {
-      try {
-        // Create canvas to extract first frame
-        const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-          setClientPosterUrl(dataUrl);
-        }
-      } catch (error) {
-        // CORS error or other canvas extraction error - fail silently
-        // Video will still be playable, just without a thumbnail
-        console.warn('Failed to extract video thumbnail (likely CORS issue):', error);
-        setIsMetadataLoaded(true); // Still mark as loaded so placeholder disappears
-      }
-    };
-
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
-    video.addEventListener('seeked', handleSeeked);
-
-    return () => {
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      video.removeEventListener('seeked', handleSeeked);
-    };
-  }, [isIntersecting, clientPosterUrl, poster, posterLoadFailed]);
 
   // Handle video error
   const handleVideoError = () => {
@@ -194,20 +121,13 @@ export const Video: React.FC<VideoProps> = ({
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* Show placeholder until metadata loads */}
-      {shouldLoad && !isMetadataLoaded && !hasError && (
-        <div className="video-placeholder">
-          <div className="video-placeholder-spinner" />
-        </div>
-      )}
-
-      {/* Video element - paused by default, loads first frame */}
-      {shouldLoad && !hasError && (
+      {/* Video element */}
+      {shouldLoad && (
         <video
           ref={videoRef}
           className={videoClasses}
           src={src}
-          poster={effectivePosterUrl || undefined}
+          poster={poster}
           onError={handleVideoError}
           controls={controls}
           playsInline={playsInline}
@@ -216,7 +136,6 @@ export const Video: React.FC<VideoProps> = ({
           muted={false}
           loop={false}
           crossOrigin="anonymous"
-          style={{ opacity: isMetadataLoaded ? 1 : 0 }}
           {...props}
         >
           Your browser does not support the video tag.
