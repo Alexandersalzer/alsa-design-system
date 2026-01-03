@@ -218,7 +218,7 @@ export const Video: React.FC<VideoProps> = ({
       )}
 
       {/* Video element - paused by default, loads first frame */}
-      {shouldLoad && !hasError && (
+      {shouldLoad && (
         <video
           ref={videoRef}
           className={videoClasses}
@@ -239,8 +239,8 @@ export const Video: React.FC<VideoProps> = ({
         </video>
       )}
 
-      {/* Error state */}
-      {hasError && (
+      {/* Error state - only show if no poster/thumbnail available */}
+      {hasError && !effectivePosterUrl && (
         <div className="video-error">
           <svg
             width="48"
