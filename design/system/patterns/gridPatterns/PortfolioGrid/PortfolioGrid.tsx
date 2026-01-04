@@ -181,7 +181,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
         </TabGroup>
       )}
 
-      <Grid cardDensity={cardDensity} gap={gap} className="portfolio-grid">
+      <Grid columns={3} cardDensity={cardDensity} gap={gap} className="portfolio-grid">
         {visibleItems.map((item) => (
           <PortfolioCard
             key={item.key}
