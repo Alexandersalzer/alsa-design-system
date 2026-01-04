@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Grid } from '../../../components';
+import { Grid, VStack } from '../../../components';
 import { PortfolioCard } from '../../cards/PortfolioCard/PortfolioCard';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
@@ -160,7 +160,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
   // =====================================================
 
   return (
-    <div className="portfolio-grid-container">
+    <VStack>
 
       {hasTabs && (
         <TabGroup 
@@ -199,7 +199,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
           />
         ))}
       </Grid>
-    </div>
+    </VStack>
   );
 };
 
