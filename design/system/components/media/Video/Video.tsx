@@ -1,6 +1,7 @@
 // ===============================================
 // design/system/components/media/Video/Video.tsx
 // VIDEO COMPONENT - Lazy loaded, paused by default
+// UPDATED: Removed crossOrigin to avoid CORS requirements
 // ===============================================
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -135,7 +136,6 @@ export const Video: React.FC<VideoProps> = ({
           autoPlay={false}
           muted={false}
           loop={false}
-          crossOrigin="anonymous"
           {...props}
         >
           Your browser does not support the video tag.

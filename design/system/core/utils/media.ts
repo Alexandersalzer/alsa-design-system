@@ -10,21 +10,21 @@
 /**
  * Derive thumbnail URL from video URL using consistent naming convention
  *
- * Videos are stored at:    user-{id}/videos/vid-{username}-{id}.mp4
- * Thumbnails are stored at: user-{id}/thumbnails/vid-{username}-{id}.jpg
+ * Videos are stored at:    cdn.blimpify-im.com/members/2194716412/videos/swaelee.mp4
+ * Thumbnails are stored at: cdn.blimpify-im.com/members/2194716412/thumbnails/swaelee.jpg
  *
  * This function transforms the video URL to the thumbnail URL by:
  * 1. Replacing '/videos/' with '/thumbnails/'
- * 2. Replacing the video extension (.mp4, .webm, etc.) with .jpg
+ * 2. Replacing the video extension (.mp4, .webm, .mov, etc.) with .jpg
  *
  * @param videoUrl - Full video URL or S3 key
  * @returns Derived thumbnail URL, or undefined if not a valid video URL
  *
  * @example
  * ```ts
- * const videoUrl = 'https://cdn.example.com/user-123/videos/vid-kjmarketing-456789.mp4';
+ * const videoUrl = 'https://cdn.blimpify-im.com/members/2194716412/videos/swaelee.mp4';
  * const thumbnailUrl = getVideoThumbnailUrl(videoUrl);
- * // Returns: 'https://cdn.example.com/user-123/thumbnails/vid-kjmarketing-456789.jpg'
+ * // Returns: 'https://cdn.blimpify-im.com/members/2194716412/thumbnails/swaelee.jpg'
  * ```
  */
 export function getVideoThumbnailUrl(videoUrl: string | undefined): string | undefined {

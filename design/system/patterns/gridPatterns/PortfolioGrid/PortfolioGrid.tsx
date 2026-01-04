@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { CDN_BASE_URL } from '../../../core/utils/env';
 import { Grid } from '../../../components';
 import { PortfolioCard } from '../../cards/PortfolioCard/PortfolioCard';
 import { PatternNode } from '../../../core/types/nodes';
@@ -70,15 +69,19 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
         const mediaSrc = data.mediaSrc || '';
         if (!mediaSrc) return acc;
 
-        // Handle CDN URL transformation
-        let transformedMediaSrc = mediaSrc;
-        if (mediaSrc.startsWith('/members/')) {
-          transformedMediaSrc = `${CDN_BASE_URL}${mediaSrc.replace('/members', '')}`;
-        }
+        // Use the mediaSrc as-is (should already be correct CloudFront URL)
+        const transformedMediaSrc = mediaSrc;
 
         // Derive thumbnail URL for videos
         const mediaType = data.mediaType === 'video' ? 'video' : 'image';
         const posterSrc = mediaType === 'video' ? getVideoThumbnailUrl(transformedMediaSrc) : undefined;
+
+        // Debug logging
+        if (mediaType === 'video' && posterSrc) {
+          console.log(`[PortfolioGrid] Video: ${data.title}`);
+          console.log(`  Video URL: ${transformedMediaSrc}`);
+          console.log(`  Thumbnail URL: ${posterSrc}`);
+        }
 
         acc.push({
           key,
@@ -87,7 +90,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
           mediaSrc: transformedMediaSrc,
           mediaAlt: data.mediaAlt || data.title || 'Portfolio media',
           mediaType,
-          posterSrc, // Derived thumbnail URL for videos
+          posterSrc,
           description: data.description,
           views: data.views,
           category: data.category,
@@ -132,7 +135,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
     return (
       <div className="portfolio-grid-container">
         {hasTabs && (
-          <TabGroup  variant="navigation" className="mb-6">
+          <TabGroup variant="navigation" className="mb-6">
             {buttons.map((btn: { label: string; value: string }) => (
               <Tab
                 key={btn.value}
