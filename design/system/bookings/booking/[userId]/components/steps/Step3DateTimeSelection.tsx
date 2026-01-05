@@ -25,7 +25,7 @@ import apiClient from '../../../../../../lib/api/client';
 import type { AvailabilityResponse, RentalAvailability, Resource } from '../../types';
 
 interface Step3DateTimeSelectionProps {
-  userId: number;
+  externalId: string;
   serviceId: number;
   resourceId?: number;
   isRental: boolean;
@@ -58,7 +58,7 @@ interface Step3DateTimeSelectionProps {
 }
 
 export default function Step3DateTimeSelection({
-  userId,
+  externalId,
   serviceId,
   resourceId,
   isRental,
@@ -174,12 +174,12 @@ export default function Step3DateTimeSelection({
 
   // Hämta time slots för öppettider
   useEffect(() => {
-    if (!isRental || !userId) return;
+    if (!isRental || !externalId) return;
 
     // Debounce: vänta 300ms innan vi gör API-anrop (time slots ändras sällan)
     const timeoutId = setTimeout(async () => {
       try {
-        const response = await apiClient.get(`/labs/bookings/public/time-slots?user_id=${userId}`);
+        const response = await apiClient.get(`/labs/bookings/public/time-slots?external_id=${externalId}`);
         if (response.data?.success && response.data?.timeSlots) {
           setTimeSlots(response.data.timeSlots);
         }
@@ -195,7 +195,7 @@ export default function Step3DateTimeSelection({
     }, 300); // 300ms debounce
 
     return () => clearTimeout(timeoutId);
-  }, [isRental, userId]);
+  }, [isRental, externalId]);
 
   // Beräkna pickup hours för startdatumets veckodag
   useEffect(() => {
@@ -481,7 +481,7 @@ export default function Step3DateTimeSelection({
         const resourceParam = resourceId ? `&resource_id=${resourceId}` : '';
         // Lägg till timestamp för att undvika cache-problem
         const cacheBuster = `&_t=${Date.now()}`;
-        const url = `/labs/bookings/public/rental/availability?user_id=${userId}&service_id=${serviceId}&start_datetime=${startDateTime}&end_datetime=${endDateTime}${resourceParam}${cacheBuster}`;
+        const url = `/labs/bookings/public/rental/availability?external_id=${externalId}&service_id=${serviceId}&start_datetime=${startDateTime}&end_datetime=${endDateTime}${resourceParam}${cacheBuster}`;
         console.log('[Step3DateTimeSelection] Checking rental availability:', {
           url,
           resourceId,
@@ -557,7 +557,7 @@ export default function Step3DateTimeSelection({
 
     // Cleanup: avbryt timeout om dependencies ändras innan timeout är klar
     return () => clearTimeout(timeoutId);
-  }, [userId, serviceId, resourceId, isRental, startDate, endDate, startTime, endTime, pickupTime, dropoffTime]);
+  }, [externalId, serviceId, resourceId, isRental, startDate, endDate, startTime, endTime, pickupTime, dropoffTime]);
 
   if (isRental) {
     // Calculate rental days and price
@@ -869,7 +869,7 @@ export default function Step3DateTimeSelection({
   return (
     <VStack spacing="md">
       <WeekViewCalendar
-        userId={userId}
+        externalId={externalId}
         serviceId={serviceId}
         resourceId={resourceId}
         selectedDate={selectedDate}

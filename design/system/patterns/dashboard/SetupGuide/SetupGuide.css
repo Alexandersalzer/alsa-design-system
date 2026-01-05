@@ -54,4 +54,31 @@
   color: var(--text-default);
 }
 
+/* CTA Container för Kom igång-knappen */
+.setup-guide__cta-container {
+  margin-bottom: var(--foundation-space-6);
+}
+
+.setup-guide__cta-button {
+  width: 100%;
+  animation: pulse-cta 2s ease-in-out infinite;
+  box-shadow: 0 4px 12px rgba(var(--accent-500-rgb, 59, 130, 246), 0.3);
+}
+
+.setup-guide__cta-button:hover {
+  box-shadow: 0 6px 16px rgba(var(--accent-500-rgb, 59, 130, 246), 0.4);
+  transform: translateY(-1px);
+  animation: none;
+}
+
+@keyframes pulse-cta {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(var(--accent-500-rgb, 59, 130, 246), 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(var(--accent-500-rgb, 59, 130, 246), 0.5);
+}
+}
+
+
 

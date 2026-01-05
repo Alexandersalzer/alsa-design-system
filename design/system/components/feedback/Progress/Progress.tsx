@@ -19,6 +19,14 @@ export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: ProgressColor;
   rounded?: boolean;
   animated?: boolean;
+  /** Label text shown above progress bar */
+  label?: string;
+  /** Whether to show percentage value */
+  showValue?: boolean;
+  /** Custom format function for value display */
+  formatValue?: (value: number) => string;
+  /** Position of label and value */
+  labelPosition?: 'top' | 'inline';
   className?: string;
 }
 
@@ -29,10 +37,15 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
     color = 'accent',
     rounded = false,
     animated = false,
+    label,
+    showValue = false,
+    formatValue,
+    labelPosition = 'top',
     className,
     ...props
   }, ref) => {
     const clampedValue = Math.max(0, Math.min(100, value));
+    const displayValue = formatValue ? formatValue(clampedValue) : `${Math.round(clampedValue)}%`;
 
     const progressClasses = cn(
       'progress',
@@ -43,20 +56,35 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
       className
     );
 
+    const hasHeader = label || showValue;
+
     return (
-      <div
-        ref={ref}
-        className={progressClasses}
-        role="progressbar"
-        aria-valuenow={clampedValue}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        {...props}
-      >
+      <div ref={ref} className="progress-wrapper">
+        {hasHeader && labelPosition === 'top' && (
+          <div className="progress-header" style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 'var(--foundation-space-2)'
+          }}>
+            {label && <span className="progress-label" style={{ fontSize: 'var(--text-sm)', fontWeight: 500 }}>{label}</span>}
+            {showValue && <span className="progress-value" style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: `var(--${color}-500)` }}>{displayValue}</span>}
+          </div>
+        )}
         <div
-          className="progress__indicator"
-          style={{ width: `${clampedValue}%` }}
-        />
+          className={progressClasses}
+          role="progressbar"
+          aria-valuenow={clampedValue}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={label}
+          {...props}
+        >
+          <div
+            className="progress__indicator"
+            style={{ width: `${clampedValue}%` }}
+          />
+        </div>
       </div>
     );
   }

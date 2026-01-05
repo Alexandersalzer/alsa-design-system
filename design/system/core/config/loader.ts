@@ -10,5 +10,6 @@ import type { Config } from '../applications/types';
  * Load config.json from public directory
  */
 export async function loadConfig(): Promise<Config | null> {
-  return loadJsonFile<Config>('config/config.json');
+  const config = await loadJsonFile<Config>('config/config.json');
+  return config;
 }

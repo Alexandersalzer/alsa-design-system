@@ -1,0 +1,33 @@
+{
+  "title": "We use cookies",
+  "description": "We use cookies to improve your experience on our website. Some cookies are necessary for the website to function, while others help us understand how you use the site and enable marketing.",
+  "buttons": {
+    "customize": "Customize",
+    "rejectAll": "Only necessary",
+    "acceptAll": "Accept all",
+    "back": "Back",
+    "denyAll": "Only necessary",
+    "saveSelection": "Save selection"
+  },
+  "categories": {
+    "essential": {
+      "title": "Essential",
+      "description": "Necessary for the website to function."
+    },
+    "analytics": {
+      "title": "Analytics",
+      "description": "Helps us understand how visitors use the website."
+    },
+    "marketing": {
+      "title": "Marketing",
+      "description": "Used to deliver personalized ads and campaigns."
+    },
+    "preferences": {
+      "title": "Preferences",
+      "description": "Remembers your settings for a better experience."
+    }
+  },
+  "privacyPolicy": {
+    "text": "Read our privacy policy"
+  }
+}

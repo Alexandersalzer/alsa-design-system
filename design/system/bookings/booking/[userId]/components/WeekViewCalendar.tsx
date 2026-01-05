@@ -25,7 +25,7 @@ const MONTHS = [
 ];
 
 interface WeekViewCalendarProps {
-  userId: number;
+  externalId: string;
   serviceId: number;
   resourceId?: number;
   selectedDate: string;
@@ -50,7 +50,7 @@ interface DayAvailability {
 }
 
 export default function WeekViewCalendar({
-  userId,
+  externalId,
   serviceId,
   resourceId,
   selectedDate,
@@ -134,7 +134,7 @@ export default function WeekViewCalendar({
         const now = Date.now();
 
         // Check cache first and filter out expired entries
-        const cacheKey = `${userId}-${serviceId}-${resourceId || 'no-resource'}`;
+        const cacheKey = `${externalId}-${serviceId}-${resourceId || 'no-resource'}`;
         
         // Process dates sequentially with small delay to avoid rate limiting
         for (const date of weekDaysForFetch) {
@@ -162,7 +162,7 @@ export default function WeekViewCalendar({
 
             const resourceParam = resourceId ? `&resource_id=${resourceId}` : '';
             const response = await apiClient.get(
-              `/labs/bookings/public/availability/v2?user_id=${userId}&service_id=${serviceId}&date=${dateStr}${resourceParam}`,
+              `/labs/bookings/public/availability/v2?user_id=${externalId}&service_id=${serviceId}&date=${dateStr}${resourceParam}`,
               {
                 signal: abortController.signal
               }
@@ -236,7 +236,7 @@ export default function WeekViewCalendar({
         abortControllerRef.current.abort();
       }
     };
-  }, [userId, serviceId, resourceId, currentWeek, today]);
+  }, [externalId, serviceId, resourceId, currentWeek, today]);
 
   const handlePrevWeek = () => {
     setCurrentWeek(prev => {

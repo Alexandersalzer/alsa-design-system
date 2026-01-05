@@ -28,6 +28,8 @@ export interface LogoProps {
   height?: number;
   /** Border radius for image */
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  /** Border style using semantic tokens */
+  border?: 'none' | 'default' | 'subtle' | 'strong' | 'emphasis';
   /** Unified color for both image and text - adapts to theme */
   color?: 'auto' | 'light' | 'dark' | 'brand';
   /** Text size */
@@ -66,10 +68,11 @@ export const Logo: React.FC<LogoProps> = ({
   src,
   alt = 'Logo',
   text,
-  href = '/',
+  href,
   width = 40,
   height = 40,
   radius = 'none',
+  border = 'none',
   color = 'auto',
   textSize = 'lg',
   textWeight = 'extrabold',
@@ -125,6 +128,7 @@ export const Logo: React.FC<LogoProps> = ({
     'logo',
     hasBoth && 'logo--combined',
     hideTextOnMobile && hasText && 'logo--hide-text-mobile',
+    border !== 'none' && `logo--border-${border}`,
     className
   );
 
@@ -148,7 +152,7 @@ export const Logo: React.FC<LogoProps> = ({
             variant={imageVariant}
             loading={loading}
             priority={priority}
-            className="logo__image-only"
+            className={cn('logo__image-only', border !== 'none' && `logo__image--border-${border}`)}
           />
         </Component>
       </Wrapper>
@@ -195,7 +199,7 @@ export const Logo: React.FC<LogoProps> = ({
             variant={imageVariant}
             loading={loading}
             priority={priority}
-            className="logo__image"
+            className={cn('logo__image', border !== 'none' && `logo__image--border-${border}`)}
           />
         </Component>
         <Component componentKey={textComponentKey}>

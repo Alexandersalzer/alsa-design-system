@@ -6,6 +6,7 @@
 import React, { createContext, useContext, forwardRef, ReactNode } from 'react';
 import { cn } from '../../../utils/cn';
 import { Icon, IconColor } from '../../media';
+import { Label } from '../../Typography';
 
 // ===== TYPES =====
 export type NavVariant = 'sidebar' | 'horizontal' | 'tabs';
@@ -138,20 +139,37 @@ const NavItem = forwardRef<HTMLButtonElement, NavPrimitiveItemProps>(({
     return 'nav-item';
   };
 
+  // Check if icon is a custom component (Logo, Avatar, etc.) or a raw SVG
+  const isCustomComponent = React.isValidElement(icon) &&
+    typeof icon.type !== 'string'; // Not a native HTML element like 'svg'
+
   const content = (
     <>
       {icon && (
         <span className="nav-item__icon">
-          <Icon
-            size="lg"
-            color={getIconColor()}
-            weight="medium"
-          >
-            {icon}
-          </Icon>
+          {isCustomComponent ? (
+            // Render custom components (Logo, Avatar) directly without Icon wrapper
+            icon
+          ) : (
+            // Wrap SVG icons in Icon component
+            <Icon
+              size="lg"
+              color={getIconColor()}
+              weight="light"
+            >
+              {icon}
+            </Icon>
+          )}
         </span>
       )}
-      <span className="nav-item__label">{children}</span>
+      <Label
+        size="md"
+        weight={active ? 'bold' : 'semibold'}
+        color={isDisabled ? 'nav-disabled' : active ? 'nav-selected' : 'nav-default'}
+        className="nav-item__label"
+      >
+        {children}
+      </Label>
       {badge && <span className="nav-item__badge">{badge}</span>}
     </>
   );

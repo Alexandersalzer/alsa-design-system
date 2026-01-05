@@ -6,3 +6,4 @@ export * from './components/layout';
 export * from './hooks';
 export * from './core';
 export * from './bookings';
+export * from './patterns';

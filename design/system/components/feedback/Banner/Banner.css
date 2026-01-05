@@ -13,8 +13,8 @@
   width: 100%;
 
   /* Sizing */
-  padding: var(--space-banner-padding);
-  min-height: var(--size-banner-min-height);
+  padding: var(--space-banner-padding-y) var(--space-banner-padding-x);
+  min-height: auto;
 
   /* Styling */
   border-bottom: 1px solid;

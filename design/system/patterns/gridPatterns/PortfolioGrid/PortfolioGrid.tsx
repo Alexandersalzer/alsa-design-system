@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { CDN_BASE_URL } from '../../../core/utils/env';
-import { Grid } from '../../../components';
+import { Grid, VStack } from '../../../components';
 import { PortfolioCard } from '../../cards/PortfolioCard/PortfolioCard';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
+import { getVideoThumbnailUrl } from '../../../core/utils/media';
 
 // Tabs
 import { TabGroup } from '../../../components';
@@ -24,6 +24,7 @@ interface PortfolioNormalizedItem {
   mediaSrc: string;
   mediaAlt: string;
   mediaType: 'image' | 'video';
+  posterSrc?: string; // Thumbnail URL for videos
   description?: string;
   views?: number;
   category?: string | string[];
@@ -46,7 +47,8 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
     cardDensity = 'standard',
     gap = 'lg',
     default: defaultValue = 'all',
-    buttons = []
+    buttons = [],
+    showFlags = true
   } = getPatternProps();
 
   const hasTabs = buttons.length > 0;
@@ -67,10 +69,18 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
         const mediaSrc = data.mediaSrc || '';
         if (!mediaSrc) return acc;
 
-        // Handle CDN URL transformation
-        let transformedMediaSrc = mediaSrc;
-        if (mediaSrc.startsWith('/members/')) {
-          transformedMediaSrc = `${CDN_BASE_URL}${mediaSrc.replace('/members', '')}`;
+        // Use the mediaSrc as-is (should already be correct CloudFront URL)
+        const transformedMediaSrc = mediaSrc;
+
+        // Derive thumbnail URL for videos
+        const mediaType = data.mediaType === 'video' ? 'video' : 'image';
+        const posterSrc = mediaType === 'video' ? getVideoThumbnailUrl(transformedMediaSrc) : undefined;
+
+        // Debug logging
+        if (mediaType === 'video' && posterSrc) {
+          console.log(`[PortfolioGrid] Video: ${data.title}`);
+          console.log(`  Video URL: ${transformedMediaSrc}`);
+          console.log(`  Thumbnail URL: ${posterSrc}`);
         }
 
         acc.push({
@@ -79,7 +89,8 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
           title: data.title || 'Untitled Project',
           mediaSrc: transformedMediaSrc,
           mediaAlt: data.mediaAlt || data.title || 'Portfolio media',
-          mediaType: data.mediaType === 'video' ? 'video' : 'image',
+          mediaType,
+          posterSrc,
           description: data.description,
           views: data.views,
           category: data.category,
@@ -124,7 +135,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
     return (
       <div className="portfolio-grid-container">
         {hasTabs && (
-          <TabGroup  variant="navigation" className="mb-6">
+          <TabGroup variant="navigation" className="mb-6">
             {buttons.map((btn: { label: string; value: string }) => (
               <Tab
                 key={btn.value}
@@ -149,7 +160,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
   // =====================================================
 
   return (
-    <div className="portfolio-grid-container">
+    <VStack>
 
       {hasTabs && (
         <TabGroup 
@@ -170,7 +181,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
         </TabGroup>
       )}
 
-      <Grid cardDensity={cardDensity} gap={gap} className="portfolio-grid">
+      <Grid columns={3} gap={gap} className="portfolio-grid">
         {visibleItems.map((item) => (
           <PortfolioCard
             key={item.key}
@@ -179,14 +190,16 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
             mediaSrc={item.mediaSrc}
             mediaAlt={item.mediaAlt}
             mediaType={item.mediaType}
+            posterSrc={item.posterSrc}
             description={item.description}
             views={item.views}
             category={item.category}
             countryCode={item.countryCode}
+            showFlags={showFlags}
           />
         ))}
       </Grid>
-    </div>
+    </VStack>
   );
 };
 

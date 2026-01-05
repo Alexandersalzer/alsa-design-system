@@ -3,14 +3,24 @@
    Carousel ANIMATION PRIMITIVE STYLES - Flexible and reusable
    =============================================== */
 
+/* ===== SEAMLESS INFINITE SCROLL ANIMATION ===== */
+/*
+ * This animation moves exactly half the track width (-50%)
+ * With duplicateCount=6, we have 6 copies of content
+ * When animation reaches 50%, position looks identical to 0%
+ * Result: Perfectly seamless infinite loop with zero flash
+ */
 @keyframes CarouselScroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 .Carousel-animation-track {
   will-change: transform;
   backface-visibility: hidden;
+  /* Force subpixel rendering for smoothness */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 
@@ -18,6 +28,12 @@
   width: 100%;
   overflow: hidden;
   position: relative;
+  transition: opacity 0.3s ease;
+}
+
+/* Hover on container instead of track for stability - only when enabled */
+.Carousel-animation-container.with-hover:hover {
+  opacity: 0.7;
 }
 
 /* Fade edges - only applied when enabled */
@@ -81,6 +97,19 @@
   align-items: center;
   animation: CarouselScroll var(--animation-duration, 30s) linear infinite var(--animation-direction, normal);
   width: fit-content;
+
+  /* ===== GPU ACCELERATION & SMOOTH RENDERING ===== */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+
+  /* ===== ELIMINATE FLASH ON LOOP RESET ===== */
+  /* Force hardware acceleration and prevent layout shifts */
+  transform-style: preserve-3d;
+  perspective: 1000px;
+
+  /* Ensure pixel-perfect rendering - no sub-pixel gaps */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 .Carousel-animation-item {
@@ -88,7 +117,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /* ===== PREVENT SUB-PIXEL RENDERING GAPS ===== */
+  /* Ensures each item renders at exact pixel boundaries */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+
+  /* ===== PREVENT FIRST ITEM FLASH ===== */
+  /* Force all items to stay visible during animation loop */
+  opacity: 1;
+  visibility: visible;
+  will-change: transform;
+
   /*filter: invert(var(--is-dark, 0));*/
+}
+
+/* Ensure first item never flashes */
+.Carousel-animation-item:first-child {
+  /* Keep first item always rendered */
+  contain: layout style paint;
+  content-visibility: auto;
 }
 
 /* Special styling for Carousel images */

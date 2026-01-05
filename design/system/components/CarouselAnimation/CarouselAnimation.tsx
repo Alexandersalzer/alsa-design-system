@@ -29,6 +29,7 @@ export interface CarouselAnimationProps {
   enableFadeEdges?: boolean;
   fadeWidth?: string;
   duplicateCount?: number;
+  enableHover?: boolean;
 }
 
 export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
@@ -45,7 +46,8 @@ export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
   gap = '50px',
   enableFadeEdges = true,
   fadeWidth = '200px',
-  duplicateCount = 6
+  duplicateCount = 6,
+  enableHover = false
 }) => {
   const animationRef = useRef<HTMLDivElement>(null);
 
@@ -79,8 +81,8 @@ export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
   };
 
   return (
-    <div 
-      className={`Carousel-animation-container ${enableFadeEdges ? 'with-fade-edges' : ''} ${className}`}
+    <div
+      className={`Carousel-animation-container ${enableFadeEdges ? 'with-fade-edges' : ''} ${enableHover ? 'with-hover' : ''} ${className}`}
       style={containerStyle}
     >
       <div 

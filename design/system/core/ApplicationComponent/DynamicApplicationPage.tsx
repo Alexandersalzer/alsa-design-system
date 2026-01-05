@@ -2,7 +2,6 @@
  * Dynamic Application Page
  * Universal renderer for applications
  */
-'use client';
 
 import React from 'react';
 import type { ApplicationRoute } from '../applications/loader';
@@ -13,10 +12,8 @@ interface DynamicApplicationPageProps {
 }
 
 export function DynamicApplicationPage({ route }: DynamicApplicationPageProps) {
-  // For now, we only have booking - in the future this could be dynamic
-  if (route.app === 'booking') {
-    // Type assertion since we know booking requires userId and loader provides it
-    return <PublicBookingPage {...(route.props as { userId: number })} />;
+  if (route.app === 'bookings') {
+    return <PublicBookingPage {...(route.props as { externalId: string })} />;
   }
   
   // Fallback for unknown applications

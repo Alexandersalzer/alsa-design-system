@@ -14,11 +14,13 @@
   --icon-size-2xl: 32px;
 
   /* ===== ICON STROKE WEIGHTS ===== */
-  --icon-stroke-thin: 1;
-  --icon-stroke-light: 1.5;
-  --icon-stroke-regular: 1.75;
-  --icon-stroke-medium: 2;
-  --icon-stroke-bold: 3;
+  /* Balanced strokes - works well for nav, buttons, cards, and stats */
+  --icon-stroke-thin: 1.75;
+  --icon-stroke-light: 2;
+  --icon-stroke-regular: 2.25;
+  --icon-stroke-medium: 2.75;      /* ← Nav items use this */
+  --icon-stroke-bold: 3.5;
+
 
   /* ===== ICON COLORS - Component-specific only ===== */
   --icon-heading: var(--icon-strong);         /* Component context */

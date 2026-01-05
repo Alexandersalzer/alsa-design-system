@@ -21,7 +21,7 @@ import apiClient from '../../../../../../lib/api/client';
 import type { Resource, AvailabilityResponse } from '../../types';
 
 interface Step2ResourceSelectionProps {
-  userId: number;
+  externalId: string;
   serviceId: number;
   selectedResource: number | null;
   onResourceSelect: (resourceId: number | null) => void;
@@ -37,7 +37,7 @@ interface Step2ResourceSelectionProps {
 }
 
 export default function Step2ResourceSelection({
-  userId,
+  externalId,
   serviceId,
   selectedResource,
   onResourceSelect,
@@ -80,7 +80,7 @@ export default function Step2ResourceSelection({
         const endDateTime = `${endDate}T23:59:59`;
 
         const response = await apiClient.get(
-          `/labs/bookings/public/rental/availability?user_id=${userId}&service_id=${serviceId}&start_datetime=${startDateTime}&end_datetime=${endDateTime}`
+          `/labs/bookings/public/rental/availability?external_id=${externalId}&service_id=${serviceId}&start_datetime=${startDateTime}&end_datetime=${endDateTime}`
         );
 
         if (response.data?.success) {
@@ -108,14 +108,14 @@ export default function Step2ResourceSelection({
 
     // Cleanup: avbryt timeout om dependencies ändras innan timeout är klar
     return () => clearTimeout(timeoutId);
-  }, [isRental, startDate, endDate, userId, serviceId]);
+  }, [isRental, startDate, endDate, externalId, serviceId]);
 
   useEffect(() => {
     const fetchResources = async () => {
       try {
         setLoadingResources(true);
         const response = await apiClient.get(
-          `/labs/bookings/public/resources?user_id=${userId}&service_id=${serviceId}`
+          `/labs/bookings/public/resources?external_id=${externalId}&service_id=${serviceId}`
         );
         
         if (response.data.success) {
@@ -141,7 +141,7 @@ export default function Step2ResourceSelection({
     };
 
     fetchResources();
-  }, [userId, serviceId, isRental]);
+  }, [externalId, serviceId, isRental]);
 
   // För rentals: Visa alla resurser för kategorin (datum väljs senare)
   // MÅSTE vara före alla early returns för att följa React's Rules of Hooks

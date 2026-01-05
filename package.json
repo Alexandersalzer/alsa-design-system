@@ -1,6 +1,6 @@
 {
   "name": "@blimpify-im/ui",
-  "version": "2.51.3",
+  "version": "3.2.493",
   "description": "Blimpify Design System - Reusable React components for client websites",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -46,12 +46,34 @@
       "require": "./dist/design/system/core/routing/index.js",
       "types": "./dist/design/system/core/routing/index.d.ts"
     },
+    "./localization": {
+      "import": "./dist/design/system/core/localization/index.js",
+      "require": "./dist/design/system/core/localization/index.js",
+      "types": "./dist/design/system/core/localization/index.d.ts"
+    },
+    "./consent": {
+      "import": "./dist/design/system/patterns/cookieConsent/index.js",
+      "require": "./dist/design/system/patterns/cookieConsent/index.js",
+      "types": "./dist/design/system/patterns/cookieConsent/index.d.ts"
+    },
+    "./toast": {
+      "import": "./dist/design/system/patterns/toast/index.js",
+      "require": "./dist/design/system/patterns/toast/index.js",
+      "types": "./dist/design/system/patterns/toast/index.d.ts"
+    },
+    "./pages": {
+      "import": "./dist/design/system/pages/index.js",
+      "require": "./dist/design/system/pages/index.js",
+      "types": "./dist/design/system/pages/index.d.ts"
+    },
     "./dist/index.css": "./dist/design/index.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "design/system/core/scripts/generateConfig.js"
   ],
   "scripts": {
+    "generate:config": "tsx node_modules/@blimpify-im/ui/dist/design/system/core/scripts/generateConfig.js",
     "validate:css": "node validate-css.js",
     "validate:content": "tsx design/system/core/scripts/validateContent.ts",
     "prebuild": "npm run validate:css",

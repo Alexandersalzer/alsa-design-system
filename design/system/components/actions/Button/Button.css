@@ -190,16 +190,16 @@
 /* ===== GHOST ===== */
 .btn-ghost {
   background-color: transparent;
-  color: var(--text-button-secondary);
+  color: var(--text-default);
   border-color: transparent;
 }
 
 .btn-ghost:hover:not(:disabled) {
-  background-color: var(--surface-button-ghost-hover);
+  background-color: var(--surface-elevated);
 }
 
 .btn-ghost:focus-visible {
-  background-color: var(--surface-button-ghost-active);
+  background-color: var(--surface-sunken);
 }
 
 .btn-ghost:disabled {

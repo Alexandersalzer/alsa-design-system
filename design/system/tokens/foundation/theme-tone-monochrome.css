@@ -1,0 +1,154 @@
+/* ==============================================
+   THEME TONES - MONOCHROME
+   Pure neutral grays with minimal to no color tint
+   6 tones: Pure, Graphite, Mono, Charcoal, Steel, Slate
+   ============================================== */
+
+/* ========== PURE (TRUE BLACK & WHITE) ========== */
+:root[data-theme-tone="pure"] {
+  --foundation-white: #ffffff;
+  --foundation-black: #000000;
+
+  /* SYMMETRIC SCALE - Same gaps on both ends (4%, 5%, 6%, 7%, 8%, 9%, 10%) */
+  /* HSL: H=0°, S=0%, L: 100% → 0% */
+  --foundation-gray-0:    #ffffff;  /* L=100.0% */
+  --foundation-gray-100:  #f5f5f5;  /* L=96.0% */
+  --foundation-gray-200:  #e8e8e8;  /* L=91.0% */
+  --foundation-gray-300:  #d9d9d9;  /* L=85.0% */
+  --foundation-gray-400:  #c7c7c7;  /* L=78.0% */
+  --foundation-gray-500:  #b3b3b3;  /* L=70.0% */
+  --foundation-gray-600:  #9c9c9c;  /* L=61.0% */
+  --foundation-gray-700:  #7d7d7d;  /* L=49.0% */
+  --foundation-gray-800:  #636363;  /* L=39.0% */
+  --foundation-gray-900:  #4d4d4d;  /* L=30.0% */
+  --foundation-gray-1000: #383838;  /* L=22.0% */
+  --foundation-gray-1100: #262626;  /* L=15.0% */
+  --foundation-gray-1200: #171717;  /* L=9.0% */
+  --foundation-gray-1300: #0a0a0a;  /* L=4.0% */
+  --foundation-gray-1400: #000000;  /* L=0.0% */
+}
+
+/* ========== GRAPHITE (TRUE NEUTRAL GRAY) ========== */
+:root[data-theme-tone="graphite"] {
+  --foundation-white: #fdfdfd;
+  --foundation-black: #070707;
+
+  /* SYMMETRIC SCALE - Same gaps on both ends (4%, 5%, 6%, 7%, 8%, 9%, 10%) */
+  /* HSL: H=0°, S=1%, L: 97% → 5% */
+  /* Character: True neutral with minimal warmth, between Pure and Mono */
+  --foundation-gray-0:    #f7f7f7;  /* L=97.0% */
+  --foundation-gray-100:  #ededed;  /* L=93.0% */
+  --foundation-gray-200:  #e1e0e0;  /* L=88.0% */
+  --foundation-gray-300:  #d2d1d1;  /* L=82.0% */
+  --foundation-gray-400:  #c0bfbf;  /* L=75.0% */
+  --foundation-gray-500:  #acaaaa;  /* L=67.0% */
+  --foundation-gray-600:  #959393;  /* L=58.0% */
+  --foundation-gray-700:  #8b8989;  /* L=54.0% */
+  --foundation-gray-800:  #716f6f;  /* L=44.0% */
+  --foundation-gray-900:  #5a5858;  /* L=35.0% */
+  --foundation-gray-1000: #464444;  /* L=27.0% */
+  --foundation-gray-1100: #343232;  /* L=20.0% */
+  --foundation-gray-1200: #242323;  /* L=14.0% */
+  --foundation-gray-1300: #171717;  /* L=9.0% */
+  --foundation-gray-1400: #0d0d0d;  /* L=5.0% */
+}
+
+/* ========== MONO (WARM BALANCED GRAY) ========== */
+:root[data-theme-tone="mono"] {
+  --foundation-white: #f8f7f7;
+  --foundation-black: #0d0c0c;
+
+  /* SYMMETRIC SCALE - Same gaps on both ends (4%, 5%, 6%, 7%, 8%, 9%, 10%) */
+  /* HSL: H=0°, S=2%, L: 97% → 5% */
+  /* Character: Slightly warm, balanced for most UI contexts */
+  --foundation-gray-0:    #f8f7f7;  /* L=97.0% */
+  --foundation-gray-100:  #eeeded;  /* L=93.0% */
+  --foundation-gray-200:  #e1e0e0;  /* L=88.0% */
+  --foundation-gray-300:  #d2d0d0;  /* L=82.0% */
+  --foundation-gray-400:  #c1bebe;  /* L=75.0% */
+  --foundation-gray-500:  #ada9a9;  /* L=67.0% */
+  --foundation-gray-600:  #969292;  /* L=58.0% */
+  --foundation-gray-700:  #8c8787;  /* L=54.0% */
+  --foundation-gray-800:  #726e6e;  /* L=44.0% */
+  --foundation-gray-900:  #5b5757;  /* L=35.0% */
+  --foundation-gray-1000: #464343;  /* L=27.0% */
+  --foundation-gray-1100: #343232;  /* L=20.0% */
+  --foundation-gray-1200: #242323;  /* L=14.0% */
+  --foundation-gray-1300: #171616;  /* L=9.0% */
+  --foundation-gray-1400: #0d0c0c;  /* L=5.0% */
+}
+
+/* ========== CHARCOAL (WARM NEUTRAL GRAY) ========== */
+:root[data-theme-tone="charcoal"] {
+  --foundation-white: #f8f7f6;
+  --foundation-black: #0d0c0b;
+
+  /* SYMMETRIC SCALE - Same gaps on both ends (4%, 5%, 6%, 7%, 8%, 9%, 10%) */
+  /* HSL: H=30°, S=2%, L: 97% → 5% */
+  /* Character: Warm-neutral with subtle beige undertone */
+  --foundation-gray-0:    #f8f7f7;  /* L=97.0% */
+  --foundation-gray-100:  #eeeded;  /* L=93.0% */
+  --foundation-gray-200:  #e1e0e0;  /* L=88.0% */
+  --foundation-gray-300:  #d2d1d0;  /* L=82.0% */
+  --foundation-gray-400:  #c1bfbe;  /* L=75.0% */
+  --foundation-gray-500:  #adaba9;  /* L=67.0% */
+  --foundation-gray-600:  #969492;  /* L=58.0% */
+  --foundation-gray-700:  #8c8a87;  /* L=54.0% */
+  --foundation-gray-800:  #72706e;  /* L=44.0% */
+  --foundation-gray-900:  #5b5957;  /* L=35.0% */
+  --foundation-gray-1000: #464543;  /* L=27.0% */
+  --foundation-gray-1100: #343332;  /* L=20.0% */
+  --foundation-gray-1200: #242423;  /* L=14.0% */
+  --foundation-gray-1300: #171716;  /* L=9.0% */
+  --foundation-gray-1400: #0d0d0c;  /* L=5.0% */
+}
+
+/* ========== STEEL (COOL NEUTRAL GRAY) ========== */
+:root[data-theme-tone="steel"] {
+  --foundation-white: #f7f7f8;
+  --foundation-black: #0c0c0d;
+
+  /* SYMMETRIC SCALE - Same gaps on both ends (4%, 5%, 6%, 7%, 8%, 9%, 10%) */
+  /* HSL: H=210°, S=3%, L: 97% → 5% */
+  /* Character: Cool-neutral with subtle blue undertone, between Pure and Slate */
+  --foundation-gray-0:    #f7f7f8;  /* L=97.0% */
+  --foundation-gray-100:  #ededee;  /* L=93.0% */
+  --foundation-gray-200:  #dfe0e1;  /* L=88.0% */
+  --foundation-gray-300:  #d0d1d2;  /* L=82.0% */
+  --foundation-gray-400:  #bdbfc1;  /* L=75.0% */
+  --foundation-gray-500:  #a8abad;  /* L=67.0% */
+  --foundation-gray-600:  #919497;  /* L=58.0% */
+  --foundation-gray-700:  #868a8d;  /* L=54.0% */
+  --foundation-gray-800:  #6d7074;  /* L=44.0% */
+  --foundation-gray-900:  #57595c;  /* L=35.0% */
+  --foundation-gray-1000: #434547;  /* L=27.0% */
+  --foundation-gray-1100: #313335;  /* L=20.0% */
+  --foundation-gray-1200: #232425;  /* L=14.0% */
+  --foundation-gray-1300: #161718;  /* L=9.0% */
+  --foundation-gray-1400: #0c0d0d;  /* L=5.0% */
+}
+
+/* ========== SLATE (COOL GRAY-BLUE) ========== */
+:root[data-theme-tone="slate"] {
+  --foundation-white: #f7f7f8;
+  --foundation-black: #0c0d0e;
+
+  /* SYMMETRIC SCALE - Same gaps on both ends (4%, 5%, 6%, 7%, 8%, 9%, 10%) */
+  /* HSL: H=210°, S=6%, L: 97% → 5% */
+  /* Character: Minimal, clean, modern with noticeable blue tint */
+  --foundation-gray-0:    #f7f7f8;  /* L=97.0% */
+  --foundation-gray-100:  #ecedee;  /* L=93.0% */
+  --foundation-gray-200:  #dfe0e2;  /* L=88.0% */
+  --foundation-gray-300:  #ced1d4;  /* L=82.0% */
+  --foundation-gray-400:  #bbbfc3;  /* L=75.0% */
+  --foundation-gray-500:  #a6abb0;  /* L=67.0% */
+  --foundation-gray-600:  #8d949a;  /* L=58.0% */
+  --foundation-gray-700:  #838a91;  /* L=54.0% */
+  --foundation-gray-800:  #697077;  /* L=44.0% */
+  --foundation-gray-900:  #54595f;  /* L=35.0% */
+  --foundation-gray-1000: #414549;  /* L=27.0% */
+  --foundation-gray-1100: #303336;  /* L=20.0% */
+  --foundation-gray-1200: #222426;  /* L=14.0% */
+  --foundation-gray-1300: #161718;  /* L=9.0% */
+  --foundation-gray-1400: #0c0d0e;  /* L=5.0% */
+}

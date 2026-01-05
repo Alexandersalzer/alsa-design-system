@@ -1,0 +1,184 @@
+.consent {
+  position: fixed;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: var(--space-banner-gap);
+}
+
+/* Positioner */
+.consent--bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.consent--bottom-left {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  align-items: flex-end;
+}
+
+.consent--bottom-right {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  align-items: flex-end;
+}
+
+.consent--center {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  align-items: center;
+}
+
+/* Card wrapper */
+.consent :global(.card) {
+  width: var(--foundation-form-xl-width);
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 2 * var(--space-banner-gap));
+  overflow-y: auto;
+}
+
+.consent .card {
+  box-sizing: border-box;
+}
+
+/* Länk */
+.link {
+  color: var(--text-brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.link:hover {
+  color: var(--text-brand-hover, var(--text-brand));
+  opacity: 0.8;
+}
+
+/* Detaljer */
+.details {
+  padding: var(--space-md);
+  background: var(--surface-secondary);
+  border-radius: var(--radius-md);
+  width: 100%;
+  border: 1px solid var(--border-secondary);
+}
+
+/* Kategori checkbox wrapper */
+.categoryCheckbox {
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease;
+}
+
+.categoryCheckbox:hover {
+  background: var(--surface-tertiary);
+}
+
+/* Fixa checkbox description styling */
+.details :global(.checkbox-description) {
+  font-family: var(--foundation-font-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif);
+  font-size: var(--foundation-text-xs);
+  line-height: 1.5;
+  color: var(--text-tertiary);
+  margin-top: var(--space-xs);
+  padding-right: var(--space-xs);
+}
+
+/* Fixa checkbox label styling */
+.details :global(.checkbox-label) {
+  font-family: var(--foundation-font-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif);
+}
+
+/* Actions */
+.actions {
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--border-secondary);
+  width: 100%;
+}
+
+/* Responsivt */
+@media (max-width: 640px) {
+  .consent {
+    align-items: flex-end;
+    max-height: 100vh;
+  }
+
+  /* Minska card padding på mobil och säkerställ att det inte går ut */
+  .consent :global(.card) {
+    box-sizing: border-box;
+  }
+
+  /* Säkerställ att VStack innehåll har padding */
+  .consent :global(.vstack) {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Minska spacing i details */
+  .details {
+    padding: var(--space-xs);
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  /* Minska spacing mellan kategorier */
+  .details :global(.vstack) {
+    gap: var(--space-xs) !important;
+  }
+
+  /* Minska padding på checkbox wrappers */
+  .categoryCheckbox {
+    padding: var(--space-xs);
+  }
+
+  /* Gör knapparna full bredd på mobil */
+  .actions {
+    width: 100%;
+    padding-top: var(--space-xs);
+  }
+
+  .actions :global(.vstack) {
+    width: 100%;
+    gap: var(--space-xs) !important;
+  }
+
+  .actions :global(.hstack) {
+    width: 100%;
+    gap: var(--space-xs);
+  }
+
+  .actions :global(.hstack) > * {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Se till att huvudknappen är full bredd */
+  .actions :global(.vstack) > button:first-child {
+    width: 100%;
+  }
+
+  /* Minska textstorlek på mobil */
+  .consent :global(.label),
+  .consent :global(.body) {
+    font-size: 0.875rem;
+  }
+
+  /* Minska checkbox description textstorlek på mobil */
+  .details :global(.checkbox-description) {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  /* Minska checkbox label textstorlek på mobil */
+  .details :global(.checkbox-label) {
+    font-size: 0.875rem;
+  }
+}

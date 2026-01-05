@@ -8,7 +8,7 @@
    ========================================================== */
 
 .spinner {
-  display: inline-component;
+  display: inline-block;
   position: relative;
   flex-shrink: 0;
   border-style: solid;
@@ -72,6 +72,17 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+/* ==========================================================
+   ACCESSIBILITY - REDUCED MOTION
+   ========================================================== */
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 0.01s; /* Near-instant rotation, less noticeable */
   }
 }
 

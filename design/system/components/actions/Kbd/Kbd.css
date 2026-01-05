@@ -1,0 +1,67 @@
+/* ===============================================
+   Kbd.css
+   Styling for Kbd (Keyboard Key) component
+   =============================================== */
+
+/* Base kbd styles */
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-family: var(--font-body-family);
+  font-weight: 500;
+  line-height: 1;
+  border: 1px solid;
+  border-radius: var(--radius-xs);
+  white-space: nowrap;
+  transition: all var(--duration-fast) var(--foundation-easing-standard);
+  user-select: none;
+  vertical-align: middle;
+}
+
+/* Secondary variant (default) - matches button secondary */
+.kbd-secondary {
+  background-color: var(--surface-muted);
+  color: var(--text-secondary);
+  border-color: var(--border-subtle);
+  box-shadow: 0 1px 0 0 var(--border-subtle);
+}
+
+/* Ghost variant - transparent with minimal styling */
+.kbd-ghost {
+  background-color: transparent;
+  color: var(--text-tertiary);
+  border-color: var(--border-subtle);
+  box-shadow: none;
+}
+
+/* Primary variant - matches button primary but more subtle */
+.kbd-primary {
+  background-color: var(--surface-accent-subtle);
+  color: var(--text-accent);
+  border-color: var(--border-accent-subtle);
+  box-shadow: 0 1px 0 0 var(--border-accent-subtle);
+}
+
+/* Hover states - subtle interaction feedback */
+.kbd-secondary:hover {
+  background-color: var(--surface-sunken);
+  border-color: var(--border-default);
+}
+
+.kbd-ghost:hover {
+  background-color: var(--surface-muted);
+  color: var(--text-secondary);
+}
+
+.kbd-primary:hover {
+  background-color: var(--surface-accent-muted);
+  border-color: var(--border-accent);
+}
+
+/* Spacing when multiple kbd elements are adjacent */
+.kbd + .kbd {
+  margin-left: 4px;
+}

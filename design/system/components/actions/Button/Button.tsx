@@ -5,13 +5,15 @@
 
 'use client';
 
-import React, { forwardRef, ReactNode } from 'react';
+import React, { forwardRef, ReactNode, useState } from 'react';
 import Link from 'next/link';
 import { cn } from '../../../utils/cn';
 import { Label, TypographyColor, TypographyWeight } from '../../Typography';
 import { Spinner } from '../../feedback';
 import { useHref } from '../../../hooks/useHref';
 import { Component } from '../../frames/component/Component';
+import { useAction } from '../../../core/actions/useAction';
+import type { ActionConfig, NavigationActionConfig } from '../../../core/actions/types';
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -26,6 +28,8 @@ export interface ButtonProps
   rightIcon?: ReactNode;
   fullWidth?: boolean;
   componentKey?: string; // För live editing identification
+  action?: ActionConfig; // För actions: contact, newsletter, booking
+  formData?: Record<string, any>; // Data to submit with action
 }
 
 export const Button = forwardRef<
@@ -47,15 +51,37 @@ export const Button = forwardRef<
       fullWidth = false,
       disabled,
       componentKey,
+      action,
+      formData,
+      onClick,
       ...props
     },
     ref
   ) => {
     const { buildHref } = useHref();
-    const isDisabled = disabled || loading;
+    const [internalLoading, setInternalLoading] = useState(false);
+    
+    // Use action hook if action is provided
+    const actionHook = action ? useAction(action) : null;
+    const isDisabled = disabled || loading || internalLoading;
     
     // Build locale-aware href
-    const localeAwareHref = href ? buildHref(href) : undefined;
+    // Priority: action.settings.href > direct href prop
+    const getEffectiveHref = () => {
+      if (action?.type === 'navigation') {
+        return (action as NavigationActionConfig).settings.href;
+      }
+      return href;
+    };
+    
+    const effectiveHref = getEffectiveHref();
+    const localeAwareHref = effectiveHref ? buildHref(effectiveHref) : undefined;
+    
+    // Get target from action or prop
+    const effectiveTarget = 
+      (action?.type === 'navigation' && (action as NavigationActionConfig).settings.openInNewTab) 
+        ? '_blank' 
+        : target;
 
     const getTypographyProps = (
       variant: string,
@@ -108,9 +134,35 @@ export const Button = forwardRef<
       isDisabled && 'pointer-events-none opacity-60'
     );
 
+    // Handle action execution
+    const handleActionClick = async (e: React.MouseEvent) => {
+      // If it's a navigation action, let useAction handle it
+      if (action?.type === 'navigation' && actionHook) {
+        e.preventDefault();
+        await actionHook.execute({});
+        return;
+      }
+
+      // If no action but has href, let default link behavior handle it
+      if (!action) {
+        onClick?.(e as any);
+        return;
+      }
+
+      // Other actions (contact, newsletter, booking)
+      e.preventDefault();
+      setInternalLoading(true);
+      
+      try {
+        await actionHook!.execute(formData || {});
+      } finally {
+        setInternalLoading(false);
+      }
+    };
+
     const content = (
       <>
-        {loading && (
+        {(loading || internalLoading) && (
           <span className="btn-spinner" aria-hidden="true">
             <Spinner
               size={size === 'sm' ? 'xs' : 'sm'}
@@ -120,7 +172,7 @@ export const Button = forwardRef<
             />
           </span>
         )}
-        {!loading && leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
+        {!loading && !internalLoading && leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
         <Label
           size={typographyProps.size}
           weight={typographyProps.weight}
@@ -130,17 +182,17 @@ export const Button = forwardRef<
         >
           {children}
         </Label>
-        {!loading && rightIcon && <span className="flex-shrink-0">{rightIcon}</span>}
+        {!loading && !internalLoading && rightIcon && <span className="flex-shrink-0">{rightIcon}</span>}
       </>
     );
 
     // 🔗 Render as Link or <a>
-    if (localeAwareHref) {
+    if (localeAwareHref && !action) {
       const isInternal = localeAwareHref.startsWith('/');
       const linkProps = {
         className: buttonClasses,
-        target,
-        rel: target === '_blank' ? 'noopener noreferrer' : undefined,
+        target: effectiveTarget,
+        rel: effectiveTarget === '_blank' ? 'noopener noreferrer' : undefined,
       };
 
       if (isInternal) {
@@ -162,14 +214,17 @@ export const Button = forwardRef<
       );
     }
 
-    // 🧠 Render as <button>
+    // 🧠 Render as <button> with action handling
+    // For navigation actions or form submission actions
     return (
       <Component componentKey={componentKey}>
         <button
           ref={ref as React.Ref<HTMLButtonElement>}
+          type={action ? 'button' : (props.type as any)}
           className={buttonClasses}
           disabled={isDisabled}
-          aria-busy={loading}
+          aria-busy={loading || internalLoading}
+          onClick={handleActionClick}
           {...props}
         >
           {content}

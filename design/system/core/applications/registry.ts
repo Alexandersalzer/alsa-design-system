@@ -9,7 +9,7 @@ export interface ApplicationConfig {
 }
 
 export const APPLICATION_REGISTRY = {
-  booking: {
+  bookings: {
     routes: ['/booking'],
     requiresUserId: true
   }

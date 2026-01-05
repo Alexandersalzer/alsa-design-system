@@ -1,0 +1,12 @@
+{
+  "slug": "suspended",
+  "metadata": {
+    "title": "Webbplatsen är inte tillgänglig",
+    "robots": "noindex, nofollow"
+  },
+  "content": {
+    "tag": "Tillfälligt otillgänglig",
+    "heading": "Webbplatsen är inte tillgänglig",
+    "description": "Denna webbplats är för närvarande inte tillgänglig. Om du är ägaren till webbplatsen, vänligen kontakta support för mer information."
+  }
+}

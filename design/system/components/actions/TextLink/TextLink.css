@@ -45,69 +45,89 @@
 }
 
 /* ===== VARIANT STYLES - USING SEMANTIC TOKENS ===== */
-/* Primary variant */
+/* Primary variant - High contrast by default, less on hover */
 .textlink-primary {
-  color: var(--text-primary);                              /* ✅ Good - semantic token */
+  color: var(--text-default);                      /* Highest contrast (neutral-1200) */
 }
 
 .textlink-primary:hover {
-  color: var(--text-accent);                               /* ✅ Good - semantic token */
+  color: var(--text-strong);               /* Less contrast on hover (neutral-1000) */
 }
 
 .textlink-primary:active {
-  color: var(--text-accent-strong);                        /* ✅ Good - semantic token */
+  color: var(--text-accent) ;                    /* Accent on active */
 }
 
-/* Secondary variant */
+/* Secondary variant - Medium contrast by default, higher on hover */
 .textlink-secondary {
-  color: var(--text-secondary);                            /* ✅ Good - semantic token */
+  color: var(--text-secondary) ;                 /* Medium contrast (text-muted) */
 }
 
 .textlink-secondary:hover {
-  color: var(--text-primary);                              /* ✅ Good - semantic token */
+  color: var(--text-strong) ;                    /* High contrast on hover */
 }
 
 .textlink-secondary:active {
-  color: var(--text-accent);                               /* ✅ Good - semantic token */
+  color: var(--text-accent) ;                    /* Accent on active */
 }
 
-/* Accent variant */
+/* Accent variant - Accent color by default, stronger on hover */
 .textlink-accent {
-  color: var(--icon-accent);                               /* ✅ Good - semantic token */
+  color: var(--text-accent) ;                    /* Accent color default */
 }
 
 .textlink-accent:hover {
-  color: var(--text-accent);                               /* ✅ Good - semantic token */
+  color: var(--text-accent-strong) ;             /* Stronger accent on hover */
 }
 
 .textlink-accent:active {
-  color: var(--text-accent-strong);                        /* ✅ Good - semantic token */
+  color: var(--text-accent-strong) ;             /* Same as hover */
 }
 
-/* Ghost variant (subtle) */
+/* Ghost variant (subtle) - Lower contrast by default, medium on hover */
 .textlink-ghost {
-  color: var(--text-subtle);                             /* ✅ Good - semantic token */
+  color: var(--text-tertiary) ;                  /* Low contrast */
 }
 
 .textlink-ghost:hover {
-  color: var(--text-secondary);                            /* ✅ Good - semantic token */
+  color: var(--text-strong) ;                 /* Medium contrast on hover */
 }
 
 .textlink-ghost:active {
-  color: var(--text-primary);                              /* ✅ Good - semantic token */
+  color: var(--text-primary) ;                   /* High contrast on active */
 }
 
-/* Brand variant (for brand names) */
+/* Button-ghost variant - Like ghost button, text only with elevated surface on hover */
+.textlink-button-ghost {
+  color: var(--text-secondary);
+  background: transparent;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  border-radius: var(--radius-md);
+  transition: background var(--foundation-duration-fast) var(--foundation-easing-standard),
+              color var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+.textlink-button-ghost:hover {
+  color: var(--text-strong);
+  background: var(--surface-elevated);
+}
+
+.textlink-button-ghost:active {
+  color: var(--text-primary);
+  background: var(--surface-raised);
+}
+
+/* Brand variant (for brand names) - Highest contrast */
 .textlink-brand {
-  color: var(--text-heading-primary);                      /* FIXED: was --text-heading-color, using semantic */
+  color: var(--text-strong) ;                    /* Highest contrast */
 }
 
 .textlink-brand:hover {
-  color: var(--text-accent);                               /* ✅ Good - semantic token */
+  color: var(--text-accent) ;                    /* Accent on hover */
 }
 
 .textlink-brand:active {
-  color: var(--text-accent-strong);                        /* ✅ Good - semantic token */
+  color: var(--text-accent-strong) ;             /* Stronger accent on active */
 }
 
 /* ===== UNDERLINE VARIANTS ===== */
@@ -145,15 +165,15 @@
 
 /* ===== DISABLED STATE ===== */
 .textlink-disabled {
-  color: var(--text-disabled) !important;                  /* ✅ Good - semantic token */
+  color: var(--text-disabled) ;                  /* ✅ Good - semantic token */
   cursor: not-allowed;
-  text-decoration: none !important;
+  text-decoration: none ;
 }
 
 .textlink-disabled:hover,
 .textlink-disabled:active {
-  color: var(--text-disabled) !important;                  /* ✅ Good - semantic token */
-  text-decoration: none !important;
+  color: var(--text-disabled) ;                  /* ✅ Good - semantic token */
+  text-decoration: none ;
 }
 
 /* ===== ICON STYLES ===== */
@@ -196,6 +216,7 @@
 .textlink-text {
   /* Typography handled by Typography component */
   line-height: inherit;
+  color: inherit !important; /* Force inherit color from parent textlink */
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */

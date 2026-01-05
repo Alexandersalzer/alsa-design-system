@@ -10,8 +10,8 @@
 
 :root {
   /* Grays chosen for soft contrast and accessibility */
-  --surface-skeleton-start: var(--surface-elevated); /* 200 */
-  --surface-skeleton-end:   var(--surface-deep);   /* 300 */
+  --surface-skeleton-start: var(--surface-deep);
+  --surface-skeleton-end: var(--surface-sunken);
 
   /* Optional accent tokens if you extend palette support */
   --surface-skeleton-start-accent: var(--surface-accent-muted);

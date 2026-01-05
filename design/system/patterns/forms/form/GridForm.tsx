@@ -1,31 +1,46 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, GridItem } from '../../../components/layout';
 import { Button, Input, Textarea, Icon } from '../../../components';
+import { Body } from '../../../components/Typography';
 import { componentProps, componentPresent } from '../../../core/utils/props';
 import { PatternNode } from '../../../core/types/nodes';
-import { 
+import {
   UserIcon,
   BuildingOfficeIcon,
   EnvelopeIcon,
+  PhoneIcon,
   ArrowRightIcon
 } from '@heroicons/react/24/outline';
 
+// ===== TYPES =====
+interface GridFormProps extends PatternNode {
+  websiteId?: string;
+}
+
 // ===== MAIN KJ FORM COMPONENT =====
-const GridForm = ({ components = {} }: PatternNode) => {
+const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
   const get = componentProps(components);
   const renderIf = componentPresent(components);
+  const [formData, setFormData] = useState<Record<string, string>>({});
   
-  // Handle form submission
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    console.log('Form submitted:', Object.fromEntries(formData));
+  // Handle input changes to collect form data for action system
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
+  // Form state
+  const [isSubmitting] = useState(false);
+  const [submitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage] = useState('');
+
+
   return (
-    <form onSubmit={handleSubmit} className="kj-contact-form">
+    <form className="kj-contact-form">
       <Grid columns={2} gap="md">
         
         {/* Name Field - colSpan 1 */}
@@ -45,6 +60,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
               size="md"
               radius="md"
               style={{ width: '100%' }}
+              onChange={handleChange}
             />
           </GridItem>
         )}
@@ -63,6 +79,28 @@ const GridForm = ({ components = {} }: PatternNode) => {
                 </Icon>
               }
               required={get('input-business').props.required || true}
+              size="md"
+              radius="md"
+              style={{ width: '100%' }}
+              onChange={handleChange}
+            />
+          </GridItem>
+        )}
+
+        {/* Phone Field - colSpan 2 (or configurable) */}
+        {renderIf('input-phone') && (
+          <GridItem colSpan={get('input-phone').props.colSpan || 2} data-component-key={get('input-phone').key}>
+            <Input
+              type={get('input-phone').props.variant || 'tel'}
+              name={get('input-phone').props.name || 'phone'}
+              label={get('input-phone').props.label || 'Telefon'}
+              placeholder={get('input-phone').props.placeholder || '+46 70 123 45 67'}
+              leftIcon={
+                <Icon size="sm" color="secondary">
+                  <PhoneIcon />
+                </Icon>
+              }
+              required={get('input-phone').props.required || false}
               size="md"
               radius="md"
               style={{ width: '100%' }}
@@ -87,6 +125,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
               size="md"
               radius="md"
               style={{ width: '100%' }}
+              onChange={handleChange}
             />
           </GridItem>
         )}
@@ -100,6 +139,7 @@ const GridForm = ({ components = {} }: PatternNode) => {
               placeholder={get('textarea-message').props.placeholder || 'Skriv ditt meddelande här...'}
               rows={get('textarea-message').props.rows || 4}
               required={get('textarea-message').props.required || true}
+              onChange={handleChange}
             />
           </GridItem>
         )}
@@ -112,15 +152,30 @@ const GridForm = ({ components = {} }: PatternNode) => {
               variant="accent"
               size="lg"
               radius="md"
+              disabled={isSubmitting}
               rightIcon={
                 <Icon size="sm" color="button-primary">
                   <ArrowRightIcon />
                 </Icon>
               }
               style={{ width: '100%' }}
+              action={get('button-submit').props.action}
+              formData={formData}
             >
-              {get('button-submit').props.content || 'Skicka'}
+              {isSubmitting ? 'Skickar...' : (get('button-submit').props.content || 'Skicka')}
             </Button>
+
+            {/* Success/Error messages */}
+            {submitStatus === 'success' && (
+              <Body size="sm" color="success" style={{ marginTop: '8px' }}>
+                Tack! Vi har tagit emot ditt meddelande.
+              </Body>
+            )}
+            {submitStatus === 'error' && (
+              <Body size="sm" color="error" style={{ marginTop: '8px' }}>
+                {errorMessage}
+              </Body>
+            )}
           </GridItem>
         )}
 

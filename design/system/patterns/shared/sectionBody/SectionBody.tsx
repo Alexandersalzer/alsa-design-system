@@ -5,13 +5,14 @@
 'use client';
 
 import { VStack } from '../../../components/layout/vStack/VStack';
+import { HStack } from '../../../components/layout/hStack/HStack';
 import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import { Tag } from '../../../components/feedback/Tag/Tag';
 import { Button } from '../../../components/actions/Button/Button';
+import { Input } from '../../../components/forms/Input/Input';
 import { componentProps, componentPresent } from '../../../core/utils/props';
 import { ComponentNode } from '../../../core/types/nodes';
-
 
 // ===== MAIN SECTION BODY COMPONENT =====
 
@@ -23,19 +24,44 @@ interface SectionBodyProps {
   props?: Record<string, any>;
 }
 
-const SectionBody = ({ components = {}, sectionKey, patternKey }: SectionBodyProps) => {
+const SectionBody = ({ components = {}, sectionKey, patternKey, props }: SectionBodyProps) => {
   const get = componentProps(components);
   const renderIf = componentPresent(components);
-  
+
+  // Get spacing from props with fallback to 'md'
+  const spacing = props?.spacing || 'md';
+
+  // Get hero spacing configuration
+  // Auto-detect hero sections by sectionKey prefix, or use manual isHero prop
+  const isHero = sectionKey?.startsWith('hero_') || props?.isHero || false;
+  const heroSpacingMobile = props?.heroSpacingMobile || 1.5;
+  const heroSpacingDesktop = props?.heroSpacingDesktop || 1;
+
   return (
-    <Box
-      style={{
-        maxWidth: '650px',
-        margin: '0 auto',
-        width: '100%',
-      }}
-    >
-      <VStack spacing="md" align="center">
+    <>
+      {isHero && (
+        <style>{`
+          @media (max-width: 767px) {
+            .section-body--hero-${patternKey} {
+              padding-top: calc(var(--space-section) * ${heroSpacingMobile});
+            }
+          }
+          @media (min-width: 768px) {
+            .section-body--hero-${patternKey} {
+              padding-top: calc(var(--space-section) * ${heroSpacingDesktop});
+            }
+          }
+        `}</style>
+      )}
+      <Box
+        style={{
+          maxWidth: '650px',
+          margin: '0 auto',
+          width: '100%',
+        }}
+        className={isHero ? `section-body--hero-${patternKey}` : ''}
+      >
+      <VStack spacing={spacing} align="center">
         
         {/* Tag - only render if exists */}
         {renderIf('tag') && get('tag').props.content && (
@@ -78,12 +104,38 @@ const SectionBody = ({ components = {}, sectionKey, patternKey }: SectionBodyPro
           </Typography>
         )}
 
-        {/* Button - only render if exists */}
-        {renderIf('button-primary') && get('button-primary').props.content && (
+        {/* Input + Button Group - render if input exists */}
+        {renderIf('input-email') && (
+          <Box style={{ width: '100%', maxWidth: '500px' }}>
+            <HStack spacing="sm" align="stretch">
+              <Input
+                type={get('input-email').props.type || 'email'}
+                placeholder={get('input-email').props.placeholder || 'Enter your email'}
+                size={get('input-email').props.size || 'lg'}
+                fullWidth
+                componentKey={get('input-email').key}
+              />
+              {renderIf('button-submit') && get('button-submit').props.content && (
+                <Button
+                  size={get('button-submit').props.size || 'lg'}
+                  variant={get('button-submit').props.variant || 'accent'}
+                  componentKey={get('button-submit').key}
+                  style={{ flexShrink: 0 }}
+                >
+                  {get('button-submit').props.content}
+                </Button>
+              )}
+            </HStack>
+          </Box>
+        )}
+
+        {/* Button - only render if exists AND no input */}
+        {!renderIf('input-email') && renderIf('button-primary') && get('button-primary').props.content && (
           <Button
             size="lg"
             variant='accent'
             href={get('button-primary').props.href}
+            action={get('button-primary').props.action}
             componentKey={get('button-primary').key}
           >
             {get('button-primary').props.content}
@@ -91,6 +143,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey }: SectionBodyPro
         )}
       </VStack>
     </Box>
+    </>
   );
 };
 
