@@ -6,7 +6,7 @@
     "rejectAll": "Only necessary",
     "acceptAll": "Accept all",
     "back": "Back",
-    "denyAll": "Deny all",
+    "denyAll": "Only necessary",
     "saveSelection": "Save selection"
   },
   "categories": {

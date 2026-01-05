@@ -7,6 +7,7 @@ import { Label, Body } from '../../components/Typography';
 import { Card } from '../../components/layout/Card';
 import { VStack } from '../../components/layout/vStack';
 import { HStack } from '../../components/layout/hStack';
+import { Checkbox } from '../../components/forms/Checkbox';
 import styles from './CookieConsent.module.css';
 
 // Import content
@@ -86,72 +87,56 @@ export function CookieConsent({
           {showDetails && (
             <VStack spacing="sm" align="stretch" className={styles.details}>
               {/* Nödvändiga - alltid på */}
-              <label className={`${styles.category} ${styles.categoryDisabled}`}>
-                <input type="checkbox" checked disabled className={styles.checkbox} />
-                <VStack spacing="xs" align="start">
-                  <Label size="sm" weight="semibold">{t.categories.essential.title}</Label>
-                  <Body size="xs" color="tertiary">
-                    {t.categories.essential.description}
-                  </Body>
-                </VStack>
-              </label>
+              <Checkbox
+                checked
+                disabled
+                label={t.categories.essential.title}
+                description={t.categories.essential.description}
+                size="sm"
+                wrapperClassName={styles.categoryCheckbox}
+              />
 
               {/* Analytics */}
-              <label className={styles.category}>
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.analytics}
-                  onChange={() => handleToggleCategory('analytics')}
-                  className={styles.checkbox}
-                />
-                <VStack spacing="xs" align="start">
-                  <Label size="sm" weight="semibold">{t.categories.analytics.title}</Label>
-                  <Body size="xs" color="tertiary">
-                    {t.categories.analytics.description}
-                  </Body>
-                </VStack>
-              </label>
+              <Checkbox
+                checked={selectedCategories.analytics || false}
+                onChange={(e) => {
+                  if (e.target.checked !== selectedCategories.analytics) {
+                    handleToggleCategory('analytics');
+                  }
+                }}
+                label={t.categories.analytics.title}
+                description={t.categories.analytics.description}
+                size="sm"
+                wrapperClassName={styles.categoryCheckbox}
+              />
 
               {/* Marketing */}
-              <label className={styles.category}>
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.marketing}
-                  onChange={() => handleToggleCategory('marketing')}
-                  className={styles.checkbox}
-                />
-                <VStack spacing="xs" align="start">
-                  <Label size="sm" weight="semibold">{t.categories.marketing.title}</Label>
-                  <Body size="xs" color="tertiary">
-                    {t.categories.marketing.description}
-                  </Body>
-                </VStack>
-              </label>
+              <Checkbox
+                checked={selectedCategories.marketing || false}
+                onChange={(e) => {
+                  if (e.target.checked !== selectedCategories.marketing) {
+                    handleToggleCategory('marketing');
+                  }
+                }}
+                label={t.categories.marketing.title}
+                description={t.categories.marketing.description}
+                size="sm"
+                wrapperClassName={styles.categoryCheckbox}
+              />
 
               {/* Preferences */}
-              <label className={styles.category}>
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.preferences}
-                  onChange={() => handleToggleCategory('preferences')}
-                  className={styles.checkbox}
-                />
-                <VStack spacing="xs" align="start">
-                  <Label size="sm" weight="semibold">{t.categories.preferences.title}</Label>
-                  <Body size="xs" color="tertiary">
-                    {t.categories.preferences.description}
-                  </Body>
-                </VStack>
-              </label>
-
-              {/* Integritetspolicy länk */}
-              {privacyPolicyUrl && (
-                <Body size="sm" color="secondary">
-                  <a href={privacyPolicyUrl} className={styles.link}>
-                    {t.privacyPolicy.text}
-                  </a>
-                </Body>
-              )}
+              <Checkbox
+                checked={selectedCategories.preferences || false}
+                onChange={(e) => {
+                  if (e.target.checked !== selectedCategories.preferences) {
+                    handleToggleCategory('preferences');
+                  }
+                }}
+                label={t.categories.preferences.title}
+                description={t.categories.preferences.description}
+                size="sm"
+                wrapperClassName={styles.categoryCheckbox}
+              />
             </VStack>
           )}
 
