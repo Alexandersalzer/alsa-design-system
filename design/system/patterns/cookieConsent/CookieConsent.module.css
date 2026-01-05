@@ -109,4 +109,28 @@
   .consent {
     padding: var(--space-sm);
   }
+
+  /* Gör knapparna full bredd på mobil */
+  .actions {
+    width: 100%;
+  }
+
+  .actions :global(.vstack) {
+    width: 100%;
+  }
+
+  .actions :global(.hstack) {
+    width: 100%;
+    gap: var(--space-sm);
+  }
+
+  .actions :global(.hstack) > * {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Se till att huvudknappen är full bredd */
+  .actions :global(.vstack) > button:first-child {
+    width: 100%;
+  }
 }

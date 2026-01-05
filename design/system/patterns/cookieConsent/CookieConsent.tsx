@@ -156,10 +156,18 @@ export function CookieConsent({
           )}
 
           {/* Knappar */}
-          <HStack spacing="sm" justify="between" wrap className={styles.actions}>
+          <div className={styles.actions}>
             {!showDetails ? (
-              <>
-                <HStack spacing="sm" wrap>
+              <VStack spacing="sm" align="stretch">
+                <Button
+                  variant="accent"
+                  size="sm"
+                  onClick={acceptAll}
+                  style={{ width: '100%' }}
+                >
+                  {t.buttons.acceptAll}
+                </Button>
+                <HStack spacing="sm" justify="between" wrap>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -175,17 +183,18 @@ export function CookieConsent({
                     {t.buttons.rejectAll}
                   </Button>
                 </HStack>
+              </VStack>
+            ) : (
+              <VStack spacing="sm" align="stretch">
                 <Button
                   variant="accent"
                   size="sm"
-                  onClick={acceptAll}
+                  onClick={handleAcceptSelected}
+                  style={{ width: '100%' }}
                 >
-                  {t.buttons.acceptAll}
+                  {t.buttons.saveSelection}
                 </Button>
-              </>
-            ) : (
-              <>
-                <HStack spacing="sm" wrap>
+                <HStack spacing="sm" justify="between" wrap>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -201,16 +210,9 @@ export function CookieConsent({
                     {t.buttons.denyAll}
                   </Button>
                 </HStack>
-                <Button
-                  variant="accent"
-                  size="sm"
-                  onClick={handleAcceptSelected}
-                >
-                  {t.buttons.saveSelection}
-                </Button>
-              </>
+              </VStack>
             )}
-          </HStack>
+          </div>
         </VStack>
       </Card>
     </div>
