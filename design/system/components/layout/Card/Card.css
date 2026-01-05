@@ -69,6 +69,12 @@
   color: var(--text-solid);
 }
 
+.card--ghost {
+  background-color: var(--surface-page);
+  border: none;
+  box-shadow: none;
+}
+
 /* ===== INTERACTIVE CARD STATES ===== */
 
 /* Base interactive styling */

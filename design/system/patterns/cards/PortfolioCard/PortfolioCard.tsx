@@ -75,7 +75,7 @@ export interface PortfolioCardProps {
   showFlags?: boolean; // Toggle flag visibility (default: true)
   
   // Styling options
-  variant?: 'default' | 'elevated' | 'outlined';
+  variant?: 'default' | 'elevated' | 'outlined' | 'ghost';
   padding?: 'sm' | 'md' | 'lg';
   radius?: 'sm' | 'md' | 'lg';
   
@@ -118,8 +118,8 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   showFlags = true,
 
   // Card styling defaults
-  variant = 'default',
-  padding = 'md',
+  variant = 'ghost',
+  padding = 'sm',
   radius = 'md',
   
   // Typography defaults - matching KJ Marketing style

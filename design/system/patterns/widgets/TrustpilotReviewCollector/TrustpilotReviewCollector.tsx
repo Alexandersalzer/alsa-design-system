@@ -19,8 +19,7 @@ export interface TrustpilotReviewCollectorProps {
   // Widget mode props
   businessUnitId?: string; // Your Trustpilot Business Unit ID
   locale?: string; // Language (sv-SE, en-US, da-DK, etc.)
-  templateId?: string; // TrustBox template ID
-  height?: string; // Widget height
+  templateId?: string; // TrustBox template ID (default: Review Collector)
   stars?: string; // Pre-selected stars (1-5)
 }
 
@@ -37,7 +36,6 @@ export const TrustpilotReviewCollector: React.FC<PatternNode> = (patternNode) =>
     businessUnitId,
     locale = 'sv-SE',
     templateId = '56278e9abfbbba0bdcd568bc',
-    height = '500px',
     stars = '5'
   } = getPatternProps() as TrustpilotReviewCollectorProps;
 
@@ -100,7 +98,6 @@ export const TrustpilotReviewCollector: React.FC<PatternNode> = (patternNode) =>
           data-locale={locale}
           data-template-id={templateId}
           data-businessunit-id={businessUnitId}
-          data-style-height={height}
           data-style-width="100%"
           data-stars={stars}
           style={{ maxWidth: '750px', width: '100%' }}
