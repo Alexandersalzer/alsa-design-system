@@ -46,6 +46,11 @@
       "require": "./dist/design/system/core/routing/index.js",
       "types": "./dist/design/system/core/routing/index.d.ts"
     },
+    "./localization": {
+      "import": "./dist/design/system/core/localization/index.js",
+      "require": "./dist/design/system/core/localization/index.js",
+      "types": "./dist/design/system/core/localization/index.d.ts"
+    },
     "./consent": {
       "import": "./dist/design/system/patterns/cookieConsent/index.js",
       "require": "./dist/design/system/patterns/cookieConsent/index.js",

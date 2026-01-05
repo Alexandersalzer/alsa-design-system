@@ -11,7 +11,8 @@ export type {
   ComponentNode,
   PatternNode,
   SectionNode,
-  PageNode
+  PageNode,
+  PageSEO
 } from './types/nodes';
 
 // Render utilities and components
@@ -22,5 +23,6 @@ export * from './content';
 
 export * from './utils';
 export * from './design';
+export * from './localization';
 export type { DesignTokens } from './types';
 

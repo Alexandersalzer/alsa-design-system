@@ -88,8 +88,6 @@ export function useAction(config: ActionConfig) {
         // Trigger pixel events (endast om marketing consent finns)
         if (allPixelEvents.length > 0 && consent.marketing) {
           triggerPixelEvents(allPixelEvents);
-        } else if (allPixelEvents.length > 0 && !consent.marketing) {
-          console.log('[Action] Pixel events skipped - no marketing consent');
         }
 
         // Show success message
@@ -150,13 +148,10 @@ function trackProviderEvent(
 ) {
   if (provider === 'meta' && typeof window.fbq !== 'undefined') {
     window.fbq('track', event, parameters);
-    console.log(`[Pixel] Meta: ${event}`, parameters || '');
   } else if (provider === 'google' && typeof window.gtag !== 'undefined') {
     window.gtag('event', event, parameters);
-    console.log(`[Pixel] Google: ${event}`, parameters || '');
   } else if (provider === 'tiktok' && typeof window.ttq !== 'undefined') {
     window.ttq.track(event, parameters);
-    console.log(`[Pixel] TikTok: ${event}`, parameters || '');
   }
 }
 

@@ -6,25 +6,25 @@
     "rejectAll": "Only necessary",
     "acceptAll": "Accept all",
     "back": "Back",
-    "denyAll": "Deny all",
+    "denyAll": "Only necessary",
     "saveSelection": "Save selection"
   },
   "categories": {
     "essential": {
       "title": "Essential",
-      "description": "Essential cookies and services are used to enable the core functionality of the website, such as ensuring the security of the website."
+      "description": "Necessary for the website to function."
     },
     "analytics": {
       "title": "Analytics",
-      "description": "Analytics cookies and services are used to collect statistical information about how visitors interact with a website. These technologies provide insights into website usage, visitor behavior, and website performance to understand and improve the website and enhance user experience."
+      "description": "Helps us understand how visitors use the website."
     },
     "marketing": {
       "title": "Marketing",
-      "description": "Marketing cookies and services are used to deliver personalized ads, campaigns, and offers. These technologies enable targeted advertising and marketing campaigns by collecting information about users' interests, preferences, and online activities."
+      "description": "Used to deliver personalized ads and campaigns."
     },
     "preferences": {
       "title": "Preferences",
-      "description": "Functional cookies and services are used to offer enhanced and personalized features. These technologies provide additional functionality and improved user experiences, such as remembering your language settings, font sizes, region selections, and customized layouts. If you opt out of these cookies, some services or features on the website may become unavailable."
+      "description": "Remembers your settings for a better experience."
     }
   },
   "privacyPolicy": {
