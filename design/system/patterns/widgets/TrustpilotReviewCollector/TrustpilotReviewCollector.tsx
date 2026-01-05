@@ -31,10 +31,10 @@ export const TrustpilotReviewCollector: React.FC<PatternNode> = (patternNode) =>
 
   const {
     mode = 'button',
-    reviewUrl = 'https://www.trustpilot.com/evaluate/kjmarketingsweden.com',
+    reviewUrl,
     buttonText = 'Lämna ett omdöme på Trustpilot',
     buttonVariant = 'primary',
-    businessUnitId = '5e8c1d7b0019da00017079a7',
+    businessUnitId,
     locale = 'sv-SE',
     templateId = '53aa8912dec7e10d38f59f36',
     height = '500px',
