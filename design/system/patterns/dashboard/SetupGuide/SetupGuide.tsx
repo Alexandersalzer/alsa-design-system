@@ -230,6 +230,30 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
           </VStack>
         )}
 
+        {/* Kom igång-knapp - visas endast när "Kom igång"-steget (overview) inte är avklarat */}
+        {sortedSteps.length > 0 && 
+         sortedSteps[0].key === 'overview' && 
+         !sortedSteps[0].completed && (
+          <Box className="setup-guide__cta-container">
+            <Button
+              variant="accent"
+              size="xl"
+              onClick={() => handleNavigate(sortedSteps[0].href)}
+              className="setup-guide__cta-button"
+            >
+              <HStack spacing="sm" align="center">
+                <Icon size="lg">
+                  {(() => {
+                    const FirstStepIcon = sortedSteps[0].icon;
+                    return <FirstStepIcon />;
+                  })()}
+                </Icon>
+                <span>Kom igång</span>
+              </HStack>
+            </Button>
+          </Box>
+        )}
+
         {/* Steps - Using Listbox for better accessibility */}
         <Listbox
           variant="separated"
@@ -237,8 +261,9 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
           spacing="md"
           role="list"
         >
-          {sortedSteps.map((step) => {
+          {sortedSteps.map((step, index) => {
             const IconComponent = step.icon;
+            const isFirstIncomplete = index === 0 && !step.completed;
 
             return (
               <ListboxItem

@@ -5,7 +5,8 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+import Link from 'next/link';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
 import { Image } from '../../../components/media/Image';
 import { CDN_BASE_URL } from '../../../core/utils/env';
@@ -26,8 +27,6 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
   const mapComponentsOfType = useMapComponents(components);
   const componentOrder = getPatternOrder(patternNode);
 
-  const [isHovering, setIsHovering] = useState(false);
-
   // Extract pattern props with defaults
   const {
     speed = 30,
@@ -42,6 +41,7 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
     enableFadeEdges = true,
     fadeWidth = '200px',
     duplicateCount = 6,
+    href,
     onImageClick
   } = getPatternProps();
 
@@ -76,22 +76,16 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
   };
 
   // Transform images into CarouselAnimationItem format using Image component
-  const carouselItems: CarouselAnimationItem[] = images.map((image, index) => ({
-    id: `${image.src}-${index}`,
-    componentKey: image.componentKey,
-    content: (
+  const carouselItems: CarouselAnimationItem[] = images.map((image, index) => {
+    const imageContent = (
       <div
         className="carousel-image-wrapper"
-        onClick={() => onImageClick?.(image)}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
+        {...(!href && onImageClick ? { onClick: () => onImageClick(image) } : {})}
         style={{
-          cursor: onImageClick ? 'pointer' : 'default',
+          cursor: href || onImageClick ? 'pointer' : 'default',
           width: '100%',
           height: '100%',
-          position: 'relative',
-          opacity: isHovering ? 0.7 : 1,
-          transition: 'opacity 0.3s ease'
+          position: 'relative'
         }}
       >
         <Image
@@ -102,13 +96,25 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
           height="100%"
           objectFit="cover"
           radius={getRadiusVariant(imageBorderRadius)}
-          loading="lazy"
+          loading={index < 3 ? "eager" : "lazy"}
           showSkeleton={true}
-          hoverZoom={!!onImageClick}
+          hoverZoom={false}
         />
       </div>
-    )
-  }));
+    );
+
+    return {
+      id: `${image.src}-${index}`,
+      componentKey: image.componentKey,
+      content: href ? (
+        <Link href={href} style={{ display: 'block', width: '100%', height: '100%', textDecoration: 'none' }}>
+          {imageContent}
+        </Link>
+      ) : (
+        imageContent
+      )
+    };
+  });
 
   return (
     <CarouselAnimation
@@ -126,6 +132,7 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
       enableFadeEdges={enableFadeEdges}
       fadeWidth={fadeWidth}
       duplicateCount={duplicateCount}
+      enableHover={true}
     />
   );
 };
