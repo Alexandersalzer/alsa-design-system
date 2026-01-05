@@ -180,10 +180,36 @@ function detectAvailableLocales() {
  * Main config generation function
  */
 async function generateConfig() {
-  // Validate environment variables
+  // If no EXTERNAL_ID, create minimal config for templates
   if (!EXTERNAL_ID) {
-    console.error('❌ NEXT_PUBLIC_EXTERNAL_ID environment variable is required!');
-    process.exit(1);
+    console.log('⚠️  No NEXT_PUBLIC_EXTERNAL_ID - creating minimal config for template');
+    
+    const availableLocales = detectAvailableLocales();
+    const config = {
+      version: '1.0',
+      user: {
+        external_id: null
+      },
+      localization: {
+        default_iso_code: 'sv',
+        available_locales: availableLocales
+      },
+      applications: {
+        active: []
+      },
+      marketing: {
+        pixels: []
+      }
+    };
+    
+    const projectRoot = process.cwd();
+    const configDir = path.join(projectRoot, 'public', 'config');
+    const configPath = path.join(configDir, 'config.json');
+    
+    fs.mkdirSync(configDir, { recursive: true });
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf8');
+    console.log('✅ Minimal config.json created');
+    return;
   }
   
   // Validate UUID format
