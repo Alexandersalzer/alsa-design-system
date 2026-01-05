@@ -783,7 +783,7 @@
 :root {
   /* ----- Old text naming ----- */
   --text-primary: var(--text-default);
-  --text-secondary: var(--text-muted);
+  --text-secondary: var(--text-default);
   --text-tertiary: var(--text-subtle);
 
   /* ----- OVANFÖR ÄR CLARO I UI  ----- */
