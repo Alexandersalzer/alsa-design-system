@@ -71,8 +71,8 @@ export function CookieConsent({
       role="dialog" 
       aria-label="Cookie consent"
     >
-      <Card variant="elevated" padding="lg" radius="lg">
-        <VStack spacing="md" align="start">
+      <Card variant="elevated" padding="lg" radius="lg" className={styles.card}>
+        <VStack spacing="sm" align="start">
           {/* Header */}
           <Label size="lg" weight="bold" color="primary">
             {t.title}

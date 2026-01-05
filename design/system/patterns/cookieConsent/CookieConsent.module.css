@@ -42,6 +42,12 @@
   max-width: 100%;
   display: flex;
   flex-direction: column;
+  max-height: calc(100vh - 2 * var(--space-banner-gap));
+  overflow-y: auto;
+}
+
+.consent .card {
+  box-sizing: border-box;
 }
 
 /* Länk */
@@ -103,21 +109,39 @@
   .consent {
     padding: var(--space-xs);
     align-items: flex-end;
+    max-height: 100vh;
   }
 
-  /* Minska card padding på mobil */
+  /* Minska card padding på mobil och säkerställ att det inte går ut */
   .consent :global(.card) {
-    padding: var(--space-md) !important;
+    padding: var(--space-sm) !important;
+    max-width: calc(100vw - 2 * var(--space-xs));
+    max-height: calc(100vh - 2 * var(--space-xs));
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  /* Säkerställ att VStack innehåll har padding */
+  .consent :global(.vstack) {
+    width: 100%;
+    box-sizing: border-box;
   }
 
   /* Minska spacing i details */
   .details {
-    padding: var(--space-sm);
+    padding: var(--space-xs);
+    margin: 0;
+    box-sizing: border-box;
   }
 
   /* Minska spacing mellan kategorier */
   .details :global(.vstack) {
     gap: var(--space-xs) !important;
+  }
+
+  /* Minska padding på checkbox wrappers */
+  .categoryCheckbox {
+    padding: var(--space-xs);
   }
 
   /* Gör knapparna full bredd på mobil */

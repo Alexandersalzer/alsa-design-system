@@ -12,19 +12,19 @@
   "categories": {
     "essential": {
       "title": "Essentiella",
-      "description": "Essentiella cookies och tjänster används för att aktivera webbplatsens centrala funktioner, såsom att säkerställa webbplatsens säkerhet."
+      "description": "Nödvändiga för att webbplatsen ska fungera."
     },
     "analytics": {
       "title": "Analys",
-      "description": "Analyscookies och -tjänster används för att samla in statistisk information om hur besökare interagerar med en webbplats. Dessa tekniker ger insikter i webbplatsanvändning, besökarnas beteende och webbplatsens prestanda för att förstå och förbättra webbplatsen och förbättra användarupplevelsen."
+      "description": "Hjälper oss att förstå hur besökare använder webbplatsen."
     },
     "marketing": {
       "title": "Marknadsföring",
-      "description": "Marknadsförings cookies och -tjänster används för att leverera personliga annonser, kampanjer och erbjudanden. Dessa tekniker möjliggör riktade annonser och marknadsföringskampanjer genom att samla in information om användarnas intressen, preferenser och onlineaktiviteter."
+      "description": "Används för att leverera personliga annonser och kampanjer."
     },
     "preferences": {
       "title": "Preferenser",
-      "description": "Funktionella cookies och tjänster används för att erbjuda förbättrade och personliga funktioner. Dessa tekniker ger ytterligare funktioner och förbättrade användarupplevelser, till exempel att komma ihåg dina språkinställningar, teckenstorlekar, regionsval och anpassade layouter. Om du väljer bort dessa cookies kan vissa tjänster eller funktioner på webbplatsen bli otillgängliga."
+      "description": "Kommer ihåg dina inställningar för en bättre upplevelse."
     }
   },
   "privacyPolicy": {
