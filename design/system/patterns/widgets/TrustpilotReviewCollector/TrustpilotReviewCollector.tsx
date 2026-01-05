@@ -36,7 +36,7 @@ export const TrustpilotReviewCollector: React.FC<PatternNode> = (patternNode) =>
     buttonVariant = 'primary',
     businessUnitId,
     locale = 'sv-SE',
-    templateId = '53aa8912dec7e10d38f59f36',
+    templateId = '56278e9abfbbba0bdcd568bc',
     height = '500px',
     stars = '5'
   } = getPatternProps() as TrustpilotReviewCollectorProps;
