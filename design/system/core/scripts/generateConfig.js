@@ -202,14 +202,14 @@ async function generateConfig() {
       },
       seo: {
         favicon: {
+          basePath: 'https://cdn.blimpify-im.com/assets/favicon',
           files: {
             ico: 'https://cdn.blimpify-im.com/assets/favicon/favicon.ico',
-            png16: 'https://cdn.blimpify-im.com/assets/favicon/favicon-96x96.png',
-            png32: 'https://cdn.blimpify-im.com/assets/favicon/favicon-96x96.png',
+            png16: 'https://cdn.blimpify-im.com/assets/favicon/favicon-16x16.png',
+            png32: 'https://cdn.blimpify-im.com/assets/favicon/favicon-32x32.png',
             appleTouchIcon: 'https://cdn.blimpify-im.com/assets/favicon/apple-touch-icon.png',
             androidChrome192: 'https://cdn.blimpify-im.com/assets/favicon/android-chrome-192x192.png',
             androidChrome512: 'https://cdn.blimpify-im.com/assets/favicon/android-chrome-512x512.png',
-            svg: 'https://cdn.blimpify-im.com/assets/favicon/favicon.svg',
             webmanifest: 'https://cdn.blimpify-im.com/assets/favicon/site.webmanifest'
           }
         }
