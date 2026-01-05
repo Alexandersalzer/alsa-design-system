@@ -107,17 +107,12 @@
 /* Responsivt */
 @media (max-width: 640px) {
   .consent {
-    padding: var(--space-xs);
     align-items: flex-end;
     max-height: 100vh;
   }
 
   /* Minska card padding på mobil och säkerställ att det inte går ut */
   .consent :global(.card) {
-    padding: var(--space-sm) !important;
-    max-width: calc(100vw - 2 * var(--space-xs));
-    max-height: calc(100vh - 2 * var(--space-xs));
-    margin: 0;
     box-sizing: border-box;
   }
 
