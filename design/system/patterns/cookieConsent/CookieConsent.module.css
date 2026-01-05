@@ -62,17 +62,33 @@
   background: var(--surface-secondary);
   border-radius: var(--radius-md);
   width: 100%;
+  border: 1px solid var(--border-secondary);
 }
 
 /* Kategori checkbox wrapper */
 .categoryCheckbox {
-  padding: var(--space-xs);
+  padding: var(--space-sm);
   border-radius: var(--radius-sm);
   transition: background-color 0.15s ease;
 }
 
 .categoryCheckbox:hover {
   background: var(--surface-tertiary);
+}
+
+/* Fixa checkbox description styling */
+.details :global(.checkbox-description) {
+  font-family: var(--foundation-font-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif);
+  font-size: var(--foundation-text-xs);
+  line-height: 1.5;
+  color: var(--text-tertiary);
+  margin-top: var(--space-xs);
+  padding-right: var(--space-xs);
+}
+
+/* Fixa checkbox label styling */
+.details :global(.checkbox-label) {
+  font-family: var(--foundation-font-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif);
 }
 
 /* Actions */
@@ -133,6 +149,17 @@
   /* Minska textstorlek på mobil */
   .consent :global(.label),
   .consent :global(.body) {
+    font-size: 0.875rem;
+  }
+
+  /* Minska checkbox description textstorlek på mobil */
+  .details :global(.checkbox-description) {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  /* Minska checkbox label textstorlek på mobil */
+  .details :global(.checkbox-label) {
     font-size: 0.875rem;
   }
 }
