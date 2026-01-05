@@ -43,7 +43,6 @@ export async function listDirectory(dirPath: string): Promise<string[]> {
       .filter(entry => entry.isFile() || entry.isDirectory())
       .map(entry => entry.name);
   } catch (error) {
-    console.error(`Failed to list directory ${dirPath}:`, error);
     return [];
   }
 }
