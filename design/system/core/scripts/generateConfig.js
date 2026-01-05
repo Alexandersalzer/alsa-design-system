@@ -199,6 +199,20 @@ async function generateConfig() {
       },
       marketing: {
         pixels: []
+      },
+      seo: {
+        favicon: {
+          files: {
+            ico: 'https://cdn.blimpify-im.com/assets/favicon/favicon.ico',
+            png16: 'https://cdn.blimpify-im.com/assets/favicon/favicon-96x96.png',
+            png32: 'https://cdn.blimpify-im.com/assets/favicon/favicon-96x96.png',
+            appleTouchIcon: 'https://cdn.blimpify-im.com/assets/favicon/apple-touch-icon.png',
+            androidChrome192: 'https://cdn.blimpify-im.com/assets/favicon/android-chrome-192x192.png',
+            androidChrome512: 'https://cdn.blimpify-im.com/assets/favicon/android-chrome-512x512.png',
+            svg: 'https://cdn.blimpify-im.com/assets/favicon/favicon.svg',
+            webmanifest: 'https://cdn.blimpify-im.com/assets/favicon/site.webmanifest'
+          }
+        }
       }
     };
     
@@ -208,7 +222,7 @@ async function generateConfig() {
     
     fs.mkdirSync(configDir, { recursive: true });
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf8');
-    console.log('✅ Minimal config.json created');
+    console.log('✅ Minimal config.json created with default favicon');
     return;
   }
   
