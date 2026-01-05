@@ -1,6 +1,10 @@
 /* ==============================================
    src/design-system/components/primitives/Button/Button.css
-   BUTTON COMPONENT STYLES - HEIGHTS MATCH INPUT COMPONENTS
+   BUTTON COMPONENT STYLES - PROPER LABEL INTEGRATION
+   
+   ✅ Uses Label component from design system
+   ✅ All colors defined in CSS via semantic tokens
+   ✅ Label inherits color from parent button
 ============================================== */
 
 /* Base button styles */
@@ -13,7 +17,7 @@
   /* Layout */
   padding: var(--foundation-space-2) var(--foundation-space-4);
   border: 1px solid transparent;
-  border-radius: var(--radius-button); /* Default radius */
+  border-radius: var(--radius-button);
   
   /* Interaction */
   cursor: pointer;
@@ -24,10 +28,26 @@
   white-space: nowrap;
 }
 
+/* =============================================
+   FORCE LABEL TO INHERIT BUTTON COLOR
+   This ensures Label component doesn't override
+   ============================================= */
+.btn .btn-text,
+.btn [class*="text-label-"] {
+  color: inherit !important;
+}
+
+/* Ensure icons also inherit */
+.btn .icon,
+.btn [class*="icon-"],
+.btn svg {
+  color: inherit;
+}
+
 /* Button sizes - UPDATED TO MATCH INPUT HEIGHTS */
 .btn-sm {
   padding: var(--foundation-space-1) var(--foundation-space-2);
-  height: var(--control-height-sm); /* Matches input--sm */
+  height: var(--control-height-sm);
 }
 
 .btn-md {
@@ -51,20 +71,14 @@
 }
 
 /* ==========================================================
-   BUTTON VARIANTS
+   BUTTON VARIANTS - ALL COLORS DEFINED HERE
    ========================================================== */
 
-/* ===== BRAND (AUTO-ADAPTIVE) ✨ NEW ===== */
+/* ===== BRAND (AUTO-ADAPTIVE) ===== */
 .btn-brand {
   background-color: var(--surface-button-brand);
   color: var(--text-button-brand);
   border-color: var(--border-button-brand);
-}
-
-/* Ensure icons inside brand buttons match text color */
-.btn-brand .icon,
-.btn-brand [class*="icon-"] {
-  color: var(--text-button-brand);
 }
 
 .btn-brand:hover:not(:disabled) {
@@ -94,12 +108,6 @@
   background-color: var(--interactive-primary);
   color: var(--text-button-primary);
   border-color: var(--border-button-primary);
-}
-
-/* Ensure icons inside primary buttons match text color */
-.btn-primary .icon,
-.btn-primary [class*="icon-"] {
-  color: var(--text-button-primary);
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -156,14 +164,8 @@
 /* ===== ACCENT ===== */
 .btn-accent {
   background-color: var(--surface-button-accent);
-  color: var(--text-button-accent); /* ✅ uses semantic token that adapts */
+  color: var(--text-button-accent);
   border-color: var(--border-button-accent);
-}
-
-/* Ensure icons inside accent buttons match text color */
-.btn-accent .icon,
-.btn-accent [class*="icon-"] {
-  color: var(--text-button-accent) ;
 }
 
 .btn-accent:hover:not(:disabled) {
@@ -213,14 +215,8 @@
 /* ===== DESTRUCTIVE ===== */
 .btn-destructive {
   background-color: var(--surface-button-destructive);
-  color: var(--always-white); /* ✅ now permanent white text */
+  color: var(--always-white);
   border-color: var(--border-button-destructive);
-}
-
-/* Ensure icons inside destructive buttons are white */
-.btn-destructive .icon,
-.btn-destructive [class*="icon-"] {
-  color: var(--always-white) !important;
 }
 
 .btn-destructive:hover:not(:disabled) {
@@ -244,7 +240,6 @@
   to { transform: rotate(360deg); }
 }
 
-/* Ensure spinner aligns visually with text */
 .btn-spinner {
   display: flex;
   align-items: center;
@@ -253,20 +248,19 @@
 }
 
 /* ===== PERFECT FORM ALIGNMENT ===== */
-/* When buttons and inputs are used together in forms */
 .clean-auth-form .btn-lg,
 .form-row .btn-lg {
-  min-height: 48px; /* Exactly matches input--lg */
+  min-height: 48px;
 }
 
 .clean-auth-form .btn-md,
 .form-row .btn-md {
-  min-height: 40px; /* Exactly matches input--md */
+  min-height: 40px;
 }
 
 .clean-auth-form .btn-sm,
 .form-row .btn-sm {
-  min-height: 32px; /* Exactly matches input--sm */
+  min-height: 32px;
 }
 
 /* =============================================
@@ -277,26 +271,23 @@
   transition:
     background-color var(--foundation-duration-fast) var(--foundation-easing-ease-out),
     border-color var(--foundation-duration-fast) var(--foundation-easing-ease-out),
+    color var(--foundation-duration-fast) var(--foundation-easing-ease-out),
     transform 120ms var(--foundation-easing-standard),
     box-shadow var(--foundation-duration-fast) var(--foundation-easing-ease-out);
 }
 
-/* Hover: no movement */
 .btn:not(:disabled):hover {
   transform: none;
 }
 
-/* Active press: subtle scale */
 .btn:not(:disabled):active {
   transform: scale(0.99);
 }
 
-/* Hover + active combo */
 .btn:not(:disabled):hover:active {
   transform: scale(0.99);
 }
 
-/* Disabled buttons never transform */
 .btn:disabled,
 .btn.pointer-events-none {
   transform: none !important;
