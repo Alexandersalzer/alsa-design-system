@@ -6,16 +6,27 @@
 
 import { Typography, HStack } from '../../../components';
 import { PatternNode } from '../../../core/types/nodes';
-import { componentProps, componentPresent } from '../../../core/utils/props';
 
 interface PlaceholderProps extends PatternNode {
   sectionKey?: string;
   patternKey?: string;
+  locale?: string;
 }
 
-const Placeholder = ({ components = {}, sectionKey, patternKey }: PlaceholderProps) => {
-  const get = componentProps(components);
-  const renderIf = componentPresent(components);
+// Språkschema för footer-texten
+const translations: Record<string, string> = {
+  'sv': 'Webbplatsen är utvecklad av',
+  'en': 'This site is powered by',
+  'no': 'Nettstedet er utviklet av',
+  'da': 'Hjemmesiden er udviklet af',
+  'fi': 'Sivusto on kehittänyt',
+  'de': 'Diese Website wird betrieben von',
+  'es': 'Este sitio está desarrollado por',
+  'fr': 'Ce site est développé par',
+};
+
+const Placeholder = ({ locale = 'sv', sectionKey, patternKey }: PlaceholderProps) => {
+  const text = translations[locale] || translations['sv'];
 
   return (
     <HStack 
@@ -23,31 +34,28 @@ const Placeholder = ({ components = {}, sectionKey, patternKey }: PlaceholderPro
       align="center" 
       justify="center"
     >
-      {renderIf('typography-text') && get('typography-text').props.content && (
-        <Typography
-          as="p"
-          variant="body-sm"
-          color="tertiary"
-          weight="semibold"
-          align="center"
-          componentKey={get('typography-text').key}
+      <Typography
+        as="p"
+        variant="body-sm"
+        color="tertiary"
+        weight="semibold"
+        align="center"
+      >
+        {text}{' '}
+        <a 
+          href="https://blimpify-im.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ 
+            color: 'var(--text-placeholder)', 
+            textDecoration: 'underline',
+            textUnderlineOffset: '6px',
+            fontWeight: 'bold'
+          }}
         >
-          {get('typography-text').props.content}{' '}
-          <a 
-            href={get('typography-link')?.props?.href || 'https://blimpify-im.com'}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ 
-              color: 'var(--text-placeholder)', 
-              textDecoration: 'underline',
-              textUnderlineOffset: '6px',
-              fontWeight: 'bold'
-            }}
-          >
-            Blimpify
-          </a>
-        </Typography>
-      )}
+          Blimpify
+        </a>
+      </Typography>
     </HStack>
   );
 };

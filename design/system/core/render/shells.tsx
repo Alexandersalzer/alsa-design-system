@@ -7,7 +7,12 @@ import { PatternNode } from '../types/nodes';
  * Shell Pattern Renderer - För navbar/footer patterns
  * Använder Container för layout men utan spacing
  */
-export const renderShellPattern = (pattern: PatternNode, patternKey: string, sectionKey: string) => {
+export const renderShellPattern = (
+  pattern: PatternNode, 
+  patternKey: string, 
+  sectionKey: string,
+  locale?: string
+) => {
 
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
@@ -34,6 +39,7 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, sec
         components={pattern.components}
         sectionKey={sectionKey}
         patternKey={patternKey}
+        locale={locale}
       />
     </Container>
   );

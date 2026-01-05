@@ -6,9 +6,10 @@ import { SectionNode } from '../../core/types/nodes';
 
 interface FooterProps {
   section?: Record<string, SectionNode>;
+  locale?: string;
 }
 
-const Footer = ({ section }: FooterProps) => {
+const Footer = ({ section, locale }: FooterProps) => {
   if (!section) return null;
   
   // Get the first (and usually only) footer section
@@ -29,7 +30,7 @@ const Footer = ({ section }: FooterProps) => {
   const renderedPatterns = patternOrder
     .map((patternKey) => {
       const pattern = patterns[patternKey];
-      return pattern ? renderShellPattern(pattern, patternKey, sectionKey) : null;
+      return pattern ? renderShellPattern(pattern, patternKey, sectionKey, locale) : null;
     })
     .filter(Boolean);
   
