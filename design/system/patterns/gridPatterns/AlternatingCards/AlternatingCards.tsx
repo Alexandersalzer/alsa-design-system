@@ -1,6 +1,5 @@
 // ===============================================
-// blimpify-ui/patterns/shared/AlternatingCards/AlternatingCards.tsx  
-// UPDATED with gap prop support
+// AlternatingCards.tsx - COMPLETE FIX
 // ===============================================
 
 'use client';
@@ -19,8 +18,8 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
   const componentOrder = getPatternOrder(patternNode);
   
   const {
-    gap = '2xl', // ✅ Gap between cards (vertical spacing)
-    cardGap = '20%', // ✅ NEW: Gap between image/text (horizontal spacing)
+    gap = '2xl',
+    cardGap = '20%',
     reverseFirst = false,
     imageAspectRatio = '4/3',
     textAlign = 'left',
@@ -38,7 +37,7 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
         
         const CardComponent = cardsRegistry[component.type];
         if (!CardComponent) {
-          console.warn(`Card type "${component.type}" not found in registry. Available types: ${Object.keys(cardsRegistry).join(', ')}`);
+          console.warn(`Card type "${component.type}" not found in registry. Available: ${Object.keys(cardsRegistry).join(', ')}`);
           return null;
         }
         
@@ -54,14 +53,15 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
               `alternating-cards__item--vertical-${verticalAlign}`
             )}
             style={{
-              // ✅ Pass cardGap as CSS variable for horizontal spacing
               '--card-gap': cardGap
             } as React.CSSProperties}
           >
             <CardComponent
               componentKey={key}
               {...component.props}
+              // ✅ FORCE: Pattern props override card defaults
               imageAspectRatio={imageAspectRatio}
+              imageObjectFit="cover"
             />
           </div>
         );

@@ -1,6 +1,5 @@
 /* ==============================================
-   AlternatingCards.css - PERFECT ALIGNMENT
-   40% image - 20% gap - 40% text
+   AlternatingCards.css - FIXED CONSISTENT HEIGHT
    ============================================== */
 
 .alternating-cards {
@@ -10,10 +9,10 @@
 .alternating-cards__item {
   display: flex;
   flex-direction: row;
-  gap: 0; /* ✅ NO gap here - we control it inside cards */
-  align-items: center; /* ✅ VERTICAL CENTER */
+  gap: 0;
+  align-items: center;
   width: 100%;
-  max-width: var(--width-container); /* ✅ Use semantic width */
+  max-width: var(--width-container);
   margin: 0 auto var(--foundation-space-16) auto;
 }
 
@@ -21,49 +20,57 @@
   margin-bottom: 0;
 }
 
-/* ===== FORCE HORIZONTAL LAYOUT FOR CARDS ===== */
+/* ===== FORCE HORIZONTAL LAYOUT ===== */
 .alternating-cards__item .results-card,
 .alternating-cards__item .content-card {
   display: flex;
   flex-direction: row;
-  gap: 20%; /* ✅ 20% gap between image and text */
-  align-items: center; /* ✅ VERTICAL CENTER */
+  gap: var(--card-gap, 20%);
+  align-items: center;
   width: 100%;
-  margin: 0; /* Reset any inherited margins */
+  margin: 0;
 }
 
-/* ===== IMAGE CONTAINER (40% width) ===== */
+/* ===== IMAGE CONTAINER - FORCED HEIGHT ===== */
 .alternating-cards__item .results-card-image-container,
 .alternating-cards__item .content-card-image-container {
-  flex: 0 0 40%; /* ✅ EXACTLY 40% */
+  flex: 0 0 40%;
   max-width: 40%;
   min-width: 40%;
-  margin: 0; /* Reset card margins */
+  margin: 0;
+  
+  /* ✅ FORCE EXACT HEIGHT - All images same */
+  height: 450px;
+  min-height: 450px;
+  max-height: 450px;
+  
+  /* ✅ Remove aspect-ratio so height takes control */
+  aspect-ratio: unset !important;
 }
 
-/* Ensure image fills container properly */
+/* ✅ Force image to fill and crop */
 .alternating-cards__item .results-card-image,
 .alternating-cards__item .content-card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  aspect-ratio: unset !important;
 }
 
-/* ===== TEXT CONTAINER (40% width) ===== */
+/* ===== TEXT CONTAINER ===== */
 .alternating-cards__item .results-card-text,
 .alternating-cards__item .content-card-text {
-  flex: 0 0 40%; /* ✅ EXACTLY 40% */
+  flex: 0 0 40%;
   max-width: 40%;
   min-width: 40%;
   
-  /* ✅ VERTICAL CENTER + HORIZONTAL LEFT */
   display: flex;
   flex-direction: column;
-  justify-content: center; /* ✅ Vertical center */
-  align-items: flex-start; /* ✅ Horizontal left */
+  justify-content: center;
+  align-items: flex-start;
   
-  margin: 0 !important; /* ✅ Remove default margin-top */
-  text-align: left; /* ✅ Text align left */
+  margin: 0 !important;
+  text-align: left;
 }
 
 /* ===== REVERSE LAYOUT ===== */
@@ -72,9 +79,7 @@
   flex-direction: row-reverse;
 }
 
-/* ===== PROP OVERRIDES (Custom Alignment) ===== */
-
-/* Horizontal text alignment */
+/* ===== ALIGNMENT OVERRIDES ===== */
 .alternating-cards__item--text-left .results-card-text,
 .alternating-cards__item--text-left .content-card-text {
   align-items: flex-start;
@@ -93,7 +98,6 @@
   text-align: right;
 }
 
-/* Vertical alignment */
 .alternating-cards__item--vertical-start .results-card,
 .alternating-cards__item--vertical-start .content-card {
   align-items: flex-start;
@@ -110,12 +114,10 @@
 }
 
 /* ===== RESPONSIVE ===== */
-
-/* Tablet: Smaller proportions */
 @media (max-width: 1024px) {
   .alternating-cards__item .results-card,
   .alternating-cards__item .content-card {
-    gap: 15%; /* Smaller gap on tablet */
+    gap: var(--card-gap, 15%);
   }
   
   .alternating-cards__item .results-card-image-container,
@@ -123,6 +125,9 @@
     flex: 0 0 42.5%;
     max-width: 42.5%;
     min-width: 42.5%;
+    height: 350px;
+    min-height: 350px;
+    max-height: 350px;
   }
   
   .alternating-cards__item .results-card-text,
@@ -133,7 +138,6 @@
   }
 }
 
-/* Mobile: Stack vertically */
 @media (max-width: 768px) {
   .alternating-cards__item,
   .alternating-cards__item--reverse {
@@ -156,6 +160,10 @@
     max-width: 100%;
     min-width: 100%;
     width: 100%;
+    height: auto;
+    min-height: 250px;
+    max-height: none;
+    aspect-ratio: 4/3 !important;
   }
   
   .alternating-cards__item .results-card-text,
@@ -164,6 +172,6 @@
     max-width: 100%;
     min-width: 100%;
     width: 100%;
-    margin-top: 0 !important; /* Reset on mobile */
+    margin-top: 0 !important;
   }
 }
