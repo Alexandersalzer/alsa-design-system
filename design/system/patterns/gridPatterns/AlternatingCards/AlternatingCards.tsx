@@ -15,7 +15,8 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
 
   const {
     gap = 'lg',
-    reverseFirst = false
+    reverseFirst = false,
+    imageAspectRatio = '4/3'
   } = getPatternProps();
 
   return (
@@ -48,6 +49,7 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
             <CardComponent
               componentKey={key}
               {...component.props}
+              imageAspectRatio={imageAspectRatio}
             />
           </div>
         );

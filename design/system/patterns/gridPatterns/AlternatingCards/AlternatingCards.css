@@ -30,12 +30,17 @@
 .alternating-cards__item .content-card-image-container {
   flex: 0 0 calc(50% - var(--foundation-space-3));
   max-width: calc(50% - var(--foundation-space-3));
-  align-self: stretch;
 }
 
-/* Fix image height using aspect-ratio - prevents text from controlling height */
+/* Force consistent aspect ratio for all images - prevents text from controlling height */
+.alternating-cards__item .results-card-image-container,
+.alternating-cards__item .content-card-image-container {
+  aspect-ratio: var(--alternating-cards-aspect-ratio, 4/3);
+}
+
 .alternating-cards__item .results-card-image-container > *,
 .alternating-cards__item .content-card-image-container > * {
+  width: 100%;
   height: 100%;
   object-fit: cover;
 }
