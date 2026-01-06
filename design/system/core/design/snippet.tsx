@@ -47,7 +47,12 @@ export function buildCssVars(tokens: DesignTokens): string {
     fontWeightLabel = getWeightValue(weights.label);
   }
 
-  // Font URLs are now handled separately in designSnippet()
+  const fontWeights = "300;400;500;600;700;800;900";
+  const fontsToImport = [fontPrimary, fontSecondary]
+    .filter((f, i, arr) => arr.indexOf(f) === i)
+    .map(f => `family=${f.replace(/\s/g, '+')}:wght@${fontWeights}`)
+    .join('&');
+  const fontUrl = `https://fonts.googleapis.com/css2?${fontsToImport}&display=swap`;
 
   const isInverseAccent = accentColor === "inverse";
 
@@ -188,30 +193,19 @@ export function buildCssVars(tokens: DesignTokens): string {
  * @returns CSS string redo att injectas i <style> tag
  */
 /**
- * Returns CSS, font URLs and theme metadata from design.json
+ * Returns CSS and theme metadata from design.json
  * Always reads the actual file for consistent behavior
  */
-export async function designSnippet(isEditing?: boolean): Promise<{ 
-  css: string; 
-  fontUrls: string[];
-  themeTone: string; 
-  isDark: boolean; 
-  accentColor: string;
-  fontPrimary: string;
-  fontSecondary: string;
-}> {
+export async function designSnippet(isEditing?: boolean): Promise<{ css: string; themeTone: string; isDark: boolean; accentColor: string; fontUrl?: string }> {
   const designConfig = await getDesignConfig();
 
   if (!designConfig) {
     // No design config found, return defaults
     return {
       css: "",
-      fontUrls: [],
       themeTone: "neutral",
       isDark: false,
-      accentColor: "purple",
-      fontPrimary: "Sora",
-      fontSecondary: "Sora"
+      accentColor: "purple"
     };
   }
 
@@ -219,17 +213,18 @@ export async function designSnippet(isEditing?: boolean): Promise<{
   const themeTone = tokens.themeTone || "neutral";
   const isDark = tokens.isDark ?? false;
   const accentColor = tokens.accentColor || "purple";
-  const fontPrimary = tokens.fontPrimary || "Sora";
-  const fontSecondary = tokens.fontSecondary || fontPrimary;
   
-  // Generate font URLs for <link> tags
+  // Generate font URL for <link> tag in head
+  const fontPrimary = tokens?.fontPrimary || "Sora";
+  const fontSecondary = tokens?.fontSecondary || fontPrimary;
   const fontWeights = "300;400;500;600;700;800;900";
-  const uniqueFonts = [fontPrimary, fontSecondary].filter((f, i, arr) => arr.indexOf(f) === i);
-  const fontUrls = uniqueFonts.map(font => 
-    `https://fonts.googleapis.com/css2?family=${font.replace(/\s/g, '+')}:wght@${fontWeights}&display=swap`
-  );
+  const fontsToImport = [fontPrimary, fontSecondary]
+    .filter((f, i, arr) => arr.indexOf(f) === i)
+    .map(f => `family=${f.replace(/\s/g, '+')}:wght@${fontWeights}`)
+    .join('&');
+  const fontUrl = `https://fonts.googleapis.com/css2?${fontsToImport}&display=swap`;
   
   const css = buildCssVars(tokens);
 
-  return { css, fontUrls, themeTone, isDark, accentColor, fontPrimary, fontSecondary };
+  return { css, themeTone, isDark, accentColor, fontUrl };
 }
