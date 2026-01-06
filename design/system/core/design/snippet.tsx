@@ -57,10 +57,11 @@ export function buildCssVars(tokens: DesignTokens): string {
   const isInverseAccent = accentColor === "inverse";
 
   return `
+    @import url('${fontUrl}');
     :root {
       /* ===== FONTS ===== */
-      --font-primary-name: '${fontPrimary}';
-      --font-secondary-name: '${fontSecondary}';
+      --font-primary-name: '${fontPrimary}' !important;
+      --font-secondary-name: '${fontSecondary}' !important;
 
       /* ===== Radius ===== */
       --selected-radius-scale-none: var(--foundation-radius-${radius}-none);
@@ -196,7 +197,7 @@ export function buildCssVars(tokens: DesignTokens): string {
  * Returns CSS and theme metadata from design.json
  * Always reads the actual file for consistent behavior
  */
-export async function designSnippet(isEditing?: boolean): Promise<{ css: string; themeTone: string; isDark: boolean; accentColor: string; fontUrl?: string }> {
+export async function designSnippet(isEditing?: boolean): Promise<{ css: string; themeTone: string; isDark: boolean; accentColor: string }> {
   const designConfig = await getDesignConfig();
 
   if (!designConfig) {
@@ -213,18 +214,7 @@ export async function designSnippet(isEditing?: boolean): Promise<{ css: string;
   const themeTone = tokens.themeTone || "neutral";
   const isDark = tokens.isDark ?? false;
   const accentColor = tokens.accentColor || "purple";
-  
-  // Generate font URL for <link> tag in head
-  const fontPrimary = tokens?.fontPrimary || "Sora";
-  const fontSecondary = tokens?.fontSecondary || fontPrimary;
-  const fontWeights = "300;400;500;600;700;800;900";
-  const fontsToImport = [fontPrimary, fontSecondary]
-    .filter((f, i, arr) => arr.indexOf(f) === i)
-    .map(f => `family=${f.replace(/\s/g, '+')}:wght@${fontWeights}`)
-    .join('&');
-  const fontUrl = `https://fonts.googleapis.com/css2?${fontsToImport}&display=swap`;
-  
   const css = buildCssVars(tokens);
 
-  return { css, themeTone, isDark, accentColor, fontUrl };
+  return { css, themeTone, isDark, accentColor };
 }

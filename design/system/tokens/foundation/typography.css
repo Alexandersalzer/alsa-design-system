@@ -8,8 +8,8 @@
   /* =========================================================
      1. FONT FAMILIES
      ========================================================= */
-  --foundation-font-primary: var(--font-primary-name), system-ui, -apple-system, sans-serif;
-  --foundation-font-secondary: var(--font-secondary-name), system-ui, -apple-system, sans-serif;
+  --foundation-font-primary: var(--font-primary-name), system-ui, -apple-system, sans-serif !important;
+  --foundation-font-secondary: var(--font-secondary-name), system-ui, -apple-system, sans-serif !important;
   --foundation-font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
 
   /* Numeric/Tabular font for verification codes, OTP inputs, etc. */

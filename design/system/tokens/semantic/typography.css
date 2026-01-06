@@ -7,21 +7,21 @@
   /* =========================================================
      1. HEADING TOKENS
      ========================================================= */
-  --font-heading-family: var(--foundation-font-primary);
+  --font-heading-family: var(--foundation-font-primary) !important;
   --font-heading-weight: var(--selected-font-weight-heading);
   --text-heading-color: var(--text-primary);
 
   /* =========================================================
      2. BODY TOKENS
      ========================================================= */
-  --font-body-family: var(--foundation-font-secondary);
+  --font-body-family: var(--foundation-font-secondary) !important;
   --font-body-weight: var(--selected-font-weight-body);
   --text-body-color: var(--text-secondary);
 
   /* =========================================================
      3. LABEL TOKENS
      ========================================================= */
-  --font-label-family: var(--foundation-font-secondary);
+  --font-label-family: var(--foundation-font-secondary) !important;
   --font-label-weight: var(--selected-font-weight-label);
   --text-label-color: var(--text-primary);
 
