@@ -1,4 +1,7 @@
-/* AlternatingCards Pattern - Horizontal Zigzag Layout */
+/* ==============================================
+   AlternatingCards.css - PERFECT ALIGNMENT
+   40% image - 20% gap - 40% text
+   ============================================== */
 
 .alternating-cards {
   width: 100%;
@@ -7,78 +10,93 @@
 .alternating-cards__item {
   display: flex;
   flex-direction: row;
-  gap: var(--foundation-space-8);
-  align-items: stretch;
+  gap: 0; /* ✅ NO gap here - we control it inside cards */
+  align-items: center; /* ✅ VERTICAL CENTER */
   width: 100%;
-  margin-bottom: var(--foundation-space-8);
+  max-width: var(--width-container); /* ✅ Use semantic width */
+  margin: 0 auto var(--foundation-space-16) auto;
 }
 
 .alternating-cards__item:last-child {
   margin-bottom: 0;
 }
 
-/* Target all card types (ResultsCard, ContentCard, etc.) for horizontal layout */
+/* ===== FORCE HORIZONTAL LAYOUT FOR CARDS ===== */
 .alternating-cards__item .results-card,
 .alternating-cards__item .content-card {
+  display: flex;
   flex-direction: row;
-  gap: var(--foundation-space-6);
-  align-items: stretch;
+  gap: 20%; /* ✅ 20% gap between image and text */
+  align-items: center; /* ✅ VERTICAL CENTER */
+  width: 100%;
+  margin: 0; /* Reset any inherited margins */
 }
 
-/* Equal width containers (50/50) for perfect zigzag alignment */
+/* ===== IMAGE CONTAINER (40% width) ===== */
 .alternating-cards__item .results-card-image-container,
 .alternating-cards__item .content-card-image-container {
-  flex: 0 0 calc(50% - var(--foundation-space-3));
-  max-width: calc(50% - var(--foundation-space-3));
+  flex: 0 0 40%; /* ✅ EXACTLY 40% */
+  max-width: 40%;
+  min-width: 40%;
+  margin: 0; /* Reset card margins */
 }
 
-/* Force consistent aspect ratio for all images - prevents text from controlling height */
-.alternating-cards__item .results-card-image-container,
-.alternating-cards__item .content-card-image-container {
-  aspect-ratio: var(--alternating-cards-aspect-ratio, 4/3);
-}
-
-.alternating-cards__item .results-card-image-container > *,
-.alternating-cards__item .content-card-image-container > * {
+/* Ensure image fills container properly */
+.alternating-cards__item .results-card-image,
+.alternating-cards__item .content-card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+/* ===== TEXT CONTAINER (40% width) ===== */
 .alternating-cards__item .results-card-text,
 .alternating-cards__item .content-card-text {
-  flex: 0 0 calc(50% - var(--foundation-space-3));
-  max-width: calc(50% - var(--foundation-space-3));
-  margin-top: 0;
-  align-self: stretch;
+  flex: 0 0 40%; /* ✅ EXACTLY 40% */
+  max-width: 40%;
+  min-width: 40%;
+  
+  /* ✅ VERTICAL CENTER + HORIZONTAL LEFT */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* ✅ Vertical center */
+  align-items: flex-start; /* ✅ Horizontal left */
+  
+  margin: 0 !important; /* ✅ Remove default margin-top */
+  text-align: left; /* ✅ Text align left */
 }
 
-/* Reverse layout: swap flex order */
+/* ===== REVERSE LAYOUT ===== */
 .alternating-cards__item--reverse .results-card,
 .alternating-cards__item--reverse .content-card {
   flex-direction: row-reverse;
 }
 
-/* Text alignment options */
+/* ===== PROP OVERRIDES (Custom Alignment) ===== */
+
+/* Horizontal text alignment */
 .alternating-cards__item--text-left .results-card-text,
 .alternating-cards__item--text-left .content-card-text {
+  align-items: flex-start;
   text-align: left;
 }
 
 .alternating-cards__item--text-center .results-card-text,
 .alternating-cards__item--text-center .content-card-text {
+  align-items: center;
   text-align: center;
 }
 
 .alternating-cards__item--text-right .results-card-text,
 .alternating-cards__item--text-right .content-card-text {
+  align-items: flex-end;
   text-align: right;
 }
 
-/* Vertical alignment options */
+/* Vertical alignment */
 .alternating-cards__item--vertical-start .results-card,
 .alternating-cards__item--vertical-start .content-card {
-  align-items: start;
+  align-items: flex-start;
 }
 
 .alternating-cards__item--vertical-center .results-card,
@@ -88,46 +106,64 @@
 
 .alternating-cards__item--vertical-end .results-card,
 .alternating-cards__item--vertical-end .content-card {
-  align-items: end;
+  align-items: flex-end;
 }
 
-/* Tablet: Smaller gap */
-@media (max-width: 1024px) {
-  .alternating-cards__item {
-    gap: var(--foundation-space-6);
-  }
+/* ===== RESPONSIVE ===== */
 
+/* Tablet: Smaller proportions */
+@media (max-width: 1024px) {
   .alternating-cards__item .results-card,
   .alternating-cards__item .content-card {
-    gap: var(--foundation-space-4);
+    gap: 15%; /* Smaller gap on tablet */
+  }
+  
+  .alternating-cards__item .results-card-image-container,
+  .alternating-cards__item .content-card-image-container {
+    flex: 0 0 42.5%;
+    max-width: 42.5%;
+    min-width: 42.5%;
+  }
+  
+  .alternating-cards__item .results-card-text,
+  .alternating-cards__item .content-card-text {
+    flex: 0 0 42.5%;
+    max-width: 42.5%;
+    min-width: 42.5%;
   }
 }
 
-/* Mobile: Stack vertically, no alternating */
+/* Mobile: Stack vertically */
 @media (max-width: 768px) {
   .alternating-cards__item,
   .alternating-cards__item--reverse {
     flex-direction: column;
-    gap: var(--foundation-space-4);
+    gap: var(--foundation-space-8);
+    align-items: stretch;
   }
-
+  
   .alternating-cards__item .results-card,
   .alternating-cards__item .content-card,
   .alternating-cards__item--reverse .results-card,
   .alternating-cards__item--reverse .content-card {
     flex-direction: column;
-    gap: 0;
+    gap: var(--foundation-space-6);
   }
-
+  
   .alternating-cards__item .results-card-image-container,
   .alternating-cards__item .content-card-image-container {
     flex: none;
     max-width: 100%;
+    min-width: 100%;
     width: 100%;
   }
-
+  
   .alternating-cards__item .results-card-text,
   .alternating-cards__item .content-card-text {
-    margin-top: var(--foundation-space-4);
+    flex: none;
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+    margin-top: 0 !important; /* Reset on mobile */
   }
 }

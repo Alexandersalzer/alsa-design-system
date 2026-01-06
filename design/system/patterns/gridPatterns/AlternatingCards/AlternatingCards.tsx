@@ -1,3 +1,8 @@
+// ===============================================
+// blimpify-ui/patterns/shared/AlternatingCards/AlternatingCards.tsx  
+// UPDATED with gap prop support
+// ===============================================
+
 'use client';
 
 import React from 'react';
@@ -12,34 +17,33 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
   const { components = {} } = patternNode;
   const getPatternProps = patternProps(patternNode);
   const componentOrder = getPatternOrder(patternNode);
-
+  
   const {
-    gap = 'lg',
+    gap = '2xl', // ✅ Gap between cards (vertical spacing)
+    cardGap = '20%', // ✅ NEW: Gap between image/text (horizontal spacing)
     reverseFirst = false,
     imageAspectRatio = '4/3',
     textAlign = 'left',
-    verticalAlign = 'start'
+    verticalAlign = 'center'
   } = getPatternProps();
-
+  
   return (
     <VStack spacing={gap} className="alternating-cards">
       {componentOrder.map((key, index) => {
         const component = components[key];
-
         if (!component) {
           console.warn(`Component "${key}" not found in components`);
           return null;
         }
-
+        
         const CardComponent = cardsRegistry[component.type];
-
         if (!CardComponent) {
           console.warn(`Card type "${component.type}" not found in registry. Available types: ${Object.keys(cardsRegistry).join(', ')}`);
           return null;
         }
-
+        
         const shouldReverse = reverseFirst ? index % 2 === 0 : index % 2 !== 0;
-
+        
         return (
           <div
             key={key}
@@ -49,6 +53,10 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
               `alternating-cards__item--text-${textAlign}`,
               `alternating-cards__item--vertical-${verticalAlign}`
             )}
+            style={{
+              // ✅ Pass cardGap as CSS variable for horizontal spacing
+              '--card-gap': cardGap
+            } as React.CSSProperties}
           >
             <CardComponent
               componentKey={key}
