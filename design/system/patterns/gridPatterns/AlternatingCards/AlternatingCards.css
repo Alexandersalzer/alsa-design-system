@@ -8,8 +8,13 @@
   display: flex;
   flex-direction: row;
   gap: var(--foundation-space-8);
-  align-items: start;
+  align-items: stretch;
   width: 100%;
+  margin-bottom: var(--foundation-space-8);
+}
+
+.alternating-cards__item:last-child {
+  margin-bottom: 0;
 }
 
 /* Target all card types (ResultsCard, ContentCard, etc.) for horizontal layout */
@@ -17,7 +22,7 @@
 .alternating-cards__item .content-card {
   flex-direction: row;
   gap: var(--foundation-space-6);
-  align-items: start;
+  align-items: stretch;
 }
 
 /* Equal width containers (50/50) for perfect zigzag alignment */
@@ -25,6 +30,14 @@
 .alternating-cards__item .content-card-image-container {
   flex: 0 0 calc(50% - var(--foundation-space-3));
   max-width: calc(50% - var(--foundation-space-3));
+  align-self: stretch;
+}
+
+/* Fix image height using aspect-ratio - prevents text from controlling height */
+.alternating-cards__item .results-card-image-container > *,
+.alternating-cards__item .content-card-image-container > * {
+  height: 100%;
+  object-fit: cover;
 }
 
 .alternating-cards__item .results-card-text,
@@ -32,6 +45,7 @@
   flex: 0 0 calc(50% - var(--foundation-space-3));
   max-width: calc(50% - var(--foundation-space-3));
   margin-top: 0;
+  align-self: stretch;
 }
 
 /* Reverse layout: swap flex order */
