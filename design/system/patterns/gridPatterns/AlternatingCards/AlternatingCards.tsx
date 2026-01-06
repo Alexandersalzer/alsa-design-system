@@ -16,7 +16,9 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
   const {
     gap = 'lg',
     reverseFirst = false,
-    imageAspectRatio = '4/3'
+    imageAspectRatio = '4/3',
+    textAlign = 'left',
+    verticalAlign = 'start'
   } = getPatternProps();
 
   return (
@@ -43,7 +45,9 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
             key={key}
             className={cn(
               "alternating-cards__item",
-              shouldReverse && "alternating-cards__item--reverse"
+              shouldReverse && "alternating-cards__item--reverse",
+              `alternating-cards__item--text-${textAlign}`,
+              `alternating-cards__item--vertical-${verticalAlign}`
             )}
           >
             <CardComponent

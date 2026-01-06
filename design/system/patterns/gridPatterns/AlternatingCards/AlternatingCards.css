@@ -59,6 +59,38 @@
   flex-direction: row-reverse;
 }
 
+/* Text alignment options */
+.alternating-cards__item--text-left .results-card-text,
+.alternating-cards__item--text-left .content-card-text {
+  text-align: left;
+}
+
+.alternating-cards__item--text-center .results-card-text,
+.alternating-cards__item--text-center .content-card-text {
+  text-align: center;
+}
+
+.alternating-cards__item--text-right .results-card-text,
+.alternating-cards__item--text-right .content-card-text {
+  text-align: right;
+}
+
+/* Vertical alignment options */
+.alternating-cards__item--vertical-start .results-card,
+.alternating-cards__item--vertical-start .content-card {
+  align-items: start;
+}
+
+.alternating-cards__item--vertical-center .results-card,
+.alternating-cards__item--vertical-center .content-card {
+  align-items: center;
+}
+
+.alternating-cards__item--vertical-end .results-card,
+.alternating-cards__item--vertical-end .content-card {
+  align-items: end;
+}
+
 /* Tablet: Smaller gap */
 @media (max-width: 1024px) {
   .alternating-cards__item {
