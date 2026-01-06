@@ -1,0 +1,23 @@
+/* AlternatingCards Pattern - Horizontal Zigzag Layout */
+
+.alternating-cards {
+  width: 100%;
+}
+
+.alternating-cards__item {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.alternating-cards__item--reverse {
+  flex-direction: row-reverse;
+}
+
+/* Mobile: Always stack vertically, no alternating */
+@media (max-width: 768px) {
+  .alternating-cards__item,
+  .alternating-cards__item--reverse {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,105 @@
+/* MasonryGrid Pattern Styles - Generic Masonry Layout */
+
+/* ===== BASE GRID CONTAINER ===== */
+.masonry-grid-container {
+  width: 100%;
+  column-fill: balance;
+  break-inside: avoid;
+}
+
+/* ===== MASONRY COLUMN WIDTH (replaces column-count) ===== */
+/* Let browser calculate optimal number of columns based on width */
+.masonry-grid--columns-1 {
+  column-width: 100%;
+}
+
+.masonry-grid--columns-2 {
+  column-width: 28rem; /* Spacious cards */
+}
+
+.masonry-grid--columns-3 {
+  column-width: 18rem; /* Always fit 3 columns */
+}
+
+.masonry-grid--columns-4 {
+  column-width: 16rem; /* Compact cards */
+}
+
+/* ===== GAP VARIANTS ===== */
+.masonry-grid--gap-xs {
+  column-gap: var(--foundation-space-2);
+}
+
+.masonry-grid--gap-sm {
+  column-gap: var(--foundation-space-3);
+}
+
+.masonry-grid--gap-md {
+  column-gap: var(--foundation-space-4);
+}
+
+.masonry-grid--gap-lg {
+  column-gap: var(--foundation-space-5);
+}
+
+.masonry-grid--gap-xl {
+  column-gap: var(--foundation-space-6);
+}
+
+/* ===== CARD MASONRY BEHAVIOR ===== */
+.masonry-grid-container > * {
+  break-inside: avoid;
+  margin-bottom: var(--foundation-space-4);
+  display: inline-block;
+  width: 100%;
+}
+
+/* Match gap spacing */
+.masonry-grid--gap-xs > * {
+  margin-bottom: var(--foundation-space-2);
+}
+
+.masonry-grid--gap-sm > * {
+  margin-bottom: var(--foundation-space-3);
+}
+
+.masonry-grid--gap-md > * {
+  margin-bottom: var(--foundation-space-4);
+}
+
+.masonry-grid--gap-lg > * {
+  margin-bottom: var(--foundation-space-5);
+}
+
+.masonry-grid--gap-xl > * {
+  margin-bottom: var(--foundation-space-6);
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 1024px) {
+  .masonry-grid--columns-3 {
+    column-width: 16rem; /* Allow 3 columns at 1024px */
+  }
+  .masonry-grid--columns-4 {
+    column-width: 20rem; /* 3 columns on tablet */
+  }
+}
+
+@media (max-width: 768px) {
+  .masonry-grid-container {
+    padding: 0 var(--foundation-space-3);
+  }
+
+  .masonry-grid--columns-3,
+  .masonry-grid--columns-4 {
+    column-width: 28rem; /* 2 columns on mobile */
+  }
+}
+
+@media (max-width: 640px) {
+  .masonry-grid--columns-2,
+  .masonry-grid--columns-3,
+  .masonry-grid--columns-4 {
+    column-width: 100%; /* 1 column on small mobile */
+  }
+}
