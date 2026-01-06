@@ -12,41 +12,43 @@
   width: 100%;
 }
 
-/* Target the ResultsCard's internal children to create horizontal layout */
-.alternating-cards__item .results-card {
+/* Target all card types (ResultsCard, ContentCard, etc.) for horizontal layout */
+.alternating-cards__item .results-card,
+.alternating-cards__item .content-card {
   flex-direction: row;
   gap: var(--foundation-space-6);
-  align-items: center;
+  align-items: start;
 }
 
-.alternating-cards__item .results-card-image-container {
-  flex: 0 0 45%;
-  max-width: 45%;
+/* Equal width containers (50/50) for perfect zigzag alignment */
+.alternating-cards__item .results-card-image-container,
+.alternating-cards__item .content-card-image-container {
+  flex: 0 0 calc(50% - var(--foundation-space-3));
+  max-width: calc(50% - var(--foundation-space-3));
 }
 
-.alternating-cards__item .results-card-text {
-  flex: 1;
+.alternating-cards__item .results-card-text,
+.alternating-cards__item .content-card-text {
+  flex: 0 0 calc(50% - var(--foundation-space-3));
+  max-width: calc(50% - var(--foundation-space-3));
   margin-top: 0;
 }
 
 /* Reverse layout: swap flex order */
-.alternating-cards__item--reverse .results-card {
+.alternating-cards__item--reverse .results-card,
+.alternating-cards__item--reverse .content-card {
   flex-direction: row-reverse;
 }
 
-/* Tablet: Smaller gap and image size */
+/* Tablet: Smaller gap */
 @media (max-width: 1024px) {
   .alternating-cards__item {
     gap: var(--foundation-space-6);
   }
 
-  .alternating-cards__item .results-card {
+  .alternating-cards__item .results-card,
+  .alternating-cards__item .content-card {
     gap: var(--foundation-space-4);
-  }
-
-  .alternating-cards__item .results-card-image-container {
-    flex: 0 0 40%;
-    max-width: 40%;
   }
 }
 
@@ -59,18 +61,22 @@
   }
 
   .alternating-cards__item .results-card,
-  .alternating-cards__item--reverse .results-card {
+  .alternating-cards__item .content-card,
+  .alternating-cards__item--reverse .results-card,
+  .alternating-cards__item--reverse .content-card {
     flex-direction: column;
     gap: 0;
   }
 
-  .alternating-cards__item .results-card-image-container {
+  .alternating-cards__item .results-card-image-container,
+  .alternating-cards__item .content-card-image-container {
     flex: none;
     max-width: 100%;
     width: 100%;
   }
 
-  .alternating-cards__item .results-card-text {
+  .alternating-cards__item .results-card-text,
+  .alternating-cards__item .content-card-text {
     margin-top: var(--foundation-space-4);
   }
 }

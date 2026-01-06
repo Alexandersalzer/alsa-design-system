@@ -3,6 +3,7 @@ import { NewsCard } from './NewsCard';
 import { PortfolioCard } from './PortfolioCard';
 import { ResultsCard } from './ResultsCard';
 import { TestimonialCard } from './TestimonialCard';
+import { ContentCard } from './ContentCard/ContentCard';
 
 export const cardsRegistry: Record<string, React.ComponentType<any>> = {
   stats: Stats,
@@ -10,4 +11,5 @@ export const cardsRegistry: Record<string, React.ComponentType<any>> = {
   portfolio: PortfolioCard,
   resultsCard: ResultsCard,
   testimonial: TestimonialCard,
+  contentCard: ContentCard,
 };
