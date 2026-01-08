@@ -4,6 +4,7 @@
 // ===============================================
 'use client';
 
+import { useState } from 'react';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Box } from '../../../components/layout/box/Box';
@@ -27,6 +28,9 @@ interface SectionBodyProps {
 const SectionBody = ({ components = {}, sectionKey, patternKey, props }: SectionBodyProps) => {
   const get = componentProps(components);
   const renderIf = componentPresent(components);
+
+  // State for email input value
+  const [emailValue, setEmailValue] = useState('');
 
   // Get spacing from props with fallback to 'md'
   const spacing = props?.spacing || 'md';
@@ -114,12 +118,16 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
                 size={get('input-email').props.size || 'lg'}
                 fullWidth
                 componentKey={get('input-email').key}
+                value={emailValue}
+                onValueChange={setEmailValue}
               />
               {renderIf('button-submit') && get('button-submit').props.content && (
                 <Button
                   size={get('button-submit').props.size || 'lg'}
                   variant={get('button-submit').props.variant || 'accent'}
                   componentKey={get('button-submit').key}
+                  action={get('button-submit').props.action}
+                  formData={{ email: emailValue }}
                   style={{ flexShrink: 0 }}
                 >
                   {get('button-submit').props.content}
