@@ -1,3 +1,7 @@
-export * from './ResultsGrid';
+// Generic layout-based patterns
+export { MasonryGrid } from './MasonryGrid';
+export { GridPattern } from './GridPattern';
+export { AlternatingCards } from './AlternatingCards';
 
-export * from './PortfolioGrid';
+// Specialized patterns with unique features
+export { PortfolioGrid } from './PortfolioGrid';

@@ -1,0 +1,1 @@
+export { AlternatingCards } from './AlternatingCards';
