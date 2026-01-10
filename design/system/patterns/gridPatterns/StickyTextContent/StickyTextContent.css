@@ -1,128 +1,60 @@
 /* ===============================================
-   StickyTextContent.css - Sticky text beside scrolling content
-   Uses Accordion + useScrollAnimation for proper sticky behavior
+   StickyTextContent.css - Row-by-row sticky text
+   Each row has sticky text that sticks within that row's height
    =============================================== */
 
-/* Main container - two columns */
+/* Outer container - vertical stack of rows */
 .sticky-text-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.sticky-text-content.gap-xs {
+  gap: var(--spacing-xs);
+}
+
+.sticky-text-content.gap-sm {
+  gap: var(--spacing-sm);
+}
+
+.sticky-text-content.gap-md {
+  gap: var(--spacing-md);
+}
+
+.sticky-text-content.gap-lg {
+  gap: var(--spacing-lg);
+}
+
+.sticky-text-content.gap-xl {
+  gap: var(--spacing-xl);
+}
+
+.sticky-text-content.gap-2xl {
+  gap: var(--spacing-2xl);
+}
+
+.sticky-text-content.gap-3xl {
+  gap: var(--spacing-3xl);
+}
+
+/* Each row - contains sticky text + content side by side */
+.sticky-text-content__row {
   display: grid;
   grid-template-columns: var(--text-width, 280px) 1fr;
   gap: var(--spacing-8xl);
   align-items: start;
+  min-height: 100vh;
 }
 
-/* ===== STICKY SIDEBAR ===== */
-.sticky-text-content__sidebar {
+/* Sticky text - sticks to top within this row */
+.sticky-text-content__text {
   position: sticky;
-  top: calc(var(--navbar-height, 64px) + var(--sticky-offset, 36px));
+  top: calc(var(--navbar-height, 64px) + var(--sticky-offset, 100px));
   align-self: flex-start;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  overflow: visible;
   z-index: 10;
-  max-height: calc(100vh - var(--navbar-height, 64px) - var(--sticky-offset, 36px) - 40px);
-}
-
-/* Description text inside accordion items */
-.sticky-text-content__description {
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-  line-height: var(--line-height-relaxed);
-  margin: 0;
-}
-
-/* ===== SCROLLING CONTENT COLUMN ===== */
-.sticky-text-content__content {
-  min-width: 0;
-  flex: 1;
-  display: flex;
-  overflow: visible;
-}
-
-/* Stack layout */
-.sticky-text-content__content.layout-stack {
-  flex-direction: column;
-}
-
-.sticky-text-content__content.layout-stack.gap-xs {
-  gap: var(--spacing-xs);
-}
-
-.sticky-text-content__content.layout-stack.gap-sm {
-  gap: var(--spacing-sm);
-}
-
-.sticky-text-content__content.layout-stack.gap-md {
-  gap: var(--spacing-md);
-}
-
-.sticky-text-content__content.layout-stack.gap-lg {
-  gap: var(--spacing-lg);
-}
-
-.sticky-text-content__content.layout-stack.gap-xl {
-  gap: var(--spacing-xl);
-}
-
-.sticky-text-content__content.layout-stack.gap-2xl {
-  gap: var(--spacing-2xl);
-}
-
-.sticky-text-content__content.layout-stack.gap-3xl {
-  gap: var(--spacing-3xl);
-}
-
-/* Grid layout */
-.sticky-text-content__content.layout-grid {
-  display: grid;
-  grid-template-columns: repeat(var(--grid-columns, 1), 1fr);
-}
-
-.sticky-text-content__content.layout-grid.gap-xs {
-  gap: var(--spacing-xs);
-}
-
-.sticky-text-content__content.layout-grid.gap-sm {
-  gap: var(--spacing-sm);
-}
-
-.sticky-text-content__content.layout-grid.gap-md {
-  gap: var(--spacing-md);
-}
-
-.sticky-text-content__content.layout-grid.gap-lg {
-  gap: var(--spacing-lg);
-}
-
-.sticky-text-content__content.layout-grid.gap-xl {
-  gap: var(--spacing-xl);
-}
-
-.sticky-text-content__content.layout-grid.gap-2xl {
-  gap: var(--spacing-2xl);
-}
-
-.sticky-text-content__content.layout-grid.gap-3xl {
-  gap: var(--spacing-3xl);
-}
-
-/* Individual content items */
-.sticky-text-content__item {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-
-.sticky-text-content__card {
-  overflow: visible;
-}
-
-/* Mobile text - hidden on desktop, shown on mobile */
-.sticky-text-content__mobile-text {
-  display: none;
-  flex-direction: column;
-  gap: var(--spacing-xs);
 }
 
 .sticky-text-content__title {
@@ -133,35 +65,45 @@
   margin: 0;
 }
 
+.sticky-text-content__description {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+/* Content area */
+.sticky-text-content__content {
+  min-width: 0;
+  flex: 1;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .sticky-text-content__sidebar {
-    /* Use mobile navbar height */
-    top: calc(var(--navbar-height-mobile, 56px) + var(--sticky-offset, 36px));
+  .sticky-text-content__row {
+    min-height: auto;
+  }
+
+  .sticky-text-content__text {
+    top: calc(var(--navbar-height-mobile, 56px) + var(--sticky-offset, 100px));
   }
 }
 
 @media (max-width: 1024px) {
-  .sticky-text-content {
+  .sticky-text-content__row {
     grid-template-columns: 1fr;
-    gap: var(--spacing-2xl);
+    gap: var(--spacing-lg);
+    min-height: auto;
   }
 
-  .sticky-text-content__sidebar {
-    display: none;
-  }
-
-  .sticky-text-content__mobile-text {
-    display: flex;
-  }
-
-  .sticky-text-content__content.layout-grid {
-    grid-template-columns: 1fr;
+  .sticky-text-content__text {
+    position: relative;
+    top: 0 !important;
   }
 }
 
 @media (max-width: 1200px) and (min-width: 1025px) {
-  .sticky-text-content {
+  .sticky-text-content__row {
     grid-template-columns: 240px 1fr;
   }
 }
