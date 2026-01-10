@@ -84,7 +84,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
         {/* Heading - only render if exists */}
         {renderIf('typography-heading') && get('typography-heading').props.content && (
           <Typography
-            as="h2"
+            as={isHero ? "h1" : "h2"}
             variant="display-lg"
             color="heading"
             align="center"
