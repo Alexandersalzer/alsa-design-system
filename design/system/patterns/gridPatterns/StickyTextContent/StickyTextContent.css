@@ -43,18 +43,23 @@
   grid-template-columns: var(--text-width, 280px) 1fr;
   gap: var(--spacing-8xl);
   align-items: start;
-  min-height: 100vh;
+  /* Don't use min-height here - let content determine height */
 }
 
-/* Sticky text - sticks to top within this row */
+/* Sticky text - sticks to top */
 .sticky-text-content__text {
+  position: -webkit-sticky; /* Safari support */
   position: sticky;
-  top: calc(var(--navbar-height, 64px) + var(--sticky-offset, 100px));
+  top: 200px; /* Very obvious offset from top - well below navbar */
   align-self: flex-start;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  z-index: 10;
+  z-index: 40;
+  background: var(--surface-page); /* Add background so it's visible */
+  padding: var(--spacing-lg); /* Larger padding for visibility */
+  border-radius: var(--radius-md);
+  border: 2px solid var(--color-primary); /* DEBUG: highly visible border */
 }
 
 .sticky-text-content__title {
@@ -72,20 +77,17 @@
   margin: 0;
 }
 
-/* Content area */
+/* Content area - needs enough height to trigger sticky */
 .sticky-text-content__content {
   min-width: 0;
   flex: 1;
+  min-height: 100vh; /* Content must be tall enough to scroll past */
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .sticky-text-content__row {
-    min-height: auto;
-  }
-
   .sticky-text-content__text {
-    top: calc(var(--navbar-height-mobile, 56px) + var(--sticky-offset, 100px));
+    top: calc(56px + 36px); /* mobile navbar height + offset */
   }
 }
 
@@ -93,12 +95,15 @@
   .sticky-text-content__row {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
-    min-height: auto;
   }
 
   .sticky-text-content__text {
     position: relative;
     top: 0 !important;
+  }
+
+  .sticky-text-content__content {
+    min-height: auto;
   }
 }
 
