@@ -47,12 +47,13 @@
 /* Sticky text sidebar */
 .sticky-text-content__text {
   position: sticky;
-  top: var(--sticky-offset, 100px);
+  /* Calculate top position: navbar height + user offset */
+  top: calc(var(--navbar-height, 64px) + var(--sticky-offset, 36px));
   align-self: flex-start;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  /* Ensure it doesn't get covered by other elements */
+  /* Ensure it doesn't get covered by navbar */
   z-index: 1;
 }
 
@@ -78,6 +79,13 @@
 }
 
 /* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .sticky-text-content__text {
+    /* Use mobile navbar height on mobile */
+    top: calc(var(--navbar-height-mobile, 56px) + var(--sticky-offset, 36px));
+  }
+}
+
 @media (max-width: 1024px) {
   .sticky-text-content__row {
     grid-template-columns: 1fr;
