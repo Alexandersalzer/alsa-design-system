@@ -52,12 +52,12 @@ export const StickyNavContent: React.FC<PatternNode> = (patternNode) => {
     const component = components[key];
     if (!component) return null;
 
-    const { itemKey = key, title, description } = component.props || {};
+    const { itemKey = key, title, navDescription } = component.props || {};
 
     return {
       key: itemKey,
       title: title || 'Untitled',
-      description: description || '',
+      description: navDescription || '',
       component
     };
   }).filter(Boolean);

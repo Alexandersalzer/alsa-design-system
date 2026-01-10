@@ -28,9 +28,9 @@ A pattern for displaying content with a sticky navigation sidebar. Perfect for s
     "step_1": {
       "type": "contentCard",
       "props": {
-        "itemKey": "step-1",      // REQUIRED: Unique key for navigation
-        "title": "Step 1",        // REQUIRED: Shows in navigation
-        "description": "Details", // Optional: Shows in accordion when expanded
+        "itemKey": "step-1",          // REQUIRED: Unique key for navigation
+        "title": "Step 1",            // REQUIRED: Shows in navigation
+        "navDescription": "Details",  // Optional: Shows in accordion when expanded
         "heading": "First Step",
         "subheading": "Getting started",
         "imageSrc": "/path/to/image.jpg"
@@ -42,7 +42,7 @@ A pattern for displaying content with a sticky navigation sidebar. Perfect for s
       "props": {
         "itemKey": "step-2",
         "title": "Step 2",
-        "description": "More details",
+        "navDescription": "More details",
         "heading": "Second Step",
         // ...
       }
@@ -59,7 +59,7 @@ Each component in the pattern MUST have:
 - `title` - Text shown in navigation sidebar
 
 Optional:
-- `description` - Additional text (shown when accordion is expanded)
+- `navDescription` - Additional text (shown when accordion is expanded)
 
 ## Examples
 
@@ -81,7 +81,7 @@ Optional:
       "props": {
         "itemKey": "contact",
         "title": "Steg 1: Första kontakt",
-        "description": "Överenskommelse om strategi",
+        "navDescription": "Överenskommelse om strategi",
         "heading": "Steg 1: Första kontakt & upplägg",
         "subheading": "Överenskommelse om strategi",
         "description": "Ni kontaktar oss och vi kommer överens om upplägg...",
@@ -93,7 +93,7 @@ Optional:
       "props": {
         "itemKey": "analysis",
         "title": "Steg 2: Marknadsanalys",
-        "description": "Slå konkurrensen",
+        "navDescription": "Slå konkurrensen",
         "heading": "Steg 2: Marknadsanalys & brief",
         // ...
       }
@@ -121,7 +121,7 @@ Optional:
       "props": {
         "itemKey": "analytics",
         "title": "Analytics Dashboard",
-        "description": "Track your performance in real-time",
+        "navDescription": "Track your performance in real-time",
         "heading": "Real-time Analytics",
         "imageSrc": "/images/analytics.jpg"
       }
@@ -186,7 +186,7 @@ Each component must include:
 |------|------|----------|-------------|
 | `itemKey` | `string` | ✅ Yes | Unique identifier for navigation |
 | `title` | `string` | ✅ Yes | Text shown in nav sidebar |
-| `description` | `string` | Optional | Additional text (shown in accordion) |
+| `navDescription` | `string` | Optional | Additional text (shown in accordion) |
 
 Plus all standard props for the component type (e.g., ContentCard props).
 
