@@ -1,7 +1,37 @@
 import React from 'react';
 import { Card, VStack, Typography, Icon } from '../../../components';
 import { CDN_BASE_URL } from '../../../core/utils/env';
+import {
+  VideoCameraIcon,
+  MegaphoneIcon,
+  ChartBarIcon,
+  UserGroupIcon,
+  SparklesIcon,
+  StarIcon,
+  HeartIcon,
+  ChatBubbleLeftRightIcon,
+  CameraIcon,
+  FilmIcon,
+  FireIcon,
+  BoltIcon,
+} from '@heroicons/react/24/outline';
 import './OverlayCard.css';
+
+// Icon mapping for JSON configuration
+const iconMap: Record<string, any> = {
+  video: VideoCameraIcon,
+  camera: CameraIcon,
+  film: FilmIcon,
+  megaphone: MegaphoneIcon,
+  chart: ChartBarIcon,
+  users: UserGroupIcon,
+  sparkles: SparklesIcon,
+  fire: FireIcon,
+  bolt: BoltIcon,
+  star: StarIcon,
+  heart: HeartIcon,
+  chat: ChatBubbleLeftRightIcon,
+};
 
 interface OverlayCardProps {
   componentKey?: string;
@@ -10,8 +40,8 @@ interface OverlayCardProps {
   description?: string;
   imageSrc?: string; // Optional now
   imageAlt?: string;
-  // Icon support
-  icon?: React.ReactElement; // Lucide/Heroicons icon element
+  // Icon support - can be icon name string (for JSON) or React element (for direct usage)
+  icon?: string | React.ReactElement;
   iconSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   // Overlay mode
   overlayMode?: 'dark' | 'light'; // dark = black overlay with white text, light = white overlay with dark text
@@ -65,6 +95,28 @@ export function OverlayCard({
   const defaultOpacity = overlayMode === 'dark' ? 0.5 : 0.7;
   const finalOpacity = overlayOpacity !== undefined ? overlayOpacity : defaultOpacity;
 
+  // Resolve icon from string name or use React element directly
+  const iconElement = React.useMemo(() => {
+    if (!icon) return null;
+
+    // If icon is a string, look it up in iconMap
+    if (typeof icon === 'string') {
+      const IconComponent = iconMap[icon];
+      if (IconComponent) {
+        return <Icon size={iconSize} color={overlayMode === 'dark' ? 'inverse' : 'primary'}>
+          {React.createElement(IconComponent)}
+        </Icon>;
+      }
+      console.warn(`Icon "${icon}" not found in iconMap`);
+      return null;
+    }
+
+    // If icon is already a React element, wrap it in Icon component
+    return <Icon size={iconSize} color={overlayMode === 'dark' ? 'inverse' : 'primary'}>
+      {icon}
+    </Icon>;
+  }, [icon, iconSize, overlayMode]);
+
   return (
     <Card
       variant={cardVariant}
@@ -96,11 +148,7 @@ export function OverlayCard({
         style={{ padding: `var(--spacing-${cardPadding})` }}
       >
         <VStack spacing={spacing} align={getVStackAlign(textAlign)}>
-          {icon && (
-            <Icon size={iconSize} color={overlayMode === 'dark' ? 'inverse' : 'primary'}>
-              {icon}
-            </Icon>
-          )}
+          {iconElement}
           <Typography variant="h3" weight="bold" color={textColor}>
             {heading}
           </Typography>
