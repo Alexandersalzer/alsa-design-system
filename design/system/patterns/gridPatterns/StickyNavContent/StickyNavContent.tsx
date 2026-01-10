@@ -88,13 +88,15 @@ export const StickyNavContent: React.FC<PatternNode> = (patternNode) => {
                   key={item.key}
                   className={`sticky-nav-accordion__item ${active ? 'is-active' : ''} ${expanded ? 'is-expanded' : ''}`}
                 >
-                  <button
-                    className="sticky-nav-accordion__button"
-                    onClick={() => handleNavClick(item.key)}
-                  >
-                    <span className="sticky-nav-accordion__title">
-                      {item.title}
-                    </span>
+                  <div className="sticky-nav-accordion__header">
+                    <button
+                      className="sticky-nav-accordion__button"
+                      onClick={() => handleNavClick(item.key)}
+                    >
+                      <span className="sticky-nav-accordion__title">
+                        {item.title}
+                      </span>
+                    </button>
                     {item.description && (
                       <button
                         className="sticky-nav-accordion__toggle"
@@ -117,7 +119,7 @@ export const StickyNavContent: React.FC<PatternNode> = (patternNode) => {
                         </svg>
                       </button>
                     )}
-                  </button>
+                  </div>
                   {expanded && item.description && (
                     <div className="sticky-nav-accordion__description">
                       {item.description}
