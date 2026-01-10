@@ -47,15 +47,11 @@ export const StickyTextContent: React.FC<PatternNode> = (patternNode) => {
             className="sticky-text-content__row"
             style={{
               '--text-width': textWidth,
+              '--sticky-offset': stickyOffset,
             } as React.CSSProperties}
           >
             {/* Sticky Text Sidebar */}
-            <aside
-              className="sticky-text-content__text"
-              style={{
-                top: stickyOffset,
-              }}
-            >
+            <aside className="sticky-text-content__text">
               {stickyTitle && (
                 <h3 className="sticky-text-content__title">
                   {stickyTitle}
