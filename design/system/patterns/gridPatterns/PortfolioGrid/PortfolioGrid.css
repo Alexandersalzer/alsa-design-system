@@ -2,67 +2,6 @@
    PortfolioGrid.css - Responsive Portfolio Layout
 ============================================== */
 
-.portfolio-grid-container {
-  width: 100%;
-}
-/* ===== PORTFOLIO GRID - 2 COLUMN RESPONSIVE ===== */
-.portfolio-grid {
-  display: grid !important;
-  grid-template-columns: repeat(2, 1fr) !important;
-  gap: var(--foundation-space-6, 24px) !important;
-  width: 100%;
-  margin: 0 auto;
-}
-
-/* Desktop (large screens): 2 columns with max-width */
-@media (min-width: 1280px) {
-  .portfolio-grid {
-    max-width: 1200px;
-    gap: 32px !important;
-  }
-}
-
-/* Laptop (medium screens): 2 columns */
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .portfolio-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 24px !important;
-  }
-}
-
-/* Tablet: 2 columns with smaller gap */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .portfolio-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 20px !important;
-  }
-}
-
-/* Small tablet: Still 2 columns but tighter */
-@media (min-width: 640px) and (max-width: 767px) {
-  .portfolio-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 16px !important;
-  }
-}
-
-/* Mobile: 1 column */
-@media (max-width: 639px) {
-  .portfolio-grid {
-    grid-template-columns: 1fr !important;
-    gap: 20px !important;
-  }
-  
-  .portfolio-grid-container .tab-group--page {
-    gap: 0.25rem;
-  }
-  
-  .portfolio-grid-container .tab {
-    font-size: 0.875rem;
-    padding: 0.5rem 0.75rem;
-  }
-}
-
 /* ===== ENSURE CARDS FILL GRID CELLS ===== */
 .portfolio-grid > * {
   width: 100%;

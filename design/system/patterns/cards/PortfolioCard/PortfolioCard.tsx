@@ -70,11 +70,12 @@ export interface PortfolioCardProps {
   mediaType: 'image' | 'video'; // Required - determines media type
   mediaSrc: string; // Required - single source for either video or image
   mediaAlt?: string; // Alt text for accessibility
+  posterSrc?: string; // Thumbnail URL for videos (derived from mediaSrc)
   countryCode?: string; // Country code for flag (e.g., 'se', 'us', 'de', 'dk', 'no', etc.)
   showFlags?: boolean; // Toggle flag visibility (default: true)
   
   // Styling options
-  variant?: 'default' | 'elevated' | 'outlined';
+  variant?: 'default' | 'elevated' | 'outlined' | 'ghost';
   padding?: 'sm' | 'md' | 'lg';
   radius?: 'sm' | 'md' | 'lg';
   
@@ -112,12 +113,13 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   mediaType,
   mediaSrc,
   mediaAlt,
+  posterSrc,
   countryCode,
   showFlags = true,
 
   // Card styling defaults
-  variant = 'default',
-  padding = 'md',
+  variant = 'ghost',
+  padding = 'sm',
   radius = 'md',
   
   // Typography defaults - matching KJ Marketing style
@@ -162,19 +164,20 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
           )}
 
           {isVideo && (
-            <Video
-              src={mediaSrc}
-              aspectRatio="2/3"
-              radius="sm"
-              loading="lazy"
-              rootMargin="800px"
-              controls
-              playsInline
-              preload="metadata"
-              controlsList="nodownload"
-              disablePictureInPicture
-              className="portfolio-video"
-            />
+            <>
+              {posterSrc && console.log('[PortfolioCard] Video:', title, 'Poster:', posterSrc)}
+              <Video
+                src={mediaSrc}
+                poster={posterSrc}
+                aspectRatio="2/3"
+                radius="sm"
+                loading="lazy"
+                rootMargin="800px"
+                controlsList="nodownload"
+                disablePictureInPicture
+                className="portfolio-video"
+              />
+            </>
           )}
           
           {isImage && (

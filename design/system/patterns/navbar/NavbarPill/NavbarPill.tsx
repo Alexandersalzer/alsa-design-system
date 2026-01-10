@@ -131,12 +131,12 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
           {/* RIGHT - Desktop only */}
           <HStack spacing="sm" className="navbar-pill__right">
             {renderIf('button-secondaryAction') && (
-              <Button variant="ghost" href={get('button-secondaryAction').props.href} componentKey={get('button-secondaryAction').key}>
+              <Button variant="ghost" href={get('button-secondaryAction').props.href} action={get('button-secondaryAction').props.action} componentKey={get('button-secondaryAction').key}>
                 {get('button-secondaryAction').props.content}
               </Button>
             )}
             {renderIf('button-primaryAction') && (
-              <Button variant="accent" href={get('button-primaryAction').props.href} componentKey={get('button-primaryAction').key}>
+              <Button variant="accent" href={get('button-primaryAction').props.href} action={get('button-primaryAction').props.action} componentKey={get('button-primaryAction').key}>
                 {get('button-primaryAction').props.content}
               </Button>
             )}
@@ -201,6 +201,7 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
               <Button
                 variant="ghost"
                 href={get('button-secondaryAction').props.href}
+                action={get('button-secondaryAction').props.action}
                 onClick={() => setMobileOpen(false)}
                 className="drawer-pill-button"
                 componentKey={get('button-secondaryAction').key}
@@ -212,6 +213,7 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
               <Button
                 variant="accent"
                 href={get('button-primaryAction').props.href}
+                action={get('button-primaryAction').props.action}
                 onClick={() => setMobileOpen(false)}
                 className="drawer-pill-button"
                 componentKey={get('button-primaryAction').key}
