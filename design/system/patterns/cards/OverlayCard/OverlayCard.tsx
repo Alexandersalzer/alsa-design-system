@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, VStack, Typography } from '../../../components';
+import { Card, VStack, Typography, Icon } from '../../../components';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import './OverlayCard.css';
 
@@ -8,10 +8,14 @@ interface OverlayCardProps {
   heading: string;
   subheading?: string;
   description?: string;
-  imageSrc: string;
-  imageAlt: string;
-  // Image overlay customization
-  overlayOpacity?: number; // 0-1 (default: 0.7)
+  imageSrc?: string; // Optional now
+  imageAlt?: string;
+  // Icon support
+  icon?: React.ReactElement; // Lucide/Heroicons icon element
+  iconSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  // Overlay mode
+  overlayMode?: 'dark' | 'light'; // dark = black overlay with white text, light = white overlay with dark text
+  overlayOpacity?: number; // 0-1 (default: 0.5 for dark, 0.7 for light)
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
   // Text alignment
   textAlign?: 'left' | 'center' | 'right';
@@ -33,8 +37,11 @@ export function OverlayCard({
   description,
   imageSrc,
   imageAlt,
+  icon,
+  iconSize = 'xl',
   // Defaults
-  overlayOpacity = 0.7,
+  overlayMode = 'dark',
+  overlayOpacity,
   imageObjectFit = 'cover',
   textAlign = 'center',
   cardVariant = 'elevated',
@@ -50,28 +57,38 @@ export function OverlayCard({
     return 'center';
   };
 
+  // Determine text color based on overlay mode
+  const textColor = overlayMode === 'dark' ? 'inverse' : 'primary';
+  const textColorSecondary = overlayMode === 'dark' ? 'inverse' : 'secondary';
+
+  // Default opacity based on mode
+  const defaultOpacity = overlayMode === 'dark' ? 0.5 : 0.7;
+  const finalOpacity = overlayOpacity !== undefined ? overlayOpacity : defaultOpacity;
+
   return (
     <Card
       variant={cardVariant}
       padding="none"
       radius={cardRadius}
-      className="overlay-card"
+      className={`overlay-card overlay-card--${overlayMode}`}
       data-component-key={componentKey}
       style={{ minHeight }}
     >
-      {/* Background Image with Overlay */}
-      <div className="overlay-card__background">
-        <img
-          src={`${CDN_BASE_URL}${imageSrc}`}
-          alt={imageAlt}
-          className="overlay-card__image"
-          style={{ objectFit: imageObjectFit }}
-        />
-        <div
-          className="overlay-card__overlay"
-          style={{ opacity: overlayOpacity }}
-        />
-      </div>
+      {/* Background Image with Overlay (optional) */}
+      {imageSrc && (
+        <div className="overlay-card__background">
+          <img
+            src={`${CDN_BASE_URL}${imageSrc}`}
+            alt={imageAlt || ''}
+            className="overlay-card__image"
+            style={{ objectFit: imageObjectFit }}
+          />
+          <div
+            className={`overlay-card__overlay overlay-card__overlay--${overlayMode}`}
+            style={{ opacity: finalOpacity }}
+          />
+        </div>
+      )}
 
       {/* Content - Centered Vertically, Customizable Horizontal Alignment */}
       <div
@@ -79,16 +96,21 @@ export function OverlayCard({
         style={{ padding: `var(--spacing-${cardPadding})` }}
       >
         <VStack spacing={spacing} align={getVStackAlign(textAlign)}>
-          <Typography variant="h3" weight="bold" color="inverse">
+          {icon && (
+            <Icon size={iconSize} color={overlayMode === 'dark' ? 'inverse' : 'primary'}>
+              {icon}
+            </Icon>
+          )}
+          <Typography variant="h3" weight="bold" color={textColor}>
             {heading}
           </Typography>
           {subheading && (
-            <Typography variant="body-lg" weight="semibold" color="inverse">
+            <Typography variant="body-lg" weight="semibold" color={textColorSecondary}>
               {subheading}
             </Typography>
           )}
           {description && (
-            <Typography variant="body-md" weight="regular" color="inverse">
+            <Typography variant="body-md" weight="regular" color={textColorSecondary}>
               {description}
             </Typography>
           )}
