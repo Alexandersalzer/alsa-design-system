@@ -33,6 +33,9 @@ export interface PageLoadingProps {
   /** Whether to show backdrop overlay (default false) */
   overlay?: boolean;
 
+  /** Disable fade-in animation for instant appearance (default false) */
+  instant?: boolean;
+
   /** Custom className */
   className?: string;
 }
@@ -67,6 +70,7 @@ export const PageLoading: React.FC<PageLoadingProps> = ({
   variant = "accent",
   fullHeight = true,
   overlay = false,
+  instant = false,
   className,
 }) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
@@ -109,7 +113,7 @@ export const PageLoading: React.FC<PageLoadingProps> = ({
 
   return (
     <div
-      className={`page-loading ${fullHeight ? "page-loading--full-height" : ""} ${overlay ? "page-loading--overlay" : ""} ${className || ""}`}
+      className={`page-loading ${fullHeight ? "page-loading--full-height" : ""} ${overlay ? "page-loading--overlay" : ""} ${instant ? "page-loading--instant" : ""} ${className || ""}`}
     >
       <VStack spacing="md" align="center">
         <Spinner size={size} variant={variant} />
