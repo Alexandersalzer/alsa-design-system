@@ -164,6 +164,13 @@ export const Image: React.FC<ImageProps> = ({
   const currentSrc = hasError && fallbackSrc ? fallbackSrc : src;
   const shouldLoad = isIntersecting || priority || isCached;
 
+  // Trigger loading state when image should load but isn't cached
+  useEffect(() => {
+    if (shouldLoad && !isCached && !isLoaded && !hasError) {
+      setIsLoading(true);
+    }
+  }, [shouldLoad, isCached, isLoaded, hasError]);
+
   // Build container classes
   const containerClasses = cn(
     'image-container',
