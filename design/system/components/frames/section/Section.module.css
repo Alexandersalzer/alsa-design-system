@@ -10,7 +10,7 @@
   box-sizing: border-box;
   padding-top: var(--space-section);
   padding-bottom: var(--space-section);
-  overflow: hidden;
+  overflow: visible; /* Changed from hidden to visible - allows sticky positioning */
 }
 
 
