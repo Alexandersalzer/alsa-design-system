@@ -88,6 +88,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       <div
         className={cn(
           "video-container",
+          `video-container--radius-${radius}`,
           isLoading && "video-container--loading"
         )}
         onClick={handlePlayClick}

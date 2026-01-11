@@ -6,6 +6,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { cn } from '../../../utils/cn';
+import { Spinner } from '../../feedback/Spinner/Spinner';
 import './Video.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -57,6 +58,7 @@ export const Video: React.FC<VideoProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority);
   const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Lazy loading with IntersectionObserver
   useEffect(() => {
@@ -92,7 +94,17 @@ export const Video: React.FC<VideoProps> = ({
   const handleVideoError = () => {
     console.warn('Video error:', src);
     setHasError(true);
+    setIsLoading(false);
     onVideoError?.();
+  };
+
+  // Handle video loading events
+  const handleLoadedData = () => {
+    setIsLoading(false);
+  };
+
+  const handleLoadStart = () => {
+    setIsLoading(true);
   };
 
   const shouldLoad = isIntersecting || priority;
@@ -101,6 +113,7 @@ export const Video: React.FC<VideoProps> = ({
   const containerClasses = cn(
     'video-container',
     `video-container--radius-${radius}`,
+    isLoading && 'video-container--loading',
     className
   );
 
@@ -116,12 +129,19 @@ export const Video: React.FC<VideoProps> = ({
     aspectRatio: aspectRatio || undefined,
     position: 'relative',
     overflow: 'hidden',
-    background: '#000',
+    background: isLoading ? 'var(--surface-raised)' : 'transparent',
     ...style
   };
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
+      {/* Loading overlay with spinner */}
+      {isLoading && shouldLoad && !hasError && (
+        <div className="video-loading-overlay">
+          <Spinner size="sm" />
+        </div>
+      )}
+
       {/* Video element */}
       {shouldLoad && (
         <video
@@ -130,6 +150,8 @@ export const Video: React.FC<VideoProps> = ({
           src={src}
           poster={poster}
           onError={handleVideoError}
+          onLoadedData={handleLoadedData}
+          onLoadStart={handleLoadStart}
           controls={controls}
           playsInline={playsInline}
           preload={preload}

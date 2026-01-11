@@ -6,6 +6,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
+import { Spinner } from '../../feedback/Spinner/Spinner';
+import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import './Image.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -76,6 +78,7 @@ export const Image: React.FC<ImageProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isCached, setIsCached] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // ✅ OPTIMIZATION 1: Check if image is already cached (CloudFront/CDN)
   useEffect(() => {
@@ -122,6 +125,7 @@ export const Image: React.FC<ImageProps> = ({
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsIntersecting(true);
+            setIsLoading(true); // Start loading when image enters viewport
           }
         });
       },
@@ -141,6 +145,7 @@ export const Image: React.FC<ImageProps> = ({
   // Handle image load
   const handleLoad = () => {
     setIsLoaded(true);
+    setIsLoading(false);
     setHasError(false);
     onLoad?.();
   };
@@ -148,6 +153,7 @@ export const Image: React.FC<ImageProps> = ({
   // Handle image error
   const handleError = () => {
     setHasError(true);
+    setIsLoading(false);
     onError?.();
   };
 
@@ -160,6 +166,7 @@ export const Image: React.FC<ImageProps> = ({
     'image-container',
     `image-container--radius-${radius}`,
     hoverZoom && 'image-container--hover-zoom',
+    isLoading && !isCached && 'image-container--loading',
     className
   );
 
@@ -196,9 +203,11 @@ export const Image: React.FC<ImageProps> = ({
   return (
     <Component componentKey={componentKey}>
       <div ref={containerRef} className={containerClasses} style={containerStyles}>
-        {/* ✅ OPTIMIZATION 3: Delayed skeleton - DON'T show for cached/priority/eager images */}
-        {showSkeleton && !shouldBeVisible && !hasError && (
-          <div className="image-skeleton image-skeleton--delayed" />
+        {/* Loading overlay with spinner */}
+        {isLoading && !isCached && !shouldBeVisible && !hasError && (
+          <div className="image-loading-overlay">
+            <Spinner size="xs" />
+          </div>
         )}
 
         {/* Actual image */}

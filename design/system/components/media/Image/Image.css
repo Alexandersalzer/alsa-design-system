@@ -10,6 +10,10 @@
   overflow: hidden;
 }
 
+.image-container--loading {
+  background: var(--surface-raised);
+}
+
 .image-container--radius-none { border-radius: 0; }
 .image-container--radius-sm { border-radius: var(--radius-sm); }
 .image-container--radius-md { border-radius: var(--radius-md); }
@@ -40,6 +44,46 @@
 
 .image--loaded {
   opacity: 1;
+}
+
+/* ===== LOADING OVERLAY ===== */
+.image-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-raised);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Match radius variants */
+.image-container--radius-none .image-loading-overlay {
+  border-radius: 0;
+}
+
+.image-container--radius-sm .image-loading-overlay {
+  border-radius: var(--radius-sm);
+}
+
+.image-container--radius-md .image-loading-overlay {
+  border-radius: var(--radius-md);
+}
+
+.image-container--radius-lg .image-loading-overlay {
+  border-radius: var(--radius-lg);
+}
+
+.image-container--radius-xl .image-loading-overlay {
+  border-radius: var(--radius-xl);
+}
+
+.image-container--radius-full .image-loading-overlay {
+  border-radius: 9999px;
 }
 
 /* ===== SKELETON LOADING STATE ===== */
