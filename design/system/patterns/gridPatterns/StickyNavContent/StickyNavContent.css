@@ -5,7 +5,7 @@
 .sticky-nav-content {
   display: grid;
   grid-template-columns: var(--nav-width, 280px) 1fr;
-  gap: var(--space-section-md);
+  gap: var(--space-section);
   align-items: start;
 }
 
@@ -220,8 +220,12 @@
 }
 
 .sticky-nav-content__item {
-  /* Content defines its own layout */
-  /* Spacing is handled by gap on parent .sticky-nav-content__items */
+  /* Add spacing between items - same approach as StickyTextContent */
+  margin-bottom: var(--space-container);
+}
+
+.sticky-nav-content__item:last-child {
+  margin-bottom: 0;
 }
 
 /* ===== RESPONSIVE ===== */

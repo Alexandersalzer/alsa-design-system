@@ -100,7 +100,7 @@
 @media (max-width: 1024px) {
   .sticky-text-content__row {
     grid-template-columns: 1fr;
-    gap: var(--space-container-lg);
+    gap: var(--spacing-lg);
   }
 
   .sticky-text-content__text {
