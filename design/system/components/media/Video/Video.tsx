@@ -117,7 +117,7 @@ export const Video: React.FC<VideoProps> = ({
   const containerClasses = cn(
     'video-container',
     `video-container--radius-${radius}`,
-    isLoading && 'video-container--loading',
+    (isLoading && !poster) && 'video-container--loading',
     className
   );
 
@@ -133,14 +133,14 @@ export const Video: React.FC<VideoProps> = ({
     aspectRatio: aspectRatio || undefined,
     position: 'relative',
     overflow: 'hidden',
-    background: isLoading ? 'var(--surface-raised)' : 'transparent',
+    background: (isLoading && !poster) ? 'var(--surface-raised)' : 'transparent',
     ...style
   };
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* Loading overlay - skeleton (default) or spinner */}
-      {isLoading && shouldLoad && !hasError && (
+      {/* Loading overlay - only show if NO poster/thumbnail and loading */}
+      {isLoading && shouldLoad && !hasError && !poster && (
         <div className="video-loading-overlay">
           {loadingType === 'skeleton' ? (
             <Skeleton
