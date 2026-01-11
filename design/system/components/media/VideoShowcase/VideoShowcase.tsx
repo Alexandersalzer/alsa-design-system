@@ -7,6 +7,7 @@ import React, { forwardRef, useRef, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
 import { Spinner } from '../../feedback/Spinner/Spinner';
+import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import './VideoShowcase.css';
 import './PlayButton.css';
 
