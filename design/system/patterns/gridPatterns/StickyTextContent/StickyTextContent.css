@@ -44,6 +44,12 @@
   gap: var(--spacing-8xl);
   align-items: start;
   /* Don't use min-height here - let content determine height */
+  margin-bottom: var(--space-container); /* Add spacing between rows */
+}
+
+/* Remove margin from last row */
+.sticky-text-content__row:last-child {
+  margin-bottom: 0;
 }
 
 /* Sticky text - sticks to top */
@@ -82,12 +88,6 @@
   min-width: 0;
   flex: 1;
   min-height: 100vh; /* Content must be tall enough to scroll past */
-  padding-bottom: var(--space-container); /* Add spacing between rows using semantic token */
-}
-
-/* Remove padding from last row */
-.sticky-text-content__row:last-child .sticky-text-content__content {
-  padding-bottom: 0;
 }
 
 /* ===== RESPONSIVE ===== */
