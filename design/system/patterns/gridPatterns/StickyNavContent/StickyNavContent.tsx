@@ -74,6 +74,7 @@ export const StickyNavContent: React.FC<PatternNode> = (patternNode) => {
             variant="borderless"
             gap="none"
             showIndicator={true}
+            defaultExpandedKeys={[componentOrder[0] || '']}
             expandedKeys={[activeKey]}
             onSelectionChange={(keys: string[]) => {
               if (keys[0]) {

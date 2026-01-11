@@ -221,6 +221,11 @@
 
 .sticky-nav-content__item {
   /* Content defines its own layout */
+  margin-bottom: var(--space-container); /* Add spacing between items */
+}
+
+.sticky-nav-content__item:last-child {
+  margin-bottom: 0; /* Remove margin from last item */
 }
 
 /* ===== RESPONSIVE ===== */
