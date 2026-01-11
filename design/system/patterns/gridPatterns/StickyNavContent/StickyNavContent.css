@@ -5,7 +5,7 @@
 .sticky-nav-content {
   display: grid;
   grid-template-columns: var(--nav-width, 280px) 1fr;
-  gap: var(--spacing-8xl);
+  gap: var(--space-section-md);
   align-items: start;
 }
 
@@ -22,7 +22,7 @@
 .sticky-nav-accordion {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
+  gap: var(--foundation-space-2);
 }
 
 .sticky-nav-accordion__item {
@@ -37,14 +37,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--spacing-sm);
+  gap: var(--foundation-space-3);
 }
 
 .sticky-nav-accordion__button {
   display: flex;
   align-items: center;
   flex: 1;
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: var(--foundation-space-4) var(--foundation-space-6);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -78,7 +78,7 @@
   cursor: pointer;
   color: var(--text-tertiary);
   transition: transform var(--transition-normal), color var(--transition-normal);
-  padding: var(--spacing-xs);
+  padding: var(--foundation-space-2);
 }
 
 .sticky-nav-accordion__toggle:hover {
@@ -90,7 +90,7 @@
 }
 
 .sticky-nav-accordion__description {
-  padding: 0 var(--spacing-lg) var(--spacing-md);
+  padding: 0 var(--foundation-space-6) var(--foundation-space-4);
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
   line-height: var(--line-height-relaxed);
@@ -100,14 +100,14 @@
 .sticky-nav-list {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
+  gap: var(--foundation-space-2);
 }
 
 .sticky-nav-list__item {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-md) var(--spacing-lg);
+  gap: var(--foundation-space-2);
+  padding: var(--foundation-space-4) var(--foundation-space-6);
   background: transparent;
   border: none;
   border-left: 2px solid transparent;
@@ -158,31 +158,31 @@
 }
 
 .sticky-nav-content__items.layout-stack.gap-xs {
-  gap: var(--spacing-xs);
+  gap: var(--space-container-xs);
 }
 
 .sticky-nav-content__items.layout-stack.gap-sm {
-  gap: var(--spacing-sm);
+  gap: var(--space-container-sm);
 }
 
 .sticky-nav-content__items.layout-stack.gap-md {
-  gap: var(--spacing-md);
+  gap: var(--space-container-md);
 }
 
 .sticky-nav-content__items.layout-stack.gap-lg {
-  gap: var(--spacing-lg);
+  gap: var(--space-container-lg);
 }
 
 .sticky-nav-content__items.layout-stack.gap-xl {
-  gap: var(--spacing-xl);
+  gap: var(--space-container-xl);
 }
 
 .sticky-nav-content__items.layout-stack.gap-2xl {
-  gap: var(--spacing-2xl);
+  gap: var(--space-container-2xl);
 }
 
 .sticky-nav-content__items.layout-stack.gap-3xl {
-  gap: var(--spacing-3xl);
+  gap: var(--space-section-md); /* Use section spacing for largest gap */
 }
 
 /* Grid layout */
@@ -192,47 +192,43 @@
 }
 
 .sticky-nav-content__items.layout-grid.gap-xs {
-  gap: var(--spacing-xs);
+  gap: var(--space-container-xs);
 }
 
 .sticky-nav-content__items.layout-grid.gap-sm {
-  gap: var(--spacing-sm);
+  gap: var(--space-container-sm);
 }
 
 .sticky-nav-content__items.layout-grid.gap-md {
-  gap: var(--spacing-md);
+  gap: var(--space-container-md);
 }
 
 .sticky-nav-content__items.layout-grid.gap-lg {
-  gap: var(--spacing-lg);
+  gap: var(--space-container-lg);
 }
 
 .sticky-nav-content__items.layout-grid.gap-xl {
-  gap: var(--spacing-xl);
+  gap: var(--space-container-xl);
 }
 
 .sticky-nav-content__items.layout-grid.gap-2xl {
-  gap: var(--spacing-2xl);
+  gap: var(--space-container-2xl);
 }
 
 .sticky-nav-content__items.layout-grid.gap-3xl {
-  gap: var(--spacing-3xl);
+  gap: var(--space-section-md); /* Use section spacing for largest gap */
 }
 
 .sticky-nav-content__item {
   /* Content defines its own layout */
-  margin-bottom: var(--space-container); /* Add spacing between items */
-}
-
-.sticky-nav-content__item:last-child {
-  margin-bottom: 0; /* Remove margin from last item */
+  /* Spacing is handled by gap on parent .sticky-nav-content__items */
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   .sticky-nav-content {
     grid-template-columns: 1fr;
-    gap: var(--spacing-2xl);
+    gap: var(--space-container-2xl);
   }
 
   .sticky-nav-content__nav {

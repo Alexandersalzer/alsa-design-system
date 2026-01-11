@@ -27,7 +27,25 @@ export const StickyNavContent: React.FC<PatternNode> = (patternNode) => {
     navWidth = '280px',
   } = getPatternProps();
 
-  const [activeKey, setActiveKey] = React.useState<string>(componentOrder[0] || '');
+  // Build navigation items from components FIRST
+  const navItems = React.useMemo(() => {
+    return componentOrder.map(key => {
+      const component = components[key];
+      if (!component) return null;
+
+      const { itemKey = key, title, navDescription } = component.props || {};
+
+      return {
+        key: itemKey,
+        title: title || 'Untitled',
+        description: navDescription || '',
+        component
+      };
+    }).filter(Boolean);
+  }, [componentOrder, components]);
+
+  // Initialize activeKey to first item's itemKey (not component key)
+  const [activeKey, setActiveKey] = React.useState<string>(navItems[0]?.key || '');
 
   const handleNavClick = (key: string) => {
     setActiveKey(key);
@@ -38,21 +56,6 @@ export const StickyNavContent: React.FC<PatternNode> = (patternNode) => {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
-
-  // Build navigation items from components
-  const navItems = componentOrder.map(key => {
-    const component = components[key];
-    if (!component) return null;
-
-    const { itemKey = key, title, navDescription } = component.props || {};
-
-    return {
-      key: itemKey,
-      title: title || 'Untitled',
-      description: navDescription || '',
-      component
-    };
-  }).filter(Boolean);
 
   return (
     <div
@@ -74,7 +77,6 @@ export const StickyNavContent: React.FC<PatternNode> = (patternNode) => {
             variant="borderless"
             gap="none"
             showIndicator={true}
-            defaultExpandedKeys={[componentOrder[0] || '']}
             expandedKeys={[activeKey]}
             onSelectionChange={(keys: string[]) => {
               if (keys[0]) {

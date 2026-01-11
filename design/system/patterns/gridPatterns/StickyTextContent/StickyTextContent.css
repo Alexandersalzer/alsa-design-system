@@ -10,38 +10,38 @@
 }
 
 .sticky-text-content.gap-xs {
-  gap: var(--spacing-xs);
+  gap: var(--space-container-xs);
 }
 
 .sticky-text-content.gap-sm {
-  gap: var(--spacing-sm);
+  gap: var(--space-container-sm);
 }
 
 .sticky-text-content.gap-md {
-  gap: var(--spacing-md);
+  gap: var(--space-container-md);
 }
 
 .sticky-text-content.gap-lg {
-  gap: var(--spacing-lg);
+  gap: var(--space-container-lg);
 }
 
 .sticky-text-content.gap-xl {
-  gap: var(--spacing-xl);
+  gap: var(--space-container-xl);
 }
 
 .sticky-text-content.gap-2xl {
-  gap: var(--spacing-2xl);
+  gap: var(--space-container-2xl);
 }
 
 .sticky-text-content.gap-3xl {
-  gap: var(--spacing-3xl);
+  gap: var(--space-section-md); /* Use section spacing for largest gap */
 }
 
 /* Each row - contains sticky text + content side by side */
 .sticky-text-content__row {
   display: grid;
   grid-template-columns: var(--text-width, 280px) 1fr;
-  gap: var(--spacing-8xl);
+  gap: var(--space-section-md); /* Large gap between sticky text and content */
   align-items: start;
   /* Don't use min-height here - let content determine height */
   margin-bottom: var(--space-container); /* Add spacing between rows */
@@ -60,10 +60,10 @@
   align-self: flex-start;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--space-container-sm);
   z-index: 40;
   background: var(--surface-page); /* Add background so it's visible */
-  padding: var(--spacing-lg); /* Larger padding for visibility */
+  padding: var(--space-container-lg); /* Larger padding for visibility */
   border-radius: var(--radius-md);
   border: 2px solid var(--color-primary); /* DEBUG: highly visible border */
 }
@@ -100,7 +100,7 @@
 @media (max-width: 1024px) {
   .sticky-text-content__row {
     grid-template-columns: 1fr;
-    gap: var(--spacing-lg);
+    gap: var(--space-container-lg);
   }
 
   .sticky-text-content__text {
