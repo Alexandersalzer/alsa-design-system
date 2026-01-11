@@ -6,6 +6,7 @@
 import React, { forwardRef, useRef, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
+import { Spinner } from '../../feedback/Spinner/Spinner';
 import './VideoShowcase.css';
 import './PlayButton.css';
 
@@ -36,6 +37,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(initialMuted);
+  const [isLoading, setIsLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const combinedRef = (node: HTMLVideoElement) => {
     if (typeof ref === 'function') ref(node);
@@ -69,9 +71,27 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     }
   };
 
+  const handleLoadedData = () => {
+    setIsLoading(false);
+  };
+
+  const handleLoadStart = () => {
+    setIsLoading(true);
+  };
+
+  const handleError = () => {
+    setIsLoading(false);
+  };
+
   return (
     <Component componentKey={componentKey}>
-      <div className="video-container" onClick={handlePlayClick}>
+      <div
+        className={cn(
+          "video-container",
+          isLoading && "video-container--loading"
+        )}
+        onClick={handlePlayClick}
+      >
         <video
           ref={combinedRef}
           className={videoClasses}
@@ -81,9 +101,17 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           controls={isPlaying && controls}
           playsInline={playsInline}
           poster={poster}
+          onLoadedData={handleLoadedData}
+          onLoadStart={handleLoadStart}
+          onError={handleError}
           {...props}
         />
-        {showPlayButton && !isPlaying && (
+        {isLoading && (
+          <div className="video-loading-overlay">
+            <Spinner size="sm" />
+          </div>
+        )}
+        {showPlayButton && !isPlaying && !isLoading && (
           <button className="play-button" aria-label="Play video">
             <span className="play-button-icon" />
           </button>
