@@ -6,12 +6,13 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/animations/CarouselAnimation';
 import { Image } from '../../../components/media/Image';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
+import { useAction } from '../../../core/actions/useAction';
+import { ActionConfig } from '../../../core/actions/types';
 
 export interface CarouselImage {
   src: string;
@@ -41,9 +42,11 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
     enableFadeEdges = true,
     fadeWidth = '200px',
     duplicateCount = 6,
-    href,
-    onImageClick
+    action
   } = getPatternProps();
+
+  // Initialize action handler if action is configured
+  const { execute } = action ? useAction(action as ActionConfig) : { execute: null };
 
   // Extract images using the order from PatternNode, including component keys
   const images: (CarouselImage & { componentKey: string })[] = componentOrder
@@ -75,14 +78,21 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
     return 'lg';
   };
 
+  // Handle carousel item click
+  const handleItemClick = () => {
+    if (execute) {
+      execute({});
+    }
+  };
+
   // Transform images into CarouselAnimationItem format using Image component
   const carouselItems: CarouselAnimationItem[] = images.map((image, index) => {
     const imageContent = (
       <div
         className="carousel-image-wrapper"
-        {...(!href && onImageClick ? { onClick: () => onImageClick(image) } : {})}
+        {...(action ? { onClick: handleItemClick } : {})}
         style={{
-          cursor: href || onImageClick ? 'pointer' : 'default',
+          cursor: action ? 'pointer' : 'default',
           width: '100%',
           height: '100%',
           position: 'relative'
@@ -107,13 +117,7 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
     return {
       id: `${image.src}-${index}`,
       componentKey: image.componentKey,
-      content: href ? (
-        <Link href={href} style={{ display: 'block', width: '100%', height: '100%', textDecoration: 'none' }}>
-          {imageContent}
-        </Link>
-      ) : (
-        imageContent
-      )
+      content: imageContent
     };
   });
 
