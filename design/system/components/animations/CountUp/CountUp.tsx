@@ -1,7 +1,7 @@
 // design/system/components/primitives/CountUp/CountUp.tsx
 
 import React, { useEffect, useState, useRef } from 'react';
-import { Typography, TypographyProps } from '../Typography';
+import { Typography, TypographyProps } from '../../Typography';
 
 export type EasingType =
   | "linear"

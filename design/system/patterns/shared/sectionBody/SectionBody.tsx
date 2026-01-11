@@ -11,7 +11,7 @@ import { Typography } from '../../../components/Typography/Typography';
 import { Tag } from '../../../components/feedback/Tag/Tag';
 import { Button } from '../../../components/actions/Button/Button';
 import { Input } from '../../../components/forms/Input/Input';
-import { CountUp } from '../../../components/CountUp/CountUp';
+import { CountUp } from '../../../components/animations/CountUp/CountUp';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
 import { componentProps, componentPresent } from '../../../core/utils/props';
 import { ComponentNode } from '../../../core/types/nodes';

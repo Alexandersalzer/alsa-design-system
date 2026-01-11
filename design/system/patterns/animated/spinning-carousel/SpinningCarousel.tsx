@@ -7,7 +7,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
+import { CarouselAnimation, CarouselAnimationItem } from '../../../components/animations/CarouselAnimation';
 import { Image } from '../../../components/media/Image';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
@@ -96,10 +96,9 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
           height="100%"
           objectFit="cover"
           radius={getRadiusVariant(imageBorderRadius)}
-          loading={index < 3 ? "eager" : "lazy"}
+          loading="eager"
           loadingType="skeleton"
           showSkeleton={true}
-          rootMargin="1000px"
           hoverZoom={false}
         />
       </div>

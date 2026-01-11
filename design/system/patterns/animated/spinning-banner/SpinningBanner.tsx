@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
+import { CarouselAnimation, CarouselAnimationItem } from '../../../components/animations/CarouselAnimation';
 import { LogoImage } from '../../../components/media/Image';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
@@ -94,7 +94,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
           width={sizeMap.width}
           height={sizeMap.height}
           objectFit="contain"
-          loading="lazy"
+          loading="eager"
           showSkeleton={true}
           {...(logo.componentKey && { componentKey: logo.componentKey })}
           style={{
@@ -135,7 +135,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
               width={sizeMap.width}
               height={sizeMap.height}
               objectFit="contain"
-              loading="lazy"
+              loading="eager"
               showSkeleton={true}
               {...(logo.componentKey && { componentKey: logo.componentKey })}
               style={{

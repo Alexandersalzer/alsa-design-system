@@ -11,8 +11,7 @@ export * from './media'
 export * from './lists'
 export * from './data'
 export * from './navigation'
+export * from './animations'
 
 export * from './Typography';
-export * from './CountUp';
-export * from './CarouselAnimation';
 export * from './LogoIcon';
