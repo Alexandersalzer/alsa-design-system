@@ -176,7 +176,7 @@ export const Image: React.FC<ImageProps> = ({
     'image-container',
     `image-container--radius-${radius}`,
     hoverZoom && 'image-container--hover-zoom',
-    isLoading && !isCached && 'image-container--loading',
+    (isLoading && !isCached && !isLoaded) && 'image-container--loading',
     className
   );
 
