@@ -9,6 +9,8 @@ export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export interface DesignTokens {
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   accentColor?: string;
+  themeMode?: 'light' | 'dark' | 'system';
+  /** @deprecated Use themeMode instead. Will be auto-migrated. */
   isDark?: boolean;
   themeTone?: "mono" | "linen" | "ink" | "clay" | "slate" | "sage" | "frost" | "pearl" | "aqua" | "neutral";
   accentIntensity?: "vibrant" | "normal" | "discrete" | "monochrome";

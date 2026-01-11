@@ -63,13 +63,13 @@ export function ResultsCard({
       
       {/* Text Content - VStack with no background, left aligned */}
       <VStack spacing={spacing} className="results-card-text">
-        <Typography variant="h4" weight="bold" color="primary">
-          {subheading}
-        </Typography>
-        <Typography variant="body-md" weight="regular" color="secondary">
+        <Typography variant="h3" weight="bold" color="primary">
           {heading}
         </Typography>
-        <Typography variant="body-sm" weight="regular" color="tertiary">
+        <Typography variant="body-lg" weight="semibold" color="secondary">
+          {subheading}
+        </Typography>
+        <Typography variant="body-md" weight="regular" color="tertiary">
           {description}
         </Typography>
       </VStack>

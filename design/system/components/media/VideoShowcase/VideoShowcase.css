@@ -93,4 +93,48 @@
   position: relative;
   width: 100%;
   background: transparent;
+}
+
+.video-container--loading {
+  background: var(--surface-raised);
+}
+
+/* Loading overlay */
+.video-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-raised);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Match radius variants to video showcase */
+.video-container--radius-none .video-loading-overlay {
+  border-radius: 0;
+}
+
+.video-container--radius-sm .video-loading-overlay {
+  border-radius: var(--radius-sm);
+}
+
+.video-container--radius-md .video-loading-overlay {
+  border-radius: var(--radius-md);
+}
+
+.video-container--radius-lg .video-loading-overlay {
+  border-radius: var(--radius-lg);
+}
+
+.video-container--radius-xl .video-loading-overlay {
+  border-radius: var(--radius-xl);
+}
+
+.video-container--radius-full .video-loading-overlay {
+  border-radius: var(--radius-full);
 } 

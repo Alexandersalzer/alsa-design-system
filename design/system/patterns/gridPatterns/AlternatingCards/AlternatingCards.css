@@ -1,0 +1,176 @@
+/* ==============================================
+   AlternatingCards.css - FIXED CONSISTENT HEIGHT
+   ============================================== */
+
+.alternating-cards {
+  width: 100%;
+}
+
+.alternating-cards__item {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto var(--foundation-space-16) auto;
+}
+
+.alternating-cards__item:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== FORCE HORIZONTAL LAYOUT ===== */
+.alternating-cards__item .results-card,
+.alternating-cards__item .content-card {
+  display: flex;
+  flex-direction: row;
+  gap: var(--card-gap, 20%);
+  align-items: center;
+  width: 100%;
+  margin: 0;
+}
+
+/* ===== IMAGE CONTAINER - FORCED HEIGHT ===== */
+.alternating-cards__item .results-card-image-container,
+.alternating-cards__item .content-card-image-container {
+  flex: 0 0 40%;
+  max-width: 40%;
+  min-width: 40%;
+  margin: 0;
+  
+  /* ✅ FORCE EXACT HEIGHT - All images same */
+  height: 450px;
+  min-height: 450px;
+  max-height: 450px;
+  
+  /* ✅ Remove aspect-ratio so height takes control */
+  aspect-ratio: unset !important;
+}
+
+/* ✅ Force image to fill and crop */
+.alternating-cards__item .results-card-image,
+.alternating-cards__item .content-card-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  aspect-ratio: unset !important;
+}
+
+/* ===== TEXT CONTAINER ===== */
+.alternating-cards__item .results-card-text,
+.alternating-cards__item .content-card-text {
+  flex: 0 0 40%;
+  max-width: 40%;
+  min-width: 40%;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  
+  margin: 0 !important;
+  text-align: left;
+}
+
+/* ===== REVERSE LAYOUT ===== */
+.alternating-cards__item--reverse .results-card,
+.alternating-cards__item--reverse .content-card {
+  flex-direction: row-reverse;
+}
+
+/* ===== ALIGNMENT OVERRIDES ===== */
+.alternating-cards__item--text-left .results-card-text,
+.alternating-cards__item--text-left .content-card-text {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.alternating-cards__item--text-center .results-card-text,
+.alternating-cards__item--text-center .content-card-text {
+  align-items: center;
+  text-align: center;
+}
+
+.alternating-cards__item--text-right .results-card-text,
+.alternating-cards__item--text-right .content-card-text {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.alternating-cards__item--vertical-start .results-card,
+.alternating-cards__item--vertical-start .content-card {
+  align-items: flex-start;
+}
+
+.alternating-cards__item--vertical-center .results-card,
+.alternating-cards__item--vertical-center .content-card {
+  align-items: center;
+}
+
+.alternating-cards__item--vertical-end .results-card,
+.alternating-cards__item--vertical-end .content-card {
+  align-items: flex-end;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .alternating-cards__item .results-card,
+  .alternating-cards__item .content-card {
+    gap: var(--card-gap, 15%);
+  }
+  
+  .alternating-cards__item .results-card-image-container,
+  .alternating-cards__item .content-card-image-container {
+    flex: 0 0 42.5%;
+    max-width: 42.5%;
+    min-width: 42.5%;
+    height: 350px;
+    min-height: 350px;
+    max-height: 350px;
+  }
+  
+  .alternating-cards__item .results-card-text,
+  .alternating-cards__item .content-card-text {
+    flex: 0 0 42.5%;
+    max-width: 42.5%;
+    min-width: 42.5%;
+  }
+}
+
+@media (max-width: 768px) {
+  .alternating-cards__item,
+  .alternating-cards__item--reverse {
+    flex-direction: column;
+    gap: var(--foundation-space-8);
+    align-items: stretch;
+  }
+  
+  .alternating-cards__item .results-card,
+  .alternating-cards__item .content-card,
+  .alternating-cards__item--reverse .results-card,
+  .alternating-cards__item--reverse .content-card {
+    flex-direction: column;
+    gap: var(--foundation-space-6);
+  }
+  
+  .alternating-cards__item .results-card-image-container,
+  .alternating-cards__item .content-card-image-container {
+    flex: none;
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+    height: auto;
+    min-height: 250px;
+    max-height: none;
+    aspect-ratio: 4/3 !important;
+  }
+  
+  .alternating-cards__item .results-card-text,
+  .alternating-cards__item .content-card-text {
+    flex: none;
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+    margin-top: 0 !important;
+  }
+}

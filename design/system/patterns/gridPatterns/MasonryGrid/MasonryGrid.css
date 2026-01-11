@@ -1,7 +1,7 @@
-/* TestimonialGrid Pattern Styles - True Masonry Layout */
+/* MasonryGrid Pattern Styles - Generic Masonry Layout */
 
 /* ===== BASE GRID CONTAINER ===== */
-.testimonial-grid-container {
+.masonry-grid-container {
   width: 100%;
   column-fill: balance;
   break-inside: avoid;
@@ -9,45 +9,45 @@
 
 /* ===== MASONRY COLUMN WIDTH (replaces column-count) ===== */
 /* Let browser calculate optimal number of columns based on width */
-.testimonial-grid--columns-1 {
+.masonry-grid--columns-1 {
   column-width: 100%;
 }
 
-.testimonial-grid--columns-2 {
+.masonry-grid--columns-2 {
   column-width: 28rem; /* Spacious cards */
 }
 
-.testimonial-grid--columns-3 {
+.masonry-grid--columns-3 {
   column-width: 18rem; /* Always fit 3 columns */
 }
 
-.testimonial-grid--columns-4 {
+.masonry-grid--columns-4 {
   column-width: 16rem; /* Compact cards */
 }
 
 /* ===== GAP VARIANTS ===== */
-.testimonial-grid--gap-xs {
+.masonry-grid--gap-xs {
   column-gap: var(--foundation-space-2);
 }
 
-.testimonial-grid--gap-sm {
+.masonry-grid--gap-sm {
   column-gap: var(--foundation-space-3);
 }
 
-.testimonial-grid--gap-md {
+.masonry-grid--gap-md {
   column-gap: var(--foundation-space-4);
 }
 
-.testimonial-grid--gap-lg {
+.masonry-grid--gap-lg {
   column-gap: var(--foundation-space-5);
 }
 
-.testimonial-grid--gap-xl {
+.masonry-grid--gap-xl {
   column-gap: var(--foundation-space-6);
 }
 
-/* ===== TESTIMONIAL CARD MASONRY BEHAVIOR ===== */
-.testimonial-grid-container > * {
+/* ===== CARD MASONRY BEHAVIOR ===== */
+.masonry-grid-container > * {
   break-inside: avoid;
   margin-bottom: var(--foundation-space-4);
   display: inline-block;
@@ -55,51 +55,51 @@
 }
 
 /* Match gap spacing */
-.testimonial-grid--gap-xs > * {
+.masonry-grid--gap-xs > * {
   margin-bottom: var(--foundation-space-2);
 }
 
-.testimonial-grid--gap-sm > * {
+.masonry-grid--gap-sm > * {
   margin-bottom: var(--foundation-space-3);
 }
 
-.testimonial-grid--gap-md > * {
+.masonry-grid--gap-md > * {
   margin-bottom: var(--foundation-space-4);
 }
 
-.testimonial-grid--gap-lg > * {
+.masonry-grid--gap-lg > * {
   margin-bottom: var(--foundation-space-5);
 }
 
-.testimonial-grid--gap-xl > * {
+.masonry-grid--gap-xl > * {
   margin-bottom: var(--foundation-space-6);
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
 @media (max-width: 1024px) {
-  .testimonial-grid--columns-3 {
+  .masonry-grid--columns-3 {
     column-width: 16rem; /* Allow 3 columns at 1024px */
   }
-  .testimonial-grid--columns-4 {
+  .masonry-grid--columns-4 {
     column-width: 20rem; /* 3 columns on tablet */
   }
 }
 
 @media (max-width: 768px) {
-  .testimonial-grid-container {
+  .masonry-grid-container {
     padding: 0 var(--foundation-space-3);
   }
 
-  .testimonial-grid--columns-3,
-  .testimonial-grid--columns-4 {
+  .masonry-grid--columns-3,
+  .masonry-grid--columns-4 {
     column-width: 28rem; /* 2 columns on mobile */
   }
 }
 
 @media (max-width: 640px) {
-  .testimonial-grid--columns-2,
-  .testimonial-grid--columns-3,
-  .testimonial-grid--columns-4 {
+  .masonry-grid--columns-2,
+  .masonry-grid--columns-3,
+  .masonry-grid--columns-4 {
     column-width: 100%; /* 1 column on small mobile */
   }
 }

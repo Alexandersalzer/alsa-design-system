@@ -6,6 +6,8 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { cn } from '../../../utils/cn';
+import { Spinner } from '../../feedback/Spinner/Spinner';
+import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import './Video.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -25,6 +27,8 @@ export interface VideoProps extends Omit<React.VideoHTMLAttributes<HTMLVideoElem
   loading?: 'lazy' | 'eager';
   /** Priority loading (disables lazy loading) */
   priority?: boolean;
+  /** Loading indicator type - 'skeleton' (default) fills the space with pulsing effect, 'spinner' shows centered spinner */
+  loadingType?: 'skeleton' | 'spinner';
   /** Callback when video errors */
   onVideoError?: () => void;
   /** Lazy load threshold (in pixels) */
@@ -43,6 +47,7 @@ export const Video: React.FC<VideoProps> = ({
   radius = 'md',
   loading = 'lazy',
   priority = false,
+  loadingType = 'skeleton',
   onVideoError,
   rootMargin = '800px',
   className,
@@ -57,6 +62,7 @@ export const Video: React.FC<VideoProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority);
   const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Lazy loading with IntersectionObserver
   useEffect(() => {
@@ -92,7 +98,17 @@ export const Video: React.FC<VideoProps> = ({
   const handleVideoError = () => {
     console.warn('Video error:', src);
     setHasError(true);
+    setIsLoading(false);
     onVideoError?.();
+  };
+
+  // Handle video loading events
+  const handleLoadedData = () => {
+    setIsLoading(false);
+  };
+
+  const handleLoadStart = () => {
+    setIsLoading(true);
   };
 
   const shouldLoad = isIntersecting || priority;
@@ -101,6 +117,7 @@ export const Video: React.FC<VideoProps> = ({
   const containerClasses = cn(
     'video-container',
     `video-container--radius-${radius}`,
+    (isLoading && !poster) && 'video-container--loading',
     className
   );
 
@@ -116,12 +133,34 @@ export const Video: React.FC<VideoProps> = ({
     aspectRatio: aspectRatio || undefined,
     position: 'relative',
     overflow: 'hidden',
-    background: '#000',
+    background: (isLoading && !poster) ? 'var(--surface-raised)' : 'transparent',
     ...style
   };
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
+      {/* Loading overlay - only show if NO poster/thumbnail and loading */}
+      {isLoading && shouldLoad && !hasError && !poster && (
+        <div className="video-loading-overlay">
+          {loadingType === 'skeleton' ? (
+            <Skeleton
+              width="100%"
+              height="100%"
+              variant="pulse"
+              shape="rect"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                borderRadius: 'inherit'
+              }}
+            />
+          ) : (
+            <Spinner size="sm" />
+          )}
+        </div>
+      )}
+
       {/* Video element */}
       {shouldLoad && (
         <video
@@ -130,6 +169,8 @@ export const Video: React.FC<VideoProps> = ({
           src={src}
           poster={poster}
           onError={handleVideoError}
+          onLoadedData={handleLoadedData}
+          onLoadStart={handleLoadStart}
           controls={controls}
           playsInline={playsInline}
           preload={preload}

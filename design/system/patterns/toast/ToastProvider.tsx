@@ -22,7 +22,12 @@ const ToastContext = createContext<ToastContextType | null>(null);
 export function useToast(): ToastContextType {
   const context = useContext(ToastContext);
   if (!context) {
-    throw new Error('useToast must be used within a ToastProvider');
+    // Return safe defaults for SSR or when provider is missing
+    return {
+      toasts: [],
+      showToast: () => {},
+      hideToast: () => {},
+    };
   }
   return context;
 }

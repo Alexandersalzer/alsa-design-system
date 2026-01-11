@@ -1,6 +1,6 @@
 /* ==============================================
    src/design-system/components/primitives/Input/Input.css
-   INPUT COMPONENT STYLES - WITH RADIUS SIZE VARIANTS & FULL WIDTH
+   INPUT COMPONENT STYLES - FIXED FOCUS-VISIBLE FOR KEYBOARD ONLY
    ============================================== */
 
 /* ===== INPUT GROUP LAYOUT ===== */
@@ -108,9 +108,6 @@
 .input--variant-underlined:hover:not(:disabled) {
   border-bottom-color: var(--border-strong);
 }
-
-/* ⚠️ REMOVED: Variant-specific :focus rules moved to end of file for proper cascade */
-/* See lines 580+ for variant focus rules that come AFTER :focus-visible section */
 
 /* Page variant - uses page background for seamless integration */
 .input--variant-page {
@@ -534,34 +531,37 @@
 
 /* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
 /*
- * ✅ SPOTIFY-STYLE FOCUS - Only show on keyboard navigation
- * Identical implementation to NavigationTab.css (lines 39-52)
+ * ✅ SPOTIFY-STYLE FOCUS - Only show outline on keyboard Tab, NOT on mouse clicks
+ * Matches NavigationTab.css implementation exactly
  *
- * CRITICAL: These rules MUST come AFTER all :focus rules above!
- * 1. First remove outline for mouse clicks
- * 2. Then add it back for keyboard navigation
+ * HOW IT WORKS:
+ * 1. :focus = triggered by BOTH mouse clicks AND keyboard Tab
+ * 2. :focus-visible = SHOULD be keyboard-only, but some browsers apply it to mouse clicks too
+ * 3. :focus:not(:focus-visible) = ONLY mouse clicks (explicitly removes outline)
  *
- * Result:
- * - Mouse click: border changes (lines 565-585), NO outline ✅
- * - Keyboard Tab: border changes (lines 565-585), SHOWS outline ✅
+ * CRITICAL ORDER:
+ * 1. FIRST: :focus:not(:focus-visible) with outline: none (removes outline on mouse)
+ * 2. THEN: :focus-visible with outline styles (adds outline on keyboard)
+ *
+ * RESULT:
+ * - Mouse click on input → border color changes, NO blue outline ✅
+ * - Keyboard Tab to input → border color changes + blue outline shows ✅
  */
 
-/* REMOVE focus outline on mouse click */
+/* 1️⃣ REMOVE outline on mouse click - higher specificity with !important */
 .input:focus:not(:focus-visible) {
-  outline: none;
+  outline: none !important;
 }
 
-/* Show outline ONLY when using keyboard navigation (Tab key) - must come AFTER :not() rule */
+/* 2️⃣ SHOW outline ONLY on keyboard Tab - must come AFTER :not() rule */
 .input:focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
-  border-radius: var(--radius-button, 6px);
 }
 
 /* ===== VARIANT-SPECIFIC FOCUS RULES (MUST COME AFTER :focus-visible) ===== */
 /*
- * These variant-specific :focus rules MUST come AFTER the generic :focus-visible section
- * to ensure they don't override the outline removal for mouse clicks
+ * These variant-specific :focus rules maintain the same keyboard-only outline behavior
  */
 
 /* Underlined variant focus - with keyboard outline support */
@@ -571,7 +571,7 @@
 
 /* Remove outline on mouse click for underlined variant */
 .input--variant-underlined:focus:not(:focus-visible) {
-  outline: none;
+  outline: none !important;
 }
 
 /* Page variant focus - with keyboard outline support */
@@ -582,5 +582,5 @@
 
 /* Remove outline on mouse click for page variant */
 .input--variant-page:focus:not(:focus-visible) {
-  outline: none;
+  outline: none !important;
 }

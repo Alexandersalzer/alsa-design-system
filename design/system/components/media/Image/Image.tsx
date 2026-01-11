@@ -6,6 +6,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
+import { Spinner } from '../../feedback/Spinner/Spinner';
+import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import './Image.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -29,6 +31,8 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   priority?: boolean;
   /** Show loading skeleton */
   showSkeleton?: boolean;
+  /** Loading indicator type - 'skeleton' (default) fills the space with pulsing effect, 'spinner' shows centered spinner */
+  loadingType?: 'skeleton' | 'spinner';
   /** Fallback image on error */
   fallbackSrc?: string;
   /** Callback when image loads */
@@ -59,6 +63,7 @@ export const Image: React.FC<ImageProps> = ({
   loading = 'lazy',
   priority = false,
   showSkeleton = true,
+  loadingType = 'skeleton',
   fallbackSrc,
   onLoad,
   onError,
@@ -76,6 +81,7 @@ export const Image: React.FC<ImageProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isCached, setIsCached] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // ✅ OPTIMIZATION 1: Check if image is already cached (CloudFront/CDN)
   useEffect(() => {
@@ -122,6 +128,7 @@ export const Image: React.FC<ImageProps> = ({
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsIntersecting(true);
+            setIsLoading(true); // Start loading when image enters viewport
           }
         });
       },
@@ -141,6 +148,7 @@ export const Image: React.FC<ImageProps> = ({
   // Handle image load
   const handleLoad = () => {
     setIsLoaded(true);
+    setIsLoading(false);
     setHasError(false);
     onLoad?.();
   };
@@ -148,6 +156,7 @@ export const Image: React.FC<ImageProps> = ({
   // Handle image error
   const handleError = () => {
     setHasError(true);
+    setIsLoading(false);
     onError?.();
   };
 
@@ -155,11 +164,20 @@ export const Image: React.FC<ImageProps> = ({
   const currentSrc = hasError && fallbackSrc ? fallbackSrc : src;
   const shouldLoad = isIntersecting || priority || isCached;
 
+  // Trigger loading state when image should load but isn't cached
+  // IMPORTANT: Don't show loading state for priority/eager images - they should appear immediately
+  useEffect(() => {
+    if (shouldLoad && !isCached && !isLoaded && !hasError && !priority && loading !== 'eager') {
+      setIsLoading(true);
+    }
+  }, [shouldLoad, isCached, isLoaded, hasError, priority, loading]);
+
   // Build container classes
   const containerClasses = cn(
     'image-container',
     `image-container--radius-${radius}`,
     hoverZoom && 'image-container--hover-zoom',
+    (isLoading && !isCached && !isLoaded) && 'image-container--loading',
     className
   );
 
@@ -196,9 +214,26 @@ export const Image: React.FC<ImageProps> = ({
   return (
     <Component componentKey={componentKey}>
       <div ref={containerRef} className={containerClasses} style={containerStyles}>
-        {/* ✅ OPTIMIZATION 3: Delayed skeleton - DON'T show for cached/priority/eager images */}
-        {showSkeleton && !shouldBeVisible && !hasError && (
-          <div className="image-skeleton image-skeleton--delayed" />
+        {/* Loading overlay - skeleton (default) or spinner */}
+        {isLoading && !isCached && !shouldBeVisible && !hasError && (
+          <div className="image-loading-overlay">
+            {loadingType === 'skeleton' ? (
+              <Skeleton
+                width="100%"
+                height="100%"
+                variant="pulse"
+                shape="rect"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  borderRadius: 'inherit'
+                }}
+              />
+            ) : (
+              <Spinner size="xs" />
+            )}
+          </div>
         )}
 
         {/* Actual image */}

@@ -1,0 +1,120 @@
+/* ===============================================
+   StickyTextContent.css - Row-by-row sticky text
+   Each row has sticky text that sticks within that row's height
+   =============================================== */
+
+/* Outer container - vertical stack of rows */
+.sticky-text-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.sticky-text-content.gap-xs {
+  gap: var(--space-container-xs);
+}
+
+.sticky-text-content.gap-sm {
+  gap: var(--space-container-sm);
+}
+
+.sticky-text-content.gap-md {
+  gap: var(--space-container-md);
+}
+
+.sticky-text-content.gap-lg {
+  gap: var(--space-container-lg);
+}
+
+.sticky-text-content.gap-xl {
+  gap: var(--space-container-xl);
+}
+
+.sticky-text-content.gap-2xl {
+  gap: var(--space-container-2xl);
+}
+
+.sticky-text-content.gap-3xl {
+  gap: var(--space-section-md); /* Use section spacing for largest gap */
+}
+
+/* Each row - contains sticky text + content side by side */
+.sticky-text-content__row {
+  display: grid;
+  grid-template-columns: var(--text-width, 280px) 1fr;
+  gap: var(--space-section-md); /* Large gap between sticky text and content */
+  align-items: start;
+  /* Don't use min-height here - let content determine height */
+  margin-bottom: var(--space-container); /* Add spacing between rows */
+}
+
+/* Remove margin from last row */
+.sticky-text-content__row:last-child {
+  margin-bottom: 0;
+}
+
+/* Sticky text - sticks to top */
+.sticky-text-content__text {
+  position: -webkit-sticky; /* Safari support */
+  position: sticky;
+  top: 200px; /* Very obvious offset from top - well below navbar */
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-container-sm);
+  z-index: 40;
+  background: var(--surface-page); /* Add background so it's visible */
+  padding: var(--space-container-lg); /* Larger padding for visibility */
+  border-radius: var(--radius-md);
+  border: 2px solid var(--color-primary); /* DEBUG: highly visible border */
+}
+
+.sticky-text-content__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  line-height: var(--line-height-tight);
+  margin: 0;
+}
+
+.sticky-text-content__description {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+/* Content area - needs enough height to trigger sticky */
+.sticky-text-content__content {
+  min-width: 0;
+  flex: 1;
+  min-height: 100vh; /* Content must be tall enough to scroll past */
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .sticky-text-content__text {
+    top: calc(56px + 36px); /* mobile navbar height + offset */
+  }
+}
+
+@media (max-width: 1024px) {
+  .sticky-text-content__row {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .sticky-text-content__text {
+    position: relative;
+    top: 0 !important;
+  }
+
+  .sticky-text-content__content {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 1200px) and (min-width: 1025px) {
+  .sticky-text-content__row {
+    grid-template-columns: 240px 1fr;
+  }
+}

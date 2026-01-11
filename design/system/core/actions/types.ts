@@ -62,6 +62,10 @@ export interface NewsletterActionConfig extends BaseActionConfig {
 export interface BookingActionConfig extends BaseActionConfig {
   type: 'booking';
   settings?: {
+    calendlyUrl?: string; // Calendly booking URL (e.g., https://calendly.com/username/30min)
+    primaryColor?: string; // Hex color without # (e.g., "b899f8")
+    hideEventTypeDetails?: boolean;
+    hideGdprBanner?: boolean;
     serviceId?: string;
     duration?: number;
     redirectToCalendar?: boolean;

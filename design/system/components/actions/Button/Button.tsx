@@ -13,7 +13,8 @@ import { Spinner } from '../../feedback';
 import { useHref } from '../../../hooks/useHref';
 import { Component } from '../../frames/component/Component';
 import { useAction } from '../../../core/actions/useAction';
-import type { ActionConfig, NavigationActionConfig } from '../../../core/actions/types';
+import type { ActionConfig, NavigationActionConfig, BookingActionConfig } from '../../../core/actions/types';
+import { openCalendlyPopup, buildCalendlyUrl } from '../../../patterns/widgets/CalendlyModal/CalendlyModal';
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -112,14 +113,36 @@ export const Button = forwardRef<
         return;
       }
 
+      // If it's a booking action with Calendly URL, open modal
+      if (action?.type === 'booking') {
+        e.preventDefault();
+        const bookingConfig = action as BookingActionConfig;
+        const calendlyUrl = bookingConfig.settings?.calendlyUrl;
+
+        if (calendlyUrl) {
+          // Build URL with custom parameters
+          const fullUrl = buildCalendlyUrl(calendlyUrl, {
+            primaryColor: bookingConfig.settings?.primaryColor,
+            hideEventTypeDetails: bookingConfig.settings?.hideEventTypeDetails,
+            hideGdprBanner: bookingConfig.settings?.hideGdprBanner,
+            prefill: formData,
+          });
+
+          openCalendlyPopup(fullUrl);
+        }
+        return;
+      }
+
+      // If no action but has href, let default link behavior handle it
       if (!action) {
         onClick?.(e as any);
         return;
       }
 
+      // Other actions (contact, newsletter)
       e.preventDefault();
       setInternalLoading(true);
-      
+
       try {
         await actionHook!.execute(formData || {});
       } finally {
