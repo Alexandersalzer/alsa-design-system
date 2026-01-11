@@ -165,11 +165,12 @@ export const Image: React.FC<ImageProps> = ({
   const shouldLoad = isIntersecting || priority || isCached;
 
   // Trigger loading state when image should load but isn't cached
+  // IMPORTANT: Don't show loading state for priority/eager images - they should appear immediately
   useEffect(() => {
-    if (shouldLoad && !isCached && !isLoaded && !hasError) {
+    if (shouldLoad && !isCached && !isLoaded && !hasError && !priority && loading !== 'eager') {
       setIsLoading(true);
     }
-  }, [shouldLoad, isCached, isLoaded, hasError]);
+  }, [shouldLoad, isCached, isLoaded, hasError, priority, loading]);
 
   // Build container classes
   const containerClasses = cn(
