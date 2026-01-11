@@ -66,7 +66,10 @@
 @import './components/data/Table/Table.css';
 @import './components/data/LineChart/LineChart.css';
 @import './components/lists/Listbox/Listbox.css';
-@import './components/CarouselAnimation/CarouselAnimation.css';
+
+/* Animations */
+@import './components/animations/CarouselAnimation/CarouselAnimation.css';
+@import './components/animations/FadeIn/FadeIn.css';
 
 /* Layout Components */
 @import './components/layout/box/Box.css';
