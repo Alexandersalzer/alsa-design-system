@@ -8,6 +8,9 @@ import React from 'react';
 import { PatternNode } from '../../../core/types/nodes';
 import { patternProps, getPatternOrder } from '../../../core/utils/props';
 import { cardsRegistry } from '../../cards/registry';
+import { Accordion } from '../../../components/layout/Accordion/Accordion';
+import { AccordionItem } from '../../../components/layout/Accordion/AccordionItem';
+import { Body } from '../../../components/Typography';
 import './StickyNavContent.css';
 
 export const StickyNavContent: React.FC<PatternNode> = (patternNode) => {
@@ -25,7 +28,6 @@ export const StickyNavContent: React.FC<PatternNode> = (patternNode) => {
   } = getPatternProps();
 
   const [activeKey, setActiveKey] = React.useState<string>(componentOrder[0] || '');
-  const [expandedKeys, setExpandedKeys] = React.useState<string[]>([]);
 
   const handleNavClick = (key: string) => {
     setActiveKey(key);
@@ -36,16 +38,6 @@ export const StickyNavContent: React.FC<PatternNode> = (patternNode) => {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
-
-  const toggleExpanded = (key: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setExpandedKeys(prev =>
-      prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key]
-    );
-  };
-
-  const isExpanded = (key: string) => expandedKeys.includes(key);
-  const isActive = (key: string) => activeKey === key;
 
   // Build navigation items from components
   const navItems = componentOrder.map(key => {
@@ -77,65 +69,44 @@ export const StickyNavContent: React.FC<PatternNode> = (patternNode) => {
         }}
       >
         {navVariant === 'accordion' && (
-          <div className="sticky-nav-accordion">
+          <Accordion
+            selectionMode="single"
+            variant="borderless"
+            gap="none"
+            showIndicator={true}
+            expandedKeys={[activeKey]}
+            onSelectionChange={(keys: string[]) => {
+              if (keys[0]) {
+                handleNavClick(keys[0]);
+              }
+            }}
+          >
             {navItems.map((item) => {
               if (!item) return null;
-              const expanded = isExpanded(item.key);
-              const active = isActive(item.key);
 
               return (
-                <div
+                <AccordionItem
                   key={item.key}
-                  className={`sticky-nav-accordion__item ${active ? 'is-active' : ''} ${expanded ? 'is-expanded' : ''}`}
+                  itemKey={item.key}
+                  title={item.title}
+                  className={activeKey === item.key ? 'is-active' : ''}
                 >
-                  <div className="sticky-nav-accordion__header">
-                    <button
-                      className="sticky-nav-accordion__button"
-                      onClick={() => handleNavClick(item.key)}
-                    >
-                      <span className="sticky-nav-accordion__title">
-                        {item.title}
-                      </span>
-                    </button>
-                    {item.description && (
-                      <button
-                        className="sticky-nav-accordion__toggle"
-                        onClick={(e) => toggleExpanded(item.key, e)}
-                        aria-label={expanded ? "Collapse" : "Expand"}
-                      >
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                        >
-                          <path
-                            d="M5 7.5L10 12.5L15 7.5"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </button>
-                    )}
-                  </div>
-                  {expanded && item.description && (
-                    <div className="sticky-nav-accordion__description">
+                  {item.description && (
+                    <Body size="sm" color="secondary">
                       {item.description}
-                    </div>
+                    </Body>
                   )}
-                </div>
+                </AccordionItem>
               );
             })}
-          </div>
+          </Accordion>
         )}
 
         {navVariant === 'list' && (
           <nav className="sticky-nav-list">
             {navItems.map((item) => {
               if (!item) return null;
-              const active = isActive(item.key);
+              const active = activeKey === item.key;
 
               return (
                 <button
