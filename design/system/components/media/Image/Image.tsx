@@ -31,6 +31,8 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   priority?: boolean;
   /** Show loading skeleton */
   showSkeleton?: boolean;
+  /** Loading indicator type - 'skeleton' (default) fills the space with pulsing effect, 'spinner' shows centered spinner */
+  loadingType?: 'skeleton' | 'spinner';
   /** Fallback image on error */
   fallbackSrc?: string;
   /** Callback when image loads */
@@ -61,6 +63,7 @@ export const Image: React.FC<ImageProps> = ({
   loading = 'lazy',
   priority = false,
   showSkeleton = true,
+  loadingType = 'skeleton',
   fallbackSrc,
   onLoad,
   onError,
@@ -203,10 +206,25 @@ export const Image: React.FC<ImageProps> = ({
   return (
     <Component componentKey={componentKey}>
       <div ref={containerRef} className={containerClasses} style={containerStyles}>
-        {/* Loading overlay with spinner */}
+        {/* Loading overlay - skeleton (default) or spinner */}
         {isLoading && !isCached && !shouldBeVisible && !hasError && (
           <div className="image-loading-overlay">
-            <Spinner size="xs" />
+            {loadingType === 'skeleton' ? (
+              <Skeleton
+                width="100%"
+                height="100%"
+                variant="pulse"
+                shape="rect"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  borderRadius: 'inherit'
+                }}
+              />
+            ) : (
+              <Spinner size="xs" />
+            )}
           </div>
         )}
 

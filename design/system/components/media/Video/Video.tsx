@@ -7,6 +7,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { Spinner } from '../../feedback/Spinner/Spinner';
+import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import './Video.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -26,6 +27,8 @@ export interface VideoProps extends Omit<React.VideoHTMLAttributes<HTMLVideoElem
   loading?: 'lazy' | 'eager';
   /** Priority loading (disables lazy loading) */
   priority?: boolean;
+  /** Loading indicator type - 'skeleton' (default) fills the space with pulsing effect, 'spinner' shows centered spinner */
+  loadingType?: 'skeleton' | 'spinner';
   /** Callback when video errors */
   onVideoError?: () => void;
   /** Lazy load threshold (in pixels) */
@@ -44,6 +47,7 @@ export const Video: React.FC<VideoProps> = ({
   radius = 'md',
   loading = 'lazy',
   priority = false,
+  loadingType = 'skeleton',
   onVideoError,
   rootMargin = '800px',
   className,
@@ -135,10 +139,25 @@ export const Video: React.FC<VideoProps> = ({
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* Loading overlay with spinner */}
+      {/* Loading overlay - skeleton (default) or spinner */}
       {isLoading && shouldLoad && !hasError && (
         <div className="video-loading-overlay">
-          <Spinner size="sm" />
+          {loadingType === 'skeleton' ? (
+            <Skeleton
+              width="100%"
+              height="100%"
+              variant="pulse"
+              shape="rect"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                borderRadius: 'inherit'
+              }}
+            />
+          ) : (
+            <Spinner size="sm" />
+          )}
         </div>
       )}
 
