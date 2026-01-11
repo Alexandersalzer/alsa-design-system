@@ -17,6 +17,8 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   aspectRatio?: '16-9' | '4-3' | '1-1' | 'auto';
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   showPlayButton?: boolean;
+  /** Loading indicator type - 'skeleton' (default) fills the space with pulsing effect, 'spinner' shows centered spinner */
+  loadingType?: 'skeleton' | 'spinner';
   componentKey?: string;
 }
 
@@ -32,6 +34,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   controls = false,
   playsInline = true,
   showPlayButton = true,
+  loadingType = 'skeleton',
   poster,
   componentKey,
   ...props
@@ -110,7 +113,22 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         />
         {isLoading && (
           <div className="video-loading-overlay">
-            <Spinner size="sm" />
+            {loadingType === 'skeleton' ? (
+              <Skeleton
+                width="100%"
+                height="100%"
+                variant="pulse"
+                shape="rect"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  borderRadius: 'inherit'
+                }}
+              />
+            ) : (
+              <Spinner size="sm" />
+            )}
           </div>
         )}
         {showPlayButton && !isPlaying && !isLoading && (
