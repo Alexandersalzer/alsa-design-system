@@ -9,6 +9,7 @@ import React from 'react';
 import { PatternNode } from '../../../core/types/nodes';
 import { patternProps, getPatternOrder } from '../../../core/utils/props';
 import { cardsRegistry } from '../../cards/registry';
+import { gridPatternsRegistry } from '../registry';
 import './StickyTextContent.css';
 import { Body, H3 } from '@blimpify-im/ui';
 import { Icon } from '../../../components/media/Icon';
@@ -34,9 +35,10 @@ export const StickyTextContent: React.FC<PatternNode> = (patternNode) => {
           return null;
         }
 
-        const CardComponent = cardsRegistry[component.type];
+        // Check both card and pattern registries
+        const CardComponent = cardsRegistry[component.type] || gridPatternsRegistry[component.type];
         if (!CardComponent) {
-          console.warn(`Card type "${component.type}" not found in registry. Available: ${Object.keys(cardsRegistry).join(', ')}`);
+          console.warn(`Component type "${component.type}" not found in registries. Available cards: ${Object.keys(cardsRegistry).join(', ')}. Available patterns: ${Object.keys(gridPatternsRegistry).join(', ')}`);
           return null;
         }
 
