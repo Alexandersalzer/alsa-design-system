@@ -5,6 +5,8 @@ import { ResultsCard } from './ResultsCard';
 import { TestimonialCard } from './TestimonialCard';
 import { ContentCard } from './ContentCard/ContentCard';
 import { OverlayCard } from './OverlayCard/OverlayCard';
+import { ProcessCard } from './ProcessCard/ProcessCard';
+import { ProcessStepCard } from './ProcessStepCard/ProcessStepCard';
 
 export const cardsRegistry: Record<string, React.ComponentType<any>> = {
   stats: Stats,
@@ -14,4 +16,6 @@ export const cardsRegistry: Record<string, React.ComponentType<any>> = {
   testimonial: TestimonialCard,
   contentCard: ContentCard,
   overlayCard: OverlayCard,
+  processCard: ProcessCard,
+  processStepCard: ProcessStepCard,
 };

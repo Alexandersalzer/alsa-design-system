@@ -62,7 +62,7 @@ export function ContentCard({
 
       {/* Text Content - VStack with no background, left aligned */}
       <VStack spacing={spacing} className="content-card-text">
-        <Typography variant="h3" weight="bold" color="primary">
+        <Typography variant="h2" weight="bold" color="primary">
           {heading}
         </Typography>
         {subheading && (
