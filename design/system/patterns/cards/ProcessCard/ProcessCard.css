@@ -1,5 +1,6 @@
 /* ===============================================
    ProcessCard Component Styles
+   Left-aligned layout with NumberDisplay
    =============================================== */
 
 .process-card {
@@ -13,10 +14,16 @@
   flex-direction: column;
   gap: var(--spacing-md);
   height: 100%;
+  align-items: flex-start; /* Force left alignment */
 }
 
 /* Image Styling */
 .process-card-image {
   margin-top: auto;
   width: 100%;
+}
+
+/* Ensure text elements respect left alignment */
+.process-card-content > * {
+  text-align: left;
 }

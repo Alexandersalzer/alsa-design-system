@@ -1,0 +1,86 @@
+/* ===============================================
+   NumberDisplay Component Styles
+   Button-like variants for number displays
+   =============================================== */
+
+.number-display {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  line-height: 1;
+  border: 1px solid transparent;
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
+  user-select: none;
+}
+
+/* ===== SHAPES ===== */
+.number-display-square {
+  border-radius: var(--foundation-radius-sm);
+}
+
+.number-display-rounded {
+  border-radius: var(--foundation-radius-md);
+}
+
+.number-display-circle {
+  border-radius: var(--foundation-radius-full);
+}
+
+/* ===== BRAND VARIANT (AUTO-ADAPTIVE) ===== */
+.number-display-brand {
+  background-color: var(--surface-button-brand);
+  color: var(--text-button-brand);
+  border-color: var(--border-button-brand);
+}
+
+/* ===== PRIMARY VARIANT (ALWAYS INVERSE/DARK) ===== */
+.number-display-primary {
+  background-color: var(--interactive-primary);
+  color: var(--text-button-primary);
+  border-color: var(--border-button-primary);
+}
+
+/* ===== SECONDARY VARIANT ===== */
+.number-display-secondary {
+  background-color: var(--surface-button-secondary);
+  color: var(--text-button-secondary);
+  border-color: var(--border-button-secondary);
+}
+
+/* ===== ACCENT VARIANT ===== */
+.number-display-accent {
+  background-color: var(--surface-button-accent);
+  color: var(--text-button-accent);
+  border-color: var(--border-button-accent);
+}
+
+/* ===== GHOST VARIANT ===== */
+.number-display-ghost {
+  background-color: transparent;
+  color: var(--text-default);
+  border-color: var(--border-default);
+}
+
+/* ===== SIZES ===== */
+.number-display-sm {
+  font-size: 0.875rem;
+}
+
+.number-display-md {
+  font-size: 1.125rem;
+}
+
+.number-display-lg {
+  font-size: 1.25rem;
+}
+
+.number-display-xl {
+  font-size: 1.5rem;
+}
+
+/* Value styling */
+.number-display-value {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}

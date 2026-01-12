@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, VStack, Typography } from '../../../components';
 import { Image } from '../../../components/media/Image';
-import { NumberBadge } from '../../../components/feedback/Badge/NumberBadge';
+import { NumberDisplay } from '../../../components/feedback/NumberDisplay/NumberDisplay';
 import { CDN_BASE_URL } from '../../../core/utils/env';
-import '../../../components/feedback/Badge/NumberBadge.css';
+import '../../../components/feedback/NumberDisplay/NumberDisplay.css';
 import './ProcessCard.css';
 
 interface ProcessCardProps {
@@ -13,6 +13,10 @@ interface ProcessCardProps {
   description: string;
   imageSrc?: string;
   imageAlt?: string;
+  // Number display customization
+  numberVariant?: 'brand' | 'primary' | 'secondary' | 'accent' | 'ghost';
+  numberSize?: 'sm' | 'md' | 'lg' | 'xl';
+  numberShape?: 'square' | 'rounded' | 'circle';
   // Image customization
   imageAspectRatio?: '1/1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16' | string;
   imageRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -33,12 +37,18 @@ export function ProcessCard({
   description,
   imageSrc,
   imageAlt,
-  // Defaults
+  // Number display defaults
+  numberVariant = 'primary',
+  numberSize = 'md',
+  numberShape = 'circle',
+  // Image defaults
   imageAspectRatio = '16/9',
   imageRadius = 'md',
   imageObjectFit = 'cover',
+  // Card defaults
   cardVariant = 'raised',
   cardPadding = 'md',
+  // Layout defaults
   spacing = 'md'
 }: ProcessCardProps) {
   return (
@@ -48,9 +58,14 @@ export function ProcessCard({
       className="process-card"
       data-component-key={componentKey}
     >
-      <VStack spacing={spacing} className="process-card-content">
-        {/* Number Badge */}
-        <NumberBadge value={number} size="md" variant="solid" colorPalette="purple" />
+      <VStack spacing={spacing} align="start" className="process-card-content">
+        {/* Number Display - Left Aligned */}
+        <NumberDisplay
+          value={number}
+          size={numberSize}
+          variant={numberVariant}
+          shape={numberShape}
+        />
 
         {/* Title */}
         <Typography variant="h3" weight="bold" color="primary">

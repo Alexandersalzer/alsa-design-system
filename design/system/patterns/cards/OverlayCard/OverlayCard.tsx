@@ -50,7 +50,7 @@ interface OverlayCardProps {
   // Text alignment
   textAlign?: 'left' | 'center' | 'right';
   // Card customization
-  cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid';
+  cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid' | 'raised';
   cardPadding?: 'sm' | 'md' | 'lg';
   cardRadius?: 'sm' | 'md' | 'lg';
   // Layout customization
@@ -69,12 +69,12 @@ export function OverlayCard({
   imageAlt,
   icon,
   iconSize = 'xl',
-  // Defaults
+  // Defaults - CHANGED: cardVariant now defaults to 'raised'
   inverse = false,
   overlayOpacity = 0.6,
   imageObjectFit = 'cover',
   textAlign = 'center',
-  cardVariant = 'elevated',
+  cardVariant = 'raised',
   cardPadding = 'lg',
   cardRadius = 'md',
   spacing = 'sm',
