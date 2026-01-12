@@ -15,6 +15,8 @@
   justify-content: center;
   overflow: hidden;
   width: 100%;
+  /* Height controls applied via inline styles when needed */
+  position: relative;
 }
 
 /* ===== IMAGE ITSELF ===== */
