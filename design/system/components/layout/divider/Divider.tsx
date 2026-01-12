@@ -5,24 +5,33 @@
 
 import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
+import { Button } from '../../actions/Button/Button';
 import './Divider.css';
 
 export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
   /** Divider orientation */
   orientation?: 'horizontal' | 'vertical';
-  
+
   /** Visual weight/thickness */
   weight?: 'default' | 'strong' | 'emphasis';
-  
+
   /** Spacing around the divider */
   spacing?: 'sm' | 'md' | 'lg';
-  
+
   /** Optional text label */
   label?: string;
-  
+
   /** Label position (only for horizontal dividers) */
   labelPosition?: 'left' | 'center' | 'right';
-  
+
+  /** Optional button configuration (for horizontal dividers) */
+  button?: {
+    content: string;
+    href?: string;
+    variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'brand';
+    size?: 'sm' | 'md' | 'lg';
+  };
+
   /** Additional CSS classes */
   className?: string;
 }
@@ -33,9 +42,48 @@ export const Divider = forwardRef<HTMLHRElement, DividerProps>(({
   spacing = 'md',
   label,
   labelPosition = 'center',
+  button,
   className,
   ...props
 }, ref) => {
+  // If there's a button, render divider with button in the middle
+  if (button && orientation === 'horizontal') {
+    return (
+      <div
+        className={cn(
+          'divider-container',
+          'divider-container--button',
+          `divider-container--${spacing}`,
+          className
+        )}
+        role="separator"
+      >
+        <hr
+          ref={ref}
+          className={cn(
+            'divider',
+            `divider--${weight}`
+          )}
+          {...props}
+        />
+        <Button
+          variant={button.variant || 'secondary'}
+          size={button.size || 'md'}
+          href={button.href}
+          className="divider-button"
+        >
+          {button.content}
+        </Button>
+        <hr
+          className={cn(
+            'divider',
+            `divider--${weight}`
+          )}
+        />
+      </div>
+    );
+  }
+
   // If there's a label, we need a different structure
   if (label && orientation === 'horizontal') {
     return (
