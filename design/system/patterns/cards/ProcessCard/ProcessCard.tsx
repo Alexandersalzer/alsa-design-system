@@ -1,7 +1,9 @@
 import React from 'react';
 import { Card, VStack, Typography } from '../../../components';
 import { Image } from '../../../components/media/Image';
+import { NumberBadge } from '../../../components/feedback/Badge/NumberBadge';
 import { CDN_BASE_URL } from '../../../core/utils/env';
+import '../../../components/feedback/Badge/NumberBadge.css';
 import './ProcessCard.css';
 
 interface ProcessCardProps {
@@ -48,9 +50,7 @@ export function ProcessCard({
     >
       <VStack spacing={spacing} className="process-card-content">
         {/* Number Badge */}
-        <div className="process-card-number-badge">
-          {number}
-        </div>
+        <NumberBadge value={number} size="md" variant="solid" colorPalette="purple" />
 
         {/* Title */}
         <Typography variant="h3" weight="bold" color="primary">
