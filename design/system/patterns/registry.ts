@@ -6,6 +6,7 @@ import { navbarRegistry } from './navbar/registry';
 import { gridPatternsRegistry } from './gridPatterns/registry';
 import { cardsRegistry } from './cards/registry';
 import { widgetsRegistry } from './widgets/registry';
+import { ctaRegistry } from './cta/registry';
 
 // Parent pattern registry - combines all local registries
 export const patternRegistry: Record<string, React.ComponentType<any>> = {
@@ -17,4 +18,5 @@ export const patternRegistry: Record<string, React.ComponentType<any>> = {
   ...gridPatternsRegistry,
   ...cardsRegistry,
   ...widgetsRegistry,
+  ...ctaRegistry,
 };

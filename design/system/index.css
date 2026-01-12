@@ -87,6 +87,7 @@
 @import './patterns/navbar/NavbarBar/NavbarBar.css';
 @import './patterns/navbar/NavbarPill/NavbarPill.css';
 
+@import './patterns/cta/Cta.css';
 
 /* STEP 7: Utilities LAST (so they can override if needed) */
 @import './utils/index.css';
