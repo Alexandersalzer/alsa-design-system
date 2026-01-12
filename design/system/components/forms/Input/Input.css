@@ -540,23 +540,31 @@
  * 3. :focus:not(:focus-visible) = ONLY mouse clicks (explicitly removes outline)
  *
  * CRITICAL ORDER:
- * 1. FIRST: :focus:not(:focus-visible) with outline: none (removes outline on mouse)
- * 2. THEN: :focus-visible with outline styles (adds outline on keyboard)
+ * 1. FIRST: Remove ALL outlines with maximum specificity
+ * 2. THEN: :focus:not(:focus-visible) with outline: none (removes outline on mouse)
+ * 3. FINALLY: :focus-visible with outline styles (adds outline on keyboard)
  *
  * RESULT:
  * - Mouse click on input → border color changes, NO blue outline ✅
  * - Keyboard Tab to input → border color changes + blue outline shows ✅
  */
 
-/* 1️⃣ REMOVE outline on mouse click - higher specificity with !important */
-.input:focus:not(:focus-visible) {
+/* 0️⃣ NUCLEAR OPTION - Remove outline from ALL states first */
+input.input,
+input.input:focus,
+input.input:active {
   outline: none !important;
 }
 
-/* 2️⃣ SHOW outline ONLY on keyboard Tab - must come AFTER :not() rule */
-.input:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
+/* 1️⃣ REMOVE outline on mouse click - higher specificity with !important */
+input.input:focus:not(:focus-visible) {
+  outline: none !important;
+}
+
+/* 2️⃣ SHOW outline ONLY on keyboard Tab - must come AFTER all removal rules */
+input.input:focus-visible:not(:active) {
+  outline: 2px solid var(--border-focus) !important;
+  outline-offset: 2px !important;
 }
 
 /* ===== VARIANT-SPECIFIC FOCUS RULES (MUST COME AFTER :focus-visible) ===== */
@@ -565,22 +573,22 @@
  */
 
 /* Underlined variant focus - with keyboard outline support */
-.input--variant-underlined:focus {
+input.input--variant-underlined:focus {
   border-bottom-color: var(--border-accent);
 }
 
 /* Remove outline on mouse click for underlined variant */
-.input--variant-underlined:focus:not(:focus-visible) {
+input.input--variant-underlined:focus:not(:focus-visible) {
   outline: none !important;
 }
 
 /* Page variant focus - with keyboard outline support */
-.input--variant-page:focus {
+input.input--variant-page:focus {
   background-color: var(--surface-base);
   border-color: var(--border-accent);
 }
 
 /* Remove outline on mouse click for page variant */
-.input--variant-page:focus:not(:focus-visible) {
+input.input--variant-page:focus:not(:focus-visible) {
   outline: none !important;
 }

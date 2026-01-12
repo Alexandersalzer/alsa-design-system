@@ -15,3 +15,4 @@ export * from './animations'
 
 export * from './Typography';
 export * from './LogoIcon';
+export * from './app-icon';

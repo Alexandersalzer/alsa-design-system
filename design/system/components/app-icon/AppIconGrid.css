@@ -1,0 +1,44 @@
+/* ==============================================
+   AppIconGrid Component Styles
+   Grid layout för app-ikoner
+   ============================================== */
+
+.app-icon-grid {
+  width: 100%;
+}
+
+/* ===== DENSITY VARIANTS ===== */
+.app-icon-grid--compact {
+  --app-icon-min-width: 120px;
+}
+
+.app-icon-grid--standard {
+  --app-icon-min-width: 140px;
+}
+
+.app-icon-grid--spacious {
+  --app-icon-min-width: 160px;
+}
+
+/* ===== RESPONSIVE BEHAVIOR ===== */
+@media (max-width: 640px) {
+  .app-icon-grid {
+    /* På mobil: 2 kolumner */
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .app-icon-grid {
+    /* På tablet: 3-4 kolumner */
+    grid-template-columns: repeat(auto-fit, minmax(var(--app-icon-min-width, 140px), 1fr));
+  }
+}
+
+@media (min-width: 1025px) {
+  .app-icon-grid {
+    /* På desktop: auto-fit med min-width */
+    grid-template-columns: repeat(auto-fit, minmax(var(--app-icon-min-width, 140px), 1fr));
+  }
+}
+
