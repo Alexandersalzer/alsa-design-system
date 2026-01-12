@@ -1,6 +1,7 @@
 import React from 'react';
 import { ProcessCard } from '../ProcessCard/ProcessCard';
 import { Image } from '../../../components/media/Image';
+import { Grid } from '../../../components';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import './ProcessStepCard.css';
 
@@ -13,7 +14,7 @@ interface ProcessStepCardProps {
   stepImageAlt?: string;
   stepImageAspectRatio?: '1/1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16' | string;
   columns?: number;
-  gap?: 'sm' | 'md' | 'lg' | 'xl';
+  gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   components?: Record<string, any>;
   order?: string[];
 }
@@ -34,7 +35,7 @@ export function ProcessStepCard({
   const componentOrder = order.length > 0 ? order : Object.keys(components);
 
   return (
-    <div className="process-step-card-wrapper">
+    <div className="process-step-card-wrapper" data-component-key={componentKey}>
       {/* Optional step image above the grid */}
       {stepImageSrc && (
         <div className="process-step-image">
@@ -51,14 +52,8 @@ export function ProcessStepCard({
         </div>
       )}
 
-      {/* Grid of process cards */}
-      <div
-        className={`process-step-card gap-${gap}`}
-        data-component-key={componentKey}
-        style={{
-          '--columns': columns,
-        } as React.CSSProperties}
-      >
+      {/* Grid of process cards using proper Grid component */}
+      <Grid columns={columns} gap={gap}>
         {componentOrder.map((key) => {
           const component = components[key];
           if (!component) {
@@ -79,7 +74,7 @@ export function ProcessStepCard({
             />
           );
         })}
-      </div>
+      </Grid>
     </div>
   );
 }
