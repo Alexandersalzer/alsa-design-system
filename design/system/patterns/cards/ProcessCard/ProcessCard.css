@@ -12,7 +12,6 @@
 .process-card-content {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
   height: 100%;
   align-items: flex-start; /* Force left alignment */
 }
