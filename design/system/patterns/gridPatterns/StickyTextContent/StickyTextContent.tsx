@@ -92,7 +92,7 @@ export const StickyTextContent: React.FC<PatternNode> = (patternNode) => {
             <div className="sticky-text-content__content">
               <CardComponent
                 componentKey={key}
-                {...component.props}
+                {...component}
               />
             </div>
           </div>
