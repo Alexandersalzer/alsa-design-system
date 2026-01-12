@@ -62,24 +62,7 @@
   border-color: var(--border-default);
 }
 
-/* ===== SIZES ===== */
-.number-display-sm {
-  font-size: 0.875rem;
-}
-
-.number-display-md {
-  font-size: 1.125rem;
-}
-
-.number-display-lg {
-  font-size: 1.25rem;
-}
-
-.number-display-xl {
-  font-size: 1.5rem;
-}
-
-/* Value styling */
+/* Value styling - Label component handles typography */
 .number-display-value {
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;

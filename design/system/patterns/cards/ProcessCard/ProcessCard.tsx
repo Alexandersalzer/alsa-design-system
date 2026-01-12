@@ -38,7 +38,7 @@ export function ProcessCard({
   imageSrc,
   imageAlt,
   // Number display defaults
-  numberVariant = 'primary',
+  numberVariant = 'secondary',
   numberSize = 'md',
   numberShape = 'circle',
   // Image defaults
