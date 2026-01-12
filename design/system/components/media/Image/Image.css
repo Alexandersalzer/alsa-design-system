@@ -6,7 +6,7 @@
 /* ===== CONTAINER ===== */
 .image-container {
   position: relative;
-  display: inline-block;
+  display: block; /* ✅ Changed from inline-block to properly support width: 100% */
   overflow: hidden;
 }
 

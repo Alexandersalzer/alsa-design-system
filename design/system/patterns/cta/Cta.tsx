@@ -1,6 +1,7 @@
 // ===============================================
 // design/system/patterns/cta/Cta.tsx
 // CTA PATTERN - Call-to-Action section with card styling support
+// Uses Card component for consistent styling
 // ===============================================
 
 'use client';
@@ -8,6 +9,7 @@
 import React from 'react';
 import { PatternNode } from '../../core/types/nodes';
 import { patternProps, componentProps, componentPresent } from '../../core/utils/props';
+import { Card } from '../../components/layout/Card/Card';
 import { VStack } from '../../components/layout/vStack/VStack';
 import { Typography } from '../../components/Typography/Typography';
 import { Button } from '../../components/actions/Button/Button';
@@ -25,37 +27,44 @@ export const Cta: React.FC<CtaProps> = (patternNode) => {
 
   // Extract pattern props with defaults
   const {
-    variant = 'default', // 'default' | 'card' | 'elevated'
-    surface = 'subtle', // 'base' | 'subtle' | 'raised' | 'elevated' | 'accent'
-    radius = 'lg', // 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full'
-    padding = 'xl', // 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+    variant = 'default', // 'default' | 'raised' | 'elevated' | 'outlined' | 'solid' | 'ghost'
+    padding = 'lg', // 'none' | 'xs' | 'sm' | 'md' | 'lg'
+    radius = 'lg', // 'sm' | 'md' | 'lg'
+    maxWidth = 'full', // 'auto' | 'constrained' | 'compact' | 'spacious' | 'full'
     textAlign = 'center', // 'left' | 'center' | 'right'
-    maxWidth = 'md', // 'sm' | 'md' | 'lg' | 'xl' | 'full'
     spacing = 'md', // VStack spacing
   } = getPatternProps();
 
-  // Build CSS classes
-  const ctaClasses = [
-    'cta',
-    `cta--variant-${variant}`,
-    `cta--surface-${surface}`,
-    `cta--radius-${radius}`,
-    `cta--padding-${padding}`,
-    `cta--align-${textAlign}`,
-    `cta--max-width-${maxWidth}`,
-  ].join(' ');
+  // Map maxWidth prop to Card width prop (if not 'full')
+  const cardWidth = maxWidth === 'full' ? 'auto' : maxWidth;
+
+  // Map text alignment to VStack align
+  const alignMap = {
+    left: 'start',
+    center: 'center',
+    right: 'end',
+  } as const;
+  const vStackAlign = alignMap[textAlign as keyof typeof alignMap] || 'center';
+
+  // Build CSS classes for text alignment
+  const ctaClasses = `cta cta--align-${textAlign}`;
 
   return (
     <div className={ctaClasses}>
-      <div className="cta__content">
-        <VStack spacing={spacing} align="center">
+      <Card
+        variant={variant}
+        padding={padding}
+        radius={radius}
+        width={cardWidth}
+      >
+        <VStack spacing={spacing} align={vStackAlign}>
           {/* Heading */}
           {renderIf('typography-heading') && get('typography-heading').props.content && (
             <Typography
               as="h2"
               variant="display-lg"
               color="heading"
-              align="center"
+              align={textAlign}
               componentKey={get('typography-heading').key}
             >
               {get('typography-heading').props.content}
@@ -69,7 +78,7 @@ export const Cta: React.FC<CtaProps> = (patternNode) => {
               variant="body-lg"
               color="body"
               weight="regular"
-              align="center"
+              align={textAlign}
               componentKey={get('typography-body').key}
             >
               {get('typography-body').props.content}
@@ -89,7 +98,7 @@ export const Cta: React.FC<CtaProps> = (patternNode) => {
             </Button>
           )}
         </VStack>
-      </div>
+      </Card>
     </div>
   );
 };
