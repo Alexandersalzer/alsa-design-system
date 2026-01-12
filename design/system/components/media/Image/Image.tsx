@@ -193,9 +193,13 @@ export const Image: React.FC<ImageProps> = ({
     }
   }, [shouldLoad, isCached, isLoaded, hasError, priority, loading]);
 
+  // Determine if this is a fixed-size image (explicit dimensions) or responsive (percentage/auto)
+  const isFixedSize = typeof width === 'number' || (typeof width === 'string' && !width.includes('%'));
+
   // Build container classes
   const containerClasses = cn(
     'image-container',
+    isFixedSize && 'image-container--fixed',
     `image-container--radius-${radius}`,
     hoverZoom && 'image-container--hover-zoom',
     (isLoading && !isCached && !isLoaded) && 'image-container--loading',

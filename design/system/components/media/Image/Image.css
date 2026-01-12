@@ -6,8 +6,14 @@
 /* ===== CONTAINER ===== */
 .image-container {
   position: relative;
-  display: block; /* ✅ Changed from inline-block to properly support width: 100% */
+  display: block; /* Default: block for responsive images (width: 100%) */
   overflow: hidden;
+}
+
+/* Fixed-size images (logos, avatars, icons) use inline-block to respect explicit dimensions */
+.image-container--fixed {
+  display: inline-block;
+  max-width: 100%; /* Prevent overflow if parent is smaller than image */
 }
 
 .image-container--loading {
