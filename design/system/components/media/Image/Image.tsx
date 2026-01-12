@@ -49,6 +49,24 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   className?: string;
   /** Component key for live editing */
   componentKey?: string;
+  /**
+   * Low Quality Image Placeholder - base64 encoded tiny image (e.g., 20x20px)
+   * This will be blurred and shown instantly while the full image loads
+   * Example: 'data:image/jpeg;base64,/9j/4AAQSkZJRg...'
+   */
+  lqip?: string;
+  /**
+   * BlurHash string - compact representation of the image blur
+   * More efficient than LQIP, generates blur from 6-7 character string
+   * Example: 'LGF5]+Yk^6#M@-5c,1J5@[or[Q6.'
+   */
+  blurHash?: string;
+  /**
+   * Placeholder background color - dominant color of the image
+   * Simplest option, just shows a solid color while loading
+   * Example: '#3B82F6' or 'rgb(59, 130, 246)'
+   */
+  placeholderColor?: string;
 }
 
 // ===== MAIN IMAGE COMPONENT =====
@@ -73,6 +91,9 @@ export const Image: React.FC<ImageProps> = ({
   className,
   style,
   componentKey,
+  lqip,
+  blurHash,
+  placeholderColor,
   ...props
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -211,11 +232,76 @@ export const Image: React.FC<ImageProps> = ({
     transition: 'none'
   };
 
+  // Determine if we should show a progressive placeholder
+  const hasProgressivePlaceholder = lqip || blurHash || placeholderColor;
+  const showProgressivePlaceholder = hasProgressivePlaceholder && !shouldBeVisible && !hasError;
+
   return (
     <Component componentKey={componentKey}>
       <div ref={containerRef} className={containerClasses} style={containerStyles}>
-        {/* Loading overlay - skeleton (default) or spinner */}
-        {isLoading && !isCached && !shouldBeVisible && !hasError && (
+        {/* Progressive placeholder - LQIP, BlurHash, or Color */}
+        {showProgressivePlaceholder && (
+          <div
+            className="image-placeholder"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              overflow: 'hidden',
+              borderRadius: 'inherit'
+            }}
+          >
+            {/* LQIP - Low Quality Image Placeholder */}
+            {lqip && (
+              <img
+                src={lqip}
+                alt=""
+                aria-hidden="true"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: objectFit,
+                  filter: 'blur(20px)',
+                  transform: 'scale(1.1)', // Prevents blur edge artifacts
+                  borderRadius: 'inherit'
+                }}
+              />
+            )}
+
+            {/* BlurHash - would need blurhash library */}
+            {!lqip && blurHash && (
+              <div
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: placeholderColor || '#e5e7eb',
+                  borderRadius: 'inherit'
+                }}
+                data-blurhash={blurHash}
+              >
+                {/* Note: BlurHash requires blurhash npm package to decode */}
+                {/* For now, falls back to solid color */}
+              </div>
+            )}
+
+            {/* Simple color placeholder */}
+            {!lqip && !blurHash && placeholderColor && (
+              <div
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: placeholderColor,
+                  borderRadius: 'inherit'
+                }}
+              />
+            )}
+          </div>
+        )}
+
+        {/* Loading overlay - skeleton (default) or spinner (only if no progressive placeholder) */}
+        {!hasProgressivePlaceholder && isLoading && !isCached && !shouldBeVisible && !hasError && (
           <div className="image-loading-overlay">
             {loadingType === 'skeleton' ? (
               <Skeleton
