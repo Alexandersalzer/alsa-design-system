@@ -8,7 +8,7 @@
 import React from 'react';
 import { PatternNode } from '../../core/types/nodes';
 import { patternProps, componentProps, getPatternOrder } from '../../core/utils/props';
-import { SectionBody } from '../shared/sectionBody/SectionBody';
+import SectionBody from '../shared/sectionBody/SectionBody';
 import './Cta.css';
 
 export interface CtaProps extends PatternNode {
