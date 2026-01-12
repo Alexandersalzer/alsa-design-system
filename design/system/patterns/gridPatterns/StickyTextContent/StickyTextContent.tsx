@@ -10,6 +10,7 @@ import { PatternNode } from '../../../core/types/nodes';
 import { patternProps, getPatternOrder } from '../../../core/utils/props';
 import { cardsRegistry } from '../../cards/registry';
 import './StickyTextContent.css';
+import { Body, H3 } from '@blimpify-im/ui';
 
 export const StickyTextContent: React.FC<PatternNode> = (patternNode) => {
   const { components = {} } = patternNode;
@@ -51,14 +52,14 @@ export const StickyTextContent: React.FC<PatternNode> = (patternNode) => {
             {/* Sticky Text - sticks within this row only */}
             <aside className="sticky-text-content__text">
               {stickyTitle && (
-                <h3 className="sticky-text-content__title">
+                <H3>
                   {stickyTitle}
-                </h3>
+                </H3>
               )}
               {stickyDescription && (
-                <p className="sticky-text-content__description">
+                <Body>
                   {stickyDescription}
-                </p>
+                </Body>
               )}
             </aside>
 
