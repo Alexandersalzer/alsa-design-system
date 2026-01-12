@@ -51,7 +51,6 @@ export function ResultsCard({
           src={`${CDN_BASE_URL}${imageSrc}`}
           alt={imageAlt}
           width="100%"
-          height="100%"
           aspectRatio={imageAspectRatio}
           objectFit={imageObjectFit}
           radius={imageRadius}

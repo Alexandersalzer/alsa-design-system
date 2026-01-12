@@ -212,10 +212,13 @@ export const Image: React.FC<ImageProps> = ({
   );
 
   // Container styles
+  // ✅ FIX: Prioritize aspect-ratio for space reservation, avoid conflicting height values
   const containerStyles: React.CSSProperties = {
     width: width || '100%',
-    height: height || 'auto',
-    aspectRatio: aspectRatio || undefined,
+    // Only set height if explicitly provided AND no aspectRatio (avoid conflicts)
+    ...(height && !aspectRatio ? { height } : {}),
+    // Aspect ratio takes priority for proper space reservation
+    ...(aspectRatio ? { aspectRatio } : {}),
     position: 'relative',
     overflow: 'hidden',
     ...style
