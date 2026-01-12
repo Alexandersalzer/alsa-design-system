@@ -11,6 +11,8 @@ import { patternProps, getPatternOrder } from '../../../core/utils/props';
 import { cardsRegistry } from '../../cards/registry';
 import './StickyTextContent.css';
 import { Body, H3 } from '@blimpify-im/ui';
+import { Icon } from '../../../components/media/Icon';
+import * as HeroIcons from '@heroicons/react/24/outline';
 
 export const StickyTextContent: React.FC<PatternNode> = (patternNode) => {
   const { components = {} } = patternNode;
@@ -38,7 +40,12 @@ export const StickyTextContent: React.FC<PatternNode> = (patternNode) => {
           return null;
         }
 
-        const { stickyTitle, stickyDescription } = component.props || {};
+        const { stickyTitle, stickyDescription, stickyIcon } = component.props || {};
+
+        // Get icon component if specified
+        const IconComponent = stickyIcon
+          ? (HeroIcons as any)[stickyIcon + 'Icon']
+          : null;
 
         return (
           <div
@@ -51,6 +58,13 @@ export const StickyTextContent: React.FC<PatternNode> = (patternNode) => {
           >
             {/* Sticky Text - sticks within this row only */}
             <aside className="sticky-text-content__text">
+              {IconComponent && (
+                <div className="sticky-text-content__icon">
+                  <Icon size="xl" color="primary">
+                    <IconComponent />
+                  </Icon>
+                </div>
+              )}
               {stickyTitle && (
                 <H3>
                   {stickyTitle}

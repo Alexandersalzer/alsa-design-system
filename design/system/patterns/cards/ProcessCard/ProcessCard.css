@@ -15,67 +15,20 @@
   height: 100%;
 }
 
-/* Badge Styling */
-.process-card-badge {
-  display: inline-flex;
+/* Number Badge Styling (using Avatar component) */
+.process-card-number-badge {
   align-self: flex-start;
 }
 
-.process-card-badge-inner {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 48px;
-  height: 48px;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-md);
+.process-card-number {
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
   line-height: 1;
-}
-
-/* Badge Variants */
-.process-card-badge--default {
-  background-color: var(--color-surface-secondary);
-  color: var(--color-text-primary);
-}
-
-.process-card-badge--accent {
-  background-color: var(--color-accent-surface);
-  color: var(--color-accent-text);
-}
-
-.process-card-badge--success {
-  background-color: var(--color-success-surface);
-  color: var(--color-success-text);
-}
-
-.process-card-badge--warning {
-  background-color: var(--color-warning-surface);
-  color: var(--color-warning-text);
-}
-
-.process-card-badge--error {
-  background-color: var(--color-danger-surface);
-  color: var(--color-danger-text);
-}
-
-.process-card-badge--info {
-  background-color: var(--color-info-surface);
-  color: var(--color-info-text);
+  color: currentColor;
 }
 
 /* Image Styling */
 .process-card-image {
   margin-top: auto;
   width: 100%;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .process-card-badge-inner {
-    min-width: 40px;
-    height: 40px;
-    font-size: var(--font-size-md);
-  }
 }

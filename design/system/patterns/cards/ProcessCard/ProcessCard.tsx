@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, VStack, Typography, Badge } from '../../../components';
+import { Card, VStack, Typography, Avatar } from '../../../components';
 import { Image } from '../../../components/media/Image';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import './ProcessCard.css';
@@ -16,10 +16,11 @@ interface ProcessCardProps {
   imageRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
   // Card customization
-  cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid';
+  cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid' | 'raised';
   cardPadding?: 'sm' | 'md' | 'lg';
   // Badge customization
-  badgeVariant?: 'success' | 'error' | 'warning' | 'info' | 'accent' | 'default';
+  badgeColorPalette?: 'gray' | 'red' | 'orange' | 'yellow' | 'green' | 'teal' | 'blue' | 'cyan' | 'purple' | 'pink';
+  badgeSize?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   // Layout customization
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
@@ -37,9 +38,10 @@ export function ProcessCard({
   imageAspectRatio = '16/9',
   imageRadius = 'md',
   imageObjectFit = 'cover',
-  cardVariant = 'elevated',
+  cardVariant = 'raised',
   cardPadding = 'md',
-  badgeVariant = 'accent',
+  badgeColorPalette = 'purple',
+  badgeSize = 'lg',
   spacing = 'md'
 }: ProcessCardProps) {
   return (
@@ -50,12 +52,17 @@ export function ProcessCard({
       data-component-key={componentKey}
     >
       <VStack spacing={spacing} className="process-card-content">
-        {/* Badge Number */}
-        <div className="process-card-badge">
-          <span className={`process-card-badge-inner process-card-badge--${badgeVariant}`}>
-            {number}
-          </span>
-        </div>
+        {/* Number Badge using Avatar */}
+        <Avatar
+          size={badgeSize}
+          shape="rounded"
+          variant="solid"
+          colorPalette={badgeColorPalette}
+          borderless
+          className="process-card-number-badge"
+        >
+          <span className="process-card-number">{number}</span>
+        </Avatar>
 
         {/* Title */}
         <Typography variant="h3" weight="bold" color="primary">
