@@ -20,7 +20,7 @@
 }
 
 .number-display-rounded {
-  border-radius: var(--foundation-radius-md);
+  border-radius: var(--radius-button);
 }
 
 .number-display-circle {

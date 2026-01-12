@@ -40,7 +40,7 @@ export function ProcessCard({
   // Number display defaults
   numberVariant = 'secondary',
   numberSize = 'md',
-  numberShape = 'circle',
+  numberShape = 'rounded',
   // Image defaults
   imageAspectRatio = '16/9',
   imageRadius = 'md',
@@ -49,7 +49,8 @@ export function ProcessCard({
   cardVariant = 'raised',
   cardPadding = 'md',
   // Layout defaults
-  spacing = 'md'
+  spacing = 'lg'
+  
 }: ProcessCardProps) {
   return (
     <Card
@@ -58,7 +59,7 @@ export function ProcessCard({
       className="process-card"
       data-component-key={componentKey}
     >
-      <VStack spacing={spacing} align="start" className="process-card-content">
+      <VStack spacing="2xl" align="start" className="process-card-content">
         {/* Number Display - Left Aligned */}
         <NumberDisplay
           value={number}
@@ -66,17 +67,17 @@ export function ProcessCard({
           variant={numberVariant}
           shape={numberShape}
         />
+        <VStack>
+          {/* Title */}
+          <Typography variant="h3" weight="bold" color="primary">
+            {title}
+          </Typography>
 
-        {/* Title */}
-        <Typography variant="h3" weight="bold" color="primary">
-          {title}
-        </Typography>
-
-        {/* Description */}
-        <Typography variant="body-md" weight="regular" color="tertiary">
-          {description}
-        </Typography>
-
+          {/* Description */}
+          <Typography variant="body-md" weight="regular" color="tertiary">
+            {description}
+          </Typography>
+        </VStack>
         {/* Optional Image */}
         {imageSrc && (
           <Image
