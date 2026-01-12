@@ -59,7 +59,7 @@ export function ProcessCard({
       className="process-card"
       data-component-key={componentKey}
     >
-      <VStack spacing="2xl" align="start" className="process-card-content">
+      <VStack spacing={spacing} align="start" className="process-card-content">
         {/* Number Display - Left Aligned */}
         <NumberDisplay
           value={number}
@@ -67,7 +67,7 @@ export function ProcessCard({
           variant={numberVariant}
           shape={numberShape}
         />
-        <VStack>
+        <VStack spacing="sm" align="start">
           {/* Title */}
           <Typography variant="h3" weight="bold" color="primary">
             {title}
