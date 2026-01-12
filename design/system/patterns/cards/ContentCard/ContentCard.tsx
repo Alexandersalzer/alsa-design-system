@@ -47,6 +47,8 @@ export function ContentCard({
   spacing = 'sm'
 }: ContentCardProps) {
   // Build image container styles with height controls
+  const hasHeightConstraints = imageHeight || imageMinHeight || imageMaxHeight;
+
   const imageContainerStyle: React.CSSProperties = {
     ...(imageHeight && { height: typeof imageHeight === 'number' ? `${imageHeight}px` : imageHeight }),
     ...(imageMinHeight && { minHeight: typeof imageMinHeight === 'number' ? `${imageMinHeight}px` : imageMinHeight }),
@@ -66,13 +68,13 @@ export function ContentCard({
           src={`${CDN_BASE_URL}${imageSrc}`}
           alt={imageAlt}
           width="100%"
-          aspectRatio={imageHeight ? undefined : imageAspectRatio} // If fixed height, don't use aspectRatio
-          height={imageHeight ? '100%' : undefined} // If fixed height, image fills container
+          aspectRatio={hasHeightConstraints ? undefined : imageAspectRatio}
           objectFit={imageObjectFit}
           radius={imageRadius}
           loading="lazy"
           showSkeleton={true}
           className="content-card-image"
+          style={hasHeightConstraints ? { height: '100%', objectFit: imageObjectFit } : undefined}
         />
       </Card>
 
