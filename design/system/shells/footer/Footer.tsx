@@ -17,14 +17,10 @@ const Footer = ({ section }: FooterProps) => {
 
   const { patterns, order, props: sectionProps } = footerSection;
   const patternOrder = order || Object.keys(patterns);
-  
+
   // Get sectionKey from the first section
   const sectionKey = Object.keys(section)[0];
-  
-  // Get the first pattern to check for backgroundColor override
-  const firstPattern = patterns[patternOrder[0]];
-  const backgroundColor = firstPattern?.props?.backgroundColor || 'var(--surface-inverse)';
-  
+
   // Render patterns using shared renderShellPattern function
   const renderedPatterns = patternOrder
     .map((patternKey) => {
@@ -32,17 +28,14 @@ const Footer = ({ section }: FooterProps) => {
       return pattern ? renderShellPattern(pattern, patternKey, sectionKey) : null;
     })
     .filter(Boolean);
-  
+
   if (renderedPatterns.length === 0) return null;
-  
+
   return (
-    <Section 
-      as="footer" 
+    <Section
+      as="footer"
       sectionKey={sectionKey}
-      style={{ 
-        backgroundColor,
-        overflow: 'visible', // Allow dropdown to show outside footer bounds
-      }}
+      {...sectionProps}
     >
       {renderedPatterns}
     </Section>
