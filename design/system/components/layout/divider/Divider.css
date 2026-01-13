@@ -41,6 +41,10 @@
   border-width: var(--size-divider-thickness-strong);
 }
 
+.divider--inverse {
+  border-color: var(--border-on-inverse);
+}
+
 /* ===== SPACING VARIANTS (for horizontal) ===== */
 .divider--spacing-sm {
   margin-top: var(--space-divider-margin-sm);

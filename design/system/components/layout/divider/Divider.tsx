@@ -13,7 +13,7 @@ export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
   orientation?: 'horizontal' | 'vertical';
 
   /** Visual weight/thickness */
-  weight?: 'default' | 'strong' | 'emphasis';
+  weight?: 'default' | 'strong' | 'emphasis' | 'inverse';
 
   /** Spacing around the divider */
   spacing?: 'sm' | 'md' | 'lg';
