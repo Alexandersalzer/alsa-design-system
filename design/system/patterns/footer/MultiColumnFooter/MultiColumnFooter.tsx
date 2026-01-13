@@ -7,6 +7,7 @@
 import React from 'react';
 import { HStack, VStack, Typography, Button } from '../../../components';
 import { Logo } from '../../../components/media/Logo';
+import { TextLink } from '../../../components/actions/TextLink';
 import { PatternNode } from '../../../core/types/nodes';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import './MultiColumnFooter.css';
@@ -24,6 +25,10 @@ export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
   // Helper to safely get component by key
   const getComp = (key: string) => components[key];
   const hasComp = (key: string) => !!components[key];
+
+  // Check if there are any legal links
+  const legalLinks = Object.keys(components).filter(key => key.startsWith('legal-link-'));
+  const hasLegalLinks = legalLinks.length > 0;
 
   // Build logo props
   const logoProps = {
@@ -77,16 +82,15 @@ export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
               {Object.keys(components).filter(key => key.startsWith('link-1-')).map(key => {
                 const linkComp = getComp(key);
                 return linkComp && linkComp.props.content ? (
-                  <a
+                  <TextLink
                     key={key}
                     href={linkComp.props.href || '#'}
-                    className="modern-footer__link"
-                    data-component-key={key}
+                    variant="ghost"
+                    size="sm"
+                    componentKey={key}
                   >
-                    <Typography variant="body-sm" color="tertiary">
-                      {linkComp.props.content}
-                    </Typography>
-                  </a>
+                    {linkComp.props.content}
+                  </TextLink>
                 ) : null;
               })}
             </VStack>
@@ -110,16 +114,15 @@ export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
               {Object.keys(components).filter(key => key.startsWith('link-2-')).map(key => {
                 const linkComp = getComp(key);
                 return linkComp && linkComp.props.content ? (
-                  <a
+                  <TextLink
                     key={key}
                     href={linkComp.props.href || '#'}
-                    className="modern-footer__link"
-                    data-component-key={key}
+                    variant="ghost"
+                    size="sm"
+                    componentKey={key}
                   >
-                    <Typography variant="body-sm" color="tertiary">
-                      {linkComp.props.content}
-                    </Typography>
-                  </a>
+                    {linkComp.props.content}
+                  </TextLink>
                 ) : null;
               })}
             </VStack>
@@ -142,32 +145,24 @@ export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
           {/* Contact Info */}
           <VStack spacing="xs" align="start">
             {hasComp('contact-email') && getComp('contact-email').props.content && (
-              <a
+              <TextLink
                 href={`mailto:${getComp('contact-email').props.content}`}
-                className="modern-footer__link"
+                variant="ghost"
+                size="sm"
+                componentKey="contact-email"
               >
-                <Typography
-                  variant="body-sm"
-                  color="tertiary"
-                  componentKey="contact-email"
-                >
-                  {getComp('contact-email').props.content}
-                </Typography>
-              </a>
+                {getComp('contact-email').props.content}
+              </TextLink>
             )}
             {hasComp('contact-phone') && getComp('contact-phone').props.content && (
-              <a
+              <TextLink
                 href={`tel:${getComp('contact-phone').props.content}`}
-                className="modern-footer__link"
+                variant="ghost"
+                size="sm"
+                componentKey="contact-phone"
               >
-                <Typography
-                  variant="body-sm"
-                  color="tertiary"
-                  componentKey="contact-phone"
-                >
-                  {getComp('contact-phone').props.content}
-                </Typography>
-              </a>
+                {getComp('contact-phone').props.content}
+              </TextLink>
             )}
           </VStack>
 
@@ -203,27 +198,33 @@ export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
 
       {/* Bottom Section - Legal + Copyright */}
       <div className="modern-footer__bottom">
-        <HStack spacing="md" justify="between" align="center" className="modern-footer__bottom-content">
-          {/* Legal Links */}
-          <HStack spacing="md" align="center">
-            {Object.keys(components).filter(key => key.startsWith('legal-link-')).map(key => {
-              const linkComp = getComp(key);
-              return linkComp && linkComp.props.content ? (
-                <a
-                  key={key}
-                  href={linkComp.props.href || '#'}
-                  className="modern-footer__legal-link"
-                  data-component-key={key}
-                >
-                  <Typography variant="body-sm" color="tertiary">
+        <HStack
+          spacing="md"
+          justify={hasLegalLinks ? "between" : "center"}
+          align="center"
+          className="modern-footer__bottom-content"
+        >
+          {/* Legal Links - Hidden if none exist */}
+          {hasLegalLinks && (
+            <HStack spacing="md" align="center">
+              {legalLinks.map(key => {
+                const linkComp = getComp(key);
+                return linkComp && linkComp.props.content ? (
+                  <TextLink
+                    key={key}
+                    href={linkComp.props.href || '#'}
+                    variant="ghost"
+                    size="sm"
+                    componentKey={key}
+                  >
                     {linkComp.props.content}
-                  </Typography>
-                </a>
-              ) : null;
-            })}
-          </HStack>
+                  </TextLink>
+                ) : null;
+              })}
+            </HStack>
+          )}
 
-          {/* Copyright */}
+          {/* Copyright - Centered when no legal links */}
           {hasComp('copyright') && getComp('copyright').props.content && (
             <Typography
               variant="body-sm"
