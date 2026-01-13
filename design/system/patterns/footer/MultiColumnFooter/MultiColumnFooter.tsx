@@ -8,6 +8,7 @@ import React from 'react';
 import { HStack, VStack, Typography, Button } from '../../../components';
 import { Logo } from '../../../components/media/Logo';
 import { TextLink } from '../../../components/actions/TextLink';
+import { Divider } from '../../../components/layout/divider/Divider';
 import { PatternNode } from '../../../core/types/nodes';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import './MultiColumnFooter.css';
@@ -59,6 +60,7 @@ export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
               variant="body-sm"
               color="tertiary"
               componentKey="description"
+              align="left"
             >
               {getComp('description').props.content}
             </Typography>
@@ -195,6 +197,9 @@ export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
           </VStack>
         </VStack>
       </div>
+
+      {/* Divider */}
+      <Divider weight="default" spacing="lg" />
 
       {/* Bottom Section - Legal + Copyright */}
       <div className="modern-footer__bottom">

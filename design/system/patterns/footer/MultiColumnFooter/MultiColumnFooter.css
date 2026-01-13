@@ -42,8 +42,6 @@
 /* ===== BOTTOM SECTION - Legal + Copyright ===== */
 .modern-footer__bottom {
   width: 100%;
-  padding-top: var(--foundation-space-6);
-  border-top: 1px solid var(--border-default);
 }
 
 .modern-footer__bottom-content {

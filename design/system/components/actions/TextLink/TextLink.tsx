@@ -13,7 +13,7 @@ import './TextLink.css';
 
 export interface TextLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   children: ReactNode;
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'button-ghost' | 'brand';
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'button-ghost' | 'brand' | 'inverse';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   weight?: 'regular' | 'medium' | 'semibold' | 'bold';
   leftIcon?: ReactNode;
