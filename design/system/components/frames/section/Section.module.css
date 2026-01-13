@@ -11,6 +11,7 @@
   padding-top: var(--space-section);
   padding-bottom: var(--space-section);
   overflow: visible; /* Changed from hidden to visible - allows sticky positioning */
+  background-color: var(--surface-base); /* Default background for all sections */
 }
 
 
