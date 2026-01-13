@@ -24,12 +24,12 @@ interface ResultsCardProps {
 
 export type { ResultsCardProps };
 
-export function ResultsCard({ 
+export function ResultsCard({
   componentKey,
-  heading, 
-  subheading, 
-  description, 
-  imageSrc, 
+  heading,
+  subheading,
+  description,
+  imageSrc,
   imageAlt,
   // Defaults
   imageRadius = 'sm',
@@ -39,13 +39,19 @@ export function ResultsCard({
   cardPadding = 'md',
   spacing = 'sm'
 }: ResultsCardProps) {
+  // Build card container style with aspectRatio for space reservation
+  const cardContainerStyle: React.CSSProperties = {
+    aspectRatio: imageAspectRatio
+  };
+
   return (
     <div className="results-card" data-component-key={componentKey}>
       {/* Image Card - separate container with background */}
-      <Card 
-        variant={cardVariant} 
+      <Card
+        variant={cardVariant}
         padding={cardPadding}
         className="results-card-image-container"
+        style={cardContainerStyle}
       >
         <Image
           src={`${CDN_BASE_URL}${imageSrc}`}

@@ -57,6 +57,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
   const countUpDuration = props?.countUpDuration || 2000;
   const countUpSuffix = props?.countUpSuffix || '';
   const countUpPrefix = props?.countUpPrefix || '';
+  const countUpSeparator = props?.countUpSeparator || '';
 
   // Helper to wrap content with animation
   const withAnimation = (content: React.ReactNode, index: number = 0) => {
@@ -124,6 +125,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
               duration={countUpDuration}
               suffix={countUpSuffix}
               prefix={countUpPrefix}
+              separator={countUpSeparator}
               variant="display-lg"
               color="heading"
               align="center"
