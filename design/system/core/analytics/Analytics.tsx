@@ -1,7 +1,6 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
-import { usePathname } from 'next/navigation';
 import { useConsent } from '../../patterns/cookieConsent/ConsentProvider';
 
 // ===== TYPES =====
@@ -140,10 +139,8 @@ interface AnalyticsProps {
 }
 
 export function Analytics({ children }: AnalyticsProps) {
-  const pathname = usePathname();
   const { consent, hasResponded, isLoading: consentLoading } = useConsent();
   const [session, setSession] = useState<AnalyticsSession | null>(null);
-  const [hasTrackedInitialPage, setHasTrackedInitialPage] = useState(false);
 
   // Initialize or restore session
   useEffect(() => {
@@ -265,26 +262,41 @@ export function Analytics({ children }: AnalyticsProps) {
 
   const isEnabled = !!session && consent.analytics && hasResponded;
 
-  // Auto-track page views on route change
+  // Auto-track page views using native browser API
   useEffect(() => {
-    if (!isEnabled) return;
+    if (!isEnabled || typeof window === 'undefined') return;
     
-    // Skip tracking on initial mount to avoid interfering with redirects
-    // Only track after first render or when pathname actually changes
-    if (!hasTrackedInitialPage) {
-      setHasTrackedInitialPage(true);
-      // Only track if we're not on root (which would redirect anyway)
-      if (pathname !== '/') {
-        const title = typeof document !== 'undefined' ? document.title : undefined;
-        trackPageView(pathname, title);
-      }
-      return;
+    // Track initial page view
+    const trackCurrentPage = () => {
+      const path = window.location.pathname;
+      const title = document.title;
+      trackPageView(path, title);
+    };
+
+    // Track on mount (after consent is ready)
+    trackCurrentPage();
+
+    // Listen for browser navigation events (back/forward buttons)
+    window.addEventListener('popstate', trackCurrentPage);
+
+    // Listen for Next.js route changes (if available)
+    const handleRouteChange = () => {
+      // Small delay to ensure document.title is updated
+      setTimeout(trackCurrentPage, 0);
+    };
+
+    // Try to access Next.js router events (optional, won't break if not available)
+    if ((window as any).next?.router?.events) {
+      (window as any).next.router.events.on('routeChangeComplete', handleRouteChange);
     }
-    
-    // Track subsequent page views
-    const title = typeof document !== 'undefined' ? document.title : undefined;
-    trackPageView(pathname, title);
-  }, [pathname, isEnabled, trackPageView, hasTrackedInitialPage]);
+
+    return () => {
+      window.removeEventListener('popstate', trackCurrentPage);
+      if ((window as any).next?.router?.events) {
+        (window as any).next.router.events.off('routeChangeComplete', handleRouteChange);
+      }
+    };
+  }, [isEnabled, trackPageView]);
 
   return (
     <AnalyticsContext.Provider
