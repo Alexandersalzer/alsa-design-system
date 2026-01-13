@@ -143,6 +143,7 @@ export function Analytics({ children }: AnalyticsProps) {
   const pathname = usePathname();
   const { consent, hasResponded, isLoading: consentLoading } = useConsent();
   const [session, setSession] = useState<AnalyticsSession | null>(null);
+  const [hasTrackedInitialPage, setHasTrackedInitialPage] = useState(false);
 
   // Initialize or restore session
   useEffect(() => {
@@ -268,9 +269,22 @@ export function Analytics({ children }: AnalyticsProps) {
   useEffect(() => {
     if (!isEnabled) return;
     
+    // Skip tracking on initial mount to avoid interfering with redirects
+    // Only track after first render or when pathname actually changes
+    if (!hasTrackedInitialPage) {
+      setHasTrackedInitialPage(true);
+      // Only track if we're not on root (which would redirect anyway)
+      if (pathname !== '/') {
+        const title = typeof document !== 'undefined' ? document.title : undefined;
+        trackPageView(pathname, title);
+      }
+      return;
+    }
+    
+    // Track subsequent page views
     const title = typeof document !== 'undefined' ? document.title : undefined;
     trackPageView(pathname, title);
-  }, [pathname, isEnabled, trackPageView]);
+  }, [pathname, isEnabled, trackPageView, hasTrackedInitialPage]);
 
   return (
     <AnalyticsContext.Provider
