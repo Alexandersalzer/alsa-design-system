@@ -1,5 +1,5 @@
 // ===============================================
-// ModernFooter.tsx - Modern multi-column footer
+// MultiColumnFooter.tsx - Multi-column footer with navigation and actions
 // ===============================================
 
 'use client';
@@ -10,14 +10,14 @@ import { Logo } from '../../../components/media/Logo';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, componentPresent } from '../../../core/utils/props';
 import { CDN_BASE_URL } from '../../../core/utils/env';
-import './ModernFooter.css';
+import './MultiColumnFooter.css';
 
-interface ModernFooterProps extends PatternNode {
+interface MultiColumnFooterProps extends PatternNode {
   sectionKey?: string;
   patternKey?: string;
 }
 
-export const ModernFooter: React.FC<ModernFooterProps> = ({
+export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
   components = {},
   sectionKey,
   patternKey
@@ -239,4 +239,4 @@ export const ModernFooter: React.FC<ModernFooterProps> = ({
   );
 };
 
-export default ModernFooter;
+export default MultiColumnFooter;
