@@ -1,0 +1,93 @@
+/* ===============================================
+   ModernFooter - Modern multi-column footer layout
+   =============================================== */
+
+.modern-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-8);
+}
+
+/* ===== TOP SECTION - Multi Column ===== */
+.modern-footer__top {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: var(--foundation-space-8);
+  width: 100%;
+}
+
+.modern-footer__column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* Prevent overflow */
+}
+
+.modern-footer__column--actions {
+  /* Actions column can be slightly wider */
+}
+
+/* ===== LINKS ===== */
+.modern-footer__link {
+  color: var(--text-tertiary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.modern-footer__link:hover {
+  color: var(--text-secondary);
+}
+
+/* ===== BOTTOM SECTION - Legal + Copyright ===== */
+.modern-footer__bottom {
+  width: 100%;
+  padding-top: var(--foundation-space-6);
+  border-top: 1px solid var(--border-default);
+}
+
+.modern-footer__bottom-content {
+  width: 100%;
+}
+
+.modern-footer__legal-link {
+  color: var(--text-tertiary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.modern-footer__legal-link:hover {
+  color: var(--text-secondary);
+}
+
+/* ===== RESPONSIVE - Tablet ===== */
+@media (max-width: 1024px) {
+  .modern-footer__top {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--foundation-space-6);
+  }
+}
+
+/* ===== RESPONSIVE - Mobile ===== */
+@media (max-width: 768px) {
+  .modern-footer {
+    gap: var(--foundation-space-6);
+  }
+
+  .modern-footer__top {
+    grid-template-columns: 1fr;
+    gap: var(--foundation-space-6);
+  }
+
+  .modern-footer__column {
+    align-items: flex-start;
+  }
+
+  .modern-footer__bottom-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--foundation-space-4);
+  }
+}
