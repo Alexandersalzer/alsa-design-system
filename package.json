@@ -36,11 +36,6 @@
       "require": "./dist/design/system/shells/index.js",
       "types": "./dist/design/system/shells/index.d.ts"
     },
-    "./analytics": {
-      "import": "./dist/design/system/core/analytics/index.js",
-      "require": "./dist/design/system/core/analytics/index.js",
-      "types": "./dist/design/system/core/analytics/index.d.ts"
-    },
     "./design": {
       "import": "./dist/design/system/core/design/index.js",
       "require": "./dist/design/system/core/design/index.js",
@@ -60,6 +55,11 @@
       "import": "./dist/design/system/patterns/cookieConsent/index.js",
       "require": "./dist/design/system/patterns/cookieConsent/index.js",
       "types": "./dist/design/system/patterns/cookieConsent/index.d.ts"
+    },
+    "./analytics": {
+      "import": "./dist/design/system/patterns/analytics/index.js",
+      "require": "./dist/design/system/patterns/analytics/index.js",
+      "types": "./dist/design/system/patterns/analytics/index.d.ts"
     },
     "./toast": {
       "import": "./dist/design/system/patterns/toast/index.js",
