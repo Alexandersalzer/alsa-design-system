@@ -47,7 +47,7 @@ export const ModernFooter: React.FC<ModernFooterProps> = ({
       {/* Top Section - Multi Column Layout */}
       <div className="modern-footer__top">
         {/* Column 1 - Logo + Description */}
-        <VStack spacing="md" align="flex-start" className="modern-footer__column">
+        <VStack spacing="md" align="start" className="modern-footer__column">
           <Logo {...logoProps} />
           {renderIf('description') && get('description').props.content && (
             <Typography
@@ -62,7 +62,7 @@ export const ModernFooter: React.FC<ModernFooterProps> = ({
 
         {/* Column 2 - Pages/Links */}
         {renderIf('link-group-1') && (
-          <VStack spacing="md" align="flex-start" className="modern-footer__column">
+          <VStack spacing="md" align="start" className="modern-footer__column">
             {renderIf('link-heading-1') && get('link-heading-1').props.content && (
               <Typography
                 variant="body-md"
@@ -73,7 +73,7 @@ export const ModernFooter: React.FC<ModernFooterProps> = ({
                 {get('link-heading-1').props.content}
               </Typography>
             )}
-            <VStack spacing="xs" align="flex-start">
+            <VStack spacing="xs" align="start">
               {Object.keys(components).filter(key => key.startsWith('link-1-')).map(key => {
                 const linkComp = get(key);
                 return linkComp && linkComp.props.content ? (
@@ -95,7 +95,7 @@ export const ModernFooter: React.FC<ModernFooterProps> = ({
 
         {/* Column 3 - Services/Links */}
         {renderIf('link-group-2') && (
-          <VStack spacing="md" align="flex-start" className="modern-footer__column">
+          <VStack spacing="md" align="start" className="modern-footer__column">
             {renderIf('link-heading-2') && get('link-heading-2').props.content && (
               <Typography
                 variant="body-md"
@@ -106,7 +106,7 @@ export const ModernFooter: React.FC<ModernFooterProps> = ({
                 {get('link-heading-2').props.content}
               </Typography>
             )}
-            <VStack spacing="xs" align="flex-start">
+            <VStack spacing="xs" align="start">
               {Object.keys(components).filter(key => key.startsWith('link-2-')).map(key => {
                 const linkComp = get(key);
                 return linkComp && linkComp.props.content ? (
@@ -127,7 +127,7 @@ export const ModernFooter: React.FC<ModernFooterProps> = ({
         )}
 
         {/* Column 4 - Contact + Actions */}
-        <VStack spacing="lg" align="flex-start" className="modern-footer__column modern-footer__column--actions">
+        <VStack spacing="lg" align="start" className="modern-footer__column modern-footer__column--actions">
           {renderIf('contact-heading') && get('contact-heading').props.content && (
             <Typography
               variant="body-md"
@@ -140,7 +140,7 @@ export const ModernFooter: React.FC<ModernFooterProps> = ({
           )}
 
           {/* Contact Info */}
-          <VStack spacing="xs" align="flex-start">
+          <VStack spacing="xs" align="start">
             {renderIf('contact-email') && get('contact-email').props.content && (
               <a
                 href={`mailto:${get('contact-email').props.content}`}
@@ -172,7 +172,7 @@ export const ModernFooter: React.FC<ModernFooterProps> = ({
           </VStack>
 
           {/* Action Buttons */}
-          <VStack spacing="sm" align="flex-start" fullWidth>
+          <VStack spacing="sm" align="start" fullWidth>
             {renderIf('button-primary') && get('button-primary').props.content && (
               <Button
                 variant="accent"
@@ -203,7 +203,7 @@ export const ModernFooter: React.FC<ModernFooterProps> = ({
 
       {/* Bottom Section - Legal + Copyright */}
       <div className="modern-footer__bottom">
-        <HStack spacing="md" justify="space-between" align="center" fullWidth className="modern-footer__bottom-content">
+        <HStack spacing="md" justify="between" align="center" className="modern-footer__bottom-content">
           {/* Legal Links */}
           <HStack spacing="md" align="center">
             {Object.keys(components).filter(key => key.startsWith('legal-link-')).map(key => {
