@@ -12,11 +12,9 @@ import { Typography } from '../../../components/Typography/Typography';
 import { Tag } from '../../../components/feedback/Tag/Tag';
 import { Button } from '../../../components/actions/Button/Button';
 import { Input } from '../../../components/forms/Input/Input';
-import { CountUp } from '../../../components/animations/CountUp/CountUp';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
 import { componentProps, componentPresent } from '../../../core/utils/props';
 import { ComponentNode } from '../../../core/types/nodes';
-import { AnimationConfig } from '../../../core/animations';
 
 // ===== MAIN SECTION BODY COMPONENT =====
 
@@ -51,9 +49,6 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
   const animationDuration = props?.animationDuration || 600;
   const animationDelay = props?.animationDelay || 0;
   const animationStagger = props?.animationStagger || 100; // Delay between elements
-
-  // Animation configuration for heading (centralized)
-  const headingAnimation: AnimationConfig | undefined = props?.animation;
 
   // Helper to wrap content with animation
   const withAnimation = (content: React.ReactNode, index: number = 0) => {
@@ -120,7 +115,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
             variant="display-lg"
             color="heading"
             align="center"
-            animation={headingAnimation}
+            animation={get('typography-heading').props.animation}
             componentKey={get('typography-heading').key}
           >
             {get('typography-heading').props.content}
