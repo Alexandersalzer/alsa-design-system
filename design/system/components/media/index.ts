@@ -4,3 +4,4 @@ export * from './Icon';
 export * from './Avatar';
 export * from './Image';
 export * from './Logo';
+export * from './Globe';
