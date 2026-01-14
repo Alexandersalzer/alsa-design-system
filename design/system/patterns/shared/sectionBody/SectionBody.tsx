@@ -51,8 +51,14 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
   const animationStagger = props?.animationStagger || 100; // Delay between elements
 
   // Helper to wrap content with animation
-  const withAnimation = (content: React.ReactNode, index: number = 0) => {
+  // Checks if component has its own animation prop - if so, skip FadeIn wrapper
+  const withAnimation = (content: React.ReactNode, index: number = 0, componentKey?: string) => {
     if (!enableAnimation || animationType === 'none') return content;
+    
+    // If componentKey provided, check if component has its own animation
+    if (componentKey && get(componentKey).props?.animation) {
+      return content; // Skip FadeIn wrapper - component handles animation itself
+    }
 
     return (
       <FadeIn
@@ -105,37 +111,24 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
               {get('tag').props.content}
             </Tag>
           </Box>,
-          0
+          0,
+          'tag'
         )}
 
-        {/* Heading - only render if exists */}
-        {renderIf('typography-heading') && get('typography-heading').props.content && (
-          // Skip withAnimation wrapper if component has its own animation prop
-          get('typography-heading').props.animation ? (
-            <Typography
-              as={isHero ? "h1" : "h2"}
-              variant="display-lg"
-              color="heading"
-              align="center"
-              animation={get('typography-heading').props.animation}
-              componentKey={get('typography-heading').key}
-            >
-              {get('typography-heading').props.content}
-            </Typography>
-          ) : (
-            withAnimation(
-              <Typography
-                as={isHero ? "h1" : "h2"}
-                variant="display-lg"
-                color="heading"
-                align="center"
-                componentKey={get('typography-heading').key}
-              >
-                {get('typography-heading').props.content}
-              </Typography>,
-              1
-            )
-          )
+        {/* Heading - render if content OR animation exists (countUp generates content) */}
+        {renderIf('typography-heading') && (get('typography-heading').props.content || get('typography-heading').props.animation) && withAnimation(
+          <Typography
+            as={isHero ? "h1" : "h2"}
+            variant="display-lg"
+            color="heading"
+            align="center"
+            animation={get('typography-heading').props.animation}
+            componentKey={get('typography-heading').key}
+          >
+            {get('typography-heading').props.content}
+          </Typography>,
+          1,
+          'typography-heading'
         )}
 
         {/* Body Text - only render if exists */}
@@ -146,11 +139,13 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
             color="body"
             weight="regular"
             align="center"
+            animation={get('typography-body').props.animation}
             componentKey={get('typography-body').key}
           >
             {get('typography-body').props.content}
           </Typography>,
-          2
+          2,
+          'typography-body'
         )}
 
         {/* Input + Button Group - render if input exists */}
@@ -180,7 +175,8 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
               )}
             </HStack>
           </Box>,
-          3
+          3,
+          'input-email'
         )}
 
         {/* Button - only render if exists AND no input */}
@@ -194,7 +190,8 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
           >
             {get('button-primary').props.content}
           </Button>,
-          3
+          3,
+          'button-primary'
         )}
       </VStack>
     </Box>
