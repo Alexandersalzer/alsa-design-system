@@ -67,25 +67,11 @@ export function ContentCard({
   const finalAspectRatio = getAspectRatio(imageAspectRatio);
 
   // Build image container styles with height controls
-  const hasHeightConstraints = imageHeight || imageMinHeight || imageMaxHeight;
-
   const imageContainerStyle: React.CSSProperties = {
     ...(imageHeight && { height: typeof imageHeight === 'number' ? `${imageHeight}px` : imageHeight }),
     ...(imageMinHeight && { minHeight: typeof imageMinHeight === 'number' ? `${imageMinHeight}px` : imageMinHeight }),
     ...(imageMaxHeight && { maxHeight: typeof imageMaxHeight === 'number' ? `${imageMaxHeight}px` : imageMaxHeight }),
   };
-
-  // Build image styles
-  const imageStyle: React.CSSProperties = hasHeightConstraints
-    ? {
-        height: '100%',
-        width: '100%',
-        objectFit: imageObjectFit,
-        objectPosition: imageObjectPosition
-      }
-    : {
-        objectPosition: imageObjectPosition
-      };
 
   return (
     <div className="content-card" data-component-key={componentKey}>
@@ -102,11 +88,11 @@ export function ContentCard({
           width="100%"
           aspectRatio={finalAspectRatio}
           objectFit={imageObjectFit}
+          objectPosition={imageObjectPosition}
           radius={imageRadius}
           loading="lazy"
           showSkeleton={true}
           className="content-card-image"
-          style={imageStyle}
         />
       </Card>
 

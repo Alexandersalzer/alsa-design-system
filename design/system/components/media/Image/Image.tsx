@@ -23,6 +23,8 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   height?: number | string;
   /** Object fit behavior */
   objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
+  /** Object position - controls image alignment (e.g., 'center', 'top', 'bottom', 'left right', 'center 25%') */
+  objectPosition?: string;
   /** Border radius */
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   /** Loading strategy */
@@ -77,6 +79,7 @@ export const Image: React.FC<ImageProps> = ({
   width,
   height,
   objectFit = 'cover',
+  objectPosition = 'center',
   radius = 'none',
   loading = 'lazy',
   priority = false,
@@ -224,17 +227,17 @@ export const Image: React.FC<ImageProps> = ({
     // Aspect ratio takes priority for proper space reservation
     ...(aspectRatio ? { aspectRatio } : {}),
     position: 'relative',
-    overflow: 'hidden',
-    ...style
+    overflow: 'hidden'
   };
 
   // ✅ FIX: Priority/eager images should ALWAYS be visible, even before onLoad fires
   const shouldBeVisible = isLoaded || priority || loading === 'eager' || isCached;
-  
+
   const imageStyles: React.CSSProperties = {
     width: '100%',
     height: '100%',
     display: 'block',
+    objectPosition: objectPosition,
     opacity: shouldBeVisible ? 1 : 0,  // Show immediately for priority/eager
     transition: 'none'
   };
@@ -336,7 +339,7 @@ export const Image: React.FC<ImageProps> = ({
             src={currentSrc}
             alt={alt}
             className={imageClasses}
-            style={imageStyles}
+            style={{ ...imageStyles, ...style }}
             onLoad={handleLoad}
             onError={handleError}
             loading={priority || isCached ? 'eager' : 'lazy'}
