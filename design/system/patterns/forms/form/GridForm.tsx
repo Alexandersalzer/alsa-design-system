@@ -104,6 +104,7 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
               size="md"
               radius="md"
               style={{ width: '100%' }}
+              onChange={handleChange}
             />
           </GridItem>
         )}
