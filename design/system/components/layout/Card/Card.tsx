@@ -8,7 +8,7 @@ import { cn } from '../../../utils/cn';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
-  variant?: 'default' | 'raised' | 'elevated' | 'outlined' | 'solid' | 'ghost';
+  variant?: 'default' | 'raised' | 'elevated' | 'outlined' | 'solid' | 'ghost' | 'bordered';
   padding?: 'none'| 'xs' | 'sm' | 'md' | 'lg';
   radius?: 'sm' | 'md' | 'lg';
   // ✅ NEW: Width constraint options
@@ -48,28 +48,29 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       variant === 'outlined' && 'card--outlined',
       variant === 'solid' && 'card--solid',
       variant === 'ghost' && 'card--ghost',
-      
+      variant === 'bordered' && 'card--bordered',
+
       // Padding classes
       padding === 'none' && 'card--padding-none',
       padding === 'xs' && 'card--padding-xs',
       padding === 'sm' && 'card--padding-sm',
       padding === 'lg' && 'card--padding-lg',
-      
+
       // Radius classes
       radius === 'sm' && 'card--radius-sm',
       radius === 'lg' && 'card--radius-lg',
-      
+
       // ✅ NEW: Width constraint classes
       width === 'constrained' && 'card--constrained',
       width === 'compact' && 'card--compact',
       width === 'spacious' && 'card--spacious',
-      
+
       // Interactive state classes
       interactive && 'card--interactive',
       isClickable && 'card--clickable',
       disabled && 'card--disabled',
       selected && 'card--selected',
-      
+
       className
     );
 

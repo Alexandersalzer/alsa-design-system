@@ -9,7 +9,6 @@
 
 /* ===== IMAGE CARD CONTAINER ===== */
 .content-card-image-container {
-  background-color: var(--surface-raised);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,6 +16,18 @@
   width: 100%;
   /* Height controls applied via inline styles when needed */
   position: relative;
+}
+
+/* Default variant has background */
+.content-card-image-container.card--default,
+.content-card-image-container.card--elevated,
+.content-card-image-container.card--raised {
+  background-color: var(--surface-raised);
+}
+
+/* Bordered variant has no background, just border */
+.content-card-image-container.card--bordered {
+  background-color: transparent;
 }
 
 /* ===== IMAGE ITSELF ===== */

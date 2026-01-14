@@ -12,7 +12,7 @@ interface ContentCardProps {
   imageSrc: string;
   imageAlt: string;
   // Image customization
-  imageAspectRatio?: '1/1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16' | string;
+  imageAspectRatio?: '1/1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16' | 'square' | 'landscape' | 'portrait' | string;
   imageRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
   // Image height controls - for better control over varied aspect ratios
@@ -20,8 +20,8 @@ interface ContentCardProps {
   imageMinHeight?: string | number; // Minimum height (e.g., '300px', 300)
   imageMaxHeight?: string | number; // Maximum height (e.g., '500px', 500)
   // Card customization
-  cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid';
-  cardPadding?: 'sm' | 'md' | 'lg';
+  cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid' | 'bordered';
+  cardPadding?: 'none' | 'xs' | 'sm' | 'md' | 'lg';
   // Layout customization
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
@@ -42,10 +42,26 @@ export function ContentCard({
   imageHeight,
   imageMinHeight,
   imageMaxHeight,
-  cardVariant = 'elevated',
-  cardPadding = 'md',
+  cardVariant = 'bordered',
+  cardPadding = 'none',
   spacing = 'sm'
 }: ContentCardProps) {
+  // Map preset aspect ratios
+  const getAspectRatio = (ratio: string): string => {
+    switch (ratio) {
+      case 'square':
+        return '1/1';
+      case 'landscape':
+        return '16/9';
+      case 'portrait':
+        return '9/16';
+      default:
+        return ratio;
+    }
+  };
+
+  const finalAspectRatio = getAspectRatio(imageAspectRatio);
+
   // Build image container styles with height controls
   const hasHeightConstraints = imageHeight || imageMinHeight || imageMaxHeight;
 
@@ -68,7 +84,7 @@ export function ContentCard({
           src={`${CDN_BASE_URL}${imageSrc}`}
           alt={imageAlt}
           width="100%"
-          aspectRatio={hasHeightConstraints ? undefined : imageAspectRatio}
+          aspectRatio={hasHeightConstraints ? undefined : finalAspectRatio}
           objectFit={imageObjectFit}
           radius={imageRadius}
           loading="lazy"
