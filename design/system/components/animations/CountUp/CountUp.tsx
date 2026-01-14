@@ -156,7 +156,15 @@ export const CountUp: React.FC<CountUpProps> = ({
       variant={variant}
       weight={weight}
       color={color}
-      {...typographyProps}
+      align={typographyProps.align}
+      truncate={typographyProps.truncate}
+      noWrap={typographyProps.noWrap}
+      uppercase={typographyProps.uppercase}
+      italic={typographyProps.italic}
+      className={typographyProps.className}
+      style={typographyProps.style}
+      as={typographyProps.as}
+      componentKey={typographyProps.componentKey}
     >
       {formatNumber(count)}
     </Typography>
