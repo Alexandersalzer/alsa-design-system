@@ -1,22 +1,33 @@
 /* ==============================================
-   AlternatingCards.css - FIXED CONSISTENT HEIGHT
+   AlternatingCards.css - FRAMER-STYLE HORIZONTAL LAYOUT
+   50/50 split with flex: 1 0 0px, using design system tokens
    ============================================== */
 
 .alternating-cards {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  align-items: center;
+  gap: var(--foundation-section-spacing-2xl); /* Responsive gap between rows */
+  max-width: 1200px;
+  overflow: visible;
+  padding: 0;
+  position: relative;
 }
 
 .alternating-cards__item {
   display: flex;
   flex-direction: row;
-  gap: 0;
+  place-content: center;
   align-items: center;
+  gap: var(--foundation-space-8); /* 32px gap between image and text */
   width: 100%;
-  margin: 0 auto var(--foundation-space-16) auto;
-}
-
-.alternating-cards__item:last-child {
-  margin-bottom: 0;
+  height: min-content;
+  max-width: 1200px;
+  overflow: visible;
+  padding: 0;
+  position: relative;
 }
 
 /* ===== FORCE HORIZONTAL LAYOUT ===== */
@@ -24,52 +35,66 @@
 .alternating-cards__item .content-card {
   display: flex;
   flex-direction: row;
-  gap: var(--card-gap, 20%);
+  place-content: center;
   align-items: center;
+  gap: var(--foundation-space-8); /* 32px gap between image and text */
   width: 100%;
-  margin: 0;
+  height: min-content;
+  overflow: visible;
+  padding: 0;
+  position: relative;
 }
 
-/* ===== IMAGE CONTAINER - FORCED HEIGHT ===== */
+/* ===== IMAGE CONTAINER - 50/50 SPLIT ===== */
 .alternating-cards__item .results-card-image-container,
 .alternating-cards__item .content-card-image-container {
-  flex: 0 0 40%;
-  max-width: 40%;
-  min-width: 40%;
+  /* Framer: flex: 1 0 0px + width: 1px = equal flex space */
+  flex: 1 0 0px;
+  width: 1px; /* Prevents overflow, forces equal distribution */
+
+  display: flex;
+  place-content: center;
+  align-items: center;
+  height: min-content;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
   margin: 0;
-  
-  /* ✅ FORCE EXACT HEIGHT - All images same */
-  height: 450px;
-  min-height: 450px;
-  max-height: 450px;
-  
-  /* ✅ Remove aspect-ratio so height takes control */
-  aspect-ratio: unset !important;
 }
 
-/* ✅ Force image to fill and crop */
+/* Image fills its container */
 .alternating-cards__item .results-card-image,
 .alternating-cards__item .content-card-image {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  aspect-ratio: unset !important;
+  width: 100%;
+  height: auto;
 }
 
-/* ===== TEXT CONTAINER ===== */
+/* ===== TEXT CONTAINER - 50/50 SPLIT ===== */
 .alternating-cards__item .results-card-text,
 .alternating-cards__item .content-card-text {
-  flex: 0 0 40%;
-  max-width: 40%;
-  min-width: 40%;
-  
+  /* Framer: flex: 1 0 0px + width: 1px = equal flex space */
+  flex: 1 0 0px;
+  width: 1px; /* Prevents overflow, forces equal distribution */
+
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  
+  place-content: center;
+  align-items: center;
+  gap: var(--foundation-space-16); /* 64px gap between text elements */
+  height: min-content;
+  overflow: visible;
+  padding: 0;
+  position: relative;
   margin: 0 !important;
-  text-align: left;
+}
+
+/* Text content with max-width and auto margins (centered) */
+.alternating-cards__item .results-card-text > *,
+.alternating-cards__item .content-card-text > * {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
 /* ===== REVERSE LAYOUT ===== */
