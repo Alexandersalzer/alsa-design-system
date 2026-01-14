@@ -78,7 +78,7 @@
   flex-direction: column;
   place-content: center;
   align-items: center;
-  gap: var(--foundation-space-16); /* 64px gap between text elements */
+  gap: var(--foundation-space-4); /* 16px gap between text elements */
   height: min-content;
   overflow: visible;
   padding: 0;
