@@ -21,6 +21,9 @@
   /* Force subpixel rendering for smoothness */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Prevent browser from throttling animation */
+  contain: layout style paint;
+  animation-play-state: running;
 }
 
 
