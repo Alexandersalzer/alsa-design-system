@@ -12,7 +12,6 @@ import { Typography } from '../../../components/Typography/Typography';
 import { Tag } from '../../../components/feedback/Tag/Tag';
 import { Button } from '../../../components/actions/Button/Button';
 import { Input } from '../../../components/forms/Input/Input';
-import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
 import { componentProps, componentPresent } from '../../../core/utils/props';
 import { ComponentNode } from '../../../core/types/nodes';
 
@@ -42,37 +41,6 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
   const heroSpacingMobile = props?.heroSpacingMobile || 1.5;
   const heroSpacingDesktop = props?.heroSpacingDesktop || 1;
 
-  // Animation configuration
-  const enableAnimation = props?.enableAnimation !== false; // Default true
-  const animationType = props?.animationType || 'fadeIn'; // 'fadeIn' or 'none'
-  const animationDirection = props?.animationDirection || 'up';
-  const animationDuration = props?.animationDuration || 600;
-  const animationDelay = props?.animationDelay || 0;
-  const animationStagger = props?.animationStagger || 100; // Delay between elements
-
-  // Helper to wrap content with animation
-  // Checks if component has its own animation prop - if so, skip FadeIn wrapper
-  const withAnimation = (content: React.ReactNode, index: number = 0, componentKey?: string) => {
-    if (!enableAnimation || animationType === 'none') return content;
-    
-    // If componentKey provided, check if component has its own animation
-    if (componentKey && get(componentKey).props?.animation) {
-      return content; // Skip FadeIn wrapper - component handles animation itself
-    }
-
-    return (
-      <FadeIn
-        direction={animationDirection}
-        duration={animationDuration}
-        delay={animationDelay + (index * animationStagger)}
-        enableScrollTrigger={true}
-        triggerOffset={100}
-      >
-        {content}
-      </FadeIn>
-    );
-  };
-
   return (
     <>
       {isHero && (
@@ -100,7 +68,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
       <VStack spacing={spacing} align="center">
 
         {/* Tag - only render if exists */}
-        {renderIf('tag') && get('tag').props.content && withAnimation(
+        {renderIf('tag') && get('tag').props.content && (
           <Box>
             <Tag
               size="medium"
@@ -110,13 +78,11 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
             >
               {get('tag').props.content}
             </Tag>
-          </Box>,
-          0,
-          'tag'
+          </Box>
         )}
 
         {/* Heading - render if content OR animation exists (countUp generates content) */}
-        {renderIf('typography-heading') && (get('typography-heading').props.content || get('typography-heading').props.animation) && withAnimation(
+        {renderIf('typography-heading') && (get('typography-heading').props.content || get('typography-heading').props.animation) && (
           <Typography
             as={isHero ? "h1" : "h2"}
             variant="display-lg"
@@ -126,13 +92,11 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
             componentKey={get('typography-heading').key}
           >
             {get('typography-heading').props.content}
-          </Typography>,
-          1,
-          'typography-heading'
+          </Typography>
         )}
 
         {/* Body Text - only render if exists */}
-        {renderIf('typography-body') && get('typography-body').props.content && withAnimation(
+        {renderIf('typography-body') && get('typography-body').props.content && (
           <Typography
             as="p"
             variant="body-lg"
@@ -143,13 +107,11 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
             componentKey={get('typography-body').key}
           >
             {get('typography-body').props.content}
-          </Typography>,
-          2,
-          'typography-body'
+          </Typography>
         )}
 
         {/* Input + Button Group - render if input exists */}
-        {renderIf('input-email') && withAnimation(
+        {renderIf('input-email') && (
           <Box style={{ width: '100%', maxWidth: '500px' }}>
             <HStack spacing="sm" align="stretch">
               <Input
@@ -174,13 +136,11 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
                 </Button>
               )}
             </HStack>
-          </Box>,
-          3,
-          'input-email'
+          </Box>
         )}
 
         {/* Button - only render if exists AND no input */}
-        {!renderIf('input-email') && renderIf('button-primary') && get('button-primary').props.content && withAnimation(
+        {!renderIf('input-email') && renderIf('button-primary') && get('button-primary').props.content && (
           <Button
             size="lg"
             variant='accent'
@@ -189,9 +149,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
             componentKey={get('button-primary').key}
           >
             {get('button-primary').props.content}
-          </Button>,
-          3,
-          'button-primary'
+          </Button>
         )}
       </VStack>
     </Box>
