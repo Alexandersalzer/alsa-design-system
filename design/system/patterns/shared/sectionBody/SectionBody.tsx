@@ -109,18 +109,33 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
         )}
 
         {/* Heading - only render if exists */}
-        {renderIf('typography-heading') && get('typography-heading').props.content && withAnimation(
-          <Typography
-            as={isHero ? "h1" : "h2"}
-            variant="display-lg"
-            color="heading"
-            align="center"
-            animation={get('typography-heading').props.animation}
-            componentKey={get('typography-heading').key}
-          >
-            {get('typography-heading').props.content}
-          </Typography>,
-          1
+        {renderIf('typography-heading') && get('typography-heading').props.content && (
+          // Skip withAnimation wrapper if component has its own animation prop
+          get('typography-heading').props.animation ? (
+            <Typography
+              as={isHero ? "h1" : "h2"}
+              variant="display-lg"
+              color="heading"
+              align="center"
+              animation={get('typography-heading').props.animation}
+              componentKey={get('typography-heading').key}
+            >
+              {get('typography-heading').props.content}
+            </Typography>
+          ) : (
+            withAnimation(
+              <Typography
+                as={isHero ? "h1" : "h2"}
+                variant="display-lg"
+                color="heading"
+                align="center"
+                componentKey={get('typography-heading').key}
+              >
+                {get('typography-heading').props.content}
+              </Typography>,
+              1
+            )
+          )
         )}
 
         {/* Body Text - only render if exists */}
