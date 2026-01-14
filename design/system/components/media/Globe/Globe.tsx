@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { Box } from '../../layout/box/Box';
 import { Body } from '../../Typography/Typography';
 
@@ -44,29 +44,75 @@ export const Globe: React.FC<GlobeProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hoveredPoint, setHoveredPoint] = useState<GlobeDataPoint | null>(null);
+  const [GlobeComponent, setGlobeComponent] = useState<any>(null);
   const globeRef = useRef<any>(null);
 
+  // Dynamically import react-globe.gl
   useEffect(() => {
-    if (!containerRef.current || data.length === 0) {
-      setIsLoaded(false);
-      return;
-    }
-
-    const initGlobe = async () => {
+    const loadGlobe = async () => {
       try {
-        // Placeholder - actual implementation will use three.js/react-globe.gl when added as dependencies
-        // For now, just mark as loaded to show placeholder UI
+        const Globe = (await import('react-globe.gl')).default;
+        setGlobeComponent(() => Globe);
         setIsLoaded(true);
       } catch (error) {
-        console.error('[Globe] Error initializing globe:', error);
+        console.error('[Globe] Error loading react-globe.gl:', error);
         setIsLoaded(false);
       }
     };
 
-    initGlobe();
-  }, [data]);
+    loadGlobe();
+  }, []);
 
-  // Placeholder until three.js/react-globe.gl is added as dependency
+  // Prepare points data for react-globe.gl
+  const points = useMemo(() => {
+    if (!data || data.length === 0) return [];
+    
+    return data.map(point => ({
+      lat: point.lat,
+      lng: point.lon,
+      size: Math.max(pointSize * 0.5, Math.min(pointSize * 2, point.count / 10)),
+      color: color,
+      count: point.count,
+      country: point.country,
+      city: point.city,
+      region: point.region
+    }));
+  }, [data, pointSize, color]);
+
+  // Handle point hover
+  const handlePointHover = (point: any) => {
+    if (point) {
+      const dataPoint: GlobeDataPoint = {
+        lat: point.lat,
+        lon: point.lng,
+        count: point.count,
+        country: point.country,
+        city: point.city,
+        region: point.region
+      };
+      setHoveredPoint(dataPoint);
+      if (onPointHover) onPointHover(dataPoint);
+    } else {
+      setHoveredPoint(null);
+      if (onPointHover) onPointHover(null);
+    }
+  };
+
+  // Handle point click
+  const handlePointClick = (point: any) => {
+    if (onPointClick && point) {
+      const dataPoint: GlobeDataPoint = {
+        lat: point.lat,
+        lon: point.lng,
+        count: point.count,
+        country: point.country,
+        city: point.city,
+        region: point.region
+      };
+      onPointClick(dataPoint);
+    }
+  };
+
   if (data.length === 0) {
     return (
       <Box
@@ -92,6 +138,34 @@ export const Globe: React.FC<GlobeProps> = ({
     );
   }
 
+  if (!isLoaded || !GlobeComponent) {
+    return (
+      <Box
+        ref={containerRef}
+        className={className}
+        style={{
+          width: '100%',
+          height: '100%',
+          minHeight: '400px',
+          position: 'relative',
+          background: 'var(--surface-default)',
+          borderRadius: 'var(--radius-md)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          ...style
+        }}
+      >
+        <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
+          <Body size="sm">Laddar jordglob...</Body>
+          <Body size="xs" color="secondary" style={{ marginTop: '8px' }}>
+            {data.length} datapunkter
+          </Body>
+        </div>
+      </Box>
+    );
+  }
+
   return (
     <Box
       ref={containerRef}
@@ -103,27 +177,38 @@ export const Globe: React.FC<GlobeProps> = ({
         position: 'relative',
         background: 'var(--surface-default)',
         borderRadius: 'var(--radius-md)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        overflow: 'hidden',
         ...style
       }}
     >
-      {!isLoaded ? (
-        <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-          <Body size="sm">Laddar jordglob...</Body>
-          <Body size="xs" color="secondary" style={{ marginTop: '8px' }}>
-            {data.length} datapunkter
-          </Body>
-        </div>
-      ) : (
-        <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-          <Body size="sm">Jordglob kommer snart</Body>
-          <Body size="xs" color="secondary" style={{ marginTop: '8px' }}>
-            {data.length} datapunkter
-          </Body>
-        </div>
-      )}
+      <GlobeComponent
+        ref={globeRef}
+        globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+        backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
+        pointsData={points}
+        pointColor="color"
+        pointRadius="size"
+        pointLabel={(d: any) => `
+          <div style="padding: 8px; background: var(--surface-elevated); border-radius: var(--radius-md); border: 1px solid var(--border-default);">
+            <div style="font-weight: 600; font-size: 12px;">${d.country || 'Okänt land'}</div>
+            ${d.city ? `<div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">${d.city}</div>` : ''}
+            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">${d.count} besök</div>
+          </div>
+        `}
+        onPointHover={handlePointHover}
+        onPointClick={handlePointClick}
+        enablePointerInteraction={true}
+        autoRotate={autoRotate}
+        autoRotateSpeed={autoRotateSpeed}
+        backgroundColor="rgba(0,0,0,0)"
+        showAtmosphere={false}
+        showGlobe={true}
+        showGraticules={false}
+        pointResolution={2}
+        pointMerge={false}
+        width={containerRef.current?.clientWidth || 800}
+        height={containerRef.current?.clientHeight || 400}
+      />
       {hoveredPoint && (
         <Box
           style={{
