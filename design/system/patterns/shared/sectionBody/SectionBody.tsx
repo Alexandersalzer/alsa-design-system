@@ -16,6 +16,7 @@ import { CountUp } from '../../../components/animations/CountUp/CountUp';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
 import { componentProps, componentPresent } from '../../../core/utils/props';
 import { ComponentNode } from '../../../core/types/nodes';
+import { AnimationConfig } from '../../../core/animations';
 
 // ===== MAIN SECTION BODY COMPONENT =====
 
@@ -51,13 +52,8 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
   const animationDelay = props?.animationDelay || 0;
   const animationStagger = props?.animationStagger || 100; // Delay between elements
 
-  // CountUp configuration for heading
-  const enableCountUp = props?.enableCountUp || false;
-  const countUpEnd = props?.countUpEnd || 100;
-  const countUpDuration = props?.countUpDuration || 2000;
-  const countUpSuffix = props?.countUpSuffix || '';
-  const countUpPrefix = props?.countUpPrefix || '';
-  const countUpSeparator = props?.countUpSeparator || '';
+  // Animation configuration for heading (centralized)
+  const headingAnimation: AnimationConfig | undefined = props?.animation;
 
   // Helper to wrap content with animation
   const withAnimation = (content: React.ReactNode, index: number = 0) => {
@@ -119,30 +115,16 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
 
         {/* Heading - only render if exists */}
         {renderIf('typography-heading') && get('typography-heading').props.content && withAnimation(
-          enableCountUp ? (
-            <CountUp
-              end={countUpEnd}
-              duration={countUpDuration}
-              suffix={countUpSuffix}
-              prefix={countUpPrefix}
-              separator={countUpSeparator}
-              variant="display-lg"
-              color="heading"
-              align="center"
-              enableScrollTrigger={true}
-              componentKey={get('typography-heading').key}
-            />
-          ) : (
-            <Typography
-              as={isHero ? "h1" : "h2"}
-              variant="display-lg"
-              color="heading"
-              align="center"
-              componentKey={get('typography-heading').key}
-            >
-              {get('typography-heading').props.content}
-            </Typography>
-          ),
+          <Typography
+            as={isHero ? "h1" : "h2"}
+            variant="display-lg"
+            color="heading"
+            align="center"
+            animation={headingAnimation}
+            componentKey={get('typography-heading').key}
+          >
+            {get('typography-heading').props.content}
+          </Typography>,
           1
         )}
 
