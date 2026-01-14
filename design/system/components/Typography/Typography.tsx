@@ -223,6 +223,11 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   componentKey,
   ...rest
 }, ref) => {
+  // Debug logging
+  if (animation) {
+    console.log('[Typography] Received animation:', animation);
+  }
+  
   const Element = as || getDefaultElement(variant);
   
   const classes = buildTypographyClasses({
