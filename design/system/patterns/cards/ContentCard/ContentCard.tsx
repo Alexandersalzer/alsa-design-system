@@ -12,9 +12,10 @@ interface ContentCardProps {
   imageSrc: string;
   imageAlt: string;
   // Image customization
-  imageAspectRatio?: '1/1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16' | 'square' | 'landscape' | 'portrait' | string;
+  imageAspectRatio?: '1/1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16' | 'square' | 'landscape' | 'portrait' | 'none' | string;
   imageRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
+  imageObjectPosition?: 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right' | string;
   // Image height controls - for better control over varied aspect ratios
   imageHeight?: string | number; // Fixed height (e.g., '400px', 400) - overrides aspectRatio
   imageMinHeight?: string | number; // Minimum height (e.g., '300px', 300)
@@ -39,6 +40,7 @@ export function ContentCard({
   imageAspectRatio = '1/1',
   imageRadius = 'md',
   imageObjectFit = 'cover',
+  imageObjectPosition = 'center',
   imageHeight,
   imageMinHeight,
   imageMaxHeight,
@@ -47,7 +49,7 @@ export function ContentCard({
   spacing = 'sm'
 }: ContentCardProps) {
   // Map preset aspect ratios
-  const getAspectRatio = (ratio: string): string => {
+  const getAspectRatio = (ratio: string): string | undefined => {
     switch (ratio) {
       case 'square':
         return '1/1';
@@ -55,6 +57,8 @@ export function ContentCard({
         return '16/9';
       case 'portrait':
         return '9/16';
+      case 'none':
+        return undefined; // No aspect ratio constraint
       default:
         return ratio;
     }
@@ -71,6 +75,18 @@ export function ContentCard({
     ...(imageMaxHeight && { maxHeight: typeof imageMaxHeight === 'number' ? `${imageMaxHeight}px` : imageMaxHeight }),
   };
 
+  // Build image styles
+  const imageStyle: React.CSSProperties = hasHeightConstraints
+    ? {
+        height: '100%',
+        width: '100%',
+        objectFit: imageObjectFit,
+        objectPosition: imageObjectPosition
+      }
+    : {
+        objectPosition: imageObjectPosition
+      };
+
   return (
     <div className="content-card" data-component-key={componentKey}>
       {/* Image Card - separate container with background */}
@@ -84,13 +100,13 @@ export function ContentCard({
           src={`${CDN_BASE_URL}${imageSrc}`}
           alt={imageAlt}
           width="100%"
-          aspectRatio={hasHeightConstraints ? undefined : finalAspectRatio}
+          aspectRatio={finalAspectRatio}
           objectFit={imageObjectFit}
           radius={imageRadius}
           loading="lazy"
           showSkeleton={true}
           className="content-card-image"
-          style={hasHeightConstraints ? { height: '100%', objectFit: imageObjectFit } : undefined}
+          style={imageStyle}
         />
       </Card>
 
