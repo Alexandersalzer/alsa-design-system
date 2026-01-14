@@ -257,16 +257,16 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
     return (
       <CountUp
         end={settings.end}
-        start={settings.start}
-        duration={settings.duration}
-        delay={settings.delay}
-        separator={settings.separator}
-        suffix={settings.suffix}
-        prefix={settings.prefix}
-        decimals={settings.decimals}
-        easing={settings.easing}
-        enableScrollTrigger={settings.enableScrollTrigger}
-        triggerOffset={settings.triggerOffset}
+        start={settings.start ?? 0}
+        duration={settings.duration ?? 2000}
+        delay={settings.delay ?? 0}
+        separator={settings.separator ?? ''}
+        suffix={settings.suffix ?? ''}
+        prefix={settings.prefix ?? ''}
+        decimals={settings.decimals ?? 0}
+        easing={settings.easing ?? 'expoOut'}
+        enableScrollTrigger={settings.enableScrollTrigger ?? true}
+        triggerOffset={settings.triggerOffset ?? 100}
         variant={variant}
         weight={weight}
         color={color}

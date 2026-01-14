@@ -1,6 +1,6 @@
 // design/system/components/primitives/CountUp/CountUp.tsx
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Typography, TypographyProps } from '../../Typography';
 
 export type EasingType =
@@ -81,9 +81,13 @@ export const CountUp: React.FC<CountUpProps> = ({
     return `${prefix}${formatted}${suffix}`;
   };
 
-  const startAnimation = () => {
-    if (hasStartedRef.current || hasCompletedRef.current) return;
+  const startAnimation = useCallback(() => {
+    if (hasStartedRef.current || hasCompletedRef.current) {
+      console.log('[CountUp] Animation already started or completed');
+      return;
+    }
 
+    console.log('[CountUp] Starting animation!', { start, end, duration, delay });
     hasStartedRef.current = true;
 
     const startTime = Date.now() + delay;
@@ -104,26 +108,37 @@ export const CountUp: React.FC<CountUpProps> = ({
       } else {
         setCount(endValue);
         hasCompletedRef.current = true;
+        console.log('[CountUp] Animation completed!');
         onComplete?.();
       }
     };
 
     animationRef.current = requestAnimationFrame(animate);
-  };
+  }, [start, end, duration, delay, easing, onComplete]);
 
   // Scroll-trigger observer
   useEffect(() => {
     if (!enableScrollTrigger) {
+      console.log('[CountUp] Scroll trigger disabled, starting immediately');
       startAnimation();
       return;
     }
 
     const element = countRef.current;
-    if (!element) return;
+    if (!element) {
+      console.log('[CountUp] No element ref, cannot observe');
+      return;
+    }
+
+    console.log('[CountUp] Setting up IntersectionObserver', { enableScrollTrigger, triggerOffset });
 
     const observer = new IntersectionObserver(
       (entries) => {
+        console.log('[CountUp] Intersection change:', entries[0].isIntersecting, 
+          'hasStarted:', hasStartedRef.current, 
+          'hasCompleted:', hasCompletedRef.current);
         if (entries[0].isIntersecting && !hasStartedRef.current && !hasCompletedRef.current) {
+          console.log('[CountUp] Element in viewport, starting animation!');
           startAnimation();
         }
       },
@@ -140,7 +155,7 @@ export const CountUp: React.FC<CountUpProps> = ({
       observer.disconnect();
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, [enableScrollTrigger, triggerOffset]);
+  }, [enableScrollTrigger, triggerOffset, startAnimation]);
 
   // Reset when important props change
   useEffect(() => {
