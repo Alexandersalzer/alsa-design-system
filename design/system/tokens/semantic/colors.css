@@ -295,11 +295,11 @@
   --surface-input-disabled: var(--surface-disabled);
 
   /* ----- Text Hierarchy ----- */
-  --text-default: var(--neutral-1000);
+  --text-default: var(--neutral-1200);
   --text-strong: var(--neutral-1400);  /* Darkest value for maximum contrast */
-  --text-muted: var(--neutral-900);
-  --text-subtle: var(--neutral-700);
-  --text-disabled: var(--neutral-600);
+  --text-muted: var(--neutral-1000);
+  --text-subtle: var(--neutral-800);
+  --text-disabled: var(--neutral-700);
   --text-placeholder: var(--neutral-600);
 
   /* ----- Borders ----- */
@@ -318,11 +318,11 @@
   --border-input-disabled: var(--border-disabled);
 
   /* ----- Icons ----- */
-  --icon-default: var(--neutral-700);
-  --icon-strong: var(--neutral-1000);
-  --icon-muted: var(--neutral-500);
-  --icon-subtle: var(--neutral-400);
-  --icon-disabled: var(--neutral-300);
+  --icon-default: var(--neutral-1000);
+  --icon-strong: var(--neutral-1200);
+  --icon-muted: var(--neutral-800);
+  --icon-subtle: var(--neutral-700);
+  --icon-disabled: var(--neutral-600);
 
 
   /* =========================================================================
@@ -330,9 +330,9 @@
      For dark-on-light or light-on-dark elements
      ========================================================================= */
 
-  --surface-inverse: var(--neutral-1200);
-  --surface-inverse-hover: var(--neutral-1100);
-  --surface-inverse-active: var(--neutral-1000);
+  --surface-inverse: var(--neutral-1400);
+  --surface-inverse-hover: var(--neutral-1200);
+  --surface-inverse-active: var(--neutral-1100);
 
   --text-inverse: var(--neutral-0);
   --text-inverse-muted: var(--neutral-400);
@@ -542,10 +542,10 @@
      ========================================================================= */
 
   /* ----- Primary (dark/inverse) ----- */
-  --interactive-primary: var(--neutral-1200);
-  --interactive-primary-hover: var(--neutral-1000);
-  --interactive-primary-active: var(--neutral-900);
-  --interactive-primary-disabled: var(--neutral-400);
+  --interactive-primary: var(--neutral-1400);
+  --interactive-primary-hover: var(--neutral-1200);
+  --interactive-primary-active: var(--neutral-1000);
+  --interactive-primary-disabled: var(--neutral-700);
 
   /* ----- Secondary (light/subtle) ----- */
   --interactive-secondary: var(--neutral-100);
