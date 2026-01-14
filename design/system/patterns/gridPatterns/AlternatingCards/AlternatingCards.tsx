@@ -22,6 +22,10 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
     cardGap = '20%',
     reverseFirst = false,
     imageAspectRatio = '4/3',
+    imageHeight,
+    imageMinHeight,
+    imageMaxHeight,
+    imageObjectFit = 'cover',
     textAlign = 'left',
     verticalAlign = 'center'
   } = getPatternProps();
@@ -59,9 +63,12 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
             <CardComponent
               componentKey={key}
               {...component.props}
-              // ✅ FORCE: Pattern props override card defaults
-              imageAspectRatio={imageAspectRatio}
-              imageObjectFit="cover"
+              // ✅ Pattern props override card defaults (only if provided)
+              {...(imageAspectRatio && !imageHeight && { imageAspectRatio })}
+              {...(imageHeight && { imageHeight })}
+              {...(imageMinHeight && { imageMinHeight })}
+              {...(imageMaxHeight && { imageMaxHeight })}
+              {...(imageObjectFit && { imageObjectFit })}
             />
           </div>
         );

@@ -43,14 +43,14 @@ interface OverlayCardProps {
   // Icon support - can be icon name string (for JSON) or React element (for direct usage)
   icon?: string | React.ReactElement;
   iconSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  // Overlay mode
-  overlayMode?: 'dark' | 'light'; // dark = black overlay with white text, light = white overlay with dark text
-  overlayOpacity?: number; // 0-1 (default: 0.5 for dark, 0.7 for light)
+  // Overlay mode - inverse uses dark overlay with inverse text colors
+  inverse?: boolean; // true = dark overlay with inverse text, false = light overlay with primary text (default: false)
+  overlayOpacity?: number; // 0-1 (default: 0.6)
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
   // Text alignment
   textAlign?: 'left' | 'center' | 'right';
   // Card customization
-  cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid';
+  cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid' | 'raised';
   cardPadding?: 'sm' | 'md' | 'lg';
   cardRadius?: 'sm' | 'md' | 'lg';
   // Layout customization
@@ -69,12 +69,12 @@ export function OverlayCard({
   imageAlt,
   icon,
   iconSize = 'xl',
-  // Defaults
-  overlayMode = 'dark',
-  overlayOpacity,
+  // Defaults - CHANGED: cardVariant now defaults to 'raised'
+  inverse = false,
+  overlayOpacity = 0.6,
   imageObjectFit = 'cover',
   textAlign = 'center',
-  cardVariant = 'elevated',
+  cardVariant = 'raised',
   cardPadding = 'lg',
   cardRadius = 'md',
   spacing = 'sm',
@@ -87,13 +87,10 @@ export function OverlayCard({
     return 'center';
   };
 
-  // Determine text color based on overlay mode
-  const textColor = overlayMode === 'dark' ? 'inverse' : 'primary';
-  const textColorSecondary = overlayMode === 'dark' ? 'inverse' : 'secondary';
-
-  // Default opacity based on mode
-  const defaultOpacity = overlayMode === 'dark' ? 0.5 : 0.7;
-  const finalOpacity = overlayOpacity !== undefined ? overlayOpacity : defaultOpacity;
+  // Determine text and icon color based on inverse prop
+  const textColor = inverse ? 'inverse' : 'primary';
+  const textColorSecondary = inverse ? 'inverse' : 'secondary';
+  const iconColor = inverse ? 'inverse' : 'primary';
 
   // Resolve icon from string name or use React element directly
   const iconElement = React.useMemo(() => {
@@ -103,7 +100,7 @@ export function OverlayCard({
     if (typeof icon === 'string') {
       const IconComponent = iconMap[icon];
       if (IconComponent) {
-        return <Icon size={iconSize} color={overlayMode === 'dark' ? 'inverse' : 'primary'}>
+        return <Icon size={iconSize} color={iconColor}>
           {React.createElement(IconComponent)}
         </Icon>;
       }
@@ -112,17 +109,17 @@ export function OverlayCard({
     }
 
     // If icon is already a React element, wrap it in Icon component
-    return <Icon size={iconSize} color={overlayMode === 'dark' ? 'inverse' : 'primary'}>
+    return <Icon size={iconSize} color={iconColor}>
       {icon}
     </Icon>;
-  }, [icon, iconSize, overlayMode]);
+  }, [icon, iconSize, iconColor]);
 
   return (
     <Card
       variant={cardVariant}
       padding="none"
       radius={cardRadius}
-      className={`overlay-card overlay-card--${overlayMode}`}
+      className={`overlay-card ${inverse ? 'overlay-card--inverse' : ''}`}
       data-component-key={componentKey}
       style={{ minHeight }}
     >
@@ -136,8 +133,8 @@ export function OverlayCard({
             style={{ objectFit: imageObjectFit }}
           />
           <div
-            className={`overlay-card__overlay overlay-card__overlay--${overlayMode}`}
-            style={{ opacity: finalOpacity }}
+            className={`overlay-card__overlay ${inverse ? 'overlay-card__overlay--inverse' : 'overlay-card__overlay--default'}`}
+            style={{ opacity: overlayOpacity }}
           />
         </div>
       )}

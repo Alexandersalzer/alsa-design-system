@@ -1,0 +1,154 @@
+/* ===============================================
+   CTA PATTERN STYLES
+   Call-to-Action with card styling support
+   ============================================== */
+
+/* ===== BASE CTA CONTAINER ===== */
+.cta {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cta__content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-4);
+}
+
+/* ===== VARIANT: DEFAULT (full-width, no card styling) ===== */
+.cta--variant-default {
+  /* No special styling - just content */
+}
+
+/* ===== VARIANT: CARD (container with background and radius) ===== */
+.cta--variant-card .cta__content {
+  background-color: var(--surface-cta);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ===== VARIANT: ELEVATED (card with shadow) ===== */
+.cta--variant-elevated .cta__content {
+  background-color: var(--surface-cta);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== SURFACE COLORS ===== */
+.cta--surface-base {
+  --surface-cta: var(--surface-base);
+}
+
+.cta--surface-subtle {
+  --surface-cta: var(--surface-subtle);
+}
+
+.cta--surface-raised {
+  --surface-cta: var(--surface-raised);
+}
+
+.cta--surface-elevated {
+  --surface-cta: var(--surface-elevated);
+}
+
+.cta--surface-accent {
+  --surface-cta: var(--interactive-accent);
+  --text-primary: var(--text-inverse);
+  --text-secondary: var(--text-inverse-secondary);
+}
+
+/* ===== RADIUS ===== */
+.cta--radius-none .cta__content {
+  border-radius: 0;
+}
+
+.cta--radius-sm .cta__content {
+  border-radius: var(--radius-sm);
+}
+
+.cta--radius-md .cta__content {
+  border-radius: var(--radius-md);
+}
+
+.cta--radius-lg .cta__content {
+  border-radius: var(--radius-lg);
+}
+
+.cta--radius-xl .cta__content {
+  border-radius: var(--radius-xl);
+}
+
+.cta--radius-full .cta__content {
+  border-radius: var(--radius-full);
+}
+
+/* ===== PADDING ===== */
+.cta--padding-sm .cta__content {
+  padding: var(--foundation-space-4);
+}
+
+.cta--padding-md .cta__content {
+  padding: var(--foundation-space-6);
+}
+
+.cta--padding-lg .cta__content {
+  padding: var(--foundation-space-8);
+}
+
+.cta--padding-xl .cta__content {
+  padding: var(--foundation-space-12);
+}
+
+.cta--padding-2xl .cta__content {
+  padding: var(--foundation-space-16);
+}
+
+/* ===== TEXT ALIGNMENT ===== */
+.cta--align-left .cta__content {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.cta--align-center .cta__content {
+  align-items: center;
+  text-align: center;
+}
+
+.cta--align-right .cta__content {
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* ===== MAX WIDTH ===== */
+.cta--max-width-sm .cta__content {
+  max-width: 480px;
+}
+
+.cta--max-width-md .cta__content {
+  max-width: 640px;
+}
+
+.cta--max-width-lg .cta__content {
+  max-width: 768px;
+}
+
+.cta--max-width-xl .cta__content {
+  max-width: 1024px;
+}
+
+.cta--max-width-full .cta__content {
+  max-width: 100%;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .cta--padding-xl .cta__content {
+    padding: var(--foundation-space-8);
+  }
+
+  .cta--padding-2xl .cta__content {
+    padding: var(--foundation-space-10);
+  }
+}

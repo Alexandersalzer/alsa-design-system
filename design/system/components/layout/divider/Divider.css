@@ -41,6 +41,10 @@
   border-width: var(--size-divider-thickness-strong);
 }
 
+.divider--inverse {
+  border-color: var(--border-on-inverse);
+}
+
 /* ===== SPACING VARIANTS (for horizontal) ===== */
 .divider--spacing-sm {
   margin-top: var(--space-divider-margin-sm);
@@ -103,4 +107,18 @@
 .divider-container--lg {
   margin-top: var(--space-divider-margin-lg);
   margin-bottom: var(--space-divider-margin-lg);
+}
+
+/* ===== DIVIDER WITH BUTTON ===== */
+.divider-container--button {
+  justify-content: center;
+}
+
+.divider-container--button .divider {
+  flex: 1;
+  margin: 0;
+}
+
+.divider-button {
+  flex-shrink: 0;
 }

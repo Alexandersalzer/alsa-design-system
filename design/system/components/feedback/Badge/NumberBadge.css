@@ -1,0 +1,107 @@
+/* ===============================================
+   NumberBadge Component Styles
+   =============================================== */
+
+.number-badge {
+  user-select: none;
+}
+
+/* ===== VARIANTS ===== */
+.number-badge-solid {
+  background-color: var(--badge-bg);
+  color: var(--badge-text);
+  border: 1px solid var(--badge-border);
+}
+
+.number-badge-subtle {
+  background-color: var(--badge-bg-subtle);
+  color: var(--badge-text-subtle);
+  border: 1px solid transparent;
+}
+
+.number-badge-outline {
+  background-color: transparent;
+  color: var(--badge-text);
+  border: 2px solid var(--badge-border);
+}
+
+/* ===== COLOR PALETTES ===== */
+.number-badge-gray {
+  --badge-bg: var(--color-gray-surface);
+  --badge-text: var(--color-gray-text);
+  --badge-border: var(--color-gray-border);
+  --badge-bg-subtle: var(--color-gray-surface-subtle);
+  --badge-text-subtle: var(--color-gray-text-subtle);
+}
+
+.number-badge-purple {
+  --badge-bg: var(--color-accent-surface);
+  --badge-text: var(--color-accent-text);
+  --badge-border: var(--color-accent-border);
+  --badge-bg-subtle: var(--color-accent-surface-subtle);
+  --badge-text-subtle: var(--color-accent-text-subtle);
+}
+
+.number-badge-blue {
+  --badge-bg: var(--color-blue-surface);
+  --badge-text: var(--color-blue-text);
+  --badge-border: var(--color-blue-border);
+  --badge-bg-subtle: var(--color-blue-surface-subtle);
+  --badge-text-subtle: var(--color-blue-text-subtle);
+}
+
+.number-badge-green {
+  --badge-bg: var(--color-green-surface);
+  --badge-text: var(--color-green-text);
+  --badge-border: var(--color-green-border);
+  --badge-bg-subtle: var(--color-green-surface-subtle);
+  --badge-text-subtle: var(--color-green-text-subtle);
+}
+
+.number-badge-red {
+  --badge-bg: var(--color-red-surface);
+  --badge-text: var(--color-red-text);
+  --badge-border: var(--color-red-border);
+  --badge-bg-subtle: var(--color-red-surface-subtle);
+  --badge-text-subtle: var(--color-red-text-subtle);
+}
+
+.number-badge-orange {
+  --badge-bg: var(--color-orange-surface);
+  --badge-text: var(--color-orange-text);
+  --badge-border: var(--color-orange-border);
+  --badge-bg-subtle: var(--color-orange-surface-subtle);
+  --badge-text-subtle: var(--color-orange-text-subtle);
+}
+
+.number-badge-yellow {
+  --badge-bg: var(--color-yellow-surface);
+  --badge-text: var(--color-yellow-text);
+  --badge-border: var(--color-yellow-border);
+  --badge-bg-subtle: var(--color-yellow-surface-subtle);
+  --badge-text-subtle: var(--color-yellow-text-subtle);
+}
+
+.number-badge-teal {
+  --badge-bg: var(--color-teal-surface);
+  --badge-text: var(--color-teal-text);
+  --badge-border: var(--color-teal-border);
+  --badge-bg-subtle: var(--color-teal-surface-subtle);
+  --badge-text-subtle: var(--color-teal-text-subtle);
+}
+
+.number-badge-cyan {
+  --badge-bg: var(--color-cyan-surface);
+  --badge-text: var(--color-cyan-text);
+  --badge-border: var(--color-cyan-border);
+  --badge-bg-subtle: var(--color-cyan-surface-subtle);
+  --badge-text-subtle: var(--color-cyan-text-subtle);
+}
+
+.number-badge-pink {
+  --badge-bg: var(--color-pink-surface);
+  --badge-text: var(--color-pink-text);
+  --badge-border: var(--color-pink-border);
+  --badge-bg-subtle: var(--color-pink-surface-subtle);
+  --badge-text-subtle: var(--color-pink-text-subtle);
+}

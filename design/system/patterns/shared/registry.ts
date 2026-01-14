@@ -1,5 +1,6 @@
 import SectionBody from './sectionBody/SectionBody';
 import ButtonGroup from './ButtonGroup';
+import { Divider } from '../../components/layout/divider';
 
 /**
  * Shared patterns registry
@@ -8,4 +9,5 @@ import ButtonGroup from './ButtonGroup';
 export const sharedPatterns: Record<string, React.ComponentType<any>> = {
   sectionBody: SectionBody,
   buttonGroup: ButtonGroup,
+  divider: Divider,
 };

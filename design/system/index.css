@@ -66,7 +66,10 @@
 @import './components/data/Table/Table.css';
 @import './components/data/LineChart/LineChart.css';
 @import './components/lists/Listbox/Listbox.css';
-@import './components/CarouselAnimation/CarouselAnimation.css';
+
+/* Animations */
+@import './components/animations/CarouselAnimation/CarouselAnimation.css';
+@import './components/animations/FadeIn/FadeIn.css';
 
 /* Layout Components */
 @import './components/layout/box/Box.css';
@@ -84,6 +87,7 @@
 @import './patterns/navbar/NavbarBar/NavbarBar.css';
 @import './patterns/navbar/NavbarPill/NavbarPill.css';
 
+@import './patterns/cta/Cta.css';
 
 /* STEP 7: Utilities LAST (so they can override if needed) */
 @import './utils/index.css';

@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
+import { CarouselAnimation, CarouselAnimationItem } from '../../../components/animations/CarouselAnimation';
 import { LogoImage } from '../../../components/media/Image';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, componentPresent, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
+import { useAction } from '../../../core/actions/useAction';
+import { ActionConfig } from '../../../core/actions/types';
 
 interface SpinningBannerProps extends PatternNode {
   sectionKey?: string;
@@ -25,8 +27,19 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
     logoSize = 'md',
     logoOpacity = 1,
     grayscale = true,
-    animated = true
+    animated = true,
+    action
   } = getPatternProps();
+
+  // Initialize action handler if action is configured
+  const { execute } = action ? useAction(action as ActionConfig) : { execute: null };
+
+  // Handle logo click
+  const handleLogoClick = () => {
+    if (execute) {
+      execute({});
+    }
+  };
 
   // Extract logo data using the order from PatternNode
   const logos = componentOrder
@@ -78,6 +91,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
     componentKey: logo.componentKey,
     content: (
       <div
+        {...(action ? { onClick: handleLogoClick } : {})}
         style={{
           width: '100%',
           height: '100%',
@@ -85,7 +99,8 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
           alignItems: 'center',
           justifyContent: 'center',
           opacity: logoOpacity,
-          transition: 'opacity 0.2s ease-in-out'
+          transition: 'opacity 0.2s ease-in-out',
+          cursor: action ? 'pointer' : 'default'
         }}
       >
         <LogoImage
@@ -94,7 +109,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
           width={sizeMap.width}
           height={sizeMap.height}
           objectFit="contain"
-          loading="lazy"
+          loading="eager"
           showSkeleton={true}
           {...(logo.componentKey && { componentKey: logo.componentKey })}
           style={{
@@ -123,10 +138,12 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
         {allLogos.map((logo, index) => (
           <div
             key={`${logo.src}-${index}`}
+            {...(action ? { onClick: handleLogoClick } : {})}
             style={{
               width: `${sizeMap.width}px`,
               height: `${sizeMap.height}px`,
-              padding: `${sizeMap.padding}px`
+              padding: `${sizeMap.padding}px`,
+              cursor: action ? 'pointer' : 'default'
             }}
           >
             <LogoImage
@@ -135,7 +152,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
               width={sizeMap.width}
               height={sizeMap.height}
               objectFit="contain"
-              loading="lazy"
+              loading="eager"
               showSkeleton={true}
               {...(logo.componentKey && { componentKey: logo.componentKey })}
               style={{

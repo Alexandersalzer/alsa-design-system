@@ -12,12 +12,17 @@ interface ContentCardProps {
   imageSrc: string;
   imageAlt: string;
   // Image customization
-  imageAspectRatio?: '1/1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16' | string;
+  imageAspectRatio?: '1/1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16' | 'square' | 'landscape' | 'portrait' | 'none' | string;
   imageRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
+  imageObjectPosition?: 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right' | string;
+  // Image height controls - for better control over varied aspect ratios
+  imageHeight?: string | number; // Fixed height (e.g., '400px', 400) - overrides aspectRatio
+  imageMinHeight?: string | number; // Minimum height (e.g., '300px', 300)
+  imageMaxHeight?: string | number; // Maximum height (e.g., '500px', 500)
   // Card customization
-  cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid';
-  cardPadding?: 'sm' | 'md' | 'lg';
+  cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid' | 'bordered';
+  cardPadding?: 'none' | 'xs' | 'sm' | 'md' | 'lg';
   // Layout customization
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
@@ -35,10 +40,39 @@ export function ContentCard({
   imageAspectRatio = '1/1',
   imageRadius = 'md',
   imageObjectFit = 'cover',
-  cardVariant = 'elevated',
-  cardPadding = 'md',
+  imageObjectPosition = 'center',
+  imageHeight,
+  imageMinHeight,
+  imageMaxHeight,
+  cardVariant = 'bordered',
+  cardPadding = 'none',
   spacing = 'sm'
 }: ContentCardProps) {
+  // Map preset aspect ratios
+  const getAspectRatio = (ratio: string): string | undefined => {
+    switch (ratio) {
+      case 'square':
+        return '1/1';
+      case 'landscape':
+        return '16/9';
+      case 'portrait':
+        return '9/16';
+      case 'none':
+        return undefined; // No aspect ratio constraint
+      default:
+        return ratio;
+    }
+  };
+
+  const finalAspectRatio = getAspectRatio(imageAspectRatio);
+
+  // Build image container styles with height controls
+  const imageContainerStyle: React.CSSProperties = {
+    ...(imageHeight && { height: typeof imageHeight === 'number' ? `${imageHeight}px` : imageHeight }),
+    ...(imageMinHeight && { minHeight: typeof imageMinHeight === 'number' ? `${imageMinHeight}px` : imageMinHeight }),
+    ...(imageMaxHeight && { maxHeight: typeof imageMaxHeight === 'number' ? `${imageMaxHeight}px` : imageMaxHeight }),
+  };
+
   return (
     <div className="content-card" data-component-key={componentKey}>
       {/* Image Card - separate container with background */}
@@ -46,14 +80,15 @@ export function ContentCard({
         variant={cardVariant}
         padding={cardPadding}
         className="content-card-image-container"
+        style={imageContainerStyle}
       >
         <Image
           src={`${CDN_BASE_URL}${imageSrc}`}
           alt={imageAlt}
           width="100%"
-          height="100%"
-          aspectRatio={imageAspectRatio}
+          aspectRatio={finalAspectRatio}
           objectFit={imageObjectFit}
+          objectPosition={imageObjectPosition}
           radius={imageRadius}
           loading="lazy"
           showSkeleton={true}
@@ -63,7 +98,7 @@ export function ContentCard({
 
       {/* Text Content - VStack with no background, left aligned */}
       <VStack spacing={spacing} className="content-card-text">
-        <Typography variant="h3" weight="bold" color="primary">
+        <Typography variant="h2" weight="bold" color="primary">
           {heading}
         </Typography>
         {subheading && (

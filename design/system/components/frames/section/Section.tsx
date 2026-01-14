@@ -5,6 +5,7 @@ type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
 type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type Overflow = 'visible' | 'hidden' | 'auto' | 'scroll' | 'clip';
+type Background = 'default' | 'raised' | 'elevated' | 'inverse' | 'media';
 
 interface SectionProps {
   children: ReactNode;
@@ -20,6 +21,10 @@ interface SectionProps {
   overflow?: Overflow; // ✅ Control overflow behavior (default: 'hidden')
   overflowX?: Overflow; // ✅ Control horizontal overflow separately
   overflowY?: Overflow; // ✅ Control vertical overflow separately
+  background?: Background; // ✅ Background surface variant
+  backgroundImage?: string; // ✅ Background image URL (for 'media' variant)
+  backgroundOverlay?: boolean; // ✅ Add dark overlay over background image
+  backgroundOverlayOpacity?: number; // ✅ Overlay opacity (0-1, default 0.5)
   style?: React.CSSProperties;
   sectionKey?: string; // För live editing identification
 }
@@ -58,6 +63,11 @@ const getOverflowClass = (overflow?: Overflow): string => {
   return styles[`overflow${overflow.charAt(0).toUpperCase() + overflow.slice(1)}`] || '';
 };
 
+const getBackgroundClass = (background?: Background): string => {
+  if (!background || background === 'default') return '';
+  return styles[`background${background.charAt(0).toUpperCase() + background.slice(1)}`] || '';
+};
+
 export const Section = ({
   children,
   className = '',
@@ -72,6 +82,10 @@ export const Section = ({
   overflow,
   overflowX,
   overflowY,
+  background,
+  backgroundImage,
+  backgroundOverlay = false,
+  backgroundOverlayOpacity = 0.5,
   style,
   sectionKey,
 }: SectionProps) => {
@@ -79,6 +93,7 @@ export const Section = ({
   const positionClass = getPositionClass(position, sticky);
   const spacingClass = getSpacingClass(spacing);
   const overflowClass = getOverflowClass(overflow);
+  const backgroundClass = getBackgroundClass(background);
 
   const combinedClassName = [
     styles.section,
@@ -86,6 +101,7 @@ export const Section = ({
     positionClass,
     spacingClass,
     overflowClass,
+    backgroundClass,
     className,
   ].join(' ').trim();
 
@@ -94,6 +110,9 @@ export const Section = ({
   if (zIndex !== undefined) inlineStyles.zIndex = zIndex;
   if (overflowX !== undefined) inlineStyles.overflowX = overflowX;
   if (overflowY !== undefined) inlineStyles.overflowY = overflowY;
+  if (backgroundImage && background === 'media') {
+    inlineStyles.backgroundImage = `url(${backgroundImage})`;
+  }
 
   const finalStyles = { ...inlineStyles, ...style };
 
@@ -104,6 +123,12 @@ export const Section = ({
       style={finalStyles}
       data-section-key={sectionKey}
     >
+      {backgroundImage && background === 'media' && backgroundOverlay && (
+        <div
+          className={styles.backgroundOverlay}
+          style={{ opacity: backgroundOverlayOpacity }}
+        />
+      )}
       {children}
     </Component>
   );

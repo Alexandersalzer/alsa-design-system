@@ -60,6 +60,27 @@ export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
     element.style.setProperty('--animation-duration', `${speed}s`);
     element.style.setProperty('--animation-direction', direction === 'left' ? 'normal' : 'reverse');
     element.style.setProperty('--duplicate-count', duplicateCount.toString());
+
+    // Keep-alive mechanism to prevent browser from pausing animation
+    let animationFrameId: number;
+    let lastTime = performance.now();
+
+    const keepAlive = (currentTime: number) => {
+      const deltaTime = currentTime - lastTime;
+      if (deltaTime > 16) { // Roughly 60fps
+        void element.offsetHeight; // Trigger reflow without causing layout shift
+        lastTime = currentTime;
+      }
+      animationFrameId = requestAnimationFrame(keepAlive);
+    };
+
+    animationFrameId = requestAnimationFrame(keepAlive);
+
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
   }, [speed, direction, duplicateCount]);
 
   const containerStyle: React.CSSProperties = {

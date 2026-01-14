@@ -4,4 +4,5 @@ export * from './PortfolioCard';
 export * from './Stats';
 export * from './NewsCard';
 export * from './ContentCard/ContentCard';
+export * from './AlternatingCardsRow/AlternatingCardsRow';
 export * from './OverlayCard';

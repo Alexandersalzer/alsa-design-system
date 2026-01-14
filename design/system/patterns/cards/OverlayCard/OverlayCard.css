@@ -31,14 +31,14 @@
   pointer-events: none;
 }
 
-/* Dark mode: black overlay with white text */
-.overlay-card__overlay--dark {
-  background-color: #000000;
+/* Default overlay: uses surface-base token (light) */
+.overlay-card__overlay--default {
+  background-color: var(--surface-base);
 }
 
-/* Light mode: white overlay with dark text */
-.overlay-card__overlay--light {
-  background-color: #ffffff;
+/* Inverse overlay: uses surface-inverse token for highest contrast (dark) */
+.overlay-card__overlay--inverse {
+  background-color: var(--surface-inverse);
 }
 
 .overlay-card__content {

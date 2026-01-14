@@ -10,7 +10,8 @@
   box-sizing: border-box;
   padding-top: var(--space-section);
   padding-bottom: var(--space-section);
-  overflow: hidden;
+  overflow: visible; /* Changed from hidden to visible - allows sticky positioning */
+  background-color: var(--surface-base); /* Default background for all sections */
 }
 
 
@@ -58,6 +59,45 @@
 .overflowAuto    { overflow: auto; }
 .overflowScroll  { overflow: scroll; }
 .overflowClip    { overflow: clip; }
+
+/* ===== BACKGROUND VARIANTS ===== */
+.backgroundRaised {
+  background-color: var(--surface-raised);
+}
+
+.backgroundElevated {
+  background-color: var(--surface-elevated);
+}
+
+.backgroundInverse {
+  background-color: var(--surface-inverse);
+  color: var(--text-on-inverse);
+}
+
+.backgroundMedia {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Background overlay for media variant */
+.backgroundOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure content is above overlay */
+.backgroundMedia > *:not(.backgroundOverlay) {
+  position: relative;
+  z-index: 1;
+}
 
 /* ===== EDITING MODE HOVER EFFECT ===== */
 .editingMode {
