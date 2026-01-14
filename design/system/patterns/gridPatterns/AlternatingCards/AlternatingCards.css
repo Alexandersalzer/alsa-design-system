@@ -9,8 +9,7 @@
   flex-direction: column;
   place-content: center;
   align-items: center;
-  gap: var(--foundation-section-spacing-2xl); /* Responsive gap between rows */
-  max-width: 1200px;
+  gap: var(--space-section-2xl); /* Responsive gap between rows */
   overflow: visible;
   padding: 0;
   position: relative;
@@ -24,7 +23,6 @@
   gap: var(--foundation-space-8); /* 32px gap between image and text */
   width: 100%;
   height: min-content;
-  max-width: 1200px;
   overflow: visible;
   padding: 0;
   position: relative;
