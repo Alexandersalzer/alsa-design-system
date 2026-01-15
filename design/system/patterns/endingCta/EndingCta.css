@@ -1,35 +1,35 @@
 /* ===============================================
-   CTA PATTERN STYLES
+   ENDING CTA PATTERN STYLES
    Action group (buttons only, no content)
    ============================================== */
 
-/* ===== BASE CTA CONTAINER ===== */
-.cta {
+/* ===== BASE ENDING CTA CONTAINER ===== */
+.ending-cta {
   width: 100%;
   display: flex;
 }
 
 /* ===== BUTTON GROUP ===== */
-.cta__button-group {
+.ending-cta__button-group {
   width: 100%;
 }
 
 /* ===== ALIGNMENT ===== */
-.cta--align-left {
+.ending-cta--align-left {
   justify-content: flex-start;
 }
 
-.cta--align-center {
+.ending-cta--align-center {
   justify-content: center;
 }
 
-.cta--align-right {
+.ending-cta--align-right {
   justify-content: flex-end;
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .cta__button-group {
+  .ending-cta__button-group {
     flex-wrap: wrap;
   }
 }

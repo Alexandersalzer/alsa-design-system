@@ -1,7 +1,7 @@
 // ===============================================
-// design/system/patterns/cta/Cta.tsx
-// CTA PATTERN - Action group (button(s) only, no text content)
-// Use this for standalone buttons/actions without heading/body
+// design/system/patterns/endingCta/EndingCta.tsx
+// ENDING CTA PATTERN - Action group (button(s) only, no text content)
+// Use this for standalone buttons/actions at the end of sections
 // ===============================================
 
 'use client';
@@ -11,13 +11,13 @@ import { PatternNode } from '../../core/types/nodes';
 import { patternProps, componentProps, componentPresent } from '../../core/utils/props';
 import { HStack } from '../../components/layout/hStack/HStack';
 import { Button } from '../../components/actions/Button/Button';
-import './Cta.css';
+import './EndingCta.css';
 
-export interface CtaProps extends PatternNode {
-  type: 'cta';
+export interface EndingCtaProps extends PatternNode {
+  type: 'endingCta';
 }
 
-export const Cta: React.FC<CtaProps> = (patternNode) => {
+export const EndingCta: React.FC<EndingCtaProps> = (patternNode) => {
   const getPatternProps = patternProps(patternNode);
   const { components = {} } = patternNode;
   const get = componentProps(components);
@@ -39,16 +39,16 @@ export const Cta: React.FC<CtaProps> = (patternNode) => {
   const justify = justifyMap[align as keyof typeof justifyMap] || 'center';
 
   // Build CSS classes
-  const ctaClasses = `cta cta--align-${align}`;
+  const endingCtaClasses = `ending-cta ending-cta--align-${align}`;
 
   return (
-    <div className={ctaClasses}>
+    <div className={endingCtaClasses}>
       <HStack
         spacing={gap}
         justify={justify}
         align="center"
         wrap={wrap}
-        className="cta__button-group"
+        className="ending-cta__button-group"
       >
         {/* Primary Button */}
         {renderIf('button-primary') && get('button-primary').props.content && (
@@ -93,4 +93,4 @@ export const Cta: React.FC<CtaProps> = (patternNode) => {
   );
 };
 
-Cta.displayName = 'Cta';
+EndingCta.displayName = 'EndingCta';
