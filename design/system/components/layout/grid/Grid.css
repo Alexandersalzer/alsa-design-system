@@ -71,11 +71,11 @@
 }
 
 .grid--gap-lg {
-  gap: var(--foundation-space-6, 24px);
+  gap: var(--foundation-space-16);
 }
 
 .grid--gap-xl {
-  gap: var(--foundation-space-8, 32px);
+  gap: var(--foundation-space-24, 32px);
 }
 
 /* ===== ALIGNMENT VARIANTS ===== */
@@ -166,14 +166,31 @@
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
 
-/* Ensure grids work well on all screen sizes */
-@media (max-width: 480px) {
-  .grid {
+/* When grid becomes single column on mobile, use VStack-like spacing */
+@media (max-width: 767px) {
+  /* Single column grids need larger vertical gaps (like VStack) */
+  .grid--responsive {
+    gap: var(--foundation-space-12, 48px);
+  }
+
+  /* Allow smaller gaps if explicitly set */
+  .grid--responsive.grid--gap-xs {
+    gap: var(--foundation-space-2, 8px);
+  }
+
+  .grid--responsive.grid--gap-sm {
     gap: var(--foundation-space-3, 12px);
   }
-  
-  .grid--gap-lg,
-  .grid--gap-xl {
-    gap: var(--foundation-space-4, 16px);
+
+  .grid--responsive.grid--gap-md {
+    gap: var(--foundation-space-6, 24px);
+  }
+
+  .grid--responsive.grid--gap-lg {
+    gap: var(--foundation-space-12, 48px);
+  }
+
+  .grid--responsive.grid--gap-xl {
+    gap: var(--foundation-space-16, 64px);
   }
 }
