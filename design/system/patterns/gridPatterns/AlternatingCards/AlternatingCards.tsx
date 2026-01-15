@@ -15,18 +15,18 @@ import './AlternatingCards.css';
 // Image size presets for responsive, fluid sizing
 const IMAGE_SIZE_PRESETS = {
   tall: {
-    desktop: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '3/4', objectFit: 'cover' },
-    tablet: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '3/4', objectFit: 'cover' },
+    desktop: { height: '100%', minHeight: '400px', maxHeight: '600px', aspectRatio: undefined, objectFit: 'cover' },
+    tablet: { height: '100%', minHeight: '350px', maxHeight: '500px', aspectRatio: undefined, objectFit: 'cover' },
     mobile: { height: undefined, aspectRatio: '3/4', minHeight: '300px', maxHeight: undefined, objectFit: 'cover' }
   },
   standard: {
-    desktop: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '1/1', objectFit: 'cover' },
-    tablet: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '1/1', objectFit: 'cover' },
+    desktop: { height: '100%', minHeight: '300px', maxHeight: '450px', aspectRatio: undefined, objectFit: 'cover' },
+    tablet: { height: '100%', minHeight: '280px', maxHeight: '400px', aspectRatio: undefined, objectFit: 'cover' },
     mobile: { height: undefined, aspectRatio: '4/3', minHeight: '250px', maxHeight: undefined, objectFit: 'cover' }
   },
   compact: {
-    desktop: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '4/3', objectFit: 'cover' },
-    tablet: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '4/3', objectFit: 'cover' },
+    desktop: { height: '100%', minHeight: '200px', maxHeight: '350px', aspectRatio: undefined, objectFit: 'cover' },
+    tablet: { height: '100%', minHeight: '200px', maxHeight: '300px', aspectRatio: undefined, objectFit: 'cover' },
     mobile: { height: undefined, aspectRatio: '16/9', minHeight: '200px', maxHeight: undefined, objectFit: 'cover' }
   },
   responsive: {

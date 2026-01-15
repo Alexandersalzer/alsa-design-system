@@ -54,14 +54,16 @@
   height: var(--image-height-desktop, auto);
   min-height: var(--image-min-height-desktop, auto);
   max-height: var(--image-max-height-desktop, none);
-  aspect-ratio: var(--image-aspect-ratio-desktop, auto);
+  aspect-ratio: var(--image-aspect-ratio-desktop, none);
 }
 
 /* Image fills its container */
 .alternating-cards__item .results-card-image,
 .alternating-cards__item .content-card-image {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--image-object-position, center);
 }
 
 /* ===== TEXT CONTAINER - 50/50 SPLIT ===== */
@@ -150,7 +152,7 @@
     height: var(--image-height-tablet, auto);
     min-height: var(--image-min-height-tablet, auto);
     max-height: var(--image-max-height-tablet, none);
-    aspect-ratio: var(--image-aspect-ratio-tablet, auto);
+    aspect-ratio: var(--image-aspect-ratio-tablet, none);
   }
 
   .alternating-cards__item .results-card-text,
