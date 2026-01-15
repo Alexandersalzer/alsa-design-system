@@ -43,17 +43,24 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
   const heroSpacingDesktop = props?.heroSpacingDesktop || 1;
 
   // Animation configuration
-  const enableAnimation = props?.enableAnimation !== false; // Default true
-  const animationType = props?.animationType || 'fadeIn'; // 'fadeIn' or 'none'
   const animationDirection = props?.animationDirection || 'up';
   const animationDuration = props?.animationDuration || 600;
   const animationDelay = props?.animationDelay || 0;
   const animationStagger = props?.animationStagger || 100; // Delay between elements
 
+  // Read animation mode from CSS variable (set in design.json)
+  // 'all' = animate all sections, 'hero' = only hero sections, 'none' = no animations
+  const animationMode = typeof window !== 'undefined' 
+    ? getComputedStyle(document.documentElement).getPropertyValue('--section-body-animation').replace(/['"`]/g, '').trim() || 'all'
+    : 'all';
+
+  // Determine if animation should be enabled for this section
+  const shouldAnimate = animationMode === 'all' || (animationMode === 'hero' && isHero);
+
   // Helper to wrap content with animation
   // Checks if component has its own animation prop - if so, skip FadeIn wrapper
   const withAnimation = (content: React.ReactNode, index: number = 0, componentKey?: string) => {
-    if (!enableAnimation || animationType === 'none') return content;
+    if (!shouldAnimate) return content;
     
     // If componentKey provided, check if component has its own animation
     if (componentKey && get(componentKey).props?.animation) {
