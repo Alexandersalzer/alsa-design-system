@@ -4,11 +4,8 @@
    ============================================== */
 
 .alternating-cards {
+  /* VStack controls ALL layout - no custom styles needed */
   width: 100%;
-  /* VStack controls gap via spacing prop - no custom gap needed */
-  overflow: visible;
-  padding: 0;
-  position: relative;
 }
 
 .alternating-cards__item {
