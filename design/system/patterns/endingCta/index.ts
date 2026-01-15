@@ -1,1 +1,1 @@
-export * from './Cta';
+export * from './EndingCta';
