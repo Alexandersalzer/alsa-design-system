@@ -31,7 +31,7 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
   } = getPatternProps();
   
   return (
-    <VStack spacing={gap} className="alternating-cards">
+    <VStack spacing={gap} collapseSpacing="never" className="alternating-cards">
       {componentOrder.map((key, index) => {
         const component = components[key];
         if (!component) {
