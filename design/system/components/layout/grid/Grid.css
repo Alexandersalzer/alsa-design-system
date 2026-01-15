@@ -117,6 +117,13 @@
   min-width: 0; /* Prevent overflow issues */
 }
 
+/* On mobile, force all grid items to span full width */
+@media (max-width: 767px) {
+  .grid--responsive .grid-item {
+    grid-column: 1 / -1 !important;
+  }
+}
+
 /* ===== RESPONSIVE COLLAPSE ===== */
 
 /* Mobile collapse */

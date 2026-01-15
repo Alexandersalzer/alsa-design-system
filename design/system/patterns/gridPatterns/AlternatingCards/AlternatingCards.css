@@ -16,7 +16,6 @@
   flex-direction: row;
   place-content: center;
   align-items: center;
-  gap: var(--foundation-space-8); /* 32px gap between image and text */
   width: 100%;
   height: min-content;
   overflow: visible;

@@ -40,7 +40,7 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
 
 
   return (
-    <form className="kj-contact-form">
+    <form>
       <Grid columns={{ base: 1, md: 2 }} gap="md">
         
         {/* Name Field - colSpan 1 */}
