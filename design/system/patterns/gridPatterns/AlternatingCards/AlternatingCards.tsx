@@ -12,6 +12,31 @@ import { cardsRegistry } from '../../cards/registry';
 import { cn } from '../../../utils/cn';
 import './AlternatingCards.css';
 
+// Image size presets for responsive, fluid sizing
+const IMAGE_SIZE_PRESETS = {
+  tall: {
+    desktop: { height: 'clamp(400px, 40vh, 600px)', minHeight: undefined, maxHeight: undefined, aspectRatio: null, objectFit: 'cover' },
+    tablet: { height: 'clamp(300px, 35vh, 500px)', minHeight: undefined, maxHeight: undefined, aspectRatio: null, objectFit: 'cover' },
+    mobile: { height: undefined, aspectRatio: '3/4', minHeight: '300px', maxHeight: undefined, objectFit: 'cover' }
+  },
+  standard: {
+    desktop: { height: 'clamp(300px, 30vh, 450px)', minHeight: undefined, maxHeight: undefined, aspectRatio: null, objectFit: 'cover' },
+    tablet: { height: 'clamp(250px, 28vh, 400px)', minHeight: undefined, maxHeight: undefined, aspectRatio: null, objectFit: 'cover' },
+    mobile: { height: undefined, aspectRatio: '4/3', minHeight: '250px', maxHeight: undefined, objectFit: 'cover' }
+  },
+  compact: {
+    desktop: { height: 'clamp(200px, 20vh, 350px)', minHeight: undefined, maxHeight: undefined, aspectRatio: null, objectFit: 'cover' },
+    tablet: { height: 'clamp(180px, 22vh, 300px)', minHeight: undefined, maxHeight: undefined, aspectRatio: null, objectFit: 'cover' },
+    mobile: { height: undefined, aspectRatio: '16/9', minHeight: '200px', maxHeight: undefined, objectFit: 'cover' }
+  },
+  responsive: {
+    desktop: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '4/3', objectFit: 'cover' },
+    tablet: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '4/3', objectFit: 'cover' },
+    mobile: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '4/3', objectFit: 'cover' }
+  },
+  custom: { desktop: null, tablet: null, mobile: null }
+} as const;
+
 export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
   const { components = {} } = patternNode;
   const getPatternProps = patternProps(patternNode);
@@ -21,17 +46,65 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
     gap = '2xl',
     cardGap = '20%',
     reverseFirst = false,
+
+    // NEW: Preset-based sizing
+    imageSizePreset = 'standard',
+    imageObjectPosition = 'center',
+
+    // Existing props (for custom preset)
     imageAspectRatio = '4/3',
     imageHeight,
     imageMinHeight,
     imageMaxHeight,
     imageObjectFit = 'cover',
+
     textAlign = 'left',
     verticalAlign = 'center'
   } = getPatternProps();
-  
+
+  // Generate CSS custom properties for image sizing based on preset
+  const getImageStyleVars = () => {
+    const presetConfig = IMAGE_SIZE_PRESETS[imageSizePreset as keyof typeof IMAGE_SIZE_PRESETS] || IMAGE_SIZE_PRESETS.standard;
+
+    if (imageSizePreset === 'custom') {
+      return {
+        '--image-height-desktop': imageHeight ? (typeof imageHeight === 'number' ? `${imageHeight}px` : imageHeight) : 'auto',
+        '--image-min-height-desktop': imageMinHeight ? (typeof imageMinHeight === 'number' ? `${imageMinHeight}px` : imageMinHeight) : 'auto',
+        '--image-max-height-desktop': imageMaxHeight ? (typeof imageMaxHeight === 'number' ? `${imageMaxHeight}px` : imageMaxHeight) : 'none',
+        '--image-aspect-ratio-desktop': imageAspectRatio || 'auto',
+        '--image-aspect-ratio-tablet': imageAspectRatio || 'auto',
+        '--image-aspect-ratio-mobile': imageAspectRatio || '4/3',
+        '--image-object-position': imageObjectPosition,
+      };
+    }
+
+    return {
+      '--image-height-desktop': presetConfig.desktop?.height || 'auto',
+      '--image-min-height-desktop': presetConfig.desktop?.minHeight || 'auto',
+      '--image-max-height-desktop': presetConfig.desktop?.maxHeight || 'none',
+      '--image-aspect-ratio-desktop': presetConfig.desktop?.aspectRatio || 'auto',
+
+      '--image-height-tablet': presetConfig.tablet?.height || 'auto',
+      '--image-min-height-tablet': presetConfig.tablet?.minHeight || 'auto',
+      '--image-max-height-tablet': presetConfig.tablet?.maxHeight || 'none',
+      '--image-aspect-ratio-tablet': presetConfig.tablet?.aspectRatio || 'auto',
+
+      '--image-height-mobile': presetConfig.mobile?.height || 'auto',
+      '--image-min-height-mobile': presetConfig.mobile?.minHeight || '250px',
+      '--image-max-height-mobile': presetConfig.mobile?.maxHeight || 'none',
+      '--image-aspect-ratio-mobile': presetConfig.mobile?.aspectRatio || '4/3',
+
+      '--image-object-position': imageObjectPosition,
+    };
+  };
+
   return (
-    <VStack spacing={gap} collapseSpacing="never" className="alternating-cards">
+    <VStack
+      spacing={gap}
+      collapseSpacing="never"
+      className="alternating-cards"
+      style={getImageStyleVars() as React.CSSProperties}
+    >
       {componentOrder.map((key, index) => {
         const component = components[key];
         if (!component) {
@@ -69,6 +142,7 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
               {...(imageMinHeight && { imageMinHeight })}
               {...(imageMaxHeight && { imageMaxHeight })}
               {...(imageObjectFit && { imageObjectFit })}
+              {...(imageObjectPosition && { imageObjectPosition })}
             />
           </div>
         );
