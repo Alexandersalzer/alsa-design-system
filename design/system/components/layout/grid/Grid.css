@@ -71,11 +71,11 @@
 }
 
 .grid--gap-lg {
-  gap: var(--foundation-space-16);
+  gap: var(--foundation-space-8);
 }
 
 .grid--gap-xl {
-  gap: var(--foundation-space-24, 32px);
+  gap: var(--foundation-space-12, 32px);
 }
 
 /* ===== ALIGNMENT VARIANTS ===== */
