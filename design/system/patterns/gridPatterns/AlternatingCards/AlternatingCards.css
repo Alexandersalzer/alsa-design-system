@@ -5,11 +5,7 @@
 
 .alternating-cards {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  place-content: center;
-  align-items: center;
-  gap: var(--space-section-2xl); /* Responsive gap between rows */
+  /* VStack controls gap via spacing prop - no custom gap needed */
   overflow: visible;
   padding: 0;
   position: relative;
