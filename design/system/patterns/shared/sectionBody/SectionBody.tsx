@@ -84,7 +84,10 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
         {/* Heading - render if content OR animation exists (countUp generates content) */}
         {renderIf('typography-heading') && (get('typography-heading').props.content || get('typography-heading').props.animation) && (
           <>
-            {console.log('[SectionBody] Rendering heading with animation:', get('typography-heading').props.animation)}
+            {console.log('[SectionBody] Full heading object:', get('typography-heading'))}
+            {console.log('[SectionBody] Heading props:', get('typography-heading').props)}
+            {console.log('[SectionBody] Animation value:', get('typography-heading').props.animation)}
+            {console.log('[SectionBody] Components object:', components)}
             <Typography
               as={isHero ? "h1" : "h2"}
               variant="display-lg"
