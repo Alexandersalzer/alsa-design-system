@@ -1,7 +1,7 @@
 // ===============================================
 // design/system/patterns/cta/Cta.tsx
-// CTA PATTERN - Call-to-Action section with card styling support
-// Uses Card component for consistent styling
+// CTA PATTERN - Action group (button(s) only, no text content)
+// Use this for standalone buttons/actions without heading/body
 // ===============================================
 
 'use client';
@@ -9,9 +9,7 @@
 import React from 'react';
 import { PatternNode } from '../../core/types/nodes';
 import { patternProps, componentProps, componentPresent } from '../../core/utils/props';
-import { Card } from '../../components/layout/Card/Card';
-import { VStack } from '../../components/layout/vStack/VStack';
-import { Typography } from '../../components/Typography/Typography';
+import { HStack } from '../../components/layout/hStack/HStack';
 import { Button } from '../../components/actions/Button/Button';
 import './Cta.css';
 
@@ -27,78 +25,72 @@ export const Cta: React.FC<CtaProps> = (patternNode) => {
 
   // Extract pattern props with defaults
   const {
-    variant = 'default', // 'default' | 'raised' | 'elevated' | 'outlined' | 'solid' | 'ghost'
-    padding = 'lg', // 'none' | 'xs' | 'sm' | 'md' | 'lg'
-    radius = 'lg', // 'sm' | 'md' | 'lg'
-    maxWidth = 'full', // 'auto' | 'constrained' | 'compact' | 'spacious' | 'full'
-    textAlign = 'center', // 'left' | 'center' | 'right'
-    spacing = 'md', // VStack spacing
+    align = 'center', // 'left' | 'center' | 'right'
+    gap = 'md', // HStack gap between buttons
+    wrap = true, // Allow buttons to wrap on mobile
   } = getPatternProps();
 
-  // Map maxWidth prop to Card width prop (if not 'full')
-  const cardWidth = maxWidth === 'full' ? 'auto' : maxWidth;
-
-  // Map text alignment to VStack align
-  const alignMap = {
+  // Map align to HStack justify
+  const justifyMap = {
     left: 'start',
     center: 'center',
     right: 'end',
   } as const;
-  const vStackAlign = alignMap[textAlign as keyof typeof alignMap] || 'center';
+  const justify = justifyMap[align as keyof typeof justifyMap] || 'center';
 
-  // Build CSS classes for text alignment
-  const ctaClasses = `cta cta--align-${textAlign}`;
+  // Build CSS classes
+  const ctaClasses = `cta cta--align-${align}`;
 
   return (
     <div className={ctaClasses}>
-      <Card
-        variant={variant}
-        padding={padding}
-        radius={radius}
-        width={cardWidth}
+      <HStack
+        spacing={gap}
+        justify={justify}
+        align="center"
+        wrap={wrap}
+        className="cta__button-group"
       >
-        <VStack spacing={spacing} align={vStackAlign}>
-          {/* Heading */}
-          {renderIf('typography-heading') && get('typography-heading').props.content && (
-            <Typography
-              as="h2"
-              variant="display-lg"
-              color="heading"
-              align={textAlign}
-              componentKey={get('typography-heading').key}
-            >
-              {get('typography-heading').props.content}
-            </Typography>
-          )}
+        {/* Primary Button */}
+        {renderIf('button-primary') && get('button-primary').props.content && (
+          <Button
+            size="lg"
+            variant="accent"
+            href={get('button-primary').props.href}
+            action={get('button-primary').props.action}
+            componentKey={get('button-primary').key}
+          >
+            {get('button-primary').props.content}
+          </Button>
+        )}
 
-          {/* Body Text */}
-          {renderIf('typography-body') && get('typography-body').props.content && (
-            <Typography
-              as="p"
-              variant="body-lg"
-              color="body"
-              weight="regular"
-              align={textAlign}
-              componentKey={get('typography-body').key}
-            >
-              {get('typography-body').props.content}
-            </Typography>
-          )}
+        {/* Secondary Button */}
+        {renderIf('button-secondary') && get('button-secondary').props.content && (
+          <Button
+            size="lg"
+            variant="secondary"
+            href={get('button-secondary').props.href}
+            action={get('button-secondary').props.action}
+            componentKey={get('button-secondary').key}
+          >
+            {get('button-secondary').props.content}
+          </Button>
+        )}
 
-          {/* Primary Button */}
-          {renderIf('button-primary') && get('button-primary').props.content && (
-            <Button
-              size="lg"
-              variant="accent"
-              href={get('button-primary').props.href}
-              action={get('button-primary').props.action}
-              componentKey={get('button-primary').key}
-            >
-              {get('button-primary').props.content}
-            </Button>
-          )}
-        </VStack>
-      </Card>
+        {/* Ghost Button */}
+        {renderIf('button-ghost') && get('button-ghost').props.content && (
+          <Button
+            size="lg"
+            variant="ghost"
+            href={get('button-ghost').props.href}
+            action={get('button-ghost').props.action}
+            componentKey={get('button-ghost').key}
+          >
+            {get('button-ghost').props.content}
+          </Button>
+        )}
+      </HStack>
     </div>
   );
 };
+
+Cta.displayName = 'Cta';

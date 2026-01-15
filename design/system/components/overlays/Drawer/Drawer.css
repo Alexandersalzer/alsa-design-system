@@ -224,8 +224,7 @@
 
 .drawer-navbar-actions {
   gap: var(--foundation-space-2);
-  margin-top: auto;
-  padding-top: var(--foundation-space-12);
+  padding-top: var(--foundation-space-4);
   display: flex;
   flex-direction: column;
   align-items: stretch;
