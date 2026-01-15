@@ -15,18 +15,18 @@ import './AlternatingCards.css';
 // Image size presets for responsive, fluid sizing
 const IMAGE_SIZE_PRESETS = {
   tall: {
-    desktop: { height: 'clamp(400px, 40vh, 600px)', minHeight: undefined, maxHeight: undefined, aspectRatio: null, objectFit: 'cover' },
-    tablet: { height: 'clamp(300px, 35vh, 500px)', minHeight: undefined, maxHeight: undefined, aspectRatio: null, objectFit: 'cover' },
+    desktop: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '3/4', objectFit: 'cover' },
+    tablet: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '3/4', objectFit: 'cover' },
     mobile: { height: undefined, aspectRatio: '3/4', minHeight: '300px', maxHeight: undefined, objectFit: 'cover' }
   },
   standard: {
-    desktop: { height: 'clamp(300px, 30vh, 450px)', minHeight: undefined, maxHeight: undefined, aspectRatio: null, objectFit: 'cover' },
-    tablet: { height: 'clamp(250px, 28vh, 400px)', minHeight: undefined, maxHeight: undefined, aspectRatio: null, objectFit: 'cover' },
+    desktop: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '1/1', objectFit: 'cover' },
+    tablet: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '1/1', objectFit: 'cover' },
     mobile: { height: undefined, aspectRatio: '4/3', minHeight: '250px', maxHeight: undefined, objectFit: 'cover' }
   },
   compact: {
-    desktop: { height: 'clamp(200px, 20vh, 350px)', minHeight: undefined, maxHeight: undefined, aspectRatio: null, objectFit: 'cover' },
-    tablet: { height: 'clamp(180px, 22vh, 300px)', minHeight: undefined, maxHeight: undefined, aspectRatio: null, objectFit: 'cover' },
+    desktop: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '4/3', objectFit: 'cover' },
+    tablet: { height: undefined, minHeight: undefined, maxHeight: undefined, aspectRatio: '4/3', objectFit: 'cover' },
     mobile: { height: undefined, aspectRatio: '16/9', minHeight: '200px', maxHeight: undefined, objectFit: 'cover' }
   },
   responsive: {
