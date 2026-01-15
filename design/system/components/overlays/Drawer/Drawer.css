@@ -1,6 +1,6 @@
 /* Navbar height variable */
 :root {
-  --navbar-height: 64px;
+  --navbar-height: calc(var(--space-navbar) * 2);
 }
 
 /* ==========================================================
