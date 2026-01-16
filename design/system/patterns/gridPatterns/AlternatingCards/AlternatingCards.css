@@ -54,7 +54,6 @@
   height: var(--image-height-desktop, 80vh);
   min-height: var(--image-min-height-desktop, 400px);
   max-height: var(--image-max-height-desktop, 900px);
-  aspect-ratio: var(--image-aspect-ratio-desktop, none);
 }
 
 /* Image fills its container, cropping to fit */
@@ -160,7 +159,6 @@
     height: var(--image-height-tablet, 60vh);
     min-height: var(--image-min-height-tablet, 350px);
     max-height: var(--image-max-height-tablet, 700px);
-    aspect-ratio: var(--image-aspect-ratio-tablet, none);
   }
 
   .alternating-cards__item .results-card-text,
@@ -198,7 +196,6 @@
     height: var(--image-height-mobile, 50vh);
     min-height: var(--image-min-height-mobile, 300px);
     max-height: var(--image-max-height-mobile, 600px);
-    aspect-ratio: var(--image-aspect-ratio-mobile, auto);
   }
   
   .alternating-cards__item .results-card-text,

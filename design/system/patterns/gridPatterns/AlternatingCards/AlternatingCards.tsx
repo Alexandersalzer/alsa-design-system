@@ -96,9 +96,6 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
         '--image-height-desktop': imageHeight || imageHeightDesktop,
         '--image-min-height-desktop': imageMinHeight || imageMinHeightDesktop,
         '--image-max-height-desktop': imageMaxHeight || imageMaxHeightDesktop,
-        '--image-aspect-ratio-desktop': imageAspectRatio || 'auto',
-        '--image-aspect-ratio-tablet': imageAspectRatio || 'auto',
-        '--image-aspect-ratio-mobile': imageAspectRatio || '4/3',
         '--image-object-position': imageObjectPosition,
         '--image-object-fit': imageObjectFit,
         '--image-scale': imageScale,
@@ -111,17 +108,14 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
         '--image-height-desktop': imageHeightDesktop,
         '--image-min-height-desktop': imageMinHeightDesktop,
         '--image-max-height-desktop': imageMaxHeightDesktop,
-        '--image-aspect-ratio-desktop': 'auto',
 
         '--image-height-tablet': imageHeightTablet,
         '--image-min-height-tablet': imageMinHeightTablet,
         '--image-max-height-tablet': imageMaxHeightTablet,
-        '--image-aspect-ratio-tablet': 'auto',
 
         '--image-height-mobile': imageHeightMobile,
         '--image-min-height-mobile': imageMinHeightMobile,
         '--image-max-height-mobile': imageMaxHeightMobile,
-        '--image-aspect-ratio-mobile': 'auto',
 
         '--image-object-position': imageObjectPosition,
         '--image-object-fit': imageObjectFit,
@@ -134,17 +128,14 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
       '--image-height-desktop': presetConfig.desktop?.height || 'auto',
       '--image-min-height-desktop': presetConfig.desktop?.minHeight || 'auto',
       '--image-max-height-desktop': presetConfig.desktop?.maxHeight || 'none',
-      '--image-aspect-ratio-desktop': presetConfig.desktop?.aspectRatio || 'auto',
 
       '--image-height-tablet': presetConfig.tablet?.height || 'auto',
       '--image-min-height-tablet': presetConfig.tablet?.minHeight || 'auto',
       '--image-max-height-tablet': presetConfig.tablet?.maxHeight || 'none',
-      '--image-aspect-ratio-tablet': presetConfig.tablet?.aspectRatio || 'auto',
 
       '--image-height-mobile': presetConfig.mobile?.height || 'auto',
       '--image-min-height-mobile': presetConfig.mobile?.minHeight || '250px',
       '--image-max-height-mobile': presetConfig.mobile?.maxHeight || 'none',
-      '--image-aspect-ratio-mobile': presetConfig.mobile?.aspectRatio || '4/3',
 
       '--image-object-position': imageObjectPosition,
       '--image-object-fit': imageObjectFit,
