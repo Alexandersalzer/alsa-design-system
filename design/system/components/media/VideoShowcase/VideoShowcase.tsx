@@ -8,7 +8,9 @@ import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
-import { FadeIn, FadeInDirection } from '../../animations/FadeIn/FadeIn';
+import { FadeIn } from '../../animations/FadeIn/FadeIn';
+import { Opacity } from '../../animations/Opacity/Opacity';
+import { AnimationConfig } from '../../../core/animations/types';
 import './VideoShowcase.css';
 import './PlayButton.css';
 
@@ -21,16 +23,8 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   /** Loading indicator type - 'skeleton' (default) fills the space with pulsing effect, 'spinner' shows centered spinner */
   loadingType?: 'skeleton' | 'spinner';
   componentKey?: string;
-  /** Enable entrance animation (fade up from bottom with opacity) */
-  enableAnimation?: boolean;
-  /** Animation direction - 'up' (default), 'down', 'left', 'right', 'none' */
-  animationDirection?: FadeInDirection;
-  /** Animation duration in milliseconds */
-  animationDuration?: number;
-  /** Animation delay in milliseconds */
-  animationDelay?: number;
-  /** Distance to move during animation in pixels */
-  animationDistance?: number;
+  /** Animation configuration following centralized animation system */
+  animation?: AnimationConfig;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -48,11 +42,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   loadingType = 'skeleton',
   poster,
   componentKey,
-  enableAnimation = true,
-  animationDirection = 'up',
-  animationDuration = 800,
-  animationDelay = 200,
-  animationDistance = 40,
+  animation,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -154,21 +144,60 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     </div>
   );
 
-  return (
-    <Component componentKey={componentKey}>
-      {enableAnimation ? (
+  // Map EasingType to CSS easing string
+  const mapEasing = (easing?: string): 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear' => {
+    switch (easing) {
+      case 'easeIn': return 'ease-in';
+      case 'easeOut': return 'ease-out';
+      case 'easeInOut': return 'ease-in-out';
+      case 'linear': return 'linear';
+      default: return 'ease-out';
+    }
+  };
+
+  // Render with animation wrapper if configured
+  const renderWithAnimation = () => {
+    if (!animation || animation.type === 'none') {
+      return videoContent;
+    }
+
+    if (animation.type === 'fadeIn') {
+      const settings = animation.settings || {};
+      return (
         <FadeIn
-          direction={animationDirection}
-          duration={animationDuration}
-          delay={animationDelay}
-          distance={animationDistance}
-          enableScrollTrigger={false}
+          direction={settings.direction || 'up'}
+          duration={settings.duration || 800}
+          delay={settings.delay || 0}
+          distance={20}
+          enableScrollTrigger={settings.enableScrollTrigger ?? false}
+          triggerOffset={settings.triggerOffset || 100}
         >
           {videoContent}
         </FadeIn>
-      ) : (
-        videoContent
-      )}
+      );
+    }
+
+    if (animation.type === 'opacity') {
+      const settings = animation.settings || {};
+      return (
+        <Opacity
+          duration={settings.duration || 800}
+          delay={settings.delay || 0}
+          easing={mapEasing(settings.easing)}
+          enableScrollTrigger={settings.enableScrollTrigger ?? false}
+          triggerOffset={settings.triggerOffset || 100}
+        >
+          {videoContent}
+        </Opacity>
+      );
+    }
+
+    return videoContent;
+  };
+
+  return (
+    <Component componentKey={componentKey}>
+      {renderWithAnimation()}
     </Component>
   );
 });
