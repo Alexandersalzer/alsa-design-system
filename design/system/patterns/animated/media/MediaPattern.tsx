@@ -17,9 +17,10 @@ const MediaPattern = ({ components = {}, sectionKey, patternKey }: MediaPatternP
   
   // If we have a video, render VideoShowcase
   if (renderIf('video') && get('video').props.src) {
+    const videoProps = get('video').props;
     return (
       <VideoShowcase
-        src={`${CDN_BASE_URL}${get('video').props.src}`}
+        src={`${CDN_BASE_URL}${videoProps.src}`}
         autoPlay={false}
         muted={true}
         loop={true}
@@ -30,6 +31,7 @@ const MediaPattern = ({ components = {}, sectionKey, patternKey }: MediaPatternP
         aspectRatio="16-9"
         radius="md"
         componentKey={get('video').key}
+        animation={videoProps.animation}
       />
     );
   }
