@@ -73,6 +73,9 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
     imageObjectPosition = 'center',
     imageObjectFit = 'cover',
 
+    // NEW: Image scale/zoom control (1.0 = no zoom, 1.2 = 20% zoom in, 0.8 = 20% zoom out)
+    imageScale = 1.0,
+
     // Legacy props (for backward compatibility and custom preset)
     imageAspectRatio,
     imageHeight,
@@ -98,6 +101,7 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
         '--image-aspect-ratio-mobile': imageAspectRatio || '4/3',
         '--image-object-position': imageObjectPosition,
         '--image-object-fit': imageObjectFit,
+        '--image-scale': imageScale,
       };
     }
 
@@ -121,6 +125,7 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
 
         '--image-object-position': imageObjectPosition,
         '--image-object-fit': imageObjectFit,
+        '--image-scale': imageScale,
       };
     }
 
@@ -143,6 +148,7 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
 
       '--image-object-position': imageObjectPosition,
       '--image-object-fit': imageObjectFit,
+      '--image-scale': imageScale,
     };
   };
 
