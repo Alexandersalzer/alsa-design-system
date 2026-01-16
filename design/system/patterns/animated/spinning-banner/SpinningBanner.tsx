@@ -2,12 +2,15 @@
 
 import React, { useMemo } from 'react';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/animations/CarouselAnimation';
+import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
+import { Opacity } from '../../../components/animations/Opacity/Opacity';
 import { LogoImage } from '../../../components/media/Image';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, componentPresent, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
 import { useAction } from '../../../core/actions/useAction';
 import { ActionConfig } from '../../../core/actions/types';
+import { AnimationConfig } from '../../../core/animations/types';
 
 interface SpinningBannerProps extends PatternNode {
   sectionKey?: string;
@@ -28,7 +31,8 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
     logoOpacity = 1,
     grayscale = true,
     animated = true,
-    action
+    action,
+    animation
   } = getPatternProps();
 
   // Initialize action handler if action is configured
@@ -123,9 +127,62 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
   // Smooth scroll duplication
   const duplicateCount = 6;
 
+  // Map EasingType to CSS easing string
+  const mapEasing = (easing?: string): 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear' => {
+    switch (easing) {
+      case 'easeIn': return 'ease-in';
+      case 'easeOut': return 'ease-out';
+      case 'easeInOut': return 'ease-in-out';
+      case 'linear': return 'linear';
+      default: return 'ease-out';
+    }
+  };
+
+  // Render with animation wrapper if configured
+  const renderWithAnimation = (content: React.ReactNode) => {
+    const animationConfig = animation as AnimationConfig | undefined;
+
+    if (!animationConfig || animationConfig.type === 'none') {
+      return content;
+    }
+
+    if (animationConfig.type === 'fadeIn') {
+      const settings = animationConfig.settings || {};
+      return (
+        <FadeIn
+          direction={settings.direction || 'up'}
+          duration={settings.duration || 800}
+          delay={settings.delay || 0}
+          distance={20}
+          enableScrollTrigger={settings.enableScrollTrigger ?? false}
+          triggerOffset={settings.triggerOffset || 100}
+        >
+          {content}
+        </FadeIn>
+      );
+    }
+
+    if (animationConfig.type === 'opacity') {
+      const settings = animationConfig.settings || {};
+      return (
+        <Opacity
+          duration={settings.duration || 800}
+          delay={settings.delay || 0}
+          easing={mapEasing(settings.easing)}
+          enableScrollTrigger={settings.enableScrollTrigger ?? false}
+          triggerOffset={settings.triggerOffset || 100}
+        >
+          {content}
+        </Opacity>
+      );
+    }
+
+    return content;
+  };
+
   if (!animated) {
     // Non-animated version
-    return (
+    const staticContent = (
       <div
         style={{
           display: 'flex',
@@ -164,10 +221,12 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
         ))}
       </div>
     );
+
+    return <>{renderWithAnimation(staticContent)}</>;
   }
 
   // ✅ Animated version
-  return (
+  const carouselContent = (
     <CarouselAnimation
       items={animationItems}
       speed={speed}
@@ -183,4 +242,6 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
       duplicateCount={duplicateCount}
     />
   );
+
+  return <>{renderWithAnimation(carouselContent)}</>;
 };
