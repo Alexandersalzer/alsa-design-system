@@ -13,8 +13,11 @@ import { Tag } from '../../../components/feedback/Tag/Tag';
 import { Button } from '../../../components/actions/Button/Button';
 import { Input } from '../../../components/forms/Input/Input';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
+import { Icon } from '../../../components/media/Icon/Icon';
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { componentProps, componentPresent } from '../../../core/utils/props';
 import { ComponentNode } from '../../../core/types/nodes';
+import { useAction } from '../../../core/actions/useAction';
 
 // ===== MAIN SECTION BODY COMPONENT =====
 
@@ -32,6 +35,20 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
 
   // State for email input value
   const [emailValue, setEmailValue] = useState('');
+
+  // Action handling for newsletter submission
+  const buttonAction = renderIf('button-submit') ? get('button-submit').props.action : null;
+  const { execute, loading, success, error, message, reset } = useAction(buttonAction);
+
+  // Handle form submission
+  const handleSubmit = async () => {
+    if (!emailValue.trim()) return;
+    
+    const result = await execute({ email: emailValue });
+    if (result.success) {
+      setEmailValue(''); // Clear input on success
+    }
+  };
 
   // Get spacing from props with fallback to 'md'
   const spacing = props?.spacing || 'md';
@@ -168,29 +185,52 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
         {/* Input + Button Group - render if input exists */}
         {renderIf('input-email') && withAnimation(
           <Box style={{ width: '100%', maxWidth: '500px' }}>
-            <HStack spacing="sm" align="stretch">
-              <Input
-                type={get('input-email').props.type || 'email'}
-                placeholder={get('input-email').props.placeholder || 'Enter your email'}
-                size={get('input-email').props.size || 'lg'}
-                fullWidth
-                componentKey={get('input-email').key}
-                value={emailValue}
-                onValueChange={setEmailValue}
-              />
-              {renderIf('button-submit') && get('button-submit').props.content && (
-                <Button
-                  size={get('button-submit').props.size || 'lg'}
-                  variant={get('button-submit').props.variant || 'accent'}
-                  componentKey={get('button-submit').key}
-                  action={get('button-submit').props.action}
-                  formData={{ email: emailValue }}
-                  style={{ flexShrink: 0 }}
-                >
-                  {get('button-submit').props.content}
-                </Button>
+            <VStack spacing="sm">
+              <HStack spacing="sm" align="stretch">
+                <Input
+                  type={get('input-email').props.type || 'email'}
+                  placeholder={get('input-email').props.placeholder || 'Enter your email'}
+                  size={get('input-email').props.size || 'lg'}
+                  fullWidth
+                  componentKey={get('input-email').key}
+                  value={emailValue}
+                  onValueChange={setEmailValue}
+                  disabled={loading}
+                />
+                {renderIf('button-submit') && get('button-submit').props.content && (
+                  <Button
+                    size={get('button-submit').props.size || 'lg'}
+                    variant={get('button-submit').props.variant || 'accent'}
+                    componentKey={get('button-submit').key}
+                    onClick={handleSubmit}
+                    disabled={loading || !emailValue.trim()}
+                    style={{ flexShrink: 0 }}
+                  >
+                    {loading ? 'Sending...' : get('button-submit').props.content}
+                  </Button>
+                )}
+              </HStack>
+              
+              {/* Success Message */}
+              {success && (
+                <HStack spacing="xs" align="center" style={{ color: 'var(--color-success)' }}>
+                  <CheckCircleIcon style={{ width: '20px', height: '20px' }} />
+                  <Typography variant="body-sm" color="success">
+                    {message || 'Successfully submitted!'}
+                  </Typography>
+                </HStack>
               )}
-            </HStack>
+
+              {/* Error Message */}
+              {error && (
+                <HStack spacing="xs" align="center" style={{ color: 'var(--color-error)' }}>
+                  <XCircleIcon style={{ width: '20px', height: '20px' }} />
+                  <Typography variant="body-sm" color="error">
+                    {message || 'Something went wrong. Please try again.'}
+                  </Typography>
+                </HStack>
+              )}
+            </VStack>
           </Box>,
           3,
           'input-email'
