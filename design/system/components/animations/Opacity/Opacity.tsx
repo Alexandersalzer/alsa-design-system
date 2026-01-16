@@ -1,23 +1,17 @@
 // ===============================================
-// design/system/components/animations/FadeIn/FadeIn.tsx
-// FADE IN ANIMATION - Smooth entrance animation with scroll trigger
+// design/system/components/animations/Opacity/Opacity.tsx
+// OPACITY ANIMATION - Pure opacity fade animation
 // ===============================================
 
 import React, { useEffect, useRef, useState, ReactNode } from 'react';
-import './FadeIn.css';
+import './Opacity.css';
 
-export type FadeInDirection = 'up' | 'down' | 'left' | 'right' | 'none';
-
-export interface FadeInProps {
+export interface OpacityProps {
   children: ReactNode;
-  /** Animation direction */
-  direction?: FadeInDirection;
   /** Animation duration in milliseconds */
   duration?: number;
   /** Delay before animation starts in milliseconds */
   delay?: number;
-  /** Distance to move during animation in pixels */
-  distance?: number;
   /** Enable scroll trigger (animate when element enters viewport) */
   enableScrollTrigger?: boolean;
   /** Offset from bottom of viewport to trigger animation (in pixels) */
@@ -30,12 +24,10 @@ export interface FadeInProps {
   onComplete?: () => void;
 }
 
-export const FadeIn: React.FC<FadeInProps> = ({
+export const Opacity: React.FC<OpacityProps> = ({
   children,
-  direction = 'up',
-  duration = 600,
+  duration = 800,
   delay = 0,
-  distance = 20,
   enableScrollTrigger = true,
   triggerOffset = 100,
   easing = 'ease-out',
@@ -48,7 +40,7 @@ export const FadeIn: React.FC<FadeInProps> = ({
 
   useEffect(() => {
     if (!enableScrollTrigger) {
-      // Start animation after brief delay to ensure initial render
+      // Trigger animation on mount after a brief delay to ensure initial state is rendered
       const timer = setTimeout(() => {
         setIsVisible(true);
       }, 10);
@@ -92,34 +84,15 @@ export const FadeIn: React.FC<FadeInProps> = ({
     }
   }, [isVisible, duration, delay, onComplete]);
 
-  // Calculate transform based on direction
-  const getTransform = () => {
-    if (direction === 'none' || isVisible) return 'translate(0, 0)';
-
-    switch (direction) {
-      case 'up':
-        return `translate(0, ${distance}px)`;
-      case 'down':
-        return `translate(0, -${distance}px)`;
-      case 'left':
-        return `translate(${distance}px, 0)`;
-      case 'right':
-        return `translate(-${distance}px, 0)`;
-      default:
-        return 'translate(0, 0)';
-    }
-  };
-
   const style: React.CSSProperties = {
     opacity: isVisible ? 1 : 0,
-    transform: isVisible ? 'translate(0, 0)' : getTransform(),
-    transition: `opacity ${duration}ms ${easing} ${delay}ms, transform ${duration}ms ${easing} ${delay}ms`,
+    transition: `opacity ${duration}ms ${easing} ${delay}ms`,
   };
 
   return (
     <div
       ref={elementRef}
-      className={`fade-in ${className}`}
+      className={`opacity-animation ${className}`}
       style={style}
     >
       {children}

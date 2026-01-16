@@ -3,9 +3,10 @@
  * Inspired by the action system architecture
  */
 
-export type AnimationType = 
+export type AnimationType =
   | 'countUp'
   | 'fadeIn'
+  | 'opacity'
   | 'none';
 
 export type EasingType =
@@ -53,13 +54,25 @@ export interface FadeInAnimationConfig extends BaseAnimationConfig {
   };
 }
 
+export interface OpacityAnimationConfig extends BaseAnimationConfig {
+  type: 'opacity';
+  settings?: {
+    duration?: number;
+    delay?: number;
+    easing?: EasingType;
+    enableScrollTrigger?: boolean;
+    triggerOffset?: number;
+  };
+}
+
 export interface NoneAnimationConfig extends BaseAnimationConfig {
   type: 'none';
   settings?: never;
 }
 
 // ===== UNION TYPE =====
-export type AnimationConfig = 
+export type AnimationConfig =
   | CountUpAnimationConfig
   | FadeInAnimationConfig
+  | OpacityAnimationConfig
   | NoneAnimationConfig;
