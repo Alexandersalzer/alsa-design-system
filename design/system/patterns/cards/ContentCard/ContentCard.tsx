@@ -86,7 +86,7 @@ export function ContentCard({
           src={`${CDN_BASE_URL}${imageSrc}`}
           alt={imageAlt}
           width="100%"
-          aspectRatio={finalAspectRatio}
+          height="100%"
           objectFit={imageObjectFit}
           objectPosition={imageObjectPosition}
           radius={imageRadius}
