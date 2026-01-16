@@ -146,7 +146,7 @@
 @media (max-width: 1024px) {
   .alternating-cards__item .results-card,
   .alternating-cards__item .content-card {
-    gap: var(--card-gap, 15%);
+    gap: var(--card-gap, 8%);
   }
 
   .alternating-cards__item .results-card-image-container,
@@ -156,9 +156,9 @@
     min-width: 42.5%;
 
     /* Fixed height for consistent container sizes */
-    height: var(--image-height-tablet, 60vh);
-    min-height: var(--image-min-height-tablet, 350px);
-    max-height: var(--image-max-height-tablet, 700px);
+    height: var(--image-height-tablet, 45vh);
+    min-height: var(--image-min-height-tablet, 300px);
+    max-height: var(--image-max-height-tablet, 500px);
   }
 
   .alternating-cards__item .results-card-text,

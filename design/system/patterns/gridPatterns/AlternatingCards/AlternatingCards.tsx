@@ -58,15 +58,15 @@ export const AlternatingCards: React.FC<PatternNode> = (patternNode) => {
 
     // Direct viewport-based height controls (overrides preset if provided)
     imageHeightDesktop = '80vh',
-    imageHeightTablet = '60vh',
+    imageHeightTablet = '45vh',
     imageHeightMobile = '50vh',
 
     // Min/max height controls for safety
     imageMinHeightDesktop = '400px',
-    imageMinHeightTablet = '350px',
+    imageMinHeightTablet = '300px',
     imageMinHeightMobile = '300px',
     imageMaxHeightDesktop = '900px',
-    imageMaxHeightTablet = '700px',
+    imageMaxHeightTablet = '500px',
     imageMaxHeightMobile = '600px',
 
     // Object positioning - smart defaults for different aspect ratios
