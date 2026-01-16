@@ -50,21 +50,22 @@
   position: relative;
   margin: 0;
 
-  /* NEW: Fluid sizing via CSS custom properties */
-  height: var(--image-height-desktop, auto);
+  /* NEW: Let container adapt to image aspect ratio */
+  /* Remove fixed height, let aspect-ratio control it */
+  height: auto;
   min-height: var(--image-min-height-desktop, auto);
   max-height: var(--image-max-height-desktop, none);
-  aspect-ratio: var(--image-aspect-ratio-desktop, none);
+  aspect-ratio: auto; /* Let image's natural aspect ratio determine container shape */
 }
 
-/* Image fills its container with smart cropping and zoom control */
+/* Image fills its container naturally, respecting aspect ratio */
 .alternating-cards__item .results-card-image,
 .alternating-cards__item .content-card-image {
   width: 100%;
-  height: 100%;
+  height: auto; /* Let image determine its own height based on aspect ratio */
 
   /* Use CSS custom properties for flexible control */
-  object-fit: var(--image-object-fit, cover);
+  object-fit: var(--image-object-fit, contain); /* Changed to 'contain' to show full image */
   object-position: var(--image-object-position, center);
 
   /* Zoom/scale control - allows adjusting how much the image fills the container */
@@ -156,12 +157,11 @@
     max-width: 42.5%;
     min-width: 42.5%;
 
-    /* REMOVED: Fixed 350px height */
-    /* NEW: Fluid sizing via CSS custom properties */
-    height: var(--image-height-tablet, auto);
+    /* Let container adapt to image aspect ratio */
+    height: auto;
     min-height: var(--image-min-height-tablet, auto);
     max-height: var(--image-max-height-tablet, none);
-    aspect-ratio: var(--image-aspect-ratio-tablet, none);
+    aspect-ratio: auto;
   }
 
   .alternating-cards__item .results-card-text,
@@ -195,12 +195,11 @@
     min-width: 100%;
     width: 100%;
 
-    /* REMOVED: Fixed aspect-ratio: 4/3 !important */
-    /* NEW: Fluid sizing via CSS custom properties */
-    height: var(--image-height-mobile, auto);
+    /* Let container adapt to image aspect ratio */
+    height: auto;
     min-height: var(--image-min-height-mobile, 250px);
     max-height: var(--image-max-height-mobile, none);
-    aspect-ratio: var(--image-aspect-ratio-mobile, 4/3);
+    aspect-ratio: auto;
   }
   
   .alternating-cards__item .results-card-text,
