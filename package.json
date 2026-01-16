@@ -56,6 +56,11 @@
       "require": "./dist/design/system/patterns/cookieConsent/index.js",
       "types": "./dist/design/system/patterns/cookieConsent/index.d.ts"
     },
+    "./analytics": {
+      "import": "./dist/design/system/patterns/analytics/index.js",
+      "require": "./dist/design/system/patterns/analytics/index.js",
+      "types": "./dist/design/system/patterns/analytics/index.d.ts"
+    },
     "./toast": {
       "import": "./dist/design/system/patterns/toast/index.js",
       "require": "./dist/design/system/patterns/toast/index.js",

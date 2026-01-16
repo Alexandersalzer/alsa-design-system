@@ -31,6 +31,7 @@ export function buildCssVars(tokens: DesignTokens): string {
   const navbarSpacing    = tokens?.navbarSpacing    || "md";
   const formWidth        = tokens?.formWidth        || "sm";
   const typographyScale  = tokens?.typographyScale  || "md";
+  const sectionBodyAnimation = tokens?.sectionBodyAnimation || "all";
 
   // 🎯 WEIGHT SYSTEM: Supports both numeric (preferred) and tier-based (legacy)
   let fontWeightHeading: number;
@@ -153,6 +154,9 @@ export function buildCssVars(tokens: DesignTokens): string {
 
       /* ===== Theme Mode ===== */
       --theme-mode: '${themeMode}';  /* Can be 'light', 'dark', or 'system' */
+
+      /* ===== SectionBody Animation ===== */
+      --section-body-animation: '${sectionBodyAnimation}';  /* 'all', 'hero', or 'none' */
 
       /* NOTE: --is-dark will be set by client JavaScript for 'system' mode */
       /* For static 'light' or 'dark', set it here: */

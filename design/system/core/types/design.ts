@@ -33,6 +33,7 @@ export interface DesignTokens {
   navbarSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   formWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   typographyScale?: "sm" | "md" | "lg";
+  sectionBodyAnimation?: 'all' | 'hero' | 'none';
 }
 
 export interface DesignConfig {

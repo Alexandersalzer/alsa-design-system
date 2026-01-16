@@ -6,7 +6,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useConsent } from '../../patterns/cookieConsent/ConsentProvider';
-import { useToast } from '../../patterns/toast/ToastProvider';
 import { useHref } from '../../hooks/useHref';
 import { executeAction } from './actionHandlers';
 import { ActionType, ActionConfig, PixelEvent, NavigationActionConfig } from './types';
@@ -14,13 +13,20 @@ import { mapUniversalEvents } from './pixelEventMapping';
 
 export function useAction(config: ActionConfig) {
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
   const { consent } = useConsent();
-  const { showToast } = useToast();
   const router = useRouter();
   const { buildHref } = useHref();
 
   const execute = async (data: Record<string, any>) => {
+    // Reset states
+    setLoading(true);
+    setSuccess(false);
+    setError(null);
+    setMessage(null);
+
     // Handle navigation action (client-side only, no API call)
     if (config.type === 'navigation') {
       const navConfig = config as NavigationActionConfig;
@@ -28,6 +34,8 @@ export function useAction(config: ActionConfig) {
       
       if (!href) {
         console.error('[Action] Navigation action missing href');
+        setLoading(false);
+        setError('Navigation href missing');
         return { success: false, error: 'Navigation href missing' };
       }
 
@@ -53,6 +61,8 @@ export function useAction(config: ActionConfig) {
           triggerPixelEvents(navConfig.settings.pixelEvents);
         }
         
+        setLoading(false);
+        setSuccess(true);
         return { success: true };
       }
       
@@ -68,13 +78,12 @@ export function useAction(config: ActionConfig) {
         triggerPixelEvents(navConfig.settings.pixelEvents);
       }
       
+      setLoading(false);
+      setSuccess(true);
       return { success: true };
     }
 
     // Handle other actions (contact, newsletter, booking) via API
-    setLoading(true);
-    setError(null);
-
     try {
       const result = await executeAction(config.type, data);
 
@@ -90,29 +99,42 @@ export function useAction(config: ActionConfig) {
           triggerPixelEvents(allPixelEvents);
         }
 
-        // Show success message
-        showToast(result.message, 'success');
+        // Set success state
+        setSuccess(true);
+        setMessage(result.message);
+        setLoading(false);
+
+        // Optional redirect after success
+        if (config.settings?.redirectAfterSubmit) {
+          const redirectHref = buildHref(config.settings.redirectAfterSubmit);
+          setTimeout(() => {
+            router.push(redirectHref);
+          }, 1500); // Wait 1.5s so user sees success message
+        }
 
         return { success: true, message: result.message };
       } else {
         // Handle error
         setError(result.message);
-        showToast(result.message, 'error');
-
+        setLoading(false);
         return { success: false, error: result.message };
       }
     } catch (err) {
       const errorMsg = 'Network error. Please try again.';
       setError(errorMsg);
-      showToast(errorMsg, 'error');
-
-      return { success: false, error: errorMsg };
-    } finally {
       setLoading(false);
+      return { success: false, error: errorMsg };
     }
   };
 
-  return { execute, loading, error };
+  // Reset function to clear success/error states
+  const reset = () => {
+    setSuccess(false);
+    setError(null);
+    setMessage(null);
+  };
+
+  return { execute, loading, success, error, message, reset };
 }
 
 /**

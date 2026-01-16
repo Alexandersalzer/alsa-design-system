@@ -43,8 +43,8 @@ export interface NavigationActionConfig extends BaseActionConfig {
 export interface ContactActionConfig extends BaseActionConfig {
   type: 'contact';
   settings?: {
-    redirectAfterSubmit?: string;
-    clearFormOnSuccess?: boolean;
+    redirectAfterSubmit?: string; // e.g., '/thank-you'
+    clearFormOnSuccess?: boolean; // Default: true
     pixelEvents?: PixelEvent[];
   };
 }
@@ -55,6 +55,7 @@ export interface NewsletterActionConfig extends BaseActionConfig {
     listId?: string;
     doubleOptIn?: boolean;
     tags?: string[];
+    redirectAfterSubmit?: string;
     pixelEvents?: PixelEvent[];
   };
 }
@@ -69,6 +70,7 @@ export interface BookingActionConfig extends BaseActionConfig {
     serviceId?: string;
     duration?: number;
     redirectToCalendar?: boolean;
+    redirectAfterSubmit?: string;
     pixelEvents?: PixelEvent[];
   };
 }
@@ -78,6 +80,7 @@ export interface DownloadActionConfig extends BaseActionConfig {
   settings: {
     fileUrl: string;
     trackConversion?: boolean;
+    redirectAfterSubmit?: string;
     pixelEvents?: PixelEvent[];
   };
 }
@@ -87,6 +90,7 @@ export interface ExternalLinkActionConfig extends BaseActionConfig {
   settings: {
     url: string;
     trackClick?: boolean;
+    redirectAfterSubmit?: string;
     pixelEvents?: PixelEvent[];
   };
 }

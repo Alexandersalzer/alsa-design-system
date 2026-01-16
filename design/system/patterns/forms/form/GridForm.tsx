@@ -6,12 +6,15 @@ import { Button, Input, Textarea, Icon } from '../../../components';
 import { Body } from '../../../components/Typography';
 import { componentProps, componentPresent } from '../../../core/utils/props';
 import { PatternNode } from '../../../core/types/nodes';
+import { useAction } from '../../../core/actions/useAction';
 import {
   UserIcon,
   BuildingOfficeIcon,
   EnvelopeIcon,
   PhoneIcon,
-  ArrowRightIcon
+  ArrowRightIcon,
+  CheckCircleIcon,
+  XCircleIcon
 } from '@heroicons/react/24/outline';
 
 // ===== TYPES =====
@@ -19,13 +22,17 @@ interface GridFormProps extends PatternNode {
   websiteId?: string;
 }
 
-// ===== MAIN KJ FORM COMPONENT =====
+// ===== MAIN GRID FORM COMPONENT =====
 const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
   const get = componentProps(components);
   const renderIf = componentPresent(components);
   const [formData, setFormData] = useState<Record<string, string>>({});
   
-  // Handle input changes to collect form data for action system
+  // Get action config from button
+  const buttonAction = get('button-submit').props.action;
+  const { execute, loading, success, error, message } = useAction(buttonAction || { type: 'contact', settings: {} });
+  
+  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
       ...prev,
@@ -33,10 +40,20 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
     }));
   };
 
-  // Form state
-  const [isSubmitting] = useState(false);
-  const [submitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [errorMessage] = useState('');
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const result = await execute(formData);
+    
+    // Clear form on success if setting is enabled
+    if (result.success && buttonAction?.settings?.clearFormOnSuccess !== false) {
+      setFormData({});
+      // Reset form inputs
+      const form = e.target as HTMLFormElement;
+      form.reset();
+    }
+  };
 
 
   return (
@@ -56,11 +73,12 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
                   <UserIcon />
                 </Icon>
               }
-              required={get('input-name').props.required || true}
+              required={get('input-name').props.required !== false}
               size="md"
               radius="md"
               style={{ width: '100%' }}
               onChange={handleChange}
+              disabled={loading}
             />
           </GridItem>
         )}
@@ -78,11 +96,12 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
                   <BuildingOfficeIcon />
                 </Icon>
               }
-              required={get('input-business').props.required || true}
+              required={get('input-business').props.required !== false}
               size="md"
               radius="md"
               style={{ width: '100%' }}
               onChange={handleChange}
+              disabled={loading}
             />
           </GridItem>
         )}
@@ -100,10 +119,12 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
                   <PhoneIcon />
                 </Icon>
               }
-              required={get('input-phone').props.required || false}
+              required={get('input-phone').props.required === true}
               size="md"
               radius="md"
               style={{ width: '100%' }}
+              onChange={handleChange}
+              disabled={loading}
             />
           </GridItem>
         )}
@@ -121,11 +142,12 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
                   <EnvelopeIcon />
                 </Icon>
               }
-              required={get('input-email').props.required || true}
+              required={get('input-email').props.required !== false}
               size="md"
               radius="md"
               style={{ width: '100%' }}
               onChange={handleChange}
+              disabled={loading}
             />
           </GridItem>
         )}
@@ -138,8 +160,9 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
               label={get('textarea-message').props.label || 'Meddelande'}
               placeholder={get('textarea-message').props.placeholder || 'Skriv ditt meddelande här...'}
               rows={get('textarea-message').props.rows || 4}
-              required={get('textarea-message').props.required || true}
+              required={get('textarea-message').props.required !== false}
               onChange={handleChange}
+              disabled={loading}
             />
           </GridItem>
         )}
@@ -152,29 +175,57 @@ const GridForm = ({ components = {}, websiteId }: GridFormProps) => {
               variant="accent"
               size="lg"
               radius="md"
-              disabled={isSubmitting}
+              disabled={loading}
               rightIcon={
                 <Icon size="sm" color="button-primary">
                   <ArrowRightIcon />
                 </Icon>
               }
               style={{ width: '100%' }}
-              action={get('button-submit').props.action}
-              formData={formData}
             >
-              {isSubmitting ? 'Skickar...' : (get('button-submit').props.content || 'Skicka')}
+              {loading ? 'Skickar...' : (get('button-submit').props.content || 'Skicka')}
             </Button>
 
-            {/* Success/Error messages */}
-            {submitStatus === 'success' && (
-              <Body size="sm" color="success" style={{ marginTop: '8px' }}>
-                Tack! Vi har tagit emot ditt meddelande.
-              </Body>
+            {/* Success Message */}
+            {success && (
+              <div style={{ 
+                marginTop: '16px', 
+                padding: '12px 16px', 
+                borderRadius: '8px', 
+                backgroundColor: 'var(--surface-success-subtle)',
+                border: '1px solid var(--border-success)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                <Icon size="sm" color="success">
+                  <CheckCircleIcon />
+                </Icon>
+                <Body size="sm" color="success" style={{ margin: 0 }}>
+                  {message || 'Tack! Vi har tagit emot ditt meddelande.'}
+                </Body>
+              </div>
             )}
-            {submitStatus === 'error' && (
-              <Body size="sm" color="error" style={{ marginTop: '8px' }}>
-                {errorMessage}
-              </Body>
+
+            {/* Error Message */}
+            {error && (
+              <div style={{ 
+                marginTop: '16px', 
+                padding: '12px 16px', 
+                borderRadius: '8px', 
+                backgroundColor: 'var(--surface-error-subtle)',
+                border: '1px solid var(--border-error)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                <Icon size="sm" color="error">
+                  <XCircleIcon />
+                </Icon>
+                <Body size="sm" color="error" style={{ margin: 0 }}>
+                  {error}
+                </Body>
+              </div>
             )}
           </GridItem>
         )}
