@@ -76,7 +76,10 @@ function loadMetaPixel(pixelId: string) {
   script.src = PIXEL_SOURCES.meta;
   script.onload = () => {
     console.log('[MarketingPixels] Meta Pixel loaded');
-    (window as any).fbq('init', pixelId);
+    (window as any).fbq('init', pixelId, {
+      autoConfig: false,
+      autoLogAppEvents: false
+    });
     (window as any).fbq('track', 'PageView');
   };
   script.onerror = () => {
