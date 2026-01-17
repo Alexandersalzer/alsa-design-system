@@ -2,12 +2,15 @@
  * Animation system - Centralized animation exports
  */
 
-export type { 
-  AnimationType, 
-  AnimationConfig, 
+export type {
+  AnimationType,
+  AnimationConfig,
   CountUpAnimationConfig,
   FadeInAnimationConfig,
+  SlideInAnimationConfig,
+  OpacityAnimationConfig,
+  ScaleAnimationConfig,
   NoneAnimationConfig,
   EasingType,
-  FadeDirection
+  AnimationDirection
 } from './types';

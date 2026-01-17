@@ -6,7 +6,9 @@
 export type AnimationType =
   | 'countUp'
   | 'fadeIn'
+  | 'slideIn'
   | 'opacity'
+  | 'scale'
   | 'none';
 
 export type EasingType =
@@ -16,7 +18,7 @@ export type EasingType =
   | 'easeInOut'
   | 'expoOut';
 
-export type FadeDirection = 'up' | 'down' | 'left' | 'right' | 'none';
+export type AnimationDirection = 'up' | 'down' | 'left' | 'right' | 'none';
 
 // ===== BASE CONFIG =====
 export interface BaseAnimationConfig {
@@ -45,7 +47,7 @@ export interface CountUpAnimationConfig extends BaseAnimationConfig {
 export interface FadeInAnimationConfig extends BaseAnimationConfig {
   type: 'fadeIn';
   settings?: {
-    direction?: FadeDirection;
+    direction?: AnimationDirection;
     duration?: number;
     delay?: number;
     stagger?: number;
@@ -54,9 +56,35 @@ export interface FadeInAnimationConfig extends BaseAnimationConfig {
   };
 }
 
+export interface SlideInAnimationConfig extends BaseAnimationConfig {
+  type: 'slideIn';
+  settings?: {
+    direction?: AnimationDirection;
+    duration?: number;
+    delay?: number;
+    distance?: number;
+    easing?: EasingType;
+    enableScrollTrigger?: boolean;
+    triggerOffset?: number;
+  };
+}
+
 export interface OpacityAnimationConfig extends BaseAnimationConfig {
   type: 'opacity';
   settings?: {
+    duration?: number;
+    delay?: number;
+    easing?: EasingType;
+    enableScrollTrigger?: boolean;
+    triggerOffset?: number;
+  };
+}
+
+export interface ScaleAnimationConfig extends BaseAnimationConfig {
+  type: 'scale';
+  settings?: {
+    from?: number;
+    to?: number;
     duration?: number;
     delay?: number;
     easing?: EasingType;
@@ -74,5 +102,7 @@ export interface NoneAnimationConfig extends BaseAnimationConfig {
 export type AnimationConfig =
   | CountUpAnimationConfig
   | FadeInAnimationConfig
+  | SlideInAnimationConfig
   | OpacityAnimationConfig
+  | ScaleAnimationConfig
   | NoneAnimationConfig;

@@ -9,7 +9,9 @@ import { Component } from '../../frames/component/Component';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import { FadeIn } from '../../animations/FadeIn/FadeIn';
+import { SlideIn } from '../../animations/SlideIn/SlideIn';
 import { Opacity } from '../../animations/Opacity/Opacity';
+import { Scale } from '../../animations/Scale/Scale';
 import { AnimationConfig } from '../../../core/animations/types';
 import './VideoShowcase.css';
 import './PlayButton.css';
@@ -189,6 +191,40 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         >
           {videoContent}
         </Opacity>
+      );
+    }
+
+    if (animation.type === 'slideIn') {
+      const settings = animation.settings || {};
+      return (
+        <SlideIn
+          direction={settings.direction || 'up'}
+          duration={settings.duration || 800}
+          delay={settings.delay || 0}
+          distance={settings.distance || 20}
+          easing={mapEasing(settings.easing)}
+          enableScrollTrigger={settings.enableScrollTrigger ?? false}
+          triggerOffset={settings.triggerOffset || 100}
+        >
+          {videoContent}
+        </SlideIn>
+      );
+    }
+
+    if (animation.type === 'scale') {
+      const settings = animation.settings || {};
+      return (
+        <Scale
+          from={settings.from || 0.8}
+          to={settings.to || 1}
+          duration={settings.duration || 800}
+          delay={settings.delay || 0}
+          easing={mapEasing(settings.easing)}
+          enableScrollTrigger={settings.enableScrollTrigger ?? false}
+          triggerOffset={settings.triggerOffset || 100}
+        >
+          {videoContent}
+        </Scale>
       );
     }
 

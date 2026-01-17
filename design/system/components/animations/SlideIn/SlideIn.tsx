@@ -1,0 +1,127 @@
+// ===============================================
+// design/system/components/animations/SlideIn/SlideIn.tsx
+// SLIDE IN ANIMATION - Pure movement animation (no opacity)
+// ===============================================
+
+import React, { useEffect, useRef, useState, ReactNode } from 'react';
+import './SlideIn.css';
+
+export type SlideDirection = 'up' | 'down' | 'left' | 'right' | 'none';
+
+export interface SlideInProps {
+  children: ReactNode;
+  /** Slide direction */
+  direction?: SlideDirection;
+  /** Animation duration in milliseconds */
+  duration?: number;
+  /** Delay before animation starts in milliseconds */
+  delay?: number;
+  /** Distance to move during animation in pixels */
+  distance?: number;
+  /** Enable scroll trigger (animate when element enters viewport) */
+  enableScrollTrigger?: boolean;
+  /** Offset from bottom of viewport to trigger animation (in pixels) */
+  triggerOffset?: number;
+  /** Easing function */
+  easing?: 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear';
+  /** Custom className */
+  className?: string;
+  /** Callback when animation completes */
+  onComplete?: () => void;
+}
+
+export const SlideIn: React.FC<SlideInProps> = ({
+  children,
+  direction = 'up',
+  duration = 600,
+  delay = 0,
+  distance = 20,
+  enableScrollTrigger = true,
+  triggerOffset = 100,
+  easing = 'ease-out',
+  className = '',
+  onComplete,
+}) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const elementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!enableScrollTrigger) {
+      // Start animation after brief delay to ensure initial render
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+      }, 10);
+      return () => clearTimeout(timer);
+    }
+
+    const element = elementRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setIsVisible(true);
+            setHasAnimated(true);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: `0px 0px -${triggerOffset}px 0px`,
+        threshold: 0.1,
+      }
+    );
+
+    observer.observe(element);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [enableScrollTrigger, triggerOffset, hasAnimated]);
+
+  // Handle animation complete
+  useEffect(() => {
+    if (isVisible && onComplete) {
+      const timer = setTimeout(() => {
+        onComplete();
+      }, duration + delay);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible, duration, delay, onComplete]);
+
+  // Calculate transform based on direction
+  const getTransform = () => {
+    if (direction === 'none' || isVisible) return 'translate(0, 0)';
+
+    switch (direction) {
+      case 'up':
+        return `translate(0, ${distance}px)`;
+      case 'down':
+        return `translate(0, -${distance}px)`;
+      case 'left':
+        return `translate(${distance}px, 0)`;
+      case 'right':
+        return `translate(-${distance}px, 0)`;
+      default:
+        return 'translate(0, 0)';
+    }
+  };
+
+  const style: React.CSSProperties = {
+    transform: isVisible ? 'translate(0, 0)' : getTransform(),
+    transition: `transform ${duration}ms ${easing} ${delay}ms`,
+  };
+
+  return (
+    <div
+      ref={elementRef}
+      className={`slide-in ${className}`}
+      style={style}
+    >
+      {children}
+    </div>
+  );
+};

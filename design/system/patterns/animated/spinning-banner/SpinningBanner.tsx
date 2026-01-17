@@ -3,7 +3,9 @@
 import React, { useMemo } from 'react';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/animations/CarouselAnimation';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
+import { SlideIn } from '../../../components/animations/SlideIn/SlideIn';
 import { Opacity } from '../../../components/animations/Opacity/Opacity';
+import { Scale } from '../../../components/animations/Scale/Scale';
 import { LogoImage } from '../../../components/media/Image';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
@@ -174,6 +176,40 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
         >
           {content}
         </Opacity>
+      );
+    }
+
+    if (animationConfig.type === 'slideIn') {
+      const settings = animationConfig.settings || {};
+      return (
+        <SlideIn
+          direction={settings.direction || 'up'}
+          duration={settings.duration || 800}
+          delay={settings.delay || 0}
+          distance={settings.distance || 20}
+          easing={mapEasing(settings.easing)}
+          enableScrollTrigger={settings.enableScrollTrigger ?? false}
+          triggerOffset={settings.triggerOffset || 100}
+        >
+          {content}
+        </SlideIn>
+      );
+    }
+
+    if (animationConfig.type === 'scale') {
+      const settings = animationConfig.settings || {};
+      return (
+        <Scale
+          from={settings.from || 0.8}
+          to={settings.to || 1}
+          duration={settings.duration || 800}
+          delay={settings.delay || 0}
+          easing={mapEasing(settings.easing)}
+          enableScrollTrigger={settings.enableScrollTrigger ?? false}
+          triggerOffset={settings.triggerOffset || 100}
+        >
+          {content}
+        </Scale>
       );
     }
 
