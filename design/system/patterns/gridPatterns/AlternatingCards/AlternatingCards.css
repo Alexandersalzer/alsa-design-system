@@ -1,0 +1,209 @@
+/* ==============================================
+   AlternatingCards.css - FRAMER-STYLE HORIZONTAL LAYOUT
+   50/50 split with flex: 1 0 0px, using design system tokens
+   ============================================== */
+
+.alternating-cards {
+  /* VStack controls ALL layout - no custom styles needed */
+  width: 100%;
+}
+
+.alternating-cards__item {
+  display: flex;
+  flex-direction: row;
+  place-content: center;
+  align-items: center;
+  width: 100%;
+  height: min-content;
+  overflow: visible;
+  padding: 0;
+  position: relative;
+}
+
+/* ===== FORCE HORIZONTAL LAYOUT ===== */
+.alternating-cards__item .results-card,
+.alternating-cards__item .content-card {
+  display: flex;
+  flex-direction: row;
+  place-content: center;
+  align-items: center;
+  gap: var(--foundation-space-8); /* 32px gap between image and text */
+  width: 100%;
+  height: min-content;
+  overflow: visible;
+  padding: 0;
+  position: relative;
+}
+
+/* ===== IMAGE CONTAINER - 50/50 SPLIT ===== */
+.alternating-cards__item .results-card-image-container,
+.alternating-cards__item .content-card-image-container {
+  /* Framer: flex: 1 0 0px + width: 1px = equal flex space */
+  flex: 1 0 0px;
+  width: 1px; /* Prevents overflow, forces equal distribution */
+
+  display: flex;
+  place-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  margin: 0;
+
+  /* Fixed height for consistent container sizes */
+  height: var(--image-height-desktop, 80vh);
+  min-height: var(--image-min-height-desktop, 400px);
+  max-height: var(--image-max-height-desktop, 900px);
+}
+
+/* Image fills its container, cropping to fit */
+.alternating-cards__item .results-card-image,
+.alternating-cards__item .content-card-image {
+  width: 100%;
+  height: 100%; /* Fill container completely */
+
+  /* Use CSS custom properties for flexible control */
+  object-fit: var(--image-object-fit, cover); /* Cover fills container by cropping */
+  object-position: var(--image-object-position, center);
+
+  /* Zoom/scale control - allows adjusting how much the image fills the container */
+  /* 1.0 = normal, 1.2 = zoom in 20%, 0.8 = zoom out 20% (adds padding effect) */
+  transform: scale(var(--image-scale, 1.0));
+
+  /* Ensure smooth rendering */
+  display: block;
+}
+
+/* ===== TEXT CONTAINER - 50/50 SPLIT ===== */
+.alternating-cards__item .results-card-text,
+.alternating-cards__item .content-card-text {
+  /* Framer: flex: 1 0 0px + width: 1px = equal flex space */
+  flex: 1 0 0px;
+  width: 1px; /* Prevents overflow, forces equal distribution */
+
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  align-items: center;
+  gap: var(--foundation-space-4); /* 16px gap between text elements */
+  height: min-content;
+  overflow: visible;
+  padding: 0;
+  position: relative;
+  margin: 0 !important;
+}
+
+/* Text content with max-width and auto margins (centered) */
+.alternating-cards__item .results-card-text > *,
+.alternating-cards__item .content-card-text > * {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+/* ===== REVERSE LAYOUT ===== */
+.alternating-cards__item--reverse .results-card,
+.alternating-cards__item--reverse .content-card {
+  flex-direction: row-reverse;
+}
+
+/* ===== ALIGNMENT OVERRIDES ===== */
+.alternating-cards__item--text-left .results-card-text,
+.alternating-cards__item--text-left .content-card-text {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.alternating-cards__item--text-center .results-card-text,
+.alternating-cards__item--text-center .content-card-text {
+  align-items: center;
+  text-align: center;
+}
+
+.alternating-cards__item--text-right .results-card-text,
+.alternating-cards__item--text-right .content-card-text {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.alternating-cards__item--vertical-start .results-card,
+.alternating-cards__item--vertical-start .content-card {
+  align-items: flex-start;
+}
+
+.alternating-cards__item--vertical-center .results-card,
+.alternating-cards__item--vertical-center .content-card {
+  align-items: center;
+}
+
+.alternating-cards__item--vertical-end .results-card,
+.alternating-cards__item--vertical-end .content-card {
+  align-items: flex-end;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .alternating-cards__item .results-card,
+  .alternating-cards__item .content-card {
+    gap: var(--card-gap, 8%);
+  }
+
+  .alternating-cards__item .results-card-image-container,
+  .alternating-cards__item .content-card-image-container {
+    flex: 0 0 42.5%;
+    max-width: 42.5%;
+    min-width: 42.5%;
+
+    /* Fixed height for consistent container sizes */
+    height: var(--image-height-tablet, 45vh);
+    min-height: var(--image-min-height-tablet, 300px);
+    max-height: var(--image-max-height-tablet, 500px);
+  }
+
+  .alternating-cards__item .results-card-text,
+  .alternating-cards__item .content-card-text {
+    flex: 0 0 42.5%;
+    max-width: 42.5%;
+    min-width: 42.5%;
+  }
+}
+
+@media (max-width: 768px) {
+  .alternating-cards__item,
+  .alternating-cards__item--reverse {
+    flex-direction: column;
+    gap: var(--foundation-space-8);
+    align-items: stretch;
+  }
+  
+  .alternating-cards__item .results-card,
+  .alternating-cards__item .content-card,
+  .alternating-cards__item--reverse .results-card,
+  .alternating-cards__item--reverse .content-card {
+    flex-direction: column;
+    gap: var(--foundation-space-6);
+  }
+  
+  .alternating-cards__item .results-card-image-container,
+  .alternating-cards__item .content-card-image-container {
+    flex: none;
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+
+    /* Fixed height for consistent container sizes */
+    height: var(--image-height-mobile, 50vh);
+    min-height: var(--image-min-height-mobile, 300px);
+    max-height: var(--image-max-height-mobile, 600px);
+  }
+  
+  .alternating-cards__item .results-card-text,
+  .alternating-cards__item .content-card-text {
+    flex: none;
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+    margin-top: 0 !important;
+  }
+}

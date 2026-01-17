@@ -1,0 +1,68 @@
+/* ==============================================
+   GLOBAL STYLES - Root HTML & Body
+   Sets background color and scrollbar using design tokens
+   ============================================== */
+
+/* Root HTML element - fills viewport and sets background */
+html {
+  min-height: 100vh;
+  background-color: var(--surface-page);
+  color: var(--text-primary);
+}
+
+/* Body element - inherits background from html */
+body {
+  min-height: 100vh;
+  background-color: var(--surface-page);
+  margin: 0;
+  padding: 0;
+}
+
+/* ==============================================
+   CUSTOM SCROLLBAR - Using Design Tokens
+   ============================================== */
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-subtle);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--surface-subtle);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-emphasis);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--text-secondary);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-default) var(--surface-subtle);
+}
+
+/* ==============================================
+   SMOOTH SCROLLING
+   ============================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

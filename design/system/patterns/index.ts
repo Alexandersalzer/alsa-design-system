@@ -8,3 +8,4 @@ export * from './cookieConsent';
 export * from './host';
 export * from './toast';
 export * from './navbar';
+export * from './endingCta';

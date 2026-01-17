@@ -35,7 +35,16 @@ const ConsentContext = createContext<ConsentContextType | null>(null);
 export function useConsent(): ConsentContextType {
   const context = useContext(ConsentContext);
   if (!context) {
-    throw new Error('useConsent must be used within a ConsentProvider');
+    // Return safe defaults for SSR or when provider is missing
+    return {
+      consent: defaultConsent,
+      hasResponded: false,
+      isLoading: false,
+      acceptAll: () => {},
+      rejectAll: () => {},
+      acceptSelected: () => {},
+      resetConsent: () => {},
+    };
   }
   return context;
 }

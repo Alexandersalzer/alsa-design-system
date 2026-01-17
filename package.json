@@ -1,6 +1,6 @@
 {
   "name": "@blimpify-im/ui",
-  "version": "3.3.85",
+  "version": "3.2.629",
   "description": "Blimpify Design System - Reusable React components for client websites",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -55,6 +55,11 @@
       "import": "./dist/design/system/patterns/cookieConsent/index.js",
       "require": "./dist/design/system/patterns/cookieConsent/index.js",
       "types": "./dist/design/system/patterns/cookieConsent/index.d.ts"
+    },
+    "./analytics": {
+      "import": "./dist/design/system/patterns/analytics/index.js",
+      "require": "./dist/design/system/patterns/analytics/index.js",
+      "types": "./dist/design/system/patterns/analytics/index.d.ts"
     },
     "./toast": {
       "import": "./dist/design/system/patterns/toast/index.js",

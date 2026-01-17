@@ -1,0 +1,53 @@
+/* ContentCard Pattern Styles - Generic Content Card */
+
+/* ===== BASE CARD STYLES ===== */
+.content-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-4); /* Default gap for vertical layout */
+}
+
+/* ===== IMAGE CARD CONTAINER ===== */
+.content-card-image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  /* Height controls applied via inline styles when needed */
+  position: relative;
+}
+
+/* Default variant has background */
+.content-card-image-container.card--default,
+.content-card-image-container.card--elevated,
+.content-card-image-container.card--raised {
+  background-color: var(--surface-raised);
+}
+
+/* Bordered variant has no background, just border */
+.content-card-image-container.card--bordered {
+  background-color: transparent;
+}
+
+/* ===== IMAGE ITSELF ===== */
+.content-card-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ===== TEXT CONTENT ===== */
+.content-card-text {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .content-card {
+    gap: var(--foundation-space-3);
+  }
+}

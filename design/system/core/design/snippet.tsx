@@ -9,7 +9,18 @@ import { normalizeWeights, getWeightValue, normalizeNumericWeights } from "./wei
 export function buildCssVars(tokens: DesignTokens): string {
   const radius           = tokens?.radius           || "md";
   const accentColor      = tokens?.accentColor      || "purple";
-  const isDark           = tokens?.isDark           ?? false;
+
+  // Auto-migration: Support both old (isDark) and new (themeMode) formats
+  let themeMode: 'light' | 'dark' | 'system' = 'light';
+  if (tokens?.themeMode) {
+    // New format - use directly
+    themeMode = tokens.themeMode;
+  } else if (tokens?.isDark !== undefined) {
+    // Legacy format - auto-migrate
+    themeMode = tokens.isDark ? 'dark' : 'light';
+    console.warn('[Design] Deprecated: Using isDark (boolean). Please update design.json to use themeMode: "light" | "dark" | "system"');
+  }
+
   const themeTone        = tokens?.themeTone        || "neutral";
   const fontPrimary      = tokens?.fontPrimary      || "Sora";
   const fontSecondary    = tokens?.fontSecondary    || fontPrimary;
@@ -20,6 +31,7 @@ export function buildCssVars(tokens: DesignTokens): string {
   const navbarSpacing    = tokens?.navbarSpacing    || "md";
   const formWidth        = tokens?.formWidth        || "sm";
   const typographyScale  = tokens?.typographyScale  || "md";
+  const sectionBodyAnimation = tokens?.sectionBodyAnimation || "all";
 
   // 🎯 WEIGHT SYSTEM: Supports both numeric (preferred) and tier-based (legacy)
   let fontWeightHeading: number;
@@ -140,8 +152,15 @@ export function buildCssVars(tokens: DesignTokens): string {
       --dynamic-font-weight-body:    ${fontWeightBody};
       --dynamic-font-weight-label:   ${fontWeightLabel};
 
-      /* ===== Theme Control (replaces data-theme attribute) ===== */
-      --is-dark: ${isDark ? 1 : 0};
+      /* ===== Theme Mode ===== */
+      --theme-mode: '${themeMode}';  /* Can be 'light', 'dark', or 'system' */
+
+      /* ===== SectionBody Animation ===== */
+      --section-body-animation: '${sectionBodyAnimation}';  /* 'all', 'hero', or 'none' */
+
+      /* NOTE: --is-dark will be set by client JavaScript for 'system' mode */
+      /* For static 'light' or 'dark', set it here: */
+      ${themeMode === 'dark' ? '--is-dark: 1;' : themeMode === 'light' ? '--is-dark: 0;' : '/* --is-dark set by JS */'}
     }
 
     ${isInverseAccent ? `
@@ -176,8 +195,8 @@ export function buildCssVars(tokens: DesignTokens): string {
     }
     ` : ''}
 
-    ${isDark ? `
-    /* ===== DARK MODE ADJUSTMENTS (replaces data-theme attribute) ===== */
+    ${themeMode === 'dark' ? `
+    /* ===== DARK MODE ADJUSTMENTS (only for static 'dark' mode) ===== */
     :root {
       --surface-backdrop: rgba(0, 0, 0, 0.7);
       --surface-scrim: rgba(0, 0, 0, 0.85);
@@ -197,7 +216,13 @@ export function buildCssVars(tokens: DesignTokens): string {
  * Returns CSS and theme metadata from design.json
  * Always reads the actual file for consistent behavior
  */
-export async function designSnippet(isEditing?: boolean): Promise<{ css: string; themeTone: string; isDark: boolean; accentColor: string }> {
+export async function designSnippet(isEditing?: boolean): Promise<{
+  css: string;
+  themeTone: string;
+  themeMode: 'light' | 'dark' | 'system';
+  isDark: boolean;  // Deprecated but kept for compatibility
+  accentColor: string
+}> {
   const designConfig = await getDesignConfig();
 
   if (!designConfig) {
@@ -205,16 +230,37 @@ export async function designSnippet(isEditing?: boolean): Promise<{ css: string;
     return {
       css: "",
       themeTone: "neutral",
-      isDark: false,
+      themeMode: "light",
+      isDark: false,  // Deprecated
       accentColor: "purple"
     };
   }
 
   const tokens = designConfig.globalStyles || {};
   const themeTone = tokens.themeTone || "neutral";
-  const isDark = tokens.isDark ?? false;
   const accentColor = tokens.accentColor || "purple";
+
+  // Auto-migration logic
+  let themeMode: 'light' | 'dark' | 'system';
+  if (tokens.themeMode) {
+    themeMode = tokens.themeMode;
+  } else if (tokens.isDark !== undefined) {
+    themeMode = tokens.isDark ? 'dark' : 'light';
+  } else {
+    themeMode = 'light';
+  }
+
+  // Generate CSS
   const css = buildCssVars(tokens);
 
-  return { css, themeTone, isDark, accentColor };
+  // Return both new and deprecated fields
+  const isDark = themeMode === 'dark';  // For backward compatibility
+
+  return {
+    css,
+    themeTone,
+    themeMode,  // NEW
+    isDark,     // DEPRECATED (derived from themeMode)
+    accentColor
+  };
 }

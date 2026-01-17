@@ -1,0 +1,211 @@
+/* ==============================================
+   AppIcon Component Styles
+   iOS/macOS-stil app-ikoner med design tokens
+   ============================================== */
+
+/* ===== BASE APP ICON ===== */
+.app-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--foundation-space-2);
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: default;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  outline: none;
+  text-align: center;
+}
+
+/* ===== ICON CONTAINER ===== */
+.app-icon__container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--foundation-space-2);
+}
+
+/* ===== ICON WRAPPER ===== */
+.app-icon__icon-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-xl);
+  background: var(--surface-base);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== SVG ICON ===== */
+.app-icon__svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ===== LOCK OVERLAY ===== */
+.app-icon__lock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: var(--radius-xl);
+  color: var(--text-inverse);
+  backdrop-filter: blur(2px);
+}
+
+.app-icon__lock-overlay svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* ===== STATUS BADGE ===== */
+.app-icon__badge {
+  position: absolute;
+  top: var(--foundation-space-1);
+  right: var(--foundation-space-1);
+  z-index: 1;
+}
+
+/* ===== LABEL ===== */
+.app-icon__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--foundation-space-1);
+  width: 100%;
+}
+
+.app-icon__name {
+  line-height: 1.3;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.app-icon__version {
+  opacity: 0.7;
+}
+
+/* ===== SIZES ===== */
+.app-icon--sm .app-icon__icon-wrapper {
+  width: 64px;
+  border-radius: var(--radius-lg);
+}
+
+.app-icon--md .app-icon__icon-wrapper {
+  width: 80px;
+  border-radius: var(--radius-xl);
+}
+
+.app-icon--lg .app-icon__icon-wrapper {
+  width: 96px;
+  border-radius: var(--radius-xl);
+}
+
+.app-icon--sm .app-icon__name {
+  font-size: var(--font-body-size-sm);
+}
+
+.app-icon--md .app-icon__name {
+  font-size: var(--font-body-size-sm);
+}
+
+.app-icon--lg .app-icon__name {
+  font-size: var(--font-body-size-md);
+}
+
+/* ===== ACTIVE STATE ===== */
+.app-icon--active .app-icon__icon-wrapper {
+  background: var(--surface-elevated);
+  border-color: var(--border-default);
+}
+
+/* ===== COMING SOON STATE ===== */
+.app-icon--coming-soon {
+  opacity: 0.7;
+}
+
+.app-icon--coming-soon .app-icon__icon-wrapper {
+  background: var(--surface-raised);
+  border-color: var(--border-subtle);
+  filter: grayscale(0.3);
+}
+
+/* ===== LOCKED STATE ===== */
+.app-icon--locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.app-icon--locked .app-icon__icon-wrapper {
+  background: var(--surface-raised);
+  border-color: var(--border-subtle);
+  filter: grayscale(0.5);
+}
+
+/* ===== CLICKABLE STATE ===== */
+.app-icon--clickable {
+  cursor: pointer;
+}
+
+.app-icon--clickable:hover .app-icon__icon-wrapper {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--border-accent);
+  background: var(--surface-elevated);
+}
+
+.app-icon--clickable:active .app-icon__icon-wrapper {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-icon--clickable:focus-visible .app-icon__icon-wrapper {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* ===== DISABLED STATE ===== */
+.app-icon--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.app-icon--disabled .app-icon__icon-wrapper {
+  filter: grayscale(0.8);
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .app-icon,
+  .app-icon__icon-wrapper {
+    transition: none;
+  }
+  
+  .app-icon--clickable:hover .app-icon__icon-wrapper {
+    transform: none;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .app-icon__icon-wrapper {
+    border-width: 2px;
+  }
+  
+  .app-icon--clickable:focus-visible .app-icon__icon-wrapper {
+    outline-width: 3px;
+  }
+}
+

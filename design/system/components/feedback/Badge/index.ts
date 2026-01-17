@@ -6,3 +6,11 @@ export type {
   BadgePlacement,
   BadgeShape
 } from './Badge';
+
+export { NumberBadge } from './NumberBadge';
+export type {
+  NumberBadgeProps,
+  NumberBadgeSize,
+  NumberBadgeVariant,
+  NumberBadgeColorPalette
+} from './NumberBadge';

@@ -6,6 +6,9 @@
 import React, { ReactNode, ElementType, forwardRef } from 'react';
 import { cn } from '../../utils/cn';
 import { Component } from '../frames/component/Component';
+import { AnimationConfig } from '../../core/animations';
+import { CountUp } from '../animations/CountUp/CountUp';
+import { FadeIn } from '../animations/FadeIn/FadeIn';
 
 // ===== TYPE DEFINITIONS =====
 export type TypographyVariant =
@@ -90,6 +93,7 @@ export interface TypographyOwnProps {
   italic?: boolean;
   as?: ElementType;
   componentKey?: string; // För live editing identification
+  animation?: AnimationConfig; // Centralized animation system
 }
 
 export type TypographyProps = TypographyOwnProps & 
@@ -203,6 +207,7 @@ export const buildTypographyClasses = ({
 
 // ===== MAIN TYPOGRAPHY COMPONENT =====
 export const Typography = forwardRef<HTMLElement, TypographyProps>(({
+  animation,
   as,
   variant = 'body-md',
   weight,
@@ -245,6 +250,53 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
     };
   }, [color, style]);
 
+  // ===== ANIMATION HANDLING =====
+  // CountUp animation - replaces entire Typography with CountUp component
+  if (animation?.type === 'countUp') {
+    const { settings } = animation;
+    return (
+      <CountUp
+        end={settings.end}
+        start={settings.start}
+        duration={settings.duration}
+        delay={settings.delay}
+        separator={settings.separator}
+        suffix={settings.suffix}
+        prefix={settings.prefix}
+        decimals={settings.decimals}
+        easing={settings.easing}
+        enableScrollTrigger={settings.enableScrollTrigger}
+        triggerOffset={settings.triggerOffset}
+        variant={variant}
+        weight={weight}
+        color={color}
+        align={align}
+        className={className}
+        as={as}
+        componentKey={componentKey}
+      />
+    );
+  }
+
+  // FadeIn animation - wraps Typography
+  if (animation?.type === 'fadeIn') {
+    const { settings = {} } = animation;
+    return (
+      <FadeIn
+        direction={settings.direction || 'up'}
+        duration={settings.duration || 600}
+        delay={settings.delay || 0}
+        enableScrollTrigger={settings.enableScrollTrigger !== false}
+        triggerOffset={settings.triggerOffset || 100}
+      >
+        <Component as={Element} ref={ref} className={classes} style={combinedStyle} componentKey={componentKey} {...rest}>
+          {children}
+        </Component>
+      </FadeIn>
+    );
+  }
+
+  // No animation - standard Typography
   return (
     <Component as={Element} ref={ref} className={classes} style={combinedStyle} componentKey={componentKey} {...rest}>
       {children}

@@ -3,5 +3,6 @@
    UTILITIES - IMPORTS ALL UTILITY FILES
    ============================================== */
 
+@import './global.css';
 @import './layout.css';
 @import './responsive.css';

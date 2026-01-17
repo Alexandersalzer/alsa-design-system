@@ -6,6 +6,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
+import { Spinner } from '../../feedback/Spinner/Spinner';
+import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import './Image.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -21,6 +23,8 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   height?: number | string;
   /** Object fit behavior */
   objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
+  /** Object position - controls image alignment (e.g., 'center', 'top', 'bottom', 'left right', 'center 25%') */
+  objectPosition?: string;
   /** Border radius */
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   /** Loading strategy */
@@ -29,6 +33,8 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   priority?: boolean;
   /** Show loading skeleton */
   showSkeleton?: boolean;
+  /** Loading indicator type - 'skeleton' (default) fills the space with pulsing effect, 'spinner' shows centered spinner */
+  loadingType?: 'skeleton' | 'spinner';
   /** Fallback image on error */
   fallbackSrc?: string;
   /** Callback when image loads */
@@ -45,6 +51,24 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   className?: string;
   /** Component key for live editing */
   componentKey?: string;
+  /**
+   * Low Quality Image Placeholder - base64 encoded tiny image (e.g., 20x20px)
+   * This will be blurred and shown instantly while the full image loads
+   * Example: 'data:image/jpeg;base64,/9j/4AAQSkZJRg...'
+   */
+  lqip?: string;
+  /**
+   * BlurHash string - compact representation of the image blur
+   * More efficient than LQIP, generates blur from 6-7 character string
+   * Example: 'LGF5]+Yk^6#M@-5c,1J5@[or[Q6.'
+   */
+  blurHash?: string;
+  /**
+   * Placeholder background color - dominant color of the image
+   * Simplest option, just shows a solid color while loading
+   * Example: '#3B82F6' or 'rgb(59, 130, 246)'
+   */
+  placeholderColor?: string;
 }
 
 // ===== MAIN IMAGE COMPONENT =====
@@ -55,10 +79,12 @@ export const Image: React.FC<ImageProps> = ({
   width,
   height,
   objectFit = 'cover',
+  objectPosition = 'center',
   radius = 'none',
   loading = 'lazy',
   priority = false,
   showSkeleton = true,
+  loadingType = 'skeleton',
   fallbackSrc,
   onLoad,
   onError,
@@ -68,6 +94,9 @@ export const Image: React.FC<ImageProps> = ({
   className,
   style,
   componentKey,
+  lqip,
+  blurHash,
+  placeholderColor,
   ...props
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -76,6 +105,7 @@ export const Image: React.FC<ImageProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isCached, setIsCached] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // ✅ OPTIMIZATION 1: Check if image is already cached (CloudFront/CDN)
   useEffect(() => {
@@ -122,6 +152,7 @@ export const Image: React.FC<ImageProps> = ({
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsIntersecting(true);
+            setIsLoading(true); // Start loading when image enters viewport
           }
         });
       },
@@ -141,6 +172,7 @@ export const Image: React.FC<ImageProps> = ({
   // Handle image load
   const handleLoad = () => {
     setIsLoaded(true);
+    setIsLoading(false);
     setHasError(false);
     onLoad?.();
   };
@@ -148,6 +180,7 @@ export const Image: React.FC<ImageProps> = ({
   // Handle image error
   const handleError = () => {
     setHasError(true);
+    setIsLoading(false);
     onError?.();
   };
 
@@ -155,11 +188,24 @@ export const Image: React.FC<ImageProps> = ({
   const currentSrc = hasError && fallbackSrc ? fallbackSrc : src;
   const shouldLoad = isIntersecting || priority || isCached;
 
+  // Trigger loading state when image should load but isn't cached
+  // IMPORTANT: Don't show loading state for priority/eager images - they should appear immediately
+  useEffect(() => {
+    if (shouldLoad && !isCached && !isLoaded && !hasError && !priority && loading !== 'eager') {
+      setIsLoading(true);
+    }
+  }, [shouldLoad, isCached, isLoaded, hasError, priority, loading]);
+
+  // Determine if this is a fixed-size image (explicit dimensions) or responsive (percentage/auto)
+  const isFixedSize = typeof width === 'number' || (typeof width === 'string' && !width.includes('%'));
+
   // Build container classes
   const containerClasses = cn(
     'image-container',
+    isFixedSize && 'image-container--fixed',
     `image-container--radius-${radius}`,
     hoverZoom && 'image-container--hover-zoom',
+    (isLoading && !isCached && !isLoaded) && 'image-container--loading',
     className
   );
 
@@ -173,32 +219,117 @@ export const Image: React.FC<ImageProps> = ({
   );
 
   // Container styles
+  // ✅ FIX: Prioritize aspect-ratio for space reservation, avoid conflicting height values
   const containerStyles: React.CSSProperties = {
     width: width || '100%',
-    height: height || 'auto',
-    aspectRatio: aspectRatio || undefined,
+    // Only set height if explicitly provided AND no aspectRatio (avoid conflicts)
+    ...(height && !aspectRatio ? { height } : {}),
+    // Aspect ratio takes priority for proper space reservation
+    ...(aspectRatio ? { aspectRatio } : {}),
     position: 'relative',
-    overflow: 'hidden',
-    ...style
+    overflow: 'hidden'
   };
 
   // ✅ FIX: Priority/eager images should ALWAYS be visible, even before onLoad fires
   const shouldBeVisible = isLoaded || priority || loading === 'eager' || isCached;
-  
+
   const imageStyles: React.CSSProperties = {
     width: '100%',
     height: '100%',
     display: 'block',
+    objectPosition: objectPosition,
     opacity: shouldBeVisible ? 1 : 0,  // Show immediately for priority/eager
     transition: 'none'
   };
 
+  // Determine if we should show a progressive placeholder
+  const hasProgressivePlaceholder = lqip || blurHash || placeholderColor;
+  const showProgressivePlaceholder = hasProgressivePlaceholder && !shouldBeVisible && !hasError;
+
   return (
     <Component componentKey={componentKey}>
       <div ref={containerRef} className={containerClasses} style={containerStyles}>
-        {/* ✅ OPTIMIZATION 3: Delayed skeleton - DON'T show for cached/priority/eager images */}
-        {showSkeleton && !shouldBeVisible && !hasError && (
-          <div className="image-skeleton image-skeleton--delayed" />
+        {/* Progressive placeholder - LQIP, BlurHash, or Color */}
+        {showProgressivePlaceholder && (
+          <div
+            className="image-placeholder"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              overflow: 'hidden',
+              borderRadius: 'inherit'
+            }}
+          >
+            {/* LQIP - Low Quality Image Placeholder */}
+            {lqip && (
+              <img
+                src={lqip}
+                alt=""
+                aria-hidden="true"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: objectFit,
+                  filter: 'blur(20px)',
+                  transform: 'scale(1.1)', // Prevents blur edge artifacts
+                  borderRadius: 'inherit'
+                }}
+              />
+            )}
+
+            {/* BlurHash - would need blurhash library */}
+            {!lqip && blurHash && (
+              <div
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: placeholderColor || '#e5e7eb',
+                  borderRadius: 'inherit'
+                }}
+                data-blurhash={blurHash}
+              >
+                {/* Note: BlurHash requires blurhash npm package to decode */}
+                {/* For now, falls back to solid color */}
+              </div>
+            )}
+
+            {/* Simple color placeholder */}
+            {!lqip && !blurHash && placeholderColor && (
+              <div
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: placeholderColor,
+                  borderRadius: 'inherit'
+                }}
+              />
+            )}
+          </div>
+        )}
+
+        {/* Loading overlay - skeleton (default) or spinner (only if no progressive placeholder) */}
+        {!hasProgressivePlaceholder && isLoading && !isCached && !shouldBeVisible && !hasError && (
+          <div className="image-loading-overlay">
+            {loadingType === 'skeleton' ? (
+              <Skeleton
+                width="100%"
+                height="100%"
+                variant="pulse"
+                shape="rect"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  borderRadius: 'inherit'
+                }}
+              />
+            ) : (
+              <Spinner size="xs" />
+            )}
+          </div>
         )}
 
         {/* Actual image */}
@@ -208,7 +339,7 @@ export const Image: React.FC<ImageProps> = ({
             src={currentSrc}
             alt={alt}
             className={imageClasses}
-            style={imageStyles}
+            style={{ ...imageStyles, ...style }}
             onLoad={handleLoad}
             onError={handleError}
             loading={priority || isCached ? 'eager' : 'lazy'}

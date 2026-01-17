@@ -9,24 +9,10 @@
   width: 100%;
 }
 
-/* ===== AUTO-FIT GRID (Primary approach) ===== */
+/* ===== AUTO-FIT GRID (Density-based, no columns prop) ===== */
 .grid--auto-fit {
   /* CSS-only responsive grid - works instantly on resize */
   grid-template-columns: repeat(auto-fit, minmax(var(--min-item-width, 300px), 1fr));
-}
-
-/* ===== EXPLICIT GRID (For forms and fixed layouts) ===== */
-.grid--explicit {
-  /* Grid columns set via inline style - no auto behavior */
-  /* Default fallback: single column */
-  grid-template-columns: 1fr;
-}
-
-/* Mobile responsive for explicit grids */
-@media (max-width: 640px) {
-  .grid--explicit {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* Optional max columns constraint */
@@ -34,40 +20,40 @@
   grid-template-columns: repeat(min(var(--max-columns, 6), auto-fit), minmax(var(--min-item-width, 300px), 1fr));
 }
 
-/* ===== LEGACY RESPONSIVE GRID (Deprecated but maintained for compatibility) ===== */
+/* ===== RESPONSIVE GRID (Column-based) ===== */
 .grid--responsive {
   /* Base: mobile first - use CSS variable or fallback to 1 column */
   grid-template-columns: repeat(var(--grid-cols-base, 1), 1fr);
 }
 
-/* Responsive breakpoints for columns - direct values for reliable real-time updates */
+/* Responsive breakpoints for columns */
 @media (min-width: 640px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-sm, 2), 1fr);
+    grid-template-columns: repeat(var(--grid-cols-sm, var(--grid-cols-base, 1)), 1fr);
   }
 }
 
 @media (min-width: 768px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-md, 3), 1fr);
+    grid-template-columns: repeat(var(--grid-cols-md, var(--grid-cols-sm, var(--grid-cols-base, 2))), 1fr);
   }
 }
 
 @media (min-width: 1024px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-lg, 3), 1fr);
+    grid-template-columns: repeat(var(--grid-cols-lg, var(--grid-cols-md, 3)), 1fr);
   }
 }
 
 @media (min-width: 1280px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-xl, 3), 1fr);
+    grid-template-columns: repeat(var(--grid-cols-xl, var(--grid-cols-lg, 3)), 1fr);
   }
 }
 
 @media (min-width: 1536px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-2xl, 3), 1fr);
+    grid-template-columns: repeat(var(--grid-cols-2xl, var(--grid-cols-xl, var(--grid-cols-lg, 3))), 1fr);
   }
 }
 
@@ -85,11 +71,11 @@
 }
 
 .grid--gap-lg {
-  gap: var(--foundation-space-6, 24px);
+  gap: var(--foundation-space-8);
 }
 
 .grid--gap-xl {
-  gap: var(--foundation-space-8, 32px);
+  gap: var(--foundation-space-12, 32px);
 }
 
 /* ===== ALIGNMENT VARIANTS ===== */
@@ -129,6 +115,13 @@
 .grid-item {
   /* Base styles for grid items */
   min-width: 0; /* Prevent overflow issues */
+}
+
+/* On mobile, force all grid items to span full width */
+@media (max-width: 767px) {
+  .grid--responsive .grid-item {
+    grid-column: 1 / -1 !important;
+  }
 }
 
 /* ===== RESPONSIVE COLLAPSE ===== */
@@ -173,24 +166,31 @@
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
 
-/* Ensure grids work well on all screen sizes */
-@media (max-width: 480px) {
-  .grid {
+/* When grid becomes single column on mobile, use VStack-like spacing */
+@media (max-width: 767px) {
+  /* Single column grids need larger vertical gaps (like VStack) */
+  .grid--responsive {
+    gap: var(--foundation-space-12, 48px);
+  }
+
+  /* Allow smaller gaps if explicitly set */
+  .grid--responsive.grid--gap-xs {
+    gap: var(--foundation-space-2, 8px);
+  }
+
+  .grid--responsive.grid--gap-sm {
     gap: var(--foundation-space-3, 12px);
   }
-  
-  .grid--gap-lg,
-  .grid--gap-xl {
-    gap: var(--foundation-space-4, 16px);
+
+  .grid--responsive.grid--gap-md {
+    gap: var(--foundation-space-6, 24px);
   }
-}
 
-/* Medium screens */
-@media (min-width: 768px) and (max-width: 1023px) {
-  /* Tablet-specific adjustments if needed */
-}
+  .grid--responsive.grid--gap-lg {
+    gap: var(--foundation-space-12, 48px);
+  }
 
-/* Large screens */
-@media (min-width: 1024px) {
-  /* Desktop-specific adjustments if needed */
+  .grid--responsive.grid--gap-xl {
+    gap: var(--foundation-space-16, 64px);
+  }
 }

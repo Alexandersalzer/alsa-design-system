@@ -5,12 +5,13 @@ import { usePathname } from 'next/navigation';
 import { Box, HStack, VStack, Button, TextLink, IconButton } from '../../../components';
 import { Logo } from '../../../components/media/Logo';
 import { MenuIcon, XIcon } from 'lucide-react';
-import Drawer from '../../../components/overlays/Drawer/Drawer';
+import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
 import { componentProps, componentPresent, patternProps, useMapComponents } from '../../../core/utils/props';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { alignMap } from '../utils';
 import './NavbarPill.css';
 import { PatternNode } from '../../../core/types/nodes';
+import { AnimationConfig } from '../../../core/animations/types';
 import { cn } from '../../../utils/cn';
 
 interface NavbarPillProps extends PatternNode {
@@ -26,9 +27,11 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
   const pathname = usePathname();
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [pillMetrics, setPillMetrics] = useState({ top: 0, left: 0, width: 0 });
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const pillRef = useRef<HTMLDivElement>(null);
-  
+
   // Extract current locale from pathname
   const currentLocale = pathname.split('/')[1];
 
@@ -36,26 +39,81 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
   const mobileAlign = alignMap[getPatternProps().mobileMenuAlign] || align;
   const mobileVariant = getPatternProps().mobileMenuVariant || 'sheet';
 
-  // Calculate pill dimensions for drawer positioning
+  // Background variant and border props
+  const backgroundVariant = getPatternProps().backgroundVariant || 'default';
+  const showBorder = getPatternProps().showBorder !== false;
+  const hideOnScroll = getPatternProps().hideOnScroll || false;
+
+  // Animation configuration for drawer items
+  const drawerAnimation = getPatternProps().drawerAnimation as AnimationConfig | undefined;
+  const enableDrawerAnimation = drawerAnimation && drawerAnimation.type !== 'none';
+
+  // Extract animation settings based on type
+  const getAnimationSettings = () => {
+    if (!drawerAnimation || drawerAnimation.type === 'none') {
+      return { duration: 400, stagger: 50, direction: 'down' as const };
+    }
+
+    if (drawerAnimation.type === 'fadeIn') {
+      return {
+        duration: drawerAnimation.settings?.duration || 400,
+        stagger: drawerAnimation.settings?.stagger || 50,
+        direction: drawerAnimation.settings?.direction || 'down' as const,
+      };
+    }
+
+    // Fallback for other animation types
+    return { duration: 400, stagger: 50, direction: 'down' as const };
+  };
+
+  const { duration: animationDuration, stagger: animationStagger, direction: animationDirection } = getAnimationSettings();
+
+  // Handle scroll behavior
   useEffect(() => {
-    const updateMetrics = () => {
-      if (pillRef.current) {
-        const rect = pillRef.current.getBoundingClientRect();
-        setPillMetrics({
-          top: rect.top + (rect.height / 2),
-          left: rect.left,
-          width: rect.width,
-        });
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 50);
+
+      if (hideOnScroll) {
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          setIsHidden(true);
+        } else {
+          setIsHidden(false);
+        }
       }
+
+      setLastScrollY(currentScrollY);
     };
 
-    updateMetrics();
-    window.addEventListener('resize', updateMetrics);
-    window.addEventListener('scroll', updateMetrics);
-    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY, hideOnScroll]);
+
+  // Escape key handler - close drawer on Escape
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileOpen) {
+        setMobileOpen(false);
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [mobileOpen]);
+
+  // Prevent body scroll when drawer is open
+  useEffect(() => {
+    if (mobileOpen) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    }
+
     return () => {
-      window.removeEventListener('resize', updateMetrics);
-      window.removeEventListener('scroll', updateMetrics);
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
     };
   }, [mobileOpen]);
 
@@ -96,132 +154,208 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
 
   return (
     <>
-      <nav className="navbar-pill">
-        <Box ref={pillRef} className="navbar-pill__container">
-          {/* LEFT - Unified Logo */}
-          <div className="navbar-pill__left">
-            <Logo {...logoProps} className="navbar-pill__logo" />
+      {/* Backdrop overlay - only when drawer is open (mobile only) */}
+      {mobileOpen && (
+        <div
+          className="navbar-pill-backdrop"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      {/* Unified container - pill + drawer share same border */}
+      <nav className={cn(
+        "navbar-pill",
+        hideOnScroll && "navbar-pill--hide-on-scroll",
+        isHidden && "navbar-pill--hidden"
+      )} ref={pillRef}>
+        <Box className={cn(
+          "navbar-pill__unified-wrapper",
+          mobileOpen && "navbar-pill__unified-wrapper--expanded",
+          backgroundVariant !== 'default' && `navbar-pill__unified-wrapper--${backgroundVariant}`,
+          !showBorder && "navbar-pill__unified-wrapper--no-border",
+          isScrolled && "navbar-pill__unified-wrapper--scrolled"
+        )}>
+          {/* Top bar - always visible */}
+          <div className="navbar-pill__container">
+            {/* LEFT - Unified Logo */}
+            <div className="navbar-pill__left">
+              <Logo {...logoProps} className="navbar-pill__logo" />
+            </div>
+
+            {/* MIDDLE - Desktop only */}
+            {renderIf('textlink-menuItem') && (
+              <HStack
+                className={`navbar-pill__middle navbar-pill__middle--${align}`}
+                spacing="lg"
+              >
+                {mapComponentIndices('textlink-menuItem')
+                  .slice(0, getPatternProps().maxMenuItems)
+                  .map((props, i) => {
+                    const componentKey = `textlink-menuItem_${i}`;
+                    return (
+                      <TextLink
+                        key={i}
+                        href={props.href || '/'}
+                        size="md"
+                        underline="hover"
+                        componentKey={componentKey}
+                      >
+                        {props.content}
+                      </TextLink>
+                    );
+                  })}
+              </HStack>
+            )}
+
+            {/* RIGHT - Desktop only */}
+            <HStack spacing="sm" className="navbar-pill__right">
+              {renderIf('button-secondaryAction') && (
+                <Button variant="ghost" href={get('button-secondaryAction').props.href} action={get('button-secondaryAction').props.action} componentKey={get('button-secondaryAction').key}>
+                  {get('button-secondaryAction').props.content}
+                </Button>
+              )}
+              {renderIf('button-primaryAction') && (
+                <Button variant="accent" href={get('button-primaryAction').props.href} action={get('button-primaryAction').props.action} componentKey={get('button-primaryAction').key}>
+                  {get('button-primaryAction').props.content}
+                </Button>
+              )}
+            </HStack>
+
+            {/* MOBILE TOGGLE */}
+            <IconButton
+              variant="ghost"
+              size="md"
+              aria-label="Toggle menu"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="navbar-pill__mobile-toggle"
+              icon={mobileOpen ? <XIcon /> : <MenuIcon />}
+            />
           </div>
 
-          {/* MIDDLE - Desktop only */}
-          {renderIf('textlink-menuItem') && (
-            <HStack
-              className={`navbar-pill__middle navbar-pill__middle--${align}`}
-              spacing="lg"
+          {/* Mobile drawer content - inside same bordered container */}
+          <div className={cn(
+            "navbar-pill__drawer-section",
+            mobileOpen && "navbar-pill__drawer-section--open",
+            `navbar-pill__drawer-section--${mobileVariant}`
+          )}>
+            <VStack
+              spacing="md"
+              align="stretch"
+              className={cn(
+                "drawer-pill-content",
+                `drawer-align-${mobileAlign}`
+              )}
             >
-              {mapComponentIndices('textlink-menuItem')
-                .slice(0, getPatternProps().maxMenuItems)
-                .map((props, i) => {
-                  const componentKey = `textlink-menuItem_${i}`;
-                  return (
-                    <TextLink
-                      key={i}
-                      href={props.href || '/'}
-                      size="md"
-                      underline="hover"
-                      componentKey={componentKey}
+              {/* Links section */}
+              <VStack spacing="md" align="stretch" className="drawer-pill-links">
+                {renderIf('textlink-menuItem') && mobileOpen && mapComponentIndices('textlink-menuItem')
+                  .map((props, i) => {
+                    const componentKey = `textlink-menuItem_${i}`;
+                    const linkContent = (
+                      <TextLink
+                        key={i}
+                        href={props.href || '/'}
+                        onClick={() => setMobileOpen(false)}
+                        className="drawer-pill-link"
+                        componentKey={componentKey}
+                      >
+                        {props.content}
+                      </TextLink>
+                    );
+
+                    // Wrap with animation if enabled
+                    if (enableDrawerAnimation && drawerAnimation?.type === 'fadeIn') {
+                      return (
+                        <FadeIn
+                          key={`link-${i}-${Date.now()}`}
+                          direction={animationDirection}
+                          duration={animationDuration}
+                          delay={i * animationStagger}
+                          distance={20}
+                          enableScrollTrigger={false}
+                        >
+                          {linkContent}
+                        </FadeIn>
+                      );
+                    }
+
+                    return linkContent;
+                  })}
+              </VStack>
+
+              {/* Actions section */}
+              <VStack spacing="sm" className="drawer-pill-actions">
+                {renderIf('button-secondaryAction') && mobileOpen && (() => {
+                  const menuItemsCount = mapComponentIndices('textlink-menuItem').length;
+                  const buttonContent = (
+                    <Button
+                      variant="ghost"
+                      href={get('button-secondaryAction').props.href}
+                      action={get('button-secondaryAction').props.action}
+                      onClick={() => setMobileOpen(false)}
+                      className="drawer-pill-button"
+                      componentKey={get('button-secondaryAction').key}
                     >
-                      {props.content}
-                    </TextLink>
+                      {get('button-secondaryAction').props.content}
+                    </Button>
                   );
-                })}
-            </HStack>
-          )}
 
-          {/* RIGHT - Desktop only */}
-          <HStack spacing="sm" className="navbar-pill__right">
-            {renderIf('button-secondaryAction') && (
-              <Button variant="ghost" href={get('button-secondaryAction').props.href} componentKey={get('button-secondaryAction').key}>
-                {get('button-secondaryAction').props.content}
-              </Button>
-            )}
-            {renderIf('button-primaryAction') && (
-              <Button variant="accent" href={get('button-primaryAction').props.href} componentKey={get('button-primaryAction').key}>
-                {get('button-primaryAction').props.content}
-              </Button>
-            )}
-          </HStack>
+                  if (enableDrawerAnimation && drawerAnimation?.type === 'fadeIn') {
+                    return (
+                      <FadeIn
+                        key={`secondary-button-${Date.now()}`}
+                        direction={animationDirection}
+                        duration={animationDuration}
+                        delay={menuItemsCount * animationStagger}
+                        distance={20}
+                        enableScrollTrigger={false}
+                      >
+                        {buttonContent}
+                      </FadeIn>
+                    );
+                  }
 
-          {/* MOBILE TOGGLE */}
-          <IconButton
-            variant="ghost"
-            size="md"
-            aria-label="Toggle menu"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="navbar-pill__mobile-toggle"
-            icon={mobileOpen ? <XIcon /> : <MenuIcon />}
-          />
+                  return buttonContent;
+                })()}
+
+                {renderIf('button-primaryAction') && mobileOpen && (() => {
+                  const menuItemsCount = mapComponentIndices('textlink-menuItem').length;
+                  const secondaryButtonOffset = renderIf('button-secondaryAction') ? 1 : 0;
+                  const buttonContent = (
+                    <Button
+                      variant="accent"
+                      href={get('button-primaryAction').props.href}
+                      action={get('button-primaryAction').props.action}
+                      onClick={() => setMobileOpen(false)}
+                      className="drawer-pill-button"
+                      componentKey={get('button-primaryAction').key}
+                    >
+                      {get('button-primaryAction').props.content}
+                    </Button>
+                  );
+
+                  if (enableDrawerAnimation && drawerAnimation?.type === 'fadeIn') {
+                    return (
+                      <FadeIn
+                        key={`primary-button-${Date.now()}`}
+                        direction={animationDirection}
+                        duration={animationDuration}
+                        delay={(menuItemsCount + secondaryButtonOffset) * animationStagger}
+                        distance={20}
+                        enableScrollTrigger={false}
+                      >
+                        {buttonContent}
+                      </FadeIn>
+                    );
+                  }
+
+                  return buttonContent;
+                })()}
+              </VStack>
+            </VStack>
+          </div>
         </Box>
       </nav>
-
-      {/* MOBILE DRAWER */}
-      <Drawer
-        isOpen={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-        showCloseButton={false}
-        preventScroll={true}
-        type="pill"
-        className={`drawer-variant-pill-${mobileVariant}`}
-        style={{
-          top: `${pillMetrics.top}px`,
-          left: `${pillMetrics.left}px`,
-          width: `${pillMetrics.width}px`,
-        }}
-      >
-        <VStack
-          spacing="md"
-          align="stretch"
-          className={cn(
-            "drawer-pill-content",
-            `drawer-align-${mobileAlign}`
-          )}
-        >
-          {/* Links section */}
-          <VStack spacing="md" align="stretch" className="drawer-pill-links">
-            {renderIf('textlink-menuItem') && mapComponentIndices('textlink-menuItem')
-              .map((props, i) => {
-                const componentKey = `textlink-menuItem_${i}`;
-                return (
-                  <TextLink
-                    key={i}
-                    href={props.href || '/'}
-                    onClick={() => setMobileOpen(false)}
-                    className="drawer-pill-link"
-                    componentKey={componentKey}
-                  >
-                    {props.content}
-                  </TextLink>
-                );
-              })}
-          </VStack>
-
-          {/* Actions section */}
-          <VStack spacing="sm" className="drawer-pill-actions">
-            {renderIf('button-secondaryAction') && (
-              <Button
-                variant="ghost"
-                href={get('button-secondaryAction').props.href}
-                onClick={() => setMobileOpen(false)}
-                className="drawer-pill-button"
-                componentKey={get('button-secondaryAction').key}
-              >
-                {get('button-secondaryAction').props.content}
-              </Button>
-            )}
-            {renderIf('button-primaryAction') && (
-              <Button
-                variant="accent"
-                href={get('button-primaryAction').props.href}
-                onClick={() => setMobileOpen(false)}
-                className="drawer-pill-button"
-                componentKey={get('button-primaryAction').key}
-              >
-                {get('button-primaryAction').props.content}
-              </Button>
-            )}
-          </VStack>
-        </VStack>
-      </Drawer>
     </>
   );
 };

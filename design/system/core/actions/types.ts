@@ -43,8 +43,8 @@ export interface NavigationActionConfig extends BaseActionConfig {
 export interface ContactActionConfig extends BaseActionConfig {
   type: 'contact';
   settings?: {
-    redirectAfterSubmit?: string;
-    clearFormOnSuccess?: boolean;
+    redirectAfterSubmit?: string; // e.g., '/thank-you'
+    clearFormOnSuccess?: boolean; // Default: true
     pixelEvents?: PixelEvent[];
   };
 }
@@ -55,6 +55,7 @@ export interface NewsletterActionConfig extends BaseActionConfig {
     listId?: string;
     doubleOptIn?: boolean;
     tags?: string[];
+    redirectAfterSubmit?: string;
     pixelEvents?: PixelEvent[];
   };
 }
@@ -62,9 +63,14 @@ export interface NewsletterActionConfig extends BaseActionConfig {
 export interface BookingActionConfig extends BaseActionConfig {
   type: 'booking';
   settings?: {
+    calendlyUrl?: string; // Calendly booking URL (e.g., https://calendly.com/username/30min)
+    primaryColor?: string; // Hex color without # (e.g., "b899f8")
+    hideEventTypeDetails?: boolean;
+    hideGdprBanner?: boolean;
     serviceId?: string;
     duration?: number;
     redirectToCalendar?: boolean;
+    redirectAfterSubmit?: string;
     pixelEvents?: PixelEvent[];
   };
 }
@@ -74,6 +80,7 @@ export interface DownloadActionConfig extends BaseActionConfig {
   settings: {
     fileUrl: string;
     trackConversion?: boolean;
+    redirectAfterSubmit?: string;
     pixelEvents?: PixelEvent[];
   };
 }
@@ -83,6 +90,7 @@ export interface ExternalLinkActionConfig extends BaseActionConfig {
   settings: {
     url: string;
     trackClick?: boolean;
+    redirectAfterSubmit?: string;
     pixelEvents?: PixelEvent[];
   };
 }

@@ -1,0 +1,1 @@
+export { StickyTextContent } from './StickyTextContent';

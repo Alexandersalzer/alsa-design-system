@@ -42,6 +42,13 @@
   }
 }
 
+/* Instant mode - no animation */
+.page-loading--instant {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .page-loading {

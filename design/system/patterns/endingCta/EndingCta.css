@@ -1,0 +1,35 @@
+/* ===============================================
+   ENDING CTA PATTERN STYLES
+   Action group (buttons only, no content)
+   ============================================== */
+
+/* ===== BASE ENDING CTA CONTAINER ===== */
+.ending-cta {
+  width: 100%;
+  display: flex;
+}
+
+/* ===== BUTTON GROUP ===== */
+.ending-cta__button-group {
+  width: 100%;
+}
+
+/* ===== ALIGNMENT ===== */
+.ending-cta--align-left {
+  justify-content: flex-start;
+}
+
+.ending-cta--align-center {
+  justify-content: center;
+}
+
+.ending-cta--align-right {
+  justify-content: flex-end;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .ending-cta__button-group {
+    flex-wrap: wrap;
+  }
+}

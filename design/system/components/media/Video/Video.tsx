@@ -1,10 +1,13 @@
 // ===============================================
 // design/system/components/media/Video/Video.tsx
-// VIDEO COMPONENT - Lazy loaded, paused by default, with first-frame thumbnails
+// VIDEO COMPONENT - Lazy loaded, paused by default
+// UPDATED: Removed crossOrigin to avoid CORS requirements
 // ===============================================
 
 import React, { useRef, useEffect, useState } from 'react';
 import { cn } from '../../../utils/cn';
+import { Spinner } from '../../feedback/Spinner/Spinner';
+import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import './Video.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -24,6 +27,8 @@ export interface VideoProps extends Omit<React.VideoHTMLAttributes<HTMLVideoElem
   loading?: 'lazy' | 'eager';
   /** Priority loading (disables lazy loading) */
   priority?: boolean;
+  /** Loading indicator type - 'skeleton' (default) fills the space with pulsing effect, 'spinner' shows centered spinner */
+  loadingType?: 'skeleton' | 'spinner';
   /** Callback when video errors */
   onVideoError?: () => void;
   /** Lazy load threshold (in pixels) */
@@ -42,6 +47,7 @@ export const Video: React.FC<VideoProps> = ({
   radius = 'md',
   loading = 'lazy',
   priority = false,
+  loadingType = 'skeleton',
   onVideoError,
   rootMargin = '800px',
   className,
@@ -49,14 +55,14 @@ export const Video: React.FC<VideoProps> = ({
   controls = true,
   playsInline = true,
   preload = 'metadata',
+  poster,
   ...props
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority);
   const [hasError, setHasError] = useState(false);
-  const [posterUrl, setPosterUrl] = useState<string>('');
-  const [isMetadataLoaded, setIsMetadataLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Lazy loading with IntersectionObserver
   useEffect(() => {
@@ -88,47 +94,21 @@ export const Video: React.FC<VideoProps> = ({
     };
   }, [priority, loading, rootMargin]);
 
-  // Extract first frame as thumbnail when metadata loads
-  useEffect(() => {
-    if (!isIntersecting || !videoRef.current || posterUrl) return;
-
-    const video = videoRef.current;
-
-    const handleLoadedMetadata = () => {
-      setIsMetadataLoaded(true);
-
-      // Seek to first frame to ensure it's visible
-      video.currentTime = 0.1;
-    };
-
-    const handleSeeked = () => {
-      // Create canvas to extract first frame
-      const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-        setPosterUrl(dataUrl);
-      }
-    };
-
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
-    video.addEventListener('seeked', handleSeeked);
-
-    return () => {
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      video.removeEventListener('seeked', handleSeeked);
-    };
-  }, [isIntersecting, posterUrl]);
-
   // Handle video error
   const handleVideoError = () => {
     console.warn('Video error:', src);
     setHasError(true);
+    setIsLoading(false);
     onVideoError?.();
+  };
+
+  // Handle video loading events
+  const handleLoadedData = () => {
+    setIsLoading(false);
+  };
+
+  const handleLoadStart = () => {
+    setIsLoading(true);
   };
 
   const shouldLoad = isIntersecting || priority;
@@ -137,6 +117,7 @@ export const Video: React.FC<VideoProps> = ({
   const containerClasses = cn(
     'video-container',
     `video-container--radius-${radius}`,
+    (isLoading && !poster) && 'video-container--loading',
     className
   );
 
@@ -152,37 +133,50 @@ export const Video: React.FC<VideoProps> = ({
     aspectRatio: aspectRatio || undefined,
     position: 'relative',
     overflow: 'hidden',
-    background: '#000',
+    background: (isLoading && !poster) ? 'var(--surface-raised)' : 'transparent',
     ...style
   };
 
   return (
     <div ref={containerRef} className={containerClasses} style={containerStyles}>
-      {/* Show placeholder until metadata loads */}
-      {shouldLoad && !isMetadataLoaded && !hasError && (
-        <div className="video-placeholder">
-          <div className="video-placeholder-spinner" />
+      {/* Loading overlay - only show if NO poster/thumbnail and loading */}
+      {isLoading && shouldLoad && !hasError && !poster && (
+        <div className="video-loading-overlay">
+          {loadingType === 'skeleton' ? (
+            <Skeleton
+              width="100%"
+              height="100%"
+              variant="pulse"
+              shape="rect"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                borderRadius: 'inherit'
+              }}
+            />
+          ) : (
+            <Spinner size="sm" />
+          )}
         </div>
       )}
 
-      {/* Video element - paused by default, loads first frame */}
-      {shouldLoad && !hasError && (
+      {/* Video element */}
+      {shouldLoad && (
         <video
           ref={videoRef}
           className={videoClasses}
           src={src}
-          poster={posterUrl || undefined}
+          poster={poster}
           onError={handleVideoError}
+          onLoadedData={handleLoadedData}
+          onLoadStart={handleLoadStart}
           controls={controls}
           playsInline={playsInline}
           preload={preload}
           autoPlay={false}
           muted={false}
           loop={false}
-          style={{ opacity: isMetadataLoaded ? 1 : 0 }}
-          {...(typeof window !== 'undefined' && !window.location.hostname.includes('localhost')
-            ? { crossOrigin: 'anonymous' as const }
-            : {})}
           {...props}
         >
           Your browser does not support the video tag.

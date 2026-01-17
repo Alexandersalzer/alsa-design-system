@@ -18,26 +18,27 @@ interface SectionsProps {
 export function renderSection(sectionData: SectionNode, sectionKey: string): React.ReactNode {
   if (!sectionData?.patterns) return null;
 
-  const { type, patterns, order } = sectionData;
+  const { type, patterns, order, props } = sectionData;
   const patternOrder = order || Object.keys(patterns);
-  
+
   const renderedPatterns = patternOrder
     .map((patternKey) => {
       const pattern = patterns[patternKey];
       if (!pattern) return null;
-      
+
       return renderPattern(pattern, patternKey, sectionKey);
     })
     .filter(Boolean);
-  
+
   if (renderedPatterns.length === 0) return null;
 
   return (
-    <Section 
+    <Section
       key={sectionKey}
       id={sectionKey}
       height="auto"
       sectionKey={sectionKey}
+      {...props}
     >
       {renderedPatterns}
     </Section>

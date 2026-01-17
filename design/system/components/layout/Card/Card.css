@@ -69,6 +69,19 @@
   color: var(--text-solid);
 }
 
+.card--ghost {
+  background-color: var(--surface-page);
+  border: none;
+  box-shadow: none;
+}
+
+.card--bordered {
+  background-color: transparent;
+  border: 1px solid var(--border-subtle);
+  box-shadow: none;
+  padding: 0;
+}
+
 /* ===== INTERACTIVE CARD STATES ===== */
 
 /* Base interactive styling */
@@ -110,6 +123,12 @@
 /* Solid cards hover effect */
 .card--solid.card--clickable:hover {
   background-color: var(--surface-solid-hover);
+}
+
+/* Bordered cards hover effect */
+.card--bordered.card--clickable:hover {
+  border-color: var(--border-default);
+  background-color: var(--surface-subtle);
 }
 
 /* Active state (when pressed) */

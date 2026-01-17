@@ -1,0 +1,80 @@
+/* AlternatingCardsRow Pattern Styles - Horizontal layout with alternating image sides */
+
+/* ===== CONTAINER ===== */
+.alternating-cards-row {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+}
+
+.alternating-cards-row__container {
+  width: 100%;
+  max-width: 1200px;
+  align-items: center;
+}
+
+/* ===== ROW ITEM (Horizontal layout) ===== */
+.alternating-cards-row__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  min-height: min-content;
+  overflow: visible;
+  position: relative;
+}
+
+/* Reversed layout (image on right) */
+.alternating-cards-row__item--reversed {
+  flex-direction: row-reverse;
+}
+
+/* ===== IMAGE CONTAINER ===== */
+.alternating-cards-row__image-container {
+  flex: 1 0 0px; /* Equal flex space with text */
+  width: 1px; /* Prevent overflow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.alternating-cards-row__image {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== TEXT CONTENT ===== */
+.alternating-cards-row__text {
+  flex: 1 0 0px; /* Equal flex space with image */
+  width: 1px; /* Prevent overflow */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  /* Stack vertically on mobile */
+  .alternating-cards-row__item,
+  .alternating-cards-row__item--reversed {
+    flex-direction: column;
+  }
+
+  .alternating-cards-row__image-container,
+  .alternating-cards-row__text {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .alternating-cards-row__text {
+    margin-top: var(--foundation-space-4);
+  }
+}

@@ -24,12 +24,12 @@ interface ResultsCardProps {
 
 export type { ResultsCardProps };
 
-export function ResultsCard({ 
+export function ResultsCard({
   componentKey,
-  heading, 
-  subheading, 
-  description, 
-  imageSrc, 
+  heading,
+  subheading,
+  description,
+  imageSrc,
   imageAlt,
   // Defaults
   imageRadius = 'sm',
@@ -39,19 +39,24 @@ export function ResultsCard({
   cardPadding = 'md',
   spacing = 'sm'
 }: ResultsCardProps) {
+  // Build card container style with aspectRatio for space reservation
+  const cardContainerStyle: React.CSSProperties = {
+    aspectRatio: imageAspectRatio
+  };
+
   return (
     <div className="results-card" data-component-key={componentKey}>
       {/* Image Card - separate container with background */}
-      <Card 
-        variant={cardVariant} 
+      <Card
+        variant={cardVariant}
         padding={cardPadding}
         className="results-card-image-container"
+        style={cardContainerStyle}
       >
         <Image
           src={`${CDN_BASE_URL}${imageSrc}`}
           alt={imageAlt}
           width="100%"
-          height="100%"
           aspectRatio={imageAspectRatio}
           objectFit={imageObjectFit}
           radius={imageRadius}
@@ -63,13 +68,13 @@ export function ResultsCard({
       
       {/* Text Content - VStack with no background, left aligned */}
       <VStack spacing={spacing} className="results-card-text">
-        <Typography variant="h4" weight="bold" color="primary">
-          {subheading}
-        </Typography>
-        <Typography variant="body-md" weight="regular" color="secondary">
+        <Typography variant="h3" weight="bold" color="primary">
           {heading}
         </Typography>
-        <Typography variant="body-sm" weight="regular" color="tertiary">
+        <Typography variant="body-lg" weight="semibold" color="secondary">
+          {subheading}
+        </Typography>
+        <Typography variant="body-md" weight="regular" color="tertiary">
           {description}
         </Typography>
       </VStack>

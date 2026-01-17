@@ -1,0 +1,64 @@
+.overlay-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay-card__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.overlay-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.overlay-card__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Default overlay: uses surface-base token (light) */
+.overlay-card__overlay--default {
+  background-color: var(--surface-base);
+}
+
+/* Inverse overlay: uses surface-inverse token for highest contrast (dark) */
+.overlay-card__overlay--inverse {
+  background-color: var(--surface-inverse);
+}
+
+.overlay-card__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.overlay-card__content--left {
+  justify-content: flex-start;
+}
+
+.overlay-card__content--center {
+  justify-content: center;
+}
+
+.overlay-card__content--right {
+  justify-content: flex-end;
+}

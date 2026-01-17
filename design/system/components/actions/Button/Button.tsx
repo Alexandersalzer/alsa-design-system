@@ -1,6 +1,6 @@
-
 // ===============================================
 // src/design-system/components/primitives/Button/Button.tsx
+// CLEAN BUTTON - USES LABEL WITHOUT COLOR PROP
 // ===============================================
 
 'use client';
@@ -8,12 +8,13 @@
 import React, { forwardRef, ReactNode, useState } from 'react';
 import Link from 'next/link';
 import { cn } from '../../../utils/cn';
-import { Label, TypographyColor, TypographyWeight } from '../../Typography';
+import { Label } from '../../Typography';
 import { Spinner } from '../../feedback';
 import { useHref } from '../../../hooks/useHref';
 import { Component } from '../../frames/component/Component';
 import { useAction } from '../../../core/actions/useAction';
-import type { ActionConfig, NavigationActionConfig } from '../../../core/actions/types';
+import type { ActionConfig, NavigationActionConfig, BookingActionConfig } from '../../../core/actions/types';
+import { openCalendlyPopup, buildCalendlyUrl } from '../../../patterns/widgets/CalendlyModal/CalendlyModal';
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -27,9 +28,9 @@ export interface ButtonProps
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   fullWidth?: boolean;
-  componentKey?: string; // För live editing identification
-  action?: ActionConfig; // För actions: contact, newsletter, booking
-  formData?: Record<string, any>; // Data to submit with action
+  componentKey?: string;
+  action?: ActionConfig;
+  formData?: Record<string, any>;
 }
 
 export const Button = forwardRef<
@@ -61,12 +62,9 @@ export const Button = forwardRef<
     const { buildHref } = useHref();
     const [internalLoading, setInternalLoading] = useState(false);
     
-    // Use action hook if action is provided
     const actionHook = action ? useAction(action) : null;
     const isDisabled = disabled || loading || internalLoading;
     
-    // Build locale-aware href
-    // Priority: action.settings.href > direct href prop
     const getEffectiveHref = () => {
       if (action?.type === 'navigation') {
         return (action as NavigationActionConfig).settings.href;
@@ -77,52 +75,26 @@ export const Button = forwardRef<
     const effectiveHref = getEffectiveHref();
     const localeAwareHref = effectiveHref ? buildHref(effectiveHref) : undefined;
     
-    // Get target from action or prop
     const effectiveTarget = 
       (action?.type === 'navigation' && (action as NavigationActionConfig).settings.openInNewTab) 
         ? '_blank' 
         : target;
 
-    const getTypographyProps = (
-      variant: string,
-      size: string,
-      isDisabled: boolean
-    ): {
-      size: 'sm' | 'md' | 'lg';
-      weight: TypographyWeight;
-      color: TypographyColor;
-    } => {
-      const sizeMap = { sm: 'sm', md: 'md', lg: 'lg', xl: 'lg' } as const;
-      const weightMap = { sm: 'semibold', md: 'bold', lg: 'bold', xl: 'bold' } as const;
-
-      const getColor = (): TypographyColor => {
-        if (isDisabled) return 'button-disabled';
-        switch (variant) {
-          case 'brand':
-            return 'button-brand';
-          case 'primary':
-            return 'button-primary';
-          case 'secondary':
-            return 'button-secondary';
-          case 'accent':
-            return 'button-accent';
-          case 'ghost':
-            return 'secondary';
-          case 'destructive':
-            return 'button-destructive';
-          default:
-            return 'button-primary';
-        }
+    // Map button size to Label size
+    const getLabelSize = (btnSize: string): 'sm' | 'md' | 'lg' => {
+      const sizeMap = { 
+        sm: 'sm' as const, 
+        md: 'md' as const, 
+        lg: 'lg' as const, 
+        xl: 'lg' as const // xl buttons use lg label
       };
-
-      return {
-        size: sizeMap[size as keyof typeof sizeMap],
-        weight: weightMap[size as keyof typeof weightMap],
-        color: getColor(),
-      };
+      return sizeMap[btnSize as keyof typeof sizeMap] || 'md';
     };
 
-    const typographyProps = getTypographyProps(variant, size, isDisabled);
+    // Map button size to Label weight
+    const getLabelWeight = (btnSize: string) => {
+      return (btnSize === 'sm' || btnSize === 'md') ? 'semibold' : 'bold';
+    };
 
     const buttonClasses = cn(
       'btn',
@@ -134,12 +106,30 @@ export const Button = forwardRef<
       isDisabled && 'pointer-events-none opacity-60'
     );
 
-    // Handle action execution
     const handleActionClick = async (e: React.MouseEvent) => {
-      // If it's a navigation action, let useAction handle it
       if (action?.type === 'navigation' && actionHook) {
         e.preventDefault();
         await actionHook.execute({});
+        return;
+      }
+
+      // If it's a booking action with Calendly URL, open modal
+      if (action?.type === 'booking') {
+        e.preventDefault();
+        const bookingConfig = action as BookingActionConfig;
+        const calendlyUrl = bookingConfig.settings?.calendlyUrl;
+
+        if (calendlyUrl) {
+          // Build URL with custom parameters
+          const fullUrl = buildCalendlyUrl(calendlyUrl, {
+            primaryColor: bookingConfig.settings?.primaryColor,
+            hideEventTypeDetails: bookingConfig.settings?.hideEventTypeDetails,
+            hideGdprBanner: bookingConfig.settings?.hideGdprBanner,
+            prefill: formData,
+          });
+
+          openCalendlyPopup(fullUrl);
+        }
         return;
       }
 
@@ -149,10 +139,10 @@ export const Button = forwardRef<
         return;
       }
 
-      // Other actions (contact, newsletter, booking)
+      // Other actions (contact, newsletter)
       e.preventDefault();
       setInternalLoading(true);
-      
+
       try {
         await actionHook!.execute(formData || {});
       } finally {
@@ -160,6 +150,8 @@ export const Button = forwardRef<
       }
     };
 
+    // ✅ SOLUTION: Use Label component but WITHOUT color prop
+    // Color is inherited from parent .btn-{variant} via CSS
     const content = (
       <>
         {(loading || internalLoading) && (
@@ -172,21 +164,25 @@ export const Button = forwardRef<
             />
           </span>
         )}
-        {!loading && !internalLoading && leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
+        {!loading && !internalLoading && leftIcon && (
+          <span className="flex-shrink-0">{leftIcon}</span>
+        )}
+        {/* ✅ Label without color prop - inherits from parent */}
         <Label
-          size={typographyProps.size}
-          weight={typographyProps.weight}
-          color={typographyProps.color}
+          size={getLabelSize(size)}
+          weight={getLabelWeight(size)}
           as="span"
           className="btn-text"
         >
           {children}
         </Label>
-        {!loading && !internalLoading && rightIcon && <span className="flex-shrink-0">{rightIcon}</span>}
+        {!loading && !internalLoading && rightIcon && (
+          <span className="flex-shrink-0">{rightIcon}</span>
+        )}
       </>
     );
 
-    // 🔗 Render as Link or <a>
+    // Render as Link or <a>
     if (localeAwareHref && !action) {
       const isInternal = localeAwareHref.startsWith('/');
       const linkProps = {
@@ -214,8 +210,7 @@ export const Button = forwardRef<
       );
     }
 
-    // 🧠 Render as <button> with action handling
-    // For navigation actions or form submission actions
+    // Render as <button>
     return (
       <Component componentKey={componentKey}>
         <button

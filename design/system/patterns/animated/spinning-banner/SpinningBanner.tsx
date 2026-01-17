@@ -1,11 +1,18 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { CarouselAnimation, CarouselAnimationItem } from '../../../components/CarouselAnimation';
+import { CarouselAnimation, CarouselAnimationItem } from '../../../components/animations/CarouselAnimation';
+import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
+import { SlideIn } from '../../../components/animations/SlideIn/SlideIn';
+import { Opacity } from '../../../components/animations/Opacity/Opacity';
+import { Scale } from '../../../components/animations/Scale/Scale';
 import { LogoImage } from '../../../components/media/Image';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, componentPresent, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
+import { useAction } from '../../../core/actions/useAction';
+import { ActionConfig } from '../../../core/actions/types';
+import { AnimationConfig } from '../../../core/animations/types';
 
 interface SpinningBannerProps extends PatternNode {
   sectionKey?: string;
@@ -25,8 +32,20 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
     logoSize = 'md',
     logoOpacity = 1,
     grayscale = true,
-    animated = true
+    animated = true,
+    action,
+    animation
   } = getPatternProps();
+
+  // Initialize action handler if action is configured
+  const { execute } = action ? useAction(action as ActionConfig) : { execute: null };
+
+  // Handle logo click
+  const handleLogoClick = () => {
+    if (execute) {
+      execute({});
+    }
+  };
 
   // Extract logo data using the order from PatternNode
   const logos = componentOrder
@@ -78,6 +97,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
     componentKey: logo.componentKey,
     content: (
       <div
+        {...(action ? { onClick: handleLogoClick } : {})}
         style={{
           width: '100%',
           height: '100%',
@@ -85,7 +105,8 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
           alignItems: 'center',
           justifyContent: 'center',
           opacity: logoOpacity,
-          transition: 'opacity 0.2s ease-in-out'
+          transition: 'opacity 0.2s ease-in-out',
+          cursor: action ? 'pointer' : 'default'
         }}
       >
         <LogoImage
@@ -94,7 +115,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
           width={sizeMap.width}
           height={sizeMap.height}
           objectFit="contain"
-          loading="lazy"
+          loading="eager"
           showSkeleton={true}
           {...(logo.componentKey && { componentKey: logo.componentKey })}
           style={{
@@ -108,9 +129,96 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
   // Smooth scroll duplication
   const duplicateCount = 6;
 
+  // Map EasingType to CSS easing string
+  const mapEasing = (easing?: string): 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear' => {
+    switch (easing) {
+      case 'easeIn': return 'ease-in';
+      case 'easeOut': return 'ease-out';
+      case 'easeInOut': return 'ease-in-out';
+      case 'linear': return 'linear';
+      default: return 'ease-out';
+    }
+  };
+
+  // Render with animation wrapper if configured
+  const renderWithAnimation = (content: React.ReactNode) => {
+    const animationConfig = animation as AnimationConfig | undefined;
+
+    if (!animationConfig || animationConfig.type === 'none') {
+      return content;
+    }
+
+    if (animationConfig.type === 'fadeIn') {
+      const settings = animationConfig.settings || {};
+      return (
+        <FadeIn
+          direction={settings.direction || 'up'}
+          duration={settings.duration || 800}
+          delay={settings.delay || 0}
+          distance={20}
+          enableScrollTrigger={settings.enableScrollTrigger ?? false}
+          triggerOffset={settings.triggerOffset || 100}
+        >
+          {content}
+        </FadeIn>
+      );
+    }
+
+    if (animationConfig.type === 'opacity') {
+      const settings = animationConfig.settings || {};
+      return (
+        <Opacity
+          duration={settings.duration || 800}
+          delay={settings.delay || 0}
+          easing={mapEasing(settings.easing)}
+          enableScrollTrigger={settings.enableScrollTrigger ?? false}
+          triggerOffset={settings.triggerOffset || 100}
+        >
+          {content}
+        </Opacity>
+      );
+    }
+
+    if (animationConfig.type === 'slideIn') {
+      const settings = animationConfig.settings || {};
+      return (
+        <SlideIn
+          direction={settings.direction || 'up'}
+          duration={settings.duration || 800}
+          delay={settings.delay || 0}
+          distance={settings.distance || 20}
+          easing={mapEasing(settings.easing)}
+          enableScrollTrigger={settings.enableScrollTrigger ?? false}
+          triggerOffset={settings.triggerOffset || 100}
+        >
+          {content}
+        </SlideIn>
+      );
+    }
+
+    if (animationConfig.type === 'scale') {
+      const settings = animationConfig.settings || {};
+      return (
+        <Scale
+          from={settings.from || 0.8}
+          to={settings.to || 1}
+          duration={settings.duration || 800}
+          delay={settings.delay || 0}
+          easing={mapEasing(settings.easing)}
+          enableScrollTrigger={settings.enableScrollTrigger ?? false}
+          triggerOffset={settings.triggerOffset || 100}
+        >
+          {content}
+        </Scale>
+      );
+    }
+
+    return content;
+  };
+
   if (!animated) {
     // Non-animated version
-    return (
+    const staticContent = (
       <div
         style={{
           display: 'flex',
@@ -123,10 +231,12 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
         {allLogos.map((logo, index) => (
           <div
             key={`${logo.src}-${index}`}
+            {...(action ? { onClick: handleLogoClick } : {})}
             style={{
               width: `${sizeMap.width}px`,
               height: `${sizeMap.height}px`,
-              padding: `${sizeMap.padding}px`
+              padding: `${sizeMap.padding}px`,
+              cursor: action ? 'pointer' : 'default'
             }}
           >
             <LogoImage
@@ -135,7 +245,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
               width={sizeMap.width}
               height={sizeMap.height}
               objectFit="contain"
-              loading="lazy"
+              loading="eager"
               showSkeleton={true}
               {...(logo.componentKey && { componentKey: logo.componentKey })}
               style={{
@@ -147,10 +257,12 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
         ))}
       </div>
     );
+
+    return <>{renderWithAnimation(staticContent)}</>;
   }
 
   // ✅ Animated version
-  return (
+  const carouselContent = (
     <CarouselAnimation
       items={animationItems}
       speed={speed}
@@ -166,4 +278,6 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
       duplicateCount={duplicateCount}
     />
   );
+
+  return <>{renderWithAnimation(carouselContent)}</>;
 };

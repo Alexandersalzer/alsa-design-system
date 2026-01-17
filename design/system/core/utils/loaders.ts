@@ -50,7 +50,16 @@ export async function listDirectory(dirPath: string): Promise<string[]> {
 /**
  * Convert page prop value name to URL-safe slug
  * Centralized logic used by multiple functions
+ * Handles Swedish characters (å, ä, ö) and other special characters
  */
 export const nameToSlug = (name: string): string => {
-  return name.toLowerCase().replace(/\s+/g, '-');
+  return name
+    .toLowerCase()
+    .replace(/å/g, 'a')
+    .replace(/ä/g, 'a')
+    .replace(/ö/g, 'o')
+    .replace(/[^\w\s-]/g, '') // Remove special characters except spaces and hyphens
+    .replace(/\s+/g, '-')     // Replace spaces with hyphens
+    .replace(/-+/g, '-')      // Replace multiple hyphens with single hyphen
+    .trim();
 };

@@ -2,19 +2,18 @@
   COPILOT INSTRUCTION:
   --------------------
   Grid.tsx supports:
-  - auto-fit responsive grid
-  - density-based card widths via semantic tokens
-  - minItemWidth overrides
-
+  - Simple responsive columns with automatic 3-2-1 behavior: <Grid columns={3}>
+  - Explicit responsive control: <Grid columns={{ base: 1, md: 2, lg: 3 }}>
+  - Auto-fit mode with cardDensity: <Grid cardDensity="standard">
+  
   When extending:
-  - Add new density modes by adding new semantic tokens
-  - Map `cardDensity` -> CSS variable (--width-card-*)
-  - Never hardcode pixel values in Grid.tsx
-  - Always source widths from design tokens
+  - cardDensity should NOT be used with columns prop
+  - columns prop takes priority over cardDensity
+  - Default responsive behavior: desktop 3, tablet 2, mobile 1
 */
 // ===============================================
 // src/design-system/components/layout/utilities/grid/Grid.tsx
-// FIXED GRID COMPONENT - Responsive grid layouts with Chakra-like API
+// GRID COMPONENT - Responsive grid layouts with Chakra-like API
 // ===============================================
 import React, { ReactNode, CSSProperties } from 'react';
 
@@ -32,19 +31,27 @@ export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   /**
+   * Number of columns (responsive by default: desktop 3, tablet 2, mobile 1)
+   * Or explicit responsive object: { base: 1, md: 2, lg: 3 }
+   */
+  columns?: number | ResponsiveValue;
+  /**
    * Card density mode (uses semantic tokens for min width)
-   * 'compact' | 'standard' | 'spacious'
+   * Only works when columns is NOT set
    */
   cardDensity?: 'compact' | 'standard' | 'spacious';
   /**
-   * Min width override (optional)
+   * Min width override for auto-fit mode (optional)
+   * Only works when columns is NOT set
    */
   minItemWidth?: string;
+  /**
+   * Max columns constraint for auto-fit mode
+   */
   maxColumns?: number;
   gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   alignItems?: 'start' | 'center' | 'end' | 'stretch';
   justifyItems?: 'start' | 'center' | 'end' | 'stretch';
-  columns?: number | 'auto-fit' | 'auto-fill' | ResponsiveValue;
 }
 
 export interface GridItemProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -66,15 +73,37 @@ function isResponsiveValue(value: any): value is ResponsiveValue {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-function getResponsiveStyles(columns: ResponsiveValue): CSSProperties {
-  const styles: CSSProperties = {};
+function getResponsiveStyles(columns: ResponsiveValue): Record<string, any> {
+  const styles: Record<string, any> = {};
   
-  // Base (mobile first)
-  if (columns.base) {
-    styles.gridTemplateColumns = `repeat(${columns.base}, 1fr)`;
-  }
+  // Set CSS variables for each breakpoint that will be read by CSS
+  if (columns.base !== undefined) styles['--grid-cols-base'] = columns.base;
+  if (columns.sm !== undefined) styles['--grid-cols-sm'] = columns.sm;
+  if (columns.md !== undefined) styles['--grid-cols-md'] = columns.md;
+  if (columns.lg !== undefined) styles['--grid-cols-lg'] = columns.lg;
+  if (columns.xl !== undefined) styles['--grid-cols-xl'] = columns.xl;
+  if (columns['2xl'] !== undefined) styles['--grid-cols-2xl'] = columns['2xl'];
   
   return styles;
+}
+
+function getDefaultResponsiveColumns(baseColumns: number): ResponsiveValue {
+  // Default responsive behavior based on column count
+  if (baseColumns === 1) {
+    return { base: 1, sm: 1, md: 1, lg: 1, xl: 1, '2xl': 1 };
+  }
+  if (baseColumns === 2) {
+    return { base: 1, sm: 1, md: 2, lg: 2, xl: 2, '2xl': 2 };
+  }
+  // For 3+ columns: mobile 1, tablet 2, desktop uses the specified number
+  return {
+    base: 1,
+    sm: 1,
+    md: 2,
+    lg: baseColumns,
+    xl: baseColumns,
+    '2xl': baseColumns
+  };
 }
 
 // ===== MAIN GRID COMPONENT =====
@@ -92,47 +121,55 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(({
   ...props
 }, ref) => {
   // =====================================================
-  // 💡 NEW: Resolve minItemWidth from density mode
+  // MODE DETECTION - Priority: columns > cardDensity
   // =====================================================
-  let resolvedMinWidth = minItemWidth;
+  const hasColumns = columns !== undefined;
+  const useResponsiveColumns = hasColumns && isResponsiveValue(columns);
+  const useSimpleColumns = hasColumns && typeof columns === 'number';
+  const useAutoFit = !hasColumns && (cardDensity || minItemWidth);
 
-  if (!minItemWidth && cardDensity) {
-    if (cardDensity === 'compact') resolvedMinWidth = 'var(--width-card-compact)';
-    if (cardDensity === 'standard') resolvedMinWidth = 'var(--width-card-standard)';
-    if (cardDensity === 'spacious') resolvedMinWidth = 'var(--width-card-spacious)';
+  const inlineStyles: CSSProperties & Record<string, any> = { ...style };
+
+  // =====================================================
+  // RESPONSIVE COLUMNS MODE
+  // =====================================================
+  if (useResponsiveColumns) {
+    // User provided explicit breakpoint object
+    Object.assign(inlineStyles, getResponsiveStyles(columns as ResponsiveValue));
+  } 
+  // =====================================================
+  // SIMPLE COLUMNS MODE (with automatic responsive behavior)
+  // =====================================================
+  else if (useSimpleColumns) {
+    // Convert simple number to responsive object with smart defaults
+    const responsiveColumns = getDefaultResponsiveColumns(columns as number);
+    Object.assign(inlineStyles, getResponsiveStyles(responsiveColumns));
+  } 
+  // =====================================================
+  // AUTO-FIT MODE (density-based)
+  // =====================================================
+  else if (useAutoFit) {
+    // Resolve minItemWidth from density mode
+    let resolvedMinWidth = minItemWidth;
+    if (!minItemWidth && cardDensity) {
+      if (cardDensity === 'compact') resolvedMinWidth = 'var(--width-card-compact)';
+      if (cardDensity === 'standard') resolvedMinWidth = 'var(--width-card-standard)';
+      if (cardDensity === 'spacious') resolvedMinWidth = 'var(--width-card-spacious)';
+    }
+    if (!resolvedMinWidth) resolvedMinWidth = 'var(--width-card)';
+
+    inlineStyles['--min-item-width'] = resolvedMinWidth;
+    if (maxColumns) inlineStyles['--max-columns'] = maxColumns;
   }
 
-  // Default to dynamic card width
-  if (!resolvedMinWidth) resolvedMinWidth = 'var(--width-card)';
-
   // =====================================================
-  // Determine grid mode
+  // BUILD CLASSES
   // =====================================================
-  const useResponsive = isResponsiveValue(columns);
-  const useExplicitColumns = typeof columns === 'number';
-  const useAutoFit = !useResponsive && !useExplicitColumns && (cardDensity || minItemWidth);
-
-  const inlineStyles: CSSProperties = { ...style };
-
-  if (useExplicitColumns) {
-    // Explicit column count - use fixed columns (e.g., columns={2})
-    inlineStyles.gridTemplateColumns = `repeat(${columns}, 1fr)`;
-  } else if (useAutoFit) {
-    // Auto-fit mode only when cardDensity or minItemWidth is provided
-    (inlineStyles as Record<string, any>)['--min-item-width'] = resolvedMinWidth;
-    if (maxColumns) (inlineStyles as Record<string, any>)['--max-columns'] = maxColumns;
-  } else if (useResponsive) {
-    // Responsive mode with breakpoint objects
-    // Handled by CSS classes
-  }
-
-  // Build classes
   const classes = buildClasses(
     'grid',
-    useExplicitColumns ? 'grid--explicit' : 
+    useResponsiveColumns || useSimpleColumns ? 'grid--responsive' : 
       useAutoFit ? 'grid--auto-fit' : 
-      useResponsive ? 'grid--responsive' : 
-      'grid--explicit', // ← Default to explicit if nothing specified
+      'grid--responsive', // Default to responsive mode
     `grid--gap-${gap}`,
     alignItems !== 'stretch' && `grid--align-${alignItems}`,
     justifyItems !== 'stretch' && `grid--justify-${justifyItems}`,

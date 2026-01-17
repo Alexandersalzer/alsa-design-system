@@ -84,17 +84,17 @@
   color: var(--text-accent-strong) ;             /* Same as hover */
 }
 
-/* Ghost variant (subtle) - Lower contrast by default, medium on hover */
+/* Ghost variant (subtle) - Lower contrast by default, slightly higher on hover */
 .textlink-ghost {
   color: var(--text-tertiary) ;                  /* Low contrast */
 }
 
 .textlink-ghost:hover {
-  color: var(--text-strong) ;                 /* Medium contrast on hover */
+  color: var(--text-secondary) ;                 /* Subtle increase on hover */
 }
 
 .textlink-ghost:active {
-  color: var(--text-primary) ;                   /* High contrast on active */
+  color: var(--text-strong) ;                    /* Medium contrast on active */
 }
 
 /* Button-ghost variant - Like ghost button, text only with elevated surface on hover */
@@ -128,6 +128,19 @@
 
 .textlink-brand:active {
   color: var(--text-accent-strong) ;             /* Stronger accent on active */
+}
+
+/* Inverse variant (for dark backgrounds) - Light colors */
+.textlink-inverse {
+  color: var(--text-on-inverse);                 /* Light color for dark backgrounds */
+}
+
+.textlink-inverse:hover {
+  color: var(--text-on-inverse-secondary);       /* Slightly dimmed on hover */
+}
+
+.textlink-inverse:active {
+  color: var(--text-on-inverse);                 /* Back to full brightness on active */
 }
 
 /* ===== UNDERLINE VARIANTS ===== */
