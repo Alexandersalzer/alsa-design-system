@@ -40,6 +40,10 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
     'center';
   const mobileVariant = getPatternProps().mobileMenuVariant || 'fullscreen';
 
+  // Background variant and border props
+  const backgroundVariant = getPatternProps().backgroundVariant || 'default';
+  const showBorder = getPatternProps().showBorder !== false; // Default true
+
   // Animation configuration for drawer items
   const drawerAnimation = getPatternProps().drawerAnimation as AnimationConfig | undefined;
   const enableDrawerAnimation = drawerAnimation && drawerAnimation.type !== 'none';
@@ -102,7 +106,11 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
   };
 
   return (
-    <nav className="navbar-bar">
+    <nav className={cn(
+      "navbar-bar",
+      backgroundVariant !== 'default' && `navbar-bar--${backgroundVariant}`,
+      !showBorder && "navbar-bar--no-border"
+    )}>
       <Box className="navbar-bar__container">
         {/* LEFT - Unified Logo */}
         <div className="navbar-bar__left">

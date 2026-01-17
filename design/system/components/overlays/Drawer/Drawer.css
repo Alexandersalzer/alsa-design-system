@@ -214,7 +214,7 @@
   font-weight: 600;
   color: var(--text-nav-item);
   text-decoration: none;
-  padding: var(--foundation-space-2) 0;
+  padding: var(--foundation-space-2) var(--foundation-space-4);
   transition: color 0.2s var(--foundation-ease-out);
 }
 

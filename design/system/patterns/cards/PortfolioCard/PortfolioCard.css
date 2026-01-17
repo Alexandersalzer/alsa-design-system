@@ -45,10 +45,3 @@
   align-items: center;
   color: var(--color-text-secondary);
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .portfolio-media-container {
-    aspect-ratio: 1 / 1;
-  }
-}

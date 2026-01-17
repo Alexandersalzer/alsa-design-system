@@ -108,12 +108,48 @@
   color: var(--icon-strong);
 }
 
+/* -----------------------------------------------
+   Background Variants
+----------------------------------------------- */
+
+/* No border variant */
+.navbar-bar--no-border {
+  border-bottom: none;
+}
+
 /* Transparent variant */
 .navbar-bar--transparent {
   background: transparent;
   border-bottom: none;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Glass/blur variant */
+.navbar-bar--glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  .navbar-bar--glass {
+    background: rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Glass transparent variant (lighter glass effect) */
+.navbar-bar--glass-transparent {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .navbar-bar--glass-transparent {
+    background: rgba(0, 0, 0, 0.3);
+  }
 }
 
 /* -----------------------------------------------
