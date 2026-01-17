@@ -5,12 +5,14 @@
 'use client';
 
 import React from 'react';
-import { HStack, VStack, Typography, Button } from '../../../components';
+import { usePathname, useRouter } from 'next/navigation';
+import { HStack, VStack, Typography, Button, Menu } from '../../../components';
 import { Logo } from '../../../components/media/Logo';
 import { TextLink } from '../../../components/actions/TextLink';
 import { Divider } from '../../../components/layout/divider/Divider';
 import { PatternNode } from '../../../core/types/nodes';
 import { CDN_BASE_URL } from '../../../core/utils/env';
+import { getPickerLocale, handleLocaleChange } from '../../../core/routing';
 import './MultiColumnFooter.css';
 
 interface MultiColumnFooterProps extends PatternNode {
@@ -23,6 +25,9 @@ export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
   sectionKey,
   patternKey
 }) => {
+  const pathname = usePathname();
+  const router = useRouter();
+
   // Helper to safely get component by key
   const getComp = (key: string) => components[key];
   const hasComp = (key: string) => !!components[key];
@@ -30,6 +35,11 @@ export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
   // Check if there are any legal links
   const legalLinks = Object.keys(components).filter(key => key.startsWith('legal-link-'));
   const hasLegalLinks = legalLinks.length > 0;
+
+  // Get current locale and menu options for language selector
+  const menuOptions = hasComp('menu-languageSelector') ? (getComp('menu-languageSelector').props?.options || []) : [];
+  const currentLocale = getPickerLocale(pathname);
+  const currentOption = menuOptions.find((opt: any) => opt.value === currentLocale);
 
   // Build logo props
   const logoProps = {
@@ -201,7 +211,7 @@ export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
       {/* Divider */}
       <Divider weight="default" spacing="lg" />
 
-      {/* Bottom Section - Legal + Copyright */}
+      {/* Bottom Section - Legal + Copyright + Language Selector */}
       <div className="modern-footer__bottom">
         <HStack
           spacing="md"
@@ -238,6 +248,32 @@ export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
             >
               {getComp('copyright').props.content}
             </Typography>
+          )}
+
+          {/* Language Selector */}
+          {hasComp('menu-languageSelector') && (
+            <Menu
+              size={getComp('menu-languageSelector').props.size || 'sm'}
+              variant={getComp('menu-languageSelector').props.variant || 'subtle'}
+              closeOnSelect={true}
+              componentKey="menu-languageSelector"
+            >
+              <Menu.Trigger>
+                {currentOption?.label || getComp('menu-languageSelector').props.placeholder || 'Select Language'}
+              </Menu.Trigger>
+
+              <Menu.Content>
+                {menuOptions.map((option: any) => (
+                  <Menu.Item
+                    key={option.value}
+                    value={option.value}
+                    onClick={() => handleLocaleChange(router, option.value)}
+                  >
+                    {option.label}
+                  </Menu.Item>
+                ))}
+              </Menu.Content>
+            </Menu>
           )}
         </HStack>
       </div>

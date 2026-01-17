@@ -1,0 +1,15 @@
+/* ===============================================
+   SlideIn.css - Slide In Animation Component Styles
+   =============================================== */
+
+.slide-in {
+  will-change: transform;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .slide-in {
+    transition: none !important;
+    transform: none !important;
+  }
+}

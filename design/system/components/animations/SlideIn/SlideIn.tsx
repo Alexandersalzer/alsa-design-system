@@ -1,17 +1,17 @@
 // ===============================================
-// design/system/components/animations/FadeIn/FadeIn.tsx
-// FADE IN ANIMATION - Smooth entrance animation with scroll trigger
+// design/system/components/animations/SlideIn/SlideIn.tsx
+// SLIDE IN ANIMATION - Pure movement animation (no opacity)
 // ===============================================
 
 import React, { useEffect, useRef, useState, ReactNode } from 'react';
-import './FadeIn.css';
+import './SlideIn.css';
 
-export type FadeInDirection = 'up' | 'down' | 'left' | 'right' | 'none';
+export type SlideDirection = 'up' | 'down' | 'left' | 'right' | 'none';
 
-export interface FadeInProps {
+export interface SlideInProps {
   children: ReactNode;
-  /** Animation direction */
-  direction?: FadeInDirection;
+  /** Slide direction */
+  direction?: SlideDirection;
   /** Animation duration in milliseconds */
   duration?: number;
   /** Delay before animation starts in milliseconds */
@@ -30,7 +30,7 @@ export interface FadeInProps {
   onComplete?: () => void;
 }
 
-export const FadeIn: React.FC<FadeInProps> = ({
+export const SlideIn: React.FC<SlideInProps> = ({
   children,
   direction = 'up',
   duration = 600,
@@ -111,15 +111,14 @@ export const FadeIn: React.FC<FadeInProps> = ({
   };
 
   const style: React.CSSProperties = {
-    opacity: isVisible ? 1 : 0,
     transform: isVisible ? 'translate(0, 0)' : getTransform(),
-    transition: `opacity ${duration}ms ${easing} ${delay}ms, transform ${duration}ms ${easing} ${delay}ms`,
+    transition: `transform ${duration}ms ${easing} ${delay}ms`,
   };
 
   return (
     <div
       ref={elementRef}
-      className={`fade-in ${className}`}
+      className={`slide-in ${className}`}
       style={style}
     >
       {children}

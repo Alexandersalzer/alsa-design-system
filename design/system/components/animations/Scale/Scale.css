@@ -1,0 +1,15 @@
+/* ===============================================
+   Scale.css - Scale Animation Component Styles
+   =============================================== */
+
+.scale-animation {
+  will-change: transform;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .scale-animation {
+    transition: none !important;
+    transform: scale(1) !important;
+  }
+}

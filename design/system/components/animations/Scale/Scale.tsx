@@ -1,23 +1,21 @@
 // ===============================================
-// design/system/components/animations/FadeIn/FadeIn.tsx
-// FADE IN ANIMATION - Smooth entrance animation with scroll trigger
+// design/system/components/animations/Scale/Scale.tsx
+// SCALE ANIMATION - Zoom/scale animation
 // ===============================================
 
 import React, { useEffect, useRef, useState, ReactNode } from 'react';
-import './FadeIn.css';
+import './Scale.css';
 
-export type FadeInDirection = 'up' | 'down' | 'left' | 'right' | 'none';
-
-export interface FadeInProps {
+export interface ScaleProps {
   children: ReactNode;
-  /** Animation direction */
-  direction?: FadeInDirection;
+  /** Starting scale (0.8 = 80%, 1.2 = 120%) */
+  from?: number;
+  /** Ending scale (1 = 100%) */
+  to?: number;
   /** Animation duration in milliseconds */
   duration?: number;
   /** Delay before animation starts in milliseconds */
   delay?: number;
-  /** Distance to move during animation in pixels */
-  distance?: number;
   /** Enable scroll trigger (animate when element enters viewport) */
   enableScrollTrigger?: boolean;
   /** Offset from bottom of viewport to trigger animation (in pixels) */
@@ -30,12 +28,12 @@ export interface FadeInProps {
   onComplete?: () => void;
 }
 
-export const FadeIn: React.FC<FadeInProps> = ({
+export const Scale: React.FC<ScaleProps> = ({
   children,
-  direction = 'up',
+  from = 0.8,
+  to = 1,
   duration = 600,
   delay = 0,
-  distance = 20,
   enableScrollTrigger = true,
   triggerOffset = 100,
   easing = 'ease-out',
@@ -92,34 +90,15 @@ export const FadeIn: React.FC<FadeInProps> = ({
     }
   }, [isVisible, duration, delay, onComplete]);
 
-  // Calculate transform based on direction
-  const getTransform = () => {
-    if (direction === 'none' || isVisible) return 'translate(0, 0)';
-
-    switch (direction) {
-      case 'up':
-        return `translate(0, ${distance}px)`;
-      case 'down':
-        return `translate(0, -${distance}px)`;
-      case 'left':
-        return `translate(${distance}px, 0)`;
-      case 'right':
-        return `translate(-${distance}px, 0)`;
-      default:
-        return 'translate(0, 0)';
-    }
-  };
-
   const style: React.CSSProperties = {
-    opacity: isVisible ? 1 : 0,
-    transform: isVisible ? 'translate(0, 0)' : getTransform(),
-    transition: `opacity ${duration}ms ${easing} ${delay}ms, transform ${duration}ms ${easing} ${delay}ms`,
+    transform: `scale(${isVisible ? to : from})`,
+    transition: `transform ${duration}ms ${easing} ${delay}ms`,
   };
 
   return (
     <div
       ref={elementRef}
-      className={`fade-in ${className}`}
+      className={`scale-animation ${className}`}
       style={style}
     >
       {children}
