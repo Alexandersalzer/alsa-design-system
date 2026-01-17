@@ -76,10 +76,7 @@ function loadMetaPixel(pixelId: string) {
   script.src = PIXEL_SOURCES.meta;
   script.onload = () => {
     console.log('[MarketingPixels] Meta Pixel loaded');
-    (window as any).fbq('init', pixelId, {
-      autoConfig: false,
-      autoLogAppEvents: false
-    });
+    (window as any).fbq('init', pixelId);
     (window as any).fbq('track', 'PageView');
   };
   script.onerror = () => {
@@ -95,8 +92,11 @@ function loadTikTokPixel(pixelId: string) {
     return;
   }
   
-  // Initialize ttq
-  const ttq: any = ((window as any).ttq = []);
+  // Set global analytics object name (required by TikTok SDK)
+  (window as any).TiktokAnalyticsObject = 'ttq';
+  
+  // Initialize ttq with full SDK structure
+  const ttq: any = ((window as any).ttq = (window as any).ttq || []);
   ttq.methods = ['page', 'track', 'identify', 'instances', 'debug', 'on', 'off', 'once', 'ready', 'alias', 'group', 'enableCookie', 'disableCookie'];
   ttq.setAndDefer = function(t: any, e: string) {
     t[e] = function() {
@@ -108,19 +108,46 @@ function loadTikTokPixel(pixelId: string) {
     ttq.setAndDefer(ttq, ttq.methods[i]);
   }
   
-  // Load script
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = `${PIXEL_SOURCES.tiktok}?sdkid=${encodeURIComponent(pixelId)}&lib=ttq`;
-  script.onload = () => {
-    console.log('[MarketingPixels] TikTok Pixel loaded');
-    (window as any).ttq.page();
-  };
-  script.onerror = () => {
-    console.error('[MarketingPixels] Failed to load TikTok Pixel');
+  ttq.instance = function(e: string) {
+    const t = ttq._i[e] || [];
+    for (let n = 0; n < ttq.methods.length; n++) {
+      ttq.setAndDefer(t, ttq.methods[n]);
+    }
+    return t;
   };
   
-  document.head.appendChild(script);
+  ttq.load = function(e: string, n?: any) {
+    const i = 'https://analytics.tiktok.com/i18n/pixel/events.js';
+    ttq._i = ttq._i || {};
+    ttq._i[e] = [];
+    ttq._i[e]._u = i;
+    ttq._t = ttq._t || {};
+    ttq._t[e] = +new Date();
+    ttq._o = ttq._o || {};
+    ttq._o[e] = n || {};
+    
+    const o = document.createElement('script');
+    o.type = 'text/javascript';
+    o.async = true;
+    o.src = i + '?sdkid=' + e + '&lib=ttq';
+    o.onload = () => {
+      console.log('[MarketingPixels] TikTok Pixel loaded');
+    };
+    o.onerror = () => {
+      console.error('[MarketingPixels] Failed to load TikTok Pixel');
+    };
+    
+    const a = document.getElementsByTagName('script')[0];
+    if (a && a.parentNode) {
+      a.parentNode.insertBefore(o, a);
+    } else {
+      document.head.appendChild(o);
+    }
+  };
+  
+  // Initialize pixel and track page view
+  ttq.load(pixelId);
+  ttq.page();
 }
 
 function loadSnapchatPixel(pixelId: string) {
