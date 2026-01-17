@@ -88,15 +88,11 @@ export function useAction(config: ActionConfig) {
       const result = await executeAction(config.type, data);
 
       if (result.success) {
-        // Merge pixel events from settings and backend response
-        const allPixelEvents = [
-          ...(config.settings?.pixelEvents || []),
-          ...(result.pixelEvents || [])
-        ];
+        // Trigger pixel events from settings ONLY (backend no longer returns events)
+        const pixelEvents = config.settings?.pixelEvents || [];
         
-        // Trigger pixel events (endast om marketing consent finns)
-        if (allPixelEvents.length > 0 && consent.marketing) {
-          triggerPixelEvents(allPixelEvents);
+        if (pixelEvents.length > 0 && consent.marketing) {
+          triggerPixelEvents(pixelEvents);
         }
 
         // Set success state
