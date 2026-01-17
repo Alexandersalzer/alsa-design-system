@@ -32,15 +32,17 @@ const Navbar = ({ section }: NavbarProps) => {
   if (renderedPatterns.length === 0) return null;
   
   return (
-    <Section 
-      as="nav" 
+    <Section
+      as="nav"
       sectionKey={sectionKey}
-      style={{ 
+      {...sectionProps}
+      style={{
         position: 'sticky',
         top: 0,
         zIndex: 1000,
         paddingTop: '0',
         paddingBottom: '0',
+        ...sectionProps?.style,
       }}
     >
       {renderedPatterns}

@@ -27,7 +27,6 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
   const pathname = usePathname();
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [pillMetrics, setPillMetrics] = useState({ top: 0, left: 0, width: 0 });
   const pillRef = useRef<HTMLDivElement>(null);
   
   // Extract current locale from pathname
@@ -61,26 +60,31 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
 
   const { duration: animationDuration, stagger: animationStagger, direction: animationDirection } = getAnimationSettings();
 
-  // Calculate pill dimensions for drawer positioning
+  // Escape key handler - close drawer on Escape
   useEffect(() => {
-    const updateMetrics = () => {
-      if (pillRef.current) {
-        const rect = pillRef.current.getBoundingClientRect();
-        setPillMetrics({
-          top: rect.top + (rect.height / 2),
-          left: rect.left,
-          width: rect.width,
-        });
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileOpen) {
+        setMobileOpen(false);
       }
     };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [mobileOpen]);
 
-    updateMetrics();
-    window.addEventListener('resize', updateMetrics);
-    window.addEventListener('scroll', updateMetrics);
-    
+  // Prevent body scroll when drawer is open
+  useEffect(() => {
+    if (mobileOpen) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    }
+
     return () => {
-      window.removeEventListener('resize', updateMetrics);
-      window.removeEventListener('scroll', updateMetrics);
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
     };
   }, [mobileOpen]);
 
