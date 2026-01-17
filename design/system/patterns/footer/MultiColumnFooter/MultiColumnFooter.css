@@ -9,12 +9,6 @@
   gap: var(--foundation-space-8);
 }
 
-/* Top border variant */
-.modern-footer--with-border {
-  border-top: 1px solid var(--border-default);
-  padding-top: var(--foundation-space-10);
-}
-
 /* ===== TOP SECTION - Multi Column ===== */
 .modern-footer__top {
   display: grid;

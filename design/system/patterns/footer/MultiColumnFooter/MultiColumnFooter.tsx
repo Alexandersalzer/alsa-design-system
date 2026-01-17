@@ -13,7 +13,6 @@ import { Divider } from '../../../components/layout/divider/Divider';
 import { PatternNode } from '../../../core/types/nodes';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { getPickerLocale, handleLocaleChange } from '../../../core/routing';
-import { cn } from '../../../utils/cn';
 import './MultiColumnFooter.css';
 
 interface MultiColumnFooterProps extends PatternNode {
@@ -24,14 +23,10 @@ interface MultiColumnFooterProps extends PatternNode {
 export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
   components = {},
   sectionKey,
-  patternKey,
-  props: patternPropsData
+  patternKey
 }) => {
   const pathname = usePathname();
   const router = useRouter();
-
-  // Get pattern props
-  const showTopBorder = patternPropsData?.showTopBorder !== false; // Default true
 
   // Helper to safely get component by key
   const getComp = (key: string) => components[key];
@@ -64,10 +59,7 @@ export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
   };
 
   return (
-    <div className={cn(
-      "modern-footer",
-      showTopBorder && "modern-footer--with-border"
-    )}>
+    <div className="modern-footer">
       {/* Top Section - Multi Column Layout */}
       <div className="modern-footer__top">
         {/* Column 1 - Logo + Description */}
