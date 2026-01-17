@@ -28,7 +28,10 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
     const pathname = usePathname();
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
   // Extract current locale from pathname
   const currentLocale = pathname.split('/')[1];
 
@@ -43,6 +46,7 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
   // Background variant and border props
   const backgroundVariant = getPatternProps().backgroundVariant || 'default';
   const showBorder = getPatternProps().showBorder !== false; // Default true
+  const hideOnScroll = getPatternProps().hideOnScroll || false;
 
   // Animation configuration for drawer items
   const drawerAnimation = getPatternProps().drawerAnimation as AnimationConfig | undefined;
@@ -67,6 +71,32 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
   };
 
   const { duration: animationDuration, stagger: animationStagger, direction: animationDirection } = getAnimationSettings();
+
+  // Handle scroll behavior for glass-transparent and hideOnScroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Detect if scrolled (for glass-transparent variant)
+      setIsScrolled(currentScrollY > 50);
+
+      // Hide on scroll down, show on scroll up
+      if (hideOnScroll) {
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          // Scrolling down & past threshold
+          setIsHidden(true);
+        } else {
+          // Scrolling up
+          setIsHidden(false);
+        }
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY, hideOnScroll]);
 
   // Auto-close drawer when screen becomes desktop size (debounced)
   useEffect(() => {
@@ -109,7 +139,10 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
     <nav className={cn(
       "navbar-bar",
       backgroundVariant !== 'default' && `navbar-bar--${backgroundVariant}`,
-      !showBorder && "navbar-bar--no-border"
+      !showBorder && "navbar-bar--no-border",
+      hideOnScroll && "navbar-bar--hide-on-scroll",
+      isHidden && "navbar-bar--hidden",
+      isScrolled && "navbar-bar--scrolled"
     )}>
       <Box className="navbar-bar__container">
         {/* LEFT - Unified Logo */}

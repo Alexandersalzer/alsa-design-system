@@ -44,6 +44,54 @@
   overflow: hidden;
 }
 
+/* Background Variants */
+.navbar-pill__unified-wrapper--glass {
+  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
+}
+
+.navbar-pill__unified-wrapper--glass-transparent {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-color: transparent;
+}
+
+.navbar-pill__unified-wrapper--glass-transparent.navbar-pill__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--surface-page) 70%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
+}
+
+.navbar-pill__unified-wrapper--gradient {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--always-black) 40%, transparent) 0%,
+    color-mix(in srgb, var(--always-black) 20%, transparent) 50%,
+    transparent 100%
+  );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-color: transparent;
+}
+
+.navbar-pill__unified-wrapper--no-border {
+  border-color: transparent;
+}
+
+/* Hide on scroll behavior */
+.navbar-pill--hide-on-scroll {
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.navbar-pill--hide-on-scroll.navbar-pill--hidden {
+  transform: translateY(-100%);
+}
+
 /* Core pill layout - top section always visible */
 .navbar-pill__container {
   display: flex;

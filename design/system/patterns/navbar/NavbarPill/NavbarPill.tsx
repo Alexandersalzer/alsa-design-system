@@ -27,14 +27,22 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
   const pathname = usePathname();
 
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const pillRef = useRef<HTMLDivElement>(null);
-  
+
   // Extract current locale from pathname
   const currentLocale = pathname.split('/')[1];
 
   const align = alignMap[getPatternProps().menuAlign] || 'center';
   const mobileAlign = alignMap[getPatternProps().mobileMenuAlign] || align;
   const mobileVariant = getPatternProps().mobileMenuVariant || 'sheet';
+
+  // Background variant and border props
+  const backgroundVariant = getPatternProps().backgroundVariant || 'default';
+  const showBorder = getPatternProps().showBorder !== false;
+  const hideOnScroll = getPatternProps().hideOnScroll || false;
 
   // Animation configuration for drawer items
   const drawerAnimation = getPatternProps().drawerAnimation as AnimationConfig | undefined;
@@ -59,6 +67,27 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
   };
 
   const { duration: animationDuration, stagger: animationStagger, direction: animationDirection } = getAnimationSettings();
+
+  // Handle scroll behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 50);
+
+      if (hideOnScroll) {
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          setIsHidden(true);
+        } else {
+          setIsHidden(false);
+        }
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY, hideOnScroll]);
 
   // Escape key handler - close drawer on Escape
   useEffect(() => {
@@ -134,10 +163,17 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
       )}
 
       {/* Unified container - pill + drawer share same border */}
-      <nav className="navbar-pill" ref={pillRef}>
+      <nav className={cn(
+        "navbar-pill",
+        hideOnScroll && "navbar-pill--hide-on-scroll",
+        isHidden && "navbar-pill--hidden"
+      )} ref={pillRef}>
         <Box className={cn(
           "navbar-pill__unified-wrapper",
-          mobileOpen && "navbar-pill__unified-wrapper--expanded"
+          mobileOpen && "navbar-pill__unified-wrapper--expanded",
+          backgroundVariant !== 'default' && `navbar-pill__unified-wrapper--${backgroundVariant}`,
+          !showBorder && "navbar-pill__unified-wrapper--no-border",
+          isScrolled && "navbar-pill__unified-wrapper--scrolled"
         )}>
           {/* Top bar - always visible */}
           <div className="navbar-pill__container">
