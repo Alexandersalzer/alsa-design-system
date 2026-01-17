@@ -145,9 +145,8 @@ function loadTikTokPixel(pixelId: string) {
     }
   };
   
-  // Initialize pixel and track page view
+  // Initialize pixel (LandingPageView tracked automatically by TikTok SDK)
   ttq.load(pixelId);
-  ttq.page();
 }
 
 function loadSnapchatPixel(pixelId: string) {
