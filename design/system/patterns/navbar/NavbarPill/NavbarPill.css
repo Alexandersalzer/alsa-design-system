@@ -6,7 +6,7 @@
   z-index: 50;
   background: transparent;
   /* Reserve space for collapsed pill */
-  min-height: calc(var(--foundation-space-10) + var(--space-navbar) * 2 + var(--space-navbar) * 2);
+  min-height: calc(var(--foundation-space-10) + var(--space-navbar) * 2);
 }
 
 /* Backdrop overlay */
@@ -215,7 +215,7 @@
   font-weight: 600;
   color: var(--text-nav-item);
   text-decoration: none;
-  padding: var(--foundation-space-2) 0;
+  padding: var(--foundation-space-2) var(--foundation-space-4);
   transition: color 0.2s var(--foundation-ease-out);
   display: block;
 }

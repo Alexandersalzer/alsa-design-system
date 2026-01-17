@@ -212,7 +212,7 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
             >
               {/* Links section */}
               <VStack spacing="md" align="stretch" className="drawer-pill-links">
-                {renderIf('textlink-menuItem') && mapComponentIndices('textlink-menuItem')
+                {renderIf('textlink-menuItem') && mobileOpen && mapComponentIndices('textlink-menuItem')
                   .map((props, i) => {
                     const componentKey = `textlink-menuItem_${i}`;
                     const linkContent = (
@@ -231,7 +231,7 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
                     if (enableDrawerAnimation && drawerAnimation?.type === 'fadeIn') {
                       return (
                         <FadeIn
-                          key={i}
+                          key={`link-${i}-${Date.now()}`}
                           direction={animationDirection}
                           duration={animationDuration}
                           delay={i * animationStagger}
@@ -249,7 +249,7 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
 
               {/* Actions section */}
               <VStack spacing="sm" className="drawer-pill-actions">
-                {renderIf('button-secondaryAction') && (() => {
+                {renderIf('button-secondaryAction') && mobileOpen && (() => {
                   const menuItemsCount = mapComponentIndices('textlink-menuItem').length;
                   const buttonContent = (
                     <Button
@@ -267,7 +267,7 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
                   if (enableDrawerAnimation && drawerAnimation?.type === 'fadeIn') {
                     return (
                       <FadeIn
-                        key="secondary-button"
+                        key={`secondary-button-${Date.now()}`}
                         direction={animationDirection}
                         duration={animationDuration}
                         delay={menuItemsCount * animationStagger}
@@ -282,7 +282,7 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
                   return buttonContent;
                 })()}
 
-                {renderIf('button-primaryAction') && (() => {
+                {renderIf('button-primaryAction') && mobileOpen && (() => {
                   const menuItemsCount = mapComponentIndices('textlink-menuItem').length;
                   const secondaryButtonOffset = renderIf('button-secondaryAction') ? 1 : 0;
                   const buttonContent = (
@@ -301,7 +301,7 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
                   if (enableDrawerAnimation && drawerAnimation?.type === 'fadeIn') {
                     return (
                       <FadeIn
-                        key="primary-button"
+                        key={`primary-button-${Date.now()}`}
                         direction={animationDirection}
                         duration={animationDuration}
                         delay={(menuItemsCount + secondaryButtonOffset) * animationStagger}
