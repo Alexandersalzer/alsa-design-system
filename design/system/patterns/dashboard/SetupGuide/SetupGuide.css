@@ -68,6 +68,8 @@
 .setup-guide__cta-button:hover {
   transform: translateY(-1px);
   animation: none;
+  background-color: var(--surface-button-accent-hover) !important;
+  border-color: var(--border-button-accent-hover) !important;
 }
 
 @keyframes pulse-cta {
