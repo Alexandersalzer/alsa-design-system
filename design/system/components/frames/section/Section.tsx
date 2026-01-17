@@ -5,7 +5,7 @@ type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
 type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type Overflow = 'visible' | 'hidden' | 'auto' | 'scroll' | 'clip';
-type Background = 'default' | 'raised' | 'elevated' | 'inverse' | 'media';
+type Background = 'default' | 'raised' | 'elevated' | 'inverse' | 'media' | 'transparent';
 
 interface SectionProps {
   children: ReactNode;
