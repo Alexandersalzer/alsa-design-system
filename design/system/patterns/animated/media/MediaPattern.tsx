@@ -21,6 +21,7 @@ const MediaPattern = ({ components = {}, sectionKey, patternKey }: MediaPatternP
     return (
       <VideoShowcase
         src={`${CDN_BASE_URL}${videoProps.src}`}
+        poster={videoProps.poster ? `${CDN_BASE_URL}${videoProps.poster}` : undefined}
         autoPlay={false}
         muted={true}
         loop={true}
