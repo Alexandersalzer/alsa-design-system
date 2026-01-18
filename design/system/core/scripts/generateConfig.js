@@ -16,8 +16,19 @@
 const fs = require('fs');
 const path = require('path');
 
-const API_BASE_URL = process.env.API_URL || 'https://api.blimpify-im.com';
+// Smart API URL detection:
+// 1. Explicit API_URL env var (highest priority - for CI/CD)
+// 2. NEXT_PUBLIC_API_URL from .env files
+// 3. Auto-detect based on NODE_ENV
+const API_BASE_URL = process.env.API_URL 
+  || process.env.NEXT_PUBLIC_API_URL 
+  || (process.env.NODE_ENV === 'production' 
+    ? 'https://api.blimpify-im.com'      // Production default
+    : 'https://devapi.blimpify-im.com'); // Development default
+
 const EXTERNAL_ID = process.env.NEXT_PUBLIC_EXTERNAL_ID;
+
+console.log(`[CONFIG] Using API: ${API_BASE_URL} (NODE_ENV: ${process.env.NODE_ENV || 'not set'})`);
 
 /**
  * Fetch active applications from API
