@@ -16,7 +16,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const API_BASE_URL = process.env.API_URL || 'https://devapi.blimpify-im.com';
+const API_BASE_URL = process.env.API_URL || 'https://api.blimpify-im.com';
 const EXTERNAL_ID = process.env.NEXT_PUBLIC_EXTERNAL_ID;
 
 /**
@@ -131,7 +131,7 @@ async function fetchSEOConfig(externalId) {
     );
     
     if (!response.ok) {
-      return { seo: null, business: null };
+      return {seo:  null, business: null };
     }
     
     const data = await response.json();
