@@ -49,7 +49,8 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(initialMuted);
-  const [isLoading, setIsLoading] = useState(true);
+  // If poster exists, don't show loading overlay - poster will display immediately
+  const [isLoading, setIsLoading] = useState(!poster);
   const videoRef = useRef<HTMLVideoElement>(null);
   const combinedRef = (node: HTMLVideoElement) => {
     if (typeof ref === 'function') ref(node);
@@ -87,6 +88,11 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     setIsLoading(false);
   };
 
+  const handleLoadedMetadata = () => {
+    // On mobile, metadata loads faster than full data
+    setIsLoading(false);
+  };
+
   const handleLoadStart = () => {
     setIsLoading(true);
   };
@@ -94,6 +100,17 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   const handleError = () => {
     setIsLoading(false);
   };
+
+  // Fallback: if poster exists, hide loading after timeout
+  React.useEffect(() => {
+    if (poster) {
+      const timeout = setTimeout(() => {
+        setIsLoading(false);
+      }, 2000); // Hide loading overlay after 2s if poster exists
+
+      return () => clearTimeout(timeout);
+    }
+  }, [poster]);
 
   const videoContent = (
     <div
@@ -112,13 +129,15 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         loop={loop}
         controls={isPlaying && controls}
         playsInline={playsInline}
+        preload="metadata"
         poster={poster}
         onLoadedData={handleLoadedData}
+        onLoadedMetadata={handleLoadedMetadata}
         onLoadStart={handleLoadStart}
         onError={handleError}
         {...props}
       />
-      {isLoading && (
+      {isLoading && !poster && (
         <div className="video-loading-overlay">
           {loadingType === 'skeleton' ? (
             <Skeleton
