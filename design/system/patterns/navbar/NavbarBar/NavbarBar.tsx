@@ -118,6 +118,15 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
     setMobileOpen(false);
   }, [pathname]);
 
+  // Close mobile menu when hash changes (anchor link navigation)
+  useEffect(() => {
+    const handleHashChange = () => {
+      setMobileOpen(false);
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   // Build logo props with componentKey
   const logoProps = {
     src: renderIf('logo') && get('logo').props.src ? `${CDN_BASE_URL}${get('logo').props.src}` : undefined,
