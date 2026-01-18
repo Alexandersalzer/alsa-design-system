@@ -6,8 +6,6 @@
 import React, { forwardRef, useRef, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
-import { Spinner } from '../../feedback/Spinner/Spinner';
-import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import { FadeIn } from '../../animations/FadeIn/FadeIn';
 import { SlideIn } from '../../animations/SlideIn/SlideIn';
 import { Opacity } from '../../animations/Opacity/Opacity';
@@ -22,8 +20,6 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   aspectRatio?: '16-9' | '4-3' | '1-1' | 'auto';
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   showPlayButton?: boolean;
-  /** Loading indicator type - 'skeleton' (default) fills the space with pulsing effect, 'spinner' shows centered spinner */
-  loadingType?: 'skeleton' | 'spinner';
   componentKey?: string;
   /** Animation configuration following centralized animation system */
   animation?: AnimationConfig;
@@ -41,7 +37,6 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   controls = false,
   playsInline = true,
   showPlayButton = true,
-  loadingType = 'skeleton',
   poster,
   componentKey,
   animation,
@@ -49,8 +44,6 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(initialMuted);
-  // If poster exists, don't show loading overlay - poster will display immediately
-  const [isLoading, setIsLoading] = useState(!poster);
   const videoRef = useRef<HTMLVideoElement>(null);
   const combinedRef = (node: HTMLVideoElement) => {
     if (typeof ref === 'function') ref(node);
@@ -84,40 +77,13 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     }
   };
 
-  const handleLoadedData = () => {
-    setIsLoading(false);
-  };
-
-  const handleLoadedMetadata = () => {
-    // On mobile, metadata loads faster than full data
-    setIsLoading(false);
-  };
-
-  const handleLoadStart = () => {
-    setIsLoading(true);
-  };
-
-  const handleError = () => {
-    setIsLoading(false);
-  };
-
-  // Fallback: if poster exists, hide loading after timeout
-  React.useEffect(() => {
-    if (poster) {
-      const timeout = setTimeout(() => {
-        setIsLoading(false);
-      }, 2000); // Hide loading overlay after 2s if poster exists
-
-      return () => clearTimeout(timeout);
-    }
-  }, [poster]);
+  // No loading handlers needed - video element handles its own poster/thumbnail display
 
   const videoContent = (
     <div
       className={cn(
         "video-container",
-        `video-container--radius-${radius}`,
-        isLoading && "video-container--loading"
+        `video-container--radius-${radius}`
       )}
       onClick={handlePlayClick}
     >
@@ -131,33 +97,9 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         playsInline={playsInline}
         preload="metadata"
         poster={poster}
-        onLoadedData={handleLoadedData}
-        onLoadedMetadata={handleLoadedMetadata}
-        onLoadStart={handleLoadStart}
-        onError={handleError}
         {...props}
       />
-      {isLoading && !poster && (
-        <div className="video-loading-overlay">
-          {loadingType === 'skeleton' ? (
-            <Skeleton
-              width="100%"
-              height="100%"
-              variant="pulse"
-              shape="rect"
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                borderRadius: 'inherit'
-              }}
-            />
-          ) : (
-            <Spinner size="sm" />
-          )}
-        </div>
-      )}
-      {showPlayButton && !isPlaying && !isLoading && (
+      {showPlayButton && !isPlaying && (
         <button className="play-button" aria-label="Play video">
           <span className="play-button-icon" />
         </button>
