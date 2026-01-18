@@ -4,7 +4,7 @@
 
 import { ActionType, ActionResponse } from './types';
 
-const API_BASE_URL = 'https://devapi.blimpify-im.com/api/v1';
+const API_BASE_URL = 'https://api.blimpify-im.com/api/v1';
 
 /**
  * Execute an action (contact, newsletter, etc.)
