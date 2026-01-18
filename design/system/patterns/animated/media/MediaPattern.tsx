@@ -18,10 +18,26 @@ const MediaPattern = ({ components = {}, sectionKey, patternKey }: MediaPatternP
   // If we have a video, render VideoShowcase
   if (renderIf('video') && get('video').props.src) {
     const videoProps = get('video').props;
+
+    // Auto-derive thumbnail from video path if no poster provided
+    // Backend stores thumbnails at: user-{id}/thumbnails/{video-name}.jpg
+    // Video path example: /2194716412/videos/Intro+Video-2.mov
+    // Thumbnail path: /2194716412/thumbnails/Intro+Video-2.jpg
+    let posterUrl = videoProps.poster ? `${CDN_BASE_URL}${videoProps.poster}` : undefined;
+
+    if (!posterUrl && videoProps.src) {
+      // Derive thumbnail URL from video URL
+      const videoPath = videoProps.src;
+      const thumbnailPath = videoPath
+        .replace('/videos/', '/thumbnails/')
+        .replace(/\.(mp4|mov|avi|webm|mkv)$/i, '.jpg');
+      posterUrl = `${CDN_BASE_URL}${thumbnailPath}`;
+    }
+
     return (
       <VideoShowcase
         src={`${CDN_BASE_URL}${videoProps.src}`}
-        poster={videoProps.poster ? `${CDN_BASE_URL}${videoProps.poster}` : undefined}
+        poster={posterUrl}
         autoPlay={false}
         muted={true}
         loop={true}
