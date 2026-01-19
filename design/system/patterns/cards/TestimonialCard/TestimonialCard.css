@@ -47,6 +47,34 @@
   text-align: left;
 }
 
+/* ===== STAR RATING ===== */
+.testimonial-star {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+.testimonial-star-success {
+  color: var(--icon-success);
+}
+
+.testimonial-star-warning {
+  color: var(--icon-warning);
+}
+
+.testimonial-star-error {
+  color: var(--icon-error);
+}
+
+.testimonial-star-accent {
+  color: var(--icon-accent);
+}
+
+.testimonial-star-primary {
+  color: var(--icon-primary);
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .testimonial-card-content {

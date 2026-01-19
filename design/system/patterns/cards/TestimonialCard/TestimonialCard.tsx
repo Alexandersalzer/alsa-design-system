@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, VStack, HStack, Typography } from '../../../components';
 import { Avatar } from '../../../components/media/Avatar';
 import { Badge } from '../../../components/feedback/Badge';
-import { Icon } from '../../../components/media/Icon';
 import { StarIcon } from '@heroicons/react/24/solid';
 import './TestimonialCard.css';
 
@@ -98,9 +97,10 @@ export function TestimonialCard({
               {showStars && (
                 <HStack spacing="xs" className="testimonial-stars">
                   {Array.from({ length: rating }).map((_, index) => (
-                    <Icon key={index} size="xs" color={starsColor}>
-                      <StarIcon />
-                    </Icon>
+                    <StarIcon
+                      key={index}
+                      className={`testimonial-star testimonial-star-${starsColor}`}
+                    />
                   ))}
                 </HStack>
               )}
