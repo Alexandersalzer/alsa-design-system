@@ -52,6 +52,9 @@
   margin-bottom: var(--foundation-space-4);
   display: inline-block;
   width: 100%;
+  /* Add padding buffer to prevent shadow from triggering layout recalculation */
+  padding: 4px;
+  box-sizing: border-box;
 }
 
 /* Match gap spacing */
