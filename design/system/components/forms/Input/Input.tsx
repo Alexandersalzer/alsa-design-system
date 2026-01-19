@@ -8,6 +8,39 @@ import { EyeIcon, EyeSlashIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
 
+// ===== KEYBOARD NAVIGATION TRACKER =====
+// Tracks if user is navigating via keyboard (Tab) or mouse
+// Used to show focus outline ONLY on keyboard navigation
+let isKeyboardUser = false;
+let keyboardTrackerInitialized = false;
+
+if (typeof window !== 'undefined' && !keyboardTrackerInitialized) {
+  keyboardTrackerInitialized = true;
+
+  // Track Tab key for keyboard navigation
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      isKeyboardUser = true;
+      document.documentElement.setAttribute('data-keyboard-user', 'true');
+    }
+  });
+
+  // Reset on ANY mouse interaction - use capture phase to run BEFORE focus event
+  window.addEventListener('mousedown', () => {
+    isKeyboardUser = false;
+    document.documentElement.setAttribute('data-keyboard-user', 'false');
+  }, { capture: true }); // ← Capture phase = runs BEFORE focus event
+
+  // Also handle touch/pointer events for mobile
+  window.addEventListener('pointerdown', (e) => {
+    // Only for mouse/touch, not pen (keeps keyboard behavior for pen)
+    if (e.pointerType === 'mouse' || e.pointerType === 'touch') {
+      isKeyboardUser = false;
+      document.documentElement.setAttribute('data-keyboard-user', 'false');
+    }
+  }, { capture: true });
+}
+
 // ===== TYPES =====
 export type InputVariant = 'flat' | 'bordered' | 'faded' | 'underlined' | 'page';
 export type InputColor = 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
