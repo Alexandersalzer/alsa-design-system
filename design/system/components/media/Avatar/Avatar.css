@@ -27,6 +27,7 @@
   position: absolute;
   inset: 0;
   z-index: 2;
+  background-color: var(--surface-elevated);
 }
 
 /* ===== FALLBACK (initials or icon) ===== */
@@ -39,6 +40,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Hide fallback when image is present */
+.avatar:has(.avatar-image) .avatar-fallback {
+  display: none;
 }
 
 .avatar-initials {
