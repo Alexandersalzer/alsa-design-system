@@ -28,7 +28,7 @@
 
 .testimonial-card-link:hover .testimonial-card {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  background-color: var(--surface-elevated);
+  background-color: var(--surface-raised);
 }
 
 /* ===== QUOTE TEXT ===== */
