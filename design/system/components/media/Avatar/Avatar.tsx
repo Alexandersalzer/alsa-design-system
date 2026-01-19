@@ -293,7 +293,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
               position: 'absolute',
               top: 0,
               left: 0,
-              zIndex: 1
+              zIndex: 2
             }}
           />
         )}

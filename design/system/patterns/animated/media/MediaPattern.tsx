@@ -4,6 +4,7 @@ import { VideoShowcase } from '../../../components/media/VideoShowcase/VideoShow
 import { Image } from '../../../components/media/Image/Image';
 import { componentProps, componentPresent } from '../../../core/utils/props';
 import { CDN_BASE_URL } from '../../../core/utils/env';
+import { getVideoThumbnailUrl } from '../../../core/utils/media';
 import { PatternNode } from '../../../core/types/nodes';
 
 interface MediaPatternProps extends PatternNode {
@@ -14,14 +15,26 @@ interface MediaPatternProps extends PatternNode {
 const MediaPattern = ({ components = {}, sectionKey, patternKey }: MediaPatternProps) => {
   const get = componentProps(components);
   const renderIf = componentPresent(components);
-  
+
   // If we have a video, render VideoShowcase
   if (renderIf('video') && get('video').props.src) {
     const videoProps = get('video').props;
+    const videoUrl = `${CDN_BASE_URL}${videoProps.src}`;
+
+    // Priority 1: Use hardcoded poster if provided
+    let derivedPosterUrl = videoProps.poster ? `${CDN_BASE_URL}${videoProps.poster}` : undefined;
+
+    // Priority 2: Auto-derive thumbnail from video path
+    // Backend stores thumbnails at: user-{id}/thumbnails/{video-name}.jpg
+    if (!derivedPosterUrl) {
+      derivedPosterUrl = getVideoThumbnailUrl(videoUrl);
+    }
+
+    // Just pass the poster URL - browser will show first frame if poster 404s
     return (
       <VideoShowcase
-        src={`${CDN_BASE_URL}${videoProps.src}`}
-        poster={videoProps.poster ? `${CDN_BASE_URL}${videoProps.poster}` : undefined}
+        src={videoUrl}
+        poster={derivedPosterUrl}
         autoPlay={false}
         muted={true}
         loop={true}

@@ -110,6 +110,7 @@ export const Button = forwardRef<
       if (action?.type === 'navigation' && actionHook) {
         e.preventDefault();
         await actionHook.execute({});
+        onClick?.(e as any); // Call parent onClick after navigation
         return;
       }
 
@@ -130,6 +131,7 @@ export const Button = forwardRef<
 
           openCalendlyPopup(fullUrl);
         }
+        onClick?.(e as any); // Call parent onClick after booking
         return;
       }
 
@@ -145,6 +147,7 @@ export const Button = forwardRef<
 
       try {
         await actionHook!.execute(formData || {});
+        onClick?.(e as any); // Call parent onClick after other actions
       } finally {
         setInternalLoading(false);
       }

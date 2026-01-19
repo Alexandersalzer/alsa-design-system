@@ -6,6 +6,7 @@
 import React, { forwardRef, useRef, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
+import { Video } from '../Video/Video';
 import { FadeIn } from '../../animations/FadeIn/FadeIn';
 import { SlideIn } from '../../animations/SlideIn/SlideIn';
 import { Opacity } from '../../animations/Opacity/Opacity';
@@ -45,11 +46,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(initialMuted);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const combinedRef = (node: HTMLVideoElement) => {
-    if (typeof ref === 'function') ref(node);
-    else if (ref) ref.current = node;
-    videoRef.current = node;
-  };
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const videoClasses = cn(
     'video-showcase',
@@ -59,6 +56,16 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     `video-showcase--radius-${radius}`,
     className
   );
+
+  // Find the video element inside the container and control it
+  React.useEffect(() => {
+    if (containerRef.current) {
+      const videoElement = containerRef.current.querySelector('video');
+      if (videoElement) {
+        videoRef.current = videoElement;
+      }
+    }
+  }, []);
 
   const handlePlayClick = () => {
     if (videoRef.current) {
@@ -77,27 +84,31 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     }
   };
 
-  // No loading handlers needed - video element handles its own poster/thumbnail display
-
   const videoContent = (
     <div
+      ref={containerRef}
       className={cn(
         "video-container",
         `video-container--radius-${radius}`
       )}
       onClick={handlePlayClick}
     >
-      <video
-        ref={combinedRef}
-        className={videoClasses}
+      <Video
+        src={typeof props.src === 'string' ? props.src : ''}
+        poster={poster}
+        width="100%"
+        height="auto"
+        aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : 'auto'}
+        radius={radius === 'full' ? 'xl' : radius}
+        loading="eager"
+        priority={true}
         autoPlay={autoPlay}
         muted={isMuted}
         loop={loop}
         controls={isPlaying && controls}
         playsInline={playsInline}
         preload="metadata"
-        poster={poster}
-        {...props}
+        className={videoClasses}
       />
       {showPlayButton && !isPlaying && (
         <button className="play-button" aria-label="Play video">
