@@ -4,7 +4,8 @@
 .testimonial-card {
   width: 100%;
   break-inside: avoid; /* Prevent breaking in masonry layout */
-  transition: box-shadow 0.2s ease;
+  transition: none !important;
+  transform: none !important;
 }
 
 .testimonial-card-content {
@@ -19,10 +20,8 @@
   color: inherit;
   display: block;
   cursor: pointer;
-}
-
-.testimonial-card-link:hover .testimonial-card {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: none !important;
+  transform: none !important;
 }
 
 /* ===== QUOTE TEXT ===== */
