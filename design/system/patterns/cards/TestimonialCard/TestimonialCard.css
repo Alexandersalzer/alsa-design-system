@@ -4,12 +4,30 @@
 .testimonial-card {
   width: 100%;
   break-inside: avoid; /* Prevent breaking in masonry layout */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .testimonial-card-content {
   display: flex;
   flex-direction: column;
   gap: var(--foundation-space-3);
+}
+
+/* ===== INTERACTIVE LINK STYLES ===== */
+.testimonial-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  cursor: pointer;
+}
+
+.testimonial-card-link:hover .testimonial-card {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-card-link:active .testimonial-card {
+  transform: translateY(0);
 }
 
 /* ===== QUOTE TEXT ===== */
@@ -23,6 +41,7 @@
   display: flex;
   align-items: center;
   gap: var(--foundation-space-3);
+  position: relative;
 }
 
 .testimonial-author-details {
