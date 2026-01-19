@@ -88,13 +88,6 @@ export function AnalyticsTracker() {
         // Get session ID only if analytics consent given
         const sessionId = getOrCreateSessionId(consent.analytics);
 
-        console.log('[AnalyticsTracker] Tracking page view:', {
-          host,
-          pathname: window.location.pathname,
-          sessionId: sessionId ? 'present' : 'null',
-          consent: consent.analytics
-        });
-
         await fetch(`${apiUrl}${API_ENDPOINTS.analytics.track}`, {
           method: 'POST',
           headers: {
@@ -108,15 +101,13 @@ export function AnalyticsTracker() {
           }),
         });
       } catch (error) {
-        console.error('[AnalyticsTracker] Error:', error);
+        // Fail silently - analytics should never break the user experience
       }
     }; 
 
-    // Track initial page view (only once on mount)
+    // Track initial page view
     trackPageView();
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Empty dependency array - only track on mount
+  }, [consent.analytics]);
 
   // This component renders nothing
   return null;
