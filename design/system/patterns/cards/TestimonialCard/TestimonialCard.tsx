@@ -65,14 +65,15 @@ export function TestimonialCard({
         <VStack spacing="md" className="testimonial-card-content">
           {/* Author Info at top */}
           <div className="testimonial-author">
-            {showBadge && badgeContent ? (
+            {showBadge ? (
               <Badge
                 content={badgeContent}
                 variant={badgeVariant}
                 size="sm"
-                placement="bottom-left"
+                placement="bottom-right"
                 shape="circle"
                 showOutline={true}
+                isDot={!badgeContent}
               >
                 {avatarElement}
               </Badge>
