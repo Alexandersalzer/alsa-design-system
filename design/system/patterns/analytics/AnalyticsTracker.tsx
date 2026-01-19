@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useConsent } from '../cookieConsent/ConsentProvider';
+import { getApiUrl, API_ENDPOINTS } from '../../../config/api';
 
 /**
  * Generate a unique session ID
@@ -79,14 +80,7 @@ export function AnalyticsTracker() {
 
     const trackPageView = async () => {
       try {
-        // Smart API URL detection:
-        // 1. NEXT_PUBLIC_API_URL from environment (highest priority)
-        // 2. Auto-detect based on NODE_ENV
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL 
-          || (process.env.NODE_ENV === 'production'
-            ? 'https://api.blimpify-im.com'      // Production default
-            : 'https://devapi.blimpify-im.com'); // Development default
-        
+        const apiUrl = getApiUrl();
         const host = window.location.hostname;
 
         if (!host) return;
@@ -94,7 +88,7 @@ export function AnalyticsTracker() {
         // Get session ID only if analytics consent given
         const sessionId = getOrCreateSessionId(consent.analytics);
 
-        await fetch(`${apiUrl}/api/v1/analytics/track`, {
+        await fetch(`${apiUrl}${API_ENDPOINTS.analytics.track}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

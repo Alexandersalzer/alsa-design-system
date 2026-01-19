@@ -3,7 +3,9 @@
  * Native fetch-based API client
  */
 
-const baseURL = 'https://devapi.blimpify-im.com/api';
+import { getApiUrl } from '../../config/api';
+
+const baseURL = `${getApiUrl()}/api`;
 
 interface ApiResponse<T = any> {
   data: T;

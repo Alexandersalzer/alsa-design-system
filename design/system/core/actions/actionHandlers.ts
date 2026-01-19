@@ -3,8 +3,7 @@
  */
 
 import { ActionType, ActionResponse } from './types';
-
-const API_BASE_URL = 'https://api.blimpify-im.com/api/v1';
+import { getApiUrl, API_ENDPOINTS } from '../../../config/api';
 
 /**
  * Execute an action (contact, newsletter, etc.)
@@ -21,7 +20,8 @@ export async function executeAction(
     : 'en';
 
   try {
-    const response = await fetch(`${API_BASE_URL}/actions/${actionType}`, {
+    const apiUrl = getApiUrl();
+    const response = await fetch(`${apiUrl}${API_ENDPOINTS.actions.base}/${actionType}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
