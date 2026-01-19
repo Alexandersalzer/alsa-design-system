@@ -1,7 +1,9 @@
 import React from 'react';
-import { Card, VStack, Typography } from '../../../components';
+import { Card, VStack, HStack, Typography } from '../../../components';
 import { Avatar } from '../../../components/media/Avatar';
 import { Badge } from '../../../components/feedback/Badge';
+import { Icon } from '../../../components/media/Icon';
+import { StarIcon } from '@heroicons/react/24/solid';
 import './TestimonialCard.css';
 
 interface TestimonialCardProps {
@@ -21,6 +23,10 @@ interface TestimonialCardProps {
   badgeContent?: React.ReactNode;
   /** Badge variant */
   badgeVariant?: 'success' | 'error' | 'warning' | 'info' | 'accent' | 'default';
+  /** Show star rating */
+  showStars?: boolean;
+  /** Star rating color */
+  starsColor?: 'success' | 'warning' | 'error' | 'accent' | 'primary';
 }
 
 export type { TestimonialCardProps };
@@ -36,7 +42,9 @@ export function TestimonialCard({
   avatarSrc,
   showBadge = false,
   badgeContent,
-  badgeVariant = 'info'
+  badgeVariant = 'info',
+  showStars = false,
+  starsColor = 'warning'
 }: TestimonialCardProps) {
   const CardWrapper = link ? 'a' : 'div';
   const cardProps = link
@@ -87,6 +95,15 @@ export function TestimonialCard({
               <Typography variant="body-xs" weight="regular" color="tertiary">
                 {caseType}
               </Typography>
+              {showStars && (
+                <HStack spacing="xs" className="testimonial-stars">
+                  {Array.from({ length: rating }).map((_, index) => (
+                    <Icon key={index} size="xs" color={starsColor}>
+                      <StarIcon />
+                    </Icon>
+                  ))}
+                </HStack>
+              )}
             </VStack>
           </div>
 
