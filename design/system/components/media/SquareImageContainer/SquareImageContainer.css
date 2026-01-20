@@ -70,29 +70,29 @@
   overflow: visible;
 }
 
-/* ===== PADDING SIZES ===== */
+/* ===== PADDING SIZES (using design tokens) ===== */
 
-.square-image-container--padding-none { padding: 0; }
-.square-image-container--padding-xs { padding: 0.5rem; }
-.square-image-container--padding-sm { padding: 1rem; }
-.square-image-container--padding-md { padding: 1.5rem; }
-.square-image-container--padding-lg { padding: 2rem; }
-.square-image-container--padding-xl { padding: 3rem; }
+.square-image-container--padding-none { padding: var(--foundation-space-0); }
+.square-image-container--padding-xs { padding: var(--foundation-space-2); }   /* 8px */
+.square-image-container--padding-sm { padding: var(--foundation-space-4); }   /* 16px */
+.square-image-container--padding-md { padding: var(--foundation-space-6); }   /* 24px */
+.square-image-container--padding-lg { padding: var(--foundation-space-8); }   /* 32px */
+.square-image-container--padding-xl { padding: var(--foundation-space-12); }  /* 48px */
 
 /* ===== BORDER RADIUS ===== */
 
 .square-image-container--radius-none { border-radius: 0; }
-.square-image-container--radius-sm { border-radius: 0.25rem; }
-.square-image-container--radius-md { border-radius: 0.5rem; }
-.square-image-container--radius-lg { border-radius: 0.75rem; }
-.square-image-container--radius-xl { border-radius: 1rem; }
+.square-image-container--radius-sm { border-radius: var(--foundation-space-1); }  /* 4px */
+.square-image-container--radius-md { border-radius: var(--foundation-space-2); }  /* 8px */
+.square-image-container--radius-lg { border-radius: var(--foundation-space-3); }  /* 12px */
+.square-image-container--radius-xl { border-radius: var(--foundation-space-4); }  /* 16px */
 
 /* Image wrapper radius */
 .square-image-container__wrapper--radius-none { border-radius: 0; }
-.square-image-container__wrapper--radius-sm { border-radius: 0.25rem; }
-.square-image-container__wrapper--radius-md { border-radius: 0.5rem; }
-.square-image-container__wrapper--radius-lg { border-radius: 0.75rem; }
-.square-image-container__wrapper--radius-xl { border-radius: 1rem; }
+.square-image-container__wrapper--radius-sm { border-radius: var(--foundation-space-1); }
+.square-image-container__wrapper--radius-md { border-radius: var(--foundation-space-2); }
+.square-image-container__wrapper--radius-lg { border-radius: var(--foundation-space-3); }
+.square-image-container__wrapper--radius-xl { border-radius: var(--foundation-space-4); }
 
 /* ===== LOADING SKELETON ===== */
 
