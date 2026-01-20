@@ -1,5 +1,6 @@
 export { buildCssVars, designSnippet } from './snippet';
 export { getDesignConfig } from './loaders';
+export { ThemeSync } from './ThemeSync';
 export {
   normalizeWeights,
   getWeightValue,
