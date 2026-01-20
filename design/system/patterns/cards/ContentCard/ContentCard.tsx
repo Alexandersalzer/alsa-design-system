@@ -20,6 +20,10 @@ interface ContentCardProps {
   imageHeight?: string | number; // Fixed height (e.g., '400px', 400) - overrides aspectRatio
   imageMinHeight?: string | number; // Minimum height (e.g., '300px', 300)
   imageMaxHeight?: string | number; // Maximum height (e.g., '500px', 500)
+  // Image container padding - creates space between container edge and image
+  imagePadding?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  // Image overflow behavior - whether overflowing image is visible or clipped
+  imageOverflow?: 'hidden' | 'visible';
   // Card customization
   cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid' | 'bordered';
   cardPadding?: 'none' | 'xs' | 'sm' | 'md' | 'lg';
@@ -44,6 +48,8 @@ export function ContentCard({
   imageHeight,
   imageMinHeight,
   imageMaxHeight,
+  imagePadding = 'none',
+  imageOverflow = 'hidden',
   cardVariant = 'bordered',
   cardPadding = 'none',
   spacing = 'sm'
@@ -66,11 +72,26 @@ export function ContentCard({
 
   const finalAspectRatio = getAspectRatio(imageAspectRatio);
 
-  // Build image container styles with height controls
+  // Map padding values to actual spacing
+  const getPaddingValue = (padding: string): string => {
+    const paddingMap: Record<string, string> = {
+      'none': '0',
+      'xs': '0.5rem',   // 8px
+      'sm': '1rem',     // 16px
+      'md': '1.5rem',   // 24px
+      'lg': '2rem',     // 32px
+      'xl': '3rem',     // 48px
+    };
+    return paddingMap[padding] || '0';
+  };
+
+  // Build image container styles with height controls and padding
   const imageContainerStyle: React.CSSProperties = {
     ...(imageHeight && { height: typeof imageHeight === 'number' ? `${imageHeight}px` : imageHeight }),
     ...(imageMinHeight && { minHeight: typeof imageMinHeight === 'number' ? `${imageMinHeight}px` : imageMinHeight }),
     ...(imageMaxHeight && { maxHeight: typeof imageMaxHeight === 'number' ? `${imageMaxHeight}px` : imageMaxHeight }),
+    overflow: imageOverflow,
+    padding: getPaddingValue(imagePadding),
   };
 
   return (
