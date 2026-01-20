@@ -6,7 +6,7 @@
 // - Landscape images: height 100%, overflow right (shows left portion)
 // ===============================================
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { cn } from '../../../utils/cn';
 import './SquareImageContainer.css';
 
@@ -48,13 +48,15 @@ export const SquareImageContainer: React.FC<SquareImageContainerProps> = ({
   onLoad,
   onError,
 }) => {
+  const imgRef = useRef<HTMLImageElement>(null);
   const [imageOrientation, setImageOrientation] = React.useState<'square' | 'portrait' | 'landscape' | null>(null);
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [hasError, setHasError] = React.useState(false);
 
-  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    const img = e.currentTarget;
+  const processImage = (img: HTMLImageElement) => {
     const { naturalWidth, naturalHeight } = img;
+
+    if (naturalWidth === 0 || naturalHeight === 0) return;
 
     // Determine orientation based on aspect ratio
     const ratio = naturalWidth / naturalHeight;
@@ -70,8 +72,21 @@ export const SquareImageContainer: React.FC<SquareImageContainerProps> = ({
     onLoad?.();
   };
 
+  // Check if image is already loaded (cached)
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img && img.complete && img.naturalWidth > 0) {
+      processImage(img);
+    }
+  }, [src]);
+
+  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    processImage(e.currentTarget);
+  };
+
   const handleImageError = () => {
     setHasError(true);
+    setIsLoaded(true); // Hide skeleton on error too
     onError?.();
   };
 
@@ -98,6 +113,7 @@ export const SquareImageContainer: React.FC<SquareImageContainerProps> = ({
       <div className={wrapperClasses}>
         {/* Image is always rendered and visible */}
         <img
+          ref={imgRef}
           src={src}
           alt={alt}
           className="square-image-container__image"

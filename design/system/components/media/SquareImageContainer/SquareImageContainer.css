@@ -1,9 +1,9 @@
 /* ===============================================
    SquareImageContainer - Consistent square display for any aspect ratio
 
-   How it works:
-   - Outer container: square aspect ratio (1:1), has padding
-   - Inner wrapper: fills remaining space, clips overflow
+   Structure:
+   - Outer container: has padding, no aspect ratio
+   - Inner wrapper: square aspect ratio (1:1), clips overflow
    - Image: positioned to show top-left, sized based on orientation
      - Portrait: width 100%, height auto → overflows bottom
      - Landscape: height 100%, width auto → overflows right
@@ -12,15 +12,14 @@
 
 .square-image-container {
   width: 100%;
-  aspect-ratio: 1 / 1;
   position: relative;
   box-sizing: border-box;
 }
 
-/* Image wrapper - fills the space inside padding */
+/* Image wrapper - THIS is the square, clips overflow */
 .square-image-container__wrapper {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1 / 1;
   position: relative;
   overflow: hidden;
 }
