@@ -8,7 +8,6 @@
 
 import React from 'react';
 import { cn } from '../../../utils/cn';
-import { Component } from '../../frames/component/Component';
 import './SquareImageContainer.css';
 
 export interface SquareImageContainerProps {
@@ -20,7 +19,7 @@ export interface SquareImageContainerProps {
   padding?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   /** Border radius of the container */
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
-  /** Border radius of the image itself */
+  /** Border radius of the image wrapper */
   imageRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   /** Whether overflow is visible or hidden */
   overflow?: 'hidden' | 'visible';
@@ -28,8 +27,6 @@ export interface SquareImageContainerProps {
   backgroundColor?: string;
   /** Custom className */
   className?: string;
-  /** Component key for live editing */
-  componentKey?: string;
   /** Loading strategy */
   loading?: 'lazy' | 'eager';
   /** Callback when image loads */
@@ -37,23 +34,6 @@ export interface SquareImageContainerProps {
   /** Callback when image errors */
   onError?: () => void;
 }
-
-const paddingMap: Record<string, string> = {
-  'none': '0',
-  'xs': '0.5rem',
-  'sm': '1rem',
-  'md': '1.5rem',
-  'lg': '2rem',
-  'xl': '3rem',
-};
-
-const radiusMap: Record<string, string> = {
-  'none': '0',
-  'sm': '0.25rem',
-  'md': '0.5rem',
-  'lg': '0.75rem',
-  'xl': '1rem',
-};
 
 export const SquareImageContainer: React.FC<SquareImageContainerProps> = ({
   src,
@@ -64,7 +44,6 @@ export const SquareImageContainer: React.FC<SquareImageContainerProps> = ({
   overflow = 'hidden',
   backgroundColor,
   className,
-  componentKey,
   loading = 'lazy',
   onLoad,
   onError,
@@ -98,42 +77,36 @@ export const SquareImageContainer: React.FC<SquareImageContainerProps> = ({
 
   const containerClasses = cn(
     'square-image-container',
+    `square-image-container--padding-${padding}`,
     `square-image-container--radius-${radius}`,
     `square-image-container--overflow-${overflow}`,
     imageOrientation && `square-image-container--${imageOrientation}`,
-    isLoaded && 'square-image-container--loaded',
     className
   );
 
+  const wrapperClasses = cn(
+    'square-image-container__wrapper',
+    `square-image-container__wrapper--radius-${imageRadius}`
+  );
+
   const containerStyle: React.CSSProperties = {
-    padding: paddingMap[padding],
-    borderRadius: radiusMap[radius],
     ...(backgroundColor && { backgroundColor }),
   };
 
-  const imageWrapperStyle: React.CSSProperties = {
-    borderRadius: radiusMap[imageRadius],
-    overflow: overflow,
-  };
-
   return (
-    <Component componentKey={componentKey}>
-      <div className={containerClasses} style={containerStyle}>
-        <div className="square-image-container__wrapper" style={imageWrapperStyle}>
-          <img
-            src={src}
-            alt={alt}
-            className={cn(
-              'square-image-container__image',
-              imageOrientation && `square-image-container__image--${imageOrientation}`
-            )}
-            loading={loading}
-            onLoad={handleImageLoad}
-            onError={handleImageError}
-          />
-        </div>
+    <div className={containerClasses} style={containerStyle}>
+      <div className={wrapperClasses}>
+        {/* Image is always rendered and visible */}
+        <img
+          src={src}
+          alt={alt}
+          className="square-image-container__image"
+          loading={loading}
+          onLoad={handleImageLoad}
+          onError={handleImageError}
+        />
 
-        {/* Loading skeleton */}
+        {/* Loading skeleton - only shown while loading */}
         {!isLoaded && !hasError && (
           <div className="square-image-container__skeleton" />
         )}
@@ -158,7 +131,7 @@ export const SquareImageContainer: React.FC<SquareImageContainerProps> = ({
           </div>
         )}
       </div>
-    </Component>
+    </div>
   );
 };
 

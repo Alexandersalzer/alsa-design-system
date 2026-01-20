@@ -19,6 +19,12 @@
   position: relative;
 }
 
+/* When using SquareImageContainer, let it control its own sizing */
+.content-card-image-container:has(.square-image-container) {
+  display: block;
+  overflow: visible;
+}
+
 /* Default variant has background */
 .content-card-image-container.card--default,
 .content-card-image-container.card--elevated,
