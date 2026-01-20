@@ -32,7 +32,6 @@ function isValidPixelId(platform: string, pixelId: string): boolean {
   const alphanumericRegex = /^[a-zA-Z0-9_-]+$/;
   
   if (!alphanumericRegex.test(pixelId)) {
-    console.error(`[MarketingPixels] Invalid pixel_id format: ${pixelId}`);
     return false;
   }
   
@@ -55,7 +54,6 @@ function isValidPixelId(platform: string, pixelId: string): boolean {
 
 function loadMetaPixel(pixelId: string) {
   if ((window as any).fbq) {
-    console.warn('[MarketingPixels] Meta Pixel already loaded');
     return;
   }
   
@@ -75,20 +73,16 @@ function loadMetaPixel(pixelId: string) {
   script.async = true;
   script.src = PIXEL_SOURCES.meta;
   script.onload = () => {
-    console.log('[MarketingPixels] Meta Pixel loaded');
     (window as any).fbq('init', pixelId);
     (window as any).fbq('track', 'PageView');
   };
-  script.onerror = () => {
-    console.error('[MarketingPixels] Failed to load Meta Pixel');
-  };
+  script.onerror = () => {};
   
   document.head.appendChild(script);
 }
 
 function loadTikTokPixel(pixelId: string) {
   if ((window as any).ttq) {
-    console.warn('[MarketingPixels] TikTok Pixel already loaded');
     return;
   }
   
@@ -130,12 +124,8 @@ function loadTikTokPixel(pixelId: string) {
     o.type = 'text/javascript';
     o.async = true;
     o.src = i + '?sdkid=' + e + '&lib=ttq';
-    o.onload = () => {
-      console.log('[MarketingPixels] TikTok Pixel loaded');
-    };
-    o.onerror = () => {
-      console.error('[MarketingPixels] Failed to load TikTok Pixel');
-    };
+    o.onload = () => {};
+    o.onerror = () => {};
     
     const a = document.getElementsByTagName('script')[0];
     if (a && a.parentNode) {
@@ -152,7 +142,6 @@ function loadTikTokPixel(pixelId: string) {
 
 function loadSnapchatPixel(pixelId: string) {
   if ((window as any).snaptr) {
-    console.warn('[MarketingPixels] Snapchat Pixel already loaded');
     return;
   }
   
@@ -167,20 +156,16 @@ function loadSnapchatPixel(pixelId: string) {
   script.async = true;
   script.src = PIXEL_SOURCES.snapchat;
   script.onload = () => {
-    console.log('[MarketingPixels] Snapchat Pixel loaded');
     (window as any).snaptr('init', pixelId);
     (window as any).snaptr('track', 'PAGE_VIEW');
   };
-  script.onerror = () => {
-    console.error('[MarketingPixels] Failed to load Snapchat Pixel');
-  };
+  script.onerror = () => {};
   
   document.head.appendChild(script);
 }
 
 function loadGoogleTag(tagId: string) {
   if ((window as any).gtag) {
-    console.warn('[MarketingPixels] Google Tag already loaded');
     return;
   }
   
@@ -196,12 +181,9 @@ function loadGoogleTag(tagId: string) {
   script.async = true;
   script.src = `${PIXEL_SOURCES.google}?id=${encodeURIComponent(tagId)}`;
   script.onload = () => {
-    console.log('[MarketingPixels] Google Tag loaded');
     (window as any).gtag('config', tagId);
   };
-  script.onerror = () => {
-    console.error('[MarketingPixels] Failed to load Google Tag');
-  };
+  script.onerror = () => {};
   
   document.head.appendChild(script);
 }
@@ -222,19 +204,15 @@ export function MarketingPixels({ pixels }: MarketingPixelsProps) {
     
     // Validate platform
     if (!ALLOWED_PLATFORMS.includes(pixel.platform)) {
-      console.error(`[MarketingPixels] Invalid platform: ${pixel.platform}`);
       return;
     }
     
     // Validate pixel_id
     if (!isValidPixelId(pixel.platform, pixel.pixel_id)) {
-      console.error(`[MarketingPixels] Invalid pixel_id for ${pixel.platform}: ${pixel.pixel_id}`);
       return;
     }
     
     // Load pixel
-    console.log(`[MarketingPixels] Loading ${pixel.platform} pixel: ${pixel.pixel_id}`);
-    
     try {
       switch (pixel.platform) {
         case 'meta':
@@ -253,7 +231,7 @@ export function MarketingPixels({ pixels }: MarketingPixelsProps) {
       
       loadedPixelsRef.current.add(key);
     } catch (error) {
-      console.error(`[MarketingPixels] Error loading ${pixel.platform} pixel:`, error);
+      // Silently handle errors
     }
   }, []);
 
@@ -266,7 +244,6 @@ export function MarketingPixels({ pixels }: MarketingPixelsProps) {
     
     // 🛡️ GDPR: Only load if marketing consent granted
     if (!consent.marketing) {
-      console.log('[MarketingPixels] Marketing consent not granted, skipping pixel load');
       return;
     }
     
