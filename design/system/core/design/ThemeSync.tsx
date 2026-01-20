@@ -8,14 +8,16 @@ const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffec
 /**
  * ThemeSync - Client component that syncs system theme preference
  *
- * This component must be rendered in the body to ensure it runs AFTER React hydration.
- * It reads the `data-theme-mode` attribute from <html> and applies the correct theme.
+ * This component handles theme synchronization in two phases:
+ * 1. Immediately on mount (useLayoutEffect) - applies correct theme before paint
+ * 2. Removes the 'theme-pending' class to reveal content
  *
  * For "system" mode, it:
- * 1. Immediately applies the correct theme based on OS preference
- * 2. Listens for OS theme changes and updates accordingly
+ * - Applies the correct theme based on OS preference
+ * - Listens for OS theme changes and updates accordingly
  *
- * For "light" or "dark" mode, it ensures the attribute is correct (in case React hydration reset it)
+ * The 'theme-pending' class on <html> can be used with CSS to hide content
+ * until the theme is resolved, preventing flash of wrong theme.
  */
 export function ThemeSync() {
   useIsomorphicLayoutEffect(() => {
@@ -38,8 +40,11 @@ export function ThemeSync() {
       }
     }
 
-    // Apply immediately
+    // Apply theme immediately (before browser paint due to useLayoutEffect)
     applyTheme();
+
+    // Remove the pending class to reveal content
+    html.classList.remove('theme-pending');
 
     // For system mode, listen for OS preference changes
     if (themeMode === 'system') {
