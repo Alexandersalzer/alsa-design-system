@@ -7,6 +7,11 @@
  * - Production builds: Uses NEXT_PUBLIC_API_URL from environment or defaults to production API
  * - Development builds: Uses NEXT_PUBLIC_API_URL from workspace .env.local
  * 
+ * Development hostname override:
+ * - NEXT_PUBLIC_DEV_HOSTNAME: Override X-Origin-Host header in development
+ * - Example: NEXT_PUBLIC_DEV_HOSTNAME=kjmarketingsweden.com
+ * - Only used in development, ignored in production
+ * 
  * SECURITY DESIGN:
  * - Never defaults to dev API (always failsafe to production)
  * - Environment variable is replaced at build time by Next.js (becomes static string)
@@ -38,6 +43,29 @@ export function getApiUrl(): string {
   
   // 2. FAILSAFE: Always default to production (NEVER dev)
   return DEFAULT_PROD_API;
+}
+
+/**
+ * Get hostname for X-Origin-Host header
+ * 
+ * In development, allows overriding hostname to test specific clients
+ * In production, uses window.location.hostname
+ * 
+ * @returns Hostname (e.g., "kjmarketingsweden.com" or "cicir.onblimpify.com")
+ */
+export function getHostname(): string {
+  // 1. Development override (only if explicitly set)
+  if (process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_DEV_HOSTNAME) {
+    return process.env.NEXT_PUBLIC_DEV_HOSTNAME;
+  }
+  
+  // 2. Production: Use actual hostname
+  if (typeof window !== 'undefined') {
+    return window.location.hostname;
+  }
+  
+  // 3. SSR fallback (should not be used for client-side API calls)
+  return '';
 }
 
 /**

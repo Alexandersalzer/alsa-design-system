@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useConsent } from '../cookieConsent/ConsentProvider';
-import { getApiUrl, API_ENDPOINTS } from '../../../config/api';
+import { getApiUrl, API_ENDPOINTS, getHostname } from '../../../config/api';
 
 /**
  * Generate a unique session ID
@@ -81,7 +81,7 @@ export function AnalyticsTracker() {
     const trackPageView = async () => {
       try {
         const apiUrl = getApiUrl();
-        const host = window.location.hostname;
+        const host = getHostname();
 
         if (!host) return;
 
@@ -103,7 +103,7 @@ export function AnalyticsTracker() {
       } catch (error) {
         // Fail silently - analytics should never break the user experience
       }
-    };
+    }; 
 
     // Track initial page view
     trackPageView();
