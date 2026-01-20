@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, VStack, Typography } from '../../../components';
 import { Image } from '../../../components/media/Image';
+import { SquareImageContainer } from '../../../components/media/SquareImageContainer';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import './ContentCard.css';
 
@@ -11,7 +12,9 @@ interface ContentCardProps {
   description: string;
   imageSrc: string;
   imageAlt: string;
-  // Image customization
+  // Image display mode
+  imageDisplayMode?: 'default' | 'squareContainer';
+  // Image customization (for default mode)
   imageAspectRatio?: '1/1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16' | 'square' | 'landscape' | 'portrait' | 'none' | string;
   imageRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
@@ -41,6 +44,7 @@ export function ContentCard({
   imageSrc,
   imageAlt,
   // Defaults
+  imageDisplayMode = 'default',
   imageAspectRatio = '1/1',
   imageRadius = 'md',
   imageObjectFit = 'cover',
@@ -85,7 +89,7 @@ export function ContentCard({
     return paddingMap[padding] || '0';
   };
 
-  // Build image container styles with height controls and padding
+  // Build image container styles with height controls and padding (for default mode)
   const imageContainerStyle: React.CSSProperties = {
     ...(imageHeight && { height: typeof imageHeight === 'number' ? `${imageHeight}px` : imageHeight }),
     ...(imageMinHeight && { minHeight: typeof imageMinHeight === 'number' ? `${imageMinHeight}px` : imageMinHeight }),
@@ -94,6 +98,47 @@ export function ContentCard({
     padding: getPaddingValue(imagePadding),
   };
 
+  const fullImageSrc = `${CDN_BASE_URL}${imageSrc}`;
+
+  // Render SquareImageContainer mode
+  if (imageDisplayMode === 'squareContainer') {
+    return (
+      <div className="content-card" data-component-key={componentKey}>
+        {/* Square Image Container - handles all aspect ratios consistently */}
+        <Card
+          variant={cardVariant}
+          padding={cardPadding}
+          className="content-card-image-container"
+        >
+          <SquareImageContainer
+            src={fullImageSrc}
+            alt={imageAlt}
+            padding={imagePadding}
+            radius={imageRadius === 'full' ? 'xl' : imageRadius}
+            imageRadius={imageRadius === 'full' ? 'xl' : imageRadius}
+            overflow={imageOverflow}
+          />
+        </Card>
+
+        {/* Text Content - VStack with no background, left aligned */}
+        <VStack spacing={spacing} className="content-card-text">
+          <Typography variant="h2" weight="bold" color="primary">
+            {heading}
+          </Typography>
+          {subheading && (
+            <Typography variant="body-lg" weight="semibold" color="secondary">
+              {subheading}
+            </Typography>
+          )}
+          <Typography variant="body-md" weight="regular" color="tertiary">
+            {description}
+          </Typography>
+        </VStack>
+      </div>
+    );
+  }
+
+  // Default mode - original behavior
   return (
     <div className="content-card" data-component-key={componentKey}>
       {/* Image Card - separate container with background */}
@@ -104,10 +149,11 @@ export function ContentCard({
         style={imageContainerStyle}
       >
         <Image
-          src={`${CDN_BASE_URL}${imageSrc}`}
+          src={fullImageSrc}
           alt={imageAlt}
           width="100%"
           height="100%"
+          aspectRatio={finalAspectRatio}
           objectFit={imageObjectFit}
           objectPosition={imageObjectPosition}
           radius={imageRadius}
