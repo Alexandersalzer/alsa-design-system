@@ -44,7 +44,7 @@
   width: 1px; /* Prevents overflow, forces equal distribution */
 
   display: block; /* Let SquareImageContainer control its own layout */
-  overflow: visible;
+  overflow: hidden;
   padding: 0;
   position: relative;
   margin: 0;
