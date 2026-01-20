@@ -83,11 +83,8 @@ export const CountUp: React.FC<CountUpProps> = ({
 
   const startAnimation = useCallback(() => {
     if (hasStartedRef.current || hasCompletedRef.current) {
-      console.log('[CountUp] Animation already started or completed');
       return;
     }
-
-    console.log('[CountUp] Starting animation!', { start, end, duration, delay });
     hasStartedRef.current = true;
 
     const startTime = Date.now() + delay;
@@ -108,7 +105,6 @@ export const CountUp: React.FC<CountUpProps> = ({
       } else {
         setCount(endValue);
         hasCompletedRef.current = true;
-        console.log('[CountUp] Animation completed!');
         onComplete?.();
       }
     };
@@ -119,26 +115,18 @@ export const CountUp: React.FC<CountUpProps> = ({
   // Scroll-trigger observer
   useEffect(() => {
     if (!enableScrollTrigger) {
-      console.log('[CountUp] Scroll trigger disabled, starting immediately');
       startAnimation();
       return;
     }
 
     const element = countRef.current;
     if (!element) {
-      console.log('[CountUp] No element ref, cannot observe');
       return;
     }
 
-    console.log('[CountUp] Setting up IntersectionObserver', { enableScrollTrigger, triggerOffset });
-
     const observer = new IntersectionObserver(
       (entries) => {
-        console.log('[CountUp] Intersection change:', entries[0].isIntersecting, 
-          'hasStarted:', hasStartedRef.current, 
-          'hasCompleted:', hasCompletedRef.current);
         if (entries[0].isIntersecting && !hasStartedRef.current && !hasCompletedRef.current) {
-          console.log('[CountUp] Element in viewport, starting animation!');
           startAnimation();
         }
       },
