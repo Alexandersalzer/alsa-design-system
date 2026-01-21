@@ -34,14 +34,6 @@
   --is-dark: 1;
 }
 
-/* System theme mode: Use CSS media query to detect OS preference.
-   This works BEFORE any JavaScript runs, preventing theme flash on navigation. */
-@media (prefers-color-scheme: dark) {
-  [data-theme-mode="system"] {
-    --is-dark: 1;
-  }
-}
-
 
 /* =============================================================================
    2. PRIMITIVE SCALES
