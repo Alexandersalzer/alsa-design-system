@@ -43,8 +43,9 @@ export function ThemeSync() {
     // Apply theme immediately (before browser paint due to useLayoutEffect)
     applyTheme();
 
-    // Remove the pending class to reveal content
+    // Remove the pending class and show content
     html.classList.remove('theme-pending');
+    html.style.opacity = '1';
 
     // For system mode, listen for OS preference changes
     if (themeMode === 'system') {
