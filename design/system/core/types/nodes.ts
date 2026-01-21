@@ -30,12 +30,20 @@ export interface PatternNode extends BaseNode {
 
 
 /**
+ * Section Header - Optional header with tag, heading, body components
+ */
+export interface SectionHeader {
+  components: Record<string, ComponentNode>;
+}
+
+/**
  * Section - Container för patterns  
  * Top-level containers som organiserar patterns
  */
 export interface SectionNode extends BaseNode<SectionType> {
-  patterns: Record<string, PatternNode>; // Required - section måste ha patterns
-  order: string[]; // Required - sections behöver rendering order
+  header?: SectionHeader; // Optional - section header med tag, heading, body
+  patterns?: Record<string, PatternNode>; // Optional - section kan ha patterns
+  order?: string[]; // Optional - sections behöver rendering order för patterns
   sectionKey?: string; // För live editing identification
 }
 

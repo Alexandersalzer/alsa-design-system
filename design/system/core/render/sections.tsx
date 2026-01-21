@@ -3,6 +3,7 @@
 import { Section } from '../../components/frames/section/Section';
 import { SectionNode } from '../types/nodes';
 import { renderPattern } from './patterns';
+import { SectionHeader } from './SectionHeader';
 
 /**
  * Props for Sections component
@@ -13,24 +14,29 @@ interface SectionsProps {
 }
 
 /**
- * Renders a single section with its patterns
+ * Renders a single section with its header and patterns
  */
 export function renderSection(sectionData: SectionNode, sectionKey: string): React.ReactNode {
-  if (!sectionData?.patterns) return null;
+  if (!sectionData?.patterns && !sectionData?.header) return null;
 
-  const { type, patterns, order, props } = sectionData;
-  const patternOrder = order || Object.keys(patterns);
+  const { type, header, patterns, order, props } = sectionData;
+  const patternOrder = order || Object.keys(patterns || {});
 
+  // Render header
+  const renderedHeader = SectionHeader(header, sectionKey, props || {});
+
+  // Render patterns
   const renderedPatterns = patternOrder
     .map((patternKey) => {
-      const pattern = patterns[patternKey];
+      const pattern = patterns?.[patternKey];
       if (!pattern) return null;
 
       return renderPattern(pattern, patternKey, sectionKey);
     })
     .filter(Boolean);
 
-  if (renderedPatterns.length === 0) return null;
+  // Don't render section if no content
+  if (!renderedHeader && renderedPatterns.length === 0) return null;
 
   return (
     <Section
@@ -40,6 +46,7 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
       sectionKey={sectionKey}
       {...props}
     >
+      {renderedHeader}
       {renderedPatterns}
     </Section>
   );
