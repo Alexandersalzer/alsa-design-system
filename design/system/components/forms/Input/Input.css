@@ -436,6 +436,44 @@
   /* Default to small radius for header search */
 }
 
+/* ===== ACTION BUTTON ===== */
+.input-action-button {
+  position: absolute;
+  right: var(--foundation-space-1);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Size variants for action button container */
+.input-action-button--sm {
+  right: 2px;
+}
+
+.input-action-button--md {
+  right: var(--foundation-space-1);
+}
+
+.input-action-button--lg {
+  right: var(--foundation-space-2);
+}
+
+/* Padding adjustments for inputs with action buttons */
+.input-with-action-button.input--sm {
+  padding-right: 80px; /* Will be overridden by dynamic JS */
+}
+
+.input-with-action-button.input--md {
+  padding-right: 100px; /* Will be overridden by dynamic JS */
+}
+
+.input-with-action-button.input--lg {
+  padding-right: 120px; /* Will be overridden by dynamic JS */
+}
+
 /* ===== CLEAR BUTTON ===== */
 .input-clear-button {
   position: absolute;
