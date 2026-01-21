@@ -18,6 +18,25 @@ export const renderPattern = (pattern: PatternNode, patternKey: string, sectionK
   // Hämta useMediaWidth från props med getPatternProps
   const patternProps = getPatternProps(pattern);
 
+  // Check if pattern should skip Container wrapper
+  const noContainer = patternProps.noContainer === true;
+
+  const patternElement = (
+    <PatternComponent 
+      type={pattern.type}
+      props={pattern.props}
+      components={pattern.components}
+      sectionKey={sectionKey}
+      patternKey={patternKey}
+    />
+  );
+
+  // Render without Container if noContainer is true
+  if (noContainer) {
+    return <div key={patternKey} data-pattern-key={patternKey}>{patternElement}</div>;
+  }
+
+  // Default: render with Container
   return (
     <Container 
       key={patternKey}
@@ -26,13 +45,7 @@ export const renderPattern = (pattern: PatternNode, patternKey: string, sectionK
       useFormWidth={patternProps.useFormWidth || false}
       patternKey={patternKey}
     >
-      <PatternComponent 
-        type={pattern.type}
-        props={pattern.props}
-        components={pattern.components}
-        sectionKey={sectionKey}
-        patternKey={patternKey}
-      />
+      {patternElement}
     </Container>
   );
 };
