@@ -106,3 +106,14 @@
     column-width: 100%; /* 1 column on small mobile */
   }
 }
+
+/* ===== WRAPPER & SHOW MORE BUTTON ===== */
+.masonry-grid-wrapper {
+  width: 100%;
+}
+
+.masonry-grid-show-more {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--foundation-space-6);
+}

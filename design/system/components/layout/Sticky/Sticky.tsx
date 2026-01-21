@@ -1,5 +1,5 @@
 // ===============================================
-// Sticky Component
+// Sticky.tsx Component
 // Makes content stick to viewport during scroll
 // ===============================================
 

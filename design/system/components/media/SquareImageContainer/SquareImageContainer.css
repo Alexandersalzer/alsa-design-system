@@ -1,0 +1,137 @@
+/* ===============================================
+   SquareImageContainer - Consistent square display for any aspect ratio
+
+   Structure:
+   - Outer container: has padding, no aspect ratio
+   - Inner wrapper: square aspect ratio (1:1), clips overflow
+   - Image: positioned to show top-left, sized based on orientation
+     - Portrait: width 100%, height auto → overflows bottom
+     - Landscape: height 100%, width auto → overflows right
+     - Square: fills perfectly
+   =============================================== */
+
+.square-image-container {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* Image wrapper - THIS is the square, clips overflow */
+.square-image-container__wrapper {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Base image styles - always visible, positioned top-left */
+.square-image-container__image {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* Default: treat as square until we know orientation */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left top;
+}
+
+/* ===== ORIENTATION-SPECIFIC STYLES ===== */
+
+/* PORTRAIT (tall): Width fills 100%, height overflows bottom */
+.square-image-container--portrait .square-image-container__image {
+  width: 100%;
+  height: auto;
+  object-fit: unset;
+}
+
+/* LANDSCAPE (wide): Height fills 100%, width overflows right */
+.square-image-container--landscape .square-image-container__image {
+  width: auto;
+  height: 100%;
+  object-fit: unset;
+}
+
+/* SQUARE: Image covers container */
+.square-image-container--square .square-image-container__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== OVERFLOW HANDLING ===== */
+
+.square-image-container--overflow-hidden .square-image-container__wrapper {
+  overflow: hidden;
+}
+
+.square-image-container--overflow-visible .square-image-container__wrapper {
+  overflow: visible;
+}
+
+/* ===== PADDING SIZES (using design tokens) ===== */
+
+.square-image-container--padding-none { padding: var(--foundation-space-0); }
+.square-image-container--padding-xs { padding: var(--foundation-space-2); }   /* 8px */
+.square-image-container--padding-sm { padding: var(--foundation-space-4); }   /* 16px */
+.square-image-container--padding-md { padding: var(--foundation-space-6); }   /* 24px */
+.square-image-container--padding-lg { padding: var(--foundation-space-8); }   /* 32px */
+.square-image-container--padding-xl { padding: var(--foundation-space-12); }  /* 48px */
+
+/* ===== BORDER RADIUS ===== */
+
+.square-image-container--radius-none { border-radius: 0; }
+.square-image-container--radius-sm { border-radius: var(--foundation-space-1); }  /* 4px */
+.square-image-container--radius-md { border-radius: var(--foundation-space-2); }  /* 8px */
+.square-image-container--radius-lg { border-radius: var(--foundation-space-3); }  /* 12px */
+.square-image-container--radius-xl { border-radius: var(--foundation-space-4); }  /* 16px */
+
+/* Image wrapper radius */
+.square-image-container__wrapper--radius-none { border-radius: 0; }
+.square-image-container__wrapper--radius-sm { border-radius: var(--foundation-space-1); }
+.square-image-container__wrapper--radius-md { border-radius: var(--foundation-space-2); }
+.square-image-container__wrapper--radius-lg { border-radius: var(--foundation-space-3); }
+.square-image-container__wrapper--radius-xl { border-radius: var(--foundation-space-4); }
+
+/* ===== LOADING SKELETON ===== */
+
+.square-image-container__skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--color-gray-200, #e5e7eb) 0%,
+    var(--color-gray-100, #f3f4f6) 50%,
+    var(--color-gray-200, #e5e7eb) 100%
+  );
+  background-size: 200% 100%;
+  animation: square-image-skeleton-pulse 1.5s ease-in-out infinite;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+@keyframes square-image-skeleton-pulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ===== ERROR STATE ===== */
+
+.square-image-container__error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-gray-100, #f3f4f6);
+  color: var(--color-gray-400, #9ca3af);
+  border-radius: inherit;
+  z-index: 1;
+}
