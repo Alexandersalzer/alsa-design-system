@@ -11,7 +11,7 @@ import { VStack } from '../../components/layout/vStack/VStack';
 import { Box } from '../../components/layout/box/Box';
 import { LayoutConfig } from './types';
 import { PatternNode } from '../types/nodes';
-import { renderPattern } from '../render/patterns';
+import { renderPattern, renderPatternDirect } from '../render/patterns';
 
 interface LayoutRendererProps {
   layout?: LayoutConfig;
@@ -94,20 +94,14 @@ export function LayoutRenderer({
     return (
       <Container>
         <VStack spacing={gap} align="center">
-          {/* SectionHeader + ButtonGroup grouped together (if not distanced) */}
-          {(sectionHeaderKey || (buttonGroupKey && !distanceAction)) && (
-            <Box style={{ maxWidth: '650px', margin: '0 auto', width: '100%' }}>
-              <VStack spacing="lg" align="center">
-                {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey)}
-                {buttonGroupKey && !distanceAction && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
-              </VStack>
-            </Box>
-          )}
+          {/* SectionHeader + ButtonGroup in same container */}
+          {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey)}
+          {buttonGroupKey && !distanceAction && renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
           
-          {/* Other patterns */}
+          {/* Other patterns with their own containers */}
           {renderPatterns(otherPatternKeys)}
           
-          {/* ButtonGroup (if distanced) */}
+          {/* ButtonGroup (if distanced) with own container */}
           {buttonGroupKey && distanceAction && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
         </VStack>
       </Container>
@@ -123,20 +117,16 @@ export function LayoutRenderer({
     return (
       <Container>
         <VStack spacing={gap} align={alignSectionHeader === 'left' ? 'start' : 'end'}>
-          {/* SectionHeader + ButtonGroup grouped together (if not distanced) */}
-          {(sectionHeaderKey || (buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn)) && (
-            <Box style={{ maxWidth: '650px', margin: alignSectionHeader === 'left' ? '0 auto 0 0' : '0 0 0 auto', width: '100%' }}>
-              <VStack spacing="lg" align="start">
-                {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey)}
-                {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
-              </VStack>
-            </Box>
-          )}
+          {/* First column content (SectionHeader + ButtonGroup in same container) */}
+          <VStack spacing="lg" align="start">
+            {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey)}
+            {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
+          </VStack>
           
-          {/* Other patterns */}
+          {/* Other patterns with their own containers */}
           {renderPatterns(remainingPatterns)}
           
-          {/* ButtonGroup (if distanced) */}
+          {/* ButtonGroup (if distanced) with own container */}
           {buttonGroupKey && distanceAction && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
         </VStack>
       </Container>
@@ -157,11 +147,11 @@ export function LayoutRenderer({
           }}
           className="section-split-layout"
         >
-          {/* First Column: SectionHeader + ButtonGroup grouped (if not in secondColumn and not distanced) */}
+          {/* First Column: SectionHeader + ButtonGroup in same container */}
           <Box>
             <VStack spacing="lg" align="start">
-              {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey)}
-              {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
+              {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey)}
+              {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
             </VStack>
           </Box>
           
@@ -178,12 +168,8 @@ export function LayoutRenderer({
           </VStack>
         )}
         
-        {/* ButtonGroup (if distanced) - full width at bottom */}
-        {buttonGroupKey && distanceAction && (
-          <Box>
-            {renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
-          </Box>
-        )}
+        {/* ButtonGroup (if distanced) - full width at bottom with own container */}
+        {buttonGroupKey && distanceAction && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
       </VStack>
     </Container>
   );
