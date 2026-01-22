@@ -56,9 +56,12 @@ export function LayoutRenderer({
   const sectionHeaderKey = order.find(key => patterns[key]?.type === 'sectionHeader');
   const buttonGroupKey = order.find(key => patterns[key]?.type === 'buttonGroup');
   
-  // Get remaining patterns (exclude sectionHeader and buttonGroup)
+  // Check if ButtonGroup should be in secondColumn
+  const isButtonGroupInSecondColumn = buttonGroupKey && secondColumn.includes(buttonGroupKey);
+  
+  // Get remaining patterns (exclude sectionHeader, and buttonGroup only if NOT in secondColumn)
   const otherPatternKeys = order.filter(
-    key => key !== sectionHeaderKey && key !== buttonGroupKey
+    key => key !== sectionHeaderKey && (key !== buttonGroupKey || isButtonGroupInSecondColumn)
   );
   
   // Separate secondColumn patterns from other patterns
@@ -108,17 +111,18 @@ export function LayoutRenderer({
   }
 
   // ===== SPLIT LAYOUT (Left or Right aligned SectionHeader) =====
-  const hasSecondColumn = secondColumnPatterns.length > 0;
+  // Split layout is active when secondColumn array exists (even if empty)
+  const hasSecondColumnDefined = secondColumn && secondColumn.length >= 0;
   
-  // Left/Right aligned but no second column
-  if (!hasSecondColumn) {
+  // If no secondColumn defined at all, simple aligned layout
+  if (!hasSecondColumnDefined) {
     return (
       <Container>
         <VStack spacing={gap} align={alignSectionHeader === 'left' ? 'start' : 'end'}>
           {/* First column content (SectionHeader + ButtonGroup in VStack) */}
           <VStack spacing="lg" align="start">
             {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey)}
-            {buttonGroupKey && !distanceAction && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
+            {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
           </VStack>
           
           {/* Other patterns */}
@@ -131,7 +135,7 @@ export function LayoutRenderer({
     );
   }
 
-  // ===== SPLIT LAYOUT WITH SECOND COLUMN =====
+  // ===== SPLIT LAYOUT WITH SECOND COLUMN (even if empty) =====
   return (
     <Container>
       <VStack spacing={gap}>
@@ -145,13 +149,13 @@ export function LayoutRenderer({
           }}
           className="section-split-layout"
         >
-          {/* First Column: SectionHeader + ButtonGroup (if not distanced) */}
+          {/* First Column: SectionHeader + ButtonGroup (if not in secondColumn and not distanced) */}
           <VStack spacing="lg" align="start">
             {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey)}
-            {buttonGroupKey && !distanceAction && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
+            {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
           </VStack>
           
-          {/* Second Column: Patterns from secondColumn array */}
+          {/* Second Column: Patterns from secondColumn array (can be empty) */}
           <VStack spacing="lg" align="start">
             {renderPatterns(secondColumnPatterns)}
           </VStack>
