@@ -5,15 +5,18 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PatternNode } from '../../../core/types/nodes';
 import { patternProps, componentProps, componentPresent } from '../../../core/utils/props';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Button } from '../../../components/actions/Button/Button';
+import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
 import type { LayoutContext } from '../../../core/render/patterns';
 
 export interface ButtonGroupProps extends PatternNode {
   type: 'buttonGroup';
+  sectionKey?: string;
+  patternKey?: string;
   /** Layout context for inheriting alignment from parent layout */
   layoutContext?: LayoutContext;
 }
@@ -29,7 +32,7 @@ export interface ButtonGroupProps extends PatternNode {
  */
 export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   const getPatternProps = patternProps(patternNode);
-  const { components = {}, order = [], layoutContext } = patternNode;
+  const { components = {}, order = [], sectionKey, layoutContext } = patternNode;
   const get = componentProps(components);
   const renderIf = componentPresent(components);
 
@@ -70,6 +73,49 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   // Fallback: if no order, use all component keys
   const buttonKeys = order.length > 0 ? order : Object.keys(components);
 
+  // Animation configuration
+  const isHero = sectionKey?.startsWith('hero_') || patternPropsValues?.isHero || false;
+  const animationDirection = patternPropsValues?.animationDirection || 'up';
+  const animationDuration = patternPropsValues?.animationDuration || 600;
+  const animationDelay = patternPropsValues?.animationDelay || 0;
+  const animationStagger = patternPropsValues?.animationStagger || 100; // Delay between buttons
+
+  // Read animation mode from CSS variable (set in design.json)
+  // 'all' = animate all sections, 'hero' = only hero sections, 'none' = no animations
+  const [animationMode, setAnimationMode] = useState<'all' | 'hero' | 'none'>('all');
+
+  useEffect(() => {
+    // Read CSS variable on client-side after mount to avoid hydration mismatch
+    const cssValue = getComputedStyle(document.documentElement)
+      .getPropertyValue('--section-body-animation')
+      .replace(/['"`]/g, '')
+      .trim() as 'all' | 'hero' | 'none';
+    
+    if (cssValue && (cssValue === 'all' || cssValue === 'hero' || cssValue === 'none')) {
+      setAnimationMode(cssValue);
+    }
+  }, []);
+
+  // Determine if animation should be enabled for this section
+  const shouldAnimate = animationMode === 'all' || (animationMode === 'hero' && isHero);
+
+  // Helper to wrap button with animation
+  const withAnimation = (content: React.ReactNode, index: number = 0) => {
+    if (!shouldAnimate) return content;
+
+    return (
+      <FadeIn
+        direction={animationDirection}
+        duration={animationDuration}
+        delay={animationDelay + (index * animationStagger)}
+        enableScrollTrigger={true}
+        triggerOffset={100}
+      >
+        {content}
+      </FadeIn>
+    );
+  };
+
   return (
     <HStack
       spacing={gap}
@@ -77,11 +123,11 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
       align="center"
       wrap={wrap}
     >
-      {buttonKeys.map((buttonKey) => {
+      {buttonKeys.map((buttonKey, index) => {
         const button = components[buttonKey];
         if (!button || button.type !== 'button' || !button.props.content) return null;
 
-        return (
+        return withAnimation(
           <Button
             key={buttonKey}
             size={button.props.size || 'lg'}
@@ -91,7 +137,8 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
             componentKey={button.componentKey || buttonKey}
           >
             {button.props.content}
-          </Button>
+          </Button>,
+          index
         );
       })}
     </HStack>
