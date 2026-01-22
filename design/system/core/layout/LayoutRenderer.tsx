@@ -210,8 +210,7 @@ export function LayoutRenderer({
   };
 
   return (
-    <VStack spacing="none">
-      {/* Responsive CSS for this specific layout - all styles scoped to layoutId */
+    <>
       <style>{`
         #${layoutId} .split-grid {
           display: grid;
@@ -318,7 +317,7 @@ export function LayoutRenderer({
           {renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
         </Box>
       )}
-    </VStack>
+    </>
   );
 }
 
