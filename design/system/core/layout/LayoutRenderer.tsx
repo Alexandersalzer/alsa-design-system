@@ -170,16 +170,9 @@ export function LayoutRenderer({
   if (alignSectionHeader === 'center') {
     return (
       <VStack spacing="none" align="center">
-        {/* SectionHeader with its own container */
         {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-        
-        {/* ButtonGroup with its own container (if not distanced) */}
         {buttonGroupKey && !distanceAction && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
-        
-        {/* All other patterns with their own containers */}
         {renderPatterns(otherPatternKeys)}
-        
-        {/* ButtonGroup at bottom (if distanced) with its own container */}
         {buttonGroupKey && distanceAction && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
       </VStack>
     );
@@ -193,16 +186,9 @@ export function LayoutRenderer({
   if (!hasSecondColumnDefined) {
     return (
       <VStack spacing="none" align={alignSectionHeader === 'left' ? 'start' : 'end'}>
-        {/* SectionHeader with its own container */
         {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-        
-        {/* ButtonGroup with its own container (if not distanced and not in second column) */}
         {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
-        
-        {/* All other patterns with their own containers */}
         {renderPatterns(remainingPatterns)}
-        
-        {/* ButtonGroup at bottom (if distanced) with its own container */}
         {buttonGroupKey && distanceAction && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
       </VStack>
     );
@@ -278,16 +264,13 @@ export function LayoutRenderer({
               </VStack>
             )
           ) : (
-            // When SectionHeader is on left, left column has SectionHeader + ButtonGroup
             <VStack spacing="lg" align="start">
               {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
               {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
             </VStack>
           )}
 
-          {/* Right Column */}
           {isSectionHeaderInRightColumn ? (
-            // When SectionHeader is on right, right column has SectionHeader + ButtonGroup
             <VStack spacing="lg" align="start">
               {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
               {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
