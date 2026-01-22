@@ -123,54 +123,63 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
           }
         `}</style>
       )}
-      {/* Tag - optional */}
-      {renderIf('tag') && get('tag').props.content && withAnimation(
-        <Box>
-          <Tag
-            size="medium"
-            variant="accent"
-            icon={null}
-            componentKey={get('tag').key}
+      <Box
+        style={{
+          maxWidth: maxWidth,
+          margin: align === 'center' ? '0 auto' : align === 'end' ? '0 0 0 auto' : '0 auto 0 0',
+          width: '100%',
+        }}
+        className={isHero ? `section-header--hero-${patternKey}` : ''}
+      >
+        {/* Tag - optional */}
+        {renderIf('tag') && get('tag').props.content && withAnimation(
+          <Box>
+            <Tag
+              size="medium"
+              variant="accent"
+              icon={null}
+              componentKey={get('tag').key}
+            >
+              {get('tag').props.content}
+            </Tag>
+          </Box>,
+          0,
+          'tag'
+        )}
+
+        {/* Heading - render if content OR animation exists (countUp generates content) */}
+        {renderIf('heading') && (get('heading').props.content || get('heading').props.animation) && withAnimation(
+          <Typography
+            as={isHero ? "h1" : "h2"}
+            variant="display-lg"
+            color="heading"
+            align={textAlign}
+            animation={get('heading').props.animation}
+            componentKey={get('heading').key}
           >
-            {get('tag').props.content}
-          </Tag>
-        </Box>,
-        0,
-        'tag'
-      )}
+            {get('heading').props.content}
+          </Typography>,
+          1,
+          'heading'
+        )}
 
-      {/* Heading - render if content OR animation exists (countUp generates content) */}
-      {renderIf('heading') && (get('heading').props.content || get('heading').props.animation) && withAnimation(
-        <Typography
-          as={isHero ? "h1" : "h2"}
-          variant="display-lg"
-          color="heading"
-          align={textAlign}
-          animation={get('heading').props.animation}
-          componentKey={get('heading').key}
-        >
-          {get('heading').props.content}
-        </Typography>,
-        1,
-        'heading'
-      )}
-
-      {/* Body - optional */}
-      {renderIf('body') && get('body').props.content && withAnimation(
-        <Typography
-          as="p"
-          variant="body-lg"
-          color="body"
-          weight="regular"
-          align={textAlign}
-          animation={get('body').props.animation}
-          componentKey={get('body').key}
-        >
-          {get('body').props.content}
-        </Typography>,
-        2,
-        'body'
-      )}
+        {/* Body - optional */}
+        {renderIf('body') && get('body').props.content && withAnimation(
+          <Typography
+            as="p"
+            variant="body-lg"
+            color="body"
+            weight="regular"
+            align={textAlign}
+            animation={get('body').props.animation}
+            componentKey={get('body').key}
+          >
+            {get('body').props.content}
+          </Typography>,
+          2,
+          'body'
+        )}
+      </Box>
     </>
   );
 };
