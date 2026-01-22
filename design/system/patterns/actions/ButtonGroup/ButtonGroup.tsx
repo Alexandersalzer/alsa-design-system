@@ -26,8 +26,11 @@ export interface ButtonGroupProps extends PatternNode {
  *
  * Alignment priority:
  * 1. Explicit props.align (highest priority)
- * 2. When in secondColumn: default to 'end' (right-aligned)
- * 3. Inherited from layoutContext.alignSectionHeader
+ * 2. When in secondColumn: use OPPOSITE alignment of alignSectionHeader
+ *    - alignSectionHeader: 'left' → secondColumn buttons: 'end' (right)
+ *    - alignSectionHeader: 'right' → secondColumn buttons: 'start' (left)
+ *    - alignSectionHeader: 'center' → secondColumn buttons: 'end'
+ * 3. Inherited from layoutContext.alignSectionHeader (when not in secondColumn)
  * 4. Default to 'center'
  */
 export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
