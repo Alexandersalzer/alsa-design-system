@@ -171,7 +171,7 @@ export function LayoutRenderer({
   if (alignSectionHeader === 'center') {
     return (
       <VStack spacing="none" align="center">
-        {/* SectionHeader + ButtonGroup together in one Container */}
+        {/* SectionHeader + ButtonGroup together in one Container with shared VStack */}
         {(sectionHeaderKey || (buttonGroupKey && !distanceAction)) && (
           <Container height="auto">
             <VStack spacing="lg" align="center">
@@ -194,7 +194,7 @@ export function LayoutRenderer({
   if (!hasSecondColumnDefined) {
     return (
       <VStack spacing="none" align={alignSectionHeader === 'left' ? 'start' : 'end'}>
-        {/* SectionHeader + ButtonGroup together in one Container */}
+        {/* SectionHeader + ButtonGroup together in one Container with shared VStack */}
         {(sectionHeaderKey || (buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn)) && (
           <Container height="auto">
             <VStack spacing="lg" align="start">
