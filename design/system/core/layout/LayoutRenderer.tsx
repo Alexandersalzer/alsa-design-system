@@ -146,10 +146,14 @@ export function LayoutRenderer({
         
         {/* Last pattern + ButtonGroup (if distanced) in same container */}
         {buttonGroupKey && distanceAction && lastPattern && (
-          <Container height="auto" patternKey={lastPattern}>
+          <Container height="auto">
             <VStack spacing="lg" align="center">
-              {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
-              {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+              <Box data-pattern-key={lastPattern}>
+                {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
+              </Box>
+              <Box data-pattern-key={buttonGroupKey}>
+                {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+              </Box>
             </VStack>
           </Container>
         )}
@@ -199,10 +203,14 @@ export function LayoutRenderer({
         
         {/* Last pattern + ButtonGroup (if distanced) in same container */}
         {buttonGroupKey && distanceAction && lastPattern && (
-          <Container height="auto" patternKey={lastPattern}>
+          <Container height="auto">
             <VStack spacing="lg" align="center">
-              {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
-              {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+              <Box data-pattern-key={lastPattern}>
+                {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
+              </Box>
+              <Box data-pattern-key={buttonGroupKey}>
+                {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+              </Box>
             </VStack>
           </Container>
         )}
@@ -323,10 +331,14 @@ export function LayoutRenderer({
       
       {/* Last pattern + ButtonGroup (if distanced) in same container */}
       {buttonGroupKey && distanceAction && lastPattern && (
-        <Container height="auto" patternKey={lastPattern}>
+        <Container height="auto">
           <VStack spacing="lg" align="center">
-            {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
-            {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+            <Box data-pattern-key={lastPattern}>
+              {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
+            </Box>
+            <Box data-pattern-key={buttonGroupKey}>
+              {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+            </Box>
           </VStack>
         </Container>
       )}
