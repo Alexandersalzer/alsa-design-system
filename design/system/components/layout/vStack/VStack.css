@@ -10,6 +10,10 @@
 }
 
 /* ===== SPACING VARIANTS ===== */
+.vStack--spacing-none {
+  gap: 0;
+}
+
 .vStack--spacing-xs {
   gap: var(--foundation-space-1, 4px);
 }

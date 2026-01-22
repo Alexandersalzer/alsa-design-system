@@ -8,7 +8,7 @@ export interface StackProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   // Spacing between items
-  spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
+  spacing?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
   // Horizontal alignment (cross-axis)
   align?: 'start' | 'center' | 'end' | 'stretch';
   // Vertical distribution (main-axis) - NEW!

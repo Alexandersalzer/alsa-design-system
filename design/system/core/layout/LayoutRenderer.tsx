@@ -169,8 +169,8 @@ export function LayoutRenderer({
   // No split, everything stacked vertically
   if (alignSectionHeader === 'center') {
     return (
-      <VStack align="center">
-        {/* SectionHeader with its own container */}
+      <VStack spacing="none" align="center">
+        {/* SectionHeader with its own container */
         {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
         
         {/* ButtonGroup with its own container (if not distanced) */}
@@ -192,8 +192,8 @@ export function LayoutRenderer({
   // If no secondColumn defined at all, simple aligned layout
   if (!hasSecondColumnDefined) {
     return (
-      <VStack align={alignSectionHeader === 'left' ? 'start' : 'end'}>
-        {/* SectionHeader with its own container */}
+      <VStack spacing="none" align={alignSectionHeader === 'left' ? 'start' : 'end'}>
+        {/* SectionHeader with its own container */
         {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
         
         {/* ButtonGroup with its own container (if not distanced and not in second column) */}
@@ -224,8 +224,8 @@ export function LayoutRenderer({
   };
 
   return (
-    <VStack>
-      {/* Responsive CSS for this specific layout - all styles scoped to layoutId */}
+    <VStack spacing="none">
+      {/* Responsive CSS for this specific layout - all styles scoped to layoutId */
       <style>{`
         #${layoutId} .split-grid {
           display: grid;
@@ -273,7 +273,7 @@ export function LayoutRenderer({
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </Box>
             ) : (
-              <VStack align="start" justify="center">
+              <VStack spacing="none" align="start" justify="center">
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </VStack>
             )
@@ -299,7 +299,7 @@ export function LayoutRenderer({
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </Box>
             ) : (
-              <VStack align="end" justify="end">
+              <VStack spacing="none" align="end" justify="end">
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </VStack>
             )
@@ -308,7 +308,7 @@ export function LayoutRenderer({
 
         {/* Mobile: Stacked single column */}
         <Box className="mobile-stack">
-          <VStack align={mobileVstackAlign}>
+          <VStack spacing="none" align={mobileVstackAlign}>
             {mobilePatternOrder.map(key => {
               const pattern = patterns[key];
               if (!pattern) return null;
@@ -323,7 +323,7 @@ export function LayoutRenderer({
       {/* Below Split: All remaining patterns with their own containers - Only on desktop */}
       {remainingPatterns.length > 0 && (
         <Box className="desktop-only">
-          <VStack align="center">
+          <VStack spacing="none" align="center">
             {renderPatterns(remainingPatterns)}
           </VStack>
         </Box>
