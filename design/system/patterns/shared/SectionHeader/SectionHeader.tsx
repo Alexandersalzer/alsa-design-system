@@ -5,12 +5,12 @@
 
 'use client';
 
-import { VStack } from '../../components/layout/vStack/VStack';
-import { Box } from '../../components/layout/box/Box';
-import { Typography } from '../../components/Typography/Typography';
-import { Tag } from '../../components/feedback/Tag/Tag';
-import { PatternNode } from '../types/nodes';
-import { componentProps, componentPresent } from '../utils/props';
+import { VStack } from '../../../components/layout/vStack/VStack';
+import { Box } from '../../../components/layout/box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Tag } from '../../../components/feedback/Tag/Tag';
+import { PatternNode } from '../../../core/types/nodes';
+import { componentProps, componentPresent } from '../../../core/utils/props';
 
 export interface SectionHeaderProps extends PatternNode {
   type: 'sectionHeader';

@@ -37,6 +37,24 @@ export interface SectionHeader {
 }
 
 /**
+ * Section Layout Configuration
+ */
+export interface SectionLayout {
+  slots?: {
+    left?: string[];
+    right?: string[];
+    bottom?: string[];
+  };
+  grid?: {
+    areas: string[][];
+    columns?: string;
+    gap?: 'md' | 'lg' | 'xl';
+    slots?: Record<string, string[]>;
+  };
+  gap?: 'md' | 'lg' | 'xl';
+}
+
+/**
  * Section - Container för patterns  
  * Top-level containers som organiserar patterns
  */
@@ -44,6 +62,7 @@ export interface SectionNode extends BaseNode<SectionType> {
   header?: SectionHeader; // Optional - section header med tag, heading, body
   patterns?: Record<string, PatternNode>; // Optional - section kan ha patterns
   order?: string[]; // Optional - sections behöver rendering order för patterns
+  layout?: SectionLayout; // Optional - layout configuration for split/grid modes
   sectionKey?: string; // För live editing identification
 }
 
