@@ -12,6 +12,7 @@ import { Box } from '../../components/layout/box/Box';
 import { LayoutConfig } from './types';
 import { PatternNode } from '../types/nodes';
 import { renderPattern, renderPatternDirect } from '../render/patterns';
+import { getPatternProps } from '../utils/props';
 
 interface LayoutRendererProps {
   layout?: LayoutConfig;
@@ -201,18 +202,25 @@ export function LayoutRenderer({
         {renderPatterns(patternsBeforeLast)}
         
         {/* Last pattern + ButtonGroup (if distanced) in same container */}
-        {buttonGroupKey && distanceAction && lastPattern && (
-          <Container height="auto">
-            <VStack spacing="lg" align="center">
-              <Box data-pattern-key={lastPattern}>
-                {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
-              </Box>
-              <Box data-pattern-key={buttonGroupKey}>
-                {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
-              </Box>
-            </VStack>
-          </Container>
-        )}
+        {buttonGroupKey && distanceAction && lastPattern && (() => {
+          const lastPatternProps = getPatternProps(patterns[lastPattern]);
+          return (
+            <Container 
+              height="auto"
+              useMediaWidth={lastPatternProps.useMediaWidth || false}
+              useFormWidth={lastPatternProps.useFormWidth || false}
+            >
+              <VStack spacing="lg" align="center">
+                <Box data-pattern-key={lastPattern}>
+                  {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
+                </Box>
+                <Box data-pattern-key={buttonGroupKey}>
+                  {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+                </Box>
+              </VStack>
+            </Container>
+          );
+        })()}
         
         {/* ButtonGroup alone if no other patterns */}
         {buttonGroupKey && distanceAction && !lastPattern && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
@@ -258,18 +266,25 @@ export function LayoutRenderer({
         {renderPatterns(patternsBeforeLast)}
         
         {/* Last pattern + ButtonGroup (if distanced) in same container */}
-        {buttonGroupKey && distanceAction && lastPattern && (
-          <Container height="auto">
-            <VStack spacing="lg" align="center">
-              <Box data-pattern-key={lastPattern}>
-                {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
-              </Box>
-              <Box data-pattern-key={buttonGroupKey}>
-                {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
-              </Box>
-            </VStack>
-          </Container>
-        )}
+        {buttonGroupKey && distanceAction && lastPattern && (() => {
+          const lastPatternProps = getPatternProps(patterns[lastPattern]);
+          return (
+            <Container 
+              height="auto"
+              useMediaWidth={lastPatternProps.useMediaWidth || false}
+              useFormWidth={lastPatternProps.useFormWidth || false}
+            >
+              <VStack spacing="lg" align="center">
+                <Box data-pattern-key={lastPattern}>
+                  {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
+                </Box>
+                <Box data-pattern-key={buttonGroupKey}>
+                  {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+                </Box>
+              </VStack>
+            </Container>
+          );
+        })()}
         
         {/* ButtonGroup alone if no other patterns */}
         {buttonGroupKey && distanceAction && !lastPattern && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
@@ -434,20 +449,27 @@ export function LayoutRenderer({
       )}
       
       {/* Last pattern + ButtonGroup (if distanced) in same container - Only on desktop */}
-      {buttonGroupKey && distanceAction && lastPattern && (
-        <Box className="desktop-only">
-          <Container height="auto">
-            <VStack spacing="lg" align="center">
-              <Box data-pattern-key={lastPattern}>
-                {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
-              </Box>
-              <Box data-pattern-key={buttonGroupKey}>
-                {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
-              </Box>
-            </VStack>
-          </Container>
-        </Box>
-      )}
+      {buttonGroupKey && distanceAction && lastPattern && (() => {
+        const lastPatternProps = getPatternProps(patterns[lastPattern]);
+        return (
+          <Box className="desktop-only">
+            <Container 
+              height="auto"
+              useMediaWidth={lastPatternProps.useMediaWidth || false}
+              useFormWidth={lastPatternProps.useFormWidth || false}
+            >
+              <VStack spacing="lg" align="center">
+                <Box data-pattern-key={lastPattern}>
+                  {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
+                </Box>
+                <Box data-pattern-key={buttonGroupKey}>
+                  {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+                </Box>
+              </VStack>
+            </Container>
+          </Box>
+        );
+      })()}
       
       {/* ButtonGroup alone if no other patterns - Only on desktop */}
       {buttonGroupKey && distanceAction && !lastPattern && (
