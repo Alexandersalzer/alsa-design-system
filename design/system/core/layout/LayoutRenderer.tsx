@@ -279,7 +279,7 @@ export function LayoutRenderer({
 
   return (
     <VStack spacing={gap}>
-      {/* Responsive CSS for this specific layout */}
+      {/* Responsive CSS for this specific layout - all styles scoped to layoutId */}
       <style>{`
         #${layoutId} .split-grid {
           display: grid;
@@ -288,18 +288,23 @@ export function LayoutRenderer({
           align-items: ${verticalAlign};
         }
 
-        @media (max-width: ${stackBreakpoint}) {
-          #${layoutId} .split-grid {
-            display: none;
-          }
-          #${layoutId} .mobile-stack {
-            display: flex;
-          }
+        #${layoutId} .mobile-stack {
+          display: none;
         }
 
-        @media (min-width: calc(${stackBreakpoint} + 1px)) {
+        #${layoutId} .desktop-only {
+          display: block;
+        }
+
+        @media (max-width: ${stackBreakpoint}) {
+          #${layoutId} .split-grid {
+            display: none !important;
+          }
           #${layoutId} .mobile-stack {
-            display: none;
+            display: flex !important;
+          }
+          #${layoutId} .desktop-only {
+            display: none !important;
           }
         }
       `}</style>
@@ -368,7 +373,7 @@ export function LayoutRenderer({
         </Box>
 
         {/* Mobile: Stacked single column */}
-        <Box className="mobile-stack" style={{ display: 'none' }}>
+        <Box className="mobile-stack">
           <VStack spacing={mobileGapValue} align={mobileVstackAlign}>
             {mobilePatternOrder.map(key => {
               const pattern = patterns[key];
@@ -379,56 +384,35 @@ export function LayoutRenderer({
             })}
           </VStack>
         </Box>
-      </Box>
 
-      {/* Below Split: Remaining patterns (full width, except last if distanceAction) - Only on desktop */}
-      {patternsBeforeLast.length > 0 && (
-        <Box className="desktop-only-below-split">
-          <style>{`
-            @media (max-width: ${stackBreakpoint}) {
-              .desktop-only-below-split {
-                display: none;
-              }
-            }
-          `}</style>
-          <VStack spacing="lg" align={vstackAlign}>
-            {renderPatterns(patternsBeforeLast)}
-          </VStack>
-        </Box>
-      )}
-
-      {/* Last pattern + ButtonGroup (if distanced) in same container - Only on desktop */}
-      {buttonGroupKey && distanceAction && lastPattern && (
-        <Box className="desktop-only-distanced">
-          <style>{`
-            @media (max-width: ${stackBreakpoint}) {
-              .desktop-only-distanced {
-                display: none;
-              }
-            }
-          `}</style>
-          <Container height="auto">
+        {/* Below Split: Remaining patterns (full width, except last if distanceAction) - Only on desktop */}
+        {patternsBeforeLast.length > 0 && (
+          <Box className="desktop-only">
             <VStack spacing="lg" align={vstackAlign}>
-              {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
-              {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+              {renderPatterns(patternsBeforeLast)}
             </VStack>
-          </Container>
-        </Box>
-      )}
+          </Box>
+        )}
 
-      {/* ButtonGroup alone if no other patterns - Only on desktop */}
-      {buttonGroupKey && distanceAction && !lastPattern && (
-        <Box className="desktop-only-button">
-          <style>{`
-            @media (max-width: ${stackBreakpoint}) {
-              .desktop-only-button {
-                display: none;
-              }
-            }
-          `}</style>
-          {renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
-        </Box>
-      )}
+        {/* Last pattern + ButtonGroup (if distanced) in same container - Only on desktop */}
+        {buttonGroupKey && distanceAction && lastPattern && (
+          <Box className="desktop-only">
+            <Container height="auto">
+              <VStack spacing="lg" align={vstackAlign}>
+                {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
+                {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+              </VStack>
+            </Container>
+          </Box>
+        )}
+
+        {/* ButtonGroup alone if no other patterns - Only on desktop */}
+        {buttonGroupKey && distanceAction && !lastPattern && (
+          <Box className="desktop-only">
+            {renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+          </Box>
+        )}
+      </Box>
     </VStack>
   );
 }
