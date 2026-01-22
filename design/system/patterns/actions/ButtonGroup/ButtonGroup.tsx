@@ -7,7 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PatternNode } from '../../../core/types/nodes';
-import { patternProps, componentProps, componentPresent } from '../../../core/utils/props';
+import { patternProps } from '../../../core/utils/props';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Button } from '../../../components/actions/Button/Button';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
@@ -36,8 +36,6 @@ export interface ButtonGroupProps extends PatternNode {
 export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   const getPatternProps = patternProps(patternNode);
   const { components = {}, order = [], sectionKey, layoutContext } = patternNode;
-  const get = componentProps(components);
-  const renderIf = componentPresent(components);
 
   // Get inherited alignment from layout context
   const inheritedAlign = layoutContext?.alignSectionHeader;
@@ -117,6 +115,7 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
       justify={justify}
       align="center"
       wrap={wrap}
+      style={{ width: '100%' }}
     >
       {buttonKeys.map((buttonKey, index) => {
         const button = components[buttonKey];
