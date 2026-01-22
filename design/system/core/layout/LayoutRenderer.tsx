@@ -204,6 +204,9 @@ export function LayoutRenderer({
     ? remainingPatterns[remainingPatterns.length - 1] 
     : null;
 
+  // Determine which column SectionHeader should be in based on alignSectionHeader
+  const isSectionHeaderInRightColumn = alignSectionHeader === 'right';
+
   return (
     <VStack spacing={gap}>
       {/* Split Grid - Two Columns */}
@@ -223,28 +226,56 @@ export function LayoutRenderer({
           }}
           className="section-split-layout"
         >
-          {/* First Column: SectionHeader + ButtonGroup in their own container */}
-          <Box>
-            {sectionHeaderKey && (
-              <Container height="auto">
-                <VStack spacing="lg" align="start">
-                  {renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-                  {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
-                </VStack>
-              </Container>
-            )}
-          </Box>
+          {/* Left Column */}
+          {isSectionHeaderInRightColumn ? (
+            // When SectionHeader is on right, left column has secondColumn patterns
+            isSecondColumnMediaOnly ? (
+              <Box style={{ alignSelf: 'stretch', display: 'flex', flexDirection: 'column' }}>
+                {renderPatterns(secondColumnPatterns, secondColumnContext)}
+              </Box>
+            ) : (
+              <VStack spacing="lg" align="start" justify="center">
+                {renderPatterns(secondColumnPatterns, secondColumnContext)}
+              </VStack>
+            )
+          ) : (
+            // When SectionHeader is on left, left column has SectionHeader + ButtonGroup
+            <Box>
+              {sectionHeaderKey && (
+                <Container height="auto">
+                  <VStack spacing="lg" align="start">
+                    {renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+                    {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+                  </VStack>
+                </Container>
+              )}
+            </Box>
+          )}
           
-          {/* Second Column: Patterns from secondColumn array (can be empty) */}
-          {/* When media-only, use a Box that stretches; otherwise VStack with end alignment for buttons */}
-          {isSecondColumnMediaOnly ? (
-            <Box style={{ alignSelf: 'stretch', display: 'flex', flexDirection: 'column' }}>
-              {renderPatterns(secondColumnPatterns, secondColumnContext)}
+          {/* Right Column */}
+          {isSectionHeaderInRightColumn ? (
+            // When SectionHeader is on right, right column has SectionHeader + ButtonGroup
+            <Box>
+              {sectionHeaderKey && (
+                <Container height="auto">
+                  <VStack spacing="lg" align="start">
+                    {renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+                    {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+                  </VStack>
+                </Container>
+              )}
             </Box>
           ) : (
-            <VStack spacing="lg" align="end" justify="end">
-              {renderPatterns(secondColumnPatterns, secondColumnContext)}
-            </VStack>
+            // When SectionHeader is on left, right column has secondColumn patterns
+            isSecondColumnMediaOnly ? (
+              <Box style={{ alignSelf: 'stretch', display: 'flex', flexDirection: 'column' }}>
+                {renderPatterns(secondColumnPatterns, secondColumnContext)}
+              </Box>
+            ) : (
+              <VStack spacing="lg" align="end" justify="end">
+                {renderPatterns(secondColumnPatterns, secondColumnContext)}
+              </VStack>
+            )
           )}
         </Box>
       </Box>
