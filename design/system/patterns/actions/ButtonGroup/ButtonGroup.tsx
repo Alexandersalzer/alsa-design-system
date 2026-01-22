@@ -100,11 +100,12 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   const shouldAnimate = animationMode === 'all' || (animationMode === 'hero' && isHero);
 
   // Helper to wrap button with animation
-  const withAnimation = (content: React.ReactNode, index: number = 0) => {
+  const withAnimation = (content: React.ReactNode, index: number = 0, key?: string) => {
     if (!shouldAnimate) return content;
 
     return (
       <FadeIn
+        key={key}
         direction={animationDirection}
         duration={animationDuration}
         delay={animationDelay + (index * animationStagger)}
@@ -129,7 +130,6 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
 
         return withAnimation(
           <Button
-            key={buttonKey}
             size={button.props.size || 'lg'}
             variant={button.props.variant || 'accent'}
             href={button.props.href}
@@ -138,7 +138,8 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
           >
             {button.props.content}
           </Button>,
-          index
+          index,
+          buttonKey
         );
       })}
     </HStack>
