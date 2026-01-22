@@ -34,14 +34,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
   const isHero = sectionKey?.startsWith('hero_') || props?.isHero || false;
 
   return (
-    <Box
-      style={{
-        maxWidth: maxWidth,
-        margin: align === 'center' ? '0 auto' : align === 'end' ? '0 0 0 auto' : '0 auto 0 0',
-        width: '100%',
-      }}
-    >
-      <VStack spacing={spacing} align={align === 'center' ? 'center' : 'start'}>
+    <VStack spacing={spacing} align={align === 'center' ? 'center' : 'start'}>
         
         {/* Tag - optional */}
         {renderIf('tag') && get('tag').props.content && (
@@ -87,7 +80,6 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         )}
 
       </VStack>
-    </Box>
   );
 };
 
