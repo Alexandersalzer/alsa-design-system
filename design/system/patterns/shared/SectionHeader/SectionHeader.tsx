@@ -1,10 +1,6 @@
-// ===============================================
-// SectionHeader Pattern Component
-// Renders section header with tag, heading, and body text
-// ===============================================
-
 'use client';
 
+import React from 'react';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../components/Typography/Typography';
@@ -15,19 +11,27 @@ import { componentProps, componentPresent } from '../../../core/utils/props';
 export interface SectionHeaderProps extends PatternNode {
   type: 'sectionHeader';
   sectionKey?: string;
+  patternKey?: string;
 }
 
+/**
+ * SectionHeader Pattern - Renders tag, heading, and body text
+ * Used as the main content block for sections
+ */
 export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
   const { components = {}, sectionKey, props } = patternNode;
+  
+  if (!components || Object.keys(components).length === 0) return null;
+
   const get = componentProps(components);
   const renderIf = componentPresent(components);
 
-  // Get configuration from props
-  const isHero = sectionKey?.startsWith('hero_') || props?.isHero || false;
+  // Get spacing and alignment from pattern props
   const spacing = props?.spacing || 'md';
   const align = props?.align || 'center';
-  const textAlign = props?.textAlign || (align === 'center' ? 'center' : 'left');
+  const textAlign = props?.textAlign || 'center';
   const maxWidth = props?.maxWidth || '650px';
+  const isHero = sectionKey?.startsWith('hero_') || props?.isHero || false;
 
   return (
     <Box
@@ -53,7 +57,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
           </Box>
         )}
 
-        {/* Heading - render if content OR animation exists (countUp generates content dynamically) */}
+        {/* Heading - render if content OR animation exists (countUp generates content) */}
         {renderIf('heading') && (get('heading').props.content || get('heading').props.animation) && (
           <Typography
             as={isHero ? "h1" : "h2"}

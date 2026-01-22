@@ -10,37 +10,6 @@ import { PatternNode } from '../../../core/types/nodes';
 import { patternProps, componentProps, componentPresent } from '../../../core/utils/props';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Button } from '../../../components/actions/Button/Button';
-import { Icon } from '../../../components/media/Icon/Icon';
-import {
-  EnvelopeIcon,
-  UserIcon,
-  BuildingOfficeIcon,
-  ArrowRightIcon,
-  PhoneIcon,
-  MapPinIcon,
-  LockClosedIcon,
-  AtSymbolIcon,
-  ChatBubbleLeftRightIcon,
-  ArrowLeftIcon,
-  CheckIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
-
-// Icon mapping
-const iconMap: Record<string, any> = {
-  email: EnvelopeIcon,
-  user: UserIcon,
-  building: BuildingOfficeIcon,
-  rightArrow: ArrowRightIcon,
-  leftArrow: ArrowLeftIcon,
-  phone: PhoneIcon,
-  location: MapPinIcon,
-  lock: LockClosedIcon,
-  at: AtSymbolIcon,
-  message: ChatBubbleLeftRightIcon,
-  check: CheckIcon,
-  close: XMarkIcon,
-};
 
 export interface ButtonGroupProps extends PatternNode {
   type: 'buttonGroup';
@@ -62,22 +31,10 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   // Map align to HStack justify
   const justifyMap = {
     left: 'start',
-    start: 'start',
     center: 'center',
     right: 'end',
-    end: 'end',
   } as const;
   const justify = justifyMap[align as keyof typeof justifyMap] || 'center';
-
-  // Helper function to convert icon string to ReactNode
-  const getIconComponent = (iconName?: string): React.ReactNode => {
-    if (!iconName || !iconMap[iconName]) return undefined;
-    return (
-      <Icon size="sm" color="secondary">
-        {React.createElement(iconMap[iconName])}
-      </Icon>
-    );
-  };
 
   return (
     <HStack
@@ -87,14 +44,12 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
       wrap={wrap}
     >
       {/* Primary Button */}
-      {renderIf('button-primary') && (
+      {renderIf('button-primary') && get('button-primary').props.content && (
         <Button
           size={get('button-primary').props.size || 'lg'}
           variant={get('button-primary').props.variant || 'accent'}
           href={get('button-primary').props.href}
           action={get('button-primary').props.action}
-          rightIcon={getIconComponent(get('button-primary').props.rightIcon)}
-          leftIcon={getIconComponent(get('button-primary').props.leftIcon)}
           componentKey={get('button-primary').key}
         >
           {get('button-primary').props.content}
@@ -102,14 +57,12 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
       )}
 
       {/* Secondary Button */}
-      {renderIf('button-secondary') && (
+      {renderIf('button-secondary') && get('button-secondary').props.content && (
         <Button
           size={get('button-secondary').props.size || 'lg'}
           variant={get('button-secondary').props.variant || 'secondary'}
           href={get('button-secondary').props.href}
           action={get('button-secondary').props.action}
-          rightIcon={getIconComponent(get('button-secondary').props.rightIcon)}
-          leftIcon={getIconComponent(get('button-secondary').props.leftIcon)}
           componentKey={get('button-secondary').key}
         >
           {get('button-secondary').props.content}
@@ -117,20 +70,30 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
       )}
 
       {/* Ghost Button */}
-      {renderIf('button-ghost') && (
+      {renderIf('button-ghost') && get('button-ghost').props.content && (
         <Button
           size={get('button-ghost').props.size || 'lg'}
           variant={get('button-ghost').props.variant || 'ghost'}
           href={get('button-ghost').props.href}
           action={get('button-ghost').props.action}
-          rightIcon={getIconComponent(get('button-ghost').props.rightIcon)}
-          leftIcon={getIconComponent(get('button-ghost').props.leftIcon)}
           componentKey={get('button-ghost').key}
         >
           {get('button-ghost').props.content}
         </Button>
       )}
 
+      {/* Tertiary Button */}
+      {renderIf('button-tertiary') && get('button-tertiary').props.content && (
+        <Button
+          size={get('button-tertiary').props.size || 'lg'}
+          variant={get('button-tertiary').props.variant || 'secondary'}
+          href={get('button-tertiary').props.href}
+          action={get('button-tertiary').props.action}
+          componentKey={get('button-tertiary').key}
+        >
+          {get('button-tertiary').props.content}
+        </Button>
+      )}
     </HStack>
   );
 };
