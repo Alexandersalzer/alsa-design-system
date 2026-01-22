@@ -1,4 +1,5 @@
 import { SectionType } from '../render/validation/sections';
+import { LayoutConfig } from '../layout/types';
 
 /**
  * Base interface som alla noder delar
@@ -44,6 +45,7 @@ export interface SectionNode extends BaseNode<SectionType> {
   header?: SectionHeader; // Optional - section header med tag, heading, body
   patterns?: Record<string, PatternNode>; // Optional - section kan ha patterns
   order?: string[]; // Optional - sections behöver rendering order för patterns
+  layout?: LayoutConfig; // Optional - layout configuration for section
   sectionKey?: string; // För live editing identification
 }
 

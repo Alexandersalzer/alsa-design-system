@@ -17,7 +17,7 @@ export interface ButtonGroupProps extends PatternNode {
 
 export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   const getPatternProps = patternProps(patternNode);
-  const { components = {} } = patternNode;
+  const { components = {}, order = [] } = patternNode;
   const get = componentProps(components);
   const renderIf = componentPresent(components);
 
@@ -36,6 +36,9 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   } as const;
   const justify = justifyMap[align as keyof typeof justifyMap] || 'center';
 
+  // Fallback: if no order, use all component keys
+  const buttonKeys = order.length > 0 ? order : Object.keys(components);
+
   return (
     <HStack
       spacing={gap}
@@ -43,45 +46,23 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
       align="center"
       wrap={wrap}
     >
-      {/* Primary Button */}
-      {renderIf('button-primary') && get('button-primary').props.content && (
-        <Button
-          size={get('button-primary').props.size || 'lg'}
-          variant={get('button-primary').props.variant || 'accent'}
-          href={get('button-primary').props.href}
-          action={get('button-primary').props.action}
-          componentKey={get('button-primary').key}
-        >
-          {get('button-primary').props.content}
-        </Button>
-      )}
+      {buttonKeys.map((buttonKey) => {
+        const button = components[buttonKey];
+        if (!button || button.type !== 'button' || !button.props.content) return null;
 
-      {/* Secondary Button */}
-      {renderIf('button-secondary') && get('button-secondary').props.content && (
-        <Button
-          size={get('button-secondary').props.size || 'lg'}
-          variant={get('button-secondary').props.variant || 'secondary'}
-          href={get('button-secondary').props.href}
-          action={get('button-secondary').props.action}
-          componentKey={get('button-secondary').key}
-        >
-          {get('button-secondary').props.content}
-        </Button>
-      )}
-
-      {/* Ghost Button */}
-      {renderIf('button-ghost') && get('button-ghost').props.content && (
-        <Button
-          size={get('button-ghost').props.size || 'lg'}
-          variant={get('button-ghost').props.variant || 'ghost'}
-          href={get('button-ghost').props.href}
-          action={get('button-ghost').props.action}
-          componentKey={get('button-ghost').key}
-        >
-          {get('button-ghost').props.content}
-        </Button>
-      )}
-
+        return (
+          <Button
+            key={buttonKey}
+            size={button.props.size || 'lg'}
+            variant={button.props.variant || 'accent'}
+            href={button.props.href}
+            action={button.props.action}
+            componentKey={button.componentKey || buttonKey}
+          >
+            {button.props.content}
+          </Button>
+        );
+      })}
     </HStack>
   );
 };

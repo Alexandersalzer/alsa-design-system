@@ -51,8 +51,8 @@ export function SectionHeader(
             </Box>
           )}
 
-          {/* Heading - hardcoded */}
-          {renderIf('heading') && get('heading').props.content && (
+          {/* Heading - hardcoded (render if content OR animation exists, since countUp generates content) */}
+          {renderIf('heading') && (get('heading').props.content || get('heading').props.animation) && (
             <Typography
               as={isHero ? "h1" : "h2"}
               variant="display-lg"
