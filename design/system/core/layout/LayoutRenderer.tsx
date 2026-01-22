@@ -51,6 +51,10 @@ export function LayoutRenderer({
     gap = 'xl',
     ratio = '1:1',
     verticalAlign = 'center', // Default to center for better visual balance
+    stackAt = 'desktop', // Default to 1024px breakpoint
+    mobileOrder,
+    mobileAlign,
+    mobileGap,
   } = layout || {};
 
   // ===== FIND SPECIAL PATTERNS =====
@@ -116,6 +120,52 @@ export function LayoutRenderer({
     '2:1': '2fr 1fr',
     '2:3': '2fr 3fr',
     '3:2': '3fr 2fr',
+  };
+
+  // Breakpoint mapping
+  const breakpointMap: Record<string, string> = {
+    'tablet': '768px',
+    'desktop': '1024px',
+  };
+  const stackBreakpoint = breakpointMap[stackAt];
+
+  // Mobile alignment (defaults to alignSectionHeader)
+  const mobileAlignValue = mobileAlign || alignSectionHeader;
+  const getMobileVStackAlign = () => {
+    if (mobileAlignValue === 'left') return 'start';
+    if (mobileAlignValue === 'right') return 'end';
+    return 'center';
+  };
+  const mobileVstackAlign = getMobileVStackAlign();
+
+  // Mobile gap (defaults to main gap)
+  const mobileGapValue = mobileGap || gap;
+
+  // Generate unique ID for CSS scoping
+  const layoutId = `layout-${sectionKey}`;
+
+  // Build mobile order for stacked layout
+  // When stacked, we need to render all patterns in the mobile order
+  const getMobilePatternOrder = () => {
+    if (mobileOrder && mobileOrder.length > 0) {
+      return mobileOrder;
+    }
+    // Default: SectionHeader first, then secondColumn patterns, then remaining, then ButtonGroup (if distanced)
+    const defaultOrder: string[] = [];
+    if (sectionHeaderKey) defaultOrder.push(sectionHeaderKey);
+    // Add buttonGroup after sectionHeader if not distanced and not in secondColumn
+    if (buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn) {
+      defaultOrder.push(buttonGroupKey);
+    }
+    // Add secondColumn patterns
+    defaultOrder.push(...secondColumnPatterns);
+    // Add remaining patterns (excluding last if distanceAction)
+    defaultOrder.push(...patternsBeforeLast);
+    // Add last pattern if distanceAction
+    if (lastPattern) defaultOrder.push(lastPattern);
+    // Add buttonGroup at end if distanced
+    if (buttonGroupKey && distanceAction) defaultOrder.push(buttonGroupKey);
+    return defaultOrder;
   };
 
   // ===== CENTERED LAYOUT (Default) =====
@@ -207,35 +257,63 @@ export function LayoutRenderer({
 
   // ===== SPLIT LAYOUT WITH SECOND COLUMN (even if empty) =====
   // If distanceAction, separate last pattern to share container with ButtonGroup
-  const patternsBeforeLast = distanceAction && buttonGroupKey && remainingPatterns.length > 0 
-    ? remainingPatterns.slice(0, -1) 
+  const patternsBeforeLast = distanceAction && buttonGroupKey && remainingPatterns.length > 0
+    ? remainingPatterns.slice(0, -1)
     : remainingPatterns;
-  const lastPattern = distanceAction && buttonGroupKey && remainingPatterns.length > 0 
-    ? remainingPatterns[remainingPatterns.length - 1] 
+  const lastPattern = distanceAction && buttonGroupKey && remainingPatterns.length > 0
+    ? remainingPatterns[remainingPatterns.length - 1]
     : null;
 
   // Determine which column SectionHeader should be in based on alignSectionHeader
   const isSectionHeaderInRightColumn = alignSectionHeader === 'right';
 
+  // Get mobile pattern order for stacked view
+  const mobilePatternOrder = getMobilePatternOrder();
+
+  // Context for mobile stacked view (uses mobileAlign)
+  const mobileLayoutContext = {
+    alignSectionHeader: mobileAlignValue,
+    isInSecondColumn: false,
+    verticalAlign,
+  };
+
   return (
     <VStack spacing={gap}>
-      {/* Split Grid - Two Columns */}
+      {/* Responsive CSS for this specific layout */}
+      <style>{`
+        #${layoutId} .split-grid {
+          display: grid;
+          grid-template-columns: ${ratioMap[ratio]};
+          gap: var(--space-${gap});
+          align-items: ${verticalAlign};
+        }
+
+        @media (max-width: ${stackBreakpoint}) {
+          #${layoutId} .split-grid {
+            display: none;
+          }
+          #${layoutId} .mobile-stack {
+            display: flex;
+          }
+        }
+
+        @media (min-width: calc(${stackBreakpoint} + 1px)) {
+          #${layoutId} .mobile-stack {
+            display: none;
+          }
+        }
+      `}</style>
+
       <Box
+        id={layoutId}
         style={{
           maxWidth: 'var(--width-container)',
           width: '100%',
           margin: '0 auto',
         }}
       >
-        <Box
-          style={{
-            display: 'grid',
-            gridTemplateColumns: ratioMap[ratio],
-            gap: `var(--space-${gap})`,
-            alignItems: verticalAlign,
-          }}
-          className="section-split-layout"
-        >
+        {/* Desktop: Split Grid - Two Columns */}
+        <Box className="split-grid section-split-layout">
           {/* Left Column */}
           {isSectionHeaderInRightColumn ? (
             // When SectionHeader is on right, left column has secondColumn patterns
@@ -261,7 +339,7 @@ export function LayoutRenderer({
               )}
             </Box>
           )}
-          
+
           {/* Right Column */}
           {isSectionHeaderInRightColumn ? (
             // When SectionHeader is on right, right column has SectionHeader + ButtonGroup
@@ -288,27 +366,69 @@ export function LayoutRenderer({
             )
           )}
         </Box>
-      </Box>
-      
-      {/* Below Split: Remaining patterns (full width, except last if distanceAction) */}
-      {patternsBeforeLast.length > 0 && (
-        <VStack spacing="lg" align={vstackAlign}>
-          {renderPatterns(patternsBeforeLast)}
-        </VStack>
-      )}
-      
-      {/* Last pattern + ButtonGroup (if distanced) in same container */}
-      {buttonGroupKey && distanceAction && lastPattern && (
-        <Container height="auto">
-          <VStack spacing="lg" align={vstackAlign}>
-            {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
-            {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+
+        {/* Mobile: Stacked single column */}
+        <Box className="mobile-stack" style={{ display: 'none' }}>
+          <VStack spacing={mobileGapValue} align={mobileVstackAlign}>
+            {mobilePatternOrder.map(key => {
+              const pattern = patterns[key];
+              if (!pattern) return null;
+
+              // Use mobile layout context for all patterns when stacked
+              return renderPattern(pattern, key, sectionKey, mobileLayoutContext);
+            })}
           </VStack>
-        </Container>
+        </Box>
+      </Box>
+
+      {/* Below Split: Remaining patterns (full width, except last if distanceAction) - Only on desktop */}
+      {patternsBeforeLast.length > 0 && (
+        <Box className="desktop-only-below-split">
+          <style>{`
+            @media (max-width: ${stackBreakpoint}) {
+              .desktop-only-below-split {
+                display: none;
+              }
+            }
+          `}</style>
+          <VStack spacing="lg" align={vstackAlign}>
+            {renderPatterns(patternsBeforeLast)}
+          </VStack>
+        </Box>
       )}
-      
-      {/* ButtonGroup alone if no other patterns */}
-      {buttonGroupKey && distanceAction && !lastPattern && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+
+      {/* Last pattern + ButtonGroup (if distanced) in same container - Only on desktop */}
+      {buttonGroupKey && distanceAction && lastPattern && (
+        <Box className="desktop-only-distanced">
+          <style>{`
+            @media (max-width: ${stackBreakpoint}) {
+              .desktop-only-distanced {
+                display: none;
+              }
+            }
+          `}</style>
+          <Container height="auto">
+            <VStack spacing="lg" align={vstackAlign}>
+              {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
+              {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+            </VStack>
+          </Container>
+        </Box>
+      )}
+
+      {/* ButtonGroup alone if no other patterns - Only on desktop */}
+      {buttonGroupKey && distanceAction && !lastPattern && (
+        <Box className="desktop-only-button">
+          <style>{`
+            @media (max-width: ${stackBreakpoint}) {
+              .desktop-only-button {
+                display: none;
+              }
+            }
+          `}</style>
+          {renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+        </Box>
+      )}
     </VStack>
   );
 }
