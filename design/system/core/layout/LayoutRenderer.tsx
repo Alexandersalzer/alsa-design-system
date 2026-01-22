@@ -66,8 +66,10 @@ export function LayoutRenderer({
   );
   
   // Separate secondColumn patterns from other patterns
+  // IMPORTANT: If distanceAction is true, buttonGroup should NOT be in secondColumn 
+  // (it will be rendered distanced at the bottom instead)
   const secondColumnPatterns = otherPatternKeys.filter(key => 
-    secondColumn.includes(key)
+    secondColumn.includes(key) && !(key === buttonGroupKey && distanceAction)
   );
   const remainingPatterns = otherPatternKeys.filter(key => 
     !secondColumn.includes(key)
