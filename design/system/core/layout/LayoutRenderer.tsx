@@ -209,36 +209,44 @@ export function LayoutRenderer({
       {/* Split Grid - Two Columns */}
       <Box
         style={{
-          display: 'grid',
-          gridTemplateColumns: ratioMap[ratio],
-          gap: `var(--space-${gap})`,
-          alignItems: verticalAlign,
+          maxWidth: 'var(--width-container)',
+          width: '100%',
+          margin: '0 auto',
         }}
-        className="section-split-layout"
       >
-        {/* First Column: SectionHeader + ButtonGroup in their own container */}
-        <Box>
-          {sectionHeaderKey && (
-            <Container height="auto">
-              <VStack spacing="lg" align="start">
-                {renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-                {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
-              </VStack>
-            </Container>
+        <Box
+          style={{
+            display: 'grid',
+            gridTemplateColumns: ratioMap[ratio],
+            gap: `var(--space-${gap})`,
+            alignItems: verticalAlign,
+          }}
+          className="section-split-layout"
+        >
+          {/* First Column: SectionHeader + ButtonGroup in their own container */}
+          <Box>
+            {sectionHeaderKey && (
+              <Container height="auto">
+                <VStack spacing="lg" align="start">
+                  {renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+                  {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+                </VStack>
+              </Container>
+            )}
+          </Box>
+          
+          {/* Second Column: Patterns from secondColumn array (can be empty) */}
+          {/* When media-only, use a Box that stretches; otherwise VStack with end alignment for buttons */}
+          {isSecondColumnMediaOnly ? (
+            <Box style={{ alignSelf: 'stretch', display: 'flex', flexDirection: 'column' }}>
+              {renderPatterns(secondColumnPatterns, secondColumnContext)}
+            </Box>
+          ) : (
+            <VStack spacing="lg" align="end" justify="end">
+              {renderPatterns(secondColumnPatterns, secondColumnContext)}
+            </VStack>
           )}
         </Box>
-        
-        {/* Second Column: Patterns from secondColumn array (can be empty) */}
-        {/* When media-only, use a Box that stretches; otherwise VStack with end alignment for buttons */}
-        {isSecondColumnMediaOnly ? (
-          <Box style={{ alignSelf: 'stretch', display: 'flex', flexDirection: 'column' }}>
-            {renderPatterns(secondColumnPatterns, secondColumnContext)}
-          </Box>
-        ) : (
-          <VStack spacing="lg" align="end" justify="end">
-            {renderPatterns(secondColumnPatterns, secondColumnContext)}
-          </VStack>
-        )}
       </Box>
       
       {/* Below Split: Remaining patterns (full width, except last if distanceAction) */}
