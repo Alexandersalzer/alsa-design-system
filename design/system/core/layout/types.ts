@@ -48,4 +48,32 @@ export interface LayoutConfig {
    * - 'end': Align to bottom - useful when second column has action buttons
    */
   verticalAlign?: 'start' | 'center' | 'end';
+
+  /**
+   * Breakpoint at which split layout stacks to single column
+   * - 'tablet': Stack at 768px (default mobile behavior)
+   * - 'desktop': Stack at 1024px (default - good for most split layouts)
+   */
+  stackAt?: 'tablet' | 'desktop';
+
+  /**
+   * Custom order of patterns when layout is stacked (mobile view)
+   * If not provided, uses the default `order` array
+   * Useful for reordering elements like putting an image above text on mobile
+   * Example: ["media_M8kR3p", "sectionHeader_X2pQ5w", "buttonGroup_Y3wR8k"]
+   */
+  mobileOrder?: string[];
+
+  /**
+   * Alignment for patterns when layout is stacked (mobile view)
+   * If not provided, inherits from alignSectionHeader
+   * Useful when you want different alignment on mobile (e.g., center on mobile)
+   */
+  mobileAlign?: 'left' | 'center' | 'right';
+
+  /**
+   * Gap spacing when layout is stacked (mobile view)
+   * If not provided, uses the main `gap` value
+   */
+  mobileGap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }

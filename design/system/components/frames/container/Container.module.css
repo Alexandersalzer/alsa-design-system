@@ -8,17 +8,17 @@
 
   padding-top: var(--space-container);
   padding-bottom: var(--space-container);
-  
+
   /* Internal layout - uses global selected spacing */
   gap: var(--space-container);
-  
+
   /* Width and centering */
   max-width: var(--width-container);
   margin-inline: auto;
-  
+
   /* Horizontal breathing room (edge padding) */
   padding-inline: var(--foundation-space-4);
-  
+
   /* Minimum vertical space (content safety) */
   min-height: fit-content;
 }

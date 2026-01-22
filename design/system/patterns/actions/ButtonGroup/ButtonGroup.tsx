@@ -7,7 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PatternNode } from '../../../core/types/nodes';
-import { patternProps, componentProps, componentPresent } from '../../../core/utils/props';
+import { patternProps } from '../../../core/utils/props';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Button } from '../../../components/actions/Button/Button';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
@@ -26,15 +26,16 @@ export interface ButtonGroupProps extends PatternNode {
  *
  * Alignment priority:
  * 1. Explicit props.align (highest priority)
- * 2. When in secondColumn: default to 'end' (right-aligned)
- * 3. Inherited from layoutContext.alignSectionHeader
+ * 2. When in secondColumn: use OPPOSITE alignment of alignSectionHeader
+ *    - alignSectionHeader: 'left' → secondColumn buttons: 'end' (right)
+ *    - alignSectionHeader: 'right' → secondColumn buttons: 'start' (left)
+ *    - alignSectionHeader: 'center' → secondColumn buttons: 'end'
+ * 3. Inherited from layoutContext.alignSectionHeader (when not in secondColumn)
  * 4. Default to 'center'
  */
 export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   const getPatternProps = patternProps(patternNode);
   const { components = {}, order = [], sectionKey, layoutContext } = patternNode;
-  const get = componentProps(components);
-  const renderIf = componentPresent(components);
 
   // Get inherited alignment from layout context
   const inheritedAlign = layoutContext?.alignSectionHeader;
@@ -48,13 +49,22 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   } = patternPropsValues;
 
   // Align priority:
-  // 1. Explicit prop
-  // 2. When in secondColumn: default to 'end'
-  // 3. Inherited from layout
+  // 1. Explicit prop (highest priority)
+  // 2. When in secondColumn: use OPPOSITE of alignSectionHeader
+  //    - If alignSectionHeader is 'left', secondColumn buttons should be 'end' (right)
+  //    - If alignSectionHeader is 'right', secondColumn buttons should be 'start' (left)
+  //    - If alignSectionHeader is 'center', secondColumn buttons should be 'end'
+  // 3. Inherited from layout (alignSectionHeader)
   // 4. Default 'center'
+  const getOppositeAlign = (align?: string) => {
+    if (align === 'left') return 'end';
+    if (align === 'right') return 'start';
+    return 'end'; // center -> end for secondColumn
+  };
+
   const getDefaultAlign = () => {
     if (patternPropsValues.align) return patternPropsValues.align;
-    if (isInSecondColumn) return 'end'; // Buttons in second column default to end
+    if (isInSecondColumn) return getOppositeAlign(inheritedAlign);
     if (inheritedAlign) return inheritedAlign;
     return 'center';
   };
@@ -105,6 +115,7 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
       justify={justify}
       align="center"
       wrap={wrap}
+      style={{ width: '100%' }}
     >
       {buttonKeys.map((buttonKey, index) => {
         const button = components[buttonKey];

@@ -51,6 +51,10 @@ export function LayoutRenderer({
     gap = 'xl',
     ratio = '1:1',
     verticalAlign = 'center', // Default to center for better visual balance
+    stackAt = 'desktop', // Default to 1024px breakpoint
+    mobileOrder,
+    mobileAlign,
+    mobileGap,
   } = layout || {};
 
   // ===== FIND SPECIAL PATTERNS =====
@@ -95,6 +99,14 @@ export function LayoutRenderer({
     secondColumnPatterns.every(key => patterns[key]?.type === 'media');
 
   // ===== HELPER FUNCTIONS =====
+  // Map alignSectionHeader to VStack align prop
+  const getVStackAlign = () => {
+    if (alignSectionHeader === 'left') return 'start';
+    if (alignSectionHeader === 'right') return 'end';
+    return 'center';
+  };
+  const vstackAlign = getVStackAlign();
+
   const renderPatterns = (keys: string[], context = layoutContext) => {
     return keys
       .map(key => renderPattern(patterns[key], key, sectionKey, context))
@@ -110,28 +122,60 @@ export function LayoutRenderer({
     '3:2': '3fr 2fr',
   };
 
+  // Breakpoint mapping
+  const breakpointMap: Record<string, string> = {
+    'tablet': '768px',
+    'desktop': '1024px',
+  };
+  const stackBreakpoint = breakpointMap[stackAt];
+
+  // Mobile alignment (defaults to alignSectionHeader)
+  const mobileAlignValue = mobileAlign || alignSectionHeader;
+  const getMobileVStackAlign = () => {
+    if (mobileAlignValue === 'left') return 'start';
+    if (mobileAlignValue === 'right') return 'end';
+    return 'center';
+  };
+  const mobileVstackAlign = getMobileVStackAlign();
+
+  // Mobile gap (defaults to main gap)
+  const mobileGapValue = mobileGap || gap;
+
+  // Generate unique ID for CSS scoping
+  const layoutId = `layout-${sectionKey}`;
+
+  // Build mobile order for stacked layout
+  // When stacked, we need to render all patterns in the mobile order
+  const getMobilePatternOrder = () => {
+    if (mobileOrder && mobileOrder.length > 0) {
+      return mobileOrder;
+    }
+    // Default: SectionHeader first, then secondColumn patterns, then remaining, then ButtonGroup (if distanced)
+    const defaultOrder: string[] = [];
+    if (sectionHeaderKey) defaultOrder.push(sectionHeaderKey);
+    // Add buttonGroup after sectionHeader if not distanced and not in secondColumn
+    if (buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn) {
+      defaultOrder.push(buttonGroupKey);
+    }
+    // Add secondColumn patterns
+    defaultOrder.push(...secondColumnPatterns);
+    // Add remaining patterns
+    defaultOrder.push(...remainingPatterns);
+    // Add buttonGroup at end if distanced
+    if (buttonGroupKey && distanceAction) defaultOrder.push(buttonGroupKey);
+    return defaultOrder;
+  };
+
   // ===== CENTERED LAYOUT (Default) =====
   // No split, everything stacked vertically
   if (alignSectionHeader === 'center') {
     return (
       <VStack spacing={gap} align="center">
-        {/* SectionHeader + ButtonGroup in their own container */}
-        {sectionHeaderKey && (
-          <Container height="auto">
-            <VStack spacing="lg" align="center">
-              {sectionHeaderKey && (
-                <Box data-pattern-key={sectionHeaderKey}>
-                  {renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-                </Box>
-              )}
-              {buttonGroupKey && !distanceAction && (
-                <Box data-pattern-key={buttonGroupKey}>
-                  {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
-                </Box>
-              )}
-            </VStack>
-          </Container>
-        )}
+        {/* SectionHeader with its own container */}
+        {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+        
+        {/* ButtonGroup with its own container (if not distanced) */}
+        {buttonGroupKey && !distanceAction && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
         
         {/* All other patterns with their own containers */}
         {renderPatterns(otherPatternKeys)}
@@ -152,23 +196,11 @@ export function LayoutRenderer({
   if (!hasSecondColumnDefined) {
     return (
       <VStack spacing={gap} align={alignSectionHeader === 'left' ? 'start' : 'end'}>
-        {/* SectionHeader + ButtonGroup in their own container */}
-        {sectionHeaderKey && (
-          <Container height="auto">
-            <VStack spacing="lg" align="start">
-              {sectionHeaderKey && (
-                <Box data-pattern-key={sectionHeaderKey}>
-                  {renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-                </Box>
-              )}
-              {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && (
-                <Box data-pattern-key={buttonGroupKey}>
-                  {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
-                </Box>
-              )}
-            </VStack>
-          </Container>
-        )}
+        {/* SectionHeader with its own container */}
+        {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+        
+        {/* ButtonGroup with its own container (if not distanced and not in second column) */}
+        {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
         
         {/* All other patterns with their own containers */}
         {renderPatterns(remainingPatterns)}
@@ -186,25 +218,58 @@ export function LayoutRenderer({
   // Determine which column SectionHeader should be in based on alignSectionHeader
   const isSectionHeaderInRightColumn = alignSectionHeader === 'right';
 
+  // Get mobile pattern order for stacked view
+  const mobilePatternOrder = getMobilePatternOrder();
+
+  // Context for mobile stacked view (uses mobileAlign)
+  const mobileLayoutContext = {
+    alignSectionHeader: mobileAlignValue,
+    isInSecondColumn: false,
+    verticalAlign,
+  };
+
   return (
     <VStack spacing={gap}>
-      {/* Split Grid - Two Columns */}
+      {/* Responsive CSS for this specific layout - all styles scoped to layoutId */}
+      <style>{`
+        #${layoutId} .split-grid {
+          display: grid;
+          grid-template-columns: ${ratioMap[ratio]};
+          gap: var(--space-${gap});
+          align-items: ${verticalAlign};
+        }
+
+        #${layoutId} .mobile-stack {
+          display: none;
+        }
+
+        #${layoutId} .desktop-only {
+          display: block;
+        }
+
+        @media (max-width: ${stackBreakpoint}) {
+          #${layoutId} .split-grid {
+            display: none !important;
+          }
+          #${layoutId} .mobile-stack {
+            display: flex !important;
+          }
+          #${layoutId} .desktop-only {
+            display: none !important;
+          }
+        }
+      `}</style>
+
       <Box
+        id={layoutId}
         style={{
           maxWidth: 'var(--width-container)',
           width: '100%',
           margin: '0 auto',
         }}
       >
-        <Box
-          style={{
-            display: 'grid',
-            gridTemplateColumns: ratioMap[ratio],
-            gap: `var(--space-${gap})`,
-            alignItems: verticalAlign,
-          }}
-          className="section-split-layout"
-        >
+        {/* Desktop: Split Grid - Two Columns */}
+        <Box className="split-grid section-split-layout">
           {/* Left Column */}
           {isSectionHeaderInRightColumn ? (
             // When SectionHeader is on right, left column has secondColumn patterns
@@ -219,47 +284,19 @@ export function LayoutRenderer({
             )
           ) : (
             // When SectionHeader is on left, left column has SectionHeader + ButtonGroup
-            <Box>
-              {sectionHeaderKey && (
-                <Container height="auto">
-                  <VStack spacing="lg" align="start">
-                    {sectionHeaderKey && (
-                      <Box data-pattern-key={sectionHeaderKey}>
-                        {renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-                      </Box>
-                    )}
-                    {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && (
-                      <Box data-pattern-key={buttonGroupKey}>
-                        {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
-                      </Box>
-                    )}
-                  </VStack>
-                </Container>
-              )}
-            </Box>
+            <VStack spacing="lg" align="start">
+              {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+              {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+            </VStack>
           )}
-          
+
           {/* Right Column */}
           {isSectionHeaderInRightColumn ? (
             // When SectionHeader is on right, right column has SectionHeader + ButtonGroup
-            <Box>
-              {sectionHeaderKey && (
-                <Container height="auto">
-                  <VStack spacing="lg" align="start">
-                    {sectionHeaderKey && (
-                      <Box data-pattern-key={sectionHeaderKey}>
-                        {renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-                      </Box>
-                    )}
-                    {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && (
-                      <Box data-pattern-key={buttonGroupKey}>
-                        {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
-                      </Box>
-                    )}
-                  </VStack>
-                </Container>
-              )}
-            </Box>
+            <VStack spacing="lg" align="start">
+              {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+              {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+            </VStack>
           ) : (
             // When SectionHeader is on left, right column has secondColumn patterns
             isSecondColumnMediaOnly ? (
@@ -273,19 +310,37 @@ export function LayoutRenderer({
             )
           )}
         </Box>
+
+        {/* Mobile: Stacked single column */}
+        <Box className="mobile-stack">
+          <VStack spacing={mobileGapValue} align={mobileVstackAlign}>
+            {mobilePatternOrder.map(key => {
+              const pattern = patterns[key];
+              if (!pattern) return null;
+
+              // Use mobile layout context for all patterns when stacked
+              return renderPattern(pattern, key, sectionKey, mobileLayoutContext);
+            })}
+          </VStack>
+        </Box>
       </Box>
       
-      {/* Below Split: All remaining patterns with their own containers */}
+      {/* Below Split: All remaining patterns with their own containers - Only on desktop */}
       {remainingPatterns.length > 0 && (
-        <VStack spacing="lg" align="center">
-          {renderPatterns(remainingPatterns)}
-        </VStack>
+        <Box className="desktop-only">
+          <VStack spacing="lg" align="center">
+            {renderPatterns(remainingPatterns)}
+          </VStack>
+        </Box>
       )}
       
-      {/* ButtonGroup at bottom (if distanced) with its own container */}
+      {/* ButtonGroup at bottom (if distanced) with its own container - Only on desktop */}
       {buttonGroupKey && distanceAction && (
-        renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)
+        <Box className="desktop-only">
+          {renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+        </Box>
       )}
     </VStack>
   );
 }
+
