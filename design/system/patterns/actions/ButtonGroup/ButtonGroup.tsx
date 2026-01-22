@@ -23,8 +23,9 @@ export interface ButtonGroupProps extends PatternNode {
  *
  * Alignment priority:
  * 1. Explicit props.align (highest priority)
- * 2. Inherited from layoutContext.alignSectionHeader
- * 3. Default to 'center'
+ * 2. When in secondColumn: default to 'end' (right-aligned)
+ * 3. Inherited from layoutContext.alignSectionHeader
+ * 4. Default to 'center'
  */
 export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   const getPatternProps = patternProps(patternNode);
@@ -34,6 +35,7 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
 
   // Get inherited alignment from layout context
   const inheritedAlign = layoutContext?.alignSectionHeader;
+  const isInSecondColumn = layoutContext?.isInSecondColumn;
 
   // Extract pattern props with defaults
   const patternPropsValues = getPatternProps();
@@ -42,8 +44,18 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
     wrap = true, // Allow buttons to wrap on mobile
   } = patternPropsValues;
 
-  // Align priority: explicit prop > inherited from layout > default 'center'
-  const align = patternPropsValues.align || inheritedAlign || 'center';
+  // Align priority:
+  // 1. Explicit prop
+  // 2. When in secondColumn: default to 'end'
+  // 3. Inherited from layout
+  // 4. Default 'center'
+  const getDefaultAlign = () => {
+    if (patternPropsValues.align) return patternPropsValues.align;
+    if (isInSecondColumn) return 'end'; // Buttons in second column default to end
+    if (inheritedAlign) return inheritedAlign;
+    return 'center';
+  };
+  const align = getDefaultAlign();
 
   // Map align to HStack justify
   const justifyMap = {
