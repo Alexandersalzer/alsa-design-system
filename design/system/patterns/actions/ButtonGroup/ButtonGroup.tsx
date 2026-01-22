@@ -52,9 +52,7 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   const getDefaultAlign = () => {
     if (patternPropsValues.align) return patternPropsValues.align;
     if (isInSecondColumn) return 'end'; // Buttons in second column default to end
-    if (inheritedAlign === 'left') return 'start';
-    if (inheritedAlign === 'right') return 'end';
-    if (inheritedAlign === 'center') return 'center';
+    if (inheritedAlign) return inheritedAlign;
     return 'center';
   };
   const align = getDefaultAlign();
