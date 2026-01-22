@@ -33,7 +33,7 @@ export const renderPatternDirect = (
   }
 
   return (
-    <PatternComponent 
+    <PatternComponent
       key={patternKey}
       type={pattern.type}
       props={pattern.props}
