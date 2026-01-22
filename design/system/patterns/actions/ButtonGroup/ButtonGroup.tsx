@@ -44,12 +44,14 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
       wrap={wrap}
     >
       {/* Primary Button */}
-      {renderIf('button-primary') && get('button-primary').props.content && (
+      {renderIf('button-primary') && (
         <Button
           size={get('button-primary').props.size || 'lg'}
           variant={get('button-primary').props.variant || 'accent'}
           href={get('button-primary').props.href}
           action={get('button-primary').props.action}
+          rightIcon={get('button-primary').props.rightIcon}
+          leftIcon={get('button-primary').props.leftIcon}
           componentKey={get('button-primary').key}
         >
           {get('button-primary').props.content}
@@ -57,12 +59,14 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
       )}
 
       {/* Secondary Button */}
-      {renderIf('button-secondary') && get('button-secondary').props.content && (
+      {renderIf('button-secondary') && (
         <Button
           size={get('button-secondary').props.size || 'lg'}
           variant={get('button-secondary').props.variant || 'secondary'}
           href={get('button-secondary').props.href}
           action={get('button-secondary').props.action}
+          rightIcon={get('button-secondary').props.rightIcon}
+          leftIcon={get('button-secondary').props.leftIcon}
           componentKey={get('button-secondary').key}
         >
           {get('button-secondary').props.content}
@@ -70,12 +74,14 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
       )}
 
       {/* Ghost Button */}
-      {renderIf('button-ghost') && get('button-ghost').props.content && (
+      {renderIf('button-ghost') && (
         <Button
           size={get('button-ghost').props.size || 'lg'}
           variant={get('button-ghost').props.variant || 'ghost'}
           href={get('button-ghost').props.href}
           action={get('button-ghost').props.action}
+          rightIcon={get('button-ghost').props.rightIcon}
+          leftIcon={get('button-ghost').props.leftIcon}
           componentKey={get('button-ghost').key}
         >
           {get('button-ghost').props.content}
