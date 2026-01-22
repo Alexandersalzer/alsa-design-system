@@ -10,29 +10,48 @@ import { PatternNode } from '../../../core/types/nodes';
 import { patternProps, componentProps, componentPresent } from '../../../core/utils/props';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Button } from '../../../components/actions/Button/Button';
+import type { LayoutContext } from '../../../core/render/patterns';
 
 export interface ButtonGroupProps extends PatternNode {
   type: 'buttonGroup';
+  /** Layout context for inheriting alignment from parent layout */
+  layoutContext?: LayoutContext;
 }
 
+/**
+ * ButtonGroup Pattern - Renders multiple buttons in a horizontal group
+ *
+ * Alignment priority:
+ * 1. Explicit props.align (highest priority)
+ * 2. Inherited from layoutContext.alignSectionHeader
+ * 3. Default to 'center'
+ */
 export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   const getPatternProps = patternProps(patternNode);
-  const { components = {}, order = [] } = patternNode;
+  const { components = {}, order = [], layoutContext } = patternNode;
   const get = componentProps(components);
   const renderIf = componentPresent(components);
 
+  // Get inherited alignment from layout context
+  const inheritedAlign = layoutContext?.alignSectionHeader;
+
   // Extract pattern props with defaults
+  const patternPropsValues = getPatternProps();
   const {
-    align = 'center', // 'left' | 'center' | 'right'
     gap = 'md', // HStack gap between buttons
     wrap = true, // Allow buttons to wrap on mobile
-  } = getPatternProps();
+  } = patternPropsValues;
+
+  // Align priority: explicit prop > inherited from layout > default 'center'
+  const align = patternPropsValues.align || inheritedAlign || 'center';
 
   // Map align to HStack justify
   const justifyMap = {
     left: 'start',
+    start: 'start',
     center: 'center',
     right: 'end',
+    end: 'end',
   } as const;
   const justify = justifyMap[align as keyof typeof justifyMap] || 'center';
 
