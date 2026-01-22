@@ -65,18 +65,10 @@ export const renderPattern = (
   // Hämta useMediaWidth från props med getPatternProps
   const patternProps = getPatternProps(pattern);
 
-  // Map layoutContext alignment to Container align prop
-  const getContainerAlign = (): 'left' | 'center' | 'right' => {
-    if (layoutContext?.alignSectionHeader === 'left') return 'left';
-    if (layoutContext?.alignSectionHeader === 'right') return 'right';
-    return 'center';
-  };
-
   return (
     <Container
       key={patternKey}
       height="auto"
-      align={getContainerAlign()}
       useMediaWidth={patternProps.useMediaWidth || false}
       useFormWidth={patternProps.useFormWidth || false}
       patternKey={patternKey}

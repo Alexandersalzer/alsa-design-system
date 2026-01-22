@@ -12,9 +12,9 @@
   /* Internal layout - uses global selected spacing */
   gap: var(--space-container);
 
-  /* Width - centering is controlled by alignment classes */
+  /* Width and centering */
   max-width: var(--width-container);
-  /* margin-inline is set by alignment classes (.alignLeft, .alignCenter, .alignRight) */
+  margin-inline: auto;
 
   /* Horizontal breathing room (edge padding) */
   padding-inline: var(--foundation-space-4);
@@ -53,22 +53,9 @@
 .heightFit  { height: fit-content; }
 
 /* ===== ALIGNMENT VARIANTS ===== */
-/* Controls both content alignment AND container position */
-.alignLeft   {
-  align-items: flex-start;
-  text-align: left;
-  margin-inline: 0 auto; /* Push to left */
-}
-.alignCenter {
-  align-items: center;
-  text-align: center;
-  margin-inline: auto; /* Center */
-}
-.alignRight  {
-  align-items: flex-end;
-  text-align: right;
-  margin-inline: auto 0; /* Push to right */
-}
+.alignLeft   { align-items: flex-start; text-align: left; }
+.alignCenter { align-items: center; text-align: center; }
+.alignRight  { align-items: flex-end; text-align: right; }
 
 /* ===== PADDING VARIANTS ===== */
 .noPadding {
