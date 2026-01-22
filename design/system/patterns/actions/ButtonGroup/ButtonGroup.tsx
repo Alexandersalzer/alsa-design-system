@@ -99,24 +99,6 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   // Determine if animation should be enabled for this section
   const shouldAnimate = animationMode === 'all' || (animationMode === 'hero' && isHero);
 
-  // Helper to wrap button with animation
-  const withAnimation = (content: React.ReactNode, index: number = 0, key?: string) => {
-    if (!shouldAnimate) return content;
-
-    return (
-      <FadeIn
-        key={key}
-        direction={animationDirection}
-        duration={animationDuration}
-        delay={animationDelay + (index * animationStagger)}
-        enableScrollTrigger={true}
-        triggerOffset={100}
-      >
-        {content}
-      </FadeIn>
-    );
-  };
-
   return (
     <HStack
       spacing={gap}
@@ -128,7 +110,7 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
         const button = components[buttonKey];
         if (!button || button.type !== 'button' || !button.props.content) return null;
 
-        return withAnimation(
+        const buttonElement = (
           <Button
             size={button.props.size || 'lg'}
             variant={button.props.variant || 'accent'}
@@ -137,9 +119,26 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
             componentKey={button.componentKey || buttonKey}
           >
             {button.props.content}
-          </Button>,
-          index,
-          buttonKey
+          </Button>
+        );
+
+        // If animation is disabled, return button with key directly
+        if (!shouldAnimate) {
+          return <React.Fragment key={buttonKey}>{buttonElement}</React.Fragment>;
+        }
+
+        // If animation is enabled, wrap in FadeIn with key
+        return (
+          <FadeIn
+            key={buttonKey}
+            direction={animationDirection}
+            duration={animationDuration}
+            delay={animationDelay + (index * animationStagger)}
+            enableScrollTrigger={true}
+            triggerOffset={100}
+          >
+            {buttonElement}
+          </FadeIn>
         );
       })}
     </HStack>
