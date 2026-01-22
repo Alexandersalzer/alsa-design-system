@@ -153,17 +153,17 @@ export function LayoutRenderer({
             display: 'grid',
             gridTemplateColumns: ratioMap[ratio],
             gap: `var(--space-${gap})`,
-            alignItems: 'start',grouped (if not in secondColumn and not distanced) */}
+            alignItems: 'start',
+          }}
+          className="section-split-layout"
+        >
+          {/* First Column: SectionHeader + ButtonGroup grouped (if not in secondColumn and not distanced) */}
           <Box>
             <VStack spacing="lg" align="start">
               {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey)}
               {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
             </VStack>
-          </Boxt Column: SectionHeader + ButtonGroup (if not in secondColumn and not distanced) */}
-          <VStack spacing="lg" align="start">
-            {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey)}
-            {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
-          </VStack>
+          </Box>
           
           {/* Second Column: Patterns from secondColumn array (can be empty) */}
           <VStack spacing="lg" align="start">
