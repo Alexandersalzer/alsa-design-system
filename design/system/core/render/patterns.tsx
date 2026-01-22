@@ -10,6 +10,10 @@ import { PatternNode } from '../types/nodes';
 export interface LayoutContext {
   /** Section header alignment from layout config */
   alignSectionHeader?: 'left' | 'center' | 'right';
+  /** Whether this pattern is rendered in the second column of a split layout */
+  isInSecondColumn?: boolean;
+  /** Vertical alignment of the split layout */
+  verticalAlign?: 'start' | 'center' | 'end';
 }
 
 /**

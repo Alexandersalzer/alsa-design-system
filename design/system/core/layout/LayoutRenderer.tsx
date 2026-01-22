@@ -77,12 +77,25 @@ export function LayoutRenderer({
   // Pass layout alignment to patterns so they can inherit it
   const layoutContext = {
     alignSectionHeader,
+    isInSecondColumn: false,
+    verticalAlign,
   };
 
+  // Context for patterns in the second column
+  const secondColumnContext = {
+    alignSectionHeader,
+    isInSecondColumn: true,
+    verticalAlign,
+  };
+
+  // Check if second column contains only media patterns (for stretch behavior)
+  const isSecondColumnMediaOnly = secondColumnPatterns.length > 0 &&
+    secondColumnPatterns.every(key => patterns[key]?.type === 'media');
+
   // ===== HELPER FUNCTIONS =====
-  const renderPatterns = (keys: string[]) => {
+  const renderPatterns = (keys: string[], context = layoutContext) => {
     return keys
-      .map(key => renderPattern(patterns[key], key, sectionKey, layoutContext))
+      .map(key => renderPattern(patterns[key], key, sectionKey, context))
       .filter(Boolean);
   };
 
@@ -163,9 +176,16 @@ export function LayoutRenderer({
           </VStack>
 
           {/* Second Column: Patterns from secondColumn array (can be empty) */}
-          <VStack spacing="lg" align="start">
-            {renderPatterns(secondColumnPatterns)}
-          </VStack>
+          {/* When media-only, use a Box that stretches; otherwise VStack with end alignment for buttons */}
+          {isSecondColumnMediaOnly ? (
+            <Box style={{ alignSelf: 'stretch', display: 'flex', flexDirection: 'column' }}>
+              {renderPatterns(secondColumnPatterns, secondColumnContext)}
+            </Box>
+          ) : (
+            <VStack spacing="lg" align="end" justify="end">
+              {renderPatterns(secondColumnPatterns, secondColumnContext)}
+            </VStack>
+          )}
         </Box>
 
         {/* Below Split: Remaining patterns (full width) */}
