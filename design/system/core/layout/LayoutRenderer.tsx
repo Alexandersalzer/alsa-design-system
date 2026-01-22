@@ -93,6 +93,14 @@ export function LayoutRenderer({
     secondColumnPatterns.every(key => patterns[key]?.type === 'media');
 
   // ===== HELPER FUNCTIONS =====
+  // Map alignSectionHeader to VStack align prop
+  const getVStackAlign = () => {
+    if (alignSectionHeader === 'left') return 'start';
+    if (alignSectionHeader === 'right') return 'end';
+    return 'center';
+  };
+  const vstackAlign = getVStackAlign();
+
   const renderPatterns = (keys: string[], context = layoutContext) => {
     return keys
       .map(key => renderPattern(patterns[key], key, sectionKey, context))
@@ -182,13 +190,13 @@ export function LayoutRenderer({
         {/* Last pattern + ButtonGroup (if distanced) in same container */}
         {buttonGroupKey && distanceAction && lastPattern && (
           <Container height="auto">
-            <VStack spacing="lg" align="center">
+            <VStack spacing="lg" align={vstackAlign}>
               {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
               {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
             </VStack>
           </Container>
         )}
-        
+
         {/* ButtonGroup alone if no other patterns */}
         {buttonGroupKey && distanceAction && !lastPattern && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
       </VStack>
@@ -282,7 +290,7 @@ export function LayoutRenderer({
       
       {/* Below Split: Remaining patterns (full width, except last if distanceAction) */}
       {patternsBeforeLast.length > 0 && (
-        <VStack spacing="lg" align="center">
+        <VStack spacing="lg" align={vstackAlign}>
           {renderPatterns(patternsBeforeLast)}
         </VStack>
       )}
@@ -290,7 +298,7 @@ export function LayoutRenderer({
       {/* Last pattern + ButtonGroup (if distanced) in same container */}
       {buttonGroupKey && distanceAction && lastPattern && (
         <Container height="auto">
-          <VStack spacing="lg" align="center">
+          <VStack spacing="lg" align={vstackAlign}>
             {renderPatternDirect(patterns[lastPattern], lastPattern, sectionKey, layoutContext)}
             {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
           </VStack>
