@@ -171,11 +171,23 @@ export function LayoutRenderer({
   if (alignSectionHeader === 'center') {
     return (
       <VStack spacing={gap} align="center">
-        {/* SectionHeader with its own container */}
-        {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-        
-        {/* ButtonGroup with its own container (if not distanced) */}
-        {buttonGroupKey && !distanceAction && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+        {/* SectionHeader + ButtonGroup in their own container */}
+        {(sectionHeaderKey || (buttonGroupKey && !distanceAction)) && (
+          <Container height="auto">
+            <VStack spacing="lg" align="center">
+              {sectionHeaderKey && (
+                <Box data-pattern-key={sectionHeaderKey}>
+                  {renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+                </Box>
+              )}
+              {buttonGroupKey && !distanceAction && (
+                <Box data-pattern-key={buttonGroupKey}>
+                  {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+                </Box>
+              )}
+            </VStack>
+          </Container>
+        )}
         
         {/* All other patterns with their own containers */}
         {renderPatterns(otherPatternKeys)}
@@ -196,11 +208,23 @@ export function LayoutRenderer({
   if (!hasSecondColumnDefined) {
     return (
       <VStack spacing={gap} align={alignSectionHeader === 'left' ? 'start' : 'end'}>
-        {/* SectionHeader with its own container */}
-        {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-        
-        {/* ButtonGroup with its own container (if not distanced and not in second column) */}
-        {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+        {/* SectionHeader + ButtonGroup in their own container */}
+        {(sectionHeaderKey || (buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn)) && (
+          <Container height="auto">
+            <VStack spacing="lg" align="start">
+              {sectionHeaderKey && (
+                <Box data-pattern-key={sectionHeaderKey}>
+                  {renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+                </Box>
+              )}
+              {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && (
+                <Box data-pattern-key={buttonGroupKey}>
+                  {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+                </Box>
+              )}
+            </VStack>
+          </Container>
+        )}
         
         {/* All other patterns with their own containers */}
         {renderPatterns(remainingPatterns)}
@@ -284,19 +308,47 @@ export function LayoutRenderer({
             )
           ) : (
             // When SectionHeader is on left, left column has SectionHeader + ButtonGroup
-            <VStack spacing="lg" align="start">
-              {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-              {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
-            </VStack>
+            <Box>
+              {(sectionHeaderKey || (buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn)) && (
+                <Container height="auto">
+                  <VStack spacing="lg" align="start">
+                    {sectionHeaderKey && (
+                      <Box data-pattern-key={sectionHeaderKey}>
+                        {renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+                      </Box>
+                    )}
+                    {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && (
+                      <Box data-pattern-key={buttonGroupKey}>
+                        {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+                      </Box>
+                    )}
+                  </VStack>
+                </Container>
+              )}
+            </Box>
           )}
 
           {/* Right Column */}
           {isSectionHeaderInRightColumn ? (
             // When SectionHeader is on right, right column has SectionHeader + ButtonGroup
-            <VStack spacing="lg" align="start">
-              {sectionHeaderKey && renderPattern(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-              {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
-            </VStack>
+            <Box>
+              {(sectionHeaderKey || (buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn)) && (
+                <Container height="auto">
+                  <VStack spacing="lg" align="start">
+                    {sectionHeaderKey && (
+                      <Box data-pattern-key={sectionHeaderKey}>
+                        {renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+                      </Box>
+                    )}
+                    {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && (
+                      <Box data-pattern-key={buttonGroupKey}>
+                        {renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+                      </Box>
+                    )}
+                  </VStack>
+                </Container>
+              )}
+            </Box>
           ) : (
             // When SectionHeader is on left, right column has secondColumn patterns
             isSecondColumnMediaOnly ? (
