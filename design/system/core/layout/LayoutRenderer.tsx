@@ -185,9 +185,7 @@ export function LayoutRenderer({
     : null;
 
   return (
-    <Container>
-      <VStack spacing={gap}>
-     VStack spacing={gap}>
+    <VStack spacing={gap}>
       {/* Split Grid - Two Columns */}
       <Box
         style={{
@@ -235,4 +233,6 @@ export function LayoutRenderer({
       
       {/* ButtonGroup alone if no other patterns */}
       {buttonGroupKey && distanceAction && !lastPattern && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey)}
-    </VStack
+    </VStack>
+  );
+}
