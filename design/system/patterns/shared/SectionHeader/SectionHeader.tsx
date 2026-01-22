@@ -7,29 +7,50 @@ import { Typography } from '../../../components/Typography/Typography';
 import { Tag } from '../../../components/feedback/Tag/Tag';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, componentPresent } from '../../../core/utils/props';
+import type { LayoutContext } from '../../../core/render/patterns';
 
 export interface SectionHeaderProps extends PatternNode {
   type: 'sectionHeader';
   sectionKey?: string;
   patternKey?: string;
+  /** Layout context for inheriting alignment from parent layout */
+  layoutContext?: LayoutContext;
 }
 
 /**
  * SectionHeader Pattern - Renders tag, heading, and body text
  * Used as the main content block for sections
+ *
+ * Alignment priority:
+ * 1. Explicit props.align / props.textAlign (highest priority)
+ * 2. Inherited from layoutContext.alignSectionHeader
+ * 3. Default to 'center'
  */
 export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
-  const { components = {}, sectionKey, props } = patternNode;
-  
+  const { components = {}, sectionKey, props, layoutContext } = patternNode;
+
   if (!components || Object.keys(components).length === 0) return null;
 
   const get = componentProps(components);
   const renderIf = componentPresent(components);
 
-  // Get spacing and alignment from pattern props
+  // Get inherited alignment from layout context
+  const inheritedAlign = layoutContext?.alignSectionHeader;
+
+  // Map layout alignment to component alignment values
+  // 'left' -> 'start', 'right' -> 'end', 'center' -> 'center'
+  const mapLayoutAlign = (layoutAlign?: string) => {
+    if (layoutAlign === 'left') return 'start';
+    if (layoutAlign === 'right') return 'end';
+    return layoutAlign || 'center';
+  };
+
+  // Get spacing and alignment from pattern props, with inheritance fallback
   const spacing = props?.spacing || 'md';
-  const align = props?.align || 'center';
-  const textAlign = props?.textAlign || 'center';
+  // Align controls the VStack/Box alignment (start/center/end)
+  const align = props?.align || mapLayoutAlign(inheritedAlign);
+  // TextAlign controls the Typography text alignment (left/center/right)
+  const textAlign = props?.textAlign || inheritedAlign || 'center';
   const maxWidth = props?.maxWidth || '650px';
   const isHero = sectionKey?.startsWith('hero_') || props?.isHero || false;
 
