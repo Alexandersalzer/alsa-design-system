@@ -50,6 +50,7 @@ export function LayoutRenderer({
     distanceAction = false,
     gap = 'xl',
     ratio = '1:1',
+    verticalAlign = 'center', // Default to center for better visual balance
   } = layout || {};
 
   // ===== FIND SPECIAL PATTERNS =====
@@ -151,7 +152,7 @@ export function LayoutRenderer({
             display: 'grid',
             gridTemplateColumns: ratioMap[ratio],
             gap: `var(--space-${gap})`,
-            alignItems: 'start',
+            alignItems: verticalAlign,
           }}
           className="section-split-layout"
         >
