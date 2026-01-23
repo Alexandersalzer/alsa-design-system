@@ -12,6 +12,7 @@ import { Container } from '../../components/frames/container/Container';
 import { LayoutConfig } from './types';
 import { PatternNode } from '../types/nodes';
 import { renderPattern, renderPatternDirect } from '../render/patterns';
+import { actionsRegistry } from '../../patterns/actions/registry';
 
 interface LayoutRendererProps {
   layout?: LayoutConfig;
@@ -58,23 +59,44 @@ export function LayoutRenderer({
   } = layout || {};
 
   // ===== FIND SPECIAL PATTERNS =====
+  // Helper to check if a pattern is an action pattern
+  const isActionPattern = (patternType: string) => {
+    return patternType in actionsRegistry;
+  };
+
   const sectionHeaderKey = order.find(key => patterns[key]?.type === 'sectionHeader');
-  const buttonGroupKey = order.find(key => patterns[key]?.type === 'buttonGroup');
   
-  // Check if ButtonGroup should be in secondColumn
-  const isButtonGroupInSecondColumn = buttonGroupKey && secondColumn.includes(buttonGroupKey);
+  // Find all action patterns (buttonGroup, form, gridForm, inputGroup, etc.)
+  const actionPatternKeys = order.filter(key => {
+    const pattern = patterns[key];
+    return pattern && isActionPattern(pattern.type);
+  });
   
-  // Get remaining patterns (exclude sectionHeader, and buttonGroup only if NOT in secondColumn)
+  // Check if any action patterns should be in secondColumn
+  const actionPatternsInSecondColumn = actionPatternKeys.filter(key => secondColumn.includes(key));
+  
+  // Action patterns that should be grouped with SectionHeader (not in secondColumn, not distanced)
+  const actionPatternsWithHeader = actionPatternKeys.filter(key => 
+    !secondColumn.includes(key) && !distanceAction
+  );
+  
+  // Action patterns that should be distanced (at bottom)
+  const distancedActionPatterns = distanceAction ? actionPatternKeys.filter(key => 
+    !secondColumn.includes(key)
+  ) : [];
+  
+  // Get remaining patterns (exclude sectionHeader and action patterns that aren't in secondColumn)
   const otherPatternKeys = order.filter(
-    key => key !== sectionHeaderKey && (key !== buttonGroupKey || isButtonGroupInSecondColumn)
+    key => key !== sectionHeaderKey && !actionPatternKeys.includes(key)
   );
   
   // Separate secondColumn patterns from other patterns
-  // IMPORTANT: If distanceAction is true, buttonGroup should NOT be in secondColumn 
-  // (it will be rendered distanced at the bottom instead)
-  const secondColumnPatterns = otherPatternKeys.filter(key => 
-    secondColumn.includes(key) && !(key === buttonGroupKey && distanceAction)
-  );
+  // Include action patterns that are explicitly in secondColumn
+  const secondColumnPatterns = [
+    ...otherPatternKeys.filter(key => secondColumn.includes(key)),
+    ...actionPatternsInSecondColumn
+  ];
+  
   const remainingPatterns = otherPatternKeys.filter(key => 
     !secondColumn.includes(key)
   );
@@ -150,19 +172,17 @@ export function LayoutRenderer({
     if (mobileOrder && mobileOrder.length > 0) {
       return mobileOrder;
     }
-    // Default: SectionHeader first, then secondColumn patterns, then remaining, then ButtonGroup (if distanced)
+    // Default: SectionHeader first, then action patterns (if not distanced), then secondColumn, then remaining, then distanced actions
     const defaultOrder: string[] = [];
     if (sectionHeaderKey) defaultOrder.push(sectionHeaderKey);
-    // Add buttonGroup after sectionHeader if not distanced and not in secondColumn
-    if (buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn) {
-      defaultOrder.push(buttonGroupKey);
-    }
+    // Add action patterns after sectionHeader if not distanced and not in secondColumn
+    defaultOrder.push(...actionPatternsWithHeader);
     // Add secondColumn patterns
     defaultOrder.push(...secondColumnPatterns);
     // Add remaining patterns
     defaultOrder.push(...remainingPatterns);
-    // Add buttonGroup at end if distanced
-    if (buttonGroupKey && distanceAction) defaultOrder.push(buttonGroupKey);
+    // Add distanced action patterns at end
+    defaultOrder.push(...distancedActionPatterns);
     return defaultOrder;
   };
 
@@ -174,19 +194,20 @@ export function LayoutRenderer({
     
     return (
       <VStack spacing="none" align="center">
-        {/* SectionHeader + ButtonGroup together in one Container with shared VStack */}
-        {(sectionHeaderKey || (buttonGroupKey && !distanceAction)) && (
+        {/* SectionHeader + Action Patterns together in one Container with shared VStack */}
+        {(sectionHeaderKey || actionPatternsWithHeader.length > 0) && (
           <Container height="auto">
             <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: '0 auto', width: '100%' }}>
               <VStack spacing="lg" align="center">
                 {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-                {buttonGroupKey && !distanceAction && renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+                {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
               </VStack>
             </Box>
           </Container>
         )}
         {renderPatterns(otherPatternKeys)}
-        {buttonGroupKey && distanceAction && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+        {renderPatterns(actionPatternsInSecondColumn)}
+        {distancedActionPatterns.map(key => renderPattern(patterns[key], key, sectionKey, layoutContext))}
       </VStack>
     );
   }
@@ -205,19 +226,19 @@ export function LayoutRenderer({
     
     return (
       <VStack spacing="none" align={alignSectionHeader === 'left' ? 'start' : 'end'}>
-        {/* SectionHeader + ButtonGroup together in one Container with shared VStack */}
-        {(sectionHeaderKey || (buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn)) && (
+        {/* SectionHeader + Action Patterns together in one Container with shared VStack */}
+        {(sectionHeaderKey || actionPatternsWithHeader.length > 0) && (
           <Container height="auto">
             <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
               <VStack spacing="lg" align="start">
                 {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-                {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+                {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
               </VStack>
             </Box>
           </Container>
         )}
         {renderPatterns(remainingPatterns)}
-        {buttonGroupKey && distanceAction && renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+        {distancedActionPatterns.map(key => renderPattern(patterns[key], key, sectionKey, layoutContext))}
       </VStack>
     );
   }
@@ -301,7 +322,7 @@ export function LayoutRenderer({
               <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
                 <VStack spacing="lg" align="start">
                   {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-                  {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+                  {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
                 </VStack>
               </Box>
             </Container>
@@ -312,7 +333,7 @@ export function LayoutRenderer({
               <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
                 <VStack spacing="lg" align="start">
                   {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
-                  {buttonGroupKey && !distanceAction && !isButtonGroupInSecondColumn && renderPatternDirect(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+                  {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
                 </VStack>
               </Box>
             </Container>
@@ -354,9 +375,11 @@ export function LayoutRenderer({
       )}
       
       {/* ButtonGroup at bottom (if distanced) with its own container - Only on desktop */}
-      {buttonGroupKey && distanceAction && (
+      {distancedActionPatterns.length > 0 && (
         <Box className="desktop-only">
-          {renderPattern(patterns[buttonGroupKey], buttonGroupKey, sectionKey, layoutContext)}
+          <VStack spacing="none" align="center">
+            {distancedActionPatterns.map(key => renderPattern(patterns[key], key, sectionKey, layoutContext))}
+          </VStack>
         </Box>
       )}
     </>
