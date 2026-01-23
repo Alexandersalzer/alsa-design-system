@@ -207,15 +207,7 @@ export function LayoutRenderer({
         )}
         {renderPatterns(otherPatternKeys)}
         {renderPatterns(actionPatternsInSecondColumn)}
-        {distancedActionPatterns.length > 0 && (
-          <Container height="auto">
-            <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: '0 auto', width: '100%' }}>
-              <VStack spacing="lg" align="center">
-                {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
-              </VStack>
-            </Box>
-          </Container>
-        )}
+        {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
       </VStack>
     );
   }
@@ -246,15 +238,7 @@ export function LayoutRenderer({
           </Container>
         )}
         {renderPatterns(remainingPatterns)}
-        {distancedActionPatterns.length > 0 && (
-          <Container height="auto">
-            <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
-              <VStack spacing="lg" align="start">
-                {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
-              </VStack>
-            </Box>
-          </Container>
-        )}
+        {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
       </VStack>
     );
   }
@@ -390,16 +374,10 @@ export function LayoutRenderer({
         </Box>
       )}
       
-      {/* Action patterns at bottom (if distanced) in shared container - Only on desktop */}
+      {/* Action patterns at bottom (if distanced) without container - Only on desktop */}
       {distancedActionPatterns.length > 0 && (
         <Box className="desktop-only">
-          <Container height="auto">
-            <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: '0 auto', width: '100%' }}>
-              <VStack spacing="lg" align="center">
-                {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
-              </VStack>
-            </Box>
-          </Container>
+          {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
         </Box>
       )}
     </>
