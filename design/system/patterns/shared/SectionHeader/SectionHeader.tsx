@@ -6,6 +6,7 @@ import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import { Tag } from '../../../components/feedback/Tag/Tag';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
+import { Opacity } from '../../../components/animations/Opacity/Opacity';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, componentPresent } from '../../../core/utils/props';
 import type { LayoutContext } from '../../../core/render/patterns';
@@ -59,11 +60,19 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
   const heroSpacingMobile = props?.heroSpacingMobile || 1.5;
   const heroSpacingDesktop = props?.heroSpacingDesktop || 1;
 
+  // Check if section has specific animation config
+  const sectionAnimationConfig = layoutContext?.sectionAnimation;
+
   // Animation configuration
-  const animationDirection = props?.animationDirection || 'up';
-  const animationDuration = props?.animationDuration || 600;
-  const animationDelay = props?.animationDelay || 0;
-  const animationStagger = props?.animationStagger || 100; // Delay between elements
+  // Type guard: only fadeIn has direction setting
+  const animationDirection = (sectionAnimationConfig?.type === 'fadeIn' && sectionAnimationConfig.settings?.direction) 
+    || props?.animationDirection 
+    || 'up';
+  const animationDuration = sectionAnimationConfig?.settings?.duration || props?.animationDuration || 600;
+  const animationDelay = sectionAnimationConfig?.settings?.delay || props?.animationDelay || 0;
+  const animationStagger = (sectionAnimationConfig?.type === 'fadeIn' && sectionAnimationConfig.settings?.stagger) 
+    || props?.animationStagger 
+    || 100; // Delay between elements
 
   // Read animation mode from CSS variable (set in design.json)
   // 'all' = animate all sections, 'hero' = only hero sections, 'none' = no animations
@@ -82,7 +91,13 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
   }, []);
 
   // Determine if animation should be enabled for this section
-  const shouldAnimate = animationMode === 'all' || (animationMode === 'hero' && isHero);
+  // Priority: section animation > global animation mode
+  const shouldAnimate = sectionAnimationConfig 
+    ? sectionAnimationConfig.type !== 'none' 
+    : (animationMode === 'all' || (animationMode === 'hero' && isHero));
+
+  // Determine animation type
+  const animationType = sectionAnimationConfig?.type || 'fadeIn';
 
   // Helper to wrap content with animation
   // Checks if component has its own animation prop - if so, skip FadeIn wrapper
@@ -91,9 +106,24 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
     
     // If componentKey provided, check if component has its own animation
     if (componentKey && get(componentKey).props?.animation) {
-      return content; // Skip FadeIn wrapper - component handles animation itself
+      return content; // Skip wrapper - component handles animation itself
     }
 
+    // If opacity animation, use Opacity component
+    if (animationType === 'opacity') {
+      return (
+        <Opacity
+          duration={animationDuration}
+          delay={animationDelay + (index * animationStagger)}
+          enableScrollTrigger={true}
+          triggerOffset={100}
+        >
+          {content}
+        </Opacity>
+      );
+    }
+
+    // Default: use FadeIn with direction
     return (
       <FadeIn
         direction={animationDirection}
