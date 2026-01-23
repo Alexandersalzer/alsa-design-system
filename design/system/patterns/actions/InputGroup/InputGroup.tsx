@@ -16,6 +16,7 @@ import { Input } from '../../../components/forms/Input/Input';
 import { Button } from '../../../components/actions/Button/Button';
 import { useAction } from '../../../core/actions/useAction';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
+import { Opacity } from '../../../components/animations/Opacity/Opacity';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { AnimationConfig } from '../../../core/animations/types';
 
@@ -162,7 +163,24 @@ export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
     return inputGroupContent;
   }
 
-  // If animation is enabled, wrap in FadeIn
+  // Determine animation component based on type
+  const animationType = sectionAnimationConfig?.type || 'fadeIn';
+
+  // If opacity animation, use Opacity component
+  if (animationType === 'opacity') {
+    return (
+      <Opacity
+        duration={animationDuration}
+        delay={animationDelay}
+        enableScrollTrigger={true}
+        triggerOffset={100}
+      >
+        {inputGroupContent}
+      </Opacity>
+    );
+  }
+
+  // Default: use FadeIn component
   return (
     <FadeIn
       direction={animationDirection}

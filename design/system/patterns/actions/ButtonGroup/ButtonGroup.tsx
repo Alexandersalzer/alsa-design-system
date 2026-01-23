@@ -11,6 +11,7 @@ import { patternProps } from '../../../core/utils/props';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Button } from '../../../components/actions/Button/Button';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
+import { Opacity } from '../../../components/animations/Opacity/Opacity';
 import type { LayoutContext } from '../../../core/render/patterns';
 
 export interface ButtonGroupProps extends PatternNode {
@@ -122,6 +123,9 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
     ? sectionAnimationConfig.type !== 'none' 
     : (animationMode === 'all' || (animationMode === 'hero' && isHero));
 
+  // Determine animation type
+  const animationType = sectionAnimationConfig?.type || 'fadeIn';
+
   return (
     <HStack
       spacing={gap}
@@ -151,7 +155,22 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
           return <React.Fragment key={buttonKey}>{buttonElement}</React.Fragment>;
         }
 
-        // If animation is enabled, wrap in FadeIn with key
+        // If opacity animation, use Opacity component
+        if (animationType === 'opacity') {
+          return (
+            <Opacity
+              key={buttonKey}
+              duration={animationDuration}
+              delay={animationDelay + (index * animationStagger)}
+              enableScrollTrigger={true}
+              triggerOffset={100}
+            >
+              {buttonElement}
+            </Opacity>
+          );
+        }
+
+        // Default: use FadeIn with direction
         return (
           <FadeIn
             key={buttonKey}
