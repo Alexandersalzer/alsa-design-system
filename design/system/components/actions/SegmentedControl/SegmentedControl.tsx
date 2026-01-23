@@ -26,13 +26,19 @@ export interface SegmentedControlProps {
   value: string;
   onChange: (value: string) => void;
   size?: 'sm' | 'md' | 'lg';
-  variant?: 'default' | 'pill' | 'ghost';
+  /**
+   * Visual style variant (like Button variants)
+   * - 'default': Page background, default border, raised thumb
+   * - 'raised': Raised background, elevated thumb
+   * - 'accent': Page background, accent border, accent thumb
+   * - 'pill': Pill shape with elevated background
+   * - 'ghost': No background, minimal styling
+   */
+  variant?: 'default' | 'raised' | 'accent' | 'pill' | 'ghost';
   fullWidth?: boolean;
   disabled?: boolean;
   iconOnly?: boolean; // Hide labels, show only icons with tooltips
   tooltipPlacement?: 'top' | 'bottom' | 'left' | 'right'; // Control tooltip position (default: 'bottom')
-  trackBackground?: 'raised' | 'page'; // Track background style (default: 'raised')
-  thumbBackground?: 'raised' | 'elevated' | 'accent'; // Thumb/indicator background style (default: 'raised' when track is 'page', otherwise uses default)
   className?: string;
   'aria-label'?: string;
 }
@@ -50,13 +56,9 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
   disabled = false,
   iconOnly = false,
   tooltipPlacement = 'bottom',
-  trackBackground = 'raised',
-  thumbBackground,
   className,
   'aria-label': ariaLabel,
 }) => {
-  // Default thumb to 'raised' when track is 'page', otherwise use the provided value
-  const effectiveThumbBackground = thumbBackground || (trackBackground === 'page' ? 'raised' : undefined);
   const containerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   const [indicatorStyle, setIndicatorStyle] = useState<{
@@ -217,9 +219,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
       className={cn(
         'segmented-control',
         `segmented-control--${size}`,
-        variant !== 'default' && `segmented-control--${variant}`,
-        trackBackground === 'page' && 'segmented-control--track-page',
-        effectiveThumbBackground && `segmented-control--thumb-${effectiveThumbBackground}`,
+        `segmented-control--${variant}`,
         fullWidth && 'segmented-control--full-width',
         disabled && 'segmented-control--disabled',
         className
