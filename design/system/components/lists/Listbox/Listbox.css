@@ -93,12 +93,12 @@
 
 .listbox-item--variant-card.listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
   border-color: var(--border-default);
-  background-color: var(--surface-card-hover);
+  background-color: var(--surface-hover);
 }
 
 .listbox-item--variant-card.listbox-item--selected {
   border-color: var(--border-accent);
-  background-color: var(--surface-picker-option-selected);
+  background-color: var(--surface-active);
 }
 
 /* Size variants */
@@ -193,7 +193,7 @@
 /* Elevated surface context */
 .listbox--surface-elevated .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected),
 [data-surface="elevated"] .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
-  background-color: var(--surface-overlay);
+  background-color: var(--surface-raised);
 }
 
 /* ===== LISTBOX ITEM ACCESSORIES ===== */
