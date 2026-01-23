@@ -223,6 +223,52 @@
   height: var(--foundation-size-icon-md);
 }
 
+/* ===== TRACK BACKGROUND VARIANTS ===== */
+
+/* Track with page background (uses page/base surface) */
+.segmented-control--track-page {
+  background: var(--surface-page);
+  border-color: var(--border-subtle);
+  box-shadow: none;
+}
+
+/* ===== THUMB BACKGROUND VARIANTS ===== */
+
+/* Raised thumb - subtle elevation */
+.segmented-control--thumb-raised .segmented-control__indicator {
+  background: var(--surface-raised);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 0 0 1px var(--border-default);
+}
+
+/* Elevated thumb - higher elevation */
+.segmented-control--thumb-elevated .segmented-control__indicator {
+  background: var(--surface-elevated);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 0 0 1px var(--border-subtle);
+}
+
+/* Accent thumb - uses accent color */
+.segmented-control--thumb-accent .segmented-control__indicator {
+  background: var(--color-accent);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* Text color adjustment for accent thumb */
+.segmented-control--thumb-accent .segmented-control__option[data-selected="true"] {
+  color: var(--text-on-accent);
+}
+
+.segmented-control--thumb-accent .segmented-control__option[data-selected="true"] .segmented-control__icon {
+  color: var(--icon-on-accent);
+}
+
 /* ===== STYLE VARIANTS ===== */
 
 /* PILL VARIANT */

@@ -31,6 +31,8 @@ export interface SegmentedControlProps {
   disabled?: boolean;
   iconOnly?: boolean; // Hide labels, show only icons with tooltips
   tooltipPlacement?: 'top' | 'bottom' | 'left' | 'right'; // Control tooltip position (default: 'bottom')
+  trackBackground?: 'raised' | 'page'; // Track background style (default: 'raised')
+  thumbBackground?: 'raised' | 'elevated' | 'accent'; // Thumb/indicator background style (default: 'raised' when track is 'page', otherwise uses default)
   className?: string;
   'aria-label'?: string;
 }
@@ -48,9 +50,13 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
   disabled = false,
   iconOnly = false,
   tooltipPlacement = 'bottom',
+  trackBackground = 'raised',
+  thumbBackground,
   className,
   'aria-label': ariaLabel,
 }) => {
+  // Default thumb to 'raised' when track is 'page', otherwise use the provided value
+  const effectiveThumbBackground = thumbBackground || (trackBackground === 'page' ? 'raised' : undefined);
   const containerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   const [indicatorStyle, setIndicatorStyle] = useState<{
@@ -212,6 +218,8 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
         'segmented-control',
         `segmented-control--${size}`,
         variant !== 'default' && `segmented-control--${variant}`,
+        trackBackground === 'page' && 'segmented-control--track-page',
+        effectiveThumbBackground && `segmented-control--thumb-${effectiveThumbBackground}`,
         fullWidth && 'segmented-control--full-width',
         disabled && 'segmented-control--disabled',
         className
