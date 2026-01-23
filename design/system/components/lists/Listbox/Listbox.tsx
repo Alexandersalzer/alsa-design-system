@@ -18,6 +18,7 @@ import './Listbox.css';
 export type ListboxSize = 'sm' | 'md' | 'lg';
 export type ListboxVariant = 'default' | 'bordered' | 'separated';
 export type ListboxSpacing = 'none' | 'xs' | 'sm' | 'md' | 'lg';
+export type ListboxSurface = 'page' | 'raised' | 'elevated';
 
 export interface ListboxProps extends Omit<HTMLAttributes<HTMLUListElement>, 'role'> {
   children: ReactNode;
@@ -27,6 +28,8 @@ export interface ListboxProps extends Omit<HTMLAttributes<HTMLUListElement>, 'ro
   dividers?: boolean;
   className?: string;
   role?: 'list' | 'listbox' | 'menu';
+  /** Surface level for proper hover hierarchy */
+  surface?: ListboxSurface;
 }
 
 // ===============================================
@@ -41,6 +44,7 @@ export const Listbox = forwardRef<HTMLUListElement, ListboxProps>(({
   dividers = false,
   className,
   role = 'listbox',
+  surface,
   ...props
 }, ref) => {
   return (
@@ -53,6 +57,7 @@ export const Listbox = forwardRef<HTMLUListElement, ListboxProps>(({
         `listbox--${variant}`,
         `listbox--spacing-${spacing}`,
         dividers && 'listbox--dividers',
+        surface && `listbox--surface-${surface}`,
         className
       )}
       {...props}

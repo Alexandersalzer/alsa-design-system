@@ -170,6 +170,32 @@
   background-color: transparent;
 }
 
+/* ===== SURFACE-AWARE HOVER ===== */
+/* For proper surface hierarchy in different contexts (menus, dropdowns, etc.)
+   Surface hierarchy (each hover is one step above):
+   - page (neutral-0) → hover: raised (neutral-100)
+   - raised (neutral-100) → hover: elevated (neutral-200)
+   - elevated (neutral-200) → hover: overlay (neutral-300)
+*/
+
+/* Page surface context */
+.listbox--surface-page .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected),
+[data-surface="page"] .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  background-color: var(--surface-raised);
+}
+
+/* Raised surface context (default for most popovers/menus) */
+.listbox--surface-raised .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected),
+[data-surface="raised"] .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  background-color: var(--surface-elevated);
+}
+
+/* Elevated surface context */
+.listbox--surface-elevated .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected),
+[data-surface="elevated"] .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  background-color: var(--surface-overlay);
+}
+
 /* ===== LISTBOX ITEM ACCESSORIES ===== */
 .listbox-item-leading,
 .listbox-item-trailing {

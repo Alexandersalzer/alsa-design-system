@@ -134,7 +134,7 @@
    Surface hierarchy (each hover is one step above):
    - page (neutral-0) → hover: raised (neutral-100)
    - raised (neutral-100) → hover: elevated (neutral-200)
-   - sunken (neutral-300) → hover: elevated (neutral-200)
+   - sunken (neutral-300) → hover: raised (neutral-100)
    =============================================== */
 
 /* Default + Page surface (sidebar on page bg: neutral-0) */
@@ -143,9 +143,11 @@
   color: var(--text-primary);
 }
 
-.nav-item--default.nav-item--surface-page.nav-item--active.listbox-item {
+.nav-item--default.nav-item--surface-page.nav-item--active.listbox-item,
+.nav-item--default.nav-item--surface-page.nav-item--active.listbox-item:hover {
   background-color: var(--surface-accent-muted);
   color: var(--text-accent);
+  cursor: default;
 }
 
 /* Default + Raised surface (sidebar on raised bg: neutral-100) */
@@ -154,20 +156,24 @@
   color: var(--text-primary);
 }
 
-.nav-item--default.nav-item--surface-raised.nav-item--active.listbox-item {
+.nav-item--default.nav-item--surface-raised.nav-item--active.listbox-item,
+.nav-item--default.nav-item--surface-raised.nav-item--active.listbox-item:hover {
   background-color: var(--surface-accent-muted);
   color: var(--text-accent);
+  cursor: default;
 }
 
 /* Default + Sunken surface (sidebar on sunken bg: neutral-300) */
 .nav-item--default.nav-item--surface-sunken.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
-  background-color: var(--surface-elevated);
+  background-color: var(--surface-raised);
   color: var(--text-primary);
 }
 
-.nav-item--default.nav-item--surface-sunken.nav-item--active.listbox-item {
+.nav-item--default.nav-item--surface-sunken.nav-item--active.listbox-item,
+.nav-item--default.nav-item--surface-sunken.nav-item--active.listbox-item:hover {
   background-color: var(--surface-accent-muted);
   color: var(--text-accent);
+  cursor: default;
 }
 
 /* ===============================================
@@ -222,9 +228,11 @@
 }
 
 /* Active items - no hover change, keep stable */
+.nav-item--active.listbox-item,
 .nav-item--active.listbox-item:hover {
-  /* Inherit from active state, don't change on hover */
+  /* Active items are not interactive - no hover effect */
   cursor: default;
+  pointer-events: auto; /* Keep for focus, but prevent visual hover */
 }
 
 /* Focus visible */
