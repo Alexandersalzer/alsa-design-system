@@ -7,7 +7,7 @@
 .segmented-control {
   position: relative;
   display: inline-flex;
-  background: var(--surface-raised);
+  background: var(--surface-page);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-button); /* ✅ Dynamic radius */
   padding: var(--foundation-space-1);
