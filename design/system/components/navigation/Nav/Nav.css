@@ -1,9 +1,17 @@
 /* ===============================================
    src/design-system/components/navigation/Nav/Nav.css
-   Navigation styles - color via currentColor inheritance
+   Navigation styles with variant/size/surface system
+
+   Architecture:
+   - Nav.Item uses ListboxItem internally
+   - Color is set on .nav-item, inherited via currentColor
+   - Variant × Surface matrix controls hover/active surfaces
    =============================================== */
 
-/* ===== NAV ROOT ===== */
+/* ===============================================
+   NAV ROOT
+   =============================================== */
+
 .nav-root {
   display: flex;
   flex-direction: column;
@@ -19,10 +27,13 @@
 
 .nav-root--tabs {
   flex-direction: row;
-  border-bottom: 1px solid var(--border-nav);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-/* ===== NAV LIST ===== */
+/* ===============================================
+   NAV LIST
+   =============================================== */
+
 .nav-list {
   display: flex;
   gap: var(--foundation-space-1);
@@ -40,77 +51,10 @@
   flex-direction: row;
 }
 
-/* ===== NAV ITEM ===== */
-/*
- * Nav.Item uses ListboxItem internally.
- * We override ListboxItem styles here for navigation context.
- * Color is set on .nav-item and inherited via currentColor.
- */
-.nav-item.listbox-item {
-  /* Reset ListboxItem defaults for nav context */
-  border-radius: var(--radius-button);
+/* ===============================================
+   NAV SECTION
+   =============================================== */
 
-  /* CRITICAL: Color is the single source for text + icon */
-  color: var(--text-secondary);
-  background-color: transparent;
-
-  /* Layout */
-  gap: var(--foundation-space-3);
-  padding-inline: var(--foundation-space-3);
-  padding-block: var(--foundation-space-2);
-
-  /* Interaction */
-  cursor: pointer;
-  transition:
-    background-color 0.15s ease,
-    color 0.15s ease;
-}
-
-/* Hover state */
-.nav-item.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
-  background-color: var(--surface-hover);
-  color: var(--text-primary);
-}
-
-/* Active state - color changes */
-.nav-item.listbox-item.nav-item--active {
-  background-color: var(--surface-accent-muted);
-  color: var(--text-accent);
-}
-
-/* Disabled state */
-.nav-item.listbox-item.nav-item--disabled {
-  color: var(--text-disabled);
-  background-color: transparent;
-  cursor: not-allowed;
-  pointer-events: none;
-  opacity: 0.6;
-}
-
-/* ===== ICON COLOR INHERITANCE ===== */
-/* Icons inherit color via currentColor - NO color prop needed */
-.nav-item .listbox-item-leading,
-.nav-item .listbox-item-leading svg,
-.nav-item .icon,
-.nav-item .icon svg {
-  color: currentColor;
-}
-
-/* ===== LABEL COLOR INHERITANCE ===== */
-/* Label inherits color from parent nav-item */
-.nav-item .nav-item__label {
-  color: currentColor;
-}
-
-/* ===== NAV ITEM PARTS ===== */
-.nav-item__label {
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* ===== NAV SECTION ===== */
 .nav-section {
   display: flex;
   flex-direction: column;
@@ -118,7 +62,7 @@
 }
 
 .nav-section__label {
-  padding: var(--foundation-space-2) var(--foundation-space-3);
+  padding: var(--foundation-space-1) var(--foundation-space-3);
   font-size: var(--font-label-xs-size);
   font-weight: var(--foundation-weight-semibold);
   color: var(--text-muted);
@@ -132,26 +76,199 @@
   gap: var(--foundation-space-1);
 }
 
-/* ===== VARIANT-SPECIFIC STYLES ===== */
+/* Section labels in collapsed mode */
+.nav-root--collapsed .nav-section__label {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
 
-/* Sidebar variant */
-.nav-item--sidebar.listbox-item {
-  width: 100%;
+/* ===============================================
+   NAV ITEM - BASE
+   Override ListboxItem defaults for nav context
+   =============================================== */
+
+.nav-item.listbox-item {
+  /* Layout */
+  border-radius: var(--radius-button);
+  gap: var(--foundation-space-2);
+
+  /* Base appearance - transparent, no border */
+  background-color: transparent;
+  border-color: transparent;
+
+  /* Color source - inherited by icon + label */
+  color: var(--text-secondary);
+
+  /* Interaction */
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+/* ===============================================
+   NAV ITEM - SIZES
+   =============================================== */
+
+/* Small: 32px height, tighter feel */
+.nav-item--sm.listbox-item {
+  height: 32px;
+  min-height: 32px;
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+  gap: var(--foundation-space-2);
+}
+
+/* Medium: 40px height, standard */
+.nav-item--md.listbox-item {
   height: 40px;
   min-height: 40px;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  gap: var(--foundation-space-3);
 }
 
-/* Horizontal variant */
+/* ===============================================
+   NAV ITEM - VARIANT: DEFAULT
+   Subtle hover, accent-tinted active
+   =============================================== */
+
+/* Default + Raised surface */
+.nav-item--default.nav-item--surface-raised.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
+  background-color: var(--surface-muted);
+  color: var(--text-primary);
+}
+
+.nav-item--default.nav-item--surface-raised.nav-item--active.listbox-item {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
+/* Default + Page surface */
+.nav-item--default.nav-item--surface-page.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
+  background-color: var(--surface-subtle);
+  color: var(--text-primary);
+}
+
+.nav-item--default.nav-item--surface-page.nav-item--active.listbox-item {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
+/* Default + Sunken surface */
+.nav-item--default.nav-item--surface-sunken.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+.nav-item--default.nav-item--surface-sunken.nav-item--active.listbox-item {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
+/* ===============================================
+   NAV ITEM - VARIANT: ACCENT
+   Accent-tinted hover and active
+   =============================================== */
+
+.nav-item--accent.listbox-item {
+  color: var(--text-secondary);
+}
+
+.nav-item--accent.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
+  background-color: var(--surface-accent-subtle);
+  color: var(--text-accent);
+}
+
+.nav-item--accent.nav-item--active.listbox-item {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
+/* ===============================================
+   NAV ITEM - VARIANT: GHOST
+   Minimal, text-only hover
+   =============================================== */
+
+.nav-item--ghost.listbox-item {
+  color: var(--text-secondary);
+}
+
+.nav-item--ghost.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
+  background-color: transparent;
+  color: var(--text-primary);
+}
+
+.nav-item--ghost.nav-item--active.listbox-item {
+  background-color: transparent;
+  color: var(--text-accent);
+}
+
+/* ===============================================
+   NAV ITEM - STATES
+   =============================================== */
+
+/* Disabled */
+.nav-item--disabled.listbox-item {
+  color: var(--text-disabled);
+  background-color: transparent;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Focus visible */
+.nav-item.listbox-item:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+.nav-item.listbox-item:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ===============================================
+   NAV ITEM - COLOR INHERITANCE
+   Icon and Label inherit from parent
+   =============================================== */
+
+.nav-item .listbox-item-leading,
+.nav-item .listbox-item-leading svg,
+.nav-item .icon,
+.nav-item .icon svg {
+  color: currentColor;
+}
+
+.nav-item .nav-item__label {
+  color: currentColor;
+}
+
+.nav-item__label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===============================================
+   NAV ITEM - LAYOUT VARIANTS
+   =============================================== */
+
+/* Sidebar: full width */
+.nav-item--sidebar.listbox-item {
+  width: 100%;
+}
+
+/* Horizontal: fit content */
 .nav-item--horizontal.listbox-item {
-  min-width: fit-content;
   width: auto;
+  min-width: fit-content;
 }
 
-/* Tabs variant */
+/* Tabs: underline indicator */
 .nav-item--tabs.listbox-item {
   border-bottom: 2px solid transparent;
   border-radius: 0;
-  padding-bottom: 10px;
   background-color: transparent;
 }
 
@@ -160,25 +277,25 @@
   background-color: transparent;
 }
 
-/* ===== PRESS FEEDBACK ===== */
-.nav-item.listbox-item:not(.nav-item--disabled):active {
-  transform: scale(0.97);
-}
+/* ===============================================
+   NAV ITEM - COLLAPSED MODE
+   =============================================== */
 
-.nav-item--active.listbox-item {
-  transform: none !important;
-}
-
-/* ===== COLLAPSED MODE ===== */
 .nav-item--collapsed.listbox-item {
   /* Square icon-button appearance */
-  width: 40px;
-  min-width: 40px;
-  height: 40px;
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
   padding: 0;
   justify-content: center;
   align-items: center;
   gap: 0;
+}
+
+.nav-item--md.nav-item--collapsed.listbox-item {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
 }
 
 /* Hide label in collapsed mode */
@@ -198,35 +315,38 @@
   padding: 0;
 }
 
-/* Section labels in collapsed mode */
-.nav-root--collapsed .nav-section__label {
-  opacity: 0;
-  color: transparent;
-  pointer-events: none;
-  visibility: hidden;
+/* ===============================================
+   NAV ITEM - PRESS FEEDBACK
+   =============================================== */
+
+.nav-item.listbox-item:not(.nav-item--disabled):active {
+  transform: scale(0.97);
 }
 
-/* ===== FOCUS STATES ===== */
-.nav-item.listbox-item:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
-  z-index: 100;
+.nav-item--active.listbox-item {
+  transform: none !important;
 }
 
-.nav-item.listbox-item:focus:not(:focus-visible) {
-  outline: none;
-}
+/* ===============================================
+   RESPONSIVE
+   =============================================== */
 
-/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
-  .nav-item.listbox-item,
-  .nav-item--sidebar.listbox-item {
-    padding: var(--foundation-space-2) var(--foundation-space-3);
-    height: var(--control-height-sm, 36px);
+  .nav-item--sm.listbox-item {
+    height: 36px;
+    min-height: 36px;
+  }
+
+  .nav-item--md.listbox-item {
+    height: 44px;
+    min-height: 44px;
   }
 }
 
-/* ===== REDUCED MOTION ===== */
+/* ===============================================
+   REDUCED MOTION
+   =============================================== */
+
 @media (prefers-reduced-motion: reduce) {
   .nav-item.listbox-item {
     transition: background-color 0.15s ease, color 0.15s ease !important;

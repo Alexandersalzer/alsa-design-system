@@ -8,5 +8,9 @@ export type {
   NavListProps,
   NavPrimitiveItemProps,
   NavSectionProps,
-  NavVariant
+  NavLayout,
+  NavSurface,
+  NavItemVariant,
+  NavItemSize,
+  NavVariant, // backwards compat alias
 } from './Nav';

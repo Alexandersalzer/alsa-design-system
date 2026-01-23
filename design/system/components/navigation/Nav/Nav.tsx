@@ -1,62 +1,101 @@
 // ===============================================
 // src/design-system/components/navigation/Nav/Nav.tsx
-// Navigation primitives - uses ListboxItem for interaction
+// Navigation primitives with variant/size system (Button-style)
 // ===============================================
 
 import React, { createContext, useContext, forwardRef, ReactNode } from 'react';
 import { cn } from '../../../utils/cn';
 import { ListboxItem } from '../../lists/Listbox/ListboxItem';
 import { Icon } from '../../media';
-import { Label } from '../../Typography';
+import { Label, TypographyWeight } from '../../Typography';
 
-// ===== TYPES =====
-export type NavVariant = 'sidebar' | 'horizontal' | 'tabs';
+// ===============================================
+// TYPES
+// ===============================================
+
+/** Nav layout variant - controls the nav container layout */
+export type NavLayout = 'sidebar' | 'horizontal' | 'tabs';
+
+/** Nav surface variant - controls what surface the nav sits on */
+export type NavSurface = 'page' | 'raised' | 'sunken';
+
+/** Nav.Item visual variant - controls colors/appearance */
+export type NavItemVariant = 'default' | 'accent' | 'ghost';
+
+/** Nav.Item size - controls height/padding/text */
+export type NavItemSize = 'sm' | 'md';
+
+// ===============================================
+// CONTEXT
+// ===============================================
 
 interface NavContextValue {
-  variant: NavVariant;
+  layout: NavLayout;
+  surface: NavSurface;
   currentPath?: string;
   collapsed?: boolean;
 }
 
 const NavContext = createContext<NavContextValue>({
-  variant: 'sidebar',
+  layout: 'sidebar',
+  surface: 'raised',
   collapsed: false
 });
 
-// ===== NAV ROOT =====
+// ===============================================
+// NAV ROOT
+// ===============================================
+
 export interface NavRootProps extends React.HTMLAttributes<HTMLElement> {
   children: ReactNode;
-  variant?: NavVariant;
+  /** Layout variant: sidebar (vertical), horizontal, or tabs */
+  layout?: NavLayout;
+  /** @deprecated Use `layout` instead */
+  variant?: NavLayout;
+  /** Surface the nav sits on - affects child item hover/active colors */
+  surface?: NavSurface;
+  /** Current active path for auto-matching */
   currentPath?: string;
-  className?: string;
+  /** Gap between sections */
   gap?: 'sm' | 'md' | 'lg' | 'xl';
+  /** Collapsed state (icon-only mode) */
   collapsed?: boolean;
+  className?: string;
 }
 
 const NavRoot = forwardRef<HTMLElement, NavRootProps>(({
   children,
-  variant = 'sidebar',
+  layout,
+  variant, // deprecated, for backwards compat
+  surface = 'raised',
   currentPath,
-  className,
   gap = 'md',
   collapsed = false,
+  className,
   ...props
 }, ref) => {
+  // Support deprecated 'variant' prop
+  const effectiveLayout = layout ?? variant ?? 'sidebar';
+
+  const gapMap = { sm: '2', md: '3', lg: '4', xl: '5' };
+
   return (
-    <NavContext.Provider value={{ variant, currentPath, collapsed }}>
+    <NavContext.Provider value={{ layout: effectiveLayout, surface, currentPath, collapsed }}>
       <nav
         ref={ref}
         className={cn(
           'nav-root',
-          `nav-root--${variant}`,
+          `nav-root--${effectiveLayout}`,
+          `nav-root--surface-${surface}`,
           collapsed && 'nav-root--collapsed',
           className
         )}
         role="navigation"
+        data-surface={surface}
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: `var(--foundation-space-${gap === 'sm' ? '2' : gap === 'md' ? '3' : gap === 'lg' ? '4' : '5'})`
+          gap: `var(--foundation-space-${gapMap[gap]})`
         }}
         {...props}
       >
@@ -67,7 +106,10 @@ const NavRoot = forwardRef<HTMLElement, NavRootProps>(({
 });
 NavRoot.displayName = 'NavRoot';
 
-// ===== NAV LIST =====
+// ===============================================
+// NAV LIST
+// ===============================================
+
 export interface NavListProps extends React.HTMLAttributes<HTMLUListElement> {
   children: ReactNode;
   label?: string;
@@ -80,12 +122,12 @@ const NavList = forwardRef<HTMLUListElement, NavListProps>(({
   className,
   ...props
 }, ref) => {
-  const { variant } = useContext(NavContext);
+  const { layout } = useContext(NavContext);
 
   return (
     <ul
       ref={ref}
-      className={cn('nav-list', `nav-list--${variant}`, className)}
+      className={cn('nav-list', `nav-list--${layout}`, className)}
       role="list"
       aria-label={label}
       {...props}
@@ -94,30 +136,49 @@ const NavList = forwardRef<HTMLUListElement, NavListProps>(({
     </ul>
   );
 });
-
 NavList.displayName = 'NavList';
 
-// ===== NAV ITEM =====
+// ===============================================
+// NAV ITEM
+// ===============================================
+
 export interface NavPrimitiveItemProps {
   children: ReactNode;
+  /** URL for path matching */
   href?: string;
+  /** Force active state (overrides path matching) */
   isActive?: boolean;
+  /** Disabled state */
   isDisabled?: boolean;
+  /** Leading icon element */
   icon?: React.ReactElement;
+  /** Trailing badge/indicator */
   badge?: ReactNode;
-  className?: string;
+  /** Visual variant */
+  variant?: NavItemVariant;
+  /** Size variant */
+  size?: NavItemSize;
+  /** Click handler */
   onClick?: () => void;
+  className?: string;
 }
 
 /**
- * Nav.Item - Navigation item that uses ListboxItem internally
+ * Nav.Item - Navigation item with variant/size support
  *
- * Color is controlled by CSS on the .nav-item class:
- * - Default: var(--text-secondary)
- * - Active: var(--text-accent)
- * - Disabled: var(--text-disabled)
+ * Variants:
+ * - `default`: Subtle hover, accent active
+ * - `accent`: Accent-tinted hover/active
+ * - `ghost`: Minimal, text-only hover
  *
- * Icons inherit color via CSS currentColor, not via props.
+ * Sizes:
+ * - `sm`: 32px height, tighter padding
+ * - `md`: 40px height, standard padding
+ *
+ * Surface-aware:
+ * Nav.Item automatically adapts to the parent Nav.Root's surface prop.
+ * - `raised` surface → uses --surface-muted for hover
+ * - `page` surface → uses --surface-subtle for hover
  */
 const NavItem = forwardRef<HTMLLIElement, NavPrimitiveItemProps>(({
   children,
@@ -127,18 +188,25 @@ const NavItem = forwardRef<HTMLLIElement, NavPrimitiveItemProps>(({
   isDisabled,
   icon,
   badge,
+  variant = 'default',
+  size = 'sm',
   className,
 }, ref) => {
-  const { variant, currentPath, collapsed } = useContext(NavContext);
+  const { layout, surface, currentPath, collapsed } = useContext(NavContext);
   const active = isActive ?? (href ? currentPath === href : false);
 
-  // Icon wrapped in Icon component for size/weight, but NO color prop
-  // Color comes from CSS currentColor inheritance
+  // Icon wrapped in Icon component for size/weight normalization
+  // NO color prop - CSS handles it via currentColor
+  const iconSize = size === 'sm' ? 'sm' : 'md';
   const iconElement = icon ? (
-    <Icon size="md" weight="light" aria-hidden>
+    <Icon size={iconSize} weight="light" aria-hidden>
       {icon}
     </Icon>
   ) : undefined;
+
+  // Label weight based on active state
+  const labelWeight: TypographyWeight = active ? 'semibold' : 'medium';
+  const labelSize = size === 'sm' ? 'sm' : 'md';
 
   return (
     <ListboxItem
@@ -151,7 +219,10 @@ const NavItem = forwardRef<HTMLLIElement, NavPrimitiveItemProps>(({
       trailing={badge}
       className={cn(
         'nav-item',
+        `nav-item--${layout}`,
         `nav-item--${variant}`,
+        `nav-item--${size}`,
+        `nav-item--surface-${surface}`,
         active && 'nav-item--active',
         isDisabled && 'nav-item--disabled',
         collapsed && 'nav-item--collapsed',
@@ -161,8 +232,8 @@ const NavItem = forwardRef<HTMLLIElement, NavPrimitiveItemProps>(({
       aria-label={collapsed ? String(children) : undefined}
     >
       <Label
-        size="md"
-        weight={active ? 'bold' : 'semibold'}
+        size={labelSize}
+        weight={labelWeight}
         className="nav-item__label"
       >
         {children}
@@ -170,10 +241,12 @@ const NavItem = forwardRef<HTMLLIElement, NavPrimitiveItemProps>(({
     </ListboxItem>
   );
 });
-
 NavItem.displayName = 'NavItem';
 
-// ===== NAV SECTION =====
+// ===============================================
+// NAV SECTION
+// ===============================================
+
 export interface NavSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   label?: string;
@@ -193,13 +266,18 @@ const NavSection = forwardRef<HTMLDivElement, NavSectionProps>(({
     </div>
   );
 });
-
 NavSection.displayName = 'NavSection';
 
-// ===== COMPOUND COMPONENT EXPORT =====
+// ===============================================
+// COMPOUND EXPORT
+// ===============================================
+
 export const Nav = {
   Root: NavRoot,
   List: NavList,
   Item: NavItem,
   Section: NavSection
 };
+
+// Re-export types for external use
+export type { NavLayout as NavVariant }; // backwards compat alias
