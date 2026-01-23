@@ -97,7 +97,7 @@
 
 /* Default card hover effect (when no variant specified) */
 .card--clickable:hover {
-  background-color: var(--surface-elevated);
+  background-color: var(--surface-hover);
 }
 
 /* Raised cards hover effect */
