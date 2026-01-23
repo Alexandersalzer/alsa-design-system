@@ -132,9 +132,9 @@
    Subtle hover, accent-tinted active
    =============================================== */
 
-/* Default + Raised surface */
+/* Default + Raised surface (sidebar on raised/elevated bg) */
 .nav-item--default.nav-item--surface-raised.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
-  background-color: var(--surface-muted);
+  background-color: var(--surface-hover);
   color: var(--text-primary);
 }
 
@@ -143,9 +143,9 @@
   color: var(--text-accent);
 }
 
-/* Default + Page surface */
+/* Default + Page surface (sidebar on page bg) */
 .nav-item--default.nav-item--surface-page.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
-  background-color: var(--surface-subtle);
+  background-color: var(--surface-hover);
   color: var(--text-primary);
 }
 
@@ -154,7 +154,7 @@
   color: var(--text-accent);
 }
 
-/* Default + Sunken surface */
+/* Default + Sunken surface (sidebar on sunken bg) */
 .nav-item--default.nav-item--surface-sunken.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
   background-color: var(--surface-raised);
   color: var(--text-primary);
