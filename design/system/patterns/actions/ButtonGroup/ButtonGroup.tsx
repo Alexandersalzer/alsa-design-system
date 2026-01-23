@@ -97,7 +97,10 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
     || 'up';
   const animationDuration = sectionAnimationConfig?.settings?.duration || patternPropsValues?.animationDuration || 600;
   const animationDelay = sectionAnimationConfig?.settings?.delay || patternPropsValues?.animationDelay || 0;
-  const animationStagger = sectionAnimationConfig?.settings?.stagger ?? patternPropsValues?.animationStagger ?? 100; // Delay between buttons
+  // Type guard: fadeIn and opacity have stagger setting
+  const animationStagger = ((sectionAnimationConfig?.type === 'fadeIn' || sectionAnimationConfig?.type === 'opacity') && sectionAnimationConfig.settings?.stagger !== undefined
+    ? sectionAnimationConfig.settings.stagger
+    : patternPropsValues?.animationStagger) ?? 100; // Delay between buttons
 
   // Read animation mode from CSS variable (set in design.json)
   // 'all' = animate all sections, 'hero' = only hero sections, 'none' = no animations
