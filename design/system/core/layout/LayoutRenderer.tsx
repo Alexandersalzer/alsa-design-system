@@ -102,6 +102,13 @@ export function LayoutRenderer({
   );
 
   // ===== LAYOUT CONTEXT =====
+  // Helper to get opposite alignment for secondColumn patterns
+  const getOppositeAlign = (align: 'left' | 'center' | 'right'): 'left' | 'center' | 'right' => {
+    if (align === 'left') return 'right';
+    if (align === 'right') return 'left';
+    return 'center'; // center stays center
+  };
+
   // Pass layout alignment to patterns so they can inherit it
   const layoutContext = {
     alignSectionHeader,
@@ -109,9 +116,9 @@ export function LayoutRenderer({
     verticalAlign,
   };
 
-  // Context for patterns in the second column
+  // Context for patterns in the second column (uses opposite alignment by default)
   const secondColumnContext = {
-    alignSectionHeader,
+    alignSectionHeader: getOppositeAlign(alignSectionHeader),
     isInSecondColumn: true,
     verticalAlign,
   };
