@@ -14,14 +14,14 @@ import { PatternNode } from '../types/nodes';
 import { renderPattern, renderPatternDirect } from '../render/patterns';
 import { actionsRegistry } from '../../patterns/actions/registry';
 
-import { AnimationType } from '../animations/types';
+import { AnimationConfig } from '../animations/types';
 
 interface LayoutRendererProps {
   layout?: LayoutConfig;
   patterns: Record<string, PatternNode>;
   order: string[];
   sectionKey: string;
-  sectionAnimation?: AnimationType;
+  sectionAnimation?: AnimationConfig;
 }
 
 /**

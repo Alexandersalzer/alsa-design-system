@@ -85,13 +85,15 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
 
   // Animation configuration
   const isHero = sectionKey?.startsWith('hero_') || patternPropsValues?.isHero || false;
-  const animationDirection = patternPropsValues?.animationDirection || 'up';
-  const animationDuration = patternPropsValues?.animationDuration || 600;
-  const animationDelay = patternPropsValues?.animationDelay || 0;
-  const animationStagger = patternPropsValues?.animationStagger || 100; // Delay between buttons
-
-  // Check if section has specific animation type
-  const sectionAnimationType = layoutContext?.sectionAnimation;
+  
+  // Check if section has specific animation config
+  const sectionAnimationConfig = layoutContext?.sectionAnimation;
+  
+  // Use section animation settings if available, otherwise use props or defaults
+  const animationDirection = sectionAnimationConfig?.settings?.direction || patternPropsValues?.animationDirection || 'up';
+  const animationDuration = sectionAnimationConfig?.settings?.duration || patternPropsValues?.animationDuration || 600;
+  const animationDelay = sectionAnimationConfig?.settings?.delay || patternPropsValues?.animationDelay || 0;
+  const animationStagger = sectionAnimationConfig?.settings?.stagger || patternPropsValues?.animationStagger || 100; // Delay between buttons
 
   // Read animation mode from CSS variable (set in design.json)
   // 'all' = animate all sections, 'hero' = only hero sections, 'none' = no animations

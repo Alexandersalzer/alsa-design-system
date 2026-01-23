@@ -3,7 +3,7 @@ import { getPatternProps } from '../utils/props';
 import { patternRegistry } from '../../patterns/registry';
 import { PatternNode } from '../types/nodes';
 
-import { AnimationType } from '../animations/types';
+import { AnimationConfig } from '../animations/types';
 
 /**
  * Layout context passed from LayoutRenderer to patterns
@@ -16,8 +16,8 @@ export interface LayoutContext {
   isInSecondColumn?: boolean;
   /** Vertical alignment of the split layout */
   verticalAlign?: 'start' | 'center' | 'end';
-  /** Animation type for this section (overrides global sectionBodyAnimation) */
-  sectionAnimation?: AnimationType;
+  /** Animation config for this section (overrides global sectionBodyAnimation) */
+  sectionAnimation?: AnimationConfig;
 }
 
 /**
