@@ -17,6 +17,7 @@ import { Button } from '../../../components/actions/Button/Button';
 import { useAction } from '../../../core/actions/useAction';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import { AnimationType } from '../../../core/animations/types';
 
 export interface InputGroupProps extends PatternNode {
   type: 'InputGroup';
@@ -26,6 +27,7 @@ export interface InputGroupProps extends PatternNode {
     alignSectionHeader?: 'left' | 'center' | 'right';
     isInSecondColumn?: boolean;
     verticalAlign?: 'start' | 'center' | 'end';
+    sectionAnimation?: AnimationType;
   };
 }
 
@@ -53,6 +55,9 @@ export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
   const animationDuration = props?.animationDuration || 600;
   const animationDelay = props?.animationDelay || 0;
 
+  // Check if section has specific animation type
+  const sectionAnimationType = layoutContext?.sectionAnimation;
+
   // Read animation mode from CSS variable (set in design.json)
   const [animationMode, setAnimationMode] = useState<'all' | 'hero' | 'none'>('all');
 
@@ -69,7 +74,10 @@ export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
   }, []);
 
   // Determine if animation should be enabled for this section
-  const shouldAnimate = animationMode === 'all' || (animationMode === 'hero' && isHero);
+  // Priority: section animation > global animation mode
+  const shouldAnimate = sectionAnimationType 
+    ? sectionAnimationType !== 'none' 
+    : (animationMode === 'all' || (animationMode === 'hero' && isHero));
 
   // State for email input value
   const [emailValue, setEmailValue] = useState('');

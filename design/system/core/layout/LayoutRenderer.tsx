@@ -14,11 +14,14 @@ import { PatternNode } from '../types/nodes';
 import { renderPattern, renderPatternDirect } from '../render/patterns';
 import { actionsRegistry } from '../../patterns/actions/registry';
 
+import { AnimationType } from '../animations/types';
+
 interface LayoutRendererProps {
   layout?: LayoutConfig;
   patterns: Record<string, PatternNode>;
   order: string[];
   sectionKey: string;
+  sectionAnimation?: AnimationType;
 }
 
 /**
@@ -42,7 +45,8 @@ export function LayoutRenderer({
   layout, 
   patterns, 
   order,
-  sectionKey 
+  sectionKey,
+  sectionAnimation
 }: LayoutRendererProps) {
   
   const {
@@ -114,6 +118,7 @@ export function LayoutRenderer({
     alignSectionHeader,
     isInSecondColumn: false,
     verticalAlign,
+    sectionAnimation,
   };
 
   // Context specifically for SectionHeader (uses 'left' when alignSectionHeader is 'right')
@@ -121,6 +126,7 @@ export function LayoutRenderer({
     alignSectionHeader: alignSectionHeader === 'right' ? 'left' : alignSectionHeader,
     isInSecondColumn: false,
     verticalAlign,
+    sectionAnimation,
   };
 
   // Context for patterns in the second column (uses opposite alignment by default)
@@ -128,6 +134,7 @@ export function LayoutRenderer({
     alignSectionHeader: getOppositeAlign(alignSectionHeader),
     isInSecondColumn: true,
     verticalAlign,
+    sectionAnimation,
   };
 
   // Check if second column contains only media patterns (for stretch behavior)
@@ -284,6 +291,7 @@ export function LayoutRenderer({
     alignSectionHeader: mobileAlignValue,
     isInSecondColumn: false,
     verticalAlign,
+    sectionAnimation,
   };
 
   return (
