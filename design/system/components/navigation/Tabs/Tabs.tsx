@@ -7,7 +7,7 @@
 
 import React, { ReactNode, useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { Label, TypographyWeight } from '../../Typography';
+import { Label, TypographyWeight, TypographyColor } from '../../Typography';
 import { cn } from '../../../utils/cn';
 
 // ===============================================
@@ -61,12 +61,11 @@ export interface TabGroupProps {
 // ===============================================
 
 type LabelSize = 'xs' | 'sm' | 'md' | 'lg';
-type LabelColor = 'primary' | 'secondary' | 'tertiary' | 'muted' | 'disabled' | 'accent' | 'error' | 'success' | 'inverse';
 
 interface TabTypographyProps {
   size: LabelSize;
   weight: TypographyWeight;
-  color: LabelColor;
+  color: TypographyColor;
 }
 
 function createTabTypographyProps(
@@ -81,7 +80,7 @@ function createTabTypographyProps(
     lg: 'md',
   };
 
-  const getColor = (): LabelColor => {
+  const getColor = (): TypographyColor => {
     if (isDisabled) return 'disabled';
     if (isActive) return 'primary';
     return 'secondary';
