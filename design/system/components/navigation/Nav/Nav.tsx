@@ -1,10 +1,12 @@
 // ===============================================
 // src/design-system/components/navigation/Nav/Nav.tsx
-// Navigation primitives - clean, semantic navigation component
+// Navigation primitives - uses ListboxItem for interaction
 // ===============================================
 
 import React, { createContext, useContext, forwardRef, ReactNode } from 'react';
 import { cn } from '../../../utils/cn';
+import { ListboxItem } from '../../lists/Listbox/ListboxItem';
+import { Icon } from '../../media';
 import { Label } from '../../Typography';
 
 // ===== TYPES =====
@@ -66,13 +68,13 @@ const NavRoot = forwardRef<HTMLElement, NavRootProps>(({
 NavRoot.displayName = 'NavRoot';
 
 // ===== NAV LIST =====
-export interface NavListProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface NavListProps extends React.HTMLAttributes<HTMLUListElement> {
   children: ReactNode;
   label?: string;
   className?: string;
 }
 
-const NavList = forwardRef<HTMLDivElement, NavListProps>(({
+const NavList = forwardRef<HTMLUListElement, NavListProps>(({
   children,
   label,
   className,
@@ -81,7 +83,7 @@ const NavList = forwardRef<HTMLDivElement, NavListProps>(({
   const { variant } = useContext(NavContext);
 
   return (
-    <div
+    <ul
       ref={ref}
       className={cn('nav-list', `nav-list--${variant}`, className)}
       role="list"
@@ -89,14 +91,14 @@ const NavList = forwardRef<HTMLDivElement, NavListProps>(({
       {...props}
     >
       {children}
-    </div>
+    </ul>
   );
 });
 
 NavList.displayName = 'NavList';
 
 // ===== NAV ITEM =====
-export interface NavPrimitiveItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface NavPrimitiveItemProps {
   children: ReactNode;
   href?: string;
   isActive?: boolean;
@@ -104,10 +106,20 @@ export interface NavPrimitiveItemProps extends React.ButtonHTMLAttributes<HTMLBu
   icon?: React.ReactElement;
   badge?: ReactNode;
   className?: string;
-  as?: 'button' | 'a';
+  onClick?: () => void;
 }
 
-const NavItem = forwardRef<HTMLButtonElement, NavPrimitiveItemProps>(({
+/**
+ * Nav.Item - Navigation item that uses ListboxItem internally
+ *
+ * Color is controlled by CSS on the .nav-item class:
+ * - Default: var(--text-secondary)
+ * - Active: var(--text-accent)
+ * - Disabled: var(--text-disabled)
+ *
+ * Icons inherit color via CSS currentColor, not via props.
+ */
+const NavItem = forwardRef<HTMLLIElement, NavPrimitiveItemProps>(({
   children,
   href,
   onClick,
@@ -116,61 +128,47 @@ const NavItem = forwardRef<HTMLButtonElement, NavPrimitiveItemProps>(({
   icon,
   badge,
   className,
-  as = 'button',
-  ...props
 }, ref) => {
   const { variant, currentPath, collapsed } = useContext(NavContext);
-  const active = isActive ?? (href && currentPath === href);
+  const active = isActive ?? (href ? currentPath === href : false);
 
-  const classes = cn(
-    'nav-item',
-    `nav-item--${variant}`,
-    active && 'nav-item--active',
-    isDisabled && 'nav-item--disabled',
-    collapsed && 'nav-item--collapsed',
-    className
-  );
+  // Icon wrapped in Icon component for size/weight, but NO color prop
+  // Color comes from CSS currentColor inheritance
+  const iconElement = icon ? (
+    <Icon size="md" weight="light" aria-hidden>
+      {icon}
+    </Icon>
+  ) : undefined;
 
-  const content = (
-    <>
-      {icon && (
-        <span className="nav-item__icon">
-          {icon}
-        </span>
+  return (
+    <ListboxItem
+      ref={ref}
+      role="listitem"
+      selected={active}
+      disabled={isDisabled}
+      onClick={onClick}
+      leading={iconElement}
+      trailing={badge}
+      className={cn(
+        'nav-item',
+        `nav-item--${variant}`,
+        active && 'nav-item--active',
+        isDisabled && 'nav-item--disabled',
+        collapsed && 'nav-item--collapsed',
+        className
       )}
+      aria-current={active ? 'page' : undefined}
+      aria-label={collapsed ? String(children) : undefined}
+    >
       <Label
         size="md"
         weight={active ? 'bold' : 'semibold'}
-        color="inherit"
         className="nav-item__label"
       >
         {children}
       </Label>
-      {badge && <span className="nav-item__badge">{badge}</span>}
-    </>
+    </ListboxItem>
   );
-
-  const Element = as;
-  const elementProps: any = {
-    ref,
-    className: classes,
-    'aria-current': active ? 'page' : undefined,
-    'aria-disabled': isDisabled,
-    'aria-label': collapsed ? String(children) : undefined,
-    role: 'listitem',
-  };
-
-  if (as === 'a') {
-    elementProps.href = href;
-    elementProps.onClick = onClick;
-  } else {
-    elementProps.type = 'button';
-    elementProps.onClick = onClick;
-    elementProps.disabled = isDisabled;
-    Object.assign(elementProps, props);
-  }
-
-  return React.createElement(Element, elementProps, content);
 });
 
 NavItem.displayName = 'NavItem';

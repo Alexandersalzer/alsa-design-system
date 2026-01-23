@@ -1,6 +1,6 @@
 /* ===============================================
    src/design-system/components/navigation/Nav/Nav.css
-   Navigation primitive styles - color inheritance model
+   Navigation styles - color via currentColor inheritance
    =============================================== */
 
 /* ===== NAV ROOT ===== */
@@ -26,6 +26,9 @@
 .nav-list {
   display: flex;
   gap: var(--foundation-space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-list--sidebar {
@@ -38,63 +41,45 @@
 }
 
 /* ===== NAV ITEM ===== */
-.nav-item {
-  /* Layout - CRITICAL: flex + gap + padding */
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+/*
+ * Nav.Item uses ListboxItem internally.
+ * We override ListboxItem styles here for navigation context.
+ * Color is set on .nav-item and inherited via currentColor.
+ */
+.nav-item.listbox-item {
+  /* Reset ListboxItem defaults for nav context */
+  border-radius: var(--radius-button);
+
+  /* CRITICAL: Color is the single source for text + icon */
+  color: var(--text-secondary);
+  background-color: transparent;
+
+  /* Layout */
   gap: var(--foundation-space-3);
   padding-inline: var(--foundation-space-3);
   padding-block: var(--foundation-space-2);
-  width: 100%;
-  border-radius: var(--radius-button);
-
-  /* Typography */
-  text-decoration: none;
-  text-align: left;
-
-  /* Colors - SINGLE SOURCE via color property */
-  color: var(--text-secondary);
-  background-color: transparent;
 
   /* Interaction */
   cursor: pointer;
   transition:
     background-color 0.15s ease,
-    color 0.15s ease,
-    transform 0.12s ease;
-  border: none;
-  position: relative;
-  outline: none;
-}
-
-/* Keyboard focus */
-.nav-item:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
-  border-radius: var(--radius-button);
-  z-index: 100;
-}
-
-/* Remove focus outline on mouse click */
-.nav-item:focus:not(:focus-visible) {
-  outline: none;
+    color 0.15s ease;
 }
 
 /* Hover state */
-.nav-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
+.nav-item.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
   background-color: var(--surface-hover);
   color: var(--text-primary);
 }
 
 /* Active state - color changes */
-.nav-item--active {
+.nav-item.listbox-item.nav-item--active {
   background-color: var(--surface-accent-muted);
   color: var(--text-accent);
 }
 
 /* Disabled state */
-.nav-item--disabled {
+.nav-item.listbox-item.nav-item--disabled {
   color: var(--text-disabled);
   background-color: transparent;
   cursor: not-allowed;
@@ -102,37 +87,27 @@
   opacity: 0.6;
 }
 
+/* ===== ICON COLOR INHERITANCE ===== */
+/* Icons inherit color via currentColor - NO color prop needed */
+.nav-item .listbox-item-leading,
+.nav-item .listbox-item-leading svg,
+.nav-item .icon,
+.nav-item .icon svg {
+  color: currentColor;
+}
+
+/* ===== LABEL COLOR INHERITANCE ===== */
+/* Label inherits color from parent nav-item */
+.nav-item .nav-item__label {
+  color: currentColor;
+}
+
 /* ===== NAV ITEM PARTS ===== */
-.nav-item__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  /* Icon inherits color from parent .nav-item */
-  color: inherit;
-}
-
-.nav-item__icon svg {
-  width: var(--foundation-size-icon-sm);
-  height: var(--foundation-size-icon-sm);
-  flex-shrink: 0;
-  /* Inherit color from parent */
-  color: inherit;
-  stroke-width: var(--icon-stroke-regular, 1.5);
-}
-
 .nav-item__label {
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* Color inherited via Label's color="inherit" prop */
-}
-
-.nav-item__badge {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
 }
 
 /* ===== NAV SECTION ===== */
@@ -160,46 +135,42 @@
 /* ===== VARIANT-SPECIFIC STYLES ===== */
 
 /* Sidebar variant */
-.nav-item--sidebar {
+.nav-item--sidebar.listbox-item {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  text-align: left;
   height: 40px;
   min-height: 40px;
 }
 
 /* Horizontal variant */
-.nav-item--horizontal {
+.nav-item--horizontal.listbox-item {
   min-width: fit-content;
   width: auto;
 }
 
 /* Tabs variant */
-.nav-item--tabs {
+.nav-item--tabs.listbox-item {
   border-bottom: 2px solid transparent;
   border-radius: 0;
   padding-bottom: 10px;
   background-color: transparent;
 }
 
-.nav-item--tabs.nav-item--active {
+.nav-item--tabs.nav-item--active.listbox-item {
   border-bottom-color: var(--border-accent);
   background-color: transparent;
 }
 
 /* ===== PRESS FEEDBACK ===== */
-.nav-item:not(.nav-item--disabled):active {
+.nav-item.listbox-item:not(.nav-item--disabled):active {
   transform: scale(0.97);
 }
 
-.nav-item--active {
+.nav-item--active.listbox-item {
   transform: none !important;
 }
 
 /* ===== COLLAPSED MODE ===== */
-.nav-item--collapsed {
+.nav-item--collapsed.listbox-item {
   /* Square icon-button appearance */
   width: 40px;
   min-width: 40px;
@@ -208,25 +179,23 @@
   justify-content: center;
   align-items: center;
   gap: 0;
-  position: relative;
 }
 
-/* Hide label and badge in collapsed mode */
+/* Hide label in collapsed mode */
 .nav-item--collapsed .nav-item__label,
-.nav-item--collapsed .nav-item__badge {
+.nav-item--collapsed .listbox-item-content {
   position: absolute;
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
+  width: 0;
+  overflow: hidden;
 }
 
 /* Center icon in collapsed mode */
-.nav-item--collapsed .nav-item__icon {
+.nav-item--collapsed .listbox-item-leading {
   margin: 0;
   padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Section labels in collapsed mode */
@@ -237,35 +206,29 @@
   visibility: hidden;
 }
 
+/* ===== FOCUS STATES ===== */
+.nav-item.listbox-item:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  z-index: 100;
+}
+
+.nav-item.listbox-item:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
-  .nav-item,
-  .nav-item--sidebar {
+  .nav-item.listbox-item,
+  .nav-item--sidebar.listbox-item {
     padding: var(--foundation-space-2) var(--foundation-space-3);
     height: var(--control-height-sm, 36px);
   }
 }
 
-@media (max-width: 480px) {
-  .nav-item__label {
-    font-size: var(--font-label-sm-size);
-  }
-}
-
-/* ===== ACCESSIBILITY ===== */
-.nav-item[aria-disabled="true"] {
-  pointer-events: none;
-  opacity: 0.6;
-}
-
-.nav-item[aria-current="page"] {
-  background-color: var(--surface-accent-muted);
-  color: var(--text-accent);
-}
-
 /* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
-  .nav-item {
+  .nav-item.listbox-item {
     transition: background-color 0.15s ease, color 0.15s ease !important;
   }
 }
