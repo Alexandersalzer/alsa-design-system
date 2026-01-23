@@ -35,6 +35,14 @@ export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
   const align = props?.align || layoutContext?.alignSectionHeader || 'center';
   const gap = props?.gap || 'sm';
   const verticalAlign = props?.verticalAlign || 'stretch';
+  
+  // Map alignment to justify for HStack
+  const getJustify = () => {
+    if (align === 'left') return 'start';
+    if (align === 'right') return 'end';
+    return 'center';
+  };
+  const justify = getJustify();
 
   // State for email input value
   const [emailValue, setEmailValue] = useState('');
@@ -55,7 +63,7 @@ export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
 
   return (
     <Box style={{ width: '100%' }}>
-      <VStack spacing="sm">
+      <VStack spacing="sm" align={justify}>
         <HStack spacing={gap} align={verticalAlign}>
           {/* Email Input */}
           {renderIf('input-email') && (
