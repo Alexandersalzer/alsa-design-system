@@ -90,10 +90,15 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   const sectionAnimationConfig = layoutContext?.sectionAnimation;
   
   // Use section animation settings if available, otherwise use props or defaults
-  const animationDirection = sectionAnimationConfig?.settings?.direction || patternPropsValues?.animationDirection || 'up';
+  // Type guard: only fadeIn has direction and stagger settings
+  const animationDirection = (sectionAnimationConfig?.type === 'fadeIn' && sectionAnimationConfig.settings?.direction) 
+    || patternPropsValues?.animationDirection 
+    || 'up';
   const animationDuration = sectionAnimationConfig?.settings?.duration || patternPropsValues?.animationDuration || 600;
   const animationDelay = sectionAnimationConfig?.settings?.delay || patternPropsValues?.animationDelay || 0;
-  const animationStagger = sectionAnimationConfig?.settings?.stagger || patternPropsValues?.animationStagger || 100; // Delay between buttons
+  const animationStagger = (sectionAnimationConfig?.type === 'fadeIn' && sectionAnimationConfig.settings?.stagger) 
+    || patternPropsValues?.animationStagger 
+    || 100; // Delay between buttons
 
   // Read animation mode from CSS variable (set in design.json)
   // 'all' = animate all sections, 'hero' = only hero sections, 'none' = no animations
@@ -113,8 +118,8 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
 
   // Determine if animation should be enabled for this section
   // Priority: section animation > global animation mode
-  const shouldAnimate = sectionAnimationType 
-    ? sectionAnimationType !== 'none' 
+  const shouldAnimate = sectionAnimationConfig 
+    ? sectionAnimationConfig.type !== 'none' 
     : (animationMode === 'all' || (animationMode === 'hero' && isHero));
 
   return (

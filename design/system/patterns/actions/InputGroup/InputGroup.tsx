@@ -56,7 +56,10 @@ export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
   const sectionAnimationConfig = layoutContext?.sectionAnimation;
   
   // Use section animation settings if available, otherwise use props or defaults
-  const animationDirection = sectionAnimationConfig?.settings?.direction || props?.animationDirection || 'up';
+  // Type guard: only fadeIn has direction setting
+  const animationDirection = (sectionAnimationConfig?.type === 'fadeIn' && sectionAnimationConfig.settings?.direction) 
+    || props?.animationDirection 
+    || 'up';
   const animationDuration = sectionAnimationConfig?.settings?.duration || props?.animationDuration || 600;
   const animationDelay = sectionAnimationConfig?.settings?.delay || props?.animationDelay || 0;
 
