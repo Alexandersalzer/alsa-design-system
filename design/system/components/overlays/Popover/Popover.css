@@ -36,7 +36,7 @@
   z-index: var(--z-popover);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-dropdown);
-  background-color: var(--surface-dropdown);
+  background-color: var(--surface-base);
   box-shadow: var(--foundation-shadow-lg);
   overflow-y: auto;
   overflow-x: hidden;
@@ -91,7 +91,7 @@
   position: absolute;
   width: 12px;
   height: 12px;
-  background-color: var(--surface-dropdown);
+  background-color: var(--surface-base);
   border: 1px solid var(--border-default);
   transform: rotate(45deg);
   top: -6px;

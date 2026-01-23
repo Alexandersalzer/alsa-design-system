@@ -1,15 +1,11 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Grid, VStack } from '../../../components';
+import { Grid, VStack, Tab, TabGroup } from '../../../components';
 import { PortfolioCard } from '../../cards/PortfolioCard/PortfolioCard';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
 import { getVideoThumbnailUrl } from '../../../core/utils/media';
-
-// Tabs
-import { TabGroup } from '../../../components';
-import { Tab } from '../../../components';
 
 import './PortfolioGrid.css';
 
