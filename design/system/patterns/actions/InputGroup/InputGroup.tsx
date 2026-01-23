@@ -19,12 +19,22 @@ import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 
 export interface InputGroupProps extends PatternNode {
   type: 'InputGroup';
+  layoutContext?: {
+    alignSectionHeader?: 'left' | 'center' | 'right';
+    isInSecondColumn?: boolean;
+    verticalAlign?: 'start' | 'center' | 'end';
+  };
 }
 
 export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
-  const { components = {} } = patternNode;
+  const { components = {}, props, layoutContext } = patternNode;
   const get = componentProps(components);
   const renderIf = componentPresent(components);
+  
+  // Get alignment from props or inherit from layout context
+  const align = props?.align || layoutContext?.alignSectionHeader || 'center';
+  const gap = props?.gap || 'sm';
+  const verticalAlign = props?.verticalAlign || 'stretch';
 
   // State for email input value
   const [emailValue, setEmailValue] = useState('');
@@ -44,9 +54,9 @@ export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
   };
 
   return (
-    <Box style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }}>
+    <Box style={{ width: '100%' }}>
       <VStack spacing="sm">
-        <HStack spacing="sm" align="stretch">
+        <HStack spacing={gap} align={verticalAlign}>
           {/* Email Input */}
           {renderIf('input-email') && (
             <Input
