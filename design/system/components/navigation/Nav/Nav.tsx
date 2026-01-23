@@ -1,11 +1,10 @@
 // ===============================================
-// src/design-system/components/primitives/Nav/Nav.tsx
-// Navigation primitives - properly uses your Icon component
+// src/design-system/components/navigation/Nav/Nav.tsx
+// Navigation primitives - clean, semantic navigation component
 // ===============================================
 
 import React, { createContext, useContext, forwardRef, ReactNode } from 'react';
 import { cn } from '../../../utils/cn';
-import { Icon, IconColor } from '../../media';
 import { Label } from '../../Typography';
 
 // ===== TYPES =====
@@ -28,8 +27,8 @@ export interface NavRootProps extends React.HTMLAttributes<HTMLElement> {
   variant?: NavVariant;
   currentPath?: string;
   className?: string;
-  gap?: 'sm' | 'md' | 'lg' | 'xl'; // Add gap prop
-  collapsed?: boolean; // Add collapsed prop
+  gap?: 'sm' | 'md' | 'lg' | 'xl';
+  collapsed?: boolean;
 }
 
 const NavRoot = forwardRef<HTMLElement, NavRootProps>(({
@@ -37,8 +36,8 @@ const NavRoot = forwardRef<HTMLElement, NavRootProps>(({
   variant = 'sidebar',
   currentPath,
   className,
-  gap = 'md', // Default gap
-  collapsed = false, // Default collapsed
+  gap = 'md',
+  collapsed = false,
   ...props
 }, ref) => {
   return (
@@ -97,7 +96,6 @@ const NavList = forwardRef<HTMLDivElement, NavListProps>(({
 NavList.displayName = 'NavList';
 
 // ===== NAV ITEM =====
-// ADD 'export' keyword here!
 export interface NavPrimitiveItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   href?: string;
@@ -133,39 +131,17 @@ const NavItem = forwardRef<HTMLButtonElement, NavPrimitiveItemProps>(({
     className
   );
 
-  const getIconColor = (): IconColor => {
-    if (isDisabled) return 'nav-item';
-    if (active) return 'nav-item-selected';
-    return 'nav-item';
-  };
-
-  // Check if icon is a custom component (Logo, Avatar, etc.) or a raw SVG
-  const isCustomComponent = React.isValidElement(icon) &&
-    typeof icon.type !== 'string'; // Not a native HTML element like 'svg'
-
   const content = (
     <>
       {icon && (
         <span className="nav-item__icon">
-          {isCustomComponent ? (
-            // Render custom components (Logo, Avatar) directly without Icon wrapper
-            icon
-          ) : (
-            // Wrap SVG icons in Icon component
-            <Icon
-              size="lg"
-              color={getIconColor()}
-              weight="light"
-            >
-              {icon}
-            </Icon>
-          )}
+          {icon}
         </span>
       )}
       <Label
         size="md"
         weight={active ? 'bold' : 'semibold'}
-        color={isDisabled ? 'nav-disabled' : active ? 'nav-selected' : 'nav-default'}
+        color="inherit"
         className="nav-item__label"
       >
         {children}
@@ -180,7 +156,7 @@ const NavItem = forwardRef<HTMLButtonElement, NavPrimitiveItemProps>(({
     className: classes,
     'aria-current': active ? 'page' : undefined,
     'aria-disabled': isDisabled,
-    'aria-label': collapsed ? String(children) : undefined, // Add aria-label when collapsed
+    'aria-label': collapsed ? String(children) : undefined,
     role: 'listitem',
   };
 

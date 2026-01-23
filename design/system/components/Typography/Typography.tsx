@@ -75,7 +75,10 @@ export type TypographyColor =
   | 'tag-accent'        // --text-tag-accent (accent-700)
   | 'tag-success'       // --text-tag-success (success-700)
   | 'tag-warning'       // --text-tag-warning (warning-700)
-  | 'tag-error';        // --text-tag-error (error-700)
+  | 'tag-error'         // --text-tag-error (error-700)
+
+  // === SPECIAL VALUES ===
+  | 'inherit';          // inherit color from parent
 
 export type TypographyAlign = 'left' | 'center' | 'right' | 'justify';
 
@@ -156,6 +159,9 @@ const getColorValue = (color: TypographyColor): string => {
     'tag-success': 'var(--text-tag-success)',
     'tag-warning': 'var(--text-tag-warning)',
     'tag-error': 'var(--text-tag-error)',
+
+    // Special values
+    'inherit': 'inherit',
   };
   
   return colorMap[color] || colorMap.primary;

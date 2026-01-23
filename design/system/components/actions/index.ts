@@ -1,7 +1,6 @@
 export * from './Button';
 export * from './IconButton';
 export * from './TextLink';
-export * from './Nav';
 export * from './SegmentedControl';
 export * from './Clickable';
 export * from './BulkActionBar';
