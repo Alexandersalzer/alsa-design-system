@@ -116,6 +116,13 @@ export function LayoutRenderer({
     verticalAlign,
   };
 
+  // Context specifically for SectionHeader (uses 'left' when alignSectionHeader is 'right')
+  const sectionHeaderContext = {
+    alignSectionHeader: alignSectionHeader === 'right' ? 'left' : alignSectionHeader,
+    isInSecondColumn: false,
+    verticalAlign,
+  };
+
   // Context for patterns in the second column (uses opposite alignment by default)
   const secondColumnContext = {
     alignSectionHeader: getOppositeAlign(alignSectionHeader),
@@ -206,7 +213,7 @@ export function LayoutRenderer({
           <Container height="auto">
             <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: '0 auto', width: '100%' }}>
               <VStack spacing="lg" align="center">
-                {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+                {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
                 {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
               </VStack>
             </Box>
@@ -242,7 +249,7 @@ export function LayoutRenderer({
           <Container height="auto">
             <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
               <VStack spacing="lg" align="start">
-                {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+                {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
                 {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
               </VStack>
             </Box>
@@ -336,7 +343,7 @@ export function LayoutRenderer({
             <Container height="auto">
               <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
                 <VStack spacing="lg" align="start">
-                  {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+                  {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
                   {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
                 </VStack>
               </Box>
@@ -347,7 +354,7 @@ export function LayoutRenderer({
             <Container height="auto">
               <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
                 <VStack spacing="lg" align="start">
-                  {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, layoutContext)}
+                  {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
                   {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
                 </VStack>
               </Box>
