@@ -70,9 +70,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
     || 'up';
   const animationDuration = sectionAnimationConfig?.settings?.duration || props?.animationDuration || 600;
   const animationDelay = sectionAnimationConfig?.settings?.delay || props?.animationDelay || 0;
-  const animationStagger = (sectionAnimationConfig?.type === 'fadeIn' && sectionAnimationConfig.settings?.stagger) 
-    || props?.animationStagger 
-    || 100; // Delay between elements
+  const animationStagger = sectionAnimationConfig?.settings?.stagger ?? props?.animationStagger ?? 100; // Delay between elements
 
   // Read animation mode from CSS variable (set in design.json)
   // 'all' = animate all sections, 'hero' = only hero sections, 'none' = no animations
