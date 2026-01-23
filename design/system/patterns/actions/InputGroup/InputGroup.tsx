@@ -5,7 +5,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, componentPresent } from '../../../core/utils/props';
 import { HStack } from '../../../components/layout/hStack/HStack';
@@ -15,10 +15,13 @@ import { Typography } from '../../../components/Typography/Typography';
 import { Input } from '../../../components/forms/Input/Input';
 import { Button } from '../../../components/actions/Button/Button';
 import { useAction } from '../../../core/actions/useAction';
+import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 
 export interface InputGroupProps extends PatternNode {
   type: 'InputGroup';
+  sectionKey?: string;
+  patternKey?: string;
   layoutContext?: {
     alignSectionHeader?: 'left' | 'center' | 'right';
     isInSecondColumn?: boolean;
@@ -27,7 +30,7 @@ export interface InputGroupProps extends PatternNode {
 }
 
 export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
-  const { components = {}, props, layoutContext } = patternNode;
+  const { components = {}, props, layoutContext, sectionKey } = patternNode;
   const get = componentProps(components);
   const renderIf = componentPresent(components);
   
@@ -43,6 +46,30 @@ export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
     return 'center';
   };
   const justify = getJustify();
+
+  // Animation configuration
+  const isHero = sectionKey?.startsWith('hero_') || props?.isHero || false;
+  const animationDirection = props?.animationDirection || 'up';
+  const animationDuration = props?.animationDuration || 600;
+  const animationDelay = props?.animationDelay || 0;
+
+  // Read animation mode from CSS variable (set in design.json)
+  const [animationMode, setAnimationMode] = useState<'all' | 'hero' | 'none'>('all');
+
+  useEffect(() => {
+    // Read CSS variable on client-side after mount to avoid hydration mismatch
+    const cssValue = getComputedStyle(document.documentElement)
+      .getPropertyValue('--section-body-animation')
+      .replace(/['"`]/g, '')
+      .trim() as 'all' | 'hero' | 'none';
+    
+    if (cssValue && (cssValue === 'all' || cssValue === 'hero' || cssValue === 'none')) {
+      setAnimationMode(cssValue);
+    }
+  }, []);
+
+  // Determine if animation should be enabled for this section
+  const shouldAnimate = animationMode === 'all' || (animationMode === 'hero' && isHero);
 
   // State for email input value
   const [emailValue, setEmailValue] = useState('');
@@ -61,7 +88,7 @@ export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
     }
   };
 
-  return (
+  const inputGroupContent = (
     <Box style={{ width: '100%' }}>
       <VStack spacing="sm" align={justify}>
         <HStack spacing={gap} align={verticalAlign}>
@@ -115,6 +142,24 @@ export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
         )}
       </VStack>
     </Box>
+  );
+
+  // If animation is disabled, return content directly
+  if (!shouldAnimate) {
+    return inputGroupContent;
+  }
+
+  // If animation is enabled, wrap in FadeIn
+  return (
+    <FadeIn
+      direction={animationDirection}
+      duration={animationDuration}
+      delay={animationDelay}
+      enableScrollTrigger={true}
+      triggerOffset={100}
+    >
+      {inputGroupContent}
+    </FadeIn>
   );
 };
 
