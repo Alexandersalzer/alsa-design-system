@@ -134,7 +134,7 @@
 }
 
 .icon-btn--ghost:hover:not(:disabled) {
-  background-color: var(--surface-elevated);
+  background-color: var(--surface-raised);
 }
 
 .icon-btn--ghost:active:not(:disabled) {
