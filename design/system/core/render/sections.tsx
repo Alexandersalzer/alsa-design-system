@@ -39,6 +39,7 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
           patterns={patterns}
           order={patternOrder}
           sectionKey={sectionKey}
+          sectionAnimation={props?.animation}
         />
       </Section>
     );

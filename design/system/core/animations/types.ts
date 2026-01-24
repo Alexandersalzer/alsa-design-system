@@ -74,6 +74,7 @@ export interface OpacityAnimationConfig extends BaseAnimationConfig {
   settings?: {
     duration?: number;
     delay?: number;
+    stagger?: number;
     easing?: EasingType;
     enableScrollTrigger?: boolean;
     triggerOffset?: number;

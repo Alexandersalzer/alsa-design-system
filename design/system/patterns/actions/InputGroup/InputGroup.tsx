@@ -5,7 +5,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, componentPresent } from '../../../core/utils/props';
 import { HStack } from '../../../components/layout/hStack/HStack';
@@ -15,16 +15,75 @@ import { Typography } from '../../../components/Typography/Typography';
 import { Input } from '../../../components/forms/Input/Input';
 import { Button } from '../../../components/actions/Button/Button';
 import { useAction } from '../../../core/actions/useAction';
+import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
+import { Opacity } from '../../../components/animations/Opacity/Opacity';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import { AnimationConfig } from '../../../core/animations/types';
 
 export interface InputGroupProps extends PatternNode {
   type: 'InputGroup';
+  sectionKey?: string;
+  patternKey?: string;
+  layoutContext?: {
+    alignSectionHeader?: 'left' | 'center' | 'right';
+    isInSecondColumn?: boolean;
+    verticalAlign?: 'start' | 'center' | 'end';
+    sectionAnimation?: AnimationConfig;
+  };
 }
 
 export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
-  const { components = {} } = patternNode;
+  const { components = {}, props, layoutContext, sectionKey } = patternNode;
   const get = componentProps(components);
   const renderIf = componentPresent(components);
+  
+  // Get alignment from props or inherit from layout context
+  const align = props?.align || layoutContext?.alignSectionHeader || 'center';
+  const gap = props?.gap || 'sm';
+  const verticalAlign = props?.verticalAlign || 'stretch';
+  
+  // Map alignment to justify for HStack
+  const getJustify = () => {
+    if (align === 'left') return 'start';
+    if (align === 'right') return 'end';
+    return 'center';
+  };
+  const justify = getJustify();
+
+  // Animation configuration
+  const isHero = sectionKey?.startsWith('hero_') || props?.isHero || false;
+  
+  // Check if section has specific animation config
+  const sectionAnimationConfig = layoutContext?.sectionAnimation;
+  
+  // Use section animation settings if available, otherwise use props or defaults
+  // Type guard: only fadeIn has direction setting
+  const animationDirection = (sectionAnimationConfig?.type === 'fadeIn' && sectionAnimationConfig.settings?.direction) 
+    || props?.animationDirection 
+    || 'up';
+  const animationDuration = sectionAnimationConfig?.settings?.duration || props?.animationDuration || 600;
+  const animationDelay = sectionAnimationConfig?.settings?.delay || props?.animationDelay || 0;
+
+  // Read animation mode from CSS variable (set in design.json)
+  const [animationMode, setAnimationMode] = useState<'all' | 'hero' | 'none'>('all');
+
+  useEffect(() => {
+    // Read CSS variable on client-side after mount to avoid hydration mismatch
+    const cssValue = getComputedStyle(document.documentElement)
+      .getPropertyValue('--section-body-animation')
+      .replace(/['"`]/g, '')
+      .trim() as 'all' | 'hero' | 'none';
+    
+    if (cssValue && (cssValue === 'all' || cssValue === 'hero' || cssValue === 'none')) {
+      setAnimationMode(cssValue);
+    }
+  }, []);
+
+  // Determine if animation should be enabled for this section
+  // Priority: section animation > global animation mode
+  const shouldAnimate = sectionAnimationConfig 
+    ? sectionAnimationConfig.type !== 'none' 
+    : (animationMode === 'all' || (animationMode === 'hero' && isHero));
 
   // State for email input value
   const [emailValue, setEmailValue] = useState('');
@@ -43,10 +102,10 @@ export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
     }
   };
 
-  return (
-    <Box style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }}>
-      <VStack spacing="sm">
-        <HStack spacing="sm" align="stretch">
+  const inputGroupContent = (
+    <Box style={{ width: '100%' }}>
+      <VStack spacing="sm" align={justify}>
+        <HStack spacing={gap} align={verticalAlign}>
           {/* Email Input */}
           {renderIf('input-email') && (
             <Input
@@ -97,6 +156,41 @@ export const InputGroup: React.FC<InputGroupProps> = (patternNode) => {
         )}
       </VStack>
     </Box>
+  );
+
+  // If animation is disabled, return content directly
+  if (!shouldAnimate) {
+    return inputGroupContent;
+  }
+
+  // Determine animation component based on type
+  const animationType = sectionAnimationConfig?.type || 'fadeIn';
+
+  // If opacity animation, use Opacity component
+  if (animationType === 'opacity') {
+    return (
+      <Opacity
+        duration={animationDuration}
+        delay={animationDelay}
+        enableScrollTrigger={true}
+        triggerOffset={100}
+      >
+        {inputGroupContent}
+      </Opacity>
+    );
+  }
+
+  // Default: use FadeIn component
+  return (
+    <FadeIn
+      direction={animationDirection}
+      duration={animationDuration}
+      delay={animationDelay}
+      enableScrollTrigger={true}
+      triggerOffset={100}
+    >
+      {inputGroupContent}
+    </FadeIn>
   );
 };
 

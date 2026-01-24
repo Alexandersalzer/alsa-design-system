@@ -11,6 +11,7 @@ import { patternProps } from '../../../core/utils/props';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Button } from '../../../components/actions/Button/Button';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
+import { Opacity } from '../../../components/animations/Opacity/Opacity';
 import type { LayoutContext } from '../../../core/render/patterns';
 
 export interface ButtonGroupProps extends PatternNode {
@@ -85,10 +86,21 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
 
   // Animation configuration
   const isHero = sectionKey?.startsWith('hero_') || patternPropsValues?.isHero || false;
-  const animationDirection = patternPropsValues?.animationDirection || 'up';
-  const animationDuration = patternPropsValues?.animationDuration || 600;
-  const animationDelay = patternPropsValues?.animationDelay || 0;
-  const animationStagger = patternPropsValues?.animationStagger || 100; // Delay between buttons
+  
+  // Check if section has specific animation config
+  const sectionAnimationConfig = layoutContext?.sectionAnimation;
+  
+  // Use section animation settings if available, otherwise use props or defaults
+  // Type guard: only fadeIn has direction and stagger settings
+  const animationDirection = (sectionAnimationConfig?.type === 'fadeIn' && sectionAnimationConfig.settings?.direction) 
+    || patternPropsValues?.animationDirection 
+    || 'up';
+  const animationDuration = sectionAnimationConfig?.settings?.duration || patternPropsValues?.animationDuration || 600;
+  const animationDelay = sectionAnimationConfig?.settings?.delay || patternPropsValues?.animationDelay || 0;
+  // Type guard: fadeIn and opacity have stagger setting
+  const animationStagger = ((sectionAnimationConfig?.type === 'fadeIn' || sectionAnimationConfig?.type === 'opacity') && sectionAnimationConfig.settings?.stagger !== undefined
+    ? sectionAnimationConfig.settings.stagger
+    : patternPropsValues?.animationStagger) ?? 100; // Delay between buttons
 
   // Read animation mode from CSS variable (set in design.json)
   // 'all' = animate all sections, 'hero' = only hero sections, 'none' = no animations
@@ -107,7 +119,13 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   }, []);
 
   // Determine if animation should be enabled for this section
-  const shouldAnimate = animationMode === 'all' || (animationMode === 'hero' && isHero);
+  // Priority: section animation > global animation mode
+  const shouldAnimate = sectionAnimationConfig 
+    ? sectionAnimationConfig.type !== 'none' 
+    : (animationMode === 'all' || (animationMode === 'hero' && isHero));
+
+  // Determine animation type
+  const animationType = sectionAnimationConfig?.type || 'fadeIn';
 
   return (
     <HStack
@@ -138,7 +156,22 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
           return <React.Fragment key={buttonKey}>{buttonElement}</React.Fragment>;
         }
 
-        // If animation is enabled, wrap in FadeIn with key
+        // If opacity animation, use Opacity component
+        if (animationType === 'opacity') {
+          return (
+            <Opacity
+              key={buttonKey}
+              duration={animationDuration}
+              delay={animationDelay + (index * animationStagger)}
+              enableScrollTrigger={true}
+              triggerOffset={100}
+            >
+              {buttonElement}
+            </Opacity>
+          );
+        }
+
+        // Default: use FadeIn with direction
         return (
           <FadeIn
             key={buttonKey}
