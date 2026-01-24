@@ -168,7 +168,7 @@ export const MenuContent = ({ children, className, maxHeight = 400 }: MenuConten
         maxHeight={maxHeight}
         className={cn('menu-content', `menu-content--${size}`, className)}
       >
-        <Listbox role="menu" size={size} spacing="xs" surface="elevated">
+        <Listbox role="menu" size={size} spacing="xs" surface="raised">
           {children}
         </Listbox>
       </Popover.Content>
