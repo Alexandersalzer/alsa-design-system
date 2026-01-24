@@ -539,3 +539,41 @@
     border: 2px solid ButtonBorder;
   }
 }
+
+/* ===============================================
+   TAB PANEL - Content wrapper with fade animation
+   =============================================== */
+
+.tab-panel {
+  width: 100%;
+}
+
+.tab-panel--animated {
+  animation: tabPanelFadeIn var(--tab-panel-duration, 150ms) ease-out;
+}
+
+.tab-panel--animating {
+  opacity: 0;
+}
+
+@keyframes tabPanelFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduced motion - instant switch, no animation */
+@media (prefers-reduced-motion: reduce) {
+  .tab-panel--animated {
+    animation: none;
+  }
+
+  .tab-panel--animating {
+    opacity: 1;
+  }
+}

@@ -131,7 +131,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
     return (
       <div className="portfolio-grid-container">
         {hasTabs && (
-          <TabGroup variant="navigation" className="mb-6">
+          <TabGroup variant="pill" className="mb-6">
             {buttons.map((btn: { label: string; value: string }) => (
               <Tab
                 key={btn.value}

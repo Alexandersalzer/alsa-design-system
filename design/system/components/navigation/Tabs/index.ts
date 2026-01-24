@@ -1,3 +1,3 @@
 // Tabs component exports
-export { Tab, TabGroup } from './Tabs';
-export type { TabProps, TabGroupProps, TabVariant, TabSize, TabColorScheme } from './Tabs';
+export { Tab, TabGroup, TabPanel } from './Tabs';
+export type { TabProps, TabGroupProps, TabPanelProps, TabVariant, TabSize, TabColorScheme } from './Tabs';

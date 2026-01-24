@@ -187,7 +187,7 @@
 /* Raised surface context (default for most popovers/menus) */
 .listbox--surface-raised .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected),
 [data-surface="raised"] .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
-  background-color: var(--surface-elevated);
+  background-color: var(--surface-raised);
 }
 
 /* Elevated surface context */
