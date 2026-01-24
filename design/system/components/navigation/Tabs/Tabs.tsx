@@ -20,9 +20,10 @@ import { cn } from '../../../utils/cn';
  * - `page`: Underline + accent-muted background on active (default page tabs)
  * - `underline`: Underline + accent text on active, no background
  * - `pill`: Accent background on active, no underline (compact pills)
+ * - `soft`: Like pill - accent-muted background on active, no underline
  * - `segment`: Bordered pills with accent background (legacy, use pill instead)
  */
-export type TabVariant = 'navigation' | 'page' | 'underline' | 'pill' | 'segment';
+export type TabVariant = 'navigation' | 'page' | 'underline' | 'pill' | 'soft' | 'segment';
 export type TabSize = 'sm' | 'md' | 'lg';
 
 /**

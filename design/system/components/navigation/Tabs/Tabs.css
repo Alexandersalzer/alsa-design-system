@@ -245,6 +245,25 @@
   color: var(--text-accent);
 }
 
+/* ===== VARIANT: SOFT (Like pill - accent-muted background, no underline) ===== */
+.tab--soft {
+  justify-content: center;
+  border-radius: var(--radius-button);
+  background: transparent;
+}
+
+.tab--soft.tab--active {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+  cursor: default;
+}
+
+/* Active soft tabs should not have hover effect */
+.tab--soft.tab--active:hover {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
 /* ===== COLOR SCHEME: NEUTRAL ===== */
 /* Neutral colorScheme uses primary text and raised surface instead of accent */
 
@@ -291,6 +310,17 @@
 }
 
 .tab--pill.tab--color-neutral.tab--active:hover {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+/* Neutral + soft variant */
+.tab--soft.tab--color-neutral.tab--active {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+.tab--soft.tab--color-neutral.tab--active:hover {
   background-color: var(--surface-raised);
   color: var(--text-primary);
 }
@@ -400,9 +430,16 @@
   position: relative;
 }
 
-/* Pill variant container (no border, just spacing) */
+/* Pill variant container (no border, no underline, just spacing) */
 .tab-group--pill {
   gap: var(--foundation-space-2);
+  border-bottom: none;
+}
+
+/* Soft variant container (like pill but more subtle - accent-muted background) */
+.tab-group--soft {
+  gap: var(--foundation-space-2);
+  border-bottom: none;
 }
 
 /* Segment variant container */
@@ -481,6 +518,12 @@
   .tab-group--horizontal {
     overflow: auto;
     gap: 4px;
+  }
+
+  /* Hide animated indicator on mobile - it doesn't align correctly with overflow scroll */
+  .tab-group__indicator--page,
+  .tab-group__indicator--segment {
+    display: none;
   }
 
   .tab--navigation {
