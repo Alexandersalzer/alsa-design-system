@@ -208,7 +208,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
   return (
     <div className={className}>
       {/* Visuell separator */}
-      <Divider className="setup-guide__divider" />
+      <Divider/>
 
       <VStack spacing="xl">
         {/* Header */}
@@ -219,12 +219,10 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
           {sortedSteps.length > 0 && 
             sortedSteps[0].key === 'overview' && 
             !sortedSteps[0].completed && (
-              <Box className="setup-guide__cta-container">
+              <Box>
                 <Button
                   variant="accent"
-                  size="xl"
                   onClick={() => handleNavigate(sortedSteps[0].href)}
-                  className="setup-guide__cta-button"
                 >
                   <HStack spacing="sm" align="center">
                     <Icon size="lg">
