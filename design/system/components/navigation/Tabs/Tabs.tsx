@@ -1,7 +1,6 @@
 // ===============================================
 // src/design-system/components/navigation/Tabs/Tabs.tsx
-// Consolidated Tab + TabGroup component
-// UPDATED: Adds optional animated TabPanel support via TabGroup props
+// Consolidated Tab + TabGroup + TabPanels (animated content)
 // ===============================================
 
 'use client';
@@ -12,12 +11,10 @@ import React, {
   useRef,
   useEffect,
   useCallback,
-  createContext,
-  useContext,
+  useLayoutEffect,
 } from 'react';
 import Link from 'next/link';
 import { Label, TypographyWeight, TypographyColor } from '../../Typography';
-import { Opacity } from '../../../components/animations/Opacity/Opacity';
 import { cn } from '../../../utils/cn';
 
 // ===============================================
@@ -44,8 +41,6 @@ export type TabColorScheme = 'accent' | 'neutral';
 
 interface BaseTabProps {
   children: ReactNode;
-  /** NEW: stable identifier used by TabPanel + TabGroup active tracking */
-  value?: string;
   variant?: TabVariant;
   size?: TabSize;
   colorScheme?: TabColorScheme;
@@ -61,6 +56,12 @@ interface BaseTabProps {
   role?: string;
   'aria-selected'?: boolean;
   style?: React.CSSProperties;
+
+  /**
+   * Optional value identifier (useful when pairing Tab with TabPanels)
+   * Not required if you control active state via `isActive`.
+   */
+  value?: string;
 }
 
 interface LinkTabProps extends BaseTabProps {
@@ -83,35 +84,73 @@ export interface TabGroupProps {
   className?: string;
   animated?: boolean;
   justify?: 'start' | 'center' | 'end' | 'between' | 'around';
+}
+
+// ===============================================
+// TAB PANELS (CONTENT ANIMATION)
+// ===============================================
+
+export type TabPanelsAnimation = 'none' | 'fade' | 'fade-slide';
+
+export interface TabPanelProps {
+  /** Must match the active value passed to TabPanels */
+  value: string;
+  children: ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+/**
+ * Marker component used inside TabPanels.
+ * It does not render anything by itself; TabPanels will render the active panel.
+ */
+export const TabPanel: React.FC<TabPanelProps> = () => null;
+
+TabPanel.displayName = 'TabPanel';
+
+export interface TabPanelsProps {
+  /** Active panel value */
+  value: string;
+
+  /** TabPanel children */
+  children: ReactNode;
+
+  /** Enable/disable content animation (default: true) */
+  animated?: boolean;
+
+  /** Animation type (default: 'fade-slide') */
+  animation?: TabPanelsAnimation;
+
+  /** Animation duration in ms (default: 220) */
+  duration?: number;
 
   /**
-   * NEW: animates the active TabPanel content (fade-in) when tab changes.
-   * Usage: <TabGroup animateContent> ... </TabGroup> + <TabPanel value="x">...</TabPanel>
+   * If true, TabPanels will lock to the larger of (leaving/entering) heights during transition
+   * to avoid the page “jumping” vertically. (default: true)
    */
-  animateContent?: boolean;
+  keepHeight?: boolean;
 
-  /** NEW: duration for TabPanel fade animation (ms) */
-  contentAnimationDuration?: number;
+  /**
+   * If true, will keep the previous panel mounted until the animation completes.
+   * This is generally required for exit animations (default: true)
+   */
+  keepMountedDuringExit?: boolean;
 
-  /** NEW: delay for TabPanel fade animation (ms) */
-  contentAnimationDelay?: number;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
-// ===============================================
-// CONTEXT (for TabPanel)
-// ===============================================
-
-interface TabsContextValue {
-  activeValue: string | null;
-  animateContent: boolean;
-  duration: number;
-  delay: number;
+function isTabPanelElement(node: unknown): node is React.ReactElement<TabPanelProps> {
+  return React.isValidElement<TabPanelProps>(node) && (node.type as any)?.displayName === 'TabPanel';
 }
 
-const TabsContext = createContext<TabsContextValue | null>(null);
-
-function useTabsContext() {
-  return useContext(TabsContext);
+function pickPanelByValue(
+  children: ReactNode,
+  value: string
+): React.ReactElement<TabPanelProps> | null {
+  const panels = React.Children.toArray(children).filter(isTabPanelElement);
+  const match = panels.find((p) => p.props.value === value) as React.ReactElement<TabPanelProps> | undefined;
+  return match ?? (panels[0] as React.ReactElement<TabPanelProps> | undefined) ?? null;
 }
 
 // ===============================================
@@ -168,7 +207,6 @@ function createTabTypographyProps(
 
 export const Tab: React.FC<TabProps> = ({
   children,
-  value, // NEW (not rendered; used by TabGroup + TabPanel)
   variant = 'navigation',
   size = 'md',
   colorScheme = 'accent',
@@ -186,15 +224,10 @@ export const Tab: React.FC<TabProps> = ({
   role,
   'aria-selected': ariaSelected,
   style,
+  value,
   ...rest
 }) => {
-  const baseTypographyProps = createTabTypographyProps(
-    variant,
-    size,
-    isActive,
-    isDisabled,
-    colorScheme
-  );
+  const baseTypographyProps = createTabTypographyProps(variant, size, isActive, isDisabled, colorScheme);
 
   const getWeight = (): TypographyWeight => {
     if (fontWeight) return fontWeight;
@@ -258,6 +291,7 @@ export const Tab: React.FC<TabProps> = ({
       'aria-selected': ariaSelected ?? (variant !== 'navigation' ? isActive : undefined),
       'aria-disabled': isDisabled,
       style,
+      'data-value': value,
     };
 
     // Remove undefined values
@@ -319,23 +353,10 @@ export const TabGroup: React.FC<TabGroupProps> = ({
   className = '',
   animated = true,
   justify = 'start',
-
-  // NEW
-  animateContent = false,
-  contentAnimationDuration = 180,
-  contentAnimationDelay = 0,
 }) => {
   const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const [focusedIndex, setFocusedIndex] = useState(0);
-
-  // NEW: derive active tab value from children (typed)
-  const activeValue =
-    React.Children.toArray(children)
-      .filter((child): child is React.ReactElement<TabChildProps> =>
-        React.isValidElement<TabChildProps>(child)
-      )
-      .find((child) => !!child.props.isActive)?.props.value ?? null;
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -344,9 +365,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
       const container = containerRef.current;
       if (!container) return;
 
-      const tabItems = Array.from(
-        container.querySelectorAll('.tab:not(.tab--disabled)')
-      ) as HTMLElement[];
+      const tabItems = Array.from(container.querySelectorAll('.tab:not(.tab--disabled)')) as HTMLElement[];
       if (tabItems.length === 0) return;
 
       const currentIndex = tabItems.findIndex((item) => item === document.activeElement);
@@ -374,9 +393,9 @@ export const TabGroup: React.FC<TabGroupProps> = ({
         case 'Enter':
         case ' ':
           e.preventDefault();
-          const focusedItem = tabItems[currentIndex];
-          if (focusedItem) {
-            focusedItem.click();
+          {
+            const focusedItem = tabItems[currentIndex];
+            if (focusedItem) focusedItem.click();
           }
           break;
       }
@@ -397,17 +416,13 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     let lastLeft = 0;
 
     const updateIndicator = () => {
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-      }
+      if (rafId) cancelAnimationFrame(rafId);
 
       rafId = requestAnimationFrame(() => {
         const container = containerRef.current;
         if (!container) return;
 
-        const activeTab = container.querySelector(
-          '.tab--active, .active, [aria-selected="true"]'
-        ) as HTMLElement;
+        const activeTab = container.querySelector('.tab--active, .active, [aria-selected="true"]') as HTMLElement;
 
         if (activeTab) {
           const containerRect = container.getBoundingClientRect();
@@ -418,10 +433,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
           if (newWidth !== lastWidth || newLeft !== lastLeft) {
             lastWidth = newWidth;
             lastLeft = newLeft;
-            setIndicatorStyle({
-              width: newWidth,
-              left: newLeft,
-            });
+            setIndicatorStyle({ width: newWidth, left: newLeft });
           }
         }
       });
@@ -437,9 +449,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
           mutation.type === 'childList'
       );
 
-      if (hasRelevantChange) {
-        updateIndicator();
-      }
+      if (hasRelevantChange) updateIndicator();
     });
 
     if (containerRef.current) {
@@ -452,9 +462,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     }
 
     return () => {
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-      }
+      if (rafId) cancelAnimationFrame(rafId);
       observer.disconnect();
     };
   }, [animated, variant, orientation]);
@@ -479,31 +487,17 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     return child;
   });
 
-  const contextValue: TabsContextValue = {
-    activeValue,
-    animateContent,
-    duration: contentAnimationDuration,
-    delay: contentAnimationDelay,
-  };
-
   if (variant === 'navigation') {
     return (
-      <TabsContext.Provider value={contextValue}>
-        <nav
-          ref={containerRef}
-          className={cn(
-            'tab-group',
-            'tab-group--navigation',
-            animated && 'tab-group--animated',
-            className
-          )}
-          onKeyDown={handleKeyDown}
-          role="navigation"
-          aria-label="Main navigation"
-        >
-          {enhancedChildren}
-        </nav>
-      </TabsContext.Provider>
+      <nav
+        ref={containerRef}
+        className={cn('tab-group', 'tab-group--navigation', animated && 'tab-group--animated', className)}
+        onKeyDown={handleKeyDown}
+        role="navigation"
+        aria-label="Main navigation"
+      >
+        {enhancedChildren}
+      </nav>
     );
   }
 
@@ -517,82 +511,226 @@ export const TabGroup: React.FC<TabGroupProps> = ({
   );
 
   const showIndicator =
-    animated &&
-    orientation === 'horizontal' &&
-    (variant === 'page' || variant === 'underline' || variant === 'segment');
+    animated && orientation === 'horizontal' && (variant === 'page' || variant === 'underline' || variant === 'segment');
 
   return (
-    <TabsContext.Provider value={contextValue}>
-      <div
-        ref={containerRef}
-        className={classes}
-        role="tablist"
-        onKeyDown={handleKeyDown}
-        aria-orientation={orientation}
-      >
-        {showIndicator && (
-          <div
-            className={`tab-group__indicator tab-group__indicator--${
-              variant === 'underline' ? 'page' : variant
-            }`}
-            style={{
-              width: `${indicatorStyle.width}px`,
-              left: `${indicatorStyle.left}px`,
-              opacity: indicatorStyle.width > 0 ? 1 : 0,
-            }}
-            aria-hidden="true"
-          />
-        )}
-        {enhancedChildren}
-      </div>
-    </TabsContext.Provider>
+    <div ref={containerRef} className={classes} role="tablist" onKeyDown={handleKeyDown} aria-orientation={orientation}>
+      {showIndicator && (
+        <div
+          className={`tab-group__indicator tab-group__indicator--${variant === 'underline' ? 'page' : variant}`}
+          style={{
+            width: `${indicatorStyle.width}px`,
+            left: `${indicatorStyle.left}px`,
+            opacity: indicatorStyle.width > 0 ? 1 : 0,
+          }}
+          aria-hidden="true"
+        />
+      )}
+      {enhancedChildren}
+    </div>
   );
 };
 
 // ===============================================
-// TAB PANEL (NEW)
-// Drives the "tabs content fade-in" behavior
+// TAB PANELS COMPONENT (ANIMATED CONTENT SWITCHING)
 // ===============================================
 
-export interface TabPanelProps {
-  /** Must match the Tab value */
-  value: string;
-  children: ReactNode;
-  className?: string;
-}
+export const TabPanels: React.FC<TabPanelsProps> = ({
+  value,
+  children,
+  animated = true,
+  animation = 'fade-slide',
+  duration = 220,
+  keepHeight = true,
+  keepMountedDuringExit = true,
+  className = '',
+  style,
+}) => {
+  const [currentValue, setCurrentValue] = useState(value);
+  const [leavingValue, setLeavingValue] = useState<string | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [lockedHeight, setLockedHeight] = useState<number | null>(null);
 
-export const TabPanel: React.FC<TabPanelProps> = ({ value, children, className = '' }) => {
-  const ctx = useTabsContext();
+  const enterRef = useRef<HTMLDivElement>(null);
+  const leaveRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<number | null>(null);
 
-  // If used outside TabGroup, render nothing to avoid confusing behavior
-  if (!ctx) return null;
+  const currentPanel = pickPanelByValue(children, currentValue);
+  const nextPanel = pickPanelByValue(children, value);
 
-  const isActive = ctx.activeValue === value;
+  const shouldAnimate = animated && animation !== 'none' && duration > 0;
 
-  // Only render active panel (keeps DOM clean and prevents flicker)
-  if (!isActive) return null;
+  // Start transition when `value` changes
+  useEffect(() => {
+    if (value === currentValue) return;
 
-  // No animation requested -> render normally
-  if (!ctx.animateContent) {
-    return <div className={className}>{children}</div>;
-  }
+    // If no animation: just swap immediately
+    if (!shouldAnimate) {
+      setLeavingValue(null);
+      setIsTransitioning(false);
+      setLockedHeight(null);
+      setCurrentValue(value);
+      return;
+    }
 
-  // Animate on tab changes by keying to panel value
+    // Begin exit/enter
+    setLeavingValue(currentValue);
+    setIsTransitioning(true);
+    setCurrentValue(value);
+
+    // Cleanup prior timer
+    if (timeoutRef.current) {
+      window.clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
+    timeoutRef.current = window.setTimeout(() => {
+      setLeavingValue(null);
+      setIsTransitioning(false);
+      setLockedHeight(null);
+      timeoutRef.current = null;
+    }, duration);
+  }, [value, currentValue, shouldAnimate, duration]);
+
+  // Height lock to avoid vertical jump during transition
+  useLayoutEffect(() => {
+    if (!keepHeight) return;
+    if (!shouldAnimate) return;
+    if (!isTransitioning) return;
+
+    const enterEl = enterRef.current;
+    const leaveEl = leaveRef.current;
+
+    const enterH = enterEl ? enterEl.getBoundingClientRect().height : 0;
+    const leaveH = leaveEl ? leaveEl.getBoundingClientRect().height : 0;
+
+    const maxH = Math.max(enterH, leaveH);
+    if (maxH > 0) setLockedHeight(maxH);
+  }, [keepHeight, shouldAnimate, isTransitioning, value]);
+
+  // If content changes size while transitioning (e.g. async loading), keep lock updated
+  useEffect(() => {
+    if (!keepHeight) return;
+    if (!shouldAnimate) return;
+    if (!isTransitioning) return;
+
+    const enterEl = enterRef.current;
+    if (!enterEl || typeof ResizeObserver === 'undefined') return;
+
+    const ro = new ResizeObserver(() => {
+      const leaveEl = leaveRef.current;
+      const enterH = enterEl.getBoundingClientRect().height;
+      const leaveH = leaveEl ? leaveEl.getBoundingClientRect().height : 0;
+      const maxH = Math.max(enterH, leaveH);
+      if (maxH > 0) setLockedHeight(maxH);
+    });
+
+    ro.observe(enterEl);
+    return () => ro.disconnect();
+  }, [keepHeight, shouldAnimate, isTransitioning]);
+
+  // Styles for entering/leaving panels
+  const transitionBase: React.CSSProperties = shouldAnimate
+    ? { transition: `opacity ${duration}ms ease, transform ${duration}ms ease` }
+    : {};
+
+  const enteringStyle: React.CSSProperties = (() => {
+    if (!shouldAnimate) return {};
+    if (!isTransitioning) return { opacity: 1, transform: 'translateY(0px)' };
+
+    if (animation === 'fade') return { opacity: 1, transform: 'translateY(0px)' };
+    // fade-slide
+    return { opacity: 1, transform: 'translateY(0px)' };
+  })();
+
+  const leavingStyle: React.CSSProperties = (() => {
+    if (!shouldAnimate) return {};
+    if (!isTransitioning) return { opacity: 0 };
+
+    if (animation === 'fade') return { opacity: 0, transform: 'translateY(0px)' };
+    // fade-slide
+    return { opacity: 0, transform: 'translateY(6px)' };
+  })();
+
+  const enteringInitial: React.CSSProperties = (() => {
+    if (!shouldAnimate) return {};
+    if (!isTransitioning) return {};
+
+    if (animation === 'fade') return { opacity: 0, transform: 'translateY(0px)' };
+    // fade-slide
+    return { opacity: 0, transform: 'translateY(-6px)' };
+  })();
+
+  // Force initial style on first paint of the entering panel during transition
+  const [enterHasMounted, setEnterHasMounted] = useState(false);
+  useEffect(() => {
+    if (!isTransitioning) {
+      setEnterHasMounted(false);
+      return;
+    }
+    // next tick so transition can run from initial -> final
+    const id = window.requestAnimationFrame(() => setEnterHasMounted(true));
+    return () => window.cancelAnimationFrame(id);
+  }, [isTransitioning, value]);
+
+  const renderPanel = (panel: React.ReactElement<TabPanelProps> | null) => {
+    if (!panel) return null;
+    return panel.props.children;
+  };
+
+  const leavingPanel = leavingValue ? pickPanelByValue(children, leavingValue) : null;
+
   return (
-    <Opacity
-      key={value}
-      duration={ctx.duration}
-      delay={ctx.delay}
-      easing="ease-out"
-      enableScrollTrigger={false}
-      className={className}
+    <div
+      className={cn('tab-panels', className)}
+      style={{
+        ...style,
+        position: 'relative',
+        width: '100%',
+        ...(keepHeight && lockedHeight ? { height: `${lockedHeight}px` } : null),
+      }}
     >
-      {children}
-    </Opacity>
+      {/* Leaving panel (absolute overlay) */}
+      {keepMountedDuringExit && leavingPanel && shouldAnimate && (
+        <div
+          ref={leaveRef}
+          className={cn('tab-panels__panel', leavingPanel.props.className)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            ...transitionBase,
+            ...leavingStyle,
+            ...(leavingPanel.props.style ?? {}),
+          }}
+          aria-hidden="true"
+        >
+          {renderPanel(leavingPanel)}
+        </div>
+      )}
+
+      {/* Entering/current panel */}
+      {nextPanel && (
+        <div
+          ref={enterRef}
+          className={cn('tab-panels__panel', nextPanel.props.className)}
+          style={{
+            width: '100%',
+            ...transitionBase,
+            ...(shouldAnimate && isTransitioning && !enterHasMounted ? enteringInitial : null),
+            ...enteringStyle,
+            ...(nextPanel.props.style ?? {}),
+          }}
+          role="tabpanel"
+        >
+          {renderPanel(nextPanel)}
+        </div>
+      )}
+    </div>
   );
 };
 
 // Display names
 Tab.displayName = 'Tab';
 TabGroup.displayName = 'TabGroup';
-TabPanel.displayName = 'TabPanel';
+TabPanels.displayName = 'TabPanels';
