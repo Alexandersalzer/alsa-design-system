@@ -38,10 +38,6 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   const getPatternProps = patternProps(patternNode);
   const { components = {}, order = [], sectionKey, layoutContext } = patternNode;
 
-  // Get inherited alignment from layout context
-  const inheritedAlign = layoutContext?.alignSectionHeader;
-  const isInSecondColumn = layoutContext?.isInSecondColumn;
-
   // Extract pattern props with defaults
   const patternPropsValues = getPatternProps();
   const {
@@ -49,27 +45,10 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
     wrap = true, // Allow buttons to wrap on mobile
   } = patternPropsValues;
 
-  // Align priority:
-  // 1. Explicit prop (highest priority)
-  // 2. When in secondColumn: use OPPOSITE of alignSectionHeader
-  //    - If alignSectionHeader is 'left', secondColumn buttons should be 'end' (right)
-  //    - If alignSectionHeader is 'right', secondColumn buttons should be 'start' (left)
-  //    - If alignSectionHeader is 'center', secondColumn buttons should be 'end'
-  // 3. Inherited from layout (alignSectionHeader)
-  // 4. Default 'center'
-  const getOppositeAlign = (align?: string) => {
-    if (align === 'left') return 'end';
-    if (align === 'right') return 'start';
-    return 'end'; // center -> end for secondColumn
-  };
-
-  const getDefaultAlign = () => {
-    if (patternPropsValues.align) return patternPropsValues.align;
-    if (isInSecondColumn) return getOppositeAlign(inheritedAlign);
-    if (inheritedAlign) return inheritedAlign;
-    return 'center';
-  };
-  const align = getDefaultAlign();
+  // Get alignment from props or inherit from layout context
+  // Note: layoutContext.alignSectionHeader already has opposite alignment applied
+  // by LayoutRenderer for secondColumn patterns, so we just use it directly
+  const align = patternPropsValues.align || layoutContext?.alignSectionHeader || 'center';
 
   // Map align to HStack justify
   const justifyMap = {
