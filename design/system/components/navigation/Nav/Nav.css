@@ -253,6 +253,7 @@
 /* ===============================================
    NAV ITEM - COLOR INHERITANCE
    Icon and Label inherit from parent
+   Override Typography defaults with higher specificity
    =============================================== */
 
 .nav-item .listbox-item-leading,
@@ -262,7 +263,12 @@
   color: currentColor;
 }
 
-.nav-item .nav-item__label {
+/* Override .text-label default color with higher specificity */
+.nav-item .nav-item__label,
+.nav-item .nav-item__label.text-label,
+.nav-item .nav-item__label.text-label-sm,
+.nav-item .nav-item__label.text-label-md,
+.nav-item .nav-item__label.text-label-lg {
   color: currentColor;
 }
 
