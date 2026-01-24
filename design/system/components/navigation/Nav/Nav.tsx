@@ -7,7 +7,7 @@ import React, { createContext, useContext, forwardRef, ReactNode } from 'react';
 import { cn } from '../../../utils/cn';
 import { ListboxItem } from '../../lists/Listbox/ListboxItem';
 import { Icon } from '../../media';
-import { Label, TypographyWeight } from '../../Typography';
+import { TypographyWeight } from '../../Typography';
 
 // ===============================================
 // TYPES
@@ -232,13 +232,20 @@ const NavItem = forwardRef<HTMLLIElement, NavPrimitiveItemProps>(({
       aria-current={active ? 'page' : undefined}
       aria-label={collapsed ? String(children) : undefined}
     >
-      <Label
-        size={labelSize}
-        weight={labelWeight}
-        className="nav-item__label"
+      {/*
+        IMPORTANT: Do NOT pass color prop to Label here!
+        We use CSS currentColor inheritance from .nav-item parent.
+        Passing color would apply inline styles that override CSS.
+      */}
+      <span
+        className={cn(
+          'nav-item__label',
+          `text-label-${labelSize}`,
+          `font-weight-${labelWeight}`
+        )}
       >
         {children}
-      </Label>
+      </span>
     </ListboxItem>
   );
 });
