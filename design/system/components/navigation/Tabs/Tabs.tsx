@@ -14,7 +14,15 @@ import { cn } from '../../../utils/cn';
 // TYPES
 // ===============================================
 
-export type TabVariant = 'navigation' | 'page' | 'segment';
+/**
+ * Tab variants:
+ * - `navigation`: Sidebar/vertical navigation with accent background on active
+ * - `page`: Underline + accent-muted background on active (default page tabs)
+ * - `underline`: Underline + accent text on active, no background
+ * - `pill`: Accent background on active, no underline (compact pills)
+ * - `segment`: Bordered pills with accent background (legacy, use pill instead)
+ */
+export type TabVariant = 'navigation' | 'page' | 'underline' | 'pill' | 'segment';
 export type TabSize = 'sm' | 'md' | 'lg';
 
 interface BaseTabProps {
@@ -414,7 +422,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
   );
 
   const showIndicator =
-    animated && orientation === 'horizontal' && (variant === 'page' || variant === 'segment');
+    animated && orientation === 'horizontal' && (variant === 'page' || variant === 'underline' || variant === 'segment');
 
   return (
     <div
@@ -426,7 +434,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     >
       {showIndicator && (
         <div
-          className={`tab-group__indicator tab-group__indicator--${variant}`}
+          className={`tab-group__indicator tab-group__indicator--${variant === 'underline' ? 'page' : variant}`}
           style={{
             width: `${indicatorStyle.width}px`,
             left: `${indicatorStyle.left}px`,

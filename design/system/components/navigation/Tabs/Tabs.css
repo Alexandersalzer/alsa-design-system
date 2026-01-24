@@ -65,6 +65,13 @@
 .tab--active {
   background-color: var(--surface-accent-muted);
   color: var(--text-accent);
+  cursor: default;
+}
+
+/* Active tabs should NOT have hover effect - they represent current state */
+.tab--active:hover {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
 }
 
 /* ===== DISABLED STATE ===== */
@@ -174,7 +181,7 @@
   font-weight: var(--foundation-weight-semibold);
 }
 
-/* ===== VARIANT: PAGE (Horizontal with underline) ===== */
+/* ===== VARIANT: PAGE (Underline + accent-muted background on active) ===== */
 .tab--page {
   justify-content: center;
   border-bottom: none;
@@ -188,8 +195,54 @@
 }
 
 .tab--page.tab--active {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+  cursor: default;
+}
+
+/* Active page tabs should not have hover effect */
+.tab--page.tab--active:hover {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
+/* ===== VARIANT: UNDERLINE (Underline + accent text, no background) ===== */
+.tab--underline {
+  justify-content: center;
+  border-bottom: none;
+  margin-bottom: 0;
   background: transparent;
-  color: var(--text-strong);
+}
+
+.tab--underline.tab--active {
+  background: transparent;
+  color: var(--text-accent);
+  cursor: default;
+}
+
+/* Active underline tabs should not have hover effect */
+.tab--underline.tab--active:hover {
+  background: transparent;
+  color: var(--text-accent);
+}
+
+/* ===== VARIANT: PILL (Accent background, no underline) ===== */
+.tab--pill {
+  justify-content: center;
+  border-radius: var(--radius-button);
+  background: transparent;
+}
+
+.tab--pill.tab--active {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+  cursor: default;
+}
+
+/* Active pill tabs should not have hover effect */
+.tab--pill.tab--active:hover {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
 }
 
 /* ===== VARIANT: SEGMENT (Compact pills) ===== */
@@ -269,6 +322,18 @@
   border-bottom: 1px solid var(--border-default);
   padding-bottom: var(--foundation-space-2);
   position: relative;
+}
+
+/* Underline variant container (same as page but can be styled differently) */
+.tab-group--underline {
+  border-bottom: 1px solid var(--border-default);
+  padding-bottom: var(--foundation-space-2);
+  position: relative;
+}
+
+/* Pill variant container (no border, just spacing) */
+.tab-group--pill {
+  gap: var(--foundation-space-2);
 }
 
 /* Segment variant container */
