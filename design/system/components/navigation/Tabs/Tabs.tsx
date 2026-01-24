@@ -14,13 +14,29 @@ import { cn } from '../../../utils/cn';
 // TYPES
 // ===============================================
 
-export type TabVariant = 'navigation' | 'page' | 'segment';
+/**
+ * Tab variants:
+ * - `navigation`: Sidebar/vertical navigation with accent background on active
+ * - `page`: Underline + accent-muted background on active (default page tabs)
+ * - `underline`: Underline + accent text on active, no background
+ * - `pill`: Accent background on active, no underline (compact pills)
+ * - `segment`: Bordered pills with accent background (legacy, use pill instead)
+ */
+export type TabVariant = 'navigation' | 'page' | 'underline' | 'pill' | 'segment';
 export type TabSize = 'sm' | 'md' | 'lg';
+
+/**
+ * Tab color scheme:
+ * - `accent`: Uses accent colors for active state (text-accent, surface-accent-muted)
+ * - `neutral`: Uses neutral colors for active state (text-primary, surface-raised)
+ */
+export type TabColorScheme = 'accent' | 'neutral';
 
 interface BaseTabProps {
   children: ReactNode;
   variant?: TabVariant;
   size?: TabSize;
+  colorScheme?: TabColorScheme;
   isActive?: boolean;
   isDisabled?: boolean;
   icon?: ReactNode;
@@ -50,6 +66,7 @@ export type TabProps = LinkTabProps | ButtonTabProps;
 export interface TabGroupProps {
   children: ReactNode;
   variant?: TabVariant;
+  colorScheme?: TabColorScheme;
   orientation?: 'horizontal' | 'vertical';
   className?: string;
   animated?: boolean;
@@ -72,7 +89,8 @@ function createTabTypographyProps(
   variant: TabVariant,
   size: TabSize,
   isActive: boolean,
-  isDisabled: boolean
+  isDisabled: boolean,
+  colorScheme: TabColorScheme = 'accent'
 ): TabTypographyProps {
   const sizeMap: Record<TabSize, LabelSize> = {
     sm: 'xs',
@@ -82,7 +100,10 @@ function createTabTypographyProps(
 
   const getColor = (): TypographyColor => {
     if (isDisabled) return 'disabled';
-    if (isActive) return 'primary';
+    if (isActive) {
+      // Accent colorScheme uses accent color, neutral uses primary
+      return colorScheme === 'accent' ? 'accent' : 'primary';
+    }
     return 'secondary';
   };
 
@@ -108,6 +129,7 @@ export const Tab: React.FC<TabProps> = ({
   children,
   variant = 'navigation',
   size = 'md',
+  colorScheme = 'accent',
   isActive = false,
   isDisabled = false,
   icon,
@@ -124,7 +146,7 @@ export const Tab: React.FC<TabProps> = ({
   style,
   ...rest
 }) => {
-  const baseTypographyProps = createTabTypographyProps(variant, size, isActive, isDisabled);
+  const baseTypographyProps = createTabTypographyProps(variant, size, isActive, isDisabled, colorScheme);
 
   const getWeight = (): TypographyWeight => {
     if (fontWeight) return fontWeight;
@@ -144,6 +166,7 @@ export const Tab: React.FC<TabProps> = ({
       return cn(
         'tab',
         'tab--navigation',
+        `tab--color-${colorScheme}`,
         useHeadingFont && 'tab--heading-font',
         isActive && 'tab--active',
         isDisabled && 'tab--disabled',
@@ -154,6 +177,7 @@ export const Tab: React.FC<TabProps> = ({
     return cn(
       'tab',
       `tab--${variant}`,
+      `tab--color-${colorScheme}`,
       size !== 'md' && `tab--${size}`,
       useHeadingFont && 'tab--heading-font',
       isActive && 'tab--active',
@@ -232,6 +256,7 @@ interface TabChildProps {
   onClick?: () => void;
   className?: string;
   isActive?: boolean;
+  colorScheme?: TabColorScheme;
   tabIndex?: number;
   onFocus?: (e: React.FocusEvent) => void;
   [key: string]: unknown;
@@ -240,6 +265,7 @@ interface TabChildProps {
 export const TabGroup: React.FC<TabGroupProps> = ({
   children,
   variant = 'navigation',
+  colorScheme = 'accent',
   orientation = 'horizontal',
   className = '',
   animated = true,
@@ -378,6 +404,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
       const enhancedProps: Partial<TabChildProps> = {
         ...childProps,
         className: cn(childProps.className, animated && 'tab--animated'),
+        colorScheme: childProps.colorScheme ?? colorScheme,
       };
 
       if (variant === 'navigation') {
@@ -414,7 +441,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
   );
 
   const showIndicator =
-    animated && orientation === 'horizontal' && (variant === 'page' || variant === 'segment');
+    animated && orientation === 'horizontal' && (variant === 'page' || variant === 'underline' || variant === 'segment');
 
   return (
     <div
@@ -426,7 +453,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     >
       {showIndicator && (
         <div
-          className={`tab-group__indicator tab-group__indicator--${variant}`}
+          className={`tab-group__indicator tab-group__indicator--${variant === 'underline' ? 'page' : variant}`}
           style={{
             width: `${indicatorStyle.width}px`,
             left: `${indicatorStyle.left}px`,

@@ -93,12 +93,12 @@
 
 .listbox-item--variant-card.listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
   border-color: var(--border-default);
-  background-color: var(--surface-card-hover);
+  background-color: var(--surface-hover);
 }
 
 .listbox-item--variant-card.listbox-item--selected {
   border-color: var(--border-accent);
-  background-color: var(--surface-picker-option-selected);
+  background-color: var(--surface-active);
 }
 
 /* Size variants */
@@ -130,9 +130,9 @@
   background-color: var(--surface-hover);
 }
 
-/* Hover for selected items - slightly different shade */
-.listbox-item--interactive.listbox-item--selected:hover:not(.listbox-item--disabled) {
-  background-color: var(--surface-hover);
+/* Selected items are NOT hoverable - they represent current state, not an action */
+.listbox-item--selected {
+  cursor: default;
 }
 
 .listbox-item--interactive:active:not(.listbox-item--disabled) {
@@ -168,6 +168,32 @@
 
 .listbox-item--disabled:hover {
   background-color: transparent;
+}
+
+/* ===== SURFACE-AWARE HOVER ===== */
+/* For proper surface hierarchy in different contexts (menus, dropdowns, etc.)
+   Surface hierarchy (each hover is one step above):
+   - page (neutral-0) → hover: raised (neutral-100)
+   - raised (neutral-100) → hover: elevated (neutral-200)
+   - elevated (neutral-200) → hover: overlay (neutral-300)
+*/
+
+/* Page surface context */
+.listbox--surface-page .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected),
+[data-surface="page"] .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  background-color: var(--surface-raised);
+}
+
+/* Raised surface context (default for most popovers/menus) */
+.listbox--surface-raised .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected),
+[data-surface="raised"] .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  background-color: var(--surface-elevated);
+}
+
+/* Elevated surface context */
+.listbox--surface-elevated .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected),
+[data-surface="elevated"] .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  background-color: var(--surface-sunken);
 }
 
 /* ===== LISTBOX ITEM ACCESSORIES ===== */
