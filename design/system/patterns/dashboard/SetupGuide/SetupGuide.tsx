@@ -212,9 +212,33 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
 
       <VStack spacing="xl">
         {/* Header */}
-        <VStack spacing="sm">
+        <HStack spacing="sm" justify='between'>
           <H3>Kom igång med Blimpify</H3>
-        </VStack>
+
+          {/* Kom igång-knapp - visas endast när "Kom igång"-steget (overview) inte är avklarat */}
+          {sortedSteps.length > 0 && 
+            sortedSteps[0].key === 'overview' && 
+            !sortedSteps[0].completed && (
+              <Box className="setup-guide__cta-container">
+                <Button
+                  variant="accent"
+                  size="xl"
+                  onClick={() => handleNavigate(sortedSteps[0].href)}
+                  className="setup-guide__cta-button"
+                >
+                  <HStack spacing="sm" align="center">
+                    <Icon size="lg">
+                      {(() => {
+                        const FirstStepIcon = sortedSteps[0].icon;
+                        return <FirstStepIcon />;
+                      })()}
+                    </Icon>
+                    <span>Kom igång</span>
+                  </HStack>
+                </Button>
+              </Box>
+            )}
+        </HStack>
 
         {/* Progress Section */}
         {progress < 100 && (
@@ -228,30 +252,6 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
               animated
             />
           </VStack>
-        )}
-
-        {/* Kom igång-knapp - visas endast när "Kom igång"-steget (overview) inte är avklarat */}
-        {sortedSteps.length > 0 && 
-         sortedSteps[0].key === 'overview' && 
-         !sortedSteps[0].completed && (
-          <Box className="setup-guide__cta-container">
-            <Button
-              variant="accent"
-              size="xl"
-              onClick={() => handleNavigate(sortedSteps[0].href)}
-              className="setup-guide__cta-button"
-            >
-              <HStack spacing="sm" align="center">
-                <Icon size="lg">
-                  {(() => {
-                    const FirstStepIcon = sortedSteps[0].icon;
-                    return <FirstStepIcon />;
-                  })()}
-                </Icon>
-                <span>Kom igång</span>
-              </HStack>
-            </Button>
-          </Box>
         )}
 
         {/* Steps - Using Listbox for better accessibility */}
