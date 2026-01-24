@@ -129,7 +129,7 @@
 
 /* ===============================================
    NAV ITEM - VARIANT: DEFAULT
-   Subtle hover, accent-tinted active
+   Subtle hover, NEUTRAL active (no accent colors)
 
    Surface hierarchy (each hover is one step above):
    - page (neutral-0) → hover: raised (neutral-100)
@@ -145,8 +145,8 @@
 
 .nav-item--default.nav-item--surface-page.nav-item--active.listbox-item,
 .nav-item--default.nav-item--surface-page.nav-item--active.listbox-item:hover {
-  background-color: var(--surface-accent-muted);
-  color: var(--text-accent);
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
   cursor: default;
 }
 
@@ -158,8 +158,8 @@
 
 .nav-item--default.nav-item--surface-raised.nav-item--active.listbox-item,
 .nav-item--default.nav-item--surface-raised.nav-item--active.listbox-item:hover {
-  background-color: var(--surface-accent-muted);
-  color: var(--text-accent);
+  background-color: var(--surface-elevated);
+  color: var(--text-primary);
   cursor: default;
 }
 
@@ -171,14 +171,14 @@
 
 .nav-item--default.nav-item--surface-sunken.nav-item--active.listbox-item,
 .nav-item--default.nav-item--surface-sunken.nav-item--active.listbox-item:hover {
-  background-color: var(--surface-accent-muted);
-  color: var(--text-accent);
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
   cursor: default;
 }
 
 /* ===============================================
    NAV ITEM - VARIANT: ACCENT
-   Accent-tinted hover and active
+   Accent background + accent text/icon on active
    =============================================== */
 
 .nav-item--accent.listbox-item {
@@ -190,14 +190,16 @@
   color: var(--text-accent);
 }
 
-.nav-item--accent.nav-item--active.listbox-item {
+.nav-item--accent.nav-item--active.listbox-item,
+.nav-item--accent.nav-item--active.listbox-item:hover {
   background-color: var(--surface-accent-muted);
   color: var(--text-accent);
+  cursor: default;
 }
 
 /* ===============================================
    NAV ITEM - VARIANT: GHOST
-   Minimal, text-only hover
+   No background, accent text + icon on active
    =============================================== */
 
 .nav-item--ghost.listbox-item {
@@ -209,9 +211,11 @@
   color: var(--text-primary);
 }
 
-.nav-item--ghost.nav-item--active.listbox-item {
+.nav-item--ghost.nav-item--active.listbox-item,
+.nav-item--ghost.nav-item--active.listbox-item:hover {
   background-color: transparent;
   color: var(--text-accent);
+  cursor: default;
 }
 
 /* ===============================================

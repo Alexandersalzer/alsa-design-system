@@ -167,9 +167,9 @@ export interface NavPrimitiveItemProps {
  * Nav.Item - Navigation item with variant/size support
  *
  * Variants:
- * - `default`: Subtle hover, accent active
- * - `accent`: Accent-tinted hover/active
- * - `ghost`: Minimal, text-only hover
+ * - `default`: Neutral colors - subtle hover, neutral background + text/icon on active
+ * - `accent`: Accent colors - accent background + accent text/icon on active
+ * - `ghost`: No background - accent text/icon on active only (minimal style)
  *
  * Sizes:
  * - `sm`: 32px height, tighter padding
@@ -177,8 +177,9 @@ export interface NavPrimitiveItemProps {
  *
  * Surface-aware:
  * Nav.Item automatically adapts to the parent Nav.Root's surface prop.
- * - `raised` surface → uses --surface-muted for hover
- * - `page` surface → uses --surface-subtle for hover
+ * - `page` surface → hover: raised, active: raised
+ * - `raised` surface → hover: elevated, active: elevated
+ * - `sunken` surface → hover: raised, active: raised
  */
 const NavItem = forwardRef<HTMLLIElement, NavPrimitiveItemProps>(({
   children,

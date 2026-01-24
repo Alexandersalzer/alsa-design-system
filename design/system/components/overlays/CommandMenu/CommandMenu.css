@@ -28,7 +28,7 @@
   flex-direction: column;
 
   background: var(--surface-raised);
-  border: 1px solid var(--border-emphasis);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-modal);
   box-shadow: var(--shadow-modal);
 
