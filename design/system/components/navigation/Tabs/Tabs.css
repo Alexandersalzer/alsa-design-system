@@ -245,6 +245,67 @@
   color: var(--text-accent);
 }
 
+/* ===== COLOR SCHEME: NEUTRAL ===== */
+/* Neutral colorScheme uses primary text and raised surface instead of accent */
+
+.tab--color-neutral.tab--active {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+.tab--color-neutral.tab--active:hover {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+.tab--color-neutral.tab--active .tab__icon svg {
+  color: var(--icon-primary);
+}
+
+/* Neutral + page variant */
+.tab--page.tab--color-neutral.tab--active {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+.tab--page.tab--color-neutral.tab--active:hover {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+/* Neutral + underline variant (no background, just text) */
+.tab--underline.tab--color-neutral.tab--active {
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.tab--underline.tab--color-neutral.tab--active:hover {
+  background: transparent;
+  color: var(--text-primary);
+}
+
+/* Neutral + pill variant */
+.tab--pill.tab--color-neutral.tab--active {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+.tab--pill.tab--color-neutral.tab--active:hover {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+/* Neutral + navigation variant */
+.tab--navigation.tab--color-neutral.tab--active {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+.tab--navigation.tab--color-neutral.tab--active:hover {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
 /* ===== VARIANT: SEGMENT (Compact pills) ===== */
 .tab--segment {
   justify-content: center;
