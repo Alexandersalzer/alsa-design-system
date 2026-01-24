@@ -1,13 +1,23 @@
 // ===============================================
 // src/design-system/components/navigation/Tabs/Tabs.tsx
 // Consolidated Tab + TabGroup component
+// UPDATED: Adds optional animated TabPanel support via TabGroup props
 // ===============================================
 
 'use client';
 
-import React, { ReactNode, useState, useRef, useEffect, useCallback } from 'react';
+import React, {
+  ReactNode,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  createContext,
+  useContext,
+} from 'react';
 import Link from 'next/link';
 import { Label, TypographyWeight, TypographyColor } from '../../Typography';
+import { Opacity } from '../../../components/animations/Opacity/Opacity';
 import { cn } from '../../../utils/cn';
 
 // ===============================================
@@ -34,6 +44,8 @@ export type TabColorScheme = 'accent' | 'neutral';
 
 interface BaseTabProps {
   children: ReactNode;
+  /** NEW: stable identifier used by TabPanel + TabGroup active tracking */
+  value?: string;
   variant?: TabVariant;
   size?: TabSize;
   colorScheme?: TabColorScheme;
@@ -71,6 +83,35 @@ export interface TabGroupProps {
   className?: string;
   animated?: boolean;
   justify?: 'start' | 'center' | 'end' | 'between' | 'around';
+
+  /**
+   * NEW: animates the active TabPanel content (fade-in) when tab changes.
+   * Usage: <TabGroup animateContent> ... </TabGroup> + <TabPanel value="x">...</TabPanel>
+   */
+  animateContent?: boolean;
+
+  /** NEW: duration for TabPanel fade animation (ms) */
+  contentAnimationDuration?: number;
+
+  /** NEW: delay for TabPanel fade animation (ms) */
+  contentAnimationDelay?: number;
+}
+
+// ===============================================
+// CONTEXT (for TabPanel)
+// ===============================================
+
+interface TabsContextValue {
+  activeValue: string | null;
+  animateContent: boolean;
+  duration: number;
+  delay: number;
+}
+
+const TabsContext = createContext<TabsContextValue | null>(null);
+
+function useTabsContext() {
+  return useContext(TabsContext);
 }
 
 // ===============================================
@@ -127,6 +168,7 @@ function createTabTypographyProps(
 
 export const Tab: React.FC<TabProps> = ({
   children,
+  value, // NEW (not rendered; used by TabGroup + TabPanel)
   variant = 'navigation',
   size = 'md',
   colorScheme = 'accent',
@@ -146,7 +188,13 @@ export const Tab: React.FC<TabProps> = ({
   style,
   ...rest
 }) => {
-  const baseTypographyProps = createTabTypographyProps(variant, size, isActive, isDisabled, colorScheme);
+  const baseTypographyProps = createTabTypographyProps(
+    variant,
+    size,
+    isActive,
+    isDisabled,
+    colorScheme
+  );
 
   const getWeight = (): TypographyWeight => {
     if (fontWeight) return fontWeight;
@@ -253,6 +301,7 @@ export const Tab: React.FC<TabProps> = ({
 // ===============================================
 
 interface TabChildProps {
+  value?: string;
   onClick?: () => void;
   className?: string;
   isActive?: boolean;
@@ -270,10 +319,23 @@ export const TabGroup: React.FC<TabGroupProps> = ({
   className = '',
   animated = true,
   justify = 'start',
+
+  // NEW
+  animateContent = false,
+  contentAnimationDuration = 180,
+  contentAnimationDelay = 0,
 }) => {
   const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const [focusedIndex, setFocusedIndex] = useState(0);
+
+  // NEW: derive active tab value from children (typed)
+  const activeValue =
+    React.Children.toArray(children)
+      .filter((child): child is React.ReactElement<TabChildProps> =>
+        React.isValidElement<TabChildProps>(child)
+      )
+      .find((child) => !!child.props.isActive)?.props.value ?? null;
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -417,17 +479,31 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     return child;
   });
 
+  const contextValue: TabsContextValue = {
+    activeValue,
+    animateContent,
+    duration: contentAnimationDuration,
+    delay: contentAnimationDelay,
+  };
+
   if (variant === 'navigation') {
     return (
-      <nav
-        ref={containerRef}
-        className={cn('tab-group', 'tab-group--navigation', animated && 'tab-group--animated', className)}
-        onKeyDown={handleKeyDown}
-        role="navigation"
-        aria-label="Main navigation"
-      >
-        {enhancedChildren}
-      </nav>
+      <TabsContext.Provider value={contextValue}>
+        <nav
+          ref={containerRef}
+          className={cn(
+            'tab-group',
+            'tab-group--navigation',
+            animated && 'tab-group--animated',
+            className
+          )}
+          onKeyDown={handleKeyDown}
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          {enhancedChildren}
+        </nav>
+      </TabsContext.Provider>
     );
   }
 
@@ -441,32 +517,82 @@ export const TabGroup: React.FC<TabGroupProps> = ({
   );
 
   const showIndicator =
-    animated && orientation === 'horizontal' && (variant === 'page' || variant === 'underline' || variant === 'segment');
+    animated &&
+    orientation === 'horizontal' &&
+    (variant === 'page' || variant === 'underline' || variant === 'segment');
 
   return (
-    <div
-      ref={containerRef}
-      className={classes}
-      role="tablist"
-      onKeyDown={handleKeyDown}
-      aria-orientation={orientation}
+    <TabsContext.Provider value={contextValue}>
+      <div
+        ref={containerRef}
+        className={classes}
+        role="tablist"
+        onKeyDown={handleKeyDown}
+        aria-orientation={orientation}
+      >
+        {showIndicator && (
+          <div
+            className={`tab-group__indicator tab-group__indicator--${
+              variant === 'underline' ? 'page' : variant
+            }`}
+            style={{
+              width: `${indicatorStyle.width}px`,
+              left: `${indicatorStyle.left}px`,
+              opacity: indicatorStyle.width > 0 ? 1 : 0,
+            }}
+            aria-hidden="true"
+          />
+        )}
+        {enhancedChildren}
+      </div>
+    </TabsContext.Provider>
+  );
+};
+
+// ===============================================
+// TAB PANEL (NEW)
+// Drives the "tabs content fade-in" behavior
+// ===============================================
+
+export interface TabPanelProps {
+  /** Must match the Tab value */
+  value: string;
+  children: ReactNode;
+  className?: string;
+}
+
+export const TabPanel: React.FC<TabPanelProps> = ({ value, children, className = '' }) => {
+  const ctx = useTabsContext();
+
+  // If used outside TabGroup, render nothing to avoid confusing behavior
+  if (!ctx) return null;
+
+  const isActive = ctx.activeValue === value;
+
+  // Only render active panel (keeps DOM clean and prevents flicker)
+  if (!isActive) return null;
+
+  // No animation requested -> render normally
+  if (!ctx.animateContent) {
+    return <div className={className}>{children}</div>;
+  }
+
+  // Animate on tab changes by keying to panel value
+  return (
+    <Opacity
+      key={value}
+      duration={ctx.duration}
+      delay={ctx.delay}
+      easing="ease-out"
+      enableScrollTrigger={false}
+      className={className}
     >
-      {showIndicator && (
-        <div
-          className={`tab-group__indicator tab-group__indicator--${variant === 'underline' ? 'page' : variant}`}
-          style={{
-            width: `${indicatorStyle.width}px`,
-            left: `${indicatorStyle.left}px`,
-            opacity: indicatorStyle.width > 0 ? 1 : 0,
-          }}
-          aria-hidden="true"
-        />
-      )}
-      {enhancedChildren}
-    </div>
+      {children}
+    </Opacity>
   );
 };
 
 // Display names
 Tab.displayName = 'Tab';
 TabGroup.displayName = 'TabGroup';
+TabPanel.displayName = 'TabPanel';
