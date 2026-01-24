@@ -200,6 +200,7 @@
 /* ===============================================
    NAV ITEM - VARIANT: GHOST
    No background, accent text + icon on active
+   Hover on active shows subtle accent background
    =============================================== */
 
 .nav-item--ghost.listbox-item {
@@ -211,11 +212,16 @@
   color: var(--text-primary);
 }
 
-.nav-item--ghost.nav-item--active.listbox-item,
-.nav-item--ghost.nav-item--active.listbox-item:hover {
+.nav-item--ghost.nav-item--active.listbox-item {
   background-color: transparent;
   color: var(--text-accent);
-  cursor: default;
+  cursor: pointer;
+}
+
+/* Ghost active items CAN be hovered - shows subtle accent background */
+.nav-item--ghost.nav-item--active.listbox-item:hover {
+  background-color: var(--surface-accent-subtle);
+  color: var(--text-accent);
 }
 
 /* ===============================================

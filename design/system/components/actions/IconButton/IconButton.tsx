@@ -36,7 +36,9 @@ export interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
   badge?: number | string;
   /** Required accessibility label */
   'aria-label': string;
-  /** Active state (for navigation) */
+  /** Selected state - represents current state, not hoverable */
+  selected?: boolean;
+  /** @deprecated Use `selected` instead. Active state (for navigation) */
   active?: boolean;
   /** Loading state */
   loading?: boolean;
@@ -59,6 +61,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
   variant = 'secondary',
   size = 'lg',
   badge,
+  selected = false,
   active = false,
   loading = false,
   className,
@@ -74,12 +77,15 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
 }, ref) => {
   const isDisabled = disabled || loading;
 
+  // Support both selected (new) and active (deprecated) props
+  const isSelected = selected || active;
+
   // Build classes using the same pattern as Button component
   const buttonClasses = cn(
     'icon-btn',
     `icon-btn--${variant}`,
     `icon-btn--${size}`,
-    active && 'icon-btn--active',
+    isSelected && 'icon-btn--selected',
     loading && 'icon-btn--loading',
     className
   );
