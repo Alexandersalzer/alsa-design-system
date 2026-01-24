@@ -393,23 +393,23 @@ export function LayoutRenderer({
             })}
           </VStack>
         </Box>
+
+        {/* Below Split: All remaining patterns with their own containers - Only on desktop */}
+        {remainingPatterns.length > 0 && (
+          <Box className="desktop-only">
+            <VStack spacing="none" align="center">
+              {renderPatterns(remainingPatterns)}
+            </VStack>
+          </Box>
+        )}
+        
+        {/* Action patterns at bottom (if distanced) with width-container - Only on desktop */}
+        {distancedActionPatterns.length > 0 && (
+          <Box className="desktop-only" style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
+            {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+          </Box>
+        )}
       </Box>
-      
-      {/* Below Split: All remaining patterns with their own containers - Only on desktop */}
-      {remainingPatterns.length > 0 && (
-        <Box className="desktop-only">
-          <VStack spacing="none" align="center">
-            {renderPatterns(remainingPatterns)}
-          </VStack>
-        </Box>
-      )}
-      
-      {/* Action patterns at bottom (if distanced) with width-container - Only on desktop */}
-      {distancedActionPatterns.length > 0 && (
-        <Box className="desktop-only" style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
-          {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
-        </Box>
-      )}
     </>
   );
 }
