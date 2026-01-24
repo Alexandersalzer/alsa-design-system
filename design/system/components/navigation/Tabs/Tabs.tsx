@@ -467,6 +467,84 @@ export const TabGroup: React.FC<TabGroupProps> = ({
   );
 };
 
+// ===============================================
+// TAB PANEL COMPONENT (Content wrapper with fade animation)
+// ===============================================
+
+export interface TabPanelProps {
+  children: ReactNode;
+  /** Unique key for the tab - changing this triggers the fade animation */
+  tabKey?: string | number;
+  /** Custom className */
+  className?: string;
+  /** Animation duration in ms (default: 150) */
+  animationDuration?: number;
+  /** Disable animation */
+  animated?: boolean;
+  /** Role for accessibility (default: tabpanel) */
+  role?: string;
+  /** aria-labelledby for accessibility */
+  'aria-labelledby'?: string;
+}
+
+export const TabPanel: React.FC<TabPanelProps> = ({
+  children,
+  tabKey,
+  className = '',
+  animationDuration = 150,
+  animated = true,
+  role = 'tabpanel',
+  'aria-labelledby': ariaLabelledBy,
+}) => {
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [displayedKey, setDisplayedKey] = useState(tabKey);
+  const [displayedChildren, setDisplayedChildren] = useState(children);
+
+  useEffect(() => {
+    if (tabKey !== displayedKey) {
+      if (animated) {
+        setIsAnimating(true);
+        // Small delay to allow fade-out, then update content
+        const timeout = setTimeout(() => {
+          setDisplayedKey(tabKey);
+          setDisplayedChildren(children);
+          setIsAnimating(false);
+        }, animationDuration / 2);
+        return () => clearTimeout(timeout);
+      } else {
+        setDisplayedKey(tabKey);
+        setDisplayedChildren(children);
+      }
+    } else {
+      // Same key but children might have changed
+      setDisplayedChildren(children);
+    }
+  }, [tabKey, children, displayedKey, animated, animationDuration]);
+
+  const classes = cn(
+    'tab-panel',
+    animated && 'tab-panel--animated',
+    isAnimating && 'tab-panel--animating',
+    className
+  );
+
+  const style: React.CSSProperties = animated
+    ? { '--tab-panel-duration': `${animationDuration}ms` } as React.CSSProperties
+    : {};
+
+  return (
+    <div
+      className={classes}
+      role={role}
+      aria-labelledby={ariaLabelledBy}
+      style={style}
+    >
+      {displayedChildren}
+    </div>
+  );
+};
+
 // Display names
 Tab.displayName = 'Tab';
 TabGroup.displayName = 'TabGroup';
+TabPanel.displayName = 'TabPanel';
