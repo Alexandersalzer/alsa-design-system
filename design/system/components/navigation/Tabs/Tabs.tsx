@@ -125,7 +125,7 @@ export const Tab: React.FC<TabProps> = ({
   children,
   variant = 'line',
   size = 'md',
-  isAccent = false,
+  isAccent = true,
   isActive = false,
   isDisabled = false,
   icon,
