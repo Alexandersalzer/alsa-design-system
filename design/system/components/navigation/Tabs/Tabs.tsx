@@ -130,7 +130,7 @@ export const Tab: React.FC<TabProps> = ({
   children,
   variant = 'navigation',
   size = 'md',
-  colorScheme = 'accent',
+  colorScheme = 'primary',
   isActive = false,
   isDisabled = false,
   icon,
