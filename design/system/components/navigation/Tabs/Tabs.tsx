@@ -437,9 +437,9 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     className
   );
 
-  // Show indicator for line and outline variants
+  // Show indicator only for line variant (outline uses folder-style borders instead)
   const showIndicator =
-    animated && orientation === 'horizontal' && (variant === 'line' || variant === 'outline');
+    animated && orientation === 'horizontal' && variant === 'line';
 
   return (
     <div

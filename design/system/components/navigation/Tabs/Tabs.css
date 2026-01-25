@@ -302,12 +302,16 @@
   color: var(--text-accent);
 }
 
-/* ===== VARIANT: OUTLINE (Bordered tabs with underline indicator) ===== */
+/* ===== VARIANT: OUTLINE (Folder-style tabs with border) ===== */
+/* Like browser tabs: border on top/left/right, NO bottom border when active */
 .tab--outline {
   justify-content: center;
-  border-radius: var(--radius-button);
+  border-radius: var(--radius-button) var(--radius-button) 0 0;
   background: transparent;
   border: 1px solid var(--border-default);
+  border-bottom: none;
+  margin-bottom: -1px;
+  position: relative;
 }
 
 .tab--outline:hover:not(.tab--active):not(.tab--disabled) {
@@ -316,28 +320,29 @@
 }
 
 .tab--outline.tab--active {
-  border-color: var(--border-strong);
-  background-color: var(--surface-raised);
+  background-color: var(--surface-card);
   color: var(--text-strong);
+  border-color: var(--border-default);
+  border-bottom: 1px solid var(--surface-card);
   cursor: default;
+  z-index: 1;
 }
 
 .tab--outline.tab--active:hover {
-  border-color: var(--border-strong);
-  background-color: var(--surface-raised);
+  background-color: var(--surface-card);
   color: var(--text-strong);
 }
 
 /* Outline + accent */
 .tab--outline.tab--accent.tab--active {
-  border-color: var(--border-accent);
-  background-color: var(--surface-accent-muted);
+  background-color: var(--surface-card);
   color: var(--text-accent);
+  border-color: var(--border-accent);
+  border-bottom-color: var(--surface-card);
 }
 
 .tab--outline.tab--accent.tab--active:hover {
-  border-color: var(--border-accent);
-  background-color: var(--surface-accent-muted);
+  background-color: var(--surface-card);
   color: var(--text-accent);
 }
 
@@ -456,12 +461,12 @@
   padding-bottom: 0;
 }
 
-/* Outline variant container (with underline indicator) */
+/* Outline variant container (folder-style, no indicator) */
 .tab-group--outline {
-  gap: var(--foundation-space-2);
   border-bottom: 1px solid var(--border-default);
-  padding-bottom: 0;
   position: relative;
+  gap: 0;
+  padding-bottom: 0;
 }
 
 /* Plain variant container (minimal) */
@@ -497,23 +502,6 @@
   box-shadow: 0 0 8px color-mix(in srgb, var(--surface-accent) 30%, transparent);
 }
 
-/* Outline indicator (underline) - neutral by default */
-.tab-group__indicator--outline {
-  position: absolute;
-  bottom: 0;
-  height: 2px;
-  background: var(--text-strong);
-  border-radius: var(--radius-xl);
-  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
-  z-index: 10;
-}
-
-/* Outline indicator - accent mode */
-.tab-group--accent .tab-group__indicator--outline {
-  background: var(--surface-accent);
-  box-shadow: 0 0 8px color-mix(in srgb, var(--surface-accent) 30%, transparent);
-}
 
 /* ===== NAVIGATION SIDEBAR ANIMATION ===== */
 .tab-group--navigation.tab-group--animated .tab {
@@ -553,8 +541,7 @@
   }
 
   /* Hide animated indicator on mobile - it doesn't align correctly with overflow scroll */
-  .tab-group__indicator--line,
-  .tab-group__indicator--outline {
+  .tab-group__indicator--line {
     display: none;
   }
 
@@ -571,15 +558,6 @@
 @media (max-width: 480px) {
   .tab__label {
     font-size: 13px;
-  }
-
-  .tab-group--outline {
-    gap: var(--foundation-space-1);
-  }
-
-  .tab--outline {
-    padding: 6px 10px;
-    font-size: 12px;
   }
 }
 
@@ -604,7 +582,6 @@
   .tab--animated,
   .tab,
   .tab-group__indicator--line,
-  .tab-group__indicator--outline,
   .tab-group--navigation.tab-group--animated .tab {
     transition: background-color 0.15s ease, color 0.15s ease !important;
   }
