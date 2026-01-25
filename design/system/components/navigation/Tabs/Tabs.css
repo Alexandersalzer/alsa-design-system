@@ -215,13 +215,46 @@
   font-weight: var(--foundation-weight-semibold);
 }
 
+/* ===== VARIANT: SOLID (Filled background on active) ===== */
+.tab.tab--solid {
+  justify-content: center;
+  border-radius: var(--radius-button);
+  background-color: transparent;
+  background: transparent;
+}
+
+.tab.tab--solid.tab--active {
+  background-color: var(--surface-raised);
+  background: var(--surface-raised);
+  color: var(--text-strong);
+  cursor: default;
+}
+
+.tab.tab--solid.tab--active:hover {
+  background-color: var(--surface-raised);
+  background: var(--surface-raised);
+  color: var(--text-strong);
+}
+
+/* Solid + accent */
+.tab.tab--solid.tab--accent.tab--active {
+  background-color: var(--surface-accent-muted);
+  background: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
+.tab.tab--solid.tab--accent.tab--active:hover {
+  background-color: var(--surface-accent-muted);
+  background: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
 /* ===== VARIANT: LINE (Underline indicator on active) ===== */
 .tab.tab--line {
   justify-content: center;
   background-color: transparent;
   background: transparent;
   border-radius: var(--radius-button);
-  padding: var(--foundation-space-2) var(--foundation-space-3);
 }
 
 .tab.tab--line.tab--active {
@@ -504,6 +537,12 @@
   margin: 0;
   position: relative;
   gap: var(--foundation-space-1);
+}
+
+/* Solid variant container */
+.tab-group--solid {
+  gap: var(--foundation-space-1);
+  border-bottom: none;
 }
 
 /* Subtle variant container */

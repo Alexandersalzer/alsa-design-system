@@ -17,6 +17,7 @@ import './Tabs.css'
 
 /**
  * Tab variants (following Chakra UI naming):
+ * - `solid`: Filled background on active tab
  * - `line`: Underline indicator on active tab (default)
  * - `subtle`: Subtle background on active tab
  * - `enclosed`: Enclosed/card-style tabs with border (folder-style)
@@ -24,7 +25,7 @@ import './Tabs.css'
  * - `plain`: Minimal styling, text only
  * - `navigation`: Sidebar/vertical navigation (special case)
  */
-export type TabVariant = 'line' | 'subtle' | 'enclosed' | 'outline' | 'plain' | 'navigation';
+export type TabVariant = 'solid' | 'line' | 'subtle' | 'enclosed' | 'outline' | 'plain' | 'navigation';
 export type TabSize = 'sm' | 'md' | 'lg';
 
 interface BaseTabProps {
