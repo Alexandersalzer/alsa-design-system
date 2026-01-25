@@ -15,23 +15,29 @@ import { cn } from '../../../utils/cn';
 // ===============================================
 
 /**
- * Tab variants (following Chakra UI naming):
- * - `line`: Underline indicator on active tab (default)
- * - `subtle`: Subtle background on active tab
- * - `enclosed`: Enclosed/card-style tabs with border (folder-style)
- * - `outline`: Outlined/bordered tabs with underline on active
- * - `plain`: Minimal styling, text only
- * - `navigation`: Sidebar/vertical navigation (special case)
+ * Tab variants:
+ * - `navigation`: Sidebar/vertical navigation with accent background on active
+ * - `page`: Underline + accent-muted background on active (default page tabs)
+ * - `underline`: Underline + accent text on active, no background
+ * - `pill`: Accent background on active, no underline (compact pills)
+ * - `soft`: Like pill - accent-muted background on active, no underline
+ * - `segment`: Bordered pills with accent background (legacy, use pill instead)
  */
-export type TabVariant = 'line' | 'subtle' | 'enclosed' | 'outline' | 'plain' | 'navigation';
+export type TabVariant = 'navigation' | 'page' | 'underline' | 'pill' | 'soft' | 'segment';
 export type TabSize = 'sm' | 'md' | 'lg';
+
+/**
+ * Tab color scheme:
+ * - `accent`: Uses accent colors for active state (text-accent, surface-accent-muted)
+ * - `neutral`: Uses neutral colors for active state (text-primary, surface-raised)
+ */
+export type TabColorScheme = 'accent' | 'neutral';
 
 interface BaseTabProps {
   children: ReactNode;
   variant?: TabVariant;
   size?: TabSize;
-  /** When true, uses accent colors (text-accent, surface-accent-muted). Default false uses neutral colors. */
-  isAccent?: boolean;
+  colorScheme?: TabColorScheme;
   isActive?: boolean;
   isDisabled?: boolean;
   icon?: ReactNode;
@@ -61,8 +67,7 @@ export type TabProps = LinkTabProps | ButtonTabProps;
 export interface TabGroupProps {
   children: ReactNode;
   variant?: TabVariant;
-  /** When true, uses accent colors (text-accent, surface-accent-muted). Default false uses neutral colors. */
-  isAccent?: boolean;
+  colorScheme?: TabColorScheme;
   orientation?: 'horizontal' | 'vertical';
   className?: string;
   animated?: boolean;
@@ -86,7 +91,7 @@ function createTabTypographyProps(
   size: TabSize,
   isActive: boolean,
   isDisabled: boolean,
-  isAccent: boolean = false
+  colorScheme: TabColorScheme = 'accent'
 ): TabTypographyProps {
   const sizeMap: Record<TabSize, LabelSize> = {
     sm: 'xs',
@@ -97,8 +102,8 @@ function createTabTypographyProps(
   const getColor = (): TypographyColor => {
     if (isDisabled) return 'disabled';
     if (isActive) {
-      // isAccent uses accent color, otherwise uses primary (which renders as strong)
-      return isAccent ? 'accent' : 'primary';
+      // Accent colorScheme uses accent color, neutral uses primary
+      return colorScheme === 'accent' ? 'accent' : 'primary';
     }
     return 'secondary';
   };
@@ -123,9 +128,9 @@ function createTabTypographyProps(
 
 export const Tab: React.FC<TabProps> = ({
   children,
-  variant = 'line',
+  variant = 'navigation',
   size = 'md',
-  isAccent = false,
+  colorScheme = 'accent',
   isActive = false,
   isDisabled = false,
   icon,
@@ -142,7 +147,7 @@ export const Tab: React.FC<TabProps> = ({
   style,
   ...rest
 }) => {
-  const baseTypographyProps = createTabTypographyProps(variant, size, isActive, isDisabled, isAccent);
+  const baseTypographyProps = createTabTypographyProps(variant, size, isActive, isDisabled, colorScheme);
 
   const getWeight = (): TypographyWeight => {
     if (fontWeight) return fontWeight;
@@ -162,7 +167,7 @@ export const Tab: React.FC<TabProps> = ({
       return cn(
         'tab',
         'tab--navigation',
-        isAccent && 'tab--accent',
+        `tab--color-${colorScheme}`,
         useHeadingFont && 'tab--heading-font',
         isActive && 'tab--active',
         isDisabled && 'tab--disabled',
@@ -173,7 +178,7 @@ export const Tab: React.FC<TabProps> = ({
     return cn(
       'tab',
       `tab--${variant}`,
-      isAccent && 'tab--accent',
+      `tab--color-${colorScheme}`,
       size !== 'md' && `tab--${size}`,
       useHeadingFont && 'tab--heading-font',
       isActive && 'tab--active',
@@ -252,7 +257,7 @@ interface TabChildProps {
   onClick?: () => void;
   className?: string;
   isActive?: boolean;
-  isAccent?: boolean;
+  colorScheme?: TabColorScheme;
   tabIndex?: number;
   onFocus?: (e: React.FocusEvent) => void;
   [key: string]: unknown;
@@ -260,8 +265,8 @@ interface TabChildProps {
 
 export const TabGroup: React.FC<TabGroupProps> = ({
   children,
-  variant = 'line',
-  isAccent = false,
+  variant = 'page',
+  colorScheme = 'accent',
   orientation = 'horizontal',
   className = '',
   animated = true,
@@ -400,7 +405,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
       const enhancedProps: Partial<TabChildProps> = {
         ...childProps,
         className: cn(childProps.className, animated && 'tab--animated'),
-        isAccent: childProps.isAccent ?? isAccent,
+        colorScheme: childProps.colorScheme ?? colorScheme,
       };
 
       if (variant === 'navigation') {
@@ -432,14 +437,12 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     `tab-group--${variant}`,
     `tab-group--${orientation}`,
     `tab-group--justify-${justify}`,
-    isAccent && 'tab-group--accent',
     animated && 'tab-group--animated',
     className
   );
 
-  // Show indicator only for line variant (outline uses folder-style borders instead)
   const showIndicator =
-    animated && orientation === 'horizontal' && variant === 'line';
+    animated && orientation === 'horizontal' && (variant === 'page' || variant === 'underline' || variant === 'segment');
 
   return (
     <div
@@ -451,7 +454,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     >
       {showIndicator && (
         <div
-          className={`tab-group__indicator tab-group__indicator--${variant}`}
+          className={`tab-group__indicator tab-group__indicator--${variant === 'underline' ? 'page' : variant}`}
           style={{
             width: `${indicatorStyle.width}px`,
             left: `${indicatorStyle.left}px`,

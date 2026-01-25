@@ -131,7 +131,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
     return (
       <div className="portfolio-grid-container">
         {hasTabs && (
-          <TabGroup variant="subtle" className="mb-6">
+          <TabGroup variant="pill" className="mb-6">
             {buttons.map((btn: { label: string; value: string }) => (
               <Tab
                 key={btn.value}
@@ -159,8 +159,8 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
     <VStack>
 
       {hasTabs && (
-        <TabGroup
-          variant="line"
+        <TabGroup 
+          variant="page" 
           orientation="horizontal"
           className="mb-6"
           justify='center'

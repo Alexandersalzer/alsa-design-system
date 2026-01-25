@@ -16,7 +16,7 @@
   font-weight: var(--foundation-weight-medium);
   text-decoration: none;
 
-  /* Colors - Default neutral (non-accent) */
+  /* Colors - Using semantic tokens */
   color: var(--text-muted);
   background-color: transparent;
 
@@ -55,39 +55,23 @@
   font-weight: var(--foundation-weight-bold);
 }
 
-/* ===== HOVER STATE (neutral/default) ===== */
+/* ===== HOVER STATE ===== */
 .tab:hover:not(.tab--active):not(.tab--disabled) {
   background-color: var(--surface-hover);
   color: var(--text-default);
 }
 
-/* ===== ACTIVE/SELECTED STATE (neutral/default) ===== */
+/* ===== ACTIVE/SELECTED STATE ===== */
 .tab--active {
-  background-color: var(--surface-raised);
-  color: var(--text-strong);
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
   cursor: default;
 }
 
-/* Active tabs should NOT have hover effect */
+/* Active tabs should NOT have hover effect - they represent current state */
 .tab--active:hover {
-  background-color: var(--surface-raised);
-  color: var(--text-strong);
-}
-
-/* ===== ACCENT COLOR MODE ===== */
-/* When isAccent=true, use accent colors */
-.tab--accent.tab--active {
   background-color: var(--surface-accent-muted);
   color: var(--text-accent);
-}
-
-.tab--accent.tab--active:hover {
-  background-color: var(--surface-accent-muted);
-  color: var(--text-accent);
-}
-
-.tab--accent.tab--active .tab__icon svg {
-  color: var(--icon-accent);
 }
 
 /* ===== DISABLED STATE ===== */
@@ -119,7 +103,7 @@
 }
 
 .tab--active .tab__icon svg {
-  color: var(--icon-strong);
+  color: var(--icon-accent);
 }
 
 .tab--disabled .tab__icon svg {
@@ -142,8 +126,8 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  background: var(--surface-subtle);
-  color: var(--text-default);
+  background: var(--surface-accent-subtle);
+  color: var(--text-accent);
   font-size: 11px;
   font-weight: 600;
   padding: 2px 6px;
@@ -152,12 +136,6 @@
   height: 18px;
   justify-content: center;
   line-height: 1;
-}
-
-/* Badge with accent */
-.tab--accent .tab__badge {
-  background: var(--surface-accent-subtle);
-  color: var(--text-accent);
 }
 
 /* ===== SIZE VARIANTS ===== */
@@ -192,7 +170,6 @@
 .tab--navigation {
   width: 100%;
   justify-content: flex-start;
-  border-radius: var(--radius-button);
 }
 
 .tab--navigation .tab__label {
@@ -204,205 +181,181 @@
   font-weight: var(--foundation-weight-semibold);
 }
 
-/* ===== VARIANT: LINE (Underline indicator on active) ===== */
-.tab--line {
+/* ===== VARIANT: PAGE (Underline + accent-muted background on active) ===== */
+.tab--page {
   justify-content: center;
-  background: transparent;
-  border-radius: var(--radius-button);
-  padding: var(--foundation-space-2) var(--foundation-space-3);
-}
-
-.tab--line.tab--active {
-  background: transparent;
-  color: var(--text-strong);
-  cursor: default;
-}
-
-.tab--line.tab--active:hover {
-  background: transparent;
-  color: var(--text-strong);
-}
-
-/* Line + accent */
-.tab--line.tab--accent.tab--active {
-  background: transparent;
-  color: var(--text-accent);
-}
-
-.tab--line.tab--accent.tab--active:hover {
-  background: transparent;
-  color: var(--text-accent);
-}
-
-/* ===== VARIANT: SUBTLE (Visible filled background on active) ===== */
-/* Uses --surface-subtle for clear visual separation */
-.tab--subtle {
-  justify-content: center;
-  border-radius: var(--radius-button);
-  background: transparent;
-}
-
-.tab--subtle.tab--active {
-  background-color: var(--surface-subtle);
-  color: var(--text-strong);
-  cursor: default;
-}
-
-.tab--subtle.tab--active:hover {
-  background-color: var(--surface-subtle);
-  color: var(--text-strong);
-}
-
-/* Subtle + accent */
-.tab--subtle.tab--accent.tab--active {
-  background-color: var(--surface-accent-subtle);
-  color: var(--text-accent);
-}
-
-.tab--subtle.tab--accent.tab--active:hover {
-  background-color: var(--surface-accent-subtle);
-  color: var(--text-accent);
-}
-
-/* ===== VARIANT: ENCLOSED (Only active tab has folder border) ===== */
-/* Inactive tabs are "open" - only the selected tab looks like a folder tab */
-.tab--enclosed {
-  justify-content: center;
-  border-radius: var(--radius-button) var(--radius-button) 0 0;
-  background: transparent;
-  border: 1px solid transparent;
-  border-bottom: 0;
-  position: relative;
-  z-index: 0;
+  border-bottom: none;
   margin-bottom: 0;
-}
-
-.tab--enclosed.tab--active {
-  background-color: var(--surface-card);
-  color: var(--text-strong);
-  border-color: var(--border-default);
-  border-bottom: 0;
-  cursor: default;
-  z-index: 2;
-}
-
-.tab--enclosed.tab--active:hover {
-  background-color: var(--surface-card);
-  color: var(--text-strong);
-}
-
-/* Mask the group divider line under the active tab */
-.tab-group--enclosed .tab--enclosed.tab--active::after {
-  content: "";
-  position: absolute;
-  left: -1px;
-  right: -1px;
-  bottom: -1px;
-  height: 1px;
-  background: var(--surface-card);
-}
-
-/* Enclosed + accent */
-.tab--enclosed.tab--accent.tab--active {
-  background-color: var(--surface-card);
-  color: var(--text-accent);
-  border-color: var(--border-accent);
-}
-
-.tab--enclosed.tab--accent.tab--active:hover {
-  background-color: var(--surface-card);
-  color: var(--text-accent);
-}
-
-/* ===== VARIANT: OUTLINE (ALL tabs are bordered) ===== */
-/* Every tab has a border, unlike enclosed where only active has border */
-.tab--outline {
-  justify-content: center;
-  border-radius: var(--radius-button) var(--radius-button) 0 0;
   background: transparent;
+}
+
+.tab--page::before,
+.tab--page::after {
+  display: none;
+}
+
+.tab--page.tab--active {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+  cursor: default;
+}
+
+/* Active page tabs should not have hover effect */
+.tab--page.tab--active:hover {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
+/* ===== VARIANT: UNDERLINE (Underline + accent text, no background) ===== */
+.tab--underline {
+  justify-content: center;
+  border-bottom: none;
+  margin-bottom: 0;
+  background: transparent;
+}
+
+.tab--underline.tab--active {
+  background: transparent;
+  color: var(--text-accent);
+  cursor: default;
+}
+
+/* Active underline tabs should not have hover effect */
+.tab--underline.tab--active:hover {
+  background: transparent;
+  color: var(--text-accent);
+}
+
+/* ===== VARIANT: PILL (Accent background, no underline) ===== */
+.tab--pill {
+  justify-content: center;
+  border-radius: var(--radius-button);
+  background: transparent;
+}
+
+.tab--pill.tab--active {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+  cursor: default;
+}
+
+/* Active pill tabs should not have hover effect */
+.tab--pill.tab--active:hover {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
+/* ===== VARIANT: SOFT (Like pill - accent-muted background, no underline) ===== */
+.tab--soft {
+  justify-content: center;
+  border-radius: var(--radius-button);
+  background: transparent;
+}
+
+.tab--soft.tab--active {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+  cursor: default;
+}
+
+/* Active soft tabs should not have hover effect */
+.tab--soft.tab--active:hover {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
+/* ===== COLOR SCHEME: NEUTRAL ===== */
+/* Neutral colorScheme uses primary text and raised surface instead of accent */
+
+.tab--color-neutral.tab--active {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+.tab--color-neutral.tab--active:hover {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+.tab--color-neutral.tab--active .tab__icon svg {
+  color: var(--icon-primary);
+}
+
+/* Neutral + page variant */
+.tab--page.tab--color-neutral.tab--active {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+.tab--page.tab--color-neutral.tab--active:hover {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+/* Neutral + underline variant (no background, just text) */
+.tab--underline.tab--color-neutral.tab--active {
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.tab--underline.tab--color-neutral.tab--active:hover {
+  background: transparent;
+  color: var(--text-primary);
+}
+
+/* Neutral + pill variant */
+.tab--pill.tab--color-neutral.tab--active {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+.tab--pill.tab--color-neutral.tab--active:hover {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+/* Neutral + soft variant */
+.tab--soft.tab--color-neutral.tab--active {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+.tab--soft.tab--color-neutral.tab--active:hover {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+/* Neutral + navigation variant */
+.tab--navigation.tab--color-neutral.tab--active {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+.tab--navigation.tab--color-neutral.tab--active:hover {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+/* ===== VARIANT: SEGMENT (Compact pills) ===== */
+.tab--segment {
+  justify-content: center;
+  border-radius: var(--radius-xl);
   border: 1px solid var(--border-default);
-  border-bottom: 0;
-  position: relative;
-  z-index: 0;
-  margin-bottom: 0;
+  padding: var(--foundation-space-1) var(--foundation-space-3);
+  font-size: var(--font-label-sm-size);
+  background-color: var(--surface-raised);
 }
 
-.tab--outline:hover:not(.tab--active):not(.tab--disabled) {
+.tab--segment:hover:not(.tab--active):not(.tab--disabled) {
   border-color: var(--border-hover);
   background-color: var(--surface-hover);
 }
 
-.tab--outline.tab--active {
-  background-color: var(--surface-card);
-  color: var(--text-strong);
-  border-color: var(--border-default);
-  border-bottom: 0;
-  cursor: default;
-  z-index: 2;
-}
-
-.tab--outline.tab--active:hover {
-  background-color: var(--surface-card);
-  color: var(--text-strong);
-}
-
-/* Mask the group divider line under the active tab */
-.tab-group--outline .tab--outline.tab--active::after {
-  content: "";
-  position: absolute;
-  left: -1px;
-  right: -1px;
-  bottom: -1px;
-  height: 1px;
-  background: var(--surface-card);
-}
-
-/* Outline + accent */
-.tab--outline.tab--accent.tab--active {
-  background-color: var(--surface-card);
-  color: var(--text-accent);
+.tab--segment.tab--active {
   border-color: var(--border-accent);
-}
-
-.tab--outline.tab--accent.tab--active:hover {
-  background-color: var(--surface-card);
+  background-color: var(--surface-accent-muted);
   color: var(--text-accent);
-}
-
-/* ===== VARIANT: PLAIN (Truly minimal, text only) ===== */
-/* No pill shape, no borders - just text navigation */
-.tab--plain {
-  justify-content: center;
-  background: transparent;
-  border-radius: 0;
-  padding: var(--foundation-space-1) var(--foundation-space-2);
-}
-
-.tab--plain:hover:not(.tab--active):not(.tab--disabled) {
-  background: transparent;
-  color: var(--text-default);
-}
-
-.tab--plain.tab--active {
-  background: transparent;
-  color: var(--text-strong);
-  cursor: default;
-}
-
-.tab--plain.tab--active:hover {
-  background: transparent;
-  color: var(--text-strong);
-}
-
-/* Plain + accent */
-.tab--plain.tab--accent.tab--active {
-  background: transparent;
-  color: var(--text-accent);
-}
-
-.tab--plain.tab--accent.tab--active:hover {
-  background: transparent;
-  color: var(--text-accent);
+  box-shadow: 0 2px 4px var(--surface-accent-muted);
 }
 
 /* ===== TAB GROUP CONTAINER ===== */
@@ -462,47 +415,40 @@
 }
 
 /* ===== TAB GROUP: VARIANT STYLES ===== */
-/* Folder-style variants should not inherit the padded/negative-margin group behavior */
 
-/* Line variant container (underline indicator) */
-.tab-group--line {
+/* Page variant container */
+.tab-group--page {
   border-bottom: 1px solid var(--border-default);
-  padding: 0;
-  margin: 0;
+  padding-bottom: var(--foundation-space-2);
   position: relative;
-  gap: var(--foundation-space-1);
 }
 
-/* Subtle variant container */
-.tab-group--subtle {
-  gap: var(--foundation-space-1);
+/* Underline variant container (same as page but can be styled differently) */
+.tab-group--underline {
+  border-bottom: 1px solid var(--border-default);
+  padding-bottom: var(--foundation-space-2);
+  position: relative;
+}
+
+/* Pill variant container (no border, no underline, just spacing) */
+.tab-group--pill {
+  gap: var(--foundation-space-2);
   border-bottom: none;
 }
 
-/* Enclosed variant container (folder-style) */
-.tab-group--enclosed {
-  border-bottom: 1px solid var(--border-default);
-  position: relative;
-  gap: 0;
-  padding: 0;
-  margin: 0;
-}
-
-/* Outline variant container (folder-style, all tabs bordered) */
-.tab-group--outline {
-  border-bottom: 1px solid var(--border-default);
-  position: relative;
-  gap: 0;
-  padding: 0;
-  margin: 0;
-}
-
-/* Plain variant container (truly minimal) */
-.tab-group--plain {
-  gap: var(--foundation-space-1);
+/* Soft variant container (like pill but more subtle - accent-muted background) */
+.tab-group--soft {
+  gap: var(--foundation-space-2);
   border-bottom: none;
-  padding: 0;
-  margin: 0;
+}
+
+/* Segment variant container */
+.tab-group--segment {
+  background-color: var(--surface-raised);
+  border-radius: var(--radius-xl);
+  padding: var(--foundation-space-1);
+  gap: var(--foundation-space-1);
+  border: 1px solid var(--border-default);
 }
 
 /* ===== ANIMATED INDICATOR ===== */
@@ -514,24 +460,32 @@
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-/* Line indicator (underline) - neutral by default */
-.tab-group__indicator--line {
+/* Page indicator (underline) */
+.tab-group__indicator--page {
   position: absolute;
   bottom: 0;
   height: 2px;
-  background: var(--text-strong);
+  background: var(--surface-accent);
   border-radius: var(--radius-xl);
   transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
     width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--surface-accent) 30%, transparent);
   z-index: 10;
 }
 
-/* Line indicator - accent mode */
-.tab-group--accent .tab-group__indicator--line {
+/* Segment indicator (pill background) */
+.tab-group__indicator--segment {
+  position: absolute;
   background: var(--surface-accent);
-  box-shadow: 0 0 8px color-mix(in srgb, var(--surface-accent) 30%, transparent);
+  border-radius: var(--radius-xl);
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.3s cubic-bezier(0.4, 0, 0.2, 1), top 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
+  box-shadow: 0 2px 4px color-mix(in srgb, var(--surface-accent) 20%, transparent),
+    0 1px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-accent);
+  z-index: 1;
 }
-
 
 /* ===== NAVIGATION SIDEBAR ANIMATION ===== */
 .tab-group--navigation.tab-group--animated .tab {
@@ -543,10 +497,6 @@
 }
 
 .tab-group--navigation.tab-group--animated .tab--active {
-  background-color: var(--surface-raised);
-}
-
-.tab-group--navigation.tab-group--animated .tab--accent.tab--active {
   background-color: var(--surface-accent-muted);
 }
 
@@ -571,7 +521,8 @@
   }
 
   /* Hide animated indicator on mobile - it doesn't align correctly with overflow scroll */
-  .tab-group__indicator--line {
+  .tab-group__indicator--page,
+  .tab-group__indicator--segment {
     display: none;
   }
 
@@ -580,14 +531,25 @@
     min-height: 44px;
   }
 
-  .tab--line {
-    padding: var(--foundation-space-2) var(--foundation-space-3);
+  .tab--page {
+    padding: var(--foundation-space-2) var(--foundation-space-4)
+      var(--foundation-space-3);
   }
 }
 
 @media (max-width: 480px) {
   .tab__label {
     font-size: 13px;
+  }
+
+  .tab-group--segment {
+    padding: 2px;
+    gap: 2px;
+  }
+
+  .tab--segment {
+    padding: 6px 10px;
+    font-size: 12px;
   }
 }
 
@@ -598,11 +560,6 @@
 }
 
 .tab[aria-current='page'] {
-  background-color: var(--surface-raised);
-  color: var(--text-strong);
-}
-
-.tab--accent[aria-current='page'] {
   background-color: var(--surface-accent-muted);
   color: var(--text-accent);
 }
@@ -611,7 +568,8 @@
 @media (prefers-reduced-motion: reduce) {
   .tab--animated,
   .tab,
-  .tab-group__indicator--line,
+  .tab-group__indicator--page,
+  .tab-group__indicator--segment,
   .tab-group--navigation.tab-group--animated .tab {
     transition: background-color 0.15s ease, color 0.15s ease !important;
   }
@@ -626,6 +584,10 @@
   .tab--active {
     background: Highlight;
     color: HighlightText;
+  }
+
+  .tab-group--segment {
+    border: 2px solid ButtonBorder;
   }
 }
 
