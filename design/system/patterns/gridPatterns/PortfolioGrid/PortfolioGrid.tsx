@@ -160,7 +160,7 @@ export const PortfolioGrid: React.FC<PatternNode> = (patternNode) => {
 
       {hasTabs && (
         <TabGroup
-          variant="line"
+          variant="subtle"
           orientation="horizontal"
           className="mb-6"
           justify='center'
