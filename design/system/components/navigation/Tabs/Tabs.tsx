@@ -9,6 +9,7 @@ import React, { ReactNode, useState, useRef, useEffect, useCallback } from 'reac
 import Link from 'next/link';
 import { Label, TypographyWeight, TypographyColor } from '../../Typography';
 import { cn } from '../../../utils/cn';
+import './Tabs.css'
 
 // ===============================================
 // TYPES
