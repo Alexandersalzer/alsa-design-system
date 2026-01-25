@@ -265,7 +265,7 @@ interface TabChildProps {
 
 export const TabGroup: React.FC<TabGroupProps> = ({
   children,
-  variant = 'navigation',
+  variant = 'page',
   colorScheme = 'accent',
   orientation = 'horizontal',
   className = '',
