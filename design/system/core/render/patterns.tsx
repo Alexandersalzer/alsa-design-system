@@ -23,6 +23,7 @@ export interface LayoutContext {
 /**
  * Renders a pattern component without Container wrapper
  * Used when patterns need to share the same Container
+ * Wraps in display: contents div to maintain data-pattern-key for EditorOverlay
  */
 export const renderPatternDirect = (
   pattern: PatternNode,
@@ -37,16 +38,17 @@ export const renderPatternDirect = (
   }
 
   return (
-    <PatternComponent
-      key={patternKey}
-      type={pattern.type}
-      props={pattern.props}
-      components={pattern.components}
-      order={pattern.order}
-      sectionKey={sectionKey}
-      patternKey={patternKey}
-      layoutContext={layoutContext}
-    />
+    <div key={patternKey} data-pattern-key={patternKey} style={{ display: 'contents' }}>
+      <PatternComponent
+        type={pattern.type}
+        props={pattern.props}
+        components={pattern.components}
+        order={pattern.order}
+        sectionKey={sectionKey}
+        patternKey={patternKey}
+        layoutContext={layoutContext}
+      />
+    </div>
   );
 };
 
