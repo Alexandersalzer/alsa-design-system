@@ -253,6 +253,7 @@ export const Tab: React.FC<TabProps> = ({
 interface TabChildProps {
   onClick?: () => void;
   className?: string;
+  variant?: TabVariant;
   isActive?: boolean;
   isAccent?: boolean;
   tabIndex?: number;
@@ -402,6 +403,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
       const enhancedProps: Partial<TabChildProps> = {
         ...childProps,
         className: cn(childProps.className, animated && 'tab--animated'),
+        variant: childProps.variant ?? variant,
         isAccent: childProps.isAccent ?? isAccent,
       };
 
