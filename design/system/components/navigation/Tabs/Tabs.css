@@ -5,6 +5,11 @@
 
 /* ===== BASE TAB STYLES ===== */
 .tab {
+  /* Reset browser button defaults */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
   /* Layout */
   display: inline-flex;
   align-items: center;
@@ -16,9 +21,10 @@
   font-weight: var(--foundation-weight-medium);
   text-decoration: none;
 
-  /* Colors - Default neutral (non-accent) */
+  /* Colors - Default neutral */
   color: var(--text-muted);
   background-color: transparent;
+  background: transparent;
 
   /* Interaction */
   cursor: pointer;
@@ -58,31 +64,36 @@
 /* ===== HOVER STATE (neutral/default) ===== */
 .tab:hover:not(.tab--active):not(.tab--disabled) {
   background-color: var(--surface-hover);
+  background: var(--surface-hover);
   color: var(--text-default);
 }
 
 /* ===== ACTIVE/SELECTED STATE (neutral/default) ===== */
-.tab--active {
+.tab.tab--active {
   background-color: var(--surface-raised);
+  background: var(--surface-raised);
   color: var(--text-strong);
   cursor: default;
 }
 
 /* Active tabs should NOT have hover effect */
-.tab--active:hover {
+.tab.tab--active:hover {
   background-color: var(--surface-raised);
+  background: var(--surface-raised);
   color: var(--text-strong);
 }
 
 /* ===== ACCENT COLOR MODE ===== */
 /* When isAccent=true, use accent colors */
-.tab--accent.tab--active {
+.tab.tab--accent.tab--active {
   background-color: var(--surface-accent-muted);
+  background: var(--surface-accent-muted);
   color: var(--text-accent);
 }
 
-.tab--accent.tab--active:hover {
+.tab.tab--accent.tab--active:hover {
   background-color: var(--surface-accent-muted);
+  background: var(--surface-accent-muted);
   color: var(--text-accent);
 }
 
@@ -205,70 +216,79 @@
 }
 
 /* ===== VARIANT: LINE (Underline indicator on active) ===== */
-.tab--line {
+.tab.tab--line {
   justify-content: center;
+  background-color: transparent;
   background: transparent;
   border-radius: var(--radius-button);
   padding: var(--foundation-space-2) var(--foundation-space-3);
 }
 
-.tab--line.tab--active {
+.tab.tab--line.tab--active {
+  background-color: transparent;
   background: transparent;
   color: var(--text-strong);
   cursor: default;
 }
 
-.tab--line.tab--active:hover {
+.tab.tab--line.tab--active:hover {
+  background-color: transparent;
   background: transparent;
   color: var(--text-strong);
 }
 
 /* Line + accent */
-.tab--line.tab--accent.tab--active {
+.tab.tab--line.tab--accent.tab--active {
+  background-color: transparent;
   background: transparent;
   color: var(--text-accent);
 }
 
-.tab--line.tab--accent.tab--active:hover {
+.tab.tab--line.tab--accent.tab--active:hover {
+  background-color: transparent;
   background: transparent;
   color: var(--text-accent);
 }
 
 /* ===== VARIANT: SUBTLE (Visible filled background on active) ===== */
-/* Uses --surface-subtle for clear visual separation */
-.tab--subtle {
+.tab.tab--subtle {
   justify-content: center;
   border-radius: var(--radius-button);
+  background-color: transparent;
   background: transparent;
 }
 
-.tab--subtle.tab--active {
+.tab.tab--subtle.tab--active {
   background-color: var(--surface-subtle);
+  background: var(--surface-subtle);
   color: var(--text-strong);
   cursor: default;
 }
 
-.tab--subtle.tab--active:hover {
+.tab.tab--subtle.tab--active:hover {
   background-color: var(--surface-subtle);
+  background: var(--surface-subtle);
   color: var(--text-strong);
 }
 
 /* Subtle + accent */
-.tab--subtle.tab--accent.tab--active {
+.tab.tab--subtle.tab--accent.tab--active {
   background-color: var(--surface-accent-subtle);
+  background: var(--surface-accent-subtle);
   color: var(--text-accent);
 }
 
-.tab--subtle.tab--accent.tab--active:hover {
+.tab.tab--subtle.tab--accent.tab--active:hover {
   background-color: var(--surface-accent-subtle);
+  background: var(--surface-accent-subtle);
   color: var(--text-accent);
 }
 
 /* ===== VARIANT: ENCLOSED (Only active tab has folder border) ===== */
-/* Inactive tabs are "open" - only the selected tab looks like a folder tab */
-.tab--enclosed {
+.tab.tab--enclosed {
   justify-content: center;
   border-radius: var(--radius-button) var(--radius-button) 0 0;
+  background-color: transparent;
   background: transparent;
   border: 1px solid transparent;
   border-bottom: 0;
@@ -277,8 +297,9 @@
   margin-bottom: 0;
 }
 
-.tab--enclosed.tab--active {
+.tab.tab--enclosed.tab--active {
   background-color: var(--surface-card);
+  background: var(--surface-card);
   color: var(--text-strong);
   border-color: var(--border-default);
   border-bottom: 0;
@@ -286,13 +307,14 @@
   z-index: 2;
 }
 
-.tab--enclosed.tab--active:hover {
+.tab.tab--enclosed.tab--active:hover {
   background-color: var(--surface-card);
+  background: var(--surface-card);
   color: var(--text-strong);
 }
 
 /* Mask the group divider line under the active tab */
-.tab-group--enclosed .tab--enclosed.tab--active::after {
+.tab-group--enclosed .tab.tab--enclosed.tab--active::after {
   content: "";
   position: absolute;
   left: -1px;
@@ -303,22 +325,24 @@
 }
 
 /* Enclosed + accent */
-.tab--enclosed.tab--accent.tab--active {
+.tab.tab--enclosed.tab--accent.tab--active {
   background-color: var(--surface-card);
+  background: var(--surface-card);
   color: var(--text-accent);
   border-color: var(--border-accent);
 }
 
-.tab--enclosed.tab--accent.tab--active:hover {
+.tab.tab--enclosed.tab--accent.tab--active:hover {
   background-color: var(--surface-card);
+  background: var(--surface-card);
   color: var(--text-accent);
 }
 
 /* ===== VARIANT: OUTLINE (ALL tabs are bordered) ===== */
-/* Every tab has a border, unlike enclosed where only active has border */
-.tab--outline {
+.tab.tab--outline {
   justify-content: center;
   border-radius: var(--radius-button) var(--radius-button) 0 0;
+  background-color: transparent;
   background: transparent;
   border: 1px solid var(--border-default);
   border-bottom: 0;
@@ -327,13 +351,15 @@
   margin-bottom: 0;
 }
 
-.tab--outline:hover:not(.tab--active):not(.tab--disabled) {
+.tab.tab--outline:hover:not(.tab--active):not(.tab--disabled) {
   border-color: var(--border-hover);
   background-color: var(--surface-hover);
+  background: var(--surface-hover);
 }
 
-.tab--outline.tab--active {
+.tab.tab--outline.tab--active {
   background-color: var(--surface-card);
+  background: var(--surface-card);
   color: var(--text-strong);
   border-color: var(--border-default);
   border-bottom: 0;
@@ -341,13 +367,14 @@
   z-index: 2;
 }
 
-.tab--outline.tab--active:hover {
+.tab.tab--outline.tab--active:hover {
   background-color: var(--surface-card);
+  background: var(--surface-card);
   color: var(--text-strong);
 }
 
 /* Mask the group divider line under the active tab */
-.tab-group--outline .tab--outline.tab--active::after {
+.tab-group--outline .tab.tab--outline.tab--active::after {
   content: "";
   position: absolute;
   left: -1px;
@@ -358,49 +385,56 @@
 }
 
 /* Outline + accent */
-.tab--outline.tab--accent.tab--active {
+.tab.tab--outline.tab--accent.tab--active {
   background-color: var(--surface-card);
+  background: var(--surface-card);
   color: var(--text-accent);
   border-color: var(--border-accent);
 }
 
-.tab--outline.tab--accent.tab--active:hover {
+.tab.tab--outline.tab--accent.tab--active:hover {
   background-color: var(--surface-card);
+  background: var(--surface-card);
   color: var(--text-accent);
 }
 
 /* ===== VARIANT: PLAIN (Truly minimal, text only) ===== */
-/* No pill shape, no borders - just text navigation */
-.tab--plain {
+.tab.tab--plain {
   justify-content: center;
+  background-color: transparent;
   background: transparent;
   border-radius: 0;
   padding: var(--foundation-space-1) var(--foundation-space-2);
 }
 
-.tab--plain:hover:not(.tab--active):not(.tab--disabled) {
+.tab.tab--plain:hover:not(.tab--active):not(.tab--disabled) {
+  background-color: transparent;
   background: transparent;
   color: var(--text-default);
 }
 
-.tab--plain.tab--active {
+.tab.tab--plain.tab--active {
+  background-color: transparent;
   background: transparent;
   color: var(--text-strong);
   cursor: default;
 }
 
-.tab--plain.tab--active:hover {
+.tab.tab--plain.tab--active:hover {
+  background-color: transparent;
   background: transparent;
   color: var(--text-strong);
 }
 
 /* Plain + accent */
-.tab--plain.tab--accent.tab--active {
+.tab.tab--plain.tab--accent.tab--active {
+  background-color: transparent;
   background: transparent;
   color: var(--text-accent);
 }
 
-.tab--plain.tab--accent.tab--active:hover {
+.tab.tab--plain.tab--accent.tab--active:hover {
+  background-color: transparent;
   background: transparent;
   color: var(--text-accent);
 }
@@ -462,7 +496,6 @@
 }
 
 /* ===== TAB GROUP: VARIANT STYLES ===== */
-/* Folder-style variants should not inherit the padded/negative-margin group behavior */
 
 /* Line variant container (underline indicator) */
 .tab-group--line {
@@ -542,12 +575,14 @@
   background-color: var(--surface-hover);
 }
 
-.tab-group--navigation.tab-group--animated .tab--active {
+.tab-group--navigation.tab-group--animated .tab.tab--active {
   background-color: var(--surface-raised);
+  background: var(--surface-raised);
 }
 
-.tab-group--navigation.tab-group--animated .tab--accent.tab--active {
+.tab-group--navigation.tab-group--animated .tab.tab--accent.tab--active {
   background-color: var(--surface-accent-muted);
+  background: var(--surface-accent-muted);
 }
 
 /* ===== PRESS FEEDBACK ===== */
@@ -555,8 +590,8 @@
   transform: scale(0.97);
 }
 
-.tab--active {
-  transform: none !important;
+.tab.tab--active {
+  transform: none;
 }
 
 .tab {
@@ -613,7 +648,7 @@
   .tab,
   .tab-group__indicator--line,
   .tab-group--navigation.tab-group--animated .tab {
-    transition: background-color 0.15s ease, color 0.15s ease !important;
+    transition: background-color 0.15s ease, color 0.15s ease;
   }
 }
 
@@ -623,7 +658,7 @@
     outline: 2px solid Highlight;
   }
 
-  .tab--active {
+  .tab.tab--active {
     background: Highlight;
     color: HighlightText;
   }
