@@ -181,86 +181,112 @@
   font-weight: var(--foundation-weight-semibold);
 }
 
-/* ===== VARIANT: PAGE (Underline + accent-muted background on active) ===== */
-.tab--page {
+/* ===== VARIANT: LINE (Underline indicator on active - Chakra default) ===== */
+.tab--line {
   justify-content: center;
-  border-bottom: none;
-  margin-bottom: 0;
   background: transparent;
+  border-radius: 0;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
 }
 
-.tab--page::before,
-.tab--page::after {
-  display: none;
-}
-
-.tab--page.tab--active {
-  background-color: var(--surface-accent-muted);
-  color: var(--text-accent);
-  cursor: default;
-}
-
-/* Active page tabs should not have hover effect */
-.tab--page.tab--active:hover {
-  background-color: var(--surface-accent-muted);
-  color: var(--text-accent);
-}
-
-/* ===== VARIANT: UNDERLINE (Underline + accent text, no background) ===== */
-.tab--underline {
-  justify-content: center;
-  border-bottom: none;
-  margin-bottom: 0;
-  background: transparent;
-}
-
-.tab--underline.tab--active {
+.tab--line.tab--active {
   background: transparent;
   color: var(--text-accent);
   cursor: default;
 }
 
-/* Active underline tabs should not have hover effect */
-.tab--underline.tab--active:hover {
+.tab--line.tab--active:hover {
   background: transparent;
   color: var(--text-accent);
 }
 
-/* ===== VARIANT: PILL (Accent background, no underline) ===== */
-.tab--pill {
+/* ===== VARIANT: SUBTLE (Subtle background on active) ===== */
+.tab--subtle {
   justify-content: center;
   border-radius: var(--radius-button);
   background: transparent;
 }
 
-.tab--pill.tab--active {
+.tab--subtle.tab--active {
   background-color: var(--surface-accent-muted);
   color: var(--text-accent);
   cursor: default;
 }
 
-/* Active pill tabs should not have hover effect */
-.tab--pill.tab--active:hover {
+.tab--subtle.tab--active:hover {
   background-color: var(--surface-accent-muted);
   color: var(--text-accent);
 }
 
-/* ===== VARIANT: SOFT (Like pill - accent-muted background, no underline) ===== */
-.tab--soft {
+/* ===== VARIANT: ENCLOSED (Card-style enclosed tabs) ===== */
+.tab--enclosed {
+  justify-content: center;
+  border-radius: var(--radius-button) var(--radius-button) 0 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: none;
+  margin-bottom: -1px;
+}
+
+.tab--enclosed.tab--active {
+  background-color: var(--surface-card);
+  color: var(--text-accent);
+  border-color: var(--border-default);
+  cursor: default;
+}
+
+.tab--enclosed.tab--active:hover {
+  background-color: var(--surface-card);
+  color: var(--text-accent);
+}
+
+/* ===== VARIANT: OUTLINE (Bordered/outlined tabs) ===== */
+.tab--outline {
   justify-content: center;
   border-radius: var(--radius-button);
   background: transparent;
+  border: 1px solid var(--border-default);
 }
 
-.tab--soft.tab--active {
+.tab--outline:hover:not(.tab--active):not(.tab--disabled) {
+  border-color: var(--border-hover);
+  background-color: var(--surface-hover);
+}
+
+.tab--outline.tab--active {
+  border-color: var(--border-accent);
   background-color: var(--surface-accent-muted);
   color: var(--text-accent);
   cursor: default;
 }
 
-/* Active soft tabs should not have hover effect */
-.tab--soft.tab--active:hover {
+.tab--outline.tab--active:hover {
+  border-color: var(--border-accent);
   background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
+/* ===== VARIANT: PLAIN (Minimal, text only) ===== */
+.tab--plain {
+  justify-content: center;
+  background: transparent;
+  border-radius: 0;
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+}
+
+.tab--plain:hover:not(.tab--active):not(.tab--disabled) {
+  background: transparent;
+  color: var(--text-default);
+}
+
+.tab--plain.tab--active {
+  background: transparent;
+  color: var(--text-accent);
+  cursor: default;
+}
+
+.tab--plain.tab--active:hover {
+  background: transparent;
   color: var(--text-accent);
 }
 
@@ -281,47 +307,60 @@
   color: var(--icon-primary);
 }
 
-/* Neutral + page variant */
-.tab--page.tab--color-neutral.tab--active {
-  background-color: var(--surface-raised);
-  color: var(--text-primary);
-}
-
-.tab--page.tab--color-neutral.tab--active:hover {
-  background-color: var(--surface-raised);
-  color: var(--text-primary);
-}
-
-/* Neutral + underline variant (no background, just text) */
-.tab--underline.tab--color-neutral.tab--active {
+/* Neutral + line variant */
+.tab--line.tab--color-neutral.tab--active {
   background: transparent;
   color: var(--text-primary);
 }
 
-.tab--underline.tab--color-neutral.tab--active:hover {
+.tab--line.tab--color-neutral.tab--active:hover {
   background: transparent;
   color: var(--text-primary);
 }
 
-/* Neutral + pill variant */
-.tab--pill.tab--color-neutral.tab--active {
+/* Neutral + subtle variant */
+.tab--subtle.tab--color-neutral.tab--active {
   background-color: var(--surface-raised);
   color: var(--text-primary);
 }
 
-.tab--pill.tab--color-neutral.tab--active:hover {
+.tab--subtle.tab--color-neutral.tab--active:hover {
   background-color: var(--surface-raised);
   color: var(--text-primary);
 }
 
-/* Neutral + soft variant */
-.tab--soft.tab--color-neutral.tab--active {
+/* Neutral + enclosed variant */
+.tab--enclosed.tab--color-neutral.tab--active {
+  background-color: var(--surface-card);
+  color: var(--text-primary);
+}
+
+.tab--enclosed.tab--color-neutral.tab--active:hover {
+  background-color: var(--surface-card);
+  color: var(--text-primary);
+}
+
+/* Neutral + outline variant */
+.tab--outline.tab--color-neutral.tab--active {
+  border-color: var(--border-strong);
   background-color: var(--surface-raised);
   color: var(--text-primary);
 }
 
-.tab--soft.tab--color-neutral.tab--active:hover {
+.tab--outline.tab--color-neutral.tab--active:hover {
+  border-color: var(--border-strong);
   background-color: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+/* Neutral + plain variant */
+.tab--plain.tab--color-neutral.tab--active {
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.tab--plain.tab--color-neutral.tab--active:hover {
+  background: transparent;
   color: var(--text-primary);
 }
 
@@ -334,28 +373,6 @@
 .tab--navigation.tab--color-neutral.tab--active:hover {
   background-color: var(--surface-raised);
   color: var(--text-primary);
-}
-
-/* ===== VARIANT: SEGMENT (Compact pills) ===== */
-.tab--segment {
-  justify-content: center;
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--border-default);
-  padding: var(--foundation-space-1) var(--foundation-space-3);
-  font-size: var(--font-label-sm-size);
-  background-color: var(--surface-raised);
-}
-
-.tab--segment:hover:not(.tab--active):not(.tab--disabled) {
-  border-color: var(--border-hover);
-  background-color: var(--surface-hover);
-}
-
-.tab--segment.tab--active {
-  border-color: var(--border-accent);
-  background-color: var(--surface-accent-muted);
-  color: var(--text-accent);
-  box-shadow: 0 2px 4px var(--surface-accent-muted);
 }
 
 /* ===== TAB GROUP CONTAINER ===== */
@@ -416,39 +433,37 @@
 
 /* ===== TAB GROUP: VARIANT STYLES ===== */
 
-/* Page variant container */
-.tab-group--page {
+/* Line variant container (underline indicator) */
+.tab-group--line {
   border-bottom: 1px solid var(--border-default);
-  padding-bottom: var(--foundation-space-2);
+  padding-bottom: 0;
   position: relative;
+  gap: 0;
 }
 
-/* Underline variant container (same as page but can be styled differently) */
-.tab-group--underline {
-  border-bottom: 1px solid var(--border-default);
-  padding-bottom: var(--foundation-space-2);
-  position: relative;
-}
-
-/* Pill variant container (no border, no underline, just spacing) */
-.tab-group--pill {
-  gap: var(--foundation-space-2);
-  border-bottom: none;
-}
-
-/* Soft variant container (like pill but more subtle - accent-muted background) */
-.tab-group--soft {
-  gap: var(--foundation-space-2);
-  border-bottom: none;
-}
-
-/* Segment variant container */
-.tab-group--segment {
-  background-color: var(--surface-raised);
-  border-radius: var(--radius-xl);
-  padding: var(--foundation-space-1);
+/* Subtle variant container (no border, just spacing) */
+.tab-group--subtle {
   gap: var(--foundation-space-1);
-  border: 1px solid var(--border-default);
+  border-bottom: none;
+}
+
+/* Enclosed variant container (card-style) */
+.tab-group--enclosed {
+  border-bottom: 1px solid var(--border-default);
+  position: relative;
+  gap: 0;
+}
+
+/* Outline variant container */
+.tab-group--outline {
+  gap: var(--foundation-space-2);
+  border-bottom: none;
+}
+
+/* Plain variant container (minimal) */
+.tab-group--plain {
+  gap: var(--foundation-space-1);
+  border-bottom: none;
 }
 
 /* ===== ANIMATED INDICATOR ===== */
@@ -460,8 +475,8 @@
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-/* Page indicator (underline) */
-.tab-group__indicator--page {
+/* Line indicator (underline) */
+.tab-group__indicator--line {
   position: absolute;
   bottom: 0;
   height: 2px;
@@ -473,18 +488,15 @@
   z-index: 10;
 }
 
-/* Segment indicator (pill background) */
-.tab-group__indicator--segment {
+/* Enclosed indicator (bottom border cover) */
+.tab-group__indicator--enclosed {
   position: absolute;
-  background: var(--surface-accent);
-  border-radius: var(--radius-xl);
+  bottom: -1px;
+  height: 2px;
+  background: var(--surface-card);
   transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    width 0.3s cubic-bezier(0.4, 0, 0.2, 1), top 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
-  box-shadow: 0 2px 4px color-mix(in srgb, var(--surface-accent) 20%, transparent),
-    0 1px 2px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--border-accent);
-  z-index: 1;
+    width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
+  z-index: 10;
 }
 
 /* ===== NAVIGATION SIDEBAR ANIMATION ===== */
@@ -521,8 +533,8 @@
   }
 
   /* Hide animated indicator on mobile - it doesn't align correctly with overflow scroll */
-  .tab-group__indicator--page,
-  .tab-group__indicator--segment {
+  .tab-group__indicator--line,
+  .tab-group__indicator--enclosed {
     display: none;
   }
 
@@ -531,9 +543,8 @@
     min-height: 44px;
   }
 
-  .tab--page {
-    padding: var(--foundation-space-2) var(--foundation-space-4)
-      var(--foundation-space-3);
+  .tab--line {
+    padding: var(--foundation-space-2) var(--foundation-space-3);
   }
 }
 
@@ -542,12 +553,11 @@
     font-size: 13px;
   }
 
-  .tab-group--segment {
-    padding: 2px;
-    gap: 2px;
+  .tab-group--outline {
+    gap: var(--foundation-space-1);
   }
 
-  .tab--segment {
+  .tab--outline {
     padding: 6px 10px;
     font-size: 12px;
   }

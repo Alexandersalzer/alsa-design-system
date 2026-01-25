@@ -15,15 +15,15 @@ import { cn } from '../../../utils/cn';
 // ===============================================
 
 /**
- * Tab variants:
- * - `navigation`: Sidebar/vertical navigation with accent background on active
- * - `page`: Underline + accent-muted background on active (default page tabs)
- * - `underline`: Underline + accent text on active, no background
- * - `pill`: Accent background on active, no underline (compact pills)
- * - `soft`: Like pill - accent-muted background on active, no underline
- * - `segment`: Bordered pills with accent background (legacy, use pill instead)
+ * Tab variants (following Chakra UI naming):
+ * - `line`: Underline indicator on active tab (default)
+ * - `subtle`: Subtle background on active tab
+ * - `enclosed`: Enclosed/card-style tabs with border
+ * - `outline`: Outlined/bordered tabs
+ * - `plain`: Minimal styling, text only
+ * - `navigation`: Sidebar/vertical navigation (special case)
  */
-export type TabVariant = 'navigation' | 'page' | 'underline' | 'pill' | 'soft' | 'segment';
+export type TabVariant = 'line' | 'subtle' | 'enclosed' | 'outline' | 'plain' | 'navigation';
 export type TabSize = 'sm' | 'md' | 'lg';
 
 /**
@@ -128,7 +128,7 @@ function createTabTypographyProps(
 
 export const Tab: React.FC<TabProps> = ({
   children,
-  variant = 'navigation',
+  variant = 'line',
   size = 'md',
   colorScheme = 'accent',
   isActive = false,
@@ -265,7 +265,7 @@ interface TabChildProps {
 
 export const TabGroup: React.FC<TabGroupProps> = ({
   children,
-  variant = 'page',
+  variant = 'line',
   colorScheme = 'accent',
   orientation = 'horizontal',
   className = '',
@@ -442,7 +442,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
   );
 
   const showIndicator =
-    animated && orientation === 'horizontal' && (variant === 'page' || variant === 'underline' || variant === 'segment');
+    animated && orientation === 'horizontal' && (variant === 'line' || variant === 'enclosed');
 
   return (
     <div
@@ -454,7 +454,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({
     >
       {showIndicator && (
         <div
-          className={`tab-group__indicator tab-group__indicator--${variant === 'underline' ? 'page' : variant}`}
+          className={`tab-group__indicator tab-group__indicator--${variant}`}
           style={{
             width: `${indicatorStyle.width}px`,
             left: `${indicatorStyle.left}px`,
