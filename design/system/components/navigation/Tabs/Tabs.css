@@ -255,6 +255,7 @@
   background-color: transparent;
   background: transparent;
   border-radius: var(--radius-button);
+  padding-bottom: var(--foundation-space-3);
 }
 
 .tab.tab--line.tab--active {
@@ -438,6 +439,7 @@
   background: transparent;
   border-radius: 0;
   padding: var(--foundation-space-1) var(--foundation-space-2);
+  color: var(--text-muted);
 }
 
 .tab.tab--plain:hover:not(.tab--active):not(.tab--disabled) {
@@ -558,6 +560,7 @@
   gap: 0;
   padding: 0;
   margin: 0;
+  overflow: visible;
 }
 
 /* Outline variant container (folder-style, all tabs bordered) */
@@ -567,6 +570,7 @@
   gap: 0;
   padding: 0;
   margin: 0;
+  overflow: visible;
 }
 
 /* Plain variant container (truly minimal) */
