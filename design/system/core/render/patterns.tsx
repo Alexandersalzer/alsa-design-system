@@ -2,7 +2,7 @@ import { Container } from '../../components';
 import { getPatternProps } from '../utils/props';
 import { patternRegistry } from '../../patterns/registry';
 import { PatternNode } from '../types/nodes';
-import { renderLayout, renderLayoutWithCards } from './layouts';
+import { renderLayoutWithTemplate } from './layouts';
 
 import { AnimationConfig } from '../animations/types';
 
@@ -67,9 +67,12 @@ export const renderPattern = (
 
   // UNIVERSAL LAYOUT PATH: If pattern has layout prop
   if (patternProps.layout) {
-    const layoutContent = patternProps.layout.cardLayout
-      ? renderLayoutWithCards(patternProps.layout, pattern.components, pattern.order, sectionKey, patternKey)
-      : renderLayout(patternProps.layout, pattern.components, pattern.order, sectionKey, patternKey);
+    const layoutContent = renderLayoutWithTemplate(
+      patternProps.layout, 
+      pattern.components, 
+      sectionKey, 
+      patternKey
+    );
 
     return (
       <Container

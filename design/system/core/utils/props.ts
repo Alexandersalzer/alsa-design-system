@@ -124,3 +124,73 @@ export const useMapComponents = (components: Record<string, ComponentNode>) => {
     return mapComponents(components, type);
   };
 };
+
+// ===== LAYOUT HELPER FUNCTIONS =====
+
+/**
+ * Extracts layout-specific props from a node
+ * Returns { layoutType, layoutProps, children }
+ */
+export const parseLayoutNode = (node: Record<string, any>) => {
+  const { type, children, ...layoutProps } = node;
+  
+  return {
+    layoutType: type,
+    layoutProps,
+    children: children || []
+  };
+};
+
+/**
+ * Checks if a node is a layout node (has type) or component reference (has component)
+ */
+export const isLayoutNode = (node: Record<string, any>): boolean => {
+  return 'type' in node;
+};
+
+export const isComponentReference = (node: Record<string, any>): boolean => {
+  return 'component' in node;
+};
+
+/**
+ * Extracts component slot name from reference
+ * "${slotName}" → "slotName"
+ */
+export const extractSlotName = (componentRef: string): string => {
+  return componentRef.startsWith('${') && componentRef.endsWith('}')
+    ? componentRef.slice(2, -1)
+    : componentRef;
+};
+
+/**
+ * Gets all item IDs from layout in order
+ */
+export const getLayoutItemOrder = (layout: Record<string, any>): string[] => {
+  const { order, items } = layout;
+  
+  if (order && Array.isArray(order)) {
+    return order;
+  }
+  
+  if (items && Array.isArray(items)) {
+    return items.map(item => item.id).filter(Boolean);
+  }
+  
+  return [];
+};
+
+/**
+ * Finds item by ID from layout items array
+ */
+export const findLayoutItem = (
+  layout: Record<string, any>,
+  itemId: string
+): Record<string, any> | undefined => {
+  const { items } = layout;
+  
+  if (!items || !Array.isArray(items)) {
+    return undefined;
+  }
+  
+  return items.find(item => item.id === itemId);
+};

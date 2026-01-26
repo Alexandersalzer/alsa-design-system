@@ -5,11 +5,6 @@ export {
   hasComponent,
 } from './components';
 export {
-  renderLayout,
+  renderLayoutWithTemplate,
   renderLayoutWithCards,
-} from './layouts';
-export type {
-  LayoutItem,
-  NestedLayout,
-  LayoutDefinition,
 } from './layouts';
