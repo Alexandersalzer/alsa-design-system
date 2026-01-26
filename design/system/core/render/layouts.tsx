@@ -26,6 +26,9 @@ export const renderLayoutWithTemplate = (
   sectionKey?: string,
   patternKey?: string
 ): React.ReactElement | null => {
+  console.log('[renderLayoutWithTemplate] layout:', layout);
+  console.log('[renderLayoutWithTemplate] components:', components);
+  
   const { type: parentType, template, order, ...parentLayoutProps } = layout;
 
   // Get parent layout component
@@ -34,18 +37,27 @@ export const renderLayoutWithTemplate = (
     console.warn(`Layout type "${parentType}" not found in registry`);
     return null;
   }
+  
+  console.log('[renderLayoutWithTemplate] ParentLayout found:', parentType);
+
+  console.log('[renderLayoutWithTemplate] ParentLayout found:', parentType);
 
   // If no template, render simple layout (fallback to old system)
   if (!template) {
+    console.log('[renderLayoutWithTemplate] No template, using simple layout');
     return renderSimpleLayout(layout, components, order, sectionKey, patternKey);
   }
+  
+  console.log('[renderLayoutWithTemplate] Template found:', template);
 
   // Get items to render
   const itemOrder = getLayoutItemOrder(layout);
+  console.log('[renderLayoutWithTemplate] itemOrder:', itemOrder);
   
   // Render template for each item
   const renderedItems = itemOrder.map((itemId) => {
     const item = findLayoutItem(layout, itemId);
+    console.log(`[renderLayoutWithTemplate] Rendering item "${itemId}":`, item);
     if (!item) {
       console.warn(`Item "${itemId}" not found in layout items`);
       return null;
@@ -57,6 +69,8 @@ export const renderLayoutWithTemplate = (
       </React.Fragment>
     );
   }).filter(Boolean);
+  
+  console.log('[renderLayoutWithTemplate] renderedItems count:', renderedItems.length);
 
   return (
     <ParentLayout {...parentLayoutProps}>
@@ -116,12 +130,16 @@ const renderTemplateNode = (
   sectionKey?: string,
   patternKey?: string
 ): React.ReactElement | null => {
+  console.log('[renderTemplateNode] node:', node);
+  
   // Check what kind of node this is
   if (isComponentReference(node)) {
+    console.log('[renderTemplateNode] Is component reference');
     return renderComponentReference(node, itemComponents, sectionKey, patternKey);
   }
 
   if (isLayoutNode(node)) {
+    console.log('[renderTemplateNode] Is layout node');
     return renderLayoutNodeGeneric(node, itemComponents, sectionKey, patternKey);
   }
 
