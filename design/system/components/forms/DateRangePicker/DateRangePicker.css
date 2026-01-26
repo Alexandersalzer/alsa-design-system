@@ -151,7 +151,7 @@
 
 /* ===== SEPARATOR ===== */
 .date-range-picker-separator {
-  color: var(--text-secondary);
+  color: var(--text-default);
   font-weight: var(--foundation-weight-medium);
   padding: 0 4px;
   user-select: none;
@@ -195,7 +195,7 @@
 .date-range-picker-segment--literal {
   padding: 0 2px;
   cursor: default;
-  color: var(--text-secondary);
+  color: var(--text-default);
 }
 
 .date-range-picker-segment:focus {
@@ -210,7 +210,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--text-secondary);
+  color: var(--text-default);
   transition: color var(--foundation-duration-fast) var(--foundation-ease-out);
   flex-shrink: 0;
   padding: 4px;
@@ -218,7 +218,7 @@
 }
 
 .date-range-picker-selector-button:hover:not(:disabled) {
-  color: var(--text-primary);
+  color: var(--text-strong);
   background-color: var(--surface-hover);
 }
 

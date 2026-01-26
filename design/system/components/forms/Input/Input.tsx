@@ -293,7 +293,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
-                color: 'var(--text-secondary)',
+                color: 'var(--text-default)',
                 transition: 'color 0.2s ease',
                 display: 'flex',
                 alignItems: 'center',
@@ -302,10 +302,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 zIndex: 10
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.color = 'var(--text-primary)';
+                e.currentTarget.style.color = 'var(--text-strong)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'var(--text-secondary)';
+                e.currentTarget.style.color = 'var(--text-default)';
               }}
               aria-label={showPassword ? 'Dölj lösenord' : 'Visa lösenord'}
             >

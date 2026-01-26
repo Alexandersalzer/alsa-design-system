@@ -16,11 +16,11 @@
     --border-card-elevated: var(--border-subtle);           /* Using semantic border tokens */
     
     /* ===== CARD TEXT COLORS ===== */
-    --text-card-primary: var(--text-primary);               /* Using semantic text tokens */
-    --text-card-secondary: var(--text-secondary);           /* Using semantic text tokens */
+    --text-card-primary: var(--text-strong);               /* Using semantic text tokens */
+    --text-card-secondary: var(--text-default);           /* Using semantic text tokens */
     --text-card-tertiary: var(--text-subtle);             /* Using semantic text tokens */
-    --text-card-heading: var(--text-primary);
-    --text-card-body: var(--text-secondary);
+    --text-card-heading: var(--text-strong);
+    --text-card-body: var(--text-default);
     
     /* ===== CARD ICON COLORS ===== */
     --icon-card-primary: var(--icon-strong);               /* Using semantic icon tokens */

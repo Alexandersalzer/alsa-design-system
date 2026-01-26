@@ -66,7 +66,7 @@
   height: 36px;
   border-radius: var(--radius-full);
   background: var(--surface-subtle);
-  color: var(--text-tertiary);
+  color: var(--text-subtle);
   font-family: var(--font-body-family);
   font-size: var(--font-body-sm-size);
   font-weight: var(--foundation-weight-medium);
@@ -78,7 +78,7 @@
 /* Completed step - Lower priority */
 .step-number.step-number--completed {
   background: var(--surface-hover);
-  color: var(--text-secondary);
+  color: var(--text-default);
 }
 
 /* Current step - Highest priority, always wins */
@@ -104,7 +104,7 @@
 /* Hover state - only when NOT current and NOT disabled */
 .step-number.step-number--clickable:hover:not(.step-number--disabled):not(.step-number--current) {
   background: var(--surface-hover);
-  color: var(--text-primary);
+  color: var(--text-strong);
   transform: scale(1.05);
 }
 
@@ -135,14 +135,14 @@
 
 .step-title {
   margin-bottom: var(--foundation-space-2);
-  color: var(--text-primary);
+  color: var(--text-strong);
 }
 
 .step-description {
   line-height: var(--font-body-line-height);
   max-width: 600px;
   margin: 0 auto;
-  color: var(--text-secondary);
+  color: var(--text-default);
 }
 
 /* Hide content in navigation-only mode */

@@ -324,7 +324,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
             )}
             style={{
               fontSize: 'var(--foundation-text-xs)',
-              color: isOverLimit ? 'var(--text-error)' : 'var(--text-secondary)',
+              color: isOverLimit ? 'var(--text-error)' : 'var(--text-default)',
               marginTop: 'var(--foundation-space-1)',
               textAlign: 'right'
             }}
@@ -435,7 +435,7 @@ export const EnhancedTextarea: React.FC<EnhancedTextareaProps> = ({
     <div className="enhanced-textarea">
       {templates.length > 0 && (
         <div className="textarea-templates" style={{ marginBottom: 'var(--foundation-space-2)' }}>
-          <label style={{ fontSize: 'var(--foundation-text-sm)', color: 'var(--text-secondary)' }}>
+          <label style={{ fontSize: 'var(--foundation-text-sm)', color: 'var(--text-default)' }}>
             Quick Templates:
           </label>
           <div style={{ display: 'flex', gap: 'var(--foundation-space-2)', marginTop: 'var(--foundation-space-1)' }}>
@@ -450,7 +450,7 @@ export const EnhancedTextarea: React.FC<EnhancedTextareaProps> = ({
                   border: '1px solid var(--border-secondary)',
                   borderRadius: 'var(--radius-sm)',
                   background: 'var(--surface-input)',
-                  color: 'var(--text-primary)',
+                  color: 'var(--text-strong)',
                   cursor: 'pointer'
                 }}
               >
@@ -470,7 +470,7 @@ export const EnhancedTextarea: React.FC<EnhancedTextareaProps> = ({
       {autoSave && lastSaved && (
         <div style={{ 
           fontSize: 'var(--foundation-text-xs)', 
-          color: 'var(--text-secondary)', 
+          color: 'var(--text-default)', 
           marginTop: 'var(--foundation-space-1)',
           textAlign: 'right' 
         }}>

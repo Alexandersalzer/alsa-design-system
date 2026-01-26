@@ -344,7 +344,7 @@ export default function BookingSuccess({
                     <Body weight="bold" style={{ textAlign: 'left' }}>
                       {totalPrice} kr
                         {priceUnit === 'day' && daysToUse > 0 ? (
-                          <span style={{ fontSize: 'var(--text-body-sm)', color: 'var(--text-secondary)', display: 'inline', marginLeft: '8px' }}>
+                          <span style={{ fontSize: 'var(--text-body-sm)', color: 'var(--text-default)', display: 'inline', marginLeft: '8px' }}>
                             ({price} kr/{priceUnitText} × {daysToUse} {daysToUse === 1 ? 'dag' : 'dagar'})
                           </span>
                         ) : null}

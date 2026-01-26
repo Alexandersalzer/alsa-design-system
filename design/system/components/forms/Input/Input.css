@@ -485,7 +485,7 @@
   cursor: pointer;
   padding: var(--foundation-space-1);
   border-radius: var(--radius-sm);
-  color: var(--text-secondary);
+  color: var(--text-default);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -494,7 +494,7 @@
 
 .input-clear-button:hover {
   background-color: var(--surface-subtle);
-  color: var(--text-primary);
+  color: var(--text-strong);
 }
 
 .input-clear-button:active {

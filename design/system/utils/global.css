@@ -7,7 +7,7 @@
 html {
   min-height: 100vh;
   background-color: var(--surface-page);
-  color: var(--text-primary);
+  color: var(--text-strong);
 }
 
 /* Body element - inherits background from html */
@@ -44,7 +44,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:active {
-  background: var(--text-secondary);
+  background: var(--text-default);
 }
 
 /* Firefox */

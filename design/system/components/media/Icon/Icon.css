@@ -56,9 +56,9 @@
 
 /* ===== COLOR VARIANTS ===== */
 /* Typography-aligned colors */
-.icon-primary { color: var(--text-primary); }
-.icon-secondary { color: var(--text-secondary); }
-.icon-tertiary { color: var(--text-tertiary); }
+.icon-primary { color: var(--text-strong); }
+.icon-secondary { color: var(--text-default); }
+.icon-tertiary { color: var(--text-subtle); }
 .icon-inverse { color: var(--text-inverse); }
 .icon-disabled { color: var(--text-disabled); }
 

@@ -96,7 +96,7 @@
 }
 
 .segmented-control__option:hover:not(:disabled):not(.segmented-control__option--disabled) {
-  color: var(--text-secondary);
+  color: var(--text-default);
   opacity: 0.9;
 }
 

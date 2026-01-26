@@ -129,7 +129,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
               fontSize: labelProps.size === 'sm' ? 'var(--foundation-text-sm)' : 
                         labelProps.size === 'lg' ? 'var(--foundation-text-lg)' : 'var(--foundation-text-md)',
               fontWeight: 'var(--foundation-weight-medium)',
-              color: labelProps.color === 'disabled' ? 'var(--text-disabled)' : 'var(--text-primary)',
+              color: labelProps.color === 'disabled' ? 'var(--text-disabled)' : 'var(--text-strong)',
               cursor: disabled ? 'not-allowed' : 'pointer',
               userSelect: 'none',
               lineHeight: 1.4
@@ -151,7 +151,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
           className="checkbox-description"
           style={{
             fontSize: 'var(--foundation-text-sm)',
-            color: disabled ? 'var(--text-disabled)' : 'var(--text-secondary)',
+            color: disabled ? 'var(--text-disabled)' : 'var(--text-default)',
             marginTop: 'var(--space-form-hint-margin)',
             marginLeft: `calc(var(--size-checkbox-${size}) + var(--foundation-space-3))`
           }}
@@ -235,7 +235,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
           style={{
             fontSize: size === 'sm' ? 'var(--foundation-text-sm)' : 'var(--foundation-text-md)',
             fontWeight: 'var(--foundation-weight-semibold)',
-            color: 'var(--text-primary)',
+            color: 'var(--text-strong)',
             marginBottom: 'var(--space-form-label-margin)',
             display: 'component'
           }}
@@ -255,7 +255,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
           className="checkbox-group__description"
           style={{
             fontSize: 'var(--foundation-text-sm)',
-            color: 'var(--text-secondary)',
+            color: 'var(--text-default)',
             marginTop: 'calc(-1 * var(--space-form-label-margin))',
             marginBottom: 'var(--space-form-hint-margin)'
           }}

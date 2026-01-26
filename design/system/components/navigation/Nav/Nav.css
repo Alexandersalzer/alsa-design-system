@@ -98,7 +98,7 @@
   border-color: transparent;
 
   /* Color source - inherited by icon + label */
-  color: var(--text-secondary);
+  color: var(--text-default);
 
   /* Interaction */
   cursor: pointer;
@@ -140,39 +140,39 @@
 /* Default + Page surface (sidebar on page bg: neutral-0) */
 .nav-item--default.nav-item--surface-page.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
   background-color: var(--surface-raised);
-  color: var(--text-primary);
+  color: var(--text-strong);
 }
 
 .nav-item--default.nav-item--surface-page.nav-item--active.listbox-item,
 .nav-item--default.nav-item--surface-page.nav-item--active.listbox-item:hover {
   background-color: var(--surface-raised);
-  color: var(--text-primary);
+  color: var(--text-strong);
   cursor: default;
 }
 
 /* Default + Raised surface (sidebar on raised bg: neutral-100) */
 .nav-item--default.nav-item--surface-raised.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
   background-color: var(--surface-elevated);
-  color: var(--text-primary);
+  color: var(--text-strong);
 }
 
 .nav-item--default.nav-item--surface-raised.nav-item--active.listbox-item,
 .nav-item--default.nav-item--surface-raised.nav-item--active.listbox-item:hover {
   background-color: var(--surface-elevated);
-  color: var(--text-primary);
+  color: var(--text-strong);
   cursor: default;
 }
 
 /* Default + Sunken surface (sidebar on sunken bg: neutral-300) */
 .nav-item--default.nav-item--surface-sunken.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
   background-color: var(--surface-raised);
-  color: var(--text-primary);
+  color: var(--text-strong);
 }
 
 .nav-item--default.nav-item--surface-sunken.nav-item--active.listbox-item,
 .nav-item--default.nav-item--surface-sunken.nav-item--active.listbox-item:hover {
   background-color: var(--surface-raised);
-  color: var(--text-primary);
+  color: var(--text-strong);
   cursor: default;
 }
 
@@ -182,7 +182,7 @@
    =============================================== */
 
 .nav-item--accent.listbox-item {
-  color: var(--text-secondary);
+  color: var(--text-default);
 }
 
 .nav-item--accent.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
@@ -204,12 +204,12 @@
    =============================================== */
 
 .nav-item--ghost.listbox-item {
-  color: var(--text-secondary);
+  color: var(--text-default);
 }
 
 .nav-item--ghost.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
   background-color: transparent;
-  color: var(--text-primary);
+  color: var(--text-strong);
 }
 
 .nav-item--ghost.nav-item--active.listbox-item {

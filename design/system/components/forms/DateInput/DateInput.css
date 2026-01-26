@@ -163,7 +163,7 @@
 .date-input-end-content {
   display: flex;
   align-items: center;
-  color: var(--text-secondary);
+  color: var(--text-default);
   flex-shrink: 0;
 }
 
@@ -207,7 +207,7 @@
 .date-input-segment--literal {
   padding: 0 2px;
   cursor: default;
-  color: var(--text-secondary);
+  color: var(--text-default);
 }
 
 /* Focus state */

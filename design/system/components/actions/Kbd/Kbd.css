@@ -24,7 +24,7 @@
 /* Secondary variant (default) - matches button secondary */
 .kbd-secondary {
   background-color: var(--surface-muted);
-  color: var(--text-secondary);
+  color: var(--text-default);
   border-color: var(--border-subtle);
   box-shadow: 0 1px 0 0 var(--border-subtle);
 }
@@ -32,7 +32,7 @@
 /* Ghost variant - transparent with minimal styling */
 .kbd-ghost {
   background-color: transparent;
-  color: var(--text-tertiary);
+  color: var(--text-subtle);
   border-color: var(--border-subtle);
   box-shadow: none;
 }
@@ -53,7 +53,7 @@
 
 .kbd-ghost:hover {
   background-color: var(--surface-muted);
-  color: var(--text-secondary);
+  color: var(--text-default);
 }
 
 .kbd-primary:hover {

@@ -23,14 +23,14 @@
      ========================================================= */
   --font-label-family: var(--foundation-font-secondary);
   --font-label-weight: var(--selected-font-weight-label);
-  --text-label-color: var(--text-primary);
+  --text-label-color: var(--text-strong);
 
   /* =========================================================
      4. CODE / MONO TOKENS
      ========================================================= */
   --font-code-family: var(--foundation-font-mono);
   --font-code-weight: var(--foundation-weight-regular);
-  --text-code-color: var(--text-primary);
+  --text-code-color: var(--text-strong);
   --surface-code-inline: var(--surface-card-hover);
   --surface-code-component: var(--surface-card);
   --border-code-component: var(--border-default);
@@ -42,7 +42,7 @@
   --font-numeric-family: var(--foundation-font-numeric);
   --font-numeric-weight: var(--foundation-weight-medium);
   --font-numeric-features: var(--foundation-font-numeric-features);
-  --text-numeric-color: var(--text-primary);
+  --text-numeric-color: var(--text-strong);
 
   /* =========================================================
      5. DISPLAY SIZES
@@ -129,8 +129,8 @@
      10. ADDITIONAL TEXT VARIANTS
      ========================================================= */
   --text-caption: var(--text-subtle);
-  --text-overline: var(--text-secondary);
-  --text-subtitle: var(--text-secondary);
+  --text-overline: var(--text-default);
+  --text-subtitle: var(--text-default);
   --text-muted: var(--text-subtle);
-  --text-emphasis: var(--text-primary);
+  --text-emphasis: var(--text-strong);
 }
