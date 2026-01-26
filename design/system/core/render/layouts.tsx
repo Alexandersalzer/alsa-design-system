@@ -63,9 +63,15 @@ export const renderLayoutWithTemplate = (
       return null;
     }
 
+    // Render each child in template.children array
+    const templateChildren = template.children || [];
     return (
       <React.Fragment key={itemId}>
-        {renderTemplateNode(template, item.components, sectionKey, patternKey)}
+        {templateChildren.map((child: any, index: number) => (
+          <React.Fragment key={index}>
+            {renderTemplateNode(child, item.components, sectionKey, patternKey)}
+          </React.Fragment>
+        ))}
       </React.Fragment>
     );
   }).filter(Boolean);
