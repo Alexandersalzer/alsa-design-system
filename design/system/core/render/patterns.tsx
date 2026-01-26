@@ -67,9 +67,40 @@ export const renderPattern = (
 
   // UNIVERSAL LAYOUT PATH: If pattern has layout prop
   if (patternProps.layout) {
-    const layoutContent = patternProps.layout.cardLayout
-      ? renderLayoutWithCards(patternProps.layout, pattern.components, sectionKey, patternKey)
-      : renderLayout(patternProps.layout, pattern.components, sectionKey, patternKey);
+    // Check if layout has cardLayout template
+    if (patternProps.layout.cardLayout) {
+      const layoutContent = renderLayoutWithCards(
+        patternProps.layout,
+        pattern.components,
+        sectionKey,
+        patternKey
+      );
+
+      return (
+        <Container
+          key={patternKey}
+          height="auto"
+          useMediaWidth={patternProps.useMediaWidth || false}
+          useFormWidth={patternProps.useFormWidth || false}
+          patternKey={patternKey}
+        >
+          {layoutContent}
+        </Container>
+      );
+    }
+
+    // Simple layout with order array - pass order as items to layout
+    const layoutWithItems = {
+      ...patternProps.layout,
+      items: patternProps.layout.items || pattern.order || []
+    };
+
+    const layoutContent = renderLayout(
+      layoutWithItems,
+      pattern.components,
+      sectionKey,
+      patternKey
+    );
 
     return (
       <Container
