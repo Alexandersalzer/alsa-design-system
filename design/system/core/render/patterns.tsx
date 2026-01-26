@@ -65,10 +65,10 @@ export const renderPattern = (
 ) => {
   const patternProps = getPatternProps(pattern);
 
-  // UNIVERSAL LAYOUT PATH: If pattern has layout prop
-  if (patternProps.layout) {
+  // UNIVERSAL LAYOUT PATH: If pattern has layout prop (on pattern level, not in props)
+  if ((pattern as any).layout) {
     const layoutContent = renderLayoutWithTemplate(
-      patternProps.layout, 
+      (pattern as any).layout, 
       pattern.components, 
       sectionKey, 
       patternKey
