@@ -1,5 +1,5 @@
 import { Modal } from './Modal/Modal';
-import { Drawer } from './Drawer/Drawer';
+import Drawer from './Drawer/Drawer';
 import { Popover } from './Popover/Popover';
 import { Tooltip } from './Tooltip/Tooltip';
 import { Menu } from './Menu/Menu';
