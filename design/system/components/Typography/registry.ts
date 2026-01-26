@@ -1,33 +1,9 @@
 import {
-  Typography,
-  Display,
   Body,
-  Label,
-  Code,
-  TypographyGroup,
-  JsonText,
-  H1,
-  H2,
-  H3,
-  H4,
-  H5,
-  H6,
   Heading,
 } from './Typography';
 
 export const typographyComponents: Record<string, React.ComponentType<any>> = {
-  typography: Typography,
-  display: Display,
   body: Body,
-  label: Label,
-  code: Code,
-  typographyGroup: TypographyGroup,
-  jsonText: JsonText,
-  h1: H1,
-  h2: H2,
-  h3: H3,
-  h4: H4,
-  h5: H5,
-  h6: H6,
   heading: Heading,
 };
