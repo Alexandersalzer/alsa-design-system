@@ -12,7 +12,8 @@ import { Component } from '../../frames/component/Component';
 import './TextLink.css';
 
 export interface TextLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  children: ReactNode;
+  children?: ReactNode;
+  content?: string;
   variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'button-ghost' | 'brand' | 'inverse';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   weight?: 'regular' | 'medium' | 'semibold' | 'bold';
@@ -29,6 +30,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   size = 'md',
   weight = 'medium',
   children,
+  content,
   leftIcon,
   rightIcon,
   underline = 'none',
@@ -42,6 +44,9 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   
   // Build locale-aware href
   const localeAwareHref = href ? buildHref(href) : undefined;
+  
+  // Use content if provided, otherwise use children
+  const displayContent = content || children;
   
   // Map textlink size to typography size
   const getTypographySize = (size: string): 'sm' | 'md' | 'lg' => {
@@ -68,6 +73,9 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
 
   // Check if this is a .html file (edit mode) or regular Next.js route
   const isHtmlFile = localeAwareHref?.endsWith('.html');
+  
+  // Filter out non-DOM props
+  const { type, sectionKey, patternKey, components, order, ...domProps } = props as any;
 
   // Content to render inside the link
   const linkContent = (
@@ -87,7 +95,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
         className="textlink-text"
         style={{ color: 'inherit' }}
       >
-        {children}
+        {displayContent}
       </Label>
 
       {/* Right Icon */}
@@ -106,10 +114,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
         <a
           ref={ref}
           href={localeAwareHref}
-          className={textLinkClasses}
-          aria-disabled={disabled}
-          tabIndex={disabled ? -1 : undefined}
-          {...props}
+          clasdomProps}
         >
           {linkContent}
         </a>
@@ -124,6 +129,9 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
         href={localeAwareHref || '#'}
         className={textLinkClasses}
         aria-disabled={disabled}
+        tabIndex={disabled ? -1 : undefined}
+        ref={ref}
+        {...domPdisabled={disabled}
         tabIndex={disabled ? -1 : undefined}
         ref={ref}
         {...props}
