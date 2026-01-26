@@ -93,14 +93,9 @@ export const Logo: React.FC<LogoProps> = ({
   const getTextColor = (
     color: 'auto' | 'light' | 'dark' | 'brand'
   ): 'primary' | 'secondary' | 'inverse' | 'inherit' => {
-    const mapping = {
-      auto: 'primary',
-      light: 'inverse',
-      dark: 'primary',
-      brand: 'primary',
-    } as const;
-    return mapping[color];
+    return color === 'brand' ? 'primary' : 'inherit';
   };
+
 
   const imageVariant = getImageVariant(color);
   const textColor = getTextColor(color);
