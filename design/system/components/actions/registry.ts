@@ -1,4 +1,4 @@
-import { Button } from './Button'
+import Button from './Button/Button'
 import { TextLink } from './TextLink'
 import { SelectionCard } from './SelectionCard'
 import { SegmentedControl } from './SegmentedControl'
