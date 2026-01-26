@@ -295,7 +295,7 @@
   --surface-input-disabled: var(--surface-disabled);
 
   /* ----- Text Hierarchy ----- */
-  --text-default: var(--neutral-1000);
+  --text-default: var(--neutral-1100);
   --text-strong: var(--neutral-1400);  /* Darkest value for maximum contrast */
   --text-muted: var(--neutral-900);
   --text-subtle: var(--neutral-800);
@@ -782,7 +782,6 @@
 
 :root {
   /* ----- Old text naming ----- */
-  --text-primary: var(--text-default);
   --text-secondary: var(--text-default);
   --text-tertiary: var(--text-subtle);
 

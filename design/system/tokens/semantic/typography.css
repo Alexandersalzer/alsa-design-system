@@ -9,14 +9,14 @@
      ========================================================= */
   --font-heading-family: var(--foundation-font-primary);
   --font-heading-weight: var(--selected-font-weight-heading);
-  --text-heading-color: var(--text-primary);
+  --text-heading-color: var(--text-strong);
 
   /* =========================================================
      2. BODY TOKENS
      ========================================================= */
   --font-body-family: var(--foundation-font-secondary);
   --font-body-weight: var(--selected-font-weight-body);
-  --text-body-color: var(--text-secondary);
+  --text-body-color: var(--text-default);
 
   /* =========================================================
      3. LABEL TOKENS
