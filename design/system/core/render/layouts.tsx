@@ -121,10 +121,31 @@ const renderComponentFromKey = (
     return null;
   }
 
+  // Extract grid-specific props
+  const { colSpan, rowSpan, colStart, rowStart, ...componentProps } = component.props || {};
+
+  // If component has grid placement props, wrap in GridItem
+  if (colSpan || rowSpan || colStart || rowStart) {
+    const GridItem = componentRegistry['gridItem'];
+    if (GridItem) {
+      return (
+        <GridItem
+          key={componentKey}
+          colSpan={colSpan}
+          rowSpan={rowSpan}
+          colStart={colStart}
+          rowStart={rowStart}
+        >
+          <Component {...componentProps} />
+        </GridItem>
+      );
+    }
+  }
+
   return (
     <Component
       key={componentKey}
-      {...component.props}
+      {...componentProps}
     />
   );
 };
