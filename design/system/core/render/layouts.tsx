@@ -90,7 +90,7 @@ const renderLayoutChildren = (
     if (typeof item === 'object' && item.type) {
       return (
         <React.Fragment key={index}>
-          {renderLayout(item, components, sectionKey, patternKey)}
+          {renderLayout(item, components, undefined, sectionKey, patternKey)}
         </React.Fragment>
       );
     }
