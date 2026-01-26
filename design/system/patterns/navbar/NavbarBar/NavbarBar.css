@@ -145,7 +145,6 @@
   background: color-mix(in srgb, var(--surface-page) 30%, transparent);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border-subtle);
   transition: all 0.3s ease;
 }
 
