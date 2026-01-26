@@ -96,7 +96,6 @@ export const Logo: React.FC<LogoProps> = ({
     return color === 'brand' ? 'primary' : 'inherit';
   };
 
-
   const imageVariant = getImageVariant(color);
   const textColor = getTextColor(color);
 
