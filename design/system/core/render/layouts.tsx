@@ -172,7 +172,13 @@ const renderLayoutNodeGeneric = (
     return null;
   }
 
-  // Recursively render children
+  // Self-closing components (like divider/hr) cannot have children
+  const isSelfClosing = layoutType === 'divider';
+  if (isSelfClosing) {
+    return <LayoutComponent {...layoutProps} />;
+  }
+
+  // Recursively render children for components that support them
   const renderedChildren = children.map((child: any, index: number) => (
     <React.Fragment key={index}>
       {renderTemplateNode(child, itemComponents, sectionKey, patternKey)}
