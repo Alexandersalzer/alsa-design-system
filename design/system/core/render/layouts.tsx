@@ -124,11 +124,7 @@ const renderComponentFromKey = (
   return (
     <Component
       key={componentKey}
-      data-component-key={componentKey}
       {...component.props}
-      componentKey={componentKey}
-      sectionKey={sectionKey}
-      patternKey={patternKey}
     />
   );
 };

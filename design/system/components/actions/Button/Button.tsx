@@ -8,8 +8,8 @@
 import React, { forwardRef, ReactNode, useState } from 'react';
 import Link from 'next/link';
 import { cn } from '../../../utils/cn';
-import { Label } from '../../Typography';
-import { Spinner } from '../../feedback';
+import { Label } from '../../Typography/Typography';
+import { Spinner } from '../../feedback/Spinner/Spinner';
 import { useHref } from '../../../hooks/useHref';
 import { Component } from '../../frames/component/Component';
 import { useAction } from '../../../core/actions/useAction';
