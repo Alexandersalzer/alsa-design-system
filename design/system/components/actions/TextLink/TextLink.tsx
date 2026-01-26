@@ -114,7 +114,10 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
         <a
           ref={ref}
           href={localeAwareHref}
-          clasdomProps}
+          className={textLinkClasses}
+          aria-disabled={disabled}
+          tabIndex={disabled ? -1 : undefined}
+          {...domProps}
         >
           {linkContent}
         </a>
@@ -131,10 +134,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
         aria-disabled={disabled}
         tabIndex={disabled ? -1 : undefined}
         ref={ref}
-        {...domPdisabled={disabled}
-        tabIndex={disabled ? -1 : undefined}
-        ref={ref}
-        {...props}
+        {...domProps}
       >
         {linkContent}
       </Link>
