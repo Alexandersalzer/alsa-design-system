@@ -54,65 +54,84 @@
 
   /* =========================================================
      5. TYPOGRAPHY SCALE SETS (sizes + line heights)
-     Each scale defines small, medium, and large visual systems
+     Four scales: sm (balanced), md (open), lg (impactful), xl (hero-focused)
      ========================================================= */
 
-  /* --- Small Scale (compact, tighter) --- */
-  --foundation-typography-sm-xs: 0.7rem;
-  --foundation-typography-sm-sm: 0.825rem;
-  --foundation-typography-sm-base: 0.95rem;
-  --foundation-typography-sm-lg: 1.05rem;
-  --foundation-typography-sm-xl: 1.2rem;
-  --foundation-typography-sm-2xl: 1.4rem;
-  --foundation-typography-sm-3xl: 1.7rem;
-  --foundation-typography-sm-4xl: 2rem;
-  --foundation-typography-sm-5xl: 2.6rem;
-  --foundation-typography-sm-6xl: 3.2rem;
-  --foundation-typography-sm-7xl: 3.8rem;
+  /* --- Small Scale (balanced, base reference) --- */
+  --foundation-typography-sm-xs: var(--foundation-size-xs);      /* 12px */
+  --foundation-typography-sm-sm: var(--foundation-size-sm);      /* 14px */
+  --foundation-typography-sm-base: var(--foundation-size-base);  /* 16px */
+  --foundation-typography-sm-lg: var(--foundation-size-lg);      /* 18px */
+  --foundation-typography-sm-xl: var(--foundation-size-xl);      /* 20px */
+  --foundation-typography-sm-2xl: var(--foundation-size-2xl);    /* 24px */
+  --foundation-typography-sm-3xl: var(--foundation-size-3xl);    /* 30px */
+  --foundation-typography-sm-4xl: var(--foundation-size-4xl);    /* 36px */
+  --foundation-typography-sm-5xl: var(--foundation-size-5xl);    /* 48px */
+  --foundation-typography-sm-6xl: var(--foundation-size-6xl);    /* 60px */
+  --foundation-typography-sm-7xl: var(--foundation-size-7xl);    /* 72px */
 
-  --foundation-typography-sm-leading-tight: 1.1;
-  --foundation-typography-sm-leading-snug: 1.25;
-  --foundation-typography-sm-leading-normal: 1.35;
-  --foundation-typography-sm-leading-relaxed: 1.45;
-  --foundation-typography-sm-leading-loose: 1.6;
+  --foundation-typography-sm-leading-tight: var(--foundation-leading-tight);
+  --foundation-typography-sm-leading-snug: var(--foundation-leading-snug);
+  --foundation-typography-sm-leading-normal: var(--foundation-leading-normal);
+  --foundation-typography-sm-leading-relaxed: var(--foundation-leading-relaxed);
+  --foundation-typography-sm-leading-loose: var(--foundation-leading-loose);
 
-  /* --- Medium Scale (balanced, default) --- */
-  --foundation-typography-md-xs: var(--foundation-size-xs);
-  --foundation-typography-md-sm: var(--foundation-size-sm);
-  --foundation-typography-md-base: var(--foundation-size-base);
-  --foundation-typography-md-lg: var(--foundation-size-lg);
-  --foundation-typography-md-xl: var(--foundation-size-xl);
-  --foundation-typography-md-2xl: var(--foundation-size-2xl);
-  --foundation-typography-md-3xl: var(--foundation-size-3xl);
-  --foundation-typography-md-4xl: var(--foundation-size-4xl);
-  --foundation-typography-md-5xl: var(--foundation-size-5xl);
-  --foundation-typography-md-6xl: var(--foundation-size-6xl);
-  --foundation-typography-md-7xl: var(--foundation-size-7xl);
+  /* --- Medium Scale (open, airy - slightly larger body text) --- */
+  --foundation-typography-md-xs: 0.8rem;      /* 12.8px */
+  --foundation-typography-md-sm: 0.95rem;     /* 15.2px */
+  --foundation-typography-md-base: 1.1rem;    /* 17.6px */
+  --foundation-typography-md-lg: 1.25rem;     /* 20px */
+  --foundation-typography-md-xl: 1.5rem;      /* 24px */
+  --foundation-typography-md-2xl: 1.75rem;    /* 28px */
+  --foundation-typography-md-3xl: 2.25rem;    /* 36px */
+  --foundation-typography-md-4xl: 2.75rem;    /* 44px */
+  --foundation-typography-md-5xl: 3.5rem;     /* 56px */
+  --foundation-typography-md-6xl: 4.25rem;    /* 68px */
+  --foundation-typography-md-7xl: 5rem;       /* 80px */
 
-  --foundation-typography-md-leading-tight: var(--foundation-leading-tight);
-  --foundation-typography-md-leading-snug: var(--foundation-leading-snug);
-  --foundation-typography-md-leading-normal: var(--foundation-leading-normal);
-  --foundation-typography-md-leading-relaxed: var(--foundation-leading-relaxed);
-  --foundation-typography-md-leading-loose: var(--foundation-leading-loose);
+  --foundation-typography-md-leading-tight: 1.2;
+  --foundation-typography-md-leading-snug: 1.35;
+  --foundation-typography-md-leading-normal: 1.5;
+  --foundation-typography-md-leading-relaxed: 1.625;
+  --foundation-typography-md-leading-loose: 1.8;
 
-  /* --- Large Scale (open, airy) --- */
-  --foundation-typography-lg-xs: 0.8rem;
-  --foundation-typography-lg-sm: 0.95rem;
-  --foundation-typography-lg-base: 1.1rem;
-  --foundation-typography-lg-lg: 1.25rem;
-  --foundation-typography-lg-xl: 1.5rem;
-  --foundation-typography-lg-2xl: 1.75rem;
-  --foundation-typography-lg-3xl: 2.25rem;
-  --foundation-typography-lg-4xl: 2.75rem;
-  --foundation-typography-lg-5xl: 3.5rem;
-  --foundation-typography-lg-6xl: 4.25rem;
-  --foundation-typography-lg-7xl: 5rem;
+  /* --- Large Scale (impactful - larger headings, good for marketing) --- */
+  --foundation-typography-lg-xs: 0.85rem;     /* 13.6px */
+  --foundation-typography-lg-sm: 1rem;        /* 16px */
+  --foundation-typography-lg-base: 1.15rem;   /* 18.4px */
+  --foundation-typography-lg-lg: 1.35rem;     /* 21.6px */
+  --foundation-typography-lg-xl: 1.625rem;    /* 26px */
+  --foundation-typography-lg-2xl: 2rem;       /* 32px */
+  --foundation-typography-lg-3xl: 2.5rem;     /* 40px */
+  --foundation-typography-lg-4xl: 3.25rem;    /* 52px */
+  --foundation-typography-lg-5xl: 4rem;       /* 64px */
+  --foundation-typography-lg-6xl: 5rem;       /* 80px */
+  --foundation-typography-lg-7xl: 6rem;       /* 96px */
 
-  --foundation-typography-lg-leading-tight: 1.3;
-  --foundation-typography-lg-leading-snug: 1.45;
-  --foundation-typography-lg-leading-normal: 1.6;
-  --foundation-typography-lg-leading-relaxed: 1.75;
-  --foundation-typography-lg-leading-loose: 1.9;
+  --foundation-typography-lg-leading-tight: 1.15;
+  --foundation-typography-lg-leading-snug: 1.3;
+  --foundation-typography-lg-leading-normal: 1.45;
+  --foundation-typography-lg-leading-relaxed: 1.6;
+  --foundation-typography-lg-leading-loose: 1.75;
+
+  /* --- XL Scale (hero-focused - dramatic display text for hero sections) --- */
+  --foundation-typography-xl-xs: 0.875rem;    /* 14px */
+  --foundation-typography-xl-sm: 1.05rem;     /* 16.8px */
+  --foundation-typography-xl-base: 1.2rem;    /* 19.2px */
+  --foundation-typography-xl-lg: 1.45rem;     /* 23.2px */
+  --foundation-typography-xl-xl: 1.75rem;     /* 28px */
+  --foundation-typography-xl-2xl: 2.25rem;    /* 36px */
+  --foundation-typography-xl-3xl: 3rem;       /* 48px */
+  --foundation-typography-xl-4xl: 3.75rem;    /* 60px */
+  --foundation-typography-xl-5xl: 4.75rem;    /* 76px */
+  --foundation-typography-xl-6xl: 6rem;       /* 96px */
+  --foundation-typography-xl-7xl: 7.5rem;     /* 120px */
+
+  --foundation-typography-xl-leading-tight: 1.1;
+  --foundation-typography-xl-leading-snug: 1.25;
+  --foundation-typography-xl-leading-normal: 1.4;
+  --foundation-typography-xl-leading-relaxed: 1.55;
+  --foundation-typography-xl-leading-loose: 1.7;
 }
 
 /* =========================================================

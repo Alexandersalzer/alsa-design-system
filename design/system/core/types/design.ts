@@ -32,7 +32,7 @@ export interface DesignTokens {
   containerSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   navbarSpacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   formWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  typographyScale?: "sm" | "md" | "lg";
+  typographyScale?: "sm" | "md" | "lg" | "xl";
   sectionBodyAnimation?: 'all' | 'hero' | 'none';
 }
 
