@@ -18,7 +18,8 @@ import { openCalendlyPopup, buildCalendlyUrl } from '../../../patterns/widgets/C
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode;
+  children?: ReactNode;
+  content?: string; // For JSON-driven rendering
   href?: string;
   target?: string;
   variant?: 'brand' | 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
@@ -46,6 +47,7 @@ export const Button = forwardRef<
       size = 'md',
       radius = 'md',
       children,
+      content,
       loading = false,
       leftIcon,
       rightIcon,
@@ -64,6 +66,9 @@ export const Button = forwardRef<
     
     const actionHook = action ? useAction(action) : null;
     const isDisabled = disabled || loading || internalLoading;
+    
+    // Use content prop if provided, otherwise use children
+    const displayContent = content || children;
     
     const getEffectiveHref = () => {
       if (action?.type === 'navigation') {
@@ -155,7 +160,7 @@ export const Button = forwardRef<
 
     // ✅ SOLUTION: Use Label component but WITHOUT color prop
     // Color is inherited from parent .btn-{variant} via CSS
-    const content = (
+    const buttonContent = (
       <>
         {(loading || internalLoading) && (
           <span className="btn-spinner" aria-hidden="true">
@@ -177,7 +182,7 @@ export const Button = forwardRef<
           as="span"
           className="btn-text"
         >
-          {children}
+          {displayContent}
         </Label>
         {!loading && !internalLoading && rightIcon && (
           <span className="flex-shrink-0">{rightIcon}</span>
@@ -198,7 +203,7 @@ export const Button = forwardRef<
         return (
           <Component componentKey={componentKey}>
             <Link href={localeAwareHref} {...linkProps}>
-              {content}
+              {buttonContent}
             </Link>
           </Component>
         );
@@ -207,7 +212,7 @@ export const Button = forwardRef<
       return (
         <Component componentKey={componentKey}>
           <a href={localeAwareHref} {...linkProps}>
-            {content}
+            {buttonContent}
           </a>
         </Component>
       );
@@ -225,7 +230,7 @@ export const Button = forwardRef<
           onClick={handleActionClick}
           {...props}
         >
-          {content}
+          {buttonContent}
         </button>
       </Component>
     );
@@ -233,3 +238,5 @@ export const Button = forwardRef<
 );
 
 Button.displayName = 'Button';
+
+export default Button;
