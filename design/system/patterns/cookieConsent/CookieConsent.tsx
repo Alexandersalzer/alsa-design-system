@@ -71,7 +71,7 @@ export function CookieConsent({
       role="dialog" 
       aria-label="Cookie consent"
     >
-      <Card variant="elevated" padding="lg" radius="lg" className={styles.card}>
+      <Card variant="outlined" padding="sm" radius="lg" className={styles.card}>
         <VStack spacing="sm" align="start">
           {/* Header */}
           <Label size="lg" weight="bold" color="primary">
@@ -170,7 +170,7 @@ export function CookieConsent({
                 </HStack>
               </VStack>
             ) : (
-              <VStack spacing="sm" align="stretch">
+              <HStack spacing="sm" justify="between">
                 <Button
                   variant="accent"
                   size="sm"
@@ -179,7 +179,7 @@ export function CookieConsent({
                 >
                   {t.buttons.saveSelection}
                 </Button>
-                <HStack spacing="sm" justify="between" wrap>
+                <HStack spacing="sm" wrap>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -195,7 +195,7 @@ export function CookieConsent({
                     {t.buttons.denyAll}
                   </Button>
                 </HStack>
-              </VStack>
+              </HStack>
             )}
           </div>
         </VStack>

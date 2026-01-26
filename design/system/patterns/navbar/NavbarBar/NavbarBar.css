@@ -6,9 +6,27 @@
   position: sticky;
   top: 0;
   z-index: var(--z-navbar, 50);
-  background: var(--surface-nav, var(--surface-page));
   width: 100%;
-  transition: all var(--foundation-duration-normal) var(--foundation-ease-out);
+
+  /* Default: Transparent at top */
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid transparent;
+
+  /* Smooth transitions for glass effect */
+  transition:
+    background 0.25s ease,
+    backdrop-filter 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* Scrolled state: Glass effect */
+.navbar-bar--scrolled {
+  background: color-mix(in srgb, var(--surface-page) 75%, transparent);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 /* Hide on scroll down behavior */

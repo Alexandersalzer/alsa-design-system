@@ -72,13 +72,13 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
 
   const { duration: animationDuration, stagger: animationStagger, direction: animationDirection } = getAnimationSettings();
 
-  // Handle scroll behavior for glass-transparent and hideOnScroll
+  // Handle scroll behavior for transparent → glass transition
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Detect if scrolled (for glass-transparent variant)
-      setIsScrolled(currentScrollY > 50);
+      // Detect if scrolled (threshold of 8px feels snappy)
+      setIsScrolled(currentScrollY > 8);
 
       // Hide on scroll down, show on scroll up
       if (hideOnScroll) {
@@ -93,6 +93,9 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
 
       setLastScrollY(currentScrollY);
     };
+
+    // Run on mount to handle page loads when already scrolled
+    handleScroll();
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
