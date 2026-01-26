@@ -68,8 +68,8 @@ export const renderPattern = (
   // UNIVERSAL LAYOUT PATH: If pattern has layout prop
   if (patternProps.layout) {
     const layoutContent = patternProps.layout.cardLayout
-      ? renderLayoutWithCards(patternProps.layout, pattern.components, sectionKey, patternKey)
-      : renderLayout(patternProps.layout, pattern.components, sectionKey, patternKey);
+      ? renderLayoutWithCards(patternProps.layout, pattern.components, pattern.order, sectionKey, patternKey)
+      : renderLayout(patternProps.layout, pattern.components, pattern.order, sectionKey, patternKey);
 
     return (
       <Container

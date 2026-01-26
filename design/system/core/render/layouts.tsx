@@ -31,6 +31,7 @@ export interface LayoutDefinition extends NestedLayout {
  * 
  * @param layout - Layout definition (type + props + items/content)
  * @param components - All available components from pattern
+ * @param order - Order array from pattern (used when layout.items is not defined)
  * @param sectionKey - Section context
  * @param patternKey - Pattern context
  * @returns Rendered React element tree
@@ -38,6 +39,7 @@ export interface LayoutDefinition extends NestedLayout {
 export const renderLayout = (
   layout: NestedLayout,
   components: Record<string, ComponentNode>,
+  order?: string[],
   sectionKey?: string,
   patternKey?: string
 ): React.ReactElement | null => {
@@ -50,9 +52,12 @@ export const renderLayout = (
     return null;
   }
 
+  // Use layout.items if provided, otherwise fall back to pattern.order
+  const itemsToRender = items || (content ? [content] : order || []);
+
   // Render children based on items or content
   const children = renderLayoutChildren(
-    items || (content ? [content] : []),
+    itemsToRender,
     components,
     sectionKey,
     patternKey
@@ -133,12 +138,14 @@ const renderComponentFromKey = (
  * 
  * @param layout - Parent layout definition with cardLayout template
  * @param components - All available components
+ * @param order - Order array from pattern
  * @param sectionKey - Section context
  * @param patternKey - Pattern context
  */
 export const renderLayoutWithCards = (
   layout: LayoutDefinition,
   components: Record<string, ComponentNode>,
+  order?: string[],
   sectionKey?: string,
   patternKey?: string
 ): React.ReactElement | null => {
@@ -153,7 +160,7 @@ export const renderLayoutWithCards = (
 
   // If no cardLayout, render as normal layout
   if (!cardLayout) {
-    return renderLayout(layout, components, sectionKey, patternKey);
+    return renderLayout(layout, components, order, sectionKey, patternKey);
   }
 
   // Render each card using cardLayout template
