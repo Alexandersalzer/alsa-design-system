@@ -1,5 +1,5 @@
-import { AppIcon } from './AppIcon';
-import { AppIconGrid } from './AppIconGrid';
+import AppIcon from './AppIcon/AppIcon';
+import AppIconGrid from './AppIconGrid/AppIconGrid';
 
 export const appIconComponents: Record<string, React.ComponentType<any>> = {
   appIcon: AppIcon,

@@ -1,5 +1,5 @@
-import { Listbox } from './Listbox';
-import { List } from './List';
+import Listbox from './Listbox/Listbox';
+import List from './List/List';
 
 export const listComponents: Record<string, React.ComponentType<any>> = {
   listbox: Listbox,

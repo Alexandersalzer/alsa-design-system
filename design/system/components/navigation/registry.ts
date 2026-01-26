@@ -1,8 +1,8 @@
-import { Pagination } from './Pagination';
-import { Breadcrumbs } from './Breadcrumbs';
-import { BackButton } from './BackButton';
-import { Tab, TabGroup, TabPanel } from './Tabs';
-import { Nav } from './Nav';
+import Pagination from './Pagination/Pagination';
+import Breadcrumbs from './Breadcrumbs/Breadcrumbs';
+import BackButton from './BackButton/BackButton';
+import { Tab, TabGroup, TabPanel } from './Tabs/Tabs';
+import Nav from './Nav/Nav';
 
 export const navigationComponents: Record<string, React.ComponentType<any>> = {
   pagination: Pagination,

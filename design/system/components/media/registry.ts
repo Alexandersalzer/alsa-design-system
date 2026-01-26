@@ -1,9 +1,9 @@
-import { VideoShowcase } from './VideoShowcase';
-import Icon from './Icon';
-import { Avatar } from './Avatar';
-import { Image } from './Image';
-import { Logo } from './Logo';
-import { SquareImageContainer } from './SquareImageContainer';
+import VideoShowcase from './VideoShowcase/VideoShowcase';
+import Icon from './Icon/Icon';
+import Avatar from './Avatar/Avatar';
+import Image from './Image/Image';
+import Logo from './Logo/Logo';
+import SquareImageContainer from './SquareImageContainer/SquareImageContainer';
 
 export const mediaComponents: Record<string, React.ComponentType<any>> = {
   videoShowcase: VideoShowcase,
