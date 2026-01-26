@@ -5,11 +5,11 @@
 
 import React, { useState, useMemo, type ReactNode } from 'react';
 import { cn } from '../../../utils/cn';
-import { Checkbox } from '../../forms';
-import { BulkActionBar } from '../../actions/BulkActionBar';
-import { Pagination } from '../../navigation/Pagination';
-import { Clickable } from '../../actions/Clickable';
-import { Icon } from '../../media';
+import { Checkbox } from '../../forms/Checkbox/Checkbox';
+import { BulkActionBar } from '../../actions/BulkActionBar/BulkActionBar';
+import { Pagination } from '../../navigation/Pagination/Pagination';
+import { Clickable } from '../../actions/Clickable/Clickable';
+import { Icon } from '../../media/Icon/Icon';
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 
 // ===== TYPES =====
