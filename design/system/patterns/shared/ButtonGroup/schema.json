@@ -1,0 +1,26 @@
+       { "buttonGroup_fdsH2a": {
+          "type": "buttonGroup",
+          "props": {
+          },
+          "components": {
+            "button-primary": {
+              "type": "button",
+              "props": {
+                "content": "Boka ett möte",
+                "action": {
+                  "type": "booking",
+                  "settings": {
+                    "calendlyUrl": "https://calendly.com/kjmarketingsweden/30min",
+                    "primaryColor": "",
+                    "hideEventTypeDetails": true,
+                    "hideGdprBanner": true
+                  }
+                }
+              }
+            }
+          },
+          "order": [
+            "button-primary"
+          ]
+        }
+    }
