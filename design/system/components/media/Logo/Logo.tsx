@@ -92,8 +92,10 @@ export const Logo: React.FC<LogoProps> = ({
 
   const getTextColor = (
     color: 'auto' | 'light' | 'dark' | 'brand'
-  ): 'primary' | 'secondary' | 'inverse' | 'inherit' => {
-    return color === 'brand' ? 'primary' : 'inherit';
+  ): 'primary' | 'secondary' | 'inverse' => {
+    // Logo text should ALWAYS follow theme text color
+    // Never inherit from <a>
+    return 'primary';
   };
 
   const imageVariant = getImageVariant(color);
