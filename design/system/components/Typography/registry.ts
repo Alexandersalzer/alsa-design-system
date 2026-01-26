@@ -13,7 +13,7 @@ import {
   H5,
   H6,
   Heading,
-} from './Typography/Typography';
+} from './Typography';
 
 export const typographyComponents: Record<string, React.ComponentType<any>> = {
   typography: Typography,

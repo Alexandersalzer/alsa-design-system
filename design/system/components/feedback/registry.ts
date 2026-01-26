@@ -1,4 +1,4 @@
-import Banner from './Banner/Banner';
+import { Banner } from './Banner/Banner';
 import {
   AlertRoot,
   AlertIndicator,
@@ -12,15 +12,15 @@ import {
   WarningAlert,
   InfoAlert,
 } from './Alert/Alert';
-import Badge from './Badge/Badge';
-import NumberDisplay from './NumberDisplay/NumberDisplay';
-import Tag from './Tag/Tag';
-import Toast from './Toast/Toast';
-import Spinner from './Spinner/Spinner';
+import { Badge } from './Badge/Badge';
+import { NumberDisplay } from './NumberDisplay/NumberDisplay';
+import { Tag } from './Tag/Tag';
+import { Toast } from './Toast/Toast';
+import { Spinner } from './Spinner/Spinner';
 import { Skeleton, SkeletonCircle, SkeletonText } from './LoadingSkeleton/LoadingSkeleton';
-import Progress from './Progress/Progress';
-import PageLoading from './PageLoading/PageLoading';
-import InlineLoading from './InlineLoading/InlineLoading';
+import { Progress } from './Progress/Progress';
+import { PageLoading } from './PageLoading/PageLoading';
+import { InlineLoading } from './InlineLoading/InlineLoading';
 
 export const feedbackComponents: Record<string, React.ComponentType<any>> = {
   banner: Banner,

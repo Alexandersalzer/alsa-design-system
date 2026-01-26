@@ -3,8 +3,8 @@ import Sparkline from './Sparkline/Sparkline';
 import BarChart from './BarChart/BarChart';
 import DonutChart from './DonutChart/DonutChart';
 import AreaChart from './AreaChart/AreaChart';
-import Table from './Table/Table';
-import IndexTable from './IndexTable/IndexTable';
+import { Table } from './Table/Table';
+import { IndexTable } from './IndexTable/IndexTable';
 
 export const dataComponents: Record<string, React.ComponentType<any>> = {
   lineChart: LineChart,
