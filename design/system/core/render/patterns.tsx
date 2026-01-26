@@ -2,6 +2,7 @@ import { Container } from '../../components';
 import { getPatternProps } from '../utils/props';
 import { patternRegistry } from '../../patterns/registry';
 import { PatternNode } from '../types/nodes';
+import { renderLayout, renderLayoutWithCards } from './layouts';
 
 import { AnimationConfig } from '../animations/types';
 
@@ -53,7 +54,7 @@ export const renderPatternDirect = (
 };
 
 /**
- * Pattern Renderer - Pattern har full kontroll över component rendering
+ * Pattern Renderer - Detects layout-driven vs legacy pattern rendering
  * För content sections (med Container wrapper)
  */
 export const renderPattern = (
@@ -62,14 +63,33 @@ export const renderPattern = (
   sectionKey?: string,
   layoutContext?: LayoutContext
 ) => {
+  const patternProps = getPatternProps(pattern);
+
+  // UNIVERSAL LAYOUT PATH: If pattern has layout prop
+  if (patternProps.layout) {
+    const layoutContent = patternProps.layout.cardLayout
+      ? renderLayoutWithCards(patternProps.layout, pattern.components, sectionKey, patternKey)
+      : renderLayout(patternProps.layout, pattern.components, sectionKey, patternKey);
+
+    return (
+      <Container
+        key={patternKey}
+        height="auto"
+        useMediaWidth={patternProps.useMediaWidth || false}
+        useFormWidth={patternProps.useFormWidth || false}
+        patternKey={patternKey}
+      >
+        {layoutContent}
+      </Container>
+    );
+  }
+
+  // LEGACY PATH: Use pattern registry for hardcoded patterns
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
     console.warn(`Pattern: ${pattern.type} don't exist in registry`);
     return null;
   }
-
-  // Hämta useMediaWidth från props med getPatternProps
-  const patternProps = getPatternProps(pattern);
 
   return (
     <Container
