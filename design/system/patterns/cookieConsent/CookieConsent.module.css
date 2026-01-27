@@ -106,6 +106,13 @@
   width: 100%;
 }
 
+.actionsLayout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
 /* Responsivt */
 @media (max-width: 640px) {
   .consent {
@@ -141,23 +148,21 @@
     padding: var(--space-xs);
   }
 
-  /* Actions row on mobile */
+  /* Actions row on mobile — ghost on its own row, secondary + accent below */
   .actions {
     width: 100%;
     padding-top: var(--space-xs);
   }
 
-  .actions :global(.hstack) {
-    width: 100%;
+  .actionsLayout {
+    flex-direction: column;
+    align-items: flex-start;
     gap: var(--space-xs);
-    flex-wrap: nowrap;
   }
 
-  /* Ensure buttons don't overflow — shrink text */
-  .actions :global(.hstack) button {
-    white-space: nowrap;
-    font-size: var(--foundation-text-xs, 0.75rem);
-    padding-inline: var(--space-xs);
+  .actionsLayout :global(.hstack) {
+    width: 100%;
+    justify-content: space-between !important;
   }
 
   /* Minska textstorlek på mobil */

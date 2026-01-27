@@ -140,27 +140,27 @@ export function CookieConsent({
             </VStack>
           )}
 
-          {/* Knappar - always 3 buttons in one row */}
+          {/* Knappar */}
           <div className={styles.actions}>
-            <HStack spacing="sm" justify="between" align="center">
-              <HStack spacing="sm">
-                {!showDetails ? (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setShowDetails(true)}
-                  >
-                    {t.buttons.customize}
-                  </Button>
-                ) : (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setShowDetails(false)}
-                  >
-                    {t.buttons.back}
-                  </Button>
-                )}
+            <div className={styles.actionsLayout}>
+              {!showDetails ? (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowDetails(true)}
+                >
+                  {t.buttons.customize}
+                </Button>
+              ) : (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowDetails(false)}
+                >
+                  {t.buttons.back}
+                </Button>
+              )}
+              <HStack spacing="sm" justify="end">
                 <Button
                   variant="secondary"
                   size="sm"
@@ -168,15 +168,15 @@ export function CookieConsent({
                 >
                   {showDetails ? t.buttons.denyAll : t.buttons.rejectAll}
                 </Button>
+                <Button
+                  variant="accent"
+                  size="sm"
+                  onClick={showDetails ? handleAcceptSelected : acceptAll}
+                >
+                  {showDetails ? t.buttons.saveSelection : t.buttons.acceptAll}
+                </Button>
               </HStack>
-              <Button
-                variant="accent"
-                size="sm"
-                onClick={showDetails ? handleAcceptSelected : acceptAll}
-              >
-                {showDetails ? t.buttons.saveSelection : t.buttons.acceptAll}
-              </Button>
-            </HStack>
+            </div>
           </div>
         </VStack>
       </Card>
