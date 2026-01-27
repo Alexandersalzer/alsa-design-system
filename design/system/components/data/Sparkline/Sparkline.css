@@ -146,6 +146,18 @@
   opacity: 0.4;
 }
 
+/* ===== AXIS TICK MARKS ===== */
+.sparkline__ticks {
+  opacity: 1;
+}
+
+.sparkline__tick {
+  stroke: var(--text-muted);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.6;
+}
+
 /* ===== LINE ===== */
 .sparkline__line {
   fill: none;

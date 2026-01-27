@@ -493,6 +493,44 @@ export const Sparkline: React.FC<SparklineProps> = ({
                 </g>
               )}
 
+              {/* Axis tick marks */}
+              {(showXAxis || showScale) && (
+                <g className="sparkline__ticks">
+                  {/* Start date vertical tick (at origin) */}
+                  <line
+                    className="sparkline__tick sparkline__tick--vertical"
+                    x1="0"
+                    y1={height - 2}
+                    x2="0"
+                    y2={height + 4}
+                  />
+                  {/* End date vertical tick */}
+                  <line
+                    className="sparkline__tick sparkline__tick--vertical"
+                    x1={width}
+                    y1={height - 2}
+                    x2={width}
+                    y2={height + 4}
+                  />
+                  {/* Max value horizontal tick (on Y-axis) */}
+                  {(() => {
+                    const min = chartData.min;
+                    const max = chartData.max;
+                    const range = max - min || 1;
+                    const maxYPos = height - ((chartData.rawMax - min) / range) * (height - 4) - 2;
+                    return (
+                      <line
+                        className="sparkline__tick sparkline__tick--horizontal"
+                        x1="-4"
+                        y1={maxYPos}
+                        x2="2"
+                        y2={maxYPos}
+                      />
+                    );
+                  })()}
+                </g>
+              )}
+
               {showArea && (
                 <path
                   className={`sparkline__area sparkline__area--${color}`}
