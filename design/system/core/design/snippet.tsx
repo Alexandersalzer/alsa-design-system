@@ -21,8 +21,8 @@ export function buildCssVars(tokens: DesignTokens): string {
     console.warn('[Design] Deprecated: Using isDark (boolean). Please update design.json to use themeMode: "light" | "dark" | "system"');
   }
 
-  const themeTone        = tokens?.themeTone        || "neutral";
-  const fontPrimary      = tokens?.fontPrimary      || "Sora";
+  const themeTone        = tokens?.themeTone        || "pure";
+  const fontPrimary      = tokens?.fontPrimary      || "Outfit";
   const fontSecondary    = tokens?.fontSecondary    || fontPrimary;
   const layoutContent    = tokens?.layoutContent    || "md";
   const layoutMedia      = tokens?.layoutMedia      || "xl";
