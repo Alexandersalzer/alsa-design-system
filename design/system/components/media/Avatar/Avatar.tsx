@@ -227,6 +227,9 @@ export const AvatarGroup = forwardRef<
 
 AvatarGroup.displayName = 'AvatarGroup';
 
+// ===== FALLBACK MODE TYPE =====
+export type AvatarFallbackMode = 'icon' | 'initials' | 'none';
+
 // ===== COMPOSITE AVATAR COMPONENT =====
 export interface AvatarProps extends AvatarRootProps {
   name?: string;
@@ -236,6 +239,20 @@ export interface AvatarProps extends AvatarRootProps {
   loading?: 'eager' | 'lazy';
   icon?: ReactElement;
   fallback?: React.ReactNode;
+  /**
+   * Controls what to show when no image is provided.
+   * - 'icon': Show user icon (default when no name provided)
+   * - 'initials': Show name initials (default when name is provided)
+   * - 'none': Show nothing (solid background only)
+   * Note: When src is provided, fallback is never shown to prevent
+   * icons/text from bleeding through transparent images.
+   */
+  fallbackMode?: AvatarFallbackMode;
+  /**
+   * Background color for the avatar. Useful for transparent images.
+   * Defaults to 'var(--surface-page)' when src is provided.
+   */
+  backgroundColor?: string;
 }
 
 export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
@@ -247,6 +264,8 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
       loading = 'lazy',
       icon,
       fallback,
+      fallbackMode,
+      backgroundColor,
       children,
       size = 'md',
       variant = 'subtle',
@@ -254,6 +273,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
       colorPalette = 'gray',
       borderless = false,
       className,
+      style,
       ...rest
     } = props;
 
@@ -264,6 +284,20 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     // Priority: explicit alt > name > generic fallback
     const imageAlt = alt || (name ? `${name}'s avatar` : 'User avatar');
 
+    // Determine the actual fallback mode when no src
+    // Priority: explicit fallbackMode > has name (initials) > icon
+    const actualFallbackMode: AvatarFallbackMode = fallbackMode ?? (name ? 'initials' : 'icon');
+
+    // Background: when src is provided, use page background to prevent fallback showing through
+    // This handles transparent images properly
+    const bgColor = backgroundColor ?? (src ? 'var(--surface-page)' : undefined);
+
+    // Merge styles
+    const mergedStyle = {
+      ...style,
+      ...(bgColor ? { backgroundColor: bgColor } : {}),
+    };
+
     return (
       <AvatarRoot
         ref={ref}
@@ -273,11 +307,18 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
         colorPalette={colorPalette}
         borderless={borderless}
         className={className}
+        style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
         {...rest}
       >
-        <AvatarFallback name={name}>
-          {fallback || icon}
-        </AvatarFallback>
+        {/* Only render fallback when NO src is provided */}
+        {!src && actualFallbackMode !== 'none' && (
+          <AvatarFallback
+            name={actualFallbackMode === 'initials' ? name : undefined}
+            icon={actualFallbackMode === 'icon' ? icon : undefined}
+          >
+            {fallback}
+          </AvatarFallback>
+        )}
         {src && (
           <Image
             src={src}
