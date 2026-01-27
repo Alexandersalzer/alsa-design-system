@@ -3,6 +3,7 @@ import { getPatternProps } from '../utils/props';
 import { patternRegistry } from '../../patterns/registry';
 import { PatternNode } from '../types/nodes';
 import { renderLayoutWithTemplate } from './layouts';
+import { animationComponents } from '../../components/animations/registry';
 
 import { AnimationConfig } from '../animations/types';
 
@@ -74,6 +75,9 @@ export const renderPattern = (
       patternKey
     );
 
+    // Wrap with animation if pattern has animation config
+    const animatedContent = wrapWithAnimation(layoutContent, pattern.animation);
+
     return (
       <Container
         key={patternKey}
@@ -82,7 +86,7 @@ export const renderPattern = (
         useFormWidth={patternProps.useFormWidth || false}
         patternKey={patternKey}
       >
-        {layoutContent}
+        {animatedContent}
       </Container>
     );
   }
