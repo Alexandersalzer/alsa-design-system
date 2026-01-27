@@ -112,6 +112,10 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         "video-container",
         `video-container--radius-${radius}`
       )}
+      style={{
+        height: customHeight || 'auto',
+        width: customWidth || '100%'
+      }}
       onClick={handlePlayClick}
     >
       <Video
