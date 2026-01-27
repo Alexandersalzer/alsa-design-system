@@ -6,7 +6,6 @@ import { Button } from '../../components/actions/Button';
 import { Label, Body } from '../../components/Typography';
 import { Card } from '../../components/layout/Card';
 import { VStack } from '../../components/layout/vStack';
-import { HStack } from '../../components/layout/hStack';
 import { Checkbox } from '../../components/forms/Checkbox';
 import styles from './CookieConsent.module.css';
 
@@ -160,22 +159,20 @@ export function CookieConsent({
                   {t.buttons.back}
                 </Button>
               )}
-              <HStack spacing="sm" justify="end">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={rejectAll}
-                >
-                  {showDetails ? t.buttons.denyAll : t.buttons.rejectAll}
-                </Button>
-                <Button
-                  variant="accent"
-                  size="sm"
-                  onClick={showDetails ? handleAcceptSelected : acceptAll}
-                >
-                  {showDetails ? t.buttons.saveSelection : t.buttons.acceptAll}
-                </Button>
-              </HStack>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={rejectAll}
+              >
+                {showDetails ? t.buttons.denyAll : t.buttons.rejectAll}
+              </Button>
+              <Button
+                variant="accent"
+                size="sm"
+                onClick={showDetails ? handleAcceptSelected : acceptAll}
+              >
+                {showDetails ? t.buttons.saveSelection : t.buttons.acceptAll}
+              </Button>
             </div>
           </div>
         </VStack>

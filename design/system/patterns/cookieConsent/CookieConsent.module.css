@@ -109,8 +109,12 @@
 .actionsLayout {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--space-sm);
+}
+
+/* Push accent (last button) to the right on desktop */
+.actionsLayout > :last-child {
+  margin-left: auto;
 }
 
 /* Responsivt */
@@ -148,7 +152,7 @@
     padding: var(--space-xs);
   }
 
-  /* Actions row on mobile — ghost on its own row, secondary + accent below */
+  /* Actions on mobile — all buttons stacked, accent on top */
   .actions {
     width: 100%;
     padding-top: var(--space-xs);
@@ -156,13 +160,18 @@
 
   .actionsLayout {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: var(--space-xs);
   }
 
-  .actionsLayout :global(.hstack) {
+  /* Accent button (last child) goes to top, full width */
+  .actionsLayout > :last-child {
+    order: -1;
+    margin-left: 0;
+  }
+
+  .actionsLayout > button {
     width: 100%;
-    justify-content: space-between !important;
   }
 
   /* Minska textstorlek på mobil */
