@@ -268,11 +268,10 @@ export const Sparkline: React.FC<SparklineProps> = ({
       timestamp: datum.timestamp
     }));
 
-    // Step 6: Calculate grid lines using nice values
+    // Step 6: Calculate grid lines using yAxisStep for human-friendly values
     const gridLineValues = [];
     if (showGrid || showScale) {
-      for (let i = 0; i <= gridLines; i++) {
-        const value = niceMin + (range / gridLines) * i;
+      for (let value = niceMin; value <= niceMax; value += yAxisStep) {
         gridLineValues.push(value);
       }
     }
@@ -453,106 +452,108 @@ export const Sparkline: React.FC<SparklineProps> = ({
           </div>
         )}
 
-        <div className="sparkline__svg-container" style={{ position: 'relative' }}>
-          <svg
-            width={width}
-            height={height}
-            className={`sparkline__svg sparkline__svg--${color}`}
-            viewBox={`0 0 ${width} ${height}`}
-            preserveAspectRatio="none"
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-          >
-            <defs>
-              <linearGradient id={`sparkline-gradient-${color}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" className={`sparkline__gradient-start sparkline__gradient-start--${color}`} />
-                <stop offset="100%" className="sparkline__gradient-end" />
-              </linearGradient>
-            </defs>
-
-            {showGrid && chartData && chartData.gridLineValues.length > 0 && (
-              <g className="sparkline__grid">
-                {chartData.gridLineValues
-                  .slice(1, -1)
-                  .map((value, index) => {
-                    const min = chartData.min;
-                    const max = chartData.max;
-                    const range = max - min || 1;
-                    const yPos = height - ((value - min) / range) * (height - 4) - 2;
-                    return (
-                      <line
-                        key={`grid-${index}`}
-                        className="sparkline__grid-line"
-                        x1="0"
-                        y1={yPos}
-                        x2={width}
-                        y2={yPos}
-                      />
-                    );
-                  })}
-              </g>
-            )}
-
-            {showArea && (
-              <path
-                className={`sparkline__area sparkline__area--${color}`}
-                d={areaPath}
-                fill={`url(#sparkline-gradient-${color})`}
-              />
-            )}
-
-            <path
-              className={`sparkline__line sparkline__line--${color}`}
-              d={linePath}
-            />
-
-            {/* Hover indicator */}
-            {showTooltip && hoveredPoint && (
-              <circle
-                className={`sparkline__hover-dot sparkline__hover-dot--${color}`}
-                cx={hoveredPoint.x}
-                cy={hoveredPoint.y}
-                r="4"
-              />
-            )}
-          </svg>
-
-          {/* Tooltip */}
-          {showTooltip && hoveredPoint && hoveredDatum && (
-            <div
-              className="sparkline__tooltip"
-              style={{
-                position: 'absolute',
-                left: `${hoveredPoint.x}px`,
-                top: `${hoveredPoint.y - 40}px`,
-                transform: 'translateX(-50%)',
-                pointerEvents: 'none'
-              }}
+        <div className="sparkline__svg-container">
+          <div style={{ position: 'relative' }}>
+            <svg
+              width={width}
+              height={height}
+              className={`sparkline__svg sparkline__svg--${color}`}
+              viewBox={`0 0 ${width} ${height}`}
+              preserveAspectRatio="none"
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
             >
-              <div className="sparkline__tooltip-date">
-                {new Date(hoveredDatum.timestamp).toLocaleDateString('sv-SE', {
-                  month: 'short',
-                  day: 'numeric',
-                  hour: chartData.bucketType === 'hour' ? '2-digit' : undefined
-                })}
+              <defs>
+                <linearGradient id={`sparkline-gradient-${color}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" className={`sparkline__gradient-start sparkline__gradient-start--${color}`} />
+                  <stop offset="100%" className="sparkline__gradient-end" />
+                </linearGradient>
+              </defs>
+
+              {showGrid && chartData && chartData.gridLineValues.length > 0 && (
+                <g className="sparkline__grid">
+                  {chartData.gridLineValues
+                    .slice(1, -1)
+                    .map((value, index) => {
+                      const min = chartData.min;
+                      const max = chartData.max;
+                      const range = max - min || 1;
+                      const yPos = height - ((value - min) / range) * (height - 4) - 2;
+                      return (
+                        <line
+                          key={`grid-${index}`}
+                          className="sparkline__grid-line"
+                          x1="0"
+                          y1={yPos}
+                          x2={width}
+                          y2={yPos}
+                        />
+                      );
+                    })}
+                </g>
+              )}
+
+              {showArea && (
+                <path
+                  className={`sparkline__area sparkline__area--${color}`}
+                  d={areaPath}
+                  fill={`url(#sparkline-gradient-${color})`}
+                />
+              )}
+
+              <path
+                className={`sparkline__line sparkline__line--${color}`}
+                d={linePath}
+              />
+
+              {/* Hover indicator */}
+              {showTooltip && hoveredPoint && (
+                <circle
+                  className={`sparkline__hover-dot sparkline__hover-dot--${color}`}
+                  cx={hoveredPoint.x}
+                  cy={hoveredPoint.y}
+                  r="4"
+                />
+              )}
+            </svg>
+
+            {/* Tooltip */}
+            {showTooltip && hoveredPoint && hoveredDatum && (
+              <div
+                className="sparkline__tooltip"
+                style={{
+                  position: 'absolute',
+                  left: `${hoveredPoint.x}px`,
+                  top: `${hoveredPoint.y - 40}px`,
+                  transform: 'translateX(-50%)',
+                  pointerEvents: 'none'
+                }}
+              >
+                <div className="sparkline__tooltip-date">
+                  {new Date(hoveredDatum.timestamp).toLocaleDateString('sv-SE', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: chartData.bucketType === 'hour' ? '2-digit' : undefined
+                  })}
+                </div>
+                <div className="sparkline__tooltip-value">
+                  {formatValue(hoveredDatum.value)}
+                </div>
               </div>
-              <div className="sparkline__tooltip-value">
-                {formatValue(hoveredDatum.value)}
-              </div>
+            )}
+          </div>
+
+          {/* X-axis labels */}
+          {showXAxis && chartData.xAxisLabels.length > 0 && (
+            <div className="sparkline__x-axis" style={{ width }}>
+              {chartData.xAxisLabels.map((label, i) => (
+                <span key={`x-label-${i}`} className="sparkline__x-axis-label">
+                  {label}
+                </span>
+              ))}
             </div>
           )}
         </div>
-
-        {/* X-axis labels */}
-        {showXAxis && chartData.xAxisLabels.length > 0 && (
-          <div className="sparkline__x-axis" style={{ width }}>
-            {chartData.xAxisLabels.map((label, i) => (
-              <span key={`x-label-${i}`} className="sparkline__x-axis-label">
-                {label}
-              </span>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );

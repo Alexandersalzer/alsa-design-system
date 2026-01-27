@@ -104,8 +104,8 @@
 /* ===== CHART WRAPPER ===== */
 .sparkline__chart-wrapper {
   position: relative;
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  align-items: flex-start;
   gap: var(--foundation-space-2);
 }
 
@@ -135,13 +135,15 @@
 
 /* ===== GRID LINES ===== */
 .sparkline__grid {
-  opacity: 0.5;
+  opacity: 1;
 }
 
 .sparkline__grid-line {
   stroke: var(--border-subtle);
   stroke-width: 1;
+  stroke-dasharray: 2 2;
   vector-effect: non-scaling-stroke;
+  opacity: 0.4;
 }
 
 /* ===== LINE ===== */
@@ -231,8 +233,10 @@
 
 /* ===== SVG CONTAINER ===== */
 .sparkline__svg-container {
-  position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-2);
+  flex: 1;
 }
 
 /* ===== HOVER DOT ===== */
