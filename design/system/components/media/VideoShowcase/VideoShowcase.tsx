@@ -102,8 +102,8 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         videoRef.current.pause();
         setIsPlaying(false);
       }
-    }videoUrl}
-        poster={derivedPosterUrl
+    }
+  };
 
   const videoContent = (
     <div
@@ -115,8 +115,8 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       onClick={handlePlayClick}
     >
       <Video
-        src={typeof props.src === 'string' ? props.src : ''}
-        poster={poster}
+        src={videoUrl}
+        poster={derivedPosterUrl}
         width="100%"
         height="auto"
         aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : 'auto'}
