@@ -40,7 +40,7 @@
 
 /* Card wrapper */
 .consent :global(.card) {
-  width: var(--foundation-form-xl-width);
+  width: var(--foundation-form-md-width);
   max-width: var(--width-container);
   display: flex;
   flex-direction: column;
@@ -141,30 +141,23 @@
     padding: var(--space-xs);
   }
 
-  /* Gör knapparna full bredd på mobil */
+  /* Actions row on mobile */
   .actions {
     width: 100%;
     padding-top: var(--space-xs);
   }
 
-  .actions :global(.vstack) {
-    width: 100%;
-    gap: var(--space-xs) !important;
-  }
-
   .actions :global(.hstack) {
     width: 100%;
     gap: var(--space-xs);
+    flex-wrap: nowrap;
   }
 
-  .actions :global(.hstack) > * {
-    flex: 1;
-    min-width: 0;
-  }
-
-  /* Se till att huvudknappen är full bredd */
-  .actions :global(.vstack) > button:first-child {
-    width: 100%;
+  /* Ensure buttons don't overflow — shrink text */
+  .actions :global(.hstack) button {
+    white-space: nowrap;
+    font-size: var(--foundation-text-xs, 0.75rem);
+    padding-inline: var(--space-xs);
   }
 
   /* Minska textstorlek på mobil */
