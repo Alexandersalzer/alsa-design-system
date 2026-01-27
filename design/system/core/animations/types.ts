@@ -100,6 +100,8 @@ export interface CarouselAnimationConfig extends BaseAnimationConfig {
   settings?: {
     speed?: number;
     direction?: 'left' | 'right';
+    duration?: number;
+    delay?: number;
     duplicateCount?: number;
     enableFadeEdges?: boolean;
     fadeWidth?: string;
