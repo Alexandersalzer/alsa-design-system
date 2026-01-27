@@ -6,6 +6,48 @@ import { renderLayoutWithTemplate } from './layouts';
 import { animationComponents } from '../../components/animations/registry';
 
 import { AnimationConfig } from '../animations/types';
+import React from 'react';
+
+/**
+ * Content transformers for specific animation types
+ * Allows custom handling for animations with special requirements
+ */
+const animationTransformers: Record<string, (content: React.ReactNode) => any> = {
+  carousel: (content: React.ReactNode) => ({
+    items: React.Children.toArray(content).map((child, index) => ({
+      id: `item-${index}`,
+      content: child
+    }))
+  }),
+  // Add more transformers here as needed
+  // e.g., grid: (content) => ({ gridItems: ... })
+};
+
+/**
+ * Wraps content with animation component if animation config is provided
+ * Dynamically handles all animation types from the registry
+ */
+const wrapWithAnimation = (content: React.ReactNode, animation?: AnimationConfig) => {
+  if (!animation || animation.type === 'none') {
+    return content;
+  }
+
+  const AnimationComponent = animationComponents[`${animation.type}Animation`];
+  if (!AnimationComponent) {
+    console.warn(`Animation component for type "${animation.type}" not found in registry`);
+    return content;
+  }
+
+  // Check if this animation type needs special content transformation
+  const transformer = animationTransformers[animation.type];
+  if (transformer) {
+    const transformedProps = transformer(content);
+    return <AnimationComponent {...transformedProps} {...animation.settings} />;
+  }
+
+  // Default: pass content as children with settings
+  return <AnimationComponent {...animation.settings}>{content}</AnimationComponent>;
+};
 
 /**
  * Layout context passed from LayoutRenderer to patterns
