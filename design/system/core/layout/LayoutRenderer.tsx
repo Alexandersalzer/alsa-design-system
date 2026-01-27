@@ -302,6 +302,14 @@ export function LayoutRenderer({
           grid-template-columns: ${ratioMap[ratio]};
           gap: var(--space-${gap});
           align-items: ${verticalAlign};
+          ${isSecondColumnMediaOnly ? 'grid-auto-rows: 1fr;' : ''}
+        }
+        
+        #${layoutId} .media-column {
+          min-height: 0;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
         }
 
         #${layoutId} .mobile-stack {
@@ -339,7 +347,7 @@ export function LayoutRenderer({
           {isSectionHeaderInRightColumn ? (
             // When SectionHeader is on right, left column has secondColumn patterns
             isSecondColumnMediaOnly ? (
-              <Box style={{ alignSelf: 'stretch', display: 'flex', flexDirection: 'column' }}>
+              <Box className="media-column">
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </Box>
             ) : (
@@ -370,7 +378,7 @@ export function LayoutRenderer({
           ) : (
             // When SectionHeader is on left, right column has secondColumn patterns
             isSecondColumnMediaOnly ? (
-              <Box style={{ alignSelf: 'stretch', display: 'flex', flexDirection: 'column' }}>
+              <Box className="media-column">
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </Box>
             ) : (
