@@ -112,18 +112,14 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         "video-container",
         `video-container--radius-${radius}`
       )}
-      style={{
-        height: customHeight || 'auto',
-        width: customWidth || '100%'
-      }}
       onClick={handlePlayClick}
     >
       <Video
         src={videoUrl}
         poster={derivedPosterUrl}
-        width="100%"
-        height="auto"
-        aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : 'auto'}
+        width={customWidth || "100%"}
+        height={customHeight || "auto"}
+        aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
         radius={radius === 'full' ? 'xl' : radius}
         loading="eager"
         priority={true}
