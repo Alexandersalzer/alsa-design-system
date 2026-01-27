@@ -50,6 +50,15 @@ export interface LayoutConfig {
   verticalAlign?: 'start' | 'center' | 'end';
 
   /**
+   * Vertical alignment for SectionHeader content (CSS justifyContent)
+   * Controls how SectionHeader + action patterns are positioned vertically
+   * - 'start': Align to top (default)
+   * - 'center': Align to middle
+   * - 'end': Align to bottom - useful for hero sections with tall media
+   */
+  sectionHeaderVerticalAlign?: 'start' | 'center' | 'end';
+
+  /**
    * Breakpoint at which split layout stacks to single column
    * - 'tablet': Stack at 768px (default mobile behavior)
    * - 'desktop': Stack at 1024px (default - good for most split layouts)

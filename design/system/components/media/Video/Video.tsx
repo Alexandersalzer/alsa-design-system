@@ -127,11 +127,11 @@ export const Video: React.FC<VideoProps> = ({
     `video-element--radius-${radius}`
   );
 
-  // Container styles
+  // Container styles - explicit dimensions take priority over aspect ratio
   const containerStyles: React.CSSProperties = {
-    width: width || '100%',
-    height: height || 'auto',
-    aspectRatio: aspectRatio || undefined,
+    ...(width ? { width } : { width: '100%' }),
+    ...(height ? { height } : {}),
+    ...(aspectRatio && !height ? { aspectRatio } : {}),
     position: 'relative',
     overflow: 'hidden',
     background: (isLoading && !poster) ? 'var(--surface-raised)' : 'transparent',
