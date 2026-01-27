@@ -60,7 +60,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     'video-showcase',
     `video-showcase--${variant}`,
     `video-showcase--${size}`,
-    `video-showcase--aspect-${aspectRatio}`,
+    !customHeight && `video-showcase--aspect-${aspectRatio}`,
     `video-showcase--radius-${radius}`,
     className
   );
@@ -119,7 +119,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         poster={derivedPosterUrl}
         width={customWidth || "100%"}
         height={customHeight || "auto"}
-        aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
+        aspectRatio={customHeight ? undefined : (aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto')}
         radius={radius === 'full' ? 'xl' : radius}
         loading="eager"
         priority={true}
