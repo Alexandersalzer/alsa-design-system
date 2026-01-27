@@ -26,10 +26,8 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   componentKey?: string;
   /** Animation configuration following centralized animation system */
   animation?: AnimationConfig;
-  /** Custom width for the video container */
-  customWidth?: string | number;
-  /** Custom height for the video container */
-  customHeight?: string | number;
+  /** Max height for the video */
+  maxHeight?: string | number;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -47,8 +45,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   poster,
   componentKey,
   animation,
-  customWidth,
-  customHeight,
+  maxHeight,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -60,7 +57,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     'video-showcase',
     `video-showcase--${variant}`,
     `video-showcase--${size}`,
-    !customHeight && `video-showcase--aspect-${aspectRatio}`,
+    `video-showcase--aspect-${aspectRatio}`,
     `video-showcase--radius-${radius}`,
     className
   );
@@ -117,9 +114,9 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       <Video
         src={videoUrl}
         poster={derivedPosterUrl}
-        width={customWidth || "100%"}
-        height={customHeight || "auto"}
-        aspectRatio={customHeight ? undefined : (aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto')}
+        width="100%"
+        maxHeight={maxHeight}
+        aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
         radius={radius === 'full' ? 'xl' : radius}
         loading="eager"
         priority={true}
