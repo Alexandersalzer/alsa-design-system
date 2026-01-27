@@ -173,6 +173,7 @@ export function CookieConsent({
                 variant="accent"
                 size="sm"
                 onClick={showDetails ? handleAcceptSelected : acceptAll}
+                fullWidth
               >
                 {showDetails ? t.buttons.saveSelection : t.buttons.acceptAll}
               </Button>
