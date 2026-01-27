@@ -92,7 +92,7 @@ export function CookieConsent({
                 disabled
                 label={t.categories.essential.title}
                 description={t.categories.essential.description}
-                size="sm"
+                size="md"
                 wrapperClassName={styles.categoryCheckbox}
               />
 

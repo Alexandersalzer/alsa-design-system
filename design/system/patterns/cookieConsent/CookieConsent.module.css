@@ -41,7 +41,7 @@
 /* Card wrapper */
 .consent :global(.card) {
   width: var(--foundation-form-xl-width);
-  max-width: 100%;
+  max-width: var(--width-container);
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 2 * var(--space-banner-gap));
