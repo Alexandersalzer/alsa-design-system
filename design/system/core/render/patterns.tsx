@@ -140,7 +140,7 @@ export const renderPattern = (
     return (
       <Container
         key={patternKey}
-        height="auto"
+        height={patternProps.height || "auto"}
         useMediaWidth={patternProps.useMediaWidth || false}
         useFormWidth={patternProps.useFormWidth || false}
         patternKey={patternKey}
