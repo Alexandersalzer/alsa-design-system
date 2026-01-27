@@ -12,6 +12,8 @@ import { SlideIn } from '../../animations/SlideIn/SlideIn';
 import { Opacity } from '../../animations/Opacity/Opacity';
 import { Scale } from '../../animations/Scale/Scale';
 import { AnimationConfig } from '../../../core/animations/types';
+import { CDN_BASE_URL } from '../../../core/utils/env';
+import { getVideoThumbnailUrl } from '../../../core/utils/media';
 import './VideoShowcase.css';
 import './PlayButton.css';
 
@@ -63,6 +65,19 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     className
   );
 
+  // Process video URL and derive poster/thumbnail
+  const videoSrc = typeof props.src === 'string' ? props.src : '';
+  const videoUrl = videoSrc.startsWith('http') ? videoSrc : `${CDN_BASE_URL}${videoSrc}`;
+
+  // Priority 1: Use hardcoded poster if provided
+  let derivedPosterUrl = poster ? (poster.startsWith('http') ? poster : `${CDN_BASE_URL}${poster}`) : undefined;
+
+  // Priority 2: Auto-derive thumbnail from video path
+  // Backend stores thumbnails at: user-{id}/thumbnails/{video-name}.jpg
+  if (!derivedPosterUrl) {
+    derivedPosterUrl = getVideoThumbnailUrl(videoUrl);
+  }
+
   // Find the video element inside the container and control it
   React.useEffect(() => {
     if (containerRef.current) {
@@ -87,8 +102,8 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         videoRef.current.pause();
         setIsPlaying(false);
       }
-    }
-  };
+    }videoUrl}
+        poster={derivedPosterUrl
 
   const videoContent = (
     <div
