@@ -27,11 +27,8 @@ const animationTransformers: Record<string, (content: React.ReactNode, layoutCon
       content: child
     }));
     
-    // Pass layout gap to carousel so it can apply spacing between items
-    return {
-      items,
-      gap: layoutConfig?.gap
-    };
+    // Return just items - CarouselAnimation handles all spacing via its own props
+    return { items };
   },
   // Add more transformers here as needed
   // e.g., grid: (content) => ({ gridItems: ... })
