@@ -25,6 +25,7 @@ interface SectionProps {
   backgroundImage?: string; // ✅ Background image URL (for 'media' variant)
   backgroundOverlay?: boolean; // ✅ Add dark overlay over background image
   backgroundOverlayOpacity?: number; // ✅ Overlay opacity (0-1, default 0.5)
+  noPaddingTop?: boolean; // ✅ Remove top padding (useful for split layouts)
   style?: React.CSSProperties;
   sectionKey?: string; // För live editing identification
 
@@ -88,6 +89,7 @@ export const Section = ({
   backgroundImage,
   backgroundOverlay = false,
   backgroundOverlayOpacity = 0.5,
+  noPaddingTop = false,
   style,
   sectionKey,
 }: SectionProps) => {
@@ -112,6 +114,7 @@ export const Section = ({
   if (zIndex !== undefined) inlineStyles.zIndex = zIndex;
   if (overflowX !== undefined) inlineStyles.overflowX = overflowX;
   if (overflowY !== undefined) inlineStyles.overflowY = overflowY;
+  if (noPaddingTop) inlineStyles.paddingTop = 0;
   if (backgroundImage && background === 'media') {
     inlineStyles.backgroundImage = `url(${backgroundImage})`;
   }
