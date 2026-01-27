@@ -75,9 +75,10 @@ export const Sparkline: React.FC<SparklineProps> = ({
     const trendPercent = ((lastValue - firstValue) / firstValue) * 100;
     const isPositive = trendPercent >= 0;
 
-    // Calculate grid lines
+    // Calculate grid lines (skip edges for cleaner look)
     const gridLineValues = [];
     if (showGrid && gridLines > 0) {
+      // Include all values for scale display
       for (let i = 0; i <= gridLines; i++) {
         const value = min + (range / gridLines) * i;
         gridLineValues.push(value);
@@ -162,22 +163,21 @@ export const Sparkline: React.FC<SparklineProps> = ({
 
       <div className="sparkline__chart-wrapper">
         {showScale && chartData && chartData.gridLineValues.length > 0 && (
-          <div className="sparkline__scale">
-            {chartData.gridLineValues.map((value, index) => (
-              <div
-                key={`scale-${index}`}
-                className="sparkline__scale-label"
-                style={{
-                  position: 'absolute',
-                  right: '100%',
-                  top: `${(index / (chartData.gridLineValues.length - 1 || 1)) * 100}%`,
-                  transform: 'translateY(-50%)',
-                  marginRight: '4px',
-                }}
-              >
-                {scaleFormatter ? scaleFormatter(value) : Math.round(value)}
-              </div>
-            ))}
+          <div
+            className="sparkline__scale"
+            style={{ height }}
+          >
+            {chartData.gridLineValues
+              .slice()
+              .reverse()
+              .map((value, index) => (
+                <span
+                  key={`scale-${index}`}
+                  className="sparkline__scale-label"
+                >
+                  {scaleFormatter ? scaleFormatter(value) : Math.round(value)}
+                </span>
+              ))}
           </div>
         )}
 
@@ -197,22 +197,24 @@ export const Sparkline: React.FC<SparklineProps> = ({
 
           {showGrid && chartData && chartData.gridLineValues.length > 0 && (
             <g className="sparkline__grid">
-              {chartData.gridLineValues.map((value, index) => {
-                const min = chartData.min;
-                const max = chartData.max;
-                const range = max - min || 1;
-                const yPos = height - ((value - min) / range) * (height - 4) - 2;
-                return (
-                  <line
-                    key={`grid-${index}`}
-                    className="sparkline__grid-line"
-                    x1="0"
-                    y1={yPos}
-                    x2={width}
-                    y2={yPos}
-                  />
-                );
-              })}
+              {chartData.gridLineValues
+                .slice(1, -1)
+                .map((value, index) => {
+                  const min = chartData.min;
+                  const max = chartData.max;
+                  const range = max - min || 1;
+                  const yPos = height - ((value - min) / range) * (height - 4) - 2;
+                  return (
+                    <line
+                      key={`grid-${index}`}
+                      className="sparkline__grid-line"
+                      x1="0"
+                      y1={yPos}
+                      x2={width}
+                      y2={yPos}
+                    />
+                  );
+                })}
             </g>
           )}
 
