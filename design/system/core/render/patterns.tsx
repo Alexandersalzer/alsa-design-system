@@ -18,8 +18,8 @@ const animationTransformers: Record<string, (content: React.ReactNode, layoutCon
     
     // If content is wrapped in a layout component (HStack, Grid, etc), extract its children
     // This prevents the entire layout from being duplicated as one item
-    if (React.isValidElement(content) && content.props?.children) {
-      childrenToAnimate = content.props.children;
+    if (React.isValidElement(content) && (content.props as any).children) {
+      childrenToAnimate = (content.props as any).children;
     }
     
     const items = React.Children.toArray(childrenToAnimate).map((child, index) => ({
