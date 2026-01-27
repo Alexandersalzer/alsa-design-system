@@ -101,10 +101,47 @@
   line-height: 1;
 }
 
+/* ===== CHART WRAPPER ===== */
+.sparkline__chart-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+}
+
+/* ===== SCALE LABELS ===== */
+.sparkline__scale {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: var(--foundation-font-size-xs);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 30px;
+  text-align: right;
+}
+
+.sparkline__scale-label {
+  line-height: 1;
+  white-space: nowrap;
+}
+
 /* ===== SVG CHART ===== */
 .sparkline__svg {
   display: block;
   overflow: visible;
+}
+
+/* ===== GRID LINES ===== */
+.sparkline__grid {
+  opacity: 0.5;
+}
+
+.sparkline__grid-line {
+  stroke: var(--border-subtle);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
 }
 
 /* ===== LINE ===== */

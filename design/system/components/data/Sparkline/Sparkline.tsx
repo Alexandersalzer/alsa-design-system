@@ -28,6 +28,14 @@ export interface SparklineProps {
   valueFormatter?: (value: number) => string;
   /** Show trend indicator */
   showTrend?: boolean;
+  /** Show subtle grid lines */
+  showGrid?: boolean;
+  /** Number of grid lines (default: 3 for min/mid/max) */
+  gridLines?: number;
+  /** Show numeric scale labels */
+  showScale?: boolean;
+  /** Format scale labels */
+  scaleFormatter?: (value: number) => string;
   /** Custom className */
   className?: string;
 }
@@ -43,6 +51,10 @@ export const Sparkline: React.FC<SparklineProps> = ({
   valueLabel,
   valueFormatter,
   showTrend = false,
+  showGrid = false,
+  gridLines = 3,
+  showScale = false,
+  scaleFormatter,
   className = '',
 }) => {
   const chartData = useMemo(() => {
@@ -51,7 +63,7 @@ export const Sparkline: React.FC<SparklineProps> = ({
     const min = Math.min(...data);
     const max = Math.max(...data);
     const range = max - min || 1;
-    
+
     const points = data.map((value, i) => ({
       x: (i / (data.length - 1)) * width,
       y: height - ((value - min) / range) * (height - 4) - 2,
@@ -63,8 +75,17 @@ export const Sparkline: React.FC<SparklineProps> = ({
     const trendPercent = ((lastValue - firstValue) / firstValue) * 100;
     const isPositive = trendPercent >= 0;
 
-    return { points, min, max, lastValue, trendPercent, isPositive };
-  }, [data, width, height]);
+    // Calculate grid lines
+    const gridLineValues = [];
+    if (showGrid && gridLines > 0) {
+      for (let i = 0; i <= gridLines; i++) {
+        const value = min + (range / gridLines) * i;
+        gridLineValues.push(value);
+      }
+    }
+
+    return { points, min, max, lastValue, trendPercent, isPositive, gridLineValues };
+  }, [data, width, height, showGrid, gridLines]);
 
   if (!chartData || data.length === 0) {
     return <div className={`sparkline sparkline--empty ${className}`}>No data</div>;
@@ -139,33 +160,76 @@ export const Sparkline: React.FC<SparklineProps> = ({
         </div>
       )}
 
-      <svg
-        width={width}
-        height={height}
-        className={`sparkline__svg sparkline__svg--${color}`}
-        viewBox={`0 0 ${width} ${height}`}
-        preserveAspectRatio="none"
-      >
-        <defs>
-          <linearGradient id={`sparkline-gradient-${color}`} x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" className={`sparkline__gradient-start sparkline__gradient-start--${color}`} />
-            <stop offset="100%" className="sparkline__gradient-end" />
-          </linearGradient>
-        </defs>
-
-        {showArea && (
-          <path
-            className={`sparkline__area sparkline__area--${color}`}
-            d={areaPath}
-            fill={`url(#sparkline-gradient-${color})`}
-          />
+      <div className="sparkline__chart-wrapper">
+        {showScale && chartData && chartData.gridLineValues.length > 0 && (
+          <div className="sparkline__scale">
+            {chartData.gridLineValues.map((value, index) => (
+              <div
+                key={`scale-${index}`}
+                className="sparkline__scale-label"
+                style={{
+                  position: 'absolute',
+                  right: '100%',
+                  top: `${(index / (chartData.gridLineValues.length - 1 || 1)) * 100}%`,
+                  transform: 'translateY(-50%)',
+                  marginRight: '4px',
+                }}
+              >
+                {scaleFormatter ? scaleFormatter(value) : Math.round(value)}
+              </div>
+            ))}
+          </div>
         )}
 
-        <path
-          className={`sparkline__line sparkline__line--${color}`}
-          d={linePath}
-        />
-      </svg>
+        <svg
+          width={width}
+          height={height}
+          className={`sparkline__svg sparkline__svg--${color}`}
+          viewBox={`0 0 ${width} ${height}`}
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id={`sparkline-gradient-${color}`} x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" className={`sparkline__gradient-start sparkline__gradient-start--${color}`} />
+              <stop offset="100%" className="sparkline__gradient-end" />
+            </linearGradient>
+          </defs>
+
+          {showGrid && chartData && chartData.gridLineValues.length > 0 && (
+            <g className="sparkline__grid">
+              {chartData.gridLineValues.map((value, index) => {
+                const min = chartData.min;
+                const max = chartData.max;
+                const range = max - min || 1;
+                const yPos = height - ((value - min) / range) * (height - 4) - 2;
+                return (
+                  <line
+                    key={`grid-${index}`}
+                    className="sparkline__grid-line"
+                    x1="0"
+                    y1={yPos}
+                    x2={width}
+                    y2={yPos}
+                  />
+                );
+              })}
+            </g>
+          )}
+
+          {showArea && (
+            <path
+              className={`sparkline__area sparkline__area--${color}`}
+              d={areaPath}
+              fill={`url(#sparkline-gradient-${color})`}
+            />
+          )}
+
+          <path
+            className={`sparkline__line sparkline__line--${color}`}
+            d={linePath}
+          />
+        </svg>
+      </div>
     </div>
   );
 };
