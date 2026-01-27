@@ -6,6 +6,7 @@ import { Button } from '../../components/actions/Button';
 import { Label, Body } from '../../components/Typography';
 import { Card } from '../../components/layout/Card';
 import { VStack } from '../../components/layout/vStack';
+import { HStack } from '../../components/layout/hStack';
 import { Checkbox } from '../../components/forms/Checkbox';
 import styles from './CookieConsent.module.css';
 
@@ -70,7 +71,7 @@ export function CookieConsent({
       role="dialog" 
       aria-label="Cookie consent"
     >
-      <Card variant="outlined" padding="sm" radius="lg" className={styles.card}>
+      <Card variant="elevated" padding="lg" radius="lg" className={styles.card}>
         <VStack spacing="sm" align="start">
           {/* Header */}
           <Label size="lg" weight="bold" color="primary">
@@ -91,7 +92,7 @@ export function CookieConsent({
                 disabled
                 label={t.categories.essential.title}
                 description={t.categories.essential.description}
-                size="md"
+                size="sm"
                 wrapperClassName={styles.categoryCheckbox}
               />
 
@@ -105,7 +106,7 @@ export function CookieConsent({
                 }}
                 label={t.categories.analytics.title}
                 description={t.categories.analytics.description}
-                size="md"
+                size="sm"
                 wrapperClassName={styles.categoryCheckbox}
               />
 
@@ -119,7 +120,7 @@ export function CookieConsent({
                 }}
                 label={t.categories.marketing.title}
                 description={t.categories.marketing.description}
-                size="md"
+                size="sm"
                 wrapperClassName={styles.categoryCheckbox}
               />
 
@@ -133,7 +134,7 @@ export function CookieConsent({
                 }}
                 label={t.categories.preferences.title}
                 description={t.categories.preferences.description}
-                size="md"
+                size="sm"
                 wrapperClassName={styles.categoryCheckbox}
               />
             </VStack>
@@ -141,39 +142,61 @@ export function CookieConsent({
 
           {/* Knappar */}
           <div className={styles.actions}>
-            <div className={styles.actionsLayout}>
-              {!showDetails ? (
+            {!showDetails ? (
+              <VStack spacing="sm" align="stretch">
                 <Button
-                  variant="ghost"
+                  variant="accent"
                   size="sm"
-                  onClick={() => setShowDetails(true)}
+                  onClick={acceptAll}
+                  style={{ width: '100%' }}
                 >
-                  {t.buttons.customize}
+                  {t.buttons.acceptAll}
                 </Button>
-              ) : (
+                <HStack spacing="sm" justify="between" wrap>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowDetails(true)}
+                  >
+                    {t.buttons.customize}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={rejectAll}
+                  >
+                    {t.buttons.rejectAll}
+                  </Button>
+                </HStack>
+              </VStack>
+            ) : (
+              <VStack spacing="sm" align="stretch">
                 <Button
-                  variant="ghost"
+                  variant="accent"
                   size="sm"
-                  onClick={() => setShowDetails(false)}
+                  onClick={handleAcceptSelected}
+                  style={{ width: '100%' }}
                 >
-                  {t.buttons.back}
+                  {t.buttons.saveSelection}
                 </Button>
-              )}
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={rejectAll}
-              >
-                {showDetails ? t.buttons.denyAll : t.buttons.rejectAll}
-              </Button>
-              <Button
-                variant="accent"
-                size="sm"
-                onClick={showDetails ? handleAcceptSelected : acceptAll}
-              >
-                {showDetails ? t.buttons.saveSelection : t.buttons.acceptAll}
-              </Button>
-            </div>
+                <HStack spacing="sm" justify="between" wrap>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowDetails(false)}
+                  >
+                    {t.buttons.back}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={rejectAll}
+                  >
+                    {t.buttons.denyAll}
+                  </Button>
+                </HStack>
+              </VStack>
+            )}
           </div>
         </VStack>
       </Card>
