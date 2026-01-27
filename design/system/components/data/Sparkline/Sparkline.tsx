@@ -455,7 +455,7 @@ export const Sparkline: React.FC<SparklineProps> = ({
         <div className="sparkline__svg-container">
           <div style={{ position: 'relative' }}>
             <svg
-              width={width}
+              width="100%"
               height={height}
               className={`sparkline__svg sparkline__svg--${color}`}
               viewBox={`0 0 ${width} ${height}`}
@@ -583,7 +583,7 @@ export const Sparkline: React.FC<SparklineProps> = ({
 
           {/* X-axis labels */}
           {showXAxis && chartData.xAxisLabels.length > 0 && (
-            <div className="sparkline__x-axis" style={{ width }}>
+            <div className="sparkline__x-axis">
               {chartData.xAxisLabels.map((label, i) => (
                 <span key={`x-label-${i}`} className="sparkline__x-axis-label">
                   {label}
