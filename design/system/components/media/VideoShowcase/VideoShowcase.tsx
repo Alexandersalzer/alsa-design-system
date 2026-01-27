@@ -18,12 +18,16 @@ import './PlayButton.css';
 export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoElement> {
   variant?: 'default' | 'rounded' | 'elevated';
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
-  aspectRatio?: '16-9' | '4-3' | '1-1' | 'auto';
+  aspectRatio?: '16-9' | '4-3' | '1-1' | '2-3' | 'auto';
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   showPlayButton?: boolean;
   componentKey?: string;
   /** Animation configuration following centralized animation system */
   animation?: AnimationConfig;
+  /** Custom width for the video container */
+  customWidth?: string | number;
+  /** Custom height for the video container */
+  customHeight?: string | number;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -41,6 +45,8 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   poster,
   componentKey,
   animation,
+  customWidth,
+  customHeight,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
