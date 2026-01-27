@@ -106,7 +106,7 @@ export function CookieConsent({
                 }}
                 label={t.categories.analytics.title}
                 description={t.categories.analytics.description}
-                size="sm"
+                size="md"
                 wrapperClassName={styles.categoryCheckbox}
               />
 
@@ -120,7 +120,7 @@ export function CookieConsent({
                 }}
                 label={t.categories.marketing.title}
                 description={t.categories.marketing.description}
-                size="sm"
+                size="md"
                 wrapperClassName={styles.categoryCheckbox}
               />
 
@@ -134,7 +134,7 @@ export function CookieConsent({
                 }}
                 label={t.categories.preferences.title}
                 description={t.categories.preferences.description}
-                size="sm"
+                size="md"
                 wrapperClassName={styles.categoryCheckbox}
               />
             </VStack>
@@ -173,7 +173,6 @@ export function CookieConsent({
                 variant="accent"
                 size="sm"
                 onClick={showDetails ? handleAcceptSelected : acceptAll}
-                fullWidth
               >
                 {showDetails ? t.buttons.saveSelection : t.buttons.acceptAll}
               </Button>
