@@ -12,13 +12,27 @@ import React from 'react';
  * Content transformers for specific animation types
  * Allows custom handling for animations with special requirements
  */
-const animationTransformers: Record<string, (content: React.ReactNode) => any> = {
-  carousel: (content: React.ReactNode) => ({
-    items: React.Children.toArray(content).map((child, index) => ({
+const animationTransformers: Record<string, (content: React.ReactNode, layoutConfig?: any) => any> = {
+  carousel: (content: React.ReactNode, layoutConfig?: any) => {
+    let childrenToAnimate = content;
+    
+    // If content is wrapped in a layout component (HStack, Grid, etc), extract its children
+    // This prevents the entire layout from being duplicated as one item
+    if (React.isValidElement(content) && content.props?.children) {
+      childrenToAnimate = content.props.children;
+    }
+    
+    const items = React.Children.toArray(childrenToAnimate).map((child, index) => ({
       id: `item-${index}`,
       content: child
-    }))
-  }),
+    }));
+    
+    // Pass layout gap to carousel so it can apply spacing between items
+    return {
+      items,
+      gap: layoutConfig?.gap
+    };
+  },
   // Add more transformers here as needed
   // e.g., grid: (content) => ({ gridItems: ... })
 };
@@ -27,7 +41,11 @@ const animationTransformers: Record<string, (content: React.ReactNode) => any> =
  * Wraps content with animation component if animation config is provided
  * Dynamically handles all animation types from the registry
  */
-const wrapWithAnimation = (content: React.ReactNode, animation?: AnimationConfig) => {
+const wrapWithAnimation = (
+  content: React.ReactNode, 
+  animation?: AnimationConfig,
+  layoutConfig?: any
+) => {
   if (!animation || animation.type === 'none') {
     return content;
   }
@@ -41,7 +59,7 @@ const wrapWithAnimation = (content: React.ReactNode, animation?: AnimationConfig
   // Check if this animation type needs special content transformation
   const transformer = animationTransformers[animation.type];
   if (transformer) {
-    const transformedProps = transformer(content);
+    const transformedProps = transformer(content, layoutConfig);
     return <AnimationComponent {...transformedProps} {...animation.settings} />;
   }
 
@@ -110,15 +128,17 @@ export const renderPattern = (
 
   // UNIVERSAL LAYOUT PATH: If pattern has layout prop (on pattern level, not in props)
   if ((pattern as any).layout) {
+    const layoutConfig = (pattern as any).layout;
     const layoutContent = renderLayoutWithTemplate(
-      (pattern as any).layout, 
+      layoutConfig, 
       pattern.components, 
       sectionKey, 
       patternKey
     );
 
     // Wrap with animation if pattern has animation config
-    const animatedContent = wrapWithAnimation(layoutContent, pattern.animation);
+    // Pass layout config so animation can extract children and apply proper spacing
+    const animatedContent = wrapWithAnimation(layoutContent, pattern.animation, layoutConfig);
 
     return (
       <Container
