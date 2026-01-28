@@ -55,7 +55,7 @@ export const renderLayoutWithTemplate = (
   console.log('[renderLayoutWithTemplate] itemOrder:', itemOrder);
   
   // Render template for each item
-  const renderedItems = itemOrder.map((itemId) => {
+  const renderedItems = itemOrder.map((itemId, itemIndex) => {
     const item = findLayoutItem(layout, itemId);
     console.log(`[renderLayoutWithTemplate] Rendering item "${itemId}":`, item);
     if (!item) {
@@ -63,13 +63,21 @@ export const renderLayoutWithTemplate = (
       return null;
     }
 
+    // Create item context with index and any item-level props (excluding 'components')
+    const { components: _, ...itemProps } = item;
+    const itemContext = {
+      index: itemIndex,
+      id: itemId,
+      ...itemProps
+    };
+
     // Render each child in template.children array
     const templateChildren = template.children || [];
     return (
       <React.Fragment key={itemId}>
         {templateChildren.map((child: any, index: number) => (
           <React.Fragment key={index}>
-            {renderTemplateNode(child, item.components, sectionKey, patternKey, item)}
+            {renderTemplateNode(child, item.components, itemContext, sectionKey, patternKey)}
           </React.Fragment>
         ))}
       </React.Fragment>
@@ -133,9 +141,9 @@ const renderSimpleLayout = (
 const renderTemplateNode = (
   node: Record<string, any>,
   itemComponents: Record<string, ComponentNode>,
+  itemContext: Record<string, any>,
   sectionKey?: string,
-  patternKey?: string,
-  item?: Record<string, any>
+  patternKey?: string
 ): React.ReactElement | null => {
   console.log('[renderTemplateNode] node:', node);
   
@@ -147,7 +155,7 @@ const renderTemplateNode = (
 
   if (isLayoutNode(node)) {
     console.log('[renderTemplateNode] Is layout node');
-    return renderLayoutNodeGeneric(node, itemComponents, sectionKey, patternKey, item);
+    return renderLayoutNodeGeneric(node, itemComponents, itemContext, sectionKey, patternKey);
   }
 
   console.warn('Invalid template node:', node);
@@ -161,11 +169,16 @@ const renderTemplateNode = (
 const renderLayoutNodeGeneric = (
   node: Record<string, any>,
   itemComponents: Record<string, ComponentNode>,
+  itemContext: Record<string, any>,
   sectionKey?: string,
-  patternKey?: string,
-  item?: Record<string, any>
+  patternKey?: string
 ): React.ReactElement | null => {
-  const { layoutType, layoutProps, children } = parseLayoutNode(node);
+  let { layoutType, layoutProps, children } = parseLayoutNode(node);
+
+  // Apply item-level overrides for specific layout types
+  if (layoutType === 'hstack' && itemContext?.reverse) {
+    layoutProps = { ...layoutProps, direction: 'row-reverse' };
+  }
 
   // Get layout component from registry
   const LayoutComponent = componentRegistry[layoutType];
@@ -180,22 +193,16 @@ const renderLayoutNodeGeneric = (
     return <LayoutComponent {...layoutProps} />;
   }
 
-  // Apply reverse if item has reverse: true (for zigzag layouts)
-  const finalLayoutProps = { ...layoutProps };
-  if (item?.reverse && layoutType === 'hstack') {
-    finalLayoutProps.flexDirection = 'row-reverse';
-  }
-
   // Recursively render children for components that support them
   const renderedChildren = children.map((child: any, index: number) => (
     <React.Fragment key={index}>
-      {renderTemplateNode(child, itemComponents, sectionKey, patternKey, item)}
+      {renderTemplateNode(child, itemComponents, itemContext, sectionKey, patternKey)}
     </React.Fragment>
   ));
 
   // Layout component takes care of its own props (colSpan for GridItem, spacing for VStack, etc)
   return (
-    <LayoutComponent {...finalLayoutProps}>
+    <LayoutComponent {...layoutProps}>
       {renderedChildren}
     </LayoutComponent>
   );
