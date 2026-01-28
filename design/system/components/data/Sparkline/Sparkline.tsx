@@ -374,14 +374,17 @@ export const Sparkline: React.FC<SparklineProps> = ({
 
     const svg = e.currentTarget;
     const rect = svg.getBoundingClientRect();
-    const x = e.clientX - rect.left;
+    const mouseX = e.clientX - rect.left;
+
+    // Convert mouse position to SVG coordinate space
+    const svgX = (mouseX / rect.width) * width;
 
     // Find nearest point
     let nearestIndex = 0;
     let minDistance = Infinity;
 
     chartData.points.forEach((point, i) => {
-      const distance = Math.abs(point.x - x);
+      const distance = Math.abs(point.x - svgX);
       if (distance < minDistance) {
         minDistance = distance;
         nearestIndex = i;
@@ -400,6 +403,13 @@ export const Sparkline: React.FC<SparklineProps> = ({
 
   const hoveredPoint = hoveredIndex !== null ? chartData.points[hoveredIndex] : null;
   const hoveredDatum = hoveredIndex !== null ? chartData.processedData[hoveredIndex] : null;
+
+  // Calculate aspect ratio to maintain circular dot appearance
+  // Since SVG has preserveAspectRatio="none", we need to compensate
+  const aspectRatio = width / height;
+  const dotRadius = 4;
+  const dotRx = dotRadius;
+  const dotRy = dotRadius * aspectRatio;
 
   return (
     <div className={`sparkline ${className}`}>
@@ -544,13 +554,14 @@ export const Sparkline: React.FC<SparklineProps> = ({
                 d={linePath}
               />
 
-              {/* Hover indicator */}
+              {/* Hover indicator - using ellipse to maintain circular appearance when SVG is stretched */}
               {showTooltip && hoveredPoint && (
-                <circle
+                <ellipse
                   className={`sparkline__hover-dot sparkline__hover-dot--${color}`}
                   cx={hoveredPoint.x}
                   cy={hoveredPoint.y}
-                  r="4"
+                  rx={dotRx}
+                  ry={dotRy}
                 />
               )}
             </svg>

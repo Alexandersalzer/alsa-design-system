@@ -257,6 +257,7 @@
   stroke-width: 2;
   stroke: var(--surface-base);
   transition: opacity 0.1s ease;
+  vector-effect: non-scaling-stroke;
 }
 
 .sparkline__hover-dot--accent {
