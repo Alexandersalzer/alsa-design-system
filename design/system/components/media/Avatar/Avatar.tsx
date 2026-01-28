@@ -7,7 +7,6 @@ import React, { forwardRef, ReactElement } from 'react';
 import { cn } from '../../../utils/cn';
 import { UserIcon } from '@heroicons/react/24/outline';
 import { Image } from '../../media/Image';
-import { Box } from '../../layout/box/Box';
 
 // ===== TYPE DEFINITIONS =====
 export type AvatarSize =
@@ -62,6 +61,12 @@ const SIZE_MAP: Record<
   '2xl': { width: 80, height: 80, fontSize: 24 },
 };
 
+const RADIUS_MAP = {
+  sm: 'var(--radius-sm)',
+  md: 'var(--radius-md)',
+  full: 'var(--radius-full)',
+};
+
 // ===== AVATAR ROOT COMPONENT =====
 export const AvatarRoot = forwardRef<HTMLDivElement, AvatarRootProps>(
   (
@@ -73,6 +78,7 @@ export const AvatarRoot = forwardRef<HTMLDivElement, AvatarRootProps>(
       borderless = false,
       className,
       children,
+      style,
       ...props
     },
     ref
@@ -81,35 +87,39 @@ export const AvatarRoot = forwardRef<HTMLDivElement, AvatarRootProps>(
     const boxSize = !isFullSize ? SIZE_MAP[size] : undefined;
 
     const avatarClasses = cn(
+      'avatar',
       `avatar-${variant}`,
       `avatar-${colorPalette}`,
       borderless && 'avatar-borderless',
       className
     );
 
+    const borderRadius = shape === 'full' ? RADIUS_MAP.full : shape === 'rounded' ? RADIUS_MAP.md : RADIUS_MAP.sm;
+
     return (
-      <Box
+      <div
         ref={ref}
-        display="flex"
-        align="center"
-        justify="center"
-        radius={shape === 'full' ? 'full' : shape === 'rounded' ? 'md' : 'sm'}
-        className={cn('avatar', avatarClasses)}
+        className={avatarClasses}
+        role="img"
         style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           width: isFullSize ? '100%' : `${boxSize?.width}px`,
           height: isFullSize ? '100%' : `${boxSize?.height}px`,
           minWidth: isFullSize ? undefined : `${boxSize?.width}px`,
           minHeight: isFullSize ? undefined : `${boxSize?.height}px`,
           fontSize: isFullSize ? undefined : `${boxSize?.fontSize}px`,
+          borderRadius,
           overflow: 'hidden',
           position: 'relative',
           flexShrink: 0,
+          ...style,
         }}
-        role="img"
         {...props}
       >
         {children}
-      </Box>
+      </div>
     );
   }
 );
@@ -125,7 +135,7 @@ export interface AvatarFallbackProps extends React.HTMLAttributes<HTMLDivElement
 }
 
 export const AvatarFallback = forwardRef<HTMLDivElement, AvatarFallbackProps>(
-  ({ name, icon, children, className, ...props }, ref) => {
+  ({ name, icon, children, className, style, ...props }, ref) => {
     const getInitials = (n: string): string => {
       const parts = n.trim().split(' ').filter(Boolean);
       if (parts.length === 0) return '?';
@@ -155,30 +165,30 @@ export const AvatarFallback = forwardRef<HTMLDivElement, AvatarFallbackProps>(
         {getInitials(name)}
       </span>
     ) : (
-      // Default user icon that scales with avatar size
       <UserIcon style={{ width: '60%', height: '60%' }} />
     );
 
     return (
-      <Box
+      <div
         ref={ref}
-        display="flex"
-        align="center"
-        justify="center"
         className={cn('avatar-fallback', className)}
+        aria-label={label}
         style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           width: '100%',
           height: '100%',
           position: 'absolute',
           inset: 0,
-          zIndex: 1, // ✅ ensure fallback is visible
+          zIndex: 1,
           pointerEvents: 'none',
+          ...style,
         }}
-        aria-label={label}
         {...props}
       >
         {content}
-      </Box>
+      </div>
     );
   }
 );
@@ -195,20 +205,23 @@ export interface AvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
-  ({ max, size = 'md', spacing = 'md', children, className, ...props }, ref) => {
+  ({ max, size = 'md', spacing = 'md', children, className, style, ...props }, ref) => {
     const childArray = React.Children.toArray(children);
     const visible = max ? childArray.slice(0, max) : childArray;
     const remaining = max && childArray.length > max ? childArray.length - max : 0;
 
     return (
-      <Box
+      <div
         ref={ref}
-        display="flex"
-        direction="row-reverse"
-        align="center"
-        justify="end"
         className={cn('avatar-group', `avatar-group-${spacing}`, className)}
         role="group"
+        style={{
+          display: 'inline-flex',
+          flexDirection: 'row-reverse',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          ...style,
+        }}
         {...props}
       >
         {visible}
@@ -221,7 +234,7 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
             </AvatarFallback>
           </AvatarRoot>
         )}
-      </Box>
+      </div>
     );
   }
 );
@@ -273,7 +286,6 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(pr
 
   const bgColor = backgroundColor ?? (src ? 'var(--surface-page)' : undefined);
 
-  // Only merge backgroundColor, never override width/height
   const mergedStyle = {
     ...(bgColor ? { backgroundColor: bgColor } : {}),
     ...(style || {}),
@@ -291,7 +303,6 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(pr
       style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
       {...rest}
     >
-      {/* ✅ Fallback only when NO src */}
       {!src && actualFallbackMode !== 'none' && (
         <AvatarFallback
           name={actualFallbackMode === 'initials' ? name : undefined}
@@ -305,10 +316,9 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(pr
         </AvatarFallback>
       )}
 
-      {/* ✅ Image layer */}
       {src && (
         <Image
-          className="avatar-image" // ✅ required by your CSS
+          className="avatar-image"
           src={src}
           alt={imageAlt}
           width={isFullSize ? '100%' : boxSize?.width}
@@ -322,6 +332,8 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(pr
             position: 'absolute',
             top: 0,
             left: 0,
+            width: '100%',
+            height: '100%',
             zIndex: 2,
           }}
         />
