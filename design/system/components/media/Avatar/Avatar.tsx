@@ -93,21 +93,18 @@ export const AvatarRoot = forwardRef<HTMLDivElement, AvatarRootProps>(
         display="flex"
         align="center"
         justify="center"
-        width={isFullSize ? 'full' : undefined}
-        height={isFullSize ? 'full' : undefined}
         radius={shape === 'full' ? 'full' : shape === 'rounded' ? 'md' : 'sm'}
         className={cn('avatar', avatarClasses)}
-        style={
-          !isFullSize
-            ? {
-                width: boxSize?.width,
-                height: boxSize?.height,
-                fontSize: boxSize?.fontSize,
-                overflow: 'hidden',
-                position: 'relative',
-              }
-            : { position: 'relative', overflow: 'hidden' }
-        }
+        style={{
+          width: isFullSize ? '100%' : `${boxSize?.width}px`,
+          height: isFullSize ? '100%' : `${boxSize?.height}px`,
+          minWidth: isFullSize ? undefined : `${boxSize?.width}px`,
+          minHeight: isFullSize ? undefined : `${boxSize?.height}px`,
+          fontSize: isFullSize ? undefined : `${boxSize?.fontSize}px`,
+          overflow: 'hidden',
+          position: 'relative',
+          flexShrink: 0,
+        }}
         role="img"
         {...props}
       >
@@ -276,9 +273,10 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(pr
 
   const bgColor = backgroundColor ?? (src ? 'var(--surface-page)' : undefined);
 
+  // Only merge backgroundColor, never override width/height
   const mergedStyle = {
-    ...style,
     ...(bgColor ? { backgroundColor: bgColor } : {}),
+    ...(style || {}),
   };
 
   return (
