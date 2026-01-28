@@ -8,7 +8,7 @@ import { cn } from '../../../utils/cn';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
-  variant?: 'default' | 'raised' | 'elevated' | 'outlined' | 'solid' | 'ghost' | 'bordered';
+  variant?: 'default' | 'raised' | 'elevated' | 'outlined' | 'solid' | 'ghost' | 'bordered' | 'accent-subtle' | 'accent-muted';
   padding?: 'none'| 'xs' | 'sm' | 'md' | 'lg';
   radius?: 'sm' | 'md' | 'lg';
   // ✅ NEW: Width constraint options
@@ -49,6 +49,8 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       variant === 'solid' && 'card--solid',
       variant === 'ghost' && 'card--ghost',
       variant === 'bordered' && 'card--bordered',
+      variant === 'accent-subtle' && 'card--accent-subtle',
+      variant === 'accent-muted' && 'card--accent-muted',
 
       // Padding classes
       padding === 'none' && 'card--padding-none',

@@ -82,6 +82,18 @@
   padding: 0;
 }
 
+.card--accent-subtle {
+  background-color: var(--surface-accent-subtle);
+  border: 1px solid var(--border-accent-subtle);
+  box-shadow: var(--foundation-shadow-sm);
+}
+
+.card--accent-muted {
+  background-color: var(--surface-accent-muted);
+  border: 1px solid var(--border-accent);
+  box-shadow: var(--foundation-shadow-sm);
+}
+
 /* ===== INTERACTIVE CARD STATES ===== */
 
 /* Base interactive styling */
@@ -129,6 +141,20 @@
 .card--bordered.card--clickable:hover {
   border-color: var(--border-default);
   background-color: var(--surface-subtle);
+}
+
+/* Accent-subtle cards hover effect */
+.card--accent-subtle.card--clickable:hover {
+  background-color: var(--surface-accent-muted);
+  border-color: var(--border-accent);
+  box-shadow: var(--foundation-shadow-md);
+}
+
+/* Accent-muted cards hover effect */
+.card--accent-muted.card--clickable:hover {
+  background-color: var(--surface-accent);
+  border-color: var(--border-accent-strong);
+  box-shadow: var(--foundation-shadow-md);
 }
 
 /* Active state (when pressed) */
