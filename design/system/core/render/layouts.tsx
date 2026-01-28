@@ -69,7 +69,7 @@ export const renderLayoutWithTemplate = (
       <React.Fragment key={itemId}>
         {templateChildren.map((child: any, index: number) => (
           <React.Fragment key={index}>
-            {renderTemplateNode(child, item.components, sectionKey, patternKey)}
+            {renderTemplateNode(child, item.components, sectionKey, patternKey, item)}
           </React.Fragment>
         ))}
       </React.Fragment>
@@ -134,7 +134,8 @@ const renderTemplateNode = (
   node: Record<string, any>,
   itemComponents: Record<string, ComponentNode>,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  item?: Record<string, any>
 ): React.ReactElement | null => {
   console.log('[renderTemplateNode] node:', node);
   
@@ -146,7 +147,7 @@ const renderTemplateNode = (
 
   if (isLayoutNode(node)) {
     console.log('[renderTemplateNode] Is layout node');
-    return renderLayoutNodeGeneric(node, itemComponents, sectionKey, patternKey);
+    return renderLayoutNodeGeneric(node, itemComponents, sectionKey, patternKey, item);
   }
 
   console.warn('Invalid template node:', node);
@@ -161,7 +162,8 @@ const renderLayoutNodeGeneric = (
   node: Record<string, any>,
   itemComponents: Record<string, ComponentNode>,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  item?: Record<string, any>
 ): React.ReactElement | null => {
   const { layoutType, layoutProps, children } = parseLayoutNode(node);
 
@@ -178,16 +180,22 @@ const renderLayoutNodeGeneric = (
     return <LayoutComponent {...layoutProps} />;
   }
 
+  // Apply reverse if item has reverse: true (for zigzag layouts)
+  const finalLayoutProps = { ...layoutProps };
+  if (item?.reverse && layoutType === 'hstack') {
+    finalLayoutProps.flexDirection = 'row-reverse';
+  }
+
   // Recursively render children for components that support them
   const renderedChildren = children.map((child: any, index: number) => (
     <React.Fragment key={index}>
-      {renderTemplateNode(child, itemComponents, sectionKey, patternKey)}
+      {renderTemplateNode(child, itemComponents, sectionKey, patternKey, item)}
     </React.Fragment>
   ));
 
   // Layout component takes care of its own props (colSpan for GridItem, spacing for VStack, etc)
   return (
-    <LayoutComponent {...layoutProps}>
+    <LayoutComponent {...finalLayoutProps}>
       {renderedChildren}
     </LayoutComponent>
   );
