@@ -56,6 +56,7 @@ export function LayoutRenderer({
     gap = 'xl',
     ratio = '1:1',
     verticalAlign = 'center', // Default to center for better visual balance
+    sectionHeaderVerticalAlign = 'start', // Default to start for sectionHeader alignment
     stackAt = 'desktop', // Default to 1024px breakpoint
     mobileOrder,
     mobileAlign,
@@ -302,6 +303,14 @@ export function LayoutRenderer({
           grid-template-columns: ${ratioMap[ratio]};
           gap: var(--space-${gap});
           align-items: ${verticalAlign};
+          ${isSecondColumnMediaOnly ? 'grid-auto-rows: 1fr;' : ''}
+        }
+        
+        #${layoutId} .media-column {
+          min-height: 0;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
         }
 
         #${layoutId} .mobile-stack {
@@ -339,7 +348,7 @@ export function LayoutRenderer({
           {isSectionHeaderInRightColumn ? (
             // When SectionHeader is on right, left column has secondColumn patterns
             isSecondColumnMediaOnly ? (
-              <Box style={{ alignSelf: 'stretch', display: 'flex', flexDirection: 'column' }}>
+              <Box className="media-column">
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </Box>
             ) : (
@@ -348,29 +357,33 @@ export function LayoutRenderer({
               </VStack>
             )
           ) : (
-            <Container height="auto">
-              <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
-                <VStack spacing="lg" align="start">
-                  {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
-                  {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
-                </VStack>
-              </Box>
-            </Container>
+            <Box style={{ display: 'flex', alignItems: sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center', height: '100%' }}>
+              <Container height="auto">
+                <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
+                  <VStack spacing="lg" align="start">
+                    {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
+                    {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+                  </VStack>
+                </Box>
+              </Container>
+            </Box>
           )}
 
           {isSectionHeaderInRightColumn ? (
-            <Container height="auto">
-              <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
-                <VStack spacing="lg" align="start">
-                  {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
-                  {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
-                </VStack>
-              </Box>
-            </Container>
+            <Box style={{ display: 'flex', alignItems: sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center', height: '100%' }}>
+              <Container height="auto">
+                <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
+                  <VStack spacing="lg" align="start">
+                    {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
+                    {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+                  </VStack>
+                </Box>
+              </Container>
+            </Box>
           ) : (
             // When SectionHeader is on left, right column has secondColumn patterns
             isSecondColumnMediaOnly ? (
-              <Box style={{ alignSelf: 'stretch', display: 'flex', flexDirection: 'column' }}>
+              <Box className="media-column">
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </Box>
             ) : (

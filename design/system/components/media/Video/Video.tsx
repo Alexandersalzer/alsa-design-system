@@ -19,6 +19,8 @@ export interface VideoProps extends Omit<React.VideoHTMLAttributes<HTMLVideoElem
   width?: number | string;
   /** Video height */
   height?: number | string;
+  /** Max height for the video container */
+  maxHeight?: number | string;
   /** Aspect ratio (e.g., '16/9', '4/3', '2/3', '1/1') */
   aspectRatio?: string;
   /** Border radius */
@@ -43,6 +45,7 @@ export const Video: React.FC<VideoProps> = ({
   src,
   width,
   height,
+  maxHeight,
   aspectRatio = '16/9',
   radius = 'md',
   loading = 'lazy',
@@ -127,11 +130,12 @@ export const Video: React.FC<VideoProps> = ({
     `video-element--radius-${radius}`
   );
 
-  // Container styles
+  // Container styles - explicit dimensions take priority over aspect ratio
   const containerStyles: React.CSSProperties = {
-    width: width || '100%',
-    height: height || 'auto',
-    aspectRatio: aspectRatio || undefined,
+    ...(width ? { width } : { width: '100%' }),
+    ...(height ? { height } : {}),
+    ...(maxHeight ? { maxHeight } : {}),
+    ...(aspectRatio && !height ? { aspectRatio } : {}),
     position: 'relative',
     overflow: 'hidden',
     background: (isLoading && !poster) ? 'var(--surface-raised)' : 'transparent',

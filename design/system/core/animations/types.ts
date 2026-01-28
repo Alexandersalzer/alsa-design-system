@@ -9,6 +9,7 @@ export type AnimationType =
   | 'slideIn'
   | 'opacity'
   | 'scale'
+  | 'carousel'
   | 'none';
 
 export type EasingType =
@@ -94,6 +95,19 @@ export interface ScaleAnimationConfig extends BaseAnimationConfig {
   };
 }
 
+export interface CarouselAnimationConfig extends BaseAnimationConfig {
+  type: 'carousel';
+  settings?: {
+    speed?: number;
+    direction?: 'left' | 'right';
+    duration?: number;
+    delay?: number;
+    duplicateCount?: number;
+    enableFadeEdges?: boolean;
+    fadeWidth?: string;
+  };
+}
+
 export interface NoneAnimationConfig extends BaseAnimationConfig {
   type: 'none';
   settings?: never;
@@ -106,4 +120,5 @@ export type AnimationConfig =
   | SlideInAnimationConfig
   | OpacityAnimationConfig
   | ScaleAnimationConfig
+  | CarouselAnimationConfig
   | NoneAnimationConfig;

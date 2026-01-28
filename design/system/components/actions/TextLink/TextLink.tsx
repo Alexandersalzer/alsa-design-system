@@ -9,10 +9,12 @@ import { cn } from '../../../utils/cn';
 import { Label, TypographyWeight } from '../../Typography';
 import { useHref } from '../../../hooks/useHref';
 import { Component } from '../../frames/component/Component';
+import { ActionConfig } from '../../../core/actions/types';
 import './TextLink.css';
 
 export interface TextLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  children: ReactNode;
+  children?: ReactNode;
+  content?: string;
   variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'button-ghost' | 'brand' | 'inverse';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   weight?: 'regular' | 'medium' | 'semibold' | 'bold';
@@ -21,6 +23,7 @@ export interface TextLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElem
   underline?: 'none' | 'hover' | 'always';
   disabled?: boolean;
   componentKey?: string;
+  action?: ActionConfig;
 }
 
 export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
@@ -29,19 +32,30 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   size = 'md',
   weight = 'medium',
   children,
+  content,
   leftIcon,
   rightIcon,
   underline = 'none',
   disabled = false,
   href,
+  action,
   componentKey,
   ...props
 }, ref) => {
   
   const { buildHref } = useHref();
   
+  // Extract href from action or use direct href prop
+  let finalHref = href;
+  if (action && action.type === 'navigation') {
+    finalHref = action.settings.href;
+  }
+  
   // Build locale-aware href
-  const localeAwareHref = href ? buildHref(href) : undefined;
+  const localeAwareHref = finalHref ? buildHref(finalHref) : undefined;
+  
+  // Use content if provided, otherwise use children
+  const displayContent = content || children;
   
   // Map textlink size to typography size
   const getTypographySize = (size: string): 'sm' | 'md' | 'lg' => {
@@ -68,6 +82,9 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
 
   // Check if this is a .html file (edit mode) or regular Next.js route
   const isHtmlFile = localeAwareHref?.endsWith('.html');
+  
+  // Filter out non-DOM props
+  const { type, sectionKey, patternKey, components, order, ...domProps } = props as any;
 
   // Content to render inside the link
   const linkContent = (
@@ -87,7 +104,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
         className="textlink-text"
         style={{ color: 'inherit' }}
       >
-        {children}
+        {displayContent}
       </Label>
 
       {/* Right Icon */}
@@ -109,7 +126,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
           className={textLinkClasses}
           aria-disabled={disabled}
           tabIndex={disabled ? -1 : undefined}
-          {...props}
+          {...domProps}
         >
           {linkContent}
         </a>
@@ -126,7 +143,7 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
         aria-disabled={disabled}
         tabIndex={disabled ? -1 : undefined}
         ref={ref}
-        {...props}
+        {...domProps}
       >
         {linkContent}
       </Link>

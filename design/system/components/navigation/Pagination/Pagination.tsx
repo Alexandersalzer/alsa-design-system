@@ -5,7 +5,9 @@
 
 import React from 'react';
 import { cn } from '../../../utils/cn';
-import { Icon, Button, IconButton } from '../../..';
+import { Icon } from '../../media/Icon/Icon';
+import Button from '../../actions/Button/Button';
+import { IconButton } from '../../actions/IconButton/IconButton';
 import { 
   ChevronLeftIcon, 
   ChevronRightIcon,

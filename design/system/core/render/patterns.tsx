@@ -2,8 +2,67 @@ import { Container } from '../../components';
 import { getPatternProps } from '../utils/props';
 import { patternRegistry } from '../../patterns/registry';
 import { PatternNode } from '../types/nodes';
+import { renderLayoutWithTemplate } from './layouts';
+import { animationComponents } from '../../components/animations/registry';
 
 import { AnimationConfig } from '../animations/types';
+import React from 'react';
+
+/**
+ * Content transformers for specific animation types
+ * Allows custom handling for animations with special requirements
+ */
+const animationTransformers: Record<string, (content: React.ReactNode, layoutConfig?: any) => any> = {
+  carousel: (content: React.ReactNode, layoutConfig?: any) => {
+    let childrenToAnimate = content;
+    
+    // If content is wrapped in a layout component (HStack, Grid, etc), extract its children
+    // This prevents the entire layout from being duplicated as one item
+    if (React.isValidElement(content) && (content.props as any).children) {
+      childrenToAnimate = (content.props as any).children;
+    }
+    
+    const items = React.Children.toArray(childrenToAnimate).map((child, index) => ({
+      id: `item-${index}`,
+      content: child
+    }));
+    
+    // Return just items - CarouselAnimation handles all spacing via its own props
+    return { items };
+  },
+  // Add more transformers here as needed
+  // e.g., grid: (content) => ({ gridItems: ... })
+};
+
+/**
+ * Wraps content with animation component if animation config is provided
+ * Dynamically handles all animation types from the registry
+ */
+const wrapWithAnimation = (
+  content: React.ReactNode, 
+  animation?: AnimationConfig,
+  layoutConfig?: any
+) => {
+  if (!animation || animation.type === 'none') {
+    return content;
+  }
+
+  const AnimationComponent = animationComponents[`${animation.type}Animation`];
+  if (!AnimationComponent) {
+    console.warn(`Animation component for type "${animation.type}" not found in registry`);
+    return content;
+  }
+
+  // Check if this animation type needs special content transformation
+  const transformer = animationTransformers[animation.type];
+  if (transformer) {
+    const transformedProps = transformer(content, layoutConfig);
+    return <AnimationComponent {...transformedProps} {...animation.settings} />;
+  }
+
+  // Default: pass content as children with settings
+  return <AnimationComponent {...animation.settings}>{content}</AnimationComponent>;
+};
 
 /**
  * Layout context passed from LayoutRenderer to patterns
@@ -53,7 +112,7 @@ export const renderPatternDirect = (
 };
 
 /**
- * Pattern Renderer - Pattern har full kontroll över component rendering
+ * Pattern Renderer - Detects layout-driven vs legacy pattern rendering
  * För content sections (med Container wrapper)
  */
 export const renderPattern = (
@@ -62,14 +121,41 @@ export const renderPattern = (
   sectionKey?: string,
   layoutContext?: LayoutContext
 ) => {
+  const patternProps = getPatternProps(pattern);
+
+  // UNIVERSAL LAYOUT PATH: If pattern has layout prop (on pattern level, not in props)
+  if ((pattern as any).layout) {
+    const layoutConfig = (pattern as any).layout;
+    const layoutContent = renderLayoutWithTemplate(
+      layoutConfig, 
+      pattern.components, 
+      sectionKey, 
+      patternKey
+    );
+
+    // Wrap with animation if pattern has animation config
+    // Pass layout config so animation can extract children and apply proper spacing
+    const animatedContent = wrapWithAnimation(layoutContent, pattern.animation, layoutConfig);
+
+    return (
+      <Container
+        key={patternKey}
+        height="auto"
+        useMediaWidth={patternProps.useMediaWidth || false}
+        useFormWidth={patternProps.useFormWidth || false}
+        patternKey={patternKey}
+      >
+        {animatedContent}
+      </Container>
+    );
+  }
+
+  // LEGACY PATH: Use pattern registry for hardcoded patterns
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
     console.warn(`Pattern: ${pattern.type} don't exist in registry`);
     return null;
   }
-
-  // Hämta useMediaWidth från props med getPatternProps
-  const patternProps = getPatternProps(pattern);
 
   return (
     <Container

@@ -1,0 +1,15 @@
+import { CountUp } from './CountUp/CountUp';
+import { FadeIn } from './FadeIn/FadeIn';
+import { SlideIn } from './SlideIn/SlideIn';
+import { Opacity } from './Opacity/Opacity';
+import { Scale } from './Scale/Scale';
+import { CarouselAnimation } from './CarouselAnimation/CarouselAnimation';
+
+export const animationComponents: Record<string, React.ComponentType<any>> = {
+  countUp: CountUp,
+  fadeIn: FadeIn,
+  slideIn: SlideIn,
+  opacity: Opacity,
+  scale: Scale,
+  carouselAnimation: CarouselAnimation,
+};

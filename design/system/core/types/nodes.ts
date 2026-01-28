@@ -1,5 +1,6 @@
 import { SectionType } from '../render/validation/sections';
 import { LayoutConfig } from '../layout/types';
+import { AnimationConfig } from '../animations/types';
 
 /**
  * Base interface som alla noder delar
@@ -7,7 +8,7 @@ import { LayoutConfig } from '../layout/types';
  */
 export interface BaseNode<T extends string = string> {
   type: T;
-  props: Record<string, any>; // Optional eftersom alla kanske inte har props
+  props?: Record<string, any>;
 }
 
 /**
@@ -15,8 +16,9 @@ export interface BaseNode<T extends string = string> {
  * Atomic UI element som inte innehåller andra noder
  */
 export interface ComponentNode extends BaseNode {
-  props: Record<string, any>; // Required - component måste ha props
-  componentKey?: string; // För live editing identification
+  props: Record<string, any>;
+  animation?: AnimationConfig;
+  componentKey?: string;
 }
 
 /**
@@ -24,9 +26,11 @@ export interface ComponentNode extends BaseNode {
  * Innehåller bara components, inte andra patterns
  */
 export interface PatternNode extends BaseNode {
-  components: Record<string, ComponentNode>; // Required - pattern måste ha components
-  order: string[]; // Required - patterns behöver rendering order för components
-  patternKey?: string; // För live editing identification
+  components: Record<string, ComponentNode>;
+  layout?: Record<string, any>; // Universal layout system (free-form, validated at runtime)
+  order: string[];
+  animation?: AnimationConfig;
+  patternKey?: string;
 }
 
 
@@ -42,11 +46,12 @@ export interface SectionHeader {
  * Top-level containers som organiserar patterns
  */
 export interface SectionNode extends BaseNode<SectionType> {
-  header?: SectionHeader; // Optional - section header med tag, heading, body
-  patterns?: Record<string, PatternNode>; // Optional - section kan ha patterns
-  order?: string[]; // Optional - sections behöver rendering order för patterns
-  layout?: LayoutConfig; // Optional - layout configuration for section
-  sectionKey?: string; // För live editing identification
+  header?: SectionHeader;
+  patterns?: Record<string, PatternNode>;
+  order?: string[];
+  layout?: LayoutConfig; // Section layout (split columns, alignment)
+  animation?: AnimationConfig;
+  sectionKey?: string;
 }
 
 /**

@@ -55,6 +55,8 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
   const textAlign = props?.textAlign || inheritedAlign || 'center';
   const maxWidth = props?.maxWidth || '650px';
   const isHero = sectionKey?.startsWith('hero_') || props?.isHero || false;
+  // Vertical alignment (justifyContent) - new prop for vertical positioning
+  const verticalAlign = props?.verticalAlign || 'start'; // start/center/end
 
   // Get hero spacing configuration
   const heroSpacingMobile = props?.heroSpacingMobile || 1.5;

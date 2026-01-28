@@ -26,12 +26,20 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
 
   // If layout config exists, use LayoutRenderer
   if (layout) {
+    // Detect split layout: alignSectionHeader is left/right AND secondColumn exists
+    const isSplitLayout = 
+      layout.alignSectionHeader && 
+      layout.alignSectionHeader !== 'center' && 
+      layout.secondColumn && 
+      layout.secondColumn.length > 0;
+    
     return (
       <Section
         key={sectionKey}
         id={sectionKey}
         height="auto"
         sectionKey={sectionKey}
+        noPaddingTop={isSplitLayout}
         {...props}
       >
         <LayoutRenderer 

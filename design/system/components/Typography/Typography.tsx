@@ -81,7 +81,8 @@ export type TypographyAlign = 'left' | 'center' | 'right' | 'justify';
 
 // ===== POLYMORPHIC TYPES =====
 export interface TypographyOwnProps {
-  children: ReactNode;
+  children?: ReactNode;
+  content?: string; // For JSON-driven rendering
   variant?: TypographyVariant;
   weight?: TypographyWeight;
   color?: TypographyColor;
@@ -219,11 +220,15 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   italic,
   className,
   children,
+  content,
   style = {},
   componentKey,
   ...rest
 }, ref) => {
   const Element = as || getDefaultElement(variant);
+  
+  // Use content prop if provided, otherwise use children
+  const displayContent = content || children;
   
   const classes = buildTypographyClasses({
     variant,
@@ -235,7 +240,7 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
     uppercase,
     italic,
     className,
-    children
+    children: displayContent
   });
 
   // 🎯 OPTIMIZED: Memoize style object to prevent unnecessary re-renders and inspector flickering
@@ -290,7 +295,7 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
         triggerOffset={settings.triggerOffset || 100}
       >
         <Component as={Element} ref={ref} className={classes} style={combinedStyle} componentKey={componentKey} {...rest}>
-          {children}
+          {displayContent}
         </Component>
       </FadeIn>
     );
@@ -299,7 +304,7 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   // No animation - standard Typography
   return (
     <Component as={Element} ref={ref} className={classes} style={combinedStyle} componentKey={componentKey} {...rest}>
-      {children}
+      {displayContent}
     </Component>
   );
 });

@@ -12,18 +12,22 @@ import { SlideIn } from '../../animations/SlideIn/SlideIn';
 import { Opacity } from '../../animations/Opacity/Opacity';
 import { Scale } from '../../animations/Scale/Scale';
 import { AnimationConfig } from '../../../core/animations/types';
+import { CDN_BASE_URL } from '../../../core/utils/env';
+import { getVideoThumbnailUrl } from '../../../core/utils/media';
 import './VideoShowcase.css';
 import './PlayButton.css';
 
 export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoElement> {
   variant?: 'default' | 'rounded' | 'elevated';
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
-  aspectRatio?: '16-9' | '4-3' | '1-1' | 'auto';
+  aspectRatio?: '16-9' | '4-3' | '1-1' | '2-3' | 'auto';
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   showPlayButton?: boolean;
   componentKey?: string;
   /** Animation configuration following centralized animation system */
   animation?: AnimationConfig;
+  /** Max height for the video */
+  maxHeight?: string | number;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -41,6 +45,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   poster,
   componentKey,
   animation,
+  maxHeight,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -56,6 +61,19 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     `video-showcase--radius-${radius}`,
     className
   );
+
+  // Process video URL and derive poster/thumbnail
+  const videoSrc = typeof props.src === 'string' ? props.src : '';
+  const videoUrl = videoSrc.startsWith('http') ? videoSrc : `${CDN_BASE_URL}${videoSrc}`;
+
+  // Priority 1: Use hardcoded poster if provided
+  let derivedPosterUrl = poster ? (poster.startsWith('http') ? poster : `${CDN_BASE_URL}${poster}`) : undefined;
+
+  // Priority 2: Auto-derive thumbnail from video path
+  // Backend stores thumbnails at: user-{id}/thumbnails/{video-name}.jpg
+  if (!derivedPosterUrl) {
+    derivedPosterUrl = getVideoThumbnailUrl(videoUrl);
+  }
 
   // Find the video element inside the container and control it
   React.useEffect(() => {
@@ -94,11 +112,11 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       onClick={handlePlayClick}
     >
       <Video
-        src={typeof props.src === 'string' ? props.src : ''}
-        poster={poster}
+        src={videoUrl}
+        poster={derivedPosterUrl}
         width="100%"
-        height="auto"
-        aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : 'auto'}
+        maxHeight={maxHeight}
+        aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
         radius={radius === 'full' ? 'xl' : radius}
         loading="eager"
         priority={true}

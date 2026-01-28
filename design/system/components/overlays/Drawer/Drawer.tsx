@@ -4,7 +4,8 @@ import { createPortal } from "react-dom";
 import { cn } from "../../../utils/cn";
 import { HStack } from "../../layout/hStack/HStack";
 import { VStack } from "../../layout/vStack/VStack";
-import { Button, IconButtons } from "../../../components";
+import Button from "../../actions/Button/Button";
+import { IconButton } from "../../actions/IconButton/IconButton";
 
 /** Get scrollbar width (safe in Next.js) */
 function getScrollbarWidth() {
@@ -123,7 +124,8 @@ const Drawer = ({
             {showCloseButton && (
               <HStack justify="end" className="drawer__header">
                 {closeButtonVariant === "icon" ? (
-                  <IconButtons.Close
+                  <IconButton
+                    icon="x"
                     aria-label="Close menu"
                     variant="ghost"
                     size="md"
