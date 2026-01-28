@@ -6,7 +6,6 @@
 import React, { forwardRef, ReactElement } from 'react';
 import { cn } from '../../../utils/cn';
 import { UserIcon } from '@heroicons/react/24/outline';
-import { Icon } from '../../media/Icon';
 import { Image } from '../../media/Image';
 import { Box } from '../../layout/box/Box';
 
@@ -159,10 +158,8 @@ export const AvatarFallback = forwardRef<HTMLDivElement, AvatarFallbackProps>(
         {getInitials(name)}
       </span>
     ) : (
-      // Slightly stronger default color than "muted" to avoid "dot" contrast issues
-      <Icon size="md" color="secondary">
-        <UserIcon />
-      </Icon>
+      // Default user icon that scales with avatar size
+      <UserIcon style={{ width: '60%', height: '60%' }} />
     );
 
     return (
@@ -302,11 +299,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(pr
           name={actualFallbackMode === 'initials' ? name : undefined}
           icon={
             actualFallbackMode === 'icon'
-              ? icon ?? (
-                  <Icon size="md" color="secondary">
-                    <UserIcon />
-                  </Icon>
-                )
+              ? icon ?? <UserIcon style={{ width: '60%', height: '60%' }} />
               : undefined
           }
         >
