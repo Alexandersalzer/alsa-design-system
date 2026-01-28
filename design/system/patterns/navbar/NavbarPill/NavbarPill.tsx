@@ -209,7 +209,8 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
                     return (
                       <TextLink
                         key={i}
-                        href={props.href || '/'}
+                        action={props.action}
+                        href={props.href}
                         size="md"
                         underline="hover"
                         componentKey={componentKey}
@@ -268,7 +269,8 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
                     const linkContent = (
                       <TextLink
                         key={i}
-                        href={props.href || '/'}
+                        action={props.action}
+                        href={props.href}
                         onClick={() => setMobileOpen(false)}
                         className="drawer-pill-link"
                         componentKey={componentKey}

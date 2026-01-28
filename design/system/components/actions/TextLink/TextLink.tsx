@@ -9,6 +9,7 @@ import { cn } from '../../../utils/cn';
 import { Label, TypographyWeight } from '../../Typography';
 import { useHref } from '../../../hooks/useHref';
 import { Component } from '../../frames/component/Component';
+import { ActionConfig } from '../../../core/actions/types';
 import './TextLink.css';
 
 export interface TextLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -22,6 +23,7 @@ export interface TextLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElem
   underline?: 'none' | 'hover' | 'always';
   disabled?: boolean;
   componentKey?: string;
+  action?: ActionConfig;
 }
 
 export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
@@ -36,14 +38,21 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   underline = 'none',
   disabled = false,
   href,
+  action,
   componentKey,
   ...props
 }, ref) => {
   
   const { buildHref } = useHref();
   
+  // Extract href from action or use direct href prop
+  let finalHref = href;
+  if (action && action.type === 'navigation') {
+    finalHref = action.settings.href;
+  }
+  
   // Build locale-aware href
-  const localeAwareHref = href ? buildHref(href) : undefined;
+  const localeAwareHref = finalHref ? buildHref(finalHref) : undefined;
   
   // Use content if provided, otherwise use children
   const displayContent = content || children;
