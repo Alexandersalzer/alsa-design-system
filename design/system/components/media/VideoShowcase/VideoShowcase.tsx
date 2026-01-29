@@ -33,6 +33,8 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   frame?: 'none' | 'iphone-14-pro' | 'iphone-se' | 'pixel-7';
   /** Frame color (only for certain frames) */
   frameColor?: 'black' | 'white' | 'silver' | 'gold';
+  /** Frame size in pixels (controls max-width) */
+  frameSize?: number;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -53,6 +55,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   maxHeight,
   frame = 'none',
   frameColor = 'black',
+  frameSize,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -184,7 +187,10 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
 
   // Wrap video in device frame if specified
   const wrappedContent = frame !== 'none' ? (
-    <div className={cn("device-frame", `device-frame--${frame}`, `device-frame--${frameColor}`)}>
+    <div 
+      className={cn("device-frame", `device-frame--${frame}`, `device-frame--${frameColor}`)}
+      style={frameSize ? { maxWidth: `${frameSize}px` } : undefined}
+    >
       <div className="device-frame__screen">
         {videoContent}
       </div>
