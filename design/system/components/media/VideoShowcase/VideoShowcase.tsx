@@ -157,7 +157,16 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   const mapEasing = (easing?: string): 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear' => {
     switch (easing) {
       case 'easeIn': return 'ease-in';
-      case 'ewrappedContent;
+      case 'easeOut': return 'ease-out';
+      case 'easeInOut': return 'ease-in-out';
+      case 'linear': return 'linear';
+      default: return 'ease';
+    }
+  };
+
+  const renderWithAnimation = () => {
+    if (!animation) {
+      return wrappedContent;
     }
 
     if (animation.type === 'fadeIn') {
@@ -225,17 +234,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       );
     }
 
-    return wrapped{settings.delay || 0}
-          easing={mapEasing(settings.easing)}
-          enableScrollTrigger={settings.enableScrollTrigger ?? false}
-          triggerOffset={settings.triggerOffset || 100}
-        >
-          {videoContent}
-        </Scale>
-      );
-    }
-
-    return videoContent;
+    return wrappedContent;
   };
 
   return (
