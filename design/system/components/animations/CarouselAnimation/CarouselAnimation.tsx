@@ -23,6 +23,8 @@ export interface CarouselAnimationProps {
   backgroundColor?: string;
   padding?: string;
   itemWidth?: string;
+  itemMaxWidth?: string;
+  itemMinWidth?: string;
   itemHeight?: string;
   itemPadding?: string;
   gap?: string;
@@ -40,7 +42,9 @@ export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
   containerHeight = 'auto',
   backgroundColor = 'var(--surface-page)', // ✅ Changed default
   padding = '5px',
-  itemWidth = 'auto',
+  itemWidth = '100%',
+  itemMaxWidth,
+  itemMinWidth,
   itemHeight = 'auto',
   itemPadding = '0px',
   gap = '50px',
@@ -97,6 +101,8 @@ export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
 
   const itemStyle: React.CSSProperties = {
     width: itemWidth,
+    maxWidth: itemMaxWidth,
+    minWidth: itemMinWidth,
     height: itemHeight,
     padding: itemPadding,
   };
