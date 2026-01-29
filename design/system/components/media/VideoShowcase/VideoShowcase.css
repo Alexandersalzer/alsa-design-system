@@ -22,22 +22,18 @@
 /* Sizes - Now using container-relative units */
 .video-showcase--sm {
   width: min(100%, 400px);
-  margin: 0 auto;
 }
 
 .video-showcase--md {
   width: min(100%, 600px);
-  margin: 0 auto;
 }
 
 .video-showcase--lg {
   width: min(100%, 800px);
-  margin: 0 auto;
 }
 
 .video-showcase--xl {
   width: min(100%, 1000px);
-  margin: 0 auto;
 }
 
 .video-showcase--full {
