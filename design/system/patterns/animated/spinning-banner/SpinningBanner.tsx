@@ -267,7 +267,7 @@ export const SpinningBanner: React.FC<SpinningBannerProps> = ({ components = {},
       items={animationItems}
       speed={speed}
       direction={direction}
-      backgroundColor="var(--surface-page)"
+      backgroundColor={subtleBackground ? "var(--surface-page)" : "transparent"}
       padding="5px"
       itemWidth={`${sizeMap.width}px`}
       itemHeight={`${sizeMap.height}px`}

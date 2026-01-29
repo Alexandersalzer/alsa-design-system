@@ -117,6 +117,7 @@ const MediaPattern = ({ components = {}, props = {}, sectionKey, patternKey }: M
       ...(marginLeft && { marginLeft }),
       ...(align === 'end' && { marginLeft: 'auto' }),
       ...(align === 'start' && { marginRight: 'auto' }),
+      ...(align === 'center' && { marginLeft: 'auto', marginRight: 'auto' }),
     };
 
     return (
@@ -126,12 +127,12 @@ const MediaPattern = ({ components = {}, props = {}, sectionKey, patternKey }: M
           alt={imageProps.alt || 'Media image'}
           width="100%"
           height={imageProps.height || 'auto'}
-          objectFit={imageProps.objectFit || 'cover'}
+          objectFit={imageProps.objectFit || 'contain'}
           objectPosition={imageProps.objectPosition || 'center'}
           radius={imageProps.radius || 'md'}
           loading="eager"
           priority={true}
-          aspectRatio={imageProps.aspectRatio || '16/9'}
+          aspectRatio={imageProps.aspectRatio}
           className="media-pattern-image"
           componentKey={get('image').key}
         />
