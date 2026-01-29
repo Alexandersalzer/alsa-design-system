@@ -22,10 +22,10 @@ export interface RailSegmentProps {
   className?: string;
   /** Scroll offset to trigger activation (0-1, default 0.75 = 3/4 from top) */
   scrollOffset?: number;
+  /** Scroll offset to trigger deactivation when leaving screen (0-1, default 0.1 = near top) */
+  deactivationOffset?: number;
   /** Distance threshold in pixels for activation (default 150px) */
   activationThreshold?: number;
-  /** Scroll offset for exit/deactivation (0-1, default 0.15 = near top) */
-  exitOffset?: number;
 }
 
 export const RailSegment: React.FC<RailSegmentProps> = ({
@@ -36,14 +36,13 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
   lineWidth = 1,
   className = '',
   scrollOffset = 0.75,
+  deactivationOffset = 0.1,
   activationThreshold = 150,
-  exitOffset = 0.15,
 }) => {
   const nodeRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(propActive);
   const [topLineFill, setTopLineFill] = useState(0); // 0-1
   const [bottomLineFill, setBottomLineFill] = useState(0); // 0-1
-  const [isEmptying, setIsEmptying] = useState(false); // Track if we're in emptying phase
 
   useEffect(() => {
     // If active is explicitly set to true, use that
@@ -57,71 +56,57 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
 
       const rect = nodeRef.current.getBoundingClientRect();
       const triggerPoint = window.innerHeight * scrollOffset;
-      const exitPoint = window.innerHeight * exitOffset;
+      const deactivatePoint = window.innerHeight * deactivationOffset;
       const nodeCenter = rect.top + rect.height / 2;
       
-      // Activate when between exit and trigger points
-      const isAboveExit = nodeCenter < exitPoint;
-      const isBelowTrigger = nodeCenter > triggerPoint;
-      setIsActive(!isAboveExit && !isBelowTrigger);
-      setIsEmptying(isAboveExit);
+      // Activate node when it's between deactivation point and trigger point
+      // Active when: passed trigger point AND not yet passed deactivation point
+      setIsActive(nodeCenter <= triggerPoint && nodeCenter >= deactivatePoint);
 
-      // Top line (middle/end): Fills/empties based on node position
+      // Top line (middle/end): Fills when crossing trigger, empties when crossing deactivate
       if (type === 'middle' || type === 'end') {
         const topOfLine = rect.top;
         const bottomOfLine = nodeCenter;
         
-        let topProgress = 0;
-        
-        // If between exit and top of viewport (emptying phase)
-        if (nodeCenter < exitPoint) {
-          const distanceFromExit = exitPoint - nodeCenter;
-          const lineLength = bottomOfLine - topOfLine;
-          topProgress = Math.max(0, 1 - (distanceFromExit / lineLength));
+        // Check if we're in the deactivation zone (emptying)
+        if (bottomOfLine < deactivatePoint) {
+          // Line is above deactivation point - calculate unfill progress
+          const unfillProgress = topOfLine < deactivatePoint && bottomOfLine < deactivatePoint
+            ? 0 // Fully above deactivation = empty
+            : (deactivatePoint - topOfLine) / (bottomOfLine - topOfLine);
+          setTopLineFill(Math.max(0, unfillProgress));
+        } else if (topOfLine < triggerPoint && bottomOfLine > triggerPoint) {
+          // Crossing trigger point - filling
+          const fillProgress = (triggerPoint - topOfLine) / (bottomOfLine - topOfLine);
+          setTopLineFill(fillProgress);
+        } else if (topOfLine >= triggerPoint) {
+          setTopLineFill(0); // Below trigger = empty
+        } else {
+          setTopLineFill(1); // Between trigger and deactivate = full
         }
-        // If between trigger and exit (filled phase)
-        else if (nodeCenter >= exitPoint && nodeCenter <= triggerPoint) {
-          topProgress = 1;
-        }
-        // If below trigger (filling phase)
-        else {
-          topProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
-            ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
-            : topOfLine >= triggerPoint
-              ? 0
-              : 1;
-        }
-        
-        setTopLineFill(topProgress);
       }
       
-      // Bottom line (start/middle): Fills/empties based on node position
+      // Bottom line (start/middle): Same logic
       if (type === 'start' || type === 'middle') {
         const topOfLine = nodeCenter;
         const bottomOfLine = rect.bottom;
         
-        let bottomProgress = 0;
-        
-        // If between exit and top of viewport (emptying phase)
-        if (nodeCenter < exitPoint) {
-          const distanceFromExit = exitPoint - nodeCenter;
-          const lineLength = bottomOfLine - topOfLine;
-          bottomProgress = Math.max(0, 1 - (distanceFromExit / lineLength));
+        // Check if we're in the deactivation zone (emptying)
+        if (bottomOfLine < deactivatePoint) {
+          // Line is above deactivation point - calculate unfill progress
+          const unfillProgress = topOfLine < deactivatePoint && bottomOfLine < deactivatePoint
+            ? 0 // Fully above deactivation = empty
+            : (deactivatePoint - topOfLine) / (bottomOfLine - topOfLine);
+          setBottomLineFill(Math.max(0, unfillProgress));
+        } else if (topOfLine < triggerPoint && bottomOfLine > triggerPoint) {
+          // Crossing trigger point - filling
+          const fillProgress = (triggerPoint - topOfLine) / (bottomOfLine - topOfLine);
+          setBottomLineFill(fillProgress);
+        } else if (topOfLine >= triggerPoint) {
+          setBottomLineFill(0); // Below trigger = empty
+        } else {
+          setBottomLineFill(1); // Between trigger and deactivate = full
         }
-        // If between trigger and exit (filled phase)
-        else if (nodeCenter >= exitPoint && nodeCenter <= triggerPoint) {
-          bottomProgress = 1;
-        }
-        // If below trigger (filling phase)
-        else {
-          bottomProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
-            ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
-            : topOfLine >= triggerPoint
-              ? 0
-              : 1;
-        }
-        
-        setBottomLineFill(bottomProgress);
       }
     };
 
@@ -136,7 +121,7 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
-  }, [propActive, scrollOffset, activationThreshold, exitOffset, type]);
+  }, [propActive, scrollOffset, deactivationOffset, activationThreshold, type]);
 
   return (
     <div 
@@ -153,10 +138,7 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
           <div className="rail-segment__line rail-segment__line--base" />
           <div 
             className="rail-segment__line rail-segment__line--fill" 
-            style={{ 
-              transform: `scaleY(${topLineFill})`,
-              transformOrigin: isEmptying ? 'bottom' : 'top'
-            }}
+            style={{ transform: `scaleY(${topLineFill})` }}
           />
         </div>
       )}
@@ -173,10 +155,7 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
           <div className="rail-segment__line rail-segment__line--base" />
           <div 
             className="rail-segment__line rail-segment__line--fill" 
-            style={{ 
-              transform: `scaleY(${bottomLineFill})`,
-              transformOrigin: isEmptying ? 'bottom' : 'top'
-            }}
+            style={{ transform: `scaleY(${bottomLineFill})` }}
           />
         </div>
       )}
