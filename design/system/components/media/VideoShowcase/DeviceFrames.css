@@ -73,7 +73,7 @@
 .device-frame--iphone-14-pro .device-frame__bezel::after {
   content: '';
   position: absolute;
-  bottom: 8px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   width: 140px;
