@@ -33,13 +33,10 @@
   aspect-ratio: 71.5 / 147.5; /* iPhone 14 Pro exact physical dimensions: 71.5mm x 147.5mm (2.81" x 5.81") */
   max-width: 320px; /* Control size here - height follows naturally via aspect-ratio */
   width: 100%;
-  background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+  background: #1a1a1a;
   border-radius: 55px;
   padding: 10px;
   box-shadow: 
-    0 0 0 1px rgba(0, 0, 0, 0.1),
-    0 0 0 2px #1d1d1f,
-    0 0 0 3px #505053,
     0 5px 15px rgba(0, 0, 0, 0.2),
     0 15px 35px rgba(0, 0, 0, 0.3),
     0 30px 60px rgba(0, 0, 0, 0.4);
