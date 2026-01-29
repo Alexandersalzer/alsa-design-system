@@ -72,8 +72,8 @@ export function buildCssVars(tokens: DesignTokens): string {
     @import url('${fontUrl}');
     :root {
       /* ===== FONTS ===== */
-      --font-primary-name: '${fontPrimary}';
-      --font-secondary-name: '${fontSecondary}';
+      --font-primary-name: '${fontPrimary}' !important;
+      --font-secondary-name: '${fontSecondary}' !important;
 
       /* ===== Radius ===== */
       --selected-radius-scale-none: var(--foundation-radius-${radius}-none);

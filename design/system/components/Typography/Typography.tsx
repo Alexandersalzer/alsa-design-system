@@ -79,6 +79,19 @@ export type TypographyColor =
 
 export type TypographyAlign = 'left' | 'center' | 'right' | 'justify';
 
+// ===== HELPER FUNCTION FOR LINE BREAKS =====
+const processLineBreaks = (content: ReactNode): ReactNode => {
+  if (typeof content !== 'string') return content;
+  if (!content.includes('\n')) return content;
+  
+  return content.split('\n').map((line, index, array) => (
+    <span key={index}>
+      {line}
+      {index < array.length - 1 && <br />}
+    </span>
+  ));
+};
+
 // ===== POLYMORPHIC TYPES =====
 export interface TypographyOwnProps {
   children?: ReactNode;
@@ -95,6 +108,8 @@ export interface TypographyOwnProps {
   as?: ElementType;
   componentKey?: string; // För live editing identification
   animation?: AnimationConfig; // Centralized animation system
+  /** Enable line break support - converts \n to <br /> */
+  preserveLineBreaks?: boolean;
 }
 
 export type TypographyProps = TypographyOwnProps & 
@@ -223,8 +238,11 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   content,
   style = {},
   componentKey,
+  preserveLineBreaks = true,
   ...rest
 }, ref) => {
+  // Process line breaks if enabled and children is a string with \n
+  const processedChildren = preserveLineBreaks ? processLineBreaks(children) : children;
   const Element = as || getDefaultElement(variant);
   
   // Use content prop if provided, otherwise use children
