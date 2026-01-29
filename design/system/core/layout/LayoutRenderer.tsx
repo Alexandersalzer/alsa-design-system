@@ -403,11 +403,20 @@ export function LayoutRenderer({
 
               // Force secondColumn patterns to have left/start alignment in mobile view
               const isSecondColumnPattern = secondColumnPatterns.includes(key);
-              const mobileContextForPattern = isSecondColumnPattern 
-                ? { ...mobileLayoutContext, alignSectionHeader: 'left' as const }
-                : mobileLayoutContext;
+              
+              // Override pattern props align for secondColumn patterns on mobile
+              let mobilePattern = pattern;
+              if (isSecondColumnPattern && pattern.props) {
+                mobilePattern = {
+                  ...pattern,
+                  props: {
+                    ...pattern.props,
+                    align: 'start'
+                  }
+                };
+              }
 
-              return renderPattern(pattern, key, sectionKey, mobileContextForPattern);
+              return renderPattern(mobilePattern, key, sectionKey, mobileLayoutContext);
             })}
           </VStack>
         </Box>
