@@ -135,8 +135,10 @@ export const renderPattern = (
     );
 
     // Wrap with animation if pattern has animation config
+    // Use pattern-level animation first, fallback to section-level animation
+    const animationConfig = pattern.animation || layoutContext?.sectionAnimation;
     // Pass layout config so animation can extract children and apply proper spacing
-    const animatedContent = wrapWithAnimation(layoutContent, pattern.animation, layoutConfig);
+    const animatedContent = wrapWithAnimation(layoutContent, animationConfig, layoutConfig);
 
     return (
       <Container
