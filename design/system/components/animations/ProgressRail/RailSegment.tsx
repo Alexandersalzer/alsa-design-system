@@ -22,8 +22,6 @@ export interface RailSegmentProps {
   className?: string;
   /** Scroll offset to trigger activation (0-1, default 0.75 = 3/4 from top) */
   scrollOffset?: number;
-  /** Scroll offset to trigger deactivation when leaving screen (0-1, default 0.1 = near top) */
-  deactivationOffset?: number;
   /** Distance threshold in pixels for activation (default 150px) */
   activationThreshold?: number;
 }
@@ -36,15 +34,12 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
   lineWidth = 1,
   className = '',
   scrollOffset = 0.75,
-  deactivationOffset = 0.1,
   activationThreshold = 150,
 }) => {
   const nodeRef = useRef<HTMLDivElement>(null);
-  const lastScrollY = useRef(0);
   const [isActive, setIsActive] = useState(propActive);
   const [topLineFill, setTopLineFill] = useState(0); // 0-1
   const [bottomLineFill, setBottomLineFill] = useState(0); // 0-1
-  const [fillDirection, setFillDirection] = useState<'down' | 'up'>('down'); // Track scroll direction for fill animation
 
   useEffect(() => {
     // If active is explicitly set to true, use that
@@ -56,81 +51,41 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
     const handleScroll = () => {
       if (!nodeRef.current) return;
 
-      const currentScrollY = window.scrollY;
-      const scrollingDown = currentScrollY > lastScrollY.current;
-      lastScrollY.current = currentScrollY;
-
       const rect = nodeRef.current.getBoundingClientRect();
       const triggerPoint = window.innerHeight * scrollOffset;
-      const deactivatePoint = window.innerHeight * deactivationOffset;
       const nodeCenter = rect.top + rect.height / 2;
       
-      // Activate node when it's between deactivation point and trigger point
-      // Active when: passed trigger point AND not yet passed deactivation point
-      setIsActive(nodeCenter <= triggerPoint && nodeCenter >= deactivatePoint);
+      // Activate node when it crosses the trigger point (same as lines)
+      setIsActive(nodeCenter <= triggerPoint);
 
-      // Top line (middle/end): Fills when crossing trigger, empties when crossing deactivate
+      // Top line (middle/end): Fills as the TOP of the line crosses trigger point
       if (type === 'middle' || type === 'end') {
-        const topOfLine = rect.top;
-        const bottomOfLine = nodeCenter;
+        const topOfLine = rect.top; // Top of the rail segment (top of top line)
+        const bottomOfLine = nodeCenter; // Bottom of top line (at node center)
         
-        // Check if we're in the deactivation zone (emptying from scrolling down)
-        if (bottomOfLine < deactivatePoint) {
-          setFillDirection('down'); // Emptying while scrolling down
-          const unfillProgress = topOfLine < deactivatePoint && bottomOfLine < deactivatePoint
+        // Progress from 0 (top at trigger) to 1 (bottom at trigger)
+        const topProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
+          ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
+          : topOfLine >= triggerPoint
             ? 0
-            : (deactivatePoint - topOfLine) / (bottomOfLine - topOfLine);
-          setTopLineFill(Math.max(0, unfillProgress));
-        } else if (topOfLine < triggerPoint && bottomOfLine > triggerPoint) {
-          // Crossing trigger point
-          if (scrollingDown) {
-            setFillDirection('down'); // Filling from top
-          } else {
-            setFillDirection('up'); // Re-filling from bottom
-          }
-          const fillProgress = (triggerPoint - topOfLine) / (bottomOfLine - topOfLine);
-          setTopLineFill(fillProgress);
-        } else if (topOfLine >= triggerPoint) {
-          // Below trigger - check direction for re-activation
-          if (!scrollingDown && topLineFill > 0) {
-            setFillDirection('up');
-          }
-          setTopLineFill(0);
-        } else {
-          setTopLineFill(1);
-        }
+            : 1;
+        
+        setTopLineFill(topProgress);
       }
       
-      // Bottom line (start/middle): Same logic
+      // Bottom line (start/middle): Fills as the BOTTOM of the line crosses trigger point
       if (type === 'start' || type === 'middle') {
-        const topOfLine = nodeCenter;
-        const bottomOfLine = rect.bottom;
+        const topOfLine = nodeCenter; // Top of bottom line (at node center)
+        const bottomOfLine = rect.bottom; // Bottom of the rail segment (bottom of bottom line)
         
-        // Check if we're in the deactivation zone (emptying from scrolling down)
-        if (bottomOfLine < deactivatePoint) {
-          setFillDirection('down'); // Emptying while scrolling down
-          const unfillProgress = topOfLine < deactivatePoint && bottomOfLine < deactivatePoint
+        // Progress from 0 (top at trigger) to 1 (bottom at trigger)
+        const bottomProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
+          ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
+          : topOfLine >= triggerPoint
             ? 0
-            : (deactivatePoint - topOfLine) / (bottomOfLine - topOfLine);
-          setBottomLineFill(Math.max(0, unfillProgress));
-        } else if (topOfLine < triggerPoint && bottomOfLine > triggerPoint) {
-          // Crossing trigger point
-          if (scrollingDown) {
-            setFillDirection('down'); // Filling from top
-          } else {
-            setFillDirection('up'); // Re-filling from bottom
-          }
-          const fillProgress = (triggerPoint - topOfLine) / (bottomOfLine - topOfLine);
-          setBottomLineFill(fillProgress);
-        } else if (topOfLine >= triggerPoint) {
-          // Below trigger - check direction for re-activation
-          if (!scrollingDown && bottomLineFill > 0) {
-            setFillDirection('up');
-          }
-          setBottomLineFill(0);
-        } else {
-          setBottomLineFill(1);
-        }
+            : 1;
+        
+        setBottomLineFill(bottomProgress);
       }
     };
 
@@ -145,7 +100,7 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
-  }, [propActive, scrollOffset, deactivationOffset, activationThreshold, type]);
+  }, [propActive, scrollOffset, activationThreshold, type]);
 
   return (
     <div 
@@ -162,10 +117,7 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
           <div className="rail-segment__line rail-segment__line--base" />
           <div 
             className="rail-segment__line rail-segment__line--fill" 
-            style={{ 
-              transform: `scaleY(${topLineFill})`,
-              transformOrigin: fillDirection === 'down' ? 'top' : 'bottom'
-            }}
+            style={{ transform: `scaleY(${topLineFill})` }}
           />
         </div>
       )}
@@ -182,10 +134,7 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
           <div className="rail-segment__line rail-segment__line--base" />
           <div 
             className="rail-segment__line rail-segment__line--fill" 
-            style={{ 
-              transform: `scaleY(${bottomLineFill})`,
-              transformOrigin: fillDirection === 'down' ? 'top' : 'bottom'
-            }}
+            style={{ transform: `scaleY(${bottomLineFill})` }}
           />
         </div>
       )}
