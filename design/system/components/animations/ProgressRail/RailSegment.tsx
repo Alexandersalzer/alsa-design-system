@@ -45,6 +45,8 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
     // If active is explicitly set to true, use that
     if (propActive) {
       setIsActive(true);
+      setTopLineFill(1);
+      setBottomLineFill(1);
       return;
     }
 
@@ -55,28 +57,27 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       const triggerPoint = window.innerHeight * scrollOffset;
       const nodeCenter = rect.top + rect.height / 2;
       
-      // Calculate distance from trigger point
-      const distance = Math.abs(nodeCenter - triggerPoint);
+      // Distance from node to trigger point (positive = above trigger, negative = below)
+      const distanceFromTrigger = nodeCenter - triggerPoint;
       
-      // Activate if node center is within threshold distance of trigger point
-      const isNodeActive = distance < activationThreshold;
-      setIsActive(isNodeActive);
+      // Node activates when it crosses the trigger point
+      const hasPassedTrigger = distanceFromTrigger <= 0;
+      setIsActive(hasPassedTrigger);
 
-      // Calculate fill progress based on how far the node has passed the trigger point
-      // Positive value = node is below trigger, negative = node is above trigger
-      const progressFromTrigger = (triggerPoint - nodeCenter) / (window.innerHeight * 0.3);
-      const fillProgress = Math.max(0, Math.min(1, progressFromTrigger));
-      
-      // Top line fills as node approaches and reaches trigger point (for middle/end)
+      // Calculate fill distance (distance scrolled past trigger point)
+      // Use viewport height as the fill range (0 at trigger, 1 at viewport height past trigger)
+      const fillRange = window.innerHeight * 0.5; // Fill completes within half viewport
+      const scrolledPast = Math.abs(Math.min(0, distanceFromTrigger)); // How far past trigger
+      const fillProgress = Math.min(1, scrolledPast / fillRange);
+
+      // Top line fills when current node is past trigger (connects to previous node)
       if (type === 'middle' || type === 'end') {
-        setTopLineFill(fillProgress);
+        setTopLineFill(hasPassedTrigger ? fillProgress : 0);
       }
       
-      // Bottom line fills after node passes trigger point (for start/middle)
+      // Bottom line fills when current node is past trigger (connects to next node)
       if (type === 'start' || type === 'middle') {
-        // Start filling when node is active or past trigger point
-        const bottomProgress = Math.max(0, Math.min(1, fillProgress));
-        setBottomLineFill(bottomProgress);
+        setBottomLineFill(hasPassedTrigger ? fillProgress : 0);
       }
     };
 
