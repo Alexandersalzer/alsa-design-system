@@ -73,12 +73,14 @@ export interface PageProps {
   backgroundImage?: string;
   /** Background image opacity (0-1), defaults to 0.03 for subtle effect */
   backgroundOpacity?: number;
-  /** Background size, defaults to 'cover' */
+  /** Background size, defaults to 'auto' for tiled patterns */
   backgroundSize?: 'cover' | 'contain' | 'auto' | string;
   /** Background position, defaults to 'center' */
   backgroundPosition?: string;
   /** Whether background should be fixed on scroll */
   backgroundFixed?: boolean;
+  /** Make sections transparent to show page background through (defaults to true when backgroundImage is set) */
+  transparentSections?: boolean;
 }
 
 /**
