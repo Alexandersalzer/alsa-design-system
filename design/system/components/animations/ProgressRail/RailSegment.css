@@ -10,6 +10,7 @@
   align-items: center;
   width: 60px;
   flex-shrink: 0;
+  height: 100%;
 }
 
 /* Lines */
@@ -18,16 +19,15 @@
   background: var(--surface-accent);
   opacity: 0.2;
   transition: opacity 0.3s ease;
+  flex: 1;
 }
 
 .rail-segment__line--top {
-  height: 50%;
-  margin-bottom: auto;
+  min-height: 40px;
 }
 
 .rail-segment__line--bottom {
-  height: 50%;
-  margin-top: auto;
+  min-height: 40px;
 }
 
 /* Active state for lines */
