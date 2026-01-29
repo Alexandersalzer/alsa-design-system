@@ -1,6 +1,8 @@
 import React from 'react';
 import { ComponentNode } from '../types/nodes';
 import { componentRegistry } from '../../components/registry';
+import { FadeIn } from '../../components/animations/FadeIn/FadeIn';
+import { AnimationConfig } from '../animations/types';
 import { 
   parseLayoutNode, 
   isLayoutNode, 
@@ -19,6 +21,7 @@ import {
  * @param sectionKey - Section context
  * @param patternKey - Pattern context
  * @param patternProps - Pattern-level props (align, etc) to merge with layout config
+ * @param animationConfig - Optional animation config for items (fadeIn with stagger)
  * @returns Rendered React element tree
  */
 export const renderLayoutWithTemplate = (
@@ -26,11 +29,13 @@ export const renderLayoutWithTemplate = (
   components: Record<string, ComponentNode>,
   sectionKey?: string,
   patternKey?: string,
-  patternProps?: Record<string, any>
+  patternProps?: Record<string, any>,
+  animationConfig?: AnimationConfig
 ): React.ReactElement | null => {
   console.log('[renderLayoutWithTemplate] layout:', layout);
   console.log('[renderLayoutWithTemplate] components:', components);
   console.log('[renderLayoutWithTemplate] patternProps:', patternProps);
+  console.log('[renderLayoutWithTemplate] animationConfig:', animationConfig);
   
   const { type: parentType, template, order, ...parentLayoutProps } = layout;
 
@@ -64,6 +69,10 @@ export const renderLayoutWithTemplate = (
   const itemOrder = getLayoutItemOrder(layout);
   console.log('[renderLayoutWithTemplate] itemOrder:', itemOrder);
   
+  // Extract fadeIn animation settings if applicable
+  const isFadeInAnimation = animationConfig?.type === 'fadeIn';
+  const fadeInSettings = isFadeInAnimation ? animationConfig.settings : null;
+  
   // Render template for each item
   const renderedItems = itemOrder.map((itemId, itemIndex) => {
     const item = findLayoutItem(layout, itemId);
@@ -83,7 +92,7 @@ export const renderLayoutWithTemplate = (
 
     // Render each child in template.children array
     const templateChildren = template.children || [];
-    return (
+    const itemContent = (
       <React.Fragment key={itemId}>
         {templateChildren.map((child: any, index: number) => (
           <React.Fragment key={index}>
@@ -92,6 +101,25 @@ export const renderLayoutWithTemplate = (
         ))}
       </React.Fragment>
     );
+    
+    // Wrap with FadeIn if fadeIn animation is configured
+    if (isFadeInAnimation && fadeInSettings) {
+      const staggerDelay = (fadeInSettings.stagger || 100) * itemIndex;
+      return (
+        <FadeIn
+          key={itemId}
+          direction={fadeInSettings.direction || 'up'}
+          duration={fadeInSettings.duration || 600}
+          delay={(fadeInSettings.delay || 0) + staggerDelay}
+          enableScrollTrigger={fadeInSettings.enableScrollTrigger !== false}
+          triggerOffset={fadeInSettings.triggerOffset || 100}
+        >
+          {itemContent}
+        </FadeIn>
+      );
+    }
+    
+    return itemContent;
   }).filter(Boolean);
   
   console.log('[renderLayoutWithTemplate] renderedItems count:', renderedItems.length);

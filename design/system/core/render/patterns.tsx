@@ -126,19 +126,28 @@ export const renderPattern = (
   // UNIVERSAL LAYOUT PATH: If pattern has layout prop (on pattern level, not in props)
   if ((pattern as any).layout) {
     const layoutConfig = (pattern as any).layout;
+    
+    // Determine animation config: pattern-level takes precedence, then section-level
+    const animationConfig = pattern.animation || layoutContext?.sectionAnimation;
+    
+    // For fadeIn animations, pass config to layout renderer for per-item stagger
+    // For other animations (carousel, etc), wrap the entire content
+    const isFadeInAnimation = animationConfig?.type === 'fadeIn' || animationConfig?.type === 'opacity';
+    
     const layoutContent = renderLayoutWithTemplate(
       layoutConfig, 
       pattern.components, 
       sectionKey, 
       patternKey,
-      patternProps // Pass pattern props for align, etc
+      patternProps, // Pass pattern props for align, etc
+      isFadeInAnimation ? animationConfig : undefined // Only pass fadeIn to layout renderer
     );
 
-    // Wrap with animation if pattern has animation config
-    // Use pattern-level animation first, fallback to section-level animation
-    const animationConfig = pattern.animation || layoutContext?.sectionAnimation;
+    // Wrap with animation if pattern has animation config (for non-fadeIn animations like carousel)
     // Pass layout config so animation can extract children and apply proper spacing
-    const animatedContent = wrapWithAnimation(layoutContent, animationConfig, layoutConfig);
+    const animatedContent = isFadeInAnimation 
+      ? layoutContent 
+      : wrapWithAnimation(layoutContent, animationConfig, layoutConfig);
 
     return (
       <Container
