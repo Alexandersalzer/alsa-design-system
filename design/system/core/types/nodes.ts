@@ -74,6 +74,10 @@ export interface PageSEO {
  * Page-level props for styling and configuration
  */
 export interface PageProps {
+  /** Background type: 'default' | 'generative' | 'gradient' | 'pattern' | 'video' | 'image' */
+  background?: 'default' | 'generative' | 'gradient' | 'pattern' | 'video' | 'image';
+  
+  // Image background props (legacy support)
   /** Background image URL */
   backgroundImage?: string;
   /** Background image opacity (0-1), defaults to 0.03 for subtle effect */
@@ -92,6 +96,42 @@ export interface PageProps {
   backgroundOverlayOpacity?: number;
   /** Make sections transparent to show page background through (defaults to true when background is set) */
   transparentSections?: boolean;
+  
+  // Generative background props
+  generativeVariant?: 'subtle' | 'medium' | 'vibrant';
+  generativeColorScheme?: 'accent' | 'primary' | 'success' | 'warning' | 'info';
+  generativeSeed?: number;
+  generativeIntensity?: number;
+  generativeBlur?: number;
+  generativeFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
+  generativeFadeStrength?: number;
+  
+  // Gradient background props
+  gradientType?: 'mesh' | 'radial' | 'conic' | 'linear';
+  gradientColorScheme?: 'accent' | 'primary' | 'success' | 'warning' | 'info';
+  gradientAnimated?: boolean;
+  gradientIntensity?: number;
+  gradientFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
+  gradientFadeStrength?: number;
+  
+  // Pattern background props
+  patternType?: 'dots' | 'lines' | 'grid' | 'diagonal' | 'hexagon';
+  patternColorScheme?: 'accent' | 'primary' | 'success' | 'warning' | 'info' | 'neutral';
+  patternDensity?: 'sparse' | 'normal' | 'dense';
+  patternAnimated?: boolean;
+  patternOpacity?: number;
+  patternFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
+  patternFadeStrength?: number;
+  
+  // Video background props
+  videoSrc?: string;
+  videoPoster?: string;
+  videoFit?: 'cover' | 'contain' | 'fill';
+  videoOverlayType?: 'none' | 'dark' | 'light' | 'gradient';
+  videoOverlayOpacity?: number;
+  videoPlaybackRate?: number;
+  videoFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
+  videoFadeStrength?: number;
 }
 
 /**
