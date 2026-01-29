@@ -16,14 +16,10 @@ export interface ProgressRailStep {
 
 export interface ProgressRailProps {
   steps: ProgressRailStep[];
-  /** Height of the rail */
-  height?: string;
   /** Width of the connecting line */
   lineWidth?: number;
   /** Size of the step nodes */
   nodeSize?: number;
-  /** Gap between rail and content */
-  gap?: string;
   /** Custom className */
   className?: string;
   /** Container element to track scroll within */
@@ -32,10 +28,8 @@ export interface ProgressRailProps {
 
 export const ProgressRail: React.FC<ProgressRailProps> = ({
   steps,
-  height = '100%',
   lineWidth = 1,
   nodeSize = 16,
-  gap = 'var(--spacing-xl)',
   className = '',
   scrollContainer,
 }) => {
@@ -90,10 +84,8 @@ export const ProgressRail: React.FC<ProgressRailProps> = ({
       ref={railRef}
       className={`progress-rail ${className}`}
       style={{
-        '--rail-height': height,
         '--line-width': `${lineWidth}px`,
         '--node-size': `${nodeSize}px`,
-        '--rail-gap': gap,
       } as React.CSSProperties}
     >
       {/* Connecting lines between nodes */}
