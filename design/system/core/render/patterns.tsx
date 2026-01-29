@@ -127,8 +127,9 @@ export const renderPattern = (
   if ((pattern as any).layout) {
     const layoutConfig = (pattern as any).layout;
     
-    // Determine animation config: pattern-level takes precedence, then section-level
-    const animationConfig = pattern.animation || layoutContext?.sectionAnimation;
+    // Determine animation config: pattern.animation OR pattern.props.animation, then section-level
+    const patternAnimation = pattern.animation || patternProps.animation;
+    const animationConfig = patternAnimation || layoutContext?.sectionAnimation;
     
     // For fadeIn animations, pass config to layout renderer for per-item stagger
     // For other animations (carousel, etc), wrap the entire content
