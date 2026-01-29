@@ -59,30 +59,23 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       const distance = Math.abs(nodeCenter - triggerPoint);
       
       // Activate if node center is within threshold distance of trigger point
-      setIsActive(distance < activationThreshold);
+      const isNodeActive = distance < activationThreshold;
+      setIsActive(isNodeActive);
 
-      // Calculate line fill progress
-      const viewportHeight = window.innerHeight;
-      const nodeTop = rect.top;
-      const nodeBottom = rect.bottom;
+      // Calculate fill progress based on how far the node has passed the trigger point
+      // Positive value = node is below trigger, negative = node is above trigger
+      const progressFromTrigger = (triggerPoint - nodeCenter) / (window.innerHeight * 0.3);
+      const fillProgress = Math.max(0, Math.min(1, progressFromTrigger));
       
-      // Top line fill: based on how far node has entered viewport from bottom
+      // Top line fills as node approaches and reaches trigger point (for middle/end)
       if (type === 'middle' || type === 'end') {
-        const topLineTop = nodeTop - rect.height / 2;
-        const topLineBottom = nodeCenter;
-        const topProgress = Math.max(0, Math.min(1, 
-          (viewportHeight * 0.8 - topLineBottom) / (topLineBottom - topLineTop)
-        ));
-        setTopLineFill(topProgress);
+        setTopLineFill(fillProgress);
       }
       
-      // Bottom line fill: based on how far node has passed viewport center
+      // Bottom line fills after node passes trigger point (for start/middle)
       if (type === 'start' || type === 'middle') {
-        const bottomLineTop = nodeCenter;
-        const bottomLineBottom = nodeBottom + rect.height / 2;
-        const bottomProgress = Math.max(0, Math.min(1,
-          (viewportHeight * 0.5 - bottomLineTop) / (bottomLineBottom - bottomLineTop)
-        ));
+        // Start filling when node is active or past trigger point
+        const bottomProgress = Math.max(0, Math.min(1, fillProgress));
         setBottomLineFill(bottomProgress);
       }
     };
