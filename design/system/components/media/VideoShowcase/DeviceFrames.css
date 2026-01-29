@@ -30,11 +30,11 @@
 
 /* ===== IPHONE 14 PRO ===== */
 .device-frame--iphone-14-pro {
-  aspect-ratio: 71.5 / 147.5; /* iPhone 14 Pro exact physical dimensions: 71.5mm x 147.5mm (2.81" x 5.81") */
+  aspect-ratio: 71.5 / 144.5; /* iPhone 14 Pro exact physical dimensions: 71.5mm x 147.5mm (2.81" x 5.81") */
   max-width: 320px; /* Control size here - height follows naturally via aspect-ratio */
   width: 100%;
   background: #1a1a1a;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-2xl);
   padding: 10px;
   box-shadow: 
     0 5px 15px rgba(0, 0, 0, 0.2),
@@ -43,7 +43,7 @@
 }
 
 .device-frame--iphone-14-pro .device-frame__screen {
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   background: #000;
   display: flex;
   align-items: stretch;
