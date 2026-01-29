@@ -66,22 +66,27 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       const nodeTop = rect.top;
       const nodeBottom = rect.bottom;
       
-      // Top line fill: based on how far node has entered viewport from bottom
+      // Use trigger point as reference for sequential animation
+      const scrollReference = triggerPoint;
+      
+      // Top line fill: fills BEFORE node reaches trigger point (from previous segment)
       if (type === 'middle' || type === 'end') {
-        const topLineTop = nodeTop - rect.height / 2;
-        const topLineBottom = nodeCenter;
+        // Start filling when node is 200px below trigger point, complete when at trigger point
+        const fillStartDistance = 200; // Distance below trigger where fill starts
+        const distanceFromTrigger = nodeCenter - scrollReference;
         const topProgress = Math.max(0, Math.min(1, 
-          (viewportHeight * 0.8 - topLineBottom) / (topLineBottom - topLineTop)
+          1 - (distanceFromTrigger / fillStartDistance)
         ));
         setTopLineFill(topProgress);
       }
       
-      // Bottom line fill: based on how far node has passed viewport center
+      // Bottom line fill: fills AFTER node passes trigger point
       if (type === 'start' || type === 'middle') {
-        const bottomLineTop = nodeCenter;
-        const bottomLineBottom = nodeBottom + rect.height / 2;
+        // Start filling when node passes trigger point, complete 200px above
+        const fillCompleteDistance = 200; // Distance above trigger where fill completes
+        const distanceFromTrigger = scrollReference - nodeCenter;
         const bottomProgress = Math.max(0, Math.min(1,
-          (viewportHeight * 0.5 - bottomLineTop) / (bottomLineBottom - bottomLineTop)
+          distanceFromTrigger / fillCompleteDistance
         ));
         setBottomLineFill(bottomProgress);
       }
