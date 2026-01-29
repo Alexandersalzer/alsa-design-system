@@ -57,8 +57,11 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(initialMuted);
+  const [volume, setVolume] = useState(0.7); // Default 70%
+  const [showVolumeIndicator, setShowVolumeIndicator] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const volumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const videoClasses = cn(
     'video-showcase',
@@ -109,6 +112,42 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     }
   };
 
+  const handleVolumeChange = (delta: number) => {
+    if (videoRef.current) {
+      const newVolume = Math.max(0, Math.min(1, volume + delta));
+      setVolume(newVolume);
+      videoRef.current.volume = newVolume;
+      
+      // Unmute if volume is increased
+      if (newVolume > 0 && isMuted) {
+        videoRef.current.muted = false;
+        setIsMuted(false);
+      }
+      
+      // Show volume indicator
+      setShowVolumeIndicator(true);
+      
+      // Clear existing timeout
+      if (volumeTimeoutRef.current) {
+        clearTimeout(volumeTimeoutRef.current);
+      }
+      
+      // Hide indicator after 1.5s
+      volumeTimeoutRef.current = setTimeout(() => {
+        setShowVolumeIndicator(false);
+      }, 1500);
+    }
+  };
+
+  // Cleanup timeout on unmount
+  React.useEffect(() => {
+    return () => {
+      if (volumeTimeoutRef.current) {
+        clearTimeout(volumeTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const videoContent = (
     <div
       ref={containerRef}
@@ -150,6 +189,39 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         {videoContent}
       </div>
       <div className="device-frame__bezel" />
+      {frame === 'iphone-14-pro' && (
+        <>
+          {/* Volume buttons (left side) */}
+          <button
+            className="device-frame__button device-frame__button--volume-up"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleVolumeChange(0.1);
+            }}
+            aria-label="Volume up"
+          />
+          <button
+            className="device-frame__button device-frame__button--volume-down"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleVolumeChange(-0.1);
+            }}
+            aria-label="Volume down"
+          />
+          {/* Volume indicator */}
+          {showVolumeIndicator && (
+            <div className="device-frame__volume-indicator">
+              <div className="device-frame__volume-bar">
+                <div 
+                  className="device-frame__volume-fill" 
+                  style={{ width: `${volume * 100}%` }}
+                />
+              </div>
+              <span className="device-frame__volume-text">{Math.round(volume * 100)}%</span>
+            </div>
+          )}
+        </>
+      )}
     </div>
   ) : videoContent;
 
