@@ -51,7 +51,7 @@
 
   /* Bar navbar void calculation */
   --navbar-void-bar: calc(
-    (2 * var(--space-section)) +
+    (1 * var(--space-section)) +
     (2 * var(--space-navbar)) +
     var(--navbar-logo-height)
   );

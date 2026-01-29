@@ -120,7 +120,7 @@ export const Section = ({
   // Apply navbar void compensation for hero sections
   // This overrides default section padding to compensate for fixed navbar
   if (applyNavbarVoid) {
-    inlineStyles.paddingTop = 'calc(var(--navbar-void) + var(--foundation-section-spacing-xl))';
+    inlineStyles.paddingTop = 'var(--navbar-void)';
     inlineStyles.overflow = 'visible';
   }
   // For noPaddingTop prop, explicitly remove top padding
