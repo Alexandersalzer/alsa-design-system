@@ -55,35 +55,52 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       const triggerPoint = window.innerHeight * scrollOffset;
       const nodeCenter = rect.top + rect.height / 2;
       
-      // Activate node when it crosses the trigger point (same as lines)
-      setIsActive(nodeCenter <= triggerPoint);
+      // Activate node only when within threshold distance of trigger point
+      const distance = Math.abs(nodeCenter - triggerPoint);
+      setIsActive(distance < activationThreshold);
 
-      // Top line (middle/end): Fills as the TOP of the line crosses trigger point
+      // Top line (middle/end): Fills as line crosses trigger, empties when scrolled past
       if (type === 'middle' || type === 'end') {
-        const topOfLine = rect.top; // Top of the rail segment (top of top line)
-        const bottomOfLine = nodeCenter; // Bottom of top line (at node center)
+        const topOfLine = rect.top;
+        const bottomOfLine = nodeCenter;
         
-        // Progress from 0 (top at trigger) to 1 (bottom at trigger)
-        const topProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
-          ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
-          : topOfLine >= triggerPoint
-            ? 0
-            : 1;
+        let topProgress = 0;
+        
+        if (topOfLine < triggerPoint && bottomOfLine > triggerPoint) {
+          // Line is crossing the trigger point - fill it
+          topProgress = (triggerPoint - topOfLine) / (bottomOfLine - topOfLine);
+        } else if (bottomOfLine <= triggerPoint) {
+          // Line has passed trigger point - start emptying from bottom
+          const distancePast = triggerPoint - bottomOfLine;
+          const lineHeight = bottomOfLine - topOfLine;
+          topProgress = Math.max(0, 1 - (distancePast / lineHeight));
+        } else {
+          // Line hasn't reached trigger yet
+          topProgress = 0;
+        }
         
         setTopLineFill(topProgress);
       }
       
-      // Bottom line (start/middle): Fills as the BOTTOM of the line crosses trigger point
+      // Bottom line (start/middle): Fills as line crosses trigger, empties when scrolled past
       if (type === 'start' || type === 'middle') {
-        const topOfLine = nodeCenter; // Top of bottom line (at node center)
-        const bottomOfLine = rect.bottom; // Bottom of the rail segment (bottom of bottom line)
+        const topOfLine = nodeCenter;
+        const bottomOfLine = rect.bottom;
         
-        // Progress from 0 (top at trigger) to 1 (bottom at trigger)
-        const bottomProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
-          ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
-          : topOfLine >= triggerPoint
-            ? 0
-            : 1;
+        let bottomProgress = 0;
+        
+        if (topOfLine < triggerPoint && bottomOfLine > triggerPoint) {
+          // Line is crossing the trigger point - fill it
+          bottomProgress = (triggerPoint - topOfLine) / (bottomOfLine - topOfLine);
+        } else if (bottomOfLine <= triggerPoint) {
+          // Line has passed trigger point - start emptying from bottom
+          const distancePast = triggerPoint - bottomOfLine;
+          const lineHeight = bottomOfLine - topOfLine;
+          bottomProgress = Math.max(0, 1 - (distancePast / lineHeight));
+        } else {
+          // Line hasn't reached trigger yet
+          bottomProgress = 0;
+        }
         
         setBottomLineFill(bottomProgress);
       }
