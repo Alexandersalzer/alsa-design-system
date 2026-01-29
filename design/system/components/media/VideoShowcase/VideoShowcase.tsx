@@ -16,6 +16,7 @@ import { CDN_BASE_URL } from '../../../core/utils/env';
 import { getVideoThumbnailUrl } from '../../../core/utils/media';
 import './VideoShowcase.css';
 import './PlayButton.css';
+import './DeviceFrames.css';
 
 export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoElement> {
   variant?: 'default' | 'rounded' | 'elevated';
@@ -28,6 +29,10 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   animation?: AnimationConfig;
   /** Max height for the video */
   maxHeight?: string | number;
+  /** Device frame wrapper - adds realistic device mockup around video */
+  frame?: 'none' | 'iphone-14-pro' | 'iphone-se' | 'pixel-7';
+  /** Frame color (only for certain frames) */
+  frameColor?: 'black' | 'white' | 'silver' | 'gold';
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -46,6 +51,8 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   componentKey,
   animation,
   maxHeight,
+  frame = 'none',
+  frameColor = 'black',
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -117,7 +124,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         width="100%"
         maxHeight={maxHeight}
         aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
-        radius={radius === 'full' ? 'xl' : radius}
+        radius={frame !== 'none' ? 'none' : (radius === 'full' ? 'xl' : radius)}
         loading="eager"
         priority={true}
         autoPlay={autoPlay}
@@ -136,21 +143,21 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     </div>
   );
 
+  // Wrap video in device frame if specified
+  const wrappedContent = frame !== 'none' ? (
+    <div className={cn("device-frame", `device-frame--${frame}`, `device-frame--${frameColor}`)}>
+      <div className="device-frame__screen">
+        {videoContent}
+      </div>
+      <div className="device-frame__bezel" />
+    </div>
+  ) : videoContent;
+
   // Map EasingType to CSS easing string
   const mapEasing = (easing?: string): 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear' => {
     switch (easing) {
       case 'easeIn': return 'ease-in';
-      case 'easeOut': return 'ease-out';
-      case 'easeInOut': return 'ease-in-out';
-      case 'linear': return 'linear';
-      default: return 'ease-out';
-    }
-  };
-
-  // Render with animation wrapper if configured
-  const renderWithAnimation = () => {
-    if (!animation || animation.type === 'none') {
-      return videoContent;
+      case 'ewrappedContent;
     }
 
     if (animation.type === 'fadeIn') {
@@ -164,7 +171,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           enableScrollTrigger={settings.enableScrollTrigger ?? false}
           triggerOffset={settings.triggerOffset || 100}
         >
-          {videoContent}
+          {wrappedContent}
         </FadeIn>
       );
     }
@@ -179,7 +186,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           enableScrollTrigger={settings.enableScrollTrigger ?? false}
           triggerOffset={settings.triggerOffset || 100}
         >
-          {videoContent}
+          {wrappedContent}
         </Opacity>
       );
     }
@@ -196,7 +203,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           enableScrollTrigger={settings.enableScrollTrigger ?? false}
           triggerOffset={settings.triggerOffset || 100}
         >
-          {videoContent}
+          {wrappedContent}
         </SlideIn>
       );
     }
@@ -209,6 +216,16 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           to={settings.to || 1}
           duration={settings.duration || 800}
           delay={settings.delay || 0}
+          easing={mapEasing(settings.easing)}
+          enableScrollTrigger={settings.enableScrollTrigger ?? false}
+          triggerOffset={settings.triggerOffset || 100}
+        >
+          {wrappedContent}
+        </Scale>
+      );
+    }
+
+    return wrapped{settings.delay || 0}
           easing={mapEasing(settings.easing)}
           enableScrollTrigger={settings.enableScrollTrigger ?? false}
           triggerOffset={settings.triggerOffset || 100}
