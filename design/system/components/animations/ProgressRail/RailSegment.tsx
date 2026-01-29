@@ -43,6 +43,7 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
   const [isActive, setIsActive] = useState(propActive);
   const [topLineFill, setTopLineFill] = useState(0); // 0-1
   const [bottomLineFill, setBottomLineFill] = useState(0); // 0-1
+  const [isEmptying, setIsEmptying] = useState(false); // Track if we're in emptying phase
 
   useEffect(() => {
     // If active is explicitly set to true, use that
@@ -63,6 +64,7 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       const isAboveExit = nodeCenter < exitPoint;
       const isBelowTrigger = nodeCenter > triggerPoint;
       setIsActive(!isAboveExit && !isBelowTrigger);
+      setIsEmptying(isAboveExit);
 
       // Top line (middle/end): Fills/empties based on node position
       if (type === 'middle' || type === 'end') {
@@ -151,7 +153,10 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
           <div className="rail-segment__line rail-segment__line--base" />
           <div 
             className="rail-segment__line rail-segment__line--fill" 
-            style={{ transform: `scaleY(${topLineFill})` }}
+            style={{ 
+              transform: `scaleY(${topLineFill})`,
+              transformOrigin: isEmptying ? 'bottom' : 'top'
+            }}
           />
         </div>
       )}
@@ -168,7 +173,10 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
           <div className="rail-segment__line rail-segment__line--base" />
           <div 
             className="rail-segment__line rail-segment__line--fill" 
-            style={{ transform: `scaleY(${bottomLineFill})` }}
+            style={{ 
+              transform: `scaleY(${bottomLineFill})`,
+              transformOrigin: isEmptying ? 'bottom' : 'top'
+            }}
           />
         </div>
       )}
