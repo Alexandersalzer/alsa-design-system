@@ -5,16 +5,19 @@
  */
 
 export { GenerativeBackground } from './GenerativeBackground/GenerativeBackground';
-export type { GenerativeBackgroundProps } from './GenerativeBackground/GenerativeBackground';
+export type { GenerativeBackgroundProps, FadeEdge as GenerativeFadeEdge } from './GenerativeBackground/GenerativeBackground';
 
 export { GradientBackground } from './GradientBackground/GradientBackground';
-export type { GradientBackgroundProps } from './GradientBackground/GradientBackground';
+export type { GradientBackgroundProps, FadeEdge as GradientFadeEdge } from './GradientBackground/GradientBackground';
 
 export { PatternBackground } from './PatternBackground/PatternBackground';
-export type { PatternBackgroundProps } from './PatternBackground/PatternBackground';
+export type { PatternBackgroundProps, FadeEdge as PatternFadeEdge } from './PatternBackground/PatternBackground';
 
 export { VideoBackground } from './VideoBackground/VideoBackground';
-export type { VideoBackgroundProps } from './VideoBackground/VideoBackground';
+export type { VideoBackgroundProps, FadeEdge as VideoFadeEdge } from './VideoBackground/VideoBackground';
+
+// Shared type
+export type FadeEdge = 'top' | 'bottom' | 'both' | 'none';
 
 export {
   BACKGROUND_PRESETS,

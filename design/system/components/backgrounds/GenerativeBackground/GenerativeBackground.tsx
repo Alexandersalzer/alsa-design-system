@@ -3,6 +3,7 @@ import styles from './GenerativeBackground.module.css';
 
 export type ColorScheme = 'accent' | 'primary' | 'success' | 'warning' | 'info';
 export type Variant = 'subtle' | 'medium' | 'vibrant';
+export type FadeEdge = 'top' | 'bottom' | 'both' | 'none';
 
 export interface GenerativeBackgroundProps {
   variant?: Variant;
@@ -10,6 +11,8 @@ export interface GenerativeBackgroundProps {
   seed?: number;
   intensity?: number; // 0.0 - 1.0, controls effect strength
   blurAmount?: number; // 0 - 50, blur radius in pixels
+  fadeEdge?: FadeEdge; // Fade to transparent at edges
+  fadeStrength?: number; // 0.0 - 1.0, how strong the fade is (default 0.15)
 }
 
 // Deterministisk PRNG (seedad)
@@ -203,7 +206,9 @@ export const GenerativeBackground: React.FC<GenerativeBackgroundProps> = ({
   colorScheme = 'accent',
   seed = 1337,
   intensity = 1.0,
-  blurAmount = 18
+  blurAmount = 18,
+  fadeEdge = 'none',
+  fadeStrength = 0.15
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -242,5 +247,26 @@ export const GenerativeBackground: React.FC<GenerativeBackgroundProps> = ({
   // Kombinera variant och colorScheme till en CSS klass
   const className = `${styles[variant]} ${styles[colorScheme]}`;
 
-  return <canvas ref={canvasRef} className={className} />;
+  // Calculate fade gradient
+  const getFadeStyle = (): React.CSSProperties => {
+    if (fadeEdge === 'none') return {};
+    
+    const fadePercentage = Math.round(fadeStrength * 100);
+    let maskImage = '';
+    
+    if (fadeEdge === 'top') {
+      maskImage = `linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) ${fadePercentage}%)`;
+    } else if (fadeEdge === 'bottom') {
+      maskImage = `linear-gradient(to top, transparent 0%, rgba(0,0,0,1) ${fadePercentage}%)`;
+    } else if (fadeEdge === 'both') {
+      maskImage = `linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) ${fadePercentage}%, rgba(0,0,0,1) ${100 - fadePercentage}%, transparent 100%)`;
+    }
+    
+    return {
+      maskImage,
+      WebkitMaskImage: maskImage,
+    };
+  };
+
+  return <canvas ref={canvasRef} className={className} style={getFadeStyle()} />;
 };
