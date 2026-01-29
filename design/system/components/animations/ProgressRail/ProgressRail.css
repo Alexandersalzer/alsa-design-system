@@ -1,0 +1,108 @@
+/* ===============================================
+   PROGRESS RAIL STYLES
+   Vertical progress indicator with scroll animation
+   =============================================== */
+
+.progress-rail {
+  position: relative;
+  height: var(--rail-height, 100%);
+  width: calc(var(--node-size) + var(--rail-gap));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Rail track container */
+.progress-rail__track {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 100%;
+  width: var(--rail-width, 2px);
+  transform: translateX(-50%);
+  overflow: hidden;
+}
+
+/* Background rail line */
+.progress-rail__track-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--rail-color, var(--border-default));
+  border-radius: var(--radius-full, 9999px);
+}
+
+/* Filled/active portion of rail */
+.progress-rail__track-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: var(--active-rail-color, var(--color-primary));
+  border-radius: var(--radius-full, 9999px);
+  transition: height 0.3s ease-out;
+}
+
+/* Nodes container */
+.progress-rail__nodes {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Individual step node */
+.progress-rail__node {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* Node dot/circle */
+.progress-rail__node-dot {
+  width: var(--node-size, 16px);
+  height: var(--node-size, 16px);
+  border-radius: var(--radius-full, 9999px);
+  background: var(--node-color, var(--surface-default));
+  border: var(--rail-width, 2px) solid var(--rail-color, var(--border-default));
+  transition: all 0.3s ease;
+  box-shadow: 0 0 0 4px var(--surface-page);
+}
+
+/* Active node styling */
+.progress-rail__node--active .progress-rail__node-dot {
+  background: var(--active-node-color, var(--color-primary));
+  border-color: var(--active-rail-color, var(--color-primary));
+  transform: scale(1.2);
+}
+
+/* Node label (number) */
+.progress-rail__node-label {
+  position: absolute;
+  left: calc(var(--node-size) + 12px);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.progress-rail__node--active .progress-rail__node-label {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .progress-rail {
+    display: none;
+  }
+}
