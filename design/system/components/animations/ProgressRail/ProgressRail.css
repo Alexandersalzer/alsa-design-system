@@ -12,38 +12,30 @@
   align-items: center;
 }
 
-/* Rail track container */
-.progress-rail__track {
+/* Connecting lines container */
+.progress-rail__lines {
   position: absolute;
   left: 50%;
   top: 0;
   height: 100%;
-  width: var(--rail-width, 2px);
+  width: var(--line-width, 1px);
   transform: translateX(-50%);
-  overflow: hidden;
+  z-index: 1;
 }
 
-/* Background rail line */
-.progress-rail__track-background {
+/* Individual connecting line */
+.progress-rail__line {
   position: absolute;
-  top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: var(--rail-color, var(--color-accent-muted));
-  border-radius: var(--radius-full, 9999px);
+  background: var(--color-accent);
+  opacity: 0.2;
+  transition: opacity 0.3s ease;
 }
 
-/* Filled/active portion of rail */
-.progress-rail__track-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 0%;
-  background: var(--active-rail-color, var(--color-accent));
-  border-radius: var(--radius-full, 9999px);
-  transition: height 0.3s ease-out;
+/* Active line styling */
+.progress-rail__line--active {
+  opacity: 1;
 }
 
 /* Nodes container */
@@ -51,6 +43,7 @@
   position: relative;
   width: 100%;
   height: 100%;
+  z-index: 2;
 }
 
 /* Individual step node */
@@ -61,24 +54,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2;
 }
 
-/* Node dot/square (app icon shaped) */
+/* Node dot/square (app icon shaped) - filled with accent color */
 .progress-rail__node-dot {
   width: var(--node-size, 16px);
   height: var(--node-size, 16px);
   border-radius: 22%;
-  background: var(--node-color, var(--color-accent-subtle));
-  border: var(--rail-width, 2px) solid var(--rail-color, var(--color-accent-muted));
+  background: var(--color-accent);
+  opacity: 0.2;
   transition: all 0.3s ease;
   box-shadow: 0 0 0 4px var(--surface-page);
 }
 
 /* Active node styling */
 .progress-rail__node--active .progress-rail__node-dot {
-  background: var(--active-node-color, var(--color-accent));
-  border-color: var(--active-rail-color, var(--color-accent));
+  opacity: 1;
   transform: scale(1.2);
 }
 

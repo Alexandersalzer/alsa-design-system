@@ -18,18 +18,10 @@ export interface ProgressRailProps {
   steps: ProgressRailStep[];
   /** Height of the rail */
   height?: string;
-  /** Width of the rail line */
-  railWidth?: number;
+  /** Width of the connecting line */
+  lineWidth?: number;
   /** Size of the step nodes */
   nodeSize?: number;
-  /** Color of inactive rail */
-  railColor?: string;
-  /** Color of active/filled rail */
-  activeRailColor?: string;
-  /** Color of step nodes */
-  nodeColor?: string;
-  /** Color of active step nodes */
-  activeNodeColor?: string;
   /** Gap between rail and content */
   gap?: string;
   /** Custom className */
@@ -41,18 +33,13 @@ export interface ProgressRailProps {
 export const ProgressRail: React.FC<ProgressRailProps> = ({
   steps,
   height = '100%',
-  railWidth = 2,
+  lineWidth = 1,
   nodeSize = 16,
-  railColor = 'var(--color-accent-muted)',
-  activeRailColor = 'var(--color-accent)',
-  nodeColor = 'var(--color-accent-subtle)',
-  activeNodeColor = 'var(--color-accent)',
   gap = 'var(--spacing-xl)',
   className = '',
   scrollContainer,
 }) => {
   const railRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
@@ -81,8 +68,6 @@ export const ProgressRail: React.FC<ProgressRailProps> = ({
         scrollProgress = 1;
       }
       
-      setProgress(scrollProgress);
-      
       // Calculate active step based on progress
       const stepIndex = Math.min(
         steps.length - 1,
@@ -106,23 +91,34 @@ export const ProgressRail: React.FC<ProgressRailProps> = ({
       className={`progress-rail ${className}`}
       style={{
         '--rail-height': height,
-        '--rail-width': `${railWidth}px`,
+        '--line-width': `${lineWidth}px`,
         '--node-size': `${nodeSize}px`,
-        '--rail-color': railColor,
-        '--active-rail-color': activeRailColor,
-        '--node-color': nodeColor,
-        '--active-node-color': activeNodeColor,
         '--rail-gap': gap,
-        '--progress': progress,
       } as React.CSSProperties}
     >
-      {/* Background rail */}
-      <div className="progress-rail__track">
-        <div className="progress-rail__track-background" />
-        <div 
-          className="progress-rail__track-fill" 
-          style={{ height: `${progress * 100}%` }}
-        />
+      {/* Connecting lines between nodes */}
+      <div className="progress-rail__lines">
+        {steps.map((step, index) => {
+          if (index === steps.length - 1) return null;
+          
+          const isActive = index < activeStep;
+          const startPos = (index / Math.max(1, steps.length - 1)) * 100;
+          const endPos = ((index + 1) / Math.max(1, steps.length - 1)) * 100;
+          const lineHeight = endPos - startPos;
+          
+          return (
+            <div
+              key={`line-${step.id}`}
+              className={`progress-rail__line ${
+                isActive ? 'progress-rail__line--active' : ''
+              }`}
+              style={{
+                top: `${startPos}%`,
+                height: `${lineHeight}%`,
+              }}
+            />
+          );
+        })}
       </div>
 
       {/* Step nodes */}
