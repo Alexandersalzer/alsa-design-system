@@ -74,21 +74,35 @@
   background-position: 0 0, calc(var(--pattern-spacing, 40px) / 2) calc(var(--pattern-spacing, 40px) / 2);
 }
 
-/* Clouds Pattern - Organic floating shapes */
+/* Clouds Pattern - Realistic organic clouds */
 .clouds {
   background-image: 
-    /* Large cloud */
-    radial-gradient(ellipse 120px 60px at 20% 30%, var(--pattern-color) 0%, transparent 50%),
-    radial-gradient(ellipse 90px 50px at 24% 28%, var(--pattern-color) 0%, transparent 50%),
-    radial-gradient(ellipse 100px 55px at 16% 32%, var(--pattern-color) 0%, transparent 50%),
-    /* Medium cloud */
-    radial-gradient(ellipse 80px 40px at 60% 60%, var(--pattern-color) 0%, transparent 50%),
-    radial-gradient(ellipse 70px 35px at 64% 58%, var(--pattern-color) 0%, transparent 50%),
-    radial-gradient(ellipse 75px 38px at 56% 62%, var(--pattern-color) 0%, transparent 50%),
-    /* Small cloud */
-    radial-gradient(ellipse 60px 30px at 85% 20%, var(--pattern-color) 0%, transparent 50%),
-    radial-gradient(ellipse 50px 25px at 88% 18%, var(--pattern-color) 0%, transparent 50%);
-  background-size: 800px 400px;
+    /* Large cloud cluster 1 - Left */
+    radial-gradient(ellipse 200px 100px at 15% 25%, var(--pattern-color) 0%, transparent 60%),
+    radial-gradient(ellipse 180px 90px at 20% 22%, var(--pattern-color) 0%, transparent 55%),
+    radial-gradient(ellipse 160px 85px at 25% 28%, var(--pattern-color) 0%, transparent 58%),
+    radial-gradient(ellipse 140px 75px at 10% 30%, var(--pattern-color) 0%, transparent 52%),
+    radial-gradient(ellipse 150px 80px at 12% 23%, var(--pattern-color) 0%, transparent 50%),
+    
+    /* Large cloud cluster 2 - Center */
+    radial-gradient(ellipse 220px 110px at 50% 55%, var(--pattern-color) 0%, transparent 62%),
+    radial-gradient(ellipse 190px 95px at 55% 52%, var(--pattern-color) 0%, transparent 57%),
+    radial-gradient(ellipse 170px 88px at 58% 58%, var(--pattern-color) 0%, transparent 54%),
+    radial-gradient(ellipse 180px 92px at 45% 57%, var(--pattern-color) 0%, transparent 56%),
+    radial-gradient(ellipse 160px 82px at 48% 53%, var(--pattern-color) 0%, transparent 53%),
+    
+    /* Medium cloud cluster - Right */
+    radial-gradient(ellipse 150px 75px at 85% 20%, var(--pattern-color) 0%, transparent 58%),
+    radial-gradient(ellipse 130px 68px at 88% 18%, var(--pattern-color) 0%, transparent 54%),
+    radial-gradient(ellipse 120px 65px at 90% 23%, var(--pattern-color) 0%, transparent 52%),
+    radial-gradient(ellipse 140px 70px at 82% 22%, var(--pattern-color) 0%, transparent 55%),
+    
+    /* Small accent clouds */
+    radial-gradient(ellipse 100px 50px at 35% 75%, var(--pattern-color) 0%, transparent 50%),
+    radial-gradient(ellipse 90px 48px at 38% 73%, var(--pattern-color) 0%, transparent 48%),
+    radial-gradient(ellipse 110px 55px at 70% 80%, var(--pattern-color) 0%, transparent 52%),
+    radial-gradient(ellipse 95px 50px at 73% 78%, var(--pattern-color) 0%, transparent 49%);
+  background-size: 1200px 600px;
   background-repeat: repeat;
 }
 
@@ -216,6 +230,6 @@
     background-position: 0 0;
   }
   to {
-    background-position: 800px 0;
+    background-position: 1200px 0;
   }
 }
