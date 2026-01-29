@@ -66,11 +66,28 @@ export interface PageSEO {
 }
 
 /**
+ * Page-level props for styling and configuration
+ */
+export interface PageProps {
+  /** Background image URL */
+  backgroundImage?: string;
+  /** Background image opacity (0-1), defaults to 0.03 for subtle effect */
+  backgroundOpacity?: number;
+  /** Background size, defaults to 'cover' */
+  backgroundSize?: 'cover' | 'contain' | 'auto' | string;
+  /** Background position, defaults to 'center' */
+  backgroundPosition?: string;
+  /** Whether background should be fixed on scroll */
+  backgroundFixed?: boolean;
+}
+
+/**
  * Page - Complete page structure
  */
-export interface PageNode extends BaseNode {
+export interface PageNode {
   name: string;
   locale: string;
+  props?: PageProps;
   seo?: PageSEO;
   sections: Record<string, SectionNode>;
   order: string[];

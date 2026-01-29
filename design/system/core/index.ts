@@ -12,6 +12,7 @@ export type {
   PatternNode,
   SectionNode,
   PageNode,
+  PageProps,
   PageSEO
 } from './types/nodes';
 
