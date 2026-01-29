@@ -125,6 +125,18 @@
   overflow: visible;
 }
 
+/* ===== HERO SECTION (Auto-detected: first section + key starts with "hero_") ===== */
+.section--hero {
+  /* Restore the exact layout mass lost when navbar became position: fixed */
+  /* Plus add standard hero spacing for visual balance */
+  padding-top: calc(
+    var(--navbar-void) +
+    var(--foundation-section-spacing-xl)
+  );
+  /* Ensure overflow is visible for any nested Bleed components */
+  overflow: visible;
+}
+
 /* ===== UNIVERSAL RESET ===== */
 .section * {
   box-sizing: border-box;
