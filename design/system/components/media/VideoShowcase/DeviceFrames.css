@@ -84,9 +84,9 @@
 .device-frame--iphone-14-pro::before {
   content: '';
   position: absolute;
-  right: -3px;
+  right: -2px;
   top: 28%;
-  width: 3px;
+  width: 2px;
   height: 80px;
   background: #1a1a1a;
   border-radius: 0 2px 2px 0;
@@ -97,9 +97,9 @@
 .device-frame--iphone-14-pro::after {
   content: '';
   position: absolute;
-  left: -3px;
+  left: -2px;
   top: 15%;
-  width: 3px;
+  width: 2px;
   height: 20px;
   background: #1a1a1a;
   border-radius: 2px 0 0 2px;
@@ -109,9 +109,9 @@
 /* Interactive volume buttons */
 .device-frame__button {
   position: absolute;
-  left: -3px;
-  width: 3px;
-  background: #242424;
+  left: -2px;
+  width: 2px;
+  background: #1a1a1a;
   border: none;
   border-radius: 2px 0 0 2px;
   cursor: pointer;
@@ -120,11 +120,11 @@
 }
 
 .device-frame__button:hover {
-  left: -4px; /* Slide out 1px more */
+  left: -3px; /* Slide out 1px more */
 }
 
 .device-frame__button:active {
-  left: -2px; /* Push in */
+  left: -1px; /* Push in */
   transition: left 0.1s ease;
 }
 
