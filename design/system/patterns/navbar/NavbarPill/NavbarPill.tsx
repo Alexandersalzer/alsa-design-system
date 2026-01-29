@@ -230,7 +230,7 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
                 </Button>
               )}
               {renderIf('button-primaryAction') && (
-                <Button variant="accent" href={get('button-primaryAction').props.href} action={get('button-primaryAction').props.action} componentKey={get('button-primaryAction').key}>
+                <Button variant={get('button-primaryAction').props.variant || 'primary'} href={get('button-primaryAction').props.href} action={get('button-primaryAction').props.action} componentKey={get('button-primaryAction').key}>
                   {get('button-primaryAction').props.content}
                 </Button>
               )}
@@ -339,7 +339,7 @@ const NavbarPill = ({ components = {}, sectionKey, patternKey, ...patternNode }:
                   const secondaryButtonOffset = renderIf('button-secondaryAction') ? 1 : 0;
                   const buttonContent = (
                     <Button
-                      variant="accent"
+                      variant={get('button-primaryAction').props.variant || 'primary'}
                       href={get('button-primaryAction').props.href}
                       action={get('button-primaryAction').props.action}
                       onClick={() => setMobileOpen(false)}
