@@ -74,8 +74,8 @@ export interface PageSEO {
  * Page-level props for styling and configuration
  */
 export interface PageProps {
-  /** Background type: 'default' | 'generative' | 'gradient' | 'pattern' | 'video' | 'image' */
-  background?: 'default' | 'generative' | 'gradient' | 'pattern' | 'video' | 'image';
+  /** Background type: 'default' | 'generative' | 'gradient' | 'pattern' | 'video' | 'image' | 'solid' */
+  background?: 'default' | 'generative' | 'gradient' | 'pattern' | 'video' | 'image' | 'solid';
   
   // Image background props (legacy support)
   /** Background image URL */
@@ -132,6 +132,13 @@ export interface PageProps {
   videoPlaybackRate?: number;
   videoFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
   videoFadeStrength?: number;
+  
+  // Solid background props
+  solidColor?: string;
+  solidColorPreset?: 'white' | 'black' | 'surface' | 'surface-raised' | 'surface-elevated' | 'accent' | 'accent-subtle';
+  solidOpacity?: number;
+  solidFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
+  solidFadeStrength?: number;
 }
 
 /**

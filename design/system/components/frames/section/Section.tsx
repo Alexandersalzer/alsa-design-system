@@ -4,12 +4,13 @@ import { GenerativeBackground } from '../../backgrounds/GenerativeBackground/Gen
 import { GradientBackground } from '../../backgrounds/GradientBackground/GradientBackground';
 import { PatternBackground } from '../../backgrounds/PatternBackground/PatternBackground';
 import { VideoBackground } from '../../backgrounds/VideoBackground/VideoBackground';
+import { SolidBackground } from '../../backgrounds/SolidBackground/SolidBackground';
 
 type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
 type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type Overflow = 'visible' | 'hidden' | 'auto' | 'scroll' | 'clip';
-type Background = 'default' | 'raised' | 'elevated' | 'inverse' | 'media' | 'transparent' | 'generative' | 'gradient' | 'pattern' | 'video';
+type Background = 'default' | 'raised' | 'elevated' | 'inverse' | 'media' | 'transparent' | 'generative' | 'gradient' | 'pattern' | 'video' | 'solid';
 type ColorScheme = 'accent' | 'primary' | 'success' | 'warning' | 'info';
 
 interface SectionProps {
@@ -66,6 +67,13 @@ interface SectionProps {
   videoPlaybackRate?: number;
   videoFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
   videoFadeStrength?: number;
+  
+  // Solid background props
+  solidColor?: string;
+  solidColorPreset?: 'white' | 'black' | 'surface' | 'surface-raised' | 'surface-elevated' | 'accent' | 'accent-subtle';
+  solidOpacity?: number;
+  solidFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
+  solidFadeStrength?: number;
   
   noPaddingTop?: boolean;
   style?: React.CSSProperties;
@@ -161,6 +169,12 @@ export const Section = ({
   videoPlaybackRate = 1.0,
   videoFadeEdge = 'none',
   videoFadeStrength = 0.15,
+  // Solid props
+  solidColor,
+  solidColorPreset,
+  solidOpacity = 1,
+  solidFadeEdge = 'none',
+  solidFadeStrength = 0.15,
   noPaddingTop = false,
   style,
   sectionKey,
@@ -249,6 +263,17 @@ export const Section = ({
           playbackRate={videoPlaybackRate}
           fadeEdge={videoFadeEdge}
           fadeStrength={videoFadeStrength}
+        />
+      )}
+
+      {/* Solid Background */}
+      {background === 'solid' && (
+        <SolidBackground
+          color={solidColor}
+          colorPreset={solidColorPreset}
+          opacity={solidOpacity}
+          fadeEdge={solidFadeEdge}
+          fadeStrength={solidFadeStrength}
         />
       )}
 

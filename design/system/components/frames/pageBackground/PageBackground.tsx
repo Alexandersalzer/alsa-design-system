@@ -5,6 +5,7 @@ import { GenerativeBackground } from '../../backgrounds/GenerativeBackground/Gen
 import { GradientBackground } from '../../backgrounds/GradientBackground/GradientBackground';
 import { PatternBackground } from '../../backgrounds/PatternBackground/PatternBackground';
 import { VideoBackground } from '../../backgrounds/VideoBackground/VideoBackground';
+import { SolidBackground } from '../../backgrounds/SolidBackground/SolidBackground';
 
 interface PageBackgroundProps {
   pageProps?: PageProps;
@@ -107,6 +108,19 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
               playbackRate={pageProps.videoPlaybackRate}
               fadeEdge={pageProps.videoFadeEdge}
               fadeStrength={pageProps.videoFadeStrength}
+            />
+          </div>
+        );
+      
+      case 'solid':
+        return (
+          <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+            <SolidBackground
+              color={pageProps.solidColor}
+              colorPreset={pageProps.solidColorPreset}
+              opacity={pageProps.solidOpacity}
+              fadeEdge={pageProps.solidFadeEdge}
+              fadeStrength={pageProps.solidFadeStrength}
             />
           </div>
         );
