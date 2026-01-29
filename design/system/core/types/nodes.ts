@@ -102,7 +102,7 @@ export interface PageProps {
   generativeColorScheme?: 'accent' | 'primary' | 'success' | 'warning' | 'info';
   generativeSeed?: number;
   generativeIntensity?: number;
-  generativeBlur?: number;
+  generativeBlurAmount?: number;
   generativeFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
   generativeFadeStrength?: number;
   

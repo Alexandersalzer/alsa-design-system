@@ -59,7 +59,7 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
               colorScheme={pageProps.generativeColorScheme || 'accent'}
               seed={pageProps.generativeSeed}
               intensity={pageProps.generativeIntensity}
-              blur={pageProps.generativeBlur}
+              blurAmount={pageProps.generativeBlurAmount}
               fadeEdge={pageProps.generativeFadeEdge}
               fadeStrength={pageProps.generativeFadeStrength}
             />
