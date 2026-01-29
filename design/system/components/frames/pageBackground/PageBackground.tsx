@@ -116,7 +116,6 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
         return (
           <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
             <SolidBackground
-              color={pageProps.solidColor}
               colorPreset={pageProps.solidColorPreset}
               opacity={pageProps.solidOpacity}
               fadeEdge={pageProps.solidFadeEdge}

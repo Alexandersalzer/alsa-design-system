@@ -134,7 +134,6 @@ export interface PageProps {
   videoFadeStrength?: number;
   
   // Solid background props
-  solidColor?: string;
   solidColorPreset?: 'white' | 'black' | 'surface' | 'surface-raised' | 'surface-elevated' | 'accent' | 'accent-subtle';
   solidOpacity?: number;
   solidFadeEdge?: 'top' | 'bottom' | 'both' | 'none';

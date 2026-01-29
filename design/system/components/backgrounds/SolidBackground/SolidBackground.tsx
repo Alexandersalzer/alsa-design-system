@@ -2,12 +2,11 @@ import React from 'react';
 import styles from './SolidBackground.module.css';
 
 export type FadeEdge = 'top' | 'bottom' | 'both' | 'none';
+export type ColorPreset = 'white' | 'black' | 'surface' | 'surface-raised' | 'surface-elevated' | 'accent' | 'accent-subtle';
 
 export interface SolidBackgroundProps {
-  /** Background color - CSS color value (hex, rgb, hsl, or CSS variable) */
-  color?: string;
   /** Preset color from design system */
-  colorPreset?: 'white' | 'black' | 'surface' | 'surface-raised' | 'surface-elevated' | 'accent' | 'accent-subtle';
+  colorPreset?: ColorPreset;
   /** Background opacity (0-1), defaults to 1 */
   opacity?: number;
   /** Which edge(s) to fade */
@@ -23,21 +22,19 @@ export interface SolidBackgroundProps {
  * 
  * Usage:
  * - colorPreset="white" for white background
- * - color="#f5f5f5" for custom hex color
- * - color="var(--surface-raised)" for CSS variable
+ * - colorPreset="surface-raised" for raised surface
  * - fadeEdge="bottom" with fadeStrength={0.3} for 30% fade at bottom
  */
 export const SolidBackground: React.FC<SolidBackgroundProps> = ({
-  color,
-  colorPreset,
+  colorPreset = 'white',
   opacity = 1,
   fadeEdge = 'none',
   fadeStrength = 0.15,
   className = '',
 }) => {
   // Map presets to actual colors
-  const getColorFromPreset = (preset: string): string => {
-    const presetMap: Record<string, string> = {
+  const getColorFromPreset = (preset: ColorPreset): string => {
+    const presetMap: Record<ColorPreset, string> = {
       'white': '#ffffff',
       'black': '#000000',
       'surface': 'var(--surface-default)',
@@ -46,12 +43,10 @@ export const SolidBackground: React.FC<SolidBackgroundProps> = ({
       'accent': 'var(--color-accent)',
       'accent-subtle': 'var(--color-accent-subtle)',
     };
-    return presetMap[preset] || preset;
+    return presetMap[preset];
   };
 
-  const backgroundColor = colorPreset 
-    ? getColorFromPreset(colorPreset) 
-    : (color || '#ffffff');
+  const backgroundColor = getColorFromPreset(colorPreset);
 
   const combinedClassName = [
     styles.solidBackground,

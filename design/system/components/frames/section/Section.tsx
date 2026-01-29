@@ -69,7 +69,6 @@ interface SectionProps {
   videoFadeStrength?: number;
   
   // Solid background props
-  solidColor?: string;
   solidColorPreset?: 'white' | 'black' | 'surface' | 'surface-raised' | 'surface-elevated' | 'accent' | 'accent-subtle';
   solidOpacity?: number;
   solidFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
@@ -170,8 +169,7 @@ export const Section = ({
   videoFadeEdge = 'none',
   videoFadeStrength = 0.15,
   // Solid props
-  solidColor,
-  solidColorPreset,
+  solidColorPreset = 'white',
   solidOpacity = 1,
   solidFadeEdge = 'none',
   solidFadeStrength = 0.15,
@@ -269,7 +267,6 @@ export const Section = ({
       {/* Solid Background */}
       {background === 'solid' && (
         <SolidBackground
-          color={solidColor}
           colorPreset={solidColorPreset}
           opacity={solidOpacity}
           fadeEdge={solidFadeEdge}
