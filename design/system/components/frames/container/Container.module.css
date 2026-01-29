@@ -68,7 +68,7 @@
 /* Smaller screens → tighter horizontal padding */
 @media (max-width: 768px) {
   .container {
-    padding-inline: var(--foundation-space-3);
+    padding-inline: var(--foundation-space-1);
   }
 }
 
