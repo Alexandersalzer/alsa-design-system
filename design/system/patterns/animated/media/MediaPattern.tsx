@@ -18,10 +18,22 @@ const MediaPattern = ({ components = {}, props = {}, sectionKey, patternKey }: M
     overflow = false,           // Enable overflow/spill effect
     spillAmount = 120,          // How much to spill in pixels
     spillDirection = 'right',   // Direction: 'right' | 'left' | 'top' | 'bottom'
+    maxWidth,                   // Max width of media container
+    marginTop,                  // Push down from top
+    marginRight,                // Push from right
+    marginBottom,               // Push from bottom  
+    marginLeft,                 // Push from left
+    align = 'center',           // Alignment: 'start' | 'center' | 'end'
   } = props as {
     overflow?: boolean;
     spillAmount?: number;
     spillDirection?: 'right' | 'left' | 'top' | 'bottom';
+    maxWidth?: string;
+    marginTop?: string;
+    marginRight?: string;
+    marginBottom?: string;
+    marginLeft?: string;
+    align?: 'start' | 'center' | 'end';
   };
 
   // Calculate overflow styles
@@ -93,8 +105,22 @@ const MediaPattern = ({ components = {}, props = {}, sectionKey, patternKey }: M
     const imageProps = get('image').props;
     const overflowStyles = getOverflowStyles();
     
+    // Container styles for positioning
+    const containerStyles: React.CSSProperties = {
+      position: 'relative',
+      overflow: 'visible',
+      ...overflowStyles,
+      ...(maxWidth && { maxWidth }),
+      ...(marginTop && { marginTop }),
+      ...(marginRight && { marginRight }),
+      ...(marginBottom && { marginBottom }),
+      ...(marginLeft && { marginLeft }),
+      ...(align === 'end' && { marginLeft: 'auto' }),
+      ...(align === 'start' && { marginRight: 'auto' }),
+    };
+
     return (
-      <div style={{ position: 'relative', overflow: 'visible', ...overflowStyles }}>
+      <div style={containerStyles}>
         <Image
           src={`${CDN_BASE_URL}${imageProps.imageSrc}`}
           alt={imageProps.alt || 'Media image'}
