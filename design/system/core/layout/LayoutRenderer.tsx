@@ -404,7 +404,7 @@ export function LayoutRenderer({
               // Force secondColumn patterns to have left/start alignment in mobile view
               const isSecondColumnPattern = secondColumnPatterns.includes(key);
               const mobileContextForPattern = isSecondColumnPattern 
-                ? { ...mobileLayoutContext, alignSectionHeader: 'left' }
+                ? { ...mobileLayoutContext, alignSectionHeader: 'left' as const }
                 : mobileLayoutContext;
 
               return renderPattern(pattern, key, sectionKey, mobileContextForPattern);
