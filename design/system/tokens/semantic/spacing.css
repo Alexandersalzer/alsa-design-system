@@ -58,8 +58,8 @@
 
   /* Pill navbar void calculation (includes extra space-navbar) */
   --navbar-void-pill: calc(
-    (2 * var(--space-section)) +
-    (3 * var(--space-navbar)) +
+    (1 * var(--space-section)) +
+    (2 * var(--space-navbar)) +
     var(--navbar-logo-height)
   );
 
