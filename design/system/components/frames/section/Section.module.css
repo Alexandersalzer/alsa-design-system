@@ -51,7 +51,10 @@
 /* ===== HEIGHT VARIANTS ===== */
 .heightAuto   { min-height: fit-content; }
 .heightFull   { min-height: 100vh; justify-content: center; }
-.heightScreen { height: 100vh; justify-content: center; }
+.heightScreen {
+  min-height: 100vh;
+  justify-content: center;
+}
 
 /* ===== OVERFLOW VARIANTS ===== */
 .overflowVisible { overflow: visible; }
