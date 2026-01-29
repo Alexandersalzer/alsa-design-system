@@ -63,11 +63,10 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
   // Max width control - smaller width when in split layout
   const maxWidth = props?.maxWidth || '650px';
 
-  // Get hero spacing configuration
   // Auto-detect hero sections by sectionKey prefix, or use manual isHero prop
+  // NOTE: Hero padding is now handled by Section with layoutIntent="fullscreen"
+  // via var(--navbar-void). SectionBody no longer adds extra hero padding.
   const isHero = sectionKey?.startsWith('hero_') || props?.isHero || false;
-  const heroSpacingMobile = props?.heroSpacingMobile || 1.5;
-  const heroSpacingDesktop = props?.heroSpacingDesktop || 1;
 
   // Animation configuration
   const animationDirection = props?.animationDirection || 'up';
@@ -119,27 +118,12 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
 
   return (
     <>
-      {isHero && (
-        <style>{`
-          @media (max-width: 767px) {
-            .section-body--hero-${patternKey} {
-              padding-top: calc(var(--space-section) * ${heroSpacingMobile});
-            }
-          }
-          @media (min-width: 768px) {
-            .section-body--hero-${patternKey} {
-              padding-top: calc(var(--space-section) * ${heroSpacingDesktop});
-            }
-          }
-        `}</style>
-      )}
       <Box
         style={{
           maxWidth: maxWidth,
           margin: align === 'center' ? '0 auto' : align === 'end' ? '0 0 0 auto' : '0 auto 0 0',
           width: '100%',
         }}
-        className={isHero ? `section-body--hero-${patternKey}` : ''}
       >
       <VStack spacing={spacing} align={align === 'center' ? 'center' : 'start'}>
 
