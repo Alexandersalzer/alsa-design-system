@@ -55,11 +55,8 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       const triggerPoint = window.innerHeight * scrollOffset;
       const nodeCenter = rect.top + rect.height / 2;
       
-      // Calculate distance from trigger point
-      const distance = Math.abs(nodeCenter - triggerPoint);
-      
-      // Activate if node center is within threshold distance of trigger point
-      setIsActive(distance < activationThreshold);
+      // Activate node when it crosses the trigger point (same as lines)
+      setIsActive(nodeCenter <= triggerPoint);
 
       // Top line (middle/end): Fills as the TOP of the line crosses trigger point
       if (type === 'middle' || type === 'end') {
