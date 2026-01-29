@@ -61,24 +61,33 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       // Activate if node center is within threshold distance of trigger point
       setIsActive(distance < activationThreshold);
 
-      // Calculate distance from trigger point (negative = above, positive = below)
-      const distanceFromTrigger = nodeCenter - triggerPoint;
-
-      // Top line (middle/end): Fills as node approaches trigger from below
-      // 0% when far below trigger, 100% when reaching trigger point
+      // Top line (middle/end): Fills as the TOP of the line crosses trigger point
       if (type === 'middle' || type === 'end') {
-        const topProgress = distanceFromTrigger > 0
-          ? Math.max(0, 1 - (distanceFromTrigger / activationThreshold))
-          : 1;
+        const topOfLine = rect.top; // Top of the rail segment (top of top line)
+        const bottomOfLine = nodeCenter; // Bottom of top line (at node center)
+        
+        // Progress from 0 (top at trigger) to 1 (bottom at trigger)
+        const topProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
+          ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
+          : topOfLine >= triggerPoint
+            ? 0
+            : 1;
+        
         setTopLineFill(topProgress);
       }
       
-      // Bottom line (start/middle): Fills as node moves above trigger point
-      // 0% at trigger point, 100% when far above trigger
+      // Bottom line (start/middle): Fills as the BOTTOM of the line crosses trigger point
       if (type === 'start' || type === 'middle') {
-        const bottomProgress = distanceFromTrigger < 0
-          ? Math.min(1, (-distanceFromTrigger / activationThreshold))
-          : 0;
+        const topOfLine = nodeCenter; // Top of bottom line (at node center)
+        const bottomOfLine = rect.bottom; // Bottom of the rail segment (bottom of bottom line)
+        
+        // Progress from 0 (top at trigger) to 1 (bottom at trigger)
+        const bottomProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
+          ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
+          : topOfLine >= triggerPoint
+            ? 0
+            : 1;
+        
         setBottomLineFill(bottomProgress);
       }
     };
