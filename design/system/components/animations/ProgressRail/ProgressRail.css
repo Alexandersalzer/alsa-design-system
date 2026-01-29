@@ -30,8 +30,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--rail-color, var(--border-default));
+  background: var(--rail-color, var(--color-accent-muted));
   border-radius: var(--radius-full, 9999px);
+  opacity: 0.3;
 }
 
 /* Filled/active portion of rail */
@@ -41,7 +42,7 @@
   left: 0;
   width: 100%;
   height: 0%;
-  background: var(--active-rail-color, var(--color-primary));
+  background: var(--active-rail-color, var(--color-accent));
   border-radius: var(--radius-full, 9999px);
   transition: height 0.3s ease-out;
 }
@@ -64,40 +65,27 @@
   z-index: 2;
 }
 
-/* Node dot/circle */
+/* Node dot - app icon shape */
 .progress-rail__node-dot {
-  width: var(--node-size, 16px);
-  height: var(--node-size, 16px);
-  border-radius: var(--radius-full, 9999px);
-  background: var(--node-color, var(--surface-default));
-  border: var(--rail-width, 2px) solid var(--rail-color, var(--border-default));
+  width: var(--node-size, 24px);
+  height: var(--node-size, 24px);
+  border-radius: var(--radius-lg);
+  background: var(--node-color, var(--color-accent-muted));
+  border: none;
   transition: all 0.3s ease;
-  box-shadow: 0 0 0 4px var(--surface-page);
+  opacity: 0.4;
 }
 
 /* Active node styling */
 .progress-rail__node--active .progress-rail__node-dot {
-  background: var(--active-node-color, var(--color-primary));
-  border-color: var(--active-rail-color, var(--color-primary));
-  transform: scale(1.2);
-}
-
-/* Node label (number) */
-.progress-rail__node-label {
-  position: absolute;
-  left: calc(var(--node-size) + 12px);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-secondary);
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.progress-rail__node--active .progress-rail__node-label {
+  background: var(--active-node-color, var(--color-accent));
   opacity: 1;
-  color: var(--color-primary);
+  transform: scale(1.1);
+}
+
+/* Node label (number) - hidden for minimalist design */
+.progress-rail__node-label {
+  display: none;
 }
 
 /* Responsive adjustments */
