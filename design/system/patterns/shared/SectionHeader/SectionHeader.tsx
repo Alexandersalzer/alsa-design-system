@@ -179,7 +179,6 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
           variant="display-lg"
           color="heading"
           align={textAlign}
-          fontFamily={get('heading').props.fontFamily}
           animation={get('heading').props.animation}
           componentKey={get('heading').key}
         >
@@ -187,24 +186,6 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         </Typography>,
         1,
         'heading'
-      )}
-
-      {/* Subheading - optional secondary heading with different font */}
-      {renderIf('subheading') && get('subheading').props.content && withAnimation(
-        <Typography
-          as={isHero ? "h1" : "h2"}
-          variant={get('subheading').props.variant || "display-lg"}
-          color={get('subheading').props.color || "heading"}
-          weight={get('subheading').props.weight}
-          align={textAlign}
-          fontFamily={get('subheading').props.fontFamily || 'secondary'}
-          animation={get('subheading').props.animation}
-          componentKey={get('subheading').key}
-        >
-          {get('subheading').props.content}
-        </Typography>,
-        1.5,
-        'subheading'
       )}
 
       {/* Body - optional */}
