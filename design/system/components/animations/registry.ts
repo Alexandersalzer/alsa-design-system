@@ -6,6 +6,7 @@ import { Scale } from './Scale/Scale';
 import { CarouselAnimation } from './CarouselAnimation/CarouselAnimation';
 import { ProgressRail } from './ProgressRail/ProgressRail';
 import { RailSegment } from './ProgressRail/RailSegment';
+import { ProcessSteps } from './ProgressRail/ProcessSteps';
 
 export const animationComponents: Record<string, React.ComponentType<any>> = {
   countUp: CountUp,
@@ -16,4 +17,5 @@ export const animationComponents: Record<string, React.ComponentType<any>> = {
   carouselAnimation: CarouselAnimation,
   progressRail: ProgressRail,
   railSegment: RailSegment,
+  processSteps: ProcessSteps,
 };
