@@ -5,8 +5,7 @@
   justify-content: center;
   z-index: 50;
   background: transparent;
-  /* Reserve space for collapsed pill */
-  min-height: calc(var(--foundation-space-10) + var(--space-navbar) * 2);
+  /* No min-height - navbar is a pure overlay, does not reserve layout space */
 }
 
 /* Backdrop overlay */
