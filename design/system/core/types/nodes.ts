@@ -79,7 +79,13 @@ export interface PageProps {
   backgroundPosition?: string;
   /** Whether background should be fixed on scroll */
   backgroundFixed?: boolean;
-  /** Make sections transparent to show page background through (defaults to true when backgroundImage is set) */
+  /** Background color (CSS color value, e.g. '#f5f5f5', 'rgb(245,245,245)', 'var(--surface-raised)') */
+  backgroundColor?: string;
+  /** Color overlay on top of background image (useful for tinting) */
+  backgroundOverlay?: string;
+  /** Overlay opacity (0-1), defaults to 0.5 */
+  backgroundOverlayOpacity?: number;
+  /** Make sections transparent to show page background through (defaults to true when background is set) */
   transparentSections?: boolean;
 }
 
