@@ -159,20 +159,70 @@ export function buildCssVars(tokens: DesignTokens): string {
       --section-body-animation: '${sectionBodyAnimation}';  /* 'all', 'hero', or 'none' */
 
       /* ===== Generative Background Colors (based on accent color) ===== */
-      /* Subtle variant - ljusa pastell-toner */
+      /* Accent color scheme */
       --gen-bg-subtle-base: var(--foundation-accent-100);
       --gen-bg-subtle-accent: var(--foundation-accent-200);
       --gen-bg-subtle-highlight: var(--foundation-accent-50, #FFFFFF);
 
-      /* Medium variant - mer färgstarka toner */
       --gen-bg-medium-base: var(--foundation-accent-200);
       --gen-bg-medium-accent: var(--foundation-accent-300);
       --gen-bg-medium-highlight: var(--foundation-accent-100);
 
-      /* Vibrant variant - starkare färger */
       --gen-bg-vibrant-base: var(--foundation-accent-300);
       --gen-bg-vibrant-accent: var(--foundation-accent-400);
       --gen-bg-vibrant-highlight: var(--foundation-accent-200);
+
+      /* Primary color scheme */
+      --gen-bg-primary-subtle-base: var(--foundation-primary-100);
+      --gen-bg-primary-subtle-accent: var(--foundation-primary-200);
+      --gen-bg-primary-subtle-highlight: var(--foundation-primary-50, #FFFFFF);
+
+      --gen-bg-primary-medium-base: var(--foundation-primary-200);
+      --gen-bg-primary-medium-accent: var(--foundation-primary-300);
+      --gen-bg-primary-medium-highlight: var(--foundation-primary-100);
+
+      --gen-bg-primary-vibrant-base: var(--foundation-primary-300);
+      --gen-bg-primary-vibrant-accent: var(--foundation-primary-400);
+      --gen-bg-primary-vibrant-highlight: var(--foundation-primary-200);
+
+      /* Success color scheme */
+      --gen-bg-success-subtle-base: var(--foundation-success-100);
+      --gen-bg-success-subtle-accent: var(--foundation-success-200);
+      --gen-bg-success-subtle-highlight: var(--foundation-success-50, #FFFFFF);
+
+      --gen-bg-success-medium-base: var(--foundation-success-200);
+      --gen-bg-success-medium-accent: var(--foundation-success-300);
+      --gen-bg-success-medium-highlight: var(--foundation-success-100);
+
+      --gen-bg-success-vibrant-base: var(--foundation-success-300);
+      --gen-bg-success-vibrant-accent: var(--foundation-success-400);
+      --gen-bg-success-vibrant-highlight: var(--foundation-success-200);
+
+      /* Warning color scheme */
+      --gen-bg-warning-subtle-base: var(--foundation-warning-100);
+      --gen-bg-warning-subtle-accent: var(--foundation-warning-200);
+      --gen-bg-warning-subtle-highlight: var(--foundation-warning-50, #FFFFFF);
+
+      --gen-bg-warning-medium-base: var(--foundation-warning-200);
+      --gen-bg-warning-medium-accent: var(--foundation-warning-300);
+      --gen-bg-warning-medium-highlight: var(--foundation-warning-100);
+
+      --gen-bg-warning-vibrant-base: var(--foundation-warning-300);
+      --gen-bg-warning-vibrant-accent: var(--foundation-warning-400);
+      --gen-bg-warning-vibrant-highlight: var(--foundation-warning-200);
+
+      /* Info color scheme */
+      --gen-bg-info-subtle-base: var(--foundation-info-100);
+      --gen-bg-info-subtle-accent: var(--foundation-info-200);
+      --gen-bg-info-subtle-highlight: var(--foundation-info-50, #FFFFFF);
+
+      --gen-bg-info-medium-base: var(--foundation-info-200);
+      --gen-bg-info-medium-accent: var(--foundation-info-300);
+      --gen-bg-info-medium-highlight: var(--foundation-info-100);
+
+      --gen-bg-info-vibrant-base: var(--foundation-info-300);
+      --gen-bg-info-vibrant-accent: var(--foundation-info-400);
+      --gen-bg-info-vibrant-highlight: var(--foundation-info-200);
 
       /* NOTE: --is-dark will be set by client JavaScript for 'system' mode */
       /* For static 'light' or 'dark', set it here: */

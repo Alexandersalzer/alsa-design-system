@@ -1,9 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import styles from './GenerativeBackground.module.css';
 
-interface GenerativeBackgroundProps {
-  variant?: 'subtle' | 'medium' | 'vibrant';
+export type ColorScheme = 'accent' | 'primary' | 'success' | 'warning' | 'info';
+export type Variant = 'subtle' | 'medium' | 'vibrant';
+
+export interface GenerativeBackgroundProps {
+  variant?: Variant;
+  colorScheme?: ColorScheme;
   seed?: number;
+  intensity?: number; // 0.0 - 1.0, controls effect strength
+  blurAmount?: number; // 0 - 50, blur radius in pixels
 }
 
 // Deterministisk PRNG (seedad)
@@ -99,7 +105,9 @@ function drawGenerativeBackground(
   seed: number, 
   colorBase: string, 
   colorAccent: string, 
-  colorHighlight: string
+  colorHighlight: string,
+  intensity: number = 1.0,
+  blurAmount: number = 18
 ) {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
@@ -114,9 +122,9 @@ function drawGenerativeBackground(
   const rand = mulberry32(seed);
 
   // Konvertera design tokens till RGB
-  const purpleA = hexToRgb(colorBase);
-  const purpleB = hexToRgb(colorAccent);
-  const whiteish = hexToRgb(colorHighlight);
+  const colorA = hexToRgb(colorBase);
+  const colorB = hexToRgb(colorAccent);
+  const colorC = hexToRgb(colorHighlight);
 
   // Noise-grid
   const gw = 256, gh = 256;
@@ -135,17 +143,17 @@ function drawGenerativeBackground(
 
       const n = fbm(grid, gw, gh, nx, ny);
 
-      // Skapa "fläckmask"
+      // Skapa "fläckmask" med intensity control
       const blobs = Math.max(0, (n - 0.35) / 0.65);
       const soft = smoothstep(blobs);
 
-      // Lätt extra grain
-      const grain = (rand() - 0.5) * 0.06;
+      // Lätt extra grain (påverkas av intensity)
+      const grain = (rand() - 0.5) * 0.06 * intensity;
 
       // Färgblandning
       const baseMix = 0.35 + n * 0.35;
-      let col = mix(purpleA, purpleB, baseMix);
-      col = mix(col, whiteish, soft * 0.75);
+      let col = mix(colorA, colorB, baseMix);
+      col = mix(col, colorC, soft * 0.75 * intensity);
 
       // Applicera grain
       const r = Math.max(0, Math.min(255, col.r * (1 + grain)));
@@ -162,34 +170,40 @@ function drawGenerativeBackground(
 
   ctx.putImageData(img, 0, 0);
 
-  // Mjuk blur över allt (vattenfärg-känsla)
-  const temp = document.createElement("canvas");
-  temp.width = W; 
-  temp.height = H;
-  const tctx = temp.getContext("2d");
-  if (!tctx) return;
-  
-  tctx.drawImage(canvas, 0, 0);
+  // Mjuk blur över allt (vattenfärg-känsla) med konfigurerbar blur
+  if (blurAmount > 0) {
+    const temp = document.createElement("canvas");
+    temp.width = W; 
+    temp.height = H;
+    const tctx = temp.getContext("2d");
+    if (!tctx) return;
+    
+    tctx.drawImage(canvas, 0, 0);
 
-  ctx.clearRect(0, 0, W, H);
-  ctx.filter = `blur(${Math.round(18 * dpr)}px)`;
-  ctx.drawImage(temp, 0, 0);
-  ctx.filter = "none";
+    ctx.clearRect(0, 0, W, H);
+    ctx.filter = `blur(${Math.round(blurAmount * dpr)}px)`;
+    ctx.drawImage(temp, 0, 0);
+    ctx.filter = "none";
+  }
 
-  // Lätt vignette för djup
+  // Lätt vignette för djup (påverkas av intensity)
+  const vignetteOpacity = 0.22 * intensity;
   const grad = ctx.createRadialGradient(
     W * 0.5, H * 0.45, Math.min(W, H) * 0.1, 
     W * 0.5, H * 0.45, Math.max(W, H) * 0.7
   );
   grad.addColorStop(0, "rgba(255,255,255,0.00)");
-  grad.addColorStop(1, "rgba(255,255,255,0.22)");
+  grad.addColorStop(1, `rgba(255,255,255,${vignetteOpacity})`);
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, W, H);
 }
 
 export const GenerativeBackground: React.FC<GenerativeBackgroundProps> = ({ 
   variant = 'subtle',
-  seed = 1337 
+  colorScheme = 'accent',
+  seed = 1337,
+  intensity = 1.0,
+  blurAmount = 18
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -204,7 +218,15 @@ export const GenerativeBackground: React.FC<GenerativeBackgroundProps> = ({
     const colorHighlight = computedStyle.getPropertyValue('--gen-bg-highlight').trim() || '#FBF7FF';
 
     const draw = () => {
-      drawGenerativeBackground(canvas, seed, colorBase, colorAccent, colorHighlight);
+      drawGenerativeBackground(
+        canvas, 
+        seed, 
+        colorBase, 
+        colorAccent, 
+        colorHighlight,
+        intensity,
+        blurAmount
+      );
     };
 
     draw();
@@ -215,7 +237,10 @@ export const GenerativeBackground: React.FC<GenerativeBackgroundProps> = ({
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [variant, seed]);
+  }, [variant, colorScheme, seed, intensity, blurAmount]);
 
-  return <canvas ref={canvasRef} className={styles[variant]} />;
+  // Kombinera variant och colorScheme till en CSS klass
+  const className = `${styles[variant]} ${styles[colorScheme]}`;
+
+  return <canvas ref={canvasRef} className={className} />;
 };

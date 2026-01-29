@@ -1,12 +1,16 @@
 import React, { ReactNode } from 'react';
 import styles from './Section.module.css';
 import { GenerativeBackground } from '../../backgrounds/GenerativeBackground/GenerativeBackground';
+import { GradientBackground } from '../../backgrounds/GradientBackground/GradientBackground';
+import { PatternBackground } from '../../backgrounds/PatternBackground/PatternBackground';
+import { VideoBackground } from '../../backgrounds/VideoBackground/VideoBackground';
 
 type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
 type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type Overflow = 'visible' | 'hidden' | 'auto' | 'scroll' | 'clip';
-type Background = 'default' | 'raised' | 'elevated' | 'inverse' | 'media' | 'transparent' | 'generative';
+type Background = 'default' | 'raised' | 'elevated' | 'inverse' | 'media' | 'transparent' | 'generative' | 'gradient' | 'pattern' | 'video';
+type ColorScheme = 'accent' | 'primary' | 'success' | 'warning' | 'info';
 
 interface SectionProps {
   children: ReactNode;
@@ -18,22 +22,46 @@ interface SectionProps {
   sticky?: boolean;
   top?: string | number;
   zIndex?: number;
-  spacing?: SpacingScale; // ✅ optional per-section override (uses .spacingMd etc.)
-  overflow?: Overflow; // ✅ Control overflow behavior (default: 'hidden')
-  overflowX?: Overflow; // ✅ Control horizontal overflow separately
-  overflowY?: Overflow; // ✅ Control vertical overflow separately
-  background?: Background; // ✅ Background surface variant
-  backgroundImage?: string; // ✅ Background image URL (for 'media' variant)
-  backgroundOverlay?: boolean; // ✅ Add dark overlay over background image
-  backgroundOverlayOpacity?: number; // ✅ Overlay opacity (0-1, default 0.5)
-  // ✅ NEW: Generative background props
-  generativeVariant?: 'subtle' | 'medium' | 'vibrant'; // ✅ Generative variant
-  generativeSeed?: number; // ✅ Seed for deterministic generation
-  noPaddingTop?: boolean; // ✅ Remove top padding (useful for split layouts)
-  style?: React.CSSProperties;
-  sectionKey?: string; // För live editing identification
-
+  spacing?: SpacingScale;
+  overflow?: Overflow;
+  overflowX?: Overflow;
+  overflowY?: Overflow;
+  background?: Background;
+  backgroundImage?: string; // For 'media' and 'video' variants
+  backgroundOverlay?: boolean;
+  backgroundOverlayOpacity?: number;
   
+  // Generative background props
+  generativeVariant?: 'subtle' | 'medium' | 'vibrant';
+  generativeColorScheme?: ColorScheme;
+  generativeSeed?: number;
+  generativeIntensity?: number;
+  generativeBlur?: number;
+  
+  // Gradient background props
+  gradientType?: 'mesh' | 'radial' | 'conic' | 'linear';
+  gradientColorScheme?: ColorScheme;
+  gradientAnimated?: boolean;
+  gradientIntensity?: number;
+  
+  // Pattern background props
+  patternType?: 'dots' | 'lines' | 'grid' | 'diagonal' | 'hexagon';
+  patternColorScheme?: ColorScheme | 'neutral';
+  patternDensity?: 'sparse' | 'normal' | 'dense';
+  patternAnimated?: boolean;
+  patternOpacity?: number;
+  
+  // Video background props
+  videoSrc?: string;
+  videoPoster?: string;
+  videoFit?: 'cover' | 'contain' | 'fill';
+  videoOverlayType?: 'none' | 'dark' | 'light' | 'gradient';
+  videoOverlayOpacity?: number;
+  videoPlaybackRate?: number;
+  
+  noPaddingTop?: boolean;
+  style?: React.CSSProperties;
+  sectionKey?: string;
 }
 
 const getHeightClass = (height: Height): string => {
@@ -85,7 +113,7 @@ export const Section = ({
   sticky = false,
   top,
   zIndex,
-  spacing, // optional override
+  spacing,
   overflow,
   overflowX,
   overflowY,
@@ -93,8 +121,30 @@ export const Section = ({
   backgroundImage,
   backgroundOverlay = false,
   backgroundOverlayOpacity = 0.5,
+  // Generative props
   generativeVariant = 'subtle',
+  generativeColorScheme = 'accent',
   generativeSeed = 1337,
+  generativeIntensity = 1.0,
+  generativeBlur = 18,
+  // Gradient props
+  gradientType = 'mesh',
+  gradientColorScheme = 'accent',
+  gradientAnimated = false,
+  gradientIntensity = 1.0,
+  // Pattern props
+  patternType = 'dots',
+  patternColorScheme = 'neutral',
+  patternDensity = 'normal',
+  patternAnimated = false,
+  patternOpacity = 0.15,
+  // Video props
+  videoSrc,
+  videoPoster,
+  videoFit = 'cover',
+  videoOverlayType = 'dark',
+  videoOverlayOpacity = 0.3,
+  videoPlaybackRate = 1.0,
   noPaddingTop = false,
   style,
   sectionKey,
@@ -134,18 +184,58 @@ export const Section = ({
       style={finalStyles}
       data-section-key={sectionKey}
     >
+      {/* Generative Background */}
       {background === 'generative' && (
         <GenerativeBackground 
-          variant={generativeVariant} 
-          seed={generativeSeed} 
+          variant={generativeVariant}
+          colorScheme={generativeColorScheme}
+          seed={generativeSeed}
+          intensity={generativeIntensity}
+          blurAmount={generativeBlur}
         />
       )}
+
+      {/* Gradient Background */}
+      {background === 'gradient' && (
+        <GradientBackground
+          type={gradientType}
+          colorScheme={gradientColorScheme}
+          animated={gradientAnimated}
+          intensity={gradientIntensity}
+        />
+      )}
+
+      {/* Pattern Background */}
+      {background === 'pattern' && (
+        <PatternBackground
+          type={patternType}
+          colorScheme={patternColorScheme}
+          density={patternDensity}
+          animated={patternAnimated}
+          opacity={patternOpacity}
+        />
+      )}
+
+      {/* Video Background */}
+      {background === 'video' && videoSrc && (
+        <VideoBackground
+          src={videoSrc}
+          poster={videoPoster}
+          fit={videoFit}
+          overlayType={videoOverlayType}
+          overlayOpacity={videoOverlayOpacity}
+          playbackRate={videoPlaybackRate}
+        />
+      )}
+
+      {/* Media Background Overlay (legacy) */}
       {backgroundImage && background === 'media' && backgroundOverlay && (
         <div
           className={styles.backgroundOverlay}
           style={{ opacity: backgroundOverlayOpacity }}
         />
       )}
+      
       {children}
     </Component>
   );

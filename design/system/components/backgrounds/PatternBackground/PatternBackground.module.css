@@ -1,0 +1,190 @@
+/* PatternBackground.module.css */
+
+.patternBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--pattern-opacity, 0.15);
+  background-color: transparent;
+}
+
+/* ===== PATTERN TYPES ===== */
+
+/* Dots Pattern */
+.dots {
+  background-image: radial-gradient(
+    circle,
+    var(--pattern-color) var(--dot-size, 1.5px),
+    transparent var(--dot-size, 1.5px)
+  );
+  background-size: var(--pattern-spacing, 24px) var(--pattern-spacing, 24px);
+}
+
+/* Lines Pattern (horizontal) */
+.lines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    var(--pattern-color),
+    var(--pattern-color) var(--line-width, 1px),
+    transparent var(--line-width, 1px),
+    transparent var(--pattern-spacing, 20px)
+  );
+}
+
+/* Grid Pattern */
+.grid {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      var(--pattern-color),
+      var(--pattern-color) var(--line-width, 1px),
+      transparent var(--line-width, 1px),
+      transparent var(--pattern-spacing, 40px)
+    ),
+    repeating-linear-gradient(
+      90deg,
+      var(--pattern-color),
+      var(--pattern-color) var(--line-width, 1px),
+      transparent var(--line-width, 1px),
+      transparent var(--pattern-spacing, 40px)
+    );
+}
+
+/* Diagonal Pattern */
+.diagonal {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--pattern-color),
+    var(--pattern-color) var(--line-width, 1px),
+    transparent var(--line-width, 1px),
+    transparent var(--pattern-spacing, 30px)
+  );
+}
+
+/* Hexagon Pattern (simplified with circles) */
+.hexagon {
+  background-image: 
+    radial-gradient(circle at 0% 50%, var(--pattern-color) 2px, transparent 2px),
+    radial-gradient(circle at 100% 50%, var(--pattern-color) 2px, transparent 2px);
+  background-size: var(--pattern-spacing, 40px) var(--pattern-spacing, 40px);
+  background-position: 0 0, calc(var(--pattern-spacing, 40px) / 2) calc(var(--pattern-spacing, 40px) / 2);
+}
+
+/* ===== DENSITY VARIANTS ===== */
+
+.sparse {
+  --pattern-spacing: 48px;
+  --dot-size: 1px;
+  --line-width: 1px;
+}
+
+.normal {
+  --pattern-spacing: 32px;
+  --dot-size: 1.5px;
+  --line-width: 1px;
+}
+
+.dense {
+  --pattern-spacing: 20px;
+  --dot-size: 2px;
+  --line-width: 1.5px;
+}
+
+/* ===== COLOR SCHEMES ===== */
+
+.accent {
+  --pattern-color: var(--foundation-accent-300, #D8B4FE);
+}
+
+.primary {
+  --pattern-color: var(--foundation-primary-300, #93C5FD);
+}
+
+.success {
+  --pattern-color: var(--foundation-success-300, #86EFAC);
+}
+
+.warning {
+  --pattern-color: var(--foundation-warning-300, #FCD34D);
+}
+
+.info {
+  --pattern-color: var(--foundation-info-300, #67E8F9);
+}
+
+.neutral {
+  --pattern-color: var(--color-neutral-300, #D1D5DB);
+}
+
+/* ===== ANIMATION ===== */
+
+.animated.dots {
+  animation: dotsPulse 3s ease-in-out infinite;
+}
+
+.animated.lines {
+  animation: linesScroll 10s linear infinite;
+}
+
+.animated.grid {
+  animation: gridShift 15s ease-in-out infinite;
+}
+
+.animated.diagonal {
+  animation: diagonalScroll 8s linear infinite;
+}
+
+.animated.hexagon {
+  animation: hexagonPulse 4s ease-in-out infinite;
+}
+
+@keyframes dotsPulse {
+  0%, 100% {
+    opacity: var(--pattern-opacity, 0.15);
+  }
+  50% {
+    opacity: calc(var(--pattern-opacity, 0.15) * 0.5);
+  }
+}
+
+@keyframes linesScroll {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 var(--pattern-spacing, 20px);
+  }
+}
+
+@keyframes gridShift {
+  0%, 100% {
+    background-position: 0 0, 0 0;
+  }
+  50% {
+    background-position: 
+      calc(var(--pattern-spacing, 40px) / 4) calc(var(--pattern-spacing, 40px) / 4),
+      calc(var(--pattern-spacing, 40px) / 4) calc(var(--pattern-spacing, 40px) / 4);
+  }
+}
+
+@keyframes diagonalScroll {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: var(--pattern-spacing, 30px) var(--pattern-spacing, 30px);
+  }
+}
+
+@keyframes hexagonPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
