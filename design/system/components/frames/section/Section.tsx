@@ -1,11 +1,13 @@
 import React, { ReactNode } from 'react';
 import styles from './Section.module.css';
+import { Bleed } from '../../layout/bleed';
 
 type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
 type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type Overflow = 'visible' | 'hidden' | 'auto' | 'scroll' | 'clip';
 type Background = 'default' | 'raised' | 'elevated' | 'inverse' | 'media' | 'transparent';
+type LayoutIntent = 'default' | 'fullscreen' | 'overlay' | 'edge';
 
 interface SectionProps {
   children: ReactNode;
@@ -25,11 +27,12 @@ interface SectionProps {
   backgroundImage?: string; // ✅ Background image URL (for 'media' variant)
   backgroundOverlay?: boolean; // ✅ Add dark overlay over background image
   backgroundOverlayOpacity?: number; // ✅ Overlay opacity (0-1, default 0.5)
+  layoutIntent?: LayoutIntent; // ✅ Layout intention for automatic bleed behavior
   noPaddingTop?: boolean; // ✅ Remove top padding (useful for split layouts)
   style?: React.CSSProperties;
   sectionKey?: string; // För live editing identification
 
-  
+
 }
 
 const getHeightClass = (height: Height): string => {
@@ -89,6 +92,7 @@ export const Section = ({
   backgroundImage,
   backgroundOverlay = false,
   backgroundOverlayOpacity = 0.5,
+  layoutIntent = 'default',
   noPaddingTop = false,
   style,
   sectionKey,
@@ -99,6 +103,9 @@ export const Section = ({
   const overflowClass = getOverflowClass(overflow);
   const backgroundClass = getBackgroundClass(background);
 
+  // Determine if this section should get automatic bleed behavior
+  const isFullscreenIntent = layoutIntent === 'fullscreen' && height === 'screen';
+
   const combinedClassName = [
     styles.section,
     heightClass,
@@ -106,6 +113,7 @@ export const Section = ({
     spacingClass,
     overflowClass,
     backgroundClass,
+    isFullscreenIntent && styles.fullscreenIntent,
     className,
   ].join(' ').trim();
 
@@ -114,12 +122,26 @@ export const Section = ({
   if (zIndex !== undefined) inlineStyles.zIndex = zIndex;
   if (overflowX !== undefined) inlineStyles.overflowX = overflowX;
   if (overflowY !== undefined) inlineStyles.overflowY = overflowY;
-  if (noPaddingTop) inlineStyles.paddingTop = 0;
+
+  // For fullscreen intent, remove top padding automatically
+  if (isFullscreenIntent || noPaddingTop) {
+    inlineStyles.paddingTop = 0;
+  }
+
   if (backgroundImage && background === 'media') {
     inlineStyles.backgroundImage = `url(${backgroundImage})`;
   }
 
   const finalStyles = { ...inlineStyles, ...style };
+
+  // Wrap children with Bleed when fullscreen intent is active
+  const content = isFullscreenIntent ? (
+    <Bleed blockStart="var(--space-navbar)">
+      {children}
+    </Bleed>
+  ) : (
+    children
+  );
 
   return (
     <Component
@@ -134,7 +156,7 @@ export const Section = ({
           style={{ opacity: backgroundOverlayOpacity }}
         />
       )}
-      {children}
+      {content}
     </Component>
   );
 };

@@ -1,0 +1,119 @@
+/* ==============================================
+   src/design-system/components/layout/Bleed/Bleed.css
+   BLEED COMPONENT STYLES - PURELY STRUCTURAL
+   ============================================== */
+
+/**
+ * Bleed Component
+ *
+ * This component applies negative margins to break out of parent padding.
+ * It is PURELY STRUCTURAL - no visual styles should be added here.
+ *
+ * All spacing is handled via inline styles in the React component,
+ * using CSS logical properties (marginInline, marginBlock, etc.)
+ * for better internationalization support.
+ */
+
+/* ===== BASE BLEED STYLES ===== */
+
+.bleed {
+  /*
+   * No base styles needed - all margins are applied inline
+   * This allows for maximum flexibility and composability
+   */
+  box-sizing: border-box;
+}
+
+/* ===== DEBUGGING HELPER (Development only) ===== */
+
+/**
+ * Uncomment this during development to visualize bleed boundaries
+ *
+ * .bleed {
+ *   outline: 2px dashed red;
+ *   outline-offset: -2px;
+ * }
+ */
+
+/* ===== ACCESSIBILITY ===== */
+
+/**
+ * Ensure content within Bleed maintains readability
+ * when breaking out of containers
+ */
+.bleed:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* ===== BROWSER COMPATIBILITY ===== */
+
+/**
+ * Fallback for older browsers that don't support logical properties
+ * The component uses inline styles with logical properties,
+ * so this is minimal
+ */
+@supports not (margin-inline: 0) {
+  .bleed {
+    /* Fallback handled by inline styles in component */
+  }
+}
+
+/* ===== RESPONSIVE BEHAVIOR ===== */
+
+/**
+ * Bleed is responsive by design because it uses design tokens
+ * which are responsive via CSS variables
+ * No media queries needed here
+ */
+
+/* ===== PRINT STYLES ===== */
+
+@media print {
+  .bleed {
+    /* Reset margins for print to avoid content being cut off */
+    margin: 0 !important;
+  }
+}
+
+/* ===== REDUCED MOTION ===== */
+
+/**
+ * No animations or transitions in Bleed component
+ * It's purely structural
+ */
+
+/* ===== HIGH CONTRAST MODE ===== */
+
+@media (prefers-contrast: high) {
+  .bleed {
+    /* No visual styles to adjust */
+  }
+}
+
+/* ==============================================
+   USAGE NOTES
+   ============================================== */
+
+/**
+ * This CSS file is intentionally minimal because:
+ *
+ * 1. Bleed is a structural primitive, not a visual component
+ * 2. All spacing is handled via inline styles using design tokens
+ * 3. Logical properties are used for better i18n support
+ * 4. The component is designed to be invisible and composable
+ *
+ * DO NOT ADD:
+ * - Background colors
+ * - Padding
+ * - Borders
+ * - Box shadows
+ * - Z-index
+ * - Display properties (unless absolutely necessary)
+ * - Position properties
+ *
+ * The only purpose of this file is to:
+ * - Ensure proper box-sizing
+ * - Provide minimal accessibility support
+ * - Handle edge cases (print, older browsers)
+ */

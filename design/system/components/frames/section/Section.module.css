@@ -113,6 +113,14 @@
   box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2); /* Subtle glow */
 }
 
+/* ===== LAYOUT INTENT VARIANTS ===== */
+.fullscreenIntent {
+  /* Fullscreen sections reach viewport edge (under navbar) */
+  padding-top: 0;
+  /* Ensure overflow is visible for bleed to work */
+  overflow: visible;
+}
+
 /* ===== UNIVERSAL RESET ===== */
 .section * {
   box-sizing: border-box;
