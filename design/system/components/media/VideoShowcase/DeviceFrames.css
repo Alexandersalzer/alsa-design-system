@@ -35,7 +35,7 @@
   width: 100%;
   background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
   border-radius: 55px;
-  padding: 9px;
+  padding: 10px;
   box-shadow: 
     0 0 0 1px rgba(0, 0, 0, 0.1),
     0 0 0 2px #1d1d1f,
@@ -73,11 +73,11 @@
 .device-frame--iphone-14-pro .device-frame__bezel::after {
   content: '';
   position: absolute;
-  bottom: 20px;
+  bottom: 14px;
   left: 50%;
   transform: translateX(-50%);
   width: 140px;
-  height: 5px;
+  height: 4.5px;
   background: rgba(255, 255, 255, 0.3);
   border-radius: 3px;
 }
