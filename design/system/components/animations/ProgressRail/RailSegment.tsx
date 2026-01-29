@@ -45,8 +45,6 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
     // If active is explicitly set to true, use that
     if (propActive) {
       setIsActive(true);
-      setTopLineFill(1);
-      setBottomLineFill(1);
       return;
     }
 
@@ -57,28 +55,35 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       const triggerPoint = window.innerHeight * scrollOffset;
       const nodeCenter = rect.top + rect.height / 2;
       
-      // Distance from node to trigger point (positive = below trigger, negative = above)
-      const distanceFromTrigger = triggerPoint - nodeCenter;
+      // Calculate distance from trigger point
+      const distance = Math.abs(nodeCenter - triggerPoint);
       
-      // Node activates when it reaches trigger point (within threshold)
-      const atTrigger = Math.abs(distanceFromTrigger) < activationThreshold;
-      const hasReachedTrigger = distanceFromTrigger <= 0;
-      setIsActive(atTrigger || hasReachedTrigger);
+      // Activate if node center is within threshold distance of trigger point
+      setIsActive(distance < activationThreshold);
 
-      // Calculate fill progress as node approaches trigger from below
-      // Lines fill 0 → 100% as node moves from bottom of viewport to trigger point
-      const fillRange = window.innerHeight * 0.3; // Fill range: 30% of viewport before trigger
-      const distanceBeforeTrigger = Math.max(0, distanceFromTrigger); // Positive when below trigger
-      const fillProgress = Math.max(0, Math.min(1, 1 - (distanceBeforeTrigger / fillRange)));
-
-      // Top line fills as node approaches trigger from below
+      // Calculate line fill progress
+      const viewportHeight = window.innerHeight;
+      const nodeTop = rect.top;
+      const nodeBottom = rect.bottom;
+      
+      // Top line fill: based on how far node has entered viewport from bottom
       if (type === 'middle' || type === 'end') {
-        setTopLineFill(fillProgress);
+        const topLineTop = nodeTop - rect.height / 2;
+        const topLineBottom = nodeCenter;
+        const topProgress = Math.max(0, Math.min(1, 
+          (viewportHeight * 0.8 - topLineBottom) / (topLineBottom - topLineTop)
+        ));
+        setTopLineFill(topProgress);
       }
       
-      // Bottom line fills as node approaches trigger from below
+      // Bottom line fill: based on how far node has passed viewport center
       if (type === 'start' || type === 'middle') {
-        setBottomLineFill(fillProgress);
+        const bottomLineTop = nodeCenter;
+        const bottomLineBottom = nodeBottom + rect.height / 2;
+        const bottomProgress = Math.max(0, Math.min(1,
+          (viewportHeight * 0.5 - bottomLineTop) / (bottomLineBottom - bottomLineTop)
+        ));
+        setBottomLineFill(bottomProgress);
       }
     };
 
