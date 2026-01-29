@@ -59,31 +59,29 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       const exitPoint = window.innerHeight * exitOffset;
       const nodeCenter = rect.top + rect.height / 2;
       
-      // Activate node when it crosses the trigger point
-      // Deactivate when it goes above exit point (near top of screen)
+      // Activate when between exit and trigger points
       const isAboveExit = nodeCenter < exitPoint;
       const isBelowTrigger = nodeCenter > triggerPoint;
-      
       setIsActive(!isAboveExit && !isBelowTrigger);
 
-      // Top line (middle/end): Fills as the TOP of the line crosses trigger point
+      // Top line (middle/end): Fills/empties based on node position
       if (type === 'middle' || type === 'end') {
         const topOfLine = rect.top;
         const bottomOfLine = nodeCenter;
         
         let topProgress = 0;
         
-        // If above exit point, start emptying
+        // If between exit and top of viewport (emptying phase)
         if (nodeCenter < exitPoint) {
-          const exitLineTop = topOfLine;
-          const exitLineBottom = bottomOfLine;
-          topProgress = exitLineBottom > exitPoint && exitLineTop < exitPoint
-            ? 1 - ((exitPoint - exitLineTop) / (exitLineBottom - exitLineTop))
-            : exitLineBottom <= exitPoint
-              ? 0
-              : 1;
+          const distanceFromExit = exitPoint - nodeCenter;
+          const lineLength = bottomOfLine - topOfLine;
+          topProgress = Math.max(0, 1 - (distanceFromExit / lineLength));
         }
-        // Normal filling when crossing trigger point
+        // If between trigger and exit (filled phase)
+        else if (nodeCenter >= exitPoint && nodeCenter <= triggerPoint) {
+          topProgress = 1;
+        }
+        // If below trigger (filling phase)
         else {
           topProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
             ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
@@ -95,24 +93,24 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
         setTopLineFill(topProgress);
       }
       
-      // Bottom line (start/middle): Fills as the BOTTOM of the line crosses trigger point
+      // Bottom line (start/middle): Fills/empties based on node position
       if (type === 'start' || type === 'middle') {
         const topOfLine = nodeCenter;
         const bottomOfLine = rect.bottom;
         
         let bottomProgress = 0;
         
-        // If above exit point, start emptying
+        // If between exit and top of viewport (emptying phase)
         if (nodeCenter < exitPoint) {
-          const exitLineTop = topOfLine;
-          const exitLineBottom = bottomOfLine;
-          bottomProgress = exitLineBottom > exitPoint && exitLineTop < exitPoint
-            ? 1 - ((exitPoint - exitLineTop) / (exitLineBottom - exitLineTop))
-            : exitLineBottom <= exitPoint
-              ? 0
-              : 1;
+          const distanceFromExit = exitPoint - nodeCenter;
+          const lineLength = bottomOfLine - topOfLine;
+          bottomProgress = Math.max(0, 1 - (distanceFromExit / lineLength));
         }
-        // Normal filling when crossing trigger point
+        // If between trigger and exit (filled phase)
+        else if (nodeCenter >= exitPoint && nodeCenter <= triggerPoint) {
+          bottomProgress = 1;
+        }
+        // If below trigger (filling phase)
         else {
           bottomProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
             ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
