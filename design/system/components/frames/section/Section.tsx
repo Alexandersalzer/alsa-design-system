@@ -37,12 +37,16 @@ interface SectionProps {
   generativeSeed?: number;
   generativeIntensity?: number;
   generativeBlur?: number;
+  generativeFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
+  generativeFadeStrength?: number;
   
   // Gradient background props
   gradientType?: 'mesh' | 'radial' | 'conic' | 'linear';
   gradientColorScheme?: ColorScheme;
   gradientAnimated?: boolean;
   gradientIntensity?: number;
+  gradientFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
+  gradientFadeStrength?: number;
   
   // Pattern background props
   patternType?: 'dots' | 'lines' | 'grid' | 'diagonal' | 'hexagon';
@@ -50,6 +54,8 @@ interface SectionProps {
   patternDensity?: 'sparse' | 'normal' | 'dense';
   patternAnimated?: boolean;
   patternOpacity?: number;
+  patternFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
+  patternFadeStrength?: number;
   
   // Video background props
   videoSrc?: string;
@@ -58,6 +64,8 @@ interface SectionProps {
   videoOverlayType?: 'none' | 'dark' | 'light' | 'gradient';
   videoOverlayOpacity?: number;
   videoPlaybackRate?: number;
+  videoFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
+  videoFadeStrength?: number;
   
   noPaddingTop?: boolean;
   style?: React.CSSProperties;
@@ -127,17 +135,23 @@ export const Section = ({
   generativeSeed = 1337,
   generativeIntensity = 1.0,
   generativeBlur = 18,
+  generativeFadeEdge = 'none',
+  generativeFadeStrength = 0.15,
   // Gradient props
   gradientType = 'mesh',
   gradientColorScheme = 'accent',
   gradientAnimated = false,
   gradientIntensity = 1.0,
+  gradientFadeEdge = 'none',
+  gradientFadeStrength = 0.15,
   // Pattern props
   patternType = 'dots',
   patternColorScheme = 'neutral',
   patternDensity = 'normal',
   patternAnimated = false,
   patternOpacity = 0.15,
+  patternFadeEdge = 'none',
+  patternFadeStrength = 0.15,
   // Video props
   videoSrc,
   videoPoster,
@@ -145,6 +159,8 @@ export const Section = ({
   videoOverlayType = 'dark',
   videoOverlayOpacity = 0.3,
   videoPlaybackRate = 1.0,
+  videoFadeEdge = 'none',
+  videoFadeStrength = 0.15,
   noPaddingTop = false,
   style,
   sectionKey,
@@ -192,6 +208,8 @@ export const Section = ({
           seed={generativeSeed}
           intensity={generativeIntensity}
           blurAmount={generativeBlur}
+          fadeEdge={generativeFadeEdge}
+          fadeStrength={generativeFadeStrength}
         />
       )}
 
@@ -202,6 +220,8 @@ export const Section = ({
           colorScheme={gradientColorScheme}
           animated={gradientAnimated}
           intensity={gradientIntensity}
+          fadeEdge={gradientFadeEdge}
+          fadeStrength={gradientFadeStrength}
         />
       )}
 
@@ -213,6 +233,8 @@ export const Section = ({
           density={patternDensity}
           animated={patternAnimated}
           opacity={patternOpacity}
+          fadeEdge={patternFadeEdge}
+          fadeStrength={patternFadeStrength}
         />
       )}
 
@@ -225,6 +247,8 @@ export const Section = ({
           overlayType={videoOverlayType}
           overlayOpacity={videoOverlayOpacity}
           playbackRate={videoPlaybackRate}
+          fadeEdge={videoFadeEdge}
+          fadeStrength={videoFadeStrength}
         />
       )}
 
