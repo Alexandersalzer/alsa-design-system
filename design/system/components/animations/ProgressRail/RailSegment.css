@@ -47,7 +47,7 @@
 .rail-segment__line--fill {
   opacity: 1;
   transform-origin: top;
-  transition: transform 0.2s ease-out;
+  transition: transform 0.15s linear;
 }
 
 /* Node container */
@@ -66,7 +66,7 @@
   border-radius: 22%;
   background: var(--surface-accent);
   opacity: 0.2;
-  transition: all 0.3s ease;
+  transition: all 0.25s linear;
   box-shadow: 0 0 0 4px var(--surface-page);
 }
 
@@ -86,7 +86,7 @@
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.25s linear;
 }
 
 .rail-segment--active .rail-segment__node-label {
