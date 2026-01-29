@@ -141,6 +141,7 @@ export const renderPattern = (
       <Container
         key={patternKey}
         height="auto"
+        align={patternProps.align as 'left' | 'center' | 'right' | undefined}
         useMediaWidth={patternProps.useMediaWidth || false}
         useFormWidth={patternProps.useFormWidth || false}
         patternKey={patternKey}
@@ -161,6 +162,7 @@ export const renderPattern = (
     <Container
       key={patternKey}
       height="auto"
+      align={patternProps.align as 'left' | 'center' | 'right' | undefined}
       useMediaWidth={patternProps.useMediaWidth || false}
       useFormWidth={patternProps.useFormWidth || false}
       patternKey={patternKey}
