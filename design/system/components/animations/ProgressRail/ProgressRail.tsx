@@ -15,10 +15,7 @@ export interface ProgressRailStep {
 }
 
 export interface ProgressRailProps {
-  /** Array of step IDs that correspond to items in the layout */
-  stepIds?: string[];
-  /** Legacy: Array of step objects with id and number */
-  steps?: ProgressRailStep[];
+  steps: ProgressRailStep[];
   /** Height of the rail */
   height?: string;
   /** Width of the rail line */
@@ -39,43 +36,24 @@ export interface ProgressRailProps {
   className?: string;
   /** Container element to track scroll within */
   scrollContainer?: HTMLElement | null;
-  /** Component context props (provided by component registry) */
-  componentKey?: string;
-  sectionKey?: string;
-  patternKey?: string;
 }
 
 export const ProgressRail: React.FC<ProgressRailProps> = ({
-  stepIds,
-  steps: providedSteps,
+  steps,
   height = '100%',
   railWidth = 2,
-  nodeSize = 24,
-  railColor = 'var(--color-accent-muted)',
-  activeRailColor = 'var(--color-accent)',
-  nodeColor = 'var(--color-accent-muted)',
-  activeNodeColor = 'var(--color-accent)',
+  nodeSize = 16,
+  railColor = 'var(--border-default)',
+  activeRailColor = 'var(--color-primary)',
+  nodeColor = 'var(--surface-default)',
+  activeNodeColor = 'var(--color-primary)',
   gap = 'var(--spacing-xl)',
   className = '',
   scrollContainer,
-  componentKey,
-  sectionKey,
-  patternKey,
 }) => {
   const railRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
-
-  // Generate steps from stepIds if provided, otherwise use provided steps
-  const steps = React.useMemo(() => {
-    if (stepIds && stepIds.length > 0) {
-      return stepIds.map((id, index) => ({
-        id,
-        number: String(index + 1).padStart(2, '0'),
-      }));
-    }
-    return providedSteps || [];
-  }, [stepIds, providedSteps]);
 
   useEffect(() => {
     const handleScroll = () => {
