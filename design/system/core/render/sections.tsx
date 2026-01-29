@@ -47,7 +47,7 @@ export function renderSection(
         height="auto"
         sectionKey={sectionKey}
         noPaddingTop={isSplitLayout}
-        className={isHero ? 'section--hero' : ''}
+        applyNavbarVoid={isHero}
         {...props}
       >
         <LayoutRenderer
@@ -74,7 +74,7 @@ export function renderSection(
       id={sectionKey}
       height="auto"
       sectionKey={sectionKey}
-      className={isHero ? 'section--hero' : ''}
+      applyNavbarVoid={isHero}
       {...props}
     >
       <Container>
