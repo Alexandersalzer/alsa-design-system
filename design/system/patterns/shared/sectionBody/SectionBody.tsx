@@ -43,7 +43,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
   // Handle form submission
   const handleSubmit = async () => {
     if (!emailValue.trim()) return;
-    
+
     const result = await execute({ email: emailValue });
     if (result.success) {
       setEmailValue(''); // Clear input on success
@@ -52,6 +52,16 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
 
   // Get spacing from props with fallback to 'md'
   const spacing = props?.spacing || 'md';
+
+  // Alignment props - controls how content is positioned within the section
+  // 'center' (default) - centered content as before
+  // 'start' - left-aligned content for split layouts with media on the side
+  // 'end' - right-aligned content
+  const align = props?.align || 'center';
+  const textAlign = props?.textAlign || (align === 'center' ? 'center' : 'left');
+
+  // Max width control - smaller width when in split layout
+  const maxWidth = props?.maxWidth || '650px';
 
   // Get hero spacing configuration
   // Auto-detect hero sections by sectionKey prefix, or use manual isHero prop
@@ -125,13 +135,13 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
       )}
       <Box
         style={{
-          maxWidth: '650px',
-          margin: '0 auto',
+          maxWidth: maxWidth,
+          margin: align === 'center' ? '0 auto' : align === 'end' ? '0 0 0 auto' : '0 auto 0 0',
           width: '100%',
         }}
         className={isHero ? `section-body--hero-${patternKey}` : ''}
       >
-      <VStack spacing={spacing} align="center">
+      <VStack spacing={spacing} align={align === 'center' ? 'center' : 'start'}>
 
         {/* Tag - only render if exists */}
         {renderIf('tag') && get('tag').props.content && withAnimation(
@@ -155,7 +165,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
             as={isHero ? "h1" : "h2"}
             variant="display-lg"
             color="heading"
-            align="center"
+            align={textAlign}
             animation={get('typography-heading').props.animation}
             componentKey={get('typography-heading').key}
           >
@@ -172,7 +182,7 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
             variant="body-lg"
             color="body"
             weight="regular"
-            align="center"
+            align={textAlign}
             animation={get('typography-body').props.animation}
             componentKey={get('typography-body').key}
           >

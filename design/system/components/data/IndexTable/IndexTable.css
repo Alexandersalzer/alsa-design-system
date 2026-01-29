@@ -76,7 +76,7 @@
 }
 
 .index-table__sort-button:hover {
-  color: var(--text-primary);
+  color: var(--text-strong);
 }
 
 .index-table__sort-icon {
@@ -195,7 +195,7 @@
   justify-content: center;
   min-height: 240px;
   padding: 48px 24px;
-  color: var(--text-secondary);
+  color: var(--text-default);
   font-size: 14px;
 }
 

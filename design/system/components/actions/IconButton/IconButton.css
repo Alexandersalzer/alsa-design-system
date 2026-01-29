@@ -28,6 +28,7 @@
   user-select: none;
   white-space: nowrap;
 
+  /* What could this be for ? */
   transition:
     background-color var(--foundation-duration-fast) var(--foundation-easing-ease-out),
     border-color var(--foundation-duration-fast) var(--foundation-easing-ease-out),
@@ -134,7 +135,7 @@
 }
 
 .icon-btn--ghost:hover:not(:disabled) {
-  background-color: var(--surface-elevated);
+  background-color: var(--surface-raised);
 }
 
 .icon-btn--ghost:active:not(:disabled) {
@@ -176,17 +177,52 @@
 }
 
 /* ==========================================================
-   ACTIVE STATE FOR NAVIGATION
+   SELECTED STATE
+   Selected buttons represent current state, not an action.
+   They should NOT have hover change - keep same appearance.
 ========================================================== */
 
-.icon-btn--active {
-  background-color: var(--surface-nav-item-selected) !important;
-  color: var(--text-nav-item-selected) !important;
-  transform: scale(0.97);
+.icon-btn--selected {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+  cursor: default;
+  transform: none !important;
 }
 
-.icon-btn--active:hover {
-  background-color: var(--surface-nav-item-selected-hover) !important;
+/* Selected buttons should NOT change on hover - they represent current state */
+.icon-btn--selected:hover,
+.icon-btn--selected:hover:not(:disabled) {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+  transform: none !important;
+}
+
+/* Selected buttons should NOT change on active/press */
+.icon-btn--selected:active,
+.icon-btn--selected:active:not(:disabled) {
+  background-color: var(--surface-accent-muted);
+  transform: none !important;
+}
+
+/* Legacy alias for backwards compatibility */
+.icon-btn--active {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+  cursor: default;
+  transform: none !important;
+}
+
+.icon-btn--active:hover,
+.icon-btn--active:hover:not(:disabled) {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+  transform: none !important;
+}
+
+.icon-btn--active:active,
+.icon-btn--active:active:not(:disabled) {
+  background-color: var(--surface-accent-muted);
+  transform: none !important;
 }
 
 /* ==========================================================

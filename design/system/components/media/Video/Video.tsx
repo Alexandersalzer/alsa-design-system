@@ -62,7 +62,8 @@ export const Video: React.FC<VideoProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority);
   const [hasError, setHasError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  // Don't show loading if we have a poster - poster displays immediately
+  const [isLoading, setIsLoading] = useState(!poster);
 
   // Lazy loading with IntersectionObserver
   useEffect(() => {

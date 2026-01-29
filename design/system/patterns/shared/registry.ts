@@ -1,5 +1,5 @@
 import SectionBody from './sectionBody/SectionBody';
-import ButtonGroup from './ButtonGroup';
+import SectionHeader from './SectionHeader/SectionHeader';
 import { Divider } from '../../components/layout/divider';
 
 /**
@@ -8,6 +8,6 @@ import { Divider } from '../../components/layout/divider';
  */
 export const sharedPatterns: Record<string, React.ComponentType<any>> = {
   sectionBody: SectionBody,
-  buttonGroup: ButtonGroup,
+  sectionHeader: SectionHeader,
   divider: Divider,
 };

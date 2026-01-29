@@ -56,7 +56,7 @@
   border: 2px solid var(--border-input);                   /* ✅ Good - semantic token */
   border-radius: var(--radius-input);                      /* ✅ Good - component token */
   background-color: var(--surface-input);                  /* ✅ Good - semantic token */
-  color: var(--text-primary);                              /* ✅ Good - semantic token */
+  color: var(--text-strong);                              /* ✅ Good - semantic token */
   
   /* Interaction */
   cursor: pointer;
@@ -266,7 +266,7 @@
 }
 
 .file-uploader__helper-text {
-  color: var(--text-secondary);                            /* ✅ Good - semantic token */
+  color: var(--text-default);                            /* ✅ Good - semantic token */
   font-family: var(--font-body-family);
   font-size: var(--font-body-sm-size);
   font-weight: var(--foundation-weight-normal);

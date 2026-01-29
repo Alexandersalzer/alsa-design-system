@@ -254,7 +254,7 @@
 }
 
 .radio-field:hover .radio-label:not(.radio-wrapper--disabled .radio-label) {
-  color: var(--text-primary);                              /* Slightly stronger on hover */
+  color: var(--text-strong);                              /* Slightly stronger on hover */
 }
 
 /* ===== ACCESSIBILITY IMPROVEMENTS ===== */

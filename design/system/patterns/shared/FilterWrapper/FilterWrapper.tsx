@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { TabGroup } from '../../../components/actions/NavigationTab/TabGroup';
-import { Tab } from '../../../components/actions/NavigationTab/Tab';
+import { TabGroup, Tab } from '../../../components';
 import { patternRegistry } from '../../registry';
 
-interface Tab {
+interface TabItem {
   label: string;
   value: string;
 }
 
 interface FilterWrapperProps {
   props: {
-    tabs: Tab[];
+    tabs: TabItem[];
     filterKey: string; // e.g. "category"
     defaultTab?: string;
     childType: string; // pattern type to render as child
@@ -27,7 +26,7 @@ export const FilterWrapper: React.FC<FilterWrapperProps> = ({
   const [activeTab, setActiveTab] = useState(defaultTab || (tabs[0]?.value ?? ''));
 
   // Flatten items (assume all are valid for now)
-  const items = Object.entries(components).map(([key, comp]) => ({ ...comp }));
+  const items = Object.entries(components).map(([, comp]) => ({ ...comp }));
 
   // Filter items by tab
   const filteredItems = activeTab === 'all'

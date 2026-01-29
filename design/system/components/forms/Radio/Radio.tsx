@@ -138,7 +138,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
             style={{
               fontSize: labelProps.size === 'sm' ? 'var(--foundation-text-sm)' : 'var(--foundation-text-md)',
               fontWeight: 'var(--foundation-weight-medium)',
-              color: disabled ? 'var(--text-disabled)' : 'var(--text-primary)',
+              color: disabled ? 'var(--text-disabled)' : 'var(--text-strong)',
               cursor: disabled ? 'not-allowed' : 'pointer',
               userSelect: 'none'
             }}

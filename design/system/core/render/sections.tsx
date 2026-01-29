@@ -3,6 +3,9 @@
 import { Section } from '../../components/frames/section/Section';
 import { SectionNode } from '../types/nodes';
 import { renderPattern } from './patterns';
+import { LayoutRenderer } from '../layout/LayoutRenderer';
+import { Container } from '../../components/frames/container/Container';
+import { VStack } from '../../components/layout/vStack/VStack';
 
 /**
  * Props for Sections component
@@ -13,21 +16,38 @@ interface SectionsProps {
 }
 
 /**
- * Renders a single section with its patterns
+ * Renders a single section with its patterns using LayoutRenderer
  */
 export function renderSection(sectionData: SectionNode, sectionKey: string): React.ReactNode {
   if (!sectionData?.patterns) return null;
 
-  const { type, patterns, order, props } = sectionData;
-  const patternOrder = order || Object.keys(patterns);
+  const { type, patterns, layout, order, props } = sectionData;
+  const patternOrder = order || Object.keys(patterns || {});
 
+  // If layout config exists, use LayoutRenderer
+  if (layout) {
+    return (
+      <Section
+        key={sectionKey}
+        id={sectionKey}
+        height="auto"
+        sectionKey={sectionKey}
+        {...props}
+      >
+        <LayoutRenderer 
+          layout={layout}
+          patterns={patterns}
+          order={patternOrder}
+          sectionKey={sectionKey}
+          sectionAnimation={props?.animation}
+        />
+      </Section>
+    );
+  }
+
+  // Fallback: Simple vertical stacking (no layout config)
   const renderedPatterns = patternOrder
-    .map((patternKey) => {
-      const pattern = patterns[patternKey];
-      if (!pattern) return null;
-
-      return renderPattern(pattern, patternKey, sectionKey);
-    })
+    .map((patternKey) => renderPattern(patterns[patternKey], patternKey, sectionKey))
     .filter(Boolean);
 
   if (renderedPatterns.length === 0) return null;
@@ -40,7 +60,11 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
       sectionKey={sectionKey}
       {...props}
     >
-      {renderedPatterns}
+      <Container>
+        <VStack spacing="lg" align="center">
+          {renderedPatterns}
+        </VStack>
+      </Container>
     </Section>
   );
 }

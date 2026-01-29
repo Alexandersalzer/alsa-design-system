@@ -270,7 +270,7 @@
 }
 
 .breadcrumbs--solid .breadcrumb-item__content--link:hover {
-  background: var(--surface-hover);
+  background: var(--surface-elevated);
 }
 
 .breadcrumbs--solid .breadcrumb-item__content--current {

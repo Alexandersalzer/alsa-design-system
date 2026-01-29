@@ -7,15 +7,13 @@
 .segmented-control {
   position: relative;
   display: inline-flex;
-  background: var(--surface-raised);
-  border: 1px solid var(--border-default);
   border-radius: var(--radius-button); /* ✅ Dynamic radius */
   padding: var(--foundation-space-1);
   overflow: visible; /* Changed from hidden to allow tooltips */
   isolation: isolate;
   gap: var(--foundation-space-1);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
   height: var(--control-height-md); /* ✅ Track matches control height */
+  /* Base styles - variants override background, border, box-shadow */
 }
 
 /* ===== SLIDING INDICATOR ===== */
@@ -24,12 +22,7 @@
   top: var(--foundation-space-1);
   left: var(--foundation-space-1);
   bottom: var(--foundation-space-1);
-  background: var(--surface-selected);
   border-radius: calc(var(--radius-button) - 2px); /* ✅ Dynamic radius with offset */
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.12),
-    0 1px 2px rgba(0, 0, 0, 0.08),
-    0 0 0 1px var(--border-subtle);
   transition:
     transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -37,6 +30,7 @@
   height: auto;
   /* CRITICAL FIX: Don't block clicks */
   pointer-events: none;
+  /* Base styles - variants override background, box-shadow */
 }
 
 /* ===== OPTIONS ===== */
@@ -102,7 +96,7 @@
 }
 
 .segmented-control__option:hover:not(:disabled):not(.segmented-control__option--disabled) {
-  color: var(--text-secondary);
+  color: var(--text-default);
   opacity: 0.9;
 }
 
@@ -225,7 +219,60 @@
 
 /* ===== STYLE VARIANTS ===== */
 
-/* PILL VARIANT */
+/* DEFAULT VARIANT - Page background, default border, raised thumb */
+.segmented-control--default {
+  background: var(--surface-page);
+  border: 1px solid var(--border-default);
+  box-shadow: none;
+}
+
+.segmented-control--default .segmented-control__indicator {
+  background: var(--surface-raised);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 0 0 1px var(--border-default);
+}
+
+/* RAISED VARIANT - Raised background, elevated thumb */
+.segmented-control--raised {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.segmented-control--raised .segmented-control__indicator {
+  background: var(--surface-elevated);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 0 0 1px var(--border-subtle);
+}
+
+/* ACCENT VARIANT - Page background, accent border, accent thumb */
+.segmented-control--accent {
+  background: var(--surface-page);
+  border: 1px solid var(--border-accent);
+  box-shadow: none;
+}
+
+.segmented-control--accent .segmented-control__indicator {
+  background: var(--surface-accent);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* Text/icon color adjustment for accent variant */
+.segmented-control--accent .segmented-control__option[data-selected="true"] {
+  color: var(--text-on-accent);
+}
+
+.segmented-control--accent .segmented-control__option[data-selected="true"] .segmented-control__icon {
+  color: var(--icon-on-accent);
+}
+
+/* PILL VARIANT - Pill shape with elevated background */
 .segmented-control--pill {
   border-radius: var(--radius-xl); /* ✅ Dynamic full radius */
   background: var(--surface-elevated);

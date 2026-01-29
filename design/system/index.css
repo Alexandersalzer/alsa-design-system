@@ -30,8 +30,8 @@
 @import './components/actions/IconButton/IconButton.css';
 @import './components/actions/TextLink/TextLink.css';
 @import './components/actions/SegmentedControl/SegmentedControl.css';
-@import './components/actions/Nav/Nav.css';
-@import './components/actions/NavigationTab/NavigationTab.css';
+@import './components/navigation/Nav/Nav.css';
+@import './components/navigation/Tabs/Tabs.css';
 @import './components/actions/Clickable/Clickable.css';
 @import './components/actions/BulkActionBar/BulkActionBar.css';
 

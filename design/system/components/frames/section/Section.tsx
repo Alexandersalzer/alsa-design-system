@@ -27,6 +27,8 @@ interface SectionProps {
   backgroundOverlayOpacity?: number; // ✅ Overlay opacity (0-1, default 0.5)
   style?: React.CSSProperties;
   sectionKey?: string; // För live editing identification
+
+  
 }
 
 const getHeightClass = (height: Height): string => {

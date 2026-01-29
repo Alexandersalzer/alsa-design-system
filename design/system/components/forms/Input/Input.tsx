@@ -3,10 +3,44 @@
 // UPDATED - Added fullWidth prop support
 // ===============================================
 
-import React, { forwardRef, ReactNode, useId, useState, useRef, useEffect } from 'react';
+import React, { forwardRef, ReactNode, useId, useState, useRef, useEffect, ReactElement, cloneElement, isValidElement } from 'react';
 import { EyeIcon, EyeSlashIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
+import type { ButtonProps } from '../../actions/Button/Button';
+
+// ===== KEYBOARD NAVIGATION TRACKER =====
+// Tracks if user is navigating via keyboard (Tab) or mouse
+// Used to show focus outline ONLY on keyboard navigation
+let isKeyboardUser = false;
+let keyboardTrackerInitialized = false;
+
+if (typeof window !== 'undefined' && !keyboardTrackerInitialized) {
+  keyboardTrackerInitialized = true;
+
+  // Track Tab key for keyboard navigation
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      isKeyboardUser = true;
+      document.documentElement.setAttribute('data-keyboard-user', 'true');
+    }
+  });
+
+  // Reset on ANY mouse interaction - use capture phase to run BEFORE focus event
+  window.addEventListener('mousedown', () => {
+    isKeyboardUser = false;
+    document.documentElement.setAttribute('data-keyboard-user', 'false');
+  }, { capture: true }); // ← Capture phase = runs BEFORE focus event
+
+  // Also handle touch/pointer events for mobile
+  window.addEventListener('pointerdown', (e) => {
+    // Only for mouse/touch, not pen (keeps keyboard behavior for pen)
+    if (e.pointerType === 'mouse' || e.pointerType === 'touch') {
+      isKeyboardUser = false;
+      document.documentElement.setAttribute('data-keyboard-user', 'false');
+    }
+  }, { capture: true });
+}
 
 // ===== TYPES =====
 export type InputVariant = 'flat' | 'bordered' | 'faded' | 'underlined' | 'page';
@@ -36,6 +70,8 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   onClear?: () => void;
   onValueChange?: (value: string) => void;
   componentKey?: string; // För live editing identification
+  /** Action button displayed inside the input on the right side (e.g., Search, Submit, Send) */
+  actionButton?: ReactElement<ButtonProps>;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -63,6 +99,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     onClear,
     onValueChange,
     componentKey,
+    actionButton,
     id,
     value,
     defaultValue,
@@ -76,8 +113,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const [inputValue, setInputValue] = useState((value || defaultValue || '') as string);
     const startContentRef = useRef<HTMLDivElement>(null);
     const endContentRef = useRef<HTMLDivElement>(null);
+    const actionButtonRef = useRef<HTMLDivElement>(null);
     const [startContentWidth, setStartContentWidth] = useState(0);
     const [endContentWidth, setEndContentWidth] = useState(0);
+    const [actionButtonWidth, setActionButtonWidth] = useState(0);
 
     // Sync with controlled value
     useEffect(() => {
@@ -86,7 +125,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       }
     }, [value]);
 
-    // Measure start/end content width
+    // Measure start/end content and action button width
     useEffect(() => {
       if (startContentRef.current) {
         setStartContentWidth(startContentRef.current.offsetWidth);
@@ -94,7 +133,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       if (endContentRef.current) {
         setEndContentWidth(endContentRef.current.offsetWidth);
       }
-    }, [startContent, endContent]);
+      if (actionButtonRef.current) {
+        setActionButtonWidth(actionButtonRef.current.offsetWidth);
+      }
+    }, [startContent, endContent, actionButton]);
 
     // Handle input change
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,6 +167,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     if (endContentWidth > 0) {
       inputStyle.paddingRight = `${endContentWidth + 8}px`;
     }
+    // Add padding for action button (takes priority over endContent)
+    if (actionButtonWidth > 0) {
+      inputStyle.paddingRight = `${actionButtonWidth + 8}px`;
+    }
 
     // Build class names explicitly to avoid type issues
     const inputClasses = [
@@ -139,6 +185,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       rightIcon ? 'input-with-right-icon' : null,
       startContent ? 'input-with-start-content' : null,
       endContent ? 'input-with-end-content' : null,
+      actionButton ? 'input-with-action-button' : null,
       disableAnimation ? 'input--no-animation' : null,
       fullWidth ? 'input--full-width' : null,
       className
@@ -246,7 +293,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
-                color: 'var(--text-secondary)',
+                color: 'var(--text-default)',
                 transition: 'color 0.2s ease',
                 display: 'flex',
                 alignItems: 'center',
@@ -255,15 +302,28 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 zIndex: 10
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.color = 'var(--text-primary)';
+                e.currentTarget.style.color = 'var(--text-strong)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'var(--text-secondary)';
+                e.currentTarget.style.color = 'var(--text-default)';
               }}
               aria-label={showPassword ? 'Dölj lösenord' : 'Visa lösenord'}
             >
               {showPassword ? <EyeSlashIcon width={16} height={16} /> : <EyeIcon width={16} height={16} />}
             </button>
+          )}
+
+          {/* Action Button */}
+          {actionButton && !shouldShowToggle && isValidElement(actionButton) && (
+            <div
+              ref={actionButtonRef}
+              className={cn('input-action-button', `input-action-button--${size}`)}
+            >
+              {cloneElement(actionButton as ReactElement<ButtonProps>, {
+                size: size === 'lg' ? 'md' : 'sm',
+                radius: radius,
+              })}
+            </div>
           )}
         </div>
 

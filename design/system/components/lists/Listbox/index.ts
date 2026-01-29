@@ -11,7 +11,8 @@ export type {
   ListboxProps,
   ListboxSize,
   ListboxVariant,
-  ListboxSpacing
+  ListboxSpacing,
+  ListboxSurface
 } from './Listbox';
 
 export type {

@@ -75,7 +75,7 @@ export const Breadcrumbs = React.forwardRef<HTMLElement, BreadcrumbsProps>(
   (
     {
       children,
-      variant = 'solid',
+      variant = 'light',
       color = 'foreground',
       size = 'md',
       radius = 'sm',

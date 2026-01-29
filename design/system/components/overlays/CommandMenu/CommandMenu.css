@@ -27,8 +27,8 @@
   display: flex;
   flex-direction: column;
 
-  background: var(--surface-raised);
-  border: 1px solid var(--border-emphasis);
+  background: var(--surface-page);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-modal);
   box-shadow: var(--shadow-modal);
 
@@ -201,7 +201,7 @@
   font-family: var(--font-body-family);
   font-size: var(--foundation-size-text-xs);
   line-height: 1;
-  color: var(--text-tertiary);
+  color: var(--text-subtle);
 
   background: var(--surface-muted);
   border: 1px solid var(--border-subtle);
@@ -209,7 +209,7 @@
 }
 
 .command-menu__item--selected .command-menu__item-shortcut {
-  color: var(--text-secondary);
+  color: var(--text-default);
   background: var(--surface-elevated);
   border-color: var(--border-default);
 }

@@ -25,8 +25,8 @@ export type TypographyWeight =
 export type TypographyColor =
   // === GLOBAL/LAYOUT COLORS ===
   | 'brand'
-  | 'primary'           // --text-primary (black, main text)
-  | 'secondary'         // --text-secondary (gray-600, secondary text)
+  | 'primary'           // --text-strong (black, main text)
+  | 'secondary'         // --text-default (gray-600, secondary text)
   | 'tertiary'          // --text-subtle (gray-500, subtle text)
   | 'disabled'          // --text-disabled (gray-300, disabled state)
   | 'placeholder'       // --text-placeholder (gray-400, placeholder text)
@@ -104,8 +104,8 @@ const getColorValue = (color: TypographyColor): string => {
   const colorMap: Record<TypographyColor, string> = {
     // Global/Layout colors
     'brand': 'var(--brand-color)',
-    'primary': 'var(--text-primary)',
-    'secondary': 'var(--text-secondary)',
+    'primary': 'var(--text-strong)',
+    'secondary': 'var(--text-default)',
     'tertiary': 'var(--text-subtle)',
     'disabled': 'var(--text-disabled)',
     'placeholder': 'var(--text-placeholder)',

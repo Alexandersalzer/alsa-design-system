@@ -3,8 +3,7 @@
  */
 
 import { ActionType, ActionResponse } from './types';
-
-const API_BASE_URL = 'https://devapi.blimpify-im.com/api/v1';
+import { getApiUrl, API_ENDPOINTS, getHostname } from '../../../config/api';
 
 /**
  * Execute an action (contact, newsletter, etc.)
@@ -13,7 +12,7 @@ export async function executeAction(
   actionType: ActionType,
   data: Record<string, any>
 ): Promise<ActionResponse> {
-  const originHost = typeof window !== 'undefined' ? window.location.host : '';
+  const originHost = getHostname();
   
   // Extract locale from URL path (e.g., /en/contact, /sv/kontakt)
   const locale = typeof window !== 'undefined' 
@@ -21,7 +20,8 @@ export async function executeAction(
     : 'en';
 
   try {
-    const response = await fetch(`${API_BASE_URL}/actions/${actionType}`, {
+    const apiUrl = getApiUrl();
+    const response = await fetch(`${apiUrl}${API_ENDPOINTS.actions.base}/${actionType}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -60,7 +60,7 @@
 
 /* Secondary variant - Medium contrast by default, higher on hover */
 .textlink-secondary {
-  color: var(--text-secondary) ;                 /* Medium contrast (text-muted) */
+  color: var(--text-default) ;                 /* Medium contrast (text-muted) */
 }
 
 .textlink-secondary:hover {
@@ -86,11 +86,11 @@
 
 /* Ghost variant (subtle) - Lower contrast by default, slightly higher on hover */
 .textlink-ghost {
-  color: var(--text-tertiary) ;                  /* Low contrast */
+  color: var(--text-subtle) ;                  /* Low contrast */
 }
 
 .textlink-ghost:hover {
-  color: var(--text-secondary) ;                 /* Subtle increase on hover */
+  color: var(--text-default) ;                 /* Subtle increase on hover */
 }
 
 .textlink-ghost:active {
@@ -99,7 +99,7 @@
 
 /* Button-ghost variant - Like ghost button, text only with elevated surface on hover */
 .textlink-button-ghost {
-  color: var(--text-secondary);
+  color: var(--text-default);
   background: transparent;
   padding: var(--foundation-space-2) var(--foundation-space-3);
   border-radius: var(--radius-md);
@@ -113,7 +113,7 @@
 }
 
 .textlink-button-ghost:active {
-  color: var(--text-primary);
+  color: var(--text-strong);
   background: var(--surface-raised);
 }
 

@@ -26,7 +26,15 @@ export interface SegmentedControlProps {
   value: string;
   onChange: (value: string) => void;
   size?: 'sm' | 'md' | 'lg';
-  variant?: 'default' | 'pill' | 'ghost';
+  /**
+   * Visual style variant (like Button variants)
+   * - 'default': Page background, default border, raised thumb
+   * - 'raised': Raised background, elevated thumb
+   * - 'accent': Page background, accent border, accent thumb
+   * - 'pill': Pill shape with elevated background
+   * - 'ghost': No background, minimal styling
+   */
+  variant?: 'default' | 'raised' | 'accent' | 'pill' | 'ghost';
   fullWidth?: boolean;
   disabled?: boolean;
   iconOnly?: boolean; // Hide labels, show only icons with tooltips
@@ -211,7 +219,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
       className={cn(
         'segmented-control',
         `segmented-control--${size}`,
-        variant !== 'default' && `segmented-control--${variant}`,
+        `segmented-control--${variant}`,
         fullWidth && 'segmented-control--full-width',
         disabled && 'segmented-control--disabled',
         className

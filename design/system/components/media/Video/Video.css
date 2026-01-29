@@ -142,7 +142,7 @@
   justify-content: center;
   gap: 12px;
   background: var(--surface-raised);
-  color: var(--text-tertiary);
+  color: var(--text-subtle);
 }
 
 .video-error svg {
@@ -153,7 +153,7 @@
 .video-error-text {
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--text-default);
 }
 
 /* ===== ACCESSIBILITY ===== */

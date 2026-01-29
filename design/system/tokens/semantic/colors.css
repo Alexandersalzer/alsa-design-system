@@ -283,9 +283,9 @@
   --surface-floating: var(--neutral-0);
 
   /* ----- Interactive States ----- */
-  --surface-hover: var(--neutral-200);
-  --surface-active: var(--neutral-300);
-  --surface-selected: var(--neutral-300);
+  --surface-hover: var(--neutral-100);
+  --surface-active: var(--neutral-200);
+  --surface-selected: var(--neutral-200);
   --surface-pressed: var(--neutral-300);
   --surface-disabled: var(--neutral-100);
 
@@ -295,9 +295,9 @@
   --surface-input-disabled: var(--surface-disabled);
 
   /* ----- Text Hierarchy ----- */
-  --text-default: var(--neutral-1200);
+  --text-default: var(--neutral-1100);
   --text-strong: var(--neutral-1400);  /* Darkest value for maximum contrast */
-  --text-muted: var(--neutral-1000);
+  --text-muted: var(--neutral-900);
   --text-subtle: var(--neutral-800);
   --text-disabled: var(--neutral-700);
   --text-placeholder: var(--neutral-600);
@@ -782,9 +782,7 @@
 
 :root {
   /* ----- Old text naming ----- */
-  --text-primary: var(--text-default);
-  --text-secondary: var(--text-default);
-  --text-tertiary: var(--text-subtle);
+  --text-default: var(--text-default);
 
   /* ----- OVANFÖR ÄR CLARO I UI  ----- */
 

@@ -368,7 +368,7 @@ p, .text-body {
   letter-spacing: 0.005em;
 }
 
-/* 🎯 REMOVED: All tab typography styles - handled by NavigationTab.css */
+/* 🎯 REMOVED: All tab typography styles - handled by Tabs.css */
 
 /* Enhanced Card Typography */
 .card-title {

@@ -3,12 +3,65 @@ import { getPatternProps } from '../utils/props';
 import { patternRegistry } from '../../patterns/registry';
 import { PatternNode } from '../types/nodes';
 
+import { AnimationConfig } from '../animations/types';
+
+/**
+ * Layout context passed from LayoutRenderer to patterns
+ * Allows patterns to inherit layout-level settings
+ */
+export interface LayoutContext {
+  /** Section header alignment from layout config */
+  alignSectionHeader?: 'left' | 'center' | 'right';
+  /** Whether this pattern is rendered in the second column of a split layout */
+  isInSecondColumn?: boolean;
+  /** Vertical alignment of the split layout */
+  verticalAlign?: 'start' | 'center' | 'end';
+  /** Animation config for this section (overrides global sectionBodyAnimation) */
+  sectionAnimation?: AnimationConfig;
+}
+
+/**
+ * Renders a pattern component without Container wrapper
+ * Used when patterns need to share the same Container
+ * Wraps in display: contents div to maintain data-pattern-key for EditorOverlay
+ */
+export const renderPatternDirect = (
+  pattern: PatternNode,
+  patternKey: string,
+  sectionKey?: string,
+  layoutContext?: LayoutContext
+) => {
+  const PatternComponent = patternRegistry[pattern.type];
+  if (!PatternComponent) {
+    console.warn(`Pattern: ${pattern.type} don't exist in registry`);
+    return null;
+  }
+
+  return (
+    <div key={patternKey} data-pattern-key={patternKey} style={{ display: 'contents' }}>
+      <PatternComponent
+        type={pattern.type}
+        props={pattern.props}
+        components={pattern.components}
+        order={pattern.order}
+        sectionKey={sectionKey}
+        patternKey={patternKey}
+        layoutContext={layoutContext}
+      />
+    </div>
+  );
+};
 
 /**
  * Pattern Renderer - Pattern har full kontroll över component rendering
  * För content sections (med Container wrapper)
  */
-export const renderPattern = (pattern: PatternNode, patternKey: string, sectionKey?: string) => {
+export const renderPattern = (
+  pattern: PatternNode,
+  patternKey: string,
+  sectionKey?: string,
+  layoutContext?: LayoutContext
+) => {
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
     console.warn(`Pattern: ${pattern.type} don't exist in registry`);
@@ -19,19 +72,21 @@ export const renderPattern = (pattern: PatternNode, patternKey: string, sectionK
   const patternProps = getPatternProps(pattern);
 
   return (
-    <Container 
+    <Container
       key={patternKey}
       height="auto"
       useMediaWidth={patternProps.useMediaWidth || false}
       useFormWidth={patternProps.useFormWidth || false}
       patternKey={patternKey}
     >
-      <PatternComponent 
+      <PatternComponent
         type={pattern.type}
         props={pattern.props}
         components={pattern.components}
+        order={pattern.order}
         sectionKey={sectionKey}
         patternKey={patternKey}
+        layoutContext={layoutContext}
       />
     </Container>
   );

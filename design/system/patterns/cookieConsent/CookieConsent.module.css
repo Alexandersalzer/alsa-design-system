@@ -87,7 +87,7 @@
   font-family: var(--foundation-font-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif);
   font-size: var(--foundation-text-xs);
   line-height: 1.5;
-  color: var(--text-tertiary);
+  color: var(--text-subtle);
   margin-top: var(--space-xs);
   padding-right: var(--space-xs);
 }

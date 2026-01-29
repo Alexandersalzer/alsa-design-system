@@ -1,12 +1,15 @@
 // ===============================================
 // design/system/components/media/Logo/Logo.tsx
-// UNIFIED LOGO COMPONENT - Handles image, text, or both + RADIUS SUPPORT
+// UNIFIED LOGO COMPONENT - Handles image, text, or both + SPA-safe navigation
 // ===============================================
 
+'use client';
+
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { cn } from '../../../utils/cn';
 import { HStack } from '../../layout';
-import { LogoImage, LogoImageProps } from '../Image/Image';
+import { LogoImage } from '../Image/Image';
 import { BrandName } from './LogoText';
 import { Component } from '../../frames/component/Component';
 import './Logo.css';
@@ -14,53 +17,35 @@ import './Logo.css';
 // ===== TYPE DEFINITIONS =====
 
 export interface LogoProps {
-  /** Logo image source (optional) */
   src?: string;
-  /** Image alt text */
   alt?: string;
-  /** Logo text content (optional) */
   text?: string;
-  /** Link href for entire logo */
   href?: string;
-  /** Image width */
   width?: number;
-  /** Image height */
   height?: number;
-  /** Border radius for image */
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
-  /** Border style using semantic tokens */
   border?: 'none' | 'default' | 'subtle' | 'strong' | 'emphasis';
-  /** Unified color for both image and text - adapts to theme */
   color?: 'auto' | 'light' | 'dark' | 'brand';
-  /** Text size */
   textSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  /** Text weight */
   textWeight?: 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'black';
-  /** Text transform */
   textTransform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
-  /** Text letter spacing */
   textSpacing?: 'normal' | 'tight' | 'wide' | 'wider' | 'widest';
-  /** Text gradient effect */
   textGradient?: boolean;
-  /** Spacing between image and text */
   gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  /** Alignment of image and text */
   align?: 'start' | 'center' | 'end';
-  /** Show only image on mobile, hide text */
   hideTextOnMobile?: boolean;
-  /** Image loading strategy */
   loading?: 'eager' | 'lazy';
-  /** Priority loading */
   priority?: boolean;
-  /** Click handler */
   onClick?: () => void;
-  /** Custom className */
   className?: string;
-  /** Component key for live editing */
   componentKey?: string;
-  /** Text component key for live editing */
   textComponentKey?: string;
 }
+
+// ===== HELPERS =====
+
+const isInternalHref = (href?: string) =>
+  !!href && href.startsWith('/') && !href.startsWith('//');
 
 // ===== MAIN LOGO COMPONENT =====
 
@@ -89,41 +74,39 @@ export const Logo: React.FC<LogoProps> = ({
   componentKey,
   textComponentKey,
 }) => {
-  // Map unified color to image variant and text color
-  const getImageVariant = (color: 'auto' | 'light' | 'dark' | 'brand'): 'auto' | 'light' | 'dark' | 'color' => {
+  const router = useRouter();
+
+  // ----- Color mapping -----
+
+  const getImageVariant = (
+    color: 'auto' | 'light' | 'dark' | 'brand'
+  ): 'auto' | 'light' | 'dark' | 'color' => {
     const mapping = {
-      'auto': 'auto',
-      'light': 'dark',   // Light color = show dark logo on light bg
-      'dark': 'light',   // Dark color = show light logo on dark bg
-      'brand': 'color'
+      auto: 'auto',
+      light: 'dark',
+      dark: 'light',
+      brand: 'color',
     } as const;
     return mapping[color];
   };
 
-  const getTextColor = (color: 'auto' | 'light' | 'dark' | 'brand'): 'primary' | 'secondary' | 'inverse' | 'inherit' => {
-    const mapping = {
-      'auto': 'primary',    // Auto-adapts to theme
-      'light': 'inverse',   // Light = white text
-      'dark': 'primary',    // Dark = black text
-      'brand': 'primary'    // Brand = use primary (can be customized)
-    } as const;
-    return mapping[color];
+  const getTextColor = (
+    color: 'auto' | 'light' | 'dark' | 'brand'
+  ): 'primary' | 'secondary' | 'inverse' => {
+    // Logo text should ALWAYS follow theme text color
+    // Never inherit from <a>
+    return 'primary';
   };
 
   const imageVariant = getImageVariant(color);
   const textColor = getTextColor(color);
-  
-  // Determine what to render
+
   const hasImage = Boolean(src);
   const hasText = Boolean(text);
   const hasBoth = hasImage && hasText;
 
-  // If neither image nor text, return null
-  if (!hasImage && !hasText) {
-    return null;
-  }
+  if (!hasImage && !hasText) return null;
 
-  // Container classes
   const containerClasses = cn(
     'logo',
     hasBoth && 'logo--combined',
@@ -132,13 +115,34 @@ export const Logo: React.FC<LogoProps> = ({
     className
   );
 
-  // Wrapper component (link or div)
-  const Wrapper = href ? 'a' : 'div';
-  const wrapperProps = href 
-    ? { href, onClick, className: containerClasses }
-    : { onClick, className: containerClasses };
+  // ----- Navigation handling (KEY FIX) -----
 
-  // Single image only
+  const handleClick = (e?: React.MouseEvent) => {
+    if (!href) return;
+
+    if (isInternalHref(href)) {
+      e?.preventDefault();
+      router.push(href);
+    }
+
+    onClick?.();
+  };
+
+  const Wrapper = href ? 'a' : 'div';
+
+  const wrapperProps = href
+    ? {
+        href,
+        onClick: handleClick,
+        className: containerClasses,
+      }
+    : {
+        onClick: handleClick,
+        className: containerClasses,
+      };
+
+  // ----- Render variants -----
+
   if (hasImage && !hasText) {
     return (
       <Wrapper {...wrapperProps}>
@@ -152,14 +156,16 @@ export const Logo: React.FC<LogoProps> = ({
             variant={imageVariant}
             loading={loading}
             priority={priority}
-            className={cn('logo__image-only', border !== 'none' && `logo__image--border-${border}`)}
+            className={cn(
+              'logo__image-only',
+              border !== 'none' && `logo__image--border-${border}`
+            )}
           />
         </Component>
       </Wrapper>
     );
   }
 
-  // Single text only
   if (!hasImage && hasText) {
     return (
       <Wrapper {...wrapperProps}>
@@ -181,11 +187,10 @@ export const Logo: React.FC<LogoProps> = ({
     );
   }
 
-  // Combined image + text
   return (
     <Wrapper {...wrapperProps}>
-      <HStack 
-        align={align} 
+      <HStack
+        align={align}
         spacing={gap === 'xl' ? 'lg' : gap}
         className="logo__combined-container"
       >
@@ -199,9 +204,13 @@ export const Logo: React.FC<LogoProps> = ({
             variant={imageVariant}
             loading={loading}
             priority={priority}
-            className={cn('logo__image', border !== 'none' && `logo__image--border-${border}`)}
+            className={cn(
+              'logo__image',
+              border !== 'none' && `logo__image--border-${border}`
+            )}
           />
         </Component>
+
         <Component componentKey={textComponentKey}>
           <BrandName
             href={undefined}
@@ -226,5 +235,4 @@ export const Logo: React.FC<LogoProps> = ({
 
 Logo.displayName = 'Logo';
 
-// ===== EXPORT =====
 export default Logo;

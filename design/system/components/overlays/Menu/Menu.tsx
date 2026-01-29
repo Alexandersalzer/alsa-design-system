@@ -161,14 +161,14 @@ export interface MenuContentProps {
 
 export const MenuContent = ({ children, className, maxHeight = 400 }: MenuContentProps) => {
   const { size } = useMenuContext();
-  
+
   return (
     <Popover.Positioner>
-      <Popover.Content 
+      <Popover.Content
         maxHeight={maxHeight}
         className={cn('menu-content', `menu-content--${size}`, className)}
       >
-        <Listbox role="menu" size={size} spacing="xs">
+        <Listbox role="menu" size={size} spacing="xs" surface="raised">
           {children}
         </Listbox>
       </Popover.Content>

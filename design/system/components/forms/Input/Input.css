@@ -72,7 +72,7 @@
   border-color: transparent;
 }
 
-.input--variant-flat:hover:not(:disabled) {
+.input--variant-flat:hover:not(:disabled):not(:focus) {
   background-color: var(--surface-elevated);
 }
 
@@ -82,7 +82,7 @@
   border-width: 2px;
 }
 
-.input--variant-bordered:hover:not(:disabled) {
+.input--variant-bordered:hover:not(:disabled):not(:focus) {
   border-color: var(--border-strong);
 }
 
@@ -91,7 +91,7 @@
   border-color: var(--border-subtle);
 }
 
-.input--variant-faded:hover:not(:disabled) {
+.input--variant-faded:hover:not(:disabled):not(:focus) {
   background-color: var(--surface-raised);
   border-color: var(--border-default);
 }
@@ -105,7 +105,7 @@
   padding-right: 0;
 }
 
-.input--variant-underlined:hover:not(:disabled) {
+.input--variant-underlined:hover:not(:disabled):not(:focus) {
   border-bottom-color: var(--border-strong);
 }
 
@@ -115,7 +115,7 @@
   border-color: var(--border-subtle);
 }
 
-.input--variant-page:hover:not(:disabled) {
+.input--variant-page:hover:not(:disabled):not(:focus) {
   background-color: var(--surface-subtle);
   border-color: var(--border-default);
 }
@@ -436,6 +436,44 @@
   /* Default to small radius for header search */
 }
 
+/* ===== ACTION BUTTON ===== */
+.input-action-button {
+  position: absolute;
+  right: var(--foundation-space-1);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Size variants for action button container */
+.input-action-button--sm {
+  right: 2px;
+}
+
+.input-action-button--md {
+  right: var(--foundation-space-1);
+}
+
+.input-action-button--lg {
+  right: var(--foundation-space-2);
+}
+
+/* Padding adjustments for inputs with action buttons */
+.input-with-action-button.input--sm {
+  padding-right: 80px; /* Will be overridden by dynamic JS */
+}
+
+.input-with-action-button.input--md {
+  padding-right: 100px; /* Will be overridden by dynamic JS */
+}
+
+.input-with-action-button.input--lg {
+  padding-right: 120px; /* Will be overridden by dynamic JS */
+}
+
 /* ===== CLEAR BUTTON ===== */
 .input-clear-button {
   position: absolute;
@@ -447,7 +485,7 @@
   cursor: pointer;
   padding: var(--foundation-space-1);
   border-radius: var(--radius-sm);
-  color: var(--text-secondary);
+  color: var(--text-default);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -456,7 +494,7 @@
 
 .input-clear-button:hover {
   background-color: var(--surface-subtle);
-  color: var(--text-primary);
+  color: var(--text-strong);
 }
 
 .input-clear-button:active {
@@ -529,40 +567,29 @@
   transition: none !important;
 }
 
-/* ===== FOCUS VISIBLE (FOR KEYBOARD NAVIGATION ONLY) ===== */
+/* ===== FOCUS VISIBLE (KEYBOARD-ONLY VIA JS) ===== */
 /*
- * ✅ SPOTIFY-STYLE FOCUS - Only show outline on keyboard Tab, NOT on mouse clicks
- * Matches NavigationTab.css implementation exactly
+ * ✅ KEYBOARD-ONLY FOCUS OUTLINE (requires JS)
  *
- * HOW IT WORKS:
- * 1. :focus = triggered by BOTH mouse clicks AND keyboard Tab
- * 2. :focus-visible = SHOULD be keyboard-only, but some browsers apply it to mouse clicks too
- * 3. :focus:not(:focus-visible) = ONLY mouse clicks (explicitly removes outline)
+ * CSS ALONE CAN'T FIX CHROME'S :focus-visible BUG
+ * Chrome incorrectly applies :focus-visible on mouse clicks for input elements
  *
- * CRITICAL ORDER:
- * 1. FIRST: Remove ALL outlines with maximum specificity
- * 2. THEN: :focus:not(:focus-visible) with outline: none (removes outline on mouse)
- * 3. FINALLY: :focus-visible with outline styles (adds outline on keyboard)
- *
- * RESULT:
- * - Mouse click on input → border color changes, NO blue outline ✅
- * - Keyboard Tab to input → border color changes + blue outline shows ✅
+ * SOLUTION: Use JavaScript to track keyboard/mouse state
+ * - Add data-keyboard-user="true" on Tab key
+ * - Add data-keyboard-user="false" on mouse click
+ * - CSS only shows outline when data-keyboard-user="true"
  */
 
-/* 0️⃣ NUCLEAR OPTION - Remove outline from ALL states first */
+/* Always remove default outline */
 input.input,
 input.input:focus,
+input.input:focus-visible,
 input.input:active {
   outline: none !important;
 }
 
-/* 1️⃣ REMOVE outline on mouse click - higher specificity with !important */
-input.input:focus:not(:focus-visible) {
-  outline: none !important;
-}
-
-/* 2️⃣ SHOW outline ONLY on keyboard Tab - must come AFTER all removal rules */
-input.input:focus-visible:not(:active) {
+/* Show outline ONLY when keyboard navigation is active */
+[data-keyboard-user="true"] input.input:focus {
   outline: 2px solid var(--border-focus) !important;
   outline-offset: 2px !important;
 }

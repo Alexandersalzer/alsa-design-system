@@ -29,14 +29,14 @@
 
 /* ===== LINKS ===== */
 .modern-footer__link {
-  color: var(--text-tertiary);
+  color: var(--text-subtle);
   text-decoration: none;
   transition: color 0.2s ease;
   cursor: pointer;
 }
 
 .modern-footer__link:hover {
-  color: var(--text-secondary);
+  color: var(--text-default);
 }
 
 /* ===== BOTTOM SECTION - Legal + Copyright ===== */
@@ -49,7 +49,7 @@
 }
 
 .modern-footer__legal-link {
-  color: var(--text-tertiary);
+  color: var(--text-subtle);
   text-decoration: none;
   transition: color 0.2s ease;
   cursor: pointer;
@@ -57,7 +57,7 @@
 }
 
 .modern-footer__legal-link:hover {
-  color: var(--text-secondary);
+  color: var(--text-default);
 }
 
 /* ===== RESPONSIVE - Tablet ===== */

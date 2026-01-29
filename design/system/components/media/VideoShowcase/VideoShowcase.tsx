@@ -6,8 +6,7 @@
 import React, { forwardRef, useRef, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
-import { Spinner } from '../../feedback/Spinner/Spinner';
-import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
+import { Video } from '../Video/Video';
 import { FadeIn } from '../../animations/FadeIn/FadeIn';
 import { SlideIn } from '../../animations/SlideIn/SlideIn';
 import { Opacity } from '../../animations/Opacity/Opacity';
@@ -22,8 +21,6 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   aspectRatio?: '16-9' | '4-3' | '1-1' | 'auto';
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   showPlayButton?: boolean;
-  /** Loading indicator type - 'skeleton' (default) fills the space with pulsing effect, 'spinner' shows centered spinner */
-  loadingType?: 'skeleton' | 'spinner';
   componentKey?: string;
   /** Animation configuration following centralized animation system */
   animation?: AnimationConfig;
@@ -41,7 +38,6 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   controls = false,
   playsInline = true,
   showPlayButton = true,
-  loadingType = 'skeleton',
   poster,
   componentKey,
   animation,
@@ -49,13 +45,8 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(initialMuted);
-  const [isLoading, setIsLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const combinedRef = (node: HTMLVideoElement) => {
-    if (typeof ref === 'function') ref(node);
-    else if (ref) ref.current = node;
-    videoRef.current = node;
-  };
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const videoClasses = cn(
     'video-showcase',
@@ -65,6 +56,16 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     `video-showcase--radius-${radius}`,
     className
   );
+
+  // Find the video element inside the container and control it
+  React.useEffect(() => {
+    if (containerRef.current) {
+      const videoElement = containerRef.current.querySelector('video');
+      if (videoElement) {
+        videoRef.current = videoElement;
+      }
+    }
+  }, []);
 
   const handlePlayClick = () => {
     if (videoRef.current) {
@@ -83,62 +84,33 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     }
   };
 
-  const handleLoadedData = () => {
-    setIsLoading(false);
-  };
-
-  const handleLoadStart = () => {
-    setIsLoading(true);
-  };
-
-  const handleError = () => {
-    setIsLoading(false);
-  };
-
   const videoContent = (
     <div
+      ref={containerRef}
       className={cn(
         "video-container",
-        `video-container--radius-${radius}`,
-        isLoading && "video-container--loading"
+        `video-container--radius-${radius}`
       )}
       onClick={handlePlayClick}
     >
-      <video
-        ref={combinedRef}
-        className={videoClasses}
+      <Video
+        src={typeof props.src === 'string' ? props.src : ''}
+        poster={poster}
+        width="100%"
+        height="auto"
+        aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : 'auto'}
+        radius={radius === 'full' ? 'xl' : radius}
+        loading="eager"
+        priority={true}
         autoPlay={autoPlay}
         muted={isMuted}
         loop={loop}
         controls={isPlaying && controls}
         playsInline={playsInline}
-        poster={poster}
-        onLoadedData={handleLoadedData}
-        onLoadStart={handleLoadStart}
-        onError={handleError}
-        {...props}
+        preload="metadata"
+        className={videoClasses}
       />
-      {isLoading && (
-        <div className="video-loading-overlay">
-          {loadingType === 'skeleton' ? (
-            <Skeleton
-              width="100%"
-              height="100%"
-              variant="pulse"
-              shape="rect"
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                borderRadius: 'inherit'
-              }}
-            />
-          ) : (
-            <Spinner size="sm" />
-          )}
-        </div>
-      )}
-      {showPlayButton && !isPlaying && !isLoading && (
+      {showPlayButton && !isPlaying && (
         <button className="play-button" aria-label="Play video">
           <span className="play-button-icon" />
         </button>

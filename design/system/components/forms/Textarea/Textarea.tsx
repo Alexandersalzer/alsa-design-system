@@ -7,6 +7,39 @@ import React, { forwardRef, useId, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 
+// ===== KEYBOARD NAVIGATION TRACKER =====
+// Tracks if user is navigating via keyboard (Tab) or mouse
+// Used to show focus outline ONLY on keyboard navigation
+let isKeyboardUser = false;
+let keyboardTrackerInitialized = false;
+
+if (typeof window !== 'undefined' && !keyboardTrackerInitialized) {
+  keyboardTrackerInitialized = true;
+
+  // Track Tab key for keyboard navigation
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      isKeyboardUser = true;
+      document.documentElement.setAttribute('data-keyboard-user', 'true');
+    }
+  });
+
+  // Reset on ANY mouse interaction - use capture phase to run BEFORE focus event
+  window.addEventListener('mousedown', () => {
+    isKeyboardUser = false;
+    document.documentElement.setAttribute('data-keyboard-user', 'false');
+  }, { capture: true }); // ← Capture phase = runs BEFORE focus event
+
+  // Also handle touch/pointer events for mobile
+  window.addEventListener('pointerdown', (e) => {
+    // Only for mouse/touch, not pen (keeps keyboard behavior for pen)
+    if (e.pointerType === 'mouse' || e.pointerType === 'touch') {
+      isKeyboardUser = false;
+      document.documentElement.setAttribute('data-keyboard-user', 'false');
+    }
+  }, { capture: true });
+}
+
 export type TextareaSize = 'sm' | 'md' | 'lg';
 export type TextareaResize = 'none' | 'vertical' | 'horizontal' | 'both';
 export type TextareaVariant = 'flat' | 'bordered' | 'faded' | 'underlined';
@@ -291,7 +324,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
             )}
             style={{
               fontSize: 'var(--foundation-text-xs)',
-              color: isOverLimit ? 'var(--text-error)' : 'var(--text-secondary)',
+              color: isOverLimit ? 'var(--text-error)' : 'var(--text-default)',
               marginTop: 'var(--foundation-space-1)',
               textAlign: 'right'
             }}
@@ -402,7 +435,7 @@ export const EnhancedTextarea: React.FC<EnhancedTextareaProps> = ({
     <div className="enhanced-textarea">
       {templates.length > 0 && (
         <div className="textarea-templates" style={{ marginBottom: 'var(--foundation-space-2)' }}>
-          <label style={{ fontSize: 'var(--foundation-text-sm)', color: 'var(--text-secondary)' }}>
+          <label style={{ fontSize: 'var(--foundation-text-sm)', color: 'var(--text-default)' }}>
             Quick Templates:
           </label>
           <div style={{ display: 'flex', gap: 'var(--foundation-space-2)', marginTop: 'var(--foundation-space-1)' }}>
@@ -417,7 +450,7 @@ export const EnhancedTextarea: React.FC<EnhancedTextareaProps> = ({
                   border: '1px solid var(--border-secondary)',
                   borderRadius: 'var(--radius-sm)',
                   background: 'var(--surface-input)',
-                  color: 'var(--text-primary)',
+                  color: 'var(--text-strong)',
                   cursor: 'pointer'
                 }}
               >
@@ -437,7 +470,7 @@ export const EnhancedTextarea: React.FC<EnhancedTextareaProps> = ({
       {autoSave && lastSaved && (
         <div style={{ 
           fontSize: 'var(--foundation-text-xs)', 
-          color: 'var(--text-secondary)', 
+          color: 'var(--text-default)', 
           marginTop: 'var(--foundation-space-1)',
           textAlign: 'right' 
         }}>
