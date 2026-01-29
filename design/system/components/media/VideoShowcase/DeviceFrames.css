@@ -74,7 +74,7 @@
   left: 50%;
   transform: translateX(-50%);
   width: 140px;
-  height: 4.5px;
+  height: 4px;
   background: rgba(255, 255, 255, 0.3);
   border-radius: 3px;
 }
@@ -88,9 +88,8 @@
   top: 28%;
   width: 3px;
   height: 80px;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.3), rgba(80, 80, 83, 0.6), rgba(0, 0, 0, 0.3));
+  background: #1a1a1a;
   border-radius: 0 2px 2px 0;
-  box-shadow: inset -1px 0 1px rgba(0, 0, 0, 0.5);
   pointer-events: none;
 }
 
@@ -102,43 +101,41 @@
   top: 15%;
   width: 3px;
   height: 20px;
-  background: linear-gradient(270deg, rgba(0, 0, 0, 0.3), rgba(80, 80, 83, 0.6), rgba(0, 0, 0, 0.3));
+  background: #1a1a1a;
   border-radius: 2px 0 0 2px;
-  box-shadow: inset 1px 0 1px rgba(0, 0, 0, 0.5);
   pointer-events: none;
 }
 
 /* Interactive volume buttons */
 .device-frame__button {
   position: absolute;
-  left: -1px; /* Only 1px peeking out */
-  width: 8px; /* Longer button, mostly hidden under frame */
-  background: linear-gradient(270deg, rgba(0, 0, 0, 0.3), rgba(80, 80, 83, 0.6), rgba(0, 0, 0, 0.3));
+  left: -3px;
+  width: 3px;
+  background: #1a1a1a;
   border: none;
   border-radius: 2px 0 0 2px;
-  box-shadow: inset 1px 0 1px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: left 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 0; /* Behind the frame */
 }
 
 .device-frame__button:hover {
-  left: -3px; /* Slide out 2px more */
+  left: -4px; /* Slide out 1px more */
 }
 
 .device-frame__button:active {
-  left: -2px; /* Push back in slightly */
+  left: -2px; /* Push in */
   transition: left 0.1s ease;
 }
 
 .device-frame__button--volume-up {
   top: calc(15% + 35px);
-  height: 55px;
+  height: 50px;
 }
 
 .device-frame__button--volume-down {
-  top: calc(15% + 70px);
-  height: 55px;
+  top: calc(15% + 35px + 50px + 5px); /* 5px gap between buttons */
+  height: 50px;
 }
 
 /* Volume indicator overlay */
