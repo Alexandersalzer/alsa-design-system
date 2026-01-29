@@ -114,36 +114,29 @@
 /* Interactive volume buttons */
 .device-frame__button {
   position: absolute;
-  left: -2px;
-  width: 2px;
-  background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+  left: -3px;
+  width: 3px;
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0.3), rgba(80, 80, 83, 0.6), rgba(0, 0, 0, 0.3));
   border: none;
-  border-radius: 0;
-  box-shadow: 
-    inset 0.5px 0 0.5px rgba(0, 0, 0, 0.3),
-    inset -0.5px 0 0.5px rgba(80, 80, 83, 0.2);
+  border-radius: 2px 0 0 2px;
+  box-shadow: inset 1px 0 1px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 10;
 }
 
 .device-frame__button:hover {
-  left: -4px;
-  width: 4px;
-  background: linear-gradient(145deg, #252525, #383838);
+  left: -5px;
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0.35), rgba(90, 90, 93, 0.7), rgba(0, 0, 0, 0.35));
   box-shadow: 
-    inset 0.5px 0 0.5px rgba(0, 0, 0, 0.4),
-    inset -0.5px 0 0.5px rgba(100, 100, 103, 0.3),
-    -1px 0 3px rgba(0, 0, 0, 0.2);
+    inset 1px 0 1px rgba(0, 0, 0, 0.5),
+    -1px 0 2px rgba(0, 0, 0, 0.15);
 }
 
 .device-frame__button:active {
-  left: -3px;
-  width: 3px;
-  background: linear-gradient(145deg, #0f0f0f, #1f1f1f);
-  box-shadow: 
-    inset 1px 0 1px rgba(0, 0, 0, 0.6),
-    inset -0.5px 0 0.5px rgba(40, 40, 43, 0.2);
+  left: -4px;
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0.4), rgba(70, 70, 73, 0.8), rgba(0, 0, 0, 0.4));
+  box-shadow: inset 1px 0 2px rgba(0, 0, 0, 0.7);
   transition: all 0.1s ease;
 }
 
