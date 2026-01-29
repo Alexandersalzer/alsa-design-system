@@ -79,6 +79,8 @@ export type TypographyColor =
 
 export type TypographyAlign = 'left' | 'center' | 'right' | 'justify';
 
+export type TypographyFontFamily = 'primary' | 'secondary' | 'mono';
+
 // ===== HELPER FUNCTION FOR LINE BREAKS =====
 const processLineBreaks = (content: ReactNode): ReactNode => {
   if (typeof content !== 'string') return content;
@@ -100,6 +102,7 @@ export interface TypographyOwnProps {
   weight?: TypographyWeight;
   color?: TypographyColor;
   align?: TypographyAlign;
+  fontFamily?: TypographyFontFamily;
   className?: string;
   truncate?: boolean;
   noWrap?: boolean;
@@ -177,6 +180,16 @@ const getColorValue = (color: TypographyColor): string => {
   return colorMap[color] || colorMap.primary;
 };
 
+// ===== FONT FAMILY MAPPING =====
+const getFontFamilyValue = (fontFamily: TypographyFontFamily): string => {
+  const fontMap: Record<TypographyFontFamily, string> = {
+    'primary': 'var(--foundation-font-primary)',
+    'secondary': 'var(--foundation-font-secondary)',
+    'mono': 'var(--foundation-font-mono)',
+  };
+  return fontMap[fontFamily];
+};
+
 // ===== UTILITY FUNCTIONS =====
 const getDefaultElement = (variant: TypographyVariant): ElementType => {
   const variantElementMap: Record<TypographyVariant, ElementType> = {
@@ -229,6 +242,7 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   weight,
   color,
   align,
+  fontFamily,
   truncate,
   noWrap,
   uppercase,
@@ -262,16 +276,17 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   });
 
   // 🎯 OPTIMIZED: Memoize style object to prevent unnecessary re-renders and inspector flickering
-  // Only create inline style when color is provided, otherwise use undefined to avoid React diffing
+  // Only create inline style when color/fontFamily is provided, otherwise use undefined to avoid React diffing
   const combinedStyle = React.useMemo(() => {
-    if (!color && (!style || Object.keys(style).length === 0)) {
+    if (!color && !fontFamily && (!style || Object.keys(style).length === 0)) {
       return undefined; // No inline styles needed - prevents inspector flickering
     }
     return {
       ...(color && { color: getColorValue(color) }),
+      ...(fontFamily && { fontFamily: getFontFamilyValue(fontFamily) }),
       ...style
     };
-  }, [color, style]);
+  }, [color, fontFamily, style]);
 
   // ===== ANIMATION HANDLING =====
   // CountUp animation - replaces entire Typography with CountUp component
