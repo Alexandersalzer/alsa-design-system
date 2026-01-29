@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './PatternBackground.module.css';
 
-export type PatternType = 'dots' | 'lines' | 'grid' | 'diagonal' | 'hexagon';
+export type PatternType = 'dots' | 'lines' | 'grid' | 'diagonal' | 'hexagon' | 'clouds';
 export type ColorScheme = 'accent' | 'primary' | 'success' | 'warning' | 'info' | 'neutral';
 export type FadeEdge = 'top' | 'bottom' | 'both' | 'none';
 

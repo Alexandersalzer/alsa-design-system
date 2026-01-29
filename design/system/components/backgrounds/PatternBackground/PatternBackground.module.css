@@ -74,6 +74,24 @@
   background-position: 0 0, calc(var(--pattern-spacing, 40px) / 2) calc(var(--pattern-spacing, 40px) / 2);
 }
 
+/* Clouds Pattern - Organic floating shapes */
+.clouds {
+  background-image: 
+    /* Large cloud */
+    radial-gradient(ellipse 120px 60px at 20% 30%, var(--pattern-color) 0%, transparent 50%),
+    radial-gradient(ellipse 90px 50px at 24% 28%, var(--pattern-color) 0%, transparent 50%),
+    radial-gradient(ellipse 100px 55px at 16% 32%, var(--pattern-color) 0%, transparent 50%),
+    /* Medium cloud */
+    radial-gradient(ellipse 80px 40px at 60% 60%, var(--pattern-color) 0%, transparent 50%),
+    radial-gradient(ellipse 70px 35px at 64% 58%, var(--pattern-color) 0%, transparent 50%),
+    radial-gradient(ellipse 75px 38px at 56% 62%, var(--pattern-color) 0%, transparent 50%),
+    /* Small cloud */
+    radial-gradient(ellipse 60px 30px at 85% 20%, var(--pattern-color) 0%, transparent 50%),
+    radial-gradient(ellipse 50px 25px at 88% 18%, var(--pattern-color) 0%, transparent 50%);
+  background-size: 800px 400px;
+  background-repeat: repeat;
+}
+
 /* ===== DENSITY VARIANTS ===== */
 
 .sparse {
@@ -142,6 +160,10 @@
   animation: hexagonPulse 4s ease-in-out infinite;
 }
 
+.animated.clouds {
+  animation: cloudsDrift 60s linear infinite;
+}
+
 @keyframes dotsPulse {
   0%, 100% {
     opacity: var(--pattern-opacity, 0.15);
@@ -186,5 +208,14 @@
   }
   50% {
     transform: scale(1.05);
+  }
+}
+
+@keyframes cloudsDrift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 800px 0;
   }
 }
