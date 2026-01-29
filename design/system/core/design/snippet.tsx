@@ -158,6 +158,22 @@ export function buildCssVars(tokens: DesignTokens): string {
       /* ===== SectionBody Animation ===== */
       --section-body-animation: '${sectionBodyAnimation}';  /* 'all', 'hero', or 'none' */
 
+      /* ===== Generative Background Colors (based on accent color) ===== */
+      /* Subtle variant - ljusa pastell-toner */
+      --gen-bg-subtle-base: var(--foundation-accent-100);
+      --gen-bg-subtle-accent: var(--foundation-accent-200);
+      --gen-bg-subtle-highlight: var(--foundation-accent-50, #FFFFFF);
+
+      /* Medium variant - mer färgstarka toner */
+      --gen-bg-medium-base: var(--foundation-accent-200);
+      --gen-bg-medium-accent: var(--foundation-accent-300);
+      --gen-bg-medium-highlight: var(--foundation-accent-100);
+
+      /* Vibrant variant - starkare färger */
+      --gen-bg-vibrant-base: var(--foundation-accent-300);
+      --gen-bg-vibrant-accent: var(--foundation-accent-400);
+      --gen-bg-vibrant-highlight: var(--foundation-accent-200);
+
       /* NOTE: --is-dark will be set by client JavaScript for 'system' mode */
       /* For static 'light' or 'dark', set it here: */
       ${themeMode === 'dark' ? '--is-dark: 1;' : themeMode === 'light' ? '--is-dark: 0;' : '/* --is-dark set by JS */'}

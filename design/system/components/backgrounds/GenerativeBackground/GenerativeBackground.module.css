@@ -13,48 +13,23 @@
   pointer-events: none;
 }
 
-/* Subtle variant - ljusa pastell-toner */
+/* Subtle variant - uses design tokens from snippet.tsx */
 .subtle {
-  --gen-bg-base: #E9D7FF;     /* Ljus pastell-lila */
-  --gen-bg-accent: #D8C8FF;   /* Något mörkare lila */
-  --gen-bg-highlight: #FBF7FF; /* Nästan vit med lilaton */
+  --gen-bg-base: var(--gen-bg-subtle-base, #E9D7FF);
+  --gen-bg-accent: var(--gen-bg-subtle-accent, #D8C8FF);
+  --gen-bg-highlight: var(--gen-bg-subtle-highlight, #FBF7FF);
 }
 
-/* Medium variant - mer färgstarka toner */
+/* Medium variant - uses design tokens from snippet.tsx */
 .medium {
-  --gen-bg-base: #D8C8FF;     /* Mer saturerad lila */
-  --gen-bg-accent: #C5B0FF;   /* Djupare lila */
-  --gen-bg-highlight: #F0E6FF; /* Ljusare highlight */
+  --gen-bg-base: var(--gen-bg-medium-base, #D8C8FF);
+  --gen-bg-accent: var(--gen-bg-medium-accent, #C5B0FF);
+  --gen-bg-highlight: var(--gen-bg-medium-highlight, #F0E6FF);
 }
 
-/* Vibrant variant - starkare färger */
+/* Vibrant variant - uses design tokens from snippet.tsx */
 .vibrant {
-  --gen-bg-base: #C5B0FF;     /* Stark lila */
-  --gen-bg-accent: #B39DFF;   /* Djup lila */
-  --gen-bg-highlight: #E5D9FF; /* Medium highlight */
+  --gen-bg-base: var(--gen-bg-vibrant-base, #C5B0FF);
+  --gen-bg-accent: var(--gen-bg-vibrant-accent, #B39DFF);
+  --gen-bg-highlight: var(--gen-bg-vibrant-highlight, #E5D9FF);
 }
-
-/* 
- * Design token mappings (valfritt - om ni vill använda era egna tokens):
- * Uncomment och justera dessa för att mappa till era design tokens
- */
-
-/*
-.subtle {
-  --gen-bg-base: var(--color-accent-subtle-100);
-  --gen-bg-accent: var(--color-accent-subtle-200);
-  --gen-bg-highlight: var(--color-surface-raised);
-}
-
-.medium {
-  --gen-bg-base: var(--color-accent-muted-100);
-  --gen-bg-accent: var(--color-accent-muted-200);
-  --gen-bg-highlight: var(--color-surface-elevated);
-}
-
-.vibrant {
-  --gen-bg-base: var(--color-accent-default);
-  --gen-bg-accent: var(--color-accent-strong);
-  --gen-bg-highlight: var(--color-accent-contrast);
-}
-*/
