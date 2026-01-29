@@ -32,7 +32,8 @@
 /* ===== IPHONE 14 PRO ===== */
 .device-frame--iphone-14-pro {
   aspect-ratio: 390 / 844; /* iPhone 14 Pro dimensions */
-  max-width: 390px;
+  max-width: 280px; /* Reduced from 390px */
+  max-height: 600px; /* Added max-height */
   width: 100%;
   background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
   border-radius: 55px;
@@ -49,6 +50,23 @@
 .device-frame--iphone-14-pro .device-frame__screen {
   border-radius: 47px;
   background: #000;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+/* Make video fill the entire screen area */
+.device-frame--iphone-14-pro .device-frame__screen > * {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.device-frame--iphone-14-pro .device-frame__screen video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 47px;
 }
 
 /* Dynamic Island (notch) */
@@ -214,15 +232,16 @@
 
 @media (max-width: 768px) {
   .device-frame--iphone-14-pro {
-    max-width: 320px;
+    max-width: 240px;
+    max-height: 520px;
   }
   
   .device-frame--iphone-se {
-    max-width: 300px;
+    max-width: 260px;
   }
   
   .device-frame--pixel-7 {
-    max-width: 340px;
+    max-width: 280px;
   }
 }
 
