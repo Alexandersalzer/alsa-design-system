@@ -61,33 +61,24 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       // Activate if node center is within threshold distance of trigger point
       setIsActive(distance < activationThreshold);
 
-      // Calculate line fill progress
-      const viewportHeight = window.innerHeight;
-      const nodeTop = rect.top;
-      const nodeBottom = rect.bottom;
-      
-      // Use trigger point as reference for sequential animation
-      const scrollReference = triggerPoint;
-      
-      // Top line fill: fills BEFORE node reaches trigger point (from previous segment)
+      // Calculate distance from trigger point (negative = above, positive = below)
+      const distanceFromTrigger = nodeCenter - triggerPoint;
+
+      // Top line (middle/end): Fills as node approaches trigger from below
+      // 0% when far below trigger, 100% when reaching trigger point
       if (type === 'middle' || type === 'end') {
-        // Start filling when node is 200px below trigger point, complete when at trigger point
-        const fillStartDistance = 200; // Distance below trigger where fill starts
-        const distanceFromTrigger = nodeCenter - scrollReference;
-        const topProgress = Math.max(0, Math.min(1, 
-          1 - (distanceFromTrigger / fillStartDistance)
-        ));
+        const topProgress = distanceFromTrigger > 0
+          ? Math.max(0, 1 - (distanceFromTrigger / activationThreshold))
+          : 1;
         setTopLineFill(topProgress);
       }
       
-      // Bottom line fill: fills AFTER node passes trigger point
+      // Bottom line (start/middle): Fills as node moves above trigger point
+      // 0% at trigger point, 100% when far above trigger
       if (type === 'start' || type === 'middle') {
-        // Start filling when node passes trigger point, complete 200px above
-        const fillCompleteDistance = 200; // Distance above trigger where fill completes
-        const distanceFromTrigger = scrollReference - nodeCenter;
-        const bottomProgress = Math.max(0, Math.min(1,
-          distanceFromTrigger / fillCompleteDistance
-        ));
+        const bottomProgress = distanceFromTrigger < 0
+          ? Math.min(1, (-distanceFromTrigger / activationThreshold))
+          : 0;
         setBottomLineFill(bottomProgress);
       }
     };
