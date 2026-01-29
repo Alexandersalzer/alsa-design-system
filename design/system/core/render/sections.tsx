@@ -1,7 +1,7 @@
 'use client';
 
 import { Section } from '../../components/frames/section/Section';
-import { SectionNode, PageProps } from '../types/nodes';
+import { SectionNode } from '../types/nodes';
 import { renderPattern } from './patterns';
 import { LayoutRenderer } from '../layout/LayoutRenderer';
 import { Container } from '../../components/frames/container/Container';
@@ -13,7 +13,6 @@ import { VStack } from '../../components/layout/vStack/VStack';
 interface SectionsProps {
   sections: Record<string, SectionNode>;
   order: string[];
-  pageProps?: PageProps;
 }
 
 /**
@@ -75,28 +74,10 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
  */
 export function Sections({ 
   sections, 
-  order,
-  pageProps
+  order
 }: SectionsProps) {
-  const backgroundStyle = pageProps?.backgroundImage ? {
-    position: 'fixed' as const,
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundImage: `url(${pageProps.backgroundImage})`,
-    backgroundSize: pageProps.backgroundSize || 'auto',
-    backgroundPosition: pageProps.backgroundPosition || 'center',
-    backgroundRepeat: 'repeat',
-    backgroundAttachment: pageProps.backgroundFixed ? 'fixed' : 'scroll',
-    opacity: pageProps.backgroundOpacity ?? 0.03,
-    pointerEvents: 'none' as const,
-    zIndex: -1,
-  } : undefined;
-
   return (
     <>
-      {backgroundStyle && <div style={backgroundStyle} aria-hidden="true" />}
       {order
         .map((sectionKey: string) => {
           const sectionData = sections[sectionKey];
