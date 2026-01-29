@@ -28,7 +28,7 @@
   position: absolute;
   left: 0;
   width: 100%;
-  background: var(--color-accent);
+  background: var(--surface-accent);
   opacity: 0.2;
   transition: opacity 0.3s ease;
 }
@@ -61,7 +61,7 @@
   width: var(--node-size, 16px);
   height: var(--node-size, 16px);
   border-radius: 22%;
-  background: var(--color-accent);
+  background: var(--surface-accent);
   opacity: 0.2;
   transition: all 0.3s ease;
   box-shadow: 0 0 0 4px var(--surface-page);
@@ -88,7 +88,7 @@
 
 .progress-rail__node--active .progress-rail__node-label {
   opacity: 1;
-  color: var(--color-accent);
+  color: var(--text-accent);
 }
 
 /* Responsive adjustments */
