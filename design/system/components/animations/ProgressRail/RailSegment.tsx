@@ -20,7 +20,7 @@ export interface RailSegmentProps {
   lineWidth?: number;
   /** Custom className */
   className?: string;
-  /** Scroll offset to trigger activation (0-1, default 0.33 = 1/3 from top) */
+  /** Scroll offset to trigger activation (0-1, default 0.75 = 3/4 from top) */
   scrollOffset?: number;
   /** Distance threshold in pixels for activation (default 150px) */
   activationThreshold?: number;
@@ -33,7 +33,7 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
   nodeSize = 16,
   lineWidth = 1,
   className = '',
-  scrollOffset = 0.33,
+  scrollOffset = 0.75,
   activationThreshold = 150,
 }) => {
   const nodeRef = useRef<HTMLDivElement>(null);
