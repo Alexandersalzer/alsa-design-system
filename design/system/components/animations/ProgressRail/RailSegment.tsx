@@ -38,6 +38,8 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
 }) => {
   const nodeRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(propActive);
+  const [topLineFill, setTopLineFill] = useState(0); // 0-1
+  const [bottomLineFill, setBottomLineFill] = useState(0); // 0-1
 
   useEffect(() => {
     // If active is explicitly set to true, use that
@@ -58,6 +60,31 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       
       // Activate if node center is within threshold distance of trigger point
       setIsActive(distance < activationThreshold);
+
+      // Calculate line fill progress
+      const viewportHeight = window.innerHeight;
+      const nodeTop = rect.top;
+      const nodeBottom = rect.bottom;
+      
+      // Top line fill: based on how far node has entered viewport from bottom
+      if (type === 'middle' || type === 'end') {
+        const topLineTop = nodeTop - rect.height / 2;
+        const topLineBottom = nodeCenter;
+        const topProgress = Math.max(0, Math.min(1, 
+          (viewportHeight * 0.8 - topLineBottom) / (topLineBottom - topLineTop)
+        ));
+        setTopLineFill(topProgress);
+      }
+      
+      // Bottom line fill: based on how far node has passed viewport center
+      if (type === 'start' || type === 'middle') {
+        const bottomLineTop = nodeCenter;
+        const bottomLineBottom = nodeBottom + rect.height / 2;
+        const bottomProgress = Math.max(0, Math.min(1,
+          (viewportHeight * 0.5 - bottomLineTop) / (bottomLineBottom - bottomLineTop)
+        ));
+        setBottomLineFill(bottomProgress);
+      }
     };
 
     // Initial check
@@ -71,7 +98,7 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
-  }, [propActive, scrollOffset, activationThreshold]);
+  }, [propActive, scrollOffset, activationThreshold, type]);
 
   return (
     <div 
@@ -84,7 +111,13 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
     >
       {/* Top line (only for middle and end) */}
       {(type === 'middle' || type === 'end') && (
-        <div className="rail-segment__line rail-segment__line--top" />
+        <div className="rail-segment__line-container rail-segment__line-container--top">
+          <div className="rail-segment__line rail-segment__line--base" />
+          <div 
+            className="rail-segment__line rail-segment__line--fill" 
+            style={{ transform: `scaleY(${topLineFill})` }}
+          />
+        </div>
       )}
       
       {/* Node */}
@@ -95,7 +128,13 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       
       {/* Bottom line (only for start and middle) */}
       {(type === 'start' || type === 'middle') && (
-        <div className="rail-segment__line rail-segment__line--bottom" />
+        <div className="rail-segment__line-container rail-segment__line-container--bottom">
+          <div className="rail-segment__line rail-segment__line--base" />
+          <div 
+            className="rail-segment__line rail-segment__line--fill" 
+            style={{ transform: `scaleY(${bottomLineFill})` }}
+          />
+        </div>
       )}
     </div>
   );

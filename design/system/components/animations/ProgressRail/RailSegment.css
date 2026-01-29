@@ -13,26 +13,41 @@
   height: 100%;
 }
 
-/* Lines */
-.rail-segment__line {
-  width: var(--line-width, 1px);
-  background: var(--surface-accent);
-  opacity: 0.2;
-  transition: opacity 0.3s ease;
+/* Line containers */
+.rail-segment__line-container {
+  position: relative;
   flex: 1;
-}
-
-.rail-segment__line--top {
   min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.rail-segment__line--bottom {
-  min-height: 40px;
+.rail-segment__line-container--top {
+  align-items: flex-end;
 }
 
-/* Active state for lines */
-.rail-segment--active .rail-segment__line {
+.rail-segment__line-container--bottom {
+  align-items: flex-start;
+}
+
+/* Base line (always visible, low opacity) */
+.rail-segment__line {
+  position: absolute;
+  width: var(--line-width, 1px);
+  height: 100%;
+  background: var(--surface-accent);
+}
+
+.rail-segment__line--base {
+  opacity: 0.2;
+}
+
+/* Fill line (grows with scroll) */
+.rail-segment__line--fill {
   opacity: 1;
+  transform-origin: top;
+  transition: transform 0.2s ease-out;
 }
 
 /* Node container */
