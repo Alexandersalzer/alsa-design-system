@@ -114,30 +114,24 @@
 /* Interactive volume buttons */
 .device-frame__button {
   position: absolute;
-  left: -3px;
-  width: 3px;
+  left: -1px; /* Only 1px peeking out */
+  width: 8px; /* Longer button, mostly hidden under frame */
   background: linear-gradient(270deg, rgba(0, 0, 0, 0.3), rgba(80, 80, 83, 0.6), rgba(0, 0, 0, 0.3));
   border: none;
   border-radius: 2px 0 0 2px;
   box-shadow: inset 1px 0 1px rgba(0, 0, 0, 0.5);
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 10;
+  transition: left 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0; /* Behind the frame */
 }
 
 .device-frame__button:hover {
-  left: -5px;
-  background: linear-gradient(270deg, rgba(0, 0, 0, 0.35), rgba(90, 90, 93, 0.7), rgba(0, 0, 0, 0.35));
-  box-shadow: 
-    inset 1px 0 1px rgba(0, 0, 0, 0.5),
-    -1px 0 2px rgba(0, 0, 0, 0.15);
+  left: -3px; /* Slide out 2px more */
 }
 
 .device-frame__button:active {
-  left: -4px;
-  background: linear-gradient(270deg, rgba(0, 0, 0, 0.4), rgba(70, 70, 73, 0.8), rgba(0, 0, 0, 0.4));
-  box-shadow: inset 1px 0 2px rgba(0, 0, 0, 0.7);
-  transition: all 0.1s ease;
+  left: -2px; /* Push back in slightly */
+  transition: left 0.1s ease;
 }
 
 .device-frame__button--volume-up {
