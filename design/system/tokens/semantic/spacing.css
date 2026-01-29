@@ -41,4 +41,28 @@
   
   /* Default semantic alias for navbar */
   --space-navbar: var(--selected-navbar-spacing);
+
+  /* ===== NAVBAR VOID (Layout Mass Lost When Navbar Became Fixed) ===== */
+  /* Formula for bar: (2 × space-section) + (2 × space-navbar) + logo-height */
+  /* Formula for pill: (2 × space-section) + (3 × space-navbar) + logo-height */
+  /* Logo height is typically 40px (2.5rem) */
+
+  --navbar-logo-height: 2.5rem;
+
+  /* Bar navbar void calculation */
+  --navbar-void-bar: calc(
+    (2 * var(--space-section)) +
+    (2 * var(--space-navbar)) +
+    var(--navbar-logo-height)
+  );
+
+  /* Pill navbar void calculation (includes extra space-navbar) */
+  --navbar-void-pill: calc(
+    (2 * var(--space-section)) +
+    (3 * var(--space-navbar)) +
+    var(--navbar-logo-height)
+  );
+
+  /* Default navbar void (use pill as default for maximum compatibility) */
+  --navbar-void: var(--navbar-void-pill);
 }

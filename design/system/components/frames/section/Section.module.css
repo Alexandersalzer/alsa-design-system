@@ -118,8 +118,9 @@
 
 /* ===== LAYOUT INTENT VARIANTS ===== */
 .fullscreenIntent {
-  /* Fullscreen sections reach viewport edge (under navbar) */
-  padding-top: 0;
+  /* Fullscreen sections must fill the void left by fixed navbar */
+  /* This is the exact layout mass that was lost when navbar became position: fixed */
+  padding-top: var(--navbar-void);
   /* Ensure overflow is visible for bleed to work */
   overflow: visible;
 }

@@ -123,8 +123,10 @@ export const Section = ({
   if (overflowX !== undefined) inlineStyles.overflowX = overflowX;
   if (overflowY !== undefined) inlineStyles.overflowY = overflowY;
 
-  // For fullscreen intent, remove top padding automatically
-  if (isFullscreenIntent || noPaddingTop) {
+  // For noPaddingTop prop, explicitly remove top padding
+  // Note: fullscreenIntent padding-top is handled by CSS class (.fullscreenIntent)
+  // which applies var(--navbar-void) - the exact layout mass lost when navbar became fixed
+  if (noPaddingTop && !isFullscreenIntent) {
     inlineStyles.paddingTop = 0;
   }
 
