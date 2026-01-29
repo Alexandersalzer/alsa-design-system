@@ -1,0 +1,60 @@
+/* GenerativeBackground.module.css */
+
+.subtle,
+.medium,
+.vibrant {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Subtle variant - ljusa pastell-toner */
+.subtle {
+  --gen-bg-base: #E9D7FF;     /* Ljus pastell-lila */
+  --gen-bg-accent: #D8C8FF;   /* Något mörkare lila */
+  --gen-bg-highlight: #FBF7FF; /* Nästan vit med lilaton */
+}
+
+/* Medium variant - mer färgstarka toner */
+.medium {
+  --gen-bg-base: #D8C8FF;     /* Mer saturerad lila */
+  --gen-bg-accent: #C5B0FF;   /* Djupare lila */
+  --gen-bg-highlight: #F0E6FF; /* Ljusare highlight */
+}
+
+/* Vibrant variant - starkare färger */
+.vibrant {
+  --gen-bg-base: #C5B0FF;     /* Stark lila */
+  --gen-bg-accent: #B39DFF;   /* Djup lila */
+  --gen-bg-highlight: #E5D9FF; /* Medium highlight */
+}
+
+/* 
+ * Design token mappings (valfritt - om ni vill använda era egna tokens):
+ * Uncomment och justera dessa för att mappa till era design tokens
+ */
+
+/*
+.subtle {
+  --gen-bg-base: var(--color-accent-subtle-100);
+  --gen-bg-accent: var(--color-accent-subtle-200);
+  --gen-bg-highlight: var(--color-surface-raised);
+}
+
+.medium {
+  --gen-bg-base: var(--color-accent-muted-100);
+  --gen-bg-accent: var(--color-accent-muted-200);
+  --gen-bg-highlight: var(--color-surface-elevated);
+}
+
+.vibrant {
+  --gen-bg-base: var(--color-accent-default);
+  --gen-bg-accent: var(--color-accent-strong);
+  --gen-bg-highlight: var(--color-accent-contrast);
+}
+*/

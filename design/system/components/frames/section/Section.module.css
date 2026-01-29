@@ -12,6 +12,7 @@
   padding-bottom: var(--space-section);
   overflow: visible; /* Changed from hidden to visible - allows sticky positioning */
   background-color: var(--surface-base); /* Default background for all sections */
+  position: relative; /* För att generativ bakgrund ska positionera sig korrekt */
 }
 
 
@@ -85,6 +86,11 @@
   background-color: transparent;
 }
 
+.backgroundGenerative {
+  background-color: transparent; /* Låt canvas hantera bakgrunden */
+  overflow: hidden; /* Förhindra canvas från att sticka ut */
+}
+
 /* Background overlay for media variant */
 .backgroundOverlay {
   position: absolute;
@@ -97,8 +103,9 @@
   z-index: 0;
 }
 
-/* Ensure content is above overlay */
-.backgroundMedia > *:not(.backgroundOverlay) {
+/* Ensure content is above overlay and generative background */
+.backgroundMedia > *:not(.backgroundOverlay),
+.backgroundGenerative > *:not(canvas) {
   position: relative;
   z-index: 1;
 }

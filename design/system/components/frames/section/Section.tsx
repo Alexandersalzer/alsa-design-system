@@ -1,11 +1,12 @@
 import React, { ReactNode } from 'react';
 import styles from './Section.module.css';
+import { GenerativeBackground } from '../../backgrounds/GenerativeBackground/GenerativeBackground';
 
 type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
 type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type Overflow = 'visible' | 'hidden' | 'auto' | 'scroll' | 'clip';
-type Background = 'default' | 'raised' | 'elevated' | 'inverse' | 'media' | 'transparent';
+type Background = 'default' | 'raised' | 'elevated' | 'inverse' | 'media' | 'transparent' | 'generative';
 
 interface SectionProps {
   children: ReactNode;
@@ -25,6 +26,9 @@ interface SectionProps {
   backgroundImage?: string; // ✅ Background image URL (for 'media' variant)
   backgroundOverlay?: boolean; // ✅ Add dark overlay over background image
   backgroundOverlayOpacity?: number; // ✅ Overlay opacity (0-1, default 0.5)
+  // ✅ NEW: Generative background props
+  generativeVariant?: 'subtle' | 'medium' | 'vibrant'; // ✅ Generative variant
+  generativeSeed?: number; // ✅ Seed for deterministic generation
   noPaddingTop?: boolean; // ✅ Remove top padding (useful for split layouts)
   style?: React.CSSProperties;
   sectionKey?: string; // För live editing identification
@@ -89,6 +93,8 @@ export const Section = ({
   backgroundImage,
   backgroundOverlay = false,
   backgroundOverlayOpacity = 0.5,
+  generativeVariant = 'subtle',
+  generativeSeed = 1337,
   noPaddingTop = false,
   style,
   sectionKey,
@@ -128,6 +134,12 @@ export const Section = ({
       style={finalStyles}
       data-section-key={sectionKey}
     >
+      {background === 'generative' && (
+        <GenerativeBackground 
+          variant={generativeVariant} 
+          seed={generativeSeed} 
+        />
+      )}
       {backgroundImage && background === 'media' && backgroundOverlay && (
         <div
           className={styles.backgroundOverlay}
