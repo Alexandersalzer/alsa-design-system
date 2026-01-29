@@ -34,7 +34,7 @@
   max-width: 320px; /* Control size here - height follows naturally via aspect-ratio */
   width: 100%;
   background: #1a1a1a;
-  border-radius: 55px;
+  border-radius: var(--radius-xl);
   padding: 10px;
   box-shadow: 
     0 5px 15px rgba(0, 0, 0, 0.2),
@@ -43,7 +43,7 @@
 }
 
 .device-frame--iphone-14-pro .device-frame__screen {
-  border-radius: 47px;
+  border-radius: var(--radius-lg);
   background: #000;
   display: flex;
   align-items: stretch;
@@ -56,14 +56,14 @@
   height: 100% !important;
   max-height: none !important;
   aspect-ratio: unset !important;
-  border-radius: 47px;
+  border-radius: var(--radius-lg);
 }
 
 .device-frame--iphone-14-pro .device-frame__screen .video-element {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
-  border-radius: 47px;
+  border-radius: var(--radius-lg);
 }
 
 /* Home indicator */
