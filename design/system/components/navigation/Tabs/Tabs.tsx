@@ -552,5 +552,3 @@ TabGroup.displayName = 'TabGroup';
 TabPanel.displayName = 'TabPanel';
 
 export default Tab;
-
-export default Tab;
