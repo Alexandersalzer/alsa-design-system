@@ -1,0 +1,70 @@
+/* ===============================================
+   BENTO GRID - Flexible grid layout for bento-style cards
+   =============================================== */
+
+.bento-grid {
+  display: grid;
+  width: 100%;
+}
+
+/* Column variants */
+.bento-grid--cols-1 {
+  grid-template-columns: 1fr;
+}
+
+.bento-grid--cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.bento-grid--cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.bento-grid--cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Gap variants */
+.bento-grid--gap-xs { gap: var(--foundation-space-xs); }
+.bento-grid--gap-sm { gap: var(--foundation-space-sm); }
+.bento-grid--gap-md { gap: var(--foundation-space-md); }
+.bento-grid--gap-lg { gap: var(--foundation-space-lg); }
+.bento-grid--gap-xl { gap: var(--foundation-space-xl); }
+.bento-grid--gap-2xl { gap: var(--foundation-space-2xl); }
+
+/* Alignment variants */
+.bento-grid--align-start { align-items: start; }
+.bento-grid--align-center { align-items: center; }
+.bento-grid--align-end { align-items: end; }
+
+/* Bento item */
+.bento-item {
+  min-width: 0; /* Prevent overflow */
+}
+
+/* ===============================================
+   RESPONSIVE BEHAVIOR
+   =============================================== */
+
+/* Tablet: 2 columns max */
+@media (max-width: 1024px) {
+  .bento-grid--cols-3,
+  .bento-grid--cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: 1 column */
+@media (max-width: 640px) {
+  .bento-grid--cols-2,
+  .bento-grid--cols-3,
+  .bento-grid--cols-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Reset spans on mobile */
+  .bento-item {
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
+  }
+}

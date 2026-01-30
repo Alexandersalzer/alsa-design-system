@@ -10,6 +10,7 @@ import { OverflowContainer } from './OverflowContainer/OverflowContainer';
 import { Spacer } from './Spacer/Spacer';
 import { Divider } from './divider/Divider';
 import { Rhythm } from './rhythm/Rhythm';
+import { BentoGrid, BentoItem } from './BentoGrid/BentoGrid';
 
 export const layoutComponents: Record<string, React.ComponentType<any>> = {
   grid: Grid,
@@ -25,4 +26,6 @@ export const layoutComponents: Record<string, React.ComponentType<any>> = {
   spacer: Spacer,
   divider: Divider,
   rhythm: Rhythm,
+  bentoGrid: BentoGrid,
+  bentoItem: BentoItem,
 };

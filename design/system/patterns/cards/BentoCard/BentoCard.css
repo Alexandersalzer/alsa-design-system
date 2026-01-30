@@ -1,0 +1,91 @@
+/* ===============================================
+   BENTO CARD - Large illustration card with minimal text
+   =============================================== */
+
+.bento-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+/* Accent hover effect */
+.bento-card--accent-hover:hover {
+  border-color: var(--accent-500);
+  box-shadow: 0 0 0 1px var(--accent-500);
+}
+
+/* Tag positioned in top area */
+.bento-card__tag {
+  position: absolute;
+  top: var(--foundation-space-md);
+  left: var(--foundation-space-md);
+  z-index: 1;
+  padding: var(--foundation-space-xs) var(--foundation-space-sm);
+  background: var(--surface-primary);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-default);
+}
+
+/* Image container */
+.bento-card__image-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  overflow: hidden;
+}
+
+/* Image padding variants */
+.bento-card__image-padding--none {
+  padding: 0;
+}
+
+.bento-card__image-padding--sm {
+  padding: var(--foundation-space-sm);
+}
+
+.bento-card__image-padding--md {
+  padding: var(--foundation-space-md);
+}
+
+.bento-card__image-padding--lg {
+  padding: var(--foundation-space-lg);
+}
+
+/* Image styling */
+.bento-card__image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+/* Footer area */
+.bento-card__footer {
+  padding: var(--foundation-space-md) var(--foundation-space-lg);
+  border-top: 1px solid var(--border-subtle);
+  background: var(--surface-primary);
+}
+
+/* Link styling */
+.bento-card__link {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ===============================================
+   RESPONSIVE
+   =============================================== */
+
+@media (max-width: 640px) {
+  .bento-card__footer {
+    padding: var(--foundation-space-sm) var(--foundation-space-md);
+  }
+  
+  .bento-card__image-container {
+    min-height: 160px;
+  }
+}
