@@ -18,21 +18,28 @@ interface SectionsProps {
 /**
  * Renders a single section with its patterns using LayoutRenderer
  */
-export function renderSection(sectionData: SectionNode, sectionKey: string): React.ReactNode {
+export function renderSection(
+  sectionData: SectionNode,
+  sectionKey: string,
+  sectionIndex: number
+): React.ReactNode {
   if (!sectionData?.patterns) return null;
 
   const { type, patterns, layout, order, props } = sectionData;
   const patternOrder = order || Object.keys(patterns || {});
 
+  // Auto-detect hero: first section + key starts with "hero_"
+  const isHero = sectionIndex === 0 && sectionKey.startsWith('hero_');
+
   // If layout config exists, use LayoutRenderer
   if (layout) {
     // Detect split layout: alignSectionHeader is left/right AND secondColumn exists
-    const isSplitLayout = 
-      layout.alignSectionHeader && 
-      layout.alignSectionHeader !== 'center' && 
-      layout.secondColumn && 
+    const isSplitLayout =
+      layout.alignSectionHeader &&
+      layout.alignSectionHeader !== 'center' &&
+      layout.secondColumn &&
       layout.secondColumn.length > 0;
-    
+
     return (
       <Section
         key={sectionKey}
@@ -40,9 +47,10 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
         height="auto"
         sectionKey={sectionKey}
         noPaddingTop={isSplitLayout}
+        applyNavbarVoid={isHero}
         {...props}
       >
-        <LayoutRenderer 
+        <LayoutRenderer
           layout={layout}
           patterns={patterns}
           order={patternOrder}
@@ -66,6 +74,7 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
       id={sectionKey}
       height="auto"
       sectionKey={sectionKey}
+      applyNavbarVoid={isHero}
       {...props}
     >
       <Container>
@@ -80,18 +89,18 @@ export function renderSection(sectionData: SectionNode, sectionKey: string): Rea
 /**
  * Main component that renders all sections based on sectionOrder
  */
-export function Sections({ 
-  sections, 
+export function Sections({
+  sections,
   order
 }: SectionsProps) {
   return (
     <>
       {order
-        .map((sectionKey: string) => {
+        .map((sectionKey: string, index: number) => {
           const sectionData = sections[sectionKey];
           if (!sectionData) return null;
-          
-          return renderSection(sectionData, sectionKey);
+
+          return renderSection(sectionData, sectionKey, index);
         })
         .filter(Boolean)}
     </>

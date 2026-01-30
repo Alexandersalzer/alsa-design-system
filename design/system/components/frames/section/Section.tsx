@@ -23,14 +23,18 @@ interface SectionProps {
   sticky?: boolean;
   top?: string | number;
   zIndex?: number;
-  spacing?: SpacingScale;
-  overflow?: Overflow;
-  overflowX?: Overflow;
-  overflowY?: Overflow;
-  background?: Background;
-  backgroundImage?: string; // For 'media' and 'video' variants
-  backgroundOverlay?: boolean;
-  backgroundOverlayOpacity?: number;
+  spacing?: SpacingScale; // ✅ optional per-section override (uses .spacingMd etc.)
+  overflow?: Overflow; // ✅ Control overflow behavior (default: 'hidden')
+  overflowX?: Overflow; // ✅ Control horizontal overflow separately
+  overflowY?: Overflow; // ✅ Control vertical overflow separately
+  background?: Background; // ✅ Background surface variant
+  backgroundImage?: string; // ✅ Background image URL (for 'media' variant)
+  backgroundOverlay?: boolean; // ✅ Add dark overlay over background image
+  backgroundOverlayOpacity?: number; // ✅ Overlay opacity (0-1, default 0.5)
+  noPaddingTop?: boolean; // ✅ Remove top padding (useful for split layouts)
+  applyNavbarVoid?: boolean; // ✅ Apply navbar void compensation for hero sections
+  style?: React.CSSProperties;
+  sectionKey?: string; // För live editing identification
   
   // Generative background props
   generativeVariant?: 'subtle' | 'medium' | 'vibrant';
@@ -174,6 +178,7 @@ export const Section = ({
   solidFadeEdge = 'none',
   solidFadeStrength = 0.15,
   noPaddingTop = false,
+  applyNavbarVoid = false,
   style,
   sectionKey,
 }: SectionProps) => {
@@ -198,7 +203,18 @@ export const Section = ({
   if (zIndex !== undefined) inlineStyles.zIndex = zIndex;
   if (overflowX !== undefined) inlineStyles.overflowX = overflowX;
   if (overflowY !== undefined) inlineStyles.overflowY = overflowY;
-  if (noPaddingTop) inlineStyles.paddingTop = 0;
+
+  // Apply navbar void compensation for hero sections
+  // This overrides default section padding to compensate for fixed navbar
+  if (applyNavbarVoid) {
+    inlineStyles.paddingTop = 'var(--navbar-void)';
+    inlineStyles.overflow = 'visible';
+  }
+  // For noPaddingTop prop, explicitly remove top padding
+  else if (noPaddingTop && !applyNavbarVoid) {
+    inlineStyles.paddingTop = 0;
+  }
+
   if (backgroundImage && background === 'media') {
     inlineStyles.backgroundImage = `url(${backgroundImage})`;
   }
