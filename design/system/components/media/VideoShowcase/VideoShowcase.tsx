@@ -139,14 +139,42 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   }
 
   // Find the video element inside the container and control it
-  React.useEffect(() => {
+  // Also listen to native play/pause events to keep state in sync
+  useEffect(() => {
     if (containerRef.current) {
       const videoElement = containerRef.current.querySelector('video');
       if (videoElement) {
         videoRef.current = videoElement;
+        
+        // Handle native play event (from browser controls)
+        const handleNativePlay = () => {
+          // Dispatch event to pause all other videos
+          window.dispatchEvent(new CustomEvent<VideoPlayEventDetail>(VIDEO_PLAY_EVENT, {
+            detail: { instanceId }
+          }));
+          setIsPlaying(true);
+          // Unmute when starting to play
+          if (videoElement.muted) {
+            videoElement.muted = false;
+            setIsMuted(false);
+          }
+        };
+        
+        // Handle native pause event (from browser controls)
+        const handleNativePause = () => {
+          setIsPlaying(false);
+        };
+        
+        videoElement.addEventListener('play', handleNativePlay);
+        videoElement.addEventListener('pause', handleNativePause);
+        
+        return () => {
+          videoElement.removeEventListener('play', handleNativePlay);
+          videoElement.removeEventListener('pause', handleNativePause);
+        };
       }
     }
-  }, []);
+  }, [instanceId]);
 
   const handlePlayClick = () => {
     if (videoRef.current) {
