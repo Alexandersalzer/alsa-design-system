@@ -74,6 +74,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   'pause': PauseIcon,
   'stop': StopIcon,
   'play-circle': PlayCircleIcon,
+  'paint-brush': PaintBrushIcon,
   
   // Documents
   'document': DocumentIcon,
