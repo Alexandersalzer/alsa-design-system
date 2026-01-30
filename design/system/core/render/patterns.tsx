@@ -131,9 +131,15 @@ export const renderPattern = (
     const patternAnimation = pattern.animation || patternProps.animation;
     const animationConfig = patternAnimation || layoutContext?.sectionAnimation;
     
-    // For fadeIn animations, pass config to layout renderer for per-item stagger
-    // For other animations (carousel, etc), wrap the entire content
-    const isFadeInAnimation = animationConfig?.type === 'fadeIn' || animationConfig?.type === 'opacity';
+    // Animations that should wrap each item individually (with stagger support)
+    const perItemAnimations = ['fadeIn', 'opacity', 'scale', 'slideIn'];
+    
+    // Animations that should wrap the entire layout content
+    const layoutWrapAnimations = ['carousel'];
+    
+    const animationType = animationConfig?.type;
+    const isPerItemAnimation = animationType && perItemAnimations.includes(animationType);
+    const isLayoutWrapAnimation = animationType && layoutWrapAnimations.includes(animationType);
     
     const layoutContent = renderLayoutWithTemplate(
       layoutConfig, 
@@ -141,14 +147,14 @@ export const renderPattern = (
       sectionKey, 
       patternKey,
       patternProps, // Pass pattern props for align, etc
-      isFadeInAnimation ? animationConfig : undefined // Only pass fadeIn to layout renderer
+      isPerItemAnimation ? animationConfig : undefined // Pass per-item animations to layout renderer
     );
 
-    // Wrap with animation if pattern has animation config (for non-fadeIn animations like carousel)
+    // Wrap with animation if pattern has layout-wrap animation config (carousel, etc)
     // Pass layout config so animation can extract children and apply proper spacing
-    const animatedContent = isFadeInAnimation 
-      ? layoutContent 
-      : wrapWithAnimation(layoutContent, animationConfig, layoutConfig);
+    const animatedContent = isLayoutWrapAnimation 
+      ? wrapWithAnimation(layoutContent, animationConfig, layoutConfig)
+      : layoutContent;
 
     return (
       <Container

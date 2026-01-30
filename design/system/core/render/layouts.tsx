@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentNode } from '../types/nodes';
 import { componentRegistry } from '../../components/registry';
-import { FadeIn } from '../../components/animations/FadeIn/FadeIn';
+import { animationComponents } from '../../components/animations/registry';
 import { AnimationConfig } from '../animations/types';
 import { 
   parseLayoutNode, 
@@ -69,9 +69,12 @@ export const renderLayoutWithTemplate = (
   const itemOrder = getLayoutItemOrder(layout);
   console.log('[renderLayoutWithTemplate] itemOrder:', itemOrder);
   
-  // Extract fadeIn animation settings if applicable
-  const isFadeInAnimation = animationConfig?.type === 'fadeIn';
-  const fadeInSettings = isFadeInAnimation ? animationConfig.settings : null;
+  // Extract animation settings if applicable
+  const animationType = animationConfig?.type;
+  const animationSettings = animationConfig?.settings || {};
+  
+  // Get animation component from registry (e.g., "fadeIn" -> animationComponents["fadeIn"])
+  const AnimationComponent = animationType ? animationComponents[animationType] : null;
   
   // Render template for each item
   const renderedItems = itemOrder.map((itemId, itemIndex) => {
@@ -102,20 +105,22 @@ export const renderLayoutWithTemplate = (
       </React.Fragment>
     );
     
-    // Wrap with FadeIn if fadeIn animation is configured
-    if (isFadeInAnimation && fadeInSettings) {
-      const staggerDelay = (fadeInSettings.stagger || 100) * itemIndex;
+    // Wrap with animation component if configured (dynamic from registry)
+    if (AnimationComponent && animationType) {
+      // Calculate stagger delay if stagger is set
+      const staggerDelay = (animationSettings.stagger || 0) * itemIndex;
+      const baseDelay = animationSettings.delay || 0;
+      
+      // Merge animation settings with calculated delay
+      const itemAnimationProps = {
+        ...animationSettings,
+        delay: baseDelay + staggerDelay,
+      };
+      
       return (
-        <FadeIn
-          key={itemId}
-          direction={fadeInSettings.direction || 'up'}
-          duration={fadeInSettings.duration || 600}
-          delay={(fadeInSettings.delay || 0) + staggerDelay}
-          enableScrollTrigger={fadeInSettings.enableScrollTrigger !== false}
-          triggerOffset={fadeInSettings.triggerOffset || 100}
-        >
+        <AnimationComponent key={itemId} {...itemAnimationProps}>
           {itemContent}
-        </FadeIn>
+        </AnimationComponent>
       );
     }
     
