@@ -3,8 +3,29 @@
    =============================================== */
 
 .masonry-grid {
-  column-gap: var(--masonry-gap, var(--space-lg));
+  column-gap: var(--foundation-space-5); /* Default: lg */
   width: 100%;
+}
+
+/* Gap variants for column-gap */
+.masonry-grid--gap-xs {
+  column-gap: var(--foundation-space-2);
+}
+
+.masonry-grid--gap-sm {
+  column-gap: var(--foundation-space-3);
+}
+
+.masonry-grid--gap-md {
+  column-gap: var(--foundation-space-4);
+}
+
+.masonry-grid--gap-lg {
+  column-gap: var(--foundation-space-5);
+}
+
+.masonry-grid--gap-xl {
+  column-gap: var(--foundation-space-6);
 }
 
 /* Base mobile - 1 column */
@@ -45,10 +66,31 @@
   break-inside: avoid;
   page-break-inside: avoid;
   -webkit-column-break-inside: avoid;
-  margin-bottom: var(--masonry-gap, var(--space-lg));
+  margin-bottom: var(--foundation-space-5); /* Default: lg */
   width: 100%;
   display: block; /* Changed from inline-block to block */
   overflow: hidden; /* Prevents content overflow */
+}
+
+/* Gap variants for items margin-bottom */
+.masonry-grid--gap-xs .masonry-item {
+  margin-bottom: var(--foundation-space-2);
+}
+
+.masonry-grid--gap-sm .masonry-item {
+  margin-bottom: var(--foundation-space-3);
+}
+
+.masonry-grid--gap-md .masonry-item {
+  margin-bottom: var(--foundation-space-4);
+}
+
+.masonry-grid--gap-lg .masonry-item {
+  margin-bottom: var(--foundation-space-5);
+}
+
+.masonry-grid--gap-xl .masonry-item {
+  margin-bottom: var(--foundation-space-6);
 }
 
 /* Ensure card children don't break */

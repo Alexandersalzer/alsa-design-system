@@ -40,7 +40,6 @@ export const MasonryGrid = React.forwardRef<HTMLDivElement, MasonryGridProps>(
     // Build inline styles for CSS variables
     const inlineStyles: React.CSSProperties & Record<string, any> = {
       ...style,
-      '--masonry-gap': `var(--space-${gap})`,
     };
 
     // Set column counts as CSS variables
@@ -60,10 +59,13 @@ export const MasonryGrid = React.forwardRef<HTMLDivElement, MasonryGridProps>(
       inlineStyles['--masonry-columns-xl'] = columnConfig.xl;
     }
 
+    // Build className with gap modifier
+    const gridClassName = `masonry-grid masonry-grid--gap-${gap} ${className}`.trim();
+
     return (
       <div
         ref={ref}
-        className={`masonry-grid ${className}`.trim()}
+        className={gridClassName}
         style={inlineStyles}
         {...props}
       >
