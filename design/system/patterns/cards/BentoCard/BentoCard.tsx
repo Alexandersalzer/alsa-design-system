@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Card, Typography, HStack, VStack } from '../../../components';
+import { Card, Typography } from '../../../components';
 import { TextLink } from '../../../components/actions/TextLink/TextLink';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { CDN_BASE_URL } from '../../../core/utils/env';
@@ -13,15 +13,13 @@ export interface BentoCardProps {
   title?: string;
   /** Optional description text below title */
   description?: string;
-  /** Optional subtitle/tag displayed above image */
-  tag?: string;
   /** Image source path */
   imageSrc?: string;
   /** Image alt text */
   imageAlt?: string;
   /** Optional link URL */
   href?: string;
-  /** Link text (default: "Learn More") */
+  /** Link text (default: "Läs mer") */
   linkText?: string;
   /** Card height */
   minHeight?: string;
@@ -45,28 +43,30 @@ export interface BentoCardProps {
   showImage?: boolean;
   /** Specific height for image area */
   imageHeight?: string;
+  /** Transparent footer (overlays image) */
+  transparentFooter?: boolean;
 }
 
 export const BentoCard: React.FC<BentoCardProps> = ({
   componentKey,
   title,
   description,
-  tag,
   imageSrc,
   imageAlt,
   href,
-  linkText = 'Learn More',
+  linkText = 'Läs mer',
   minHeight = '320px',
   variant = 'bordered',
   radius = 'lg',
   accentHover = true,
-  imageObjectFit = 'contain',
-  imagePadding = 'md',
+  imageObjectFit = 'cover',
+  imagePadding = 'none',
   colSpan,
   rowSpan,
   showFooter = true,
   showImage = true,
   imageHeight,
+  transparentFooter = false,
 }) => {
   const fullImageSrc = imageSrc?.startsWith('http') ? imageSrc : imageSrc ? `${CDN_BASE_URL}${imageSrc}` : '';
 
@@ -87,6 +87,11 @@ export const BentoCard: React.FC<BentoCardProps> = ({
     ...(imageHeight && { height: imageHeight, minHeight: imageHeight, flex: 'none' }),
   };
 
+  const footerClasses = [
+    'bento-card__footer',
+    transparentFooter && 'bento-card__footer--transparent',
+  ].filter(Boolean).join(' ');
+
   return (
     <Card
       variant={variant}
@@ -96,15 +101,6 @@ export const BentoCard: React.FC<BentoCardProps> = ({
       data-component-key={componentKey}
       style={gridStyle}
     >
-      {/* Tag (optional) */}
-      {tag && (
-        <div className="bento-card__tag">
-          <Typography variant="label-sm" color="secondary">
-            {tag}
-          </Typography>
-        </div>
-      )}
-
       {/* Image area */}
       {showImage && imageSrc && (
         <div 
@@ -121,50 +117,32 @@ export const BentoCard: React.FC<BentoCardProps> = ({
       )}
 
       {/* Footer with title, description and optional link */}
-      {showFooter && (title || description) && (
-        <div className="bento-card__footer">
-          {description ? (
-            <VStack spacing="xs" align="stretch">
-              <HStack justify="between" align="center" spacing="md">
-                {title && (
-                  <Typography variant="h4" weight="semibold" color="primary">
-                    {title}
-                  </Typography>
-                )}
-                {href && (
-                  <TextLink 
-                    href={href} 
-                    variant="brand"
-                    rightIcon={<ArrowRightIcon width={16} height={16} />}
-                    className="bento-card__link"
-                  >
-                    {linkText}
-                  </TextLink>
-                )}
-              </HStack>
-              <Typography variant="body-sm" color="secondary">
-                {description}
-              </Typography>
-            </VStack>
-          ) : (
-            <HStack justify="between" align="center" spacing="md">
+      {showFooter && (
+        <div className={footerClasses}>
+          <div className="bento-card__footer-content">
+            <div className="bento-card__footer-row">
               {title && (
-                <Typography variant="h4" weight="semibold" color="primary">
+                <Typography variant="h4" weight="semibold" color={transparentFooter ? 'inverse' : 'primary'}>
                   {title}
                 </Typography>
               )}
               {href && (
                 <TextLink 
                   href={href} 
-                  variant="brand"
+                  variant={transparentFooter ? 'inverse' : 'brand'}
                   rightIcon={<ArrowRightIcon width={16} height={16} />}
                   className="bento-card__link"
                 >
                   {linkText}
                 </TextLink>
               )}
-            </HStack>
-          )}
+            </div>
+            {description && (
+              <Typography variant="body-sm" color={transparentFooter ? 'inverse' : 'secondary'}>
+                {description}
+              </Typography>
+            )}
+          </div>
         </div>
       )}
     </Card>

@@ -46,7 +46,7 @@
   border: 1px solid var(--border-default);
 }
 
-/* Image container - no bottom radius when footer exists */
+/* Image container */
 .bento-card__image-container {
   flex: 1;
   display: block;
@@ -117,11 +117,39 @@
   margin: auto;
 }
 
-/* Footer area */
+/* Footer area - fixed height for consistency */
 .bento-card__footer {
   padding: var(--foundation-space-lg);
   border-top: 1px solid var(--border-subtle);
   flex-shrink: 0;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Transparent footer variant */
+.bento-card__footer--transparent {
+  background: transparent;
+  border-top: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Footer content layout */
+.bento-card__footer-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-xs);
+}
+
+.bento-card__footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--foundation-space-md);
 }
 
 /* Link styling */
@@ -137,6 +165,7 @@
 @media (max-width: 640px) {
   .bento-card__footer {
     padding: var(--foundation-space-md);
+    min-height: 70px;
   }
   
   .bento-card__image-container {
