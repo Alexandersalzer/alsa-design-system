@@ -71,7 +71,7 @@ export const renderLayoutWithTemplate = (
   
   // Extract animation settings if applicable
   const animationType = animationConfig?.type;
-  const animationSettings = animationConfig?.settings || {};
+  const animationSettings = (animationConfig?.settings || {}) as Record<string, any>;
   
   // Get animation component from registry (e.g., "fadeIn" -> animationComponents["fadeIn"])
   const AnimationComponent = animationType ? animationComponents[animationType] : null;
