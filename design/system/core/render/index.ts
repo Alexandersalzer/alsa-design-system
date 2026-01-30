@@ -11,3 +11,6 @@ export {
 export {
   renderBackgroundComponent,
 } from './background';
+export {
+  renderSectionLayout,
+} from './section-layout';

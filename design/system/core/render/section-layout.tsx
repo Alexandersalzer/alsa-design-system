@@ -1,5 +1,5 @@
 // ===============================================
-// Layout Renderer
+// Section Layout Renderer
 // Orchestrates section layout based on LayoutConfig
 // ===============================================
 
@@ -9,14 +9,13 @@ import React from 'react';
 import { VStack } from '../../components/layout/vStack/VStack';
 import { Box } from '../../components/layout/box/Box';
 import { Container } from '../../components/frames/container/Container';
-import { LayoutConfig } from './types';
+import { LayoutConfig } from '../types/layout';
 import { PatternNode } from '../types/nodes';
-import { renderPattern, renderPatternDirect } from '../render/patterns';
+import { renderPattern, renderPatternDirect } from './patterns';
 import { actionsRegistry } from '../../patterns/actions/registry';
-
 import { AnimationConfig } from '../../components/animations/types';
 
-interface LayoutRendererProps {
+interface SectionLayoutProps {
   layout?: LayoutConfig;
   patterns: Record<string, PatternNode>;
   order: string[];
@@ -25,7 +24,7 @@ interface LayoutRendererProps {
 }
 
 /**
- * LayoutRenderer - Renders section patterns according to layout rules
+ * renderSectionLayout - Renders section patterns according to layout rules
  * 
  * Layout Logic:
  * 1. alignSectionHeader = 'center' (default):
@@ -41,13 +40,13 @@ interface LayoutRendererProps {
  * 3. distanceAction = true:
  *    - ButtonGroup moved to bottom of section (after all patterns)
  */
-export function LayoutRenderer({ 
+export function renderSectionLayout({ 
   layout, 
   patterns, 
   order,
   sectionKey,
   sectionAnimation
-}: LayoutRendererProps) {
+}: SectionLayoutProps) {
   
   const {
     alignSectionHeader = 'center',
@@ -448,4 +447,3 @@ export function LayoutRenderer({
     </>
   );
 }
-
