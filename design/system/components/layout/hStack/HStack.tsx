@@ -7,6 +7,7 @@ import './HStack.css';
 
 // ===== TYPE DEFINITIONS =====
 type JustifyValue = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+type DirectionValue = 'row' | 'row-reverse' | 'column' | 'column-reverse';
 
 export interface HStackProps extends HTMLAttributes<HTMLDivElement> { // ✅ Extend HTMLAttributes
   children: ReactNode;
@@ -22,6 +23,8 @@ export interface HStackProps extends HTMLAttributes<HTMLDivElement> { // ✅ Ext
   wrap?: boolean;
   // Direction
   direction?: 'row' | 'row-reverse';
+  // Mobile-specific direction (overrides direction on mobile)
+  mobileDirection?: DirectionValue;
 }
 
 // ===== SIMPLE CLASS CONCATENATION =====
@@ -39,6 +42,7 @@ export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(({
   mobileJustify,
   wrap = false,
   direction = 'row',
+  mobileDirection,
   ...props // ✅ Now includes onClick and other HTML props
 }, ref) => {
   // Build CSS classes
@@ -50,6 +54,7 @@ export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(({
     mobileJustify && `hStack--mobileJustify-${mobileJustify}`,
     wrap && 'hStack--wrap',
     direction !== 'row' && `hStack--${direction}`,
+    mobileDirection && `hStack--mobileDirection-${mobileDirection}`,
     className
   );
 
