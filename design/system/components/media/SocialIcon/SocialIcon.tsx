@@ -35,12 +35,20 @@ const sizeMap: Record<string, number> = {
 
 export type SocialPlatform = 'tiktok' | 'instagram' | 'facebook' | 'twitter' | 'x' | 'youtube' | 'linkedin' | 'pinterest' | 'snapchat' | 'threads';
 export type SocialIconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+export type SocialIconColor = 'auto' | 'light' | 'dark';
 
 export interface SocialIconProps {
   /** Social media platform name */
   platform: SocialPlatform;
   /** Icon size */
   size?: SocialIconSize;
+  /** 
+   * Color variant for theme adaptation:
+   * - 'auto': Automatically adapts to theme (inverts in dark mode)
+   * - 'light': Always light/white icons (for dark backgrounds)
+   * - 'dark': Always dark/black icons (for light backgrounds)
+   */
+  color?: SocialIconColor;
   /** Optional link URL (wraps icon in anchor) */
   href?: string;
   /** Link target */
@@ -54,6 +62,7 @@ export interface SocialIconProps {
 export const SocialIcon: React.FC<SocialIconProps> = ({
   platform,
   size = 'md',
+  color = 'auto',
   href,
   target = '_blank',
   'aria-label': ariaLabel,
@@ -75,7 +84,12 @@ export const SocialIcon: React.FC<SocialIconProps> = ({
       alt={label}
       width={iconSize}
       height={iconSize}
-      className={cn('social-icon', `social-icon--${size}`, className)}
+      className={cn(
+        'social-icon',
+        `social-icon--${size}`,
+        `social-icon--color-${color}`,
+        className
+      )}
       unoptimized // CDN images don't need Next.js optimization
     />
   );

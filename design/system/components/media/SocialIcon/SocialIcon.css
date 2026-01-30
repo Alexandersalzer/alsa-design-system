@@ -33,3 +33,28 @@
 .social-icon--lg { width: 32px; height: 32px; }
 .social-icon--xl { width: 40px; height: 40px; }
 .social-icon--2xl { width: 48px; height: 48px; }
+
+/* ===== COLOR VARIANTS ===== */
+
+/* Auto: Adapts to theme - inverts in dark mode */
+.social-icon--color-auto {
+  filter: none;
+  transition: filter var(--foundation-duration-fast) var(--foundation-easing-standard),
+              opacity var(--foundation-duration-fast) var(--foundation-easing-standard),
+              transform var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+[data-theme="dark"] .social-icon--color-auto,
+.dark .social-icon--color-auto {
+  filter: invert(1) brightness(2);
+}
+
+/* Light: Always light/white icons (for dark backgrounds) */
+.social-icon--color-light {
+  filter: invert(1) brightness(2);
+}
+
+/* Dark: Always dark/black icons (for light backgrounds) */
+.social-icon--color-dark {
+  filter: none;
+}

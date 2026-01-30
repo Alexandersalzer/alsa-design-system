@@ -46,7 +46,7 @@ const Footer = ({ section }: FooterProps) => {
       className={hasTopBorder ? 'footer-with-top-border' : ''}
       {...sectionProps}
     >
-      <VStack spacing="lg" align="center" className="footer__content">
+      <VStack spacing="xl" align="center" className="footer__content">
         {renderedPatterns}
         
         {/* Blimpify attribution - applies to all footers */}
