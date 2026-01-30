@@ -16,6 +16,24 @@
   box-shadow: 0 0 0 1px var(--accent-500);
 }
 
+/* No footer variant */
+.bento-card--no-footer .bento-card__image-container {
+  border-radius: inherit;
+}
+
+/* No image variant - center content */
+.bento-card--no-image {
+  justify-content: center;
+}
+
+.bento-card--no-image .bento-card__footer {
+  border-top: none;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 /* Tag positioned in top area */
 .bento-card__tag {
   position: absolute;

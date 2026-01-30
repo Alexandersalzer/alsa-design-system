@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Card, Typography, HStack } from '../../../components';
+import { Card, Typography, HStack, VStack } from '../../../components';
 import { TextLink } from '../../../components/actions/TextLink/TextLink';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { CDN_BASE_URL } from '../../../core/utils/env';
@@ -10,11 +10,13 @@ import './BentoCard.css';
 export interface BentoCardProps {
   componentKey?: string;
   /** Card title */
-  title: string;
+  title?: string;
+  /** Optional description text below title */
+  description?: string;
   /** Optional subtitle/tag displayed above image */
   tag?: string;
   /** Image source path */
-  imageSrc: string;
+  imageSrc?: string;
   /** Image alt text */
   imageAlt?: string;
   /** Optional link URL */
@@ -37,11 +39,18 @@ export interface BentoCardProps {
   colSpan?: 1 | 2 | 3;
   /** Row span for grid layout */
   rowSpan?: 1 | 2;
+  /** Show/hide footer with title */
+  showFooter?: boolean;
+  /** Show/hide image area */
+  showImage?: boolean;
+  /** Specific height for image area */
+  imageHeight?: string;
 }
 
 export const BentoCard: React.FC<BentoCardProps> = ({
   componentKey,
   title,
+  description,
   tag,
   imageSrc,
   imageAlt,
@@ -55,18 +64,27 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   imagePadding = 'md',
   colSpan,
   rowSpan,
+  showFooter = true,
+  showImage = true,
+  imageHeight,
 }) => {
-  const fullImageSrc = imageSrc.startsWith('http') ? imageSrc : `${CDN_BASE_URL}${imageSrc}`;
+  const fullImageSrc = imageSrc?.startsWith('http') ? imageSrc : imageSrc ? `${CDN_BASE_URL}${imageSrc}` : '';
 
   const classes = [
     'bento-card',
     accentHover && 'bento-card--accent-hover',
+    !showFooter && 'bento-card--no-footer',
+    !showImage && 'bento-card--no-image',
   ].filter(Boolean).join(' ');
 
   const gridStyle: React.CSSProperties = {
     minHeight,
     ...(colSpan && colSpan > 1 && { gridColumn: `span ${colSpan}` }),
     ...(rowSpan && rowSpan > 1 && { gridRow: `span ${rowSpan}` }),
+  };
+
+  const imageContainerStyle: React.CSSProperties = {
+    ...(imageHeight && { height: imageHeight, minHeight: imageHeight, flex: 'none' }),
   };
 
   return (
@@ -88,36 +106,68 @@ export const BentoCard: React.FC<BentoCardProps> = ({
       )}
 
       {/* Image area */}
-      <div 
-        className={`bento-card__image-container bento-card__image-padding--${imagePadding}`}
-      >
-        <img
-          src={fullImageSrc}
-          alt={imageAlt || title}
-          className="bento-card__image"
-          style={{ objectFit: imageObjectFit }}
-          loading="lazy"
-        />
-      </div>
+      {showImage && imageSrc && (
+        <div 
+          className={`bento-card__image-container bento-card__image-padding--${imagePadding}`}
+          style={imageContainerStyle}
+        >
+          <img
+            src={fullImageSrc}
+            alt={imageAlt || title || 'Bento card image'}
+            className="bento-card__image"
+            style={{ objectFit: imageObjectFit }}
+            loading="lazy"
+          />
+        </div>
+      )}
 
-      {/* Footer with title and optional link */}
-      <div className="bento-card__footer">
-        <HStack justify="between" align="center" spacing="md">
-          <Typography variant="h4" weight="semibold" color="primary">
-            {title}
-          </Typography>
-          {href && (
-            <TextLink 
-              href={href} 
-              variant="brand"
-              rightIcon={<ArrowRightIcon width={16} height={16} />}
-              className="bento-card__link"
-            >
-              {linkText}
-            </TextLink>
+      {/* Footer with title, description and optional link */}
+      {showFooter && (title || description) && (
+        <div className="bento-card__footer">
+          {description ? (
+            <VStack spacing="xs" align="stretch">
+              <HStack justify="between" align="center" spacing="md">
+                {title && (
+                  <Typography variant="h4" weight="semibold" color="primary">
+                    {title}
+                  </Typography>
+                )}
+                {href && (
+                  <TextLink 
+                    href={href} 
+                    variant="brand"
+                    rightIcon={<ArrowRightIcon width={16} height={16} />}
+                    className="bento-card__link"
+                  >
+                    {linkText}
+                  </TextLink>
+                )}
+              </HStack>
+              <Typography variant="body-sm" color="secondary">
+                {description}
+              </Typography>
+            </VStack>
+          ) : (
+            <HStack justify="between" align="center" spacing="md">
+              {title && (
+                <Typography variant="h4" weight="semibold" color="primary">
+                  {title}
+                </Typography>
+              )}
+              {href && (
+                <TextLink 
+                  href={href} 
+                  variant="brand"
+                  rightIcon={<ArrowRightIcon width={16} height={16} />}
+                  className="bento-card__link"
+                >
+                  {linkText}
+                </TextLink>
+              )}
+            </HStack>
           )}
-        </HStack>
-      </div>
+        </div>
+      )}
     </Card>
   );
 };
