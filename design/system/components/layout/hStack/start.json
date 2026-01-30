@@ -1,0 +1,1620 @@
+{
+  "name": "hem",
+  "locale": "sv",
+  "props": {
+      "background": "generative",
+  "generativeVariant": "medium",
+  "generativeColorScheme": "accent",
+  "generativeSeed": 42,
+  "generativeIntensity": 0.7,
+  "generativeBlurAmount": 1,
+  "generativeFadeEdge": "bottom",
+  "generativeFadeStrength": 0.1
+  },
+  "seo": {
+    "title": "UGC-SYSTRAR - Genuint Content för Alla Målgrupper",
+    "description": "Alice & Felicia - 2 systrar, 2 olika liv, samma mål. Professionellt UGC-content som resonerar med alla målgrupper. UGC-video och foton enligt önskemål.",
+    "keywords": [
+      "UGC",
+      "User Generated Content",
+      "Social Media Marketing",
+      "TikTok",
+      "Instagram",
+      "Content Creation",
+      "Sverige",
+      "Alice",
+      "Felicia"
+    ],
+    "ogTitle": "UGC-SYSTRAR - Två Systrar, En Vibe",
+    "ogDescription": "Genuint, kvalitativt content för dig & alla målgrupper",
+    "ogImage": "/images/og-home.jpg"
+  },
+  "sections": {
+    "hero_jVaWmY": {
+      "type": "hero",
+      "props": {
+            "animation": {
+      "type": "opacity",
+      "settings": {
+        "duration": 800,
+        "delay": 0,
+        "enableScrollTrigger": false,
+        "easing": "ease-out"
+      }
+    }
+      },
+      "patterns": {
+        "sectionHeader_fdsH2a": {
+          "type": "sectionHeader",
+          "props": {
+            "spacing": "lg"
+          },
+          "components": {
+            "heading_Q2tS8v": {
+              "type": "heading",
+              "props": {
+                "content": "UGC content för en bred målgrupp"
+              }
+            },
+            "body_R5uT1w": {
+              "type": "body",
+              "props": {
+                "content": "Alice & Felicia - 2 systrar - 2 olika liv - samma mål. Genuint, kvalitativt content för dig & alla målgrupper."
+              }
+            }
+          }
+        },
+        "buttonGroup_fdsH2a": {
+          "type": "buttonGroup",
+          "props": {},
+          "components": {
+            "button-primary": {
+              "type": "button",
+              "props": {
+                "content": "Se Portfolio",
+                "variant": "accent",
+                "action": {
+                  "type": "navigation",
+                  "settings": {
+                    "href": "/#gallery_jVaWmY"
+                  }
+                }
+              }
+            },
+            "button-secondary": {
+              "type": "button",
+              "props": {
+                "content": "Kontakta Oss",
+                "variant": "secondary",
+                "action": {
+                  "type": "navigation",
+                  "settings": {
+                    "href": "/#contact_mxl8by"
+                  }
+                }
+              }
+            }
+          },
+          "order": ["button-primary", "button-secondary"]
+        },
+        "videoMedia_p9Bj3v": {
+          "type": "pattern",
+          "props": {
+            "useMediaWidth": true,
+            "align": "end"
+          },
+          "layout": {
+            "type": "vstack",
+            "gap": "none",
+            "template": {
+              "children": [
+                { "component": "${video}" }
+              ]
+            },
+            "items": [
+              {
+                "id": "videoContainer",
+                "components": {
+                  "video": {
+                    "type": "videoShowcase",
+                    "props": {
+                      "src": "https://cdn.blimpify-im.com/members/6a2c4e76-7c83-4f30-a321-58fc0b1a5508/videos/intro.MP4",
+                      "aspectRatio": "2-3",
+                      "radius": "md",
+                      "variant": "elevated",
+                      "size": "full",
+                      "controls": false,
+                      "autoPlay": false,
+                      "muted": true,
+                      "loop": true,
+                      "showPlayButton": true,
+                      "frame": "iphone-14-pro",
+                      "frameColor": "black",
+                      "frameSize": 260
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "order": []
+        },
+        "logoText_B8pQ4n": {
+          "type": "pattern",
+          "props": {},
+          "components": {
+            "bodyText": {
+              "type": "body",
+              "props": {
+                "content": "Företag vi samarbetat med",
+                "align": "left",
+                "size": "sm",
+                "color": "secondary"
+              }
+            }
+          },
+          "order": ["bodyText"]
+        },
+        "logoCarousel_M3zF7k": {
+          "type": "pattern",
+          "props": {
+            "useMediaWidth": false
+          },
+          "animation": {
+            "type": "carousel",
+            "settings": {
+              "speed": 30,
+              "direction": "left",
+              "duplicateCount": 3,
+              "enableFadeEdges": true,
+              "fadeWidth": "100px",
+              "backgroundColor": "transparent"
+            }
+          },
+          "layout": {
+            "type": "hstack",
+            "gap": "xl",
+            "template": {
+              "children": [
+                { "component": "${logo}" }
+              ]
+            },
+            "items": [
+              {
+                "id": "logo1",
+                "components": {
+                  "logo": {
+                    "type": "logo",
+                    "props": {
+                      "src": "https://cdn.blimpify-im.com/members/6a2c4e76-7c83-4f30-a321-58fc0b1a5508/images/L'Ore%CC%81al_logo.svg.png",
+                      "alt": "L'Oréal",
+                      "width": 120,
+                      "height": 60,
+                      "objectFit": "contain"
+                    }
+                  }
+                }
+              },
+              {
+                "id": "logo2",
+                "components": {
+                  "logo": {
+                    "type": "logo",
+                    "props": {
+                      "src": "https://cdn.blimpify-im.com/members/6a2c4e76-7c83-4f30-a321-58fc0b1a5508/images/flyingtiger.png",
+                      "alt": "L'Oréal",
+                      "width": 120,
+                      "height": 60,
+                      "objectFit": "contain"
+                    }
+                  }
+                }
+              },
+              {
+                "id": "logo3",
+                "components": {
+                  "logo": {
+                    "type": "logo",
+                    "props": {
+                      "src": "https://cdn.blimpify-im.com/members/6a2c4e76-7c83-4f30-a321-58fc0b1a5508/images/isadora.png",
+                      "alt": "L'Oréal",
+                      "width": 120,
+                      "height": 60,
+                      "objectFit": "contain"
+                    }
+                  }
+                }
+              },
+              {
+                "id": "logo4",
+                "components": {
+                  "logo": {
+                    "type": "logo",
+                    "props": {
+                      "src": "https://cdn.blimpify-im.com/members/6a2c4e76-7c83-4f30-a321-58fc0b1a5508/images/holli-logo.png",
+                      "alt": "holligruppen",
+                      "width": 120,
+                      "height": 60,
+                      "objectFit": "contain"
+                    }
+                  }
+                }
+              },
+              {
+                "id": "logo5",
+                "components": {
+                  "logo": {
+                    "type": "logo",
+                    "props": {
+                      "src": "https://cdn.blimpify-im.com/members/6a2c4e76-7c83-4f30-a321-58fc0b1a5508/images/proteinse-influencer-marketing-case.png",
+                      "alt": "protein.se",
+                      "width": 120,
+                      "height": 60,
+                      "objectFit": "contain"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "order": []
+        }
+      },
+      "order": ["sectionHeader_fdsH2a", "buttonGroup_fdsH2a", "videoMedia_p9Bj3v", "logoText_B8pQ4n", "logoCarousel_M3zF7k"],
+      "layout": {
+        "alignSectionHeader": "left",
+        "distanceAction": false,
+        "secondColumn": ["videoMedia_p9Bj3v"],
+        "verticalAlign": "start",
+        "sectionHeaderVerticalAlign": "center"
+      }
+    },
+    "about_jVaWmY": {
+      "type": "about",
+      "props": {
+                  "background": "solid",
+          "solidColorPreset": "white",
+          "solidFadeEdge": "both",
+          "solidFadeStrength": 0.1
+      },
+      "patterns": {
+        "sectionHeader_fdsH2a": {
+          "type": "sectionHeader",
+          "props": {
+            "spacing": "lg"
+          },
+          "components": {
+            "heading_Q2tS8v": {
+              "type": "heading",
+              "props": {
+                "content": "Möt oss"
+              }
+            },
+            "body_R5uT1w": {
+              "type": "body",
+              "props": {
+                "content": "Vi är bästa vänner, systrar & kollegor som skapar den ultimata kombinationen för kreativitet och marknadsföring. Två helt olika liv → en och samma vibe."
+              }
+            }
+          }
+        },
+        "cardsPattern_X9pL2k": {
+          "type": "pattern",
+          "props": {
+            "useMediaWidth": false
+          },
+          "layout": {
+            "type": "grid",
+            "columns": { "base": 1, "lg": 2 },
+            "gap": "lg",
+            "template": {
+              "children": [
+                {
+                  "type": "gridItem",
+                  "colSpan": 1,
+                  "children": [
+                    {
+                      "type": "vstack",
+                      "gap": "xs",
+                      "children": [
+                        { "component": "${image}" },
+                        { "component": "${heading}" },
+                        { "component": "${body}" }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "items": [
+              {
+                "id": "alice",
+                "components": {
+                  "image": {
+                    "type": "image",
+                    "props": {
+                      "src": "https://cdn.blimpify-im.com/members/6a2c4e76-7c83-4f30-a321-58fc0b1a5508/images/rosasyster.PNG",
+                      "alt": "Alice",
+                      "objectFit": "contain",
+                      "radius": "md"
+                    }
+                  },
+                  "heading": {
+                    "type": "heading",
+                    "props": {
+                      "content": "Alice",
+                      "level": 3
+                    }
+                  },
+                  "body": {
+                    "type": "body",
+                    "props": {
+                      "content": "Studenten med stenkoll på glow, hudvård och färg. Självutnämnd MUA med humor som superkraft och en talang för unik, färgsprakande redigering."
+                    }
+                  }
+                }
+              },
+              {
+                "id": "felicia",
+                "components": {
+                  "image": {
+                    "type": "image",
+                    "props": {
+                      "src": "https://cdn.blimpify-im.com/members/6a2c4e76-7c83-4f30-a321-58fc0b1a5508/images/gro%CC%88nsyster.png",
+                      "alt": "Felicia",
+                      "objectFit": "contain",
+                      "radius": "md"
+                    }
+                  },
+                  "heading": {
+                    "type": "heading",
+                    "props": {
+                      "content": "Felicia",
+                      "level": 3
+                    }
+                  },
+                  "body": {
+                    "type": "body",
+                    "props": {
+                      "content": "Tvåbarnsmamman som jonglerar blöjbyten, vardagsdrama, senaste trender, hårstyling & skrattattacker som om det vore en OS-gren. "
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "order": []
+        }
+      },
+      "order": ["sectionHeader_fdsH2a", "cardsPattern_X9pL2k"],
+      "layout": {
+        "alignSectionHeader": "center",
+        "distanceAction": false,
+        "secondColumn": [""],
+        "verticalAlign": "end"
+      }
+    },
+    "services_jVaWmY": {
+      "type": "hero",
+      "props": {
+      },
+      "patterns": {
+        "sectionHeader_fdsH2a": {
+          "type": "sectionHeader",
+          "props": {
+            "spacing": "lg"
+          },
+          "components": {
+            "heading_Q2tS8v": {
+              "type": "heading",
+              "props": {
+                "content": "Vad vi erbjuder"
+              }
+            },
+            "body_R5uT1w": {
+              "type": "body",
+              "props": {
+                "content": "Professionellt UGC-content skapat med kreativitet, autenticitet och en touch av humor."
+              }
+            }
+          }
+        },
+        "viewMoreButton_P3kLon": {
+          "type": "buttonGroup",
+          "props": {
+            "align": "end"
+          },
+          "components": {
+            "button-viewmore": {
+              "type": "button",
+              "props": {
+                "content": "Läs mer",
+                "variant": "secondary",
+                "action": {
+                  "type": "navigation",
+                  "settings": {
+                    "href": "/tjanster"
+                  }
+                }
+              }
+            }
+          },
+          "order": ["button-viewmore"]
+        },
+        "servicesGrid_X9pL2k": {
+          "type": "pattern",
+          "props": {
+            "useMediaWidth": false
+          },
+          "layout": {
+            "type": "grid",
+            "columns": { "base": 1, "md": 2, "lg": 3 },
+            "gap": "md",
+            "template": {
+              "children": [
+                {
+                  "type": "gridItem",
+                  "colSpan": 1,
+                  "children": [
+                    {
+                      "type": "card",
+                      "padding": "lg",
+                      "radius": "md",
+                      "variant": "default",
+                      "children": [
+                        {
+                          "type": "vstack",
+                          "gap": "md",
+                          "children": [
+                            { "component": "${icon}" },
+                            { "component": "${heading}" },
+                            { "component": "${body}" }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "items": [
+              {
+                "id": "ugc-video",
+                "components": {
+                  "icon": {
+                    "type": "body",
+                    "props": {
+                      "content": "🎥"
+                    }
+                  },
+                  "heading": {
+                    "type": "heading",
+                    "props": {
+                      "content": "UGC-Video",
+                      "level": 4
+                    }
+                  },
+                  "body": {
+                    "type": "body",
+                    "props": {
+                      "content": "Skräddarsydda videor enligt dina önskemål. Från produktdemos till storytelling - vi skapar content som engagerar."
+                    }
+                  }
+                }
+              },
+              {
+                "id": "photo",
+                "components": {
+                  "icon": {
+                    "type": "body",
+                    "props": {
+                      "content": "📸"
+                    }
+                  },
+                  "heading": {
+                    "type": "heading",
+                    "props": {
+                      "content": "Foto",
+                      "level": 4
+                    }
+                  },
+                  "body": {
+                    "type": "body",
+                    "props": {
+                      "content": "Professionella foton enligt önskemål. Perfekt för sociala medier, annonser och kampanjer."
+                    }
+                  }
+                }
+              },
+              {
+                "id": "lifestyle",
+                "components": {
+                  "icon": {
+                    "type": "body",
+                    "props": {
+                      "content": "✨"
+                    }
+                  },
+                  "heading": {
+                    "type": "heading",
+                    "props": {
+                      "content": "Lifestyle Content",
+                      "level": 4
+                    }
+                  },
+                  "body": {
+                    "type": "body",
+                    "props": {
+                      "content": "Autentiskt vardagscontent som resonerar. Från morgonrutiner till kvällsavslappning."
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "order": []
+        }
+      },
+      "order": ["sectionHeader_fdsH2a", "servicesGrid_X9pL2k", "viewMoreButton_P3kLon"],
+      "layout": {
+        "alignSectionHeader": "left",
+        "distanceAction": true,
+        "secondColumn": [],
+        "verticalAlign": "end"
+      }
+    },
+    "gallery_jVaWmY": {
+      "type": "hero",
+      "props": {
+                          "background": "solid",
+          "solidColorPreset": "white",
+          "solidFadeEdge": "both",
+          "solidFadeStrength": 0.1
+      },
+      "patterns": {
+        "sectionHeader_fdsH2a": {
+          "type": "sectionHeader",
+          "props": {
+            "spacing": "lg"
+          },
+          "components": {
+            "tag_mub7Tc": {
+              "type": "tag",
+              "props": {
+                "content": "Exempel videor"
+              }
+            },
+            "heading_Q2tS8v": {
+              "type": "heading",
+              "props": {
+                "content": "Content för olika målgrupper"
+              }
+            },
+            "body_R5uT1w": {
+              "type": "body",
+              "props": {
+                "content": "Få en känsla för vad vi kan erbjuda genom dessa exempel från olika kategorier."
+              }
+            }
+          }
+        },
+        "exampleCardsPattern_X9pL2k": {
+          "type": "pattern",
+          "props": {
+            "useMediaWidth": false
+          },
+          "layout": {
+            "type": "vstack",
+            "spacing": "xl",
+            "template": {
+              "children": [
+                {
+                  "type": "hstack",
+                  "spacing": "2xl",
+                  "align": "center",
+                  "children": [
+                    {
+                      "type": "bleed",
+                      "vertical": "40px",
+                      "children": [
+                        { "component": "${video}" }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "spacing": "sm",
+                      "padding": "xl",
+                      "justify": "center",
+                      "children": [
+                        { "component": "${tag}", "size": "sm", "color": "secondary", "weight": "semibold" },
+                        { "component": "${heading}", "size": "lg" },
+                        { "component": "${body}", "size": "lg" }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "defaults": {
+              "video": {
+                "type": "videoShowcase",
+                "props": {
+                  "aspectRatio": "2-3",
+                  "radius": "md",
+                  "variant": "elevated",
+                  "size": "full",
+                  "controls": false,
+                  "showPlayButton": true,
+                  "muted": true,
+                  "loop": true,
+                  "frame": "iphone-14-pro",
+                  "frameColor": "black",
+                  "frameSize": 350
+                },
+                "animation": {
+                  "type": "slideIn",
+                  "settings": {
+                    "direction": "up",
+                    "duration": 300,
+                    "distance": 100,
+                    "enableScrollTrigger": true,
+                    "triggerOffset": 0
+                  }
+                }
+              },
+              "tag": {
+                "type": "body"
+              },
+              "heading": {
+                "type": "heading"
+              },
+              "body": {
+                "type": "body"
+              }
+            },
+            "items": [
+              {
+                "id": "card1",
+                "components": {
+                  "video": {
+                    "props": {
+                      "src": "https://cdn.blimpify-im.com/members/6a2c4e76-7c83-4f30-a321-58fc0b1a5508/videos/nattnappen.MP4"
+                    }
+                  },
+                  "tag": {
+                    "props": {
+                      "content": "Nattnappen"
+                    }
+                  },
+                  "heading": {
+                    "props": {
+                      "content": "Föräldraskap & Familjeliv"
+                    }
+                  },
+                  "body": {
+                    "props": {
+                      "content": "Vi når unga föräldrar och familjer genom autentiskt content som speglar vardagens utmaningar och glädje. Perfekt för brands inom barnprodukter, hushåll och familjelivet."
+                    }
+                  }
+                }
+              },
+              {
+                "id": "card2",
+                "reverse": true,
+                "components": {
+                  "video": {
+                    "props": {
+                      "src": "https://cdn.blimpify-im.com/members/6a2c4e76-7c83-4f30-a321-58fc0b1a5508/videos/loreal-pr.MP4"
+                    }
+                  },
+                  "tag": {
+                    "props": {
+                      "content": "L'Oréal Paris"
+                    }
+                  },
+                  "heading": {
+                    "props": {
+                      "content": "Skönhet & Livsstil"
+                    }
+                  },
+                  "body": {
+                    "props": {
+                      "content": "Vi når den moderna, stilmedvetna kvinnan som söker både kvalitet och autenticitet. Idealiskt för skönhets-, mode- och lifestyle-brands som vill nå en bred målgrupp."
+                    }
+                  }
+                }
+              },
+              {
+                "id": "card3",
+                "components": {
+                  "video": {
+                    "props": {
+                      "src": "https://cdn.blimpify-im.com/members/6a2c4e76-7c83-4f30-a321-58fc0b1a5508/videos/protein.MP4"
+                    }
+                  },
+                  "tag": {
+                    "props": {
+                      "content": "Protein.se"
+                    }
+                  },
+                  "heading": {
+                    "props": {
+                      "content": "Hälsa & Träning"
+                    }
+                  },
+                  "body": {
+                    "props": {
+                      "content": "Vi når hälsomedvetna konsumenter som värdesätter balans och välmående. Perfekt för fitness, kosttillskott, hälsokost och wellness-brands som vill inspirera sin målgrupp."
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "order": []
+        },
+        "viewMoreButton_P3kL5n": {
+          "type": "buttonGroup",
+          "props": {
+            "align": "end"
+          },
+          "components": {
+            "button-viewmore": {
+              "type": "button",
+              "props": {
+                "content": "Se hela portföjen",
+                "variant": "accent",
+                "action": {
+                  "type": "navigation",
+                  "settings": {
+                    "href": "/portfolj"
+                  }
+                }
+              }
+            }
+          },
+          "order": ["button-viewmore"]
+        }
+      },
+      "order": ["sectionHeader_fdsH2a", "exampleCardsPattern_X9pL2k", "viewMoreButton_P3kL5n"],
+      "layout": {
+        "alignSectionHeader": "center",
+        "distanceAction": true,
+        "secondColumn": [""],
+        "verticalAlign": "end"
+      }
+    },
+    "team_jVaWmY": {
+      "type": "hero",
+      "props": {
+          "background": "solid",
+          "solidColorPreset": "white",
+          "solidFadeEdge": "both",
+          "solidFadeStrength": 0.1
+      },
+      "patterns": {
+        "sectionHeader_fdsH2a": {
+          "type": "sectionHeader",
+          "props": {
+            "spacing": "lg"
+          },
+          "components": {
+            "heading_Q2tS8v": {
+              "type": "heading",
+              "props": {
+                "content": "Så går det till"
+              }
+            },
+            "body_R5uT1w": {
+              "type": "body",
+              "props": {
+                "content": "Vi gör det enkelt att skapa autentiskt och engagerande UGC innehåll, från idé till färdigt material."
+              }
+            }
+          }
+        },
+        "processGrid_X9pL2k": {
+          "type": "pattern",
+          "props": {
+            "useFormWidth": true,
+                          "animation": {
+      "type": "fadeIn",
+      "settings": {
+        "direction": "up",
+        "duration": 150,
+        "stagger": 0,
+        "enableScrollTrigger": true,
+        "triggerOffset": 0
+      }
+    }
+          },
+          "layout": {
+            "type": "vstack",
+            "spacing": "xl",
+            "template": {
+              "children": [
+                {
+                  "type": "hstack",
+                  "spacing": "xl",
+                  "align": "center",
+                  "children": [
+                    { "component": "${railSegment}" },
+                    {
+                      "type": "vstack",
+                      "spacing": "xs",
+                      "children": [
+                        { "component": "${tag}", "size": "sm", "weight": "semibold", "color": "accent" },
+                        { "component": "${heading}", "size": "xl" },
+                        { "component": "${body}", "size": "lg", "color": "secondary" }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "items": [
+              {
+                "id": "step1",
+                "components": {
+                  "railSegment": {
+                    "type": "railSegment",
+                    "props": {
+                      "type": "start",
+                      "nodeSize": 16,
+                      "lineWidth": 1,
+                      "scrollOffset": 0.90,
+                      "activationThreshold": 100
+                    }
+                  },
+                  "tag": {
+                    "type": "body",
+                    "props": {
+                      "content": "01",
+                      "weight": "semibold",
+                      "color": "accent"
+                    }
+                  },
+                  "heading": {
+                    "type": "heading",
+                    "props": {
+                      "content": "Brief och planering",
+                      "level": 4
+                    }
+                  },
+                  "body": {
+                    "type": "body",
+                    "props": {
+                      "content": "Vi sätter mål, målgrupp, budskap och format för att säkerställa rätt innehåll från start."
+                    }
+                  }
+                }
+              },
+              {
+                "id": "step2",
+                "components": {
+                  "railSegment": {
+                    "type": "railSegment",
+                    "props": {
+                      "type": "middle",
+                      "nodeSize": 16,
+                      "lineWidth": 1
+                    }
+                  },
+                  "tag": {
+                    "type": "body",
+                    "props": {
+                      "content": "02",
+                      "size": "sm",
+                      "weight": "semibold",
+                      "color": "accent"
+                    }
+                  },
+                  "heading": {
+                    "type": "heading",
+                    "props": {
+                      "content": "Inspelning",
+                      "level": 4
+                    }
+                  },
+                  "body": {
+                    "type": "body",
+                    "props": {
+                      "content": "Vi spelar in material som känns äkta, trovärdigt och anpassat för rätt plattform."
+                    }
+                  }
+                }
+              },
+              {
+                "id": "step3",
+                "components": {
+                  "railSegment": {
+                    "type": "railSegment",
+                    "props": {
+                      "type": "middle",
+                      "nodeSize": 16,
+                      "lineWidth": 1
+                    }
+                  },
+                  "tag": {
+                    "type": "body",
+                    "props": {
+                      "content": "03",
+                      "size": "sm",
+                      "weight": "semibold",
+                      "color": "accent"
+                    }
+                  },
+                  "heading": {
+                    "type": "heading",
+                    "props": {
+                      "content": "Redigering",
+                      "level": 4
+                    }
+                  },
+                  "body": {
+                    "type": "body",
+                    "props": {
+                      "content": "Materialet redigeras och anpassas i tempo, stil och format för bästa effekt."
+                    }
+                  }
+                }
+              },
+              {
+                "id": "step4",
+                "components": {
+                  "railSegment": {
+                    "type": "railSegment",
+                    "props": {
+                      "type": "middle",
+                      "nodeSize": 16,
+                      "lineWidth": 1
+                    }
+                  },
+                  "tag": {
+                    "type": "body",
+                    "props": {
+                      "content": "04",
+                      "size": "sm",
+                      "weight": "semibold",
+                      "color": "accent"
+                    }
+                  },
+                  "heading": {
+                    "type": "heading",
+                    "props": {
+                      "content": "Utkast och feedback",
+                      "level": 4
+                    }
+                  },
+                  "body": {
+                    "type": "body",
+                    "props": {
+                      "content": "Ni får ett utkast och kan ge feedback innan slutleverans."
+                    }
+                  }
+                }
+              },
+              {
+                "id": "step5",
+                "components": {
+                  "railSegment": {
+                    "type": "railSegment",
+                    "props": {
+                      "type": "end",
+                      "nodeSize": 16,
+                      "lineWidth": 1
+                    }
+                  },
+                  "tag": {
+                    "type": "body",
+                    "props": {
+                      "content": "05",
+                      "size": "sm",
+                      "weight": "semibold",
+                      "color": "accent"
+                    }
+                  },
+                  "heading": {
+                    "type": "heading",
+                    "props": {
+                      "content": "Leverans",
+                      "level": 4
+                    }
+                  },
+                  "body": {
+                    "type": "body",
+                    "props": {
+                      "content": "Färdigt material levereras redo att användas i era kanaler."
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "order": []
+        }
+      },
+      "order": ["sectionHeader_fdsH2a", "processGrid_X9pL2k"],
+      "layout": {
+        "alignSectionHeader": "center",
+        "distanceAction": false,
+        "secondColumn": [""],
+        "verticalAlign": "end"
+      }
+    },
+    "testimonials_jVaWmY": {
+      "type": "hero",
+      "props": {},
+      "patterns": {
+        "sectionHeader_fdsH2a": {
+          "type": "sectionHeader",
+          "props": {
+            "spacing": "lg"
+          },
+          "components": {
+            "tag_mub7Tc": {
+              "type": "tag",
+              "props": {
+                "content": "Feedback"
+              }
+            },
+            "heading_Q2tS8v": {
+              "type": "heading",
+              "props": {
+                "content": "Från tidigare samarbeten"
+              }
+            },
+            "body_R5uT1w": {
+              "type": "body",
+              "props": {
+                "content": "Ord från kunder som valt att arbeta med oss."
+              }
+            }
+          }
+        },
+        "testimonialsGrid_X9pL2k": {
+          "type": "pattern",
+          "props": {
+            "useMediaWidth": false
+          },
+          "animation": {
+            "type": "carousel",
+            "settings": {
+              "speed": 30,
+              "direction": "left",
+              "duplicateCount": 2,
+              "enableFadeEdges": true,
+              "fadeWidth": "100px",
+              "backgroundColor": "transparent",
+              "itemMaxWidth": "400px",
+              "itemMinWidth": "280px"
+            }
+          },
+          "layout": {
+            "type": "hstack",
+            "gap": "lg",
+            "template": {
+              "children": [
+                {
+                  "type": "card",
+                  "padding": "lg",
+                  "radius": "md",
+                  "variant": "accent-subtle",
+                  "children": [
+                    {
+                      "type": "vstack",
+                      "gap": "md",
+                      "children": [
+                        { "component": "${quote}" }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "items": [
+              {
+                "id": "testimonial1",
+                "components": {
+                  "quote": {
+                    "type": "body",
+                    "props": {
+                      "content": "\"Btw, vill gärna boka in februari med dig också! hade varit SÅ kul med en video med dig och din syster också tex😍\"",
+                      "size": "md"
+                    }
+                  }
+                }
+              },
+              {
+                "id": "testimonial2",
+                "components": {
+                  "quote": {
+                    "type": "body",
+                    "props": {
+                      "content": "\"SUPERNICE! I really like it! I love all of them!\"",
+                      "size": "md"
+                    }
+                  }
+                }
+              },
+              {
+                "id": "testimonial3",
+                "components": {
+                  "quote": {
+                    "type": "body",
+                    "props": {
+                      "content": "\"Otrolig video måste jag säga, bjuder gärna in dig till nästa kampanj vi skapar här strax 😍\"",
+                      "size": "md"
+                    }
+                  }
+                }
+              },
+              {
+                "id": "testimonial4",
+                "components": {
+                  "quote": {
+                    "type": "body",
+                    "props": {
+                      "content": "\"Hej! Den är toppenbra och redo för publicering. Snyggt jobbat!\"",
+                      "size": "md"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "order": []
+        }
+      },
+      "order": ["sectionHeader_fdsH2a", "testimonialsGrid_X9pL2k"],
+      "layout": {
+        "alignSectionHeader": "center",
+        "distanceAction": false,
+        "secondColumn": [""],
+        "verticalAlign": "end"
+      }
+    },
+    "pricing_K7mN9p": {
+      "type": "hero",
+      "props": {},
+      "patterns": {
+        "sectionHeader_fdsH2a": {
+          "type": "sectionHeader",
+          "props": {
+            "spacing": "lg"
+          },
+          "components": {
+            "tag_mub7Tc": {
+              "type": "tag",
+              "props": {
+                "content": "Prislista"
+              }
+            },
+            "heading_Q2tS8v": {
+              "type": "heading",
+              "props": {
+                "content": "Våra Priser"
+              }
+            },
+            "body_R5uT1w": {
+              "type": "body",
+              "props": {
+                "content": "Alla priser ex moms. Välj det paket som passar dina behov bäst."
+              }
+            }
+          }
+        },
+        "pricingGrid_X9pL2k": {
+          "type": "pattern",
+          "props": {
+            "useMediaWidth": false
+          },
+          "layout": {
+            "type": "grid",
+            "columns": { "base": 1, "lg": 2 },
+            "gap": "lg",
+            "template": {
+              "children": [
+                {
+                  "type": "gridItem",
+                  "colSpan": 1,
+                  "children": [
+                    {
+                      "type": "card",
+                      "padding": "xl",
+                      "radius": "lg",
+                      "variant": "default",
+                      "children": [
+                        {
+                          "type": "vstack",
+                          "gap": "lg",
+                          "children": [
+                            {
+                              "type": "vstack",
+                              "gap": "xs",
+                              "children": [
+                                {
+                                  "type": "hstack",
+                                  "justify": "space-between",
+                                  "align": "center",
+                                  "width": "full",
+                                  "children": [
+                                    { "component": "${categoryHeading}" },
+                                    { "component": "${icon}" }
+                                  ]
+                                },
+                                { "component": "${categoryBody}" }
+                              ]
+                            },
+                            {
+                              "type": "grid",
+                              "columns": { "base": 1, "sm": 2 },
+                              "gap": "md",
+                              "children": [
+                                {
+                                  "type": "card",
+                                  "padding": "lg",
+                                  "radius": "md",
+                                  "variant": "accent-subtle",
+                                  "children": [
+                                    {
+                                      "type": "vstack",
+                                      "gap": "sm",
+                                      "align": "center",
+                                      "children": [
+                                        { "component": "${option1Heading}" },
+                                        { "component": "${option1Price}" }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "card",
+                                  "padding": "lg",
+                                  "radius": "md",
+                                  "variant": "accent-subtle",
+                                  "children": [
+                                    {
+                                      "type": "vstack",
+                                      "gap": "sm",
+                                      "align": "center",
+                                      "children": [
+                                        { "component": "${option2Heading}" },
+                                        { "component": "${option2Price}" }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "items": [
+              {
+                "id": "videos",
+                "components": {
+                  "icon": {
+                    "type": "iconByName",
+                    "props": {
+                      "name": "video-camera",
+                      "size": "xl",
+                      "color": "accent"
+                    }
+                  },
+                  "categoryHeading": {
+                    "type": "heading",
+                    "props": {
+                      "content": "UGC-Video",
+                      "level": 3
+                    }
+                  },
+                  "categoryBody": {
+                    "type": "body",
+                    "props": {
+                      "content": "Skräddarsydda videor för sociala medier och annonser.",
+                      "color": "secondary",
+                      "size": "sm"
+                    }
+                  },
+                  "option1Heading": {
+                    "type": "body",
+                    "props": {
+                      "content": "1 Video",
+                      "weight": "semibold"
+                    }
+                  },
+                  "option1Price": {
+                    "type": "heading",
+                    "props": {
+                      "content": "2 500 kr",
+                      "level": 3
+                    }
+                  },
+                  "option2Heading": {
+                    "type": "body",
+                    "props": {
+                      "content": "2 Videor",
+                      "weight": "semibold"
+                    }
+                  },
+                  "option2Price": {
+                    "type": "heading",
+                    "props": {
+                      "content": "4 000 kr",
+                      "level": 3
+                    }
+                  }
+                }
+              },
+              {
+                "id": "photos",
+                "components": {
+                  "icon": {
+                    "type": "iconByName",
+                    "props": {
+                      "name": "camera",
+                      "size": "xl",
+                      "color": "accent"
+                    }
+                  },
+                  "categoryHeading": {
+                    "type": "heading",
+                    "props": {
+                      "content": "Foto",
+                      "level": 3
+                    }
+                  },
+                  "categoryBody": {
+                    "type": "body",
+                    "props": {
+                      "content": "Professionella bilder för kampanjer och sociala medier.",
+                      "color": "secondary",
+                      "size": "sm"
+                    }
+                  },
+                  "option1Heading": {
+                    "type": "body",
+                    "props": {
+                      "content": "3 Foton",
+                      "weight": "semibold"
+                    }
+                  },
+                  "option1Price": {
+                    "type": "heading",
+                    "props": {
+                      "content": "2 000 kr",
+                      "level": 3
+                    }
+                  },
+                  "option2Heading": {
+                    "type": "body",
+                    "props": {
+                      "content": "6 Foton",
+                      "weight": "semibold"
+                    }
+                  },
+                  "option2Price": {
+                    "type": "heading",
+                    "props": {
+                      "content": "3 000 kr",
+                      "level": 3
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "order": []
+        }
+      },
+      "order": ["sectionHeader_fdsH2a", "pricingGrid_X9pL2k"],
+      "layout": {
+        "alignSectionHeader": "center",
+        "distanceAction": true,
+        "secondColumn": [""],
+        "verticalAlign": "end"
+      }
+    },
+    "contact_mxl8by": {
+      "type": "contact",
+      "props": {
+                  "background": "solid",
+          "solidColorPreset": "white",
+          "solidFadeEdge": "top",
+          "solidFadeStrength": 0.1
+      },
+      "patterns": {
+        "sectionHeader_fdsH2m": {
+          "type": "sectionHeader",
+          "props": {
+            "spacing": "lg"
+          },
+          "components": {
+            "tag_mur7Tc": {
+              "type": "tag",
+              "props": {
+                "content": "För samarbeten"
+              }
+            },
+            "heading_Q2tS8v": {
+              "type": "heading",
+              "props": {
+                "content": "Kontakta oss"
+              }
+            },
+            "body_R5uT1w": {
+              "type": "body",
+              "props": {
+                "content": "Fyll i formuläret så hör vi av oss inom 24 timmar."
+              }
+            }
+          }
+        },
+        "contactForm_S3kL7q": {
+          "type": "pattern",
+          "props": {
+            "useFormWidth": true
+          },
+          "layout": {
+            "type": "grid",
+            "columns": { "base": 1, "lg": 2 },
+            "gap": "md",
+            "template": {
+              "children": [
+                {
+                  "type": "gridItem",
+                  "colSpan": 1,
+                  "children": [
+                    { "component": "${name}" }
+                  ]
+                },
+                {
+                  "type": "gridItem",
+                  "colSpan": 1,
+                  "children": [
+                    { "component": "${business}" }
+                  ]
+                },
+                {
+                  "type": "gridItem",
+                  "colSpan": 2,
+                  "children": [
+                    { "component": "${email}" }
+                  ]
+                },
+                {
+                  "type": "gridItem",
+                  "colSpan": 2,
+                  "children": [
+                    { "component": "${phone}" }
+                  ]
+                },
+                {
+                  "type": "gridItem",
+                  "colSpan": 2,
+                  "children": [
+                    { "component": "${message}" }
+                  ]
+                },
+                {
+                  "type": "gridItem",
+                  "colSpan": 2,
+                  "children": [
+                    { "component": "${submit}" }
+                  ]
+                }
+              ]
+            },
+            "items": [
+              {
+                "id": "form",
+                "components": {
+                  "name": {
+                    "type": "input",
+                    "props": {
+                      "type": "text",
+                      "name": "name",
+                      "label": "Namn",
+                      "placeholder": "Ditt namn",
+                      "required": true,
+                      "size": "md",
+                      "radius": "md"
+                    }
+                  },
+                  "business": {
+                    "type": "input",
+                    "props": {
+                      "type": "text",
+                      "name": "business",
+                      "label": "Företag",
+                      "placeholder": "Företagsnamn (valfritt)",
+                      "required": false,
+                      "size": "md",
+                      "radius": "md"
+                    }
+                  },
+                  "email": {
+                    "type": "input",
+                    "props": {
+                      "type": "email",
+                      "name": "email",
+                      "label": "E-post",
+                      "placeholder": "din@email.com",
+                      "required": true,
+                      "size": "md",
+                      "radius": "md"
+                    }
+                  },
+                  "phone": {
+                    "type": "input",
+                    "props": {
+                      "type": "tel",
+                      "name": "phone",
+                      "label": "Telefon",
+                      "placeholder": "+46 70 123 45 67",
+                      "required": false,
+                      "size": "md",
+                      "radius": "md"
+                    }
+                  },
+                  "message": {
+                    "type": "textarea",
+                    "props": {
+                      "name": "message",
+                      "label": "Meddelande",
+                      "placeholder": "Berätta mer om ditt projekt...",
+                      "rows": 5,
+                      "required": true
+                    }
+                  },
+                  "submit": {
+                    "type": "button",
+                    "props": {
+                      "content": "Skicka Meddelande",
+                      "variant": "accent",
+                      "size": "lg",
+                      "radius": "md",
+                      "fullWidth": true,
+                      "action": {
+                        "type": "contact",
+                        "settings": {
+                          "pixelEvents": [
+                            {
+                              "event": "lead",
+                              "parameters": {
+                                "content_name": "Kontaktformulär - Hem",
+                                "content_category": "Lead Generation"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "order": []
+        }
+      },
+      "order": ["sectionHeader_fdsH2m", "contactForm_S3kL7q"]
+    }
+  },
+  "order": [
+    "hero_jVaWmY",
+    "about_jVaWmY",
+    "services_jVaWmY",
+    "team_jVaWmY",
+    "testimonials_jVaWmY",
+    "gallery_jVaWmY",
+    "pricing_K7mN9p",
+    "contact_mxl8by"
+  ]
+}

@@ -158,7 +158,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
       )}
       {/* Tag - optional */}
       {renderIf('tag') && get('tag').props.content && withAnimation(
-        <Box>
+        <Box align={align}>
           <Tag
             size="medium"
             variant="accent"
