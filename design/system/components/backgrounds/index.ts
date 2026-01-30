@@ -19,6 +19,9 @@ export type { VideoBackgroundProps, FadeEdge as VideoFadeEdge } from './VideoBac
 export { SolidBackground } from './SolidBackground/SolidBackground';
 export type { SolidBackgroundProps, FadeEdge as SolidFadeEdge, ColorPreset as SolidColorPreset } from './SolidBackground/SolidBackground';
 
+export { ImageBackground } from './ImageBackground/ImageBackground';
+export type { ImageBackgroundProps } from './ImageBackground/ImageBackground';
+
 // Shared types
 export type FadeEdge = 'top' | 'bottom' | 'both' | 'none';
 

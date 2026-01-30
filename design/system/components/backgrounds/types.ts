@@ -41,6 +41,19 @@ export interface GradientBackgroundProps {
   gradientFadeStrength?: number;
 }
 
+// ===== IMAGE BACKGROUND =====
+export interface ImageBackgroundProps {
+  backgroundImage?: string;
+  backgroundSize?: 'cover' | 'contain' | 'auto' | string;
+  backgroundPosition?: string;
+  backgroundRepeat?: 'repeat' | 'no-repeat' | 'repeat-x' | 'repeat-y' | 'space' | 'round';
+  backgroundOpacity?: number;
+  backgroundOverlay?: string | false;
+  backgroundOverlayOpacity?: number;
+  imageFadeEdge?: FadeEdge;
+  imageFadeStrength?: number;
+}
+
 // ===== PATTERN BACKGROUND =====
 export interface PatternBackgroundProps {
   patternType?: 'dots' | 'lines' | 'grid' | 'diagonal' | 'hexagon';
@@ -78,9 +91,12 @@ export interface ImageBackgroundProps {
   backgroundOpacity?: number;
   backgroundSize?: 'cover' | 'contain' | 'auto' | string;
   backgroundPosition?: string;
+  backgroundRepeat?: 'repeat' | 'no-repeat' | 'repeat-x' | 'repeat-y' | 'space' | 'round';
   backgroundFixed?: boolean;
   backgroundOverlay?: boolean | string; // boolean for Section, string (color) for Page
   backgroundOverlayOpacity?: number;
+  imageFadeEdge?: FadeEdge;
+  imageFadeStrength?: number;
 }
 
 // ===== COMBINED BACKGROUND PROPS =====

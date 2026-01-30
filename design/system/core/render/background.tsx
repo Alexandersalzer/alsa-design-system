@@ -24,6 +24,17 @@ const propsMappers = {
     fadeEdge: props.gradientFadeEdge,
     fadeStrength: props.gradientFadeStrength,
   }),
+  image: (props: BackgroundProps) => ({
+    src: props.backgroundImage || '',
+    size: props.backgroundSize,
+    position: props.backgroundPosition,
+    repeat: props.backgroundRepeat || 'repeat',
+    opacity: props.backgroundOpacity,
+    overlay: typeof props.backgroundOverlay === 'string' ? props.backgroundOverlay : false,
+    overlayOpacity: props.backgroundOverlayOpacity,
+    fadeEdge: props.imageFadeEdge,
+    fadeStrength: props.imageFadeStrength,
+  }),
   pattern: (props: BackgroundProps) => ({
     type: props.patternType || 'dots',
     colorScheme: props.patternColorScheme || 'neutral',
