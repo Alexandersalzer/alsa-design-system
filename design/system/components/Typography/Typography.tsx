@@ -85,12 +85,16 @@ export type TypographyAlign = 'left' | 'center' | 'right' | 'justify';
  * - \n → line break
  * - *text* → italic
  * - **text** → bold  
- * - {accent}text{/accent} → accent color (also: brand, secondary, primary)
- * - {font:Name}text{/font} → custom font (e.g. {font:Pacifico}hello{/font})
+ * - {accent}text{/accent} → accent color (shortcuts: brand, secondary, primary)
+ * - {color:#ff5500}text{/color} → any color (hex, rgb, etc)
+ * - {font:Name}text{/font} → custom font
+ * - {font:Name:400}text{/font} → custom font with weight
+ * - {size:1.5em}text{/size} → custom size
  */
 const processInlineMarkup = (content: ReactNode): ReactNode => {
   if (typeof content !== 'string') return content;
   
+  // Shortcut colors (maps to CSS variables)
   const colors: Record<string, string> = {
     accent: 'var(--text-accent)',
     brand: 'var(--brand-color)',
@@ -110,16 +114,36 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
         continue;
       }
       
-      // Custom font: {font:Name}text{/font}
-      const fontMatch = text.slice(i).match(/^\{font:([^}]+)\}([\s\S]*?)\{\/font\}/);
-      if (fontMatch) {
-        const [full, fontName, inner] = fontMatch;
-        result.push(<span key={`f-${key++}`} style={{ fontFamily: fontName }}>{parse(inner, key)}</span>);
+      // Custom color: {color:#hex}text{/color} or {color:rgb(...)}text{/color}
+      const customColorMatch = text.slice(i).match(/^\{color:([^}]+)\}([\s\S]*?)\{\/color\}/);
+      if (customColorMatch) {
+        const [full, colorValue, inner] = customColorMatch;
+        result.push(<span key={`cc-${key++}`} style={{ color: colorValue }}>{parse(inner, key)}</span>);
         i += full.length;
         continue;
       }
       
-      // Color: {color}text{/color}
+      // Size: {size:1.5em}text{/size}
+      const sizeMatch = text.slice(i).match(/^\{size:([^}]+)\}([\s\S]*?)\{\/size\}/);
+      if (sizeMatch) {
+        const [full, sizeValue, inner] = sizeMatch;
+        result.push(<span key={`s-${key++}`} style={{ fontSize: sizeValue }}>{parse(inner, key)}</span>);
+        i += full.length;
+        continue;
+      }
+      
+      // Custom font: {font:Name}text{/font} or {font:Name:weight}text{/font}
+      const fontMatch = text.slice(i).match(/^\{font:([^:}]+)(?::(\d+))?\}([\s\S]*?)\{\/font\}/);
+      if (fontMatch) {
+        const [full, fontName, weight, inner] = fontMatch;
+        const style: React.CSSProperties = { fontFamily: fontName };
+        if (weight) style.fontWeight = Number(weight);
+        result.push(<span key={`f-${key++}`} style={style}>{parse(inner, key)}</span>);
+        i += full.length;
+        continue;
+      }
+      
+      // Shortcut colors: {accent}text{/accent}
       const colorMatch = text.slice(i).match(/^\{(accent|brand|secondary|primary)\}([\s\S]*?)\{\/\1\}/);
       if (colorMatch) {
         const [full, color, inner] = colorMatch;
