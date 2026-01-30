@@ -43,8 +43,14 @@ export interface BentoCardProps {
   showImage?: boolean;
   /** Specific height for image area */
   imageHeight?: string;
-  /** Transparent footer (overlays image) */
-  transparentFooter?: boolean;
+  /** Footer style: solid (default), glass (blur), transparent (no bg) */
+  footerStyle?: 'solid' | 'glass' | 'transparent';
+  /** Show border around card */
+  showBorder?: boolean;
+  /** Border width */
+  borderWidth?: 'thin' | 'medium' | 'thick';
+  /** Link position: inline (next to title) or bottom (below description) */
+  linkPosition?: 'inline' | 'bottom';
 }
 
 export const BentoCard: React.FC<BentoCardProps> = ({
@@ -56,7 +62,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   href,
   linkText = 'Läs mer',
   minHeight = '320px',
-  variant = 'bordered',
+  variant = 'default',
   radius = 'lg',
   accentHover = true,
   imageObjectFit = 'cover',
@@ -66,15 +72,23 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   showFooter = true,
   showImage = true,
   imageHeight,
-  transparentFooter = false,
+  footerStyle = 'solid',
+  showBorder = true,
+  borderWidth = 'thin',
+  linkPosition = 'inline',
 }) => {
   const fullImageSrc = imageSrc?.startsWith('http') ? imageSrc : imageSrc ? `${CDN_BASE_URL}${imageSrc}` : '';
+
+  const isOverlayFooter = footerStyle === 'glass' || footerStyle === 'transparent';
 
   const classes = [
     'bento-card',
     accentHover && 'bento-card--accent-hover',
     !showFooter && 'bento-card--no-footer',
     !showImage && 'bento-card--no-image',
+    showBorder && 'bento-card--bordered',
+    showBorder && `bento-card--border-${borderWidth}`,
+    isOverlayFooter && 'bento-card--overlay-footer',
   ].filter(Boolean).join(' ');
 
   const gridStyle: React.CSSProperties = {
@@ -89,7 +103,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
 
   const footerClasses = [
     'bento-card__footer',
-    transparentFooter && 'bento-card__footer--transparent',
+    `bento-card__footer--${footerStyle}`,
   ].filter(Boolean).join(' ');
 
   return (
@@ -122,14 +136,14 @@ export const BentoCard: React.FC<BentoCardProps> = ({
           <div className="bento-card__footer-content">
             <div className="bento-card__footer-row">
               {title && (
-                <Typography variant="h4" weight="semibold" color={transparentFooter ? 'inverse' : 'primary'}>
+                <Typography variant="h4" weight="semibold" color={isOverlayFooter ? 'inverse' : 'primary'}>
                   {title}
                 </Typography>
               )}
-              {href && (
+              {href && linkPosition === 'inline' && (
                 <TextLink 
                   href={href} 
-                  variant={transparentFooter ? 'inverse' : 'brand'}
+                  variant={isOverlayFooter ? 'inverse' : 'brand'}
                   rightIcon={<ArrowRightIcon width={16} height={16} />}
                   className="bento-card__link"
                 >
@@ -138,9 +152,19 @@ export const BentoCard: React.FC<BentoCardProps> = ({
               )}
             </div>
             {description && (
-              <Typography variant="body-sm" color={transparentFooter ? 'inverse' : 'secondary'}>
+              <Typography variant="body-sm" color={isOverlayFooter ? 'inverse' : 'secondary'}>
                 {description}
               </Typography>
+            )}
+            {href && linkPosition === 'bottom' && (
+              <TextLink 
+                href={href} 
+                variant={isOverlayFooter ? 'inverse' : 'brand'}
+                rightIcon={<ArrowRightIcon width={16} height={16} />}
+                className="bento-card__link"
+              >
+                {linkText}
+              </TextLink>
             )}
           </div>
         </div>

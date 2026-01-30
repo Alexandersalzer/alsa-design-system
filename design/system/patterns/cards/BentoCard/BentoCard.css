@@ -10,13 +10,31 @@
   position: relative;
 }
 
+/* Border variants */
+.bento-card--bordered {
+  border-style: solid;
+  border-color: var(--border-default);
+}
+
+.bento-card--border-thin {
+  border-width: 1px;
+}
+
+.bento-card--border-medium {
+  border-width: 2px;
+}
+
+.bento-card--border-thick {
+  border-width: 3px;
+}
+
 /* Accent hover effect */
 .bento-card--accent-hover:hover {
   border-color: var(--accent-500);
-  box-shadow: 0 0 0 2px var(--accent-500);
+  box-shadow: 0 0 0 1px var(--accent-500);
 }
 
-/* No footer variant - image gets bottom radius */
+/* No footer variant - image gets all radius */
 .bento-card--no-footer .bento-card__image-container {
   border-radius: inherit;
 }
@@ -46,7 +64,7 @@
   border: 1px solid var(--border-default);
 }
 
-/* Image container */
+/* Image container - no radius on bottom when footer exists */
 .bento-card__image-container {
   flex: 1;
   display: block;
@@ -120,22 +138,65 @@
 /* Footer area - fixed height for consistency */
 .bento-card__footer {
   padding: var(--foundation-space-lg);
-  border-top: 1px solid var(--border-subtle);
   flex-shrink: 0;
   min-height: 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  z-index: 2;
 }
 
-/* Transparent footer variant */
-.bento-card__footer--transparent {
-  background: transparent;
+/* Solid footer (default) */
+.bento-card__footer--solid {
+  background: var(--surface-primary);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Glass footer - blur effect with gradient */
+.bento-card__footer--glass {
+  background: linear-gradient(
+    to top,
+    rgba(var(--surface-primary-rgb, 0, 0, 0), 0.85) 0%,
+    rgba(var(--surface-primary-rgb, 0, 0, 0), 0.6) 50%,
+    rgba(var(--surface-primary-rgb, 0, 0, 0), 0.2) 100%
+  );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-top: none;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+/* Transparent footer - gradient only, no blur */
+.bento-card__footer--transparent {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.4) 60%,
+    transparent 100%
+  );
+  border-top: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* When footer overlays image, image should fill entire card */
+.bento-card--overlay-footer {
+  /* Card needs to contain absolute positioned elements */
+}
+
+.bento-card--overlay-footer .bento-card__image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  border-radius: inherit;
 }
 
 /* Footer content layout */
