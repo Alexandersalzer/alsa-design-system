@@ -81,123 +81,82 @@ export type TypographyAlign = 'left' | 'center' | 'right' | 'justify';
 
 // ===== HELPER FUNCTION FOR INLINE MARKUP =====
 /**
- * Processes inline markup in text content:
- * - \n → line breaks
+ * Inline markup syntax:
+ * - \n → line break
  * - *text* → italic
- * - **text** → bold
- * - {accent}text{/accent} → accent color
- * - {brand}text{/brand} → brand color
- * - {secondary}text{/secondary} → secondary color
+ * - **text** → bold  
+ * - {accent}text{/accent} → accent color (also: brand, secondary, primary)
+ * - {font:Name}text{/font} → custom font (e.g. {font:Pacifico}hello{/font})
  */
 const processInlineMarkup = (content: ReactNode): ReactNode => {
   if (typeof content !== 'string') return content;
   
-  // Color mapping for inline markup
-  const colorMap: Record<string, string> = {
-    accent: 'var(--accent-500)',
+  const colors: Record<string, string> = {
+    accent: 'var(--text-accent)',
     brand: 'var(--brand-color)',
     secondary: 'var(--text-secondary)',
     primary: 'var(--text-strong)',
-    success: 'var(--success-500)',
-    warning: 'var(--warning-500)',
-    error: 'var(--error-500)',
   };
-  
-  // Process the content with regex
-  const processText = (text: string, keyPrefix: string = ''): ReactNode[] => {
+
+  const parse = (text: string, key = 0): ReactNode[] => {
     const result: ReactNode[] = [];
-    let remaining = text;
-    let partIndex = 0;
+    let i = 0;
     
-    while (remaining.length > 0) {
-      // Check for color tags: {color}text{/color}
-      const colorMatch = remaining.match(/^\{(accent|brand|secondary|primary|success|warning|error)\}([\s\S]*?)\{\/\1\}/);
+    while (i < text.length) {
+      // Line break
+      if (text[i] === '\n') {
+        result.push(<br key={`br-${key++}`} />);
+        i++;
+        continue;
+      }
+      
+      // Custom font: {font:Name}text{/font}
+      const fontMatch = text.slice(i).match(/^\{font:([^}]+)\}([\s\S]*?)\{\/font\}/);
+      if (fontMatch) {
+        const [full, fontName, inner] = fontMatch;
+        result.push(<span key={`f-${key++}`} style={{ fontFamily: fontName }}>{parse(inner, key)}</span>);
+        i += full.length;
+        continue;
+      }
+      
+      // Color: {color}text{/color}
+      const colorMatch = text.slice(i).match(/^\{(accent|brand|secondary|primary)\}([\s\S]*?)\{\/\1\}/);
       if (colorMatch) {
-        const [fullMatch, colorName, innerText] = colorMatch;
-        const colorValue = colorMap[colorName];
-        result.push(
-          <span key={`${keyPrefix}color-${partIndex}`} style={{ color: colorValue }}>
-            {processText(innerText, `${keyPrefix}color-${partIndex}-`)}
-          </span>
-        );
-        remaining = remaining.slice(fullMatch.length);
-        partIndex++;
+        const [full, color, inner] = colorMatch;
+        result.push(<span key={`c-${key++}`} style={{ color: colors[color] }}>{parse(inner, key)}</span>);
+        i += full.length;
         continue;
       }
       
-      // Check for bold: **text**
-      const boldMatch = remaining.match(/^\*\*([\s\S]*?)\*\*/);
+      // Bold: **text**
+      const boldMatch = text.slice(i).match(/^\*\*(.+?)\*\*/);
       if (boldMatch) {
-        const [fullMatch, innerText] = boldMatch;
-        result.push(
-          <strong key={`${keyPrefix}bold-${partIndex}`}>
-            {processText(innerText, `${keyPrefix}bold-${partIndex}-`)}
-          </strong>
-        );
-        remaining = remaining.slice(fullMatch.length);
-        partIndex++;
+        const [full, inner] = boldMatch;
+        result.push(<strong key={`b-${key++}`}>{parse(inner, key)}</strong>);
+        i += full.length;
         continue;
       }
       
-      // Check for italic: *text*
-      const italicMatch = remaining.match(/^\*([\s\S]*?)\*/);
+      // Italic: *text*
+      const italicMatch = text.slice(i).match(/^\*(.+?)\*/);
       if (italicMatch) {
-        const [fullMatch, innerText] = italicMatch;
-        result.push(
-          <em key={`${keyPrefix}italic-${partIndex}`} style={{ fontStyle: 'italic' }}>
-            {processText(innerText, `${keyPrefix}italic-${partIndex}-`)}
-          </em>
-        );
-        remaining = remaining.slice(fullMatch.length);
-        partIndex++;
+        const [full, inner] = italicMatch;
+        result.push(<em key={`i-${key++}`}>{parse(inner, key)}</em>);
+        i += full.length;
         continue;
       }
       
-      // Check for line break
-      const newlineIndex = remaining.indexOf('\n');
-      const nextSpecialIndex = Math.min(
-        remaining.indexOf('{') === -1 ? Infinity : remaining.indexOf('{'),
-        remaining.indexOf('*') === -1 ? Infinity : remaining.indexOf('*'),
-        newlineIndex === -1 ? Infinity : newlineIndex
-      );
-      
-      if (nextSpecialIndex === Infinity) {
-        // No more special characters, add rest as plain text
-        if (remaining) {
-          result.push(remaining);
-        }
-        break;
-      }
-      
-      // Add text before special character
-      if (nextSpecialIndex > 0) {
-        result.push(remaining.slice(0, nextSpecialIndex));
-        remaining = remaining.slice(nextSpecialIndex);
-        partIndex++;
-        continue;
-      }
-      
-      // Handle line break
-      if (remaining[0] === '\n') {
-        result.push(<br key={`${keyPrefix}br-${partIndex}`} />);
-        remaining = remaining.slice(1);
-        partIndex++;
-        continue;
-      }
-      
-      // If we get here, it's a { or * that didn't match a pattern - treat as plain text
-      result.push(remaining[0]);
-      remaining = remaining.slice(1);
-      partIndex++;
+      // Plain text until next special char
+      let end = i + 1;
+      while (end < text.length && !'\n{*'.includes(text[end])) end++;
+      result.push(text.slice(i, end));
+      i = end;
     }
     
     return result;
   };
-  
-  const processed = processText(content);
-  return processed.length === 1 && typeof processed[0] === 'string' 
-    ? processed[0] 
-    : <>{processed}</>;
+
+  return <>{parse(content)}</>;
 };
 
 // ===== POLYMORPHIC TYPES =====

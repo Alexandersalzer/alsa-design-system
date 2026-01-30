@@ -16,6 +16,7 @@ export interface DesignTokens {
   accentIntensity?: "vibrant" | "normal" | "discrete" | "monochrome";
   fontPrimary?: string;
   fontSecondary?: string;
+  extraFonts?: string[]; // Extra Google Fonts to load (e.g. ["Pacifico", "Dancing Script"])
 
   // 🎯 NEW: Direct numeric weight support (preferred)
   fontWeightHeadingNumeric?: FontWeight;
