@@ -5,15 +5,14 @@ import { GradientBackground } from '../../backgrounds/GradientBackground/Gradien
 import { PatternBackground } from '../../backgrounds/PatternBackground/PatternBackground';
 import { VideoBackground } from '../../backgrounds/VideoBackground/VideoBackground';
 import { SolidBackground } from '../../backgrounds/SolidBackground/SolidBackground';
+import { BackgroundProps, BackgroundType } from '../../backgrounds/types';
 
 type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
 type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type Overflow = 'visible' | 'hidden' | 'auto' | 'scroll' | 'clip';
-type Background = 'default' | 'raised' | 'elevated' | 'inverse' | 'media' | 'transparent' | 'generative' | 'gradient' | 'pattern' | 'video' | 'solid';
-type ColorScheme = 'accent' | 'primary' | 'success' | 'warning' | 'info';
 
-interface SectionProps {
+interface SectionProps extends BackgroundProps {
   children: ReactNode;
   className?: string;
   id?: string;
@@ -23,60 +22,14 @@ interface SectionProps {
   sticky?: boolean;
   top?: string | number;
   zIndex?: number;
-  spacing?: SpacingScale; // ✅ optional per-section override (uses .spacingMd etc.)
-  overflow?: Overflow; // ✅ Control overflow behavior (default: 'hidden')
-  overflowX?: Overflow; // ✅ Control horizontal overflow separately
-  overflowY?: Overflow; // ✅ Control vertical overflow separately
-  background?: Background; // ✅ Background surface variant
-  backgroundImage?: string; // ✅ Background image URL (for 'media' variant)
-  backgroundOverlay?: boolean; // ✅ Add dark overlay over background image
-  backgroundOverlayOpacity?: number; // ✅ Overlay opacity (0-1, default 0.5)
-  noPaddingTop?: boolean; // ✅ Remove top padding (useful for split layouts)
-  applyNavbarVoid?: boolean; // ✅ Apply navbar void compensation for hero sections
+  spacing?: SpacingScale;
+  overflow?: Overflow;
+  overflowX?: Overflow;
+  overflowY?: Overflow;
+  noPaddingTop?: boolean;
+  applyNavbarVoid?: boolean;
   style?: React.CSSProperties;
-  sectionKey?: string; // För live editing identification
-  
-  // Generative background props
-  generativeVariant?: 'subtle' | 'medium' | 'vibrant';
-  generativeColorScheme?: ColorScheme;
-  generativeSeed?: number;
-  generativeIntensity?: number;
-  generativeBlur?: number;
-  generativeFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
-  generativeFadeStrength?: number;
-  
-  // Gradient background props
-  gradientType?: 'mesh' | 'radial' | 'conic' | 'linear';
-  gradientColorScheme?: ColorScheme;
-  gradientAnimated?: boolean;
-  gradientIntensity?: number;
-  gradientFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
-  gradientFadeStrength?: number;
-  
-  // Pattern background props
-  patternType?: 'dots' | 'lines' | 'grid' | 'diagonal' | 'hexagon';
-  patternColorScheme?: ColorScheme | 'neutral';
-  patternDensity?: 'sparse' | 'normal' | 'dense';
-  patternAnimated?: boolean;
-  patternOpacity?: number;
-  patternFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
-  patternFadeStrength?: number;
-  
-  // Video background props
-  videoSrc?: string;
-  videoPoster?: string;
-  videoFit?: 'cover' | 'contain' | 'fill';
-  videoOverlayType?: 'none' | 'dark' | 'light' | 'gradient';
-  videoOverlayOpacity?: number;
-  videoPlaybackRate?: number;
-  videoFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
-  videoFadeStrength?: number;
-  
-  // Solid background props
-  solidColorPreset?: 'white' | 'black' | 'surface' | 'surface-raised' | 'surface-elevated' | 'accent' | 'accent-subtle';
-  solidOpacity?: number;
-  solidFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
-  solidFadeStrength?: number;
+  sectionKey?: string;
 }
 
 const getHeightClass = (height: Height): string => {
@@ -113,7 +66,7 @@ const getOverflowClass = (overflow?: Overflow): string => {
   return styles[`overflow${overflow.charAt(0).toUpperCase() + overflow.slice(1)}`] || '';
 };
 
-const getBackgroundClass = (background?: Background): string => {
+const getBackgroundClass = (background?: BackgroundType): string => {
   if (!background || background === 'default') return '';
   return styles[`background${background.charAt(0).toUpperCase() + background.slice(1)}`] || '';
 };
