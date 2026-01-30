@@ -67,7 +67,11 @@ export const MasonryGrid = React.forwardRef<HTMLDivElement, MasonryGridProps>(
         style={inlineStyles}
         {...props}
       >
-        {children}
+        {React.Children.map(children, (child, index) => (
+          <div key={index} className="masonry-item">
+            {child}
+          </div>
+        ))}
       </div>
     );
   }
