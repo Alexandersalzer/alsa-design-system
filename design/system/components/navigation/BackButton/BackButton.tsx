@@ -6,7 +6,7 @@
 import React from 'react';
 import { cn } from '../../../utils/cn';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline';
-import { Icon } from '../../..';
+import { Icon } from '../../media/Icon/Icon';
 
 export interface BackButtonProps {
   /** Button content (defaults to "Back") */
@@ -65,3 +65,5 @@ export const BackButton = React.forwardRef<HTMLButtonElement, BackButtonProps>(
 );
 
 BackButton.displayName = 'BackButton';
+
+export default BackButton;
