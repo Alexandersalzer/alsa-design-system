@@ -122,3 +122,21 @@ export async function getPageContent(locale: string, pageSlug: string): Promise<
   }
   throw new Error(`Page not found: ${locale}/${pageSlug}`);
 }
+
+// ===== CONFIG LOADERS =====
+
+/**
+ * Load config.json from public directory
+ */
+export async function loadConfig(): Promise<any | null> {
+  const config = await loadJsonFile<any>('config/config.json');
+  return config;
+}
+
+/**
+ * Get primary locale from config
+ */
+export async function getPrimaryLocale(): Promise<string | null> {
+  const config = await loadConfig();
+  return config?.localization?.iso_code || null;
+}
