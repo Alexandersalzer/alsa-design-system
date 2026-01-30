@@ -114,6 +114,23 @@
   .hStack--spacing-xl {
     gap: var(--foundation-space-6);
   }
+
+  /* ===== MOBILE JUSTIFY ===== */
+  .hStack--mobileJustify-start {
+    justify-content: flex-start;
+  }
+
+  .hStack--mobileJustify-center {
+    justify-content: center;
+  }
+
+  .hStack--mobileJustify-end {
+    justify-content: flex-end;
+  }
+
+  .hStack--mobileJustify-between {
+    justify-content: space-between;
+  }
 }
 
 /* ===== ACCESSIBILITY ===== */

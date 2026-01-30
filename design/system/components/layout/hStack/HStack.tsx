@@ -6,6 +6,8 @@ import React, { ReactNode, HTMLAttributes } from 'react';
 import './HStack.css';
 
 // ===== TYPE DEFINITIONS =====
+type JustifyValue = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+
 export interface HStackProps extends HTMLAttributes<HTMLDivElement> { // ✅ Extend HTMLAttributes
   children: ReactNode;
   className?: string;
@@ -13,7 +15,9 @@ export interface HStackProps extends HTMLAttributes<HTMLDivElement> { // ✅ Ext
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   // Alignment
   align?: 'start' | 'center' | 'end' | 'baseline' | 'stretch';
-  justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+  justify?: JustifyValue;
+  // Mobile-specific justify (overrides justify on mobile)
+  mobileJustify?: JustifyValue;
   // Wrapping behavior
   wrap?: boolean;
   // Direction
@@ -32,6 +36,7 @@ export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(({
   spacing = 'md',
   align = 'center',
   justify = 'start',
+  mobileJustify,
   wrap = false,
   direction = 'row',
   ...props // ✅ Now includes onClick and other HTML props
@@ -42,6 +47,7 @@ export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(({
     `hStack--spacing-${spacing}`,
     `hStack--align-${align}`,
     justify !== 'start' && `hStack--justify-${justify}`,
+    mobileJustify && `hStack--mobileJustify-${mobileJustify}`,
     wrap && 'hStack--wrap',
     direction !== 'row' && `hStack--${direction}`,
     className
