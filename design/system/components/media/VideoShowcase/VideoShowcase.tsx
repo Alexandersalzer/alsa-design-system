@@ -21,7 +21,7 @@ import './DeviceFrames.css';
 export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoElement> {
   variant?: 'default' | 'rounded' | 'elevated';
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
-  aspectRatio?: '16-9' | '4-3' | '1-1' | '2-3' | 'auto';
+  aspectRatio?: '16-9' | '9-16' | '4-3' | '4-5' | '1-1' | '2-3' | 'auto';
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   showPlayButton?: boolean;
   componentKey?: string;
@@ -35,8 +35,6 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   frameColor?: 'black' | 'white' | 'silver' | 'gold';
   /** Frame size in pixels (controls max-width) */
   frameSize?: number;
-  /** Overlay text shown on hover (e.g. company name) */
-  overlayText?: string;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -58,7 +56,6 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   frame = 'none',
   frameColor = 'black',
   frameSize,
-  overlayText,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -168,7 +165,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         poster={derivedPosterUrl}
         width="100%"
         maxHeight={maxHeight}
-        aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
+        aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '9-16' ? '9/16' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '4-5' ? '4/5' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
         radius={frame !== 'none' ? 'none' : (radius === 'full' ? 'xl' : radius)}
         loading="eager"
         priority={true}
@@ -184,11 +181,6 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         <button className="play-button" aria-label="Play video">
           <span className="play-button-icon" />
         </button>
-      )}
-      {overlayText && (
-        <div className="video-overlay-text">
-          <span className="video-overlay-text__label">{overlayText}</span>
-        </div>
       )}
     </div>
   );
