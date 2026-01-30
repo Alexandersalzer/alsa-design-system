@@ -8,6 +8,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Support for responsive frame sizes via CSS variables */
+  max-width: var(--frame-size, none);
+}
+
+/* Responsive frame size on mobile */
+@media (max-width: 767px) {
+  .device-frame {
+    max-width: var(--mobile-frame-size, var(--frame-size, none));
+  }
 }
 
 .device-frame__screen {
@@ -31,7 +40,7 @@
 /* ===== IPHONE 14 PRO ===== */
 .device-frame--iphone-14-pro {
   aspect-ratio: 71.5 / 144.5; /* iPhone 14 Pro exact physical dimensions: 71.5mm x 147.5mm (2.81" x 5.81") */
-  max-width: 320px; /* Control size here - height follows naturally via aspect-ratio */
+  max-width: var(--frame-size, 320px); /* Control size here - height follows naturally via aspect-ratio */
   width: 100%;
   background: #1a1a1a;
   border-radius: var(--radius-2xl);
@@ -40,6 +49,12 @@
     0 5px 15px rgba(0, 0, 0, 0.2),
     0 15px 35px rgba(0, 0, 0, 0.3),
     0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 767px) {
+  .device-frame--iphone-14-pro {
+    max-width: var(--mobile-frame-size, var(--frame-size, 320px));
+  }
 }
 
 .device-frame--iphone-14-pro .device-frame__screen {

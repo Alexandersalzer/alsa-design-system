@@ -44,6 +44,8 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   frameColor?: 'black' | 'white' | 'silver' | 'gold';
   /** Frame size in pixels (controls max-width) */
   frameSize?: number;
+  /** Mobile-specific frame size in pixels */
+  mobileFrameSize?: number;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -66,6 +68,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   frame = 'none',
   frameColor = 'black',
   frameSize,
+  mobileFrameSize,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -283,11 +286,17 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     </div>
   );
 
+  // Build frame style with responsive size support
+  const frameStyle: React.CSSProperties | undefined = frameSize ? {
+    '--frame-size': `${frameSize}px`,
+    '--mobile-frame-size': mobileFrameSize ? `${mobileFrameSize}px` : `${frameSize}px`,
+  } as React.CSSProperties : undefined;
+
   // Wrap video in device frame if specified
   const wrappedContent = frame !== 'none' ? (
     <div 
       className={cn("device-frame", `device-frame--${frame}`, `device-frame--${frameColor}`)}
-      style={frameSize ? { maxWidth: `${frameSize}px` } : undefined}
+      style={frameStyle}
     >
       <div className="device-frame__screen">
         {videoContent}
