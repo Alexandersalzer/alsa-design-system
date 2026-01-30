@@ -20,7 +20,7 @@ import {
   
   // Actions
   PencilIcon, PlusIcon, MinusIcon, CheckIcon, TrashIcon, ShareIcon, LinkIcon,
-  ArrowPathIcon, MagnifyingGlassIcon, ArrowTopRightOnSquareIcon,
+  ArrowPathIcon, MagnifyingGlassIcon, ArrowTopRightOnSquareIcon, PaintBrushIcon,
   
   // Navigation
   HomeIcon, ArrowLeftIcon, ArrowRightIcon, ArrowUpIcon, ArrowDownIcon,
