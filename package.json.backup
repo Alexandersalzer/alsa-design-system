@@ -31,11 +31,6 @@
       "require": "./dist/design/system/core/utils/index.js",
       "types": "./dist/design/system/core/utils/index.d.ts"
     },
-    "./content": {
-      "import": "./dist/design/system/core/utils/index.js",
-      "require": "./dist/design/system/core/utils/index.js",
-      "types": "./dist/design/system/core/utils/index.d.ts"
-    },
     "./shells": {
       "import": "./dist/design/system/shells/index.js",
       "require": "./dist/design/system/shells/index.js",
