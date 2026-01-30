@@ -1,0 +1,112 @@
+/* ===============================================
+   RAIL SEGMENT STYLES
+   Modular rail pieces (start, middle, end)
+   =============================================== */
+
+.rail-segment {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60px;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+/* Line containers */
+.rail-segment__line-container {
+  position: relative;
+  flex: 1;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rail-segment__line-container--top {
+  align-items: flex-end;
+}
+
+.rail-segment__line-container--bottom {
+  align-items: flex-start;
+}
+
+/* Base line (always visible, low opacity) */
+.rail-segment__line {
+  position: absolute;
+  width: var(--line-width, 1px);
+  height: 100%;
+  background: var(--surface-accent);
+}
+
+.rail-segment__line--base {
+  opacity: 0.2;
+}
+
+/* Fill line (grows with scroll) */
+.rail-segment__line--fill {
+  opacity: 1;
+  transform-origin: top;
+  transition: transform 0.2s ease-out;
+}
+
+/* Node container */
+.rail-segment__node {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8px 0;
+}
+
+/* Node dot/square (app icon shaped) */
+.rail-segment__node-dot {
+  width: var(--node-size, 16px);
+  height: var(--node-size, 16px);
+  border-radius: 22%;
+  background: var(--surface-accent);
+  opacity: 0.2;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 0 4px var(--surface-page);
+}
+
+/* Active node */
+.rail-segment--active .rail-segment__node-dot {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Node label */
+.rail-segment__node-label {
+  position: absolute;
+  left: calc(var(--node-size, 16px) + 12px);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.rail-segment--active .rail-segment__node-label {
+  opacity: 1;
+  color: var(--text-accent);
+}
+
+/* Type-specific heights */
+.rail-segment--start,
+.rail-segment--end {
+  min-height: 80px;
+}
+
+.rail-segment--middle {
+  min-height: 100px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .rail-segment {
+    display: none;
+  }
+}

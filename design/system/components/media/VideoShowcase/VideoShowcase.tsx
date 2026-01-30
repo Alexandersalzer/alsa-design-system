@@ -16,6 +16,7 @@ import { CDN_BASE_URL } from '../../../core/utils/env';
 import { getVideoThumbnailUrl } from '../../../core/utils/media';
 import './VideoShowcase.css';
 import './PlayButton.css';
+import './DeviceFrames.css';
 
 export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoElement> {
   variant?: 'default' | 'rounded' | 'elevated';
@@ -28,6 +29,12 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   animation?: AnimationConfig;
   /** Max height for the video */
   maxHeight?: string | number;
+  /** Device frame wrapper - adds realistic device mockup around video */
+  frame?: 'none' | 'iphone-14-pro' | 'iphone-se' | 'pixel-7';
+  /** Frame color (only for certain frames) */
+  frameColor?: 'black' | 'white' | 'silver' | 'gold';
+  /** Frame size in pixels (controls max-width) */
+  frameSize?: number;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -46,12 +53,18 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   componentKey,
   animation,
   maxHeight,
+  frame = 'none',
+  frameColor = 'black',
+  frameSize,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(initialMuted);
+  const [volume, setVolume] = useState(0.7); // Default 70%
+  const [showVolumeIndicator, setShowVolumeIndicator] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const volumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const videoClasses = cn(
     'video-showcase',
@@ -102,6 +115,42 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     }
   };
 
+  const handleVolumeChange = (delta: number) => {
+    if (videoRef.current) {
+      const newVolume = Math.max(0, Math.min(1, volume + delta));
+      setVolume(newVolume);
+      videoRef.current.volume = newVolume;
+      
+      // Unmute if volume is increased
+      if (newVolume > 0 && isMuted) {
+        videoRef.current.muted = false;
+        setIsMuted(false);
+      }
+      
+      // Show volume indicator
+      setShowVolumeIndicator(true);
+      
+      // Clear existing timeout
+      if (volumeTimeoutRef.current) {
+        clearTimeout(volumeTimeoutRef.current);
+      }
+      
+      // Hide indicator after 1.5s
+      volumeTimeoutRef.current = setTimeout(() => {
+        setShowVolumeIndicator(false);
+      }, 1500);
+    }
+  };
+
+  // Cleanup timeout on unmount
+  React.useEffect(() => {
+    return () => {
+      if (volumeTimeoutRef.current) {
+        clearTimeout(volumeTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const videoContent = (
     <div
       ref={containerRef}
@@ -117,7 +166,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         width="100%"
         maxHeight={maxHeight}
         aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
-        radius={radius === 'full' ? 'xl' : radius}
+        radius={frame !== 'none' ? 'none' : (radius === 'full' ? 'xl' : radius)}
         loading="eager"
         priority={true}
         autoPlay={autoPlay}
@@ -136,6 +185,52 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     </div>
   );
 
+  // Wrap video in device frame if specified
+  const wrappedContent = frame !== 'none' ? (
+    <div 
+      className={cn("device-frame", `device-frame--${frame}`, `device-frame--${frameColor}`)}
+      style={frameSize ? { maxWidth: `${frameSize}px` } : undefined}
+    >
+      <div className="device-frame__screen">
+        {videoContent}
+      </div>
+      <div className="device-frame__bezel" />
+      {frame === 'iphone-14-pro' && (
+        <>
+          {/* Volume buttons (left side) */}
+          <button
+            className="device-frame__button device-frame__button--volume-up"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleVolumeChange(0.1);
+            }}
+            aria-label="Volume up"
+          />
+          <button
+            className="device-frame__button device-frame__button--volume-down"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleVolumeChange(-0.1);
+            }}
+            aria-label="Volume down"
+          />
+          {/* Volume indicator */}
+          {showVolumeIndicator && (
+            <div className="device-frame__volume-indicator">
+              <div className="device-frame__volume-bar">
+                <div 
+                  className="device-frame__volume-fill" 
+                  style={{ width: `${volume * 100}%` }}
+                />
+              </div>
+              <span className="device-frame__volume-text">{Math.round(volume * 100)}%</span>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  ) : videoContent;
+
   // Map EasingType to CSS easing string
   const mapEasing = (easing?: string): 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear' => {
     switch (easing) {
@@ -143,14 +238,13 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       case 'easeOut': return 'ease-out';
       case 'easeInOut': return 'ease-in-out';
       case 'linear': return 'linear';
-      default: return 'ease-out';
+      default: return 'ease';
     }
   };
 
-  // Render with animation wrapper if configured
   const renderWithAnimation = () => {
-    if (!animation || animation.type === 'none') {
-      return videoContent;
+    if (!animation) {
+      return wrappedContent;
     }
 
     if (animation.type === 'fadeIn') {
@@ -164,7 +258,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           enableScrollTrigger={settings.enableScrollTrigger ?? false}
           triggerOffset={settings.triggerOffset || 100}
         >
-          {videoContent}
+          {wrappedContent}
         </FadeIn>
       );
     }
@@ -179,7 +273,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           enableScrollTrigger={settings.enableScrollTrigger ?? false}
           triggerOffset={settings.triggerOffset || 100}
         >
-          {videoContent}
+          {wrappedContent}
         </Opacity>
       );
     }
@@ -196,7 +290,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           enableScrollTrigger={settings.enableScrollTrigger ?? false}
           triggerOffset={settings.triggerOffset || 100}
         >
-          {videoContent}
+          {wrappedContent}
         </SlideIn>
       );
     }
@@ -213,12 +307,12 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           enableScrollTrigger={settings.enableScrollTrigger ?? false}
           triggerOffset={settings.triggerOffset || 100}
         >
-          {videoContent}
+          {wrappedContent}
         </Scale>
       );
     }
 
-    return videoContent;
+    return wrappedContent;
   };
 
   return (

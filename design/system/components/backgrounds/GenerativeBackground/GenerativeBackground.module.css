@@ -1,0 +1,121 @@
+/* GenerativeBackground.module.css */
+
+.subtle,
+.medium,
+.vibrant {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  pointer-events: none;
+  /* Fade support via inline styles (maskImage) */
+}
+
+/* ===== VARIANT: Intensity Levels ===== */
+
+/* Subtle variant - ljusa pastell-toner */
+.subtle {
+  --gen-bg-base: var(--gen-bg-subtle-base, #E9D7FF);
+  --gen-bg-accent: var(--gen-bg-subtle-accent, #D8C8FF);
+  --gen-bg-highlight: var(--gen-bg-subtle-highlight, #FBF7FF);
+}
+
+/* Medium variant - mer färgstarka toner */
+.medium {
+  --gen-bg-base: var(--gen-bg-medium-base, #D8C8FF);
+  --gen-bg-accent: var(--gen-bg-medium-accent, #C5B0FF);
+  --gen-bg-highlight: var(--gen-bg-medium-highlight, #F0E6FF);
+}
+
+/* Vibrant variant - starkare färger */
+.vibrant {
+  --gen-bg-base: var(--gen-bg-vibrant-base, #C5B0FF);
+  --gen-bg-accent: var(--gen-bg-vibrant-accent, #B39DFF);
+  --gen-bg-highlight: var(--gen-bg-vibrant-highlight, #E5D9FF);
+}
+
+/* ===== COLOR SCHEME: Different color palettes ===== */
+
+/* Accent (default) - använder accent-färger */
+.accent {
+  /* Variant-specific tokens will be used */
+}
+
+/* Primary - använder primary-färger */
+.primary.subtle {
+  --gen-bg-base: var(--gen-bg-primary-subtle-base, #E0F2FE);
+  --gen-bg-accent: var(--gen-bg-primary-subtle-accent, #BAE6FD);
+  --gen-bg-highlight: var(--gen-bg-primary-subtle-highlight, #F0F9FF);
+}
+
+.primary.medium {
+  --gen-bg-base: var(--gen-bg-primary-medium-base, #BAE6FD);
+  --gen-bg-accent: var(--gen-bg-primary-medium-accent, #7DD3FC);
+  --gen-bg-highlight: var(--gen-bg-primary-medium-highlight, #E0F2FE);
+}
+
+.primary.vibrant {
+  --gen-bg-base: var(--gen-bg-primary-vibrant-base, #7DD3FC);
+  --gen-bg-accent: var(--gen-bg-primary-vibrant-accent, #38BDF8);
+  --gen-bg-highlight: var(--gen-bg-primary-vibrant-highlight, #BAE6FD);
+}
+
+/* Success - använder success-färger (grön) */
+.success.subtle {
+  --gen-bg-base: var(--gen-bg-success-subtle-base, #D1FAE5);
+  --gen-bg-accent: var(--gen-bg-success-subtle-accent, #A7F3D0);
+  --gen-bg-highlight: var(--gen-bg-success-subtle-highlight, #ECFDF5);
+}
+
+.success.medium {
+  --gen-bg-base: var(--gen-bg-success-medium-base, #A7F3D0);
+  --gen-bg-accent: var(--gen-bg-success-medium-accent, #6EE7B7);
+  --gen-bg-highlight: var(--gen-bg-success-medium-highlight, #D1FAE5);
+}
+
+.success.vibrant {
+  --gen-bg-base: var(--gen-bg-success-vibrant-base, #6EE7B7);
+  --gen-bg-accent: var(--gen-bg-success-vibrant-accent, #34D399);
+  --gen-bg-highlight: var(--gen-bg-success-vibrant-highlight, #A7F3D0);
+}
+
+/* Warning - använder warning-färger (orange/gul) */
+.warning.subtle {
+  --gen-bg-base: var(--gen-bg-warning-subtle-base, #FEF3C7);
+  --gen-bg-accent: var(--gen-bg-warning-subtle-accent, #FDE68A);
+  --gen-bg-highlight: var(--gen-bg-warning-subtle-highlight, #FFFBEB);
+}
+
+.warning.medium {
+  --gen-bg-base: var(--gen-bg-warning-medium-base, #FDE68A);
+  --gen-bg-accent: var(--gen-bg-warning-medium-accent, #FCD34D);
+  --gen-bg-highlight: var(--gen-bg-warning-medium-highlight, #FEF3C7);
+}
+
+.warning.vibrant {
+  --gen-bg-base: var(--gen-bg-warning-vibrant-base, #FCD34D);
+  --gen-bg-accent: var(--gen-bg-warning-vibrant-accent, #FBBF24);
+  --gen-bg-highlight: var(--gen-bg-warning-vibrant-highlight, #FDE68A);
+}
+
+/* Info - använder info-färger (cyan/blue) */
+.info.subtle {
+  --gen-bg-base: var(--gen-bg-info-subtle-base, #CFFAFE);
+  --gen-bg-accent: var(--gen-bg-info-subtle-accent, #A5F3FC);
+  --gen-bg-highlight: var(--gen-bg-info-subtle-highlight, #ECFEFF);
+}
+
+.info.medium {
+  --gen-bg-base: var(--gen-bg-info-medium-base, #A5F3FC);
+  --gen-bg-accent: var(--gen-bg-info-medium-accent, #67E8F9);
+  --gen-bg-highlight: var(--gen-bg-info-medium-highlight, #CFFAFE);
+}
+
+.info.vibrant {
+  --gen-bg-base: var(--gen-bg-info-vibrant-base, #67E8F9);
+  --gen-bg-accent: var(--gen-bg-info-vibrant-accent, #22D3EE);
+  --gen-bg-highlight: var(--gen-bg-info-vibrant-highlight, #A5F3FC);
+}

@@ -11,7 +11,8 @@
   padding-top: var(--space-section);
   padding-bottom: var(--space-section);
   overflow: visible; /* Changed from hidden to visible - allows sticky positioning */
-  background-color: var(--surface-base); /* Default background for all sections */
+  background-color: var(--section-background, var(--surface-base)); /* Default background for all sections */
+  position: relative; /* För att generativ bakgrund ska positionera sig korrekt */
 }
 
 
@@ -88,6 +89,26 @@
   background-color: transparent;
 }
 
+.backgroundGenerative {
+  background-color: transparent;
+  overflow: hidden;
+}
+
+.backgroundGradient {
+  background-color: transparent;
+  overflow: hidden;
+}
+
+.backgroundPattern {
+  background-color: var(--surface-default);
+  overflow: hidden;
+}
+
+.backgroundVideo {
+  background-color: transparent;
+  overflow: hidden;
+}
+
 /* Background overlay for media variant */
 .backgroundOverlay {
   position: absolute;
@@ -100,8 +121,12 @@
   z-index: 0;
 }
 
-/* Ensure content is above overlay */
-.backgroundMedia > *:not(.backgroundOverlay) {
+/* Ensure content is above backgrounds */
+.backgroundMedia > *:not(.backgroundOverlay),
+.backgroundGenerative > *:not(canvas),
+.backgroundGradient > *:not(div[class*="gradientBackground"]),
+.backgroundPattern > *:not(div[class*="patternBackground"]),
+.backgroundVideo > *:not(div[class*="container"]) {
   position: relative;
   z-index: 1;
 }

@@ -1,0 +1,100 @@
+/* VideoBackground.module.css */
+
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.videoBackground {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ===== VIDEO FIT MODES ===== */
+
+.cover {
+  object-fit: cover;
+}
+
+.contain {
+  object-fit: contain;
+}
+
+.fill {
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== OVERLAY TYPES ===== */
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--overlay-opacity, 0.3);
+}
+
+.dark {
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.light {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.gradient {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+}
+
+/* ===== RESPONSIVE OPTIMIZATIONS ===== */
+
+/* På mobil, pausa video för att spara batteri (optional) */
+@media (max-width: 768px) {
+  .videoBackground {
+    /* Kan lägga till display: none; och visa poster istället */
+  }
+}
+
+/* Respektera prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .videoBackground {
+    display: none;
+  }
+  
+  /* Visa poster image istället */
+  .container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+}

@@ -1,0 +1,162 @@
+/* GradientBackground.module.css */
+
+.gradientBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--gradient-intensity, 1);
+}
+
+/* ===== GRADIENT TYPES ===== */
+
+/* Mesh Gradient - multi-point gradient (Stripe/modern style) */
+.mesh {
+  background: 
+    radial-gradient(at 20% 30%, var(--gradient-color-1) 0px, transparent 50%),
+    radial-gradient(at 80% 20%, var(--gradient-color-2) 0px, transparent 50%),
+    radial-gradient(at 40% 80%, var(--gradient-color-3) 0px, transparent 50%),
+    radial-gradient(at 90% 70%, var(--gradient-color-4) 0px, transparent 50%),
+    var(--gradient-base);
+  filter: blur(40px) saturate(150%);
+}
+
+/* Radial Gradient - classic center-out */
+.radial {
+  background: radial-gradient(
+    circle at center,
+    var(--gradient-color-1),
+    var(--gradient-color-2) 40%,
+    var(--gradient-color-3) 70%,
+    var(--gradient-base) 100%
+  );
+}
+
+/* Conic Gradient - spinning color wheel */
+.conic {
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    var(--gradient-color-1),
+    var(--gradient-color-2),
+    var(--gradient-color-3),
+    var(--gradient-color-4),
+    var(--gradient-color-1)
+  );
+  filter: blur(60px) saturate(120%);
+}
+
+/* Linear Gradient - simple top-to-bottom */
+.linear {
+  background: linear-gradient(
+    180deg,
+    var(--gradient-color-1) 0%,
+    var(--gradient-color-2) 50%,
+    var(--gradient-color-3) 100%
+  );
+}
+
+/* ===== COLOR SCHEMES ===== */
+
+/* Accent */
+.accent {
+  --gradient-base: var(--foundation-accent-50, #FAF5FF);
+  --gradient-color-1: var(--foundation-accent-200, #E9D5FF);
+  --gradient-color-2: var(--foundation-accent-300, #D8B4FE);
+  --gradient-color-3: var(--foundation-accent-400, #C084FC);
+  --gradient-color-4: var(--foundation-accent-200, #E9D5FF);
+}
+
+/* Primary */
+.primary {
+  --gradient-base: var(--foundation-primary-50, #EFF6FF);
+  --gradient-color-1: var(--foundation-primary-200, #BFDBFE);
+  --gradient-color-2: var(--foundation-primary-300, #93C5FD);
+  --gradient-color-3: var(--foundation-primary-400, #60A5FA);
+  --gradient-color-4: var(--foundation-primary-200, #BFDBFE);
+}
+
+/* Success */
+.success {
+  --gradient-base: var(--foundation-success-50, #F0FDF4);
+  --gradient-color-1: var(--foundation-success-200, #BBF7D0);
+  --gradient-color-2: var(--foundation-success-300, #86EFAC);
+  --gradient-color-3: var(--foundation-success-400, #4ADE80);
+  --gradient-color-4: var(--foundation-success-200, #BBF7D0);
+}
+
+/* Warning */
+.warning {
+  --gradient-base: var(--foundation-warning-50, #FFFBEB);
+  --gradient-color-1: var(--foundation-warning-200, #FDE68A);
+  --gradient-color-2: var(--foundation-warning-300, #FCD34D);
+  --gradient-color-3: var(--foundation-warning-400, #FBBF24);
+  --gradient-color-4: var(--foundation-warning-200, #FDE68A);
+}
+
+/* Info */
+.info {
+  --gradient-base: var(--foundation-info-50, #ECFEFF);
+  --gradient-color-1: var(--foundation-info-200, #A5F3FC);
+  --gradient-color-2: var(--foundation-info-300, #67E8F9);
+  --gradient-color-3: var(--foundation-info-400, #22D3EE);
+  --gradient-color-4: var(--foundation-info-200, #A5F3FC);
+}
+
+/* ===== ANIMATION ===== */
+
+.animated.mesh {
+  animation: meshGradientShift 15s ease-in-out infinite;
+}
+
+.animated.radial {
+  animation: radialPulse 10s ease-in-out infinite;
+}
+
+.animated.conic {
+  animation: conicRotate 20s linear infinite;
+}
+
+.animated.linear {
+  animation: linearShift 8s ease-in-out infinite alternate;
+}
+
+@keyframes meshGradientShift {
+  0%, 100% {
+    filter: blur(40px) saturate(150%) hue-rotate(0deg);
+  }
+  50% {
+    filter: blur(50px) saturate(180%) hue-rotate(15deg);
+  }
+}
+
+@keyframes radialPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes conicRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes linearShift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10%);
+  }
+}

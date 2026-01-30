@@ -130,7 +130,8 @@ export const renderPattern = (
       layoutConfig, 
       pattern.components, 
       sectionKey, 
-      patternKey
+      patternKey,
+      patternProps // Pass pattern props for align, etc
     );
 
     // Wrap with animation if pattern has animation config

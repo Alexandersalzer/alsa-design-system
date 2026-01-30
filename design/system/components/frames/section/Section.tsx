@@ -1,11 +1,16 @@
 import React, { ReactNode } from 'react';
 import styles from './Section.module.css';
+import { GenerativeBackground } from '../../backgrounds/GenerativeBackground/GenerativeBackground';
+import { GradientBackground } from '../../backgrounds/GradientBackground/GradientBackground';
+import { PatternBackground } from '../../backgrounds/PatternBackground/PatternBackground';
+import { VideoBackground } from '../../backgrounds/VideoBackground/VideoBackground';
 
 type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
 type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type Overflow = 'visible' | 'hidden' | 'auto' | 'scroll' | 'clip';
-type Background = 'default' | 'raised' | 'elevated' | 'inverse' | 'media' | 'transparent';
+type Background = 'default' | 'raised' | 'elevated' | 'inverse' | 'media' | 'transparent' | 'generative' | 'gradient' | 'pattern' | 'video';
+type ColorScheme = 'accent' | 'primary' | 'success' | 'warning' | 'info';
 
 interface SectionProps {
   children: ReactNode;
@@ -29,7 +34,43 @@ interface SectionProps {
   applyNavbarVoid?: boolean; // ✅ Apply navbar void compensation for hero sections
   style?: React.CSSProperties;
   sectionKey?: string; // För live editing identification
-
+  
+  // Generative background props
+  generativeVariant?: 'subtle' | 'medium' | 'vibrant';
+  generativeColorScheme?: ColorScheme;
+  generativeSeed?: number;
+  generativeIntensity?: number;
+  generativeBlur?: number;
+  generativeFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
+  generativeFadeStrength?: number;
+  
+  // Gradient background props
+  gradientType?: 'mesh' | 'radial' | 'conic' | 'linear';
+  gradientColorScheme?: ColorScheme;
+  gradientAnimated?: boolean;
+  gradientIntensity?: number;
+  gradientFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
+  gradientFadeStrength?: number;
+  
+  // Pattern background props
+  patternType?: 'dots' | 'lines' | 'grid' | 'diagonal' | 'hexagon';
+  patternColorScheme?: ColorScheme | 'neutral';
+  patternDensity?: 'sparse' | 'normal' | 'dense';
+  patternAnimated?: boolean;
+  patternOpacity?: number;
+  patternFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
+  patternFadeStrength?: number;
+  
+  // Video background props
+  videoSrc?: string;
+  videoPoster?: string;
+  videoFit?: 'cover' | 'contain' | 'fill';
+  videoOverlayType?: 'none' | 'dark' | 'light' | 'gradient';
+  videoOverlayOpacity?: number;
+  videoPlaybackRate?: number;
+  videoFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
+  videoFadeStrength?: number;
+  
 
 }
 
@@ -82,7 +123,7 @@ export const Section = ({
   sticky = false,
   top,
   zIndex,
-  spacing, // optional override
+  spacing,
   overflow,
   overflowX,
   overflowY,
@@ -90,6 +131,38 @@ export const Section = ({
   backgroundImage,
   backgroundOverlay = false,
   backgroundOverlayOpacity = 0.5,
+  // Generative props
+  generativeVariant = 'subtle',
+  generativeColorScheme = 'accent',
+  generativeSeed = 1337,
+  generativeIntensity = 1.0,
+  generativeBlur = 18,
+  generativeFadeEdge = 'none',
+  generativeFadeStrength = 0.15,
+  // Gradient props
+  gradientType = 'mesh',
+  gradientColorScheme = 'accent',
+  gradientAnimated = false,
+  gradientIntensity = 1.0,
+  gradientFadeEdge = 'none',
+  gradientFadeStrength = 0.15,
+  // Pattern props
+  patternType = 'dots',
+  patternColorScheme = 'neutral',
+  patternDensity = 'normal',
+  patternAnimated = false,
+  patternOpacity = 0.15,
+  patternFadeEdge = 'none',
+  patternFadeStrength = 0.15,
+  // Video props
+  videoSrc,
+  videoPoster,
+  videoFit = 'cover',
+  videoOverlayType = 'dark',
+  videoOverlayOpacity = 0.3,
+  videoPlaybackRate = 1.0,
+  videoFadeEdge = 'none',
+  videoFadeStrength = 0.15,
   noPaddingTop = false,
   applyNavbarVoid = false,
   style,
@@ -141,12 +214,66 @@ export const Section = ({
       style={finalStyles}
       data-section-key={sectionKey}
     >
+      {/* Generative Background */}
+      {background === 'generative' && (
+        <GenerativeBackground 
+          variant={generativeVariant}
+          colorScheme={generativeColorScheme}
+          seed={generativeSeed}
+          intensity={generativeIntensity}
+          blurAmount={generativeBlur}
+          fadeEdge={generativeFadeEdge}
+          fadeStrength={generativeFadeStrength}
+        />
+      )}
+
+      {/* Gradient Background */}
+      {background === 'gradient' && (
+        <GradientBackground
+          type={gradientType}
+          colorScheme={gradientColorScheme}
+          animated={gradientAnimated}
+          intensity={gradientIntensity}
+          fadeEdge={gradientFadeEdge}
+          fadeStrength={gradientFadeStrength}
+        />
+      )}
+
+      {/* Pattern Background */}
+      {background === 'pattern' && (
+        <PatternBackground
+          type={patternType}
+          colorScheme={patternColorScheme}
+          density={patternDensity}
+          animated={patternAnimated}
+          opacity={patternOpacity}
+          fadeEdge={patternFadeEdge}
+          fadeStrength={patternFadeStrength}
+        />
+      )}
+
+      {/* Video Background */}
+      {background === 'video' && videoSrc && (
+        <VideoBackground
+          src={videoSrc}
+          poster={videoPoster}
+          fit={videoFit}
+          overlayType={videoOverlayType}
+          overlayOpacity={videoOverlayOpacity}
+          playbackRate={videoPlaybackRate}
+          fadeEdge={videoFadeEdge}
+          fadeStrength={videoFadeStrength}
+        />
+      )}
+
+      {/* Media Background Overlay (legacy) */}
       {backgroundImage && background === 'media' && backgroundOverlay && (
         <div
           className={styles.backgroundOverlay}
           style={{ opacity: backgroundOverlayOpacity }}
         />
       )}
+      
       {children}
     </Component>
   );

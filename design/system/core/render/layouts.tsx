@@ -18,18 +18,28 @@ import {
  * @param components - All available components from pattern
  * @param sectionKey - Section context
  * @param patternKey - Pattern context
+ * @param patternProps - Pattern-level props (align, etc) to merge with layout config
  * @returns Rendered React element tree
  */
 export const renderLayoutWithTemplate = (
   layout: Record<string, any>,
   components: Record<string, ComponentNode>,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  patternProps?: Record<string, any>
 ): React.ReactElement | null => {
   console.log('[renderLayoutWithTemplate] layout:', layout);
   console.log('[renderLayoutWithTemplate] components:', components);
+  console.log('[renderLayoutWithTemplate] patternProps:', patternProps);
   
   const { type: parentType, template, order, ...parentLayoutProps } = layout;
+
+  // Merge pattern props (like align) with layout props
+  // Pattern props take precedence
+  const mergedLayoutProps = {
+    ...parentLayoutProps,
+    ...(patternProps?.align && { align: patternProps.align })
+  };
 
   // Get parent layout component
   const ParentLayout = componentRegistry[parentType];
@@ -87,7 +97,7 @@ export const renderLayoutWithTemplate = (
   console.log('[renderLayoutWithTemplate] renderedItems count:', renderedItems.length);
 
   return (
-    <ParentLayout {...parentLayoutProps}>
+    <ParentLayout {...mergedLayoutProps}>
       {renderedItems}
     </ParentLayout>
   );
@@ -211,6 +221,7 @@ const renderLayoutNodeGeneric = (
 /**
  * Renders component reference: { component: "${slotName}" }
  * Completely generic - just resolves slot and renders component
+ * Extra props in the reference override component props (for template-level styling)
  */
 const renderComponentReference = (
   reference: Record<string, any>,
@@ -234,8 +245,10 @@ const renderComponentReference = (
     return null;
   }
 
-  // Render component (extraProps reserved for future use)
-  return <Component {...componentNode.props} />;
+  // Merge component props with template-level overrides (extraProps takes precedence)
+  const mergedProps = { ...componentNode.props, ...extraProps };
+  
+  return <Component {...mergedProps} />;
 };
 
 // ===== LEGACY EXPORT (kept for backward compatibility) =====

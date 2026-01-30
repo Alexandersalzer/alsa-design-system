@@ -1,0 +1,85 @@
+/* ===============================================
+   SetupGuide.css
+   Styling för SetupGuide-komponenten
+   =============================================== */
+
+/* Completion celebration section */
+.setup-guide__celebration {
+  padding: var(--foundation-space-8);
+}
+
+.setup-guide__celebration-emoji {
+  font-size: 64px;
+  line-height: 1;
+}
+
+/* Divider spacing */
+.setup-guide__divider {
+  margin-bottom: var(--foundation-space-8);
+}
+
+/* Step card */
+.setup-guide__step-card {
+  transition: opacity 0.3s ease;
+}
+
+.setup-guide__step-card--completed {
+  opacity: 0.7;
+}
+
+.setup-guide__step-content {
+  flex: 1;
+}
+
+/* Completed state - gradient background */
+.setup-guide__completed-card {
+  background: linear-gradient(135deg, var(--surface-accent) 0%, var(--surface-accent-muted) 100%);
+  border: none;
+}
+
+.setup-guide__completed-content {
+  padding: var(--foundation-space-4);
+}
+
+.setup-guide__completed-emoji {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.setup-guide__completed-title {
+  color: var(--text-strong);
+}
+
+.setup-guide__completed-subtitle {
+  color: var(--text-default);
+}
+
+/* CTA Container för Kom igång-knappen */
+.setup-guide__cta-container {
+  margin-bottom: var(--foundation-space-6);
+}
+
+.setup-guide__cta-button {
+  width: 100%;
+  animation: pulse-cta 2s ease-in-out infinite;
+  box-shadow: 0 4px 12px rgba(var(--accent-500-rgb, 59, 130, 246), 0.3);
+}
+
+.setup-guide__cta-button:hover {
+  transform: translateY(-1px);
+  animation: none;
+  background-color: var(--surface-button-accent-hover) !important;
+  border-color: var(--border-button-accent-hover) !important;
+}
+
+@keyframes pulse-cta {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(var(--accent-500-rgb, 59, 130, 246), 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(var(--accent-500-rgb, 59, 130, 246), 0.5);
+}
+}
+
+
+

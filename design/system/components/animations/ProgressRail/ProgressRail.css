@@ -1,0 +1,102 @@
+/* ===============================================
+   PROGRESS RAIL STYLES
+   Vertical progress indicator with scroll animation
+   =============================================== */
+
+.progress-rail {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 600px;
+}
+
+/* Connecting lines container */
+.progress-rail__lines {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 100%;
+  width: var(--line-width, 1px);
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* Individual connecting line */
+.progress-rail__line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background: var(--surface-accent);
+  opacity: 0.2;
+  transition: opacity 0.3s ease;
+}
+
+/* Active line styling */
+.progress-rail__line--active {
+  opacity: 1;
+}
+
+/* Nodes container */
+.progress-rail__nodes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+/* Individual step node */
+.progress-rail__node {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Node dot/square (app icon shaped) - filled with accent color */
+.progress-rail__node-dot {
+  width: var(--node-size, 16px);
+  height: var(--node-size, 16px);
+  border-radius: 22%;
+  background: var(--surface-accent);
+  opacity: 0.2;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 0 4px var(--surface-page);
+}
+
+/* Active node styling */
+.progress-rail__node--active .progress-rail__node-dot {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Node label (number) */
+.progress-rail__node-label {
+  position: absolute;
+  left: calc(var(--node-size) + 12px);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.progress-rail__node--active .progress-rail__node-label {
+  opacity: 1;
+  color: var(--text-accent);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .progress-rail {
+    display: none;
+  }
+}

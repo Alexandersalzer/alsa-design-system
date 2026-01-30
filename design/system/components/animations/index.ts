@@ -4,3 +4,4 @@ export * from './FadeIn';
 export * from './SlideIn';
 export * from './Opacity';
 export * from './Scale';
+export * from './ProgressRail';

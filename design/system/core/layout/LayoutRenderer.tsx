@@ -401,8 +401,22 @@ export function LayoutRenderer({
               const pattern = patterns[key];
               if (!pattern) return null;
 
-              // Use mobile layout context for all patterns when stacked
-              return renderPattern(pattern, key, sectionKey, mobileLayoutContext);
+              // Force secondColumn patterns to have left/start alignment in mobile view
+              const isSecondColumnPattern = secondColumnPatterns.includes(key);
+              
+              // Override pattern props align for secondColumn patterns on mobile
+              let mobilePattern = pattern;
+              if (isSecondColumnPattern && pattern.props) {
+                mobilePattern = {
+                  ...pattern,
+                  props: {
+                    ...pattern.props,
+                    align: 'start'
+                  }
+                };
+              }
+
+              return renderPattern(mobilePattern, key, sectionKey, mobileLayoutContext);
             })}
           </VStack>
         </Box>

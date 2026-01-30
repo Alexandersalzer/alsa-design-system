@@ -71,11 +71,36 @@ export interface PageSEO {
 }
 
 /**
+ * Page-level props for styling and configuration
+ */
+export interface PageProps {
+  /** Background image URL */
+  backgroundImage?: string;
+  /** Background image opacity (0-1), defaults to 0.03 for subtle effect */
+  backgroundOpacity?: number;
+  /** Background size, defaults to 'auto' for tiled patterns */
+  backgroundSize?: 'cover' | 'contain' | 'auto' | string;
+  /** Background position, defaults to 'center' */
+  backgroundPosition?: string;
+  /** Whether background should be fixed on scroll */
+  backgroundFixed?: boolean;
+  /** Background color (CSS color value, e.g. '#f5f5f5', 'rgb(245,245,245)', 'var(--surface-raised)') */
+  backgroundColor?: string;
+  /** Color overlay on top of background image (useful for tinting) */
+  backgroundOverlay?: string;
+  /** Overlay opacity (0-1), defaults to 0.5 */
+  backgroundOverlayOpacity?: number;
+  /** Make sections transparent to show page background through (defaults to true when background is set) */
+  transparentSections?: boolean;
+}
+
+/**
  * Page - Complete page structure
  */
-export interface PageNode extends BaseNode {
+export interface PageNode {
   name: string;
   locale: string;
+  props?: PageProps;
   seo?: PageSEO;
   sections: Record<string, SectionNode>;
   order: string[];

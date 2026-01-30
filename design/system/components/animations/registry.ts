@@ -4,6 +4,8 @@ import { SlideIn } from './SlideIn/SlideIn';
 import { Opacity } from './Opacity/Opacity';
 import { Scale } from './Scale/Scale';
 import { CarouselAnimation } from './CarouselAnimation/CarouselAnimation';
+import { ProgressRail } from './ProgressRail/ProgressRail';
+import { RailSegment } from './ProgressRail/RailSegment';
 
 export const animationComponents: Record<string, React.ComponentType<any>> = {
   countUp: CountUp,
@@ -12,4 +14,6 @@ export const animationComponents: Record<string, React.ComponentType<any>> = {
   opacity: Opacity,
   scale: Scale,
   carouselAnimation: CarouselAnimation,
+  progressRail: ProgressRail,
+  railSegment: RailSegment,
 };
