@@ -97,6 +97,39 @@
   .vStack--collapse-mobile.vStack--spacing-3xl {
     gap: var(--foundation-space-4, 16px);
   }
+
+  /* ===== MOBILE SPACING ===== */
+  .vStack--mobileSpacing-none {
+    gap: 0;
+  }
+
+  .vStack--mobileSpacing-xs {
+    gap: var(--foundation-space-1, 4px);
+  }
+
+  .vStack--mobileSpacing-sm {
+    gap: var(--foundation-space-2, 8px);
+  }
+
+  .vStack--mobileSpacing-md {
+    gap: var(--foundation-space-4, 16px);
+  }
+
+  .vStack--mobileSpacing-lg {
+    gap: var(--foundation-space-6, 24px);
+  }
+
+  .vStack--mobileSpacing-xl {
+    gap: var(--foundation-space-8, 32px);
+  }
+
+  .vStack--mobileSpacing-2xl {
+    gap: var(--foundation-space-12, 48px);
+  }
+
+  .vStack--mobileSpacing-3xl {
+    gap: var(--foundation-space-16, 64px);
+  }
 }
 
 @media (max-width: 1023px) {
