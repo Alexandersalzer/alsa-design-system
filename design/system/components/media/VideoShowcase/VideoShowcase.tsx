@@ -22,6 +22,8 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   variant?: 'default' | 'rounded' | 'elevated';
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
   aspectRatio?: '16-9' | '9-16' | '4-3' | '4-5' | '1-1' | '2-3' | 'auto';
+  /** Object fit behavior - 'cover' crops to fill, 'contain' fits within bounds */
+  objectFit?: 'contain' | 'cover' | 'fill' | 'none';
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   showPlayButton?: boolean;
   componentKey?: string;
@@ -42,6 +44,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   variant = 'elevated',
   size = 'lg',
   aspectRatio = '16-9',
+  objectFit = 'contain',
   radius = 'lg',
   autoPlay = false,
   muted: initialMuted = true,
@@ -166,6 +169,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         width="100%"
         maxHeight={maxHeight}
         aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '9-16' ? '9/16' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '4-5' ? '4/5' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
+        objectFit={objectFit}
         radius={frame !== 'none' ? 'none' : (radius === 'full' ? 'xl' : radius)}
         loading="eager"
         priority={true}
