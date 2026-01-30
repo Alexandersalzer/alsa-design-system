@@ -16,12 +16,27 @@ import {
     Card,
 } from '../../../components/layout';
 import { Icon, IconColor } from '../../../components/media/Icon';
+import { CountUp } from '../../../components/animations/CountUp/CountUp';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
 
 import './Stats.css';
 
 // ===== TYPE DEFINITIONS =====
+
+export interface StatAnimation {
+  type: 'countUp';
+  settings: {
+    start?: number;
+    end: number;
+    suffix?: string;
+    prefix?: string;
+    separator?: string;
+    duration?: number;
+    enableScrollTrigger?: boolean;
+    triggerOffset?: number;
+  };
+}
 
 export interface StatItem {
   id: string;
@@ -35,6 +50,7 @@ export interface StatItem {
     value: string;
     direction: 'up' | 'down' | 'neutral';
   };
+  animation?: StatAnimation;
 }
 
 export type StatsVariant =
@@ -95,6 +111,47 @@ interface StatItemComponentProps {
   iconColor?: IconColor;
 }
 
+// Helper to render stat value with optional CountUp animation
+const StatValue: React.FC<{
+  stat: StatItem;
+  valueVariant: NonNullable<StatsProps['valueVariant']>;
+  valueWeight: NonNullable<StatsProps['valueWeight']>;
+  valueColor: TypographyColor;
+}> = ({ stat, valueVariant, valueWeight, valueColor }) => {
+  // If animation is configured, use CountUp
+  if (stat.animation?.type === 'countUp') {
+    const { settings } = stat.animation;
+    return (
+      <CountUp
+        end={settings.end}
+        start={settings.start}
+        suffix={settings.suffix}
+        prefix={settings.prefix}
+        separator={settings.separator}
+        duration={settings.duration}
+        enableScrollTrigger={settings.enableScrollTrigger}
+        triggerOffset={settings.triggerOffset}
+        variant={valueVariant}
+        weight={valueWeight}
+        color={valueColor}
+        data-component-key={stat.componentKey}
+      />
+    );
+  }
+
+  // Default: static value
+  return (
+    <Typography
+      variant={valueVariant}
+      weight={valueWeight}
+      color={valueColor}
+      data-component-key={stat.componentKey}
+    >
+      {stat.value}
+    </Typography>
+  );
+};
+
 // Centered variant - Simple centered stat
 const StatCentered: React.FC<StatItemComponentProps> = ({
   stat,
@@ -110,14 +167,12 @@ const StatCentered: React.FC<StatItemComponentProps> = ({
   align
 }) => (
   <VStack spacing={spacing} align={align}>
-    <Typography
-      variant={valueVariant}
-      weight={valueWeight}
-      color={valueColor}
-      data-component-key={stat.componentKey}
-    >
-      {stat.value}
-    </Typography>
+    <StatValue
+      stat={stat}
+      valueVariant={valueVariant}
+      valueWeight={valueWeight}
+      valueColor={valueColor}
+    />
     <Typography
       variant={labelVariant}
       weight={labelWeight}
@@ -153,14 +208,12 @@ const StatWithSeparator: React.FC<StatItemComponentProps & { isLast?: boolean }>
 }) => (
   <HStack spacing="lg" align="center" className="stat-with-separator">
     <VStack spacing={spacing} align={align}>
-      <Typography
-        variant={valueVariant}
-        weight={valueWeight}
-        color={valueColor}
-        data-component-key={stat.componentKey}
-      >
-        {stat.value}
-      </Typography>
+      <StatValue
+        stat={stat}
+        valueVariant={valueVariant}
+        valueWeight={valueWeight}
+        valueColor={valueColor}
+      />
       <Typography
         variant={labelVariant}
         weight={labelWeight}
@@ -518,7 +571,8 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
       description: component.props.description,
       icon: component.props.icon,
       logo: component.props.logo,
-      trend: component.props.trend
+      trend: component.props.trend,
+      animation: component.props.animation
     };
   }).filter(Boolean) as StatItem[];
 
