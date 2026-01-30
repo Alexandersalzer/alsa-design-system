@@ -33,6 +33,10 @@ export interface BentoCardProps {
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none';
   /** Image padding inside card */
   imagePadding?: 'none' | 'sm' | 'md' | 'lg';
+  /** Column span for grid layout */
+  colSpan?: 1 | 2 | 3;
+  /** Row span for grid layout */
+  rowSpan?: 1 | 2;
 }
 
 export const BentoCard: React.FC<BentoCardProps> = ({
@@ -49,6 +53,8 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   accentHover = true,
   imageObjectFit = 'contain',
   imagePadding = 'md',
+  colSpan,
+  rowSpan,
 }) => {
   const fullImageSrc = imageSrc.startsWith('http') ? imageSrc : `${CDN_BASE_URL}${imageSrc}`;
 
@@ -57,6 +63,12 @@ export const BentoCard: React.FC<BentoCardProps> = ({
     accentHover && 'bento-card--accent-hover',
   ].filter(Boolean).join(' ');
 
+  const gridStyle: React.CSSProperties = {
+    minHeight,
+    ...(colSpan && colSpan > 1 && { gridColumn: `span ${colSpan}` }),
+    ...(rowSpan && rowSpan > 1 && { gridRow: `span ${rowSpan}` }),
+  };
+
   return (
     <Card
       variant={variant}
@@ -64,7 +76,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
       padding="none"
       className={classes}
       data-component-key={componentKey}
-      style={{ minHeight }}
+      style={gridStyle}
     >
       {/* Tag (optional) */}
       {tag && (
