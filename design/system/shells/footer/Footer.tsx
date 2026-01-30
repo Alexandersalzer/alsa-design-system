@@ -3,6 +3,8 @@
 import { Section } from '../../components/frames/section';
 import { renderShellPattern } from '../../core/render/shells';
 import { SectionNode } from '../../core/types/nodes';
+import { Typography } from '../../components/Typography/Typography';
+import { VStack } from '../../components/layout/vStack/VStack';
 import './Footer.css';
 
 interface FooterProps {
@@ -44,7 +46,28 @@ const Footer = ({ section }: FooterProps) => {
       className={hasTopBorder ? 'footer-with-top-border' : ''}
       {...sectionProps}
     >
-      {renderedPatterns}
+      <VStack spacing="lg" align="center" className="footer__content">
+        {renderedPatterns}
+        
+        {/* Blimpify attribution - applies to all footers */}
+        <div className="footer__attribution">
+          <Typography 
+            as="span" 
+            variant="body-sm" 
+            color="tertiary"
+          >
+            Made with{' '}
+            <a 
+              href="https://blimpify-im.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="footer__attribution-link"
+            >
+              Blimpify
+            </a>
+          </Typography>
+        </div>
+      </VStack>
     </Section>
   );
 };

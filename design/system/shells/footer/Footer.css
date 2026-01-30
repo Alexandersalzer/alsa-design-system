@@ -6,3 +6,32 @@
   border-top: 1px solid var(--border-default);
   padding-top: var(--foundation-space-10);
 }
+
+/* Footer content wrapper */
+.footer__content {
+  width: 100%;
+}
+
+/* Blimpify attribution - subtle branding at bottom */
+.footer__attribution {
+  padding-top: var(--foundation-space-4);
+  text-align: center;
+  opacity: 0.6;
+  transition: opacity var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+.footer__attribution:hover {
+  opacity: 1;
+}
+
+.footer__attribution-link {
+  color: var(--text-accent);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  transition: color var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+.footer__attribution-link:hover {
+  color: var(--text-accent-hover);
+  text-decoration: underline;
+}
