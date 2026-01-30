@@ -1,0 +1,1 @@
+Här hittar vi logik för hantering av searchparam paths: /[locale]/slug

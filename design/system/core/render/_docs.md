@@ -1,0 +1,1 @@
+Detta är kärnan för all rendering som sker för components, layouts, patterns, sections, shells. Det är viktigt att ändringar i denna mapp är uttänkta och testade innan deployment.

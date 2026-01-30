@@ -1,0 +1,1 @@
+I den här mappen hittar vi interface och types som ofta återkommer.

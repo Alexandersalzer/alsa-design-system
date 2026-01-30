@@ -3,5 +3,5 @@
  */
 
 export { useAction } from './useAction';
-export { executeAction } from './actionHandlers';
+export { executeAction } from './api';
 export type { ActionType, ActionConfig, ActionResponse, PixelEvent } from './types';

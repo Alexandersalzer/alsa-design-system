@@ -1,0 +1,1 @@
+I den här mappen hittar vi hjälpfunktioner som kan läsa av json koden så att system sedan kan använda det.
