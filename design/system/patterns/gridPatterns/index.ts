@@ -1,5 +1,5 @@
 // Generic layout-based patterns
-export { MasonryGrid } from './MasonryGrid';
+// Note: MasonryGrid moved to components/layout/MasonryGrid for new layout system
 export { GridPattern } from './GridPattern';
 export { AlternatingCards } from './AlternatingCards';
 export { StickyNavContent } from './StickyNavContent';

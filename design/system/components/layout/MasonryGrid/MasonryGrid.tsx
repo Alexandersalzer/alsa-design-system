@@ -27,13 +27,15 @@ export interface MasonryGridProps extends React.HTMLAttributes<HTMLDivElement> {
 export const MasonryGrid = React.forwardRef<HTMLDivElement, MasonryGridProps>(
   ({ children, className = '', columns, gap = 'lg', style, ...props }, ref) => {
     // Default column configuration
-    const defaultColumns = {
+    const defaultColumns: Required<NonNullable<MasonryGridProps['columns']>> = {
       base: 1,
+      sm: 1,
       md: 2,
       lg: 3,
+      xl: 3,
     };
 
-    const columnConfig = columns || defaultColumns;
+    const columnConfig: NonNullable<MasonryGridProps['columns']> = columns || defaultColumns;
 
     // Build inline styles for CSS variables
     const inlineStyles: React.CSSProperties & Record<string, any> = {
