@@ -1,0 +1,35 @@
+/* ===============================================
+   design/system/components/media/SocialIcon/SocialIcon.css
+   SOCIAL ICON STYLES
+   =============================================== */
+
+.social-icon {
+  display: inline-block;
+  object-fit: contain;
+  transition: opacity var(--foundation-duration-fast) var(--foundation-easing-standard),
+              transform var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+.social-icon__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.social-icon__link:hover .social-icon {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.social-icon__link:active .social-icon {
+  transform: scale(0.95);
+}
+
+/* Size variants (backup if CSS variables not applied) */
+.social-icon--xs { width: 16px; height: 16px; }
+.social-icon--sm { width: 20px; height: 20px; }
+.social-icon--md { width: 24px; height: 24px; }
+.social-icon--lg { width: 32px; height: 32px; }
+.social-icon--xl { width: 40px; height: 40px; }
+.social-icon--2xl { width: 48px; height: 48px; }
