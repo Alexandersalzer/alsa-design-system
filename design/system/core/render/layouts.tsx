@@ -209,6 +209,38 @@ const renderLayoutNodeGeneric = (
     layoutProps = { ...layoutProps, direction: 'row-reverse' };
   }
 
+  // Handle action prop - convert to onCardClick for components that use it
+  if (layoutProps.action) {
+    const action = layoutProps.action;
+
+    // Only handle navigation actions
+    if (action.type === 'navigation' && action.settings?.href) {
+      // Resolve template placeholders in href (e.g., ${link} -> actual link from itemContext)
+      let resolvedHref = action.settings.href;
+
+      // Replace all ${variable} placeholders with actual values from itemContext
+      Object.keys(itemContext).forEach(key => {
+        const placeholder = `\${${key}}`;
+        if (resolvedHref.includes(placeholder)) {
+          resolvedHref = resolvedHref.replace(placeholder, itemContext[key]);
+        }
+      });
+
+      // Create onCardClick handler
+      const onCardClick = () => {
+        if (action.settings.openInNewTab) {
+          window.open(resolvedHref, '_blank', 'noopener,noreferrer');
+        } else {
+          window.location.href = resolvedHref;
+        }
+      };
+
+      // Add onCardClick to layoutProps and remove action
+      layoutProps = { ...layoutProps, onCardClick };
+      delete layoutProps.action;
+    }
+  }
+
   // Get layout component from registry
   const LayoutComponent = componentRegistry[layoutType];
   if (!LayoutComponent) {

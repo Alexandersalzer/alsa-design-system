@@ -3,6 +3,8 @@
 // ENHANCED WITH INTERACTIVE STATES AND HOVER EFFECTS
 // ===============================================
 
+'use client';
+
 import React, { forwardRef, ReactNode } from 'react';
 import { cn } from '../../../utils/cn';
 

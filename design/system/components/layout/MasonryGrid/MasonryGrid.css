@@ -47,7 +47,16 @@
   -webkit-column-break-inside: avoid;
   margin-bottom: var(--masonry-gap, var(--space-lg));
   width: 100%;
-  display: inline-block; /* Prevents items from being split */
+  display: block; /* Changed from inline-block to block */
+  overflow: hidden; /* Prevents content overflow */
+}
+
+/* Ensure card children don't break */
+.masonry-item > * {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  display: block;
 }
 
 /* Remove margin from last items in each column */
