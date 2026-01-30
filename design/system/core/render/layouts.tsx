@@ -207,53 +207,6 @@ const renderTemplateNode = (
 };
 
 /**
- * Renders ANY layout node (grid, vstack, hstack, box, gridItem, etc)
- * Completely generic - doesn't know about specific layout types
- */
-const renderLayoutNodeGeneric = (
-  node: Record<string, any>,
-  itemComponents: Record<string, ComponentNode>,
-  itemContext: Record<string, any>,
-  sectionKey?: string,
-  patternKey?: string,
-  defaults?: Record<string, any>
-): React.ReactElement | null => {
-  let { layoutType, layoutProps, children } = parseLayoutNode(node);
-
-  // Apply item-level overrides for specific layout types
-  if (layoutType === 'hstack' && itemContext?.reverse) {
-    layoutProps = { ...layoutProps, direction: 'row-reverse' };
-  }
-
-  // Get layout component from registry
-  const LayoutComponent = componentRegistry[layoutType];
-  if (!LayoutComponent) {
-    console.warn(`Layout type "${layoutType}" not found in registry`);
-    return null;
-  }
-
-  // Self-closing components (like divider/hr) cannot have children
-  const isSelfClosing = layoutType === 'divider';
-  if (isSelfClosing) {
-    return <LayoutComponent {...layoutProps} />;
-  }
-
-  // Recursively render children for components that support them
-  const renderedChildren = children.map((child: any, index: number) => (
-    <React.Fragment key={index}>
-      {renderTemplateNode(child, itemComponents, itemContext, sectionKey, patternKey, defaults)}
-    </React.Fragment>
-  ));
-
-  // Layout component takes care of its own props (colSpan for GridItem, spacing for VStack, etc)
-  return (
-    <LayoutComponent {...layoutProps}>
-      {renderedChildren}
-    </LayoutComponent>
-  );
-};
-
-/**
  * Renders component reference: { component: "${slotName}" }
  * Completely generic - just resolves slot and renders component
  * Extra props in the reference override component props (for template-level styling)
@@ -323,6 +276,63 @@ const renderComponentReference = (
   }
   
   return renderedComponent;
+};
+
+/**
+ * Renders ANY layout node (grid, vstack, hstack, box, gridItem, etc)
+ * Completely generic - doesn't know about specific layout types
+ */
+const renderLayoutNodeGeneric = (
+  node: Record<string, any>,
+  itemComponents: Record<string, ComponentNode>,
+  itemContext: Record<string, any>,
+  sectionKey?: string,
+  patternKey?: string,
+  defaults?: Record<string, any>
+): React.ReactElement | null => {
+  let { layoutType, layoutProps, children } = parseLayoutNode(node);
+
+  // Apply item-level overrides for specific layout types
+  if (layoutType === 'hstack' && itemContext?.reverse) {
+    layoutProps = { ...layoutProps, direction: 'row-reverse' };
+  }
+
+  // Get layout component from registry
+  const LayoutComponent = componentRegistry[layoutType];
+  if (!LayoutComponent) {
+    console.warn(`Layout type "${layoutType}" not found in registry`);
+    return null;
+  }
+
+  // Self-closing components (like divider/hr) cannot have children
+  const isSelfClosing = layoutType === 'divider';
+  if (isSelfClosing) {
+    return <LayoutComponent {...layoutProps} />;
+  }
+
+  // Handle cardWithCornerIcon specially - it needs icon rendered as a component
+  if (layoutType === 'cardWithCornerIcon' && layoutProps.icon) {
+    const iconRef = layoutProps.icon;
+    // If icon is a component reference like { component: "${icon}" }, render it
+    if (typeof iconRef === 'object' && iconRef.component) {
+      const renderedIcon = renderComponentReference(iconRef, itemComponents, sectionKey, patternKey, defaults);
+      layoutProps = { ...layoutProps, icon: renderedIcon };
+    }
+  }
+
+  // Recursively render children for components that support them
+  const renderedChildren = children.map((child: any, index: number) => (
+    <React.Fragment key={index}>
+      {renderTemplateNode(child, itemComponents, itemContext, sectionKey, patternKey, defaults)}
+    </React.Fragment>
+  ));
+
+  // Layout component takes care of its own props (colSpan for GridItem, spacing for VStack, etc)
+  return (
+    <LayoutComponent {...layoutProps}>
+      {renderedChildren}
+    </LayoutComponent>
+  );
 };
 
 // ===== LEGACY EXPORT (kept for backward compatibility) =====

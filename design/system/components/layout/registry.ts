@@ -3,6 +3,7 @@ import { VStack } from './vStack/VStack';
 import { HStack } from './hStack/HStack';
 import { Box } from './box/Box';
 import { Card } from './Card/Card';
+import { CardWithCornerIcon } from './CardWithCornerIcon/CardWithCornerIcon';
 import { Accordion } from './Accordion/Accordion';
 import { Sticky } from './Sticky/Sticky';
 import { AnimatedBox } from './AnimatedBox/AnimatedBox';
@@ -19,6 +20,7 @@ export const layoutComponents: Record<string, React.ComponentType<any>> = {
   hstack: HStack,
   box: Box,
   card: Card,
+  cardWithCornerIcon: CardWithCornerIcon,
   accordion: Accordion,
   sticky: Sticky,
   animatedBox: AnimatedBox,

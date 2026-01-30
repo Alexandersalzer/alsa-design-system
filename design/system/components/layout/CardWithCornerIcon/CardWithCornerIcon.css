@@ -1,0 +1,169 @@
+/* ===============================================
+ * CardWithCornerIcon - Card with corner cutout for icon
+ * A card component where one corner is "cut off" to 
+ * accommodate an icon that sits outside the card bounds
+ * =============================================== */
+
+.card-with-corner-icon {
+  position: relative;
+  --cutout-size: 48px;
+  --cutout-radius: var(--radius-lg);
+  --icon-offset: 8px;
+}
+
+/* ===== Cutout Sizes ===== */
+.card-with-corner-icon--cutout-sm {
+  --cutout-size: 36px;
+}
+
+.card-with-corner-icon--cutout-md {
+  --cutout-size: 48px;
+}
+
+.card-with-corner-icon--cutout-lg {
+  --cutout-size: 64px;
+}
+
+/* ===== Main Card Styling ===== */
+.card-with-corner-icon__content {
+  position: relative;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* Top-left cutout: use clip-path for the corner effect */
+.card-with-corner-icon--cutout-top-left .card-with-corner-icon__content {
+  /* Clip path creates the corner cutout effect */
+  /* We cut out a square from top-left, then add a rounded corner on the inner edge */
+  clip-path: polygon(
+    /* Start from top edge, after the cutout */
+    var(--cutout-size) 0%,
+    /* Go to top-right */
+    100% 0%,
+    /* Go to bottom-right */
+    100% 100%,
+    /* Go to bottom-left */
+    0% 100%,
+    /* Go up the left edge */
+    0% var(--cutout-size),
+    /* Create the inner rounded corner effect by going diagonal */
+    var(--cutout-size) var(--cutout-size)
+  );
+  border-top-left-radius: 0;
+}
+
+/* Top-right cutout */
+.card-with-corner-icon--cutout-top-right .card-with-corner-icon__content {
+  clip-path: polygon(
+    0% 0%,
+    calc(100% - var(--cutout-size)) 0%,
+    calc(100% - var(--cutout-size)) var(--cutout-size),
+    100% var(--cutout-size),
+    100% 100%,
+    0% 100%
+  );
+  border-top-right-radius: 0;
+}
+
+/* ===== Icon Container ===== */
+.card-with-corner-icon__icon-container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cutout-size);
+  height: var(--cutout-size);
+  z-index: 1;
+}
+
+/* Top-left icon position */
+.card-with-corner-icon--cutout-top-left .card-with-corner-icon__icon-container {
+  top: 0;
+  left: 0;
+}
+
+/* Top-right icon position */
+.card-with-corner-icon--cutout-top-right .card-with-corner-icon__icon-container {
+  top: 0;
+  right: 0;
+}
+
+/* ===== Variant Styles ===== */
+.card-with-corner-icon--variant-default .card-with-corner-icon__content {
+  background: var(--surface-card);
+  border-color: var(--border-subtle);
+}
+
+.card-with-corner-icon--variant-elevated .card-with-corner-icon__content {
+  background: var(--surface-card);
+  border-color: transparent;
+  box-shadow: var(--shadow-lg);
+}
+
+.card-with-corner-icon--variant-outlined .card-with-corner-icon__content {
+  background: transparent;
+  border-color: var(--border-default);
+}
+
+.card-with-corner-icon--variant-accent-subtle .card-with-corner-icon__content {
+  background: var(--color-accent-subtle);
+  border-color: var(--color-accent-muted);
+}
+
+/* ===== Padding ===== */
+.card-with-corner-icon--padding-sm .card-with-corner-icon__content {
+  padding: var(--space-sm);
+}
+
+.card-with-corner-icon--padding-md .card-with-corner-icon__content {
+  padding: var(--space-md);
+}
+
+.card-with-corner-icon--padding-lg .card-with-corner-icon__content {
+  padding: var(--space-lg);
+}
+
+.card-with-corner-icon--padding-xl .card-with-corner-icon__content {
+  padding: var(--space-xl);
+}
+
+/* Padding offset for top-left cutout - add extra padding-top to compensate */
+.card-with-corner-icon--cutout-top-left .card-with-corner-icon__content {
+  padding-left: calc(var(--cutout-size) + var(--space-md));
+}
+
+/* ===== Border Radius ===== */
+.card-with-corner-icon--radius-sm .card-with-corner-icon__content {
+  border-radius: var(--radius-sm);
+}
+
+.card-with-corner-icon--radius-md .card-with-corner-icon__content {
+  border-radius: var(--radius-md);
+}
+
+.card-with-corner-icon--radius-lg .card-with-corner-icon__content {
+  border-radius: var(--radius-lg);
+}
+
+/* Override the cutout corner radius */
+.card-with-corner-icon--cutout-top-left.card-with-corner-icon--radius-sm .card-with-corner-icon__content,
+.card-with-corner-icon--cutout-top-left.card-with-corner-icon--radius-md .card-with-corner-icon__content,
+.card-with-corner-icon--cutout-top-left.card-with-corner-icon--radius-lg .card-with-corner-icon__content {
+  border-top-left-radius: 0;
+}
+
+.card-with-corner-icon--cutout-top-right.card-with-corner-icon--radius-sm .card-with-corner-icon__content,
+.card-with-corner-icon--cutout-top-right.card-with-corner-icon--radius-md .card-with-corner-icon__content,
+.card-with-corner-icon--cutout-top-right.card-with-corner-icon--radius-lg .card-with-corner-icon__content {
+  border-top-right-radius: 0;
+}
+
+/* ===== Hover Effects ===== */
+.card-with-corner-icon:hover .card-with-corner-icon__content {
+  border-color: var(--border-hover);
+}
+
+.card-with-corner-icon--variant-elevated:hover .card-with-corner-icon__content {
+  box-shadow: var(--shadow-xl);
+}
