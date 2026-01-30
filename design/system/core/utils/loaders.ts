@@ -63,3 +63,62 @@ export const nameToSlug = (name: string): string => {
     .replace(/-+/g, '-')      // Replace multiple hyphens with single hyphen
     .trim();
 };
+
+// ===== CONTENT LOADERS =====
+
+/**
+ * Generic shell content loader for navbar, footer, etc.
+ * Returns typed SectionNode structure
+ */
+export async function getShellContent(
+  shellType: 'navbar' | 'footer', 
+  locale: string
+): Promise<Record<string, any>> {
+  const content = await loadJsonFile<Record<string, any>>(
+    `content/${locale}/${shellType}.json`
+  );
+  return content || {};
+}
+
+/**
+ * Load navbar content for a specific locale
+ * Convenience wrapper around getShellContent
+ */
+export async function getNavbarContent(locale: string): Promise<Record<string, any> | null> {
+  return getShellContent('navbar', locale);
+}
+
+/**
+ * Load footer content for a specific locale  
+ * Convenience wrapper around getShellContent
+ */
+export async function getFooterContent(locale: string): Promise<Record<string, any> | null> {
+  return getShellContent('footer', locale);
+}
+
+/**
+ * Get page content for rendering a specific page
+ * Returns complete PageNode structure
+ */
+export async function getPageContent(locale: string, pageSlug: string): Promise<any> {
+  const contentFiles = await listDirectory(`content/${locale}`);
+  
+  // Excluding navbar and footer files
+  const pageFiles = contentFiles.filter(file => 
+    file.endsWith('.json') &&
+    !['navbar.json', 'footer.json'].includes(file)
+  );
+  
+  // Search for matching page
+  for (const file of pageFiles) {
+    const pageData = await loadJsonFile<any>(`content/${locale}/${file}`);
+    
+    if (pageData?.name) {
+      const slug = nameToSlug(pageData.name);
+      if (slug === pageSlug) {
+        return pageData;
+      }
+    }
+  }
+  throw new Error(`Page not found: ${locale}/${pageSlug}`);
+}
