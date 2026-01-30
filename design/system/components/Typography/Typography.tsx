@@ -79,17 +79,125 @@ export type TypographyColor =
 
 export type TypographyAlign = 'left' | 'center' | 'right' | 'justify';
 
-// ===== HELPER FUNCTION FOR LINE BREAKS =====
-const processLineBreaks = (content: ReactNode): ReactNode => {
+// ===== HELPER FUNCTION FOR INLINE MARKUP =====
+/**
+ * Processes inline markup in text content:
+ * - \n → line breaks
+ * - *text* → italic
+ * - **text** → bold
+ * - {accent}text{/accent} → accent color
+ * - {brand}text{/brand} → brand color
+ * - {secondary}text{/secondary} → secondary color
+ */
+const processInlineMarkup = (content: ReactNode): ReactNode => {
   if (typeof content !== 'string') return content;
-  if (!content.includes('\n')) return content;
   
-  return content.split('\n').map((line, index, array) => (
-    <span key={index}>
-      {line}
-      {index < array.length - 1 && <br />}
-    </span>
-  ));
+  // Color mapping for inline markup
+  const colorMap: Record<string, string> = {
+    accent: 'var(--accent-500)',
+    brand: 'var(--brand-color)',
+    secondary: 'var(--text-secondary)',
+    primary: 'var(--text-strong)',
+    success: 'var(--success-500)',
+    warning: 'var(--warning-500)',
+    error: 'var(--error-500)',
+  };
+  
+  // Process the content with regex
+  const processText = (text: string, keyPrefix: string = ''): ReactNode[] => {
+    const result: ReactNode[] = [];
+    let remaining = text;
+    let partIndex = 0;
+    
+    while (remaining.length > 0) {
+      // Check for color tags: {color}text{/color}
+      const colorMatch = remaining.match(/^\{(accent|brand|secondary|primary|success|warning|error)\}([\s\S]*?)\{\/\1\}/);
+      if (colorMatch) {
+        const [fullMatch, colorName, innerText] = colorMatch;
+        const colorValue = colorMap[colorName];
+        result.push(
+          <span key={`${keyPrefix}color-${partIndex}`} style={{ color: colorValue }}>
+            {processText(innerText, `${keyPrefix}color-${partIndex}-`)}
+          </span>
+        );
+        remaining = remaining.slice(fullMatch.length);
+        partIndex++;
+        continue;
+      }
+      
+      // Check for bold: **text**
+      const boldMatch = remaining.match(/^\*\*([\s\S]*?)\*\*/);
+      if (boldMatch) {
+        const [fullMatch, innerText] = boldMatch;
+        result.push(
+          <strong key={`${keyPrefix}bold-${partIndex}`}>
+            {processText(innerText, `${keyPrefix}bold-${partIndex}-`)}
+          </strong>
+        );
+        remaining = remaining.slice(fullMatch.length);
+        partIndex++;
+        continue;
+      }
+      
+      // Check for italic: *text*
+      const italicMatch = remaining.match(/^\*([\s\S]*?)\*/);
+      if (italicMatch) {
+        const [fullMatch, innerText] = italicMatch;
+        result.push(
+          <em key={`${keyPrefix}italic-${partIndex}`} style={{ fontStyle: 'italic' }}>
+            {processText(innerText, `${keyPrefix}italic-${partIndex}-`)}
+          </em>
+        );
+        remaining = remaining.slice(fullMatch.length);
+        partIndex++;
+        continue;
+      }
+      
+      // Check for line break
+      const newlineIndex = remaining.indexOf('\n');
+      const nextSpecialIndex = Math.min(
+        remaining.indexOf('{') === -1 ? Infinity : remaining.indexOf('{'),
+        remaining.indexOf('*') === -1 ? Infinity : remaining.indexOf('*'),
+        newlineIndex === -1 ? Infinity : newlineIndex
+      );
+      
+      if (nextSpecialIndex === Infinity) {
+        // No more special characters, add rest as plain text
+        if (remaining) {
+          result.push(remaining);
+        }
+        break;
+      }
+      
+      // Add text before special character
+      if (nextSpecialIndex > 0) {
+        result.push(remaining.slice(0, nextSpecialIndex));
+        remaining = remaining.slice(nextSpecialIndex);
+        partIndex++;
+        continue;
+      }
+      
+      // Handle line break
+      if (remaining[0] === '\n') {
+        result.push(<br key={`${keyPrefix}br-${partIndex}`} />);
+        remaining = remaining.slice(1);
+        partIndex++;
+        continue;
+      }
+      
+      // If we get here, it's a { or * that didn't match a pattern - treat as plain text
+      result.push(remaining[0]);
+      remaining = remaining.slice(1);
+      partIndex++;
+    }
+    
+    return result;
+  };
+  
+  const processed = processText(content);
+  return processed.length === 1 && typeof processed[0] === 'string' 
+    ? processed[0] 
+    : <>{processed}</>;
 };
 
 // ===== POLYMORPHIC TYPES =====
@@ -246,7 +354,7 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   // Use content prop if provided, otherwise use children
   // Process line breaks if enabled (converts \n to <br />)
   const rawContent = content || children;
-  const displayContent = preserveLineBreaks ? processLineBreaks(rawContent) : rawContent;
+  const displayContent = preserveLineBreaks ? processInlineMarkup(rawContent) : rawContent;
   
   const classes = buildTypographyClasses({
     variant,
