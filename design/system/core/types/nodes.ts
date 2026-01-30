@@ -1,5 +1,5 @@
 import { SectionType } from '../render/validation/sections';
-import { LayoutConfig } from '../layout/types';
+import { LayoutConfig } from './layout';
 import { AnimationConfig } from '../../components/animations/types';
 import { BackgroundProps } from '../../components/backgrounds/types';
 
