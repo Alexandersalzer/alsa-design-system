@@ -144,7 +144,7 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
                   zIndex: 0,
                 }}
               />
-              {pageProps.backgroundOverlay && (
+              {pageProps.backgroundOverlay && typeof pageProps.backgroundOverlay === 'string' && (
                 <div
                   aria-hidden="true"
                   style={{
