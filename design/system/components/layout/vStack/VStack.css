@@ -98,37 +98,37 @@
     gap: var(--foundation-space-4, 16px);
   }
 
-  /* ===== MOBILE SPACING ===== */
-  .vStack--mobileSpacing-none {
-    gap: 0;
+  /* ===== MOBILE SPACING (higher specificity to override collapse) ===== */
+  .vStack.vStack--mobileSpacing-none {
+    gap: 0 !important;
   }
 
-  .vStack--mobileSpacing-xs {
-    gap: var(--foundation-space-1, 4px);
+  .vStack.vStack--mobileSpacing-xs {
+    gap: var(--foundation-space-1, 4px) !important;
   }
 
-  .vStack--mobileSpacing-sm {
-    gap: var(--foundation-space-2, 8px);
+  .vStack.vStack--mobileSpacing-sm {
+    gap: var(--foundation-space-2, 8px) !important;
   }
 
-  .vStack--mobileSpacing-md {
-    gap: var(--foundation-space-4, 16px);
+  .vStack.vStack--mobileSpacing-md {
+    gap: var(--foundation-space-4, 16px) !important;
   }
 
-  .vStack--mobileSpacing-lg {
-    gap: var(--foundation-space-6, 24px);
+  .vStack.vStack--mobileSpacing-lg {
+    gap: var(--foundation-space-6, 24px) !important;
   }
 
-  .vStack--mobileSpacing-xl {
-    gap: var(--foundation-space-8, 32px);
+  .vStack.vStack--mobileSpacing-xl {
+    gap: var(--foundation-space-8, 32px) !important;
   }
 
-  .vStack--mobileSpacing-2xl {
-    gap: var(--foundation-space-12, 48px);
+  .vStack.vStack--mobileSpacing-2xl {
+    gap: var(--foundation-space-12, 48px) !important;
   }
 
-  .vStack--mobileSpacing-3xl {
-    gap: var(--foundation-space-16, 64px);
+  .vStack.vStack--mobileSpacing-3xl {
+    gap: var(--foundation-space-16, 64px) !important;
   }
 }
 
