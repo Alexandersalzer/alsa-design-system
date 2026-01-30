@@ -32,10 +32,6 @@ export const renderLayoutWithTemplate = (
   patternProps?: Record<string, any>,
   animationConfig?: AnimationConfig
 ): React.ReactElement | null => {
-  console.log('[renderLayoutWithTemplate] layout:', layout);
-  console.log('[renderLayoutWithTemplate] components:', components);
-  console.log('[renderLayoutWithTemplate] patternProps:', patternProps);
-  console.log('[renderLayoutWithTemplate] animationConfig:', animationConfig);
   
   const { type: parentType, template, order, defaults, ...parentLayoutProps } = layout;
 
@@ -52,22 +48,15 @@ export const renderLayoutWithTemplate = (
     console.warn(`Layout type "${parentType}" not found in registry`);
     return null;
   }
-  
-  console.log('[renderLayoutWithTemplate] ParentLayout found:', parentType);
-
-  console.log('[renderLayoutWithTemplate] ParentLayout found:', parentType);
 
   // If no template, render simple layout (fallback to old system)
   if (!template) {
-    console.log('[renderLayoutWithTemplate] No template, using simple layout');
     return renderSimpleLayout(layout, components, order, sectionKey, patternKey);
   }
   
-  console.log('[renderLayoutWithTemplate] Template found:', template);
 
   // Get items to render
   const itemOrder = getLayoutItemOrder(layout);
-  console.log('[renderLayoutWithTemplate] itemOrder:', itemOrder);
   
   // Extract animation settings if applicable
   const animationType = animationConfig?.type;
@@ -79,7 +68,6 @@ export const renderLayoutWithTemplate = (
   // Render template for each item
   const renderedItems = itemOrder.map((itemId, itemIndex) => {
     const item = findLayoutItem(layout, itemId);
-    console.log(`[renderLayoutWithTemplate] Rendering item "${itemId}":`, item);
     if (!item) {
       console.warn(`Item "${itemId}" not found in layout items`);
       return null;
@@ -127,7 +115,6 @@ export const renderLayoutWithTemplate = (
     return itemContent;
   }).filter(Boolean);
   
-  console.log('[renderLayoutWithTemplate] renderedItems count:', renderedItems.length);
 
   return (
     <ParentLayout {...mergedLayoutProps}>
@@ -189,16 +176,13 @@ const renderTemplateNode = (
   patternKey?: string,
   defaults?: Record<string, any>
 ): React.ReactElement | null => {
-  console.log('[renderTemplateNode] node:', node);
   
   // Check what kind of node this is
   if (isComponentReference(node)) {
-    console.log('[renderTemplateNode] Is component reference');
     return renderComponentReference(node, itemComponents, sectionKey, patternKey, defaults);
   }
 
   if (isLayoutNode(node)) {
-    console.log('[renderTemplateNode] Is layout node');
     return renderLayoutNodeGeneric(node, itemComponents, itemContext, sectionKey, patternKey, defaults);
   }
 
