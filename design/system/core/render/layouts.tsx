@@ -259,9 +259,9 @@ const renderLayoutNodeGeneric = (
  * Extra props in the reference override component props (for template-level styling)
  * 
  * Supports defaults merging:
- * - defaults: { video: { type: "videoShowcase", props: { ... } } }
+ * - defaults: { video: { type: "videoShowcase", props: { ... }, animation: { type: "slideIn", settings: {...} } } }
  * - item.components: { video: { props: { src: "..." } } }
- * - Result: type from defaults, props merged (item props override default props)
+ * - Result: type from defaults, props merged (item props override default props), wrapped with animation
  */
 const renderComponentReference = (
   reference: Record<string, any>,
@@ -304,7 +304,25 @@ const renderComponentReference = (
     ...extraProps
   };
   
-  return <Component {...mergedProps} />;
+  // Render the component
+  const renderedComponent = <Component {...mergedProps} />;
+  
+  // Check for component-level animation (item.animation takes precedence over defaults.animation)
+  const animationConfig = itemComponent?.animation || defaultComponent?.animation;
+  
+  if (animationConfig && animationConfig.type && animationConfig.type !== 'none') {
+    const AnimationComponent = animationComponents[animationConfig.type];
+    if (AnimationComponent) {
+      return (
+        <AnimationComponent {...(animationConfig.settings || {})}>
+          {renderedComponent}
+        </AnimationComponent>
+      );
+    }
+    console.warn(`Animation component for type "${animationConfig.type}" not found in registry`);
+  }
+  
+  return renderedComponent;
 };
 
 // ===== LEGACY EXPORT (kept for backward compatibility) =====
