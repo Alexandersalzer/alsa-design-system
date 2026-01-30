@@ -239,9 +239,9 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       ref={containerRef}
       className={cn(
         "video-container",
+        "video-container--clickable",
         `video-container--radius-${radius}`
       )}
-      onClick={handlePlayClick}
     >
       <Video
         src={videoUrl}
@@ -256,13 +256,27 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         autoPlay={autoPlay}
         muted={isMuted}
         loop={loop}
-        controls={isPlaying && controls}
+        controls={false}
         playsInline={playsInline}
         preload="metadata"
         className={videoClasses}
       />
+      {/* Clickable overlay for play/pause - covers entire video */}
+      <div 
+        className="video-container__click-overlay"
+        onClick={handlePlayClick}
+        aria-label={isPlaying ? "Pause video" : "Play video"}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handlePlayClick();
+          }
+        }}
+      />
       {showPlayButton && !isPlaying && (
-        <button className="play-button" aria-label="Play video">
+        <button className="play-button" aria-label="Play video" onClick={handlePlayClick}>
           <span className="play-button-icon" />
         </button>
       )}
