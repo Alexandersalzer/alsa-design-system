@@ -14,7 +14,7 @@ import { PatternNode } from '../types/nodes';
 import { renderPattern, renderPatternDirect } from '../render/patterns';
 import { actionsRegistry } from '../../patterns/actions/registry';
 
-import { AnimationConfig } from '../animations/types';
+import { AnimationConfig } from '../../components/animations/types';
 
 interface LayoutRendererProps {
   layout?: LayoutConfig;

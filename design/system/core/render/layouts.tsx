@@ -2,7 +2,7 @@ import React from 'react';
 import { ComponentNode } from '../types/nodes';
 import { componentRegistry } from '../../components/registry';
 import { animationComponents } from '../../components/animations/registry';
-import { AnimationConfig } from '../animations/types';
+import { AnimationConfig } from '../../components/animations/types';
 import { 
   parseLayoutNode, 
   isLayoutNode, 

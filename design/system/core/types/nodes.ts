@@ -1,6 +1,6 @@
 import { SectionType } from '../render/validation/sections';
 import { LayoutConfig } from '../layout/types';
-import { AnimationConfig } from '../animations/types';
+import { AnimationConfig } from '../../components/animations/types';
 
 /**
  * Base interface som alla noder delar

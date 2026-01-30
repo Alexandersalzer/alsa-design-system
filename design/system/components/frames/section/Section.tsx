@@ -77,10 +77,6 @@ interface SectionProps {
   solidOpacity?: number;
   solidFadeEdge?: 'top' | 'bottom' | 'both' | 'none';
   solidFadeStrength?: number;
-  
-  noPaddingTop?: boolean;
-  style?: React.CSSProperties;
-  sectionKey?: string;
 }
 
 const getHeightClass = (height: Height): string => {

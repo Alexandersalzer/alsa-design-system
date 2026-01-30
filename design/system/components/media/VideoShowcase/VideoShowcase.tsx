@@ -11,7 +11,7 @@ import { FadeIn } from '../../animations/FadeIn/FadeIn';
 import { SlideIn } from '../../animations/SlideIn/SlideIn';
 import { Opacity } from '../../animations/Opacity/Opacity';
 import { Scale } from '../../animations/Scale/Scale';
-import { AnimationConfig } from '../../../core/animations/types';
+import { AnimationConfig } from '../../animations/types';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { getVideoThumbnailUrl } from '../../../core/utils/media';
 import './VideoShowcase.css';
