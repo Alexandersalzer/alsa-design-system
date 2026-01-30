@@ -8,6 +8,7 @@ import { InlineLoading } from './InlineLoading/InlineLoading';
 import { PageLoading } from './PageLoading/PageLoading';
 import { Skeleton } from './LoadingSkeleton/LoadingSkeleton';
 import { NumberDisplay } from './NumberDisplay/NumberDisplay';
+import { Stars } from './Stars/Stars';
 
 export const feedbackComponents: Record<string, React.ComponentType<any>> = {
   badge: Badge,
@@ -20,4 +21,5 @@ export const feedbackComponents: Record<string, React.ComponentType<any>> = {
   pageLoading: PageLoading,
   skeleton: Skeleton,
   numberDisplay: NumberDisplay,
+  stars: Stars,
 };

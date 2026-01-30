@@ -1,0 +1,58 @@
+/* Stars Component */
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+/* Star Icon */
+.stars__icon {
+  transition: all 0.2s ease;
+}
+
+/* Size variants */
+.stars--sm .stars__icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.stars--md .stars__icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.stars--lg .stars__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Color variants */
+.stars--accent {
+  color: var(--color-accent);
+}
+
+.stars--primary {
+  color: var(--color-primary);
+}
+
+.stars--success {
+  color: var(--color-success);
+}
+
+.stars--warning {
+  color: var(--color-warning);
+}
+
+.stars--error {
+  color: var(--color-error);
+}
+
+/* Empty stars */
+.stars__icon--empty {
+  opacity: 0.2;
+}
+
+/* Filled stars */
+.stars__icon--filled {
+  opacity: 1;
+}

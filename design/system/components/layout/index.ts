@@ -12,3 +12,4 @@ export * from './Sticky';
 export * from './AnimatedBox';
 export * from './OverflowContainer';
 export * from './Spacer';
+export * from './MasonryGrid';

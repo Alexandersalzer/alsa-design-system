@@ -1,0 +1,56 @@
+/* ===============================================
+   MasonryGrid CSS - Column-based Masonry Layout
+   =============================================== */
+
+.masonry-grid {
+  column-gap: var(--masonry-gap, var(--space-lg));
+  width: 100%;
+}
+
+/* Base mobile - 1 column */
+.masonry-grid {
+  column-count: var(--masonry-columns-base, 1);
+}
+
+/* Small tablets */
+@media (min-width: 640px) {
+  .masonry-grid {
+    column-count: var(--masonry-columns-sm, var(--masonry-columns-base, 1));
+  }
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+  .masonry-grid {
+    column-count: var(--masonry-columns-md, 2);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .masonry-grid {
+    column-count: var(--masonry-columns-lg, 3);
+  }
+}
+
+/* Large desktop */
+@media (min-width: 1280px) {
+  .masonry-grid {
+    column-count: var(--masonry-columns-xl, var(--masonry-columns-lg, 3));
+  }
+}
+
+/* Masonry items */
+.masonry-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin-bottom: var(--masonry-gap, var(--space-lg));
+  width: 100%;
+  display: inline-block; /* Prevents items from being split */
+}
+
+/* Remove margin from last items in each column */
+.masonry-item:last-child {
+  margin-bottom: 0;
+}
