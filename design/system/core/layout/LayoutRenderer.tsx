@@ -396,7 +396,7 @@ export function LayoutRenderer({
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </Box>
             ) : (
-              <VStack spacing="lg" align="stretch">
+              <VStack spacing={gap} align="stretch">
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </VStack>
             )

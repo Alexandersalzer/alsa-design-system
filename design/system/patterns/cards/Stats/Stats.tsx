@@ -88,6 +88,9 @@ export interface StatsProps {
   // Grid layout - forces CSS grid with specified columns
   columns?: 1 | 2 | 3 | 4;
   
+  // Grid gap when using columns
+  gridGap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  
   // Card options (for with-card variant)
   cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid';
   cardPadding?: 'sm' | 'md' | 'lg';
@@ -543,6 +546,7 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
     spacing = 'sm',
     align = 'center',
     columns,
+    gridGap = 'xl',
     cardVariant = 'elevated',
     cardPadding = 'lg',
     iconSize = 'lg',
@@ -650,7 +654,7 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
     return (
       <Grid 
         columns={columns}
-        gap="xl"
+        gap={gridGap}
         className={className}
       >
         {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
