@@ -25,6 +25,9 @@ export type FadeEdge = 'top' | 'bottom' | 'both' | 'none';
 // Export centralized background types
 export * from './types';
 
+// Export background registry
+export * from './registry';
+
 export {
   BACKGROUND_PRESETS,
   GENERATIVE_PRESETS,

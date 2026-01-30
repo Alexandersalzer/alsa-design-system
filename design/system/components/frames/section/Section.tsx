@@ -1,11 +1,7 @@
 import React, { ReactNode } from 'react';
 import styles from './Section.module.css';
-import { GenerativeBackground } from '../../backgrounds/GenerativeBackground/GenerativeBackground';
-import { GradientBackground } from '../../backgrounds/GradientBackground/GradientBackground';
-import { PatternBackground } from '../../backgrounds/PatternBackground/PatternBackground';
-import { VideoBackground } from '../../backgrounds/VideoBackground/VideoBackground';
-import { SolidBackground } from '../../backgrounds/SolidBackground/SolidBackground';
 import { BackgroundProps, BackgroundType } from '../../backgrounds/types';
+import { renderBackgroundComponent } from '../../../core/render/background';
 
 type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
@@ -170,6 +166,43 @@ export const Section = ({
 
   const finalStyles = { ...inlineStyles, ...style };
 
+  // Create background props object for renderBackgroundComponent
+  const backgroundProps: BackgroundProps = {
+    background,
+    generativeVariant,
+    generativeColorScheme,
+    generativeSeed,
+    generativeIntensity,
+    generativeBlur,
+    generativeFadeEdge,
+    generativeFadeStrength,
+    gradientType,
+    gradientColorScheme,
+    gradientAnimated,
+    gradientIntensity,
+    gradientFadeEdge,
+    gradientFadeStrength,
+    patternType,
+    patternColorScheme,
+    patternDensity,
+    patternAnimated,
+    patternOpacity,
+    patternFadeEdge,
+    patternFadeStrength,
+    videoSrc,
+    videoPoster,
+    videoFit,
+    videoOverlayType,
+    videoOverlayOpacity,
+    videoPlaybackRate,
+    videoFadeEdge,
+    videoFadeStrength,
+    solidColorPreset,
+    solidOpacity,
+    solidFadeEdge,
+    solidFadeStrength,
+  };
+
   return (
     <Component
       id={id}
@@ -177,67 +210,8 @@ export const Section = ({
       style={finalStyles}
       data-section-key={sectionKey}
     >
-      {/* Generative Background */}
-      {background === 'generative' && (
-        <GenerativeBackground 
-          variant={generativeVariant}
-          colorScheme={generativeColorScheme}
-          seed={generativeSeed}
-          intensity={generativeIntensity}
-          blurAmount={generativeBlur}
-          fadeEdge={generativeFadeEdge}
-          fadeStrength={generativeFadeStrength}
-        />
-      )}
-
-      {/* Gradient Background */}
-      {background === 'gradient' && (
-        <GradientBackground
-          type={gradientType}
-          colorScheme={gradientColorScheme}
-          animated={gradientAnimated}
-          intensity={gradientIntensity}
-          fadeEdge={gradientFadeEdge}
-          fadeStrength={gradientFadeStrength}
-        />
-      )}
-
-      {/* Pattern Background */}
-      {background === 'pattern' && (
-        <PatternBackground
-          type={patternType}
-          colorScheme={patternColorScheme}
-          density={patternDensity}
-          animated={patternAnimated}
-          opacity={patternOpacity}
-          fadeEdge={patternFadeEdge}
-          fadeStrength={patternFadeStrength}
-        />
-      )}
-
-      {/* Video Background */}
-      {background === 'video' && videoSrc && (
-        <VideoBackground
-          src={videoSrc}
-          poster={videoPoster}
-          fit={videoFit}
-          overlayType={videoOverlayType}
-          overlayOpacity={videoOverlayOpacity}
-          playbackRate={videoPlaybackRate}
-          fadeEdge={videoFadeEdge}
-          fadeStrength={videoFadeStrength}
-        />
-      )}
-
-      {/* Solid Background */}
-      {background === 'solid' && (
-        <SolidBackground
-          colorPreset={solidColorPreset}
-          opacity={solidOpacity}
-          fadeEdge={solidFadeEdge}
-          fadeStrength={solidFadeStrength}
-        />
-      )}
+      {/* Render background using helper */}
+      {renderBackgroundComponent(background, backgroundProps)}
 
       {/* Media Background Overlay (legacy) */}
       {backgroundImage && background === 'media' && backgroundOverlay && (

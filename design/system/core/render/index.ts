@@ -8,3 +8,6 @@ export {
   renderLayoutWithTemplate,
   renderLayoutWithCards,
 } from './layouts';
+export {
+  renderBackgroundComponent,
+} from './background';
