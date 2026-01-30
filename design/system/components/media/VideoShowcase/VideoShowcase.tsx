@@ -247,7 +247,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         "video-container",
         "video-container--clickable",
         `video-container--radius-${radius}`,
-        mobileMaxWidth && "video-container--mobile-max-width"
+        mobileMaxWidth !== undefined && "video-container--mobile-max-width"
       )}
       style={mobileMaxWidth ? { '--mobile-max-width': `${mobileMaxWidth}px` } as React.CSSProperties : undefined}
     >
