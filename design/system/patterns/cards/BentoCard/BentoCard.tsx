@@ -114,8 +114,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
           <img
             src={fullImageSrc}
             alt={imageAlt || title || 'Bento card image'}
-            className="bento-card__image"
-            style={{ objectFit: imageObjectFit }}
+            className={`bento-card__image bento-card__image--${imageObjectFit}`}
             loading="lazy"
           />
         </div>
