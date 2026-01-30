@@ -17,11 +17,6 @@
   padding-top: var(--foundation-space-4);
   text-align: center;
   opacity: 0.6;
-  transition: opacity var(--foundation-duration-fast) var(--foundation-easing-standard);
-}
-
-.footer__attribution:hover {
-  opacity: 1;
 }
 
 .footer__attribution-link {
