@@ -35,6 +35,8 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   frameColor?: 'black' | 'white' | 'silver' | 'gold';
   /** Frame size in pixels (controls max-width) */
   frameSize?: number;
+  /** Overlay text shown on hover (e.g. company name) */
+  overlayText?: string;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -56,6 +58,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   frame = 'none',
   frameColor = 'black',
   frameSize,
+  overlayText,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -181,6 +184,11 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         <button className="play-button" aria-label="Play video">
           <span className="play-button-icon" />
         </button>
+      )}
+      {overlayText && (
+        <div className="video-overlay-text">
+          <span className="video-overlay-text__label">{overlayText}</span>
+        </div>
       )}
     </div>
   );

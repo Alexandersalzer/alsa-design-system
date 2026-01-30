@@ -132,4 +132,29 @@
 
 .video-container--radius-full .video-loading-overlay {
   border-radius: var(--radius-full);
+}
+
+/* Overlay Text (for hover company name display) */
+.video-overlay-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.video-container:hover .video-overlay-text {
+  opacity: 1;
+}
+
+.video-overlay-text__label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-white);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 } 
