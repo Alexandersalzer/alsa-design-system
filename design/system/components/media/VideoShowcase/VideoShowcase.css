@@ -165,4 +165,13 @@
 
 .video-container--radius-full .video-loading-overlay {
   border-radius: var(--radius-full);
+}
+
+/* Mobile max width support */
+@media (max-width: 767px) {
+  .video-container--mobile-max-width {
+    max-width: var(--mobile-max-width, 100%);
+    margin-left: auto;
+    margin-right: auto;
+  }
 } 

@@ -46,6 +46,8 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   frameSize?: number;
   /** Mobile-specific frame size in pixels */
   mobileFrameSize?: number;
+  /** Max width in pixels for video on mobile (for videos without frame) */
+  mobileMaxWidth?: number;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -69,6 +71,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   frameColor = 'black',
   frameSize,
   mobileFrameSize,
+  mobileMaxWidth,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -243,8 +246,10 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       className={cn(
         "video-container",
         "video-container--clickable",
-        `video-container--radius-${radius}`
+        `video-container--radius-${radius}`,
+        mobileMaxWidth && "video-container--mobile-max-width"
       )}
+      style={mobileMaxWidth ? { '--mobile-max-width': `${mobileMaxWidth}px` } as React.CSSProperties : undefined}
     >
       <Video
         src={videoUrl}
