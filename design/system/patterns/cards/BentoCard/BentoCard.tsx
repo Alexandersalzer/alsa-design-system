@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { Card, Typography, HStack } from '../../../components';
-import { TextLink } from '../../../components/interaction/TextLink/TextLink';
+import { TextLink } from '../../../components/actions/TextLink/TextLink';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import './BentoCard.css';
 
@@ -25,7 +26,7 @@ export interface BentoCardProps {
   /** Card variant */
   variant?: 'default' | 'elevated' | 'outlined' | 'bordered';
   /** Card radius */
-  radius?: 'sm' | 'md' | 'lg' | 'xl';
+  radius?: 'sm' | 'md' | 'lg';
   /** Show accent border on hover */
   accentHover?: boolean;
   /** Image object fit */
@@ -89,7 +90,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
 
       {/* Footer with title and optional link */}
       <div className="bento-card__footer">
-        <HStack justify="space-between" align="center" spacing="md">
+        <HStack justify="between" align="center" spacing="md">
           <Typography variant="h4" weight="semibold" color="primary">
             {title}
           </Typography>
@@ -97,7 +98,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
             <TextLink 
               href={href} 
               variant="brand"
-              showArrow
+              rightIcon={<ArrowRightIcon width={16} height={16} />}
               className="bento-card__link"
             >
               {linkText}
