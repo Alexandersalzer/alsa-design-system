@@ -241,12 +241,12 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   preserveLineBreaks = true,
   ...rest
 }, ref) => {
-  // Process line breaks if enabled and children is a string with \n
-  const processedChildren = preserveLineBreaks ? processLineBreaks(children) : children;
   const Element = as || getDefaultElement(variant);
   
   // Use content prop if provided, otherwise use children
-  const displayContent = content || children;
+  // Process line breaks if enabled (converts \n to <br />)
+  const rawContent = content || children;
+  const displayContent = preserveLineBreaks ? processLineBreaks(rawContent) : rawContent;
   
   const classes = buildTypographyClasses({
     variant,
