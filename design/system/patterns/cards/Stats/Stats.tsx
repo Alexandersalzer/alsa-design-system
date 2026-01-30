@@ -650,7 +650,7 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
   }
 
   // If columns prop is set, use Grid component for forced grid layout
-  if (columns && columns > 1) {
+  if (columns && columns >= 1) {
     return (
       <Grid 
         columns={columns}

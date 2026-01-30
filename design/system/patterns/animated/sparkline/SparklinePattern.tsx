@@ -23,6 +23,7 @@ const SparklinePattern = ({ props = {} }: SparklinePatternProps) => {
     showScale,
     showTooltip,
     className,
+    marginTop,
   } = props as {
     data?: number[];
     width?: number;
@@ -37,24 +38,27 @@ const SparklinePattern = ({ props = {} }: SparklinePatternProps) => {
     showScale?: boolean;
     showTooltip?: boolean;
     className?: string;
+    marginTop?: string;
   };
 
   return (
-    <Sparkline
-      data={data}
-      width={width}
-      height={height}
-      color={color}
-      showArea={showArea}
-      smooth={smooth}
-      showValue={showValue}
-      valueLabel={valueLabel}
-      showTrend={showTrend}
-      showGrid={showGrid}
-      showScale={showScale}
-      showTooltip={showTooltip}
-      className={className}
-    />
+    <div style={{ marginTop }}>
+      <Sparkline
+        data={data}
+        width={width}
+        height={height}
+        color={color}
+        showArea={showArea}
+        smooth={smooth}
+        showValue={showValue}
+        valueLabel={valueLabel}
+        showTrend={showTrend}
+        showGrid={showGrid}
+        showScale={showScale}
+        showTooltip={showTooltip}
+        className={className}
+      />
+    </div>
   );
 };
 
