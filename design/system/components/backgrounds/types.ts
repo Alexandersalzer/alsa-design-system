@@ -93,7 +93,7 @@ export interface ImageBackgroundProps {
   backgroundPosition?: string;
   backgroundRepeat?: 'repeat' | 'no-repeat' | 'repeat-x' | 'repeat-y' | 'space' | 'round';
   backgroundFixed?: boolean;
-  backgroundOverlay?: boolean | string; // boolean for Section, string (color) for Page
+  backgroundOverlay?: string | false;
   backgroundOverlayOpacity?: number;
   imageFadeEdge?: FadeEdge;
   imageFadeStrength?: number;
