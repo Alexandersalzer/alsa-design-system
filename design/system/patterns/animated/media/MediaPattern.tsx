@@ -139,7 +139,7 @@ const MediaPattern = ({ components = {}, props = {}, sectionKey, patternKey }: M
       </div>
     );
   }
-  
+
   // Fallback if neither is provided
   return null;
 };
