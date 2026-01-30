@@ -67,7 +67,6 @@
   background: var(--surface-accent);
   opacity: 0.2;
   transition: all 0.3s ease;
-  box-shadow: 0 0 0 4px var(--surface-page);
 }
 
 /* Active node */
