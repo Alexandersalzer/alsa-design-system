@@ -42,7 +42,7 @@ export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
   containerHeight = 'auto',
   backgroundColor = 'var(--surface-page)', // ✅ Changed default
   padding = '5px',
-  itemWidth = '100%',
+  itemWidth = 'auto',
   itemMaxWidth,
   itemMinWidth,
   itemHeight = 'auto',
