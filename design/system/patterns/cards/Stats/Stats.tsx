@@ -14,6 +14,7 @@ import {
     HStack,
     Box,
     Card,
+    Grid,
 } from '../../../components/layout';
 import { Icon, IconColor } from '../../../components/media/Icon';
 import { CountUp } from '../../../components/animations/CountUp/CountUp';
@@ -83,6 +84,9 @@ export interface StatsProps {
   // Layout options
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   align?: 'start' | 'center' | 'end';
+  
+  // Grid layout - forces CSS grid with specified columns
+  columns?: 1 | 2 | 3 | 4;
   
   // Card options (for with-card variant)
   cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid';
@@ -538,6 +542,7 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
     descriptionColor = 'tertiary',
     spacing = 'sm',
     align = 'center',
+    columns,
     cardVariant = 'elevated',
     cardPadding = 'lg',
     iconSize = 'lg',
@@ -637,6 +642,19 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
       >
         {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
       </HStack>
+    );
+  }
+
+  // If columns prop is set, use Grid component for forced grid layout
+  if (columns && columns > 1) {
+    return (
+      <Grid 
+        columns={columns}
+        gap="xl"
+        className={className}
+      >
+        {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
+      </Grid>
     );
   }
 
