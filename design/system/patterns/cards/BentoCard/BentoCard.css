@@ -26,21 +26,12 @@
 }
 
 /* Border variants */
-.bento-card--bordered {
-  border-style: solid;
-  border-color: var(--border-default);
+.bento-card--border-solid {
+  border: 1px solid var(--border-default);
 }
 
-.bento-card--border-thin {
-  border-width: 1px;
-}
-
-.bento-card--border-medium {
-  border-width: 2px;
-}
-
-.bento-card--border-thick {
-  border-width: 3px;
+.bento-card--border-subtle {
+  border: 1px solid var(--border-subtle);
 }
 
 /* Accent hover effect */
@@ -180,11 +171,15 @@
   border-top: 1px solid var(--border-subtle);
 }
 
-/* Raised footer - solid with elevation */
+/* Raised footer - solid with strong elevation */
 .bento-card__footer--raised {
   background: var(--surface-card, var(--surface-primary));
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: 
+    0 -8px 24px rgba(0, 0, 0, 0.15),
+    0 -2px 8px rgba(0, 0, 0, 0.1);
   border-top: none;
+  position: relative;
+  z-index: 3;
 }
 
 /* Elevated modifier (can be added to any footer style) */

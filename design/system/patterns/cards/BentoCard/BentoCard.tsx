@@ -43,9 +43,11 @@ export interface BentoCardProps {
   imageHeight?: string;
   /** Footer style: solid (default), raised (solid with shadow), glass (blur), transparent (no bg), none (no footer) */
   footerStyle?: 'solid' | 'raised' | 'glass' | 'transparent' | 'none';
-  /** Show border around card */
+  /** Border style: none, solid, subtle (with opacity) */
+  borderStyle?: 'none' | 'solid' | 'subtle';
+  /** @deprecated Use borderStyle instead */
   showBorder?: boolean;
-  /** Border width */
+  /** @deprecated Use borderStyle instead */
   borderWidth?: 'thin' | 'medium' | 'thick';
   /** Link position: inline (next to title), bottom (below description), bottom-right (same row as description, right aligned) */
   linkPosition?: 'inline' | 'bottom' | 'bottom-right';
@@ -72,8 +74,9 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   showImage = true,
   imageHeight,
   footerStyle = 'solid',
-  showBorder = true,
-  borderWidth = 'thin',
+  borderStyle = 'subtle',
+  showBorder,
+  borderWidth,
   linkPosition = 'inline',
   footerElevated = false,
 }) => {
@@ -81,6 +84,11 @@ export const BentoCard: React.FC<BentoCardProps> = ({
 
   const showFooter = footerStyle !== 'none';
   const isOverlayFooter = footerStyle === 'glass' || footerStyle === 'transparent';
+  
+  // Support legacy showBorder prop - map to borderStyle
+  const effectiveBorderStyle = showBorder !== undefined 
+    ? (showBorder ? 'solid' : 'none') 
+    : borderStyle;
 
   const classes = [
     'bento-card',
@@ -88,8 +96,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
     accentHover && 'bento-card--accent-hover',
     !showFooter && 'bento-card--no-footer',
     !showImage && 'bento-card--no-image',
-    showBorder && 'bento-card--bordered',
-    showBorder && `bento-card--border-${borderWidth}`,
+    effectiveBorderStyle !== 'none' && `bento-card--border-${effectiveBorderStyle}`,
     isOverlayFooter && 'bento-card--overlay-footer',
   ].filter(Boolean).join(' ');
 
