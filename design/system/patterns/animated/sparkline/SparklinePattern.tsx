@@ -13,6 +13,7 @@ const SparklinePattern = ({ props = {} }: SparklinePatternProps) => {
     data = [],
     width,
     height = 120,
+    maxWidth,
     color = 'accent',
     showArea = true,
     smooth = true,
@@ -27,6 +28,7 @@ const SparklinePattern = ({ props = {} }: SparklinePatternProps) => {
     data?: number[];
     width?: number;
     height?: number;
+    maxWidth?: string;
     color?: 'accent' | 'error' | 'success' | 'warning' | 'info';
     showArea?: boolean;
     smooth?: boolean;
@@ -39,22 +41,26 @@ const SparklinePattern = ({ props = {} }: SparklinePatternProps) => {
     className?: string;
   };
 
+  const wrapperStyle = maxWidth ? { maxWidth, width: '100%' } : undefined;
+
   return (
-    <Sparkline
-      data={data}
-      width={width}
-      height={height}
-      color={color}
-      showArea={showArea}
-      smooth={smooth}
-      showValue={showValue}
-      valueLabel={valueLabel}
-      showTrend={showTrend}
-      showGrid={showGrid}
-      showScale={showScale}
-      showTooltip={showTooltip}
-      className={className}
-    />
+    <div style={wrapperStyle}>
+      <Sparkline
+        data={data}
+        width={width}
+        height={height}
+        color={color}
+        showArea={showArea}
+        smooth={smooth}
+        showValue={showValue}
+        valueLabel={valueLabel}
+        showTrend={showTrend}
+        showGrid={showGrid}
+        showScale={showScale}
+        showTooltip={showTooltip}
+        className={className}
+      />
+    </div>
   );
 };
 
