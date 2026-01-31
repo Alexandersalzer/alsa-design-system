@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Typography } from '../../../components';
+import { Typography, Label } from '../../../components';
 import { TextLink } from '../../../components/actions/TextLink/TextLink';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { CDN_BASE_URL } from '../../../core/utils/env';
@@ -54,6 +54,8 @@ export interface BentoCardProps {
   borderWidth?: 'thin' | 'medium' | 'thick';
   /** Link position: inline (next to title), bottom (below description), bottom-right (same row as description, right aligned) */
   linkPosition?: 'inline' | 'bottom' | 'bottom-right';
+  /** Show/hide the link text (card still clickable if href exists) */
+  showLink?: boolean;
   /** Add elevation/shadow to footer */
   footerElevated?: boolean;
 }
@@ -82,6 +84,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   showBorder,
   borderWidth,
   linkPosition = 'inline',
+  showLink = true,
   footerElevated = false,
 }) => {
   const fullImageSrc = imageSrc?.startsWith('http') ? imageSrc : imageSrc ? `${CDN_BASE_URL}${imageSrc}` : '';
@@ -131,8 +134,10 @@ export const BentoCard: React.FC<BentoCardProps> = ({
 
   // Render link indicator (visual only, not a real link when card is clickable)
   const renderLinkIndicator = () => (
-    <span className={`bento-card__link-indicator textlink textlink-${isOverlayFooter ? 'inverse' : 'brand'}`}>
-      {linkText}
+    <span className={`bento-card__link-indicator ${isOverlayFooter ? 'bento-card__link-indicator--inverse' : 'bento-card__link-indicator--brand'}`}>
+      <Label size="sm" weight="medium" as="span" style={{ color: 'inherit' }}>
+        {linkText}
+      </Label>
       <ArrowRightIcon width={16} height={16} />
     </span>
   );
@@ -164,7 +169,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
                   {title}
                 </Typography>
               )}
-              {href && linkPosition === 'inline' && (
+              {href && showLink && linkPosition === 'inline' && (
                 isClickable ? renderLinkIndicator() : (
                   <TextLink 
                     href={href} 
@@ -185,7 +190,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
                     {description}
                   </Typography>
                 )}
-                {href && (
+                {href && showLink && (
                   isClickable ? renderLinkIndicator() : (
                     <TextLink 
                       href={href} 
@@ -205,7 +210,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
                     {description}
                   </Typography>
                 )}
-                {href && linkPosition === 'bottom' && (
+                {href && showLink && linkPosition === 'bottom' && (
                   isClickable ? renderLinkIndicator() : (
                     <TextLink 
                       href={href} 

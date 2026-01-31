@@ -59,21 +59,18 @@
   display: inline-flex;
   align-items: center;
   gap: var(--foundation-space-1, 4px);
-  font-family: var(--typography-font-family, inherit);
-  font-size: var(--typography-body-sm-size, 14px);
-  font-weight: var(--typography-weight-medium, 500);
-  line-height: 1.5;
   flex-shrink: 0;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 /* Brand variant for link indicator */
-.bento-card__link-indicator.textlink-brand {
+.bento-card__link-indicator--brand {
   color: var(--text-strong);
 }
 
 /* Inverse variant for link indicator (on overlay footers) */
-.bento-card__link-indicator.textlink-inverse {
+.bento-card__link-indicator--inverse {
   color: var(--text-inverse);
 }
 
