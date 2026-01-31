@@ -1,4 +1,5 @@
 import { Badge } from './Badge/Badge';
+import { NumberBadge } from './Badge/NumberBadge';
 import { Banner } from './Banner/Banner';
 import { Tag } from './Tag/Tag';
 import { Toast } from './Toast/Toast';
@@ -12,6 +13,7 @@ import { Stars } from './Stars/Stars';
 
 export const feedbackComponents: Record<string, React.ComponentType<any>> = {
   badge: Badge,
+  numberBadge: NumberBadge,
   banner: Banner,
   tag: Tag,
   toast: Toast,

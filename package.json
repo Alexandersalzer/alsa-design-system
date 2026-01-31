@@ -61,6 +61,11 @@
       "require": "./dist/design/system/patterns/analytics/index.js",
       "types": "./dist/design/system/patterns/analytics/index.d.ts"
     },
+    "./config": {
+      "import": "./dist/design/system/core/utils/index.js",
+      "require": "./dist/design/system/core/utils/index.js",
+      "types": "./dist/design/system/core/utils/index.d.ts"
+    },
     "./actions": {
       "import": "./dist/design/system/patterns/actions/index.js",
       "require": "./dist/design/system/patterns/actions/index.js",
