@@ -153,8 +153,8 @@
 
 /* Footer area - FIXED height for consistency across all cards */
 .bento-card__footer {
-  --bento-footer-height: var(--foundation-space-24, 6rem); /* 96px semantic */
-  padding: var(--foundation-space-6, 24px);
+  --bento-footer-height: 120px; /* Fixed height that fits title + description + link */
+  padding: var(--foundation-space-5, 20px) var(--foundation-space-6, 24px);
   flex-shrink: 0;
   height: var(--bento-footer-height);
   max-height: var(--bento-footer-height);
