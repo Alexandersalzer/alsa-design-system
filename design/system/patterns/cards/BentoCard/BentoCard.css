@@ -289,7 +289,7 @@
 
 @media (max-width: 640px) {
   .bento-card__footer {
-    --bento-footer-height: var(--foundation-space-20, 5rem); /* 80px on mobile */
+    --bento-footer-height: 110px; /* Enough for title + description + link on mobile */
     padding: var(--foundation-space-4, 16px);
   }
   
