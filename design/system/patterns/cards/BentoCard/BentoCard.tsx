@@ -37,14 +37,12 @@ export interface BentoCardProps {
   colSpan?: 1 | 2 | 3;
   /** Row span for grid layout */
   rowSpan?: 1 | 2;
-  /** Show/hide footer with title */
-  showFooter?: boolean;
   /** Show/hide image area */
   showImage?: boolean;
   /** Specific height for image area */
   imageHeight?: string;
-  /** Footer style: solid (default), glass (blur), transparent (no bg) */
-  footerStyle?: 'solid' | 'glass' | 'transparent';
+  /** Footer style: solid (default), glass (blur), transparent (no bg), none (no footer) */
+  footerStyle?: 'solid' | 'glass' | 'transparent' | 'none';
   /** Show border around card */
   showBorder?: boolean;
   /** Border width */
@@ -63,7 +61,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   imageAlt,
   href,
   linkText = 'Läs mer',
-  minHeight = '320px',
+  minHeight,
   variant = 'default',
   radius = 'lg',
   accentHover = true,
@@ -71,7 +69,6 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   imagePadding = 'none',
   colSpan,
   rowSpan,
-  showFooter = true,
   showImage = true,
   imageHeight,
   footerStyle = 'solid',
@@ -82,6 +79,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
 }) => {
   const fullImageSrc = imageSrc?.startsWith('http') ? imageSrc : imageSrc ? `${CDN_BASE_URL}${imageSrc}` : '';
 
+  const showFooter = footerStyle !== 'none';
   const isOverlayFooter = footerStyle === 'glass' || footerStyle === 'transparent';
 
   const classes = [
@@ -96,7 +94,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   ].filter(Boolean).join(' ');
 
   const gridStyle: React.CSSProperties = {
-    minHeight,
+    ...(minHeight && { minHeight }),
     ...(colSpan && colSpan > 1 && { gridColumn: `span ${colSpan}` }),
     ...(rowSpan && rowSpan > 1 && { gridRow: `span ${rowSpan}` }),
   };

@@ -169,11 +169,12 @@
   flex-direction: column;
   justify-content: center;
   z-index: 2;
+  margin-top: auto; /* Push footer to bottom of card */
 }
 
 /* Solid footer (default) */
 .bento-card__footer--solid {
-  background: var(--surface-primary);
+  background: var(--surface-card, var(--surface-primary));
   border-top: 1px solid var(--border-subtle);
 }
 
