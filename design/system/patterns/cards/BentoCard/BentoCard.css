@@ -38,38 +38,73 @@
    HOVER EFFECTS
    =============================================== */
 
-/* Accent hover - border changes to accent color */
+/* Base transition for all hover effects */
+.bento-card[class*="--hover-"] {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+  cursor: pointer;
+}
+
+/* Accent hover - border changes to accent color with glow */
 .bento-card--hover-accent:hover {
   border-color: var(--accent-500);
-  box-shadow: 0 0 0 1px var(--accent-500);
+  box-shadow: 0 0 0 2px var(--accent-500), 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* Lift hover - card lifts up with shadow */
-.bento-card--hover-lift {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+/* Lift hover - card lifts up with strong shadow */
 .bento-card--hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--foundation-shadow-lg);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
-/* Glow hover - subtle glow effect */
+/* Glow hover - accent colored glow effect */
 .bento-card--hover-glow:hover {
-  box-shadow: 0 0 20px rgba(var(--accent-500-rgb, 139, 92, 246), 0.3);
+  box-shadow: 
+    0 0 30px rgba(139, 92, 246, 0.4),
+    0 0 60px rgba(139, 92, 246, 0.2);
+  border-color: var(--accent-400);
 }
 
-/* Scale hover - card scales up slightly */
-.bento-card--hover-scale {
-  transition: transform 0.2s ease;
-}
+/* Scale hover - card scales up with shadow */
 .bento-card--hover-scale:hover {
-  transform: scale(1.02);
+  transform: scale(1.03);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 }
 
-/* Border hover - border becomes more visible */
+/* Border hover - strong border with background change */
 .bento-card--hover-border:hover {
   border-color: var(--border-emphasis);
-  box-shadow: var(--foundation-shadow-md);
+  box-shadow: var(--foundation-shadow-lg);
+  background-color: var(--surface-hover);
+}
+
+/* Shine hover - subtle shine/highlight effect */
+.bento-card--hover-shine {
+  overflow: hidden;
+}
+.bento-card--hover-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+  pointer-events: none;
+}
+.bento-card--hover-shine:hover::after {
+  left: 100%;
+}
+
+/* Elevated hover - becomes more elevated */
+.bento-card--hover-elevated:hover {
+  box-shadow: var(--foundation-shadow-xl);
+  background-color: var(--surface-elevated);
 }
 
 /* No footer variant - image gets all radius (including bottom) */
