@@ -51,6 +51,8 @@ export interface BentoCardProps {
   borderWidth?: 'thin' | 'medium' | 'thick';
   /** Link position: inline (next to title) or bottom (below description) */
   linkPosition?: 'inline' | 'bottom';
+  /** Add elevation/shadow to footer */
+  footerElevated?: boolean;
 }
 
 export const BentoCard: React.FC<BentoCardProps> = ({
@@ -76,6 +78,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   showBorder = true,
   borderWidth = 'thin',
   linkPosition = 'inline',
+  footerElevated = false,
 }) => {
   const fullImageSrc = imageSrc?.startsWith('http') ? imageSrc : imageSrc ? `${CDN_BASE_URL}${imageSrc}` : '';
 
@@ -104,6 +107,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   const footerClasses = [
     'bento-card__footer',
     `bento-card__footer--${footerStyle}`,
+    footerElevated && 'bento-card__footer--elevated',
   ].filter(Boolean).join(' ');
 
   return (

@@ -5,7 +5,7 @@
 .bento-grid {
   display: grid;
   width: 100%;
-  gap: var(--foundation-space-lg); /* Default gap */
+  gap: var(--foundation-space-6, 24px); /* Default gap */
 }
 
 /* Column variants */
@@ -25,13 +25,13 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
-/* Gap variants - using !important to override default */
-.bento-grid--gap-xs { gap: var(--foundation-space-xs) !important; }
-.bento-grid--gap-sm { gap: var(--foundation-space-sm) !important; }
-.bento-grid--gap-md { gap: var(--foundation-space-md) !important; }
-.bento-grid--gap-lg { gap: var(--foundation-space-lg) !important; }
-.bento-grid--gap-xl { gap: var(--foundation-space-xl) !important; }
-.bento-grid--gap-2xl { gap: var(--foundation-space-2xl) !important; }
+/* Gap variants - using correct foundation tokens */
+.bento-grid--gap-xs { gap: var(--foundation-space-2, 8px); }
+.bento-grid--gap-sm { gap: var(--foundation-space-3, 12px); }
+.bento-grid--gap-md { gap: var(--foundation-space-4, 16px); }
+.bento-grid--gap-lg { gap: var(--foundation-space-6, 24px); }
+.bento-grid--gap-xl { gap: var(--foundation-space-8, 32px); }
+.bento-grid--gap-2xl { gap: var(--foundation-space-12, 48px); }
 
 /* Alignment variants */
 .bento-grid--align-start { align-items: start; }
