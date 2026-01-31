@@ -8,22 +8,19 @@
   gap: var(--foundation-space-6, 24px); /* Default gap */
 }
 
-/* Column variants */
-.bento-grid--cols-1 {
-  grid-template-columns: 1fr;
-}
-
-.bento-grid--cols-2 {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.bento-grid--cols-3 {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.bento-grid--cols-4 {
-  grid-template-columns: repeat(4, 1fr);
-}
+/* Column variants (1-12 for flexible layouts) */
+.bento-grid--cols-1 { grid-template-columns: repeat(1, 1fr); }
+.bento-grid--cols-2 { grid-template-columns: repeat(2, 1fr); }
+.bento-grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
+.bento-grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
+.bento-grid--cols-5 { grid-template-columns: repeat(5, 1fr); }
+.bento-grid--cols-6 { grid-template-columns: repeat(6, 1fr); }
+.bento-grid--cols-7 { grid-template-columns: repeat(7, 1fr); }
+.bento-grid--cols-8 { grid-template-columns: repeat(8, 1fr); }
+.bento-grid--cols-9 { grid-template-columns: repeat(9, 1fr); }
+.bento-grid--cols-10 { grid-template-columns: repeat(10, 1fr); }
+.bento-grid--cols-11 { grid-template-columns: repeat(11, 1fr); }
+.bento-grid--cols-12 { grid-template-columns: repeat(12, 1fr); }
 
 /* Gap variants - using correct foundation tokens */
 .bento-grid--gap-xs { gap: var(--foundation-space-2, 8px); }
@@ -52,26 +49,40 @@
    RESPONSIVE BEHAVIOR
    =============================================== */
 
-/* Tablet: 2 columns max */
+/* Tablet: Scale down to 6 columns max, then proportionally */
 @media (max-width: 1024px) {
-  .bento-grid--cols-3,
-  .bento-grid--cols-4 {
-    grid-template-columns: repeat(2, 1fr);
+  .bento-grid--cols-7,
+  .bento-grid--cols-8,
+  .bento-grid--cols-9,
+  .bento-grid--cols-10,
+  .bento-grid--cols-11,
+  .bento-grid--cols-12 {
+    grid-template-columns: repeat(6, 1fr);
   }
   
-  /* Reset larger spans on tablet */
-  .bento-grid--cols-3 > *[style*="span 3"],
-  .bento-grid--cols-4 > *[style*="span 3"],
-  .bento-grid--cols-4 > *[style*="span 4"] {
-    grid-column: span 2;
+  .bento-grid--cols-4,
+  .bento-grid--cols-5,
+  .bento-grid--cols-6 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .bento-grid--cols-3 {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Mobile: 1 column */
+/* Mobile: 1-2 columns depending on original size */
 @media (max-width: 640px) {
-  .bento-grid--cols-2,
   .bento-grid--cols-3,
-  .bento-grid--cols-4 {
+  .bento-grid--cols-4,
+  .bento-grid--cols-5,
+  .bento-grid--cols-6,
+  .bento-grid--cols-7,
+  .bento-grid--cols-8,
+  .bento-grid--cols-9,
+  .bento-grid--cols-10,
+  .bento-grid--cols-11,
+  .bento-grid--cols-12 {
     grid-template-columns: 1fr;
   }
   

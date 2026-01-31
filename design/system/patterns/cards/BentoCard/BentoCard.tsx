@@ -33,10 +33,10 @@ export interface BentoCardProps {
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none';
   /** Image padding inside card */
   imagePadding?: 'none' | 'sm' | 'md' | 'lg';
-  /** Column span for grid layout */
-  colSpan?: 1 | 2 | 3;
+  /** Column span for grid layout (1-12) */
+  colSpan?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
   /** Row span for grid layout */
-  rowSpan?: 1 | 2;
+  rowSpan?: 1 | 2 | 3;
   /** Show/hide image area */
   showImage?: boolean;
   /** Specific height for image area */

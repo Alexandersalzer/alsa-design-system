@@ -8,10 +8,10 @@ export interface BentoGridProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   /**
-   * Number of columns
-   * @default 2
+   * Number of columns (1-12 for flexible layouts)
+   * @default 3
    */
-  columns?: 1 | 2 | 3 | 4;
+  columns?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
   /**
    * Gap between items
    * @default 'lg'
@@ -28,10 +28,10 @@ export interface BentoItemProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   /**
-   * Column span
+   * Column span (1-12)
    * @default 1
    */
-  colSpan?: 1 | 2 | 3 | 4;
+  colSpan?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
   /**
    * Row span
    * @default 1
@@ -43,7 +43,7 @@ export interface BentoItemProps extends React.HTMLAttributes<HTMLDivElement> {
 export const BentoGrid = React.forwardRef<HTMLDivElement, BentoGridProps>(({
   children,
   className,
-  columns = 2,
+  columns = 3,
   gap = 'lg',
   alignItems = 'stretch',
   style,
