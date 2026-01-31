@@ -34,9 +34,15 @@
   box-shadow: 0 0 0 1px var(--accent-500);
 }
 
-/* No footer variant - image gets all radius */
+/* No footer variant - image gets all radius (including bottom) */
 .bento-card--no-footer .bento-card__image-container {
   border-radius: inherit;
+}
+
+/* Footer gets bottom radius */
+.bento-card__footer {
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
 }
 
 /* No image variant - center content */
@@ -64,14 +70,17 @@
   border: 1px solid var(--border-default);
 }
 
-/* Image container - no radius on bottom when footer exists */
+/* Image container - top radius inherits from card, bottom radius 0 when footer exists */
 .bento-card__image-container {
   flex: 1;
   display: block;
   min-height: 200px;
   overflow: hidden;
   position: relative;
-  border-radius: 0;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 /* Image padding variants */
