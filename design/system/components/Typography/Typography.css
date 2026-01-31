@@ -90,10 +90,22 @@ p, .text-body {
 /* ===== DISPLAY TYPOGRAPHY ===== */
 .text-display-2xl {
   font-family: var(--font-heading-family);
-  font-size: var(--font-display-2xl-size, var(--foundation-size-7xl));
+  font-size: 5rem; /* 80px - larger than display-xl */
   font-weight: var(--font-heading-weight);
-  line-height: var(--font-display-2xl-leading, 1.1);
+  line-height: 1.05;
   letter-spacing: -0.03em;
+}
+
+@media (min-width: 768px) {
+  .text-display-2xl {
+    font-size: 6rem; /* 96px on tablet+ */
+  }
+}
+
+@media (min-width: 1024px) {
+  .text-display-2xl {
+    font-size: 7.5rem; /* 120px on desktop */
+  }
 }
 
 .text-display-xl {
