@@ -104,6 +104,8 @@
 .bento-card__image {
   display: block;
   object-position: center;
+  /* Override Card.css radius rules - we control radius via container */
+  border-radius: 0 !important;
 }
 
 /* Cover mode - fill entire container */
