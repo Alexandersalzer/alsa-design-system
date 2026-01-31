@@ -27,7 +27,9 @@ export interface BentoCardProps {
   variant?: 'default' | 'elevated' | 'outlined' | 'bordered';
   /** Card radius */
   radius?: 'sm' | 'md' | 'lg';
-  /** Show accent border on hover */
+  /** Hover effect style */
+  hoverEffect?: 'none' | 'accent' | 'lift' | 'glow' | 'scale' | 'border';
+  /** @deprecated Use hoverEffect instead */
   accentHover?: boolean;
   /** Image object fit */
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none';
@@ -66,7 +68,8 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   minHeight,
   variant = 'default',
   radius = 'lg',
-  accentHover = true,
+  hoverEffect = 'accent',
+  accentHover,
   imageObjectFit = 'cover',
   imagePadding = 'none',
   colSpan,
@@ -89,11 +92,16 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   const effectiveBorderStyle = showBorder !== undefined 
     ? (showBorder ? 'solid' : 'none') 
     : borderStyle;
+  
+  // Support legacy accentHover prop - map to hoverEffect
+  const effectiveHoverEffect = accentHover !== undefined 
+    ? (accentHover ? 'accent' : 'none') 
+    : hoverEffect;
 
   const classes = [
     'bento-card',
     `bento-card--radius-${radius}`,
-    accentHover && 'bento-card--accent-hover',
+    effectiveHoverEffect !== 'none' && `bento-card--hover-${effectiveHoverEffect}`,
     !showFooter && 'bento-card--no-footer',
     !showImage && 'bento-card--no-image',
     effectiveBorderStyle !== 'none' && `bento-card--border-${effectiveBorderStyle}`,

@@ -34,10 +34,42 @@
   border: 1px solid var(--border-subtle);
 }
 
-/* Accent hover effect */
-.bento-card--accent-hover:hover {
+/* ===============================================
+   HOVER EFFECTS
+   =============================================== */
+
+/* Accent hover - border changes to accent color */
+.bento-card--hover-accent:hover {
   border-color: var(--accent-500);
   box-shadow: 0 0 0 1px var(--accent-500);
+}
+
+/* Lift hover - card lifts up with shadow */
+.bento-card--hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.bento-card--hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--foundation-shadow-lg);
+}
+
+/* Glow hover - subtle glow effect */
+.bento-card--hover-glow:hover {
+  box-shadow: 0 0 20px rgba(var(--accent-500-rgb, 139, 92, 246), 0.3);
+}
+
+/* Scale hover - card scales up slightly */
+.bento-card--hover-scale {
+  transition: transform 0.2s ease;
+}
+.bento-card--hover-scale:hover {
+  transform: scale(1.02);
+}
+
+/* Border hover - border becomes more visible */
+.bento-card--hover-border:hover {
+  border-color: var(--border-emphasis);
+  box-shadow: var(--foundation-shadow-md);
 }
 
 /* No footer variant - image gets all radius (including bottom) */
