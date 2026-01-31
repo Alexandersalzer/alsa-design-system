@@ -235,6 +235,13 @@
   border-radius: inherit;
 }
 
+/* Overlay footers should have consistent height */
+.bento-card--overlay-footer .bento-card__footer {
+  min-height: 100px;
+  padding-top: var(--foundation-space-8, 32px);
+  padding-bottom: var(--foundation-space-6, 24px);
+}
+
 /* Footer content layout */
 .bento-card__footer-content {
   display: flex;
