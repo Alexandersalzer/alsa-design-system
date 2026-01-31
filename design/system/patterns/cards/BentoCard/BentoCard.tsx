@@ -28,7 +28,7 @@ export interface BentoCardProps {
   /** Card radius */
   radius?: 'sm' | 'md' | 'lg';
   /** Hover effect style */
-  hoverEffect?: 'none' | 'accent' | 'lift' | 'glow' | 'scale' | 'border' | 'shine' | 'elevated';
+  hoverEffect?: 'none' | 'accent' | 'lift' | 'glow' | 'scale' | 'border' | 'shine' | 'elevated' | 'interactive' | 'subtle';
   /** @deprecated Use hoverEffect instead */
   accentHover?: boolean;
   /** Image object fit */
