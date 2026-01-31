@@ -98,6 +98,9 @@ export interface StatsProps {
   // Icon options (for with-icon variant)
   iconSize?: 'sm' | 'md' | 'lg';
   iconColor?: IconColor;
+  
+  // Spacing below component
+  marginBottom?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
 }
 
 // ===== STAT ITEM COMPONENTS =====
@@ -551,7 +554,21 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
     cardPadding = 'lg',
     iconSize = 'lg',
     iconColor = 'accent',
+    marginBottom = 'none',
   } = getPatternProps();
+  
+  // Map marginBottom to CSS variable
+  const marginBottomMap: Record<string, string> = {
+    'none': '0',
+    'sm': 'var(--foundation-space-4, 16px)',
+    'md': 'var(--foundation-space-6, 24px)',
+    'lg': 'var(--foundation-space-8, 32px)',
+    'xl': 'var(--foundation-space-12, 48px)',
+    '2xl': 'var(--foundation-space-16, 64px)',
+    '3xl': 'var(--foundation-space-20, 80px)',
+  };
+  
+  const wrapperStyle = marginBottom !== 'none' ? { marginBottom: marginBottomMap[marginBottom] } : undefined;
   
   const commonProps = {
     valueVariant,
@@ -635,8 +652,10 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
   };
 
   // Choose container based on variant
+  let content: React.ReactNode;
+  
   if (variant === 'with-separator') {
-    return (
+    content = (
       <HStack 
         spacing="xl" 
         align="center" 
@@ -647,11 +666,9 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
         {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
       </HStack>
     );
-  }
-
-  // If columns prop is set, use Grid component for forced grid layout
-  if (columns && columns >= 1) {
-    return (
+  } else if (columns && columns >= 1) {
+    // If columns prop is set, use Grid component for forced grid layout
+    content = (
       <Grid 
         columns={columns}
         gap={gridGap}
@@ -660,20 +677,27 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
         {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
       </Grid>
     );
+  } else {
+    // Default: Use responsive grid-like HStack with wrapping
+    content = (
+      <HStack 
+        spacing="xl" 
+        align="stretch" 
+        justify="center"
+        wrap={true}
+        className={className}
+      >
+        {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
+      </HStack>
+    );
   }
 
-  // Default: Use responsive grid-like HStack with wrapping
-  return (
-    <HStack 
-      spacing="xl" 
-      align="stretch" 
-      justify="center"
-      wrap={true}
-      className={className}
-    >
-      {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
-    </HStack>
-  );
+  // Wrap with margin if needed
+  if (wrapperStyle) {
+    return <div style={wrapperStyle}>{content}</div>;
+  }
+  
+  return <>{content}</>;
 };
 
 Stats.displayName = 'Stats';
